@@ -1,282 +1,235 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1743C3439
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 23:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E26800;
+	Thu, 16 Jul 2026 00:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784159547; cv=none; b=pWI3KAUkPxlFGWFOd3ssCEWB5TcX1ld8AC98ssa/WHAcbq33zWBj4CDbx7glFdXQp7k1CywIiY/r5qF9d0i/tbnOwfm/VZsjoNw5jZ5SurzwRmd2tluGUdEkq/LZSSg8yc4pXo5sd60vtqas3Lkw4nlCKZqdSTXR5pHsQmH2ZZI=
+	t=1784160394; cv=none; b=dG2i6JHYJzA6eKUL2zQ+/Pt5aQIih6Y0ltBfkl4j/BLYkNIu/B9Ojn9ZUwvybOj8K1cbkv18+Qswze1a5zcZRsGMlVM4pa+oSnqj05I+vsc9hhui/wpN0vEpviHhNizZUGveZCCM6MvYQjvGzKdZBq1r+UKDLYI1NoUzFMPNjBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784159547; c=relaxed/simple;
-	bh=IDj9sFpEtrQSo8m15hG1XCU541RJeZ/BlDmPOaDqQCI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=TC26qCTlOuoaEuL0ED3BTKHLb8I8k4VnKVDaOqBR2IOqWUsL5+19OetH8Px+Fj35B285uQU/wGiVS1BE/uFKK9kkJ02sUd5bXx3rbZ/HdoRboQE0z4rrlzqg/Z6Mvdrhb045uiIjzer1z5efSQRLZChPl1HIBau6qdd/fwyKK50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fM/LMSB5; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fM/LMSB5"
-X-KPN-MessageId: 3504a9f9-80a8-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 3504a9f9-80a8-11f1-bfba-00505699b430;
-	Thu, 16 Jul 2026 01:52:15 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 3503f4cc-80a8-11f1-9b0c-00505699693e;
-	Thu, 16 Jul 2026 01:52:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=ksz8SlthNsXgR6tpjTOr+4zzeOrT6G7femRWsAogDBQ=;
-	b=fM/LMSB5C15KN+o/Mp2ola1DelFFR2vxpXP49COKqQmLMU8nMpjRLLyoM+PjynsuV9QF7XLTFJVI9
-	 evjQrXbSvuNgBzy6XJqLT+uOIY6OB2Go816nfuLv31S4w8uBnagzybd/2i68aWopFcSGW2nY5jRRXb
-	 gWoPa8kGgc3cB48q9uw6XEnRraxl4rc3imM7lf1XfrzTeGLHs5xUbQVO7PCTPC+l3q/r2sXsLeCUax
-	 7uXOascU1vFCy9SfNozgTB8pXLx83Df3MBVVyTBcxYZF3ZEzD6P+kR35UHCfrpdISN/4HuTOM8HhV0
-	 i8jROrdOaEvpqtcy+HrmjUVfReUyeMA==
-X-KPN-MID: 33|PePza2FPKP4oe2w2h15VFQxpMqfEEZetNtJ5kIrTgn6XbymPZOBOa5FJljSSq7i
- qcVXC57mKMBhDIl2ku4zEs25D31SEjJfRqbu/VEmIYP4=
-X-CMASSUN: 33|BUXH9q+F611pBB8SOVdEuDXbTHwQhczRxe3hXTygmR0GTmbRDUuRt0GyRdcWIDz
- qFWi+wM/I/fMv7ewCEof7XQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 34f94fb5-80a8-11f1-916a-005056995d6c;
-	Thu, 16 Jul 2026 01:52:15 +0200 (CEST)
-Date: Thu, 16 Jul 2026 01:52:15 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Message-ID: <854091080.1184876.1784159535678@kpc.webmail.kpnmail.nl>
-In-Reply-To: <1697164687.1184851.1784159287934@kpc.webmail.kpnmail.nl>
-References: <20260714230534.776886-1-neilb@ownmail.net>
- <20260714230534.776886-4-neilb@ownmail.net>
- <21817263.1168614.1784151799976@kpc.webmail.kpnmail.nl>
- <178415489698.3371781.5121934606972521996@noble.neil.brown.name>
- <1697164687.1184851.1784159287934@kpc.webmail.kpnmail.nl>
-Subject: Re: [PATCH v4 3/3] VFS: add vfs_lookup_open() for nfsd
+	s=arc-20240116; t=1784160394; c=relaxed/simple;
+	bh=loSeqtYK/NiwA8y+TJKqU21Bz/sXV4REkqmYxgZEsnI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pz+HQZ6wezHiBAc25OdXwMacN3ZqGMpotR5k/78bnzktbOuHTtrP97CQfJMKwE+FVJP6/EXzYlMuXX4CtZLoWJ5kx0B7CaN49KUtyP6jGiWXT4+qyzIkocFrlUW/B3MLxNsxYs55sFUuwloMWn4JTYJqp3r8xqJ7z9yQv5WzKd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 66G05doR008344;
+	Thu, 16 Jul 2026 09:05:39 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 66G05cIj008339
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 16 Jul 2026 09:05:38 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <30ccdd3c-6353-4a0f-bdc7-230ec3bf4765@I-love.SAKURA.ne.jp>
+Date: Thu, 16 Jul 2026 09:05:38 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v5] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+        Damien Le Moal <dlemoal@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christoph Hellwig <hch@lst.de>, linux-block
+ <linux-block@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, Mark Brown <broonie@kernel.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        oe-lkp@lists.linux.dev, kernel test robot <oliver.sang@intel.com>,
+        kbuild test robot <lkp@intel.com>, Hillf Danton <hdanton@sina.com>
+References: <20260714043834.554-1-hdanton@sina.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20260714043834.554-1-hdanton@sina.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
+
+syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
+An analysis by the Gemini AI collaborator [3] considers that this problem
+is caused by a timing shift primarily exposed by commit 65565ca5f99b
+("block: unify the synchronous bi_end_io callbacks"), along with helper
+refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
+helper").
+
+But due to difficulty of reproducing this race, discussion about what is
+happening and how to fix this problem is stalling. Also, we haven't
+identified how many filesystems are subjected to this problem.
+
+Therefore, this patch introduces a grace period for flushing pending I/O
+requests (which should be a good thing from the perspective of defensive
+programming) so that we won't hit NULL pointer dereference problem, and
+also emits BUG: message in order to help filesystem developers identify
+the caller of an I/O request that failed to wait for completion so that
+filesystem developers can fix such caller to wait for completion.
+
+Note that emitting BUG: message is enabled only if CONFIG_KCOV=y, for
+this check is a waste of computation resources for almost all users.
+
+Link: https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28 [1]
+Link: https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 [2]
+Link: https://lkml.kernel.org/r/fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp [3]
+Fixes: 65565ca5f99b ("block: unify the synchronous bi_end_io callbacks")
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+syzbot has tested this patch (with debug printk() added) using linux-next,
+and I confirmed that this patch does not cause new problems for syzbot.
+
+I was expecting that Al Viro can reproduce xfs/259 problem with debug printk(),
+but I have to remove this patch (with debug printk() added) from linux-next
+because the debug printk() causes performance problem for unmount stress tests
+( https://lkml.kernel.org/r/202607151655.9d74999d-lkp@intel.com ).
+
+Anyway, like I have explained in
+https://lkml.kernel.org/r/9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp ,
+I think that the xfs/259 problem should be addressed by updating the "umount" user,
+for the "target is busy" problem can be reproduced with 7.0 and 7.1 kernels if
+delay injection is used.
+
+Therefore, I think that we should proceed to the next step; i.e. identify
+who is issuing I/O requests too late and fix such users. But I had to stop
+testing this patch using linux-next before syzbot succeeds to find such users.
+
+We can't use "#syz test" because this problem has no reproducers. Since I can
+no longer continue floating debug printk() for this problem, sending this patch
+to upstream will become the only way to identify who is issuing I/O requests
+too late.
+
+drivers/block/loop.c | 83 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 81 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 310de0463beb..c3b607a3ddc4 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -85,8 +85,27 @@ struct loop_cmd {
+ 	struct bio_vec *bvec;
+ 	struct cgroup_subsys_state *blkcg_css;
+ 	struct cgroup_subsys_state *memcg_css;
++#ifdef CONFIG_KCOV
++	unsigned long stack_entries[30];
++	int stack_nr;
++	pid_t pid;
++	char comm[TASK_COMM_LEN];
++#endif
+ };
+ 
++static void loop_check_io_race(struct loop_device *lo, struct loop_cmd *cmd)
++{
++#ifdef CONFIG_KCOV
++	if (unlikely(data_race(READ_ONCE(lo->lo_state)) == Lo_rundown &&
++		     disk_openers(lo->lo_disk) == 0)) {
++		pr_err("BUG: %s/%u is doing I/O request on loop%d in Lo_rundown state.\n",
++		       cmd->comm, cmd->pid, lo->lo_number);
++		printk("Call Trace:\n");
++		stack_trace_print(cmd->stack_entries, cmd->stack_nr, 4);
++	}
++#endif
++}
++
+ #define LOOP_IDLE_WORKER_TIMEOUT (60 * HZ)
+ #define LOOP_DEFAULT_HW_Q_DEPTH 128
+ 
+@@ -1743,8 +1762,59 @@ static void lo_release(struct gendisk *disk)
+ 	need_clear = (lo->lo_state == Lo_rundown);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
+-	if (need_clear)
++	if (need_clear) {
++		/*
++		 * Temporarily release disk->open_mutex in order to flush pending I/O
++		 * requests before clearing the backing device.
++		 *
++		 * This is a layering violation. But since bdev->bd_disk->fops->release()
++		 * (which is mapped to lo_release()) is the final function which
++		 * blkdev_put_whole() from bdev_release() calls immediately before
++		 * releasing disk->open_mutex, this changes nothing except opens a new
++		 * race window for allowing disk->fops->open() (which is mapped to
++		 * lo_open()) to be called.
++		 *
++		 * Even if lo_open() is called from blkdev_get_whole() due to this race,
++		 * the Lo_rundown state guarantees that lo_open() will fail with -ENXIO.
++		 * Thus, there will be effectively no change caused by this violation.
++		 */
++		mutex_unlock(&lo->lo_disk->open_mutex);
++		/*
++		 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
++		 * wait for already started loop_queue_rq() to complete.
++		 */
++		synchronize_rcu();
++		/*
++		 * Now that no more works are scheduled by loop_queue_rq(),
++		 * wait for already scheduled works to complete.
++		 */
++		drain_workqueue(lo->workqueue);
++		/*
++		 * Now that no more AIO requests are scheduled by lo_rw_aio(),
++		 * wait for already started AIO to complete.
++		 *
++		 * Due to synchronize_rcu() + drain_workqueue() sequence above,
++		 * calling blk_mq_unfreeze_queue() immediately after blk_mq_freeze_queue()
++		 * returns has to be safe, for loop_queue_rq() no longer schedules new
++		 * lo_rw_aio() works and lo_rw_aio() no longer submits new AIO requests.
++		 *
++		 * Deferring blk_mq_unfreeze_queue() does not help because we are about
++		 * to clear the backing device and drop the refcount for the backing device.
++		 * There is nothing we can do if blk_mq_freeze_queue() fails to flush.
++		 */
++		blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
++		/*
++		 * Perform remaining cleanup, with disk->open_mutex held.
++		 *
++		 * The lo->lo_state should remain Lo_rundown despite we temporarily
++		 * released disk->open_mutex, for I am the only and the last user of
++		 * this loop device because lo_open() cannot succeed.
++		 */
++		mutex_lock(&lo->lo_disk->open_mutex);
++		if (WARN_ON(data_race(READ_ONCE(lo->lo_state)) != Lo_rundown))
++			return;
+ 		__loop_clr_fd(lo);
++	}
+ }
+ 
+ static void lo_free_disk(struct gendisk *disk)
+@@ -1851,10 +1921,18 @@ static blk_status_t loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
+ 	struct loop_device *lo = rq->q->queuedata;
+ 
++#ifdef CONFIG_KCOV
++	cmd->stack_nr = stack_trace_save(cmd->stack_entries, ARRAY_SIZE(cmd->stack_entries), 0);
++	cmd->pid = current->pid;
++	get_task_comm(cmd->comm, current);
++#endif
++
+ 	blk_mq_start_request(rq);
+ 
+-	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound)
++	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound) {
++		loop_check_io_race(lo, cmd);
+ 		return BLK_STS_IOERR;
++	}
+ 
+ 	switch (req_op(rq)) {
+ 	case REQ_OP_FLUSH:
+@@ -1897,6 +1975,7 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
+ 	int ret = 0;
+ 	struct mem_cgroup *old_memcg = NULL;
+ 
++	loop_check_io_race(lo, cmd);
+ 	if (write && (lo->lo_flags & LO_FLAGS_READ_ONLY)) {
+ 		ret = -EIO;
+ 		goto failed;
+-- 
+2.52.0
 
 
-> Op 16-07-2026 01:48 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
-> 
->  
-> > Op 16-07-2026 00:34 CEST schreef NeilBrown <neilb@ownmail.net>:
-> > 
-> >  
-> > On Thu, 16 Jul 2026, Jori Koolstra wrote:
-> > > > Op 15-07-2026 01:04 CEST schreef NeilBrown <neilb@ownmail.net>:
-> > > > 
-> > > >  
-> > > > From: NeilBrown <neil@brown.name>
-> > > > 
-> > > > vfs_lookup_open() is a limited version of lookup_open() which is
-> > > > exported for nfsd to use - to replace dentry_create().
-> > > > 
-> > > > It is limited in that no filename is given (thus no auditing) and no
-> > > > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> > > > the open flags.
-> > > > 
-> > > > If a non-regular file is found and appropriate error is returned and no
-> > > > file is opened.
-> > > > 
-> > > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > > ---
-> > > >  fs/namei.c            | 96 +++++++++++++++++++++++++++++++++++++++++++
-> > > >  include/linux/namei.h |  3 ++
-> > > >  2 files changed, 99 insertions(+)
-> > > > 
-> > > > diff --git a/fs/namei.c b/fs/namei.c
-> > > > index cb33a01d16eb..630f93608224 100644
-> > > > --- a/fs/namei.c
-> > > > +++ b/fs/namei.c
-> > > > @@ -4562,6 +4562,102 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> > > >  	goto out;
-> > > >  }
-> > > >  
-> > > > +/**
-> > > > + * vfs_lookup_open - open and possibly create a regular file
-> > > > + * @parent: directory to contain file
-> > > > + * @last: final component of file name
-> > > > + * @open_flag: O_flags
-> > > > + * @mode: initial permissions for file
-> > > > + *
-> > > > + * Open a file after lookup and/or create.  This provides similar
-> > > > + * functionality open_last_lookups() for non-VFS users, particularly
-> > > > + * nfsd.
-> > > > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-> > > > + *
-> > > > + * If the fs object found is not a regular file then an error is returned.
-> > > > + * In some cases, related errors are repurposed so that the caller can
-> > > > + * determine the type of file found from the error.
-> > > > + * -EISDIR : a directory was found
-> > > > + * -ELOOP  : a symlink was found
-> > > > + * -ENODEV : a block or character device special file was found
-> > > > + * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
-> > > > + *           or ->atomic_open responded to __O_REGULAR.
-> > > > + *
-> > > > + * Returns: the opened struct file, or an error.
-> > > > + */
-> > > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > > +			     int open_flag, umode_t mode)
-> > > > +{
-> > > > +	struct file *file __free(fput) = NULL;
-> > > > +	struct nameidata nd = {};
-> > > > +	struct open_flags op = {};
-> > > > +	struct dentry *dentry;
-> > > > +	int error = 0;
-> > > > +
-> > > > +	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
-> > > > +	WARN_ONCE(open_flag & ~(O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC|__O_REGULAR),
-> > > > +		  "open_flag has unsupported flags");
-> > > > +
-> > > > +	mode |= S_IFREG;
-> > > > +	open_flag |= __O_REGULAR;
-> > > > +
-> > > > +	error = lookup_noperm_common(last, parent->dentry);
-> > > > +	if (error)
-> > > > +		return ERR_PTR(error);
-> > > > +
-> > > > +	file = alloc_empty_file(open_flag, current_cred());
-> > > > +	if (IS_ERR(file))
-> > > > +		return file;
-> > > > +
-> > > > +	nd.path = *parent;
-> > > > +	nd.last = *last;
-> > > > +	nd.flags = LOOKUP_OPEN;
-> > > > +	if (open_flag & O_CREAT) {
-> > > > +		nd.flags |= LOOKUP_CREATE;
-> > > > +		if (open_flag & O_EXCL)
-> > > > +			nd.flags |= LOOKUP_EXCL;
-> > > > +	}
-> > > > +	op.open_flag = open_flag;
-> > > > +	op.mode = mode;
-> > > > +	dentry = lookup_open(&nd, file, &op);
-> > > > +
-> > > > +	if (IS_ERR(dentry))
-> > > > +		return ERR_CAST(dentry);
-> > > > +
-> > > > +	if (d_really_is_negative(dentry)) {
-> > > > +		error = -ENOENT;
-> > > > +	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-> > > > +		error = -EEXIST;
-> > > > +	} else if ((dentry->d_inode->i_mode & S_IFMT) != S_IFREG) {
-> > > > +		switch (dentry->d_inode->i_mode & S_IFMT) {
-> > > > +		case S_IFDIR:
-> > > > +			error = -EISDIR;
-> > > > +			break;
-> > > > +		case S_IFLNK:
-> > > > +			error = -ELOOP;
-> > > > +			break;
-> > > > +		case S_IFBLK:
-> > > > +		case S_IFCHR:
-> > > > +			error = -ENODEV;
-> > > > +			break;
-> > > > +		case S_IFIFO:
-> > > > +		case S_IFSOCK:
-> > > > +		default:
-> > > > +			error = -EFTYPE;
-> > > > +			break;
-> > > > +		}
-> > > > +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > > +		nd.path.dentry = dentry;
-> > > > +		error = vfs_open(&nd.path, file);
-> > > > +	}
-> > > > +	dput(dentry);
-> > > > +
-> > > > +	if (error)
-> > > > +		return ERR_PTR(error);
-> > > > +	return no_free_ptr(file);
-> > > > +}
-> > > > +EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
-> > > > +
-> > > >  static inline bool trailing_slashes(struct nameidata *nd)
-> > > >  {
-> > > >  	return (bool)nd->last.name[nd->last.len];
-> > > > diff --git a/include/linux/namei.h b/include/linux/namei.h
-> > > > index ebe6e29f7e93..86d657b24fc6 100644
-> > > > --- a/include/linux/namei.h
-> > > > +++ b/include/linux/namei.h
-> > > > @@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *parent,
-> > > >  struct dentry *start_removing_dentry(struct dentry *parent,
-> > > >  				     struct dentry *child);
-> > > >  
-> > > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > > +			     int open_flag, umode_t mode);
-> > > > +
-> > > >  /* end_creating - finish action started with start_creating
-> > > >   * @child: dentry returned by start_creating() or vfs_mkdir()
-> > > >   *
-> > > > -- 
-> > > > 2.50.0.107.gf914562f5916.dirty
-> > > 
-> > > So I am not really familiar with the nsfd backend where this function will be put
-> > > to use, but I imagine you need the fileserver to mirror operations on the client.
-> > > And since from within the kernel we don't do syscalls, we need this function to
-> > > mimic the client syscall path and call into the actual underlying fs. Is that
-> > > more-or-less correct?
-> > 
-> > more or less.
-> > 
-> > > 
-> > > So then the rights checking happens on the properly authenticated client-end? Or
-> > > does nsfd have another mechanism for that?
-> > 
-> > Both the client and server check rights.  The server because it cannot
-> > trust the client, the client so it doesn't waste time trying things that
-> > aren't permitted.
-> > 
-> > > 
-> > > I just want to ensure that using this function cannot bypass the sticky directory
-> > > semantics, as that now is the task of do_open(), which this skips of course.
-> > > If that is OK, this function LGTM :)
-> > 
-> > It appears that may_create_in_sticky() is only ever called AFTER the
-> > file has been created.  do_open() is called after open_last_lookups(),
-> > which calls lookup_open(), which calls ->create or ->atomic_open().
-> > 
-> > I wonder if anyone has tested that code. Maybe I should...
-> > 
-> 
-> Yeah, that is the correct behavior, I think. may_create_in_sticky() is a bit of
-> a misnomer, really it should be something like may_o_creat_in_sticky() or even
-> may_open_in_stick(). Afaik it's optional hardening that really should be the
-> responsibility of user space: it's to prevent file squatting whereby in, for instance,
-> /tmp an attacker predicts what file a privileged user will O_CREAT open. In that case,
-> if the user application didn't use O_EXCL, the attacker may symlink it in advance to
-> say /etc/passwd, or do other nasty things.
-> 
-
-Correction: the symlink case in handled in may_follow_link(), but I guess you
-can do other slightly less nasty squatting attacks too.
-
-> I presume there was once discussion about whether this should be kernel responsibility,
-> and that's where this line is about in link_path_walk():
-> 
-> 		nd->dir_mode = 0; // short-circuit the 'hardening' idiocy
-> 
-> Or is that not what you meant?
-> 
-> > Thanks for spotting that.  It doesn't change the validity if this
-> > present patch series though, it is a separate pre-existing issue.
-> > 
-> 
-> Right. I was just curious how that behavior is handled in the nfsd path, but you
-> are right that any issue there is pre-existing as dentry_create() also does not
-> do anything special for sticky dirs there.
-> 
-> I'll review the patch tomorrow, it's 2AM here :)
-> 
-> Best,
-> Jori.
