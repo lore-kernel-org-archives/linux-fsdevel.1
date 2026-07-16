@@ -1,173 +1,265 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8184346E56
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 09:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3F43D6478;
+	Thu, 16 Jul 2026 09:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784193412; cv=none; b=nAwOq4Sr3QgrBfzWhQLm13NrZdvG8lSMZ7NDS/oE3GoUPxu00DnZiHB0a6WGvcIRYtYvICL43CzT6zIbGpwyFB5Ejrcv1aLlFga6rs3MVDES4YVbsZuhYzqhB2zzAnJp5AbsY6lLGqvHef/x63p4FsJAexF1/ZDOlhwkTnCxA3U=
+	t=1784194092; cv=none; b=BYVO7HtOBRpDoxM6yJxhMCdNR8p5JejIql1WY6aEyf26BD29j/eu9rhYOJOoLw0zbVZHTWNkrJGQTQjao0FqzD/MkmIlzTsCOmt2rgLTq5grCzrzziKJBzJSCSfAuZh+xgcUEOqm/mXrYl4HeYX/RS4HDGUhB77hCTAINBtT4Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784193412; c=relaxed/simple;
-	bh=7Ik1VVdSnwCEXj4A2YVLcOE89PFesmMZ+XksiAPJ/Qo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pdiRxT7sr0oXo/hGL4vEYDgh+qTyQJG8WY+exe0yV+vGJuejjrOsvwmhgoxI7TojNdiuLMUzY2////cBqy7UutfF+MlmVtHx0hUnB9LYX6YZxSZXvG1NfBdqNLuluRZ1WzakmUGl5zYcNY6BqIAUF9K6xDsVWuttRyVhJc7jqTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aXEGcTIt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784194092; c=relaxed/simple;
+	bh=ORKxPTxix4lMEKj1bUrWfEqvJYIw8xAlZEE0O3Fe/zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tdaXSO6VUPnirSQivwAV5baCV9JIXNKNShPXkZeJYtNvzmNYyd+aJsAjDxqfPa8dzN9qAON/jFA77Kpgoz1IJKtB52USv0be8nLNh/CjcE3soNkp9bP/8ikEQJZmEZPaOK6MjMoA/ZE6Fx0gCUUO95BuflxMv0jYO91zdqwQUdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ouynuz9X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aXEGcTIt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42D51F000E9;
-	Thu, 16 Jul 2026 09:16:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ouynuz9X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385B31F000E9;
+	Thu, 16 Jul 2026 09:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784193411;
-	bh=9+QeO9iVoKKWJWvyNCqyHwjW/CuxxhtsZmsx/N4xNfk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aXEGcTItFQ6SMDs02DRy0B4OYxLDEovdTpEJN0LtkUsmt0xCgc3HoOeau7zJJ83TK
-	 kJBNJiuJY0vBG7fO73AoFkCplwx+p+Fv/CPcBQm4kyMekySIjyuPWQcdv4G6+FiA8r
-	 Wc/jFSyFgq35df4pkSM9pH0ITWXerLGb/G4VMQ7JdDiIaP8hI/OPpbOcmz0cocxZ52
-	 +Q4vuvfohwPXGDz+dz0jUdVSEvaalb2bYTFe6e5Bo2k3z+l83f4+CH8Ai5CNa872Ef
-	 ARX3HjsWixqx1R8flUBuOrzOoerY7ZRcBe72eRpPE0Huoy9tU7g36NLQWABlOr1wJp
-	 UBpGKeBTO81Uw==
-Message-ID: <7f630930-fbf7-42bd-945d-664484defc2c@kernel.org>
-Date: Thu, 16 Jul 2026 11:16:48 +0200
+	s=k20260515; t=1784194089;
+	bh=/0foZKhiUwL8omqMEdPagooKRvaN2Pu32mvklzzR96U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ouynuz9X0lV2DAJDCejClm81hBPwIvqmcFzLkXPpDvO8UAzJ88Y5GFYWUGewLjfo4
+	 HKvUXozG50KbI7M8oj9PZqHoNdM3EWsTOc5AoySLbeypeJa24AUH4AxU81qOxHVvw0
+	 LWvKYpCHYG972J1MXh+h9WLhUWEBriCZ3WTWAqSriYpYKn4bXicTywz8/GNCucKdn8
+	 R6LKviBKKQBuclZEJxtnFDDX5dD5VKnTRgP5qx8f/ILSXiidqRmj+frtMf0NdUMKLi
+	 5KUn6IrqcfVxM9r76RXMPOnT1CywejJXY9d/xN41f7ojz71LUqX+G/Fq0sdzs/NK2v
+	 CrhSCYImgSEMA==
+Date: Thu, 16 Jul 2026 10:27:33 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Pedro Falcato <pfalcato@suse.de>, Russell King <linux@armlinux.org.uk>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	SJ Park <sj@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>, 
+	Kees Cook <kees@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Christian Koenig <christian.koenig@amd.com>, 
+	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, 
+	Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Alex Williamson <alex@shazbot.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, damon@lists.linux.dev, iommu@lists.linux.dev, 
+	kasan-dev@googlegroups.com, linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
+	Russell King <linux+etnaviv@armlinux.org.uk>
+Subject: Re: [PATCH v2 18/33] mm/vma: use vma_start_pgoff(),
+ linear_page_index() in mm code
+Message-ID: <aligtF3WwRam1rMd@lucifer>
+References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-18-2a5aa403d977@kernel.org>
+ <e98110da-f26a-46ca-8360-fc84fc159bd8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/10] memory-failure: Prevent UAF in raw_hwp_page list
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
- linux-mm@kvack.org
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>
-References: <20260709184740.1286561-1-willy@infradead.org>
- <20260709184740.1286561-7-willy@infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260709184740.1286561-7-willy@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e98110da-f26a-46ca-8360-fc84fc159bd8@kernel.org>
 
-On 7/9/26 20:47, Matthew Wilcox (Oracle) wrote:
-> Most accesses to the raw_hwp_page list are protected by mf_mutex.
-> However, the call to folio_clear_hugetlb_hwpoison() in mm/hugetlb.c
-> does not.  This is probably OK today as this is in the freeing path and
-> I think all current calls to is_raw_hwpoison_page_in_hugepage() hold a
-> reference to the folio.  However, the next patch will call this function
-> without holding a reference on the folio, which will expose this race.
-> 
-> Rename the current folio_clear_hugetlb_hwpoison() to
-> __folio_clear_hugetlb_hwpoison() and wrap it with a new
-> folio_clear_hugetlb_hwpoison() for the benefit of external callers.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  mm/memory-failure.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index 53063e2a1f97..353288cce1b2 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -1935,7 +1935,7 @@ static unsigned long folio_free_raw_hwp(struct folio *folio, bool move_flag)
->  	return __folio_free_raw_hwp(folio, move_flag);
->  }
->  
-> -void folio_clear_hugetlb_hwpoison(struct folio *folio)
-> +static void __folio_clear_hugetlb_hwpoison(struct folio *folio)
->  {
->  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
->  		return;
-> @@ -1945,6 +1945,13 @@ void folio_clear_hugetlb_hwpoison(struct folio *folio)
->  	folio_free_raw_hwp(folio, true);
->  }
->  
-> +void folio_clear_hugetlb_hwpoison(struct folio *folio)
-> +{
-> +	mutex_lock(&mf_mutex);
-> +	__folio_clear_hugetlb_hwpoison(folio);
-> +	mutex_unlock(&mf_mutex);
-> +}
-> +
->  static int get_huge_page_for_hwpoison(unsigned long pfn, int flags,
->  				 bool *migratable_cleared)
->  {
-> @@ -2051,7 +2058,7 @@ static int try_memory_failure_hugetlb(unsigned long pfn, int flags)
->  	folio_lock(folio);
->  
->  	if (hwpoison_filter(p)) {
-> -		folio_clear_hugetlb_hwpoison(folio);
-> +		__folio_clear_hugetlb_hwpoison(folio);
->  		if (migratable_cleared)
->  			folio_set_hugetlb_migratable(folio);
->  		folio_unlock(folio);
+On Wed, Jul 15, 2026 at 05:23:09PM +0200, Vlastimil Babka (SUSE) wrote:
+> On 7/10/26 22:16, Lorenzo Stoakes wrote:
+> > There are many instances in which linear_page_index() (as well as
+> > linear_page_delta()) is open-coded, which is confusing and inconsistent.
+> >
+> > Additionally, vma->vm_pgoff doesn't necessarily make it clear that this is
+> > the page offset of the start of the VMA range.
+> >
+> > Doing so also aids greppability.
+> >
+> > So use vma_start_pgoff() in favour of directly accessing vma->vm_pgoff, and
+> > linear_page_index() where we can.
+> >
+> > This also lays the ground for future changes which will add an anonymous
+> > page offset in order to be able to index MAP_PRIVATE-file backed anon
+> > folios in terms of their virtual page offset.
+> >
+> > No functional change intended.
+> >
+> > Reviewed-by: Gregory Price <gourry@gourry.net>
+> > Reviewed-by: SJ Park <sj@kernel.org>
+> > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>
+> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-As mentioned yesterday, I wonder if we can remove the entire subpage hwpoison
-tracking. With HVO it is just beyond ugly and not really fun to maintain as it
-seems.
+Thanks!
 
-Regarding read(), it was added 3 years ago [1], and the cover letter did not
-even state a single real use case.
+>
+> Nit:
+>
+> > diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
+> > index 2058db9c01d5..d10b8042adb5 100644
+> > --- a/mm/damon/vaddr.c
+> > +++ b/mm/damon/vaddr.c
+> > @@ -10,6 +10,7 @@
+> >  #include <linux/mman.h>
+> >  #include <linux/mmu_notifier.h>
+> >  #include <linux/page_idle.h>
+> > +#include <linux/pagemap.h>
+> >  #include <linux/pagewalk.h>
+> >  #include <linux/sched/mm.h>
+> >
+> > @@ -623,8 +624,8 @@ static void damos_va_migrate_dests_add(struct folio *folio,
+> >  	}
+> >
+> >  	order = folio_order(folio);
+> > -	ilx = vma->vm_pgoff >> order;
+> > -	ilx += (addr - vma->vm_start) >> (PAGE_SHIFT + order);
+> > +	ilx = vma_start_pgoff(vma) >> order;
+> > +	ilx += linear_page_delta(vma, addr) >> order;
+>
+> Could these be combined to linear_page_index(vma, addr) >> order?
 
-"Since memory_failure already tracks the raw HWPOISON subpages in a
-hugepage, a natural improvement is possible: if userspace only asks for
-healthy subpages in the pagecache, kernel can return these data."
+So this is:
 
-I doubt there is practical use. But I'm happy to be educated :)
+	(x >> order) + (y >> order)
 
-Is anybody aware of practical use for that?
+And linear_page_index(vma, addr) >> order is:
 
+	(x + y) >> order
 
-[1] https://lore.kernel.org/linux-mm/20230713001833.3778937-1-jiaqiyan@google.com/
+Consider:
 
--- 
-Cheers,
+	order = 1, x = 0b11, y = 0b01
 
-David
+	(x    >> order) + (y    >> order) =
+	(0b11 >> 1    ) + (0b01 >> 1    ) =
+	0b1             + 0               =
+	1
+
+	(x    + y   ) >> order =
+	(0b11 + 0b01) >> 1     =
+	(0b100      ) >> 1     =
+	2
+
+They are not equivalent - the carry bit changes the result.
+
+>
+> >
+> >  	for (i = 0; i < dests->nr_dests; i++)
+> >  		weight_total += dests->weight_arr[i];
+>
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index b39111abdc4b..1dbb4c6f824e 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -3411,8 +3411,8 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
+> >  		 * of memory.
+> >  		 */
+> >  		struct vm_area_struct *vma = vmf->vma;
+> > -		unsigned long start = vma->vm_pgoff;
+> > -		unsigned long end = start + vma_pages(vma);
+> > +		const unsigned long start = vma_start_pgoff(vma);
+> > +		const unsigned long end = vma_end_pgoff(vma);
+> >  		unsigned long ra_end;
+> >
+> >  		ra->order = exec_folio_order();
+> > @@ -3930,7 +3930,8 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+> >  		goto out;
+> >  	}
+> >
+> > -	addr = vma->vm_start + ((start_pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+> > +	addr = vma->vm_start +
+> > +		((start_pgoff - vma_start_pgoff(vma)) << PAGE_SHIFT);
+>
+> This could be linear_page_index(vma, start_pgoff) <<
+>
+> >  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, addr, &vmf->ptl);
+> >  	if (!vmf->pte) {
+> >  		folio_unlock(folio);
+>
+> > --- a/mm/mempolicy.c
+> > +++ b/mm/mempolicy.c
+> > @@ -2049,8 +2049,8 @@ struct mempolicy *get_vma_policy(struct vm_area_struct *vma,
+> >  		pol = get_task_policy(current);
+> >  	if (pol->mode == MPOL_INTERLEAVE ||
+> >  	    pol->mode == MPOL_WEIGHTED_INTERLEAVE) {
+> > -		*ilx += vma->vm_pgoff >> order;
+> > -		*ilx += (addr - vma->vm_start) >> (PAGE_SHIFT + order);
+> > +		*ilx += vma_start_pgoff(vma) >> order;
+> > +		*ilx += linear_page_delta(vma, addr) >> order;
+>
+> Also?
+
+See above.
+
+>
+> >  	}
+> >  	return pol;
+> >  }
+>
+> > --- a/mm/nommu.c
+> > +++ b/mm/nommu.c
+> > @@ -975,7 +975,7 @@ static int do_mmap_private(struct vm_area_struct *vma,
+> >  		/* read the contents of a file into the copy */
+> >  		loff_t fpos;
+> >
+> > -		fpos = vma->vm_pgoff;
+> > +		fpos = vma_start_pgoff(vma);
+> >  		fpos <<= PAGE_SHIFT;
+> >
+> >  		ret = kernel_read(vma->vm_file, base, len, &fpos);
+> > @@ -1378,7 +1378,8 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+> >  	delete_nommu_region(vma->vm_region);
+> >  	if (new_below) {
+> >  		vma->vm_region->vm_start = vma->vm_start = addr;
+> > -		vma->vm_region->vm_pgoff = vma->vm_pgoff += npages;
+>
+> yuck, good to remove that ugly construct
+> it's not the only occurence in this function
+> oh well
+
+Yup at least improved it here :)
+
+>
+> > +		vma->vm_pgoff += npages;
+> > +		vma->vm_region->vm_pgoff = vma_start_pgoff(vma);
+> >  	} else {
+> >  		vma->vm_region->vm_end = vma->vm_end = addr;
+> >  		vma->vm_region->vm_top = addr;
+
+Cheers, Lorenzo
