@@ -1,42 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B70827F19F;
-	Thu, 16 Jul 2026 02:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784170056; cv=none; b=MAvr986L17qOHoyRuh/9G+d3vGKmxe26s/cBSYtnyxxReb6BxDlqpkdASIoV/u9UE1GudSPg0dOlO/5sxNmd18/Vl02mlUFf7ber09BwOYl996P+t5UBbu5P6FHKBjBwNanXCcyPzCs+6q6GcHJR3LGKfkUJBVzpBf7zBMzo+BU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784170056; c=relaxed/simple;
-	bh=dZ7LJTjcYMGsyATFHMcswNT955Tj8eHjkBoF+iTtIWk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ELsX+gkDrD/ly03w2nBZAbSqxNZhY8vIrhqo8OeI622I3OWCLIfKcrN27WBeZ7IxqN8m/Jen4VyHCVfRtdd2j3Bb3xrqXoaL4lj1FtWly4zCWcGk7FCsHdGo1jUjKQFQCKtqset7Ayb4BcpvYlzyzC69N4izGjIYR7+tz+gxaoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4JMNdKq; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A3C3876DE;
+	Thu, 16 Jul 2026 05:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784179685; cv=pass; b=cgqvvJuuYVLsvyEIbpVt3v4viXy/I9o4fnbv0cpeR3kOQQse3XqUrM7HAk9Z/dHxhTPT9X7aFkLXz/Jqi43APRIuZJkAvCxmwV/XbWhWgTjIIfI1QfRtyHWttlA6XPGmMBvQxNW5FaTY1rohdqyt/KcFYikVAXonKHQmeaooUcE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784179685; c=relaxed/simple;
+	bh=e0+fR+NPwVaC4H/KOewx9kZPVM8BUDk8Cel6q81uq8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NHzMIHxQphErwHmoGS5MtON0idHsZ9XSS0poyTtNh8Sjn3MBFpfIAnFm6j++sSF5Zu3HfnQkNb+JxB1mNj5j9AXQk5qTB9ySCHBZ3HANv7+XSf/IlJDJJJUlAjN01TGYIH6+sSCYpMWLMCKR9D3WexijsSNrm/Ewz/zI3f71514=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=sf2IorRC; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4JMNdKq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441B61F000E9;
-	Thu, 16 Jul 2026 02:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784170055;
-	bh=q9bX+cgplhnv9rIrRgngliVohGjiezErlz49u7dGY0M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=a4JMNdKqrFsXMSzL84BEGBYzCqLt2YMTVrRtdDonA7ArGTyniPgSHEgt3Yaq10Xur
-	 87uMGkzGmFFhLbbI+coA68L1ytTmAN/xiL4H/w77K6NeN1AsEuanyTD1LfoI8rnqnw
-	 lSv8z6uHqjywkkzF48K3syWGtNGRDQB7cIXt+9omNV12KFEzC4ZF5Gco+gXANAyS5Y
-	 ieAx8C5fjD8cnYQv2A4L4mse09tDfdiRKvfFOic78q9ZJMfpqsmOX7Lz9TTx8/mWYN
-	 77ixxnBGKGptHAWl+DO7SUCL6m7rACOYrghX8DGUlXdaK12xUb2EOVu8gqMyY0Nat8
-	 FA5VMxJhr7PlA==
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: hyc.lee@gmail.com
-Cc: ntfs@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="sf2IorRC"
+ARC-Seal: i=1; a=rsa-sha256; t=1784179666; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fbPqJFaJ+ft6BqVPaMq6wLPL+/GMvbVE4Z7qG+/zfzDZUy3hhxbdsAkW+nabXmWp3yhrHB9NQFdgf92lJQw1vaeJULXskSYKxF6t0XgCh1aLwR2E9N3w5DcuKm9TtFsPRmfaQoDqFp+ie0yT8MP6gc/6SzI/zpyr/sQk+7Heoyk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1784179666; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ppnREthApipiY+d6EwEoXxvC9z+jfkcK5oFpaQgQY1Y=; 
+	b=fodtc5etp5EfAW87q1tDHd6nFsKKnBWaaS/wOqpodbPFECUSEqszG28r4pCXnyyzVXBs1s7CgA8yh4YCaanESLL5lxoNRKydeCR9ROVDq8GxTp3fGLI/yRyI0jP21QiYqnVpCwGF7SPuXtbhZdyxHo57K16tNnJzJmh25EkWph8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784179665;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=ppnREthApipiY+d6EwEoXxvC9z+jfkcK5oFpaQgQY1Y=;
+	b=sf2IorRC5fE85diQKpNQGDsbhx0SfN5IQ8loUuVRXMgaFeMZf4sco+StU2Gx3wvm
+	KErZjLWWcApM+dLKrzvege7SkIGI/jlMUX0no8/GCpqncTO2Niu6MwDJ/SNC2VLz/I4
+	JFc8u981R1zqI6V8pIY82Q7S5uh5IQ1n5cZsDOIw=
+Received: by mx.zohomail.com with SMTPS id 1784179662386997.6733672438661;
+	Wed, 15 Jul 2026 22:27:42 -0700 (PDT)
+From: Li Chen <me@linux.beauty>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Shuah Khan <shuah@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH] ntfs: use pagecache_isize_extended() on size extension
-Date: Thu, 16 Jul 2026 11:46:40 +0900
-Message-Id: <20260716024640.13396-6-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260716024640.13396-1-linkinjeon@kernel.org>
-References: <20260716024640.13396-1-linkinjeon@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Li Chen <me@linux.beauty>
+Subject: [PATCH] pidfs: preserve thread pidfds reopened by file handle
+Date: Thu, 16 Jul 2026 13:27:22 +0800
+Message-ID: <20260716052726.1032092-1-me@linux.beauty>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,69 +55,57 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-When extending file size, call truncate_pagecache() first, then update
-i_size, and use pagecache_isize_extended() instead of manual
-iomap_zero_range(). This ensures the straddling folio is properly marked
-RO so page_mkwrite() is called and post-EOF area is zeroed.
+PIDFD_THREAD shares O_EXCL. do_dentry_open() clears O_EXCL after
+pidfs_export_open() validates the flags, so open_by_handle_at()
+silently turns a thread pidfd into a process pidfd.
 
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Restore PIDFD_THREAD on the opened file, matching pidfs_alloc_file(),
+and cover the restored flag with F_GETFL.
+
+Signed-off-by: Li Chen <me@linux.beauty>
 ---
- fs/ntfs/file.c | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ fs/pidfs.c                                             | 8 +++++++-
+ tools/testing/selftests/pidfd/pidfd_file_handle_test.c | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
-index 9061f8f77f7e..c8e49f83fd92 100644
---- a/fs/ntfs/file.c
-+++ b/fs/ntfs/file.c
-@@ -268,23 +268,19 @@ static int ntfs_setattr_size(struct inode *vi, struct iattr *attr)
- 		return err;
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index aaa609ddab044..c20ffd747ff51 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -939,12 +939,18 @@ static int pidfs_export_permission(struct handle_to_path_ctx *ctx,
  
- 	inode_dio_wait(vi);
--	truncate_setsize(vi, attr->ia_size);
-+	if (attr->ia_size > old_size) {
-+		truncate_pagecache(vi, old_size);
-+		i_size_write(vi, attr->ia_size);
-+		pagecache_isize_extended(vi, old_size, attr->ia_size);
-+	} else
-+		truncate_setsize(vi, attr->ia_size);
+ static struct file *pidfs_export_open(const struct path *path, unsigned int oflags)
+ {
++	struct file *file;
 +
- 	err = ntfs_truncate_vfs(vi, attr->ia_size, old_size);
- 	if (err) {
- 		i_size_write(vi, old_size);
- 		return err;
- 	}
- 
--	if (NInoNonResident(ni) && attr->ia_size > old_size &&
--	    old_size % PAGE_SIZE != 0) {
--		loff_t len = min_t(loff_t,
--				round_up(old_size, PAGE_SIZE) - old_size,
--				attr->ia_size - old_size);
--		err = iomap_zero_range(vi, old_size, len,
--				NULL, &ntfs_seek_iomap_ops,
--				&ntfs_iomap_folio_ops, NULL);
--	}
--
- 	return err;
+ 	/*
+ 	 * Clear O_LARGEFILE as open_by_handle_at() forces it and raise
+ 	 * O_RDWR as pidfds always are.
+ 	 */
+ 	oflags &= ~O_LARGEFILE;
+-	return dentry_open(path, oflags | O_RDWR, current_cred());
++	file = dentry_open(path, oflags | O_RDWR, current_cred());
++	/* do_dentry_open() strips O_EXCL, which encodes PIDFD_THREAD. */
++	if (!IS_ERR(file))
++		file->f_flags |= oflags & PIDFD_THREAD;
++	return file;
  }
  
-@@ -1165,13 +1161,9 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t offset, loff_t le
- 		filemap_invalidate_unlock(vi->i_mapping);
- 	if (!err) {
- 		if (mode == 0 && NInoNonResident(ni) &&
--		    offset > old_size && old_size % PAGE_SIZE != 0) {
--			loff_t len = min_t(loff_t,
--					   round_up(old_size, PAGE_SIZE) - old_size,
--					   offset - old_size);
--			err = iomap_zero_range(vi, old_size, len, NULL,
--					       &ntfs_seek_iomap_ops,
--					       &ntfs_iomap_folio_ops, NULL);
-+		    offset > old_size) {
-+			truncate_pagecache(vi, old_size);
-+			pagecache_isize_extended(vi, old_size, offset);
- 		}
- 		NInoSetFileNameDirty(ni);
- 		inode_set_mtime_to_ts(vi, inode_set_ctime_current(vi));
+ static const struct export_operations pidfs_export_operations = {
+diff --git a/tools/testing/selftests/pidfd/pidfd_file_handle_test.c b/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
+index 68918734dcf32..1e03ae9575fe6 100644
+--- a/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
+@@ -373,6 +373,7 @@ TEST_F(file_handle, open_by_handle_at_valid_flags)
+ 				  O_CLOEXEC |
+ 				  O_EXCL);
+ 	ASSERT_GE(pidfd, 0);
++	ASSERT_NE(fcntl(pidfd, F_GETFL) & PIDFD_THREAD, 0);
+ 
+ 	ASSERT_EQ(fstat(pidfd, &st2), 0);
+ 	ASSERT_TRUE(st1.st_dev == st2.st_dev && st1.st_ino == st2.st_ino);
 -- 
-2.25.1
+2.52.0
 
