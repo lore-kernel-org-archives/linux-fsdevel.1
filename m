@@ -1,144 +1,99 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939293FCB10
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 10:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784196795; cv=pass; b=exP2CwuTEPtrB9oBfl5ojdioSKe7itggpCnvZQ5T8EqdpRbk9zNsiXvQY5vBV5ohzDY9rQAYvZrohH0o0K5XI/j05Jd1vkVsWg6suyVmLrua+YODTRU9qFsLDmeUXuyAQ7oWZFNg4o5XMkw2uxrVV2vlZW9ObCxHr6YqCLB8CH4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784196795; c=relaxed/simple;
-	bh=/9vGo0nmavtDHHxTO/UOxlUFCFS9hnJACPQkba+EWgQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W9dgD8Sa5dnK9sc79wegPMucBexNT2/76BHDLUszTQA0HRXCrcWcv+cqDK7QZ7AvsowjY0PaSQvTqfMWE5qJvYJVcQ42ixFgwousOavFgrrC8nSX4WSjnMIeDlsepgNvSvkCa8Pl+ZnWH2GOul0OvZlcxHOGJDdKBrtXx0T/tg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaRcq2FL; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DFF3C141F;
+	Thu, 16 Jul 2026 10:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784197103; cv=none; b=H82v76Gaa1O6wdU/O0kDZ8UL+MiaGe4t9Gs69NOtG0I4p63RRH34yihWN9LHOPlUZy3UKH+K21226JaU/BA6NFX0eYy4KCwNYdsflFVpyG9UrrqKCESn4WE4bclqp/8hPvDSMfwF7EGICRunAqNXLR5vzADDP96cVIoTY5A4ijA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784197103; c=relaxed/simple;
+	bh=hrmbAf5ipFq1QTRmjSX3m52e4bw1SNwfa+kC3oC2Cn0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Lfsn8tWBOpx4GdYEa5vKCK/npYLX7Zzo3MoyG7uRZv8u+9TauCXdYpiItEQxZGEGg5hq1SYI3mvkYSn2qHZJ5KyTW+GrhrycgCvP7fj8BtZFnAjcZh+kt+GIBSiYcA1e8Vw0fh2jaFIQcQP7RzG0Dn4zeFFnN8VlfTczYhUXHAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i52mAPYR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaRcq2FL"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4758bd3731bso351264f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 03:13:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784196790; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sLqTOdZek37H5I89id0N04heOQRjmflElm3Y2mwHYBV7tZh2DO2E/JFz3BXd1Gm99n
-         vOQ2iCET6aFEdqvRqbX8+ui1Zcd28pElkO8EnMfoJuvOtWsBGFzzjhdHGsTqjJSLxUtw
-         0ECXK2yyl6swOdiPtX4FUsqBJXbmxVHptpQsLB/rCsHHlrZU2n9wyWjQtlIaNDrXJpHJ
-         EKsGCmOi2elqIunpVFwk+wPR+6dR4lJOFWZENt9MJ3debuPGAzK7h4qitQEbsYomj2hJ
-         LObtbjBj24A4QvMLaPKuyw9DsQWWPpt2LDHmuFmdTzA7ONBuJ2x+En4G8qphNeEwIS0K
-         UZMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        fh=8/qoRYLEIMnZapzQNFUJlteJfthEjGvtnXNFOr2GVVA=;
-        b=e+NcxgnSPLLhYqfYV1yKdb15Kr4xHCKo6KmvE4zLMi2TLW+njXgfwhkSKzpDk0UHsw
-         dTxwCvWz546FStqC/KrpiwcXITtiJmeOIcFI8NKB6Y0g2jN/x/lrv1TVNTMxMc890s0W
-         AJjW5VhyWLAwjiWo0lK4AGCCmLLE9+/yuZrEGIKFAl3gN3jce6+begFaxp6lQ0C114bH
-         8jd36CaZBbt7GkJ9LGg06YyikasJ02UjwhXUZ6vrvUK2QG8oYJh1mZSRC/FQcfyrVhoh
-         ahqaQXMbLL1V0mLW82aOFy3OigM6zH16xPg03bMOq/AdMeNhasTBIgmqB/Rt+fU9uC34
-         dcAw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784196790; x=1784801590; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        b=HaRcq2FLs8rsz5c+jgCQVp+R4oyE4MvfmmfahHoDJMjVpxK4DsQB9USKteROxTKprf
-         ih0NVYQ8Rt1SBPvLOoWu2G6nB/8M9qcfzbTKROhWmtJopZzNuqSegJD0IX8Nk5znmWby
-         vZ9rfUYoXQMvJ9C4V3/o38aL9JiIj0w4fSkZ2I4XCtbH3qNleoMLwm+r88ZbhgA68Ofe
-         f5+2WTTiY3wzkZ4Z0Kc7zTUQJt3wQk98bUMufDeX2tmZ6KBNKOQEv6pFcVK0mxgUuGDZ
-         6W2yvxBT3Q+5mIbJ9fO6HYVlC8FlGL6qtXRHw8HERk61eq1sueymTmJ+JST/9uMHH8cX
-         lLFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784196790; x=1784801590;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        b=QC6gKKcQLUXD7MsU1f5469CZHaE0T4slVLmTONDUOyTZ4gq45OutOy2XvAo6JFSQI/
-         oBhHoU9e7qL9JpY0E9KGgnHVyDUdJPPGM3HusWo95U7nc28rgvb3KBQnZ/zYY5MJJu2A
-         id5hK1Whc7Wlhdyh0YzrLjzKmK3ZNMGD9ST5oKa6Ex6B/a34BC1mX5VuftZNjYnvL4+H
-         DuvQhtSmTkYt4UZ5GNb9LwjXbq1+BKWpx0aHbbyjuT3Pqe3vnoNPvHeuS7oaMyl+eKG/
-         vBWUnwF4ocTjhAS5qTmHgsEjwdvhywnzoWxsl3nWOE0ZW5pWQD2npnTbQRV81wwJKu1O
-         0A9g==
-X-Gm-Message-State: AOJu0YzwdF/X2TUHBKUQxJcmaitUg7/2R2RpBilZu+etvI2UcL1A4kLJ
-	ifGoFLZ1e2eSteskd/LV1hAwfLP0XZaUJ+dUUse7BSEKl8HwXtXF44sI6jCyBcqS+oSjbaWzGrW
-	EbDo9fs2BQ91vwvBSdGRSwBtC14VYNhhp7CQ26QI=
-X-Gm-Gg: AfdE7cl6XE2mtyFLzCDHhpNUuQqfHgnIQ8QzFxHTIt+2nYw0iG6bRjpciek+NTWSeFW
-	aGjJFCkZj5kxNCLfIzKLb/ysbwLA0Id4muV/SfuLKuBsaauUs8dBTe7zVDc/e19CivDmOeCVqkw
-	Ri7Nq6CIm6r1/9X9tu4pG3GCvMIPh4lPbjSu8sNsnbD1Na0mFgz0PZz1kAkDp9QlPpVY8KzZrA8
-	nMSAdlFTSShA8/LMIFWHSxs09Lk2He5PY5SAhtcwtz9xn72/pkj5aP6DgqB7fw=
-X-Received: by 2002:a05:6000:1acc:b0:472:3090:d88c with SMTP id
- ffacd0b85a97d-47f5a557550mr2382202f8f.24.1784196790209; Thu, 16 Jul 2026
- 03:13:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i52mAPYR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE4C1F000E9;
+	Thu, 16 Jul 2026 10:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784197102;
+	bh=fREf/cKl+vA5Yi0Mt2+ZFpMAHJekOqY2fILSGJRnTY4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=i52mAPYRMvQEZM0/dNMQxXWaEdtz98JOMl1LK0mj0RfUffvzPxt8Rbzxsxr3rfQW/
+	 0WDZut8JalAW/SE5sqLn/fVhqah9/dSAvPVbsrIESN9e8HN+ZfiISK7eqouA/sPNEU
+	 yqr/Ade8KpfR5X1XAwv1lvRtsbowDxmrCOG1zPerwAF+W2tVYx1dK4OGBA9vVYVYPP
+	 odDc4Mi9UdCvKBglbM0idl971+/mfS8SzMGdhNLj3zfU/nr9Ab6pIhBZThN0/CBbeZ
+	 rcKcFtNELl8EIliDeL7bCScinwze8IyfzsKyGWfUGkIpLlJe9XI7nDVtGk3UJclvIr
+	 Cye5vCFsgPKig==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Enzo Matsumiya <ematsumiya@suse.de>,
+	linux-cifs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.18.y 1/3] cifs: SMB1 split: Rename cifstransport.c
+Date: Thu, 16 Jul 2026 06:18:17 -0400
+Message-ID: <20260716101819.1461638-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026071403-ferris-hydroxide-5531@gregkh>
+References: <2026071403-ferris-hydroxide-5531@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260713220932.413004-1-amir73il@gmail.com> <20260713220932.413004-3-amir73il@gmail.com>
-In-Reply-To: <20260713220932.413004-3-amir73il@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 16 Jul 2026 12:12:58 +0200
-X-Gm-Features: AUfX_mzXKKyPECDpxtr7aH47OhobPNkCrTgnnp8wyafWqJnPsgum1B0ttIWoL90
-Message-ID: <CAOQ4uxhO-eJ=QU_okX0y8TgjZcn1-UnB-myNawmXLk2ACjOieg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] selftests/fuse: add ACL_DONT_CACHE regression test
-To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Luis Henriques <luis@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 12:09=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
->
-> Add a test that reproduces the stale ACL bug fixed by:
->   "fs: preserve ACL_DONT_CACHE state in forget_cached_acl()"
->
-> A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises inodes
-> with i_acl =3D ACL_DONT_CACHE.  Before the fix, calling
-> forget_all_cached_acls() (e.g. from fuse_update_get_attr() on a
-> statx(AT_STATX_FORCE_SYNC)) would silently replace ACL_DONT_CACHE with
-> ACL_NOT_CACHED, enabling the kernel ACL cache.  A subsequent getxattr
-> would populate the cache, and because fuse_set_acl() skips
-> forget_all_cached_acls() for !fc->posix_acl, later ACL changes were
-> not visible to callers =E2=80=94 getxattr returned stale data.
->
-> The test mounts a minimal libfuse3 lowlevel filesystem (no
-> FUSE_POSIX_ACL negotiated) and:
->   1. Issues two getxattrs =E2=80=94 both must reach the daemon, proving
->      ACL_DONT_CACHE suppresses caching before any trigger.
->   2. Calls statx(AT_STATX_FORCE_SYNC) to trigger forget_all_cached_acls()=
-.
->   3. Issues another getxattr (populates the cache on a buggy kernel).
->   4. Switches the daemon to a different-sized ACL (ACL_B).
->   5. Issues a final getxattr =E2=80=94 expects ACL_B (44 bytes) and daemo=
-n
->      call count 4; a buggy kernel returns stale ACL_A (28 bytes).
->
-> fuse_acl_cache_test is only built when libfuse3 is detected via
-> pkg-config.
->
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
+From: David Howells <dhowells@redhat.com>
 
-> +static int do_force_statx(const char *path)
-> +{
-> +       struct statx stx;
-> +
-> +       return syscall(SYS_statx, AT_FDCWD, path,
-> +                      AT_STATX_FORCE_SYNC, STATX_BASIC_STATS, &stx);
-> +}
-> +
+[ Upstream commit b09eab52b307df58a36f34d047378053a2e13e13 ]
 
-Christian,
+Rename cifstransport.c to smb1transport.c in order to give consistent names
+SMB1-specific files.
 
-If no other comments require me sending v2, please change this to plain
-statx() on commit.
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Steve French <sfrench@samba.org>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Enzo Matsumiya <ematsumiya@suse.de>
+cc: linux-cifs@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+cc: linux-kernel@vger.kernel.org
+Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
+Signed-off-by: Steve French <stfrench@microsoft.com>
+Stable-dep-of: c6394bcaf254 ("ksmbd: use opener credentials for FSCTL mutations")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/smb/client/Makefile                             | 5 ++++-
+ fs/smb/client/{cifstransport.c => smb1transport.c} | 0
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+ rename fs/smb/client/{cifstransport.c => smb1transport.c} (100%)
 
-Thanks Luis for pointing this out.
-Amir.
+diff --git a/fs/smb/client/Makefile b/fs/smb/client/Makefile
+index 4c97b31a25c280..9754b4776df845 100644
+--- a/fs/smb/client/Makefile
++++ b/fs/smb/client/Makefile
+@@ -32,6 +32,9 @@ cifs-$(CONFIG_CIFS_SMB_DIRECT) += smbdirect.o
+ 
+ cifs-$(CONFIG_CIFS_ROOT) += cifsroot.o
+ 
+-cifs-$(CONFIG_CIFS_ALLOW_INSECURE_LEGACY) += smb1ops.o cifssmb.o cifstransport.o
++cifs-$(CONFIG_CIFS_ALLOW_INSECURE_LEGACY) += \
++	cifssmb.o \
++	smb1ops.o \
++	smb1transport.o
+ 
+ cifs-$(CONFIG_CIFS_COMPRESSION) += compress.o compress/lz77.o
+diff --git a/fs/smb/client/cifstransport.c b/fs/smb/client/smb1transport.c
+similarity index 100%
+rename from fs/smb/client/cifstransport.c
+rename to fs/smb/client/smb1transport.c
+-- 
+2.53.0
+
