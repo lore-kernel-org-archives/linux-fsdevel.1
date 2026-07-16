@@ -1,39 +1,39 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F70324B2C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 14:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5A7427A04
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 14:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784213806; cv=none; b=CYmiXep9OjwzqZa3p0ggldMs0Pg6iLTcDWkfggOFsgbcinJ7tPPaZTZxzcSUK4OJ3qYNZJkHIHcqixR8mzlYYKkEU2ujy4R8nJGHKMwqkdTbx4lqyrUwy+4JGeUge8BCHnrDPwVHRY1hVT+HOtt8+uSN8L18cPBlf4IXCvdvjDk=
+	t=1784213810; cv=none; b=U0GIMZYVZwAda2vg/1lKSbA63eIPam4K/A9GRNE6yLwCVbJk1FAJHOa5iAEcT+6l+Dd4CspzDe/sPQRL7eRzdkQa80oxwsAA6PaQ5f1/U++kZWwy4Hh2wfPuOLbZj4q9nf3BqJonZuNkO2ypSiZq3MVnrqFdP2ZTSLybaeW9mmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784213806; c=relaxed/simple;
-	bh=d9RsGMwVUmEVDtayuofK9R8tRi6KoPp5Zh4VnB6jpTQ=;
+	s=arc-20240116; t=1784213810; c=relaxed/simple;
+	bh=mTaILrAfobXhcPocfuLsOOLlSIpfjVN1LfnTVAF9Cp0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XYm4SLTWh1B3PpmV8AG1yjpofT6J0B1k59MLIGAcyBCXvRJc6EfppIw+bBoDWqPUyUqQ/iFBJE/gSJJ1lRGZtmATRGO430LPbRP0vXbQvfc7KSWi7ZtNnM4Gn6GqSGgcX7PuU1MtQ6W0mBWoVjskwlyym6KHhOcq/Dzjj4xuk6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=CrDWpgOKpecUYo5CbblQ83yFWUlj6TxAw5m1CjwSTqOW0oJcDZKAZADF1Sxf/SH7Sa4iMnu9/m4/eq5wTniH6fMx8Y661P/GaGjrKCHIq3oNsJm5WA81mpj7lNUU0MQrAtFv91qTMfdlFnIBKPeexH4WRO+GBJgf2aBzuXfriGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B880D789D5;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CA9D83E4A;
 	Thu, 16 Jul 2026 14:56:05 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEC0A779AE;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1B39779AE;
 	Thu, 16 Jul 2026 14:56:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IXGqKgXxWGoMXgAAD6G6ig
+	id 2k5ILwXxWGoWXgAAD6G6ig
 	(envelope-from <jack@suse.cz>); Thu, 16 Jul 2026 14:56:05 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BE27BA1319; Thu, 16 Jul 2026 16:55:52 +0200 (CEST)
+	id A9543A12F2; Thu, 16 Jul 2026 16:55:52 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -42,9 +42,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	<linux-ext4@vger.kernel.org>,
 	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v4 21/21] vfs: Remove mmb_fsync()
-Date: Thu, 16 Jul 2026 16:55:43 +0200
-Message-ID: <20260716145527.3580300-42-jack@suse.cz>
+Subject: [PATCH v4 17/21] ext4: Fix data integrity writeout issues in nojournal mode
+Date: Thu, 16 Jul 2026 16:55:39 +0200
+Message-ID: <20260716145527.3580300-38-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260716145359.28639-1-jack@suse.cz>
 References: <20260716145359.28639-1-jack@suse.cz>
@@ -54,7 +54,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3798; i=jack@suse.cz; h=from:subject; bh=d9RsGMwVUmEVDtayuofK9R8tRi6KoPp5Zh4VnB6jpTQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqWPDxr7J7eZqr9MH4rPMC81Q098MBNIObGjHn4 LBWRMASrXiJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaljw8QAKCRCcnaoHP2RA 2V0ZB/4ypplB2W70PsI9cFeLfLKHStux12Ou9tkFp/0irrFpAC+6L7WWdv8NOPeD7NzJBw5pcX+ MEq3xMarhxG3oHthqlJhmz6MN7A2R+TotH4C3mBpdMniZWh78A6xS9maH0nudrYUkbQTscbNApd zUAt0oU2lesIlliPfcqlvnoNdzBEzTf204yeOx/NDdPEsp7guk2FE2u0CkYtdtVucBRIDkFPA8g nyKFxyDUdfS8HWoQ7wHUCcJHhKnRjbAL/URajq+6rFzOTqBHmGNO2bc4oMu+cZUdcKeWSq6KnKf WVxufo98vLQUs8x5evH76kGIewMkvkMj+SRhlCyTU1dUlg2s
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6095; i=jack@suse.cz; h=from:subject; bh=mTaILrAfobXhcPocfuLsOOLlSIpfjVN1LfnTVAF9Cp0=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqWPDtv6vVRyYZjIqm/dpbqCC1T6MFpno1tJHTg 6IdofZXi9WJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaljw7QAKCRCcnaoHP2RA 2WTqB/4iEs+LzpH5ALcxNHOhe9UC/gATSUob2bfghaLQmGECABrGx6yahLxLi3BP3K48tlu8w/c vzNBmeglc6w8ZtRygUCZFUl+o2NeZitfOTLaG0+w+nxJ2mwCspQBoZqBeziW5IJxKVcJZypx6Ff qUuAyOPYnsgQLKrKxakxl9pzX43vzy16z1qJ0nxzhWUKqcUVw9XfUtxHWSilAtrJBx/Y41spHOq mKXStHCcSvj8BfZyXGRt00Q0gkRUhnj+UGf1ySK/Xwfn/zOMVgOLxzHHLg6oRU+PNoNXUFLCG5i Lu0wmun6L80TzZyovibMSJrutNhPi8PPsK4vlSbW3+XFUX3H
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
@@ -70,118 +70,196 @@ X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[];
 	TAGGED_RCPT(0.00)[]
-X-Rspamd-Queue-Id: B880D789D5
+X-Rspamd-Queue-Id: CA9D83E4A
 X-Rspamd-Action: no action
 
-Now that everybody has been converted from mmb_fsync() (and it's variant
-mmb_fsync_noflush()) to simple_fsync(), we can delete these calls.
+Several racing fsyncs on ext4 in nojournal mode could result in some
+fsync returning earlier than all metadata buffers were properly
+persisted. Also ext4_fsync() in nojournal mode was somewhat inefficient
+because it was always writing out the inode regardless whether it was
+dirty or not.
+
+Fix these issues by using new .sync_inode_metadata method which makes
+sure all inode related metadata is written to disk during any
+WB_SYNC_ALL writeback in nojournal mode. This also somewhat simplifies
+the nojournal mode fsync handling.
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/buffer.c                 | 74 -------------------------------------
- include/linux/buffer_head.h |  4 --
- 2 files changed, 78 deletions(-)
+ fs/ext4/ext4.h  |  1 +
+ fs/ext4/fsync.c | 28 +++++-----------------------
+ fs/ext4/inode.c | 44 +++++++++++++++++++++++++++++---------------
+ fs/ext4/super.c |  7 ++++++-
+ 4 files changed, 41 insertions(+), 39 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 7e5ad9f4754d..be8b57a635cd 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -628,80 +628,6 @@ int mmb_sync(struct mapping_metadata_bhs *mmb)
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 64f8f63f4415..0f06155a35a6 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -3166,6 +3166,7 @@ extern struct inode *__ext4_iget(struct super_block *sb, unsigned long ino,
+ 	__ext4_iget((sb), (ino), (flags), __func__, __LINE__)
+ 
+ extern int  ext4_write_inode(struct inode *, struct writeback_control *);
++extern int  ext4_sync_inode_metadata(struct inode *, struct writeback_control *);
+ extern int  ext4_setattr(struct mnt_idmap *, struct dentry *,
+ 			 struct iattr *);
+ extern u32  ext4_dio_alignment(struct inode *inode);
+diff --git a/fs/ext4/fsync.c b/fs/ext4/fsync.c
+index b7ea4433f4be..2999c2cc8fcf 100644
+--- a/fs/ext4/fsync.c
++++ b/fs/ext4/fsync.c
+@@ -46,7 +46,6 @@
+ static int ext4_sync_parent(struct inode *inode)
+ {
+ 	struct dentry *dentry, *next;
+-	struct mapping_metadata_bhs *mmb;
+ 	int ret = 0;
+ 
+ 	if (!ext4_test_inode_state(inode, EXT4_STATE_NEWENTRY))
+@@ -69,12 +68,6 @@ static int ext4_sync_parent(struct inode *inode)
+ 		 * through ext4_evict_inode()) and so we are safe to flush
+ 		 * metadata blocks and the inode.
+ 		 */
+-		mmb = ext4_i_metadata_bhs(inode);
+-		if (mmb) {
+-			ret = mmb_sync(mmb);
+-			if (ret)
+-				break;
+-		}
+ 		ret = sync_inode_metadata(inode, 1);
+ 		if (ret)
+ 			break;
+@@ -87,22 +80,11 @@ static int ext4_fsync_nojournal(struct file *file, loff_t start, loff_t end,
+ 				int datasync, bool *needs_barrier)
+ {
+ 	struct inode *inode = file->f_inode;
+-	struct writeback_control wbc = {
+-		.sync_mode = WB_SYNC_ALL,
+-		.nr_to_write = 0,
+-	};
+ 	int ret;
+ 
+-	ret = mmb_fsync_noflush(file, ext4_i_metadata_bhs(inode),
+-				start, end, datasync);
++	ret = sync_inode_metadata(inode, 1);
+ 	if (ret)
+ 		return ret;
+-
+-	/* Force writeout of inode table buffer to disk */
+-	ret = ext4_write_inode(inode, &wbc);
+-	if (ret)
+-		return ret;
+-
+ 	ret = ext4_sync_parent(inode);
+ 
+ 	if (test_opt(inode->i_sb, BARRIER))
+@@ -160,6 +142,10 @@ int ext4_sync_file(struct file *file, loff_t start, loff_t end, int datasync)
+ 	if (sb_rdonly(inode->i_sb))
+ 		goto out;
+ 
++	ret = file_write_and_wait_range(file, start, end);
++	if (ret)
++		goto out;
++
+ 	if (!EXT4_SB(inode->i_sb)->s_journal) {
+ 		ret = ext4_fsync_nojournal(file, start, end, datasync,
+ 					   &needs_barrier);
+@@ -168,10 +154,6 @@ int ext4_sync_file(struct file *file, loff_t start, loff_t end, int datasync)
+ 		goto out;
+ 	}
+ 
+-	ret = file_write_and_wait_range(file, start, end);
+-	if (ret)
+-		goto out;
+-
+ 	/*
+ 	 *  The caller's filemap_fdatawrite()/wait will sync the data.
+ 	 *  Metadata is in the journal, we wait for proper transaction to
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index e6acef486ee1..0c220b535590 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -5842,24 +5842,38 @@ int ext4_write_inode(struct inode *inode, struct writeback_control *wbc)
+ 		err = ext4_fc_commit(EXT4_SB(inode->i_sb)->s_journal,
+ 						EXT4_I(inode)->i_sync_tid);
+ 	} else {
+-		struct ext4_iloc iloc;
++		set_inode_metadata_writeback(inode);
++	}
++	return err;
++}
+ 
+-		err = __ext4_get_inode_loc_noinmem(inode, &iloc);
++int ext4_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
++{
++	struct ext4_iloc iloc;
++	struct mapping_metadata_bhs *mmb;
++	int err;
++
++	/* We should only get here in nojournal mode */
++	if (WARN_ON_ONCE(EXT4_SB(inode->i_sb)->s_journal))
++		return -EFSCORRUPTED;
++
++	err = __ext4_get_inode_loc_noinmem(inode, &iloc);
++	if (err)
++		return err;
++	mmb = READ_ONCE(EXT4_I(inode)->i_metadata_bhs);
++	if (mmb) {
++		err = mmb_sync(mmb);
+ 		if (err)
+-			return err;
+-		/*
+-		 * sync(2) will flush the whole buffer cache. No need to do
+-		 * it here separately for each inode.
+-		 */
+-		if (wbc->sync_mode == WB_SYNC_ALL && !wbc->for_sync)
+-			sync_dirty_buffer(iloc.bh);
+-		if (buffer_req(iloc.bh) && !buffer_uptodate(iloc.bh)) {
+-			ext4_error_inode_block(inode, iloc.bh->b_blocknr, EIO,
+-					       "IO error syncing inode");
+-			err = -EIO;
+-		}
+-		brelse(iloc.bh);
++			goto out;
++	}
++	sync_dirty_buffer(iloc.bh);
++	if (buffer_write_io_error(iloc.bh)) {
++		ext4_error_inode_block(inode, iloc.bh->b_blocknr, EIO,
++				       "IO error syncing inode");
++		err = -EIO;
+ 	}
++out:
++	brelse(iloc.bh);
+ 	return err;
  }
- EXPORT_SYMBOL(mmb_sync);
  
--/**
-- * mmb_fsync_noflush - fsync implementation for simple filesystems with
-- * 		       metadata buffers list
-- *
-- * @file:	file to synchronize
-- * @mmb:	list of metadata bhs to flush
-- * @start:	start offset in bytes
-- * @end:	end offset in bytes (inclusive)
-- * @datasync:	only synchronize essential metadata if true
-- *
-- * This is an implementation of the fsync method for simple filesystems which
-- * track all non-inode metadata in the buffers list hanging off the @mmb
-- * structure.
-- */
--int mmb_fsync_noflush(struct file *file, struct mapping_metadata_bhs *mmb,
--		      loff_t start, loff_t end, bool datasync)
--{
--	struct inode *inode = file->f_mapping->host;
--	int err;
--	int ret = 0;
--
--	err = file_write_and_wait_range(file, start, end);
--	if (err)
--		return err;
--
--	if (mmb)
--		ret = mmb_sync(mmb);
--	if (!(inode_state_read_once(inode) & (I_DIRTY_ALL | I_SYNC)))
--		goto out;
--	if (datasync &&
--	    !(inode_state_read_once(inode) & (I_DIRTY_DATASYNC | I_SYNC)))
--		goto out;
--
--	err = sync_inode_metadata(inode, 1);
--	if (ret == 0)
--		ret = err;
--
--out:
--	/* check and advance again to catch errors after syncing out buffers */
--	err = file_check_and_advance_wb_err(file);
--	if (ret == 0)
--		ret = err;
--	return ret;
--}
--EXPORT_SYMBOL(mmb_fsync_noflush);
--
--/**
-- * mmb_fsync - fsync implementation for simple filesystems with metadata
-- * 	       buffers list
-- *
-- * @file:	file to synchronize
-- * @mmb:	list of metadata bhs to flush
-- * @start:	start offset in bytes
-- * @end:	end offset in bytes (inclusive)
-- * @datasync:	only synchronize essential metadata if true
-- *
-- * This is an implementation of the fsync method for simple filesystems which
-- * track all non-inode metadata in the buffers list hanging off the @mmb
-- * structure. This also makes sure that a device cache flush operation is
-- * called at the end.
-- */
--int mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
--	      loff_t start, loff_t end, bool datasync)
--{
--	struct inode *inode = file->f_mapping->host;
--	int ret;
--
--	ret = mmb_fsync_noflush(file, mmb, start, end, datasync);
--	if (!ret)
--		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
--	return ret;
--}
--EXPORT_SYMBOL(mmb_fsync);
--
- /*
-  * Called when we've recently written block `bblock', and it is known that
-  * `bblock' was for a buffer_boundary() buffer.  This means that the block at
-diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index 8b23bc9a244c..fd2c7115c054 100644
---- a/include/linux/buffer_head.h
-+++ b/include/linux/buffer_head.h
-@@ -210,10 +210,6 @@ void bh_end_async_write(struct bio *bio);
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 8671fa1209dd..ae33f5bcb133 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1608,9 +1608,13 @@ static int ext4_nfs_commit_metadata(struct inode *inode)
+ 	struct writeback_control wbc = {
+ 		.sync_mode = WB_SYNC_ALL
+ 	};
++	int ret;
  
- /* Things to do with metadata buffers list */
- void mmb_mark_buffer_dirty(struct buffer_head *bh, struct mapping_metadata_bhs *mmb);
--int mmb_fsync_noflush(struct file *file, struct mapping_metadata_bhs *mmb,
--		      loff_t start, loff_t end, bool datasync);
--int mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
--	      loff_t start, loff_t end, bool datasync);
- void clean_bdev_aliases(struct block_device *bdev, sector_t block,
- 			sector_t len);
- static inline void clean_bdev_bh_alias(struct buffer_head *bh)
+ 	trace_ext4_nfs_commit_metadata(inode);
+-	return ext4_write_inode(inode, &wbc);
++	ret = ext4_write_inode(inode, &wbc);
++	if (!ret && inode_state_read_once(inode) & I_METADATA_WRITEBACK)
++		ret = ext4_sync_inode_metadata(inode, &wbc);
++	return ret;
+ }
+ 
+ #ifdef CONFIG_QUOTA
+@@ -1667,6 +1671,7 @@ static const struct super_operations ext4_sops = {
+ 	.free_inode	= ext4_free_in_core_inode,
+ 	.destroy_inode	= ext4_destroy_inode,
+ 	.write_inode	= ext4_write_inode,
++	.sync_inode_metadata = ext4_sync_inode_metadata,
+ 	.dirty_inode	= ext4_dirty_inode,
+ 	.drop_inode	= ext4_drop_inode,
+ 	.evict_inode	= ext4_evict_inode,
 -- 
 2.51.0
 
