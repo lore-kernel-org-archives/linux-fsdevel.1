@@ -1,157 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1CE3F7A83
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 13:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816BC42586C;
+	Thu, 16 Jul 2026 13:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784209648; cv=none; b=q0PFFvp6f9TX0V0i8VxmukffzfKv4mW45hhoA9VnCRbQwTRy/7oku9lPw5CGljmETZ0r5plEhkLxTJ/FSgUIzAaAwT12bnsdT2k6mQ7KL2309H8nt+B/3st95wKdNDpR3VWfKBqs+jDzv8K94Y9gK2VQs6ELfcLX4vArSUf2AH4=
+	t=1784209718; cv=none; b=gRLd4c6awED9+sDJsfLVMWzIJ3Di+Mvp2+0fZWHxAYT5ZOtJHwEiyMAjuOOiyZFubpp0GkYT5kbu77F7Ownkl8pKIbPknShKgW9+WZ8SA6RrtszmaC+SD5ytubezN+WNse0GVHfTADOmqEAPdyTkamh0FLqOvq/Dlm0+D9LNOfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784209648; c=relaxed/simple;
-	bh=iNgALBorITFTncS+ZX8fvjq2CrgEinLKgaJoSxICT24=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XiA6cxskmBFzbrPc/Xwn8Q+6Re0H2xhBwX1w6shm/ZoqNT3p4ZQWFd8A86h1iZwGi8QQ4udShq1MYUXtJLMpn4twd8/kesLeyyS4WBe2z3gQVYTNjtAe9uXmn/GnpOzMLQiWIr34xakrfMFDseydfMA/h3sJzrEzUYW0cQcGLag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KyYLc4o7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNuLru5e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KyYLc4o7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNuLru5e; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784209718; c=relaxed/simple;
+	bh=HD12P3t/fBJLa16CCl2JSPV68XrmBTcICXjHN44zzxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kajYTQrSY/sm3XvQyxuy8xvQN35ohg8S6lgUX9JnA64zzT5V3/F9leqQu9RW26XFhYRcO6SNAoqdAKQ/ZkX2L9iMAdFv03of4Q+tM72/DRTSeSoom/KSSkMAxgANlhq7YKgWve+bb4hxHGeyP+zPCOcHIp9wHLMDCzNJJkBT5zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw6wLQEi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KyYLc4o7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNuLru5e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KyYLc4o7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNuLru5e"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 525D578997;
-	Thu, 16 Jul 2026 13:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784209641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
-	b=KyYLc4o7omQEAIQQVvpJVuI5KSd1kclspaNWbAInWqUOUGtM6plhyC+jQHq5zsxQ1yVkMe
-	5wxQm7hobrz9RD9+BmWaHOhru99i4nyOSkm3jpSYxJUU6wnksiaZVqvqCJp0SCGOrR5q4m
-	tUPtN6eX8Cb/O6vYibPeL3n1i2KcgB0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784209641;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
-	b=SNuLru5eiey3TThUMGcQ6MtjBHzduOctWbE/+NyjYuxbHEW5SsF74nxlSvFQYHwrM65NlJ
-	s5FTeDKKPKf1L4Bw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KyYLc4o7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SNuLru5e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784209641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
-	b=KyYLc4o7omQEAIQQVvpJVuI5KSd1kclspaNWbAInWqUOUGtM6plhyC+jQHq5zsxQ1yVkMe
-	5wxQm7hobrz9RD9+BmWaHOhru99i4nyOSkm3jpSYxJUU6wnksiaZVqvqCJp0SCGOrR5q4m
-	tUPtN6eX8Cb/O6vYibPeL3n1i2KcgB0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784209641;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
-	b=SNuLru5eiey3TThUMGcQ6MtjBHzduOctWbE/+NyjYuxbHEW5SsF74nxlSvFQYHwrM65NlJ
-	s5FTeDKKPKf1L4Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20D67779AD;
-	Thu, 16 Jul 2026 13:47:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dBekBungWGprGQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Thu, 16 Jul 2026 13:47:21 +0000
-Date: Thu, 16 Jul 2026 23:47:18 +1000
-From: David Disseldorp <ddiss@suse.de>
-To: longlong yan <yanlonglong@kylinos.cn>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] initramfs_test: add NULL check for kmalloc in
- initramfs_test_fname_overrun
-Message-ID: <20260716234718.31479e5d.ddiss@suse.de>
-In-Reply-To: <20260715020820.425-1-yanlonglong@kylinos.cn>
-References: <20260715020820.425-1-yanlonglong@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw6wLQEi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77D31F00ACA;
+	Thu, 16 Jul 2026 13:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784209706;
+	bh=688ykzG8ykPiM0npkBRxxK87841vXMSxY8kc1hKMOxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Vw6wLQEiSYMMzvpHWNRYt+3s4FDZunFyyV5t8QSapGHwdOhsx77TqN+bQNN/7FMEb
+	 L4GQgT4YO+vgjsmgBgdlJoVoQ5ZTswchVmEhk5RFQAHrVxr/b6PH9oN5nBy9dgGlbt
+	 dSvlgfGIR3yl0s/aQVSi6WTTjE3Kyw7dsElMXq7CaCIKdmBRp8bRnb3ZnSD1hlJsDx
+	 E3Shg91EctjhSOsnfJaxcg5IQOeFJ67cr/t30QEEQnQRQAGAtgl0NC0qGRQ6JmrPn5
+	 hEhM+hu9x8pLt6UFbvfDoJm6yd8sUGeKX7E8Vs6lhu/lZt7cPVlykVglllQaXLyMS0
+	 cRFOKSMgrYgdg==
+Date: Thu, 16 Jul 2026 14:48:11 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/3] mm/mseal: further cleanups
+Message-ID: <aljhBBTRUtLs-N76@lucifer>
+References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 525D578997
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,kylinos.cn:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
 
-Hi,
+On Thu, Jul 16, 2026 at 02:43:08PM +0100, Lorenzo Stoakes (ARM) wrote:
+> The mseal implementation is still rather confusing, so tighten things up a
+> little.
+>
+> The only user of do_mseal() outside of the system call is the MMAP_PAGE_ZERO
+> process personality - retain better control over how mseal is utilised by
+> providing mseal_mmap_page_zero() for this instead.
+>
+> The comments are overly long and confusion, so cut them down so they're a lot
+> clearer.
 
-On Wed, 15 Jul 2026 10:08:19 +0800, longlong yan wrote:
+s/confusion/confusing/ :)
 
-> Add missing NULL check for kmalloc return value in
-> initramfs_test_fname_overrun(). Without this check, if kmalloc fails,
-> the subsequent memset() will dereference a NULL pointer, causing a
-> kernel crash.
-> 
-> Fixes: 83c0b27266ec ("initramfs_test: kunit tests for initramfs unpacking")
-> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+>
+> Remove confusing mm_struct params (mseal can not be used on remote mm's) and
+> wrap the actual system call logic into the system call declaration.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
->  init/initramfs_test.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/init/initramfs_test.c b/init/initramfs_test.c
-> index 1fc990a66563..c7aab7e5383e 100644
-> --- a/init/initramfs_test.c
-> +++ b/init/initramfs_test.c
-> @@ -189,6 +189,9 @@ static void __init initramfs_test_fname_overrun(struct kunit *test)
->  	 * are already available (e.g. no compression).
->  	 */
->  	cpio_srcbuf = kmalloc(CPIO_HDRLEN + PATH_MAX + 3, GFP_KERNEL);
-> +	if (!cpio_srcbuf)
-> +		return;
-> +
->  	memset(cpio_srcbuf, 'B', CPIO_HDRLEN + PATH_MAX + 3);
-
-Panicking on kunit test alloc failure is reasonable behaviour IMO;
-the Fixes tag isn't appropriate here. Also, your patch is only
-handling one of the many allocations. KUNIT_ASSERT_NOT_NULL() would be
-a better option if we wanted to explictly catch these failures.
+> Lorenzo Stoakes (ARM) (3):
+>       mm/mseal: remove superfluous comments, fix confusion around mm
+>       mm/mseal: limit scope of mseal address zero to address zero
+>       mm/mseal: remove further superfluous comments, do_mseal()
+>
+>  fs/binfmt_elf.c    |   7 +--
+>  include/linux/mm.h |   8 +--
+>  mm/mseal.c         | 156 ++++++++++++++++++-----------------------------------
+>  3 files changed, 56 insertions(+), 115 deletions(-)
+> ---
+> base-commit: 59c684a9908d2e6f7a791f7f033eae57ec2b3a61
+> change-id: 20260716-mseal-fixups-131ad0939de2
+>
+> Cheers,
+> --
+> Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
