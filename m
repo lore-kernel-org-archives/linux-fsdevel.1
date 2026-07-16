@@ -1,180 +1,147 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84FF43AB0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 00:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F4C2E7393;
+	Thu, 16 Jul 2026 01:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784160774; cv=none; b=Y+AhfpjJeXEWoT7pINNJwi9RYLlzwuXmVBG46OSHQwcqq9HUu+z4jo0d0h/VuSkCeDkoREHFbj+n6qK0ILjJ6Vx82MKt1miofKW3qnJ7IHWr1JlnMdmDitSKFxho+oH6vvrVgsUf4bkEQjMC53CF7geOeFiNhIgAgDs4EhSXbVs=
+	t=1784164819; cv=none; b=maJm2VMCHHHNkLgqwDijBmZxBY+KefVUr2LdEdiFNJkx6V1e9NG/MrK6+3OjyE4P2etHlvQdxy7Rp2tK4avwktnOjfH18FAjNlaZmGtbGUksdLIaz/RNGnUlPtUPB7wNtl2wPyh1Etd69hAGgqa+iFvCxdynehIrXRbY8L2cnyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784160774; c=relaxed/simple;
-	bh=FZPGY9KYrMtOTNqPRwUkPHORLOYpJ6tk1GVDc+iL/yc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=kWiIhQ9+g5k+9YZ/eBB/Vp9bU3iKP+FuOJREQ7sPkSou4THO7a7vxPq4WF6icCb62O7BWkQiGNgkPSVE91p/nA8eIPVjrWrRbrjQXgtXKfgglW1gOKxj8V+E/l1YL8uWHm74Lru6rXZxKMwK1FA5jE5YuSMYCxg5I6hqApRGGEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvSaKW5E; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784164819; c=relaxed/simple;
+	bh=psEq+Sv7XmBVm9NrgzLtLfCqQPDLUcg25/pXP59VBU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=nFpBqUP79Wc6w+gRLoxeMt5yYIhlr8Xu7sCJdwzsBZL91MHi4/Ipo2btItbdVUsS4Tlr6PQoxnkxMe3lfFaS8VgioJ3uGp8JB46svaExfR6+6dJVoJI6JrQYUBiRAy64aYuUl3bDpUn+nZebiSXVclibnmC9Wf96pKj+Em9wFiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=fevypTON; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvSaKW5E"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c89636920a3so1596489a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 17:12:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784160772; x=1784765572; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Yqp9M8SmLPe+XpZ6WaehY4883xFTw01pffMOJV97erU=;
-        b=MvSaKW5EK7Vtl87mdOX32EMKmP+7XPQSKQLftRYH2Kfn+V2EakzqrZwF43Gt07LcO8
-         a2Wh932u01JACFY4q7W1cRNN+RlDm7cniR+Gs1GT/mRMmH13ejjwMUmg1GOPIWJUGhZa
-         0VG+VLJBNmUaTknpzBS0Ximj5sPWalFMapzuCuGYpBPGlle3MDgLp1ZqC2/jtM0PY1yR
-         AxY0DIHpg528ij8y3Q4i4wHy2KNHLlBOsMblilakK9iaUlb/AvBQOOcNhA7w38rG3/pm
-         1jtJ9pu9n/p3TZEHFXjnPrBnjyY57MYUhox+72yZ4I8TvKVc4F9CvVPhX8gJUZjkIau7
-         KqXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784160772; x=1784765572;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Yqp9M8SmLPe+XpZ6WaehY4883xFTw01pffMOJV97erU=;
-        b=eywBP+Q5xGb5wzm6RC3r+Nwz5dO7g1Ls4hvA22Yq5GiQcwHP5MwMUx17nkLUNcpcMm
-         xIvpbF6/3RNyiWbf3IZV5pNntV6+6fbLi6BjvHH6PirOR8SlUsvY62bl3MXD0fpv5PcX
-         eRBK560XEH9VTjWHo0KrRL6S0VPRuFNpbGi7xQri3TJSbnOY3QbFCJVlWFDMLiYvIoya
-         1LXM+hFM+dexX8YjH5QEypQQ/TAt8HRiEK4JkYrjsvnEyBnfRJdkmLd+B15SQzedvWOn
-         vSTTMssOzGDiI4BsUfZbWiRiTSY2ceZDOO3mrDXJ0EB0cIZEy073rsiGlt8fKkpLoJ/t
-         Ll3A==
-X-Forwarded-Encrypted: i=1; AHgh+Rp+DtlYaXroiL9dCdf5cZuJKGtOPtO68l/jKEVlZ/N9z+/oxh49AyoguZ6VAOriU1kFnBMyYpaUEjo7C+wE@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVeDYzmXk4T6JAtz8V7g+7cTfxFoI98Xa5xNic7p5Z4UxSh705
-	IThBsjZ8L1iw+pwjPjB1ZFCh7hQ6REGoN7b8ksxAq3s2RQIZaWCDXlnj
-X-Gm-Gg: AfdE7cn7OOBP2ot1paWNeB9tic45G57CTdjsgFfnOtr7TVxemcRNhV4EBhogJuXptPb
-	iF6t0ZqDY1S8hb4N/TgHLUpp2GUAuspi/gi8jHCrMGztOSs9/VciEuXF0PxqeQCP6fyBUXZA23J
-	lERX0/lmNWnLR8EB3vZhogZn2bgz1fVPnGg6fNtraVGkXlLbJmiS8G4u510aGmH321yxCeaeLEg
-	4U/O2Er0ZFuO/RNG0Ebt/KmTm4PZf1Z4ggwxSj/2MJCf3KNnvzSbRuUXuc68yRz/lMtxgVSRa5u
-	70HVAO7BVZoxjqqRCiMw7bSeg78YaabYemzKq7LYXHP1xGiR2maGbpECVYbehEGkUjnBcoR2DdR
-	cdqxzawMKjlN6TvBWeQdv3DNZMGo0fxt82Xs+LI7SlxL0CnKrrk9FE6J0Cv6sNWpigawhkMb2U7
-	NESdfOeo80A/MkvQ==
-X-Received: by 2002:a05:6a21:1309:b0:3b4:b24e:27b4 with SMTP id adf61e73a8af0-3c11077668bmr21904263637.1.1784160771979;
-        Wed, 15 Jul 2026 17:12:51 -0700 (PDT)
-Received: from localhost ([98.35.8.117])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd4359166sm4828005c88.14.2026.07.15.17.12.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 17:12:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="fevypTON"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1784164805; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=/ef5fK1C/u5JKytDn0JDImp821HrmWjkSDu/2fR1IAU=;
+	b=fevypTONIV9LwOZJ/VK5N0hWUCwQY5bMw+aWTqBd+i6T37KD3a/ehszGfM6QnTmCQDA6RoJQYC+uD6Y/WmK2ph8VFDLqNcsR15UT+EppBZcpjFkV4bwlyUSc0IzH1qAxapVjosfNcBYD9AXkzduOSV/Ztp080GCmlL8odsa1jNg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0X7AlBuV_1784164802;
+Received: from 30.74.144.123(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X7AlBuV_1784164802 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 16 Jul 2026 09:20:03 +0800
+Message-ID: <09771ca6-2869-4028-98a8-5d6614b48301@linux.alibaba.com>
+Date: Thu, 16 Jul 2026 09:20:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Jul 2026 17:12:49 -0700
-Message-Id: <DJZK7IJ53B5J.141W232JLWL44@gmail.com>
-Cc: "Daniel Borkmann" <daniel@iogearbox.net>, "Alexei Starovoitov"
- <ast@kernel.org>, "Kees Cook" <kees@kernel.org>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "Jonathan Corbet"
- <corbet@lwn.net>, <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
- <bpf@vger.kernel.org>, <jannh@google.com>, <mail@johnericson.me>
-Subject: Re: [PATCH v2 0/9] binfmt_misc: bpf-backed binary type handlers
-From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
-To: "Farid Zakaria" <farid.m.zakaria@gmail.com>, "Christian Brauner"
- <brauner@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260714-work-bpf-binfmt_misc-v2-0-57b7529c002c@kernel.org>
- <178407531866.2243172.12944140194021045628.b4-review@b4>
- <20260715-reorganisation-umtausch-radiergummi-8b38ca81ebb0@brauner>
- <DJZK5TY3IXQC.2XKA1X9IEGJDO@gmail.com>
-In-Reply-To: <DJZK5TY3IXQC.2XKA1X9IEGJDO@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs: push nr_cached_objects memcg gating into
+ individual filesystems
+To: Usama Arif <usama.arif@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, david@fromorbit.com,
+ dgc@kernel.org, qi.zheng@linux.dev, brauner@kernel.org,
+ cgroups@vger.kernel.org, clm@fb.com, dsterba@suse.com, hannes@cmpxchg.org,
+ hughd@google.com, jack@suse.cz, linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, mhocko@kernel.org, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+ Al Viro <viro@zeniv.linux.org.uk>, kernel-team@meta.com
+References: <20260715103516.2410175-1-usama.arif@linux.dev>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260715103516.2410175-1-usama.arif@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed Jul 15, 2026 at 5:10 PM PDT, Farid Zakaria wrote:
-> On Wed Jul 15, 2026 at 1:40 AM PDT, Christian Brauner wrote:
->> On 2026-07-14 17:28 -0700, Farid Zakaria wrote:
->>> On Tue, 14 Jul 2026 21:58:05 +0200, Christian Brauner <brauner@kernel.o=
-rg> wrote:
->>> > [...]
->>> > 		.load =3D (void *)nix_load,
->>> > 		.name =3D "nix",
->>> > 	};
->>> >=20
->>> > Farid, this should slot underneath your qemu demo from [4] with the
->>> > program ported to struct_ops. Feel free to take it from here.
->>>=20
->>> Thanks for the recent update.
->>> Is it still "take it from here" or was this left-over from the previous
->>> series.
->>
->> Leftover from the previous series. :) Sorry.
->>
->
-> No problem -- just checking.
->
->>> I think you've done the majority of the work here with the validation o=
-f
->>> the few selftests and mentioning the gap for shebangs.
->>
->> It was a nice joint effort imo. I think this is in general an
->> interesting idea. I'm also working on some glibc loader patches. One
->> of the patches in this series allows for "transparent binary execution"
->> if the loader supports it.
->>
->> In this mode you can pass AT_EXECFD to an interpreter and don't change
->> the command line. An exec like this is indistinguishable from a "native"
->> exec.
->>
->
-> This sounds super interesting (orthogonal to binfmt_misc and BPF work rig=
-ht?)
-> but a neat feature nonetheless. I wonder if this makes it easier for
-> tools like perf to attribute the correct binary or they have already
-> handled interpreters in the cmdline well enough.
->
->>> Please let me know what you would like me to do next. I just tested
->>> reviewing the series with b4 + AI -- pretty cool. Was a little clunky t=
-o
->>> get it to work but overall a good experience. (I need to tinker with it
->>> a little for NixOS vim setup etc..)
->>>=20
->>> I shared this patch series at my workplace as well.=20
->>> I think there is some interest in the work.
->>> (If you are curious as to why, I can elaborate on that as well).
->>
->> Sure, happy to hear other use-cases. I have a plan to make it possible
->> to pre-open a set of interpreters (pin them essentially) when
->> registering the handler in binfmt_misc and then bpf would be able to
->> select from a set of pre-opened interpreters but that's for the future.
->>
->
-> This is assuming that in prior calls to the BPF it returned the path
-> string to be pinned?
->
-> As for the use case, we use buck2 --
-> a build system similar to Google's Bazel and does many things in spirit
-> to Nix by leveraging RUN_PATH to create links to the shared-libraries.
->
-> We have customized our interpreter however the lack of $ORIGIN means
-> that we've had to maintain a single glibc versioning across our machines =
-as
-> a platform since glibc has tight coupling between the loader and the
-> libc.
->
-> This has been a pain point for upgrading. I think the ability for the
-> loader to now be relative to $ORIGIN meanst hat each binary could
-> diverge glibc/ld.so and not affect the rest of the machines.
->
-> tl;dr; ld.so from $ORIGIN itself is not only useful but since it's
-> intimately tied to glibc, it allows for more flexibililty across our
-> builds (very similar to NixOS in spirit).
->
->>> I hope you are enjoying your vacation.
->>
->> Thanks!
 
-Ah one more thing!
 
-What's next for this patch? Do we wait for BPF maintainers to comment?
-Should I continue to add Reviewed-By trailers to the other patches?
-(I have limited knowledge on some of the mutex stuff but the agent
-review in b4 was helpful in understanding it enough to give a review.)
+On 7/15/26 6:35 PM, Usama Arif wrote:
+> Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
+> in memcg slab shrink") added a check in fs/super.c that skipped every
+> ->nr_cached_objects() hook whenever the shrinker was invoked for a
+> non-root memcg, on the assumption that none of them honour sc->memcg.
+> 
+> That assumption is wrong for XFS, whose inode-reclaim hook is
+> intentionally driven from per-memcg contexts to free memcg-charged
+> slab. Encoding a blanket "never memcg-aware" policy in fs/super.c
+> short-circuits that path.
+> 
+> Push the check down into the callbacks whose counters really are
+> irrelevant to per-memcg reclaim - btrfs_nr_cached_objects() and
+> shmem_unused_huge_count() - and drop the fs/super.c gate. Each
+> filesystem can now lift the restriction independently if its counter
+> later grows memcg awareness, without touching fs/super.c.
+> 
+> Introduce mem_cgroup_shrink_is_root() in <linux/memcontrol.h> so the
+> callbacks don't open-code "sc->memcg is NULL or root".
+> 
+> Fixes: 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects in memcg slab shrink")
+> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> ---
 
-Sorry if it's obvious. I've never contributed to a patch this far
-along or substantial to the point of having to understand the
-merging/acceptance process in Linux.
+[snip]
+
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index e1f46a0016fc..5407e4200460 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -520,6 +520,22 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
+>   	return (memcg == root_mem_cgroup);
+>   }
+>   
+> +/**
+> + * mem_cgroup_shrink_is_root - is this a global or root-memcg shrink invocation?
+> + * @sc: shrink_control describing the current shrinker call
+> + *
+> + * Returns true when @sc represents a global reclaim shrink (sc->memcg == NULL)
+> + * or a root-memcg shrink, i.e. not a per-memcg iteration of
+> + * shrink_slab_memcg(). Filesystems whose ->nr_cached_objects()/
+> + * ->free_cached_objects() implementations operate on filesystem-global state
+> + * and do not honour sc->memcg can use this to early-return 0 in per-memcg
+> + * contexts.
+> + */
+> +static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
+> +{
+> +	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
+> +}
+> +
+>   static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
+>   {
+>   	return objcg->is_root;
+> @@ -1071,6 +1087,11 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
+>   	return true;
+>   }
+>   
+> +static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
+> +{
+> +	return true;
+> +}
+> +
+>   static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
+>   {
+>   	return true;
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 5789a0f5a346..dc8cd4f563f4 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -846,6 +846,16 @@ static long shmem_unused_huge_count(struct super_block *sb,
+>   		struct shrink_control *sc)
+>   {
+>   	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
+> +
+> +	/*
+> +	 * The per-superblock shrinklist is filesystem-global and does not
+> +	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
+> +	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
+> +	 * shrink_slab_memcg() to avoid queueing duplicate global work.
+> +	 */
+> +	if (!mem_cgroup_shrink_is_root(sc))
+> +		return 0;
+> +
+>   	return READ_ONCE(sbinfo->shrinklist_len);
+>   }
+>   #else /* !CONFIG_TRANSPARENT_HUGEPAGE */
+
+For shmem part, LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
