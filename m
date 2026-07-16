@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2CC481B1;
-	Thu, 16 Jul 2026 02:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E125DC14A;
+	Thu, 16 Jul 2026 02:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784170048; cv=none; b=tarbanfSZ7t6LKMnqpeBKK8upTi4PpNjud+afYy4yqKJeC/JSZ8Yj0BTGqzFovLg+JMdezAGJUAUanXK1h0noHUrL7T5CcdfXggR90NxjaZpmJqhRcPREAg50OMQ7KsldojCXd1uNzwusU83uyp8y2zY1OULf/KrsOlGOCHDnZs=
+	t=1784170052; cv=none; b=PySHGgiKmMomcwBmTVu72r53myOMrkQJx2C6QhgAt5Ojbi2PiqXX0xpZvHJIRmNCUd4equcgeVs4ze0gzRoh39EwTzH72lqhdluFc3q1S1cVm/PQJ53PNAftw/O1OPgv363hKLN3o1mHXfQXRjcV8AKjFhoPmhinS1D5seTgvEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784170048; c=relaxed/simple;
-	bh=8CG1aoCeuIUE7rPhRflru504ymc6zOAJGZIH+EbqmvQ=;
+	s=arc-20240116; t=1784170052; c=relaxed/simple;
+	bh=bkgGfAtw6Zc0M8STuODUgWOkxj8/LfhGDCMEzmclJuo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PdSwaVHuBvnwJaGw/fInG2aoQCGfuelmtNoso4PgELaiwLV1OiFpEHJuczc5USUUaV/O5A+prc6bSkYz8Qszyy4XoxGdDy4SA+ep3+Sgy4/aNzm7Jgxma2gLUTToPentbhqd7Etelr4hs3reA51yGSzCHvv/Po2iQM521e1Lxcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtx7XRZc; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=Yx9Gx6u02R6a8RJbuM/E2TYCLaThoDAauuNrZWE5M/v7/WHbK1hTc5rJtFvrLEJ6nzVLUPTuHeW8AbmxaZMzVgslUeCSesFZByzFcEam48eHCQ9MRwIrMHTQSSQ6P+VTEPnAznoXoGZuH9lwwAxf916jhcN/r7yBbt6hK81pC70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFXiXruh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtx7XRZc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7D811F000E9;
-	Thu, 16 Jul 2026 02:47:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFXiXruh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0691F000E9;
+	Thu, 16 Jul 2026 02:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784170046;
-	bh=06Mncw7PmDHCJZVJB8qhJ+iRV9NJLKz87byWkIsJ7Eo=;
+	s=k20260515; t=1784170050;
+	bh=fEqVQAjJdCHcrakS7WTOQ/eOTNMTCg+t4DD8+sZ+i5w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dtx7XRZcIeqsc2VsJUFMwPvXvWgGNRw7z0GZ5YYAriLMfMu0SCNBJI+9+9A8kf+8f
-	 /fa9/q5Rl6iTVY9wkX5zpyH2lob6ssKT+4fGmRe5mFsce35lYuXH2cD4ESspcYKmyT
-	 BKHu9A3zsyJhzy+cp3629cxth8F86e7614BVVMi0by/TSU+XNMmC7+RVUU9HqjEasF
-	 F1yCeNv8QUNFydD8GCuCHKc5Y1tmH69BfNJZ/yfS7bot7R+hhK2FKFDRDqGWh3mFfC
-	 9/N7GnM6oWDA2eGRFH3s4o9r8DsBzVkjCAnDFaMdxjWDClXeVDWKilxJHQZ3DkNmJm
-	 Rm+ggqb8pSj+A==
+	b=LFXiXruhakqkYFplvHOuxKTjZRCnFTdH1COrQwOnHAZoHMuj3UmwTfzU2ao6vQXSW
+	 rV3XllrDNBKhSDqrgCfPuuJtAINX+uDiuBfGy/7iZMuig/c9my95e4eYEasYd6A5Yz
+	 lqjTVJqwC9L63v0iodR1TAP1G1KkEcovZ5ki76keLtjBJT/SA3Tmy+csDBe0p1dtd1
+	 N0r1Q7hGmWpQXp+3mmQ6Y/ZaGFnUHhml1KxxKzmRt8ADSt8BeTla5jOuhudwebbVd9
+	 K7vbRBoLT2PEautWjfCSXPxJkJ/qtkBDdTfz5RNiPrklBdAZxYU3Qo6k+jZwsYRrP+
+	 6hilbnyZGAv8Q==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: hyc.lee@gmail.com
 Cc: ntfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH] ntfs: rewrite EA stream before updating metadata
-Date: Thu, 16 Jul 2026 11:46:37 +0900
-Message-Id: <20260716024640.13396-3-linkinjeon@kernel.org>
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH] ntfs: fix kmap_local_page() usage in compress
+Date: Thu, 16 Jul 2026 11:46:38 +0900
+Message-Id: <20260716024640.13396-4-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260716024640.13396-1-linkinjeon@kernel.org>
 References: <20260716024640.13396-1-linkinjeon@kernel.org>
@@ -45,155 +46,199 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Updating an EA removes the old record and appends its replacement.
-Build the complete $EA stream in memory and rewrite it from offset zero,
-rather than committing a compacted stream followed by a separate append.
-generic/642 shows that the append path can leave an invalid record layout
-on disk, including when a new EA entry is added.
+Several compressed I/O paths discard the address returned by
+kmap_local_page() and later access or unmap the page using page_address().
+This is invalid for highmem pages, and local mappings must also be unmapped
+using the address returned by kmap_local_page().
 
-When removing an EA, write the compacted stream before updating
-$EA_INFORMATION and restore the original pair if the metadata update
-fails.
+Map each destination page in ntfs_decompress() only while producing the
+current sub-block. Use memcpy_from_page(), memcpy_to_page(), and
+memzero_page() for the other page accesses. Remove unnecessary local
+mappings from ntfs_write_cb(), where pages are accessed through the vmap()
+mapping.
 
-When the final EA entry is removed the $EA/$EA_INFORMATION pair is torn
-down. If removing $EA_INFORMATION fails after $EA has already been
-removed, the original $EA is restored so the two attributes stay
-consistent.
-
-Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Reported-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/ntfs/ea.c | 65 +++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 46 insertions(+), 19 deletions(-)
+ fs/ntfs/compress.c | 38 +++++++++++++++-----------------------
+ 1 file changed, 15 insertions(+), 23 deletions(-)
 
-diff --git a/fs/ntfs/ea.c b/fs/ntfs/ea.c
-index 88bfd6560692..d0044c61152a 100644
---- a/fs/ntfs/ea.c
-+++ b/fs/ntfs/ea.c
-@@ -196,6 +196,9 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 	struct ea_attr *p_ea;
- 	u32 ea_info_qsize = 0;
- 	char *ea_buf = NULL;
-+	char *new_ea_buf;
-+	char *old_ea_buf = NULL;
-+	struct ea_information old_ea_info;
- 	size_t new_ea_size = ALIGN(struct_size(p_ea, ea_name, 1 + name_len + val_size), 4);
- 	s64 ea_off, ea_info_size, all_ea_size, ea_size;
+diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+index d83d3e8e06ae..e866f43ca30b 100644
+--- a/fs/ntfs/compress.c
++++ b/fs/ntfs/compress.c
+@@ -177,6 +177,7 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
  
-@@ -249,6 +252,14 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 			err = -EEXIST;
- 			goto out;
- 		}
-+		if ((flags & XATTR_REPLACE) && !val_size) {
-+			old_ea_info = *p_ea_info;
-+			old_ea_buf = kvmemdup(ea_buf, all_ea_size, GFP_NOFS);
-+			if (!old_ea_buf) {
-+				err = -ENOMEM;
-+				goto out;
-+			}
-+		}
+ 	/* Variables for uncompressed data / destination. */
+ 	struct page *dp;	/* Current destination page being worked on. */
++	u8 *dp_kaddr;		/* Local kmap for the current destination page. */
+ 	u8 *dp_addr;		/* Current pointer into dp. */
+ 	u8 *dp_sb_start;	/* Start of current sub-block in dp. */
+ 	u8 *dp_sb_end;		/* End of current sb in dp (dp_sb_start + NTFS_SB_SIZE). */
+@@ -191,6 +192,7 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+ 	/* Default error code. */
+ 	int err = -EOVERFLOW;
  
- 		/* Check the final $EA size before removing the old entry. */
- 		if (val_size &&
-@@ -281,20 +292,33 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 				goto out;
- 
- 			err = ntfs_attr_remove(ni, AT_EA_INFORMATION, AT_UNNAMED, 0);
-+			if (err) {
-+				/* Restore the original $EA if $EA_INFORMATION removal failed. */
-+				ntfs_attr_add(ni, AT_EA, AT_UNNAMED, 0, old_ea_buf,
-+					      all_ea_size);
-+				ea_info_qsize = le32_to_cpu(old_ea_info.ea_query_length);
-+			}
- 			goto out;
- 		}
- 
--		err = ntfs_write_ea(ni, AT_EA_INFORMATION, (char *)p_ea_info, 0,
--				sizeof(struct ea_information), false);
--		if (err)
--			goto out;
--
--		err = ntfs_write_ea(ni, AT_EA, ea_buf, 0, ea_info_qsize, true);
--		if (err)
--			goto out;
--
- 		if ((flags & XATTR_REPLACE) && !val_size) {
--			/* Remove xattr. */
-+			err = ntfs_write_ea(ni, AT_EA, ea_buf, 0, ea_info_qsize,
-+					true);
-+			if (err) {
-+				ntfs_write_ea(ni, AT_EA, old_ea_buf, 0,
-+					      all_ea_size, false);
-+				goto out;
-+			}
-+
-+			err = ntfs_write_ea(ni, AT_EA_INFORMATION, (char *)p_ea_info,
-+					0, sizeof(struct ea_information), false);
-+			if (err) {
-+				ntfs_write_ea(ni, AT_EA, old_ea_buf, 0,
-+					      all_ea_size, false);
-+				ntfs_write_ea(ni, AT_EA_INFORMATION,
-+					      (char *)&old_ea_info, 0,
-+					      sizeof(old_ea_info), false);
-+			}
- 			goto out;
- 		}
- 	} else {
-@@ -309,21 +333,23 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 			goto out;
- 		}
++	dp_kaddr = NULL;
+ 	ntfs_debug("Entering, cb_size = 0x%x.", cb_size);
+ do_next_sb:
+ 	ntfs_debug("Beginning sub-block at offset = 0x%zx in the cb.",
+@@ -223,7 +225,6 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+ 				 */
+ 				handle_bounds_compressed_page(dp, i_size,
+ 						initialized_size);
+-				kunmap_local(page_address(dp));
+ 				SetPageUptodate(dp);
+ 				unlock_page(dp);
+ 				if (di == xpage)
+@@ -269,7 +270,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
  	}
--	kvfree(ea_buf);
--
- alloc_new_ea:
--	ea_buf = kzalloc(new_ea_size, GFP_NOFS);
--	if (!ea_buf) {
-+	new_ea_buf = kvzalloc(ea_info_qsize + new_ea_size, GFP_NOFS);
-+	if (!new_ea_buf) {
- 		err = -ENOMEM;
- 		goto out;
+ 
+ 	/* We have a valid destination page. Setup the destination pointers. */
+-	dp_addr = (u8 *)page_address(dp) + do_sb_start;
++	dp_kaddr = kmap_local_page(dp);
++	dp_addr = dp_kaddr + do_sb_start;
+ 
+ 	/* Now, we are ready to process the current sub-block (sb). */
+ 	if (!(le16_to_cpup((__le16 *)cb) & NTFS_SB_IS_COMPRESSED)) {
+@@ -290,6 +292,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+ 		/* Advance destination position to next sub-block. */
+ 		*dest_ofs += NTFS_SB_SIZE;
+ 		*dest_ofs &= ~PAGE_MASK;
++		kunmap_local(dp_kaddr);
++		dp_kaddr = NULL;
+ 		if (!(*dest_ofs)) {
+ finalize_page:
+ 			/*
+@@ -324,6 +328,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+ 		}
+ 		/* We have finished the current sub-block. */
+ 		*dest_ofs &= ~PAGE_MASK;
++		kunmap_local(dp_kaddr);
++		dp_kaddr = NULL;
+ 		if (!(*dest_ofs))
+ 			goto finalize_page;
+ 		goto do_next_sb;
+@@ -429,6 +435,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+ 	goto do_next_tag;
+ 
+ return_overflow:
++	if (dp_kaddr)
++		kunmap_local(dp_kaddr);
+ 	ntfs_error(NULL, "Failed. Returning -EOVERFLOW.");
+ 	goto return_error;
+ }
+@@ -557,7 +565,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 			 * least wasting our time.
+ 			 */
+ 			if (!PageDirty(page) && (!PageUptodate(page))) {
+-				kmap_local_page(page);
+ 				continue;
+ 			}
+ 			unlock_page(page);
+@@ -643,8 +650,7 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		}
+ 
+ 		lock_page(lpage);
+-		memcpy(cb_pos, page_address(lpage) + page_ofs,
+-		       vol->cluster_size);
++		memcpy_from_page(cb_pos, lpage, page_ofs, vol->cluster_size);
+ 		unlock_page(lpage);
+ 		put_page(lpage);
+ 		cb_pos += vol->cluster_size;
+@@ -683,14 +689,7 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		for (; cur_page < cb_max_page; cur_page++) {
+ 			page = pages[cur_page];
+ 			if (page) {
+-				if (likely(!cur_ofs))
+-					clear_page(page_address(page));
+-				else
+-					memset(page_address(page) + cur_ofs, 0,
+-							PAGE_SIZE -
+-							cur_ofs);
+-				flush_dcache_page(page);
+-				kunmap_local(page_address(page));
++				memzero_page(page, cur_ofs, PAGE_SIZE - cur_ofs);
+ 				SetPageUptodate(page);
+ 				unlock_page(page);
+ 				if (cur_page == xpage)
+@@ -708,8 +707,7 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		if (cb_max_ofs && cb_pos < cb_end) {
+ 			page = pages[cur_page];
+ 			if (page)
+-				memset(page_address(page) + cur_ofs, 0,
+-						cb_max_ofs - cur_ofs);
++				memzero_page(page, cur_ofs, cb_max_ofs - cur_ofs);
+ 			/*
+ 			 * No need to update cb_pos at this stage:
+ 			 *	cb_pos += cb_max_ofs - cur_ofs;
+@@ -730,7 +728,7 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		for (; cur_page < cb_max_page; cur_page++) {
+ 			page = pages[cur_page];
+ 			if (page)
+-				memcpy(page_address(page) + cur_ofs, cb_pos,
++				memcpy_to_page(page, cur_ofs, cb_pos,
+ 						PAGE_SIZE - cur_ofs);
+ 			cb_pos += PAGE_SIZE - cur_ofs;
+ 			cur_ofs = 0;
+@@ -741,7 +739,7 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		if (cb_max_ofs && cb_pos < cb_end) {
+ 			page = pages[cur_page];
+ 			if (page)
+-				memcpy(page_address(page) + cur_ofs, cb_pos,
++				memcpy_to_page(page, cur_ofs, cb_pos,
+ 						cb_max_ofs - cur_ofs);
+ 			cb_pos += cb_max_ofs - cur_ofs;
+ 			cur_ofs = cb_max_ofs;
+@@ -758,7 +756,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 				 */
+ 				handle_bounds_compressed_page(page, i_size,
+ 						initialized_size);
+-				kunmap_local(page_address(page));
+ 				SetPageUptodate(page);
+ 				unlock_page(page);
+ 				if (cur2_page == xpage)
+@@ -794,7 +791,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 				page = pages[prev_cur_page];
+ 				if (page) {
+ 					flush_dcache_page(page);
+-					kunmap_local(page_address(page));
+ 					unlock_page(page);
+ 					if (prev_cur_page != xpage)
+ 						put_page(page);
+@@ -818,7 +814,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 				"Still have pages left! Terminating them with extreme prejudice.  Inode 0x%llx, page index 0x%lx.",
+ 				ni->mft_no, folio->index);
+ 			flush_dcache_folio(folio);
+-			kunmap_local(page_address(page));
+ 			folio_unlock(folio);
+ 			if (cur_page != xpage)
+ 				folio_put(folio);
+@@ -856,7 +851,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 		page = pages[i];
+ 		if (page) {
+ 			flush_dcache_page(page);
+-			kunmap_local(page_address(page));
+ 			unlock_page(page);
+ 			if (i != xpage)
+ 				put_page(page);
+@@ -1308,7 +1302,6 @@ static int ntfs_write_cb(struct ntfs_inode *ni, loff_t pos, struct page **pages,
+ 		}
+ 		pages_disk[i] = pg;
+ 		lock_page(pg);
+-		kmap_local_page(pg);
  	}
-+	if (ea_info_qsize)
-+		memcpy(new_ea_buf, ea_buf, ea_info_qsize);
-+	kvfree(ea_buf);
-+	ea_buf = new_ea_buf;
-+	p_ea = (struct ea_attr *)(ea_buf + ea_info_qsize);
  
- 	/*
- 	 * EA and REPARSE_POINT compatibility not checked any more,
- 	 * required by Windows 10, but having both may lead to
- 	 * problems with earlier versions.
- 	 */
--	p_ea = (struct ea_attr *)ea_buf;
- 	memcpy(p_ea->ea_name, name, name_len);
- 	p_ea->ea_name_length = name_len;
- 	p_ea->ea_name[name_len] = 0;
-@@ -344,13 +370,13 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 	 * no EA or EA_INFORMATION : add them
- 	 */
- 	if (!ntfs_attr_exist(ni, AT_EA, AT_UNNAMED, 0)) {
--		err = ntfs_attr_add(ni, AT_EA, AT_UNNAMED, 0, (char *)p_ea,
--				new_ea_size);
-+		err = ntfs_attr_add(ni, AT_EA, AT_UNNAMED, 0, ea_buf,
-+				ea_info_qsize + new_ea_size);
- 		if (err)
- 			goto out;
- 	} else {
--		err = ntfs_write_ea(ni, AT_EA, (char *)p_ea, ea_info_qsize,
--				new_ea_size, false);
-+		err = ntfs_write_ea(ni, AT_EA, ea_buf, 0,
-+				ea_info_qsize + new_ea_size, true);
- 		if (err)
- 			goto out;
- 	}
-@@ -370,6 +396,7 @@ static int ntfs_set_ea(struct inode *inode, const char *name, size_t name_len,
- 		NInoClearHasEA(ni);
- 
- 	kvfree(ea_buf);
-+	kvfree(old_ea_buf);
- 	kvfree(p_ea_info);
- 
- 	return err;
+ 	outbuf = vmap(pages_disk, pages_count, VM_MAP, PAGE_KERNEL);
+@@ -1443,7 +1436,6 @@ static int ntfs_write_cb(struct ntfs_inode *ni, loff_t pos, struct page **pages,
+ 	for (i = 0; i < pages_count; i++) {
+ 		pg = pages_disk[i];
+ 		if (pg) {
+-			kunmap_local(page_address(pg));
+ 			unlock_page(pg);
+ 			put_page(pg);
+ 		}
 -- 
 2.25.1
 
