@@ -1,186 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0417B3019D8;
-	Thu, 16 Jul 2026 15:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA903FDBEA
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 15:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784216308; cv=none; b=JZ6mC2DDGhy77p1XPHAVZc3a0CEt58LLazaM3V950IT0wOT5k9AKZs2Sci50ODOjSmyHmZsOh7GhirrOTAoiLeUmDsEpKC57v4WDo+N4E0mhP1rC9p29+nV+4xisPh+EKQw000zPdTmb5njpdDpib4tfX3jFW9JMS7FoCmo3RHw=
+	t=1784217495; cv=none; b=aVAnFblkDUKYrB4+1l1mRstfBwsdkPFsHtH7cLG5gzRJIlCXqzm6K9Tqyjf8TSUpZtTotMHw5sZi/fjeXOh9/yvCRhbjsNefK/3/YTiMDAnTf9E+qzbex/8387YkGuFH2On+FSGECWcPFW/0mHZwgG2Y1ik23GFU00cpJIvFAA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784216308; c=relaxed/simple;
-	bh=PrG/RExUE78E0xJRyBd+tBlqJAO9abNglW7oVefXQc0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iR7X3U95ZA0qMSRUv9nTjKsSC0eUe3K+rt+5qk96TV9HwBjpGEKZGPLRxBUNwIYQaWnCnTzlGAlPUxladeoFGwZnD/taFYF2kJPjwRrcI3P75JZwRur274ClLt/c2hld2fYIyT7w3z5dV1ZUmyCCmfMERbEtQ4yckE/IX05+gkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lR0erwDg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784217495; c=relaxed/simple;
+	bh=McYMkfK0155RBe/5czA8TEiID0yUFtikbTvaF0Y4F9A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LJKvwM9X464mh55meGYnC4zXyp+baeikeE2hpFluNbvNe/Lb9cm7nAvq8R29QwzJ3w0pF++g9NgVmzJsiwSBbjp2Ic1sMAadsVssPrCFZv1WBK6EamexRR422v7epM+j0X7W/peDDEljeRdFnBGXo0VMCPnpG2fOnwAIvEFlI2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWOPc18D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lR0erwDg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3469C1F000E9;
-	Thu, 16 Jul 2026 15:38:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWOPc18D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C95B1F0155D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 15:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784216306;
-	bh=a26FW5P9+YzyWC6sUoMal5XZ31S+uAd68vV2bOiyX1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lR0erwDgzrfV/VW+jOFdV1LMajh/Lxr9kj6PHtGJ2ocf8UYF7Iiev7SR8A9tEWCgQ
-	 sGQtqYw2ORhpBucNtP8LdQbJ2LzOyaiGIT6GaPRxahcGCnJYvfk2zIa2QDQdELHN+q
-	 LDPB97EOuYOxIXGpx3SApeYztROlPB3s165Mf1Ebdkc8MxtMhYw0Qg7ZigGsuTDNt+
-	 4MaV3BwpOvKoQ8ZSXNh6PVvDFHOyQvSa42Au5ELtabRp418yDLMNKvbV2FwXbBCEHB
-	 pEHEJMklR5yaZnxH7xQJ0j+dYjktwFbJkpFZQ2YSOIlpfPGyMlcDbq6rW8IO8Ibksx
-	 J7LMo5ew01Djw==
-Date: Thu, 16 Jul 2026 16:38:12 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/3] mm/mseal: limit scope of mseal address zero to
- address zero
-Message-ID: <alj1Cyt4JvbVM7tB@lucifer>
-References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
- <20260716-mseal-fixups-v1-2-3a9609bf041b@kernel.org>
- <aljyYdgzRZW1kIhs@pedro-suse.lan>
+	s=k20260515; t=1784217492;
+	bh=g6oSqoiMEa7OzZXyjPnpquDQDeAESj15pX4ZUB9li/c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=OWOPc18DUN5kQHrt+xLBtV2PjEZdVi69MM0+NpTl/NYFqRkmVq7sgKSbBUJyppKyr
+	 tktDa2H5OLMRJY9fgw77kBkND0XQCSxoVGfsUWBqMLgr3olYo5q705QCWsC84Kz7lG
+	 bUZsYA2uTK72J/d8YIx26+d5PnOEou2YboEW0P33zbpj/HtSFLhu8xtc2dUpHX6AWj
+	 QRXBynl87zcZl/2F5t17zJM4hrp9eoKy11agItqqqz6js/nESyrVRp9WLk51YXvVQz
+	 GOtXvB96ERTiQKX47jzJjE9WW0kC3MFhVgLi3EWtQgacnVqrN4SdqLaPz4E4GRIxcN
+	 sHtsksHvmzyvQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b28ce91111so474116e87.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 08:58:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrcQjGI235epLZL0BCGKbF2vtOLYORWEcC9w4W/t7FZxdumTPySWwSCXjZAXTfNmOgSPKxhcuXGiMWpRmTP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx95FI+2z7ayAMGQUtIvtJw5mEFBh0P3xAJ5JEY2ZrAI47asjvb
+	Sn+2m7PHabSGaWXPIaiYy7TB948jEiD66kvh1m/LJ8SblH1faZ0nffm6t1EotyfQjSPSygACRMA
+	4ZlZwVrTMHMt7cNKWj2BilVj2bV5sC3yigm+OHVJ/
+X-Received: by 2002:a05:6512:64e4:b0:5b0:1b78:497a with SMTP id
+ 2adb3069b0e04-5b15d7b2ccbmr1132556e87.46.1784217490875; Thu, 16 Jul 2026
+ 08:58:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aljyYdgzRZW1kIhs@pedro-suse.lan>
+References: <cover.1784204592.git.me@linux.beauty> <538e494dd8fcc677da24ec985c6e90dde554e7f3.1784204592.git.me@linux.beauty>
+In-Reply-To: <538e494dd8fcc677da24ec985c6e90dde554e7f3.1784204592.git.me@linux.beauty>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Thu, 16 Jul 2026 08:57:58 -0700
+X-Gmail-Original-Message-ID: <CALCETrU2sCf_Ab2oDcUuJV53mhaDHTtf7QNqPJuFxV_ESHkbtg@mail.gmail.com>
+X-Gm-Features: AUfX_mxAk_l8G-Iv8v_7CV1_wrfRphfDpCG9qyDjwBEY1AgFD3q_hB2zypmmUZY
+Message-ID: <CALCETrU2sCf_Ab2oDcUuJV53mhaDHTtf7QNqPJuFxV_ESHkbtg@mail.gmail.com>
+Subject: Re: [RFC PATCH 12/24] fork: let kernel callers create embryonic tasks
+To: Li Chen <me@linux.beauty>
+Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Gabriel Krisman Bertazi <krisman@kernel.org>, Josh Triplett <josh@joshtriplett.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Andy Lutomirski <luto@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Oleg Nesterov <oleg@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2026 at 04:06:20PM +0100, Pedro Falcato wrote:
-> On Thu, Jul 16, 2026 at 02:43:10PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > Commit 44f65d900698 ("binfmt_elf: mseal address zero") unconditionally
-> > provided do_mseal() to any internal kernel caller in order to address a
-> > corner case slated for possible removal.
-> >
-> > It also incorrectly attempts to mseal() without checking to see whether the
-> > mapping even succeeded.
-> >
-> > Restrict the scope to the corner case by providing mseal_mmap_page_zero()
-> > which asserts the MMAP_PAGE_ZERO personality.
-> >
-> > Avoid unnecessary checks in the start, end range by abstracting the actual
-> > mseal()'ing to mseal() and have mseal_mmap_page_zero() call that instead.
-> >
-> > Only try to seal the VMA if we mapped the VMA.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  fs/binfmt_elf.c    |  7 ++-----
-> >  include/linux/mm.h |  8 ++------
-> >  mm/mseal.c         | 48 +++++++++++++++++++++++++++++++++++-------------
-> >  3 files changed, 39 insertions(+), 24 deletions(-)
-> >
-> > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> > index 16a56b6b3f6c..e3131a311995 100644
-> > --- a/fs/binfmt_elf.c
-> > +++ b/fs/binfmt_elf.c
-> > @@ -1353,11 +1353,8 @@ static int load_elf_binary(struct linux_binprm *bprm)
-> >  		   emulate the SVr4 behavior. Sigh. */
-> >  		error = vm_mmap(NULL, 0, PAGE_SIZE, PROT_READ | PROT_EXEC,
-> >  				MAP_FIXED | MAP_PRIVATE, 0);
+On Thu, Jul 16, 2026 at 8:52=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
 >
-> I think pedantically load_elf_binary() should error out on mmap error, no?
-> Not that this personality is used in the big 2026 however...
-
-I'm not sure I implied otherwise?
-
-But yes I'm aware, the point is to not try to mseal() an unmapped range knowingly.
-
-The fact we 'get away with it' now is irrelevant.
-
-I can update the commit message if a respin is necessary to spell this out (I
-thought it was obvious).
-
+> A kernel-created task can become visible before it has installed a new
+> executable image or a valid userspace register frame. Exposing such a tas=
+k
+> through ptrace can disclose kernel setup state.
 >
-> > -
-> > -		retval = do_mseal(0, PAGE_SIZE, 0);
-> > -		if (retval)
-> > -			pr_warn_ratelimited("pid=%d, couldn't seal address 0, ret=%d.\n",
-> > -					    task_pid_nr(current), retval);
-> > +		if (!error)
-> > +			mseal_mmap_page_zero();
-> >  	}
-> >
-> >  	regs = current_pt_regs();
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 550fb92957d1..87feaa5a2b78 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -5291,13 +5291,9 @@ int reserve_mem_find_by_name(const char *name, phys_addr_t *start, phys_addr_t *
-> >  int reserve_mem_release_by_name(const char *name);
-> >
-> >  #ifdef CONFIG_64BIT
-> > -int do_mseal(unsigned long start, size_t len_in, unsigned long flags);
-> > +void mseal_mmap_page_zero(void);
-> >  #else
-> > -static inline int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
-> > -{
-> > -	/* noop on 32 bit */
-> > -	return 0;
-> > -}
-> > +static inline void mseal_mmap_page_zero(void) {}
-> >  #endif
-> >
-> >  /*
-> > diff --git a/mm/mseal.c b/mm/mseal.c
-> > index 207fea89c61e..5930551d84f2 100644
-> > --- a/mm/mseal.c
-> > +++ b/mm/mseal.c
-> > @@ -32,7 +32,7 @@ static bool range_contains_unmapped(unsigned long start, unsigned long end)
-> >  	return prev_end < end;
-> >  }
-> >
-> > -static int mseal_apply(unsigned long start, unsigned long end)
-> > +static int __mseal(unsigned long start, unsigned long end)
+> Add a task-local embryonic flag and an internal clone argument for caller=
+s
+> that need this lifecycle. Reject ptrace access until the creator clears t=
+he
+> flag. Clear it with release ordering and observe it with acquire ordering=
+.
+> This orders visibility of the completed exec state with the transition.
 >
-> Why? I think the previous name is perfectly cromulent.
-
-Because this is what actually mseal()'s, the _apply is not really useful.
-
-The __ is because it's unlocked.
-
-The point here is to eliminate useless indirection, so calling the function that
-mseals, 'mseal' seems sensible.
-
+> Existing fork, vfork, clone, and kernel-thread callers leave the argument
+> unset and retain their current behavior.
 >
-> >  {
-> >  	struct vm_area_struct *vma, *prev;
-> >  	VMA_ITERATOR(vmi, current->mm, start);
-> > @@ -66,6 +66,38 @@ static int mseal_apply(unsigned long start, unsigned long end)
-> >  	return 0;
-> >  }
-> >
-> > +static int mseal(unsigned long start, unsigned long end)
->
-> I don't like that you go start - end on a function called "mseal". The actual
-> system call goes start - len. It just looks confusing :) So either rename it
-> to mseal_range(), or make it take a start, length pair.
 
-I'm not sure I really understand the confusion (I suppose you're equally
-confused by the lack of flags parameter?),
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -56,6 +56,8 @@ bool ptracer_access_allowed(struct task_struct *tsk)
+>         guard(rcu)();
+>         if (ptrace_parent(tsk) !=3D current)
+>                 return false;
+> +       if (task_is_embryonic_exec(tsk))
+> +               return false;
+>         es =3D task_exec_state_rcu(tsk);
+>         return READ_ONCE(es->dumpable) =3D=3D TASK_DUMPABLE_OWNER ||
+>                ptracer_capable(tsk, es->user_ns);
+> @@ -312,6 +314,8 @@ static int __ptrace_may_access(struct task_struct *ta=
+sk, unsigned int mode)
+>                 WARN(1, "denying ptrace access check without PTRACE_MODE_=
+*CREDS\n");
+>                 return -EPERM;
+>         }
+> +       if (task_is_embryonic_exec(task))
+> +               return -EPERM;
 
-I find it silly that we avoid function names because a system call of the same
-name exists.
+Would it be better to use a different error code?  -ECONNREFUSED?
+After all, this isn't a permission failure per se.
 
-But I guess I can rename it to mseal_range() since I don't want the series
-blocked on silly naming issues.
+There's a not-locally-obvious gotcha here: reading other process
+attributes prior to calling task_is_embryonic_exec may result in
+(security-relevant!) data races.  This should at least be documented
+-- it's critical to check task_is_embryonic_exec *before* trying to
+read credentials.  Also, I think /proc and many pidfd APIs have the
+same issue.
 
-The reason for passing end (which was already the case) is that the syscall
-already calculates it and we need it to do the actual mseal.
-
->
-> The overall spirit of the change LGTM however.
-
-OK.
-
->
-> --
-> Pedro
-
-Thanks, Lorenzo
+--Andy
