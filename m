@@ -1,183 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E2C425866;
-	Thu, 16 Jul 2026 13:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1CE3F7A83
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 13:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784209423; cv=none; b=rwOprZ8kVPinWLY5PbBYyaxARSY9eTj9Kuc923wUnezdE0KuCanBGq/Lu+b/Mn6iXwg0AVq6lpMqXRjq6uFAgeM4DHXYeFepXvD+oe28l9wfH3AMiztsz7QWkbh2fcOhWBvwHcUrteAyBLmoFbZeG/wgO2iqvDTwMSuiIBsEjbg=
+	t=1784209648; cv=none; b=q0PFFvp6f9TX0V0i8VxmukffzfKv4mW45hhoA9VnCRbQwTRy/7oku9lPw5CGljmETZ0r5plEhkLxTJ/FSgUIzAaAwT12bnsdT2k6mQ7KL2309H8nt+B/3st95wKdNDpR3VWfKBqs+jDzv8K94Y9gK2VQs6ELfcLX4vArSUf2AH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784209423; c=relaxed/simple;
-	bh=3XEOElWo0Iax9roa0jK1sDNI5MbeHwqjApf5pqY6yz0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=icjQPmraUAfBA0GqSluvODW3WA8gnwgjvDyHZ40i2N3qpOJsDDS9kIuJF0q8pIPTuE76yaex8wTDmuJairbb5P1dFHpj70ZNujMs2k3NKvPCX7hE+mIAYJ54+U18Lq5Cv3Nghc6pWxiqVjAnFoQP9sUZ2xUseu74tGLRpNd/i+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ddRFPeB/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784209648; c=relaxed/simple;
+	bh=iNgALBorITFTncS+ZX8fvjq2CrgEinLKgaJoSxICT24=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XiA6cxskmBFzbrPc/Xwn8Q+6Re0H2xhBwX1w6shm/ZoqNT3p4ZQWFd8A86h1iZwGi8QQ4udShq1MYUXtJLMpn4twd8/kesLeyyS4WBe2z3gQVYTNjtAe9uXmn/GnpOzMLQiWIr34xakrfMFDseydfMA/h3sJzrEzUYW0cQcGLag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KyYLc4o7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNuLru5e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KyYLc4o7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNuLru5e; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ddRFPeB/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11B41F00A3A;
-	Thu, 16 Jul 2026 13:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784209418;
-	bh=oWUsUTsHTYC4oF1+U1zCOlOpJa+o/HcjMqULEm1jNKI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ddRFPeB/dy4N9t+1VV61tUOy6RSwcG9ODLZw+J8v/DsHFuvLSCm+SEyltiVJaOJNq
-	 zfJEikRpZms7kR5FsxnW/wY68XiDM/HWCi7PgE+3mtkbuQC7zlsu+x9UM1MxQo71pB
-	 L7i5hBbUGDOVT7oE57f976DdElPde+afbcy8vQ5PFOO+I32bG9ryUvKL4s1FGTIiKn
-	 tI2Phf7XpCYEruV/Pcz11uYKUlbxmiCmMo9YcJdQwQ8bbrjgLRkkB+5hVvrV9f0xot
-	 zjF/I+b9w6nqb3R9uLXQHPiwG9dOe6iwPzAHQxhwLMWUlVAwdKTyXNhRj3DgrjEkUU
-	 VW1D68HV5+d+g==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Thu, 16 Jul 2026 14:43:11 +0100
-Subject: [PATCH 3/3] mm/mseal: remove further superfluous comments,
- do_mseal()
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KyYLc4o7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNuLru5e";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KyYLc4o7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNuLru5e"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 525D578997;
+	Thu, 16 Jul 2026 13:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784209641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
+	b=KyYLc4o7omQEAIQQVvpJVuI5KSd1kclspaNWbAInWqUOUGtM6plhyC+jQHq5zsxQ1yVkMe
+	5wxQm7hobrz9RD9+BmWaHOhru99i4nyOSkm3jpSYxJUU6wnksiaZVqvqCJp0SCGOrR5q4m
+	tUPtN6eX8Cb/O6vYibPeL3n1i2KcgB0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784209641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
+	b=SNuLru5eiey3TThUMGcQ6MtjBHzduOctWbE/+NyjYuxbHEW5SsF74nxlSvFQYHwrM65NlJ
+	s5FTeDKKPKf1L4Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KyYLc4o7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SNuLru5e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784209641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
+	b=KyYLc4o7omQEAIQQVvpJVuI5KSd1kclspaNWbAInWqUOUGtM6plhyC+jQHq5zsxQ1yVkMe
+	5wxQm7hobrz9RD9+BmWaHOhru99i4nyOSkm3jpSYxJUU6wnksiaZVqvqCJp0SCGOrR5q4m
+	tUPtN6eX8Cb/O6vYibPeL3n1i2KcgB0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784209641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fDStzPX9UlI5VoVP07ifYDhokG7ohtM2r0GWQRfdxFI=;
+	b=SNuLru5eiey3TThUMGcQ6MtjBHzduOctWbE/+NyjYuxbHEW5SsF74nxlSvFQYHwrM65NlJ
+	s5FTeDKKPKf1L4Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20D67779AD;
+	Thu, 16 Jul 2026 13:47:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dBekBungWGprGQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Thu, 16 Jul 2026 13:47:21 +0000
+Date: Thu, 16 Jul 2026 23:47:18 +1000
+From: David Disseldorp <ddiss@suse.de>
+To: longlong yan <yanlonglong@kylinos.cn>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] initramfs_test: add NULL check for kmalloc in
+ initramfs_test_fname_overrun
+Message-ID: <20260716234718.31479e5d.ddiss@suse.de>
+In-Reply-To: <20260715020820.425-1-yanlonglong@kylinos.cn>
+References: <20260715020820.425-1-yanlonglong@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260716-mseal-fixups-v1-3-3a9609bf041b@kernel.org>
-References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
-In-Reply-To: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4242; i=ljs@kernel.org;
- h=from:subject:message-id; bh=3XEOElWo0Iax9roa0jK1sDNI5MbeHwqjApf5pqY6yz0=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLIi7n+adExAyarM7UFw98yGhv+zX/n8V1ryQedU13Xv7
- fJWT64WdZSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiU8UYGTZdV2ExVnl8xdrM
- TzDynwdjRGP87vUdSg/3zqvgrD3C7cXwP/rh4aR5i1REq12Cd/AFBBhurriRJ3MixZtjhbT/4XU
- JnAA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 525D578997
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,kylinos.cn:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-There's no need to abstract do_mseal() any longer so put the system call
-implementation in the system call declaration.
+Hi,
 
-The comment around do_mseal() is strangely formatted, overly long and adds
-a lot of superfluous information that the code already provides, so boil it
-down to the essentials.
+On Wed, 15 Jul 2026 10:08:19 +0800, longlong yan wrote:
 
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- mm/mseal.c | 74 ++++++++++++++------------------------------------------------
- 1 file changed, 16 insertions(+), 58 deletions(-)
+> Add missing NULL check for kmalloc return value in
+> initramfs_test_fname_overrun(). Without this check, if kmalloc fails,
+> the subsequent memset() will dereference a NULL pointer, causing a
+> kernel crash.
+> 
+> Fixes: 83c0b27266ec ("initramfs_test: kunit tests for initramfs unpacking")
+> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+> ---
+>  init/initramfs_test.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/init/initramfs_test.c b/init/initramfs_test.c
+> index 1fc990a66563..c7aab7e5383e 100644
+> --- a/init/initramfs_test.c
+> +++ b/init/initramfs_test.c
+> @@ -189,6 +189,9 @@ static void __init initramfs_test_fname_overrun(struct kunit *test)
+>  	 * are already available (e.g. no compression).
+>  	 */
+>  	cpio_srcbuf = kmalloc(CPIO_HDRLEN + PATH_MAX + 3, GFP_KERNEL);
+> +	if (!cpio_srcbuf)
+> +		return;
+> +
+>  	memset(cpio_srcbuf, 'B', CPIO_HDRLEN + PATH_MAX + 3);
 
-diff --git a/mm/mseal.c b/mm/mseal.c
-index 5930551d84f2..d01ab35d3f0f 100644
---- a/mm/mseal.c
-+++ b/mm/mseal.c
-@@ -99,60 +99,24 @@ void mseal_mmap_page_zero(void)
- }
- 
- /*
-- * mseal(2) seals the VM's meta data from
-- * selected syscalls.
-+ * Seal VMAs in the specified input range to prevent an attacker replacing what
-+ * is mapped in the range with something else.
-  *
-- * addr/len: VM address range.
-+ * Disallows:
-+ * - VMA unmapping, remapping or shrinking.
-+ * - Overwriting the VMA with another one via mmap(), mremap() or similar.
-+ * - Alteration of properties via mprotect()/pkey_mprotect().
-+ * - Destructive madvise() behaviours (like MADV_DONTNEED) on anonymous read-only
-+ *   ranges.
-  *
-- *  The address range by addr/len must meet:
-- *   start (addr) must be in a valid VMA.
-- *   end (addr + len) must be in a valid VMA.
-- *   no gap (unallocated memory) between start and end.
-- *   start (addr) must be page aligned.
-+ * Since unmapped ranges can be mapped at any time, the input range must span
-+ * mapped ranges only.
-  *
-- *  len: len will be page aligned implicitly.
-- *
-- *   Below VMA operations are blocked after sealing.
-- *   1> Unmapping, moving to another location, and shrinking
-- *	the size, via munmap() and mremap(), can leave an empty
-- *	space, therefore can be replaced with a VMA with a new
-- *	set of attributes.
-- *   2> Moving or expanding a different vma into the current location,
-- *	via mremap().
-- *   3> Modifying a VMA via mmap(MAP_FIXED).
-- *   4> Size expansion, via mremap(), does not appear to pose any
-- *	specific risks to sealed VMAs. It is included anyway because
-- *	the use case is unclear. In any case, users can rely on
-- *	merging to expand a sealed VMA.
-- *   5> mprotect and pkey_mprotect.
-- *   6> Some destructive madvice() behavior (e.g. MADV_DONTNEED)
-- *      for anonymous memory, when users don't have write permission to the
-- *	memory. Those behaviors can alter region contents by discarding pages,
-- *	effectively a memset(0) for anonymous memory.
-- *
-- *  flags: reserved.
-- *
-- * return values:
-- *  zero: success.
-- *  -EINVAL:
-- *   invalid input flags.
-- *   start address is not page aligned.
-- *   Address range (start + len) overflow.
-- *  -ENOMEM:
-- *   addr is not a valid address (not allocated).
-- *   end (start + len) is not a valid address.
-- *   a gap (unallocated memory) between start and end.
-- *  -EPERM:
-- *  - In 32 bit architecture, sealing is not supported.
-- * Note:
-- *  user can call mseal(2) multiple times, adding a seal on an
-- *  already sealed memory is a no-action (no error).
-- *
-- *  unseal() is not supported.
-+ * The flags parameter is currently reserved.
-  */
--static int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
-+SYSCALL_DEFINE3(mseal, unsigned long, start, size_t, len, unsigned long, flags)
- {
--	size_t len;
-+	size_t len_aligned;
- 	unsigned long end;
- 
- 	/* Verify flags not set. */
-@@ -163,12 +127,12 @@ static int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
- 	if (!PAGE_ALIGNED(start))
- 		return -EINVAL;
- 
--	len = PAGE_ALIGN(len_in);
-+	len_aligned = PAGE_ALIGN(len);
- 	/* Check to see whether len was rounded up from small -ve to zero. */
--	if (len_in && !len)
-+	if (len && !len_aligned)
- 		return -EINVAL;
- 
--	end = start + len;
-+	end = start + len_aligned;
- 	if (end < start)
- 		return -EINVAL;
- 
-@@ -177,9 +141,3 @@ static int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
- 
- 	return mseal(start, end);
- }
--
--SYSCALL_DEFINE3(mseal, unsigned long, start, size_t, len, unsigned long,
--		flags)
--{
--	return do_mseal(start, len, flags);
--}
-
--- 
-2.55.0
-
+Panicking on kunit test alloc failure is reasonable behaviour IMO;
+the Fixes tag isn't appropriate here. Also, your patch is only
+handling one of the many allocations. KUNIT_ASSERT_NOT_NULL() would be
+a better option if we wanted to explictly catch these failures.
