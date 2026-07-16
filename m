@@ -1,52 +1,50 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A3C3876DE;
-	Thu, 16 Jul 2026 05:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE7E386564;
+	Thu, 16 Jul 2026 05:28:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784179685; cv=pass; b=cgqvvJuuYVLsvyEIbpVt3v4viXy/I9o4fnbv0cpeR3kOQQse3XqUrM7HAk9Z/dHxhTPT9X7aFkLXz/Jqi43APRIuZJkAvCxmwV/XbWhWgTjIIfI1QfRtyHWttlA6XPGmMBvQxNW5FaTY1rohdqyt/KcFYikVAXonKHQmeaooUcE=
+	t=1784179734; cv=pass; b=uCnXpNCPr5U3dZX7jlJkVL1EO5BCzJ0S5AuirCbcKEfWABrK2USmeH6sZ2cHXaDOPIkXIGOdiTK1lNEPDek3o3/fY8i3yAlWPh3mGB+t8ZrILLx94B9XF6JsSAUg635KAlOUpTyPEMw8UpxpndgzFKXajp194s7IUKmp6aNeMG0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784179685; c=relaxed/simple;
-	bh=e0+fR+NPwVaC4H/KOewx9kZPVM8BUDk8Cel6q81uq8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NHzMIHxQphErwHmoGS5MtON0idHsZ9XSS0poyTtNh8Sjn3MBFpfIAnFm6j++sSF5Zu3HfnQkNb+JxB1mNj5j9AXQk5qTB9ySCHBZ3HANv7+XSf/IlJDJJJUlAjN01TGYIH6+sSCYpMWLMCKR9D3WexijsSNrm/Ewz/zI3f71514=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=sf2IorRC; arc=pass smtp.client-ip=136.143.188.15
+	s=arc-20240116; t=1784179734; c=relaxed/simple;
+	bh=K9+QllwTgbWX5Obasw+93yzTi5u0yo/i2M6LMDSVklo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YtTgkM0rptNMvWt6JguBuwGDKUeuMnOhz+BwXpscgNg32Ra4ijvAwgTqo1cYyy8T1ZTt0PjDGPQXCeBKtM3wWLhif8YU2k2VhvluiNZWgCsQOTa3MaC/qfwepxiNahW9aM2+LG0IhhxBOmD1T8oviXd/xW+U4iYlZPkahVG6wkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=CoUZ6K7P; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="sf2IorRC"
-ARC-Seal: i=1; a=rsa-sha256; t=1784179666; cv=none; 
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="CoUZ6K7P"
+ARC-Seal: i=1; a=rsa-sha256; t=1784179722; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=fbPqJFaJ+ft6BqVPaMq6wLPL+/GMvbVE4Z7qG+/zfzDZUy3hhxbdsAkW+nabXmWp3yhrHB9NQFdgf92lJQw1vaeJULXskSYKxF6t0XgCh1aLwR2E9N3w5DcuKm9TtFsPRmfaQoDqFp+ie0yT8MP6gc/6SzI/zpyr/sQk+7Heoyk=
+	b=KaDTy0Kdyc+cz2uPX5R+k0sSVwS7ithLSVjrQlZJd4xOmOvgU6YyWD+TC+oAbcPqScN4OMG277XsD9BB4POxcHKavabZCV9IKwELkbnJ5FgjnGI9Eb1Mi+Vpkh43r1elAOqD1UJoNmr4bbuLn2bQP7oSPAJhxOtlVFN4nqkWBr4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784179666; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ppnREthApipiY+d6EwEoXxvC9z+jfkcK5oFpaQgQY1Y=; 
-	b=fodtc5etp5EfAW87q1tDHd6nFsKKnBWaaS/wOqpodbPFECUSEqszG28r4pCXnyyzVXBs1s7CgA8yh4YCaanESLL5lxoNRKydeCR9ROVDq8GxTp3fGLI/yRyI0jP21QiYqnVpCwGF7SPuXtbhZdyxHo57K16tNnJzJmh25EkWph8=
+	t=1784179722; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hMujjQTFTle9Tq1FpSuf19AJw+ox8FR0cPBoUF6LrsE=; 
+	b=Lzf8i1A5nZrR5r/Q9a1nOJHdbR5k837WFymmkHyl768S9DRzMWTAhR2NzDV4yDKw974cDkHSVYr5dEkNEY0o+xpglP9zi0cFBHZrVVro5A/0u2HM1s0CUyB+kk80pswUtbBnlVKTOhuR5IiNbWEq7ksO25Oq2uZy5R/oAUVA5NE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=linux.beauty;
 	spf=pass  smtp.mailfrom=me@linux.beauty;
 	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784179665;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784179722;
 	s=zmail; d=linux.beauty; i=me@linux.beauty;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ppnREthApipiY+d6EwEoXxvC9z+jfkcK5oFpaQgQY1Y=;
-	b=sf2IorRC5fE85diQKpNQGDsbhx0SfN5IQ8loUuVRXMgaFeMZf4sco+StU2Gx3wvm
-	KErZjLWWcApM+dLKrzvege7SkIGI/jlMUX0no8/GCpqncTO2Niu6MwDJ/SNC2VLz/I4
-	JFc8u981R1zqI6V8pIY82Q7S5uh5IQ1n5cZsDOIw=
-Received: by mx.zohomail.com with SMTPS id 1784179662386997.6733672438661;
-	Wed, 15 Jul 2026 22:27:42 -0700 (PDT)
+	bh=hMujjQTFTle9Tq1FpSuf19AJw+ox8FR0cPBoUF6LrsE=;
+	b=CoUZ6K7Ph6VbJgVCVft0QQ6DwWgTLlfy4a36CoKHYR7m5UGwAO9TBJmkN/BGXkLA
+	Tn4IwUZngJGCmgJDPpGhs19FlaiGie63MTGMy+ZqUj1QcE5m+1XcFxlccxY8dpZkAtx
+	iuuS9clci2hmRjiwQTFIbIqx2QaKQ1LdJ26nuzcY=
+Received: by mx.zohomail.com with SMTPS id 1784179719108452.62541079664584;
+	Wed, 15 Jul 2026 22:28:39 -0700 (PDT)
 From: Li Chen <me@linux.beauty>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Jan Kara <jack@suse.cz>,
-	Shuah Khan <shuah@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	Li Chen <me@linux.beauty>
-Subject: [PATCH] pidfs: preserve thread pidfds reopened by file handle
-Date: Thu, 16 Jul 2026 13:27:22 +0800
-Message-ID: <20260716052726.1032092-1-me@linux.beauty>
+Subject: [PATCH] pidfs: handle FS_IOC32_GETVERSION in compat ioctl
+Date: Thu, 16 Jul 2026 13:28:20 +0800
+Message-ID: <20260716052822.1034228-1-me@linux.beauty>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -57,55 +55,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-PIDFD_THREAD shares O_EXCL. do_dentry_open() clears O_EXCL after
-pidfs_export_open() validates the flags, so open_by_handle_at()
-silently turns a thread pidfd into a process pidfd.
+FS_IOC32_GETVERSION has a distinct compat command encoding. Passing it
+through compat_ptr_ioctl() leaves pidfd_ioctl() unable to recognize the
+otherwise architecture-independent inode generation query.
 
-Restore PIDFD_THREAD on the opened file, matching pidfs_alloc_file(),
-and cover the restored flag with F_GETFL.
+Translate the compat command to FS_IOC_GETVERSION before dispatching it
+through the native pidfd ioctl implementation.
 
 Signed-off-by: Li Chen <me@linux.beauty>
 ---
- fs/pidfs.c                                             | 8 +++++++-
- tools/testing/selftests/pidfd/pidfd_file_handle_test.c | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ fs/pidfs.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/fs/pidfs.c b/fs/pidfs.c
-index aaa609ddab044..c20ffd747ff51 100644
+index c20ffd747ff51..c55f46c32801d 100644
 --- a/fs/pidfs.c
 +++ b/fs/pidfs.c
-@@ -939,12 +939,18 @@ static int pidfs_export_permission(struct handle_to_path_ctx *ctx,
- 
- static struct file *pidfs_export_open(const struct path *path, unsigned int oflags)
- {
-+	struct file *file;
-+
- 	/*
- 	 * Clear O_LARGEFILE as open_by_handle_at() forces it and raise
- 	 * O_RDWR as pidfds always are.
- 	 */
- 	oflags &= ~O_LARGEFILE;
--	return dentry_open(path, oflags | O_RDWR, current_cred());
-+	file = dentry_open(path, oflags | O_RDWR, current_cred());
-+	/* do_dentry_open() strips O_EXCL, which encodes PIDFD_THREAD. */
-+	if (!IS_ERR(file))
-+		file->f_flags |= oflags & PIDFD_THREAD;
-+	return file;
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/anon_inodes.h>
++#include <linux/compat.h>
+ #include <linux/exportfs.h>
+ #include <linux/file.h>
+ #include <linux/fs.h>
+@@ -659,6 +660,17 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	return open_namespace(ns_common);
  }
  
- static const struct export_operations pidfs_export_operations = {
-diff --git a/tools/testing/selftests/pidfd/pidfd_file_handle_test.c b/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
-index 68918734dcf32..1e03ae9575fe6 100644
---- a/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_file_handle_test.c
-@@ -373,6 +373,7 @@ TEST_F(file_handle, open_by_handle_at_valid_flags)
- 				  O_CLOEXEC |
- 				  O_EXCL);
- 	ASSERT_GE(pidfd, 0);
-+	ASSERT_NE(fcntl(pidfd, F_GETFL) & PIDFD_THREAD, 0);
++#ifdef CONFIG_COMPAT
++static long pidfd_compat_ioctl(struct file *file, unsigned int cmd,
++			       unsigned long arg)
++{
++	if (cmd == FS_IOC32_GETVERSION)
++		cmd = FS_IOC_GETVERSION;
++
++	return pidfd_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
++}
++#endif
++
+ static int pidfs_file_release(struct inode *inode, struct file *file)
+ {
+ 	struct pid *pid = inode->i_private;
+@@ -686,7 +698,9 @@ static const struct file_operations pidfs_file_operations = {
+ 	.show_fdinfo	= pidfd_show_fdinfo,
+ #endif
+ 	.unlocked_ioctl	= pidfd_ioctl,
+-	.compat_ioctl   = compat_ptr_ioctl,
++#ifdef CONFIG_COMPAT
++	.compat_ioctl	= pidfd_compat_ioctl,
++#endif
+ };
  
- 	ASSERT_EQ(fstat(pidfd, &st2), 0);
- 	ASSERT_TRUE(st1.st_dev == st2.st_dev && st1.st_ino == st2.st_ino);
+ struct pid *pidfd_pid(const struct file *file)
 -- 
 2.52.0
 
