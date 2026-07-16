@@ -1,103 +1,134 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CDE425866
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 14:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253D128488D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 14:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784211891; cv=none; b=kJyolkiklnv9+gAHSAcF3CXPJ3nM7LAfDvEZJ6pm4Zq5hEcucKPG5KxkX8v/11Jaud1VaOU8F2aMrc4AGW9hQx2G3Fa1nF6dnXsTvMA1t6N6wDjqaWq+JJ7t9V+SKOVoOnB2LoLcolPN+SSxatec3Td42IV8TMLdb4LFbsRCMw4=
+	t=1784212218; cv=none; b=ZVYXiASSzatePKSGKbvtLCQHnZu7w2rCfT0yUDK8hp7r0+e+nEIwTdZSj4ztUrVHkcI98xvB6jGpkhjvVm/C+5unwsPe7IojKQEknpIxwKFb+rXRsItx3PKon5W5eXBT44TncrJdrohN61nDe9xr+92gmmQhAaddCRrI+PusnAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784211891; c=relaxed/simple;
-	bh=ih7hOC0PzgeSeXT+OoFRS9XeK7WVhEtSnLc0MPiKDI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKUpNPvY8nQFTPw3mbS/Ix1incQIg1e5DWq0+pSDcO1bM4TUJ89uh7Oq8UGninCibfwuBnB+MPdCfbePIo6tM1zkswOmq7LA6O13IG4xPRH7b/w+cyzSZWr22/umm+5zIQwh3PqRJegfaFXd+3UFniKFIcSVSpFF7BsX+bFLlYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ifn++u3N; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1784212218; c=relaxed/simple;
+	bh=AhFdR2QfFg1cCilOo4nyPNsp0iHkjl8xgc5O9th0jWk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tgp2T37jZ91M/8biLuFJZZgIIidrlLEKV4AtgGZkBnnRYbe0uAm1t58FPcjfOQbvRbwXTO3N2XXRVfQA9aTaQfJ4o1NVXdTthoAnwa41kMKOV7ouxYvFXMKH8ylGQYzWLx0jxfYmGx2VbJjgsfWmA9jWIVyzjvfF185ZXaO35dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B9c/VS/8; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ifn++u3N"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=X0b0D6Kjf9xQir7X3LyFTEp/Zq+ZumCcrEIpFFWjBNI=; b=ifn++u3NseCju98sW1l2S0xUR6
-	b/1dZVJ8iwqUItdOL0ICrvxwBfopYJ9SndKW409lFySe8+hPnJXR083jDS5wksU1pPtIY1DcXIMPa
-	GxM1Cj4HoISaIDGYKuUTu9pP4ANmWvqIAKNLa7BuU/189WniSqd7yAAisTPfkLYrXB1jXE3Dn6Oe/
-	dTNd0Wlwoag2HX2pD8xo/8Bb3JHXU9oKHIXbX7TgcgWhautMeJ6fYjqTcbf4C0ADMxBF/0M/0e219
-	45dNYIdar7dn1wdkDZYfrape1U51J9B1OyfnSM0hg2TrhR6aFsUWKPI/IkA7PgydOQL0WOrHGZcg1
-	7xTm9leg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wkN0s-00000002fXC-2Fnb;
-	Thu, 16 Jul 2026 14:24:34 +0000
-Date: Thu, 16 Jul 2026 15:24:34 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v2 06/10] memory-failure: Prevent UAF in raw_hwp_page list
-Message-ID: <aljporPjnUCyhQUs@casper.infradead.org>
-References: <20260709184740.1286561-1-willy@infradead.org>
- <20260709184740.1286561-7-willy@infradead.org>
- <7f630930-fbf7-42bd-945d-664484defc2c@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B9c/VS/8"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-47407691804so4897473f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 07:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784212215; x=1784817015; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KK1D0Jn0y9eqfBTpCLM4Znrw9w5QYL14n9pJHOvIIK8=;
+        b=B9c/VS/8iaUBo636z/mf0ef/HsJyPEJ5iXy0qRR3DJIJMaB0nWyvJcfkMDz80ZUxsq
+         dBR6AZuHtGG4qWsLLUGb+v5jTy2XgpHKU+GEPRACCGR7g26Bq4vgVx+K5nUaolirT1KH
+         20ID1POMwhi7eI6N2M5OqQPOvmqOGwWhuC9TXe/PRZw40YqYcBS6RC0+ezdRMDZXX9Sy
+         x3FWrSR9VK5CCOgF1bl9J1j4+418O4mEFSmpYzUJZhIObNBKCH+ra/T1ncN15ZfB31DZ
+         ILcqV+EOaAfd7armUAPJG9gllb6zqnTAXGZck9Z+XdKJwEeJK1WzVT+zlbYgEVF2fnQv
+         Ai3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784212215; x=1784817015;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KK1D0Jn0y9eqfBTpCLM4Znrw9w5QYL14n9pJHOvIIK8=;
+        b=ejyMkugo8YRxSQ9Yq7NiMRf56pWm2nhDMuOZPBfpfpZ+ZbtBbvhhioWMqhJS/Kw7qD
+         HNjkDgc8JcudCwR+zT6rkVzQlhBunBAbCXQMe65wwoDb+dJghiF6bTKBHO2Tw3Ah3iKN
+         PVu5yT5Hh4H1NQH6upK0NJsKTZwTcSMko8X0MotS1hBW/otyaUQEJkpf19kk23q7Q8Bf
+         tYvlI/aTY6/lIqstWU7u1DP1fnwLu+vFDKV/7L3NEaQWKPckWSjL7e/6jTU4LFHgh1hA
+         zit4buP6mRQ4QL33m21WN9Mu+Ef0gCTknQBvdVzmcORLMLRiDD4OIm5A9TyaebNAGCBw
+         xZ6w==
+X-Forwarded-Encrypted: i=1; AHgh+RrSJt+/AWh2oLSQCduYTtgA90g7uNw8sgIQSFAp3KQ8OxGObf4ozb9fFzEB4/QOqgNG2+hSU3bBPJNsRXzi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0SXaXKg+zGwoE8K36tSgzVv3EJ44K4SO41EDCx8dMBkdJgrJO
+	j+9EX92CmyZUb22Hnzf4qKcJ3q+09kqp4XtpImui/TTeFiLBNzCPiPIzDTv9/he1EpCGoRF4KXc
+	qPx90NA0N9fvsUg==
+X-Received: from wmbdr12.prod.google.com ([2002:a05:600c:608c:b0:490:b58a:2c80])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:a4a:b0:495:3e81:770f with SMTP id 5b1f17b1804b1-4953e817874mr72103905e9.15.1784212214740;
+ Thu, 16 Jul 2026 07:30:14 -0700 (PDT)
+Date: Thu, 16 Jul 2026 14:30:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f630930-fbf7-42bd-945d-664484defc2c@kernel.org>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAPHqWGoC/yXMQQqDMBBA0avIrDuQRFDbq5Qu4nSiIyGRTC2Ce
+ Pem7fIt/j9AuQgr3JoDCr9FJacKe2mAZp8mRnlWgzOuM73tMOQoGX2MmZAi+7StiiZwa6/jMFh yUNO1cJD9t70//tZtXJhe3xec5wfuKVxBeAAAAA==
+X-Change-Id: 20260716-folio-alloc-cleanups-0fe319b881c2
+X-Mailer: b4 0.15.2
+Message-ID: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+Subject: [PATCH 0/3] mm: yet more cleanups for page_alloc APIs
+From: Brendan Jackman <jackmanb@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
+	Youngjun Park <youngjun.park@lge.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>, Chuck Lever <cel@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev, 
+	loongarch@lists.linux.dev, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	Brendan Jackman <jackmanb@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Jul 16, 2026 at 11:16:48AM +0200, David Hildenbrand (Arm) wrote:
-> On 7/9/26 20:47, Matthew Wilcox (Oracle) wrote:
-> > Most accesses to the raw_hwp_page list are protected by mf_mutex.
-> > However, the call to folio_clear_hugetlb_hwpoison() in mm/hugetlb.c
-> > does not.  This is probably OK today as this is in the freeing path and
-> > I think all current calls to is_raw_hwpoison_page_in_hugepage() hold a
-> > reference to the folio.  However, the next patch will call this function
-> > without holding a reference on the folio, which will expose this race.
-> 
-> As mentioned yesterday, I wonder if we can remove the entire subpage hwpoison
-> tracking. With HVO it is just beyond ugly and not really fun to maintain as it
-> seems.
+Based on mm-new.
 
-I have other ideas for making it better.  Even with HVO, we have space
-in the array of struct pages to store this information.  We keep
-PAGE_SIZE worth of struct pages writable and map the rest as aliases.
-With a 4KiB PAGE_SIZE, a PUD is 1GB, composed of 2^18 pages.  A bitmap
-would be 2^15 (32KiB), so there's no space for one bit per page, but
-memory failure should be relatively rare.  We have about 32 uncommitted
-bytes per tail page, so we could store 8 32-bit page indices in each of
-about 60 tail pages, allowing us to track 480 defective pages in a 1GB
-page.  That feels somewhat more reasonable than this llist_head
-structure.
+Align some APIs with recent cleanups [0][1], and hide more mm-internal APIs
+from public headers.
 
-> Regarding read(), it was added 3 years ago [1], and the cover letter did not
-> even state a single real use case.
-> 
-> "Since memory_failure already tracks the raw HWPOISON subpages in a
-> hugepage, a natural improvement is possible: if userspace only asks for
-> healthy subpages in the pagecache, kernel can return these data."
-> 
-> I doubt there is practical use. But I'm happy to be educated :)
-> 
-> Is anybody aware of practical use for that?
-> 
-> [1] https://lore.kernel.org/linux-mm/20230713001833.3778937-1-jiaqiyan@google.com/
+Part of this was also proposed by Vlastimil right as I was writing it:
+https://lore.kernel.org/all/ed4572f4-0074-45c5-993d-7b6533eddc31@kernel.org/
 
-I don't think Google did that for fun ;-)  Take a look at
-https://lore.kernel.org/linux-mm/20240924043924.3562257-2-jiaqiyan@google.com/
+And just like with my other recent patches, this has the ulterior motive
+of enabling later incoming patches to add alloc_flags arguments to these
+internal functions. (But, I do think these are justified as cleanups in
+their own right).
 
-and it's fairly obvious their use case is for trying to recover from bad
-memory when using hugetlb to back guest memory.
+[0]: https://lore.kernel.org/all/20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com/
+[1]: https://lore.kernel.org/all/20260703-alloc-trylock-v5-0-c87b714e19d3@google.com/
 
-But hey, Jiaqi is still active, so they can speak for themselves.  Cc
-added.
+Signed-off-by: Brendan Jackman <jackmanb@google.com>
+---
+Brendan Jackman (3):
+      mm: move internal mempolicy APIs to new internal header
+      mm, treewide: replace __folio_alloc_node() with folio_alloc_node()
+      mm: move __folio_alloc() to page_alloc.h
+
+ MAINTAINERS                        |  1 +
+ drivers/iommu/iommu-pages.c        |  9 +--------
+ drivers/irqchip/irq-loongarch-ir.c |  4 ++--
+ include/linux/gfp.h                | 25 +++----------------------
+ mm/filemap.c                       |  4 +++-
+ mm/mempolicy.c                     |  1 +
+ mm/mempolicy.h                     | 31 +++++++++++++++++++++++++++++++
+ mm/migrate.c                       |  2 +-
+ mm/page_alloc.c                    | 18 +++++++++++++++---
+ mm/page_alloc.h                    |  4 ++++
+ mm/shmem.c                         |  1 +
+ mm/swap_state.c                    |  1 +
+ net/sunrpc/svc.c                   |  2 +-
+ 13 files changed, 65 insertions(+), 38 deletions(-)
+---
+base-commit: 512c82e906fe2c26023e307c7951d53e90910b57
+change-id: 20260716-folio-alloc-cleanups-0fe319b881c2
+
+Best regards,
+--  
+Brendan Jackman <jackmanb@google.com>
+
