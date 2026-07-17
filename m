@@ -1,386 +1,284 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC6937AA9C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 18:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BC637CD59;
+	Fri, 17 Jul 2026 18:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784311862; cv=none; b=dsNN9DrHLTmI0qbCYKzCD/MNXPL9WxST/Ad2meb+YhgjpgX8vtVA8R9QlyJYRqCCMY4rFuwpaPqySkApRUEHE1m8AiGhFtacAGailm5qVkQqFoP+Hke1LbzOV9TQTCI7nxL36Lyso4t/+G6TDiG5hogIV36u5cLmX2BrNpVeaRA=
+	t=1784312534; cv=none; b=oIlRtwz/6iAkmSHWX1uv9v0tWAbBtqs2LG8mXrdhgh/ecM94RkC3/60/gwA0oyslgS5WQH9YjSwPzJHi3nuaLgapIWBLHTEdM6HGpq+eCRJaYTvsuTHMP0T+q6Yt8uCIDlcKLSjcDC2TGey0z6qY8qnJvisXFymHqBgJA+qpPrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784311862; c=relaxed/simple;
-	bh=Ved/rXoC/3rxnYERbRtJcrbq8oJqOzhyGIksolLDG/0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cgezH9JRWxpZ7vPwEbl3sSOm9sz6P4HcjIQpxzKpY/l7o9K8D9qChU+YisDA84mGEe/zhsqT7mf11Uw77ShEz6HNvx+WcIuljfMXvk/5l1h3cTjU/HBr1ioR1OmuEyu3YvLEq26xDthet0hpjASpCOXR0/2/64MgDulB0eL/UGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=TjOodHbK; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1784312534; c=relaxed/simple;
+	bh=d2McZ8qqupq73DW6vLZJ4SJt35wa8LS/2RNB+wGC1SY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lwns2Wbh72HimQrR3LCn729SV+308nBdWWNCeyh5W1imAlV5VWJpJm3Vt0whdglRlglBeVrqI1GV1xCc2U4Aiueq2+pg+vlrdlt8cTpDj+tncsMcVZ6xo8vET1Rv4ZafzxSnIoX9lQp+g3ra2G7aEWjDgzpq55nhLbkIpkyZhhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Domzoas1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="TjOodHbK"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-81e9f7491ffso102827547b3.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 11:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784311858; x=1784916658; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DKOzy9vP3cM8znyzW/pm/9ayZuwXmdJlhNTj0r96dFg=;
-        b=TjOodHbK0ar3x21inpqZkIrBYmAOzp12X5yl806b1SGT3EP4HyDn9oBd5u4j0GJerL
-         eOZ+XdJw4qwWYQ4vV07JnXf1ydG12TiEoJbVzknRagB7J57TYoIkBpu1RSNhsric+RDV
-         cXCP4+pU3iofnTV7AGvVDuSbFQOPmp05kagpCDTnQY1ITb+0HJqqzLZDcedXo1t7Hu63
-         S2pDDJbcEs/1jLOhUMtvPlLpYRrbE7ujdldSJ3PxMLegVUnjXB/7lj0eTMJWNnqgMQgV
-         4GeBhZFsAAlhLO0k8V1cbkd3qNvJACsGayaaPUEW56DHAVU1ahvPPWt1N2WuBmpas9Pp
-         +lLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784311858; x=1784916658;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=DKOzy9vP3cM8znyzW/pm/9ayZuwXmdJlhNTj0r96dFg=;
-        b=CYtvjyfTsagER2QphYWTkmdIFos+qM4nSM8YDiK/KAu5CYelwjoFATCR7V+5rgmBd+
-         SP8H3nSomsxVLjMPbHKr8bR0Vg+Sc6ggKKHlX/3CQri37Oi+JvIOGYA3/H1ZG/QrzRMa
-         Wj1mq/4j/ZS2kobjlBpFPnDDBLKwGfrxf9blgLHPYjipFVPjIJjHqZr4sFz1RTQpFQtv
-         JHHvEQ333W1LlYrX+AAd1At06BdnQVxrqZmV9ElIh6MZxipBP6VbAyvTopXksTC5qWYH
-         s1+EbgtFJ3v4I3U9t2Ew4Yz8pYoi5TDp2uXCN/lv2KhlvaXp++dBHqd653Qwdy9m9m6S
-         6Tqg==
-X-Gm-Message-State: AOJu0YyrqK0KHB64+5Dju6ow6KNZzewDohrE3QyeL7VOM1vSYYqrjCOI
-	LBLPaZpmpDSnq6TANgXQj4l5kAeBLeaQ34IHi2ruH+YLXOK4Gy5P/fVKiYpr39/1ECA=
-X-Gm-Gg: AfdE7cmVMXhfG+YrMInLOJMQiS8uH7c3o2pAIO9bFcYLcsLcwxaPn+czl3CVp2+L5ns
-	g9G72bkNkjOWppxactcqX9p9EOFmP2fOKlQESUw/uefrzcBIVpu9apBWeB0hBceTLB6PKocK2h+
-	fQ2RQ4QJAgo+8MMC96guShEm9v8Cz8vkkxB9c0ppnG7a/bNzRtIz+FgPpglxVCIdx2Gw4PPHS2T
-	JkME+KTh4vElIqfRClt8fcMogVp+WY8nK+9YepeUCsxCu7wHis4Q/9vWrumELn6yk21Y0p4HMkt
-	+8gwrCBVWXyZbeZXr4GKzlHsZ7yfRoADBP13hyBXMaxtfJb5k2iohuP7sRkCO4HAFuYjTgtGV+o
-	1IIIDPK0PhuAdcoZRLs9M7pyLeToYidZlpdsM8XQQpOMtoF+fChS/NikOmXehKfnWJ0pV6c/+A3
-	P3ykVsHyYhqcd87jhnlGo1RESfQBVbnMVKisJSaw8q2IXUzsJW2/QKYIAri048+SoDwFNYxmG2q
-	gVZUrPxBbu33p5ek82XQ7OnnMVgjmknDzku/UVst7+QX/TaMOYXoAU/Z42RydAxuLLdN2g=
-X-Received: by 2002:a05:690c:4a09:b0:81d:fa1:97f3 with SMTP id 00721157ae682-81ef26de074mr12898737b3.10.1784311858118;
-        Fri, 17 Jul 2026 11:10:58 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:9b0a:7ecd:9294:edb1? ([2600:1700:6476:1430:9b0a:7ecd:9294:edb1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81ef401625bsm16599707b3.8.2026.07.17.11.10.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 11:10:57 -0700 (PDT)
-Message-ID: <ef8d4ce4e9043e91e1eb554da3959560b981262e.camel@dubeyko.com>
-Subject: Re: [PATCH v7] hfsplus: fix null-ptr-deref by creating hidden dir
- on remount rw
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>,
- glaubitz@physik.fu-berlin.de, 	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Date: Fri, 17 Jul 2026 11:10:55 -0700
-In-Reply-To: <20260717135706.42918-1-kartikey406@gmail.com>
-References: <20260717135706.42918-1-kartikey406@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Domzoas1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC331F000E9;
+	Fri, 17 Jul 2026 18:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784312530;
+	bh=Cpq4AIRba6og6vu0k3GilMWxNVdoNwEkt2Y5ktgRSJg=;
+	h=From:Subject:Date:To:Cc;
+	b=Domzoas1anATfXMmlFE3I4FOGUlnT/lelCUuwI2mT7InXj0iWg/lRLHwVDk7BlBe9
+	 mV6hrFIyOx6hrU7Jk9K2LnLcB6jVPytZqi+xXNHqePKTK3oIGdFib2yhCyQ88XyL+c
+	 seXT63zMRX1Lg1ljPPsvhLUHeF1zEUAofSCEYY2hI7Nc5qN5d5pLzSJUNngtqeoeTt
+	 hhIUE9LjmfKET9TkP3zDkeHLnVP3Tqyb/1w4j5FapRljPLMhIJ9Xe2kqW16gfgDWUP
+	 1W8je9uOo//SEENV3hNYt8+CtJzNdfoZYycFNphwPK+uBVx9MenrKdH7AMZ9WFyphB
+	 +CIBSQiLT5tZg==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH 00/15] mm/rmap: index MAP_PRIVATE file-backed folios by
+ virt pgoff
+Date: Fri, 17 Jul 2026 19:19:38 +0100
+Message-Id: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADpyWmoC/yWNSw7CIBQAr9KwFgK1H+PKe5guAF/pq6Q0D0RN0
+ 7vb1uUkk5mFRSCEyK7FwggyRgzTBupUMDvoyQHHx8aslGUjW6W4qXi02mvjgdvw5hkp8dmFvud
+ aWivBqMrYhm2BmaDHzxG/d3+OLzOCTXtxNwaMKdD3uGe1e8yGDCRUeynbqlb1WThMwo/x9gSaw
+ ItAjnXruv4AWFMSBroAAAA=
+X-Change-ID: 20260711-b4-scalable-cow-virt-pgoff-a0cc0eb14bc6
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Miaohe Lin <linmiaohe@huawei.com>, 
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, 
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+ Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9320; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=d2McZ8qqupq73DW6vLZJ4SJt35wa8LS/2RNB+wGC1SY=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiivauK5+spXLCd83m6f5Bepe8Xad8q9/o/bzK7x/DF
+ 84wz1udHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZjIznKGv2JB3T9KPkXutXUz
+ WFOvw/snQ/7axPLYY1+WXtznFC3tocrwP1zs1XnbCZ1XOf5McRG8KV2vF6+9el3zPbGpus9rvio
+ d5gMA
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Fri, 2026-07-17 at 19:27 +0530, Deepanshu Kartikey wrote:
-> hfsplus_reconfigure() does not create the hidden directory when
-> remounting from read-only to read-write, leaving sbi->hidden_dir
-> as NULL. This causes a null-ptr-deref when any subsequent
-> link/unlink/rename operation dereferences it.
->=20
-> Extract hidden directory creation logic from hfsplus_fill_super()
-> into a new helper hfsplus_create_hidden_dir() and call it from
-> hfsplus_reconfigure() when switching to read-write mode and
-> hidden_dir is NULL, ensuring hidden_dir is always valid on any
-> read-write mount.
->=20
-> Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dc0ba772a362e70937dfb
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
-> Changes in v7:
-> =C2=A0 - Call hfsplus_prepare_volume_header_for_commit() and
-> =C2=A0=C2=A0=C2=A0 hfsplus_sync_fs() for all rw remounts in reconfigure
-> =C2=A0=C2=A0=C2=A0 not just when hidden_dir is NULL, as suggested by
-> =C2=A0=C2=A0=C2=A0 Vyacheslav Dubeyko.
-> =C2=A0 - Remove redundant inner hidden_dir NULL check.
->=20
-> Changes in v6:
-> =C2=A0 - Use single mutex_unlock() in error path of helper.
-> =C2=A0 - Rename label out_put_hidden_dir to out inside helper.
-> =C2=A0 - Use QSTR_INIT() in reconfigure and compound literal
-> =C2=A0=C2=A0=C2=A0 cast in fill_super.
-> =C2=A0 - Add hfsplus_prepare_volume_header_for_commit() and
-> =C2=A0=C2=A0=C2=A0 hfsplus_sync_fs() before creating hidden dir in reconf=
-igure
-> =C2=A0=C2=A0=C2=A0 to avoid inconsistent state on crash, as suggested by
-> =C2=A0=C2=A0=C2=A0 Vyacheslav Dubeyko.
->=20
-> Changes in v5:
-> =C2=A0 - Pass str as input argument to hfsplus_create_hidden_dir()
-> =C2=A0=C2=A0=C2=A0 to avoid duplication, as suggested by Vyacheslav Dubey=
-ko.
-> =C2=A0 - Use !(fc->sb_flags & SB_RDONLY) as guard in reconfigure
-> =C2=A0=C2=A0=C2=A0 instead of !sb_rdonly(sb).
-> =C2=A0 - Restore cancel_delayed_work_sync() in cleanup path.
-> =C2=A0 - Restore HFSPLUS_CAT_TREE_I dirty mark.
->=20
-> Changes in v4:
-> =C2=A0 - Correct fix: extract hidden dir creation into helper and call
-> =C2=A0=C2=A0=C2=A0 from hfsplus_reconfigure() on remount rw, as suggested=
- by
-> =C2=A0=C2=A0=C2=A0 Vyacheslav Dubeyko.
->=20
-> Changes in v3:
-> =C2=A0 - Correct fix location: guard sbi->hidden_dir in hfsplus_link()
-> =C2=A0=C2=A0=C2=A0 and hfsplus_unlink() in dir.c.
->=20
-> Changes in v2:
-> =C2=A0 - Fixed commit message: hfsplus_delete_cat() has multiple callers,
-> =C2=A0=C2=A0=C2=A0 not just hfsplus_unlink() as incorrectly stated in v1.
-> ---
-> =C2=A0fs/hfsplus/super.c | 102 ++++++++++++++++++++++++++++--------------=
--
-> --
-> =C2=A01 file changed, 64 insertions(+), 38 deletions(-)
->=20
-> diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-> index 40a0feda716b..3983e8160302 100644
-> --- a/fs/hfsplus/super.c
-> +++ b/fs/hfsplus/super.c
-> @@ -375,6 +375,52 @@ static int hfsplus_statfs(struct dentry *dentry,
-> struct kstatfs *buf)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +static int hfsplus_create_hidden_dir(struct super_block *sb,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 const struct qstr *str)
-> +{
-> +	struct hfsplus_sb_info *sbi =3D HFSPLUS_SB(sb);
-> +	struct inode *root =3D d_inode(sb->s_root);
-> +	int err;
-> +
-> +	mutex_lock(&sbi->vh_mutex);
-> +	sbi->hidden_dir =3D hfsplus_new_inode(sb, root, S_IFDIR);
-> +	if (!sbi->hidden_dir) {
-> +		err =3D -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	err =3D hfsplus_create_cat(sbi->hidden_dir->i_ino, root,
-> +				 str, sbi->hidden_dir);
-> +	if (err)
-> +		goto out;
-> +
-> +	err =3D hfsplus_init_security(sbi->hidden_dir, root, str);
-> +	if (err =3D=3D -EOPNOTSUPP)
-> +		err =3D 0; /* Operation is not supported. */
-> +	else if (err) {
-> +		/*
-> +		 * Try to delete anyway without
-> +		 * error analysis.
-> +		 */
-> +		hfsplus_delete_cat(sbi->hidden_dir->i_ino, root,
-> str);
-> +		goto out;
-> +	}
-> +
-> +	mutex_unlock(&sbi->vh_mutex);
-> +	hfsplus_mark_inode_dirty(HFSPLUS_CAT_TREE_I(sb),
-> +				 HFSPLUS_I_CAT_DIRTY);
-> +	hfsplus_mark_inode_dirty(sbi->hidden_dir,
-> +				 HFSPLUS_I_CAT_DIRTY);
-> +	return 0;
-> +
-> +out:
-> +	mutex_unlock(&sbi->vh_mutex);
-> +	cancel_delayed_work_sync(&sbi->sync_work);
+In memory management we've managed to manufacture a great deal of confusion
+around the concept of anonymous memory. We have:
 
-Another issue we still have here. The hfsplus_create_hidden_dir()'s
-failure path calls cancel_delayed_work_sync(&sbi->sync_work)
-unconditionally. That's correct when called from hfsplus_fill_super()
-(mount failing =E2=86=92 whole sbi is being torn down anyway), but wrong wh=
-en
-called from hfsplus_reconfigure(). The sbi->work_queued is only ever
-reset to 0 inside delayed_sync_fs() itself when it actually runs. If we
-cancel a pending instance before it fires, work_queued stays stuck at 1
-forever. I assume that the helper needs to not call
-cancel_delayed_work_sync(). Does it make sense?
+1. 'Pure anon' memory - anonymous VMAs whose folios are anonymous and
+   swap-backed (thus for reclaim purposes, treated as anonymous). These are
+   simple enough.
 
-> +	iput(sbi->hidden_dir);
-> +	sbi->hidden_dir =3D NULL;
-> +	return err;
-> +}
-> +
-> =C2=A0static int hfsplus_reconfigure(struct fs_context *fc)
-> =C2=A0{
-> =C2=A0	struct super_block *sb =3D fc->root->d_sb;
-> @@ -403,6 +449,20 @@ static int hfsplus_reconfigure(struct fs_context
-> *fc)
-> =C2=A0			sb->s_flags |=3D SB_RDONLY;
-> =C2=A0			fc->sb_flags |=3D SB_RDONLY;
-> =C2=A0		}
-> +
-> +		/*
-> +		 * Create hidden dir if remounting read-write and it
-> +		 * does not exist - required for link/unlink/rename.
-> +		 */
-> +		if (!(fc->sb_flags & SB_RDONLY)) {
+2. shmem - file-backed VMAs, file-backed folios (from rmap perspective) so
+   present in the page cache and mapped by an address_space object, but
+   whose folios are also swap-backed (thus treated as anonymous for reclaim
+   purposes).
 
-I've spent more time on thinking about RW->RO remounting. And I think
-we still have a serious issue here.
+3. MAP_PRIVATE-mapped /dev/zero - a strange beast whose VMAs have
+   vma->vm_file set, but whose mmap_prepare callback clears vma->vm_ops to
+   satisfy vma_is_anonymous(), which results in VMAs that were mmap()'d
+   referencing a file and whose VMAs reference a file, but are in every other
+   sense anonymous, including the folios.
 
-The "mark this volume cleanly unmounted" step (vhdr->attributes |=3D
-HFSPLUS_VOL_UNMNT; ... &=3D ~HFSPLUS_VOL_INCNSTNT;) only happens in two
-places: hfsplus_prepare_volume_header_for_commit() (called when
-mounting or remounting rw) and directly inside hfsplus_put_super().
+4. Other MAP_PRIVATE-file backed mappings - These possess file-backed VMAs
+   and have file-backed folios until CoW'd, at which point those CoW'd
+   folios are anonymous.
 
-So take the sequence mount rw =E2=86=92 remount ro =E2=86=92 unmount: the v=
-olume was
-marked INCNSTNT at mount time, never gets cleared by the remount-to-ro
-(no code path does it), and then put_super() sees sb_rdonly(sb) =3D=3D true
-and skips clearing it too. The volume permanently retains
-HFSPLUS_VOL_INCNSTNT / missing HFSPLUS_VOL_UNMNT after any such
-session, so the next mount anywhere (Linux or macOS) will warn "not
-cleanly unmounted, recommend fsck" and potentially force read-only - a
-false positive, since nothing was actually left inconsistent.
+This series focuses upon issue 4.
 
-So, sorry, but we need to rework the hfsplus_reconfigure() more
-carefully. This patch revealed the pre-existing issue.
+In order for us to traverse VMAs using the reverse mapping, we require two
+fields - folio->mapping and folio->index. The first tells the rmap code
+where to look for VMAs, and the second tells it at which offset the folio
+starts within the referenced object.
 
-Thanks,
-Slava.
+For anonymous folios, folio->mapping points at an anon_vma object. For
+file-backed folios, it points at an address_space. And:
 
-> +			hfsplus_prepare_volume_header_for_commit(vhd
-> r);
-> +			hfsplus_sync_fs(sb, 1);
-> +			if (!sbi->hidden_dir) {
-> +				struct qstr str =3D
-> QSTR_INIT(HFSP_HIDDENDIR_NAME,
-> +						=C2=A0=C2=A0=C2=A0
-> sizeof(HFSP_HIDDENDIR_NAME) - 1);
-> +				return hfsplus_create_hidden_dir(sb,
-> &str);
-> +			}
-> +		}
-> =C2=A0	}
-> =C2=A0	return 0;
-> =C2=A0}
-> @@ -589,8 +649,8 @@ static int hfsplus_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0		goto out_put_alloc_file;
-> =C2=A0	}
-> =C2=A0
-> -	str.len =3D sizeof(HFSP_HIDDENDIR_NAME) - 1;
-> -	str.name =3D HFSP_HIDDENDIR_NAME;
-> +	str =3D (struct qstr)QSTR_INIT(HFSP_HIDDENDIR_NAME,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(HFSP_HIDDENDIR_NAME) -
-> 1);
-> =C2=A0	err =3D hfsplus_get_hidden_dir_entry(sb, &str, &entry);
-> =C2=A0	if (err =3D=3D -ENOENT) {
-> =C2=A0		/*
-> @@ -620,40 +680,9 @@ static int hfsplus_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0		hfsplus_sync_fs(sb, 1);
-> =C2=A0
-> =C2=A0		if (!sbi->hidden_dir) {
-> -			mutex_lock(&sbi->vh_mutex);
-> -			sbi->hidden_dir =3D hfsplus_new_inode(sb,
-> root, S_IFDIR);
-> -			if (!sbi->hidden_dir) {
-> -				mutex_unlock(&sbi->vh_mutex);
-> -				err =3D -ENOMEM;
-> +			err =3D hfsplus_create_hidden_dir(sb, &str);
-> +			if (err)
-> =C2=A0				goto out_put_root;
-> -			}
-> -			err =3D hfsplus_create_cat(sbi->hidden_dir-
-> >i_ino, root,
-> -						 &str, sbi-
-> >hidden_dir);
-> -			if (err) {
-> -				mutex_unlock(&sbi->vh_mutex);
-> -				goto out_put_hidden_dir;
-> -			}
-> -
-> -			err =3D hfsplus_init_security(sbi->hidden_dir,
-> -							root, &str);
-> -			if (err =3D=3D -EOPNOTSUPP)
-> -				err =3D 0; /* Operation is not
-> supported. */
-> -			else if (err) {
-> -				/*
-> -				 * Try to delete anyway without
-> -				 * error analysis.
-> -				 */
-> -				hfsplus_delete_cat(sbi->hidden_dir-
-> >i_ino,
-> -							root, &str);
-> -				mutex_unlock(&sbi->vh_mutex);
-> -				goto out_put_hidden_dir;
-> -			}
-> -
-> -			mutex_unlock(&sbi->vh_mutex);
-> -
-> 			hfsplus_mark_inode_dirty(HFSPLUS_CAT_TREE_I(sb),
-> -					=09
-> HFSPLUS_I_CAT_DIRTY);
-> -			hfsplus_mark_inode_dirty(sbi->hidden_dir,
-> -					=09
-> HFSPLUS_I_CAT_DIRTY);
-> =C2=A0		}
-> =C2=A0	}
-> =C2=A0
-> @@ -661,9 +690,6 @@ static int hfsplus_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0	sbi->nls =3D nls;
-> =C2=A0	return 0;
-> =C2=A0
-> -out_put_hidden_dir:
-> -	cancel_delayed_work_sync(&sbi->sync_work);
-> -	iput(sbi->hidden_dir);
-> =C2=A0out_put_root:
-> =C2=A0	dput(sb->s_root);
-> =C2=A0	sb->s_root =3D NULL;
+* For file-backed folios folio->index is simply the page offset of the start
+  of the folio within the file.
+
+* For anonymous folios belonging to pure anon mappings, folio->index is
+  equal to the virtual page offset of the folio.
+
+* For anonymous folios belonging to file-backed mappings (i.e. CoW'd folios
+  of a MAP_PRIVATE file-backed mapping), folio->index is equal to the file
+  page offset.
+
+This series establishes a new virtual page offset property of VMAs to
+allow us to map anonymous folios at their virtual page offset, consistent
+with pure anon.
+
+The purpose of doing so is to lay the foundations for the scalable CoW
+work. This is necessary because firstly the approach first looks in the
+maple tree for the VMA located at folio->index << PAGE_SHIFT, before
+falling back to looking up tracked remaps if necessary.
+
+The MAP_PRIVATE file-backed case means that folio indices will very often
+conflict with one another and this remap tracking becomes substantially
+more contended, and of course the fast path can never be used.
+
+This also makes it possible, in future, to unshare anonymously mapped
+folios with deep fork hierarchies on remap, eliminating the need for remap
+tracking in the vast majority of cases.
+
+Similar to page offset of pure anonymous VMAs, we update the virtual page
+offset of unfaulted file-backed VMAs on remap, but do not once
+CoW'd:(i.e. vma->anon_vma is non-NULL).
+
+Overall, there is little impact on mergeability - for shared file-backed
+mappings, we treat the anonymous page offset as equal to the file-backed
+one (via vma_start_anon_pgoff()), so merge behaviour remains the same
+there.
+
+The only impact is on MAP_PRIVATE-mapped file-backed mappings, which must
+now match on virtual page offset as well as file page offset to be merged.
+
+To fail to merge like this would require CoW'ing the mapping, then finding
+another VMA with identical file and compatible page offset to remap next
+to. This is therefore very much an edge case that should have very little
+impact (and which scalable CoW may very well address in any case).
+
+We also address the outlier case of MAP_PRIVATE-/dev/zero mappings which
+have file page offset but satisfy vma_is_anonymous() by making them truly
+anonymous.
+
+This is low-risk as for anything meaningful these mappings behave
+anonymously, but it is very beneficial to do so as we eliminate an odd
+corner case, and those are notorious for attracting subtle bugs.
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+v1:
+- Rebased onto mm-new.
+- Dependent series heavily reviewed and looks highly likely to land, so
+  un-RFC.
+- Added explicit check for /dev/zero and removed ability for arbitrary
+  mmap/mmap_prepare hooks to make themselves anonymous.
+- Made MAP_PRIVATE-/dev/zero mappings truly anonymous.
+- Added MAP_PRIVATE file-backed mapping merge test to selftests.
+- Added a MAP_PRIVATE-/dev/zero VMA userland test to assert that the VMA
+  really is made anonymous.
+- Added MAP_PRIVATE-/dev/zero merge tests to selftests.
+- Fixed missed virtual page index site in try_to_merge_with_ksm_page().
+- Updated folio_within_range() to use virtual page offset for anon
+  folio. This had no impact as it is only called for large folios at the
+  moment (and MAP_PRIVATE-file backed mappings can't currently be backed by
+  a large folio) but making the change now protects us for the future.
+- Fixed typos etc.
+
+RFC:
+https://patch.msgid.link/cover.1782745153.git.ljs@kernel.org
+
+To: Andrew Morton <akpm@linux-foundation.org>
+To: David Hildenbrand <david@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+To: Michal Hocko <mhocko@suse.com>
+To: Jann Horn <jannh@google.com>
+To: Pedro Falcato <pfalcato@suse.de>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Jan Kara <jack@suse.cz>
+To: Miaohe Lin <linmiaohe@huawei.com>
+To: Naoya Horiguchi <nao.horiguchi@gmail.com>
+To: Rik van Riel <riel@surriel.com>
+To: Harry Yoo <harry@kernel.org>
+To: Lance Yang <lance.yang@linux.dev>
+To: Kees Cook <kees@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: Nico Pache <npache@redhat.com>
+To: Ryan Roberts <ryan.roberts@arm.com>
+To: Dev Jain <dev.jain@arm.com>
+To: Barry Song <baohua@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+To: Matthew Brost <matthew.brost@intel.com>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Rakie Kim <rakie.kim@sk.com>
+To: Byungchul Park <byungchul@sk.com>
+To: Gregory Price <gourry@gourry.net>
+To: Ying Huang <ying.huang@linux.alibaba.com>
+To: Alistair Popple <apopple@nvidia.com>
+To: Peter Xu <peterx@redhat.com>
+To: Xu Xin <xu.xin16@zte.com.cn>
+To: Chengming Zhou <chengming.zhou@linux.dev>
+To: Arnd Bergmann <arnd@arndb.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: ljs@kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+
+---
+Lorenzo Stoakes (ARM) (15):
+      mm/vma: introduce VMA virtual page offset field and add helpers
+      mm: introduce linear_virt_page_index()
+      mm: abstract vma_address() and introduce vma_anon_address()
+      mm: update print_bad_page_map() to show virtual page index
+      mm: introduce and use vma_filebacked_address()
+      mm: propagate VMA virtual page offset on map, remap, split + merge
+      mm/rmap: track whether the page VMA mapped walk is anonymous
+      mm: introduce and use linear_folio_page_index()
+      mm/rmap: use virt pgoff for MAP_PRIVATE file-backed anon folios
+      tools/testing/vma: expand VMA merge tests to assert virt pgoff
+      tools/testing/selftests/mm: test virtual page offset merge behaviour
+      mm/vma: only permit MAP_PRIVATE /dev/zero to be mapped anonymous
+      mm/vma: make MAP_PRIVATE-mapped /dev/zero mappings truly anonymous
+      tools/testing/vma: add test to assert MAP_PRIVATE-/dev/zero is anon
+      tools/testing/selftests/mm: add MAP_PRIVATE-/dev/zero merge tests
+
+ drivers/char/mem.c                 |   8 +-
+ include/linux/mm.h                 |  74 ++++++++++++++---
+ include/linux/mm_types.h           |   4 +
+ include/linux/pagemap.h            |  66 +++++++++++++++
+ include/linux/rmap.h               |   2 +
+ mm/huge_memory.c                   |   3 +-
+ mm/internal.h                      |  76 ++++++++++++-----
+ mm/interval_tree.c                 |   4 +-
+ mm/ksm.c                           |   7 +-
+ mm/memory-failure.c                |   4 +-
+ mm/memory.c                        |   8 +-
+ mm/migrate.c                       |   6 +-
+ mm/mremap.c                        |   6 +-
+ mm/page_vma_mapped.c               |   6 +-
+ mm/rmap.c                          |  23 +++---
+ mm/userfaultfd.c                   |   6 +-
+ mm/vma.c                           | 116 ++++++++++++++++++++------
+ mm/vma.h                           | 144 +++++++++++++++++++++++++--------
+ mm/vma_exec.c                      |   2 +-
+ mm/vma_init.c                      |   1 +
+ mm/vma_internal.h                  |   1 +
+ tools/testing/selftests/mm/merge.c | 161 +++++++++++++++++++++++++++++++++++++
+ tools/testing/vma/include/dup.h    |  77 ++++++++++++++++++
+ tools/testing/vma/shared.c         |   3 +-
+ tools/testing/vma/tests/merge.c    |  22 ++++-
+ tools/testing/vma/tests/mmap.c     |  49 +++++++++++
+ tools/testing/vma/tests/vma.c      |   4 +-
+ tools/testing/vma/vma_internal.h   |   1 +
+ 28 files changed, 764 insertions(+), 120 deletions(-)
+---
+base-commit: 5093dba1014c1d7f7e247fd118f0fa8f22136046
+change-id: 20260711-b4-scalable-cow-virt-pgoff-a0cc0eb14bc6
+
+Cheers,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
