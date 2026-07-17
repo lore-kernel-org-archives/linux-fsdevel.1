@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5072620E6E2;
-	Fri, 17 Jul 2026 17:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E51B20E6E2;
+	Fri, 17 Jul 2026 17:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784309252; cv=none; b=OMCp7fvUkmrBjQ2rzZqErnbl7NeIGVu0B/RtiogbIVGH7w94UtNG8hNMbyamsAhmrc+uBVxjTmwJwr/ViPSdQjVAAwn8pMV+Ze3jGGnkH+f7RSSnognZqSXCnKnhT4Wv/2gTz4sZe/IXXz+GZILHgOxdoZrxnDQJka435NsRagU=
+	t=1784309256; cv=none; b=VXyBwLC8DwM3X73tSYKKyduPCokEpCx6Qm61TlOn71NbmytmqUelqPxn3UuKVU5TC5FDaE3FTuvH0OCIPkYxLx3El2W4Qd4fXEVTZioigIcnl9EDjoS9aIDgOWjT2V5qB/5ydlqTtGCL7o+UP/2heCxKH9KHiKuXHobhixgVhVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784309252; c=relaxed/simple;
-	bh=5qOAkI5geB9c2QJT+ZJuYGTf9tB6cnyrWqqOZSHtdhY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=f/K9p59A43hZ1RZNCDTWRy2uojgq0mFxjHxA1QCOpwlVb28mHqxP/Rt1EUbFW7daJle4uP0dxF7LkPwBzK0RgnkyjbS0PBFf8NTKvElmXQPc4BHDhigVTfqYlYQcKtO1sqnjbgjCDY4715VJOkZZSEUN4UPTQtEtRZFm0byrl3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCAnQTOr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784309256; c=relaxed/simple;
+	bh=yUQSFiVMSo4TV1a3z7ol+UBtUlj0DW3ZdJam6kMHRng=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oO86faiLPoq8b3wUpyy/OI59JKIO4j8hM7dCC2WgQ3OI1FjqYAABeTrt0zECvkIgqWYema+AWlkD3x7QpMzQ2JOtKiapoTPl1BrBISfSvkSdZkYks4yLl54siYWAkWRF5JJF6MXdncvxM4QoBdAjHoV9piejkKEBQ2gn3cey1Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IpEOJsk2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCAnQTOr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BAF1F000E9;
-	Fri, 17 Jul 2026 17:27:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IpEOJsk2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4261F00A3A;
+	Fri, 17 Jul 2026 17:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784309250;
-	bh=0O48kuedeadPtyYVMr3HodljE4FFFuatXpDbwuYN/VM=;
-	h=From:Subject:Date:To:Cc;
-	b=jCAnQTOrXc2yVCktE2fgCOUK5EpwHMMV6r+iIgfurcC4h/YjtIDoVFGYgNfEzmcqI
-	 5zuiF3d3pzNYXfUsMvPmxTE6FqFAfyjUiAJF623VdMsQCkvvXRRUHnbjEMC+r4pXYS
-	 LnbIS/orwSxTC//nhjeWaUo8M+cQKtQLbRVVPRGUKFmkB5e7rMwOAo35uQPeQI/p9L
-	 h5Cgy86sO5+1OfgSXLRZltyq5plxJHt+nMOuQ47jXFSOK1WTdPx6181/edxK2ejElu
-	 RVzrT+NNzKLZBN2WkwBchnBlNN7vTeuBXjGNb+Mbv6s1T0cVlJKIax/5L0BGwvkq5t
-	 jK103XFozxIYw==
+	s=k20260515; t=1784309255;
+	bh=22AOIFpaEY/MXo5bsXfXAlnPYUw1Afv74uPUeSMlE9s=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=IpEOJsk2frc8eyhvJm4BcPXFLrXxsdBkHqL19fZg1vnPXC+48dHkloZxVht2sgCIn
+	 3Bu+5pASl13J+//bgdKiwEZ1UCxEPTW7XzhSqO7JHRrO3u0okpezfFpsJBdKHsmBy5
+	 EPAyRmjuTtojLouYKrO6iHtMhB10PfCaLnwL92/CYOErIFgfYGr6MyPpthqKOWeaMt
+	 zhlDu3S2Gs+yoi0BUvk4ne/FRV9hPc8kS2qu/AtOYTlA9Obkr8jD7Yc/fniXStQsqb
+	 lDN0Ai0KQGHrwbbhW1nTPx2BZrJf0538sghQwnu04NAKOGdDvChp6D27opKGXs9n4j
+	 19AdIWrDlBsiA==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Subject: [PATCH v2 0/3] mm/mseal: further cleanups
-Date: Fri, 17 Jul 2026 18:27:08 +0100
-Message-Id: <20260717-mseal-fixups-v2-0-0daa0014b813@kernel.org>
+Date: Fri, 17 Jul 2026 18:27:09 +0100
+Subject: [PATCH v2 1/3] mm/mseal: remove superfluous comments, fix
+ confusion around mm
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,11 +38,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOxlWmoC/3WNyw6CMBREf4XctTV9GExd+R+ERQsXqCIlvUA0p
- P9ui2uXJzNzZgfC4JDgVuwQcHPk/JRAngpoBjP1yFybGCSXJb+Kkr0Izcg6915nYkIJ03KtdIs
- S0mQOmJJDV9U/ptU+sFmyIzcGR4sPn+NvE7n3R70JxpkyuuTadvwi7P2JYcLx7EMPdYzxC562i
- Jq7AAAA
-X-Change-ID: 20260716-mseal-fixups-131ad0939de2
+Message-Id: <20260717-mseal-fixups-v2-1-0daa0014b813@kernel.org>
+References: <20260717-mseal-fixups-v2-0-0daa0014b813@kernel.org>
+In-Reply-To: <20260717-mseal-fixups-v2-0-0daa0014b813@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
  Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
@@ -53,72 +52,125 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: ljs@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=ljs@kernel.org;
- h=from:subject:message-id; bh=5qOAkI5geB9c2QJT+ZJuYGTf9tB6cnyrWqqOZSHtdhY=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiUj+EWEUlbP0+1Vg9PzH18/bFZY+WbXnNxBkhb6f58
- DO79xeVjlIWBjEuBlkxRZbnX8T3B4mEzeu84O8GM4eVCWQIAxenAEzEL5Hhf42d+QeFPzfXNzwX
- OCbzav4XhxmzD+ycWPsqN/9ejqfpH0VGhkYvs2ZpxW13aw3bdETFBUOjKhYtZJx8Xd5uo1aE97K
- nzAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3558; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=yUQSFiVMSo4TV1a3z7ol+UBtUlj0DW3ZdJam6kMHRng=;
+ b=kA0DAAoWz53NioHifxQByyZiAGpaZfSgorz2kS+U4gg7UETrRRwkLBS0VyFbGJotbwMb7eS9K
+ 4h1BAAWCgAdFiEE5/QXv1IUVp6J0E9Gz53NioHifxQFAmpaZfQACgkQz53NioHifxR//wEAupG9
+ sJD43zKwgDi1oGAHZDvCDYERsMWdIkTPWSz+/1IA/jTXq4+KsWA2XeJowvtlFH/SxE5JTMDwG6n
+ 7bP8c41gC
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-The mseal implementation is still rather confusing, so tighten things up a
-little.
+Remove comment blocks that don't add value and eliminate any confusion
+about whether or not we permit mseal()'ing of remote mm's by not passing
+through an mm parameter but rather referencing current->mm in each
+function.
 
-The only user of do_mseal() outside of the system call is the MMAP_PAGE_ZERO
-process personality - retain better control over how mseal is utilised by
-providing mseal_mmap_page_zero() for this instead.
+Also while we're here, avoid an ugly goto by using an else branch, and move
+local parameters declarations into reverse xmas tree order.
 
-The comments are overly long and confusion, so cut them down so they're a lot
-clearer.
+No functional change intended.
 
-Remove confusing mm_struct params (mseal can not be used on remote mm's) and
-wrap the actual system call logic into the system call declaration.
-
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
-v2:
-* Added tags (thanks everyone!)
-* Abstracted mm as per David.
-* Renamed [__]mseal() to [__]mseal_range() as per Pedro.
-* Moved to reverse xmas tree declarations.
-* Tweaked commit message for 2/3.
+ mm/mseal.c | 53 +++++++++++------------------------------------------
+ 1 file changed, 11 insertions(+), 42 deletions(-)
 
-v1:
-https://patch.msgid.link/20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org
+diff --git a/mm/mseal.c b/mm/mseal.c
+index 9781647483d1..430a252a6da4 100644
+--- a/mm/mseal.c
++++ b/mm/mseal.c
+@@ -16,32 +16,11 @@
+ #include <linux/sched.h>
+ #include "internal.h"
+ 
+-/*
+- * mseal() disallows an input range which contain unmapped ranges (VMA holes).
+- *
+- * It disallows unmapped regions from start to end whether they exist at the
+- * start, in the middle, or at the end of the range, or any combination thereof.
+- *
+- * This is because after sealing a range, there's nothing to stop memory mapping
+- * of ranges in the remaining gaps later, meaning that the user might then
+- * wrongly consider the entirety of the mseal()'d range to be sealed when it
+- * in fact isn't.
+- */
+-
+-/*
+- * Does the [start, end) range contain any unmapped memory?
+- *
+- * We ensure that:
+- * - start is part of a valid VMA.
+- * - end is part of a valid VMA.
+- * - no gap (unallocated memory) exists between start and end.
+- */
+-static bool range_contains_unmapped(struct mm_struct *mm,
+-		unsigned long start, unsigned long end)
++static bool range_contains_unmapped(unsigned long start, unsigned long end)
+ {
+-	struct vm_area_struct *vma;
+-	unsigned long prev_end = start;
+ 	VMA_ITERATOR(vmi, current->mm, start);
++	unsigned long prev_end = start;
++	struct vm_area_struct *vma;
+ 
+ 	for_each_vma_range(vmi, vma, end) {
+ 		if (vma->vm_start > prev_end)
+@@ -53,11 +32,10 @@ static bool range_contains_unmapped(struct mm_struct *mm,
+ 	return prev_end < end;
+ }
+ 
+-static int mseal_apply(struct mm_struct *mm,
+-		unsigned long start, unsigned long end)
++static int mseal_apply(unsigned long start, unsigned long end)
+ {
++	VMA_ITERATOR(vmi, current->mm, start);
+ 	struct vm_area_struct *vma, *prev;
+-	VMA_ITERATOR(vmi, mm, start);
+ 
+ 	/* We know there are no gaps so this will be non-NULL. */
+ 	vma = vma_iter_load(&vmi);
+@@ -142,10 +120,10 @@ static int mseal_apply(struct mm_struct *mm,
+  */
+ int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
+ {
+-	size_t len;
+-	int ret = 0;
+-	unsigned long end;
+ 	struct mm_struct *mm = current->mm;
++	unsigned long end;
++	int ret = 0;
++	size_t len;
+ 
+ 	/* Verify flags not set. */
+ 	if (flags)
+@@ -170,20 +148,11 @@ int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
+ 	if (mmap_write_lock_killable(mm))
+ 		return -EINTR;
+ 
+-	if (range_contains_unmapped(mm, start, end)) {
++	if (range_contains_unmapped(start, end))
+ 		ret = -ENOMEM;
+-		goto out;
+-	}
+-
+-	/*
+-	 * Second pass, this should success, unless there are errors
+-	 * from vma_modify_flags, e.g. merge/split error, or process
+-	 * reaching the max supported VMAs, however, those cases shall
+-	 * be rare.
+-	 */
+-	ret = mseal_apply(mm, start, end);
++	else
++		ret = mseal_apply(start, end);
+ 
+-out:
+ 	mmap_write_unlock(mm);
+ 	return ret;
+ }
 
-To: Andrew Morton <akpm@linux-foundation.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-To: Vlastimil Babka <vbabka@kernel.org>
-To: Jann Horn <jannh@google.com>
-To: Pedro Falcato <pfalcato@suse.de>
-To: Alexander Viro <viro@zeniv.linux.org.uk>
-To: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-To: Kees Cook <kees@kernel.org>
-To: David Hildenbrand <david@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: ljs@kernel.org
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-
----
-Lorenzo Stoakes (ARM) (3):
-      mm/mseal: remove superfluous comments, fix confusion around mm
-      mm/mseal: limit scope of mseal address zero to address zero
-      mm/mseal: remove further superfluous comments, do_mseal()
-
- fs/binfmt_elf.c    |   7 +--
- include/linux/mm.h |   8 +--
- mm/mseal.c         | 160 ++++++++++++++++++-----------------------------------
- 3 files changed, 58 insertions(+), 117 deletions(-)
----
-base-commit: 59c684a9908d2e6f7a791f7f033eae57ec2b3a61
-change-id: 20260716-mseal-fixups-131ad0939de2
-
-Cheers,
 -- 
-Lorenzo Stoakes (ARM) <ljs@kernel.org>
+2.55.0
 
