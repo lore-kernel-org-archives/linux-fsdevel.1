@@ -1,58 +1,54 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDB33655E3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 13:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643D63D9548
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 13:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784293512; cv=none; b=aJ3cv98jZAPtbVK6bZ5NB3WXoh7B3pqtPftFBOqlZMO5hBDsIhtjLKEkxokhoefvEXXi29DD83jlAV48JkZYuAETTLA1Hn5E5wThC3SiTzABoethyra4H29JVgI2luO8ffYtDUHpIvdpdlRWBHR7GXUf4jR8Hv5vPh+lBpbzwb8=
+	t=1784295741; cv=none; b=efQEN+y9qsrqT0BDBi+MHHMLdA4/zZtFGTfpbit9v6yUfsGV6xgajdVBpW/KwR90lQ7OMaLL+x+9j+y2ati3oTybdL+0FRDt5YOh0P0mWEqPJf8xsVoXlPtcq5y3piAYct+PNG4gptRpYq8JSEY5bAnt1DlE8fkAKyGdAf2zQ7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784293512; c=relaxed/simple;
-	bh=u5A6Ob8A/lUf1OzDjonJL5GwQL6NJWCNDjeXa5kvdks=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=mNjRcHghDyEem3NjexgjPtxYOLGjnN/6pgR4iiOQnIv1rpjxu0BGTyJ2lEe6/8dIiA2sRUXhJLA3P9QyzfsIze6Hs0yqsqkloqXcdJx1PlkKV/yLzQufepmR3aFZ4IEFEz5Gv+MzE/88YgHXeMNPhHgT0HVrlU5VXDSgDU9RoGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=vel0WVwb; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1784295741; c=relaxed/simple;
+	bh=DbwSdDWAMWQfzC2Bp1KCyScdzBip91oqkJ0X2B/ekdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bj4r3PrREvQ/AwXBSSWatJoZvXsfNu3XzTuxUHDp6tkEi1fgJd7u5t1BuTpF+ctgvP5ou460xiqG5faMJ6XfOpCZMlMp1fNdPGq8wBXEbpWAJmAEE/dpK1xHxO4Sw2eRkcfG7/Bq8Y8MhGwWCShl1cXZfsKYF5DMiJzXWBpN4ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WzvU517e; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="vel0WVwb"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260717125626epoutp03266228f211975e5a7a0663ceecd9d0de~DFQRosJrx3067930679epoutp03Q
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 12:56:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260717125626epoutp03266228f211975e5a7a0663ceecd9d0de~DFQRosJrx3067930679epoutp03Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1784292986;
-	bh=T6gnl694bL8sHjhZ8iBa4hrxVJcxHKLMq3kl2/UT8mc=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=vel0WVwbU14JvRhJtKPLSfLs9ymvyFbZWXQyC7EG0iRAxpdUDvnNbHazmJ4TeRu0z
-	 jo1Ir5UPXc8WOjFNZ0jh/dzrYbBIi6No8IrCHRNlo8DquZY8AJi33/4+Xuxu+RorcD
-	 mrC0MiAVBaKfa+UIL0VpWedmNjRli5jkQTQ+x4/s=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260717125625epcas5p3399d733662ce55b6fe13b66970443d8d~DFQRJpJZ30710307103epcas5p3K;
-	Fri, 17 Jul 2026 12:56:25 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4h1qfc3zwhz6B9m7; Fri, 17 Jul
-	2026 12:56:24 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260717125624epcas5p3fefc5b8ff274260bf8fb2f1b225b4f9a~DFQP31FjG0710307103epcas5p3D;
-	Fri, 17 Jul 2026 12:56:24 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260717125621epsmtip2a8dd074ef2c3d6140d8d35e34393182e~DFQNxvC7E1798717987epsmtip27;
-	Fri, 17 Jul 2026 12:56:21 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
-	jack@suse.cz, cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org,
-	ritesh.list@gmail.com
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
-	<joshi.k@samsung.com>
-Subject: [PATCH v4 0/6] xfs write streams
-Date: Fri, 17 Jul 2026 18:25:32 +0530
-Message-Id: <20260717125538.508925-1-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WzvU517e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784295739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Oqnwk+Ww73hw4SwNzeOMk3YCD7GJsJkOlNNaA2vZRuo=;
+	b=WzvU517e6eqMeLdy6NxufiYOT+vmm1uu9mlSCBW24jgBZhhvET3Mpt3GYc8BxYyiR2xjqH
+	kFnmF1b4peFy7chrV4+NnhVa71boLxsSzeykwuWDZ3ky6InsVOGH0U5ldUYN+oRKNbjD5m
+	KkM/wk9eB952EPH1mO5wpH+qt675pvA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-661-PKyWmbRXNYyarkCzcoCWqA-1; Fri,
+ 17 Jul 2026 09:42:01 -0400
+X-MC-Unique: PKyWmbRXNYyarkCzcoCWqA-1
+X-Mimecast-MFC-AGG-ID: PKyWmbRXNYyarkCzcoCWqA_1784295720
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D909F195D00E;
+	Fri, 17 Jul 2026 13:41:59 +0000 (UTC)
+Received: from oxygen.redhat.com (unknown [10.44.33.219])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E5906180058F;
+	Fri, 17 Jul 2026 13:41:57 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: linux-erofs@lists.ozlabs.org
+Cc: cyphar@cyphar.com,
+	hsiangkao@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org,
+	gscrivan@redhat.com
+Subject: [PATCH v4] erofs: accept source file descriptor via fsconfig
+Date: Fri, 17 Jul 2026 15:41:27 +0200
+Message-ID: <20260717134147.1602735-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -60,257 +56,141 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260717125624epcas5p3fefc5b8ff274260bf8fb2f1b225b4f9a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260717125624epcas5p3fefc5b8ff274260bf8fb2f1b225b4f9a
-References: <CGME20260717125624epcas5p3fefc5b8ff274260bf8fb2f1b225b4f9a@epcas5p3.samsung.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-This series introduces a generic interface [1] for write stream management on
-files. It enables spatial isolation and concurrency improvments [3] in xfs using
-- generic AG-set (patch #4)
-- write-stream based AG-set (patch #5)
+Allow userspace to pass an already-opened file descriptor as the mount
+source instead of a path string.  This is useful for tools that already
+hold an fd to the image, such as composefs reusing an existing erofs
+backing file.
 
-In LSFMMBPF'26, we discussed write-stream as a mechanism to reduce
-the filesystem allocator bottlenecks and improving direct/buffered IO
-scalability.
+Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+---
+v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
+v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
+v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
 
-Write streams allow the abstraction provider (fs, block, raid etc.) to
-leverage application's intent (file relationships/lifecycle).
-- application: sends grouping/isolation intent with a stream id.
-- xfs: maps streams to AGs; allocates without interleaving; gains higher
-  concurrency due to reduced lock contention.
-- hardware: maps streams to underlying allocation unit; reduces device
-  internal write amplification, improved life, predictable QoS.
+ fs/erofs/super.c | 73 ++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 62 insertions(+), 11 deletions(-)
 
-Also:
-- Since high-level write stream (in xfs) and logical placement can work
-  without the low-level write streams (in block device), series has a general
-value beyond hardware that provides spatial isolation.
-
-- For hardware-only spatial isolation, first 3 patches are needed.
-
-- write-stream is different from existing 'filestream' allocator which
-  maintains directory-to-AG associations in a global MRU cache. That
-requires state managment and memory (and its reclaim). Proposed AG-set
-based steering relies on simple, statless/lockless airthmatic that aligns
-more with the default allocator heuristics.
-
-[3]
-### Performance
-
-1. On regular NVMe
-
-a. Inter-stream concurrency
----------------------------
-fio: 4k write, direct IO, 16 jobs, 1 directory, 16 files * 8GiB, iodepth 32
-xfs: 16 AGs, 4 write-streams
-
-base: 41 KIOPS
-generic AG-set: 93 KIOPS (+126%)
-write-stream AG-set: 227 KIOPS (+453%)
-here, 16 files are assigned 4 unique write-streams (4 files/stream)
-
-b. Intra-stream concurrency
-----------------------------
-fio: 4k write, direct IO, 4 jobs, 1 directory, 4 files * 8GiB, iodepth 32
-xfs: 16 AGs, 4 write-streams, generic AG-set size = 2, write-stream AG-set size = 4
-
-base: 59 KIOPS
-generic AG-set: 94 KIOPS (+59%)
-write-stream AG-set: 112 KIOPS (+89%)
-here, 4 files are assigned single write-stream
-
-2. On FDP-capable NVMe:
-RocksDB YCSB
-WAF (base vs write-stream): 35% Reduction
-
-
-[1]
-### Application interface
-
-Four new ioctls:
-      FS_IOC_WRITE_STREAM_GET_MAX  query the max streams supported
-      FS_IOC_WRITE_STREAM_OPEN     open a stream id, returns a stream fd
-      FS_IOC_WRITE_STREAM_SET      attach the stream fd to an open file
-      FS_IOC_WRITE_STREAM_GET      query the stream id value set on a file
-
-### Comparison with Write Hints (RWH_WRITE_LIFE_*)
-
-- Semantics: Write Hints describe 'data temperature' (e.g.,
-short/long/extreme), implying a lifetime. Write Streams describe 'data
-placement' (e.g., Bin 1/Bin 2), implying only separation.
-
-- Scalability: Write Hints are limited to a small, fixed enum (6
-values). Write streams are dynamic, provider-dependent values that can
-scale much higher (kernel limit: up to 255 due to u8 field).
-
-- Discovery: The existing write-hint interface is advisory and decoupled
-  from underlying capabilties; application has no way to probe support
-and cannot deterministically know which hints are valid. OTOH, write-streams
-provide explicit discovery.
-
-- Usage model: application needs to get a handle (fd) for a write stream
-  before being able to use it. This avoids multi-application conflicts.
-
-Note: within the kernel, the separation between two constructs
-(write-hint and write-stream) had started from 6.16 itself.
-
-### Changelog
-
-since v3:
-https://lore.kernel.org/linux-block/20260616180555.33338-1-joshi.k@samsung.com/
-- add fd-based interface to open/set the write stream (Christoph)
-- move from single multiplexed ioctl to 4 distinct ioctls (Christoph)
-- add mutual exclusion checks against existing write-hint, filestream (Christoph)
-- uint16_t for write-stream within iomap and other streamlining (Darrick)
-
-since v2:
-https://lore.kernel.org/linux-fsdevel/20260309052944.156054-1-joshi.k@samsung.com/
-- xfs default allocator optimization using fixed-size generic AG set (Dave)
-- reuse the above to simplify the write-stream AG set handling
-- streamline the uapi; Use union for GET_MAX and GET/SET (Darrick)
-- uint16_t for write-stream within xfs inode and other cleanups (Darrick)
-
-since v1:
-https://lore.kernel.org/linux-fsdevel/20260216052540.217920-1-joshi.k@samsung.com/
-- swich from fcntl based to ioctl-based interface (Christian)
-- new patch (#4) that makes xfs allocator use the write streams for AG
-  selection
-- new patch (#5) that introduces software write streams in xfs.
-
-### Interface example
-
-/* FD-based write-stream ioctl */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <string.h>
-#include <errno.h>
-#include <linux/types.h>
-
-/* Duplicate the kernel UAPI definitions */
-struct fs_write_stream_open {
-	uint32_t	stream_id;	/* IN: desired id if OPEN_EXACT set; OUT: assigned id */
-	uint32_t	flags;		/* IN: FS_WRITE_STREAM_OPEN_* */
-};
-
-#define FS_WRITE_STREAM_OPEN_EXACT      (1 << 0)
-
-#define FS_IOC_WRITE_STREAM_GET_MAX     _IOR('f', 135, __u32)
-#define FS_IOC_WRITE_STREAM_OPEN        _IOWR('f', 136, struct fs_write_stream_open)
-#define FS_IOC_WRITE_STREAM_SET         _IOW('f', 137, __s32)
-#define FS_IOC_WRITE_STREAM_GET         _IOR('f', 138, __u32)
-
-static void usage(const char *prog)
-{
-	fprintf(stderr, "Usage:\n");
-	fprintf(stderr, "  %s <file> max        - get max supported streams\n", prog);
-	fprintf(stderr, "  %s <file> get        - get stream id set on file\n", prog);
-	fprintf(stderr, "  %s <file> open [id]  - open a stream (EXACT if id given) and bind it to file\n", prog);
-	exit(EXIT_FAILURE);
-}
-
-int main(int argc, char *argv[])
-{
-	const char *filepath, *cmd;
-	int fd;
-
-	if (argc < 3)
-		usage(argv[0]);
-
-	filepath = argv[1];
-	cmd = argv[2];
-
-	fd = open(filepath, O_RDWR);
-	if (fd < 0) {
-		perror("open(file)");
-		return EXIT_FAILURE;
-	}
-
-	if (!strcmp(cmd, "max")) {
-		uint32_t max;
-
-		if (ioctl(fd, FS_IOC_WRITE_STREAM_GET_MAX, &max) < 0) {
-			perror("ioctl(GET_MAX)");
-			return EXIT_FAILURE;
-		}
-		printf("Max streams supported: %u\n", max);
-	} else if (!strcmp(cmd, "get")) {
-		uint32_t stream_id;
-
-		if (ioctl(fd, FS_IOC_WRITE_STREAM_GET, &stream_id) < 0) {
-			perror("ioctl(GET)");
-			return EXIT_FAILURE;
-		}
-		printf("Stream id on file: %u\n", stream_id);
-	} else if (!strcmp(cmd, "open")) {
-		struct fs_write_stream_open wso = { 0 };
-		int stream_fd;
-
-		if (argc == 4) {
-			wso.flags = FS_WRITE_STREAM_OPEN_EXACT;
-			wso.stream_id = atoi(argv[3]);
-		}
-
-		/* OPEN can be called through any fd on the target filesystem. */
-		stream_fd = ioctl(fd, FS_IOC_WRITE_STREAM_OPEN, &wso);
-		if (stream_fd < 0) {
-			perror("ioctl(OPEN)");
-			return EXIT_FAILURE;
-		}
-		printf("Opened stream id %u (fd %d)\n", wso.stream_id, stream_fd);
-
-		/* SET takes the stream fd directly as the ioctl argument. */
-		if (ioctl(fd, FS_IOC_WRITE_STREAM_SET, (unsigned long)stream_fd) < 0) {
-			perror("ioctl(SET)");
-			close(stream_fd);
-			return EXIT_FAILURE;
-		}
-		printf("Bound stream %u to %s\n", wso.stream_id, filepath);
-
-		close(stream_fd);
-	} else {
-		fprintf(stderr, "Unknown command: %s\n", cmd);
-		usage(argv[0]);
-	}
-
-	close(fd);
-	return EXIT_SUCCESS;
-}
-
-
-Anuj Gupta (2):
-  fs: add write-stream management ioctls
-  xfs: implement write-stream management support
-
-Kanchan Joshi (4):
-  iomap: introduce and propagate write_stream
-  xfs: generic AG set based steering
-  xfs: write stream based AG placement
-  xfs: introduce software write streams
-
- fs/iomap/direct-io.c     |   1 +
- fs/iomap/ioend.c         |   3 +
- fs/xfs/libxfs/xfs_bmap.c |  74 +++++++++++++++++
- fs/xfs/xfs_icache.c      |   1 +
- fs/xfs/xfs_inode.c       | 175 +++++++++++++++++++++++++++++++++++++++
- fs/xfs/xfs_inode.h       |   8 ++
- fs/xfs/xfs_ioctl.c       |  69 +++++++++++++++
- fs/xfs/xfs_iomap.c       |   1 +
- fs/xfs/xfs_mount.h       |   5 ++
- fs/xfs/xfs_super.c       |  12 +++
- include/linux/iomap.h    |   2 +
- include/uapi/linux/fs.h  |  16 ++++
- 12 files changed, 367 insertions(+)
-
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 86fa5c6a0c70..558041011398 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+ enum {
+ 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+ 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
++	Opt_source,
+ };
+ 
+ static const struct constant_table erofs_param_cache_strategy[] = {
+@@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
+ };
+ 
+ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+-	fsparam_flag_no("user_xattr",	Opt_user_xattr),
+-	fsparam_flag_no("acl",		Opt_acl),
+-	fsparam_enum("cache_strategy",	Opt_cache_strategy,
++	fsparam_flag_no("user_xattr",		Opt_user_xattr),
++	fsparam_flag_no("acl",			Opt_acl),
++	fsparam_enum("cache_strategy",		Opt_cache_strategy,
+ 		     erofs_param_cache_strategy),
+-	fsparam_flag("dax",             Opt_dax),
+-	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
+-	fsparam_string("device",	Opt_device),
+-	fsparam_string("domain_id",	Opt_domain_id),
+-	fsparam_flag_no("directio",	Opt_directio),
+-	fsparam_u64("fsoffset",		Opt_fsoffset),
+-	fsparam_flag("inode_share",	Opt_inode_share),
++	fsparam_flag("dax",			Opt_dax),
++	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
++	fsparam_string("device",		Opt_device),
++	fsparam_string("domain_id",		Opt_domain_id),
++	fsparam_flag_no("directio",		Opt_directio),
++	fsparam_u64("fsoffset",			Opt_fsoffset),
++	fsparam_flag("inode_share",		Opt_inode_share),
++	fsparam_file_or_string("source",	Opt_source),
+ 	{}
+ };
+ 
+@@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+ 	return false;
+ }
+ 
++static int erofs_fc_parse_source(struct fs_context *fc,
++				 struct fs_parameter *param)
++{
++	struct erofs_sb_info *sbi = fc->s_fs_info;
++
++	if (fc->source || sbi->dif0.file)
++		return invalf(fc, "Multiple sources");
++
++	switch (param->type) {
++	case fs_value_is_string:
++		fc->source = param->string;
++		param->string = NULL;
++		return 0;
++	case fs_value_is_file: {
++		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
++		char *p;
++
++		if (!buf)
++			return -ENOMEM;
++		p = file_path(param->file, buf, PATH_MAX);
++		if (IS_ERR(p))
++			return PTR_ERR(p);
++		fc->source = kstrdup(p, GFP_KERNEL);
++		if (!fc->source)
++			return -ENOMEM;
++		sbi->dif0.file = no_free_ptr(param->file);
++		return 0;
++	}
++	default:
++		WARN_ON_ONCE(true);
++		return -EINVAL;
++	}
++}
++
+ static int erofs_fc_parse_param(struct fs_context *fc,
+ 				struct fs_parameter *param)
+ {
+@@ -524,6 +560,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 		else
+ 			set_opt(&sbi->opt, INODE_SHARE);
+ 		break;
++	case Opt_source:
++		return erofs_fc_parse_source(fc, param);
+ 	}
+ 	return 0;
+ }
+@@ -752,13 +790,26 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int erofs_fc_get_tree(struct fs_context *fc)
+ {
++	struct erofs_sb_info *sbi = fc->s_fs_info;
+ 	int ret;
+ 
++	if (sbi->dif0.file) {
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
++			errorfc(fc, "source fd option not supported");
++			return -EINVAL;
++		}
++		if (!S_ISREG(file_inode(sbi->dif0.file)->i_mode) ||
++		    !sbi->dif0.file->f_mapping->a_ops->read_folio) {
++			errorfc(fc, "source is unsupported");
++			return -EINVAL;
++		}
++		return get_tree_nodev(fc, erofs_fc_fill_super);
++	}
++
+ 	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+ 		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+ 			GET_TREE_BDEV_QUIET_LOOKUP : 0);
+ 	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
+-		struct erofs_sb_info *sbi = fc->s_fs_info;
+ 		struct file *file;
+ 
+ 		if (!fc->source)
 -- 
-2.25.1
+2.55.0
 
