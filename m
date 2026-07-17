@@ -1,186 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-00756801.pphosted.com (mx0a-00756801.pphosted.com [205.220.170.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04AD3CBE79;
-	Fri, 17 Jul 2026 11:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784286446; cv=none; b=q3IKrMTvYGh6h9+Aycd3RapFJkCNzKjXZJZZl40lhMO9G2UZ+AAP2n2LK2ixrBpNYznTiAZhrqhpHLRn70+SwImhTRXdJnJVkT2zBBycfJ4sevfK+HSqEqZlVTnWsB+JxxaILOVEFuK/x3kYre8+1WmQspDycUWBmofqRUZnSh8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784286446; c=relaxed/simple;
-	bh=4kBO8qX+9n4HtoX8f7rzuw8LYcyzRA912E90vgxtXFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kvOeVL1+vxBDBw2fjH6ihvS6Gkr2rnkYM5FscvoRr4LOmZMej+5rztWfrJDhR6xNQzuM5UgB9Vbp6vd3kTxa+DigDWXQTBDxMeYQsScOvIZyrNnHSnorkMpIwxxzprKTtZxHuhXSvCGU/nut9fCde7v4hP+jFwWioIy431UtISw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dofqD/NC; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3353DF008;
+	Fri, 17 Jul 2026 11:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.170.195
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784286747; cv=fail; b=M0wjV8/THhr6WflKoFsPd8t2kJAAVxvsFa26LVfJxlhJK76HVs5QxVLrlSBNS3qgfpRzI8tj5QptYYwwKIjqINx+aA8PYFTqlKkziMYhg9DfatWTljoYjMCyURTE5WtTBj9inKrWkH/OUg7mgBA9JD7XqI7XufAsPD8781uWGko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784286747; c=relaxed/simple;
+	bh=yJbrU+ySE0R9RurngZ5xX7bGkp1goRhRTXN89pYOwHg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=YXefstu7sWHVkkiMHeS3u/ytf1+mSdy63Hz203XQLtWV+211EQytBH469OGrxmiIUgGoKISfTZEegk9cTLuQTzBBsna+cyVpdpysw6xnrXuBatUQOlqYoEjbiK/Ewp0hWhwiJsBzu4iq6VTi2nCjb839uCs+EnvRe8usWRifDOw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nozominetworks.com; spf=pass smtp.mailfrom=nozominetworks.com; dkim=pass (1024-bit key) header.d=nozominetworks.com header.i=@nozominetworks.com header.b=lchBVufr; arc=fail smtp.client-ip=205.220.170.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nozominetworks.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nozominetworks.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dofqD/NC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127941F000E9;
-	Fri, 17 Jul 2026 11:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784286431;
-	bh=Qrt7GBm/iJQ0xT9tqvtXBOMrwF7xCOTKxp85twwhy4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dofqD/NCUtNXFT9e8cRUAwguEXHfd4naRLtJsBEqKHztpkIsDx6WdpAw2MAVdD5uI
-	 AcGqpJE2MSWyL/nGIL3P7ZfaiAs5OVbzN1Uqfl4wg+BUNzSbxkP42GeDU57JZcmsfM
-	 mZpPXlODsl0UyzEUJZzWB54Ennfw0y+vGO65uDkTeblfAvTVDelxnwEwSmk9lebpSz
-	 9JcTyxOw6hTZwcy8p6SqIl4MBjYRxNWt9EAxtNxoBgM0I90+BLTOIil+rME3GzFUmh
-	 00nkZf1BusqqTzJrGRGYb9SB9CwMG1L8LdLDhBoNzD8Mqk35OnU/6DuK5JwtItfzGg
-	 AoMS0YgO6HCnw==
-Date: Fri, 17 Jul 2026 12:06:55 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Leon Hwang <leon.hwang@linux.dev>
-Subject: Re: [PATCH 3/3] mm/mseal: remove further superfluous comments,
- do_mseal()
-Message-ID: <aloK6qs03fPpI5Qa@lucifer>
-References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
- <20260716-mseal-fixups-v1-3-3a9609bf041b@kernel.org>
- <20260716173355.41a98b4e5d5a06772fd7fc12@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=nozominetworks.com header.i=@nozominetworks.com header.b="lchBVufr"
+Received: from pps.filterd (m0297686.ppops.net [127.0.0.1])
+	by mx0a-00756801.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HARgfv4048965;
+	Fri, 17 Jul 2026 03:51:53 -0700
+Received: from as8pr04cu009.outbound.protection.outlook.com (mail-westeuropeazon11021119.outbound.protection.outlook.com [52.101.70.119])
+	by mx0a-00756801.pphosted.com (PPS) with ESMTPS id 4febp5acpd-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 17 Jul 2026 03:51:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GnFleAimMX1HOSkKKfOy+PdL2+JDM+UifoW04TSqvUgVCd4n3GYYf21fzmmq14raz7/0tL4PohRH1cRprqGXnOjV9S/Sjf8LGkPsalZ9o7Y49JAU6COjHXCYfgW2TRTiiLbS5yENEniuwpxdzIy9iTxMTGyqHYuJYpNrsfR+aZeAOHUyATlRUUfpdX3/gHsyabUFIFbVsTb0fgCG3yNuAP7g4PmN68iomvJw8QZQ617CDymOCgNLcam2vDAsgGQosix7cJfdolwZwWVIsSVezrPC7ZM7b7EXj/l7zd6Yb+bXFo3hpQafXNTyIfJLvYkGD/tZtO0qB2k5AWFbWki1KQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lFftjpG4PXZz2N3wqm+Y/h/fc0YwFNrV7BF3KIP3Xvw=;
+ b=S6HMcXAoACTkj43ZF+Ew7epG+2AkIapbzRjcPBoGUhSyUuTyAZFU9VeW3ttV3SXf091UogwlUmb7ZSGZrJj5iGdcRBgGxCBsQnBgXdjltMJKIYDjNVk6E+nreb7kxz9+cOZmPVd7iybCAzvKGlV10pxRlAk83uaX0awh3Mrq11nHbA0NVWoOH6UDSlTNZWyQqNxgNzOSQV1HSH9Wb2ifC5obN4R3a2Q25/36itEqFSBusDwcFfAXnraet6sbD06eVqIHG6XJ/RVJIFY+wfmpWyNQ0rfK1QDa7rIwyNMgbQiXJ2Bx+7RXzCTS9vMbP+WlIhELKYrd64VCedshVwqBng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nozominetworks.com; dmarc=pass action=none
+ header.from=nozominetworks.com; dkim=pass header.d=nozominetworks.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nozominetworks.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFftjpG4PXZz2N3wqm+Y/h/fc0YwFNrV7BF3KIP3Xvw=;
+ b=lchBVufrSbYUq/SD3Ea8B42tIbCjbL0CG66FlwltY3X1gEx/Qg8TMeRtAVOGQZ+j6tzM1t2iB0PibieWLifwSV3U6guFKS52M2x/pjsxgPny7bdKNrksyfi8zgowqeeJPWe6p2uQsGmLmk0WxOxs0H12G7opIKJFTssu0eGmdQM=
+Received: from VI0PR03MB11174.eurprd03.prod.outlook.com
+ (2603:10a6:800:2f8::12) by GV2PR03MB9883.eurprd03.prod.outlook.com
+ (2603:10a6:150:b0::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
+ 2026 10:51:48 +0000
+Received: from VI0PR03MB11174.eurprd03.prod.outlook.com
+ ([fe80::478a:c992:bbc3:ca3f]) by VI0PR03MB11174.eurprd03.prod.outlook.com
+ ([fe80::478a:c992:bbc3:ca3f%6]) with mapi id 15.21.0223.011; Fri, 17 Jul 2026
+ 10:51:48 +0000
+From: =?iso-8859-1?Q?Alexandro_Cal=F2?= <alexandro.calo@nozominetworks.com>
+To: "hyc.lee@gmail.com" <hyc.lee@gmail.com>,
+        "linkinjeon@kernel.org"
+	<linkinjeon@kernel.org>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] fs/ntfs: Fix index_root heap OOB write in ntfs_ir_to_ib()
+Thread-Topic: [PATCH v2] fs/ntfs: Fix index_root heap OOB write in
+ ntfs_ir_to_ib()
+Thread-Index: AQHdFdpEMwHKyzIdgkG2luaAOW1OTA==
+Date: Fri, 17 Jul 2026 10:51:48 +0000
+Message-ID: <4EAAF864-52A2-429F-A7F1-46228DDE6884@nozominetworks.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI0PR03MB11174:EE_|GV2PR03MB9883:EE_
+x-ms-office365-filtering-correlation-id: 31a4d3be-8c96-498d-a5d8-08dee3f166e9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|6133799003|56012099006|11063799006|10067099003|18002099003|4133799003;
+x-microsoft-antispam-message-info:
+ FUTRQ2IsK9JDeJWLcTEpBzJiPJ1X6GXzbmkxSieR2xF1vPtvpsbrqU+C8lS1+Uo0AgBNNZfzC/i9x9SmEkvZbpF5LPuNRto2V6q0aeYdjzQQYxktl2Cc6QbU42kpe5OCKigShAf5QQgKnZ6bc4Gnt61o1o/fGlXoADAKWnObN3wJIy9vhoOIABuscj0jXXI8POokXQ33xpMiALFnNXxgoiRTmFzhiWtqbz7qql4UQadykXMma6lKWlcW8E9QfHBAGgZyKRjCHgpa8dkp87b63SKfbxXFLdBekSyAB8yf8Eqb6i+JKgBB3PZzTOzh5KCJu/n54qmxDXRbwdTtHBwn2Us4cw2b6wv/SNa91m3ygLqn2HrwlfUjaT3wRIIASApGVZzKnlKU6OAST0HKp+S8zAhEb+QdUkWVmxhAQyQU+t5dBzIMu2fIZ2eXXdNs76eJo13sz8Pykwprm94pMYbGrebmfpDfAuwFhEvXNa1gfZKtG0qFbenMdCIlcr08A7qsyIy+vEoiOPmIVmTva6h/gyD0kFoDW624BK0EGuTFc9SklyFHkaT8OKKgYuvy7GFmDURwxVewXmcjxasaLKJITcw6XNikC5PIXt1CpbPK1kXC6RYRBWPXfHsjcEnsal0DGQPwIU1DjNSKq197PZspg9zAa/c0/CXSJOineOXBkubVzuIAdxrrf/B1Lhh7SKilGg6BjnbXh97HaBiLvm2SNu3quSTA/fdZSSi0IPFg2hw=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR03MB11174.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003)(4133799003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?WMKVXbBBQK0dhCCcvriyHe796YSrZvq8bROoR5lytxuZ9Ztm9iWKR6fy/5?=
+ =?iso-8859-1?Q?UK1w47vbUT08kRnI3chzj/+lUWXlB/naGoh8x4wmceZOHpgpscQO9s6rnk?=
+ =?iso-8859-1?Q?ckC2SmM2jX3jZOEN3wkSF8vluyJoZTCvpXqxVPLvaJm09oEDOhWiFOEk06?=
+ =?iso-8859-1?Q?nI2v67lVqpk7kjVpo/dQWxHzwg2VPJZh5qOKO2+MH74WQGLoApngF8hhsp?=
+ =?iso-8859-1?Q?hy8MupANyDBO+O8iHnJ1wVq4KQGFDfGWF9suxIuiMEDqN1DalInVEtRkxj?=
+ =?iso-8859-1?Q?pAnb5qDPEOLnMJQCX05/yRlYuRJLrEBZsbahVmH0BOE29C2KCQyb9xkzSx?=
+ =?iso-8859-1?Q?unoKDDQ6VxJNllBf2SqHHqi/NFFj3ycYw7gQZqyP1n14CgSOL3q5QVXugq?=
+ =?iso-8859-1?Q?n1H4UvL4qPJ4k2hKORC7JDxu9GSqPgEu6uHAgWVHRJNGBMmFNPAgq9POHW?=
+ =?iso-8859-1?Q?npdFRstzgvYVDmY0agZcGp5RrRPIVyP41VYawWbGCXjKUQPre/XbvPcJNf?=
+ =?iso-8859-1?Q?T1zA5z6Zh40klPioO5bmOEoTQKsuyOA+P+OtB6jPKCu5B8PQ5lvBEF+D+6?=
+ =?iso-8859-1?Q?OzBvkYXCLKyW9T2CImiUL9hIaEdm22870spVb+SpM/mjBzccJaG11reHfb?=
+ =?iso-8859-1?Q?i7jjmxRSmoVZpjXhN/j2GFpAsI+5IwmE/YmmwHjtc8IV1L7mY1xeXiEkGp?=
+ =?iso-8859-1?Q?eVuvzqtv8LtQ9l/HQ4m1q0yFEV0+04SX/4JV+wjgHVM63AQHT3dGsqkyul?=
+ =?iso-8859-1?Q?3xoM9b2IGbTdj2enLQERZhCU7ud/AVmGDn1wHT1skmxt3LWvlaMziazsmH?=
+ =?iso-8859-1?Q?osgCvx7DyJNHaTAAEaJDVLdOqNItAH1KB1PeN09+sOM2zcfrBpQSOzE1zc?=
+ =?iso-8859-1?Q?SW9x62FJhWD7/2/p3MqMW+inrpznlb0z79gvr0Nvrynyf9de09VRsNy2XI?=
+ =?iso-8859-1?Q?2dxNj7EI/HGAUJYyBRiIkttqKxJcRp3X97nQcFlFMJMxHpXElmiKQdAx0S?=
+ =?iso-8859-1?Q?E2I8C1P4viuCBk2+jgYzJ6XheSgZHdv0cNM0IC7UGoSkPGHe9e41mawSZl?=
+ =?iso-8859-1?Q?xjGQTARkyhMFXWDCkEO4IEci8jrCVAiN+MLHTyV4h69q4F44G5O1TxThpn?=
+ =?iso-8859-1?Q?pHmOcF8oOD7QsVHNHiI8c2d1OFh4BGqBZ/d85wgBtjZCFqMTiZ3jNsfpDB?=
+ =?iso-8859-1?Q?ZjQJS2Wk9jmBlT2q0iIWECOnNtJoijH/xF/gOIX6XWPWPtqRQ0TSz7eRIK?=
+ =?iso-8859-1?Q?bAIJau8LnPStEQ9gnnl5/lJOcMJSrRTG0TFjY9Qa+alZYDv3zJ3iSwLY1s?=
+ =?iso-8859-1?Q?zm34zxfsE5Umqsmt4laNWZ/CUXnTPJnouq9HUOoWBGZwesvJa0GJn1q4JS?=
+ =?iso-8859-1?Q?Rm+8QJIUlBozVHRosRvGtGFUwDGcLRfQzouyZu4658TfCXwoEEwRTaBdpz?=
+ =?iso-8859-1?Q?ZNu77eb4rb4U2u7fQz7wcbmF2PatAN7dbYlnRWmeeh1OiUhfg3viebeAkM?=
+ =?iso-8859-1?Q?oJZa6w4KIE3oPtoXGhPqBDF50ZXIxEq47lNCjF3YIyV8HqvYUd227Mme7o?=
+ =?iso-8859-1?Q?0kTHvWkPrwOHTIL9umDnZ9CyxPmS0hGMv5PzV8YL9PRvWHjsv54vFnfHbc?=
+ =?iso-8859-1?Q?IpLpzOSV/J1E055Et6tgVWeVQMSuDwMHDcPGk4J0UnmAyuW71RieLyUYTG?=
+ =?iso-8859-1?Q?rMOFs14nJJNKxoWOY91eWXfeFSGY2PJC5ebL4crP78QSmmdPaodC3WGtBz?=
+ =?iso-8859-1?Q?RUq3+zuLf87qUzTfXC52zqqp1Eg859Ni9LT7txGz3R/M43yKkQ36PV0iXP?=
+ =?iso-8859-1?Q?F/kHGHxQY43yyTMRcvycNstamj9UkI8FWTPaWynnmz36W76zeQRn?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E62AC67283E44B4180A410A41A111B54@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260716173355.41a98b4e5d5a06772fd7fc12@linux-foundation.org>
+X-Exchange-RoutingPolicyChecked:
+	UT8q1J63C5+AcjXutCoCw1Cz+TLT1arSrWLeGcVAsDGa5UfyWPTYDFPxD+guQE2dT4zsCORZK82BpHxznbQIV6cqV1Cf05F9gSFe+hlhvr0Qa13Y9HLnmA8FB/C1nLOp+zSmrv60Yfn1atCsmBhzHNtVKwQedukI85YVIssYHS1Mil1h3Fhs5kyigGrRodcv0AwZFPkPewe8hozpUXvwmOKpj7dIDMRmSSTShfsPn/glxYmighokaOEt7UAyo9Xu6VfdOvcf5Rj/OzfW8b0i84RBHzBajjNzr+Bs4hAiTtQ5mBqBC9fZ5jp3ABOKyiW3fatdT5n2OMfZ8ucK+0g6PQ==
+X-OriginatorOrg: nozominetworks.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI0PR03MB11174.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31a4d3be-8c96-498d-a5d8-08dee3f166e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 10:51:48.6090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6f04d14b-0796-4b81-b7fd-779778e05341
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vEBnQ+W0K8oyV002BT5rCSIEnRuoskNqNRomaTpY6e6nL68UvMQIeXxuHa7bqJoNGLPHgOE6zUCpsCqHF1h8e4fk7zwSoxQaXpD1FKuXR4/pTFEt2SsM4PmOeBbE8U76
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR03MB9883
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDEwOSBTYWx0ZWRfXzxVeY57t10ij
+ h+2pQQCZr43oCunDwDzDcqiLVGWQdRbmws81BisQuokNBeZqqA8ESe0EvHwihXsx28/r2+FDVc2
+ yLDUzQTdI8L9MoGxtHGkMni1YVVB+HBF/It/bx6hUIFd8zB9P+DwEzqy65DUmFfptyKnKE96eK+
+ XbNQDNMBxOqmwizuIFBrjLeUSfq6K4G1v6dfEeStvu3NgmHuDipbUE37agRC6AkQqyiz1H2uhbU
+ Bbz3J3VTUMi+82twQBXAQh98dzLKGP/8Os+UOrbhrKYDbEdIZtiOInIDOhiB4S860kprkWeCvu+
+ V4TTVVWj6BzMlG30cH6PnX6Vh0yIngnVuql16sqJVUOiwazQzRRCGYVmd8NYixwqpVoIWkT0fkm
+ gz1NcEOCv2spKgRQCs3MidaJuPIqutwPVCeyneDn/a7wrXrcrOZPonZObyU+rj+J1iULp2FK6Jy
+ yrlDMCpiXZM2k3DQQDA==
+X-Authority-Analysis: v=2.4 cv=dNeWXuZb c=1 sm=1 tr=0 ts=6a5a0949 cx=c_pps
+ a=Pi8M9zFmmuJBWN7oFQ8J+w==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=RAioF0-LDSMA:10 a=LLPZWm0_0O8A:10 a=nBHfkqHukZMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7VS2YgxpqphC4cixgVMD:22 a=iLFNfmxFs0q4OnAKpmcp:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=GqK9ZfNKAAAA:8 a=sV3JB7TLZdRITyrqHwoA:9
+ a=wPNLvfGTeEIA:10 a=BFatPaWxP-aY11LYkd1a:22
+X-Proofpoint-ORIG-GUID: 750t_s2rg5no9o-xQyFzS83C_kof2M27
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDEwOSBTYWx0ZWRfX+xY0+g1Kdmmk
+ k3anzz9hP2YR7U4QGDuXqb/OWRhx0RPJT2NAawiFEPRAXYRpivEfZYsOEwLLUqrk1f0bs0P7k7V
+ nr5VOHexWMG2oGkvN56/4EhbHkm5+KThw9nsw2bV8kcythv1l6uH
+X-Proofpoint-GUID: 750t_s2rg5no9o-xQyFzS83C_kof2M27
 
-On Thu, Jul 16, 2026 at 05:33:55PM -0700, Andrew Morton wrote:
-> On Thu, 16 Jul 2026 14:43:11 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
->
-> > There's no need to abstract do_mseal() any longer so put the system call
-> > implementation in the system call declaration.
-> >
-> > The comment around do_mseal() is strangely formatted, overly long and adds
-> > a lot of superfluous information that the code already provides, so boil it
-> > down to the essentials.
-> >
->
-> This patch
-> (https://lore.kernel.org/20260716-mseal-fixups-v1-3-3a9609bf041b@kernel.org)
-> overlaps muchly with Leon's "mm/mseal: fix mseal documentation for
-> 32-bit kernels"
-> (https://lore.kernel.org/20260715131258.55499-1-leon.hwang@linux.dev).
->
-> I'll remove the mseal.c changes from Leon's patch and I'll retain the
-> rest of that patch, after adjusting its changelog.  Please check all of
-> this!
+From: Alexandro Calo <alexandro.calo@nozominetworks.com>
+Date: Fri, 17 Jul 2026 12:14:51 +0200
+Subject: [PATCH v2] fs/ntfs: Fix index_root heap OOB write in ntfs_ir_to_ib=
+()
 
-Thanks! And sorry Leon - we definitely don't need the majority of the
-comments in mseal.c - so this change essentially makes those changes of
-yours unnecessary here.
+ntfs_ir_to_ib copies all entries from index_root into a freshly allocated
+index_block_size-byte buffer without verifying that the entries fit in the
+available space. The entries in index_root may be larger than the usable
+entry space in the index block.
 
->
->
-> Here's what's left of Leon's patch:
->
-> From: Leon Hwang <leon.hwang@linux.dev>
-> Subject: mm/mseal: fix mseal documentation for 32-bit kernels
-> Date: Wed, 15 Jul 2026 21:12:58 +0800
->
-> mseal.o is built only for 64-bit kernels, so 32-bit kernels fall back to
-> sys_ni_syscall() and return -ENOSYS rather than -EPERM.
->
-> Drop architecture description in mseal.rst, since the arch feature doc has
-> the latest state of mseal for each architecture.
->
-> Fix the CONFIG_MSEAL_SYSTEM_MAPPINGS typo in init/Kconfig.
->
-> Link: https://lore.kernel.org/20260715131258.55499-1-leon.hwang@linux.dev
-> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
-> Acked-by: Lance Yang <lance.yang@linux.dev>
-> Cc: Alice Ryhl <aliceryhl@google.com>
-> Cc: Anand Moon <linux.amoon@gmail.com>
-> Cc: Doug Anderson <dianders@chromium.org>
-> Cc: Gary Guo <gary@garyguo.net>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Leon Hwang <leon.hwang@linux.dev>
-> Cc: Liam R. Howlett <liam@infradead.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Pedro Falcato <pfalcato@suse.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
->
->  Documentation/userspace-api/mseal.rst |   14 ++++++--------
->  init/Kconfig                          |    2 +-
->  2 files changed, 7 insertions(+), 9 deletions(-)
->
-> --- a/Documentation/userspace-api/mseal.rst~mm-mseal-fix-mseal-documentation-for-32-bit-kernels
-> +++ a/Documentation/userspace-api/mseal.rst
-> @@ -50,8 +50,8 @@ mseal syscall signature
->           * The start address (``addr``) is not allocated.
->           * The end address (``addr`` + ``len``) is not allocated.
->           * A gap (unallocated memory) between start and end address.
-> -      - **-EPERM**:
-> -         * sealing is supported only on 64-bit CPUs, 32-bit is not supported.
-> +      - **-ENOSYS**:
-> +         * The kernel does not implement ``mseal()``.
->
->     **Note about error return**:
->        - For above error cases, users can expect the given memory range is
-> @@ -62,7 +62,8 @@ mseal syscall signature
->          memory range could happen. However, those cases should be rare.
->
->     **Architecture support**:
-> -      mseal only works on 64-bit CPUs, not 32-bit CPUs.
-> +      mseal is built only for 64-bit kernels. 32-bit kernels return
-> +      ``-ENOSYS``.
->
->     **Idempotent**:
->        users can call mseal multiple times. mseal on an already sealed memory
-> @@ -131,11 +132,11 @@ Use cases
->  - Chrome browser: protect some security sensitive data structures.
->
->  - System mappings:
-> -  The system mappings are created by the kernel and includes vdso, vvar,
-> +  The system mappings are created by the kernel and include vdso, vvar,
->    vvar_vclock, vectors (arm compat-mode), sigpage (arm compat-mode), uprobes.
->
->    Those system mappings are readonly only or execute only, memory sealing can
-> -  protect them from ever changing to writable or unmmap/remapped as different
-> +  protect them from ever changing to writable or unmapped/remapped as different
->    attributes. This is useful to mitigate memory corruption issues where a
->    corrupted pointer is passed to a memory management system.
->
-> @@ -143,9 +144,6 @@ Use cases
->    the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
->    architecture.
->
-> -  The following architectures currently support this feature: x86-64, arm64,
-> -  loongarch and s390.
-> -
->    WARNING: This feature breaks programs which rely on relocating
->    or unmapping system mappings. Known broken software at the time
->    of writing includes CHECKPOINT_RESTORE, UML, gVisor, rr. Therefore
-> --- a/init/Kconfig~mm-mseal-fix-mseal-documentation-for-32-bit-kernels
-> +++ a/init/Kconfig
-> @@ -2120,7 +2120,7 @@ config ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPIN
->  	  from a kernel perspective.
->
->  	  After the architecture enables this, a distribution can set
-> -	  CONFIG_MSEAL_SYSTEM_MAPPING to manage access to the feature.
-> +	  CONFIG_MSEAL_SYSTEM_MAPPINGS to manage access to the feature.
->
->  	  For complete descriptions of memory sealing, please see
->  	  Documentation/userspace-api/mseal.rst
-> _
->
+This can cause OOB writes past the end of the allocation.
 
-LGTM!
+The validator ntfs_index_root_inconsistent() checks that entries are
+self-consistent within the IR value, but never cross-checks them against
+index_block_size. There is no bounds check in ntfs_ir_to_ib() before the
+memcpy.
 
-Cheers, Lorenzo
+Fixing this at the sink in ntfs_ir_to_ib() since
+ntfs_index_root_inconsistent() validates the logical consistency of
+index_root as a structure and a root with large entries is a structurally
+valid root. The bug is a size conflict of ntfs_ir_to_ib().
+Also, the validator is called once per inode load in
+ntfs_read_locked_inode() while ntfs_ir_to_ib() is only called during a
+reparent, a check there adds no overhead to the common path.
+Moreover, even a future call path that bypasses the validator would still
+be protected.
+
+With NULL as first parameter of ntfs_error(), the volume error flag is
+never set by this call, so the device name will be absent from the error
+message. In any case, that the caller, ntfs_ir_reparent(), prints an error
+message that includes the device name on NULL returns.
+I think this is the best solution available without adding
+'struct super_block *sb' as a parameter to ntfs_ir_to_ib().
+
+This heap out-of-bounds write is triggered by a crafted filesystem image,
+which is not in the kernel threat model, anyway, fixing memory errors would
+be nice to keep  things secure.
+
+Signed-off-by: Alexandro Calo <alexandro.calo@nozominetworks.com>
+---
+Changes in v2:
+- Added error message
+
+v1: https://lore.kernel.org/linux-fsdevel/CANFS6bbAW=3DXRf=3Dd5Pb6zkyoJkAOQ=
+M1H3Wu6F5T31s8j664L52A@mail.gmail.com/
+---
+ fs/ntfs/index.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+index faa7ee920a3a..47f1f7b44bdb 100644
+--- a/fs/ntfs/index.c
++++ b/fs/ntfs/index.c
+@@ -1112,6 +1112,7 @@ static struct index_block *ntfs_ir_to_ib(struct index=
+_root *ir, s64 ib_vcn)
+ 	struct index_entry *ie_last;
+ 	char *ies_start, *ies_end;
+ 	int i;
++	u32 ib_cap;
+=20
+ 	ntfs_debug("Entering\n");
+=20
+@@ -1127,6 +1128,16 @@ static struct index_block *ntfs_ir_to_ib(struct inde=
+x_root *ir, s64 ib_vcn)
+ 	 * as well, which can never have any data.
+ 	 */
+ 	i =3D (char *)ie_last - ies_start + le16_to_cpu(ie_last->length);
++
++	/* Entries must fit in the allocated index block */
++	ib_cap =3D le32_to_cpu(ib->index.allocated_size)
++		- le32_to_cpu(ib->index.entries_offset);
++	if ((u32)i > ib_cap) {
++		ntfs_error(NULL, "Entries (%d B) exceed IB capacity", i);
++		kvfree(ib);
++		return NULL;
++	}
++
+ 	memcpy(ntfs_ie_get_first(&ib->index), ies_start, i);
+=20
+ 	ib->index.flags =3D ir->index.flags;
+
+base-commit: fce2dfa773ced15f27dd27cd0b482a7473cdcf2a
+--=20
+2.47.3
+
