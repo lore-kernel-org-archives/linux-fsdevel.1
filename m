@@ -1,134 +1,400 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from petrus.struktur.de (petrus.struktur.de [85.10.232.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075B73E9C1B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 09:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D3C3C4557;
+	Fri, 17 Jul 2026 10:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.10.232.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784282127; cv=none; b=O2kxXSPg5T0fBL+aw9hpykYb5bq5cNV/kjf4EQy8Ali5iMtCgS4snIou3LWNhNUk/LE8NQDKvUlOsDbObhiMBimNz3hCghque4S0oeztZZBk7yuzbZq1O0QT0/OAL3bb9I2+xW84dFQoQEcYmtYKpL5e5XA0VltX7aVo8M3KLU0=
+	t=1784282547; cv=none; b=UyhIZvB+hCCyPN5mOgY6xlyzB+v0vAdezlA6Ur0vRv/BynSuPTuOPexKOPTFMjueFtuOHAQGiSUKqzC0t7rWK3kgkFZQ4uZciiENadXOswy9NNkZDoL8IN3H4mtH+tbuRcezN/0LXEu9e0R5Yqfg5o70K+mPQ3HG2AIb7tB02Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784282127; c=relaxed/simple;
-	bh=TtlKEQ0wxo7w1DI20u8oorrRVmZ0uCqo0hk85Jwil9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mURC7HzM4RioB6FgA9vTK/tkKNa8AHeVhXWKLh6AhLNvlv9XxZ4dOAAcBCVjmxv/wCUMXzRjco1TiNOwquElCh1UrpRnaAFa9ZgIrQDtw3qftrUSZO0rfrEXCI/DSyHRWWAoyxJgWXHLPKa1HNPtc1h3MSQ16LdPLp4GCHNXDZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=j2Q+C1xk; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784282547; c=relaxed/simple;
+	bh=GB3WD00q7xLmc933cC18S1Bl39ae2pt4HQidrp4da0g=;
+	h=Message-ID:Date:To:Cc:From:Subject:Content-Type; b=MUfvEsfzjDepiTyFbnnCBWxjtWN2hpZcolKvpsPE5LjR/A8hEo4sRF1VoOAlUiyTjJC4Cxiuzcz8U6H+n7xnECYQblg5cVcT+z45gUvxaOVTjD81Xx0ihyE9mdJT297eMCiOZq9MHH//3T4c7WEvkHOpZ1VrevYq4lcnJYtAMac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=struktur.de; spf=pass smtp.mailfrom=struktur.de; dkim=pass (1024-bit key) header.d=struktur.de header.i=@struktur.de header.b=rQioOxD8; arc=none smtp.client-ip=85.10.232.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=struktur.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=struktur.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="j2Q+C1xk"
-Message-ID: <41bc5ca5-08ed-4aba-86a3-d7f44b16e6f5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784282113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mK2m3B99lepxQmpUE2cqM6SY8XVxww1y2r5f/OdX7BQ=;
-	b=j2Q+C1xkJleCKe9jON6eBE3mwU3B3TNr9aL+L8sLWRwyT5iqJQA4EoFdFSn9STTdPaDCFi
-	3caFeT1kkhVaDdDFfDMjqQhsfizV6dRLQMZqNj/MreLAAWqmA8fq4DsbpVWssbQ7DgwXCm
-	N3aJD4NEw8JOwAxdZvTO90NJ8FJ/DiI=
-Date: Fri, 17 Jul 2026 17:54:55 +0800
+	dkim=pass (1024-bit key) header.d=struktur.de header.i=@struktur.de header.b="rQioOxD8"
+Message-ID: <6434fc1a-f951-43b6-afaf-fb85ca77f988@struktur.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=struktur.de; s=mail;
+	t=1784282160; bh=GB3WD00q7xLmc933cC18S1Bl39ae2pt4HQidrp4da0g=;
+	h=Date:To:Cc:From:Subject;
+	b=rQioOxD8yJqwIs+oLtfDvuz3OOQlbzJWHbWAVvoQ+ibCTAtxvqcPmZskHXnIt2l9H
+	 e2M3bugPU0URi7A+6zxPqnfUY2/l7fK6WRTLNQKKw+T3GXYfyhaNH4jgdDK8aBaqD9
+	 fsFdrdYpiKfNl2ftdrMt/8CAQLbtmFi6/+oN2fcY=
+Date: Fri, 17 Jul 2026 10:55:38 +0100
+Content-Language: en-US
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+From: Nicholas Karwath <nic@struktur.de>
+Subject: [BUG] Out-of-bounds write in
+ iomap_set_range_uptodate/iomap_set_range_dirty
+Autocrypt: addr=nic@struktur.de; keydata=
+ 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
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------1JJw00kekI5p0VeAWYUPqPIa"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH] mm/thp: expose deferred split folio memory usage in
- meminfo
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Ye Liu <liuye@kylinos.cn>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>,
- Usama Arif <usama.arif@linux.dev>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org
-References: <20260717063025.168436-1-ye.liu@linux.dev>
- <46017e29-48a3-4a74-8c5a-0be9d912deaa@kernel.org>
- <dd037379-cf59-468e-8b42-51546bf2e28c@linux.dev>
- <f041f1e0-8ec4-48d4-8656-a6789c8ad379@kernel.org> <aln6SBHcxBY-9Vfl@lucifer>
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------1JJw00kekI5p0VeAWYUPqPIa
+Content-Type: multipart/mixed; boundary="------------GWi0JeygfTYg1WkL0WA9eU1b";
+ protected-headers="v1"; hp="clear"
+Message-ID: <6434fc1a-f951-43b6-afaf-fb85ca77f988@struktur.de>
+Date: Fri, 17 Jul 2026 10:55:38 +0100
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <aln6SBHcxBY-9Vfl@lucifer>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+From: Nicholas Karwath <nic@struktur.de>
+Subject: [BUG] Out-of-bounds write in
+ iomap_set_range_uptodate/iomap_set_range_dirty
+Autocrypt: addr=nic@struktur.de; keydata=
+ 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
+
+--------------GWi0JeygfTYg1WkL0WA9eU1b
+Content-Type: multipart/mixed; boundary="------------u35WqwhXmRKpTEtxCBjVrR7n"
+
+--------------u35WqwhXmRKpTEtxCBjVrR7n
+Content-Type: multipart/alternative;
+ boundary="------------vzhTQmqlCHgRf6MnmS0dh3a9"
+
+--------------vzhTQmqlCHgRf6MnmS0dh3a9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+VGhpcyBpc3N1ZSB3YXMgZm91bmQgb246DQotIEtlcm5lbDogNy4xLjMtMjAxLmZjNDQueDg2
+XzY0IChGZWRvcmEgNDQpDQotIEFyY2g6IHg4Nl82NA0KLSBUcmlnZ2VyOiBgd3JpdGUoMilg
+DQotIENPTkZJR19GT1JUSUZZX1NPVVJDRTogZW5hYmxlZA0KDQpTZWUgYXR0YWNoZWQga2Vy
+bmVsIG9vcHMuDQoNCj09PT09PT09PT09DQpEZXNjcmlwdGlvbg0KDQpXaGlsZSBydW5uaW5n
+IGEgdGVzdCBwcm9ncmFtICgiY3Rlc3QiKSB0aGF0IHBlcmZvcm1zIGEgc21hbGwgYnVmZmVy
+ZWQgd3JpdGUoKSB0byBhIGZpbGUgb24gYW4gbnRmczMtbW91bnRlZCBOVEZTIHZvbHVtZSwg
+dGhlIGtlcm5lbCBoaXQgYW4gaW52YWxpZC1vcGNvZGUgb29wcyBpbnNpZGUgaW9tYXBfd3Jp
+dGVfZW5kKCksIGNhbGxlZCBmcm9tIHRoZSBudGZzMyBidWZmZXJlZCB3cml0ZSBwYXRoOg0K
+bnRmc19maWxlX3dyaXRlX2l0ZXIgLT4gaW9tYXBfZmlsZV9idWZmZXJlZF93cml0ZSAtPiBp
+b21hcF93cml0ZV9pdGVyIC0+IGlvbWFwX3dyaXRlX2VuZCAoQlVHKQ0KVGhlIHdyaXRlIGlu
+IHF1ZXN0aW9uIHdhcyB2ZXJ5IHNtYWxsIChyZWdpc3RlciBzdGF0ZSBpbmRpY2F0ZXMgY291
+bnQ9NCBieXRlcykuDQpDcm9zcyB0ZXN0aW5nIHdpdGggbnRmcy0zZyBhbmQgbnRmcyBjb25m
+aXJtcyB0aGlzIGlzIG50ZnMzIGlzc3VlLCB0aGUgdHdvIG90aGVyIGRyaXZlcnMgaGF2ZSBu
+byBpc3N1ZSBkZWFsaW5nIHdpdGggdGhlIHdyaXRlIG9uIHRoZSBzYW1lIGRpc2suDQoNCj09
+PT09PT09DQpBbmFseXNpcw0KDQpmcy9pb21hcC9idWZmZXJlZC1pby5jIGRvZXMgbm90IGNv
+bnRhaW4gYSBsaXRlcmFsIEJVR19PTigpIGF0IHRoaXMgbG9jYXRpb24gaW4gcmVjZW50IGtl
+cm5lbHM7IHRoZSBgMGYgMGJgICh1ZDIpIGluc3RydWN0aW9ucyB2aXNpYmxlIGluIHRoZSBk
+aXNhc3NlbWJseSBhcm91bmQgYGlvbWFwX3dyaXRlX2VuZGANCmFyZSBjb25zaXN0ZW50IHdp
+dGggYSBgQ09ORklHX0ZPUlRJRllfU09VUkNFYCBydW50aW1lIGJvdW5kcy1jaGVjayB0cmFw
+IChlLmcuIGluIGBiaXRtYXBfc2V0KClgIGFzIGNhbGxlZCBmcm9tIGBpb21hcF9zZXRfcmFu
+Z2VfdXB0b2RhdGUoKWAvYGlvbWFwX3NldF9yYW5nZV9kaXJ0eSgpYCB3aGlsZSB1cGRhdGlu
+ZyBhIGZvbGlvJ3MgYGlvbWFwX2ZvbGlvX3N0YXRlYCBiaXRtYXApLg0KRmVkb3JhIGtlcm5l
+bHMgYnVpbGQgd2l0aCBgQ09ORklHX0ZPUlRJRllfU09VUkNFPXlgIGJ5IGRlZmF1bHQsIHdo
+aWNoIHdvdWxkIGV4cGxhaW4gd2h5IHRoaXMgbWFuaWZlc3RzIGFzIGEgaGFyZCAia2VybmVs
+IEJVRyIgKGludmFsaWQgb3Bjb2RlKSByYXRoZXIgdGhhbiBhIFdBUk4uDQpJZiBpdCByZWFs
+bHkgaXMgdGhlIHRyYXBwaW5nIGNoZWNrLCBpdCBpbXBsaWVzIHRoZSBgc3RydWN0IGlvbWFw
+YCByZXR1cm5lZCBieSBudGZzMydzIGBpb21hcF9iZWdpbmAgZm9yIHRoaXMgd3JpdGUgZGVz
+Y3JpYmVkIGFuIG9mZnNldC9sZW5ndGggdGhhdCBkb2VzIG5vdCBmaXQgd2l0aGluDQp0aGUg
+Ym91bmRzIG9mIHRoZSBibG9jay1zdGF0ZSBiaXRtYXAgYWxsb2NhdGVkIGZvciB0aGUgZm9s
+aW8gYmVpbmcgd3JpdHRlbiwgaS5lLiBgaW9tYXAtPmxlbmd0aGAgKG9yIHRoZSByZXN1bHRp
+bmcgYG9mZmAvYG5yX2Jsa3NgIGNvbXB1dGVkIGZyb20gaXQpIGV4Y2VlZHMgd2hhdCB0aGUg
+Zm9saW8ncyBwZXItYmxvY2sgc3RhdGUgd2FzIHNpemVkIGZvci4NClRoZSB2ZXJ5IHNtYWxs
+IHNpemUgb2YgdGhlIHdyaXRlICg0IGJ5dGVzLCBwZXIgUkRYL1IxMi9SMTMvUkJQIGhvbGRp
+bmcgNCkgc3VnZ2VzdHMgdGhpcyBtYXkgYmUgcmVsYXRlZCB0byBzaG9ydC9wYXJ0aWFsIGJ1
+ZmZlcmVkIHdyaXRlcywgYW5kL29yIHJlc2lkZW50IChNRlQtaW5saW5lKQ0Kb3IgbmVhci1F
+T0YgYXR0cmlidXRlIGhhbmRsaW5nIGluIG50ZnMzJ3MgYmxvY2stbWFwcGluZyAoYG50ZnNf
+Z2V0X2Jsb2NrYC9pb21hcCBvcHMpLCB3aGVyZSB0aGUgbWFwcGVkIGV4dGVudCBzaXplIGFu
+ZCBmb2xpbyBibG9jay1zdGF0ZSBiaXRtYXAgc2l6ZSBjYW4gZGlzYWdyZWUuDQoNCg0KVGhp
+cyBhcHBlYXJzIHRvIGJlIHRoZSBzYW1lIGlzc3VlIGFzaHR0cHM6Ly9naXRodWIuY29tL0Nh
+Y2h5T1MvbGludXgtY2FjaHlvcy9pc3N1ZXMvODQxLCByZXBvcnRlZCBpbmRlcGVuZGVudGx5
+IG9uIGtlcm5lbCA3LjAuMy0xLWNhY2h5b3Mgd2l0aCBhbiBpZGVudGljYWwgdHJhY2UgKGtl
+cm5lbCBCVUcgYXQgZnMvaW9tYXAvYnVmZmVyZWQtaW8uYzoxMDYxIGluIGlvbWFwX3dyaXRl
+X2VuZCwgc2FtZSBjYWxsIGNoYWluIHRocm91Z2ggbnRmc19maWxlX3dyaXRlX2l0ZXIpLg0K
+DQpDb250aW51ZXMgdGhlIGRpc2N1c3Npb24gZnJvbTogDQpodHRwczovL2J1Z3ppbGxhLmtl
+cm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTIyMTcyNQ0KKFRoYXQgcmVwb3J0IHdhcyBmaWxl
+ZCBvbiB0aGUga2VybmVsLm9yZyBidWd6aWxsYSBhbmQgSSB3YXMgYXNrZWQgdG8gDQptb3Zl
+IGRpc2N1c3Npb24gdG8gdGhpcyBsaXN0IGluc3RlYWQuKQ0KDQo=
+--------------vzhTQmqlCHgRf6MnmS0dh3a9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <pre class=3D"bz_comment_text" id=3D"comment_text_0">This issue was f=
+ound on:
+- Kernel: 7.1.3-201.fc44.x86_64 (Fedora 44)
+- Arch: x86_64
+- Trigger: `write(2)`
+- CONFIG_FORTIFY_SOURCE: enabled
+
+See attached kernel oops.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Description
+
+While running a test program ("ctest") that performs a small buffered wri=
+te() to a file on an ntfs3-mounted NTFS volume, the kernel hit an invalid=
+-opcode oops inside iomap_write_end(), called from the ntfs3 buffered wri=
+te path:
+ntfs_file_write_iter -&gt; iomap_file_buffered_write -&gt; iomap_write_it=
+er -&gt; iomap_write_end (BUG)
+The write in question was very small (register state indicates count=3D4 =
+bytes).
+Cross testing with ntfs-3g and ntfs confirms this is ntfs3 issue, the two=
+ other drivers have no issue dealing with the write on the same disk.
+
+=3D=3D=3D=3D=3D=3D=3D=3D
+Analysis
+
+fs/iomap/buffered-io.c does not contain a literal BUG_ON() at this locati=
+on in recent kernels; the `0f 0b` (ud2) instructions visible in the disas=
+sembly around `iomap_write_end`
+are consistent with a `CONFIG_FORTIFY_SOURCE` runtime bounds-check trap (=
+e.g. in `bitmap_set()` as called from `iomap_set_range_uptodate()`/`iomap=
+_set_range_dirty()` while updating a folio's `iomap_folio_state` bitmap).=
+
+Fedora kernels build with `CONFIG_FORTIFY_SOURCE=3Dy` by default, which w=
+ould explain why this manifests as a hard "kernel BUG" (invalid opcode) r=
+ather than a WARN.
+If it really is the trapping check, it implies the `struct iomap` returne=
+d by ntfs3's `iomap_begin` for this write described an offset/length that=
+ does not fit within
+the bounds of the block-state bitmap allocated for the folio being writte=
+n, i.e. `iomap-&gt;length` (or the resulting `off`/`nr_blks` computed fro=
+m it) exceeds what the folio's per-block state was sized for.
+The very small size of the write (4 bytes, per RDX/R12/R13/RBP holding 4)=
+ suggests this may be related to short/partial buffered writes, and/or re=
+sident (MFT-inline)
+or near-EOF attribute handling in ntfs3's block-mapping (`ntfs_get_block`=
+/iomap ops), where the mapped extent size and folio block-state bitmap si=
+ze can disagree.
 
 
+This appears to be the same issue as <a
+    href=3D"https://github.com/CachyOS/linux-cachyos/issues/841"
+    class=3D"moz-txt-link-freetext">https://github.com/CachyOS/linux-cach=
+yos/issues/841</a>, reported independently on kernel 7.0.3-1-cachyos with=
+ an identical trace (kernel BUG at fs/iomap/buffered-io.c:1061 in iomap_w=
+rite_end, same call chain through ntfs_file_write_iter).
 
-在 2026/7/17 17:48, Lorenzo Stoakes (ARM) 写道:
-> On Fri, Jul 17, 2026 at 11:33:05AM +0200, David Hildenbrand (Arm) wrote:
->> On 7/17/26 11:31, Ye Liu wrote:
->>>
->>>
->>> 在 2026/7/17 16:37, David Hildenbrand (Arm) 写道:
->>>> On 7/17/26 08:30, Ye Liu wrote:
->>>>> From: Ye Liu <liuye@kylinos.cn>
->>>>>
->>>>> Folios on the deferred split list hold physical memory that is
->>>>> invisible in meminfo. When a THP becomes partially mapped, the
->>>>> unmapped pages are removed from AnonPages but remain physically
->>>>> allocated until the shrinker splits the folio. This creates a
->>>>> memory accounting gap where used memory cannot be attributed to
->>>>> any meminfo field.
->>>>>
->>>>> Add NR_DEFERRED_SPLIT_PAGES to track the total memory consumed by
->>>>> folios currently on the deferred_split_lru, updated via
->>>>> mod_node_page_state() at all enqueue/dequeue points. The new field
->>>>> DeferredSplitPages is visible in /proc/meminfo, /proc/vmstat, and
->>>>> per-node /sys/devices/system/node/node*/meminfo.
->>>>>
->>>>
->>>> Oh no.
->>>>
->>>> This is really exposing a current implementation detail where we have this
->>>> information easily available in a way that we will not be able to change that
->>>> implementation later.
->>>>
->>>
->>> Yes, `/proc/meminfo` is a user-space ABI.
->>> Adding it there means you can't change the semantics,
->>> and the field will become unmaintainable, yet you can't delete it either.
->>> But I think this information is still necessary.
->>> Where would be a better place to put it?
->>
->> Don't expose it to user space.
-> 
-> Yeah please stop.
-> 
-> We don't want this change, it exposes internal implementation details. It's a
-> no.
-> 
-> Next time send an RFC or a discussion thread.
-> 
-Yes, sending an RFC would be more appropriate.                                                  
-                                                                                                
-I'd also like to ask if it's possible to implement this in                                      
-`/sys/kernel/debug/deferred_split_pages`, or are you completely against querying this statistic?
-                                                                                                
-How can we quickly identify this situation?                                                     
-I believe some people will still be confused: where did the memory go?                          
+<span><span>Continues the discussion from:
+</span></span><span><a class=3D"moz-txt-link-freetext" href=3D"https://bu=
+gzilla.kernel.org/show_bug.cgi?id=3D221725">https://bugzilla.kernel.org/s=
+how_bug.cgi?id=3D221725</a></span>
+<span>(That report was filed on the kernel.org bugzilla and I was asked t=
+o </span><span>move discussion to this list instead.)</span></pre>
+  </body>
+</html>
 
->>
->> --
->> Cheers,
->>
->> David
-> 
-> Thanks, Lorenzo
+--------------vzhTQmqlCHgRf6MnmS0dh3a9--
 
--- 
-Thanks,
-Ye Liu
+--------------u35WqwhXmRKpTEtxCBjVrR7n
+Content-Type: text/plain; charset=UTF-8; name="kernel_oops.txt"
+Content-Disposition: attachment; filename="kernel_oops.txt"
+Content-Transfer-Encoding: base64
 
+WyAgNTEyLjMzMzQyN10gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tClsg
+IDUxMi4zMzM0MzFdIGtlcm5lbCBCVUcgYXQgZnMvaW9tYXAvYnVmZmVyZWQtaW8uYzoxMDYx
+IQpbICA1MTIuMzMzNDM5XSBPb3BzOiBpbnZhbGlkIG9wY29kZTogMDAwMCBbIzFdIFNNUCBO
+T1BUSQpbICA1MTIuMzMzNDQ0XSBDUFU6IDAgVUlEOiAxMDAxIFBJRDogNzIxMiBDb21tOiBj
+dGVzdCBUYWludGVkOiBHICAgICAgICAgICBPRSAgICAgICA3LjAuNC0yMDAuZmM0NC54ODZf
+NjQgIzEgUFJFRU1QVChsYXp5KQpbICA1MTIuMzMzNDQ5XSBUYWludGVkOiBbT109T09UX01P
+RFVMRSwgW0VdPVVOU0lHTkVEX01PRFVMRQpbICA1MTIuMzMzNDUwXSBIYXJkd2FyZSBuYW1l
+OiBNaWNyby1TdGFyIEludGVybmF0aW9uYWwgQ28uLCBMdGQuIE1TLTdDOTIvTVBHIEI1NTBJ
+IEdBTUlORyBFREdFIFdJRkkgKE1TLTdDOTIpLCBCSU9TIDEuNjIgMDQvMDkvMjAyMQpbICA1
+MTIuMzMzNDUzXSBSSVA6IDAwMTA6aW9tYXBfd3JpdGVfZW5kKzB4MWQzLzB4MWUwClsgIDUx
+Mi4zMzM0NTldIENvZGU6IDhiIDAzIDQ4IGMxIGU4IDAzIDgzIGUwIDAxIDc0IDEwIGU5IGE3
+IGZlIGZmIGZmIDBmIDBiIGViIDgzIDBmIDBiIGU5IDVlIGZmIGZmIGZmIDRjIDhiIDc0IDI0
+IDI4IGU5IDIxIGZmIGZmIGZmIDRjIDg5IDc0IDI0IDI4IDwwZj4gMGIgMGYgMGIgMzEgYzAg
+ZTkgMTEgZmYgZmYgZmYgNjYgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAKWyAgNTEy
+LjMzMzQ2Ml0gUlNQOiAwMDE4OmZmZmZjZGM0OWE2YjNiODAgRUZMQUdTOiAwMDAxMDI5Nwpb
+ICA1MTIuMzMzNDY1XSBSQVg6IDAwMDAwMDAwMDAwMDAwNDAgUkJYOiBmZmZmZWUyNGNlZGM2
+NmMwIFJDWDogZmZmZmVlMjRjZWRjNjZjMApbICA1MTIuMzMzNDY3XSBSRFg6IDAwMDAwMDAw
+MDAwMDBmYzAgUlNJOiAwMDAwMDAwMDAwMDAwMDA0IFJESTogZmZmZjhhNzA5MWE3MmZjMApb
+ICA1MTIuMzMzNDY5XSBSQlA6IDAwMDAwMDAwMDAwMDAwMDQgUjA4OiBmZmZmY2RjNDlhNmIz
+YzQwIFIwOTogMDAwMDAwMDAwMDAwMDBiNApbICA1MTIuMzMzNDcxXSBSMTA6IDAwMDAwMDAw
+MDAwMDAwMDQgUjExOiAwMDAwMDAwMDAwMDAwMGI0IFIxMjogMDAwMDAwMDAwMDAwMDAwNApb
+ICA1MTIuMzMzNDczXSBSMTM6IDAwMDAwMDAwMDAwMDAwMDQgUjE0OiAwMDAwMDAwMDAwMDAw
+MDAwIFIxNTogZmZmZmNkYzQ5YTZiM2M0MApbICA1MTIuMzMzNDc1XSBGUzogIDAwMDA3ZmQ3
+ZDMzNTk1ODAoMDAwMCkgR1M6ZmZmZjhhNzdmODI5YzAwMCgwMDAwKSBrbmxHUzowMDAwMDAw
+MDAwMDAwMDAwClsgIDUxMi4zMzM0NzddIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBD
+UjA6IDAwMDAwMDAwODAwNTAwMzMKWyAgNTEyLjMzMzQ3OV0gQ1IyOiAwMDAwMDAwMDJlZDg0
+ZmY4IENSMzogMDAwMDAwMDQ0Y2Q5MjAwMCBDUjQ6IDAwMDAwMDAwMDBmNTBlZjAKWyAgNTEy
+LjMzMzQ4MV0gUEtSVTogNTU1NTU1NTQKWyAgNTEyLjMzMzQ4M10gQ2FsbCBUcmFjZToKWyAg
+NTEyLjMzMzQ4Nl0gIDxUQVNLPgpbICA1MTIuMzMzNDg5XSAgaW9tYXBfd3JpdGVfaXRlcisw
+eDE3Ny8weDM0MApbICA1MTIuMzMzNDk4XSAgaW9tYXBfZmlsZV9idWZmZXJlZF93cml0ZSsw
+eGM3LzB4MTMwClsgIDUxMi4zMzM1MDRdICBudGZzX2ZpbGVfd3JpdGVfaXRlcisweDI2ZS8w
+eDMxMCBbbnRmczNdClsgIDUxMi4zMzM1MTZdICA/IHNyc29fYWxpYXNfcmV0dXJuX3RodW5r
+KzB4NS8weGZiZWY1ClsgIDUxMi4zMzM1MjJdICB2ZnNfd3JpdGUrMHgyODEvMHg1NzAKWyAg
+NTEyLjMzMzUyOV0gIGtzeXNfd3JpdGUrMHg3Yi8weDExMApbICA1MTIuMzMzNTMzXSAgZG9f
+c3lzY2FsbF82NCsweDEwOS8weDZlMApbICA1MTIuMzMzNTQwXSAgPyBzcnNvX2FsaWFzX3Jl
+dHVybl90aHVuaysweDUvMHhmYmVmNQpbICA1MTIuMzMzNTQzXSAgPyBoYW5kbGVfbW1fZmF1
+bHQrMHgyNDgvMHgzMzAKWyAgNTEyLjMzMzU0OV0gID8gc3Jzb19hbGlhc19yZXR1cm5fdGh1
+bmsrMHg1LzB4ZmJlZjUKWyAgNTEyLjMzMzU1Ml0gID8gZG9fdXNlcl9hZGRyX2ZhdWx0KzB4
+MmNkLzB4ODMwClsgIDUxMi4zMzM1NTddICA/IHNyc29fYWxpYXNfcmV0dXJuX3RodW5rKzB4
+NS8weGZiZWY1ClsgIDUxMi4zMzM1NTldICA/IGlycWVudHJ5X2V4aXQrMHg3Yi8weDU2MApb
+ICA1MTIuMzMzNTYzXSAgPyBleGNfcGFnZV9mYXVsdCsweDkwLzB4MWYwClsgIDUxMi4zMzM1
+NjZdICA/IHNyc29fYWxpYXNfcmV0dXJuX3RodW5rKzB4NS8weGZiZWY1ClsgIDUxMi4zMzM1
+NjldICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3Ni8weDdlClsgIDUxMi4z
+MzM1NzJdIFJJUDogMDAzMzoweDdmZDdkMzNjYTA4ZQpbICA1MTIuMzMzNTk0XSBDb2RlOiA0
+ZCA4OSBkOCBlOCA5NCBiZCAwMCAwMCA0YyA4YiA1ZCBmOCA0MSA4YiA5MyAwOCAwMyAwMCAw
+MCA1OSA1ZSA0OCA4MyBmOCBmYyA3NCAxMSBjOSBjMyAwZiAxZiA4MCAwMCAwMCAwMCAwMCA0
+OCA4YiA0NSAxMCAwZiAwNSA8Yzk+IGMzIDgzIGUyIDM5IDgzIGZhIDA4IDc1IGU3IGU4IDAz
+IGZmIGZmIGZmIDBmIDFmIDAwIGYzIDBmIDFlIGZhClsgIDUxMi4zMzM1OTddIFJTUDogMDAy
+YjowMDAwN2ZmZWQyZTgzZDcwIEVGTEFHUzogMDAwMDAyMDIgT1JJR19SQVg6IDAwMDAwMDAw
+MDAwMDAwMDEKWyAgNTEyLjMzMzYwMF0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAw
+MDAwMDAwMDAwMDAwNCBSQ1g6IDAwMDA3ZmQ3ZDMzY2EwOGUKWyAgNTEyLjMzMzYwMl0gUkRY
+OiAwMDAwMDAwMDAwMDAwMDA0IFJTSTogMDAwMDAwMDAyZWRjZWUyMCBSREk6IDAwMDAwMDAw
+MDAwMDAwMGYKWyAgNTEyLjMzMzYwM10gUkJQOiAwMDAwN2ZmZWQyZTgzZDgwIFIwODogMDAw
+MDAwMDAwMDAwMDAwMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKWyAgNTEyLjMzMzYwNV0gUjEw
+OiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDIwMiBSMTI6IDAwMDAwMDAw
+MDAwMDAwMGYKWyAgNTEyLjMzMzYwN10gUjEzOiAwMDAwMDAwMDAwMDAwMDA0IFIxNDogMDAw
+MDdmZDdkMzZiNjNmMCBSMTU6IDAwMDA3ZmZlZDJlODQyOTgKWyAgNTEyLjMzMzYxMl0gIDwv
+VEFTSz4KWyAgNTEyLjMzMzYxM10gTW9kdWxlcyBsaW5rZWQgaW46IG92ZXJsYXkgbnZpZGlh
+X3V2bShPRSkgcmZjb21tIHNuZF9zZXFfZHVtbXkgc25kX2hydGltZXIgb3ZwbiBpcDZfdWRw
+X3R1bm5lbCB1ZHBfdHVubmVsIHVoaWQgeHRfY29ubm1hcmsgeHRfY29ubnRyYWNrIHh0X01B
+U1FVRVJBREUgeHRfbWFyayB0dW4gbmZfY29ubnRyYWNrX25ldGJpb3NfbnMgbmZfY29ubnRy
+YWNrX2Jyb2FkY2FzdCBuZnRfZmliX2luZXQgbmZ0X2ZpYl9pcHY0IG5mdF9maWJfaXB2NiBu
+ZnRfZmliIG5mdF9jdCBpcDZ0YWJsZV9uYXQgaXA2dGFibGVfbWFuZ2xlIGlwNnRhYmxlX3I+
+ClsgIDUxMi4zMzM2OTNdICBzbmRfcGNtIGpveWRldiByODE2OSBkcm1fdHRtX2hlbHBlciBp
+MmNfcGlpeDQgdHRtIHBjc3BrciByZWFsdGVrIGkyY19zbWJ1cyB2aWRlbyBrMTB0ZW1wIHNu
+ZF90aW1lciByZmtpbGwgc25kIGdwaW9fYW1kcHQgc291bmRjb3JlIGdwaW9fZ2VuZXJpYyBu
+ZnRfcmVqZWN0X2luZXQgbmZfcmVqZWN0X2lwdjQgbmZfcmVqZWN0X2lwdjYgbmZ0X3JlamVj
+dCBuZnRfY2hhaW5fbmF0IG5mX25hdCBuZl9jb25udHJhY2sgbmZfZGVmcmFnX2lwdjYgbmZf
+ZGVmcmFnX2lwdjQgbmZfdGFibGVzIGRtX211bHRpcGF0aCBuZm5ldGxpbmsgenJhPgpbICA1
+MTIuMzMzNzU2XSAtLS1bIGVuZCB0cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0KWyAgNTEy
+LjMzMzc1OV0gUklQOiAwMDEwOmlvbWFwX3dyaXRlX2VuZCsweDFkMy8weDFlMApbICA1MTIu
+MzMzNzYyXSBDb2RlOiA4YiAwMyA0OCBjMSBlOCAwMyA4MyBlMCAwMSA3NCAxMCBlOSBhNyBm
+ZSBmZiBmZiAwZiAwYiBlYiA4MyAwZiAwYiBlOSA1ZSBmZiBmZiBmZiA0YyA4YiA3NCAyNCAy
+OCBlOSAyMSBmZiBmZiBmZiA0YyA4OSA3NCAyNCAyOCA8MGY+IDBiIDBmIDBiIDMxIGMwIGU5
+IDExIGZmIGZmIGZmIDY2IDkwIDkwIDkwIDkwIDkwIDkwIDkwIDkwIDkwIDkwClsgIDUxMi4z
+MzM3NjRdIFJTUDogMDAxODpmZmZmY2RjNDlhNmIzYjgwIEVGTEFHUzogMDAwMTAyOTcKWyAg
+NTEyLjMzMzc2N10gUkFYOiAwMDAwMDAwMDAwMDAwMDQwIFJCWDogZmZmZmVlMjRjZWRjNjZj
+MCBSQ1g6IGZmZmZlZTI0Y2VkYzY2YzAKWyAgNTEyLjMzMzc2OV0gUkRYOiAwMDAwMDAwMDAw
+MDAwZmMwIFJTSTogMDAwMDAwMDAwMDAwMDAwNCBSREk6IGZmZmY4YTcwOTFhNzJmYzAKWyAg
+NTEyLjMzMzc3MF0gUkJQOiAwMDAwMDAwMDAwMDAwMDA0IFIwODogZmZmZmNkYzQ5YTZiM2M0
+MCBSMDk6IDAwMDAwMDAwMDAwMDAwYjQKWyAgNTEyLjMzMzc3Ml0gUjEwOiAwMDAwMDAwMDAw
+MDAwMDA0IFIxMTogMDAwMDAwMDAwMDAwMDBiNCBSMTI6IDAwMDAwMDAwMDAwMDAwMDQKWyAg
+NTEyLjMzMzc3NF0gUjEzOiAwMDAwMDAwMDAwMDAwMDA0IFIxNDogMDAwMDAwMDAwMDAwMDAw
+MCBSMTU6IGZmZmZjZGM0OWE2YjNjNDAKWyAgNTEyLjMzMzc3Nl0gRlM6ICAwMDAwN2ZkN2Qz
+MzU5NTgwKDAwMDApIEdTOmZmZmY4YTc3ZjgyOWMwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAw
+MDAwMDAwMApbICA1MTIuMzMzNzc4XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1Iw
+OiAwMDAwMDAwMDgwMDUwMDMzClsgIDUxMi4zMzM3ODBdIENSMjogMDAwMDAwMDAyZWQ4NGZm
+OCBDUjM6IDAwMDAwMDA0NGNkOTIwMDAgQ1I0OiAwMDAwMDAwMDAwZjUwZWYwClsgIDUxMi4z
+MzM3ODJdIFBLUlU6IDU1NTU1NTU0Cg==
+
+--------------u35WqwhXmRKpTEtxCBjVrR7n--
+
+--------------GWi0JeygfTYg1WkL0WA9eU1b--
+
+--------------1JJw00kekI5p0VeAWYUPqPIa
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEk0CS60mgaDxdZmUC/jJ/kKetG5UFAmpZ/BoFAwAAAAAACgkQ/jJ/kKetG5W+
+cBAAob9K9jnSrEcrfDi1xiBUBIddvcRqIcIOCkSDjWzG7+n7G4gwEmCtA8VCI7fnp475dNiKhyQ7
+zulhI6Dew+PuQNSqi/POPG+OmhYpeIRzSv1BonQgJ0e7wsdkvB6eHh2Ey2mC6AIxXcblZ0pwn9vD
+Lkx8wInzm3ueAJcCm8d/SVzmiFDIY2xYb8SLEeGXSovAGtz68053SID/7fbXHGV+jDxY6KBZEilK
+Eb5BHFusFX2BGeOtvZqmorhACMH4J1Y7YdDM7OOgdwkw8Vt528NXT/hunZtN1jWAyS1521itjfuD
+u0Vw533rrGO+/fvw0/zf3UcTEAPzvlGzJRSkwOQOUz/thbDo5kZ4FCCcNsrGz9slAUzhPsCDux6I
+XA9pTMfAY34cddZM02yXXKntC0bfwb5HdjRrn6mCqB/+8eCrnrFpM9lOV2A4gB4spnrslOrvfY12
+ZcyaRfwMaSHhgE7PPe4e59n0uvZqPWKQ6+qRcGHrAYJK0qkhGdss3gcG9+XBQ15Lc9SpI2tIcSsh
+ywlmwa9pgqeHGk9cGdT7q9/9ZBoRkoZxy/oV/NNKvEzy90Y3rsV/qI7YG5hPSzjJuXzhG61kx0cT
+JclO5VJsXaTIhzbOkz0D7Dc+YBATD/Vgv6Gpf3YlpnCg9jCHIpdGNpDJyOrp8LxruQDvTZX7947W
+N1A=
+=vaij
+-----END PGP SIGNATURE-----
+
+--------------1JJw00kekI5p0VeAWYUPqPIa--
