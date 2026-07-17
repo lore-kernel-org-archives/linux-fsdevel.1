@@ -1,220 +1,131 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E053EA969
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 12:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784291930; cv=none; b=oIDtSMr585qodhR67sBdqO5yGTYEbwNNzp4hctcOsauFz0lQArFdwuceitYVvmW/BfXBRz263bRRH9Iy7oqacV+XUssHpsSc2F0G321Q24EoIsNSCFTT3FNDhdzqpmCDZqavLC/LNCTncNDdXnog4lXsEnYwn6VNBvExfWqgIgI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784291930; c=relaxed/simple;
-	bh=Bjn7+xIkYRUqi0r3jjkYn3ccaLvFR3IQxwGwHNVfTo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYOJ0eUJryxfJc1vUp9RfgP0Wa4w5kEtrB/CQ0X6ng5msXCM0cF+qRmribgolXWBMwHHHr8eojhiOzmyQvJ9O8ExrHHiCqBapeiZnADd2m9ijfy8xreO/uoZtvSF2JRAGeYYKa3cBEV3nU9PUlg6b2vCWJeMqgpmqvqqpUkJrUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=C0l/6YCN; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A243265CA2
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 12:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784292896; cv=pass; b=Qv7BNe9aTo93zrR/N+SnPw0BeUOjWfob8rLc1twFm3q7CgbzdUda1geATMZGR+uGDX/j00KAUJZ+IE/MPPfaBT8CnmfOcXPHirYZ3tU9fT7gDffE4J/cshv+vrS9PXfKQWIE7GefxysZVg4ziaPRIZb+Sh6XMxpXwHqQsW22tQs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784292896; c=relaxed/simple;
+	bh=j/dPFsL20cNBcqiBzP//mIFaPumAciU8Vw5CSWOBshQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pvxFUQQXli9CWJJfKrevziHYy/TQv2rHnVI/8JpalLvswds0u/gxv3tcqsA5B+QtvNOyeu2NksHDWvjU2iRPaJWDkBn7EINxAP6CSlUXiPSSwjkbMtMaaU+KBAC0I+6Z27Jj1cqKgXZRAFRxOV7d5UstucokM6pbJ3rkZ5m8k14=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=U8xQUu8A; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="C0l/6YCN"
-X-KPN-MessageId: 6ea4671c-81dc-11f1-9e8e-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 6ea4671c-81dc-11f1-9e8e-005056999439;
-	Fri, 17 Jul 2026 14:38:37 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="U8xQUu8A"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c0006ea8eso56127651cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 05:54:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784292894; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Fn0VZC0k96c7U1CLUjAy3xI0YZQtCHeCj2MHrKFLWfVc94VdHQr+E+pfhuQNh2hxNN
+         TBoW3tys1absdWz5ndlFtPfdeLf8BC+lnt8fK18Cp8lVfztJnrOoU1Y61GS2UpWAh2lG
+         9XU/TPBhC0+SpFxk0PPv8uLVbhjIfXCC0vM3ZhQczJmY2XTxHV2dyrzRsqwaEwK5YxV6
+         RCHAkcQVH9Lz7PiLUk/fss9NQL5uZJP2mt6C7T478n5+9ttWfBQse3xGmjwIeJHWUDf7
+         EB5dze2pqEYkLJJtK7EPhkv5bO6luFOHWAxb2gjq1NKxsEZreWRPjHoVcmYZDkJzoMQJ
+         559Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RkEn/U4bSQDGfp+R/hFke2W+WB1mabwpE00gBZz/WTw=;
+        fh=j2ba9qCtVeVyj9/Ee/JC0WeHO8qlC6v860X1KjrtVaI=;
+        b=r7ed4nwKEH3VvuaIK7tQnEKbFEKFBsuUmA61iPLI8kXYS7Yknx5hJJvgJJhHEepVtM
+         CWo8DSiqSSYcZ/A9HoFF40hpgugfC/XXl88ZSi4SL1VAicgKSs7fniztP+OYT4m4dE1x
+         KXb818FIM1NiT/UTeB4FW/ov1UcN0Nbj6EMj7hN4Qgy7r82Urqf1Sx3ksGSc1TD0GFmT
+         mdYFypTlHjPFNk/v78rbOAOqVyPT4kXwDuaTGOMDF0aEv+nJdNEaYF02TqCAIRT/59Z7
+         s46G5bYN9UzsRYY2/B1vTJe2s7Kg+A1/oQgWJpOiS6vWESksTwQP8sONh9y6ZKKnRwDr
+         WgiA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=qXHQgks92h98SzY8vp3Xsqpv5HquSo8L81RoFgvQM3U=;
-	b=C0l/6YCNe2qujtsSgTh5pH/LqJNjTMlvzzGAxfElNW/VLGV9ZXtuuMvAUVTEjv7VXmh/lP4Dn8O8s
-	 EFBUxZx12FBRd5ktDsep9HAbGdzk80hvtEptyf9Reysq7RJm5Z5BqAB3yZtNH23naciIpp6FnnR8dt
-	 Uci2pfjJQbhw4kn9Wgm0mB7uy9ZkSnCguiMU32F3+V45KZP89khlNibd+/m4YYuAX6d3fPAlwH9x5w
-	 gtuFZFDvDvs2BUuPkF7L4HIar3kt0RTny5HuLdET3dvhfpkpR41vInBUGTbqd5JWlt6LF+e0grrObY
-	 d35cn/taatQGv7gRQmdxaMIgigKcaDQ==
-X-KPN-MID: 33|blHtGBnmDGCRUOzXaASNFNYXCz2ZkKO5kYfGxeJELmjU7zhMzIxFJQdhnb/1q9u
- cYE+u7s7AeOMCAavJyN3zVzuzDOfQ5Tfs2VwBn/+sblQ=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|0GBijdc8H1wzqUUGUf3X8mLRMNGKcc1Kp+obVpqdV6EdLobBJO/uewLsYXKyYWR
- T6pZT782sDnDUHMNJnCAEdA==
-Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 6e9965cd-81dc-11f1-87f7-00505699b758;
-	Fri, 17 Jul 2026 14:38:37 +0200 (CEST)
-Date: Fri, 17 Jul 2026 14:38:32 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 17/24] binfmt_misc: factor out the entry removal
-Message-ID: <aloENB4OqjXWiitX@lt-jori.localdomain>
-Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-17-a162f7cb58d6@kernel.org>
+        d=szeredi.hu; s=google; t=1784292894; x=1784897694; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RkEn/U4bSQDGfp+R/hFke2W+WB1mabwpE00gBZz/WTw=;
+        b=U8xQUu8Ag0SRsekW+V5gRKXv80g1m0z3zfA29FVnP7wQOBOX1Dd3FotW4GrHJQSk8/
+         akoCS6/i+6i4/kgk8DV2/Vds2bnFrQdO68BGV9ivk2G9xRoAKN/9+KiOHcq6m8+iBs6y
+         Z2yO55kaXenZyJw6Udk0cf71QE5K9WjO4/Mic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784292894; x=1784897694;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RkEn/U4bSQDGfp+R/hFke2W+WB1mabwpE00gBZz/WTw=;
+        b=SupjbJ2/tiqzl5wIR8CHq4WbJWFd4r4LOPNnjuIxKBA1EqeqCdAPC/lhZLvb3KXtCP
+         Pr6N4DgMVqtP8umrT6PQWSI2UkEwHcSSTciXdjQPKubvpp0af6b4fvVKtkanbLfLisf/
+         iDRGyemdtVxTYRf0zCy1HJaSd2J+JAoJL8WgEq7XX/kNMc93TJFJwFzYV2qAshqPbs1Z
+         w7lDIi3uaJK5eMMN7P8dyoxAkegczyQaahhvkmhoakZdhuNlGT8LjgbuyUnKyRgrWMdk
+         Ie38gRboJIpl7gBH+2XClCSTz4Mu/vBG1NNd5v8gGrUHQVlzYTqfZOWoWJKw4wzv7xzS
+         N0Uw==
+X-Gm-Message-State: AOJu0Ywd40D6eqTVErcCzS6bp1U2LVsw4XEHPEC2HydXSGcAlLRyqK16
+	nrvWGPqQdOWXXU4z/Rn5F5jplEnxiAKPoKfe8m1AnvDzgWS0RK5lmqKnly5kU2LNn0O8PN8QzEq
+	ejGPpc3w8UmJSr6JdlPPgxKRn+RAEOokePRNqaCAONw==
+X-Gm-Gg: AfdE7clY72J7VlUmA/3hGWWh1fc/wGvHhVP+jlICgKhASOCw34AJFK7w8fUo6n2v66r
+	HeBBgkNyMXyXfzRjgExNqbuZFatXAIDMyoeCEB5cqC1cKdT/XO68MzzrKTBg7MvzvIveOUSblvo
+	z9wuh/xCzqRmf0TH46+fx+jTYCa4P5J1oegXHUrXGRDqu8Z7mDVD7aEboCNZqPon1N4r3Owqv9A
+	BWvvImtw5b4b9583uk/CEuDdRJ3uhdFgAKU/QqIeoY228e28mTzCZda5BDns9DvL+MCc0MBQP3f
+	xrIWl87brFmjCZV+46lgMu+u8w==
+X-Received: by 2002:ac8:5854:0:b0:517:87df:d8ec with SMTP id
+ d75a77b69052e-5213a385983mr22000141cf.9.1784292894270; Fri, 17 Jul 2026
+ 05:54:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-17-a162f7cb58d6@kernel.org>
+References: <20260623004227.77628-1-jim.harris@nvidia.com>
+In-Reply-To: <20260623004227.77628-1-jim.harris@nvidia.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 17 Jul 2026 14:54:43 +0200
+X-Gm-Features: AUfX_mwpY12WuPN9JW_YjJy1uKhyn54yddm1u7-rTCQkoISfPR7tH3futXxsKhw
+Message-ID: <CAJfpeguz9BuDtTo7_0SE_iW6w_tLtDqc5cW8bcE+EUKQnDCU9g@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: allow larger read requests by setting bdi->io_pages
+To: Jim Harris <jim.harris@nvidia.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Joanne Koong <joannelkoong@gmail.com>, Konrad Sztyber <ksztyber@nvidia.com>, 
+	Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 10, 2026 at 11:33:18AM +0200, Christian Brauner wrote:
-> Both write handlers open-code the same removal dance - grab the root
-> inode lock, unlink, unlock - each carrying a verbatim copy of the
-> same eleven-line locking comment, and bm_entry_write() reuses its
-> inode variable for the root inode halfway through to pull it off.
-> Move the dance into bm_remove_entry() and bm_remove_all_entries()
-> and the locking rules into the kernel-doc of remove_binfmt_handler()
-> which both helpers wrap.
-> 
-> No functional change.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/binfmt_misc.c | 84 +++++++++++++++++++++++++++-----------------------------
->  1 file changed, 40 insertions(+), 44 deletions(-)
-> 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index 1f2b1d136819..d6bc2abc4a7f 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -686,11 +686,19 @@ static void bm_evict_inode(struct inode *inode)
->   * @e: binary type handler to remove
->   *
->   * Remove a binary type handler from the list of binary type handlers and
-> - * remove its associated dentry. This is called from
-> - * binfmt_{entry,status}_write(). In the future, we might want to think about
-> - * adding a proper ->unlink() method to binfmt_misc instead of forcing caller's
-> - * to use writes to files in order to delete binary type handlers. But it has
-> - * worked for so long that it's not a pressing issue.
-> + * remove its associated dentry.
-> + *
-> + * Adding and removing entries via bm_{entry,register,status}_write()
-> + * happens under the exclusively held inode lock of the root dentry keeping
-> + * the list stable for writers. load_misc_binary() walks it concurrently
-> + * under RCU. The entries_lock is only held around the actual unlink to
-> + * serialize against bm_evict_inode() which unlinks entries during umount
-> + * without holding the root inode lock.
-> + *
-> + * In the future, we might want to think about adding a proper ->unlink()
-> + * method to binfmt_misc instead of forcing callers to use writes to files
-> + * in order to delete binary type handlers. But it has worked for so long
-> + * that it's not a pressing issue.
->   */
->  static void remove_binfmt_handler(struct binfmt_misc *misc,
->  				  struct binfmt_misc_entry *e)
-> @@ -701,6 +709,31 @@ static void remove_binfmt_handler(struct binfmt_misc *misc,
->  	locked_recursive_removal(e->dentry, NULL);
->  }
->  
-> +/* Remove @e unless a concurrent write already unlinked it. */
-> +static void bm_remove_entry(struct binfmt_misc_entry *e, struct super_block *sb)
-> +{
-> +	struct inode *root = d_inode(sb->s_root);
-> +
-> +	inode_lock_nested(root, I_MUTEX_PARENT);
-> +	if (!hlist_unhashed(&e->node))
-> +		remove_binfmt_handler(i_binfmt_misc(root), e);
-> +	inode_unlock(root);
-> +}
-> +
-> +/* Remove all entries of the binfmt_misc instance @misc belonging to @sb. */
-> +static void bm_remove_all_entries(struct binfmt_misc *misc,
-> +				  struct super_block *sb)
-> +{
-> +	struct inode *root = d_inode(sb->s_root);
-> +	struct binfmt_misc_entry *e;
-> +	struct hlist_node *next;
-> +
-> +	inode_lock_nested(root, I_MUTEX_PARENT);
-> +	hlist_for_each_entry_safe(e, next, &misc->entries, node)
+On Tue, 23 Jun 2026 at 02:42, Jim Harris <jim.harris@nvidia.com> wrote:
+>
+> A FUSE server that advertises a large max_pages and max_write (e.g.
+> max_pages=256, max_write=1MB) cannot currently obtain matching
+> FUSE_READ request sizes from the kernel.  Buffered sequential writes
+> arrive at the server at the negotiated max_write size, but a large
+> buffered read() is split into several smaller FUSE_READ requests.
+>
+> For a buffered read, filemap_get_pages() -> page_cache_sync_ra() sizes
+> the read against ractl_max_pages():
+>
+>         max_pages = ractl->ra->ra_pages;
+>         if (req_size > max_pages && bdi->io_pages > max_pages)
+>                 max_pages = min(req_size, bdi->io_pages);
+>
+> fuse leaves bdi->io_pages at the default VM_READAHEAD_PAGES (128KB), so
+> a 1MB read() (req_size = 256 pages) is clamped to the readahead window
+> (128KB, or 256KB for POSIX_FADV_SEQUENTIAL), producing four 256KB
+> FUSE_READ round-trips instead of one.
+>
+> Set bdi->io_pages to fc->max_pages after feature negotiation.  As the
+> code above shows, io_pages only raises the limit when the request size
+> already exceeds the readahead window, so it enlarges explicitly
+> requested reads without enlarging the speculative readahead window.
+> This avoids increasing speculative page-cache readahead on behalf of
+> an unprivileged server.  NFS does the same, setting io_pages from
+> rpages while leaving ra_pages at the default.
+>
+> fc->max_pages is already bounded by fc->max_pages_limit (and, for
+> virtio-fs, by the virtqueue descriptor count), so io_pages inherits
+> the same bound.
+>
+> Suggested-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Jim Harris <jim.harris@nvidia.com>
+> Assisted-by: Cursor:claude-opus-4.8
 
-I do wonder, we are relying on superblock lifetime rules to make this
-iteration safe afais, and the reason we take the spinlock at all is to
-not implicitly rely on that, but then here we do that anyway. But this
-is already an assumption in the old code too, so
+Applied, thanks.
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
-
-PS. My email-client bugged out and some review trailers/comments did not
-get the proper thread id, so they are on the list but don't link to the
-original thread. I am not going to resend those unless you say I should.
-
-> +		remove_binfmt_handler(misc, e);
-> +	inode_unlock(root);
-> +}
-> +
->  /* /<entry> */
->  
->  static int bm_entry_open(struct inode *inode, struct file *file)
-> @@ -732,24 +765,7 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
->  		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
->  		break;
->  	case BM_CMD_REMOVE:
-> -		inode = d_inode(inode->i_sb->s_root);
-> -		inode_lock_nested(inode, I_MUTEX_PARENT);
-> -
-> -		/*
-> -		 * In order to add new element or remove elements from the list
-> -		 * via bm_{entry,register,status}_write() inode_lock() on the
-> -		 * root inode must be held.
-> -		 * The lock is exclusive ensuring that the list can't be
-> -		 * modified. Only load_misc_binary() can access the list
-> -		 * concurrently and it does so under RCU. So entries_lock only
-> -		 * needs to be held when an entry is actually unlinked to
-> -		 * serialize against bm_evict_inode() during umount which
-> -		 * unlinks without holding inode_lock.
-> -		 */
-> -		if (!hlist_unhashed(&e->node))
-> -			remove_binfmt_handler(i_binfmt_misc(inode), e);
-> -
-> -		inode_unlock(inode);
-> +		bm_remove_entry(e, inode->i_sb);
->  		break;
->  	default:
->  		return res;
-> @@ -865,9 +881,6 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
->  {
->  	struct binfmt_misc *misc;
->  	int res = parse_command(buffer, count);
-> -	struct hlist_node *next;
-> -	struct inode *inode;
-> -	struct binfmt_misc_entry *e;
->  
->  	misc = i_binfmt_misc(file_inode(file));
->  	switch (res) {
-> @@ -878,24 +891,7 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
->  		WRITE_ONCE(misc->enabled, true);
->  		break;
->  	case BM_CMD_REMOVE:
-> -		inode = d_inode(file_inode(file)->i_sb->s_root);
-> -		inode_lock_nested(inode, I_MUTEX_PARENT);
-> -
-> -		/*
-> -		 * In order to add new element or remove elements from the list
-> -		 * via bm_{entry,register,status}_write() inode_lock() on the
-> -		 * root inode must be held.
-> -		 * The lock is exclusive ensuring that the list can't be
-> -		 * modified. Only load_misc_binary() can access the list
-> -		 * concurrently and it does so under RCU. So entries_lock only
-> -		 * needs to be held when an entry is actually unlinked to
-> -		 * serialize against bm_evict_inode() during umount which
-> -		 * unlinks without holding inode_lock.
-> -		 */
-> -		hlist_for_each_entry_safe(e, next, &misc->entries, node)
-> -			remove_binfmt_handler(misc, e);
-> -
-> -		inode_unlock(inode);
-> +		bm_remove_all_entries(misc, file_inode(file)->i_sb);
->  		break;
->  	default:
->  		return res;
-> 
-> -- 
-> 2.53.0
-> 
+Miklos
