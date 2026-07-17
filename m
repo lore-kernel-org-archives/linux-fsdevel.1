@@ -1,220 +1,148 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF68E3DDAF4
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 10:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B7C3A0B2E;
+	Fri, 17 Jul 2026 10:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784284159; cv=none; b=YNJWjgewcVRn+VbwwYJou11AuKFGnbJLNEA05OGl5vKvv1VcgKC9gtjdVGcXCCQIHBgsAsbKN9XNhw5+dMQJxwTbtm46mn9zbMh4Ubd8bdUOdpOocWvnjPRkhG1bUiTqvRiHfz+vglx01znie9+go3owv4qc9GxtC5chENtIHxs=
+	t=1784284161; cv=none; b=iZCYwKT7nw0vrjaq/Ixw9NGlibbDInSX75ULVNpPxUAkL1bMgzL0W77HLS9w7MncfWVfEltJRifFcRfUtyX55lcyxNAc0wt8eW3QDeudZDFzkpG+6NyvSSo3GTtlSrYWFn87S4BOd5xtNmEtubWvRJIVRDuX6UyQ1zeb3UtiyaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784284159; c=relaxed/simple;
-	bh=O0sAyFSv0R0TuW350r1Uj6GyHmxXc7jE3KBXt+KR5N8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ekNbzdk9ExQFhnRgrQEKtmZb5kE8rijLxcrat8zbOnn74oq4MKzm18dHwJuKiNeNNzTmk1gogiSjg+FBXv5Hw4214qL2qIihx6FfF0AX2lcY7qMIWcYBBe5lI55s30tYLd/Ywq6TE/FjfFDZgbIK9WM9f97iFAyPulMEisHfFPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=Hx3Jtmyt; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1784284161; c=relaxed/simple;
+	bh=2HToOcZv1T+lM9dO0dd2A4apjhiZwSISh71QgKydfWc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d5VbGnTKosy2ZZFhw4Y2ZNlKLIdu124lOJXJYXw/SKOmxSaYQsXoIPUgAuo1rr6192gYIFNhcsq4d1y70irKCnhnAeBoWFmjUldYJ0vZxeRz0te755U2jUgiLNPvH9SXTfJAe8Q7SjanbygPz6L1L/TVVuTnxoTUA8iAQ3RpOjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QX/Zzy4f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="Hx3Jtmyt"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493f60208a5so63901845e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 03:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1784284155; x=1784888955; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FPrP++RV8/J+qtkq7zlFYhPki2PjKuFSG10cWEhSMxc=;
-        b=Hx3JtmytJhlbliMSGDFP/Fkb68mUSRn872zrEYoz4kwQ3jTHnvv1Z0qFmeacpq1hAn
-         9RtBWVu/iEqbpcbWzSFvYkX+RJ+yKBHcbPZZQwh0qwyuRcP/GI5aoRWuvVSEAQbPgM1T
-         Vq7ar5gtrsHGEjRaFzR01maVjPeVAO0k1TMu3OsTULXM7ArQkk0ooVfoVUOT95yrjS0a
-         NzcPPuuiTGkIUIMisRkJ+DiznLWFvjj/zLlbc/T7PEdvC6GS1dmCOQBV9yc8/XNnQ9fz
-         6LL3xEL0ZiX/dmmuB+XaSisAkUCzOK+ZouG1+dMG2WOrFXiKdnZk04RN6fm2c/R2lCxP
-         QQZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784284155; x=1784888955;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FPrP++RV8/J+qtkq7zlFYhPki2PjKuFSG10cWEhSMxc=;
-        b=AjptblpcDBkwOSjyJUIqSf29qH+PzpZphRrrZZpQMouE31tct7CnOpHejsNHn3zYvJ
-         P9m2Qnt4AUNDVB3WPKgUOTK+Z6/s0i5F13kW6iSEijeAGidYYWrZp1sGJw4MWWSKtaFQ
-         /njE9MkmwIuoeQfhslcY9O648d+5ZsVIPESWB6jIwVjSeF1hdCn7pf/Eqhyfmz5MBmwX
-         eDa/T5lIgKVIUzfzHGR6heKUBb8cHnNVLxwfxDSvYzUpkNr+uISvqXeu+5LEsQWuw9Kn
-         Hw9HIwJnimYsy3t1t5kxC03dPtqa402VY3wBHjOj9P6h0zuDpFNkCWwjQibozWlBIfs9
-         3nOg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr4mee++BqSMgm8GzHgfdtdQmSjIWu7E+RJORjb7YEyl19vJdd4m8I6UkBsgjboqsgK46lvq8Zr9WFFZoLK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCmW6tAJUqOSh7XE0E5m2lNZTEsTzPg6y8NkSTgzrQXvHB7trJ
-	zZdpUzjXjgbQqWdxtOq+4oin5fzNObQmkK9KndCp/tmEUIj5fmLs0U20K1GdLua/F8I=
-X-Gm-Gg: AfdE7cl1miWt2K66HlQKIE1A5rxtVjCo9K2G5AKJ0yauf7saablmzrxO29M4/wAeDhE
-	akB1e6CFM/k6qocGfETJ70pt5Ns6651KWyBE9JJ6YCiXDi0w+GlsyAa929ATxOOre5PADPUHD7m
-	nKVolxhPhVxoT5gfgJ5Vjdva3UoeRvmpEtUqIRwTtbXcS4BEfzx8wdQnl0hcT69UB+UewuLMxwF
-	ExyavFd3I1RjZ1V36lZQbfziWWgt3dGiE+wzcrz9VINvYUd4hHTSJ/XaQ7JSh3Q0uuDiFyk+/3M
-	gzGPu8/KnjXoqMyfZ2zz5WTZ80vwPVTRPUpC4BS16u9KlDn72KRkRpLL+BFnwYRiSlsLxO3AlRk
-	pYi1mRmyUwipNL6nYP4tcEPv1oU4N1GI6veTCY2YSDeso13DzYcwCsLWevdbzrnWHrV2+erd0ol
-	E=
-X-Received: by 2002:a05:600c:3b23:b0:492:4a56:690b with SMTP id 5b1f17b1804b1-4954a513283mr21911155e9.35.1784284154829;
-        Fri, 17 Jul 2026 03:29:14 -0700 (PDT)
-Received: from localhost ([2a02:8071:6401:180:d892:bf43:a0b4:83b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954834fd05sm50766995e9.0.2026.07.17.03.29.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 03:29:13 -0700 (PDT)
-Date: Fri, 17 Jul 2026 12:29:09 +0200
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: liuye <liuye@kylinos.cn>
-Cc: Ye Liu <ye.liu@linux.dev>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] mm/thp: expose deferred split folio memory usage in
- meminfo
-Message-ID: <20260717102909.GA6843@cmpxchg.org>
-References: <20260717063025.168436-1-ye.liu@linux.dev>
- <alngSdkM6iEGpETe@lucifer>
- <102bada7-66ae-415d-abc8-12d5939b7ebb@linux.dev>
- <70294b26-86e1-4de0-832f-d5cb488cdb3e@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QX/Zzy4f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B1101F000E9;
+	Fri, 17 Jul 2026 10:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784284159;
+	bh=5gkJj8mPn7DXvf10vpMFMt+lKH5hJcxAoz+8Yfk7BJA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QX/Zzy4fhOl/Rfn6xnO/2b0c0XsiG9jzb2Bxl3fIG1PmBlPJWpflRdzs9oU1Hd7uK
+	 LrgePrC5eehD95jM7GQepotJkHH/pZoMMLhXM6utYMmqQm2i76OyKtrJhnjxkuEexz
+	 3Li9npc+Q5i3mQI15i2qVZNrnOyO/llaCVDjBUaGGESvze8Sa9k1+M/cUusl0V8AsV
+	 QYl9FocD9ItGf6bGWakbcSu1QfkhjYJOdzIamNXPf1oCVc7oQAj3udWK6+8KwHChjW
+	 1aHxuspgpWpRN+CuGi2ke/qLI5AVSMl7dsThjRU5FzZsxAObriLZb7gmnrb5ueoWpj
+	 zv7ocnQ7IDw4w==
+Message-ID: <676b9fa3-947d-42d2-b4e2-192e372be110@kernel.org>
+Date: Fri, 17 Jul 2026 12:29:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/thp: expose deferred split folio memory usage in
+ meminfo
+Content-Language: en-US
+To: Ye Liu <ye.liu@linux.dev>, "David Hildenbrand (Arm)" <david@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Ye Liu <liuye@kylinos.cn>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260717063025.168436-1-ye.liu@linux.dev>
+ <46017e29-48a3-4a74-8c5a-0be9d912deaa@kernel.org>
+ <dd037379-cf59-468e-8b42-51546bf2e28c@linux.dev>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <dd037379-cf59-468e-8b42-51546bf2e28c@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <70294b26-86e1-4de0-832f-d5cb488cdb3e@kylinos.cn>
 
-Hello,
-
-On Fri, Jul 17, 2026 at 05:38:10PM +0800, liuye wrote:
+On 7/17/26 11:31, Ye Liu wrote:
+> 在 2026/7/17 16:37, David Hildenbrand (Arm) 写道:
+>> On 7/17/26 08:30, Ye Liu wrote:
+>>> From: Ye Liu <liuye@kylinos.cn>
+>>>
+>>> Folios on the deferred split list hold physical memory that is
+>>> invisible in meminfo. When a THP becomes partially mapped, the
+>>> unmapped pages are removed from AnonPages but remain physically
+>>> allocated until the shrinker splits the folio. This creates a
+>>> memory accounting gap where used memory cannot be attributed to
+>>> any meminfo field.
+>>>
+>>> Add NR_DEFERRED_SPLIT_PAGES to track the total memory consumed by
+>>> folios currently on the deferred_split_lru, updated via
+>>> mod_node_page_state() at all enqueue/dequeue points. The new field
+>>> DeferredSplitPages is visible in /proc/meminfo, /proc/vmstat, and
+>>> per-node /sys/devices/system/node/node*/meminfo.
+>>>
+>> 
+>> Oh no.
+>> 
+>> This is really exposing a current implementation detail where we have this
+>> information easily available in a way that we will not be able to change that
+>> implementation later.
+>> 
 > 
-> 在 2026/7/17 17:24, Ye Liu 写道:
-> >
-> > 在 2026/7/17 16:08, Lorenzo Stoakes (ARM) 写道:
-> >> +cc Johannes
-> >>
-> >> On Fri, Jul 17, 2026 at 02:30:22PM +0800, Ye Liu wrote:
-> >>> From: Ye Liu <liuye@kylinos.cn>
-> >>>
-> >>> Folios on the deferred split list hold physical memory that is
-> >>> invisible in meminfo. When a THP becomes partially mapped, the
-> >>> unmapped pages are removed from AnonPages but remain physically
-> >>> allocated until the shrinker splits the folio. This creates a
-> >>> memory accounting gap where used memory cannot be attributed to
-> >>> any meminfo field.
-> >> Is this really that much of an issue? You're not giving any use cases here.
-> >>
-> >> What real-world use case motivated this?
-> >>
-> > I have indeed encountered this situation in a customer environment,                           
+> Yes, `/proc/meminfo` is a user-space ABI.                                
+> Adding it there means you can't change the semantics,                    
+> and the field will become unmaintainable, yet you can't delete it either.
+> But I think this information is still necessary.                         
+> Where would be a better place to put it?                                 
 
-We have run into this before as well. It's not super
-rare. Applications do partial unmaps or protection changes with no
-awareness for THPs. The issue is likely to stick around with legacy
-software for some time.
+I once added KReclaimable to /proc/meminfo, its value used to be
+SReclaimable plus ION allocator (I think), but that one was later removed so
+it's now equivalent and I regret adding it and it stays there.
 
-Do note that all information is there if you know how to look for
-it. But it is cumbersome and somewhat inconsistent, so I'm not opposed
-to fixing it:
+If the deferred split folios are just waiting for a memory pressure kick a
+shrinker to reclaim them, the KReclaimable counter could however be a
+sensible fit and wouldn't need adding a new user-visible output.
 
-> > but the environment is complex, and I cannot clearly explain why this memory                  
-> > black hole occurs in that scenario.                                                           
-> > However, I will provide an example to reproduce it below.                                     
-> > Use case: The system has 100GB of memory. A user-space program requests 80GB of memory.       
-> > For each 2MB block, only one page is retained, and the mapping of all other pages is unmapped,
-> > while the process continues to run.                                                           
-> > You'll find that in meminfo, MemFree: only 12GB remains,                                      
-> > but the process actually uses very little memory.                                             
-> > This creates a memory black hole situation.                                                   
-> > Below is the test program I used, from AI.                                                    
-> >
-> 
-> ps -p $(pgrep -d, test) -o pid,comm,%mem,rss,vsz
->     PID COMMAND         %MEM   RSS    VSZ
->    9358 test             0.1 165220 166032
-> 
-> 
-> MemTotal:       101606276 kB
-> MemFree:        13172092 kB
-> MemAvailable:   13569668 kB
-> Buffers:            5352 kB
-> Cached:          1169520 kB
-> SwapCached:            0 kB
-> Active:         84730404 kB
-> Inactive:        1129792 kB
-> Active(anon):   84730404 kB
+However I assume there's tradeoff with having to track this (complexity,
+overhead) and possibly overhead of reading /proc/meminfo so it's not
+clear-cut. Just pointing it out as a possibility.
 
-This shows actually allocated anon+shmem.
 
-> Inactive(anon):        0 kB
-> Active(file):          0 kB
-> Inactive(file):  1129792 kB
-> Unevictable:        6192 kB
-> Mlocked:              32 kB
-> SwapTotal:       4194300 kB
-> SwapFree:        4194300 kB
-> Zswap:                 0 kB
-> Zswapped:              0 kB
-> Dirty:                24 kB
-> Writeback:             0 kB
-> AnonPages:        969280 kB
-
-This shows anon *mapped*.
-
-> Mapped:           308848 kB
-> Shmem:             45076 kB
-
-This shows that your (in)active anon *isn't* driven by shmem.
-
-> KReclaimable:      96144 kB
-> Slab:             269540 kB
-> SReclaimable:      96144 kB
-> SUnreclaim:       173396 kB
-> KernelStack:       27584 kB
-> PageTables:       187408 kB
-> SecPageTables:         0 kB
-> NFS_Unstable:          0 kB
-> Bounce:                0 kB
-> WritebackTmp:          0 kB
-> CommitLimit:    54997436 kB
-> Committed_AS:    6628776 kB
-> VmallocTotal:   261087232 kB
-> VmallocUsed:       38696 kB
-> VmallocChunk:          0 kB
-> Percpu:            42800 kB
-> HardwareCorrupted:     0 kB
-> AnonHugePages:    413696 kB
-
-This shows anon pmd-mapped.
-
-> ShmemHugePages:        0 kB
-> ShmemPmdMapped:        0 kB
-> FileHugePages:    172032 kB
-> FilePmdMapped:     28672 kB
-
-This shows both allocated huge pages and the pmd-mapped portion.
-
-So you *can* work it out by looking at the LRU ((in)active) and
-cross-checking the shmem position. But it is awkward, granted.
-
-IMO if there is a case to be made, it's doing the same split we do for
-file and shmem - AnonHugePages (allocated) and AnonPmdMapped.
