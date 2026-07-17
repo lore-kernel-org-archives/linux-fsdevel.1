@@ -1,88 +1,58 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020C33B52E7
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 14:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8793D3BE14D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 15:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784297572; cv=none; b=RGa6iksgDPFpqE3BQoqRkkGU7bCSXif5WLkYNhmKq244bayMmZzf6RI8vyVOKa3El93ARYq/6ovYOzfSOfDDkP6G4mKGWZaN4y7KsBsWJLwKnQBJdMAypWUYThmTWCstMgvBvZctPEgigXltSefTtaDO7iZcnwjDAXzjopmIwkM=
+	t=1784301473; cv=none; b=Tstah/RbnpM0l59tpxPwGyi2JejB4GhugOd1pFimEzc4ZCcxu2W6KOV5PT9+yS1OJTUgdySy7zj5q4j0pjrvQA7Llt4pM9J6i3RyVnE0ezYFOAceAWOi740qtm0jlHlBUs9aGkahQVyI5lqKtOtHmDyqlW39PrELZ7421UA2O74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784297572; c=relaxed/simple;
-	bh=mIcS1P0ZDTZArNTl6JypBjdY/EexnWjZ6Kqpfm0N7uE=;
+	s=arc-20240116; t=1784301473; c=relaxed/simple;
+	bh=E4f3UkFE35zPMvfWTOJBgYW3vHvp4OhTX1Ip1xfWiqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CnYI6/goW4nKrY5bNkmDbS8yUf/ISE/Q4nOD29D7WQJQKoVV0f4SDWw8Tjm/iTk8EbT1eZOJKFrUgsbEGzCg1yr6ExH09mzou+YyJo4yf1qH6A8m61t/Igxj+hfPKZA8dxVU1VnA6xAdIXd6Orw5sZV2hS+jXgOOP6+gt0/58Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kQSPcfuW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=s85VGuOz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=O88HPSAl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z0mIoc0g; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=cNlPccZ9WhV5pKCD8kSTykILq7uhaSCNgW18Yjzs8j8YF7aQXtyaNnpKMIw+YjdxqAiJ2zgjq6vdqR+ybOvMdEaG2OmJ5HPMhKkrtk+cXHo4+0m9Opznyq1fmQDXvywO2q+gza73+KOBUx0TJNOwMVkCJA+VoqNHfXeabO+cqEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=R3LVmMLk; arc=none smtp.client-ip=195.121.94.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kQSPcfuW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="s85VGuOz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="O88HPSAl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z0mIoc0g"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D1DD03E47;
-	Fri, 17 Jul 2026 14:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784297569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wvQ5eO8WYpQY4sLmvW9UEi2eNsE1Cwbt5Q9Niiwjylk=;
-	b=kQSPcfuWwsQRX6fxczV2z60y1j9NwAy0oRx1JC499xSuWFFQbBdji8eoAtOjen9MNww57d
-	VWRS14lHEgmhKM2oIR4FE/ob4N5yKb8ItR/JO8aTA+n6AmM83qVajGvxUH30bMJd/OOMAE
-	3h53P3gsjOhqueltHKtWC7HvJwXVl9U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784297569;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wvQ5eO8WYpQY4sLmvW9UEi2eNsE1Cwbt5Q9Niiwjylk=;
-	b=s85VGuOzz/up9R/1tgrhHKsg8r2cB5oF+nli7vYXDED/fj7zmNMlhvQ9v+H34g/YhdYAAb
-	fDe8Tplmz8FtkqBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=O88HPSAl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Z0mIoc0g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784297568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wvQ5eO8WYpQY4sLmvW9UEi2eNsE1Cwbt5Q9Niiwjylk=;
-	b=O88HPSAlAXhukiZYK1jBYct1L5IF+1KiSFs+4Xl/LE45Tj9yh5nJXqFpRgZWxL5bGfdRw7
-	u4DYfhSpNErjOYMaO0dQA0n+hkcofqv2NiGZYdDeoVsd3Z7Htc3YKoK2IPTczSBcg/t2Pe
-	K2UdQuK/gTNiOM+j/oV1aGqcT2jCj3w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784297568;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wvQ5eO8WYpQY4sLmvW9UEi2eNsE1Cwbt5Q9Niiwjylk=;
-	b=Z0mIoc0gUN68sMAoYmOQYPnKTxRFXsMbskf8wiwhzEUIKMIvrIeLibjZHAMF7/tIoOHOem
-	S1eAtkSz+3n9J0BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81AD2779AA;
-	Fri, 17 Jul 2026 14:12:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /76lH2A4Wmp8EgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 17 Jul 2026 14:12:48 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D7D7EA09B7; Fri, 17 Jul 2026 12:04:15 +0200 (CEST)
-Date: Fri, 17 Jul 2026 12:04:15 +0200
-From: Jan Kara <jack@suse.cz>
-To: Timothy Day <timday@thelustrecollective.com>
-Cc: linux-ext4@vger.kernel.org, Jan Kara <jack@suse.com>, 
-	Marco Elver <elver@google.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/9] ext2: mark s_next_generation as guarded by
- s_next_gen_lock
-Message-ID: <hf3qj2wqalzphmmz3r47ileff2cktc6hjhyjijba7q7stanapq@tmtqy6yup6c3>
-References: <20260712165610.366474-1-timday@thelustrecollective.com>
- <20260712165610.366474-3-timday@thelustrecollective.com>
- <20260717020302.180974-1-timday@thelustrecollective.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="R3LVmMLk"
+X-KPN-MessageId: a6dd896f-81f2-11f1-83b3-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id a6dd896f-81f2-11f1-83b3-005056ab378f;
+	Fri, 17 Jul 2026 17:17:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=a8HLQHxPCpbLm2MKNPLqrY3+EQ9+E1jrzcFBgC6A4ls=;
+	b=R3LVmMLk+I61ZwygW8mhNvtj02kJzxjqrIrjtmsWnsIa3wuFhDGculuYRMMOHGVaRP/SmeYswD/YO
+	 tJ4I5tp5Lb4F6RKXaZe8m4gwNILOodXDayAfLipFqMon+EG5/58PFAoLoK6ATnC4bEtvP0aF2HWQvI
+	 dNixdoWnJTa6AJVgnetikhFMBdSajnkCgrZFM/Iafv+BoddAWDvgJZAL3e6wdn342hAIwJOZTB7+l8
+	 4/i1rCUWEYuum6WHHlewgF1mVbIe3nYazora5M6A8uvmhLOOGojjZjRgmzDlbso/YQnMMxa6+Tm51h
+	 U5uaAw2x8QsZ+mObfAdeQaug5ZYqyZA==
+X-KPN-MID: 33|BJ5gks8oQ8GvvVXN+LDYfxHKPIO3j4bE2nWZPbpnvpGV2TQGKcwYFW8ru918+L3
+ uIkRLJux9vj2y6nnf2+B4mI6WSKXjvxNzRwrKVitsZeA=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|xO4ZtJFzH3SbHMvW4gTF0FS+AJ9qi4XIFY7Lk3s4cEGi3T/UQ3LpSvulZ7PLoZJ
+ o2gJcdVaW2goBAMHeD3slNg==
+Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id a6be1a71-81f2-11f1-920a-005056ab1411;
+	Fri, 17 Jul 2026 17:17:40 +0200 (CEST)
+Date: Fri, 17 Jul 2026 17:17:34 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+Subject: Re: [PATCH v3 18/24] binfmt_misc: simplify check_special_flags()
+Message-ID: <alpCdI9_5j83xly6@lt-jori.localdomain>
+Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
+ <20260710-work-binfmt_misc-locking-v3-18-a162f7cb58d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,60 +61,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260717020302.180974-1-timday@thelustrecollective.com>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D1DD03E47
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20260710-work-binfmt_misc-locking-v3-18-a162f7cb58d6@kernel.org>
 
-On Thu 16-07-26 22:03:02, Timothy Day wrote:
-> On Sun, 12 Jul 2026 12:56:03 -0400, Timothy Day wrote:
-> > diff --git a/fs/ext2/super.c b/fs/ext2/super.c
-> > index 3999f8f3b156e..8c7f3772917bb 100644
-> > --- a/fs/ext2/super.c
-> > +++ b/fs/ext2/super.c
-> > @@ -1125,9 +1125,11 @@ static int ext2_fill_super(struct super_block *sb, struct fs_context *fc)
-> >  		goto failed_mount2;
-> >  	}
-> >  	sbi->s_gdb_count = db_count;
-> > -	sbi->s_next_generation = get_random_u32();
-> >  	spin_lock_init(&sbi->s_next_gen_lock);
+On Fri, Jul 10, 2026 at 11:33:19AM +0200, Christian Brauner wrote:
+> Replace the cont flag and the pointer increment repeated in every
+> case with a for loop that returns from the default case, and shrink
+> the multi-line 'C implies O' remark to one line.
 > 
-> If I change this to guard(spinlock_init)(&sbi->s_next_gen_lock), I should
-> be able to avoid the context_unsafe() line right after this. I'll fix
-> that in the next revision. There may be some other places in the series
-> where I can make the same fix.
+> No functional change.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_misc.c | 22 +++++-----------------
+>  1 file changed, 5 insertions(+), 17 deletions(-)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index d6bc2abc4a7f..d9dc9546d199 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -309,43 +309,31 @@ static char *scanarg(char *s, char del)
+>  	return s;
+>  }
+>  
+> -static char *check_special_flags(char *sfs, struct binfmt_misc_entry *e)
+> +static char *check_special_flags(char *p, struct binfmt_misc_entry *e)
+>  {
+> -	char *p = sfs;
+> -	int cont = 1;
+> -
+> -	/* special flags */
+> -	while (cont) {
+> +	for (;; p++) {
+>  		switch (*p) {
+>  		case 'P':
+>  			pr_debug("register: flag: P (preserve argv0)\n");
+> -			p++;
+>  			e->flags |= MISC_FMT_PRESERVE_ARGV0;
+>  			break;
+>  		case 'O':
+>  			pr_debug("register: flag: O (open binary)\n");
+> -			p++;
+>  			e->flags |= MISC_FMT_OPEN_BINARY;
+>  			break;
+>  		case 'C':
+>  			pr_debug("register: flag: C (preserve creds)\n");
+> -			p++;
+> -			/* this flags also implies the
+> -			   open-binary flag */
+> -			e->flags |= (MISC_FMT_CREDENTIALS |
+> -					MISC_FMT_OPEN_BINARY);
+> +			/* C implies O */
+> +			e->flags |= MISC_FMT_CREDENTIALS | MISC_FMT_OPEN_BINARY;
+>  			break;
+>  		case 'F':
+>  			pr_debug("register: flag: F: open interpreter file now\n");
+> -			p++;
+>  			e->flags |= MISC_FMT_OPEN_FILE;
+>  			break;
+>  		default:
+> -			cont = 0;
+> +			return p;
+>  		}
+>  	}
+> -
+> -	return p;
+>  }
+>  
+>  /*
+> 
+> -- 
+> 2.53.0
+> 
 
-Yeah, I guess that would be a tad bit better.
+I really wish there would be a construction like
 
-								Honza
+  static const unsigned int bm_special_flags[256] = {
+        ['P'] = MISC_FMT_PRESERVE_ARGV0,
+        ['O'] = MISC_FMT_OPEN_BINARY,
+        ['C'] = MISC_FMT_CREDENTIALS | MISC_FMT_OPEN_BINARY, /* C implies O */
+        ['F'] = MISC_FMT_OPEN_FILE,
+  };
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  static char *check_special_flags(char *p, Node *e)
+  {
+        for (; bm_special_flags[(unsigned char)*p]; p++) {
+                pr_debug("register: flag: %c\n", *p);
+                e->flags |= bm_special_flags[(unsigned char)*p];
+        }
+        return p;
+  }
+
+that would not waste as much .rodata. Actually, you could offset the
+table and the memory argument would go away, but that is a bit
+ridiculous for non-hot-path code...
+
+Anyway:
+
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
