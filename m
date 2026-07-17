@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A993A3C4175;
-	Fri, 17 Jul 2026 10:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FB9335BA8;
+	Fri, 17 Jul 2026 10:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784285374; cv=none; b=T+GhwR+77NYsmjXW3bT5oNPIHRt8iuZrrklKllP2BVATqjoXI6it2wvsqC7cn6CK1m9CZav2CtTBNgQpwyfGBNCECgnje/L4L2aIxwmCXCaNQDQRPXaRbGSahdbQ02nUm8yrJtL0iVeuolsKV4g8IJaXYqpzl9hM017UDHll67k=
+	t=1784285418; cv=none; b=ApxGOyAPWd1Rkx2y+H7lRO4wSyrtcIFT/isb8F8K0LsjcOey4k0wyb3ah1fdJ4MHpxLJMhbZc+jAGsuGNfKr6Q/xq1mOlp1RIlHgXFagz+0OdMzDvm4XdoVuOIG5MIxmTNR0BLge9dFymhWulxefCGoOwhdZLwBtDTkWC6jxk9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784285374; c=relaxed/simple;
-	bh=czhi2L3OSZgJLFTwhsTvw9dBtd8AT0EwYpxT8a6yYSI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=aSJkKAEwZkioYuC8MANvFE9SIzAEIjHjoA2pyouDAPEQGZR00+5sXnebEwRFfSo4cH5amOgaz3X9FDZmt7Z3g7y3vUwPqsQpWDcD/Kd9sZ2RH3agk+4wPNp7fxNeTkWXLBeVUaZ1FHfJzhcwBaasmNOFMFUSR72ISpFB2D2ewyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFzAF07p; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784285418; c=relaxed/simple;
+	bh=PihxZLkI+5h4wj5cnFVyTS2v02MHEbML7BnB0eZBkYg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QHz0pmhYHJDGZBrr6RKs0JOOKswSPYIvWUnrZAOUG7uGx9kS2RSnPHTK0K+/NK0rHmEQQirTsyOH44FVj5pqoJPbOwabOIEdY93fFxHEW8ISY5ZEenNVOpiAHCmnMh3RxlqdZTY0a95XK/b4mHDoN5ldVAWJtRh0jiBZ+NoKwKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbHUf/sS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFzAF07p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 401661F000E9;
-	Fri, 17 Jul 2026 10:49:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbHUf/sS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D3B81F000E9;
+	Fri, 17 Jul 2026 10:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784285373;
-	bh=e2oju7FWnePkrpYg62xKmxIktZSvCtWKUW3uGQh64GM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=bFzAF07pa8ofmrhxdgfuL/Tf1ugkpNZlpsnyaCo2lfNbdQLa54PtSDg0hdmEoU9UB
-	 +CBW45qc3AiYP5Goegs/tESTtnQIvVga9PkIEnzQkHtr2I72CzV+xYwOhep/s+vn5o
-	 XdU7BH9XO0shv/DFgD3JdjRjFSCdCahR/wxiVDRM5I++51u8/ZNzJKKkNx3tVSnLib
-	 ImaJIfz66E41KCIiFuAOdgT/in2hU1KWLTEwfz8QxlEwOzBlb7d3P26i5APQmCqF+1
-	 /qN3vWcmkC2xcXWZgImo1emklbIMrcSydSTOgStVP/PSIJmV4f6Uj1bEiyZt8BdSln
-	 RFiV/7r7V7lDA==
-Message-ID: <fad6b639-1d55-4b25-b1bb-14ae56f04a6e@kernel.org>
-Date: Fri, 17 Jul 2026 11:49:29 +0100
+	s=k20260515; t=1784285417;
+	bh=Acu9ENJWNH9uqgnpeStahNHA+iaw/XLkLr8FvJEv/jQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RbHUf/sS2GswpRSByaDrPonL+c3k7ZSRFTThCzY9M435gV2d/wehbOCGle9le44Ea
+	 37oUEqR++XBLpMAdcGQZnvYvyaFeL7fvsQHUbdQolzv+eKDUEoLNV279dlPzK76Qrv
+	 HhoNxtenNDRytDY79W4taK0AKuWrPmRgJtYtQN6ZOReIHKf0+0K1xEyNchUvajqxEb
+	 mLdznX8GLYIT3zlFUiBsGv+7q17pYHNFR8Pa23eM/Jq4/zvJ3/q5HjKkPCIRfP44h6
+	 WZLWDcu2vedOBxLBhY7l+cRPqSa3KtTDfw7RzJTxWAQpT6YxaNIQ/rNdfno+NIbsah
+	 n1EOUXQMW5G6g==
+Message-ID: <c8e5b263-1368-4fac-a935-345cb6aa9165@kernel.org>
+Date: Fri, 17 Jul 2026 11:50:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,9 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] mm/mseal: limit scope of mseal address zero to
- address zero
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH 3/3] mm/mseal: remove further superfluous comments,
+ do_mseal()
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
@@ -49,8 +48,8 @@ To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
- <20260716-mseal-fixups-v1-2-3a9609bf041b@kernel.org>
- <c1fa877e-de9d-4d85-9d2b-6971f0cbd7ff@kernel.org>
+ <20260716-mseal-fixups-v1-3-3a9609bf041b@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -96,49 +95,24 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <c1fa877e-de9d-4d85-9d2b-6971f0cbd7ff@kernel.org>
+In-Reply-To: <20260716-mseal-fixups-v1-3-3a9609bf041b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 7/16/26 15:43, Lorenzo Stoakes (ARM) wrote:
+> There's no need to abstract do_mseal() any longer so put the system call
+> implementation in the system call declaration.
+> 
+> The comment around do_mseal() is strangely formatted, overly long and adds
+> a lot of superfluous information that the code already provides, so boil it
+> down to the essentials.
 
->> -static inline int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
->> -{
->> -	/* noop on 32 bit */
->> -	return 0;
->> -}
->> +static inline void mseal_mmap_page_zero(void) {}
->>  #endif
->>  
->>  /*
->> diff --git a/mm/mseal.c b/mm/mseal.c
->> index 207fea89c61e..5930551d84f2 100644
->> --- a/mm/mseal.c
->> +++ b/mm/mseal.c
->> @@ -32,7 +32,7 @@ static bool range_contains_unmapped(unsigned long start, unsigned long end)
->>  	return prev_end < end;
->>  }
->>  
->> -static int mseal_apply(unsigned long start, unsigned long end)
->> +static int __mseal(unsigned long start, unsigned long end)
->>  {
->>  	struct vm_area_struct *vma, *prev;
->>  	VMA_ITERATOR(vmi, current->mm, start);
->> @@ -66,6 +66,38 @@ static int mseal_apply(unsigned long start, unsigned long end)
->>  	return 0;
->>  }
->>  
->> +static int mseal(unsigned long start, unsigned long end)
-> 
-> mseal_range() could be indeed nicer. But do_mseal() is now a pure helper for
-> "SYSCALL_DEFINE3(mseal" only ...could we simply inline do_mseal into
-> SYSCALL_DEFINE3(mseal)?
-> 
-> We could do that separately, ofc.
-> 
+Lol, just what I had in mind in my comment to #2.
 
-Forgot
+Nice!
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
 
 -- 
 Cheers,
