@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CEB2233A;
-	Fri, 17 Jul 2026 18:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B822F8EB4;
+	Fri, 17 Jul 2026 18:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784312616; cv=none; b=NS6/qb2H4G8uqw17IjHd/ofNnr32IXQp91+N+pJHsX6+vnBzfd/SpUrG2zcfDJwqx/IcxFyXWDApec1LwIFHqNqzuRjHgQW6IQJgonPBxkiZTZnOplWML4ZvEI+PZmC8NtHIXfjuJ6jHPSkL6eAD2jtIjvSzdbpTwny+dkD6Ay0=
+	t=1784312625; cv=none; b=Qgjhoax3RHvsvkUPNF8WGQ4BDL9xLeCEEUjeL5fSbYE3XbRtkxnSCcn8C5XIJX7Yyv6yGRmsWRVUbwXLmaVse7hqfdbYu8lo/bFIJq00OZiR8Zz1ZGHnit8nNSRQB9Idj0DgcaF2EPxgtB3ufQHYii2T8FdS0rbRWkGv5w4H7E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784312616; c=relaxed/simple;
-	bh=trcZDCZGb1+fFeGFvg3327sbE4yWDvlmUSh3MOsJRQI=;
+	s=arc-20240116; t=1784312625; c=relaxed/simple;
+	bh=2613GakduscTW0HQyjciqfb4Fv/xmKQjLs/wrRcxexM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cUXbPxvmzQLRNlJFxLnBAwL+BKaHaQgTdZBzRkV0sanVxmEErMLsm5J00dwBxRasHq5DlHFHb7IcZoUt28vMQZzo8jvnRhBo5B0wL2FF4yL2FoTRrrtLgCP2xqGH7oFlpLErd761Qxvq0MqB1XUOsqW4GQt7FcUxji/raSgRwZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dmE5lYer; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=bNbGFmQUIMJnt+NdQhZcZRG4v8dnQ3Gkbo4xkjNoOVEKHkg3M4Ku5RM5pKRQWE0g8O+0kaGdfPDrz4syYVFyq1/JVeJmE6m50jXa3HGWAvaEpToQur2DDXgE83J56hCQ2Ltzruy27hexNfA8l5iflgF6HoeuIv17o72jfVDdgss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9kZrGVy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dmE5lYer"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C2201F000E9;
-	Fri, 17 Jul 2026 18:23:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9kZrGVy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006091F00A3A;
+	Fri, 17 Jul 2026 18:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784312614;
-	bh=THcSTCW+eH3M326ttZSOcln1sIFibD7ABxlX6LgmtOs=;
+	s=k20260515; t=1784312623;
+	bh=e/iL8+q9nchQYoecoHRozmG0upgg4wUWQpXFNukM+ng=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=dmE5lYerIgZlq5rUsfess6SgtAzDQjiz+vmhBsj9u0sgXzson+piHCvZjmwwkCIry
-	 rpM6SwHqZiqpHrN9sIx83cI60ZK1oPD6oX/pzpFtMc4W4yNFtjEV1HG3ai3WJQZbw/
-	 lsL2av1Yu6aUVFzs6xrCndBa0FTTIulWTrXCq6GjbeOkl6OTreNYCjFndDGxhsZXGD
-	 CPwcvnY+ezL2LQh+u1QclXrR6QF2NkIn0bnquRAUxmW6DS4ukP2HnLO/fXqMO/BzKL
-	 oOfxBZCo+iQeS3kdRVLPbSV7Ail+2aHQN1d2pxplUOCBmUJPEUnKmp1z0O5yQmy9Vy
-	 OQgE1nxOhqMXg==
+	b=i9kZrGVy7LfrF2gGQSO3BKdoe0YIuNz4INwdJaJvFm61yNcpoGBzPrlU00k5ugyrh
+	 l6lAXaeqTdjovB0IXT+eL7XxI2vtdg194NykBlvIGaIUs1Fhi7rXGg9vknAhEW8xAx
+	 xOl+qXalWG2nob3yFTyUsM/E6MXEU5JunIdeVjYan46xBrf06Zvc8Kb9Uo9l8MPRE4
+	 czOaIRBvoN5mYCi1tUtmstx2reEnop856osJafp3GYSxB8JJHoiCQu0thIo/eXF9Tv
+	 +0CweEZGGTwCKAlDBULOs7yelMUgrnXW2ID8MfKVRuDknL26r8RG4zJJ5ndQ84gWbf
+	 R7Nzq2ZG3fk3A==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 17 Jul 2026 19:19:47 +0100
-Subject: [PATCH 09/15] mm/rmap: use virt pgoff for MAP_PRIVATE file-backed
- anon folios
+Date: Fri, 17 Jul 2026 19:19:48 +0100
+Subject: [PATCH 10/15] tools/testing/vma: expand VMA merge tests to assert
+ virt pgoff
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-b4-scalable-cow-virt-pgoff-v1-9-cf24910ef094@kernel.org>
+Message-Id: <20260717-b4-scalable-cow-virt-pgoff-v1-10-cf24910ef094@kernel.org>
 References: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
 In-Reply-To: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -67,317 +67,172 @@ Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-kselftest@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11839; i=ljs@kernel.org;
- h=from:subject:message-id; bh=trcZDCZGb1+fFeGFvg3327sbE4yWDvlmUSh3MOsJRQI=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiivZ57q9ZtbpYadn2wNNMB1ZMz+gWNhc8INM87cKPl
- q2ncrw3dpSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiwocY/lmJpbyIu7O3NePD
- 9kOTl6ekpsWse60rU5g/bV++GWNX2DaGfyZR10XCerSXrp0T+0I9QNix8K6rX6Ko6rr9amsEN0/
- y4gEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6335; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=2613GakduscTW0HQyjciqfb4Fv/xmKQjLs/wrRcxexM=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiivZ53Ywy26t1/84nP/stiqvOhX69Kqejw3Orf7dW6
+ vEDbjdmd5SyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiK9cxMrSs+PZMUNFZ9aLE
+ z2XN/a73ai3Sb3kbNUfzyh5cf+YYwx2G/4ln2f0f+Dy6k8m8ctOns0khFSWbWG0vCSolhgifN96
+ Rzw8A
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Currently, anonymous folios belonging to CoW'd MAP_PRIVATE file-backed
-mappings are indexed by their page offset within the file in which they
-were originally mapped.
-
-This differs from anonymous folios belonging to pure anon mappings which
-are indexed by their virtual page offset (the address at which they'd
-belong in the VMA when first faulted).
-
-This change fixes this inconsistency, always indexing anonymous folios by
-their virtual page offset regardless of the VMA to which they belong.
-
-We have laid the foundations for making this change to the point where we
-need only 'switch it on', and this patch switches it on by:
-
-* Using linear_virt_page_index() in __folio_set_anon() to assign the
-  folio's index to the anonymous linear index rather than the file-backed
-  one.
-
-* Otherwise using linear_virt_page_index() in all instances where
-  anonymous folios are being referenced or manipulated.
-
-* Replacing vma_address() with vma_filebacked_address() or
-  vma_anon_address() as appropriate.
-
-* Updating the rmap lock logic in copy_vma() to also account for virtual
-  page offsets.
-
-* Updating the merging logic to check that virtual page offsets are
-  aligned as well as filebacked ones for anonymous or MAP_PRIVATE
-  file-backed VMAs.
-
-* Updating linear_folio_page_index() to invoke linear_virt_page_index()
-  if the folio is anonymous.
-
-* Correcting folio_within_range() to use virtual page offset for anonymous
-  folios.
-
-This will have no impact on merging of anonymous VMAs or shared file-backed
-VMAs, whose page offset and anonymous page offset will be identical.
-
-However, MAP_PRIVATE file-backed mappings must now be aligned on virtual
-page offset as well.
-
-In most instances this should have no impact on merging of file-backed
-mappings, which are usually not merged all that often, let alone
-MAP_PRIVATE mapped ones, and rarely remapped and faulted before being moved
-back in place (the case in which a merge may now fail).
-
-This change lays the foundations for future scalable CoW work which needs
-to track at least some remaps.
-
-This change means that most remap tracking can be avoided, and in nearly
-all cases the anonymous page offset can be used to quickly find the VMA in
-an mm.
+Now we have introduced the VMA virtual page offset attribute and update it
+when VMAs are manipulated, update VMA merge tests to assert that the
+virtual page offset is as expected.
 
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- include/linux/pagemap.h |  9 ++++++++-
- mm/internal.h           | 28 +++++++++-------------------
- mm/interval_tree.c      |  4 ++--
- mm/ksm.c                |  7 ++++---
- mm/page_vma_mapped.c    |  2 +-
- mm/rmap.c               | 12 ++++++------
- mm/vma.c                | 14 ++++++++++++--
- 7 files changed, 42 insertions(+), 34 deletions(-)
+ tools/testing/vma/tests/merge.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index dab355eda0ef..90130f28e7a8 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -1149,7 +1149,11 @@ static inline pgoff_t linear_virt_page_index(const struct vm_area_struct *vma,
-  * @vma: The VMA in which @address resides.
-  * @address: The address whose absolute page offset is required.
-  *
-- * For compatibility, currently identical to linear_page_index().
-+ * Determines whether to obtain the virtual linear page index based on whether
-+ * @folio is anonymous or not.
-+ *
-+ * See the descriptions of linear_virt_page_index() and linear_page_index() for
-+ * details of each.
-  *
-  * Returns: The absolute page offset of @address within @vma.
-  */
-@@ -1157,6 +1161,9 @@ static inline pgoff_t linear_folio_page_index(const struct folio *folio,
- 					      const struct vm_area_struct *vma,
- 					      const unsigned long address)
- {
-+	if (folio_test_anon(folio))
-+		return linear_virt_page_index(vma, address);
-+
- 	return linear_page_index(vma, address);
- }
+diff --git a/tools/testing/vma/tests/merge.c b/tools/testing/vma/tests/merge.c
+index 48418b82b01d..a01107ab8e21 100644
+--- a/tools/testing/vma/tests/merge.c
++++ b/tools/testing/vma/tests/merge.c
+@@ -121,6 +121,7 @@ static bool test_simple_merge(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x3000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_FLAGS_SAME_MASK(&vma->flags, vma_flags);
  
-diff --git a/mm/internal.h b/mm/internal.h
-index 7ed8bde7890d..22f63cb85bd3 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -933,7 +933,8 @@ folio_within_range(struct folio *folio, struct vm_area_struct *vma,
- 		return false;
+ 	detach_free_vma(vma);
+@@ -153,6 +154,7 @@ static bool test_simple_modify(void)
+ 	ASSERT_EQ(vma->vm_start, 0x1000);
+ 	ASSERT_EQ(vma->vm_end, 0x2000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 1);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 1);
  
- 	pgoff_folio = folio_pgoff(folio);
--	pgoff_vma_start = vma_start_pgoff(vma);
-+	pgoff_vma_start = folio_test_anon(folio) ?
-+		vma_start_virt_pgoff(vma) : vma_start_pgoff(vma);
+ 	/*
+ 	 * Now walk through the three split VMAs and make sure they are as
+@@ -165,6 +167,7 @@ static bool test_simple_modify(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x1000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
  
- 	if (start < vma->vm_start)
- 		start = vma->vm_start;
-@@ -1044,23 +1045,8 @@ static inline unsigned long vma_filebacked_address(const struct vm_area_struct *
- }
+ 	detach_free_vma(vma);
+ 	vma_iter_clear(&vmi);
+@@ -174,6 +177,7 @@ static bool test_simple_modify(void)
+ 	ASSERT_EQ(vma->vm_start, 0x1000);
+ 	ASSERT_EQ(vma->vm_end, 0x2000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 1);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 1);
  
- /**
-- * vma_address - Find the virtual address a page range is mapped at.
-- * @vma: The vma which maps this object.
-- * @pgoff: The page offset within its object.
-- * @nr_pages: The number of pages to consider.
-- *
-- * If any page in this range is mapped by this VMA, return the first address
-- * where any of these pages appear.  Otherwise, return -EFAULT.
-- */
--static inline unsigned long vma_address(const struct vm_area_struct *vma,
--		pgoff_t pgoff, unsigned long nr_pages)
--{
--	return __vma_address(vma, pgoff, vma_start_pgoff(vma), nr_pages);
--}
--
--/**
-- * vma_anon_address - Find the address an anonymous folio with index @pgoff_virt
-- * is mapped at.
-+ * vma_anon_address - Find the virtual address an anonymous page range is mapped
-+ * at.
-  * @vma: The vma which maps this object.
-  * @pgoff_virt: The virtual page index belonging to the folio.
-  * @nr_pages: The number of pages to consider.
-@@ -1094,7 +1080,11 @@ static inline unsigned long vma_address_end(struct page_vma_mapped_walk *pvmw)
- 	if (pvmw->nr_pages == 1)
- 		return pvmw->address + PAGE_SIZE;
+ 	detach_free_vma(vma);
+ 	vma_iter_clear(&vmi);
+@@ -183,6 +187,7 @@ static bool test_simple_modify(void)
+ 	ASSERT_EQ(vma->vm_start, 0x2000);
+ 	ASSERT_EQ(vma->vm_end, 0x3000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 2);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 2);
  
--	pgoff_vma_start = vma_start_pgoff(vma);
-+	if (pvmw->is_anon_walk)
-+		pgoff_vma_start = vma_start_virt_pgoff(vma);
-+	else
-+		pgoff_vma_start = vma_start_pgoff(vma);
-+
- 	pgoff_end = pgoff + pvmw->nr_pages;
- 	address = vma->vm_start +
- 		((pgoff_end - pgoff_vma_start) << PAGE_SHIFT);
-diff --git a/mm/interval_tree.c b/mm/interval_tree.c
-index 3ae9e106d3af..26b8437e3b1b 100644
---- a/mm/interval_tree.c
-+++ b/mm/interval_tree.c
-@@ -83,12 +83,12 @@ mapping_rmap_tree_iter_next(struct vm_area_struct *vma,
+ 	detach_free_vma(vma);
+ 	mtree_destroy(&mm.mm_mt);
+@@ -212,6 +217,7 @@ static bool test_simple_expand(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x3000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
  
- static pgoff_t avc_start_pgoff(struct anon_vma_chain *avc)
- {
--	return vma_start_pgoff(avc->vma);
-+	return vma_start_virt_pgoff(avc->vma);
- }
+ 	detach_free_vma(vma);
+ 	mtree_destroy(&mm.mm_mt);
+@@ -234,6 +240,7 @@ static bool test_simple_shrink(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x1000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
  
- static pgoff_t avc_last_pgoff(struct anon_vma_chain *avc)
- {
--	return vma_last_pgoff(avc->vma);
-+	return vma_last_virt_pgoff(avc->vma);
- }
+ 	detach_free_vma(vma);
+ 	mtree_destroy(&mm.mm_mt);
+@@ -346,6 +353,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x5000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 3);
+@@ -367,6 +375,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 	ASSERT_EQ(vma->vm_start, 0x6000);
+ 	ASSERT_EQ(vma->vm_end, 0x9000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 6);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 6);
+ 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 3);
+@@ -387,6 +396,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x9000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 2);
+@@ -407,6 +417,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 	ASSERT_EQ(vma->vm_start, 0xa000);
+ 	ASSERT_EQ(vma->vm_end, 0xc000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0xa);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0xa);
+ 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 2);
+@@ -426,6 +437,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0xc000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 1);
+@@ -446,6 +458,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
+ 		ASSERT_EQ(vma->vm_start, 0);
+ 		ASSERT_EQ(vma->vm_end, 0xc000);
+ 		ASSERT_EQ(vma_start_pgoff(vma), 0);
++		ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 		ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
  
- INTERVAL_TREE_DEFINE(struct anon_vma_chain, rb, pgoff_t, rb_subtree_last,
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 47006f494fcb..b9b32f7bfb69 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -1625,7 +1625,8 @@ static int try_to_merge_with_ksm_page(struct ksm_rmap_item *rmap_item,
- 	 * stable_tree, break_cow() will clean it up.
- 	 */
- 	rmap_item->anon_vma = vma->anon_vma;
--	rmap_item->linear_page_index = linear_page_index(vma, rmap_item->address);
-+	/* The VMA is always anon/MAP_PRIVATE-file backed so use anon index. */
-+	rmap_item->linear_page_index = linear_virt_page_index(vma, rmap_item->address);
- 	get_anon_vma(vma->anon_vma);
- out:
- 	mmap_read_unlock(mm);
-@@ -3152,7 +3153,7 @@ struct folio *ksm_might_need_to_copy(struct folio *folio,
- 			return folio;	/* no need to copy it */
- 	} else if (!anon_vma) {
- 		return folio;		/* no need to copy it */
--	} else if (folio->index == linear_page_index(vma, addr) &&
-+	} else if (folio->index == linear_virt_page_index(vma, addr) &&
- 			anon_vma->root == vma->anon_vma->root) {
- 		return folio;		/* still no need to copy it */
- 	}
-@@ -3222,7 +3223,7 @@ void rmap_walk_ksm(struct folio *folio, struct rmap_walk_control *rwc)
- 		/*
- 		 * Currently, KSM folios are always small folios, so it's
- 		 * sufficient to search for a single page. We can simply use
--		 * the linear_page_index of the original de-duplicate
-+		 * the linear_virt_page_index of the original de-duplicate
- 		 * anonymous page that we remembered in the rmap_item while
- 		 * de-duplicating. Note that mremap() always de-duplicates KSM
- 		 * folios: so if there was mremap() in our parent or our child,
-diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
-index 081e483cc7bf..4e964545e5e8 100644
---- a/mm/page_vma_mapped.c
-+++ b/mm/page_vma_mapped.c
-@@ -365,7 +365,7 @@ unsigned long page_mapped_in_vma(const struct page *page,
- 	};
+ 		detach_free_vma(vma);
+@@ -808,6 +821,7 @@ static bool test_vma_merge_new_with_close(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x5000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_EQ(vma->vm_ops, &vm_ops);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 2);
+@@ -868,6 +882,7 @@ static bool __test_merge_existing(bool prev_is_sticky, bool middle_is_sticky, bo
+ 	ASSERT_EQ(vma->vm_start, 0x2000);
+ 	ASSERT_EQ(vma->vm_end, 0x3000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 2);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 2);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_TRUE(vma_write_started(vma_next));
+ 	ASSERT_EQ(mm.map_count, 2);
+@@ -934,6 +949,7 @@ static bool __test_merge_existing(bool prev_is_sticky, bool middle_is_sticky, bo
+ 	ASSERT_EQ(vma->vm_start, 0x6000);
+ 	ASSERT_EQ(vma->vm_end, 0x7000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 6);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 6);
+ 	ASSERT_TRUE(vma_write_started(vma_prev));
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 2);
+@@ -1419,6 +1435,7 @@ static bool test_merge_extend(void)
+ 	ASSERT_EQ(vma->vm_start, 0);
+ 	ASSERT_EQ(vma->vm_end, 0x4000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 0);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(mm.map_count, 1);
  
- 	if (folio_test_anon(folio))
--		pvmw.address = vma_address(vma, pgoff, 1);
-+		pvmw.address = vma_anon_address(vma, pgoff, 1);
- 	else
- 		pvmw.address = vma_filebacked_address(vma, pgoff, 1);
- 	if (pvmw.address == -EFAULT)
-diff --git a/mm/rmap.c b/mm/rmap.c
-index cfd4195ff1ae..6854baf4b877 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -866,7 +866,7 @@ unsigned long page_address_in_vma(const struct folio *folio,
- 		    vma->anon_vma->root != anon_vma->root)
- 			return -EFAULT;
- 		/* KSM folios don't reach here because of the !anon_vma check */
--		return vma_address(vma, page_pgoff(folio, page), 1);
-+		return vma_anon_address(vma, page_pgoff(folio, page), 1);
- 	} else if (!vma->vm_file) {
- 		return -EFAULT;
- 	} else if (vma->vm_file->f_mapping != folio->mapping) {
-@@ -1486,7 +1486,7 @@ static void __folio_set_anon(struct folio *folio, struct vm_area_struct *vma,
- 	 */
- 	anon_vma = (void *) anon_vma + FOLIO_MAPPING_ANON;
- 	WRITE_ONCE(folio->mapping, (struct address_space *) anon_vma);
--	folio->index = linear_page_index(vma, address);
-+	folio->index = linear_virt_page_index(vma, address);
- }
- 
- /**
-@@ -1513,8 +1513,8 @@ static void __page_check_anon_rmap(const struct folio *folio,
- 	 */
- 	VM_BUG_ON_FOLIO(folio_anon_vma(folio)->root != vma->anon_vma->root,
- 			folio);
--	VM_BUG_ON_PAGE(page_pgoff(folio, page) != linear_page_index(vma, address),
--		       page);
-+	VM_BUG_ON_PAGE(page_pgoff(folio, page) !=
-+		       linear_virt_page_index(vma, address), page);
- }
- 
- static __always_inline void __folio_add_anon_rmap(struct folio *folio,
-@@ -3041,10 +3041,10 @@ static void rmap_walk_anon(struct folio *folio,
- 	pgoff_end = pgoff_start + folio_nr_pages(folio) - 1;
- 	anon_rmap_tree_foreach(avc, anon_vma, pgoff_start, pgoff_end) {
- 		struct vm_area_struct *vma = avc->vma;
--		unsigned long address = vma_address(vma, pgoff_start,
-+		const unsigned long address = vma_anon_address(vma, pgoff_start,
- 				folio_nr_pages(folio));
- 
--		VM_BUG_ON_VMA(address == -EFAULT, vma);
-+		VM_WARN_ON_ONCE_VMA(address == -EFAULT, vma);
- 		cond_resched();
- 
- 		if (rwc->invalid_vma && rwc->invalid_vma(vma, rwc->arg))
-diff --git a/mm/vma.c b/mm/vma.c
-index e45d43493446..6dc095d03382 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -233,6 +233,8 @@ static bool can_vma_merge_before(struct vma_merge_struct *vmg)
- 		return false;
- 	if (vmg_end_pgoff(vmg) != vma_start_pgoff(vmg->next))
- 		return false;
-+	if (vmg_end_anon_pgoff(vmg) != vma_start_anon_pgoff(vmg->next))
-+		return false;
- 	return true;
- }
- 
-@@ -253,6 +255,8 @@ static bool can_vma_merge_after(struct vma_merge_struct *vmg)
- 		return false;
- 	if (vma_end_pgoff(vmg->prev) != vmg_start_pgoff(vmg))
- 		return false;
-+	if (vma_end_anon_pgoff(vmg->prev) != vmg_start_anon_pgoff(vmg))
-+		return false;
- 	return true;
- }
- 
-@@ -1988,7 +1992,8 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
- 			*vmap = vma = new_vma;
- 		}
- 		*need_rmap_locks =
--			(vma_start_pgoff(new_vma) <= vma_start_pgoff(vma));
-+			(vma_start_pgoff(new_vma) <= vma_start_pgoff(vma)) ||
-+			(vma_start_anon_pgoff(new_vma) <= vma_start_anon_pgoff(vma));
- 	} else {
- 		new_vma = vm_area_dup(vma);
- 		if (!new_vma)
-@@ -2059,7 +2064,12 @@ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *
- 	if (!vma_flags_empty(&diff))
- 		return false;
- 	/* Page offset must align. */
--	return vma_end_pgoff(a) == vma_start_pgoff(b);
-+	if (vma_end_pgoff(a) != vma_start_pgoff(b))
-+		return false;
-+	/* Anon page offset must align. */
-+	if (vma_end_anon_pgoff(a) != vma_start_anon_pgoff(b))
-+		return false;
-+	return true;
- }
- 
- /*
+@@ -1459,6 +1476,7 @@ static bool test_expand_only_mode(void)
+ 	ASSERT_EQ(vma->vm_start, 0x3000);
+ 	ASSERT_EQ(vma->vm_end, 0x9000);
+ 	ASSERT_EQ(vma_start_pgoff(vma), 3);
++	ASSERT_EQ(vma_start_virt_pgoff(vma), 3);
+ 	ASSERT_TRUE(vma_write_started(vma));
+ 	ASSERT_EQ(vma_iter_addr(&vmi), 0x3000);
+ 	vma_assert_attached(vma);
 
 -- 
 2.55.0
