@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B822F8EB4;
-	Fri, 17 Jul 2026 18:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FAF27587D;
+	Fri, 17 Jul 2026 18:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784312625; cv=none; b=Qgjhoax3RHvsvkUPNF8WGQ4BDL9xLeCEEUjeL5fSbYE3XbRtkxnSCcn8C5XIJX7Yyv6yGRmsWRVUbwXLmaVse7hqfdbYu8lo/bFIJq00OZiR8Zz1ZGHnit8nNSRQB9Idj0DgcaF2EPxgtB3ufQHYii2T8FdS0rbRWkGv5w4H7E4=
+	t=1784312634; cv=none; b=UkzMylY06wYy5v7NVg8g1Q0yLV6971XgwFQOQZk9yF3Tg6QgtpKudgwFwsaSlDdZi1gMHoLD8Qp+EGFtEJw3eZuln41ytEqQg8tOuAOJy27QN2CiRV/RpVjujRCokgG38t6zhExBYLkrGMP8JDVvBQr8yigo1Lc+HfEBdQZXFnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784312625; c=relaxed/simple;
-	bh=2613GakduscTW0HQyjciqfb4Fv/xmKQjLs/wrRcxexM=;
+	s=arc-20240116; t=1784312634; c=relaxed/simple;
+	bh=01jUabKK64NHmCAfzlhC9tplycbpQo1xdwDkiXe4HZs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bNbGFmQUIMJnt+NdQhZcZRG4v8dnQ3Gkbo4xkjNoOVEKHkg3M4Ku5RM5pKRQWE0g8O+0kaGdfPDrz4syYVFyq1/JVeJmE6m50jXa3HGWAvaEpToQur2DDXgE83J56hCQ2Ltzruy27hexNfA8l5iflgF6HoeuIv17o72jfVDdgss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9kZrGVy; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=uOyq6Ds5C6CU5irUGA6MlaxgLlATzHPedMay8uTxT2vbRXdA7m+vSHgn1xnlyVQEBBd+HTG8FDpjE6WfTA+BtzpoBnPVdChuDkXFvb/uU7MkvfkcAoWxF5W3R5tBzX3M22N8g5Kn7YesLtmshnGCQDkXkfqZap8QicTt4BJKiNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHDmxbPk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9kZrGVy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006091F00A3A;
-	Fri, 17 Jul 2026 18:23:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHDmxbPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F601F000E9;
+	Fri, 17 Jul 2026 18:23:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784312623;
-	bh=e/iL8+q9nchQYoecoHRozmG0upgg4wUWQpXFNukM+ng=;
+	s=k20260515; t=1784312633;
+	bh=TVlIRx355t0P5ERcL5Eqs6eD8BqACD3+tbQgzhdx6t4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=i9kZrGVy7LfrF2gGQSO3BKdoe0YIuNz4INwdJaJvFm61yNcpoGBzPrlU00k5ugyrh
-	 l6lAXaeqTdjovB0IXT+eL7XxI2vtdg194NykBlvIGaIUs1Fhi7rXGg9vknAhEW8xAx
-	 xOl+qXalWG2nob3yFTyUsM/E6MXEU5JunIdeVjYan46xBrf06Zvc8Kb9Uo9l8MPRE4
-	 czOaIRBvoN5mYCi1tUtmstx2reEnop856osJafp3GYSxB8JJHoiCQu0thIo/eXF9Tv
-	 +0CweEZGGTwCKAlDBULOs7yelMUgrnXW2ID8MfKVRuDknL26r8RG4zJJ5ndQ84gWbf
-	 R7Nzq2ZG3fk3A==
+	b=oHDmxbPkeZ2daJD26fnM+oSVULS5ZBTBm6laTClU9DxY3FQ2nY+UbQ0IESJ40tz25
+	 AUwaH7OU9xiiEdGVIcHG4CHOwi5w6XK9DnbdVU+QKhtDUlHye7LQ6HLCTuoRzsHT7S
+	 J72/Tv1VCcCLpctWACUDNPH7BZoY4UKdrQrKSaW8miBkU8G+UWtYrFO4WugRv4k4pW
+	 GOl7REesFJUyAosHDnPQkgXY86dAWEgYQw7mXZdjxnBdsqntB4uQ0haOBciZ4x9cd3
+	 sNZwF7UdnmPM0r0btx+i+obWK9DgjevDwoxiANm8YWp3biTuzvIqoAggy6ZJNmQiwF
+	 olIYKjnWXCeBw==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 17 Jul 2026 19:19:48 +0100
-Subject: [PATCH 10/15] tools/testing/vma: expand VMA merge tests to assert
- virt pgoff
+Date: Fri, 17 Jul 2026 19:19:49 +0100
+Subject: [PATCH 11/15] tools/testing/selftests/mm: test virtual page offset
+ merge behaviour
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-b4-scalable-cow-virt-pgoff-v1-10-cf24910ef094@kernel.org>
+Message-Id: <20260717-b4-scalable-cow-virt-pgoff-v1-11-cf24910ef094@kernel.org>
 References: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
 In-Reply-To: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -67,172 +67,96 @@ Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-kselftest@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6335; i=ljs@kernel.org;
- h=from:subject:message-id; bh=2613GakduscTW0HQyjciqfb4Fv/xmKQjLs/wrRcxexM=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiivZ53Ywy26t1/84nP/stiqvOhX69Kqejw3Orf7dW6
- vEDbjdmd5SyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiK9cxMrSs+PZMUNFZ9aLE
- z2XN/a73ai3Sb3kbNUfzyh5cf+YYwx2G/4ln2f0f+Dy6k8m8ctOns0khFSWbWG0vCSolhgifN96
- Rzw8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2961; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=01jUabKK64NHmCAfzlhC9tplycbpQo1xdwDkiXe4HZs=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKiivZZRr3pjj9ycdukFK0HjybKqS6x5PtSNmeSwuIzz
+ ZqxK9o6O0pZGMS4GGTFFFmefxHfHyQSNq/zgr8bzBxWJpAhDFycAjCRle6MDPudjzufvXAlRnZ9
+ xC++l0s1te6E7NvhMsum3C+U91K+9FtGhiuGt76qxysqLpgml1vBlPflsCireUL6n/vHT72o2z/
+ PmRcA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Now we have introduced the VMA virtual page offset attribute and update it
-when VMAs are manipulated, update VMA merge tests to assert that the
-virtual page offset is as expected.
+While maintaining virtual page offsets for VMAs has no impact for most
+merge cases, it does impact MAP_PRIVATE-mapped file-backed mappings which
+happen to have matching page offset but not matching virtual page offset.
+
+Assert this behaviour by attempting to map an unfaulted MAP_PRIVATE-memfd
+region with a faulted one with compatible file page offsets but
+incompatible virtual page offsets.
 
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- tools/testing/vma/tests/merge.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ tools/testing/selftests/mm/merge.c | 57 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/tools/testing/vma/tests/merge.c b/tools/testing/vma/tests/merge.c
-index 48418b82b01d..a01107ab8e21 100644
---- a/tools/testing/vma/tests/merge.c
-+++ b/tools/testing/vma/tests/merge.c
-@@ -121,6 +121,7 @@ static bool test_simple_merge(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x3000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_FLAGS_SAME_MASK(&vma->flags, vma_flags);
+diff --git a/tools/testing/selftests/mm/merge.c b/tools/testing/selftests/mm/merge.c
+index 519e5ac02db7..c093e27d0aea 100644
+--- a/tools/testing/selftests/mm/merge.c
++++ b/tools/testing/selftests/mm/merge.c
+@@ -1305,6 +1305,63 @@ TEST_F(merge, merge_vmas_with_mseal)
+ 	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 2 * page_size);
+ }
  
- 	detach_free_vma(vma);
-@@ -153,6 +154,7 @@ static bool test_simple_modify(void)
- 	ASSERT_EQ(vma->vm_start, 0x1000);
- 	ASSERT_EQ(vma->vm_end, 0x2000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 1);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 1);
- 
- 	/*
- 	 * Now walk through the three split VMAs and make sure they are as
-@@ -165,6 +167,7 @@ static bool test_simple_modify(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x1000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 
- 	detach_free_vma(vma);
- 	vma_iter_clear(&vmi);
-@@ -174,6 +177,7 @@ static bool test_simple_modify(void)
- 	ASSERT_EQ(vma->vm_start, 0x1000);
- 	ASSERT_EQ(vma->vm_end, 0x2000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 1);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 1);
- 
- 	detach_free_vma(vma);
- 	vma_iter_clear(&vmi);
-@@ -183,6 +187,7 @@ static bool test_simple_modify(void)
- 	ASSERT_EQ(vma->vm_start, 0x2000);
- 	ASSERT_EQ(vma->vm_end, 0x3000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 2);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 2);
- 
- 	detach_free_vma(vma);
- 	mtree_destroy(&mm.mm_mt);
-@@ -212,6 +217,7 @@ static bool test_simple_expand(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x3000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 
- 	detach_free_vma(vma);
- 	mtree_destroy(&mm.mm_mt);
-@@ -234,6 +240,7 @@ static bool test_simple_shrink(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x1000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 
- 	detach_free_vma(vma);
- 	mtree_destroy(&mm.mm_mt);
-@@ -346,6 +353,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x5000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 3);
-@@ -367,6 +375,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 	ASSERT_EQ(vma->vm_start, 0x6000);
- 	ASSERT_EQ(vma->vm_end, 0x9000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 6);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 6);
- 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 3);
-@@ -387,6 +396,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x9000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 2);
-@@ -407,6 +417,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 	ASSERT_EQ(vma->vm_start, 0xa000);
- 	ASSERT_EQ(vma->vm_end, 0xc000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0xa);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0xa);
- 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 2);
-@@ -426,6 +437,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0xc000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 1);
-@@ -446,6 +458,7 @@ static bool __test_merge_new(bool is_sticky, bool a_is_sticky, bool b_is_sticky,
- 		ASSERT_EQ(vma->vm_start, 0);
- 		ASSERT_EQ(vma->vm_end, 0xc000);
- 		ASSERT_EQ(vma_start_pgoff(vma), 0);
-+		ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 		ASSERT_EQ(vma->anon_vma, &dummy_anon_vma);
- 
- 		detach_free_vma(vma);
-@@ -808,6 +821,7 @@ static bool test_vma_merge_new_with_close(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x5000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_EQ(vma->vm_ops, &vm_ops);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 2);
-@@ -868,6 +882,7 @@ static bool __test_merge_existing(bool prev_is_sticky, bool middle_is_sticky, bo
- 	ASSERT_EQ(vma->vm_start, 0x2000);
- 	ASSERT_EQ(vma->vm_end, 0x3000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 2);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 2);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_TRUE(vma_write_started(vma_next));
- 	ASSERT_EQ(mm.map_count, 2);
-@@ -934,6 +949,7 @@ static bool __test_merge_existing(bool prev_is_sticky, bool middle_is_sticky, bo
- 	ASSERT_EQ(vma->vm_start, 0x6000);
- 	ASSERT_EQ(vma->vm_end, 0x7000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 6);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 6);
- 	ASSERT_TRUE(vma_write_started(vma_prev));
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 2);
-@@ -1419,6 +1435,7 @@ static bool test_merge_extend(void)
- 	ASSERT_EQ(vma->vm_start, 0);
- 	ASSERT_EQ(vma->vm_end, 0x4000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 0);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 0);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(mm.map_count, 1);
- 
-@@ -1459,6 +1476,7 @@ static bool test_expand_only_mode(void)
- 	ASSERT_EQ(vma->vm_start, 0x3000);
- 	ASSERT_EQ(vma->vm_end, 0x9000);
- 	ASSERT_EQ(vma_start_pgoff(vma), 3);
-+	ASSERT_EQ(vma_start_virt_pgoff(vma), 3);
- 	ASSERT_TRUE(vma_write_started(vma));
- 	ASSERT_EQ(vma_iter_addr(&vmi), 0x3000);
- 	vma_assert_attached(vma);
++TEST_F(merge, virt_and_page_offset_mismatch_memfd)
++{
++	struct procmap_fd *procmap = &self->procmap;
++	unsigned int page_size = self->page_size;
++	char *carveout = self->carveout;
++	char *ptr, *ptr2;
++	int fd;
++
++	/* Create a 10 page memfd descriptor. */
++	fd = memfd_create("virt_page_offset_test", MFD_CLOEXEC);
++	ASSERT_NE(fd, -1);
++	ASSERT_EQ(ftruncate(fd, 10 * page_size), 0);
++
++	/* Map a region using the memfd at page offset 0. */
++	ptr = mmap(carveout, 5 * page_size, PROT_READ | PROT_WRITE,
++		   MAP_FIXED | MAP_PRIVATE, fd, 0);
++	ASSERT_NE(ptr, MAP_FAILED);
++
++	/*
++	 * Map another separately, and fault in, at page offset 5:
++	 *
++	 * |-----------|           |---------|
++	 * | unfaulted |           | faulted |
++	 * |-----------|           |---------|
++	 */
++	ptr2 = mmap(&carveout[10 * page_size], 5 * page_size,
++		    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE,
++		    fd, 5 * page_size);
++	ASSERT_NE(ptr2, MAP_FAILED);
++	ptr2[0] = 'x';
++
++	/*
++	 * Now move it in place:
++	 *
++	 *                   |----------|
++	 *                   |          |
++	 *                   v          |
++	 * |-----------|           |---------|
++	 * | unfaulted |           | faulted |
++	 * |-----------|           |---------|
++	 *
++	 * Because virtual page offset of the faulted region is now
++	 * &carveout[10 * page_size], despite the two regions being mergeable
++	 * due to file page offset, they are NOT mergeable due to virtual page
++	 * offset.
++	 */
++	ptr2 = sys_mremap(ptr2, 5 * page_size, 5 * page_size,
++			  MREMAP_MAYMOVE | MREMAP_FIXED,
++			  &carveout[5 * page_size]);
++	ASSERT_NE(ptr2, MAP_FAILED);
++
++	/* Assert that they did not merge. */
++	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
++	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
++	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 5 * page_size);
++}
++
+ TEST_F(merge_with_fork, mremap_faulted_to_unfaulted_prev)
+ {
+ 	struct procmap_fd *procmap = &self->procmap;
 
 -- 
 2.55.0
