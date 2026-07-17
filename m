@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CEF3CEBAA;
-	Fri, 17 Jul 2026 10:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613A93D6CD9;
+	Fri, 17 Jul 2026 10:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784284170; cv=none; b=IIoS/q529NHmLeVBWPvxEAUW1x1Ul0uYTt96TLSdLyNq9IrzuBkcashrokKrU6fPlTzUKdb3CQq+flhoHaXaAw/BdSzZJ9qjJ+9X5MXwuxsJidxNn8ipLD8hOLNTg+W+GF3qUeux3D0Q/ktfQk8yCTmljRCG1TNwinC18p8o6pg=
+	t=1784284399; cv=none; b=bwtVDzLkZPrenKH2lKE3a+BtxdA9nxFxwfuxxLqPzusDL7Irhggg3Zp8KmxPRceAdjV4uiXTFImvDoRwqCnuClO6BIyJn61TqyttRe/CD+iwQjLyN5u7rCKYj4GVNpBH3ide63ZHw1WJToNGtydRPtc6nBGPQAhZHyMONoUb2y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784284170; c=relaxed/simple;
-	bh=z+SNRBHxOdaBKhUrt3jtW2wJksSvGv3uTi8g6d036cg=;
+	s=arc-20240116; t=1784284399; c=relaxed/simple;
+	bh=D2mJYdA02noCO9SqsfdoaHkU4bPaXLhIMZuAlYK09x4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DghCJk2eo37D7B2ILe13Lt3jUyHFCYtntww338CbNQsvG49ABB7dd7k/6p6M9cfMJC/VESvb1rP3eM+ZXvZEx78don8NVNUn/xjtAWGSbnWxArM621h25o1jrD7+CdUVzt7vVDFGCZAjapNaM3VpcbvfkPsWVbwPriF9jrFj1CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NgR0Hnrc; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=I+mCtY5Ba4lLK8yXUgATaWPK/+tpxJgra/VhO/orV1nIt9y4xjQtKJiE0l+cR5aFp6kleoLZ+y76j81M1aVbUHZGgatL3UGahGcnGrR67UDLX4Um4T7VKoOlufSdozKNsP5xsBCetj/Nqk1rimNikfUo9Tbvn38gJMlwjzC/AXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1kDfPvB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NgR0Hnrc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2981F000E9;
-	Fri, 17 Jul 2026 10:29:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1kDfPvB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE621F000E9;
+	Fri, 17 Jul 2026 10:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784284169;
-	bh=PjqyuT6JDO2nWu5z1vR1Yh4eYDWlp1sLYy5b4TJk0jw=;
+	s=k20260515; t=1784284396;
+	bh=P0cm1hwFVHhD37uYmsyMG9dA/5yRr65R7XPvICUAfQo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NgR0HnrczdXcD/1Vwui/iEzXK6gAftTfQ3AjgIzbuseUCjUnLDzPwp8O3mOzI9a2w
-	 mqt5F3eVPotvhXPtk/UnVlza6W7YCO8lKFrLLVIwoCIY07RH5MdS18YCC77ysxZWFb
-	 TioElyPDP2YlRo8KDxz/GKqmXSZ5S9bqT6paelzghldsnbaAIhYAIQLkLjO3v/fK65
-	 i3SMGFWzgB37yYjNe+cirBGLxPSG6En6s6qFYSDYajXH+NNZ2FIVTyIXNm/7F6+1UN
-	 K/VslCSiX3+iuEWb02PuGDqX2f/RUqEtylkGy6/kFfEI6J1mjHGjSMRero1OpyOsWX
-	 NTptXXbGs9tAw==
-Message-ID: <b6b04cf2-30d0-4511-9bd4-042b176c1b31@kernel.org>
-Date: Fri, 17 Jul 2026 11:29:22 +0100
+	b=S1kDfPvBpZQQs9uOE445K6iDJajL4DVc38dR52RDTXOvXg31MarfTsjhsXw8QS9kr
+	 9T92PE/rKmvMCGMcv8ZIe8H5iBflX1LWvommv57Yi8/bqE7HlGi5Vhjj113TWsMvtR
+	 uF5oiJ9NZ59l5j8l3bPrdkVXJuZsK2OXq+qdGvtkYd9p2c5fnT9gEZY3BVIQu7+Aac
+	 gQQ6AH2cSaGdO+S5jgidO80pSpT93I0BD3k33ETYFQsWVrSfANxR6Q5V918ZHoMyvm
+	 4GYriLWAEo7t3YODJJkq3BcD9csczqFuRtypm6JdqlwQ2oLXNvy1ujQYV00ZxxTEhb
+	 48BAAZisNDmGw==
+Message-ID: <2a109ef0-76b6-4e25-878f-b779ce09a1ed@kernel.org>
+Date: Fri, 17 Jul 2026 11:33:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,29 +35,20 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/thp: expose deferred split folio memory usage in
- meminfo
-To: Ye Liu <ye.liu@linux.dev>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Ye Liu <liuye@kylinos.cn>,
+Subject: Re: [PATCH 1/3] mm/mseal: remove superfluous comments, fix confusion
+ around mm
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>,
- Usama Arif <usama.arif@linux.dev>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <kees@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
-References: <20260717063025.168436-1-ye.liu@linux.dev>
- <46017e29-48a3-4a74-8c5a-0be9d912deaa@kernel.org>
- <dd037379-cf59-468e-8b42-51546bf2e28c@linux.dev>
- <f041f1e0-8ec4-48d4-8656-a6789c8ad379@kernel.org> <aln6SBHcxBY-9Vfl@lucifer>
- <41bc5ca5-08ed-4aba-86a3-d7f44b16e6f5@linux.dev>
+References: <20260716-mseal-fixups-v1-0-3a9609bf041b@kernel.org>
+ <20260716-mseal-fixups-v1-1-3a9609bf041b@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -104,48 +95,78 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <41bc5ca5-08ed-4aba-86a3-d7f44b16e6f5@linux.dev>
+In-Reply-To: <20260716-mseal-fixups-v1-1-3a9609bf041b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 7/17/26 11:54, Ye Liu wrote:
+On 7/16/26 15:43, Lorenzo Stoakes (ARM) wrote:
+> Remove comment blocks that don't add value and eliminate any confusion
+> about whether or not we permit mseal()'ing of remote mm's by explicitly
+> referencing current->mm consistently.
 > 
+> Also avoid ugly goto by using an else branch.
 > 
-> 在 2026/7/17 17:48, Lorenzo Stoakes (ARM) 写道:
->> On Fri, Jul 17, 2026 at 11:33:05AM +0200, David Hildenbrand (Arm) wrote:
->>>
->>> Don't expose it to user space.
->>
->> Yeah please stop.
->>
->> We don't want this change, it exposes internal implementation details. It's a
->> no.
->>
->> Next time send an RFC or a discussion thread.
->>
-> Yes, sending an RFC would be more appropriate.                                                  
->                                                                                                 
-> I'd also like to ask if it's possible to implement this in                                      
-> `/sys/kernel/debug/deferred_split_pages`, or are you completely against querying this statistic?
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/mseal.c | 48 ++++++++----------------------------------------
+>  1 file changed, 8 insertions(+), 40 deletions(-)
+> 
+> diff --git a/mm/mseal.c b/mm/mseal.c
+> index 9781647483d1..207fea89c61e 100644
+> --- a/mm/mseal.c
+> +++ b/mm/mseal.c
+> @@ -16,28 +16,7 @@
+>  #include <linux/sched.h>
+>  #include "internal.h"
+>  
+> -/*
+> - * mseal() disallows an input range which contain unmapped ranges (VMA holes).
+> - *
+> - * It disallows unmapped regions from start to end whether they exist at the
+> - * start, in the middle, or at the end of the range, or any combination thereof.
+> - *
+> - * This is because after sealing a range, there's nothing to stop memory mapping
+> - * of ranges in the remaining gaps later, meaning that the user might then
+> - * wrongly consider the entirety of the mseal()'d range to be sealed when it
+> - * in fact isn't.
+> - */
+> -
+> -/*
+> - * Does the [start, end) range contain any unmapped memory?
+> - *
+> - * We ensure that:
+> - * - start is part of a valid VMA.
+> - * - end is part of a valid VMA.
+> - * - no gap (unallocated memory) exists between start and end.
+> - */
+> -static bool range_contains_unmapped(struct mm_struct *mm,
+> -		unsigned long start, unsigned long end)
+> +static bool range_contains_unmapped(unsigned long start, unsigned long end)
+>  {
+>  	struct vm_area_struct *vma;
+>  	unsigned long prev_end = start;
+> @@ -53,11 +32,10 @@ static bool range_contains_unmapped(struct mm_struct *mm,
+>  	return prev_end < end;
+>  }
+>  
+> -static int mseal_apply(struct mm_struct *mm,
+> -		unsigned long start, unsigned long end)
+> +static int mseal_apply(unsigned long start, unsigned long end)
+>  {
+>  	struct vm_area_struct *vma, *prev;
 
-It's not pages. It's folios.
+I guess using
 
-You don't know how much memory is there to reclaim. You don't know if it can
-even be reclaimed.
+struct mm_struct *mm = current->mm;
 
-You don't even know if there can be any memory reclaimed *at all*, because there
-are scenarios where we add folios that are actually *not* partially mapped today.
+would reduce the churn?
 
-You don't even know the relationship to memcgs.
 
->                                                                                                 
-> How can we quickly identify this situation?                                                     
-> I believe some people will still be confused: where did the memory go?                          
+Anyhow
 
-Just like other caches that are shrunk on memory pressure.
-
-We do have a "split_deferred" and a "nr_anon_partially_mapped" counter in
-"/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/", maybe that helps.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
