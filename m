@@ -1,180 +1,141 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A892AE78
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 04:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784349840; cv=pass; b=oqfnP2w6cU8CyUV9jkKYJnxlCExc0JyPhSEaTvTe+qBJ/GyUGc/+FZaVul3O14vyUnsgbu1eiM2L5eo5B5nUZms8+90p6Mn2fveKyI2F0nRnH1lzYJLIYOG6osMd4EQgaoRmEkXgw/jtfq9S5yJhFYuLjr/hs56u6xLjcdZgkgc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784349840; c=relaxed/simple;
-	bh=r3gWmr7KxT+R8fRLEF0oFD62qW+J+bcDbN32u9bfR/w=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=jAyvoY7xVfX2Hm5vYIvMQGKNAKkpmDOeDFmtBTcr2ujdaWfVKW7BEpMjIOb2Ws21OdzNLP1MLkLm+aY6fOlM7Fk37Ug4SYL5fflJhpI6OK71Ib+ca4F4UNM7alGD5K9AwTso5uvJSzo6FHZ7QaSOFtit3rmaA5HI9bzLRQV/kao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lx45T9bz; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE5719AD5C;
+	Sat, 18 Jul 2026 05:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784352779; cv=none; b=kHRkyvAvZMP/guL4sror2cCzGHXnS5M62xXAI2WdGoEn+GSLr+gTk7GNGPokcCqIpaTIogn+F0aqCYiBTRGh3A5nUO+WsA6YHc2xP1HMDA+1ZmfCh4b03fPTJzxntZqbxM8xYd4GBVES9CpK0U57clJlAnzHSadXYp0r7270R2I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784352779; c=relaxed/simple;
+	bh=AiA5FaxDk/WIqsTmFuRJM5AVAq/hdFLlRbR0mL4W6Vw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mhPeRftWd2NG7H0kfZRcj6SBVUGdB+GbqMoFNo9J5+qlwE/MX7j660PLqtCVB2SFuIIWBMz3bstV2j9DZeJZNtM9mF/DCD4CowfVazX9ILvddqtyXc/lKNEmY21z9VgkOHFXnvioXOAspPN7yyD+HmKbeVyXukylFl+cuinLX2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOQtiaQ6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lx45T9bz"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c16ac21acso34772871cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Jul 2026 21:43:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784349838; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hz0wAkxymenDNivCzGrM0RRwPliCXuNxnP2+q/LdpCSIR+15fZLG3VSanmLbXxgvuP
-         XICCkragFtsxJMPARTUlobKHXCqqVWIAdk/ThpIA5XbC8huqPjNzMt4jZSkkBZCwxUlk
-         /4ODPs1qaf4SwatO4Xmaj6itanidtp1vQ7haj4KX7LW31edkiauAoZtdh8Ftw52kw0QF
-         bfBC2pl6SnIgjRHmu3C10A8OCHxfAzT/wiKB3pHfrZ5smxPrqFLhvpfrsBZh7cPKmRkm
-         VrT5GYMJx5glsfG82vWMNCBZvrnzUfDd97XXhE5nSApT7SKpFcLARWTXeEGRwrkffXH0
-         qE9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=kqghXG71jJkfg0+hlE1v7q+hJ20WxlU8IXS1ofw4PSc=;
-        fh=tAyDp0kEYg4RlU9h9XMsz+QIDjLxyJw62KxJwbaIwrw=;
-        b=FbXPeVFNSfoGV0o7QIqCRoimMKY0paiuDQ1TRYMnpjUF/dx894Loz92yLVXhdct/37
-         rbdt3EgZDrHMabNhFHY807+B/KlKDY80n2DTPlhp8aOMu8oyCBxPL3FXqTJZ/s3ZXshw
-         70jPS86I0GtA0Pa3ZOKUKi+MNeBgkMUfEplgNEEX8wVQYlqA7kUG4+vW3fiYQ06cmpfL
-         uxHy2NNjGTGR65tZXEQn9Z4+rPrRU8DUm+GwoNyjPGrixmXYhblCwVkP5sMUy+MMYNr+
-         V6J+xPmPr4sxPDJHtuyvGS1xEOTogybvotcYrc45Yy36BqYIRQoygR2rS6Y0w/wt4+zP
-         5rWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784349838; x=1784954638; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kqghXG71jJkfg0+hlE1v7q+hJ20WxlU8IXS1ofw4PSc=;
-        b=Lx45T9bzthUoYSDeBlVSBP2WzRqB2L3ysxi1RuP2bYhPAhUb6DZ6X0f9bk+rBCgXFV
-         +OY/dy9yJXAJbppmwhXshosLuUvPbEjC3D9bjizsUV24cGvH1tL6HFU8y7O6/d+UHn0O
-         pcOi8lLFY4GtjORHd/itvK44qQ0T96nQ6okXwhGcC4Xk5DoGHhciNZdDMRZWZcbBHp/W
-         QX4vnan6Agjf3QOA9kNB5wFBiTmqwdTeyz24OzcHvsUbiVEQGePpEr/JmtfrLdrunsnh
-         r6vIFJbUQpghAg33MYfXajdTKFX8+5vwAroqWHrT8nhb5UE7d8RXjZvrKW2lvxh8mA0r
-         XaYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784349838; x=1784954638;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kqghXG71jJkfg0+hlE1v7q+hJ20WxlU8IXS1ofw4PSc=;
-        b=KVsqswwm7x4l2celEo0O3NaRXgm9+ecAuPacsF27NNEKegXH574+oUxQW+xZ+dAkFU
-         XkZkqKjIrF03ugSm16YHITnQyC8/yHWP6WvCSU+11Okl5FGo6x6yUToqnep69kRCts55
-         PaX++QoDvZ8FzolZHuxoGovb6dZr9RVqEnqvUrVCv8mSL/9bf5SQEpwi4F+rwrZhTLLl
-         ll+O7FW7Cbuo4ez0BqDIuU8XRoG0IIOVZPsfcrrzhxbcnxJ3Nl7vPh04lGv1Q081S7nn
-         Aq/uuuxplJZbLe3mki8kWFx9NrzZ3sIrC3kBcXGdljJT8s7ajNvvmCAr4xeJz77JmsOX
-         yUqg==
-X-Gm-Message-State: AOJu0YzLMc9D7RwRQTZzCVrRoo9VSLfIH62uXHbsTSQK4xMoNUh20Y1x
-	Y7VtzNYmdqfpmtIxaHjthLxPH+zIDcR1ziqKAXS+0z8TKKn5ckaG+C4NtN9/vX1PwIG4YePr9Bc
-	Sg+7MkphhGvHyY/v2XZzobPAUZMYwLlg=
-X-Gm-Gg: AfdE7ckxpEgGqwo6sEOS9If7ZLllkwPaZv61DBI9BItGbyvwFaCdD5FKrHxSuhxuLEA
-	RZTZX0vZUqXhMcmA74cBb/oLzOYAC80pktBUBRLA/l14zpDa4zfyEmTZWR3um9TOi1hFFOIMyB4
-	6EKdbGE1IYXl9L04VoNiOKQrFEYxpWi+5UDhQS0DoT9RXwpU3n8vbXDLEhKsQjb3eyA4shy6kWy
-	NXYiDsDv0P64XNmA10ECFQDOvUEff978pMfga9Y45mcV+QaRXcroH9bH7gHfeFwuH+3n50TErdC
-	jXPJ6XQ9sDJvnKFXO9lP3X5aHFnuFc8=
-X-Received: by 2002:a05:622a:1a85:b0:517:146d:2db5 with SMTP id
- d75a77b69052e-5213c10a295mr52923981cf.2.1784349837586; Fri, 17 Jul 2026
- 21:43:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOQtiaQ6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE4B1F00A3D;
+	Sat, 18 Jul 2026 05:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784352777;
+	bh=kwtjjGmmiAFcJH+349xh1RmY0+cdYF3UnpCgzEY++n8=;
+	h=From:To:Cc:Subject:Date;
+	b=EOQtiaQ6nmW/x59ilsYVxtoSgBJj5WvdLTR4F05KRrRUGLktimBgD1StbpObcFt9j
+	 XXufM0cGb+rn5QRPxtgxqQY15aRP/45qMqzQyw6QkQjqa5rca+CcZzjVyMeKlCRiId
+	 x5bRucQYnwbsSs/4Hg+YaXG2pgUtZ6Lh7dx22ychuQgQYZSOx+1OuWyS1OGo5B4Bu2
+	 lFvNRHXO6z8qWFhah47bqUJLHcZg6xCqmzmZqYwfQ/Si9Vk3yLsnUFLpMLBuXpgZpF
+	 doZRxoWSeEx3rpAojEeimuJheITG7jxc1bIQUhXoYexbO78A7aWODd8YWKWasi28cQ
+	 nbBt+xSIEQdwQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 3E035F40067;
+	Sat, 18 Jul 2026 01:32:55 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sat, 18 Jul 2026 01:32:55 -0400
+X-ME-Sender: <xms:BxBbauwHm1FcfFvmUjGng9huZPoSRclRePWS7b0VkA--cU2vHYh1YQ>
+    <xme:BxBbakFCAEwq9URGxa9JfhOhiNojXbKwwaJnWSuQjPDp00hUmDsuvlLK-vxfdwnEx
+    mxyIUtNaUa3_GZJKrz9srYzgVuUcrdzI3Ss0a04xMGZa13t7lWuvjo>
+X-ME-Received: <xmr:BxBbaryYUd35u1l0--7nv1GBJZf6twciiFCv0x18wAdN42Kyi_Co-2FMGerL7BbIlwSgvKBaduMWlD47rFdT4yVFmfGL7wQr>
+X-ME-Proxy-Cause: dmFkZTES8M4nCmmYKnGMqobh3TqhunEGFElLNM+viRad93RdmeJRGfaj0RUMOtFBg6bXs7
+    ypRH2PFkw0ks3z7mx1ng3QrV7lhgf1fSoT2136oH2jbEe9eoM7ag0CsJVTgNRR31HEuUg7
+    YaUSD28NyGPwedMfKZngj2o/+7VJZGW1f/u4fz7QhpD8PDjuuOxyPNmNaRuF+xecSzJNfh
+    u9MwMO+JdQEtSmeM/ZgcfqHqOtf5Ik3jzWJgBntXvL1J2CS8mFHvJZhx+DzRmfWOr1Mv9d
+    80lUu3lcp/F+8I7Vz6nFvx4UxoWaXhdO8e3rKesyTqFCQYvNgIDmw3KjYp8Kux0JHTJcjO
+    2GnoBLq6JKO5fF5OKZWIUK2LOvJ1RSiQMRWG3PqZfJkboQ9IoWIS+2e3nPa9gLGjyzzrGO
+    EctPrVXKnEzF2+RZf4WR7mkhGQNIUXxdvuwnETBLLwA6S9GK6qZWJGUIa3WILNk3JlS5zp
+    GfF5RHdxNfuM3+2TIKaNimuf+8WUiwPv3ARjlQZm2ZkB6c/jTDDec7tgJ6EYeoNvXJt5ss
+    Y0H0M4WKwFjhA0HRovQGmgCy4ykb6gLtsVkfaFoA5W2RvVDkaYwKbEhpMfVuI3S8zEkdqE
+    ajC9oE7GWZt30rlTAIOg01uzdJ4dngOidGReT9RsKS/FhiJUbQXFFOw/seww
+X-ME-Proxy: <xmx:BxBbag57_HwhpOYMVPGkzpr6q6_JGmFSzKcxr2VuqzGR4aOHtHe2rg>
+    <xmx:BxBbaq6-bfpiViAkVZVMbLud7Pb12b70zxBfx-5uUn5WlKXHT9q7fQ>
+    <xmx:BxBbapKXT52eXSePdRzpL6iW-nlhuCSaRF3ok0KtMGYtQdbuywxUZA>
+    <xmx:BxBbasEE9fe6KiG8C753GKmWtFz8EZAcPaDz08KImbAiXjQn-LHf8g>
+    <xmx:BxBbam2ISzee3hCoD0_v6Px5DeOx0mMncavCQ3yd-e1qXTntz5AqTcOU>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 18 Jul 2026 01:32:53 -0400 (EDT)
+From: Boqun Feng <boqun@kernel.org>
+To: rust-for-linux@vger.kernel.org,
+	rcu@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Ballance <andrewjballance@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,	Jan Kara <jack@suse.cz>,
+	Lyude Paul <lyude@redhat.com>,	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,	Zqiang <qiang.zhang@linux.dev>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Matthew Maurer <mmaurer@google.com>,	Lorenzo Stoakes <ljs@kernel.org>,
+	linux-kernel@vger.kernel.org,	maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,	linux-fsdevel@vger.kernel.org,
+	linux-media@vger.kernel.org,	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [RFC PATCH v2 0/4] rust: sync: Introduce Rcu*Box
+Date: Fri, 17 Jul 2026 22:32:43 -0700
+Message-ID: <20260718053247.25154-1-boqun@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Vivek Parikh <viv0411.parikh@gmail.com>
-Date: Sat, 18 Jul 2026 10:13:46 +0530
-X-Gm-Features: AUfX_mw8-MnFampnYBFO8G4t5y3dgEtdV6rgTCEQLCJdGrYM6EEg27_ZPbDNoDg
-Message-ID: <CAHKnOm098q+3rjU9Ybo9vJYOW1K0h+A1hPFt8nw+6bEmcwywSA@mail.gmail.com>
-Subject: [REPORT] binfmt_misc: leaked write-access denial on F-flag
- interpreter inode
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Note: this bug was found with AI assistance, so I am treating it as public
-per Documentation/process/security-bugs. A reproducer (unprivileged C PoC)
-is available on request; I am not posting it here.
+v1: https://lore.kernel.org/rust-for-linux/20260605133541.22569-1-boqun@kernel.org/
 
-Summary
--------
-put_binfmt_handler() closes an F-flag (MISC_FMT_OPEN_FILE) entry's
-interpreter file without restoring the write access that open_exec()
-denied at registration. Every register/delete cycle of an F entry leaks
-one i_writecount denial on the interpreter's inode, so that inode returns
--ETXTBSY to all writers until it is evicted from the inode cache or the
-machine reboots.
+Changes since v1:
 
-Affected versions
+* Rebased on 7.2-rc1
+* As Alice pointed out [5], RcuFreeBox::with_rcu() should return a type
+  that disallows extending the RCU read-side critical section to
+  outlive the guard. As for now, no user needs with_rcu(), hence remove
+  it.
+
+* Includes a not-for-merge example based on Alice's patch.
+
+v1's cover letter
 -----------------
-Introduced in v4.7 by commit 948b701a607f. Present through v7.2.0-rc3
-(fs/binfmt_misc.c:162-168). Root-only from v4.7; reachable by an
-unprivileged user from v6.7 onward, when binfmt_misc gained
-FS_USERNS_MOUNT and can be mounted inside a user namespace with no
-capability check on registration (on systems that permit unprivileged
-user namespaces).
 
-Details
--------
-Registration of an F entry opens the interpreter via open_exec()
-(fs/binfmt_misc.c:821), which calls exe_file_deny_write_access() in
-do_open_execat() (fs/exec.c:800). do_open_execat() documents that the
-caller must call exe_file_allow_write_access() before releasing the file.
+(this series is based on Alice's RFC [1] and discussion around Philipp's
+patches [2], [3])
 
-The registration error path honors this (fs/binfmt_misc.c:834):
+As an easy way to provide RCU-protected allocation, two major types are
+provided:
 
-        exe_file_allow_write_access(f);
-        filp_close(f, NULL);
+- `RcuBox<T, A>`, inner T will be dropped and after a grace period.
+  Users: binder with maple_tree and dma_fence.
+- `RcuFreeBox<T, A>`, inner T will be cleaned up immmediately and freed
+  after a grace period. (Name suggestion is welcome). This is an attempt
+  to consolidate Alice's `PollCondVarBox` [4] into a generic
+  implementation, InPlaceInit support is still missing, but I want to
+  get some feedback on the trait `RcuFreeSafe`.
 
-The teardown path does not (fs/binfmt_misc.c:162-168):
+[1]: https://lore.kernel.org/rust-for-linux/20260116-rcu-box-v1-0-38ebfbcd53f0@google.com/
+[2]: https://lore.kernel.org/rust-for-linux/20260530143541.229628-2-phasta@kernel.org/
+[3]: https://lore.kernel.org/rust-for-linux/20260520131725.266014-2-phasta@kernel.org/
+[4]: https://lore.kernel.org/rust-for-linux/20260523-upgrade-poll-v4-0-f5b4c747eac2@google.com/
+[5]: https://lore.kernel.org/rust-for-linux/aiLXWHg22P6OTb7O@google.com/
 
-        static void put_binfmt_handler(Node *e)
-        {
-                if (refcount_dec_and_test(&e->users)) {
-                        if (e->flags & MISC_FMT_OPEN_FILE)
-                                filp_close(e->interp_file, NULL);
-                        kfree(e);
-                }
-        }
+-- 
+2.50.1 (Apple Git-155)
 
-filp_close()/fput() do not reverse the deny count, so the denial is
-leaked. This is the persistent file opened by open_exec() at
-registration; it is distinct from the per-exec clone made in
-load_misc_binary() (fs/binfmt_misc.c:251-254), which is released
-elsewhere.
-
-Reproduction (conditions)
--------------------------
-- CONFIG_BINFMT_MISC enabled.
-- For the unprivileged case: kernel/distro permitting unprivileged user
-  namespaces (v6.7+ for the userns-mount path).
-- Steps: mount binfmt_misc; register ":x:E::x::<victim>:F" for any
-  world-readable regular file on a non-noexec mount; delete the entry
-  ("echo -1"); open(victim, O_WRONLY) then fails with -ETXTBSY.
-The victim needs no execute bit; open_exec only requires a regular file
-on a non-noexec mount.
-
-Verified: unprivileged (uid 1000) on a 7.0.0-27-generic host, and as
-root on a 7.2.0-rc3 build.
-
-Fix
----
-Mirror the registration error-path fix on the teardown path.
-exe_file_allow_write_access() is NULL-safe and skips the same
-FMODE_FSNOTIFY_HSM files that exe_file_deny_write_access() skipped, so
-no imbalance is possible.
-
-diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
---- a/fs/binfmt_misc.c
-+++ b/fs/binfmt_misc.c
-@@ -162,8 +162,10 @@ static void put_binfmt_handler(Node *e)
- static void put_binfmt_handler(Node *e)
- {
-  if (refcount_dec_and_test(&e->users)) {
-- if (e->flags & MISC_FMT_OPEN_FILE)
-+ if (e->flags & MISC_FMT_OPEN_FILE) {
-+ exe_file_allow_write_access(e->interp_file);
-  filp_close(e->interp_file, NULL);
-+ }
-  kfree(e);
-  }
- }
-
-Fixes: 948b701a607f ("binfmt_misc: add persistent opened binary
-handler for containers")
-Signed-off-by: Vivek Parikh <viv0411.parikh@gmail.com>
