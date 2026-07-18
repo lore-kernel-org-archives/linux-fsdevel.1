@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459361A6815;
-	Sat, 18 Jul 2026 00:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51431D86FF;
+	Sat, 18 Jul 2026 01:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784335880; cv=none; b=A5FEHSkYkZGE/MbGlreiw5ljORbffObbQ3KxhCd133+RQtucyLjKARHYl8e2xZyWlT8GjGYdH4qbXNAvz1IPE2b3gSdD3I6+hFVOtXYs7lFgg+vxXhABYRDzjHUooKbl75PQUbkBvutebCIF2hqhR5OC4ZoaPcRNZQegNKJETgw=
+	t=1784338446; cv=none; b=OciC2CbNX08GTnD3xFuNEjqtCekkJsy0MTbmhBEiFirleBVmWmcvcBTONyMtSzN+nduHgCsIzZeQKZU13bTm5udq7nq0yVooMs9Eg9kufN/OfeA6qS9+rogyBSO+q0sXgcmDMmhikhY4FEc/mVn2r7zVFx7cfpg/HtCKbcVbrNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784335880; c=relaxed/simple;
-	bh=BL1Pxb5tg7DvLVQfQPqC6ysO8t0+Pun7PClzg5FMsA8=;
+	s=arc-20240116; t=1784338446; c=relaxed/simple;
+	bh=jdghWmWhjqG9XNsBdqWoR2YeXgAfWC8aOnRw4JmwzRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mqdCycn8+DOUzfUXT1C6GBgDQBL63hwK1cPJ1MtQ406bid+qqI0UILlN8HUHOqcSuB7JWSzSj1WULJux4EzH9YNuQfBMUG56RezRtQGgoJwApIDuytaDfY1HeeOe6dqT0gFcZI7Wo6QRBv4FomYZh0Uvw4xt6RWdZ/06Cy89vek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktxso1Ho; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=bJNk8kKRM/NzXZr2TaEurTnTlxAvqiH/8PTesCY+d+UeN86WvO0DJzfFC3RkoGR7rxCJeatuewimSf4dhNv7shRAuYjIN3Kw+CXO4QilBfhyx8s46lcVtiKRywTZ7J4qeNcHAdpqUaB529kclpQD0YyKMMeNr3ot1l3RRREpM+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mj2X1mG4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktxso1Ho"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E1491F000E9;
-	Sat, 18 Jul 2026 00:51:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mj2X1mG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E831F000E9;
+	Sat, 18 Jul 2026 01:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784335877;
-	bh=5Prja5fk8MkrYJHR80tGvjcL0gtA1yDGXYcbV5ZyvnE=;
+	s=k20260515; t=1784338443;
+	bh=zekf2gGSqCawukyXB3rUUoIlvHBF2duYn1PQiSrSmZQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ktxso1Ho8LOtA2jGoY7HIvA12ColXhRBMzcVEOJMxkjLhR0J9LaZwKsW31SueV0M7
-	 RSwTTQN4Vnb4Ad9zSrWuM5E7bwnm+LOcrDWCcVqfFXwWcZlHObdyv0GgfD1uvR2+fk
-	 Hcas9VSYMaH4NiX+RLcvCiQL5PvHdN3mfQusnQh1VCCNyM4M1LeFVmvlhvKN6r6Ruf
-	 OHO0Jb0CDOWfiYgT5PZwO1vVQB4EPOJgwBk2UpyD/Xg6M06ptU2L2yjRYB9DiML3OX
-	 q0XPRP0HPMguQL5spqgaHZ4odk393GNxBvSG/H+0SrkNYKij4sYgomIG9vwGJTVrxr
-	 I7jtZjJO3425A==
+	b=Mj2X1mG4Ru8dzToMTTFYrpD9T9pQ2AGVhBVOe8j0M8J42baADHgCQEwnqrgUSGeDs
+	 VzXgsyPl+3p7sj5p7tssEyyCZqGamKTJ3bCUmx5af8NCRttgWJpGkK6y4jY4Z4QOiP
+	 ChZJv/z//5LGrtODTMLjgT7y6kDHTLWg2T1MTYNx17+7JXNsVwaLGG2H5Qgy43mlEk
+	 Jegc7JfGJOuVCarsVomAeyZ050XH4KGn9HFFrilGUa/j+MmFbbDx3wMmiH8+P61Rbs
+	 BPfmgz03FB+JPR1YwM66vJ9UP9V3ZCtu8NgWUMON/XvGzAjo+pms35lgttQxiXFh4C
+	 QpYey6/Qe3sZw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org
 Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
@@ -33,12 +33,12 @@ Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
 	Yangtao Li <frank.li@vivo.com>,
 	linux-fsdevel@vger.kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12.y 1/2] hfs/hfsplus: prevent getting negative values of offset/length
-Date: Fri, 17 Jul 2026 20:51:14 -0400
-Message-ID: <20260718005115.2484456-1-sashal@kernel.org>
+Subject: [PATCH 6.6.y 1/2] hfs/hfsplus: prevent getting negative values of offset/length
+Date: Fri, 17 Jul 2026 21:33:59 -0400
+Message-ID: <20260718013400.2623033-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026071426-smirk-video-c05b@gregkh>
-References: <2026071426-smirk-video-c05b@gregkh>
+In-Reply-To: <2026071426-streak-landmark-fd09@gregkh>
+References: <2026071426-streak-landmark-fd09@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -521,7 +521,7 @@ index 0e6baee932453b..97f88035b2248f 100644
  
  struct hfs_bnode_desc {
 diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index 732c5c4c7545d6..5d287f50b43afc 100644
+index f1402d71b092be..acd69a3db88586 100644
 --- a/fs/hfs/hfs_fs.h
 +++ b/fs/hfs/hfs_fs.h
 @@ -171,74 +171,90 @@ struct hfs_sb_info {
@@ -582,14 +582,14 @@ index 732c5c4c7545d6..5d287f50b43afc 100644
  extern const struct address_space_operations hfs_btree_aops;
  
  int hfs_write_begin(struct file *file, struct address_space *mapping,
--		loff_t pos, unsigned len, struct folio **foliop, void **fsdata);
+-		loff_t pos, unsigned len, struct page **pagep, void **fsdata);
 -extern struct inode *hfs_new_inode(struct inode *, const struct qstr *, umode_t);
 -extern void hfs_inode_write_fork(struct inode *, struct hfs_extent *, __be32 *, __be32 *);
 -extern int hfs_write_inode(struct inode *, struct writeback_control *);
 -extern int hfs_inode_setattr(struct mnt_idmap *, struct dentry *,
 -			     struct iattr *);
-+		    loff_t pos, unsigned int len, struct folio **foliop,
-+		    void **fsdata);
++		loff_t pos, unsigned int len, struct page **pagep,
++		void **fsdata);
 +extern struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name,
 +				   umode_t mode);
 +extern void hfs_inode_write_fork(struct inode *inode, struct hfs_extent *ext,
@@ -610,7 +610,7 @@ index 732c5c4c7545d6..5d287f50b43afc 100644
 +extern void hfs_delete_inode(struct inode *inode);
  
  /* attr.c */
- extern const struct xattr_handler * const hfs_xattr_handlers[];
+ extern const struct xattr_handler *hfs_xattr_handlers[];
  
  /* mdb.c */
 -extern int hfs_mdb_get(struct super_block *);
@@ -652,16 +652,16 @@ index 732c5c4c7545d6..5d287f50b43afc 100644
  /* super.c */
  extern void hfs_mark_mdb_dirty(struct super_block *sb);
 diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 451115360f73a0..483f3f1e209bc5 100644
+index 6a89f22d89677d..3a3994616fa542 100644
 --- a/fs/hfs/inode.c
 +++ b/fs/hfs/inode.c
-@@ -45,7 +45,8 @@ static void hfs_write_failed(struct address_space *mapping, loff_t to)
+@@ -50,7 +50,8 @@ static void hfs_write_failed(struct address_space *mapping, loff_t to)
  }
  
  int hfs_write_begin(struct file *file, struct address_space *mapping,
--		loff_t pos, unsigned len, struct folio **foliop, void **fsdata)
-+		    loff_t pos, unsigned int len, struct folio **foliop,
-+		    void **fsdata)
+-		loff_t pos, unsigned len, struct page **pagep, void **fsdata)
++		loff_t pos, unsigned int len, struct page **pagep,
++		void **fsdata)
  {
  	int ret;
  
@@ -923,10 +923,10 @@ index fe6a54c4083c34..72c593308bbaa4 100644
  	struct inode *inode = tree->inode;
  	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
 diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index af264f8dc53605..12e55e8ed94fe2 100644
+index 52be0d59e53236..46eac4b4800563 100644
 --- a/fs/hfsplus/hfsplus_fs.h
 +++ b/fs/hfsplus/hfsplus_fs.h
-@@ -389,21 +389,21 @@ u32 hfsplus_calc_btree_clump_size(u32 block_size, u32 node_size, u64 sectors,
+@@ -388,21 +388,21 @@ u32 hfsplus_calc_btree_clump_size(u32 block_size, u32 node_size, u64 sectors,
  struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id);
  void hfs_btree_close(struct hfs_btree *tree);
  int hfs_btree_write(struct hfs_btree *tree);
@@ -959,7 +959,7 @@ index af264f8dc53605..12e55e8ed94fe2 100644
  void hfs_bnode_dump(struct hfs_bnode *node);
  void hfs_bnode_unlink(struct hfs_bnode *node);
  struct hfs_bnode *hfs_bnode_findhash(struct hfs_btree *tree, u32 cnid);
-@@ -418,7 +418,7 @@ bool hfs_bnode_need_zeroout(struct hfs_btree *tree);
+@@ -417,7 +417,7 @@ bool hfs_bnode_need_zeroout(struct hfs_btree *tree);
  /* brec.c */
  u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off);
  u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec);
@@ -968,7 +968,7 @@ index af264f8dc53605..12e55e8ed94fe2 100644
  int hfs_brec_remove(struct hfs_find_data *fd);
  
  /* bfind.c */
-@@ -431,7 +431,7 @@ int hfs_find_rec_by_key(struct hfs_bnode *bnode, struct hfs_find_data *fd,
+@@ -430,7 +430,7 @@ int hfs_find_rec_by_key(struct hfs_bnode *bnode, struct hfs_find_data *fd,
  int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
  		    search_strategy_t rec_found);
  int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare);
@@ -977,7 +977,7 @@ index af264f8dc53605..12e55e8ed94fe2 100644
  int hfs_brec_goto(struct hfs_find_data *fd, int cnt);
  
  /* catalog.c */
-@@ -589,14 +589,14 @@ hfsplus_btree_lock_class(struct hfs_btree *tree)
+@@ -588,14 +588,14 @@ hfsplus_btree_lock_class(struct hfs_btree *tree)
  }
  
  static inline
@@ -994,7 +994,7 @@ index af264f8dc53605..12e55e8ed94fe2 100644
  		       node->this, node->type, node->height,
  		       node->tree->node_size, off);
  	}
-@@ -605,7 +605,7 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, int off)
+@@ -604,7 +604,7 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, int off)
  }
  
  static inline
@@ -1003,7 +1003,7 @@ index af264f8dc53605..12e55e8ed94fe2 100644
  {
  	unsigned int node_size;
  
-@@ -615,12 +615,12 @@ int check_and_correct_requested_length(struct hfs_bnode *node, int off, int len)
+@@ -614,12 +614,12 @@ int check_and_correct_requested_length(struct hfs_bnode *node, int off, int len)
  	node_size = node->tree->node_size;
  
  	if ((off + len) > node_size) {
