@@ -1,21 +1,21 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D652DB794;
-	Sat, 18 Jul 2026 09:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8E32DB794;
+	Sat, 18 Jul 2026 09:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784367517; cv=none; b=CctYxBp306eNoqkClvfGM3frIaVVFI1jB9pdLOjv41x5cMT5LFqjd0g73UwdDlHiIw0FPc64Gs79LhW1vqhIXgDTlwoXT5LBNMhHugGCW+pWo1pZdLNm10DuRdRUx/3etyLUoENHakpK/uL0I+RfZ4k2qq8gwRwM6gru7eiP+8Q=
+	t=1784367588; cv=none; b=KkoqKdbboGvHIt4jPtr+pPrtxn30ij5v+Kw6y0kflnqk4r1lQ+4AShVJJ7AG/CXykEP5lgAmblrnx37/jU8uAP2SrYpFCWehVPmxV5gitW7s+wWXpC1XvC1AOZikKw0Hu60Lkt64XYzAkSr9CH1RIybH/eRVvp0T7iFmSA/Dg/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784367517; c=relaxed/simple;
-	bh=Qe2Fxah14LGu4dBIHuSah3xiD1bYpX7Ih6N7sodC16Y=;
+	s=arc-20240116; t=1784367588; c=relaxed/simple;
+	bh=Cso3EQM3kSYaD9NzYMajV6D5vRFg5SHt2SwUJAHrj8Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oWjfRfmST2IHZYZGLOLDnyZCTrMBHwDmSqc0n1TQIJTUXNkxifkwV4pgUq/E5Doi0n7VcAKWJ3KfxpYqqt+iEO+ZZ2A+XkddwzCVgRjpK+YVuc2NS8xUTYPblf0bIVAoh48v/Ob7F8H+LESnfzm6cuoARZtxCByU7G0YqXhQzdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.201
+	 MIME-Version; b=mNYo2zuFSkzXoGwckEMoBADLCx9hSkjTvibG9YDHLYYtnMEF33L3qnuWnrkfPIH6KklR16eNvtooDCF/YQIHwWMPRh5WEs/JZNIK36+DgGkzGf5cHeWFyfbTdgKrALp0+LmPV8SjwnSpzgt4DFkbXTTxBJqKEoJhQ+R5XalFX6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 943683E83F;
-	Sat, 18 Jul 2026 09:38:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A2C3A3EBD5;
+	Sat, 18 Jul 2026 09:39:33 +0000 (UTC)
 From: Alexandre Ghiti <alex@ghiti.fr>
 To: Johannes Weiner <hannes@cmpxchg.org>,
 	Yosry Ahmed <yosry@kernel.org>,
@@ -34,9 +34,9 @@ Cc: Chengming Zhou <chengming.zhou@linux.dev>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH 1/2] mm: zswap: free synchronous-IO writeback folios directly
-Date: Sat, 18 Jul 2026 11:36:39 +0200
-Message-ID: <20260718093723.153324-2-alex@ghiti.fr>
+Subject: [PATCH 2/2] mm: zswap: deferred dropbehind free of writeback folios
+Date: Sat, 18 Jul 2026 11:36:40 +0200
+Message-ID: <20260718093723.153324-3-alex@ghiti.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260718093723.153324-1-alex@ghiti.fr>
 References: <20260718093723.153324-1-alex@ghiti.fr>
@@ -48,185 +48,167 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: alex@ghiti.fr
-X-GND-Score: -100
-X-GND-Cause: dmFkZTGcSX6vKILToVNLKv1WVPr1SLvH8b57oTAO36Gk4UblSlEX77LNjuus2BGSuIvHmZSDj1TAAMWrqX7a9ejMqnV2sgjNpYBgRTOUDhHor/NZgx2haNGmPfXI+/8Of3s5OTjnrXd8cA5uRa0uZD5Zhvc9KKuHCjh/O1uiaj+MAvlwvi8geUDxVqCCbrlKBuWwENz68kowJ0XX4rv2LjHoK5nnw076u9td5NYgNN5IAmYT65mIXMNzcc9vBow3LjNztLEJOuaPxpZ41t1oee+ZYYtUtrHAmHR7xNQJ19JIsGn3ybuJbGsigcBoqzqvMe8U3+ndawTRVAzvm31EIyHRupvEbwxNbkeg3qeOvMA60SZF2VvCZif4C/08OnstATEDWYzSlsct8OzpJfCcqUbYU6e2PcXcymysMo+Q9083MG9iFOCvYolxfBHiUfYsvzwY6v382EHsRu+MASnfiw843kqxisCfYaHuV4Mek1pSreeG21svdQUH9o8oK9ti1zM+7oag99/uvcUEdMW6qUdGDSRTFEnxl0dr0TlJzQrckb2D6ecSgEP77wPA+ibYElCtqHQPB0o4xHdeV9Mm7+mdg9S64GLW3oYjcO1//vzcUC1d1Tg0hwiYAVrx2BKOSjGFEAwoOLA2Bu6CF5n0G1mLS/yA3EO0Ab0cs/4zLg3yZ+yFcg
+X-GND-Cause: dmFkZTF8N8FDhBG+ULGeA/tpivXlamys8SCRC9hw8AmIZZeZhHfHgZsjIMQIIKJDIcXWhlZShNQ6SGRvGvW1koQHuU31EcQnJcnqjvpzUumyw1oubhSxqHjpZTCpogQEHUFIy1njrfEKeZ7FlATmEDIn4sHp/IdI5V9AUcraW0OnEX7NFi7gDZAZFywdyZUgvWTXdb0MNa5S9BGOy+LgLL7566dREVpslYIC4AiTKoO2bUwNSztBnz5/ZJg4x4Opid2vlIqauvRtZcIfwTxM4Q+DtSuf86N6RzrvAG3Ts2dvB7g+u0yvCfreNKoWLhVr2Rg6Kabolf+tm3VB+BODI4CqvIkPZwKE080bH1j6mxQnkBeRsIDjBSM7WIFYG8oS6ZxsYLgvAlfEYBz3Aj0wV8dsVGQlss4hdZKdC17FK1I7EsGlcYwoUpSjBXUhF+pLFZpRxJ0RrW/RBSaQJzkYlO9yU0q9KRP+aGE7ENRfIIJFfq6fTR06RSZWYm9074OpmFxer/qKB1jij7sN974tl86cI/CgBfZ8vwNxM8kQoiQQmUNOyb24toN0CFqUaq3TY7k9fnE4zsFVZ3RQIsnq+1vSRqv53tXNJCLPD9iGxcwrtO59mOZrnWSDOwXlswCfEQeqUWFmx1oxrYabYzd/F2GIDCeNcim9RWmJHtTwdwpjIWUxKQ
 X-GND-State: clean
+X-GND-Score: -100
 
-When zswap writes an entry back, it allocates a swap cache folio,
-decompresses the entry into it and writes it out. That folio is cold by
-construction, but it is currently left on the LRU for page reclaim to find
-and free later. This wastes a reclaim scan and keeps cold memory resident
-longer than necessary.
+The previous change frees zswap writeback folios promptly for
+synchronous-IO swap, where writeback completes in the calling context.
+Asynchronous block devices and filesystem-backed swap complete
+writeback in interrupt context, where the folio cannot be freed, so
+those cold folios are still left on the LRU for reclaim to clean up
+later.
 
-For synchronous-IO swap devices writeback completes in the calling context,
-so the folio can be freed right after the write rather than left behind; do
-that. Because it is freed directly rather than through reclaim, it is
-allocated off the LRU: dropping the last reference on a folio still on the
-LRU would trip the free-time page-flag checks. A folio that a concurrent
-swapin has meanwhile claimed is left in place and reclaimed as usual.
+Free them promptly as well by deferring the work to a workqueue that
+runs once writeback has completed.
 
-Asynchronous and filesystem-backed swap complete writeback in interrupt
-context, where the folio cannot be freed; they are handled in a later
-change.
-
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
 Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 ---
- mm/swap.h       |  3 ++-
- mm/swap_state.c | 17 +++++++++++------
- mm/zswap.c      | 36 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 47 insertions(+), 9 deletions(-)
+ include/linux/zswap.h |  2 ++
+ mm/filemap.c          | 20 ++++++++++++++++++++
+ mm/zswap.c            | 34 +++++++++++++++++++++++++++++++---
+ 3 files changed, 53 insertions(+), 3 deletions(-)
 
-diff --git a/mm/swap.h b/mm/swap.h
-index 77d2d14eda42..c617e5a0257f 100644
---- a/mm/swap.h
-+++ b/mm/swap.h
-@@ -306,7 +306,8 @@ void *swap_cache_get_shadow(swp_entry_t entry);
- void swap_cache_del_folio(struct folio *folio);
- struct folio *swap_cache_alloc_folio(swp_entry_t target_entry, gfp_t gfp_mask,
- 				     unsigned long orders, struct vm_fault *vmf,
--				     struct mempolicy *mpol, pgoff_t ilx);
-+				     struct mempolicy *mpol, pgoff_t ilx,
-+				     bool skip_lru);
- /* Below helpers require the caller to lock and pass in the swap cluster. */
- void __swap_cache_add_folio(struct swap_cluster_info *ci,
- 			    struct folio *folio, swp_entry_t entry);
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index 9c3a5cf99778..048efc7ca612 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -403,7 +403,8 @@ void __swap_cache_replace_folio(struct swap_cluster_info *ci,
- static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
- 					swp_entry_t targ_entry, gfp_t gfp,
- 					unsigned int order, struct vm_fault *vmf,
--					struct mempolicy *mpol, pgoff_t ilx)
-+					struct mempolicy *mpol, pgoff_t ilx,
-+					bool skip_lru)
+diff --git a/include/linux/zswap.h b/include/linux/zswap.h
+index 30c193a1207e..23dcde274964 100644
+--- a/include/linux/zswap.h
++++ b/include/linux/zswap.h
+@@ -35,6 +35,7 @@ void zswap_lruvec_state_init(struct lruvec *lruvec);
+ void zswap_folio_swapin(struct folio *folio);
+ bool zswap_is_enabled(void);
+ bool zswap_never_enabled(void);
++void zswap_writeback_dropbehind_folio(struct folio *folio);
+ #else
+ 
+ struct zswap_lruvec_state {};
+@@ -58,6 +59,7 @@ static inline void zswap_swapoff(int type) {}
+ static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
+ static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
+ static inline void zswap_folio_swapin(struct folio *folio) {}
++static inline void zswap_writeback_dropbehind_folio(struct folio *folio) {}
+ 
+ static inline bool zswap_is_enabled(void)
  {
- 	int err;
- 	swp_entry_t entry;
-@@ -484,7 +485,8 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
- 	lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
- 
- 	/* Caller will initiate read into locked new_folio */
--	folio_add_lru(folio);
-+	if (!skip_lru)
-+		folio_add_lru(folio);
- 	return folio;
- }
- 
-@@ -507,7 +509,8 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+diff --git a/mm/filemap.c b/mm/filemap.c
+index dc3a0e960b9f..548e465b5b9a 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -21,6 +21,7 @@
+ #include <linux/gfp.h>
+ #include <linux/mm.h>
+ #include <linux/swap.h>
++#include <linux/zswap.h>
+ #include <linux/leafops.h>
+ #include <linux/syscalls.h>
+ #include <linux/mman.h>
+@@ -1680,6 +1681,8 @@ EXPORT_SYMBOL_GPL(folio_end_writeback_no_dropbehind);
   */
- struct folio *swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
- 				     unsigned long orders, struct vm_fault *vmf,
--				     struct mempolicy *mpol, pgoff_t ilx)
-+				     struct mempolicy *mpol, pgoff_t ilx,
-+				     bool skip_lru)
+ void folio_end_writeback(struct folio *folio)
  {
- 	int order, err;
- 	struct folio *ret;
-@@ -522,7 +525,7 @@ struct folio *swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
- 
- 	do {
- 		ret = __swap_cache_alloc(ci, targ_entry, gfp, order,
--					 vmf, mpol, ilx);
-+					 vmf, mpol, ilx, skip_lru);
- 		if (!IS_ERR(ret))
- 			break;
- 		err = PTR_ERR(ret);
-@@ -643,7 +646,8 @@ static struct folio *swap_cache_read_folio(swp_entry_t entry, gfp_t gfp,
- 		folio = swap_cache_get_folio(entry);
- 		if (folio)
- 			return folio;
--		folio = swap_cache_alloc_folio(entry, gfp, BIT(0), NULL, mpol, ilx);
-+		folio = swap_cache_alloc_folio(entry, gfp, BIT(0), NULL, mpol, ilx,
-+					       false);
- 	} while (PTR_ERR(folio) == -EEXIST);
- 
- 	if (IS_ERR_OR_NULL(folio))
-@@ -683,7 +687,8 @@ struct folio *swapin_sync(swp_entry_t entry, gfp_t gfp, unsigned long orders,
- 		folio = swap_cache_get_folio(entry);
- 		if (folio)
- 			return folio;
--		folio = swap_cache_alloc_folio(entry, gfp, orders, vmf, mpol, ilx);
-+		folio = swap_cache_alloc_folio(entry, gfp, orders, vmf, mpol, ilx,
-+					       false);
- 	} while (PTR_ERR(folio) == -EEXIST);
- 
- 	if (IS_ERR(folio))
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 761cd699e0a3..3c494c5a671c 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -972,6 +972,30 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
- /*********************************
- * writeback code
- **********************************/
-+static void zswap_writeback_free_folio(struct folio *folio)
-+{
-+	folio_lock(folio);
++	bool swap_dropbehind;
 +
-+	/* The folio was allocated off the LRU and nothing re-adds it here. */
-+	VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
+ 	VM_BUG_ON_FOLIO(!folio_test_writeback(folio), folio);
+ 
+ 	/*
+@@ -1689,7 +1692,24 @@ void folio_end_writeback(struct folio *folio)
+ 	 * reused before the folio_wake_bit().
+ 	 */
+ 	folio_get(folio);
 +
 +	/*
-+	 * Gate remove_mapping() on folio_test_swapcache(): a racing swapin may
-+	 * have freed the swap slot (folio_free_swap()) and dropped the folio from
-+	 * the cache, and remove_mapping() must not run on a non-swapcache folio
-+	 * (it would trip __remove_mapping()'s mapping == folio_mapping() check).
++	 * zswap writeback folios are off-LRU, so we must prevent a racing
++	 * swapin from removing the folio from the swap cache and keeping it
++	 * off-LRU: the writeback flag allows that. Afterwards a swapin may win
++	 * the race, but the folio is already queued and the worker puts it back
++	 * on the LRU in that case.
 +	 */
-+	if (folio_test_swapcache(folio) &&
-+	    remove_mapping(swap_address_space(folio->swap), folio))
-+		goto out;
++	swap_dropbehind = folio_test_swapcache(folio) &&
++			  folio_test_dropbehind(folio);
 +
-+	/* Raced: the folio is now owned by the swapin; put it back on the LRU. */
-+	folio_add_lru(folio);
-+out:
-+	folio_unlock(folio);
-+	folio_put(folio);
+ 	folio_end_writeback_no_dropbehind(folio);
++
++	if (swap_dropbehind) {
++		zswap_writeback_dropbehind_folio(folio);
++		return;
++	}
++
+ 	folio_end_dropbehind(folio);
+ 	folio_put(folio);
+ }
+diff --git a/mm/zswap.c b/mm/zswap.c
+index 3c494c5a671c..d185da85bb68 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -34,6 +34,7 @@
+ #include <linux/writeback.h>
+ #include <linux/pagemap.h>
+ #include <linux/workqueue.h>
++#include <linux/llist.h>
+ #include <linux/list_lru.h>
+ #include <linux/zsmalloc.h>
+ 
+@@ -990,12 +991,39 @@ static void zswap_writeback_free_folio(struct folio *folio)
+ 		goto out;
+ 
+ 	/* Raced: the folio is now owned by the swapin; put it back on the LRU. */
++	folio_clear_dropbehind(folio);
+ 	folio_add_lru(folio);
+ out:
+ 	folio_unlock(folio);
+ 	folio_put(folio);
+ }
+ 
++static DEFINE_PER_CPU(struct llist_head, zswap_dropbehind_llist);
++
++static void zswap_dropbehind_workfn(struct work_struct *work)
++{
++	struct llist_node *pos, *next;
++	int cpu;
++
++	for_each_possible_cpu(cpu) {
++		pos = llist_del_all(per_cpu_ptr(&zswap_dropbehind_llist, cpu));
++		llist_for_each_safe(pos, next, pos) {
++			struct folio *folio = container_of((struct list_head *)pos,
++							   struct folio, lru);
++			zswap_writeback_free_folio(folio);
++		}
++	}
++}
++
++static DECLARE_WORK(zswap_dropbehind_work, zswap_dropbehind_workfn);
++
++void zswap_writeback_dropbehind_folio(struct folio *folio)
++{
++	llist_add((struct llist_node *)&folio->lru,
++		  this_cpu_ptr(&zswap_dropbehind_llist));
++	schedule_work(&zswap_dropbehind_work);
 +}
 +
  /*
   * Attempts to free an entry by adding a folio to the swap cache,
   * decompressing the entry data into the folio, and issuing a
-@@ -992,16 +1016,18 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	struct folio *folio;
- 	struct mempolicy *mpol;
- 	struct swap_info_struct *si;
-+	bool sync;
- 	int ret = 0;
- 
- 	/* try to allocate swap cache folio */
- 	si = get_swap_device(swpentry);
- 	if (!si)
- 		return -EEXIST;
-+	sync = data_race(si->flags & SWP_SYNCHRONOUS_IO);
+@@ -1027,7 +1055,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
  
  	mpol = get_task_policy(current);
  	folio = swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), NULL, mpol,
--				       NO_INTERLEAVE_INDEX);
-+				       NO_INTERLEAVE_INDEX, sync);
+-				       NO_INTERLEAVE_INDEX, sync);
++				       NO_INTERLEAVE_INDEX, true);
  	put_swap_device(si);
  
  	/*
-@@ -1046,11 +1072,17 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+@@ -1071,9 +1099,9 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+ 	/* folio is up to date */
  	folio_mark_uptodate(folio);
  
- 	/* move it to the tail of the inactive list after end_writeback */
--	folio_set_reclaim(folio);
-+	if (!sync)
-+		folio_set_reclaim(folio);
+-	/* move it to the tail of the inactive list after end_writeback */
++	/* Free the folio once writeback completes; see folio_end_writeback(). */
+ 	if (!sync)
+-		folio_set_reclaim(folio);
++		folio_set_dropbehind(folio);
  
  	/* start writeback */
  	__swap_writepage(folio, NULL);
- 
-+	if (sync) {
-+		zswap_writeback_free_folio(folio);
-+		return 0;
-+	}
-+
- out:
- 	if (ret) {
- 		swap_cache_del_folio(folio);
 -- 
 2.53.0-Meta
 
