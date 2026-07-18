@@ -1,246 +1,196 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490298472
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 10:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754EF3370E4
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 11:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784371455; cv=none; b=Yf9nRPS7bRqz66AzHErgvP+RoLCpXFdPEBQidry+/hGWkCe0e3jPW0lOF2iU2ljZfkQbibS9A8jT808Y6hGJYtzlyoE+6U+5DWrbEtbjC34Y56B/gJn/5O70CAbNN9wHOrTj6+qt0OaAJHGXiS3ILrn6mKYZiqs4e0KTfntJjdM=
+	t=1784373016; cv=none; b=JSgTGF/d7KbOy/DRRprv5TYq/dJDtYmpYcF5ZJQXC26V+F8gZ5jwyLIKI4Wzqgylp0/chWfTDPpxXaXDWOIGmJqy0WOJlk+bVR5NI9oHGrwPQhyRjxpOxZ7Q1iGCNVIe0ok8VW24qen97BlKqA8v0phHy3MKEu3ddDVwC5lrM6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784371455; c=relaxed/simple;
-	bh=sJZ/oVm+IyqW3W3J/56clRoccgMUsfCCDvhwOYP5DoM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rIpv7AV506fgjMdlo9jTypBG+r4VNbEJzR0Hy0L9Lgat2er8ebzTjDPFvihFSL7Fp6K8RrGdLUvm0N7NDCLRI184scjwrw7X/TJSAiso3w1kxgXyA6Z4FmImJHpk6qQCkXTMwm15OnZIaOvKDvgeicdZCte56YoaYDxa5F0HkME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LMt+NaKU; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1784373016; c=relaxed/simple;
+	bh=99gaZikVxjCh6G8WrO6H9UMCYijbaPvMTNoWbq67yg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qde6vU9fv7w47KhIUlB3BMaoFEf9VDMDQxZTjenJbaqOeSzX7q0ujoazkBqU6ouTEewZswBfWYlmh4KrQcEF5A9JuhWW0B0WnQPaGMwtBsLOkWx1Z/5Lt119Lnvu7UjqXSZLWFVlYXvnG/4SMqXibwFz/SphI+suslndxaIZjgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLJSdLgG; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LMt+NaKU"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cf452def93so4091885ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 03:44:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLJSdLgG"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c2b2c9eccso69335721cf.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 04:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784371454; x=1784976254; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2v0lgDxsHiWBF1xIQd5V0uZWU5jR2HpPjOJkDAUraK0=;
-        b=LMt+NaKUmsbpJ6MKTLf8HMG99VGxoPgWJo6GRDwOGiJeheCaviMvdHlEi9Ya8rlrgJ
-         JSIECUVWOhGYuJUsn3PNmO16Tf3I5/8QMHO8JnEN4tjWh0EXb6OFYBX5n7EHhrK0ILB/
-         h51qx0Y+yTyMHiyhfnc5i22lxP3KILVu1VowaoO9uii9T94wthjfM3SdlXQc1hyO0XCK
-         TW/pyOjMTBVwM3RtYlqU2Mt49EaYyO6MIlKHufTRLJL5LaUQ3SFP/6Vg4feTwn3UaKoT
-         /AfK9n7MGUmcPkDlhevbeLN+8YWTH6t27dPfM9W4dbP9M3XNmajbAzp5HQZqJ7j190YL
-         Jd1w==
+        d=gmail.com; s=20251104; t=1784373014; x=1784977814; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+JTIaYOz+7gcFgWy0FFXbd8WURqImELiBdK9zTFHb5c=;
+        b=VLJSdLgGCwrMkIROCbUwqKsjqfXMGjVb2qNdeDMuUi+0/TRv923xry7D3ZFUngGPDx
+         Eefho4dkeukx1zr7/BP1YFQl8pZROGt024S+HKiToxw3FQnvZsaTjed0b3c0hRyoisBk
+         Ehny7JzgwJoVMwCQeVVRoYBnKa5w8cm5tUE88G9daOixzP5sta1IWBohZJFBOGWqBUSv
+         eX+sXfjjqYd5jMp8lq7YJ/UONdxf5d+Uhh3dN8r5FTWuC4z5WY0Xnrgzvn32Qm6T6XyY
+         aESoMKIT7Wvj/Bb9gqRW0rt2U/cNiHNoP+UolntmwVm53ZIVwHGQ2KB7kY5Qn6lEe6t5
+         oSWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784371454; x=1784976254;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2v0lgDxsHiWBF1xIQd5V0uZWU5jR2HpPjOJkDAUraK0=;
-        b=qFQifoyp5Ibq529Y3qkAxs+EI7l/e74oO8jtYNymZUzhX8w1h2XDBLglwNKfDrFbAK
-         7TKyokn1FlkP+DmBpzSiL0TA+H/VcR8lvmul9Zh95r8Zqi9VS63D2aINNnmzQpe78IfY
-         JwzL1suvykhnVKdwAYj9It1locrGOEWNoNf3uycMAtQXRvWvqyd+KhOEJ8wQXaSL7dF4
-         k/9anH2b8u8PO9i263oUDLGAWNALsVZ5BqTasvD5YqmHuIlg2EOOGzYDlkiLKgzkNg/s
-         lez69+IRGVi07rHC2cmSpdGV2Du0brKUHV7mCJk8esPVB90i0KECUO287jAznZsS2UE4
-         xeUA==
-X-Forwarded-Encrypted: i=1; AHgh+RoZtNM5czK+/7a7LE5mXXPMwgiupvizt+DiAqgYmPA7JsPqyNq5AMeHTJ4YjpCPWMUYAv14sYucoBhY82mu@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE2z9ySTXYTiJfzhME3tURK16Tw7D86sZIcx8VEu4e3E/J9B+8
-	ivccezyc+jmAlGynYFBI8aDb3vZ+peLKyGBN7Cnsn0J/GY/swNyTTSDD
-X-Gm-Gg: AfdE7cm/cv+Ypj04HpbhLCI9X6cl0/QzNB6z+84BtPZmYzNTSj+V9GzDOWHOvqpsmCl
-	PIP5J98zhnCdhhOqOghXX1NX86vEMbYhcD38qGUZPqP6SI1YS36qGDgvU7xNSIa/3kSFj7KcuhA
-	bHWstNa0+zQwmet+VJYXAZknQJHM4ayB4s6PCx4OS/rFFJrCsX6a2kto3H/tDVEKsbl+G26KtyB
-	w5tPAIyR36rwv6v79r+taA5PQfbz6v0f8jeTiY3h/9UFdWMBedRqCAC083AHGWKt9nlVCk5oGIJ
-	cy6CKSwpWJZIqGxJ6aCnWoXLMtHcgB138i0k0HkuDcT3K5CGZ7GvDylW5WJhK/Zf4Y5pcsvgpt2
-	FQwTtjwCqJgF4W/M0jBGckFVb8Q/kkGh3NVpUGXVtoxZ/EgXByCiLM8nIODGsYzk7g4PaUTW3si
-	IIZB3fB9hJMTU=
-X-Received: by 2002:a17:903:3810:b0:2c9:fc0d:165b with SMTP id d9443c01a7336-2cf1f544ef8mr111893345ad.23.1784371453528;
-        Sat, 18 Jul 2026 03:44:13 -0700 (PDT)
-Received: from 2045L.localdomain ([36.112.122.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf347119dfsm25525175ad.56.2026.07.18.03.44.09
+        d=1e100.net; s=20251104; t=1784373014; x=1784977814;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+JTIaYOz+7gcFgWy0FFXbd8WURqImELiBdK9zTFHb5c=;
+        b=TmPxmQ1RuBPxPMyRJFxTMGy+QO7KgQe+0i+UBAviO+TzmeHduk+fahygvNgEUdLp41
+         iTDXT4tj5Kx0uWtNNGP7FqVzcc8vyJg6IpfCxLLrLxoqlXYY/QTkBiRxZVg0AuLgPcr+
+         tv42CIyov/SfP7VyhM4QLvqFj0dJw5kjp1tT2fheQP74Oa3BHzXTFkj0hhv5vZtxq6Kn
+         Y7ydFmsXe6gCTSphFw2Y2baQXStIl5cDT3wiJrtQvIZJV61F2gquKExZYqdvVZfO+KjK
+         NmEw8C4Ltw+/CmuvqAx5LCd47CgqicYivFxCVHN6qJND80r2WIRH9fvI/kCMo0duCCzP
+         AwrA==
+X-Forwarded-Encrypted: i=1; AHgh+RrvOKeS7BbbmEd1bvpAcyTgt8wTXGKASlTD8jbfADZCYpGluF7CNZ+G6XoaQq8i3dI4HmllUIn8MEtIaXOj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6PKaSfStq/+ULa3tC1D1kH5iZt+pBoYqZV65vXgkPxqwmn6QT
+	PJ5iaLfjgAvLf3XPOuC3R+ZGR6NUgPutcVcRDS28i365C05F3rKkueeG
+X-Gm-Gg: AfdE7cljLgDCgQbPRDldywJAZYUZ6wcuWBuXehw7P4rDDijrskqlm4bAt3uSEkWJ8aS
+	O2ewas1L/qYYeNntMCXOeHEiJil94AFu4ABuIUmsvzKMLggxb4aZzfeoPorD4CnWKc5VnOL0zd5
+	Vleb9ktFdYBNod1NszZKepzyjCRu/Yk8qRSK5VgOUeaD+WWgimaPWEQjICBqTs8Chs0HRMTAlq3
+	PSaCT1fBxLVV1Yh2ZiLkW8GabS7Hh8gsmOFxel8Xf+i9VxeSkaVf3j3y3IvS9yLE+JXrrhlerPk
+	2AoWCiqjLXIF53jn5yJax82/SsSeTsBQ3Gpf1vgoho1I5TXm2hc5L5yUArAwQuFtpst0/nHSDZb
+	WqcEylaTa9CQfdOV/8E+emjkFQfIjI268y/1ZVx1c9k0pjmliB51DZelly1GtsG2Zy2Ivyh28AA
+	nOZdwUZKEoJYo1UxiE6jfjgPQ8x5rwSgRX6Xe6VdubBYwvsLJ1
+X-Received: by 2002:a05:622a:614:b0:517:8e65:68ea with SMTP id d75a77b69052e-5213e28f73emr58880021cf.54.1784373014252;
+        Sat, 18 Jul 2026 04:10:14 -0700 (PDT)
+Received: from KASONG-MC4 ([101.32.222.185])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214f01654fsm31899181cf.19.2026.07.18.04.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 03:44:12 -0700 (PDT)
-From: Guidong Han <2045gemini@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Jann Horn <jannh@google.com>,
-	Qi Tang <tpluszz77@gmail.com>,
-	Junxi Qian <qjx1298677004@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] eventpoll: pin files while checking reverse paths
-Date: Sat, 18 Jul 2026 18:44:06 +0800
-Message-ID: <20260718104406.27897-1-2045gemini@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 18 Jul 2026 04:10:12 -0700 (PDT)
+Date: Sat, 18 Jul 2026 19:10:03 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
+	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm: zswap: free synchronous-IO writeback folios
+ directly
+Message-ID: <altSA1zXhzvHPJYe@KASONG-MC4>
+References: <20260718093723.153324-1-alex@ghiti.fr>
+ <20260718093723.153324-2-alex@ghiti.fr>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260718093723.153324-2-alex@ghiti.fr>
 
-Commit 319c15174757 ("epoll: take epitem list out of struct file")
-intentionally removed temporary file references from the reverse path
-check list. At the time, both epitems and their files were freed after
-an RCU grace period, so unlist_file() could obtain file->f_lock through
-an epitem while clear_tfile_check_list() held rcu_read_lock().
+On Sat, Jul 18, 2026 at 11:36:39AM +0800, Alexandre Ghiti wrote:
+> When zswap writes an entry back, it allocates a swap cache folio,
+> decompresses the entry into it and writes it out. That folio is cold by
+> construction, but it is currently left on the LRU for page reclaim to find
+> and free later. This wastes a reclaim scan and keeps cold memory resident
+> longer than necessary.
+> 
+> For synchronous-IO swap devices writeback completes in the calling context,
+> so the folio can be freed right after the write rather than left behind; do
+> that. Because it is freed directly rather than through reclaim, it is
+> allocated off the LRU: dropping the last reference on a folio still on the
+> LRU would trip the free-time page-flag checks. A folio that a concurrent
+> swapin has meanwhile claimed is left in place and reclaimed as usual.
+> 
+> Asynchronous and filesystem-backed swap complete writeback in interrupt
+> context, where the folio cannot be freed; they are handled in a later
+> change.
+> 
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> ---
+>  mm/swap.h       |  3 ++-
+>  mm/swap_state.c | 17 +++++++++++------
+>  mm/zswap.c      | 36 ++++++++++++++++++++++++++++++++++--
+>  3 files changed, 47 insertions(+), 9 deletions(-)
+> 
+> diff --git a/mm/swap.h b/mm/swap.h
+> index 77d2d14eda42..c617e5a0257f 100644
+> --- a/mm/swap.h
+> +++ b/mm/swap.h
+> @@ -306,7 +306,8 @@ void *swap_cache_get_shadow(swp_entry_t entry);
+>  void swap_cache_del_folio(struct folio *folio);
+>  struct folio *swap_cache_alloc_folio(swp_entry_t target_entry, gfp_t gfp_mask,
+>  				     unsigned long orders, struct vm_fault *vmf,
+> -				     struct mempolicy *mpol, pgoff_t ilx);
+> +				     struct mempolicy *mpol, pgoff_t ilx,
+> +				     bool skip_lru);
+>  /* Below helpers require the caller to lock and pass in the swap cluster. */
+>  void __swap_cache_add_folio(struct swap_cluster_info *ci,
+>  			    struct folio *folio, swp_entry_t entry);
+> diff --git a/mm/swap_state.c b/mm/swap_state.c
+> index 9c3a5cf99778..048efc7ca612 100644
+> --- a/mm/swap_state.c
+> +++ b/mm/swap_state.c
+> @@ -403,7 +403,8 @@ void __swap_cache_replace_folio(struct swap_cluster_info *ci,
+>  static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+>  					swp_entry_t targ_entry, gfp_t gfp,
+>  					unsigned int order, struct vm_fault *vmf,
+> -					struct mempolicy *mpol, pgoff_t ilx)
+> +					struct mempolicy *mpol, pgoff_t ilx,
+> +					bool skip_lru)
+>  {
+>  	int err;
+>  	swp_entry_t entry;
+> @@ -484,7 +485,8 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+>  	lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
+>  
+>  	/* Caller will initiate read into locked new_folio */
+> -	folio_add_lru(folio);
+> +	if (!skip_lru)
+> +		folio_add_lru(folio);
+>  	return folio;
+>  }
+>  
+> @@ -507,7 +509,8 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+>   */
+>  struct folio *swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
+>  				     unsigned long orders, struct vm_fault *vmf,
+> -				     struct mempolicy *mpol, pgoff_t ilx)
+> +				     struct mempolicy *mpol, pgoff_t ilx,
+> +				     bool skip_lru)
 
-Commit 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU") made
-struct file SLAB_TYPESAFE_BY_RCU and removed its RCU-delayed freeing.
-RCU still protects the epitem, but no longer keeps the referenced file
-from being freed and reused. A concurrent close can therefore make
-unlist_file() lock or unlock f_lock in a recycled file object.
+Compared to the bool skip_lru here, will this work better? (not tested)
 
-This violates the documented SLAB_TYPESAFE_BY_RCU rule requiring a
-reference before acquiring an object's lock. The race was reproduced,
-causing a wild unlock of f_lock in a recycled file and breaking its
-mutual exclusion.
-
-Add ->file to epitems_head to remember the pinned file independently of
-->epitems. A concurrent EPOLL_CTL_DEL can empty ->epitems before the head
-is unlisted, leaving no epi->ffd.file from which to drop the reference.
-
-In list_file(), acquire the reference before adding the head to the
-check list. The caller either owns a reference or holds the ep->mtx for
-the epitem leading to the file. In the latter case, file_ref_get() can
-fail after the last reference is dropped, but eventpoll_release_file()
-must acquire the same mutex before the file can be freed. The dying leaf
-can be skipped because removing links cannot increase the reverse path
-count.
-
-In unlist_file(), epnested_mutex excludes another list_file() or
-unlist_file(), while head->next prevents a concurrent EPOLL_CTL_DEL from
-freeing the head. Save head->file locally, clear it with head->next
-under f_lock, and drop the reference after the RCU-protected operation.
-
-Reported-by: Qi Tang <tpluszz77@gmail.com>
-Reported-by: Junxi Qian <qjx1298677004@gmail.com>
-Fixes: 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guidong Han <2045gemini@gmail.com>
----
-SLAB_TYPESAFE_BY_RCU allows a slab slot to be reused while an RCU reader
-still holds its old address. Once that address contains a new live
-struct file, KASAN sees valid, unpoisoned memory and cannot distinguish
-the stale object identity. CONFIG_DEBUG_SPINLOCK exposes the failure
-instead.
-
-The failing interleaving is:
-
-CPU0: nested EPOLL_CTL_ADD             CPU1: close/open churn
-------------------------------------   ---------------------------------
-p = hlist_first_rcu(&head->epitems)
-epi = container_of(p, ...)
-                                       close(victim)
-                                         __fput()
-                                           eventpoll_release_file()
-                                           file_free(victim)
-                                       // the slot is free; f_lock remains
-spin_lock(&epi->ffd.file->f_lock)
-                                       open() reuses the slot as new_file
-                                         spin_lock_init(&new_file->f_lock)
-spin_unlock(&epi->ffd.file->f_lock)     // wild unlock of new_file's lock
-
-CONFIG_DEBUG_SPINLOCK reports:
-
-BUG: spinlock already unlocked on CPU#0, poc_unlist/150
- lock: 0xffff8880067fb200, .magic: dead4ead, .owner: <none>/-1, .owner_cpu: -1
-CPU: 0 UID: 1000 PID: 150 Comm: poc_unlist Not tainted 7.2.0-rc3-dirty #22 PREEMPTLAZY 
-Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0x64/0x80
- do_raw_spin_unlock+0x75/0xb0
- _raw_spin_unlock+0xe/0x30
- clear_tfile_check_list+0x88/0xe0
- do_epoll_ctl_file+0x519/0xcf0
- ? __pfx_ep_ptable_queue_proc+0x10/0x10
- do_epoll_ctl+0x8f/0x100
- __x64_sys_epoll_ctl+0x6f/0xa0
- do_syscall_64+0xdc/0x520
- ? srso_alias_return_thunk+0x5/0xfbef5
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
-RIP: 0033:0x42034e
-Code: 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 e9 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007a657ff3c198 EFLAGS: 00000202 ORIG_RAX: 00000000000000e9
-RAX: ffffffffffffffda RBX: 00007a657ff3ccdc RCX: 000000000042034e
-RDX: 0000000000000003 RSI: 0000000000000001 RDI: 0000000000000004
-RBP: 00007a657ff3c2f0 R08: 0000000000000000 R09: 00007a657ff3c6c0
-R10: 00007a657ff3c1a4 R11: 0000000000000202 R12: 00007a657ff3c6c0
-R13: ffffffffffffffb8 R14: 000000000000000d R15: 00007fffb7de0210
- </TASK>
-------------[ cut here ]------------
-
-unlist_file() does not appear as a separate frame because it was inlined
-into clear_tfile_check_list(). This report was obtained with mdelay()
-instrumentation immediately before spin_lock() and spin_unlock() in
-unlist_file() to widen the two race windows.
-
-More importantly, this is a wild unlock. The stale unlock can target
-f_lock of a different live file and invalidate mutual exclusion for
-state protected by that lock. Turning this into a reliable exploit
-would require precise scheduling and same-slot reuse and is likely
-difficult, but the primitive is potentially exploitable.
-
-Qi Tang and Junxi Qian helped identify this issue and are therefore
-credited by the Reported-by tags above.
----
- fs/eventpoll.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 0e65c7431dfc..eed8cecd94e3 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -459,11 +459,14 @@ static struct kmem_cache *pwq_cache __ro_after_init;
-  * Wrapper anchor for file->f_ep when the watched file is not itself an
-  * eventpoll; for the epoll-watches-epoll case, file->f_ep points at
-  * &watched_ep->refs directly. The ->next field threads
-- * ctx->tfile_check_list during one EPOLL_CTL_ADD path check.
-+ * ctx->tfile_check_list during one EPOLL_CTL_ADD path check. The ->file
-+ * field holds a reference to the associated file while the head is on
-+ * the list.
-  */
- struct epitems_head {
- 	struct hlist_head epitems;
- 	struct epitems_head *next;
-+	struct file *file;
- };
+diff --git a/mm/swap_state.c b/mm/swap_state.c
+index 8afd0b2d7c27..7ff5254b6ff8 100644
+--- a/mm/swap_state.c
++++ b/mm/swap_state.c
+@@ -487,9 +487,6 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
  
- static struct kmem_cache *ephead_cache __ro_after_init;
-@@ -480,6 +483,16 @@ static void list_file(struct file *file, struct ep_ctl_ctx *ctx)
- 
- 	head = container_of(file->f_ep, struct epitems_head, epitems);
- 	if (!head->next) {
-+		/*
-+		 * The caller owns a reference to @file or holds the ep->mtx for the
-+		 * epitem that led here. The latter blocks eventpoll_release_file()
-+		 * before the file allocation can be freed and reused. A dying leaf
-+		 * can be skipped since removing links cannot increase the reverse
-+		 * path count.
-+		 */
-+		if (!file_ref_get(&file->f_ref))
-+			return;
-+		head->file = file;
- 		head->next = ctx->tfile_check_list;
- 		ctx->tfile_check_list = head;
- 	}
-@@ -489,15 +502,18 @@ static void unlist_file(struct epitems_head *head)
- {
- 	struct epitems_head *to_free = head;
- 	struct hlist_node *p = rcu_dereference(hlist_first_rcu(&head->epitems));
-+	struct file *file = head->file;
- 	if (p) {
- 		struct epitem *epi= container_of(p, struct epitem, fllink);
- 		spin_lock(&epi->ffd.file->f_lock);
- 		if (!hlist_empty(&head->epitems))
- 			to_free = NULL;
- 		head->next = NULL;
-+		head->file = NULL;
- 		spin_unlock(&epi->ffd.file->f_lock);
- 	}
- 	free_ephead(to_free);
-+	fput(file);
+        node_stat_mod_folio(folio, NR_FILE_PAGES, nr_pages);
+        lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
+-
+-       /* Caller will initiate read into locked new_folio */
+-       folio_add_lru(folio);
+        return folio;
  }
  
- #ifdef CONFIG_SYSCTL
--- 
-2.43.0
+@@ -651,6 +648,8 @@ static struct folio *swap_cache_read_folio(swp_entry_t entry, gfp_t gfp,
+                if (folio)
+                        return folio;
+                folio = swap_cache_alloc_folio(entry, gfp, orders, NULL, mpol, ilx);
++               if (!IS_ERR(folio))
++                       folio_add_lru(folio);
+        } while (PTR_ERR(folio) == -EEXIST);
+ 
+        if (IS_ERR_OR_NULL(folio))
+@@ -692,6 +691,8 @@ struct folio *swapin_sync(swp_entry_t entry, gfp_t gfp,
+                if (folio)
+                        return folio;
+                folio = swap_cache_alloc_folio(entry, gfp, orders, vmf, mpol, ilx);
++               if (!IS_ERR(folio))
++                       folio_add_lru(folio);
+        } while (PTR_ERR(folio) == -EEXIST);
+
+It's identical code wise, just fewer arguments and changes.
+
+Prehaps also rename swap_cache_alloc_folio to __swap_cache_alloc_folio
+and update kdoc that caller need to ensure the folio won't be leaked off-LRU
+and unreclaimable now.
