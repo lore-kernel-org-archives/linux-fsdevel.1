@@ -1,66 +1,83 @@
-Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385F33AFD1E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 14:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F89846F;
+	Sat, 18 Jul 2026 14:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784386001; cv=none; b=Q5ISF4bWtGlI5wEePBa71HAn7+M3tiehbY3+eWHoRoeb+iWKBqCfIrLEoJtQiwndfFyWzYkhRyiPqN40ST1V9dqF7nxpNUAjETeOaCP7Aa0md3paaLMSP6PF/cgqa0VONrUBMC/fNe1BuF7So+d17etUPzm39gWYXR4StW2aBxc=
+	t=1784386286; cv=none; b=JoMp37aKKIam1l/iqoxMZfjfAS6IuUCs/+Qn3AGbu2mcOq+JqBBrvxP5k8SqlxE/JLgd2u1HSKElUzBFkYF1T1++nV7ThZqDGKQdO9OXrW/i2XfdgYrDk7BFOhvwjxu5kCMB3QemEbNde9jQPeSqPtTvITwn2HBpb+wxBJP7IVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784386001; c=relaxed/simple;
-	bh=PqhBgI8OSsv9MtDJm8hSr4iuefhdx+/0OMqjlkiX1DQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ya7ffT3AgK9zKG4CKhUCRJN8NJL+4N4zcLx5hgR3pl2fC7pxWheg3VJDLDHPlKXMDx1ufxaqvZgpnSFoK2uymRJ5L1t2eN+ATX5KclC92jgLUsEdxSLN2E8x/m4bFKhE370V9AtMAdJ2Xqga5b3Hi9eFWLGlRWywoDzr06a+q+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=yglDpUdU; arc=none smtp.client-ip=199.187.173.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
+	s=arc-20240116; t=1784386286; c=relaxed/simple;
+	bh=QVTyAHdyQbOjaIzcZFuM8h+GebtHrm41hCcQoy2O7EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kczJcVjnrp/F66ZYwe3hBl50Cj3ugqByH0EzEPBC5GQ7Uwc5mSZZnKxibrhByFnB9Ws2qw76zoguyn5d+yEJ3l2L0G92lb/lo2qVS7rRJLkByIvhp2wSjD2GeXxUFfpOwm0JFo1xB07MSNvvLaYOhRJi8lvWp9rNgm7mIZbFqV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWBF0EqB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="yglDpUdU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=yahyatoubali.me; s=turbo-smtp; x=1784990799; h=Received:
-	Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	Content-Transfer-Encoding:Feedback-Id; bh=v85NYeDe3+EvhfPy23qFOi
-	D+XADAkxo9z05r9kM4Eyw=; b=yglDpUdUnV0EVvfM37gjJ0AMO+vL3DWAGb2a1j
-	WNmokpismJt2jsIZV77wqv/6OGTg9scbcO+OqVebSa7IHmkR946Y/JHkSICyQAAb
-	IsIM47AFIKEhAKyissfUeF0CauBIMOmcFnY8ovac2Rq6OXYpW6XqQpXTZHXH9/L9
-	xNguM=
-Received: (qmail 1923422 invoked from network); 18 Jul 2026 14:39:58 -0000
-Received: from 105.76.9.106  by turbo-smtp.com with SMTP; 18 Jul 2026 14:39:57 -0000
-X-TurboSMTP-Tracking: 64-018cfb16-00001e639f3e7a02c003-003-4288bd49
-From: Yahya Toubali <yahya@yahyatoubali.me>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org (open list:PROC FILESYSTEM), linux-fsdevel@vger.kernel.org (open list:PROC FILESYSTEM), linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Cc: Yahya Toubali <yahya@yahyatoubali.me>
-Subject: [PATCH 1/5] Documentation: proc: fix repeated word 'page'
-Date: Sat, 18 Jul 2026 15:39:36 +0100
-Message-ID: <20260718143937.1880391-1-yahya@yahyatoubali.me>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWBF0EqB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730901F000E9;
+	Sat, 18 Jul 2026 14:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784386285;
+	bh=RRQXKgZvVOLKJU51yTAps58jYtNd2L+HPiejoWLGke8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nWBF0EqBfhjHJvpdqs+h1dzr94c9R4BdvZwbvKLWoOESTja4JB8XXnNcOenPFuVrD
+	 w7k7v7C0XoPBQ9ot5oa3yL77Ju8nMOEldt3fYz6cgfVAB+G39pdKaF88Ki3lc/9V6T
+	 gL7bTRbDAm4Q7ch74uTOKPfnOaygB2dp5AQzutVMra7CSwPlrBvudf3cQy8AZUoEOU
+	 Ao6sj4DJz/LIPxR9eCGY1xzCh0Zxlz3ViOs7LF7onoabL8Cnftip5KbkplrpgSd4Ud
+	 DEZoMWo46oXL0e+rwwhLC4vLVh7414ZS3dRMbSlALPDPJ4RKbFbprP7iy6qqaZejt2
+	 ovzYl7a1tfFgA==
+Date: Sat, 18 Jul 2026 15:51:02 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 07/15] mm/rmap: track whether the page VMA mapped walk is
+ anonymous
+Message-ID: <aluQgZAL_fOL7hik@lucifer>
+References: <20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org>
+ <20260717-b4-scalable-cow-virt-pgoff-v1-7-cf24910ef094@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-Id: 26016534
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717-b4-scalable-cow-virt-pgoff-v1-7-cf24910ef094@kernel.org>
 
-Remove duplicate 'page' in the large allocation accounting description.
----
- Documentation/filesystems/proc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Jul 17, 2026 at 07:19:45PM +0100, Lorenzo Stoakes (ARM) wrote:
+<snip>
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 5798427d007f..cfd4195ff1ae 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1240,8 +1240,10 @@ static bool mapping_wrprotect_range_one(struct folio *folio,
+>  		.vma		= vma,
+>  		.address	= address,
+>  		.flags		= PVMW_SYNC,
+> +		.is_anon_walk   = false,
+>  	};
+>
+> +	VM_WARN_ON_ONCE(folio_test_anon(folio));
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2ccd5b2dfdd3..d22ac0addd42 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -513,7 +513,7 @@ In some kernel configurations, the semantics of pages part of a larger
- allocation (e.g., THP) can differ: a page is accounted as "private" if all
- pages part of the corresponding large allocation are *certainly* mapped in the
- same process, even if the page is mapped multiple times in that process. A
--page is accounted as "shared" if any page page of the larger allocation
-+page is accounted as "shared" if any page of the larger allocation
- is *maybe* mapped in a different process. In some cases, a large allocation
- might be treated as "maybe mapped by multiple processes" even though this
- is no longer the case.
--- 
-2.55.0
+Andrew - can you drop this line please? It's incorrect (folio is always NULL here).
 
+Thanks!
 
+Cheers, Lorenzo
