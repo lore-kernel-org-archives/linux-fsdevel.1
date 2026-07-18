@@ -1,214 +1,145 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8E32DB794;
-	Sat, 18 Jul 2026 09:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4489F43F0A0
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 10:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784367588; cv=none; b=KkoqKdbboGvHIt4jPtr+pPrtxn30ij5v+Kw6y0kflnqk4r1lQ+4AShVJJ7AG/CXykEP5lgAmblrnx37/jU8uAP2SrYpFCWehVPmxV5gitW7s+wWXpC1XvC1AOZikKw0Hu60Lkt64XYzAkSr9CH1RIybH/eRVvp0T7iFmSA/Dg/o=
+	t=1784369841; cv=none; b=lO0X2o6eGE1pFFD/bzoS/2dH+QPQNKr+bg79WeffGr2vl4EJXJ8Odk8kZ48QK2xhB3BUFKys27gtGYGxIrqQbx/r4TYT8E5Ip2swN7m8mTap68W5W5AESJsdvD0EsNEjP+FUjSVs5WymE5g0Ec64c0OihOHH0qRp6OQdN/kPs0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784367588; c=relaxed/simple;
-	bh=Cso3EQM3kSYaD9NzYMajV6D5vRFg5SHt2SwUJAHrj8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mNYo2zuFSkzXoGwckEMoBADLCx9hSkjTvibG9YDHLYYtnMEF33L3qnuWnrkfPIH6KklR16eNvtooDCF/YQIHwWMPRh5WEs/JZNIK36+DgGkzGf5cHeWFyfbTdgKrALp0+LmPV8SjwnSpzgt4DFkbXTTxBJqKEoJhQ+R5XalFX6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A2C3A3EBD5;
-	Sat, 18 Jul 2026 09:39:33 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosry@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>
-Cc: Chengming Zhou <chengming.zhou@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1784369841; c=relaxed/simple;
+	bh=7zVFnqj1IOlr1FIe6x9u1+yIsQlFpQzZsRLG5pL0ukE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gBKlQNuewtram4X3Vo9PwTG/5mPGFvYrYKF655/azZcasPo7lSIN5DbXxeVn5vigaeO9xrxK6LuBmSxlJ37CIl5+wg14Mxc5A/nVq4rkcS0wmjTX0w8pvELPbMNfYkKs5TwRo8tCFRz0UhprJrwdvTEKdgHin9oOwvLHm8Eq6xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPSbgkD9; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPSbgkD9"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84874b52eabso7187691b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 03:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784369839; x=1784974639; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OucpGeCg3o38qUxtqbNVrYsZh3geEUQhy4DnGK8pnV0=;
+        b=iPSbgkD9hDDvA96sqAqB5Vkqn7llssU1aglrKUCqBTRK/TEO0Z9m5e3YZkiiDLaZZk
+         EQe9OzQtw9JL6EzWFeB1VG7ICVdOYk6I1PnTS+nY1MOq7UIwdmx6paUCBrywfep9Ztsz
+         9pUc1/tnOdzdISaaWQphLeZkCed3Kqd0b8BH/Zkayk6SMnE9HMRuelJYHDZvLzqHdsqX
+         6CobL+QcrnQi8sCYmXKnVJuU5z1+WGY+dWQ8yfejiu2sgzcblwZaljmfT6juz9GujZH9
+         Svrxy29gfJhhD3UtpFeroea9gKpUfAeH6BrSvMmxKyF5V51AEM/t38dKRt8lsMLvoJuj
+         Wt0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784369839; x=1784974639;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OucpGeCg3o38qUxtqbNVrYsZh3geEUQhy4DnGK8pnV0=;
+        b=Ze9r9CV0sJMeses8ABLa3O+u8rX7UFOCe+/BSCXS5dvJsnNhDb7D/Hp72fiwtoeUZF
+         YqVRLZW2l5gHjSk1usLdBBSBNXssHUzpG/NwInQvFK/W3grgQS2VAblcCCJQ59hGip2w
+         nqGjfzlZTQ7K+YpnJ2CX2ckAsWoag7DekyXU1o6h2x3kV9NYFyO6HaGXXD+TssOPyHOs
+         PtIYE6WmG2kqe4C/dkrfn53Edrv2CbM8KGOLcvOfJchNHD6CKmCTL0f/DQVLqajV1URd
+         Au9cdmwpYFGgmlKvR5hwk0tShNXr2x8wqlQFKyrllN6G6/RsuMKZNkc+aPdGCDNICIw1
+         6Zmg==
+X-Forwarded-Encrypted: i=1; AHgh+RrM+ExU1RUQu3SsAoxSnpo+o7cwiu/cSyyyl/8hma4Sy5oXJvrNYNT6vHbQBiV8gVRh8zHBydGnsyzKAowK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgTFaQtb26aJfch2gl8Am/ZlPV5By2VscBdtHMSTrHEueX82JH
+	XDCr36t/tV5t3BuLX2L9EOZwIr3H+Hls3l6HBlzxWT4JYKAhgt2Z+oBL+qOjDP3HPe4=
+X-Gm-Gg: AfdE7cla2XvR6UI001AfBKhSHq5v4eOOGV6RHb1odSZh8MXvn1ZTTLKYa2Nc+i6tT5+
+	W/cd7AcqKeUJvBwsv/L6biTpX9o/PANM7PcLdM+YVBQA8PuPkjvTFFER2VKp9nHdYHeGR8IKWrM
+	ri2A5u+ooGLw9beV/WuXLIcigJ0GeCS69JQI2S7sfh2IWl/IBdSD8DwLxA5PkonbWVBEcbowmyY
+	cTIz/zq1O++YTrTVDOqQrD1L50t+xLCaOpQmUDSlU11nABnt63AY0IMeeP6Y2acoXqtQzJYClMB
+	HcSjwnxu01V9sYy9PsBrhFsARU7CQBkLHK3HvKu4Zt7/Y4haQnXe5wnbp4qniTFUY7rXkQEKcL9
+	xSn60y3T0z3iacQXllQEhmwBR/9ECSWQ5+QHqjD1D2er/3qU08eN5eW589oucTI9jyq8ypO7vnN
+	P9yXubQ3lm7lIgIzSE+A==
+X-Received: by 2002:a05:6a20:9397:b0:3bf:6c08:2843 with SMTP id adf61e73a8af0-3c3ad97155fmr6864882637.50.1784369839524;
+        Sat, 18 Jul 2026 03:17:19 -0700 (PDT)
+Received: from vivek-LOQ-15IRX9 ([2401:4900:8ff9:29ed:7266:cb8f:1472:70bd])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429fdcaefsm16271280eec.10.2026.07.18.03.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 03:17:19 -0700 (PDT)
+From: Vivek Parikh <viv0411.parikh@gmail.com>
+To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	Paul Moore <paul@paul-moore.com>,
+	linux-security-module@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH 2/2] mm: zswap: deferred dropbehind free of writeback folios
-Date: Sat, 18 Jul 2026 11:36:40 +0200
-Message-ID: <20260718093723.153324-3-alex@ghiti.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260718093723.153324-1-alex@ghiti.fr>
-References: <20260718093723.153324-1-alex@ghiti.fr>
+	Vivek Parikh <viv0411.parikh@gmail.com>
+Subject: Landlock: mount_setattr(2) is unmediated by LSMs (ro-mount confinement bypass)
+Date: Sat, 18 Jul 2026 15:44:50 +0530
+Message-ID: <20260718101540.309387-1-viv0411.parikh@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Cause: dmFkZTF8N8FDhBG+ULGeA/tpivXlamys8SCRC9hw8AmIZZeZhHfHgZsjIMQIIKJDIcXWhlZShNQ6SGRvGvW1koQHuU31EcQnJcnqjvpzUumyw1oubhSxqHjpZTCpogQEHUFIy1njrfEKeZ7FlATmEDIn4sHp/IdI5V9AUcraW0OnEX7NFi7gDZAZFywdyZUgvWTXdb0MNa5S9BGOy+LgLL7566dREVpslYIC4AiTKoO2bUwNSztBnz5/ZJg4x4Opid2vlIqauvRtZcIfwTxM4Q+DtSuf86N6RzrvAG3Ts2dvB7g+u0yvCfreNKoWLhVr2Rg6Kabolf+tm3VB+BODI4CqvIkPZwKE080bH1j6mxQnkBeRsIDjBSM7WIFYG8oS6ZxsYLgvAlfEYBz3Aj0wV8dsVGQlss4hdZKdC17FK1I7EsGlcYwoUpSjBXUhF+pLFZpRxJ0RrW/RBSaQJzkYlO9yU0q9KRP+aGE7ENRfIIJFfq6fTR06RSZWYm9074OpmFxer/qKB1jij7sN974tl86cI/CgBfZ8vwNxM8kQoiQQmUNOyb24toN0CFqUaq3TY7k9fnE4zsFVZ3RQIsnq+1vSRqv53tXNJCLPD9iGxcwrtO59mOZrnWSDOwXlswCfEQeqUWFmx1oxrYabYzd/F2GIDCeNcim9RWmJHtTwdwpjIWUxKQ
-X-GND-State: clean
-X-GND-Score: -100
 
-The previous change frees zswap writeback folios promptly for
-synchronous-IO swap, where writeback completes in the calling context.
-Asynchronous block devices and filesystem-backed swap complete
-writeback in interrupt context, where the folio cannot be freed, so
-those cold folios are still left on the LRU for reclaim to clean up
-later.
+Hi Mickaël, Christian,
 
-Free them promptly as well by deferring the work to a workqueue that
-runs once writeback has completed.
+Note: this was found with AI assistance, so I am treating it as public per
+Documentation/process/security-bugs.
 
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
----
- include/linux/zswap.h |  2 ++
- mm/filemap.c          | 20 ++++++++++++++++++++
- mm/zswap.c            | 34 +++++++++++++++++++++++++++++++---
- 3 files changed, 53 insertions(+), 3 deletions(-)
+While auditing Landlock's filesystem-topology restrictions I found that
+mount_setattr(2) is not mediated by any LSM. It only matters for a
+sandboxed task that holds CAP_SYS_ADMIN in its own user namespace -- the
+rootful-container / userns-root profile that landlock_restrict_self()
+explicitly supports (security/landlock/syscalls.c). Fully unprivileged
+callers are not affected.
 
-diff --git a/include/linux/zswap.h b/include/linux/zswap.h
-index 30c193a1207e..23dcde274964 100644
---- a/include/linux/zswap.h
-+++ b/include/linux/zswap.h
-@@ -35,6 +35,7 @@ void zswap_lruvec_state_init(struct lruvec *lruvec);
- void zswap_folio_swapin(struct folio *folio);
- bool zswap_is_enabled(void);
- bool zswap_never_enabled(void);
-+void zswap_writeback_dropbehind_folio(struct folio *folio);
- #else
- 
- struct zswap_lruvec_state {};
-@@ -58,6 +59,7 @@ static inline void zswap_swapoff(int type) {}
- static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
- static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
- static inline void zswap_folio_swapin(struct folio *folio) {}
-+static inline void zswap_writeback_dropbehind_folio(struct folio *folio) {}
- 
- static inline bool zswap_is_enabled(void)
- {
-diff --git a/mm/filemap.c b/mm/filemap.c
-index dc3a0e960b9f..548e465b5b9a 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -21,6 +21,7 @@
- #include <linux/gfp.h>
- #include <linux/mm.h>
- #include <linux/swap.h>
-+#include <linux/zswap.h>
- #include <linux/leafops.h>
- #include <linux/syscalls.h>
- #include <linux/mman.h>
-@@ -1680,6 +1681,8 @@ EXPORT_SYMBOL_GPL(folio_end_writeback_no_dropbehind);
-  */
- void folio_end_writeback(struct folio *folio)
- {
-+	bool swap_dropbehind;
-+
- 	VM_BUG_ON_FOLIO(!folio_test_writeback(folio), folio);
- 
- 	/*
-@@ -1689,7 +1692,24 @@ void folio_end_writeback(struct folio *folio)
- 	 * reused before the folio_wake_bit().
- 	 */
- 	folio_get(folio);
-+
-+	/*
-+	 * zswap writeback folios are off-LRU, so we must prevent a racing
-+	 * swapin from removing the folio from the swap cache and keeping it
-+	 * off-LRU: the writeback flag allows that. Afterwards a swapin may win
-+	 * the race, but the folio is already queued and the worker puts it back
-+	 * on the LRU in that case.
-+	 */
-+	swap_dropbehind = folio_test_swapcache(folio) &&
-+			  folio_test_dropbehind(folio);
-+
- 	folio_end_writeback_no_dropbehind(folio);
-+
-+	if (swap_dropbehind) {
-+		zswap_writeback_dropbehind_folio(folio);
-+		return;
-+	}
-+
- 	folio_end_dropbehind(folio);
- 	folio_put(folio);
- }
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 3c494c5a671c..d185da85bb68 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -34,6 +34,7 @@
- #include <linux/writeback.h>
- #include <linux/pagemap.h>
- #include <linux/workqueue.h>
-+#include <linux/llist.h>
- #include <linux/list_lru.h>
- #include <linux/zsmalloc.h>
- 
-@@ -990,12 +991,39 @@ static void zswap_writeback_free_folio(struct folio *folio)
- 		goto out;
- 
- 	/* Raced: the folio is now owned by the swapin; put it back on the LRU. */
-+	folio_clear_dropbehind(folio);
- 	folio_add_lru(folio);
- out:
- 	folio_unlock(folio);
- 	folio_put(folio);
- }
- 
-+static DEFINE_PER_CPU(struct llist_head, zswap_dropbehind_llist);
-+
-+static void zswap_dropbehind_workfn(struct work_struct *work)
-+{
-+	struct llist_node *pos, *next;
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		pos = llist_del_all(per_cpu_ptr(&zswap_dropbehind_llist, cpu));
-+		llist_for_each_safe(pos, next, pos) {
-+			struct folio *folio = container_of((struct list_head *)pos,
-+							   struct folio, lru);
-+			zswap_writeback_free_folio(folio);
-+		}
-+	}
-+}
-+
-+static DECLARE_WORK(zswap_dropbehind_work, zswap_dropbehind_workfn);
-+
-+void zswap_writeback_dropbehind_folio(struct folio *folio)
-+{
-+	llist_add((struct llist_node *)&folio->lru,
-+		  this_cpu_ptr(&zswap_dropbehind_llist));
-+	schedule_work(&zswap_dropbehind_work);
-+}
-+
- /*
-  * Attempts to free an entry by adding a folio to the swap cache,
-  * decompressing the entry data into the folio, and issuing a
-@@ -1027,7 +1055,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 
- 	mpol = get_task_policy(current);
- 	folio = swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), NULL, mpol,
--				       NO_INTERLEAVE_INDEX, sync);
-+				       NO_INTERLEAVE_INDEX, true);
- 	put_swap_device(si);
- 
- 	/*
-@@ -1071,9 +1099,9 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	/* folio is up to date */
- 	folio_mark_uptodate(folio);
- 
--	/* move it to the tail of the inactive list after end_writeback */
-+	/* Free the folio once writeback completes; see folio_end_writeback(). */
- 	if (!sync)
--		folio_set_reclaim(folio);
-+		folio_set_dropbehind(folio);
- 
- 	/* start writeback */
- 	__swap_writepage(folio, NULL);
--- 
-2.53.0-Meta
+do_mount_setattr() (fs/namespace.c:4928) -> mount_setattr_prepare() has no
+security_* hook anywhere on its path, whereas mount(2), move_mount(2),
+umount(2), remount and pivot_root(2) all do (security_sb_mount,
+security_move_mount, security_sb_umount, security_sb_remount,
+security_sb_pivotroot). Landlock hooks exactly those five in
+security/landlock/fs.c (hook_sb_mount, hook_move_mount, hook_sb_umount,
+hook_sb_remount, hook_sb_pivotroot) but cannot see mount_setattr(2).
 
+Documentation/userspace-api/landlock.rst ("Filesystem topology
+modification") states that sandboxed threads cannot modify filesystem
+topology, but such a task can still, via mount_setattr(2):
+
+  1. Clear MOUNT_ATTR_RDONLY on a read-only (bind) mount and write through
+     it -- subverting the common ro-bind-mount confinement pattern.
+  2. Change mount propagation (shared/private/slave/unbindable).
+  3. Request MOUNT_ATTR_IDMAP changes (narrower in practice: gated by
+     can_idmap_mount()).
+
+This is a mediation/coverage gap, not a rule-evaluation bug: Landlock's
+filesystem access-rights checks still apply on top. The issue is that the
+ro-mount / propagation / idmap layer of a confinement -- which sandbox
+setups rely on -- is changeable despite the documented topology
+restriction. It affects every LSM, not just Landlock (SELinux, AppArmor
+and Smack cannot mediate mount_setattr(2) either).
+
+A self-contained unprivileged reproducer (userns+mountns, no external
+privilege) is available on request; I am not inlining it here. Its output,
+on 7.0.0-27-generic (host) and reproduced on 7.2.0-rc3 (QEMU guest,
+CONFIG_SECURITY_LANDLOCK=y):
+
+  [1] write via ro mount before Landlock: Read-only file system (expected)
+  [2] Landlock enforced (all fs accesses allowed via rule on /)
+  [3] mount(2) under Landlock: Operation not permitted (expected EPERM)
+  [4] mount_setattr(rw-flip) under Landlock: SUCCESS  <-- gap
+  [5] write via formerly-ro mount: SUCCEEDED  <-- confinement subverted
+
+mount(2) is correctly denied (step 3) while the equivalent attribute
+change via mount_setattr(2) succeeds (step 4) and makes the previously
+read-only tree writable (step 5).
+
+I could not find an existing LSM hook for this in v7.2-rc3. If this is a
+known and accepted limitation (the v30 Landlock series was synchronized
+with mount_setattr(2)), then documenting it in landlock.rst -- the
+"Filesystem topology modification" section currently names only mount(2)
+and pivot_root(2) -- would already help. Otherwise, the consistent fix
+would be to add a security_sb_mount_setattr() LSM hook in
+do_mount_setattr() and wire Landlock's topology denial to it, mirroring
+hook_sb_remount(). I am happy to prepare that patch (plus a
+tools/testing/selftests/landlock/ test) if you agree with the direction.
+
+Thanks,
+Vivek
