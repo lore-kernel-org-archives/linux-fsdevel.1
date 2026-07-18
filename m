@@ -1,37 +1,37 @@
 Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C62BCF45
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 15:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119B5301708
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 16:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784387978; cv=none; b=nc7NOHlmsuM+2pbl0vUmvXrSwJyKf0vqHwH7YsvXm7fTMFlTHICZSQiXQ4PDJxbOq2PmA/spXq6QYxHezFi9PvcxDSc+rpgSQNwFeEvbwBaNH1IgrSh6hs2sV/1wedLIAujZSRgx5ttwizfaV/bsyeoHcWhXivsKSZVir8GSGvg=
+	t=1784393798; cv=none; b=VF2apPop8beiuKr90P03g9EtcH5Cmat6kWwAkEAYLXl3UItKakJ9obBSZYZTn8qFuHIEHWBpoKbxUbrkDIfsWTYm1s7afttzkcsRvLx9JZ8DG2gpo7Ge8Z+OOYYnm7Nb9GKibvUto5e8BQfzNTMXeyB3ESKBQd6Fe0DZCbc1fpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784387978; c=relaxed/simple;
-	bh=nfoHQZKsSe7OTFV/EmQA6dHzUn7csK5Qmse/FwLKt24=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dKsS4f/iTHj1hw2voicEwO8l2yi1yYBWrrdL7GOECcVrR/OriK5O8L0iuq6riu7OKCpiqzNZYGNt2W/z5pM4tdkuPmDCR5kgA+nrROW8W9i+8hz2QWRoGVMXCE/JU6ajX0BQkkfSDE2eVj6sA1eRAYtPK8BkCOW23WhIRadeKPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=N7XXOgsA; arc=none smtp.client-ip=199.187.173.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me
+	s=arc-20240116; t=1784393798; c=relaxed/simple;
+	bh=+fArK0dWziI0yrfMHXJb8IO2dCKsIao0vXUWAy5DaHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dIuLjnlSVQvU44oa3XU4ITRK52MQ4lT8D6D32H1BKMlqGVJjs8Uk+Ee2rS/OQXVHXVo9wsr97HPCNhc5y8U5qj3lJ4nCF+9ijuUeNFWmhDHxAYl7jCVrEY2JGQ/rGw6uI7GELTuBzcvJ2XiuPsu/4mq1L+0VKhCeAxfjRZB8JqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=qUB4euoI; arc=none smtp.client-ip=199.187.173.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="N7XXOgsA"
+	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="qUB4euoI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=yahyatoubali.me; s=turbo-smtp; x=1784992775; h=Received:
+	d=yahyatoubali.me; s=turbo-smtp; x=1784998596; h=Received:
 	Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	Content-Transfer-Encoding:Feedback-Id; bh=mydz+hMWv4OPYB49xQz7uJ
-	aRhTr8PCzEcSJzgX4E7zY=; b=N7XXOgsAnGcV/icGiZH31vJDT9xKSgtfSdBfqc
-	2yFIbyeHzPwx8iH1XWOxZCpi9czpF89OeKUHBzBfY44zAS0TBg8EIZgSauvNQis+
-	TqBNdiepjFDff0Es0W5Sm3HvpJTEtidOLI01I/5JhBCRoHYeKy8m2TBEN+8+zR10
-	6Qgpc=
-Received: (qmail 2203270 invoked from network); 18 Jul 2026 15:19:34 -0000
-Received: from 105.76.9.106  by turbo-smtp.com with SMTP; 18 Jul 2026 15:19:33 -0000
-X-TurboSMTP-Tracking: 64-018cfb16-00001e63a84e6602c003-003-4288bd49
+	Content-Transfer-Encoding:Feedback-Id; bh=WMCwa85iHZ89ULQ/eQ5Z1T
+	+nFif5nAG0Mg+ADuS0HH4=; b=qUB4euoIWTgM+is0xRp7AgTbZ/Qnjmxrxk8ssY
+	9PWkfKoTXqY3AD4CCcJtpgADFfx5wSL5nJiBH09Q1SxXuAf1O+kKA5fk0d07meJ2
+	yx//BOigmgExpCrH4qyQGnRdHWVQjqwYp1CSnEd63Go87pLD5yGt505Qwg0k1FtX
+	ww4e8=
+Received: (qmail 2893877 invoked from network); 18 Jul 2026 16:56:34 -0000
+Received: from 197.145.178.94  by turbo-smtp.com with SMTP; 18 Jul 2026 16:56:33 -0000
+X-TurboSMTP-Tracking: 64-018cfb16-00001e63be8269c2e003-003-4288bd49
 From: Yahya Toubali <yahya@yahyatoubali.me>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org (open list:PROC FILESYSTEM), linux-fsdevel@vger.kernel.org (open list:PROC FILESYSTEM), linux-doc@vger.kernel.org (open list:DOCUMENTATION)
 Cc: Yahya Toubali <yahya@yahyatoubali.me>
-Subject: [PATCH 1/5] Documentation: proc: fix repeated word 'page'
-Date: Sat, 18 Jul 2026 16:19:07 +0100
-Message-ID: <20260718151913.1892547-1-yahya@yahyatoubali.me>
+Subject: [PATCH v3] Documentation: proc: fix repeated word 'page'
+Date: Sat, 18 Jul 2026 17:56:13 +0100
+Message-ID: <20260718165613.1923550-1-yahya@yahyatoubali.me>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -42,7 +42,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Feedback-Id: 26016534
 
-Remove duplicate 'page' in the large allocation accounting description.
+Remove the duplicate 'page' in the sentence describing large page
+allocation accounting. The extra word makes the description confusing.
 
 Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
 ---
@@ -62,6 +63,8 @@ index 2ccd5b2dfdd3..d22ac0addd42 100644
  is *maybe* mapped in a different process. In some cases, a large allocation
  might be treated as "maybe mapped by multiple processes" even though this
  is no longer the case.
+
+base-commit: 1229e2e57a5c2980ccd457b9b53ea0eed5a22ab3
 -- 
 2.55.0
 
