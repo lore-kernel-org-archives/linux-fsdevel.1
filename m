@@ -1,182 +1,102 @@
-Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBA4369D50;
-	Sat, 18 Jul 2026 19:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5752B388369;
+	Sat, 18 Jul 2026 19:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784401405; cv=none; b=STFqOHWqmCZlMOLoKbRDcID/LYh8q5PE4KoiIROJKtgrTTsEAZLswIU7GemGBZ3SzSmXXSQivf3PITkb2TILuIDWv+T/KtY4mW7JXiwJ+x9+031RIAADFRqxvCzDD/3lUhev6qSvnL9ytR9Y43nRBC23pb9ven2cWrstksFey58=
+	t=1784401452; cv=none; b=Pgr4GXr+NpL5YW5XX7BxvX2+WFmHc7bF0+ogjVDUoZSow0qnLzmAiV54Ozp9ry1d8QlIAZ4ww4r4yErGgCASJD3lxG68UfcUIlna5W7+EeAzJ4sNI9ofhKxPjjrcDDN79/eXvSozau2KMudwcEhLi+St4DF0ULpz6qFOSsE16Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784401405; c=relaxed/simple;
-	bh=zhYYvOhaho/7VgCq3WK6nUGsOlDKZXKgAJs8jB71zsw=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Il9h/J25mgPDdZWxxx7q3PSSh+e+IJwZpQ3bkMsnmEzhpGIRkn4UI6lNqoqXOqutnFc7SsUG0RsPkV99hf+fmSSgWfUtLdbC+Ow4qVXm5221rFqY/v9AA+1YTMAWQJKKnlWVpjB711JlqDAkr3EJIyV6aam+flWNefugnnmQFws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=LBLx6jl8; arc=none smtp.client-ip=79.135.106.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1784401452; c=relaxed/simple;
+	bh=hohx+eI3RcwxXoLSZqoWIj4P16yZPrh6y2UzTiiH+UI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aDwpXMO74kvxj1pySN2PtoOpeSZIPb4aUO3tRhTcitkyW5ni/Aja16rdxIzobxj5AsOb/KM/2+jg8cFUUb46AfdK73bHBwfxLgOyis4y+dsUsjsaY+MTKb1wdSOjYtgMPxXQjauxibJxTLvPfKg5l2SSveSEnAS23VNE4T9MULY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IS+5gGTr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="LBLx6jl8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1784401392; x=1784660592;
-	bh=0mMT9SlGMTbWgB8nWj8kf5WAsWksPyAGRgxPmE3iLwg=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=LBLx6jl82226ppSRX0g51UqTpWojt0T2dfC5llecoYy2UBWGHI1v61wXtaNbQaBUr
-	 3/zXUF7Bw3ERGaSqFmrZbN/jXXIigqdPsf+VLhTYzgpiqr25g7Doe1ltsvTC2pMSXg
-	 aQAYDDKEmh0NKDMzOJ1KC5JP1+o4RKWqPcoXD4SiEsWhd7d39uwV64GhXgjs1YqIWk
-	 pC8VkBj1OOMyEQCbrTVudBINaWZgep4lflxWGYLY0PX40bmxt2QWwlqIDkZxZgq5D0
-	 lh9Iw2vbvEd7s58bAKl+XCc36UBhePx5kYolHAX4OVKO6G2VVR8ntaA/sTHWobBKgK
-	 E3XQI8V5CY6sw==
-Date: Sat, 18 Jul 2026 19:03:07 +0000
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-From: YANXIN LI <fadouse@pm.me>
-Cc: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, security@kernel.org, stable@vger.kernel.org
-Subject: [PATCH] ufs: use u64 for directory size in ufs_last_byte
-Message-ID: <20260718190300.867109-1-fadouse@pm.me>
-Feedback-ID: 173252840:user:proton
-X-Pm-Message-ID: c098664789eca833834cd241e3972dfec92dd384
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IS+5gGTr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=8t4Zbx44suMzlTv0YaH9UaY61zMxooUh222VW4P6BJU=; b=IS+5gGTrpt4o2I3B15JFtcZjRl
+	Brw6bg1KM13vhfnkPvO6ZK5OwTSrRwMr8U40a1ceEAioBRarhjXNc+bGeaEFq22ft50FkkZY/mj/3
+	wcCLL6EaBThdeUUTf0Sx2bJwwpf2KdXBYGNNScMOpzbuN+4qwofZdc3byZLaanu6QQnhSubua09rg
+	ZPj2UoA1YgnO12Ee/kjxguOydb66mUsZ/gM2M01yf3Y99eI38YCYLIVg06qbGc9oMh6JaoDipRSlV
+	0V6ID1+nOomdOZMfUEODPmAiJtgKYjTcF2tUF/hWiWrZ5FqMHduGEqTOXmMkf8jQ0VBRHMGWVMUmL
+	ZGfrrOHw==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wlAKK-00000004T9y-35mh;
+	Sat, 18 Jul 2026 19:03:56 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Kees Cook <kees@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] sysctl: repair some kernel-doc comments
+Date: Sat, 18 Jul 2026 12:03:56 -0700
+Message-ID: <20260718190356.1892992-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------e5c151bfc3db30c68330db426ce0f9a46ad89cda13042ea907b012f059cd9061"; charset=utf-8
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------e5c151bfc3db30c68330db426ce0f9a46ad89cda13042ea907b012f059cd9061
-Content-Type: multipart/mixed;
- boundary=0fafd488aa6eda8a14572b502f6c93bf8243223ced30784f759ab26816d2
-From: YANXIN LI <fadouse@pm.me>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	security@kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ufs: use u64 for directory size in ufs_last_byte
-Date: Sun, 19 Jul 2026 03:03:00 +0800
-Message-ID: <20260718190300.867109-1-fadouse@pm.me>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
-
---0fafd488aa6eda8a14572b502f6c93bf8243223ced30784f759ab26816d2
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-ufs1_read_inode() and ufs2_read_inode() copy the untrusted 64-bit
-on-disk size into inode->i_size.  ufs_last_byte() then truncates that
-value to an unsigned int before calculating the valid extent of a
-directory folio.
+Convert a non-kernel-comment to use "/*" instead.
+Don't use kernel-doc for the nested @type enum values since they
+aren't part of the struct.
 
-A directory size of exactly 4 GiB is truncated to zero.  In
-ufs_find_entry(), subtracting the requested record length from that zero
-forms an endpoint almost 4 GiB beyond the mapped folio.  A crafted UFS2
-image produces:
+Warning: ./include/linux/sysctl.h:62 Cannot find identifier on line:
+ *
+Warning: ./include/linux/sysctl.h:63 Cannot find identifier on line:
+ * "dir" originates from read_iter (dir = 0) or write_iter (dir = 1)
+Warning: ./include/linux/sysctl.h:64 This comment starts with '/**', but isn't a kernel-doc comment.
+ * in the file_operations struct at proc/proc_sysctl.c. Its value means
+Warning: ./include/linux/sysctl.h:274 Excess struct member
+  'type.SYSCTL_TABLE_TYPE_DEFAULT' description in 'ctl_table_header'
+Warning: ./include/linux/sysctl.h:274 Excess struct member
+  'type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY' description in 'ctl_table_header'
 
-  BUG: KASAN: use-after-free in ufs_find_entry+0x583/0x6e0 [ufs]
-  Read of size 1
-  ...
-  ufs_find_entry
-  ufs_inode_by_name
-  ufs_lookup
-  __lookup_slow
-  path_lookupat
+Note: This still leaves 7 struct members in ctl_table_header that
+are not described. E.g.:
+Warning: include/linux/sysctl.h:274 struct member 'unregistering' not described in 'ctl_table_header'
+Warning: include/linux/sysctl.h:274 struct member 'ctl_table_arg' not described in 'ctl_table_header'
 
-The KASAN classification reflects that the adjacent physical page was
-free; the source-level operation is an out-of-folio read.  A controlled
-UFS1 test with CONFIG_UFS_FS_WRITE enabled also made ufs_find_entry()
-return a directory entry from an adjacent anonymous page.  unlink() then
-passed that pointer to ufs_delete_entry(), which cleared the adjacent
-page's 3
-2-bit d_ino.  This write result reproduced three out of three
-times.
-
-UFS normally requires a privileged mount path.  A relevant boundary is
-a privileged automounter or image-processing service handling an
-attacker-supplied filesystem.  The write primitive additionally requires
-UFS1 to be mounted read-write with CONFIG_UFS_FS_WRITE enabled; the read
-is reachable with read-only UFS2.
-
-Keep the intermediate size arithmetic at 64 bits so non-final pages are
-bounded at PAGE_SIZE.  With this change, the same controlled tests reach
-the real on-disk directory entry and produce no adjacent-page write or
-KASAN report.  A reproducer and full validation logs are available on
-request.
-
-The vulnerable helper is present in v7.2-rc3, v7.1, v6.18.38, v6.12.95,
-v6.6.111, and upstream master at 1229e2e57a5c.  Runtime reproduction and
-fix validation were performed in an x86-64 QEMU guest running v7.2-rc3
-with generic KASAN.
-
-Fixes: b71034e5e67d ("[PATCH] ufs: directory and page cache:
- from blocks to pages")
-Cc: stable@vger.kernel.org
-Signed-off-by: YANXIN LI <fadouse@pm.me>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- fs/ufs/dir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cc: Kees Cook <kees@kernel.org>
+Cc: Joel Granados <joel.granados@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
 
-diff --git a/fs/ufs/dir.c b/fs/ufs/dir.c
-index e62fe5667..69e6d5535 100644
---- a/fs/ufs/dir.c
-+++ b/fs/ufs/dir.c
-@@ -213,7 +213,7 @@ static void *ufs_get_folio(struct inode *dir, unsigned long n,
- static unsigned
- ufs_last_byte(struct inode *inode, unsigned long page_nr)
- {
--	unsigned last_byte = inode->i_size;
-+	u64 last_byte = inode->i_size;
+ include/linux/sysctl.h |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+--- linux-next-20260717.orig/include/linux/sysctl.h
++++ linux-next-20260717/include/linux/sysctl.h
+@@ -59,7 +59,7 @@ extern const int sysctl_vals[];
+ #define SYSCTL_LONG_ONE		((void *)&sysctl_long_vals[1])
+ #define SYSCTL_LONG_MAX		((void *)&sysctl_long_vals[2])
  
- 	last_byte -= page_nr << PAGE_SHIFT;
- 	if (last_byte > PAGE_SIZE)
-
-base-commit: 1229e2e57a5c2980ccd457b9b53ea0eed5a22ab3
--- 
-2.54.0
-
-
---0fafd488aa6eda8a14572b502f6c93bf8243223ced30784f759ab26816d2
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - fadouse@pm.me -
- 0x99485AA3.asc"; name="publickey - fadouse@pm.me - 0x99485AA3.asc"
-Content-Type: application/pgp-keys; filename="publickey - fadouse@pm.me -
- 0x99485AA3.asc"; name="publickey - fadouse@pm.me - 0x99485AA3.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYVV1T01SWUpLd1lCQkFIYVJ3
-OEJBUWRBdG5ZbFN6SFRMSEEySXp1TkUxQXk4SnJLVUN4NmhQKy90YzRMCkRYQ25yZXpOSFdaaFpH
-OTFjMlZBY0cwdWJXVWdQR1poWkc5MWMyVkFjRzB1YldVK3dzQVJCQk1XQ2dDREJZSnAKUzQ0eEF3
-c0pCd2tRdVoxZ3QrWG0yWFJGRkFBQUFBQUFIQUFnYzJGc2RFQnViM1JoZEdsdmJuTXViM0JsYm5C
-bgpjR3B6TG05eVp6bTBCcDNlRVhSV2tuSWdDbFd3dmR4Wm1vMVhuVmI2RmthalhUVk0xQi9qQXhV
-S0NBUVdBQUlCCkFoa0JBcHNEQWg0QkZpRUVtVWhhbzNaL0FuQkk0TEJZdVoxZ3QrWG0yWFFBQUxx
-MkFRRDc4SzZwZWRTWDNsZE4KeXFkM09IMXVNak8zdjdMWU1oTytsN2NuU0xXckVBRCtPQ1NxMTFT
-ZWFLb2JzVkdyTGVqVE1zbU1zUEI4am54ZgppZDNoQ04rcGV3VE9PQVJwUzQ0eEVnb3JCZ0VFQVpk
-VkFRVUJBUWRBd1hkelZJcUVIL3g4SFpqUi9QT3QyQWlGCmJFbTZZcVhYMmoydjJpS0RzUU1EQVFn
-SHdyNEVHQllLQUhBRmdtbExqakVKRUxtZFlMZmw1dGwwUlJRQUFBQUEKQUJ3QUlITmhiSFJBYm05
-MFlYUnBiMjV6TG05d1pXNXdaM0JxY3k1dmNtZGRLTlFZREZXY0VWZDN4T0hlUXA2cwp5bjc5TkZw
-TnFrSHoraXpwSUxCblVnS2JEQlloQkpsSVdxTjJmd0p3U09Dd1dMbWRZTGZsNXRsMEFBRHpRZ0Qv
-CmNJSjA4OUprbm9nVHM2dnZRWitKM0xSSURhSTkrUW0rVDVxT21OazR5WEVCQUxQSWxKQ1M4YWg1
-ZEJZWmE5TCsKSHFqYkRtZVNnRG81OHVTeCtpV3crNlVMCj1NdXNUCi0tLS0tRU5EIFBHUCBQVUJM
-SUMgS0VZIEJMT0NLLS0tLS0=
---0fafd488aa6eda8a14572b502f6c93bf8243223ced30784f759ab26816d2--
-
---------e5c151bfc3db30c68330db426ce0f9a46ad89cda13042ea907b012f059cd9061
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0FgmpbzekJELmdYLfl5tl0NRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmex002270kdeI29v4hUlShPFiEEmUhao3Z/AnBI
-4LBYuZ1gt+Xm2XQAAK/DAP9K7aa07ZVJFLrZa/xic+EAGWzsYQli8Y7eih0+
-qA29pwEAw/2jiAm3nvdLkkJUhf6mZQDxfb8mN6JZUrZis/7Qkws=
-=WP5q
------END PGP SIGNATURE-----
-
-
---------e5c151bfc3db30c68330db426ce0f9a46ad89cda13042ea907b012f059cd9061--
-
+-/**
++/*
+  *
+  * "dir" originates from read_iter (dir = 0) or write_iter (dir = 1)
+  * in the file_operations struct at proc/proc_sysctl.c. Its value means
+@@ -245,9 +245,9 @@ struct ctl_node {
+  * @nreg: When nreg drops to 0 the ctl_table_header will be unregistered.
+  * @rcu: Delays the freeing of the inode. Introduced with "unfuck proc_sysctl ->d_compare()"
+  *
+- * @type: Enumeration to differentiate between ctl target types
+- * @type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considerations
+- * @type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently empty dir
++ * @type: Enumeration to differentiate between ctl target types:
++ * type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considerations
++ * type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently empty dir
+  *                                            target to serve as a mount point
+  */
+ struct ctl_table_header {
