@@ -1,248 +1,180 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D0035674A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 19:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A9929D265
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 19:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784402161; cv=none; b=KxNNqA/q8ERFtdrC/DkNHFEYRXquYhsOiN5DuRrW6xt4tjVWewX/q10lFh3XAvneIogTZ6l08ktcNh2yxGYvX3dJPlBPURSuhVsKZhVF01aarAP2+v+uerU501qNMghcEj4rmS9G+JIRaymzMaai1wLJV1K6DzKlzG5OOiyBxec=
+	t=1784403596; cv=none; b=lhOyQec39B4sU9dgFM9GNaPXr/NNZwTJIeOUVv7n1vPCK2pVFf/utUcIBSwXVnyLsVO0FuGWUV63Yv2Jf1+fFw2HHySyrKjStH+sYV3ABZOUUE7KQkjSQ9d/YTwFzOwyW6E1TlieqLnPg/Z0ROLjY3oP0m7TSc9UKgYfXV8YDs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784402161; c=relaxed/simple;
-	bh=JaIyalHpyLApnPkNPXoy+faaGxYp0kiUgkaXuqNN+a8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kI0TzRyaLF/cfa7AFRaiHR0SWPUygdlNm/vYTorTO69fV4eGo6tQcbmWK1db6ErBIPpR07pNBRZMtfHGFQTIj3MWJaxZSNgU8d6dr26bLgVSjGRgLhh4H6FNfmMuBAvZiROZbvstYN55qNqi53uxU9d6S5/i90zYWP0ns77IW5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jQS5coay; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784403596; c=relaxed/simple;
+	bh=6HZvEfa/Gg3qLeLXrnqD8wi1HgmNRFlhLvjoQECOQhE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wbf8K7wl6NYK8jnHW/FlvxJY7qKInTJFQHidVhEMMCMT6mJB6ZhjLs1biI2ucolhNkGuwdQsYCnAX4Md+wZGMNJ2yrK5br9Oz8UOroIqVAZZwhilEADMqwCP1OlGelGSWvuSy8gUyKcPeQMpODB8s9DPu/yOWLRO1TIQ4Oi0j/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irAMvTFd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jQS5coay"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so8036945e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 12:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784402158; x=1785006958; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=n/RuzzR56AKowWPeBaHkPa2me5UyA+I6b2NoNXGG3tc=;
-        b=jQS5coaylvMHpThtcAzmeg8WaIdOmTmVY+x9jWSw9pcTbiz4O90Yi65DXiU8GNKXQV
-         +JrkUat+l5x7hMF7xdd9I7UB7iPYo2cXi41bRrW6fVM6MjJQdHA95H14fKJ1u3kqz9/k
-         415Ou+UdgXp9nByzJvn2nawDVLvpOQ/w8shuZD3wJEwBGM0t81pfpgI4IhpnpfgHkFpm
-         hT2jdlxtPi+SFUwpe5o/Ax1ycItQGORx+upKo28n1u5VOTEiIwGAUvnPt2lXwqbwcRIm
-         y03I+YBm//LsWtcuyExi+eCF+vP56e6NfvLEuYolrodRrxmFrEV8mH1P/a3DChoAbi84
-         MIGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784402158; x=1785006958;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=n/RuzzR56AKowWPeBaHkPa2me5UyA+I6b2NoNXGG3tc=;
-        b=XufVT92fghmhbweV9uEPVrf1m6fDl3ElKlLhDKNzUvXKZAsDL/N0Ako/Q4GJZn9Tmk
-         JT1qgbXInkr4WxVe715Adqx2KaViTMeH5jgVkLTRreqiDvGU4nG0jiH/LEFMwG0+hZa2
-         fnlJ3iYRgbKq7/xnJ26UEPhWULmejqQPDrAQlU2diNG2bly5IH+jNNIODoENs6hX8bAY
-         RtshgJ9juISOYjBwR/2f2Sb/VhWUMLR5XZRrBJ6p22eQmFWHDV5bGb4iYW1/kWkC2+ni
-         PY53+pWzJBsfLTx9v3y38rAQGrHoym8HEouW9KNEV1vbTItzZuw8wAgMelmfa8CuX/L0
-         Db7A==
-X-Forwarded-Encrypted: i=1; AHgh+RoFJijEgro020H5x3GyvMSq3bzB1u+Bu09JukR0y4OFrq3N9s84b6b9Sc3WTHCyflGMQ7vhRTdPe4Rm1fOx@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDA7FgefCUEFPdR/DWS6Azf2p9GRVVgNIp5dW61bgZk3mE5IOo
-	RX+pRSnAzCblGVzLsSOdVVQTDMt7KuzoRwVi4E2HT3Ed+7xdnEZTeJ64
-X-Gm-Gg: AfdE7cn/P+x1e9N7dpKuRykdtyyujPaQgN6tFIyG5lg95FI4PRnW+EXl1YU91rdL2SP
-	zgANYcocFs0t8CX9zR7ESzvx2rd/qrNW5ZEVW5baIlYSeE5awOnuVhXEjG0qehC+uUdMFR61Fmx
-	e5ga640viKhoEP1dObFtJtrosiAgJUGMlW7itUHQAeLzxQUjWo8/5baVH5bgTl4FVjCSLgm135N
-	fsO6Z1S8nKw+3ro+rraMWhiKBRpw/ytZFyi3Xf4yeWQr7eA3norrR5m3Kmu0mUVupa2yFnw/kNN
-	kpMCxb1+n6gbEZt67qkn6uu69BblgqasxkeGPVckAYG7EEKpaTDxaH0QsBSVrG/VHFTlylbYhaP
-	EQWAs01A2GTISzl5x2FsFUuj2r6Og/P8DNlJk7iPqJrntKtEJjGyenp1imHwCUQiLpNHEdNTBhq
-	Oif8regw==
-X-Received: by 2002:a05:600c:4e8b:b0:495:501a:fcf8 with SMTP id 5b1f17b1804b1-495501afdc8mr41543145e9.9.1784402157300;
-        Sat, 18 Jul 2026 12:15:57 -0700 (PDT)
-Received: from spark.Home ([2001:8a0:7280:4000:c2b:a5ab:a31c:e0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2e8529sm140037005e9.11.2026.07.18.12.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 12:15:56 -0700 (PDT)
-From: Eric Curtin <ericcurtin17@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y . Ts'o" <tytso@mit.edu>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	fsverity@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eric Curtin <ericcurtin17@gmail.com>
-Subject: [RFC PATCH 2/2] init: support pinning the root image's fsverity digest
-Date: Sat, 18 Jul 2026 20:15:51 +0100
-Message-ID: <20260718191551.1703670-3-ericcurtin17@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260718191551.1703670-1-ericcurtin17@gmail.com>
-References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irAMvTFd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60E31F00A3E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 19:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784403594;
+	bh=wnjvK5TogWv++ZaSJX8JOOWJ2YLUTBtBygq2xMyDmVY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=irAMvTFdoFcWBxEYRqUVJ8XuL60OzDQA4E/tLc87ray6p7SGrW5aZgT/5U0x4yTQ4
+	 JllVRuKkq1HwAlfgjdnRPCyK/BQ7uCkjOW3tU45xvYzlB+rNbSlHh1TXBrMe6ZrEHq
+	 Yf0Lt6Ec4YPRN2yoQYVt15Ikn3o22SxXh0KoBg8KEArmWloJ7uevrzoM7lwU+oo+L9
+	 cTSZsJM2EfVwG/okgH2V2EGOEQXTHlefKd2m7DF0tfehh5HaQ3GqgF6T+XzKrRn6x7
+	 72pL1QeG257yNbFOKwvF9SyDPEOmITzq2GLuYlKFsHf7w6NbNH79OehB85sJWuT3qy
+	 t53Hd6ArelP6g==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39c7ac9b8c3so51521441fa.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Jul 2026 12:39:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqI7TmHm+7By1ZRs2YWbdZQmsIX0d+BpODAKtTFG6AS+9xmvvYY4YqrnhV3arG94uLxuApA8jogEbasArUp@vger.kernel.org
+X-Gm-Message-State: AOJu0YysD2CzaikO+vxETAwm/3mWjN9Nd9U0O0PrR9AW+byxFgRW8yjs
+	RmgDLLIC3bTRSu/MpaVXZ82SmPhyyfZNLR9ZoTHbgHYDvattV8N7UgU5lgBNc9RpsjZD6PjM5Kt
+	mn2v+mK6zRg2hueB16mxz/fyvKJwL0ggE6PONvOFE
+X-Received: by 2002:a05:6512:318c:b0:5ae:b7d4:7dd7 with SMTP id
+ 2adb3069b0e04-5b28f879e58mr1729092e87.24.1784403593038; Sat, 18 Jul 2026
+ 12:39:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner> <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+ <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner> <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
+In-Reply-To: <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Sat, 18 Jul 2026 12:39:39 -0700
+X-Gmail-Original-Message-ID: <CALCETrVjDtBmB+boCUgd069UpZGUB1TCbEn3k1HZQex-_dPgbQ@mail.gmail.com>
+X-Gm-Features: AUfX_mwi8E7EX3ucsAKoGp35lnBZlX3ZZXeZYq3-vf-ZNEwzMurGVJdsjLAABDE
+Message-ID: <CALCETrVjDtBmB+boCUgd069UpZGUB1TCbEn3k1HZQex-_dPgbQ@mail.gmail.com>
+Subject: Re: [RFC] Null Namespaces
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, Jann Horn <jannh@google.com>, 
+	John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When the root filesystem is mounted from an image file with rootimage=,
-the carrier filesystem holding the image is typically writable and
-therefore untrusted.  Systems that seal their root images with fsverity
-currently need an initramfs for the sole purpose of checking that the
-image carries the expected fsverity digest before mounting it.
+On Mon, Jul 6, 2026 at 8:31=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> On Thu, Jul 02, 2026 at 11:34:01AM +0200, Christian Brauner wrote:
+> > On Mon, Jun 29, 2026 at 02:06:55PM -0700, Andy Lutomirski wrote:
+> > > On Mon, Jun 29, 2026 at 4:45=E2=80=AFAM Christian Brauner <brauner@ke=
+rnel.org> wrote:
+> > > >
+> > >
+> > > > But I guess the even simpler model would be to copy what I've been =
+doing
+> > > > for pidfs:
+> > > >
+> > > > +static struct path nullfs_root_path =3D {};
+> > > > +
+> > > > +void nullfs_get_root(struct path *path)
+> > > > +{
+> > > > +       *path =3D nullfs_root_path;
+> > > > +       path_get(path);
+> > > > +}
+> > > > +
+> > > >  static void __init init_mount_tree(void)
+> > > >  {
+> > > >         struct vfsmount *mnt, *nullfs_mnt;
+> > > > @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
+> > > >         /* Mount mutable rootfs on top of nullfs. */
+> > > >         root.mnt                =3D nullfs_mnt;
+> > > >         root.dentry             =3D nullfs_mnt->mnt_root;
+> > > > +       nullfs_root_path.mnt    =3D nullfs_mnt;
+> > > > +       pidfs_root_path.dentry  =3D nullfs_mnt->mnt_root;
+> > > >
+> > > >         LOCK_MOUNT_EXACT(mp, &root);
+> > > >         if (unlikely(IS_ERR(mp.parent)))
+> > > > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.=
+h
+> > > > index aadfbf6e0cb3..f55c87c70b78 100644
+> > > > --- a/include/uapi/linux/fcntl.h
+> > > > +++ b/include/uapi/linux/fcntl.h
+> > > > @@ -124,6 +124,7 @@ struct delegation {
+> > > >
+> > > >  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs=
+ filesystem */
+> > > >  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs =
+filesystem */
+> > > > +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullf=
+s filesystem */
+> > > >  #define FD_INVALID                     -10009 /* Invalid file desc=
+riptor: -10000 - EBADF =3D -10009 */
+> > > >
+> > > >  /* Generic flags for the *at(2) family of syscalls. */
+> > > >
+> > > > we then add fchroot() (overdue anyway) and then teach both fchdir()=
+ and
+> > > > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs s=
+tate
+> > > > and move itself into nullfs. Restrict *chdir() and *chroot() for sa=
+id
+> > > > process via seccomp and it's locked in forever as well.
+> > > >
+> > >
+> > > One thing comes to mind that might need a bit of care: this would giv=
+e
+> > > an API for any task to get an fd to a directory that lives in the ini=
+t
+> > > mount namespace.  It's not at all obvious to me that this is dangerou=
+s
+> > > or even observable (you're not about to find a setuid program in
+> > > nullfs), but I think it's at least worth a tiny bit of consideration.
+> >
+> > Yes, I thought about this as well. But it doesn't have to be this way.
+> > Every mount namespaces has nullfs as it's root ever since I introduced
+> > it. Which means FD_NULLFS_ROOT can also just mean "nullfs within that
+> > specific mount namespace". That's fine.
+> >
+> > For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
+> > SB_KERNMOUNT which means it's logically distinct from every mount
+> > namespace. I think that might be the right thing to do. I need to spend
+> > one or more brain cycles on this though.
+>
+> I had to take a long drive on Sunday and I kept thinking about both
+> FD_NULLFS_ROOT and FD_FAILFS_ROOT and ofc there are some things to
+> consider/discuss.
+>
+> I think the straightforward solution to FD_NULLFS_ROOT would be to just:
+>
+> - make it always available
+> - refer to the caller's mount namespace nullfs
+> - work with fchroot()/fchdir()
+>
+> So I considered two chroot() use-cases for the sake of simplicity:
+>
+> (1) You want to isolate yourself for the sake of lookup
+>
+> (2) You want to isolate yourself to assemble a "private mount tree" but
+>     not really be in a separate namespace (very odd use-case... but it
+>     helps to make a point).
+>
+> The problem with this approach is that everyone who chroots into the
+> nullfs root would suffer from the problem that any mount on top of it is
+> still visible. So that kinda makes it pointless for both (1) and (2).
+>
+> Also all mounts that someone else would do would also be visible
+> allowing multiple chroot()ers to affect each others state. That also
+> would somewhat defeat the purpose of the chroot(). So I'm not convinced
+> this is what we should do.
+>
 
-Add rootimageverity=<hash algorithm>:<hex digest>, which requires the
-rootimage= file to have fsverity enabled with exactly this file digest
-and fails the boot otherwise, using the same fsverity_get_digest()
-interface that IMA and overlayfs already use for digest pinning.
+After some contemplation and a long place flight: are we talking about
+nullfs or failfs?  Because I would expect that it's entirely
+impossible to mount anything on top of failfs.  So failfs would be
+useless for #2 but would still solve #1.
 
-Combined with a trusted kernel command line (e.g. a signed unified
-kernel image, or a TPM-measured bootloader configuration), this extends
-the chain of trust to every byte of the root filesystem without any
-userspace boot stage: the digest pins the image's Merkle tree, and
-fsverity keeps verifying all data read from the image against it at
-runtime, so post-boot tampering with the carrier filesystem is detected
-as well.  It is the file-backed counterpart of setting up a dm-verity
-target for a partition-backed root via dm-mod.create=.
-
-Verification is done on the file the kernel is about to mount: it is
-opened before mounting (which also loads the fsverity information) and
-kept open across the mount, and no userspace exists yet that could race
-a replacement in between.
-
-Assisted-by: opencode:claude-fable-5
-Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
----
- .../admin-guide/kernel-parameters.txt         | 13 ++++
- init/do_mounts.c                              | 63 +++++++++++++++++++
- 2 files changed, 76 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5dbd56098..105ebb171 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6728,6 +6728,19 @@ Kernel parameters
- 			root=) is moved to, instead of detaching it.  Used
- 			together with rootimage=.
- 
-+	rootimageverity= [KNL] Require the root image specified by
-+			rootimage= to have fsverity enabled with this file
-+			digest, given as <hash algorithm>:<hex digest>,
-+			e.g. sha256:dd1b3fa9...  The boot is aborted if the
-+			image carries no or a different fsverity digest.
-+			Because fsverity keeps verifying data read from the
-+			image against its Merkle tree at runtime, a trusted
-+			(e.g. signed or TPM-measured) kernel command line
-+			extends the chain of trust to the complete root
-+			filesystem contents without an initramfs.  Requires
-+			CONFIG_FS_VERITY and a carrier filesystem with
-+			fsverity support.
-+
- 	rootwait	[KNL] Wait (indefinitely) for root device to show up.
- 			Useful for devices that are detected asynchronously
- 			(e.g. USB and MMC devices).
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 1b96ef30b..4eb792b27 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -24,6 +24,9 @@
- #include <linux/nfs_fs_sb.h>
- #include <linux/nfs_mount.h>
- #include <linux/raid/detect.h>
-+#include <linux/fsverity.h>
-+#include <linux/hex.h>
-+#include <crypto/hash_info.h>
- #include <uapi/linux/mount.h>
- 
- #include "do_mounts.h"
-@@ -155,10 +158,18 @@ static int __init root_image_srcdir_setup(char *str)
- 	return 1;
- }
- 
-+static char * __initdata root_image_verity;
-+static int __init root_image_verity_setup(char *str)
-+{
-+	root_image_verity = str;
-+	return 1;
-+}
-+
- __setup("rootimage=", root_image_setup);
- __setup("rootimagefstype=", root_image_fs_names_setup);
- __setup("rootimageflags=", root_image_data_setup);
- __setup("rootimagesrcdir=", root_image_srcdir_setup);
-+__setup("rootimageverity=", root_image_verity_setup);
- 
- /* This can return zero length strings. Caller should check */
- static int __init split_fs_names(char *page, size_t size, char *names)
-@@ -442,6 +453,55 @@ void __init mount_root(char *root_device_name)
- 	}
- }
- 
-+#ifdef CONFIG_FS_VERITY
-+/*
-+ * Require the root image to carry the fsverity file digest given by
-+ * rootimageverity=<hash algorithm>:<hex digest>.  @file must have been
-+ * opened so that its fsverity information is loaded.  Any deviation
-+ * fails the boot: with a trusted command line this pins the complete
-+ * image contents, which fsverity keeps verifying against the image's
-+ * Merkle tree as they are read.
-+ */
-+static void __init verify_root_image(struct file *file)
-+{
-+	u8 want[FS_VERITY_MAX_DIGEST_SIZE], got[FS_VERITY_MAX_DIGEST_SIZE];
-+	enum hash_algo want_algo, got_algo;
-+	int want_size, got_size, i;
-+	char *hex;
-+
-+	hex = strchr(root_image_verity, ':');
-+	if (!hex)
-+		panic("VFS: rootimageverity= expects <algorithm>:<hex digest>");
-+	*hex++ = '\0';
-+	i = match_string(hash_algo_name, HASH_ALGO__LAST, root_image_verity);
-+	if (i < 0)
-+		panic("VFS: rootimageverity=: unknown hash algorithm \"%s\"",
-+		      root_image_verity);
-+	want_algo = i;
-+	want_size = hash_digest_size[want_algo];
-+	if (strlen(hex) != 2 * want_size || hex2bin(want, hex, want_size))
-+		panic("VFS: rootimageverity=: expected %d-byte hex digest",
-+		      want_size);
-+
-+	got_size = fsverity_get_digest(file_inode(file), got, NULL, &got_algo);
-+	if (!got_size)
-+		panic("VFS: root image does not have fsverity enabled");
-+	if (got_algo != want_algo || got_size != want_size ||
-+	    memcmp(want, got, want_size))
-+		panic("VFS: root image fsverity digest mismatch: expected %s:%*phN, got %s:%*phN",
-+		      hash_algo_name[want_algo], want_size, want,
-+		      hash_algo_name[got_algo], got_size, got);
-+
-+	pr_info("VFS: verified root image fsverity digest %s:%*phN\n",
-+		hash_algo_name[want_algo], want_size, want);
-+}
-+#else /* !CONFIG_FS_VERITY */
-+static void __init verify_root_image(struct file *file)
-+{
-+	panic("VFS: rootimageverity= requires CONFIG_FS_VERITY");
-+}
-+#endif /* !CONFIG_FS_VERITY */
-+
- /*
-  * Mount the actual root filesystem from the image file rootimage= on the
-  * filesystem that was just mounted from root= (the "carrier"), so that
-@@ -481,6 +541,9 @@ static void __init mount_root_image(void)
- 		panic("VFS: unable to open root image %s: error %ld",
- 		      root_image, PTR_ERR(file));
- 
-+	if (root_image_verity)
-+		verify_root_image(file);
-+
- 	err = init_mkdir("/image", 0700);
- 	if (err < 0 && err != -EEXIST)
- 		panic("VFS: unable to create /image: error %d", err);
--- 
-2.43.0
-
+--Andy
