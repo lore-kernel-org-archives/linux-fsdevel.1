@@ -1,71 +1,146 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94579261B9B
-	for <linux-fsdevel@vger.kernel.org>; Sun, 19 Jul 2026 14:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784469848; cv=none; b=OJ2XP6ybS3Mqe4dwYkpbWL5CDl9o8Ug6sORqZshmk3LDK+NaAAADhrPx0NDbBgtP4izCJfZR0vTux1MolrPNYvFgOHZZ5uoIawbVxT7rTw0si4WAfhzvGduEfBQC/gXw4U0TO0I0vaBidYuCTOGoez0rmNKiqQyBE+xk751hOLw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784469848; c=relaxed/simple;
-	bh=osyROd93POfyOOAZk4u5xr6vi8R3kY/gxQkaNFM3o1Y=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xhup33yLILckF6281Icb1VT0j8uKgkuHxQGon0SF7XlPIjddXWRrsyctif6qTWLE/yZFK97bJytmwBo0WC/dFpeyhJpbG8lkp4qIqb5YiGmCnL3/j0iSPCOatD1RleWhR977oct1HCjcI78sc366TPu9nbxIReM6eYW3cTZDuPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=pED9gOSP; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A53F3655CD
+	for <linux-fsdevel@vger.kernel.org>; Sun, 19 Jul 2026 14:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784470378; cv=pass; b=kfDQrtjcfLayGb1TCxcmd8jYQAWiKF3FxYl6feQWwm3lrRZtNWxidSdLogQNxN2v5VZSDEQ9WSWoU+L4PqW8N8BbInLArP9sjHSoqeYEyopdW0ehVyAUYD0paj1GsE91Czv37LE8ePBbZt+GHkSJUzp4EWBh5N4ItrrGn1xcnj0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784470378; c=relaxed/simple;
+	bh=Gf39QtDs1NJUG97yBMAnk9ZJwy/ZHg7aeBsaEUjF3/g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QH9nIWSifTVJrUe0pDAWXy8UstfPxzoycrxPIwsMxR3YWDBJ3VL52UN0/ohBcHRYx1f8xDN9tosGS4kuFfhVwkbQvwBhWE9xAqK6V9ZzuNXIMvpkbNe2t6aZp/KDHibAW8hkOoJNDh7zqKkcE8mEhN8rUHzcBae7C9MVBtorWPo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=d9wy5ZKV; arc=pass smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="pED9gOSP"
-Received: from macsyma.thunk.org (pool-108-49-65-18.bstnma.fios.verizon.net [108.49.65.18])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66JE3lWQ014013
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 19 Jul 2026 10:03:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1784469831; bh=5olBAkXzioxEkCEOsftyBbRRLWd9ApMth+0d0VfGEHw=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=pED9gOSP1QKoQVD6ADUgX/OCS5TnuUDrWwaLzmUiHH7FXcSVE9lydv2ROq4LJMk5n
-	 qBLxIUWhTBY8aAUtNYyq7E9T5t+Glsejwt60+TQ0VFeFw1/anPyFu7INY5hHA73TC9
-	 VK1ZD4Swn+ISkNYKlIlhHqcPlxSpRw59tI7uVz05KeVzmo4C2U/ZiYFfz1wkcPwU3E
-	 I3fHinWAfWJiAZPTlu6BceqWyD4BrkSXpip1Qxt79Mxh/ZMVAZQOtRW3iKgdDnKi7K
-	 KYlp12ff6DOtvVwc0BpCZtW9AF+J/GpfcqlD+cRYoWEMjRYThmjXxy2OKusDFSAoYH
-	 kMJ2Kt+X9tAfg==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 6F012ACB2F4; Sun, 19 Jul 2026 10:02:47 -0400 (EDT)
-Date: Sun, 19 Jul 2026 10:02:47 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-        "fstests@vger.kernel.org" <fstests@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "slava@dubeyko.com" <slava@dubeyko.com>
-Subject: Re: Should we consider disable generic/563 for file systems that do
- not support cgroup2?
-Message-ID: <alzYSGVz86d7wDXn@mit.edu>
-References: <ff1c0710cbb31f8ebf51457c0629a496ea6f658e.camel@ibm.com>
- <alpUADtQccA2zmWh@zlang-mailbox>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="d9wy5ZKV"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b01146b205so6898016e87.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 19 Jul 2026 07:12:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784470375; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Zp0VYoqRcxL4xVG7yUTyQ0TQXVpvyEifO0m7JBxRJwC2V4b9A8VP6ttvmWACSnBIbg
+         Z7Ou7oXE6xDScABUI3DsDJJ1i6JtRRtPso3o+Pspt/gz3bhNnWV0PsLVehvjlDOIHnhX
+         AVN+s6Wxb5pgUtS/teE4oXehLygFlsWbY8nwkaTWz9FbXJEJhKuqOjO9TnZ80B8JVIZp
+         uYjfstayA53fhcNAUUNeBkikJFlAhPhRDeRFyjlKkgVKPysIhfdWF1Fdbh38wqZQ/h4r
+         Lda5Bs7Dha49dHFuDPttGfWmtRWBCnnTZXvshNyLKJn4MyH2QZE6ebKcKGC5yF/HBa02
+         XLEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8fnfVrhkwP422PxO/5FsFZHAUY1r3GNO+87kR51xMWc=;
+        fh=5crp7xFHrfFyk67C1tHZdxx37/cNrXRJD4iBQmc2at4=;
+        b=j632vQFoS6DCoF0kivpWMRD3qsdT85m16XkmaIwKtEB0BhEK+pp5Z0tJh9z/ocGRXY
+         yxjmHY/PmZm3dX6IFl52xgGhbQ8Lx+BBnBafJ/45Yqjfq7b6euJB+6M9kZjD2uD5CNIC
+         JyscoTjwJ127wWLsPeASvx2z6kmMDZsRbMMqFM1vgmS8i4YAjFcIwXPVLxRvVYO3jqD+
+         Z4yAv5UUAgU0F4gnuspqqfI02AtiMxH9BcZ99MpH+EMRzRCc+FKtnPOb+QlwY3bLSreE
+         GS7Lc6fSPYwoJYTQnQBJFHs3D0eYIehVdvHHN0LyiUij3zh6nldNMagrWoUjWMqgszeh
+         M8cA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1784470375; x=1785075175; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8fnfVrhkwP422PxO/5FsFZHAUY1r3GNO+87kR51xMWc=;
+        b=d9wy5ZKVfznR4qbSmLHM5wLxuSjQRPGy4i0VLYQtK5dLLnwGkRiddDA/VLgetiMi05
+         Y+I5UVuKvV9E3SM3HWug7hMlD4PFdtZXvAOxx5/lQIh2bzY+pz1wpzt6Bzg0w3hILDMW
+         e3GsK76nCbgIptHRnYDLRt9rCOZy8ameABUXCEZA8dK9EblMfR74xzbuPGYobV75OCGT
+         5dmKGa4DA83unOer5/p/6wDrCqXELBQgzfxOhfojRcG7ht8/0nlpdK50hruoJQPTrjAj
+         m2PabkRjHvH6MgKwQzHgdBgP8HHyIdR7r2EMuqKn+CkNA0aIbcifu3rVZlrjzFttBdzl
+         Ph6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784470375; x=1785075175;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8fnfVrhkwP422PxO/5FsFZHAUY1r3GNO+87kR51xMWc=;
+        b=sUTz212qHEDMX3Ks4KLkuguZWnsrV8xWPFUvwavWSeWlFs5wZdKO+NduqVO9XZ/7C9
+         pj9mVKpNcRV0vt5HBxRcQnq0eensjxeTbE1OTKuu9AxS7a7sKZI4cqhNQwGyktZywiuv
+         1auiYvUSa8yQsOR6I+4ppqcQkbN/M4iTbmkXvCrcGZ8wksJN2RMfH1hPOumqIJxOOOIX
+         RlfjDllbWJptvLofoRQcxi2IK5mcxAP8hADJxMwIaxTJ+U/HcuVr2fKjMTCB9wSDnpV/
+         UIjwUNoHpslKNnyZpc/Mm1WFdOkVw7iSfX8V+da/21qths7kM/oM0PF5IHs0bPhtp9qR
+         SgkA==
+X-Forwarded-Encrypted: i=1; AHgh+RpEncJrYABovoDD9uOo1ESbvAaDGbDf1oDiyOLNP4g7VDR74ig43502aBx8VC3o9SRpb+Wa/PZui+pp8Emb@vger.kernel.org
+X-Gm-Message-State: AOJu0YwO+Y/SEN7CQoskWmWSBI0t1T1K0TAwQy4yAKEbKBxmYYbswQtK
+	dcaug2L3noaGlfmvCjtFhkdys2TBu3iEE5Hxe2DSkwAtGApC6tOMSOEuDBwqF3/GKW0KL0Ho7Wh
+	D+DvLqR2VKA4eNg/B+O64YV8q5+TBYM+KGQrGDa6j
+X-Gm-Gg: AfdE7ckNeGskFjhdtmiutmW5hmZ0AgjQW4kp7zAyft9f9NyY1G6S+vZ+UULw7YPP9eH
+	t/Vm7D0VZQ4j0sXqr+LBkxWh2toc6FAGH9iM87ROjWk85htTSV4yKJMRz7f35Y+XZha6o2V8o3p
+	xOHEqKa4pTTUuUi0btMjirhzC0B7+uVPiEKulpe54pA59Ku2v2Jm4Iz8rN40FHB41ORdA53I+/D
+	BefKjVFIlZ3Qk3vFSlFhdNMw/f35PfLhZiBpPUn7VkkoI8AbtGun7bwLPY=
+X-Received: by 2002:a05:6512:3d8f:b0:5b0:1879:1ba9 with SMTP id
+ 2adb3069b0e04-5b28f9a5720mr2256451e87.33.1784470374426; Sun, 19 Jul 2026
+ 07:12:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpUADtQccA2zmWh@zlang-mailbox>
+References: <20260715101107.973997-1-mszeredi@redhat.com>
+In-Reply-To: <20260715101107.973997-1-mszeredi@redhat.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sun, 19 Jul 2026 07:12:42 -0700
+X-Gm-Features: AUfX_mx-VrWAtPNuDviKfVjbn51tqQht-nWAXr-HfoWBbjn3eDOh3hiCtUPefpg
+Message-ID: <CALCETrXYHX+OSwm6vhzQqvdk9Fkbxzh_dGuVm2tjvPJG_x1XdA@mail.gmail.com>
+Subject: Re: [RFC PATCH] fs: allow opening overlayfs/erofs layers through O_ALT
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: Giuseppe Scrivano <gscrivan@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 18, 2026 at 12:19:52AM -0500, Zorro Lang wrote:
-> 
-> 3. You can use or implement a _require_ function to check if a specific feature
->    is supported, which will gracefully _notrun the test if it's missing. While
->    _require_cgroup2() already exists, its granularity is currently too coarse to
->    _notrun for HFS. You might want to consider refining it or introducing a new
->    helper to help file systems like HFS+ _notrun properly.
+On Wed, Jul 15, 2026 at 3:17=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
+> wrote:
+>
+> This is a prototype patch. Needs to be split up!
+>
+> 1) O_ALT / OPEN_TREE_ALT
+>
+>   These open an alternative namespace rooted at dfd - instead of resolvin=
+g
+>   the path in the real filesystem, it resolves it in a virtual tree that
+>   exposes metadata about that file.
+>
+>   This is intended to provide an alternative to adding new ioctls:
+>
+>    - provides structured namespace
+>    - allows accessing data through fs ops
+>
+>   Could call this O_META, but O_ALT seems more generic and there could be
+>   uses beyond metadata (e.g. seekable, in-place decompression).
 
-It may be rather challenging to determine whether the file system is
-supposed to support cgroupv2, unless we want to define a VFS specific
-flag and a way to query it via sysfs.  If we want to encourage the use
-of the simpler file systems to use xfstests, we may want to consider
-that approach.
+This gives me the willies a bit.  It's very cool, but it has some
+potential security issues that I think we need to watch out for.  As
+sort-of prior art, NTFS supports alternate streams and Reiser4, ahem,
+supported files-as-directories.
 
-						- Ted
+Some questions that we would need to consider:
+
+1. Can you open an fd referring to a "directory" within an O_ALT tree?
+ What happens when an unsuspecting process gets such an fd?  Can you
+fchdir to it?  chroot to it?  clone its tree and possibly bind-mount
+it somewhere?
+
+2. Can you bind-mount *onto* something inside O_ALT?
+
+3. Whose creds are used for which operations?
+
+4. Can you mmap the things in O_ALT?  Is this determined per object or
+generically?
+
+5. Would we ever allow FUSE to expose custom things inside O_ALT?
+What contents of O_ALT can a program trust come from the kernel and
+have the expected semantics?
+
+--Andy
+
+--=20
+Andy Lutomirski
+AMA Capital Management, LLC
