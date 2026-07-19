@@ -1,104 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF6C1EA84;
-	Sun, 19 Jul 2026 03:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2041862;
+	Sun, 19 Jul 2026 03:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784432007; cv=none; b=Hhpj7pyIJMHLWIn9DEaASIb5h5clH2hR6MDdZ2kmEnUAY+6AdF+qfNbEEps+qvN4ZyCG1YZslPIa7LYtQL0yUIyvrFilSeoJMzB03j90sqQHD1x5gtpcPnDhEz1DguuwnqJDhxIAJaL34WMJtUIM2+O9oH4MMbnlKtjMJnZysZY=
+	t=1784433352; cv=none; b=bs29E9+M5eEVSvmBHjw6LZ8RHJvwPCVs4JoWdnrJRvW9eRt4BifK9KHP/6/7FD+dLXnjZz12AHyM6Ncu3x5DbjIIcXN9dEx86CV6k5Ofrx9DUoo4nyv5RxCTcdSn3/pUGs+hZQ43CMVv5ij1aZM/VPZZkk6Ti7qNh2uwOkoaLNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784432007; c=relaxed/simple;
-	bh=auueHM22gwk3ZoyB7F0PqaSJr6Ppc2lH1hGfisJSHt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BsMmHAypbucYmsMqZ5+W6bUoso526bTTearQ4LzO/eoz7sS8fp2sEdbA59GXCuT5MkzXAvQTtHSbFbow9qGfOgr0D2fjf3bTEwfOKOy1DGaD21+KcW3ayCGHnVRg2W6faEpJMRnjRRc9VSYpCAqNbgKK7x2m6ra3B6tqajbT5Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Prx8SDZ2; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Prx8SDZ2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A62D41F000E9;
-	Sun, 19 Jul 2026 03:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784432005;
-	bh=sqXj9cTOh3TCwpf7vuFFoZoI/vAAVMm1ty+3JLUXvsw=;
-	h=From:To:Cc:Subject:Date;
-	b=Prx8SDZ25PdMrI2sbmjqKS/BsY3dljVK30ol7Jr+0+82Zh46J3YKQ7CJMalqtu1gr
-	 tmC4m2Gzeke+dagJROuuZ4Z3Gn1x+SBuYDbzYKJlyCgkU/hkz5FAWj71yjTs5KgoBW
-	 NOMX9hNCDOH7K3QPTyrQ7riBSuTPdsSVbe+eQMJfCgoGPkV0SlKRCwtbn05GIk79YG
-	 PfEmkKbNZ6MTFN0zk3ng92U7CTRGDkZ8Wgy81KBvdKh7kJ9nHTEbhb26/ahKxg6Ryl
-	 kO+OoAtB7lD0WZ+e9oQayjgMSLPGZvAycb4eTVlffFecIyai9Hf9QtLN86Z6or1VUk
-	 BnFzNovXMgNRA==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-fscrypt@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] fscrypt: Add missing superblock check in find_or_insert_direct_key()
-Date: Sat, 18 Jul 2026 20:31:20 -0700
-Message-ID: <20260719033120.122120-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1784433352; c=relaxed/simple;
+	bh=MIpBUs8FuIBlkYklbhlJScGg5JWiDjM2uf9MCZBJmUo=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=B/jmCfVAsbwdddlKtQkty6cSTG1dBUW5hWwLpK2CskxRfAFBB2xGZfKgF2EiPG1eGvboiJAZJF7bHvWJsQ4iJJcLfhsIs4P6N+nG/H6/HfOl9pv7apQoxyC6CTYkarN9SlMswvJsBdu3hfxgEVww55G4wtx6f+2i5knus/bp9iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h2qYw2TQjz8XrrJ;
+	Sun, 19 Jul 2026 11:55:48 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 66J3tf7v034198;
+	Sun, 19 Jul 2026 11:55:41 +0800 (+08)
+	(envelope-from xu.xin16@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sun, 19 Jul 2026 11:55:42 +0800 (CST)
+X-Zmail-TransId: 2afc6a5c4abe5f7-4ef27
+X-Mailer: Zmail v1.0
+Message-ID: <202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn>
+In-Reply-To: <20260717-b4-scalable-cow-virt-pgoff-v1-1-cf24910ef094@kernel.org>
+References: 20260717-b4-scalable-cow-virt-pgoff-v1-0-cf24910ef094@kernel.org,20260717-b4-scalable-cow-virt-pgoff-v1-1-cf24910ef094@kernel.org
+Date: Sun, 19 Jul 2026 11:55:42 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <xu.xin16@zte.com.cn>
+To: <ljs@kernel.org>, <akpm@linux-foundation.org>, <david@kernel.org>
+Cc: <david@kernel.org>, <liam@infradead.org>, <vbabka@kernel.org>,
+        <rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
+        <jannh@google.com>, <pfalcato@suse.de>, <willy@infradead.org>,
+        <jack@suse.cz>, <linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>,
+        <riel@surriel.com>, <harry@kernel.org>, <lance.yang@linux.dev>,
+        <kees@kernel.org>, <ziy@nvidia.com>, <baolin.wang@linux.alibaba.com>,
+        <npache@redhat.com>, <ryan.roberts@arm.com>, <dev.jain@arm.com>,
+        <baohua@kernel.org>, <usama.arif@linux.dev>, <matthew.brost@intel.com>,
+        <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
+        <gourry@gourry.net>, <ying.huang@linux.alibaba.com>,
+        <apopple@nvidia.com>, <peterx@redhat.com>, <chengming.zhou@linux.dev>,
+        <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <ljs@kernel.org>,
+        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCAwMS8xNV0gbW0vdm1hOiBpbnRyb2R1Y2UgVk1BIHZpcnR1YWwgcGFnZSBvZmZzZXQgZmllbGQgYW5kIGFkZCBoZWxwZXJz?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 66J3tf7v034198
+X-TLS: YES
+X-ENVELOPE-SENDER: xu.xin16@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Sun, 19 Jul 2026 11:55:48 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A5C4AC4.001/4h2qYw2TQjz8XrrJ
 
-The legacy 'fscrypt_direct_keys' table caches master keys that are used
-by v1 encryption policies that have FSCRYPT_POLICY_FLAG_DIRECT_KEY.
-It's just a global table for all filesystems (since the keys can be
-provided by the legacy process-subscribed keyrings mechanism, which
-makes it difficult to reuse super_block::s_master_keys).
+> This patch establishes fields within the vm_area_struct type to store the
+> virtual page offset of VMAs.
+> 
+> The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
+> they are unfaulted or were not remapped, otherwise it is equal to this
+> value at the point of first fault.
+> 
+> Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
+> file-backed VMAs are tracked by their file offset. By adding virtual offset
+> as a property of VMAs, we can now track them by their virtual page offset
+> instead.
+> 
+> By tracking this, we provide the means by which to eliminate this
+> inconsistency, and more importantly lay the foundations for future work for
+> the scalable CoW anonymous rmap rework.
+> 
+> This patch simply adds the fields and some simple helpers. Subsequent
+> patches will update mm code to make use of these fields correctly.
+> 
+> The fields chosen are packed in the VMA such that, for 64-bit kernel
+> builds, no additional space is taken up.
 
-The entries in it ('struct fscrypt_direct_key') do contain a super_block
-pointer, though, for passing to fscrypt_destroy_inline_crypt_key() when
-the last inode that references the key is evicted.
+It is not necessarily true that no additional memory will be consumed, as it
+depends on whether the baseline kernel has CONFIG_PER_VMA_LOCK enabled.
+Moreover, in the future evolution of mm, maintaining this benefit would
+require that the layout of struct vm_area_struct before __vm_virt_pgoff_lo
+remains unchanged, which seems impractical.
 
-However, when finding the fscrypt_direct_key for an inode, we weren't
-actually comparing the super_block pointer.  As a result, inodes with
-different super_blocks could point to the same fscrypt_direct_key.  That
-could extend the lifetime of a fscrypt_direct_key beyond the
-super_block it points to, causing a use-after-free later.
+My personal suggestion is: maybe we could simply add an unsigned long field,
+say vm_virt_pgoff, without worrying about the increased memory footprint for
+now. Additionally, it would be helpful to add some comments clarifying the
+difference between this new field and the existing vm_pgoff, to aid understanding.
 
-Fix this by creating distinct fscrypt_direct_key structs for distinct
-super_block structs.
+Thanks,
+Xu Xin
 
-Note that this problem doesn't exist in the v2 policy equivalent
-("per-mode keys"), since the data structures there are per super_block.
-
-Fixes: 22e9947a4b2b ("fscrypt: stop holding extra request_queue references")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- fs/crypto/keysetup_v1.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/fs/crypto/keysetup_v1.c b/fs/crypto/keysetup_v1.c
-index e6e527c73f167..7e3a58dc4b566 100644
---- a/fs/crypto/keysetup_v1.c
-+++ b/fs/crypto/keysetup_v1.c
-@@ -147,13 +147,19 @@ find_or_insert_direct_key(struct fscrypt_direct_key *to_insert,
- 		if (memcmp(ci->ci_policy.v1.master_key_descriptor,
- 			   dk->dk_descriptor, FSCRYPT_KEY_DESCRIPTOR_SIZE) != 0)
- 			continue;
-+		/* The sb is used at eviction time, so it must be the same. */
-+		if (ci->ci_inode->i_sb != dk->dk_sb)
-+			continue;
- 		if (ci->ci_mode != dk->dk_mode)
- 			continue;
- 		if (!fscrypt_is_key_prepared(&dk->dk_key, ci))
- 			continue;
- 		if (crypto_memneq(raw_key, dk->dk_raw, ci->ci_mode->keysize))
- 			continue;
--		/* using existing tfm with same (descriptor, mode, raw_key) */
-+		/*
-+		 * Use an existing prepared key with the same (descriptor, sb,
-+		 * mode, inlinecrypt, raw_key) combination.
-+		 */
- 		refcount_inc(&dk->dk_refcount);
- 		spin_unlock(&fscrypt_direct_keys_lock);
- 		free_direct_key(to_insert);
-
-base-commit: f2ec6312bf711369561bdcb22f8a63c0b118c479
--- 
-2.55.0
-
+> 
+> The first field is present on cacheline 0 containing key VMA fields, and
+> the second on cacheline 3, which contains file-backed reverse mapping
+> fields.
+> 
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  include/linux/mm.h              | 59 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/mm_types.h        |  4 +++
+>  mm/vma.h                        | 14 ++++++++++
+>  mm/vma_init.c                   |  1 +
+>  tools/testing/vma/include/dup.h | 26 ++++++++++++++++++
+>  5 files changed, 104 insertions(+)
+> 
+> +static inline pgoff_t vma_last_virt_pgoff(const struct vm_area_struct *vma)
+> +{
+> +	return vma_end_virt_pgoff(vma) - 1;
+> +}
+> +
+>  static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
+>  {
+>  	return desc->end - desc->start;
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 939b5ea8c9e0..2710628059b1 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -967,6 +967,7 @@ struct vm_area_struct {
+>  	 */
+>  	unsigned int vm_lock_seq;
+>  #endif
+> +	unsigned int __vm_virt_pgoff_lo; /* Low 32-bits of virtual pgoff. */
+>  	/*
+>  	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
+>  	 * list, after a COW of one of the file pages.	A MAP_SHARED vma
+> @@ -1041,6 +1042,9 @@ struct vm_area_struct {
+>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>  	struct lockdep_map vmlock_dep_map;
+>  #endif
+> +#endif
+> +#ifdef CONFIG_64BIT
+> +	unsigned int __vm_virt_pgoff_hi;  /* High 32-bits of virtual pgoff. */
+>  #endif
+>
