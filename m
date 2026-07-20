@@ -1,234 +1,177 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABD3442118
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 18:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784570785; cv=pass; b=KlyOMlEyHxT5XXcJMtuzB9g0mXmv/MyRbB7urwrl2xlvEf6kNZXru9sfD/6ueUxUPd0MdOJzQMtISek6rnGHF1pe6EceLZqxmr4+dO/BJNgj8LMyV5SJkyvuxUe71LtOL+Cu57deyMkBWaIdyjLgCefKgfCNSA457Y4SUlxVM1c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784570785; c=relaxed/simple;
-	bh=6sJy9PZJ/5uu+uq4/s91e/0S+srBf6fkJM0yl1tesOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LU8+GfLvczhAIoduD33peCR3VxL7+g78EyHV2A6nTwTrfkoERf7I7DYhYjwmBhKqcbvJ6vO0eo/bCN/XljihiiCAA3leFPm8WjQYHlaS/Z2bpWZ+9g+/Bxas0GgHPpInzn4jQWX1caWZsCiH2hZ9HNI+jXeeyb7LomFHLqzvKfI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qVuGv4D9; arc=pass smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCF1477E23;
+	Mon, 20 Jul 2026 18:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784570789; cv=none; b=BLOxKHrVG4Bv1AyIHis/py0UEeKnneqF7prI2tTedJVNg1kj8a0J9ab8ee+C5k1sLuVenIj9zNxaLnEzlucSx8RpbiR8sogfOiOVLo7PolYd4qGgVjDWb7lGHmqGSyAxnsAOLJg9uTLdOuDkks3hi+40amo8Dr70TAxnHVlRGyw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784570789; c=relaxed/simple;
+	bh=sj3XiQL94FBC+unXzaEF1EP16YDqah5lGfHb5qL1E6s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ENwjcTxHMI4jIqcRJQggON//v6sRrCwif+wAG7GChoiJ3LG5P2hU4Fmcsp9OGRpYD/IN47dxdoEWvCFhkY7eQQ8Y2zp++fgoK1Ke1YbH+4pr8/Uvb4SbVmdDkj5N5lU4WWYgtYNlRiSxZ+oXQ3EbaGRVmxXz1XanL7auYRs1VzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWCsFkTE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVuGv4D9"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8eeadbc5e21so45927436d6.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:06:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784570782; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IoDlk1vXXLQmD4Ebn+8fih8ol3w0ZgfrBNunI53Q1DjYRAtTD7CBbiM8b0v4W+SJok
-         lr0JOSCPPcCY56mHRguz38ve95jOKWyF5LwO+XbHMOB+c1GkbeHRsajzL8ARo709gyil
-         DGZccVCHas+YjfkzbkaBCZ3/kBA2ZnRtJV0QLkfi6qFXwLVet3OpE+Pmo6UT79m52zCS
-         mTbe1A7p8ehOkpnpAWT3hvQo8RQCeBeI+QCpVS7IsbhVfwDjtGWaDxlQjMaeRDjmLwww
-         Mb/Wt1vsk7bj2NfpFzFz6CWYgwUMTED1ddjY25TjA90KvI/BP5bdf8dDjoscDlp7FT5e
-         XqdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
-        fh=jEHawgiPPI0+RK7keFJIeWPDhVY0JJtFxuth7i7uAL4=;
-        b=F4EYvoy6WHVWafre1R4ZR2pgV/RS9StqPwhRdNQVuVURYtQ9oq7Y9i+U2/TUviaj4I
-         wvRVEIoi0bYcouOn0/0jhWaFrzBAhoZez3LoClHT2D4ZOZxIqdHIm7SvBfWpCEVhDFLE
-         J3zeMTawajQrBKzWsJpEvnwuUIZPYbRXJfs7X3RJOUMpnZyWe4R2ISSWkaDAOUrMk3UR
-         6PsOwxiZsGKyKatHF7yzVxSmTVv62prpz6rEFg0cTwuOj8fXrW2yleNXpvy4yw/Setmr
-         cA/xHJ/MVglxHPhuqdcCTx6ICTs2xFiXT0jDzoLIZ0Od1oMuAwDKohn3pTaKFbEvHEpB
-         HctQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784570782; x=1785175582; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
-        b=qVuGv4D92AgPHJeaD8GZFiyzv+DT7Rd0tbKf9FpNpK9JWGWh8yNPZ+dDFAOJpgSQlf
-         dKkN9HCTovfUqy5M/xL9HKeA4CTVm1ovHTIyUsA1AklqzmcsMZ1X8gz+isn+c+ZWvNWc
-         y1h12Otum0BRnlX2KQ24j47IRyDiGGThUZbNz+aBVTEypmsZan1aTXjs4xSL4f6qpMJX
-         bx6j3Dgjv6AnSRHoQhc9ufDQE3/BsFxokH9nK2DwRV8dE9WJYQAU18uTa+xQFLKAttqK
-         yBtERcaagBEo8O0jmMC8JMB2v5xsws2OTAzXuO+A7xbna373zvvhR+GFxYCO4hkKD2nP
-         hAzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784570782; x=1785175582;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
-        b=M7VqZ8Gg0W8Vkk+KwuoKUdKMtouvSYJnvVCzAqjBoD7hX8rw89KaXGV5rkU1VCyhOK
-         CI8KXhAGUiY8dPlSicJObep9uIyADDZtI1fECscgSvJNiebY4/jLaT1HeBsQpdiqI2XA
-         yUE06hWrSj9SogdhhqfRlbKUNJ025+zZnskXWK3JL3CMNF6fgOPkXV+b8SbwcYrvcP0E
-         E/Wlbo5TA+4XljsIuoVoWGKWgSRf+2DrlK+dm8y8Q2BKEOQ5r4UvH8fweXdSaKTjCJJU
-         qCWtQA8boumQz7boxykeYtIQPUg00BOKFvs42D8BzIaF/hmH7sE3A9n4XzAhc9NP028d
-         AcLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqZ57cnLfSaUscoEhsIOhuTvK86vR39LromQSxpv8dZP0o9saGogLumIQ8Sp+DpBXsHRJjyZRWf/H4xqVvZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm9ufzDrhdmVfkE1QfpDeczfLFKJfvshow5J0Cs+LlW7eHOMjV
-	BPzRFisa5P8BJSVYwH/+uCZYmhI9VBsGBDVHwr00+SvORIlVupMjsH6+euBTZuhd/zRt6rxKNC8
-	qpI0/sQqCywn5LGOUSRTFckgu4b3SsNg=
-X-Gm-Gg: AR+sD110QPbBhSGcE29S85wdhilpWj6PxegfeuYheIvSL9mlPiOm+a/ynryMUJvYy7P
-	k9A2OthHh/auR8YB37DRaVt4quc5f3WbtQjKEXD71TJjbNS8ByQL6Lj9Shcmt3uUUUNEn/VNtUh
-	eDPLdfs/Zah8Q9pi860zSqy7tetzDYpnIdKQxavMpSu0A3Mb/gu6Ulk7nJIXctnPDmP/TJl7JXM
-	7o+wYE/mNDuEkG6lhfdjdp0itr8KAk5y5fBH6jELxLiN15rP5vZIVAiYeFO6EcCK0yylG4Dw/f7
-	gOHRkKiNOvavmeU/
-X-Received: by 2002:a05:6214:e45:b0:8ef:ddf7:3135 with SMTP id
- 6a1803df08f44-907783b38cdmr173632066d6.38.1784570782095; Mon, 20 Jul 2026
- 11:06:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWCsFkTE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911531F000E9;
+	Mon, 20 Jul 2026 18:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784570787;
+	bh=nEo3+xzXNoxQF5Zig+V0NoDPZCD01sZ6pyJ78+EGJ+0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=LWCsFkTEe2OBn0UC3TwLqYcQX9t2MqAXgzNK1HNURCRtMzAV0HvFWVmWE4QnLZq8I
+	 77NfimYhx/SdrdkOIWn1XvLSeXpzwwoX6z3oeNrjYM+9L79e2rDY/lwxW3p9tQYGmR
+	 DGiEpe70W3aTc6Mcyb6TijUkQE1sKRFdDWQrCQu21oa1oXLdepN+yLcxCv/ohKqOh4
+	 bxYSpmkqUoYNXQrTtNRzjQy2kWMYmzF/kpbinI6Hy0CN3SylovUFkrpuHlBjjPikDT
+	 Bs16j0jXkWPgT1Yirf+19hnZQ4xI2zsiA63GuuKbTMfezxOcF1dWOl4jfRFwEK33Fb
+	 MgjU/6+xx8sOA==
+Message-ID: <bf839033-3955-4f2f-b33f-3fa948b2c2de@kernel.org>
+Date: Mon, 20 Jul 2026 20:06:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708000956.46138-2-dwindsor@gmail.com> <cb9f84292a7f1d41ff8388d8c0c8c3d0@paul-moore.com>
-In-Reply-To: <cb9f84292a7f1d41ff8388d8c0c8c3d0@paul-moore.com>
-From: David Windsor <dwindsor@gmail.com>
-Date: Mon, 20 Jul 2026 14:06:07 -0400
-X-Gm-Features: AUfX_mxzIpBrzcPTV9KeowoimwOb7WQA9GzVVHyfVuwu0lx2Q8xYaxFF_5bIdv8
-Message-ID: <CAEXv5_i_iHmF8n6Qf1NiVOhm2cCnVLgmwXK-b8M+hvmdO3aQdA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] security: rework inode_init_security xattr handling
-To: Paul Moore <paul@paul-moore.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
-	"Serge E . Hallyn" <serge@hallyn.com>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+Content-Language: en-US
+To: Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev,
+ loongarch@lists.linux.dev, linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
+ gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
+ CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
+ UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
+ XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
+ 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
+ FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
+ QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
+ 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
+ icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
+ uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
+ SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
+ cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
+ La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
+ FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
+ bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
+ +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
+ jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
+ CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
+ HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
+ SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
+ 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
+ 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
+ 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
+ wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
+ NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
+ OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
+ jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
+In-Reply-To: <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 16, 2026 at 5:55=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
-ote:
->
-> > +struct lsm_xattrs {
-> > +     struct xattr *xattrs;
-> > +     unsigned int xattr_count;
-> > +};
->
-> Please separate out the 'struct lsm_xattrs' related changes into a
-> separate patch from the security_lsmxattr_add() changes.  I know they
-> are related, but they are different things.
->
+On 7/16/26 16:30, Brendan Jackman wrote:
+> +++ b/mm/mempolicy.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * mm-internal API for mempolicy.c. Public API lives in
+> + * include/linux/mempolicy.h.
+> + */
+> +#ifndef __MM_MEMPOLICY_H
+> +#define __MM_MEMPOLICY_H
+> +
+> +#include <linux/gfp.h>
+> +#include <linux/mempolicy.h>
+> +
+> +#ifdef CONFIG_NUMA
+> +struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> +		struct mempolicy *mpol, pgoff_t ilx, int nid);
+> +#else
+> +static inline struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> +		struct mempolicy *mpol, pgoff_t ilx, int nid)
+> +{
+> +	return folio_alloc_noprof(gfp, order);
+> +}
+> +#endif
+> +
+> +#define folio_alloc_mpol(...)			alloc_hooks(folio_alloc_mpol_noprof(__VA_ARGS__))
+> +
+> +unsigned long alloc_pages_bulk_mempolicy_noprof(gfp_t gfp,
+> +				unsigned long nr_pages,
+> +				struct page **page_array);
+> +#define  alloc_pages_bulk_mempolicy(...)				\
+> +	alloc_hooks(alloc_pages_bulk_mempolicy_noprof(__VA_ARGS__))
 
-Will do.
+BTW, seems you forgot to delete this bulk stuff from gfp.h?
 
-> > +#ifdef CONFIG_BPF_LSM
-> > +static unsigned int lsm_xattrs_used(const struct lsm_xattrs *xattrs,
-> > +                                 const char *prefix)
-> > +{
-> > +     size_t prefix_len =3D strlen(prefix);
-> > +     unsigned int i, n =3D 0;
-> > +
-> > +     for (i =3D 0; i < xattrs->xattr_count; i++) {
-> > +             const char *name =3D xattrs->xattrs[i].name;
-> > +
-> > +             if (name && !strncmp(name, prefix, prefix_len))
-> > +                     n++;
-> > +     }
-> > +     return n;
-> > +}
-> > +#endif /* CONFIG_BPF_LSM */
->
-> More on this below, but this function isn't strictly BPF LSM related so
-> let's drop the CONFIG_BPF_LSM macro bracketing.
->
+> +
+> +#endif /* __MM_MEMPOLICY_H */
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 5071177059a96..69f561332bb93 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -41,6 +41,7 @@
+>  #include <linux/swapfile.h>
+>  #include <linux/iversion.h>
+>  #include <linux/unicode.h>
+> +#include "mempolicy.h"
+>  #include "swap.h"
+>  
+>  static struct vfsmount *shm_mnt __ro_after_init;
+> diff --git a/mm/swap_state.c b/mm/swap_state.c
+> index 5be825911e645..8ccd03c39a407 100644
+> --- a/mm/swap_state.c
+> +++ b/mm/swap_state.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/shmem_fs.h>
+>  #include <linux/sysctl.h>
+>  #include "internal.h"
+> +#include "mempolicy.h"
+>  #include "swap_table.h"
+>  #include "swap.h"
+>  
+> 
 
-Ack
-
-> > +int security_lsmxattr_add(struct lsm_xattrs *xattrs, u64 lsm_id,
-> > +                       const char *name, const void *value,
-> > +                       size_t value_len)
-> > +{
-> > +     struct xattr *xattr;
-> > +     void *xattr_value;
-> > +     size_t name_len;
-> > +
-> > +     if (!xattrs || !xattrs->xattrs || !name || !value)
-> > +             return -EINVAL;
->
-> Sashiko raised a good point about xattrs->xattrs being NULL not
-> necessarily being a good reason for -EINVAL.  If xattrs is NULL, yes,
-> something has gone wrong and -EINVAL seems reasonable, but the
-> xattr->xattrs NULL case does seem like it should simply return early
-> with a value of 0 (see SELinux's handling of this case as an example).
->
-
-The problem is, SELinux has already set the sid by before calling
-lsm_get_xattr_slot, so we do indeed get an in-core label for the inode
-before returning early here. Returning early here from BPF would not
-mean the same thing: there is no label anywhere, in memory or on disk.
-
-> > +     name_len =3D strlen(name);
-> > +     if (name_len =3D=3D 0 || name_len > XATTR_NAME_MAX)
-> > +             return -EINVAL;
-> > +     if (value_len =3D=3D 0 || value_len > XATTR_SIZE_MAX)
-> > +             return -EINVAL;
-> > +
-> > +     switch (lsm_id) {
-> > +#ifdef CONFIG_BPF_LSM
-> > +     case LSM_ID_BPF:
-> > +             if (lsm_xattrs_used(xattrs, XATTR_BPF_LSM_SUFFIX) >=3D
-> > +                 BPF_LSM_INODE_INIT_XATTRS)
-> > +                     return -ENOSPC;
-> > +             break;
-> > +#endif /* CONFIG_BPF_LSM */
->
-> I like to avoid macro conditional code inside functions whenever
-> possible, and I think this is a case where we could avoid the conditional
-> block with a little work.
->
-> The LSM_ID_BPF macro is already defined as part of the UAPI so that will
-> always be available.  While BPF_LSM_INODE_INIT_XATTRS is dependent on
-> CONFIG_BPF_LSM in this revision, that should be easy enough to move
-> outside the CONFIG_BPF_LSM conditional in bpf_lsm.h.  Eventually we
-> should probably expand the lsm_id struct to carry this info, likely just
-> a permanent/local copy of the LSM's lsm_blob_sizes passed during
-> registration, but I can take care of that later; just make the
-> BPF_LSM_INODE_INIT_XATTRS macro always accessible now.
->
-> We should also probably record the xattr suffix/length when the LSM is
-> registered, but that can also be done later with the other lsm_id
-> additions.
->
-
-Sounds good, will refactor to remove the conditional.
-
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     /* Combine xattr value + name into one allocation. */
-> > +     xattr_value =3D kmalloc(value_len + name_len + 1, GFP_NOWAIT);
-> > +     if (!xattr_value)
-> > +             return -ENOMEM;
-> > +
-> > +     memcpy(xattr_value, value, value_len);
-> > +     memcpy(xattr_value + value_len, name, name_len);
-> > +     ((char *)xattr_value)[value_len + name_len] =3D '\0';
->
-> You'll need to add an additional memcpy() here, likely in a switch
-> statement to handle the different LSMs, to copy over the LSM specific
-> prefix.  It's a little ugly, but when we have things captured in the
-> lsm_id struct it will get a lot cleaner.
->
-
-Yup
-
->
-> --
-> paul-moore.com
-
-Thanks,
-David
