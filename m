@@ -1,146 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B5A3AE185;
-	Mon, 20 Jul 2026 08:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5421A2E8B64;
+	Mon, 20 Jul 2026 08:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784535028; cv=none; b=Xhdn/yZuBIWIadUGhIUSvju1uqJmpMBsz4ysozvZsm8RUQ2YbSH7O7tzA+c/+9G9fUHcyl5RLtOBmQ7oCGuNNkle4356uajwFNR7fMpboOJu+NIFZDVEklLsQ/hp/Y9xwoU3QjoYlBhyrxhX5O9HBGwTgHiZP8KQvvSCnMXIPIs=
+	t=1784535058; cv=none; b=TAGPNhzKSNwjTNM5qDeQR0rGPkHNXCszlSVO0mdjRvU3FH6i0L3TnS5uo+aS3dm/em92cMX7AWQJNOcVkDGRrTLrKKAtFm9wQ6b8WH3O0DiKYdV2mElfOGJfELO4JNeF2zuGYFUfipKqLqFa25saY5HML0tGnNjEpOh2zCygpBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784535028; c=relaxed/simple;
-	bh=nohSGL3nNLxbgpJ63TZnkaSHeMR76iExJoJ+6foY/OY=;
+	s=arc-20240116; t=1784535058; c=relaxed/simple;
+	bh=d1ZIBzZ7DZEPJ40m2p6lt+h9nj5+FKHRA9o0cwHNigw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pl9JjmJNjwYm0EgKLPJeJlKQT8WslkWAQvRIcKuGajx+IvVdY43WjAv8AW2WvupcKkRD88He6x53nE2/vwhRAMEZsdbOpU/WGlHuGk6N8eM4vyQdNowT/63qjarAP7fCsAiNT6uwUxS5KnF+0uTGmr06OYwqd95uOjwr5fjUv9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlHW1m24; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NvrxICquPs3IaOele3cS57Xtz7wYXpKwh5ABb9Qjf5dl9jNLiUUiR/oaXPIc+gDXi9v5fo+2F6/5+FbmzUgRZB6L6c//5G11tkmEAIhRZ0UsGHzW/RtsZURxV29iGJXLnyBUmOgVdctlFRX38jDG3+7W/8k6/kRJ11CtKQjX4NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P7JHnyu5; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlHW1m24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C8A1F000E9;
-	Mon, 20 Jul 2026 08:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784535027;
-	bh=pIe+e4SuAHeLj9NpXSa8YjvEEO9XCr7z+7SZQCKB4Fg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RlHW1m24S3Qmywd+gIdgXQUL95tt6lRhPumQwUHuon8nnqZrwyA+lCz7xiWna628K
-	 eAogyWrBMpOEVLo0lNAl0t9oy5AnSjbvxB85xbVWREgzz40/87A12X25nUyC1YolKV
-	 nwmOBDSUobs1Cat+3mz0nb/Lsyak0/Kw/MINlhTkorTyAAJZIKAb1XTyMKDg5JsNub
-	 /2oZGHRLDrMQgvFCT4ZSRpFbgCNEF6Rsta0UNitIcDngKZvTMICflnj/kgrWACFByT
-	 Iv2qQRojJZYZ5D2WwCIK8cn/mEzwYS02w+tiNlVaOBGEpjtciTrtgZDsly9YEluAMu
-	 X0u30nMVikqzQ==
-Date: Mon, 20 Jul 2026 10:10:21 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P7JHnyu5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=676mDiYdVq+8m8W+DCKeVPJrfn/i7x13tlWu3pwThd8=; b=P7JHnyu5vDvZHGBztjNibMquQD
+	BXcPZDKjqNT4XCdMG6N5aV2Xf8OVo1syMoH/gNyDe95tIWEH24u/aTmsl7Pinnsm5sVYRIHupCgAm
+	/XDron7oHhdlH/8y7OaItSrydXTRy+PJ+exI/1EqsGVlNlx/Md9f6LQrNICarbJSiU9019SGKOh4U
+	X1rFzjkdNxLWI+L3xA8rL8UBoAkcOe81WPlLPexRAZM/jsSIwhfor3NQbVn4Ya5Z7DlSfJeGfG86N
+	i6hdBQFUjKmyyUbomsfv1cRGwmAQjgDq0eX1UcQ7Ttw1cKLV9jxIoML72s4IDnsYEwEtBiyDoQ8qD
+	BmxvJ/jQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wlj5S-00000006AET-1vxT;
+	Mon, 20 Jul 2026 08:10:54 +0000
+Date: Mon, 20 Jul 2026 01:10:54 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Qu Wenruo <wqu@suse.com>
+Cc: fstests@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] sysctl: repair some kernel-doc comments
-Message-ID: <fa4h52w5i4wznnqxyveeg5k7kfqe6kfmkkwrxmdunxtjwn42ud@fckpmqbhg2ox>
-References: <20260718190356.1892992-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] fstests: vfstest: skip rejected tmpfile creation
+Message-ID: <al3YDuYk81NY9mBE@infradead.org>
+References: <20260717070717.113517-1-wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cwe2redvuvhqvhjn"
-Content-Disposition: inline
-In-Reply-To: <20260718190356.1892992-1-rdunlap@infradead.org>
-
-
---cwe2redvuvhqvhjn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260717070717.113517-1-wqu@suse.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-pushed it to sysctl-next
+Christian indicated the fixes for this are in the (somewhat confusingly
+titled) "[PATCH 0/2] Support overlayfs in the idmapped mount tests"
+series.
 
-Thx
+It would be good to get a proper review for this as it's beyond my
+pay grade.
 
-Best
-On Sat, Jul 18, 2026 at 12:03:56PM -0700, Randy Dunlap wrote:
-> Convert a non-kernel-comment to use "/*" instead.
-> Don't use kernel-doc for the nested @type enum values since they
-> aren't part of the struct.
->=20
-> Warning: ./include/linux/sysctl.h:62 Cannot find identifier on line:
->  *
-> Warning: ./include/linux/sysctl.h:63 Cannot find identifier on line:
->  * "dir" originates from read_iter (dir =3D 0) or write_iter (dir =3D 1)
-> Warning: ./include/linux/sysctl.h:64 This comment starts with '/**', but =
-isn't a kernel-doc comment.
->  * in the file_operations struct at proc/proc_sysctl.c. Its value means
-> Warning: ./include/linux/sysctl.h:274 Excess struct member
->   'type.SYSCTL_TABLE_TYPE_DEFAULT' description in 'ctl_table_header'
-> Warning: ./include/linux/sysctl.h:274 Excess struct member
->   'type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY' description in 'ctl_table_he=
-ader'
->=20
-> Note: This still leaves 7 struct members in ctl_table_header that
-> are not described. E.g.:
-> Warning: include/linux/sysctl.h:274 struct member 'unregistering' not des=
-cribed in 'ctl_table_header'
-> Warning: include/linux/sysctl.h:274 struct member 'ctl_table_arg' not des=
-cribed in 'ctl_table_header'
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+On Fri, Jul 17, 2026 at 04:37:17PM +0930, Qu Wenruo wrote:
+> Since kernel commit 539dce114465 ("fs: refuse O_TMPFILE creation with an
+> unmapped fsuid or fsgid"), tmpfile creation can be rejected with
+> EOVERFLOW, so also skip that error number to avoid false alerts like the
+> following:
+> 
+>  FSTYP         -- ext4
+>  PLATFORM      -- Linux/x86_64 btrfs-vm 7.2.0-rc3-custom+ #411 SMP PREEMPT_DYNAMIC Fri Jul 17 16:24:34 ACST 2026
+>  MKFS_OPTIONS  -- -F /dev/mapper/test-scratch1
+>  MOUNT_OPTIONS -- -o acl,user_xattr /dev/mapper/test-scratch1 /mnt/scratch
+> 
+>  generic/633  1s ... - output mismatch (see /home/adam/xfstests/results//generic/633.out.bad)
+>     --- tests/generic/633.out	2022-05-11 11:25:30.816666664 +0930
+>     +++ /home/adam/xfstests/results//generic/633.out.bad	2026-07-17 16:25:45.033967541 +0930
+>     @@ -1,2 +1,4 @@
+>      QA output created by 633
+>      Silence is golden
+>     +utils.c: 948: openat_tmpfile_supported - Value too large for defined data type - failure: create
+>     +utils.c: 948: openat_tmpfile_supported - Value too large for defined data type - failure: create
+>     ...
+>     (Run 'diff -u /home/adam/xfstests/tests/generic/633.out /home/adam/xfstests/results//generic/633.out.bad'  to see the entire diff)
+>  Ran: generic/633
+>  Failures: generic/633
+>  Failed 1 of 1 tests
+> 
+> Signed-off-by: Qu Wenruo <wqu@suse.com>
 > ---
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Joel Granados <joel.granados@kernel.org>
-> Cc: linux-fsdevel@vger.kernel.org
->=20
->  include/linux/sysctl.h |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> --- linux-next-20260717.orig/include/linux/sysctl.h
-> +++ linux-next-20260717/include/linux/sysctl.h
-> @@ -59,7 +59,7 @@ extern const int sysctl_vals[];
->  #define SYSCTL_LONG_ONE		((void *)&sysctl_long_vals[1])
->  #define SYSCTL_LONG_MAX		((void *)&sysctl_long_vals[2])
-> =20
-> -/**
-> +/*
->   *
->   * "dir" originates from read_iter (dir =3D 0) or write_iter (dir =3D 1)
->   * in the file_operations struct at proc/proc_sysctl.c. Its value means
-> @@ -245,9 +245,9 @@ struct ctl_node {
->   * @nreg: When nreg drops to 0 the ctl_table_header will be unregistered.
->   * @rcu: Delays the freeing of the inode. Introduced with "unfuck proc_s=
-ysctl ->d_compare()"
->   *
-> - * @type: Enumeration to differentiate between ctl target types
-> - * @type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considera=
-tions
-> - * @type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently e=
-mpty dir
-> + * @type: Enumeration to differentiate between ctl target types:
-> + * type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considerat=
-ions
-> + * type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently em=
-pty dir
->   *                                            target to serve as a mount=
- point
->   */
->  struct ctl_table_header {
-
---=20
-
-Joel Granados
-
---cwe2redvuvhqvhjn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmpd1+UACgkQupfNUreW
-QU/swQv/SwzDZjJW9vghABWVZjCSnOH5KWRj3cOCn6DrcRyAHzOJF6erIp34yT6z
-WGeH17VWmi1Yb6Opkpg9sOAWx+AV6o3ByBMYOiHJoLVolRIbPU4u5j54dpsSnNSI
-yMpAsZFY2sey1Xcx/CBvaiXPE0JnIIuSPVTu4V7W6FQUCn4EgF3QI75zvBxiME1M
-ZPWkSCD7TRo9Pl9z1Q5pC9n7gWnhhUJ1TWSGK33j+8fX7i5CEao64+HUev45I6EK
-PYY8HM1Qx+ayZp/KvflbX2yt7q7NpsG0MPZ1FFjdhXLE3u2tn8wlUze/II3WGgxw
-5bnjfF1kx//TRcwL0rPbit11FcSpfFEKzyeDbx5F0j6WjN/LhPzeOab1KmUsWZpj
-7ooaDZQTUmADrTfOAkzN8QyFqyfzEEoInAwQCEsYBOx1FdbckGbDg3kWTCKe+MMQ
-ch3MUCw1j1nRTgpOfo9hOW9Mt/4Ckaga8CdNDTvNLs8roP6Tlg2uZ6uq/GxHjG8h
-Ku5kzbSZ
-=GX2H
------END PGP SIGNATURE-----
-
---cwe2redvuvhqvhjn--
+>  src/vfs/utils.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/src/vfs/utils.c b/src/vfs/utils.c
+> index 0b435afe..d2922cc3 100644
+> --- a/src/vfs/utils.c
+> +++ b/src/vfs/utils.c
+> @@ -941,7 +941,11 @@ bool openat_tmpfile_supported(int dirfd)
+>  
+>  	fd = openat(dirfd, ".", O_TMPFILE | O_RDWR, S_IXGRP | S_ISGID);
+>  	if (fd == -1) {
+> -		if (errno == ENOTSUP) {
+> +		/*
+> +		 * Kernel commit 539dce114465 ("fs: refuse O_TMPFILE creation
+> +		 * with an unmapped fsuid or fsgid") will reject such operation.
+> +		 */
+> +		if (errno == ENOTSUP || errno == EOVERFLOW) {
+>  			errno = 0; /* Don't report misleading errno. */
+>  			return false;
+>  		} else {
+> -- 
+> 2.51.2
+> 
+> 
+---end quoted text---
