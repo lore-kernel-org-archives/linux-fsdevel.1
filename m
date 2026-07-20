@@ -1,115 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765A630595B;
-	Mon, 20 Jul 2026 13:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F417427FBA;
+	Mon, 20 Jul 2026 14:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784555275; cv=none; b=mp3Ph5rcvSjTyBq7g8HbU5Z+34dpNAVagByHOq9anF/qXJqIX0cWmQz6NsDn9JD0TZITGjaawssIsUHvpakt8AzDmu+9leDV4wZe4RZORyUEUt6nKMk+Z4lSpIzwcKcXWsrOt+rDcXiijVMo05r6Zetdir6P46f31SC+nloVcR4=
+	t=1784556540; cv=none; b=angj8dsfLZAKjixDj2oCH+cE/sjRnY3IwqulJTAx9I1kLN+JvZcE1u8iJ8Y5pm//subzelB5jHvR6G3MAUUuvRZtN2iCvIG73YhMnruJLgzKKGneUrw3bz2qDIhMgg8K7w+LNVtG1iG/Bp/lLMUubuse6z4MfqJLMtkbjt0e6RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784555275; c=relaxed/simple;
-	bh=kXooEgSoXcuhNAbJx8Sd5T6Eee8JvBtnWFh2Q/Q0dVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f2gahOQv7aWoiqMW8FPDpyPz7E6BOC130fDSAwvDYJ7ebjrFzitKSuoHxC7WTCO+VFK+T0Z1GLeJbvRGToAsSVretCzvxw4LDHvuV1ARMl9ne3yphb3dS+3iYA6cx6sPkwc9QJEWKBV53hmlyMW5jzhkstI3hCaMoDCKqu4JjN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTJI3wmK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784556540; c=relaxed/simple;
+	bh=dEGdF+fHbxJOLlUnbyOXKR6nxMRBZ4dtKBLoA1/JsPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cbAsv68efczJeo8+vdTy8gEcH5s5Gt+QpHcqpUsv2IeTfpYrueQp/ZpWSuKhYxw2NKHiX9qaZOoqyTr5FAK/v7WIpF6gU9xdypIMammgHlR3JcfJ6LRDe8xa6TfKwojA5NSKoJygOjnyZFO33M/DXO47ZujOrEV9q7rNrM/6Pzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SrdpcHlf; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTJI3wmK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D25C1F000E9;
-	Mon, 20 Jul 2026 13:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784555274;
-	bh=kXooEgSoXcuhNAbJx8Sd5T6Eee8JvBtnWFh2Q/Q0dVI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aTJI3wmKsPlHpTouI7l29PN4C4s4RZ+I5yGc8W83xTfsJtodi0R0ImMV0oLJIoZgm
-	 siOfGlvOp2zFChQK0n7QRqtnCvmcwFnkarmxWHPry4aVIrZELkbuoIE1qh21SPhrYp
-	 gGljkzvVqei284ThFY+J18FddOczIFDkKYmV6GpUfl65FaMlJ6/zNkAabS1/UtpqKB
-	 NJrY1+VNuNSRzghb9QhVKv7205sDQpnSkJ+GnFEUFekMrqnJRpVRIBDMwQp8s+V5Kr
-	 Dq6Ck/s0mlACaBBvomypCXFQdqfQX0fUGOw0buAJGqkdG+p9w9dsA+g9ovLKqCdHDe
-	 /HCaDv+eDpa9Q==
-Date: Mon, 20 Jul 2026 14:47:31 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: xu.xin16@zte.com.cn
-Cc: akpm@linux-foundation.org, david@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	jannh@google.com, pfalcato@suse.de, willy@infradead.org, jack@suse.cz, 
-	linmiaohe@huawei.com, nao.horiguchi@gmail.com, riel@surriel.com, harry@kernel.org, 
-	lance.yang@linux.dev, kees@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
-	usama.arif@linux.dev, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, peterx@redhat.com, chengming.zhou@linux.dev, 
-	arnd@arndb.de, gregkh@linuxfoundation.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 01/15] mm/vma: introduce VMA virtual page offset field
- and add helpers
-Message-ID: <al4mxWe6hKxyTtHO@lucifer>
-References: <al3KlYMbmeR6iDX8@lucifer>
- <20260720153816171RRd991pToocX8jt6806EG@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SrdpcHlf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=AKXVom8OeF7UK7vrTcOr3QHYWP0i9XKE/Qk3dJpYWOk=; b=SrdpcHlfGRq/w9VjuFMLMjohde
+	JZo1XdQqHrO/XVnPU7JkBhbEkGNFQtk/vmM2TVdhbNKG0CEtmqIeQzEa+Tn30MA9rv9DgU55s1DOW
+	VHCU8W8C6kp/6udPWsbLm+L3DmYs/sX5koP6TwuBANJTg8OmiLGtKCIN2d5kqGmv/4PgE2toR3G/f
+	V+cysceEvMHPHxjOMZ53C47qMG0L7HeaL6iMW7JdEwUsIg0ay68EjEIDPTngxOgFyn8aFy+zMBbx1
+	+ROtdVfif8Qh+GLaV2HmW60sj82WpRWy6UMPe/fOQC9J0XB/CTBEg2yOIHi7cnn7HT6nC0crmsPYL
+	Ed0Xos9w==;
+Received: from 2a02-8389-2301-9f00-b29a-36e9-8c1c-0994.cable.dynamic.v6.surfer.at ([2a02:8389:2301:9f00:b29a:36e9:8c1c:994] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wloft-00000006uJO-2GiC;
+	Mon, 20 Jul 2026 14:08:53 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Filip Blagojevic <filip.blagojevic@wdc.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: update BDI {io,ra}_pages values based on the RT device limits v2
+Date: Mon, 20 Jul 2026 16:08:46 +0200
+Message-ID: <20260720140849.2269776-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720153816171RRd991pToocX8jt6806EG@zte.com.cn>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Jul 20, 2026 at 03:38:16PM +0800, xu.xin16@zte.com.cn wrote:
-> > > > This patch establishes fields within the vm_area_struct type to store the
-> > > > virtual page offset of VMAs.
-> > > >
-> > > > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
-> > > > they are unfaulted or were not remapped, otherwise it is equal to this
-> > > > value at the point of first fault.
-> > > >
-> > > > Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
-> > > > file-backed VMAs are tracked by their file offset. By adding virtual offset
-> > > > as a property of VMAs, we can now track them by their virtual page offset
-> > > > instead.
-> > > >
-> > > > By tracking this, we provide the means by which to eliminate this
-> > > > inconsistency, and more importantly lay the foundations for future work for
-> > > > the scalable CoW anonymous rmap rework.
-> > > >
-> > > > This patch simply adds the fields and some simple helpers. Subsequent
-> > > > patches will update mm code to make use of these fields correctly.
-> > > >
-> > > > The fields chosen are packed in the VMA such that, for 64-bit kernel
-> > > > builds, no additional space is taken up.
-> > >
-> > > It is not necessarily true that no additional memory will be consumed, as it
-> > > depends on whether the baseline kernel has CONFIG_PER_VMA_LOCK enabled.
-> >
-> > We are moving to this being permanently enabled.
-> >
-> > > Moreover, in the future evolution of mm, maintaining this benefit would
-> > > require that the layout of struct vm_area_struct before __vm_virt_pgoff_lo
-> > > remains unchanged, which seems impractical.
-> >
-> > It isn't, we are very careful with this struct.
->
-> Ok, That will be nice.
->
-> >
-> > >
-> > > My personal suggestion is: maybe we could simply add an unsigned long field,
-> > > say vm_virt_pgoff, without worrying about the increased memory footprint for
-> > > now. Additionally, it would be helpful to add some comments clarifying the
-> > > difference between this new field and the existing vm_pgoff, to aid understanding.
-> >
-> > Nope that'd add 64 bytes per VMA for a typical usage which can add up to a lot.
->
-> Okay, but I hope at least we could be a bit more verbose in the comments, because
-> __vm_virt_pgoff_lo and __vm_virt_pgoff_hi are located somewhat far apart from each
-> other, which might cause considerable confusion for others seeing these two
-> variables for the first time, and clarify difference between this new field and the
-> existing vm_pgoff, to aid understanding.
+Hi all,
 
-OK, I've added comments, these ultimately refer to the vma_start_virt_pgoff()
-comment which gives further details.
+we ran into a bit of a funny case where adding an SSD to store metadata
+to a (zoned) XFS file system reduced the performance vs using a HDD for
+both data and metadata.  It turns out this is due to readahead code
+looking at the BDI limits, including the io_pages value that can't be
+inspected or tuned from userspace.
 
->
-> Thanks.
-
-Cheers, Lorenzo
+Changes since v1:
+ - restore the old value at unmount, unless the BDI values changed
+   since mount
