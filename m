@@ -1,77 +1,146 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61BF3AE718;
-	Mon, 20 Jul 2026 08:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B5A3AE185;
+	Mon, 20 Jul 2026 08:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784534864; cv=none; b=Vs16Rav0E73tz/B7auGmfuR0gbhBowuzDx8DAAZNRfspn7XqvUcV/5a6/W84X5GUJZcSBOofXQvUyissnabfPPDQGDvWka8E359ElOcGi7aXsjTb0U3WD3/5f2dCLZXDUHOoWv4aWSMxy3nEZQ/1MdW+u3krl/72IPBEOarofNA=
+	t=1784535028; cv=none; b=Xhdn/yZuBIWIadUGhIUSvju1uqJmpMBsz4ysozvZsm8RUQ2YbSH7O7tzA+c/+9G9fUHcyl5RLtOBmQ7oCGuNNkle4356uajwFNR7fMpboOJu+NIFZDVEklLsQ/hp/Y9xwoU3QjoYlBhyrxhX5O9HBGwTgHiZP8KQvvSCnMXIPIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784534864; c=relaxed/simple;
-	bh=oX9m+LskLxwKLhDWP8omE/1987HKE52GUPJqsmlpb5Y=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YI+ECkDZw1t8NCfB6lRgU23TWcOpG061wCGHAPt3C+yzBTKWkmAMFq9oNKXCBoJlPVthHMtNtZZNUWZRGqTL4dV/+F/gqaKV6SCcsgxhWd3SJ+coHK1CYhHQQ277j2IKuuoX1d4eOgyigP3mrRZTMA6STR8aXYcBJfkyNo1b9vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=izn5mV/D; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1784535028; c=relaxed/simple;
+	bh=nohSGL3nNLxbgpJ63TZnkaSHeMR76iExJoJ+6foY/OY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pl9JjmJNjwYm0EgKLPJeJlKQT8WslkWAQvRIcKuGajx+IvVdY43WjAv8AW2WvupcKkRD88He6x53nE2/vwhRAMEZsdbOpU/WGlHuGk6N8eM4vyQdNowT/63qjarAP7fCsAiNT6uwUxS5KnF+0uTGmr06OYwqd95uOjwr5fjUv9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlHW1m24; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="izn5mV/D"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=f3CSOTh2GOqz5QwuSOIwM7/sExcCmKBDuMS/W2XlGAg=; b=izn5mV/DWeK7FKk75OiMAxuTA1
-	WcGLTHdsooMjMR9xpn0PojhaA2xTUq6Q13+ezolk57BEjJDUqHBI4v+s2G7VFS9R7LbYdMYSg+2Kf
-	JAVTmydtYUDVDzLv3XCo8GxnQahsLRWmwgvTYwsieUbfG4ABGIVcNT4hiU/vCc2CGF/m3UvhADa2/
-	hMdq9KFKzuRHf/ybNCB6Q+LigoDsC0e125fIL375KRTC2lktFpAM6wnmotzcFvLCoVfDfA/wslDp8
-	P155dTpFtsOfAuBHkI/CmZs9wofM3Xl3g6rBhb5JpTc4vRkYut3XGamYUV7ovrefazsREgYC7GwPH
-	r36N2pFQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlj2J-00000006A3S-49hl;
-	Mon, 20 Jul 2026 08:07:40 +0000
-Date: Mon, 20 Jul 2026 01:07:39 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Theodore Tso <tytso@mit.edu>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	"fstests@vger.kernel.org" <fstests@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"slava@dubeyko.com" <slava@dubeyko.com>
-Subject: Re: Should we consider disable generic/563 for file systems that do
- not support cgroup2?
-Message-ID: <al3XS4P7Z9lHSb_j@infradead.org>
-References: <ff1c0710cbb31f8ebf51457c0629a496ea6f658e.camel@ibm.com>
- <alpUADtQccA2zmWh@zlang-mailbox>
- <alzYSGVz86d7wDXn@mit.edu>
- <alzzQA9SR55FynDu@zlang-mailbox>
- <alz_HixXWhKTIfRV@mit.edu>
- <al0d2btWzQaFmcI5@zlang-mailbox>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlHW1m24"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C8A1F000E9;
+	Mon, 20 Jul 2026 08:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784535027;
+	bh=pIe+e4SuAHeLj9NpXSa8YjvEEO9XCr7z+7SZQCKB4Fg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RlHW1m24S3Qmywd+gIdgXQUL95tt6lRhPumQwUHuon8nnqZrwyA+lCz7xiWna628K
+	 eAogyWrBMpOEVLo0lNAl0t9oy5AnSjbvxB85xbVWREgzz40/87A12X25nUyC1YolKV
+	 nwmOBDSUobs1Cat+3mz0nb/Lsyak0/Kw/MINlhTkorTyAAJZIKAb1XTyMKDg5JsNub
+	 /2oZGHRLDrMQgvFCT4ZSRpFbgCNEF6Rsta0UNitIcDngKZvTMICflnj/kgrWACFByT
+	 Iv2qQRojJZYZ5D2WwCIK8cn/mEzwYS02w+tiNlVaOBGEpjtciTrtgZDsly9YEluAMu
+	 X0u30nMVikqzQ==
+Date: Mon, 20 Jul 2026 10:10:21 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] sysctl: repair some kernel-doc comments
+Message-ID: <fa4h52w5i4wznnqxyveeg5k7kfqe6kfmkkwrxmdunxtjwn42ud@fckpmqbhg2ox>
+References: <20260718190356.1892992-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cwe2redvuvhqvhjn"
+Content-Disposition: inline
+In-Reply-To: <20260718190356.1892992-1-rdunlap@infradead.org>
+
+
+--cwe2redvuvhqvhjn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <al0d2btWzQaFmcI5@zlang-mailbox>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 20, 2026 at 03:15:47AM +0800, Zorro Lang wrote:
-> Sure, hardcoding a _notrun based on FSTYP is a last resort, and it would
-> definitely be better if we had a more elegant way to trigger the _notrun.
-> As a test suite, I cannot enforce or dictate what features a specific
-> filesystem must export just for the convenience of testing :)
+pushed it to sysctl-next
 
-Yes.  And if we have to do that it should at least be in a common helper
-and not sprinkled over the tests.
+Thx
 
-> /sys/fs/$FSTYP/features/ is indeed incredibly helpful! Just a couple of
-> days ago, I was actually discussing expanding _require_fs_sysfs to support
-> features/ checks there, since our current checks are limited to the
-> /sys/fs/$FSTYP/$device/ directory:
-> 
-> https://lore.kernel.org/fstests/aloCfjjqesxpzL9z@zlang-mailbox/T/#mc5a0492cc00550467256951042828bef5d7fa38d
+Best
+On Sat, Jul 18, 2026 at 12:03:56PM -0700, Randy Dunlap wrote:
+> Convert a non-kernel-comment to use "/*" instead.
+> Don't use kernel-doc for the nested @type enum values since they
+> aren't part of the struct.
+>=20
+> Warning: ./include/linux/sysctl.h:62 Cannot find identifier on line:
+>  *
+> Warning: ./include/linux/sysctl.h:63 Cannot find identifier on line:
+>  * "dir" originates from read_iter (dir =3D 0) or write_iter (dir =3D 1)
+> Warning: ./include/linux/sysctl.h:64 This comment starts with '/**', but =
+isn't a kernel-doc comment.
+>  * in the file_operations struct at proc/proc_sysctl.c. Its value means
+> Warning: ./include/linux/sysctl.h:274 Excess struct member
+>   'type.SYSCTL_TABLE_TYPE_DEFAULT' description in 'ctl_table_header'
+> Warning: ./include/linux/sysctl.h:274 Excess struct member
+>   'type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY' description in 'ctl_table_he=
+ader'
+>=20
+> Note: This still leaves 7 struct members in ctl_table_header that
+> are not described. E.g.:
+> Warning: include/linux/sysctl.h:274 struct member 'unregistering' not des=
+cribed in 'ctl_table_header'
+> Warning: include/linux/sysctl.h:274 struct member 'ctl_table_arg' not des=
+cribed in 'ctl_table_header'
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Joel Granados <joel.granados@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+>=20
+>  include/linux/sysctl.h |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> --- linux-next-20260717.orig/include/linux/sysctl.h
+> +++ linux-next-20260717/include/linux/sysctl.h
+> @@ -59,7 +59,7 @@ extern const int sysctl_vals[];
+>  #define SYSCTL_LONG_ONE		((void *)&sysctl_long_vals[1])
+>  #define SYSCTL_LONG_MAX		((void *)&sysctl_long_vals[2])
+> =20
+> -/**
+> +/*
+>   *
+>   * "dir" originates from read_iter (dir =3D 0) or write_iter (dir =3D 1)
+>   * in the file_operations struct at proc/proc_sysctl.c. Its value means
+> @@ -245,9 +245,9 @@ struct ctl_node {
+>   * @nreg: When nreg drops to 0 the ctl_table_header will be unregistered.
+>   * @rcu: Delays the freeing of the inode. Introduced with "unfuck proc_s=
+ysctl ->d_compare()"
+>   *
+> - * @type: Enumeration to differentiate between ctl target types
+> - * @type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considera=
+tions
+> - * @type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently e=
+mpty dir
+> + * @type: Enumeration to differentiate between ctl target types:
+> + * type.SYSCTL_TABLE_TYPE_DEFAULT: ctl target with no special considerat=
+ions
+> + * type.SYSCTL_TABLE_TYPE_PERMANENTLY_EMPTY: Identifies a permanently em=
+pty dir
+>   *                                            target to serve as a mount=
+ point
+>   */
+>  struct ctl_table_header {
 
-features can very much depend on the actual file system instance.
-Trying to expose them globally doesn't make much sense.
+--=20
 
+Joel Granados
+
+--cwe2redvuvhqvhjn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmpd1+UACgkQupfNUreW
+QU/swQv/SwzDZjJW9vghABWVZjCSnOH5KWRj3cOCn6DrcRyAHzOJF6erIp34yT6z
+WGeH17VWmi1Yb6Opkpg9sOAWx+AV6o3ByBMYOiHJoLVolRIbPU4u5j54dpsSnNSI
+yMpAsZFY2sey1Xcx/CBvaiXPE0JnIIuSPVTu4V7W6FQUCn4EgF3QI75zvBxiME1M
+ZPWkSCD7TRo9Pl9z1Q5pC9n7gWnhhUJ1TWSGK33j+8fX7i5CEao64+HUev45I6EK
+PYY8HM1Qx+ayZp/KvflbX2yt7q7NpsG0MPZ1FFjdhXLE3u2tn8wlUze/II3WGgxw
+5bnjfF1kx//TRcwL0rPbit11FcSpfFEKzyeDbx5F0j6WjN/LhPzeOab1KmUsWZpj
+7ooaDZQTUmADrTfOAkzN8QyFqyfzEEoInAwQCEsYBOx1FdbckGbDg3kWTCKe+MMQ
+ch3MUCw1j1nRTgpOfo9hOW9Mt/4Ckaga8CdNDTvNLs8roP6Tlg2uZ6uq/GxHjG8h
+Ku5kzbSZ
+=GX2H
+-----END PGP SIGNATURE-----
+
+--cwe2redvuvhqvhjn--
