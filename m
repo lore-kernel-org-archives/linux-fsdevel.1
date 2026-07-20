@@ -1,53 +1,55 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C911C3911CF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 20:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC5A3B71B6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 20:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578288; cv=none; b=t9RCYECv6mqs1HNhy7lgTYlGau5Qi7BI0BLvqdd+CP0Nz9rqzTGPLrOfyrbIyl0aBq5cm9iTLvOoNdTY3Lk1vyukI9t6kxMF/p+z9OTWYn/b/7xANOuQtTRMViE69XAinJLvIx03TTL+1FKEksvjuuIFv475FjU5P0TMue7xv7E=
+	t=1784578438; cv=none; b=llP5MqmJOy8D2wFUFc+ay2eQg1cDEX3KblS2McuZ54RbrLkczsguDd6VEh6FMNBkzU7n1k4urRGFV1RmlGkSp/lOfntfF78W3ujvFjrkfg0zZphLmlGNWCR0zlHpgHR3CXvPMuhvhFF0UecvLdLF5SwGsSo1ICEkLr9Igr3pAoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578288; c=relaxed/simple;
-	bh=w3Xa/iXqzZWiooILbdH/Rjm/ENI/F9TkzgM2t/CehlM=;
+	s=arc-20240116; t=1784578438; c=relaxed/simple;
+	bh=E5VAhPvDixDBh158Ani5pbOmnUT0JYN9QyGrNlKc7uY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mZ9C/fqXQD4xA2+I6RTxG5LYG6ApekM52hmVwrwR6XkdXoDWG+WYt0M/u2HNSElv1Ds32x6ErWEFTVx6QBn0W7PMoGsw7nwSuQILVqxaFKgHdc/i1FrTedIj/mHqgcVDlcAM69twQxs/mXV6TcpJCCB6VbYIWC8qXFLeMydQig0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=meld+Cxw; arc=none smtp.client-ip=67.231.145.42
+	 MIME-Version:Content-Type; b=ZScGIQmC2YWTK8AS5HrTtpoGq2Jc1gNx8igPXX1HLO12IZxf3vvnSjulqBPK9fDTIJCf/7wvuOkdBaAgowEXMoffiVeRsKES5L6lFU5TuOur3Y8A1/3MFCjrcUSfZclQqTylji2PKRSM0MkTlm6+POQ4Atvlv/eadTh0u24yAYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=SfapyLm4; arc=none smtp.client-ip=67.231.153.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="meld+Cxw"
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KJPa6I2812993
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:11:26 -0700
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="SfapyLm4"
+Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KJQDfQ2796050
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:13:50 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=6IkMvZEDQC8Kyw2HxFcjW9YV77xNYp0pa980zCACESc=; b=meld+Cxw4Sft
-	ROjZZBiHj/zqHlsx1v81YLehgeX4PxOlbyeZWLjI25bJLIQ6tBggtR7zhbckk18X
-	FLTovdFm7eyi1VMijCtdfqyrbXOjKVz0+RFBMg0+q8hg0t7UlEqvSH1KCEsVdXLO
-	SpnBwE3XjZ64jhsUlz1o5/i+yciCcUeygZRKVhX+Gi6hSmw2QfE3RGGvzxZS/4eC
-	qCIHBtP9+bIUYnga4UPlK6zblhBFumoQqW5mirYeruIONdyrsguWzp5mFK2+ZEjs
-	q3478xqZgxMthiSdRRDz91jVW5I6tLvM+ehz5XcQTAkssM5MuTMyd10cop1RCCfj
-	jHaaebR66A==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4fg8sgbh44-9
+	 bh=o82DoYYSV0y8IQ1YJ1GlyPVGUbcY0WkkSn58pb5xlm4=; b=SfapyLm4c6T+
+	t/2SaGxFEX/1/U/yXlBZ82364LfX3B1/1vv3u9bUp/vlauzYhlwDZAZhLTIS+6aT
+	7iRYEUna2xLEUnlm6N4/lrKJ/ZU2k/s0e2iqYMCD2tSLH44p0fNg9+lMNgwBb5G0
+	uXMCNj2ukTScByvRQPoQwk9VVpydgy7wqGZpbY/NjX8eVuM/HnKRUyp8uMI532M3
+	krVE1fB+vAHntgBCTIaZAB19/D25+MGGNgPyOfyPBXNJz8uX+qRBdqk2ZgLF37Lq
+	jWQVUdtlu13cGz00KiZ3o0DJsXmM9GXqXGvli6ubOz8xYqzU7y75J48OH0cjq44W
+	3WmWCjMbdA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4fgu4dg0hc-6
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:11:26 -0700 (PDT)
-Received: from twshared19691.04.snb1.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:13:49 -0700 (PDT)
+Received: from twshared25342.02.snb2.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Mon, 20 Jul 2026 20:11:21 +0000
+ 15.2.2562.41; Mon, 20 Jul 2026 20:13:46 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id C72C025A0028A; Mon, 20 Jul 2026 13:11:03 -0700 (PDT)
+	id A33A225A00290; Mon, 20 Jul 2026 13:11:04 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
         <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
         Keith
- Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH RESEND 3/5] loop: set dma_alignment from the backing file for direct I/O
-Date: Mon, 20 Jul 2026 13:10:55 -0700
-Message-ID: <20260720201057.1862857-4-kbusch@meta.com>
+ Busch <kbusch@kernel.org>, <stable@vger.kernel.org>,
+        Hannes Reinecke
+	<hare@kernel.org>
+Subject: [PATCH RESEND 5/5] block: validate user space vectors during extraction
+Date: Mon, 20 Jul 2026 13:10:57 -0700
+Message-ID: <20260720201057.1862857-6-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260720201057.1862857-1-kbusch@meta.com>
 References: <20260720201057.1862857-1-kbusch@meta.com>
@@ -60,164 +62,284 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=MKZQXsZl c=1 sm=1 tr=0 ts=6a5e80ee cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+X-Proofpoint-GUID: PcvtmztArLpW_fFYFEPmzRwsFpIGDTQv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIyMSBTYWx0ZWRfX8eb/V5lNzG8o
+ DrYSl5aEHT9GcSWEE6igMlxvxAX7o82Tkigr32n9eyQFTETvzkn6TxoIRSCaJeZ77vdLK6kIvMN
+ pDbCmJj0qCFgDqNvfvt34Ht2iLUpooc3aL0Gux3axTLFlkcuzoIFZUCHITf3aFFWDEzDr48Y2jY
+ PA6ZKCQdM0YDQfflBgAjwcSL4aw4fXLwf5wT81azsyufKGGJ4cztQqzHKtUc7B3ni5YXFHEmOEk
+ XJkiTn3Rmnf1f0iuVTWmwFclfbiE3UwL0CPvmIiipv3+Ht+FqLEhQtlqxReoIYlmeWenE2WM0QL
+ r7sAeLIVMGIoy8MeYN+zX4ROL5msLqDoL51Z2q7kYKM1yXy+QRnrs6rhxW+Qsl2SQseb3VfJYe6
+ 0jM1aoS6RFciQYk1ZhH9HXISOUVrLzvuEudC341lGg9kSg+MRHg3x8ot/G5YwFUeMnNXnpZe3wM
+ hCCMYY+PuhkG1pRhZDw==
+X-Proofpoint-ORIG-GUID: PcvtmztArLpW_fFYFEPmzRwsFpIGDTQv
+X-Authority-Analysis: v=2.4 cv=NOrlPU6g c=1 sm=1 tr=0 ts=6a5e817d cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=crHB47gyY4rKiduisYu9:22 a=VwQbUJbxAAAA:8 a=w3YrK2sSALtTPwlh2GsA:9
-X-Proofpoint-GUID: WATXSrggtshmeLcCq9Jj5aGNFcQ8zb9y
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX98Mx5+Mc5uGW
- UNzi35SqaRXvPpzMNFsl9HUiFYuiSbqp36fzq/XeBSR1V67PO7ArEdTKsmHMoAPheLDetmrT8/J
- /H1O061PuyXfqNINSOLoEY37mVL9tgY=
-X-Proofpoint-ORIG-GUID: WATXSrggtshmeLcCq9Jj5aGNFcQ8zb9y
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX16cl57wDPNFv
- ZxKLWdgdJP+RhPeIzSVReTi+YhyAYzYPb66lQ12diJHB4GVwjyzhowIdFtoStcYcTLkd1eAT1x6
- kTjYjhDhgpzr/D2u1tYb8hBacNr1SDoCOSAyqgUI8tYqBvMwTVChZFNMz0FLdZ+SfjgXJfL5rbb
- hrBsP2FccuW8+pP0sD97YK5C9Uw40fJKWljLwyxzXwidkutDCAtE+cRm4Jb2h+jdVtsbsNHJrSK
- URx+z6v+J3h4XU3AVih0BJTWu30zkzzPHy16IvZq3Td16kGv2/MWPh2f5lE3ctCp6QhV85hcckm
- xOKK4tcWVteWeY1p2f4JF4bC1SBckshVEHTVF3U14QiVYmuRA+Mwr0Q7sQ9MXa5ztxz0J4qjcXp
- t94W8CuOyW2ITDJ2ZWV82BroNgMQAWLuvR1mENeCsUJQYmohOEhX5/w1Prgk/13U+OT3f+8EYEr
- FD9+Dm13hnug4auR8Nw==
+ a=GbPsI2Ihf5RTnMjR_gZv:22 a=VwQbUJbxAAAA:8 a=Hx0Vx7WpTRxxbsLxYwoA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIyMSBTYWx0ZWRfXzETwImbDgtAI
+ A6a0ECdBhbiyTHFTXMA/m5Uw+5vgG90QAg2NZiDJx01Bt1Yg7PO1dUzNbKCdQ5FazB+OivDZGKO
+ V/qisu9Hx1bmKcYkVltfvBncsP63lr0=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-20_05,2026-07-20_03,2025-10-01_01
 
 From: Keith Busch <kbusch@kernel.org>
 
-Direct I/O user pages are forwarded to the backing file unchanged, so
-the backing's DMA alignment requirement applies to them. Track the
-backing's dio_mem_align and advertise it as the loop device's
-dma_alignment so we advertise proper limits and misaligned I/O is
-rejected here instead of being dispatched to the backend.
+The bio-based drivers don't necessarily check the alignment split, and
+stacking block drivers don't always handle a misalignment detected after
+submitting the bio. Validate user vectors against the device's
+dma_alignment as the bio is built from the iov_iter, rejecting
+misaligned early with -EINVAL.
 
+Cc: stable@vger.kernel.org
+Fixes: 5ff3f74e145a ("block: simplify direct io validity check")
+Fixes: 7eac33186957 ("iomap: simplify direct io validity check")
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/block/loop.c | 46 ++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+ block/bio.c          | 56 +++++++++++++++++++++++++++++++++++++++++---
+ block/blk-map.c      |  2 +-
+ block/fops.c         |  2 +-
+ fs/iomap/direct-io.c |  1 +
+ include/linux/bio.h  |  2 +-
+ include/linux/uio.h  | 10 +++++++-
+ lib/iov_iter.c       |  9 ++++++-
+ 7 files changed, 74 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 310de0463beb1..5fe61d542f8b7 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -54,6 +54,7 @@ struct loop_device {
-=20
- 	struct file	*lo_backing_file;
- 	unsigned int	lo_min_dio_size;
-+	unsigned int	lo_dio_mem_align;
- 	struct block_device *lo_device;
-=20
- 	gfp_t		old_gfp_mask;
-@@ -447,26 +448,37 @@ static void loop_reread_partitions(struct loop_devi=
-ce *lo)
- 			__func__, lo->lo_number, lo->lo_file_name, rc);
- }
-=20
--static unsigned int loop_query_min_dio_size(struct loop_device *lo)
-+static void loop_update_dio_alignment(struct loop_device *lo)
- {
- 	struct file *file =3D lo->lo_backing_file;
- 	struct block_device *sb_bdev =3D file->f_mapping->host->i_sb->s_bdev;
- 	struct kstat st;
-=20
- 	/*
--	 * Use the minimal dio alignment of the file system if provided.
-+	 * Use the dio alignment of the file system if provided.  The incomoing
-+	 * request's bio_vec is forwarded to the backing file unchanged, so its
-+	 * required memory alignment becomes the device's dma_alignment when
-+	 * used for direct-io.
- 	 */
- 	if (!vfs_getattr(&file->f_path, &st, STATX_DIOALIGN, 0) &&
--	    (st.result_mask & STATX_DIOALIGN))
--		return st.dio_offset_align;
-+	    (st.result_mask & STATX_DIOALIGN)) {
-+		lo->lo_min_dio_size =3D st.dio_offset_align;
-+		lo->lo_dio_mem_align =3D st.dio_mem_align - 1;
-+		return;
-+	}
-=20
- 	/*
- 	 * In a perfect world this wouldn't be needed, but as of Linux 6.13 onl=
-y
- 	 * a handful of file systems support the STATX_DIOALIGN flag.
- 	 */
--	if (sb_bdev)
--		return bdev_logical_block_size(sb_bdev);
--	return SECTOR_SIZE;
-+	if (sb_bdev) {
-+		lo->lo_min_dio_size =3D bdev_logical_block_size(sb_bdev);
-+		lo->lo_dio_mem_align =3D bdev_dma_alignment(sb_bdev);
-+		return;
-+	}
-+
-+	lo->lo_min_dio_size =3D SECTOR_SIZE;
-+	lo->lo_dio_mem_align =3D SECTOR_SIZE - 1;
- }
-=20
- static inline int is_loop_device(struct file *file)
-@@ -509,7 +521,7 @@ static void loop_assign_backing_file(struct loop_devi=
-ce *lo, struct file *file)
- 			lo->old_gfp_mask & ~(__GFP_IO | __GFP_FS));
- 	if (lo->lo_backing_file->f_flags & O_DIRECT)
- 		lo->lo_flags |=3D LO_FLAGS_DIRECT_IO;
--	lo->lo_min_dio_size =3D loop_query_min_dio_size(lo);
-+	loop_update_dio_alignment(lo);
- }
-=20
- static int loop_check_backing_file(struct file *file)
-@@ -940,6 +952,19 @@ static unsigned int loop_default_blocksize(struct lo=
-op_device *lo)
- 	return SECTOR_SIZE;
- }
-=20
-+static void loop_set_dma_limit(struct loop_device *lo, struct queue_limi=
-ts *lim)
-+{
-+	/*
-+	 * Direct I/O forwards the user pages to the backing file unchanged, so
-+	 * track the backing's DMA alignment requirement as the mode is toggled=
-.
-+	 */
-+	if (lo->lo_flags & LO_FLAGS_DIRECT_IO)
-+		lim->dma_alignment =3D max_t(unsigned int, lo->lo_dio_mem_align,
-+					   SECTOR_SIZE - 1);
-+	else
-+		lim->dma_alignment =3D SECTOR_SIZE - 1;
-+}
-+
- static void loop_update_limits(struct loop_device *lo, struct queue_limi=
-ts *lim,
- 		unsigned int bsize)
- {
-@@ -961,6 +986,7 @@ static void loop_update_limits(struct loop_device *lo=
-, struct queue_limits *lim,
- 	lim->logical_block_size =3D bsize;
- 	lim->physical_block_size =3D bsize;
- 	lim->io_min =3D bsize;
-+	loop_set_dma_limit(lo, lim);
- 	lim->features &=3D ~(BLK_FEAT_WRITE_CACHE | BLK_FEAT_ROTATIONAL);
- 	if (file->f_op->fsync && !(lo->lo_flags & LO_FLAGS_READ_ONLY))
- 		lim->features |=3D BLK_FEAT_WRITE_CACHE;
-@@ -1416,6 +1442,7 @@ static int loop_set_dio(struct loop_device *lo, uns=
-igned long arg)
- {
- 	bool use_dio =3D !!arg;
- 	unsigned int memflags;
-+	struct queue_limits lim;
-=20
- 	if (lo->lo_state !=3D Lo_bound)
- 		return -ENXIO;
-@@ -1434,6 +1461,9 @@ static int loop_set_dio(struct loop_device *lo, uns=
-igned long arg)
- 		lo->lo_flags |=3D LO_FLAGS_DIRECT_IO;
- 	else
- 		lo->lo_flags &=3D ~LO_FLAGS_DIRECT_IO;
-+	lim =3D queue_limits_start_update(lo->lo_queue);
-+	loop_set_dma_limit(lo, &lim);
-+	queue_limits_commit_update(lo->lo_queue, &lim);
- 	blk_mq_unfreeze_queue(lo->lo_queue, memflags);
+diff --git a/block/bio.c b/block/bio.c
+index f2a5f4d0a9672..faad41a72ac77 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1220,10 +1220,45 @@ static int bio_iov_iter_align_down(struct bio *bi=
+o, struct iov_iter *iter,
  	return 0;
  }
+=20
++#ifdef CONFIG_DEBUG_KERNEL
++static inline bool bio_iov_bvec_aligned(const struct bio *bio,
++					unsigned mem_align_mask)
++{
++	struct bvec_iter iter;
++	struct bio_vec bv;
++
++	/*
++	 * Correct callers never break the alignment requirements, so this
++	 * exhaustive check is only paid for in debug builds.
++	 */
++	for_each_mp_bvec(bv, bio->bi_io_vec, iter, bio->bi_iter)
++		if ((bv.bv_offset | bv.bv_len) & mem_align_mask)
++			return false;
++	return true;
++}
++#else
++static inline bool bio_iov_bvec_aligned(const struct bio *bio,
++					unsigned mem_align_mask)
++{
++	/*
++	 * We forward the bio_vec as-is, so ITER_BVEC callers must provide
++	 * segments already aligned to the device's DMA alignment. The only
++	 * unchecked user-controllable offset that reaches here is an io_uring
++	 * registered buffer where just the first segment can be unaligned
++	 * (the rest is virtually contiguous), so checking only that one is
++	 * sufficient to know if the entire vector is valid.
++	 */
++	return !(mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
++							mem_align_mask);
++}
++#endif
++
+ /**
+  * bio_iov_iter_get_pages - add user or kernel pages to a bio
+  * @bio: bio to add pages to
+  * @iter: iov iterator describing the region to be added
++ * @mem_align_mask: the mask the source address and length must be align=
+ed to,
++ *	0 for no requirement
+  * @len_align_mask: the mask to align the total size to, 0 for any lengt=
+h
+  *
+  * This takes either an iterator pointing to user memory, or one pointin=
+g to
+@@ -1242,7 +1277,7 @@ static int bio_iov_iter_align_down(struct bio *bio,=
+ struct iov_iter *iter,
+  * is returned only if 0 pages could be pinned.
+  */
+ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+-			   unsigned len_align_mask)
++			   unsigned mem_align_mask, unsigned len_align_mask)
+ {
+ 	iov_iter_extraction_t flags =3D 0;
+=20
+@@ -1251,6 +1286,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
+ iov_iter *iter,
+=20
+ 	if (iov_iter_is_bvec(iter)) {
+ 		bio_iov_bvec_set(bio, iter);
++
++		if (!bio_iov_bvec_aligned(bio, mem_align_mask))
++			return -EINVAL;
++
+ 		iov_iter_advance(iter, bio->bi_iter.bi_size);
+ 		return 0;
+ 	}
+@@ -1265,8 +1304,19 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
+ iov_iter *iter,
+=20
+ 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec,
+ 				BIO_MAX_SIZE - bio->bi_iter.bi_size,
+-				&bio->bi_vcnt, bio->bi_max_vecs, flags);
++				&bio->bi_vcnt, bio->bi_max_vecs,
++				mem_align_mask, flags);
+ 		if (ret <=3D 0) {
++			/*
++			 * A misaligned vector fails the whole I/O.  Release any
++			 * pages pinned by earlier iterations before returning
++			 * since this bio won't be submitted to release them.
++			 */
++			if (ret =3D=3D -EINVAL) {
++				bio_release_pages(bio, false);
++				bio_clear_flag(bio, BIO_PAGE_PINNED);
++				bio->bi_vcnt =3D 0;
++			}
+ 			if (!bio->bi_vcnt)
+ 				return ret;
+ 			break;
+@@ -1377,7 +1427,7 @@ static int bio_iov_iter_bounce_read(struct bio *bio=
+, struct iov_iter *iter,
+ 		ssize_t ret;
+=20
+ 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec + 1, len,
+-				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0);
++				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0, 0);
+ 		if (ret <=3D 0) {
+ 			if (!bio->bi_vcnt) {
+ 				folio_put(folio);
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 768549f19f97e..c9535efe1a913 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -274,7 +274,7 @@ static int bio_map_user_iov(struct request *rq, struc=
+t iov_iter *iter,
+ 	 * No alignment requirements on our part to support arbitrary
+ 	 * passthrough commands.
+ 	 */
+-	ret =3D bio_iov_iter_get_pages(bio, iter, 0);
++	ret =3D bio_iov_iter_get_pages(bio, iter, 0, 0);
+ 	if (ret)
+ 		goto out_put;
+ 	ret =3D blk_rq_append_bio(rq, bio);
+diff --git a/block/fops.c b/block/fops.c
+index 0098a90a956e1..e519d7f43b310 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -46,7 +46,7 @@ static bool blkdev_dio_invalid(struct block_device *bde=
+v, struct kiocb *iocb,
+ static inline int blkdev_iov_iter_get_pages(struct bio *bio,
+ 		struct iov_iter *iter, struct block_device *bdev)
+ {
+-	return bio_iov_iter_get_pages(bio, iter,
++	return bio_iov_iter_get_pages(bio, iter, bdev_dma_alignment(bdev),
+ 			bdev_logical_block_size(bdev) - 1);
+ }
+=20
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index b485e3b191daf..ff458aa12ae29 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -358,6 +358,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_it=
+er *iter,
+ 				iomap_max_bio_size(&iter->iomap), alignment);
+ 	else
+ 		ret =3D bio_iov_iter_get_pages(bio, dio->submit.iter,
++					     bdev_dma_alignment(bio->bi_bdev),
+ 					     alignment - 1);
+ 	if (unlikely(ret))
+ 		goto out_put_bio;
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 8f33f717b14f5..ce34ea49ef358 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -477,7 +477,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t =
+sector, void *data,
+ 		size_t len, enum req_op op);
+=20
+ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+-		unsigned len_align_mask);
++		unsigned mem_align_mask, unsigned len_align_mask);
+=20
+ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
+ void __bio_release_pages(struct bio *bio, bool mark_dirty);
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index a9bc5b3067e32..fe2e985d74d24 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -389,9 +389,17 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i, s=
+truct page ***pages,
+ 			       size_t maxsize, unsigned int maxpages,
+ 			       iov_iter_extraction_t extraction_flags,
+ 			       size_t *offset0);
++/*
++ * Block-layer consumers (e.g. bio_iov_iter_get_pages()) require that th=
+e
++ * segments of an ITER_BVEC iterator are already aligned to the target d=
+evice's
++ * DMA alignment, and forward them as-is.  In-kernel users that build th=
+eir own
++ * bvecs must not create sub-aligned segments; iov_iter_extract_bvecs() =
+enforces
++ * the same for the segments it extracts via @mem_align_mask.
++ */
+ ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
+,
+ 		size_t max_size, unsigned short *nr_vecs,
+-		unsigned short max_vecs, iov_iter_extraction_t extraction_flags);
++		unsigned short max_vecs, unsigned mem_align_mask,
++		iov_iter_extraction_t extraction_flags);
+=20
+ /**
+  * iov_iter_extract_will_pin - Indicate how pages from the iterator will=
+ be retained
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 273919b161617..c343075951ded 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1886,6 +1886,8 @@ static unsigned int get_contig_folio_len(struct pag=
+e **pages,
+  * @max_size:	maximum size to extract from @iter
+  * @nr_vecs:	number of vectors in @bv (on in and output)
+  * @max_vecs:	maximum vectors in @bv, including those filled before call=
+ing
++ * @mem_align_mask:	reject with -EINVAL if the source address or
++ *		length is not aligned to this mask
+  * @extraction_flags: flags to qualify request
+  *
+  * Like iov_iter_extract_pages(), but returns physically contiguous rang=
+es
+@@ -1897,14 +1899,19 @@ static unsigned int get_contig_folio_len(struct p=
+age **pages,
+  */
+ ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
+,
+ 		size_t max_size, unsigned short *nr_vecs,
+-		unsigned short max_vecs, iov_iter_extraction_t extraction_flags)
++		unsigned short max_vecs, unsigned mem_align_mask,
++		iov_iter_extraction_t extraction_flags)
+ {
++	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
+ 	unsigned short entries_left =3D max_vecs - *nr_vecs;
+ 	unsigned short nr_pages, i =3D 0;
+ 	size_t left, offset, len;
+ 	struct page **pages;
+ 	ssize_t size;
+=20
++	if ((start | iter_iov_len(iter)) & mem_align_mask)
++		return -EINVAL;
++
+ 	/*
+ 	 * Move page array up in the allocated memory for the bio vecs as far a=
+s
+ 	 * possible so that we can start filling biovecs from the beginning
 --=20
 2.52.0
 
