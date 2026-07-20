@@ -1,247 +1,202 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CE739B97B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 15:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D39384224
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 16:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784563057; cv=pass; b=df/8R+ipMMIAyWcCumVJ3cGYwOxJ7Pds+CEbkf/4syYZyzK19qrkdbaxk1cKDilhQjgQ9N+gPehhUErnV13nuh53chk8JdD7PT+SjhYXgtcmfGhuoLh1xS7R6e67xGh9vZyzThASsMCzRaSRtgDztYclanfcK06NzYCvWjkf58I=
+	t=1784563250; cv=pass; b=Jeh1FM/VKeTpZvCobwyq+2eLsmaNyHts7DVE6w13C1+cEKsUkJpSIkPmdfsZaTTrmUfyEvPSmYQEujehxzY3b/htodVidvKFhh5kECI6Ghjw33JU9cWvABxxgyUDKKil7UtkU0jzkd16MUMmH3CInvu5tq/J1k5C+Nsq0z8x/JI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784563057; c=relaxed/simple;
-	bh=Mon3Pr+zMAlMVv9yjVmVgwPQkR50RhUlnF/ZB4UOMXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l6kjhWB2nwcpQC1r+LTaXI8/kAJrW5j0p3CMzebqGLHNIkpu3QDVqoWUiqIbfAXz1bkPPYAxEjRHF6MUqH/c/Yxhv9GpHzTNfWnBOM0mg4dWW4CirK7CidXuVAR86ga4MqZxL2jvVLicNipgDEp6VKwNYdv/TCpKnYQ/YGu+0HM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R5jj355o; arc=pass smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1784563250; c=relaxed/simple;
+	bh=5Xbtz/Av6bHkE96U4IBoQl5A9uLRqp5aeHgjDtdNOrA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=lMnPngxlhX7hkgG2wHUgiyUJBfnSkTtywtLWIfCFcPrgZhKbhMP+LDp8toBGrgQrIDKYQLpT6B/37VEQiu7Xcw7dGJOFRn06Kzxjmrws1kgEs2QzHpltdZDj9LwdHcgFUjBI86Ma0Q64tfF01RcD/KShV8eXeBmkAXcP8jk+5fM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Av5IQNWd; arc=pass smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R5jj355o"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49558ce01afso13388195e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 08:57:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784563053; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Av5IQNWd"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aec201b582so10279537e87.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 09:00:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784563247; cv=none;
         d=google.com; s=arc-20260327;
-        b=q2UL66tB5AmljShnH52hy4EUyoBjZm72TcHczev/hJUIi0VDjVankycabjUX/8muiT
-         IYqzgqJfIZQL0BZaajEvE68WUquKzVgQIU4F93yvjhjEWsW1DnyPbQp3R2jPH4Q3rN/u
-         5FQfvKPhPOFzhyJhDVdEjGjURs5lntQJm1lB9UGumEDyYjKpPAN+5ZeSxDpqliNJ0Ble
-         lqgVnzpewi+Pf++na1vpc3xQGXqA2Kkf+2Ii9bg4YFY0N7jqtqxTjWplSyJajBBKoXzf
-         IC+TdyrhNrgbxMTh2D/MWcDZzU2WyurOSgInPBBd9jOhdgnv7FMy1Ik7iv1lKoq3jxT/
-         vDpw==
+        b=mRRifG2G6WKqdql1fRRx9zCt1teDOwqnK3oiHiwFG1XawkRfcl9SO5B7R15bWtzOcB
+         YlS4lLlscoBMLGL1x/cXz/X+ieimu8CTV66cFPN3nJFDvFsRaE4lpT2myQXM3SU18MHc
+         N8tIrLS8d+lSNStLDuTn4iBJWk4fNM/sFkx9jFAKyYKN5PsrS0CJhoKXapBBrgnXg3bh
+         Ie2TfzOsvXIj2kiK6sPmExI1JBukrffKGLlq4wMPspg2/k20cFNa1TmGKIMoMMAsqXCJ
+         BP2FfHJd+nr8slYjBttZa7ciAMxaFKj0isws+DxxaXLFOiAneTCyNceptOtNgk4ITSDZ
+         tnOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0KyJzAdpvvNft9Y4h33/V64POIpIo0Lhh3rE6JSsSJM=;
-        fh=9U7yNhWYvCCMKFLf91m1JedUgOpnBfBjI55O3DYbc9U=;
-        b=hHW7vw9WD1SNyzLfFr9zP9TLrqHkZdehghgeicgPFG71cxz934z55pMxdp2jgPoXPm
-         fmTAPKosFB4NDELcYGT396LF+fZrZYsUnz599Lm4zqtV/UcVMpbpDEHthSLhWP8K9LRs
-         QPXrrKEI3xRZSI4SeRPSeJBgse9UqxymK3KKuj7jgCsZ0j9T/YMwy0l27ijmO+P7i5Ub
-         7lS4q9KMkVy6bfHOvZv5sCwsnK1mBooAeGBbumhdgzk1KfJOh8lkFsuXd+ySmiCl6p19
-         Q82Ph92HOF87hS2A9pi5flTUQLuEx55k1nmf8DI/W/iuBslMAnNSEYcmS89vgMm7ejoF
-         vR7Q==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=gOqp80OGxHNHpl1a0k006+fhM1SsculZu3NHpvxX72g=;
+        fh=8VdRkheC88JuYsy26tsDZZSRCwYFq4JhviggrD3d8Pc=;
+        b=m8bAtSxc+UviAuhxvVTWZ0WJ4AUohA+tX4Tj1Q1OH7heNu7m4lVL9BrIw5VD3e4nVg
+         yRoJiqpoqXCjH8YG1Xgs0RJrK35EnxAjrssFe+pbU6GdEjOMhwtD2Zme1HeNGGNXjXtS
+         c0fO8m1JRvghhgt/fRhjtofLWBo6yrWRNqTFQiXi/arr75sb7QdRnTamYeRHgSR7I0Li
+         RGqTSErsnZQNpK5AQ/Nq/pbzgaqmZMUYl2Cujwquz13Es6Afip1YnBu9+FecUvGtlalA
+         IRtBvqgUssuKAB5tkkeYiu3mmH0b9/iw5pdcxeZ+F/v/pI3rWqBgMdgUvNfNea0THaeh
+         fZGQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784563053; x=1785167853; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0KyJzAdpvvNft9Y4h33/V64POIpIo0Lhh3rE6JSsSJM=;
-        b=R5jj355o1N4VrnSCmzkRKoaA/B51Km22KQvLDdxtH5N5QieLQqOo17z68CuujtJ52p
-         P4I8MCWvCxTeu4E00F9Nj3SDt7CaYloE4yjxlILz5Po8A2vtREP87cnj6wDomeqQSxLe
-         UgAZnW2LhgQEZLS4t5s8lEz2TCZF3QayVGQpeERcuFdm5E8tJ6H4pUxw6PAord/k/ZSF
-         LV5E1VQRYUYWrScmpDx3bl/tEBJsJFCu+P0cqzNkKmFIrOAIt3iODyF/fq+7D/KtSiZ8
-         fvRC4ZwxLhZBJoC4RrXKelRElcn/7nnLNUmbU1g7INXULRRp/5p+GXCz2OIy8BID/BX7
-         Y3jw==
+        d=gmail.com; s=20251104; t=1784563247; x=1785168047; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gOqp80OGxHNHpl1a0k006+fhM1SsculZu3NHpvxX72g=;
+        b=Av5IQNWdFEXNC5HwO/MjZQ8YFTCawvJmodSahKtQpyX1hDJ1ZCPIITzZ7zd1h/+n7l
+         SzIrqN14qnj+xK30kpefs3UGXObjGjoQ+N/GYVhjVId7XAOQyNZ/YqS7VQl5iT85BkQI
+         vpAgItscISp5tAM5p1+6+M/KOCepSHdK9QlRBVpPwBgJjCYyZlFWzYyhO+IQnY9oq/pj
+         pYFaFNAIXY+l9TRvDItdcwHizlEv6478CqtFEiL0lBVktmg0gqSAnLYRzaz7me/06cVx
+         sjb1rw9bkT6+KSgfCFZjyywbnrtggYSUvq5iG+wEhvn4Ygwd354+VJtzhr9VezgD3Fel
+         qICA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784563053; x=1785167853;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0KyJzAdpvvNft9Y4h33/V64POIpIo0Lhh3rE6JSsSJM=;
-        b=YtcQcDH0T6mGjfisJ4BkzM/GTFPgOl2tsBOTdxwmR2hl3vqSxRXew2lhdm/Y1+747s
-         yWpOJPlhBIjfrcYl3MR0+Jjp54cMumk2pm8bPk0SBaXE8+3mPix6XEeQlKDauMllanJJ
-         39u9Z4rVUME6x3bhjyfRqoViwdAW2MY18gJtRE5I6jBXW2F/a44WCk3YoXx/FQHTQtV7
-         OVkgEnA20sRiSCiQ90dr33VkXnfD0tqAeIhImAdAGUDgvDKLcCkjtAu6aO2erZuSdFUo
-         5QkHyRmepbHtmFDI+sn4q7DaFZi+DJDQFXomJlNjwm/aikVIyBfX4FCDYq9cg9jXkYPl
-         2l7w==
-X-Forwarded-Encrypted: i=1; AHgh+RqgHgw044pamg9Ya7usSGGa0uQDsMUsayWlyl3dDR/XliSJ8ixWA5c4PsuAwgZ8gi5P5hQRU9W8iAKVLMkm@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoR57FMn/BW6Di8N5/JwReNuDDgGVMYn/v4CEbjiZroemR/hjO
-	ZpzPb/eM4Mx1KXmXjAOWFCQ+Tefvt2M+5djCVemJzcUHVKs+FneDFJVFBMozYYb84qR2/IzjNNL
-	E4yk4HslhQqWAdD7je65jEvRHTQPC8/E=
-X-Gm-Gg: AfdE7clum63DHa47FDiDc1N3uZe3jzqxqungijP0dYRCFv0EvcDrz0vn/IDNKJg67x9
-	DTZnL/hpeQqXdwEG0fmrS1Dsxa85FXK7NpR5sYgNpPRMjs1aELtx08B5AlD8YAGFQDSUv5ScmUe
-	D4saeX4fw9woTcDkye4KizCYoZs6J2UrglCdDGoM3X5ZC7W5DHO3lbaZY0xnQB9IjYsqjBSV/tT
-	3YEaW+iZh3VTlK32VAntlyCvJ7rVL5/yEajthCXN4QZmDWtbjxCnINMNkZ9tnD32+Rvqda8BHCY
-	J9s0jijJh/arJhlamLGqfps548Nr
-X-Received: by 2002:a05:600c:3b24:b0:495:5d6d:9cb3 with SMTP id
- 5b1f17b1804b1-4955d6d9dcamr68483165e9.37.1784563053362; Mon, 20 Jul 2026
- 08:57:33 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784563247; x=1785168047;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=gOqp80OGxHNHpl1a0k006+fhM1SsculZu3NHpvxX72g=;
+        b=c4E1KheM/rSvBYA2D9IKeU3P8SD+xWpvvxncNWbWfQuwWUp+YExyUtoU4OYp/cmaQ0
+         aWOVsNdyoC9iMIj3Jr3jIJBMRajfsrec0VJwurAbKkAoFbFlLCF7T6p3mzZULWBJ1xue
+         sIpSQkBrjz4dGHclvkJ/erylcSRFQ9n1DreLElUsy5Lni0l5qhsA4iFDwHU/G2UMyuA7
+         mhtKaWQ6UndCxzRFwpIT86gs9FHSsKWQbtjiQ/nLTryFtElSmEFe3E7fwHz5QlN3J7id
+         XDcchUNYJJGxs8HkrnUGpoNK7JXRBwNN+74N8dGKdv1EaDQZGmxkvrSpSyNU73PyhSDS
+         qT2Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpkTuBnEWS/YkQIZdOL1jzNgZgo9vuurJ9ncEqNJ9eiWJYp20wvGCq/PRd4ePaYK8S6E9wkNhnr0YT5v38k@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR508LZdKr5HKaxaJZ4qd/Vvv1bmm/UNce8U66A9tMb2zR4iR+
+	7YEjLxCud+ReC1VLNkVf4L9RTi2jptcbjjah/oazU0OwNDHT7F3HL04W50aea4mqK5Giwm2sXtM
+	P0Ryey7Tb6nIJ4c8y2HfgIzY9t4eQZ8o=
+X-Gm-Gg: AfdE7cmVw049oi5KCQZxpp+mQijgerT4/bd6c1ebFyYA+pVq7qxfAZqR0xdi5uLjzaV
+	NDI58J2xmPgTryD/YV7gy1J3XCqzxWtqTl8iCdtpZaQqKkgKubUXQTgLoYrZ6iPWLVcveNYciJE
+	AB8xYlaCH2ZN+zXWc4TJ6xmsBJlpSfKOgRZyu5IpRI4nWi510fBXOSDv0axW1al3RES8CX/zlDF
+	x8bC166xI05k5GzHdJfAeA1jlFjC7eLuEgvmGY/MFmmZsJDhJTl8XPx8yOq
+X-Received: by 2002:a05:6512:3e09:b0:5b0:2176:69f6 with SMTP id
+ 2adb3069b0e04-5b28f9a4a5cmr3279364e87.37.1784563246327; Mon, 20 Jul 2026
+ 09:00:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260718093723.153324-1-alex@ghiti.fr> <20260718093723.153324-3-alex@ghiti.fr>
-In-Reply-To: <20260718093723.153324-3-alex@ghiti.fr>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 20 Jul 2026 08:57:21 -0700
-X-Gm-Features: AUfX_mzE9oSx9gAUE_0Haa5WsqXuVdTKlLnp73bYqy-q2AYPJ21KT8MxigUKzsY
-Message-ID: <CAKEwX=NY=Uvcfm2BT-HGqu8B3OaoC0eePW1M7fW1qH4wpjQ8gw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm: zswap: deferred dropbehind free of writeback folios
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Tue, 21 Jul 2026 00:00:32 +0800
+X-Gm-Features: AUfX_mw7s-B5RFQiepxXY56GnETnBGDLw1NkaBnVDrpf0kTbCGVvQQn3VTL6hdE
+Message-ID: <CANGjgd=RwMy=29OYG14b6kkoF1uBHz67jTGge5Nubb-XemMvBg@mail.gmail.com>
+Subject: [REGRESSION] fsnotify: concurrent inotify watch add/remove slows
+ after 94bd01253c3d
+To: Jan Kara <jack@suse.cz>
+Cc: Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 18, 2026 at 2:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
-te:
->
-> The previous change frees zswap writeback folios promptly for
-> synchronous-IO swap, where writeback completes in the calling context.
-> Asynchronous block devices and filesystem-backed swap complete
-> writeback in interrupt context, where the folio cannot be freed, so
-> those cold folios are still left on the LRU for reclaim to clean up
-> later.
->
-> Free them promptly as well by deferring the work to a workqueue that
-> runs once writeback has completed.
->
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+Hi Jan, Amir, and Christian,
 
-No Suggested-by for poor Nhat? :(
+I found a repeatable slowdown in a concurrent inotify workload. An exact
+bare-metal comparison points to:
 
-Just kidding, of course - thanks for working on this cool idea :)
+  94bd01253c3d ("fsnotify: Track inode connectors for a superblock")
 
-> ---
->  include/linux/zswap.h |  2 ++
->  mm/filemap.c          | 20 ++++++++++++++++++++
->  mm/zswap.c            | 34 +++++++++++++++++++++++++++++++---
->  3 files changed, 53 insertions(+), 3 deletions(-)
->
-> diff --git a/include/linux/zswap.h b/include/linux/zswap.h
-> index 30c193a1207e..23dcde274964 100644
-> --- a/include/linux/zswap.h
-> +++ b/include/linux/zswap.h
-> @@ -35,6 +35,7 @@ void zswap_lruvec_state_init(struct lruvec *lruvec);
->  void zswap_folio_swapin(struct folio *folio);
->  bool zswap_is_enabled(void);
->  bool zswap_never_enabled(void);
-> +void zswap_writeback_dropbehind_folio(struct folio *folio);
->  #else
->
->  struct zswap_lruvec_state {};
-> @@ -58,6 +59,7 @@ static inline void zswap_swapoff(int type) {}
->  static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)=
- {}
->  static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
->  static inline void zswap_folio_swapin(struct folio *folio) {}
-> +static inline void zswap_writeback_dropbehind_folio(struct folio *folio)=
- {}
->
->  static inline bool zswap_is_enabled(void)
->  {
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index dc3a0e960b9f..548e465b5b9a 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -21,6 +21,7 @@
->  #include <linux/gfp.h>
->  #include <linux/mm.h>
->  #include <linux/swap.h>
-> +#include <linux/zswap.h>
->  #include <linux/leafops.h>
->  #include <linux/syscalls.h>
->  #include <linux/mman.h>
-> @@ -1680,6 +1681,8 @@ EXPORT_SYMBOL_GPL(folio_end_writeback_no_dropbehind=
-);
->   */
->  void folio_end_writeback(struct folio *folio)
->  {
-> +       bool swap_dropbehind;
-> +
->         VM_BUG_ON_FOLIO(!folio_test_writeback(folio), folio);
->
->         /*
-> @@ -1689,7 +1692,24 @@ void folio_end_writeback(struct folio *folio)
->          * reused before the folio_wake_bit().
->          */
->         folio_get(folio);
-> +
-> +       /*
-> +        * zswap writeback folios are off-LRU, so we must prevent a racin=
-g
-> +        * swapin from removing the folio from the swap cache and keeping=
- it
-> +        * off-LRU: the writeback flag allows that. Afterwards a swapin m=
-ay win
-> +        * the race, but the folio is already queued and the worker puts =
-it back
-> +        * on the LRU in that case.
-> +        */
-> +       swap_dropbehind =3D folio_test_swapcache(folio) &&
-> +                         folio_test_dropbehind(folio);
-> +
->         folio_end_writeback_no_dropbehind(folio);
-> +
-> +       if (swap_dropbehind) {
-> +               zswap_writeback_dropbehind_folio(folio);
-> +               return;
-> +       }
-> +
->         folio_end_dropbehind(folio);
->         folio_put(folio);
->  }
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 3c494c5a671c..d185da85bb68 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -34,6 +34,7 @@
->  #include <linux/writeback.h>
->  #include <linux/pagemap.h>
->  #include <linux/workqueue.h>
-> +#include <linux/llist.h>
->  #include <linux/list_lru.h>
->  #include <linux/zsmalloc.h>
->
-> @@ -990,12 +991,39 @@ static void zswap_writeback_free_folio(struct folio=
- *folio)
->                 goto out;
->
->         /* Raced: the folio is now owned by the swapin; put it back on th=
-e LRU. */
-> +       folio_clear_dropbehind(folio);
->         folio_add_lru(folio);
->  out:
->         folio_unlock(folio);
->         folio_put(folio);
->  }
->
-> +static DEFINE_PER_CPU(struct llist_head, zswap_dropbehind_llist);
-> +
-> +static void zswap_dropbehind_workfn(struct work_struct *work)
-> +{
-> +       struct llist_node *pos, *next;
-> +       int cpu;
-> +
-> +       for_each_possible_cpu(cpu) {
-> +               pos =3D llist_del_all(per_cpu_ptr(&zswap_dropbehind_llist=
-, cpu));
-> +               llist_for_each_safe(pos, next, pos) {
-> +                       struct folio *folio =3D container_of((struct list=
-_head *)pos,
-> +                                                          struct folio, =
-lru);
-> +                       zswap_writeback_free_folio(folio);
+#regzbot introduced: 94bd01253c3d
+#regzbot title: fsnotify concurrent inotify watch add/remove slowdown
 
-nit: I wonder if it's worth doing some batching here for the free step.
+This is a focused synthetic microbenchmark, not an application benchmark. It
+uses tmpfs, 96 separate inotify instances, and 96 files with different inodes.
+Eight threads, each pinned to a different P-core, concurrently add one watch
+for each instance/inode pair and then remove it.
 
-i.e, after remove_mapping() succeeds for a folio, we can just add the
-folio to a batch, then call folios_put_refs() in the entire batch :-?
+The matched control uses the same instances and pathnames, but all pathnames
+are hard links to one inode. A keeper watch keeps that inode's connector alive
+during timing. The control therefore measures watch add/remove without
+connector creation and destruction.
+
+I used a fresh boot for each point:
+
+  6c790212c588 parent A -> 94bd01253c3d child -> 6c790212c588 parent B
+
+Each point had 2 warm-up rounds and 25 measured rounds. The kernels used the
+same normalized config, compiler, Kbuild metadata, module-signing key,
+preemption mode, and equal-length release strings.
+
+The machine was an Intel Core i7-12700KF system with 32 GiB RAM. The workers
+used CPUs 0,2,4,6,8,10,12,14. The CPU governor and EPP were set to performance,
+Turbo was disabled, and the runtime setting was preempt=none.
+
+The primary medians were (lower is better):
+
+  metric                         parent A      child   parent B
+  P8 distinct, aggregate worker ns/watch
+                                  4182.614   4920.865   4274.895
+  P8 distinct/shared ratio       0.248777   0.292725   0.240657
+
+P8 means eight workers. The first metric sums the time spent by all workers
+adding and removing watches, then divides by 96; it is not wall-clock time.
+The ratio compares each distinct-inode round with its matched shared-inode
+control round.
+
+Relative to parent A and parent B, the child was slower by 17.65% and 15.11%
+for the distinct-inode metric, and by 17.67% and 21.64% for the ratio. Parent
+drift was 2.18% and 3.32%, respectively. All correctness and affinity checks
+passed. Updating an existing watch mask and pathname lookup both changed by
+less than 0.3%; the shared-inode control was slightly faster in the child.
+
+A second parent-child-parent sequence checked worker-count scaling. At P6,
+the distinct-inode metric increased by 9.03% and 9.56%, and the ratio by
+10.75% and 10.85%. At P8, the distinct-inode increases were 19.58% and
+19.11%, and the ratio increases were 17.62% and 16.80%. Exact P1 and P4 tests
+stayed below the pre-registered 5% threshold. A 16-worker SMT run changed in
+the same direction, but missed the variability gate and is not part of the
+main result.
+
+I also tested two diagnostic variants at the child commit in this order:
+
+  full -> lock-only -> full -> nolist -> full
+
+Full is the unmodified child. The reductions below are averages relative to
+the full builds immediately before and after each probe:
+
+  build       list updates   list_lock   P8 distinct reduction   ratio reduction
+  full        kept           kept        baseline                baseline
+  lock-only   removed        kept        14.27%                  12.70%
+  nolist      removed        removed     21.43%                  20.46%
+
+The lock-only result shows a cost from the list updates or the extra time they
+hold the lock. Removing the lock recovered about 7 percentage points more.
+This suggests that lock acquisition and handoff also contribute. These builds
+are diagnostic probes, not proposed fixes.
+
+Before sending this report, I checked v7.1.4, v7.2-rc4, Linus' master at
+1590cf032971, next-20260717, and the linux-fs fsnotify, for_next, and for_linus
+branches. Connector creation and detach still use the list_lock and
+list_add()/list_del() operations introduced by 94bd. I found no equivalent fix
+or matching report in the official linux-fsdevel and regressions archives
+through July 20. The exact timing claim above remains limited to the direct
+parent/child comparison.
+
+As a topology check, I traced eight unmodified Ubuntu inotifywait processes,
+each watching a different subtree of a Linux 7.1.3 source tree on one ext4
+filesystem. They created 4,177 directory watches. For each process, the counts
+of fsnotify_add_mark_locked(), inode-connector allocations, and
+fsnotify_detach_connector_from_object() matched its watch count. Watch-add
+events from all eight processes appeared in the same 1 ms interval. I started
+them together on purpose, so this trace shows that normal software can create
+the tested topology; it does not measure application performance or how often
+this concurrency occurs in normal use.
+
+I understand that a05fc7edd988 ("fsnotify: Use connector list for destroying
+inode marks") uses this list to avoid scanning all inodes during unmount. I am
+therefore not asking to revert 94bd.
+
+Is the extra watch add/remove cost an expected trade-off? If not, would it be
+useful to develop an optimization that preserves the connector list and the
+current unmount behavior?
+
+Evidence bundle:
+
+  https://github.com/lcf0399/linux-regression-evidence/tree/245fec71aa05eb2dbd68f11e4c98729f22bbc541/fsnotify-concurrent-inotify-watch-setup
+
+Standalone reproducer:
+
+  https://github.com/lcf0399/linux-regression-evidence/tree/245fec71aa05eb2dbd68f11e4c98729f22bbc541/fsnotify-concurrent-inotify-watch-setup/reproducer
+
+Thanks,
+Chengfeng
