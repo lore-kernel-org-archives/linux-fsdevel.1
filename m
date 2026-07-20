@@ -1,138 +1,234 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FED44685F;
-	Mon, 20 Jul 2026 17:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784569978; cv=none; b=YC973FxtKzlOO5La4ctJgk4IbyRl9Fy8sSzBvXaO9x6hen/shL+mbC9XG9dzuA3D0tceLK9oEiosiBjGc9D4jqB4Tl2AYuaKiT1CCxbEYL2Ja0tiQa+/afdNJpbktN3AEesRBvFXLhEkFpxWsEK/nS7iRQZr6xolrey0H8uJ0NY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784569978; c=relaxed/simple;
-	bh=Esr8WG2LCuWfYVYOsVSLvqLeRBiwB1g1s9ZX6Ca23tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o/1D3xosIH7AbDU4J/ucSDbGokqFLh2aePdJVMerlSn1fLHIa/ZOMAIZerBOWVq8FhInDwX9EZNhB2xpiHKn4JY7PCy4oA986MU9tSVm69EST6RXoR5Uz0fpWOqb2mpRgtac6y1aQ+8IyZaKwc6KJZVzAKHS2RYHy3TJtMaguJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Pgyz1YhP; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABD3442118
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 18:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784570785; cv=pass; b=KlyOMlEyHxT5XXcJMtuzB9g0mXmv/MyRbB7urwrl2xlvEf6kNZXru9sfD/6ueUxUPd0MdOJzQMtISek6rnGHF1pe6EceLZqxmr4+dO/BJNgj8LMyV5SJkyvuxUe71LtOL+Cu57deyMkBWaIdyjLgCefKgfCNSA457Y4SUlxVM1c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784570785; c=relaxed/simple;
+	bh=6sJy9PZJ/5uu+uq4/s91e/0S+srBf6fkJM0yl1tesOY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LU8+GfLvczhAIoduD33peCR3VxL7+g78EyHV2A6nTwTrfkoERf7I7DYhYjwmBhKqcbvJ6vO0eo/bCN/XljihiiCAA3leFPm8WjQYHlaS/Z2bpWZ+9g+/Bxas0GgHPpInzn4jQWX1caWZsCiH2hZ9HNI+jXeeyb7LomFHLqzvKfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qVuGv4D9; arc=pass smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Pgyz1YhP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=TR847jKAnLLFsDzkJBbc4JtjIxFdfXosjkxGIzB/344=; b=Pgyz1YhP+1QCN+yvoqIhCvJsgZ
-	Vku7FPO3C6ENm6LxLklvHlmnCqXx5TX224a51MBQhn10peY7b5XcCjBunFF2K6rETht6B+bsYqB4Y
-	5RiaVNBDazOw+qf5wwC/dxGyQuO6wG5lyfPYgPF5sXVHpOBTfnpwtl5j8RxvCPdVfaQ5hIno5b5eX
-	x/aXvnXXmHZ3Rx59JGcV0J+APS8gIb8dAGwuclvNrsFEgeoIqSv1Rb5fjskHhI/LlPQIOH2jf3K6a
-	1uLdDaYaZnMoJoL0qgpL8UH4jF6WLgzXcg2x9KtFJWkm0H1jOwgdWXm4Hua4YKVKC361UVC7KzTSa
-	PMo1oXxg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wls9r-0000000BRPP-0YTi;
-	Mon, 20 Jul 2026 17:52:03 +0000
-Date: Mon, 20 Jul 2026 18:52:02 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Brendan Jackman <brendan.jackman@linux.dev>
-Cc: Brendan Jackman <jackmanb@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Jan Kara <jack@suse.cz>, Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
-	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	iommu@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
- header
-Message-ID: <al5gQgnBCjNCSD_4@casper.infradead.org>
-References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
- <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
- <alkLSzQvzT9zJbY1@casper.infradead.org>
- <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVuGv4D9"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8eeadbc5e21so45927436d6.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:06:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784570782; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IoDlk1vXXLQmD4Ebn+8fih8ol3w0ZgfrBNunI53Q1DjYRAtTD7CBbiM8b0v4W+SJok
+         lr0JOSCPPcCY56mHRguz38ve95jOKWyF5LwO+XbHMOB+c1GkbeHRsajzL8ARo709gyil
+         DGZccVCHas+YjfkzbkaBCZ3/kBA2ZnRtJV0QLkfi6qFXwLVet3OpE+Pmo6UT79m52zCS
+         mTbe1A7p8ehOkpnpAWT3hvQo8RQCeBeI+QCpVS7IsbhVfwDjtGWaDxlQjMaeRDjmLwww
+         Mb/Wt1vsk7bj2NfpFzFz6CWYgwUMTED1ddjY25TjA90KvI/BP5bdf8dDjoscDlp7FT5e
+         XqdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
+        fh=jEHawgiPPI0+RK7keFJIeWPDhVY0JJtFxuth7i7uAL4=;
+        b=F4EYvoy6WHVWafre1R4ZR2pgV/RS9StqPwhRdNQVuVURYtQ9oq7Y9i+U2/TUviaj4I
+         wvRVEIoi0bYcouOn0/0jhWaFrzBAhoZez3LoClHT2D4ZOZxIqdHIm7SvBfWpCEVhDFLE
+         J3zeMTawajQrBKzWsJpEvnwuUIZPYbRXJfs7X3RJOUMpnZyWe4R2ISSWkaDAOUrMk3UR
+         6PsOwxiZsGKyKatHF7yzVxSmTVv62prpz6rEFg0cTwuOj8fXrW2yleNXpvy4yw/Setmr
+         cA/xHJ/MVglxHPhuqdcCTx6ICTs2xFiXT0jDzoLIZ0Od1oMuAwDKohn3pTaKFbEvHEpB
+         HctQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784570782; x=1785175582; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
+        b=qVuGv4D92AgPHJeaD8GZFiyzv+DT7Rd0tbKf9FpNpK9JWGWh8yNPZ+dDFAOJpgSQlf
+         dKkN9HCTovfUqy5M/xL9HKeA4CTVm1ovHTIyUsA1AklqzmcsMZ1X8gz+isn+c+ZWvNWc
+         y1h12Otum0BRnlX2KQ24j47IRyDiGGThUZbNz+aBVTEypmsZan1aTXjs4xSL4f6qpMJX
+         bx6j3Dgjv6AnSRHoQhc9ufDQE3/BsFxokH9nK2DwRV8dE9WJYQAU18uTa+xQFLKAttqK
+         yBtERcaagBEo8O0jmMC8JMB2v5xsws2OTAzXuO+A7xbna373zvvhR+GFxYCO4hkKD2nP
+         hAzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784570782; x=1785175582;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=erJxJKjIQYxuuAmQPSRTtK2LRA4+7u38hsE5ISZDX4o=;
+        b=M7VqZ8Gg0W8Vkk+KwuoKUdKMtouvSYJnvVCzAqjBoD7hX8rw89KaXGV5rkU1VCyhOK
+         CI8KXhAGUiY8dPlSicJObep9uIyADDZtI1fECscgSvJNiebY4/jLaT1HeBsQpdiqI2XA
+         yUE06hWrSj9SogdhhqfRlbKUNJ025+zZnskXWK3JL3CMNF6fgOPkXV+b8SbwcYrvcP0E
+         E/Wlbo5TA+4XljsIuoVoWGKWgSRf+2DrlK+dm8y8Q2BKEOQ5r4UvH8fweXdSaKTjCJJU
+         qCWtQA8boumQz7boxykeYtIQPUg00BOKFvs42D8BzIaF/hmH7sE3A9n4XzAhc9NP028d
+         AcLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqZ57cnLfSaUscoEhsIOhuTvK86vR39LromQSxpv8dZP0o9saGogLumIQ8Sp+DpBXsHRJjyZRWf/H4xqVvZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm9ufzDrhdmVfkE1QfpDeczfLFKJfvshow5J0Cs+LlW7eHOMjV
+	BPzRFisa5P8BJSVYwH/+uCZYmhI9VBsGBDVHwr00+SvORIlVupMjsH6+euBTZuhd/zRt6rxKNC8
+	qpI0/sQqCywn5LGOUSRTFckgu4b3SsNg=
+X-Gm-Gg: AR+sD110QPbBhSGcE29S85wdhilpWj6PxegfeuYheIvSL9mlPiOm+a/ynryMUJvYy7P
+	k9A2OthHh/auR8YB37DRaVt4quc5f3WbtQjKEXD71TJjbNS8ByQL6Lj9Shcmt3uUUUNEn/VNtUh
+	eDPLdfs/Zah8Q9pi860zSqy7tetzDYpnIdKQxavMpSu0A3Mb/gu6Ulk7nJIXctnPDmP/TJl7JXM
+	7o+wYE/mNDuEkG6lhfdjdp0itr8KAk5y5fBH6jELxLiN15rP5vZIVAiYeFO6EcCK0yylG4Dw/f7
+	gOHRkKiNOvavmeU/
+X-Received: by 2002:a05:6214:e45:b0:8ef:ddf7:3135 with SMTP id
+ 6a1803df08f44-907783b38cdmr173632066d6.38.1784570782095; Mon, 20 Jul 2026
+ 11:06:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
+References: <20260708000956.46138-2-dwindsor@gmail.com> <cb9f84292a7f1d41ff8388d8c0c8c3d0@paul-moore.com>
+In-Reply-To: <cb9f84292a7f1d41ff8388d8c0c8c3d0@paul-moore.com>
+From: David Windsor <dwindsor@gmail.com>
+Date: Mon, 20 Jul 2026 14:06:07 -0400
+X-Gm-Features: AUfX_mxzIpBrzcPTV9KeowoimwOb7WQA9GzVVHyfVuwu0lx2Q8xYaxFF_5bIdv8
+Message-ID: <CAEXv5_i_iHmF8n6Qf1NiVOhm2cCnVLgmwXK-b8M+hvmdO3aQdA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] security: rework inode_init_security xattr handling
+To: Paul Moore <paul@paul-moore.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
-> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
-> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
-> >> There are no external users for this surface, reduce the scope.
-> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
-> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
-> >
-> > Hm.  So what we're saying is that allocations which respect mempolicy are
-> > only for core mm and not for, eg, device drivers to do.  Is that really
-> > what we want to say?  I don't think so, because that's inconsistent
-> > with having just widened __filemap_get_folio_mpol to allow guest_memfd
-> > to specify a mempolicy.
-> 
-> Yeah I agree, mempolicy definitely seems like a "public concept".  All
-> I'm saying here is this specific function doesn't have any external
-> users so it doesn't need to be an external header. 
+On Thu, Jul 16, 2026 at 5:55=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> > +struct lsm_xattrs {
+> > +     struct xattr *xattrs;
+> > +     unsigned int xattr_count;
+> > +};
+>
+> Please separate out the 'struct lsm_xattrs' related changes into a
+> separate patch from the security_lsmxattr_add() changes.  I know they
+> are related, but they are different things.
+>
 
-I don't think that should be the metric for moving things to internal.h.
-To me, internal.h is a signifier that these interfaces should only be
-used by the MM.  Not that "all current users are within the MM".
+Will do.
 
-> ... With the ulterior motive that I want to add a new parameter to it
-> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
-> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration of
-> [0]. So basically this is
-> about trying to extend the allocator without creating a GFP flag.
+> > +#ifdef CONFIG_BPF_LSM
+> > +static unsigned int lsm_xattrs_used(const struct lsm_xattrs *xattrs,
+> > +                                 const char *prefix)
+> > +{
+> > +     size_t prefix_len =3D strlen(prefix);
+> > +     unsigned int i, n =3D 0;
+> > +
+> > +     for (i =3D 0; i < xattrs->xattr_count; i++) {
+> > +             const char *name =3D xattrs->xattrs[i].name;
+> > +
+> > +             if (name && !strncmp(name, prefix, prefix_len))
+> > +                     n++;
+> > +     }
+> > +     return n;
+> > +}
+> > +#endif /* CONFIG_BPF_LSM */
+>
+> More on this below, but this function isn't strictly BPF LSM related so
+> let's drop the CONFIG_BPF_LSM macro bracketing.
+>
 
-Yeah.  I'm not sold on the whole alloc_flags thing, but I'm too busy to
-sit down and think it through properly to get involved in a proper
-argument about how it should work.
+Ack
 
-My entirely unresearched and ill-considered opinion is that the __GFP
-flags should _be_ the ALLOC flags.  We shoudn't be translating GFP flags
-into ALLOC flags that are what the allocator actually uses, the
-translation should be done at compile time.  So if GFP_KERNEL and
-GFP_ATOMIC need to be composed of different flags with different
-semantics, then we should do that, not invent a different set of flags
-that special people can use for special purposes.
+> > +int security_lsmxattr_add(struct lsm_xattrs *xattrs, u64 lsm_id,
+> > +                       const char *name, const void *value,
+> > +                       size_t value_len)
+> > +{
+> > +     struct xattr *xattr;
+> > +     void *xattr_value;
+> > +     size_t name_len;
+> > +
+> > +     if (!xattrs || !xattrs->xattrs || !name || !value)
+> > +             return -EINVAL;
+>
+> Sashiko raised a good point about xattrs->xattrs being NULL not
+> necessarily being a good reason for -EINVAL.  If xattrs is NULL, yes,
+> something has gone wrong and -EINVAL seems reasonable, but the
+> xattr->xattrs NULL case does seem like it should simply return early
+> with a value of 0 (see SELinux's handling of this case as an example).
+>
 
-> So I'm envisaging if an external user arises for it later, we'd slap two
-> underscores on the beginning of the internal one, (with the alloc_flags
-> arg), and then bring back the public one as a wrapper.
-> 
-> Does that make sense?
+The problem is, SELinux has already set the sid by before calling
+lsm_get_xattr_slot, so we do indeed get an in-core label for the inode
+before returning early here. Returning early here from BPF would not
+mean the same thing: there is no label anywhere, in memory or on disk.
 
-We have a long history of people just moving stuff around in patches
-without knowing what the intent was if it should be moved.
+> > +     name_len =3D strlen(name);
+> > +     if (name_len =3D=3D 0 || name_len > XATTR_NAME_MAX)
+> > +             return -EINVAL;
+> > +     if (value_len =3D=3D 0 || value_len > XATTR_SIZE_MAX)
+> > +             return -EINVAL;
+> > +
+> > +     switch (lsm_id) {
+> > +#ifdef CONFIG_BPF_LSM
+> > +     case LSM_ID_BPF:
+> > +             if (lsm_xattrs_used(xattrs, XATTR_BPF_LSM_SUFFIX) >=3D
+> > +                 BPF_LSM_INODE_INIT_XATTRS)
+> > +                     return -ENOSPC;
+> > +             break;
+> > +#endif /* CONFIG_BPF_LSM */
+>
+> I like to avoid macro conditional code inside functions whenever
+> possible, and I think this is a case where we could avoid the conditional
+> block with a little work.
+>
+> The LSM_ID_BPF macro is already defined as part of the UAPI so that will
+> always be available.  While BPF_LSM_INODE_INIT_XATTRS is dependent on
+> CONFIG_BPF_LSM in this revision, that should be easy enough to move
+> outside the CONFIG_BPF_LSM conditional in bpf_lsm.h.  Eventually we
+> should probably expand the lsm_id struct to carry this info, likely just
+> a permanent/local copy of the LSM's lsm_blob_sizes passed during
+> registration, but I can take care of that later; just make the
+> BPF_LSM_INODE_INIT_XATTRS macro always accessible now.
+>
+> We should also probably record the xattr suffix/length when the LSM is
+> registered, but that can also be done later with the other lsm_id
+> additions.
+>
+
+Sounds good, will refactor to remove the conditional.
+
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     /* Combine xattr value + name into one allocation. */
+> > +     xattr_value =3D kmalloc(value_len + name_len + 1, GFP_NOWAIT);
+> > +     if (!xattr_value)
+> > +             return -ENOMEM;
+> > +
+> > +     memcpy(xattr_value, value, value_len);
+> > +     memcpy(xattr_value + value_len, name, name_len);
+> > +     ((char *)xattr_value)[value_len + name_len] =3D '\0';
+>
+> You'll need to add an additional memcpy() here, likely in a switch
+> statement to handle the different LSMs, to copy over the LSM specific
+> prefix.  It's a little ugly, but when we have things captured in the
+> lsm_id struct it will get a lot cleaner.
+>
+
+Yup
+
+>
+> --
+> paul-moore.com
+
+Thanks,
+David
