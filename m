@@ -1,53 +1,53 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501BB3B38B8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDAA3B42C4
 	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 20:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578287; cv=none; b=GQBCFLWEBtjJLbITgEA39F3HXUKJCHg/v7cQnUL28OcT+MvxwqzDIJpkjQ2kCXUAsrlOJt8elsxh2LgvO5fBwArk0o41MV4AQIVlhkjwS4aVQ9I+RKo3rGSR1UMjnqiEUKP+EqsjNFI1uQ1EJIi9knyYXf99uA6V+FlOjFBKQ90=
+	t=1784578288; cv=none; b=dSQY0X0RmBWLyAzUSRNqO6ssbUn0QrsenJ+9ngdLlicUOTSUshGhowO3zsmE9fWg651eJi8eQHfFqCWIMBkA5sEJQuARHEhjdX6cWJSJMJ33nohApIW1Vg+PMoQJOTVRlyUjUPjGd6IOPLhcdmJPI1xJRZG2YpOcceISZVHmCcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578287; c=relaxed/simple;
-	bh=O4AioAC3G8DsznNvnEKnfiaTjLEuHncknSgivw2LW3E=;
+	s=arc-20240116; t=1784578288; c=relaxed/simple;
+	bh=4Ufd1cKEAW/vVKZPyn1hSS7idDIFldZqPDymbVADKpM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gT4IMWCv0OefRHYkwmbOzZlJIqURTPFQtolz4y5YXmsD9b/BITA+4Kx1EehU5Sx7pKyra8SYZhzzQ6nqsMlMPVZDKY4kUo+4zRjcZ/U3xfVSsdR+op76VNL0WquPavIkN36lVF8cPoDduFnUSzpQsg/zOWV1nsBtoXkCOMlOBOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=QEGRCkGY; arc=none smtp.client-ip=67.231.145.42
+	 MIME-Version:Content-Type; b=bBc+vbRD6jzMIrBW1L2F6JqWqdu5h4dYm3ht+cnmVwhnN01Xy77j89jCauNXguEEVjbkFf0qJ7RpXsq9uIA7ZnN5fik4Q9EHpdCN+iU0Xz+QxDgeaU/hJAy30iY8TxS335RiE5QEqb5GDK864Pdbj0/MVNqcrj8zzK0XjvPdWzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=SolxgFuc; arc=none smtp.client-ip=67.231.153.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="QEGRCkGY"
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KJQXF22644575
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="SolxgFuc"
+Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KJQkQv2797068
 	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:11:25 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=mz92xofgircHI4YMm+iPtuHHV6ROQ/EWWkRXCM1MtNE=; b=QEGRCkGYmgRU
-	7pA/egdJFGGAFh6gZt9g1GBwsv9+pJJtG000LQMA6evCeSK9PAvFoeI8vA7Qid65
-	Rkq8qbIdiAkG/sC7GLaTciELVQjh21IBWnsvxEP4eTahwVqSP1rfWHsubFfegij3
-	dcYIYtMTCdPNIwil4beBjUwhKIlyKRia6nvSIf1EHblE4gc/C6cTJwxd5QmxaD77
-	x+u00FxbpoFNl6eMMECULp1EznAXN0/rzOw6YyNvaA9qS4hKGR20idlz2iDMqrtz
-	xDwHCXaIPFG3K03xCGGB+YAbKrZ2M2Wwq4luG5lp4CwgyH3I79HLCe77eAwd1GHa
-	6zXrWXkvqA==
+	 bh=jkx678gHemJwfPTUCxVPJsQAnafxbenwVYd+UUmdfN0=; b=SolxgFucmP40
+	SHcy9kdnHjCS29JqDUF/nvZIe28lj7xCnBddhYHIcAnLf6a57+R9EfFwAwebpflt
+	Ozkn8qilFYwJi2N8tuUWyqOBOTVtVdYg84hcOvtjvE97a6jbcumEGLHn7zhjry4a
+	/F2EMl28BU7mpOfLp6IYzzCH/OOEn7MXRueToMX9E3EYme/Hd3AGGKBorKXaUID/
+	CElI40Xoz3R1vc2gyD6jzED3J5nkPuja5ZPprRriEpCPmtq41vHgQlJrO65JZb6C
+	t8P+Q7TWuTFXK9k4iSJbrd8KPVCG2dRPR0alTWJ7qm/noezhpimk9DQK4z3XpksQ
+	m42jhuS+jA==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4fg4t1c4u2-11
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4fgu4dfyys-15
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:11:25 -0700 (PDT)
-Received: from twshared132622.14.frc2.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+Received: from twshared25342.02.snb2.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Mon, 20 Jul 2026 20:11:18 +0000
+ 15.2.2562.41; Mon, 20 Jul 2026 20:11:21 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 9C51625A00285; Mon, 20 Jul 2026 13:11:03 -0700 (PDT)
+	id 8EEB325A00283; Mon, 20 Jul 2026 13:11:03 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
         <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
         Keith
  Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH RESEND 2/5] block: fix dio leak on metadata mapping error
-Date: Mon, 20 Jul 2026 13:10:54 -0700
-Message-ID: <20260720201057.1862857-3-kbusch@meta.com>
+Subject: [PATCH RESEND 1/5] block: use blkdev_iov_iter_get_pages status for errors
+Date: Mon, 20 Jul 2026 13:10:53 -0700
+Message-ID: <20260720201057.1862857-2-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260720201057.1862857-1-kbusch@meta.com>
 References: <20260720201057.1862857-1-kbusch@meta.com>
@@ -60,60 +60,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX58UobjF4Kf1a
- gzztMiFPhal3KVT7Subgt+StxPsn/B6t1q/wo3cMMBqNDKYNDtwCJUqGoVXztYwJN38PJHtYRNm
- 02FCVmmpLVWTULvZGKPxYedye3jZv7xSIvrBU5KNG5+J+fC0dME8mtgmRHHWog5W/FATpStLMTN
- lba9zfAcQzzSC+ctN70of7rDaDEflAn94BRZR6NohCES5G4bKqA+AWNwfF9x/5PjshdHsmCA9Tw
- YhcKUenPs+tm2c36mriVFKjqUnOoACvx7AWQeyOjEL7RRfAh5+716KDWSZZQBEWNloG8zpl76+B
- 7vkoywsFO5jtLmD88lf0XHFAcO9m1Aa0AnrgywooNoeN7ycBEMjlXIc84954XM/5jLw6flqxZ6Y
- o1CKo32fLzHgkCZYuEzQaJE/XPjU0Ra78MWTy7NQnqzW4ofV97dsz77lqxS87wGgCjwWfAvvwqM
- RUIwllw1Bhtbz9fOQww==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX7LTe73Y6IccT
- QRbMNfpcefUaRq2Ym9TFiASJjA3Kalnqw09lXsqj6qHhXI1mZtNTBL4pn9Zm+Ee5kS5k6FUdwz/
- JnFjo+zG8cq4bz8DVHAu/7hIwHSzS6w=
-X-Authority-Analysis: v=2.4 cv=FbgHAp+6 c=1 sm=1 tr=0 ts=6a5e80ed cx=c_pps
+X-Proofpoint-GUID: YLnXn6BUNkxrVFu9IlOUP580OW2QZQ_j
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX6CpuQlz42WeK
+ 15D9FKv62H7SIIE9W0WOqdOsX8z6c5UGCnv2GbD1IkifX7XMgK3ZufKjxjoYtlGa+DFKfkbBaXc
+ EEVf7/7GD7jIczp6O1LGDN4uK5KYghgrpG+tFUCRKeo3oNWeC8KYrzq6SKbtaWCQx6FxogPDic/
+ twCuKvyqmol5uAyA1YfpwKU0KIkD0LRJL/gHATzUyyKqM8mlolgHC4Qi8tby3P4gKdSWWALXNwb
+ U4RgeBXPNf5nGwlSMCFmNBMZ2LQ3LuhCux5lEgA+GOcnFSn2EOKAfefQkOEnKfbNgwV7BAUvjFC
+ elxyvhoq7jFSjfRq5JYg8pMMpxYM4LWghhXBml1tE2OqEF858S+eyD449yXrZ6k8jvLyB5tEH9v
+ BhBiLkteqJLSeHt/N4gBfnBGBiqiEHyorbNL087815oa/3CrZqj7xmK4FTiY9FtxFBmcq0MZDUO
+ M8GQol+I+QVhYdLl+gg==
+X-Proofpoint-ORIG-GUID: YLnXn6BUNkxrVFu9IlOUP580OW2QZQ_j
+X-Authority-Analysis: v=2.4 cv=NOrlPU6g c=1 sm=1 tr=0 ts=6a5e80ed cx=c_pps
  a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=8elwO82fXORLTBIkMd32:22 a=VwQbUJbxAAAA:8 a=hePQWg9M9jSv14wK35YA:9
-X-Proofpoint-ORIG-GUID: CRDXm-ZpHY8UlTvyhZBDXmNLYuig1vlR
-X-Proofpoint-GUID: CRDXm-ZpHY8UlTvyhZBDXmNLYuig1vlR
+ a=GbPsI2Ihf5RTnMjR_gZv:22 a=VwQbUJbxAAAA:8 a=xbwd-4vLOdmjPcKMbXEA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIyMCBTYWx0ZWRfX/6s3t9WX78gr
+ wRdLNz4+R0dc5g3Rn5shWMle0ftRzGslPfxm7ewSclF6jrwRzKOCXgj4QrcG1jlztGq6f1fVm0W
+ mV+QaNQj8q6q/NnMfFc4Yr6QB5XCBrI=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-20_05,2026-07-20_03,2025-10-01_01
 
 From: Keith Busch <kbusch@kernel.org>
 
-A failed integrity mapping holds a dio reference, so we need to go
-through the full bio ending in case there were previously submitted
-bio's in the sequence.
+blkdev_iov_iter_get_pages() can return various error values, including
+EIO, EFAULT, and ENOMEM. Set the actual reported status so user space
+can know why an operation failed.
 
-Fixes: 2729a60bbfb92 ("block: don't silently ignore metadata for sync rea=
-d/write")
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/fops.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ block/fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/fops.c b/block/fops.c
-index 0827bb884d473..0098a90a956e1 100644
+index 15783a6180dec..0827bb884d473 100644
 --- a/block/fops.c
 +++ b/block/fops.c
-@@ -238,8 +238,10 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb=
-, struct iov_iter *iter,
- 		}
- 		if (iocb->ki_flags & IOCB_HAS_METADATA) {
- 			ret =3D bio_integrity_map_iter(bio, iocb->private);
--			if (unlikely(ret))
--				goto fail;
-+			if (unlikely(ret)) {
-+				bio_endio_status(bio, errno_to_blk_status(ret));
-+				break;
-+			}
- 		}
+@@ -218,7 +218,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
 =20
- 		if (is_read) {
+ 		ret =3D blkdev_iov_iter_get_pages(bio, iter, bdev);
+ 		if (unlikely(ret)) {
+-			bio_endio_status(bio, BLK_STS_IOERR);
++			bio_endio_status(bio, errno_to_blk_status(ret));
+ 			break;
+ 		}
+ 		if (iocb->ki_flags & IOCB_NOWAIT) {
 --=20
 2.52.0
 
