@@ -1,67 +1,137 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AFA3C873B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 09:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBB03E867F;
+	Mon, 20 Jul 2026 10:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784540726; cv=none; b=Gr0X+2cN3HoYXUI64qASkHbpc/xJNrDFPfIdJrYZSKhLh+q6n4QpKdX40q1AejRI854I2nP0Ops5GPsGVm/i69mACZCZgtBv4M/NfaUFTlFsbTNGWH1Wh8+nt3wgU2Dmwx3TdQfH9W9PXgSaeBQJc3CaGP9kjyHXn7JEU3vu0wM=
+	t=1784541926; cv=none; b=Q4PJ1T7oq0Js/5TdbLuAc7dk91PbOrIAmF4RZIqiWRQ9ROmhrzbfGZgvCmn0/LQ/Zht9eGXobUpnbVmQmDMQ7hJsYQAAzPub334GCw51BLUtpwbPVE7SRQ+d3CbuQnVw0cTLR1LlI4l5Zz05cW2kBpLTqfWXp6ZzOqQmTb2KFzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784540726; c=relaxed/simple;
-	bh=DepFgT8Pdjn2Dr4NdCjwAlzufKmqJeK6q/AHDTvu4Lg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YhStRR8tlDIHG/Wby1HF9rFUbQnup2ZQUdPFgx3XyHE1jTOEP04RdiCtck54CHEMfCtAiZSgM1vZUbd2vsY7DSEqUa0G+Rbh8t9g3vykihofRKu6PbabvU/IOB0NA4+vrCte/rwxRQYlhWPKJVZPSJ5sOllO6jooUXxzrDDIhlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=muWdNO+0; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1784541926; c=relaxed/simple;
+	bh=wD1Jx7pkUopUVo27Qt9g8r3fP0ONiFiVL7jT3VrkxyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WN2L/E2fd4tftPgJYI/DoLq5VZQNsnCepDJsKQS+QC6YZOmH8zFoqYpP/NcaMdxgfhkNy6GgfD2aTR/hpDzwUwFrNHpCXre2QDdflDu6cNthJ006fgao305C2EADaRLgRgst7FmeZotY5jRtKUb4AK0RIMKrReuZ3gE/j4KiY20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=tc+So9vc; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="muWdNO+0"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1784540713; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=8MwbgXwZ3zMaHcDnJViuu8BS+HJvN2qfbWu5++MyV08=;
-	b=muWdNO+0d63NPUZkB1dEKN9rK+z98Sq7U+UtPVfPWiZvDqUCPgtYiFEGuLDON7Eg8/Yfhn3s38fiEMCsPZaYDuJSE3ZiMhHPjThY2bJNRwe/8lhENPTWMru1dGbrPGPv9oK9AfqgSZatM2GZbkLZbnpnRibjW0OERK802YM0thY=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X7S8pq3_1784540712;
-Received: from 30.221.133.33(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X7S8pq3_1784540712 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 20 Jul 2026 17:45:13 +0800
-Message-ID: <d8230340-0b06-470b-9195-ef9942b1004d@linux.alibaba.com>
-Date: Mon, 20 Jul 2026 17:45:11 +0800
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="tc+So9vc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=JaGO2OIoMNU7813yNKraQCSkiqSZV1dC/XAiltTJLrM=; b=tc+So9vchomCeXXpU/vuFYucmC
+	gbaXPWqFav5J/GVuE363nhp6UulYrpGgOVdJbxVVti9/eFKuF04XMsscGWqmnULssri1uLHkFtaJV
+	Zk6EW7jl61H/1OhcJbI9FYAVW0A3mP3zCSauqq4SkViBSVC1xicwc5nQPdaKpu3FPM7oVJdhRG+uR
+	I/sIM+Yn6GFJyutgKt8+Y4RdfGlGPL4syINtVlDhBbciQbtIHOfpVnzj4rKaAsWHZLDYWyGD2hHPq
+	gmgYcJn0O9xPBVPsP9cV0bOS1wkAbBT+wg6ou2SSwGEBMe91Gx4Hj6Vmn50bph2ghzWaR0mSCaMsF
+	lV69nw4w==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wlks0-001MQ6-1U;
+	Mon, 20 Jul 2026 10:05:08 +0000
+Date: Mon, 20 Jul 2026 03:05:03 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, mjguzik@gmail.com, josh@joshtriplett.org, 
+	Jan Kara <jack@suse.cz>, jlayton@kernel.org, axboe@kernel.dk, shakeel.butt@linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v4] fs/pipe: unify the page pools into a single per-pipe
+ pool
+Message-ID: <al3w54SsdZEjKVj4@gmail.com>
+References: <20260710-b4-pipe-unification-v4-1-ff31c39f1c16@debian.org>
+ <alpWISUKMvqrp5ET@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
-To: Giuseppe Scrivano <gscrivan@redhat.com>, linux-erofs@lists.ozlabs.org,
- Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>
-Cc: linux-fsdevel@vger.kernel.org
-References: <20260717134147.1602735-1-gscrivan@redhat.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260717134147.1602735-1-gscrivan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpWISUKMvqrp5ET@redhat.com>
+X-Debian-User: leitao
 
-
-
-On 2026/7/17 21:41, Giuseppe Scrivano wrote:
-> Allow userspace to pass an already-opened file descriptor as the mount
-> source instead of a path string.  This is useful for tools that already
-> hold an fd to the image, such as composefs reusing an existing erofs
-> backing file.
+On Fri, Jul 17, 2026 at 06:19:45PM +0200, Oleg Nesterov wrote:
+> I personally like this change. To me it really makes this logic more
+> simple/clear.
 > 
-> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
-> ---
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-Looks good and tested:
+Thanks for the review.
 
-Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+> > +static void anon_pipe_prefill_and_lock(struct pipe_inode_info *pipe, size_t total_len)
+> >  {
+> > -	unsigned int want, i;
+> > -	struct page *page;
+> > -
+> > -	prealloc->count = 0;
+> > -	if (total_len <= PAGE_SIZE)
+> > -		return;
+> > +	struct page *pages[PIPE_PREALLOC_MAX];
+> > +	unsigned int want, have, need, n = 0;
+> >
+> >  	want = min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
+> >  		     PIPE_PREALLOC_MAX);
+> > +	/* Unlocked read; the pool is refilled under the lock below. */
+> > +	have = min_t(unsigned int, READ_ONCE(pipe->prealloc.count), want);
+> 
+> And READ_ONCE() is enough correctness wise.
+> 
+> But AFAIK it is not enough to make KCSAN happy. anon_pipe_prealloc_pop/push
+> which modify ->count under pipe->mutex need WRITE_ONCE() to please KCSAN.
+> 
+> Or anon_pipe_prefill_and_lock() can use data_race(READ_ONCE()).
 
-I wonder if Aleksa and Christian have more comments since
-anyway it touches fc->source, but I will queue for the next
-cycle if there is no other opinion.
+I am not sure that is correct. I got the impression if the reading side
+has READ_ONCE or data_race(), that is enough to please KCSAN.
 
-Thanks,
-Gao Xiang
+I've also run a test with this code, and KCSAN doesn't show any complain
+here.
+
+The only complain is coming from osq_lock(), but not from here. This is
+the osq_lock complain:
+
+ BUG: KCSAN: data-race in osq_lock / osq_unlock
+
+ write (marked) to 0xff11000527a42f80 of 8 bytes by task 1366 on cpu 23:
+  osq_lock+0xf4/0x270
+  __mutex_lock+0x1ab/0xe70
+  mutex_lock_nested+0x17/0x20
+  anon_pipe_read+0x69/0x570
+  vfs_read+0x3e3/0x4b0
+  ksys_read+0x95/0x120
+  __x64_sys_read+0x3c/0x50
+  x64_sys_call+0x69a/0x8d0
+  do_syscall_64+0xfd/0x4f0
+  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+ read to 0xff11000527a42f80 of 8 bytes by task 1363 on cpu 20:
+  osq_unlock+0x14c/0x1a0
+  __mutex_lock+0x1dd/0xe70
+  mutex_lock_nested+0x17/0x20
+  anon_pipe_read+0x451/0x570
+  vfs_read+0x3e3/0x4b0
+  ksys_read+0x95/0x120
+  __x64_sys_read+0x3c/0x50
+  x64_sys_call+0x69a/0x8d0
+  do_syscall_64+0xfd/0x4f0
+  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+ value changed: 0x0000000000000000 -> 0xff11000527bc2f80
+
+that said, I think it makes sense to mark count as racy, given it is
+read without a lock.
+
+I will respin with, an additional "__data_racy" attribute in `count`
+
+  struct anon_pipe_prealloc {
+    struct page *pages[PIPE_PREALLOC_MAX];
+    unsigned int __data_racy count;
+  };
+
+Thanks for the review,
+--breno
