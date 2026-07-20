@@ -1,120 +1,77 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44514396B9D;
-	Mon, 20 Jul 2026 07:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61BF3AE718;
+	Mon, 20 Jul 2026 08:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784533113; cv=none; b=MhyJEEOh3AtKNkyC6QKkG4U5PL/U/etptABRmw7ZGg+gTCmqnh9MIaZkjAq4QUag1Gaaez3kwvVCx385rUu2mLSGVbNgTWzdXwBp0wLbhm9Nd8TaurIkOCOCKEQQKQzLksNJkIr6QPp857GD7jZKj0sRN/oAbNAvobmK4Se5dws=
+	t=1784534864; cv=none; b=Vs16Rav0E73tz/B7auGmfuR0gbhBowuzDx8DAAZNRfspn7XqvUcV/5a6/W84X5GUJZcSBOofXQvUyissnabfPPDQGDvWka8E359ElOcGi7aXsjTb0U3WD3/5f2dCLZXDUHOoWv4aWSMxy3nEZQ/1MdW+u3krl/72IPBEOarofNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784533113; c=relaxed/simple;
-	bh=KiEwYI2Bg9KRdu6bTZTIWcPQ6z8ZUjBZQ92YKjygue4=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=b4JRHmjESbOuS5fwhMPDKWB1lHwT7RmLQijrkskMMdx9C8BvXvshAxJSGGrzaDhLedt0emQ6JsBsdi18DFP0vR83q2rlQ6EvQFn72+Nh67tM9F8c/DBn3wlYsaTnmcxQmcWpBgDKq+jj9LhlXOrxK0Lk5+gLRjYdMU04xxX0pR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h3XSG5Xwwz7VD94;
-	Mon, 20 Jul 2026 15:38:22 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 66K7cEmj047214;
-	Mon, 20 Jul 2026 15:38:14 +0800 (+08)
-	(envelope-from xu.xin16@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 20 Jul 2026 15:38:16 +0800 (CST)
-X-Zmail-TransId: 2afb6a5dd0685f6-f3887
-X-Mailer: Zmail v1.0
-Message-ID: <20260720153816171RRd991pToocX8jt6806EG@zte.com.cn>
-In-Reply-To: <al3KlYMbmeR6iDX8@lucifer>
-References: 20260717-b4-scalable-cow-virt-pgoff-v1-1-cf24910ef094@kernel.org,202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn,al3KlYMbmeR6iDX8@lucifer
-Date: Mon, 20 Jul 2026 15:38:16 +0800 (CST)
+	s=arc-20240116; t=1784534864; c=relaxed/simple;
+	bh=oX9m+LskLxwKLhDWP8omE/1987HKE52GUPJqsmlpb5Y=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YI+ECkDZw1t8NCfB6lRgU23TWcOpG061wCGHAPt3C+yzBTKWkmAMFq9oNKXCBoJlPVthHMtNtZZNUWZRGqTL4dV/+F/gqaKV6SCcsgxhWd3SJ+coHK1CYhHQQ277j2IKuuoX1d4eOgyigP3mrRZTMA6STR8aXYcBJfkyNo1b9vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=izn5mV/D; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="izn5mV/D"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=f3CSOTh2GOqz5QwuSOIwM7/sExcCmKBDuMS/W2XlGAg=; b=izn5mV/DWeK7FKk75OiMAxuTA1
+	WcGLTHdsooMjMR9xpn0PojhaA2xTUq6Q13+ezolk57BEjJDUqHBI4v+s2G7VFS9R7LbYdMYSg+2Kf
+	JAVTmydtYUDVDzLv3XCo8GxnQahsLRWmwgvTYwsieUbfG4ABGIVcNT4hiU/vCc2CGF/m3UvhADa2/
+	hMdq9KFKzuRHf/ybNCB6Q+LigoDsC0e125fIL375KRTC2lktFpAM6wnmotzcFvLCoVfDfA/wslDp8
+	P155dTpFtsOfAuBHkI/CmZs9wofM3Xl3g6rBhb5JpTc4vRkYut3XGamYUV7ovrefazsREgYC7GwPH
+	r36N2pFQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wlj2J-00000006A3S-49hl;
+	Mon, 20 Jul 2026 08:07:40 +0000
+Date: Mon, 20 Jul 2026 01:07:39 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Theodore Tso <tytso@mit.edu>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	"fstests@vger.kernel.org" <fstests@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"slava@dubeyko.com" <slava@dubeyko.com>
+Subject: Re: Should we consider disable generic/563 for file systems that do
+ not support cgroup2?
+Message-ID: <al3XS4P7Z9lHSb_j@infradead.org>
+References: <ff1c0710cbb31f8ebf51457c0629a496ea6f658e.camel@ibm.com>
+ <alpUADtQccA2zmWh@zlang-mailbox>
+ <alzYSGVz86d7wDXn@mit.edu>
+ <alzzQA9SR55FynDu@zlang-mailbox>
+ <alz_HixXWhKTIfRV@mit.edu>
+ <al0d2btWzQaFmcI5@zlang-mailbox>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <xu.xin16@zte.com.cn>
-To: <ljs@kernel.org>
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <liam@infradead.org>,
-        <vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
-        <mhocko@suse.com>, <jannh@google.com>, <pfalcato@suse.de>,
-        <willy@infradead.org>, <jack@suse.cz>, <linmiaohe@huawei.com>,
-        <nao.horiguchi@gmail.com>, <riel@surriel.com>, <harry@kernel.org>,
-        <lance.yang@linux.dev>, <kees@kernel.org>, <ziy@nvidia.com>,
-        <baolin.wang@linux.alibaba.com>, <npache@redhat.com>,
-        <ryan.roberts@arm.com>, <dev.jain@arm.com>, <baohua@kernel.org>,
-        <usama.arif@linux.dev>, <matthew.brost@intel.com>,
-        <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
-        <gourry@gourry.net>, <ying.huang@linux.alibaba.com>,
-        <apopple@nvidia.com>, <peterx@redhat.com>, <chengming.zhou@linux.dev>,
-        <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCAwMS8xNV0gbW0vdm1hOiBpbnRyb2R1Y2UgVk1BIHZpcnR1YWwgcGFnZSBvZmZzZXQgZmllbGQgYW5kIGFkZCBoZWxwZXJz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 66K7cEmj047214
-X-TLS: YES
-X-ENVELOPE-SENDER: xu.xin16@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Mon, 20 Jul 2026 15:38:22 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A5DD06E.001/4h3XSG5Xwwz7VD94
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <al0d2btWzQaFmcI5@zlang-mailbox>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-> > > This patch establishes fields within the vm_area_struct type to store the
-> > > virtual page offset of VMAs.
-> > >
-> > > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
-> > > they are unfaulted or were not remapped, otherwise it is equal to this
-> > > value at the point of first fault.
-> > >
-> > > Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
-> > > file-backed VMAs are tracked by their file offset. By adding virtual offset
-> > > as a property of VMAs, we can now track them by their virtual page offset
-> > > instead.
-> > >
-> > > By tracking this, we provide the means by which to eliminate this
-> > > inconsistency, and more importantly lay the foundations for future work for
-> > > the scalable CoW anonymous rmap rework.
-> > >
-> > > This patch simply adds the fields and some simple helpers. Subsequent
-> > > patches will update mm code to make use of these fields correctly.
-> > >
-> > > The fields chosen are packed in the VMA such that, for 64-bit kernel
-> > > builds, no additional space is taken up.
-> >
-> > It is not necessarily true that no additional memory will be consumed, as it
-> > depends on whether the baseline kernel has CONFIG_PER_VMA_LOCK enabled.
-> 
-> We are moving to this being permanently enabled.
-> 
-> > Moreover, in the future evolution of mm, maintaining this benefit would
-> > require that the layout of struct vm_area_struct before __vm_virt_pgoff_lo
-> > remains unchanged, which seems impractical.
-> 
-> It isn't, we are very careful with this struct.
+On Mon, Jul 20, 2026 at 03:15:47AM +0800, Zorro Lang wrote:
+> Sure, hardcoding a _notrun based on FSTYP is a last resort, and it would
+> definitely be better if we had a more elegant way to trigger the _notrun.
+> As a test suite, I cannot enforce or dictate what features a specific
+> filesystem must export just for the convenience of testing :)
 
-Ok, That will be nice.
+Yes.  And if we have to do that it should at least be in a common helper
+and not sprinkled over the tests.
 
+> /sys/fs/$FSTYP/features/ is indeed incredibly helpful! Just a couple of
+> days ago, I was actually discussing expanding _require_fs_sysfs to support
+> features/ checks there, since our current checks are limited to the
+> /sys/fs/$FSTYP/$device/ directory:
 > 
-> >
-> > My personal suggestion is: maybe we could simply add an unsigned long field,
-> > say vm_virt_pgoff, without worrying about the increased memory footprint for
-> > now. Additionally, it would be helpful to add some comments clarifying the
-> > difference between this new field and the existing vm_pgoff, to aid understanding.
-> 
-> Nope that'd add 64 bytes per VMA for a typical usage which can add up to a lot.
+> https://lore.kernel.org/fstests/aloCfjjqesxpzL9z@zlang-mailbox/T/#mc5a0492cc00550467256951042828bef5d7fa38d
 
-Okay, but I hope at least we could be a bit more verbose in the comments, because
-__vm_virt_pgoff_lo and __vm_virt_pgoff_hi are located somewhat far apart from each
-other, which might cause considerable confusion for others seeing these two
-variables for the first time, and clarify difference between this new field and the
-existing vm_pgoff, to aid understanding.
+features can very much depend on the actual file system instance.
+Trying to expose them globally doesn't make much sense.
 
-Thanks.
