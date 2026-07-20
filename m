@@ -1,165 +1,188 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC3442E8D6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 18:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784572303; cv=pass; b=mPmMKbxJSOiMr9dHFML2WvzrC1V5uMHFCeJYra5QgSEKjNIankb8CpnJt+jf1pXl2O7RdUvhDI9RBDR1q0bbA8wE+fJm55fxUE5ahOBDinTYBRjeZcyvQirLlFmvG2H8U9uTNap2ZOyY10SQeL2nAQvVzntXofUn3v4zVNKaEGA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784572303; c=relaxed/simple;
-	bh=LC7hykOo7NcQDgbbnYkuyatZKfLvtqyYnzCxrtoDhEs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KOjfUzu+HMi8uLJuO7hxvX8cTnXt4WaOdhtYMwpqiPy+LUIwum3MqwQVRWKOQbVRDMRejrnlH34Lz8xF8YRbNDemvveguWySCoK8p8jnRSldRwjosiVmz//gYAbhSA8DL18iYMbtvJ4zU9+NVbdhcz/Y3avbGtjuh8V/ODDxbbc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SF4oDpAV; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5A430F819;
+	Mon, 20 Jul 2026 18:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784572498; cv=none; b=Xx1xEDacKkdJdoGw8kLht04og/u+ksBvFe+dtAxkdxh5wGmzRfJ0mfeC05y0Lw8MGsgjp/zd9cAh/4KItYD1t3Q833EvzGBaBh28d+5cq3rZnykr95X4K0F1lKh/PKGFUBc1OB1TimsTAjuiPCfJ8IZd9O4zvFD66CZ47lZrOII=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784572498; c=relaxed/simple;
+	bh=qah1/aSKPEDFSj7W77/Rln10asl9Y/DbD1Rx8TyGT6k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lp686Dmsv/wwwVf4iEiAADQr8Rkq5feQqZMeMN7J0F/tjh/q0Vo7gf8ujdQ90x1tcgKVuffRjqbfQgn8RZg+ok2C56iGEnGuPWTxfNVbx/0tEKmo62u/0giIkL4qW/LE4JIX07UH4BebwuIcyZWK6RX0304yJ0l06C9mNhK8GvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZiqkYHDV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SF4oDpAV"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc891373e0so130124545ad.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:31:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784572301; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FK8fCziHgkuVzVGWYWkpjcXlk02ArJqidiSXAbZKuf4PyfmTNZ9nsP83Fi+QRtV59G
-         +HmYeNIipchlmSlnp1P+UxPVQIbOx3Ymmj7iCg3pF9Uc3xe8WcORPifIZq3iW9yEriLv
-         0pJ+p9iu7Bxpehw98yjb80Vplo15sDDpK/Rzw1tpszUaCKVwwf5EdLZph5s42rTCHhFC
-         WiKPPAPlC7OTKvHkD/Y7EW0MXU5B5TNJYcTiMHK2JNOKLcl3lpplWNHOj3O2GTyK/CPI
-         Q9j3lCTTZ8UZvS8Ri5+m8vj26vHdSBuHjf1skYjyvyKpWnBQ1HfTcAr2umzcN/bSFN17
-         IoWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=k3hjzl7jw5v8GiAJW52bFkdiqM0pGI3DopRM+xm9zUM=;
-        fh=15STgjbAu9KZrvlwE3H9dh+sziQhBgFdLHqcxWkuLl8=;
-        b=YQPnuOIcGj7Zy0b47VxRKcYInpQ3LaIf3kck44zsjjsbzOo3Xwnrsvx/lYO+wfX4xM
-         vw0rqROPld1PGOyTq0wh5L8PMuY3RuiGZDeyFGquoR/KtzKXzs00f95Zu7xYWDmrGuh1
-         JTtmaxgXD0qWLKuI0JQuT7reV47xSozYOOReG3M9bB6/JRGBxeq9Ciat1aKxTVLy5EaG
-         NVJe6gRBsmFsfzKHu6o73SlZAivSKma3n0EkvyRC925ulTjiylb2hwM9m3so70h85kdP
-         3SjXyTs8UguJHRqyQFUmYjg72bMDDkx5JY3Fxktr0uQkOfbOc+Wu3scwexP6EyukT73V
-         6OpQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784572301; x=1785177101; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=k3hjzl7jw5v8GiAJW52bFkdiqM0pGI3DopRM+xm9zUM=;
-        b=SF4oDpAVjRYKdSsd1An806F+kBH3rf003d0u/ZUMNNm7Z3eZ/kHMlpnc10wsos72ad
-         oUVSW/oegIFYOPHJjIelk0S79rBUhoWc1IxaZn/GFnBqExrzXoMic3eoXfLINQQIZ2qz
-         tA9QBh17mfw2HmoEip2+j2tXcSavY9xNk+6qFYmUxbEBLFOg+1y78i/MUQpeItTjTJWm
-         BBeiwakKjw0Otg45hxTUrmXoCmRGjkLygItlPBW01aC3soRn+U1ru7O6dzq3Xij6aWuW
-         HWrIU51Yw4aQ7Wp9fC+8Ioy3i7m2/hJl55Afq+HIz1ohnbQvRwBMYwsoWHSQ62lpQjgx
-         aH+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784572301; x=1785177101;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k3hjzl7jw5v8GiAJW52bFkdiqM0pGI3DopRM+xm9zUM=;
-        b=OHDWWQZPOYXergQAxC5J7GJKX+PhZIz2F7Z2UQrMsFJ07BJc9Zot/tBU8cOG7WBo95
-         qvnCdINcmotjb2WwGnE9yIPcGwEDM5EqQoOvhXo1NjP/SGNCBKnGzL3syd0czzjy38Fm
-         66ogWDTg/KJIOPS30mdkafKm4B0S/ji/NRPgdTclmeAgXC0y1G9aScP17jURe/WBWCBg
-         EomypGwaCV8zZBuIak3VdMTy4IOF9LDidCfadngAXEJ5v+EYgi4OhMs6y0n45VF7A74L
-         +CXrxdcCuTY2qBCjeuV64uC2yGauBaByvwsbWIWB2TgTFJtdfBUXuZ6LVHRY3Oxoms+7
-         4IQg==
-X-Forwarded-Encrypted: i=1; AHgh+RoCSx/P8QcL1Pw4dfuan4FSJvbZTXI1/ncATf1TMvzqh+r+u+CVMS7XWwfjQN5aCI8G94s7HL05iqTltzhP@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk2u17jsa4LmgM7hwoJG45GFGFQPlSG98Vu0ummbs4RFFVxyxB
-	A3uqYMSwq1WuGHIpmPDnPzg4ahbNiLRIJBep33QZmYN3JW7BaWdHWFzOmfk9KEw++szRa0XE3JY
-	0hQC/bPzCmFuBPYP9DPpOSt78CD/GjvI=
-X-Gm-Gg: AR+sD10+x4Y/ELpZR0sXAvQ2ShMB68ovsinbIqSPZ+4IPtZO0A2v7hdR8uA+B1OIHVr
-	tErCz4HcyWncONuG9MYGUCB9A3SJSjwcWdaCEXhyKnDAAsyM1aLUlLdZ3fO/AN9pLkbuBpjJ2w/
-	2q6Oy+W9PTSL5up6b/ur0HJ0wlw4m4AXpLAZgZShtaV6SoQnNxuO/gt7XlhdL/FLMpdcEqo1peo
-	rplX9JrgYd3QOQmypXoGvVp3encUwzDjYx93DC7NIR5xknV8MstQFIgqIz7hGE+SZw1kjl00ZsE
-	sihNLyyftyGtsftG0j8YfnkIORc=
-X-Received: by 2002:a17:902:fc4b:b0:2ca:bf68:2a54 with SMTP id
- d9443c01a7336-2cf349b590bmr166172285ad.22.1784572301567; Mon, 20 Jul 2026
- 11:31:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZiqkYHDV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DD11F000E9;
+	Mon, 20 Jul 2026 18:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784572496;
+	bh=12wl43ytAtcYJQLm/kZ5324fHnyuY88/G9Pd9OM4gBc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZiqkYHDVP2qkeVDecGOc/AL68ExHIOa+N9wf6zpElcuP8BjzityNR3fXpRouD6Ehq
+	 SdhdP31mB10JONwQr43IdwScZQ0O9KA+2TbSs4W6g+buFus1/MlM8ZHq2/r01JZlM9
+	 x7sClSPxNJzz/QvGIHJW2TFFLwGz+7DH1e8xjftrXWo+THqHwQo/1NyW/TLiNO3Mob
+	 /ybNNXpfQVmyYt1dGckJaW1LhAkeXWYiZSJRhtLaLkwXbgcehTU18uwEXF7aDRKC5U
+	 VuVs7WZtYZqcDvudkDPLsNWDkBan+T70HzWEq+a/NRI3WoVrCkG9e7VBh1ExQsde45
+	 +F1UqfaKQKX/g==
+Message-ID: <51810eba-2a60-49f9-b879-7f806546e600@kernel.org>
+Date: Mon, 20 Jul 2026 20:34:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708000956.46138-3-dwindsor@gmail.com> <a3a376bce713ac38ce6746508239c1af@paul-moore.com>
- <CAEXv5_gt7BPWvdR4D1_3XJ0_XpBXWN52jeAOf1K2QJ7LL6CtPQ@mail.gmail.com>
- <DK3LZOFOVG5L.3F34IKOCO1I04@gmail.com> <DK3M1X95Q2FN.26PY131TLPS2O@gmail.com>
-In-Reply-To: <DK3M1X95Q2FN.26PY131TLPS2O@gmail.com>
-From: David Windsor <dwindsor@gmail.com>
-Date: Mon, 20 Jul 2026 14:31:28 -0400
-X-Gm-Features: AUfX_mwvFwr-TgBt_1bjRhuE8WukQ5CZki_9yiHUuJNp8q_cbJ7bjwASItGBHzY
-Message-ID: <CAEXv5_hc9x9XJZr646efGe=HD5Y90FtB1m_xi--0wWuaD18EKw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] bpf: add bpf_init_inode_xattr kfunc for atomic
- inode labeling
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: Paul Moore <paul@paul-moore.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>
+Cc: Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Jan Kara <jack@suse.cz>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev,
+ loongarch@lists.linux.dev, linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+ <alkLSzQvzT9zJbY1@casper.infradead.org> <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
+ <al5gQgnBCjNCSD_4@casper.infradead.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <al5gQgnBCjNCSD_4@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 20, 2026 at 2:30=E2=80=AFPM Kumar Kartikeya Dwivedi
-<memxor@gmail.com> wrote:
->
-> On Mon Jul 20, 2026 at 8:27 PM CEST, Kumar Kartikeya Dwivedi wrote:
-> > On Mon Jul 20, 2026 at 8:12 PM CEST, David Windsor wrote:
-> >> On Thu, Jul 16, 2026 at 5:55=E2=80=AFPM Paul Moore <paul@paul-moore.co=
-m> wrote:
-> >>>
-> >>>
-> >>> I'm sorry David, now that I'm seeing this function again, especially
-> >>> with the LSM specific bits extracted into a LSM function, this absolu=
-tely
-> >>> belongs somewhere under security/.  It's only callable from within a
-> >>> BPF LSM callback and all it does outside of some BPF pointer boilerpl=
-ate
-> >>> is call right back into a LSM helper function.
-> >>>
-> >>> If the BPF maintainers aren't willing to accept that, then we will al=
-l
-> >>> need to find another way.
-> >>>
-> >>
-> >> Where this code lands doesn't matter to me, so I'll stay out of the
-> >> decision of where it lives.
-> >>
-> >> If this kfunc goes to security/, would we also want to move eg
-> >> bpf_set_dentry_xattr similarly?
-> >>
-> >> I'll roll v6 of this series meanwhile and we'll see what the BPF
-> >> maintainers say.
-> >
-> > I don't think there was any preference expressed from the BPF side. Log=
-ically,
-> > one cannot be faulted for adding a kfunc to set the xattr for inode in =
-the same
-> > file where similar kfuncs to set xattr on other FS objects / entities e=
-xist.
-> >
-> > The question about bpf_set_dentry_xattr is thus valid.
-> >
-> > Anyway, I will leave it to Paul and Christian to decide between themsel=
-ves where
-> > it makes most sense for this one to live.
->
-> Also, perhaps it makes sense to use set/get naming for this one too, to k=
-eep it
-> consistent with other ones?
+On 7/20/26 19:52, Matthew Wilcox wrote:
+> On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
+>> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
+>> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
+>> >> There are no external users for this surface, reduce the scope.
+>> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+>> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
+>> >
+>> > Hm.  So what we're saying is that allocations which respect mempolicy are
+>> > only for core mm and not for, eg, device drivers to do.  Is that really
+>> > what we want to say?  I don't think so, because that's inconsistent
+>> > with having just widened __filemap_get_folio_mpol to allow guest_memfd
+>> > to specify a mempolicy.
 
-I considered that, but we're only allowing one to initialize the xattr
-on the inode here. Once it's been initialized, one uses
-bpf_dentry_set_xattr.
+guest_memfd is practically mm internal though, IMHO.
+
+>> Yeah I agree, mempolicy definitely seems like a "public concept".  All
+>> I'm saying here is this specific function doesn't have any external
+>> users so it doesn't need to be an external header. 
+> 
+> I don't think that should be the metric for moving things to internal.h.
+> To me, internal.h is a signifier that these interfaces should only be
+> used by the MM.  Not that "all current users are within the MM".
+
+Perhaps. It can be also useful to move them outside only when someone asks.
+
+>> ... With the ulterior motive that I want to add a new parameter to it
+>> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
+>> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration of
+>> [0]. So basically this is
+>> about trying to extend the allocator without creating a GFP flag.
+> 
+> Yeah.  I'm not sold on the whole alloc_flags thing, but I'm too busy to
+> sit down and think it through properly to get involved in a proper
+> argument about how it should work.
+
+Well it's basically a workaround for limited gfp flags space. So we can
+extend it without making that a cost for everybody, as long as those that
+need the new functionality are limited.
+
+> My entirely unresearched and ill-considered opinion is that the __GFP
+> flags should _be_ the ALLOC flags.  We shoudn't be translating GFP flags
+> into ALLOC flags that are what the allocator actually uses, the
+
+It uses both.
+
+> translation should be done at compile time.  So if GFP_KERNEL and
+
+That would assume the gfp flags are also known at compile time, which is not
+always the case.
+
+> GFP_ATOMIC need to be composed of different flags with different
+
+The flags we are adding/considering to add are not about GFP_KERNEL vs
+GFP_ATOMIC context, however.
+
+> semantics, then we should do that, not invent a different set of flags
+> that special people can use for special purposes.
+
+Yep it's ugly and pragmatic, as usual. At least it's not immortalized as an
+UAPI, so we can deal with exploring in a wrong direction and fixing it later.
+
+>> So I'm envisaging if an external user arises for it later, we'd slap two
+>> underscores on the beginning of the internal one, (with the alloc_flags
+>> arg), and then bring back the public one as a wrapper.
+>> 
+>> Does that make sense?
+> 
+> We have a long history of people just moving stuff around in patches
+> without knowing what the intent was if it should be moved.
+
+I guess this patch is not critical to the rest, if that's an issue.
