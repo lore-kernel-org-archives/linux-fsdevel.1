@@ -1,345 +1,179 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC5A3B71B6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 20:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578438; cv=none; b=llP5MqmJOy8D2wFUFc+ay2eQg1cDEX3KblS2McuZ54RbrLkczsguDd6VEh6FMNBkzU7n1k4urRGFV1RmlGkSp/lOfntfF78W3ujvFjrkfg0zZphLmlGNWCR0zlHpgHR3CXvPMuhvhFF0UecvLdLF5SwGsSo1ICEkLr9Igr3pAoc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578438; c=relaxed/simple;
-	bh=E5VAhPvDixDBh158Ani5pbOmnUT0JYN9QyGrNlKc7uY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZScGIQmC2YWTK8AS5HrTtpoGq2Jc1gNx8igPXX1HLO12IZxf3vvnSjulqBPK9fDTIJCf/7wvuOkdBaAgowEXMoffiVeRsKES5L6lFU5TuOur3Y8A1/3MFCjrcUSfZclQqTylji2PKRSM0MkTlm6+POQ4Atvlv/eadTh0u24yAYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=SfapyLm4; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6773BB69F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 20:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784578583; cv=pass; b=staPZvZYVeqHJLTcIXpEeWar9lmLmD/vrQb0404jsFixf39gERnu3tMHXfl4mGMI8yfaKK0ZZSB1QTPkS5P9OCslvTJAYyNsOgp38q6iyjX6ZtMGiA4h9PSC/seV0GZnQabsKMMRKSv8l2S1gvXVwqDI/zJT5JcEfn54Z9DAjP0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784578583; c=relaxed/simple;
+	bh=qOEkNLJrOibH57gOt/DIm3R8ct2tEakFik9JpGI7f18=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W4kJ4NZ9IFegmrSwP2PV0eD7uPK0yeAAf3Rz8Ru0MoSWh/VQxrF/ndOXry56Z3yD4vhe5DDSCLndVCw97/HxI+J5V87c2wUlehAeLNU8y5rDhEPhffkVuBreZgrAkrtnh1iDHWq8BNf3/XfCaP+38j5SVWkwPsCrMdtLLWM0o4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=d2866SVJ; arc=pass smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="SfapyLm4"
-Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KJQDfQ2796050
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:13:50 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=o82DoYYSV0y8IQ1YJ1GlyPVGUbcY0WkkSn58pb5xlm4=; b=SfapyLm4c6T+
-	t/2SaGxFEX/1/U/yXlBZ82364LfX3B1/1vv3u9bUp/vlauzYhlwDZAZhLTIS+6aT
-	7iRYEUna2xLEUnlm6N4/lrKJ/ZU2k/s0e2iqYMCD2tSLH44p0fNg9+lMNgwBb5G0
-	uXMCNj2ukTScByvRQPoQwk9VVpydgy7wqGZpbY/NjX8eVuM/HnKRUyp8uMI532M3
-	krVE1fB+vAHntgBCTIaZAB19/D25+MGGNgPyOfyPBXNJz8uX+qRBdqk2ZgLF37Lq
-	jWQVUdtlu13cGz00KiZ3o0DJsXmM9GXqXGvli6ubOz8xYqzU7y75J48OH0cjq44W
-	3WmWCjMbdA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4fgu4dg0hc-6
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:13:49 -0700 (PDT)
-Received: from twshared25342.02.snb2.facebook.com (2620:10d:c0a8:1b::30) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Mon, 20 Jul 2026 20:13:46 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id A33A225A00290; Mon, 20 Jul 2026 13:11:04 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
-        <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
-        Keith
- Busch <kbusch@kernel.org>, <stable@vger.kernel.org>,
-        Hannes Reinecke
-	<hare@kernel.org>
-Subject: [PATCH RESEND 5/5] block: validate user space vectors during extraction
-Date: Mon, 20 Jul 2026 13:10:57 -0700
-Message-ID: <20260720201057.1862857-6-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260720201057.1862857-1-kbusch@meta.com>
-References: <20260720201057.1862857-1-kbusch@meta.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="d2866SVJ"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8485b358552so11375539b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 13:16:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784578569; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cQKjBqihA7OFG4VXwYtkN94RG8o41PyxfbtYymD904WNKrHci8lGPHlX/AhL0qYXnx
+         TXX77/ESV2H6Zr3PLi2V7XbQwVTHXXY7tEJimeS0aDFVR2AD9PQYBGsNRuO0pUUsoapB
+         rMScHjrHhro8tU6UeA93wz6Zh0iLWvm737xwIGHPRSrRrsBgvvDdu9NaRE4RFxJlunPz
+         AYsGgjJxfimI8ZbpZUfMwlObJBf3Bdl8QBz8tQn03GOHIx0ZLWmN1sHUN4r9Vx2EnfdZ
+         Lg8BFlD1Fug8+i/RV2VWCP6kf0SBVKP7gzHngF/AgzGGsumaiK5KUhdV+AAtaEGAvauP
+         Iu8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NEIzKGx6nstnSDXiYsrtWuuGIdEs+ij5HpQm4P2etZk=;
+        fh=50A8EYgkTc0Xesyo3i+KBca43849hIKvhTmhxJyCj4I=;
+        b=N5UJj7uDJEZ+bBa1uBjsR1nHKpyl3BjFcDexJav4Vb8GshcXBuTR8hDYUL/EXoqUBU
+         73aCa2mbNHgAv6uK6TJJuyblDLAe10xyvGeVNqjD0pPHFamHUeiCTh0NGLXj5o2FNc4N
+         SnqD8njSi1FzLLyF5//0bbT1bxUWgnb0av1ynsFIW0L0B9nHgmJ2UScd8lG2HCFf0zn7
+         Z8fBhzWox19EysvMgJ2f7KWJywYTzlS3iCM4IAPIuvEnrmyDakN2gRwO6vJ69iP8PB6D
+         0YPj/aOA7VqtNMOxlCB3CuGx2v3UeAjIGpVgZbcjxwymkqAl164b833VWkKRvlT3y8ao
+         tDPQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1784578569; x=1785183369; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NEIzKGx6nstnSDXiYsrtWuuGIdEs+ij5HpQm4P2etZk=;
+        b=d2866SVJs2a0e1lfW2MqZvVhHeHIcHycmtnI65CnmV5ZeaakXFzLdM8aykzl8XCp4r
+         FjIgoqKhSid0Ww300wNhKHUVQRbmt5vyhdjyGdMviHWnGpWlKD632Cn+BMeib6C6LWxu
+         5VF1OoAfbCwtkrxfDTYj1XkpnLVMkWpe3YoGEjDstsJEFzdcsMULJhwhQKwNyQ66OkgV
+         wxxZ3fXTFoneravECaIHMy3fg9WbwXzJbK0co4pRXXXR+ue0ep3EFGwbAXctpImE5eOB
+         lQn0zqJHw2zJRBZHBTCL4C56JbOgGfThb8fVfsLLcdX4fLZAht1e0QHTyJG44uJFYEjm
+         ip9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784578569; x=1785183369;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NEIzKGx6nstnSDXiYsrtWuuGIdEs+ij5HpQm4P2etZk=;
+        b=dgNaAY2XpRYKZyvO/SnH+3h1vfiT3Ifd/DvCXrKR9O0i0gwfADdm+rIuinr2KOE6bi
+         UJVrbsWuQuGfjrT5pSd5Fv9tv2xUO6hwSKlKwsqu/UWyF3lnEw7K8BBvwHgt1WkcgfFZ
+         MGBJSMcyBEx/vutH6d/830UbPg5XZW5MZVGXt+atQa13FvcHB53LmCnd/bhtElVYBawp
+         uj9Sn8kAku0ucdoiMGf7w7WZAptaVLG6UevxrWgAA7zmqd8o0PccxgNKtPdiDK2jzeuK
+         scwGw6A1cpff6I9iuuWGDxNnaUk0mJ7Ns3ciZRdRZq0UjWSs2f8iXMXSa1zcm6YrYy93
+         rMfg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq6llHStDMlGl+PsWGpWgnV5H89G4exfpmZC/JkfABisHRh/RjjUjQyXdaaf3NUHB2nAtzP4Gzo2du2QHFk@vger.kernel.org
+X-Gm-Message-State: AOJu0YzE/m9KvYsTTzN4/e+GJD1b9KZc3TATbYNp+q121J0BtCUPqJoa
+	TE628DPW/NmbcaFNJwtb+0J6S8QAi6HCBcRGCi2t1EhV6FUygxEx48EEmLoaIN9lp5R39tqBkyM
+	Xo0c63TGR3jZjwvnjMryl/4qI7M9H8h04MtC1sgDb
+X-Gm-Gg: AfdE7ck+T8NM+7H09qZ+Sq6Ne8an86qR85HRjnclht2lHtFwLmywfIbq8my48mmIVZw
+	4wrTinHQRdLx7CKkLyc5EJjfxlemuSg2MrxD/XKHkAPUDc4oYZAZu+i2qo3T7KJdQ1yHTzz++f4
+	9B3ifx0tzyp+cIB253faq039pzqiJu0LGCwEOz4IuvDzdEpzxQxDdOmiWRrZPmetram+FPkoovT
+	IezDG9vHbPd9QZPGqEyFY/c3WA/TtvKsYnisfktUCRsiG7HtSYYnFemi3MINA==
+X-Received: by 2002:a05:6a00:438d:b0:848:68d7:c673 with SMTP id
+ d2e1a72fcca58-84c2948848fmr15306792b3a.47.1784578569285; Mon, 20 Jul 2026
+ 13:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260708000956.46138-3-dwindsor@gmail.com> <a3a376bce713ac38ce6746508239c1af@paul-moore.com>
+ <CAEXv5_gt7BPWvdR4D1_3XJ0_XpBXWN52jeAOf1K2QJ7LL6CtPQ@mail.gmail.com> <DK3LZOFOVG5L.3F34IKOCO1I04@gmail.com>
+In-Reply-To: <DK3LZOFOVG5L.3F34IKOCO1I04@gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 20 Jul 2026 16:15:56 -0400
+X-Gm-Features: AUfX_mw17rEY5xGffzntET0ex7-B1yqGVCACoJsXOFIbYfGKrVihTs1yl3fAaHM
+Message-ID: <CAHC9VhR8n_TBPGLGq-Pray+mHrUCdcmqGXi9wTXyeGa2Dc4m4g@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: David Windsor <dwindsor@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: PcvtmztArLpW_fFYFEPmzRwsFpIGDTQv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIyMSBTYWx0ZWRfX8eb/V5lNzG8o
- DrYSl5aEHT9GcSWEE6igMlxvxAX7o82Tkigr32n9eyQFTETvzkn6TxoIRSCaJeZ77vdLK6kIvMN
- pDbCmJj0qCFgDqNvfvt34Ht2iLUpooc3aL0Gux3axTLFlkcuzoIFZUCHITf3aFFWDEzDr48Y2jY
- PA6ZKCQdM0YDQfflBgAjwcSL4aw4fXLwf5wT81azsyufKGGJ4cztQqzHKtUc7B3ni5YXFHEmOEk
- XJkiTn3Rmnf1f0iuVTWmwFclfbiE3UwL0CPvmIiipv3+Ht+FqLEhQtlqxReoIYlmeWenE2WM0QL
- r7sAeLIVMGIoy8MeYN+zX4ROL5msLqDoL51Z2q7kYKM1yXy+QRnrs6rhxW+Qsl2SQseb3VfJYe6
- 0jM1aoS6RFciQYk1ZhH9HXISOUVrLzvuEudC341lGg9kSg+MRHg3x8ot/G5YwFUeMnNXnpZe3wM
- hCCMYY+PuhkG1pRhZDw==
-X-Proofpoint-ORIG-GUID: PcvtmztArLpW_fFYFEPmzRwsFpIGDTQv
-X-Authority-Analysis: v=2.4 cv=NOrlPU6g c=1 sm=1 tr=0 ts=6a5e817d cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=GbPsI2Ihf5RTnMjR_gZv:22 a=VwQbUJbxAAAA:8 a=Hx0Vx7WpTRxxbsLxYwoA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIyMSBTYWx0ZWRfXzETwImbDgtAI
- A6a0ECdBhbiyTHFTXMA/m5Uw+5vgG90QAg2NZiDJx01Bt1Yg7PO1dUzNbKCdQ5FazB+OivDZGKO
- V/qisu9Hx1bmKcYkVltfvBncsP63lr0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-20_05,2026-07-20_03,2025-10-01_01
 
-From: Keith Busch <kbusch@kernel.org>
+On Mon, Jul 20, 2026 at 2:27=E2=80=AFPM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+> On Mon Jul 20, 2026 at 8:12 PM CEST, David Windsor wrote:
+> > On Thu, Jul 16, 2026 at 5:55=E2=80=AFPM Paul Moore <paul@paul-moore.com=
+> wrote:
+> >>
+> >>
+> >> I'm sorry David, now that I'm seeing this function again, especially
+> >> with the LSM specific bits extracted into a LSM function, this absolut=
+ely
+> >> belongs somewhere under security/.  It's only callable from within a
+> >> BPF LSM callback and all it does outside of some BPF pointer boilerpla=
+te
+> >> is call right back into a LSM helper function.
+> >>
+> >> If the BPF maintainers aren't willing to accept that, then we will all
+> >> need to find another way.
+> >
+> > Where this code lands doesn't matter to me, so I'll stay out of the
+> > decision of where it lives.
 
-The bio-based drivers don't necessarily check the alignment split, and
-stacking block drivers don't always handle a misalignment detected after
-submitting the bio. Validate user vectors against the device's
-dma_alignment as the bio is built from the iov_iter, rejecting
-misaligned early with -EINVAL.
+Yes, you're caught up in some territorial wrangling that goes a fair
+bit beyond what you're looking to accomplish.  My apologies for my
+half of that, it is an unfortunate part of upstream kernel
+development.
 
-Cc: stable@vger.kernel.org
-Fixes: 5ff3f74e145a ("block: simplify direct io validity check")
-Fixes: 7eac33186957 ("iomap: simplify direct io validity check")
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/bio.c          | 56 +++++++++++++++++++++++++++++++++++++++++---
- block/blk-map.c      |  2 +-
- block/fops.c         |  2 +-
- fs/iomap/direct-io.c |  1 +
- include/linux/bio.h  |  2 +-
- include/linux/uio.h  | 10 +++++++-
- lib/iov_iter.c       |  9 ++++++-
- 7 files changed, 74 insertions(+), 8 deletions(-)
+> > If this kfunc goes to security/, would we also want to move eg
+> > bpf_set_dentry_xattr similarly?
+> >
+> > I'll roll v6 of this series meanwhile and we'll see what the BPF
+> > maintainers say.
 
-diff --git a/block/bio.c b/block/bio.c
-index f2a5f4d0a9672..faad41a72ac77 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1220,10 +1220,45 @@ static int bio_iov_iter_align_down(struct bio *bi=
-o, struct iov_iter *iter,
- 	return 0;
- }
-=20
-+#ifdef CONFIG_DEBUG_KERNEL
-+static inline bool bio_iov_bvec_aligned(const struct bio *bio,
-+					unsigned mem_align_mask)
-+{
-+	struct bvec_iter iter;
-+	struct bio_vec bv;
-+
-+	/*
-+	 * Correct callers never break the alignment requirements, so this
-+	 * exhaustive check is only paid for in debug builds.
-+	 */
-+	for_each_mp_bvec(bv, bio->bi_io_vec, iter, bio->bi_iter)
-+		if ((bv.bv_offset | bv.bv_len) & mem_align_mask)
-+			return false;
-+	return true;
-+}
-+#else
-+static inline bool bio_iov_bvec_aligned(const struct bio *bio,
-+					unsigned mem_align_mask)
-+{
-+	/*
-+	 * We forward the bio_vec as-is, so ITER_BVEC callers must provide
-+	 * segments already aligned to the device's DMA alignment. The only
-+	 * unchecked user-controllable offset that reaches here is an io_uring
-+	 * registered buffer where just the first segment can be unaligned
-+	 * (the rest is virtually contiguous), so checking only that one is
-+	 * sufficient to know if the entire vector is valid.
-+	 */
-+	return !(mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
-+							mem_align_mask);
-+}
-+#endif
-+
- /**
-  * bio_iov_iter_get_pages - add user or kernel pages to a bio
-  * @bio: bio to add pages to
-  * @iter: iov iterator describing the region to be added
-+ * @mem_align_mask: the mask the source address and length must be align=
-ed to,
-+ *	0 for no requirement
-  * @len_align_mask: the mask to align the total size to, 0 for any lengt=
-h
-  *
-  * This takes either an iterator pointing to user memory, or one pointin=
-g to
-@@ -1242,7 +1277,7 @@ static int bio_iov_iter_align_down(struct bio *bio,=
- struct iov_iter *iter,
-  * is returned only if 0 pages could be pinned.
-  */
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--			   unsigned len_align_mask)
-+			   unsigned mem_align_mask, unsigned len_align_mask)
- {
- 	iov_iter_extraction_t flags =3D 0;
-=20
-@@ -1251,6 +1286,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 	if (iov_iter_is_bvec(iter)) {
- 		bio_iov_bvec_set(bio, iter);
-+
-+		if (!bio_iov_bvec_aligned(bio, mem_align_mask))
-+			return -EINVAL;
-+
- 		iov_iter_advance(iter, bio->bi_iter.bi_size);
- 		return 0;
- 	}
-@@ -1265,8 +1304,19 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec,
- 				BIO_MAX_SIZE - bio->bi_iter.bi_size,
--				&bio->bi_vcnt, bio->bi_max_vecs, flags);
-+				&bio->bi_vcnt, bio->bi_max_vecs,
-+				mem_align_mask, flags);
- 		if (ret <=3D 0) {
-+			/*
-+			 * A misaligned vector fails the whole I/O.  Release any
-+			 * pages pinned by earlier iterations before returning
-+			 * since this bio won't be submitted to release them.
-+			 */
-+			if (ret =3D=3D -EINVAL) {
-+				bio_release_pages(bio, false);
-+				bio_clear_flag(bio, BIO_PAGE_PINNED);
-+				bio->bi_vcnt =3D 0;
-+			}
- 			if (!bio->bi_vcnt)
- 				return ret;
- 			break;
-@@ -1377,7 +1427,7 @@ static int bio_iov_iter_bounce_read(struct bio *bio=
-, struct iov_iter *iter,
- 		ssize_t ret;
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec + 1, len,
--				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0);
-+				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0, 0);
- 		if (ret <=3D 0) {
- 			if (!bio->bi_vcnt) {
- 				folio_put(folio);
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 768549f19f97e..c9535efe1a913 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -274,7 +274,7 @@ static int bio_map_user_iov(struct request *rq, struc=
-t iov_iter *iter,
- 	 * No alignment requirements on our part to support arbitrary
- 	 * passthrough commands.
- 	 */
--	ret =3D bio_iov_iter_get_pages(bio, iter, 0);
-+	ret =3D bio_iov_iter_get_pages(bio, iter, 0, 0);
- 	if (ret)
- 		goto out_put;
- 	ret =3D blk_rq_append_bio(rq, bio);
-diff --git a/block/fops.c b/block/fops.c
-index 0098a90a956e1..e519d7f43b310 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -46,7 +46,7 @@ static bool blkdev_dio_invalid(struct block_device *bde=
-v, struct kiocb *iocb,
- static inline int blkdev_iov_iter_get_pages(struct bio *bio,
- 		struct iov_iter *iter, struct block_device *bdev)
- {
--	return bio_iov_iter_get_pages(bio, iter,
-+	return bio_iov_iter_get_pages(bio, iter, bdev_dma_alignment(bdev),
- 			bdev_logical_block_size(bdev) - 1);
- }
-=20
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b485e3b191daf..ff458aa12ae29 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -358,6 +358,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_it=
-er *iter,
- 				iomap_max_bio_size(&iter->iomap), alignment);
- 	else
- 		ret =3D bio_iov_iter_get_pages(bio, dio->submit.iter,
-+					     bdev_dma_alignment(bio->bi_bdev),
- 					     alignment - 1);
- 	if (unlikely(ret))
- 		goto out_put_bio;
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 8f33f717b14f5..ce34ea49ef358 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -477,7 +477,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t =
-sector, void *data,
- 		size_t len, enum req_op op);
-=20
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--		unsigned len_align_mask);
-+		unsigned mem_align_mask, unsigned len_align_mask);
-=20
- void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
- void __bio_release_pages(struct bio *bio, bool mark_dirty);
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index a9bc5b3067e32..fe2e985d74d24 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -389,9 +389,17 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i, s=
-truct page ***pages,
- 			       size_t maxsize, unsigned int maxpages,
- 			       iov_iter_extraction_t extraction_flags,
- 			       size_t *offset0);
-+/*
-+ * Block-layer consumers (e.g. bio_iov_iter_get_pages()) require that th=
-e
-+ * segments of an ITER_BVEC iterator are already aligned to the target d=
-evice's
-+ * DMA alignment, and forward them as-is.  In-kernel users that build th=
-eir own
-+ * bvecs must not create sub-aligned segments; iov_iter_extract_bvecs() =
-enforces
-+ * the same for the segments it extracts via @mem_align_mask.
-+ */
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags);
-+		unsigned short max_vecs, unsigned mem_align_mask,
-+		iov_iter_extraction_t extraction_flags);
-=20
- /**
-  * iov_iter_extract_will_pin - Indicate how pages from the iterator will=
- be retained
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 273919b161617..c343075951ded 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1886,6 +1886,8 @@ static unsigned int get_contig_folio_len(struct pag=
-e **pages,
-  * @max_size:	maximum size to extract from @iter
-  * @nr_vecs:	number of vectors in @bv (on in and output)
-  * @max_vecs:	maximum vectors in @bv, including those filled before call=
-ing
-+ * @mem_align_mask:	reject with -EINVAL if the source address or
-+ *		length is not aligned to this mask
-  * @extraction_flags: flags to qualify request
-  *
-  * Like iov_iter_extract_pages(), but returns physically contiguous rang=
-es
-@@ -1897,14 +1899,19 @@ static unsigned int get_contig_folio_len(struct p=
-age **pages,
-  */
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags)
-+		unsigned short max_vecs, unsigned mem_align_mask,
-+		iov_iter_extraction_t extraction_flags)
- {
-+	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
- 	unsigned short entries_left =3D max_vecs - *nr_vecs;
- 	unsigned short nr_pages, i =3D 0;
- 	size_t left, offset, len;
- 	struct page **pages;
- 	ssize_t size;
-=20
-+	if ((start | iter_iov_len(iter)) & mem_align_mask)
-+		return -EINVAL;
-+
- 	/*
- 	 * Move page array up in the allocated memory for the bio vecs as far a=
-s
- 	 * possible so that we can start filling biovecs from the beginning
+Thanks.  Fortunately, it should be easy enough to move the kfunc
+around, that's likely one of the smaller changes needed in v6.
+
+> I don't think there was any preference expressed from the BPF side.
+
+Look at the second patch in the v4 patchset, you'll see a preference.
+
+> Logically,
+> one cannot be faulted for adding a kfunc to set the xattr for inode in th=
+e same
+> file where similar kfuncs to set xattr on other FS objects / entities exi=
+st.
+
+First off, I can't say that the existing BPF kfuncs intended for use
+within a BPF LSM program are in a good location.  Unlike every other
+LSM which locates its code under security, the BPF LSM devs have
+chosen to locate their associated code all over the place.  Some of
+that happened before I was responsible for the LSM framework, and some
+of that which has happened afterwards has likely intentionally avoided
+traditional LSM review.  Unfortunately, this has muddied things with
+respect to what is possible generally in BPF versus what is possible
+only when the BPF LSM is enabled; we just recently saw where this was
+arguably the root cause of an exploitable vulnerability.
+
+> The question about bpf_set_dentry_xattr is thus valid.
+
+It's a very valid question.  It is my opinion that kfuncs which are
+only intended to be called from within BPF LSMs should be located
+under security/, just like every other LSM.  If there is a kfunc that
+is generally useful from other contexts, that is a different story,
+but in the bpf_set_dentry_xattr() case, it is explicitly only useful
+for setting 'security.bpf.*' xattrs.
+
 --=20
-2.52.0
-
+paul-moore.com
