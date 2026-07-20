@@ -1,64 +1,63 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD1481640
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 19:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C410481AB1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 19:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576128; cv=none; b=owgo0l23H2voSZGnYCXM7jGw80z6ze4zAv4WrOSOBj/ZKhkTjgvrGmSWgBsQDwlnsuiFKCPmNGUBBKU067WBQSI2Luks+kz3VMSyBo4zog3uFAVZwW3rZBhjDvU1CsOFP7mmZCWe6A4gp/NzdKsj3ZBlj3ISPeWY7TkdCx7UHlI=
+	t=1784576130; cv=none; b=uRMbtshHuX3Wj5LqPrWAk3Ow9O3Dn6qgsO2kS0K59+UchKyG+EMoQwn4yClNAxtcB2wZN+9nuZAfXjqfMQKDH25htmaOjLP+skVAMFHSIqaZ85+4Is0iEB5CoGNPGeqMVQVp/3tzol1/dYjkoZfROXfQ/OPNHlDH0KwxF1V0I2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576128; c=relaxed/simple;
-	bh=AclVB29m5XEXwT6jfLm+y0Vje/ATQlFgKmkw+sbjY3Y=;
+	s=arc-20240116; t=1784576130; c=relaxed/simple;
+	bh=di7fIfxF7ozb/zDn5Ysl3z+j036+4RO+ucFlAFRHfuQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DOABTSn9hPfEBZemrnsHh7IUezs+QEgyt4M30GV61ufLjEIfMVQcf4KQdMNpwH5q5KFKevDw1xI9RDuKY8RFVynD+99Ja6QpZ2KSAIaQeAngnv2PYAOBS8UlEPKI7++iY+yfnZeXOXYAAHQKCF7G7rwIyIiUddLr8jaInuGvyfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=KTYLBPs3; arc=none smtp.client-ip=209.85.222.182
+	 MIME-Version; b=CUajEhwSvzjNhsIFOIqJHp+J3IV1kZbWSOe1VIH30JXd9p5aP6xePLgsqS7jC/FU+jZwOxzkTErnRmk4x4h+iQVLeTgOQVRve8wVRJvEkWTnUCEgr7Ucq76gAN8fymUdREYCVC3WlvWtKosO85dAarbsIkb4mdCd6VLtaNZbreQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=JSKEdj1s; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="KTYLBPs3"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92ed3993c1eso439418285a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 12:35:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="JSKEdj1s"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92ed19f4d60so369312385a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 12:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784576123; x=1785180923; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1784576125; x=1785180925; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=v2LDhxlVOpgNtSXDCdv8imM0ubGsvF9EJ4oiPoX2j2c=;
-        b=KTYLBPs3dWcRB5tNY5Y315YJNYwSMrSW38ozrn7zBlvcl5Bgj0pNovXwYuhmdviEr6
-         vGvh5Tm6m6ydUQi82zIG49v7mWgnbI4X0h3X9mabjFu39jmqmc0ad6N6+0VTgyeMRySg
-         U67Thqs1ToMZc0ZR+8TgO8LsSqcKGdmBEkEQHgfrraLsi0CXj8Ba77QZxDY5AKvlIRFi
-         6q/dihXzF+eQ9FAgtleDsSd4cK5HY0uc5r/y6rh1gmcA1PS8AAV7YHcb3xRC5QQMheCa
-         vFx1oCPPO8nV4G83ZDlOcBlYxLNa8TfGyggXhkeXkCtRXY8EycNoBEI8uEixfJ4mDjdy
-         lU1A==
+        bh=wWSndD15nfA3ulYoFeibVziNkAccxURrSPvFkTAURcI=;
+        b=JSKEdj1sd5bwDdBC10wiOM5dTGvPWr1yHnxMeDmOaJ+51wGUTpa3aapxVQ4uz1yTKq
+         WY7kUXcLpEqZ9FD88SFmyoDP43tH00wY3jy7/I9FqW3LpMRxnId9rFrdxo3T1ongr6d4
+         /AVrPVYNAbWx6uqxL0UcR72MsHkhc7vx7WA4svqIiMbjwlh07JQ5z+gNyNnS+YbWzjv3
+         lDeyRVPdHZPfBOgCw/Xay0rYURJAGp9c06A5Z7+NSiDbuWq6cXteYNMP0d9BrS1zEHPF
+         0O1PUWaQPd29TNUtzlrggsyXChoBqQsUgJZ74w89h85HNrN1ho+G2UTxY7qoIS4cHvUA
+         +I3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576123; x=1785180923;
+        d=1e100.net; s=20251104; t=1784576125; x=1785180925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=v2LDhxlVOpgNtSXDCdv8imM0ubGsvF9EJ4oiPoX2j2c=;
-        b=IdUYcu1TZ3hMZ35emVbCSpi4ATHY0ymWKwTq/PdCOIrR+HkLVWNfzFOp+olf6rSDme
-         YpX9HE7RBp9dO9cwAIYIrc8UZpuoAShVGhUWlleVddMI1GhPddxkcGJmNv/sPYg6uUHW
-         9XYZY1DbzhbUxoZnrcY8bBx7azVFy75PEbXLYx1r+l0mKpLPpdoyrhcB+St0tvixc/IZ
-         eLHi7RNKgpi/jMQmCvQkr/E169NYcnHd8dG2PzvcrCi8D8B7mUj8BIjdD2rgdXkuGJfD
-         dCoxEusifyjczTH7muJdDmNO4Qp/xeYKe3ShUT4wDpIfsFOdJIeNT1mKRvgvRtiZZPNP
-         Rj2A==
-X-Forwarded-Encrypted: i=1; AHgh+RpV14UyZxU6Aen0uSOzL5ukkHq3+/1XkCVgpUtW0K2HdNrSBDNRU4LPpUpjhIuiUkkNU85y9sGWwInLkm25@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU/G4WkvWXE2RZlueAOqfh/gK5fedujQktaOiCBB4BZZxoxt6i
-	gexhHNpWyOGl3HfWgG4ViSqyWvYh1RIjF39O1S0/ENSe/8i+mMD+TmjDuq4w3Ilvjxs=
-X-Gm-Gg: AfdE7cmg0FmrUbmYBIZCdcRzY1qbeKWpxshGMuYgxhuqSY1KwFEv88RAehRdMEUhQvI
-	C4bz4nyl/7DCOS4TBPX+n/jJy6BgsNuWi9tPXd26TFsIpS6XVwasqMAYFfgkIxUCMSfLby3hw2q
-	uYku7V6AOT6Ug50dbWZW6coRnavYk/2VlL9ll9gbAd3gp/Z3ck6Vo98r941qil7G1LuxAxO4tbH
-	OwPHfOIqaCmXptgI0u2o2xZC4e5cSYdcin4OSPp6deegxVoS0HninflLjNL53Ksi94Q8e9KL5OK
-	tgncB1cxChHtd82/ddKAv1Fh0kDSHEydFHC9hgKK8OLB7t3qAuMF+prGajtnJCl+wOh6mLF6o3u
-	sDbLuaHJpD6HfM1Z8aVKyMOSsbxPHvz54iQ6Now+TlMrwXwuBkiaNTJuTarArtQNwGY0AQMkZBx
-	QxxGl2hwC/AdD/D+dmXvxWdYAFEIuWFEXb61l0BdZQ0Ha6eOOEhufXl10EYFy0I5e64zikj7aXZ
-	A==
-X-Received: by 2002:a05:620a:288a:b0:92e:f3ca:2ec8 with SMTP id af79cd13be357-930b3e4b8a0mr1508481385a.19.1784576122786;
-        Mon, 20 Jul 2026 12:35:22 -0700 (PDT)
+        bh=wWSndD15nfA3ulYoFeibVziNkAccxURrSPvFkTAURcI=;
+        b=Tbm45QUoEuvlHE5gbrN0CoyvuVwDGgpbb6Vz/Ay9KxvT0kErZCO5mV36DxLBYLQMEq
+         OnkaeS/RbySj3O01CNDJgmwuJTcvfcnaGbx6x4tpDs1VztSuf3Bqb8lJXddd5hiwZ8v4
+         jO+UpQ0akBiEK/+vA2CSkN1KlUF/8zAL9Yuh+c++OMq1MsU9CERlBtooBT0fjONd8iH1
+         /84TCjC61TGw3+GKvTcgOXn6eu6RTpTKbI2ZJxHpfraOu5dvEHyVgS/da8sPlfXjRwpE
+         XNoLQ56PI0pbWbtCAEjKeBHFbz58umDCvt3O7mWkV8R9Igqpc3ZnTldFwyI1sZkge6ST
+         m4OA==
+X-Forwarded-Encrypted: i=1; AHgh+RrRcmbIRqUPylPDmZ+OWWHAXUffzGSRTjwFa//enyV0J6+DsRDVYIUHn/6wDDkW0xS1qlbvAGXhvdPhY9P1@vger.kernel.org
+X-Gm-Message-State: AOJu0YwACBXSA0r78zNkN1JXg24/VyomPfcWUiEzlz7fiUpQ8VppzJHk
+	B3HIcgxURXtSNaKiTj+XIx7b2KEt008AqqA5fm6oHCsyHa+vmRclveUOBUsUt7rynC0=
+X-Gm-Gg: AfdE7cnpx5h9jRLxa8faF9+i1HM1YOmqUrs7Ymkw7y3AfVdkdzygJgKoi0tt61Q2Ics
+	9YmZIEqn15xbhVCQaXgrz39yNLgUGRGTjd47+XOHQTjVzn2/grg7VIMkpHJTm0ydTM5Ik2jlTFs
+	ZSN6Kx7Oj5SkUWxLpSLGaMmSiimULecFFfY8Qzllj7KYWcQHgJVydo7ldDrnxcpwVCz9+rGR7rp
+	gWMa7UG+v1wC5f4dRyl2dpGzl4mOeYbvZlgbPHQsYP+EQRNlQl35BXX9bttvLunecyxYJswZTDH
+	VFC9iAQ0b3Y14RrML9qLxiVWEXerFFJxVl/q9Amr8BZUoTt5OIMqcDKiQQ4ztSuTQ3AGwiaz7hI
+	VyyikUqKMGrpn+kZ9qVpNpFElpQ4Aj4uGUd/qep8VX0q0penwfaC5iXj1YzbPoeD+vim90DdyPk
+	KP2xFFrgpx4VPr+mZnOpxmohidFEWE4RfpWWmCNquF9Ei2P9ET8LzVNsr0ZJlaJiM=
+X-Received: by 2002:a05:620a:2913:b0:92e:f2cf:56f9 with SMTP id af79cd13be357-930b4830467mr1569223785a.9.1784576125333;
+        Mon, 20 Jul 2026 12:35:25 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.21
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:35:22 -0700 (PDT)
+        Mon, 20 Jul 2026 12:35:24 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: Zhigang.Luo@amd.com,
@@ -138,9 +137,9 @@ Cc: Zhigang.Luo@amd.com,
 	damon@lists.linux.dev,
 	linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH v5 17/36] mm/vmscan: disallow reclaim of private node memory
-Date: Mon, 20 Jul 2026 15:34:11 -0400
-Message-ID: <20260720193431.3841992-18-gourry@gourry.net>
+Subject: [PATCH v5 18/36] mm/gup: disallow longterm pin of private node folios
+Date: Mon, 20 Jul 2026 15:34:12 -0400
+Message-ID: <20260720193431.3841992-19-gourry@gourry.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
 References: <20260720193431.3841992-1-gourry@gourry.net>
@@ -152,42 +151,116 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Private nodes do not support reclaim by default, so prevent all
-reclaimers from operating on private nodes.
+FOLL_LONGTERM on a N_MEMORY_PRIVATE node folio is wrong both ways the
+GUP longterm path resolves it:
 
-shrink_node() is the common chokepoint for most reclaimers (direct,
-kswapd, proactive, mglru, etc), so it's the best place to filter.
+   a ZONE_NORMAL folio would be pinned in place
+   a ZONE_MOVABLE folio would be migrated off first
 
-DAMON's proactive pageout bypasses shrink_node() entirely, so we
-disable DAMON in a separate commit as its own discrete service.
+A private node folio should do neither - the pin should fail in place.
 
-Other reclaim entry points are already covered - e.g. MGLRU's debugfs
-interface rejects nids that are not N_MEMORY (N_MEMORY_PRIVATE is
-mutually exclusive), and madvise pageout/cold skips private nodes.
+Add folio_longterm_pin_forbidden() (true for any private node folio) and
+reject such a pin in check_and_migrate_movable_pages_or_folios() before
+any isolation, so nothing is migrated.
+
+The gup-fast path defers a private folio to the slow path via
+folio_allows_longterm_pin().
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- mm/vmscan.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ mm/gup.c      | 27 +++++++++++++++++++++++++--
+ mm/internal.h | 25 +++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+), 2 deletions(-)
 
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index e26c6931f5fde..86b2334c23b98 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -6141,6 +6141,13 @@ static void shrink_node(pg_data_t *pgdat, struct scan_control *sc)
- 	struct lruvec *target_lruvec;
- 	bool reclaimable = false;
+diff --git a/mm/gup.c b/mm/gup.c
+index 1d32e9a3dc79c..a7d4de223785c 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -547,10 +547,10 @@ static struct folio *try_grab_folio_fast(struct page *page, int refs,
+ 	/*
+ 	 * Can't do FOLL_LONGTERM + FOLL_PIN gup fast path if not in a
+ 	 * right zone, so fail and let the caller fall back to the slow
+-	 * path.
++	 * path.  Fail for private-node folios here so slow path rejects.
+ 	 */
+ 	if (unlikely((flags & FOLL_LONGTERM) &&
+-		     !folio_is_longterm_pinnable(folio))) {
++		     !folio_allows_longterm_pin(folio))) {
+ 		folio_put_refs(folio, refs);
+ 		return NULL;
+ 	}
+@@ -2389,12 +2389,35 @@ migrate_longterm_unpinnable_folios(struct list_head *movable_folio_list,
+ 	return ret;
+ }
  
-+	/*
-+	 * Private nodes do not support reclaim by default, filtering here
-+	 * captures all normal reclaim paths that may attempt eviction.
-+	 */
-+	if (node_is_private(pgdat->node_id))
-+		return;
++/*
++ * True if any folio sits on a private node whose folios may not be longterm
++ * pinned.  Such folios can neither be pinned nor migrated, so the whole pin
++ * must fail before migration.  Checked before any isolation occurs.
++ */
++static bool pofs_has_ltpin_forbidden(struct pages_or_folios *pofs)
++{
++	struct folio *folio;
++	long i = 0;
 +
- 	if ((lru_gen_enabled() || lru_gen_switching()) && root_reclaim(sc)) {
- 		memset(&sc->nr, 0, sizeof(sc->nr));
- 		lru_gen_shrink_node(pgdat, sc);
++	for (folio = pofs_get_folio(pofs, i); folio;
++	     folio = pofs_next_folio(folio, pofs, &i)) {
++		if (folio_longterm_pin_forbidden(folio))
++			return true;
++	}
++	return false;
++}
++
+ static long
+ check_and_migrate_movable_pages_or_folios(struct pages_or_folios *pofs)
+ {
+ 	LIST_HEAD(movable_folio_list);
+ 	unsigned long collected;
+ 
++	if (pofs_has_ltpin_forbidden(pofs)) {
++		pofs_unpin(pofs);
++		return -EFAULT;
++	}
++
+ 	collected = collect_longterm_unpinnable_folios(&movable_folio_list,
+ 						       pofs);
+ 	if (!collected)
+diff --git a/mm/internal.h b/mm/internal.h
+index cb9f4a8342e32..85c460296cea1 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -110,6 +110,31 @@ static inline bool page_is_private_managed(struct page *page)
+ 	return folio_is_private_managed(page_folio(page));
+ }
+ 
++/*
++ * folio_allows_longterm_pin() - may this folio be long-term GUP-pinned?
++ *
++ * checks folio_is_longterm_pinnable() rules plus private node permissions.
++ * private node permission is checked here to resolve circular header
++ * dependencies in folio_is_longterm_pinnable.
++ */
++static inline bool folio_allows_longterm_pin(struct folio *folio)
++{
++	return folio_is_longterm_pinnable(folio) &&
++	       !folio_is_private_node(folio);
++}
++
++/*
++ * folio_longterm_pin_forbidden() - must a longterm pin of this folio fail
++ * outright (neither pinned in place nor migrated off the node)?
++ *
++ * True for any folio on a private node: such memory can be neither pinned
++ * nor migrated, so the pin must be rejected with the folio left in place.
++ */
++static inline bool folio_longterm_pin_forbidden(struct folio *folio)
++{
++	return folio_is_private_node(folio);
++}
++
+ /*
+  * Maintains state across a page table move. The operation assumes both source
+  * and destination VMAs already exist and are specified by the user.
 -- 
 2.53.0-Meta
 
