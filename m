@@ -1,177 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCF1477E23;
-	Mon, 20 Jul 2026 18:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784570789; cv=none; b=BLOxKHrVG4Bv1AyIHis/py0UEeKnneqF7prI2tTedJVNg1kj8a0J9ab8ee+C5k1sLuVenIj9zNxaLnEzlucSx8RpbiR8sogfOiOVLo7PolYd4qGgVjDWb7lGHmqGSyAxnsAOLJg9uTLdOuDkks3hi+40amo8Dr70TAxnHVlRGyw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784570789; c=relaxed/simple;
-	bh=sj3XiQL94FBC+unXzaEF1EP16YDqah5lGfHb5qL1E6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ENwjcTxHMI4jIqcRJQggON//v6sRrCwif+wAG7GChoiJ3LG5P2hU4Fmcsp9OGRpYD/IN47dxdoEWvCFhkY7eQQ8Y2zp++fgoK1Ke1YbH+4pr8/Uvb4SbVmdDkj5N5lU4WWYgtYNlRiSxZ+oXQ3EbaGRVmxXz1XanL7auYRs1VzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWCsFkTE; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7856F3A450F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 18:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784571142; cv=pass; b=YZA0AMGFljAZEnnsTvCsr2laTfA0hOUi6YdmdIa+60E88+TkFuJDXfkimvxDO8ZcwjRQZmB6XCMgAShB0aJ6E38HKSBc3tbtu4b+NNFpwnYkUA8muV+GbulE6xHSm0dJZMNrTgutabFIeYAdN278fujilprrqeA8HzLGtkOEwsQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784571142; c=relaxed/simple;
+	bh=1JX430VNbqj0hZ6Lzk0OOAcmh3W6k774gqZhhQCrP/Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vd0ZVUAoP2KtKx8mAAmC5omdZHGcOt5wwaywHONueYF1FHOgXMO0aGrYBsZGhrIBh1vZlCKKM6dDLoB3PbyNh4uZowyRl4MTh/NsbEIGd7iC5iVe2KlzDFzzcWJAxAmk0zo1DOev0/THCUP2PImvQ/1YN7AF4Uh12Li5NDfWfyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWLp4eZh; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWCsFkTE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911531F000E9;
-	Mon, 20 Jul 2026 18:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784570787;
-	bh=nEo3+xzXNoxQF5Zig+V0NoDPZCD01sZ6pyJ78+EGJ+0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LWCsFkTEe2OBn0UC3TwLqYcQX9t2MqAXgzNK1HNURCRtMzAV0HvFWVmWE4QnLZq8I
-	 77NfimYhx/SdrdkOIWn1XvLSeXpzwwoX6z3oeNrjYM+9L79e2rDY/lwxW3p9tQYGmR
-	 DGiEpe70W3aTc6Mcyb6TijUkQE1sKRFdDWQrCQu21oa1oXLdepN+yLcxCv/ohKqOh4
-	 bxYSpmkqUoYNXQrTtNRzjQy2kWMYmzF/kpbinI6Hy0CN3SylovUFkrpuHlBjjPikDT
-	 Bs16j0jXkWPgT1Yirf+19hnZQ4xI2zsiA63GuuKbTMfezxOcF1dWOl4jfRFwEK33Fb
-	 MgjU/6+xx8sOA==
-Message-ID: <bf839033-3955-4f2f-b33f-3fa948b2c2de@kernel.org>
-Date: Mon, 20 Jul 2026 20:06:17 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWLp4eZh"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2caced6038eso56745115ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:12:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784571141; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bMHOr1wy7UMf6NJQphS+SoNOQgRv1aPs4qbq56dF7x4nqDy5J1Y5GuSiSHB6PpK7Kz
+         4tbqGvJ6hYASOI9JhOp3zic9k8EN0Uy3SaYNepM/6707pq91EECN0KXcrRv0LliXqDUs
+         1G1+9xfSNpzQ8rQ4Oyy0nmHq0nd7PV65QEmkfNOSkkoQqNw/xfUIoENag4Fb3hmoBxOe
+         Yih4xHXHa2fJLow1kLs4ablCB3XpdSvLYFfPabgKzYOTE8UVYm9+pfGZcHF0uoEoiMfq
+         RU258KLqSxAOmJHIWpnwpW4CRs0hAx5J7cvjL6LY9VLAVEP65axeCHSn+Q5MsmJu1v7K
+         EdwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lNJFFcN3wjr5bUpQXM7xbGj3SPGWcRQviakfsaDwtEQ=;
+        fh=JPjKkAowDhf9nk1/jATuyieCilcYvCEKnj7SbVPyyoU=;
+        b=NoaHgxB4Bme0SDYRSPyqu+DbiIoUp19mqylN/Es+WtdAMgmgSJf7EcDejxH/F6TwPu
+         lGr++th0pmxKD4adEL6+jEhUestn+nG4JAHKPI/NlHDTiJ4W5PvpCteM7Y5T05WwmLmm
+         G15eFp4h8IwOcrzUFlnOzX1GM2wtqt8BFWP/ZX/8+HawOsfCxaol1sYuCeErEJqtS+aM
+         pqvrCL/bu9lKYgoaGIEeekTjj2C4oNY2W+rl+lVpdhKa1+a98MmPHhux9HItWPrkXhjp
+         l2h9RJX37t8vWBVIVh7tc4UnzQksHNaqJEWXQPRbsncL9DItF2X5GBdb6aOBMvgzNGiS
+         T9NQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784571141; x=1785175941; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lNJFFcN3wjr5bUpQXM7xbGj3SPGWcRQviakfsaDwtEQ=;
+        b=KWLp4eZhCGEaAiHAaTC37TOMSNgeCcmI9tjMngAHzbisyIIl4DD9oLzg+2o95wMPsv
+         hE6y6Jl2R+fRW6GE7j8EoS1lgNSWUYXfvXHSml+nSoWRFyXNmaPRqI3r+WomGDlOOfse
+         KEN5FUQx/u367rVVi8P++/X65Pg7d86mfGno+CcG8y5Z4Ww7bl3cicaMvNnU94ZyGf31
+         tgRqMiLTY80YuoEfpKD/fgdKKmmq0VGW5CPlyeiyORPA5gn6NnDOHFi3fY0LAKS55pS7
+         zlCeCbqa0b/kzaq5RD9bgq2lWh1NGTSIzn4cGQvlFvEodoT9KXZhOkSsuPwxBpSCMOZq
+         b47Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784571141; x=1785175941;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lNJFFcN3wjr5bUpQXM7xbGj3SPGWcRQviakfsaDwtEQ=;
+        b=HGWVmQLKzsXJAlPWP46X3Mv1s979/F5JaBuBoC4FnIftOsKIwKeotR61jLIs3Zg3xM
+         2thMiT5ZUCbnV07BjQfH4U9EKEJJfa34MHXjTMvpB4cFqpBYi4cRstDNYi+78f4B81jS
+         snaSMmK0w4kkrVHXc8bnLk/D9IT4R78Dlduuz6IeSfPG5DLxgJb9YpmOLRStyELaR10T
+         cwIZujSh97YziVqyt2l7h8z5w86v8hnp0e7b9waDCJC1kuonwKxE8LaAlMrTnsRR0XBG
+         4kgaGokLSAphVxPOg6yGuEQJzYXLSDpdtm9RBuKPCC0HeRWQvTB7uqlCZPVNloDivYad
+         Axxg==
+X-Forwarded-Encrypted: i=1; AHgh+RoqRSQLrYPqYPYjbL1YIgWwItEQ28HT/P6NfAWtvzRjhN1VMsvPQkXkcfeKVONyXC3FnBUcXuo/502k+qIQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoCWFbuI4P6ISlBIH/75HFUEM0PsmLhrZSQrla33l9AvBGw3q9
+	CUkxKricuM81V6s+WZmVrqR7PE2vLOMYfv4Elt2t34TM4gzArd/06HG7EESXG0SdoltdSXZUMgt
+	crdTKhtQBt6owM2T/p+c4okMgcyvYIUM=
+X-Gm-Gg: AR+sD13nuLk7LUT9T2BavAtfqDVQsQx8VH53Wvhla51QuExIkRYW0Ds/lZeuL9wa1vN
+	u+rqtNo7Zi5UhPryJoQ/nTwbC/KwAwCiVW5KZqXisxATvyvE/QcACFua9yslIy5sf1AuW1VwHht
+	ZbXowZVlGuaCM7dZs8pQpW9KDqvcbD8gapwMCBNaLNoTUc3QMVnXIDW7KK094pY0qG2H83rkNSk
+	+yS9EO1y+K2p96l4DjbxiiOjSRjA8Bme3obt3vWoK9dZTZwRsYVbPoU3pF44mpkctjPX+UwerHm
+	Zc+MiUR5GTxNUL0p
+X-Received: by 2002:a17:902:ea10:b0:2cc:ac15:ff4c with SMTP id
+ d9443c01a7336-2cf1f29ea6amr213030675ad.8.1784571140752; Mon, 20 Jul 2026
+ 11:12:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
- header
-Content-Language: en-US
-To: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
- Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev,
- loongarch@lists.linux.dev, linux-nfs@vger.kernel.org, netdev@vger.kernel.org
-References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
- <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260708000956.46138-3-dwindsor@gmail.com> <a3a376bce713ac38ce6746508239c1af@paul-moore.com>
+In-Reply-To: <a3a376bce713ac38ce6746508239c1af@paul-moore.com>
+From: David Windsor <dwindsor@gmail.com>
+Date: Mon, 20 Jul 2026 14:12:06 -0400
+X-Gm-Features: AUfX_mxSx6cvDqWkeZpCRVrryYfuXxFSwFH_5FN2Ivh39vzoR79SkwFUGoqzhZo
+Message-ID: <CAEXv5_gt7BPWvdR4D1_3XJ0_XpBXWN52jeAOf1K2QJ7LL6CtPQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: Paul Moore <paul@paul-moore.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/16/26 16:30, Brendan Jackman wrote:
-> +++ b/mm/mempolicy.h
-> @@ -0,0 +1,31 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * mm-internal API for mempolicy.c. Public API lives in
-> + * include/linux/mempolicy.h.
-> + */
-> +#ifndef __MM_MEMPOLICY_H
-> +#define __MM_MEMPOLICY_H
-> +
-> +#include <linux/gfp.h>
-> +#include <linux/mempolicy.h>
-> +
-> +#ifdef CONFIG_NUMA
-> +struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
-> +		struct mempolicy *mpol, pgoff_t ilx, int nid);
-> +#else
-> +static inline struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
-> +		struct mempolicy *mpol, pgoff_t ilx, int nid)
-> +{
-> +	return folio_alloc_noprof(gfp, order);
-> +}
-> +#endif
-> +
-> +#define folio_alloc_mpol(...)			alloc_hooks(folio_alloc_mpol_noprof(__VA_ARGS__))
-> +
-> +unsigned long alloc_pages_bulk_mempolicy_noprof(gfp_t gfp,
-> +				unsigned long nr_pages,
-> +				struct page **page_array);
-> +#define  alloc_pages_bulk_mempolicy(...)				\
-> +	alloc_hooks(alloc_pages_bulk_mempolicy_noprof(__VA_ARGS__))
+On Thu, Jul 16, 2026 at 5:55=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+>
+> I'm sorry David, now that I'm seeing this function again, especially
+> with the LSM specific bits extracted into a LSM function, this absolutely
+> belongs somewhere under security/.  It's only callable from within a
+> BPF LSM callback and all it does outside of some BPF pointer boilerplate
+> is call right back into a LSM helper function.
+>
+> If the BPF maintainers aren't willing to accept that, then we will all
+> need to find another way.
+>
 
-BTW, seems you forgot to delete this bulk stuff from gfp.h?
+Where this code lands doesn't matter to me, so I'll stay out of the
+decision of where it lives.
 
-> +
-> +#endif /* __MM_MEMPOLICY_H */
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 5071177059a96..69f561332bb93 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -41,6 +41,7 @@
->  #include <linux/swapfile.h>
->  #include <linux/iversion.h>
->  #include <linux/unicode.h>
-> +#include "mempolicy.h"
->  #include "swap.h"
->  
->  static struct vfsmount *shm_mnt __ro_after_init;
-> diff --git a/mm/swap_state.c b/mm/swap_state.c
-> index 5be825911e645..8ccd03c39a407 100644
-> --- a/mm/swap_state.c
-> +++ b/mm/swap_state.c
-> @@ -24,6 +24,7 @@
->  #include <linux/shmem_fs.h>
->  #include <linux/sysctl.h>
->  #include "internal.h"
-> +#include "mempolicy.h"
->  #include "swap_table.h"
->  #include "swap.h"
->  
-> 
+If this kfunc goes to security/, would we also want to move eg
+bpf_set_dentry_xattr similarly?
 
+I'll roll v6 of this series meanwhile and we'll see what the BPF
+maintainers say.
