@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4013D333D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 09:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2573D9025
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 09:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784539808; cv=none; b=EJDVILmcEk9pUpCNOGtj/rKsX+PlzhSJYg2ITsmNNPatFREDDLXmnjzKo4q4edHeVvO/clq5LiV1Ql7FDhS1hEIxSDfJ83u4PFhUbcu0J/f4UzAI0CcMElQiVR+Em8txC46HvGUBjOoqG41SWjzYjSeAynLzZQoi7jpw7nPOxnA=
+	t=1784539931; cv=none; b=e+sVr1S+zwMCfPk/Iob8+oRrsAKkY0rRf62Ui9nRrQ38I9Jcls3n7ycpjrDOiXFt2TApNTj3W/dwq0x5EboMSkFpLVqqDRi8uNjV42n0DuKDLW9Z7kVr9qdI8MoTUzFWW6XlUXbHvSDgI4pxOWH5bUhtz+14m3JoDD5ZQZvo3Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784539808; c=relaxed/simple;
-	bh=vDFHCPUOHJ4ZgwzApEb2w/is+cGwGhXcgQTEB0Rg8hQ=;
+	s=arc-20240116; t=1784539931; c=relaxed/simple;
+	bh=jw738TAepX39eWtGcttdwiv1F/OiaYmBnyXEEZ3hjzk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ox6QJ/tg8OAQJmhBrDQ5nq+HRg5EYIVpQYlDn3SeIo5y0CMydMW9eJmIzsRnFbyYGoSA2XTmWhecjeQLSuMqKCSnZ42WXZ+ZV/n1X104KMzL9qaIiPuVMB/U9kWu5stb9tWaVskGpX5imTbt/iRD2KoBGo+qD3kBi2hDOy3ZsK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fyLxYwAI; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=pOEWwrwLC/FWRMZ8dntxiteZ/NFv+IyC+TuFI84HpQQXE9XSElPwEKa4aOjx//0KMnpXDuNMzfr6nKdJNS5mlbM2q73jSOiIDlpkCtBIDNk0Qk5/xUnNDlmB5PLZcvikxX6Kp5aHO1GXdMQ2fg37ZFCm1PpXvei5UT9Uvqhh4Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I0yS0Gg/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fyLxYwAI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97AB91F000E9;
-	Mon, 20 Jul 2026 09:30:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I0yS0Gg/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BAFF1F000E9;
+	Mon, 20 Jul 2026 09:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784539807;
-	bh=jiYeVsnBdIvFuQsIGCzuuAuxcFGL3XUJywevOqwgEe4=;
+	s=k20260515; t=1784539930;
+	bh=umuX/mpFE17/8MMZpIB/BPIu+djSqK3XilV88Ck/h7Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fyLxYwAIg5Ni1Hk+A0p2yIhUb7gIsYKAJdb8yjiUhm8CLIdJ5Vh1hd96FbCNZLwm8
-	 5pUAFO+AygfYbbH0pW5ennR/j97lDiGgd3TAm0sZDRtqa6IB4/J+qF1QH+GtoQNe8M
-	 P3w+i6/wRs2FHfUOF7UkvcPSZlrTNo7MvWBIrDwugfBrQIropv3e4IRaEnlkqcX8BP
-	 yyJBXPb97xkn/l0eO4kTKcpNzzi4+T8r1y3YJu7bPFcu/n8PFohsRYw9hd0444di1p
-	 C9JIyU/OHWOM8pJVXrjlRMPEKZafOIb53Wky/6b11EUnAGpO8bhmkFzMUOKRTbt/6F
-	 /gsWbWCSXzcOQ==
-Message-ID: <1147ca8f-166a-4236-98b4-0a37442cae1d@kernel.org>
-Date: Mon, 20 Jul 2026 10:30:02 +0100
+	b=I0yS0Gg/uDrRsgSKAJs3TOfATXdk1S6x+U51MSC+O5qd8mSny5eSu1SSusUM4SWCa
+	 bXuNaB7Fk8H+XJ4uxq/dUIsIhA8o/aB5hFHVBVW04r15q3844kqPw58geNib/p7G20
+	 QvmX4KECGIU2rwAyEqSGFGO5LdX0akkqG1jzWQa6We4q/9/wLhT3jD4jYhVFyVCnNl
+	 GYhNShRJiRyEvP6ZNsLR8I9+dG9R/KmSkAscI1RPlu7MiBzkJWLw7xSXd2FORmGQB2
+	 PcAwOv3z9gv1lBk4rCCnMN4FHfCECDCRX7RHoUIn+NqXYtsnnFlwmEkCRT6tT9IoE5
+	 UFOFwJfejSaCg==
+Message-ID: <85d4c9da-c89a-4c7a-8c35-31d4c185f4e9@kernel.org>
+Date: Mon, 20 Jul 2026 10:32:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] fs: stable_page_flags(): use folio_test_*()
- helpers
+Subject: Re: [PATCH v2 3/3] fs: stable_page_flags(): simplify KPF_IDLE
+ handling
 To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
  ziy@nvidia.com, luizcap@redhat.com, willy@infradead.org,
  linmiaohe@huawei.com, svetly.todorov@memverge.com, xu.xin16@zte.com.cn,
  chengming.zhou@linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
 Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
 References: <20260720033021.4091944-1-tujinjiang@huawei.com>
- <20260720033021.4091944-3-tujinjiang@huawei.com>
+ <20260720033021.4091944-4-tujinjiang@huawei.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -90,38 +90,19 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260720033021.4091944-3-tujinjiang@huawei.com>
+In-Reply-To: <20260720033021.4091944-4-tujinjiang@huawei.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 7/20/26 04:30, Jinjiang Tu wrote:
-> Since commit 304daa8132a9 ("maps4: add /proc/kpageflags interface"),
-> /proc/kpageflags directly operates on page->flags to determine page status.
-> Later, commit 177975495914 ("proc: export more page flags in
-> /proc/kpageflags") started using page helper functions when exposing new
-> flags, leading to a mix of both approaches.
-> 
-> For tail pages, the original code did not return corresponding status.
-> commit 0a71649cb724 ("/proc/kpageflags: return KPF_SLAB for slab tail
-> pages") and commit 832fc1de01ae ("/proc/kpageflags: return KPF_BUDDY for
-> "tail" buddy pages") made tail slab/buddy pages also return corresponding
-> status. Then commit dee3d0bef2b0 ("proc: rewrite stable_page_flags()")
-> made all tail pages return the same status as their head page, except for
-> hwpoison and mapped flags. It also cached the folio's flags and operate on
-> the flags directly to avoid concurrency issues if using folio_test_*()
-> helpers.
-> 
-> Since commit 476d87d6a061 ("fs: stable_page_flags(): use snapshot_page()"),
-> we can now safely switch to folio_test_*() helpers instead of directly
-> operating on flags, which is more readable and consistent with the rest of
-> the kernel. Only convert cfolio-specific flags (i.e., anon, ksm, swapcache)
-> to folio_test_*() helpers, which reduces redundant code. Keep others
-> unchanged due to they aren't folio-specific flags or coverting them doesn't
-> cleanup.
+> For KPF_IDLE, folio_test_idle() check in set_ps_flags() already handles
+> all config cases, so remove the duplicate code in stable_page_flags() that
+> deals with CONFIG_PAGE_IDLE_FLAG for the 64‑bit case.
 > 
 > No functional change is intended.
 > 
 > Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+> ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
