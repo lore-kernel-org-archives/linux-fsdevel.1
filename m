@@ -1,103 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7A843787C;
-	Mon, 20 Jul 2026 16:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784566636; cv=none; b=gwlk9/001YMaWuclYjDDmWh2h+Ib2YwYmn7pO7IR3VYd5YmGije0vmXOoOikprALM87aVWJlSGcArJgMxOtIZezpVvonPkBK4q7R6kqk4rWi2LG6qg93Oh1GWJLSmHeSpRFpPskW8o6WqaKTSa/uM2IHvC0UsKH+KrhP6/1/g+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784566636; c=relaxed/simple;
-	bh=FgRqdur5Aq89BYIHBKmsVqb4F2JYjXW5a2Hi291ynfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NOKcT6uN4svfhHJJS5ozs/fK8jYnxIa764TwWBl4W+ZAnbOrQHR6uWoQXOjLGhqN33eAjoEcqvA97tIvZEzjbDEhOyDNjU05bvddoCs+eEp7c5fiBPyq+hB4i8FtuqUfF/W5XNx8Sh8HtQLoNabN9rrTgRJzRIYvXl5VlXHIMQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+0rOHtL; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD9A43786E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 17:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784567340; cv=pass; b=dChpJRqqqSPK1anM1qa30UczJXpOveS2os/2zJOQOZdrhd3V32LCEiDwHa9+GtKUKlp5qYTOjL0JfQbb9097wnPKosvYMgd2PBSM5X/E2F/QYMvdog7LdhUplPVfDPgSFlYEHUIQpzeUTOj3nmR3n4bEKrYNVd4VrCcGZFG051k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784567340; c=relaxed/simple;
+	bh=WWr3oWdkA9thr3mPmTFX24PTXG4y9Bqi7LDApv0gSHU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RpU3yiTk6wn/C20dxCxbbhcRS6RD43m/hLRNGqZPV1DfCBWOOCpURXr13UB/jKV8NELcyx26rPZp0Ykmfz09hnH3DLTZwfW1tN8AWPqvl23ayaKJP42gpoEuIvRgtaWQotyaQ513noNyvXcgLvtIZahO1QU4du5DJDs48481r/8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeoSX/dT; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+0rOHtL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE211F000E9;
-	Mon, 20 Jul 2026 16:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784566634;
-	bh=FgRqdur5Aq89BYIHBKmsVqb4F2JYjXW5a2Hi291ynfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D+0rOHtLblFwv1vQAqZ8n4q2BZoYC269f3Dj57lfrIBGErTNJD/ZYF25Y3WWqLxGq
-	 4WTUIQlDQYafI6HXCPO9JiU/4HGyisqChLYoQJ77S8gvVANMOZ4b3wIFn0ataNuU5U
-	 RfUJcexBOxRvNQDvHjnu6mJPEh4j5US50wR8aAVlxvGhwOaHsvPPvhjmYNmJCmmSn3
-	 //zVqCHibaaafUmFIkS127+nNOOWV9s+QAK1sQnL/vYWkcQGU2/1bHPY8WNj3cC87y
-	 9x7zj/NMEU1g/vZy10JPPqjaFLijBgzW1JF7WXsIN0mHSZOruoXt7GRSj/RarAIGpS
-	 UlyhA5WZmxRww==
-Date: Mon, 20 Jul 2026 17:56:52 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] mm/vma: introduce VMA virtual page offset field
- and add helpers
-Message-ID: <al5Surm6fPIl4LNA@lucifer>
-References: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
- <20260720-b4-scalable-cow-virt-pgoff-v2-1-2d549757a76f@kernel.org>
- <al5CPpc7XpRX7Vbt@gourry-fedora-PF4VCD3F>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeoSX/dT"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954d383e64so16918435e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 10:08:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784567336; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UjFYtD1zUEeqWuIjFLPXy7oBL5XqK3+AQ6s3KxauWRfdg92U15j0MGlq9Qir3HXqlE
+         py07ctn8jy7ntNgGmsLUVu6kMlKd/31gN9uFUmdUl/mG3rA33lDZVC3A3HulqpiliCnV
+         CblafNGBNMGnNgKY9JAm2cxzKhtydVYRr4rPPuzTbMQlujacgvg6eMO0nakWthq+oYc0
+         /6PDu9arNw91KLzP2X18XtYezQTIsDs33NO+CO3wZo3t+ZaeGvVfc5/NPhoBbqI+K5S1
+         HczU+3hd2HqyXTUywG1ueUJufhN3komPHJ1hBQz7X72sJCOoHDTjuoggTwond+eML3ZO
+         gkBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MLZfeSNfk0GyJFPhRPnsJJeloRm+Q/IBJupsdVxyw2M=;
+        fh=NZagqMBLmDRjrYvekLC2uag6NdICCnIEzvmFk7WKQb4=;
+        b=oBQziEGZcetzs1Ni8Hk6CfxPyCRlT2CAzscZIVANFfEyQsqOd7PhzMdVPBiMt9IjqW
+         gjPg7bsORn1wdErDqjXs0/F/LA2VfRcJpMJn3VQTeVaKsF9T4Mn1KvFgb1kqcrOJqURf
+         4SSwOUcCjIHzDMdgyIgWMDgt7wZt5O7gAVwtUarMYSQVmB9YNhaXlMvrIMg3NkYZD1q8
+         LjdfajA2JucS+rNmBZFnTQw/IZZY5qnoRFin7Aha553P9HmeqoWgK8ceQdnQ1ScXm5xX
+         BOucz+1mZ02HGbzc62Im0z+eAyRqcLLlACadKLpqtx3foAaFxUbf+YAiK5iNbKoB6yyT
+         6pwA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784567336; x=1785172136; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MLZfeSNfk0GyJFPhRPnsJJeloRm+Q/IBJupsdVxyw2M=;
+        b=VeoSX/dT5/spe7F5u90VISsxP1MM9YkgWuL/8/PRDEOu29ToTeOSWarHskNhgJk4Ey
+         4uz2d5RCF0HlO0AQ6Ogwm80Amo2GXD5bg7qMF2z74mjnqZpaDvB+4AIE9+s6qDtpwyl4
+         gAtM31aLLFKejp/nVSqbmNzJu4SqFaDyTA58gJ7FYUWqKNwmGYDxe+Lm/XvczL82OWFq
+         czYYGfIPFvGz60OlrmIfhDW2WK1vGqYLXlv8uow/BXXcdCR+RshWegRixwVpt3yhRV6j
+         WNzGNo/JHttx1zYFZWF4bnpr4DUCmpypGXq4+pKw9icfiDtDMLmnmMvfGBn4JocJVdkb
+         fUlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784567336; x=1785172136;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MLZfeSNfk0GyJFPhRPnsJJeloRm+Q/IBJupsdVxyw2M=;
+        b=j3xMUR09c7LNkTncid3f3Xny7UJ7tPbis7BcQJSi9vjHeu7Udgqk73bj2ZOPhkw3jM
+         azV+JFyEmkneRUhTU701plK5X1Pvx/y4XGv2ERxLcXN/cTpIyJCC0ZStw0Z/szKwantd
+         W5k+GBLqpbhJLaoZL0zbl2qRmuNGbdVemVD6nk8BtS1mv1KddMF+oBELLJ8H7V8+yTrE
+         12gjchaNIGPSGDkvSECP3AkyFgy7ei91Jupces+om5FfOacvpuLWE3LpJBROLHRTDOG+
+         CRmeoW9JEfa8QaMxUwATmZVO/OVxkenNNG4TJ4GEhfxb+aKyRPtYDZ2awrC1ta9QBtj/
+         kImA==
+X-Forwarded-Encrypted: i=1; AHgh+RrPIqQZFUSVjztVwMealFMfatTNqiQmIrAkNLnTVcUkZz+3brXR52pXGjVZ+xowyindeG2bSlzH8d28Fge5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzta7rREV8dg0ttCjSyE7MgZfjwIgIcpKiNMP6+2XgY350vN8k0
+	GMtFA8CBYmTWHjWvW/9Tj3lOObxXYiEDd2bPGJmwqMgmaYrFAQQZ7AV6c/4FrhKLcnOzPD4uUsY
+	aXlZvwwTyhJThAGeL4iu+7mxUYPtsuqk=
+X-Gm-Gg: AfdE7clPY8x25dmh6/eFoRrWQG3U4yJq8Vo/6gD1Rm8q7OeafuXFRgi+JsY6kmBNDmd
+	295nfWU2o1CqXgWxofINXrYswZQcwucu6rmfd2y/6btfjf3ZNlpKjnbhPSU9um0J0Y0hDrQcwnR
+	1xFCJdXDhboY7ukeg3nfC1zSo2TPurBYpmVBe5AtxGq/ydc0ZuVY5uytEHAFnQkrt6DuSUAs91v
+	Bau5p5kzGPiD4I6OdLmmEt8y5wGrBDB/1TXDdEs9yEap9aDwrQulAEKjchMJF3urylQSPxBgdDs
+	U2pGaM7eEAyVJOPeMbj5evyoeWCbgGEwm6COlaJH1Q==
+X-Received: by 2002:a05:600c:3b9e:b0:493:c1bc:79bd with SMTP id
+ 5b1f17b1804b1-4954a41150fmr169137625e9.20.1784567335995; Mon, 20 Jul 2026
+ 10:08:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al5CPpc7XpRX7Vbt@gourry-fedora-PF4VCD3F>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-3-joannelkoong@gmail.com> <20260702164339.GI9392@frogsfrogsfrogs>
+ <CAJnrk1ZRQaFseAnz3zm31oR3KmQWje5HDJjhNbAQSAQyK9_PMA@mail.gmail.com>
+ <CAJnrk1bj4pLpAzLhehrbDJuKWa=WMq-3XOAm9dhsEVDF9WCBPQ@mail.gmail.com>
+ <CAJnrk1YkAEUhjw6mNEx70ojN7UMQT__oHn5m1Ng2Lz7FoLRhrA@mail.gmail.com>
+ <20260717175552.GT7380@frogsfrogsfrogs> <CAJnrk1bjA+Y5V-87AhNGR5-ss7gUJWwLkjouwic1Mckd2QRH7Q@mail.gmail.com>
+ <20260720082023.GC18764@lst.de>
+In-Reply-To: <20260720082023.GC18764@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 20 Jul 2026 10:08:44 -0700
+X-Gm-Features: AUfX_myxykdq5BmH_ibLMFKTMx3f4TAodjFz2tFl3aRbdQZ0aLX2i2ATdYiHhLs
+Message-ID: <CAJnrk1ZfQxp0SfnuPe_n0dE8vd2XCuiG8ZWRZWSkDwbiV814-w@mail.gmail.com>
+Subject: Re: [PATCH v2 02/18] xfs: convert iomap ops to ->iomap_next()
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, brauner@kernel.org, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, Carlos Maiolino <cem@kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 20, 2026 at 11:49:00AM -0400, Gregory Price wrote:
-> On Mon, Jul 20, 2026 at 03:38:27PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >
-> > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
-> > they are unfaulted or were not remapped, otherwise it is equal to this
-> > value at the point of first fault.
-> >
+On Mon, Jul 20, 2026 at 1:20=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
 >
-> The latter half of this description is a bit confusing.
+> > static int
+> > xfs_seek_iomap_next(
+> >        const struct iomap_iter *iter,
+> >        struct iomap            *iomap,
+> >        struct iomap            *srcmap)
+> > {
+> >        return iomap_iter_next(iter, iomap, srcmap, xfs_seek_iomap_begin=
+, NULL);
+> > }
 >
-> Why would the value differ from (vma->vm_start >> PAGE_SHIFT)?
-> (because it's file backed?
-
-Because the VMA gets remapped.
-
-If it's remapped when it's unfaulted, then virtual page offset gets updated, if
-it's faulted then not.
-
-That's because when faulted folios may reference the original offset :)
-
-Scalable CoW will likely change this but that's a forthcoming series of many
-series :P
-
+> Looks fine.  And this might also be on of the rare case where a littl mac=
+ro
+> magic to generate this might fine.  I.e. turn this into:
 >
-> It sounds like this value can change in response to an event, which
-> makes me thing a reader could see two values across two calls?
-
-Remapping :) and no a reader cannot (locking etc. :P)
-
+> static DEFINE_IOMAP_ITER_NEXT(xfs_read_iomap_next, xfs_seek_iomap_begin);
+> static DEFINE_IOMAP_ITER_NEXT(xfs_seek_iomap_next, xfs_read_iomap_begin);
 >
-> Apologies if i'm fundamentally misunderstanding something.
-
-No that's a sign that probably I'm not being clear enough! Can try to clarify on
-next respin.
-
+> and
 >
-> ~Gregory
+> static DEFINE_IOMAP_ITER_NEXT_END(xfs_buffered_write_iomap_next,
+>                 xfs_buffered_write_iomap_begin, xfs_buffered_write_iomap_=
+end);
+>
+> (could be shorted with string concatenations, but those are really annoyi=
+ng..)
+>
 
-Cheers, Lorenzo
+Sounds good, I'll add this to v3.
+
+Thanks,
+Joanne
