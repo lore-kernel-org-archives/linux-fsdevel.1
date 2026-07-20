@@ -1,50 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C113B71B9;
-	Mon, 20 Jul 2026 07:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECC738C2DE;
+	Mon, 20 Jul 2026 07:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784531675; cv=none; b=JUCClBqaSai7+qKVeb2KsvyQddJGrQFZBDqrfdYZe7L204xWdDfV1SOAFGTvbUryPLgSYD+qYwRObOIneY+/CSTADmEqVx3/JHZ7m6M6s0CNU3SF5q0T6+ypduUNj13uhE3iwVcOjr6CRtt2T3y/Z5qwzGXWN/lp3uYbP/iRZ4k=
+	t=1784532046; cv=none; b=NzLa9kO86PAE12Elqmpd2SqXz8QSQerOqRyqDhugtlLopyuiP+lbAzgg6MwwEhZzy8oJCTkhSw9kCfXieTs0d4U/Nrz5qasZKdrNu0Yr+t0W54y8TVcLfUF1VjYkU8YAElqUaBuAchDrgjNOjYEFNCaqRdQsnb77/2yfqs+M1uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784531675; c=relaxed/simple;
-	bh=HR5MaFBcIWRPfZXz+UMzDN4+c9DOvTEFHnoiRpsQf+g=;
+	s=arc-20240116; t=1784532046; c=relaxed/simple;
+	bh=wS3iOjal19hc48fA51Gyg+UKNxQ+naTpbmOlu9ZaCrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dqpO2hGPLrQh3Otegl265WoHWyKf6xFLJOK0qkZNqTofDpEH3YGpdyu/DnnYv2UtD844Pd2SlXT6z0NkQFNUrIpq+7BxUvZQgSPc6EPZv3lk4NVkihJXpHe/B35mnRreADdgjIsx809bEvi/w9Cfj/mze/s8nxCIoPpXevuTNqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qc2SHIfq; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHDxSuwRopir4v3JHnTJLCxaZabmUPw6ZEu5/42/FWk7Ew97ur1fM5ioIJGEep+anuaSJcRBh/lEJ6ncgYVCVt5Aw3x3XaiZH74usYLOCJQs4CepesJWdz1QJmQ+uBn8fTgeEpasJ3Dd/0UqQkP/9/o4DGdReP7GepcOTP+/K48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4SQ5H7p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qc2SHIfq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0064A1F000E9;
-	Mon, 20 Jul 2026 07:14:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4SQ5H7p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F055C1F00A3A;
+	Mon, 20 Jul 2026 07:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784531671;
-	bh=8c1NwXrdIUkx3pvI3J59TnigPzn4Ew9yA8/E48gML0w=;
+	s=k20260515; t=1784532040;
+	bh=gANMU5sOivOjZzaedPM5r16YKmZ48cwI33ZQeohFkKI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qc2SHIfqPkpRmaLfQdPjU+4iOnjqK8iSvAn5ApPARqUjV/vl/u+KoBHUB85YlZ/FD
-	 lg4Y1hWW1b7PWD0l3LwYX25F7pbuztAnDVpabiqbnovQK3zXE7TWbOZq5IXimi411r
-	 5+xtIgrHltyPrAHhl0eMpHV2DcWX86lNtU0v4CUpZHM1lGJVGTqsst3Z9pKO0S+DRM
-	 wAPZB1+Atkh1xsyHhVr+0sCLrtDId47LU6FkiKcsWFrXgrUebnYPtefQZYGlYksngy
-	 pglpmj3RC+lXTq3HysYz+HdkRpMXS9sSKVaGsNum0/pC3WMyIBMR4wBBzWmC0xpfR1
-	 iX9TdZfJMaM/g==
-Date: Mon, 20 Jul 2026 08:14:08 +0100
+	b=Q4SQ5H7pfr3jaDU2ZnnO+1hHIoXl1iFH5WSqv7jLKEoKzb1W8Q48EBE20IuNZFTUn
+	 ixKm0DVIy5OI2nLk58vf2Hjrg7we7B+X4V1GJxyPkSv0+C69K1TUoySPfe3BcFYtS/
+	 t7GufXN3+op+50lWLzds22S7AYYtVpeOlcrG/0bZfPer/n9WDDe8GhqIXCV0fWPGUD
+	 XmaJPMeyIJugU5z50bBvNZ+bv5B8MYe6yecmFyVa9TEs0150ohb7J9prH1nL+rHsFg
+	 Tpa/uQSSoq+PE+oR7BoJwZF5ntDZOzikcQrAbuelm4gJqA+MbVuFWtO9kyaJQf1xJj
+	 5Tno9QcBWPfNw==
+Date: Mon, 20 Jul 2026 08:20:01 +0100
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: xu.xin16@zte.com.cn
-Cc: akpm@linux-foundation.org, david@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	jannh@google.com, pfalcato@suse.de, willy@infradead.org, jack@suse.cz, 
-	linmiaohe@huawei.com, nao.horiguchi@gmail.com, riel@surriel.com, harry@kernel.org, 
-	lance.yang@linux.dev, kees@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
-	usama.arif@linux.dev, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, peterx@redhat.com, chengming.zhou@linux.dev, 
-	arnd@arndb.de, gregkh@linuxfoundation.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 01/15] mm/vma: introduce VMA virtual page offset field
- and add helpers
-Message-ID: <al3KlYMbmeR6iDX8@lucifer>
-References: <20260717-b4-scalable-cow-virt-pgoff-v1-1-cf24910ef094@kernel.org>
- <202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Pedro Falcato <pfalcato@suse.de>, Russell King <linux@armlinux.org.uk>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	SJ Park <sj@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>, 
+	Kees Cook <kees@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Christian Koenig <christian.koenig@amd.com>, 
+	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, 
+	Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Alex Williamson <alex@shazbot.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, damon@lists.linux.dev, iommu@lists.linux.dev, 
+	kasan-dev@googlegroups.com, linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
+	Russell King <linux+etnaviv@armlinux.org.uk>
+Subject: Re: [PATCH v2 08/33] mm/rmap: rename vma_interval_tree_*() to
+ mapping_rmap_tree_*()
+Message-ID: <al3LpROyiWEBL1wh@lucifer>
+References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-8-2a5aa403d977@kernel.org>
+ <DK1CWBDK5J60.3VPRP45IS7L7E@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,97 +98,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn>
+In-Reply-To: <DK1CWBDK5J60.3VPRP45IS7L7E@nvidia.com>
 
-On Sun, Jul 19, 2026 at 11:55:42AM +0800, xu.xin16@zte.com.cn wrote:
-> > This patch establishes fields within the vm_area_struct type to store the
-> > virtual page offset of VMAs.
+On Fri, Jul 17, 2026 at 10:54:24PM -0400, Zi Yan wrote:
+> On Fri Jul 10, 2026 at 4:16 PM EDT, Lorenzo Stoakes wrote:
+> > The family of vma_interval_tree_() functions manipulate the
+> > address_space (which, of course, is generally referred to as 'mapping')
+> > reverse mapping, but are named the 'VMA' interval tree.
 > >
-> > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
-> > they are unfaulted or were not remapped, otherwise it is equal to this
-> > value at the point of first fault.
+> > VMAs may be mapped by an anon_vma, an address_space, or both. Therefore
+> > calling the mapping interval tree a 'VMA' interval tree is rather
+> > confusing.
 > >
-> > Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
-> > file-backed VMAs are tracked by their file offset. By adding virtual offset
-> > as a property of VMAs, we can now track them by their virtual page offset
-> > instead.
+> > This is also inconsistent with the anon_vma_interval_tree_*() functions
+> > which explicitly reference the rmap object to which they pertain.
 > >
-> > By tracking this, we provide the means by which to eliminate this
-> > inconsistency, and more importantly lay the foundations for future work for
-> > the scalable CoW anonymous rmap rework.
+> > Rename the vma_interval_tree_*() functions to mapping_rmap_tree_*() to
+> > correct this.
 > >
-> > This patch simply adds the fields and some simple helpers. Subsequent
-> > patches will update mm code to make use of these fields correctly.
+> > We will rename the anon rmap functions similarly in a subsequent patch.
 > >
-> > The fields chosen are packed in the VMA such that, for 64-bit kernel
-> > builds, no additional space is taken up.
->
-> It is not necessarily true that no additional memory will be consumed, as it
-> depends on whether the baseline kernel has CONFIG_PER_VMA_LOCK enabled.
-
-We are moving to this being permanently enabled.
-
-> Moreover, in the future evolution of mm, maintaining this benefit would
-> require that the layout of struct vm_area_struct before __vm_virt_pgoff_lo
-> remains unchanged, which seems impractical.
-
-It isn't, we are very careful with this struct.
-
->
-> My personal suggestion is: maybe we could simply add an unsigned long field,
-> say vm_virt_pgoff, without worrying about the increased memory footprint for
-> now. Additionally, it would be helpful to add some comments clarifying the
-> difference between this new field and the existing vm_pgoff, to aid understanding.
-
-Nope that'd add 64 bytes per VMA for a typical usage which can add up to a lot.
-
->
-> Thanks,
-> Xu Xin
->
+> > No functional change intended.
 > >
-> > The first field is present on cacheline 0 containing key VMA fields, and
-> > the second on cacheline 3, which contains file-backed reverse mapping
-> > fields.
-> >
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > Reviewed-by: Gregory Price <gourry@gourry.net>
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 > > ---
-> >  include/linux/mm.h              | 59 +++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/mm_types.h        |  4 +++
-> >  mm/vma.h                        | 14 ++++++++++
-> >  mm/vma_init.c                   |  1 +
-> >  tools/testing/vma/include/dup.h | 26 ++++++++++++++++++
-> >  5 files changed, 104 insertions(+)
+> >  arch/arm/mm/fault-armv.c          |  2 +-
+> >  arch/arm/mm/flush.c               |  2 +-
+> >  arch/nios2/mm/cacheflush.c        |  2 +-
+> >  arch/parisc/kernel/cache.c        |  2 +-
+> >  fs/dax.c                          |  2 +-
+> >  fs/hugetlbfs/inode.c              |  4 ++--
+> >  include/linux/mm.h                | 16 ++++++++--------
+> >  kernel/events/uprobes.c           |  2 +-
+> >  mm/hugetlb.c                      |  4 ++--
+> >  mm/interval_tree.c                | 22 +++++++++++-----------
+> >  mm/khugepaged.c                   |  4 ++--
+> >  mm/memory-failure.c               |  6 +++---
+> >  mm/memory.c                       |  2 +-
+> >  mm/mmap.c                         |  2 +-
+> >  mm/nommu.c                        |  8 ++++----
+> >  mm/pagewalk.c                     |  2 +-
+> >  mm/rmap.c                         |  2 +-
+> >  mm/vma.c                          | 12 ++++++------
+> >  tools/testing/vma/include/stubs.h |  4 ++--
+> >  19 files changed, 50 insertions(+), 50 deletions(-)
 > >
-> > +static inline pgoff_t vma_last_virt_pgoff(const struct vm_area_struct *vma)
-> > +{
-> > +	return vma_end_virt_pgoff(vma) - 1;
-> > +}
-> > +
-> >  static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
-> >  {
-> >  	return desc->end - desc->start;
-> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> > index 939b5ea8c9e0..2710628059b1 100644
-> > --- a/include/linux/mm_types.h
-> > +++ b/include/linux/mm_types.h
-> > @@ -967,6 +967,7 @@ struct vm_area_struct {
-> >  	 */
-> >  	unsigned int vm_lock_seq;
-> >  #endif
-> > +	unsigned int __vm_virt_pgoff_lo; /* Low 32-bits of virtual pgoff. */
-> >  	/*
-> >  	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
-> >  	 * list, after a COW of one of the file pages.	A MAP_SHARED vma
-> > @@ -1041,6 +1042,9 @@ struct vm_area_struct {
-> >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> >  	struct lockdep_map vmlock_dep_map;
-> >  #endif
-> > +#endif
-> > +#ifdef CONFIG_64BIT
-> > +	unsigned int __vm_virt_pgoff_hi;  /* High 32-bits of virtual pgoff. */
-> >  #endif
-> >
+>
+> Just curious, why not file_rmap_tree_*()?
+
+Just to avoid any confusion around address_space objects that are ostensibly
+'not files' like devices or whatnot, but moreso for consistency with the rest of
+the kernel in referring to this stuff as 'mapping'.
+
+Naming is hard IOW :)
+
+>
+> One nice part of this renaming is that the length of each function does
+> not chagne. That makes the patch easy to review.
+>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+
+Thanks!
+
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
 
 Cheers, Lorenzo
