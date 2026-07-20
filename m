@@ -1,131 +1,154 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BE9445AEA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 17:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF413D952E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 17:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784568383; cv=none; b=XDM058H8U3V/lrt7eCvF+Ks4bjruf+2jsaDOv0Q5Tc0Yyyvtx/xwg/qnNFzPit/oFFM6UkUyuEhzZoPxVpeOJVKC71BGnc9t+ITLXOLND1Kj51qPtvul4R/flSPQJCLoUqr0BeBY2+DqH+ltbEc44yhGlqFFgwt9WXFvXKfX1Gg=
+	t=1784569246; cv=none; b=kSbt+yelAh1az9h7jw/+PuUNGkuKdzWqmT8zY3J0202C0J1KUeCAerCknpR96/xfyrVJhmcdCnnimIjsmZLmHWrNbS8Bry6+Q8zuMqmIQhKwva+yVWneKmzV3gUA6iVMdDlAj6IaiQsD8LOdML3xlv+mTU1B3JuwXS4Elv4JdOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784568383; c=relaxed/simple;
-	bh=xAVd6i83kgeqkxok+4gw/WnABSDaX1zpDO+8SrcTaVc=;
+	s=arc-20240116; t=1784569246; c=relaxed/simple;
+	bh=VvNwpImo0jiiWGhT5ruq5O3iE3zAj0qXWWnRC1CSvCY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T2zxBefqJTnSQUXzqM5tA7xnEIiE0HAasaIdZIlSVrHTlhFxLwfi0GC3f5lj6e9p4xyhRb3V9m+M0kmvsM6GzR273JYNQbxo6khgouQXOXj0j+5G95nAwC7SsgbwTCXclmTBaQl+1/D7xUna4jXSv3Uqz0A4aR8WwlEgYZBHVak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=sQPxNztB; arc=none smtp.client-ip=209.85.222.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=NPoKLyR/drsZl7YOf0g3bJHQVCDoN2NEMy4hnfyrqwN4k+++Xep9e4XFzOP++STcDmzfHiJR6N4E9XVdF3Ro8rSab/T1S2E5lEzgTif2cZ16H3XcFi3PMTmyMJVRifQOhkCi37RociWBTv+K9nB+jdxhsePBHAFNZ3SVEXuMuP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=PM5N7JDh; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="sQPxNztB"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92e6c4a867cso456760685a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 10:26:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="PM5N7JDh"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8f1a8e914a9so80016136d6.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 10:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784568375; x=1785173175; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xuNoMT9tYeRPYMpWqWaN4lATHuSPR1MQ4bXWUnUxpyA=;
-        b=sQPxNztBtrZgIZRs2gn6aWekmY9xkjrwOZLIHUnqTcDBqdyXy2HIwsEMt+SKuyt3Jc
-         eGIVwc4QzjN3xyp6Q7HR/f1DuFqvp/U49FYG5MdoWAStpiw8UjOGph+cV1X1QttY5/hP
-         ki/EvTdhhY7rV8E044kOAwFSnFUwKA4K6UGm6NmHva3KRnKOTd5/QjmMw3IEhCztqvs5
-         V2a/031wFVpTYAm6JuG65GR5HBydiwN7qGtQfMnTuONpTzOh6wJWV2RPtJ2dl+PqGr11
-         88PZJVudJKIk/+HZ46TEBl4AR76t0yldjkhyqDysTM0k5++rX+EJ8cpp4Elep7eu/PF0
-         bwOA==
+        d=gourry.net; s=google; t=1784569243; x=1785174043; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=STnxksxeYU5ANSzKJlg5+nS1izTc7aC2ZhhV2DsN+ME=;
+        b=PM5N7JDhXqTcR7vcOOmFNkbxdCUainG/WBD2n5EidtR/C5ThrJ5wy4yHys2XMbIF/t
+         bTq4Go06sbgDv+XlOodjyZBuQFRpS7TpkijHM76RquteIsVp+Vk+nbdoIoh8eeDKZxwW
+         NYD2/7n8GylKKd9Kbh0OEoQcKizTQ8Pg7FNnyV89xDcNfTJ+paEGkJKQ80R1dqjZpLqA
+         pl3RYHWyckSTIzKpYFfZmapI1G6FFoye9xcCwPzP4CM5gZ+D+mCONxF/cN/MKOJGfuvv
+         jq+gPTQl1vYsj//W1yV6aAOmZYoAwg5gywZ+Z5OkPlOPpuGVtBANPJGAq39r9hsENRI+
+         DLwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568375; x=1785173175;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xuNoMT9tYeRPYMpWqWaN4lATHuSPR1MQ4bXWUnUxpyA=;
-        b=J+tTK/Iy0W6F35ZgyzeBnL1J1Ou/im1xmPv3CBGiXhSS7Ml6nCxpVt9ev+H90qbFk8
-         TM8/b+M4TFislUmT87SL736BGtzD/2b/aF4b0kHycr0IT85b03GS1D+VxrpGgpdP0u5t
-         alSBjMEO30/YpBXLEV9YZiIbFNqN+nl2m0s1eJOTbja5oSoj/MMyfqlQY3Ck3UE+rSrg
-         fn4Bim6XsjGbkDcPI+Peaa9ZLpLPzMxLEr/HZIhhKdcELTJe+y4P6vlmL7QeBFVIs9dQ
-         kmajiZtoiPslVo1HnWazDH0m5xpVdJAdTj7wQ56UcP9U6pFWIQhb3rMyyA0gMBlUDiQo
-         kNAQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrLUvGHZBYir+BR0gczZPcFvNw2Ym3l1U5QDdvvgzZVAUksHHT25IG1QLLzemW84xHBi+PnGoyWmjnzcoGR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcGfS/q/t0qiQfMvmpXaScexlV53X0rouBCYmLVVFE6YpjtJMT
-	EdwvDcQH0jkjI5zQyRJ7hRG610lt26albBibk3CR2WMf3IMB05X+EYIz5Oz/u6QxaoM=
-X-Gm-Gg: AfdE7ckgLHEpYX/ke9cothDJ8LKG4eOqr6GoEOpzNEXYoditmh6v0wxAu+mCfhhLXxG
-	yAd+E+of6xHbReo0tA0xu18qO9UfNwxs9s2NMOYWyyGewXGvUb0amRIZ22VfHTcWQQy/10BRniE
-	p64pfuYUHzY/SCv48kb7bTp6A3UCtsTba22KEZ5W6D5IyTPUHewgcocrO6RblPEEmBh3KoUZh0D
-	cwd4D6dI9xSMozts2R4kw9/pAzyAdB/gKzRd3LwjgZSPVLA/y81gGqTT4Tg8iVbJy5Qo4FJU/0K
-	rOWaTvRo3WhD1evH7P9H2uTRZ6lASC2KVPmbhNG1BS61YkJTj9N0CkdL/rjSa7lI8HOu+/h5ObU
-	dNOX69qCcUn/G6nsqZDXGRiU7qTZ6dcMGbhUmgC55adBDMUHdS8QHjNRh6/6wIjQLx7mQ35CVM5
-	Q4C/actCkmnm8Zz+cg2bnFKj8sxf9oqN85chSkawCRXCi4NkCgjj0LJm/jDQ==
-X-Received: by 2002:a05:620a:6ccd:b0:915:5cbd:1d96 with SMTP id af79cd13be357-930b3ea9fbdmr1533624685a.33.1784568375015;
-        Mon, 20 Jul 2026 10:26:15 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784569243; x=1785174043;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=STnxksxeYU5ANSzKJlg5+nS1izTc7aC2ZhhV2DsN+ME=;
+        b=n/ANrbJ/tNdgKIC0ZEtLXZ8/G2L1Kvx7QFALAr20fgcSi2w2MGDjzv1fDkn5ixEf1U
+         Mtbgg+EjpoUql52liTUvNqumH3iTKCZy0Q65YRDwF+JA10ZOuHychZFndMRT9ogz5eeB
+         xHTnI3nKpyoeaphyMOwtYDHAZof21y7lU3VRZTaME3wbRRgUuMT11wFAsdBGT7Uz+x6K
+         K6wANyrKkMlM9J7MNW4sI0iFNiw/s2GDIo8OWLBJUqLVugwJtv1GhFphKM7J2Ig7S//M
+         NuXwlTkxDMX9EdDdo1HlGYLt/SJGXDSM5xsNpBHg1zxjNfn3FAMtqeLfEJBOpG5Qs3q6
+         p33A==
+X-Forwarded-Encrypted: i=1; AHgh+RqzO8kBwYI9Qfv/WIa3HPjzzW/G4AVauGHdTbVbGsNw1WVQPluU5aaPT1PQzDirI6Z3x8bofjpljQoFgDJb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yztt/tNU5W8clt/FFkA+fZT+5XqVeMFc2H/kLM3iF0f0RKU7ag5
+	RjWlcYsUBirEgESWWPVsUUSQ6qDWPxmIr9krlf40vunbDueGJniovHpQm4s+1Lx1ynM=
+X-Gm-Gg: AR+sD12fS7Y2/GypqPVphza12f+ngocxVXYXqR9d1H0PLvBPUO+KqG3YrKVzdblQL68
+	ZbWTiRM95iKPLt2GFepmoM8N7dSM1CiusCyJsvGlVwf/R75OQ4Kc69YU5erwbeNseahVsi8gYDc
+	iWV8ssIKXcrRRTRsDHG06N7G76NGbEWmQyO6s1caL9PUg8yJ0m25CVvdE2i5kr0pfDYRqUEW9dx
+	VqTSzuYWgWqUL6tlz0bJ01Nh0pHViI4gesUpqT6dcg5+x/bwEMlMYJYkm7qTDs8f7cAX0sdJlv9
+	eQ2JZSQXaHT62U6cxEfbp6CtQ0ZOaBjPMD+9t6E1R2wjuPJuaPeDFtem0DStzHe8UGm1J95sh3l
+	PcONFCjbJP0dkx1u1L8TbTz1p7KYZflvZsL0X4sOArk+gS3GVKzD6nELWOvloPPxLg2NNFkj6kQ
+	ian3RjK9EimKMoF87H2bn7KstkjVmD6c8yvYf2PewGAWPilUCx4XLL5Ct1/Q==
+X-Received: by 2002:a05:6214:54c8:b0:8e9:f62b:8f93 with SMTP id 6a1803df08f44-9077853b82amr163551916d6.57.1784569243441;
+        Mon, 20 Jul 2026 10:40:43 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b54773fbsm912994185a.39.2026.07.20.10.26.13
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907786ed2e2sm95014956d6.33.2026.07.20.10.40.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:26:14 -0700 (PDT)
-Date: Mon, 20 Jul 2026 13:26:09 -0400
+        Mon, 20 Jul 2026 10:40:42 -0700 (PDT)
+Date: Mon, 20 Jul 2026 13:40:37 -0400
 From: Gregory Price <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] mm/vma: introduce VMA virtual page offset field
- and add helpers
-Message-ID: <al5ZPYH-0T6IPXox@gourry-fedora-PF4VCD3F>
-References: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
- <20260720-b4-scalable-cow-virt-pgoff-v2-1-2d549757a76f@kernel.org>
- <al5CPpc7XpRX7Vbt@gourry-fedora-PF4VCD3F>
- <al5Surm6fPIl4LNA@lucifer>
+To: Brendan Jackman <brendan.jackman@linux.dev>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Brendan Jackman <jackmanb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Jan Kara <jack@suse.cz>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Byungchul Park <byungchul@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>, Chuck Lever <cel@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	iommu@lists.linux.dev, loongarch@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+Message-ID: <al5cqn34Xq19f5HG@gourry-fedora-PF4VCD3F>
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+ <alkLSzQvzT9zJbY1@casper.infradead.org>
+ <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <al5Surm6fPIl4LNA@lucifer>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
 
-On Mon, Jul 20, 2026 at 05:56:52PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Jul 20, 2026 at 11:49:00AM -0400, Gregory Price wrote:
-> > On Mon, Jul 20, 2026 at 03:38:27PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > >
-> > > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
-> > > they are unfaulted or were not remapped, otherwise it is equal to this
-> > > value at the point of first fault.
-> > >
+On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
+> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
+> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
+> >> There are no external users for this surface, reduce the scope.
+> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
 > >
-> > The latter half of this description is a bit confusing.
-> >
-> > Why would the value differ from (vma->vm_start >> PAGE_SHIFT)?
-> > (because it's file backed?
+> > Hm.  So what we're saying is that allocations which respect mempolicy are
+> > only for core mm and not for, eg, device drivers to do.  Is that really
+> > what we want to say?  I don't think so, because that's inconsistent
+> > with having just widened __filemap_get_folio_mpol to allow guest_memfd
+> > to specify a mempolicy.
 > 
-> Because the VMA gets remapped.
+> Yeah I agree, mempolicy definitely seems like a "public concept".  All
+> I'm saying here is this specific function doesn't have any external
+> users so it doesn't need to be an external header. 
 > 
-> If it's remapped when it's unfaulted, then virtual page offset gets updated, if
-> it's faulted then not.
+> ... With the ulterior motive that I want to add a new parameter to it
+> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
+> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration of
+> [0]. So basically this is
+> about trying to extend the allocator without creating a GFP flag.
+> 
+> So I'm envisaging if an external user arises for it later, we'd slap two
+> underscores on the beginning of the internal one, (with the alloc_flags
+> arg), and then bring back the public one as a wrapper.
+> 
+> Does that make sense?
+> 
+> [0]: https://lore.kernel.org/all/20260410151746.61150-1-kalyazin@amazon.com/
 > 
 
-ahhhhh the wording is just wonky then
+fwiw i've been fiddling with a module side mempolicy interface for a bit
+to allow a clean guest_memfd() + mempolicy() interaction [0][1].
 
-when faulted or remapped, x is...
-when unfaulted or unremapped, x is...
+I saw this and thought "maybe, maybe not entirely".
 
-instead of
+there is definitely some oddities in the mempolicy uapi (internal-only
+flags that are exposed to the uapi is odd) that some of the interface is
+worth internalizing.
 
-x is ... if unfaulted or were not remapped, otherwise...
-
-Sort of a complex combination of 3 negatives there.
+(fyi i've converted my private node work on top of the alloc_flags
+ addition + new zonelists, new rfc is being posted today, your recent
+ merges were timely).
 
 ~Gregory
 
+[0] https://github.com/gourryinverse/linux/commit/b25bb27602fe512733450a97ac31ef4387b7e727
+[1] https://github.com/gourryinverse/linux/commit/670f7dd81ef33a9385985a54b8ad6bc070b2d581
