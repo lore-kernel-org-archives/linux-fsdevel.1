@@ -1,126 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A086406816
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782A84192FD;
+	Mon, 20 Jul 2026 12:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784548410; cv=none; b=JCE/Jjuj8gfSm7baNND+GK5BCBfJ4OAQvYSnW42XAKxcxAM5nRKDuRWDo2oihswJg+/p3Laxo6HEurBlHqa/MO5jEuy/PEbDfLGmxqKq3RqzMs8DLHJSrAoGS/OdivTtoYQIsds4zfzgPhtSyct/zMITLGCSbL166PnutFjwbGY=
+	t=1784551047; cv=none; b=AZep5cp4s4G6CeQegQC5prapmSLMIHFgMHIUfYFSg+ncZLm1Y3wOUx3wI3MsPdyi3L0zWvpsV7vrNieIGx7XakvWMkAsI8foavvmyEkZsgdwqLzbVEJfT/R/ZjApSz5HTgl1eN2TQGDZnfjgT56Grym66RhgkLX1nb9isLmXtkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784548410; c=relaxed/simple;
-	bh=VHEQeDQcQ8hQNSKVqUBJLGtp3S5o4yFUb3C9FREoZvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRuPEqoHiA0i6jD0T8RA8P3CDLDzHh7QW5pp7neVCTvDKsWjDunkb3AK/YqTt9KJ2pXXLx8LfFcIvivU7ZggP46H6Ws6ac5HqqQ3S6Kg0WWlFlQ3wqfraonXl4DZ6qQZ0YstZxsDofyl8URFUYsYxjYq/vdvQhVjYKywkQjrQNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GjIM38P2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784551047; c=relaxed/simple;
+	bh=kj0AZ5A6Jop+KqbA2yhJS4V30yHrTSQgJ33ZorM7qxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rVxIqE3BIDhkABOFCAwg8OUhRiPm0I7t8SWxTDHA51Izc+nmEsfXkHMrNBG4wsApjkInYsoYmleOx1TomclfCzoup+0lW4dI3XLffqI+k+RBQReDokEt+9R9SOvU5pgqE7xaufn6ToeJLv8QtzvHsu3/eKJdzpwL4qT1q6lRPRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY7bQ3bN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GjIM38P2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784548408;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bX1qciW3YToqJ7WN/x28/hmdDw58K7wiF7yPElpwvmk=;
-	b=GjIM38P2VwSFOSgCfYiMmgQyF/1+MjX/3mwgVf/pmHrej6f/hg6DQHiRyCM2RezmM1JFct
-	g+b9meRYhQHiF602uIQzdul0Ak2nJwgi4ce8AVxMfuFowkWDTGs8qRNIm4wcBe3eAneCr3
-	DfX5jl2JHaunVBjl1rpcBpW9akp4fDU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-110-EFqhOOtyPP2lh3AGPOLUMg-1; Mon,
- 20 Jul 2026 07:53:23 -0400
-X-MC-Unique: EFqhOOtyPP2lh3AGPOLUMg-1
-X-Mimecast-MFC-AGG-ID: EFqhOOtyPP2lh3AGPOLUMg_1784548401
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 72C361956070;
-	Mon, 20 Jul 2026 11:53:20 +0000 (UTC)
-Received: from fedora (unknown [10.44.49.164])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 54051300418D;
-	Mon, 20 Jul 2026 11:53:15 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 20 Jul 2026 13:53:20 +0200 (CEST)
-Date: Mon, 20 Jul 2026 13:53:13 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Breno Leitao <leitao@debian.org>, Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, mjguzik@gmail.com,
-	josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org,
-	axboe@kernel.dk, shakeel.butt@linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v4] fs/pipe: unify the page pools into a single per-pipe
- pool
-Message-ID: <al4MKZc7AqcUUN5i@redhat.com>
-References: <20260710-b4-pipe-unification-v4-1-ff31c39f1c16@debian.org>
- <alpWISUKMvqrp5ET@redhat.com>
- <al3w54SsdZEjKVj4@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY7bQ3bN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487B21F00A3A;
+	Mon, 20 Jul 2026 12:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784551046;
+	bh=K5qltyN+MfU8aQCuenvbMxWg7poDhOA/J+jqlFW5yPc=;
+	h=From:To:Cc:Subject:Date;
+	b=GY7bQ3bNSoNb1of3AfVAdlHJ9ktb8mfCWC9IazeVyU+pGlqJ0c5td2EXlAWQJgcWx
+	 Glqj0qYMMPMZVPOvHvIFSRVyOaETXSBGgBmMRrD7HXZuQFcu0HCb+3IU504UHEX04V
+	 3Q1lQ5JxV3lsPBE6iIJnU62ilAY2BgBSWYDrto+JKpJNFAKqK/TfnyVjTpA6TnkGHP
+	 UCxjLC/vxD4mcSQ3WONPqjncQ3keEU9JLbLexlsu05rKuSczIQe/7fCTmgOmRDqAcU
+	 wHd2Dc4Q1VS3J6uOdVaCyPE4A8UU+GFZ4kbtYelxOdfascgaZyU83cGuRO42y0YVWB
+	 EbmX2zLAg5TMA==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+	Farid Zakaria <farid.m.zakaria@gmail.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-mm@kvack.org,
+	bpf@vger.kernel.org,
+	jannh@google.com,
+	mail@johnericson.me,
+	stable@vger.kernel.org
+Subject: [PATCH] binfmt_misc: set have_execfd only once the interpreter is opened
+Date: Mon, 20 Jul 2026 14:36:49 +0200
+Message-ID: <20260720-beglichen-kognitiv-organismus-5e1e55326c56@brauner>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al3w54SsdZEjKVj4@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2761; i=brauner@kernel.org; h=from:subject:message-id; bh=kj0AZ5A6Jop+KqbA2yhJS4V30yHrTSQgJ33ZorM7qxg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTFiVWs5Dt2bv61zvhvq3ayPlU//fbNo8386xXu6AiYT c1hSJjg2lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjAR35uMDC9NZtew1vfVX9+x VaVEuqRRsUI4Tz9hkdxeY+3ffCF+kxgZdh9wCJn9qsjQISlJfMPProP2Imra74+ziJildO1cnx7 ECwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 07/20, Breno Leitao wrote:
->
-> On Fri, Jul 17, 2026 at 06:19:45PM +0200, Oleg Nesterov wrote:
-> >
-> > And READ_ONCE() is enough correctness wise.
-> >
-> > But AFAIK it is not enough to make KCSAN happy. anon_pipe_prealloc_pop/push
-> > which modify ->count under pipe->mutex need WRITE_ONCE() to please KCSAN.
-> >
-> > Or anon_pipe_prefill_and_lock() can use data_race(READ_ONCE()).
->
-> I am not sure that is correct. I got the impression if the reading side
-> has READ_ONCE or data_race(), that is enough to please KCSAN.
+load_misc_binary() raises bprm->have_execfd as soon as it sees the 'O'
+(or 'C') flag. This happens well before it opens the interpreter. If
+that open fails the flag stays set on the bprm. binfmt_misc is at the
+head of the format list so an interpreter open failure that returns
+-ENOEXEC lets the search fall through to a later format. This means it
+runs the matched binary directly having never staged an interpreter. So
+bprm->executable is NULL while have_execfd falsely claims a descriptor
+is present.
 
-And quite possibly I am wrong! I was never able to convince myself I
-understand the should_watch() logic. See below.
+Consequently, begin_new_exec() dereferences the missing executable:
 
-> I will respin with, an additional "__data_racy" attribute in `count`
->
->   struct anon_pipe_prealloc {
->     struct page *pages[PIPE_PREALLOC_MAX];
->     unsigned int __data_racy count;
+  would_dump(bprm, bprm->executable);
 
-Ah! I didn't even know we have __data_racy. Much better than what I suggested.
-I see you have already sent V5 and it looks good to me.
+and NULL derefs. Had it not, the hand-off later in the same function
+would have failed anyway. FD_ADD(0, bprm->executable) rejects a NULL
+file with -ENOMEM. Both sites are past the point of no return so the
+exec cannot be unwound either way.
 
-----------------------------------------------------------------------------
-But just for my education, let me abuse this thread and ask KCSAN maintainers
-to shed a light...
+This can be reached by unprivileged users as binfmt_misc can be mounted
+in user namespaces. So a user can register an 'O' entry whose
+interpreter lives on a FUSE mount, have the FUSE server fail the open
+with -ENOEXEC and execute a native ELF file that matches the entry.
 
-Marco, Dmitry. to simplify, suppose we have something like
+have_execfd only means anything alongside the executable it describes
+which is not set until the interpreter has been opened and staged.
+So lets raise it there, next to execfd_creds, which is already set at
+that point. An open failure now leaves it clear, so the fallback format
+derives credentials from the binary and emits no AT_EXECFD, as it would
+for any native exec. The argv rewrite load_misc_binary() performs before
+the open is still not undone. This means the binary sees the interpreter
+path in argv[0] and its own path in argv[1] but that predates this
+change and only became observable once the exec stopped faulting.
 
-	int DATA;
-	struct mutex LOCK;
+Fixes: bc2bf338d54b ("exec: Remove recursion from search_binary_handler")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/binfmt_misc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-	void set(void)
-	{
-		mutex_lock(&LOCK);
-		DATA++;
-		mutex_unlock(&LOCK);
-	}
-
-	int get(void)
-	{
-		return READ_ONCE(DATA);
-	}
-
-My understanding is that KCSAN can complain if get() races with set(),
-READ_ONCE() in get() is not enough.
-
-Is it correct?
-
-Oleg.
+diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+index 84349fcb93f1..5de615ca7a75 100644
+--- a/fs/binfmt_misc.c
++++ b/fs/binfmt_misc.c
+@@ -228,9 +228,6 @@ static int load_misc_binary(struct linux_binprm *bprm)
+ 			goto ret;
+ 	}
+ 
+-	if (fmt->flags & MISC_FMT_OPEN_BINARY)
+-		bprm->have_execfd = 1;
+-
+ 	/* make argv[1] be the path to the binary */
+ 	retval = copy_string_kernel(bprm->interp, bprm);
+ 	if (retval < 0)
+@@ -260,6 +257,8 @@ static int load_misc_binary(struct linux_binprm *bprm)
+ 		goto ret;
+ 
+ 	bprm->interpreter = interp_file;
++	if (fmt->flags & MISC_FMT_OPEN_BINARY)
++		bprm->have_execfd = 1;
+ 	if (fmt->flags & MISC_FMT_CREDENTIALS)
+ 		bprm->execfd_creds = 1;
+ 
+-- 
+2.53.0
 
