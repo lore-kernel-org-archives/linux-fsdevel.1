@@ -1,119 +1,149 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED813ABD98
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 06:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C113B71B9;
+	Mon, 20 Jul 2026 07:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784528401; cv=none; b=tiU5Zv8PxFoL1lKQFv9IjOXO3Zo/1IH52kVlTi5qT58BUEFtlcLZ3jTzh4V1P1c7j5k30FoswVHlyThDN7wk6+PXy9kPPXr/c2oEJ23i6se5MGtoMdf2I08L0quRnzoD3bhci2yjrKWLrgVuWQ8D8VFIiiliEU5UiEoqIcoxsDk=
+	t=1784531675; cv=none; b=JUCClBqaSai7+qKVeb2KsvyQddJGrQFZBDqrfdYZe7L204xWdDfV1SOAFGTvbUryPLgSYD+qYwRObOIneY+/CSTADmEqVx3/JHZ7m6M6s0CNU3SF5q0T6+ypduUNj13uhE3iwVcOjr6CRtt2T3y/Z5qwzGXWN/lp3uYbP/iRZ4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784528401; c=relaxed/simple;
-	bh=VIOwaaoTziV0uOO8oVU04IDSC6MsIaybq84I0JWH2CE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ny/ZEDEvO80kReXAgKhJURkWFpwwRbptU09e4oEIezbiHBYlApO1CdykQ1XriIxDZpVuJRF0ApoVwQJZElya8SD4RFOvC4iZxog1dwp9rFeVfcwt9U2TUzJEqycMrVWrX1flsu7Q7KvCl3E77V2VRUZlXRFagHWiSmySq5OlpEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rq6gKbJ2; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784531675; c=relaxed/simple;
+	bh=HR5MaFBcIWRPfZXz+UMzDN4+c9DOvTEFHnoiRpsQf+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dqpO2hGPLrQh3Otegl265WoHWyKf6xFLJOK0qkZNqTofDpEH3YGpdyu/DnnYv2UtD844Pd2SlXT6z0NkQFNUrIpq+7BxUvZQgSPc6EPZv3lk4NVkihJXpHe/B35mnRreADdgjIsx809bEvi/w9Cfj/mze/s8nxCIoPpXevuTNqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qc2SHIfq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rq6gKbJ2"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49554ebb87dso13414035e9.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 19 Jul 2026 23:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784528397; x=1785133197; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HETYeNFfv8iZNbQymHQ1eyqEA7EUdzp3iQkaej79HJs=;
-        b=Rq6gKbJ2du50Hd5IsCe1G9h916eL2nqoJZdbiDutEzIYR88meTzr1qTTkY7iMA2Cjl
-         ZtJuv4apX0Qxs/h96ubUPaOWR3/GVnsN6AAIja3+rHAqmSb+DU//viqXbpPdjJrIEKJn
-         j1wNPcZR1lPWWaxDGOykP3KNA6ycrq3m+22lcR1N6iiMXcCXYnOymNLhYb78bE/cEYqL
-         DRc5mrKaOBVM2NLh/q6s1XXPh6cXYLpt3uEJ8KRa0jAO/NdH34tocnI96yNEDpTGvNUb
-         WLOp89uflfTUUZiHrvrZCAgJ/8mHrEkKECLHLReNnTq7eHH60rIrScC4E27QZj5llTHy
-         /W/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784528397; x=1785133197;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HETYeNFfv8iZNbQymHQ1eyqEA7EUdzp3iQkaej79HJs=;
-        b=rI3g87s1j7LGHVi7jS2VfgQaS7mYzje+ibJLxpkjCisY8UtIEmBruZcbsewCzFpWvL
-         NYNTrtBQajxhnAQhPfgkKa3KUuG96NJaj5Fb9Xk+CwG933qpDAS2Ebopo7celAY6DBjb
-         D/TOHqq6sa6j+3SfwOiXrCtzXowkEO/QPJcgc2hNcSpPKTYnDLS2lOaNG7olWwyTr80r
-         i2S9U/HHNQ53bZx4PZjY0weohNc3jh9SEh3QORs/yFPgdCe6bEBkVnc+isn1rDQlEHno
-         caGtySl+/SmqKffdS5H5jumdCaYS8VcQHHLNANRQjl5vrVJRhMMRavljj+nm/2mNdBLQ
-         bDJA==
-X-Forwarded-Encrypted: i=1; AHgh+RrcM6kIeYjIp0GLzZg7wyJL3buU6tLb8Fs5Y5+pdilit8v2zXJWZyR3yBAXkWDGR7pYSnCqwJNFDjCwVvU3@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsYQdz0JLxQRD0PgybR6gnGIf5wEARFeiF7aQAl58lklX+CXoF
-	STHLk0cYTzCfdtmBLjpYSDW5rrBkdlSowe2HvOSSCRi7Kh5UbPfOU0ZF
-X-Gm-Gg: AfdE7cntixUzuXsLTpv4s1YePfL/O+VRIdylrqONUTbesIYjZuRdqheZXvaLMBuc8Hp
-	SAhwdxfBfaCwBNvCAZ4qKVR+TWqcD5boOFOogYiPH0bfg4/ne9uWKuP2LynVV/G+j7JANn8p0OP
-	mw3b7PyianhV0AF4wOd79BsiDQHoBy8uKsWE0wMii5J3Cvhl92r/40NT8KElJ6r2ebnWQikHvsw
-	TkRiIJBbgw5MVJ8NUNBP3fKLjrV8pO3bDTUO+t8QjezAJCv3nBhbqZycqGcXYlIbgUhJ0USIMT2
-	R79L5wOVMcaIPcuo4qpXHXI9XDGLM4cb3El6NTfB62ybuwa/xqT4ME3xkZyMiNWzyJ+cznOvi55
-	N8DPJUgU5RcS1ZG370ZtZXjd3a922uk04niWdKWu1+6ffj0RQroyThKZEUofN/2OgfRz88T82aN
-	FBX9dLuPNumC9qCjoF1UvvwB4+REkFwBiZ05upSLcgyklNEbMmlP1M/mz7O2xD9Fh9H127oOhAb
-	R5dviu9qFevgfmlAv8l4whhP2sqfvZYDduqYxL7EZ3GvEoNIQ==
-X-Received: by 2002:a05:600c:5657:b0:493:f442:3dd4 with SMTP id 5b1f17b1804b1-4954a516af8mr82573065e9.39.1784528396321;
-        Sun, 19 Jul 2026 23:19:56 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-077-002-096-157.77.2.pool.telefonica.de. [77.2.96.157])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2edbe4sm274394275e9.12.2026.07.19.23.19.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 19 Jul 2026 23:19:55 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: 
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kselftest@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests/proc: make proc-maps-race work with READ_IMPLIES_EXEC
-Date: Mon, 20 Jul 2026 08:18:35 +0200
-Message-Id: <20260720061835.6290-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qc2SHIfq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0064A1F000E9;
+	Mon, 20 Jul 2026 07:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784531671;
+	bh=8c1NwXrdIUkx3pvI3J59TnigPzn4Ew9yA8/E48gML0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qc2SHIfqPkpRmaLfQdPjU+4iOnjqK8iSvAn5ApPARqUjV/vl/u+KoBHUB85YlZ/FD
+	 lg4Y1hWW1b7PWD0l3LwYX25F7pbuztAnDVpabiqbnovQK3zXE7TWbOZq5IXimi411r
+	 5+xtIgrHltyPrAHhl0eMpHV2DcWX86lNtU0v4CUpZHM1lGJVGTqsst3Z9pKO0S+DRM
+	 wAPZB1+Atkh1xsyHhVr+0sCLrtDId47LU6FkiKcsWFrXgrUebnYPtefQZYGlYksngy
+	 pglpmj3RC+lXTq3HysYz+HdkRpMXS9sSKVaGsNum0/pC3WMyIBMR4wBBzWmC0xpfR1
+	 iX9TdZfJMaM/g==
+Date: Mon, 20 Jul 2026 08:14:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: xu.xin16@zte.com.cn
+Cc: akpm@linux-foundation.org, david@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	jannh@google.com, pfalcato@suse.de, willy@infradead.org, jack@suse.cz, 
+	linmiaohe@huawei.com, nao.horiguchi@gmail.com, riel@surriel.com, harry@kernel.org, 
+	lance.yang@linux.dev, kees@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
+	usama.arif@linux.dev, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
+	ying.huang@linux.alibaba.com, apopple@nvidia.com, peterx@redhat.com, chengming.zhou@linux.dev, 
+	arnd@arndb.de, gregkh@linuxfoundation.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 01/15] mm/vma: introduce VMA virtual page offset field
+ and add helpers
+Message-ID: <al3KlYMbmeR6iDX8@lucifer>
+References: <20260717-b4-scalable-cow-virt-pgoff-v1-1-cf24910ef094@kernel.org>
+ <202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202607191155425057lNrNOYTi44E_jmidmtkn@zte.com.cn>
 
-On READ_IMPLIES_EXEC systems, the readable test VMA already has
-PROT_EXEC. The replacement mapping therefore does not create a split.
+On Sun, Jul 19, 2026 at 11:55:42AM +0800, xu.xin16@zte.com.cn wrote:
+> > This patch establishes fields within the vm_area_struct type to store the
+> > virtual page offset of VMAs.
+> >
+> > The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
+> > they are unfaulted or were not remapped, otherwise it is equal to this
+> > value at the point of first fault.
+> >
+> > Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
+> > file-backed VMAs are tracked by their file offset. By adding virtual offset
+> > as a property of VMAs, we can now track them by their virtual page offset
+> > instead.
+> >
+> > By tracking this, we provide the means by which to eliminate this
+> > inconsistency, and more importantly lay the foundations for future work for
+> > the scalable CoW anonymous rmap rework.
+> >
+> > This patch simply adds the fields and some simple helpers. Subsequent
+> > patches will update mm code to make use of these fields correctly.
+> >
+> > The fields chosen are packed in the VMA such that, for 64-bit kernel
+> > builds, no additional space is taken up.
+>
+> It is not necessarily true that no additional memory will be consumed, as it
+> depends on whether the baseline kernel has CONFIG_PER_VMA_LOCK enabled.
 
-Use PROT_NONE instead; it cannot merge with the readable neighbors.
+We are moving to this being permanently enabled.
 
-Tested on QEMU versatilepb with ARM926, and on
-realview-eb-mpcore with ARM11MPCore.
+> Moreover, in the future evolution of mm, maintaining this benefit would
+> require that the layout of struct vm_area_struct before __vm_virt_pgoff_lo
+> remains unchanged, which seems impractical.
 
-Fixes: beb69e817246 ("selftests/proc: add /proc/pid/maps tearing from vma split test")
-Assisted-by: Codex:GPT-5
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Liam R. Howlett <liam@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kselftest@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- tools/testing/selftests/proc/proc-maps-race.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It isn't, we are very careful with this struct.
 
-diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-index 1026d8c400e1..415eccb70468 100644
---- a/tools/testing/selftests/proc/proc-maps-race.c
-+++ b/tools/testing/selftests/proc/proc-maps-race.c
-@@ -490,7 +490,8 @@ static bool query_addr_at(int maps_fd, void *addr,
- 
- static inline bool split_vma(FIXTURE_DATA(proc_maps_race) *self)
- {
--	return mmap(self->mod_info->addr, self->page_size, self->mod_info->prot | PROT_EXEC,
-+	/* PROT_NONE differs from both readable neighbors. */
-+	return mmap(self->mod_info->addr, self->page_size, PROT_NONE,
- 		    MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0) != MAP_FAILED;
- }
- 
--- 
-2.53.0
+>
+> My personal suggestion is: maybe we could simply add an unsigned long field,
+> say vm_virt_pgoff, without worrying about the increased memory footprint for
+> now. Additionally, it would be helpful to add some comments clarifying the
+> difference between this new field and the existing vm_pgoff, to aid understanding.
+
+Nope that'd add 64 bytes per VMA for a typical usage which can add up to a lot.
+
+>
+> Thanks,
+> Xu Xin
+>
+> >
+> > The first field is present on cacheline 0 containing key VMA fields, and
+> > the second on cacheline 3, which contains file-backed reverse mapping
+> > fields.
+> >
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  include/linux/mm.h              | 59 +++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/mm_types.h        |  4 +++
+> >  mm/vma.h                        | 14 ++++++++++
+> >  mm/vma_init.c                   |  1 +
+> >  tools/testing/vma/include/dup.h | 26 ++++++++++++++++++
+> >  5 files changed, 104 insertions(+)
+> >
+> > +static inline pgoff_t vma_last_virt_pgoff(const struct vm_area_struct *vma)
+> > +{
+> > +	return vma_end_virt_pgoff(vma) - 1;
+> > +}
+> > +
+> >  static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
+> >  {
+> >  	return desc->end - desc->start;
+> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > index 939b5ea8c9e0..2710628059b1 100644
+> > --- a/include/linux/mm_types.h
+> > +++ b/include/linux/mm_types.h
+> > @@ -967,6 +967,7 @@ struct vm_area_struct {
+> >  	 */
+> >  	unsigned int vm_lock_seq;
+> >  #endif
+> > +	unsigned int __vm_virt_pgoff_lo; /* Low 32-bits of virtual pgoff. */
+> >  	/*
+> >  	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
+> >  	 * list, after a COW of one of the file pages.	A MAP_SHARED vma
+> > @@ -1041,6 +1042,9 @@ struct vm_area_struct {
+> >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> >  	struct lockdep_map vmlock_dep_map;
+> >  #endif
+> > +#endif
+> > +#ifdef CONFIG_64BIT
+> > +	unsigned int __vm_virt_pgoff_hi;  /* High 32-bits of virtual pgoff. */
+> >  #endif
+> >
+
+Cheers, Lorenzo
