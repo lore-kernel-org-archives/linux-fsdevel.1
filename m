@@ -1,159 +1,114 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B882749C1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 15:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3188436353
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 15:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784561154; cv=none; b=MzamoPdeVAGfKOiUs2h4ehcX6SLP0kNXA8TY10GopfNudMHopWB4yzg5BTjU16vZu1dzhoeENbSdH/d85dlU//hJBK7GKrprMpH/egz/oN5mhoiGlbhIvDkOJhK54uJEkBKLkyr/V/+e1ZZV9A+w3PVaZXjejXc8dN+oIla50H8=
+	t=1784562548; cv=none; b=XY/YbuFZN2bnWDyPFKP92FdutLYA6hXF+qQQwIRREscM/kRB1BYsxwtHW23Amc+If9dnEiV4P/s0LKjePeS2lg64ISssZZ2wrVO+vNcKxzbEO1EWzswrKSvBitmxOdb7mwJ+V9cyzX4teYkfWplcwDhPv9XhQv2RD/rg2pabuoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784561154; c=relaxed/simple;
-	bh=0cS3VyR4Z8ZEaGQjWxhK6zIOcvyGFbJqVuevUXNKV7k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bm2c9urzm7066G8J3BQU3eEYuD/PhUb62LJPMkjdm10OcfunOcMoKAcfgu8e2v03xOC6OX2ok8dk+tbv3gGCdMIiQ9wl5dtQlNI/1YWQ3fDdSn8GM1gxjz5ONb+26XoDc2E7NY3oFG4cqS9Qj7+7JuQaYaHEf5t1WOYwul8rSa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QE4fe8WW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/ymXAw0O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QE4fe8WW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/ymXAw0O; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784562548; c=relaxed/simple;
+	bh=iagDN9MQzUvFfugJi8ZOtR1qNU9GWfiOIuQ/KX35R/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kViGVpO/+S6fG3y9PwGrZOq4TgT5Gbrh5HHsSADhz6oiTLhlpf86LZA3bTVFrPplQz4ubtvxtgVk1Zox7SWn/fs3/Qo2r3TuUpHEHI8Ix7rbBKWz8KIK0V07QGIz5vyaTvmIhRdAAcJJgowfrZ+wK3Lrv/fx4yJj93PZUoAIIUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Oz6w8IK5; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QE4fe8WW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/ymXAw0O";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QE4fe8WW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/ymXAw0O"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B13897A024;
-	Mon, 20 Jul 2026 15:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784561150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
-	b=QE4fe8WWZ8TfW7POvCFkGLD85WhH1C6JJobcD26i0CroIHmVB2t5mVsOLzgS4MLis5Q+IN
-	YLKmzDLkl4AImLjSMWTqJ4+ix1wUkATM69pNSaV+7AZSylwkVZxL7H/UeyJW03VrMBys7C
-	v2yjK/R7AQpxWTF7amvLqwDKGNtxUng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784561150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
-	b=/ymXAw0Od7u5OKZ09dS5dzbg23c8LqmzJzteEwKcB5eBalZyjVU/nFG2C+OQfkuL4Mcmjz
-	bwTmkcvlADC6J+AQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784561150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
-	b=QE4fe8WWZ8TfW7POvCFkGLD85WhH1C6JJobcD26i0CroIHmVB2t5mVsOLzgS4MLis5Q+IN
-	YLKmzDLkl4AImLjSMWTqJ4+ix1wUkATM69pNSaV+7AZSylwkVZxL7H/UeyJW03VrMBys7C
-	v2yjK/R7AQpxWTF7amvLqwDKGNtxUng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784561150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
-	b=/ymXAw0Od7u5OKZ09dS5dzbg23c8LqmzJzteEwKcB5eBalZyjVU/nFG2C+OQfkuL4Mcmjz
-	bwTmkcvlADC6J+AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DF91779AA;
-	Mon, 20 Jul 2026 15:25:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qZLDE/49XmqBCQAAD6G6ig
-	(envelope-from <krisman@suse.de>); Mon, 20 Jul 2026 15:25:50 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>, Jens Axboe
- <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>, io-uring@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Aditya
- Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: Re: [PATCH 0/2] io_uring: add removexattr and listxattr support
-In-Reply-To: <20260720072213.2719-1-aditya.ansh182@gmail.com>
-Organization: SUSE
-References: <20260720072213.2719-1-aditya.ansh182@gmail.com>
-Date: Mon, 20 Jul 2026 11:25:48 -0400
-Message-ID: <87fr1d1y4j.fsf@mailhost.krisman.be>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Oz6w8IK5"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92e622cc874so763066485a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 08:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784562545; x=1785167345; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=89meaKDhwFe10Z71hE7i2nRHODsJTbsiRnn58cHYtjw=;
+        b=Oz6w8IK5ZAwjM2E9DgdoVBHJKXQkwDwrOnCBPa/wPDQNh683mkFqvwchbawBzpersU
+         lj++PO8JAi1kix3SYjAsQlUsF08NCuwdBpR1vVso7HCgyZixchhFEWLB4Y12JC/HIi0R
+         tcJzqSdLBUSfu7I9EY6SvqyxvEsxpeF0wWpMep7tX2zzHUCp4xWwAm0G2qEvDLN+gwbd
+         9oe8mVqSlIPpWaIBQKBN5N8Zf4w90sYfSsEL+bFgyK3tUcz/X2fCWdnGFSe4WzIZHCBZ
+         019Em8Ep7PoOFEKMjVWIR46FF2YzLSNUe53t1BUzoOkE0Tq4/lSQ0Hd3O/tqZDu0nh/N
+         rFlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784562545; x=1785167345;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=89meaKDhwFe10Z71hE7i2nRHODsJTbsiRnn58cHYtjw=;
+        b=RWmM5odsiVkME5Nh5oml0Zq1H3gYjdw0BzzDHaoNoaskZzvo0FBsn12luPCIABdwlo
+         zS9S0GXDIQ32PbPBSQcAoViD9YlKq15MwtpBw9JzrqVt92/+OZE6j/okfXV2IBPQFh6J
+         zaL9kvlbIiUufQGKtd5nuYLrFwSlpRsmuKaN3/eEYr2RKhdbmnXGCAr+FMkIE7xCftZL
+         UU80W2H3jsqxWYwERdXzYT6IoaOqYif/4ns9FhiL8I5Q8f272kZG2iewbuBVPWlZyc+D
+         QjNZt9VjsUZapvkjTjHiwJXuH9XpV32Br1seEJwdfsrkTqgJozSEicuDfIFJ1hCMoogK
+         HPPg==
+X-Forwarded-Encrypted: i=1; AHgh+RpHaZcApvmyb04/jcsvEtjci47mcOMK9d2tmXgBnGAXVLTTowaEydGiwNlQY/rMuNc72RNrc7OrR9RdgNVK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQGO+aQjXa12elVbUiJfysWv2R1vGrzU4nF5oiNxYhjg7+O9hl
+	RBL8Zp8goa6ZgJ0qTB1+Il8G6rRION3nDm0WUUiyBoM10HbYJ+LH/Zyt5fGQ4uMVZBc=
+X-Gm-Gg: AfdE7cl6J9q5SQSHm9TgUx1U5uH3sCZ/6aPE4X0SEchYiKq+4WOsPB2BCEVtvzXVLBz
+	aRnQm/vPGpm4gxxEeUpNXVpym/+YECo7X1gLv0r6+gMCFKMRyb5fze285TQBF0v1Oc9cv5/7ImA
+	N4OYxz7Wc8l068ldMTeoCExZXAf9yQSK2ks6IGKSgDrVWC6W8S1FuDxuRRL84kjstRKlkOauhSK
+	JPRoe6Mw/361Z4VgWGUTZsKaMLbwNobWrlnfwLdWz2Ymj0RtsaYEHCRpprDvTtipgMPubHTl9kb
+	IIIDRCydnw6hfLE7xvVMMgcwq6vV1U2ffqUYm8fBIt5EcnxVEKPd1J/vDeGPPS4MoIeckgGXun0
+	RMEye431HgXRWspcuiCFg8K8TlZ3w2I75qzXqgzb//ODAaFelp9ZgosdtFocVV9du5lmZ1EUQU+
+	ap+YTaIhUDdD31FlirBb/b6/As8xBnUtZQNckjL9JnaYkt/Ghv7CTjkQyqHg==
+X-Received: by 2002:a05:620a:25d4:b0:930:ab28:9459 with SMTP id af79cd13be357-930b41e29bamr1533354985a.56.1784562545561;
+        Mon, 20 Jul 2026 08:49:05 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b54773fbsm894382285a.39.2026.07.20.08.49.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 08:49:05 -0700 (PDT)
+Date: Mon, 20 Jul 2026 11:49:00 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 01/15] mm/vma: introduce VMA virtual page offset field
+ and add helpers
+Message-ID: <al5CPpc7XpRX7Vbt@gourry-fedora-PF4VCD3F>
+References: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
+ <20260720-b4-scalable-cow-virt-pgoff-v2-1-2d549757a76f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.dk,kernel.org,zeniv.linux.org.uk];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	HAS_ORG_HEADER(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,mailhost.krisman.be:mid]
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720-b4-scalable-cow-virt-pgoff-v2-1-2d549757a76f@kernel.org>
 
-Aditya Prakash Srivastava <aditya.ansh182@gmail.com> writes:
+On Mon, Jul 20, 2026 at 03:38:27PM +0100, Lorenzo Stoakes (ARM) wrote:
+> 
+> The virtual page offset of a VMA is equal to vma->vm_start >> PAGE_SHIFT if
+> they are unfaulted or were not remapped, otherwise it is equal to this
+> value at the point of first fault.
+> 
 
-> This series completes io_uring's xattr feature parity by adding support
-> for the remaining four xattr operations:
-> - IORING_OP_REMOVEXATTR
-> - IORING_OP_FREMOVEXATTR
-> - IORING_OP_LISTXATTR
-> - IORING_OP_FLISTXATTR
+The latter half of this description is a bit confusing.
 
-It is much cheaper to open a fixed file and use the FD variant of these
-operations in io_uring that it is with a syscall.  Could we just live
-with IORING_OP_FLISTXATTR/IORING_OP_FREMOVEXATTR?
+Why would the value differ from (vma->vm_start >> PAGE_SHIFT)?
+(because it's file backed?)
 
-> Historically, applications looking to achieve zero-blocking metadata
-> management had to fall back to synchronous threads to list or prune
-> extended attributes. This is particularly problematic for highly secure
-> layered filesystems, active monitoring engines, or container runtimes
-> utilizing namespace isolation xattrs.
+It sounds like this value can change in response to an event, which
+makes me thing a reader could see two values across two calls?
 
-Please drop the LLM explanation.  Why is this a problem for
-"highly-secure layered filesystems" in particular?  This enables xattr
-operations in an asynchronous fashion. period.
+Apologies if i'm fundamentally misunderstanding something.
 
-> To support this cleanly and reuse existing optimal VFS-layer code paths:
-> - Patch 1 makes the necessary listxattr/removexattr VFS-layer helpers
->   non-static and exposes them in fs/internal.h.
-> - Patch 2 implements the io_uring operational support (opcodes, opdefs,
->   preparation, and issue handlers) and invokes these exposed helpers.
->
-> This approach ensures zero code duplication, robust filename handling,
-> and maintains design consistency across both subsystems.
->
-> Testing
-> =======
-> A self-contained test program is provided below
-
-Please turn it into a proper liburing testcase.
--- 
-Gabriel Krisman Bertazi
+~Gregory
