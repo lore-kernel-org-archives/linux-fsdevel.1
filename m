@@ -1,213 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD1642DA4A;
-	Mon, 20 Jul 2026 14:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B882749C1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 15:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558478; cv=none; b=oVPQ4+mI8HbHautf99NYLxWC17c/vu7WjmSdPOjCWBvcpiV80MxHHiKtNoyd1yi+Ms3J02XIJZJaYNZ4bN4L7z8E21m60AEQ6Y8Ud5Xb8sF/P61Mhu0fytEDScyeBc6lk/+VxFtpbigYSXgXUVYuBDWiHD/MzzKoK8hn6o4jlH8=
+	t=1784561154; cv=none; b=MzamoPdeVAGfKOiUs2h4ehcX6SLP0kNXA8TY10GopfNudMHopWB4yzg5BTjU16vZu1dzhoeENbSdH/d85dlU//hJBK7GKrprMpH/egz/oN5mhoiGlbhIvDkOJhK54uJEkBKLkyr/V/+e1ZZV9A+w3PVaZXjejXc8dN+oIla50H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558478; c=relaxed/simple;
-	bh=yk0gma+yTZdel+ljE629bRHp848gvZkgeJregd069ZY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JSjDKdwGPTh+NU4kuikxlDIvYwDWaCKWS9RA0WzrMgbAjO2FJdwXyM9iklr6rHabmnfn7ehMksYwAzWnWR4A+F2BjvVXE+JIfZ2Oxf4/gTntawTCuL1CQES3NyCGzkMlcpbzhpMbjmIHr7OF77S0M8J6sXNSEUpplyIXeX1DEZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xk2CwfJ8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784561154; c=relaxed/simple;
+	bh=0cS3VyR4Z8ZEaGQjWxhK6zIOcvyGFbJqVuevUXNKV7k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bm2c9urzm7066G8J3BQU3eEYuD/PhUb62LJPMkjdm10OcfunOcMoKAcfgu8e2v03xOC6OX2ok8dk+tbv3gGCdMIiQ9wl5dtQlNI/1YWQ3fDdSn8GM1gxjz5ONb+26XoDc2E7NY3oFG4cqS9Qj7+7JuQaYaHEf5t1WOYwul8rSa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QE4fe8WW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/ymXAw0O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QE4fe8WW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/ymXAw0O; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xk2CwfJ8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2F51F000E9;
-	Mon, 20 Jul 2026 14:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784558476;
-	bh=Q+hgooHeYYaYv/oiqa66MnVBmMzHrm3fz5OuZIxN9Pg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Xk2CwfJ8HL60DsiwzkTy2dmx4IPJaGvy3clwtXHfOLctb/PRF8MP0UeVkjMrXLpqc
-	 X4WS2W9ztgR4zmOxglKsN2/48CgCJRBHJz+cSbkn4tO4QjGaKM+hOEcqKQw0wDRnWT
-	 1YUs3hTGnP3EmFHMzbNR4oBE0n2xLUnb6tj8NCpjKgFm16oYCurumYshQqUxynh/4d
-	 mbxBldGkcKwB30spX3j5PmyTcJ8UQBYh19Cm1HJ2sVAMTNVNTdn44Lw9deeuDJZv0/
-	 +t5EMQKy+EU8TaYggE9ITM6hRmzQNfyNSb6wj0ah73drSYYTUrn74+PvqOFUFb0kSt
-	 yOrY8tOVutBqA==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 20 Jul 2026 15:38:41 +0100
-Subject: [PATCH v2 15/15] tools/testing/selftests/mm: add
- MAP_PRIVATE-/dev/zero merge tests
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QE4fe8WW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/ymXAw0O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QE4fe8WW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/ymXAw0O"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B13897A024;
+	Mon, 20 Jul 2026 15:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784561150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
+	b=QE4fe8WWZ8TfW7POvCFkGLD85WhH1C6JJobcD26i0CroIHmVB2t5mVsOLzgS4MLis5Q+IN
+	YLKmzDLkl4AImLjSMWTqJ4+ix1wUkATM69pNSaV+7AZSylwkVZxL7H/UeyJW03VrMBys7C
+	v2yjK/R7AQpxWTF7amvLqwDKGNtxUng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784561150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
+	b=/ymXAw0Od7u5OKZ09dS5dzbg23c8LqmzJzteEwKcB5eBalZyjVU/nFG2C+OQfkuL4Mcmjz
+	bwTmkcvlADC6J+AQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784561150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
+	b=QE4fe8WWZ8TfW7POvCFkGLD85WhH1C6JJobcD26i0CroIHmVB2t5mVsOLzgS4MLis5Q+IN
+	YLKmzDLkl4AImLjSMWTqJ4+ix1wUkATM69pNSaV+7AZSylwkVZxL7H/UeyJW03VrMBys7C
+	v2yjK/R7AQpxWTF7amvLqwDKGNtxUng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784561150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vN9biC/t0CAhvU2zJIhYxFG/nqLPZ9deMWJFMTyfvq4=;
+	b=/ymXAw0Od7u5OKZ09dS5dzbg23c8LqmzJzteEwKcB5eBalZyjVU/nFG2C+OQfkuL4Mcmjz
+	bwTmkcvlADC6J+AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DF91779AA;
+	Mon, 20 Jul 2026 15:25:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qZLDE/49XmqBCQAAD6G6ig
+	(envelope-from <krisman@suse.de>); Mon, 20 Jul 2026 15:25:50 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>, Jens Axboe
+ <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>, io-uring@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Aditya
+ Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: Re: [PATCH 0/2] io_uring: add removexattr and listxattr support
+In-Reply-To: <20260720072213.2719-1-aditya.ansh182@gmail.com>
+Organization: SUSE
+References: <20260720072213.2719-1-aditya.ansh182@gmail.com>
+Date: Mon, 20 Jul 2026 11:25:48 -0400
+Message-ID: <87fr1d1y4j.fsf@mailhost.krisman.be>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-b4-scalable-cow-virt-pgoff-v2-15-2d549757a76f@kernel.org>
-References: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
-In-Reply-To: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Miaohe Lin <linmiaohe@huawei.com>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, 
- Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
- Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4278; i=ljs@kernel.org;
- h=from:subject:message-id; bh=yk0gma+yTZdel+ljE629bRHp848gvZkgeJregd069ZY=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLijN7e2KP42mx2UHD46n83TbO3N4hM99A7xOvx7uKNe
- Wn5+TtndZSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiD00ZGVr436T+lTnYI/ak
- hVX305pn4i8W28Q1+z2XUYlY3hn3bC/D/wxL/51db5VPmGhsm7yu7Furo/iUVL5MyQXzWlTV0tf
- u4AcA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.dk,kernel.org,zeniv.linux.org.uk];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	HAS_ORG_HEADER(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,mailhost.krisman.be:mid]
+X-Spam-Level: 
 
-Assert that MAP_PRIVATE-mapped /dev/zero mappings behave like they are
-anonymous.
+Aditya Prakash Srivastava <aditya.ansh182@gmail.com> writes:
 
-We test both unfaulted and faulted/unfaulted merges - each with the regions
-having page offset of 0, which would not merge if the mappings were treated
-as if they were file-backed.
+> This series completes io_uring's xattr feature parity by adding support
+> for the remaining four xattr operations:
+> - IORING_OP_REMOVEXATTR
+> - IORING_OP_FREMOVEXATTR
+> - IORING_OP_LISTXATTR
+> - IORING_OP_FLISTXATTR
 
-With the recent change that makes them behave as pure anonymous mappings,
-the merges should succeed as their page offsets are equal to their virtual
-page offsets.
+It is much cheaper to open a fixed file and use the FD variant of these
+operations in io_uring that it is with a syscall.  Could we just live
+with IORING_OP_FLISTXATTR/IORING_OP_FREMOVEXATTR?
 
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- tools/testing/selftests/mm/merge.c | 104 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+> Historically, applications looking to achieve zero-blocking metadata
+> management had to fall back to synchronous threads to list or prune
+> extended attributes. This is particularly problematic for highly secure
+> layered filesystems, active monitoring engines, or container runtimes
+> utilizing namespace isolation xattrs.
 
-diff --git a/tools/testing/selftests/mm/merge.c b/tools/testing/selftests/mm/merge.c
-index c093e27d0aea..edfbd39ae58e 100644
---- a/tools/testing/selftests/mm/merge.c
-+++ b/tools/testing/selftests/mm/merge.c
-@@ -1362,6 +1362,110 @@ TEST_F(merge, virt_and_page_offset_mismatch_memfd)
- 	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 5 * page_size);
- }
- 
-+TEST_F(merge, merge_map_private_dev_zero_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map two MAP_PRIVATE-/dev/zero VMAs next to one another with offset 0
-+	 * each.
-+	 *
-+	 * With these being made truly anonymous upon mapping, they will
-+	 * merge. If they were file-backed VMAs the page offsets would prevent
-+	 * merge:
-+	 *
-+	 * |-----||------|    |-------------|
-+	 * | ptr || ptr2 | -> |     ptr     |
-+	 * |-----||------|    |-------------|
-+	 */
-+	ptr = mmap(carveout, 5 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		   PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr2 == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	close(fd_zero);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 10 * page_size);
-+}
-+
-+TEST_F(merge, merge_map_private_dev_zero_faulted_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map a MAP_PRIVATE mapping of /dev/zero with page offset 0, then fault
-+	 * it in:
-+	 *
-+	 * |-------------------------------|
-+	 * |           faulted             |
-+	 * |-------------------------------|
-+	 */
-+	ptr = mmap(carveout, 15 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	memset(ptr, 'x', 15 * page_size);
-+
-+	/*
-+	 * Unmap the middle:
-+	 *
-+	 * |---------|           |---------|
-+	 * | faulted |           | faulted |
-+	 * |---------|           |---------|
-+	 */
-+	ASSERT_EQ(munmap(&ptr[5 * page_size], 5 * page_size), 0);
-+
-+	/*
-+	 * Map in a new unfaulted mapping in the middle with page offset 0 -
-+	 * this should merge and would not if it were treated as a file rather
-+	 * than pure anon:
-+	 *
-+	 * |---------|-----------|---------|
-+	 * | faulted | unfaulted | faulted |
-+	 * |---------|-----------|---------|
-+	 */
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE,
-+		    fd_zero, 0);
-+	close(fd_zero);
-+	ASSERT_NE(ptr2, MAP_FAILED);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 15 * page_size);
-+}
-+
- TEST_F(merge_with_fork, mremap_faulted_to_unfaulted_prev)
- {
- 	struct procmap_fd *procmap = &self->procmap;
+Please drop the LLM explanation.  Why is this a problem for
+"highly-secure layered filesystems" in particular?  This enables xattr
+operations in an asynchronous fashion. period.
 
+> To support this cleanly and reuse existing optimal VFS-layer code paths:
+> - Patch 1 makes the necessary listxattr/removexattr VFS-layer helpers
+>   non-static and exposes them in fs/internal.h.
+> - Patch 2 implements the io_uring operational support (opcodes, opdefs,
+>   preparation, and issue handlers) and invokes these exposed helpers.
+>
+> This approach ensures zero code duplication, robust filename handling,
+> and maintains design consistency across both subsystems.
+>
+> Testing
+> =======
+> A self-contained test program is provided below
+
+Please turn it into a proper liburing testcase.
 -- 
-2.55.0
-
+Gabriel Krisman Bertazi
