@@ -1,77 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3751F381AFC;
-	Mon, 20 Jul 2026 17:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FED44685F;
+	Mon, 20 Jul 2026 17:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784569596; cv=none; b=Mj8KEfIlz6FYMg54QaDl/hIkzGJyOx5ufLgwXbajMq5klMhvZuP2WvALVP3bQ19xGHkY7NHOXAb7XJHdoESfrOP9Uxj3CxTPygPEp09i2+3XR8/KI5eHAsf6no9eCpAC3OCUqpVfrok2Tsejyvy/ZdshaN1Tu0hQOmTqbl4wfe4=
+	t=1784569978; cv=none; b=YC973FxtKzlOO5La4ctJgk4IbyRl9Fy8sSzBvXaO9x6hen/shL+mbC9XG9dzuA3D0tceLK9oEiosiBjGc9D4jqB4Tl2AYuaKiT1CCxbEYL2Ja0tiQa+/afdNJpbktN3AEesRBvFXLhEkFpxWsEK/nS7iRQZr6xolrey0H8uJ0NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784569596; c=relaxed/simple;
-	bh=JEVlNj4X9Gmu8sEAJ6Rz14EbWLVHWFQcBLYw4DpOmL4=;
+	s=arc-20240116; t=1784569978; c=relaxed/simple;
+	bh=Esr8WG2LCuWfYVYOsVSLvqLeRBiwB1g1s9ZX6Ca23tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vE5+tVNfoVQbnJ4XdBnC4uhZ3oJUlwv8EpRb69Aa5jEn4IxPoBMy9RdiFJELXmpNRn4xF5cw0oIPfA7ws72Ybua/8wTnAdOQYzOxmlZrOOvBYdmBeHjeMprYtTugfNlMSnXj8HrQkIfn1yB+Sjj5+ZhUEh8ng/HYLFjmgo6wm/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Irc6Ag3p; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=o/1D3xosIH7AbDU4J/ucSDbGokqFLh2aePdJVMerlSn1fLHIa/ZOMAIZerBOWVq8FhInDwX9EZNhB2xpiHKn4JY7PCy4oA986MU9tSVm69EST6RXoR5Uz0fpWOqb2mpRgtac6y1aQ+8IyZaKwc6KJZVzAKHS2RYHy3TJtMaguJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Pgyz1YhP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Irc6Ag3p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCD51F000E9;
-	Mon, 20 Jul 2026 17:46:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784569588;
-	bh=T+oQx5zRk0RramzKmWugrGHNe9r+whhPX6H9rrwLW9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Irc6Ag3p6Ou0huppQ3OOCKCCobwstUzjtQ9fK7JN8D1iuY5sfGRJOdlXfQMU6h4sE
-	 TlV5CgB5vVRjiYthr5OR3PADT3awQQTqqkPx4Mu2jHnRjawjK0bkL0dNFODi2ACIeN
-	 km8/l4duw2F1XhT7TOObevKb6eSPOuUAitwRa6ii02HxHqYNJhgHSQdWzKwfw6fNSL
-	 EyD38PZUZ3fIDrbm5zDQTOzZv/TLvhLe6EPOuxAdxALFG3ZM9/TJfWbtGgjn/hAEsX
-	 Rx1p6VoVy28eFyh8R6/ZRGaTtl5JBw6M6Rx90RNUS2FqvWYzGf37RlqNYcXgffmVpb
-	 5nH0U2OIuHS8Q==
-Date: Mon, 20 Jul 2026 10:46:26 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-fscrypt@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] fscrypt: Add missing superblock check in
- find_or_insert_direct_key()
-Message-ID: <20260720174626.GD1865@quark>
-References: <20260719033120.122120-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Pgyz1YhP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=TR847jKAnLLFsDzkJBbc4JtjIxFdfXosjkxGIzB/344=; b=Pgyz1YhP+1QCN+yvoqIhCvJsgZ
+	Vku7FPO3C6ENm6LxLklvHlmnCqXx5TX224a51MBQhn10peY7b5XcCjBunFF2K6rETht6B+bsYqB4Y
+	5RiaVNBDazOw+qf5wwC/dxGyQuO6wG5lyfPYgPF5sXVHpOBTfnpwtl5j8RxvCPdVfaQ5hIno5b5eX
+	x/aXvnXXmHZ3Rx59JGcV0J+APS8gIb8dAGwuclvNrsFEgeoIqSv1Rb5fjskHhI/LlPQIOH2jf3K6a
+	1uLdDaYaZnMoJoL0qgpL8UH4jF6WLgzXcg2x9KtFJWkm0H1jOwgdWXm4Hua4YKVKC361UVC7KzTSa
+	PMo1oXxg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wls9r-0000000BRPP-0YTi;
+	Mon, 20 Jul 2026 17:52:03 +0000
+Date: Mon, 20 Jul 2026 18:52:02 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Brendan Jackman <brendan.jackman@linux.dev>
+Cc: Brendan Jackman <jackmanb@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Jan Kara <jack@suse.cz>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	iommu@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+Message-ID: <al5gQgnBCjNCSD_4@casper.infradead.org>
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+ <alkLSzQvzT9zJbY1@casper.infradead.org>
+ <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260719033120.122120-1-ebiggers@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
 
-On Sat, Jul 18, 2026 at 08:31:20PM -0700, Eric Biggers wrote:
-> The legacy 'fscrypt_direct_keys' table caches master keys that are used
-> by v1 encryption policies that have FSCRYPT_POLICY_FLAG_DIRECT_KEY.
-> It's just a global table for all filesystems (since the keys can be
-> provided by the legacy process-subscribed keyrings mechanism, which
-> makes it difficult to reuse super_block::s_master_keys).
+On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
+> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
+> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
+> >> There are no external users for this surface, reduce the scope.
+> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
+> >
+> > Hm.  So what we're saying is that allocations which respect mempolicy are
+> > only for core mm and not for, eg, device drivers to do.  Is that really
+> > what we want to say?  I don't think so, because that's inconsistent
+> > with having just widened __filemap_get_folio_mpol to allow guest_memfd
+> > to specify a mempolicy.
 > 
-> The entries in it ('struct fscrypt_direct_key') do contain a super_block
-> pointer, though, for passing to fscrypt_destroy_inline_crypt_key() when
-> the last inode that references the key is evicted.
-> 
-> However, when finding the fscrypt_direct_key for an inode, we weren't
-> actually comparing the super_block pointer.  As a result, inodes with
-> different super_blocks could point to the same fscrypt_direct_key.  That
-> could extend the lifetime of a fscrypt_direct_key beyond the
-> super_block it points to, causing a use-after-free later.
-> 
-> Fix this by creating distinct fscrypt_direct_key structs for distinct
-> super_block structs.
-> 
-> Note that this problem doesn't exist in the v2 policy equivalent
-> ("per-mode keys"), since the data structures there are per super_block.
-> 
-> Fixes: 22e9947a4b2b ("fscrypt: stop holding extra request_queue references")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> Yeah I agree, mempolicy definitely seems like a "public concept".  All
+> I'm saying here is this specific function doesn't have any external
+> users so it doesn't need to be an external header. 
 
-Applied to https://git.kernel.org/pub/scm/fs/fscrypt/linux.git/log/?h=for-current
+I don't think that should be the metric for moving things to internal.h.
+To me, internal.h is a signifier that these interfaces should only be
+used by the MM.  Not that "all current users are within the MM".
 
-- Eric
+> ... With the ulterior motive that I want to add a new parameter to it
+> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
+> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration of
+> [0]. So basically this is
+> about trying to extend the allocator without creating a GFP flag.
+
+Yeah.  I'm not sold on the whole alloc_flags thing, but I'm too busy to
+sit down and think it through properly to get involved in a proper
+argument about how it should work.
+
+My entirely unresearched and ill-considered opinion is that the __GFP
+flags should _be_ the ALLOC flags.  We shoudn't be translating GFP flags
+into ALLOC flags that are what the allocator actually uses, the
+translation should be done at compile time.  So if GFP_KERNEL and
+GFP_ATOMIC need to be composed of different flags with different
+semantics, then we should do that, not invent a different set of flags
+that special people can use for special purposes.
+
+> So I'm envisaging if an external user arises for it later, we'd slap two
+> underscores on the beginning of the internal one, (with the alloc_flags
+> arg), and then bring back the public one as a wrapper.
+> 
+> Does that make sense?
+
+We have a long history of people just moving stuff around in patches
+without knowing what the intent was if it should be moved.
