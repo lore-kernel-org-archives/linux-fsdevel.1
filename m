@@ -1,448 +1,136 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFED3DB999;
-	Mon, 20 Jul 2026 10:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D653EFFA8
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784544228; cv=none; b=HDmSl8Jw6TO6VkT9ul5FpY4IVvuFwhylxRjoxHNyfo19YQ+2Tm8pYYLq7AaaUvjcMhak5rf8LqUrz+AjpP69AFVCx1B/pqUr1b2ZV89nYV923JNsedMx4UvcmTJPBe8pZLV77Qe3ABQx0en3TgwO5ZijvaCxwGn+Ql2Z9MID7Lo=
+	t=1784545360; cv=none; b=IlBdyDRC5DdL7+IVkeENQEXuLGKpxzYMK2ubRFtHRA7+b8sFVGGSkK6o8iadADliGnz20E4GxYzCqk4ctvdi/73UL5o/gItPAfxsWfoYG902HMHgrrZ+8bnmRYf1rIad0PCOjuE9+eonimSfMILq/t1NK1mTxC0IredskF0QI78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784544228; c=relaxed/simple;
-	bh=OSjY/yBLoOPouuxkDklnm8NP7swE9/aGE7jyD806zbQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fUYVCXAmvPPQ/tR3MPGLPz5fS/gYVZWYy/UiqeJ0PFhPYKPn2uXvw/XT4iUBr9wHMFYyKiEi37rh56j8R73QKgTnrKUfRWHgxBGM+8wp53gkWECJXqt2+dC9iQmKVKqWrCBVNqb1LztDW9fIcuGbYijbKjwdRmeJ2buJfVX3kcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=TDgTMASG; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1784545360; c=relaxed/simple;
+	bh=KZtKkBdxdhhxVAYZ/+jsniC0UjdRvcSsYyORgs33LnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpQE/t/fNbIFjZEbTeoZN6r9vBX6SrY1srXP/otWbgQY1VBrwp34Nl4gFgs04qEit2MDNnJj1/F/Xf3ZQQBWeYnfaFVGLLtF0oX3jkq9OA8sZtlAVBc3TqFUhfMkbcY6CZhg9872Lw8BOyqepNQ7/VwUMnxEJZUqUt+3xnPhT8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=a7qlSHkB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mdiCEdAB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SYPCh4W/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vd6mEVVO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="TDgTMASG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=0KnocTSeBHw5oYENnuQRyIIKYC+sMkJg/4yZ6eXlvk8=; b=TDgTMASG6vPzN7ISP2BLrJ4l2N
-	1r4/iRBDZGZBsBqvHOFEcO1mhbYbAw3ERSd3Wr/azLPPN4ILbuJd954KGp4EjcZxyPR+XYimdMbPi
-	DHTSyc3P1t6FfSp3WvFfoKYgZplSqvldXvbk8JkN6z6rigQxSHrYXQDBlYNQC4Cu9Qad2di+RvAY5
-	3hqo4n+2jwl7aN9OPNzj1CH11Px3QtcT+55Mb9PbzHk/w70J1L2JaAUG9aR1S1DWSg0KufdIXYFGR
-	wAbW/5BNyhYwJrFGSXix8oIXswUVj9nruQyPq0itzJ0Vre4Pff5J5KnyZjyTj5AAKYSsG2ueMeCAs
-	/y1KhiMg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wllT8-001Nbl-2f;
-	Mon, 20 Jul 2026 10:43:32 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Mon, 20 Jul 2026 03:39:33 -0700
-Subject: [PATCH v5] fs/pipe: unify the page pools into a single per-pipe
- pool
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="a7qlSHkB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mdiCEdAB";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SYPCh4W/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vd6mEVVO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED28E79EF6;
+	Mon, 20 Jul 2026 11:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784545356;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=a7qlSHkBZSGAhww/XKsyTjzhnNPL0dmZCt8geb7JXcTWaL5DH/AqIjPqYqU5jBQ7DeaqHK
+	G1eQWwkRJGSiGvC7KixQvhkSddx5aMjJNylVBQ+4nKep0HsCVhnI1Y63RIFNBSKBg25vH0
+	GI8tq6Jc9UDoKqPSHfKh0x6vuErS77I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784545356;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=mdiCEdABkidr3CU4n+sx7C9aiItHMfZE5xcZL3RtuffiZ18qVqO6peBEh9OvC8m9L9hqkK
+	swnHQ0VVjVv0pbDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784545354;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=SYPCh4W/VpU+ZdjNU8cHR9FCfFVxGssnHP6eZ6Nm2GhncK6aa2rElmHy4jvkF9FVL23nPG
+	VjWFQhy9NBNCFUdxqqA3zwkdcEiqmsDxmW6uSuh5pzMZ5NQFk69GZ1aaRDuYAKOZltndJn
+	cEs6Ysr53PB8XwQPeC2EBUSS5NIO9Tc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784545354;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=Vd6mEVVOi+NEoFqqHHCJJVlts/tYAiD1noX9A0RGcec9sCUr8nFy12rKuBNkRLiZcGG0Ey
+	QWh5zWS1hl+3wNAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAC10779AA;
+	Mon, 20 Jul 2026 11:02:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HrzGMEoAXmqhAQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Mon, 20 Jul 2026 11:02:34 +0000
+Date: Mon, 20 Jul 2026 13:02:33 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v11 03/20] fsverity: pass digest size and hash of the
+ all-zeroes block to ->write
+Message-ID: <20260720110233.GD10684@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20260710085256.3464201-1-aalbersh@kernel.org>
+ <20260710085256.3464201-4-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-b4-pipe-unification-v5-1-9002a3fe5e6d@debian.org>
-X-B4-Tracking: v=1; b=H4sIAOT6XWoC/23Ny2rDMBBA0V8Rs/YUPSzJ9qr/UbrQY5TMRjZyY
- lqC/70kUJoSb+/i3Bus1JhWmMQNGm288lxhErYTkM6hngg5wyRAS+2k0xZjjwsvhNfKhVO48Fw
- xxODjYLXN5KETsDQq/PVQPz47AWdeL3P7fkw2da+/njv0NoUSszYluKiItH/PFDnUt7md4A5u+
- g/x0h8jGiVStDrmTEQlvyDmGRmPEYMKB5lCITl6N6gXpH9ClDxGelRYilHJjEUl5f4h+77/AMo
- r6ZmGAQAA
-X-Change-ID: 20260625-b4-pipe-unification-aba7b8525de7
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, oleg@redhat.com, mjguzik@gmail.com, 
- josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org
-Cc: axboe@kernel.dk, shakeel.butt@linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12477; i=leitao@debian.org;
- h=from:subject:message-id; bh=OSjY/yBLoOPouuxkDklnm8NP7swE9/aGE7jyD806zbQ=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqXfvPzorQaaNo3Dg5pMPkIbIpQcfqwNPlfHRNW
- BdyB40g0pCJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCal37zwAKCRA1o5Of/Hh3
- bUcaD/9/zzHTWqXaCUr9MIRYE2eS4A5EU3s138TVsEr5rukfQzDWhTB7uXZqpdKpvWXoAKlcTzK
- fpE9SgywEsRH5tCUT63bD2wZO/AXytnFVmFj14+zzds6jLU8CLrohYEOI1sUcpWaUpES039InXJ
- 9RBebETNeKV+GKWusXbRmYOC7KVvEkXUCdHfKcvgJ7xVKxqN8KQFC/Zck05OUynk8KX5ZRbiJBw
- mo1+mLKLy3LY0gw927tnKMik4s8zCCEQREK44L8KQdwxAN1Rf5IMomDm68GjS6n34YmuljOpcFB
- Jkktvx0ksVkdMe0+PEohtsmtcVd5njV3xITFv+JfwsIIwYJpy51OaunYWqfsOMAgQoJq8wqmBwv
- 92OQDWQamWu0XcpcKv1mbivlPisWLq/9WPj7ekuzDOF8SGRuYbvlGy7RDaTJWVRws71YOUeYCKB
- pgYxtvhPzdtg7DHMRyBFzww94Mqy4BY1gZsRQIhLKXgHl4AFt2zhUSvzXaCfftlnhaYyO6BFUVv
- LYq+bYjeEFg1bsI1h3NWRJHee/MPTQP0Yzogj5wCfKUKC3fqmKDapJxyB3rg6D5HchKamBiRPkk
- Y5jZBzemIKQ4UweUaO8ErRCnTETcLcuUjBzvrGKkb1IJ/vJArDzTP5abVOwErTj4WIGxCqSXe1U
- zZvE07edBCogBvw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710085256.3464201-4-aalbersh@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.977];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,suse.com:email,twin.jikos.cz:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
 
-Pipes keep two separate page caches:
- a) The per-pipe, lock-protected tmp_page[2]
- b) An on-stack anon_pipe_prealloc burst pool of up to eight pages
-    filled before the lock
+On Fri, Jul 10, 2026 at 10:52:31AM +0200, Andrey Albershteyn wrote:
+> Let filesystem iterate over hashes in the block and check if these are
+> hashes of zeroed data blocks. XFS will use this to decide if it want to
+> store tree block full of these hashes.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> Acked-by: Eric Biggers <ebiggers@kernel.org>
+> ---
 
-Converge them into a single per-pipe pool (struct anon_pipe_prealloc
-embedded in pipe_inode_info) with the same budget as before: up to
-PIPE_PREALLOC_MAX (8) pages, trimmed back to PIPE_PREALLOC_KEEP (2)
-after each operation. tmp_page[2] is removed.
+For the API update in
 
-Pages are still allocated and freed outside pipe->mutex; only the
-assignment into the pool is done under it. The pool count is also read
-locklessly in the prefill path, so it is annotated __data_racy.
+>  fs/btrfs/verity.c        | 6 +++++-
 
-anon_pipe_prefill_and_lock() tops the pool up to the write's page count
--- and returns with pipe->mutex held, so a write acquires the lock only
-once.
-
-anon_pipe_trim_and_unlock() trims the pool under that same lock before
-dropping it, then frees the excess.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Mateusz Guzik <mjguzik@gmail.com>
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
----
-Changes in v5:
-- mark count as racy (Oleg)
-- Link to v4: https://patch.msgid.link/20260710-b4-pipe-unification-v4-1-ff31c39f1c16@debian.org
-
-Changes in v4:
-- Rename anon_pipe_trim_pool_and_unlock() to anon_pipe_trim_and_unlock()
-  for naming symmetry (Guzik)
-- Link to v3: https://patch.msgid.link/20260709-b4-pipe-unification-v3-1-80cafe097681@debian.org
-
-Changes in v3:
-- Squashes them into a single patch (Guzik)
-- Fold prefill and trim into one mutex acquire per write. (Guzik)
-- Link to v2: https://patch.msgid.link/20260707-b4-pipe-unification-v2-0-eb52bddeeefd@debian.org
-
-Changes in v2:
-- User READ_ONCE to read prealloc.count
-- Trim the pool at the reader side
-- Link to v1: https://lore.kernel.org/r/20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org
----
- fs/pipe.c                 | 171 ++++++++++++++++++++--------------------------
- include/linux/pipe_fs_i.h |  22 +++++-
- 2 files changed, 94 insertions(+), 99 deletions(-)
-
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 429b0714ec575..3c6061cefe791 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -111,75 +111,95 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
- 	pipe_lock(pipe2);
- }
- 
--#define PIPE_PREALLOC_MAX 8
-+static struct page *anon_pipe_prealloc_pop(struct anon_pipe_prealloc *prealloc)
-+{
-+	if (!prealloc->count)
-+		return NULL;
- 
--struct anon_pipe_prealloc {
--	struct page *pages[PIPE_PREALLOC_MAX];
--	unsigned int count;
--};
-+	prealloc->count--;
-+
-+	return prealloc->pages[prealloc->count];
-+}
-+
-+/* Push a page to the prealloc pool. Returns true if added, false if full. */
-+static bool anon_pipe_prealloc_push(struct anon_pipe_prealloc *prealloc,
-+				    struct page *page)
-+{
-+	if (prealloc->count >= PIPE_PREALLOC_MAX)
-+		return false;
-+	prealloc->pages[prealloc->count++] = page;
-+	return true;
-+}
- 
- /*
-- * Pre-allocate pages outside pipe->mutex for multi-page writes.
-- * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
-- * charging; doing it under the mutex stalls a concurrent reader.
-- *
-- * Loop alloc_page() instead of alloc_pages_bulk_*(): the bulk path refuses
-- * __GFP_ACCOUNT under memcg (see commit 8dcb3060d81d "memcg: page_alloc:
-- * skip bulk allocator for __GFP_ACCOUNT") and silently degrades to a single
-- * page. A per-page loop keeps memcg accounting and the task NUMA mempolicy
-- * honoured for every page; the per-call overhead is small compared to the
-- * pipe->mutex hold-time being shrunk. Any shortfall is covered by the
-- * in-lock alloc_page() fallback in anon_pipe_get_page().
-+ * Top up the pipe's own pool, then take pipe->mutex and return with it held.
-+ * The shortfall is allocated outside the lock; the push and the caller's write
-+ * then run under a single lock acquisition, avoiding a separate prefill
-+ * lock/unlock cycle. anon_pipe_get_page() drains the pool instead of allocating
-+ * under the lock.
-  */
--static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *prealloc,
--					size_t total_len)
-+static void anon_pipe_prefill_and_lock(struct pipe_inode_info *pipe, size_t total_len)
- {
--	unsigned int want, i;
--	struct page *page;
--
--	prealloc->count = 0;
--	if (total_len <= PAGE_SIZE)
--		return;
-+	struct page *pages[PIPE_PREALLOC_MAX];
-+	unsigned int want, have, need, n = 0;
- 
- 	want = min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
- 		     PIPE_PREALLOC_MAX);
-+	/* Unlocked read; the pool is refilled under the lock below. */
-+	have = min_t(unsigned int, READ_ONCE(pipe->prealloc.count), want);
-+	need = want - have;
-+
-+	if (!need) {
-+		mutex_lock(&pipe->mutex);
-+		return;
-+	}
-+
-+	while (n < need) {
-+		struct page *page = alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
- 
--	for (i = 0; i < want; i++) {
--		page = alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
- 		if (!page)
- 			break;
--		prealloc->pages[prealloc->count++] = page;
-+		pages[n++] = page;
- 	}
-+
-+	mutex_lock(&pipe->mutex);
-+	while (n && anon_pipe_prealloc_push(&pipe->prealloc, pages[n - 1]))
-+		n--;
-+
-+	/*
-+	 * Just flush any extra page that got affected by the TOCTOU
-+	 * effect
-+	 */
-+	while (n)
-+		put_page(pages[--n]);
- }
- 
--static struct page *anon_pipe_prealloc_pop(struct anon_pipe_prealloc *prealloc)
-+/*
-+ * Called with pipe->mutex held. Trim the pool down to PIPE_PREALLOC_KEEP under
-+ * the lock, drop it, then free the excess outside the critical section.
-+ */
-+static void anon_pipe_trim_and_unlock(struct pipe_inode_info *pipe)
- {
--	if (!prealloc->count)
--		return NULL;
-+	struct page *excess[PIPE_PREALLOC_MAX];
-+	unsigned int nexcess = 0;
- 
--	prealloc->count--;
-+	while (pipe->prealloc.count > PIPE_PREALLOC_KEEP)
-+		excess[nexcess++] = anon_pipe_prealloc_pop(&pipe->prealloc);
-+	mutex_unlock(&pipe->mutex);
- 
--	return prealloc->pages[prealloc->count];
-+	while (nexcess)
-+		put_page(excess[--nexcess]);
- }
- 
--static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
--				       struct anon_pipe_prealloc *prealloc)
-+static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
- {
- 	struct page *page;
- 
--	/* Drain prealloc first to keep tmp_page[] hot for later small writes. */
--	page = anon_pipe_prealloc_pop(prealloc);
-+	/* Drain the prealloc pool before allocating. Called with mutex held. */
-+	page = anon_pipe_prealloc_pop(&pipe->prealloc);
- 	if (page)
- 		return page;
- 
--	for (int i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
--		if (pipe->tmp_page[i]) {
--			page = pipe->tmp_page[i];
--			pipe->tmp_page[i] = NULL;
--			return page;
--		}
--	}
--
- 	/* FWIW: This is called with pipe->mutex held */
- 	return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
- }
-@@ -187,48 +207,11 @@ static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
- static void anon_pipe_put_page(struct pipe_inode_info *pipe,
- 			       struct page *page)
- {
--	if (page_count(page) == 1) {
--		for (int i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
--			if (!pipe->tmp_page[i]) {
--				pipe->tmp_page[i] = page;
--				return;
--			}
--		}
--	}
--
--	put_page(page);
--}
--
--/*
-- * Stash leftover prealloc pages in tmp_page[] so the next write to this
-- * pipe gets a hot page without entering the allocator.
-- */
--static void anon_pipe_refill_tmp_pages(struct pipe_inode_info *pipe,
--				       struct anon_pipe_prealloc *prealloc)
--{
--	int i, idx;
--
--	if (!prealloc->count)
-+	if (page_count(page) == 1 &&
-+	    anon_pipe_prealloc_push(&pipe->prealloc, page))
- 		return;
- 
--	for (i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
--		if (pipe->tmp_page[i])
--			continue;
--		if (!prealloc->count)
--			return;
--		idx = --prealloc->count;
--		pipe->tmp_page[i] = prealloc->pages[idx];
--		prealloc->pages[idx] = NULL;
--	}
--}
--
--/* Runs after mutex_unlock() to keep put_page() out of the critical section. */
--static void anon_pipe_free_pages(struct anon_pipe_prealloc *prealloc)
--{
--	while (prealloc->count) {
--		prealloc->count--;
--		put_page(prealloc->pages[prealloc->count]);
--	}
-+	put_page(page);
- }
- 
- static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
-@@ -485,7 +468,8 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
- 	}
- 	if (pipe_is_empty(pipe))
- 		wake_next_reader = false;
--	mutex_unlock(&pipe->mutex);
-+	/* Consumed buffers may have refilled the pool; trim it and unlock. */
-+	anon_pipe_trim_and_unlock(pipe);
- 
- 	if (wake_writer)
- 		wake_up_interruptible_sync_poll(&pipe->wr_wait, EPOLLOUT | EPOLLWRNORM);
-@@ -524,7 +508,6 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- {
- 	struct file *filp = iocb->ki_filp;
- 	struct pipe_inode_info *pipe = filp->private_data;
--	struct anon_pipe_prealloc prealloc;
- 	unsigned int head;
- 	ssize_t ret = 0;
- 	size_t total_len = iov_iter_count(from);
-@@ -548,9 +531,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 	if (unlikely(total_len == 0))
- 		return 0;
- 
--	anon_pipe_get_page_prealloc(&prealloc, total_len);
--
--	mutex_lock(&pipe->mutex);
-+	anon_pipe_prefill_and_lock(pipe, total_len);
- 
- 	if (!pipe->readers) {
- 		if ((iocb->ki_flags & IOCB_NOSIGNAL) == 0)
-@@ -607,7 +588,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 			struct page *page;
- 			int copied;
- 
--			page = anon_pipe_get_page(pipe, &prealloc);
-+			page = anon_pipe_get_page(pipe);
- 			if (unlikely(!page)) {
- 				if (!ret)
- 					ret = -ENOMEM;
-@@ -671,11 +652,9 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 		wake_next_writer = true;
- 	}
- out:
--	anon_pipe_refill_tmp_pages(pipe, &prealloc);
- 	if (pipe_is_full(pipe))
- 		wake_next_writer = false;
--	mutex_unlock(&pipe->mutex);
--	anon_pipe_free_pages(&prealloc);
-+	anon_pipe_trim_and_unlock(pipe);
- 
- 	/*
- 	 * If we do do a wakeup event, we do a 'sync' wakeup, because we
-@@ -956,10 +935,8 @@ void free_pipe_info(struct pipe_inode_info *pipe)
- 	if (pipe->watch_queue)
- 		put_watch_queue(pipe->watch_queue);
- #endif
--	for (i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
--		if (pipe->tmp_page[i])
--			__free_page(pipe->tmp_page[i]);
--	}
-+	for (i = 0; i < pipe->prealloc.count; i++)
-+		__free_page(pipe->prealloc.pages[i]);
- 	kfree(pipe->bufs);
- 	kfree(pipe);
- }
-diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
-index 7f6a92ac97047..9e8b60ad806a9 100644
---- a/include/linux/pipe_fs_i.h
-+++ b/include/linux/pipe_fs_i.h
-@@ -14,6 +14,9 @@
- #define PIPE_BUF_FLAG_LOSS	0x40	/* Message loss happened after this buffer */
- #endif
- 
-+#define PIPE_PREALLOC_MAX	8	/* max pages in prealloc pool */
-+#define PIPE_PREALLOC_KEEP	2	/* keep at least this many after trim */
-+
- /**
-  *	struct pipe_buffer - a linux kernel pipe buffer
-  *	@page: the page containing the data for the pipe buffer
-@@ -58,6 +61,21 @@ union pipe_index {
- 	};
- };
- 
-+/**
-+ *	struct anon_pipe_prealloc - per-pipe page preallocation pool
-+ *	@pages: array of cached pages (pool)
-+ *	@count: number of pages currently in the pool
-+ *
-+ * Each pipe keeps a small bounded pool of preallocated pages to reduce
-+ * allocation overhead during writes. The pool is bounded at PIPE_PREALLOC_MAX
-+ * and trimmed down to PIPE_PREALLOC_KEEP after a write completes.
-+ */
-+struct anon_pipe_prealloc {
-+	struct page *pages[PIPE_PREALLOC_MAX];
-+
-+	unsigned int __data_racy count;
-+};
-+
- /**
-  *	struct pipe_inode_info - a linux kernel pipe
-  *	@mutex: mutex protecting the whole thing
-@@ -68,7 +86,7 @@ union pipe_index {
-  *	@max_usage: The maximum number of slots that may be used in the ring
-  *	@ring_size: total number of buffers (should be a power of 2)
-  *	@nr_accounted: The amount this pipe accounts for in user->pipe_bufs
-- *	@tmp_page: cached released page
-+ *	@prealloc: per-pipe page preallocation pool
-  *	@readers: number of current readers of this pipe
-  *	@writers: number of current writers of this pipe
-  *	@files: number of struct file referring this pipe (protected by ->i_lock)
-@@ -99,7 +117,7 @@ struct pipe_inode_info {
- #ifdef CONFIG_WATCH_QUEUE
- 	bool note_loss;
- #endif
--	struct page *tmp_page[2];
-+	struct anon_pipe_prealloc prealloc;
- 	struct fasync_struct *fasync_readers;
- 	struct fasync_struct *fasync_writers;
- 	struct pipe_buffer *bufs;
-
----
-base-commit: b9810cd75b9fb56a3425d391cba3f608502bd474
-change-id: 20260625-b4-pipe-unification-aba7b8525de7
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+Acked-by: David Sterba <dsterba@suse.com>
