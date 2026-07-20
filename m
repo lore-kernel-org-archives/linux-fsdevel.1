@@ -1,53 +1,64 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E974404BF0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A086406816
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Jul 2026 11:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784548191; cv=none; b=g46k3Ux1ZcJIAeSM0r8Q7ThdVvcKgXD3mrKnzlQlp4a9KLYWlr3X5E4nk9Fhhk3kApUWNFv9vyJ9rMaUfzfXJFmvouozjca6PmsKmQyyZ6VDU0hASMK1ZhOSV4sWH4wFEEN7NNf70cgEQPqxhVj4rYnHT9SIGEOxYonN4OnQgog=
+	t=1784548410; cv=none; b=JCE/Jjuj8gfSm7baNND+GK5BCBfJ4OAQvYSnW42XAKxcxAM5nRKDuRWDo2oihswJg+/p3Laxo6HEurBlHqa/MO5jEuy/PEbDfLGmxqKq3RqzMs8DLHJSrAoGS/OdivTtoYQIsds4zfzgPhtSyct/zMITLGCSbL166PnutFjwbGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784548191; c=relaxed/simple;
-	bh=xiy03oNamLsbQw5D4+EFCCgfY137mB+zMVhxt4Gdijo=;
+	s=arc-20240116; t=1784548410; c=relaxed/simple;
+	bh=VHEQeDQcQ8hQNSKVqUBJLGtp3S5o4yFUb3C9FREoZvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IdOhyMU6/2scIhUbhSJYGkpPpsA2+oQBGJxW7QCPMc12FhMh95nazrXJ/a2ovMQZ9rEAu/x3GfPoZXSk4NGdED0C62ABu5gH4ciBM3EC7NXNRRPS5pPaCVSfgNK/i8O9PCdUhSQZqgxQGyMmbwIszGugcdlwasgQ//fImid92gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=VM1pZZxA; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 Content-Type:Content-Disposition:In-Reply-To; b=aRuPEqoHiA0i6jD0T8RA8P3CDLDzHh7QW5pp7neVCTvDKsWjDunkb3AK/YqTt9KJ2pXXLx8LfFcIvivU7ZggP46H6Ws6ac5HqqQ3S6Kg0WWlFlQ3wqfraonXl4DZ6qQZ0YstZxsDofyl8URFUYsYxjYq/vdvQhVjYKywkQjrQNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GjIM38P2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="VM1pZZxA"
-X-KPN-MessageId: 167054cf-8431-11f1-861c-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 167054cf-8431-11f1-861c-005056aba152;
-	Mon, 20 Jul 2026 13:49:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=GM15Hw/y8vAWVd9RDd60/VGhkONeITiDiE95kkjf3Mc=;
-	b=VM1pZZxAUPiKXpBIDPlHuAN4E6lTTpp21Luz3f2RNQm6zQTTZ66lzTxY1u1rAwW7hg96HV6j6/BeO
-	 lD8QXsONhd//dMAzK1t1cjHtSxy2dTT/p2+Jy9RGwkKPY3/JQsZH1+g/PTioNkz24jJQfL6R30gID3
-	 Yi2NEO5zihsWZmVOgrVyG8EigXuaJqQEwkvI03/vkgfDHPbmnHbYKetqV/cPvzfPrp+Ek7ag7PEl8o
-	 01JhDpR4/W+zQDtfLdN4fL2e1brXsyZeRxvdD190PdZQ2YrcicPSkr3o8g0jb6E6XKqkOUvYFYbSfJ
-	 3SCYZL0Hj82S2wYg2NQfcLkWUbaznCA==
-X-KPN-MID: 33|jXjz54IGHVWI+wMXj4gUEVc+kRHHpY+7zXcevBfzK3/+kdtkZZbV5437DpqzDIs
- BZ45Ibda5XNb7uzftKhNWwhBpuzcicn12uvhLa5bQfWc=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|6UOv8fBLdNSUqeKJnEzT2nVqgCpPoEpvs1xRt8hK6sdCDaSIXd6IEA8w7aVPYBA
- caYO0rlbT6Z7X94HZf1/UYA==
-Received: from localhost (unknown [178.231.6.170])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 16403953-8431-11f1-9212-005056ab1411;
-	Mon, 20 Jul 2026 13:49:38 +0200 (CEST)
-Date: Mon, 20 Jul 2026 13:51:06 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mount: remove redundant panic() in mnt_init()
-Message-ID: <al4K4VVOtKuXxwDk@daedalus>
-References: <20260720112331.1096530-1-hamzamahfooz@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GjIM38P2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784548408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bX1qciW3YToqJ7WN/x28/hmdDw58K7wiF7yPElpwvmk=;
+	b=GjIM38P2VwSFOSgCfYiMmgQyF/1+MjX/3mwgVf/pmHrej6f/hg6DQHiRyCM2RezmM1JFct
+	g+b9meRYhQHiF602uIQzdul0Ak2nJwgi4ce8AVxMfuFowkWDTGs8qRNIm4wcBe3eAneCr3
+	DfX5jl2JHaunVBjl1rpcBpW9akp4fDU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-110-EFqhOOtyPP2lh3AGPOLUMg-1; Mon,
+ 20 Jul 2026 07:53:23 -0400
+X-MC-Unique: EFqhOOtyPP2lh3AGPOLUMg-1
+X-Mimecast-MFC-AGG-ID: EFqhOOtyPP2lh3AGPOLUMg_1784548401
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 72C361956070;
+	Mon, 20 Jul 2026 11:53:20 +0000 (UTC)
+Received: from fedora (unknown [10.44.49.164])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 54051300418D;
+	Mon, 20 Jul 2026 11:53:15 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon, 20 Jul 2026 13:53:20 +0200 (CEST)
+Date: Mon, 20 Jul 2026 13:53:13 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Breno Leitao <leitao@debian.org>, Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, mjguzik@gmail.com,
+	josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org,
+	axboe@kernel.dk, shakeel.butt@linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v4] fs/pipe: unify the page pools into a single per-pipe
+ pool
+Message-ID: <al4MKZc7AqcUUN5i@redhat.com>
+References: <20260710-b4-pipe-unification-v4-1-ff31c39f1c16@debian.org>
+ <alpWISUKMvqrp5ET@redhat.com>
+ <al3w54SsdZEjKVj4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,38 +67,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260720112331.1096530-1-hamzamahfooz@linux.microsoft.com>
+In-Reply-To: <al3w54SsdZEjKVj4@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Mon, Jul 20, 2026 at 07:23:31AM -0400, Hamza Mahfooz wrote:
-> Since at least as far back as commit 0818bf27c05b ("resizable
-> namespace.c hashes"), we call alloc_large_system_hash() in
-> mnt_init() which already panics if the table is NULL.
-> 
-> Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> ---
->  fs/namespace.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index fe919abd2f01..43de01ce023e 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -6248,9 +6248,6 @@ void __init mnt_init(void)
->  				HASH_ZERO,
->  				&mp_hash_shift, &mp_hash_mask, 0, 0);
->  
-> -	if (!mount_hashtable || !mountpoint_hashtable)
-> -		panic("Failed to allocate mount hash table\n");
-> -
->  	kernfs_init();
->  
->  	err = sysfs_init();
-> -- 
-> 2.55.0
-> 
+On 07/20, Breno Leitao wrote:
+>
+> On Fri, Jul 17, 2026 at 06:19:45PM +0200, Oleg Nesterov wrote:
+> >
+> > And READ_ONCE() is enough correctness wise.
+> >
+> > But AFAIK it is not enough to make KCSAN happy. anon_pipe_prealloc_pop/push
+> > which modify ->count under pipe->mutex need WRITE_ONCE() to please KCSAN.
+> >
+> > Or anon_pipe_prefill_and_lock() can use data_race(READ_ONCE()).
+>
+> I am not sure that is correct. I got the impression if the reading side
+> has READ_ONCE or data_race(), that is enough to please KCSAN.
 
-There isn't a reasonable way to return from this, and I see the other
-uses of alloc_large_system_hash() also don't check for NULL, so this
-is an OK clean-up.
+And quite possibly I am wrong! I was never able to convince myself I
+understand the should_watch() logic. See below.
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> I will respin with, an additional "__data_racy" attribute in `count`
+>
+>   struct anon_pipe_prealloc {
+>     struct page *pages[PIPE_PREALLOC_MAX];
+>     unsigned int __data_racy count;
+
+Ah! I didn't even know we have __data_racy. Much better than what I suggested.
+I see you have already sent V5 and it looks good to me.
+
+----------------------------------------------------------------------------
+But just for my education, let me abuse this thread and ask KCSAN maintainers
+to shed a light...
+
+Marco, Dmitry. to simplify, suppose we have something like
+
+	int DATA;
+	struct mutex LOCK;
+
+	void set(void)
+	{
+		mutex_lock(&LOCK);
+		DATA++;
+		mutex_unlock(&LOCK);
+	}
+
+	int get(void)
+	{
+		return READ_ONCE(DATA);
+	}
+
+My understanding is that KCSAN can complain if get() races with set(),
+READ_ONCE() in get() is not enough.
+
+Is it correct?
+
+Oleg.
+
