@@ -1,92 +1,106 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF5E30BF6D;
-	Tue, 21 Jul 2026 13:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A91A36DA0B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 13:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784640390; cv=none; b=ipoE0gGtEjJKuy2TvAGZLbNIVfVO2mPg43KNXEeuwJPs5dNCm9wCK27dxsb9WAQwVk8XkSnLnZC4T5fqzca6vrsxZuFwcG3/5NGzNe00rtuIkTXvECQ3AxcBbV9jYbE725Stz9/oTKXXdDMYOkGXWnxXhnJrtBzcUSl5BQzCg4A=
+	t=1784641226; cv=none; b=pWZI4bQx+4kRrTP6GsybiLDrhTAHu1eZtdcKY5VlYb5Gn2Do5ZzuSF+LFlNqnVqr2hSK9M0E/yfLRSdDOfdJ4+8GLfZfwFrxdRfxPPoxbZK9m//1HkEnOGrtp6QmDi8pEWqmYKDCK/A9Edhkg9OSPONHcqBbiGGxORjaRTl7pzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784640390; c=relaxed/simple;
-	bh=Hc9kzoQ9rFyyW8XHyUKHR1d2Dsj44oWw597yXAQp+uc=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=S6qY3atJleIeiRt1c/1j6Bspp/lblM9kVDLGTGnkrV70y8vZeSQWSOC5sjHNYs32T4w9s/Zx1YoiYRttA64c/j3yTGNu7/DKJ7XfzTjMvTvM3nkFemGh4/hx3mTbf9EKVGJmPsiWAaBffG2a/6uaeoFw83HsaC70+F7o4HVXhcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Uj1oBLm2; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1784641226; c=relaxed/simple;
+	bh=Hm96/DXpJkXjSNGuUzX/OuEFvS8gRRl0SWjmUCj1iBI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m1zK2w/D/M7rk+CwHymvA0mf88JHIHFDYHI1yhBBhuiRoZa9JUQns+CVAYZjqHRujQ5zydhuAivqdvbZYh172Qer6eN0SBbYqCSvKXVxBLXF7+ra5eXXFE0UvT/HTYEa0UKyE6qCVb8zXiRdA+AGNPQFC/h/TYVLOrp0EjmQCxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDmBmQ58; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Uj1oBLm2"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=9hgq2bOlQdWO8j42MpZzQv278XodO4khDw3hgg8g+EE=;
-	b=Uj1oBLm2piRS2jcNrVUUdAj64NR7QB2AifXV29XsiXtXTCt8/PmMpEq+nwr+s8iX+TO4SVXy8
-	IusYOu5A+t3ilK/5m8l2t6qY1s1aIGuzFz4Xh3ZFK7Gj4qZgTf2WIrFuLXxQw3LkIeDfDM4c4Ja
-	qOFsHfRNHFyUbXAQwQgO+MU=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4h4HwN5h1CzKmTp;
-	Tue, 21 Jul 2026 21:16:52 +0800 (CST)
-Received: from whupemo200006.china.huawei.com (unknown [7.152.185.252])
-	by mail.maildlp.com (Postfix) with ESMTPS id 668704056C;
-	Tue, 21 Jul 2026 21:26:17 +0800 (CST)
-Received: from [10.174.178.219] (10.174.178.219) by
- whupemo200006.china.huawei.com (7.152.185.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 21 Jul 2026 21:26:10 +0800
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-To: Gregory Price <gourry@gourry.net>
-CC: <linux-mm@kvack.org>, <Zhigang.Luo@amd.com>, <arun.george@samsung.com>,
-	<balbirs@nvidia.com>, <brendan.jackman@linux.dev>, <apopple@nvidia.com>,
-	<alucerop@amd.com>, <matthew.brost@intel.com>, <akpm@linux-foundation.org>,
-	<david@kernel.org>, <ljs@kernel.org>, <liam@infradead.org>,
-	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
-	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
-	<djbw@kernel.org>, <vishal.l.verma@intel.com>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <osandov@osandov.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <jackmanb@google.com>, <hannes@cmpxchg.org>,
-	<ziy@nvidia.com>, <pbonzini@redhat.com>, <osalvador@suse.de>,
-	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
-	<ying.huang@linux.alibaba.com>, <kasong@tencent.com>, <qi.zheng@linux.dev>,
-	<shakeel.butt@linux.dev>, <baohua@kernel.org>, <axelrasmussen@google.com>,
-	<yuanchu@google.com>, <weixugc@google.com>, <yury.norov@gmail.com>,
-	<linux@rasmusvillemoes.dk>, <longman@redhat.com>, <ridong.chen@linux.dev>,
-	<tj@kernel.org>, <mkoutny@suse.com>, <sj@kernel.org>, <jgg@ziepe.ca>,
-	<jhubbard@nvidia.com>, <peterx@redhat.com>, <baolin.wang@linux.alibaba.com>,
-	<npache@redhat.com>, <ryan.roberts@arm.com>, <dev.jain@arm.com>,
-	<lance.yang@linux.dev>, <usama.arif@linux.dev>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <roman.gushchin@linux.dev>,
-	<muchun.song@linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <driver-core@lists.linux.dev>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-debuggers@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <cgroups@vger.kernel.org>, <damon@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, <kernel-team@meta.com>
-References: <20260720193431.3841992-1-gourry@gourry.net>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <a9c52bb6-5e04-1d41-913a-685a7be3fad4@huawei.com>
-Date: Tue, 21 Jul 2026 21:26:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDmBmQ58"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DC31F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 13:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784641225;
+	bh=CdJj5nKqEObBB1xkwyRi/zaKZ4Wn7rvGnIYm7xgOmmg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IDmBmQ58clmBlLaJI3oGiupJG7807RCv0Je6/sewvX5+psSowjwboZS7z0twCZO7y
+	 svGL0LYfACfLTT7pbbWO1c6HzBRo8hhJmUXhNeqEUrilfG4Jt+2AmjoQTjjrsNAFS4
+	 7SRFo7TdQrSsiE4kJdW4fhfMK2v5ku4MHMCyFrT6Z6a+5iIPw6FVrodFboa0i8JdRA
+	 +3q4KmNksBFzvKyt4Oc+w6op4eBruO+049kmcTZRgfL0YTHeH25nsZHagI0+9vwZkj
+	 DSks8iCyezNZA+qchJwRYM1RWkwN7W8N/Iu1bKwP3k14Q5WGNm3sn5jl04U0T3RMrw
+	 3uqt0nv0D5Jhg==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1691e4ec40so797404466b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 06:40:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rqq1Nru92RM7zCTKgQ92JZ6jTEYv8lM1PS8WZTU1WSQmNiqlqtmgN59G1EYjmiwDKnU0oAmSDN4u6eflVK/@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKU2qP0TtPkOeDHoD7z874CRG/q9ugYwcA0lRtLk4Dv/EujaWa
+	gRkn+9niRcG6lLqjhnS6zWte95znoax0bDVFdVut5I36XOZD2qCVh+iZZnQPc9CqWhn3+EJgs10
+	L5UBRO8nyEiKh7v/mpVvt3UH7agZX7RI=
+X-Received: by 2002:a17:907:72cd:b0:c16:3187:997e with SMTP id
+ a640c23a62f3a-c16b46ade61mr722490666b.7.1784641223892; Tue, 21 Jul 2026
+ 06:40:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- whupemo200006.china.huawei.com (7.152.185.252)
+References: <4EAAF864-52A2-429F-A7F1-46228DDE6884@nozominetworks.com>
+In-Reply-To: <4EAAF864-52A2-429F-A7F1-46228DDE6884@nozominetworks.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 21 Jul 2026 22:40:11 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8UG2iEWppy=LWH=1x3iTybqKg6XRjQLv7tyaagDOYnQA@mail.gmail.com>
+X-Gm-Features: AUfX_mw7kg5Yh_oMLiKw7uaHvjgvVHhpl6vGb6wp8elarrcqQEFVCWkj8T_U6us
+Message-ID: <CAKYAXd8UG2iEWppy=LWH=1x3iTybqKg6XRjQLv7tyaagDOYnQA@mail.gmail.com>
+Subject: Re: [PATCH v2] fs/ntfs: Fix index_root heap OOB write in ntfs_ir_to_ib()
+To: =?UTF-8?Q?Alexandro_Cal=C3=B2?= <alexandro.calo@nozominetworks.com>
+Cc: "hyc.lee@gmail.com" <hyc.lee@gmail.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/7/21 3:33, Gregory Price wrote:
->   KVM: guest_memfd: bind backing memory to a NUMA node at creation
->   KVM: selftests: add a guest_memfd FLAG_BIND_NODE test
-
-I can't find the last patch in my inbox or on the lore. Not sure what went
-wrong.
-
-Thanks,
-Zenghui
+On Fri, Jul 17, 2026 at 7:52=E2=80=AFPM Alexandro Cal=C3=B2
+<alexandro.calo@nozominetworks.com> wrote:
+>
+> From: Alexandro Calo <alexandro.calo@nozominetworks.com>
+> Date: Fri, 17 Jul 2026 12:14:51 +0200
+> Subject: [PATCH v2] fs/ntfs: Fix index_root heap OOB write in ntfs_ir_to_=
+ib()
+>
+> ntfs_ir_to_ib copies all entries from index_root into a freshly allocated
+> index_block_size-byte buffer without verifying that the entries fit in th=
+e
+> available space. The entries in index_root may be larger than the usable
+> entry space in the index block.
+>
+> This can cause OOB writes past the end of the allocation.
+>
+> The validator ntfs_index_root_inconsistent() checks that entries are
+> self-consistent within the IR value, but never cross-checks them against
+> index_block_size. There is no bounds check in ntfs_ir_to_ib() before the
+> memcpy.
+>
+> Fixing this at the sink in ntfs_ir_to_ib() since
+> ntfs_index_root_inconsistent() validates the logical consistency of
+> index_root as a structure and a root with large entries is a structurally
+> valid root. The bug is a size conflict of ntfs_ir_to_ib().
+> Also, the validator is called once per inode load in
+> ntfs_read_locked_inode() while ntfs_ir_to_ib() is only called during a
+> reparent, a check there adds no overhead to the common path.
+> Moreover, even a future call path that bypasses the validator would still
+> be protected.
+>
+> With NULL as first parameter of ntfs_error(), the volume error flag is
+> never set by this call, so the device name will be absent from the error
+> message. In any case, that the caller, ntfs_ir_reparent(), prints an erro=
+r
+> message that includes the device name on NULL returns.
+> I think this is the best solution available without adding
+> 'struct super_block *sb' as a parameter to ntfs_ir_to_ib().
+>
+> This heap out-of-bounds write is triggered by a crafted filesystem image,
+> which is not in the kernel threat model, anyway, fixing memory errors wou=
+ld
+> be nice to keep  things secure.
+>
+> Signed-off-by: Alexandro Calo <alexandro.calo@nozominetworks.com>
+Applied it to #ntfs-next.
+Thanks!
