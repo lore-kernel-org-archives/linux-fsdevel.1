@@ -1,141 +1,122 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E311B40A93C;
-	Tue, 21 Jul 2026 06:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97634435538
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 07:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784616130; cv=none; b=qLIQLMzunnjJKjTM/K2GSwWAtcqv6S1bbYu8ul31Hh3P3vRPj3S7+EqxeVVqTP/iwVPW5+ibLPpavb+QnHCW0kpRYlCPsbGEskmk85+W6NMB4rihIkgPbmpC2XityBzb+F9kBypLpcKLHbEh/g3tj6af8f2xhSHI4Hd+sEaWxhQ=
+	t=1784619394; cv=none; b=IrmY4i4LK29KzRhaxUNNL31tNnMPsHy6AJOKNa04VhXobnD1Q3cTHWxDFlYJBCVSo9WdIxKaWV9H7LKXjuSe3ZxHSC/oMG9e14X3Sv7CNj0pY2/LG+VZpChhTfsB6g6xDfrWG+AJvBge6Fg0Qm/mdqcF/+lc4s79Vj7uhixYla4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784616130; c=relaxed/simple;
-	bh=MUp3M/PRoxdjmGgF6XS/lYG99xxHw/qTlcC3+dp613I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V3rvVDZ25h2nG4ArimWjXsSKpkYV8J+HsPeWE2hxUGM0jlCS6jQndr+X1Z1qzjj1S1urZ4RxgIsqsES1StRf1cstHlVKuwrBooE3/z+ZoibmXkr4dd3F17G71bccaNBzBhii1sFgTPVojSKReOz9/Q2S4Ii5RIf8an1CWIzqA80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 4542024884cf11f1aa26b74ffac11d73-20260721
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:dfec23a3-6eaa-487a-acdf-dcc4697b58c2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:c9cb3be94a39ecf3f972ca8e550d3dec,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|16|5
-	0,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
-	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 4542024884cf11f1aa26b74ffac11d73-20260721
-X-User: chenchangcheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <chenchangcheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 469598887; Tue, 21 Jul 2026 14:41:58 +0800
-From: Chen Changcheng <chenchangcheng@kylinos.cn>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ccc194101@163.com,
-	Chen Changcheng <chenchangcheng@kylinos.cn>
-Subject: [PATCH] fs/super: fix emergency thaw double-unlock of s_umount
-Date: Tue, 21 Jul 2026 14:41:40 +0800
-Message-Id: <20260721064140.152305-1-chenchangcheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1784619394; c=relaxed/simple;
+	bh=F+zIuYMLZHPKpAkyM+TxujFov3y0nB+zLLs3dxYlli8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BCy02GbvkwOv1wwVP3do5Geydlvv76KlzOkXyWMcy81iY6aXp7UhAzk2n50Y77E7cmi77p8jEBrKnxU6HoykNKsmQB3RhzlaZek5NKX2U4vqZDzIWMAUDZwfuXrMckGBnNfCFTwpjJFUSQmVsFKjNQz4OGOsAXJ6jmU3d7+f34U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Fa3uiP/Y; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Fa3uiP/Y"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1784619388; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=XDf6InHoRj8TLJnw9Ijddc+FH8m20sSC2mTiocxxWy8=;
+	b=Fa3uiP/YJuwL2mQ5DhutghGzNjoxR2WA6nPrsqXb1nol0Nn7FQtmqG9IhgZU872XAfc7BW4RNnV9SyYnzlDaxo4ecbxjnKwvAcZD+zx/45WpCs/O+9mzXa1rrt2vR+/VwaX5iGictjscmoD0u1OnKixlsQACVoco5fHXnLJKjls=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0X7Z7ZTu_1784619385;
+Received: from 30.221.131.234(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X7Z7ZTu_1784619385 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 21 Jul 2026 15:36:26 +0800
+Message-ID: <8c57e813-f23d-4947-a1d4-9b29d5ccd3a7@linux.alibaba.com>
+Date: Tue, 21 Jul 2026 15:36:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/20] ext4: convert iomap ops to ->iomap_next()
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ Christian Brauner <brauner@kernel.org>, changfengnan@bytedance.com,
+ kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+ David Sterba <dsterba@suse.com>, Dan Williams <djbw@kernel.org>,
+ Gao Xiang <xiang@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Andreas Gruenbacher
+ <agruenba@redhat.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+ Hyunchul Lee <hyc.lee@gmail.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>
+References: <20260720210202.1163861-1-joannelkoong@gmail.com>
+ <20260720210202.1163861-9-joannelkoong@gmail.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260720210202.1163861-9-joannelkoong@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-do_thaw_all() iterates over all superblocks via __iterate_supers()
-with SUPER_ITER_EXCL, which acquires s_umount exclusively before
-calling the callback and releases it afterwards. However, the
-callback do_thaw_all_callback() calls thaw_super_locked() which
-unconditionally releases s_umount on every code path. This results
-in a second unlock attempt in __iterate_supers() that corrupts the
-rwsem state, triggering a DEBUG_RWSEMS warning:
+On 2026/7/21 05:01, Joanne Koong wrote:
+> Convert ext4 iomap_ops to the new ->iomap_next() callback. Each callback is
+> generated with the DEFINE_IOMAP_ITER_NEXT() macro, which wraps the
+> iomap_iter_next() helper to finish the previous mapping if needed and
+> produce the next one. No functional changes are intended.
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-[  182.601148] sysrq: Emergency Thaw of all frozen filesystems
-[  182.601865] ------------[ cut here ]------------
-[  182.602375] DEBUG_RWSEMS_WARN_ON((rwsem_owner(sem) != current) && !rwsem_test_oflags(sem, RWSEM_NONSPINNABLE)): count = 0x0, magic = 0xffff99b1011e5870, owner = 0x0, curr 0xffff99b101b06c80, list not empty
-[  182.603817] WARNING: kernel/locking/rwsem.c:1412 at up_write+0xa3/0x170, CPU#2: kworker/2:1/53
-[  182.604578] Modules linked in:
-[  182.604864] CPU: 2 UID: 0 PID: 53 Comm: kworker/2:1 Not tainted 7.2.0-rc4-00001-gbd3bd93ea98a-dirty #4 PREEMPT(lazy)
-[  182.605711] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1kylin1 04/01/2014
-[  182.606417] Workqueue: events do_thaw_all
-[  182.606750] RIP: 0010:up_write+0xaf/0x170
-[  182.607076] Code: 19 3a 92 48 0f 44 c2 48 8b 55 08 48 8b 55 00 4c 8b 45 08 48 8b 55 00 48 8d 3d ad 91 e0 01 48 8b 4d 20 50 48 c7 c6 f0 8c 26 92 <67> 48 0f b9 3a e8 d7 93 4e 00 58 eb 81 48 83 7f 18 00 48 c7 c2 8d
-[  182.608563] RSP: 0018:ffffb670001d7e08 EFLAGS: 00010246
-[  182.609007] RAX: ffffffff92349e8d RBX: 0000000000000000 RCX: ffff99b1011e5870
-[  182.609595] RDX: 0000000000000000 RSI: ffffffff92268cf0 RDI: ffffffff92914d10
-[  182.610283] RBP: ffff99b1011e5870 R08: 0000000000000000 R09: ffff99b101b06c80
-[  182.610847] R10: ffff99b10139a808 R11: fefefefefefefeff R12: 0000000000000000
-[  182.611414] R13: ffffffff90cf74d0 R14: 0000000000000000 R15: ffff99b1011e5800
-[  182.612009] FS:  0000000000000000(0000) GS:ffff99b1eaaee000(0000) knlGS:0000000000000000
-[  182.612670] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  182.613146] CR2: 00000000005c631c CR3: 00000000013ee000 CR4: 00000000000006f0
-[  182.613722] Call Trace:
-[  182.613946]  <TASK>
-[  182.614130]  __iterate_supers+0x128/0x150
-[  182.614463]  do_thaw_all+0x1b/0x30
-[  182.614759]  process_scheduled_works+0xbb/0x3f0
-[  182.615150]  ? __pfx_worker_thread+0x10/0x10
-[  182.615499]  worker_thread+0x129/0x270
-[  182.615816]  ? __pfx_worker_thread+0x10/0x10
-[  182.616201]  kthread+0xe2/0x120
-[  182.616469]  ? __pfx_kthread+0x10/0x10
-[  182.616792]  ret_from_fork+0x15b/0x240
-[  182.617115]  ? __pfx_kthread+0x10/0x10
-[  182.617426]  ret_from_fork_asm+0x1a/0x30
-[  182.617761]  </TASK>
-[  182.617968] ---[ end trace 0000000000000000 ]---
-[  182.618412] Emergency Thaw complete
+Looks good to me.
 
-Fix this by switching to SUPER_ITER_UNLOCKED and acquiring s_umount
-in the callback via super_lock_excl() before calling
-thaw_super_locked(). This matches the locking pattern expected by
-thaw_super_locked() and eliminates the double unlock.
+Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
 
-While at it, remove the dead 'return;' at the end of
-do_thaw_all_callback().
+> ---
+>  fs/ext4/extents.c | 4 +++-
+>  fs/ext4/inode.c   | 8 ++++++--
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index 91c97af64b31..15972410d460 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -5171,8 +5171,10 @@ static int ext4_iomap_xattr_begin(struct inode *inode, loff_t offset,
+>  	return error;
+>  }
+>  
+> +static DEFINE_IOMAP_ITER_NEXT(ext4_iomap_xattr_next, ext4_iomap_xattr_begin);
+> +
+>  static const struct iomap_ops ext4_iomap_xattr_ops = {
+> -	.iomap_begin		= ext4_iomap_xattr_begin,
+> +	.iomap_next		= ext4_iomap_xattr_next,
+>  };
+>  
+>  static int ext4_fiemap_check_ranges(struct inode *inode, u64 start, u64 *len)
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index ce99807c5f5b..278a032b300c 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -3850,8 +3850,10 @@ static int ext4_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+>  	return 0;
+>  }
+>  
+> +static DEFINE_IOMAP_ITER_NEXT(ext4_iomap_next, ext4_iomap_begin);
+> +
+>  const struct iomap_ops ext4_iomap_ops = {
+> -	.iomap_begin		= ext4_iomap_begin,
+> +	.iomap_next		= ext4_iomap_next,
+>  };
+>  
+>  static int ext4_iomap_begin_report(struct inode *inode, loff_t offset,
+> @@ -3905,8 +3907,10 @@ static int ext4_iomap_begin_report(struct inode *inode, loff_t offset,
+>  	return 0;
+>  }
+>  
+> +static DEFINE_IOMAP_ITER_NEXT(ext4_iomap_next_report, ext4_iomap_begin_report);
+> +
+>  const struct iomap_ops ext4_iomap_report_ops = {
+> -	.iomap_begin = ext4_iomap_begin_report,
+> +	.iomap_next = ext4_iomap_next_report,
+>  };
+>  
+>  /*
 
-Fixes: b47e42d10e8c ("super: use common iterator (Part 2)")
-Signed-off-by: Chen Changcheng <chenchangcheng@kylinos.cn>
----
- fs/super.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/fs/super.c b/fs/super.c
-index a8fd61136aaf..70dcb07e7fa5 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -1084,16 +1084,19 @@ void emergency_remount(void)
- 
- static void do_thaw_all_callback(struct super_block *sb, void *unused)
- {
-+	if (!super_lock_excl(sb))
-+		return;
-+
- 	if (IS_ENABLED(CONFIG_BLOCK))
- 		while (sb->s_bdev && !bdev_thaw(sb->s_bdev))
- 			pr_warn("Emergency Thaw on %pg\n", sb->s_bdev);
-+
- 	thaw_super_locked(sb, FREEZE_HOLDER_USERSPACE, NULL);
--	return;
- }
- 
- static void do_thaw_all(struct work_struct *work)
- {
--	__iterate_supers(do_thaw_all_callback, NULL, SUPER_ITER_EXCL);
-+	__iterate_supers(do_thaw_all_callback, NULL, SUPER_ITER_UNLOCKED);
- 	kfree(work);
- 	printk(KERN_WARNING "Emergency Thaw complete\n");
- }
--- 
-2.25.1
 
