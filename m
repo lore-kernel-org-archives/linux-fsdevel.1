@@ -1,85 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2394DC527;
-	Tue, 21 Jul 2026 15:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B6D46A5EC;
+	Tue, 21 Jul 2026 15:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784647139; cv=none; b=hAJnHU/qchTlrl7khLmsg0BY9JbfJOCiKyU9RaLzRRfQqTs54+JOQz937F1+aHI2D+duXhEuSVMIAyKNvdyXRDE2YE/wopaYN3MXBaPTc9Fj70fP13rpnHq5QuybUoQVrDkIytPBJWAdQMZmooNfHlC0HFUIeDcahu1Vq8Qcd/k=
+	t=1784648551; cv=none; b=TeQlHg7xOCa1gvE8Ko5tz1XaZYXGwExlNapqkuIrYihHMgNa40hB8Rnx0GGpHOfrRDWNV/iJmwi7ukD/ri7lTQ5JXmjyGV2jft0WuPWLgp5gh/n2QGKaAtnEzS315GGMAn9DVbMB22i3YEcejcWkGpL9nmPz27sMF17yqJ5XMd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784647139; c=relaxed/simple;
-	bh=w8CKdu3NyqihQy4NAOqmZwEmC/byP6Q9n3Z76ixqRM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uzO6dYgJ+7Aiy45z8Ot4DeeG8u+gIaRmAHsU1ZjJmkCc4DObooTjUCQwCH82C+Yzy2Ndb1DOtAk73a0098AiGpTwG7cqKx4pQwLv0u7eHMMjS0kGB9zL+pwvi2NkUrQ1+VRpJtprHbJpbRF4pjIennMKWUCo0mHkotMbXJd7KdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaAWkCgy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784648551; c=relaxed/simple;
+	bh=mB1g09z201HmsVqxYDylfIE8wBPdLitegnFfyknTSQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kxySt/V3xL+thWOe+loFXOR/saoYPPC/T2c2/MNNxK+LNwvnBOJxcvM//Tddlqqb4Bn6Hl70oxbFmdwbvrfhIkvl//sfe839EBBMZriIHx1+rBayZppYfLinvubHdX4AFVPGr1UP0J1z7b6+Z/r1WOrOMjkUlFWDtjYeSGJIfn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ky6noqpn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaAWkCgy"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 55CA71F000E9;
-	Tue, 21 Jul 2026 15:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784647133;
-	bh=NR/hRBrwJM+A9daRxBJALCOFlcL+x4qHodtxxH+B5Yw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GaAWkCgyBcLCw3XoN2parGz1o/rV5ZUKX+eu1x7dn3fCTubiseURFssgA09rh45iE
-	 6oflBzDLogPVVpOlu3Wfy/sirL3l+PeSln5BOWwG5aLS7SzRMJ+yenin7BBCOSWpH3
-	 TPPdv8pmHD4xqF7rLbIpQgijLV4uLjZGIt+b7yumIYzp3cdYRpvIkUPJ/L0RU4OROX
-	 vlTaoipSCXrCm3ViVd/L6ghu7LgKi1K1DIRj7SxlP09v7gyHf88QPPZWTk4US+1pvR
-	 xQ+37glKahv6r3hDoja8+6bBWmVhHSDotsYl8m78PH78lCI3qExm3PLEQzyMCLTTff
-	 VI0KLMl4sWhcQ==
-Date: Tue, 21 Jul 2026 08:18:52 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Filip Blagojevic <filip.blagojevic@wdc.com>,
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH] xfs: update BDI {io,ra}_pages values based on the RT
- device limits
-Message-ID: <20260721151852.GA7358@frogsfrogsfrogs>
-References: <20260720140849.2269776-1-hch@lst.de>
- <20260720140849.2269776-2-hch@lst.de>
- <d2c1b12e-c6ab-4614-b851-c42b808fc6eb@kernel.org>
- <20260721043011.GB6339@lst.de>
- <al86SnXSDqQ0sKkR@nidhogg.toxiclabs.cc>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ky6noqpn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48261F000E9;
+	Tue, 21 Jul 2026 15:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784648550;
+	bh=mwo3knpogUhMuY+CiRiwubGJRODI+fCOmm5KXzJHmtc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Ky6noqpnwhZ070uzXCCADpqXqIi3CNSLWpaN4sv86AirnUBVl1fKukWcphighccvp
+	 uNRJ2usutaroPkzkaN5h+OCFATY1Fzk6Jarj9caLudfh6A8EigjaDxtyDuU7NGgF5u
+	 nsve98TMM/sPYw8BvxpNqT6fsG0ESBKTt9NhYzCM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 7.1 0242/2077] hfs: fix incorrect inode ID assignment in hfs_new_inode()
+Date: Tue, 21 Jul 2026 16:58:35 +0200
+Message-ID: <20260721152558.384462794@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260721152552.646164743@linuxfoundation.org>
+References: <20260721152552.646164743@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al86SnXSDqQ0sKkR@nidhogg.toxiclabs.cc>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 21, 2026 at 11:23:29AM +0200, Carlos Maiolino wrote:
-> On Tue, Jul 21, 2026 at 06:30:11AM +0200, Christoph Hellwig wrote:
-> > On Tue, Jul 21, 2026 at 08:07:40AM +0900, Damien Le Moal wrote:
-> > > > + * Update the BDI values to the max of the data and RT device to cover our
-> > > 
-> > > s/data/main ?
-> > > I am still confused about the proper name for the device holding metadata :)
-> > > 
-> > > Other than this, this looks OK to me.
-> > 
-> > Historically the main device is called the data device, which is
-> > also reflected in all kinds of field naming.  But yes, it is confusing
-> > especially for zoned xfs setups.  Maybe I should do a little global
-> > naming sweep..
-> > 
-> > 
-> 
-> +1, please keep /data/ here, this makes much more sense in xfs lingo...
-> Perhaps we should start naming them to something like ndata (for normal
-> data) and zdata for zoned data, but that's talk for another thread.
+7.1-stable review patch.  If anyone has any objections, please let me know.
 
-I've been trying to be consistent at calling them the 'datadev' and
-'rtdev' (no spaces) so it's more obvious that I'm using a jargon.  But
-'rt' makes no sense these days and I never did come up with a good
-retcon for it though.
+------------------
 
-"RelaTive"?  Because the rtdev is "related" to the datadev by metadata?
+From: Viacheslav Dubeyko <slava@dubeyko.com>
 
-:D
+[ Upstream commit 6592287869bffee91f59363e51de5f971ec2bd9d ]
 
---D
+The xfstests' test-case generic/003 reveals the HFS volume
+corruption:
+
+sudo ./check generic/003
+FSTYP -- hfs
+PLATFORM -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #18 SMP PREEMPT_DYNAMIC Fri Mar 13 17:54:19 PDT 2026
+MKFS_OPTIONS -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/003 51s ... _check_generic_filesystem: filesystem on /dev/loop51 is inconsistent
+
+sudo fsck.hfs -d /dev/loop51
+** /dev/loop51
+Using cacheBlockSize=32K cacheTotalBlock=1024 cacheSize=32768K.
+Executing fsck_hfs (version 540.1-Linux).
+** Checking HFS volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+invalid MDB drNxtCNID
+Master Directory Block needs minor repair
+(1, 0)
+Verify Status: VIStat = 0x8000, ABTStat = 0x0000 EBTStat = 0x0000
+CBTStat = 0x0000 CatStat = 0x00000000
+** Repairing volume.
+** Rechecking volume.
+** Checking HFS volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume untitled was repaired successfully.
+
+The reason of corruption is incorrect value of drNxtCNID (next
+CNID) in the MDB or superblock. The generic/003 test-case
+creates several new inodes:
+
+kernel: run fstests generic/003
+hfs: hfs_mdb_get():179 next_id 16
+hfs: hfs_mdb_get():179 next_id 16
+hfs: hfs_new_inode():208 next_id 17
+hfs: hfs_new_inode():208 next_id 18
+hfs: hfs_mdb_commit():307 next_id 18
+hfs: hfs_mdb_get():179 next_id 18
+hfs: hfs_new_inode():208 next_id 19
+hfs: hfs_new_inode():208 next_id 20
+hfs_mdb_commit():307 next_id 20
+hfs: hfs_mdb_get():179 next_id 20
+hfs: hfs_new_inode():208 next_id 21
+hfs: hfs_mdb_commit():307 next_id 21
+hfs: hfs_mdb_get():179 next_id 21
+
+The final assigned CNID was 21 but fsck correct it on 22.
+It is possible to see that the reason of the issue is
+incrementing the next_id value at first and assigning
+already incremented value to the inode->i_ino:
+
+struct inode *hfs_new_inode(...)
+{
+<skipped>
+
+    next_id = atomic64_inc_return(&HFS_SB(sb)->next_id);
+<skipped>
+    inode->i_ino = (u32)next_id;
+
+<skipped>
+}
+
+This patch fixes the issue by assigning the decremented
+value to inode->i_ino.
+
+Fixes: a06ec283e125 ("hfs: add logic of correcting a next unused CNID")
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/r/20260514195518.354108-2-slava@dubeyko.com
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/hfs/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 89b33a9d46d5c0..1cbba734503896 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -204,7 +204,7 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
+ 		pr_err("cannot create new inode: next CNID exceeds limit\n");
+ 		goto out_discard;
+ 	}
+-	inode->i_ino = (u32)next_id;
++	inode->i_ino = (u32)next_id - 1;
+ 	inode->i_mode = mode;
+ 	inode->i_uid = current_fsuid();
+ 	inode->i_gid = current_fsgid();
+-- 
+2.53.0
+
+
+
