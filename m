@@ -1,117 +1,278 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22C344607D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 11:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0743451DA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 11:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784633609; cv=none; b=oWmM/4cgs46DhXPDgjeCoXFe+UoKXUoljDY51uhKRIhtblnAi7JIyCdRBAJ+CbPPRe/0ghBT71BRll1Zv/+4xz42N4o3M+3sirxOZ/OgcqeCWuiQQD5NBzikd2FvFmAcoKFPn/S8fldmYQqxIqIf5VPEDTGXHqEc6zL45dLeCbI=
+	t=1784633934; cv=none; b=CsShUekaB3ODj1qKDM3G9lf7oPslIIrV4dQZN3D0pOcBoxQN6XMZTqSiF+gmIpqs1wRNQBwEQo+n3b4inrauK+qcktLTT5sU/zlCSA1MKve+cIpb0ph3cQEgNkaJkF0c5g+uwwcmE18FxvL47WBr/8UIsdy/anMc13K51gUCLB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784633609; c=relaxed/simple;
-	bh=sHvRopr1Ypm5jQAY0ZfOEkqr7Mdr23aY+FHbuYWUkwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dR5hkN3ebBTBnXziqLEfjrGZe1xpvbWAvNdjT2WmDSoLS5OBQkM9lrXqikSYI8cyffSqLIViOCRXGyVoaqPCvTK0muzlUNt/CPIkplQsSpwNcU7hTN0bqk9eHdwrCkElL3/oRUSE+9PBP71UDm3KFd0PMUd6qGGhX84kkj1s20g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=DlyjcD8Z; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1784633934; c=relaxed/simple;
+	bh=TkzFHzOX5j62qGGq5uMApwTNOaFFgiuZkT2kiO/5Z1Q=;
+	h=To:Subject:References:In-Reply-To:Message-Id:Cc:From:Mime-Version:
+	 Content-Type:Date; b=RE20gUGNojD/UG4Hx9sxG7h1VlyoprYPzVPc+mMWYdjopep8o8ByKmCdWZChioWmxmKnhc2t+cac70z/vMn5DT4k2csBEhl4ocUzOc+/K02aVxZ87l8nHxmMxq4ybSPKPO6kq23M0rZ5LNsHBxtXll2sH4nGXCA67wEIl52g6ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=eMGmtGax; arc=none smtp.client-ip=209.127.230.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="DlyjcD8Z"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92f0b5ed131so710217385a.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 04:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1784633600; x=1785238400; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8ClK9kZgJgn1pv+f64kpoxUD+b6fg3ben0ahgbGiQz4=;
-        b=DlyjcD8ZL09b+nDrY5TZLF1ThL5qWPyutaobOJ5+PMg3QgRzJixvWA/EU6T9LcZ6Xz
-         QpfQ80DUEbgeqnE5YPwYFaHue/zNz4/TOXFFF0ow5HrduslcFLOXZS76axde6qvZPUCr
-         85APb0Vos/GxXAAKHqCJibKhx+FdEycZZ+wY1wBSJ4D41cE11oL4Fn5bqOTBQ0XO3o/8
-         TU2MejV2d/jr6R44d0nYn7mnSHpby1K4H4g4qnuik38vC1Ac2u+qXAn4q9T1rI4Gohm7
-         W4XIyc9BnJYv721zgLD+33OiwGOaOQZ6BvfiQBbSmqBpZsKmAME2kTqS06pIFePrZS4l
-         nVpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784633600; x=1785238400;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8ClK9kZgJgn1pv+f64kpoxUD+b6fg3ben0ahgbGiQz4=;
-        b=EtPVZ00g7SZi00yk6w5RnsGMj799P6Q94+uGg3WjbgI5RAKAq3mSwdk4cNsfeIO7s6
-         SnOmfPDd601Ydpv99z9SpKDviBzotJf9n+nADpHKfHnzBwI+gvkLc9h3fQX/lZQOZpyW
-         hkVYuR/STLcba3L1fr0r5x8MDccL+xJ4y+L/oHgCPHXfWDjorjeBJt1JH+GgorrmTq5g
-         nfFkyZTlGrH02ENEz1rXjLETiyUjnE9qNr7G1yvMw63z/YPP0caj664BNI4w+IEiwQPg
-         qsKI0WEDSDd5s8puRsqMLQozoIgdgyLHcob8dli54g8YLxVyoVgUq1CgRa6j5wKsrnjO
-         /yiw==
-X-Forwarded-Encrypted: i=1; AHgh+RozWaUMX2s74mgrUex4bgtIhXS5k1cNMLSebxP6a8AJyuB9Z+avRcKIGg48DVA/radkx5uEM6lhCtKTF2lJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY1iQt8trQI08inAilGGWw5nIbHy+qQ5NBktZeIFBJOfo9g2u3
-	M7wRwTYMPvdxFRBK4WK5mmkDzBYemQNYKdiMc82QQ0JGJwTewwOcHJR4BtIAWsGR2cU=
-X-Gm-Gg: AfdE7cl4hbX+tO/Fw0OlFIx77DoMx+/V7QkyafHb2Z9/0oO1xRCINEQnj0DPWUbJPoX
-	hs0sBzD2K60lqKM5mIEJVjVgcvB6CfioVSC6cs3wL/mxlEfBo47KOvTZXWmkGg6YpQsd/eKuNSo
-	pNUrKeORcblylCG718kZ4Qtmf8D9SHxT0k3BjtxfPBG/JtnkqFF9J0crHSsTLhecc2rfGGl6zJ0
-	lohSQGofWolbjQoAbFQ6wbNlzHNDb4nEUDnZAINBFHMMO1De/vEuWtQv3/LJaZKOwbtxMhEVqA0
-	g5GdtNn7vRbdaOEbq6tbYJruCP0se0VouaLZZNyJI+LMipP4SJalRStb+XqGnTuBHWazwO1hST4
-	gc4UFdoV2LR5D5b5MP4KTSeI2taO5b1b+lo724e5BAd6chNm7jYdFh27IPhcVoLb7R4854CYA4z
-	lK
-X-Received: by 2002:a05:620a:3709:b0:92e:45e4:c6e with SMTP id af79cd13be357-930b3f37283mr1768481785a.22.1784633600331;
-        Tue, 21 Jul 2026 04:33:20 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e253sm1074421785a.36.2026.07.21.04.33.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 04:33:19 -0700 (PDT)
-Date: Tue, 21 Jul 2026 07:33:18 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Yosry Ahmed <yosry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>,
-	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm: zswap: free synchronous-IO writeback folios
- directly
-Message-ID: <al9Y_tZH5AzDkK5K@cmpxchg.org>
-References: <20260718093723.153324-1-alex@ghiti.fr>
- <20260718093723.153324-2-alex@ghiti.fr>
- <CAKEwX=Nn0dMc1K9drXFVMwt7wMZ2P6KToeh7T3rE1+Xq5yrCFw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="eMGmtGax"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1784633926; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=TkzFHzOX5j62qGGq5uMApwTNOaFFgiuZkT2kiO/5Z1Q=;
+ b=eMGmtGaxF/igtsz2XrMJjVXlmiEJyr61GaA/+0dDWZ0KFMQd2lzaNe3roF/wS3bCp9UfsE
+ dofBATgtKdGAMaaw8BjdrQQwqMDrl0avnQb4EofWvmVGGymEbyBZHdJo4Gb/TRLjCrHlW0
+ EKfK8g4oWtidP8SKM744M/z4IVCYVGkxHH7LIRuuiZe0wMN5VMQaWyR0DOeocbD7DVHa9r
+ e6A/JRiOtgK7vyaxNuI5Nz9CykHn1EXP5ffWJ4ipLkxkOVqF3fBIRWN+3wGc0fnF79HBTQ
+ 7a5gwNIhWHDZUXRZX3s+mE6cOdKZULXcXPDzKBLzr+QyV8rBB+B93iihZ8noEw==
+To: "Joanne Koong" <joannelkoong@gmail.com>
+Subject: Re: [PATCH v3 18/20] iomap: remove ->iomap_begin()/->iomap_end() legacy path
+References: <20260720210202.1163861-1-joannelkoong@gmail.com>
+	<20260720210202.1163861-19-joannelkoong@gmail.com>
+In-Reply-To: <20260720210202.1163861-19-joannelkoong@gmail.com>
+X-Lms-Return-Path: <lba+16a5f5a44+5060f5+vger.kernel.org+changfengnan@bytedance.com>
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.ed525b9b.50e8.484e.af0c.ccb4f8769a71@bytedance.com>
+Cc: "Christian Brauner" <brauner@kernel.org>, <hch@lst.de>, 
+	"Darrick J . Wong" <djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>, 
+	<kbusch@kernel.org>, "Matthew Wilcox" <willy@infradead.org>, 
+	"Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, 
+	"David Sterba" <dsterba@suse.com>, "Dan Williams" <djbw@kernel.org>, 
+	"Gao Xiang" <xiang@kernel.org>, "Namjae Jeon" <linkinjeon@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, "Jaegeuk Kim" <jaegeuk@kernel.org>, 
+	"Miklos Szeredi" <miklos@szeredi.hu>, 
+	"Andreas Gruenbacher" <agruenba@redhat.com>, 
+	"Mikulas Patocka" <mikulas@artax.karlin.mff.cuni.cz>, 
+	"Hyunchul Lee" <hyc.lee@gmail.com>, 
+	"Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, 
+	"Carlos Maiolino" <cem@kernel.org>, 
+	"Damien Le Moal" <dlemoal@kernel.org>
+From: "changfengnan" <changfengnan@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKEwX=Nn0dMc1K9drXFVMwt7wMZ2P6KToeh7T3rE1+Xq5yrCFw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Jul 2026 19:38:41 +0800
 
-On Mon, Jul 20, 2026 at 08:56:32AM -0700, Nhat Pham wrote:
-> > @@ -972,6 +972,30 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
-> >  /*********************************
-> >  * writeback code
-> >  **********************************/
-> > +static void zswap_writeback_free_folio(struct folio *folio)
-> > +{
-> > +       folio_lock(folio);
-> > +
-> > +       /* The folio was allocated off the LRU and nothing re-adds it here. */
-> > +       VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
-> > +
-> > +       /*
-> > +        * Gate remove_mapping() on folio_test_swapcache(): a racing swapin may
-> > +        * have freed the swap slot (folio_free_swap()) and dropped the folio from
-> > +        * the cache, and remove_mapping() must not run on a non-swapcache folio
-> > +        * (it would trip __remove_mapping()'s mapping == folio_mapping() check).
-> > +        */
-> > +       if (folio_test_swapcache(folio) &&
-> > +           remove_mapping(swap_address_space(folio->swap), folio))
-> 
-> Hmm I think you also have to test for writeback and dirty here right?
-> 
-> After a racing swapin freed the swap slot, the folio might be dirtied
-> and swapped out again. We probably shouldn't try to remove_mapping()
-> such a folio?
 
-remove_mapping() itself handles dirty state. It fails in that case.
+> From: "Joanne Koong"<joannelkoong@gmail.com>
+> Date:=C2=A0 Tue, Jul 21, 2026, 05:03
+> Subject:=C2=A0 [PATCH v3 18/20] iomap: remove ->iomap_begin()/->iomap_end=
+() legacy path
+> To: "Christian Brauner"<brauner@kernel.org>, <hch@lst.de>, "Darrick J . W=
+ong"<djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>
+> Cc: <changfengnan@bytedance.com>, <kbusch@kernel.org>, "Matthew Wilcox"<w=
+illy@infradead.org>, "Jan Kara"<jack@suse.cz>, "Jonathan Corbet"<corbet@lwn=
+.net>, "David Sterba"<dsterba@suse.com>, "Dan Williams"<djbw@kernel.org>, "=
+Gao Xiang"<xiang@kernel.org>, "Namjae Jeon"<linkinjeon@kernel.org>, "Theodo=
+re Ts'o"<tytso@mit.edu>, "Jaegeuk Kim"<jaegeuk@kernel.org>, "Miklos Szeredi=
+"<miklos@szeredi.hu>, "Andreas Gruenbacher"<agruenba@redhat.com>, "Mikulas =
+Patocka"<mikulas@artax.karlin.mff.cuni.cz>, "Hyunchul Lee"<hyc.lee@gmail.co=
+m>, "Konstantin Komarov"<almaz.alexandrovich@paragon-software.com>, "Carlos=
+ Maiolino"<cem@kernel.org>, "Damien Le Moal"<dlemoal@kernel.org>
+> With all in-tree filesystems implementing ->iomap_next(), drop the
+> ->iomap_begin()/->iomap_end() path.
+>=C2=A0
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+
+Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
+
+I ran some tests on the simple=C2=A0 path and didn't notice any
+performance degradation.=C2=A0
+
+> ---
+> =C2=A0fs/iomap/direct-io.c =C2=A0| 47 ++++++++++++++---------------------=
+--------
+> =C2=A0fs/iomap/iter.c =C2=A0 =C2=A0 =C2=A0 | =C2=A06 +-----
+> =C2=A0include/linux/iomap.h | =C2=A06 ++----
+> =C2=A03 files changed, 18 insertions(+), 41 deletions(-)
+>=C2=A0
+> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> index fcdae3ef6dd0..a47369e6b4e1 100644
+> --- a/fs/iomap/direct-io.c
+> +++ b/fs/iomap/direct-io.c
+> @@ -1001,18 +1001,13 @@ iomap_dio_simple_supported(struct kiocb *iocb, st=
+ruct iov_iter *iter,
+> =C2=A0}
+> =C2=A0
+> =C2=A0static inline void
+> -iomap_dio_simple_finish(struct iomap_iter *iomi, const struct iomap_ops =
+*ops,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t len, size=
+_t written)
+> +iomap_dio_simple_finish(struct iomap_iter *iomi, iomap_iter_next_fn next=
+,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t written)
+> =C2=A0{
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ops->iomap_next) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->iter_start=
+_pos =3D iomi->pos;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->pos +=3D w=
+ritten;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->len -=3D w=
+ritten;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ops->iomap_next(=
+iomi, &iomi->iomap, &iomi->srcmap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (ops->iomap_end) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ops->iomap_end(i=
+omi->inode, iomi->pos, len, written,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomi->flags, &iomi->iomap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->iter_start_pos =3D iomi->pos;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->pos +=3D written;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi->len -=3D written;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0next(iomi, &iomi->iomap, &iomi->srcmap);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+> @@ -1079,25 +1074,13 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_i=
+ter *iter,
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_begin(inode);
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ops->iomap_next) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iom=
+ap_next(&iomi, &iomi.iomap, &iomi.srcmap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0) =
+{
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0inode_dio_end(inode);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/*
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 * the first iteration must yield a mapping (>0) or an
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 * error
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0if (WARN_ON_ONCE(!ret))
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EFAULT;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return ret;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iom=
+ap_begin(inode, iomi.pos, count, iomi.flags,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &iomi.iomap,=
+ &iomi.srcmap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0inode_dio_end(inode);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return ret;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iomap_next(&iomi, &iomi.iomap, =
+&iomi.srcmap);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(in=
+ode);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the first ite=
+ration must yield a mapping (>0) or an error */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (WARN_ON_ONCE=
+(!ret))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return -EFAULT;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iomi.iomap.type !=3D IOMAP_MAPPED |=
+|
+> @@ -1163,7 +1146,7 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_ite=
+r *iter,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * iomap_next() call on the hot read pa=
+th.
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(dio_flags & IOMAP_DIO_NO_IOMAP_EN=
+D))
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_dio_simple=
+_finish(&iomi, ops, count, count);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_dio_simple=
+_finish(&iomi, ops->iomap_next, count);
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!wait_for_completion) {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bio->bi_end=
+_io =3D iomap_dio_simple_end_io;
+> @@ -1181,7 +1164,7 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_ite=
+r *iter,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bio_put(bio);
+> =C2=A0out_iomap_end:
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(dio_flags & IOMAP_DIO_NO_IOMAP_EN=
+D))
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_dio_simple=
+_finish(&iomi, ops, count, 0);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_dio_simple=
+_finish(&iomi, ops->iomap_next, 0);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(inode);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0}
+> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> index e05574602946..f7c4d5cf56be 100644
+> --- a/fs/iomap/iter.c
+> +++ b/fs/iomap/iter.c
+> @@ -107,11 +107,7 @@ int iomap_iter(struct iomap_iter *iter, const struct=
+ iomap_ops *ops)
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_iomap_iter(iter, ops, _RET_IP_);
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ops->iomap_next)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iom=
+ap_next(iter, &iter->iomap, &iter->srcmap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0else
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_it=
+er_next(iter, &iter->iomap, &iter->srcmap,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ops->iomap_begin, ops->iomap_end);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iomap_next(iter, &iter->iomap, =
+&iter->srcmap);
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->status =3D 0;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret > 0)
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 8662bd528e9e..66e2f7186299 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -194,7 +194,7 @@ struct iomap_write_ops {
+> =C2=A0};
+> =C2=A0
+> =C2=A0/*
+> - * Flags for iomap_begin / iomap_end. =C2=A0No flag implies a read.
+> + * Flags for iomap_next. =C2=A0No flag implies a read.
+> =C2=A0 */
+> =C2=A0#define IOMAP_WRITE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0(1 << 0) /* writing, must allocate blocks */
+> =C2=A0#define IOMAP_ZERO =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0(1 << 1) /* zeroing operation, may skip holes */
+> @@ -239,8 +239,6 @@ typedef int (*iomap_iter_next_fn)(const struct iomap_=
+iter *iter,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ioma=
+p *iomap, struct iomap *srcmap);
+> =C2=A0
+> =C2=A0struct iomap_ops {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_begin_fn iomap_begin;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_end_fn iomap_end;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_next_fn iomap_next;
+> =C2=A0};
+> =C2=A0
+> @@ -255,7 +253,7 @@ struct iomap_ops {
+> =C2=A0 * =C2=A0 =C2=A0 =C2=A0 =C2=A0incremental iter advance.
+> =C2=A0 * @status: Status of the most recent iteration. Zero on success or=
+ a negative
+> =C2=A0 * =C2=A0 =C2=A0 =C2=A0 =C2=A0errno on error.
+> - * @flags: Zero or more of the iomap_begin flags above.
+> + * @flags: Zero or more of the iomap_next flags above.
+> =C2=A0 * @iomap: Map describing the I/O iteration
+> =C2=A0 * @srcmap: Source map for COW operations
+> =C2=A0 */
+> --=C2=A0
+> 2.52.0
+>=C2=A0
