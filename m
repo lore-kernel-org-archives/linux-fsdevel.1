@@ -1,153 +1,99 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDBF47125D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 18:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE946D0A7;
+	Tue, 21 Jul 2026 18:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657790; cv=none; b=VRDMLqqCZTm4b/ej1S5ie5TdZ1mpjBnEQ0/I1oq2Egry7OdngX2iRY9pJnu3xPCTvmt6WM2tmIlOfiXeY0lvzDiVbOl/MzX2L/EBOoZ+zrsJYVY69PYZi+Hcp3Uj5TvYMoAZKCrYyuoRD+EqNzG2GizHV7b/QJEU3R8x3Nxa6h4=
+	t=1784658107; cv=none; b=HxgYVvSNIoJ41E7KxK76tBSQWk99XGejA0y+gIP9xqEWPq4otbYpnC/2ebd1P4dfk5R/nhaB3UR7sinq75sLJ/VM5s8/2v5QOsxrwKKr7B+MLJgb/UbpPqr9y1qxlSq3+2zvJe+snjaTkf/JX5EDAtPD6cJd/q9LTaf670C9/Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657790; c=relaxed/simple;
-	bh=oFlvw3giOtGQsSkXQn6VVdx6osu4tro2T3RPW7SBhU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQCtezcZ/SOWCOq3rg05b7r80aRDbuJoTY/k4CY2PFHherfWHbvo/nDbEbzQi8zRjnFlT3Hgi5oFhj114l48bmBpNy9Z8RZEnLG7KrQoVO2HWMeyMmdpEftvwv/d7GeDYoi2GvFc98Mi6kHVT8cD6wJSnNn2ZScGmh7tZI8ssmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=lWiMqNe1; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784658107; c=relaxed/simple;
+	bh=w32sgFpsI5r3Yihdoa05DegUBDOq6s8GRuRTpO3RFio=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gvQF0t4DuodfoY5+PFbkWu/sKtlwxGxvr+JE1+izIR3D5VykYA7nIOQmdPbeUeha/tDehE9woet2haI6l/jnyBrYrg6Ylyizv7ZcfSOa5F32wRrj0B6UusQyAA0mZQ0sN4JTn2rZfUqBLQ3yBaw5WTpFFjtpEpWX26OQG008OMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1QbsoWQy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="lWiMqNe1"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-526f963372aso7668491cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 11:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784657788; x=1785262588; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=lWiMqNe1aGdlndmF0DEIX11ekT+kppi6ZCsdKP+nARwmUcbPRB2RiqFp9CcVZlrCMe
-         a7iQJIUlHGgwrTlgeBPrEB9RYw65vbDnpQS/W6FXlBeixFMzdS/zMQMhcf9prwyKh9Tg
-         zZM1P1+WyYLol3M86HhbDS8lLf0qvp8NnbVepemntzhrmA+vdbVuvJTjusRGwuudCrDN
-         IJnhW0U1qCJ9qu+q+c/HoRATkAolbkeQ7YmmUklTRfiHMdfAYBd7KPK3bsHOQiTqkD7y
-         nQk7+E507U93KpaB3JodhTTR0dnlAPaEgPrkM70sUwYbhPsJOnuOLMGTZLlANx5BWdjy
-         4gWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784657788; x=1785262588;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=ORZbDtds1meh0zmp81pVO6HX8stVCN+WOCwrmvxGvrbRGMnXlsfVRMwPQL/rxEz8jc
-         cD/a+SczArhAtahmoMRZm65lpOe7OOSIIalFdQp77xhf29s14afVB6ZDymXV8xWvdI/g
-         xw+67o92+oQSKmu9Iwho7Sxa8P1UcCZXPfG2xkRF9rIo5AANluF1KF+a82KBJ48mY/I1
-         9/BMQZhSwUuyziWuygKk8utXHI+dSWwn2swyg7tsb8Dyep87xnWueL8pN2A1vsCGaD8D
-         kQBgnR92bO0RofPeBQRnMlqnIATblOzBEqS4LkgtqhUppelpAfV2PcEk7zlc/64DiFIZ
-         QYRw==
-X-Forwarded-Encrypted: i=1; AHgh+RpEQjfb6tx+lC5PWgH8xjFnxZ4+nPTPtdKXMkR9k+NVHL4tQziEAddrc4NDLQEs+Y/drPJzbGB0cad5EzhU@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnpjdCupr3JtkuJa+56nG55fDmtBYCS8+LIPRexQwntCOgb191
-	xmi5trPNmPtRnjrVwRp9/+Xw3ruX7XS0uwyAbKGDMKeyraSu7UMZOL5QbCROD6HgIdk=
-X-Gm-Gg: AfdE7clGN5i+WXhDImxNC8/Hb7+j/bzV+CXwDYLqcTzw4ad7cX3aosLJp/NozedNTso
-	IxHQJI3ki3d74KcHdjew2uKbGlXjzf29QiKW3V0pSEhOOD5BTdUzyVK2/TraRqD47jxx3DHtRP4
-	S5DLFXbg73l16SZ7j6FMkPSEqiGId2Nhftc6tk4SoGVGxj6x0kmCvdrq67IFyRxvQNSh/pdXrL0
-	xvz55gjaNx9McNvmlNRIcr6IT7LSiuNbSQBUSfhgCNCHkECfeRV05iF+wiJNYeyIDTwcs3BnNSe
-	E9FZneaUK0s2692fsqDEcYugcOKWzqrN+KjAcf4F91XAzj6KXuvzMDvJx1YKn15gllEIRWm+YXq
-	Ip3ih6ryNKILTpvri9pVHCUa8DGXr8p02FeXx7WIw09DFob3rA7heML8x4xB56Mu40Pm2I1txNg
-	k8qemEoXPCZ7id0Us1BUDGH2rlguottQ4FVWv9P5S1+2qfEDHiEh/OA3NBr2GMYIpfMaKA
-X-Received: by 2002:ac8:5845:0:b0:51c:7b12:600a with SMTP id d75a77b69052e-5213e881e44mr171868611cf.86.1784657787636;
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d066fa6asm463921cf.6.2026.07.21.11.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Date: Tue, 21 Jul 2026 14:16:21 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1QbsoWQy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BB71F000E9;
+	Tue, 21 Jul 2026 18:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784658106;
+	bh=cvKXETF1rzpHnuGt23hFkEzBGK9Lq/ZuTFT706VntvE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=1QbsoWQyjV/L4ru8IRYOEM+qxs2QqxGGFWwI0liN7bQ2KC/qKTxPLa31tYy++e/1p
+	 NrpHCtyXqpCh4EcleXJ2HBJskpDFquMLjHWHy2g4PcBRQ8Z4vAtzCIBmHpj9Za/+qw
+	 8DB6aIx/oVRSJE2/eab6TpY3gW8wtybq33xd4Ij0=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.18 1016/1611] netfs: Fix netfs_create_write_req() to handle async cache object creation
+Date: Tue, 21 Jul 2026 17:18:52 +0200
+Message-ID: <20260721152538.246519783@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260721152514.750365251@linuxfoundation.org>
+References: <20260721152514.750365251@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 21, 2026 at 01:46:01PM +1000, Balbir Singh wrote:
-> On 7/21/26 5:33 AM, Gregory Price wrote:
-> > 
-> > Patch Layout
-> > ============
-> > The series is broken into two sections:
-> > 
-> > 1) N_MEMORY_PRIVATE Introduction.
-> >    Introduce the node state.
-> >    Opt those nodes out of mm/ services.
-> > 
-> > 2) NODE_PRIVATE_CAP_* features
-> >    A set of mm/ service opt-in flags that augment private
-> >    nodes to make them more useful (i.e. reclaim = overcommit).
-> > 
-> >    NODE_PRIVATE_CAP_LTPIN for private node folio pinning
-> >    NODE_PRIVATE_CAP_NUMA_BALANCING for private-node NUMA balancing
-> >    NODE_PRIVATE_CAP_DEMOTION for private-node tiering demotion
-> >    NODE_PRIVATE_CAP_HOTUNPLUG for opted-in private nodes
-> >    NODE_PRIVATE_CAP_USER_NUMA for userland numa controls
-> >    NODE_PRIVATE_CAP_RECLAIM for opted-in private node reclaim
-> > 
-> 
-> Looks reasonable, I wonder why USER_NUMA/HOTUNPUG is an opt-in?
-> 
+6.18-stable review patch.  If anyone has any objections, please let me know.
 
-Ideologically: Private nodes default to fully isolated, why should any
-given feature be special?
+------------------
 
-Concretely: 
+From: David Howells <dhowells@redhat.com>
 
-User-numa
+[ Upstream commit dbd6f56d975b23241b7bbb11bb8f562af548a0aa ]
 
-   Some devices don't want the user to have control over placement.
-   I have been working on compressed memory, for example, which only
-   ever wants to be used as a reclaim-demotion target.
-   
-   (The reasoning for this is another thread, i plan on publishing
-    my research on this this year)
+netfs_create_write_req() will skip caching if the fscache cookie is
+disabled, but this is a problem because async cache object creation might
+not have got far enough yet that has been enabled - thereby causing the
+call to fscache_begin_write_operation() to be skipped.
 
-Hot-unplug:
+Fix this by removing the checks on the cookie and delegating this to
+fscache_begin_write_operation().
 
-   Some devices can't necessarily handle unexpected migration, and
-   hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
-   actually means "hot-unplug can execute migrations".
+Fixes: 7b589a9b45ae ("netfs: Fix handling of USE_PGPRIV2 and WRITE_TO_CACHE flags")
+Closes: https://sashiko.dev/#/patchset/20260624115737.2964520-1-dhowells%40redhat.com
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/20260625140640.3116900-3-dhowells@redhat.com
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/netfs/write_issue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   If the entire device has pre-drained the memory (all memory is free)
-   then unplug works - it's just not very hot (no migrations) :]
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index 03d170b9022b7d..26289849343037 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -106,7 +106,7 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
+ 	_enter("R=%x", wreq->debug_id);
+ 
+ 	ictx = netfs_inode(wreq->inode);
+-	if (is_cacheable && netfs_is_cache_enabled(ictx))
++	if (is_cacheable)
+ 		fscache_begin_write_operation(&wreq->cache_resources, netfs_i_cookie(ictx));
+ 	if (rolling_buffer_init(&wreq->buffer, wreq->debug_id, ITER_SOURCE) < 0)
+ 		goto nomem;
+-- 
+2.53.0
 
-   Maybe a naming issue?
 
-~Gregory
 
