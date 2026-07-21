@@ -1,122 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD29F3CA493;
-	Tue, 21 Jul 2026 10:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C24147278F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 10:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784628548; cv=none; b=PKxqP/+4c6GgeY1JjHY6pv4PwhD3lYGo3YxEwo3vMTJUGracEx+iFDV2OhNB6+PvDhY8es5nKquC11vB4po+E/+JbVLZDDnmQ4g49GCCCfbzU/NlRNuLAulu3T1wPqCtLZ4X/+vGDu1xbAzcigzY0d7FBqXj7klGA9xAZgxCf8g=
+	t=1784628644; cv=none; b=i9oGnWUSBdRfTu6a15hoIWsFtefm4NFBs8KjhpXJW3/ju+GQw8Xy7D6k30WZyz2yEzpSghuPSJSUwxwnY2GaSKJgdMWZMA8hZb26HFXtbhky7cd7ZsUw/Fw1+zcIKftzimMXYKEDzR+o1e6MjjfH2Ptu8iZPKF1PnA+NvbpYa+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784628548; c=relaxed/simple;
-	bh=BfGVnvLylOR1ukv19F3xDAtbizuM3JaHDvahSFlKH8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U23Z8cBf+ARx2Y/sN9J3RjpPBozvCn8Qx9HCeZjLzFKa6V1XSpKFS7sZpTMW0xo2AhwylbugtwnTtLsORibbFlfYORAs3OQJ/xka9ovZkW5bpUtQ2SdKQPb1MrRYIbHsnX887IS+Ji9KhI4tXZ1GVNuoeCejju7AlMpEXoLs6TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfFcQbR1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784628644; c=relaxed/simple;
+	bh=bbe/dwCyr6PoH2DBwgIM/qML8WXpUjsLo53+UYCd8Ew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XHgvwCO+bhBNe9yH+vQSi/m8ZxV+OrqWVG1jVwPyqrf5A1YdWj3ITqf0J0dcKR8XRx5a0fFUElL3t/6X/8fu2wHgKhOig5DQu6VwCmX40OnaO5elL0DNBvCqwRDpWHXT0gif5iUDLaKzjMHfR7DIiaDIAs1cSUmQCIrn4mjf5AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gh9X8giH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfFcQbR1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC0F71F00A3D;
-	Tue, 21 Jul 2026 10:09:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gh9X8giH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A401F00ACA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 10:10:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784628546;
-	bh=HhgiFT7gO89ZbsoBF977sX4zSyifCWX/9pr2xPYrWr8=;
-	h=From:To:Cc:Subject:Date;
-	b=dfFcQbR1u/TdFv+tY8MlY9H7YDBQJaV5W8E4oIz4qNkMOVVKJiXONvo87Dvecag0S
-	 QCsF6+gLgGAATS2Vka9Y8U13kG39TPBfME96ic7LHtwSkkuv/FpyDakq0ssUqyzYfO
-	 kzKcxru4YGETZLSYs/J958X6/iaX0rhNEJwga0n4PJFnFT/YrF9sRp1YP+7X9hOwni
-	 40l5VC+n82c+sRlZo2NHFf/GnRrGoDfy5oVXf5YhTIvqs4CVGDvV9qsMD8iBYeUVi3
-	 sb/2cZBspZi50pxT4vUIM79ZdphD/yLwYLspdQLWWY4F780fwDnP9zu3asvuDNNNxN
-	 74k8nqmqY7giA==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-mm@kvack.org,
-	stable@vger.kernel.org
-Subject: [PATCH] exec: fix unsigned loop counter wrap in transfer_args_to_stack()
-Date: Tue, 21 Jul 2026 12:08:49 +0200
-Message-ID: <20260721-hochachtung-staumauer-pigmente-15d71f7d7d04@brauner>
-X-Mailer: git-send-email 2.53.0
+	s=k20260515; t=1784628641;
+	bh=bbe/dwCyr6PoH2DBwgIM/qML8WXpUjsLo53+UYCd8Ew=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Gh9X8giHvOLqZ/eV+94cesAsIRMlOjTDTG1OHRaIFcHSPjHUYMqMObSKo0mfq3fKh
+	 iiqisORQGbdWLdzOzdW5720BdKSNaF+kqjTHXaSj4CZCPZZHc7KgDCtRK0RIT641L8
+	 knCnVFU62TvqtOQITjQ78Q7EpEP51oFZ7/nJUKFkPJp/Aw8iMROddJMs6R1ThB9kA9
+	 QAmyptcuBMmalG+AWGMyhW/vbMUlHe1o2klAP61beRNoAPVQBjZ/DGRtYoqRkAlmOr
+	 zKT98g9l1LnDgjNGKCXJox8Cd88WylIkIlboCBCcDnm2Hiap14EFIXPKw1sVt9Qk6I
+	 LpjpqrDFOlHfg==
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-6685483aad2so2187511d50.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 03:10:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoTAn3ScrgXT411x3utStwDOYlMc5WVsLzOxwJtpY5rIVSbfbELqHcHmYHUbJgqUB8CKzhS8fjWLcQ/xeNj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+SK0Xs6qD9oR+V0xoHI0508d+5neJNfM233IrVcwDXmKU1EvM
+	WoVzPojw3tWWdBMcP0I+TlxPBb9rU0AEj4kZSe1v3vgZ1zn0j0sL3hjkQWhAooO3Q0B+r4mdSLi
+	tpmrwlgaSKhEaoCOmMBg2P2N7GQBFcOU=
+X-Received: by 2002:a53:c6c1:0:b0:667:8b91:2418 with SMTP id
+ 956f58d0204a3-6683bdb3e60mr3375137d50.95.1784628641072; Tue, 21 Jul 2026
+ 03:10:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2999; i=brauner@kernel.org; h=from:subject:message-id; bh=BfGVnvLylOR1ukv19F3xDAtbizuM3JaHDvahSFlKH8w=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTFu5pnM/w/kBcX9SbY+PubiPnV+7x8rr7S7cpb43nM8 Mthj9O+HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5/JGR4Wrvu9/sk82/vp/6 beWPXXytMjv9P9pcPXTY5GmenYpM/iFGhu0iQveOWRmUfdJQOWl9v6Hf4q/N9OLMdU+UTu74ya/ 1lh8A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20260720210202.1163861-1-joannelkoong@gmail.com> <20260720210202.1163861-18-joannelkoong@gmail.com>
+In-Reply-To: <20260720210202.1163861-18-joannelkoong@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 21 Jul 2026 19:10:25 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9_v5V6tLp7weMKmV93Z_Ktoz09aBuLFu2fTh4vF2jGoA@mail.gmail.com>
+X-Gm-Features: AUfX_myYICVL8mL56WX0uC4X8YB0o3yCLA_V6zi_0eVl2eTeuyKXxdnxOZtBOdg
+Message-ID: <CAKYAXd9_v5V6tLp7weMKmV93Z_Ktoz09aBuLFu2fTh4vF2jGoA@mail.gmail.com>
+Subject: Re: [PATCH v3 17/20] exfat: convert iomap ops to ->iomap_next()
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, hch@lst.de, "Darrick J . Wong" <djwong@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, changfengnan@bytedance.com, kbusch@kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	David Sterba <dsterba@suse.com>, Dan Williams <djbw@kernel.org>, Gao Xiang <xiang@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+	Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The stop value is derived from bprm->p >> PAGE_SHIFT. The index variable
-is an unsigned long. If bprm->p drops below PAGE_SIZE and stop becomes
-zero the loop condition index >= stop is always true.
-
-After the index == 0 iteration the decrement wraps to ULONG_MAX and
-bprm->page[ULONG_MAX] reads sizeof(void *) bytes in front of the array.
-The pointer has wrapped to -1. That garbage pointer is then passed to
-kmap_local_page() and PAGE_SIZE bytes are copied from wherever that
-lands into the stack of the process being created. And the loop doesn't
-terminate either...
-
-Getting there only requires bprm->p < PAGE_SIZE. On !MMU
-bprm_set_stack_limit() and bprm_hit_stack_limit() are empty. So the only
-constraint on how far bprm->p is pushed down is valid_arg_len(), i.e.
-that each individual string still fits in what is left.
-
-bprm->p starts at PAGE_SIZE * MAX_ARG_PAGES - sizeof(void *) so a
-single argument or environment string of a little over 31 pages leaves
-it in the first page:
-
-  Oops - load access fault [#1]
-  CPU: 0 UID: 0 PID: 1 Comm: victim Not tainted 7.2.0-rc4 #1
-  epc : __memcpy+0xd4/0xf8
-   ra : transfer_args_to_stack+0xaa/0xae
-   s4 : ffffffffffffffff   s2 : 0000000000000000
-   a1 : ffffffdc98000000   a2 : 0000000000001000
-  status: 0000000a00001880 badaddr: ffffffdc98000000 cause: 0000000000000005
-  [<801a5324>] __memcpy+0xd4/0xf8
-  [<800d5f6a>] load_flat_binary+0x43a/0x65e
-  [<800a2de4>] bprm_execve+0x1d4/0x316
-  [<800a351a>] do_execveat_common+0x12e/0x138
-  [<800a3d44>] __riscv_sys_execve+0x38/0x4e
-  Kernel panic - not syncing: Fatal exception in interrupt
-
-This is an arcane bug but we should still fix it.
-
-Count down from MAX_ARG_PAGES so the loop ends when index reaches stop,
-stop == 0 included. The iterations performed are unchanged for every
-other value of stop.
-
-Only CONFIG_MMU=n builds are affected, transfer_args_to_stack() is used
-by binfmt_flat and binfmt_elf_fdpic on nommu only.
-
-The loop predates git history. commit 7e7ec6a93434
-("elf_fdpic_transfer_args_to_stack(): make it generic") only moved it
-from binfmt_elf_fdpic.c into fs/exec.c and narrowed the copy to the used
-part of the first page. The condition and the decrement are unchanged
-from 2.6.12-rc2.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/exec.c b/fs/exec.c
-index d5993cedc829..c7b8f2d6366c 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -740,7 +740,7 @@ int transfer_args_to_stack(struct linux_binprm *bprm,
- 	stop = bprm->p >> PAGE_SHIFT;
- 	sp = *sp_location;
- 
--	for (index = MAX_ARG_PAGES - 1; index >= stop; index--) {
-+	for (index = MAX_ARG_PAGES; index-- > stop; ) {
- 		unsigned int offset = index == stop ? bprm->p & ~PAGE_MASK : 0;
- 		char *src = kmap_local_page(bprm->page[index]) + offset;
- 		sp -= PAGE_SIZE - offset;
--- 
-2.53.0
-
+On Tue, Jul 21, 2026 at 6:02=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> Convert exfat iomap_ops to the new ->iomap_next() callback. Each
+> callback is generated with the DEFINE_IOMAP_ITER_NEXT() and
+> DEFINE_IOMAP_ITER_NEXT_END() macros, which wrap the iomap_iter_next()
+> helper to finish the previous mapping if needed and produce the next
+> one. No functional changes are intended.
+>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Thanks!
