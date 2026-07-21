@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22D43C7AE;
-	Tue, 21 Jul 2026 22:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A5E40926D;
+	Tue, 21 Jul 2026 22:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784672926; cv=none; b=Ttp1o+tnDmkchFt6KSssKeGo42VVhtVCfKxPntZqDVwfiVvfL2gXa+7r/RDY3Ni0RU7KPpJtwqeaAny8tShFE2JNLb3XPW2hUq6Qv6MHbfwHZUNB3rOnV8xI4TPbr7RHUXeRL1hDjKgRiWy/9tmaC+VdvktiGTfUwYTCakfGiUs=
+	t=1784674758; cv=none; b=uiStLBhJWiWfmgviFwPhOM0zFGc9k3t2utMMwhCRq66y7sful04ng8iqG9k0N0n/eDMcKKuAtlsAIPIP34OT8LHdqh4cr9GHtTWAlzwSKJR+niIcRVXqfpKTOUmBvy5C2F5eNMvGagvjdLszddxYRZXjLqg5JNLAGjqaMFKvSA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784672926; c=relaxed/simple;
-	bh=ptwjdOnVNMrh5UIYHYz8KP88w2xMVe6CoOPvsvxU7A0=;
+	s=arc-20240116; t=1784674758; c=relaxed/simple;
+	bh=f1lQHq+wZobhrIwlb9yPwXXadqFWwl3Ia67onskGpaM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uqcO4rtIOOWsnNONx1EaAr7Uf2COXprJ/28W3JMkhyFm95jRI2iM9Iozd/2VSYf65HoAf3JNlnAF3btigkpmDIvdSvoI3XWeXKYCCjY5P2Nxak5O7fVGmBIy0mykFTP+bCMFELUWNaveRIVGp4LqDnNXW+KtSq24KeT26KDk3Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=L+Rrk15A; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=Srkr6aRHqKnYVawP5bImjLrj3DoQO1bNYqvg3W3UP/cVSEDwrFOH8pu1e+HjcYyrQg5mPCD3m3Y1HYNiMAEoMswnN0kEL9fweBCGahJqvKUyTdP/DN5iY1CfwKTNw8OnVU7stjtcPS8dQMu/g+PP/ltd2XN1unNL9GSvgyBRcog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=noLmJjjQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="L+Rrk15A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E071F000E9;
-	Tue, 21 Jul 2026 22:28:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="noLmJjjQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787881F000E9;
+	Tue, 21 Jul 2026 22:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784672920;
-	bh=aUKCjslqFUvXD+lpCEBWpK9DISqW53AeaT70qD5IyaY=;
+	s=korg; t=1784674756;
+	bh=xEq2JClQN1tvsmfn+PyWpf1oQgfWR13PvZ1yGejJJFk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=L+Rrk15ANdV6/Mn9uWxDxOsuemcgTUqd+gUVcDpxi/2dL0VebDjywm+7Z6ji0RW4o
-	 BwDx/7OAoJOrUxYcvt1Ru33oSbtQ+BSiWaYwLb8c97O1I06lbgLxXVr+3UfeB9lgRw
-	 rGdxcTHBdTDovlR6xzkrCXGNE+W4K4pwJ2xMR1hY=
+	b=noLmJjjQMVh5rIJqW8edOc55r2WBJf2daySRL+9sA88Oa07TI7XplBNLGM5akIsVF
+	 l8u4oqwbiYSURhUOedjUOEJPkwoHU0o6F+9HcVaEHOOmUFYhBn/C2EroBl94qmsCZQ
+	 9MdtZRBTy8R9ZwP2v7q4wurEuPoGFmyd9ZI5vtZo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -32,12 +32,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Yangtao Li <frank.li@vivo.com>,
 	linux-fsdevel@vger.kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 806/843] hfs/hfsplus: prevent getting negative values of offset/length
-Date: Tue, 21 Jul 2026 17:27:21 +0200
-Message-ID: <20260721152424.201486733@linuxfoundation.org>
+Subject: [PATCH 5.10 661/699] hfs/hfsplus: prevent getting negative values of offset/length
+Date: Tue, 21 Jul 2026 17:27:00 +0200
+Message-ID: <20260721152410.678218396@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721152405.946368001@linuxfoundation.org>
-References: <20260721152405.946368001@linuxfoundation.org>
+In-Reply-To: <20260721152355.667394603@linuxfoundation.org>
+References: <20260721152355.667394603@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -195,18 +195,18 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
  fs/hfs/bfind.c          |    2 -
- fs/hfs/bnode.c          |   52 ++++++++++++++---------------
+ fs/hfs/bnode.c          |   52 +++++++++++++++---------------
  fs/hfs/brec.c           |    2 -
  fs/hfs/btree.c          |    2 -
- fs/hfs/btree.h          |   71 ++++++++++++++++++++--------------------
- fs/hfs/hfs_fs.h         |   85 ++++++++++++++++++++++++++++--------------------
+ fs/hfs/btree.h          |   71 ++++++++++++++++++++---------------------
+ fs/hfs/hfs_fs.h         |   83 ++++++++++++++++++++++++++++--------------------
  fs/hfs/inode.c          |    2 -
  fs/hfsplus/bfind.c      |    2 -
- fs/hfsplus/bnode.c      |   60 ++++++++++++++++-----------------
+ fs/hfsplus/bnode.c      |   60 +++++++++++++++++-----------------
  fs/hfsplus/brec.c       |    2 -
  fs/hfsplus/btree.c      |    2 -
  fs/hfsplus/hfsplus_fs.h |   38 ++++++++++-----------
- 12 files changed, 168 insertions(+), 152 deletions(-)
+ 12 files changed, 167 insertions(+), 151 deletions(-)
 
 --- a/fs/hfs/bfind.c
 +++ b/fs/hfs/bfind.c
@@ -519,7 +519,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  struct hfs_bnode_desc {
 --- a/fs/hfs/hfs_fs.h
 +++ b/fs/hfs/hfs_fs.h
-@@ -171,71 +171,86 @@ struct hfs_sb_info {
+@@ -171,70 +171,85 @@ struct hfs_sb_info {
  #define HFS_FLG_ALT_MDB_DIRTY	2
  
  /* bitmap.c */
@@ -578,15 +578,13 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 -extern struct inode *hfs_new_inode(struct inode *, const struct qstr *, umode_t);
 -extern void hfs_inode_write_fork(struct inode *, struct hfs_extent *, __be32 *, __be32 *);
 -extern int hfs_write_inode(struct inode *, struct writeback_control *);
--extern int hfs_inode_setattr(struct user_namespace *, struct dentry *,
--			     struct iattr *);
+-extern int hfs_inode_setattr(struct dentry *, struct iattr *);
 +extern struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name,
 +				   umode_t mode);
 +extern void hfs_inode_write_fork(struct inode *inode, struct hfs_extent *ext,
 +				 __be32 *log_size, __be32 *phys_size);
 +extern int hfs_write_inode(struct inode *inode, struct writeback_control *wbc);
-+extern int hfs_inode_setattr(struct user_namespace *mnt_userns,
-+			     struct dentry *dentry, struct iattr *attr);
++extern int hfs_inode_setattr(struct dentry *dentry, struct iattr *attr);
  extern void hfs_inode_read_fork(struct inode *inode, struct hfs_extent *ext,
 -			__be32 log_size, __be32 phys_size, u32 clump_size);
 -extern struct inode *hfs_iget(struct super_block *, struct hfs_cat_key *, hfs_cat_rec *);
@@ -910,7 +908,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
 --- a/fs/hfsplus/hfsplus_fs.h
 +++ b/fs/hfsplus/hfsplus_fs.h
-@@ -388,21 +388,21 @@ u32 hfsplus_calc_btree_clump_size(u32 bl
+@@ -399,21 +399,21 @@ u32 hfsplus_calc_btree_clump_size(u32 bl
  struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id);
  void hfs_btree_close(struct hfs_btree *tree);
  int hfs_btree_write(struct hfs_btree *tree);
@@ -943,7 +941,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  void hfs_bnode_dump(struct hfs_bnode *node);
  void hfs_bnode_unlink(struct hfs_bnode *node);
  struct hfs_bnode *hfs_bnode_findhash(struct hfs_btree *tree, u32 cnid);
-@@ -417,7 +417,7 @@ bool hfs_bnode_need_zeroout(struct hfs_b
+@@ -428,7 +428,7 @@ bool hfs_bnode_need_zeroout(struct hfs_b
  /* brec.c */
  u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off);
  u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec);
@@ -952,7 +950,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  int hfs_brec_remove(struct hfs_find_data *fd);
  
  /* bfind.c */
-@@ -430,7 +430,7 @@ int hfs_find_rec_by_key(struct hfs_bnode
+@@ -441,7 +441,7 @@ int hfs_find_rec_by_key(struct hfs_bnode
  int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
  		    search_strategy_t rec_found);
  int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare);
@@ -961,7 +959,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  int hfs_brec_goto(struct hfs_find_data *fd, int cnt);
  
  /* catalog.c */
-@@ -586,14 +586,14 @@ hfsplus_btree_lock_class(struct hfs_btre
+@@ -589,14 +589,14 @@ hfsplus_btree_lock_class(struct hfs_btre
  }
  
  static inline
@@ -978,7 +976,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  		       node->this, node->type, node->height,
  		       node->tree->node_size, off);
  	}
-@@ -602,7 +602,7 @@ bool is_bnode_offset_valid(struct hfs_bn
+@@ -605,7 +605,7 @@ bool is_bnode_offset_valid(struct hfs_bn
  }
  
  static inline
@@ -987,7 +985,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
  	unsigned int node_size;
  
-@@ -612,12 +612,12 @@ int check_and_correct_requested_length(s
+@@ -615,12 +615,12 @@ int check_and_correct_requested_length(s
  	node_size = node->tree->node_size;
  
  	if ((off + len) > node_size) {
