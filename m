@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB693A4F4B;
-	Tue, 21 Jul 2026 19:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E83356746;
+	Tue, 21 Jul 2026 19:47:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784663211; cv=none; b=rNKN6wzsUHcpMPQBRhjeYPzxWvkb28U9/XkDYXZilpAzGEMn0D86EZD/rx0dK1YohBQ31OmkM7wcg1zpl/RT5mWjq88irBR7edoxONo3JsCdD3P9794tUFmcCGmx3Rh64a+pVMEHfp9VHapdf+XnJWaIZM3IKJ31nHpJ8iZbteA=
+	t=1784663242; cv=none; b=Za+/QDXRR9PqSsloeyRCI5QCLYCLz7NsGRf+0ouDH147DXTSaqZ3tFR+bvz3oSNRPVOLjyHuQXM6FXtmCELqSKj6vvWZ60C8iA1/t6FoGdsANAYecXS30WvZSu0rrY6VkXLdNmH/BetQerteGAXSS0n1XpeDG1e8/pcZwlcZMlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784663211; c=relaxed/simple;
-	bh=enZCCNBfwosVPQiZ0Rk5RujzW3gbZAsdeOb3WkXsB54=;
+	s=arc-20240116; t=1784663242; c=relaxed/simple;
+	bh=bLSzlqx69Kjs0xCKVwjUEP7OXLmb/sBFuDoAkuGP7f4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rpDaOKImQAiXn/Pexa9xYfNPx2qi6W+iT0nJcfYK7j7YNlHBqbS8S7av9lvvbxjyKtNWLy2hZRyiI2XF7FexEf649rPOsI1LoZkR543IiE4FT0laMPK2O4LFdYETZ5m4xAngAzRh9aJf0JmyzFXezr5AGWU0snw7oEC1DVoZWks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ETCDKkdI; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=Dg45udqWFsFKTMgQJbJboC/FWDZDniyk5wrLNAoa1XXossB2ieN7C8DhymqmNWApU+qP+zZc2SkdJyimsnJpmGxt12DvSYgGuLnG1J4OxB7usLzTdMYBUWa0Wsj2rMtJwnfSeCDLsM+U/rBmAu/OOc2iRRdEQ0YS3THTGNLzgiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h2lnea76; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ETCDKkdI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4141F000E9;
-	Tue, 21 Jul 2026 19:46:49 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h2lnea76"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E111F000E9;
+	Tue, 21 Jul 2026 19:47:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784663210;
-	bh=I3cQfOdDN7qN1fDLA7CqM0/0fUhu22qnhhz3zJdcdMk=;
+	s=korg; t=1784663239;
+	bh=ApFw7QwgnHjvt3/pKCv//m2WpYRtQ8AG7tQHQXPAfFg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ETCDKkdItdddrfQCVd5ayq/wQgCfe8t7BogVsQrVDhVAk/NaI9YcgcpF8ik3Ew5L2
-	 W7Jo8H77k1TiuiX01uNkZKtBx/Szsjms+T0C1vTI+LAZ5423ss800ZEJQrWUURxzYq
-	 PW3PpgE8G82ztMzKTMS7PsBd3T6E2tYOg40iUj60=
+	b=h2lnea76LxF/E4Z/hucQ46/5Z1vwRzYJzsxcL6p8CPtWcXFKP0zKL0Bg49EyGjIZs
+	 hwv1YikmxWlGF/Q769daFb7aoLnotRAi7JctwFCBvloDYpbm71fmqWC0E/UKHncCa1
+	 bqr2UDdJFVBc4NgPMwKqw6LoIr/mMGCoxKqnbwxs=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	patches@lists.linux.dev,
 	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
+	Jeff Layton <jlayton@kernel.org>,
+	netfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 0735/1276] afs: Remove the "autocell" mount option
-Date: Tue, 21 Jul 2026 17:19:38 +0200
-Message-ID: <20260721152502.528599314@linuxfoundation.org>
+Subject: [PATCH 6.12 0749/1276] netfs: Drop the error arg from netfs_read_subreq_terminated()
+Date: Tue, 21 Jul 2026 17:19:52 +0200
+Message-ID: <20260721152502.841339757@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260721152446.065700225@linuxfoundation.org>
 References: <20260721152446.065700225@linuxfoundation.org>
@@ -55,112 +56,410 @@ Content-Transfer-Encoding: 8bit
 
 From: David Howells <dhowells@redhat.com>
 
-[ Upstream commit 4c5ad63f85ef984cc809538b2dcbc113aed82330 ]
+[ Upstream commit 360157829ee3dba848ffa817792d9a07969e0a95 ]
 
-Remove the "autocell" mount option.  It was an attempt to do automounting
-of arbitrary cells based on what the user looked up but within the root
-directory of a mounted volume.  This isn't really the right thing to do,
-and using the "dyn" mount option to get the dynamic root is the right way
-to do it.  The kafs-client package uses "-o dyn" when mounting /afs, so it
-should be safe to drop "-o autocell".
+Drop the error argument from netfs_read_subreq_terminated() in favour of
+passing the value in subreq->error.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
+Link: https://lore.kernel.org/r/20241216204124.3752367-9-dhowells@redhat.com
+cc: Jeff Layton <jlayton@kernel.org>
+cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
-Link: https://lore.kernel.org/r/20250224234154.2014840-7-dhowells@redhat.com/ # v1
-Link: https://lore.kernel.org/r/20250310094206.801057-3-dhowells@redhat.com/ # v4
-Stable-dep-of: c9c3b615a462 ("afs: Fix misplaced inc of net->cells_outstanding")
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Stable-dep-of: c16b8c4cfb4f ("cifs: Fix missing credit release on failure in cifs_issue_read()")
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/afs/dir.c      | 5 ++---
- fs/afs/dynroot.c  | 5 +----
- fs/afs/internal.h | 2 --
- fs/afs/super.c    | 5 -----
- 4 files changed, 3 insertions(+), 14 deletions(-)
+ fs/9p/vfs_addr.c         |  3 ++-
+ fs/afs/file.c            | 15 ++++++++-----
+ fs/ceph/addr.c           | 13 +++++++----
+ fs/netfs/buffered_read.c | 16 +++++++-------
+ fs/netfs/objects.c       | 15 ++++++++++++-
+ fs/netfs/read_collect.c  | 47 +++++++++++++++++++++++++---------------
+ fs/nfs/fscache.c         |  6 +++--
+ fs/nfs/fscache.h         |  3 ++-
+ fs/smb/client/cifssmb.c  | 10 +--------
+ fs/smb/client/file.c     |  3 ++-
+ fs/smb/client/smb2pdu.c  | 10 +--------
+ include/linux/netfs.h    |  7 +++---
+ 12 files changed, 86 insertions(+), 62 deletions(-)
 
-diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index 50edd1cae28ace..037c89e05f4cf0 100644
---- a/fs/afs/dir.c
-+++ b/fs/afs/dir.c
-@@ -1031,9 +1031,8 @@ static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
- 	inode = afs_do_lookup(dir, dentry, key);
- 	key_put(key);
- 	if (inode == ERR_PTR(-ENOENT))
--		inode = afs_try_auto_mntpt(dentry, dir);
--
--	if (!IS_ERR_OR_NULL(inode))
-+		inode = NULL;
-+	else if (!IS_ERR_OR_NULL(inode))
- 		fid = AFS_FS_I(inode)->fid;
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index db78c06ba0cc6f..d6107ac50e8821 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -83,7 +83,8 @@ static void v9fs_issue_read(struct netfs_io_subrequest *subreq)
+ 	if (!err)
+ 		subreq->transferred += total;
  
- 	_debug("splice %p", dentry->d_inode);
-diff --git a/fs/afs/dynroot.c b/fs/afs/dynroot.c
-index 008698d706caa4..0b4cc291c65e2d 100644
---- a/fs/afs/dynroot.c
-+++ b/fs/afs/dynroot.c
-@@ -155,7 +155,7 @@ static int afs_probe_cell_name(struct dentry *dentry)
-  * Try to auto mount the mountpoint with pseudo directory, if the autocell
-  * operation is setted.
-  */
--struct inode *afs_try_auto_mntpt(struct dentry *dentry, struct inode *dir)
-+static struct inode *afs_try_auto_mntpt(struct dentry *dentry, struct inode *dir)
+-	netfs_read_subreq_terminated(subreq, err, false);
++	subreq->error = err;
++	netfs_read_subreq_terminated(subreq, false);
+ }
+ 
+ /**
+diff --git a/fs/afs/file.c b/fs/afs/file.c
+index 6762eff9751722..56248a078bcaa6 100644
+--- a/fs/afs/file.c
++++ b/fs/afs/file.c
+@@ -246,7 +246,8 @@ static void afs_fetch_data_notify(struct afs_operation *op)
+ 		subreq->rreq->i_size = req->file_size;
+ 		if (req->pos + req->actual_len >= req->file_size)
+ 			__set_bit(NETFS_SREQ_HIT_EOF, &subreq->flags);
+-		netfs_read_subreq_terminated(subreq, error, false);
++		subreq->error = error;
++		netfs_read_subreq_terminated(subreq, false);
+ 		req->subreq = NULL;
+ 	} else if (req->done) {
+ 		req->done(req);
+@@ -301,8 +302,10 @@ int afs_fetch_data(struct afs_vnode *vnode, struct afs_read *req)
+ 
+ 	op = afs_alloc_operation(req->key, vnode->volume);
+ 	if (IS_ERR(op)) {
+-		if (req->subreq)
+-			netfs_read_subreq_terminated(req->subreq, PTR_ERR(op), false);
++		if (req->subreq) {
++			req->subreq->error = PTR_ERR(op);
++			netfs_read_subreq_terminated(req->subreq, false);
++		}
+ 		return PTR_ERR(op);
+ 	}
+ 
+@@ -320,8 +323,10 @@ static void afs_read_worker(struct work_struct *work)
+ 	struct afs_read *fsreq;
+ 
+ 	fsreq = afs_alloc_read(GFP_NOFS);
+-	if (!fsreq)
+-		return netfs_read_subreq_terminated(subreq, -ENOMEM, false);
++	if (!fsreq) {
++		subreq->error = -ENOMEM;
++		return netfs_read_subreq_terminated(subreq, false);
++	}
+ 
+ 	fsreq->subreq	= subreq;
+ 	fsreq->pos	= subreq->start + subreq->transferred;
+diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
+index 5addf09cb6e6ee..8d1a646e229a56 100644
+--- a/fs/ceph/addr.c
++++ b/fs/ceph/addr.c
+@@ -253,8 +253,9 @@ static void finish_netfs_read(struct ceph_osd_request *req)
+ 		subreq->transferred = err;
+ 		err = 0;
+ 	}
++	subreq->error = err;
+ 	trace_netfs_sreq(subreq, netfs_sreq_trace_io_progress);
+-	netfs_read_subreq_terminated(subreq, err, false);
++	netfs_read_subreq_terminated(subreq, false);
+ 	iput(req->r_inode);
+ 	ceph_dec_osd_stopping_blocker(fsc->mdsc);
+ }
+@@ -314,7 +315,9 @@ static bool ceph_netfs_issue_op_inline(struct netfs_io_subrequest *subreq)
+ 
+ 	ceph_mdsc_put_request(req);
+ out:
+-	netfs_read_subreq_terminated(subreq, err, false);
++	subreq->error = err;
++	trace_netfs_sreq(subreq, netfs_sreq_trace_io_progress);
++	netfs_read_subreq_terminated(subreq, false);
+ 	return true;
+ }
+ 
+@@ -435,8 +438,10 @@ static void ceph_netfs_issue_read(struct netfs_io_subrequest *subreq)
+ 	ceph_osdc_start_request(req->r_osdc, req);
+ out:
+ 	ceph_osdc_put_request(req);
+-	if (err)
+-		netfs_read_subreq_terminated(subreq, err, false);
++	if (err) {
++		subreq->error = err;
++		netfs_read_subreq_terminated(subreq, false);
++	}
+ 	doutc(cl, "%llx.%llx result %d\n", ceph_vinop(inode), err);
+ }
+ 
+diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+index 3b418fed46027c..5f3073ad42085a 100644
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -190,14 +190,13 @@ static void netfs_cache_read_terminated(void *priv, ssize_t transferred_or_error
  {
- 	struct afs_vnode *vnode = AFS_FS_I(dir);
- 	struct inode *inode;
-@@ -164,9 +164,6 @@ struct inode *afs_try_auto_mntpt(struct dentry *dentry, struct inode *dir)
- 	_enter("%p{%pd}, {%llx:%llu}",
- 	       dentry, dentry, vnode->fid.vid, vnode->fid.vnode);
+ 	struct netfs_io_subrequest *subreq = priv;
  
--	if (!test_bit(AFS_VNODE_AUTOCELL, &vnode->flags))
--		goto out;
+-	if (transferred_or_error < 0) {
+-		netfs_read_subreq_terminated(subreq, transferred_or_error, was_async);
+-		return;
+-	}
 -
- 	ret = afs_probe_cell_name(dentry);
- 	if (ret < 0)
- 		goto out;
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 18f410559fe87b..aa66d8010f8942 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -714,7 +714,6 @@ struct afs_vnode {
- #define AFS_VNODE_ZAP_DATA	3		/* set if vnode's data should be invalidated */
- #define AFS_VNODE_DELETED	4		/* set if vnode deleted on server */
- #define AFS_VNODE_MOUNTPOINT	5		/* set if vnode is a mountpoint symlink */
--#define AFS_VNODE_AUTOCELL	6		/* set if Vnode is an auto mount point */
- #define AFS_VNODE_PSEUDODIR	7 		/* set if Vnode is a pseudo directory */
- #define AFS_VNODE_NEW_CONTENT	8		/* Set if file has new content (create/trunc-0) */
- #define AFS_VNODE_SILLY_DELETED	9		/* Set if file has been silly-deleted */
-@@ -1089,7 +1088,6 @@ extern int afs_silly_iput(struct dentry *, struct inode *);
- extern const struct inode_operations afs_dynroot_inode_operations;
- extern const struct dentry_operations afs_dynroot_dentry_operations;
+-	if (transferred_or_error > 0)
++	if (transferred_or_error > 0) {
+ 		subreq->transferred += transferred_or_error;
+-	netfs_read_subreq_terminated(subreq, 0, was_async);
++		subreq->error = 0;
++	} else {
++		subreq->error = transferred_or_error;
++	}
++	netfs_read_subreq_terminated(subreq, was_async);
+ }
  
--extern struct inode *afs_try_auto_mntpt(struct dentry *, struct inode *);
- extern int afs_dynroot_mkdir(struct afs_net *, struct afs_cell *);
- extern void afs_dynroot_rmdir(struct afs_net *, struct afs_cell *);
- extern int afs_dynroot_populate(struct super_block *);
-diff --git a/fs/afs/super.c b/fs/afs/super.c
-index f3ba1c3e72f5b8..259c48e37537eb 100644
---- a/fs/afs/super.c
-+++ b/fs/afs/super.c
-@@ -194,8 +194,6 @@ static int afs_show_options(struct seq_file *m, struct dentry *root)
+ /*
+@@ -297,7 +296,8 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq)
+ 			if (slice < 0)
+ 				goto prep_iter_failed;
+ 			__set_bit(NETFS_SREQ_CLEAR_TAIL, &subreq->flags);
+-			netfs_read_subreq_terminated(subreq, 0, false);
++			subreq->error = 0;
++			netfs_read_subreq_terminated(subreq, false);
+ 			goto done;
+ 		}
  
- 	if (as->dyn_root)
- 		seq_puts(m, ",dyn");
--	if (test_bit(AFS_VNODE_AUTOCELL, &AFS_FS_I(d_inode(root))->flags))
--		seq_puts(m, ",autocell");
- 	switch (as->flock_mode) {
- 	case afs_flock_mode_unset:	break;
- 	case afs_flock_mode_local:	p = "local";	break;
-@@ -478,9 +476,6 @@ static int afs_fill_super(struct super_block *sb, struct afs_fs_context *ctx)
- 	if (IS_ERR(inode))
- 		return PTR_ERR(inode);
+diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
+index 31e388ec6e4875..eb8411bd0a7431 100644
+--- a/fs/netfs/objects.c
++++ b/fs/netfs/objects.c
+@@ -191,7 +191,20 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
+ 	}
  
--	if (ctx->autocell || as->dyn_root)
--		set_bit(AFS_VNODE_AUTOCELL, &AFS_FS_I(inode)->flags);
+ 	memset(subreq, 0, kmem_cache_size(cache));
+-	INIT_WORK(&subreq->work, NULL);
++
++	switch (rreq->origin) {
++	case NETFS_READAHEAD:
++	case NETFS_READPAGE:
++	case NETFS_READ_GAPS:
++	case NETFS_READ_FOR_WRITE:
++	case NETFS_DIO_READ:
++		INIT_WORK(&subreq->work, netfs_read_subreq_termination_worker);
++		break;
++	default:
++		INIT_WORK(&subreq->work, NULL);
++		break;
++	}
++
+ 	INIT_LIST_HEAD(&subreq->rreq_link);
+ 	refcount_set(&subreq->ref, 2);
+ 	subreq->rreq = rreq;
+diff --git a/fs/netfs/read_collect.c b/fs/netfs/read_collect.c
+index eae415efae24a0..2955dc31d3c771 100644
+--- a/fs/netfs/read_collect.c
++++ b/fs/netfs/read_collect.c
+@@ -449,28 +449,26 @@ EXPORT_SYMBOL(netfs_read_subreq_progress);
+ /**
+  * netfs_read_subreq_terminated - Note the termination of an I/O operation.
+  * @subreq: The I/O request that has terminated.
+- * @error: Error code indicating type of completion.
+- * @was_async: The termination was asynchronous
++ * @was_async: True if we're in an asynchronous context.
+  *
+  * This tells the read helper that a contributory I/O operation has terminated,
+  * one way or another, and that it should integrate the results.
+  *
+- * The caller indicates the outcome of the operation through @error, supplying
+- * 0 to indicate a successful or retryable transfer (if NETFS_SREQ_NEED_RETRY
+- * is set) or a negative error code.  The helper will look after reissuing I/O
+- * operations as appropriate and writing downloaded data to the cache.
++ * The caller indicates the outcome of the operation through @subreq->error,
++ * supplying 0 to indicate a successful or retryable transfer (if
++ * NETFS_SREQ_NEED_RETRY is set) or a negative error code.  The helper will
++ * look after reissuing I/O operations as appropriate and writing downloaded
++ * data to the cache.
+  *
+  * Before calling, the filesystem should update subreq->transferred to track
+  * the amount of data copied into the output buffer.
+- *
+- * If @was_async is true, the caller might be running in softirq or interrupt
+- * context and we can't sleep.
+  */
+-void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+-				  int error, bool was_async)
++void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq, bool was_async)
+ {
+ 	struct netfs_io_request *rreq = subreq->rreq;
+ 
++	might_sleep();
++
+ 	switch (subreq->source) {
+ 	case NETFS_READ_FROM_CACHE:
+ 		netfs_stat(&netfs_n_rh_read_done);
+@@ -488,7 +486,7 @@ void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+ 		 * If the read completed validly short, then we can clear the
+ 		 * tail before going on to unlock the folios.
+ 		 */
+-		if (error == 0 && subreq->transferred < subreq->len &&
++		if (subreq->error == 0 && subreq->transferred < subreq->len &&
+ 		    (test_bit(NETFS_SREQ_HIT_EOF, &subreq->flags) ||
+ 		     test_bit(NETFS_SREQ_CLEAR_TAIL, &subreq->flags))) {
+ 			netfs_clear_unread(subreq);
+@@ -508,7 +506,7 @@ void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+ 	/* Deal with retry requests, short reads and errors.  If we retry
+ 	 * but don't make progress, we abandon the attempt.
+ 	 */
+-	if (!error && subreq->transferred < subreq->len) {
++	if (!subreq->error && subreq->transferred < subreq->len) {
+ 		if (test_bit(NETFS_SREQ_HIT_EOF, &subreq->flags)) {
+ 			trace_netfs_sreq(subreq, netfs_sreq_trace_hit_eof);
+ 		} else {
+@@ -522,16 +520,15 @@ void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+ 				set_bit(NETFS_RREQ_NEED_RETRY, &rreq->flags);
+ 			} else {
+ 				__set_bit(NETFS_SREQ_FAILED, &subreq->flags);
+-				error = -ENODATA;
++				subreq->error = -ENODATA;
+ 			}
+ 		}
+ 	}
+ 
+-	subreq->error = error;
+ 	trace_netfs_sreq(subreq, netfs_sreq_trace_terminated);
+ 
+-	if (unlikely(error < 0)) {
+-		trace_netfs_failure(rreq, subreq, error, netfs_fail_read);
++	if (unlikely(subreq->error < 0)) {
++		trace_netfs_failure(rreq, subreq, subreq->error, netfs_fail_read);
+ 		if (subreq->source == NETFS_READ_FROM_CACHE) {
+ 			netfs_stat(&netfs_n_rh_read_failed);
+ 		} else {
+@@ -547,3 +544,19 @@ void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+ 	netfs_put_subrequest(subreq, was_async, netfs_sreq_trace_put_terminated);
+ }
+ EXPORT_SYMBOL(netfs_read_subreq_terminated);
++
++/**
++ * netfs_read_subreq_termination_worker - Workqueue helper for read termination
++ * @work: The subreq->work in the I/O request that has been terminated.
++ *
++ * Helper function to jump to netfs_read_subreq_terminated() from the
++ * subrequest work item.
++ */
++void netfs_read_subreq_termination_worker(struct work_struct *work)
++{
++	struct netfs_io_subrequest *subreq =
++		container_of(work, struct netfs_io_subrequest, work);
++
++	netfs_read_subreq_terminated(subreq, false);
++}
++EXPORT_SYMBOL(netfs_read_subreq_termination_worker);
+diff --git a/fs/nfs/fscache.c b/fs/nfs/fscache.c
+index d49e4ce279994f..be14d30608f6d5 100644
+--- a/fs/nfs/fscache.c
++++ b/fs/nfs/fscache.c
+@@ -314,8 +314,10 @@ static void nfs_netfs_issue_read(struct netfs_io_subrequest *sreq)
+ 			     &nfs_async_read_completion_ops);
+ 
+ 	netfs = nfs_netfs_alloc(sreq);
+-	if (!netfs)
+-		return netfs_read_subreq_terminated(sreq, -ENOMEM, false);
++	if (!netfs) {
++		sreq->error = -ENOMEM;
++		return netfs_read_subreq_terminated(sreq, false);
++	}
+ 
+ 	pgio.pg_netfs = netfs; /* used in completion */
+ 
+diff --git a/fs/nfs/fscache.h b/fs/nfs/fscache.h
+index 772d485e96d35a..1d86f7cc719507 100644
+--- a/fs/nfs/fscache.h
++++ b/fs/nfs/fscache.h
+@@ -74,7 +74,8 @@ static inline void nfs_netfs_put(struct nfs_netfs_io_data *netfs)
+ 	 */
+ 	netfs->sreq->transferred = min_t(s64, netfs->sreq->len,
+ 					 atomic64_read(&netfs->transferred));
+-	netfs_read_subreq_terminated(netfs->sreq, netfs->error, false);
++	netfs->sreq->error = netfs->error;
++	netfs_read_subreq_terminated(netfs->sreq, false);
+ 	kfree(netfs);
+ }
+ static inline void nfs_netfs_inode_init(struct nfs_inode *nfsi)
+diff --git a/fs/smb/client/cifssmb.c b/fs/smb/client/cifssmb.c
+index 8a257cb29c955e..81a1c116e90317 100644
+--- a/fs/smb/client/cifssmb.c
++++ b/fs/smb/client/cifssmb.c
+@@ -1262,14 +1262,6 @@ CIFS_open(const unsigned int xid, struct cifs_open_parms *oparms, int *oplock,
+ 	return rc;
+ }
+ 
+-static void cifs_readv_worker(struct work_struct *work)
+-{
+-	struct cifs_io_subrequest *rdata =
+-		container_of(work, struct cifs_io_subrequest, subreq.work);
 -
- 	ret = -ENOMEM;
- 	sb->s_root = d_make_root(inode);
- 	if (!sb->s_root)
+-	netfs_read_subreq_terminated(&rdata->subreq, rdata->result, false);
+-}
+-
+ static void
+ cifs_readv_callback(struct mid_q_entry *mid)
+ {
+@@ -1336,8 +1328,8 @@ cifs_readv_callback(struct mid_q_entry *mid)
+ 	}
+ 
+ 	rdata->credits.value = 0;
++	rdata->subreq.error = rdata->result;
+ 	rdata->subreq.transferred += rdata->got_bytes;
+-	INIT_WORK(&rdata->subreq.work, cifs_readv_worker);
+ 	queue_work(cifsiod_wq, &rdata->subreq.work);
+ 	release_mid(mid);
+ 	add_credits(server, &credits, 0);
+diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
+index 53349f2118cda6..898fb7e293ddc7 100644
+--- a/fs/smb/client/file.c
++++ b/fs/smb/client/file.c
+@@ -229,7 +229,8 @@ static void cifs_issue_read(struct netfs_io_subrequest *subreq)
+ 	return;
+ 
+ failed:
+-	netfs_read_subreq_terminated(subreq, rc, false);
++	subreq->error = rc;
++	netfs_read_subreq_terminated(subreq, false);
+ }
+ 
+ /*
+diff --git a/fs/smb/client/smb2pdu.c b/fs/smb/client/smb2pdu.c
+index 7fc588eabb2234..5a8a9e4ba36db9 100644
+--- a/fs/smb/client/smb2pdu.c
++++ b/fs/smb/client/smb2pdu.c
+@@ -4536,14 +4536,6 @@ smb2_new_read_req(void **buf, unsigned int *total_len,
+ 	return rc;
+ }
+ 
+-static void smb2_readv_worker(struct work_struct *work)
+-{
+-	struct cifs_io_subrequest *rdata =
+-		container_of(work, struct cifs_io_subrequest, subreq.work);
+-
+-	netfs_read_subreq_terminated(&rdata->subreq, rdata->result, false);
+-}
+-
+ static void
+ smb2_readv_callback(struct mid_q_entry *mid)
+ {
+@@ -4656,9 +4648,9 @@ smb2_readv_callback(struct mid_q_entry *mid)
+ 			      server->credits, server->in_flight,
+ 			      0, cifs_trace_rw_credits_read_response_clear);
+ 	rdata->credits.value = 0;
++	rdata->subreq.error = rdata->result;
+ 	rdata->subreq.transferred += rdata->got_bytes;
+ 	trace_netfs_sreq(&rdata->subreq, netfs_sreq_trace_io_progress);
+-	INIT_WORK(&rdata->subreq.work, smb2_readv_worker);
+ 	queue_work(cifsiod_wq, &rdata->subreq.work);
+ 	release_mid(mid);
+ 	trace_smb3_rw_credits(rreq_debug_id, subreq_debug_index, 0,
+diff --git a/include/linux/netfs.h b/include/linux/netfs.h
+index 83d313718cd509..6bd0dbfe8f0c9d 100644
+--- a/include/linux/netfs.h
++++ b/include/linux/netfs.h
+@@ -429,10 +429,9 @@ bool netfs_release_folio(struct folio *folio, gfp_t gfp);
+ vm_fault_t netfs_page_mkwrite(struct vm_fault *vmf, struct netfs_group *netfs_group);
+ 
+ /* (Sub)request management API. */
+-void netfs_read_subreq_progress(struct netfs_io_subrequest *subreq,
+-				bool was_async);
+-void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq,
+-				  int error, bool was_async);
++void netfs_read_subreq_progress(struct netfs_io_subrequest *subreq, bool was_async);
++void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq, bool was_async);
++void netfs_read_subreq_termination_worker(struct work_struct *work);
+ void netfs_get_subrequest(struct netfs_io_subrequest *subreq,
+ 			  enum netfs_sreq_ref_trace what);
+ void netfs_put_subrequest(struct netfs_io_subrequest *subreq,
 -- 
 2.53.0
 
