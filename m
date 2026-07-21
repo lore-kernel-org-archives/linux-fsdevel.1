@@ -1,187 +1,192 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A873388890
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 19:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784662768; cv=pass; b=MAc6JKKzc7aap6fw4qoSWNHSGZZVRmgoXmq01/NCg8Hm0GDp/BvjRAGheRo0iOpvT4a85FTYhqpAm+SnysTKJZQOyq3g+Xz+Djn5LieRbJqj4BBw1UqOBeuWWlg71C2F9CLnRjywcVHGVhxi7fquWNoY80SaEiVjL0au4LFohdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784662768; c=relaxed/simple;
-	bh=eLpB+1ra0XpPPhFSDBvcupwbpf9ADwhhQQSg2GKItwA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QRcWQx040WfnhFUeLrW6i5rPjvKUomLKmqaHwbgbUUUh3jkMD2PaLG2rUWMCWmUmTU5yUQ9gzTET7Mj9hLUOJGJYDx66bDy3atGSlPnlE8bTa12LL3YE9SRJD8rDYAPonXpXWe2u0nrQ9CVScu7vGe/0VzVbNOsqgaYwgYmQApk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FOcjIr8L; arc=pass smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A37284662;
+	Tue, 21 Jul 2026 19:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784663209; cv=none; b=j+plAYZ4j30KLl8y/rC7SbZIJJ/PFXOUGV73hEEl6b1m5NW03CAkNX9cDqKHtItOzErues+lPVG4AZY+eGVu9izrdJvpnr1zFz9EZqPHSBvKvNSRznw8PJV71VgHCWTjkKg6ejAkU0bjdHfD7kEed0RCn/1vBmaz/0inpLAaxbI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784663209; c=relaxed/simple;
+	bh=35tjIfFXJZCglrubPg0K7RxThWswcxJKZdtYusKMq5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aU5uXty0xBwr9pDCYJtpN7ZdEJ+IKvjaGoSDrm6Js6kNhl5Mfwv3vGA+tf+ASv/QtKQMBsaA/4A3TM/fApIzXcJUGRuKJay22NLoSJSf/aSQ7LRc8HcFK5mH1UyElVOzvrMkibt9qEahhBqw1g1ZDvg0BKfwYPTl6Gk04ry1WlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vaGIzVwU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FOcjIr8L"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cede6375caso495605ad.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 12:39:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784662767; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OsSB4IAxs3HjfQExBhBN/6kAQ5orKDsHQ+dXmeOl6Im/eTjbb43usu2/4sCajU1IaG
-         TK90tIdGSt5vCC2A5xW+p4mmCLEPN8PbcChu3rj9ZRw0WKs3h1gAYBqvedCFRcxMG9N3
-         1tPp0OaQCGqQ7tb5aS7z05zNHEw2xUMFzLosZSnVaxxDlBk9T2OEIeno8zN46FGzb3Y8
-         wkoV7ncQG7AohhIxESH+0+selbKIf8aFJKtv+4Wh18zATege9XKEF3iOCNyGt+zxOXZV
-         b1UmO0vgmZbjdwZbSGqQm1Wn526iYxzBXf5qInyMIIaTgOPyt9RDn6aHpyjkUi2zHcS6
-         qieQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yCbW+hyT0YYJ59cHhMMtVWtYX3c54CsBcbRYDK3kPr0=;
-        fh=SCbCUns14ag291lwcHYg246KLfSgSHS2KtIf8kOdw0M=;
-        b=op0VC6q4qfmC2twCIHKgD5ETfQXyEIc2AJe8RKnduBSxF/Aox1oBAM8Q0sP0jZXoN+
-         ii437Bq5g1kIhfGPtNdwTKtaP2ISIyj6O8AXGgXV6Fl1p1xtTTySk5wgjjZZ1yF2s57F
-         MC1VuW3gn60gtS3RGFoSbD35GZ/GrSPNOkJ12NeOSxWYWwwi47aupf2bGLW2ofWeUwXz
-         fWsrrmeTbx31+Vz6blCyhXn2nkuMzGf8urtyAqWp+mXDVtWK0fKIlhsiK9L2YUV7O+mt
-         vqFbJF+dF9AVPN17zsgMKQHmMB5alVt+qxJHE1SiYeIDpxO1QY0dA1liPMrDDEOEEzaD
-         Sy5A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784662767; x=1785267567; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yCbW+hyT0YYJ59cHhMMtVWtYX3c54CsBcbRYDK3kPr0=;
-        b=FOcjIr8Lfsa9n4O1ZjJJ0HAsE4h1dhtnQfneq1GhPdqy5B2ISbqOkD+nEyV4i3OiC/
-         oaixEFktZkWuevgdtTHfq9S8QFMzZZCf/yyCpBekRZmD6rGMNpH9AI129vRzorHb+HCL
-         /xCuKUBh2kgVbmgNFwrj+G8yXlmI19YN+llMwb2ysgsHZiH6JTMmZn/u7DyCcgnSM05X
-         hLKCwXLpQUHFIhwPXEWCuHfH9/4PCmbsKBt0WTKz0QSgX3yvYS7HjgihYnK+HLYvTLKk
-         QvY+Y3dfwOSCFRl8cvRuQiOzW2yzMRMxBfyxs2q+8kygFoCEYYICnglMDKYBTlQkgSBX
-         cOPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784662767; x=1785267567;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yCbW+hyT0YYJ59cHhMMtVWtYX3c54CsBcbRYDK3kPr0=;
-        b=XSofZQpaQyp000gdnpqCDfZ3HcqhDXUzj4sH2kRKLvcPLX+x7RxlFiKOqA1TIOB9+L
-         hxHG+VGSwRdQkfQEKL5Bhesy0CI79BLF6H2w+ESTnesH4CPgS9urng47C2LU5+OUmqfg
-         A3JJc53SdM/qMkW8N4IRRbcemISs+J0QaY4jbw1K6EN0shrBmpiv3EYovAYResGdFKhv
-         lVELZZYBaKDUfS9HuHO6YD+bnRYEyRKnFUDlvGkzDBnTVTvkK4vqSmqea6MwnfEHoY2U
-         3j06M5UJtYJ4oSKiE8FKO8r+VOaJaV3fVImwazKxkKsm0RdyKvWjGex1D50i4IfdkNKV
-         Dk0w==
-X-Forwarded-Encrypted: i=1; AHgh+RrKAqyNxPBfSp3iZWkFrbjHxOze9eHXor19g/trL1mJGJEEQ3MfLrsfBR1FafwpHvPijhGFdizsG8B7yJzq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOrFPTQO09dvDQkpUL16kdzRmltEs+xtw6/3KHRXo7l/7BGcY0
-	O0N5TKdIk4RV/R3IC1789ayBZF+h5KrI+SO+rWBQr1wWzAAJESMsMFenpJH/1JTCjZnz+TGgE2o
-	vzuiCb9h4zoK4WFh3RLAsc+rg1JqXzuc/xLuTn2Ay
-X-Gm-Gg: AR+sD11J4DcyoQ1M6PQF7rpMPr3aM2AbUSO7XiPXgSAC+G7015U8CRJI5H6QV6rpJS0
-	nihTGmcqFfyhstYbQb2O3EEOFDeGjDbTg5/CLLEA+HKrFRPoYtb0W1pCJchHNno0pvsIr9ESZRH
-	4MKKnzUr+VV8+NXSIbRx9hxqVpRsUuq0aPfBORoHyzMf6BLNKVxwSjR3w24kuBoYfyau0/vASbW
-	yBhZwJzpFLyVXxBJIbWSP3DRJA/ZuAZJqA5BQ4TAAtzbL99+j3YQIJlv89YKKDCrG5aDSCQBwY=
-X-Received: by 2002:a17:902:e353:b0:2c6:a078:bfb7 with SMTP id
- d9443c01a7336-2cf8f6acce5mr513685ad.7.1784662766027; Tue, 21 Jul 2026
- 12:39:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vaGIzVwU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC421F000E9;
+	Tue, 21 Jul 2026 19:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784663208;
+	bh=rlA532Yxt0nA/uF5h86pqGCTiY/MJiHnHkqTTHUp6b0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=vaGIzVwUb4NAT/0ZtBZezUDsNWRTBUnKvPoEMdqKMRjDX2aRmsqHc30iBpCM4SW6m
+	 YBO50b86w4Ucah3Pv6Y/8bmSxtvrc9Qd9/8x8inKq9Qdfcx/mAJjiZlfKvrMMmhqCn
+	 7RyUMWnrYrLRItHBfOv8PBEgKg7s9ZVxGMdUJ1YM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.12 0734/1276] afs: Fix afs_atcell_get_link() to handle RCU pathwalk
+Date: Tue, 21 Jul 2026 17:19:37 +0200
+Message-ID: <20260721152502.506827046@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260721152446.065700225@linuxfoundation.org>
+References: <20260721152446.065700225@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721051903.691848-1-kaleshsingh@google.com> <CABdmKX24EKOaUoQZS-yR21v_yd=h1RVUQgq0wj+On-WcfE5dGw@mail.gmail.com>
-In-Reply-To: <CABdmKX24EKOaUoQZS-yR21v_yd=h1RVUQgq0wj+On-WcfE5dGw@mail.gmail.com>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Wed, 22 Jul 2026 04:39:12 +0900
-X-Gm-Features: AUfX_mxY0poHAk-PpFaYBY8tiHZF8SXBr75d24KNRlY6OEQf1s0rkwVXmy8WYNc
-Message-ID: <CAC_TJvdmxhCJ3h=JaJw2gT-oQRHVQP0gLN414DUsH5OZzm4qGw@mail.gmail.com>
-Subject: Re: [PATCH] mm: proc/task_mmu: Use walk_page_range_vma() for smaps
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: surenb@google.com, akpm@linux-foundation.org, kernel-team@android.com, 
-	android-mm@google.com, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 22, 2026 at 1:30=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Mon, Jul 20, 2026 at 10:19=E2=80=AFPM kaleshsingh via kernel-team
-> <kernel-team@android.com> wrote:
-> >
-> > From: Kalesh Singh <kaleshsingh@google.com>
-> >
-> > Modify smap_gather_stats() to use walk_page_range_vma() instead of
-> > walk_page_range() when walking page tables.
-> >
-> > walk_page_range() internally calls find_vma(), which asserts that
-> > mmap_lock is held. This assertion fails when reading /proc/pid/smaps
-> > under per-VMA locks (where mmap_lock is not held).
-> >
-> > walk_page_range_vma() walks a range within a single VMA and does not
-> > use find_vma(). It relies on the VMA lock instead (when configured
-> > with PGWALK_VMA_RDLOCK_VERIFY), making it compatible with per-VMA
-> > locks.
-> >
-> > Fixes: ea3085dd7a4e ("fs/proc/task_mmu: read proc/pid/{smaps|numa_maps}=
- under per-vma lock")
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Suren Baghdasaryan <surenb@google.com>
-> > Cc: Liam R. Howlett <liam@infradead.org>
-> > Cc: Lorenzo Stoakes <ljs@kernel.org>
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > ---
-> >  fs/proc/task_mmu.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> > index d32408f7cd5e..5d301bdd05fc 100644
-> > --- a/fs/proc/task_mmu.c
-> > +++ b/fs/proc/task_mmu.c
-> > @@ -1369,9 +1369,12 @@ static void smap_gather_stats(struct proc_maps_p=
-rivate *priv,
-> >                               struct mem_size_stats *mss, unsigned long=
- start)
-> >  {
-> >         const struct mm_walk_ops *ops =3D get_smaps_walk_ops(priv);
-> > +       unsigned long end =3D vma->vm_end;
-> > +
-> > +       start =3D start ?: vma->vm_start;
->
-> Doesn't overwriting start here break the !start && (!shmem_swapped ||
-> ... check below when smap_gather_stats is called with start =3D 0 as in
-> show_smaps_rollup?
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-Hi Tj,
+------------------
 
-You are right, I should have updated it to start =3D=3D vm_start. I will
-fix this in v2.
+From: David Howells <dhowells@redhat.com>
 
-Thanks,
-Kalesh
+[ Upstream commit 823869e1e61607ab0d433de3c8abed221dc80a5e ]
+
+The ->get_link() method may be entered under RCU pathwalk conditions (in
+which case, the dentry pointer is NULL).  This is not taken account of by
+afs_atcell_get_link() and lockdep will complain when it tries to lock an
+rwsem.
+
+Fix this by marking net->ws_cell as __rcu and using RCU access macros on it
+and by making afs_atcell_get_link() just return a pointer to the name in
+RCU pathwalk without taking net->cells_lock or a ref on the cell as RCU
+will protect the name storage (the cell is already freed via call_rcu()).
+
+Fixes: 30bca65bbbae ("afs: Make /afs/@cell and /afs/.@cell symlinks")
+Reported-by: Alexander Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Marc Dionne <marc.dionne@auristor.com>
+cc: linux-afs@lists.infradead.org
+cc: linux-fsdevel@vger.kernel.org
+Link: https://lore.kernel.org/r/20250310094206.801057-2-dhowells@redhat.com/ # v4
+Stable-dep-of: c9c3b615a462 ("afs: Fix misplaced inc of net->cells_outstanding")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/afs/cell.c     | 11 ++++++-----
+ fs/afs/dynroot.c  | 15 +++++++++++++--
+ fs/afs/internal.h |  2 +-
+ fs/afs/proc.c     |  4 ++--
+ 4 files changed, 22 insertions(+), 10 deletions(-)
+
+diff --git a/fs/afs/cell.c b/fs/afs/cell.c
+index cee42646736c86..96a6781f365303 100644
+--- a/fs/afs/cell.c
++++ b/fs/afs/cell.c
+@@ -64,7 +64,8 @@ static struct afs_cell *afs_find_cell_locked(struct afs_net *net,
+ 		return ERR_PTR(-ENAMETOOLONG);
+ 
+ 	if (!name) {
+-		cell = net->ws_cell;
++		cell = rcu_dereference_protected(net->ws_cell,
++						 lockdep_is_held(&net->cells_lock));
+ 		if (!cell)
+ 			return ERR_PTR(-EDESTADDRREQ);
+ 		goto found;
+@@ -388,8 +389,8 @@ int afs_cell_init(struct afs_net *net, const char *rootcell)
+ 	/* install the new cell */
+ 	down_write(&net->cells_lock);
+ 	afs_see_cell(new_root, afs_cell_trace_see_ws);
+-	old_root = net->ws_cell;
+-	net->ws_cell = new_root;
++	old_root = rcu_replace_pointer(net->ws_cell, new_root,
++				       lockdep_is_held(&net->cells_lock));
+ 	up_write(&net->cells_lock);
+ 
+ 	afs_unuse_cell(net, old_root, afs_cell_trace_unuse_ws);
+@@ -945,8 +946,8 @@ void afs_cell_purge(struct afs_net *net)
+ 	_enter("");
+ 
+ 	down_write(&net->cells_lock);
+-	ws = net->ws_cell;
+-	net->ws_cell = NULL;
++	ws = rcu_replace_pointer(net->ws_cell, NULL,
++				 lockdep_is_held(&net->cells_lock));
+ 	up_write(&net->cells_lock);
+ 	afs_unuse_cell(net, ws, afs_cell_trace_unuse_ws);
+ 
+diff --git a/fs/afs/dynroot.c b/fs/afs/dynroot.c
+index d8bf52f77d9302..008698d706caa4 100644
+--- a/fs/afs/dynroot.c
++++ b/fs/afs/dynroot.c
+@@ -314,12 +314,23 @@ static const char *afs_atcell_get_link(struct dentry *dentry, struct inode *inod
+ 	const char *name;
+ 	bool dotted = vnode->fid.vnode == 3;
+ 
+-	if (!net->ws_cell)
++	if (!dentry) {
++		/* We're in RCU-pathwalk. */
++		cell = rcu_dereference(net->ws_cell);
++		if (dotted)
++			name = cell->name - 1;
++		else
++			name = cell->name;
++		/* Shouldn't need to set a delayed call. */
++		return name;
++	}
++
++	if (!rcu_access_pointer(net->ws_cell))
+ 		return ERR_PTR(-ENOENT);
+ 
+ 	down_read(&net->cells_lock);
+ 
+-	cell = net->ws_cell;
++	cell = rcu_dereference_protected(net->ws_cell, lockdep_is_held(&net->cells_lock));
+ 	if (dotted)
+ 		name = cell->name - 1;
+ 	else
+diff --git a/fs/afs/internal.h b/fs/afs/internal.h
+index d9760b2a8d8de4..18f410559fe87b 100644
+--- a/fs/afs/internal.h
++++ b/fs/afs/internal.h
+@@ -302,7 +302,7 @@ struct afs_net {
+ 
+ 	/* Cell database */
+ 	struct rb_root		cells;
+-	struct afs_cell		*ws_cell;
++	struct afs_cell __rcu	*ws_cell;
+ 	struct work_struct	cells_manager;
+ 	struct timer_list	cells_timer;
+ 	atomic_t		cells_outstanding;
+diff --git a/fs/afs/proc.c b/fs/afs/proc.c
+index e7614f4f30c21e..12c88d8be3fe8b 100644
+--- a/fs/afs/proc.c
++++ b/fs/afs/proc.c
+@@ -206,7 +206,7 @@ static int afs_proc_rootcell_show(struct seq_file *m, void *v)
+ 
+ 	net = afs_seq2net_single(m);
+ 	down_read(&net->cells_lock);
+-	cell = net->ws_cell;
++	cell = rcu_dereference_protected(net->ws_cell, lockdep_is_held(&net->cells_lock));
+ 	if (cell)
+ 		seq_printf(m, "%s\n", cell->name);
+ 	up_read(&net->cells_lock);
+@@ -242,7 +242,7 @@ static int afs_proc_rootcell_write(struct file *file, char *buf, size_t size)
+ 
+ 	ret = -EEXIST;
+ 	inode_lock(file_inode(file));
+-	if (!net->ws_cell)
++	if (!rcu_access_pointer(net->ws_cell))
+ 		ret = afs_cell_init(net, buf);
+ 	else
+ 		printk("busy\n");
+-- 
+2.53.0
 
 
->
-> >
-> >         /* Invalid start */
-> > -       if (start >=3D vma->vm_end)
-> > +       if (start >=3D end)
-> >                 return;
-> >
-> >         if (vma =3D=3D get_gate_vma(priv->lock_ctx.mm))
-> > @@ -1401,10 +1404,7 @@ static void smap_gather_stats(struct proc_maps_p=
-rivate *priv,
-> >                 }
-> >         }
-> >
-> > -       if (!start)
-> > -               walk_page_vma(vma, ops, mss);
-> > -       else
-> > -               walk_page_range(vma->vm_mm, start, vma->vm_end, ops, ms=
-s);
-> > +       walk_page_range_vma(vma, start, end, ops, mss);
-> >
-> >         reacquire_rcu(priv);
-> >  }
-> >
-> > base-commit: b95f03f04d475aa6719d15a636ddf32222d55657
-> > --
-> > 2.55.0.229.g6434b31f56-goog
-> >
-> > To unsubscribe from this group and stop receiving emails from it, send =
-an email to kernel-team+unsubscribe@android.com.
-> >
+
