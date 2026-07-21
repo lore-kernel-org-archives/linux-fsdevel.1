@@ -1,105 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631D1471268;
-	Tue, 21 Jul 2026 20:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F20C3B5835
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 20:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784664589; cv=none; b=qeTX1H7fEizFqq29pkdlG5IhKd7OFWppvzo6qyy0tOoAeMclGOZ5sHRMRWFZEfPnKMC3FwpJir4k0i7SqMjSs71N9ZIfeu1Q18bnRVM4eO/1TiUteRutnmBMiCaBrnCZlXwM7QNRtCbMIKz0m+MyLA9jmiT/Z1LNtnfYPhAKRPQ=
+	t=1784666209; cv=none; b=LtQj+mQ/B8WDgUR2K/ez+XjjrZ6rso5A+jzMH7iIk9CK6AVBVfjKMyTbjCgzSlI1X71ysTG75K34Z10S97oZZsorT886yKi/6AccMdclb3JBgayS8OP9Kb9EKJimsJmt+DShmPwHLovjT/xpD+BqVlXOYJX/JWwNYcVFBCawvQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784664589; c=relaxed/simple;
-	bh=zgr59FFQMDmGcrCfJPRq+wGhPrS9X89gaFpxzwUEYWc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RTXak1qV5gtGqcZRK0DueSJqfTcyYagHQsTxw0Q79eninm+yvNIO769dCgqaNoT59CZt7shn0DT1vLyIwXiTrJCfhrwn9qMmrAyRR0c46Fk5cjjaK/Y4LUhXcXrWNR8LaQ42qofR07WHJpBi0UiZmk0tL0/8Ldv8wk61i7G4WBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=w4YZ8GTj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784666209; c=relaxed/simple;
+	bh=eGV+Nr26bbBa30zN2rLCQJpfF2PwF3cVqhJ/YUbZOac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mu5xzg6ogEYh56GKUySAQzEN5tCMmtHumZsSzS2iejtq3vZAyeFaF9lrb33/FQ2mkkn6FNtWwaFfEiaI0TIgXKJw/1v/F0dxVeI+Ebl3F/4o0fY4nUfVNi/4shkPSSaN4J3O0pwjpHpg3iE1VAlkREFsU3cfZbbNEPORYKtlKqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fw4JTd/q; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="w4YZ8GTj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6861F000E9;
-	Tue, 21 Jul 2026 20:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784664588;
-	bh=ImFaZoXZzqM7Vyq8kkBVbsKKDjEAZkSdhXdeznFJVO0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=w4YZ8GTjtyuILw+pYF4dc3B2zW5K6UIGPVb6mIydnIjVL8QmvnuzOVUu5fz4GEPmk
-	 5UsJ81q2FKAxDWYsmcPMf3uWYzxtFxgQqOvhxsQcr4zoT+3FLOQtDklMgViHRboIsS
-	 5y+C3cVI7K4bUPmGIgEgtYZgYs7ggucByEVhNyVM=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	syzbot+3b6c5c6a1d0119b687a1@syzkaller.appspotmail.com,
-	syzbot+8245611446194a52150d@syzkaller.appspotmail.com,
-	syzbot+1aa62e6852a6ad1c7944@syzkaller.appspotmail.com,
-	syzbot+54e6c2176ba76c56217e@syzkaller.appspotmail.com,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 6.12 1258/1276] afs: Fix afs_dynroot_readdir() to not use the RCU read lock
-Date: Tue, 21 Jul 2026 17:28:21 +0200
-Message-ID: <20260721152514.244847397@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721152446.065700225@linuxfoundation.org>
-References: <20260721152446.065700225@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fw4JTd/q"
+X-KPN-MessageId: de161530-8543-11f1-a5a0-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id de161530-8543-11f1-a5a0-005056994fde;
+	Tue, 21 Jul 2026 22:36:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=X6JbNQIATPP5lzRYGP9EC0Lk7v2gUEGWN6HyA1XyIBs=;
+	b=fw4JTd/qR7ifxH2fj/4bRz3KVC/QD9f8iYNWW5Q3w8YjOYoFoFe4ZdcHOC3XahpY8VjOIfWJHHbix
+	 XD5XiYFNABemP+gEJ5gDD10p2GlkGKoFArYnrqnkeFamt6ikv+qf0UJrjZ1x6jlR1RP3irnfPrbkNU
+	 7VCacAMAstMXBntGGZaXwYEw20UpvXGZNHFjmZ3snx8i3ixbr6UttKvLC5uFZBXMxEJZQNJX9fiRSD
+	 ZI2phKRqAvsixtMKeqePNMSe4LhwKK026NBQ1fJPx4lkArGyL7VKuVz2LzW8VewpT04zM4x/csvEkZ
+	 lPkkZKC/9qy4Wn3Bffmic4C4SEkfVSQ==
+X-KPN-MID: 33|/FRaVBBNTpX7oZEbL/WUJwV+obe8QveTmU6qomkjd7Zwy0bDuddoRQ6LhmU9/QC
+ +7Nh0UkLCbRlhhU1hxRxRyHX5B0cO19/6jnvbrmmuR1g=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|Bt02zkTEX4BovQyofVTpaC6SvmEMyLJr1cMXxpOT5X5aV92dxLfZk6RhnWA+hTi
+ 9O7uuVJiPiXaYg6l10QxO/g==
+Received: from localhost (unknown [178.231.6.225])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id dde1a5a1-8543-11f1-8dd0-00505699d6e5;
+	Tue, 21 Jul 2026 22:36:35 +0200 (CEST)
+Date: Tue, 21 Jul 2026 22:37:58 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Alexei Starovoitov <ast@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-mm@kvack.org, bpf@vger.kernel.org, jannh@google.com, mail@johnericson.me, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH] binfmt_elf_fdpic: only honour the first PT_INTERP
+Message-ID: <al_MqBrjDW1QjRau@daedalus>
+References: <20260721-gezittert-medium-kreide-b41fc1f0277e@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721-gezittert-medium-kreide-b41fc1f0277e@brauner>
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+On Tue, Jul 21, 2026 at 01:20:45PM +0200, Christian Brauner wrote:
+> The program header scan handles PT_INTERP from a switch nested in the
+> scan loop, so its break leaves the switch and not the loop. A binary
+> carrying more than one PT_INTERP runs the case again and overwrites both
+> interpreter_name and interpreter. The previous name allocation leaks and
+> so does the previous interpreter reference, along with the write denial
+> open_exec() took on it. The denial is never released, so the file stays
+> unwritable for as long as the system runs.
+> 
+> An unprivileged caller reaches this with a crafted binary and repeats it
+> at will. binfmt_elf stops at the first PT_INTERP. Do the same here.
+> 
+> The flaw dates back to the driver's introduction in the pre-git history
+> tree introduced in v2.6.11 by 91808d6ebe39 ("[PATCH] FRV: Add FDPIC ELF
+> binary format driver").
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_elf_fdpic.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
+> index 7e3108489c83..fe0b5c5ed2bc 100644
+> --- a/fs/binfmt_elf_fdpic.c
+> +++ b/fs/binfmt_elf_fdpic.c
+> @@ -231,6 +231,10 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
+>  	for (i = 0; i < exec_params.hdr.e_phnum; i++, phdr++) {
+>  		switch (phdr->p_type) {
+>  		case PT_INTERP:
+> +			/* elf ABI allows only one interpreter */
+> +			if (interpreter_name)
+> +				continue;
+> +
+>  			retval = -ENOMEM;
+>  			if (phdr->p_filesz > PATH_MAX)
+>  				goto error;
+> -- 
+> 2.53.0
+> 
 
-------------------
+Good catch.
 
-From: David Howells <dhowells@redhat.com>
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
 
-commit a64e4d48a0b77e4ada19ac26ca3a08cd492f6362 upstream.
+Btw, it seems that elf_fdpic_map_file_constdisp_on_uclinux() has no
+check to verify that phdr->p_memsz >= phdr->p_filesz, despite elf(5)
+saying that
 
-afs_dynroot_readdir() uses the RCU read lock to walk the cell list whilst
-emitting cell automount entries - but dir_emit() may write to a userspace
-buffer, thereby causing a fault to occur and waits to happen.
+	The file size may not be larger than the memory size.
 
-Fix afs_dynroot_readdir() to get a shared lock on net->cells_lock instead.
+Afaict, currently read_code() may blow past what vm_mmap() allocated
+there, which may result in memory corruption for a non MMU system. This
+is an LLM assisted find, and it may be that I missed something when
+verifying. If you agree this is wrong, I'll fix it.
 
-This can be triggered by enabling lockdep, preconfiguring a number of
-cells, doing "mount -t afs none /afs -o dyn" (or using the kafs-client
-package with afs.mount systemd unit enabled) and then doing "ls /afs".
-
-Fixes: 1d0b929fc070 ("afs: Change dynroot to create contents on demand")
-Reported-by: syzbot+3b6c5c6a1d0119b687a1@syzkaller.appspotmail.com
-Reported-by: syzbot+8245611446194a52150d@syzkaller.appspotmail.com
-Reported-by: syzbot+1aa62e6852a6ad1c7944@syzkaller.appspotmail.com
-Reported-by: syzbot+54e6c2176ba76c56217e@syzkaller.appspotmail.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://lore.kernel.org/1638014.1744145189@warthog.procyon.org.uk
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- fs/afs/dynroot.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/fs/afs/dynroot.c
-+++ b/fs/afs/dynroot.c
-@@ -347,9 +347,9 @@ static int afs_dynroot_readdir(struct fi
- 	}
- 
- 	if ((unsigned long long)ctx->pos <= AFS_MAX_DYNROOT_CELL_INO) {
--		rcu_read_lock();
-+		down_read(&net->cells_lock);
- 		ret = afs_dynroot_readdir_cells(net, ctx);
--		rcu_read_unlock();
-+		up_read(&net->cells_lock);
- 	}
- 	return ret;
- }
-
-
+Thanks,
+Jori.
