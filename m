@@ -1,141 +1,181 @@
-Received: from rev.ng (rev.ng [94.130.142.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F252D34DCE4;
-	Tue, 21 Jul 2026 23:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.130.142.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA31A45A2A7;
+	Tue, 21 Jul 2026 23:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784677433; cv=none; b=SOVvE2skk29nv/bT7UZUn3Ub9iRPqBwEanT8lP8PGamnsLbFaITpUsuwn5wT6Xi6kuto13/0W8p0SCSxnmXlBvrq4rUL+Ip1fUkoMZehZrR+rN1C2X/H4ptxE9nCzhKgTb9CDi7lq+OEgUKSzLSIs8WeQpFlFTy35J573VoUiyw=
+	t=1784677612; cv=none; b=jLRcGi0pCFUJbiOFsXKA8xBg40v3ll8I/z4Bm9tsTyyP7Iv25erGImf5N6dHvnXHujfM7lQh7xa9R/THnLgZ/gVjLY4Y85QIDiH2zDdYL6lAMBdjy+P4bHkSXhHnlnDgn6Njw5uJyo08DZd8t/JvkDmGD6o8IsuP4pZ1Nji0xl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784677433; c=relaxed/simple;
-	bh=g6YfZsj0eGJY09CfqZWfUBomH4c9euuvF++MXBsDTNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W86LHU+Mn87eL3fgIfJM2TanpPK9cIgBH5kUR8CvSeopqhj8/FDpfo4pSyyJwvB+VOCIuzUzWVfCZ2aavcj+4d+RtVxzsmihCoKrPfZRSWfcw8kGu2MDck+CjMqC2vAb6MvZ41aSz4KxanpTc+eHAr3voutUlfFaPgCiiSKWL9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rev.ng; spf=pass smtp.mailfrom=rev.ng; dkim=pass (1024-bit key) header.d=rev.ng header.i=@rev.ng header.b=Cm+9ttcF; arc=none smtp.client-ip=94.130.142.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rev.ng
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rev.ng
+	s=arc-20240116; t=1784677612; c=relaxed/simple;
+	bh=USHYKM2tLy4Y2ztkLZF6f9FmqFRcbaq9wg7QuwUAQTs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tC4xp5/aVjCSZPCXMKUOrh81eeHWljJYoFknvutngFgcdALNLN4aqH7kK6aSMyPYh3hFr+EcKpgSaaarGxm8vUnH0fZJ+XjgSBKQhciKByJ+7pa22cVc/4TwleDT/Ok5/IEJJEyJEtpL9X2Pg9M9/Fipl33E9o4ZWnYPgkbStwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mf7XqWOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rev.ng header.i=@rev.ng header.b="Cm+9ttcF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
-	s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive:List-Unsubscribe:List-Unsubscribe-Post:
-	List-Help; bh=6RrEHHSPxeM7rdWT0hfycPsvOnFeT0A9FFnWzE4N1zg=; b=Cm+9ttcF+8oHHzW
-	Qpp2AmmbKSuZTuRKmWPaUVg5lPnF+zfqZ1cwGFXevVOVemoz2ujAcYxcuzffOFUlbeRnvJDpGRV43
-	CBD+WgAOqtEYxZ1hLAX4i+xLdo/bMudOuCE8OpUM/veNlD58rYySHxczGn/AoFqfz9sF8GrulWRB7
-	VA=;
-Date: Wed, 22 Jul 2026 01:18:08 +0200
-From: Alessandro Di Federico <ale@rev.ng>
-To: Christian Brauner <brauner@kernel.org>, Farid Zakaria
- <farid.m.zakaria@gmail.com>
-Cc: david.laight.linux@gmail.com, jack@suse.cz, jannh@google.com,
- kees@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, mail@johnericson.me, shuah@kernel.org,
- viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
-Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
- interpreter selection
-Message-ID: <20260722011217.45e79a08@spawn>
-In-Reply-To: <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
-References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
-	<20260704211409.1978485-1-farid.m.zakaria@gmail.com>
-	<20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
-	<CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
-	<20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mf7XqWOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028631F000E9;
+	Tue, 21 Jul 2026 23:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784677610;
+	bh=+0XfbMYAs+xVo8YgwGz2IArIgBM63GjQWpuSMnFC4C4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=mf7XqWOi1rUqf2k7ey1aDXqzOKACKpcmAuKsBfr2jWONF2TMjeSDzMxVpjORRSRLo
+	 tJLrP4Ev455HyaiuyA6vyf+G3mnH2UZZhuBZY5goVpKoGAXG741JRTws0gCCVCRoyI
+	 iDsWfQ2T3xzfofEqGm4FFR1PI4AjbF6RuFR8pySoZwfx2gMG3Vh9pp2pwpXntxb7bE
+	 X1TK5weGK4xyqJJ6Zjr0lnMzVsQ5o3Y2X+mdOu2HU0hX9kVQ5ylnFUDQy9TC37hUH9
+	 cDRlgmF4QgxgkeN3r4i6WBCGdvrju3BwhQHkK2ItQ/gb2/mIWodaTaAr89dmjRF4Wt
+	 CX+3VUR36PjOg==
+From: SJ Park <sj@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: SJ Park <sj@kernel.org>,
+	linux-mm@kvack.org,
+	arun.george@samsung.com,
+	balbirs@nvidia.com,
+	brendan.jackman@linux.dev,
+	yuzenghui@huawei.com,
+	apopple@nvidia.com,
+	alucerop@amd.com,
+	matthew.brost@intel.com,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	djbw@kernel.org,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	osandov@osandov.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	pbonzini@redhat.com,
+	osalvador@suse.de,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	ying.huang@linux.alibaba.com,
+	kasong@tencent.com,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	baohua@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	mkoutny@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	baolin.wang@linux.alibaba.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
+Date: Tue, 21 Jul 2026 16:46:43 -0700
+Message-ID: <20260721234644.149401-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260720193431.3841992-15-gourry@gourry.net>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 07 Jul 2026 13:34:46 +0200
-Christian Brauner <brauner@kernel.org> wrote:
+On Mon, 20 Jul 2026 15:34:08 -0400 Gregory Price <gourry@gourry.net> wrote:
 
-> > That makes sense -- but you will need CAP_BPF etc.. to load the new
-> > programs though if inside a userns.  
+> DAMON operates on physical address ranges, which can cover private
+> node memory. Skip private-node folios in both DAMON's migration
+> and reclaim paths.
 > 
-> Right, bpf tokens exist to delegate bpf access to containers. Not
-> always ideal but it works for such cases. 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  mm/damon/paddr.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+> index e4f98d67461f5..c741a94319750 100644
+> --- a/mm/damon/paddr.c
+> +++ b/mm/damon/paddr.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/swap.h>
+>  #include <linux/memory-tiers.h>
+>  #include <linux/mm_inline.h>
+> +#include <linux/node_private.h>
+>  
+>  #include "../internal.h"
+>  #include "ops-common.h"
+> @@ -250,6 +251,10 @@ static unsigned long damon_pa_pageout(struct damon_region *r,
+>  			continue;
+>  		}
+>  
+> +		/* private node memory is not reclaimable by default */
+> +		if (folio_is_private_node(folio))
+> +			goto put_folio;
+> +
 
-Hi everyone, first post here.
+"by default".  Does that mean it could be reclaimable in some situations?  If
+so, could we check if it is reclaimable?
 
-tl;dr I think an $ORIGIN+PT_INTERP-like feature should be available by
-default (no root) since portable software is most important when you're
-an unprivileged user.
+Also, what happens if we just try paging out the private node memory?  Will it
+simply fail?  Or, make some problems?
 
-I've recently read about this patch and I'm super excited. An
-ORIGIN-like feature for loaders is something I wanted for years. Let me
-share our use case + some additional nix use cases.
+>  		if (damos_pa_filter_out(s, folio))
+>  			goto put_folio;
+>  		else
+> @@ -344,6 +349,10 @@ static unsigned long damon_pa_migrate(struct damon_region *r,
+>  		else
+>  			*sz_filter_passed += folio_size(folio) / addr_unit;
+>  
+> +		/* private nodes do not support migration by default */
+> +		if (folio_is_private_node(folio))
+> +			goto put_folio;
+> +
 
-We have a package/build system that makes heavy use of RPATH+ORIGIN to
-make portable installation directories of our software, as in: extract
-a plain .tar in ~/mysoftware, `./myexecutable` and it works [1]. No
-root, no run-time patching, no namespaces.
+Same questions.
 
-Now, this means we need to ship all of our dependencies properly
-RPATH'd (using $ORIGIN). The only exception is the libc, which we can't
-ship, since we can't put $ORIGIN in PT_INTERP. This means we
-need to link against an ancient libc in order to be compatible with
-a wide range of host libcs. Needless to say, is a *huge* pain.
+>  		if (!folio_isolate_lru(folio))
+>  			goto put_folio;
+>  		list_add(&folio->lru, &folio_list);
+> -- 
+> 2.53.0-Meta
 
-This patch could in theory solve our problems, except for the "no root"
-part, which I think it's the most important one. After all, if you
-assume your user is root (at least at install time), you don't have big
-problems, just drop your software in /opt/mysoftware and ship your
-loader in there.
 
-But I think being able to use $ORIGIN from non-root users would be
-useful also for nix, not when you are on NixOS (where I'd assume they'd
-enable PT_INTERP_NIX by default), but when you're on a non-NixOS system.
-
-There are several projects that aim at running nix without root:
-
-    https://github.com/davhau/nix-portable
-    https://github.com/nixie-dev/nixie
-
-Currently they either use user namespaces or ptrace. However, the former
-is restricted under Ubuntu (`apparmor_restrict_unprivileged_unconfined`)
-and the latter is not ideal.
-AFAIU it'd be possible to avoid all of this if $ORIGIN was available by
-default in PT_INTERP, or at least the biggest roadblocker would go away.
-
-I understand that enabling $ORIGIN in PT_INTERP can be problematic (I
-should dig into that actually).
-However, in whatever way this gets supported, I think that in order to
-be actually useful in the most important use cases where portability is
-important (i.e., no root, no user namespaces), having this feature
-available *by default* is important.
-
-> In any case, I think it wouldn't be crazy to allow registering
-> "default" handlers that appear in all binfmt_misc instances if needed
-> so containers with separate binfmt_misc always have the bpf program
-> available. [...]
-
-Maybe we can have a "default eBPF program" loaded for
-`PT_INTERP_WITH_ORIGIN`?
-
-We toolchain people are happy to tamper with our binaries, but if these
-features are not available by default, their use is going to be limited.
-
-In any case, thanks for this work, I've been wanting this for a long
-time.
-
---
-Alessandro Di Federico
-rev.ng Labs
-
-[1] https://github.com/revng/orchestra
-
-Note that this is soon going to be dismissed in favor of nix itself.
-
-Example artifact:
-
-wget 'https://rev.ng/downloads/revng-distributable/develop.tar.xz'
-tar xaf develop.tar.xaf
-$ ./revng-public-demo/root/lib64/llvm/llvm/bin/clang --version
-clang version 16.0.1
+Thanks,
+SJ
