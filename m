@@ -1,115 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA31A45A2A7;
-	Tue, 21 Jul 2026 23:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D160A2AD3C;
+	Wed, 22 Jul 2026 00:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784677612; cv=none; b=jLRcGi0pCFUJbiOFsXKA8xBg40v3ll8I/z4Bm9tsTyyP7Iv25erGImf5N6dHvnXHujfM7lQh7xa9R/THnLgZ/gVjLY4Y85QIDiH2zDdYL6lAMBdjy+P4bHkSXhHnlnDgn6Njw5uJyo08DZd8t/JvkDmGD6o8IsuP4pZ1Nji0xl0=
+	t=1784678904; cv=none; b=S+Y8cE6kSZINMrL2lMxQmOu6c7Ve/eI0zNOmdbByOdx8Rxg9bNa6kW5YxVmeHtOZwh2fcfQggpx+fgQm2MqTfUBTAYz6seNebGQFO7q2KEhpPH2HW5v1IVHADccOKzPQ5CvBz0xqRsAG7gybTXxH3qEXWAsSvz0Sn/XQ6W/HDw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784677612; c=relaxed/simple;
-	bh=USHYKM2tLy4Y2ztkLZF6f9FmqFRcbaq9wg7QuwUAQTs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tC4xp5/aVjCSZPCXMKUOrh81eeHWljJYoFknvutngFgcdALNLN4aqH7kK6aSMyPYh3hFr+EcKpgSaaarGxm8vUnH0fZJ+XjgSBKQhciKByJ+7pa22cVc/4TwleDT/Ok5/IEJJEyJEtpL9X2Pg9M9/Fipl33E9o4ZWnYPgkbStwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mf7XqWOi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784678904; c=relaxed/simple;
+	bh=21PJ+cBTbvH6ddPplLENCaMmJ8ImER5umbN+xBbjsUQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fzzB1FSFbi14jJTBw7KGvPyyLlSikjpfX7gZZlFcqxXMBMg0DtbYvoXCGONvGkOHlCX/nnO9iqKemMGJfYR4INHkNf0+vk78ezi2Htn8OR8bEEgRB03zKUIsn/aU3gQ35TjuUQ36Oq73WCTuxPq/tsZrS1NWySV4Tuc43ShopSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YRJygKFx; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mf7XqWOi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028631F000E9;
-	Tue, 21 Jul 2026 23:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784677610;
-	bh=+0XfbMYAs+xVo8YgwGz2IArIgBM63GjQWpuSMnFC4C4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mf7XqWOi1rUqf2k7ey1aDXqzOKACKpcmAuKsBfr2jWONF2TMjeSDzMxVpjORRSRLo
-	 tJLrP4Ev455HyaiuyA6vyf+G3mnH2UZZhuBZY5goVpKoGAXG741JRTws0gCCVCRoyI
-	 iDsWfQ2T3xzfofEqGm4FFR1PI4AjbF6RuFR8pySoZwfx2gMG3Vh9pp2pwpXntxb7bE
-	 X1TK5weGK4xyqJJ6Zjr0lnMzVsQ5o3Y2X+mdOu2HU0hX9kVQ5ylnFUDQy9TC37hUH9
-	 cDRlgmF4QgxgkeN3r4i6WBCGdvrju3BwhQHkK2ItQ/gb2/mIWodaTaAr89dmjRF4Wt
-	 CX+3VUR36PjOg==
-From: SJ Park <sj@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: SJ Park <sj@kernel.org>,
-	linux-mm@kvack.org,
-	arun.george@samsung.com,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
-Date: Tue, 21 Jul 2026 16:46:43 -0700
-Message-ID: <20260721234644.149401-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260720193431.3841992-15-gourry@gourry.net>
-References: 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YRJygKFx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=oiK1Yp12KYYZ9ij5inCaSWESdmWxYv/823Tcjv0qJ9c=; b=YRJygKFxBxpY0KA7exW/D7Z77s
+	R1A6/y/+N299CPGDJx7VOKI/l/l6x1E5ZCTjYcHhBNExGI+TQcT9bP/CqfsZqrDrL3ScrkAH5LeIN
+	dQVBCxD8vWOPwVx5sB9fsKqjJxQvsO84IkHYXTyesJsZovtd0x/wxj697sxb0+YlZYc6YI22sFrPQ
+	qninknuhBTdZms5glmIVxDdYPvr237kEFKssrxwVNvxBdLzBN2cNbbLxuUM5dWP/eB6ub+aZVZLcM
+	P+bj+5i0SlcVsvYfzG5UmkkfyCPtXjsLQcEFyoNyMLTvqD0NqDRKBHXhnsSuvB0As6QbY54XGZ2cM
+	uUG9t44Q==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wmKVQ-0000000AcuN-3suS;
+	Wed, 22 Jul 2026 00:08:12 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Tyler Hicks <code@tyhicks.com>,
+	ecryptfs@vger.kernel.org
+Subject: [PATCH] ecryptfs: ecryptfs_kernel.h: clean up kernel-doc comments
+Date: Tue, 21 Jul 2026 17:08:12 -0700
+Message-ID: <20260722000812.3823299-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -118,64 +46,86 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, 20 Jul 2026 15:34:08 -0400 Gregory Price <gourry@gourry.net> wrote:
+- don't use "/**" for non-kernel-doc comments
+- use the struct keyword when describing structs
+- delete one Excess struct member
 
-> DAMON operates on physical address ranges, which can cover private
-> node memory. Skip private-node folios in both DAMON's migration
-> and reclaim paths.
-> 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->  mm/damon/paddr.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
-> index e4f98d67461f5..c741a94319750 100644
-> --- a/mm/damon/paddr.c
-> +++ b/mm/damon/paddr.c
-> @@ -12,6 +12,7 @@
->  #include <linux/swap.h>
->  #include <linux/memory-tiers.h>
->  #include <linux/mm_inline.h>
-> +#include <linux/node_private.h>
->  
->  #include "../internal.h"
->  #include "ops-common.h"
-> @@ -250,6 +251,10 @@ static unsigned long damon_pa_pageout(struct damon_region *r,
->  			continue;
->  		}
->  
-> +		/* private node memory is not reclaimable by default */
-> +		if (folio_is_private_node(folio))
-> +			goto put_folio;
-> +
+to prevent the following warnings:
 
-"by default".  Does that mean it could be reclaimable in some situations?  If
-so, could we check if it is reclaimable?
+Warning: ./fs/ecryptfs/ecryptfs_kernel.h:14 cannot understand function
+ prototype: 'ECRYPTFS_KERNEL_H'
+Warning: ./fs/ecryptfs/ecryptfs_kernel.h:207 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+ * This is the primary struct associated with each encrypted file.
+Warning: ./fs/ecryptfs/ecryptfs_kernel.h:275 cannot understand function
+ prototype: 'struct ecryptfs_global_auth_tok'
+Warning: fs/ecryptfs/ecryptfs_kernel.h:283 Excess struct member
+ 'global_auth_tok' description in 'ecryptfs_global_auth_tok'
+Warning: ./fs/ecryptfs/ecryptfs_kernel.h:298 cannot understand function
+ prototype: 'struct ecryptfs_key_tfm'
+Warning: ./fs/ecryptfs/ecryptfs_kernel.h:309 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+ * This struct is to enable a mount-wide passphrase/salt combo. This
 
-Also, what happens if we just try paging out the private node memory?  Will it
-simply fail?  Or, make some problems?
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Tyler Hicks <code@tyhicks.com>
+Cc: ecryptfs@vger.kernel.org
 
->  		if (damos_pa_filter_out(s, folio))
->  			goto put_folio;
->  		else
-> @@ -344,6 +349,10 @@ static unsigned long damon_pa_migrate(struct damon_region *r,
->  		else
->  			*sz_filter_passed += folio_size(folio) / addr_unit;
->  
-> +		/* private nodes do not support migration by default */
-> +		if (folio_is_private_node(folio))
-> +			goto put_folio;
-> +
+ fs/ecryptfs/ecryptfs_kernel.h |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Same questions.
-
->  		if (!folio_isolate_lru(folio))
->  			goto put_folio;
->  		list_add(&folio->lru, &folio_list);
-> -- 
-> 2.53.0-Meta
-
-
-Thanks,
-SJ
+--- linux-next-20260720.orig/fs/ecryptfs/ecryptfs_kernel.h
++++ linux-next-20260720/fs/ecryptfs/ecryptfs_kernel.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+-/**
++/*
+  * eCryptfs: Linux filesystem encryption layer
+  * Kernel declarations.
+  *
+@@ -204,7 +204,7 @@ struct ecryptfs_filename {
+ 	char dentry_name[ECRYPTFS_ENCRYPTED_DENTRY_NAME_LEN + 1];
+ };
+ 
+-/**
++/*
+  * This is the primary struct associated with each encrypted file.
+  *
+  * TODO: cache align/pack?
+@@ -255,7 +255,8 @@ struct ecryptfs_inode_info {
+ };
+ 
+ /**
+- * ecryptfs_global_auth_tok - A key used to encrypt all new files under the mountpoint
++ * struct ecryptfs_global_auth_tok - A key used to encrypt all new files
++ *   under the mountpoint
+  * @flags: Status flags
+  * @mount_crypt_stat_list: These auth_toks hang off the mount-wide
+  *                         cryptographic context. Every time a new
+@@ -263,7 +264,6 @@ struct ecryptfs_inode_info {
+  *                         the auth_toks on that list to the set of
+  *                         auth_toks on the inode's crypt_stat
+  * @global_auth_tok_key: The key from the user's keyring for the sig
+- * @global_auth_tok: The key contents
+  * @sig: The key identifier
+  *
+  * ecryptfs_global_auth_tok structs refer to authentication token keys
+@@ -283,7 +283,7 @@ struct ecryptfs_global_auth_tok {
+ };
+ 
+ /**
+- * ecryptfs_key_tfm - Persistent key tfm
++ * struct ecryptfs_key_tfm - Persistent key tfm
+  * @key_tfm: crypto API handle to the key
+  * @key_size: Key size in bytes
+  * @key_tfm_mutex: Mutex to ensure only one operation in eCryptfs is
+@@ -306,7 +306,7 @@ struct ecryptfs_key_tfm {
+ 
+ extern struct mutex key_tfm_list_mutex;
+ 
+-/**
++/*
+  * This struct is to enable a mount-wide passphrase/salt combo. This
+  * is more or less a stopgap to provide similar functionality to other
+  * crypto filesystems like EncFS or CFS until full policy support is
