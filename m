@@ -1,155 +1,148 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D16243F8B6;
-	Wed, 22 Jul 2026 21:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784757472; cv=none; b=F/S8LcW9HTBX62MCtqgkMQy8kEjASMYe7d8dKH3GnA4a/X1mmy4VpGMhrngzmEH6E88Tt9HW/raCKEegz4+KWSWqm4Sla47qbqvj34u32gXYhUStppdjozNr9ahcs5pMWPAcvveIRIFOvJ/WSQotuJjKhZ9gvoyKBb2VwByZt/g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784757472; c=relaxed/simple;
-	bh=TkZ9c7rjARJvnzVDvuyB/BQ+pw6OZzvOXUXBSjxbIAY=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=hkpnjr4l4ql0C264wf9oVYnjXr1OLFZUR0c4ceeKlv7N11MvLnbQ1u0nrEs/nJRYlf+HLGo34XQAwdSC40NFYJCWEeaYOOPT8Vq42k9n3SJdqQH4XB/BYExiFc8QlRvO0Br6QgsacpAxEkWfkrLsKFw9fXi3zdHuSZZlP5nz7mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=V/q+/RVa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Zp+qqnBA; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30E836997A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 22:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784759150; cv=pass; b=O2HF2u2SxQdFi4vJDY8C5UqA/pkAjbocR8qADmOf0lSzMEVOBMdTL6twEsaR+qwPH4zcbiCoCZoWA0k3DM8Onfm1VqJpkr00Bdwhs/Uk+8VU+vfh44U6VHI0ClEg1syjTR8ifPZ8bOF3CBqugBqXGWI7MGhgtZcsXNAK1nV2pFU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784759150; c=relaxed/simple;
+	bh=xtvuZpJ5jE61xxjvrqsu+YYR1Wmy8Kk3wJkrH1vSxEU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=raIxcra4UTrI+Ij2YCFs+F3cOUbEZbBVLV2pACqoJ8k03lW3MobM0VWp6YuOHYBF9hNkzmJEIPM1WUn15PnTsCU8cfwSZJlGkZObUi4LzAFneFKcHNCGfqjmrZOf+5+H+8AipBZw9XILaRPRD0rSCuVmKHEHffK4uCOc1L8OgMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EXURGw5K; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="V/q+/RVa";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Zp+qqnBA"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 7AAD5140015D;
-	Wed, 22 Jul 2026 17:57:47 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 22 Jul 2026 17:57:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1784757467; x=1784843867; bh=GoL4Jq9ylTA23wl2pouzOhmglNgHtMoEKuh
-	iGS9+3RU=; b=V/q+/RVa39jxoE/6IUctC9WU1iV+lzYiLXj4QbSfk0xxHVoGOmt
-	1d6efWvnBg+9RCFNDv6vRXlGgGWnFnNhbnQndOyKuBWdSiGS91+tAo++lDFTkSfo
-	xZ15mW37YDI5bntZQYDXv1yC6yMF2Mlbnwdii0o2v3Hvfx7sb0RA6RKhbhg7mrdA
-	byT8FkhErsir6jKo8wlPGJcGJe8wkNl3x++j6zhLDXtryWL7cFZg72BeZIibvvIX
-	0Z+bue7Esku/FpOpGVQCIw1TftCkcaQsv0MlBQ6uJ4f66JA1ZMEUpNoDIn84ECbF
-	W+xs2qRjThc0Is576AX6Zn+ms+DABO5e4nA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784757467; x=
-	1784843867; bh=GoL4Jq9ylTA23wl2pouzOhmglNgHtMoEKuhiGS9+3RU=; b=Z
-	p+qqnBA4Vasg4fRAS2WKjRYK8wd3EGT3HpVIBSaLMezIdRfR8T1LVU2owtTIrzof
-	iKrKLeKFLdH2jMs0HyWO2jeQx0dy6X8zVY4yVy/irT7Wj26i+HrwuOsF5eWl/p8+
-	1o+UlzaM3bhmiAPTgtHHjH0Wcwk/FX8OlsxGTI0/G2Lb6CEaahucq+B8OVsT18Vk
-	3oauQMGyxk2fsMIKqVfoLdLgZLGVD4yjQsVWCDo5X732ahQFt5C7os5BmcG+3AHX
-	p80OUtjwd32seEOV4k1TymcgfjbhM0/9l1c8LDsEDkgvdRYz3SKjmmZDpNqOoeg+
-	gRazrqeWk5v729lFluFIw==
-X-ME-Sender: <xms:2jxhauoN3BwxRecm9xcJ_AUAq_0g1ibRqXcQ3ZdNUUuGZRWifu2ipQ>
-    <xme:2jxhaoeTG3u8PlY_pCwuezxcqB-IcYzCryP4yDF_GUmOe-AqWLTSBTEKflng3QZqH
-    mvI9FXLWmnOuduS4So-oQHTWW5zkutU9MDxS0uUB4hzyaAAWg>
-X-ME-Received: <xmr:2jxhaulTDgwsOQH9unzSWbsRheuhJI-FaKx-xAz-q80fRZPqmelsYLmTJZF39O5HsZ5HlGuSdzDHRatT7Znz2eZN1qNdWL8>
-X-ME-Proxy-Cause: dmFkZTGqoWNOYiraT70FRPF9K/H8uenxraszFi00nHjFmBdHPNC2F8C6AxoauUmjBJuOVk
-    F3Pzvh/X47gf+65u8lCDqY2g97tm+TD3xkvMlTCmbyo4wwYF+fxpDwrLRIa6kPEteFFHwY
-    wNTVViDOzERSho9aucLVRtyLOx6irR/Xn9f4/iiWwKGUq5Ewxtp5RlW3JncLsOY5m5sekn
-    z/tqRTt/nN20RfCUJK1f1KzDkCeYDmLA6ySxMYnJ1yygSLrzGFYtCuBnqni+yJKd3xqSgd
-    edbWTG/2FIwEO28EWmYPMUIBNpTkfj1LhyR/wbSg2s+A8fkxzOXeyC8NP9rkVk6smw3jEp
-    oUckcLWCFsmcUWfwME1bJQCs3UbQHfkxFKayy+is/pVZ+20D1G4pRI1LK/EPTpp+2MzcSC
-    3BuSBiN28lkWxUVMYKpG1ql5B2g9YgrAjPnAyInrHOW8w4klPLm9pw9gIp3cnx9jMVZWJF
-    ikQqFgCH+8c2RN/yV4mLFxzIxDj5LU4bKLfDtClT0E3ql1QqR98rpMNW5JyiBdadJZnDnU
-    Hil5yUwnCa6nKQuiNdIZoM784fE/v80EcCytHor9xSvX7celeodUTqyS8s3ujrXmm05Lw+
-    QTI+GjX9pWWa4K27OFn/FIzH54LH7aaginsfoq49sBdEmMZ5KGg2RtiGM/cw
-X-ME-Proxy: <xmx:2jxhanZN95wmLbzu6J1CO5F9XI2BBIPA3md7BSScYXWpdGsRYMJHBg>
-    <xmx:2jxhar6VNgi7hjPRDkdpLj3XRnBs0VBVwYVaBEb3QYbJGGQEO8TLlA>
-    <xmx:2jxhapBH7YMcqdmJdhcqlu90JyvLb4YaRSpMd0iJW750drxsx1gJPg>
-    <xmx:2jxhah_mq_yNEmun8M_-biXVs_xMYKdYjPYTTfAugx1FYvnGHry1CA>
-    <xmx:2zxhapZyVTmWgMUSxASvxUpQBJHJbvZ4uDj98TlEHEQIDbgmpUS28JrA>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jul 2026 17:57:43 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EXURGw5K"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ccdf36f63dso40135ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:25:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784759148; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jE2WfquWFXZaYqXFMIIH/SVhYsS4oSjRs7dkTjRV9aqgWvOMIcid7zyaho2bePGXAZ
+         xbkCE+XPnOBw8HH1rdXvjiVGz3c/yiUULGURy6EsrXKk/HFMNnhBP03R5J4KfoPEK2b7
+         lESuZ7TcxMPIvGhoVtzniBP6Qi2YbIjZE8ig+1hC54DaltZvxFnmiTCkh3MPkCuv/wEd
+         0Wq88rtMgvVbwJpsL5yWVPtyJdA/wgsgBLvWAz9RpCnpMWvSwIZWFRFlsLMmTtuAXswU
+         OzEg9RdFU5Aaco5A4T/yo4fIurWCBpgj4RTMhToqDRaS1h04izTdUoRv2zcPax5FY++N
+         4mVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5h3qQWpco5+qoVGf6bp9Mmlxz9tLEeIFkYyIcMI6PqM=;
+        fh=Sjo1ocyYgWyfOjBAhf41+b5MjWX5mhFVyNR/FZ2Uz6Y=;
+        b=VAFtnv8mbPil29EfBp37PD6I9PF2IRtFgM36FA0hM2HzwdK3Ca28fY5XO3mVveHUvu
+         VoI3VowFLcT5fpzT6t4KQW7NT1Ush91OK8VW3OxZFntA6T9FWwCzD0QIzMwkv9VTVLVr
+         yn/l8U0ldUbF5y0rUawACq+lRm6M43SVP4FZF+cWIITHZQ7qQ5t3ywRPcsGkWIQDbkh+
+         Ry2LnIoJGgbf9J2JdJmHZRxx5eTOpyUToWD3MVnZVvv5X2uqyWRDdcv7AsIpxxuC4ag6
+         A3c8KTC7zLBmTdbDuuVzZaag9Kn/BbvMprVnwQ7EZQtUXFIfhAusaO3lOcY+6yGUjgbH
+         Rxfg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784759148; x=1785363948; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5h3qQWpco5+qoVGf6bp9Mmlxz9tLEeIFkYyIcMI6PqM=;
+        b=EXURGw5KnReyN55ceGHVpy2kDJFCQZRDbDLMTpTAHPaAuewCEF05d2xf4XbAwijb90
+         zO3/ivmvgmCIuXI+57ia+x7rkwnhMloMZV2ijlKtYMcA6MjJe18frg/v2Ybzwy5TTVbO
+         9JTMKR1wODkHppNz2P+U3uUSN4WU5RRV446igtIpKIOsRx3VwVMiEUbv9FMQkkdTntIc
+         X8JM6JfBfu7RrBDVX8KVXpjekgyjZnY/Xz+UybAAfb0vhk5kMs6n97CuwXW1aXzSusPj
+         p3sbHJF46oHpIZ4wVPFH+NVOv65ioeNsO8zYwobfQW+ksGIKakBO5/QEwZlng5yqiHAx
+         iAPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784759148; x=1785363948;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5h3qQWpco5+qoVGf6bp9Mmlxz9tLEeIFkYyIcMI6PqM=;
+        b=nLDHFHaQYkduwgsorksaiw5/WZ8g/VnDVgsgxiNW0drq9HvAQmw1J29bqItiBo7YqU
+         5OjZb3AESP2z1B3p5B//zmjsv3NZqjLNAsOXoXZYrS22g/55GDTATIyJrk/Tl3BnH081
+         +W6ulMXB83LuvyCTNlCmGDAmpy4/DNdWKCri8Y8gM98kW5QVObSHTeu8suncJtkJF1V5
+         Gi+RLkntcvLzCmmUASZin8/HiaUqUgIgWpZIYORgxHwW+TEGM9m/N64XO/Fda0biQ5gO
+         viRqTchO+U3imkEfYfLJkTSzd6uQ77C7JkTj7u6A5knx7muMbXEWEBAcPNrRyXw6jBXx
+         lLmQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1/fBi95Q+a72zi+cTs3URR3Tt7ynTfZECGr8zsufy2LG8xDULLZvUBZ8/jX9IwMYxxXDmQAtnvXpVyVfV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJrfa9xUGJ5C1T/OeQ4DWMawPT2hPmtr3v2rCX8fUNYOjS65Ex
+	41wjWPYDW9fww+EnxzMIl7ufDwTLOpQ3NrfxGNmR1zjrrD/GR23TH2GvrkrACCyli/uof+dnCuP
+	bhYUWcsVH0rPuqe+Yx1I2CiddZZsHLMZnzkhY+Bgl9HnVJyjIiqxjerBZNfk=
+X-Gm-Gg: AR+sD11HMfHk+vuPRvVstKJ38qX6hKvnjbfRT6+NhL8v+6FJB65g5XCyo01kKIUScJc
+	KGa6ENMeNsHVxqhClM63iy/CgvmBmq6GzZykW6figbBzP1QGHSIHiQbcppJS9/a1qGNCPqYvzs3
+	C3ZSMtm6KczaZMP2GC8bBejcZLc76j9WvDeIL6OA8LUGPW/Q46Yvz2Kgq42cVhUJs5q8FvUu6lM
+	ktm2hvX5ESBKW7cZMAUOOZYRmN6f1g2RNMoX/o7ZhxUnatFIs3kpiyYt7uybqWr
+X-Received: by 2002:a17:902:ccd0:b0:2cc:80b9:3a1 with SMTP id
+ d9443c01a7336-2cfa805cac1mr833945ad.13.1784759147611; Wed, 22 Jul 2026
+ 15:25:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Christoph Hellwig" <hch@infradead.org>,
- "Christian Brauner" <brauner@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
- "Jeff Layton" <jlayton@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
- "Aleksa Sarai" <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>,
- "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-In-reply-to: <987276143.170754.1784726828216@kpc.webmail.kpnmail.nl>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
-  <20260704164149.3480051-10-jkoolstra@xs4all.nl>
-  <akyyqnv9EpY7xVdC@pedro-suse.lan>
-  <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
-  <alS10NN_OduZEqvt@infradead.org>
-  <20260722-mundpropaganda-vorwahl-funkverkehr-48efdde92a00@brauner>
-  <amDBQN5lCGbRxGWm@infradead.org>
-  <987276143.170754.1784726828216@kpc.webmail.kpnmail.nl>
-Date: Thu, 23 Jul 2026 07:57:39 +1000
-Message-id: <178475745953.3371781.2895727677996716858@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260721051903.691848-1-kaleshsingh@google.com>
+ <20260721173939.6bee67b6af17b54961daf4f8@linux-foundation.org> <CAJuCfpFVSrP2DGNr+tZadVzbuWvi467F879qndkQ4VTx6R1w_g@mail.gmail.com>
+In-Reply-To: <CAJuCfpFVSrP2DGNr+tZadVzbuWvi467F879qndkQ4VTx6R1w_g@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Thu, 23 Jul 2026 07:25:33 +0900
+X-Gm-Features: AUfX_my343AdXLfm67EJ0VM2HIkYy0Q6sLnlzZfJO1IPOW7lRXEJUd7rPKBKswQ
+Message-ID: <CAC_TJvd69gy5Gmrt2mz6o-yBd-ZVEUnAZ9UOcj8VW=EvfQ2HEQ@mail.gmail.com>
+Subject: Re: [PATCH] mm: proc/task_mmu: Use walk_page_range_vma() for smaps
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel-team@android.com, 
+	android-mm@google.com, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 22 Jul 2026, Jori Koolstra wrote:
-> > Op 22-07-2026 15:10 CEST schreef Christoph Hellwig <hch@infradead.org>:
-> >=20
-> > =20
-> > On Wed, Jul 22, 2026 at 02:51:54PM +0200, Christian Brauner wrote:
-> > > > No, we can't rely on something being backport to old enterprise/cloud
-> > > > kernel.  Doing so makes the interface unusable for actual application=
-s.
-> > >=20
-> > > It's backported to all LTS kernels for multiple years and this
-> > > nonsensical theory of using a software version with O_DIRECTORY |
-> > > O_CREAT on a pre-LTS kernel from years ago is just flimsy.
-> >=20
-> > the kernel has always ignored unknown open flags, or unchecked
-> > combinations and you can't just silently give them a meaning unless
-> > it is backwars compatible.  That has nothing to do with this particular
-> > combination.
-> >=20
-> > >=20
-> > > Even just the mere fact that I was able to just backport that bugfix
-> > > that started returning hard errors to all LTS kernels with absolutely
-> > > zero regression reports defeats that argument. We've done way more
-> > > invasive changes. This is a strawman really.=20
-> >=20
-> > Of course it didn't break anything yet because no one used it yet.
-> > One we give it a meaning it will be used and break.  And if you like
-> > it or not, a lot o Linux deployment is not using recent stable releases
-> > or even tracking the -stable releases at all.
-> >=20
->=20
-> If you want your software to be compatible with any Frankenstein-kernel
-> you just check what you O_CREATed is in fact a directory. If it is and
-> there is no EINVAL/EISDIR, you are running a supported kernel,
-> if it isn't, you're not.
->=20
-> Or you just require a minimal reasonable kernel version.
+On Wed, Jul 22, 2026 at 12:17=E2=80=AFPM Suren Baghdasaryan <surenb@google.=
+com> wrote:
+>
+> On Tue, Jul 21, 2026 at 5:39=E2=80=AFPM Andrew Morton <akpm@linux-foundat=
+ion.org> wrote:
+> >
+> > On Tue, 21 Jul 2026 05:19:02 +0000 kaleshsingh@google.com wrote:
+> >
+> > > From: Kalesh Singh <kaleshsingh@google.com>
+> > >
+> > > Modify smap_gather_stats() to use walk_page_range_vma() instead of
+> > > walk_page_range() when walking page tables.
+> > >
+> > > walk_page_range() internally calls find_vma(), which asserts that
+> > > mmap_lock is held. This assertion fails when reading /proc/pid/smaps
+> > > under per-VMA locks (where mmap_lock is not held).
+> >
+> > So the kernel is emitting a WARN trace under some situation?
+> >
+> > I'm surprised.  The offending patch is only six weeks old, but we'd
+> > normally hear about this very promptly.   Is a bug report available
+> > somewhere?
+>
+> No, when reading smaps "start" is always false, so walk_page_range()
+> is never called.
+> Kalesh, this is not a problem that ever happens in the upstream
+> kernel. In Android kernel there was an out-of-tree change that caused
+> this warning, which I pointed out and you fixed. However, the upstream
+> kernel does not have this issue.
 
-Without getting all the arguments about how people should write their
-apps and choose their kernels.....
+Hi Suren, thanks for the clarification.
 
-Given how easy it would be to make this bullet proof by adding a "fail
-if this combination isn't explicit permitted" flag to openat2 - why
-don't we just do that so that it is EASY to write as safe app and EASY
-to choose a kernel (i.e. any kernel at all with do).
+Sorry for the confusion,  Andrew. Please ignore this patch.
 
-NeilBrown
+Thanks,
+Kalesh
 
-
->=20
-> > Just like we've always done in the past we'll need to APIs that don't
-> > accidentally do the wrong thing on any old kernel.  We've survived doing
-> > it this way the last 25 years (maybe longer, but that's about how long
-> > I've been around) and there is no reason to magically change this now.
->=20
-
+>
+> >
+> > > walk_page_range_vma() walks a range within a single VMA and does not
+> > > use find_vma(). It relies on the VMA lock instead (when configured
+> > > with PGWALK_VMA_RDLOCK_VERIFY), making it compatible with per-VMA
+> > > locks.
+> >
+> > Sashiko said a thing:
+> >         https://sashiko.dev/#/patchset/20260721051903.691848-1-kaleshsi=
+ngh@google.com
+> >
