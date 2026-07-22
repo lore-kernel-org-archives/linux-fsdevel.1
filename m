@@ -1,92 +1,68 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D178379960
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 09:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2FC38550E;
+	Wed, 22 Jul 2026 09:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784711153; cv=none; b=QPEB/iXUJ3FBrNGxVBXmhkSiNA1MqAGpqAK2Qq1HnQEwB9mUHd5A4GppBAQbgrr2sKM4gF33z7dQG0SvwxpeXv/CaC2AfyYmTTxn0RPK7JMXI/+5kzPDPKP9vO92tM+ULkLcA8r2/d+d+ehL6lnGAi5poOOvgTsBxFnOulTEEtc=
+	t=1784712171; cv=none; b=l4X917L1GPkpIAAB7V2TQCD5gg4nnn5hkZ9wlfzk8yelv7l2qnah/OQltrQNNInb65wZPJHE71DuhutK/Xe23vWnIzvWyoALN8qRchiiGeYAd2taMwSzWoKqUOgM4GGjhqvLOKPVZhHmRfTN9itCbWTNWEu8nj8FWCt2+103occ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784711153; c=relaxed/simple;
-	bh=idL1pQ1iwMzP26iwUM99p2Dl0/RyD20MhXH687h6bLU=;
-	h=Content-Type:Message-Id:Subject:From:Mime-Version:References:
-	 In-Reply-To:Date:To:Cc; b=Uy+hKm+kHK+HN4Fl2zRhO3Di9o407R5X+45z/GEhhRa6+ArfStZatX5n1Z0/UKDiES7OXTkhlV5SVWTG9lE2ZGqQQH/hLcWQ8Kx9/NhyWSmLZpxtLmsxm9M4QFi2N0goCoPx/eNltXqyDY04EOtXTcHlaPhmnDJbA6cMNApS7TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Z2pptxM4; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1784712171; c=relaxed/simple;
+	bh=zf27/xKAU0Ly4z78SR4zKhEN3wUkaUJ3TFHdjq7VTqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKXoqizC8HVvWuLKdF5izY1gN8IZxJeQ2nY2ncoZr+p+HM/DfwdmUD6enUuSakLa59ghIjozVmnhr20we0/dVfrzhoL2yjf20+cPozLMrO2w3Ctot7TsWniDuHOXTiD742oQ31cXhmoLEMvnJNiSC2m/FwUZh0qTshrxru5hHIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTD2d9RU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Z2pptxM4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1784711145; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=idL1pQ1iwMzP26iwUM99p2Dl0/RyD20MhXH687h6bLU=;
- b=Z2pptxM4Q98WGdphPOKdEnoDTvUeLJzUlDNt2SzyCQQDAZETn1hePzf6IkqhVYvC0WuUlY
- q14q0eU4A+KYZ+sCUXQcO6DRDwCB47ivpVZ5nb+gyZEbt+U9qwjAqzCwSSxa0WKjA8hZal
- RfgRn+Swi6+S39ulO2lV+E5uZUu6IW86ktGoTpszQqV6LIYevTEBI6ijsoakuzb1Hgor7q
- bLAyieJoRoDsbFK580cODgZOs7D4FDhkxJ1ajc19iH3LNV8T3ZCTinVrzbQF5KI9qDn5oY
- YMJObd9pMPpzojWZrW3JRIe61S7rcGfmoIiINpOnyPIXVqs4Oen86608FT9yBQ==
-Content-Type: text/plain; charset=UTF-8
-Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.09b664f6.f353.4822.b162.7adacf158333@bytedance.com>
-Subject: Re: [PATCH v3 00/20] iomap: convert to in-iter iomap_next() model
-From: "changfengnan" <changfengnan@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTD2d9RU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4991F000E9;
+	Wed, 22 Jul 2026 09:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784712169;
+	bh=EcOvp3Q7nAVDBqppT5EzGjlWjNXlbf5zPRu2eNQMmu4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WTD2d9RU57iUS8LpjnPBrdl3FBEr5G7woZF2P4oRfbNKzW9qzxuBnOjn5pcQGqboy
+	 DbdVnN1Si8tZ8Zv6UkYvjahJcjDOZ2zb+R5m6Mz5MKqRJN8gIIdWUpDslGuECAPTEn
+	 11VzcyXV/HeF/Rd+aglHSE1suw2pE+/o3pdNiz7DwbBLQEUKMy9PGKRwVVljRJdjlm
+	 r+pDVEEvwvfEzJzPdiwzWKw208YFL1wqrqD202v8xN1ZQ0izLdtap1OgMsRFzCJ9q2
+	 +SNCOzbVOrUzgrE9WWayF49+5V2lBPx3/M+5SIqU+S22qSOjqT8v5kJ7RvZ1/3AVGS
+	 Vp0LZuOTcxfiA==
+Date: Wed, 22 Jul 2026 11:22:45 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Ze Tan <tanze@kylinos.cn>, viro@zeniv.linux.org.uk, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] namei: Use READ_ONCE() for d_flags in
+ __follow_mount_rcu()
+Message-ID: <20260722-habicht-heizperiode-geglaubt-5623b5193536@brauner>
+References: <20260715125102.1051791-1-tanze@kylinos.cn>
+ <76kfuey4pj2af3zwzbo7a3i63ooxhvzpc5q6k3iyl7mhhfszsa@6vhknryplnto>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+16a6087e6+29eabf+vger.kernel.org+changfengnan@bytedance.com>
-References: <20260720210202.1163861-1-joannelkoong@gmail.com> <20260721142842.GA11935@lst.de> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.7d28bf40.2201.47ab.bf41.5b700aefabf7@bytedance.com>
-	<20260722090350.GC30516@lst.de>
-In-Reply-To: <20260722090350.GC30516@lst.de>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2026 17:05:39 +0800
-To: "Christoph Hellwig" <hch@lst.de>
-Cc: "Christoph Hellwig" <hch@lst.de>, 
-	"Joanne Koong" <joannelkoong@gmail.com>, 
-	"Christian Brauner" <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>, 
-	<kbusch@kernel.org>, "Matthew Wilcox" <willy@infradead.org>, 
-	"Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, 
-	"David Sterba" <dsterba@suse.com>, "Dan Williams" <djbw@kernel.org>, 
-	"Gao Xiang" <xiang@kernel.org>, "Namjae Jeon" <linkinjeon@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, "Jaegeuk Kim" <jaegeuk@kernel.org>, 
-	"Miklos Szeredi" <miklos@szeredi.hu>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Mikulas Patocka" <mikulas@artax.karlin.mff.cuni.cz>, 
-	"Hyunchul Lee" <hyc.lee@gmail.com>, 
-	"Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, 
-	"Carlos Maiolino" <cem@kernel.org>, 
-	"Damien Le Moal" <dlemoal@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <76kfuey4pj2af3zwzbo7a3i63ooxhvzpc5q6k3iyl7mhhfszsa@6vhknryplnto>
 
+On Wed, Jul 15, 2026 at 05:51:45PM +0200, Jan Kara wrote:
+> On Wed 15-07-26 20:50:57, Ze Tan wrote:
+> > __follow_mount_rcu() reads dentry->d_flags without holding d_lock.
+> > 
+> > Use READ_ONCE() for these reads to make the lockless access clear.
+> > 
+> > Signed-off-by: Ze Tan <tanze@kylinos.cn>
+> 
+> Hum, so we are somewhat sloppy with the access to d_flags. Strictly
+> speaking we should be using WRITE_ONCE when updating them (and we do in
+> some places but not in others) and READ_ONCE when accessing them. OTOH the
+> only practical problem is KCSAN complaining, the problems that the compiler
+> could somehow tear stores to the d_flags are IMHO theoretical.
+> 
+> Having two accesses without READ_ONCE more or less doesn't really matter in
+> my opinion. Cleaning up all the d_flags accesses would make some sense but
+> I'm not sure it's worth the churn for mostly theoretical issues (I believe
+> Al or Christian was against it if my memory serves well).
 
-> From: "Christoph Hellwig"<hch@lst.de>
-> Date:=C2=A0 Wed, Jul 22, 2026, 17:04
-> Subject:=C2=A0 Re: [PATCH v3 00/20] iomap: convert to in-iter iomap_next(=
-) model
-> To: "changfengnan"<changfengnan@bytedance.com>
-> Cc: "Christoph Hellwig"<hch@lst.de>, "Joanne Koong"<joannelkoong@gmail.co=
-m>, "Christian Brauner"<brauner@kernel.org>, "Darrick J . Wong"<djwong@kern=
-el.org>, <linux-fsdevel@vger.kernel.org>, <kbusch@kernel.org>, "Matthew Wil=
-cox"<willy@infradead.org>, "Jan Kara"<jack@suse.cz>, "Jonathan Corbet"<corb=
-et@lwn.net>, "David Sterba"<dsterba@suse.com>, "Dan Williams"<djbw@kernel.o=
-rg>, "Gao Xiang"<xiang@kernel.org>, "Namjae Jeon"<linkinjeon@kernel.org>, "=
-Theodore Ts'o"<tytso@mit.edu>, "Jaegeuk Kim"<jaegeuk@kernel.org>, "Miklos S=
-zeredi"<miklos@szeredi.hu>, "Andreas Gruenbacher"<agruenba@redhat.com>, "Mi=
-kulas Patocka"<mikulas@artax.karlin.mff.cuni.cz>, "Hyunchul Lee"<hyc.lee@gm=
-ail.com>, "Konstantin Komarov"<almaz.alexandrovich@paragon-software.com>, "=
-Carlos Maiolino"<cem@kernel.org>, "Damien Le Moal"<dlemoal@kernel.org>
-> On Wed, Jul 22, 2026 at 03:04:24PM +0800, changfengnan wrote:
-> > Hi Christoph,
-> > I tested the simple direct I/O path and did not observe any performance
-> > degradation.
->=C2=A0
-> Thanks. =C2=A0But no improvement either?
-
-yes, I haven't seen any consistent improvement.
-
->=C2=A0
-> I'll respin this to sit before the iter_next conversion and will
-> send it out.
->=C2=A0
+I don't care for the churn but personally I wouldn't oppose the change.
