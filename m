@@ -1,192 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176543BDD4;
-	Wed, 22 Jul 2026 15:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16133BCD13;
+	Wed, 22 Jul 2026 15:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784735056; cv=none; b=Tw65r7d0GdePULeT5Uw4aeTpaS8kIE5kkjiBFyxFJ75PmVrVC5DcMJSgSKJANXO4z4mkqz1Pk35t8clP9pZaU+wmZnE8802RX0jx1ZLHfVAHLzLbAcGfBjUGqPYIKK1O0UXMaZMQwdD4qTzilgauOktJrXGszauWmwYtq66qyE0=
+	t=1784735577; cv=none; b=Yw19o9/syz9uopZ+U0lLmGs1gFaM8L+oWzFcRhkiAnbiAzqeZndAaILb2KqRkm7ooKiVwKzVh4oAQtRcyixqyvt+IyttBwSAOhCtWWSWVcP1fPxg54iOiKUOZ9GpbED72ck5+d0nIvJ8sC5fzpFL1iw1C3Fmc6nS2QnELyGbWtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784735056; c=relaxed/simple;
-	bh=j+qTEAyCoV00o2kRcC1j4kbG1tTBZxy1Qcm6LbFyZos=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=JQcn4E1yrG3xMwSQXv8XC1fb67AJGY64KQ8wUxTbtsX4qQtd9bHLjZICiL/PUjkTsOcuxCNy9vcdDXOV83gECmiDZWdO0Yy4oDboJutwCvHZ9WhJda1PoNWg7+WXCOw3ps/W6r7rwHB5bbFBzVAMqMRctUxVa4Ozafzh2r22Z34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWhOfU/M; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784735577; c=relaxed/simple;
+	bh=+qZGwqGphy0QHhR7QioqZcrFiPH53V4loJ6lyPtanLg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZAmfofjNEmb/3zBjk+6USsibz15TO6anrSgGJFY/+5h8j4k1OEvYbrTZiG3PL1TLVXtPu92nE0ZFg/kztV2Aow3nJMN2gX9HLoOROnqwQjDKALACu+KApAA02EcPJoYXAW/pyBNwWMQmuay5v1HDauh5DOKs0TQiEJBI5ib3RWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzeLJ+Mk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWhOfU/M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58121F00A3A;
-	Wed, 22 Jul 2026 15:44:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzeLJ+Mk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D900D1F000E9;
+	Wed, 22 Jul 2026 15:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784735054;
-	bh=aIdfFNr/larYFfsrJLug1WIUvAH11kj/nBfq0GHEMDM=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=nWhOfU/M9SwLEWbYZtFNK0EAy5+gWvsxVuhLbnlyobS+Y/1gxXgg2vp/wJMwpi+V0
-	 5ne6F1aPI63Qplq+QMqJbVsEv2yiKMQx7+nSX8LaZJsQXiq/IVUUDA32xDgJHIDWcE
-	 +VGKMp+sXPz0niQ+HCKcBgCvuSNbwrcVEmKFktJckjn9aHrJ8cmJXSPnsjIvmjuC+C
-	 XJF+uUOsNxNTtZpEL0+YFdFBaaNRDtE92bsjRMzqGZySV/bkVC4YQndKcPb2ryicRT
-	 Ne9qhSkhKur+H/B6OZEEVfiR82fXfeICQG8sojC1K7N2UdTZ2SNZ9IiJB0MdhU5ii/
-	 lIjcQE2X2rdAA==
+	s=k20260515; t=1784735575;
+	bh=ufiVbs4gFZoTgyjZH/ZnFnJ99kcRuL/B6RsmsdF3mq8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lzeLJ+MkKsdPmOuFrEroytGywJNyjc5go9z+BRGANnrrerkTLT/cUGS0MryhpCrCz
+	 JdnKkJXBXQDM1y9cnTXkAr+L8PkN74T9bfVYvVLVxwI2l26MDbErHm0dHSRnCdonnL
+	 RS8BbhjVo2GZtG/uKLPlYNjbwXf0EqigSTo9sTrTgwAXfegti5hbCb82Ksax3+7W+n
+	 QT+A4kOxO47PX305QOEXl/P2XsuHb7+PKLUJ9j688+bgVNRQrqfPt/YGk7hqqkhk7v
+	 RW33FQF/uI3VdGs/EfFg+aU8yARX/BME5FRohcAXZwHejlJ9HpNhFnfFCSrg51Y2pZ
+	 5PZGfjggIWn2Q==
+Message-ID: <f241a140-cb65-4a77-8dc9-dfa450b2e0fa@kernel.org>
+Date: Wed, 22 Jul 2026 17:52:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/13] mm/vma: update create_init_stack_vma() to use
+ vma_flags_t
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+ <20260711-b4-vma-flags-mm-v2-9-0fa2357d5431@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-9-0fa2357d5431@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH] fs: allow opening overlayfs/erofs layers through
- O_ALT
-From: Christian Brauner <brauner@kernel.org>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: Giuseppe Scrivano <gscrivan@redhat.com>, linux-fsdevel@vger.kernel.org, 
- linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>, 
- Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260715101107.973997-1-mszeredi@redhat.com>
-References: <20260715101107.973997-1-mszeredi@redhat.com>
-Date: Wed, 22 Jul 2026 17:44:08 +0200
-Message-Id: <20260722-fundort-zogen-kormoran-09fb867f1b59@brauner>
-X-Mailer: b4 0.16-dev-2f6f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5820; i=brauner@kernel.org;
- h=from:subject:message-id; bh=j+qTEAyCoV00o2kRcC1j4kbG1tTBZxy1Qcm6LbFyZos=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlPPURNpbh3u3r+MNt9/vGE3p6dd8q2qtYypnXKfyMz
- lyx4fq6jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk42TMyXDo3q4PzguhyK58i
- k9VXv1hUyx2uWmgvcyD4X5XbtJl71zAydE5jSC7Qixf81HFThUkiujhcm2f3xIffY6zbXolGdfe
- xAgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> This is a prototype patch. Needs to be split up!
+On 7/11/26 20:45, Lorenzo Stoakes wrote:
+> Replace use of the legacy vm_flags_t flags with vma_flags_t values in
+> create_init_stack_vma().
 > 
-> 1) O_ALT / OPEN_TREE_ALT
+> As part of this change we add VMA_STACK_EARLY and VMA_STACK_INCOMPLETE
+> vma_flags_t defines, and slightly rework create_init_stack_vma() for
+> clarity.
 > 
->   These open an alternative namespace rooted at dfd - instead of resolving
->   the path in the real filesystem, it resolves it in a virtual tree that
->   exposes metadata about that file.
+> No functional change intended.
 > 
->   This is intended to provide an alternative to adding new ioctls:
-> 
->    - provides structured namespace
->    - allows accessing data through fs ops
-> 
->   Could call this O_META, but O_ALT seems more generic and there could be
->   uses beyond metadata (e.g. seekable, in-place decompression).
-> 
->   This has been discussed previously:
->   https://lore.kernel.org/all/CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com/
-> 
-> 2/a) s_op.get_options(), sb_add_option()
-> 
->   .get_options() is a generic version of .show_options().
-> 
->   After converting everyting to seq_show_option() the rest is trivial:
-> 
->    - change first arg to "struct sb_opt_ctx *ctx"
->    - replace "seq_show_option(m" with "sb_add_option(ctx"
-> 
-> 2/b) sb_add_option_path()
-> 
->   The last arg is "struct path *".  This is for options that designate a
->   path (e.g. stacked fs layers).
-> 
->   Will allow opening the path through O_ALT.  Ignored when retrieving the
->   string value of the option.
-> 
-> 3) MNT_CLONABLE
-> 
->   Allow an internal mount to be cloned.  Nsfs and pidfs are already special
->   cased, move these over to this flag.
-> 
->   Also allow overlayfs layers to be cloned.
-> 
-> 4) mnt.mnt_devname -> sb.s_devname
-> 
->   This is historical thing, mnt_devname was just copied when cloning the
->   mount, sharing the same value for all mounts belonging to a super block.
-> 
-> 5) mount options in metafs
-> 
->   Support retrieving mount options through O_ALT opens:
-> 
->      mount/options/OPT/N: Nth instance of OPT
-> 
->   This will be a symlink pointint to the option value. If the option refers
->   to a path (as per 2/b), following the symlink jumps to the given path.
-> 
->   At this point only overlayfs and erofs are converted.
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-We've added a primary set of apis to retrieve mount options. I really
-dislike the idea of introducing a completely orthogonal layer to do the
-same thing (or more) and also make it filesystem based while at it.
-
-The other proposal of moving it into procfs doesn't lower the creepiness
-factor. It just paints it a different color. My objection is to the
-shape of this not where the entry point lives.
-
-metafs is the same thing in a different color. I really don't see any
-way that we would ever merge something like this.
-
-Like, I'm fine having an api where we can use open_tree() to see through
-into underlying layers and given the right permission pull a mount out
-of it. That seems something we can potentially do.
-
-There's a few issues on top of that. O_ALT is silently ignored unless
-you spell the open as openat(dirfd, relative, ...). path_init() only
-looks at LOOKUP_ALT in the dirfd branch. open("/abs", O_ALT) and
-openat(AT_FDCWD, "rel", O_ALT) fall straight through and open the real
-file.
-
-The layer symlinks are an unchecked jump into internal, out-of-namespace
-mounts. Following mount/options/upperdir/0 ends in nd_jump_link(). That
-doesn't do permission checks and no mnt_ns check.
-
-The overlay upper/lower layers are internal mounts with no mountpoint in
-any namespace. So any unprivileged process that can open the overlay
-root gets an O_PATH handle to a layer root it has no search-permission
-path to and on a mount outside its namespace and can then use it as a
-dirfd.
-
-Pulling the mount out is gated by CAP_SYS_ADMIN, but the handle and the
-traversal are not. That's exactly Andy's "whose creds" question, it's
-inherent to the design, and the procfs variant has it too.
-
-get_options() forks ->show_options() permanently. It's added
-alongside the existing method and mnt_show_options() now tries one then
-the other.
-
-That leaves the tree split forever or commits us to a flag-day
-conversion of everything. The new thig is also heavie and loses the
-seq_file overflow-retry. All so the 99% of filesystems that will never
-expose a path option can carry a more complicated interface.
-
-mnt_devname to s_devname move is a behavioral change. alloc_super()
-records fc->source only on the sb-create path in sget_fc(). Sharing an
-existing sb path never updates it. For filesystems that share a
-superblock across mounts every mount now reports the first mounter's
-source in /proc/self/mountinfo and statmount().
-
-And the smaller details really show how inelegant this model is and why
-Al and I have opposed it multiple times before. Scalar options are
-modeled as symlinks and non-path options are dangling links whose
-readlink still returns the value while for path options readlink returns
-the option string but following the link jumps somewhere else entirely.
-
-erofs silently emits a valueless "fsoffset" if the kasprintf fails.
-There's no Kconfig at all. metafs is obj-y and kern_mount()ed in every
-kernel. I don't want to see this leak into every container going forward
-at all with the same hackishness to make it somehow safe in containers.
-
-Like I said before: I'm fine with an API where we can use open_tree() to
-see through into underlying layers, and given the right permission pull
-a mount out of it. That is a narrow, checkable primitive and it needs
-none of this. No new open flag, no second ->show_options, no metafs, no
-mnt_devname surgery. That part we can potentially do.
-
-But a generic metadata interface layered on top of yet another magic
-filesystem whether it's mounted or hidden behind procfs I feel very
-strongly about. I also have great difficulty seeing Al supporting it.
-
--- 
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
