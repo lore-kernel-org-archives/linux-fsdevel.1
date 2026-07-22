@@ -1,190 +1,291 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9609347BBD
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 13:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555A533B96B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 13:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784726374; cv=none; b=DPo0yBN3QYDNTDY4S0YnkYZ2+wsD9631+MSrQaGt+jJgkpFhcrP8xHwQ9tFmuFnLvrOOFO+va3l2dPrbmdmyH6otC2fM3NHNFY8foEp6bfUmBgAP/hGV6Y6+xqhMgvLWHxFeGNZS9S7agDh23+atDaHHsbz0+lnqFIOS8FBzJpA=
+	t=1784726542; cv=none; b=XkMWDIAmBX5IwLQUNGMR9e343X10YJDgu4AF7F76MgQEFHx8w4AndQG6kF9QlIk1dClrrgjNuGgyX6gO7nIg0uMMqm8GN1Jr8/xg2RLq4VYOn7YgRgJ/Gh4jGq/V6hgJ7bC0p6FEnm21ZTEHA48th4s+i8QXAnMsQcU3my+ZIu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784726374; c=relaxed/simple;
-	bh=epK4LVDwm2+auSTveDZ6GGKifGGGfqh7hgaFGF+EvAo=;
+	s=arc-20240116; t=1784726542; c=relaxed/simple;
+	bh=gb7ddQHiT+tMQ0lfH+mGwqPhC5v4sQB5i18+U/GNU+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JUJzYMCimvLfodIvjIws9sEezXvalHrPP9dNf7LWko7XwbZE+16vhqWWbeqzrKJZl4EbC/1KoYllMR508IiZjnrjHvJcgGBD70nwQzQfpeLByCd0K7hhXh4Jny8/UfbuomY+jW38Dnn0ejj5d2OJH2k9fpDO7LNk87tInO+iCMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=hnFAnD8B; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/m3mP9jx4DkFC4B1OPBdQBvzWNnLpaOnlGBFSovAJEpT7yEwPp42NGAnU5j06FzbCE1SJwbyijkx5TufXQTPdjCZvLeF7d5SniHkp32mUVipWxzi02D8phkOELmJ155aeHunQL3+JOmWj+8AZUDMlUdIoWOhnfKKOJ1higmIOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QjEKma9B; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="hnFAnD8B"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-930f618435cso79731985a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 06:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784726369; x=1785331169; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uPPBH/hmuBagyTMjawpVpFd8RmJZZP/xfXgbpwvebxM=;
-        b=hnFAnD8B6yb746lM1dDg1iy3zz4nVeGNoA0PUX2SqMQ0ccOjs4l68Z5mAmqD/V2fey
-         2m3DMIiZdnE5jVP6n5bDRNS4xg2G64CdgAZX3IjXkqcm/WdANu7ich8foaJHOlAsixzy
-         TlD3GKsCrfIa3N077RdxGvBvK+73UWGGSbzo/z7y8gA1ZHwVGGpcCbQi9ThD8wkUXb2v
-         6l4BvYxtquoMM33zGBqpotOPa26jM86mPxxyA8dYjnSvPvc4FmxA4Ru8mls6N1mqvMEa
-         oSUGkJS7S5VPYG51sn6svBcXZCP4kBHFPj2Z1U2cNZnLN9+JGqZ8DwoO6D396ccjDJ1D
-         PDZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784726369; x=1785331169;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uPPBH/hmuBagyTMjawpVpFd8RmJZZP/xfXgbpwvebxM=;
-        b=BdivTcStiY/0gyGLWzycHG17iCvXMs8zcF5lL7I6Vx0Yh5Qp+2w9yr8gg+GXRKJPS7
-         TOqiv40eQO1pnFG0H2Lrujq20Rf/6dQ352R5Ew+OAdJZ2lKUMJ5Nn72gJz8Ygr8YP9dL
-         7kko6QdE56HhW5FuHC9KlfEOUj7dXUP38tAKVR5Q0FgAaZ3IbH2FTz79Zq+SoIdGCEIb
-         cpVyGaVS6fOPTZmeFI9/dV7XLaU+e/QbiFAxpRiouIGtiX6YvpzrnCtpEYZR0GNIoJoS
-         2AJ9TLhcxhXIGjrTD5ggqZm4NY70UuVA4ZBqhzZOZKCGkbgLc8zRztEG3lZJcNx3kBBo
-         qufw==
-X-Forwarded-Encrypted: i=1; AHgh+RpJalPE1DQuk+EhdL2NXcKqCwGJYK5sMFQF//haPpTptr0f0fwAuHb9Xv2vOZveacGo/52gO0J8a7trjtdP@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu5ESfWs61/RuACgKRfedXMoBKxxzeUMIeqzx7N+uaQ4VuuUNy
-	RwlSW/hvzxNzop2iTrjpXEYPw2IXX3Ne7AhBoQzmed5njdn1Q3lVQHCVJTdj8m1TLOQ=
-X-Gm-Gg: AR+sD13fgcTuF+w7kurAvRTlGfmpdjuFftQ0Ulg1qwHTYlPXGCYd7ba34Uj736fLGVH
-	Avy32uuErZDUZam5GdFvnHBvCUVR/c8EpY6+YSLHyiUksTQsMVWg+5no6xODPVnSy4SxNDg+6Ac
-	A+NqpIR4thLaMoKPUeptseelSUClY0DvZTuYUp8C2DIa3u2ffe+WEahSA44/MevxzXvi1GyhCMY
-	5ATI85FM7QCPwzfjVziFg2ExC0o8CN/FXabXs5kMPYHYzpAzqs1PE4KbKSkIiEx06h5+ZjeBkiF
-	Szhq3f6qJn1MeIMzFk/PpNCINDHpPvHdFBBi7DzMShRWBFh9nKv+7Cq6LQwUju2KS2gY3IjlCED
-	XO5uk953NkpAPHOtgtVxPqOCJ5OxA0neOaUK6lN69kCu5WZdLXoBii4Qv+E4Fgq63eu2pY0hQ32
-	GA4wx9MwndPu6Dv2yQp+B77uQjv03ExuU2lCBGkDgMhONWAEbVCWoLIuE0ew==
-X-Received: by 2002:a05:620a:460f:b0:92e:8734:b721 with SMTP id af79cd13be357-930b3ee6fa3mr2273972385a.29.1784726369355;
-        Wed, 22 Jul 2026 06:19:29 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930f6a6c1efsm160195685a.38.2026.07.22.06.19.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 06:19:28 -0700 (PDT)
-Date: Wed, 22 Jul 2026 09:19:23 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 05/36] mm: add ZONELIST_PRIVATE(_NOFALLBACK) for
- N_MEMORY_PRIVATE nodes.
-Message-ID: <amDAjb7PpWDnIQcF@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-6-gourry@gourry.net>
- <amC-b5SIkxUCKQ7H@MWDK4CY14F>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QjEKma9B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784726539;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=feEVvExtCwbDdg7aSX8cuuWXWuzFoLtfoMT1v05EBhU=;
+	b=QjEKma9BIpH/xqhi+XkxisLsvIjzP5Pt6xd92Y2VtUnVK9Quf/Ca1eremYqj3fDO1i/8uh
+	FWF+xoAY8T8GIyZpGAIYRWigvf48JDQJxGZzxbAcf9fRVFj1DMRn62rBdGCFBKmaeu+LP4
+	rMaEWtEFxa6jJr7+1H7NzqtOXOUz0zY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-369-O3z-pCoTM_20hCLgVKA5sA-1; Wed,
+ 22 Jul 2026 09:22:16 -0400
+X-MC-Unique: O3z-pCoTM_20hCLgVKA5sA-1
+X-Mimecast-MFC-AGG-ID: O3z-pCoTM_20hCLgVKA5sA_1784726534
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5440518002C3;
+	Wed, 22 Jul 2026 13:22:14 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.22.58.2])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 27FF51955D88;
+	Wed, 22 Jul 2026 13:22:12 +0000 (UTC)
+Date: Wed, 22 Jul 2026 09:22:09 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Ricardo Robaina <rrobaina@redhat.com>
+Cc: audit@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, paul@paul-moore.com,
+	eparis@redhat.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, sgrubb@redhat.com
+Subject: Re: [PATCH] audit: add FSCONFIG auxiliary record to log filesystem
+ configuration
+Message-ID: <amDEAQD1Wb5HHWe6@madcap2.tricolour.ca>
+References: <20260713170013.4073499-1-rrobaina@redhat.com>
+ <al/wQsmHmVMSo+RH@madcap2.tricolour.ca>
+ <CAABTaaBP3g-np2MhYHebiQpGHFpTe6Z_itqvt2qu9hsymkbHCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <amC-b5SIkxUCKQ7H@MWDK4CY14F>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAABTaaBP3g-np2MhYHebiQpGHFpTe6Z_itqvt2qu9hsymkbHCw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Wed, Jul 22, 2026 at 09:00:51PM +0800, Richard Cheng wrote:
-> On Mon, Jul 20, 2026 at 03:33:59PM +0800, Gregory Price wrote:
-> >  static void build_zonelists(pg_data_t *pgdat)
-> >  {
-> >  	static int node_order[MAX_NUMNODES];
-> > +	nodemask_t tier_nodes;
-> >  	int local_node = pgdat->node_id;
-> >  	int node, nr_nodes = 0;
-> >  
-> >  	memset(node_order, 0, sizeof(node_order));
-> >  
-> > +	/*
-> > +	 * Zonelists: FALLBACK, NOFALLBACK, PRIVATE
-> > +	 *
-> > +	 * FALLBACK:   Allocation order for all nodes.  Private nodes have lists
-> > +	 *             but never appear as an entry in any list. Allocations
-> > +	 *             targeting a private node w/ FALLBACK land on N_MEMORY.
-> > +	 *
-> > +	 * NOFALLBACK: A list for each node containing only itself.
-> > +	 *             Allocations targeting a private node w/ NOFALLBACK
-> > +	 *             will always fail (their NOFALLBACK is empty)
-> > +	 *
-> > +	 * PRIVATE:    (N_MEMORY | N_MEMORY_PRIVATE) - allows access to
-> > +	 *             private nodes, and falls back to normal memory unless
-> > +	 *             __GFP_THISNODE otherwise constrains it.
-> > +	 */
-> > +
-> >  	build_node_zonelist(pgdat, &node_states[N_MEMORY], ZONELIST_FALLBACK,
-> >  			    true, node_order, &nr_nodes);
-> >  	build_thisnode_zonelists(pgdat);
-> > @@ -5912,6 +5957,10 @@ static void build_zonelists(pg_data_t *pgdat)
-> >  	for (node = 0; node < nr_nodes; node++)
-> >  		pr_cont("%d ", node_order[node]);
-> >  	pr_cont("\n");
-> > +
-> > +	nodes_or(tier_nodes, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
+On 2026-07-22 10:05, Ricardo Robaina wrote:
+> On Tue, Jul 21, 2026 at 7:18 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >
+> > On 2026-07-13 14:00, Ricardo Robaina wrote:
+> > > Modern mount tools (util-linux >= 2.39.1) use the new mount API
+> > > (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+> > > syscall. The generic SYSCALL audit record logs the fsconfig syscall but
+> > > does not capture the configuration parameters, creating an audit gap for
+> > > critical mount information such as the device being mounted.
+> > >
+> > > Add an FSCONFIG auxiliary record that logs the command type, parameter
+> > > name (key), parameter value, and aux parameter passed to fsconfig(2).
+> > >
+> > >  ----
+> > >  type=SYSCALL : syscall=fsconfig a1=FSCONFIG_SET_STRING ...
+> >
+> > This looks like it is missing "a0=..."?
+> >
+> > >  type=FSCONFIG : fs_cmd=1 fs_key=source fs_val="tmpfs" fs_aux=0
+> > >  ----
+> > >  type=SYSCALL : syscall=fsconfig a1=FSCONFIG_CMD_CREATE ...
+> >
+> > This looks like it is missing "a0=..."?
+> > I'm guessing this isn't actually real test output?
+> >
 > 
-> Hi Gregory,
+> Thanks for reviewing this patch, Richard!
 > 
-> A question about this part, if my understanding is right,
-> ZONELIST_PRIVATE contains all private nodes, should we use some explicit target
-> nodemask here to make sure only the targeting owner's private node can be touched?
+> That's real test output; I just trimmed the SYSCALL record output to
+> fit in the commit message. Since this patch does not touch this
+> record, I don't see a problem. I can
+> add a0=... for consistency if you prefer, though.
+
+Consistent use of ... would help to clarify that.
+
+> > >  type=FSCONFIG : fs_cmd=6 fs_key=(null) fs_val=(null) fs_aux=0
+> >
+> > Was there a fs_key output here that didn't make it due to the issue below?
 > 
-> Otherwise it might fall back into a different owner's private node.
+> Actually, in this case, the test result happened to be right (that's
+> why I missed it).
+> FSCONFIG_CMD_CREATE has no key or value, so both are NULL[1].
+
+Yup, fair, had to ask.  :-)
+
+> [1] https://man7.org/linux/man-pages/man2/fsconfig.2.html
 > 
-> --Richard
+> > >  ----
+> > >  type=SYSCALL : syscall=fsconfig a0=0x4 a1=FSCONFIG_SET_BINARY ...
+> > >  type=FSCONFIG : fs_cmd=2 fs_key=hidepid fs_val="<binary>" fs_aux=4
+> > >
+> > > Link: https://github.com/linux-audit/audit-kernel/issues/153
+> > > Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+> > > ---
+> > >  fs/fsopen.c                |  7 +++++++
+> > >  include/linux/audit.h      | 13 +++++++++++++
+> > >  include/uapi/linux/audit.h |  1 +
+> > >  kernel/auditsc.c           | 27 +++++++++++++++++++++++++++
+> > >  4 files changed, 48 insertions(+)
+> > >
+> > > diff --git a/fs/fsopen.c b/fs/fsopen.c
+> > > index ae19e5136598..9b3c02f59df4 100644
+> > > --- a/fs/fsopen.c
+> > > +++ b/fs/fsopen.c
+> > > @@ -15,6 +15,7 @@
+> > >  #include <linux/namei.h>
+> > >  #include <linux/file.h>
+> > >  #include <uapi/linux/mount.h>
+> > > +#include <linux/audit.h>
+> > >  #include "internal.h"
+> > >  #include "mount.h"
+> > >
+> > > @@ -357,6 +358,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >       struct fs_context *fc;
+> > >       int ret;
+> > >       int lookup_flags = 0;
+> > > +     const char *value_str = NULL;
+> > >
+> > >       struct fs_parameter param = {
+> > >               .type   = fs_value_is_undefined,
+> > > @@ -423,6 +425,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >                       goto out_key;
+> > >               }
+> > >               param.size = strlen(param.string);
+> > > +             value_str = param.string;
+> > >               break;
+> > >       case FSCONFIG_SET_BINARY:
+> > >               param.type = fs_value_is_blob;
+> > > @@ -432,6 +435,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >                       ret = PTR_ERR(param.blob);
+> > >                       goto out_key;
+> > >               }
+> > > +             value_str = "<binary>";
+> > >               break;
+> > >       case FSCONFIG_SET_PATH_EMPTY:
+> > >               lookup_flags = LOOKUP_EMPTY;
+> > > @@ -445,6 +449,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >               }
+> > >               param.dirfd = aux;
+> > >               param.size = strlen(param.name->name);
+> > > +             value_str = param.name->name;
+> > >               break;
+> > >       case FSCONFIG_SET_FD:
+> > >               param.type = fs_value_is_file;
+> > > @@ -458,6 +463,8 @@ SYSCALL_DEFINE5(fsconfig,
+> > >               break;
+> > >       }
+> > >
+> > > +     audit_log_fsconfig(cmd, param.key, value_str, aux);
+> > > +
+> > >       ret = mutex_lock_interruptible(&fc->uapi_mutex);
+> > >       if (ret == 0) {
+> > >               ret = vfs_fsconfig_locked(fc, cmd, &param);
+> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > > index 45abb3722d30..978eb881974c 100644
+> > > --- a/include/linux/audit.h
+> > > +++ b/include/linux/audit.h
+> > > @@ -449,6 +449,8 @@ extern void __audit_tk_injoffset(struct timespec64 offset);
+> > >  extern void __audit_ntp_log(const struct audit_ntp_data *ad);
+> > >  extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+> > >                             enum audit_nfcfgop op, gfp_t gfp);
+> > > +extern void __audit_log_fsconfig(unsigned int cmd, const char *key,
+> > > +                              const char *value, int aux);
+> > >
+> > >  static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+> > >  {
+> > > @@ -598,6 +600,13 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+> > >               __audit_log_nfcfg(name, af, nentries, op, gfp);
+> > >  }
+> > >
+> > > +static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
+> > > +                                   const char *value, int aux)
+> > > +{
+> > > +     if (!audit_dummy_context())
+> > > +             __audit_log_fsconfig(cmd, key, value, aux);
+> > > +}
+> > > +
+> > >  extern int audit_n_rules;
+> > >  extern int audit_signals;
+> > >  #else /* CONFIG_AUDITSYSCALL */
+> > > @@ -730,6 +739,10 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+> > >                                  enum audit_nfcfgop op, gfp_t gfp)
+> > >  { }
+> > >
+> > > +static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
+> > > +                                   const char *value, int aux)
+> > > +{ }
+> > > +
+> > >  #define audit_n_rules 0
+> > >  #define audit_signals 0
+> > >  #endif /* CONFIG_AUDITSYSCALL */
+> > > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+> > > index e8f5ce677df7..5cd0eb602528 100644
+> > > --- a/include/uapi/linux/audit.h
+> > > +++ b/include/uapi/linux/audit.h
+> > > @@ -122,6 +122,7 @@
+> > >  #define AUDIT_OPENAT2                1337    /* Record showing openat2 how args */
+> > >  #define AUDIT_DM_CTRL                1338    /* Device Mapper target control */
+> > >  #define AUDIT_DM_EVENT               1339    /* Device Mapper events */
+> > > +#define AUDIT_FSCONFIG               1341    /* Record showing fsconfig args */
+> > >
+> > >  #define AUDIT_AVC            1400    /* SE Linux avc denial or grant */
+> > >  #define AUDIT_SELINUX_ERR    1401    /* Internal SE Linux Errors */
+> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > index 6610e667c728..222bf79ee9bd 100644
+> > > --- a/kernel/auditsc.c
+> > > +++ b/kernel/auditsc.c
+> > > @@ -2882,6 +2882,33 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
+> > >
+> > > +void __audit_log_fsconfig(unsigned int cmd, const char *key,
+> > > +                       const char *value, int aux)
+> > > +{
+> > > +     struct audit_buffer *ab;
+> > > +
+> > > +     ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_FSCONFIG);
+> > > +     if (!ab)
+> > > +             return;
+> > > +
+> > > +     audit_log_format(ab, "fs_cmd=%u", cmd);
+> > > +     audit_log_format(ab, " fs_key=");
+> > > +     if (value)
+> >
+> > This looks like it should be "if (key)".
 > 
+> Good catch!
+> 
+> > > +             audit_log_untrustedstring(ab, key);
+> > > +     else
+> > > +             audit_log_format(ab, "(null)");
+> > > +
+> > > +     audit_log_format(ab, " fs_val=");
+> > > +     if (value)
+> > > +             audit_log_untrustedstring(ab, value);
+> > > +     else
+> > > +             audit_log_format(ab, "(null)");
+> > > +
+> > > +     audit_log_format(ab, " fs_aux=%d", aux);
+> > > +
+> > > +     audit_log_end(ab);
+> > > +}
+> > > +
+> > >  static void audit_log_task(struct audit_buffer *ab)
+> > >  {
+> > >       kuid_t auid, uid;
+> > > --
+> > > 2.53.0
+> >
+> > - RGB
+> 
+> -Ricardo
 
-Zonelists and the constructors here is a bit difficult to understand,
-and I see I actually did a poor job of explaining what's going on in
-the comments here.  I will fix that up in v6.
+- RGB
 
-Lets say we have the following nodes:
-   N_MEMORY :  0 1
-   N_MEMORY_PRIVATE : 2 3
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+Upstream IRC: SunRaycer
+Voice: +1.613.860 2354 SMS: +1.613.518.6570
 
-The following zonelists would exist:
-
-ZONELIST_FALLBACK[0]   = {0,1}
-ZONELIST_FALLBACK[1]   = {1,0}
-ZONELIST_FALLBACK[2]   = {0,1}
-ZONELIST_FALLBACK[3]   = {0,1}
-ZONELIST_NOFALLBACK[0] = {0}
-ZONELIST_NOFALLBACK[1] = {1}
-ZONELIST_NOFALLBACK[2] = {}
-ZONELIST_NOFALLBACK[3] = {}
-ZONELIST_PRIVATE[0]    = {0,1}
-ZONELIST_PRIVATE[1]    = {1,0}
-ZONELIST_PRIVATE[2]    = {2,0,1}  <- no fallback to 3
-ZONELIST_PRIVATE[3]    = {3,0,1}  <- no fallback to 2
-ZONELIST_PRIVATE_NOFALLBACK[0] = {0}
-ZONELIST_PRIVATE_NOFALLBACK[1] = {1}
-ZONELIST_PRIVATE_NOFALLBACK[2] = {2} <- __GFP_THISNODE
-ZONELIST_PRIVATE_NOFALLBACK[3] = {3} <- __GFP_THISNODE
-
-In the current design, we actually can never fallback to another private
-node, and instead if you wanted to - for example - interleave across
-said nodes you'd have to do so manually.
-
-I think it's reasonable to later extend zonelist construction to support
-such a think like:
-
-ZONELIST_PRIVATE[2] = {2,0,1,3}
-
-Later if such a need arises, but I would say wait for the use case.
-
-~Gregory
