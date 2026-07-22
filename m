@@ -1,219 +1,196 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129E630C37C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784733369; cv=none; b=So4qjmMI4uxb4IYUL6EEH4Xq1gZV0az8tNMTaZWzNvIsk0yXlEJPwWjP4cPyfn5RqiHG3H8wxRAC7cqLsIE8OkIwDyLZX+RxiLul72j9O2rVx3JWotwNSHe4j06Fmf9PINT+yH3OU2tTqfFISJ3FdimrB8VC6dWzJTgKACDVIpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784733369; c=relaxed/simple;
-	bh=pZqfDNtrlt4xKRG3c0BiAsT2DXo0fiEXSQUodX9iZ3w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=oNNj0Zb7lI9//x4QZUPBbz2q8T9AxUaFvudHKbvK0sPQMzFSV/XE0Bd6R3XR9EaChKxTgotyaHi5VllkHRo1/ujTmA3SStOfxlVPGRxoamMBvvUreJqTOjQjfNVqjYlqHKZPIVvNWVL7tnUGom7E3IhNBAo/8hHCKA0V1V/cHKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bW3PreC0; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561C73932D5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784733873; cv=pass; b=I+m8NTxN46wqMoq8zHB7nwCk2M8YceDnmEykKncLHcVL9mzxpnWRJcQyWK0RBwYMHOejsKgnH+E39OJbr2oKkO3+S9FUjVxQRZfpNm4Q5Sw2An4aw0tOSfS6JJ+/J+Ug6ST21BOhksKIS7po1pC5r2CGXJkcBhgfLsFKh67peqw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784733873; c=relaxed/simple;
+	bh=FmqQi9tHDOGtMRA8eYccGrCqdDwhdIqG1ghsXPY1Uts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NW54sbgj/DuX/4XqNKKAFilpIQXSTHgKDPo0HiguoBCNEMji3Zfz811Ek55r0VNJcw/vS87jG0kghiGjF3uPKmY2Twdge3MDeK0ZP1FkGy2agBl1aKokv0WXDfnvccLegxodWqWmbICBpxCbT5qYDMfTDaidWngRfvih0Fbklb0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=id3l4Dsm; arc=pass smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bW3PreC0"
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="id3l4Dsm"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e50a650a0so764749985a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 08:24:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784733856; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PxihdJ1xEWTUR82o4HPkEkC0cxg1tBDPDbKNfGRoTj3YfmOL0/6Mwuz4GkRj0693PW
+         Glz3vtfnH8ju+v0HmiNW/npWEtgkVI0eHhX43B1k+PrGlvD6LPGtRe0XPoB6v9q8/pfQ
+         jt2AjXlBEKmxUnW2tCjR0MgJeUDjOqPEwEWpafoqL2C0Xzfdbg4OI4JsTHsTgoijW8Qo
+         FQ1ynDmjmuKOxsTmHJZjv8eXGM4Tk0jTgmXzLKJSO/bnXNi7hnwLolnFUX5JvdbmoAAL
+         z548xzfEcYPE/gPLJmoSlQgD72qESv2qjJMz0F18Cyu7CvlV38G2jugEO/UQ+sYlTZdl
+         dVQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        fh=vsvcadVHMkUMgrtB5fzBTfwcoH+2+1y+0EPGkeIQxw0=;
+        b=qpPq6H4wC0PTPFRfsBSyDDWO2ZAcqSkJ20fa9lcxbuPADqcsoqcx2twy5AgmvQjJyz
+         O0nx5NjYLmZMLL4lSB66E0gu9XSADdt7q7HHKYs19r30dJ+4FcrPHElBm90zPJvKGCql
+         FvDzrKj5OdlXjtNMJzflhD4zCmu08AN4WoPuYZ/RbZ2qiMDQrOJARyZ3d1c7VLlZwpJo
+         l+42E1pIOvD/cJi+viEXi2HVFIk9HPhfN8ej/Y68B0bkVbNxbuuvUh3C4Uhg9C9T0gAN
+         p1Qc59JbMjWgsBsncoycR8d6gLyXuCj+23u6GOwR1mUzDQ419TNq6yrCvnmMw8apC9x2
+         xYXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1784733856; x=1785338656; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        b=id3l4DsmZgREBbR6h/yxiO8eKv7LGI8EgxPiuuBbKGEHhiFxQwAxjladnBswED/Qmw
+         Ax33XN2mHBzIUzHztECMTaNs72eqwSZtXmZaaifQAOiIk1JvMm4VNBEOaCCSeomIAJO0
+         bmRifZH5PIDCqagNJN3TFMKqmosgxKwkzoa5k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784733856; x=1785338656;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        b=I8bQ2bDeYoVjxm6K7lDuFVm514MofzgbFxm8TK0dkwb8DC3Dpyi6/1jvcB4bMxq/H8
+         bj6r40wnetRTOXKLwSfPBOcnzD767mndZtxOoSvjN+LkEOUo/HWWG16hnZuwfI/26KdS
+         UWAmH/Tu/fyZAjkBOncbYot6+KvsFIi2jZvahip4cCs2UXgilWIskrwf7pW8bxMONl5f
+         F5g2Mw9FWWaqDR8AD1xEZkqoREpxgHh/QFAM1IcA14K2LJMO2sEL1pCZzG1ejRfJbSDz
+         3enmW97/4l4weIDm2h+q1/XVeXmFN0YmaHVz5RoQaJxWf/XkURmEkCUj6UDTPrEGH8cl
+         EHig==
+X-Forwarded-Encrypted: i=1; AHgh+RoCTp3wxllBEnvKmRLyynDTfQHujYnWQMUy/X4y2boVOCarGepaF4iFQj6qkBngNRKkgUzl4YXBopUwCjGT@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG/KCK4XOgOWlerg6p70QGu1CoFqL3zhpaZEBLcQ35k1EQqCkV
+	0yXLPAuISeJbn52E4/aTPAcpASmUguCkbFDsKEv4dX05KzEz0wiGPbK6GdefDBeBGYq6ZpNm9Hz
+	zlbVogp2iEzkWei7pbZMzbHj6rwMLPe+yP1w/j56I7A==
+X-Gm-Gg: AR+sD13pgzHSe1koZnuRslAe5xxcLYvNB3+a+5AbiwPkp2lOnLgjpPrBDPlMY2NuAFC
+	emNA02zLpWK7cW4D0claWQbcyW7Uw5tavcdLjbWd1AGO1gCk9VhLWVb6HNVoW8DPHwZIDNKhgrJ
+	7zy6qmq8XSVpDv1anx2EmhxGq67VDjAR1HcFaJ6y+atmorIvT0VsA1VtSasXKe9jGL9xHwfBBf8
+	eoZvvr1VIaknMnk1bV1YEt7Dpe614O2dIRQdWL2WtxAWmzEw0DRJN+EeFZAeeS3GtW4G81biteQ
+	iDggP/Ajak2BMc64yQ==
+X-Received: by 2002:a05:620a:2844:b0:92e:9cb3:3f71 with SMTP id
+ af79cd13be357-930b3ed66f6mr2281752885a.36.1784733856139; Wed, 22 Jul 2026
+ 08:24:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784733365;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r9xnLf5kCYeKS0y9dx48KGdZi3PUN8z8TKfUOdx3pcY=;
-	b=bW3PreC0YSLDGRKBpNSz9D3HV9IBx4wlSIMZcxjKlW2NgHj/d2JJNShI5MXv07j8MqQQS+
-	NPjHWhOdZSBYQK8zlzTLb67RaU+lo+jSdYPczWGuvi2XKtwcuonThN72rQpi4GauyQiL7a
-	183xUjaWt/QyKalqhxboM/IvbhPi1ME=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Jul 2026 15:15:52 +0000
-Message-Id: <DK5767A146ZW.3LV5JXS7T4W1C@linux.dev>
-Cc: "Brendan Jackman" <jackmanb@google.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "David Hildenbrand" <david@kernel.org>,
- "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Johannes Weiner"
- <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Jan Kara" <jack@suse.cz>,
- "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Byungchul Park"
- <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Hugh Dickins" <hughd@google.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Chris Li" <chrisl@kernel.org>, "Kairui
- Song" <kasong@tencent.com>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat
- Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, "Barry
- Song" <baohua@kernel.org>, "Youngjun Park" <youngjun.park@lge.com>, "Joerg
- Roedel (AMD)" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>, "Thomas Gleixner" <tglx@kernel.org>,
- "Chuck Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- "NeilBrown" <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Trond
- Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
- <iommu@lists.linux.dev>, <loongarch@lists.linux.dev>,
- <linux-nfs@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
- header
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Matthew Wilcox"
- <willy@infradead.org>, "Brendan Jackman" <brendan.jackman@linux.dev>
-References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
- <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
- <alkLSzQvzT9zJbY1@casper.infradead.org>
- <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
- <al5gQgnBCjNCSD_4@casper.infradead.org>
- <51810eba-2a60-49f9-b879-7f806546e600@kernel.org>
-In-Reply-To: <51810eba-2a60-49f9-b879-7f806546e600@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+References: <20260720034553.68798-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
+In-Reply-To: <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 22 Jul 2026 17:24:05 +0200
+X-Gm-Features: AUfX_mxUSuw0ZWzZWiq2Rpl7efuyYxiFK3IBC4AQjtyaBV6Cq7Rj41foWBlGbSE
+Message-ID: <CAJfpegvkbK4xtQsssn3yrdLn7zZRGB8MeRcauP8mbmJRCnFouw@mail.gmail.com>
+Subject: Re: [PATCH V11 4/9] famfs_fuse: Create files with famfs fmaps
+To: John Groves <john@jagalactic.com>
+Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon Jul 20, 2026 at 6:34 PM UTC, Vlastimil Babka (SUSE) wrote:
-> On 7/20/26 19:52, Matthew Wilcox wrote:
->> On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
->>> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
->>> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
->>> >> There are no external users for this surface, reduce the scope.
->>> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order=
-,
->>> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
->>> >
->>> > Hm.  So what we're saying is that allocations which respect mempolicy=
- are
->>> > only for core mm and not for, eg, device drivers to do.  Is that real=
-ly
->>> > what we want to say?  I don't think so, because that's inconsistent
->>> > with having just widened __filemap_get_folio_mpol to allow guest_memf=
-d
->>> > to specify a mempolicy.
->
-> guest_memfd is practically mm internal though, IMHO.
->
->>> Yeah I agree, mempolicy definitely seems like a "public concept".=C2=A0=
- All
->>> I'm saying here is this specific function doesn't have any external
->>> users so it doesn't need to be an external header.=20
->>=20
->> I don't think that should be the metric for moving things to internal.h.
->> To me, internal.h is a signifier that these interfaces should only be
->> used by the MM.  Not that "all current users are within the MM".
->
-> Perhaps. It can be also useful to move them outside only when someone ask=
-s.
+On Mon, 20 Jul 2026 at 05:46, John Groves <john@jagalactic.com> wrote:
 
-Yeah I can see this both ways. It makes sense to only expose functions
-to the scope that currently needs them, but I think Matthew's right that
-moving it to internal.h does kinda signal "this is private, don't touch
-this" which isn't intended.
+> +/* Famfs fmap message components */
+> +
+> +#define FAMFS_FMAP_VERSION 1
 
->>> ... With the ulterior motive that I want to add a new parameter to it
->>> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
->>> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration o=
-f
->>> [0]. So basically this is
->>> about trying to extend the allocator without creating a GFP flag.
->>=20
->> Yeah.  I'm not sold on the whole alloc_flags thing, but I'm too busy to
->> sit down and think it through properly to get involved in a proper
->> argument about how it should work.
->
-> Well it's basically a workaround for limited gfp flags space. So we can
-> extend it without making that a cost for everybody, as long as those that
-> need the new functionality are limited.
->
->> My entirely unresearched and ill-considered opinion is that the __GFP
->> flags should _be_ the ALLOC flags.  We shoudn't be translating GFP flags
->> into ALLOC flags that are what the allocator actually uses, the
->
-> It uses both.
->
->> translation should be done at compile time.  So if GFP_KERNEL and
->
-> That would assume the gfp flags are also known at compile time, which is =
-not
-> always the case.
->
->> GFP_ATOMIC need to be composed of different flags with different
->
-> The flags we are adding/considering to add are not about GFP_KERNEL vs
-> GFP_ATOMIC context, however.
->
->> semantics, then we should do that, not invent a different set of flags
->> that special people can use for special purposes.
->
-> Yep it's ugly and pragmatic, as usual. At least it's not immortalized as =
-an
-> UAPI, so we can deal with exploring in a wrong direction and fixing it la=
-ter.
+Please don't use separate versioning for extents.  It doesn't help
+with feature negotiation, so let's just use the INIT feature flags for
+this purpose.
 
-FWIW I suspect the "proper" design requirements are something like:
+> +
+> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
 
-1. We want some flags that we can happily squeeze into places like
-   struct xa_node, and other flags that we can add bits to relatively
-   freely.
+Not sure if it makes sense declaring this on the user API.
 
-2. We want some flags that are "public" and some that are "private",
-   although this is intentionally vaguely defined.
+> +
+> +enum fuse_famfs_file_type {
+> +       FUSE_FAMFS_FILE_REG,
+> +       FUSE_FAMFS_FILE_SUPERBLOCK,
+> +       FUSE_FAMFS_FILE_LOG,
+> +};
 
-The current ALLOC_/GFP_ flags split is something that kinda inelegantly
-attempts to solve both at once even though they are actually probably
-orthogonal requirements. Do we care about this inelegance? I think it's
-pretty harmless.
+Unused, apparently.
 
-Another thing that's pretty inelegant about it is that both sets of
-flags percolate into the allocator at once. This is quite
-confusing/tiresome when you are reading page_alloc.c (I tried to
-ameliorate that with [0]) but I don't think it has much of an
-architectural impact?
+> +
+> +enum famfs_ext_type {
+> +       FUSE_FAMFS_EXT_SIMPLE = 0,
+> +};
 
-[0]: https://lore.kernel.org/all/20260703-alloc-trylock-v5-2-c87b714e19d3@g=
-oogle.com/
+An enum with a single value is not useful.
 
-In the back of my mind I suspect the "neat and tidy" solution would be
-something like: a single flags namespace that is split into two separate
-enums, one "public" and one "private", and then a separate mechanism to
-"compress" these flags into a small number of bits. But yeah I'm just
-not sure working on that nice elegant cleanup would really unlock
-anything of practical value. Boring little cleanups like "split out this
-API from internal.h into its own header" seem like more useful ways to
-spend refactoring energy in this space.
+> +
+> +struct fuse_famfs_simple_ext {
 
-Quite likely I'm missing potential unlocks though. E.g. maybe there's
-some place we currently put a gfp_t that could benefit from a "separate
-compression mechanism" that could usefully shrink it to 8 bits or
-whatever.
+struct fuse_extent {
 
->>> So I'm envisaging if an external user arises for it later, we'd slap tw=
-o
->>> underscores on the beginning of the internal one, (with the alloc_flags
->>> arg), and then bring back the public one as a wrapper.
->>>=20
->>> Does that make sense?
->>=20
->> We have a long history of people just moving stuff around in patches
->> without knowing what the intent was if it should be moved.
->
-> I guess this patch is not critical to the rest, if that's an issue.
+> +       uint32_t se_devindex;
 
-Well, for ALLOC_UNMAPPED we really do need an alloc_flags arg for this
-function, but we can always just go straight to what I described above.
-I.e. I can create the __ variant + wrapper from the start. It's just a
-question of whether we prefer:
+uint64_t backing_id.
 
-- "Yuck, there's a public wrapper here that we don't actually need", or
+> +       uint32_t reserved;
+> +       uint64_t se_offset;
+> +       uint64_t se_len;
 
-- "We hid this mempolicy API and people might think we'd NACK a patch to
-  un-hide it".0
+Please  drop the "se_" prefix.
 
-  https://lore.kernel.org/all/20260703-alloc-trylock-v5-2-c87b714e19d3@goog=
-le.com/
+Please add more spare space here (e.g. uint64_t space[3]).
+
+> +};
+
+> +
+> +struct fuse_famfs_fmap_header {
+
+struct fuse_extents_header {
+
+> +       uint8_t file_type; /* enum fuse_famfs_file_type */
+
+Unused
+
+> +       uint8_t reserved;
+> +       uint16_t fmap_version;
+
+Don't use, plese.
+
+> +       uint32_t ext_type; /* enum famfs_ext_type */
+
+Unused.
+
+> +       uint32_t nextents;
+
+Okay.
+
+> +       uint32_t fmap_size; /* Inclusive of this header */
+
+That's the same as outh.len.
+
+> +       uint64_t file_size;
+
+Same as i_size
+
+Thanks,
+Miklos
