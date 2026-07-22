@@ -1,179 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230463DAAA9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 16:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2768F23C8AE;
+	Wed, 22 Jul 2026 16:15:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784736687; cv=none; b=GFEsTa+KJdlGw4Xy71HQWscP1AnazmQLoQy0LmWz3ZhoajRwqTMg6yx7Z82CNxywi5XGDk7jRLkYhGykStPHSSvMypwZc+E4EjIoHmxEPwyfEQv0QwAU02J1LgopE1COPiZdBsJDJAEwgx5IdsBjIFDObXs8qOMJ7deUdMLB0M4=
+	t=1784736934; cv=none; b=EUQq5FMzKE0H6ckrMq3m4/skkQ1WLdLqmjq+TvMpeckA/xtv4JfDDwZqv+8D1UxpJn0UhVlekj0Z2WWe/dxjySnVG3jnwMu+M5QVJ7o97Y9RGryrI3P8MoGRQbPm3iB+4TmDHSwKKzbcV462ql5uOJUprsW7/Ye2vqW28SMN6NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784736687; c=relaxed/simple;
-	bh=8Dv3XbgnBSjLrbgy91j9aliSmIHevpMj/hTUlGCzSoo=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=pPY7871Jc3/bu9Ryt5BtXbGw6q15Ih5X560VXSqhPjp6+AeI77w6tnVgXtbf6FDY1WM12R4zrpXnDMohyfO+CHUZf5TtaxwgO8Zjem+fjVHpql+S7I8vE95yEsBQgeRk2EkIJWDG+JhPlv2UsIhuqZLrOhEDCYErL2bDvK0TEcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbKIQEfT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784736934; c=relaxed/simple;
+	bh=l6waauqbvZ9fTvDHa+GP5PMKycTldx9oe0/F+z40GQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g2RVo/RLup9SkuhwmYpA59XLVS3Qf0Bf9Ju8qVvqRnpeIZzQG9M7xAZr50sMbcD+5D+3BilExJfh+JmKivJQosCsuRyB1ju+J7ADKmXmcDlXgr+pPmNwqyCkUjcnbBwKsdDsP7Zx764EwUHEIj/Qme0I/g4C/jU6XBBdAKKt0io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZFALzRw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbKIQEfT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EB5B1F000E9;
-	Wed, 22 Jul 2026 16:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZFALzRw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F941F000E9;
+	Wed, 22 Jul 2026 16:15:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784736685;
-	bh=jmHOO8v3CjZ5peztUGfvRfYjk+5pWRJPqeU2hb9jJx4=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=LbKIQEfT2gSW4QmLwR/8F5ki5U3lQ1iiqHh8Xy265hP8SEYfBVV6PJT9LXTE6nSre
-	 Ard8+7vhFaY/Kl2Se+aphCwKgHZiW0eWrs3QhEWbYJXL2fHSs0IAnTffNlmbYZX9YR
-	 NzrpXtubZZtcaOlWC6BtZR0EVCTZAwZQk2VkaXd5SgDS0YHVcgzmd1E7PDBS/bOTt1
-	 17+56HwJ6CJ4brnf96x9+hT0p3noiC5CMjDyOMSlNchBZhePmIUEs+DfEZgKljM0cQ
-	 esakOxndyVmU+Pkr2gJHciMaz7Y/AxBN5igGNYGmQOvBWYS6Cq108KWuLqIf8NayY3
-	 tcCktPp395JYg==
+	s=k20260515; t=1784736932;
+	bh=YtoXCA62CyJBNC7Tbkqm6QUVmIJyF8vWZgzG8HkNlzI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DZFALzRwUkrcWF32RmBloDBG4APMVkGxhtgaZyfkfq4w77n6RpNrdAHXIykI0LwMX
+	 tGTerPv7RnSpnWTQAISeMEzjQWr0uGJk7k+k1pIaGnKeBR4YxJpt9RyDLS1Ii9bIGB
+	 43/hCcIIVUkgRJS7+JSbLJBvsJXvM8ST2ld2ORuO4pGg5dZ4eXczqK6/TJ9lcC7zTV
+	 184NzHUANyj1upIfiufIzTzgFXEU4ol0nH+6Z9pEAlACTIbjzOLfqyhBSUIaxXrwXh
+	 gLiKpiTLLNgHpkBvl6V4zRf6clxml/U/1TOwopiR7NwCRl7coCul519YgSFNAZ8pPL
+	 5ogQPeJG8QmfA==
+Message-ID: <fd9defdf-5d82-4f07-a496-4fe8064710ff@kernel.org>
+Date: Wed, 22 Jul 2026 18:15:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/13] mm/mremap: convert mremap code to use
+ vma_flags_t
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+ <20260711-b4-vma-flags-mm-v2-13-0fa2357d5431@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-13-0fa2357d5431@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
-From: Christian Brauner <brauner@kernel.org>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, cyphar@cyphar.com, 
- hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260717134147.1602735-1-gscrivan@redhat.com>
-References: <20260717134147.1602735-1-gscrivan@redhat.com>
-Date: Wed, 22 Jul 2026 18:11:20 +0200
-Message-Id: <20260722-notnagel-allemal-kampfsport-8fd4e4d98a15@brauner>
-X-Mailer: b4 0.16-dev-2f6f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4466; i=brauner@kernel.org;
- h=from:subject:message-id; bh=8Dv3XbgnBSjLrbgy91j9aliSmIHevpMj/hTUlGCzSoo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlvF79ydNx+fnWBDXmGc/+7eXJams5fmRu/1KWSd/z0
- r4n7Tth0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRdUYMfwXmPiwLLr27KuqU
- xsxlZ1r6/p9aqhd7uMqgfkXcvJvPp/EyMvw91KT8fNcmpg1JKgFustc83DbcKp5k93bTMubAvb5
- 7zTgA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> Allow userspace to pass an already-opened file descriptor as the mount
-> source instead of a path string.  This is useful for tools that already
-> hold an fd to the image, such as composefs reusing an existing erofs
-> backing file.
+On 7/11/26 20:45, Lorenzo Stoakes wrote:
+> Replace use of the legacy vm_flags_t flags with vma_flags_t values
+> throughout the mremap logic.
 > 
-> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
->
-> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> index 9d8f862f309f..bc55be84d945 100644
-> --- a/fs/erofs/super.c
-> +++ b/fs/erofs/super.c
-> @@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
->  enum {
->  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
->  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-> +	Opt_source,
->  };
->  
->  static const struct constant_table erofs_param_cache_strategy[] = {
-> @@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
->  };
->  
->  static const struct fs_parameter_spec erofs_fs_parameters[] = {
-> -	fsparam_flag_no("user_xattr",	Opt_user_xattr),
-> -	fsparam_flag_no("acl",		Opt_acl),
-> -	fsparam_enum("cache_strategy",	Opt_cache_strategy,
-> +	fsparam_flag_no("user_xattr",		Opt_user_xattr),
-> +	fsparam_flag_no("acl",			Opt_acl),
-> +	fsparam_enum("cache_strategy",		Opt_cache_strategy,
->  		     erofs_param_cache_strategy),
-> -	fsparam_flag("dax",             Opt_dax),
-> -	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
-> -	fsparam_string("device",	Opt_device),
-> -	fsparam_string("domain_id",	Opt_domain_id),
-> -	fsparam_flag_no("directio",	Opt_directio),
-> -	fsparam_u64("fsoffset",		Opt_fsoffset),
-> -	fsparam_flag("inode_share",	Opt_inode_share),
-> +	fsparam_flag("dax",			Opt_dax),
-> +	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
-> +	fsparam_string("device",		Opt_device),
-> +	fsparam_string("domain_id",		Opt_domain_id),
-> +	fsparam_flag_no("directio",		Opt_directio),
-> +	fsparam_u64("fsoffset",			Opt_fsoffset),
-> +	fsparam_flag("inode_share",		Opt_inode_share),
-> +	fsparam_file_or_string("source",	Opt_source),
->  	{}
->  };
->  
-> @@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
->  	return false;
->  }
->  
-> +static int erofs_fc_parse_source(struct fs_context *fc,
-> +				 struct fs_parameter *param)
-> +{
-> +	struct erofs_sb_info *sbi = fc->s_fs_info;
-> +
-> +	if (fc->source || sbi->dif0.file)
-> +		return invalf(fc, "Multiple sources");
-> +
-> +	switch (param->type) {
-> +	case fs_value_is_string:
-> +		fc->source = param->string;
-> +		param->string = NULL;
-> +		return 0;
-> +	case fs_value_is_file: {
+> Note that, in replacing vm_flags_clear() (which takes the VMA write lock)
+> with vma_clear_flags() and vma_clear_flags_mask() (which do not)
+> respectively in unmap_source_vma() and dontunmap_complete(), we do not add
+> a VMA write lock to account for htis.
+> 
+> This is because, in both cases, move_vma() is their calling function and
+> this has already acquired the VMA write lock on vrm->vma whose VMA flags
+> are being cleared.
+> 
+> In the case of vma_set_flags() in unmap_source_vma() we do need to do this
+> - as prev and next were not necessarily write locked at this point.
+> 
+> Additionally update comments to reflect the changes to be consistent.
+> 
+> No functional change intended.
+> 
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Afaict this is just fsparam_file_or_string()?
-
-> +		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
-> +		char *p;
-> +
-> +		if (!buf)
-> +			return -ENOMEM;
-> +		p = file_path(param->file, buf, PATH_MAX);
-> +		if (IS_ERR(p))
-> +			return PTR_ERR(p);
-> +		fc->source = kstrdup(p, GFP_KERNEL);
-> +		if (!fc->source)
-> +			return -ENOMEM;
-
-Hm, hm, hm... How is that reliable? So iirc this is then passed to:
-
-static int erofs_fc_get_tree(struct fs_context *fc)
-{
-	int ret;
-
-	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
-		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
-			GET_TREE_BDEV_QUIET_LOOKUP : 0);
-	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
-		struct erofs_sb_info *sbi = fc->s_fs_info;
-		struct file *file;
-
-		if (!fc->source)
-			return invalf(fc, "No source specified");
-		file = filp_open(fc->source, O_RDONLY | O_LARGEFILE, 0);
-		if (IS_ERR(file))
-			return PTR_ERR(file);
-		sbi->dif0.file = file;
-
-		if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
-		    sbi->dif0.file->f_mapping->a_ops->read_folio)
-			return get_tree_nodev(fc, erofs_fc_fill_super);
-	}
-	return ret;
-}
-
-which then reopens the file or looks up the block device. So the only
-way this is _vaguely_ (and really _very vaguely_) safe is if userspace
-keeps at least the file descriptor open until the filesystem has been
-mounted.
-
-If they close it before this means you can mount something completely
-different. The other thing is even if they keep the fd open someone
-could just rename the damn thing and fc->source ends up pointing
-somwhere completely different. The could switch namespaces as well in
-some circumstances and then it points again into wherever.
-
-I've played with that fd idea before. The only way to make this work
-correctly is if you plumb this down into get_tree_nodev()
-
--- 
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
