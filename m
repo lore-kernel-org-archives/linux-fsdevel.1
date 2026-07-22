@@ -1,114 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA04355F22
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 14:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6082B34BA28
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 14:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784729055; cv=none; b=gAzsSw5/z5+j3ocPi5tdd8HLi6wJQ4K5Zajhvxw9ukB18MMuRZ8BdybzVDltrcW7KwkkulWaKXDx3UtxIokMPspALbWHaKCNWdUoa8akBu4sxO1LMgbkb+nzBunZ6HGN3XXqsTDfJWxSurLpRfDwWuK18huMhKVI9v5LhFk/fXI=
+	t=1784729100; cv=none; b=RvnkVe6wDCKlEJsZ7gpv/awhOKM6wXNsyxY5iO/P6BAJ1pR6jntp8y2MBnUeogZHSnOAwCszSBGEbZ1LX+mOoiOWwAiQPlTupTj2YjJEP0ZXzQLi80PTC3/fhdZFpq/j8jjRJ5ftcPkoX9hof9l4Fq2Wuf8OH2hoWeYIGGXhyPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784729055; c=relaxed/simple;
-	bh=+jE5RtHiFCFsqRctu8nubzAMJF+Q5ZrEUxZJ1z1zmqo=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=B1FiilZUHJOhm3x6k67WPh0hzvz5Lde3wtyO45wnzgDfiQp5fxTjqJCihdJZ6QTZiDUq8dYyssHOthkK2g2oSl65qTFvi+msRqD0P1ubHfq0rWpinyiaRMBAO8n+Woo84qlceSnkDVyIjE8vtGGMVh60ADSPBD40whPzSl0selA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eEi9FR4S; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784729100; c=relaxed/simple;
+	bh=BiKsszl+35xq/ewMPZzGz30tgw5kvnsmDpEO+3lG0vE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rCori883h7Wo0tgNYqUHXArHw2vHrVMp0V58FYyNIdbVK/EYACEIFpofdg3JMFr6f9UYb56jScOAMK3rL0Kl+wzyaXLYsO5fY4qZ3mwA8T/ll+rFyGm0KAQ6ZFEdbUjDw/MKY7HUFyswpzgEShEzKtYjfJdOjHuB5+8D8m1jzHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=mrvhPX8T; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eEi9FR4S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784729052;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WOWY4gaKzic5dswrNjiYeY8YSOaB6YOZpY9kmZI2+j8=;
-	b=eEi9FR4SdeaQyBsEnsl/ar/Z9AZYD3FLV1MD5A96D25LlC+qBS8pIBBz40hwBtZ6w0i8l3
-	w/8pU8M2IZEj0F5dBgr+eNRBzCng0SMvbHkRCFRwpk8PyEQQ/sNpIKF2nU9qO6mLr8UQle
-	ymKeQZ7hiNoix1WAYxl4oCP83mnlAFk=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-156-f5rT5wR2Myyf52nL3e7l1A-1; Wed,
- 22 Jul 2026 10:04:09 -0400
-X-MC-Unique: f5rT5wR2Myyf52nL3e7l1A-1
-X-Mimecast-MFC-AGG-ID: f5rT5wR2Myyf52nL3e7l1A_1784729048
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BCF9E1800628;
-	Wed, 22 Jul 2026 14:04:07 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4B67C18002B1;
-	Wed, 22 Jul 2026 14:04:04 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20260707052555.2055002-1-yun.zhou@windriver.com>
-References: <20260707052555.2055002-1-yun.zhou@windriver.com>
-To: Yun Zhou <yun.zhou@windriver.com>,
-    Matthew Wilcox <willy@infradead.org>,
-    Christoph Hellwig <hch@infradead.org>,
-    Christian Brauner <brauner@kernel.org>
-Cc: dhowells@redhat.com, pc@manguebit.org, netfs@lists.linux.dev,
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Is writeback_iter() missing some error handling? -- was Re: [PATCH] netfs: fix ENOMEM handling in netfs_writepages() to drain all dirty folios
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="mrvhPX8T"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e5d6f35c1so1112499385a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 07:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784729097; x=1785333897; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
+        b=mrvhPX8TYaW6OdLHwE1oVXsMQJLltg7gssKp5utqf/LuYMMymUzUMHKiHysM64pTuL
+         L8ZJEzSGtBUdGHqeoUS/ZfnQohfr5G/UrhC/wRUH3KEFfdFHNSA50wlsbw2D2YHpykae
+         ihCSsUC5m6IS7Fmjzsof4Ps0QyK2W/EjkS+7y09grIz4VVqpiGjn7sXKLdzKT/vQfG/B
+         FoUnOSa9uvT9rWH0HIZMJpxdrLvtqqPMzscmxRRoeGPXyeBHamY6dRkeIHPPOFi2zbom
+         3sQoKh5VsE/T35TkORWJZ7BdBRwCVaEy85AwnwuwDRQCD5ybGnugX0rapf/PmeW7sZkw
+         vl+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784729097; x=1785333897;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
+        b=T7TyomTMKgwAgT92+MzidpFwgdeKBLZhnyrv4QVO2BYYQrHZOnHSDoA7XGoNBwPp18
+         tKaokXTxoFpUhh8U+U5N7/+VF1Epys4U/Vg7N/Wye8sYH0PjPU5Gr957g6ORWRp0e4OR
+         gVt4IvgPbISN+IXYu8+Sm76lC5AGaDUDr6688myP58HA8wf6LyNTlDkaEGfDSGVHL61o
+         161WjpalgnAsQEHjMLl+IWhDIV53QhZWB8drAd/Zzv5fHt7MIdQKvnubZYWOB2cFq3BP
+         b93OhzRsY6Bv5D8HgHsWEkJc54JR7/em1D+jSC6QGvVKEVGUsA/0H0fn4mWytAygHxs0
+         ceBQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqckQV8eciji6fjb1wZOrXUtXdvPvQItdJR6VNNi33NKt90kBpdPOITRcQodInA18H6U0Qm8CYIWesCzoxU@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDU4sp5QnVYpCLON+ty6k3Yp1VpSwTNrMToAR9X+ZV80CVDbLG
+	Qj3NuY69Mpd/zVG5BrL6ZAsIqqvp5nRBqTLDJ3kik9+DBlgPV9IfCox2ZWFZfbzp85c=
+X-Gm-Gg: AR+sD12JClXYLGEfl6LvagpqDehxob2Ve+7R1gLgUQGd+mW1+hpnd7cP46rft0e2zz1
+	AAFjM+YV2jscMDWoLrD7/R2haRtgw/fyvSUQ4VIDEPy4pORRHIEYlbYuD2OfwzMLScEdPd80poA
+	KPhsm6aOQZL/0dYeWguHZy07MMzKKO8/JlvLRuiWt1bzT7t9MPtVO181j48ulg2bSB0/nImHxtK
+	LXB4iDWBe3qoPvPpQCIkOXgDdyoyJ3qsDblDPO64wi1rXjvL9xMxK87qJaVzuP999u2a2uNQm/P
+	y6uUP4bU5ZtXoqz9h/cemwE+DgpipS/6JQTlhiRqN52Ebfzsxgll58npFwdCjOdrlbnHoHBzaEm
+	Uugvu3nZc5gicxGuUnpHXPE4VFpCMCkCgEx+5YL7YmzNbbAhEPhq/e5T8vSIKN54DF/fOs3JyWA
+	zG4vLOYvEYomincGMZwlQJXBUwRGuzRPzMYWtKY+Ilq8fjQXAbn9+TH8+d2w==
+X-Received: by 2002:a05:620a:1992:b0:930:f7ee:2cf5 with SMTP id af79cd13be357-930f7ee3792mr215753585a.66.1784729095553;
+        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930f68d5d6dsm171863585a.20.2026.07.22.07.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
+Date: Wed, 22 Jul 2026 10:04:49 -0400
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 28/36] mm: add NODE_PRIVATE_CAP_HOTUNPLUG for opted-in
+ private nodes
+Message-ID: <amDNMmbdE_ZhUgl1@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-29-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <82544.1784729042.1@warthog.procyon.org.uk>
-Date: Wed, 22 Jul 2026 15:04:03 +0100
-Message-ID: <82546.1784729043@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720193431.3841992-29-gourry@gourry.net>
 
-Yun Zhou <yun.zhou@windriver.com> wrote:
-
-> When netfs_create_write_req() fails with -ENOMEM in netfs_writepages(),
-> the couldnt_start error path redirties and unlocks the first folio, then
-> calls writeback_iter() expecting it to return NULL. However, if the
-> mapping contains multiple dirty folios, writeback_iter() returns the
-> next one, triggering WARN_ON_ONCE(folio != NULL).
+On Mon, Jul 20, 2026 at 03:34:22PM -0400, Gregory Price wrote:
+> Add CAP_HOTUNPLUG, which allows memory_hotplug to migrate a private
+> node's folios for the purpose of hotunplugging memory.
 > 
-> This can be reproduced via 9p (cache=loose) with shared mmap writes and
-> fault injection (fail_nth), where v9fs_mmap_vm_close() triggers
-> writeback on a mapping with multiple dirty folios during mmap overlap.
+> Without this, hotunplug fails if any folio on the node is allocated.
 > 
-> Fix this by looping over all remaining dirty folios in the ENOMEM path,
-> redirtying and unlocking each one. This ensures all folios taken by the
-> writeback iterator are properly released, and they will be retried on
-> the next writeback cycle when memory is available.
->
-> ...
-> --- a/fs/netfs/write_issue.c
-> +++ b/fs/netfs/write_issue.c
-> @@ -597,10 +597,11 @@ int netfs_writepages(struct address_space *mapping,
->  
->  couldnt_start:
->  	if (error == -ENOMEM) {
-> -		folio_redirty_for_writepage(wbc, folio);
-> -		folio_unlock(folio);
-> -		folio = writeback_iter(mapping, wbc, folio, &error);
-> -		WARN_ON_ONCE(folio != NULL);
-> +		/* Redirty all dirty folios and let writeback retry later. */
-> +		do {
-> +			folio_redirty_for_writepage(wbc, folio);
-> +			folio_unlock(folio);
-> +		} while ((folio = writeback_iter(mapping, wbc, folio, &error)));
->  	} else {
->  		netfs_kill_dirty_pages(mapping, wbc, folio);
->  	}
+> Add node_allows_hotunplug() - which returns true for any normal node
+> and private nodes with CAP_HOTUNPLUG.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 
-This seems like the wrong thing to do - or, at least, a bug in the
-writeback_iter() API.  Getting something like ENOMEM would seem to indicate
-that all subsequent writeback_iter() calls in this loop are pointless as it
-looks like the sequence will just go { lock, undirty, dirty, unlock } for each
-folio.
+after this question:
+https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#m5b8166212a276fece2380f2dd03d6864375a576b
 
-David
+and some off-list feedback about limiting initial cap bits to active
+use cases, I realized that this CAP bit can be entirely eliminated.
 
+hotplug notifier callbacks already allow a driver to prevent memory
+block state transitions - so that control already exists.
+
+v6 will remove both the filtering here and the cap bit.
+
+~Gregory
