@@ -1,315 +1,186 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293F2352C28
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 09:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D140540F72C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 10:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784712945; cv=none; b=JYJjWP9sYl+YsRkC+aS79JS/DLc7/dIlb8k5q1RKwE63fgEcXgMvvulfoCvOi9GsCuU9/Pd8+aSU2SuMTBiq0s4MX46tQISgywHJHhd8ybflBdFtJokodBl7jnOJOEYAj27vs+Z+VZhhQdHeNiH3tNx9EqiBg08Mj6I5KjQ5I+E=
+	t=1784716622; cv=none; b=qxrPZxKeG/6CWTW865rs/EnDNEPoRNaIIs6TIVu+QiQSJYcd8YN1rwkSoeaD5mxRngMbVmvadJBO0n1xNCO6LObXI2OIKadEOiTfAldWtgpzQ5j0NBDDhIgdHhvSgb9/pdEqnyh7lmxLGhj3wqN2WgyUKZYATH1Sq2HGyzbjH0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784712945; c=relaxed/simple;
-	bh=GG2EOvrsApZCeL1C+Pb/We/gJRTuu4NFd+kjd4iSItM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r5YPw/R55a5LwwwwkoJhm0qnAllquszyuF9ojgssOapwv42kzNkLroBeOO4zG68TP+6TIyIDMzbqL89+YBA5SQSHvPBkQ7iJvF2z50ZumvlSVCXp4yIXg1e22MMxBnVJOTq/gO1hkj3Na+g7lf6o+sEx7FAmvMOEncm8BgRYHgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=agLrWkPh; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1784716622; c=relaxed/simple;
+	bh=e2fl2KM6DF4yqoyrhGRgcqCoS3D+h8q6jvBwb2045A0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTP9kEGTbM+tjK19EIWkTYIOnb0WFWSj+2mTGCjuZwNSInd7ff65rsxtYtBc73MElpQM03hVOJg20aH5aS4a4clteSCgYN3RUn0QZda6JD67f6D5rcteOr1KNbxAzONcMv0i0NQbT7eAK+xPI49WY+tA10q1YOIFvUyv/6umFa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccSNNoHp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="agLrWkPh"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-69e08ad526cso9367273a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 02:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784712941; x=1785317741; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dFy4yNyzmo3UbOv6Xs2SIMr6v8Q5AhI2ZjktcOYD0w8=;
-        b=agLrWkPhHBIv5YF4CciQoQzc+Hf2Qc+YCv6KFnYLFc4cV5YAOyQuZ1AsM3DWqnLKhw
-         wZ76dwNftBiE1EqtJh95tPCMrFZTotHnEEu2jzXqn5MO453nE4KmwAzx0ne5e/M1FDlp
-         rtksDnCPGuFJUacOEWKQbpgQRlszBFYvgndYdITeqXDUEA4M+FoBxok0hu1QFG2lKWkW
-         LhmFnqFPUZ33jjlYPIx68VO1GwhzEoUncyIsa53J/hB3pb+evxYtSgpHRW4YQPtIrUhZ
-         On54WiemrUnFt9zd2soD10WplOhprKNLyDLdupND1j4yp/fgTI21NggxzkGH7uULeLLh
-         i99A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784712941; x=1785317741;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dFy4yNyzmo3UbOv6Xs2SIMr6v8Q5AhI2ZjktcOYD0w8=;
-        b=DPumeCe+3PyIl5a4YDhLrckyQydEWZDnNhh9IJmgpzDe36DvblC8A9+7scMB7Y+I10
-         AQMIjzxMmFtNOP6GpC3nEcR2JqeJ8PP5UbCGQt3mYntP9gAK9Z955NLB7Hlj8MoQzILY
-         sKOeRS5Xy+0ZSIr91oAwqoGlWt97x9QcToxvdNj9OSlIXcVuhXya2t8qkqkc0PXEgjPc
-         NcX5JNZcC5+MUOsZ96/DOSfvNs6YMFWViDx3okCtwpEqhXALteiAzGHs67LsmPvrvirI
-         touVbQu5P9iUPvZjJO6zJOjUKAMsDWkxFt/7ljsN3R+3klCjH9YcvggyAr2eKTTpbKSs
-         Jd5w==
-X-Forwarded-Encrypted: i=1; AHgh+Rpx0iFfMbUDJaKdlZltZ5z4tRPzW63V0WREUoFxVXe39rNpvYMxCNdSzpTDESElDMakHV8Hx3fgwvAN8gFJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YysdSrQsI9xYgduUSXZH0R9Mf0jlBkDOBfas6PfZl/oakFwB1iU
-	aZeBpg/AuXbXW4SvW63pNQw0BOzZbnJVD4+2jrcngHYpKxpCkpIKWfd+4uM8iTq0AGA=
-X-Gm-Gg: AR+sD11DIzPJzfKN3sMl748m9mLQBL/mehNQXmGu0RnbDUGryu7aajd8nm/VMJMN/Im
-	+AQzYzAxFMn2Ua63ijgf1Yp5r1MABvTS08a5X/TEnG+K0tvo7SCBtkcgMJDAyMq5S5ipnr5TFII
-	+KIjjCMhiRV4NLWpkXf6JafeTEN85aayvakT1zjpoQHZlc+vyDTmmmORZC3ARczrdVscmXC4dHD
-	BJ63NI0EguazLx2IkglzOm2wyFoJ05uApMp3BYRruc+wc0q7gq2BgotN+eg1Yce+7xXMy9hMYlo
-	yszF0/QYimmCur8s51UMWqs2bKJPjjInBp57JDmGui0TxktO0D0/YJ0EotNlRRNO0EOGIkn1hpU
-	1pOoks53kJEcKKMHHvBTSiremHDXYOt5r4+JRZ/uRti0QPWzE3yP2zdzIMTcXcy3CCWVncIQ=
-X-Received: by 2002:a17:907:3f99:b0:c16:592b:ec4c with SMTP id a640c23a62f3a-c16b46990d8mr926168866b.1.1784712941118;
-        Wed, 22 Jul 2026 02:35:41 -0700 (PDT)
-Received: from [172.16.0.229] ([159.196.52.54])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f02e454sm882841a12.0.2026.07.22.02.35.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2026 02:35:40 -0700 (PDT)
-Message-ID: <8ef80fa7-6c93-40bc-8a49-bf6494104cb7@suse.com>
-Date: Wed, 22 Jul 2026 19:05:33 +0930
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccSNNoHp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A1B41F000E9;
+	Wed, 22 Jul 2026 10:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784716620;
+	bh=qU4+o7nKrzdbsiECc0tZj+TPwCEPLNpxpGrIX8iePxE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ccSNNoHpCfOOYAruvOSJFWRjy85i2++Aw4z07KXVnmrTbyC2QA0I0AOnVSGhDt2ZT
+	 LRZTgSlIg9sN9n8NIveSMAxglZg/FDJY0FAlcVJf9WGQeMAzoKRAcNwM6yZSr63u3R
+	 PpRcfrwo5evHqag5wYyxou4wh9G0E4bJ6Jaz4F18vS1xQE+bsPUg9VeaNxRIT0rE7b
+	 WGF4oGHeDGn+jnde4KbIUjSFNNk8nLd6eOW9RORlU2GXSxcrYlZhVJwblBQX2pPemZ
+	 hGzc0YGFnc95Kb0/B7ujPdBvWWr5sMG03DqB8QqmkkV5Fngt34kCGjvxe3bR8VCtV1
+	 w4HEEqXAFc0NA==
+Date: Wed, 22 Jul 2026 12:36:55 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Cole Faust <colefaust@google.com>
+Cc: farid.m.zakaria@gmail.co, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>
+Subject: Re: Questions and concerns about BPF-selected interpreter
+Message-ID: <20260722-bonus-annehmbar-umjubelt-e899440a34aa@brauner>
+References: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH/RFC] btrfs: fix folio lock leak in writepage_delalloc()
- for folios dirtied behind btrfs' back
-To: Christian Borntraeger <borntraeger@linux.ibm.com>,
- Qu Wenruo <quwenruo.btrfs@gmx.com>, linux-btrfs@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Cc: David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, linux-s390@vger.kernel.org
-References: <20260721191152.101118-1-borntraeger@linux.ibm.com>
- <20260721191152.101118-2-borntraeger@linux.ibm.com>
- <b226a6e9-fef2-49bd-b17e-9f9b015626c1@gmx.com>
- <83290932-cb8b-4741-bff0-6a7d8df2c637@linux.ibm.com>
- <224d56d2-fcad-41bf-afe3-6f5f5108172a@gmx.com>
- <f12f70e5-d84d-4a9f-ac94-693be4c863ac@linux.ibm.com>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
- Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
- fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
- 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
- V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
- rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
- cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
- qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
- /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
- o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
- JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <f12f70e5-d84d-4a9f-ac94-693be4c863ac@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
 
-
-
-在 2026/7/22 18:59, Christian Borntraeger 写道:
-> Am 22.07.26 um 10:59 schrieb Qu Wenruo:
->>
->>
->> 在 2026/7/22 18:05, Christian Borntraeger 写道:
->>> Am 21.07.26 um 23:07 schrieb Qu Wenruo:
->>>
->>> First, thank you for taking the time to look into this and trying to 
->>> understand
->>> things and trying to explain things. this is highly appreciated.
->>> I am still trying to fully understand this myself. A question:
->>>
->>>> 在 2026/7/22 04:41, Christian Borntraeger 写道:
->>>>> A folio can carry the folio-level dirty flag while its btrfs subpage
->>>>> dirty bitmap is empty: btrfs data mappings use filemap_dirty_folio(),
->>>>> so a generic folio_mark_dirty() call sets only the folio flag and the
->>>>> xarray tag, without setting any subpage dirty bit and without a
->>>>> delalloc reservation.  The typical source is set_page_dirty_lock() on
->>>>> a GUP pin,
->>>>
->>>> Shouldn't such folio got its ->page_mkwrite() callback get called 
->>>> first?
->>>
->>> Isnt that called implicitely at pin time?
->>
->> I have to admit, I'm not an expert on the MM part, I'm mostly a simple 
->> user of the existing MM interfaces.
->>
->> AFAIK, the last time I brought this thing up, Christoph mentioned that 
->> dirtying-folio-without-notifying-fs is a bug, and fs should not and is 
->> not able to handle such situation anyway.
->>
->> And that idea makes a lot of sense to me.
->>
->> So adding MM list for more help.
-> So I now have an userspace O_DIRECT reproducer outside of KVM. 
-> (attached) which gave me (on an s390 system, though)
-
-Thanks a lot, I can also reproduce it on arm64 (64K page size).
-
-This is super bad, as we have just removed a lot of folio ordered 
-related code to detect such problem.
-
-I'll also check if it's some recent btrfs changes making it worse.
-
-Thanks,
-Qu
+On Tue, Jul 21, 2026 at 05:24:21PM -0700, Cole Faust wrote:
+> Hi Christian, Farid,
 > 
-> [  189.067731] sysrq: Show Blocked State
-> [  189.067872] task:kworker/u1665:5 state:D stack:0     pid:1363  
-> tgid:1363  ppid:2      task_flags:0x4208060 flags:0x00000000
-> [  189.067877] Workqueue: writeback wb_workfn (flush-btrfs-1)
-> [  189.067884] Call Trace:
-> [  189.067886]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.067891]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.067894]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.067896]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.067902]  [<000003a8b263e2e8>] extent_write_cache_pages+0x348/0x4d0
-> [  189.067907]  [<000003a8b263ea0a>] btrfs_writepages+0x6a/0xd0
-> [  189.067910]  [<000003a8b21ad444>] do_writepages+0xd4/0x190
-> [  189.067915]  [<000003a8b2324590>] __writeback_single_inode+0x50/0x310
-> [  189.067917]  [<000003a8b2324b1a>] writeback_sb_inodes+0x2ca/0x690
-> [  189.067919]  [<000003a8b2324f36>] __writeback_inodes_wb+0x56/0x140
-> [  189.067921]  [<000003a8b2325498>] wb_writeback+0x368/0x460
-> [  189.067923]  [<000003a8b23258c6>] wb_do_writeback+0x336/0x3d0
-> [  189.067925]  [<000003a8b2325d2a>] wb_workfn+0x5a/0x1d0
-> [  189.067927]  [<000003a8b1f0cee2>] process_one_work+0x1d2/0x480
-> [  189.067932]  [<000003a8b1f0df30>] worker_thread+0x210/0x420
-> [  189.067935]  [<000003a8b1f190b8>] kthread+0x148/0x170
-> [  189.067939]  [<000003a8b1e90358>] __ret_from_fork+0x48/0x220
-> [  189.067941]  [<000003a8b2e2426a>] ret_from_fork+0xa/0x30
-> [  189.067994] task:oob-dirty-repro state:D stack:0     pid:8152  
-> tgid:8151  ppid:7260   task_flags:0x400040 flags:0x00000800
-> [  189.067997] Call Trace:
-> [  189.067998]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.068050]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.068052]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.068054]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.068057]  [<000003a8b263e2e8>] extent_write_cache_pages+0x348/0x4d0
-> [  189.068061]  [<000003a8b263ea0a>] btrfs_writepages+0x6a/0xd0
-> [  189.068063]  [<000003a8b21ad444>] do_writepages+0xd4/0x190
-> [  189.068066]  [<000003a8b2199dec>] filemap_writeback+0xbc/0x100
-> [  189.068069]  [<000003a8b2199e5a>] filemap_fdatawrite_range+0x2a/0x40
-> [  189.068072]  [<000003a8b2637d3c>] 
-> btrfs_start_ordered_extent_nowriteback+0x18c/0x1d0
-> [  189.068074]  [<000003a8b26260ce>] btrfs_page_mkwrite+0x22e/0x8d0
-> [  189.068079]  [<000003a8b21f89d0>] do_page_mkwrite+0x60/0xf0
-> [  189.068084]  [<000003a8b21ffa64>] do_wp_page+0x134/0x660
-> [  189.068086]  [<000003a8b2206584>] __handle_mm_fault+0x1c4/0x5a0
-> [  189.068088]  [<000003a8b22069f0>] handle_mm_fault+0x90/0x230
-> [  189.068090]  [<000003a8b1ebfbd0>] do_exception+0x190/0x560
-> [  189.068094]  [<000003a8b2e136c0>] __do_pgm_check+0x1b0/0x370
-> [  189.068098]  [<000003a8b2e243a4>] pgm_check_handler+0x114/0x160
-> [  189.068101]  [<000003a8b283135e>] _copy_to_iter+0x6e/0x870
-> [  189.068106]  [<000003a8b2831c4a>] copy_page_to_iter+0xea/0x160
-> [  189.068108]  [<000003a8b219ff8c>] filemap_read+0x1ec/0x400
-> [  189.068109]  [<000003a8b22d0a70>] vfs_read+0x210/0x370
-> [  189.068112]  [<000003a8b22d1694>] ksys_pread64+0xa4/0xd0
-> [  189.068114]  [<000003a8b2e13b7e>] __do_syscall+0x14e/0x590
-> [  189.068117]  [<000003a8b2e24242>] system_call+0x72/0x90
-> [  189.068120] task:oob-dirty-repro state:D stack:0     pid:8153  
-> tgid:8151  ppid:7260   task_flags:0x400040 flags:0x00000000
-> [  189.068123] Call Trace:
-> [  189.068124]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.068126]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.068128]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.068130]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.068133]  [<000003a8b263e2e8>] extent_write_cache_pages+0x348/0x4d0
-> [  189.068136]  [<000003a8b263ea0a>] btrfs_writepages+0x6a/0xd0
-> [  189.068138]  [<000003a8b21ad444>] do_writepages+0xd4/0x190
-> [  189.068141]  [<000003a8b2199dec>] filemap_writeback+0xbc/0x100
-> [  189.068144]  [<000003a8b2199e5a>] filemap_fdatawrite_range+0x2a/0x40
-> [  189.068146]  [<000003a8b2637d3c>] 
-> btrfs_start_ordered_extent_nowriteback+0x18c/0x1d0
-> [  189.068149]  [<000003a8b26260ce>] btrfs_page_mkwrite+0x22e/0x8d0
-> [  189.068152]  [<000003a8b21f89d0>] do_page_mkwrite+0x60/0xf0
-> [  189.068154]  [<000003a8b21ffa64>] do_wp_page+0x134/0x660
-> [  189.068156]  [<000003a8b2206584>] __handle_mm_fault+0x1c4/0x5a0
-> [  189.068158]  [<000003a8b22069f0>] handle_mm_fault+0x90/0x230
-> [  189.068160]  [<000003a8b1ebfbd0>] do_exception+0x190/0x560
-> [  189.068163]  [<000003a8b2e136c0>] __do_pgm_check+0x1b0/0x370
-> [  189.068165]  [<000003a8b2e243a4>] pgm_check_handler+0x114/0x160
-> [  189.068168]  [<000003a8b283135e>] _copy_to_iter+0x6e/0x870
-> [  189.068170]  [<000003a8b2831c4a>] copy_page_to_iter+0xea/0x160
-> [  189.068172]  [<000003a8b219ff8c>] filemap_read+0x1ec/0x400
-> [  189.068174]  [<000003a8b22d0a70>] vfs_read+0x210/0x370
-> [  189.068176]  [<000003a8b22d1694>] ksys_pread64+0xa4/0xd0
-> [  189.068178]  [<000003a8b2e13b7e>] __do_syscall+0x14e/0x590
-> [  189.068181]  [<000003a8b2e24242>] system_call+0x72/0x90
-> [  189.068184] task:oob-dirty-repro state:D stack:0     pid:8154  
-> tgid:8151  ppid:7260   task_flags:0x400040 flags:0x00000000
-> [  189.068187] Call Trace:
-> [  189.068188]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.068190]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.068192]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.068193]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.068196]  [<000003a8b26260fc>] btrfs_page_mkwrite+0x25c/0x8d0
-> [  189.068199]  [<000003a8b21f89d0>] do_page_mkwrite+0x60/0xf0
-> [  189.068202]  [<000003a8b21ffa64>] do_wp_page+0x134/0x660
-> [  189.068203]  [<000003a8b2206584>] __handle_mm_fault+0x1c4/0x5a0
-> [  189.068206]  [<000003a8b22069f0>] handle_mm_fault+0x90/0x230
-> [  189.068208]  [<000003a8b1ebfbd0>] do_exception+0x190/0x560
-> [  189.068210]  [<000003a8b2e136c0>] __do_pgm_check+0x1b0/0x370
-> [  189.068213]  [<000003a8b2e243a4>] pgm_check_handler+0x114/0x160
-> [  189.068215]  [<000003a8b283135e>] _copy_to_iter+0x6e/0x870
-> [  189.068218]  [<000003a8b2831c4a>] copy_page_to_iter+0xea/0x160
-> [  189.068219]  [<000003a8b219ff8c>] filemap_read+0x1ec/0x400
-> [  189.068221]  [<000003a8b22d0a70>] vfs_read+0x210/0x370
-> [  189.068223]  [<000003a8b22d1694>] ksys_pread64+0xa4/0xd0
-> [  189.068225]  [<000003a8b2e13b7e>] __do_syscall+0x14e/0x590
-> [  189.068228]  [<000003a8b2e24242>] system_call+0x72/0x90
-> [  189.068231] task:oob-dirty-repro state:D stack:0     pid:8155  
-> tgid:8151  ppid:7260   task_flags:0x400040 flags:0x00000000
-> [  189.068234] Call Trace:
-> [  189.068235]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.068237]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.068239]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.068241]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.068244]  [<000003a8b263e2e8>] extent_write_cache_pages+0x348/0x4d0
-> [  189.068246]  [<000003a8b263ea0a>] btrfs_writepages+0x6a/0xd0
-> [  189.068249]  [<000003a8b21ad444>] do_writepages+0xd4/0x190
-> [  189.068252]  [<000003a8b2199dec>] filemap_writeback+0xbc/0x100
-> [  189.068255]  [<000003a8b2199e5a>] filemap_fdatawrite_range+0x2a/0x40
-> [  189.068257]  [<000003a8b2637d3c>] 
-> btrfs_start_ordered_extent_nowriteback+0x18c/0x1d0
-> [  189.068260]  [<000003a8b26260ce>] btrfs_page_mkwrite+0x22e/0x8d0
-> [  189.068263]  [<000003a8b21f89d0>] do_page_mkwrite+0x60/0xf0
-> [  189.068265]  [<000003a8b21ffa64>] do_wp_page+0x134/0x660
-> [  189.068267]  [<000003a8b2206584>] __handle_mm_fault+0x1c4/0x5a0
-> [  189.068269]  [<000003a8b22069f0>] handle_mm_fault+0x90/0x230
-> [  189.068271]  [<000003a8b1ebfbd0>] do_exception+0x190/0x560
-> [  189.068274]  [<000003a8b2e136c0>] __do_pgm_check+0x1b0/0x370
-> [  189.068277]  [<000003a8b2e243a4>] pgm_check_handler+0x114/0x160
-> [  189.068279]  [<000003a8b283135e>] _copy_to_iter+0x6e/0x870
-> [  189.068281]  [<000003a8b2831c4a>] copy_page_to_iter+0xea/0x160
-> [  189.068283]  [<000003a8b219ff8c>] filemap_read+0x1ec/0x400
-> [  189.068285]  [<000003a8b22d0a70>] vfs_read+0x210/0x370
-> [  189.068287]  [<000003a8b22d1694>] ksys_pread64+0xa4/0xd0
-> [  189.068289]  [<000003a8b2e13b7e>] __do_syscall+0x14e/0x590
-> [  189.068292]  [<000003a8b2e24242>] system_call+0x72/0x90
-> [  189.068294] task:oob-dirty-repro state:D stack:0     pid:8156  
-> tgid:8151  ppid:7260   task_flags:0x400040 flags:0x00000000
-> [  189.068297] Call Trace:
-> [  189.068298]  [<000003a8b2e19284>] __schedule+0x374/0x900
-> [  189.068300]  [<000003a8b2e1984c>] schedule+0x3c/0xf0
-> [  189.068302]  [<000003a8b2e1996c>] io_schedule+0x2c/0x40
-> [  189.068304]  [<000003a8b219d158>] folio_wait_bit_common+0x198/0x3b0
-> [  189.068307]  [<000003a8b263e2e8>] extent_write_cache_pages+0x348/0x4d0
-> [  189.068310]  [<000003a8b263ea0a>] btrfs_writepages+0x6a/0xd0
-> [  189.068313]  [<000003a8b21ad444>] do_writepages+0xd4/0x190
-> [  189.068315]  [<000003a8b2199dec>] filemap_writeback+0xbc/0x100
-> [  189.068318]  [<000003a8b2199e5a>] filemap_fdatawrite_range+0x2a/0x40
-> [  189.068320]  [<000003a8b232bbf2>] sync_file_range+0x122/0x150
-> [  189.068323]  [<000003a8b232bc84>] ksys_sync_file_range+0x64/0xb0
-> [  189.068326]  [<000003a8b232bd0a>] __s390x_sys_sync_file_range+0x3a/0x50
-> [  189.068328]  [<000003a8b2e13b7e>] __do_syscall+0x14e/0x590
-> [  189.068331]  [<000003a8b2e24242>] system_call+0x72/0x90
+> My name is Cole, I work on the android build system. We have similar
+> goals for creating hermetic and relocatable builds in our build system
+> (a custom, android-specific one). I was very excited when I saw Farid
+> working on $ORIGIN support, but then somewhat disappointed when I saw
+> the new BPF-based solution.
+> 
+> Our usecase is mostly to decouple the glibc version used in the
+> android build from the host machine. We've had several instances where
+> our CI machines are running old glibc versions that cause problems,
+> and they're not trivial to update. Ideally you should be able to
+> download the android source and build it on a modern linux kernel,
+> regardless of the userspace.
+> 
+> To register a binfmt_misc handler, you need either root + modifying
+> global state on the host, or to make a user+mount namespace. But if we
+> use a mount namespace, couldn't we just mount the interpreter we want
+> to use at a fixed path? I thought one of the main goals of this
+> features was to avoid the use of namespaces because they don't always
+> nest well; Farid called this out as a problem with buck2's sandboxing.
+> In android, we don't yet have any nested sandboxing but there have
+> been conversations about increasing security of the build using
+> something like gvisor to isolate the build from the kernel, in wake of
+> the recent AI-discovered local privilege escalations, after which
+> these complicated kernel features are likely to stop working. And
+> requiring root is definitely out of the question.
 
+If a single fixed path solves your problem then you indeed don't need
+any of this. A bind-mount expresses one fixed path pointing to one
+loader. The handler exists for programmable dispatch so that you match
+binaries to whatever load you want, use multiple toolchains, allow
+multiple generations coexisting, per-architecture emulators, etc.
+
+A one-line binfmt_misc registration is considerably less invasive than
+the glibc update you can't do. Plus, it's visible, revocable, and
+scopable to precisely the formats it matches. You can have the most
+restrictive policy ever that makes sure only one specific workload is
+able to use $ORIGIN during build.
+
+And gvisor doesn't forward execve() to the host kernel at all. The
+Sentry reimplements the whole exec path in Go. There is no binfmt_misc
+and even if we added $ORIGIN support to the kernel it would be invisible
+to gvisor. Under gvisor you can just patch gvisor without any
+involvement
+from us at all.
+
+gvisor doesn't forward execve() to the host kernel at all. The Sentry
+reimplements the whole exec path in Go. There is no binfmt_misc and even
+if we added $ORIGIN support to the kernel it would be invisible to
+gvisor. Under gvisor you can just patch gvisor without any involvement
+from us at all.
+
+Fwiw, with $ORIGIN support it's worse. On any kernel or sandbox that
+doesn't implement $ORIGIN this doesn't fail cleanly. A PT_INTERP of
+$ORIGIN/ld.so isn't absolute and so Linux resolves it relative to the
+caller's working directory. Execute such a "relocatable" binary with an
+attacker-controlled working directory and ./$ORIGIN/ld.so is your
+loader.
+
+So $ORIGIN-tagged binaries are actively dangerous precisely on the old
+unupdatable machines and future sandboxes you're describing. A
+binfmt_misc handler that isn't registered simply does nothing.
+
+> I also wanted to ask about the security of this bpf solution. I
+> understand there are some security concerns about $ORIGIN. Why is this
+> new binfmt_misc + bpf solution better? An attacker will still have
+> more opportunity to place a malicious loader relative to the
+> executable. With the binfmt_misc solution, you will be able to only
+> have it active for certain things, like a build, but that's only if
+> you use the user+mount namespace to scope it. From what I understand,
+> Farid plans on registering the handler globally and persistently on
+> NixOS systems that want relocatable builds, does that not make those
+> systems susceptible to these concerns? (correct me if that's not your
+> plan, Farid)
+> 
+> I can't really think of a better solution than the originally-proposed
+> $ORIGIN support for build systems to use. I don't care about setuid or
+> complicated filesystems like memfd, so I would hope it would be
+> straightforward to just error out if AT_SECURE is set or if any issue
+> arises like not being able to determine the directory of the
+> executable. IMO it's fine if it only works in simple, known-safe
+> cases.
+
+This is very focussed on the $ORIGIN case and it's understandable. This
+is a very specific policy. I understand how it can be useful for a
+distribution like nixos that wants to make the loader relative to the
+binary everywhere or to some build system.
+
+But this sort of decision is policy and policy doesn't belong into the
+kernel, it belongs into userspace. The kernel's job in this scenario is
+to give userspace the tools to implement such policy in a way that it is
+flexible and doesn't just serve a single use-case.
+
+binfmt_misc exists to move custom binary policy out of the kernel and
+let userspace handle it however it sees fit. As such it is the perfect
+fit for implementing what loader to use for what binary.
+
+The power of this proposal is that $ORIGIN is just one single policy
+that can be implemented. But it also allows for other custom policies.
+You could even label binaries with xattrs and use those to decide what
+loader to use. You could scope it to cgroup or whatever. That's useful
+and I have use-cases for such policies in other projects.
+
+In other words, I think implementing a very custom policy into the core
+elf loader is a dead-end even if the AT_SECURE and memfd cases simply
+error out. Every such carve-out becomes frozen uapi. The same binary
+then runs or fails depending on whether it was reached by path, by fd,
+as a memfd, or through an overlay. Each of those answers is someone's
+future regression report and none of them can be changed afterwards.
+
+Note that the implicit argument made further up is that the security
+posture of having native $ORIGIN support is stronger than having a way
+to implement whatever policy - including $ORIGIN - via binfmt_misc.
+That's very obviously false.
+
+Implementing $ORIGIN natively means we start shipping a static, custom
+policy _to everyone_ out there next release. Whereas binfmt_misc does
+_nothing_ and only affects users that actually do need this custom
+policy and do set it up. And once they have set it up the existence of a
+policy is even visible via binfmt_misc.
+
+So the security story of enabling $ORIGIN in core elf code is a lot
+weaker: it's inflexible, it's unclear what holes it opens up, and users
+will be surprised by it.
+
+If users don't care about the bpf policy support for binfmt_misc and are
+worried about someone registering a bpf handler: CONFIG_BINFMT_MISC_BPF=n
+
+Btw, the exact semantics you're asking for ($ORIGIN-prefixed PT_INTERP
+resolved against the binary's directory and hard failure for everything
+unusual) are about a hundred lines of bpf on top of what is already
+in the tree. The $ORIGIN demo handler written for the series does
+exactly that, including failing closed instead of falling back to the
+cwd-relative lookup mentioned above. So you can deploy the policy you
+want today on hosts you administer, collect data on how it behaves in
+practice, and if a blessed subset ever emerges that conversation can be
+had with evidence. An in-kernel $ORIGIN can always be added later as one
+more policy. Once shipped it can never be unshipped.
