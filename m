@@ -1,223 +1,317 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A464470E88
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 19:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619A4457A7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 19:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784747047; cv=pass; b=bNQBLTzqSbOWdveVz9ibuiQxStofaUDURgqXjgluuJM/Zv439oK5CnzjLUF0T1l7uhZEKWfkzCHTQHgYyhwVBVK0EEJl/BkHlydpeW2pO8wHUEZDToZ1KQHC1StsrctwWoR8DLGBO9sTXquTJ3DppMhhw9iSCCUPNpgxa37QLJs=
+	t=1784748581; cv=pass; b=mCBcT3ESAg5pU/QSo7juQFxTuECIT/vg+dP/zlZZLBy/Cvr3gMvRe5uVn6KNfCUXq933DF9Nh0V26JU28cJcY8vy+Rso/Ga27kfa6ScLXKdOxLoCAE5DjxaH/MuTdrCspOAk5VnPibfV0AW/kg42MUPnP6u+3RTkWP+Zsnv0pyU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784747047; c=relaxed/simple;
-	bh=RjR3jQi2gBsgZVeOwgl8/wj7aZVnQ+rqU4nHfVrQhFA=;
+	s=arc-20240116; t=1784748581; c=relaxed/simple;
+	bh=xC8DQShhZuKJo9FPWM3M+AGlDh6xz3AiRMbyuWOXL3Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H8M1G30eN1WH9h+Ukz4GbAgF2JMJcz62Ln8hKnJf4WR+NK1gyeM+MgLB+8+0ymKeEF6xpVM7pQbf0m9QGtw83ByznjjlyaREJ6B26l4jmCgcPrGyJ+XJH+ZlZ8qWrE6ImPlcrJP6IR7J87V36OdGijGJ7lNXsBtL5lHW1kt7wQY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ix/ullMc; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=doRYFa6GjoJGob8n8pNoyi3Wc3Z+sBz9IEQJcfjM3d/80mmu1QjZt4AA8bsHJmD8oVEIBaBYO/GMhrnVOtZzLI5blRajQ5MqotihPJ1SXIiVyQ2/rVb1rZFBCjJJk70XC3riVD7ieWEKYJbBPT/0PUCXLx7ZfdFNMDEvybRnx78=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JDe213xD; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ix/ullMc"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4954d383e64so32259765e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 12:04:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784747044; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JDe213xD"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c10e86e52so30571cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 12:29:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784748571; cv=none;
         d=google.com; s=arc-20260327;
-        b=SXf1Vvz7FJhfwY+AxziBAwcEmDQ0JWmG/Rdfq/nriq981BTXGw8NGxw75J3aoe6iXh
-         6eC6cIFEL+c8gO/r52xqIKBfP1OWFqsFtekldowXE+0hFOn9LRbQpE50B5VPtfpQbYoL
-         Ii96hfXa+KG4//Dg2hi7F/8BrV0SXkiz0yhL1VutjOGYwd2E42i3qxcM3x9yne2PqRPm
-         IenG828Dm1ymkNwRQp5hCGmWemtAfbyE+/HVXNN8E/HU/iDGg7KghsyDVmJKcmJW6F8Z
-         I25OcY7m/2w+VIXHw0jwhSpEms+d2GJuY4kyBfU+KHzk6+OSNim1+OiIsibSA8IvtAWV
-         VGAQ==
+        b=sCs3uyIztOx2EqygBRONdrct3eDU1qPV8d/EphPqur6B9Qy6WEgOZHSK8hA/ZYPqxY
+         vjPlrOSRfcVA5imnvwCKAkX1krrCTwAykd5i6szRXzkWmVVSJCedVXp69FI43JED0JoW
+         wZZrDU8EmgQ6k3x2zI5M5oekmN2vU8xNvHWJ9y7x80QlkuoO9OET1C6xOqYA7YyqQ2ms
+         ocx7dA9WCZX9ENh6fJ65COdvsQ+4M8FYJ3r4YvRsJWUOOmHnbGCip5QWQpekdAZGaC2c
+         zgwthQ8pa7Qwgf/JMwimaO257b2OeLIQ9mHiN8puQT+vFWzIKHUhoM3fZlWv+3BOjIXi
+         JteA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=C2LthnWkKVdjJeBPBoDYS9yBolahYPpf7Sa0W7ibrK4=;
-        fh=namkakssf5zKlZKML8BZ0+d7fe4pZkr4wCljw5DLnAo=;
-        b=Q21GsAsq2/9bE3hQWZGUGomGc/4tUu+1qtSm9JNZSib2belH/veu2FWhNJPpouv6Cm
-         nAEobLNHTJ5WCBG0lcK0dzzFwdbUckgijsmZPIWCEiS2SdhXYTRpky4h0tiGq3G4uYZQ
-         8Qe1Hj7z2UTn6jWlHdOFEaj2iwmUAIInQC2PUV3/VI/S1GqR/0S6+0+W4VYBB24GVTB9
-         8OqJJKCLy2GyU4PPjsUGSbCX2FobkMTOZFTFCstzF5371/6kC50e3RK/Nv0gs4sDwX/K
-         7KJ7Z6FKwPYPjRt+qxBhTVuIXMBuR9l++tHt+BuSAdMcmgM2G1nnSsQUMqh0GuNTS4FP
-         i+Yw==;
+        bh=xC8DQShhZuKJo9FPWM3M+AGlDh6xz3AiRMbyuWOXL3Y=;
+        fh=JDil2kD/fDEVW16rwOVAd65CRpqaAy/UuSLfAkUM1o4=;
+        b=XzV/H97+DqNU14Oa9reDe598NBNDqgVtMMGFyjwT4SFqrSnFa9Aj3+h/rRv7Y+T+pU
+         pLR0N4ohH3E4M77jRRjrU/Dq4hIl0tx5nC2ayJMEOcXzchqaO/V7+DAQJWj76erVAd0w
+         72cn8oxWMAQ0o1tDLlUcl/wbMC6fNpZC2sRwIgM9japYohwqPj3wNMffwQIP+KM/wbRA
+         AG8IqoRMf/nVAXx4MbRZlBtMMONTaFRszuHp+0QcGcXUVUS6vYY+o4YJtM3E+ZpFx0sG
+         sR61arpmtccGr/6weQ1cmLhEe0XYTXq0j40TE1+O4xLVFbmFQ85QEQ2xIqzTThcLCs2i
+         q1XQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784747044; x=1785351844; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1784748571; x=1785353371; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=C2LthnWkKVdjJeBPBoDYS9yBolahYPpf7Sa0W7ibrK4=;
-        b=ix/ullMcBoPPWF5e3ADzkZ+IywKoLmDjmefKgC8K00BRAsAajwslVRnKhHQfJwxHV1
-         1JUxzvEx9uB8hUf2B1hjs0irEM9F0DiPPBaY0zndY+K9Obv7SrvPX8czdBRy31jrapxH
-         78eEVQ32fNVxAdq3ERdTt29gFlUPQsSc4GE156RUSpAwjYtKz9cYbcx2NWLMDIzgYkYO
-         YD8pYeAA9u0c3l4s8uHovb3vJiJ1B9WypCtxmRZcT64ooWBw86zoqh7o6okWyNpdDDqu
-         3rnGkfbHlr+UWUTl+86Or3aIU0dMPy5rkc/9zeWOoQLXQyOnPnQBJzL1Yg1MQ1LV02hS
-         jh8w==
+        bh=xC8DQShhZuKJo9FPWM3M+AGlDh6xz3AiRMbyuWOXL3Y=;
+        b=JDe213xDPosxhm9uoztiL9+L5a/G0is5vQ9xKYikkSVHuDk0v2M+Nu18p+YaDIfUbb
+         T5VHWsxiPQm1Flzd+6YS1J14g9I0Ck8kFOEdSl2Q+ImsizQEG1ZHXN1CA7t8WRgXf1DJ
+         ebLOudJ5ObrW//Dcot+EU3DWHdreHccSyMri5IKPeWSCfFztGMKBD0sYEdTp5f1qkqWa
+         dfszkA/M4zKTmtD+RI2oPOMp/RH8vdeTDRD62BBGJiVt3mv8QuVnX4vdvXmB/38aj94H
+         WJ7aGjj1a2Zcsk9mT/1LxCw1UiJ0e06queQ1w2/TSTSLs0IbR5KNm09VLRdk+esNeQXp
+         Qa9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784747044; x=1785351844;
+        d=1e100.net; s=20251104; t=1784748571; x=1785353371;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=C2LthnWkKVdjJeBPBoDYS9yBolahYPpf7Sa0W7ibrK4=;
-        b=Sc7lkhpy75qbpP5GeIPgJTKdWiHjer92JQmuGukALp8/jH82uvR66dWKd4qn+hjOth
-         tDkSaj38/XQOmlzPWK1fYKzjtK7ERxs3IEBiYuMSU8+bWmA16Nsvm0cdchgIzY+Z7qBn
-         MmqJs7gxtXzinMA6rntjb9KoUmFI+uQa7E3OyvMrwjkmfPzFhiwGBnGyf2z7BoXBALGR
-         6ueztN6/envVoFgf3vtC7AgSZYyfyUtAWovBsN9nInaywTst98Y6lcsudrYWS5zE32Nm
-         rx5Tpz+ipSeeHaQng1RgvuzbDYvXPdIdyOu8eLjlr0V3wR1EMOi5z6IDs+CXFwi1Gxul
-         /bVg==
-X-Forwarded-Encrypted: i=1; AHgh+RqBywmX9IDM3ogp7YRTh4uE/adv6sS/InKGuqYLP5zvJ4h9dsI6LDPNrWCsl+ga1SqqD1651iKnwmRgb6XE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz54oa3U+sw8iCzP/UrdKF6Dx6ZytMsP+CtMZjMoi0103XBDNJw
-	EzCxZ/BUdHMqg8PDz0vOPeFxJbGsQkaG27YrMecx5FinJ0uW7erv1CybLnS5AZKz0OlYj7GcHir
-	zgxY8sf7oeFMDVc1t+L3P00t/9YZGt5KLR76prRs=
-X-Gm-Gg: AR+sD13wFqyGyd2Eu+S7+zWjHNOR7uQoAkkpS9aYi3OOamD8+dvYAhJijMPhRFpv3nB
-	o97TPS9jfXyi1lMccWTsWLFh6yksEoHNhUC/wgEsB9/cET4xqULCAo5vOkZaoD4t7ql8nXFW0eB
-	yZEAcaeEnLphAfAndIdX0jVmKBM+/NAW7xHj0s+cjpDVx/a5Eyfvr2tcqZnFA4Za+MwWBnnc7wb
-	wh/1zYEhSiHDS3DfxnKMk3749yyRcdIfDUlMbh4pBqgzztxxXm5b8pJOsWl4KtyjKbVboOhul+P
-	cbnS+X/dQcNmz6OLSat3pLyp1gi9MnAXW/sJhE181A==
-X-Received: by 2002:a05:600c:6dd6:b0:493:eed4:7210 with SMTP id
- 5b1f17b1804b1-49573cc97c2mr12295e9.11.1784747043588; Wed, 22 Jul 2026
- 12:04:03 -0700 (PDT)
+        bh=xC8DQShhZuKJo9FPWM3M+AGlDh6xz3AiRMbyuWOXL3Y=;
+        b=RaWTmpGN9ykySHhTeRQwYNdvABEP38eptwXP6EYjeVKmUE5/nRnYw5QTzvU04WEytG
+         lVVr0VoWrzVo4ErTu0X24ADtsRdWGX9/gpjq5iebTk5DpWjia1C9mxV9WVN9zQugkP4j
+         u3da3dUXA6nxeIUSMy0rx/iMs3D+s7CPUHrQ1PqO2RCxVRsrLlx/ehgAzuNawXh0p8w5
+         C+pYE3uGxIh+ix/XcCYjgPv5piq93jfGDXyW4BzgaZDuiwqyBWnHB1AMuI0RUp4DWk88
+         6u8XAlmFmRgOP5Fymu2kERjm4GIjDJPtgBh8O/06MYNb8pZAFpIDxLDOBvCr6aFAkY1o
+         HUjQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqqGbslgkI1Wxcgwfwmiay472sGt6ZIsnKx2TNWlCRH/25hOxDhKo3uNGdEElC+2KDJupzaUwPWaFttcaFH@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJBhpwKdxiu4PWF5ej0kH72jzn600eeCmrQDZo/wPqDKi7zMc/
+	Peq2l/6DthbXD/3Tmst6BGQtX1QFM1kV782oR56Y7TNkCZxmKIwBsl5hd+qpCHWI4lAbQ1Mxlf4
+	uHPcOUoBKPgnB78U5usSjyCsUx1W7dF5SK1/KJ0B6
+X-Gm-Gg: AR+sD11zomFNAA28F2AYIUXj5YoEGTiuft9ODfDmEBW/8UJy2s75/d0WVPq773qoeUZ
+	ZeskY+4u4vGFxNFDYdWAzIowYVRdB5chf7u/EK9LofM5eiGgCx/60zZwy0xwJaQ6OFcJXRCVxsM
+	kJUMbfU3mW3ao50grCnIEpNwtIcenplIxh3KG6Q6hTWpjqQ4YvUUsnbWEPvRQHrnysOPT5grh0s
+	DCb55BvAZod/rIUiIM/netf+P+ZtxoX5hWXR/Y+NQ5cjdvQui76d7ux+h9piqZlo7vFIt0=
+X-Received: by 2002:a05:622a:aa06:10b0:527:69ae:4796 with SMTP id
+ d75a77b69052e-5283bbea81emr1569511cf.22.1784748570664; Wed, 22 Jul 2026
+ 12:29:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260722124931.3159664-1-hch@lst.de> <20260722124931.3159664-3-hch@lst.de>
-In-Reply-To: <20260722124931.3159664-3-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 22 Jul 2026 12:03:49 -0700
-X-Gm-Features: AUfX_mxCN-UiJvZqNWKKnJg-a9PvQboW-uvuAIlNOX_o9tC053nEiX26K1BE1v8
-Message-ID: <CAJnrk1a_cc55HcpRAi+H-mqOn7XUt_BxKJTre=Mw=xaE-5A5Rg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] iomap: decouple simple direct I/O reads from iomap_dio_rw
-To: Christoph Hellwig <hch@lst.de>
-Cc: changfengnan@bytedance.com, "Darrick J. Wong" <djwong@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, Carlos Maiolino <cem@kernel.org>, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
+References: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
+ <20260722-bonus-annehmbar-umjubelt-e899440a34aa@brauner>
+In-Reply-To: <20260722-bonus-annehmbar-umjubelt-e899440a34aa@brauner>
+From: Cole Faust <colefaust@google.com>
+Date: Wed, 22 Jul 2026 12:29:14 -0700
+X-Gm-Features: AUfX_myomyInN7QVaqT3eFpuOD74zQ_dnegBtbh5DTqsDzygqcGcu6X9hmnh6CI
+Message-ID: <CA+9F0A3Z2MaiL2PoUnhkkjD0ZKppFJoEXqkoCgXvc4qwxd482A@mail.gmail.com>
+Subject: Re: Questions and concerns about BPF-selected interpreter
+To: Christian Brauner <brauner@kernel.org>
+Cc: farid.m.zakaria@gmail.co, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2026 at 5:49=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
+Hi Christian,
+
+Thanks for the response. You mention a couple of times that we could
+install the binfmt_misc handler and go from there, ("A one-line
+binfmt_misc registration is considerably less invasive than
+the glibc update you can't do", "So you can deploy the policy you want
+today on hosts you administer"), but we don't control the hosts that
+build android. We work with many partner companies (Samsung, Qualcomm,
+etc) and have basically no visibility into how their hosts are setup,
+and we certainly don't get root access. So I think it's literally
+impossible for us to install a global binfmt_misc handler. We could
+use user/mount namespaces to install a scoped one, but in practice we
+only have 1 version of glibc used in the build, so we might as well
+just bind mount it to /lib64/ld-linux-x86-64.so.2 if we were going to
+use mount namespaces. So while this new binfmt_misc feature is cool,
+and allows for a lot of flexibility, I don't think we would ever use
+it. This means that we also wouldn't have an opportunity to "collect
+data" on how it works.
+
+Another point I'd like to call out is that we build a bunch of tools
+that users will use outside of the build, like adb. It would be nice
+if those tools also weren't dependant on the host system. With the
+binfmt_misc solution, you'd have to run a wrapper tool to set up the
+binfmt_misc handler in a mount namespace (or again, just remount the
+interpreter to a fixed path) before you could run adb, which is more
+friction for users.
+
+Re: the gvisor / additional sandbox concerns, I'd like to not get into
+the weeds too much on this. There are many possibilities to consider
+(another being the default docker config doesn't allow mounts), so I'd
+rather that we consider it a requirement to be able to use a local
+interpreter without any namespaces.
+
+Regarding security, it seems your stance is that it's safer for system
+admins to opt-in to this new functionality, so that if it has security
+flaws, it's their problem. I think that's a dangerous stance to take.
+I could see distros like nixos opting into this because they need it
+and opening themselves up to problems that they are left on their own
+to defend against. If we're going to allow this, making sure we've
+considered security thoroughly enough that it can be made opt-out
+instead of opt-in seems safer for those users. If $ORIGIN support is
+too dangerous to be opt-out, it's probably too dangerous to be opt-in.
+
+I see your concerns about old systems running $ORIGIN binaries and
+treating them as `./$ORIGIN`. Could we potentially fix that by making
+a new PT_INTERP_ORIGIN section? Binaries would only be allowed to have
+one of PT_INTERP or PT_INTERP_ORIGIN, so a PT_INTERP_ORIGIN binary
+would fail to run on an old system, as it doesn't have a PT_INTERP
+section.
+
+> In other words, I think implementing a very custom policy into the core e=
+lf loader is a dead-end even if the AT_SECURE and memfd cases simply error =
+out. Every such carve-out becomes frozen uapi. The same binary then runs or=
+ fails depending on whether it was reached by path, by fd, as a memfd, or t=
+hrough an overlay. Each of those answers is someone's future regression rep=
+ort and none of them can be changed afterwards.
+
+Are we considering cases where the kernel errors out as API? Wouldn't
+that mean adding the B and L binfmt_misc handlers are also breaking
+api changes, as trying to register a handler with those types before
+would've errored? IMO, erroring out explicitly reserves the API space
+for the future. But I'm not a kernel dev.
+
+> An in-kernel $ORIGIN can always be added later as one more policy. Once s=
+hipped it can never be unshipped.
+
+This is understandable. I'm not saying we should rush into adding
+$ORIGIN support right now, I just wanted to keep the conversation of
+it alive, and not declare victory just yet with the binfmt_misc
+solution, as it doesn't cover the usecases most interesting to us. As
+is, we won't be able to use the binfmt_misc solution, which is fine,
+it's no worse of a state than we were in without it, but I would like
+to see something more useful later on.
+
+
+
+On Wed, Jul 22, 2026 at 3:37=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> The pending iomap_iter_next conversion creates performance issues for the
-> new simple direct I/O read fast path, because it assumes a model where
-> the iterator must be advanced at the end, which the direct I/O read fast
-> path tries to avoid.
+> On Tue, Jul 21, 2026 at 05:24:21PM -0700, Cole Faust wrote:
+> > Hi Christian, Farid,
+> >
+> > My name is Cole, I work on the android build system. We have similar
+> > goals for creating hermetic and relocatable builds in our build system
+> > (a custom, android-specific one). I was very excited when I saw Farid
+> > working on $ORIGIN support, but then somewhat disappointed when I saw
+> > the new BPF-based solution.
+> >
+> > Our usecase is mostly to decouple the glibc version used in the
+> > android build from the host machine. We've had several instances where
+> > our CI machines are running old glibc versions that cause problems,
+> > and they're not trivial to update. Ideally you should be able to
+> > download the android source and build it on a modern linux kernel,
+> > regardless of the userspace.
+> >
+> > To register a binfmt_misc handler, you need either root + modifying
+> > global state on the host, or to make a user+mount namespace. But if we
+> > use a mount namespace, couldn't we just mount the interpreter we want
+> > to use at a fixed path? I thought one of the main goals of this
+> > features was to avoid the use of namespaces because they don't always
+> > nest well; Farid called this out as a problem with buck2's sandboxing.
+> > In android, we don't yet have any nested sandboxing but there have
+> > been conversations about increasing security of the build using
+> > something like gvisor to isolate the build from the kernel, in wake of
+> > the recent AI-discovered local privilege escalations, after which
+> > these complicated kernel features are likely to stop working. And
+> > requiring root is definitely out of the question.
 >
-> Side step this by splitting the simple path from iomap_dio_rw, and
-> require the file systems to call into it explicitly, and pass only a
-> ->begin callback.  This allows to drop various checks for incompatible
-> features while creating a requirement for the file system to only call
-> the simple path for cases that it can handle.
-
-Nice, this approach looks cleaner to me.
-
+> If a single fixed path solves your problem then you indeed don't need
+> any of this. A bind-mount expresses one fixed path pointing to one
+> loader. The handler exists for programmable dispatch so that you match
+> binaries to whatever load you want, use multiple toolchains, allow
+> multiple generations coexisting, per-architecture emulators, etc.
 >
-> As a side-benefit we can now inline the initial part of the simple
-> direct I/O read fast path and let the compiler convert the indirect call
-> to ->begin into a direct call.
+> A one-line binfmt_misc registration is considerably less invasive than
+> the glibc update you can't do. Plus, it's visible, revocable, and
+> scopable to precisely the formats it matches. You can have the most
+> restrictive policy ever that makes sure only one specific workload is
+> able to use $ORIGIN during build.
 >
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/ext4/ext4.h        |   3 +
->  fs/ext4/file.c        |   4 +-
->  fs/ext4/inode.c       |   2 +-
->  fs/iomap/direct-io.c  | 209 ++++++++++--------------------------------
->  fs/xfs/xfs_file.c     |  14 +--
->  fs/xfs/xfs_iomap.c    |   2 +-
->  fs/xfs/xfs_iomap.h    |   4 +
->  include/linux/iomap.h |  65 +++++++++++++
->  8 files changed, 133 insertions(+), 170 deletions(-)
+> And gvisor doesn't forward execve() to the host kernel at all. The
+> Sentry reimplements the whole exec path in Go. There is no binfmt_misc
+> and even if we added $ORIGIN support to the kernel it would be invisible
+> to gvisor. Under gvisor you can just patch gvisor without any
+> involvement
+> from us at all.
 >
-> index 3df851d0f76b..810dc4b8dc94 100644
-> --- a/include/linux/iomap.h
-> +++ b/include/linux/iomap.h
+> gvisor doesn't forward execve() to the host kernel at all. The Sentry
+> reimplements the whole exec path in Go. There is no binfmt_misc and even
+> if we added $ORIGIN support to the kernel it would be invisible to
+> gvisor. Under gvisor you can just patch gvisor without any involvement
+> from us at all.
 >
-> +/*
-> + * Fast path for small, block-aligned direct I/Os that map to a single
-> + * contiguous on-disk extent.
-> + *
-> + * @iter must describe a non-empty READ no larger than the inode block s=
-ize:
-> + * writes, zero-length I/O, and larger requests need the generic iomap d=
-irect
-> + * I/O path.
-> + *
-> + * Does not support iomap_dio_ops, dio_flags, done_before or private dat=
-a.
-> + * The range must also stay within i_size and encrypted inodes must use =
-the
-> + * generic iomap direct I/O path.
-> + *
-> + * -ENOTBLK inidicates the generic path must be used by the caller inste=
-ad.
-> + * Any other errno is a real result and is propagated as-is, in particul=
-ar
-> + * -EAGAIN for IOCB_NOWAIT must reach the caller.
-> + *
-> + * The caller can only provide an iomap begin handler, and the iterator
-> + * is never advanced.
-> + */
-> +ssize_t __iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
-> +               struct iomap_iter *iomi);
-
-Might be nice to have _read_ in this name as well, eg __iomap_dio_read_simp=
-le
-
-> +static __always_inline ssize_t iomap_dio_read_simple(struct kiocb *iocb,
-> +               struct iov_iter *iter, iomap_iter_begin_fn begin)
-> +{
-> +       struct iomap_iter iomi =3D {
-> +               .inode          =3D file_inode(iocb->ki_filp),
-> +               .pos            =3D iocb->ki_pos,
-> +               .len            =3D iov_iter_count(iter),
-> +               .flags          =3D IOMAP_DIRECT,
-> +       };
-> +       ssize_t ret;
-> +
-> +       if (!iomi.len)
-> +               return 0;
-> +
-> +       /*
-> +        * Simple dio is an optimization for small IO. Filter out large I=
-O
-> +        * early as it's the most common case to fail for typical direct =
-IO
-> +        * workloads.
-> +        */
-> +       if (iomi.len > iomi.inode->i_sb->s_blocksize)
-> +               return -ENOTBLK;
-> +       if (iocb->ki_pos + iomi.len > i_size_read(iomi.inode))
-> +               return -ENOTBLK;
-> +       if (IS_ENCRYPTED(iomi.inode))
-> +               return -ENOTBLK;
-> +
-> +       ret =3D kiocb_write_and_wait(iocb, iomi.len);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (iocb->ki_flags & IOCB_NOWAIT)
-> +               iomi.flags |=3D IOMAP_NOWAIT;
-> +
-> +       inode_dio_begin(iomi.inode);
-> +       ret =3D begin(iomi.inode, iomi.pos, iomi.len, iomi.flags, &iomi.i=
-omap,
-> +                       &iomi.srcmap);
-> +       if (!ret)
-> +               ret =3D __iomap_dio_simple(iocb, iter, &iomi);
-> +       if (ret <=3D 0 && ret !=3D -EIOCBQUEUED)
-> +               inode_dio_end(iomi.inode);
-
-afaict, the inode_dio_end() error handling has to be done by
-__iomap_dio_simple() to properly account for the synchronous case. I
-ran into this earlier when doing the iomap_next_fn inlining. For the
-synchronous case, __iomap_dio_simple() calls
-iomap_dio_simple_complete() which calls inode_dio_end() even on
-errors.
-
-Thanks,
-Joanne
-
-> +       return ret;
-> +}
+> Fwiw, with $ORIGIN support it's worse. On any kernel or sandbox that
+> doesn't implement $ORIGIN this doesn't fail cleanly. A PT_INTERP of
+> $ORIGIN/ld.so isn't absolute and so Linux resolves it relative to the
+> caller's working directory. Execute such a "relocatable" binary with an
+> attacker-controlled working directory and ./$ORIGIN/ld.so is your
+> loader.
+>
+> So $ORIGIN-tagged binaries are actively dangerous precisely on the old
+> unupdatable machines and future sandboxes you're describing. A
+> binfmt_misc handler that isn't registered simply does nothing.
+>
+> > I also wanted to ask about the security of this bpf solution. I
+> > understand there are some security concerns about $ORIGIN. Why is this
+> > new binfmt_misc + bpf solution better? An attacker will still have
+> > more opportunity to place a malicious loader relative to the
+> > executable. With the binfmt_misc solution, you will be able to only
+> > have it active for certain things, like a build, but that's only if
+> > you use the user+mount namespace to scope it. From what I understand,
+> > Farid plans on registering the handler globally and persistently on
+> > NixOS systems that want relocatable builds, does that not make those
+> > systems susceptible to these concerns? (correct me if that's not your
+> > plan, Farid)
+> >
+> > I can't really think of a better solution than the originally-proposed
+> > $ORIGIN support for build systems to use. I don't care about setuid or
+> > complicated filesystems like memfd, so I would hope it would be
+> > straightforward to just error out if AT_SECURE is set or if any issue
+> > arises like not being able to determine the directory of the
+> > executable. IMO it's fine if it only works in simple, known-safe
+> > cases.
+>
+> This is very focussed on the $ORIGIN case and it's understandable. This
+> is a very specific policy. I understand how it can be useful for a
+> distribution like nixos that wants to make the loader relative to the
+> binary everywhere or to some build system.
+>
+> But this sort of decision is policy and policy doesn't belong into the
+> kernel, it belongs into userspace. The kernel's job in this scenario is
+> to give userspace the tools to implement such policy in a way that it is
+> flexible and doesn't just serve a single use-case.
+>
+> binfmt_misc exists to move custom binary policy out of the kernel and
+> let userspace handle it however it sees fit. As such it is the perfect
+> fit for implementing what loader to use for what binary.
+>
+> The power of this proposal is that $ORIGIN is just one single policy
+> that can be implemented. But it also allows for other custom policies.
+> You could even label binaries with xattrs and use those to decide what
+> loader to use. You could scope it to cgroup or whatever. That's useful
+> and I have use-cases for such policies in other projects.
+>
+> In other words, I think implementing a very custom policy into the core
+> elf loader is a dead-end even if the AT_SECURE and memfd cases simply
+> error out. Every such carve-out becomes frozen uapi. The same binary
+> then runs or fails depending on whether it was reached by path, by fd,
+> as a memfd, or through an overlay. Each of those answers is someone's
+> future regression report and none of them can be changed afterwards.
+>
+> Note that the implicit argument made further up is that the security
+> posture of having native $ORIGIN support is stronger than having a way
+> to implement whatever policy - including $ORIGIN - via binfmt_misc.
+> That's very obviously false.
+>
+> Implementing $ORIGIN natively means we start shipping a static, custom
+> policy _to everyone_ out there next release. Whereas binfmt_misc does
+> _nothing_ and only affects users that actually do need this custom
+> policy and do set it up. And once they have set it up the existence of a
+> policy is even visible via binfmt_misc.
+>
+> So the security story of enabling $ORIGIN in core elf code is a lot
+> weaker: it's inflexible, it's unclear what holes it opens up, and users
+> will be surprised by it.
+>
+> If users don't care about the bpf policy support for binfmt_misc and are
+> worried about someone registering a bpf handler: CONFIG_BINFMT_MISC_BPF=
+=3Dn
+>
+> Btw, the exact semantics you're asking for ($ORIGIN-prefixed PT_INTERP
+> resolved against the binary's directory and hard failure for everything
+> unusual) are about a hundred lines of bpf on top of what is already
+> in the tree. The $ORIGIN demo handler written for the series does
+> exactly that, including failing closed instead of falling back to the
+> cwd-relative lookup mentioned above. So you can deploy the policy you
+> want today on hosts you administer, collect data on how it behaves in
+> practice, and if a blessed subset ever emerges that conversation can be
+> had with evidence. An in-kernel $ORIGIN can always be added later as one
+> more policy. Once shipped it can never be unshipped.
