@@ -1,91 +1,75 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A07254B03;
-	Wed, 22 Jul 2026 12:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEE6149C6F;
+	Wed, 22 Jul 2026 12:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784724591; cv=none; b=hddl5cak9cFnUx0c9oWIEnMsArcFsfJb+ZCvRIsoqJgh5pdVGV4irvLbCcO5fD/h7/i1yWPQzpX/Ml1EoFR8TLYSyM5pf1jjNuDIZrR392OWcEHs6x3mxTwt17mmaQzvNV7Y67OYMa36CkYCidDXo/3C8d/klLaqN/ol9s8Zw6c=
+	t=1784724721; cv=none; b=PgVTxE9e2evev8MfGP0kzfOfftDoxRm9qib7CiJZ6JtVa9brpSLYxtUgjXsNUUZ0EebLUolfTpMVui7oI18lg3kMCtoPQAvtfz3AbHLQzErWJmBUVJPmrHDuhRxBffLDr2fmB46FG9Y5Ubbi8b5dTx3iMD5xujQtU7A1+TQXb2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784724591; c=relaxed/simple;
-	bh=ITxvFHHtfwpMau3NYWVTQceI3asYlug+obRoToqbH48=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VtE/mVTdmmqj3jZ6lH644EKykG2KPA75byfDZTJVjX7fx6rnAbTXkemoup01yd6Kt0Sf7/tOcn3ukB8Qv5N9Q0dSYNbVUxxARdrdCaXic0G4W3zpQGPxO1RYYYWK2ZK1HjX8cJKoqNUsjG9HMmNyZYfCLBTlIwBYX2JPOsQnUoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xAua58qn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1784724721; c=relaxed/simple;
+	bh=DQIYlITP/tkXLuLIhS3vGH099c37up+g4gkxSl1ZIi4=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=leWOVHPWFrz3wnILjh6Ted0ikZKWkdmiTJ1KzyVtcsy6P43QliF73ZWrUx4U+hVisMlE7JAZW+nhgVIH676aynnmbE4ro9aqnC+m1VLuVSItozwCzvcTD5R2ot11tGX7WHLqRF9B8fqQHcd6qU+KkeUc18i72PoHOiEkV3NcE0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5V65y9z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xAua58qn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=CVRW2G8GFu+kfUFK2PN5SJ1Dep7fyf8mcB0jb1clTMU=; b=xAua58qnGgLVESQz8NyZl9pZ1n
-	8iBJTeXrqOX8mqD2VWgzyYKTEYlrqqss4yMcpGEqUr1qEc9CrYYt6L66XKuNHATu310hdKNnmAjur
-	7vfOnyTVDj6B/NL027ENDZEbGbws8jSktvESK2Osk+yueMEWS4Za1AOQBxU6mJ7cCi/OgHX/DrYRv
-	PxcN0xxxd/9dktcxOayqP8it/9BfNzKY7/mmKLaK72GOIVL5xOOztwomgLSR/vIvEcsvSdtpEQ2mO
-	O3QtF6O8Ow1ixlbmXyB4E+XxPaKrgS6k4mPszbYFk1TkhZwGfgtdAswHJQART3daS72rRMmuRFVpv
-	N3KamX9g==;
-Received: from [2001:4bb8:2d6:3a78:eb21:714c:af4c:ee7d] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmWOS-0000000Bnca-03DL;
-	Wed, 22 Jul 2026 12:49:48 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: changfengnan@bytedance.com,
-	Joanne Koong <joannelkoong@gmail.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Cc: "Theodore Ts'o" <tytso@mit.edu>,
-	Carlos Maiolino <cem@kernel.org>,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/3] iomap: use GFP_NOWAIT when application for iomap_dio_simple allocations
-Date: Wed, 22 Jul 2026 14:49:28 +0200
-Message-ID: <20260722124931.3159664-4-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260722124931.3159664-1-hch@lst.de>
-References: <20260722124931.3159664-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5V65y9z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3279F1F00A3A;
+	Wed, 22 Jul 2026 12:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784724720;
+	bh=yD7S28WEjjitKHYE3fBInmdRzOfhYRPfNj6J7TxImEE=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=X5V65y9zxyDljLcu8mxZXoly4jQhMR9cnZVhX5GT+1aQICmVSGGoZxd/vph5lNOyM
+	 jc3QYzOsg6S7L40jIZHBQfbz38S6acJuFarBV55oBDEy0SIeJo1lPhpVWBbMBhcska
+	 ZE+0mLzRb2w/iOYySHd3WKG+H6QPPat66+wGKwHjW8EEITnGyPNz6msJO/vw/XxZjX
+	 fRLmDQNuyRpBEIG3zW+aHNTTHowkQEHgs9Vi98gWcff41pvv3sFiv6Gzol/SlB+tlm
+	 c0GbQoBxNVs1RekdTrjX60WcN7IfZ5+siuMXuuQfaI5IO2YxXQ1YNHvljvgB66rYcU
+	 Jya2XqBbmrneQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Pedro Falcato <pfalcato@suse.de>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+ Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, 
+ Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <alS10NN_OduZEqvt@infradead.org>
+References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+ <20260704164149.3480051-10-jkoolstra@xs4all.nl>
+ <akyyqnv9EpY7xVdC@pedro-suse.lan>
+ <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
+ <alS10NN_OduZEqvt@infradead.org>
+Date: Wed, 22 Jul 2026 14:51:54 +0200
+Message-Id: <20260722-mundpropaganda-vorwahl-funkverkehr-48efdde92a00@brauner>
+X-Mailer: b4 0.16-dev-9dec3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=599; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=DQIYlITP/tkXLuLIhS3vGH099c37up+g4gkxSl1ZIi4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl7HmjYXZj09OD5UbB04s4pA67TZjbvanw1ubYGf4fZ
+ N7d9fK831HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRX+8YGZ5PYnPj3Pi54861
+ wBc33ape7n0sIlN/SzFm4u5rzVP4r4Yx/NOMry+5r7rqK5cpP0Mqz4an0cr6jzTZ0k90c7U7Gq9
+ v4gEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-For non-blocking iocbs we should avoid blocking allocation where
-possible, so switch to a GFP_NOWAIT allocation here.
+> No, we can't rely on something being backport to old enterprise/cloud
+> kernel.  Doing so makes the interface unusable for actual applications.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/iomap/direct-io.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+It's backported to all LTS kernels for multiple years and this
+nonsensical theory of using a software version with O_DIRECTORY |
+O_CREAT on a pre-LTS kernel from years ago is just flimsy.
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index ca35da9e6cab..3bdfbd0efa07 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -986,6 +986,7 @@ static void iomap_dio_simple_end_io(struct bio *bio)
- ssize_t __iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
- 		struct iomap_iter *iomi)
- {
-+	gfp_t gfp = (iomi->flags & IOMAP_NOWAIT) ? GFP_NOWAIT : GFP_KERNEL;
- 	struct iomap_dio_simple *sr;
- 	unsigned int alignment;
- 	struct bio *bio;
-@@ -1011,7 +1012,9 @@ ssize_t __iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
- 
- 	bio = bio_alloc_bioset(iomi->iomap.bdev,
- 			       bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
--			       REQ_OP_READ, GFP_KERNEL, &iomap_dio_simple_pool);
-+			       REQ_OP_READ, gfp, &iomap_dio_simple_pool);
-+	if (!bio)
-+		return -EAGAIN;
- 	sr = container_of(bio, struct iomap_dio_simple, bio);
- 	sr->iocb = iocb;
- 	sr->dio_flags = 0;
--- 
-2.53.0
+Even just the mere fact that I was able to just backport that bugfix
+that started returning hard errors to all LTS kernels with absolutely
+zero regression reports defeats that argument. We've done way more
+invasive changes. This is a strawman really. 
 
