@@ -1,82 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546EE20297C;
-	Wed, 22 Jul 2026 14:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12804306764;
+	Wed, 22 Jul 2026 14:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784729123; cv=none; b=f6hmA1YorTAZpZXR0Y42XDu0SYveLg5NOBgT0DSvKlvZxrYpw5puqAe3WVzrs4/p/YRZkFsgvj5Kd7KqjYyASDsgF9SI8awIeRrO9bJ+nRoR6idOlWS2yy+jDs5F23jvtkjamXZ+fPfO4TlKuG6wMiz49HJrjBhRXSunyepeFUc=
+	t=1784729885; cv=none; b=NFyq8sDsdxVDm0FtWe05iQLXYHxd5P9LMdPLw+j9zow0JKPUdg516kN7tOzIO+T6+nxIIvKYPDCmICrS1w4HZ6n9VzqhrRwio21ETMtVYnU/CYRNUJdVeobgHA2KrjVjNMlFwMytZBLvQfVjp3mVXznUJRaZ7KFF1CyqdAve6wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784729123; c=relaxed/simple;
-	bh=NkMgz3XcvUYpMVsg3I41zevy0AXHrUEhE8RUYHQdumQ=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=FIhRr1ilQaJwR0YcqE0VhLbnA8Z/n8M/9Mh/CwWZewmNldiBSJFsgmZ66N8aP8/i8DCA3eF9TXed3hdQ2gi9tSvtDQ9yS2jRf35MlRvVtKi3Bq/PCoXZA6RUVSs8jKrK+oKcpP+Tpsg4fANJVOSFn4MWzCGm3hJPN56kKGAhxGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCv3IeIw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784729885; c=relaxed/simple;
+	bh=np4yayh2BMzDrIbeGsDIccHY4xwm2Ph+deSS9Lu+mrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=el71np27iqmyVtSo01el7is+WblCD4XWe8cGnUIbZGeEKpIeI2gsZODQj2/JEkVGPJLStjtrVgZOxHl10OUuatO68BdYKBlmlUzvzhRJcPpPzsJt6nd4GzuJ/rjqfuOXAzfRX7/1m0/qfMu40102hsHooqZZBqOgMZBqkz7eSmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4vdnNdZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCv3IeIw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7F81F000E9;
-	Wed, 22 Jul 2026 14:05:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4vdnNdZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 998571F000E9;
+	Wed, 22 Jul 2026 14:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784729122;
-	bh=QArlNFaj910WCmfnCbBcS8ZRcZIb7eEuICA5KWW5sxk=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=fCv3IeIwkWtFdpusm4Rpg5jReIOx0jpkjGupCPn3B9w/hPQeU8LFyjttKdSGjfGdn
-	 i/fczgFjR5rwsTXaombByYRlXUtNfPiE/kO9H2NRrJFPDWNmT1Sx7GEa+TQLOT5AP2
-	 1Nctx2lvJEpIUb0pF0eUbS/yxHg5xIOjrrhYrJssee0U7GJNe+htFtbs7h+BZo7+zi
-	 xQBAgenaJSb3DNurio1eSI5uNSvnZ0BZESWuc2FvSr4tBrBWJtqHp7MZH828Wb1r4z
-	 DmxW92Qv3OH4rfnOWBfPAJ0kSDlT0Ky7oEtSuVNQGv9Lxkr83GVSMe75TGJ4ecCgUS
-	 Sq116GBa1NlYQ==
+	s=k20260515; t=1784729883;
+	bh=nr20QdluTC6Xb2QJCx/L2OqHD3wYjRZzxUHD+ltN0io=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=a4vdnNdZSy07RDuS+C9gat8xlWANgEMGre2Gt8w50+S/RARkD/NxqriSXn9wrozPj
+	 E5W9CBr1d7eepeguATkGjOrPXaqKaMp0+xcdJH6JVLGWRdkxSRqsBQirTItAu9VNRf
+	 xKAJOUg/URAYNGPYd8y4vGKj+ONw/nWOpgBtlfPsR8ltFxfx8IoinmWT2jtQMA7WpP
+	 nozoGRCEMkB8851Fg9u/prJ/JOJKbaLEpz8L+8Zr68k62Ilb0p88pE+y3ZC8cSKbhK
+	 kBpgQZfX/d3Rxy5rU6yBQqCx1AN3uW+o51yyGmm2In6YviRmTxHVmf6qDl7Zlbt9Ib
+	 DwnPnhWrhgAMw==
+Message-ID: <ac18f5bc-62a9-41b0-8980-a4c465a4229a@kernel.org>
+Date: Wed, 22 Jul 2026 16:17:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/13] mm: convert __get_unmapped_area() to use
+ vma_flags_t
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+ <20260711-b4-vma-flags-mm-v2-3-0fa2357d5431@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-3-0fa2357d5431@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] binfmt_misc: fix leaked write-access denial on F-flag
- interpreter inode
-From: Christian Brauner <brauner@kernel.org>
-To: Aayush7352 <aayushdixit924@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260721095659.80690-1-aayushdixit924@gmail.com>
-References: <20260721095659.80690-1-aayushdixit924@gmail.com>
-Date: Wed, 22 Jul 2026 16:05:18 +0200
-Message-Id: <20260722-zuteilen-saalartig-bedienen-74ac85d0a84b@brauner>
-X-Mailer: b4 0.16-dev-2f6f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1153; i=brauner@kernel.org;
- h=from:subject:message-id; bh=NkMgz3XcvUYpMVsg3I41zevy0AXHrUEhE8RUYHQdumQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlnFModpv3t/7jt6OnRNPL/jMxfi3srZ9o3JyY+Ke9T
- npPZrVkRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERs7jH8L/NQmvAmQuCcxY2L
- Tbn9UrOm5vZ6BR9eNXVT1m09jQajMIY/fDf/S3fHLJ0wSe9Xyf3DM7/PEvy17mnki51JOeHHNSK
- vMgIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-21 15:26 +0530, Aayush7352 wrote:
-> From: Aayush Dixit <aayushdixit924@gmail.com>
+On 7/11/26 20:45, Lorenzo Stoakes wrote:
+> Update __get_unmapped_area() to be parameterised by vma_flags_t rather than
+> vm_flags_t as part of the effort to move VMA flags from a system word to a
+> bitmap.
 > 
-> put_binfmt_handler() closes an F-flag (MISC_FMT_OPEN_FILE) entry's
-> interpreter file without restoring the write access that open_exec()
-> denied at registration.  Every register/delete cycle of an F entry
-> leaks one i_writecount denial on the interpreter's inode, so that
-> inode returns -ETXTBSY to all writers until it is evicted from the
-> inode cache or the machine reboots.
+> We cascade the changes up to arch_get_unmapped_area_topdown() and
+> arch_get_unmapped_area(), where, for now, we use vma_flags_to_legacy() in
+> order to propagate the VMA flags.
 > 
-> The registration error path (add_entry failure) correctly calls
-> exe_file_allow_write_access() before filp_close(), but the normal
-> teardown path in put_binfmt_handler() was missing it.
+> No functional change intended.
 > 
-> Fix by adding exe_file_allow_write_access() before filp_close() in
-> put_binfmt_handler().  exe_file_allow_write_access() is NULL-safe
-> and skips FMODE_FSNOTIFY_HSM files, so no imbalance is possible.
-> 
-> Fixes: 948b701a607f ("binfmt_misc: add persistent opened binary handler for containers")
-> Cc: linux-fsdevel@vger.kernel.org
-> Signed-off-by: Aayush7352 <aayushdixit924@gmail.com>
-> ---
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Sorry, there's already a fix in vfs-7.3.binfmt for this.
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
