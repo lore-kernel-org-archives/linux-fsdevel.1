@@ -1,135 +1,137 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D5B35E1C1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 03:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784690249; cv=pass; b=PZioDYbCNHsNNJVWpd+n0eJcAJgIOb2hkhMnHAdpC46hDEgnh6Mt+sz4Ndb2ZsrS1MO2AdBF3jwMrJzifi7LsThobloUD6OvCfiwfVzi5M7FsrwI6PfWmeFtCMrtJ2nxqegs27j2tcV5cDJ36ASVDrGD9Km8Nq6MmiQEk6T76nw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784690249; c=relaxed/simple;
-	bh=icaoQlncuNouot2ubF2dsoHbwyyeV6Bw8zTIqKHHtao=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iNjhigPcuNrU6zu8mBXOslAIG7fIZ8z+9JOBfPWhJJjymre519oh31V3oYzu7Cvd6tJvP1L+DeWi8gOcgCZnoEgoLWDc/1QgAYT9cBu+GKFAwg957o9iQDpez8vb8QGzsTTd3FhvBaPDu+4gHsEJd3R1CPVbhcnwSQDtMhhu41M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Iws//TSa; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C363932E4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 03:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784692742; cv=none; b=LEsGQSUAXBu+q6hreMCRQv7Ef9pWun8lfoSIeQTnCzk7/GqMhBNJ7MTGpQF3zTDl41+Qo0LbND0hZwcZp0CFV0IzwCQgionSGWaw7FCQipeLBO9QjASSIbq0gySunUlIVspQUhUl2muxTU9Pl5Ej8+nz4hSBdEQyvP36vfueYzQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784692742; c=relaxed/simple;
+	bh=BNK1Abq1MfA6ryPKoGxTEIRZlnBOGxhtAMdHurrbuL8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=dLKS564I/13bS18kv1OLEcwZYSiUk6zPjIDSuVUugPjK73Xbp1PFSNckJQEivdKPMvCBEXa2aoWXMjMLLa7tvL2d/Hve8KCqZYbOHvvtI8L9hyX+vFzBT0yTZVu+JjU/gQHnJ6Y8umPyT91KzcybytYVeiooqeqTi8aJbVh7HIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KNSRcSZw; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iws//TSa"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c10e86e52so1394131cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 20:17:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784690247; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Fo6EVuUXzTjTxz3RRFaMFy0jqQU8qw9yveREUrAb0mjaBnsZP6NprWr/Niu49rQPqv
-         s7rTyrxgwvOFLqDarxOA5HuitZfI0N2tcfaivaat/K/lb2W9o3pcPBRfJJrEvCF2j4GQ
-         j+6Z36iksjSd4iLizTQx2SeDpZy600NS57O2NvN0pIYo2Rivvjv1xGQxtYfG2nMpG8FU
-         wg/cwsRT051pb3LiDqKUOGRoLnI5gGw3+pzjIt7pL9vEM2tvj4F4y+tcPT2ft4gXEFjA
-         U0pD45eeUqW1SPMSvlFv80x6+YjTMvatlpmqeILz8LVpudM7P+FeN6NZQCxaALjSFgsM
-         e8VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=j4jeUlskt2tIQj8M1PMkFdsb+jXr8VGm4/YbSXLXbIs=;
-        fh=wUDLtChmoBV8LADV+FVu9b8Yln8AinpnsswdGhPmdaQ=;
-        b=en1YFmqov/OqHygmDuHo7FtnH6WZMHn5tiRYO7YjIVW7Qg6S3HJneZBOj/P4ylxthV
-         UdCC4wfibwA1GIj7Gf2VSq4B4uKcmNtXOzjkXnxJntbGpL3yEo38M5UeFZ8Hb8WWuCzE
-         f+EDzoWwvYCPB39NMnNoeCVg716tli6Qj2qT+cs9y560XDlS7llpYCczl6WTtdhwkBeP
-         RwgfQvA37hlIApM5JjFx/M++3Yq663vT+zL/PerCNMmG4V9zC1ndITYmo9FqkSoczrFn
-         p1XRR48b+1sbEl5OMrRmhDTBC3e7YHGZ7uC47S0fsROK5Bt5v8l6mlIKdrJ7dAIBYugp
-         +H6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KNSRcSZw"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9b373d5af0so9136630a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 20:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784690247; x=1785295047; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=j4jeUlskt2tIQj8M1PMkFdsb+jXr8VGm4/YbSXLXbIs=;
-        b=Iws//TSaggngEc7WiLwwl3PUF9mtsDUsFE+BQFiSXxcjV05P/e4/H1qpG5JH7j+StS
-         8qYj3/ULABkfToQiz8O9heMD/agYVyPhfuK2WhD/88CkSj0WE/iKJyVpDSYVHFAXoMa0
-         s+a/X3K3iAWXDQWa1P2bkgRmjc0+U+gKwIZjCFniGqYM9sFJL7CoqYxY31mIrltv8UE5
-         W22l3mvy2By+VL/6XzCgfHPRD5/RnPU5icollXxApRNNWHOK/QIPGx1XAreAkIC4ol/S
-         eFZ/p2BulDPLH5Np6uYt9RdaHpd0MPwv5iIgXMpt2BgfPkcGm8Im2a/zlUIJbMm7227A
-         3RNQ==
+        d=gmail.com; s=20251104; t=1784692741; x=1785297541; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FO0PIl4jHeZm6CVaqy5alytFRf8x9mC+vdko7KzkD5s=;
+        b=KNSRcSZwItRqeumMoitTxvZmTC562yUMSwuXSCSXj23CQO+r5nFpiTTvOqUCQmjXgE
+         3XVzFdbcamCrnYF1JCfJwIVCviJscXUxT6/Tfzkgca97bUoPUsYqz/hDToqCLTQb2AYB
+         c6wry0GFBwxDhs2OMoFXCPJ1keSvh4TJ+R9W4uiWAU901fH70ZrhJdv6dVCakW2FBf6x
+         PbgVu8m0ipdsyrxghyRPgjQl/sjGqjx9p0FVIaxVA0cRwUCne92+Wx3k22Jdw08mqzeH
+         T8sbL3GhN/KNdcXEbeGR1X2V48Y7BF+vL6CTIW4bRcJhV0ASpq9hm4ieHtty34xorB2Z
+         sgLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784690247; x=1785295047;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784692741; x=1785297541;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=j4jeUlskt2tIQj8M1PMkFdsb+jXr8VGm4/YbSXLXbIs=;
-        b=SKKHnQVto3q4N/l4uY7h/oOacvOSABWWGyO8WxuBW6Ntmo6nyYrIAG7smdnEZZcAl9
-         PIpjsy9D6wmhA4OOAsww+jgw98uia8/JqWZ3axJMfUNbwe5FrBT/eM6YY9Fn5jhPCLj9
-         QTH64GNMhF+MgfPnT4XaBaanAq+moGXpYN5qIgt2gN/bA62nBnkXvyjyE1iDdK7qakM7
-         JMfdGgaGoL1WCPbqIIY5z47cVRHPpWwNadfZmqNChwnr740scFVnPnIsqoFlm6M3MjoS
-         /v+wAV9bAerBfOe/pbfj0HwFZia8ZIwa38jPe6likyXcWlZuAifLu1uFBCwc9oIcx04V
-         Z49g==
-X-Forwarded-Encrypted: i=1; AHgh+RrhXCOMy7j2t+jIHinrbtqXBt/LqwHdVRwGNKZUM+9FwP5Ir4axEIlhPeR1GFCQ7XFomB1M5mA4DVzgC4LA@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNKp1zutJTB/3Uh2muXzKRyiKct9Z7JaceWcF6tEQnAtMjCkO3
-	I5DBSQ6JJuL5hAE2b95FgPJm1tzht87ZCQ8hjRf01HXXmu7Wxng+jQNUflIdkKMWuYQ4rfRwF/U
-	LDZyi07bJcQsT0rZfaRUeDLoXEEEzZzv/p1Ua7Ko6
-X-Gm-Gg: AR+sD11B9ypq5u6rnSBJJANd3XkaQAPGSfHL/WiTn74dKEzceBhePuXB0+WsTJe5xAi
-	yUkV+gmA4uX0eHbCpNZhykUVS5lSLkWI1otl2SE1hWBeTwz8wYmbNv7Pn1htAjbiKVVdiAsF6O+
-	vv4+bdUGVKXU3Elm4q1gm8+gU7w0YaBwdD6qIfewCpoMm6bGrlOJNSyQZ7KPxcLpcAZSveh718m
-	awayew3EsZWRR4hhftbWQd/t6KIW9QwYHPQLWpoQQjgi4yrk0RpHKXYiG/V
-X-Received: by 2002:a05:622a:6084:b0:51c:289:6979 with SMTP id
- d75a77b69052e-527efd1f994mr3666981cf.21.1784690246021; Tue, 21 Jul 2026
- 20:17:26 -0700 (PDT)
+        bh=FO0PIl4jHeZm6CVaqy5alytFRf8x9mC+vdko7KzkD5s=;
+        b=iQ3XWqFQNEi0+0K/oFv+IfEKbp26bzJdqHiv0t7CnRfx5efdYGJblpc82+AW26009v
+         9KvLwS0byRf8oZBsYesxONruB694WNGD8fpJ6BMikvEX+gGfurONuLzxg9asTRZWG/mG
+         T769lYnWJl8abPVcoyzrqRTMoA+Rh0arq7Cbv8WYcfT/4rF+vJR4Xqwv7tt6S+9169uH
+         i0DENvIYzss09hV/pju5QmhfzvkP8VJkloHwAgaw28m81lCCK6u2EVGGozVz0yLhVNK2
+         DXctOYRaZtJkbkOPbLNKGWq9RdADabCbMM3Vdk85pykySsky6HKzCRbxp918T18S9kru
+         rmDQ==
+X-Gm-Message-State: AOJu0Yzd+VTXxUIXTT+NEF2+OhZUN+4f5xyOkI+Vupz86Whh6Ui7adLY
+	cvQyCcaeRnK/luZpsc0MJD1tSg9LhZa4giwLLsjpEBls6o48OscV6uPe
+X-Gm-Gg: AR+sD138X5xkCBL9DuyIkJjtJNdw2RMtS4e4AFEuG5UcK/4skixCTrHtIWLumpxKEE/
+	tChj6MwF1eFZ7YjIZwm0C0HKZ/Mvr8OIXDtuH912ifwLTuEu9PtOm8rWr/Kx4AjYXJYDrFhX4ii
+	95vf3tzP0mDSRPt4heMv6MTqO0vGQRmZF+fBA72OmMLMhQoONBXWzc4niek5K9exu+pnBSUWF7w
+	RsqVeKr/S8AxCjJmHKiwf/WzhOL8SWeHkwDvzOU7Etr39xAcdHkVKZduBCUKZ493KV/In1/t/1L
+	l4ZpsxbRRbUFX7TDudtGON/iHFFE5TPT+2CwOSxLYkIsShEzGwdUc7J0heT9gpX99Za5oW/QMjp
+	FAT7/kzUPXNSxItTqhPTaIk3WwX1nOLpk2sEO/48Xzf2m4+slWFiUDlD6chUBcljqmraEmYzine
+	g5qBs=
+X-Received: by 2002:a05:6a20:9397:b0:3bf:6c08:fb94 with SMTP id adf61e73a8af0-3c3ada37416mr22623030637.54.1784692740769;
+        Tue, 21 Jul 2026 20:59:00 -0700 (PDT)
+Received: from localhost ([98.35.8.117])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e0818e4sm4154541eec.22.2026.07.21.20.58.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 20:59:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260721051903.691848-1-kaleshsingh@google.com> <20260721173939.6bee67b6af17b54961daf4f8@linux-foundation.org>
-In-Reply-To: <20260721173939.6bee67b6af17b54961daf4f8@linux-foundation.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 21 Jul 2026 20:17:15 -0700
-X-Gm-Features: AUfX_mzdJ6l7ZHNA7SRCoMlMuAxO3rUAUEiO9n109Oxt3pqHFJW2MXorJHs2JRY
-Message-ID: <CAJuCfpFVSrP2DGNr+tZadVzbuWvi467F879qndkQ4VTx6R1w_g@mail.gmail.com>
-Subject: Re: [PATCH] mm: proc/task_mmu: Use walk_page_range_vma() for smaps
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kaleshsingh@google.com, kernel-team@android.com, android-mm@google.com, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Jul 2026 20:58:59 -0700
+Message-Id: <DK4SRXTMBB88.RHDTPAQOGD8J@gmail.com>
+Cc: <linux-fsdevel@vger.kernel.org>, "Jann Horn" <jannh@google.com>
+Subject: Re: Questions and concerns about BPF-selected interpreter
+From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
+To: "Cole Faust" <colefaust@google.com>, <brauner@kernel.org>, "Farid
+ Zakaria" <farid.m.zakaria@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com> <CA+9F0A3uywPD8vk=O3Fg7LUgY9kYLtrNNLCcf-62k4RGrgQ5iw@mail.gmail.com>
+In-Reply-To: <CA+9F0A3uywPD8vk=O3Fg7LUgY9kYLtrNNLCcf-62k4RGrgQ5iw@mail.gmail.com>
 
-On Tue, Jul 21, 2026 at 5:39=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
+On Tue Jul 21, 2026 at 5:26 PM PDT, Cole Faust wrote:
+> Correcting Farid's email.
 >
-> On Tue, 21 Jul 2026 05:19:02 +0000 kaleshsingh@google.com wrote:
->
-> > From: Kalesh Singh <kaleshsingh@google.com>
-> >
-> > Modify smap_gather_stats() to use walk_page_range_vma() instead of
-> > walk_page_range() when walking page tables.
-> >
-> > walk_page_range() internally calls find_vma(), which asserts that
-> > mmap_lock is held. This assertion fails when reading /proc/pid/smaps
-> > under per-VMA locks (where mmap_lock is not held).
->
-> So the kernel is emitting a WARN trace under some situation?
->
-> I'm surprised.  The offending patch is only six weeks old, but we'd
-> normally hear about this very promptly.   Is a bug report available
-> somewhere?
+> On Tue, Jul 21, 2026 at 5:24=E2=80=AFPM Cole Faust <colefaust@google.com>=
+ wrote:
+>>
+>> Hi Christian, Farid,
+>>
+>> My name is Cole, I work on the android build system. We have similar
+>> goals for creating hermetic and relocatable builds in our build system
+>> (a custom, android-specific one). I was very excited when I saw Farid
+>> working on $ORIGIN support, but then somewhat disappointed when I saw
+>> the new BPF-based solution.
+>>
+>> Our usecase is mostly to decouple the glibc version used in the
+>> android build from the host machine. We've had several instances where
+>> our CI machines are running old glibc versions that cause problems,
+>> and they're not trivial to update. Ideally you should be able to
+>> download the android source and build it on a modern linux kernel,
+>> regardless of the userspace.
+>>
+>> To register a binfmt_misc handler, you need either root + modifying
+>> global state on the host, or to make a user+mount namespace. But if we
+>> use a mount namespace, couldn't we just mount the interpreter we want
+>> to use at a fixed path? I thought one of the main goals of this
+>> features was to avoid the use of namespaces because they don't always
+>> nest well; Farid called this out as a problem with buck2's sandboxing.
+>> In android, we don't yet have any nested sandboxing but there have
+>> been conversations about increasing security of the build using
+>> something like gvisor to isolate the build from the kernel, in wake of
+>> the recent AI-discovered local privilege escalations, after which
+>> these complicated kernel features are likely to stop working. And
+>> requiring root is definitely out of the question.
+>>
+>> I also wanted to ask about the security of this bpf solution. I
+>> understand there are some security concerns about $ORIGIN. Why is this
+>> new binfmt_misc + bpf solution better? An attacker will still have
+>> more opportunity to place a malicious loader relative to the
+>> executable. With the binfmt_misc solution, you will be able to only
+>> have it active for certain things, like a build, but that's only if
+>> you use the user+mount namespace to scope it. From what I understand,
+>> Farid plans on registering the handler globally and persistently on
+>> NixOS systems that want relocatable builds, does that not make those
+>> systems susceptible to these concerns? (correct me if that's not your
+>> plan, Farid)
+>>
+>> I can't really think of a better solution than the originally-proposed
+>> $ORIGIN support for build systems to use. I don't care about setuid or
+>> complicated filesystems like memfd, so I would hope it would be
+>> straightforward to just error out if AT_SECURE is set or if any issue
+>> arises like not being able to determine the directory of the
+>> executable. IMO it's fine if it only works in simple, known-safe
+>> cases.
+>>
+>> Thanks to both of you for working on this, please let me know what you t=
+hink.
+>>  - Cole
 
-No, when reading smaps "start" is always false, so walk_page_range()
-is never called.
-Kalesh, this is not a problem that ever happens in the upstream
-kernel. In Android kernel there was an out-of-tree change that caused
-this warning, which I pointed out and you fixed. However, the upstream
-kernel does not have this issue.
-
->
-> > walk_page_range_vma() walks a range within a single VMA and does not
-> > use find_vma(). It relies on the VMA lock instead (when configured
-> > with PGWALK_VMA_RDLOCK_VERIFY), making it compatible with per-VMA
-> > locks.
->
-> Sashiko said a thing:
->         https://sashiko.dev/#/patchset/20260721051903.691848-1-kaleshsing=
-h@google.com
->
