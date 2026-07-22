@@ -1,173 +1,109 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880EB42DA52
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 20:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784753814; cv=none; b=ihGsqhC4mD7tp6e4KDCXA7wnyeAnNv4u56AzB5hVAOBr3ZjdossmlvuOU/94HlgGhdEqEhhH6ojx95HJzbFF7zrXGalVBXzeU59ydCtm5srI1uVYE1wYiTEf/Z7XUNzQF/sILEK5cHKenR587Qh49uOeQPnBzF0Wkykzjne2y4U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784753814; c=relaxed/simple;
-	bh=s8/wCDafUQ7pmN88abnD2Ydl0D4cpNmsjgZZBVN4G00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3G5a3i5D5MjoadszVbJdbS3p/xM/vf6rAeNGaUrYpvqiJK66SLPOSsceDEDHiV/FZrnpDOi659yvxr1+ngsxBMguz6YweI9UjTddvtTVLOoAPGtZ8HpSqeUIgQUSqUrHGuwvC/o1JW8CIBF402w+h81x6b064QQuOj34Fz8Xjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=BmbxhrHw; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A87335C183
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 21:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784754120; cv=pass; b=cJ6beM/yEma7lDm1tOYEAh1YdgzWFXrXN6Qx4k0xBBp2ByZPwpREhsfvUmIMewiUBTEu7AyNdaf4qalHbNwlUF7YzLG8ptQNJ8TXPEKb9k5GEQhA1NdLmVynNAl0gGOiGxxavRpy+HfJnYc/OwrofguOEpUt8N1KEpI61NZv+T4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784754120; c=relaxed/simple;
+	bh=e2ewHyAnmUOsw1e/tN+fqYIkcR6yWRk7QczuTMtWyS4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oWNuEHy1J95OoTQQ6VM73Sr16lW/xmatLeSzwVc1ULPQaU3CDJrdl94bGHMDyd7RVOs8s4/mxIvgaTCPZSqdPt/VcA8b3EDSHCyQpw8TUe4gQcOD1R/mJTl5v/XXjYTH6fVNZjNzlEUmNF+LRu2RXXp7Mi/DZOzLtntZv5mxSlk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NP/nXZGZ; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="BmbxhrHw"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51c2149571dso79781151cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 13:56:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NP/nXZGZ"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4954afac04bso52325015e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 14:01:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784754117; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sraVw/PZrO0Wj2pnNkIOTgrlth+Jv3nyuJEL6bAAk0RE2OT6kLcAc7Yy2FgGu8TS0g
+         0kv3xgEul0GjzERqjPCc5bhUUtl/Qo7GAXazO9sukln5N7iS5qaBHhoKoNlvPp4s7HUQ
+         20FffIPPWj8CeP3dqQYYgFHqRAwbN3erfsfR/F5JhS8wfU3faecpLEGUnWYKZvEamx1X
+         4AIQ2mCf6+ItqHnXHqZ3nht2wlptgZr94iexk0ZSpNaBmiRC6GBd4RrbTRam8MbCXfWY
+         vxemJ+l/S1FXdMlmmcLGbDxUswevF8ww+RnCZtubEASW2zl7R/f9Oe1n1Q08SUh26+eo
+         JTQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e2ewHyAnmUOsw1e/tN+fqYIkcR6yWRk7QczuTMtWyS4=;
+        fh=hEpITq6ULhlW+//ufVsOVT/QQ4gyVjN0/gOz1wqt4Ic=;
+        b=RrMTT0YB4/G/w6HOTLveXzyYyXrPv4qFG+Bsd+bqJpa53b3KYJEs1LaD3bC7C0DCw2
+         jCJplozbOE6IcHNhId8jrmOloFE31tkOitPhUQCIDy4VT4wgx/Y3fc7SCQelf9TIVlx4
+         y7PCfZpiXcN+nO/oK7N5vMqYV/zuttI4VdVhPiMnFrKaWPd/JNTqmdmdjq2H5juBYFNd
+         /USgjexhIi8jzi6TEqXAwje1tLbn7UCF+eNd++JJD+XSLw7B7gQ1JtlTl7hC1wbip7Kc
+         YcoTevk9FAsdT1Im6UzLOQFfzSuoxgtWPIIWfZ4wp0YnA+lzeEzJ0CDKz6VPYgOZDMsM
+         fGCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784753811; x=1785358611; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1784754117; x=1785358917; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=DrWtospFmR1X6Ml2Vs8JTWDG5C2VdzRczI8oq8UdJr8=;
-        b=BmbxhrHwS6SGD+DstaxN9aum0F+qVmFaCCLRCAesmHXK1x1tbM8o4VXAY3bTRgTam9
-         XN/lXuukJ8njiId9TQhkCaRPDHdLvVG/UbqfgTdVJ7GSf/bhXuLy1McqVIhavwwBnm+u
-         eH9ysztsnbb3Y0hPkS5OJzKx0qvgsrYFdGfqtYdAbumPyibsoupEOFlrVRXIIl2k70T3
-         EAOge8mNby2tH4tbCTbQnpGhXvpzaKnk8AB4lrEjLDfvD+NmiYvFPPRjv4XfQeD4YzrJ
-         ldCwOWXJsoNHETHoVs0VPJZNiN+TJ5HMUYIlSh7Q19XCK5ykMuHxhknCy8215sucxrl2
-         8/jg==
+        bh=e2ewHyAnmUOsw1e/tN+fqYIkcR6yWRk7QczuTMtWyS4=;
+        b=NP/nXZGZe6/PNwQFXkRX+7LBw95w4hc0FiI68g+ghXpgByhpNq/AyhODxBQTE/yOGv
+         7OHVXF26DkgBOefTM2P8QAndTMIJKvy9dCOS+XSxgARN6kgawKJjFLZUCMySAO7NCdua
+         3m0ax3CMMPE9T6EJ++gDPkesLKdg/7TD6ckFMikXlaMJ4Uc9Ng4g2fBwfZbHhbQAP3wc
+         LmeJXC6r1Wo6w56SmQLBeD/jlSmrEikpP/C7WhjU0RNhh1YPXIeGtwfIJUweDboow246
+         hnULxokRMb8HCk4kepfXbuwBTdS2OhXWMJgk+HsQxCcOkXBFK5LbbgzjrdwHFCH+8/Y9
+         OPgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784753811; x=1785358611;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1784754117; x=1785358917;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DrWtospFmR1X6Ml2Vs8JTWDG5C2VdzRczI8oq8UdJr8=;
-        b=XVe352yyOPRIt1l0OF7U/SdHenkr8WibU1QJ3Sw/poXKdJNXlh3QdWhI3FeouJGyxv
-         t4P3lr8aBfetQytk0LxEHdxiH7TXxNQ1/1FIFCmcUMLJv676bYbeYs1v71HI2+kHrLKw
-         uLA6N0Zw+8YEUI5T1zHFnPgY4fGWbMJwYLfMXMqVzOhS9ef8xQRm28yCqq0DoSb6Wbvr
-         31mE9BKZdBW0vTKACW2i/XjpcTQisyq3CwgzYtdl3MVloJvBoeAbTJwSbtTtlRQunMyY
-         p/LM6jd4b8bVpZfl7m8y7VtyWuzMcfLKDU71JR5Zhqtl1GPzx7icJWMHZt/o7g4fWTUb
-         E7Sw==
-X-Forwarded-Encrypted: i=1; AHgh+RrL3AGypgthJ55HEhzcITDPaRJoyQJI4UEqGAOOGMEP4SQdcMVweQGV3RCPQjjLurH4FuyDcd9s5AyHnVJV@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTGC0ZRqBc5VJpoiRBC1X+NeiBUxJCZMbOyHGG2TomE0qC6U5S
-	/ZGoiEPVwQbS82Rdq90wgqnbvs3E8RNiQg7wTwnxbrM/qWMRNGTAwVUyFEZKJw8tSVw=
-X-Gm-Gg: AR+sD12OBovNgbRUuGpjwegnqaCuOQQaJC+zsn4wG3ztmnaFLYET/fDE15aUpkBYoua
-	3nPeOmGnOBdj54l5dkdUTn63jVdxEqBXCgUwexeJti1FUpMGEhYRMkMBnGAKGJFdhIOLtN4PB0u
-	xBoEivOf02Ws9iHsWjnXZm5CI+L70ifF0xAAXkkOedg7BuPuPgrDslFpcGkLcAlKDIjR8q84yBZ
-	srYBhQAqqBHHER+aq0umH0BZ2EUiobiANiTgxmq499QvcfmarOzG9iAyLJPbWkt3hmRLx9EThvv
-	uTY5+v3mf/qwS8vDdZIpmsyr4XXmoZ8ZzHUjt7lX3Q2nrDWLpyf6QoDyoboVxfinDeeJzh1u9xy
-	knNBW0TJxzqCN4ddJLLbIIFBDYRVUr8BTPr80YaBIh4hJMvPBs7ThV0dZvN6UioB2huDYHrfhd1
-	5ZplJyZlxok2lZ+t3ovj1oqrm+RGyQIEFvbz0WzRjVsGiu6n+l5FVZjxj9p9/knvqxzbG5
-X-Received: by 2002:a05:622a:997:b0:519:5680:1b5 with SMTP id d75a77b69052e-5283de4650emr1484841cf.21.1784753811471;
-        Wed, 22 Jul 2026 13:56:51 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba672806sm29772246d6.0.2026.07.22.13.56.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 13:56:51 -0700 (PDT)
-Date: Wed, 22 Jul 2026 16:56:45 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <amEpR83RtiqstjNs@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <amDL80BSEP6u9XfE@MWDK4CY14F>
- <amDVQopyvolxfX8K@gourry-fedora-PF4VCD3F>
+        bh=e2ewHyAnmUOsw1e/tN+fqYIkcR6yWRk7QczuTMtWyS4=;
+        b=Ol0+l/XjsYRjwS8vNUCjnumat5IXtbvTtX7PPCLMsCtjnumRFVpzUFsDl3gOIvZKZk
+         LIRGANfTZmNK9ETsOnWU8dAVxPzl68SfawMqE7ZImEYhTNaOxeHzM28d2gVxnK+6jSIp
+         VmIgcTQHvPkJj5zwuqzhwIUJzeFMcov8eUv1kN1nuIHNtbR3v6XSPfbohKTHfKFu2PWz
+         5vWzYB7NqAhLEpTE9dHkhDv/G54ps4UfIXecg14RlY6ee89BVTZtmvrR/S9NWUMmNYf7
+         S9Mwayf9uNquGnH9oJ4I0JJ//eaIU/c1xzlSDuxP34YLTTfinCQqtAPCRBAWT0q0E+nt
+         /HzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpGkiJ621ZWbPAzM/aBSxkJMgReCKaYU//loUi5Wo/RhJxUsY4oGZZO47abDzrB74o+bVZTKecRX6SjaeJd@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSSACb9kngX3MO9gWL4gRjg2y+5cynVhKA3uvhsJtTFcRUmKOz
+	RrsMrURdbMwd0grBNzAOQKCbj16rDmnIqWPDBcMU9LHwsBq9O3DXQp2mW5eZxLu2bmUGyJ+meFV
+	PpEQUL9Xd24WtijVNb8jLtkUGZ+AtVJE=
+X-Gm-Gg: AR+sD108fvZ/H/fAHos5yL0QEa1RwukqNqjpa7+PndmY0pxs5dTbYExM4UTm2w1RKmw
+	LTq0PSW2N5PUE8qTg4BXN0FvPyb2Bgso/bSjiw4aUomQMpuaVmDQulKcyY3/jtd6aNL2V4IHllp
+	yfky7Fqli5aHGWrVRhAXzNXbbIUQtt7VIUN3a+/kZzkj6Ap7Nl/GOLY5QgFg9yavHTlQO3VAoab
+	joHtzliNeY+3G7KiE7XPK0WAUz02KyDP70fpoQDPWpqkWj/DBPiWwdG0CtctO7x4do0ddCY1ebH
+	lzOSULGMApA/ij2jlp44MvMXBrppu8iQ1parWlUBfft+auM2SHfBLy2S
+X-Received: by 2002:a05:6000:27cf:b0:47f:8fb6:c32f with SMTP id
+ ffacd0b85a97d-47f8fb6c4fdmr41413f8f.24.1784754117241; Wed, 22 Jul 2026
+ 14:01:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amDVQopyvolxfX8K@gourry-fedora-PF4VCD3F>
+References: <20260722124931.3159664-1-hch@lst.de> <20260722124931.3159664-4-hch@lst.de>
+In-Reply-To: <20260722124931.3159664-4-hch@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 22 Jul 2026 14:01:45 -0700
+X-Gm-Features: AUfX_myFnH_OaKIVvcOPcgbNKPlzrgaHUDbZ760JNGIOLPsUeq3W4FF1lWRG3bc
+Message-ID: <CAJnrk1Yp_X_qKgBFoQ2JwC8DgECZ09x5xsnj83iAQ8cDeXN2dg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] iomap: use GFP_NOWAIT when application for
+ iomap_dio_simple allocations
+To: Christoph Hellwig <hch@lst.de>
+Cc: changfengnan@bytedance.com, "Darrick J. Wong" <djwong@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, Carlos Maiolino <cem@kernel.org>, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2026 at 11:40:06AM -0400, Gregory Price wrote:
-> On Wed, Jul 22, 2026 at 10:20:00PM +0800, Richard Cheng wrote:
-> > 
-> > I saw the reply in patch 5, so in fact there's not only one
-> > dedicate zonelist, but numerous ?
-> > I raise the question because zonelist was supposed to be a
-> > global, unbypasssable thing in MM design, but now what you
-> > are trying to do is to seperate the whole global list into several
-> > parts ?
-> > 
-> > Can you explain why in current design you don't consider to support
-> > something like ZONELIST_PRIVATE[n]={0, .. ,n-1} ? that's my imagination
-> > of what a global zonelist should look like, no matter private or non.
-> > 
-> 
-> First let me say that there's nothing that prevents us from doing this,
-> and we *could* make this the default case - but this decision was
-> intentional by me.
-> 
+On Wed, Jul 22, 2026 at 5:49=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> For non-blocking iocbs we should avoid blocking allocation where
+> possible, so switch to a GFP_NOWAIT allocation here.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-You caught me on something here - I am wrong about my own code.
-
-I described to you how I originally implemented zonelist isolation,
-which I walked back when I was testing mempolicy and demotion.
-
-The current code and the comments in the code are correct, we get
-the following zonelists.
-
-N_MEMORY : 0,1
-N_MEMORY_PRIVATE: 2,3
-
-ZONELIST_PRIVATE[0]     = {0,1,2,3}
-ZONELIST_PRIVATE[1]     = {1,0,2,3}
-ZONELIST_PRIVATE[2]     = {2,0,1,3}
-ZONELIST_PRIVATE[3]     = {3,0,1,2}
-
-Meaning everything except for MPOL_F_RELATIVE_NODES works (because
-of cpuset isolation, but more on this in a moment).
-
-
-So what I shipped here is what you are describing.
-
-Looking back at my notes - I realized a few things that lead me to
-walk back that isolation:
-
-1) mempolicy makes more sense this way.
-2) reclaim/demotion is easier to implement without isolation.
-3) The individual service checks and nodelists handle the rest.
-4) It overally just makes more sense.  If something breaks isolation
-   it's because there's a bug, not because of a structural issue.
-
-For example in demotion we do this:
-
-demote_folio_list():
-    /* Get demotion targets, find the best one, and demote */
-    node_get_allowed_targets(pgdat, &allowed_mask);
-    target_nid = next_demotion_node(pgdat->node_id, &allowed_mask);
-    migrate_pages(demote_folios, alloc_demote_folio, ...);
-
-Where the first step already filters on CAP_DEMOTION.
-The result is still clean - no special iterators needed.
-
-What I realized from your questions here is that since i walked back the
-zonelist isolation, I think i can actually include any CAP_USER_NUMA
-node in cpuset.mems and allow parititioning fairly trivially.
-
-I think this might be the last majority complexity falling out.
-
-Thank you for the questions - this has helped.
-
-~Gregory
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
