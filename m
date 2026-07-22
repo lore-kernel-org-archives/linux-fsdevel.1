@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEE6149C6F;
-	Wed, 22 Jul 2026 12:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FED2C11CA;
+	Wed, 22 Jul 2026 12:55:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784724721; cv=none; b=PgVTxE9e2evev8MfGP0kzfOfftDoxRm9qib7CiJZ6JtVa9brpSLYxtUgjXsNUUZ0EebLUolfTpMVui7oI18lg3kMCtoPQAvtfz3AbHLQzErWJmBUVJPmrHDuhRxBffLDr2fmB46FG9Y5Ubbi8b5dTx3iMD5xujQtU7A1+TQXb2w=
+	t=1784724954; cv=none; b=SYDqMugp1Vc7Eoltf41peYuLEnFhNdZzXEH5nA0fuck2G/Ir0BmiBLDSELrjZcX4V31XM1wZHrNKNoFdv0+IeGs/G02L37Go2yI+w3bZIEqy9KDNOpw9farblGwtfI0N/TPw4PVD3Q+1BC/fO7iHQC4p7WraPhTiK0pATdYDSkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784724721; c=relaxed/simple;
-	bh=DQIYlITP/tkXLuLIhS3vGH099c37up+g4gkxSl1ZIi4=;
+	s=arc-20240116; t=1784724954; c=relaxed/simple;
+	bh=axG5SXmNf9WMitJsh4sW9lrnxoEkRDoQwizhupNVMGg=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=leWOVHPWFrz3wnILjh6Ted0ikZKWkdmiTJ1KzyVtcsy6P43QliF73ZWrUx4U+hVisMlE7JAZW+nhgVIH676aynnmbE4ro9aqnC+m1VLuVSItozwCzvcTD5R2ot11tGX7WHLqRF9B8fqQHcd6qU+KkeUc18i72PoHOiEkV3NcE0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5V65y9z; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=OUKFn3it47FZJXxaWGsn3G54IRhKrQ7wgwaFKHvDSIbbwqO4n1mHv0PqJwuPgClchNBv0skL6jC/s3DVlD+C8Th0zgAuKZrbbKdHg/FxytoUjs7xq78TW5WcRPCBxuAMk3dr2LLWBcWIRsGJuRrhw14NF93Pfce9Xc39idRdw/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfWOGX3D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5V65y9z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3279F1F00A3A;
-	Wed, 22 Jul 2026 12:51:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfWOGX3D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235791F00A3A;
+	Wed, 22 Jul 2026 12:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784724720;
-	bh=yD7S28WEjjitKHYE3fBInmdRzOfhYRPfNj6J7TxImEE=;
+	s=k20260515; t=1784724952;
+	bh=7yV6eDaODahotylKaj63jD/buNSAlSi53kxs1uoxXgU=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=X5V65y9zxyDljLcu8mxZXoly4jQhMR9cnZVhX5GT+1aQICmVSGGoZxd/vph5lNOyM
-	 jc3QYzOsg6S7L40jIZHBQfbz38S6acJuFarBV55oBDEy0SIeJo1lPhpVWBbMBhcska
-	 ZE+0mLzRb2w/iOYySHd3WKG+H6QPPat66+wGKwHjW8EEITnGyPNz6msJO/vw/XxZjX
-	 fRLmDQNuyRpBEIG3zW+aHNTTHowkQEHgs9Vi98gWcff41pvv3sFiv6Gzol/SlB+tlm
-	 c0GbQoBxNVs1RekdTrjX60WcN7IfZ5+siuMXuuQfaI5IO2YxXQ1YNHvljvgB66rYcU
-	 Jya2XqBbmrneQ==
+	b=FfWOGX3Dnt8SCuSHDSNnVkt1VslUOjuqR7MCwpTpEQvs+xtjAEO5rZD0dLO0ejPma
+	 p06Y+mvcTxU69pTNF+GTlRElvCOpWFhUBShNFqQc7Veuxj91enKyy5im2G7VgnK54L
+	 QpnxSWwQsq6pQg64/h9+ZbzH8EP/pP0oDwfC5FvCfeAhxG3edPfE+8p6c9r8UDKz54
+	 ZMNOE/WkneUA4aMWINnFS/0GEQ4wSI+lMV0KT24ykcJlEQYYBxCRkiGb7btEOgUa5y
+	 iT80Zm6DQCyJE4K52YQ2mpoNYltqtT0Tr0R6+UAvOx0CpxdKpfBRFgYMhpntVK9HS2
+	 cmxcDUAd0l5Nw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,42 +34,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Subject: Re: [PATCH] netfs: clear PG_private_2 on copy-to-cache append
+ failure
 From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Pedro Falcato <pfalcato@suse.de>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, 
- Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <alS10NN_OduZEqvt@infradead.org>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
- <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
- <alS10NN_OduZEqvt@infradead.org>
-Date: Wed, 22 Jul 2026 14:51:54 +0200
-Message-Id: <20260722-mundpropaganda-vorwahl-funkverkehr-48efdde92a00@brauner>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260722071310.18593-1-chenyichong@uniontech.com>
+References: <20260704050603.427472-1-chenyichong@uniontech.com>
+ <20260722071310.18593-1-chenyichong@uniontech.com>
+Date: Wed, 22 Jul 2026 14:55:48 +0200
+Message-Id: <20260722-wahnsinn-wellblech-jawohl-69c279e66bc8@brauner>
 X-Mailer: b4 0.16-dev-9dec3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=599; i=brauner@kernel.org;
- h=from:subject:message-id; bh=DQIYlITP/tkXLuLIhS3vGH099c37up+g4gkxSl1ZIi4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl7HmjYXZj09OD5UbB04s4pA67TZjbvanw1ubYGf4fZ
- N7d9fK831HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRX+8YGZ5PYnPj3Pi54861
- wBc33ape7n0sIlN/SzFm4u5rzVP4r4Yx/NOMry+5r7rqK5cpP0Mqz4an0cr6jzTZ0k90c7U7Gq9
- v4gEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=190; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=axG5SXmNf9WMitJsh4sW9lrnxoEkRDoQwizhupNVMGg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl7L12+ohe+66YbybLv3voTYnr21tS5/Pm0qPCiPsXC
+ muZd8mVdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkRTDDHy6fKZN2vWFODJdY
+ V/DYat+XI8sEjI4rHX3126jOXdXlhBQjw+85OwJDP01yFPmwdovcbtP4UAeJjOXPZ5T3fghSl9R
+ 5ygIA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> No, we can't rely on something being backport to old enterprise/cloud
-> kernel.  Doing so makes the interface unusable for actual applications.
+On 2026-07-22 15:13 +0800, Yichong Chen wrote:
+> Hi,
+> 
+> Ping. Any comments on this patch?
 
-It's backported to all LTS kernels for multiple years and this
-nonsensical theory of using a software version with O_DIRECTORY |
-O_CREAT on a pre-LTS kernel from years ago is just flimsy.
-
-Even just the mere fact that I was able to just backport that bugfix
-that started returning hard errors to all LTS kernels with absolutely
-zero regression reports defeats that argument. We've done way more
-invasive changes. This is a strawman really. 
+David will pick it up and include it in his next round of fixes and then
+I'll pick it up.
 
