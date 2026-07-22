@@ -1,115 +1,86 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B7534040A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 13:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCB934C806;
+	Wed, 22 Jul 2026 13:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784726832; cv=none; b=Gfqqq98XrRAzemfZKH0kFAXUdiut1Y5bMZ2yEUP4QbFZQqtGrAmXMPQGxJgCfQyDJU8gjgedfHL+9rkVJp6BNZ7XkDE9FKYBzigQOnNVYWh2Z19QE+2IuitFaddTRUHW/v7RAF0xvyM4BrztmIDKuy4fWwsUwOENH17IGAK0tm8=
+	t=1784727228; cv=none; b=oP1kZoGh+PEekrYorEycPWOiHrUDS57BYXovBNbYrsBZD0j5f3tcFlC3xOl4/beRjvJjTEbWx7yx8638GO0sIYX1iT0FMpsLdRtG8Pd3RIJP7gzFbWeN98JkkXQ394PgZg8sHS3f2e1oD7TXuOjN0YyZ1OALzrrwVGXT/cLymHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784726832; c=relaxed/simple;
-	bh=ThJS8kQC1lyDt7HVuDS3gsyTKZWnYBBr2K9Vr5VYfBk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=AFh6EpUqHc6AT7T18AqeYEZ36CjKm0mTkXf+tV2Hp/oFUsWziVt0uXjOt1VWKPVc+Sc+ebdBDA/85xQ8he9k/WTNUpsDSXIQ2IUN3BYh3SPPVV/1NBhgSuzfbW42NT3iUC0HJB6cAT9FsWCtVqvnW70RUb96QGWkO5KRkmMjYDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=RyVAgi6o; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1784727228; c=relaxed/simple;
+	bh=OSnqiWFGrRlyva5O8ZuwHNaFEVyx2w2j82qJYYjirvU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=GTy3mdP/7wA9GaBJnroQeE1U2sCJbzJW+S78aFquX6CmMNNDbj9fvv8Qmj4LCTSDNLgsFocE3Q/az8z8KRIQMFaGm/IXd9Vy8aBmAX65j+kMU3zarjP/opwFwm/ptwpn5cKqP11bF+XM7U+DIkcKdH5NIv3UlVHCxHHDwvrGOMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyFz6jKi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="RyVAgi6o"
-X-KPN-MessageId: 09b941d4-85d1-11f1-8f54-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 09b941d4-85d1-11f1-8f54-005056992ed3;
-	Wed, 22 Jul 2026 15:27:08 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 09b819cf-85d1-11f1-ae89-0050569981f5;
-	Wed, 22 Jul 2026 15:27:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=34cfnwifCy5RIEQFZMc/WICgSXla8u0z6EY3+zhWjmo=;
-	b=RyVAgi6oNk15xanzeCj7gmpc7EfPLRyNebKiQ49SmB7ouxWMJI2dmesA+8Q5rr0ZS99JZSdGJU8k3
-	 /ktyRYK/PWJfPB28KywiED0b/hbueX0fRiLYeV88fKd1HHc/IGxhcc4Ee47Z+V3U0lhf51RJfvjbYC
-	 RaxI96Iet0JRIcas5r02p3/eCdLzejkcSPz5zSBGwfoyRlnfnExOXrDtNGLKOsZne6Ha7cSRQ/q+r0
-	 RRCjwozDFoUATCEq8JT9h5qi+WfYd76MGsIq3vaejFDNWiX479N03P8UG2qAq2ngUqiUYsdTFIouw1
-	 KQfzKd3lX6KiqmMRM0EPjHZikqfSHMw==
-X-KPN-MID: 33|128Rxe5x9dzzpGjIEuntcbGn7XASwlrAGY+TcLht/MrDO1PFv6asN3Bz2+/sGsr
- JvOEiyiVfcSERgeSYRDwOEw==
-X-CMASSUN: 33|rOmBz37bBSKYg4mQQ/qWJ4/bhyyedI03X/flEUlBnfqi3tKXf4NJbzUgs0kZz8G
- PbhwxG/TG48cIZDHqVqQbzw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 09ad7b29-85d1-11f1-916a-005056995d6c;
-	Wed, 22 Jul 2026 15:27:08 +0200 (CEST)
-Date: Wed, 22 Jul 2026 15:27:08 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christoph Hellwig <hch@infradead.org>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Jeff Layton <jlayton@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <987276143.170754.1784726828216@kpc.webmail.kpnmail.nl>
-In-Reply-To: <amDBQN5lCGbRxGWm@infradead.org>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
- <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
- <alS10NN_OduZEqvt@infradead.org>
- <20260722-mundpropaganda-vorwahl-funkverkehr-48efdde92a00@brauner>
- <amDBQN5lCGbRxGWm@infradead.org>
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyFz6jKi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8D941F00A3E;
+	Wed, 22 Jul 2026 13:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784727226;
+	bh=sTK1rlUFrmHBMlWiK/OncXT4tl+4gAfiT7OvDNlVqXw=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=JyFz6jKi/8sLexgerCnnlLz0zV0n78iaKObh9MK6Uez5siWAAn2pIsRabjenQjuGb
+	 d7stkffV1HGriuKQgVAjmdUDDEhbwR3uVkMZps+evmzNs71uAyZA+09LNqi2Kw40lL
+	 3BqME8yVYHZbg8sbIuWx0GDY/czPUFkgIKBHSiq42vB736jU89LBrrO8lrwqBt1ULP
+	 x3SknDCyG8gEsPpxhCneyaEif2oC5wK3lJgYZOdwmCjzI4Xbu25gMVsjuB77J1fuqN
+	 SfiB7gZPAxeQSiBlJ1XLNrC+Ny42d8scGr961A20CWkbfGpN+AFox/Vp9Unwk3U2Ed
+	 N4LbdpLn+SzCQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
+ interpreter selection
+From: Christian Brauner <brauner@kernel.org>
+To: Alessandro Di Federico <ale@rev.ng>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, david.laight.linux@gmail.com, 
+ jack@suse.cz, jannh@google.com, kees@kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
+ shuah@kernel.org, viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
+In-Reply-To: <20260722011217.45e79a08@spawn>
+References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
+ <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+ <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
+ <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
+ <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
+ <20260722011217.45e79a08@spawn>
+Date: Wed, 22 Jul 2026 15:33:40 +0200
+Message-Id: <20260722-raser-leselust-konsolidieren-05f8e36a0782@brauner>
+X-Mailer: b4 0.16-dev-2f6f2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=897; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=OSnqiWFGrRlyva5O8ZuwHNaFEVyx2w2j82qJYYjirvU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlHNt2svu4BouLxTaj4woqR5YtP+x/Y9XsZte+1I793
+ lfvaBrs6yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI/qOMDL8fnliS92lTMp+5
+ H1+LxmTXRVbWl47laBgleWVXPnXb7cfI8NfsicCsy2+cV7rJTjCY/P9NmXDCkTWzv8X+0Lsx+Up
+ FBysA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
+> This patch could in theory solve our problems, except for the "no root"
 
-> Op 22-07-2026 15:10 CEST schreef Christoph Hellwig <hch@infradead.org>:
-> 
->  
-> On Wed, Jul 22, 2026 at 02:51:54PM +0200, Christian Brauner wrote:
-> > > No, we can't rely on something being backport to old enterprise/cloud
-> > > kernel.  Doing so makes the interface unusable for actual applications.
-> > 
-> > It's backported to all LTS kernels for multiple years and this
-> > nonsensical theory of using a software version with O_DIRECTORY |
-> > O_CREAT on a pre-LTS kernel from years ago is just flimsy.
-> 
-> the kernel has always ignored unknown open flags, or unchecked
-> combinations and you can't just silently give them a meaning unless
-> it is backwars compatible.  That has nothing to do with this particular
-> combination.
-> 
-> > 
-> > Even just the mere fact that I was able to just backport that bugfix
-> > that started returning hard errors to all LTS kernels with absolutely
-> > zero regression reports defeats that argument. We've done way more
-> > invasive changes. This is a strawman really. 
-> 
-> Of course it didn't break anything yet because no one used it yet.
-> One we give it a meaning it will be used and break.  And if you like
-> it or not, a lot o Linux deployment is not using recent stable releases
-> or even tracking the -stable releases at all.
-> 
+We're not really enabling $ORIGIN in core elf unconditionally with weird
+escape hatches to make it fit for a subset of binaries.
 
-If you want your software to be compatible with any Frankenstein-kernel
-you just check what you O_CREATed is in fact a directory. If it is and
-there is no EINVAL/EISDIR, you are running a supported kernel,
-if it isn't, you're not.
+> > In any case, I think it wouldn't be crazy to allow registering
+> > "default" handlers that appear in all binfmt_misc instances if needed
+> > so containers with separate binfmt_misc always have the bpf program
+> > available. [...]
+> 
+> Maybe we can have a "default eBPF program" loaded for
+> `PT_INTERP_WITH_ORIGIN`?
 
-Or you just require a minimal reasonable kernel version.
+I think this could even just be part of systemd. You ship the distro
+with a file for that in /etc/binfmt.d/ and systemd loads that bpf
+program for PT_INTERP_WITH_ORIGIN. Then you're good to go for all your
+binaries with the 'L' option my other patch series adds.
 
-> Just like we've always done in the past we'll need to APIs that don't
-> accidentally do the wrong thing on any old kernel.  We've survived doing
-> it this way the last 25 years (maybe longer, but that's about how long
-> I've been around) and there is no reason to magically change this now.
+This is policy that the admin should decide, not an arbitrary extension
+into elf core.
+
