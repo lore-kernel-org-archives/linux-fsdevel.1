@@ -1,196 +1,125 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561C73932D5
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784733873; cv=pass; b=I+m8NTxN46wqMoq8zHB7nwCk2M8YceDnmEykKncLHcVL9mzxpnWRJcQyWK0RBwYMHOejsKgnH+E39OJbr2oKkO3+S9FUjVxQRZfpNm4Q5Sw2An4aw0tOSfS6JJ+/J+Ug6ST21BOhksKIS7po1pC5r2CGXJkcBhgfLsFKh67peqw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784733873; c=relaxed/simple;
-	bh=FmqQi9tHDOGtMRA8eYccGrCqdDwhdIqG1ghsXPY1Uts=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NW54sbgj/DuX/4XqNKKAFilpIQXSTHgKDPo0HiguoBCNEMji3Zfz811Ek55r0VNJcw/vS87jG0kghiGjF3uPKmY2Twdge3MDeK0ZP1FkGy2agBl1aKokv0WXDfnvccLegxodWqWmbICBpxCbT5qYDMfTDaidWngRfvih0Fbklb0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=id3l4Dsm; arc=pass smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846D33B14DA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784734531; cv=none; b=izXeOjVhAgMSp/e5ulvD4fCJCqcDBib59rVPshUHkNNfLKKau0MGHtDkmVwOAnpWUh0KhYXGr95H/uKEhBU4hBIfJ5upFLE9helsVL5WLpjLNOHEV8mpNkBucYQHRvtq0uDLTpyp53w8TG38b9RCDJVgXAhZwKpFcHel7rp+1cg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784734531; c=relaxed/simple;
+	bh=6HHnuM6fG/lhvHHDzxaWxU16oVEOtCL+iVgib0KAtJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sG3wrjIHVDAvusJ8n2kSx0umj5As6AponHlkB2chUBD938JC3VVdDYDW2h0MCdp7EqmEJv50AYIP1EPqAOvK5VSRvfs5zfD9qkqLYfi5r3kFPh1sws9c8SEWJBvc0DnNTmwGx49hNfxH2WxVqMbDaDQAMH3LUXc7O8Xyc1zbOnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=K7A1suCT; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="id3l4Dsm"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e50a650a0so764749985a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 08:24:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784733856; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PxihdJ1xEWTUR82o4HPkEkC0cxg1tBDPDbKNfGRoTj3YfmOL0/6Mwuz4GkRj0693PW
-         Glz3vtfnH8ju+v0HmiNW/npWEtgkVI0eHhX43B1k+PrGlvD6LPGtRe0XPoB6v9q8/pfQ
-         jt2AjXlBEKmxUnW2tCjR0MgJeUDjOqPEwEWpafoqL2C0Xzfdbg4OI4JsTHsTgoijW8Qo
-         FQ1ynDmjmuKOxsTmHJZjv8eXGM4Tk0jTgmXzLKJSO/bnXNi7hnwLolnFUX5JvdbmoAAL
-         z548xzfEcYPE/gPLJmoSlQgD72qESv2qjJMz0F18Cyu7CvlV38G2jugEO/UQ+sYlTZdl
-         dVQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        fh=vsvcadVHMkUMgrtB5fzBTfwcoH+2+1y+0EPGkeIQxw0=;
-        b=qpPq6H4wC0PTPFRfsBSyDDWO2ZAcqSkJ20fa9lcxbuPADqcsoqcx2twy5AgmvQjJyz
-         O0nx5NjYLmZMLL4lSB66E0gu9XSADdt7q7HHKYs19r30dJ+4FcrPHElBm90zPJvKGCql
-         FvDzrKj5OdlXjtNMJzflhD4zCmu08AN4WoPuYZ/RbZ2qiMDQrOJARyZ3d1c7VLlZwpJo
-         l+42E1pIOvD/cJi+viEXi2HVFIk9HPhfN8ej/Y68B0bkVbNxbuuvUh3C4Uhg9C9T0gAN
-         p1Qc59JbMjWgsBsncoycR8d6gLyXuCj+23u6GOwR1mUzDQ419TNq6yrCvnmMw8apC9x2
-         xYXQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784733856; x=1785338656; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        b=id3l4DsmZgREBbR6h/yxiO8eKv7LGI8EgxPiuuBbKGEHhiFxQwAxjladnBswED/Qmw
-         Ax33XN2mHBzIUzHztECMTaNs72eqwSZtXmZaaifQAOiIk1JvMm4VNBEOaCCSeomIAJO0
-         bmRifZH5PIDCqagNJN3TFMKqmosgxKwkzoa5k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784733856; x=1785338656;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        b=I8bQ2bDeYoVjxm6K7lDuFVm514MofzgbFxm8TK0dkwb8DC3Dpyi6/1jvcB4bMxq/H8
-         bj6r40wnetRTOXKLwSfPBOcnzD767mndZtxOoSvjN+LkEOUo/HWWG16hnZuwfI/26KdS
-         UWAmH/Tu/fyZAjkBOncbYot6+KvsFIi2jZvahip4cCs2UXgilWIskrwf7pW8bxMONl5f
-         F5g2Mw9FWWaqDR8AD1xEZkqoREpxgHh/QFAM1IcA14K2LJMO2sEL1pCZzG1ejRfJbSDz
-         3enmW97/4l4weIDm2h+q1/XVeXmFN0YmaHVz5RoQaJxWf/XkURmEkCUj6UDTPrEGH8cl
-         EHig==
-X-Forwarded-Encrypted: i=1; AHgh+RoCTp3wxllBEnvKmRLyynDTfQHujYnWQMUy/X4y2boVOCarGepaF4iFQj6qkBngNRKkgUzl4YXBopUwCjGT@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG/KCK4XOgOWlerg6p70QGu1CoFqL3zhpaZEBLcQ35k1EQqCkV
-	0yXLPAuISeJbn52E4/aTPAcpASmUguCkbFDsKEv4dX05KzEz0wiGPbK6GdefDBeBGYq6ZpNm9Hz
-	zlbVogp2iEzkWei7pbZMzbHj6rwMLPe+yP1w/j56I7A==
-X-Gm-Gg: AR+sD13pgzHSe1koZnuRslAe5xxcLYvNB3+a+5AbiwPkp2lOnLgjpPrBDPlMY2NuAFC
-	emNA02zLpWK7cW4D0claWQbcyW7Uw5tavcdLjbWd1AGO1gCk9VhLWVb6HNVoW8DPHwZIDNKhgrJ
-	7zy6qmq8XSVpDv1anx2EmhxGq67VDjAR1HcFaJ6y+atmorIvT0VsA1VtSasXKe9jGL9xHwfBBf8
-	eoZvvr1VIaknMnk1bV1YEt7Dpe614O2dIRQdWL2WtxAWmzEw0DRJN+EeFZAeeS3GtW4G81biteQ
-	iDggP/Ajak2BMc64yQ==
-X-Received: by 2002:a05:620a:2844:b0:92e:9cb3:3f71 with SMTP id
- af79cd13be357-930b3ed66f6mr2281752885a.36.1784733856139; Wed, 22 Jul 2026
- 08:24:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="K7A1suCT"
+Received: from macsyma.thunk.org ([104.135.218.88])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66MFYH17032533
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Jul 2026 11:34:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1784734463; bh=/XVAf9v4NJTOhwslkTBHwx0MifNIHYg+F6jgSYaisLE=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=K7A1suCT0FQMfJGAljUD/0TLPbcAbvPUnohCBMVp1jWGj3dn8gNBy+eNslIZ1gw2B
+	 HznDOujpIR7USvbRBKYkjRCRC5UhzAnzT6sPBhVjX9Fu5W5eXf/oGKTd5jpvn9CE3R
+	 g557xFayM1vIs3S7TLoAmcjRCBAeBeN7I50cQWOdxKB+tYiSIyV1r2mSy0KQmdsxqh
+	 Lf0RhghBE56wg7RNPDeu7RUNNA7gTk7iC9S1motbxT9QRsdidmquZXuiaPy/E657dX
+	 d5QQWAB8kwDWR7E6KHmGnZfVdaMOJ9R1hk+9MrggBMD1dsK+1/jYJuBvjBEILAwWB5
+	 Vxp49Vbbm/cnA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 1FC21BA65EF; Wed, 22 Jul 2026 11:34:17 -0400 (EDT)
+Date: Wed, 22 Jul 2026 11:34:17 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, djwong@kernel.org, hch@infradead.org,
+        joannelkoong@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
+        chengzhihao1@huawei.com, yangerkun@huawei.com,
+        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com,
+        Zhang Yi <yi.zhang@huaweicloud.com>
+Subject: Re: [PATCH v4 0/5] iomap: trivial fixes for ext4 conversion
+Message-ID: <amDiuuX56ChS6LO0@mit.edu>
+References: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720034553.68798-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
-In-Reply-To: <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 22 Jul 2026 17:24:05 +0200
-X-Gm-Features: AUfX_mxUSuw0ZWzZWiq2Rpl7efuyYxiFK3IBC4AQjtyaBV6Cq7Rj41foWBlGbSE
-Message-ID: <CAJfpegvkbK4xtQsssn3yrdLn7zZRGB8MeRcauP8mbmJRCnFouw@mail.gmail.com>
-Subject: Re: [PATCH V11 4/9] famfs_fuse: Create files with famfs fmaps
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
 
-On Mon, 20 Jul 2026 at 05:46, John Groves <john@jagalactic.com> wrote:
+Hi Christian,
 
-> +/* Famfs fmap message components */
-> +
-> +#define FAMFS_FMAP_VERSION 1
-
-Please don't use separate versioning for extents.  It doesn't help
-with feature negotiation, so let's just use the INIT feature flags for
-this purpose.
-
-> +
-> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
-
-Not sure if it makes sense declaring this on the user API.
-
-> +
-> +enum fuse_famfs_file_type {
-> +       FUSE_FAMFS_FILE_REG,
-> +       FUSE_FAMFS_FILE_SUPERBLOCK,
-> +       FUSE_FAMFS_FILE_LOG,
-> +};
-
-Unused, apparently.
-
-> +
-> +enum famfs_ext_type {
-> +       FUSE_FAMFS_EXT_SIMPLE = 0,
-> +};
-
-An enum with a single value is not useful.
-
-> +
-> +struct fuse_famfs_simple_ext {
-
-struct fuse_extent {
-
-> +       uint32_t se_devindex;
-
-uint64_t backing_id.
-
-> +       uint32_t reserved;
-> +       uint64_t se_offset;
-> +       uint64_t se_len;
-
-Please  drop the "se_" prefix.
-
-Please add more spare space here (e.g. uint64_t space[3]).
-
-> +};
-
-> +
-> +struct fuse_famfs_fmap_header {
-
-struct fuse_extents_header {
-
-> +       uint8_t file_type; /* enum fuse_famfs_file_type */
-
-Unused
-
-> +       uint8_t reserved;
-> +       uint16_t fmap_version;
-
-Don't use, plese.
-
-> +       uint32_t ext_type; /* enum famfs_ext_type */
-
-Unused.
-
-> +       uint32_t nextents;
-
-Okay.
-
-> +       uint32_t fmap_size; /* Inclusive of this header */
-
-That's the same as outh.len.
-
-> +       uint64_t file_size;
-
-Same as i_size
+These fixes are needed for landing support for buffered writes using
+iomap in ext4.  That won't be ready to land this development cycle,
+but could we land these fixes now?
 
 Thanks,
-Miklos
+
+						- Ted
+
+On Tue, Jul 14, 2026 at 04:23:20PM -0500, Zhang Yi wrote:
+> Hi,
+> 
+> This is v4 of the trivial iomap fixes for the ext4 conversion. There are
+> no code changes relative to v3, the only update is the addition of a
+> Fixes tag in patch 03.
+> 
+> Changes since v3:
+>  - Collect RVB tags from Christoph.
+>  - Add fix tag in patch patch 03 ("iomap: fix incorrect did_zero setting
+>    in iomap_zero_iter()").
+> Changes since v2:
+>  - Collect RVB tags from Darrick and Joanne.
+>  - Remove CC stable tag in patch 01 as Joanne suggested.
+> Changes since v1:
+>  - Add fix tags to patch 01 and 04.
+>  - In patch 04, change ifs_set_range_uptodate() to always fall through
+>    to ifs_is_fully_uptodate(), preventing a false-positive uptodate
+>    mask.
+>  - Add patch 05, add comments for ifs_clear/set_range_dirty().
+> 
+> v3: https://lore.kernel.org/linux-fsdevel/20260713072906.1726059-1-yi.zhang@huaweicloud.com/
+> v2: https://lore.kernel.org/linux-fsdevel/20260520030357.679687-1-yi.zhang@huaweicloud.com/
+> v1: https://lore.kernel.org/linux-fsdevel/20260514062955.1183976-1-yi.zhang@huaweicloud.com/
+> 
+> 
+> Original Cover-letter:
+> 
+> This patch series contains a few trivial iomap-related fixes in
+> preparation for converting ext4 buffered I/O to use iomap. 
+> 
+> The first three patches are taken from my ext4 conversion series [1], as
+> suggested by Christoph. The fourth patch fixes a bug originally reported
+> by Sashiko during review of my series; although unrelated to the ext4
+> conversion, it is worth fixing on its own. Please see the following
+> patches for detail. The fifth patch add comments for
+> ifs_clear/set_range_dirty(), and the last patch avoids merging ioends
+> that have different private data.
+> 
+> Thanks,
+> Yi.
+> 
+> [1] https://lore.kernel.org/linux-ext4/20260511072344.191271-1-yi.zhang@huaweicloud.com/
+> 
+> Zhang Yi (5):
+>   iomap: correct the range of a partial dirty clear
+>   iomap: support invalidating partial folios
+>   iomap: fix incorrect did_zero setting in iomap_zero_iter()
+>   iomap: fix out-of-bounds bitmap_set() with zero-length range
+>   iomap: add comments for ifs_clear/set_range_dirty()
+> 
+>  fs/iomap/buffered-io.c | 58 ++++++++++++++++++++++++++++++++----------
+>  1 file changed, 44 insertions(+), 14 deletions(-)
+> 
+> -- 
+> 2.52.0
+> 
+> 
