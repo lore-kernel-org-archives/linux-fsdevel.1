@@ -1,124 +1,82 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6082B34BA28
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 14:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546EE20297C;
+	Wed, 22 Jul 2026 14:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784729100; cv=none; b=RvnkVe6wDCKlEJsZ7gpv/awhOKM6wXNsyxY5iO/P6BAJ1pR6jntp8y2MBnUeogZHSnOAwCszSBGEbZ1LX+mOoiOWwAiQPlTupTj2YjJEP0ZXzQLi80PTC3/fhdZFpq/j8jjRJ5ftcPkoX9hof9l4Fq2Wuf8OH2hoWeYIGGXhyPA=
+	t=1784729123; cv=none; b=f6hmA1YorTAZpZXR0Y42XDu0SYveLg5NOBgT0DSvKlvZxrYpw5puqAe3WVzrs4/p/YRZkFsgvj5Kd7KqjYyASDsgF9SI8awIeRrO9bJ+nRoR6idOlWS2yy+jDs5F23jvtkjamXZ+fPfO4TlKuG6wMiz49HJrjBhRXSunyepeFUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784729100; c=relaxed/simple;
-	bh=BiKsszl+35xq/ewMPZzGz30tgw5kvnsmDpEO+3lG0vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rCori883h7Wo0tgNYqUHXArHw2vHrVMp0V58FYyNIdbVK/EYACEIFpofdg3JMFr6f9UYb56jScOAMK3rL0Kl+wzyaXLYsO5fY4qZ3mwA8T/ll+rFyGm0KAQ6ZFEdbUjDw/MKY7HUFyswpzgEShEzKtYjfJdOjHuB5+8D8m1jzHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=mrvhPX8T; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784729123; c=relaxed/simple;
+	bh=NkMgz3XcvUYpMVsg3I41zevy0AXHrUEhE8RUYHQdumQ=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=FIhRr1ilQaJwR0YcqE0VhLbnA8Z/n8M/9Mh/CwWZewmNldiBSJFsgmZ66N8aP8/i8DCA3eF9TXed3hdQ2gi9tSvtDQ9yS2jRf35MlRvVtKi3Bq/PCoXZA6RUVSs8jKrK+oKcpP+Tpsg4fANJVOSFn4MWzCGm3hJPN56kKGAhxGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCv3IeIw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="mrvhPX8T"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e5d6f35c1so1112499385a.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 07:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784729097; x=1785333897; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
-        b=mrvhPX8TYaW6OdLHwE1oVXsMQJLltg7gssKp5utqf/LuYMMymUzUMHKiHysM64pTuL
-         L8ZJEzSGtBUdGHqeoUS/ZfnQohfr5G/UrhC/wRUH3KEFfdFHNSA50wlsbw2D2YHpykae
-         ihCSsUC5m6IS7Fmjzsof4Ps0QyK2W/EjkS+7y09grIz4VVqpiGjn7sXKLdzKT/vQfG/B
-         FoUnOSa9uvT9rWH0HIZMJpxdrLvtqqPMzscmxRRoeGPXyeBHamY6dRkeIHPPOFi2zbom
-         3sQoKh5VsE/T35TkORWJZ7BdBRwCVaEy85AwnwuwDRQCD5ybGnugX0rapf/PmeW7sZkw
-         vl+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784729097; x=1785333897;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
-        b=T7TyomTMKgwAgT92+MzidpFwgdeKBLZhnyrv4QVO2BYYQrHZOnHSDoA7XGoNBwPp18
-         tKaokXTxoFpUhh8U+U5N7/+VF1Epys4U/Vg7N/Wye8sYH0PjPU5Gr957g6ORWRp0e4OR
-         gVt4IvgPbISN+IXYu8+Sm76lC5AGaDUDr6688myP58HA8wf6LyNTlDkaEGfDSGVHL61o
-         161WjpalgnAsQEHjMLl+IWhDIV53QhZWB8drAd/Zzv5fHt7MIdQKvnubZYWOB2cFq3BP
-         b93OhzRsY6Bv5D8HgHsWEkJc54JR7/em1D+jSC6QGvVKEVGUsA/0H0fn4mWytAygHxs0
-         ceBQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqckQV8eciji6fjb1wZOrXUtXdvPvQItdJR6VNNi33NKt90kBpdPOITRcQodInA18H6U0Qm8CYIWesCzoxU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDU4sp5QnVYpCLON+ty6k3Yp1VpSwTNrMToAR9X+ZV80CVDbLG
-	Qj3NuY69Mpd/zVG5BrL6ZAsIqqvp5nRBqTLDJ3kik9+DBlgPV9IfCox2ZWFZfbzp85c=
-X-Gm-Gg: AR+sD12JClXYLGEfl6LvagpqDehxob2Ve+7R1gLgUQGd+mW1+hpnd7cP46rft0e2zz1
-	AAFjM+YV2jscMDWoLrD7/R2haRtgw/fyvSUQ4VIDEPy4pORRHIEYlbYuD2OfwzMLScEdPd80poA
-	KPhsm6aOQZL/0dYeWguHZy07MMzKKO8/JlvLRuiWt1bzT7t9MPtVO181j48ulg2bSB0/nImHxtK
-	LXB4iDWBe3qoPvPpQCIkOXgDdyoyJ3qsDblDPO64wi1rXjvL9xMxK87qJaVzuP999u2a2uNQm/P
-	y6uUP4bU5ZtXoqz9h/cemwE+DgpipS/6JQTlhiRqN52Ebfzsxgll58npFwdCjOdrlbnHoHBzaEm
-	Uugvu3nZc5gicxGuUnpHXPE4VFpCMCkCgEx+5YL7YmzNbbAhEPhq/e5T8vSIKN54DF/fOs3JyWA
-	zG4vLOYvEYomincGMZwlQJXBUwRGuzRPzMYWtKY+Ilq8fjQXAbn9+TH8+d2w==
-X-Received: by 2002:a05:620a:1992:b0:930:f7ee:2cf5 with SMTP id af79cd13be357-930f7ee3792mr215753585a.66.1784729095553;
-        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930f68d5d6dsm171863585a.20.2026.07.22.07.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
-Date: Wed, 22 Jul 2026 10:04:49 -0400
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, balbirs@nvidia.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 28/36] mm: add NODE_PRIVATE_CAP_HOTUNPLUG for opted-in
- private nodes
-Message-ID: <amDNMmbdE_ZhUgl1@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-29-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCv3IeIw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7F81F000E9;
+	Wed, 22 Jul 2026 14:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784729122;
+	bh=QArlNFaj910WCmfnCbBcS8ZRcZIb7eEuICA5KWW5sxk=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=fCv3IeIwkWtFdpusm4Rpg5jReIOx0jpkjGupCPn3B9w/hPQeU8LFyjttKdSGjfGdn
+	 i/fczgFjR5rwsTXaombByYRlXUtNfPiE/kO9H2NRrJFPDWNmT1Sx7GEa+TQLOT5AP2
+	 1Nctx2lvJEpIUb0pF0eUbS/yxHg5xIOjrrhYrJssee0U7GJNe+htFtbs7h+BZo7+zi
+	 xQBAgenaJSb3DNurio1eSI5uNSvnZ0BZESWuc2FvSr4tBrBWJtqHp7MZH828Wb1r4z
+	 DmxW92Qv3OH4rfnOWBfPAJ0kSDlT0Ky7oEtSuVNQGv9Lxkr83GVSMe75TGJ4ecCgUS
+	 Sq116GBa1NlYQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720193431.3841992-29-gourry@gourry.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] binfmt_misc: fix leaked write-access denial on F-flag
+ interpreter inode
+From: Christian Brauner <brauner@kernel.org>
+To: Aayush7352 <aayushdixit924@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260721095659.80690-1-aayushdixit924@gmail.com>
+References: <20260721095659.80690-1-aayushdixit924@gmail.com>
+Date: Wed, 22 Jul 2026 16:05:18 +0200
+Message-Id: <20260722-zuteilen-saalartig-bedienen-74ac85d0a84b@brauner>
+X-Mailer: b4 0.16-dev-2f6f2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1153; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=NkMgz3XcvUYpMVsg3I41zevy0AXHrUEhE8RUYHQdumQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlnFModpv3t/7jt6OnRNPL/jMxfi3srZ9o3JyY+Ke9T
+ npPZrVkRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERs7jH8L/NQmvAmQuCcxY2L
+ Tbn9UrOm5vZ6BR9eNXVT1m09jQajMIY/fDf/S3fHLJ0wSe9Xyf3DM7/PEvy17mnki51JOeHHNSK
+ vMgIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Jul 20, 2026 at 03:34:22PM -0400, Gregory Price wrote:
-> Add CAP_HOTUNPLUG, which allows memory_hotplug to migrate a private
-> node's folios for the purpose of hotunplugging memory.
+On 2026-07-21 15:26 +0530, Aayush7352 wrote:
+> From: Aayush Dixit <aayushdixit924@gmail.com>
 > 
-> Without this, hotunplug fails if any folio on the node is allocated.
+> put_binfmt_handler() closes an F-flag (MISC_FMT_OPEN_FILE) entry's
+> interpreter file without restoring the write access that open_exec()
+> denied at registration.  Every register/delete cycle of an F entry
+> leaks one i_writecount denial on the interpreter's inode, so that
+> inode returns -ETXTBSY to all writers until it is evicted from the
+> inode cache or the machine reboots.
 > 
-> Add node_allows_hotunplug() - which returns true for any normal node
-> and private nodes with CAP_HOTUNPLUG.
+> The registration error path (add_entry failure) correctly calls
+> exe_file_allow_write_access() before filp_close(), but the normal
+> teardown path in put_binfmt_handler() was missing it.
 > 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
+> Fix by adding exe_file_allow_write_access() before filp_close() in
+> put_binfmt_handler().  exe_file_allow_write_access() is NULL-safe
+> and skips FMODE_FSNOTIFY_HSM files, so no imbalance is possible.
+> 
+> Fixes: 948b701a607f ("binfmt_misc: add persistent opened binary handler for containers")
+> Cc: linux-fsdevel@vger.kernel.org
+> Signed-off-by: Aayush7352 <aayushdixit924@gmail.com>
+> ---
 
-after this question:
-https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#m5b8166212a276fece2380f2dd03d6864375a576b
+Sorry, there's already a fix in vfs-7.3.binfmt for this.
 
-and some off-list feedback about limiting initial cap bits to active
-use cases, I realized that this CAP bit can be entirely eliminated.
-
-hotplug notifier callbacks already allow a driver to prevent memory
-block state transitions - so that control already exists.
-
-v6 will remove both the filtering here and the cap bit.
-
-~Gregory
