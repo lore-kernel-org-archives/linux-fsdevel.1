@@ -1,131 +1,137 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D160A2AD3C;
-	Wed, 22 Jul 2026 00:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784678904; cv=none; b=S+Y8cE6kSZINMrL2lMxQmOu6c7Ve/eI0zNOmdbByOdx8Rxg9bNa6kW5YxVmeHtOZwh2fcfQggpx+fgQm2MqTfUBTAYz6seNebGQFO7q2KEhpPH2HW5v1IVHADccOKzPQ5CvBz0xqRsAG7gybTXxH3qEXWAsSvz0Sn/XQ6W/HDw0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784678904; c=relaxed/simple;
-	bh=21PJ+cBTbvH6ddPplLENCaMmJ8ImER5umbN+xBbjsUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fzzB1FSFbi14jJTBw7KGvPyyLlSikjpfX7gZZlFcqxXMBMg0DtbYvoXCGONvGkOHlCX/nnO9iqKemMGJfYR4INHkNf0+vk78ezi2Htn8OR8bEEgRB03zKUIsn/aU3gQ35TjuUQ36Oq73WCTuxPq/tsZrS1NWySV4Tuc43ShopSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YRJygKFx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873C02EEE62
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 00:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784679883; cv=pass; b=g/sDykrk6agsMlddagV2jsAwtY7Z2DJIGo5Tg1JUlzwRM5Znr2ebHbyBXprSlRwbD758cUeLlFiOGC6KD30w0F8F7z29sziJ3UI4NpTgaVm84WfTmG5Dp4RsyDQWsU+tMxFU5X8xTzVM7aTi0SHuX/ePLRtRERIyr4s1MkT2QGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784679883; c=relaxed/simple;
+	bh=wO7woZ6adHFlhWukDJ+j9jCC8OWRvViWKjbfbKDaXms=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=UFmFfNoE6DcEWIO91byZ70KF70Vzd760c/V8GzGa+aU+lhO74/hfmAszkSa5O6R/fvmaNR2+5PV4l4+24Cjook6Z2dh7wfpnVuEJdEelK4ZClYeds8Ob28tJc7taLaqRmxRo5vxWA2BSuoyBgV6GrUdyxTOVQe4Hd3qmzLwzR0o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AgLTnAkT; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YRJygKFx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=oiK1Yp12KYYZ9ij5inCaSWESdmWxYv/823Tcjv0qJ9c=; b=YRJygKFxBxpY0KA7exW/D7Z77s
-	R1A6/y/+N299CPGDJx7VOKI/l/l6x1E5ZCTjYcHhBNExGI+TQcT9bP/CqfsZqrDrL3ScrkAH5LeIN
-	dQVBCxD8vWOPwVx5sB9fsKqjJxQvsO84IkHYXTyesJsZovtd0x/wxj697sxb0+YlZYc6YI22sFrPQ
-	qninknuhBTdZms5glmIVxDdYPvr237kEFKssrxwVNvxBdLzBN2cNbbLxuUM5dWP/eB6ub+aZVZLcM
-	P+bj+5i0SlcVsvYfzG5UmkkfyCPtXjsLQcEFyoNyMLTvqD0NqDRKBHXhnsSuvB0As6QbY54XGZ2cM
-	uUG9t44Q==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmKVQ-0000000AcuN-3suS;
-	Wed, 22 Jul 2026 00:08:12 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Tyler Hicks <code@tyhicks.com>,
-	ecryptfs@vger.kernel.org
-Subject: [PATCH] ecryptfs: ecryptfs_kernel.h: clean up kernel-doc comments
-Date: Tue, 21 Jul 2026 17:08:12 -0700
-Message-ID: <20260722000812.3823299-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AgLTnAkT"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c01c79467so1229431cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 17:24:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784679878; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HEUtS24+MV6zPfW23L6xtlAKeXtYIZfL1Mv/dSiW7Uj1t6OLBrri0iBpp4wbXoKhQB
+         7U1vR8SglBSeriOKi6YVyLo4wzKxyr6zLACE3uJ4ug/YQSYMTQ9SJb10TSUBhqGRPYv3
+         1Bq7p/OiJpOvHtbhH82xT5Ua2wZD9LAegqVvf1VcQkR86d5R7W8sjeF1Uvew7/01ofrm
+         Uj4Hk7d4yGBopdFeSWeY6GhFgX99Ftqdtxx1h1viFwT7//VImYw6vinK3e3FxyLOICKJ
+         /4UIGHDA6s+TKPS0wtWoPgoDM+DE6HV5WkdPAh3/INxTLtZa29jMk0ORFHdZ9OObRvHf
+         uSyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=wO7woZ6adHFlhWukDJ+j9jCC8OWRvViWKjbfbKDaXms=;
+        fh=E0/lMSs9R/NXT1udxPIfCc5s+kxCgIGMD4XIzif6k5o=;
+        b=sVXToltEDStOWPzj4IIO7IuTYeZ62SiDkeMiSQ8C0C0TvgFaFTohenHZf/TmQFdOpx
+         i1KLXmOHA+TMrT3LFsgmfWUna2nc6I4VDm0sf0ZVoUx+64QqaP5kQka1vhWbs8nlUNe/
+         G+ikUvAEgiOQunPq5WwjM/9SQG5zAgtDhCSo8WOoRurRw2y9Z2dTwNEwBDSbnd4S2Q/L
+         PJB/O9EaDWIkYMxfsgSXfo1un8HzCyTBCnrDaOf814I9PjHz5PuCtV026lM+gsAI/bQf
+         ZZSbyOArwrVqltSLaJrCkQiuL/71su011OU6NOgwJOkmBmYwFxcDpc7kPBnBYWqEf5bu
+         MeyQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784679878; x=1785284678; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wO7woZ6adHFlhWukDJ+j9jCC8OWRvViWKjbfbKDaXms=;
+        b=AgLTnAkT96rgrkyBrOD+wwLJqfKlBy/TOuPenQp6pTLjAGRx2yxCmOO2goDTTF/zO/
+         UMzcZcy9HgP+ys23xtaPOwI3kPVNg5HP+gN7dwqa5EHULW8gpxL4L1eWrxyfT59R8kQu
+         WAMtPUCDnwmgt5R6XKPw9aCnvCYPx+pXUzUEFoJirBJmLZccGduVOqmclq/do6n7Ut06
+         6tz7ZhJf2kecRqHoMUijzhuatQllExyaR1vR6MqUCRM0C7FCJBlmgHQzPgHPNdQuguL5
+         0HxpY4kFNa6o48xjWCvLtK4rte3JIJkkmdHigXfeTL8afewhQHLz3rWhnGycGyEoK62i
+         q/MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784679878; x=1785284678;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wO7woZ6adHFlhWukDJ+j9jCC8OWRvViWKjbfbKDaXms=;
+        b=FvD41w/IP9KwaAOCEyMt0gXMVwscHs0h2ffKKz+V6P0vwzzRu/bLd8RAsbkFBiMDZK
+         LY8ZVwx9picG79vU2LXXNBeIVuruJxYxB6bnz2h2f/yoeC0f2M+6vuMSElFx+NY8mmfj
+         kL8r52UzSK99cJaBhFbfPWvoaon+lVUkkjJTwN59JjbrCNxvXpmmO4r1V2iEqsZRhIBe
+         MNN9Sy30VOuKFQbe81pbHTzLeh0KhzkWiCGkQ1IrtrD94jFEn3kwXvYM9W+NbKE0Snol
+         cp2RLz3UGOrk2pzGr0IR5Z6twvOPGkFM823YElhqcH6tiSEeKT/FegS4NoUwoJ9kbO4a
+         Awaw==
+X-Gm-Message-State: AOJu0YyGemrxPAYJdWt1H3kHb1YQvWRZJD5BZKVKUmHbp2U0OZGlis4C
+	c1q/rQcF7CRbFSCJ696DKF/8LHh/6sPlAFNDdC3ItBMZXx/UtMTMuTQenPNW5s4huTnJ45MZ+wr
+	1GGlCn4dAiUwmirBZDfe78JXyKQrKQdPbdVr7nHKripa/7JGMkn27e5w+PoQ=
+X-Gm-Gg: AR+sD12ZG2uSTHmligD/x9wV/OfD7sR/DKBsMSl2jiCYPnSVyLxbPIfR5EYQGFPll5f
+	RWCKfQj0ur6L6/yfVbD5tP7oeVaOQ3i5UN73izcaFUUX77xtqhbKkJM7fvDrn0Vb/Q1L+CTFdzE
+	NkoVTuBZQsj6A2D28MXPgVlsvV9eQ2Fwnm+Aj7I7PazadZJ5RkjoLSGehOGKnPjKDLX8rg/kDRT
+	kuXq+C0kC5SjuKdCULIEyxoXzWa59uDw9ljvdv8vXmQL0r2R1TcfEzvYeI1vaURgsIJw2A=
+X-Received: by 2002:a05:622a:a98c:20b0:517:5ac7:332e with SMTP id
+ d75a77b69052e-527c24897d7mr4537231cf.6.1784679877427; Tue, 21 Jul 2026
+ 17:24:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Cole Faust <colefaust@google.com>
+Date: Tue, 21 Jul 2026 17:24:21 -0700
+X-Gm-Features: AUfX_myJkAUwpP2hPjbeIxghW1MhIYCHVir4buposaaFOB6MEPdK81-F7KgGf_k
+Message-ID: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
+Subject: Questions and concerns about BPF-selected interpreter
+To: brauner@kernel.org, farid.m.zakaria@gmail.co
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-- don't use "/**" for non-kernel-doc comments
-- use the struct keyword when describing structs
-- delete one Excess struct member
+Hi Christian, Farid,
 
-to prevent the following warnings:
+My name is Cole, I work on the android build system. We have similar
+goals for creating hermetic and relocatable builds in our build system
+(a custom, android-specific one). I was very excited when I saw Farid
+working on $ORIGIN support, but then somewhat disappointed when I saw
+the new BPF-based solution.
 
-Warning: ./fs/ecryptfs/ecryptfs_kernel.h:14 cannot understand function
- prototype: 'ECRYPTFS_KERNEL_H'
-Warning: ./fs/ecryptfs/ecryptfs_kernel.h:207 This comment starts with
- '/**', but isn't a kernel-doc comment.
- * This is the primary struct associated with each encrypted file.
-Warning: ./fs/ecryptfs/ecryptfs_kernel.h:275 cannot understand function
- prototype: 'struct ecryptfs_global_auth_tok'
-Warning: fs/ecryptfs/ecryptfs_kernel.h:283 Excess struct member
- 'global_auth_tok' description in 'ecryptfs_global_auth_tok'
-Warning: ./fs/ecryptfs/ecryptfs_kernel.h:298 cannot understand function
- prototype: 'struct ecryptfs_key_tfm'
-Warning: ./fs/ecryptfs/ecryptfs_kernel.h:309 This comment starts with
- '/**', but isn't a kernel-doc comment.
- * This struct is to enable a mount-wide passphrase/salt combo. This
+Our usecase is mostly to decouple the glibc version used in the
+android build from the host machine. We've had several instances where
+our CI machines are running old glibc versions that cause problems,
+and they're not trivial to update. Ideally you should be able to
+download the android source and build it on a modern linux kernel,
+regardless of the userspace.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org
+To register a binfmt_misc handler, you need either root + modifying
+global state on the host, or to make a user+mount namespace. But if we
+use a mount namespace, couldn't we just mount the interpreter we want
+to use at a fixed path? I thought one of the main goals of this
+features was to avoid the use of namespaces because they don't always
+nest well; Farid called this out as a problem with buck2's sandboxing.
+In android, we don't yet have any nested sandboxing but there have
+been conversations about increasing security of the build using
+something like gvisor to isolate the build from the kernel, in wake of
+the recent AI-discovered local privilege escalations, after which
+these complicated kernel features are likely to stop working. And
+requiring root is definitely out of the question.
 
- fs/ecryptfs/ecryptfs_kernel.h |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+I also wanted to ask about the security of this bpf solution. I
+understand there are some security concerns about $ORIGIN. Why is this
+new binfmt_misc + bpf solution better? An attacker will still have
+more opportunity to place a malicious loader relative to the
+executable. With the binfmt_misc solution, you will be able to only
+have it active for certain things, like a build, but that's only if
+you use the user+mount namespace to scope it. From what I understand,
+Farid plans on registering the handler globally and persistently on
+NixOS systems that want relocatable builds, does that not make those
+systems susceptible to these concerns? (correct me if that's not your
+plan, Farid)
 
---- linux-next-20260720.orig/fs/ecryptfs/ecryptfs_kernel.h
-+++ linux-next-20260720/fs/ecryptfs/ecryptfs_kernel.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
--/**
-+/*
-  * eCryptfs: Linux filesystem encryption layer
-  * Kernel declarations.
-  *
-@@ -204,7 +204,7 @@ struct ecryptfs_filename {
- 	char dentry_name[ECRYPTFS_ENCRYPTED_DENTRY_NAME_LEN + 1];
- };
- 
--/**
-+/*
-  * This is the primary struct associated with each encrypted file.
-  *
-  * TODO: cache align/pack?
-@@ -255,7 +255,8 @@ struct ecryptfs_inode_info {
- };
- 
- /**
-- * ecryptfs_global_auth_tok - A key used to encrypt all new files under the mountpoint
-+ * struct ecryptfs_global_auth_tok - A key used to encrypt all new files
-+ *   under the mountpoint
-  * @flags: Status flags
-  * @mount_crypt_stat_list: These auth_toks hang off the mount-wide
-  *                         cryptographic context. Every time a new
-@@ -263,7 +264,6 @@ struct ecryptfs_inode_info {
-  *                         the auth_toks on that list to the set of
-  *                         auth_toks on the inode's crypt_stat
-  * @global_auth_tok_key: The key from the user's keyring for the sig
-- * @global_auth_tok: The key contents
-  * @sig: The key identifier
-  *
-  * ecryptfs_global_auth_tok structs refer to authentication token keys
-@@ -283,7 +283,7 @@ struct ecryptfs_global_auth_tok {
- };
- 
- /**
-- * ecryptfs_key_tfm - Persistent key tfm
-+ * struct ecryptfs_key_tfm - Persistent key tfm
-  * @key_tfm: crypto API handle to the key
-  * @key_size: Key size in bytes
-  * @key_tfm_mutex: Mutex to ensure only one operation in eCryptfs is
-@@ -306,7 +306,7 @@ struct ecryptfs_key_tfm {
- 
- extern struct mutex key_tfm_list_mutex;
- 
--/**
-+/*
-  * This struct is to enable a mount-wide passphrase/salt combo. This
-  * is more or less a stopgap to provide similar functionality to other
-  * crypto filesystems like EncFS or CFS until full policy support is
+I can't really think of a better solution than the originally-proposed
+$ORIGIN support for build systems to use. I don't care about setuid or
+complicated filesystems like memfd, so I would hope it would be
+straightforward to just error out if AT_SECURE is set or if any issue
+arises like not being able to determine the directory of the
+executable. IMO it's fine if it only works in simple, known-safe
+cases.
+
+Thanks to both of you for working on this, please let me know what you think.
+ - Cole
