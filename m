@@ -1,79 +1,81 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102F0318ED2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 04:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A20F2D47F4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 05:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784693434; cv=pass; b=dCMaugojpmL4C7lQ9R72tsoHbJjuvDqUvmVKtuiBUMFTRqLdZXwBPQfbby9lFHlToTA94LNfeVLgQ5mFcSBlSzgnapoQ+nQdA7ffBSS/7HHGBiOyCbOR+z8Jh/MqiUEVlUzX30XB537TO8x1UhRC0S2uxvVyNB9SaSlp3xTAiCY=
+	t=1784697576; cv=pass; b=a7pIqcWHY3FHPUiz9azOiOtiRQpuA8dBw+zpWTvEkm41N5eP3+80rS/4gbxIZ2U/4QdhBXurQ4aVn8IjlPDp5dF4i2xfuVh0VGO2juoemJpG3m2kAGxd9QacHf3Rg/0HpVgeRl5VZ9wx3LdB3xOtD4ZSXxAzIgffcwnR/K/qg6c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784693434; c=relaxed/simple;
-	bh=ich92Tm/LS9YE6r6SXwulp3OvIxfv1PmN910FTyyLRg=;
+	s=arc-20240116; t=1784697576; c=relaxed/simple;
+	bh=WcWRLAptzPgrLqPYiOKE8ufHxkI27abaURWOrkE7Yj0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lNSBL7EhcgWPoDEiJkbiwx881tgM1XiC2yIEYqz14RwvgHaaV5qbZ0bojL+JbtsHr69LP2iZgj3UjDnkT8bIkgCOBQE4vxew6E63aR01gzv402TSaGUys72r5jfBLKSJt80PO5rRERRwqnUZkee7hdl0w0KiblEJ+YCh9eKTbkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Au5RgbZ5; arc=pass smtp.client-ip=209.85.210.46
+	 To:Cc:Content-Type; b=ZMDkVkW7G4SLIVwMygQNPHwKGW27VGul3zW9MfJdDqJZ6J5ui1K4egDdqHWEhCy9w4FRkbIgSOY2w4RaYyhdLRwHVqY87a1JuN8KPL4B0nEWTdItstkYmBMLjbfpLyiWkvJN2AwS4UqLevGQhu8Q7rqBfAAXs/9ueY3tgFhKA6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=helpoIyX; arc=pass smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Au5RgbZ5"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7eb1dc6bd53so6754084a34.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 21:10:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784693432; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="helpoIyX"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4896ae35be9so4948785b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Jul 2026 22:19:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784697573; cv=none;
         d=google.com; s=arc-20260327;
-        b=lhTLCTwgSD4WYeNkMr1ek+mNeBm9RRtsU7k0r9lhfRw01Z8jrLC0of5PH4NrYIpW/P
-         2QrJjJLDeuM1ovxHItnFkKJpdpyNbBtor6hpKmZFEbeImSqh6KCbLHVQMxYSdYeSMFIs
-         fepl8mJeDgzrLQ0AUyU3EWJH1P6g3bVXSrKhf2/QDID5qrRxHr8SmBwu2ccona5ukoF8
-         vd3lbyWQrkfRZ/VHrsdWh3YzMNrmGgD1ZdbDJjlgaYAeqPRBr/3lWcLn4L6yqH6qIorT
-         WCGJCutqSs/WZFQkX34o6a9Ch4PAa5JjHmEe17BnQs7ZuIXOBso67KwQV1oCXpkVPG0/
-         Fwqg==
+        b=YMzh4ahERH3wAdLcUaLb4HViwmivqFVOfed8FBoCP6EQuKTJ48tT4QiOUXTDZB75L7
+         VJyAgWScrnt4yfcsVT3v4kx+LkpYGCKoqBg4UeT2oa9F7UOR013jIBdL6WncdBgA0T2G
+         qkS5krnjybnkXlHvecr3UQiF9/7fTL/vhW4QuhjI9RmM6FwpcY6EENaYMGvWslxWaj7M
+         PA3ykCkmi4xUc4Qp+Zh+0Pps6hZE/3WZvzuz85YWCaw41DXUl1om8REah7l7Yl/67LUC
+         AVqIU5Gh+TEgG85Z69jcaaiCZtBzBuEpbx/9HV34LGjBcFFIxjdMV8t+0nc1a1i5Vlur
+         Eb8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=fJMSjq3aFC6lRcaN7eGb8QQTEap9hNNAkDRO2v/AIX4=;
-        fh=0LCd7t9vASFn98qz04+BHHIYuwCXZKUIHw+sZATAeCg=;
-        b=k+GgdQw6sk3uRFFO3QT01xJleOzMLv9X5aO7Mq0S1QLjyjRpnBfyv7Q0Mc7YuwfZvm
-         grG5FZG7QrIe+so9WJDAiiShva1Rwv0WUVKI6WjUOvo91fN2/ZCwyiI/OGFPn5K1dnuA
-         pyfbZJ8Ei9hy5bEF89wRmESSUoL3BrGqWq7pq7J7a+DJDnPEuWlApOIRqa4NcqeDAiMp
-         O2be6x65Q+YBhhm5Inhl6udWZtx1k5Pi1pguL8KLW416qN4CTs0t5Xv++07uI0y5RMML
-         u4HQoeckSd1MViep6jVmD64Y3mi7j9n9QGJe+cjY6NQxE2UrhS2fzu9k/30xiyMM9g5F
-         8e5Q==;
+        bh=A/Dqsl8H6IiKR42CBO5Hlc/3Xlc4zR+YmCj2cJHqBPc=;
+        fh=Me7TS1moWW+T9ittf/QDtB1IjbxWPgrz3Q0sn4OWJEg=;
+        b=Z7SF4osc52E9ulOghr4wUVasxw1uLK8Uhw0EZmdR19BxaJV/7RT/JWP68dnJyy5l++
+         3eJcG0prAPOh47yIXp2wpDt59ZsPCPGcB21edQKBzfXSf56rUNOaRt1FYqpXmpS63LZs
+         1hTMijpJedGf/tXHgr9dAF9EXlfA6maEI6PU6eDO2NuPnCd+wdWKGqK4Haqx32tt2u2O
+         FLk1PIZOhx3MrvflhJg8h80/agAiSH/3vq77OXRZrKHL2rWLn/+bFsWzjdaBKKRaZOTI
+         +df8JNRGKgBO/N3VybKSP5vm3tkn5JIj+bwtX2dAjRa+NjjLU3bap8jCUn+yuNwqHRIu
+         eQqA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784693432; x=1785298232; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784697573; x=1785302373; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fJMSjq3aFC6lRcaN7eGb8QQTEap9hNNAkDRO2v/AIX4=;
-        b=Au5RgbZ5PrGIr/okur3I//nSHGcz1YHH3MHdV50d7HOO4auc3T7043NLeDQFtszZAk
-         LAjXf+V7fX2ZjlzMEqkapD6iJW/jNS8Ob9gbQmXwnkB9O1cD4Nfzi3kCIC2wnBXC004B
-         TYijthNQH8Eno4u73a0bnk/SkdO4c1dolCfjP+oStEXQEt0pSt4pVvYfhFvpb05iEO0s
-         UdUaVJc8K5XPgaMAlFleo7Z1hkg8isKseGqCxaVz7sJWXhxnSEmILVrP2c7ZFYUNvmIq
-         HJyMY6Rrgc4yj+PIS2vbXpmb/KjBtflTyrdjLrb7Gz5I4nTdHJOrWoPoZQ85efEuTRD6
-         SFDw==
+        bh=A/Dqsl8H6IiKR42CBO5Hlc/3Xlc4zR+YmCj2cJHqBPc=;
+        b=helpoIyX3TxOJvnh3ORh8HU0MWVzjbvskZb8eJOuWObpxOMZZ/Fej559whjGQiagLa
+         LDVO2+YJ1QoOgJSJXjGwLoDBKUgfEBS0U1XAeM1aN0mAKWuNmSirmVCzASeV1tr3ELF6
+         u/O82uCz/csFWXIy7BedhmrSZMPi+enT8tiBLuScUt9s18QqEyF2b7fRUW018gQgcm41
+         dmkOvsVIbWRfK/kbEE+rw4Ja7H/mttIlJq1GKvDXVEOuZUaPj3uT3gK7pOEUE3fPja7C
+         XfYPTdhBzoVkys7scS8A81OomEUIXOlafeC+XJP2qd+Im8SkPOqMLoAq04J3mHxBd7xD
+         Lf4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784693432; x=1785298232;
+        d=1e100.net; s=20251104; t=1784697573; x=1785302373;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fJMSjq3aFC6lRcaN7eGb8QQTEap9hNNAkDRO2v/AIX4=;
-        b=gcWEHL/2qYHY/u0ru3gu1ubHNPwuFJMjesAMXfZV+/04P9kQwnrpzxhhRjNVvgA0mM
-         Mg8+qCftnfwUjAQ2qeLOCOGpA5+pFgE3gfd1g0FwCKWHnppo7d10t84HrVetpwFBLzVt
-         KshlEitlNLdQhVcgN2kYPNuxw1RGzhexZ+JuXMoQrrXMh9rgYeDzoN3IcVeCcgi+N4B7
-         VbX3edTRIXPpr80+FJhv28o6R0qfANIWryWgVQ3O30OkD0hb+4KicXKLSr3dcoit9naD
-         8hVBciwYJZ0WYxUtbvundOVSqyXWZCvkS7Ptl4Ds25dImOjQ/NmwSloSzp9W7Vo5yJGv
-         +PrQ==
-X-Gm-Message-State: AOJu0YxmGSkXcOCAK9bWQKa1nYx+73BZmMyaK8ozy9Yudqni6udIvtTQ
-	z+l9v8al6kUxO3jaEIKnKf6hw8uJFAeqS8fmVDrri73E4NYlmxog6J1jOogwCB+tDvUoqXgla/s
-	/anWHHiuits2RMnHLPUaUMO2TB+ETpBs=
-X-Gm-Gg: AR+sD10sodh77nHwi1MbXNkQb9fZxl5oKrUVEsBt8O/QptxYII2FavsT3cGFALxyWvw
-	IDu93eYsyp8umaOiECblDKfN/JmdxGxpX4/iC1AdP7oDc+Yc6N8noHRznrk5TfQ7UF2ManeJVO5
-	92Dv2RYTDR7LPxU7aY7GU9gxrh8wrJRkJpGbjAucoJneXFXQOUAj0rgvQYRq8fVSe311EPCRgab
-	HDrzyQ7ILMLMxNk8IWhEEFuH+b7D2HPsRF7c02adEJlBKvnOfWXCeIU25Q=
-X-Received: by 2002:a05:6820:a0c:b0:6a3:795f:5fd9 with SMTP id
- 006d021491bc7-6a53683c20dmr11004113eaf.45.1784693431702; Tue, 21 Jul 2026
- 21:10:31 -0700 (PDT)
+        bh=A/Dqsl8H6IiKR42CBO5Hlc/3Xlc4zR+YmCj2cJHqBPc=;
+        b=jCEPGoSFQfyK/lvWUsJsllNdox6S1gyY4hRtsa4sClqhQL7S5EkWCCBbwkpCTF90Wc
+         kSKv0JuYEWr9h7lUxlmdV1tR3aG/VYJyxZhKGJG9+vICYgXFWKRcdbhv9E/NdiwVNuzi
+         cbLuSiDuTHNJ6raQxZERx88YQW2JLcR8vvxSywixDAHLK5anuyf+geL+csmYh91d7/m3
+         Gvhzq48+QWoUhBmKS0H8ldl1F09MewJqGVh1z1n+5MFGAx2Z1TARujiY/RUh/HfGz5kf
+         Jf0PmNvP/DgoIxZvOBs5hRDolwok6igLyVHJZKYqK+bSZ3wuNE4cDU6DF0xLGWHX/IUp
+         bBdg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3QUMmCjtmKTLXGw09uVuA+5pnNZCURyDusFl/iHfMIqHl6VBSLzWIJH4yybJbXPOkoZ0A3TsjXdhCCCBw@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyOTSa6dbsfzvbRegC1mhTCW0dD0WP9QcKFouDqJ2uS9A+5+Wx
+	UTt7mW5lKOJGXNZpTDJYMQUUBJH45iRuGK3qME6yJoaIHBbtEu+YEqEoW6Q1RV2yuBIhZz6B8O5
+	SRqWwCpm9q6sjXWphRfTUEevjPsKGdMLS/3uz
+X-Gm-Gg: AR+sD11lV46N7nNHCM58mPiy4JTWVeH/HEbmDgCCyAs/J1GjUAx1Oydb0OAeWacrYaV
+	VYoD63eO1Uwg4xuHfXAKc3j70na6kzolDDGucxxCtNTFlqK4jYxe2pg2lTTL92rS9Duv6E84ig/
+	qVXxmpqoStmri5jQjq7TL9fJgR2UrJMcCEFl19Ft1brJtIQIQRXSVQUPAMhroTjS7j4yoO+pKW0
+	YaKJM3GBAJ4xCjalzO3FcliO61sV34Bst+qdcHxnzeBk46uAHTTkQecUf0kFxoKQlPhg5I6aZBA
+	YXE5
+X-Received: by 2002:a05:6808:1387:b0:496:3a1:e44f with SMTP id
+ 5614622812f47-4a4d03443e2mr13023144b6e.6.1784697573231; Tue, 21 Jul 2026
+ 22:19:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,86 +83,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
- <CA+9F0A3uywPD8vk=O3Fg7LUgY9kYLtrNNLCcf-62k4RGrgQ5iw@mail.gmail.com> <DK4SRXTMBB88.RHDTPAQOGD8J@gmail.com>
-In-Reply-To: <DK4SRXTMBB88.RHDTPAQOGD8J@gmail.com>
+ <CA+9F0A3uywPD8vk=O3Fg7LUgY9kYLtrNNLCcf-62k4RGrgQ5iw@mail.gmail.com>
+In-Reply-To: <CA+9F0A3uywPD8vk=O3Fg7LUgY9kYLtrNNLCcf-62k4RGrgQ5iw@mail.gmail.com>
 From: Farid Zakaria <farid.m.zakaria@gmail.com>
-Date: Tue, 21 Jul 2026 21:10:20 -0700
-X-Gm-Features: AUfX_mx0pcrp4EW7MdxKNpSj5p3O8R1q8OH1hvB8aOtvFrEZNMGl2yrdycmUc8E
-Message-ID: <CACCo2j=CGD97K_bdHh2H3T5r2G+MR-U4qHQZXhPLzpPPUSUZNQ@mail.gmail.com>
+Date: Tue, 21 Jul 2026 22:19:21 -0700
+X-Gm-Features: AUfX_mwSFVGUdsJ0Zv4hsTi507JmejWZd65i64gzIJZLoiyLc1PbY3VSOmHouKk
+Message-ID: <CACCo2j=J0EQ7shObawP2Ra6LzJfPiG-wj2tgBVA+i+H=m6BWJQ@mail.gmail.com>
 Subject: Re: Questions and concerns about BPF-selected interpreter
-To: Cole Faust <colefaust@google.com>, brauner@kernel.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
+To: Cole Faust <colefaust@google.com>
+Cc: brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, Alessandro Di Federico <ale@rev.ng>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Ah sorry for the empty send.
-I'm trying to learn aerc email client and couldn't figure it out.
-(Back to gmail for this one)
+Third time's the charm. I don't see the email on the mailing list so
+I'm not sure if it was delivered.
+(Sending it again. Sorry for the duplicates if it made it's way
+through; I'm having an off day with email I guess)
 
-I wanted to CC @Alessandro Di Federico
-
-On Tue, Jul 21, 2026 at 8:59=E2=80=AFPM Farid Zakaria <farid.m.zakaria@gmai=
-l.com> wrote:
+On Tue, Jul 21, 2026 at 5:26=E2=80=AFPM Cole Faust <colefaust@google.com> w=
+rote:
 >
-> On Tue Jul 21, 2026 at 5:26 PM PDT, Cole Faust wrote:
-> > Correcting Farid's email.
+> Correcting Farid's email.
+>
+> On Tue, Jul 21, 2026 at 5:24=E2=80=AFPM Cole Faust <colefaust@google.com>=
+ wrote:
 > >
-> > On Tue, Jul 21, 2026 at 5:24=E2=80=AFPM Cole Faust <colefaust@google.co=
-m> wrote:
-> >>
-> >> Hi Christian, Farid,
-> >>
-> >> My name is Cole, I work on the android build system. We have similar
-> >> goals for creating hermetic and relocatable builds in our build system
-> >> (a custom, android-specific one). I was very excited when I saw Farid
-> >> working on $ORIGIN support, but then somewhat disappointed when I saw
-> >> the new BPF-based solution.
-> >>
-> >> Our usecase is mostly to decouple the glibc version used in the
-> >> android build from the host machine. We've had several instances where
-> >> our CI machines are running old glibc versions that cause problems,
-> >> and they're not trivial to update. Ideally you should be able to
-> >> download the android source and build it on a modern linux kernel,
-> >> regardless of the userspace.
-> >>
-> >> To register a binfmt_misc handler, you need either root + modifying
-> >> global state on the host, or to make a user+mount namespace. But if we
-> >> use a mount namespace, couldn't we just mount the interpreter we want
-> >> to use at a fixed path? I thought one of the main goals of this
-> >> features was to avoid the use of namespaces because they don't always
-> >> nest well; Farid called this out as a problem with buck2's sandboxing.
-> >> In android, we don't yet have any nested sandboxing but there have
-> >> been conversations about increasing security of the build using
-> >> something like gvisor to isolate the build from the kernel, in wake of
-> >> the recent AI-discovered local privilege escalations, after which
-> >> these complicated kernel features are likely to stop working. And
-> >> requiring root is definitely out of the question.
-> >>
-> >> I also wanted to ask about the security of this bpf solution. I
-> >> understand there are some security concerns about $ORIGIN. Why is this
-> >> new binfmt_misc + bpf solution better? An attacker will still have
-> >> more opportunity to place a malicious loader relative to the
-> >> executable. With the binfmt_misc solution, you will be able to only
-> >> have it active for certain things, like a build, but that's only if
-> >> you use the user+mount namespace to scope it. From what I understand,
-> >> Farid plans on registering the handler globally and persistently on
-> >> NixOS systems that want relocatable builds, does that not make those
-> >> systems susceptible to these concerns? (correct me if that's not your
-> >> plan, Farid)
-> >>
-> >> I can't really think of a better solution than the originally-proposed
-> >> $ORIGIN support for build systems to use. I don't care about setuid or
-> >> complicated filesystems like memfd, so I would hope it would be
-> >> straightforward to just error out if AT_SECURE is set or if any issue
-> >> arises like not being able to determine the directory of the
-> >> executable. IMO it's fine if it only works in simple, known-safe
-> >> cases.
-> >>
-> >> Thanks to both of you for working on this, please let me know what you=
- think.
-> >>  - Cole
->
+> > Hi Christian, Farid,
+> >
+> > My name is Cole, I work on the android build system. We have similar
+> > goals for creating hermetic and relocatable builds in our build system
+> > (a custom, android-specific one). I was very excited when I saw Farid
+> > working on $ORIGIN support, but then somewhat disappointed when I saw
+> > the new BPF-based solution.
+> >
+> > Our usecase is mostly to decouple the glibc version used in the
+> > android build from the host machine. We've had several instances where
+> > our CI machines are running old glibc versions that cause problems,
+> > and they're not trivial to update. Ideally you should be able to
+> > download the android source and build it on a modern linux kernel,
+> > regardless of the userspace.
+> >
+> > To register a binfmt_misc handler, you need either root + modifying
+> > global state on the host, or to make a user+mount namespace. But if we
+> > use a mount namespace, couldn't we just mount the interpreter we want
+> > to use at a fixed path? I thought one of the main goals of this
+> > features was to avoid the use of namespaces because they don't always
+> > nest well; Farid called this out as a problem with buck2's sandboxing.
+> > In android, we don't yet have any nested sandboxing but there have
+> > been conversations about increasing security of the build using
+> > something like gvisor to isolate the build from the kernel, in wake of
+> > the recent AI-discovered local privilege escalations, after which
+> > these complicated kernel features are likely to stop working. And
+> > requiring root is definitely out of the question.
+> >
+> > I also wanted to ask about the security of this bpf solution. I
+> > understand there are some security concerns about $ORIGIN. Why is this
+> > new binfmt_misc + bpf solution better? An attacker will still have
+> > more opportunity to place a malicious loader relative to the
+> > executable. With the binfmt_misc solution, you will be able to only
+> > have it active for certain things, like a build, but that's only if
+> > you use the user+mount namespace to scope it. From what I understand,
+> > Farid plans on registering the handler globally and persistently on
+> > NixOS systems that want relocatable builds, does that not make those
+> > systems susceptible to these concerns? (correct me if that's not your
+> > plan, Farid)
+> >
+> > I can't really think of a better solution than the originally-proposed
+> > $ORIGIN support for build systems to use. I don't care about setuid or
+> > complicated filesystems like memfd, so I would hope it would be
+> > straightforward to just error out if AT_SECURE is set or if any issue
+> > arises like not being able to determine the directory of the
+> > executable. IMO it's fine if it only works in simple, known-safe
+> > cases.
+> >
+> > Thanks to both of you for working on this, please let me know what you =
+think.
+> >  - Cole
 
 Hey Cole,
 
