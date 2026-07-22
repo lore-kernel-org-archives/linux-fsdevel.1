@@ -1,31 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29D534A3D9;
-	Wed, 22 Jul 2026 14:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32EE7083C;
+	Wed, 22 Jul 2026 14:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784731266; cv=none; b=DlxOHJRVfh+fSWKXJZCt/+Uwb1rqjz2OxH9ipOTJuN622CqrVavSLGDW99j5xF2ncrtvh6/CnAcibiXzuTC16mYxrucQs/e6aBQSgfMKwpIrFXiv3cFUrLDpUShqnB7bFHE+ZDu9aiLpY9hl8DCcVkdNQ+lxivV3guHFya4rXME=
+	t=1784731359; cv=none; b=qjXHYnx72VSP1GpFeiCk/Pe/2j+/pBoNg+09z8TH6OLzwlmouur1TmnXNGv2bJ7KVF3Tm0NVUxu60kFYzRS8Vj9B/FbPTkfIV0zy/NIA6Q58BehQFsmm1Sn5jSsJbN5o6y3bOgneLnLNP80+EjfEtFbX2NtZARsNl4Wob12qldo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784731266; c=relaxed/simple;
-	bh=r7HEopcqZQVCsuyPTjY2Df8a46NkzdYDZO4mEueFl5g=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=KY8/SFzIF7m2BDRyQX4A1zI7RvOjK9OLeW2NkFViOsdmtzNTfdMwMMvkpd96N7wHFKy0CrHjTSqI/CqZAyS4JMIYnCTX9DEYphTOaKe+yvGgA6F4vBbTHAhE9iXKb/t3g+ha4MP7ZzR8O+RKpuFDUzbNPp47ZT7Ze8dsobfaCow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDMjNdhm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784731359; c=relaxed/simple;
+	bh=Wf7/Fh7tuhGO1yjN/IeELL9k1TmKAsQalc4D3Rsqe4M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JXDD6luqnE/s22lENtGWBozyANgvL7eOPKOeMXWeoyJzEZR7Tm6bkTtWMSNe2QlLldh5I60FbgyM8RG1cvWaTHUtFIJKGtvhYgTYQHCwFISj02V5HPEDYfANrIVDjvb03KRN312rAJV6i8VXqE77ZbpkNUHCQBBoCzEe91YQW2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQviceT2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDMjNdhm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFAEF1F00A3A;
-	Wed, 22 Jul 2026 14:41:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQviceT2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A681F000E9;
+	Wed, 22 Jul 2026 14:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784731265;
-	bh=n/Co1BRUJxV8Ilnz0HmcLKDLBLt1Hht56jIYYXO45Kk=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=PDMjNdhmsMNcnFmbElhJiWIRqgRYRP33iz5wRRgYMFiRcjIZoxHWNLmK7xLZHhUw1
-	 on1roFgC7Q0NkdC9vylVxx6/RA1q3B/jMzfP0+/MKbL3/ivN42rvqTxnjvLmwqD2uX
-	 EigvSr7T2p9lgPPzOTqYZkOcgi8AnvgjWFUe8x1fPdzLaIFzA6bde9FLXelI7lI70w
-	 boSNSuH9BTMzJdJLHuEkpjojnpdhxB2IZZluBWrzdc9eJ8Vq24UhNjOCOhnALM7Sqx
-	 iPZAiEZe7dsYQkgbhl2/fRznG8NR5uk53EFrnsfIKCebCNzarK4AUR5w8zOo7IZBhJ
-	 sLWcd+9IvXx8A==
+	s=k20260515; t=1784731357;
+	bh=hUOy9u7C2CxJxYllJu2SewMTQxgAYKxXY9e3RgairZ8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=NQviceT21zXc2g6h6okuhe7CoSRJoIty0a2GtyJIBNvSJaE4xZy71dxv5WJawSWL3
+	 2PMxDIzAVUR0eLrFsQo08UyILtQwlAAytHMqPuKZPjRW7aCalEDPO4NZvlws6UlIxc
+	 2AU9YmBO770FrTlK3qGQFeEpUvcKL4Gukvc4fi99kD5TgPWxUUJEhzqL8QlpeJFuiK
+	 RGirWeG6YRE5uKcl8qVWbISdIMDW+30pq0Aob9cWVOJ2QMvaegW4BjJQ8N9E5xJ7bw
+	 7MNcAvxBSn28p5bzLVaKu9219lfvrCXOUNLczTeGCPVNHiWj1MvzESSuidSoB3QQrs
+	 IYO4zT0o6Kjfg==
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+ Daan De Meyer <daan.j.demeyer@gmail.com>, linux-unionfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260712122421.203113-1-amir73il@gmail.com>
+References: <20260712122421.203113-1-amir73il@gmail.com>
+Subject: Re: [PATCH] ovl: check access to copy_file_range source with src
+ mounter creds
+Message-Id: <20260722-investieren-disziplin-ruder-cc338b9e6072@brauner>
+Date: Wed, 22 Jul 2026 16:42:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,46 +45,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 0/3] vfs: call audit_inode_child() in lookup_open() on
- failure
-From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
- Eric Paris <eparis@redhat.com>, Jan Kara <jack@suse.cz>, 
- NeilBrown <neil@brown.name>, linux-fsdevel@vger.kernel.org, 
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260710164233.827744-1-jkoolstra@xs4all.nl>
-References: <20260710164233.827744-1-jkoolstra@xs4all.nl>
-Date: Wed, 22 Jul 2026 16:40:59 +0200
-Message-Id: <20260722-semester-unerlaubt-raubkatze-aa55ce95f36d@brauner>
 X-Mailer: b4 0.16-dev-2f6f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=901; i=brauner@kernel.org;
- h=from:subject:message-id; bh=r7HEopcqZQVCsuyPTjY2Df8a46NkzdYDZO4mEueFl5g=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlXKs7bBbnx2vGOLt41fsf8f4zbYPbp8aUZKQe7M0V2
- DEzfXd5RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwER01zIyTNDotlpQ01oq+G7D
- +om7WqR2rbviJOtcq8x2oHvDhthbAYwMd7t8DFx2H7Kc0bj1xEWVssAWNqFfWy9o7dk8KeHJyfQ
- SVgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=910; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Wf7/Fh7tuhGO1yjN/IeELL9k1TmKAsQalc4D3Rsqe4M=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlXLt9I2nq9Rfq+9YYxF8/7cb42kQzuEjvY4wvxxG5u
+ j8shw5zdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExE+xfD/8oVR/67dRZ+WV/b
+ dDFzQu7pazekw7yXCdzOXqW4Yf+JuDiG/67MS/+XH1t4urxo/fWUJAXtYys7bs45JGP+bIrbs4/
+ 3LrICAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> While reworking lookup_open() to implement O_CREAT|O_DIRECTORY I came
-> across inconsistency in how audit_inode_child() is called in various
-> file create paths.
-> 
-> audit_inode_child() is called in may_create_dentry() so that failed
-> filesystem operations still register an audit entry. On success, the
-> entry is overwritten when, for instance, fsnotify_create() is called.
-> This is the calling convention in vfs_create() and vfs_mkdir().
-> In lookup_open(), however, when atomic_open() should have created a
-> file but didn't, no call to audit_inode_child() is made. The same is
-> true for the regular ->create() path.
-> 
-> On the suggestion of Brauner, I am splitting this series from the
-> O_CREAT|O_DIRECTORY work, so that this can be discussed with the audit
-> people without delaying that work.
+On Sun, 12 Jul 2026 14:24:21 +0200, Amir Goldstein wrote:
+> ovl: check access to copy_file_range source with src mounter creds
 
-Looks good to me. I'll wait for the audit people to look at it too.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
--- 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] ovl: check access to copy_file_range source with src mounter creds
+      https://git.kernel.org/vfs/vfs/c/bf681e326de0
 
