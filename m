@@ -1,431 +1,612 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012047.outbound.protection.outlook.com [40.107.209.47])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B19267B89;
-	Wed, 22 Jul 2026 13:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784725269; cv=fail; b=RRNMNHFu5XRxt3KItVExSXmAKV+xISiSpKOY/pqHMsEG9ZcV00EW0vtDKu/fD6/0FgP25UM28k34/RApzPijL7H4a9TqfbDWMpWx/BvE60L7O9OWJaYLP6rsOVbXM4aysPCWdGnNEefnQhimsYRRZ649CUx4AEEsNt6QfAUPHuc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784725269; c=relaxed/simple;
-	bh=pnTQ/h9Rn34GU5pFqWz4+K2odcfqixF8JaVqkmxT5fo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Qzr4alWBm0xnUDcMS4l+CiAAnJoMzSD5EDgfaLVxskasKdYM6zLVk4OgU4iRNrF9EAEZAUicS//t3RwXKvGnNxcO9BS+bYmBGjZDR1c+sZ2ZO0e1XNpGbmW9ggYBwnMHm3KgeIFYj6hK/tM15vch892AwmE8mXFlMsVq3Tq6/Wc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NCr1Jisa; arc=fail smtp.client-ip=40.107.209.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3D328506C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 13:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784725364; cv=none; b=WhDJOYJE1gKAL/n9JejCsttQg9EXeLwiViZpWGeXyAFoWdPWN70eflHPCjJn6HVR0468BWmPwLd2AVXffIgrrAy3/rGTPNjzq350PffOoa60oCPrdMzqIY3fYM067XsAghRPpSazQ8wvDEOJ6Jg1CDbV6Te6e1m4lQ3SjXAvO1E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784725364; c=relaxed/simple;
+	bh=pI1vgjNxleOlJ9XHw1pz6g4lVr3qWBxyUX7mw/KUWsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PTgtR3DUn55ZWLGRp5N84a6heJdPv9X2jUGenqAEahvLoXf/3+xVB3eE2aSYN9rVV7fhn9aM/ZJqr14h99pb3mVHDoVgNkXxUYeKyzDQwDMDzwGPaP9yvxHmHsFe9USI8qibexVkccjxex2aWoAEv7VI1ujuF22Lkc/hg9DZfn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R90pxpd1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NCr1Jisa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bmKGgpcgxs7mSUmzOoOdFDxqRRdbQtNqovH7fpPjWUqC4/hgBElm0iGEc7OisyqnxG5G8OPWkYzCWf2eUDQYYOniVxbslUG4+LqTfkQm384N9sY9yeUvX3te457DKe68kAUoPyRs8dUQgqHxwJUJUmZ/Ydm8lyOrRVT723ZChOmb3UNAL739eMGwxRapusmsmg2ou6dmWBZpG18k0KQfBprmxR47oEOOrAjMdu7FXwkfo8BX5HQ6yuTYKmNICzO0L2yC3PYbjhscp8GGLseW71Bgff5ZgARp3Sae1gb/urTWW6CuMcwRovmdY6hNQ6hZBp6j0NcT1UljEAg55566hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J22OGt754po96ILhiMAF8BemjRnwohYU6INaixLo0sU=;
- b=YNXXT4QtsM1OVThzLti8/RypUteCNWciAo9jIP5+i5vU1142ERjNEwSCJ36OXaYGE5GetjfQvdqCvQuj1mtDZYM0HTa8tXRdFsdRyEKmvHvp3m8TyXhg3exMeJwdOy6+CZx+OK2tja1JmiPiDLfCltfmbE+lWfEIV4Sw4lshk3lZfO0rBdZ89irKY4lC+xcTNtkCYnbG2lCNLJagIW8sJ7Q9A3dYsv8uLDxe08qowMr/vcjH0Qt38qzvf4I4OYo6X3K898412TJu5Lx2Y7xY1P7HFS5oHbNvUEGpWe+GpLdUpeAluzNg/lXrGXFZALHjkPIt5NPDpmUKmBS5YzU3yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J22OGt754po96ILhiMAF8BemjRnwohYU6INaixLo0sU=;
- b=NCr1JisavmE3bLwE54FCoz7OAUOCCuOHJVFqluuE1/E+0VJ2pt0Fk+G17H2Rbzca1g2+OqxarmVol8xRiMuyUvR42HhiekOqwz7DYPPEtUDW7sfdH1Gcxe+koJDyfyWiJ5j6o/TpfeK1NtppxtmuvyawdOBvyoin8p8wmbVPlTpqDFfHjzKOrdlSmXv0HfvmOwrvlUyTDaZ4KWr+0WuNj19MgiVDh3krBGSd7sJc/zY/++kc89dU/wDvt/Y+SmyyGXFwHixvWmhZ+g76oeVeI+IyXADVmFd6rTrm+ta0MzzLj4LC3veylNEg0Q8+eln1AZQdTJiF5VwCNdEyAQH3Xg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
- by IA0PR12MB7774.namprd12.prod.outlook.com (2603:10b6:208:430::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 13:00:58 +0000
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 13:00:58 +0000
-Date: Wed, 22 Jul 2026 21:00:51 +0800
-From: Richard Cheng <icheng@nvidia.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 05/36] mm: add ZONELIST_PRIVATE(_NOFALLBACK) for
- N_MEMORY_PRIVATE nodes.
-Message-ID: <amC-b5SIkxUCKQ7H@MWDK4CY14F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-6-gourry@gourry.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720193431.3841992-6-gourry@gourry.net>
-X-ClientProxiedBy: TPYP295CA0048.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:8::14) To BL0PR12MB2370.namprd12.prod.outlook.com
- (2603:10b6:207:47::27)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R90pxpd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784725361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=b6QD0TOdSv7VlC0grYYxEvNqmluRUkhfTVBtcHLANoc=;
+	b=R90pxpd1VhRZumQARM+nFyruG8gW4Dyb8R3ZNukkn5V9+C6BemTTs+6MR23zKlfCaB3Mvt
+	kI64kssuKGWQTLFdPKTG4rwrv2RRvLeouS4UHfSY/6xAh2Bks7TEyTtUvU4jAi3bYVVeCK
+	7pi9oowLPq8/fEx0Az1zJmMhGO3fQMs=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-jsrRVsLBP0ORh-l3op3zNw-1; Wed,
+ 22 Jul 2026 09:02:37 -0400
+X-MC-Unique: jsrRVsLBP0ORh-l3op3zNw-1
+X-Mimecast-MFC-AGG-ID: jsrRVsLBP0ORh-l3op3zNw_1784725354
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D89B18E6A46;
+	Wed, 22 Jul 2026 13:02:31 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.33.159])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 615D918008FE;
+	Wed, 22 Jul 2026 13:02:21 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Leon Romanovsky <leon@kernel.org>,
+	Steve French <sfrench@samba.org>,
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-erofs@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 00/29] netfs: Keep track of folios in a segmented bio_vec[] chain
+Date: Wed, 22 Jul 2026 14:01:47 +0100
+Message-ID: <20260722130218.78958-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|IA0PR12MB7774:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4aeb79b-32af-4269-dec6-08dee7f145df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|18002099003|22082099003|6133799003|11063799006|10067099003|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	NW2kWbQtCiIJjrUemaKUrOZP4DT4qZDnzMAxoHXb7kZ+x2YjYfwpTChOotdiT1WKTwkeWQ0Oml7RO0h3CBpoEmvT2/tu+TQl3/hzIbsdsyfEQImDQXxAcpQgZR12nLB5kTBjMvM9/mHz9lFf7B8cggIzWR1YQGQip8AokUhjwmnDpqgCAmg4QXI6VVFV0aqNRn0ACoVSBQO/9NOjWtHCVfASUexZ65APOD8c/vqOp1PUcIYIkjd076RlUKdTLL1rA67IzjzjffPRIBgE67W6xU3YKBNJ0bFrkCZq2693y+KZHnLZNJkZA22PUrbCkyByPjNZGpwFNKpaoc0OMWpndiopegBayEW9QGvODGC6WfIE8q4cIIonac0XONMKKZ4QRskWHatZFySyLb+1RxZqUWICViLNGPwpehGd2Z/GiS7++9CybkwyyVbzOjuSwpGnSjC2XOYIeAAlLKMGnBIA36HDJSZLbeKuV8+j5Jxwio2ISxUpmt4O2HCbymsabzfz70wy25CRWbkLpFyAvQVcqsXNUTMiBTh3DD11hUjK83wkFQ/OueE92U1D7Sd5/Sxb6A3rEL9f+chGmqZrcSB0rqXoQXwvglw4bECjLgaWmxwxDxnP1qXlgakvZXYDQtj/DvQxBd5CVF4NcC7lOyGKUxUit9/WnTI/VaH3uQK8578=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(18002099003)(22082099003)(6133799003)(11063799006)(10067099003)(56012099006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?U2I/CjEcoq5WYtyWZg3dlCxcxnYqJaUnpesyQDH6JqIVaoU+X1HFZFOPnXCz?=
- =?us-ascii?Q?JA8VrjhcGbLHzxqTSx/+it7yjH1+zgf/rt6mDazcZn84fKMSaYoxSM+xXohe?=
- =?us-ascii?Q?IvY5Vdwy4RI9a+BfqHG44uk7/u5z5jaETM07vSDwLrcnHHTQ/H7Trsfpwdrt?=
- =?us-ascii?Q?jDaFKZT+PQjAHdJOjok4fuEwB6eut6Dts5cNczXvY/TPf6xfUU5EhAdpeKdL?=
- =?us-ascii?Q?mX7iRNDUQhKN1KfBFHO3iv8FUO3ZzJ7QcVi5AF6ltvjm86RLIGYHKdcW8ImZ?=
- =?us-ascii?Q?6V93kJoYcLjZvN/tbZkKXuGGcN4cdH7tNIyuWxVSdzX67GPLB/sEj9yV1rAs?=
- =?us-ascii?Q?XzPTX4RYPmmVwd/g22TNnOAenmTvugO2NDasVEAHcDSKFBGdFGzd/n9tEQgI?=
- =?us-ascii?Q?Z0PA4fb5p1OoCYCj5Hm/LobQFLMdfKSZLZ1MN4UCfA78TEMISVv57NFDmVy6?=
- =?us-ascii?Q?gHdW3fZyXpd+PSaCfLARJO710BimXCSrqk6JVdzketi3GvF1l6viCT/3LqEM?=
- =?us-ascii?Q?jKAjXSCs5K1bCqMJBApHQZx42RDguoIlmw5N3huLSbKgzQzx9+DNMlsdgdFY?=
- =?us-ascii?Q?TZScRkauhBObCWaymQIk+AofwJuKnugDdDFAkzwIPDr9ltP3wwCsC9Z+qf9G?=
- =?us-ascii?Q?pxMgGb+kU6peOEpgu2sE6tsDxIl1U/ki05qVXbTH92/jji93vGozWttHMlzb?=
- =?us-ascii?Q?iBV335GIxnnONSWW07b2moQH5ldIQG8oT1o90XF0SLGUrrAfHEydHIpvEDRX?=
- =?us-ascii?Q?WIC9NzeYbaZEGWlnKafwv0Z8o79Y8d2S15QZkCWmOcbAjkv/7HlmPPQm+sly?=
- =?us-ascii?Q?06edKErSru8Ex4Ly3kknPs/o2Z3BiCkXf2kedparJMb3IKRDv/+WPqDzdrtO?=
- =?us-ascii?Q?PLpNKPrXhqjes0BORrqTElq0f3ImHUTF622rabeteHUWPeECf52FOIEndLdE?=
- =?us-ascii?Q?quRjjFvLOmymyiBhzIjAdWEziSxiS5wOCuwxNM2RaEFeKVfZ7xnUVgKmK89f?=
- =?us-ascii?Q?1L0d6yca5h8hlGB6x5tbCo8SEaw1r67rPumTMU0uFnH6A4rXZ4rh4AVGQHR0?=
- =?us-ascii?Q?ou34NQHUNDq3MMMfoEmB/9QvVaGNFdRmuRxOsMerR1Lx4IbmtqaoZ3QyHuyf?=
- =?us-ascii?Q?lV1MdKGSwozCnOLa6jnOIXEI4aZwZjbhnlxCC1j0nbr+lBijuImQDe0w0aDf?=
- =?us-ascii?Q?f6pAbbJC6XaQgEv5GIeEuWlyvMYQlGr47+V2/5Xol4honDIU2eU8hthXtT3x?=
- =?us-ascii?Q?D8f+fminyZOiMHMfRNiivXF19O+qROo+phnFh/gj/dr8TzZRUAN5tUVc8Hrh?=
- =?us-ascii?Q?fMVG8Orhng1g+J1VPnhP+SVH4KHNj3tpu/zBqt98Y/Vv0dhwvcW2N+tKHAX0?=
- =?us-ascii?Q?CQ/YSD5TWmzGKHdiU0X1ih/g2S7MfBpSWIOmHKM+RYvCTtzr+edAJ2D51Xl+?=
- =?us-ascii?Q?vp+oWu/esXG+Yabsd8OIlhefnGh3E+T9bPTH+Wgky3jcCYm4kHX3WCsYw8Kp?=
- =?us-ascii?Q?yIqnwMdsHzChoPdAnnuvo6m0CIFkLIFqnw2uReH2LqSPZOs4OUdCFpgLjwHg?=
- =?us-ascii?Q?41iIvW6yRStHY2Kq9WzirIX0SqNbWXo8hrMs+2Zw1KbGAE5BXAByuBhAIFcm?=
- =?us-ascii?Q?m+/gNcoo47zmp44N5QhL4vROIw5SDxb4DmeDffrJg4k1aRCpedyOYqn8EDam?=
- =?us-ascii?Q?ctXyYNH89edAPn2QkHES15IEHcH/Qc4fUtSCHRK4QNu3H7mjroEIk/Y8OEQ6?=
- =?us-ascii?Q?FJ0rG5EyCA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4aeb79b-32af-4269-dec6-08dee7f145df
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 13:00:58.2335
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: djPtoZFCsyEANyckxBN7ZJih1vfbZWLcVU4gG0Dxx7JEViMWWsinekyhM4RKUIzsfUOHA/p8YyfbfSRnUPA5yg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7774
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Mon, Jul 20, 2026 at 03:33:59PM +0800, Gregory Price wrote:
-> N_MEMORY_PRIVATE nodes must be invisible to ordinary allocation,
-> no allocations may reach one unless explicitly called for.
-> 
-> Make this isolation structural in the zonelists: N_MEMORY_PRIVATE
-> nodes are excluded from FALLBACK and NOFALLBACK entirely, making
-> them effectively invisible to all normal callers of page_alloc.
-> 
-> Add ZONELIST_PRIVATE, which spans (N_MEMORY | N_MEMORY_PRIVATE).
-> When !CONFIG_NUMA, it aliases ZONELIST_FALLBACK and compiles out.
-> 
-> Add ZONELIST_PRIVATE_NOFALLBACK as the __GFP_THISNODE target for
-> private node allocations.
-> 
-> Zonelist selection rides the allocator's alloc_flags.  Add
-> ALLOC_ZONELIST_PRIVATE and resolve it in select_zonelist(), which
-> prepare_alloc_pages() applies from ac->alloc_flags; the default
-> (ALLOC_DEFAULT) keeps node_zonelist()'s gfp-based selection.
-> 
-> Add explicit private-node alloc() functions to prevent open-coding
-> (both ride ALLOC_ZONELIST_PRIVATE through the alloc_flags-carrying
-> entry points):
->    - alloc_pages_node_private_noprof()
->    - folio_alloc_node_private_noprof()
-> 
-> alloc_contig_range adds an explicit node_is_private() guard because
-> it dervices its target zones from PFNs rather than zonelists. All
-> in-tree callers use N_MEMORY ranges, but the check prevents future
-> callers from violating node isolation.
-> 
-> Important note:  By design this zonelist isolates N_MEMORY_PRIVATE
-> from unintentional allocations, but does NOT isolate private-node
-> allocations from falling back to non-private nodes.
-> 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->  include/linux/gfp.h    | 11 ++++++++
->  include/linux/mmzone.h | 11 +++++++-
->  mm/mm_init.c           |  2 +-
->  mm/page_alloc.c        | 64 ++++++++++++++++++++++++++++++++++++++++--
->  mm/page_alloc.h        | 26 +++++++++++++++++
->  5 files changed, 109 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index a327e58c313f8..f3e867de744f6 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -204,6 +204,17 @@ static inline void arch_free_page(struct page *page, int order) { }
->  static inline void arch_alloc_page(struct page *page, int order) { }
->  #endif
->  
-> +/* Allocate from an N_MEMORY_PRIVATE node (selects the private zonelist). */
-> +struct page *alloc_pages_node_private_noprof(gfp_t gfp, unsigned int order,
-> +		int nid);
-> +#define alloc_pages_node_private(...)				\
-> +	alloc_hooks(alloc_pages_node_private_noprof(__VA_ARGS__))
-> +
-> +struct folio *folio_alloc_node_private_noprof(gfp_t gfp, unsigned int order,
-> +		int nid);
-> +#define folio_alloc_node_private(...)				\
-> +	alloc_hooks(folio_alloc_node_private_noprof(__VA_ARGS__))
-> +
->  unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
->  				nodemask_t *nodemask, int nr_pages,
->  				struct page **page_array);
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 9815e48c03b97..654c5111f7cec 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -1392,13 +1392,22 @@ enum {
->  #ifdef CONFIG_NUMA
->  	/*
->  	 * The NUMA zonelists are doubled because we need zonelists that
-> -	 * restrict the allocations to a single node for __GFP_THISNODE.
-> +	 * restrict the allocations to a single node for __GFP_THISNODE
-> +	 * and N_MEMORY_PRIVATE nodes (isolated from default lists).
->  	 */
->  	ZONELIST_NOFALLBACK,	/* zonelist without fallback (__GFP_THISNODE) */
-> +	ZONELIST_PRIVATE,	/* N_MEMORY_PRIVATE access, falls back to DRAM */
-> +	ZONELIST_PRIVATE_NOFALLBACK, /* N_MEMORY_PRIVATE access, __GFP_THISNODE */
->  #endif
->  	MAX_ZONELISTS
->  };
->  
-> +#ifndef CONFIG_NUMA
-> +/* Without NUMA only ZONELIST_FALLBACK exists so everything collapses there */
-> +#define ZONELIST_PRIVATE		ZONELIST_FALLBACK
-> +#define ZONELIST_PRIVATE_NOFALLBACK	ZONELIST_FALLBACK
-> +#endif
-> +
->  /*
->   * This struct contains information about a zone in a zonelist. It is stored
->   * here to avoid dereferences into large structures and lookups of tables
-> diff --git a/mm/mm_init.c b/mm/mm_init.c
-> index 711f821f7b3c7..adb50647d29ca 100644
-> --- a/mm/mm_init.c
-> +++ b/mm/mm_init.c
-> @@ -2701,7 +2701,7 @@ void __init mm_core_init(void)
->  	init_zero_page_pfn();
->  
->  	/* Initializations relying on SMP setup */
-> -	BUILD_BUG_ON(MAX_ZONELISTS > 2);
-> +	BUILD_BUG_ON(MAX_ZONELISTS > 4);
->  	build_all_zonelists(NULL);
->  	page_alloc_init_cpuhp();
->  	alloc_tag_sec_init();
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index aa35bbe5d4c3e..78755a55b1540 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -5040,7 +5040,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
->  		unsigned int *alloc_flags)
->  {
->  	ac->highest_zoneidx = gfp_zone(gfp_mask);
-> -	ac->zonelist = node_zonelist(preferred_nid, gfp_mask);
-> +	ac->zonelist = select_zonelist(preferred_nid, gfp_mask, ac->alloc_flags);
->  	ac->nodemask = nodemask;
->  	ac->migratetype = gfp_migratetype(gfp_mask);
->  
-> @@ -5346,7 +5346,7 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
->  	unsigned int fastpath_alloc_flags = alloc_flags;
->  
->  	/* Other flags could be supported later if needed. */
-> -	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG)))
-> +	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG | ALLOC_ZONELIST_PRIVATE)))
->  		return NULL;
->  
->  	if (!alloc_order_allowed(gfp, order, alloc_flags))
-> @@ -5457,6 +5457,22 @@ struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
->  }
->  EXPORT_SYMBOL(__folio_alloc_node_noprof);
->  
-> +struct page *alloc_pages_node_private_noprof(gfp_t gfp, unsigned int order,
-> +		int nid)
-> +{
-> +	return __alloc_pages_noprof(gfp, order, nid, NULL,
-> +				   ALLOC_ZONELIST_PRIVATE);
-> +}
-> +EXPORT_SYMBOL_GPL(alloc_pages_node_private_noprof);
-> +
-> +struct folio *folio_alloc_node_private_noprof(gfp_t gfp, unsigned int order,
-> +		int nid)
-> +{
-> +	return __folio_alloc_noprof(gfp, order, nid, NULL,
-> +				   ALLOC_ZONELIST_PRIVATE);
-> +}
-> +EXPORT_SYMBOL_GPL(folio_alloc_node_private_noprof);
-> +
->  /*
->   * Common helper functions. Never use with __GFP_HIGHMEM because the returned
->   * address cannot represent highmem pages. Use alloc_pages and then kmap if
-> @@ -5854,9 +5870,21 @@ static void build_zonelists_in_node_order(pg_data_t *pgdat, int *node_order,
->  static void build_thisnode_zonelists(pg_data_t *pgdat)
->  {
->  	struct zoneref *zonerefs;
-> -	int nr_zones;
-> +	int nr_zones = 0;
->  
-> +	/*
-> +	 * NOFALLBACK: the node's own zones. EMPTY for private nodes so a
-> +	 * stray __GFP_THISNODE allocation can't violate isolation.
-> +	 */
->  	zonerefs = pgdat->node_zonelists[ZONELIST_NOFALLBACK]._zonerefs;
-> +	if (!node_is_private(pgdat->node_id))
-> +		nr_zones = build_zonerefs_node(pgdat, zonerefs);
-> +	zonerefs += nr_zones;
-> +	zonerefs->zone = NULL;
-> +	zonerefs->zone_idx = 0;
-> +
-> +	/* PRIVATE_NOFALLBACK: the node's own zones, private nodes included. */
-> +	zonerefs = pgdat->node_zonelists[ZONELIST_PRIVATE_NOFALLBACK]._zonerefs;
->  	nr_zones = build_zonerefs_node(pgdat, zonerefs);
->  	zonerefs += nr_zones;
->  	zonerefs->zone = NULL;
-> @@ -5899,11 +5927,28 @@ static void build_node_zonelist(pg_data_t *pgdat, const nodemask_t *candidates,
->  static void build_zonelists(pg_data_t *pgdat)
->  {
->  	static int node_order[MAX_NUMNODES];
-> +	nodemask_t tier_nodes;
->  	int local_node = pgdat->node_id;
->  	int node, nr_nodes = 0;
->  
->  	memset(node_order, 0, sizeof(node_order));
->  
-> +	/*
-> +	 * Zonelists: FALLBACK, NOFALLBACK, PRIVATE
-> +	 *
-> +	 * FALLBACK:   Allocation order for all nodes.  Private nodes have lists
-> +	 *             but never appear as an entry in any list. Allocations
-> +	 *             targeting a private node w/ FALLBACK land on N_MEMORY.
-> +	 *
-> +	 * NOFALLBACK: A list for each node containing only itself.
-> +	 *             Allocations targeting a private node w/ NOFALLBACK
-> +	 *             will always fail (their NOFALLBACK is empty)
-> +	 *
-> +	 * PRIVATE:    (N_MEMORY | N_MEMORY_PRIVATE) - allows access to
-> +	 *             private nodes, and falls back to normal memory unless
-> +	 *             __GFP_THISNODE otherwise constrains it.
-> +	 */
-> +
->  	build_node_zonelist(pgdat, &node_states[N_MEMORY], ZONELIST_FALLBACK,
->  			    true, node_order, &nr_nodes);
->  	build_thisnode_zonelists(pgdat);
-> @@ -5912,6 +5957,10 @@ static void build_zonelists(pg_data_t *pgdat)
->  	for (node = 0; node < nr_nodes; node++)
->  		pr_cont("%d ", node_order[node]);
->  	pr_cont("\n");
-> +
-> +	nodes_or(tier_nodes, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
+Hi Christian,
 
-Hi Gregory,
+Could you add these patches to the VFS tree for next?
 
-A question about this part, if my understanding is right,
-ZONELIST_PRIVATE contains all private nodes, should we use some explicit target
-nodemask here to make sure only the targeting owner's private node can be touched?
+The patches get rid of folio_queue, rolling_buffer and ITER_FOLIOQ,
+replacing the folio queue construct used to manage buffers in netfslib with
+one based around a segmented chain of bio_vec arrays instead.  There are
+three main aims here:
 
-Otherwise it might fall back into a different owner's private node.
+ (1) The kernel file I/O subsystem seems to be moving towards consolidating
+     on the use of bio_vec arrays, so embrace this by moving netfslib to
+     keep track of its buffers for buffered I/O in bio_vec[] form.
 
---Richard
+ (2) Netfslib already uses a bio_vec[] to handle unbuffered/DIO, so the
+     number of different buffering schemes used can be reduced to just a
+     single one.
 
-> +	build_node_zonelist(pgdat, &tier_nodes, ZONELIST_PRIVATE, false,
-> +			    node_order, &nr_nodes);
->  }
->  
->  #ifdef CONFIG_HAVE_MEMORYLESS_NODES
-> @@ -7282,6 +7331,15 @@ int alloc_contig_frozen_range_noprof(unsigned long start, unsigned long end,
->  	if (__alloc_contig_verify_gfp_mask(gfp_mask, (gfp_t *)&cc.gfp_mask))
->  		return -EINVAL;
->  
-> +	/*
-> +	 * Private nodes are kept unreachable via the zonelists, but
-> +	 * alloc_contig works directly on a zone derived from the caller's
-> +	 * pfn range, bypassing that.  Reject this operation explicitly
-> +	 * rather than silently carving memory out of an isolated node.
-> +	 */
-> +	if (unlikely(node_is_private(zone_to_nid(cc.zone))))
-> +		return -EBUSY;
-> +
->  	/*
->  	 * What we do here is we mark all pageblocks in range as
->  	 * MIGRATE_ISOLATE.  Because pageblock and max order pages may
-> diff --git a/mm/page_alloc.h b/mm/page_alloc.h
-> index 23fc79ce97b60..741448d83ce77 100644
-> --- a/mm/page_alloc.h
-> +++ b/mm/page_alloc.h
-> @@ -57,6 +57,9 @@
->   */
->  #define ALLOC_NO_CODETAG       0x1000
->  
-> +/* Select the N_MEMORY_PRIVATE zonelist family (see select_zonelist()). */
-> +#define ALLOC_ZONELIST_PRIVATE 0x2000
-> +
->  /* Flags that allow allocations below the min watermark. */
->  #define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
->  
-> @@ -95,6 +98,29 @@ struct alloc_context {
->  	unsigned int alloc_flags;
->  };
->  
-> +#ifdef CONFIG_NUMA
-> +static_assert(ZONELIST_PRIVATE + 1 == ZONELIST_PRIVATE_NOFALLBACK);
-> +#endif
-> +
-> +/*
-> + * select_zonelist - resolve the zonelist for an allocation
-> + *
-> + * The default matches node_zonelist(); ALLOC_ZONELIST_PRIVATE selects the
-> + * private-node family so an allocation may reach an N_MEMORY_PRIVATE node.
-> + */
-> +static inline struct zonelist *
-> +select_zonelist(int nid, gfp_t gfp, unsigned int alloc_flags)
-> +{
-> +#ifdef CONFIG_NUMA
-> +	if (alloc_flags & ALLOC_ZONELIST_PRIVATE) {
-> +		int idx = ZONELIST_PRIVATE + !!(gfp & __GFP_THISNODE);
-> +
-> +		return &NODE_DATA(nid)->node_zonelists[idx];
-> +	}
-> +#endif
-> +	return node_zonelist(nid, gfp);
-> +}
-> +
->  /*
->   * This function returns the order of a free page in the buddy system. In
->   * general, page_zone(page)->lock must be held by the caller to prevent the
-> -- 
-> 2.53.0-Meta
-> 
-> 
+ (3) Always send an entire filesystem RPC request message to a TCP socket
+     with single kernel_sendmsg() call as this is faster, more efficient
+     and doesn't require the use of corking as it puts the entire
+     transmission loop inside of a single tcp_sendmsg().
+
+For the replacement of folio_queue, a segmented chain of bio_vec arrays
+rather than a single monolithic array is provided:
+
+	struct bvecq {
+		struct bvecq		*next;
+		struct bvecq		*prev;
+		unsigned long long	fpos;
+		refcount_t		ref;
+		u32			priv;
+		u16			nr_slots;
+		u16			max_slots;
+		enum bvecq_mem		mem_type:2;
+		bool			inline_bv:1;
+		bool			discontig:1;
+		struct bio_vec		*bv;
+		struct bio_vec		__bv[];
+	};
+
+The fields are:
+
+ (1) next, prev - Link segments together in a list.  I want this to be
+     NULL-terminated linear rather than circular to make it possible to
+     arbitrarily glue bits on the front.
+
+ (2) fpos, discontig - Note the current file position of the first byte of
+     the segment and whether this bvecq is discontiguous with the previous.
+     When accessing the pagecache to clear flags/locks, the fpos can be
+     used to look up folios by file position rather than by finding those
+     folios from the info stored in the bio_vecs.
+
+     When the file position is relevant, the model I'm working with is that
+     all the segments pointed to by a single bvecq must represent
+     contiguous data, but adjacent bvecqs within a chain need not be
+     contiguous.  This allows a bvecq chain to be used to provide bufferage
+     for a sparse read or write RPC such as can be done with Ceph.
+
+     If a bvecq segment is not contiguous with the previous one,
+     ->discontig should be set (this is technically redundant if one keeps
+     track of the fpos as a bvecq chain is processed).
+
+     Note that the beginning and end file positions in a segment need not
+     be aligned to any filesystem block size.
+
+ (3) ref - Refcount.  Each bvecq keeps a ref on the next.  I'm not sure
+     this is entirely necessary, but it makes sharing slices easier.
+
+ (4) priv - Private data for the owner.  Dispensible; currently only used
+     for storing a debug ID for tracing in a patch not included here.
+
+ (5) max_slots, nr_slots.  The size of bv[] and the number of slots used.
+     I've assumed a maximum of 65535 bio_vecs in the array (which would
+     represent a ~1MiB allocation).
+
+ (6) bv, __bv, inline_bv.  bv points to the bio_vec[] array handled by
+     this segment.  This may begin at __bv and if it does inline_bv should
+     be set (otherwise it's impossible to distinguish a separately
+     allocated bio_vec[] that follows immediately by coincidence).
+
+ (7) mem_type.  Indicates how the memory attached to the bio_vecs should be
+     disposed of when the bvecq is destroyed.  It can be one of:
+
+	BVECQ_MEM_EXTERNAL	- Externally tracked ref; don't put
+	BVECQ_MEM_PAGECACHE	- Pagecache; must be put
+	BVECQ_MEM_GUP		- Pinned by from GUP; needs unpin
+	BVECQ_MEM_ALLOCED	- Plain alloc'd pages; can be mempooled
+
+     [!] I'm not sure that this is a good name for this member or for the
+     	 enum values.
+
+I've also defined an iov_iter iterator type ITER_BVECQ to walk this sort of
+construct so that it can be passed directly to sendmsg() or block-based DIO
+(as cachefiles does).
+
+
+This series makes the following changes to netfslib:
+
+ (1) Remove the writethrough code as the locking is really tricky to get
+     right and it looks like it could deadlock with Ceph if snapshots are
+     used.
+
+ (2) The folio_queue chain used to hold folios for buffered I/O is replaced
+     with a bvecq chain.  Each bio_vec then holds (a portion of) one folio.
+     Each bvecq holds a contiguous sequence of folios, but adjacent bvecqs
+     in a chain may be discontiguous.
+
+ (3) For unbuffered/DIO, the source iov_iter is extracted into a bvecq
+     chain.
+
+ (4) An abstract position representation ('bvecq_pos') is created that can
+     used to hold a position in a bvecq chain.  For the moment, this takes
+     a ref on the bvecq it points to, but that may be excessive.
+
+ (5) Buffer tracking is managed with three cursors:  The load_cursor, at
+     which new folios are added as we go; the dispatch_cursor, at which new
+     subrequests' buffers start when they're created; and the
+     collect_cursor, the point at which folios are being unlocked.
+
+     Not all cursors are necessarily needed in all situations and during
+     buffered writeback, we need a dispatch cursor per stream (one for the
+     network filesystem and one for the cache).
+
+ (6) ->prepare_read(), buffer setting up and ->issue_read() are merged, as
+     are the write variants, with the filesystem calling back up to
+     netfslib to prepare its buffer.  This simplifies the process of
+     setting up a subrequest.  It may even make sense to have the
+     filesystem allocate the subrequest.
+
+ (7) Retry dispatch tracking is added to netfs_io_request so that the
+     buffer preparation functions can find it.  Retry requires an
+     additional buffer cursor.
+
+ (8) Netfslib dispatches I/O by accumulating enough bufferage to dispatch
+     at least one subrequest, then looping to generate as many as the
+     filesystem wants to (they may be limited by other constraints,
+     e.g. max RDMA segment count or negotiated max size).  This loop could
+     be moved down into the filesystem.  A new method is provided by which
+     netfslib can ask the filesystem to provide an estimate of the data
+     that should be accumulated before dispatch begins.
+
+ (9) Reading from the cache is now managed by querying the cache to provide
+     a list of the next two data extents within the cache.
+
+(10) AFS directories are switched to using a bvecq rather than a
+     folio_queue to hold their contents.
+
+(11) CIFS is switch to using a bvecq rather than a folio_queue for holding
+     a temporary encryption buffer.
+
+(12) CIFS RDMA is given the ability to extract ITER_BVECQ and support for
+     extracting ITER_FOLIOQ is removed.
+
+(13) All the folio_queue and rolling_buffer code is removed.
+
+Cachefiles is also modified:
+
+ (1) On-demand mode for Erofs is removed.
+
+ (2) The object type in the cachefiles file xattr is now correctly set to
+     CACHEFILES_CONTENT_{SINGLE,ALL,BACKFS_MAP} rather than just being 0,
+     to indicate whether we have a single monolithic blob, all the data up
+     to cache i_size with no holes or a sparse file with the data mapped by
+     the backing file system (as currently upstream).
+
+ (3) For "ALL" type files, the cache's i_size is used to track how much
+     data is saved in the cache and no longer bears any relation to the
+     netfs i_size.  The actual object size is stored in the xattr.
+
+ (4) For most typical files which are contiguous and written progressively,
+     the object type is now set to "ALL".  For anything else, cachefiles
+     uses SEEK_DATA/HOLE to find extent outlines at before (this is the
+     current behaviour and needs to be fixed, but in a separate set of
+     patches as it's not trivial).
+
+Two further things that I'm working on (but not in this branch) are:
+
+ (1) Make it so that a filesystem can be given a copy of a subchain which
+     it can then tack header and trailer protocol elements upon to form a
+     single message (I have this working for cifs) and even join copies
+     together with intervening protocol elements to form compounds.
+
+ (2) Make it so that a filesystem can 'splice' out the contents of the TCP
+     receive queue into a bvecq chain.  This allows the socket lock to be
+     dropped much more quickly and the copying of data read to the
+     destination buffers to happen without the lock.  I have this working
+     for cifs too.  Kernel recvmsg() doesn't then block kernel sendmsg()
+     for anywhere near as long.
+
+There are also some things I want to consider for the future:
+
+ (1) Create one or more batched iteration functions to 'unlock' all the
+     folios in a bio_vec[], where 'unlock' is the appropriate action for
+     ending a read or a write.  Batching should hopefully also improve the
+     efficiency of wrangling the marks on the xarray.  Very often these
+     marks are going to be represented by contiguous bits, so there may be
+     a way to change them in bulk.
+
+ (2) Rather than walking the bvecq chain to get each individual folio out
+     via bv_page, use the file position stored on the bvecq and the sum of
+     bv_len to iterate over the appropriate range in i_pages.
+
+ (3) Change iov_iter to store the initial starting point and for
+     iov_iter_revert() to reset to that and advance.  This would (a) help
+     prevent over-reversion and (b) dispense with the need for a prev
+     pointer.
+
+ (4) Use bvecq to replace scatterlist.  One problem with replacing
+     scatterlist is that crypto drivers like to glue bits on the front of
+     the scatterlists they're given (something trivial with that API) - and
+     this is one way to achieve it.
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-next
+
+Thanks,
+David
+
+Changes
+=======
+ver #7)
+- Rebased on v7.2-rc4.
+- Added three fix patches to the front from Yichong Chen that conflict with
+  other patches in the series.
+- Fixed a number of bugs reported by Sashiko[5].
+  - Fixed double page put in iov_kunit_destroy_bvecq().
+  - Fixed bvecq_alloc_buffer2() to handle pre_slots>0 and size==0
+    correctly.
+  - Fixes bvecq_expand_buffer() to use a barrer to set tail->nr_slots.
+  - Added functions to insert barriers when reading or setting bvecq::next
+    and fixed some places to use them.
+  - Fixed more meta block mapping in afs_edit_dir_remove().
+  - Added a patch to fix missing unmap in afs_dir_search_bucket().
+  - Removed the writethrough stat counter as the code gets removed.
+  - Cleaned up the cachefiles-ondemand removal patch:
+    - Fix removal of code that's conditional on !ONDEMAND.
+    - Removed msg_id_next field.
+    - Removed ondemand trace elements.
+    - Removed documentation.
+  - Fixed cachefiles_resize_cookie() to only consider a resize a shrink if
+    the new size is less than the object size.
+  - Fixed cachefiles_resize_cookie() to update object->object_size on
+    expansion.
+  - Add a comment on exclusion in cachefiles_collect_write().
+  - Fixed netfs_single_dispatch_read() to allow for the cache to have
+    rounded out the stored data to DIO size.
+  - Fixed netfs_prepare_read_iterator() to clamp subreq len to sreq_max_len
+    (obsoleted by last patch).
+  - Changed write subreq collection to never retry cache writes.  Shouldn't
+    see them in the retry path either then.
+  - Fixed netfs_pgpriv2_unlock_copied_folios() to return made_progress
+    instead of false if we hit the end of the bvecq chain.
+  - Modified buffered read collection to abandon the rest of a read request
+    if a subreq over-reads as the buffer may have been corrupted.  The read
+    termination function no longer winds subreq->transferred back.
+  - Fixed netfs_issue_read() to call the right termination func in the fail
+    path.
+  - Fixed netfs_dispatch_unbuffered_reads(), netfs_single_dispatch_read()
+    and netfs_retry_read_subrequests() to handle failed ->issue_read().
+  - Fixed afs_issue_read() to return after calling afs_end_read() as this
+    op is then released.
+  - Fixed cifs_issue_write() to always release credits on failure.
+  - Fixed cifs_issue_read() to not release credits twice.
+  - Fixed netfs_issue_writes() to advance stream->issued_to and
+    stream->dispatch_cursor on early failure of ->issue_write().
+  - Fixed netfs_issue_read() to only call netfs_all_subreqs_queued() if
+    stream->buffered is zero.
+  - Fixed ceph_netfs_issue_op_inline() to do a retry if file got uninlined
+    by someone else.
+  - Fixed ceph_netfs_issue_op_inline() to not return an error directly
+    once it's got a prepared buffer.
+  - Fixed nfs_netfs_issue_read() to return an int.
+
+ver #6)
+- Rebased on v7.2-rc3.
+- Added a patch to remove erofs on-demand support from cachefiles.
+- Added a patch to remove the writethrough code as it's really tricky to
+  get the locking right and it looks like can deadlock itself with Ceph.
+- Fixed a number of bugs reported by Sashiko[4].
+  - Fixed iov_iter_single_seg_count(), iov_iter_alignment_bvecq() and
+    iov_npages_bvecq() to handle zero-length segments and segments with no
+    stuff remaining.
+  - Fixed bvecq_extract() to use GFP_NOFS rather than GFP_KERNEL.
+  - Fixed bvecq_alloc_buffer2()'s use of alloc_pages_bulk().
+  - Fixed netfs_extract_iter() to break out of the inner loop if max_pages
+    hits zero.
+  - Added a patch to fix meta block mapping in afs_edit_dir_remove().
+  - Fixed afs_init_new_symlink() to clear the tail of the symlink page.
+  - Fixed cachefiles_begin_operation() to deal with a NULL file.
+  - Fixed slot check in netfs_read_gaps() to be >=, not >.
+  - Fixed netfs_pgpriv2_copy_folio() to update creq->last_end.
+  - Fixed netfs_read_single() to return -EIO if the buffer isn't big
+    enough.
+  - Add a comment to netfs_write_folio() to indicate that truncate must
+    not run concurrently with writeback and must exclude/wait for it.
+  - In netfs_read_subreq_terminated(), move the netfs_sreq_trace_too_much
+    trace line earlier before ->transferred is clobbered.
+  - In netfs_read_subreq_terminated(), make the transfer-too-long case
+    avoid retrying and just end with EIO (in case data further along in the
+    buffer got corrupted).
+  - Fixed netfs_collect_read_results() if it sees front->transferred >
+    front->len, to just use front->len instead.
+  - Fixed ceph_netfs_issue_op_inline() to prep the buffer before setting
+    NETFS_SREQ_HIT_EOF so that subreq->content is set.
+  - Alter netfs_read_to_pagecache() to not round up reading from
+    zero-containing cache granules as no I/O is required.
+  - Made ->issue_write() return an error so that errors before any buffer
+    is sliced off don't result in an infinite loop in netfs_issue_writes().
+  - Made ->issue_read() return an error also for similiar reasons.
+  - In netfs_writepages(), handle -ENOMEM from bvecq prealloc before
+    caling netfs_queue_wb_folio() rather than doing it on the combined
+    error return of that and netfs_issue_streams() which can result in a
+    double unlock.
+  - Fix netfs_writeback_single() to write nothing if len == 0.
+
+ver #5)
+- Rebased on v7.2-rc2 as that has a bunch of outstanding netfs and afs
+  bugfixes included.
+
+ver #4)
+- Fixed a number of bugs reported by Sashiko[3].
+  - Added a patch to fix an underflow in iov_iter_extract_xarray_pages().
+  - Added a patch to fix alloc failure in iov_iter_extract_bvec_pages().
+  - Added a patch to remove an unused var in kunit code.
+  - Added a patch to fix the folio offset in extract_xarray_to_sg().
+  - Added a patch to fix the exclusion over writeback to make it cover
+    collection too.
+  - Fixed double fput() in cachefiles.
+  - Fixed the collection of cache writes to handle cancellation better.
+  - Fixed iterate_bvecq() to skip bvecq structs with nr_slots==0.
+  - Add a comment into iterate_bvecq() that a slot with bv_len>0 must have a
+    valid bv_page.
+  - Fixed iov_iter_bvecq_advance(), iov_iter_bvecq_revert(),
+    iter_count_bvecq_pages(), iov_iter_extract_bvecq_pages() and
+    extract_bvecq_to_sg() to correctly handle empty bvecqs.
+  - Fixed extract_bvecq_to_sg() to be limited by iter->count.
+  - Fixed bvecq_expand_buffer() to take an unsigned size param.
+  - Fixed bvecq_expand_buffer() to not mix memory types in alloc'd bvecqs.
+  - Fixed bvecq_shorten_buffer() occasional retention of zero-length slots.
+  - Fixed slot validity check polarity in bvecq_pos_advance(); also don't use
+    inner loop otherwise break then exits the wrong loop.
+  - Fixed bvecq_zero(), bvecq_slice() and bvecq_extract to use a barrier when
+    checking bq->nr_slots.
+  - Restructured bvecq_zero() to be similar to bvecq_pos_advance().
+  - Fixed an off-by-one error in bvecq_pos_step() and added a missing slot
+    reset.
+  - Fixed a break in netfs_extract_iter() that should have been a goto.
+  - Fixed netfs_extract_iter() to limit number of pages extracted to remnant
+    of max_pages.
+  - Fixed an uninit var in afs_do_read_symlink().
+  - Fixed netfs_read_gaps() to fill a multipart bvecq chain correctly.
+  - Fixed netfs_dispatch_unbuffered_reads() to initialise collect_cursor as
+    netfs_rreq_assess_dio() uses it to flush the data read.
+  - Fixed netfs_extract_iter() to init the slot counter outside the extract
+    loop to avoid overwriting already loaded slots.
+  - Fixed callers of bvecq_delete_spent() to update bvecq_pos::slot before
+    calling.
+  - Fixed netfs_reissue_write() to make sure subreq->content is unset before
+    setting.
+  - Altered netfs_extract_iter() to free any allocated bvecq chain if no pages
+    were extracted and an error occurred  (and to initialise the return
+    pointer to NULL).  Also, made it return an empty bvecq if nothing was
+    extracted, but no error occurred.
+  - Fixed ceph_netfs_issue_read() to just return if
+    ceph_netfs_issue_op_inline() returns anything other than 1 to avoid a
+    double termination.
+  - Fixed ceph_netfs_issue_read() to do the size calculation in the right
+    order to avoid the op expanding to larger than the buffer.
+  - Fixed netfs_issue_read(), in the NETFS_FILL_WITH_ZEROES case, to deduct
+    subreq->len from stream->buffered rather than just setting it to 0.
+  - Fixed netfs_perform_write() to put the folio if netfs_advance_writethrough()
+    fails.
+  - Restored the old ->prepare_write op specifically for
+    fscache_write_to_cache() which is still used by Ceph.
+  - Fixed undefined return in netfs_pgpriv2_issue_stream().
+  - Fixed netfs_collect_write_results() to try to make sure a request isn't
+    left paused if there are no further server-bound subreqs.
+  - Fixed netfs_queue_wb_folio() to redirty the folio before unlocking it if
+    it can't allocate a bvecq.
+  - Fixed netfs_writepages() to cancel the pagecache iteration after ENOMEM.
+  - Fixed netfs_advance/end_writethrough() to advance the dispatch cursor.
+  - Fixed netfs_retry_read_subrequests() to use barriers when walking
+    stream->subrequests as the app may add another subreq before pausing.
+  - Fixed netfs_prepare_write_retry_buffer() to use ->retry_start and
+    ->retry_buffered rather than ->issue_from and ->buffered.
+  - Fixed netfs_retry_write_stream() to use barriers when walking
+    stream->subrequests as the app may add another subreq before pausing.
+  - Fixed netfs_retry_write_stream() to check the correct length when adding
+    additional subreqs.
+  - Fixed nfs_netfs_issue_read() to set -ENOMEM, not 0, on alloc failure.
+  - Fixed nfs_netfs_issue_read() to only terminate the subreq once.
+  - Fixed cifs_issue_read() to release the credits if cifs_reopen_file()
+    fails.
+- Rebased on v7.1.
+
+ver #3)
+- Rebased to -rc7 as the patches wouldn't apply for Christian.
+- Prepended a fix for a warning from generic/464 (the problem also exists
+  upstream, just not the warning).
+- Renamed kmap_local_bvec() to bvec_kmap_partial() as requested by
+  Christoph.
+- Adjusted smbdirect patch descriptions as requested by Stefan Metzmacher.
+
+ver #2)
+- Fixed a number of bugs reported by Sashiko[1].
+- Split a bunch of fixes out and posted them separately[2].
+
+[1] https://sashiko.dev/#/patchset/20260326104544.509518-1-dhowells%40redhat.com
+[2] https://lore.kernel.org/linux-fsdevel/20260512-infozentrum-becher-7f86c47c96c8@brauner/T/#t
+[3] https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40redhat.com
+[4] https://sashiko.dev/#/patchset/20260706153408.1231650-1-dhowells%40redhat.com
+[5] https://sashiko.dev/#/patchset/20260716103030.3065561-1-dhowells%40redhat.com
+
+David Howells (25):
+  afs: Fix missing kunmap in afs_dir_search_bucket()
+  afs: Fix afs_edit_dir_remove() to get, not find, block 0
+  afs: Fix double-unmap of directory block
+  mm: Make readahead store folio count in readahead_control
+  netfs: Bulk load the readahead-provided folios up front
+  Add a function to kmap one page of a multipage bio_vec
+  iov_iter: Make iov_iter_get_pages*() wrap iov_iter_extract_pages()
+  iov_iter: Add a segmented queue of bio_vec[]
+  netfs: Add some tools for managing bvecq chains
+  netfs: Add a function to extract from an iter into a bvecq
+  afs: Use a bvecq to hold dir content rather than folioq
+  cifs: Use a bvecq for buffering instead of a folioq
+  smbdirect: Support ITER_BVECQ in smbdirect_map_sges_from_iter()
+  netfs: Remove the writethrough code
+  cachefiles: Don't rely on backing fs storage map for most use cases
+  netfs: Add the cache object ID to netfs_read/write tracepoints
+  netfs: Switch to using bvecq rather than folio_queue and
+    rolling_buffer
+  smbdirect: Remove support for ITER_FOLIOQ from
+    smbdirect_map_sges_from_iter()
+  netfs: Remove netfs_alloc/free_folioq_buffer()
+  netfs: Remove netfs_extract_user_iter()
+  iov_iter: Remove ITER_FOLIOQ
+  netfs: Remove folio_queue and rolling_buffer
+  netfs: Check for too much data being read
+  netfs: Limit the minimum trigger for progress reporting
+  netfs: Combine prepare and issue ops and grab the buffers on request
+
+Gao Xiang (1):
+  cachefiles,netfs: sunset ondemand mode
+
+Yichong Chen (3):
+  netfs: clear PG_private_2 on copy-to-cache append failure
+  netfs: handle single writeback rolling buffer allocation failure
+  netfs: release readahead folios on iterator preparation failure
+
+ Documentation/core-api/folio_queue.rst        |  209 ----
+ Documentation/core-api/index.rst              |    1 -
+ .../filesystems/caching/cachefiles.rst        |  179 ---
+ Documentation/filesystems/netfs_library.rst   |    2 +-
+ fs/9p/vfs_addr.c                              |   61 +-
+ fs/afs/dir.c                                  |   40 +-
+ fs/afs/dir_edit.c                             |   54 +-
+ fs/afs/dir_search.c                           |   44 +-
+ fs/afs/file.c                                 |   31 +-
+ fs/afs/fsclient.c                             |    8 +-
+ fs/afs/inode.c                                |    2 +-
+ fs/afs/internal.h                             |   22 +-
+ fs/afs/symlink.c                              |   37 +-
+ fs/afs/write.c                                |   36 +-
+ fs/afs/yfsclient.c                            |    6 +-
+ fs/cachefiles/Kconfig                         |   12 -
+ fs/cachefiles/Makefile                        |    1 -
+ fs/cachefiles/daemon.c                        |   76 +-
+ fs/cachefiles/interface.c                     |   98 +-
+ fs/cachefiles/internal.h                      |  142 +--
+ fs/cachefiles/io.c                            |  563 ++++++---
+ fs/cachefiles/namei.c                         |   27 +-
+ fs/cachefiles/ondemand.c                      |  761 ------------
+ fs/cachefiles/xattr.c                         |   24 +-
+ fs/ceph/Kconfig                               |    1 +
+ fs/ceph/addr.c                                |  123 +-
+ fs/netfs/Kconfig                              |    3 +
+ fs/netfs/Makefile                             |    4 +-
+ fs/netfs/buffered_read.c                      |  527 +++++---
+ fs/netfs/buffered_write.c                     |   59 +-
+ fs/netfs/bvecq.c                              |  768 ++++++++++++
+ fs/netfs/direct_read.c                        |  115 +-
+ fs/netfs/direct_write.c                       |  162 +--
+ fs/netfs/fscache_io.c                         |    4 +-
+ fs/netfs/internal.h                           |  107 +-
+ fs/netfs/iterator.c                           |  390 ++----
+ fs/netfs/main.c                               |    1 -
+ fs/netfs/misc.c                               |  168 +--
+ fs/netfs/objects.c                            |   22 +-
+ fs/netfs/read_collect.c                       |  208 ++--
+ fs/netfs/read_pgpriv2.c                       |  204 +++-
+ fs/netfs/read_retry.c                         |  252 ++--
+ fs/netfs/read_single.c                        |  181 ++-
+ fs/netfs/rolling_buffer.c                     |  222 ----
+ fs/netfs/stats.c                              |   10 +-
+ fs/netfs/write_collect.c                      |  246 ++--
+ fs/netfs/write_issue.c                        | 1077 +++++++++--------
+ fs/netfs/write_retry.c                        |  178 +--
+ fs/nfs/Kconfig                                |    1 +
+ fs/nfs/fscache.c                              |   24 +-
+ fs/smb/client/cifsglob.h                      |    2 +-
+ fs/smb/client/cifssmb.c                       |   13 +-
+ fs/smb/client/file.c                          |  145 +--
+ fs/smb/client/smb2ops.c                       |   82 +-
+ fs/smb/client/smb2pdu.c                       |   28 +-
+ fs/smb/client/transport.c                     |   15 +-
+ fs/smb/smbdirect/connection.c                 |  135 +--
+ include/linux/bvec.h                          |   18 +
+ include/linux/bvecq.h                         |  358 ++++++
+ include/linux/folio_queue.h                   |  282 -----
+ include/linux/fscache.h                       |   17 +
+ include/linux/iov_iter.h                      |   87 +-
+ include/linux/netfs.h                         |  184 +--
+ include/linux/pagemap.h                       |   10 +
+ include/linux/rolling_buffer.h                |   61 -
+ include/linux/uio.h                           |   17 +-
+ include/trace/events/cachefiles.h             |  195 +--
+ include/trace/events/netfs.h                  |  159 ++-
+ kernel/bpf/btf.c                              |    2 -
+ lib/iov_iter.c                                |  557 +++++----
+ lib/scatterlist.c                             |   82 +-
+ lib/tests/kunit_iov_iter.c                    |  131 +-
+ mm/readahead.c                                |    5 +
+ net/9p/client.c                               |    8 +-
+ 74 files changed, 4937 insertions(+), 5149 deletions(-)
+ delete mode 100644 Documentation/core-api/folio_queue.rst
+ delete mode 100644 fs/cachefiles/ondemand.c
+ create mode 100644 fs/netfs/bvecq.c
+ delete mode 100644 fs/netfs/rolling_buffer.c
+ create mode 100644 include/linux/bvecq.h
+ delete mode 100644 include/linux/folio_queue.h
+ delete mode 100644 include/linux/rolling_buffer.h
+
