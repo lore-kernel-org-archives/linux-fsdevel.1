@@ -1,178 +1,189 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3107D36A377
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 12:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51CB1A6806;
+	Wed, 22 Jul 2026 12:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784723339; cv=none; b=TR9I90zZ3tAs+waJek15E1ko0su1oSRJwixJ2UgXqbOCTLHGQ8nutUQc7mSQ4wNY0Cq723Vcj3uUNNuQgMIJQxs9a8BBMltSHaxR0Qp72v9oj6eOFNxF11OAJCcba/A/vPIzinLKXBZHT441hmSplBBCfd4//myaHL2KwwMql4g=
+	t=1784723758; cv=none; b=jg0pXiX1jvzSRcg62jtTKY77w/UiFHLhBwcznwiuiPw7K4Ygz4lhCvF9nDffJcNKhFjKo1v0iVRMWw0hpa0eYR2B0sMx7PAd4CvOZgH34lb6oD/yl1ygxhcsEseQvGzhleuQaOJVLDcXYz9kBVxHGyimiMfg3UiSKXWwBM3Uybg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784723339; c=relaxed/simple;
-	bh=iQpjr5fJ0FGJnIGe3ONTjxP/7vJYxnkvS87QkOPQeac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t1jVRmO8dkF3LjiANxEKAgW7rTGOiAYnPFsnCxZSGX7iG39PK49+8EP1i2NCYCCwF80GqWQKQZSs/7mcoUMhK/109IBXenWlqsMOqzjLKrOz1dXI6/p3afuHKExqoT6xETB10Wy+LRfKXhKhlfQ//3P1XVW9UYHbP0xKtARASjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=l0IvwqsM; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784723758; c=relaxed/simple;
+	bh=jGMB6iE9lxJe5nKtxoXNDfrLRI4gR7M3ptjh6wD6/WI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ayLc+oGGCXmHSIxirEdTDXtqoxf3l1lxLfNqju/5ZF5XX6cWMnZ97QAmVNITCv1up7ShQuI+JgcKkCfHGl9QGlHJyKgdOoIx+gY82QTVICL8BrTg64LLd7eq5gmRR8jlXxIzHQvbiHCPqAZLMPmH8KEH24quz+BBjxPFov/zv/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyIzudcH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="l0IvwqsM"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c0c68aa31so91138601cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 05:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784723335; x=1785328135; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xIVz1DID8CeKWsK6GdOZ3gM4R5/BpOF1rbBDSWQ/gXQ=;
-        b=l0IvwqsM6zlM7NkEgYXDzeGbn6uOx1oqhRhYMdNJCeynL7xP69Zoq2WDhy/+9575uV
-         GvrY/ubHPcryeLmgg4oLIe3VCLLynP9wz4toMy89OkfW8FI6crAKbGIbnfMXCvqMHIVY
-         dcj2JUzLCI3Oz3712KvA1Dayhf8UwqMYWl915SLcQTK52TLIUtQ0ejLswXfYZ0Mp6ku0
-         FyZu2DsnTjLVxHKHI+NtM3TaGCYWXLkjnODgNmg2bQJCnVQP56n5qdeGTyEmoKKKo439
-         kwQOfJoqzLvuwXCn58xKmZlz0wI6AlItNlAyZPYt9zavEvBTzo1UNTXFhaWJUw52we74
-         TS7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784723335; x=1785328135;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xIVz1DID8CeKWsK6GdOZ3gM4R5/BpOF1rbBDSWQ/gXQ=;
-        b=PbrkToS/aYVUVM+F2B+DyiPW9IvSx+lT4mPZhrbTYHdEIinXOvi0+nnOfj8Vj5zbO8
-         bt1WNRRt6g9XjxvlzwFnSM1rnACseRuH759IUwFDPkqnyr8QgSmjv0x6uC1zGZBv2ENI
-         QAov+le+63p67EzfVlT/UktqQkys0+oFUsbhtPr5c4ZkwEJ1EWp6OSVHWHrQXIbpFSRW
-         H5OPmwcXqXPsRh2Fzm/UWXkl7Dw0LcMjnqyuzSdQSmIN6iJQf5tQNarHliyyzez8gMtt
-         WrcIrsp13N6TDOvHyj5XY0kW1LDVgJP5PBL29LFfP2z4/AUyzQV1zd1hPvVu3BZF8gPY
-         Jypw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq7Ancx/UuDzPJMK+bi7sLsasZfT4qK/AHNt7Qu5jXdwkSLIjNAarTALPCJ2O9UuYh0E23kRc/7Joy6zN2p@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAxLaf5ppCX6NpKNg7VKGdf67Eg1K4bNPzXaVI4QBZySD/gjTi
-	N20sGU9wNqlS6kPtKAaAbk+3sU+NsdwW8if6XUKfp0Hd4v4cdIF5HSHMjHJiwZwgWGg=
-X-Gm-Gg: AR+sD11R4cIstb5+He7iVKoZL+H9UK7p1srMvlfHuI913a93f1EDFjslyi3wGRiIvn0
-	4TttsPy4j0ZF9ZhFcaHZIs0Sssxk0XWEchrs8jmoxllIodmT2BYQdj2CWolHelCjV38V8ya6RQf
-	uYyKHdWRDfJsEPuz9YHQlU792dHqyn0pso2FqM3Wrfgx1Epgi8ycmilQL98Iacx2cY0Lo8PivnP
-	aSw8J2WtqjovhopU4ZHeECaLkEbiRuHrgZjWtRjMMumr3tR/sb2zYQ5njKf3fjqlxnSYL/puztl
-	g/Y4vZHHPqoMLgp9CvJawzR3zjtrRFPeDLyY2hZ3e2A/TrLt5fZDftxPVmknwyusuQKHgVXIDmX
-	/cp4PneRBkdej2JLlUwua4qL5Gnb7vcKYYlzDyOa0tc39aOiGjB4iENILkQZ3+Tb2GYnOXq/GAn
-	5Bj3zioRJnbWT9kZY7EIRiIkszbn4SlX6Vp95rsXg4d2kTqywYhH2EB8qv/w==
-X-Received: by 2002:ac8:5ad6:0:b0:51b:efbb:fbf with SMTP id d75a77b69052e-5213aa6e321mr250430031cf.18.1784723334838;
-        Wed, 22 Jul 2026 05:28:54 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d3b3f66dsm13968621cf.27.2026.07.22.05.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 05:28:54 -0700 (PDT)
-Date: Wed, 22 Jul 2026 08:28:48 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <amC0vzXEEnZaWim0@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
- <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
- <1d8b6857-de1e-4807-8201-4f6a49a3b8f7@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyIzudcH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 003651F000E9;
+	Wed, 22 Jul 2026 12:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784723757;
+	bh=2Jd1GANGwM+PXpSKQ+CRzq/E6/EDkcfhb0HgkIh9hJw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HyIzudcHgwOZMnwvnVThzTbiSoYQgWKiZ7BSA5Nn93yO5ZwK9lei72TD5EsIyvErW
+	 IBdApPWF/AFiQzqCq6bhBEkYP7OBWar0qnqBy6tDn0UVNS/UQDyr4Tr49g9ife1kGG
+	 PjgiL6sCmL5DZQR2/qRy3V6BSx7RPXHJ9QG9Tsm6etiWSMv+PcWkqBXCseFJR0wKjC
+	 2EiLaTBxgsBcsTcEPY6IrLBGKcD5HpS4iTaK+Ep2QcVcZ/xQT6/7WZKjkyW0RbAhX4
+	 2QTChyiE4YyE/kBFyhpYK/tppcL5nZQpL7EuRWN9qfuuxq3FtATsfFiTdrsAKf0uIE
+	 phOj7bGLdPLfQ==
+Message-ID: <7ddb704c-76a9-4071-8969-06fa1403eb07@kernel.org>
+Date: Wed, 22 Jul 2026 14:35:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d8b6857-de1e-4807-8201-4f6a49a3b8f7@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Content-Language: en-US
+To: Salvatore Dipietro <dipiets@amazon.it>, hannes@cmpxchg.org,
+ willy@infradead.org
+Cc: abuehaze@amazon.com, akpm@linux-foundation.org, alisaidi@amazon.com,
+ blakgeof@amazon.com, brauner@kernel.org, dgc@kernel.org,
+ dipietro.salvatore@gmail.com, djwong@kernel.org, hch@infradead.org,
+ jackmanb@google.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-xfs@vger.kernel.org,
+ mhocko@suse.com, ritesh.list@gmail.com, stable@vger.kernel.org,
+ surenb@google.com, ziy@nvidia.com
+References: <alEz4Chf7Ibyg-ZG@casper.infradead.org>
+ <20260714120204.542300-1-dipiets@amazon.it>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260714120204.542300-1-dipiets@amazon.it>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 22, 2026 at 06:29:53PM +1000, Balbir Singh wrote:
-> On 7/22/26 4:16 AM, Gregory Price wrote:
-> > 
-> > User-numa
-> > 
-> >    Some devices don't want the user to have control over placement.
-> >    I have been working on compressed memory, for example, which only
-> >    ever wants to be used as a reclaim-demotion target.
-> >    
-> >    (The reasoning for this is another thread, i plan on publishing
-> >     my research on this this year)
-> > 
+On 7/14/26 14:02, Salvatore Dipietro wrote:
 > 
-> I don't fully understand, how do we allocate memory on these devices then? Is
-> the driver expected to allocate and map via vm_insert_page()?
->
-
-It depends on your use case, but yes that's one possibility.
-
-In another use case, you could enable (CAP_RECLAIM | CAP_DEMOTION) and
-pages are allocated via alloc_demotion_target() in the reclaim path.
-
-For general "device hosted memory", you can do a variety of things:
-
-Direct alloc 
-    ioctl(...) ->  explicit alloc call
-    mmap(/dev/my_device) + mm_fault handler
-
-Or a kernel-internal mempolicy
-    ioctl(...) ->  set kernel-internal mempolicy on a vma
-    mmap(/dev/my_device) + kernel-internal only mempolicy on the vma
-
-The KVM guest_memfd patch included at the end of the series uses the
-kernel-internal mempolicy mechanism:
-https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#me04a7e3556677babd82bfe3947b1a83b7f0017e1
-
-This pattern is needed because the memory is never mapped into userland,
-so userland actually *can't* set a mempolicy on this memory itself.
-
-and then of course: CAP_USER_NUMA + mbind/set_mempolicy directly
-
-This is kind of the point - the source of the memory has some control
-over how it can be used.
-
-> > Hot-unplug:
-> > 
-> >    Some devices can't necessarily handle unexpected migration, and
-> >    hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
-> >    actually means "hot-unplug can execute migrations".
-> > 
-> >    If the entire device has pre-drained the memory (all memory is free)
-> >    then unplug works - it's just not very hot (no migrations) :]
-> > 
-> >    Maybe a naming issue?
-> > 
+> Hi Johannes, Matthew,
 > 
-> Yes, I would prefer MIGRATION in the name, HOTUNPLUG made me wonder how these
-> devices come online and because it is a device, it can go offline while the
-> system is still online
+> Thank you both for the alternative proposals. I've tested both
+> approaches on the same test environment used for v3.
+> 
+> Results (4 runs each):
+> 
+>   Config                   Avg TPS      % vs Baseline
+>   --------------------------------------------------------
+>   baseline (no patch)       70,735       -
+>   Johannes' approach       156,908      +121.8%
+>   Matthew's approach        70,145       -0.8% (within noise)
+> 
+> 
+> Johannes' approach (clearing __GFP_DIRECT_RECLAIM early in the
+> slowpath for costly __GFP_NORETRY) delivers the same ~2.2x speedup
+> as v3, as expected - it prevents the entire direct reclaim and
+> compaction machinery from running for these opportunistic allocations.
+
+AFAICS both your v3 and the implemented Johannes' suggestion effectively
+make all the compact_first logic dead code - at least for the intended THP
+use case based on costly_order. It will only continue to do something for
+the non-movable order>0  case. So that's a significant change which will not
+show up in your results, but might affect other workloads (I'd expect mainly
+by having fewer THPs).
+
+> Matthew's filemap.c approach does not help in this workload.  The
+> reason is that the first allocation attempt at max order still carries
+> __GFP_DIRECT_RECLAIM and enters the slowpath with direct compaction
+> enabled.  The __GFP_DIRECT_RECLAIM clearing only takes effect for 
+> subsequent lower-order attempts in the fallback loop, but the costly 
+> compaction has already executed on the first try.
+> 
+> Let me know if you have any other variant you want me to test, 
+> or if I should prepare a v4 based on Johannes' suggestion.
+> 
+> This is what I tested for Johannes' approach:
+> 
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index a63733dac659..6e960c969e67 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -4733,10 +4733,10 @@ static inline struct page *
+>  __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>  					struct alloc_context *ac)
+>  {
+> -	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
+> -	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
+> -	bool nofail = gfp_mask & __GFP_NOFAIL;
+>  	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
+> +	bool can_direct_reclaim;
+> +	bool can_compact;
+> +	bool nofail;
+>  	struct page *page = NULL;
+>  	unsigned int alloc_flags;
+>  	unsigned long did_some_progress;
+> @@ -4751,6 +4751,20 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>  	bool can_retry_reserves = true;
+>  	unsigned long alloc_start_time = jiffies;
+>  
+> +	/*
+> +	 * Costly __GFP_NORETRY allocations are opportunistic: the caller
+> +	 * can fall back to smaller orders.  Don't stall on direct reclaim
+> +	 * or compaction; clearing __GFP_DIRECT_RECLAIM makes the entire
+> +	 * slowpath treat this as a non-blocking request.  kswapd will wake
+> +	 * kcompactd as needed for background defragmentation.
+> +	 */
+> +	if (costly_order && (gfp_mask & __GFP_NORETRY))
+> +		gfp_mask &= ~__GFP_DIRECT_RECLAIM;
+> +
+> +	can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
+> +	can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
+> +	nofail = gfp_mask & __GFP_NOFAIL;
+> +
+>  	if (unlikely(nofail)) {
+>  		/*
+>  		 * Also we don't support __GFP_NOFAIL without __GFP_DIRECT_RECLAIM,
+> 
+> 
+> Thanks,
+> Salvatore
+> 
+> 
+> 
+> 
+> 
+> AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+> 
+> 
 > 
 
-There's a difference between device hotplug and memory hotplug.  The
-kernel's memory hotunplug system can at best be described as "best
-effort", and if hotplugged as ZONE_NORMAL (on a non-private node) you're
-unlikely to ever be able to hotunplug.
-
-It's possible that this CAP bit should just go away and if the device
-doesn't want its memory to be run migratable then it needs to hold extra
-references on the folios.  That's probably reasonable and looks a lot
-like a long term pin.
-
-(note: I have to respin for Sashiko fixes, i'm likely going to drop most
-of the CAP bits except USER_NUMA in v6 and have them come in with
-specific use cases).
-
-~Gregory
