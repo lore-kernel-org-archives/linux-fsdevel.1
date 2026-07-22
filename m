@@ -1,322 +1,219 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CAF306D26
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129E630C37C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 15:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784733033; cv=none; b=UuE89jT6HFwnA1dGu0ryT9JKpuWLoxY6i9dfkcMsSw5j3KPLFuQFMjQz0DOmAxsp3OneEOqw07nvfWYO0wt8Zq2jbH86FRP1csu9lp+piY2y0CPz4HbHM8L0NJpJI4UKUIM+WfuVTfHPUJ7p4M9C4UNpbkgHWyl8SoMkUKtVDpE=
+	t=1784733369; cv=none; b=So4qjmMI4uxb4IYUL6EEH4Xq1gZV0az8tNMTaZWzNvIsk0yXlEJPwWjP4cPyfn5RqiHG3H8wxRAC7cqLsIE8OkIwDyLZX+RxiLul72j9O2rVx3JWotwNSHe4j06Fmf9PINT+yH3OU2tTqfFISJ3FdimrB8VC6dWzJTgKACDVIpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784733033; c=relaxed/simple;
-	bh=6WXGrHo0dikDHmWykT6z2NqkSZeKXK1+HQCurgUY7s0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=heEirRSjRGjK6p491NnsuQWBqxhugQsLSnpX//MCuBXBPsrtRnDMeanH32YfhbocbegYE6z5qz/VbfrMfHrFAXNQ/ahHB4lvvlmtYoswU22KZ2WS5U1KJ9pkr2Lvw0DFyZ5yRiYOQaYyIAF6mqROvabiDI1s0EGbP9Zks51U8dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QFEDoAWZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784733369; c=relaxed/simple;
+	bh=pZqfDNtrlt4xKRG3c0BiAsT2DXo0fiEXSQUodX9iZ3w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=oNNj0Zb7lI9//x4QZUPBbz2q8T9AxUaFvudHKbvK0sPQMzFSV/XE0Bd6R3XR9EaChKxTgotyaHi5VllkHRo1/ujTmA3SStOfxlVPGRxoamMBvvUreJqTOjQjfNVqjYlqHKZPIVvNWVL7tnUGom7E3IhNBAo/8hHCKA0V1V/cHKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bW3PreC0; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QFEDoAWZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784733030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1yt8FUDEBJWvkvHAGOiwKVr2QpJfzSKKOP0l5IdtRVA=;
-	b=QFEDoAWZ8jEGMZ7JdyAU4TvZpbSKq0xXI7Pla0yqyCsRlCb4m4oi5DTCfKsLbDm1qTwhHy
-	s4ySz32inXVEmLmQB6MfhsMTJm5tu1k0wfBzLjbvfgP+nlmqCnFPOh93yu/1muI4JkODR2
-	0P5GrEaE2XrEAV2NTFWYmOAw79BWGRM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-210-3DHYQJt-O8yuqXdyzkU7JA-1; Wed,
- 22 Jul 2026 11:10:29 -0400
-X-MC-Unique: 3DHYQJt-O8yuqXdyzkU7JA-1
-X-Mimecast-MFC-AGG-ID: 3DHYQJt-O8yuqXdyzkU7JA_1784733028
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 187401805F01;
-	Wed, 22 Jul 2026 15:10:28 +0000 (UTC)
-Received: from pasta.fast.eng.rdu2.dc.redhat.com (unknown [10.44.48.147])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 72BBA1956042;
-	Wed, 22 Jul 2026 15:10:25 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] xattrat: accept empty O_PATH file descriptors
-Date: Wed, 22 Jul 2026 17:10:22 +0200
-Message-ID: <20260722151023.1308069-1-agruenba@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bW3PreC0"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784733365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r9xnLf5kCYeKS0y9dx48KGdZi3PUN8z8TKfUOdx3pcY=;
+	b=bW3PreC0YSLDGRKBpNSz9D3HV9IBx4wlSIMZcxjKlW2NgHj/d2JJNShI5MXv07j8MqQQS+
+	NPjHWhOdZSBYQK8zlzTLb67RaU+lo+jSdYPczWGuvi2XKtwcuonThN72rQpi4GauyQiL7a
+	183xUjaWt/QyKalqhxboM/IvbhPi1ME=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Jul 2026 15:15:52 +0000
+Message-Id: <DK5767A146ZW.3LV5JXS7T4W1C@linux.dev>
+Cc: "Brendan Jackman" <jackmanb@google.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "David Hildenbrand" <david@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Johannes Weiner"
+ <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Jan Kara" <jack@suse.cz>,
+ "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Hugh Dickins" <hughd@google.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Chris Li" <chrisl@kernel.org>, "Kairui
+ Song" <kasong@tencent.com>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat
+ Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, "Barry
+ Song" <baohua@kernel.org>, "Youngjun Park" <youngjun.park@lge.com>, "Joerg
+ Roedel (AMD)" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "WANG Xuerui" <kernel@xen0n.name>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Chuck Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ "NeilBrown" <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Trond
+ Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Simon Horman" <horms@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
+ <iommu@lists.linux.dev>, <loongarch@lists.linux.dev>,
+ <linux-nfs@vger.kernel.org>, <netdev@vger.kernel.org>
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Matthew Wilcox"
+ <willy@infradead.org>, "Brendan Jackman" <brendan.jackman@linux.dev>
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
+ <alkLSzQvzT9zJbY1@casper.infradead.org>
+ <DK05KUIDJVLZ.61UIWOL0K3OT@linux.dev>
+ <al5gQgnBCjNCSD_4@casper.infradead.org>
+ <51810eba-2a60-49f9-b879-7f806546e600@kernel.org>
+In-Reply-To: <51810eba-2a60-49f9-b879-7f806546e600@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-Christian,
+On Mon Jul 20, 2026 at 6:34 PM UTC, Vlastimil Babka (SUSE) wrote:
+> On 7/20/26 19:52, Matthew Wilcox wrote:
+>> On Thu, Jul 16, 2026 at 04:57:37PM +0000, Brendan Jackman wrote:
+>>> On Thu Jul 16, 2026 at 4:48 PM UTC, Matthew Wilcox wrote:
+>>> > On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
+>>> >> There are no external users for this surface, reduce the scope.
+>>> >> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order=
+,
+>>> >> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
+>>> >
+>>> > Hm.  So what we're saying is that allocations which respect mempolicy=
+ are
+>>> > only for core mm and not for, eg, device drivers to do.  Is that real=
+ly
+>>> > what we want to say?  I don't think so, because that's inconsistent
+>>> > with having just widened __filemap_get_folio_mpol to allow guest_memf=
+d
+>>> > to specify a mempolicy.
+>
+> guest_memfd is practically mm internal though, IMHO.
+>
+>>> Yeah I agree, mempolicy definitely seems like a "public concept".=C2=A0=
+ All
+>>> I'm saying here is this specific function doesn't have any external
+>>> users so it doesn't need to be an external header.=20
+>>=20
+>> I don't think that should be the metric for moving things to internal.h.
+>> To me, internal.h is a signifier that these interfaces should only be
+>> used by the MM.  Not that "all current users are within the MM".
+>
+> Perhaps. It can be also useful to move them outside only when someone ask=
+s.
 
-here's an updated patch for making the *xattrat() system calls accept
-O_PATH file descriptors.
+Yeah I can see this both ways. It makes sense to only expose functions
+to the scope that currently needs them, but I think Matthew's right that
+moving it to internal.h does kinda signal "this is private, don't touch
+this" which isn't intended.
 
-Compared to the previous version (see the discussion at [*]), this
-version adds a fd_maybe_raw cleanup class that uses either fdget() or
-fdget_raw() depending on which kinds of file descriptors are acceptable.
-That's still a but ugly, but all the alternatives I could come up with
-are much worse.
+>>> ... With the ulterior motive that I want to add a new parameter to it
+>>> that actually _is_ mm-internal. Namely, alloc_flags, so I can add
+>>> ALLOC_UNMAPPED to implement AS_NO_DIRECT_MAP, i.e. the next iteration o=
+f
+>>> [0]. So basically this is
+>>> about trying to extend the allocator without creating a GFP flag.
+>>=20
+>> Yeah.  I'm not sold on the whole alloc_flags thing, but I'm too busy to
+>> sit down and think it through properly to get involved in a proper
+>> argument about how it should work.
+>
+> Well it's basically a workaround for limited gfp flags space. So we can
+> extend it without making that a cost for everybody, as long as those that
+> need the new functionality are limited.
+>
+>> My entirely unresearched and ill-considered opinion is that the __GFP
+>> flags should _be_ the ALLOC flags.  We shoudn't be translating GFP flags
+>> into ALLOC flags that are what the allocator actually uses, the
+>
+> It uses both.
+>
+>> translation should be done at compile time.  So if GFP_KERNEL and
+>
+> That would assume the gfp flags are also known at compile time, which is =
+not
+> always the case.
+>
+>> GFP_ATOMIC need to be composed of different flags with different
+>
+> The flags we are adding/considering to add are not about GFP_KERNEL vs
+> GFP_ATOMIC context, however.
+>
+>> semantics, then we should do that, not invent a different set of flags
+>> that special people can use for special purposes.
+>
+> Yep it's ugly and pragmatic, as usual. At least it's not immortalized as =
+an
+> UAPI, so we can deal with exploring in a wrong direction and fixing it la=
+ter.
 
-[*] https://lore.kernel.org/linux-fsdevel/20260701191649.175871-1-agruenba@redhat.com/
+FWIW I suspect the "proper" design requirements are something like:
 
-Thanks,
-Andreas
+1. We want some flags that we can happily squeeze into places like
+   struct xa_node, and other flags that we can add bits to relatively
+   freely.
 
---
+2. We want some flags that are "public" and some that are "private",
+   although this is intentionally vaguely defined.
 
-Currently, the setxattrat(), getxattrat(), listxattrat(), and removexattrat()
-system calls fail with -EBADF when dfd is an O_PATH file descriptor, pathname
-is an empty string or NULL, and the AT_EMPTY_PATH flag is set in at_flags.
-This is inconsistent with the behavior of other system calls like fstatat() and
-fchmodat() which do accept O_PATH file descriptors, so change the *xattrat()
-system calls to accept O_PATH file descriptors as well.
+The current ALLOC_/GFP_ flags split is something that kinda inelegantly
+attempts to solve both at once even though they are actually probably
+orthogonal requirements. Do we care about this inelegance? I think it's
+pretty harmless.
 
-In environments where /proc is available, operations on O_PATH file descriptors
-can also be carried out by using "/proc/self/fd/<dfd>" as the pathname, so from
-a security standpoint, this is a relatively insignificant change.
+Another thing that's pretty inelegant about it is that both sets of
+flags percolate into the allocator at once. This is quite
+confusing/tiresome when you are reading page_alloc.c (I tried to
+ameliorate that with [0]) but I don't think it has much of an
+architectural impact?
 
-We stick with the existing practice of leaving the behavior of the fsetxattr(),
-fgetxattr(), flistxattr(), and fremovexattr() system calls unchanged: those
-will still reject O_PATH file descriptors.
+[0]: https://lore.kernel.org/all/20260703-alloc-trylock-v5-2-c87b714e19d3@g=
+oogle.com/
 
-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
----
- fs/xattr.c           | 55 +++++++++++++++++++++++++-------------------
- include/linux/file.h |  2 ++
- 2 files changed, 33 insertions(+), 24 deletions(-)
+In the back of my mind I suspect the "neat and tidy" solution would be
+something like: a single flags namespace that is split into two separate
+enums, one "public" and one "private", and then a separate mechanism to
+"compress" these flags into a small number of bits. But yeah I'm just
+not sure working on that nice elegant cleanup would really unlock
+anything of practical value. Boring little cleanups like "split out this
+API from internal.h into its own header" seem like more useful ways to
+spend refactoring energy in this space.
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index d58979115200..1db6596a2ec1 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -700,7 +700,8 @@ int filename_setxattr(int dfd, struct filename *filename,
- 
- static int path_setxattrat(int dfd, const char __user *pathname,
- 			   unsigned int at_flags, const char __user *name,
--			   const void __user *value, size_t size, int flags)
-+			   const void __user *value, size_t size, int flags,
-+			   bool raw)
- {
- 	struct xattr_name kname;
- 	struct kernel_xattr_ctx ctx = {
-@@ -725,7 +726,7 @@ static int path_setxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename && dfd >= 0) {
--		CLASS(fd, f)(dfd);
-+		CLASS(fd_maybe_raw, f)(dfd, raw);
- 		if (fd_empty(f))
- 			error = -EBADF;
- 		else
-@@ -758,14 +759,15 @@ SYSCALL_DEFINE6(setxattrat, int, dfd, const char __user *, pathname, unsigned in
- 
- 	return path_setxattrat(dfd, pathname, at_flags, name,
- 			       u64_to_user_ptr(args.value), args.size,
--			       args.flags);
-+			       args.flags, true);
- }
- 
- SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
- 		const char __user *, name, const void __user *, value,
- 		size_t, size, int, flags)
- {
--	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags);
-+	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags,
-+			       false);
- }
- 
- SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
-@@ -773,14 +775,14 @@ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
- 		size_t, size, int, flags)
- {
- 	return path_setxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
--			       value, size, flags);
-+			       value, size, flags, false);
- }
- 
- SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
- 		const void __user *,value, size_t, size, int, flags)
- {
- 	return path_setxattrat(fd, NULL, AT_EMPTY_PATH, name,
--			       value, size, flags);
-+			       value, size, flags, false);
- }
- 
- /*
-@@ -845,7 +847,7 @@ ssize_t filename_getxattr(int dfd, struct filename *filename,
- 
- static ssize_t path_getxattrat(int dfd, const char __user *pathname,
- 			       unsigned int at_flags, const char __user *name,
--			       void __user *value, size_t size)
-+			       void __user *value, size_t size, bool raw)
- {
- 	struct xattr_name kname;
- 	struct kernel_xattr_ctx ctx = {
-@@ -865,7 +867,7 @@ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename && dfd >= 0) {
--		CLASS(fd, f)(dfd);
-+		CLASS(fd_maybe_raw, f)(dfd, raw);
- 		if (fd_empty(f))
- 			return -EBADF;
- 		return file_getxattr(fd_file(f), &ctx);
-@@ -899,26 +901,28 @@ SYSCALL_DEFINE6(getxattrat, int, dfd, const char __user *, pathname, unsigned in
- 		return -EINVAL;
- 
- 	return path_getxattrat(dfd, pathname, at_flags, name,
--			       u64_to_user_ptr(args.value), args.size);
-+			       u64_to_user_ptr(args.value), args.size, true);
- }
- 
- SYSCALL_DEFINE4(getxattr, const char __user *, pathname,
- 		const char __user *, name, void __user *, value, size_t, size)
- {
--	return path_getxattrat(AT_FDCWD, pathname, 0, name, value, size);
-+	return path_getxattrat(AT_FDCWD, pathname, 0, name, value, size,
-+			       false);
- }
- 
- SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
- 		const char __user *, name, void __user *, value, size_t, size)
- {
- 	return path_getxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
--			       value, size);
-+			       value, size, false);
- }
- 
- SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
- 		void __user *, value, size_t, size)
- {
--	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size);
-+	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size,
-+			       false);
- }
- 
- /*
-@@ -982,7 +986,7 @@ ssize_t filename_listxattr(int dfd, struct filename *filename,
- 
- static ssize_t path_listxattrat(int dfd, const char __user *pathname,
- 				unsigned int at_flags, char __user *list,
--				size_t size)
-+				size_t size, bool raw)
- {
- 	int lookup_flags;
- 
-@@ -991,7 +995,7 @@ static ssize_t path_listxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename) {
--		CLASS(fd, f)(dfd);
-+		CLASS(fd_maybe_raw, f)(dfd, raw);
- 		if (fd_empty(f))
- 			return -EBADF;
- 		return file_listxattr(fd_file(f), list, size);
-@@ -1005,24 +1009,25 @@ SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname,
- 		unsigned int, at_flags,
- 		char __user *, list, size_t, size)
- {
--	return path_listxattrat(dfd, pathname, at_flags, list, size);
-+	return path_listxattrat(dfd, pathname, at_flags, list, size, true);
- }
- 
- SYSCALL_DEFINE3(listxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return path_listxattrat(AT_FDCWD, pathname, 0, list, size);
-+	return path_listxattrat(AT_FDCWD, pathname, 0, list, size, false);
- }
- 
- SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return path_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list, size);
-+	return path_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list,
-+				size, false);
- }
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
- {
--	return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size);
-+	return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size, false);
- }
- 
- /*
-@@ -1073,7 +1078,8 @@ static int filename_removexattr(int dfd, struct filename *filename,
- }
- 
- static int path_removexattrat(int dfd, const char __user *pathname,
--			      unsigned int at_flags, const char __user *name)
-+			      unsigned int at_flags, const char __user *name,
-+			      bool raw)
- {
- 	struct xattr_name kname;
- 	unsigned int lookup_flags;
-@@ -1088,7 +1094,7 @@ static int path_removexattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename) {
--		CLASS(fd, f)(dfd);
-+		CLASS(fd_maybe_raw, f)(dfd, raw);
- 		if (fd_empty(f))
- 			return -EBADF;
- 		return file_removexattr(fd_file(f), &kname);
-@@ -1100,24 +1106,25 @@ static int path_removexattrat(int dfd, const char __user *pathname,
- SYSCALL_DEFINE4(removexattrat, int, dfd, const char __user *, pathname,
- 		unsigned int, at_flags, const char __user *, name)
- {
--	return path_removexattrat(dfd, pathname, at_flags, name);
-+	return path_removexattrat(dfd, pathname, at_flags, name, true);
- }
- 
- SYSCALL_DEFINE2(removexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return path_removexattrat(AT_FDCWD, pathname, 0, name);
-+	return path_removexattrat(AT_FDCWD, pathname, 0, name, false);
- }
- 
- SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return path_removexattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name);
-+	return path_removexattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
-+				  false);
- }
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- {
--	return path_removexattrat(fd, NULL, AT_EMPTY_PATH, name);
-+	return path_removexattrat(fd, NULL, AT_EMPTY_PATH, name, false);
- }
- 
- int xattr_list_one(char **buffer, ssize_t *remaining_size, const char *name)
-diff --git a/include/linux/file.h b/include/linux/file.h
-index 27484b444d31..2a1dc738981e 100644
---- a/include/linux/file.h
-+++ b/include/linux/file.h
-@@ -82,6 +82,8 @@ static inline void fdput_pos(struct fd f)
- 
- DEFINE_CLASS(fd, struct fd, fdput(_T), fdget(fd), int fd)
- DEFINE_CLASS(fd_raw, struct fd, fdput(_T), fdget_raw(fd), int fd)
-+DEFINE_CLASS(fd_maybe_raw, struct fd, fdput(_T),
-+	     raw ? fdget_raw(fd) : fdget(fd), int fd, bool raw)
- DEFINE_CLASS(fd_pos, struct fd, fdput_pos(_T), fdget_pos(fd), int fd)
- 
- extern int f_dupfd(unsigned int from, struct file *file, unsigned flags);
--- 
-2.55.0
+Quite likely I'm missing potential unlocks though. E.g. maybe there's
+some place we currently put a gfp_t that could benefit from a "separate
+compression mechanism" that could usefully shrink it to 8 bits or
+whatever.
 
+>>> So I'm envisaging if an external user arises for it later, we'd slap tw=
+o
+>>> underscores on the beginning of the internal one, (with the alloc_flags
+>>> arg), and then bring back the public one as a wrapper.
+>>>=20
+>>> Does that make sense?
+>>=20
+>> We have a long history of people just moving stuff around in patches
+>> without knowing what the intent was if it should be moved.
+>
+> I guess this patch is not critical to the rest, if that's an issue.
+
+Well, for ALLOC_UNMAPPED we really do need an alloc_flags arg for this
+function, but we can always just go straight to what I described above.
+I.e. I can create the __ variant + wrapper from the start. It's just a
+question of whether we prefer:
+
+- "Yuck, there's a public wrapper here that we don't actually need", or
+
+- "We hid this mempolicy API and people might think we'd NACK a patch to
+  un-hide it".0
+
+  https://lore.kernel.org/all/20260703-alloc-trylock-v5-2-c87b714e19d3@goog=
+le.com/
