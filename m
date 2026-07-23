@@ -1,118 +1,167 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D174524F;
-	Thu, 23 Jul 2026 01:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265472C86D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 01:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784768477; cv=none; b=cIR0hkE2kvc87LdXqCCqVcesRf0Tg/LLHyB1emBSsReMkAG45u9xMRZKwECTpzJqcDJmG4WpVR3BeIcGmlPZpHYSO29bmfM+oJNQ8BovKISSt3oEm4nnMArL0cyqVzhXdedw9SzP2tEm6YhCK0akXiuYQv1WeJvbD9QeCuam8U8=
+	t=1784768580; cv=none; b=JuY4010RGDNtLhF0XNG6Nay1vcA9r0unQDwxZzJbmiIBwK7SIOAsbNQs3RBKAa81/4h5QxVzbUOCIiBB3lITH4NGceM+me4SQb0/TY/kQfD/2yfFSo/kwa2iLhFrTK/SbnGS2M5kLa7ss15isyWKBJjmyXk32APbWjBbHLHI6cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784768477; c=relaxed/simple;
-	bh=jTLKoCxU07j3KusO5Qgbw2EAf//sDok96fA3EDVouIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6eTXXisP3ps7qbfVvn0qeB/bDVNtg4dWvQhEHR79QDxhyz5KFimeF1wAvQjL0gXI+S6+Olxk9V4iUdaAQzqEMiQk6mkZUWSJb7L9L0DU8WWF4hfljnqsh4KhAYYznm+YllghX/xBDFnN9wof/EUZz9m0TnaGGks9gVTcrSYoKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=8CxD9Qsk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G5qlEFaN; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
+	s=arc-20240116; t=1784768580; c=relaxed/simple;
+	bh=B7p/Yr6KIUXHY9xeKP6wCZcbcmTeppPjtg4Fzq/9ZtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uy3G1spaG+JT92IBQqMcCs2XuIGPlQnlBkXNiyk5DQEtR8o+nKq+H8Yb5qveDJvq1vVeOPZvcPFn/1CxCSh3uHzZVEOKG6pXbc82WDjrderde7W6jIDy6npHOH2bWTRuzpwwKOyrHgljfczlCBM9sQJdKyx4h5TrTCEJmz1iuKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KxPSsAr0; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="8CxD9Qsk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G5qlEFaN"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B3C6A7A0078;
-	Wed, 22 Jul 2026 21:01:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 22 Jul 2026 21:01:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1784768474; x=1784854874; bh=LRJYd4w+C4
-	14LoA72BTuGLKRiX0tviO4B7m33e35Pes=; b=8CxD9Qskc8VCJbe6XRiChv/CN8
-	nUElIB2t/qkpEnVhCMKWJb0E37SvJwqxEdPfCmvIeOPrv9kjmPW1aKCgr+BoWc27
-	rWbcWSsCHKTGTL8NhUjcGMsgHA70ix5oXDzcDaWJbiX/UzSfv/zEVjd2K+rBaE8+
-	Fw7uaEwGWRVsW8IpcZdL4u51nq4t56X/bk8OL3lBAH1DImZ6fEqycp3AwQXmqTPN
-	ntmJB1tPJpfy5Jy4R3Hfr9cD+5r2nuBWpAVsFkoHVIQohBirMKcEPnaYXmUroBe0
-	lJQHbSC4pkF4dM13sVjG+sFTIsxm3uQ6GfosjXewRicGBMMhUN801FkwiUWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784768474; x=1784854874; bh=LRJYd4w+C414LoA72BTuGLKRiX0tviO4B7m
-	33e35Pes=; b=G5qlEFaN+YqQMciuL5PvB0e3RESRW8Ra1hVfyxHvKXbQp72BmN6
-	gWJY8K11Jzf8Pe9cV1Ewrqi7lMNOiBhGfF0RrhW2SEz8p539C52WDMovDZa6Echi
-	rwGE6IWY6/F76Aa7hFhTsw+EUP8Zu7KTd13PJM17tZGHlheemZY8kF0+WN48f7+y
-	mDMb+nkwjvqgdHWVywvE4Xsj4y3GrKy3+2s2d5lMSXvevXHvuesrNr7YPyC/QI8K
-	9mmrq1MqPJ2Iu4RkrvDRfi2ygqpB0gobJb6JzrLUiJZfCSiQkGDNZLnlB8CUTiC/
-	srs6w5Sjsc23OVNU7YkXOLRKPQXvtsJF4RA==
-X-ME-Sender: <xms:2mdhakmo0-Sc6oQCAMM7gxXBj2Fo2nKp-apjQd10TiCjRg6WFRPpkg>
-    <xme:2mdharnAZvEvo3FkEGK2fvuoWjPMSQjfjA5uksnQ9bHA76Iz_7Fvm9vgvAajSO_23
-    6xWVXF9qIG713H1lJ182fhj7WFCYUzHZJ0WRtQQr0FnzGe_1l3AiEE>
-X-ME-Received: <xmr:2mdhalvA05zJw4-46wU2mDEAPiaXpwb2eBjGOSu0nIPi4Cffz7CtIQ>
-X-ME-Proxy-Cause: dmFkZTEe7TzWU83bsNr5M6gVe4GaY59xpr7uynvBaxPgFBKEXq1+oSRaiZdmMxioiv9k0x
-    0kxifFRSkqlnWweqsK7awKtXUHX+7y3Jgot9AGj1kc2rWXtti9/qwBF4/9RRuajSDAkxwe
-    5POJTsClKZ1Eh5kLdhbk3opo1aU1BoJC2kdG/RVQVuuHFk5UlTRbH8jNQB63Vbp/efQTUb
-    A57sMuaO7TqDuXsFbGDTTCVnQ+89dAWeWsyl1FGFuF9cYoekYk4Csznd2rA9gfjfwAVSJP
-    o+/2PmBK9xPtYPJPaAgytDrzydBPPC/RgCYw9qp0waIut8iat9bIOwVptLt9897guPG8nB
-    3Wvv+fVK3DsRSpjvg98lQUnX2pWYTP/LSDQb6WJULz3xSbZd0fQB/Z6OUteTag31pf2EGe
-    dduumIlTrvU1X5l85DtPH9R7ErPNnKiEyN5lbO5nE91kEmNbOZAsRX3elTg2xj4Ik0wh9H
-    fXKKYdz/xzNIRoPZSKtxf4zzCmNPydRMz2wPiLk/Z5WOXXLUIFMyYVF5qaEBNBvJL1uEj9
-    Av6gPkkIQ8znGSS3eCf17BjGqdFJikPPW3q3DTrr55JIanwYGhJZrgAwSQuNJAeYU+C94t
-    mXKXdHNElyjiHf3Jq+znYPaEiEsRfKwkaAwd82hAqt4YfNWiazNX3wAc6P8g
-X-ME-Proxy: <xmx:2mdhaukpcE2ZRDjXl9sKWVxlhfM8AZQLvUhegp82nOKDbf9mZf-Ymw>
-    <xmx:2mdhags4CN32oHxNpcGBfWfA5KeUFvglNkrkYJEm4ze9gLBOhm3BtA>
-    <xmx:2mdhakd_LBZDSWiHoizoeSsrZn1aYO2ebr_l5SfAf58oR31BXxgaAA>
-    <xmx:2mdhagwJqsDwVD9VIjRxBKhfXMSdaeloPwYFl7ioiKOtRyZoNm47Ig>
-    <xmx:2mdham1jucSeOZ_MeruHYgjL6xU5X9VQaEy8sXcSyqmx85xnGNnNpDaU>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jul 2026 21:01:13 -0400 (EDT)
-Date: Wed, 22 Jul 2026 20:01:02 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, ecryptfs@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: ecryptfs_kernel.h: clean up kernel-doc comments
-Message-ID: <178476842590.100088.4245942333108072614.b4-ty@b4>
-References: <20260722000812.3823299-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KxPSsAr0"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6a3d77e72ffso45182eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 18:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784768577; x=1785373377; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dL5sSve182iKi7PGGdT5iIYPlCpUxk3FPMQ0kRAvoaQ=;
+        b=KxPSsAr0TM3pnpflTeqCrQC0CdUieGyaRqnUpG9psc7ZmlFpJlEFQHD7J7AvV8J7P4
+         wkCMjygyz4Mb17t2AXJMJLAiEiHR4u6vsKvGtCXwkG+qAY8VVQRv5RBM5yo91L12aDvi
+         EJlw6HR6jPcEg63DKLTdMjFJOuGjt6j1VuCwHqAQ9yylh3YknUGq2I7b+oyXptKQj9Dj
+         Dmf+KbJ5isAVhjGcUwBlToO9wHIWQvIjUOLcGr65unEeJVOraSMolxqwykXYxJpLm6Zd
+         UjigYmaariSlci2pYa+krglVl9u56+issno+R8rvMN4+ca8OUmDKIcFDDAg8B2o5Bkfd
+         TyFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784768577; x=1785373377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dL5sSve182iKi7PGGdT5iIYPlCpUxk3FPMQ0kRAvoaQ=;
+        b=tTewSL0BSRqF07SEGXTTKlO8e8SSWlitw53RumtC4rE1yQMYQfC+cHNy5lQ3GiMWmy
+         uq2JCmKL6jVWyMi3luAi/KwIl7G/PCeUNgrSQRzwJwxAQ7XB1FeNG3gPUwSspUnnM1VA
+         ztOFfC4/C12L1IorNhCOQLoUnOS2EbBlpWjJb9o2SVACbNcuznZhc0zRhZYhEbyKSWML
+         Flv33IYnpUVSZY3XD8azqhMD93Z06Kpd/4fOS8enqPaKU3RomO3ioiuDesNzp557Gd6U
+         7On8/JxJ/Ux+TO7dln23i01Ntvy026an9dxn37cBGDQR4Za+bWaVnn2zOPJQuv9nLuD2
+         F+bQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqiTrEfbc8pOocJcWreJnr75lG0NsfCXNU/HSAFWeU1n6rOv4RyPpp79I1Sy7j1SbsQhV6tLG0h5wvpW1dX@vger.kernel.org
+X-Gm-Message-State: AOJu0YySdDVd8NS6zBRRx40WOH0URT6NwaXnJCnvFjpdKpIZpPeY0QTS
+	Er0eFfLe7WNyvyltyFHdxJ+Ca2p9NYGx1efH9TMGXaIQQJGcqsJYI0jB
+X-Gm-Gg: AR+sD11EMvf3EPSESj9WpPcxtsjQeUntWUh7w+gWI+HJoKwu3lXWxd13+Sba5X1CsRm
+	NvEz+sUnSWxgqtRVOGCBkNDkCF+l+3kBMWJo6DxNnWXd1jZB4J7AwOa1rpWhqasooPgVC7TLwxa
+	9ZYjMkj6+um5lqeMVupSikjqDOBq1POw0HpRkYR0j2YvhY0Uiv7lpMXSrr+c8ElQgQS/lxUVWIB
+	SvTe/+wL21usvnPR+idxWjWAiEsZLcgt0nkJaII6MJWB15++PjcKLE/VXNJAWKp6aLy1uuWM8td
+	tr06J5gL250W2M6vKqEDENbX9nwrSMn1gLa21kNqdjnhJT/Hw9SAux8tyFkp849mR+Ilc8Ojyky
+	HY2bYMsjbcCkZzQYFPIMrrWVBxzYFCRsx9+YjSPcf8kJi+tjETld6Vz0eswcIR8vfagm2y8Xg
+X-Received: by 2002:a4a:e84b:0:b0:6a3:94bc:bdcf with SMTP id 006d021491bc7-6aad41758d3mr381511eaf.57.1784768576918;
+        Wed, 22 Jul 2026 18:02:56 -0700 (PDT)
+Received: from fedora ([187.142.231.66])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-45766f16dfcsm3312320fac.7.2026.07.22.18.02.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 18:02:55 -0700 (PDT)
+From: Cihan Karadag <cihan.cihan@gmail.com>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: Cihan Karadag <cihan.cihan@gmail.com>,
+	Shuah Khan <shuah@kernel.org>
+Subject: [PATCH] fat: preserve reserved lcase bits across rename
+Date: Wed, 22 Jul 2026 19:02:25 -0600
+Message-ID: <20260723010227.88190-1-cihan.cihan@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260722000812.3823299-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, 21 Jul 2026 17:08:12 -0700, Randy Dunlap wrote:
-> - don't use "/**" for non-kernel-doc comments
-> - use the struct keyword when describing structs
-> - delete one Excess struct member
-> 
-> to prevent the following warnings:
-> 
-> Warning: ./fs/ecryptfs/ecryptfs_kernel.h:14 cannot understand function
->  prototype: 'ECRYPTFS_KERNEL_H'
-> Warning: ./fs/ecryptfs/ecryptfs_kernel.h:207 This comment starts with
->  '/**', but isn't a kernel-doc comment.
->  * This is the primary struct associated with each encrypted file.
-> Warning: ./fs/ecryptfs/ecryptfs_kernel.h:275 cannot understand function
->  prototype: 'struct ecryptfs_global_auth_tok'
-> Warning: fs/ecryptfs/ecryptfs_kernel.h:283 Excess struct member
->  'global_auth_tok' description in 'ecryptfs_global_auth_tok'
-> Warning: ./fs/ecryptfs/ecryptfs_kernel.h:298 cannot understand function
->  prototype: 'struct ecryptfs_key_tfm'
-> Warning: ./fs/ecryptfs/ecryptfs_kernel.h:309 This comment starts with
->  '/**', but isn't a kernel-doc comment.
->  * This struct is to enable a mount-wide passphrase/salt combo. This
-> 
-> [...]
+The lcase field of struct msdos_dir_entry
+(include/uapi/linux/msdos_fs.h) has only two bits the kernel
+interprets, CASE_LOWER_BASE and CASE_LOWER_EXT; the rest are reserved
+and other implementations may use them to carry their own metadata
+(e.g. the Windows EFS "encrypted file" bit pattern).
 
-Thank you! This has been applied to the next branch of the tyhicks/ecryptfs.git tree.
+vfat_rename() currently loses those reserved bits in both of its
+paths: when the destination name doesn't already exist, a brand new
+directory entry is built from scratch with a freshly computed lcase
+byte, zeroing anything outside the two known bits; when the rename
+overwrites an existing destination, the destination's own (unrelated)
+reserved bits are left in place instead of the source file's.
 
-You can find a direct link below but please be aware that the commit hash is
-unstable and, therefore, the URL may not be valid in the future.
+Add vfat_overwrite_lcase_reserved_bits() and call it once new_i_pos is
+established inside vfat_rename(), overwriting the surviving entry's
+reserved lcase bits with the original file's, so the metadata is
+carried over across the rename instead of being lost.
 
-[1/1] ecryptfs: ecryptfs_kernel.h: clean up kernel-doc comments
-      https://git.kernel.org/tyhicks/ecryptfs/c/f81cb44f9a4b88d73ee5dec4a1ccdb0232fd2e3f
+Tested by booting the patched kernel under QEMU and replaying the bug
+report's own before/after FAT32 images: the renamed entry's lcase byte
+now matches the source's reserved bits instead of being zeroed.
 
-Tyler
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=215093
+Signed-off-by: Cihan Karadag <cihan.cihan@gmail.com>
+---
+ fs/fat/namei_vfat.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
+index e909447873e36..d4677c1eaabc3 100644
+--- a/fs/fat/namei_vfat.c
++++ b/fs/fat/namei_vfat.c
+@@ -931,6 +931,38 @@ static void vfat_update_dir_metadata(struct inode *dir, struct timespec64 *ts)
+ 		mark_inode_dirty(dir);
+ }
+ 
++/*
++ * Overwrite the reserved lcase bits (those not used by the
++ * kernel) of the entry at i_pos with those from the source
++ * lcase byte.
++ */
++static int vfat_overwrite_lcase_reserved_bits(struct inode *dir, loff_t i_pos,
++					      unsigned char src_lcase)
++{
++	/* lcase bits the kernel actually assigns meaning to */
++	const unsigned char lcase_unreserved_bits = CASE_LOWER_BASE | CASE_LOWER_EXT;
++	struct super_block *sb = dir->i_sb;
++	struct buffer_head *bh;
++	struct msdos_dir_entry *de;
++	sector_t blocknr;
++	int offset, err = 0;
++
++	fat_get_blknr_offset(MSDOS_SB(sb), i_pos, &blocknr, &offset);
++	bh = sb_bread(sb, blocknr);
++	if (!bh)
++		return -EIO;
++
++	de = &((struct msdos_dir_entry *)bh->b_data)[offset];
++	de->lcase = (de->lcase & lcase_unreserved_bits) |
++		    (src_lcase & ~lcase_unreserved_bits);
++
++	mmb_mark_buffer_dirty(bh, &MSDOS_I(dir)->i_metadata_bhs);
++	if (IS_DIRSYNC(dir))
++		err = sync_dirty_buffer(bh);
++	brelse(bh);
++	return err;
++}
++
+ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 		       struct inode *new_dir, struct dentry *new_dentry)
+ {
+@@ -974,6 +1006,17 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 			goto out;
+ 		new_i_pos = sinfo.i_pos;
+ 	}
++
++	/*
++	 * The kernel only interprets some of the lcase bits; make
++	 * sure the rest carry over from old_dentry's lcase instead
++	 * of being silently clobbered.
++	 */
++	err = vfat_overwrite_lcase_reserved_bits(new_dir, new_i_pos,
++						 old_sinfo.de->lcase);
++	if (err)
++		goto error_inode;
++
+ 	inode_inc_iversion(new_dir);
+ 
+ 	fat_detach(old_inode);
+-- 
+2.54.0
+
