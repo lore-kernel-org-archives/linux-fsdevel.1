@@ -1,201 +1,372 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A14377ABA
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 16:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784824879; cv=pass; b=bH6QRjdidsIZ5RVcIO1uAxfk0+Lvr2RtCo3gfXMMgyZ3urg/fVS1LFwiCILBGSdC99l1ZPsFerxZ2ZlGc9zaG6zWq3rfF/ZOoXxQE899LgtVubVN28reU4X41JnfyUmIVjFGd3AYvRGphxWxSX1nYDXbPBC2cjxSMAqKJuaWzP8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784824879; c=relaxed/simple;
-	bh=Mr3RmOtAU/Hlr3VRR/B4mbHKvvGNxM28lunEo3Y93ak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I8/2LmCp3B7W9MtkWvzgAf64oMve1g3J2An6dkr4LyRH4G6+47cfrOew0l50wz30yVX7sf+UgBLJ168VEhg9MlCu9OI8nJrw/Vq2kkcTSeL4tnk99wjsthJY+ttJ8oJK8XXKo/JZprR4tHqrqBXSgbebtfDLn7+IpNW7cpXk7CA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJ6oyOTT; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B007F364022;
+	Thu, 23 Jul 2026 16:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784825011; cv=none; b=ZZLkRytl0woeMxrWRSHY9lfRzTzdCkV21d8DNoQHzlaiMlskaJ+9gXcX/RmTqSzQ0E5X3wz8ilf19kjF1U1zYO5HZlf9kVCmSIfsJwogJzmhFjLlc9WszdRricRjPOsjTxGH9rw8nG663xoQO2bUH5Bv5gDPpMcwWOI3ghTiQfU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784825011; c=relaxed/simple;
+	bh=MTTpTdx0oR5CP6fzZ05DW1h3S/+X+8T7C8B5KBCnpLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gOuuzmLmQYiqLoIdFdt+3PZMnMWIhj3/kdMAM3tBSfARSiZ9c6kobiZveqkAulzg0+sz08rRI9QB+pPQwdtiIqy+FDfzvneabmgBTtNslfiP+NjJTd44zgRxr2N926vqstyysqlFpw/xVxozRETOQAWQ4h4322vt7gC+tlM2C50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUoQbfjI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJ6oyOTT"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15cb6f5c12so153284066b.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 09:41:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784824876; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KxWKa4ltMvHKKL9Vt033bL+cJDwOH3rWc+sIT88LyG8JlPZ3jvVXiWC48V8WmKKtS5
-         1YzRcGr9E9OEvnDXIZXbUHzrEU4ugt7ozXe+BCl+iytCij902FipK5QWBNAGrWQY2HtT
-         osQidftAu3ZuDHobr674qO3P7e3ZCanYPANsuPzbARxgby5ZLZoRSv1qHWXqQ8BKEpgT
-         8wu5j50xoSRIl+P1hvMQ+Ao6mGY3/HwoWxo0PhPsniVQHcZFCpHiqt3Ha8ajjXVMRFrx
-         Y+KZXVI+/ItyI0zVEI95duXD598cbY5YVZI8dAxDtVAT5NNfUZ74nN5Y5HscqDUd6gAo
-         tr4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YLOqI+FumtuV/c4bfaTL8aUDwi0OZvcNf1c1ExOV7fI=;
-        fh=FxcwZofQ+miUGgYSiMdH19RgSF4O9B9A4d154BZfJIk=;
-        b=jP0OyoIKq1KTRZgf1+0utme09b9srrIdJxnjIezk5Oc+sHfKZQFiRT4zhWTUz435SF
-         pXonLGE6JnVgrC5k8cEr6s56dGL7LzySMwGLu66A0HzLbUsvuWBelQdIyjMQ/kTEYrnv
-         AgoudoIHepf72+uTlyYuG4Di8eNCZFFAOpv3WBRBwWwVE9mNaxwHhqkqV7JnwXpK6azF
-         DEt0/5M3G6pIooJv+LrKoElVTz6gOEvPvLEcATE8AYRTRuZXqV3OgsDF/fMLq9J3DEM3
-         VT9oLQKNleK+Epco+etsNCjXv64PS2QygIBYM9WQwRyLA76C0M/sYXV+OR6SVlJEo0ro
-         dPsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784824876; x=1785429676; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YLOqI+FumtuV/c4bfaTL8aUDwi0OZvcNf1c1ExOV7fI=;
-        b=CJ6oyOTTWh7CtwcjvhOuHN6BOZlqlSOOpWnR2BoQR3Hry7QdhcfCCJI0//+eFKUhrJ
-         3MIf2+NLLdGu8O03gpgL/gFqVSEJAeYWp9PM0YphLmynjHuh7tdeWPIab6y62dv6/vzc
-         38yPpvYZuhFP0zzzGkzuk4Bv/EFsfpO/5vpyicwXY2HAO/bwRVZP6RYlXJJqPlfoTCme
-         ZpBQIaB+jMxiaSpCpgjVCYEPTALbiGt2e7pOcoHQTgXS0BpX9UMy3NyAW9WfozZIYNuO
-         4lqao8VRptw/wuJMuJkSWmFm2UOqU61PQs6QPy2rkLOr/1RcfZ+YLbygyzX7CHnmgRGQ
-         xC/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784824876; x=1785429676;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YLOqI+FumtuV/c4bfaTL8aUDwi0OZvcNf1c1ExOV7fI=;
-        b=b72t/0NKeXH0V4osbEeo9lPY5Pwxfo8V3oynl6CmeL3DQDYGsiIg5foyO3jMjxqX9o
-         y47Nw3H4uHfloYZZvarQvj28nJZq7nRZ9crtSAafXePlOId7Y2As0IJIWkaEM09veQCY
-         g9LpLWQ8C2ZC2tS2tGc1XLDe0y8l4wBRxe07OBPf972c4fH5pZ88yNvJSryKMNcG+ygY
-         TyJTOdpbugDXkYJm5eeZuVgLpcVtXdSNWtN2e0Ob2xD7QGrxiaRNfTUA+9ps6XMow6X6
-         yWznFHeFRZQeD9FgJoN7Iwj+aE9c+dUraSJgCE7QQat3OgP90ek8MrJmCQef4fC5twJS
-         p/WA==
-X-Forwarded-Encrypted: i=1; AHgh+RrgXLeeOW1zcABmihFv5SlGyaZCjuysvERfUC+17v5gYX/D62yjcIUp3OfFVAteKc6RFMWNeSPz1MpM9S+w@vger.kernel.org
-X-Gm-Message-State: AOJu0YztXSidXLIEvMlo7MLHo85LV/JhXmD9/vTAZ0bYFT8gBEjyZlQq
-	yibyi0VvWUBLsUYuGN4aGDk/NJy5ger644gYZaCUlkmpA6sqw9YTFf3/JU5Rs2mDXAgfpespouX
-	XQo7X/UCYFaghqP6jDVzJ6mIwHpZlDe0=
-X-Gm-Gg: AR+sD10zVUE726JRuu11D0NmDrUsCQOVw71Vq2IifJE6So0i4CM4gedz4Jo+SIiprD8
-	7LvUGBNOrGtkdhYX2eI9L8pqBTJGZECc6z2NiVCMtYBZlJ2GVQPMjND8eMrW00njPabP0TDbsYz
-	0LvIT6Y9wDZhdT7M96gi7IzTaKvnTLCH13cWoxU+w9slbh8+YsUKdQdDrSwyJ7CGcmy88z4Dst1
-	zTPPyynEzWzdzUZ2av5tqq1Y42A6qO3xEgobqgjY3X/BzyFuO05ZrmfVpmqrYonXcxOTjR7DsPa
-	fjDRtwbkJ2/FvSZSIA==
-X-Received: by 2002:a17:907:74e:b0:c1c:4dae:db8f with SMTP id
- a640c23a62f3a-c1c50c2a22amr153339766b.32.1784824875570; Thu, 23 Jul 2026
- 09:41:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUoQbfjI"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5E0A51F000E9;
+	Thu, 23 Jul 2026 16:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784825009;
+	bh=pzzhfqWVmJLeOJpMrJBO7yUDmA0I6V76qoaEbG2KeAQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lUoQbfjIPGTcrZrpNPiIehhry0CsMm+lYAyomEgoko0PHNSDqwgSuAdGbN0Z3E6DZ
+	 IqUw7dcMnw5w7OmslrCZYVuS2O7N8XPKon/4R9KTyRrjmsOEfk7oF028qb0RVSsXJk
+	 Ki2R03L+q9LlcseiVPylsGGTe1WdMH41tp8qlinNw2AnAERBQlOJDYFkCFJB6hrn2V
+	 sd6iRG+Vq3Ufn6DZgJa3FkZezGREyFvVVX+4PE7mRr1mQBBWxBFOh4dBNpQssDbZ8S
+	 PfHZJnXLmwhdL06WOcoVHWBdMrex3Q59N//rKguyMsF36dTTMcXozfCl59FULCMeXM
+	 wZTf7oNSCKG2A==
+Date: Thu, 23 Jul 2026 09:43:28 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: changfengnan@bytedance.com, Joanne Koong <joannelkoong@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>, Carlos Maiolino <cem@kernel.org>,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/3] iomap: split iomap_iter() logic into
+ iomap_iter_next()
+Message-ID: <20260723164328.GD7380@frogsfrogsfrogs>
+References: <20260723050201.3381045-1-hch@lst.de>
+ <20260723050201.3381045-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <amIqfCo25rLtM2U0@redhat.com> <amIqmbbZx3NlzUsX@redhat.com>
-In-Reply-To: <amIqmbbZx3NlzUsX@redhat.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Thu, 23 Jul 2026 18:41:03 +0200
-X-Gm-Features: AUfX_myk5ohbAeLCUW_8BHWG8PrCTwyvCqhJkmomoMpR89M_VdHXdqNLxnSYjm8
-Message-ID: <CAGudoHFPUVmzC_34i3J03gnqufaDgh-FSCeZ4G23-vXU+7q8Fg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] pipe: only enable the extra wake_up(rd_wait) when
- epoll is actually used
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723050201.3381045-2-hch@lst.de>
 
-On Thu, Jul 23, 2026 at 4:52=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wro=
-te:
->
-> pipe_poll() unconditionally sets poll_usage on the first call, forcing
-> anon_pipe_write() to wake up readers on every write even if the pipe was
-> not empty. But this is only needed for epoll's "nasty semantics"; poll()
-> and select() users pay for it for no reason.
->
-> Rename it to epoll_usage, and only set it when the caller is actually
-> using epoll on the read side of the pipe.
->
+On Thu, Jul 23, 2026 at 07:01:39AM +0200, Christoph Hellwig wrote:
+> From: Joanne Koong <joannelkoong@gmail.com>
+> 
+> In preparation for changing iomap to use an in-iter (->iomap_next())
+> model, move the iomap_iter() logic out into the new iomap_iter_next()
+> helper function.
+> 
+> iomap_iter_next() is added as an inlined helper so it can be called
+> directly by ->iomap_next() implementations where the begin()/end()
+> callbacks can be direct calls.
+> 
+> The DEFINE_IOMAP_ITER_NEXT() and DEFINE_IOMAP_ITER_NEXT_END() macros are
+> also provided to generate the boilerplate ->iomap_next() wrapper
+> functions that simply forward to iomap_iter_next() with the appropriate
+> begin/end callbacks. DEFINE_IOMAP_ITER_NEXT() is for the common case
+> where there is no end() callback. DEFINE_IOMAP_ITER_NEXT_END() is for
+> the case where there is an explicit end() callback.
+> 
+> No functional change intended. The only code-level difference is that on
+> the iomap_end() error path (ret < 0 && !advanced), the old code returned
+> with iter.status left as the caller's last value whereas the new code
+> zeroes it, but this is not observable in practice as there are no in-tree
+> callers that read iter.status after the iteration loop.
+> 
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-I am worried in that the poll_usage thing showed up in 2021 in commit
-3b844826b6c6affa ("pipe: avoid unnecessary EPOLLET wakeups under
-normal loads"), fixing up "missing" wakeups after some rework. Even
-then it went ahead and as you noted it also did it for poll/select
-users. So by Hyrum's law there is plenty of potential for someone to
-depend on it.
+Looks good to me now.
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-However, I think this makes sense to try out and there is history of
-committing possibly breaking changes, so I think the idea is fine to
-go in.
+--D
 
-I does rub me the wrong way that epoll lands in the same handler
-though, but that's not something I'm going to do anything about.
-
-The routine pretends to operate in a lockless manner, possibly
-returning only a partial result. But it guarantees not blocking when
-it should not by queueing up the caller unconditionally, which later
-has to be undone. Have you considered patching that up? (as in, do the
-work. if there are no events, queue up and do the work again -- should
-reduce work if there was stuff already there)
-
-> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 > ---
->  fs/pipe.c                 | 23 +++++++++++++++++++----
->  include/linux/pipe_fs_i.h |  6 ++++--
->  2 files changed, 23 insertions(+), 6 deletions(-)
->
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 32140cb00d7e..b45b4b8d0b0b 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -357,6 +357,23 @@ static inline unsigned int pipe_update_tail(struct p=
-ipe_inode_info *pipe,
->         return tail;
->  }
->
-> +static void pipe_set_epoll_usage(struct file *filp, struct pipe_inode_in=
-fo *pipe)
-> +{
-> +#ifdef CONFIG_EPOLL
-> +       if ((filp->f_mode & FMODE_READ) && filp->f_ep &&
-> +           unlikely(!READ_ONCE(pipe->epoll_usage)))
-> +               WRITE_ONCE(pipe->epoll_usage, true);
-> +#endif
-> +}
-> +
-> +static bool pipe_get_epoll_usage(struct pipe_inode_info *pipe)
-> +{
-> +#ifdef CONFIG_EPOLL
-> +       return pipe->epoll_usage;
-> +#endif
-
-If patching this up I think a comment explaining what's going on would be n=
-ice.
-
-I think you could steal parts of
-3a34b13a88caeb2800ab44a4918f230041b37dd9 for that purpose.
-
-> +       return false;
-> +}
-> +
->  static ssize_t
->  anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
->  {
-> @@ -689,7 +706,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
-from)
->          * Epoll nonsensically wants a wakeup whether the pipe
->          * was already empty or not.
->          */
-> -       if (was_empty || pipe->poll_usage)
-> +       if (was_empty || pipe_get_epoll_usage(pipe))
->                 wake_up_interruptible_sync_poll(&pipe->rd_wait, EPOLLIN |=
- EPOLLRDNORM);
->         kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
->         if (wake_next_writer)
-> @@ -761,9 +778,7 @@ pipe_poll(struct file *filp, poll_table *wait)
->         union pipe_index idx;
->
->         /* Epoll has some historical nasty semantics, this enables them *=
-/
-> -       if (unlikely(!READ_ONCE(pipe->poll_usage)))
-> -               WRITE_ONCE(pipe->poll_usage, true);
+>  fs/iomap/iter.c       | 123 +++++++++++++++++++++---------------------
+>  include/linux/iomap.h | 102 +++++++++++++++++++++++++++++------
+>  2 files changed, 147 insertions(+), 78 deletions(-)
+> 
+> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> index e4a29829591a..66ccb87441ab 100644
+> --- a/fs/iomap/iter.c
+> +++ b/fs/iomap/iter.c
+> @@ -6,15 +6,6 @@
+>  #include <linux/iomap.h>
+>  #include "trace.h"
+>  
+> -static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
+> -{
+> -	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
+> -		folio_batch_release(iter->fbatch);
+> -		folio_batch_reinit(iter->fbatch);
+> -		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+> -	}
+> -}
 > -
-> +       pipe_set_epoll_usage(filp, pipe);
->         /*
->          * Reading pipe state only -- no need for acquiring the semaphore=
-.
->          *
-
-nit: I would add a new line between this and the following comment
+>  /* Advance the current iterator position and decrement the remaining length */
+>  int iomap_iter_advance(struct iomap_iter *iter, u64 count)
+>  {
+> @@ -40,51 +31,28 @@ static inline void iomap_iter_done(struct iomap_iter *iter)
+>  }
+>  
+>  /**
+> - * iomap_iter - iterate over a ranges in a file
+> - * @iter: iteration structue
+> - * @ops: iomap ops provided by the file system
+> + * iomap_iter_continue - decide whether iteration should continue
+> + * @iter: iteration structure
+> + * @iomap: the mapping that was just processed
+> + * @srcmap: the source mapping that was just processed
+>   *
+> - * Iterate over filesystem-provided space mappings for the provided file range.
+> + * Helper normally called via iomap_iter_next(). Called after the previous
+> + * mapping has been finished to determine whether there is more of the file
+> + * range left to process.
+>   *
+> - * This function handles cleanup of resources acquired for iteration when the
+> - * filesystem indicates there are no more space mappings, which means that this
+> - * function must be called in a loop that continues as long it returns a
+> - * positive value.  If 0 or a negative value is returned, the caller must not
+> - * return to the loop body.  Within a loop body, there are two ways to break out
+> - * of the loop body:  leave @iter.status unchanged, or set it to a negative
+> - * errno.
+> + * Returns 1 if there is more work to do, in which case @iomap and @srcmap are
+> + * cleared so the caller can produce the next mapping; zero if the range is
+> + * fully consumed; or a negative errno on error. Any folio batch attached to
+> + * the mapping is released before returning.
+>   */
+> -int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iomap,
+> +		struct iomap *srcmap, int ret)
+>  {
+> -	bool stale = iter->iomap.flags & IOMAP_F_STALE;
+> -	ssize_t advanced;
+> -	u64 olen;
+> -	int ret;
+> -
+> -	trace_iomap_iter(iter, ops, _RET_IP_);
+> -
+> -	if (!iter->iomap.length)
+> -		goto begin;
+> -
+> -	/*
+> -	 * Calculate how far the iter was advanced and the original length bytes
+> -	 * for ->iomap_end().
+> -	 */
+> -	advanced = iter->pos - iter->iter_start_pos;
+> -	olen = iter->len + advanced;
+> -
+> -	if (ops->iomap_end) {
+> -		ret = ops->iomap_end(iter->inode, iter->iter_start_pos,
+> -				iomap_length_trim(iter, iter->iter_start_pos,
+> -						  olen),
+> -				advanced, iter->flags, &iter->iomap);
+> -		if (ret < 0 && !advanced)
+> -			return ret;
+> -	}
+> +	const bool stale = iomap->flags & IOMAP_F_STALE;
+> +	const ssize_t advanced = iter->pos - iter->iter_start_pos;
+>  
+> -	/* detect old return semantics where this would advance */
+> -	if (WARN_ON_ONCE(iter->status > 0))
+> -		iter->status = -EIO;
+> +	if (ret < 0 && !advanced)
+> +		return ret;
+>  
+>  	/*
+>  	 * Use iter->len to determine whether to continue onto the next mapping.
+> @@ -92,25 +60,58 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+>  	 * advanced at all (i.e. no work was done for some reason) unless the
+>  	 * mapping has been marked stale and needs to be reprocessed.
+>  	 */
+> -	if (iter->status < 0)
+> +	if (WARN_ON_ONCE(iter->status > 0))
+> +		/* detect old return semantics where this would advance */
+> +		ret = -EIO;
+> +	else if (iter->status < 0)
+>  		ret = iter->status;
+>  	else if (iter->len == 0 || (!advanced && !stale))
+>  		ret = 0;
+>  	else
+>  		ret = 1;
+> -	iomap_iter_clean_fbatch(iter);
+> -	iter->status = 0;
+> +
+> +	if (iomap->flags & IOMAP_F_FOLIO_BATCH) {
+> +		folio_batch_release(iter->fbatch);
+> +		folio_batch_reinit(iter->fbatch);
+> +		iomap->flags &= ~IOMAP_F_FOLIO_BATCH;
+> +	}
+> +
+>  	if (ret <= 0)
+>  		return ret;
+>  
+> -	memset(&iter->iomap, 0, sizeof(iter->iomap));
+> -	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
+> +	memset(iomap, 0, sizeof(*iomap));
+> +	memset(srcmap, 0, sizeof(*srcmap));
+>  
+> -begin:
+> -	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
+> -			       &iter->iomap, &iter->srcmap);
+> -	if (ret < 0)
+> -		return ret;
+> -	iomap_iter_done(iter);
+> -	return 1;
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(iomap_iter_continue);
+> +
+> +/**
+> + * iomap_iter - iterate over ranges in a file
+> + * @iter: iteration structure
+> + * @ops: iomap ops provided by the filesystem
+> + *
+> + * Iterate over filesystem-provided space mappings for the provided file range.
+> + *
+> + * This function handles cleanup of resources acquired for iteration when the
+> + * filesystem indicates there are no more space mappings, which means that this
+> + * function must be called in a loop that continues as long it returns a
+> + * positive value.  If 0 or a negative value is returned, the caller must not
+> + * return to the loop body.  Within a loop body, there are two ways to break out
+> + * of the loop body:  leave @iter.status unchanged, or set it to a negative
+> + * errno.
+> + */
+> +int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> +{
+> +	int ret;
+> +
+> +	trace_iomap_iter(iter, ops, _RET_IP_);
+> +
+> +	ret = iomap_iter_next(iter, &iter->iomap, &iter->srcmap,
+> +			ops->iomap_begin, ops->iomap_end);
+> +	iter->status = 0;
+> +	if (ret > 0)
+> +		iomap_iter_done(iter);
+> +
+> +	return ret;
+>  }
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 3582ed1fe236..3df851d0f76b 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -212,24 +212,27 @@ struct iomap_write_ops {
+>  #define IOMAP_ATOMIC		(1 << 9) /* torn-write protection */
+>  #define IOMAP_DONTCACHE		(1 << 10)
+>  
+> -struct iomap_ops {
+> -	/*
+> -	 * Return the existing mapping at pos, or reserve space starting at
+> -	 * pos for up to length, as long as we can do it as a single mapping.
+> -	 * The actual length is returned in iomap->length.
+> -	 */
+> -	int (*iomap_begin)(struct inode *inode, loff_t pos, loff_t length,
+> -			unsigned flags, struct iomap *iomap,
+> -			struct iomap *srcmap);
+> +/*
+> + * Return the existing mapping at pos, or reserve space starting at pos for up
+> + * to length, as long as we can do it as a single mapping.
+> + * The actual length is returned in iomap->length.
+> + */
+> +typedef int (*iomap_iter_begin_fn)(struct inode *inode, loff_t pos,
+> +		loff_t length, unsigned flags, struct iomap *iomap,
+> +		struct iomap *srcmap);
+>  
+> -	/*
+> -	 * Commit and/or unreserve space previous allocated using iomap_begin.
+> -	 * Written indicates the length of the successful write operation which
+> -	 * needs to be commited, while the rest needs to be unreserved.
+> -	 * Written might be zero if no data was written.
+> -	 */
+> -	int (*iomap_end)(struct inode *inode, loff_t pos, loff_t length,
+> -			ssize_t written, unsigned flags, struct iomap *iomap);
+> +/*
+> + * Commit and/or unreserve space previously allocated by iomap_iter_begin_fn.
+> + * Written indicates the length of the successful write operation which needs
+> + * to be committed, while the rest needs to be unreserved.
+> + * Written might be zero if no data was written.
+> + */
+> +typedef int (*iomap_iter_end_fn)(struct inode *inode, loff_t pos, loff_t length,
+> +		ssize_t written, unsigned flags, struct iomap *iomap);
+> +
+> +struct iomap_ops {
+> +	iomap_iter_begin_fn iomap_begin;
+> +	iomap_iter_end_fn iomap_end;
+>  };
+>  
+>  /**
+> @@ -317,6 +320,71 @@ static inline const struct iomap *iomap_iter_srcmap(const struct iomap_iter *i)
+>  	return &i->iomap;
+>  }
+>  
+> +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iomap,
+> +		struct iomap *srcmap, int ret);
+> +
+> +/**
+> + * iomap_iter_next - finish the previous mapping and produce the next one
+> + * @iter: iteration structure
+> + * @iomap: mapping to finish and then repopulate
+> + * @srcmap: source mapping to finish and then repopulate
+> + * @begin: callback that produces a mapping for the current position
+> + * @end: optional callback that finishes the previous mapping, or NULL
+> + *
+> + * Inline helper that implements the common body of an ->iomap_next()
+> + * callback: it finishes the previous mapping via @end (if present), decides
+> + * via iomap_iter_continue() whether to keep going, and obtains the next
+> + * mapping via @begin.
+> + *
+> + * This helper is marked __always_inline so that when a caller passes
+> + * compile-time-constant @begin and @end callbacks, the compiler can call them
+> + * directly, avoiding the indirect-call overhead.
+> + *
+> + * Returns 1 to continue iterating, 0 once the range is fully consumed, or a
+> + * negative errno on error.
+> + */
+> +static __always_inline int iomap_iter_next(const struct iomap_iter *iter,
+> +		struct iomap *iomap, struct iomap *srcmap,
+> +		iomap_iter_begin_fn begin, iomap_iter_end_fn end)
+> +{
+> +	int ret = 0;
+> +
+> +	if (iomap->length) {
+> +		if (end) {
+> +			/*
+> +			 * Calculate how far the iter was advanced and the
+> +			 * original length bytes for end().
+> +			 */
+> +			ssize_t advanced = iter->pos - iter->iter_start_pos;
+> +			loff_t len;
+> +
+> +			len = iomap_length_trim(iter, iter->iter_start_pos,
+> +					iter->len + advanced);
+> +
+> +			ret = end(iter->inode, iter->iter_start_pos, len,
+> +					advanced, iter->flags, iomap);
+> +		}
+> +		ret = iomap_iter_continue(iter, iomap, srcmap, ret);
+> +		if (ret <= 0)
+> +			return ret;
+> +	}
+> +
+> +	ret = begin(iter->inode, iter->pos, iter->len, iter->flags, iomap,
+> +			srcmap);
+> +
+> +	return ret < 0 ? ret : 1;
+> +}
+> +
+> +#define DEFINE_IOMAP_ITER_NEXT_END(name, begin_fn, end_fn)		\
+> +int name(const struct iomap_iter *iter, struct iomap *iomap,		\
+> +		struct iomap *srcmap)					\
+> +{									\
+> +	return iomap_iter_next(iter, iomap, srcmap, begin_fn, end_fn);	\
+> +}
+> +
+> +#define DEFINE_IOMAP_ITER_NEXT(name, begin_fn)				\
+> +	DEFINE_IOMAP_ITER_NEXT_END(name, begin_fn, NULL)
+> +
+>  /*
+>   * Return the file offset for the first unchanged block after a short write.
+>   *
+> -- 
+> 2.53.0
+> 
+> 
