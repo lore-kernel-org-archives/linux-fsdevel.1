@@ -1,93 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C7932B12B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93C443BDD9;
+	Thu, 23 Jul 2026 14:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784818015; cv=none; b=llNvHaAwi6RsGnpORldPrLP5Il2/LJCj1z+FPQE0hgXzpHGgllho7nglfNrx7P9AOJCvFTkW6if6wuQriETmjU+p0PgplQQdxaPV4L9Z1O79E6ORxCdwoorMGGP4uD3IFRVIlYBaameCMtjMPYcM3ncdzriyEsTaUivvsA89gfY=
+	t=1784818209; cv=none; b=OcN5mPORFvqblIGz6AhFN58zXC/DDhNWkNGRTO/EXUpnapCxbgB7KD6eCxS+Z7i+c7/dk2p2PEZkjnW2T0v3QDTiY5USnzpY1A1tjYaf3pIuzoE2QXJryEMRgmFqIiWR5S79StyQW7wnAaQ1CHJukAMOblkcVZNLXmhGQRTCB+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784818015; c=relaxed/simple;
-	bh=LDQpyaLboE5OxsAw5Npt9mA3NF0xevJpMGml9LKT8aM=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=qWp7IKwaEl50mvv4tSCRqu5/YnszcAUNSRKdLoSoikjRFIWfoVmRCMyMpiEGDaCXmANWYbbbo3zJjw1Ha2wcHMuBxK6WulfRBco9a0wVu5PEtWWZwXWLy5v17MYsVjtOgIVuYucVoDh6M2uSxOEKa5BoGrIvTxtNAQ56RUJtpk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFac4XbW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784818209; c=relaxed/simple;
+	bh=Vxxjpac+z/B/AXPXZ6qf9sDM2FVySsZ3M6PQ1Zlm+6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O4hJK5rSPcei9bypOhvpj6/eWfYwf3rK5nL58L1+zkzdOR8Uy7TmozWVRwtY90w/2JvRsUV5MBYXeIPAVDRrmgNLPQbVojB3ujGTI3Z+bPU8rzDzYdkC97Yx+dTci5J1UbYvp7Az+wcS0mQSKfiNdyNB6zGraDGRczXHZRLVuSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r8GM6B10; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFac4XbW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 653EF1F000E9;
-	Thu, 23 Jul 2026 14:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784818013;
-	bh=04rJgth8C2nU396fmhBsL9Df5jNE4GqWoAm1aGz1NtY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=QFac4XbW5BKnsGW0VCewkPEY/8Pk4UmgqpR4wknbIWl5FvQTLvc4eQn8izREcKJSd
-	 lkklQTQrbyQskcRZiqZ9PFBZjA7aVqpsgW9dlDDoo7SCYz3GQTuUXgO1hjbUbYf4cl
-	 Fyq8m6SUHTesS5dEiMaw4Bs+LD0k2RruNNQAThWRYsIwHkqKGfa+oMNw280oHyD+RT
-	 bCUh6UTNMKIF1fwxvYmhVFPbz/O7MnT5mwNxZN8p/UJ1Q3Dp0EPFfHbTimvr/efE40
-	 5Q/x6Igrd57fwNMbCTNNK1/M9BR80J0skXfSn6/Wl2Baw0BQukfjHiAYokr7baMtMo
-	 /1f+IA1R0FoBw==
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r8GM6B10"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=/kKs2n9WKaggUmoGlf/eZhlmOxmWjIg3uMokE4IiBg0=; b=r8GM6B10rV2cqSlWkIGMBpQP43
+	68SavgpB74h0y8Yf4GngJ3bUAbwjiSiv9g4m+ylDc6iJODhyOYNP5tSZTvwXhNiTn2+T/gN6LQac3
+	WPH0QEcVHdsSwBrWHVHH5Qs9OeYVTWkiT+uCah8APse5zrvP2MELWWzCOods+hiWIcGVkzLwrA3R/
+	fddswUI5GdKDqRDkQ2DK5yr8uCn/Te9aac5nUIKwl/1TLv1HUM9cx0fjikKMwDPPXh8IRWCBuPm12
+	OymWNTZu+mz6Bunt80GU3CBlA90tCSc9H0WQSQjxXZNq4gOR8KAEjNraJgBqhycy1E1gXRTVVqOXI
+	I+bZZnzg==;
+Received: from [2001:4bb8:2e9:b20c:3d3c:bb0:5e13:19af] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wmukO-0000000EXFp-1Yme;
+	Thu, 23 Jul 2026 14:50:04 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>
+Cc: Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: lazy bounce buffering for checksummed reads
+Date: Thu, 23 Jul 2026 16:49:25 +0200
+Message-ID: <20260723145000.116419-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
-From: Christian Brauner <brauner@kernel.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Giuseppe Scrivano <gscrivan@redhat.com>, linux-erofs@lists.ozlabs.org, 
- cyphar@cyphar.com, linux-fsdevel@vger.kernel.org
-In-Reply-To: <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
-References: <20260717134147.1602735-1-gscrivan@redhat.com>
- <20260722-notnagel-allemal-kampfsport-8fd4e4d98a15@brauner>
- <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
-Date: Thu, 23 Jul 2026 16:46:29 +0200
-Message-Id: <20260723-wickeln-schindel-rotstift-d987d4e9c036@brauner>
-X-Mailer: b4 0.16-dev-0e65f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1524; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LDQpyaLboE5OxsAw5Npt9mA3NF0xevJpMGml9LKT8aM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlacY0zjCbcrjj7duUbCZHhfXiK2Lz0w7vmD5Z6NtWe
- Z0OZS6XjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIn8LWb4n5GhGvGAgX3Ky659
- nFHnuaOrpUpCNxzqYWec2c8+9327EiPDkqdB6mk911ccuHJEMab26PcggcJVLcqCf9hmewedi63
- kAgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-> I'm not quite sure if I catched the point, I think Giuseppe's patch here
-> tried to record `file` into `sbi->dif0.file` (which indicates the primary
-> "device" later.)
-> 
-> And if `sbi->dif0.file` is set up by erofs_fc_parse_source(),
-> erofs_fc_get_tree() will just use `sbi->dif0.file` instead of
-> `fc->source` according to this patch.
+Hi all,
 
-Oh, so you only do it for file-backed mounts. Do you only allow regular
-files or do you also support block devices with
-CONFIG_EROFS_FS_BACKED_BY_FILE?
+this series improves performance and resource usage for reads from
+devices that require stable pages due to checksumming on XFS.
 
-Do you document the expected behavior for the file you're consuming?
-Meaning, are concurrent modifications supported and what type of
-behavior does this exhibit?
+Currently XFS unconditionally bounce buffers reads on such devices to
+prevent user modifications to the buffer from corrupting the data,
+leading to checksum failures.
 
-> The reason why `fc->source` is set was discussed in the
-> thread of the previous version suggested by Aleksa.
-> 
-> > 
-> > If they close it before this means you can mount something completely
-> > different. The other thing is even if they keep the fd open someone
-> > could just rename the damn thing and fc->source ends up pointing
-> > somwhere completely different. The could switch namespaces as well in
-> > some circumstances and then it points again into wherever.
-> > 
-> > I've played with that fd idea before. The only way to make this work
-> > correctly is if you plumb this down into get_tree_nodev()
-> 
-> fc->source in this case has no use in erofs_fc_get_tree() (`fc->source`
-> is just used for mountinfo for example), `sbi->dif0.file` works instead
-> I hope I don't misunderstand something.
+This uses DRAM bandwidth and CPU cycles for copies that are not needed
+most of the time, and due to the use of a bio_vec for the bounce
+buffer to smaller than wanted and unaligned I/O sizes when using 4k
+user pages (i.e. 1MB-4k I/O).
 
-No, I misunderstood this.
+This series addresses this by reading without the bounce buffer first,
+and then only allocating a buffer and reading into that again on an
+initial checksum failure.  To accommodate for rare (or hypothetical?)
+applications that have legitimate needs to frequently modify in-flight
+buffers, a sysfs know is provided to revert to the old behavior.
 
+The series is a bit of a mess.  Patch 1 is queued up in the VFS tree
+for 7.3, although it a fix that really should go into 7.2, but the
+request and ping for that were ignored.  Patches 2-6 were submitted
+to the block layer independently and will hopefully go in soon in in
+some form soon.  Patches 7 and 8 need a resubmission from Tal.
+
+The rest is split over 3 subsystems, and for two of them will
+conflict with large in-flight patch series (iomap iter next and
+xfs fsverity).  So for now I'm mostly looking for review and will
+worry about a merge strategy later if/when we agree on the overall
+approach.
+
+A git tree is available to help with the review here:
+
+    git://git.infradead.org/users/hch/misc.git lazy-bounce
+
+Gitweb:
+
+    https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/lazy-bounce
