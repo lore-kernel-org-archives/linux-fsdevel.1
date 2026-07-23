@@ -1,209 +1,497 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1814E30C63B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 01:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F713195FC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 02:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784771644; cv=none; b=Y08Oncfa0TLJSlcLmVqO5eVXPkYh0yNnk9yoVPp6Fh1nOCcKXPmFDRzzFWuzVrvOa0ONqSHvInx2zmXEGAPOOOhMcm5pCIWczSbLZWfpiLES641dhJrpo34PrOCbqemrh7sRpneDlrS3CDEd4QzffxqOgH4tpo27wfNeLH8cx6k=
+	t=1784772382; cv=none; b=N/Dj24bgzoP4MN9w7oZTpo5e/uNmRu/BPCdULgMZhSnNqZjAGH1TiW9dF12q8tg1O1OBaJGk5XtJd9V4TdDjFIH9QSf0WIFFDCirYJh9o1v1j53HakwAKHfZpJM0Duxri3UmAD4tiiRiB4HBxTwK3oSjOdvgWF4aodrAso0q5vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784771644; c=relaxed/simple;
-	bh=V4WCRiLGN0Fzq6ugoqq8Z/pknGXVtzEAPt3qTtCkbWk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lYhUuKSOzw6CyTehzxoprDc2kZ6wLrwI7WTXHc87BF4nQ6eZt6y2gWoBtvHujB0Ej99iT8m17sdLjwMbinjTH7HnCBwLazFoVkIKSdu8x+iCT4hk3LdWXr9AK7SGI+lBIU3xPWUTdv0oPIcmi4XNhs1yXcSGsmy/yKA82PbBbLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=EskCyh4p; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d33oVg+9; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1784772382; c=relaxed/simple;
+	bh=iGBkjBp2/xn+vQvMSG1iWCxjFS+K50sCN3HZ+3ODLmw=;
+	h=Content-Type:Message-Id:Cc:Mime-Version:References:In-Reply-To:
+	 Date:To:Subject:From; b=QRhW+MmQ2KbDVtqY3Ljaw2dBLhsbxiW6q39vLmQcPuo7LREx2/+i1aIHmEa9yTkXkdVISYs52QZraB04CkEqMas1yMB0P7UGJLyn4cJflbCU1PpzjtkdBBd0zGwLYWAWGoWl/tZlOh4pdPP1gWaMK3Zay1DH7hBIJirw1IerC78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=oW8oS7l2; arc=none smtp.client-ip=209.127.230.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="EskCyh4p";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d33oVg+9"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4D21B7A012F;
-	Wed, 22 Jul 2026 21:54:00 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Wed, 22 Jul 2026 21:54:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1784771640;
-	 x=1784858040; bh=4rRKGmDMbfB34DZRLYRdHrPKTvH1PEZH9j2lVd9FUBM=; b=
-	EskCyh4pEvXVXcUESP8iam949Jdiyq4xxQ3L0c/nRdxzwFGSZpvLg7Dk2h+Er3Zy
-	zmgz/sMXXWMxyxCxgH1FcolE3I8aGI+4t1XfLbo0sgCxHrTxgCO29x0tHd9AHQ/E
-	dG8uv/AaTbR/WqbNkB36nYHCvU3EhdKYh0qRyhuIJZmeuCgRjQ97HWFXOQNN/a58
-	MCIsjhPVd4z0RctDB3BFcQbhes10pTNnf34mp7QRmvM71dt7OdVsAMPPFfP+XSoX
-	5Nu4H6eS0rS/SXAcTwzJvyu220de6t7E7sxnsVmw/lxgxJi9/+S2Cr2sqXwj3RhU
-	TOtVN3KtCRo0TyIUgYzhEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1784771640; x=1784858040; bh=4
-	rRKGmDMbfB34DZRLYRdHrPKTvH1PEZH9j2lVd9FUBM=; b=d33oVg+9kuTgr1sN5
-	FV3y0LUjcAjdz/0/0SsnFmtwyeCwyy0VqV84JAK3N5G3bxaACRYd50RMUwHv8xim
-	nrBt7By8EhO9gRhXxj7V4kbCQbHek/E5KaiQ6+eV+0fKYHtcarrwHfY8sIwcV9p+
-	2bYDL4uTv5rtKjKIwmb1AOloZAbRk1gddEdGnsV9KmFUl3y5Kemt725kS+s8q3v6
-	i+4GiPxX0urZjDG8VXhqNjUvzoCiS00q1yw54gkkuMw7GJZ5/QshohoiiD9tYrTL
-	gfhtNxmUQYx28loHpQfWZF2eisAPoiyYAEVhD74X0sYRhwS4wBxoq6DcoWQ6ZT2s
-	mCycw==
-X-ME-Sender: <xms:N3RhalO6JhjKKaIYJpSHlvDrGoiH0kkivg3-8TAcxTTJYl7FWYprxQ>
-    <xme:N3RhajY1_iDYSp2gkIVEIlkHzctSfyG4xOlTYmPI_eADGYDWt61hQP3yOCsVutT9R
-    x_2TETPMCn-sIWYe2UyfoRYT7JsBNjbYZ_F-sYg-mQovN2GXo0>
-X-ME-Received: <xmr:N3Rhanw_vtnKHqz-2uq1Ii9nnOeQ3D4X3Qnp3X0GKHxnGq4cCAsTdJPuakU6B19AIHUapHv8DcXHrhXRKc9JLgza9xriewM>
-X-ME-Proxy-Cause: dmFkZTGA+a7oFH+eKnjwbhHC/8v4r6fQL2b4aUZ+ZIYz4ZbCd2lTQejYwSUR06DWEzL5WL
-    mc+PFbP+CvpAtlPr/kFV4jcB2l0r1/JNZGQtYZLaw6BBrlXqe0A1A4agnK4oqn4aAvafTN
-    JwQ2EkfozeCy/xauhvbDqLKITCSDGZS8GqckoC/D/+VNosrNC3AUpjToiM4vMbncdpKcBV
-    MkOeKq0fYayK0sMiAV14VpvYYRXZWHvcYtrbk4lBJqS9anY5zygmmiN4IuSNtCZL3Jfyvi
-    c0NALS5YBVgvjS0ItZCuBk9AIOKmu0HK1C5Wy2CtwmatMHULuQizIO5dlfalvpsigF2zUm
-    ueg/EV76wQS5JDeZgtJBMnUwOIHZe6gk6Dr/4LbXhuEPKEw1wxWodpjXAP6fD/Ki2oYE+L
-    Sq5ov25whF+v0MDaTaKM12LG6XrK3f35w0290iRUUH9YkPzvQkjtQxhTFpJ/QlpdxQIPru
-    Tnsu/z+0KS+MI+CwEIn4Whd+uZNSoaUzCiGEHJqzypJwkDOVVoZVdaZAkuGSePluL/k/w1
-    f/Wk5Y2lfXpbDRjISm+/EUAiHmBn+hTl6Djdjs/SwkrXwmarElE5iM/OJ3IEXIXgNkU4GM
-    BVbkSEQ9cWnK9N2hIBuq0XdsGK72+nCOWWGYLchnjmDX4k2dNofpre8nhtmA
-X-ME-Proxy: <xmx:N3RhamJWh8zKHecpoOs0_5rx0Yo9p5eidm2DdY_Y19NlcmSUOjFbaw>
-    <xmx:OHRhappmpu6GS_C93ApfxKM0kelLMXc5gN6Vdqy6Kf3ScdQzTIJnRQ>
-    <xmx:OHRhatI1ocT95Y1-qhslydc2gYGuCa_Vr0uhh1rohi_6L_WhaIwiuw>
-    <xmx:OHRhamRTrH3Og-kYMjVM-Iq3nvKATsue9CTgUNf8p9m7UqBHeeAp8A>
-    <xmx:OHRhah_kHEiaSK8bFYo886aeKGHlTBAI8-XeuZMJiNcot-pS4O6syb_3>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jul 2026 21:53:58 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 4/4] VFS: add d_duplicate()
-Date: Thu, 23 Jul 2026 11:49:49 +1000
-Message-ID: <20260723015330.3093207-5-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260723015330.3093207-1-neilb@ownmail.net>
-References: <20260723015330.3093207-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="oW8oS7l2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1784772367; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=iGBkjBp2/xn+vQvMSG1iWCxjFS+K50sCN3HZ+3ODLmw=;
+ b=oW8oS7l2Np28t1PlepBAYr8AH4IZOrU7pu/xZzPSpyBnmUoRV50bVwzqM8qUigk7wa0PaX
+ INraCYtorTjpVPPNUUD+qgjn3kkf0pZES/azfa6mqLTR4FJwWP+rhVo0sf3R6yH4bPWqGZ
+ dUGujcm677dTPgkbXamsM+dHqN/i1Gyrf3Fu7/45ru+a3bxC+cuz+gN6wtsjVOCo+iveFc
+ MmKgJ6QMrnK/BSbXvIBrWrUFuUMqYHgIXkDUFuh3ZIXskYgRPmt26byaAIpHABeZpeEzuR
+ +3FolNMrx4Jn1AQppHCYn23GEWb0Z8CT/yEmSNkR3nEmd8J8sEcZKwpzhABVBA==
+Content-Type: text/plain; charset=UTF-8
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.26e5a754.3f9e.4685.916f.c8a42bd9a5c8@bytedance.com>
+Cc: "Joanne Koong" <joannelkoong@gmail.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, 
+	"Christian Brauner" <brauner@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, "Carlos Maiolino" <cem@kernel.org>, 
+	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260722124931.3159664-1-hch@lst.de>
+	<20260722124931.3159664-2-hch@lst.de>
+X-Lms-Return-Path: <lba+16a61770d+ab5a0a+vger.kernel.org+changfengnan@bytedance.com>
+In-Reply-To: <20260722124931.3159664-2-hch@lst.de>
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jul 2026 10:06:02 +0800
+To: "Christoph Hellwig" <hch@lst.de>
+Subject: Re: [PATCH 1/3] iomap: split iomap_iter() logic into iomap_iter_next()
+From: "changfengnan" <changfengnan@bytedance.com>
 
-From: NeilBrown <neil@brown.name>
 
-Occasionally a single operation can require two sub-operations on the
-same name, and it is important that a d_alloc_parallel() (once that can
-be run unlocked) does not create another dentry with the same name
-between the operations.
+> From: "Christoph Hellwig"<hch@lst.de>
+> Date:=C2=A0 Wed, Jul 22, 2026, 20:49
+> Subject:=C2=A0 [PATCH 1/3] iomap: split iomap_iter() logic into iomap_ite=
+r_next()
+> To: <changfengnan@bytedance.com>, "Joanne Koong"<joannelkoong@gmail.com>,=
+ "Darrick J. Wong"<djwong@kernel.org>, "Christian Brauner"<brauner@kernel.o=
+rg>
+> Cc: "Theodore Ts'o"<tytso@mit.edu>, "Carlos Maiolino"<cem@kernel.org>, <l=
+inux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>, <linux-fsdevel@vge=
+r.kernel.org>
+> From: Joanne Koong <joannelkoong@gmail.com>
+>=C2=A0
+> In preparation for changing iomap to use an in-iter (->iomap_next())
+> model, move the iomap_iter() logic out into the new iomap_iter_next()
+> helper function.
+>=C2=A0
+> iomap_iter_next() is added as an inlined helper so it can be called
+> directly by ->iomap_next() implementations where the begin()/end()
+> callbacks can be direct calls.
+>=C2=A0
+> The DEFINE_IOMAP_ITER_NEXT() and DEFINE_IOMAP_ITER_NEXT_END() macros are
+> also provided to generate the boilerplate ->iomap_next() wrapper
+> functions that simply forward to iomap_iter_next() with the appropriate
+> begin/end callbacks. DEFINE_IOMAP_ITER_NEXT() is for the common case
+> where there is no end() callback. DEFINE_IOMAP_ITER_NEXT_END() is for
+> the case where there is an explicit end() callback.
+>=C2=A0
+> No functional change intended. The only code-level difference is that on
+> the iomap_end() error path (ret < 0 && !advanced), the old code returned
+> with iter.status left as the caller's last value whereas the new code
+> zeroes it, but this is not observable in practice as there are no in-tree
+> callers that read iter.status after the iteration loop.
+>=C2=A0
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-Two examples:
-1/ rename where the target name (a positive dentry) needs to be
-  "silly-renamed" to a temporary name so it will remain available on the
-  server (NFS and AFS).  Here the same name needs to be the subject
-  of one rename, and the target of another.
-2/ rename where the subject needs to be replaced with a white-out
-  (shmemfs).  Here the same name need to be the subject of a rename
-  and the target of a mknod()
+Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
 
-In both cases the original dentry is renamed to something else, and a
-replacement is instantiated, possibly as the target of d_move(), possibly
-by d_instantiate().
-
-Currently d_alloc() is used to create the dentry and the exclusive lock
-on the parent ensures no other dentry is created.  When
-d_alloc_parallel() is moved out of the parent lock, this will no longer
-be sufficient.  In particular if the original is renamed away before the
-new is instantiated, there is a window where d_alloc_parallel() could
-create another name.  "silly-rename" does work in this order.  shmemfs
-whiteout doesn't open this hole but is essentially the same pattern and
-should use the same approach.
-
-The new d_duplicate() creates an in-lookup dentry with the same name as
-the original dentry, which must be hashed.  There is no need to check if
-an in-lookup dentry exists with the same name as d_alloc_parallel() will
-never try add one while the hashed dentry exists.  Once the new
-in-lookup is created, d_alloc_parallel() will find it and wait for it to
-complete, then use it.
-
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/dcache.c            | 51 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/dcache.h |  1 +
- 2 files changed, 52 insertions(+)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 0f6f9c4681f6..0f48c8c8de44 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1995,6 +1995,57 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
- }
- EXPORT_SYMBOL(d_alloc);
- 
-+/**
-+ * d_duplicate - duplicate a dentry for combined atomic operation
-+ * @dentry: the dentry to duplicate
-+ *
-+ * Some rename operations need to be combined with another operation
-+ * inside the filesystem.
-+ * 1/ A cluster filesystem when renaming to an in-use file might need to
-+ *   first "silly-rename" that target out of the way before the main rename
-+ * 2/ A filesystem that supports white-out might want to create a whiteout
-+ *   in place of the file being moved.
-+ *
-+ * For this they need two dentries which temporarily have the same name,
-+ * before one is renamed.  d_duplicate() provides for this.  Given a
-+ * positive hashed dentry, it creates a second in-lookup dentry.
-+ * Because the original dentry exists, no other thread will try to
-+ * create an in-lookup dentry, so there can be no race in this create.
-+ *
-+ * The caller should d_move() the original to a new name, often via a
-+ * rename request, and should call d_lookup_done() on the newly created
-+ * dentry.  If the new is instantiated then old MUST either be moved
-+ * or dropped.
-+ *
-+ * Parent must be locked.
-+ *
-+ * Returns: an in-lookup dentry, or -ENOMEM.
-+ */
-+struct dentry *d_duplicate(struct dentry *dentry)
-+{
-+	unsigned int hash = dentry->d_name.hash;
-+	struct dentry *parent = dentry->d_parent;
-+	struct hlist_bl_head *b = in_lookup_hash(parent, hash);
-+	struct dentry *new = __d_alloc(parent->d_sb, &dentry->d_name);
-+
-+	if (unlikely(!new))
-+		return ERR_PTR(-ENOMEM);
-+
-+	new->d_flags |= DCACHE_PAR_LOOKUP;
-+	spin_lock(&parent->d_lock);
-+	new->d_parent = dget_dlock(parent);
-+	hlist_add_head(&new->d_sib, &parent->d_children);
-+	if (parent->d_flags & DCACHE_DISCONNECTED)
-+		new->d_flags |= DCACHE_DISCONNECTED;
-+	spin_unlock(&parent->d_lock);
-+
-+	hlist_bl_lock(b);
-+	hlist_bl_add_head(&new->d_in_lookup_hash, b);
-+	hlist_bl_unlock(b);
-+	return new;
-+}
-+EXPORT_SYMBOL(d_duplicate);
-+
- struct dentry *d_alloc_anon(struct super_block *sb)
+> ---
+> =C2=A0fs/iomap/iter.c =C2=A0 =C2=A0 =C2=A0 | 123 +++++++++++++++++++++---=
+------------------
+> =C2=A0include/linux/iomap.h | 102 +++++++++++++++++++++++++++++------
+> =C2=A02 files changed, 147 insertions(+), 78 deletions(-)
+>=C2=A0
+> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> index e4a29829591a..66ccb87441ab 100644
+> --- a/fs/iomap/iter.c
+> +++ b/fs/iomap/iter.c
+> @@ -6,15 +6,6 @@
+> =C2=A0#include <linux/iomap.h>
+> =C2=A0#include "trace.h"
+> =C2=A0
+> -static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
+> -{
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH)=
  {
- 	return __d_alloc(sb, NULL);
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 7afe16d4664d..2b7d99ec9306 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -259,6 +259,7 @@ extern struct dentry * d_alloc_anon(struct super_block *);
- extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *);
- extern struct dentry * d_alloc_trylock(struct dentry *, struct qstr *);
- extern struct dentry * d_splice_alias(struct inode *, struct dentry *);
-+struct dentry *d_duplicate(struct dentry *dentry);
- /* weird procfs mess; *NOT* exported */
- extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
- 					  const struct dentry_operations *);
--- 
-2.50.0.107.gf914562f5916.dirty
-
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0folio_batch_rele=
+ase(iter->fbatch);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0folio_batch_rein=
+it(iter->fbatch);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->iomap.flag=
+s &=3D ~IOMAP_F_FOLIO_BATCH;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> -}
+> -
+> =C2=A0/* Advance the current iterator position and decrement the remainin=
+g length */
+> =C2=A0int iomap_iter_advance(struct iomap_iter *iter, u64 count)
+> =C2=A0{
+> @@ -40,51 +31,28 @@ static inline void iomap_iter_done(struct iomap_iter =
+*iter)
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> - * iomap_iter - iterate over a ranges in a file
+> - * @iter: iteration structue
+> - * @ops: iomap ops provided by the file system
+> + * iomap_iter_continue - decide whether iteration should continue
+> + * @iter: iteration structure
+> + * @iomap: the mapping that was just processed
+> + * @srcmap: the source mapping that was just processed
+> =C2=A0 *
+> - * Iterate over filesystem-provided space mappings for the provided file=
+ range.
+> + * Helper normally called via iomap_iter_next(). Called after the previo=
+us
+> + * mapping has been finished to determine whether there is more of the f=
+ile
+> + * range left to process.
+> =C2=A0 *
+> - * This function handles cleanup of resources acquired for iteration whe=
+n the
+> - * filesystem indicates there are no more space mappings, which means th=
+at this
+> - * function must be called in a loop that continues as long it returns a
+> - * positive value. =C2=A0If 0 or a negative value is returned, the calle=
+r must not
+> - * return to the loop body. =C2=A0Within a loop body, there are two ways=
+ to break out
+> - * of the loop body: =C2=A0leave @iter.status unchanged, or set it to a =
+negative
+> - * errno.
+> + * Returns 1 if there is more work to do, in which case @iomap and @srcm=
+ap are
+> + * cleared so the caller can produce the next mapping; zero if the range=
+ is
+> + * fully consumed; or a negative errno on error. Any folio batch attache=
+d to
+> + * the mapping is released before returning.
+> =C2=A0 */
+> -int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iom=
+ap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *sr=
+cmap, int ret)
+> =C2=A0{
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0bool stale =3D iter->iomap.flags & IOMAP_F_S=
+TALE;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t advanced;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0u64 olen;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
+> -
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_iomap_iter(iter, ops, _RET_IP_);
+> -
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!iter->iomap.length)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto begin;
+> -
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Calculate how far the iter was advanced a=
+nd the original length bytes
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * for ->iomap_end().
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0advanced =3D iter->pos - iter->iter_start_po=
+s;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0olen =3D iter->len + advanced;
+> -
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ops->iomap_end) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iom=
+ap_end(iter->inode, iter->iter_start_pos,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_length_trim(iter, iter->iter=
+_start_pos,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0olen),
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0advanced, iter->flags, &iter->ioma=
+p);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret < 0 && !=
+advanced)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return ret;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0const bool stale =3D iomap->flags & IOMAP_F_=
+STALE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0const ssize_t advanced =3D iter->pos - iter-=
+>iter_start_pos;
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0/* detect old return semantics where this wo=
+uld advance */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (WARN_ON_ONCE(iter->status > 0))
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->status =3D=
+ -EIO;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret < 0 && !advanced)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Use iter->len to determine whether t=
+o continue onto the next mapping.
+> @@ -92,25 +60,58 @@ int iomap_iter(struct iomap_iter *iter, const struct =
+iomap_ops *ops)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * advanced at all (i.e. no work was do=
+ne for some reason) unless the
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * mapping has been marked stale and ne=
+eds to be reprocessed.
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iter->status < 0)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (WARN_ON_ONCE(iter->status > 0))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* detect old re=
+turn semantics where this would advance */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -EIO;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0else if (iter->status < 0)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ite=
+r->status;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else if (iter->len =3D=3D 0 || (!advanc=
+ed && !stale))
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D 0;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D 1;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_clean_fbatch(iter);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->status =3D 0;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iomap->flags & IOMAP_F_FOLIO_BATCH) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0folio_batch_rele=
+ase(iter->fbatch);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0folio_batch_rein=
+it(iter->fbatch);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap->flags &=
+=3D ~IOMAP_F_FOLIO_BATCH;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(&iter->iomap, 0, sizeof(iter->iomap))=
+;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(&iter->srcmap, 0, sizeof(iter->srcmap=
+));
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(iomap, 0, sizeof(*iomap));
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(srcmap, 0, sizeof(*srcmap));
+> =C2=A0
+> -begin:
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D ops->iomap_begin(iter->inode, iter->=
+pos, iter->len, iter->flags,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &iter->iomap, &iter->srcmap);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret < 0)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_done(iter);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(iomap_iter_continue);
+> +
+> +/**
+> + * iomap_iter - iterate over ranges in a file
+> + * @iter: iteration structure
+> + * @ops: iomap ops provided by the filesystem
+> + *
+> + * Iterate over filesystem-provided space mappings for the provided file=
+ range.
+> + *
+> + * This function handles cleanup of resources acquired for iteration whe=
+n the
+> + * filesystem indicates there are no more space mappings, which means th=
+at this
+> + * function must be called in a loop that continues as long it returns a
+> + * positive value. =C2=A0If 0 or a negative value is returned, the calle=
+r must not
+> + * return to the loop body. =C2=A0Within a loop body, there are two ways=
+ to break out
+> + * of the loop body: =C2=A0leave @iter.status unchanged, or set it to a =
+negative
+> + * errno.
+> + */
+> +int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_iomap_iter(iter, ops, _RET_IP_);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_iter_next(iter, &iter->iomap, =
+&iter->srcmap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0ops->iomap_begin, ops->iomap_end);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->status =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret > 0)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_done(=
+iter);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0}
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 3582ed1fe236..3df851d0f76b 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -212,24 +212,27 @@ struct iomap_write_ops {
+> =C2=A0#define IOMAP_ATOMIC =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0(1 << 9) /* torn-write protection */
+> =C2=A0#define IOMAP_DONTCACHE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0(1 << 10)
+> =C2=A0
+> -struct iomap_ops {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Return the existing mapping at pos, or re=
+serve space starting at
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * pos for up to length, as long as we can d=
+o it as a single mapping.
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The actual length is returned in iomap->l=
+ength.
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0int (*iomap_begin)(struct inode *inode, loff=
+_t pos, loff_t length,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0unsigned flags, struct iomap *iomap,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0struct iomap *srcmap);
+> +/*
+> + * Return the existing mapping at pos, or reserve space starting at pos =
+for up
+> + * to length, as long as we can do it as a single mapping.
+> + * The actual length is returned in iomap->length.
+> + */
+> +typedef int (*iomap_iter_begin_fn)(struct inode *inode, loff_t pos,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loff_t length, u=
+nsigned flags, struct iomap *iomap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *sr=
+cmap);
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Commit and/or unreserve space previous al=
+located using iomap_begin.
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Written indicates the length of the succe=
+ssful write operation which
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * needs to be commited, while the rest need=
+s to be unreserved.
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Written might be zero if no data was writ=
+ten.
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0int (*iomap_end)(struct inode *inode, loff_t=
+ pos, loff_t length,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0ssize_t written, unsigned flags, struct iomap *iomap);
+> +/*
+> + * Commit and/or unreserve space previously allocated by iomap_iter_begi=
+n_fn.
+> + * Written indicates the length of the successful write operation which =
+needs
+> + * to be committed, while the rest needs to be unreserved.
+> + * Written might be zero if no data was written.
+> + */
+> +typedef int (*iomap_iter_end_fn)(struct inode *inode, loff_t pos, loff_t=
+ length,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t written,=
+ unsigned flags, struct iomap *iomap);
+> +
+> +struct iomap_ops {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_begin_fn iomap_begin;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_end_fn iomap_end;
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+> @@ -317,6 +320,71 @@ static inline const struct iomap *iomap_iter_srcmap(=
+const struct iomap_iter *i)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &i->iomap;
+> =C2=A0}
+> =C2=A0
+> +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iom=
+ap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *sr=
+cmap, int ret);
+> +
+> +/**
+> + * iomap_iter_next - finish the previous mapping and produce the next on=
+e
+> + * @iter: iteration structure
+> + * @iomap: mapping to finish and then repopulate
+> + * @srcmap: source mapping to finish and then repopulate
+> + * @begin: callback that produces a mapping for the current position
+> + * @end: optional callback that finishes the previous mapping, or NULL
+> + *
+> + * Inline helper that implements the common body of an ->iomap_next()
+> + * callback: it finishes the previous mapping via @end (if present), dec=
+ides
+> + * via iomap_iter_continue() whether to keep going, and obtains the next
+> + * mapping via @begin.
+> + *
+> + * This helper is marked __always_inline so that when a caller passes
+> + * compile-time-constant @begin and @end callbacks, the compiler can cal=
+l them
+> + * directly, avoiding the indirect-call overhead.
+> + *
+> + * Returns 1 to continue iterating, 0 once the range is fully consumed, =
+or a
+> + * negative errno on error.
+> + */
+> +static __always_inline int iomap_iter_next(const struct iomap_iter *iter=
+,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *io=
+map, struct iomap *srcmap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_iter_begin=
+_fn begin, iomap_iter_end_fn end)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret =3D 0;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iomap->length) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (end) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/*
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 * Calculate how far the iter was advanced and the
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 * original length bytes for end().
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0ssize_t advanced =3D iter->pos - iter->iter_start_pos;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0loff_t len;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0len =3D iomap_length_trim(iter, iter->iter_start_pos,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iter->=
+len + advanced);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0ret =3D end(iter->inode, iter->iter_start_pos, len,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0advanc=
+ed, iter->flags, iomap);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_it=
+er_continue(iter, iomap, srcmap, ret);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return ret;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D begin(iter->inode, iter->pos, iter->=
+len, iter->flags, iomap,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0srcmap);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret < 0 ? ret : 1;
+> +}
+> +
+> +#define DEFINE_IOMAP_ITER_NEXT_END(name, begin_fn, end_fn) =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> +int name(const struct iomap_iter *iter, struct iomap *iomap, =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *sr=
+cmap) =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> +{ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return iomap_iter_next(iter, iomap, srcmap, =
+begin_fn, end_fn); =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> +}
+> +
+> +#define DEFINE_IOMAP_ITER_NEXT(name, begin_fn) =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0\
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_IOMAP_ITER_NEXT_END(name, begin_fn, N=
+ULL)
+> +
+> =C2=A0/*
+> =C2=A0 * Return the file offset for the first unchanged block after a sho=
+rt write.
+> =C2=A0 *
+> --=C2=A0
+> 2.53.0
+>=C2=A0
