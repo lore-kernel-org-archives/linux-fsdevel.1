@@ -1,204 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC67D4DB557;
-	Thu, 23 Jul 2026 13:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAF635E930
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784813839; cv=none; b=n/7zlLZTHjy/ghz3QIZZH+Ipf93Oh7DLARZwSsPrvm6wK1y2A0B3zECmyTKeXVv20N4DGBO3/I0dCoVIECaJ7FfPHj7mIGgA/DjNVb8joS0vv2NzOuqSHkTPlcN0WIt5eHwq0Yy0fqohTB1F+1SyDM3rfs17FDaQJ4cqC8rs7e8=
+	t=1784814002; cv=none; b=KfUzmvOq/iC/DP9Q8riCuBIpLTL1yTNZRmPRrLKT6Qo2Qx1ipLYTyD8pVen+fAF6PB7zzGbTuc8xFfjUlSPm5o7LI1V/2zKva5F5Dr27Z1lACSn9zfXFV9gKNE6B8bFYjgm78npOF4FDaHCG+C9Cc7oaURR6xA7s6EN8HxON1gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784813839; c=relaxed/simple;
-	bh=eO9vT5YPysqOukd+jY+035D0z/zLeO1w4vN1NwNe2Qc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LYuwM562Fx4Cd0dk8jozvP6yRGrmEDu1z8Gpq3bIjg4+FkA+n4htgAwdYENx/B+vI4QJMPm/0QPDQFmjHyXvNJK0lFs4DN2l8gCAP7Nw9iEz+QfB6u86Xvkxv8Zio/0ifppV1+hpi3kVS371/yDWQ92G6ANI9249AJJ334ORHEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXwPqfU5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784814002; c=relaxed/simple;
+	bh=I8LhLJQGKlLzmSUfdTmlxio2Ouv1yW2nz0ZGC24SFaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1Truur7qMnRsqFeFPj6fQOwoLrY6gkIPMarwNqxoRPyEFcOXaExCBcoo3Zb0QeRFIh+RfXaEP/7DA8WQ0YqTWdqTeX3TrAmyyDiEduX8ALwFa9NpLcRzH9IKDCmcrsj8HQMOW14p53O8jiATkSJ5iCiH0LZaqxwny7BwlmggYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=tUXLX/VJ; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXwPqfU5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16401F000E9;
-	Thu, 23 Jul 2026 13:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784813825;
-	bh=tqvVeERBLT6ROkppBN4MEGfSa50o0lpYhxpdXTdGfSM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eXwPqfU5+dyGmmARtvY9crMVwvGOsCAZ2Ru0lYpoOfgXEOQb2mMyZcg1q6u92yB0Z
-	 eZMN9cLTZ+yubZjVJ3wy4M7XG7fZikCsbl6f1040nSPNfNyH4meZZBsET+2pf6T6qH
-	 qq5izJpow7RoIotkR8UYgW6x+l2czIIn3yNVRVjPMN17oPO831Axfy1Rymb/HnXcNb
-	 XY24eVkU+jFNiKTi8CRFsGG3DyaUFKembWWsN5r8eTzYpjL4efTFMbO0xnASQRTvpI
-	 YnaQfcVtFoK4C7nDN/JU0FZvuMbAzBAbv7MBIkBFZsTw/0q7oFhQitlB8lVT412AvD
-	 YKt/asR4pMeRw==
-From: SJ Park <sj@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: SJ Park <sj@kernel.org>,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
-Date: Thu, 23 Jul 2026 06:36:53 -0700
-Message-ID: <20260723133654.86752-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
-References: 
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="tUXLX/VJ"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-52192509869so4760531cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1784813994; x=1785418794; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5OXNEFjRCaitHQKe2wfBmPOWIET8WKaJvN/RgwCYDNw=;
+        b=tUXLX/VJdwZmnyCn1KtQ4aINMkwFrSTzYVRnHJBscaYGWzw24DPCdrIHdahlmbebtK
+         Ud0wBPD/AcW2AY9xBeO7Lqcn+0C5fPOroriMAEtQ6QFf4I/KPxm2pZW3V4lXM3fDnKba
+         /Nb7E/XX4SGRLInI5Jtt9v7ef9GSEolxNxMi2/OpxdYUC6WbHfEXKh8ZkZCT0tkDq6US
+         debzQy8BanKUVltY9opXvW8TzAsNgRg7POBZ+b0jpEFE2EuyMRXagHDVb8E5pGB05RyN
+         ez6cgJMSjKE7GSq0naF0c4EXZaRljmpr6XcouVklCgnzDZ24vG2b2VjhZKYOh0OxCtfU
+         6X5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784813994; x=1785418794;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5OXNEFjRCaitHQKe2wfBmPOWIET8WKaJvN/RgwCYDNw=;
+        b=XNFujcMwBm2vl6MN2GXQPRUADejTwXjkBAuGfDXZaMnu3U4bJqd/JI8TgP7b0aWg0g
+         DeZcnoFS+FO/81Qj68tPBjDsRztltbBGl5NcEBx6DByJeWSWE4p3iATuty5tkDaM2PxB
+         BYkz+W51O4xr0JC+3WwKkMzpzhKpLhm4aCJ7DTOEuDe+qfBX1YQOsHzd0Xllb1nHci2T
+         HdKECuHty2YrnnJl97UO8FGsJrXChavKEw2/C1bY8X1jiQ5JlPmj/XAQyg499N/VDONu
+         LYSP8HHcBdtUoNRZG5j/z5kfowssVIri911YJPogO9hXyJgQ39kj9U/6iG9BcQneqbZj
+         e2Zg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7r+TRCDdSMUMH9TtfRzqjIHhbLUVO/iTxw/aqZ/pqAKd1MowJ4tW5Mj7NB/XMzT8IG8kOHH464/OirsYh@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAHpXPr+BFh220Rmqg3RLp43wxi8+RwIseHkBSeRz2zXYvJl4G
+	2DByGKi/a5VHFMjwX+JCZG/AqlSzIi7bQ4PZmdqt111z9p2afQj5iRtkPsDiom6fWKo=
+X-Gm-Gg: AR+sD12tWWGV3LBACbblt4g+oiVpCKpTlj3k7u47wTjY0uxt0KlJQLPGl6EYdtxINdh
+	kUbbPN8LaNyScTZyCIEXFfj570JgWoLpEFutXQVbPN4o/jJ8wXLBNOML3DpZYVFdJkYTeZ+IX0K
+	4hADQT9UhRJQfgL20cZ2BTvh7l2RzhebAZ2Mgcedym2hbgFBwjNHc37lG1guEW9noOxmYu6FQI/
+	wOR7BJaDlrti0/WtCVboiAMOiELlJ39rRUD+oftsc1gOYNo6EybGb2ymrYtJ2tvr7Za51KZdTHN
+	2Z+6IJEMV1VKvj/jDLZjWuk8u1G59zrRor5FWsTVjg/BmEqlpo0XuZ08xoEO0wYIkVDQgD5KX0I
+	bU6pwPAluZA2NOFNWSKARflo23HkA8aBN6l+fzWMPI2oVsMOJYi6PmPp/Op8rKj3aj3YXr5XGIx
+	fp
+X-Received: by 2002:a05:622a:5906:b0:528:30e1:b5d3 with SMTP id d75a77b69052e-5283e0419fdmr25761861cf.84.1784813993716;
+        Thu, 23 Jul 2026 06:39:53 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d0c4ce60sm35155751cf.7.2026.07.23.06.39.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 06:39:52 -0700 (PDT)
+Date: Thu, 23 Jul 2026 09:39:51 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Yosry Ahmed <yosry@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm: zswap: free synchronous-IO writeback folios
+ directly
+Message-ID: <amIZp7Ual_6Gu86T@cmpxchg.org>
+References: <20260718093723.153324-1-alex@ghiti.fr>
+ <20260718093723.153324-2-alex@ghiti.fr>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260718093723.153324-2-alex@ghiti.fr>
 
-On Wed, 22 Jul 2026 23:25:15 -0400 Gregory Price <gourry@gourry.net> wrote:
+On Sat, Jul 18, 2026 at 11:36:39AM +0200, Alexandre Ghiti wrote:
+> @@ -972,6 +972,30 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
+>  /*********************************
+>  * writeback code
+>  **********************************/
+> +static void zswap_writeback_free_folio(struct folio *folio)
+> +{
+> +	folio_lock(folio);
+> +
+> +	/* The folio was allocated off the LRU and nothing re-adds it here. */
+> +	VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
+> +
+> +	/*
+> +	 * Gate remove_mapping() on folio_test_swapcache(): a racing swapin may
+> +	 * have freed the swap slot (folio_free_swap()) and dropped the folio from
+> +	 * the cache, and remove_mapping() must not run on a non-swapcache folio
+> +	 * (it would trip __remove_mapping()'s mapping == folio_mapping() check).
+> +	 */
+> +	if (folio_test_swapcache(folio) &&
+> +	    remove_mapping(swap_address_space(folio->swap), folio))
 
-> On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
-> > On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
-> > 
-> > > > "by default".  Does that mean it could be reclaimable in some situations?  If
-> > > > so, could we check if it is reclaimable?
-> > > > 
-> > > 
-> > > See the damon changes in:
-> > > 
-> > > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
-> > 
-> > Summarizing what you want to say, quoting something from the patch, or at least
-> > calling it "26th patch of this series" would have made reviewing much easier.
-> > Cc-ing damon@ for only patches that toucing DAMON source files and the cover
-> > letter of the series could also be helpful.  Please consider doing some of
-> > these for future replies.
-> > 
-> 
-> I have been very much discouraged from this kind of trimming because it
-> removes the context of the series from the individual patches - making it
-> even more confusing.
-
-That's fair and making sense.
-
-> 
-> But I understand, I will try to remember to do this for you.
-
-Thank you, Gregory.  Nonetheless, I wouldn't insist selective Cc-ing.  I agree
-your point, and I expect doing that would be tedious if you don't have a script
-or tool (I use a tool).  It is just one of my suggestion to help reviewing in
-this context, insted of only lore link.  Just one among the other three
-suggestions (summarizing your thought, quoting, or simply calling it "26th
-patch of this series") should also suffice.
-
-> 
-> > So, I understand later patches will make it optionally reclaimable and update
-> > this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
-> > default" from the above comment for reducing the confusion?
-> 
-> Yes, but you bring up a good point - I think this two-step process is
-> actually poor form and that I need to redo it.
-> 
-> Maybe this can be redone as node states (features?) such as:
-> 
->    N_MEMORY_RECLAIMABLE
->    N_MEMORY_DEMOTABLE
->    N_MEMORY_TIERABLE
-> 
-> so these damon changes will forego this confusing intermediate step of:
-> 
->    if (folio_is_private_node(folio))
-> 
-> and go straight to
-> 
->    if (node_is_reclaimable(folio_nid(folio)))
-> 
-> In the first patch - without ever having to revisit damon again.
-
-Indeed that sounds better than my suggestion.
-
-> 
-> > > 
-> > > Technically there is nothing in migration core to prevent migration
-> > > operations, it's done on a service basis - hotunplug, reclaim/demotion,
-> > > user numa (mbind, migrate/move_pages) etc.
-> > > 
-> > > Operations on private nodes/private node folioes are refused if the
-> > > capability bit is not set.
-> > 
-> > I haven't had a chance to read the entire series, sorry about that.  So, do you
-> > mean the above blocking is not really needed, or that will conditionally be
-> > allowed by another later patch?
-> > 
-> 
-> I will reduce this all to a single patch in v6, I see where things can
-> be improved now based on a few pieces of feedback.
-
-Sounds good, thank you Gregory.  Looking forward to the next version!
-
-
-Thanks,
-SJ
-
-[...]
+I just chatted with Alexandre off-list, but this path does not store
+an eviction shadow like the reclaim path does. That means no refaults
+are detected from dropbehind pages, which can fundamentally alter
+reclaim decisions, zswap shrinker force, and pressure detection.
