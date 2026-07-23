@@ -1,198 +1,274 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7233426EB7;
-	Thu, 23 Jul 2026 09:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBD0416848
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 09:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784799433; cv=none; b=eDRXd1PESVlP9HhYhtTNstcr1WW1Zyx04lklmPA2y6v3oi6L2aumQlSWinJzWsNi681yQfSiiK12wz2DhCopAsmMZG5Ial79UkIeyp9jCz9eKAE2nQ8O6HbZkwDBE4ioUjiqAtL+PBlLcrzQokd9Zp5qOBl6zFBWMYG+N1cJOas=
+	t=1784799949; cv=none; b=CgsciLvuzYLJUiMK+nu9UMvqxZnJ2Kc5mHOIHLIEfQ/tRwYSgMIN5AAOSRiynR3DMbJ5g0rvc24Kd9Vl0OsW+XmsQgJvTko+R9mDJtqpVM5E6qFvhQP84DvrYUSzyqKfZGMPr2sbHnOqjISsZb9husZxorTUgtFlhEN0mqRYEkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784799433; c=relaxed/simple;
-	bh=E21bKndicXb9nPqWpks3wCDr/RIfVKji5HgRH+1eRTM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=U2E1f+NAd1vjZ1+ExTFsP6QGKLB3XDUinF8hGGxa7IGWzvYZwukNjQz6ADQMKxIgzkJjsxX0Ym7OdYJtDIzag/pott8BE+yyD3f3EaHn2lS0u+8amQTDKlbLnZFdU/sgOkZAxOvcz2MLoHUpKZ0Ig2nhIohG4zSu/AhkoqPy3Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efGx2Sdv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784799949; c=relaxed/simple;
+	bh=oVa7njYZGKLxK673g2O5F7m3PTIy/KzRiZgPlySY1P4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=i+dTlpgrJfd3+gadqEXrs+R5OaH/U2wn+BuSMVArRpm9vcCjgZB2Jdn+3ybrgOPl8BamuOitO8oXOaQT6fj33O8NenU1jxrlvrjN90LeQxeZGP+YGW7uaiC0VKPQ0/NLmaqSvXIJQlVIZ+SIx8utVbPJ6kD6bpx3U8mGyJouuuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PVecEZoM; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efGx2Sdv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09EFE1F000E9;
-	Thu, 23 Jul 2026 09:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784799431;
-	bh=wS0B+J/0UPbtNMEW1T7fiql3q14N46+fo1IxT8HkylQ=;
-	h=From:Date:Subject:To:Cc;
-	b=efGx2SdvaHNjZvUP0CcEnWZg4SVpukzeSQ6hG3wlyyQ+JWW1gZpLvZ8I1bf4YF8yR
-	 VNPgi6mPu+iWszAfrD8nXXDuqi0N4huP5adD4l2IGK3cfxI0OaZFFEYar5u9quaLK9
-	 zCJq3co/cJIIP6e9wrK4W9w3DyOfAHzftUxxASwPV7TpAT23TZbPbph+v5exkWFDYo
-	 3SlZKocv/l8Pb9FXd0qBiwlS9JXaBrfrPSbR/zgVd+0W55Y84TpgC57HC8Hw2gb+zy
-	 BNn6JExZei8GtZjDLhObSLX26MO26zcM64gMDbNGi41O/JjH9NpEdwP7v0G5sn5pzE
-	 X0w0Fk7BJPb0w==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 23 Jul 2026 11:37:05 +0200
-Subject: [PATCH] super: fix emergency thaw deadlock on frozen block devices
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PVecEZoM"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f64ca1c2dso96461f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 02:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784799945; x=1785404745; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:references:to:from:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9E0aa1/ah54xEiL5PB/XabSsE+mN8+R2RhZTY/b4HPs=;
+        b=PVecEZoMMK1fs/zqUOg0YCaC6WSJ0ekL6DZKMWX5hyVCTxWpnSu28XKmv1tsK9yfIW
+         6bFFYAYigUKx2SOx6smr/X3zBnxXxy4K3fLIu80JI6vv8NGCBg6RjCkiO4A9itY9OlBs
+         CJs8+q6LVQJaM/yr9IUGXqY3uHI+LyCnqtlnmh5n4vW72m9y4Tp/L4c/5IHmPxYnGjNK
+         6i6dhFcG5XAin0AXqicr2Uo/TZPgIwwG+zgkGV5d4ROc64I1aYtpCYG9zmVVytD+xOid
+         yPGK9ll7lvQcTXBfA34Ys4Udh88M9qcbZMxPtGlv6OVFQNBs09pMDz5n+9yIJ3GgKvkI
+         sU9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784799945; x=1785404745;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:references:to:from:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9E0aa1/ah54xEiL5PB/XabSsE+mN8+R2RhZTY/b4HPs=;
+        b=mbQ/diJ2kCkVByYKHUxUrX+9k0wNiEKVIBfvTXL17XIYcZfI4EMPaok+5pSz1KTThI
+         0qZqFh7uKZN8f66cCJNwAzc0aHQI9SaGXXO2DVnTnRFHBBQAraC9TKmddSWsWZeB2yQ3
+         1E5Y9GCO86zmmRW8ytOFB4dBeTU1xKjVjCEHLswBrFUPDMsYvr76M26hFU2y+ij0YIHG
+         Ri+Hs2PXX701N8zVYXj5k6R8Z8HrFDHvcrOAh3CP8yAdrlrJATU0TqeWtcsNp9IJTmvH
+         rqQAV+aQaKH/kzWqAaif0p+qL+1+PahxGp66tqxhFdeMOayoyTWIowjvvxwuojHZzI9g
+         hLZQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6hGzsaTjE7JywjhN3mZ6MUuMqPM0cymMTXQuRMif7S5Qn9Nk5IYY4aXqMTxvsmHsEqU6kPWXhklli1k2Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YznlcF75Z46XPfNvNp2SebwHHX2d8ctzffmf47Ws+mJJXShzQlE
+	X3/tcM36NW41RxXskurjZ7S5WbMYX52uXU54kAbvOvehZ7e3SfzqWqUd8AHXDTe5/Fo=
+X-Gm-Gg: AR+sD11+QSi/N+qVLdAozooBu4aw20FXpkHpmomM+JFxFFaHcQQ/HTPuBDiFBkEHtq8
+	9tc5nab4HsZ+2jwuHHytuK2n+TzGrG6Qw/D61zJOoM1mMf2sQNwn6+ZYZFWdooBA20nbVNdlR/j
+	RfKpzQMqkwotPVcE+pQXoQrNX+Vl0r/h53LbgXOQXr+uevewuIPqsPmxDeexQvX1rij7R5//0mg
+	fufwbPKyI+cwAh4LgJfLEmt2fr9WWPn8vkkarpYLQQFwLxIp7jxAXDM1+UzCFNf0oJa4CCQr2Pc
+	2WwtbroCYI//ftNVU0kjE7xYXouDX8vEwUbq5jX2Xv1OCGO9wSjMZZT3ILMlx5UNtaavQ9eE0AR
+	Az7GbLqxTzEXbaR9XnHhsvotUgYZlCXusPaBVBl+d75vMul3pxB+VZASegpc1jyygUefnAx0=
+X-Received: by 2002:a05:600c:2101:b0:495:5b4a:53c9 with SMTP id 5b1f17b1804b1-49573cff13bmr18544355e9.39.1784799945210;
+        Thu, 23 Jul 2026 02:45:45 -0700 (PDT)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm17274786eec.0.2026.07.23.02.45.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jul 2026 02:45:44 -0700 (PDT)
+Message-ID: <4beadb76-8500-452c-b84e-206c50456b8a@suse.com>
+Date: Thu, 23 Jul 2026 19:15:40 +0930
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-work-super-emergency_thaw-v1-1-7c315c600245@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAMDgYWoC/yWM2wrCMBAFf6Xk2ZU2QSX+iojksm2imJbdXpTSf
- zexj3M4M6tgpIgsrtUqCOfIsU8ZmkMlXDCpQ4g+s5C1PNcXqWDp6QU8DUiAb6QOk/s+xmAWMEq
- ftLdead+I7A+Ebfz827f7zjzZJ7qxBMvDGkawZJILZZpbPu7Gtv0AEyiUFJkAAAA=
-X-Change-ID: 20260723-work-super-emergency_thaw-a3959dbd39d1
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Mateusz Guzik <mguzik@redhat.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-X-Mailer: b4 0.16-dev-0e65f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5206; i=brauner@kernel.org;
- h=from:subject:message-id; bh=E21bKndicXb9nPqWpks3wCDr/RIfVKji5HgRH+1eRTM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlPjiafpd/aup0Fa4nexfzXry29tyL0vhFpgozTf6F6
- 4Qkzjl3qaOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi52Yx/OF3y+hdW3CuTWGC
- 2oSZ9ewyx9/u+xDxevq9dYKHzsu53+Fl+MmYXur6oP3AvVWH/5xWf2itwGRa8mBFxPcqjjl3Vpj
- cfscAAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: Mozilla Thunderbird
+Subject: Help needed to address the dirty folio without fs notification
+ delimma (Re: [PATCH RFC v2] btrfs: disable direct reads to avoid dirty folios
+ without fs knowing)
+From: Qu Wenruo <wqu@suse.com>
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ linux-btrfs@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <c6dfdac9fc51c94183e51a861eec269185239660.1784787211.git.wqu@suse.com>
+ <9b1d42c4-2c3f-410e-aceb-92400b8bc24f@linux.ibm.com>
+ <f49478be-70fc-4cd6-a640-fb008c21c092@suse.com>
+Content-Language: en-US
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <f49478be-70fc-4cd6-a640-fb008c21c092@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-do_thaw_all_callback() calls bdev_thaw() while holding sb->s_umount
-exclusively. If the block device was frozen via bdev_freeze() dropping
-the last block layer freeze reference calls fs_bdev_thaw() which
-reacquires s_umount:
 
-  do_thaw_all_callback(sb)
-    super_lock_excl(sb)                     # holds sb->s_umount
-    bdev_thaw(sb->s_bdev)
-      mutex_lock(&bdev->bd_fsfreeze_mutex)
-      # bd_fsfreeze_count drops 1 -> 0
-      bd_holder_ops->thaw == fs_bdev_thaw
-        get_bdev_super(bdev)
-          bdev_super_lock(bdev, true)
-            super_lock(sb, true)
-              down_write(&sb->s_umount)     # same task: deadlock
 
-The emergency thaw worker deadlocks against itself holding both
-s_umount and bd_fsfreeze_mutex. That fscks any subsequent unmount,
-freeze, or thaw of that filesystem and block device.
+在 2026/7/23 16:29, Qu Wenruo 写道:
+> 
+> 
+> 在 2026/7/23 16:18, Christian Borntraeger 写道:
+>> Am 23.07.26 um 08:13 schrieb Qu Wenruo:
+>>> There is a bug report that a reproducer which doing the following
+>>> workloads in two threads:
+>>>
+>>> - Direct read into memory mapped from page cache
+>>> - Sync the above range
+>>>
+>>> This can lead to dirty folios without fs knowing, this can be a huge
+>>> problem for btrfs, as even on the very basic bs == ps cases without
+>>> large folios, such reproducer can screw up the ordered extent accounting
+>>> already:
+>>>
+>>>   ------------[ cut here ]------------
+>>>   WARNING: fs/btrfs/ordered-data.c:390 at 
+>>> can_finish_ordered_extent.isra.0+0x56/0x1f0 [btrfs], CPU#1: kworker/ 
+>>> u42:0/68
+>>>   CPU: 1 UID: 0 PID: 68 Comm: kworker/u42:0 Tainted: G E       7.2.0- 
+>>> rc4-custom+ #415 PREEMPT(full) 74dbeafab12c410178747d5bec9fb200ae56949f
+>>>   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 
+>>> 02/02/2022
+>>>   Workqueue: btrfs-endio simple_end_io_work [btrfs]
+>>>   RIP: 0010:can_finish_ordered_extent.isra.0+0x56/0x1f0 [btrfs]
+>>>   Call Trace:
+>>>    <TASK>
+>>>    btrfs_finish_ordered_extent+0x39/0xd0 [btrfs 
+>>> 7d1ffd99bb9696179883f257e5fd838e2d1a0ca3]
+>>>    end_bbio_data_write+0x1ff/0x280 [btrfs 
+>>> 7d1ffd99bb9696179883f257e5fd838e2d1a0ca3]
+>>>    btrfs_bio_end_io+0x76/0xf0 [btrfs 
+>>> 7d1ffd99bb9696179883f257e5fd838e2d1a0ca3]
+>>>    process_one_work+0x198/0x380
+>>>    worker_thread+0x1c8/0x330
+>>>    kthread+0xee/0x120
+>>>    ret_from_fork+0x28f/0x310
+>>>    ret_from_fork_asm+0x11/0x20
+>>>    </TASK>
+>>>   ---[ end trace 0000000000000000 ]---
+>>>   BTRFS critical (device dm-3): bad ordered extent accounting, root=5 
+>>> ino=257 OE offset=3465216 OE len=2826240 to_dec=319488 left=135168
+>>>
+>>> Unfortunately we have removed cow fixup mechanism, which is to work
+>>> around such dirty folios by re-dirtying them and reserve space for them,
+>>> across several kernel releases, meaning we can not easily revert a
+>>> single commit to bring it back.
+>>> And without doubt, that old cow fixup mechanism is not support larger
+>>> folios.
+>>>
+>>> As a hot fix, disable btrfs direct reads for non-experimental builds for
+>>> now, so this can buy some time before we find out a proper way to 
+>>> address
+>>> this.
+>>>
+>>> Reported-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+>>> Link: https://lore.kernel.org/linux-btrfs/f12f70e5-d84d-4a9f- 
+>>> ac94-693be4c863ac@linux.ibm.com/
+>>> Signed-off-by: Qu Wenruo <wqu@suse.com>
+>>
+>>
+>> Wow that is a big hammer. Doesnt that break typical usecases (like 
+>> databases on a file,
+>> qemu/kvm aio+direct image files etc)?
+> 
+> It falls back to buffered read, which has a good side effect that if the 
+> reader is also modifying the buffer, it will not cause a csum mismatch 
+> warning.
+> 
+> Although it causes huge performance drop.
+> 
+>>
+>> Even worse, this does not fix the other GUP use cases that still 
+>> exist? So its only
+>> a partial fix. Have you considered to add my RFC patch on top to close 
+>> another
+>> problem that I can reproduce easily.
 
-  [   81.878470] sysrq: Show Blocked State
-  [   81.880140] task:kworker/0:1     state:D stack:0     pid:11    tgid:11    ppid:2      task_flags:0x4208060 flags:0x00080000
-  [   81.884876] Workqueue: events do_thaw_all
-  [   81.886656] Call Trace:
-  [   81.887759]  <TASK>
-  [   81.888763]  __schedule+0x579/0x1420
-  [   81.890372]  schedule+0x3a/0x100
-  [   81.891794]  schedule_preempt_disabled+0x15/0x30
-  [   81.893848]  rwsem_down_write_slowpath+0x1ea/0x900
-  [   81.895191]  ? __pfx_do_thaw_all_callback+0x10/0x10
-  [   81.896528]  down_write+0xbd/0xc0
-  [   81.897505]  super_lock+0x91/0x180
-  [   81.898457]  ? __mutex_lock+0xa99/0x1140
-  [   81.900748]  ? __mutex_unlock_slowpath+0x1f/0x400
-  [   81.902069]  bdev_super_lock+0x5b/0x150
-  [   81.903132]  get_bdev_super+0x10/0x60
-  [   81.904042]  fs_bdev_thaw+0x23/0xf0
-  [   81.904755]  bdev_thaw+0x82/0x100
-  [   81.905484]  do_thaw_all_callback+0x2c/0x50
-  [   81.906298]  __iterate_supers+0x5d/0x130
-  [   81.907067]  do_thaw_all+0x20/0x40
-  [   81.907739]  process_one_work+0x206/0x5e0
-  [   81.908545]  worker_thread+0x1e2/0x3c0
-  [   81.909339]  ? __pfx_worker_thread+0x10/0x10
-  [   81.910171]  kthread+0xf4/0x130
-  [   81.910799]  ? __pfx_kthread+0x10/0x10
-  [   81.911528]  ret_from_fork+0x2e2/0x3b0
-  [   81.912259]  ? __pfx_kthread+0x10/0x10
-  [   81.913010]  ret_from_fork_asm+0x1a/0x30
-  [   81.913806]  </TASK>
+BTW, if you really want to get everything fixed for the very basic bs == 
+ps cases, you have to go back to v7.0 with CONFIG_BTRFS_EXPERIMENTAL 
+disabled.
 
-bdev_super_lock() even documents the violated requirement with
-lockdep_assert_not_held(&sb->s_umount).
+In that kernel we have cow fixup, which is unfortunately removed in 
+v7.2-rc by commit b2a9f217ad3f ("btrfs: remove the COW fixup mechanism").
 
-Acquiring bd_fsfreeze_mutex under s_umount also inverts the
-bd_fsfreeze_mutex vs. s_umount ordering established by
-bdev_{freeze,thaw}() and can thus ABBA against a concurrent block-layer
-freeze even when the recursive path isn't hit.
+With that feature even if the folio is marked dirty without notifying 
+the fs, we can detect and later re-dirty them and do the proper space 
+reservation in a workqueue.
 
-Fix this by not holding s_umount around the bdev_thaw() loop at all. Pin
-the superblock with an active reference instead as
-filesystems_freeze_callback() does. The active reference keeps the
-superblock from being shut down and so ->s_bdev stays valid without
-holding s_umount. The block-layer-held freeze is dropped by
-fs_bdev_thaw() with FREEZE_MAY_NEST | FREEZE_HOLDER_USERSPACE exactly as
-a regular unfreeze would and thaw_super_locked() handles
-filesystem-level freezes as before.
+But again, that COW fixup mechanism is not well tested (I believed we 
+shouldn't require it and we never hit any reports about that), and can 
+not handle large folios or bs < ps cases either.
 
-The emergency thaw path has deadlocked like this in one form or
-another for a long long time but the current exclusively-held
-shape dates back to commit [1] where thaw_bdev() already ended in
-thaw_super() with s_umount held by do_thaw_all_callback().
+Furthermore it's not an easy revert in upstream, at least we have a lot 
+of involved patches that are removing the cow fixup code step by step:
 
-Fixes: 08fdc8a0138a ("buffer.c: call thaw_super during emergency thaw") [1]
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/super.c | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+9bce95edb1b4d2802de9273b5170bfcff3090d24 btrfs: move large data folios 
+out of experimental features
+115421e29b845d521e3dc24b67d83e8695f621f6 btrfs: remove folio checked 
+subpage bitmap tracking
+b2a9f217ad3fa8012940744059956b20a3971135 btrfs: remove the COW fixup 
+mechanism
+4927b141877c35b1af4e32c7876cd2e0a0f16196 btrfs: remove folio ordered 
+flag and subpage bitmap
+aea704836e47decbdcac77872385c9a3fb51da42 btrfs: remove 
+folio_test_ordered() usage
+7d97bdca4bcb0e36b2d1251bffac3ff4e4e09c8c btrfs: use dirty flag to check 
+if an ordered extent needs to be truncated
+095be159f3eb4670fab75f795ce9539a381ebd3f btrfs: unify folio dirty flag 
+clearing
+b066155f06eeb4d6d696668cc58b6101adf6c1c2 btrfs: detect dirty blocks 
+without an ordered extent more reliably
 
-diff --git a/fs/super.c b/fs/super.c
-index 70dcb07e7fa5..ffdcc6a2e0de 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -1082,16 +1082,30 @@ void emergency_remount(void)
- 	}
- }
- 
-+static inline bool get_active_super(struct super_block *sb)
-+{
-+	bool active = false;
-+
-+	if (super_lock_excl(sb)) {
-+		active = atomic_inc_not_zero(&sb->s_active);
-+		super_unlock_excl(sb);
-+	}
-+	return active;
-+}
-+
- static void do_thaw_all_callback(struct super_block *sb, void *unused)
- {
--	if (!super_lock_excl(sb))
-+	if (!get_active_super(sb))
- 		return;
- 
-+	/* fs_bdev_thaw() acquires s_umount so it must not be held here */
- 	if (IS_ENABLED(CONFIG_BLOCK))
- 		while (sb->s_bdev && !bdev_thaw(sb->s_bdev))
- 			pr_warn("Emergency Thaw on %pg\n", sb->s_bdev);
- 
--	thaw_super_locked(sb, FREEZE_HOLDER_USERSPACE, NULL);
-+	if (super_lock_excl(sb))
-+		thaw_super_locked(sb, FREEZE_HOLDER_USERSPACE, NULL);
-+	deactivate_super(sb);
- }
- 
- static void do_thaw_all(struct work_struct *work)
-@@ -1117,17 +1131,6 @@ void emergency_thaw_all(void)
- 	}
- }
- 
--static inline bool get_active_super(struct super_block *sb)
--{
--	bool active = false;
--
--	if (super_lock_excl(sb)) {
--		active = atomic_inc_not_zero(&sb->s_active);
--		super_unlock_excl(sb);
--	}
--	return active;
--}
--
- static const char *filesystems_freeze_ptr = "filesystems_freeze";
- 
- static void filesystems_freeze_callback(struct super_block *sb, void *freeze_all_ptr)
+Not to mention there are also quite some conflicts with other changes.
 
----
-base-commit: c4fd59e777f64a23778ea199937ac1e32a5a1bc2
-change-id: 20260723-work-super-emergency_thaw-a3959dbd39d1
+So the assumption of every dirtied page folio is dirtied by either 
+buffered write or ->page_mkwrite(), is really the core idea of recent 
+btrfs update and the basis of the subpage support since v5.15.
+
+
+I do not have any good idea to go forward.
+
+Full revert is hefty and can only handle bs == ps cases, subpage/large 
+folios are still affected.
+Although I can revert the large folio support, that's a pretty cheap one.
+
+The RFC patch from the reporter is not going to address the very basic 
+bs == ps cases either, just check the OE accounting error message in the 
+commit message.
+
+Finally I do not have enough mm knowledge to address it from 
+mm/block/vfs/gup layer either.
+
+So any help/advice on how to address this situation would be very 
+appreciated.
+
+Thanks,
+Qu
+
+> 
+> Because that doesn't fix the problem at all.
+> It's just masking a corner error.
+> 
+> With or without your RFC, on x86_64 with large folios disable 
+> intentionally, it still triggers the OE accounting problem mentioned in 
+> the commit message.
+> 
+> I believe if you switch an older kernel, or disable large folios 
+> manually (reverting commit 9bce95edb1b4d2802de9273b5170bfcff3090d24), 
+> then you should hit the same warning on s390x, and also fail the 
+> reproducer (error out, not hang though).
+> 
+> 
+> Again, dirty folios without fs knowing is the root cause, your RFC is 
+> only avoiding one symptom, all the other problems are still not 
+> addressed, and those problems are not any less serious than the hang.
+> 
+> Thanks,
+> Qu
+> 
 
