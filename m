@@ -1,54 +1,51 @@
 Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A7A4968FA
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E34F796E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784812168; cv=none; b=MxFA9aNFil7ciPQAc4UTeCejSCg+FGQCmlrzOY5VMCUa99QbRlJPzJuwRle9jHpdzha+zk6oieWLxaI9ErqCKKa5uxczuGpzmS+uMKcFbWuN4MQTZeVoa4tjBP8T4VMiY57oXtouzLBuTuYQtWqrM1d3rcW7Te5IY49aZhfrh1w=
+	t=1784812180; cv=none; b=LPpNaNLfW/sf7/LWrvgz6gzlfaG3YNDbIKbbEMgAYVlvqRoZzR6TE5cBdZ9GZrWnfkNmTjoyuk54QdtsCCmAy6U57gtv18vaXJnt3o5SUnsPE09Ldf7x22IBV1gfkT8HmPbyyMymwHkMpOEwC9d/yCJwz4gA9sZfBSFo/M//dWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784812168; c=relaxed/simple;
-	bh=WiV/TPKq1oBk90cjEo2dwwqlNc0vVT/Cr1WsSLZV5vw=;
+	s=arc-20240116; t=1784812180; c=relaxed/simple;
+	bh=Ffp+82a+kPVANVSfE4UoPLzS57UGE/MJDj2zzx+4H4k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AheNDDCkEd58RtbwU5/O8tVC5h/V/iAmqsUu4/vNFMOS1AHm3QndD0IJQRqvwtJkbxHenv4XB2j1elecCVYJYb2hzjaiLoejA/E6EYqva2pDrbUWtTr4RgIXYMSLuM7IDBcGQ9Irv0YScbd5Tlh3Q/bU0Fl/gCvEXnGOJlYuJHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VC6qv0un; arc=none smtp.client-ip=18.9.28.11
+	 MIME-Version:Content-Type; b=fUm6L9oJQszf3V336jmtQb7yWhQlgOeD+LuS202+cn3CkoLSdNCXL+sp1Ju1HNAW8B81oNK/ItzgrBH5XNNXR+dqN0sCzurZPyN8k0wVPcXGDA+r8Ag1ulCmzeUMVhzQcmkGcmmiDPEzgFep2Li0ncCHLlXy4VID8z/f+VfC1n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Co0ksC24; arc=none smtp.client-ip=18.9.28.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VC6qv0un"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Co0ksC24"
 Received: from trampoline.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
 	(authenticated bits=0)
         (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66ND8xs1017842
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66ND948H017973
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Jul 2026 09:09:00 -0400
+	Thu, 23 Jul 2026 09:09:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1784812143; bh=hUqjAO+yyYfRN/qvSyuFrFuZlztXbFcwXVTUfv5qGEA=;
+	t=1784812147; bh=SoxFe76Q5Ck7OJ+6Zars+9LwhXxMDX97oGV3QnGVKQs=;
 	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VC6qv0unvKFQxWVz9U5GK6hlfvfJEs0ShsmIyD36KsztNU0DnVGeSrPaiInmHEw1F
-	 eqXRPA2k2W1JdnwXv21OEdBbTsAS63BVQNgTdbUB8gYT5PWYycZUak+FtDrJQS6+iy
-	 hwCujg8ZMEtMjTfTfepAD0IgvT9e4zqM8QE7WxURcBhRg5G9USVmiUprEtOYvmGr9U
-	 bxY3zHblk6yPL/SkMT2nVZvEe2nOO3VzWnlj9MWrbDR3afQRqRZC2C5sZy3Xg1klaO
-	 o+rH5et8XrNRP4oEGftmowec2zUtMfezcfuimLMieOKikQq4h51NN8Y3K3DWWylxD3
-	 f4YAEZi++L63w==
+	b=Co0ksC24/RAK+zSQpV6N74dQw+ZNqVj625eugryiaz+EeYYSY0f5/vlX3MGqyIJZs
+	 tNH5MOKL0wNtmqxjCsnjqXWqXBEJ+SpJxnG/6Tmw8+r9LZSQhXBepPqT7gRTdJBU6R
+	 Co2nIVIhJyJOnxt+WQno1/+sOgvbge8XcEdqv0dsFILaIr5qLxumKebfbGeZq3pcwk
+	 H95KSEGkgXh//uu0zuSNTKVzLVp5vzpbQ7zy7OV1DTQddZRitmHAozk3p54v0BYjdL
+	 E3eXnITEvyqse9af82Np//r5FCImeA/Ulq90kWx89Y3EUjdPKczIs2/1nj7afK00kw
+	 xvIapS+vKo0MQ==
 Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id AD7272E3F16; Thu, 23 Jul 2026 09:08:59 -0400 (EDT)
+	id E14D42E3F25; Thu, 23 Jul 2026 09:08:59 -0400 (EDT)
 From: "Theodore Ts'o" <tytso@mit.edu>
-To: Aditya Srivastava <aditya.ansh182@gmail.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jan Kara <jack@suse.cz>, Baokun Li <libaokun@linux.alibaba.com>,
-        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-        Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>,
-        Tao Ma <boyu.mt@taobao.com>,
-        syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] ext4: use fsdata to track inline data write state and fix race
-Date: Thu, 23 Jul 2026 09:08:38 -0400
-Message-ID: <178481171744.796182.4771772432914384249.b4-ty@b4>
+To: adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, jack@suse.cz,
+        ojaswin@linux.ibm.com, ritesh.list@gmail.com, yi.zhang@huawei.com,
+        viro@zeniv.linux.org.uk, brauner@kernel.org,
+        Yun Zhou <yun.zhou@windriver.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v14 0/4] ext4: deferred iput framework for EA inodes
+Date: Thu, 23 Jul 2026 09:08:53 -0400
+Message-ID: <178481171721.796182.16168303721890374305.b4-ty@b4>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260703045414.1768-1-aditya.ansh182@gmail.com>
-References: <20260703045414.1768-1-aditya.ansh182@gmail.com>
+In-Reply-To: <20260710030851.2791589-1-yun.zhou@windriver.com>
+References: <20260710030851.2791589-1-yun.zhou@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,29 +56,28 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Fri, 03 Jul 2026 04:54:12 +0000, Aditya Srivastava wrote:
-> Instead of checking the live inode state (ext4_has_inline_data(inode)
-> and ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA)) in the
-> write_end handlers, use the fsdata parameter of the address space
-> operations to explicitly pass down the state in which write_begin
-> prepared the write.
+On Fri, 10 Jul 2026 11:08:47 +0800, Yun Zhou wrote:
+> This series introduces a deferred-iput framework for EA inodes to
+> eliminate a class of lock ordering issues in ext4 xattr code.
 > 
-> A concurrent thread (such as ext4_page_mkwrite()) can convert the
-> inline data to an extent between write_begin and write_end. If this
-> happens, the write_end handlers would previously miss the inline
-> write_end path and fall through to extent-based write_end logic.
-> However, since block buffers were never allocated in write_begin,
-> this resulted in NULL pointer dereferences or data loss because
-> folio_buffers(folio) was NULL.
+> The problem: iput() on EA inodes while holding xattr_sem or a jbd2
+> handle can trigger eviction, which may acquire those same locks or
+> s_writepages_rwsem, creating circular dependencies.  The immediate
+> deadlock (during mount-time orphan cleanup) is fixed by two separate
+> patches already reviewed and posted:
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] ext4: use fsdata to track inline data write state and fix race
-      commit: 7edbb323bab2b2a609016014caafdb651c898249
-[2/2] ext4: cleanup unused CONVERT_INLINE_DATA flag
-      commit: f6065852d2137734bcb26c9f94e5daf526179aa9
+[1/4] fs: add iput_if_not_last() helper
+      commit: 2a4c637d6fab83b689aea834d8e725189a2ef370
+[2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
+      commit: 4f48af3dc75545f6c874e7d195aeff009c7453ba
+[3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
+      commit: a54778243e88f2a941e145e5afa43bd1619c0a66
+[4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
+      commit: 3a00c9bc8ea5b816eac165550a4676a3bcde7f2d
 
 Best regards,
 -- 
