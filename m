@@ -1,484 +1,151 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CEA3CAA55
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784788762; cv=none; b=mT2x6bkWsxSNrFAsQs0zt0fYMiOxU+Oux6IgQ7eJSXVleR0+dUDioq//QqGXcFINdZ+uyKF1ATelBezgGTqfHdKpdmLzzRrQHbk6nS76N56jHVbZSG9usQt/J8oogxVrI9/j6ingQ+t6HXfWKdzLsTSI9ucPHqb4fQEU/IGvSSo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784788762; c=relaxed/simple;
-	bh=/0HwtvNp/9LvmQragxj3efo4Ptadjv76oHlqVj9EYjg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GbWwVzYcG13Xz1vs88fyxrRvDknUzecJTKbAyPYCcc2LgYKmq/op/hyG6rTFWaHlwPHL9iZ+O8rOLzO0ehMvsdSzw6VTR9Z+cw090BeWU8LnblCsffMuJPFj5SGHfPrIp5tFkNQCxqgz6r96ygEx/5hIt0S7/+RdXULRdf2FoVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n454Wbvd; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451B8384CCB
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784789754; cv=pass; b=a34J8t1P2xDYf42vY1uQZ4EQbJ4LvraJMcGgkdkj9n+AdenijBRqGrSIdN4WI7J7pIImMzKs0Tk4RYF7uKZKDbzyIosEvS4RfjFb/1rT2FPsLwBiPf8CTk6JRtvbK/Ezy1U61uraU44k8/oAbT28XODUzLFrft8qsXu1rNBKcJU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784789754; c=relaxed/simple;
+	bh=7xavlvPgaj2aZOYRfaOcUw2KPrv2zI3pLKx85cjIG00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=exs1vR7fLrGKny8V+D8QLLtDaLagfIiP+XyeWjBu4eLPNketY8E1qeEKtxccoHDlUhaqbMYvCthN9TVjtSl/ZULQmLKAVKMHrSW41RTC4dhExqsXsBJMITiV69+/v/4hR5XGEGbbKkWxwpS7dcXNdbSjjar4oqG0QMAupCwy2v0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=kM6hJJwK; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n454Wbvd"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84830c774a0so286046b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 23:39:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="kM6hJJwK"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c0c68aa31so2349181cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 23:55:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784789751; cv=none;
+        d=google.com; s=arc-20260327;
+        b=W+MJ0mJrp8k+TkfGfLW8hmbhFWYWFcnIQklTz7YeEbiyYNn0Mz1zgU/F8xJ6cCioP+
+         /g3LJm2K7OVQsG72Lziszfk3lXHuoPV/8hnRPTVMLjj++T1JIneu5K7tUlDwqGpqmhra
+         MACb6p9VsB/6K2RRRYKi4Q9ySLhxL6ZK4H0X6mDCaJQnVjIolVep7ddVwnbJK6MXCX9E
+         iArS3ZjHTynJzeCN5yJmttTKwS+SktBWROkJw6m6rM5LN2kZFG5c7YkMod4I/z/BWJo8
+         u4WC72FuEvqYPTW2UJyrhommo+Ddmb9RbfRXJ7Nyk2bsw+EcbyjRclzPP/UH4PjjjJ7n
+         yJNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/L/US/G+XEKajQPS4lkAeBu5twJB/EgGo9GV13H6UZU=;
+        fh=Yr2V1WNhF2aD0gbFUDz4zN1sasUHkh1K2tf8Ta61RZo=;
+        b=Bon+k8vvK/0OoFB46SCqFpzCtl/s4Yr4+ZK8YCuO65FA3Eo/QSGmA9KuxrR8sZi1XS
+         +h16Frfiy7GEvx21EBXOji0qGCjdecBwEiuQ6C/nvtMduifeyjWu6Ab0n+cLFaUZ5Dqh
+         BAqNib6Alaiap6xhtTAgCw2vbeANWY0JubgQsfE+kJCRfLAJnXwmSHc5NLBmBjZw2qFH
+         GOSpY6S+INmKlj1tg2FnoPtePI7uc/pN55kmPckPkF1NQTDFFhq8R5LWw/EPZAp0+fPh
+         pRxbPMJWYOUolR5sWkn1yGHY1evKJ8iWFqoB9CN3EY/sl1SoatzWmbL20vf/ZZf/d6wd
+         rl7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784788760; x=1785393560; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uDhsKqXuqVQPpqbwNUDTPQFZ//zpU3w2f5MZYDjLQvg=;
-        b=n454Wbvde9YsQK6ZW5NzRWWiLPW87okr/kwuMbIhZBitBH8UqOBkLoFm+mrMaOw4nZ
-         DMdZxSzFYA/d0+KCl2qJK9lcyOe/BHp+ccNPoFLZBe86yC3PVF7QSbv2CjGjyHYWmiZ6
-         dN77FIUF3vjU+6EllMxhT1H04NthN3h9Erfvjm8/3Gks/OJp2TT/Vek2tDbnuBo8x0DY
-         cOhek0v4LDF0KpFXejVPtXdfgflgvFJFc3rxOMY6oQQ+td6CrCEzv+MVFGZBordv619r
-         lMSY/Sv+/LHS184WOuTM0jTVaBzBOjuVxhfT8aZeMSV6kvELiDAFeZdefh+DcjLkliVd
-         hNKw==
+        d=szeredi.hu; s=google; t=1784789751; x=1785394551; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/L/US/G+XEKajQPS4lkAeBu5twJB/EgGo9GV13H6UZU=;
+        b=kM6hJJwKfJqbN6hUs6EU1W3ElYn+UcXqPNu1Q6KVSbFegjsM69aZq8+QXN6D3y10ok
+         qiLQMbszRUL9Earf5oY7MEgL7UpDRoX0yABx9vP8sUwsyKELbcJhjx9cGqdoGchOaVWJ
+         1fxpmviavdF+wLskwjXaJf0RC52HQGiOf9m5E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784788760; x=1785393560;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uDhsKqXuqVQPpqbwNUDTPQFZ//zpU3w2f5MZYDjLQvg=;
-        b=O2lZOzfa5+avOlMcVMZOdRyD0SLewKn8pz9ZteEg3By9MNkzHmeMnLWDColl1ia2ss
-         sJZ8RoiAseuBsZFyVlZK0E/RK2k6fr3INexyL2h7Zy8o2UNOWPF5NO/WTRw894fJ3xjK
-         aVmu1PESDlRX/CYxlSDe7jxOlUy35RszL4XoFrXImwW3Ji8KkAVAUONQCjONfPMLOovM
-         X+beNJyRKghEgffc7arCamzRVMszQx3Ff61+hC3iXSgAEIriE8ognuDkYLqq3fjFwqE5
-         wseXmv/v3LGWo7p1ZLPcwsJtKeBqO06x3LvJedxmlY35ScoO9gyaLof5NR73zkH1+Ldb
-         aBOg==
-X-Forwarded-Encrypted: i=1; AHgh+RqeiTaflHPY9HOljBL7nbdNg46+h1xNGXB1BfRQ34SBTH7tqzSRMMkkWcGVW+9quFFfnwfOk54HYmQwWHTX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSFbAFgPJ8bpSlq7xLkyC4xsLLYeYd76ozoJwfqBkzjQCGY97p
-	xpZjoKPwZseVJCewbxrXefWKJqJxyY+PjIF/bdAinfDG3Bus84QZAWXq
-X-Gm-Gg: AR+sD138p6wWj2/3yrLfzUtgFNhqNDbNPmCzNpNfRLOnIx+OL9whOXWBoIm6M1dLhFi
-	7ZzQmBTUzODXMUd5bAWPaDsR5hdjgZRKIqkqzRtHac2hmXKO0kNzYUaZwMiJBMYHDvj+rkxpv/J
-	xGdJcmDg5qOmHP3fPGfUvmVkgn3O4rrUrDv9NbB1YNEC6MLyg7vW3D8tDgI06xoF7DN+OEigWwp
-	gvADNHwsexNUGFjiFhXwQTnxrgEAYy797Q0BHbSzgud9aVrhjDZWV0eZZdyDFoAXOzgdWXJXS6M
-	f/U3LDXq38YQCJdRrA6aewoXPS7z7NZojuVfEvfPmHo4Xs4YtV2Cvd+PsXw2lwC/63yVAUR/j94
-	iCLUougBQoOfDTbgetXsqKAOQD2dNow3s1931qIHxI5sZhvp3HbL+yVPiF1x/6DXPOUGTbZ2U8J
-	oszzRpXPIBxRgbgj6xeThiUHI=
-X-Received: by 2002:a05:6a00:a229:b0:847:94bb:30db with SMTP id d2e1a72fcca58-84e2bb37412mr2405755b3a.49.1784788759316;
-        Wed, 22 Jul 2026 23:39:19 -0700 (PDT)
-Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17574784sm2507076b3a.35.2026.07.22.23.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 23:39:18 -0700 (PDT)
-From: Jiaming Zhang <r772577952@gmail.com>
-To: slava@dubeyko.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	r772577952@gmail.com,
-	syzkaller@googlegroups.com
-Subject: [PATCH v4] hfsplus: validate B-tree record offset table
-Date: Thu, 23 Jul 2026 14:39:10 +0800
-Message-ID: <20260723063910.765543-1-r772577952@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <3d0cb82335583659fa6d044bcf4b8083907712bc.camel@dubeyko.com>
-References: <3d0cb82335583659fa6d044bcf4b8083907712bc.camel@dubeyko.com>
+        d=1e100.net; s=20251104; t=1784789751; x=1785394551;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/L/US/G+XEKajQPS4lkAeBu5twJB/EgGo9GV13H6UZU=;
+        b=ACVcZtGgwav6eZ0dOafUgsjXmqiSLp+dFV7PUk5RIfgGBQwPJaGVim4WUfsx/NeRNz
+         QVam4kkYb84K9F6XlZ886i6/DZj0B0K3fMEz9C7Q5g1tXwSVRv8ZClNhh/A4xauYPvBK
+         o9afRSasPKVDMm+IOjxK7zyunhUWSIF/BxlezDazTTso2WpmAvipqroHJKKDVScSwGFr
+         Yf6IEIptekKp/+mIMcgChro5EVgitA+MWJbx+rR316noXA9I5UGh6tYaznClRi+Ig8QC
+         BO4C+8Kda4rLLLLBqCR2kv9+7x64J4k7SyWCk6+q23kt1tO2QLECu6Aor5WLfWezprnl
+         lpjg==
+X-Forwarded-Encrypted: i=1; AHgh+RoJ5jnIFxqTSVfn9KuaS+aUuBX5X+PUVWsTQ8qT8wrHA0SNiz2/qkYS2joQQphhSogilvGikA8vJfUch1dg@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPmF6djaRdtVVx6yBWtFxukPjNNjyZSwVNjrD3tFQXquOVGZ+J
+	yC3WvYjdEVHiy0RD77tXG/6K+Pq6OlXD75N9Rnhy7kPdhIE+PWW9w92ZC0ouyAlGt+ddSPQArQ+
+	s1b1h2FvnethmXgmi030Oxle8zEPUSOOArojUzpSIWA==
+X-Gm-Gg: AR+sD12LjQv3hdeLgc5aw60lh+/dgBjIhnmIF8TQc/CQYPMDAu9uXEYMm/kb8H3GElc
+	Pt8Awkm4B470E5G0KIvYIDc53XP+RTvjgalC7jGe3M3FRu4RLty7X4KPKYwL+EkCc8nloeIxThN
+	wezWysSEa3RqnvSNuO2BGRmHQAEmdO8HthhtickMWrkHuAHZ10SZQScxIruqIn2ICyF6i1EFhno
+	4Jpzf9we9Qc4LLQsTEYm3jcC0HI96KhxthGrL+3HUn/0zhKYY8VMihNwJpA0rY9s9iB5uCnpuM+
+	VjibHhL7YuJzSn8m8R9vrVw2EmPzrXyVmvNMw2A=
+X-Received: by 2002:a05:622a:2cd:b0:51c:7b12:5ff4 with SMTP id
+ d75a77b69052e-5283dfea04bmr15949681cf.80.1784789750870; Wed, 22 Jul 2026
+ 23:55:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com> <amFMUtTB4SmHdYZx@groves.net>
+In-Reply-To: <amFMUtTB4SmHdYZx@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 23 Jul 2026 08:55:39 +0200
+X-Gm-Features: AUfX_mwm61XvzbEAWjZX7-oCx0aIcunUf-H5-PKtYcEgLU4ucKjhPy9XCcc8KUQ
+Message-ID: <CAJfpegs81UPgqh3XsvAAE6PfDOiPcMceLZD7p9SRR+HaVZbgTg@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: John Groves <John@groves.net>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-A crafted HFS+ image can contain a corrupted B-tree node. The node descriptor
-may contain a record count that does not fit in the node, and record offsets may
-be unordered, unaligned, outside the node, or point into the offset table
-itself.
+On Thu, 23 Jul 2026 at 02:32, John Groves <John@groves.net> wrote:
 
-Several B-tree helpers consume these on-disk fields before validating them:
-hfs_bnode_dump() can walk past the offset table when num_recs is corrupted,
-hfs_brec_lenoff() can produce an underflowed length or a record range that
-overlaps the offset table. This can make the unlink/writeback path repeatedly
-call hfs_bnode_read_u16() with invalid offsets while holding the HFS+ B-tree
-lock, producing a flood of "requested invalid offset" messages. Other writeback
-workers then block on tree->tree_lock and the system reports tasks hung in
-hfsplus_write_inode().
+> I will make this high-level comment: After reading Amir's initial reply, I
+> concluded that the requested changes push famfs past the breaking point,
+> and therefore the only way to keep famfs suitable for its intended usage is
+> to pivot back to standalone. I do think that may be best all-around for fuse,
+> famfs and Linux. I don't see any way famfs makes fuse better - it's a very
+> specialized pattern that doesn't fit in a passthrough-filesystem or
+> block-filesystem shaped hole. And I don't think it can comply with the
+> "nothing famfs-specific in GET_FMAP" objective.
 
-Validate num_recs against the node size before walking the record offset table.
-Reject record ranges that are unordered, unaligned, outside the node, or
-overlapping the offset table. Reject invalid record indexes before reading their
-offset entries, and avoid decrementing an already-zero leaf_count.
----
-Changes in v4:
-- Rename hfs_find_reset() to hfs_find_result_init().
-- Reset find result fields in __hfs_brec_find().
-- Move num_recs validation next to descriptor field initialization.
-- Rename hfs_brec_range_valid() to hfs_brec_offpair_valid().
-- Use U16_MAX for invalid offset/len/keylen sentinels and update callers.
-- Add hfs_brec_len_valid() to check validity of len/keylen.
-- Handle invalid B-tree map record lengths in hfs_bmap_get_map_page()
-  and hfs_bmap_free().
-- Return -EINVAL instead of -EIO for invalid remove cursor/leaf_count state.
+I can say with confidence that there is nothing famfs specific in
+GET_FMAP that is actually being used.  There are some unused and
+redundant fields in your struct that can be removed now, and we can
+leave space for future extension in the extent format.  Adding code
+for unused features makes little to no sense but can add significant
+burden.  Allowing extensibility instead should be a much better
+choice.
 
-Changes in v3:
-- Drop the keylen == len check.
-- Drop the explicit zero-record check in __hfs_brec_find().
-- Move find cursor reset into hfs_find_reset() and call it from hfs_find_init() and hfs_brec_find().
-- Rename helper-local variables as suggested.
+As Joanne mentioned, adding extent mapping to fuse would be a
+generically useful feature.  It's been on my mental todo list for
+10-15 years.  Sure, we can do that without famfs, so...
 
- fs/hfsplus/bfind.c      | 21 +++++------
- fs/hfsplus/bnode.c      | 16 ++++++---
- fs/hfsplus/brec.c       | 43 ++++++++++++++--------
- fs/hfsplus/btree.c      | 11 ++++++
- fs/hfsplus/hfsplus_fs.h | 79 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 142 insertions(+), 28 deletions(-)
+> If famfs is standalone, it can only ever affect customers who use it, and it
+> cannot be used as a general purpose file system. When famfs is in fuse, it's
+> mashed up with code for hundreds or thousands of other use cases. That's not
+> a win from a risk management standpoint, and it doesn't make famfs better -
+> certainly not in any way that would mitigate adding a lot of state /
+> complexity / baggage to famfs.
 
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index 9a55fa6d5294..301e653f029d 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -9,6 +9,7 @@
-  * Search routines for btrees
-  */
- 
-+#include <linux/limits.h>
- #include <linux/slab.h>
- #include "hfsplus_fs.h"
- 
-@@ -18,6 +19,7 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
- 
- 	fd->tree = tree;
- 	fd->bnode = NULL;
-+	hfs_find_result_init(fd);
- 	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
- 	if (!ptr)
- 		return -ENOMEM;
-@@ -106,17 +108,20 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	u16 off, len, keylen;
- 	int rec;
- 	int b, e;
--	int res;
-+	int res = -ENOENT;
- 
- 	BUG_ON(!rec_found);
-+	hfs_find_result_init(fd);
-+	if (!hfs_bnode_num_recs_valid(bnode))
-+		goto fail;
-+
- 	b = 0;
- 	e = bnode->num_recs - 1;
--	res = -ENOENT;
- 	do {
- 		rec = (e + b) / 2;
- 		len = hfs_brec_lenoff(bnode, rec, &off);
- 		keylen = hfs_brec_keylen(bnode, rec);
--		if (keylen == 0) {
-+		if (!hfs_brec_len_valid(len) || !hfs_brec_len_valid(keylen)) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -130,7 +135,7 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	if (rec != e && e >= 0) {
- 		len = hfs_brec_lenoff(bnode, e, &off);
- 		keylen = hfs_brec_keylen(bnode, e);
--		if (keylen == 0) {
-+		if (!hfs_brec_len_valid(keylen) || !hfs_brec_len_valid(len)) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -158,11 +163,7 @@ int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare)
- 	__be32 data;
- 	int height, res;
- 
--	fd->record = -1;
--	fd->keyoffset = -1;
--	fd->keylength = -1;
--	fd->entryoffset = -1;
--	fd->entrylength = -1;
-+	hfs_find_result_init(fd);
- 
- 	tree = fd->tree;
- 	if (fd->bnode)
-@@ -274,7 +275,7 @@ int hfs_brec_goto(struct hfs_find_data *fd, int cnt)
- 
- 	len = hfs_brec_lenoff(bnode, fd->record, &off);
- 	keylen = hfs_brec_keylen(bnode, fd->record);
--	if (keylen == 0) {
-+	if (!hfs_brec_len_valid(len) || !hfs_brec_len_valid(keylen)) {
- 		res = -EINVAL;
- 		goto out;
- 	}
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index d088fb7eb0df..e5babf3a03b7 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
- 	struct hfs_bnode_desc desc;
- 	__be32 cnid;
- 	int i, off, key_off;
-+	u16 num_recs;
- 
- 	hfs_dbg("node %d\n", node->this);
- 	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-+	num_recs = node->num_recs;
- 	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs %d\n",
- 		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
- 		desc.type, desc.height, be16_to_cpu(desc.num_recs));
- 
-+	if (!hfs_bnode_num_recs_valid(node)) {
-+		hfs_dbg("invalid num_recs %u\n", num_recs);
-+		return;
-+	}
-+
- 	off = node->tree->node_size - 2;
--	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
-+	for (i = num_recs; i >= 0; off -= 2, i--) {
- 		key_off = hfs_bnode_read_u16(node, off);
- 		hfs_dbg(" key_off %d", key_off);
- 		if (i && node->type == HFS_NODE_INDEX) {
-@@ -561,6 +568,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 	node->height = desc->height;
- 	kunmap_local(desc);
- 
-+	if (!hfs_bnode_num_recs_valid(node))
-+		goto node_error;
-+
- 	switch (node->type) {
- 	case HFS_NODE_HEADER:
- 	case HFS_NODE_MAP:
-@@ -586,9 +596,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 	for (i = 1; i <= node->num_recs; off = next_off, i++) {
- 		rec_off -= 2;
- 		next_off = hfs_bnode_read_u16(node, rec_off);
--		if (next_off <= off ||
--		    next_off > tree->node_size ||
--		    next_off & 1)
-+		if (!hfs_brec_offpair_valid(node, off, next_off, rec_off))
- 			goto node_error;
- 		entry_size = next_off - off;
- 		if (node->type != HFS_NODE_INDEX &&
-diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-index e3df89284079..42cc09aca80e 100644
---- a/fs/hfsplus/brec.c
-+++ b/fs/hfsplus/brec.c
-@@ -9,6 +9,8 @@
-  * Handle individual btree records
-  */
- 
-+#include <linux/limits.h>
-+
- #include "hfsplus_fs.h"
- #include "hfsplus_raw.h"
- 
-@@ -20,41 +22,49 @@ static int hfs_btree_inc_height(struct hfs_btree *);
- u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
- {
- 	__be16 retval[2];
--	u16 dataoff;
-+	u16 data_off;
-+	u16 next_off;
-+
-+	if (!hfs_brec_record_valid(node, rec)) {
-+		*off = U16_MAX;
-+		return U16_MAX;
-+	}
- 
--	dataoff = node->tree->node_size - (rec + 2) * 2;
--	hfs_bnode_read(node, retval, dataoff, 4);
-+	data_off = node->tree->node_size - (rec + 2) * 2;
-+	hfs_bnode_read(node, retval, data_off, 4);
- 	*off = be16_to_cpu(retval[1]);
--	return be16_to_cpu(retval[0]) - *off;
-+	next_off = be16_to_cpu(retval[0]);
-+	if (!hfs_brec_offpair_valid(node, *off, next_off, data_off)) {
-+		*off = U16_MAX;
-+		return U16_MAX;
-+	}
-+	return next_off - *off;
- }
- 
- /* Get the length of the key from a keyed record */
- u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
- {
--	u16 retval, recoff;
-+	u16 retval, recoff, len;
- 
- 	if (node->type != HFS_NODE_INDEX && node->type != HFS_NODE_LEAF)
- 		return 0;
-+	if (!hfs_brec_record_valid(node, rec))
-+		return U16_MAX;
- 
- 	if ((node->type == HFS_NODE_INDEX) &&
- 	   !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
- 	   (node->tree->cnid != HFSPLUS_ATTR_CNID)) {
- 		retval = node->tree->max_key_len + 2;
- 	} else {
--		recoff = hfs_bnode_read_u16(node,
--			node->tree->node_size - (rec + 1) * 2);
--		if (!recoff)
--			return 0;
--		if (recoff > node->tree->node_size - 2) {
--			pr_err("recoff %d too large\n", recoff);
--			return 0;
--		}
-+		len = hfs_brec_lenoff(node, rec, &recoff);
-+		if (!hfs_brec_len_valid(len))
-+			return len;
- 
- 		retval = hfs_bnode_read_u16(node, recoff) + 2;
- 		if (retval > node->tree->max_key_len + 2) {
- 			pr_err("keylen %d too large\n",
- 				retval);
--			retval = 0;
-+			retval = U16_MAX;
- 		}
- 	}
- 	return retval;
-@@ -185,10 +195,15 @@ int hfs_brec_remove(struct hfs_find_data *fd)
- 	tree = fd->tree;
- 	node = fd->bnode;
- again:
-+	if (!hfs_brec_record_valid(node, fd->record))
-+		return -EINVAL;
-+
- 	rec_off = tree->node_size - (fd->record + 2) * 2;
- 	end_off = tree->node_size - (node->num_recs + 1) * 2;
- 
- 	if (node->type == HFS_NODE_LEAF) {
-+		if (tree->leaf_count == 0)
-+			return -EINVAL;
- 		tree->leaf_count--;
- 		mark_inode_dirty(tree->inode);
- 	}
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index 394542a47e60..85ba6cf1a803 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -12,6 +12,7 @@
- #include <linux/slab.h>
- #include <linux/pagemap.h>
- #include <linux/log2.h>
-+#include <linux/limits.h>
- 
- #include "hfsplus_fs.h"
- #include "hfsplus_raw.h"
-@@ -168,6 +169,8 @@ static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
- 	}
- 
- 	ctx->len = hfs_brec_lenoff(node, rec_idx, &off16);
-+	if (ctx->len == U16_MAX)
-+		return ERR_PTR(-EINVAL);
- 	if (!ctx->len)
- 		return ERR_PTR(-ENOENT);
- 
-@@ -622,6 +625,10 @@ void hfs_bmap_free(struct hfs_bnode *node)
- 	if (IS_ERR(node))
- 		return;
- 	len = hfs_brec_lenoff(node, 2, &off);
-+	if (!hfs_brec_len_valid(len)) {
-+		hfs_bnode_put(node);
-+		return;
-+	}
- 	while (nidx >= len * 8) {
- 		u32 i;
- 
-@@ -648,6 +655,10 @@ void hfs_bmap_free(struct hfs_bnode *node)
- 			return;
- 		}
- 		len = hfs_brec_lenoff(node, 0, &off);
-+		if (!hfs_brec_len_valid(len)) {
-+			hfs_bnode_put(node);
-+			return;
-+		}
- 	}
- 
- 	res = hfs_bmap_clear_bit(node, nidx);
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index ec04b82ad927..41d1e24309d4 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -16,6 +16,7 @@
- #include <linux/buffer_head.h>
- #include <linux/blkdev.h>
- #include <linux/fs_context.h>
-+#include <linux/limits.h>
- #include "hfsplus_raw.h"
- 
- /* Runtime config options */
-@@ -587,6 +588,84 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
- 	return is_valid;
- }
- 
-+static inline
-+bool hfs_bnode_num_recs_valid(struct hfs_bnode *node)
-+{
-+	u32 node_size;
-+	u32 table_size;
-+	u32 area_size;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return false;
-+
-+	node_size = node->tree->node_size;
-+	if (node_size < desc_size)
-+		return false;
-+
-+	area_size = node_size - desc_size;
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+
-+	return table_size <= area_size;
-+}
-+
-+static inline
-+bool hfs_brec_record_valid(struct hfs_bnode *node, int record)
-+{
-+	if (!hfs_bnode_num_recs_valid(node))
-+		return false;
-+	if (record < 0)
-+		return false;
-+
-+	return record < node->num_recs;
-+}
-+
-+static inline
-+bool hfs_brec_offpair_valid(struct hfs_bnode *node, u16 off, u16 next_off,
-+							u16 rec_off)
-+{
-+	u32 table_size;
-+	u32 table_start;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return false;
-+
-+	if (off < desc_size || (off & 1))
-+		return false;
-+
-+	if (next_off <= off ||
-+	    next_off > node->tree->node_size ||
-+	    next_off > rec_off ||
-+	    (next_off & 1))
-+		return false;
-+
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+	table_start = node->tree->node_size - table_size;
-+	if (next_off > table_start)
-+		return false;
-+
-+	return true;
-+}
-+
-+static inline
-+bool hfs_brec_len_valid(u16 len)
-+{
-+	return len != U16_MAX && len != 0;
-+}
-+
-+static inline
-+void hfs_find_result_init(struct hfs_find_data *fd)
-+{
-+	fd->record = -1;
-+	fd->keyoffset = -1;
-+	fd->keylength = -1;
-+	fd->entryoffset = -1;
-+	fd->entrylength = -1;
-+}
-+
- static inline
- u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
- {
--- 
-2.43.0
+The risk of standalone is abandonment.  That's a call for the VFS
+maintainers, I'm not going to stand in the way.
+
+Thanks,
+Miklos
