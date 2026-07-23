@@ -1,153 +1,204 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B939E44AB6F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784813808; cv=pass; b=aJMQfSAUUssX/LsWJRDVBHaQdpb5dEo9hDhqJrUZZpkYEtwUAF5aPMFTXUSRauf+h9Rb7W1d9QzI9QXnCBmluLS4OXhP8kzOwDoPAg5DcfHTcRs4VoTiJuQTY9mJU1H9ijGySmB/dRCTmGS4phyuWou64NtXi1NvBKWetI50szQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784813808; c=relaxed/simple;
-	bh=1hDmEyNzjOlJy44GJhsNgpUOmcmTUW8/lfO1ur59H4E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DxFiDHXJz/ZTJnXgcfZG6sTY3Hfoz7R981USLhSLioV4Id1tnBwevVKqe9fnZY4ZXOAz2USl5fji47baYnaN7+cxrfAqXQ6ipgzkMhO+c1h6Js50jY5rUAEljYu31sxQdx3TGnJ5XOjLmoqC4kBbzRSC+fKsCY6ff+gjfSCZ5gc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OBGuBJws; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC67D4DB557;
+	Thu, 23 Jul 2026 13:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784813839; cv=none; b=n/7zlLZTHjy/ghz3QIZZH+Ipf93Oh7DLARZwSsPrvm6wK1y2A0B3zECmyTKeXVv20N4DGBO3/I0dCoVIECaJ7FfPHj7mIGgA/DjNVb8joS0vv2NzOuqSHkTPlcN0WIt5eHwq0Yy0fqohTB1F+1SyDM3rfs17FDaQJ4cqC8rs7e8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784813839; c=relaxed/simple;
+	bh=eO9vT5YPysqOukd+jY+035D0z/zLeO1w4vN1NwNe2Qc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LYuwM562Fx4Cd0dk8jozvP6yRGrmEDu1z8Gpq3bIjg4+FkA+n4htgAwdYENx/B+vI4QJMPm/0QPDQFmjHyXvNJK0lFs4DN2l8gCAP7Nw9iEz+QfB6u86Xvkxv8Zio/0ifppV1+hpi3kVS371/yDWQ92G6ANI9249AJJ334ORHEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXwPqfU5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OBGuBJws"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-69c600f76ccso1008916a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:36:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784813801; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EPjCtAe8cdJweSVrkmVyLyKBgnRJq7m0CF/AGVZotE5jkSnQUI8A5sJBElXcxpMYJj
-         2qrcPOiH9YjKqc2/kJw/hp0LYFttSCZKTe66Tl4BuyFbQIR47Hz5X0ErSdEzkfV8wWYD
-         3pjyL8Wa8bfelLQf0AVrTpceH8VwizilYmZmUEE3lxA5zVLoD3SKbTykSSa7uJlBZK1U
-         gxsCBODgxHdrK0fvZYyj932JPmDLcKvYET2rhEMn7iqzlor2nVmoyMs2BlIhdmQ9bR3H
-         LtC3ostrkJAiwf5KW/7cVTqPlowS7+BcbwVlZ4v4STq165+3uS7UbMcMtzRoVtSD6d5Y
-         4TCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1hDmEyNzjOlJy44GJhsNgpUOmcmTUW8/lfO1ur59H4E=;
-        fh=OZFpS9NYzPSLYtZ4yVp+7NDJ1FwMndIItJfPmdaZklw=;
-        b=WTPYfUp14WjknoL9s3JwCCW/u3AnWkma89yJYsrHIcOp70YHH4PYg+yV5EUIodT9fP
-         XytiFfyGcL7faetua9B07iueWo+azwF+Pv0l5NJhZ5SRlmEqFOXuq/ti1cWz/WktZ0zC
-         RSmCoV9tYahncLgC/rQOLyHJSquv6rIjLyljdybQ+nSGWdXeBVfDxxqezWbx8LnboIn8
-         ifLvctbynWAd+WYsWTm84RSYfO4s44N+tBNd/HFg4N7aotllZKatuJsyAiBnYFSe+bIr
-         bXYz4nZRQ7tkc8dIeqVD0avpNYnat+JvG/gN+LqzwWaz07DyotebzmFNV/vVhCzXItx8
-         pPgA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784813801; x=1785418601; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1hDmEyNzjOlJy44GJhsNgpUOmcmTUW8/lfO1ur59H4E=;
-        b=OBGuBJwsOvZ8W2EHkFXJ2Z/c5Czp9pEIWMfhEJ4JhF5FyDsKTQvaq2xZB/zKZG+z3y
-         42v3oMCckvC1B7LcB7VTM95bxj2BsBEqKzYCLfqKEcxZkeKGs4i+L0GpV0hZB0FdKTxD
-         FXXegTAOvnvNvz5tEToBKw8marDVosdefl7QKr5ftQgVN17e8T2FhrSKplxlw710vb0N
-         ap8kdoPkz/7tI9oY1OhiuyjorcXkuowE0NSIyNuPy6NBfE7d7Q4TNBMSp9rsJaEg9bKs
-         N5ziWjyG5SVb3ZoKzN7t+6EMPO/SaSgd2AFb+kRsndQjmaThV3pq2rE9thHM/qEblRaT
-         hsoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784813801; x=1785418601;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1hDmEyNzjOlJy44GJhsNgpUOmcmTUW8/lfO1ur59H4E=;
-        b=NUWOvKMMKWHRVM+Z+1/tHxzqu+Ru+AqHnt8GlOKTlIb8ooLJTJt9vtaLF7jpwvmeWc
-         lo/L9iOe2gL3shs3GpOMQYnEbCT1IofRZ1/jEyisUwr7QsT71A3nuT6Sufxv+wJzhLO3
-         2WCW7wbL1EnVqUQkIHQr6EXZji+n8X+SqivDpfGkMZxmH3OJCEYwGr5lr5mEvcD1+k3T
-         sfTvP6KLAM3Lqi2H/UM/nPo0EyMyk7AeMEEQTJDt9i5b2UYIKsc4ge3RibzW0ATqG/aD
-         E3nEprVsSYyorWH3OXAREWvFcAB1hX8w/iEI7ecgWDxnrStmDUqlo+eajOgt6HLRJBHp
-         BeLg==
-X-Forwarded-Encrypted: i=1; AHgh+RrSKc3Ood8wnjJYGBpyMU6jkM+pEGBK2aCoJasz5BkoQwLNh4/cGU7ik7EHOpLHOcllJ0uCcecKYHmWkMLZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+vg9q9hqklrd5RwlAJIx0AqN3Vw/su3crbCQiuOy9UkB670SX
-	AoGG7o3/VeCc+uHtOOEqpDT/3QNAYUhUgz2LURq15tdL4LXjCukBsoIjzej6xV6A0gLhgvwXRVA
-	i7ZK8m3nsLj1g1nM5WVftStIC87bG9Y8=
-X-Gm-Gg: AR+sD12zg/yaU22h1Lqd8IbIcgtK9Llh/xGN/jfoE+uriZVnGLXEhsIla3uLkrquvDT
-	+odccfW2RKDfotOqMwudwZeaqYp2QABBfY2jPsRBQVTr4B3jdy5C6VS+90l4KNO+ymg6VtvxUVq
-	9V4md5ACImBxQ8QwXtKpo+ZHkJwTGCpgGHOaMbYADhDzVBSoxqdTa1+scPzXuF/S9k3bdqfW4eV
-	wmBITybRrzqwaURtcHP/0dX1ZKBDy0jHqilJKzT22HTv8FuGg9OKe2XGVFJqTlnZmAPSI5quQ==
-X-Received: by 2002:a05:6402:510f:b0:698:87ac:33c2 with SMTP id
- 4fb4d7f45d1cf-69f6b142efcmr1180945a12.9.1784813801039; Thu, 23 Jul 2026
- 06:36:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXwPqfU5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16401F000E9;
+	Thu, 23 Jul 2026 13:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784813825;
+	bh=tqvVeERBLT6ROkppBN4MEGfSa50o0lpYhxpdXTdGfSM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=eXwPqfU5+dyGmmARtvY9crMVwvGOsCAZ2Ru0lYpoOfgXEOQb2mMyZcg1q6u92yB0Z
+	 eZMN9cLTZ+yubZjVJ3wy4M7XG7fZikCsbl6f1040nSPNfNyH4meZZBsET+2pf6T6qH
+	 qq5izJpow7RoIotkR8UYgW6x+l2czIIn3yNVRVjPMN17oPO831Axfy1Rymb/HnXcNb
+	 XY24eVkU+jFNiKTi8CRFsGG3DyaUFKembWWsN5r8eTzYpjL4efTFMbO0xnASQRTvpI
+	 YnaQfcVtFoK4C7nDN/JU0FZvuMbAzBAbv7MBIkBFZsTw/0q7oFhQitlB8lVT412AvD
+	 YKt/asR4pMeRw==
+From: SJ Park <sj@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: SJ Park <sj@kernel.org>,
+	balbirs@nvidia.com,
+	brendan.jackman@linux.dev,
+	yuzenghui@huawei.com,
+	apopple@nvidia.com,
+	alucerop@amd.com,
+	matthew.brost@intel.com,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	djbw@kernel.org,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	osandov@osandov.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	pbonzini@redhat.com,
+	osalvador@suse.de,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	ying.huang@linux.alibaba.com,
+	kasong@tencent.com,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	baohua@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	mkoutny@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	baolin.wang@linux.alibaba.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
+Date: Thu, 23 Jul 2026 06:36:53 -0700
+Message-ID: <20260723133654.86752-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723114848.1212429-1-amir73il@gmail.com> <CAO8sHcn=b94SL6KTfPtnqau++-g9CXD0LOpPjp4L+b9cu8mMSQ@mail.gmail.com>
-In-Reply-To: <CAO8sHcn=b94SL6KTfPtnqau++-g9CXD0LOpPjp4L+b9cu8mMSQ@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 23 Jul 2026 15:36:28 +0200
-X-Gm-Features: AUfX_mz_oyfTmFTsWe4DqyoTwZaT4FqILYbq_ROAU2MaHiET5jL3AiHVyZbENNo
-Message-ID: <CAOQ4uxjk_Se3dq3exxd5WS98g287HUMjVAucipxBX=T0W-8d6A@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/5] Proposal for Cross-fs copy_file_range()
-To: Daan De Meyer <daan.j.demeyer@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 23, 2026 at 3:05=E2=80=AFPM Daan De Meyer <daan.j.demeyer@gmail=
-.com> wrote:
->
-> Hi Amir,
->
-> I tested the series on top of f6cde11eb46e and cherry-picked these
-> selftests:
->
-> https://github.com/daandemeyer/vfs/commit/0b0e47d408311fe2b4a3e1711656f83=
-6b56e10f4
->
-> All four tests failed.
->
-> The accounting test reports two reads and writes, and 128 KiB
-> accounted in each direction, for one 64 KiB copy. The outer and
-> recursive backing-file VFS calls both account the operation.
->
-> The credential test fails with EPERM. The explicit source check uses
-> the source mount credentials, but the recursive VFS call checks the
-> real source again while the destination mount credentials are active.
->
-> The permission-order test times out because the real source
-> FAN_ACCESS_PERM event happens after the destination inode has been
-> locked. The process handling the event cannot update the destination
-> while the copy is waiting for its response.
->
-> Finally, denying that permission event still clears the destination's
-> setuid and setgid bits. ovl_copyfile() removes them before checking
-> permission on the real source.
->
-> It looks like the root cause is that OverlayFS-to-OverlayFS is
-> classified as FS_COPY_SAME_FS before the FOP_CROSS_FS_COPY checks.
-> That leaves it on the existing recursive VFS path, so these issues
-> remain even with the series applied.
+On Wed, 22 Jul 2026 23:25:15 -0400 Gregory Price <gourry@gourry.net> wrote:
 
-I am baffled by this statement.
+> On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
+> > On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+> > 
+> > > > "by default".  Does that mean it could be reclaimable in some situations?  If
+> > > > so, could we check if it is reclaimable?
+> > > > 
+> > > 
+> > > See the damon changes in:
+> > > 
+> > > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+> > 
+> > Summarizing what you want to say, quoting something from the patch, or at least
+> > calling it "26th patch of this series" would have made reviewing much easier.
+> > Cc-ing damon@ for only patches that toucing DAMON source files and the cover
+> > letter of the series could also be helpful.  Please consider doing some of
+> > these for future replies.
+> > 
+> 
+> I have been very much discouraged from this kind of trimming because it
+> removes the context of the series from the individual patches - making it
+> even more confusing.
 
-As far as I can see, OverlayFS-to-OverlayFS, which is classified
-as FS_COPY_SAME_FS should not have changed behavior at all.
-That was my intention at least, maybe I have a bug (?).
+That's fair and making sense.
 
-If I am right and behavior did not change then what are you saying?
-That OverlayFS-to-OverlayFS copy_file_range() in upstream has issues?
-Are those issues unique to copy_file_range() or also exist for clone
-and splice and regular read/write?
+> 
+> But I understand, I will try to remember to do this for you.
 
-Note the overlayfs model - do every operation on both overlayfs mount
-(with user creds) and on backing mount (with ovl mounter creds).
-Taking this model into consideration, what in your opinion is broken w.r.t
-upstream [1] behavior of OverlayFS-to-OverlayFS copy?
+Thank you, Gregory.  Nonetheless, I wouldn't insist selective Cc-ing.  I agree
+your point, and I expect doing that would be tedious if you don't have a script
+or tool (I use a tool).  It is just one of my suggestion to help reviewing in
+this context, insted of only lore link.  Just one among the other three
+suggestions (summarizing your thought, quoting, or simply calling it "26th
+patch of this series") should also suffice.
+
+> 
+> > So, I understand later patches will make it optionally reclaimable and update
+> > this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
+> > default" from the above comment for reducing the confusion?
+> 
+> Yes, but you bring up a good point - I think this two-step process is
+> actually poor form and that I need to redo it.
+> 
+> Maybe this can be redone as node states (features?) such as:
+> 
+>    N_MEMORY_RECLAIMABLE
+>    N_MEMORY_DEMOTABLE
+>    N_MEMORY_TIERABLE
+> 
+> so these damon changes will forego this confusing intermediate step of:
+> 
+>    if (folio_is_private_node(folio))
+> 
+> and go straight to
+> 
+>    if (node_is_reclaimable(folio_nid(folio)))
+> 
+> In the first patch - without ever having to revisit damon again.
+
+Indeed that sounds better than my suggestion.
+
+> 
+> > > 
+> > > Technically there is nothing in migration core to prevent migration
+> > > operations, it's done on a service basis - hotunplug, reclaim/demotion,
+> > > user numa (mbind, migrate/move_pages) etc.
+> > > 
+> > > Operations on private nodes/private node folioes are refused if the
+> > > capability bit is not set.
+> > 
+> > I haven't had a chance to read the entire series, sorry about that.  So, do you
+> > mean the above blocking is not really needed, or that will conditionally be
+> > allowed by another later patch?
+> > 
+> 
+> I will reduce this all to a single patch in v6, I see where things can
+> be improved now based on a few pieces of feedback.
+
+Sounds good, thank you Gregory.  Looking forward to the next version!
+
 
 Thanks,
-Amir.
+SJ
 
-[1] upstream + this fix
-https://lore.kernel.org/linux-unionfs/20260712122421.203113-1-amir73il@gmai=
-l.com/
+[...]
