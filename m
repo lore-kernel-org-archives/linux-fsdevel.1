@@ -1,147 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7417D472F68
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784814667; cv=none; b=HMVdHIxc034kaE8s1LeiD7wcmcn5gAD9O0KLI4CZKV0Bnjm00HhMTcRvZp/0aMlrguH9Q/g0yDI1mhuSHu6ll1vAka0oYDftZbJ1Ha8HTs3Dv688pJEGbq51+6A8208B2dAElwBKOhlSgHOheUqEu6m67E/Y6ykDErmZL+oqDOM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784814667; c=relaxed/simple;
-	bh=qTCtUO20aHBaoQd/HG/5QDxAb9VXAQXH9n/VX8aHHlo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D17D466AF7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784814836; cv=pass; b=MoHIfsBLGpm9J1cw9TXj38YDokAh8WCpxkKtQJ/XyO+ozF8AcfAXfN8UDK93rRNPRd1hLsdO8VDGoEvpYQRGwfz0WnaGk6pNe6FaS22xlc0e1BQj6GDxxuW4E+1BXvnu3MEaZNjdfaBaxohnL+MXvu0QXXSLtsNk7CxNd9OQpJo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784814836; c=relaxed/simple;
+	bh=+2YHD0LYLDY85VIis/zdXqssptfCZG80ADhJvUZVeOo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RaodMS7IPALqAA/tO2v532cvLkM6mTQfkgc54wSbn4lMArdJrr74K3hbH4HnYT/UrQlCHMWnSqIgLiW9wPaXiBKwTO7ivJ9i8g2AF2ZAXw0IevudREpd4YU/ugfH0yYOrOoq/tzyZoUiVtb2OlxWYKeeXhqaAZ6jjK0HR2aROrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D46C1F000E9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:51:06 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so576477e87.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:51:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrxgy80TY0dsOrEEq9DzmR9x2VDUBBx4+r8Sd/nmB7VcZRXg03gFL1ODlaDOeyJXFV+utflgaQPokOPF6YZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw3+bw/DPs6Ju0NQwQ8gSXPOxhGmlHkWFS/+y7wbhguwzeTPf4
-	L/VXWhftUpcWfYplqbjmcGaW7+A6SVri9OyXEbYD6UupLQdQJVPwFWw7Jv5WCg10n/YFlFOo9QO
-	fXEdBuCbWfcqQreXEH2rfIWs4n5FSje/T3rR356HF
-X-Received: by 2002:a05:6512:250d:b0:5b2:af9c:a5cf with SMTP id
- 2adb3069b0e04-5b2b33a6299mr612275e87.27.1784814646486; Thu, 23 Jul 2026
- 06:50:46 -0700 (PDT)
+	 To:Cc:Content-Type; b=Jhqxz1kg0On0Q8TP3NpwQZ+aNJlPjogKONHbsR1147OVc5ymDrfwRg0yodRL+Nt0pfVZLQCmj2c0QidAeaXuAYEOn/D5Jun4gmopsqw5lZOOWvfct6ssyjJ+DnQhdOQScPflYyPwbg9ro7mCZ9C6tY0jxgEOHj1gruI5lXcKNew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=TCOs5iNH; arc=pass smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="TCOs5iNH"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39c62764c7cso4252871fa.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 06:53:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784814830; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FnzgPtb6TTD/69dQNAtdjb9LS3y6mL8vP21PZoAWIAJuqeDa4Hqk7i2ozOfxCu9CTY
+         1D12HmJHFZ0WQFOjVblFCLIdDhpS4qXsl3c6wVGvSWgNlBrQJ/YI7PrvmPf/hFI5pc+1
+         feqgeld6sEi4s6dREBWXTxppob63jUx51lS8PhOpGE7O1ZaRimHEjivNIQz/5i2DhnZz
+         y/Tq2YNC+bB5WAhsGzKNGaC5611DLgOdMLVNWg3CbxznEahbPOJNFkfT5DExT537IRMj
+         NnboZsqkpej8jY+xdMGLDFs11B7Ny9RzP9KDgivVv3C+Lv37g3D2lAC7EUUqvMhja0gs
+         Aiiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/Qvp7W6WcD3MjP5gFX1gpVdJqvDJJ2Ad7xiF0QUVglM=;
+        fh=pKK85JQm0bsuS+LFvgqch8FL2T2qToVjQjNtdNeDie8=;
+        b=THbPOiaLxfmS+lfERP+mYwnPpneHjqrA5RPEQjGiPd4zMdDJT4X8Hon37GjW+0ewIi
+         KjzVorjhkzNUTP3r9DHP0+sgNUANPgs9PIrpJzNdEEFf3m4daosvA3aRN9R4zgYwN3mE
+         ikBTepjLbPRXCX5VTxiJPGSBEi9BxUKCQsGXkZjiZlDA2C04bHTAkASYTgXxxljFRPW0
+         6o1hYi3TVx+ygK/US5s7n4t+qHyDg6vTdIQsuC3tIks6FIX+lF3H5awrdzSIXUF/8/OJ
+         fgeEkzWNIVJm7ZQivS09gDLSbXzUvnbKX5Fv07TPOjPfqQE38KxHzhVFhGq1bo9XmDzC
+         Erig==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1784814830; x=1785419630; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/Qvp7W6WcD3MjP5gFX1gpVdJqvDJJ2Ad7xiF0QUVglM=;
+        b=TCOs5iNHvbsl5X6Hfo62GvD27H13zYc3QJBzwYLSTICTXOBhF+lI6AkcUI2dFVsJXD
+         g0aLU8WncvBsbZ62FIBlKUXFEO7Tu+S95BeppRX0MknJBoAQZQ3EwjArRLoPNqeaDypP
+         9UwvodURNnpiXFe+1QTHM4jgX+8zxNyuCl/XE7AFiX7+VFHORmwYBps6ke0M/SuvlTYs
+         bx5yPZU2am6Xoh0JYP4JqTaQIWPTfQOXgVtq/1WpN443Y28g6w32TJxwhfQLNjx3K6YP
+         UGjcIy0Om5nIufS5anzRnOLL0rLP39PjNDn/093CvY21UINr6LQYaq/3YLQeeXZ78o8V
+         DEmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784814830; x=1785419630;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/Qvp7W6WcD3MjP5gFX1gpVdJqvDJJ2Ad7xiF0QUVglM=;
+        b=qIyfl0wt4rUgq879qnWOb6ANWEZyzobQZOQWtWM8zZe30RIM0cZiylCIzI84NmYGoJ
+         p3q7P6aE+2DK8ny9TXRYiltq3ZkYm5Y32w4MZ+ahzxQRDRoSSCpXINziPsbY7xzWPxAE
+         BuCFc+Z8U64q/D7nrezoOu1ZJDKbq16HDgu15O3qsnCOfi8WqOnTassQytfac6fZoVCL
+         ZuZ+Uo6TcBkOXtDHd1Qe6XCJZRRG//OOHm/nOQPsEHCKbxLTsjBjcOY0lyy+yufCkdZ0
+         Uwf7kpkgYz6xB0ZejiqXW/urMSHCLGmxZ+tbZARK2RmHV0BW3jO2X1XbNb39F7ONjLbX
+         XXAw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6+FBEnpsNNt8M/HzT7CPn4OLnsuSVsWKvjwy7nYFdXOGhpaaYGe8ayufpYDB+VWGCzJCX5H9xV2alZtAZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2XpiGEqH1SGSBQdd1hHZ/oDDNlAjlk5XW20QN7tjNtsNAXeVU
+	dliCcnk6ETgNXviPeo28EyBS5ShKyONiUqbyf2ZIPTV8/SnS0YQjKItf8D/3nvUFlbxiF2xbBq3
+	ese5e3F1+8hv6SG2eDUzzgdnasmBsBpDf7RSAGEid
+X-Gm-Gg: AR+sD109kbr9e8wLCkTYOV9ycvH3RrZzO/K8ZaH+U2qeT7MSXh94mC0N+GbmrL/NSXt
+	dWFIPqR5647sLfKNemPJFJUpPIPqamNBQ4AFRhiDYajJf7FV+DpNQVOJ+0q7Pmc0fpCs6dTv+9P
+	isKkbUC39jI7D2xU25kmd8zhrISXwUNJpf9ps9coyzkQvJP3/CjjCyfY01x0jz5V9I0C/srVppH
+	rO0LXm3UISkKac+FpNGPTF0GqJvQFCp15ZlzeahAzZHSGWMGf8DkRkc2mva9g==
+X-Received: by 2002:a05:6512:ba9:b0:5ae:a9ed:35a6 with SMTP id
+ 2adb3069b0e04-5b2b33cde5emr603977e87.31.1784814830282; Thu, 23 Jul 2026
+ 06:53:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
- <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org> <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
- <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
-In-Reply-To: <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 23 Jul 2026 06:50:35 -0700
-X-Gmail-Original-Message-ID: <CALCETrVezim-eYOFWon1w7FngTgWb2nkuZb_duf9q=TrNqiqkQ@mail.gmail.com>
-X-Gm-Features: AUfX_mxrk4wRgWPLjixGoyqZWEAlTjavFRX3T9mw_3W96-ZNwXFV2jgzWe5MeHs
-Message-ID: <CALCETrVezim-eYOFWon1w7FngTgWb2nkuZb_duf9q=TrNqiqkQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <CAJfpegupwNTaVNZtdQTmvtz9x=ehH59hzsRT7D0=VbhOZvaqrQ@mail.gmail.com>
+ <6C96C8A7-345E-4388-8EDC-D94E9463D214@amacapital.net> <CAJfpegteZbnPkiTSAPWXDqZbf5eALK0E_npBLtLTmJyZaHXdyg@mail.gmail.com>
+In-Reply-To: <CAJfpegteZbnPkiTSAPWXDqZbf5eALK0E_npBLtLTmJyZaHXdyg@mail.gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 23 Jul 2026 06:53:38 -0700
+X-Gm-Features: AUfX_mwpGfNjVX76f8of_9AJftpdKTQtdZGp4l8jZIXndq3Duzeb778fccyzEFg
+Message-ID: <CALCETrWCf67TTiRSikTjgBZ+jKc_HPptEp9BvO2G=1-C5D2F_w@mail.gmail.com>
+Subject: Re: [RFC PATCH] fs: allow opening overlayfs/erofs layers through O_ALT
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <mszeredi@redhat.com>, 
+	Giuseppe Scrivano <gscrivan@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>, 
+	Xiang Gao <hsiangkao@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 23, 2026 at 6:09=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Thu, Jul 23, 2026 at 2:19=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
 >
-> On Thu, Jul 23, 2026 at 05:49:06AM -0700, Andy Lutomirski wrote:
-> > On Thu, Jul 23, 2026 at 4:37=E2=80=AFAM Christian Brauner <brauner@kern=
-el.org> wrote:
-> > >
-> > > Once entered, failfs is a throw-away-the-key moment. The task is
-> > > considered chrooted so it cannot create user namespaces to regain
-> > > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
+> On Thu, 23 Jul 2026 at 11:01, Andy Lutomirski <luto@amacapital.net> wrote=
+:
+>
+> > - O_XYZ flags to open() are all kinds of awful, for historical reasons =
+that are not fundamental to the concept.
+>
+> I'm fine with limiting this to openat2().
+>
+> > - symlinks. If we have a new API where opening /proc/something/magic/bl=
+ah can access something that ought to be inaccessible when accessed intenti=
+onally and with privilege, a symlink pointing at /proc/something/=E2=80=A6 =
+can cause the API to be used inadvertently.  Admittedly we have this proble=
+m with basically all symlinks, so this isn=E2=80=99t exactly unique.
 > >
-> > I kind of alluded to this earlier, but I don't think we should promise
-> > this.  In particular, I still think we should eventually allow a
-> > non-chrooted process with no_new_privs to chroot to any valid
-> > directory, and I think we should consider changing the definition of
-> > current_chrooted() such that failfs-as-root would cause it to return
-> > false.  I'm also not sure why it's useful -- if I want to throw away
+> > - our nasty fs permission model. We gave a sort of gnarly mix of a bit =
+of fd-based permission and mostly mode/ACL-based permissions for path trave=
+rsal and opening, and mapping this nicely only new APIs (as opposed to actu=
+al files and directories) can have unpleasant results.
 >
-> I had considered that but introducing this change alongside this series
-> felt too spicy for me.
+> Pseudo filesystems don't usually do mode/acl based permission checks.
+>  I don't see any issue with that.
+>
+> > Of course, I=E2=80=99m busy arguing (slowly and without a concrete prop=
+osal) that we should have proper capability-like fds, and maybe that=E2=80=
+=99s kind of an answer to this:
+> >
+> > What if we had an API to get an fd to the =E2=80=9Ccontrol filesystem=
+=E2=80=9D for a superblock, like your O_ALT but as a real syscall or maybe =
+only accessible via one of the newer and less janky open variants?  And wha=
+t if the resulting fd and the filesystem tree it represented had a few prop=
+erties that made it very different from normal directory fds:
+> >
+> > - You cannot mount anything on it or its subdirectories, nor can you op=
+en_tree or otherwise mount it anywhere.  But you can open_tree the very spe=
+cific things in it that point outside of the special API (e.g. the overlayf=
+s layers).
+>
+> This patch provides exeactly those properties.
+>
+> > - Privilege is fully captured by the original call that gets you the fd=
+.  current->cred is not checked when *using* it except to the extent that y=
+ou might need privileges over your own namespaces to do operations that mig=
+ht affect them.
+>
+> This is trivial to add to metafs: just store a ref to current->cred
+> besides the path.
 
-I think I agree.  My only actual objection to your series as is is
-that your wording seems to make a promise that I think shouldn't be
-made.
+We have f_cred that might be good enough, although I'm not sure it
+propagates through path lookup.
 
 >
-> > the key to accessing the normal contents of my mountns without
-> > changing my mountns, I need to chroot somewhere (like failfs) *and* I
-> > need to somehow prevent myself from getting an fd or a magic link back
-> > to the ordinary mountns contents.  If I somehow get such an fd,
-> > preventing my from fchrooting to it doesn't seem to accomplish
-> > anything, since I could traverse the fd with openat, etc just as
-> > easily, or even fchdir to it and use relative paths.
->
-> I think I generally agree with you. My main concern here is mostly about
-> changing very long-standing behavior here and making failfs special here
-> feels like it could easily misused.
+> Not sure how this security model would work, though.
 
-I don't think either of us are really suggesting making failfs
-special.  I agree about the long-standing behavior.
+If I have CAP_SYS_ADMIN and I open the metafs and then drop privilege,
+then I would still be able to do all the metafs operations as if I had
+CAP_SYS_ADMIN so long as I use the fd I opened to do those operations.
 
 >
 > >
-> > My understanding of the exact workings of the mount tree is possibly
-> > not good enough to specify the semantics I think are correct quite
-> > exactly, but I think a decent approximation is that a task should be
-> > considered to be not chrooted if its root is at the top of its mount
-> > tree or is not in a mount tree at all.
+> > - You can=E2=80=99t fchdir or (hypothetically) fchroot into it.  (Not s=
+ure how important this is.)
 >
-> If we could altering this definition from the patchset I would be in
-> favor of it. I'm curious what your take is though.
+> Not sure if there are internal mounts that have directories?  If not,
+> we can just add a check to fchdir/chroot against mnt_ns being NULL.
 >
+> > - Maybe you can=E2=80=99t follow /proc/pid/fd/N links into it either?  =
+Or maybe that would break CRIU too badly.
+> >
+> > The basic idea here is to try to treat it like an API that happens to u=
+se the open machinery but not as part of the filesystem hierarchy.
+>
+> I'm not opposed to limiting this in various ways, though I don't
+> really see the advantage.
 
-I can't quite parse your question.
-
-I have three sort-of-concrete proposals:
-
-(a) current_chrooted returns false if follow_dotdot starting at
-current root but with nd->root equal to the namespace root would
-succeed and return the current root.  I think this is fairly solid.
-The main caveat I can think of is that someone could create a detached
-mount tree, chroot to its root, then fork and have the child:
-
- - drop privileges
- - set no_new_privs
- - chroot somewhere else
-
-then the parent or another privileged task mounts that tree somewhere,
-and the child could now access the parent of the mountpoint.  Any
-actual exploit based on this seems farfetched.
-
-(b) separate the concepts of fs-root-for-absolute-paths and
-fs-root-for-blocking-dotdot.  IMO this actually makes sense but would
-would be a much more intrusive change.  We would have
-fs->root_of_abspaths and fs->dotdot_blocking_root, and fchroot would
-only change root_of_abspaths unless a flag is set asking to change
-both.  (And document that setting that flag is not advised and that
-one should create a detached mount tree instead for 90% of use cases.)
- And no_new_privs tasks would be allowed to freely change
-root_of_abspaths.
-
-I like (b) conceptually in the sense that I wish no one had ever
-invented chroot-for-security in the first place.  I'm not sure I like
-it as an actual practical idea because it has a much larger scope.
-Also (a) is almost equivalent as long as no one ever sets the root to
-something that isn't the root of a mount tree, and it really would
-confuse some people if "/.." was not equivalent to "./".
-
-(c) Add a bit to fs_struct called something like chroot_locked.
-chroot() sets the bit if it chroots anywhere other than "/" or its
-equivalent.  fchroot does not set it unless a flag asking for it is
-set.  Switching mount namespace clears the bit.  If you have
-no_new_privs and don't have chroot_locked then you can chroot.
-
-
---Andy
+I'll sleep on it.  Maybe it's all fine.
