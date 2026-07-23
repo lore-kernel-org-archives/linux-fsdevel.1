@@ -1,169 +1,145 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22E2DB7BD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784816294; cv=pass; b=HNBrbtq7mKKBR4i1osG8k42+qi4+xnEyBLkRcu75iZnJHEOxEh6BMNX0qhpYWmNrzyPq9EaFkibHC8rYrmyeSoubLj1JqbZXL+ykPSbIiBl940ebOFSLgArfNdVzl2WPXYWu3j6s7VkJ30Io5WXSO9ydhszIIpt58QBaqsNRnOI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784816294; c=relaxed/simple;
-	bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NXrTrX1+3Ci/aNEAorUKT3T8Q9OZ1BaVJLw7aiuy4ZvWGXmqo8UtcwSAaZnhTEWvZ14dl6b6l1hfFkXMHI8LVzJjWR3FaejOpfmTiK5yKLA+zyTHv4nSUUi1HZhecV1WbpVmaUT+3K+5bPYag8xBtFy7eGMFMAS8IEDazAyP31A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtVHNDyt; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964E142AFB6
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784817053; cv=none; b=SCSUv472xIS0uzysBZ8A5zUseFXkTgY8idSqyE/GdFfRWDsdH7Bbo3Ccu1aqT6bDYT6SvYrL4ps1fi8o2qyYduRlqXfb5BWcmA4x5JgFXb95oUkY/XDheAyuFrOSHeAMf5CzlKEhxYm9eylj9o5hQxSNf4elkOn3HLUnZhtu1Co=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784817053; c=relaxed/simple;
+	bh=zWWnk2ahsRmlcDQl6VX/ZfwP4ZFt21ab9AiuLQRPtww=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MwSJEqMfehzOPJHb9YoPjkTVGgx9MrhIjZnAO9JNaDH96wivhorBNCVILLe5qYXLnHCvl2NeW+7rCtBu5DTwV0NWBfRe66EF4vfX17tSgvoDB0C4+6RW/HWJTBj1c7V3fyCYaYAbEUrFHzarbQDRkfZUOUDf9vp0k7WKjcKDCn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p0BjXa2k; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtVHNDyt"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c16794450aeso90493866b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 07:18:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784816291; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jOG+b+8rl2fLH16P9ggVE63OYEiF9yLW6f02O6GgeYuDtXAbnzTnv1PYrqug/ndSHo
-         gB+NixCALJtu5RK5czw0pHTW3rMfqzFHHYdM2oKtKpJa09AYay8vJA74dnVMdcjaM3Rg
-         7ZWa9iYQH6anrSiwyWiH1F24ivS4sgKFqsHaafs3spjXo5rpPE3CHtHG8pg2MgKVW2CF
-         DaGrl+2gK0ke/6bl7WknqmDqWpEoAaiUVUk2ric/8bSC209J1qYMBuhd9TGjxrtJIzZO
-         4MWMxStAkkvaTTLCY8kMAwk+c1RyfaHcigZaDyb7DkrNalH+micZAMpFjFO+062mwGdk
-         J8tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
-        fh=/pXN4gyiY7+nNY20JKUDk92bxHmAtXA2YcUchriGVZc=;
-        b=FLwH+gFtMrM6Lw6+tSwlDEvw7ZD1OWi3n3sGN4xtRuoZu+jyHuUjMXSSNyLmu6qHCz
-         r00XtQILNJr9HR07XV7BlRAXNph48Tqo22sEkeiwXywiB38crHrZewJ/gaGhzhnUY+EZ
-         KYYj4DzG3RDI9ez1Ky8Z3KXHitWAVFubwfa+ArteDBzOgivW9+LxF+eqtX3YXKYCPbwM
-         25nBhU4whzCLDP/Obtz2QiumNZe28V3KJCUNH6DqlApPx2IBdsQSP3F0r7byIwzyXzX4
-         q6zY25EvEvOJhAw8qXZC81LoRPCgQcb4YHF/x0I7KScXdzhxYfxax1UujJf/VdivHBQh
-         N7gQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784816291; x=1785421091; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
-        b=FtVHNDytHJqfU6emlRjNT1JU7rpg2wCmDDrDQourbT4qK1I0FHOzCfMgUisdmO01IX
-         eM61Bhp788CHkEo/FEE1HtjX2pZ/bQEyZu8qh5AI7A+fZrTuvHSSbbqbA3cXvQPNAuTi
-         zlVSULROKQXDNWjJ5BxDFn0wu0KcVDGXUs9nKL6LBTSZYZYqDIHfYtVeQQj48J3tjBnM
-         t/eFalhMIEzgEzrtHCAJxTjUSeEIkIk+Ic08gNWSB+3urbW+MtP3M6V/j4XYen7y/1Jw
-         XfkFICMyL0Oe/MVJ7sE9VcrDEA8qhjRkrtKtBPMvVFLVe7183Zxpn/K3J8J1g+06F/ZG
-         6T+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784816291; x=1785421091;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
-        b=Padjhv+Ea6NWDNvEaiuwPqAxiOruoygG+GnGSfXr5pWSa0ULlzKNxsH5RFPucBQCMh
-         LrB9hxbI2b1D5mKY92LQDDHTYP6eeJuu67rMdnBX/G4SEBinFBo9vXOWKa61txJPIaup
-         angJbTdJ92Xuzwf/jknNW2sYhxa8fLzd99GExh7ygkdiF6ibIqAccQkUCYkZeNYDVKMp
-         JmUjYu57178aj17xzjRnWoAATXRSGIfd50WTK76Zk67dHP17sulaA0a2B8txqenf2HVj
-         dQTSad1gULcq7DWq2ye7k4Ud1RfEvd1qLxvDjjitCNm1b3xbTfHuXrBHmSsi6el8rxih
-         Mu8Q==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5c/4CYICfB7gxhnJ6d/gPLUhZZcsgof853uRN/DR4t565UiS7xRZTYWBBXYQCx7DoVffabpAPbgocn95Q@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKCal7nAJuWODpEJRCOlw9FhMf7PLlgllMT9oWM7LC1NiJV9UF
-	hvsjuZ5b2Q8xD/4uFhiwyYS9yKxtRNcxaq/0Oc+qDuqBG4ERHkKKEHShpvMAzFqTynSnHyakUOa
-	oBYUKlsL9aGqsoPVjluQxw0lLTTRAGkByi3TUzLHV7w==
-X-Gm-Gg: AR+sD12hzwcwOZ9qxge0g7JDMfQ8PCJBMAfoVpJSCuZryOR5VtL9sqmsHUTXP7X6PfU
-	yY1tPF+sn1+j8lqWDScJjReXRl61uFtOK0xoc23DLb8q8EVDQNPARek2ZHwr+dIUBKcxiqPxgNi
-	UYXKWxxvTvEvzJRs/8U7sToJaAKfLQPmlF3arb8PL6ZVUTmYpmDY0JXXFWVZNTt4B2JDArbdtWd
-	99gv2nvrRe0amJTmZq/wc1oTruRPJtIjffSKwQBhdYr1EBNUW8P14c4IwNy9pc=
-X-Received: by 2002:a17:906:478a:b0:c15:ff7a:e56d with SMTP id
- a640c23a62f3a-c1c50d8b9famr145409966b.51.1784816290701; Thu, 23 Jul 2026
- 07:18:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p0BjXa2k"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=cwsU3Mhrg9KcuFxTAl0Tes+dvmZix99ipM91bAbmnN8=; b=p0BjXa2kEzvTX3Es+vq2+xSUBh
+	yMDm18HK8DuM1ZL/O43br5EnYTlMFmswaGnixSTRvIi/62M74RVfGJJ9MsDxMkip/QR7Tp8I7vfBc
+	LxJE0vnlOGEns0fF+c1/u9fRsr1Ggk+HbVb3G0Bu8s3cYjI/iNwLlJ3sryLtgIQElsveLp0mnzkEM
+	BPja3cde6PwbqXTBCd1D7oVZi0/XcUN0Xl46EYds+Ku8Shi805YWRGTfwS2tJWW4XMEMXbFFJ9tAO
+	Fwj1HMjKQgKOVIL8jeOcKtNkGeXb0Z1VB12O3FbmYm2Qk+NWe8HjWcMy+ARt+QRPjX4rFrxpUGpp2
+	FBCiGZzg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wmuRY-00000000jht-2pEi;
+	Thu, 23 Jul 2026 14:30:36 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v4 03/14] mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
+Date: Thu, 23 Jul 2026 15:30:20 +0100
+Message-ID: <20260723143034.175661-4-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260723143034.175661-1-willy@infradead.org>
+References: <20260723143034.175661-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723114848.1212429-1-amir73il@gmail.com> <CAO8sHcn=b94SL6KTfPtnqau++-g9CXD0LOpPjp4L+b9cu8mMSQ@mail.gmail.com>
- <CAOQ4uxjk_Se3dq3exxd5WS98g287HUMjVAucipxBX=T0W-8d6A@mail.gmail.com> <CAO8sHckGrgfPnyOC-V6AP+DakG8LBXTFRHZSchXxi02LPyfMFg@mail.gmail.com>
-In-Reply-To: <CAO8sHckGrgfPnyOC-V6AP+DakG8LBXTFRHZSchXxi02LPyfMFg@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 23 Jul 2026 16:17:59 +0200
-X-Gm-Features: AUfX_mwXdE-m0mzicDGGryu4GVMv_y80ZcvNzhuqfcDSPCqC27mGT47UT9hEgKE
-Message-ID: <CAOQ4uxh7G44sJi2A=bueC=MNGjd5V+zoyTCs5USc6i6bCbFxDw@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/5] Proposal for Cross-fs copy_file_range()
-To: Daan De Meyer <daan.j.demeyer@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 23, 2026 at 3:54=E2=80=AFPM Daan De Meyer <daan.j.demeyer@gmail=
-.com> wrote:
->
-> > As far as I can see, OverlayFS-to-OverlayFS, which is classified
-> > as FS_COPY_SAME_FS should not have changed behavior at all.
-> > That was my intention at least, maybe I have a bug (?).
->
-> I am sorry, I forgot to mention that all of these issues are issues
-> with upstream overlayfs,
-> not with your patchset. I was trying to make the argument that to
-> solve the issues that are
-> already in upstream overlayfs and to introduce cross sb
-> copy_file_range() we need to move
-> away from recursively calling vfs_copy_file_range() within overlayfs
-> (and anywhere else really)
-> as its internals are really not intended for being called recursively.
->
-> `ovl_copyfile()` locks the overlay destination, removes privileges,
-> and then calls `vfs_copy_file_range()`
-> on the backing files under the destination OverlayFS mount credentials.
+This is a better name for this predicate.  Also make the argument const
+to allow other callers to be made const.  No functional change.
 
-Yes absolutely by design
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Usama Arif <usama.arif@linux.dev>
+---
+ include/linux/page-flags.h | 4 ++--
+ mm/huge_memory.c           | 2 +-
+ mm/memory_hotplug.c        | 2 +-
+ mm/shmem.c                 | 2 +-
+ mm/vmscan.c                | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
->
-> This has three observable consequences:
->
-> 1. The recursive VFS call accounts one userspace copy twice.
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 7223f6f4e2b4..4185a03a45cf 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -1083,10 +1083,10 @@ static inline bool is_page_hwpoison(const struct page *page)
+ 	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
+ }
+ 
+-static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
++static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
+ {
+ 	return folio_test_hwpoison(folio) ||
+-	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
++	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+ }
+ 
+ bool is_free_buddy_page(const struct page *page);
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 2bccb0a53a0a..353340309107 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -4413,7 +4413,7 @@ static bool thp_underused(struct folio *folio)
+ 	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
+ 		return false;
+ 
+-	if (folio_contain_hwpoisoned_page(folio))
++	if (folio_has_hwpoisoned_page(folio))
+ 		return false;
+ 
+ 	for (i = 0; i < folio_nr_pages(folio); i++) {
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 7ac19fab2263..33007e8e546a 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1813,7 +1813,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		if (folio_test_large(folio))
+ 			pfn = folio_pfn(folio) + folio_nr_pages(folio) - 1;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() cannot handle large folios
+ 			 * in all cases yet.
+diff --git a/mm/shmem.c b/mm/shmem.c
+index b51f83c970bb..492c9bef3620 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3240,7 +3240,7 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (folio_contain_hwpoisoned_page(folio)) {
++	if (folio_has_hwpoisoned_page(folio)) {
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 		return -EIO;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 35c3bb15ae96..70e54ace0e74 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1086,7 +1086,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 		if (!folio_trylock(folio))
+ 			goto keep;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() can't handle large
+ 			 * folio, just skip it. memory_failure() will
+-- 
+2.47.3
 
-I think that is fine or at least not so bad.
-same "problem" exist for overlayfs read/write and has been that way
-forever. nobody complained.
-
-> 2. When the files are on different OverlayFS mounts, the backing
-> source permission check uses the
-> destination mount credentials rather than the source mount credentials.
-
-You mean that after the fix [1] it is *also* checked by destination mount
-creds after being checked with source mount creds.
-
-There is no security risk here, so I think this is something we should
-leave as a known and documented issue, because solving that would
-be as complicated as what you posted and I don't want to go there.
-
-> 3. Backing permission hooks run while the overlay destination inode is
-> locked and after privileges
-> have been removed. A permission listener that accesses the destination
-> can deadlock,
-
-There are endless variants to these potential deadlocks with permission
-events. This was discussed recently on this thread:
-https://lore.kernel.org/linux-fsdevel/xycqm3qrhjg3uplpmozwo7nterl5tnuarghow=
-mh3h3mv3thh6u@apagf4kqlkg6/
-
-> and a denied
-> backing check leaves the destination setid bits cleared.
-
-Nothing new here - not even a bug or a problem IMO.
-The state of privs after a write that MAY have started and returned an
-error is undefined.
-Always been this way in all the write APIs.
-
-IOW, all the problems you listed are overlayfs behavior by design,
-which AFAIK have been like this forever.
-
-Do you have any reports on new issues specific to this patch set and
-the new overlayfs to/from basefs copy?
-
-Do you know of any real world workloads that are significantly impacted
-by the existing upstream issues that you listed?
-
-Thanks,
-Amir.
