@@ -1,128 +1,93 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA56E448BBF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784817801; cv=pass; b=DLZMQ1VLN1nuhFo5gcKNw+Rqc9jfOobfgDieJQhMpYuykZeCOH17v31h3CTKv/kOqmYfQAl6jWCmJNsj1TcCXcV3p+UcRQY1vwJCz7Angtdmf2+RIw59WsBM/O9cGpKBdUKPHmx4Sbcc+PVAYZKq0/GH9a61TRYNLzDcH+KfW1U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784817801; c=relaxed/simple;
-	bh=5Bh13Snw8/LKld3ZLy68siOQFrXb9O9ypzbWa4YekzM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q5FpsJ4dzhNPBuxrRPbeGpr5EE4BGKGO/pJs+FjCAvOCcEMJL3l1SDHjrMel4cruH6lmgRu3XJKgSMz3OOl3NL5lEH6n2NjqIoGyhyKwBgJwOS/Dgzq9F2+cUSgOM/fAF6mcdGOAl+ZFoQMc6x6c4ApkWH0TLjyIJY0/EylMyHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PHZkwHD4; arc=pass smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C7932B12B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784818015; cv=none; b=llNvHaAwi6RsGnpORldPrLP5Il2/LJCj1z+FPQE0hgXzpHGgllho7nglfNrx7P9AOJCvFTkW6if6wuQriETmjU+p0PgplQQdxaPV4L9Z1O79E6ORxCdwoorMGGP4uD3IFRVIlYBaameCMtjMPYcM3ncdzriyEsTaUivvsA89gfY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784818015; c=relaxed/simple;
+	bh=LDQpyaLboE5OxsAw5Npt9mA3NF0xevJpMGml9LKT8aM=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=qWp7IKwaEl50mvv4tSCRqu5/YnszcAUNSRKdLoSoikjRFIWfoVmRCMyMpiEGDaCXmANWYbbbo3zJjw1Ha2wcHMuBxK6WulfRBco9a0wVu5PEtWWZwXWLy5v17MYsVjtOgIVuYucVoDh6M2uSxOEKa5BoGrIvTxtNAQ56RUJtpk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFac4XbW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PHZkwHD4"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ccdf36f63dso127255ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 07:43:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784817799; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oBiCm/dhY8e/g3gpo5pfEzNHCUjSaVXVDedj/u5QEf0mh2YLiRT0mdaYMy4hDdeP7C
-         z3oGPaoDI7c7wfDhRpOqAeDKD5k5qBFKRGv2DrY1wg37HSj176ZH/Xhx3VHw7t52qOOp
-         TsE6u1CsA3yqc/X+ONAQO1MtLAjAIDFilRx2JcfSgGbGfTn5GUupQVj9ZrchUMdFzuvG
-         zrmyJ52UVUJp83LVzIihvrV5/gXtl+T0kgbHYLZkteNYLZBtDopA/EX3hQTA2cvaJ5Wd
-         VbNhZeJpLovMfAu5+LisK9+Lxo2IX1Xemsz5YhmxU96RdExc8rQkQfXQwqFECNkaP23t
-         cwDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kInI0j7PfqNfBfbUd3Pq6xvKYabvTs/AAdV3xhy9+eQ=;
-        fh=3gOwKaKabOVWe5XGvFT085DCwTBykEbJaxMjR31iBls=;
-        b=Ad2ccGOc+NLj4nfB1q9IzOTsfrPDwYvAiSVYpAJxzzPBRgM1dVHiBmrzth9FaxXjqu
-         sbmt/xmAay0HSviqohcQG45ZS7i7aKryqWQeecxgKOyzkPFBh5RkM1WUmPgSamm8bhLr
-         KDDTdYb3byjitpELOhMlh9PygRlq1EvM78ibfx6hGscY10f574AhNPHhIxwqkp0x78bL
-         r9u0ak/HCanXpDelgiwUN1G1AmOcz2Lk2JTqW6Xdqlmpjr8pWQypGCAvQQ0rWG7SlL44
-         zq7O5fVkEAXkW5rq57mjQL5ngZmO/WBarVYFHx02L/qdWa4o3+S6j0WDz6NR2EyAGsNj
-         h9ZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784817799; x=1785422599; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kInI0j7PfqNfBfbUd3Pq6xvKYabvTs/AAdV3xhy9+eQ=;
-        b=PHZkwHD4AYGECajiX1wdnXWmcGjvn7c7wtZqgmhPWyYprrxSljTAFhoXyKMW0swI5I
-         +gtd3hm+CQ1jc8lSGrMIpQVXw0GmVPndI9NGRZx7EvXXCmODyRnDjkNejaU+z2g8D4IQ
-         KkTWZnINQOYXUSEwfEEUfp0QnqhdEYFhV024+0IrbZ/MBsdJuXPTaazVxjTyrxkYt8kc
-         ln73T37n21iLfDLU4rlqoLZY+d0wSM4V0nYj3XotiyM/WbRgbLX73qknYmoFWQsTsm06
-         i2BnQafRhSfLbQBZw1wQeKzTD99shDqMJ9xG5hWya1S1m5Zhf8vCJ0fEEoYfGbU5Qc1r
-         Ohwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784817799; x=1785422599;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kInI0j7PfqNfBfbUd3Pq6xvKYabvTs/AAdV3xhy9+eQ=;
-        b=NNfL5nngtlT1KaEv/cSl3gGUt0FiTwEP/fMqrj9IFonIHZ0sKH6dlbookPDn7G+jj+
-         DR8YfMihMIbKljZREpW5+E1A22CzjT9Qtn+nqaheCp9D0oTj3mf8jrHbFIYqh+KAl+FT
-         pIFruNfQesUsB/YhV7moFhDTvq+vz66pA4UMz8UOS10Ra8YNmBX2/NupZLxCXbfJhgz3
-         rcR/hgtiYI5gWkMN/gNKFjCe374ZIw6rSyj13nUMsNMWly2mEKsy83Be43O/Npfhr/a8
-         ofxQrzPjO6m4pPGsz8hH4rUbT+FTXZyyobOAbCCgc+wAeRHZ6V1Phjp/Xln82mUPMzGs
-         SJdg==
-X-Forwarded-Encrypted: i=1; AHgh+Row3HhBHyQ16iKiN2JwM2QCI7B0hZSUVzB8jLnQKZglBDEBkVg6X4j4023uRO2mO6JiRj8zsgzrAEpKQrU2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY7voRbSc0mURcrI6xXNESRZE0EFLPUrG9aXx+LGGpLdcXWfOh
-	yGA/dUNZhWl2PL/z9yAaPnnLU2vGlh9x6VJb2l6KuFIqlNfaNEdDezqbUaeAWz2KztcE9cr3fm0
-	5YbVtbaPM7vBomfr48Hkz9q7vuI3mx+zTfRUgc/hM
-X-Gm-Gg: AR+sD11xhpKeUFga9qhgwQX8/q3WLv04dmlQvicSuyXq4F1tGVxQgRg7V+4rt0d3I0f
-	YlpXJu4EMumNXyga5LEP5X25Z+sN7fK7jDbDiTP2HqY7r+qE/hvcRUAyXYBTXARYrs0pZvLMNQi
-	xVgpAEmTzESawsDqDSO0cxiiMO2D8Z6QdiBw2kLG3gmlGwrDDKrWk5yk1UYbUheBiaK3yqBdOzp
-	EXnZDvHVH7Fp5ueHc4ITT9RJWbdEpq0dAqYvZIM/y5+b4dyLtOVISvJ2hJe1H0HOt5BKdqFwGmY
-	QnygU75HXZF0xJB6dpg2rMIUtjSYOEkT5y2eBukzfsgk9U6daznUXNlCPQ==
-X-Received: by 2002:a17:902:f0cc:b0:2ca:cbe5:c3af with SMTP id
- d9443c01a7336-2cfa805b497mr2620685ad.7.1784817798592; Thu, 23 Jul 2026
- 07:43:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFac4XbW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 653EF1F000E9;
+	Thu, 23 Jul 2026 14:46:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784818013;
+	bh=04rJgth8C2nU396fmhBsL9Df5jNE4GqWoAm1aGz1NtY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=QFac4XbW5BKnsGW0VCewkPEY/8Pk4UmgqpR4wknbIWl5FvQTLvc4eQn8izREcKJSd
+	 lkklQTQrbyQskcRZiqZ9PFBZjA7aVqpsgW9dlDDoo7SCYz3GQTuUXgO1hjbUbYf4cl
+	 Fyq8m6SUHTesS5dEiMaw4Bs+LD0k2RruNNQAThWRYsIwHkqKGfa+oMNw280oHyD+RT
+	 bCUh6UTNMKIF1fwxvYmhVFPbz/O7MnT5mwNxZN8p/UJ1Q3Dp0EPFfHbTimvr/efE40
+	 5Q/x6Igrd57fwNMbCTNNK1/M9BR80J0skXfSn6/Wl2Baw0BQukfjHiAYokr7baMtMo
+	 /1f+IA1R0FoBw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
- <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org> <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
-In-Reply-To: <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 23 Jul 2026 16:42:42 +0200
-X-Gm-Features: AUfX_mxwR2szFPQcNEOJk5c8uPwGThX-tGJ2GY340PPIRSnfxESd4tzYNTgrDSQ
-Message-ID: <CAG48ez0P6baYhaL4_U_S-wjQX7366WkSm83OQ5ZpUjmu1J2BNg@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
+From: Christian Brauner <brauner@kernel.org>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Giuseppe Scrivano <gscrivan@redhat.com>, linux-erofs@lists.ozlabs.org, 
+ cyphar@cyphar.com, linux-fsdevel@vger.kernel.org
+In-Reply-To: <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
+References: <20260717134147.1602735-1-gscrivan@redhat.com>
+ <20260722-notnagel-allemal-kampfsport-8fd4e4d98a15@brauner>
+ <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
+Date: Thu, 23 Jul 2026 16:46:29 +0200
+Message-Id: <20260723-wickeln-schindel-rotstift-d987d4e9c036@brauner>
+X-Mailer: b4 0.16-dev-0e65f
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1524; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LDQpyaLboE5OxsAw5Npt9mA3NF0xevJpMGml9LKT8aM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlacY0zjCbcrjj7duUbCZHhfXiK2Lz0w7vmD5Z6NtWe
+ Z0OZS6XjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIn8LWb4n5GhGvGAgX3Ky659
+ nFHnuaOrpUpCNxzqYWec2c8+9327EiPDkqdB6mk911ccuHJEMab26PcggcJVLcqCf9hmewedi63
+ kAgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Jul 23, 2026 at 2:49=E2=80=AFPM Andy Lutomirski <luto@kernel.org> w=
-rote:
-> On Thu, Jul 23, 2026 at 4:37=E2=80=AFAM Christian Brauner <brauner@kernel=
-.org> wrote:
-> >
-> > Once entered, failfs is a throw-away-the-key moment. The task is
-> > considered chrooted so it cannot create user namespaces to regain
-> > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
->
-> I kind of alluded to this earlier, but I don't think we should promise
-> this.  In particular, I still think we should eventually allow a
-> non-chrooted process with no_new_privs to chroot to any valid
-> directory, and I think we should consider changing the definition of
+> I'm not quite sure if I catched the point, I think Giuseppe's patch here
+> tried to record `file` into `sbi->dif0.file` (which indicates the primary
+> "device" later.)
+> 
+> And if `sbi->dif0.file` is set up by erofs_fc_parse_source(),
+> erofs_fc_get_tree() will just use `sbi->dif0.file` instead of
+> `fc->source` according to this patch.
 
-FWIW, I kind of like that idea, but I think we need to look out for
-how this interacts with path-based security checks and auditing.
+Oh, so you only do it for file-backed mounts. Do you only allow regular
+files or do you also support block devices with
+CONFIG_EROFS_FS_BACKED_BY_FILE?
 
-Examples I can think of immediately are:
+Do you document the expected behavior for the file you're consuming?
+Meaning, are concurrent modifications supported and what type of
+behavior does this exhibit?
 
- - bpf_path_d_path() is intended for BPF LSMs that do
-security/auditing, but uses d_path() which stops at the chroot.
- - audit_log_d_path() uses d_path()
+> The reason why `fc->source` is set was discussed in the
+> thread of the previous version suggested by Aleksa.
+> 
+> > 
+> > If they close it before this means you can mount something completely
+> > different. The other thing is even if they keep the fd open someone
+> > could just rename the damn thing and fc->source ends up pointing
+> > somwhere completely different. The could switch namespaces as well in
+> > some circumstances and then it points again into wherever.
+> > 
+> > I've played with that fd idea before. The only way to make this work
+> > correctly is if you plumb this down into get_tree_nodev()
+> 
+> fc->source in this case has no use in erofs_fc_get_tree() (`fc->source`
+> is just used for mountinfo for example), `sbi->dif0.file` works instead
+> I hope I don't misunderstand something.
 
-These are already kinda broken in the face of unprivileged user
-namespaces, but adding unprivileged arbitrary chroot() would break
-them even more.
+No, I misunderstood this.
+
