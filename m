@@ -1,260 +1,92 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29637360EF4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 18:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306E33B7B64
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 18:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784829987; cv=none; b=PwPFdOLf3+Qyy/bvIV7tsboi4C7T5prM0VFhctvP2o6JfoKN+JxX4e7JrpI2Ac/IHS22K0USItuUipg6W5n+8GuMMLKBnoTYVb7z3aYzbb8KQcTjhEmuJg5mX68RzcfbZJPzFhHkpZEYzIs8IdhaGwMQKR993yC/CSoQeGDw/r0=
+	t=1784830795; cv=none; b=JFAyFDhgtAe80HLmDS/lhlSm+6Rmm9E6zAJ62KyCClNje7KwkaZ8cq/K7xEfNjNaQieWDAOH+Zdu+Vhn8kf77nURUZadpAT6adrTN5oTLaCQvZRs6EqQCjzLkpuiPUGd4QTDz5gyvfKR6GKv7sqafajV1nCbwXPLyvahAZKN/LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784829987; c=relaxed/simple;
-	bh=5BMWYzUopKwPRerUPir01Yqp4Hko4DehxQZw5HbCSTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ugZJl0n4PgqEJMUUBwg2Koxbz/QL4S9ESnSDSabzG1CS4egdM/3dDhyWy1m0z1F4ksP17Ert+szOtDT0X5qgjNcQyJb2qlOGT/oaF4ictvzyGB6AUIAF8dNbC91bsqI3g6uByow1mXRxxiznMPW+M5xndsdYHdqcYhDUcJrW/7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O093YLre; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784830795; c=relaxed/simple;
+	bh=pI7/WtZOHzSScov8+QbTEhBJxeSAlAowONsIBY+cVFE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tJXo0fuSLTYDprVuTZppctUD9yHMMgRTdasY1zDcKqgUFz1fa9l7atUTu5VKyGzzXOLLrbWbWSSxZ8r6r/Bml5EArEheOMrR+CyYDQp1jCo5ltLaWE4FtBEUE3OoVMjcSDOTOiCMOVzcL0GrnKfFYh82KJrdNwEygI12LZNVTzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIX+ISi+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O093YLre"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493f6de72faso6573245e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 11:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784829983; x=1785434783; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EtVdhv5gpffErdadsZwOfbEmM4sOAPwJiElZ21IqXVo=;
-        b=O093YLreT6nvC0t57+RKLei1L/wjb1xBC1jCkfSPFrbmIsJo+hV83yw+sq2juHlkxm
-         /3Rs9h88hB1ihvmempsmW7pstZM4FmNDl+WiqK3gZvxzNY5cH70dE4tCmVbs8N5aF2Lv
-         vZE8VbV9BX1x/NOwQ5oeMA2fJ42fUfZAnDzgzKKLhjumTmxYT1D7Et4xNNmNs0Oi0QOk
-         RfogORY/jOJMoVmh1oP6aoZD/A9ogWefLVLA4AE4boKGraVoSZ11XMRXKV9i+6oC9h9N
-         HkHu7ioE+5C5Delv18NaLn5VV0/P9DZXzAvEbsDei/Kra9p8R4nsbmiT/P//yIn/qSlX
-         UR0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784829983; x=1785434783;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EtVdhv5gpffErdadsZwOfbEmM4sOAPwJiElZ21IqXVo=;
-        b=SUaMrEoPERTDB20POdsZ0+tS3XBgVHnnIW/0Moi3TqA4J+ilbp9fKx6p+n7cQqScRs
-         +eCWre1CCZff7xBACz6kfMlDGlWWAfLP+R7QtziwiubHgX2bSiRwMuDjZsssnLMjd7Fk
-         q0sHPl5CtTA0cE60IWKaWn1zglrN4dXIoUDKmYz6xNUT92zUbl94w/N2PjSaMPsTfjq6
-         my9d0nvnqxYuB8IT20mykCkZ75yqbmYwdriJWq+sXHMl8BCsnx/SuzgSNxcM43df0REU
-         UM5XZY3e1HcQh7wJ6Ex2SHrx+Ho8lPLTJYrCc8IZYwxb5NshGhlrvW8/A3InXlVb9mSt
-         HzKg==
-X-Forwarded-Encrypted: i=1; AHgh+RpyIUtoPh7OV683iiLf3kAUIixzuxpn7Aj1qgOOuNr0vTfQd3prcef7jqoDXGJ3uWIbtt1jEaJiaor5/cC6@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEeYkEu93+fgf76j8rKhVIWdJLfSmcdOrUF7LKUixlKK9Y+uvJ
-	C1mYkBUa4neR91XQQuXAO7S+rdo5AuyXMErCfLFmq7d7cpXTfOqw6L5T
-X-Gm-Gg: AR+sD10cvH/U1RhnkSY5Wn2Q9UWSgofSwkuxMk4qVEov75oUQXbfOdHVkx5vo6sDX+b
-	SM2YhrOcu7LJ6ZRQo7c6CkN/XB6BinrzWkDkXkdTOl/wj8UOlworMLffczdnXb+jm7CdMQYzTs+
-	xNbJ1fO+0Xqc4arKoBUp0tP6dAqdf7MWi8NGXYCo9waruO07V0uZQxzkLAgts+WRyzD5uPaDerq
-	t49ujmMNYn58jJBkWhjRUovj9Bf9mVqc/wGJify8Mo/TcwevhRFe7VF9ziHqgWtTG6d6ExwlcEX
-	oCrFRzYdCam/TG9vnKkVvbp5a52juBT1PdBfmS5sHDk6fQgY9Kv2MYJENXy47ocm36dK3rvTIaO
-	ER3PFgnWDfCNWK9NF+3DUWumra1nX/p7Qx8+as/DT1SpC/C0LY+c8fHlcmBtHzBt0ooXST11wSZ
-	Ns6qsxftUnjJB7Kw1KF5hRJhJZ9piZRcTPR1WAW3p4ASq1MRcV8w==
-X-Received: by 2002:a05:600c:a211:b0:495:6b4c:fccc with SMTP id 5b1f17b1804b1-4957459d682mr24250855e9.10.1784829983076;
-        Thu, 23 Jul 2026 11:06:23 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f8635c8d7sm16386126f8f.21.2026.07.23.11.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 11:06:22 -0700 (PDT)
-Date: Thu, 23 Jul 2026 19:06:21 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Guidong Han <2045gemini@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jann Horn
- <jannh@google.com>, Qi Tang <tpluszz77@gmail.com>, Junxi Qian
- <qjx1298677004@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] eventpoll: pin files while checking reverse paths
-Message-ID: <20260723190621.51e6e4ac@pumpkin>
-In-Reply-To: <20260718104406.27897-1-2045gemini@gmail.com>
-References: <20260718104406.27897-1-2045gemini@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIX+ISi+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94FA01F00A3A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 18:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784830787;
+	bh=230JIUQQh1B8eXgnA7apJW7i59Sy5/z4fOTfm/SVITY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=FIX+ISi+p8m2LQGjwcY5IO97RryrbVBATylwHPO9/DiBjdg6lLiQZcKEoABhXwd9Z
+	 G564zwbAleJdoGj1iPKN8OodQK/EbU5cGV983eLpJ8WciTNHTwNnFyddBZ077wJGOe
+	 tLeX1HeLoMxbFRJOaLLGCc9vFII+Ax4JbzSvA3U+C4JXAz7Vw7+Mq5yYdrODYWqhFa
+	 6/5sMVCrw2Pwh36lhHn+85Hb8Y1YFpvDCMaEK+L/voXnIj67PQbCr/UteWmGtR1KXD
+	 Dv20aeUp4mX3TmFgVtKLiJSQsjxi0OX48wZvsAtn2ZHvyisxIihN8Dz5I49NA5Ij8W
+	 Oe57jkjukf8eQ==
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8ff88549786so11774206d6.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 11:19:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqvxHVe+7Cf0HRAE8z7BY00jL1QVBR0MqB55r2un7u0J+pUKMUwXn20fTVhgBv3i+z9diF14I5Qwcrt7E/Z@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLgxvAVQUGS7uchXeBVSHoCKyBZ2mZ0hHW6V4Q0ADURZq6IEB4
+	qU07nL8AKa/vajj7vCgAaT3qeuufr5ZmbCD8I+1d+OaTLjQcMwMI05dzY3OUlQJwa+G+Uiq5Pw9
+	2YwzP1UTd12D08BTbxbQwr+yHpTx4xaw=
+X-Received: by 2002:a05:620a:4606:b0:92e:c117:9eaf with SMTP id
+ af79cd13be357-93103b4a81bmr439311085a.93.1784830781920; Thu, 23 Jul 2026
+ 11:19:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260706235053.4104951-1-song@kernel.org>
+In-Reply-To: <20260706235053.4104951-1-song@kernel.org>
+From: Song Liu <song@kernel.org>
+Date: Thu, 23 Jul 2026 11:19:30 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+X-Gm-Features: AUfX_mwQVJsDURmFHDnLlF8xG3as6jhlEKJ7pwuuU3MpfW-PPAUe3hPTNSoz2Bg
+Message-ID: <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
+To: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, brauner@kernel.org
+Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
+	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	herton@canonical.com, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 18 Jul 2026 18:44:06 +0800
-Guidong Han <2045gemini@gmail.com> wrote:
+Hi Christian and folks,
 
-> Commit 319c15174757 ("epoll: take epitem list out of struct file")
-> intentionally removed temporary file references from the reverse path
-> check list. At the time, both epitems and their files were freed after
-> an RCU grace period, so unlist_file() could obtain file->f_lock through
-> an epitem while clear_tfile_check_list() held rcu_read_lock().
-> 
-> Commit 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU") made
-> struct file SLAB_TYPESAFE_BY_RCU and removed its RCU-delayed freeing.
-> RCU still protects the epitem, but no longer keeps the referenced file
-> from being freed and reused. A concurrent close can therefore make
-> unlist_file() lock or unlock f_lock in a recycled file object.
-> 
-> This violates the documented SLAB_TYPESAFE_BY_RCU rule requiring a
-> reference before acquiring an object's lock. The race was reproduced,
-> causing a wild unlock of f_lock in a recycled file and breaking its
-> mutual exclusion.
-> 
-> Add ->file to epitems_head to remember the pinned file independently of
-> ->epitems. A concurrent EPOLL_CTL_DEL can empty ->epitems before the head  
-> is unlisted, leaving no epi->ffd.file from which to drop the reference.
-> 
-> In list_file(), acquire the reference before adding the head to the
-> check list. The caller either owns a reference or holds the ep->mtx for
-> the epitem leading to the file. In the latter case, file_ref_get() can
-> fail after the last reference is dropped, but eventpoll_release_file()
-> must acquire the same mutex before the file can be freed. The dying leaf
-> can be skipped because removing links cannot increase the reverse path
-> count.
-> 
-> In unlist_file(), epnested_mutex excludes another list_file() or
-> unlist_file(), while head->next prevents a concurrent EPOLL_CTL_DEL from
-> freeing the head. Save head->file locally, clear it with head->next
-> under f_lock, and drop the reference after the RCU-protected operation.
+Could you please help review this set? Does this set address
+concerns from earlier versions?
 
-That seems to hold a reference to 'file' that persists after EPOLL_CTL_ADD
-returns.
-That breaks the requirement that the final close() will automagically
-remove an fd from any epoll lists.
+Thanks,
+Song
 
-	David
-
-> 
-> Reported-by: Qi Tang <tpluszz77@gmail.com>
-> Reported-by: Junxi Qian <qjx1298677004@gmail.com>
-> Fixes: 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guidong Han <2045gemini@gmail.com>
-> ---
-> SLAB_TYPESAFE_BY_RCU allows a slab slot to be reused while an RCU reader
-> still holds its old address. Once that address contains a new live
-> struct file, KASAN sees valid, unpoisoned memory and cannot distinguish
-> the stale object identity. CONFIG_DEBUG_SPINLOCK exposes the failure
-> instead.
-> 
-> The failing interleaving is:
-> 
-> CPU0: nested EPOLL_CTL_ADD             CPU1: close/open churn
-> ------------------------------------   ---------------------------------
-> p = hlist_first_rcu(&head->epitems)
-> epi = container_of(p, ...)
->                                        close(victim)
->                                          __fput()
->                                            eventpoll_release_file()
->                                            file_free(victim)
->                                        // the slot is free; f_lock remains
-> spin_lock(&epi->ffd.file->f_lock)
->                                        open() reuses the slot as new_file
->                                          spin_lock_init(&new_file->f_lock)
-> spin_unlock(&epi->ffd.file->f_lock)     // wild unlock of new_file's lock
-> 
-> CONFIG_DEBUG_SPINLOCK reports:
-> 
-> BUG: spinlock already unlocked on CPU#0, poc_unlist/150
->  lock: 0xffff8880067fb200, .magic: dead4ead, .owner: <none>/-1, .owner_cpu: -1
-> CPU: 0 UID: 1000 PID: 150 Comm: poc_unlist Not tainted 7.2.0-rc3-dirty #22 PREEMPTLAZY 
-> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0x64/0x80
->  do_raw_spin_unlock+0x75/0xb0
->  _raw_spin_unlock+0xe/0x30
->  clear_tfile_check_list+0x88/0xe0
->  do_epoll_ctl_file+0x519/0xcf0
->  ? __pfx_ep_ptable_queue_proc+0x10/0x10
->  do_epoll_ctl+0x8f/0x100
->  __x64_sys_epoll_ctl+0x6f/0xa0
->  do_syscall_64+0xdc/0x520
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> RIP: 0033:0x42034e
-> Code: 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 e9 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007a657ff3c198 EFLAGS: 00000202 ORIG_RAX: 00000000000000e9
-> RAX: ffffffffffffffda RBX: 00007a657ff3ccdc RCX: 000000000042034e
-> RDX: 0000000000000003 RSI: 0000000000000001 RDI: 0000000000000004
-> RBP: 00007a657ff3c2f0 R08: 0000000000000000 R09: 00007a657ff3c6c0
-> R10: 00007a657ff3c1a4 R11: 0000000000000202 R12: 00007a657ff3c6c0
-> R13: ffffffffffffffb8 R14: 000000000000000d R15: 00007fffb7de0210
->  </TASK>
-> ------------[ cut here ]------------
-> 
-> unlist_file() does not appear as a separate frame because it was inlined
-> into clear_tfile_check_list(). This report was obtained with mdelay()
-> instrumentation immediately before spin_lock() and spin_unlock() in
-> unlist_file() to widen the two race windows.
-> 
-> More importantly, this is a wild unlock. The stale unlock can target
-> f_lock of a different live file and invalidate mutual exclusion for
-> state protected by that lock. Turning this into a reliable exploit
-> would require precise scheduling and same-slot reuse and is likely
-> difficult, but the primitive is potentially exploitable.
-> 
-> Qi Tang and Junxi Qian helped identify this issue and are therefore
-> credited by the Reported-by tags above.
-> ---
->  fs/eventpoll.c | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index 0e65c7431dfc..eed8cecd94e3 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -459,11 +459,14 @@ static struct kmem_cache *pwq_cache __ro_after_init;
->   * Wrapper anchor for file->f_ep when the watched file is not itself an
->   * eventpoll; for the epoll-watches-epoll case, file->f_ep points at
->   * &watched_ep->refs directly. The ->next field threads
-> - * ctx->tfile_check_list during one EPOLL_CTL_ADD path check.
-> + * ctx->tfile_check_list during one EPOLL_CTL_ADD path check. The ->file
-> + * field holds a reference to the associated file while the head is on
-> + * the list.
->   */
->  struct epitems_head {
->  	struct hlist_head epitems;
->  	struct epitems_head *next;
-> +	struct file *file;
->  };
->  
->  static struct kmem_cache *ephead_cache __ro_after_init;
-> @@ -480,6 +483,16 @@ static void list_file(struct file *file, struct ep_ctl_ctx *ctx)
->  
->  	head = container_of(file->f_ep, struct epitems_head, epitems);
->  	if (!head->next) {
-> +		/*
-> +		 * The caller owns a reference to @file or holds the ep->mtx for the
-> +		 * epitem that led here. The latter blocks eventpoll_release_file()
-> +		 * before the file allocation can be freed and reused. A dying leaf
-> +		 * can be skipped since removing links cannot increase the reverse
-> +		 * path count.
-> +		 */
-> +		if (!file_ref_get(&file->f_ref))
-> +			return;
-> +		head->file = file;
->  		head->next = ctx->tfile_check_list;
->  		ctx->tfile_check_list = head;
->  	}
-> @@ -489,15 +502,18 @@ static void unlist_file(struct epitems_head *head)
->  {
->  	struct epitems_head *to_free = head;
->  	struct hlist_node *p = rcu_dereference(hlist_first_rcu(&head->epitems));
-> +	struct file *file = head->file;
->  	if (p) {
->  		struct epitem *epi= container_of(p, struct epitem, fllink);
->  		spin_lock(&epi->ffd.file->f_lock);
->  		if (!hlist_empty(&head->epitems))
->  			to_free = NULL;
->  		head->next = NULL;
-> +		head->file = NULL;
->  		spin_unlock(&epi->ffd.file->f_lock);
->  	}
->  	free_ephead(to_free);
-> +	fput(file);
->  }
->  
->  #ifdef CONFIG_SYSCTL
-
+On Mon, Jul 6, 2026 at 4:51=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+>
+> This series replaces the monolithic security_sb_mount() hook with
+> per-operation mount hooks, addressing two main issues:
+>
+> 1. TOCTOU: security_sb_mount() receives dev_name as a string, which
+>    LSMs like AppArmor and Tomoyo re-resolve via kern_path(). The new
+>    hooks pass pre-resolved struct path pointers where possible (bind
+>    mount, move mount), eliminating the double-resolution.
+>
+> 2. Conflation: security_sb_mount() handles bind, new mount, remount,
+>    move, propagation changes, and mount reconfiguration through a
+>    single hook, requiring LSMs to dispatch on flags internally. The
+>    new hooks are called at the operation level with appropriate
+>    context.
+>
+> The new hooks are:
+>   mount_bind        - bind mount (pre-resolved source path)
+>   mount_new         - new filesystem mount (with fs_context)
+>   mount_remount     - filesystem remount (with fs_context)
+>   mount_reconfigure - mount flag reconfiguration (MS_REMOUNT|MS_BIND)
+>   mount_move        - move mount (pre-resolved paths)
+>   mount_change_type - propagation type changes
