@@ -1,51 +1,52 @@
 Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E34F796E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B8A413796
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 13:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784812180; cv=none; b=LPpNaNLfW/sf7/LWrvgz6gzlfaG3YNDbIKbbEMgAYVlvqRoZzR6TE5cBdZ9GZrWnfkNmTjoyuk54QdtsCCmAy6U57gtv18vaXJnt3o5SUnsPE09Ldf7x22IBV1gfkT8HmPbyyMymwHkMpOEwC9d/yCJwz4gA9sZfBSFo/M//dWw=
+	t=1784812186; cv=none; b=Dngu1YnvOPp5c+iFcLXca/exMGWydCsvQ6tdn7lAvyVNy6ieqo8XwX3wY/7OZfOCSB7mj2GakKuP0OifJpaykEDUkA1GovrZsrr22TtAA7kaOmkx02VqEHFu6zpBBS01I207xvloieEDsPseN4g0foBnYrEUcpufWBJg8q780Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784812180; c=relaxed/simple;
-	bh=Ffp+82a+kPVANVSfE4UoPLzS57UGE/MJDj2zzx+4H4k=;
+	s=arc-20240116; t=1784812186; c=relaxed/simple;
+	bh=WZ6yLtZ8mERpnymfIA6knHpGr9SZy4I+obzVoM1OEKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fUm6L9oJQszf3V336jmtQb7yWhQlgOeD+LuS202+cn3CkoLSdNCXL+sp1Ju1HNAW8B81oNK/ItzgrBH5XNNXR+dqN0sCzurZPyN8k0wVPcXGDA+r8Ag1ulCmzeUMVhzQcmkGcmmiDPEzgFep2Li0ncCHLlXy4VID8z/f+VfC1n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Co0ksC24; arc=none smtp.client-ip=18.9.28.11
+	 MIME-Version:Content-Type; b=VY731rT2Zs4eCrHgs4Ej3c9qBk/Jr2LgdY2jAtVf62Xo8qcDsAh06d4EQcmn6VJEkoOxdAv1F3w7KaObvzy7kY/5arOoduiVukU4Bf5ubTXI5b2tr3kzSDOOgu+lQ2q+DyvyqhWqf6sxpBd8dBLbTR0M8VszfAEqsGPtzhNqtls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=XOXAV72d; arc=none smtp.client-ip=18.9.28.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Co0ksC24"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="XOXAV72d"
 Received: from trampoline.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
 	(authenticated bits=0)
         (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66ND948H017973
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66ND94s4017955
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 23 Jul 2026 09:09:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1784812147; bh=SoxFe76Q5Ck7OJ+6Zars+9LwhXxMDX97oGV3QnGVKQs=;
+	t=1784812147; bh=lJSj8968yQOjhhZx3ly3NjQefq1l4/afijeumypJmmQ=;
 	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Co0ksC24/RAK+zSQpV6N74dQw+ZNqVj625eugryiaz+EeYYSY0f5/vlX3MGqyIJZs
-	 tNH5MOKL0wNtmqxjCsnjqXWqXBEJ+SpJxnG/6Tmw8+r9LZSQhXBepPqT7gRTdJBU6R
-	 Co2nIVIhJyJOnxt+WQno1/+sOgvbge8XcEdqv0dsFILaIr5qLxumKebfbGeZq3pcwk
-	 H95KSEGkgXh//uu0zuSNTKVzLVp5vzpbQ7zy7OV1DTQddZRitmHAozk3p54v0BYjdL
-	 E3eXnITEvyqse9af82Np//r5FCImeA/Ulq90kWx89Y3EUjdPKczIs2/1nj7afK00kw
-	 xvIapS+vKo0MQ==
+	b=XOXAV72dT/WzCf4+cmR/KCsVVM8fk1CbzYP0v2R7NLaE5po7zskFLUPTthKRZz/zG
+	 /L3XlV7+0HOx7P0jGWDNfmZESu493CWg+7eHx5Ibu3rGc8Nopq0+ZQLLzEMsyObus8
+	 Rt979UotrZys7CVLX+6ISdB7J6mxxhjmyMIOKmMrOtFzspsP6fEcNfXujiWzYdG4SB
+	 clj5zT2L1E+Zl23zlG3cTMfqcuT0jYpbm80HFGmSTHrKpaJ/5vkLELn2PfKIRsCBGv
+	 7fP8TT0ktxS+//SI6ME22ti8XSpQaOMktkUOjBQb2A8WNgEKNW1NnxaFs+3VRgTbol
+	 u7nZ/rNV8z1Xw==
 Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id E14D42E3F25; Thu, 23 Jul 2026 09:08:59 -0400 (EDT)
+	id DAA482E3F23; Thu, 23 Jul 2026 09:08:59 -0400 (EDT)
 From: "Theodore Ts'o" <tytso@mit.edu>
-To: adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, jack@suse.cz,
-        ojaswin@linux.ibm.com, ritesh.list@gmail.com, yi.zhang@huawei.com,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        Yun Zhou <yun.zhou@windriver.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v14 0/4] ext4: deferred iput framework for EA inodes
-Date: Thu, 23 Jul 2026 09:08:53 -0400
-Message-ID: <178481171721.796182.16168303721890374305.b4-ty@b4>
+To: linux-ext4@vger.kernel.org, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+        ritesh.list@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
+        chengzhihao1@huawei.com, yangerkun@huawei.com,
+        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
+Subject: Re: [PATCH v4 0/9] ext4: fix unaligned edge handling in FALLOC_FL_WRITE_ZEROES
+Date: Thu, 23 Jul 2026 09:08:51 -0400
+Message-ID: <178481171753.796182.4122998257762869128.b4-ty@b4>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260710030851.2791589-1-yun.zhou@windriver.com>
-References: <20260710030851.2791589-1-yun.zhou@windriver.com>
+In-Reply-To: <20260714080044.4038124-1-yi.zhang@huaweicloud.com>
+References: <20260714080044.4038124-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,29 +57,37 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Fri, 10 Jul 2026 11:08:47 +0800, Yun Zhou wrote:
-> This series introduces a deferred-iput framework for EA inodes to
-> eliminate a class of lock ordering issues in ext4 xattr code.
-> 
-> The problem: iput() on EA inodes while holding xattr_sem or a jbd2
-> handle can trigger eviction, which may acquire those same locks or
-> s_writepages_rwsem, creating circular dependencies.  The immediate
-> deadlock (during mount-time orphan cleanup) is fixed by two separate
-> patches already reviewed and posted:
+On Tue, 14 Jul 2026 16:00:35 +0800, Zhang Yi wrote:
+> This is v4 of the series to fix unaligned edge handling in
+> FALLOC_FL_WRITE_ZEROES. No code changes have been made relative to v3.
+> This iteration solely adds a comment to document the race condition in
+> ext4_block_zero_eof() that prevents zeroing of inline inode's tail
+> block.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] fs: add iput_if_not_last() helper
-      commit: 2a4c637d6fab83b689aea834d8e725189a2ef370
-[2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
-      commit: 4f48af3dc75545f6c874e7d195aeff009c7453ba
-[3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
-      commit: a54778243e88f2a941e145e5afa43bd1619c0a66
-[4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
-      commit: 3a00c9bc8ea5b816eac165550a4676a3bcde7f2d
+[1/9] ext4: use FGP_WRITEBEGIN for tail block zeroing
+      commit: e1cf7b5f5c8ad1e00d00c50c61c3e8fdc79cd422
+[2/9] ext4: skip tail block zeroing for inline data files
+      commit: 2fff82f081401a61a47e8171f6392d2b0cde5a30
+[3/9] ext4: check return value of ext4_get_block() in ext4_load_tail_bh()
+      commit: 705a3fd3bac167f1dabe3d3bba46cd484c5528dd
+[4/9] ext4: move partial block zeroing earlier in ext4_zero_range()
+      commit: b16e9d27a643a3cf8907c994d25ed52717f36418
+[5/9] ext4: clarify return semantics of ext4_load_tail_bh()
+      commit: 012e6a2c9ff4d28abd4f32e4d68decff47297d06
+[6/9] ext4: track partial-zero outcome per edge in ext4_zero_partial_blocks()
+      commit: 4c1f6931395ad026415cbdb924ffc240f86eb557
+[7/9] ext4: zero out whole block for clean edges in WRITE_ZEROES
+      commit: a5179156ac1d9a6646da42254e4c461e1fc20096
+[8/9] ext4: write back partial-zeroed edges in WRITE_ZEROES
+      commit: d19d239ada9b7c92d086a1f051b7566538ee0089
+[9/9] ext4: protect WRITE_ZEROES written extents with orphan list
+      (dropped due error handling concerns; will be submitted separately)
 
 Best regards,
+
 -- 
 Theodore Ts'o <tytso@mit.edu>
