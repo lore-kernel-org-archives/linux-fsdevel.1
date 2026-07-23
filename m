@@ -1,120 +1,257 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4675F40861D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 15:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784821771; cv=pass; b=bgxuTX2M/L1Gt5wKWkPrVI5YwbXdaBvnOej1veiIW+9MFIyN/vr7WTG3j+qJTasaZYxixFpuFHDdgP+k10uce2NOeCtg9u36iVAHCil+sCfyCRa238lgZqFZ0ilCmOhLnQVkm6QnWvKOB6h3fWsCoO/8Yog5+rjlLt2eLGJ+qkc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784821771; c=relaxed/simple;
-	bh=VOEwoWxhkHAzPl7z/kfmfgEp6lBpU3TPL7nXC62jp0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XiFGsKZW95uUISMBpPGodMbwH+2VzMcONq2YkOeba4yFLKjjIQaYn//ZUZuOp9KW4gqNqZj6toRxJMvUjizhrtnN5l4/Hujum0NuwY5+t4l3LauGJlIGzg9UIPt9ulhpqqXVkZ6Yb4QelO5z6UkISgPtceIzlBoS+L15nt5Epo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qydzhXXx; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809642D7DF1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 15:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784822337; cv=none; b=ukuNT53eQ2mB8f9tWMTiOQNwXdPYfqMMczRYbP6FFu20MMxZFooD1yphwmy8TXZg52NnwngWfmQaQon3rRAujZth6bq20le/ukAgQlILhhYbvmG1ISZkV5nszkKExNKOL2jPVI4aRqLDkMFhUpWasVXrFbcKWkZITid74XUpUZ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784822337; c=relaxed/simple;
+	bh=EMh7ppnn8x3WB+5rZ+zDhnAj7ui3Oe/fgDCu4NGFPw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=chl7j8O7RYAhN4n1r6Tw+7WPUDGV5YJrg7ekzCeqC/USWCf2UQEQOXIp+HXzV6ZbJuIpkz9CEApF/H0Oq5Ly9OMx7xivEfTpKYEIpV/3d4Js26F/jKXMMf7KI6K8dkeDsN92G82qncixKbpl4pbZX7t6NsJwp37tivZxqZKyy4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RunFr/Rl; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=iebAm9gJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qydzhXXx"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4728c12ba97so511693f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 08:49:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784821766; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IYN54WVZRab2s6zmARI5D1aHnb5sThMic3wOY95ltM+NpFhgV1m7mXkALUUoLcRBeH
-         OIwB4iFuPxcuFCHpz6H5/fh/kcSx/6Cw/4NqgW6pcQrgR+UUs71U1hSwkaToOea0hsl8
-         QPsqG8toHEVKh3ZYkVL0Q8sYEh0FXsW/PT4ZGAzVayGdQY2HDc5JBWriGlPPqFzOZuxy
-         7bt+Tt6A8jqzMHzHFMfhQP8LsdlfdAhPZzzwSESA49e0RFDCTWyhqsABDE5vDULs5NZO
-         VPjQM8JLS+MZc1ZiXjHHkEwnhV+PuiaWFhFf9p0MTAdbBe55yq6c10ADVqJgMTj3PLJA
-         8MJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VOEwoWxhkHAzPl7z/kfmfgEp6lBpU3TPL7nXC62jp0M=;
-        fh=3Cs28Wq8/W/Xmtp2gjKigllgEUhzGrCZICJcE1I0qrQ=;
-        b=Q+lThyRhBBNVbjKKkvKAv2yCqCCzqUcno3uRU0oGx7mGmgoESRpa6ySnxLHe9Pn50y
-         PKMX9m/wbMCBaZ4FphQ2/2pTtBrmOE1J0n8niXgd6lturqZSNQNETDQ2Wmwu5JHBK1Qv
-         pG97KRSgOAM3CHAVj/P7whZtS55GOcgzzs8fm0ZpWWK+kai4pmZue2n6GezY3MqVyNzQ
-         CrjbBom734KXhjDKU/zMCgwPxwm3LWK+rYi35UOB/NTeOknDnfaHMIyHqUhdb5Oj4jnn
-         T63/Le3BdqtvVKveHWhoDvkUmekVqseEiT5V7e405vN17fUtFwIryG8QaWCkAIcAabcg
-         SGNQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RunFr/Rl";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="iebAm9gJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784822334;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kTcgSVyFAcPmMjSfflHV0yfNSOwJbU/zquJcaYOhNd0=;
+	b=RunFr/RloeH28HEvCTdLsFaFwvExenrt7b8kGIXvHSn0savHx5tKtOm/bSCqZN5C0uG55j
+	1Ol2yEwwznjH2xqMQQqDkPQc103pWPW1sHL6bKh1JteO0VbB2yV8MVGq3xKP6Nfhz0L76H
+	Sy5k5vn5/OeKsRutpxDTxs0fAvadX34=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-617-afSVc1g5N6mUDbU3Ton_0Q-1; Thu, 23 Jul 2026 11:58:52 -0400
+X-MC-Unique: afSVc1g5N6mUDbU3Ton_0Q-1
+X-Mimecast-MFC-AGG-ID: afSVc1g5N6mUDbU3Ton_0Q_1784822332
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-472a798fc7cso548924f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 08:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784821766; x=1785426566; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=redhat.com; s=google; t=1784822331; x=1785427131; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VOEwoWxhkHAzPl7z/kfmfgEp6lBpU3TPL7nXC62jp0M=;
-        b=qydzhXXxoUmQUHcuX0XxEnYV0oUiS9+jjqrtrgxZlH+xI6BIG2GSoSL3uzqge7v7+/
-         sHtbE8aBM7q1+1Z12jrrYsx3RqUTlFtyeYU6OB0r+LUlCsJy8z5sLai1ry7B69/lPbIL
-         5hbU0mqHzRH8H/0HPuCmgiDqphisYlm++yw+2UUkv45H8ehdMcJNrBkLYaTRFtxg24rX
-         VvQ6x6RH1gggbahKKr6leCLpLGbmcwtsDfA8jNie6VGe/y8S3y5SgPFRBJMk5A0554RG
-         lLkrzRn83K35xbxQIdIiZ4O+IqEXl4Wv8JL60XxOFZ0Z2PABaLCqu4ri4g5VqJYyoeHc
-         c+YA==
+        bh=kTcgSVyFAcPmMjSfflHV0yfNSOwJbU/zquJcaYOhNd0=;
+        b=iebAm9gJSZao9PP4vqL0H7YVh+asDuk/PsK9Dew4zxfC9+tAScCxl0HwlujwNgwbRi
+         c/v+sNAtCYkT9UVHwWnRwzzOtySxE7gf4TSLlfLjeL1OIEj+wA4KA1jiRF/wlqCJX1kU
+         4nz1hXmedWS+yS4iEmYKbTrOALh311e4JF4prMCqfA/ybRbSxlu0G7G9KIBdxF6LaQH2
+         G7Fv20T2sS8PDScKrxXDfqdmXUsY8gstanwHHLK85MabIvB8qa2M7usSJwp4oSnaw6GJ
+         z2W1ojiuDsdphzSoxeE9wL9RIc9xESieh923r2vND96WZO8/C0hwH48y/BMKx2IVGw+L
+         oTmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784821766; x=1785426566;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784822331; x=1785427131;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VOEwoWxhkHAzPl7z/kfmfgEp6lBpU3TPL7nXC62jp0M=;
-        b=XG5cEdUOIA8fziLk1r9yzRLyVJG2STNi3ExX3n7Brc0m/YpgmJ+R7sbxflRQHjhmxy
-         rUnMpT71gKhxGV9XHSdzdlOzQ7wmeiyO2K8nDlgWFFje1q0Qu4oNeYWVMn3sjTsJUaBq
-         7lBm37cfdVbNlu5S2XmAH0y8bYLwucf4Zpkxgdbb5t0e06fyGMsL61xxmOvu9qUWJ2oS
-         noGbAUVkv6XR6IFehbRkITDpxDbPw30LfhIpfCbe+00Xzw2TqRHKWLTnDazLPX3TwL5k
-         +MLle/FNbAIu+wzaZQ7j5vcTu14YGo5H21Z1f2Kv5323ygmptuleSXLca5aMn3Q5Ydtc
-         JwvA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/RLIwTM2/wYofAJFuYAsh/fjJxFQgJ7NM7Jd4fI/HRdNYp57oA0VZyDWITP/uwDs8EkxNREabtAB01Stn@vger.kernel.org
-X-Gm-Message-State: AOJu0YxasSzeQ7XXSjUS+AQFF/PC/BdLtQc00uSH6BxjHeuE0TB94gdO
-	VrA14II7z/4oHob2xBoMpkZxcdadiu/7lXKo5EfxWnanPWlyHf4WTo7pCBpZPHIdp3Y7ZCkZC9q
-	lPOX6Uf6uXol7O60pEBMHV2YF5w3Azlw=
-X-Gm-Gg: AR+sD12TbNeIjZ7frizXasMqjwJXwcUOXR5TbzuK6dH0c29fKMW0Ur+HDLoOt6pfvBh
-	s4V3GzuLpVzL3G6MYmaYtWHZT+XhZwnSMGHEeYLfWqt0uqY1M0XZQp8Me7lsjW9gKsTz8PqoKW3
-	KZiiFBYRqVsUoXvwzmSzkDlWENnY922mHTdpoQJoane8d631+AyvVPyi6NMtwsSFXnNfDRwDwNY
-	5l1neNZ/YcFbeEvN0UPPIUGpz1565L/Wc7JdHqjhVKUKyVJnCGkGmwT+wLSf+ukPDN8NoylZ+ZV
-	BhplD5ZrXE00XFkh7SiCsyWDKPO9
-X-Received: by 2002:a05:6000:2501:b0:47f:93b4:2df3 with SMTP id
- ffacd0b85a97d-47f93b42e91mr1757333f8f.60.1784821765658; Thu, 23 Jul 2026
- 08:49:25 -0700 (PDT)
+        bh=kTcgSVyFAcPmMjSfflHV0yfNSOwJbU/zquJcaYOhNd0=;
+        b=nI4GBtjfGvixApk51ICm04up6IX8pfI2gdVv1SiLgfKB4J4XlWde4ZG2izR4ThVgXc
+         pYMNLlec4EpXUcidJOWGtAZKt1fY6FYOkeIrOHkive4XsJRkGvoUeGwRoJysjOnwcQmi
+         cF2fTOgED8K0tPhp1zqp2eMO33yrq+/LCMIXe4i2ljyvc/jm0HVvcIY+VDVbUYM05zbV
+         nvlXA78TxAL+po4QvRGx+h8eAD4LtxJozZsVC4wyXwNn6iFGZdH8wknl5OkvN4vPK1s8
+         HgOKJ31fyPwo4aGjL+Fm8yJYISLDh5ydJbjOQz1yR/cb3y+wBfhw42MTPBZgwsq3hwD6
+         /1bw==
+X-Forwarded-Encrypted: i=1; AHgh+RoZaokL2PLnFSve3kSI4lvoyxjr1d7BnL37wK63Pvjcy1xCOrZ0gPNU6zy1or96kviFC/E3esYVIcAR+b6S@vger.kernel.org
+X-Gm-Message-State: AOJu0YzITjowK12sEMbmTi7g7r8n8gGARy/VP8bO0/N9CXjZr28BPuAo
+	e+IadfsCGZfzQb27NHQhTldlPLxPbGFmtSp/EGnIStIpSvosupFwNqEyiioSiL6ZccUJZWuuSrG
+	OEato/Sg+jBuit9bjYpzGG8TOtXNe0ReuhrI7Gx0ZcOMsiTQfz1wz8U/3KUmjpcvs0w==
+X-Gm-Gg: AR+sD11HBmhdistFPmp/oUwRMhuaiBSpZJkPVJ05lsE01/PKuXmMkqeq7epUDmjENCe
+	YBwnGH8WSFU8F76Yw19ygPCnvnOnaPevtVkqCjmF23kkdLZvcKK0Rzcn1Pr8UcMD2Dh0qMvAz4Q
+	rS/yKAlwerg8dxvDy2wV1br4vbmyNoP3Iog78qVaHfHqId6C7G+JvfUOjLxlgqb4Lbm7FURYJZr
+	/D2Kjy1whXwJZeBG5NoEwxCkuxcruKmLszAmL9lMaOcusy6d2f08+cpGeOgNlRbO+vRG3iqTZ+n
+	nv9JnBdSEf7C+ZSKTb9p10/KR1zijqDpNqW8GF5lW+8YCYJPH+rK9iv2rvYnO5cYd6xqshmF4YD
+	+4sBhSFumPqKHIQQkbewvLEa166u8RHQ2Nsw=
+X-Received: by 2002:a05:6000:178d:b0:47f:7030:bfbd with SMTP id ffacd0b85a97d-47f8dcb2717mr4806741f8f.48.1784822331474;
+        Thu, 23 Jul 2026 08:58:51 -0700 (PDT)
+X-Received: by 2002:a05:6000:178d:b0:47f:7030:bfbd with SMTP id ffacd0b85a97d-47f8dcb2717mr4806698f8f.48.1784822330928;
+        Thu, 23 Jul 2026 08:58:50 -0700 (PDT)
+Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85a2573csm15659173f8f.0.2026.07.23.08.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 08:58:50 -0700 (PDT)
+Date: Thu, 23 Jul 2026 17:58:49 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	Tal Zussman <tz2294@columbia.edu>, Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/22] xfs: use BIO_COMPLETE_IN_TASK for bounce buffered
+ read I/Os
+Message-ID: <amItES6s54i1QSHw@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260723145000.116419-1-hch@lst.de>
+ <20260723145000.116419-19-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260718093723.153324-1-alex@ghiti.fr> <20260718093723.153324-2-alex@ghiti.fr>
- <amIZp7Ual_6Gu86T@cmpxchg.org> <CAKEwX=MxufM5aNw2xW0f1UcyfcCJbtXR_u3cK+coRaC+_bLspg@mail.gmail.com>
-In-Reply-To: <CAKEwX=MxufM5aNw2xW0f1UcyfcCJbtXR_u3cK+coRaC+_bLspg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 23 Jul 2026 08:49:13 -0700
-X-Gm-Features: AUfX_mzB18adyCkRw-msPjHBQg9MLv97pbCpvES0UbLhVV73Fu4FFLlFb-JLgCU
-Message-ID: <CAKEwX=NmAuo+-sXzQj51-sRGdfcjTb3_KaW2x_4DnjQM6n0piA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: zswap: free synchronous-IO writeback folios directly
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Yosry Ahmed <yosry@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723145000.116419-19-hch@lst.de>
 
-On Thu, Jul 23, 2026 at 8:38=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> >
-> > I just chatted with Alexandre off-list, but this path does not store
-> > an eviction shadow like the reclaim path does. That means no refaults
-> > are detected from dropbehind pages, which can fundamentally alter
-> > reclaim decisions, zswap shrinker force, and pressure detection.
->
-> I think it's a zswap shrinker bug even before this patch. When we
-> allocate a new buffer for the writeback request and add to swap cache,
-> we erase the old shadow :(
+On 2026-07-23 16:49:43, Christoph Hellwig wrote:
+> Stop using the xfs per-inode work struct for completing read bios, as
+> unlike writes we don't want to serialize reads on a single inode as
+> there is no exclusive resource contention for them.
+> 
+> Factor the code for kicking off a read that needs and ioend and the
+> task context completion into a single helper so that it is split off
+> the xfs_end_bio machinery, which is not only used for writes.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-... and count it as a refault :| Which is even worse than just silent
-erasure. It throws off all our workingset tracking heuristics,
-inaccurately reporting refault on a really cold page (writeback
-candidate).
+I would probably need something like this for fsverity.
+
+When using integrity checksums with fsverity together, both file data
+ioends and fsverity metadata ioends get onto the inode queue
+(without checksums there's no metadata ioends). This way worker could
+self-deadlock if data ioend processed first in xfs_end_io(). It will
+call verify_bio to read merkle pages which could be already waiting
+in queue.
+
+I initially considered changing xfs_end_io, for read ioends, to just
+schedule them instead of adding to the queue, but decided just sort
+metadata ioends first in the queue [1] as a bit simpler fix.
+
+The difference is that work won't be scheduled on the high-priority
+fsverity's workqueue. Not sure how critical this is as with
+checksums all reads would be the same priority.
+
+1: https://lore.kernel.org/fsverity/20260721184346.416657-15-aalbersh@kernel.org/T/#u
+
+-- 
+- Andrey
+
+> ---
+>  fs/xfs/xfs_aops.c  | 10 ++++------
+>  fs/xfs/xfs_file.c  |  9 +--------
+>  fs/xfs/xfs_ioend.c | 32 +++++++++++++++++++++++++++-----
+>  fs/xfs/xfs_ioend.h |  2 ++
+>  4 files changed, 34 insertions(+), 19 deletions(-)
+> 
+> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+> index 49d21d905cc3..76918bd15ca8 100644
+> --- a/fs/xfs/xfs_aops.c
+> +++ b/fs/xfs/xfs_aops.c
+> @@ -580,12 +580,10 @@ xfs_bio_submit_read(
+>  	const struct iomap_iter		*iter,
+>  	struct iomap_read_folio_ctx	*ctx)
+>  {
+> -	struct bio			*bio = ctx->read_ctx;
+> -
+> -	/* defer read completions to the ioend workqueue */
+> -	iomap_init_ioend(iter->inode, bio, ctx->read_ctx_file_offset,
+> -		iomap_ioend_flags(&iter->iomap));
+> -	iomap_bio_submit_read_endio(iter, ctx, xfs_end_bio);
+> +	xfs_ioend_submit_read(iter->inode, ctx->read_ctx,
+> +			ctx->read_ctx_file_offset,
+> +			iomap_ioend_flags(&iter->iomap));
+> +	ctx->read_ctx = NULL;
+>  }
+>  
+>  static const struct iomap_read_ops xfs_iomap_read_ops = {
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index c0c3a11e7ff2..d31a1dddcdc3 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -37,7 +37,6 @@
+>  #include <linux/fadvise.h>
+>  #include <linux/mount.h>
+>  #include <linux/filelock.h>
+> -#include <linux/bio-integrity.h>
+>  
+>  static const struct vm_operations_struct xfs_file_vm_ops;
+>  
+> @@ -236,14 +235,8 @@ xfs_dio_read_bounce_submit_io(
+>  	struct bio		*bio,
+>  	loff_t			file_offset)
+>  {
+> -	struct iomap_ioend	*ioend;
+> -
+> -	ioend = iomap_init_ioend(iter->inode, bio, file_offset,
+> +	xfs_ioend_submit_read(iter->inode, bio, file_offset,
+>  			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT);
+> -	if (ioend->io_flags & IOMAP_IOEND_INTEGRITY)
+> -		fs_bio_integrity_alloc(bio);
+> -	bio->bi_end_io = xfs_end_bio;
+> -	submit_bio(bio);
+>  }
+>  
+>  static const struct iomap_dio_ops xfs_dio_read_bounce_ops = {
+> diff --git a/fs/xfs/xfs_ioend.c b/fs/xfs/xfs_ioend.c
+> index 40695d18dac0..37a3ae8066e9 100644
+> --- a/fs/xfs/xfs_ioend.c
+> +++ b/fs/xfs/xfs_ioend.c
+> @@ -16,6 +16,32 @@
+>  #include "xfs_reflink.h"
+>  #include "xfs_zone_alloc.h"
+>  #include "xfs_ioend.h"
+> +#include <linux/bio-integrity.h>
+> +
+> +static void
+> +xfs_end_io_read(
+> +	struct bio		*bio)
+> +{
+> +	struct iomap_ioend	*ioend = iomap_ioend_from_bio(bio);
+> +	int			error = blk_status_to_errno(bio->bi_status);
+> +
+> +	iomap_finish_ioends(ioend, error);
+> +}
+> +
+> +void
+> +xfs_ioend_submit_read(
+> +	struct inode		*inode,
+> +	struct bio		*bio,
+> +	loff_t			file_offset,
+> +	u16			ioend_flags)
+> +{
+> +	iomap_init_ioend(inode, bio, file_offset, ioend_flags);
+> +	if (ioend_flags & IOMAP_IOEND_INTEGRITY)
+> +		fs_bio_integrity_alloc(bio);
+> +	bio->bi_end_io = xfs_end_io_read;
+> +	bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+> +	submit_bio(bio);
+> +}
+>  
+>  static void
+>  xfs_ioend_put_open_zones(
+> @@ -148,11 +174,7 @@ xfs_end_io(
+>  			io_list))) {
+>  		list_del_init(&ioend->io_list);
+>  		iomap_ioend_try_merge(ioend, &tmp);
+> -		if (bio_op(&ioend->io_bio) == REQ_OP_READ)
+> -			iomap_finish_ioends(ioend,
+> -				blk_status_to_errno(ioend->io_bio.bi_status));
+> -		else
+> -			xfs_end_ioend_write(ioend);
+> +		xfs_end_ioend_write(ioend);
+>  		cond_resched();
+>  	}
+>  }
+> diff --git a/fs/xfs/xfs_ioend.h b/fs/xfs/xfs_ioend.h
+> index 525865767fca..7c2a1ea3e6ed 100644
+> --- a/fs/xfs/xfs_ioend.h
+> +++ b/fs/xfs/xfs_ioend.h
+> @@ -12,5 +12,7 @@ static inline bool xfs_ioend_is_append(struct iomap_ioend *ioend)
+>  }
+>  
+>  void xfs_end_bio(struct bio *bio);
+> +void xfs_ioend_submit_read(struct inode *inode, struct bio *bio,
+> +		loff_t file_offset, u16 ioend_flags);
+>  
+>  #endif /* __XFS_IOEND_H */
+> -- 
+> 2.53.0
+> 
+> 
+
