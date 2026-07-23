@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5124341D628;
-	Thu, 23 Jul 2026 09:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DF441D655;
+	Thu, 23 Jul 2026 09:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784798952; cv=none; b=a2WEAeyEElj6PyH6K1YLws0GGwlbsg83RL3BsiXyrTKweia3qm9EyAi1AU7rNVyyYcNWSxLkPr8xtkxPhUp2SxVUGr3M/oH5RKHVSqgoMLNPdZ6XNMrPlYlMuL6/chLo6Wgx5Qoy3f8R4+d/Nho9azGiS8P1yRGUAbGbqYdNkQs=
+	t=1784799170; cv=none; b=L82shSpYbhziBBMDNFRLAmHeuZi1x+YdA5WZvXpcUO21zpU0HKVE/sjmTicoMoZgq7bMnh9wrcKmJqAIqOMPAtOTOvrQk2639gxeDAr5Nzr6jkSdKWugQu2S8QnZJYBf32r0oUQ40vg6Rvf81KkhXYGtJ9KVEf4PkrituNIy6q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784798952; c=relaxed/simple;
-	bh=ikndugzpjWuQRwSm8O5bp2QKwrgKM5AuKbQra2cD/ZQ=;
+	s=arc-20240116; t=1784799170; c=relaxed/simple;
+	bh=/724x8JHTEsIfLtXA9NsDTfV5whujWjtOuKFWYJmBSI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t4a9+l+7hjbKcCyBYLO7ddPCNwO9LlBhNfSicuyWSgOqFr0y0J+qpFewd2Od76sAiTMDWaji7k/o2BBAF/VEwJ/71ddpYRKRfYHycet5EJBI7/WwXMleePemCgr9d7u6b2WpWv6GMiCMRHNcjYl6ug2DgT8dRwLHOoqheZHIHfo=
+	 MIME-Version:Content-Type; b=nks7vfqlXn7zaHABGLVor195YJ+URTpfF0tGLUDTeAcBTLgXGaRDXblG2FjKIiq9ieFhvKmmZbV8rAVoM5MWJH/ECzaPozEVDqx0FtlT4mGgZ2eqWY71nlqm/TtzLQzsKMdClupHoIYfOreeaEAyRjDslaq3DEaXqWHemJpHXhc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05BA1F000E9;
-	Thu, 23 Jul 2026 09:29:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49C9B1F000E9;
+	Thu, 23 Jul 2026 09:32:47 +0000 (UTC)
 From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, djwong@kernel.org, hch@infradead.org, 
- joannelkoong@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com, 
- chengzhihao1@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
-In-Reply-To: <20260713074206.1768006-1-yi.zhang@huaweicloud.com>
-References: <20260713074206.1768006-1-yi.zhang@huaweicloud.com>
-Subject: Re: [PATCH] iomap: prevent ioend merge when io_private differs
-Message-Id: <20260723-spinat-einverleiben-ruheraum-00bae5ad0527@brauner>
-Date: Thu, 23 Jul 2026 11:28:53 +0200
+To: David Howells <dhowells@redhat.com>
+Cc: Marc Dionne <marc.dionne@auristor.com>, linux-afs@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <2380759.1783956175@warthog.procyon.org.uk>
+References: <2380759.1783956175@warthog.procyon.org.uk>
+Subject: Re: [PATCH] afs: Fix afs_edit_dir_remove() to get, not find, block
+ 0
+Message-Id: <20260723-pavian-fiskalisch-sauber-2450e0515e5b@brauner>
+Date: Thu, 23 Jul 2026 11:32:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,17 +34,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-0e65f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=872; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ikndugzpjWuQRwSm8O5bp2QKwrgKM5AuKbQra2cD/ZQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl3rvbm9Px8us29rmtB9fVPOq9a9P7wtKU6e/z0xknv
- VJ2V51811HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRr+sZ/teyX7Ne0313F+vr
- /2trHcV+eee5+Z7/+LpjRiP7W17zAFtGhvkLnyw3Y36nKVWW5vDsvVmRc/rqZoWLAp6rcqX5uCQ
- /cwMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=889; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=/724x8JHTEsIfLtXA9NsDTfV5whujWjtOuKFWYJmBSI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl3t+3/c68YE8/o2XXhIwKd+s9qNZn8J9+LOpSG6ec9
+ rY+zai9HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPxucvwz7TCjn+7yZm7+/lj
+ ry8+nKr76P8HAz7ZCROjt/ie2138aQkjw7fSVxPX62YtXHtNXpA5LUeYM/tuEKPwhb1a5v9dHVn
+ f8wIA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, 13 Jul 2026 15:42:06 +0800, Zhang Yi wrote:
-> iomap: prevent ioend merge when io_private differs
+On Mon, 13 Jul 2026 16:22:55 +0100, David Howells wrote:
+> afs: Fix afs_edit_dir_remove() to get, not find, block 0
 
 Applied to the vfs.fixes branch of the vfs/vfs.git tree.
 Patches in the vfs.fixes branch should appear in linux-next soon.
@@ -61,6 +61,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] iomap: prevent ioend merge when io_private differs
-      https://git.kernel.org/vfs/vfs/c/c46c369e942a
+[1/1] afs: Fix afs_edit_dir_remove() to get, not find, block 0
+      https://git.kernel.org/vfs/vfs/c/4fca9568c67d
 
