@@ -1,103 +1,82 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA6329D260;
-	Thu, 23 Jul 2026 14:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5E14DC552
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784818308; cv=none; b=hfCa6T4gWGGf699zwQzRHJafBvtCfr/g27sNFXsVM1rO9CD1OphmCqo+XqvI78u7L/tKEMClW6Hzh821TIyrEG9B1TE5mShGWCGEKr9pzVv4fNJr+o1+cfq4vlaY0wZmLRO/KPlrkZi+lIBhPqTPi1+/wjEUK6YSMnt/Q8yqk9g=
+	t=1784818312; cv=none; b=MrsxEYnR0XNoYzPr/cXfs7/xQunH3/Aw2bl41gWFN7Oo1DxMaNwzoiqv85EAE8DCvLs/v+mwD0Zr+lHF0eN8RVCIc4hPWJwCplC1COIuEeVA/mpc1y4s4RpVkRY1lwhl47dKX9safXnMJOUCYlYtMfZGLrLnHiO8cFThi3nu1Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784818308; c=relaxed/simple;
-	bh=hYx6YipFzNV3GP8JC5NXlp5hCvKRc4xJd9gginewaf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uEzYjc6OHY/uxIGUKOW5GCx18xTPT6eK3+22jiK3EYnwIgt4C6HgYhnROK+x1716SOY5PtABwWoiP73HD8yiXhA6z22wmnyR3LfhHgo67SWlXxzdBpyaQoBcrHtwgfioNmw8Fz7ZYQRQL7vVeJIO+FRokh3aBLtRL4aOFmHX0o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TCbdLhD5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1784818312; c=relaxed/simple;
+	bh=RiYHdBAOUCPGodBTTOVTPPRqiYQwz245gjFO6kObSiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mWyO3waS8MY8a4Hdz/Yue6JsSo2n0JUutwxiFxnzdYIedJyPGNpkt9LqITene52x69eGa4vjDxwuGqyHPerzjWMu+6MJXcbY5QQgYgphYzflHdr/HxktMLsZK17R13htR0Lp+MB9er2+Xj2n+9BNO0sA9cEAA78Pxykk/oPhQEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bzW5VIwA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TCbdLhD5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=kXfeN8lXGRuVlyJtlNy1+elVhZVbgqLqgZEBAlhBc2o=; b=TCbdLhD5C7N859HkKpJqoGL67C
-	kGnDuVk+1q8mDUp0s+su6UAxVKsxDnzWUvCDZGOZKRlz4LEK3ClOq67fq/w6xg4zO+P7xFs5Whdyq
-	WQHUNMxZM/zuvuzzqlgMw7ZpUNEhFCVZ2Wf98LL4+I+dVptr8fhoM67Zu1VkKFQ5RI3DuLpw0FDxC
-	P6qLXxc7BKVtvtOnQQd1dxqRjYM2LNnVvlsrKt5o23pNni/3Sl8ze5SrWIx7YA6ODmdQNnNxvsW1A
-	HmzLOTgp6FdQoc7Lfmy9UPJX1iYW79tvgtpsvnDwmvAophQOmQCpHTxQKFO4qGW7QO+ZMaPqTKtME
-	by5djogQ==;
-Received: from [2001:4bb8:2e9:b20c:3d3c:bb0:5e13:19af] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmum1-0000000EXP8-1bPh;
-	Thu, 23 Jul 2026 14:51:45 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bzW5VIwA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784818310;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=F1YNlhyY63AudvL4lGF36mOU7i7YhGfNHDDVIHqfgBs=;
+	b=bzW5VIwA82ksn6ONxfIuiMg5rHX23R3oC2L+UcaplRf7BVi1c325gwqZICHQwvbzThm54l
+	lf72MouLybyr6jjymGRxnVXVbVBMeb2NSOHrIusrylPARWmdEVJnxh36FhK18kAuOzXBm7
+	kww5hMgGHq2qzJsEQp2l3zYNs8lpHs8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-154-xXq2uNY9Mp6mgpnCd63JKA-1; Thu,
+ 23 Jul 2026 10:51:46 -0400
+X-MC-Unique: xXq2uNY9Mp6mgpnCd63JKA-1
+X-Mimecast-MFC-AGG-ID: xXq2uNY9Mp6mgpnCd63JKA_1784818305
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ED49B1977642;
+	Thu, 23 Jul 2026 14:51:44 +0000 (UTC)
+Received: from fedora (unknown [10.44.33.21])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 4C2A9D75;
+	Thu, 23 Jul 2026 14:51:41 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 23 Jul 2026 16:51:44 +0200 (CEST)
+Date: Thu, 23 Jul 2026 16:51:40 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Breno Leitao <leitao@debian.org>,
 	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>
-Cc: Tal Zussman <tz2294@columbia.edu>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 22/22] xfs: log a message at mount time when using integrity protection
-Date: Thu, 23 Jul 2026 16:49:47 +0200
-Message-ID: <20260723145000.116419-23-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260723145000.116419-1-hch@lst.de>
-References: <20260723145000.116419-1-hch@lst.de>
+	Mateusz Guzik <mjguzik@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] pipe: only enable the extra wake_up(rd_wait) when epoll
+ is actually used
+Message-ID: <amIqfCo25rLtM2U0@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Log a message in the kernel when using T10 protection information.
+Breno, Christian, Mateusz,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+To be honest, I am not sure this change makes a lot of sense.
+But somehow the extra wakeup in anon_pipe_write() looks annoying to me.
+
+Can you take a look?
+
+Plus I'd like to know what sashiko.dev thinks.
+
+I have no idea how to test it wrt performance...
+
+Oleg.
 ---
- fs/xfs/xfs_buf.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
-index e1465e950acc..744e4a94a879 100644
---- a/fs/xfs/xfs_buf.c
-+++ b/fs/xfs/xfs_buf.c
-@@ -5,6 +5,7 @@
-  */
- #include "xfs_platform.h"
- #include <linux/backing-dev.h>
-+#include <linux/blk-integrity.h>
- #include <linux/dax.h>
- 
- #include "xfs_shared.h"
-@@ -1674,6 +1675,7 @@ xfs_configure_buftarg(
- 	struct xfs_mount	*mp = btp->bt_mount;
- 
- 	if (btp->bt_bdev) {
-+		struct blk_integrity *bi = bdev_get_integrity(btp->bt_bdev);
- 		int		error;
- 
- 		error = bdev_validate_blocksize(btp->bt_bdev, sectorsize);
-@@ -1686,6 +1688,15 @@ xfs_configure_buftarg(
- 
- 		if (bdev_can_atomic_write(btp->bt_bdev))
- 			xfs_configure_buftarg_atomic_writes(btp);
-+
-+		if (!bi)
-+			;
-+		else if (btp->bt_bdev == btp->bt_mount->m_super->s_bdev)
-+			xfs_info(mp, "using %s integrity profile",
-+				blk_integrity_profile_name(bi));
-+		else
-+			xfs_info(mp, "using %s integrity profile for %pg",
-+				blk_integrity_profile_name(bi), btp->bt_bdev);
- 	}
- 
- 	btp->bt_meta_sectorsize = sectorsize;
--- 
-2.53.0
+ fs/pipe.c                 | 23 +++++++++++++++++++----
+ include/linux/pipe_fs_i.h |  6 ++++--
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
