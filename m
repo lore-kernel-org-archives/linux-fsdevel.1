@@ -1,77 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B5D40BCC2;
-	Thu, 23 Jul 2026 08:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D53A412BF2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 09:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784796775; cv=none; b=IKGO8E2Lwi7IJE1i4K6bZaZ5hliBKOrxxsNLIeXREaer6oseKm4JU/RwyZyOx9QM+PQNDglkkp6rbh6lk2GHuMklX5IBuJS7TeYA4rZcxI5cnKwkSphEhaJWq11gRpxfxDD5dZGxNsh4a2BlOFvPG7cV43Sgnv6rr3Cwsd4LDm0=
+	t=1784797270; cv=none; b=be5cHl9ZhbTtXsATR/Y9oYfDsMq9FQdFXcM0D5fCoOd6Tpd9h7XBL0/Ozq+2hjs1KnSMe3eGD5afAeTDWE1m1cPyxLGIe8C5qfPLUQsBtKJScHNrNRJZ8UW/M5yjAJNkiAtrwIF7e3Q4OPTRIKl0dyeQLvOJpkOUgvBn7MwqBTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784796775; c=relaxed/simple;
-	bh=sbOMIyi2AYey38qHQKkzSMt9BEc6W+3+4WDZvacPNm4=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VKy//j6qlQPZyCSJRdxv9Lp3DPZ98wex9cgZPWtCUluR49UF7FtTy7BYFFt3GJXu8a1QH6mUOAevlZ7kBKXy8VaHUeHul6BzTLpRxbPl7C4xwWuHdDhE7rDAYOp/toK8KFf40nACVEtTll95e+y7m/toY1MRxxH5NG8g2RolN2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BaJMuSn7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784797270; c=relaxed/simple;
+	bh=3jTlyr0xcFOTLx1mQk6C+Pf7U8xQRYKxC6jxUP2Vklc=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=pbPsbBeUZQfVqtUah/tfUSZ3i4MFBl5lw0U3vbI6WzHrAYnP091mzymlI0U8oAIxNuFV8clqloOsPDmY6t50wwGvVdLtIc1NULktGcbvs6+h7jcsEBhnHz1NIMa8xuB01m9FJtp6iSBm+TIYkzsPCJLhLi7pzEpkzyMm0v0cOhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=mdm0v8UI; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BaJMuSn7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A0A1F000E9;
-	Thu, 23 Jul 2026 08:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784796772;
-	bh=nglNDvxurobk+OcyDzGKpFU0mAGgqoYGl8a1PEr4yzQ=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=BaJMuSn7mVVDwM5C9TRq2oRWQIBN1wtLOH0DDDSH9odM55+qCJ1ftG4t66U1kdM0K
-	 94+RjGX9TLmTZZ6CwrLPovtYCjghftn20be+mLlVAPMAuGeXbu6vre0RrtB4vShx9o
-	 jZuUH30mZ89WcNldwylJOwbHWl/bZad4MoyIoHQzntTzlMVRHa60Tja3XtpZSnOlzJ
-	 VU/AXIFDBa5U+rtIfQNn9Hlh7L6ev3t79q+JVQsM8WXggJnU6ccOsB6xIEEEGUQwWa
-	 EKmnTAn7l64mkELW7MVSfhdBG30yCUbYHI+cNN3AJvz3FjZ6/repd7JaAH2uPX+O4N
-	 GMjwtEBtJSNSg==
-From: Christian Brauner <brauner@kernel.org>
-To: jack@suse.cz, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, 
- d@ilvokhin.com, shakeel.butt@linux.dev, hannes@cmpxchg.org, 
- riel@surriel.com, kernel-team@meta.com, Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260707190238.3478608-1-usama.arif@linux.dev>
-References: <20260707190238.3478608-1-usama.arif@linux.dev>
-Subject: Re: [PATCH] eventpoll: compute timer slack lazily in ep_poll()
-Message-Id: <20260723-ausfuhr-trafen-aktienhandel-aed3dd85bded@brauner>
-Date: Thu, 23 Jul 2026 10:52:46 +0200
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="mdm0v8UI"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7e6128bd9b3so175003a34.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 02:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1784797267; x=1785402067; darn=vger.kernel.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/tPr3qdcawiWwA2VysdP5ZIB8M9hpvOF1iQApSBfOK4=;
+        b=mdm0v8UIGCx1vSluyV40Ba5KwLm/vSIUh7PtS5hwq1lABkZctBbiCDxkig6IRreP15
+         RUxRGZKw9E0F8MppfaStaicI1ZaIitcK5/HKftPyAuj1Es3++TP/Ep+yJx91UoncJjsl
+         YWB7wHWHjYJZ9sOXur/9Likz20caCIQMDnkMYIq56i51IJqtzvXzIUSSH501Shw8xG6H
+         C75VDHbeWItoENF+nML/z0VBEiVItthdzjeFB9tJ3FIpRHc3CoLqD5Vbpkza6qp029nP
+         8BqfQ1n3JE38dnJPKKktfWNB7e19Wor8zWiDrIzegop8mE7HtjaSe7uHGD5YcFQvHVDd
+         1fxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784797267; x=1785402067;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/tPr3qdcawiWwA2VysdP5ZIB8M9hpvOF1iQApSBfOK4=;
+        b=cSC4WquUZY8BI/vjJvt7Yc/YJ7B7pq3UkywXH74pyjAGKMn8AK9SIswN3Ek8o6QCgo
+         JxLo7QMK2LjZ0wb5/rfAsSZCeFAFqwh4xkbHSahoDUvNM4UrOOSXSQioRPfsGv1ivtQq
+         rWoX7qeEVFU8Stx5xZ6DXyd/0jYu4KNupgTLXGLuG05yKxSPif3/hTq7vInDbzkYOLep
+         ebwnofFY+3Yd4yhvFw64C+eIf5Jx6oHM9Tyl/Ne5zm3mEa8Ud78d2/U/ESoNvj9pq7jV
+         UiG0VTIWzd8NB6qEAe4/RowXMoykrm+0XMofJMmdcd2tq9UHmVPGMF0qjioDMxggFFcC
+         prUw==
+X-Forwarded-Encrypted: i=1; AHgh+RqMIkx1LvTjMu33OwQ26EAeHFUOig7sOrE0LjicTIVwFtAPm+fs2ArL6K2b0jsGutg71EFRHr7nV97Js2+g@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD6sPXKxj3oYJv41V8Xck32XRoV8uPLA66wATCdPoHWWfXFi7o
+	scHK6RmB6zlw7KIqMWrLd0DMrA9pSi2/wyrfLs1qbNzejKJtyK3I/Wxd80BUb/ElPA==
+X-Gm-Gg: AR+sD12hWT7YD/TgmLX+QlAYD4ZnvMRyIyZo6Xzsb0Pr1d/NSoMhKET8QPiINelKNk/
+	tjSciw74EwEeXRThhen4XfzjkJ0QUIEqjVKVIGs8vG/UrqZp1RMavOGmipWGI54RHBa8hfjNZ6i
+	jvoG8K1PPPk8WGlsJFW80NXSZXmhvN9LXhdHXsBDcXrB/W/1I6CDYfqIexRUCOCrTe+GoAticCN
+	9xahrc8F/+KSYjXIAAM8ySB1HzBzjQB5PUG4+SGKZBuMizDDZQSnfQCACpRSzzlBmx/NDMBIWwr
+	P2BaTsDBTjvi/JZPf5yBVBPDmK01nAPGqbqLlx+e0+Itoa0oa38nzZKd9pojHVfI0UP/X0xgI4G
+	sN1dfjfYkUo5cCz4GD0wECzDxLTg6NsHtzWtXnxE1I0pZHp7N+xOpco2XS/oiMMHXvLh1IPT5dg
+	5r9vtxITNxvPp18ebD1ZvTwXSaF6oxxiU=
+X-Received: by 2002:a05:6830:3692:b0:7e7:5e4:ee11 with SMTP id 46e09a7af769-7ee4417fc9fmr1388710a34.16.1784797267490;
+        Thu, 23 Jul 2026 02:01:07 -0700 (PDT)
+Received: from smtpclient.apple ([172.58.164.213])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee2a03c856sm3082411a34.13.2026.07.23.02.01.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 02:01:06 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Andy Lutomirski <luto@amacapital.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-35fdc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=883; i=brauner@kernel.org;
- h=from:subject:message-id; bh=sbOMIyi2AYey38qHQKkzSMt9BEc6W+3+4WDZvacPNm4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlXks82fP4nufmH5u6t0yrq/51O/ShjxmPY+pT3ai3K
- s2lckJ7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyXpWRYWJd4OGS6oM50wzt
- tkov3GT//vmCknvLr0xnKtlwfKMgjy4jw5vqwFUXFVf3/FhmzeKj0/HT5OZR1R0XWHeZvE8Mvby
- Nmx8A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Mime-Version: 1.0 (1.0)
+Subject: Re: [RFC PATCH] fs: allow opening overlayfs/erofs layers through O_ALT
+Date: Thu, 23 Jul 2026 11:00:53 +0200
+Message-Id: <6C96C8A7-345E-4388-8EDC-D94E9463D214@amacapital.net>
+References: <CAJfpegupwNTaVNZtdQTmvtz9x=ehH59hzsRT7D0=VbhOZvaqrQ@mail.gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Miklos Szeredi <mszeredi@redhat.com>,
+ Giuseppe Scrivano <gscrivan@redhat.com>, linux-fsdevel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>,
+ Xiang Gao <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAJfpegupwNTaVNZtdQTmvtz9x=ehH59hzsRT7D0=VbhOZvaqrQ@mail.gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+X-Mailer: iPhone Mail (23F77)
 
-On Tue, 07 Jul 2026 12:02:38 -0700, Usama Arif wrote:
-> eventpoll: compute timer slack lazily in ep_poll()
 
-Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.misc branch should appear in linux-next soon.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> On Jul 23, 2026, at 10:22=E2=80=AFAM, Miklos Szeredi <miklos@szeredi.hu> w=
+rote:
+>=20
+> =EF=BB=BFOn Wed, 22 Jul 2026 at 18:36, Andy Lutomirski <luto@amacapital.ne=
+t> wrote:
+>=20
+>> Other than that question, I think I generally agree with you.  The
+>> interesting operations here (getting an fd to something that was
+>> previously inaccessible) are different enough from normal path lookups
+>> that I think they deserve to be explicit syscalls or syscall modes,
+>> not magic links.
+>=20
+> This is a super specialized use case.
+>=20
+> I sort of agree that doing statmount() as a syscall was not a bad
+> idea.   But new syscall for getting a backing layer, that makes sense
+> on just a couple of filesystems?
+>=20
+> And that leaves us with ioctl.   And ioclt() returning an open fd has
+> it's own problems, besides ioctl being a generally bad interface.
+>=20
+> And we have all these powerful concepts and interfaces for
+> filesystems, why the big resistance to actually using them?.
+>=20
+> Sure, it's easy to misuse, but I don't yet see why this particular
+> case would be a misuse.  Enlighten me please.
+>=20
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+I think there are are a couple of complications involved with open, openat, e=
+tc that aren=E2=80=99t present with explicit for-the-purpose syscalls:
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+- O_XYZ flags to open() are all kinds of awful, for historical reasons that a=
+re not fundamental to the concept.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.misc
+- symlinks. If we have a new API where opening /proc/something/magic/blah ca=
+n access something that ought to be inaccessible when accessed intentionally=
+ and with privilege, a symlink pointing at /proc/something/=E2=80=A6 can cau=
+se the API to be used inadvertently.  Admittedly we have this problem with b=
+asically all symlinks, so this isn=E2=80=99t exactly unique.
 
-[1/1] eventpoll: compute timer slack lazily in ep_poll()
-      https://git.kernel.org/vfs/vfs/c/d0c242dda99c
+- our nasty fs permission model. We gave a sort of gnarly mix of a bit of fd=
+-based permission and mostly mode/ACL-based permissions for path traversal a=
+nd opening, and mapping this nicely only new APIs (as opposed to actual file=
+s and directories) can have unpleasant results.
 
+Of course, I=E2=80=99m busy arguing (slowly and without a concrete proposal)=
+ that we should have proper capability-like fds, and maybe that=E2=80=99s ki=
+nd of an answer to this:
+
+What if we had an API to get an fd to the =E2=80=9Ccontrol filesystem=E2=80=9D=
+ for a superblock, like your O_ALT but as a real syscall or maybe only acces=
+sible via one of the newer and less janky open variants?  And what if the re=
+sulting fd and the filesystem tree it represented had a few properties that m=
+ade it very different from normal directory fds:
+
+- You cannot mount anything on it or its subdirectories, nor can you open_tr=
+ee or otherwise mount it anywhere.  But you can open_tree the very specific t=
+hings in it that point outside of the special API (e.g. the overlayfs layers=
+).
+
+- Privilege is fully captured by the original call that gets you the fd.  cu=
+rrent->cred is not checked when *using* it except to the extent that you mig=
+ht need privileges over your own namespaces to do operations that might affe=
+ct them.
+
+- You can=E2=80=99t fchdir or (hypothetically) fchroot into it.  (Not sure h=
+ow important this is.)
+
+- Maybe you can=E2=80=99t follow /proc/pid/fd/N links into it either?  Or ma=
+ybe that would break CRIU too badly.
+
+The basic idea here is to try to treat it like an API that happens to use th=
+e open machinery but not as part of the filesystem hierarchy.
+
+One could go even farther and try to remove a bunch of the parts that make i=
+mplementing it tedious.  For example, if this hierarchy had =E2=80=9C/layers=
+/1/options=E2=80=9D, there is really no reason to over open an fd to layers o=
+r layers/1, and if we had a readfile syscall there wouldn=E2=80=99t be a rea=
+son to open an fd to options either.  But maybe this is a silly direction to=
+ move in.
+
+> Thanks,
+> Miklos
