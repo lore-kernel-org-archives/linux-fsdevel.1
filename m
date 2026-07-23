@@ -1,113 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE683F6C59;
-	Thu, 23 Jul 2026 22:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2733F39D8
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 22:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784844210; cv=none; b=hMAuT7IZ5RdtyKgKs5+eKVSnmLrTrk5OR5LpOXYbkGRrqphRQtNDwVF2In+pSXPFAdmB32vIK9FBlgCNgpK5a6g8zwSum0CzFi3q+dVZbRxfMX1/x0j5Da3bH049vBUy3IBYx74WtUGc+cuJZGpjY+InP54GxwU2uJgO+Z8VL7U=
+	t=1784846313; cv=none; b=JhpA1Yhi1LGEHWUgsqnlY35ZwH9RgmsFUu4qIEhlR0/pxAiOBqaOP+ThCpBHMdWLNWDIRWsCFq8IE/Hyl7/71v5wGbIrFB5CQiStuR7/DG6As42K3YrNtj6iKLQcDU1QW4qLtSfKLxNO79ehGN+ORbG3nTNGkmPVHIhz3mH+f2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784844210; c=relaxed/simple;
-	bh=YPRDrKJtgP82rpWdkVcHSq9fHGvkk6q4/5LwN2gG3MI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSp9VG1bvTjtNDRUEtKQOBge/cBji71GP253G/6w8Iu1+ufyaP0oJChhXB1cWvx+1Wp89MwVLOfQarF6ZHyMjUVW4bIfzYpQWUA2DHRyeAFtbLtQOTQNAZfvDgc1MkD069KUA28ZqEQGjIa0hHk72p6NNH7dd7afP4LnvXOZxZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJjvekJb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784846313; c=relaxed/simple;
+	bh=p/INQeiBaLDykzx+h2uxhjY62Uvaen07V/YY8Us5bgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c/xZqOC6LGNw0Swk9vceVXsKi58AYdZV641dVlUDHNfs/xOrNsn46nMD8PCz3BJ+ghztHtuF4kBO5G/JUkotU+JSHdOLmVT/h3KyyQq8PMAG4aprI3n7BRCbyyzL9khy0KE0ItDGCfG7PGKz93KUl5mF6TAXVhuYRbYBp7ZdGNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wnA7luhY; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJjvekJb"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id ABEDB1F00A3D;
-	Thu, 23 Jul 2026 22:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784844207;
-	bh=WOg2TYyDG16Axi/FLfzYKBuSpYx6DfioAxyXnTCqXjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LJjvekJbE+KCTelwAKjD91eMJLJle7GSIAdmezP8U5X+X4T5mnGlZn23ww9GYYCt7
-	 htFicYpIx64/NmN7soo5gLhlV4600aV5p1CqSiqGSI0jcvaCpc2J1fGoFc1UiotKwG
-	 KUB3QsOpQF/jWiEJHTtkBqE5dmGbfp8gdeVs/lVaiowIs+S6VDk3oiOu0R7m+f54Xu
-	 NkDEbhnkMWDbhgaFbx2VRCI7czdqrs8f8WXLB6Oev+djniJfcn4liBHuyybAc6Y2K1
-	 7cmpsSZXbjuYRm6D0R0sZnCcjfnuS9rt2usbUjwHQOHwVZvGQ1wwSNz3zlhWC4a9FA
-	 vmnQjzKiQpHuQ==
-Date: Thu, 23 Jul 2026 15:03:27 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] exfat: preserve allocated extents for swap activation
-Message-ID: <20260723220327.GY7398@frogsfrogsfrogs>
-References: <20260723191936.2419799-1-harshit.m.mogalapalli@oracle.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wnA7luhY"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1784846302; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=otvzCkamAQ0pGgoRdnRXgmnjAzNjUJPrJvRvu9sfZx0=;
+	b=wnA7luhY4Dj6VT+7HuCVJl4VufU2dTbZq029gjVcv4ipMk2YwtcgZLD8LDc0rfY3BJJNcGt+R069HcGBfPUDZjDFt2MrlC0tBmZ/bxJq8LQUoPgbfrS1ZdaszzW2Gnn1eKXvJKa9XMOssiRN1zhYH6utFImwWaubEjB/TGDO6KE=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X7hBXrH_1784846301;
+Received: from 30.180.139.68(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X7hBXrH_1784846301 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 24 Jul 2026 06:38:21 +0800
+Message-ID: <95a5fc3a-4259-44a7-bb72-8ff35a49a26f@linux.alibaba.com>
+Date: Fri, 24 Jul 2026 06:38:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260723191936.2419799-1-harshit.m.mogalapalli@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
+To: Christian Brauner <brauner@kernel.org>
+Cc: Giuseppe Scrivano <gscrivan@redhat.com>, linux-erofs@lists.ozlabs.org,
+ cyphar@cyphar.com, linux-fsdevel@vger.kernel.org
+References: <20260717134147.1602735-1-gscrivan@redhat.com>
+ <20260722-notnagel-allemal-kampfsport-8fd4e4d98a15@brauner>
+ <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
+ <20260723-wickeln-schindel-rotstift-d987d4e9c036@brauner>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20260723-wickeln-schindel-rotstift-d987d4e9c036@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 23, 2026 at 12:19:36PM -0700, Harshit Mogalapalli wrote:
-> exFAT reports allocated ranges beyond valid_size as IOMAP_HOLE whenever
-> IOMAP_REPORT is set. iomap_swapfile_activate() also uses IOMAP_REPORT
-> while collecting a swapfile's physical extents, so it treats the
-> preallocated tail as unallocated and rejects the file with -EINVAL.
+Hi Christian,
+
+On 2026/7/23 22:46, Christian Brauner wrote:
+>> I'm not quite sure if I catched the point, I think Giuseppe's patch here
+>> tried to record `file` into `sbi->dif0.file` (which indicates the primary
+>> "device" later.)
+>>
+>> And if `sbi->dif0.file` is set up by erofs_fc_parse_source(),
+>> erofs_fc_get_tree() will just use `sbi->dif0.file` instead of
+>> `fc->source` according to this patch.
 > 
-> Allocated space beyond valid_size is not a hole. Keep it as
-> IOMAP_UNWRITTEN so iomap consumers that need physical extent identity,
-> such as swap activation, can still use it. The iomap seek helpers
-> already handle unwritten extents appropriately for SEEK_HOLE and
-> SEEK_DATA.
+> Oh, so you only do it for file-backed mounts. Do you only allow regular
+> files or do you also support block devices with
+> CONFIG_EROFS_FS_BACKED_BY_FILE?
+
+Block devices with CONFIG_EROFS_FS_BACKED_BY_FILE are supported,
+but with only `fc->source` (not this way.)
+
+That is the limitation I see in Giuseppe's patch. I'd hoped
+bdev-backed mounts could work the same way, but that would require
+changes to the VFS flow.
+
+Since this is a side improvement, I think it's fine as long as
+it's documented somewhere, and I do hope Giuseppe can at least
+address the documentation.
+
+I'd also like to make sure the way fc->source is filled
+out of fd passing follows common practice, so that if fd-based
+bdev-backed mounts land in the VFS later, they can keep
+the same fc->source convention, otherwise it will cause
+a userspace behavior change.
+
 > 
-> Fixes: b4b7fe2c7cbf ("exfat: add support for SEEK_HOLE and SEEK_DATA in llseek")
-> Assisted-by: Codex:GPT-5.6
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> LTP swapon/swapoff tests failed on exFAT, with this patch the tests
-> pass.
-> ---
->  fs/exfat/iomap.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
+> Do you document the expected behavior for the file you're consuming?
+> Meaning, are concurrent modifications supported and what type of
+> behavior does this exhibit?
+
+
+As I perhaps mentioned, EROFS itself (or many EROFS) won't do any
+modification to the underlayfs bdev or files by design so the
+standard behavior is the blob devices / files won't get any change.
+Beyond that, both the on-disk format and the implementation are
+designed to tolerate unexpected external modifications (or storage
+media damage). Even in the worst case, where the underlying storage
+(block device or backing filesystem) is malicious, corrupted on-disk
+(meta)data will not lead to the kind of complex, hard-to-resolve
+inconsistencies you see in general-purpose writable filesystems,
+whose ondisk/in-memory cached metadata is much harder to reconcile.
+
+I'm not sure whether you'll agree, but I want to emphasize that
+again this is one of EROFS core design goals: the on-disk and
+implementation design ensure that. If there is any human bug, it
+will be addressed and fixed as long as it discloses: it won't be
+hard to fixed.
+
+But if you really want to avoid concurrent modifications or keep
+the image golden, I think dmverity or fsverify should be enforced
+to ensure the filesystem won't be modified unexpectedly or expectedly.
+
 > 
-> diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
-> index 190fc6471f84..24d93288a432 100644
-> --- a/fs/exfat/iomap.c
-> +++ b/fs/exfat/iomap.c
-> @@ -105,18 +105,14 @@ static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length
->  		 * marks the exact boundary between valid data and
->  		 * holes (or unwritten space).
->  		 *
-> -		 * When IOMAP_REPORT is set (used by lseek(SEEK_HOLE)
-> -		 * and SEEK_DATA), we return IOMAP_HOLE. This allows
-> -		 * iomap_seek_hole_iter() to directly return the
-> -		 * precise byte position.
-> -		 *
-> -		 * For normal I/O paths (without IOMAP_REPORT) we
-> -		 * return IOMAP_UNWRITTEN so the write path can
-> -		 * distinguish it from a real hole.
-> +		 * Allocated space beyond valid_size is not a hole. Report it
-> +		 * as IOMAP_UNWRITTEN so iomap consumers that need physical
-> +		 * extent identity, such as swap activation, can still use it.
-> +		 * The iomap seek helpers already handle unwritten extents
-> +		 * appropriately for SEEK_HOLE and SEEK_DATA.
->  		 */
->  		if (offset >= ei->valid_size) {
-> -			iomap->type = flags & IOMAP_REPORT ?
-> -				IOMAP_HOLE : IOMAP_UNWRITTEN;
-> +			iomap->type = IOMAP_UNWRITTEN;
-
-Assuming that the space between valid_size and i_size are allocated to
-clusters and simply not yet written to, I think it's perfectly valid to
-use IOMAP_UNWRITTEN here.  That's definitely not a hole.
-
-If that assumption is correct then
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
-
->  		} else if (offset + iomap->length > ei->valid_size) {
->  			if (flags & IOMAP_REPORT) {
->  				/*
-> -- 
-> 2.50.1
+>> The reason why `fc->source` is set was discussed in the
+>> thread of the previous version suggested by Aleksa.
+>>
+>>>
+>>> If they close it before this means you can mount something completely
+>>> different. The other thing is even if they keep the fd open someone
+>>> could just rename the damn thing and fc->source ends up pointing
+>>> somwhere completely different. The could switch namespaces as well in
+>>> some circumstances and then it points again into wherever.
+>>>
+>>> I've played with that fd idea before. The only way to make this work
+>>> correctly is if you plumb this down into get_tree_nodev()
+>>
+>> fc->source in this case has no use in erofs_fc_get_tree() (`fc->source`
+>> is just used for mountinfo for example), `sbi->dif0.file` works instead
+>> I hope I don't misunderstand something.
 > 
+> No, I misunderstood this.
+
+Thanks,
+Gao Xiang
+
