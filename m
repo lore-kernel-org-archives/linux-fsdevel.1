@@ -1,34 +1,34 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03E5471CF0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBBB2DB79C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784817055; cv=none; b=h30Pcnqf8zUB9rf7tZ098p3dtc+Gwb7Z3MY/Y6FNk2IeeQsWCAtWp9gBIqrsXed21YeoXXuS97Rx1w4KXZk23AzNwVVP6scqeivv6VfqevO2sUCXbP4Hoqvdq6TCMn80G20jTOWL2RXiIphVShiZU5G5lDg6McxhIZXcDydWkw8=
+	t=1784817059; cv=none; b=fxHpsPk2Uk79aIoRnmUP0o1gQtm/7bErN1XRpxkx8GMxNYpf8mtJf5QcFRWnyd1E2srv3thjjIMassYAgajEggOOxb+CYHPiS/79iN/y/YTay72uQRc7jU26vWSmD1mqoXaP+8SneoRuFsji/hSJsMa4C+5Pqq+e8IK9zuoJLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784817055; c=relaxed/simple;
-	bh=RpP5w98aLyZs9ue2crFGh3X5oaOOYkDuiGwh5zONeg0=;
+	s=arc-20240116; t=1784817059; c=relaxed/simple;
+	bh=6H0E+/8Ev4ICbFgjc7gRDPMftupZC/TiOYxk7EbQKgo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ci58IAuPFdDgD33PdDPxbgMxCf8sU6V7igFYN3N7njh4dmI/h3rFbZyEyR2MQTMgxMwXdD4mK4jWjhTxRm3qvc+SUaSWgttcnjNm3fwBtz2PSUx0N/vIngAsgr3MVMlXbB4B3DL9PCb7I+IDfcvLZMOTk0DAVpFzJaYyT4S0CFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t84RMmlD; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=RaE7MLLKhW/0+yhDpFzToQAeEXm5VjkwKQqpfbg/M8s4fktC0L9l2q+by5OX8ALE2i7RFp4XcHExfagqbZ6b9gQ9z+u9dpFcEaIMPAFLg1TRcUqiOcb9nPclgkvAPDdsvdg28CsaK0AGZIDkb5kDsUXsFl5DugwyJ2cMmiTQ2FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uDCMJk5i; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t84RMmlD"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uDCMJk5i"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=I46grrWDH2O/dEj+ZMjbkD8D4mKznm+9gntugHYsM+g=; b=t84RMmlD0ISPnEJ9fDYzFYnGkC
-	zDifmWaoBy14ux46UL1JmOHBicFN0exn+7bG8SLlIpUfCyMapxx7q/GkGkoU0JZPgUCZjwllUYm7h
-	Be/aTtQYs6DuEV1T6vpLkIjdokW1+NGnfmUUtTViie+8lw6hgMalvv39WZnyZ4crGFO/IkiUlvqt3
-	YligY2LoPqdwEEQiJrynXcoVtY1R/l89iXQuO4wpmI6Ui2osDUmNSCWWwBOj68e5IP9KTBVEkff/Q
-	SjXBs6FiW4ETgI3UWKgxZgGUMm+RLmSL6qVoglBNPN+kolM8uI5AXWveSPUrWpDZ2S09i3Wewsutz
-	YF1080jA==;
+	bh=jQPhhI85VU/RfstxHcf4iE//LF5DLMgP3hQKUkFlgwE=; b=uDCMJk5i9yVb1qLrSaKWZt43nv
+	hVgugzBdxmBU0aIHJ2ZPV5AEmmji9peshWGaRsn80mHXD5lo2Ucn1ENa9uE24Anb8Ws6QexlEmQI2
+	gxXRZQdk9rJdT/7jhFwyFDfI0Rd6NAzIh61jIdRTkNi5U4CKqkamgoJUZSKqmwjiPAi6kAZTLsM4L
+	b9vHL/cDIN7G6YLHZamSpfNJTex+cQl61ZDyVNO9n5ARCVhCM9j0jMLQpCpHwr8Y4zQuYa8QNBxmn
+	5y9diPp3XTQcHwRnT3t4oQWLp0yeDJXSfzIeT8wdYKDS7Zh2I2X7MPcU6sQqvgJ29W23GHQaP9izN
+	Yo6faBDQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmuRY-00000000jhx-3lsm;
-	Thu, 23 Jul 2026 14:30:36 +0000
+	id 1wmuRZ-00000000jiB-2pSo;
+	Thu, 23 Jul 2026 14:30:37 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
@@ -43,9 +43,9 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
 	Jiaqi Yan <jiaqiyan@google.com>
-Subject: [PATCH v4 05/14] guest_memfd: Use folio_has_hwpoisoned_page()
-Date: Thu, 23 Jul 2026 15:30:22 +0100
-Message-ID: <20260723143034.175661-6-willy@infradead.org>
+Subject: [PATCH v4 12/14] hugetlb: Set mapping folio order
+Date: Thu, 23 Jul 2026 15:30:29 +0100
+Message-ID: <20260723143034.175661-13-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260723143034.175661-1-willy@infradead.org>
 References: <20260723143034.175661-1-willy@infradead.org>
@@ -57,28 +57,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-folio_test_hwpoison() only works on hugetlb folios today and will give
-the wrong answer for other large folios.  folio_has_hwpoisoned_page()
-works on both.
+hugetlbfs currently uses an fs-specific way to determine the size of
+the folios in its page cache.  Thanks to the support of block sizes
+larger than page sizes, we now support this as part of the page cache.
+It's somewhat more efficient as we have this information directly in the
+mapping rather than going from inode->i_sb->s_fs_info.  We can convert
+the rest of the hugetlb code to use this at our leisure; this is needed
+now so that we can use filemap_get_pages() unmodified.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- virt/kvm/guest_memfd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/hugetlbfs/inode.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index db57c5766ab6..94eedcc7f1a9 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -774,7 +774,7 @@ static struct folio *__kvm_gmem_get_pfn(struct file *file,
- 	if (IS_ERR(folio))
- 		return folio;
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index dbca3f713bbf..8d15413a67ee 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -883,6 +883,16 @@ static struct inode *hugetlbfs_get_root(struct super_block *sb,
+ 	return inode;
+ }
  
--	if (folio_test_hwpoison(folio)) {
-+	if (folio_has_hwpoisoned_page(folio)) {
- 		folio_unlock(folio);
- 		folio_put(folio);
- 		return ERR_PTR(-EHWPOISON);
++static void hugetlbfs_init_regular_inode(struct inode *inode)
++{
++	struct hstate *hstate = hstate_inode(inode);
++	unsigned int order = huge_page_order(hstate);
++
++	inode->i_op = &hugetlbfs_inode_operations;
++	inode->i_fop = &hugetlbfs_file_operations;
++	mapping_set_folio_order_range(inode->i_mapping, order, order);
++}
++
+ /*
+  * Hugetlbfs is not reclaimable; therefore its i_mmap_rwsem will never
+  * be taken from reclaim -- unlike regular filesystems. This needs an
+@@ -926,8 +936,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
+ 			init_special_inode(inode, mode, dev);
+ 			break;
+ 		case S_IFREG:
+-			inode->i_op = &hugetlbfs_inode_operations;
+-			inode->i_fop = &hugetlbfs_file_operations;
++			hugetlbfs_init_regular_inode(inode);
+ 			break;
+ 		case S_IFDIR:
+ 			inode->i_op = &hugetlbfs_dir_inode_operations;
 -- 
 2.47.3
 
