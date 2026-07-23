@@ -1,174 +1,165 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7CD35DA68
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 02:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6045635CB95
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 03:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784774792; cv=none; b=qwZmgo0tcFiZzCDcjdrGSVA0s0Swa0x2CNdUcZIFPW+UsGcOxFzE1eO1jlV1Z5yXvMDB8yXwuI31yWhtc8gE9qmaW4ZzuI5PyIKwerJmyLERGBukDF/Y8S9M6WKfQzwQvVZsMG7FASPtmqEFQIX+cODnXgVBefrtEIT+fxKRX8c=
+	t=1784777125; cv=none; b=AGEkhE2VTQepjYmalUyuKnqOQ0evYQWHA2NmesF3HPORLAvUDxQTbmcLwwPV6dzppwiXPo6scjzejPUo8SGl/rnkMWjcWPN96xQ/01fWTp5HQDhAPV4HCO1WRc0UO0mRuG3rOiBJDu98psNecir/+wnIHnn0A1X9xdbIw2nZQnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784774792; c=relaxed/simple;
-	bh=d3L2V6nh+JrQJVrcctRD6BzD4rjO44Y3KV9LnP7t6fI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A1tmJT3xGYHrucVOkIKXOerEDD3Y9XaslBFJ9QF3gUMDP1KLu7LiaEXDZNgw3F93rn+2QikyZBLMFL3bhNYMGtH9mT1jd8MCHB67qMZ7xDUp/6drfkQHmFgkmncyuDJA/w4vThxDtXMH1AMz1J8Oi3BymGIFI/r2lc1iwHDQ3aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcvSogbQ; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784777125; c=relaxed/simple;
+	bh=gfT0G2h32Mgahppc0W5ji5WK8maIODJ9zFl+mqtZVuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBLmhHtTdGqyFhWTwTF63TWSso+9RLUzo/VVkBJUE/ElVPs+16owzEmf7J+B2XH0VnCjV/+0IugtzzGsIGOBPvVWcH0jNa+Ax58quo0/hoXHR3dpRDBhZBpU3XUoBPwVQTawUfheIwJ0DHCkyWgzp4/r9llLTY8kppVujlKUe5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=S5k+/km/; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcvSogbQ"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38e071ed6aeso111073a91.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 19:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="S5k+/km/"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92ed19f4d60so335285a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 20:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784774787; x=1785379587; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+Si8wKsJ7OZH8AFm088arDM3rFGkqQRF41Hdi0sqAHg=;
-        b=PcvSogbQUDeeF54TFmgJChbfHjtKVcz4oEOKqFXxjdE5w516KSj0lv5gGeohcZIVRl
-         cYpY6BHBVWzqY2cYtkzR0Uner80diHeFWB70chGTGywPOfcb7lfCDRXvaFPN/vImvd8s
-         lkM2YIU59p4sANTmhKTNFw1Tm9ivFQs1f8anWTyCLiyT4bHNLTXFdw0n3mXnTXS+s9qu
-         u2T+F853SL5rUvyRhIfKXZrGeVpkpMilxhhfBz6B14TWOsL5AZjyrGijSgUGvR3+hL7U
-         Gc0lB5f6m6gQmYokBeYcXrWBgPwfQEcJQigvmqk3IF2CuyiBmEOkktb3BOBlrmy6Vlbk
-         +9vQ==
+        d=gourry.net; s=google; t=1784777122; x=1785381922; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
+        b=S5k+/km/W3hDbRibPNpOoB80+fMcI4MbaVCKgEaeGawR+FQWl9kNV2iUGzMuP5o587
+         /iaVfV9Jd+R4VNTdxnjkkgdz20NTR/Eu8b80hXADBRflMrWslncYyJ3SvD3gwvv5ngtC
+         ziCEhyqOck9EWcwsKAG1K0Fzc1bP7k6aIwfto2hePcg8FFQ5b1ILjIFtAueuSZJkiFL5
+         nYdguJXw90nDowVcfKGttiFdnF1n59L9sXbcemc/huQrcwmkhJfTVLcf0o+RBBzMGJDB
+         vgBWGT12txaO7gCP8wM5mTntpmBdTwxcjXyxbZfzrXl9J3a1TwC6EBaOEEphMqOrCOjK
+         FmPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784774787; x=1785379587;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+Si8wKsJ7OZH8AFm088arDM3rFGkqQRF41Hdi0sqAHg=;
-        b=d6qGVGVFooDZrW0uMRpfOt0vYXK7QNh7p0A7ov8jZoZ0sirn2/nn0OwB71dimA5aBh
-         pS0fE6od96sPph/snRG3/kWViPNvW/aIgevBMVdDbQQvePcujV0TvlF9wKbAg0Z52sFv
-         c1asNfK308exTIY9ZSs07VBP2diQSBWIEjENT/O7c1QlpyrnHuSBrWOx+wtYR81QYWZY
-         O1BX+YSGcwiWASFSvohNE5SfTEL3BIsEfljglo/iIA/MoIAhA07kD69REoxttPwYn+jz
-         YBIHt8Tsz6Xjc39yt4iKcRwDNiWNDYczmQI7dkQY8KxaJifbxe0sle2Y2lcooocTgg9s
-         mOMQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqJ1Prpq3DYrDugRCK0LvfghI28qDLudWVZs4s5bj/jGXdqECzj76rK3iY/w+vkUBdP/NW6FjHX0PcVZY6C@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4uqHSDSR0hbSHnRJEFA67Qq514PkOtnlGRoBqn/Rkz+ztn67o
-	UnDG6K2KuEhBbc5ykXSSwW8T8iTSLuSxtDosTcnFQq/UAf1mLTYo7llH
-X-Gm-Gg: AR+sD12koRsV4w5zDzQB4hlUF5EmCHafc25NJNr0i1Z5BUFXCuoTTEE5lywSd1Thoa/
-	FDuPHlMeVmNdQTnzE+k8yXH17ot4avpEpqjM/Fi5LLgS6EKH9NY63Prm7G5xxrZ01ITW/EM1ca2
-	jUc1dTFDv9PK4CVuWAahjCpGDfxe7D37Up83SCjEwfk0UttYEwgr0Mx/st/1bc2PaekuXmCpF7z
-	J1rNSyG4ndqg7dy61+XleKXMiQpU16htZI5q3arj7N/55JfE1MnIxW7ve32R1WLH7J4v/RUqBaR
-	wMiuBMalpyidOa7tohMTI28WMdgVdBb1Eg6lslgkAJB0z+HtJ06E29UmDC3GU3bpw6Rf7En4e21
-	gExzT/4g0r0DQCtEDhIXwZVfPw2kzcBSYb9bj+W8+HgS58L2bzC5ZyhAQT/sQeOUPsEkEvoEbJN
-	qLbZVnPAkeCDezEt5Euxw=
-X-Received: by 2002:a17:90b:2ecd:b0:381:9028:5945 with SMTP id 98e67ed59e1d1-38ec64dc738mr1269231a91.14.1784774787060;
-        Wed, 22 Jul 2026 19:46:27 -0700 (PDT)
-Received: from zhangbo56-PC.mioffice.cn ([43.224.245.235])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38ecab80efdsm114436a91.6.2026.07.22.19.46.23
+        d=1e100.net; s=20251104; t=1784777122; x=1785381922;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
+        b=s5fkl3D2u/hTZeIEBOhcqRmOj08+U4+qO9Ifxpgg2PfZRTUbMUmORkSj+6D44DPit4
+         oVoLux7qygZE/FWGM46VKDEj2ermhJBMU+eVctrK/UF1GhLHVPxT9Zj7Huapc8OmBv/3
+         3eoLi+S5BQwH2feseJD9MVO89+/4M5XBXqRvHh3RZ9Kx4cWCAaB8oAYuGSVtHjWxmClS
+         DRs5GdLjWDpARsPexVxOTTv8IbztyI351G9EaIEqko72eJauyWx04oLtqQCXdRnLu6+H
+         0w8ukm/gpGRbOZVkReNzMgcNPkc6b/CxpQI8Hgrdv1jKjpvpow8cGI8r2mjAgjQmoUir
+         VTaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrY7IsQewQibi+y5FxSHGcf7Cz3XPCUvg2nR8r4pq643Oc4UTQRa3q98tBw8nBXN5J/M35DORcoU/zr9EVG@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5OT1NxKSE/QYrgw8sXdV4Gzl/BpV2mG2ldG41x1c7MMCQGi0z
+	c/LVOdG47+PLzVX4q3xXHOxgTuPGWdbIOEXrMf6i4EOBk00yfLeu+lz0shuBgIgYzfk=
+X-Gm-Gg: AR+sD11tWKfYq1e2JyRz5e5C3OFOiIZNNAJrPVtq2W1g4u14qFuFy1/GpN3M1f6Zpyz
+	61cRjfEZRlprMWXNeFgYtHu/OSt7UZ7AVI31gHW1vavSi3GxLtSlX0wAotKDAIhEoOROFDdgNyG
+	WX047oCzWUXnwsskFkVtxkq+XVE6zUj9EEx85ycRDuAbBcnDS/ft0jtRPghwO9yyu9+fwlw+Szs
+	kgLdHTK9YKpGvmC6f86Z3jYiS825mZCq9vIetJcRIT41AA+ZzGqI44PC69wBlLfN/n4DncyLOHn
+	ha2gmOK+MPArGGetI3FjPXAFaETe7KD7DHDkuInJEzO8SqhdmYaFDvYe64V0vXvWJgNtT2hY2En
+	Zm3ZwJrGhps8qwEW8f4jOp0EQS5aElCN02jwM9ZQ1PcNsAxCLyKsAwv6/bUG9eFO1DTmHKdpFKU
+	/qJnzaUNuQnQ0yATA15QjPagqACS7e8nru/dYb1zNGKQKptErae5EA2pyjHsl0s9PHjWeW
+X-Received: by 2002:a05:620a:808c:b0:92b:67e6:4b79 with SMTP id af79cd13be357-931048880c8mr90170685a.35.1784777122066;
+        Wed, 22 Jul 2026 20:25:22 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-931062c4ea8sm34465885a.28.2026.07.22.20.25.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 19:46:26 -0700 (PDT)
-From: Bo Zhang <zhangbo0325@gmail.com>
-X-Google-Original-From: Bo Zhang <zhangbo56@xiaomi.com>
-To: oliver.sang@intel.com
-Cc: jack@suse.cz,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	fmayle@google.com,
-	kaleshsingh@google.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	lkp@intel.com,
-	oe-lkp@lists.linux.dev,
-	surenb@google.com,
-	willy@infradead.org,
-	baohua@kernel.org,
-	zhangbo56 <zhangbo56@xiaomi.com>
-Subject: Re: [linux-next:master] [mm] 7b32f64bc5: pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
-Date: Thu, 23 Jul 2026 10:45:27 +0800
-Message-Id: <20260723024527.2822383-1-zhangbo56@xiaomi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <202606181547.617a6967-lkp@intel.com>
-References: <202606181547.617a6967-lkp@intel.com>
+        Wed, 22 Jul 2026 20:25:21 -0700 (PDT)
+Date: Wed, 22 Jul 2026 23:25:15 -0400
+From: Gregory Price <gourry@gourry.net>
+To: SJ Park <sj@kernel.org>
+Cc: arun.george@samsung.com, balbirs@nvidia.com, brendan.jackman@linux.dev, 
+	yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
+	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn, 
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON
+ migration and pageout
+Message-ID: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
+References: <amCzmkdOr6AFv_kQ@gourry-fedora-PF4VCD3F>
+ <20260723001943.95854-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723001943.95854-1-sj@kernel.org>
 
-From: zhangbo56 <zhangbo56@xiaomi.com>
+On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
+> On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+> 
+> > > "by default".  Does that mean it could be reclaimable in some situations?  If
+> > > so, could we check if it is reclaimable?
+> > > 
+> > 
+> > See the damon changes in:
+> > 
+> > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+> 
+> Summarizing what you want to say, quoting something from the patch, or at least
+> calling it "26th patch of this series" would have made reviewing much easier.
+> Cc-ing damon@ for only patches that toucing DAMON source files and the cover
+> letter of the series could also be helpful.  Please consider doing some of
+> these for future replies.
+> 
 
-On Thu 18-06-26 16:00:42, kernel test robot wrote:
-> kernel test robot noticed a 45.8% regression of
-> pts.svt-av1.Preset13.Bosphorus4K.frames_per_second on:
->
-> commit: 7b32f64bc512b40b268776c5ac4d354b325b3197
-> ("mm: limit filemap_fault readahead to VMA boundaries")
->
->     169.95 +/- 6%     -45.8%      92.15 +/- 10%  pts.svt-av1.Preset13.Bosphorus4K.frames_per_second
->     220.57 +/- 3%    +870.9%       2141        pts.time.major_page_faults
+I have been very much discouraged from this kind of trimming because it
+removes the context of the series from the individual patches - making it
+even more confusing.
 
-Hi Oliver,
+But I understand, I will try to remember to do this for you.
 
-Could you help test if the below patch fixes the regression?
+> So, I understand later patches will make it optionally reclaimable and update
+> this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
+> default" from the above comment for reducing the confusion?
 
-The 870% increase in major faults suggests that readahead is being cut
-short too aggressively. The current approach unconditionally sets
-_max_index on every fault, which likely prevents readahead from
-prefetching ahead effectively for sequential access patterns.
+Yes, but you bring up a good point - I think this two-step process is
+actually poor form and that I need to redo it.
 
-The fix: only limit readahead when the fault is close to the VMA end --
-if there are fewer pages remaining in the VMA than ra_pages, set
-_max_index. Otherwise, do nothing.
+Maybe this can be redone as node states (features?) such as:
 
-For a 4MB VMA with ra_pages=32, only faults in the last 32 pages (128KB)
-trigger the limit. The other 99.9% of faults see no change at all.
+   N_MEMORY_RECLAIMABLE
+   N_MEMORY_DEMOTABLE
+   N_MEMORY_TIERABLE
 
-Similarly, only clamp the read-around start when the fault is near the
-VMA beginning.
+so these damon changes will forego this confusing intermediate step of:
 
-This applies on top of 7b32f64bc512 and can be applied with git am.
+   if (folio_is_private_node(folio))
 
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Signed-off-by: Bo Zhang <zhangbo56@xiaomi.com>
----
- mm/filemap.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+and go straight to
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 97772a05a18e..9f1e1c9ea6df 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3313,8 +3313,11 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	vm_flags_t vm_flags = vmf->vma->vm_flags;
- 	bool force_thp_readahead = false;
- 	unsigned short mmap_miss;
-+	unsigned long vma_end_pgoff = vmf->vma->vm_pgoff + vma_pages(vmf->vma);
-+	unsigned long vma_pages_left = vma_end_pgoff - vmf->pgoff;
- 
--	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
-+	if (vma_pages_left < ra->ra_pages)
-+		ractl._max_index = vma_end_pgoff - 1;
- 
- 	/* Use the readahead code, even if readahead is disabled */
- 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-@@ -3398,7 +3401,8 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 		 * mmap read-around
- 		 */
- 		ra->start = max_t(long, 0, vmf->pgoff - ra->ra_pages / 2);
--		ra->start = max(ra->start, vmf->vma->vm_pgoff);
-+		if (vmf->pgoff - vmf->vma->vm_pgoff < ra->ra_pages / 2)
-+			ra->start = max(ra->start, vmf->vma->vm_pgoff);
- 		ra->size = ra->ra_pages;
- 		ra->async_size = ra->ra_pages / 4;
- 		ra->order = 0;
-@@ -3441,7 +3445,12 @@ static struct file *do_async_mmap_readahead(struct vm_fault *vmf,
- 	}
- 
- 	if (folio_test_readahead(folio)) {
--		ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
-+		unsigned long vma_end_pgoff = vmf->vma->vm_pgoff +
-+					     vma_pages(vmf->vma);
-+		unsigned long vma_pages_left = vma_end_pgoff - vmf->pgoff;
-+
-+		if (vma_pages_left < ra->ra_pages)
-+			ractl._max_index = vma_end_pgoff - 1;
- 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
- 		page_cache_async_ra(&ractl, folio, ra->ra_pages);
- 	}
--- 
-2.34.1
+   if (node_is_reclaimable(folio_nid(folio)))
 
+In the first patch - without ever having to revisit damon again.
+
+> > 
+> > Technically there is nothing in migration core to prevent migration
+> > operations, it's done on a service basis - hotunplug, reclaim/demotion,
+> > user numa (mbind, migrate/move_pages) etc.
+> > 
+> > Operations on private nodes/private node folioes are refused if the
+> > capability bit is not set.
+> 
+> I haven't had a chance to read the entire series, sorry about that.  So, do you
+> mean the above blocking is not really needed, or that will conditionally be
+> allowed by another later patch?
+> 
+
+I will reduce this all to a single patch in v6, I see where things can
+be improved now based on a few pieces of feedback.
+
+Thanks SJ!
+~Gregory
