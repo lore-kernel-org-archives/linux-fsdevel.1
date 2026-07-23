@@ -1,30 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1611438422F;
-	Thu, 23 Jul 2026 16:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD0738E8D1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 16:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784825361; cv=none; b=jDK3Ne8N6jyk48qgMlxC05ZAcp8tA1rRvmLVotkpSTj/LDXyQMZ/c17iwCpF1+ls0XpbJDIrILcqnYqtnVy4+X8jfwB6+UcCcD05pE3BXGqLFHGqKUJSHiY/cD0PZUpEW2ryfRPzlpsYbdTHbwEZgD/jvJD5o74yEjs4smXTzb0=
+	t=1784825596; cv=none; b=KyUug92t0RPj9A4H8Or9qVw6IKVf1rbvYaPze2BPl3IXjj/rcaWWJFUMS68j73rLxIlgMOpjp3Tax8+0FD7K2kJh96I+8u6vnxEJHtlc9RQJy25Ps1CFqZAZbTjIOHkK37soY2TeVSIiJY60mNiFafZFJ5ajWgqDj5X8cw+fcjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784825361; c=relaxed/simple;
-	bh=Um+FZXUulB+pH/DDTCHz09+kqXzDBmVQGi0IHZYBaCw=;
+	s=arc-20240116; t=1784825596; c=relaxed/simple;
+	bh=z+HoEvmWYKtMfBygtPBl68CeMD6wWsLW69JzvhhpR/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ap8wxp02Ef6muVgPOHolJ40yUe2lnSOeT5sEpu1aA8Vlg6GnVndrVdaAcb0XdpoRqH+9ZQ9nos/MzJd1TNOsvGhuwGO0oSG94s3rtdYvyZhkb4oKROQu69ux4TW6K1JVSrKNOYnlW7pXM9Sl3137zVmgBj8kQM8nL/A40Z2x/Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E5E121F000E9;
-	Thu, 23 Jul 2026 16:49:19 +0000 (UTC)
-Date: Thu, 23 Jul 2026 09:49:07 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 01/22] iomap: add a separate bio_set for iomap_split_ioend
-Message-ID: <20260723164907.GA2901224@frogsfrogsfrogs>
-References: <20260723145000.116419-1-hch@lst.de>
- <20260723145000.116419-2-hch@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOIoKGDVTa27kxhrWotAS8RfT7YFvqFXPwVAalvL+6jZ7S4rxPW6QqGZUdQK9gNF99s8P8Fdqn/qLmqJ4GE1+OYm8VqqL080FJQKZB6URPzOsX/vqv4+9bTeSf8ONSPyyTg1T43Whjb4mFIiMO95HHNohPOJuyrPWhMD/1GlEMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Gk6jW8du; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Gk6jW8du"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92e65e18969so81392485a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 09:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784825593; x=1785430393; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bqVE/c/eX9E/Cy6wFBhLLV7HBSbIhrEkmRJZ6Osn4Tc=;
+        b=Gk6jW8duMorFxZCKOTImKK/cthkQTePo/7XXo0yOSe8t/4ZafB2e38eaAzmr6WeMVE
+         EUihxK/INqSSpq0j/FYQG3btxjT4+3qwY9q9QVjDr3h3KhUX0Sm6ty0CUZU4HhzHfM5A
+         KT4fWPdgBq718p0P0aWwUR2I9rNE5zu3guFZOhTjdlFGmNGcrLapR1HxQahETeYLGwiO
+         nOL+GnNGC1gOuxE8VjXSq6vIYbcYfq+JmU4geK+aeg6Mxms1DsVn7HVD6K4nJXOp0dM1
+         GlFRjxDBTSyJltmU9fOYCpkQu6/iK0v99poJz+5FONYUVksgFUwse+RD/2/BXvoh0feM
+         zZng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784825593; x=1785430393;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bqVE/c/eX9E/Cy6wFBhLLV7HBSbIhrEkmRJZ6Osn4Tc=;
+        b=YzK51TEnbcQVlP8ewnEliL8qyHCgvhUWaeZTOkswn4B4kuyQBk9lGwuKOgquKQpgkL
+         qmprCr51bhod6q7p8HfqzgG05264pyQaMrKrv7gZOF0pxsrdcjMK3TDkJUZccIAgeeDh
+         KZzq1ncYPyva2Jhe15LTKgCorkgz4U6g9cS7epqC11s24ZHK1FWiGz424Tfs8GyIrdoe
+         x60FM8+D0WQtiAtn0PLOtjG0DEPJiM7p9KzizcAm+pCMfqKRYlFZIvD22l5edkzxRG20
+         dZAOw6IXZpb78FbNRFzAlEygXC7KdZSeE7trbGy5eFoBxaJNtfwFZZQ7aO+dXl9u0uh8
+         nlvA==
+X-Forwarded-Encrypted: i=1; AHgh+RpWQwVZuDzoSX8QPQZ+Ohe3XW0FVqpPIbRCJP/yPM47bOQ6okPtTvQWNUCWDalYvc0gg+iNme+yTWAim58+@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWSyEvOgzL5R1isMyH0UiR8jP5gFQhSQ4tyi4YuTZRZzxYixHk
+	uMVUb2IwbXG3ZcA1PvNPt25QwuaFNK7nD59yHK7Lsy6zh/7v7fXHTJnk7SwCJ3Hszy8=
+X-Gm-Gg: AR+sD1370LL57aXNK5rzBwmtwmipf/PDbMKYOBm361WK1MiD1vCeWQa/VBBy2pQ7Jhl
+	RSpbfBi2CDXNbyUwTEI7oJfz+Fg1Pz50ZPqAElBdCYCxCOe8YDs4cPBWge/rQqBRAarEV2au9nc
+	yx+MuHIg5I7eS5XlAA3j4ypECbXKpPM/KtBFlp2j+iXpKfU/2XnWZUoLgL6CTb451EP+mNKFuKW
+	ryRdl9heG2vpkVjWjQPRwLuBvVwmh99HuzxSJMmAFrZQ5J3VHT1ne2eUcYamFu/jZqFCP8NpaZ8
+	8gi10Dqi2xJbZ/ZUfM2GBQHFDxbVuVB9w+DFhXB8L8bKNhp57vrMNbBjVFue6zN3Ve4kK/XFDpC
+	DcIDEZ+9K1E98GKDCh5/hzQdsTSwc9njc2X8wP/VjwvCxVHFKQbvuxA/f+LCpV88xw16Oqljh+G
+	Htks3qVNpsv4xdtJLQbW99qH+7sLdSW1a3FgLgZABrhB8sqNdNXH8ebnYRcA==
+X-Received: by 2002:a05:620a:1729:b0:930:9533:5e32 with SMTP id af79cd13be357-9310468af9emr366578785a.7.1784825593202;
+        Thu, 23 Jul 2026 09:53:13 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba9e18d4sm48785446d6.23.2026.07.23.09.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 09:53:12 -0700 (PDT)
+Date: Thu, 23 Jul 2026 12:53:06 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Arun George/Arun George <arun.george@samsung.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com, cpgs@samsung.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <amJGUuBZ2857QjDB@gourry-fedora-PF4VCD3F>
+References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
+ <20260720193431.3841992-1-gourry@gourry.net>
+ <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,74 +97,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723145000.116419-2-hch@lst.de>
+In-Reply-To: <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
 
-On Thu, Jul 23, 2026 at 04:49:26PM +0200, Christoph Hellwig wrote:
-> iomap_split_ioend can split bios that already come from
-> iomap_ioend_bioset and thus deadlock when the bioset is exhausted.
+On Thu, Jul 23, 2026 at 02:08:31PM +0530, Arun George/Arun George wrote:
+> On 21-07-2026 01:03 am, Gregory Price wrote:
+> > Changes Since V4
+> > ================
+> >   - dropped compressed ram example from series
+> >       - will submit separately if this moves forward
 > 
-> Add a separate bio_set to avoid this deadlock.
+> We intend to test this series on a compression capable CXL expander 
+> hardware. Since compressed ram example (cram) is not part of this 
+> series, how do you suggest to do that? Do you have a version of cram 
+> module compatible with this series?
 > 
-> Fixes: 5fcbd555d483 ("iomap: split bios to zone append limits in the submission handlers")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ~Arun
 
-Cc: <stable@vger.kernel.org> # v6.15
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Hi Arun,
 
---D
+I dropped it from the base series because i want to try to move forward
+with this without RFC.  The compressed service itself will be a separate
+submission after I get decent signal on whether this will be accepted.
 
-> ---
->  fs/iomap/ioend.c | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
-> index 0565328764c1..2ec755a89228 100644
-> --- a/fs/iomap/ioend.c
-> +++ b/fs/iomap/ioend.c
-> @@ -13,6 +13,7 @@
->  
->  struct bio_set iomap_ioend_bioset;
->  EXPORT_SYMBOL_GPL(iomap_ioend_bioset);
-> +static struct bio_set iomap_ioend_split_bioset;
->  
->  struct iomap_ioend *iomap_init_ioend(struct inode *inode,
->  		struct bio *bio, loff_t file_offset, u16 ioend_flags)
-> @@ -486,7 +487,8 @@ struct iomap_ioend *iomap_split_ioend(struct iomap_ioend *ioend,
->  	sector_offset = ALIGN_DOWN(sector_offset << SECTOR_SHIFT,
->  			i_blocksize(ioend->io_inode)) >> SECTOR_SHIFT;
->  
-> -	split = bio_split(bio, sector_offset, GFP_NOFS, &iomap_ioend_bioset);
-> +	split = bio_split(bio, sector_offset, GFP_NOFS,
-> +			&iomap_ioend_split_bioset);
->  	if (IS_ERR(split))
->  		return ERR_CAST(split);
->  	split->bi_private = bio->bi_private;
-> @@ -509,8 +511,23 @@ EXPORT_SYMBOL_GPL(iomap_split_ioend);
->  
->  static int __init iomap_ioend_init(void)
->  {
-> -	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
-> +	const unsigned int nr_mempool_entries = 4 * (PAGE_SIZE / SECTOR_SIZE);
-> +	int error;
-> +
-> +	error = bioset_init(&iomap_ioend_bioset, nr_mempool_entries,
->  			   offsetof(struct iomap_ioend, io_bio),
->  			   BIOSET_NEED_BVECS);
-> +	if (error)
-> +		return error;
-> +	error = bioset_init(&iomap_ioend_split_bioset, nr_mempool_entries,
-> +			   offsetof(struct iomap_ioend, io_bio),
-> +			   BIOSET_NEED_BVECS);
-> +	if (error)
-> +		goto out_exit_ioend_bioset;
-> +	return 0;
-> +
-> +out_exit_ioend_bioset:
-> +	bioset_exit(&iomap_ioend_bioset);
-> +	return error;
->  }
->  fs_initcall(iomap_ioend_init);
-> -- 
-> 2.53.0
-> 
-> 
+I plan to RFC the new setup for compressed ram this a bit later, but I
+will share my working branch with you for testing.
+
+~Gregory
