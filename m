@@ -1,72 +1,72 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085624749DB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 11:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FFB473C70
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 11:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784807352; cv=none; b=r8gihANPiQTY7lfGZ5SmlbdViU+kWI72gnN5rcfnETCawatmg4zYNTugGz0E2g6OO9ZX6hNq0IpWV4OB3PUAMbxEHtKWjoguqgmx6QcBtYL6Ij4PNMZx1ikQs9bJb27fuy5BZTyUGpSHX81yOstYfeltv2pj8nihgF5LLMMw1j4=
+	t=1784807354; cv=none; b=ZkZWT8zUZV0vPq6ZOvnxvxD1WmZOiX6QMIrANp7LyN6ByLrEdPP35ef3jPDm+WIRKaIlHq1G0WXWGf4ErGWRa6DE9FN1ysIXumIyZI5hDzzpgYDFOEMzNx/OrvpNnQ2uGeL+0gcqsiYGug8Y5SuqP0uFeEiyGB9PVBQOg51XHY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784807352; c=relaxed/simple;
-	bh=u4WSZn8LpVoSFoR0j9C7HWeJrRajMHbArA1zRGf20q4=;
+	s=arc-20240116; t=1784807354; c=relaxed/simple;
+	bh=0eZ44vRLmwXW+idA/DolwNy8TEUzAGtfC/q/hMtHyaY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mHbqDhzxFMt5f0oifx+jyWp+yxL7+TlSRGPtepF+lwbt2g5chZCNthJF7OEd6wz+nKDK+0j+suaxHBBVoJ9eSNe1zgXODRdCpuWPrEIBA/z/5W9T5Oe+x1RojQLv9c7SK+72kfCrDnn37JWMlKLWyLpxrYVhMK4IVqTitX4jR0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sBXjoQz8; arc=none smtp.client-ip=209.85.208.54
+	 MIME-Version; b=o3S6MgIQ7MsJg35AsandATMOsR2Mq+j0jKQwKH6fPsjyeaOBjrQ3+lNfRwpV1bpEDPC45lm9d/+SatPerjlYyV3SyzqCzSGFatxvKyFicZV/HrorD97vms8DozJo5+UkrIw+QnprfDqxQ+scR11Fp8sEiN82yWUCnabY8bLnFGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=epANqQAp; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sBXjoQz8"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-69c5f6f7a40so1076287a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 04:48:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="epANqQAp"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15f020a223so74574966b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 04:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784807334; x=1785412134; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784807332; x=1785412132; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nxorIkgqPrrBq5Tfe/wFMye9q74MZOclMs+Fvsmlsac=;
-        b=sBXjoQz8VCpbqgBHzdkCiEAczjtvcvXTjH9x/ENtIXA2a3Iads4Vh5Wl2Crb0nWLRw
-         1UgLcOWqxlE+I2lOAnKdJDER4f14YizTyO3ed1Rq67c8oKdJe73sp7D32kpdpNjauFnW
-         RveitxC98nY5v4ZMtXnyolhb8/8Nq6jHlO0AagxL24qEPrscQcYMBnUAZSDMW10YvbD7
-         Noy+3HSijndhK3BDdTk2jsssAe+/OEGoP5UCZeTKw0Ma1CZRnHgm3crwb/uajp/5R0Tg
-         tgvyjGa0USjwcgrPq24w3E88CnQhiwSnhHlFheeehWCoUzDLmNYI4oCAbdwgnYNWvNR6
-         Mv7A==
+        bh=binhsfVmJu1koFpPwWC5CdCKR21x/B43OyPE1y0ab6Q=;
+        b=epANqQApLKuJ6qNNARfHzBGGgt4OWpHA66ugvKzcH/YduAmA3fFkm+qOt4+mGeB+um
+         3erNWOsUg/SNlGYtrvVoRoXQ/OsrdzvCT6xu52ocBoQrn1wHH5sz1qWuyGO5c+gO4Ly6
+         PqUsP75/s8y1+0hDMz4llg2K5W5u2EYo+Rar5hnZ03ISInO6nzY5rWpTOXQ/5302w6IG
+         9tMA92pvlhOcYqZM9ZwWFkwDFxKkTEyzd0hs9btHS2Sdx82GzEMPF2ZbTfrfVxMlwFL1
+         10TE4o0MlbK8n5USbeMZ9c/5AY4gzi/GJ94cJh2xeLkZY/F1M80KW1i0j2iRWEVlGmA2
+         7oZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784807334; x=1785412134;
+        d=1e100.net; s=20251104; t=1784807332; x=1785412132;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nxorIkgqPrrBq5Tfe/wFMye9q74MZOclMs+Fvsmlsac=;
-        b=JSh9+JSakvLWAhOZnGTUNEsdZIZW9NoPdtqCimvKh+vjeTt8MRT4peMzqc6/bbCNvx
-         rAKF7CnLNNRAZCvPKZN6YWZapNnB+SgAUrECBVI8iEz67EsumyQ7uR23WQPnd9tk17gx
-         iwZx8Ms4CZkwws8K8daTFeVPrnRY8bu0p2Yw5DGiOnuH4o6+osRlMynqsz0N8SEZP3aT
-         k8VlnTlVwZ9LLYhZpP2YcEIYQQou0IDbg0exxOhE41Ol32RPz86kLZXElSB+tqYKu24A
-         aDS+FYWpspyt4sitgJXF8vwZXq3fO8V+vDgOZ4RP4b4lXxhViE5L8XleyT0nXpE0njnm
-         v32A==
-X-Forwarded-Encrypted: i=1; AHgh+Roziz2HCSONEUIkhvwXJZkw2UdIRM/75PrsFJPsVk5A+sNTBmDlGM3rUoJLXrFc3bau0MRIbG6TKQkVNRir@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9hGm/trk0lRgIeaIl/Fg+3RqnkR44qXAi1Mpk6VU+WNIe5grI
-	G847jtHH9gibk/ccjtUjodN3OI81fYHuzTLiioIYkwYJ+Ox2YJfpXMD3
-X-Gm-Gg: AR+sD10APt0ASzgpIFPFRahD5QuONSxwxiwq+8oEaU/XezP8L+8/nvNHZYQL8bJ4OX5
-	3ZNwn8TJimM7aLGctsKCNHOcyF3ST+Ux1kODWSJI9maNfqjI02W1zF1oZUBxhZR+Rtr5eXaU/DR
-	cbosF1uOATcYZ2z7Aog0w2mNItcGxtNd/8werNR7CxGFGceNvUZekYG+eRmQFLoB5Isv1R0gtjf
-	JJzFYcedmAWO2BuhoZC+MmIwRTIoszy6ASNZ0GqXrhmOk83ra3DPDHZPv70M6BIn64NOLt++Nzv
-	3VZUzCotgi62CS/JjJ6JlcmWMjEKBwi9NUpNXg43nMjyRsBtlm2wlYxaDlgQl0Q3PE0fc4rAL0g
-	WSqkRL6bPbg4g2wVoZN7FGUJjoyPBuHVjzTOniT+lVv/cXy4w6WaRHSm5GT6o4Fsm+XYyYEPRRg
-	mmBHzIgTR2pmOWFQS4hw8QGz41hNU=
-X-Received: by 2002:a17:907:2683:b0:c12:8664:6aec with SMTP id a640c23a62f3a-c1c5099c554mr122814666b.53.1784807334342;
-        Thu, 23 Jul 2026 04:48:54 -0700 (PDT)
+        bh=binhsfVmJu1koFpPwWC5CdCKR21x/B43OyPE1y0ab6Q=;
+        b=QBZQ1aINUe+ZhkZPSSQJ22VGG/N5IfT9ccJAJGKXFuASq58FD2QjJcaXpl3HgdCQ1u
+         f0S15RzhpQc94ckaRH1hmWTd6GrOTOkQcJuGUN/3oP/8t61MuRGDzLLMSPj2oH7Ny3TZ
+         sSjsmi4z3tw4WAOpw6RkDkpbS0L8G6R+A3sUF5YxNTj/JrDE1yjZ86AdUpHgDwD5hrfq
+         CdKURpT/pKHoUQItSX8Z6Cm7CvhLDX81mqviaky7Txu9n9x073468TTGjHXI9EujxjrH
+         PfpJDQn+9uUf3sQ92q3RB7ygP156hajcQByA7cOOFGF5SF0hVrjFLunPNfigQYmwrk0f
+         7TEw==
+X-Forwarded-Encrypted: i=1; AHgh+RobtMWxVQxKq4EbKhH84Z8mVF6x9+zr5KwyzgrrXa2XKEmycZKJ8VPH1VXjadYzC/j/CH6Ugg+uuLZzPxg9@vger.kernel.org
+X-Gm-Message-State: AOJu0YzitaOFCUVjA7+EIBZOG8wCGQUWXXLi6o6OL9kLFV4kQZUHiUX4
+	8hLvGX8gMnRvyZndsZ77pedfWXeVfjGa4xunLgCbo/QOkxQAxc0+wB4N
+X-Gm-Gg: AR+sD11LsPuWdxY3bKltIzfK7B7v6ThpD60UrvJxXfjTLtKX0q3hc55tFY6h2lNBegu
+	X0NKZ6aUsefovBEHvaKy78S/LjL5+PXqfWLpT9I0TBaC4r6EtKdcY5FPUTzhFpz8gjEU0a3C99E
+	0UE9oPZvF/ZsPEkFreoZPqdHrFe8U/gCmesJmWTPSBIT14EGSBuSORxK2tVQDPPMTH7HFuhV9+6
+	nbea8JLA1ovFVGf8KyvR5cvbVpUY2LHDC3JHI+Cp8jCWxcRJFGv1J1uurNUTr22HALWlM+bquw9
+	szwRoq/xsk7SQRYK/+UCZdFrLnxJfBml5v2Be56A2bZVP29iFxG9zUDYso/wyBx3q6mOoIV0nGT
+	xbS/Ay2WfLOq+3c5m05gLmy0R07bE+1Yq08EPfLc/tUVxepKD6k9cig16616Hwh1mWXA7dJukHV
+	rlx4PmM+Rso7w5r2cBExU2bzF8o3s=
+X-Received: by 2002:a17:907:9806:b0:c08:417e:3696 with SMTP id a640c23a62f3a-c1c50b944a9mr129255466b.20.1784807332002;
+        Thu, 23 Jul 2026 04:48:52 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32ac7eacsm225125066b.17.2026.07.23.04.48.53
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32ebcc4dsm227109666b.49.2026.07.23.04.48.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 04:48:53 -0700 (PDT)
+        Thu, 23 Jul 2026 04:48:51 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	Daan De Meyer <daan.j.demeyer@gmail.com>,
 	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC][PATCH 4/5] ovl: add support for copy file range from another fs
-Date: Thu, 23 Jul 2026 13:48:47 +0200
-Message-ID: <20260723114848.1212429-5-amir73il@gmail.com>
+Subject: [RFC][PATCH 2/5] fs: add support for copy file range from another fs
+Date: Thu, 23 Jul 2026 13:48:45 +0200
+Message-ID: <20260723114848.1212429-3-amir73il@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260723114848.1212429-1-amir73il@gmail.com>
 References: <20260723114848.1212429-1-amir73il@gmail.com>
@@ -78,95 +78,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It is technically possible for overlayfs to copy_file_range() from
-the base fs of the real layer.
+Add a declarative vfs flag FOP_CROSS_FS_COPY for filesystems that may
+be able copy from/to other fs and implement the copy from another fs,
+which is the easy side.
 
-Set the vfs flag FOP_CROSS_FS_COPY and implement copy from another fs.
+When filesystem is copying from another fs, it will typically call vfs
+read helpers to read from the other fs, so avoid the double accounting
+and double fsnotify read hooks in vfs_copy_file_range().
 
 Implementation of copy to another fs is a bit more subtle and will be
 handled by a followup patch.
 
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/file.c      | 22 ++++++++++++++++++++++
- fs/overlayfs/ovl_entry.h |  7 ++++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
+ fs/read_write.c    | 18 ++++++++++++++----
+ include/linux/fs.h |  2 ++
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
-index f3d97eb146e85..169a48de565e9 100644
---- a/fs/overlayfs/file.c
-+++ b/fs/overlayfs/file.c
-@@ -533,6 +533,13 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
- 	struct file *realfile_in, *realfile_out;
- 	loff_t ret;
+diff --git a/fs/read_write.c b/fs/read_write.c
+index d1565a56d089d..78596d9c89119 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -1477,6 +1477,7 @@ enum {
+ 	FS_COPY_SAME_SB = 1,
+ 	FS_COPY_SAME_FS = 2,
+ 	FS_COPY_CROSS_FS = 3,
++	FS_COPY_FROM_OTHER_FS = 4,
+ };
  
-+	/*
-+	 * Overlayfs may be able to copy to a non overlayfs dst which is on the
-+	 * same sb or same fs type as real file_in fs, but not implemented yet.
-+	 */
-+	if (WARN_ON_ONCE(!is_ovl_fs(inode_out->i_sb)))
-+		return -EXDEV;
-+
- 	inode_lock(inode_out);
- 	if (op != OVL_DEDUPE) {
- 		/* Update mode */
-@@ -547,6 +554,19 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
- 	if (IS_ERR(realfile_out))
- 		goto out_unlock;
- 
-+	/*
-+	 * Overlayfs may be able to copy from a non overlayfs src which is on
-+	 * the same sb or same fs type as upper fs.
-+	 */
-+	if (unlikely(!is_ovl_fs(inode_in->i_sb))) {
-+		if (WARN_ON_ONCE(op != OVL_COPY)) {
-+			ret = -EXDEV;
-+			goto out_unlock;
+ /*
+@@ -1495,6 +1496,8 @@ static int copy_file_fs_cmp(struct file *f_in, struct file *f_out,
+ 	else if (f_out->f_op->copy_file_range &&
+ 		 f_out->f_op->copy_file_range == f_in->f_op->copy_file_range)
+ 		return FS_COPY_SAME_FS;
++	else if (f_out->f_op->fop_flags & FOP_CROSS_FS_COPY)
++		return FS_COPY_FROM_OTHER_FS;
+ 	else if (file_inode(f_in)->i_sb == file_inode(f_out)->i_sb)
+ 		return FS_COPY_SAME_SB;
+ 	else
+@@ -1526,10 +1529,13 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
+ 	 * We allow some filesystems to handle cross sb copy, but passing
+ 	 * a file of the wrong filesystem type to filesystem driver can result
+ 	 * in an attempt to dereference the wrong type of ->private_data, so
+-	 * avoid doing that until we really have a good reason.
++	 * avoid doing that unless at least one of the filesystems declares
++	 * cross fstype copy support with the FOP_CROSS_FS_COPY flag.
+ 	 */
+ 	if (fscmp == FS_COPY_SPLICE) {
+ 		/* cross sb splice is allowed */
++	} else if (fscmp == FS_COPY_FROM_OTHER_FS) {
++		/* Copy from other fs is allowed */
+ 	} else if (file_out->f_op->copy_file_range) {
+ 		if (fscmp != FS_COPY_SAME_FS)
+ 			return -EXDEV;
+@@ -1619,6 +1625,7 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t pos_in,
+ 	case FS_COPY_SPLICE:
+ 		break;
+ 	case FS_COPY_SAME_FS:
++	case FS_COPY_FROM_OTHER_FS:
+ 		ret = file_out->f_op->copy_file_range(file_in, pos_in,
+ 						      file_out, pos_out,
+ 						      len, flags);
+@@ -1665,13 +1672,16 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t pos_in,
+ 	ret = do_splice_direct(file_in, &pos_in, file_out, &pos_out, len, 0);
+ done:
+ 	if (ret > 0) {
+-		fsnotify_access(file_in);
+-		add_rchar(current, ret);
++		if (fscmp != FS_COPY_FROM_OTHER_FS) {
++			fsnotify_access(file_in);
++			add_rchar(current, ret);
 +		}
-+		realfile_in = file_in;
-+		goto do_copy;
-+	}
-+
- 	realfile_in = ovl_real_file(file_in);
- 	ret = PTR_ERR(realfile_in);
- 	if (IS_ERR(realfile_in))
-@@ -565,6 +585,7 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
- 		}
+ 		fsnotify_modify(file_out);
+ 		add_wchar(current, ret);
  	}
  
-+do_copy:
- 	with_ovl_creds(inode_out->i_sb) {
- 		switch (op) {
- 		case OVL_COPY:
-@@ -660,6 +681,7 @@ const struct file_operations ovl_file_operations = {
- 	.splice_read    = ovl_splice_read,
- 	.splice_write   = ovl_splice_write,
+-	inc_syscr(current);
++	if (fscmp != FS_COPY_FROM_OTHER_FS)
++		inc_syscr(current);
+ 	inc_syscw(current);
  
-+	.fop_flags		= FOP_CROSS_FS_COPY,
- 	.copy_file_range	= ovl_copy_file_range,
- 	.remap_file_range	= ovl_remap_file_range,
- 	.setlease		= generic_setlease,
-diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
-index 80cad4ea96a3e..8a1862cf87d78 100644
---- a/fs/overlayfs/ovl_entry.h
-+++ b/fs/overlayfs/ovl_entry.h
-@@ -112,10 +112,15 @@ static inline struct mnt_idmap *ovl_upper_mnt_idmap(struct ovl_fs *ofs)
+ 	return ret;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index d10897b3a1e35..c7573e89557b9 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1980,6 +1980,8 @@ struct file_operations {
+ #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
+ /* File system supports uncached read/write buffered IO */
+ #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
++/* Supports copy_file_range() to/from other fs types */
++#define FOP_CROSS_FS_COPY	((__force fop_flags_t)(1 << 8))
  
- extern struct file_system_type ovl_fs_type;
- 
-+static inline bool is_ovl_fs(const struct super_block *sb)
-+{
-+	return sb->s_type == &ovl_fs_type;
-+}
-+
- static inline struct ovl_fs *OVL_FS(struct super_block *sb)
- {
- 	if (IS_ENABLED(CONFIG_OVERLAY_FS_DEBUG))
--		WARN_ON_ONCE(sb->s_type != &ovl_fs_type);
-+		WARN_ON_ONCE(!is_ovl_fs(sb));
- 
- 	return (struct ovl_fs *)sb->s_fs_info;
- }
+ /* Wrap a directory iterator that needs exclusive inode access */
+ int wrap_directory_iterator(struct file *, struct dir_context *,
 -- 
 2.54.0
 
