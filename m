@@ -1,157 +1,187 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1997F334C39
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ED231F984;
+	Thu, 23 Jul 2026 14:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784815334; cv=none; b=L1tSTzg7cEJsUUkkaLXuTR6PC01bPMrzw9202JXJv8d3r/EUXF+/hcDFngqo14VNSqgcLWQSvsZ3tK2oKiRp/SCf5lVFJiUEEOT0bK+CVXaKfmWorx3MEa4DXde1ThfEIFeCjpwfUdjoICY+ICK8rap3z9O94P+jzXetp4kI788=
+	t=1784815519; cv=none; b=cO/zKm9L6zDUhkxKxWUjhLAC9QLACeYFZwt2rSdfVvw+MeDWj51lmG635Wj7UbBKzYT6NsYMdF6n1g201F79VPFqf+Rxovh2/vgvo8eZCfbVIo4VkOwC/ZYBQ10LwTM+z9ImIfT+NNb75yuFhsHSnJoymATB7gqoEBxPAmP/7gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784815334; c=relaxed/simple;
-	bh=vYwYazQu6GpjjSyzt5MAOmjI7xTKxwKQQi8h97MEE6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ig5N+BvELZVc4rGOM7gIK/zZlvlyn6Zs69TC1777AVa3heRxsidkwJLvaZGPgtov/FAK/7KaaS2MMWK/HDE8Afdcg1dtVynhvjBpZCUwAu7eT+evnBZ9pKZHF8D8NwU+Ikr8+IVF6DzNxX1+X6V+J9YJUTdKS91QgUwIAYNyZ10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FUfG07uM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784815519; c=relaxed/simple;
+	bh=hEpp5iTqQEGreQG1q+Zq157iqjWxjQ92aIv2+btmp/k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BHcnmzi46osT8LxeeGcgtq6WEUHi2zJA9mgA/UE4etnvVxSX3/WaLGFFXQKAnbNjuR4tN23AIGjb76flph1RIm3TTKbWK7bG0xfE6vqHLagXa5cIYQS2KHMtLpA3BbUq+N5HKytn5ayMSGHAewKm/c3AunNie1iVgJFZgxUAlew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com; spf=fail smtp.mailfrom=mssola.com; dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b=ixFSZbxf; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mssola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FUfG07uM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784815329;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=VUmN5D/Wma+x90Pgs2vmYOEXgMdbdipx2kaPNUUMwwk=;
-	b=FUfG07uMzDJz0zxnaIeLwoGR4XXd3wWd80pc6cZdcB0nCilKWp1726Q1N5wYlJ6E0FMJK+
-	affvVXC6Rmn/j8FDd7W6YuGOw9gOncVCLTXmFj+6AtaGjfP89ORHilTGdQNRam9mj0Exy3
-	uxQTxZMOcMG6cb9cWiYy2cAFWiWYwfY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-627-7s3uSP1OPvWi8Yn_k_vMqQ-1; Thu,
- 23 Jul 2026 10:00:57 -0400
-X-MC-Unique: 7s3uSP1OPvWi8Yn_k_vMqQ-1
-X-Mimecast-MFC-AGG-ID: 7s3uSP1OPvWi8Yn_k_vMqQ_1784815255
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b="ixFSZbxf"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 105C11800871;
-	Thu, 23 Jul 2026 14:00:55 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.44.33.159])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A59173000225;
-	Thu, 23 Jul 2026 14:00:50 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Jeffrey Altman <jaltman@auristor.com>,
-	Steve French <sfrench@samba.org>,
-	linux-afs@lists.infradead.org,
-	openafs-devel@openafs.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] vfs, afs, bash: Fix miscomparison of foreign user IDs in the VFS
-Date: Thu, 23 Jul 2026 15:00:43 +0100
-Message-ID: <20260723140047.702495-1-dhowells@redhat.com>
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4h5Xv60FhhzMlG5;
+	Thu, 23 Jul 2026 16:05:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mssola.com; s=MBO0001;
+	t=1784815506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LdOwfZIf6LUz/efW5SRW6BCEaTri0nMZtJcflE6XZUo=;
+	b=ixFSZbxfp71UFyAd1AFfuXYNFUriEnAggoN59d/BMEOUll05K2L0JiIjGuWg/1hihE6Vvt
+	zdswmVeTMd3nuip1WDElUwZerFY4MaILToi7JxMp0MbMlvLIY+5eTWLg048r0obOMnwsHV
+	hWytHcwxkAqp+saJSF/MuOq41zaJESC91JqZdNuAeOwcOFAo08WrhoipZHKQY4ew5CWefK
+	K1S57M+BkIuXx9NFhxq5V32D+r2MKuvvuSTRpAIzVZRGoL9ZC6HRmdkz6hUbFXGvArQqQA
+	gQ9uxgr/IEIjKjUu4JX87KdxlAO7OLLwDqpH2T83HJMlZ6R3MeH14pMSyOpoMg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=softfail (outgoing_mbo_mout: 2001:67c:2050:b231:465::202 is neither permitted nor denied by domain of mssola@mssola.com) smtp.mailfrom=mssola@mssola.com
+From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mssola@mssola.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,  Andy Lutomirski <luto@kernel.org>,  Jann
+ Horn <jannh@google.com>,  John Ericson <mail@johnericson.me>,
+  linux-api@vger.kernel.org,  "H. Peter Anvin" <hpa@zytor.com>,  Kees Cook
+ <kees@kernel.org>,  Farid Zakaria <farid.m.zakaria@gmail.com>,  Alexander
+ Viro <viro@zeniv.linux.org.uk>,  Jan Kara <jack@suse.cz>,
+  linux-kernel@vger.kernel.org,  Jonathan Corbet <corbet@lwn.net>,
+  linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 7/7] Documentation: add failfs documentation
+In-Reply-To: <20260723-work-failfs-v1-7-3f69b9a9e958@kernel.org> (Christian
+	Brauner's message of "Thu, 23 Jul 2026 13:30:26 +0200")
+References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
+	<20260723-work-failfs-v1-7-3f69b9a9e958@kernel.org>
+Date: Thu, 23 Jul 2026 16:04:57 +0200
+Message-ID: <87ik65vm2e.fsf@>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4h5Xv60FhhzMlG5
 
-Hi Al, Christian,
+--=-=-=
+Content-Type: text/plain
 
-Here's a pair of fixes that deal with some places the VFS mishandles
-foreign user ID checks.  By "foreign" I mean that the user IDs from the
-filesystem do not belong in the same number space as the system's user IDs.
-Network filesystems are prime examples of this, but it may also impact
-things like USB drives or cdroms.
+Christian Brauner @ 2026-07-23 13:30 +02:
 
-Take AFS as example: Whilst each file does have a numeric user ID, the file
-may be accessed from a world-accessible public-facing server from some
-other organisation with its own idea of what that user ID refers to.  IDs
-from AFS may also collide with the system's own set of IDs and may also be
-unrepresentable as a 32-bit UID (in the case of AuriStor servers).
+> Document the failfs semantics, the FD_FAILFS_ROOT sentinel, the
+> fchroot() entry requirements, and the ways back out.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  Documentation/filesystems/failfs.rst | 64 ++++++++++++++++++++++++++++++++++++
+>  Documentation/filesystems/index.rst  |  1 +
+>  2 files changed, 65 insertions(+)
+>
+> diff --git a/Documentation/filesystems/failfs.rst b/Documentation/filesystems/failfs.rst
+> new file mode 100644
+> index 000000000000..46d91525916b
+> --- /dev/null
+> +++ b/Documentation/filesystems/failfs.rst
+> @@ -0,0 +1,64 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======
+> +failfs
+> +======
+> +
+> +failfs is a kernel-internal filesystem that fails every operation
+> +reaching it with ``EOPNOTSUPP``. It is the counterpart to nullfs. Where
+> +nullfs is a permanently empty failfs means "nothing is supported here". It
+> +cannot be mounted from userspace, nothing can be mounted on top of it. It
+> +cannot be cloned.
 
-Further, kAFS uses a key containing an authentication token to specify the
-subject doing an RPC operation to the server - and, as such, this needs to
-be used instead of current_fsuid() in determining whether the current user
-has ownership rights over a file.
+A small change here makes the wording more clear: from 'Where nullfs is
+a permanently empty failfs means "nothing is supported here"' to 'Where
+nullfs is permanently empty, failfs means "nothing is supported here"'.
 
-Additionally, filesystems (CIFS being a notable example) may also have user
-identifiers that aren't simple integers.
+> +
+> +The only way into it is the ``FD_FAILFS_ROOT`` file descriptor sentinel which
+> +is understood by ``fchdir(2)`` and ``fchroot(2)``.
+> +
+> +Semantics
+> +=========
+> +
+> +Every path walk of a component through failfs fails with
+> +``EOPNOTSUPP`` before that component is parsed, including ``.``.
+> +
+> +The root itself cannot be opened at all not even with ``O_PATH``.
+> +
+> +A process with its working directory in failfs fails every
+> +``AT_FDCWD``-relative lookup. As with any working directory that is
+> +unreachable from the process root, the ``getcwd(2)`` system call returns
+> +a path prefixed with ``(unreachable)``.
+> +
+> +A process with its root directory in failfs fails every absolute path
+> +lookup including absolute symlinks and the interpreter of dynamically
+> +linked binaries. In other words, this fails exec.
+> +
+> +Lookups anchored at explicit directory file descriptors keep working. It
+> +is the ``fs_struct`` equivalent of ``RESOLVE_BENEATH``. The process must
+> +anchor every lookup at a file descriptor it explicitly holds.
+> +
+> +Entering
+> +========
+> +
+> +``fchroot(FD_FAILFS_ROOT, 0)`` requires ``CAP_SYS_CHROOT`` in the
+> +caller's user namespace, mirroring ``chroot(2)``. Unprivileged callers
+> +may enter if both of the following hold:
+> +
+> +* ``no_new_privs`` is set: setuid binaries on regular mounts remain
+> +  reachable via inherited directory file descriptors and executing them
+> +  with an unusable root directory is the classic confused deputy.
+> +
+> +* The caller is not already chrooted: the root directory is what
+> +  confines ``..`` resolution and the failfs root can never be reached by
+> +  walking up a real mount tree, so moving the root of a chrooted task to
+> +  failfs would allow it to escape its chroot via ``openat(fd, "..")``.
+> +
+> +Leaving
+> +=======
+> +
+> +A process that entered failfs counts as chrooted. It cannot create user
+> +namespaces to regain ``CAP_SYS_CHROOT``, and ``chroot(2)`` or
+> +``fchroot(2)`` back out require ``CAP_SYS_CHROOT``. The only other exit
+> +is ``setns(2)`` with a mount namespace file descriptor, which requires
+> +``CAP_SYS_ADMIN`` over the target mount namespace as well as
+> +``CAP_SYS_CHROOT`` and ``CAP_SYS_ADMIN`` in the caller's user namespace
+> +and resets both root and working directory. A process that holds no such
+> +file descriptor and restricts ``*chdir()``/``*chroot()``/``setns()`` via
+> +seccomp has thrown away the key.
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 1f71cf159547..734a45e51667 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -91,6 +91,7 @@ Documentation for filesystem implementations.
+>     ext3
+>     ext4/index
+>     f2fs
+> +   failfs
+>     gfs2/index
+>     hfs
+>     hfsplus
 
-Now the problem in the VFS is that there are a number of places where it
-assumes it can directly compare i_uid (possibly id-mapped) to either than
-on another inode or a UID drawn from elsewhere (e.g. current_uid()) - but
-this doesn't work right.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This causes the write-to-sticky check to work incorrectly for AFS (though
-this is currently masked by a workaround in bash that is slated to be
-removed) whereby open(O_CREAT) of such a file will fail when it shouldn't.
+-----BEGIN PGP SIGNATURE-----
 
-Two patches are provided:
-
- (1) Add a pair of inode operations, one to compare the ownership of a pair
-     of inodes and the other to see if the current process has ownership
-     rights over an inode with an IOP flag to control access to them.
-
-     Usage of this is then extended out into the VFS, replacing comparisons
-     between i_uid and i_uid and between i_uid and current_fsuid().  The
-     default, it the inode ops are unimplemented, is to do those direct i_uid
-     comparisons.
-
- (2) Fixes the bash workaround issue with regard to AFS, overriding the
-     checks as to whether two inodes have the same owner and the check as
-     to whether the current user owns an inode to work within the AFS
-     model.
-
-kAFS uses the result of a status-fetch with a suitable key to determine
-file ownership (if the ADMINISTER bit is set) and just compares the 64-bit
-owner IDs to determine if two inodes have the same ownership.
-
-Note that chown may also need modifying in some way - but that can't
-necessarily supply the information required (for instance, an AuriStor YFS ID
-is 64 bits, but chown can only handle a 32-bit integer; CIFS might use a
-GUID).
-
-The patches can be found here:
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=afs-sticky-2
-
-Thanks,
-David
-
-Changes
-=======
-ver #2)
-- Rebased on v7.2-rc4.
-- Added an IOP_ flag for a faster check of whether the new inode ops are
-  supported.
-
-David Howells (2):
-  vfs: Allow filesystems with foreign owner IDs to override UID checks
-  afs, bash: Fix open(O_CREAT) on an extant AFS file in a sticky dir
-
- Documentation/filesystems/vfs.rst |  21 ++++
- fs/afs/dir.c                      |   2 +
- fs/afs/file.c                     |   2 +
- fs/afs/inode.c                    |   1 +
- fs/afs/internal.h                 |   3 +
- fs/afs/security.c                 |  46 +++++++++
- fs/attr.c                         |  58 ++++++-----
- fs/coredump.c                     |   2 +-
- fs/inode.c                        |  11 +-
- fs/internal.h                     |   1 +
- fs/locks.c                        |   7 +-
- fs/namei.c                        | 161 ++++++++++++++++++++++++------
- fs/remap_range.c                  |  20 ++--
- include/linux/fs.h                |   7 +-
- 14 files changed, 271 insertions(+), 71 deletions(-)
-
+iQJiBAEBCgBMFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmpiH4kbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyEhxtc3NvbGFAbXNzb2xhLmNvbQAKCRCWvoxv2J1l
+ZYgTD/9KAf4+0eklvUgseLVVsTP5X1oj+k9efgBBejLYCTsIM18lrLVcocsgKvU6
+eHqnD1vt+2Q2xX30cBaVxo6YmDTCEUy2X0E2Lzz5+7bzYAoL6eumtp4QxtCWdpq/
+LoZaGhj7b/r9qCnde0y3569k2Mprjv3O2he3Ylw+pHHlOJkghWmi/5b4ywaMTY3e
+pEy5BxuQwu9PEmz/7cGpiYdkDYoml1chLiOzrgTa4XjorRAXZUb8ldUCer4A+f7I
+5bd2shH+LMAPRscsdVrjTdEIlJHzq6aoyl5bNv1QtEv/Ogycav7G3S6meE0DVT2i
+/dFVi0ZWdoPxzx7WMMjZJTNIdnfrIoYnoAjjlg8pTN/JptCTVcdEpzn4BmoH0+D6
+Z7qoJLZOggARqBrB6abjiKU4ZUfsER5+Mi4s/ZqVHHvZAoF70Bil/KTdorYHLLoH
+jPAljPEYdG5zg85AaYjAwCrmyxcvQRWeisOl0hiCaOYTJaVkeeAoK/ddUhipbX2v
+VBg275mCzQaJv1L8Pdk+sh++4ocOTPgeWQRN0uSTzN9LwxThV9yxAG8RiN+uXu5p
+9Je2N4eX+wP6yG2cWoA4nB9zp+DmqwYRrTGQoCxBboiMursQpDdOMAfq+hKaKrtI
+90pqFD/jot51wBpSY0cmXwrvFSwOwmmY3lTxrSg6mGysiuiJnQ==
+=XkcE
+-----END PGP SIGNATURE-----
+--=-=-=--
