@@ -1,146 +1,114 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEA72DCF61;
-	Thu, 23 Jul 2026 01:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172A130675F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 01:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784769969; cv=none; b=EyhLQkivCFtqdOCBVNSET5PXDTGjIOsk9p07E9eBoAuNgWP4x+e2qk0SUZdhEUcYDcLsiKkYDFGAgZH7LwvO0puODSHz6aF0IE9bem9L2b+0NvzOmsNjAFz1iEXhwB6QjxqZTkrDYq4qQebR0aF+9VzvDaimejr7uPzTg7QO6V4=
+	t=1784771625; cv=none; b=h1jmIlDYMgkD8TKYAS4dDBGXvxsdmaeGEG1aQ2SAG0+uPlbQdEsisRni0hmssKTaG46lXcxNGs39kb3MKMbt9YCSleEy58tn6cMj2sIzwJl8fWaJJqkHb5IAgN55vMyM/4cuDMDSJbKiVSQYQMmilJ+5e4/2RZT5iCeUOo5hOjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784769969; c=relaxed/simple;
-	bh=qsENIsk8IVpt31kC+5aUJqtQtf9uAZPzHt/Z+EJ5Ggo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uxtlFdERFVma3Z3250+PEZeD1F7oaBQbiKNqOj6SKrQqGXvKVt5CzjBv2gUhq5SjDAbnR+gVslFDu0BLN7WBNMXYb862tznSME4iTlLDFagoB9tKcBBpOP51yfv7NKSZnYPNOx0dpO9jZ8wKotuCYTcSMWubZpJcBk1QFmzJiCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4h5D2L1rCWzKHMTf;
-	Thu, 23 Jul 2026 09:25:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id C4FA84058D;
-	Thu, 23 Jul 2026 09:25:58 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgDH1nKkbWFq0nbaCA--.5388S3;
-	Thu, 23 Jul 2026 09:25:58 +0800 (CST)
-Message-ID: <5c5650a0-6fca-4638-b4cb-920065cd4015@huaweicloud.com>
-Date: Thu, 23 Jul 2026 09:25:56 +0800
+	s=arc-20240116; t=1784771625; c=relaxed/simple;
+	bh=AIpo2iAQhlfbtifTE6AGWLwY3POUXuspD2JIcaNCeF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RiSJWN0UeNFU9M8/cb43YCRnhO3tojFOGgZCOt7p8MTbhIHZ7wiqKD0gTcd1Sgnhc1j5yaLfN3wjfQdW4RuN40VNqqVw98uitMGsHhGOkzps8Srj361aHdl/yqbNdFYqp1yItniDvHe5y/aTjaFniROV4j4WtqZR1g1X0XMavnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hmDxM8Bi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o4a9DImu; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hmDxM8Bi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o4a9DImu"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 35ECE7A012F;
+	Wed, 22 Jul 2026 21:53:42 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Wed, 22 Jul 2026 21:53:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm2; t=1784771622; x=1784858022; bh=yV8kr3p+6X
+	/5U35/oJ57WcxCxbilvXhM5lKLd5vkd1U=; b=hmDxM8Bi3+fh5+n4+mslmpGHNv
+	H1gtE6KAvPbJ4CRJRDBuT3Zbzknp8Sb3MHJFpHXl24ARTFlnAP3Guc1PxW8LOGig
+	1v8Zd6BNxYGpPDdz+5rJDin72vGmR2I73nI4QNWbBDoh/670y4dVihIPE11BdpFR
+	4AoVouY5N2HTHeIbKvqB6d0Cl1OAlBYF1U8htar+NM3JGoEasXXbrb5AtvcTYtN2
+	AE/YEFJWjIc/IaTZdZDb5a8NwXVGRKgamsOtTFljbXVFMQVepQtkBxgeSMd5BJv+
+	qYygl1sPE2l6YvW3LQHab/a9fmHbHgn45j4xHGLhJqCVl59LuzXhWz4ktDKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1784771622; x=1784858022; bh=yV8kr3p+6X/5U35/oJ57WcxCxbil
+	vXhM5lKLd5vkd1U=; b=o4a9DImuopQ3LiFuX2jQipCUIUKay8k5MENi3iZbEBQD
+	/7XJ72qeALZcDoS1GDnQHAC1xLjVd/GB3pv/fu7rbQMU1Bkiu3ckFJTbIuxU4PiB
+	lAK5VDLQ5Cn74gifFWJEm8u0X0KJb3wDf/lcV8g5Q/diEyP6YXLgsJ503lQOzXbb
+	zpnqvcsyvgL2hus3+LfraDlZb68fNYUX90EiGEqGaFlTFUXu1ZBxWJhjVe6lwhyj
+	yQi3QXXse9y1Yh7bLJmhk2OQtS2yrbQ3wEbQrAz8gtvME5eQj08Ezi5YdfKRMFer
+	ryropsMreNJNXEhs41E6VONyMUpBBxotftwszTkN7A==
+X-ME-Sender: <xms:JXRhaj4wQXLAlsF9CJ9VX3TTxWAqQqQaS0DfcdU7qcXUI1B6vTAW9A>
+    <xme:JXRhakWM18KWGLtyTgBL_9OpmHLmaWl6barlWTt8XYyiQhcxz-Co73QuroLKNcdH1
+    VT5iAnA9rYPZXijBD_ZlRs-BQ-uFtwRoTKUIbGhlWWpN1C22A>
+X-ME-Received: <xmr:JXRhat_KU0tAjtXTSl6_zONDU3TsdSq18t1RSh-A3etZT0ibs1EOKC_cqcJA827Xxe37djzhbLr7HIxNwnZvpC3M12MaaI0>
+X-ME-Proxy-Cause: dmFkZTEEcLEPnRs0lsbayDI0NKtJ9t0kgNssvwLtYyFulv7wA+jTnR3246Hbq8hbe7/1e6
+    0OAdWwaOzOArkqp6/2qtrC9IAkv8Q95U/lZWEm99zbgMl4uBHrwvcC4Dg5YeIZ6bCgEOcP
+    tk6XC0CHGQnIGT0XE2C7nHbNWzA6/zxzBWUr0FvkPpLq3BHLf0YNHp/dQ3XdpQluWKj7gH
+    2IejgPkhOAES+j3dlt442f+DsgDMjojiRUcUsIR9XOOhYN+zxSNv79FgHdrIoxdM+ylyQD
+    WZAMJxNMgUGPR+yMAPIkVsYk2MzwctQCjyN4Dvp9+jfIa0dcvUhHoBo5KCt5hXahZQ4hBx
+    wQLvHODnopE95OcfWHHyBuyDGPzO8nzvLY0UgDLGBEV6s88QOjnALqo+662HOPUsZy8gF8
+    DIW6KdddIcbYR/HdS318Zo5/Bm97ZuCtElig+LmB73c+EtGxLS6SE/N4/ECxODEwxiYP7F
+    wsYFE4RniSx/IUQBSLdlYvqjE9/RK8ScwA2Bkvtvji1KT5dUtDFNGWukuEfbSVf9tt68Nx
+    39/7rIId3uIXTL3HN76fPi4ieBRkdydiN7Xo+Wa/idtBNJQSb9db236bvmqFd3D7E72gqW
+    46TSlyD3io8gm/0cVMPoQ7jVH+NUZg7MfuL2DEWp0xjPTasvK6KPk+6mH7jg
+X-ME-Proxy: <xmx:JXRhaomhst3mW3UMxenEl4UAz0dZIrdSRbX_UK2yQ43Qw-RYJ5ZYjw>
+    <xmx:JXRhajVwjj2LgTtMVxrh_LL1-Vv-HkCw-0HRNnVhA4CZ2oNrqbrBkA>
+    <xmx:JXRhatGO8hoX3zGYi-O-pvI96O0woo1YvyFpBW4qgXb-RaDMtej70w>
+    <xmx:JXRhavdRWIG63obZb9P1vnyMEsUFqTUk0Kvn8ziYgipQtHQ6fY6odQ>
+    <xmx:JnRhalrUZe3CZhieYbTfyIf3gammQz4Nhx_WjtWC2BaDp_J-TBR9fgcU>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Jul 2026 21:53:40 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 0/4] VFS: prepare for changes to directory locking
+Date: Thu, 23 Jul 2026 11:49:45 +1000
+Message-ID: <20260723015330.3093207-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] iomap: trivial fixes for ext4 conversion
-To: brauner@kernel.org
-Cc: Theodore Tso <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, djwong@kernel.org,
- hch@infradead.org, joannelkoong@gmail.com, yi.zhang@huawei.com,
- yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
- yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
-References: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
- <amDiuuX56ChS6LO0@mit.edu>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <amDiuuX56ChS6LO0@mit.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgDH1nKkbWFq0nbaCA--.5388S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF1xJFW8CF1xCF4UWw45Wrg_yoW5WrWxpF
-	Z3Ka15Kr4UWr4xAayxAa17X3WYva1fJF48W3W3Wwn5AFZ0vF18XF4xKa15uryDCrWrCFyr
-	tr1UK3Z3G34qyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
-	0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
-	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
-	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
-	GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	UAwIDUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 
-On 7/22/2026 11:34 PM, Theodore Tso wrote:
-> Hi Christian,
-> 
-> These fixes are needed for landing support for buffered writes using
-> iomap in ext4.  That won't be ready to land this development cycle,
-> but could we land these fixes now?
-> 
-> Thanks,
-> 
-> 						- Ted
+Thanks a lot to Christian for the review.  I have address all this
+issues found.
 
-Here's another one. Could you please take this one along too?
-Thank you.
+Original intro, slightly modified:
 
-https://lore.kernel.org/linux-fsdevel/20260713074206.1768006-1-yi.zhang@huaweicloud.com/
+These patches are part of some prep work to allow changes to directory
+locking.
+The short term goal is to invert the locking order between d_alloc_parallel() 
+and inode_lock() so that d_alloc_parallel() can (only) be called without
+holding inode_lock().  This particularly requires filesystems not to use 
+d_drop() in the middle of an operation, which particularly requires the d_splice_alias()
+change.
 
-Best Regards
-Yi.
+As it will require d_alloc_parallel() to NOT be called under the inode
+lock, d_alloc_trylock() is added which CAN be used when failure is safe
+(dcache priming in readdir).
 
-> 
-> On Tue, Jul 14, 2026 at 04:23:20PM -0500, Zhang Yi wrote:
->> Hi,
->>
->> This is v4 of the trivial iomap fixes for the ext4 conversion. There are
->> no code changes relative to v3, the only update is the addition of a
->> Fixes tag in patch 03.
->>
->> Changes since v3:
->>  - Collect RVB tags from Christoph.
->>  - Add fix tag in patch patch 03 ("iomap: fix incorrect did_zero setting
->>    in iomap_zero_iter()").
->> Changes since v2:
->>  - Collect RVB tags from Darrick and Joanne.
->>  - Remove CC stable tag in patch 01 as Joanne suggested.
->> Changes since v1:
->>  - Add fix tags to patch 01 and 04.
->>  - In patch 04, change ifs_set_range_uptodate() to always fall through
->>    to ifs_is_fully_uptodate(), preventing a false-positive uptodate
->>    mask.
->>  - Add patch 05, add comments for ifs_clear/set_range_dirty().
->>
->> v3: https://lore.kernel.org/linux-fsdevel/20260713072906.1726059-1-yi.zhang@huaweicloud.com/
->> v2: https://lore.kernel.org/linux-fsdevel/20260520030357.679687-1-yi.zhang@huaweicloud.com/
->> v1: https://lore.kernel.org/linux-fsdevel/20260514062955.1183976-1-yi.zhang@huaweicloud.com/
->>
->>
->> Original Cover-letter:
->>
->> This patch series contains a few trivial iomap-related fixes in
->> preparation for converting ext4 buffered I/O to use iomap. 
->>
->> The first three patches are taken from my ext4 conversion series [1], as
->> suggested by Christoph. The fourth patch fixes a bug originally reported
->> by Sashiko during review of my series; although unrelated to the ext4
->> conversion, it is worth fixing on its own. Please see the following
->> patches for detail. The fifth patch add comments for
->> ifs_clear/set_range_dirty(), and the last patch avoids merging ioends
->> that have different private data.
->>
->> Thanks,
->> Yi.
->>
->> [1] https://lore.kernel.org/linux-ext4/20260511072344.191271-1-yi.zhang@huaweicloud.com/
->>
->> Zhang Yi (5):
->>   iomap: correct the range of a partial dirty clear
->>   iomap: support invalidating partial folios
->>   iomap: fix incorrect did_zero setting in iomap_zero_iter()
->>   iomap: fix out-of-bounds bitmap_set() with zero-length range
->>   iomap: add comments for ifs_clear/set_range_dirty()
->>
->>  fs/iomap/buffered-io.c | 58 ++++++++++++++++++++++++++++++++----------
->>  1 file changed, 44 insertions(+), 14 deletions(-)
->>
->> -- 
->> 2.52.0
->>
->>
+Once these land upstream I can submit patches to various filesystems to
+make use of them.  Then when filesystems are ready I can continue the
+VFS changes.
 
+Thanks,
+NeilBrown
+
+
+ [PATCH v2 1/4] VFS: fix various typos in documentation for
+ [PATCH v2 2/4] VFS: enhance d_splice_alias() to handle hashed
+ [PATCH v2 3/4] VFS: introduce d_alloc_trylock()
+ [PATCH v2 4/4] VFS: add d_duplicate()
