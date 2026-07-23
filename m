@@ -1,80 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A88E4963A5;
-	Thu, 23 Jul 2026 13:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7454D9901;
+	Thu, 23 Jul 2026 13:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784813384; cv=none; b=QRVPSLltxygIutB+ViVI14uhjITzrBYOPmmhH+T7XztjppOCt4bXjhFaT7Pvt3/9+98uV/nX2s5Fx3CWfiwqXa23QGFwN+qnsnPwSUuZOEaXwCy0+Sxrjficq7FdTBFF6ZkeVYWZ4cjBzJKUElWQxsVQRfwdd0C4PbLW3LH1ZIA=
+	t=1784813391; cv=none; b=PvrIvQcsRYpG1m01+6Pu1mLf6E8QtpMlOUk9AwTX65dUBamS80Zsc0jEuWZnIOuKCF5IRaTzs7GrbmNfLDy7XV48QWWrnCGMg/38mCSskL78vGRDxlER+Y+idVjtb/UMQWawkllj04QpOSVxj4L7dMx9IeoRUgmqxsYT05z+AUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784813384; c=relaxed/simple;
-	bh=jlS1CQ2CImc0/y+01v6Hb1rpC0YyyEIywGqsUrLzmb4=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=D5vzvcyu0UN2346gm3DQpGizDBNkOnE/w7xKmWLkuHwT39QuWluSIHoLpfiwC0SGwJpiCkuyjobcIWmThqW1WL1M65pxE68Cohh61g6UPsIyJKuekkiCB1PxJHYorwqI3cJa9bDGVA2BpXxU7utzhxuJR7smdsdCQYd2t+0o1pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O344mY24; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784813391; c=relaxed/simple;
+	bh=Q/g/SVS6Vi1wW3ZBW1eEw+RoaB7Xl/as5+9mEdu2mYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=INQCeAJ5g2lNKaQMvRnx6wbweCL4YW0nstoarpwJpWpbueh6JpKGpFKgBabROkQH1yRWzjMCHT1TH45jTs1bq9+EuFPPEbF9NZ5vjHGbjt/viN0RG+GGKIOmUbD3xX2FQbEBd7FCVGu3Vpth+lfsKrksbbpurqE8UcV0XAjPmZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b=paHp8U+S; arc=none smtp.client-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O344mY24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2981F000E9;
-	Thu, 23 Jul 2026 13:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784813382;
-	bh=/eJaksA8cVR2h2DWYNLQWK0/asNQiai/rebHD8qgg1s=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=O344mY24di77hY1DpoQTGBaL/uH0bJpdD7FKCI+mrUNk5Z/tPe856FQFGZv5jHEo2
-	 YZrPy38475ITtvSH9z7qFZHirUWRYzIvK+R1DvxD+ttwMVs7K3jL86l2TMuM+C+/MX
-	 abg/gN9vXhAV03N8eiV3vl9QtPAw57YMniITd1xsqAfSYgqKsNzyUh0BD3eXHF7Cv0
-	 FJz/82jygREDLtA75V1NGDD5GGF6MvxxyZ2jqQmRdyVZFOJUKVrAM6frEHeVf7WQ6f
-	 MsXHyBReFNy8ZaoJ9NwRXYhf0h6C98p1jzLU4gzMA6/2Rh88OiiKS21Gi+i0MxLN3z
-	 v9odJn6VK0Rig==
+	dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b="paHp8U+S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1784813385; bh=Q/g/SVS6Vi1wW3ZBW1eEw+RoaB7Xl/as5+9mEdu2mYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=paHp8U+S7A5RFLJ6ePL467CDPO14LXE+QIO/UeHQxQ7SVD+CxJ2RbtEtsHPoQPesN
+	 lReo0cArupueM8HeMNpq89bG9o629wW9TynXT0c/rt5+GVSA8nZ8ZdBSG1ZSdj95LP
+	 8Xgs3aexyDGI1a/lP6ZMhzPJSmeCXnI0bAB+rPoRXFZZ+Pjuwn8A4B6ScvDX+XIsJT
+	 Pkf8Zm++DToeAIAhgqexUhXSaVf+nW4nweGFMFOZZQ6yCKa7Y2Lge8rtUJLiDTaVXf
+	 fbYOJ6SE8WxC514SZ9hcFlbJkrl5PRYQcOpZVtJzwZ2swa62gObuP4OxGMVLSYv2Y3
+	 66vE6BcrEx24Q==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id 54EDB630; Thu, 23 Jul 2026 08:29:45 -0500 (CDT)
+Date: Thu, 23 Jul 2026 08:29:45 -0500
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: cem@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, jack@suze.cz, djwong@kernel.org,
+	hch@lst.de, serge@hallyn.com, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [RFC PATCH 3/4] xfs: replace ns_capable_noaudit()
+Message-ID: <amIXSTSc47vQUOgk@mail.hallyn.com>
+References: <20260626114533.102138-1-cem@kernel.org>
+ <20260626114533.102138-4-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] binfmt_elf_fdpic: only honour the first PT_INTERP
-From: Christian Brauner <brauner@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, 
- Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, bpf@vger.kernel.org, 
- jannh@google.com, mail@johnericson.me, stable@vger.kernel.org
-In-Reply-To: <202607222110.D5AB43796@keescook>
-References: <20260721-gezittert-medium-kreide-b41fc1f0277e@brauner>
- <202607222110.D5AB43796@keescook>
-Date: Thu, 23 Jul 2026 15:29:36 +0200
-Message-Id: <20260723-ertrinken-ahnung-pizza-5aac875268d0@brauner>
-X-Mailer: b4 0.16-dev-0e65f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1076; i=brauner@kernel.org;
- h=from:subject:message-id; bh=jlS1CQ2CImc0/y+01v6Hb1rpC0YyyEIywGqsUrLzmb4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQliTtd+ryyUa5mVdSS0JZpdlPsDbN+6byVj5N8uGN2S
- OGpU7e1O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayJpaR4d780AUGn2QcPxed
- 72IoDGF79Zy7YNGzXpkTtwVzvl23uc/IcCqSU/X6pZ0KN8WTK2Z/Xrf/chb3hknzYi+Y8e7PUkh
- dyAIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626114533.102138-4-cem@kernel.org>
 
-On 2026-07-22 21:13 -0700, Kees Cook wrote:
-> On Tue, Jul 21, 2026 at 01:20:45PM +0200, Christian Brauner wrote:
-> > The program header scan handles PT_INTERP from a switch nested in the
-> > scan loop, so its break leaves the switch and not the loop. A binary
-> > carrying more than one PT_INTERP runs the case again and overwrites both
-> > interpreter_name and interpreter. The previous name allocation leaks and
-> > so does the previous interpreter reference, along with the write denial
-> > open_exec() took on it. The denial is never released, so the file stays
-> > unwritable for as long as the system runs.
-> > 
-> > An unprivileged caller reaches this with a crafted binary and repeats it
-> > at will. binfmt_elf stops at the first PT_INTERP. Do the same here.
+On Fri, Jun 26, 2026 at 01:45:22PM +0200, cem@kernel.org wrote:
+> From: Carlos Maiolino <cem@kernel.org>
 > 
-> binfmt_elf ignores all the other PT_INTERPs, which is what you've done
-> here too, but I wonder if it might be reasonable to refuse to load such
-> a binary?
+> We don't need to use ns_capable_noaudit() as all we care is the initial
+> user namespace, use capable_noaudit() instead.
 
-As a follow-up change I think it might make sense to try to do that for
-both going forward. As an actual fix this seems safer.
+Looks like some of your other xfs fixes conflict with this.  Do
+you mind sending out a new set, and I'll pull them into the caps-next
+branch?
 
+thanks,
+-serge
+
+> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> ---
+>  fs/xfs/xfs_trans_dquot.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_trans_dquot.c b/fs/xfs/xfs_trans_dquot.c
+> index 50e5b323f7f1..30c2f6ec0aac 100644
+> --- a/fs/xfs/xfs_trans_dquot.c
+> +++ b/fs/xfs/xfs_trans_dquot.c
+> @@ -835,7 +835,7 @@ xfs_trans_dqresv(
+>  	if ((flags & XFS_QMOPT_FORCE_RES) == 0 &&
+>  	    dqp->q_id &&
+>  	    xfs_dquot_is_enforced(dqp) &&
+> -	    !ns_capable_noaudit(&init_user_ns, CAP_SYS_RESOURCE)) {
+> +	    !capable_noaudit(CAP_SYS_RESOURCE)) {
+>  		int		quota_nl;
+>  		bool		fatal;
+>  
+> -- 
+> 2.54.0
