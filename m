@@ -1,40 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3515639021F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 16:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2755471D0E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 17:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784825836; cv=none; b=andtfTOHaJnla92+o8VN7xo8reolFTDLmiiOsDu5+kE9MwEl4jaPWpwDwXwpCJOcOyq2y78B6hePzD55X5cIO5ogLc9twEHDBcrjwIYePLsgV77icEwUSLjNESH2DXdeNOeTOJzFMPuAQOqkoOlc8+/1VcP5vAVcTPWosXcXn/M=
+	t=1784826022; cv=none; b=RP4RNgHIEUG2bU0ND9UPObeq+JdZ/z6ZI0KL3oxgbC7ZXQRni14NevBR+O4GvGPpyOVTVLpN9oTVZlya23hINvES8GFYK6fe8evn4tvofI+LOjjOYr/+kJa1KK/i7UIu5y0Zpt/2KtXunntG1CVX/5cwKkmaXL8P6HLYii2kg9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784825836; c=relaxed/simple;
-	bh=PqykRVSsrwSwBko7HpI/DI8kB6OMIzURdtEjH0bl4go=;
+	s=arc-20240116; t=1784826022; c=relaxed/simple;
+	bh=iU/FwLMLp21DnC5XkG6DrWvVNQxJ1GvDlQBJ5rSY1sc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qsTFOTCMGYPZ2ouwukBt4xZQeP4a5zIjgwW7UjSG543btCDfk6OVbuPlGBP5lApRF9w2ey9DmMd5TBcT+dynAdweyfyMz5mFSQcE6S0bpjLEdO9HSZgsS9MS1rLBKA1qC10ZvHptpmezmM4yj6vud7+gHvQNRSViRs8iLspP1RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQpS8yaK; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQpS8yaK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBBBF1F00A3A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 16:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784825834;
-	bh=+pg0P9VSl+esL6Lh7ACV5pJPyjNye2t1udGbPDB26mw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=PQpS8yaKHEs69bBkBiSeaIzScFaz9EEGscY/9k3x0FgH3t5mYpkasoMEvggf3kNd/
-	 9Y5vwKDL/65nUMOjqiPx3g/491H5sjUUk4QSA1OlKKegUj+P7x7DhWoiKH9RGdJ+0z
-	 SPlXKYuoeqEgk5siXqBaJaSkW9itjluNj0TKAiIY6cJNpKUoUvVK0cYhJZ79E5gG6J
-	 5oYsFjhy9xyBGNgzrRWdp8lfzys8z3mGn8pohFJQayHUwsyeHKbSMPFoTxhZcDVtoT
-	 iM/Kxk1jrVd8jw1W4O4Rt51o1htIrP6mt6+rgDg1OunGOiY56GrQnpecTg8d5SdNLp
-	 LCeZymzUFJk6A==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so932430e87.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 09:57:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rot2e/D5UbUF3OSNOJlqh9QQ150LWNdJWn4VF0U8e3QNcO+b+oWj8anArn21tI+Osg+6HDpPA6n0OoHvFqu@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHeAhUl/+I4UcHUcRXV9fLSJTmq0P3koGl4PZjKsz+QEFPk+uX
-	EZCIBNrbQPYIoWIDw7+sXwTIwjfpO+S6XEp62XizojPw3G+fiJvuvvogsnTTHbBJ0ES57+YhFE3
-	wxNaDp86JcMy6yMjYIJEBe55/c33k42e7TekgtQt5
-X-Received: by 2002:ac2:4f0e:0:b0:5b2:aa5d:9d34 with SMTP id
- 2adb3069b0e04-5b2b2f67c26mr858207e87.32.1784825830324; Thu, 23 Jul 2026
- 09:57:10 -0700 (PDT)
+	 To:Cc:Content-Type; b=bQBXmRseQugMCJ325L/p1covkkUJIhaGX1dJ9pFwtkKCss6xSk/7JRIIEiR/SfqlsBzbwFOucYaJ0kvDG6ZIAb8ttxuoz/QuolxFVZ6zGjn2mnK++gCjFOqd9LUpGIo+qhL8qdOLAZ+5NNlYU9H7QOISAqxffpwNSfFfAt9rm5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C1A71F000E9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 17:00:21 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b2a22c52c1so1000977e87.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 10:00:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoXZsM4sX/N1nc8eQSWibDYecoTt/Py1xEL2NAeOAPDqcnAk8lubIur5AhAAOGN0GpiLhybyY7pm56ksgLm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/nU0+z4XClOEZMNOlMAFdel3TlBlr2UcPPC47U+Bb+6vx1UAF
+	3mCj/+wdwNtJLwxve56e5HYiVAhPZtzOZbeYgmQ4oaov8+xVoc4oPo5odQ8AnqmuJ8BYLZGur32
+	H9+Gr+IwHqJKEkW/MqflqMdN/H+XI0AjQOANcZgpl
+X-Received: by 2002:a05:6512:340a:b0:5b0:23c3:4f55 with SMTP id
+ 2adb3069b0e04-5b2b2f72e6dmr840383e87.53.1784826005059; Thu, 23 Jul 2026
+ 10:00:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,17 +30,19 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
- <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org> <CAG48ez1psv82Y98XT1p7vujYgj5a9hbPZ4=h7x4-yXQO5FQr6A@mail.gmail.com>
-In-Reply-To: <CAG48ez1psv82Y98XT1p7vujYgj5a9hbPZ4=h7x4-yXQO5FQr6A@mail.gmail.com>
+ <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org> <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
+ <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner> <CALCETrVezim-eYOFWon1w7FngTgWb2nkuZb_duf9q=TrNqiqkQ@mail.gmail.com>
+ <20260723-wutausbruch-aufraffen-gipfel-73767d4aa71f@brauner>
+In-Reply-To: <20260723-wutausbruch-aufraffen-gipfel-73767d4aa71f@brauner>
 From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 23 Jul 2026 09:56:57 -0700
-X-Gmail-Original-Message-ID: <CALCETrWPQt5JJMiYcO_AdPbeK6zdDJVP71Y38YQ6x9VjcxAPig@mail.gmail.com>
-X-Gm-Features: AUfX_mzjeayKkjWxi2CZUKV0qfPJXJwMd1SYkEprE_1eyDdsypuvQgPpb3epMK0
-Message-ID: <CALCETrWPQt5JJMiYcO_AdPbeK6zdDJVP71Y38YQ6x9VjcxAPig@mail.gmail.com>
+Date: Thu, 23 Jul 2026 09:59:52 -0700
+X-Gmail-Original-Message-ID: <CALCETrW-ObgCm=Vhm6AiyyS25q+SyXkCvVWB7JEaawmOMCrrpA@mail.gmail.com>
+X-Gm-Features: AUfX_mzIpqWq56DGWqbThFbD7a3b3A0zukUyF0HCSGDpiBebVUYhuKOgAcBFT6k
+Message-ID: <CALCETrW-ObgCm=Vhm6AiyyS25q+SyXkCvVWB7JEaawmOMCrrpA@mail.gmail.com>
 Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: Jann Horn <jannh@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Andy Lutomirski <luto@kernel.org>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
 	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
@@ -60,30 +50,109 @@ Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 23, 2026 at 7:09=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
+On Thu, Jul 23, 2026 at 7:49=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> On Thu, Jul 23, 2026 at 1:30=E2=80=AFPM Christian Brauner <brauner@kernel=
-.org> wrote:
-> > There's also some thought needed around shared fs_struct state. It's
-> > obviously possible to chroot into failfs with a shared fs_struct if the
-> > caller has CAP_SYS_CHROOT and shares the fs_struct or if the caller is
-> > no_new_privs and shares the fs_struct. The non-chrooted-currently
-> > requirement still applies.
+> On 2026-07-23 06:50 -0700, Andy Lutomirski wrote:
+> > On Thu, Jul 23, 2026 at 6:09=E2=80=AFAM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > >
+> > > On Thu, Jul 23, 2026 at 05:49:06AM -0700, Andy Lutomirski wrote:
+> > > > On Thu, Jul 23, 2026 at 4:37=E2=80=AFAM Christian Brauner <brauner@=
+kernel.org> wrote:
+> > > > >
+> > > > > Once entered, failfs is a throw-away-the-key moment. The task is
+> > > > > considered chrooted so it cannot create user namespaces to regain
+> > > > > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROO=
+T.
+> > > >
+> > > > I kind of alluded to this earlier, but I don't think we should prom=
+ise
+> > > > this.  In particular, I still think we should eventually allow a
+> > > > non-chrooted process with no_new_privs to chroot to any valid
+> > > > directory, and I think we should consider changing the definition o=
+f
+> > > > current_chrooted() such that failfs-as-root would cause it to retur=
+n
+> > > > false.  I'm also not sure why it's useful -- if I want to throw awa=
+y
+> > >
+> > > I had considered that but introducing this change alongside this seri=
+es
+> > > felt too spicy for me.
+> >
+> > I think I agree.  My only actual objection to your series as is is
+> > that your wording seems to make a promise that I think shouldn't be
+> > made.
 >
-> Having CAP_SYS_CHROOT and sharing the fs_struct should not be an issue
-> because we already ensure that any tasks that share fs_struct are in
-> the same user namespace, so CAP_SYS_CHROOT is implicitly also held
-> relative to other users of the fs_struct. (In particular,
-> userns_install() and unshare_fs() ensure this.) (Except if LSMs get
-> involved with weird policy, I guess.) That's what makes the existing
-> chroot() syscall safe.
+> Agreed.
 >
-> But yeah, the no_new_privs check I suggested is kind of a pain...
+> >
+> > >
+> > > > the key to accessing the normal contents of my mountns without
+> > > > changing my mountns, I need to chroot somewhere (like failfs) *and*=
+ I
+> > > > need to somehow prevent myself from getting an fd or a magic link b=
+ack
+> > > > to the ordinary mountns contents.  If I somehow get such an fd,
+> > > > preventing my from fchrooting to it doesn't seem to accomplish
+> > > > anything, since I could traverse the fd with openat, etc just as
+> > > > easily, or even fchdir to it and use relative paths.
+> > >
+> > > I think I generally agree with you. My main concern here is mostly ab=
+out
+> > > changing very long-standing behavior here and making failfs special h=
+ere
+> > > feels like it could easily misused.
+> >
+> > I don't think either of us are really suggesting making failfs
+> > special.  I agree about the long-standing behavior.
+> >
+> > >
+> > > >
+> > > > My understanding of the exact workings of the mount tree is possibl=
+y
+> > > > not good enough to specify the semantics I think are correct quite
+> > > > exactly, but I think a decent approximation is that a task should b=
+e
+> > > > considered to be not chrooted if its root is at the top of its moun=
+t
+> > > > tree or is not in a mount tree at all.
+> > >
+> > > If we could altering this definition from the patchset I would be in
+> > > favor of it. I'm curious what your take is though.
+> > >
+> >
+> > I can't quite parse your question.
 >
+> Maybe I should shunt everything I write through an LLM so it catches
+> grammatical nonsense.
+>
+> It was basically just trying to say "let's not redesign
+> current_chrooted()" in this series - which I already did above.
+>
+> > I have three sort-of-concrete proposals:
+>
+> The best proposals...
+>
+> > (a) current_chrooted returns false if follow_dotdot starting at
+> > current root but with nd->root equal to the namespace root would
+> > succeed and return the current root.  I think this is fairly solid.
+> > The main caveat I can think of is that someone could create a detached
+> > mount tree, chroot to its root, then fork and have the child:
+> >
+> >  - drop privileges
+> >  - set no_new_privs
+> >  - chroot somewhere else
+> >
+> > then the parent or another privileged task mounts that tree somewhere,
+> > and the child could now access the parent of the mountpoint.  Any
+> > actual exploit based on this seems farfetched.
+>
+> It would also be easy to prevent unprivileged chroot()ing into detached
+> mount trees. They're easy to recognize and it's not a super common
+> use-case.
 
-It's dorky, but we could say that your fs_struct must be non-shared
-for unprivileged chroot to be allowed.
-
-(I'm so mad at Docker for blocking *all* unshare calls in their
-default policy.  Not a showstopper, but it's extremely annoying.  Yes,
-I have an issue open that has been completely ignored.)
+In some sense chrooting into a detached mount tree is an entirely
+reasonable operation.  Make your favorite mount tree and chroot there
+-- it's like mount-namespaces minus the namespace.
