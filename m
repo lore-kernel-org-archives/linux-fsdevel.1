@@ -1,64 +1,64 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDC5364044
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 03:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E258362133
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 03:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784778760; cv=none; b=mBSOL+fgo+EdB3SaHXvXhaP6mKMJKmCtcscSGkbiX7iTRMHScdvI5U2V/jVtRdD/l5UBXza3qlL870LgrndZcwQBBxv0uVnRScZAA3d8tZ4+3htJpCRLEznc7uO5y4noT47cspIaPgUc5UUl2pXDiAHXNRnQmfIoF28fUHAtDK4=
+	t=1784778762; cv=none; b=LaX3EXUqlz9MIbHyQCbaaCtNr+j8jDsuEse/ZEAD2L+t12JJ2UdwLUwz31HKsMLPewMCYI0tgCBnFRzKnKAidXal74b+in6SqwohtTl/UTLU+yQOA2J8+fsOfItlOkygHaj1iw6CWskFPYD2KduDgVyGGRo5yHs7ls2NlmwLAVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784778760; c=relaxed/simple;
-	bh=NDGDfJcvHQY/dLknd5LZMdxKuXfhjbJh2t1x5x/SpJI=;
+	s=arc-20240116; t=1784778762; c=relaxed/simple;
+	bh=cxZNXOVSqNxENXyKw+Fb/8BWQU/zhWDz5ayqgPPbNXY=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=cEFTLMFEFn5RZYfx0fQHsBiVROwmsjBd/0+j9N4oYi6ajwBd+QIg17OIC2UWxtYon83AZaiId3nDVpfuXP2UqkpzBCCVC1oBFnkY68ARpGIsm0rWz7D4wquhqfWkF5yogDO9Y/Ptp6w36Otjg78/kS3W7Wn6tDOSDfl6lpk9fH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nyRF5MBg; arc=none smtp.client-ip=209.85.214.182
+	 References:Date:Message-Id; b=eNAFB2XSESBxJNvQIRf1TF3B8lzOLQ/tyWVIl39DFqVJW5SgFayb7MQt6KI9+PFMuwKbx45E9EmkCpFZPz77tFIu+RpvTt3afTmO2tP8ZmxbQpo+6MZSUNfKKpV8hZZMSW7Pt1h4X9vtsmBj9E6Nd8H89nVnE+2tiyNHuLEZ+pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAGfmfCU; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nyRF5MBg"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cf50c6f235so2840025ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 20:52:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAGfmfCU"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38e347638adso184477a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 20:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784778759; x=1785383559; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784778760; x=1785383560; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=JnOvPtms1RLQR9UWnggpXMwfANAdvGkfvfRA3Dni8Io=;
-        b=nyRF5MBgmPygt30iC3aB4MM+TlTj0WfAK9Vhu4FbM7FaQV4yL7vF1xS5bC2bmI8zxR
-         EhGN/bmkMRgdfYHi/h1A7+qrGdEmOKssMicIttdgyN21+WGSw9viQdnDEMZ5n9si4a53
-         4dnz+WGAIZL0sC1r1Kg31DfvpCadIX62SxoR+nzdHP/uIHtkHy0uA35Gx+L6XpYQ0rH4
-         VVSRjfGCiCz8w48wpHhR360Xrlj0SxAwyYPlb70kuTDsALQkLKxtvCT3Ji+m3xUsCR3n
-         1Vec4QAu91W+fFSmDms3FgIh4kKXq6UYqWzjCHsEyygHu7AsrKTN5KC8S41fYCY4DsD2
-         yddg==
+        bh=tyN4lv/m1nCHBkc/YC4b5dQo4s+xkz63mLX0J0yNeRk=;
+        b=EAGfmfCULCKWRLlwDVWJexkhoKtpYLBsVLcggNso67hq1gD7xT3dSTTJiNCrtZ5URx
+         wN8o8KpR7hEGsiaNuduKpWu86iWR4vL/faOt0lmqBzkelV6ATrBw9UXXV1XTvS8W4b4v
+         AUr2CHxSmaTUf0mnA5glcILEsxIAGxF8ojJOXmh6A8Z3UIrPUr/WekhfsQtuzNIf3GL/
+         v2iYCTCC8kfTyQwf4wX7FcEd8puQEr6Mdwb4t5XjEqXX+LZ84M///YgC1//xNJ4QIcUZ
+         C+Prbxl4U+7752CbKqCmbOetn2kr532Xr5V24qe/CXN3wB55GBO28zV391EvDJmtoMz2
+         AOlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784778759; x=1785383559;
+        d=1e100.net; s=20251104; t=1784778760; x=1785383560;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JnOvPtms1RLQR9UWnggpXMwfANAdvGkfvfRA3Dni8Io=;
-        b=Nl/oPcPod70ILMaxWFzg7/fyx+2qr/1yIzku1KmuT8ua6TerftfXyq4TJ9fkulgjTf
-         /eJ/QmG8IcgnUB33DxY8Z4n9ZBDjVJL2MS5ZYqMUZpVkAtSOJ5TvgwlmlOOJbAclZ1HB
-         GoUL7tj/5sRpmWVkZx5871FM4EgK1JdXSeDip1zb/dzD0kDCiVU1FcVs314fhkhkkqiN
-         j98/H/7tlNrMZiYg6Uj5vJ2B91jMJVKReiQklXEprh9yt03ONr5yxJHAmGdJQmN8B4aj
-         Jb2TuqwX+A8DxzSBFuJ2UWQzl2rNHA/oviNH0KA//HM6rzrn37tZnUWANaKpuCfkAylJ
-         LnLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpJHuYIJzFu8aPA9PeoZMAi+1jMzUWU+rl6YwjqjjmU+u5vUGo4yNGssYyXaJgdHqIKx0fXcbb/IUd3esTX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9khYf9UjhDtCbEkTNA5kSrXyUFSJM9XSBa5GfNbMbrcAktCag
-	E5/9ghWRudBj8IAE/UgQXVnL7q4CmeM/quoAExFv3c2/iMTI3R/Iu2xMPdICRQ6P
-X-Gm-Gg: AR+sD10GLIyycVZwlsrfAOjDPHDEwOtHUcYiKC/hOiu5xk/yAow3x3OzVo5M6hBVZKo
-	R0UjhMDDPJOw1zUhJtg51TeB4Obo+VMLDX4H1SplaTfrSScpRBvyDLzgLfSxVzJLyT4+2PPRUsb
-	quWwqMMkLwv0Wo9HImXDb0V18qrIbrt+8bah8bv5kNCEXNlmVl3S/4xwZBhSn7v193cRrElW8gg
-	bCQJY0v+GC/R0a/TvdpxZwFydU3HV4fSkq99+ZiNoHPp+/YpdgzUOnVeGXdxh0OekqY0xT1FluJ
-	mWkmMwD8ywvYcJ4ISPQYGe6WRf9jYQw2P2Da0hBuoJ7fj2b1Tx1v0e6cDK5+F8ojl3+4+qcFQ4O
-	fXwpaBJZ644oLHf1TIlalj0AnXpj0L0OFdE+POGm9c/H5l5T02ZdRoOx1mRjbE4kLLo49jbRyMr
-	t8FLr42A==
-X-Received: by 2002:a05:6a21:2d4b:b0:3aa:c964:3c27 with SMTP id adf61e73a8af0-3c44b1c86a1mr1373005637.46.1784778759161;
-        Wed, 22 Jul 2026 20:52:39 -0700 (PDT)
+        bh=tyN4lv/m1nCHBkc/YC4b5dQo4s+xkz63mLX0J0yNeRk=;
+        b=q9h7XAzKxQLAq8E7+B6fXGvLkgVxjjL5RQTS98groaLvafEz54hBAoNgltQK7oL0WO
+         dPPGKilchncGFG3ld1i/ELx/KeVPJIdJkCof3dqE6gWdSmcnZtPse32ngVoaNGXpOyv5
+         3OfoXgDFLFi6ArfHfoHGhHegcgFSnd3Bl8D2Byh/5LlMiZpxN1rF3QQ6Aw2d5PhiOO7V
+         +S6AkrygEbsflIqgOujtuxCTH50rTG4nGfokahWYxPBNztKcyf1VvptHqO8mk71JH60E
+         cCqS2B0tvp7L4QZ73yZeDLuVZmAwNOVfrzuBtyfKNTiK1VZWJSeqzsaplElFotmrmXrR
+         uYNw==
+X-Forwarded-Encrypted: i=1; AHgh+RqR0Ga0UYmeZsSAusL5pI75Rg8bOen0EUnyhNsIkd8/ialKGbthYmeJfZVZAeePNFTHzjffgxI8TN+472ra@vger.kernel.org
+X-Gm-Message-State: AOJu0YwghiZsNrHLsFi2095grryWfxTFNNs/lQUeEsEiBBIi9EdHEFhI
+	UMbiF2vnfClYDI41BidZvlthdBoXCwQXw5bbc01z4Ac4lM+B9X41EvLtH3t2QclK
+X-Gm-Gg: AR+sD130drFPDBxepGWRSZVSIQP9FNUxDe8KL+JlZHqDCpmPor9o+qVT1Iu2+Tk81HV
+	imRft3sKfKLNaNyF9lOVFNfogJ87CDzoN5QjJ/TYEuIrK2Gq+aQiDpFvrbzKW9EePV/SN7RZfvx
+	scbcwM25nHcXTsWGOLEZE1msYrwGOEe8+l7Ajks+FZsd2gEQ8omo2Xv4n/8607SATaQy4KuxM9B
+	GnrAx5y9YQpLPYqK2lUlg6ztTwg4+LRySAayzWpI+M+hWZhECZwPx7zhn3Hsj76G95uQbmNtgPF
+	yH2g+d6am5hWtfPKN0BvJ+EPw/YVkRsgzYwlSYHEyLfacvgxBPisYTr7Xsc+4TyByMjmH7MX79m
+	wREQJxc38CE/SG+HdbNEDktKbk1Jo+IbtrD8LV9mwfYvBAA46bnYUIBc8kvkxP5niTgR9CKYuYV
+	uQ9vcSzg==
+X-Received: by 2002:a17:90b:1d44:b0:38d:dfd1:7a8 with SMTP id 98e67ed59e1d1-38ec63e1ed7mr1430578a91.2.1784778760399;
+        Wed, 22 Jul 2026 20:52:40 -0700 (PDT)
 Received: from [127.0.0.2] ([98.35.8.117])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d12f267fdsm11497359c88.0.2026.07.22.20.52.38
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d12f267fdsm11497359c88.0.2026.07.22.20.52.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 20:52:38 -0700 (PDT)
+        Wed, 22 Jul 2026 20:52:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -67,8 +67,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 04/21] binfmt_misc: normalize the per-exec
- invocation flags
+Subject: Re: [PATCH v2 05/21] binfmt_misc: split out
+ entry_open_interpreter() and build_interp_argv()
 From: Farid Zakaria <farid.m.zakaria@gmail.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Farid Zakaria <farid.m.zakaria@gmail.com>, 
@@ -77,23 +77,25 @@ Cc: Farid Zakaria <farid.m.zakaria@gmail.com>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, bpf@vger.kernel.org, 
  jannh@google.com, mail@johnericson.me
-In-Reply-To: <20260721-work-bpf-binfmt_misc-ptinterp-v2-4-e57866e4ae0f@kernel.org>
+In-Reply-To: <20260721-work-bpf-binfmt_misc-ptinterp-v2-5-e57866e4ae0f@kernel.org>
 References: <20260721-work-bpf-binfmt_misc-ptinterp-v2-0-e57866e4ae0f@kernel.org>
- <20260721-work-bpf-binfmt_misc-ptinterp-v2-4-e57866e4ae0f@kernel.org>
+ <20260721-work-bpf-binfmt_misc-ptinterp-v2-5-e57866e4ae0f@kernel.org>
 Date: Wed, 22 Jul 2026 20:52:07 -0700
-Message-Id: <178477872731.254289.6997696289699732480.b4-review@b4>
+Message-Id: <178477872731.254289.5616585238630856872.b4-review@b4>
 X-Mailer: b4 0.15.2
 
-On Tue, 21 Jul 2026 16:13:46 +0200, Christian Brauner <brauner@kernel.org> wrote:
-> A static entry fixes its invocation flags at registration. A 'B' entry's
-> load program picks them per exec. Since load_misc_binary() branches on
-> which kind of entry matched and then applies the two flag sets side by
-> side every flag is handled twice and each new one has to be added to
-> both arms.
+On Tue, 21 Jul 2026 16:13:47 +0200, Christian Brauner <brauner@kernel.org> wrote:
+> Opening the interpreter is a property of the matched entry: an 'F' entry
+> hands out a clone of the file it pre-opened at registration time, any
+> other entry opens the selected path. Give that its own helper instead of
+> an if/else in the middle of load_misc_binary(), and let it fail early
+> rather than carrying an ERR_PTR through the successful branch.
 > 
-> Translate the 'B' flags into the entry flags they mirror and let the
-> dispatch act on a single set of flags. The boolean the two arms
-> communicated 'P' can be removed.
+> Building the interpreter's argument vector is the bulk of what remains
+> and the one part of load_misc_binary() that is specific to the classic
+> dispatch. Move it into its own helper too, so the dispatch reads as what
+> it is: pick a handler, pick an interpreter, build the invocation, open
+> it.
 > 
 > [...]
 
