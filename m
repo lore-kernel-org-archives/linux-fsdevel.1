@@ -1,167 +1,146 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265472C86D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 01:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEA72DCF61;
+	Thu, 23 Jul 2026 01:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784768580; cv=none; b=JuY4010RGDNtLhF0XNG6Nay1vcA9r0unQDwxZzJbmiIBwK7SIOAsbNQs3RBKAa81/4h5QxVzbUOCIiBB3lITH4NGceM+me4SQb0/TY/kQfD/2yfFSo/kwa2iLhFrTK/SbnGS2M5kLa7ss15isyWKBJjmyXk32APbWjBbHLHI6cw=
+	t=1784769969; cv=none; b=EyhLQkivCFtqdOCBVNSET5PXDTGjIOsk9p07E9eBoAuNgWP4x+e2qk0SUZdhEUcYDcLsiKkYDFGAgZH7LwvO0puODSHz6aF0IE9bem9L2b+0NvzOmsNjAFz1iEXhwB6QjxqZTkrDYq4qQebR0aF+9VzvDaimejr7uPzTg7QO6V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784768580; c=relaxed/simple;
-	bh=B7p/Yr6KIUXHY9xeKP6wCZcbcmTeppPjtg4Fzq/9ZtM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uy3G1spaG+JT92IBQqMcCs2XuIGPlQnlBkXNiyk5DQEtR8o+nKq+H8Yb5qveDJvq1vVeOPZvcPFn/1CxCSh3uHzZVEOKG6pXbc82WDjrderde7W6jIDy6npHOH2bWTRuzpwwKOyrHgljfczlCBM9sQJdKyx4h5TrTCEJmz1iuKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KxPSsAr0; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KxPSsAr0"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6a3d77e72ffso45182eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Jul 2026 18:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784768577; x=1785373377; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dL5sSve182iKi7PGGdT5iIYPlCpUxk3FPMQ0kRAvoaQ=;
-        b=KxPSsAr0TM3pnpflTeqCrQC0CdUieGyaRqnUpG9psc7ZmlFpJlEFQHD7J7AvV8J7P4
-         wkCMjygyz4Mb17t2AXJMJLAiEiHR4u6vsKvGtCXwkG+qAY8VVQRv5RBM5yo91L12aDvi
-         EJlw6HR6jPcEg63DKLTdMjFJOuGjt6j1VuCwHqAQ9yylh3YknUGq2I7b+oyXptKQj9Dj
-         Dmf+KbJ5isAVhjGcUwBlToO9wHIWQvIjUOLcGr65unEeJVOraSMolxqwykXYxJpLm6Zd
-         UjigYmaariSlci2pYa+krglVl9u56+issno+R8rvMN4+ca8OUmDKIcFDDAg8B2o5Bkfd
-         TyFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784768577; x=1785373377;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dL5sSve182iKi7PGGdT5iIYPlCpUxk3FPMQ0kRAvoaQ=;
-        b=tTewSL0BSRqF07SEGXTTKlO8e8SSWlitw53RumtC4rE1yQMYQfC+cHNy5lQ3GiMWmy
-         uq2JCmKL6jVWyMi3luAi/KwIl7G/PCeUNgrSQRzwJwxAQ7XB1FeNG3gPUwSspUnnM1VA
-         ztOFfC4/C12L1IorNhCOQLoUnOS2EbBlpWjJb9o2SVACbNcuznZhc0zRhZYhEbyKSWML
-         Flv33IYnpUVSZY3XD8azqhMD93Z06Kpd/4fOS8enqPaKU3RomO3ioiuDesNzp557Gd6U
-         7On8/JxJ/Ux+TO7dln23i01Ntvy026an9dxn37cBGDQR4Za+bWaVnn2zOPJQuv9nLuD2
-         F+bQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqiTrEfbc8pOocJcWreJnr75lG0NsfCXNU/HSAFWeU1n6rOv4RyPpp79I1Sy7j1SbsQhV6tLG0h5wvpW1dX@vger.kernel.org
-X-Gm-Message-State: AOJu0YySdDVd8NS6zBRRx40WOH0URT6NwaXnJCnvFjpdKpIZpPeY0QTS
-	Er0eFfLe7WNyvyltyFHdxJ+Ca2p9NYGx1efH9TMGXaIQQJGcqsJYI0jB
-X-Gm-Gg: AR+sD11EMvf3EPSESj9WpPcxtsjQeUntWUh7w+gWI+HJoKwu3lXWxd13+Sba5X1CsRm
-	NvEz+sUnSWxgqtRVOGCBkNDkCF+l+3kBMWJo6DxNnWXd1jZB4J7AwOa1rpWhqasooPgVC7TLwxa
-	9ZYjMkj6+um5lqeMVupSikjqDOBq1POw0HpRkYR0j2YvhY0Uiv7lpMXSrr+c8ElQgQS/lxUVWIB
-	SvTe/+wL21usvnPR+idxWjWAiEsZLcgt0nkJaII6MJWB15++PjcKLE/VXNJAWKp6aLy1uuWM8td
-	tr06J5gL250W2M6vKqEDENbX9nwrSMn1gLa21kNqdjnhJT/Hw9SAux8tyFkp849mR+Ilc8Ojyky
-	HY2bYMsjbcCkZzQYFPIMrrWVBxzYFCRsx9+YjSPcf8kJi+tjETld6Vz0eswcIR8vfagm2y8Xg
-X-Received: by 2002:a4a:e84b:0:b0:6a3:94bc:bdcf with SMTP id 006d021491bc7-6aad41758d3mr381511eaf.57.1784768576918;
-        Wed, 22 Jul 2026 18:02:56 -0700 (PDT)
-Received: from fedora ([187.142.231.66])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-45766f16dfcsm3312320fac.7.2026.07.22.18.02.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 18:02:55 -0700 (PDT)
-From: Cihan Karadag <cihan.cihan@gmail.com>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Cihan Karadag <cihan.cihan@gmail.com>,
-	Shuah Khan <shuah@kernel.org>
-Subject: [PATCH] fat: preserve reserved lcase bits across rename
-Date: Wed, 22 Jul 2026 19:02:25 -0600
-Message-ID: <20260723010227.88190-1-cihan.cihan@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1784769969; c=relaxed/simple;
+	bh=qsENIsk8IVpt31kC+5aUJqtQtf9uAZPzHt/Z+EJ5Ggo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uxtlFdERFVma3Z3250+PEZeD1F7oaBQbiKNqOj6SKrQqGXvKVt5CzjBv2gUhq5SjDAbnR+gVslFDu0BLN7WBNMXYb862tznSME4iTlLDFagoB9tKcBBpOP51yfv7NKSZnYPNOx0dpO9jZ8wKotuCYTcSMWubZpJcBk1QFmzJiCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4h5D2L1rCWzKHMTf;
+	Thu, 23 Jul 2026 09:25:14 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id C4FA84058D;
+	Thu, 23 Jul 2026 09:25:58 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgDH1nKkbWFq0nbaCA--.5388S3;
+	Thu, 23 Jul 2026 09:25:58 +0800 (CST)
+Message-ID: <5c5650a0-6fca-4638-b4cb-920065cd4015@huaweicloud.com>
+Date: Thu, 23 Jul 2026 09:25:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] iomap: trivial fixes for ext4 conversion
+To: brauner@kernel.org
+Cc: Theodore Tso <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, djwong@kernel.org,
+ hch@infradead.org, joannelkoong@gmail.com, yi.zhang@huawei.com,
+ yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+ yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
+References: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
+ <amDiuuX56ChS6LO0@mit.edu>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <amDiuuX56ChS6LO0@mit.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgDH1nKkbWFq0nbaCA--.5388S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF1xJFW8CF1xCF4UWw45Wrg_yoW5WrWxpF
+	Z3Ka15Kr4UWr4xAayxAa17X3WYva1fJF48W3W3Wwn5AFZ0vF18XF4xKa15uryDCrWrCFyr
+	tr1UK3Z3G34qyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+	0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+	GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	UAwIDUUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-The lcase field of struct msdos_dir_entry
-(include/uapi/linux/msdos_fs.h) has only two bits the kernel
-interprets, CASE_LOWER_BASE and CASE_LOWER_EXT; the rest are reserved
-and other implementations may use them to carry their own metadata
-(e.g. the Windows EFS "encrypted file" bit pattern).
+On 7/22/2026 11:34 PM, Theodore Tso wrote:
+> Hi Christian,
+> 
+> These fixes are needed for landing support for buffered writes using
+> iomap in ext4.  That won't be ready to land this development cycle,
+> but could we land these fixes now?
+> 
+> Thanks,
+> 
+> 						- Ted
 
-vfat_rename() currently loses those reserved bits in both of its
-paths: when the destination name doesn't already exist, a brand new
-directory entry is built from scratch with a freshly computed lcase
-byte, zeroing anything outside the two known bits; when the rename
-overwrites an existing destination, the destination's own (unrelated)
-reserved bits are left in place instead of the source file's.
+Here's another one. Could you please take this one along too?
+Thank you.
 
-Add vfat_overwrite_lcase_reserved_bits() and call it once new_i_pos is
-established inside vfat_rename(), overwriting the surviving entry's
-reserved lcase bits with the original file's, so the metadata is
-carried over across the rename instead of being lost.
+https://lore.kernel.org/linux-fsdevel/20260713074206.1768006-1-yi.zhang@huaweicloud.com/
 
-Tested by booting the patched kernel under QEMU and replaying the bug
-report's own before/after FAT32 images: the renamed entry's lcase byte
-now matches the source's reserved bits instead of being zeroed.
+Best Regards
+Yi.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=215093
-Signed-off-by: Cihan Karadag <cihan.cihan@gmail.com>
----
- fs/fat/namei_vfat.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
-
-diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-index e909447873e36..d4677c1eaabc3 100644
---- a/fs/fat/namei_vfat.c
-+++ b/fs/fat/namei_vfat.c
-@@ -931,6 +931,38 @@ static void vfat_update_dir_metadata(struct inode *dir, struct timespec64 *ts)
- 		mark_inode_dirty(dir);
- }
- 
-+/*
-+ * Overwrite the reserved lcase bits (those not used by the
-+ * kernel) of the entry at i_pos with those from the source
-+ * lcase byte.
-+ */
-+static int vfat_overwrite_lcase_reserved_bits(struct inode *dir, loff_t i_pos,
-+					      unsigned char src_lcase)
-+{
-+	/* lcase bits the kernel actually assigns meaning to */
-+	const unsigned char lcase_unreserved_bits = CASE_LOWER_BASE | CASE_LOWER_EXT;
-+	struct super_block *sb = dir->i_sb;
-+	struct buffer_head *bh;
-+	struct msdos_dir_entry *de;
-+	sector_t blocknr;
-+	int offset, err = 0;
-+
-+	fat_get_blknr_offset(MSDOS_SB(sb), i_pos, &blocknr, &offset);
-+	bh = sb_bread(sb, blocknr);
-+	if (!bh)
-+		return -EIO;
-+
-+	de = &((struct msdos_dir_entry *)bh->b_data)[offset];
-+	de->lcase = (de->lcase & lcase_unreserved_bits) |
-+		    (src_lcase & ~lcase_unreserved_bits);
-+
-+	mmb_mark_buffer_dirty(bh, &MSDOS_I(dir)->i_metadata_bhs);
-+	if (IS_DIRSYNC(dir))
-+		err = sync_dirty_buffer(bh);
-+	brelse(bh);
-+	return err;
-+}
-+
- static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 		       struct inode *new_dir, struct dentry *new_dentry)
- {
-@@ -974,6 +1006,17 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 			goto out;
- 		new_i_pos = sinfo.i_pos;
- 	}
-+
-+	/*
-+	 * The kernel only interprets some of the lcase bits; make
-+	 * sure the rest carry over from old_dentry's lcase instead
-+	 * of being silently clobbered.
-+	 */
-+	err = vfat_overwrite_lcase_reserved_bits(new_dir, new_i_pos,
-+						 old_sinfo.de->lcase);
-+	if (err)
-+		goto error_inode;
-+
- 	inode_inc_iversion(new_dir);
- 
- 	fat_detach(old_inode);
--- 
-2.54.0
+> 
+> On Tue, Jul 14, 2026 at 04:23:20PM -0500, Zhang Yi wrote:
+>> Hi,
+>>
+>> This is v4 of the trivial iomap fixes for the ext4 conversion. There are
+>> no code changes relative to v3, the only update is the addition of a
+>> Fixes tag in patch 03.
+>>
+>> Changes since v3:
+>>  - Collect RVB tags from Christoph.
+>>  - Add fix tag in patch patch 03 ("iomap: fix incorrect did_zero setting
+>>    in iomap_zero_iter()").
+>> Changes since v2:
+>>  - Collect RVB tags from Darrick and Joanne.
+>>  - Remove CC stable tag in patch 01 as Joanne suggested.
+>> Changes since v1:
+>>  - Add fix tags to patch 01 and 04.
+>>  - In patch 04, change ifs_set_range_uptodate() to always fall through
+>>    to ifs_is_fully_uptodate(), preventing a false-positive uptodate
+>>    mask.
+>>  - Add patch 05, add comments for ifs_clear/set_range_dirty().
+>>
+>> v3: https://lore.kernel.org/linux-fsdevel/20260713072906.1726059-1-yi.zhang@huaweicloud.com/
+>> v2: https://lore.kernel.org/linux-fsdevel/20260520030357.679687-1-yi.zhang@huaweicloud.com/
+>> v1: https://lore.kernel.org/linux-fsdevel/20260514062955.1183976-1-yi.zhang@huaweicloud.com/
+>>
+>>
+>> Original Cover-letter:
+>>
+>> This patch series contains a few trivial iomap-related fixes in
+>> preparation for converting ext4 buffered I/O to use iomap. 
+>>
+>> The first three patches are taken from my ext4 conversion series [1], as
+>> suggested by Christoph. The fourth patch fixes a bug originally reported
+>> by Sashiko during review of my series; although unrelated to the ext4
+>> conversion, it is worth fixing on its own. Please see the following
+>> patches for detail. The fifth patch add comments for
+>> ifs_clear/set_range_dirty(), and the last patch avoids merging ioends
+>> that have different private data.
+>>
+>> Thanks,
+>> Yi.
+>>
+>> [1] https://lore.kernel.org/linux-ext4/20260511072344.191271-1-yi.zhang@huaweicloud.com/
+>>
+>> Zhang Yi (5):
+>>   iomap: correct the range of a partial dirty clear
+>>   iomap: support invalidating partial folios
+>>   iomap: fix incorrect did_zero setting in iomap_zero_iter()
+>>   iomap: fix out-of-bounds bitmap_set() with zero-length range
+>>   iomap: add comments for ifs_clear/set_range_dirty()
+>>
+>>  fs/iomap/buffered-io.c | 58 ++++++++++++++++++++++++++++++++----------
+>>  1 file changed, 44 insertions(+), 14 deletions(-)
+>>
+>> -- 
+>> 2.52.0
+>>
+>>
 
