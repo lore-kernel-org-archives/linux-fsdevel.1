@@ -1,117 +1,169 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7F14D2EDE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22E2DB7BD
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 14:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784815696; cv=pass; b=lo/U8Ti89JKX5k/tz7sKMVblWlpHld4qLSMS+oZJdWq50NLjm30K06reS4xd+vxtm3LFikpwcjIV7cbzIyw7ZHcdFyNS2v9iKe/4uRYtGkkP6c3wqE9A1b6PJqDiXM/wCliO5nl2gI7vUm7oKzuyUk2WjIna02br/+pU6GzPxBI=
+	t=1784816294; cv=pass; b=HNBrbtq7mKKBR4i1osG8k42+qi4+xnEyBLkRcu75iZnJHEOxEh6BMNX0qhpYWmNrzyPq9EaFkibHC8rYrmyeSoubLj1JqbZXL+ykPSbIiBl940ebOFSLgArfNdVzl2WPXYWu3j6s7VkJ30Io5WXSO9ydhszIIpt58QBaqsNRnOI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784815696; c=relaxed/simple;
-	bh=My0yYJ9gfBuiqRns4rQHBKbjK6CnjyaqD+SHjIQuSfg=;
+	s=arc-20240116; t=1784816294; c=relaxed/simple;
+	bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fN1OnH10KuVngB7ixDVh1gMAC4adxcTOoIc4nrQsHzIvqtgZR0NOVmPtzclOLF5rVgYggsFTWjUZrHEjSwn+k13RBBrceb0BZx9qMJTF1FY8fdVH5MV3bgWZLaLxqlUfCbup8ytifacYsI4ehA/QzmQZLlep6ZvR+i9lj1Dn5ck=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y986YNCS; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=NXrTrX1+3Ci/aNEAorUKT3T8Q9OZ1BaVJLw7aiuy4ZvWGXmqo8UtcwSAaZnhTEWvZ14dl6b6l1hfFkXMHI8LVzJjWR3FaejOpfmTiK5yKLA+zyTHv4nSUUi1HZhecV1WbpVmaUT+3K+5bPYag8xBtFy7eGMFMAS8IEDazAyP31A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtVHNDyt; arc=pass smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y986YNCS"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ccdf36f63dso120315ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 07:08:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784815691; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtVHNDyt"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c16794450aeso90493866b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 07:18:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784816291; cv=none;
         d=google.com; s=arc-20260327;
-        b=nc6hdx7b+thc6mnAiYURsYqqBO0BX+2P1w6JR22BuSoM/zKlxV8R33lwW8s1GcY4pl
-         WBlsY3/8yfkISUgsoeny3BV3O28ZbTJnyVSqGJB/vczlQUqLC8ep3bfMW41IB8pLv3w+
-         7dAw9GQkht9bat9G6N7metuyee3z+j4p7lTLF0W0ktZTZglZg4mxaLdjjYdSsHmpG0YL
-         FRpcRms0y4ZsajKT1hFIyAO9vH164RO8N51HSiLx/YyuUgeEj2tAk7Jz+YOSqbmhHYoz
-         CTNyBdxtHHNAgIS1RxD+JQcWFVtS+2knaYmB9ld9eTD4VeHELz1lwlhfYdtSvCp60eCm
-         oI9Q==
+        b=jOG+b+8rl2fLH16P9ggVE63OYEiF9yLW6f02O6GgeYuDtXAbnzTnv1PYrqug/ndSHo
+         gB+NixCALJtu5RK5czw0pHTW3rMfqzFHHYdM2oKtKpJa09AYay8vJA74dnVMdcjaM3Rg
+         7ZWa9iYQH6anrSiwyWiH1F24ivS4sgKFqsHaafs3spjXo5rpPE3CHtHG8pg2MgKVW2CF
+         DaGrl+2gK0ke/6bl7WknqmDqWpEoAaiUVUk2ric/8bSC209J1qYMBuhd9TGjxrtJIzZO
+         4MWMxStAkkvaTTLCY8kMAwk+c1RyfaHcigZaDyb7DkrNalH+micZAMpFjFO+062mwGdk
+         J8tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=My0yYJ9gfBuiqRns4rQHBKbjK6CnjyaqD+SHjIQuSfg=;
-        fh=P4/FJJ+Qj7+osEFnpXin3f6dV68D6CcW4ZR1vb795Io=;
-        b=M0MWNe1W4jzgKtdIBJ211Mfero2VQJBLerE+XI6NmOUFJZZy8BI7W7sJphAt0rnTGq
-         634yeFSt7ICXAYsaJYPYaxj491Kb8DtE5i6rjVVx4XE2hYuTJwD28h1ragrqdzwJpkDD
-         RP4bMxzNiBuQ6L+7CvQ51leByUAGqRYrfVPGPAhIX7lNIzGShMkUXD8rSVXsF+09hP0r
-         KiW2H43w+3ECW9N9ALkbxgoPSTy6tjYHU5NOtSlQa+A6wdreG3z5zSYji7puopb8Hwty
-         foDRZC3h9rIjSL1kisWeCrZPtpb1LsCiHi4Wj7MSSFOWlXk7fifMVqakVpAI6v2v5Pnq
-         I7Ig==;
+        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
+        fh=/pXN4gyiY7+nNY20JKUDk92bxHmAtXA2YcUchriGVZc=;
+        b=FLwH+gFtMrM6Lw6+tSwlDEvw7ZD1OWi3n3sGN4xtRuoZu+jyHuUjMXSSNyLmu6qHCz
+         r00XtQILNJr9HR07XV7BlRAXNph48Tqo22sEkeiwXywiB38crHrZewJ/gaGhzhnUY+EZ
+         KYYj4DzG3RDI9ez1Ky8Z3KXHitWAVFubwfa+ArteDBzOgivW9+LxF+eqtX3YXKYCPbwM
+         25nBhU4whzCLDP/Obtz2QiumNZe28V3KJCUNH6DqlApPx2IBdsQSP3F0r7byIwzyXzX4
+         q6zY25EvEvOJhAw8qXZC81LoRPCgQcb4YHF/x0I7KScXdzhxYfxax1UujJf/VdivHBQh
+         N7gQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784815691; x=1785420491; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784816291; x=1785421091; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=My0yYJ9gfBuiqRns4rQHBKbjK6CnjyaqD+SHjIQuSfg=;
-        b=Y986YNCSkmgo72X6PBt396rFEQKIvPpqiCoYdJJjTsQ4n0oteOOFGO53kLlkR2dCVm
-         PreQdE/OwXCQda9G1WvPG9jSRmatuVp24BqzBwhAEcMa2Ophfw+MS0QWg0IzoHRMOXY6
-         a1KdU9O7P4i6SsHM6fn8XySnEGSw1XPcn2wIoIofWDzw//1TZxaV/6qDqE+i+BOT9DjR
-         rhm8dIjJsUaWbSpxoXcR9Evp1KS2aXyh1GEMZ6wVcAigGpB+ekJV7mcqeVhEBjkqXzcg
-         AdNIR/nYklwzaO4tJlNrN/UxFtS1KCxoU676bVdglVxmF8sUzxyW2oSAuEE/KCFInVkA
-         bi4w==
+        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
+        b=FtVHNDytHJqfU6emlRjNT1JU7rpg2wCmDDrDQourbT4qK1I0FHOzCfMgUisdmO01IX
+         eM61Bhp788CHkEo/FEE1HtjX2pZ/bQEyZu8qh5AI7A+fZrTuvHSSbbqbA3cXvQPNAuTi
+         zlVSULROKQXDNWjJ5BxDFn0wu0KcVDGXUs9nKL6LBTSZYZYqDIHfYtVeQQj48J3tjBnM
+         t/eFalhMIEzgEzrtHCAJxTjUSeEIkIk+Ic08gNWSB+3urbW+MtP3M6V/j4XYen7y/1Jw
+         XfkFICMyL0Oe/MVJ7sE9VcrDEA8qhjRkrtKtBPMvVFLVe7183Zxpn/K3J8J1g+06F/ZG
+         6T+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784815691; x=1785420491;
+        d=1e100.net; s=20251104; t=1784816291; x=1785421091;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=My0yYJ9gfBuiqRns4rQHBKbjK6CnjyaqD+SHjIQuSfg=;
-        b=S+ChCWu1DXvhuGK7HPqclOE5LVlUWUylLZgU4UgGt6af61m7zqtd43+XThWpHda3Xc
-         LUnwE6KJYPQdN0migphCI07+oJ+Oc1kQgAczXARHZMCXuxEkUqrBcy8VFvSbsAOPPbd4
-         skcN0IyjRgQpnk5DrSeGPwjjCoOtYPCKV/yHCPk2RVYr+lF5DvBqHgTd+8RvyCR1QqZJ
-         PZ5J0qQZc4zdIFbOC0gLQ6j404hMPS85/Id+/2TU5iTfpJTVyQzD1r+r1mb4GyYTmDdP
-         o/RmleOLFMvS9Yy6FN97jql6bVbRVVJg9S5szN8XSWHYf5J48OaLkkdLbDZ1ypvp0CcP
-         AMZQ==
-X-Gm-Message-State: AOJu0YyanSW0OXb+8GbsPuUYpaaNz29vGaGeai0vrMsdnzS9wvpMNJ4y
-	+qCuE5Jc/k20vQ21ScojwGChC/6prNQ8SUcAv356ArVATxJ+ICSxrVKzzZE+0g6V3bCu9B+tCkG
-	67Z5w9laSZF1dCmTpidShC1baGkHKX/YA5UvqQV9k
-X-Gm-Gg: AR+sD10oAGv14j3tnZkJEuDKjEfbtAhpWBz46YbKA7gmLVCS8TJUXgBmIMB+Mh6Tzbl
-	4mn6nvSRblqQujyuUm0cSymyO32qnysNOrPgU/TXmTAEt8bJdhRckLwovzV74IHG1OQuLLmi77v
-	z25q7v2Le2csfMl2xmLsWFLLb4/Pjo/sdTnoo2PRaguBre7QQm0xnuwC2DFjVswY+fDe4zMbnJG
-	UhAjzl1zncMKTBZYE7fW5k/ejVM0Ry9ld0KexQz5GyUCVR3rpkidH6VyT3gHtQLHvCVzoS4Shw/
-	k9/nOVYDQstOmWEUmFtkvu/gAq7n45CVihGFQGqJmBGgTDbtonfVUqW+YQ==
-X-Received: by 2002:a17:902:c74c:b0:2c6:cbcb:bc72 with SMTP id
- d9443c01a7336-2cfa80814ffmr2462775ad.23.1784815690567; Thu, 23 Jul 2026
- 07:08:10 -0700 (PDT)
+        bh=N8tzJ8ycigpnp8bKwPx31LBLGqpkPT5YWOo9LUDjlg8=;
+        b=Padjhv+Ea6NWDNvEaiuwPqAxiOruoygG+GnGSfXr5pWSa0ULlzKNxsH5RFPucBQCMh
+         LrB9hxbI2b1D5mKY92LQDDHTYP6eeJuu67rMdnBX/G4SEBinFBo9vXOWKa61txJPIaup
+         angJbTdJ92Xuzwf/jknNW2sYhxa8fLzd99GExh7ygkdiF6ibIqAccQkUCYkZeNYDVKMp
+         JmUjYu57178aj17xzjRnWoAATXRSGIfd50WTK76Zk67dHP17sulaA0a2B8txqenf2HVj
+         dQTSad1gULcq7DWq2ye7k4Ud1RfEvd1qLxvDjjitCNm1b3xbTfHuXrBHmSsi6el8rxih
+         Mu8Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro5c/4CYICfB7gxhnJ6d/gPLUhZZcsgof853uRN/DR4t565UiS7xRZTYWBBXYQCx7DoVffabpAPbgocn95Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKCal7nAJuWODpEJRCOlw9FhMf7PLlgllMT9oWM7LC1NiJV9UF
+	hvsjuZ5b2Q8xD/4uFhiwyYS9yKxtRNcxaq/0Oc+qDuqBG4ERHkKKEHShpvMAzFqTynSnHyakUOa
+	oBYUKlsL9aGqsoPVjluQxw0lLTTRAGkByi3TUzLHV7w==
+X-Gm-Gg: AR+sD12hzwcwOZ9qxge0g7JDMfQ8PCJBMAfoVpJSCuZryOR5VtL9sqmsHUTXP7X6PfU
+	yY1tPF+sn1+j8lqWDScJjReXRl61uFtOK0xoc23DLb8q8EVDQNPARek2ZHwr+dIUBKcxiqPxgNi
+	UYXKWxxvTvEvzJRs/8U7sToJaAKfLQPmlF3arb8PL6ZVUTmYpmDY0JXXFWVZNTt4B2JDArbdtWd
+	99gv2nvrRe0amJTmZq/wc1oTruRPJtIjffSKwQBhdYr1EBNUW8P14c4IwNy9pc=
+X-Received: by 2002:a17:906:478a:b0:c15:ff7a:e56d with SMTP id
+ a640c23a62f3a-c1c50d8b9famr145409966b.51.1784816290701; Thu, 23 Jul 2026
+ 07:18:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org> <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
-In-Reply-To: <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 23 Jul 2026 16:07:33 +0200
-X-Gm-Features: AUfX_mz_mzCvw2h5o1pR1qMvYWw2B5M-LX-GbZFx68Jm-lMghOI_PEmMW2ywzbo
-Message-ID: <CAG48ez1psv82Y98XT1p7vujYgj5a9hbPZ4=h7x4-yXQO5FQr6A@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>, 
-	John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260723114848.1212429-1-amir73il@gmail.com> <CAO8sHcn=b94SL6KTfPtnqau++-g9CXD0LOpPjp4L+b9cu8mMSQ@mail.gmail.com>
+ <CAOQ4uxjk_Se3dq3exxd5WS98g287HUMjVAucipxBX=T0W-8d6A@mail.gmail.com> <CAO8sHckGrgfPnyOC-V6AP+DakG8LBXTFRHZSchXxi02LPyfMFg@mail.gmail.com>
+In-Reply-To: <CAO8sHckGrgfPnyOC-V6AP+DakG8LBXTFRHZSchXxi02LPyfMFg@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 23 Jul 2026 16:17:59 +0200
+X-Gm-Features: AUfX_mwXdE-m0mzicDGGryu4GVMv_y80ZcvNzhuqfcDSPCqC27mGT47UT9hEgKE
+Message-ID: <CAOQ4uxh7G44sJi2A=bueC=MNGjd5V+zoyTCs5USc6i6bCbFxDw@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/5] Proposal for Cross-fs copy_file_range()
+To: Daan De Meyer <daan.j.demeyer@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 23, 2026 at 1:30=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> There's also some thought needed around shared fs_struct state. It's
-> obviously possible to chroot into failfs with a shared fs_struct if the
-> caller has CAP_SYS_CHROOT and shares the fs_struct or if the caller is
-> no_new_privs and shares the fs_struct. The non-chrooted-currently
-> requirement still applies.
+On Thu, Jul 23, 2026 at 3:54=E2=80=AFPM Daan De Meyer <daan.j.demeyer@gmail=
+.com> wrote:
+>
+> > As far as I can see, OverlayFS-to-OverlayFS, which is classified
+> > as FS_COPY_SAME_FS should not have changed behavior at all.
+> > That was my intention at least, maybe I have a bug (?).
+>
+> I am sorry, I forgot to mention that all of these issues are issues
+> with upstream overlayfs,
+> not with your patchset. I was trying to make the argument that to
+> solve the issues that are
+> already in upstream overlayfs and to introduce cross sb
+> copy_file_range() we need to move
+> away from recursively calling vfs_copy_file_range() within overlayfs
+> (and anywhere else really)
+> as its internals are really not intended for being called recursively.
+>
+> `ovl_copyfile()` locks the overlay destination, removes privileges,
+> and then calls `vfs_copy_file_range()`
+> on the backing files under the destination OverlayFS mount credentials.
 
-Having CAP_SYS_CHROOT and sharing the fs_struct should not be an issue
-because we already ensure that any tasks that share fs_struct are in
-the same user namespace, so CAP_SYS_CHROOT is implicitly also held
-relative to other users of the fs_struct. (In particular,
-userns_install() and unshare_fs() ensure this.) (Except if LSMs get
-involved with weird policy, I guess.) That's what makes the existing
-chroot() syscall safe.
+Yes absolutely by design
 
-But yeah, the no_new_privs check I suggested is kind of a pain...
+>
+> This has three observable consequences:
+>
+> 1. The recursive VFS call accounts one userspace copy twice.
+
+I think that is fine or at least not so bad.
+same "problem" exist for overlayfs read/write and has been that way
+forever. nobody complained.
+
+> 2. When the files are on different OverlayFS mounts, the backing
+> source permission check uses the
+> destination mount credentials rather than the source mount credentials.
+
+You mean that after the fix [1] it is *also* checked by destination mount
+creds after being checked with source mount creds.
+
+There is no security risk here, so I think this is something we should
+leave as a known and documented issue, because solving that would
+be as complicated as what you posted and I don't want to go there.
+
+> 3. Backing permission hooks run while the overlay destination inode is
+> locked and after privileges
+> have been removed. A permission listener that accesses the destination
+> can deadlock,
+
+There are endless variants to these potential deadlocks with permission
+events. This was discussed recently on this thread:
+https://lore.kernel.org/linux-fsdevel/xycqm3qrhjg3uplpmozwo7nterl5tnuarghow=
+mh3h3mv3thh6u@apagf4kqlkg6/
+
+> and a denied
+> backing check leaves the destination setid bits cleared.
+
+Nothing new here - not even a bug or a problem IMO.
+The state of privs after a write that MAY have started and returned an
+error is undefined.
+Always been this way in all the write APIs.
+
+IOW, all the problems you listed are overlayfs behavior by design,
+which AFAIK have been like this forever.
+
+Do you have any reports on new issues specific to this patch set and
+the new overlayfs to/from basefs copy?
+
+Do you know of any real world workloads that are significantly impacted
+by the existing upstream issues that you listed?
+
+Thanks,
+Amir.
