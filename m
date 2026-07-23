@@ -1,195 +1,155 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E863168EB;
-	Thu, 23 Jul 2026 07:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AD13CB911
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 07:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784791557; cv=fail; b=r8k2gKt7zEdQAWGGwzsFy9nr5aiTnT1mxyKmzN7LdSvGmHTLXKr7D31qNj9im5VunykOr8E4csdOMEhWEXVr6iASnoc+OZhLMzAZ5HkvXrIsA9Zqc6Ghrbsm6uoaL55gS2rgz5UaQ1SF5kXEbnrH5DIURAz2b6hPED76VxAjfp8=
+	t=1784791624; cv=pass; b=EKvu9vwEjCGZ/XeLO863Rn9KAU1ImkVpspttMTSFEzfjqCOqs8yASr4J71mR8Cqd9mqrDI9iBNyyuSQHFPcibsMCY7ZLN7ds/kgJ/fJDDG6GhIV7YhrJtL0XvLdvCim+k5kCcH9CHPuW8zbR5TEfYgCwKjsblYwdUsqr53zUy0s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784791557; c=relaxed/simple;
-	bh=cUcyWDJrqgtEAlQBUrRtTgKDaVsU4cGjvOIr5VEcNDE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gWMpGRE7LgQ5uufiuotx5WBYbwnWmKIuqY1vH621WyhujyMfpxKnC2XUn2+T99Nz6CVTGGcwN/OxXidunTWx8UiCnQMRRlrCAs05rHgevIiIW2ri2ihF8QsXkZIAkoEmsxKyaQfXcFsQW6rhPDyEDleFKmIr7cYVqhoKSonMvgY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=fail smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=s1+89PwA; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1784791624; c=relaxed/simple;
+	bh=b//sUnMrNPrgR6EPqqnROk2FSBW3tccYwHVa9XOhJ0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bY7G7Mz8h4gOE3CK548+MrEaTPsX7P64D6tUJduB/grbZabMciXXqrmxTFtUwAcqycNSPK9LasHkut6rhRxqQe9kLkJUwsPKSLpOlTRRbn+TjbNc+lplAlTHWo+n4s7V467b1Kx41fzCxh7/ICgWMG6TAWiuDQnEkbvpmihCPwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=X3o3WsSp; arc=pass smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="s1+89PwA"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66N5MRbR2649259;
-	Thu, 23 Jul 2026 00:25:17 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=hhdTCJLEnmDBmN1y4lpu9GJrcq07cZB1SbyuEHnKB28=; b=
-	s1+89PwAEs1CCWGZOzLmUQ1KODbexurWxOrXddwKc7eXO1PkKDzGW4wzsCaGYzBo
-	pqnX/aWqA5iuxgFzWt61n9x4QU4R80DHHgsghaIvA5LRNTI7EkWET4owN0agVBe6
-	6TulLLGxAtIA8AdpS9TCDmIvkrmgynZZKMTbzgEHhhydiGBoK13puQ+5LVP7a3ex
-	qWBkWeg6c5QQLNzPsWGce1m9qHCDso+ff7cLc4XrnNBhXfTIlS0+5u0CstTAIrrZ
-	Fyz2bZndV/nTb1/FUsz27vSOScqezZDAwuseu7dpOeDGA0Nb5Jr7V1naDNyt3kPM
-	WVOv+bSmeMwhz78tMz0PCw==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012058.outbound.protection.outlook.com [52.101.48.58])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fjt3u29rw-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 23 Jul 2026 00:25:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zISTFOxRj6BYX1lMPRmJmvihNV3eTazSxknrlRKXitECCxhoX17fJ/XWrrVmZvrDuBFG05jIL+6jOFilRUOx7On4KLlgVi2FEKwfNgfry2fmcno358dzDPPt/ScLqlpV4d8QT/ZE0JgYqi7sIcNC7T1JpBhccgoeKorPwvUt07o2nCtxGtuuI4T5NfBV87jIA23XSoL48WAEHeZZumtPobGEfY32v2VLGCOZY0RfIyNwvF1gRc5Mg8XhmJO9Sk1LpEjMCRWTGwFrGF8/5boMfGTmV7DxfhoZmJBXPH9tpB+KXVwS0RRiHH2Iio7GTFSog+SkTnPgRbygT793upG++w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hhdTCJLEnmDBmN1y4lpu9GJrcq07cZB1SbyuEHnKB28=;
- b=FOU+nbd77453B3bnGj2AMFOrcv5U+LIgj0O5CoDd+uM1VX9601Ebq2RHb13YgNq0/s/0aiYnLDaGl4Tz24Li+HF22W0+lRU2ET2AQ4qVSmrx/HyVjzPAIFNI8rKaUAv2Mm+nceRM7gsMhNH250wDxtWcixpyjdpTwjXqF5/VhFGlxyN0fbqo86PzeHUVJTGXKe1F5Ma/PBGpK9swXIJ/MXXYKmGrbbcQCNECMpQhuyJoyrdWaLIhW/8sgz4tdQjb+dRyM5SxCUZQFhNzeaS7xfm9FuvLBWEJDPLZI7j44NbhpsfrRa0WxNGUKgu8ZU1FBSGpnmP9pmFkl4nQNkefKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
- by SJ0PR11MB4992.namprd11.prod.outlook.com (2603:10b6:a03:2d4::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 07:25:14 +0000
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13]) by CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 07:25:13 +0000
-Message-ID: <9fea3180-227b-4d85-9a60-16caee66be8d@windriver.com>
-Date: Thu, 23 Jul 2026 15:25:05 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] netfs: fix ENOMEM handling in netfs_writepages() to drain
- all dirty folios
-To: Christoph Hellwig <hch@infradead.org>
-Cc: dhowells@redhat.com, pc@manguebit.org, netfs@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260707052555.2055002-1-yun.zhou@windriver.com>
- <amGfmQHmZZuBkcwq@infradead.org>
-Content-Language: en-US
-From: "Zhou, Yun" <yun.zhou@windriver.com>
-In-Reply-To: <amGfmQHmZZuBkcwq@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SL2P216CA0151.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:35::6) To CH0PR11MB5332.namprd11.prod.outlook.com
- (2603:10b6:610:bf::17)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="X3o3WsSp"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e7c6ec9dbso28597085a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Jul 2026 00:27:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784791621; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TLQiWml1Oi6CUR1FGVUOVLWoxzweOvGhZpxbDRjeR6RcI5dbGqglFXB08o49PqJcai
+         PEfsMyfhMRRfJm6pmHlGTJuC9Vh6P53dIwAOJ3ncB3pAcLIZ3oagMmwUrepHaoEyTpcz
+         NNEENoVXyD1xcUZP2Gl/6mK58wbZGkvwptqduiSKg6wJcanMr6oP/T0qKONJ66JFIjLq
+         xi48PQ+kSyqbVliiAOGYNRRFFe4JefjQzGoFoFHKTkBaLrmQC3Y2l6JatapmiG+zshut
+         Rc+P6WZrZfq/Q+6AX2X3fg5PiiBIVf/GLfOHueVtXEOBV5k7aM8gPrkuZ8qrv3TmzZGV
+         YQwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        fh=OnPs0LFU0vkpQ++566L1bdG8vCLMWy7F4q9SxiXClp8=;
+        b=WRro7ifwPGuf0OEvblUj0ukWeKP/kEhekexNOXAJwlWwuKOLH8sXAanhiY9HWx6t8o
+         viQle/5srX+IqQNm/Z2x18RV9t+LdVD3ZymGl+RN5QTGw2baPyciDdYv1MtboXpzQvAp
+         F3vPfHmovjGnGy+PLVzvI2f3wZG7AFhqjqrrhiPE9JXoUXh0Kz53TPR2gKGYJaFkrs1t
+         M1OQ5ZNYSnz9aijf3YKRFLh+N6CL1xQlnJj2VcyRrXagz7+EM7sYjMWMyTEyK7L27dtN
+         55CDDAPOub6R9/PxqeeoS/v60MFfOxRo+5wyGM4XWK0r7SbvAbT0bAeFPAgmY2rrRcti
+         KM5g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1784791621; x=1785396421; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        b=X3o3WsSpKFcJR3jXdh+qr8BcbBAOwlYAVRlHxhCZ01sHkIfq3AJr0YAc83uNiXkjKY
+         zVgpRbm3dvkN3frVlZ4e76+0gnk7puwWRR2EfOGV3t+xTih2wu4V5cNRPxI7N4laKIcp
+         KOAVBVldaXCi+DQXNk/98EwciE7qXlj8xHEQs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784791621; x=1785396421;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        b=aodDHKFXNpuqPnZWGWNZa1+aH64urmCEjSOGCuPa51lOxBindYjT7DaBX+ButO7fOW
+         scH2tI3hmKCvt8KibcaPGpDP4rpqRXIY7brdkY+EVpDe6IN0NPJIsvawj7OlRhKNp4nw
+         cb/WvPxcl54YSu9iLB4kE4MCjss8gzJumuR0bZVqkRwimKcSaze2qdAnzCHOfdeJsMTe
+         utpsEi0hsJp3j9AFoOjK0/6WYX4XaSwhVnDC2XNfYN+xF2SLiV+vAg9AKWMLcCW5ETWR
+         yRN8EkfhITOomTH7yc5DZnUboFlRL61J0tTDR+NxrrDAQVpubk7lRNB21z+Nv/XrRDmC
+         gg5w==
+X-Forwarded-Encrypted: i=1; AHgh+RraSWnLz5i8Sf9Io0bGtXUWzzVBR/pGaIAbsHNy/G5qweRSqfmQrf7JqPJSlgfPT40HnOwAHw37WNWjsyUV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBpFNap4ApxBlpL1fyDmhOk+bIO4H9RKpZehy0YYDNttqR+mY1
+	k15f6NVMLv41c5CVoaU5F/6m3kKCTHmMTmhUcFtcRa3APws5svPeyYxwySi0PfPqiCxv3ieeXKo
+	1GeXXKuonIKvl/ZsS/fhPUiFzEX9k2DzYD4PJ2iNUZQ==
+X-Gm-Gg: AR+sD12iu4oZlB1bplJ1uJqtEKSXShVJnJ4TK2hqFjop5tE/Dus6ali1TiF1PsLc4rt
+	b7BpeggS/JOP6MHgUJkbGCRxXO/9xUaKpN+61RHM79fn+5G7ZMthTkUOQt+IJ/TvDmPVG4mRVNm
+	dOuPE6Xzb1m8IgughLT3so0ImlpaW5/HDiuC2I8WzPR2niXAq0yRGoJ+9jLg04MIqvcbKSMpiVN
+	VGuiLTZpDMsIOs48opr75kMGZ20mziV4+wF/29mNsepoAehL2V/rdwZcXhUnzWK8LaCO5TEEzEv
+	wiPR+1zDcAVJm4fIqQ==
+X-Received: by 2002:a05:620a:2548:b0:92e:bc28:5479 with SMTP id
+ af79cd13be357-9310384ec50mr192569785a.2.1784791621432; Thu, 23 Jul 2026
+ 00:27:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|SJ0PR11MB4992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 618de52d-5c43-4695-5977-08dee88b8925
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|56012099006|4143699003|10067099003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	HsMEIrr+68mYGJQ7TIrG/wHBE5ixyHpMzpwiCp98Hx3xAzYVuUXnJ4Km4oq0A7GlMak41tqijLQE8XBQfm2SZsJIZrsBkWFTsAe/xzHgZkxp1QOz6tir9GtpXDPwoZOt2zHA/tEa6nN/u7d/xecRdL7g3Dh6PXItV5biY0dHDfg3yVqz7RgFV9a/r3ePrJ/Kw800X2Wc5XTBXbp6CpRQfjDDHvdA4iEwt/4QFwwjZqBIFSNUWF6dfMFNC8tprACwRkb65VTSSfFiY2NmCR4v5WK58Frx0Z540hNDalmPWkhBHEX/x1DbUDCAZJwSkBViz/s0EBF4qat855Xit6OYI0pGO1Gq0EX7saQouHp/y7HwHtD9RMc3ERtqW/sQwJzjPfSONVTXMGrI2Plmod3VpY+61n4JnYQ5U6umAXOkoNaz9hrkmVtC+xRRLXLg+JYfmARlBbEZS6ha81Xtax1fsf7GuyU5vpqmD1cHeByZUpXlpvrP1Ur9csMPC9GNXxTFPabuiVc3kEZtMgcREjIk+dINqZ+OzBqH3GxNQkEsVNcoGAxx/CVEEizkWhdoFJADmPUtwDZ74fJVypxClnYErJYl/ei5D/NUPcVhfoO9C/cWG6bhR/qZ62LCe7Gv0q58HjQh2+MFzTdns1WRPwgBFTdWKtAzcum8bYhLSCbPLc8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5332.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(56012099006)(4143699003)(10067099003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eis2NkMwS1NNbmJtOE1DdUZBaHFQS1cwZTVjVDBvck5lMWdIZkdNMWErc3Js?=
- =?utf-8?B?MFlYODBkMCt3YlllUXpydkIyVW1sbmR3eG80NjhzZjBibXJwSkNwTk43bzI0?=
- =?utf-8?B?N0pOZ1VZc1c5ZE5sdkZWRmNiNDlFNEJQUHVjUnoxVWRhUlB2d1B0ZEVjYWxw?=
- =?utf-8?B?K0VzekJnWDVKa3pRWmkvSm9uejZ6Z3RITW5aZWF2ZGNJZUJmN1JQOUdOb3c5?=
- =?utf-8?B?K1hndTlHeWp1VjlGTlRyR2Q0TWVVV0xaRXRSVzlDOGpSNDRzQW1RdGQ4enk4?=
- =?utf-8?B?U0pPV0xLNTBHWUt0TFI2b1g1L0xWaWpHQncxcGNSZTVEQmxxU3NwSHNOV05h?=
- =?utf-8?B?dkRmQ3V4blg1ZE5TZGVzdUk3a2dUMTJEaFhEOUxGaHhXdjA2ZzFPMmtnNS9S?=
- =?utf-8?B?aG9kMWdyRmJxWUFKV1JySTJwL2ltS1JTYURYLzg3NE4zb2lnSWtkdzEwVmVh?=
- =?utf-8?B?SWRPNkJZUjZuTFRDdUZzRVZOMWd0RlRyNGZ2amo3ZjMwUXJpVGgvWUtRbnNX?=
- =?utf-8?B?UDV3QVdxWlVXVysxNDJxUnpia2grczVHMS8xZkFzeGI0dGR0SDA0TTJsT1I2?=
- =?utf-8?B?Vzk5WldWME1Hb29PeWhIOUF0Ymh2b0tqMU4ySG8raGFhWmkwWUtMUk5nd09p?=
- =?utf-8?B?ZWhublFEekpFSWJJMlc1TGZjRUYxcTlkbnFuS0VXcU5GNnI5a2Izd0lnZUVG?=
- =?utf-8?B?ckxrRzFxODhTZFlOQzJIUjRvaTZMcmsyaE51czlvajhUWnF0RUZNQ25pSVIw?=
- =?utf-8?B?WXU4QUFJeGxuZVNIS0VJYlN1M3A1dmU0V1lsM2dwL29mbW1vbTVBakpNcWor?=
- =?utf-8?B?TmJaSElBdmRMRU8vU0tFRmpSaitmdWNwU0p1ZEFCYUNuVEZxZEJFUVdhVFB2?=
- =?utf-8?B?MTZwS2VlbXNCcDJkdVpaVDlMOFdIVnN1RXNSSGxza0loWnR5ZHhhZ25udTFl?=
- =?utf-8?B?cm10NVpRSk5kVHA5YU1HUlZUVkg1QlpaNVFyMVBBRmpidVB1bjJib1ZLNGlF?=
- =?utf-8?B?MTRucHNCWm9xbXJYZ1ZRRzJUcnlaZlJUQy9Yc3dPUVZPZnk3SlFxa25pNmNX?=
- =?utf-8?B?cUVTVWkzT1dZTnVHTG1FTE1EQ0FNMGJSdzVRcGZ0Lzg1UzFacTc5US9DYkd1?=
- =?utf-8?B?cEI3emNCQzVBL1BwM2c5N09TSTFRNkU5aTBSOEx4R1RnM0EzaHNFZzhPRW9w?=
- =?utf-8?B?UFFSR3RUenBXZExsSWxRRldxU2pKc1c2RmI2SVhYMUkvZDNheXFiZ1JJbEhm?=
- =?utf-8?B?aEJJNWUzLzBPOW5OT1IzT002Z0x5S0xXeGpEZTQwVUoyTzRVMEp1aUMzV2hL?=
- =?utf-8?B?QXRwam9PUElXTEo0eDEwanNGK01wdDEveHVzSG1JeUJpTERQU21UNHUxNHRq?=
- =?utf-8?B?aGJHczhBb2FLR21xLytoSEhvQlFnZHpRU1VRV0xUZTZoWkRPOUhBSDFBZVZz?=
- =?utf-8?B?TWlyV1hFUlpXWlVJemtMNWVIS1ZUdVRjeWJYSUl1MWZ4bUdZV0g4NnY0MjY4?=
- =?utf-8?B?VTJMRExoVHA4d2k0RzJ1WUw5NXFmVXNyZnI5OGVvd1FURzBXM0xqYmNrejBI?=
- =?utf-8?B?VVRmM1hoZy9FcDRsb3VSYVV0cGlYcmd0Wk5YL0Nwb2dQeUp6UGdLcHlTR0dG?=
- =?utf-8?B?UEl4NTNOUnBtQkpXNFRtOXpEUGovdkFtc3ZUZkdTK1JSSXZWemdFQ3hMOWdH?=
- =?utf-8?B?Vk9JeVdKV0huTDhqbGc0eDloVm1kSUZSSTdCN0RUaGpJb0w5TXN1UDVDQjFN?=
- =?utf-8?B?NkZNekZ4TjYrOGpZL0pkRjVtdnEyeUdyZWZTY0xyVC9yS0Rlb1Rrb2dOWTRz?=
- =?utf-8?B?TmttRnpkZ0JwRmtxUEFwYUEzNElGMUdzUUFiNXRJRy84djFYWTFWUk5Zcnpj?=
- =?utf-8?B?MWltNFVaV21VeVE4MTdORWFZWmlraXU1UXE1Rk55OHYxMm1JY3BDUHhWZVN1?=
- =?utf-8?B?cjlXMVIxYmdmektiMzB0dzhySXEzd2NjUS9rbHNPaFgwcWc2S1ZmNjNtaVQr?=
- =?utf-8?B?cERPRnFvK2plYkplVXFyMmt4UE5mUXFlZ3RlUTY2QmRuWmwzZFIyUHVHelJl?=
- =?utf-8?B?MTNXMVFNY1g1NUk0S3pkYUN5VjZpTENGWnBMT3hDMlc4bkVaTW1CemNZYmtI?=
- =?utf-8?B?UFk4QjJ5QmMzOVhDWnZld20zV3VCSTFyTTVlMEFmWmREZjh2R3NoY2dlU3Ru?=
- =?utf-8?B?THNWODBWbm9rbmNaUFRjUEk5UXRhTy9HbWQzSU1PQ3ZOaGlLRndKYlVwNnA3?=
- =?utf-8?B?YzZUNXc4YXNTd056OE4xbFF5QTE1UVd1LzdnTlZHT1hDSW1TMmFINCtnSjdr?=
- =?utf-8?B?NzN0dzRjQ3ZHb0QvMkdXTWxoS3gyMjdaVTFKWnpIcmJFREY2M3VsZz09?=
-X-Exchange-RoutingPolicyChecked:
-	A/C4r7nCn/z/nEQags7RJFxZTnXchq/ZWzu7UOejD2x/l7U82eNziZO+voqjyF6J50WFQgcMe7CLpSeJ4aONrchQtt7RvYx9rjVcZGxPQF43W1nmUckQ+N99nHDOXMFDtYGt/y8rMMIMTGQ9OOmlE5yXijBSQ6PFq+cZaj/2NwnWEa46GfjxOM0APz9cBqS6XD2N8Dh6Jf7F3nCfCD2qTuGl3tPTZgn4d1TyG0lJO2Q608pWPwrMr0EB4cVsoCSowzEeMBeS3TAoWBnxOC8GOlpsRArQtsYcoWsTqM+neY6EAnJ4dJW4R5e0+oITng938wLpij6sGEqPMk4W91zy5A==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 618de52d-5c43-4695-5977-08dee88b8925
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 07:25:13.5085
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 04jaNcWbxj8ivT0HFxN1qqins3hqkf+D/mAuzUFCwkReHavbW+bcasX6uzxMTiHp9I4p43jBGAEaUMDIKi10MA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4992
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDA3MyBTYWx0ZWRfX0ECStQuPha6j
- 8fIkqffeJk7mO1R5Y+r2mPo2G90y8HrW+FbWMsHmf9ZfZcewbI1PpbiqtqIbodAr6kb6fsWa1y+
- q9defWuJofrFSWnXtDfdEo99/i4XG+ev34nTINj9lLb319M1SZ5p6sb9/wfWUi0vbVLNVcn19aw
- QQcKgzt6m1yYB9a6vz6uGlYjeeSc5Vp1cHdKueV68woxGLTawqdmKt6zXyfJyDYBa5PeJYpzah8
- qjqbjeVRNm0q+SExYLaC5+Mf1p6DPGnoos4jfuE0hEE+nBDcwXGu2qcMqsy/O6ZbAhF2CT65HAb
- cRcydeb6SEnpbahPCEL/g8RF+u9tkvTlkKk4psR74T66HD1qsrruDdlPKpyC6eHY+rrkEgCK8H6
- D3naveDjNa0ijx9j97KUU6kTajqXgqeu+UL1JgXF2C7Yj5DteQLiQIOHTD8zUej2mrr8uT8QHcq
- DhzbfvXS8KzVfi0h4Hg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDA3MyBTYWx0ZWRfX+8YRRXyMdWZU
- kaQjdFf3Z+UU0/e3MGHD9+PuWWBSnGjOR/hqyGT9cak0At4Ztub4XlottdxCzsbUxl8+NNAkn4F
- 1ZfRTzrwxK4e1DsS2WFI+VEuQadjclGmY8kXD/Tsw8Bg2B/iuQaI
-X-Proofpoint-GUID: rrVxK79actBxAV5CL_FJAMkxkcjfg0pq
-X-Authority-Analysis: v=2.4 cv=U9yiy+ru c=1 sm=1 tr=0 ts=6a61c1dc cx=c_pps
- a=KcDtNT9Y7DbXMZTh6VQ3dg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=ItIgLucf9a_KYlnWXAYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: rrVxK79actBxAV5CL_FJAMkxkcjfg0pq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-23_02,2026-07-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607230073
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com> <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 23 Jul 2026 09:26:50 +0200
+X-Gm-Features: AUfX_mzfzrRwI4hZxEkdZS2OluMEiPX8JQa0b2ZxVMGEYubjhyQzQWfbCHdsQ4U
+Message-ID: <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/23/26 12:59, Christoph Hellwig wrote:
-> On Tue, Jul 07, 2026 at 01:25:55PM +0800, Yun Zhou wrote:
->> When netfs_create_write_req() fails with -ENOMEM in netfs_writepages(),
->> the couldnt_start error path redirties and unlocks the first folio,
-> 
-> writeback must use mempools to back resoures, or __GFP_NOFAIL if it
-> can't for some reason.  -ENOMEM must not happend in writeback paths
-> or your toast.  So please fix the cause of this error and not the
-> symptoms.
-> 
+On Wed, 22 Jul 2026 at 16:43, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-Thanks for the review. You're right - writeback should not fail with ENOMEM.
+> I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
+> [1] right now is only for the interleaved case to handle striping, but
+> imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
+> interface for handling any backing layout that corresponds to a
+> backing id, and having the simple extent case go through this same
+> infrastructure / path. Especially since John's future patches for
+> adding the interleaving will go through the ioctl, it seems nicer
+> server-side as well for famfs to have one consolidated path instead of
+> needing two totally different ones.
 
-I'll follow your suggestion and use __GFP_NOFAIL for the allocation in 
-the writeback path. The ENOMEM here comes from rolling_buffer_init() 
-which uses plain GFP_NOFS for its folio_queue allocation.
+That's a valid point, but I still feel that those things are different.
 
-Using mempools would be the more robust approach, but it requires adding 
-a new mempool, modifying the rolling_buffer_init() signature and all its 
-callers, plus the init/destroy lifecycle - a much larger change. 
-__GFP_NOFAIL is a minimal fix that achieves the same goal for the 
-writeback path.
+Striping:
+  - always static
+  - size limited by the number of devices
 
-Will send v2 shortly.
+Extent map:
+  - may be static (famfs) or dynamic (general block fs)
+  - size is unlimited
+
+Doing extent maps with an ioctl makes it clunky in the dynamic/unlimited case.
+
+> If not the ioctl, what did you have in mind for a generic interface? I
+> think anything else would have to keep GET_FMAP, but maybe I'm wrong
+> here.
+
+Good question.  A NOTIFY_EXTENT_MAP (similar to Darrick's
+FUSE_NOTIFY_IOMAP_UPSERT, but multiple extents) would work, I think.
+
+Maybe the striping setup can also be done with a notification.  The
+original reason for doing  FUSE_DEV_IOC_BACKING_OPEN() out of band was
+to prevent security issues with writing an fd with plain write()
+syscalls.  This issue does not affect io-uring, which does not use
+write and so the ioctl can be completely eliminated.  But that's
+another story..
+
+Thanks,
+Miklos
