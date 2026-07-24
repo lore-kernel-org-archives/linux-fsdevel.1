@@ -1,40 +1,50 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED05D364EB2
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 16:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DCF3DA5C8
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 16:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784910041; cv=none; b=lRllhzsGhte7gqyl4lYdM73MNa5aK10xaQhqOTh/jJpKDLgoQca5XC5uj6fF0Sn3sCPfgK+pJIgx4ud5Onp9eDWg1u6wZfcZQEnfMJW/ZTtvaKp+KPkJOLR2JsmZp+2yeAGtFD4SL4c2lGfz8dc5btsG6yXYpYIhnTEltCYl4ps=
+	t=1784910591; cv=none; b=PzvjHDkVqe7wz+4UIXXnD0zG5Fv9hKY15OrPsmT2FRiVoXPPI/vojTpMYLC4iaZyeOLiBC6iE9gmBwYiWQ5GuQhfnEvd8gDH54mJ+e6K7RGh89CnBM/1omxTZ8RKr4UR7JpmAAU5+ApN1xcqOU33KJHbB4MGgJO7mazIgj2twKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784910041; c=relaxed/simple;
-	bh=f5lUzLuDOtgjTTzZczrx6bIv7ISJiHMCRqUVE9vsVZc=;
+	s=arc-20240116; t=1784910591; c=relaxed/simple;
+	bh=uT/ypRU3GMRjQvaM8DJt32vG09iCeumT/M0l+Mza+C8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHYeZ2ddlSW5meeB0vvuUg5tdzSIfvvAqgQSvYlRUDLWBOerTCJUEFpkQmK0VqLNa5pY9N9u43KU8k9PrrDHdwBTqUs1bhTDZqt99nrB2RD1/1f6IAfpGXBK4SZITOhfsD+tPT6balIUqvwWQbgluDgf5MQSFcwua3fZQDioQtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pygx5pgl; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=UvZAid86x0eDCGDFF0QtP5dGunpGW9AJoQnfp2dsa/eOnj5ZnrUhpcliFFtfaqdFyVRjDZq5rqXQI8zzIr+oYqbZD2fU62UXWsbSlFUkR9ng3KObts2C3+/lMrvx/u2ZsniaA6j00X2V7mwjUNTk03/TRimNlCRgBlIMIbrAB4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hZVt3P9Q; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pygx5pgl"
-Date: Fri, 24 Jul 2026 09:20:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784910034;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fUD055KHyWsi0IQQ2hgaYMP8tx9U7htfcme7A3iola4=;
-	b=pygx5pglgn9Nv3USmoYxULnZQw13c0fbkkVf0Z9OpdMc3TVuvDrJYzLZ0YabMKtPHdfQh0
-	1+0pEm8yelUS38J+gNff5Y9VQH/F2vWKLknEAvuhsZinMTcuMj7zsZYXwyc6P9QHTjIHo8
-	lVyARhd4hb4wkrLLxzucqVTvx7e5ebs=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, d@ilvokhin.com, 
-	hannes@cmpxchg.org, riel@surriel.com, kernel-team@meta.com
-Subject: Re: [PATCH] eventpoll: compute timer slack lazily in ep_poll()
-Message-ID: <amOQpfraUUmpJr2w@linux.dev>
-References: <20260707190238.3478608-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hZVt3P9Q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=sOZZlCJxNPr51QtdtbTR7W+DtVn2iPlfQzvwzGkEI3E=; b=hZVt3P9QAnETqCWd8fAxY8nSli
+	ropuX5BBnaiGoppwSfjNW8v2sVuCaYVW1UmNoII4fsAU4vP4TW8wy8lV8uRSn+fryoFN1KH7T56VH
+	tplAO4DN98c1V06e9ZGoXKmIKerzz4OjvkXGUugIqd24z0VfMkIHuHcvRHIFI3tlNenHTJbyor474
+	493Nra6c1gtx+cRqzqdtS/+eO1MQwdWNVFLdxWSPyf549lVtmrCxdJNJ2z//ieZHE1MV/qvxXl+dV
+	Y6j4lQl6H3Qaor4gm1dywZV1ydxrLBv+Mbh4HpfAcQnWmfbDD6oNZJ/7p8NLCB0n0O48z7feGlroh
+	KBpap71w==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wnImM-00000003ul9-3uU4;
+	Fri, 24 Jul 2026 16:29:42 +0000
+Date: Fri, 24 Jul 2026 17:29:42 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v4 13/14] filemap: Add support for authoritative mappings
+Message-ID: <amOS9nXAJDIM5KCA@casper.infradead.org>
+References: <20260723143034.175661-1-willy@infradead.org>
+ <20260723143034.175661-14-willy@infradead.org>
+ <amOPh_oXhrIE44nE@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,53 +53,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260707190238.3478608-1-usama.arif@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <amOPh_oXhrIE44nE@casper.infradead.org>
 
-On Tue, Jul 07, 2026 at 12:02:38PM -0700, Usama Arif wrote:
-> ep_poll() computes the timer slack via select_estimate_accuracy() up front,
-> before checking whether events are already available.
-> select_estimate_accuracy() reads the clock (ktime_get_ts64()), and the
-> resulting slack is only consumed by the schedule_hrtimeout_range() call on
-> the blocking path.
-> 
-> A busy poller such as an L7 proxy event loop calls epoll_wait() at a very
-> high rate and often finds events already pending, returning via
-> ep_try_send_events() without ever blocking.  In that case the up-front
-> slack estimation - including its clock read - is pure overhead.  read_tsc()
-> attributable to select_estimate_accuracy() sometimes shows up in perf profiles
-> of such a workload via the epoll_wait() path.
-> 
-> Move the slack estimation to the point where the thread is actually about
-> to sleep.  The timeout passed to ep_poll() is already an absolute deadline
-> (ep_timeout_to_timespec()), so deferring the estimate does not change the
-> wakeup time; taken closer to the sleep it is, if anything, marginally more
-> accurate.  On the common non-blocking path the clock read is skipped
-> entirely.
-> 
-> Measured on a host running a Meta production workload with the following
-> bpftrace script:
-> 
->   #!/usr/bin/bpftrace
->   fentry:__x64_sys_epoll_wait,
->   fentry:__x64_sys_epoll_pwait   { @in[tid] = 1; }
->   fexit:__x64_sys_epoll_wait,
->   fexit:__x64_sys_epoll_pwait    { delete(@in, tid); }
->   fentry:select_estimate_accuracy /@in[tid]/ { @sea++; }
->   fentry:schedule_hrtimeout_range /@in[tid]/ { @shr++; }
->   interval:s:30 {
->       printf("sea=%lld shr=%lld wasted=%lld (%d%%)\n",
->              @sea, @shr, @sea - @shr, (@sea - @shr) * 100 / @sea);
->       exit();
->   }
-> 
-> Over a 30s window:
-> 
-> sea=3,587,704 shr=3,003,920 wasted=583,784 (16%)
-> 
-> So ~16% of ep_poll invocations of select_estimate_accuracy have no
-> consumer.
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+On Fri, Jul 24, 2026 at 05:15:03PM +0100, Matthew Wilcox wrote:
+> Sashiko review identifies only a problem identified in the previous patch.
+Er, this should have been the reply to patch 12, not 13.
 
-Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
+Sashiko review:
+> --- Patch [13]: [PATCH v4 13/14] filemap: Add support for authoritative mappings ---
+> commit f97ea9a8250c2693263cf2f409975e439e79ddd4
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
+> 
+> filemap: Add support for authoritative mappings
+> 
+> An authoritative mapping knows about all the folios in the mapping.
+> If read() finds a missing folio, we know it's a zero region of the file
+> and can call iov_iter_zero() instead of allocating and trying to read one.
+> 
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index 26a5f18121f90..5a8cc20e624e4 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -2697,6 +2697,8 @@ static int filemap_get_pages(struct kiocb *iocb, size_t count,
+> >  	if (!folio_batch_count(fbatch)) {
+> >  		DEFINE_READAHEAD(ractl, filp, &filp->f_ra, mapping, index);
+> >
+> > +		if (mapping_is_authoritative(mapping))
+> > +			return 0;
+> >  		if (iocb->ki_flags & IOCB_NOIO)
+> >  			return -EAGAIN;
+> 
+> Does this early return cause an infinite loop in filemap_splice_read()
+> when reading a hole?
+> 
+> When an AS_AUTHORITATIVE mapping has a hole, filemap_get_pages() now
+> returns 0 and leaves fbatch empty. filemap_read() was updated in this patch
+> to handle an empty batch, but filemap_splice_read() appears to assume that
+> a return value of 0 means progress was made.
+> 
+> If filemap_splice_read() receives an empty fbatch:
+> 
+> mm/filemap.c:filemap_splice_read() {
+>         ...
+>         error = filemap_get_pages(&iocb, len, &fbatch, true);
+>         if (error < 0)
+>                 break;
+> 
+>         ...
+>         for (i = 0; i < folio_batch_count(&fbatch); i++) {
+>                 struct folio *folio = fbatch.folios[i];
+>                 // updates to *ppos and len
+>         }
+> 
+>         folio_batch_release(&fbatch);
+>     } while (len);
+> 
+> Since the for loop is skipped, len and *ppos remain unchanged, which
+> could cause the outer do-while loop to spin indefinitely.
+
+This is a latent footgun, I guess.  When we come to it, we can move the
+code from shmem_file_splice_read() here.
