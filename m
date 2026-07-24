@@ -1,76 +1,77 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5743C46A61B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 19:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9925846AA86
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 19:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784922319; cv=none; b=c/OUfFv4UhSuuxqYaEu2fvoqo/uFxR8V250+pcy6HdRaNW1DVUhAEQp7YYn1002ZqhuP1y4dylOMBbTIQt4fbMVbEFmHgSzyKIsJJPYjUb9Ia4H7CqEr/V/FhVp25MqjuA887CyRZV9BENkvB3EMxdosrIBXwC7uiuDyFt6ncrk=
+	t=1784922393; cv=none; b=XM9MchmADt1D5Vwf6XMtLaO+M/sOH46/RGRGqkMoDvyT2j9x6Pe12Ol0bqk9pOSmkv/u0GOfEXbeAh5Hs6FbMB+Vpuz4MtawCqkZEZKX0juOK4IEQpKPIcklS4Y8AfvX6zHjBO5t5odFe2sr/0+xCDuZIjOBZwLgd3rPnMhn9WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784922319; c=relaxed/simple;
-	bh=BZ+InYykFNcAFRMiH3X3hSnvJox8xbd+XMPKC2AST/w=;
+	s=arc-20240116; t=1784922393; c=relaxed/simple;
+	bh=uRNIMzhbF4M9uJF2sBqdo8FKPZv1ilwUFjUqPSZPvZM=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TydG1it2kdwyGq6xvtgh89isgzrUJxqqskMriinkxM8jwhaRQoITihadgoC5aZzLpMYM3BN42kis+U3iB0P7ocDJHGWnRdcfxpCKi38K+L0lCANv3JG/sdE5JRwyJH3NsM2OPwkeiaRnkTNC0vC4dc1m5Uo8NYcLIn4CfHcUdPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BhP7nom+; arc=none smtp.client-ip=209.85.128.182
+	 Content-Type:MIME-Version; b=rqGsBe4daMTW40ZXF8dzLSGgDUlJlBzZW51wFZ9hHnUUgoB/p5U8OgFJ1LIAX/Wi9z6Bh7RD8DpZ8NQw12Lq+sMW1sTQwwOVN7vlonO5UbzRRFpauiDTQ/UNwrgDOCmjKNfVZRJxXmt2S+lMO27nGXaliK8uc/sj1jJQHV9stfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=WgrWRx/s; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BhP7nom+"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-81ecf499af9so8177817b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:45:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="WgrWRx/s"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-80c5cb9a888so6229127b3.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784922317; x=1785527117; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784922389; x=1785527189; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Hd1IuKWfv56+I72Hk72tW6ggfznB9X/tt0IbpBW76Nc=;
-        b=BhP7nom+TZP2geN7HJG1GfbUcoNMMrXiu4sNtsBmginjrWZ8rHDCZTvlyZ4TxAml0Q
-         kA87W20/OcEIWWzQAmvSJIR/hMNd7tcRdomaHM1dqwMcbTG77NsDdF8womoQ4vtGhrnz
-         JsZbh++Yg5lvZzFQdjbCjmVJnVJ5V5OTpRGYSK2zCWzNE9z+vCBB4SiPMkmJGFdD3I/f
-         DxlKhXXUzfht8nFLIKZW5tl7gxrqasoxLzwLAM79abP3sINq5/4pULrsEdGwV1PG88AD
-         lmkiCqRpYUKgluW4Fc7mNirDfeZlLT96HVnjkCRdI6hMCdw/JHggdcS4bPwI7iRCgPKu
-         ie9g==
+        bh=uRNIMzhbF4M9uJF2sBqdo8FKPZv1ilwUFjUqPSZPvZM=;
+        b=WgrWRx/sdNc21Cx3KReY7KA+QgRgw3AJmqYE6Da9XZ75ho5BGDEhFpJyZwyXHPbFZd
+         O6FGn3D/WLfo8HQsy261sUNGCkBrlau2z8C+7oHINFnzAKWjzR/y16BEVjG5J2GRcuKI
+         Tpusx7EIoT3q4Uc/jEx5O4TosqH189l5W+dp0pfuuTiZidd5+8WuUDpbd5fGPH9UHFyg
+         97q5ePh1l6SR6spM/KWmqqIuwcPy1SMBduK9Wm5NdcEsv4rUWr2cGL3MrbliGtPzmot+
+         eJTVkMFuLUP8q/ochYPWakWTybsLKYFb2+MgFUxM8HyxysBJidHrj93B68j/eD/U2duQ
+         a/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784922317; x=1785527117;
+        d=1e100.net; s=20251104; t=1784922389; x=1785527189;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Hd1IuKWfv56+I72Hk72tW6ggfznB9X/tt0IbpBW76Nc=;
-        b=YfhcnaGIaDZSgJbVbgKpCXgQuLqBCRMk0EBra5P/6uJR08NUBrEM7SjG6OvMximlti
-         4RuKdZLXwdXs6DlDspoqZMvAeBCuX61wKkGEKN9ZbiYkWEpyzMb3pIB8FWE/26+SyWKp
-         t0+LE1FliECKEr2WrKxjw4jc5DAa04PADQyhlZzK7pCMd5FBk0SGXS5qHZdzjkeR+cHR
-         egpBUDnvDMZmlb/+RsPGBPYRotMLb5+zrv9GTR0OqNhgzm7qlmar4IlOd1XdKOOwc+BT
-         jrRMjVIiCclBRFqoeZBlZ7S+UNge/KV1xoQ8I5iAUvMB3mXaH2YzzyjauJbPtEbRw+L2
-         or3w==
-X-Forwarded-Encrypted: i=1; AHgh+RqfTKKMRz4x1LZY47Q9M75bj07uIICIpXKSo1QJVOL8Ki7EktTWFItYhkvfZLOiXVNaI4urXHvEt9JagsA3@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywdy0Fl2pvGwdwwRlZqvScSjf5P5c8883rqNiBJnokkgCLUTVzU
-	VfqrX3S2Gv/6gAoS38ZFFDKI1wsat/r6wgEhANKCNmwbRu14aD34eBqYVYXgorLF4wm5/niMeXy
-	ib6pNe/8=
-X-Gm-Gg: AR+sD10sqk3FdJyv33Q+kOvJkfcCvjyv5jqNWyKA5mt6ivPDrlO3a551tnSLq7aN9S/
-	hx/PcLYlUbY13fVmfgrqwTswtT/fIZD5O7aphs+qHkYGhwj6+g0X4UweHqcxpdg0nnjvftA4VJC
-	ceURaiGmXXg2x5XZE6DPysBNDIeoqkC6Mq65XHj5VuHxeQj4qchPi6IsE1MujbYMv9BznUlU48r
-	Iz8bu7ezyNZmxq7kaEAJKF51Hc6t3qyxwaikXKCWnqm2O/2coegBX0y5zIvxQOjlsI/KMCP1hB9
-	ob8TVh8U3ch5Ntzw8k83Fyl9LqqJ3eVoqsLvq2Huw/aJfMJ18lO/kX2q7fVX9oDkcaE47GI8hl8
-	xK0ImfzwLR/qQasAXQypnOVZkXS4qf3Jmfff/ei7HtkjlnNpYyGvLLVoEszywhui0FqWQrBAkVI
-	GZduxjdPyhvsvQSoItYwIDLNmTq2EroJLn730lB5XOfCg2RndUsDCmWp+LlxemLygDSNpCU+mBV
-	rC0yhiLoemXLsup6556aOHjzHd0LGjiRgssxhwdeDuNO0LGQPD4H+/iQZU3+SYy0U28WW8=
-X-Received: by 2002:a05:690c:7248:b0:81d:3018:6eca with SMTP id 00721157ae682-81f4c162286mr29155537b3.12.1784922317286;
-        Fri, 24 Jul 2026 12:45:17 -0700 (PDT)
+        bh=uRNIMzhbF4M9uJF2sBqdo8FKPZv1ilwUFjUqPSZPvZM=;
+        b=JPp7usJqYPZM5q2PKQBcBGCbZbralc7phX6QZC3NI/uEaYFYgGw0R1Q3gv35ezs4QF
+         eueiPe4rnh0899jcwerGfMKpIYTixQnnrtiUyJMlMSaq/YaAX501MA/ZUlZuFgUBQr7q
+         +7qJFlHRomRZ16iMG1YMs/mqBCSkcLJSBY/OvMn2MyCVMa0K0zxrp0GEnn3ZlHNUFCKI
+         YylwbGCdovCoraS2mHZ7Akax4hX92EJaA/5sbklNvnXSSPdH+E45a/wbwassrIpV42Rs
+         ITqDKoiz8JOm9+DC70kNPjxTINXCw1/RooqhlJuD3m/ltRreWT0+ZvKqNIejN6QQ8914
+         Fgug==
+X-Forwarded-Encrypted: i=1; AHgh+RrkfJpg1P/czE9UaqixWLTMCjIsl4N54LyBGZvBBhX5LEFjKVe2GWJ+vNyZOVyurqcaqUo8pTY8QYonk7og@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs9in0g9o2BM1aMHtjJR0QdMD2EhpZqyduiEw58bugeO9EkGoS
+	7PsHFKGNyDGUzPO29tul8M1uswZaTejQX2RInkM9WHXlBoNi2YEdOjazfRtyABeQ7L+5ekb7T7Q
+	GJ3FkvHs=
+X-Gm-Gg: AR+sD12Xlv7Kg9AMvTOYUU0s7N14yvAE8hV/VfqXjZYQZmFz/5qyz4seoEncsQMHlK3
+	QtCl4WiO3m1Cjrif4tAsIta4KfebGdFeeKX4IwLvT6REiMTEkVJjmbVl7XPxcfUkamaxF7MTgwg
+	w0O7iQY/wYBzQfVOJ8ZmV2tzSkbNPoHdN4U2I0WV+N27zqgO3Yrc7YmnloPpxQ/1B2+i5KUpkHB
+	IHe6Gq82vcicES1EJbHqw2RyxmH5x2bmoIcZUORLKc47+26/APV70NJ9mIERO1oKIQRmTZjxwKc
+	8Lmsye6QjrcdOwooNuAd+tLIesqX/VArwgMRjtzpa6NVNz8D0ERY+E7mj+L9JSq4vkWaO9k3dt7
+	WuZRmiNlzJY6bRYeGFq2Ur/pZCQBR6R3aA+5HL3a0apKmjjVNCn7Ince0fq5qzsFcAV3uK03AeL
+	cIHk7vJyg8JFkRBAOBD44/twT/KvD7/WjGOd4I7NyKLbCsSCRbY6Olzf67VUNspLN0UCTqFL5+l
+	UN/LkLOB+QxleEWuXCSEhphtqqo5Rb2DVApVnQ0LMODmcaUQiaREmGH9nrKLCvuFplEp2aC8Ndj
+	Kjp6gA==
+X-Received: by 2002:a05:690c:6f10:b0:81e:deab:43af with SMTP id 00721157ae682-81f4c144db0mr30221897b3.4.1784922388915;
+        Fri, 24 Jul 2026 12:46:28 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:62ee:74f6:cfbb:28e0? ([2600:1700:6476:1430:62ee:74f6:cfbb:28e0])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f65774b0dsm5378327b3.1.2026.07.24.12.45.16
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657d2c33sm4997847b3.21.2026.07.24.12.46.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 12:45:16 -0700 (PDT)
-Message-ID: <78cb029e014d9590463729c43519b647f3a38dd3.camel@dubeyko.com>
-Subject: Re: [PATCH 4/6] hfsplus: add iomap operations for regular file data
+        Fri, 24 Jul 2026 12:46:28 -0700 (PDT)
+Message-ID: <4d8352f044ebe2ab49b1c8646718415863dd595f.camel@dubeyko.com>
+Subject: Re: [PATCH 5/6] hfsplus: add iomap-based file_operations
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 24 Jul 2026 12:45:14 -0700
-In-Reply-To: <20260724053229.GE4181@lst.de>
+	linux-fsdevel@vger.kernel.org
+Date: Fri, 24 Jul 2026 12:46:25 -0700
+In-Reply-To: <20260724053311.GF4181@lst.de>
 References: <20260722213759.1360225-1-slava@dubeyko.com>
-	 <20260722213759.1360225-5-slava@dubeyko.com> <20260724053229.GE4181@lst.de>
+	 <20260722213759.1360225-6-slava@dubeyko.com> <20260724053311.GF4181@lst.de>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -125,60 +126,20 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-07-24 at 07:32 +0200, Christoph Hellwig wrote:
-> On Wed, Jul 22, 2026 at 02:37:56PM -0700, Viacheslav Dubeyko wrote:
-> > This patch switches regular file operations on
-> > iomap based approach.
+On Fri, 2026-07-24 at 07:33 +0200, Christoph Hellwig wrote:
+> On Wed, Jul 22, 2026 at 02:37:57PM -0700, Viacheslav Dubeyko wrote:
+> > This patch adds fs/hfsplus/file.c with the goal of
+> > moving the file related operations from fs/hfsplus/inode.c.
+> > The hfsplus_file_open() and hfsplus_file_release() have
+> > been moved without any modifications. The hfsplus_file_fsync()
+> > no longer takes inode_lock() itself, because taking inode_lock()
+> > here would deadlock against callers that invoke fsync while
+> > already holding it (swapon()).
 >=20
-> Maybe spell out the benefits tradeoffs, odd bits here?=C2=A0 This commit
-> log is a bit short.
+> Please split the pure move into a prep patch and then start modifying
+> the coe in the new place.
 
-OK. Let me explain it in more details.
-
->=20
-> Also does this actually work without the following patches?
-
-The following patches are needed too. :)
-
->=20
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + *=C2=A0 linux/fs/hfsplus/iomap.c
->=20
-> Please don't put the file name into the file itself.=C2=A0 It is pointles=
-s
-> and prone to get out of date.
-
-I am simply following the driver context. Other HFS+ files contain
-this. I can remove it, of course, if you like.
-
->=20
-> > +static int hfsplus_file_write_dio_end_io(struct kiocb *iocb,
-> > ssize_t size,
-> > +					 int error, unsigned int
-> > flags)
-> > +{
-> > +	struct inode *inode =3D file_inode(iocb->ki_filp);
-> > +
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	if (size && i_size_read(inode) < iocb->ki_pos + size) {
-> > +		i_size_write(inode, iocb->ki_pos + size);
-> > +		mark_inode_dirty(inode);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
->=20
-> We've have a copy of this in various places, maye add it to a header?
-
-I can do this.
-
-> Or even into the core code based on a flag so that these file systems
-> don't need an end_io method?
-
-Let me double check this.
+Makes sense. Let me rework it.
 
 Thanks,
 Slava.
