@@ -1,99 +1,79 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20511380FD1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 13:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784900078; cv=pass; b=DVXMJgS0LX9KnwlgHdu5Jhz5LaOG6RRtEWroMRi3ti61QnzzFfdxGUe5cexx580nyQZL6jW5mJXCDeZsi75imb/eJmgvAEV85dnF+1UivR72kl4vHV+WFQy4aJiKOnX242hZQTUituq4s1+udWvgGZV3UgRws0Tys0Vsu6np5mg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784900078; c=relaxed/simple;
-	bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rosc3uxKF06nN+R/8outsXL4C6Ux4KYk/f0s2r4L0UGXMs2U5n7xv13ooTQD8bJ3gK4J/OUGsfivtwFCBqtQx15JpIuI2ViU8k5HbRzKgep0m8erIWktCq6pch7Plk2DR7rr0jF7qvu/nMVIgtmG1rwhh+tVxNg365wx02w/cSQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpUbj/gx; arc=pass smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D513911C7
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 13:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784900241; cv=none; b=lFIvfhi5zECVMKGtvL4HgLahiBVMiX8rvFl43EF54GDKgvGgtK7L1i2gCJU387GwpaTUb/rGxDW+S2rNc6FcQWMdpS3nbBy7otMlqaAVKOqTFZvN7Br5OyGpdyCiPMMsGEYCaY34yWogQtAcVFfFPxKbZjvfH5T300V1b1Gexdw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784900241; c=relaxed/simple;
+	bh=2+keQIk7JM9nrHkBIMRZyyUE2/I5bNFxu16eW8JymBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SqkjjNw5btQIAPUgxEOreDogxGpRKFIVEJfToTslUGZlC2gvpjBX0xtfPJNRnEdb4b/83Adr+hMUhqM1IlzzvHqDIorSKcwesqZONHi2F/QW9zyzK23v6cHxC7NgDfunA+qVOaopz8XT5LExxrgOswU8WiOl+TcIFnNsF8KS6Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UvQ7Evnd; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpUbj/gx"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c197f968b3cso67559666b.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 06:34:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784900075; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DlCw6HZxY2kivDIBLzrbt3l+O9Bu9efEpD/Po2U6IySEWWBTYAY8ZvYCsdYgsEe0Oy
-         7DsZR0+DXRpgNuNUQDOqkWgp9dJbz+6PlU+cQvSH8+8vNqqDvM5RztX0z3p6JQupOytZ
-         Ro6MRaTnFcKE9BBASy6Qf3tDbxGWHzqbAunBGz7DAbhdXpjB1xvG0x8QGL+uIP0OV7LQ
-         R0c0PP0RPDStJ0fx112vkheVxCTmkNxgv21YH6jYqUQm+CiaF/SGA+GUOV9W4O5K+9Is
-         mTUDLbAZuDUPmVBZBvqyApKNFIZ+wWkUXj2gkpsck6mTKoBVQVNMawohgzDnzOjwrZP8
-         4fjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
-        fh=MeGZOqWwJZXl2oHDd/qb8sphvh3H65JOUwNsD47yM4E=;
-        b=VSZVyLCO7xuHwqBGCXIH5+Y3U7aVICV2M3YXZm3qiHmds+ekJfHF6LzEgklNCVS4RJ
-         T8u7HCmCSkyz8+WzpHqWyorJZ0MVgznTALo62O6yJK8mcaXMz3cGr2QIgtzVr06t44Fu
-         jfAolGSXWtJNSg+ZHTh11h/R1Kyn6j6wvHMTiOSClNQD1/5IgWpbwZkfmxP+R9UY0P0s
-         +R50J9fGZv2MqSy9zY3RMmnA/doVvuZLtWNWY64oYwgzSzKHyrIfMqQ4G5buuB2quCxS
-         SkFa/3w7WuF/+UOGTOYL47NjtJac+tAnvykW2sjuUElpZfkpPM403eJeBPiq1PtiNTgE
-         sc7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784900075; x=1785504875; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
-        b=VpUbj/gxPfu2RJKKVmjsZsjVpFXa4JvxOTc/1TcRNMnnNVefaCvfqx2/odkO9g0NTh
-         CnsiBs4DgQ48FWOpJDSSiPo0E6xIq/kxYpQsS4Dbv3aZurShT/W+A9qHMjEDVCTojNe5
-         5zf79qnNQjhwS1zaVKbawSHze1NF4okyEJHHH4ArW6N3YMjavlI7eyMl+xOpiqmxLb2E
-         NKJ06T7BITwLjVRs4DNk4bAi3fEzM1kirP5LYLY2pSojTlhlTzeIY2DM5oDjrSJ0zXy8
-         zsPTuXchjV6bQkcVQAf1IJmIjWs6rbLpwnX15kRDf5kjA369ONxgdH7bmD2X4GrAZEig
-         ECZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784900075; x=1785504875;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
-        b=Wv+sfZY/XRaMaXGBrPq/gLDgTvuo98IXmDmuTMZuc6EiACmBC2Zc1EBwajXKWBmBsE
-         tGzAT5ayprEIGopWST/pXfLcZlFSzqgCdMW0P6n+JS7HgHYXFggoQOcLXEH1ddzRpt5A
-         xWZ5I9fFd41BkWVOlM0qOio/8t3E4nrOJPEmWLgtOUzYEVMKnfInnBJzSrUkF0+PdjbW
-         KJ+DL9ZpWT66xYiX7MFyzXBazf1f8oiYv4wmQgCBBxX2+5QV9l2gdlyhGkuGiZwXg0zS
-         3H5PBVJtDCr45MHP8RU3q6wRCku/NafiX0gG7Fd+1TJTP+nf4mcc4V5qvPbkq/ao7+2J
-         7x8g==
-X-Forwarded-Encrypted: i=1; AHgh+RpYbS75F9azBjxmIGT2C5iODtIUP+sJiVAL8NADk410oTbr6LDsv/n6E6Ow/04GV6aRV6rqJzbckkQM9uXh@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq12zmaudkibgY81Xh+btheepvYEoOlsY4czVZE8xKk6IdPkWh
-	oX2XvykIZ31F7PfnUGY9cM5tbaI+JvcBEF28LuKAjM9u/bJ68zQdOtUbgGaweiqpudnqaj/eyqH
-	sjujvjTyoYNASGsMyZvFfGUqeQJDkhA==
-X-Gm-Gg: AR+sD11KkzNlZ3fqm+mI6ZWdVznVQrQ3yhRDsBZtEgU0xKnikbMmctZk6+u2SyfX2Yl
-	S/6C+nYpnKrMt341qjL8omytRbrX+ajfw5d9bx6UIdMwoRk6zc+JOzJlfcS7rUs3MZuLocuMYWd
-	hkdCyyLPpqvzDRbWea+kSzhJSifv6UQOv5Gu4Tie6+JpNsm+sQLoWm/Nxh56U9GI1R0Ku10ds/1
-	SSdQpjYMmFW2CulTQhgGiSU/A1nHUkT+mhhtwtbD4PvJL9vLhrHwhg1SiN6a7+NY8Snk5HCAviP
-	iF534n/YZAWFky9+wahWCMTTGt2s2FgH/+A=
-X-Received: by 2002:a17:907:1c13:b0:c12:34ed:da14 with SMTP id
- a640c23a62f3a-c1c50b6671cmr294192966b.64.1784900075121; Fri, 24 Jul 2026
- 06:34:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UvQ7Evnd"
+Message-ID: <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784900227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6/FxFds0ZblJiTDVn0Zh6YSzNFtgG6KSsc6BX2Vp7N0=;
+	b=UvQ7Evndl12aryBj5Gzh/4Kx4IFxjvJ4rQR7z7ZeZ02IkJcBysdcs4RGKKa4/VtIk/MUN4
+	kFv0UzKogYSnjvY8paSxOYiT0jsEqzPaZPtCX7Fha6cYM3qT2NMr9omxqoVR6rqLt06FcV
+	aqyG0djpQWd5Myh9Rdt5ZWa+1GWgLE8=
+Date: Fri, 24 Jul 2026 14:36:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260724051001.202741-1-hch@lst.de> <20260724051001.202741-5-hch@lst.de>
-In-Reply-To: <20260724051001.202741-5-hch@lst.de>
-From: Anuj gupta <anuj1072538@gmail.com>
-Date: Fri, 24 Jul 2026 19:03:56 +0530
-X-Gm-Features: AUfX_mwWTg42HDw4aWDghBP51qdfXyDKkMoJixeJkgq6b4QcQa_tMbSOXy-DN0w
-Message-ID: <CACzX3AvJUPUhxCPgqOW6zSF2exawYG_okkL3xAEd=s2g=EDd3A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] iomap: don't free integrity payload that doesn't exist
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-block@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
+To: Pedro Falcato <pfalcato@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Kevin Brodsky <kevin.brodsky@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20260724102017.141532-1-pfalcato@suse.de>
+ <20260724102017.141532-4-pfalcato@suse.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20260724102017.141532-4-pfalcato@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
+
+
+On 24/07/2026 11:20, Pedro Falcato wrote:
+> ptep_get() does not need write access to the PTE.
+> 
+> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+> ---
+>  arch/parisc/include/asm/pgtable.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+hmm I think you might break build bisectibility if
+you separate out the patches, you should squash patch 3 and 4,
+with patch 1.
