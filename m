@@ -1,100 +1,34 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A2E2931DC
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1910C2749DC;
+	Fri, 24 Jul 2026 12:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784897543; cv=none; b=SqEHSioWFING4ZKGAXt08StLHHFcMMgVb8Kc/y8CnEpPtgGxYeUIYby3i5wzWs2U8X25k4dZklng5C1SQLC+7/iuFlgqUyseJVISB7uuM65hN9ROF9X4jiRBC/6pi0bqaL20gJIa3brdx/GFYoQfTa7WZ3DdZDOy4wj6HWCBq9Q=
+	t=1784897681; cv=none; b=LGcqxQkHo/aMD+qLFZbiJqV/kxmca7zQJoMwcN3W1E2tGOYBS66/N3xOXnGtTW1Mvp+lzl6w+KvG2aS9efiCzv8ajDm8Xn6kV6GHQNVzw7e4A5mGG++Vm4XrLpxXIur0t+aqNOMZirM4ltyMH0fP1cPhatDujjW6FgIvVRI8sHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784897543; c=relaxed/simple;
-	bh=sOVvmMi9v63E0Cy86DvWvi9SVE6+rDO8K1xjowWrAko=;
+	s=arc-20240116; t=1784897681; c=relaxed/simple;
+	bh=tqRxpgQdUJ7Au5eLmLySTDovM0MWNImE4pIPqVY7ztk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JeTL6hX3ejnU8fl5MHMudNV7ADqkRjugDyVG/06OhxfCy9+BhfJMIz/lfYsA8OSa5McumcPTDGtm3QBrA02fO5LTVhK+bmNeyG6sG+A21YCTOqIMhNzgTNoe2TgGl64fmiHCbwuI5OZzm+nRqAyc61+BB6M3GSd0+bm5t4Hvlzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIMJeZoV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qYQ+/Q+J; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIMJeZoV";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qYQ+/Q+J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784897540;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLQ5O+fUlC8SWGd2qEWM0svM8AGuw9DKpa1kqaGNOlc=;
-	b=fIMJeZoVWYhun3WlUlSAxGVbiTl+hAbuAGp6qpnU1OQW0Wo4K61PIARx9BfIMxp2gVLggN
-	RUyBRB+QjLr70hCysu0C50meRFpzKLZogIcWbGRyvJALFmfdKcNy2JnMJnjIAd39kKJRrr
-	vhPSou44yIlCLIWH35+ybqukNVUVj7A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-333-ORmt_9voMoiiGPBvP-g42g-1; Fri, 24 Jul 2026 08:52:19 -0400
-X-MC-Unique: ORmt_9voMoiiGPBvP-g42g-1
-X-Mimecast-MFC-AGG-ID: ORmt_9voMoiiGPBvP-g42g_1784897538
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-492714d002cso3450015e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 05:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1784897538; x=1785502338; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=JLQ5O+fUlC8SWGd2qEWM0svM8AGuw9DKpa1kqaGNOlc=;
-        b=qYQ+/Q+JOeJWfJhtWhgBUwf553gt01unZuzbPI9oKLPISM31LdHnuPLEPx8eQCM34r
-         Vg28XVdqPZtlr+fQEwLfCkqU30qpDEqquU6LpaqxjM611uoPdIJ9emc84eWurokRkJ1x
-         INYhmMIEMoxoAAoD7ocBweChNsHXrFb+2YCOo4R1zzItlD55EE7tRocbGi+46+76QUT9
-         9rL9DOAb0RjSd1OArucrYK9VaBU7J3z42GkeO4pSigDkpGdhrh4AE0vNVYvpmMLjevNX
-         lV/Ck2p1DgMbBm2fKEwaDTdzXwju7wM9jN4Ko4qOWtYdQgsgY4ZH4th4OXj9xi1z0gFL
-         AhUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784897538; x=1785502338;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JLQ5O+fUlC8SWGd2qEWM0svM8AGuw9DKpa1kqaGNOlc=;
-        b=cujPsCg6FRdf+CPLohCXPFJ3S33TGQxY9wS6GSyChW+xXcWUaqD1EGIUrn7rqX+mgM
-         TeDLxcYDejkPkvfo4aOK2CjFBP7F/hzAxZXJHGYg1g6AkpHnQIwFdOdGRfetITNDKJnH
-         6jTAiVRTHDej32S3gY2UL+5ZEMAV/0qyAkUQRfxfhFLKgXioGezS/dCR8rRxwV90XKyU
-         wSAYkmfgc4A8BUAzUFIFyL8119Yqo33X8H7CMYAIbWsQKR/4zduApuYWI0oSOPyxcPsT
-         hehEEzu72R5qkDcFzGKf34Zn6rKmgylmwfgUqZn0z/5E64K5pu4C62tR7iyIKH30JlAR
-         Ks6g==
-X-Forwarded-Encrypted: i=1; AHgh+RqENxJmitnlgy2QQ6oFyMqq3Cdsin+aj/CDeFpHK6DbM9e5tsFNcDjTlUgiDye0XurIZPXjXUgPQBsZwIeq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9CeUErGNB/lqe35rdV7c1xrXr50M+w038xLZICrVz7WetCRSX
-	LPIu99CRwHwPlMTW9GHmdfpcttwcmr4eGnw9uqPMi7tSVrZ7d4yLZW+yiFMjTLF/mlea9wD+++V
-	JHwDS8UywXIbDjLSVUnFw7Ygi+ULh6WTc35Nz8Tbw73vIlI0TG8dleUrjQjgEs1jCvDU=
-X-Gm-Gg: AR+sD1185KNx2B4biDyfWrRxK9woiJbAfNB+UOgdHSNKWadW/h3/qBWMd1y3FMkBxof
-	x2blR51r2ZzdrMDghnfNXTLUH6qnHk+RhSqSIlvMrao10oxjxQz+Vo7aYbCInyein0OIJbI5Aqb
-	fcQXaKSWbphAN2b4VrthOPJRSPijKkRnXb8Romk4tppCbLMqZf2pfq0VfIfEbkj1aH2vwLve3pB
-	IB+3Ey0O0MBEZ2DPqD32S5j/yZIjoAipcTEQ6XIFlc/wAVMeZQR0wbQXuSMeIUjXCE4GfqfbDXl
-	+/wg5/E9OkB221c33pPDSf9k6FMyehnIlZFQ99lrrti/mgX5npvZ3+QQ1t6hLpaL09udiSO5ICH
-	PqO8Wum1rbot7qdQSVNuPSw==
-X-Received: by 2002:a05:600c:63d1:b0:493:e79e:da98 with SMTP id 5b1f17b1804b1-49573cf1b3cmr56863745e9.39.1784897537729;
-        Fri, 24 Jul 2026 05:52:17 -0700 (PDT)
-X-Received: by 2002:a05:600c:63d1:b0:493:e79e:da98 with SMTP id 5b1f17b1804b1-49573cf1b3cmr56863385e9.39.1784897537206;
-        Fri, 24 Jul 2026 05:52:17 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-37-66.inter.net.il. [80.230.37.66])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957bfc2ff2sm44919945e9.4.2026.07.24.05.52.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 05:52:16 -0700 (PDT)
-Date: Fri, 24 Jul 2026 08:52:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>, Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH v4 03/14] mm: Rename folio_contain_hwpoison_page() to
- folio_has_hwpoison_page()
-Message-ID: <20260724085124-mutt-send-email-mst@kernel.org>
-References: <20260723143034.175661-1-willy@infradead.org>
- <20260723143034.175661-4-willy@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4Xd10t8t6/TfzyOJzboRqgzeYSnCYL1JEH7wD8bPXFMuXEHiHsfK/L9VaZ14CYsJk7fN8EgDVNA9C7Txjcsut3S2J0FBOr7oanfnCZUfRFO+TW1K5RDLhLvtBpcP8YlbqFUtID5NJDf6bLE24jLUbXm8gMXdN0quMyo3rJqYas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1BE9F68AFE; Fri, 24 Jul 2026 14:54:35 +0200 (CEST)
+Date: Fri, 24 Jul 2026 14:54:34 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/22] xfs: use BIO_COMPLETE_IN_TASK for bounce
+ buffered read I/Os
+Message-ID: <20260724125434.GA27168@lst.de>
+References: <20260723145000.116419-1-hch@lst.de> <20260723145000.116419-19-hch@lst.de> <amItES6s54i1QSHw@aalbersh-thinkpadx1carbongen13.rmtcz.csb> <20260724062120.GA4953@lst.de> <amMvIEtEtRrNE7A_@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -103,98 +37,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723143034.175661-4-willy@infradead.org>
+In-Reply-To: <amMvIEtEtRrNE7A_@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Jul 23, 2026 at 03:30:20PM +0100, Matthew Wilcox (Oracle) wrote:
-> This is a better name for this predicate.  Also make the argument const
-> to allow other callers to be made const.  No functional change.
+On Fri, Jul 24, 2026 at 11:38:53AM +0200, Andrey Albershteyn wrote:
+> On 2026-07-24 08:21:20, Christoph Hellwig wrote:
+> > On Thu, Jul 23, 2026 at 05:58:49PM +0200, Andrey Albershteyn wrote:
+> > > I would probably need something like this for fsverity.
+> > > 
+> > > When using integrity checksums with fsverity together, both file data
+> > > ioends and fsverity metadata ioends get onto the inode queue
+> > > (without checksums there's no metadata ioends). This way worker could
+> > > self-deadlock if data ioend processed first in xfs_end_io(). It will
+> > > call verify_bio to read merkle pages which could be already waiting
+> > > in queue.
+> > 
+> > Yes.  Same as the situation we have (or had as this is changing
+> > for 7.3) with fsverity and fscrypt.
+> > 
+> > > I initially considered changing xfs_end_io, for read ioends, to just
+> > > schedule them instead of adding to the queue, but decided just sort
+> > > metadata ioends first in the queue [1] as a bit simpler fix.
+> > > 
+> > > The difference is that work won't be scheduled on the high-priority
+> > > fsverity's workqueue. Not sure how critical this is as with
+> > > checksums all reads would be the same priority.
+> > 
+> > I'll need to go back to your series, but just sorting isn't going
+> > to fix the problem, as the reading of the verity metadata could
+> > be kicked off from the completion workqueue and you could be blocking
+> > the rescuer thread.  So either verity needs it's own WQ, or we'd need
+> > some way for a currently running I/O completion to exit and get
+> > restarted.
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> ---
->  include/linux/page-flags.h | 4 ++--
->  mm/huge_memory.c           | 2 +-
->  mm/memory_hotplug.c        | 2 +-
->  mm/shmem.c                 | 2 +-
->  mm/vmscan.c                | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 7223f6f4e2b4..4185a03a45cf 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -1083,10 +1083,10 @@ static inline bool is_page_hwpoison(const struct page *page)
->  	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
->  }
->  
-> -static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
-> +static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
->  {
->  	return folio_test_hwpoison(folio) ||
-> -	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
-> +	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
->  }
->
+> Oh I see, then, the data reads could be queue further with
+> fsverity_enqueue_verify_work(ioend). This way bio completion queue
+> can continue process incoming metadata reads while data ioend is
+> waiting for verification.
 
-It probably makes sense to document when this should be used
-in preference to folio_test_hwpoison, given a lot of people
-got this wrong?
 
-  
->  bool is_free_buddy_page(const struct page *page);
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 2bccb0a53a0a..353340309107 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -4413,7 +4413,7 @@ static bool thp_underused(struct folio *folio)
->  	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
->  		return false;
->  
-> -	if (folio_contain_hwpoisoned_page(folio))
-> +	if (folio_has_hwpoisoned_page(folio))
->  		return false;
->  
->  	for (i = 0; i < folio_nr_pages(folio); i++) {
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 7ac19fab2263..33007e8e546a 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -1813,7 +1813,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
->  		if (folio_test_large(folio))
->  			pfn = folio_pfn(folio) + folio_nr_pages(folio) - 1;
->  
-> -		if (folio_contain_hwpoisoned_page(folio)) {
-> +		if (folio_has_hwpoisoned_page(folio)) {
->  			/*
->  			 * unmap_poisoned_folio() cannot handle large folios
->  			 * in all cases yet.
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index b51f83c970bb..492c9bef3620 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -3240,7 +3240,7 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
->  	if (ret)
->  		return ret;
->  
-> -	if (folio_contain_hwpoisoned_page(folio)) {
-> +	if (folio_has_hwpoisoned_page(folio)) {
->  		folio_unlock(folio);
->  		folio_put(folio);
->  		return -EIO;
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 35c3bb15ae96..70e54ace0e74 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -1086,7 +1086,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
->  		if (!folio_trylock(folio))
->  			goto keep;
->  
-> -		if (folio_contain_hwpoisoned_page(folio)) {
-> +		if (folio_has_hwpoisoned_page(folio)) {
->  			/*
->  			 * unmap_poisoned_folio() can't handle large
->  			 * folio, just skip it. memory_failure() will
-> -- 
-> 2.47.3
-> 
+fsverity_enqueue_verify_work would actually really benefit from doing
+a list (percpu or otherwise) so that the caller only needs a single
+or doubly linked list entry instead of adding another struct.
+
+But if we don't want to do that work yet, adding a verity context
+of some sort and using fsverity_enqueue_verify_work could work.
 
