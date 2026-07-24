@@ -1,67 +1,44 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D395D40860B;
-	Fri, 24 Jul 2026 14:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAC42DAFAA;
+	Fri, 24 Jul 2026 14:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784902463; cv=none; b=oa/H0k+ZHM8cZMNbnMuxDQT1P3U4xSihaZOPJttWt8TIcnV82iCJVYyKMeYm9ccvZIImUDK9fS64zXeSh1+tBv40i7rR4UiAwq/IeUroUXFcsPX9RidD0P6Qxtw7Go1ujQT1iqEnGaFgQMCYhrOrZHMJvy5hbwLUSVf2BD6JYfw=
+	t=1784902900; cv=none; b=heZdWY20DhPyUYsv/IVhFNCI/nvbp8bV5lAJp7ueI/aFgncziFxnWAY3vGI4E4Ew+3/t4E/1MHOfYbWmNAnYoWjFLKtZu9+YOioJJkxD6oZaiZjO+srQE+2HpFJdvdVNzUVXj2d3bFtNKpkSY49dMEza9sJOjasGHt3Fax4Z/dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784902463; c=relaxed/simple;
-	bh=ruN4HRMRiA/tyx/52QmIhzZu8BUYUZZIoI2bKpg1hUU=;
+	s=arc-20240116; t=1784902900; c=relaxed/simple;
+	bh=x5tMXceGbZLsUZ2frSrMikaarDSc2u604KCox/otmiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KbUyaE0AgoRmAkmwz/wwHowAIx1B69cOckr937+qlk1vdvKZHKU85+JAGeYSvQOfFHqWZW1PabydmvltsMgdktbTCEpkOLzJ7f/7nRmEjBO2jJV8vz3gG0+KsPx3hbtJsh+71aeO8H7b5WIuQbdV9IvZMAEdvBerHkQ7Cdh5eOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b3FaE/15; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEEB99BVlwIYDRaQDCadoaYuDwo/eNRfMGbKc1AztnNKq8evEE+RD8QWYSEzQPOzyovxzMwRp50Rdyg4rTaN18dcB4vS98w7Qkr2G2yMnqBINP31RzJ8SAUbR8Rflm4pcaArjpY6YcEy8NWyncB4yKMXJ2QI000lz1xN1sDj/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bfqTKrQZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b3FaE/15"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sqQq2Owm1obwOGEA9eotW/m1MLzuoJQfAmp5HBaVcd8=; b=b3FaE/15gGHycdVRSEH7kk8gXg
-	ziED/cLtyY3G9U83si7GAn5Ol84senjYN1m4jLjO0UtBZIPJDA8wUFOchOARYzauL2VUm0k7nZpzN
-	K07SPvCGF24b8xDHwesu9/XXFOC/xHyVYN0uSucmDm+HCF3RUQvxf7WqMkuuVnzM1qoNRsMjxDcj9
-	uhiGquYmGmqrNAnYWz2mPt+rVVhLzVIZYA3vpLT1TxNs0sooD2gummR7OMhrl7SLQIfux9q544RXB
-	8pK5bJXka726CjSXoWptNMLW0fFoYyvvcYKrkavP6fm72xKjr3YlkbnKKrHXHEs0HDQz3K+4Q60X8
-	AYR/0EFw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnGf7-00000003fU1-11AE;
-	Fri, 24 Jul 2026 14:14:05 +0000
-Date: Fri, 24 Jul 2026 15:14:05 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Pedro Falcato <pfalcato@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
-Message-ID: <amNzLXuwflIZFKtI@casper.infradead.org>
-References: <20260724102017.141532-1-pfalcato@suse.de>
- <20260724102017.141532-4-pfalcato@suse.de>
- <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfqTKrQZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47191F000E9;
+	Fri, 24 Jul 2026 14:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784902899;
+	bh=yo68qjongadB1GZqXZprYtsFAZFHbGPoQ+5S7vlZ7+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bfqTKrQZoghsWVyi+N3a1tMHl+uOYqNHFzxanWJM5XT8Mq2ua1dbXs6VjffBJc6e3
+	 2Y7FwpnYv0gSI+QpfA+4acSlm/1QRI7FGdDk6a5rxjF8/XLwwhSeuWc9fPOOOdVtFe
+	 gZZQDpxnXCzr9T4B3SYJVw/5u+3ZMaNuBqx3Tc/PhS2+aKgh+2/7wx4Lu6bnQRTyXn
+	 IGRh1YpWIYvZZEaZWi7IYYopm8m98ahUlSEuubXPt4gn9xl5I1AbSCVZRXc9E7hqCO
+	 KeTAaDc8Mf+HRtHgNnIYv/+HDtzAr8N+bAbN3sMBDGLyKAoNheQebkE8aJT5SSv15S
+	 XlX7BYRPjj5Ow==
+Date: Fri, 24 Jul 2026 07:19:47 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v13 06/23] fsverity: don't allow setting DAX file
+ attribute on fsverity files
+Message-ID: <20260724141947.GC1876@sol>
+References: <20260721184346.416657-1-aalbersh@kernel.org>
+ <20260721184346.416657-7-aalbersh@kernel.org>
+ <20260724131353.GB27878@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,22 +47,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
+In-Reply-To: <20260724131353.GB27878@lst.de>
 
-On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
+On Fri, Jul 24, 2026 at 03:13:53PM +0200, Christoph Hellwig wrote:
+> Looks good:
 > 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > 
-> On 24/07/2026 11:20, Pedro Falcato wrote:
-> > ptep_get() does not need write access to the PTE.
-> > 
-> > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
-> > ---
-> >  arch/parisc/include/asm/pgtable.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> hmm I think you might break build bisectibility if
-> you separate out the patches, you should squash patch 3 and 4,
-> with patch 1.
+> Shouldn't this have a fixes tag and go into -stable as well as it already
+> affects ext4?
+> 
 
-I don't see how this breaks bisectability.  Can you elaborate on what
-you think would break?
+ext4 already checks this, as I pointed out before
+(https://lore.kernel.org/linux-fsdevel/20260710234643.GF1911@quark/).
+It would be good to note this in the commit message...
+
+- Eric
