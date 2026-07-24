@@ -1,49 +1,49 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B69F40680F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D70D412BEF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784895784; cv=none; b=hWA5ZqBl2bDi9yIgoylz1s6ouJmqo/af7NcJrio5hRFjfUdnfWQgABDENiYpwYKeoome5bJU//tPNVV4RLB+aB5VkA3NTZOpTX+EsuGv3bizbGIiXp0LSxbOx1neHFIrFC8CUnY/BUh2dvlUS06iErDMwO/GJQtk9wsyrSvfdjc=
+	t=1784895862; cv=none; b=qrpAvEhFZMZ202hw3i7y00kYpuQah9bd08xI17KMPZdtINP2Gdsa3aUMn0ydLAXZ0UYDr8AxnAN1e1d47Rz5rzIc2tiCwndCi+5Ebf6/PfCWkRGSS2y64WSMZHBedMG6JsWdxFNBo/M2CVjllyG3pQkmduNp+K5rKXUEL+ib898=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784895784; c=relaxed/simple;
+	s=arc-20240116; t=1784895862; c=relaxed/simple;
 	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=JnbZMRCPE+nQCRuS/Nltk4IaDkJf9ipNtIGLvanJ/DBBchOmB6kBHKbMuVD7SSEWkcw+lhaQDf4YYw/Cq/2bFkutECWRD4KzFwC5GA2zlMxW4HWDlkJnnCNWI2UznroInT81lo6FDYXvjVMP8nMJ2qB9Hx0U7cxU0JHghFMCQ4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=oD2kxkF9; arc=none smtp.client-ip=203.254.224.25
+	 Content-Type:References; b=TDQdbstSq8bYb2hisz3T1In8gD6iFkk51aG2FW1lrdV6Jbjy9h5yQfJOD0aCBvMDN3X0oJN4zvrZh7vC8q7zpA9xxdBn5z0DGdgz36qnL855RgYD4oaFdEVwVlnDGw/XLA8zxXal+xeWfULrU57rfDFcdKnoB8kZfMQ7ZHWG7wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=HyXsRm51; arc=none smtp.client-ip=203.254.224.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="oD2kxkF9"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="HyXsRm51"
 Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260724122259epoutp028f750f0ee7d4db4cf21b88080158f7cf~FOUFKu4vT0260502605epoutp02B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:22:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260724122259epoutp028f750f0ee7d4db4cf21b88080158f7cf~FOUFKu4vT0260502605epoutp02B
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260724122418epoutp0112ec63e970269cd30305361b35ac9d98~FOVOMzP1S0886008860epoutp011
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:24:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260724122418epoutp0112ec63e970269cd30305361b35ac9d98~FOVOMzP1S0886008860epoutp011
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1784895779;
+	s=mail20170921; t=1784895858;
 	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
 	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=oD2kxkF9Ol9wr8pHAhxdadsqcYkjcU7vh7wZWsFDYZZz2S+9r+Yd/iBxIQ7rqm/yt
-	 vYruzd9bJa1JVg0J+SUAz5kXg/dvkKSpBvP/6KbtULbtt8AZRjl/aYR52FNWBJlyIy
-	 1A0QwqkwF+KD1vL+2+u8i3qS1GHWDAp14qxDID1M=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260724122259epcas5p166e6a4896376fd41e56f822a6f5d57c7~FOUEwVcno1632016320epcas5p1s;
-	Fri, 24 Jul 2026 12:22:59 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4h66Zp5cZjz6B9m5; Fri, 24 Jul
-	2026 12:22:58 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260724122258epcas5p255e856fdde8b4514db1de4d2d031d8b5~FOUDqpV5-1849618496epcas5p2Q;
-	Fri, 24 Jul 2026 12:22:58 +0000 (GMT)
+	b=HyXsRm51N1mNHsnAoiKZMSaBU8dZxM/lyFwDAUGiH7K6J0CjINPjCiIZxSlc7jAxb
+	 TipN/iA+NlODe99ACAPrIAYbUZo8En6MvRzl9nd+V3LYIvaahlDULj0s+Fujt4A4aU
+	 0eOUqvIRISxRPgDq2Zf2EuwJx7gMqJ2a0LH1dFns=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260724122417epcas5p3b580a307bb7015cb3e8ff7576722aa76~FOVN0Pckv2221422214epcas5p3F;
+	Fri, 24 Jul 2026 12:24:17 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4h66cK1bcrz6B9m6; Fri, 24 Jul
+	2026 12:24:17 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260724122416epcas5p4e74e51c5d27e30cd7a6cec37576742f5~FOVMf_ZqD3195231952epcas5p4M;
+	Fri, 24 Jul 2026 12:24:16 +0000 (GMT)
 Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260724122256epsmtip15d5900ba8ed0352e78f097ecddb21e08~FOUCQlRtg1799617996epsmtip1B;
-	Fri, 24 Jul 2026 12:22:56 +0000 (GMT)
-Message-ID: <620fea3b-04f4-442b-9175-3175f38073d3@samsung.com>
-Date: Fri, 24 Jul 2026 17:52:55 +0530
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260724122414epsmtip2f2d423a26e57a3e37e177a4b8d94aecc~FOVKmHGlV2502225022epsmtip26;
+	Fri, 24 Jul 2026 12:24:14 +0000 (GMT)
+Message-ID: <c484d8b0-6a70-4e5e-bc23-0876e4402441@samsung.com>
+Date: Fri, 24 Jul 2026 17:54:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,8 +51,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] block: lift BIP_CHECK_FLAGS to
- include/linux/bio-integrity.h
+Subject: Re: [PATCH 3/4] block: handle nogenerate/noverify properly in
+ fs-integrity
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Anuj Gupta
 	<anuj20.g@samsung.com>, Christian Brauner <brauner@kernel.org>, "Darrick J.
@@ -60,17 +60,17 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Anuj Gupta
 	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Content-Language: en-US
 From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260724051001.202741-3-hch@lst.de>
+In-Reply-To: <20260724051001.202741-4-hch@lst.de>
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260724122258epcas5p255e856fdde8b4514db1de4d2d031d8b5
+X-CMS-MailID: 20260724122416epcas5p4e74e51c5d27e30cd7a6cec37576742f5
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260724051026epcas5p16435f16b25cb443b0f6d916a090237eb
+X-CMS-RootMailID: 20260724051025epcas5p30c7757a3fa4156781ebf4309aabd62ef
 References: <20260724051001.202741-1-hch@lst.de>
-	<CGME20260724051026epcas5p16435f16b25cb443b0f6d916a090237eb@epcas5p1.samsung.com>
-	<20260724051001.202741-3-hch@lst.de>
+	<CGME20260724051025epcas5p30c7757a3fa4156781ebf4309aabd62ef@epcas5p3.samsung.com>
+	<20260724051001.202741-4-hch@lst.de>
 
 Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
