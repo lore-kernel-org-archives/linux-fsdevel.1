@@ -1,77 +1,99 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C3C292B4B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 13:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784899465; cv=none; b=pbLqQX2DGZcAsjN94KALb4ExdJfF3b2nAC1mChAuKnKKd44yKgQI1U8xrLDTk6EBhyrvRw7dTbpl8S3BCZrgeRQf+5WlbFezuw/LL2K0etSJdD72/fNG3eISMBQ/+PM+/54FWZmb9tJMptmwmqT0xC2rC58ZGVvyE7l+jwRBcHg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784899465; c=relaxed/simple;
-	bh=CCR/CNjHeZnRUa1UuVfZS+SeH6RZ4wd0AcFZt1wbAi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lo0dRhC1LGudZDy1Dyh32BKdHa1EJNORf/N/9x4Z9wI9vTEMXQyZkwnGXpaCXXoCepdiF5gzPY21Tf2xhshEjzhPeSzIWnHpmKscnnLdp0cfYyNM6w1YuYrhcWjnAlEIakEKyTYGujKTZIhDloyysh/CniqGGJUKNHvBT2z2jcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=G0eEmgn+; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20511380FD1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 13:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784900078; cv=pass; b=DVXMJgS0LX9KnwlgHdu5Jhz5LaOG6RRtEWroMRi3ti61QnzzFfdxGUe5cexx580nyQZL6jW5mJXCDeZsi75imb/eJmgvAEV85dnF+1UivR72kl4vHV+WFQy4aJiKOnX242hZQTUituq4s1+udWvgGZV3UgRws0Tys0Vsu6np5mg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784900078; c=relaxed/simple;
+	bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rosc3uxKF06nN+R/8outsXL4C6Ux4KYk/f0s2r4L0UGXMs2U5n7xv13ooTQD8bJ3gK4J/OUGsfivtwFCBqtQx15JpIuI2ViU8k5HbRzKgep0m8erIWktCq6pch7Plk2DR7rr0jF7qvu/nMVIgtmG1rwhh+tVxNg365wx02w/cSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpUbj/gx; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G0eEmgn+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gNZt1Lmyz9OGAAhL0ppxm6oxc4dour8CHkwYM0ZCDr4=; b=G0eEmgn+6+kn4CtVtHA7ghXxmJ
-	TuvP6rDtyJj6YSFCunmL2hd5XCus7VuVpuaJy9glVb/qRJ5eHsbgVI6wiXZpb1Gw7uxf/qvOT/yGd
-	FV4sGUUKG2MWVETPatCgY9ko7X0J06AUKeKFQAMOsRTDY6Qn1xJMpRAnWe41Mw+Ap75OPIh9BzGkb
-	isjLKrXFM230Nlrz7WGJ1yBEJQn+k5O7e/0+3nr8Fp2WIGNfIJ/VaG9cAA8/Bitf0+/770jGNumNR
-	8Cac16d3BvbeY3/IdIyt0JXJkojvORSs8esxA2RRip+nzSu8q6+mJ86cNqfqp8u2AMhw+QblIjmyv
-	4/G9llBQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnFsw-00000003XuZ-03Cn;
-	Fri, 24 Jul 2026 13:24:18 +0000
-Date: Fri, 24 Jul 2026 14:24:17 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>, Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH v4 03/14] mm: Rename folio_contain_hwpoison_page() to
- folio_has_hwpoison_page()
-Message-ID: <amNngTk1E1vrbvCd@casper.infradead.org>
-References: <20260723143034.175661-1-willy@infradead.org>
- <20260723143034.175661-4-willy@infradead.org>
- <20260724085124-mutt-send-email-mst@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpUbj/gx"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c197f968b3cso67559666b.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 06:34:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784900075; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DlCw6HZxY2kivDIBLzrbt3l+O9Bu9efEpD/Po2U6IySEWWBTYAY8ZvYCsdYgsEe0Oy
+         7DsZR0+DXRpgNuNUQDOqkWgp9dJbz+6PlU+cQvSH8+8vNqqDvM5RztX0z3p6JQupOytZ
+         Ro6MRaTnFcKE9BBASy6Qf3tDbxGWHzqbAunBGz7DAbhdXpjB1xvG0x8QGL+uIP0OV7LQ
+         R0c0PP0RPDStJ0fx112vkheVxCTmkNxgv21YH6jYqUQm+CiaF/SGA+GUOV9W4O5K+9Is
+         mTUDLbAZuDUPmVBZBvqyApKNFIZ+wWkUXj2gkpsck6mTKoBVQVNMawohgzDnzOjwrZP8
+         4fjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        fh=MeGZOqWwJZXl2oHDd/qb8sphvh3H65JOUwNsD47yM4E=;
+        b=VSZVyLCO7xuHwqBGCXIH5+Y3U7aVICV2M3YXZm3qiHmds+ekJfHF6LzEgklNCVS4RJ
+         T8u7HCmCSkyz8+WzpHqWyorJZ0MVgznTALo62O6yJK8mcaXMz3cGr2QIgtzVr06t44Fu
+         jfAolGSXWtJNSg+ZHTh11h/R1Kyn6j6wvHMTiOSClNQD1/5IgWpbwZkfmxP+R9UY0P0s
+         +R50J9fGZv2MqSy9zY3RMmnA/doVvuZLtWNWY64oYwgzSzKHyrIfMqQ4G5buuB2quCxS
+         SkFa/3w7WuF/+UOGTOYL47NjtJac+tAnvykW2sjuUElpZfkpPM403eJeBPiq1PtiNTgE
+         sc7A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784900075; x=1785504875; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=VpUbj/gxPfu2RJKKVmjsZsjVpFXa4JvxOTc/1TcRNMnnNVefaCvfqx2/odkO9g0NTh
+         CnsiBs4DgQ48FWOpJDSSiPo0E6xIq/kxYpQsS4Dbv3aZurShT/W+A9qHMjEDVCTojNe5
+         5zf79qnNQjhwS1zaVKbawSHze1NF4okyEJHHH4ArW6N3YMjavlI7eyMl+xOpiqmxLb2E
+         NKJ06T7BITwLjVRs4DNk4bAi3fEzM1kirP5LYLY2pSojTlhlTzeIY2DM5oDjrSJ0zXy8
+         zsPTuXchjV6bQkcVQAf1IJmIjWs6rbLpwnX15kRDf5kjA369ONxgdH7bmD2X4GrAZEig
+         ECZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784900075; x=1785504875;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=Wv+sfZY/XRaMaXGBrPq/gLDgTvuo98IXmDmuTMZuc6EiACmBC2Zc1EBwajXKWBmBsE
+         tGzAT5ayprEIGopWST/pXfLcZlFSzqgCdMW0P6n+JS7HgHYXFggoQOcLXEH1ddzRpt5A
+         xWZ5I9fFd41BkWVOlM0qOio/8t3E4nrOJPEmWLgtOUzYEVMKnfInnBJzSrUkF0+PdjbW
+         KJ+DL9ZpWT66xYiX7MFyzXBazf1f8oiYv4wmQgCBBxX2+5QV9l2gdlyhGkuGiZwXg0zS
+         3H5PBVJtDCr45MHP8RU3q6wRCku/NafiX0gG7Fd+1TJTP+nf4mcc4V5qvPbkq/ao7+2J
+         7x8g==
+X-Forwarded-Encrypted: i=1; AHgh+RpYbS75F9azBjxmIGT2C5iODtIUP+sJiVAL8NADk410oTbr6LDsv/n6E6Ow/04GV6aRV6rqJzbckkQM9uXh@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq12zmaudkibgY81Xh+btheepvYEoOlsY4czVZE8xKk6IdPkWh
+	oX2XvykIZ31F7PfnUGY9cM5tbaI+JvcBEF28LuKAjM9u/bJ68zQdOtUbgGaweiqpudnqaj/eyqH
+	sjujvjTyoYNASGsMyZvFfGUqeQJDkhA==
+X-Gm-Gg: AR+sD11KkzNlZ3fqm+mI6ZWdVznVQrQ3yhRDsBZtEgU0xKnikbMmctZk6+u2SyfX2Yl
+	S/6C+nYpnKrMt341qjL8omytRbrX+ajfw5d9bx6UIdMwoRk6zc+JOzJlfcS7rUs3MZuLocuMYWd
+	hkdCyyLPpqvzDRbWea+kSzhJSifv6UQOv5Gu4Tie6+JpNsm+sQLoWm/Nxh56U9GI1R0Ku10ds/1
+	SSdQpjYMmFW2CulTQhgGiSU/A1nHUkT+mhhtwtbD4PvJL9vLhrHwhg1SiN6a7+NY8Snk5HCAviP
+	iF534n/YZAWFky9+wahWCMTTGt2s2FgH/+A=
+X-Received: by 2002:a17:907:1c13:b0:c12:34ed:da14 with SMTP id
+ a640c23a62f3a-c1c50b6671cmr294192966b.64.1784900075121; Fri, 24 Jul 2026
+ 06:34:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724085124-mutt-send-email-mst@kernel.org>
+References: <20260724051001.202741-1-hch@lst.de> <20260724051001.202741-5-hch@lst.de>
+In-Reply-To: <20260724051001.202741-5-hch@lst.de>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Fri, 24 Jul 2026 19:03:56 +0530
+X-Gm-Features: AUfX_mwWTg42HDw4aWDghBP51qdfXyDKkMoJixeJkgq6b4QcQa_tMbSOXy-DN0w
+Message-ID: <CACzX3AvJUPUhxCPgqOW6zSF2exawYG_okkL3xAEd=s2g=EDd3A@mail.gmail.com>
+Subject: Re: [PATCH 4/4] iomap: don't free integrity payload that doesn't exist
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-block@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 24, 2026 at 08:52:13AM -0400, Michael S. Tsirkin wrote:
-> > -static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
-> > +static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
-> >  {
-> >  	return folio_test_hwpoison(folio) ||
-> > -	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
-> > +	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
-> >  }
-> >
-> 
-> It probably makes sense to document when this should be used
-> in preference to folio_test_hwpoison, given a lot of people
-> got this wrong?
-
-folio_test_hwpoison() / folio_set_hwpoison() / folio_clear_hwpoison()
-need to stop existing.  I know how to do it, but it's a lot of churn
-to page-flags.h.  Not something for this series, but it's on my radar.
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
