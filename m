@@ -1,226 +1,221 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F073264DF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 14:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784904908; cv=pass; b=oAu7K1n3BLZ4ZpnQ0ZgQdKDtZcby4ZSGkPPv3yrrc9NcM5xZDUpOmpMWQ5pKJDP4TgZhVkykgxzhs+USIQoR7YAOOK7YYJ4pFTICfQ7rPHKO32ePAmrsTYBJqgcqdLkjyPkJzFpGLsNzd74hJrBRv3S+pIFzx+k4jD7WG/nhe7o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784904908; c=relaxed/simple;
-	bh=kpMjNZNgdYIQYqPmqnipeWZQzRgR5fkO/2IZqrlrU0o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=No5Hgk34W1Mr+6v/PtG+VEP3sq5MmufhCBOKEhLQHMvBP8/boC75skQE/RNfKkpwBFVu1YjZbmHuhY4QfjW3QmV6RXCoCAdQAwG6+G2x+feVIQOWRp1/wzXD4UlwSlemlibZoEzqIDVEFVmO7zOLfnaxECnbQQ8MOOj97U8ACWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWoUOUwL; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FAE32142B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 14:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784905089; cv=none; b=O8OTFbgO7Xf1OyxT9iz5RyLDcTsZed4A1wmXWiUxNh0ThdvwYLUefMXDdry/8nzbbTAYE4jefIp5ibI/vDlnKppCbt8+v0N7ZdA5/ingXOkLngV1G5J5ZNFVNjII0CM6DrShTmMDNUj8UNwaNXLGTID2dm7q5vtW0PlekPdp3tY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784905089; c=relaxed/simple;
+	bh=G2o9I89S5wuacRZuT0aUp53MkHxSYgNvKch1jD0dbh4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=cwVlQzT3JdXujggTdYzBF2/d3+y2GxSHr7pynv3mnsG+RT3gA/uKnG9OYxAMAXFxkZkAXNYV2h8jQTbwklPSc1Heeo8ZknRX/dY6hrTd66yI/f+j9X0UHvufrEvukXWVulW8Y28Gja0k5PoIaUFZ9q9ZSKDynSuMtNP9qbiDW8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=IU93YA0B; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWoUOUwL"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15e2dab83eso90521366b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 07:55:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784904902; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Cyr8aZqkj7k70552e71WuGxdke+QQg3tQ8r3YhCIa4yZ/vyiGJGWXO14oa82m3EsH9
-         QSXLdNFaqHGcZ3IiE15l10OUEn6v1mBwtmw834gxzKzwKWMvCg5FN9nZ0DDoSWkTKI0w
-         4EKFa8d96cIJnWURanlXpIa0mgSW0qWxsZWYu0k3uer2iaOtGaawpdITe0pNXgvz1Mw2
-         cp/qZ5CKVjV71VWmSJnfFsxlA+HecVMkS8U8o1jJLNC1liygkhAei2twwQY0tRDUDIG3
-         B/JWWxMryYhi3je7PIXa/Rp7Ybl9gp3D7tklOnZItiKZLMl/6bLfKbgbDWAvfX5z2Ta/
-         NMnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6+w9Cqa53E/ogCLTFqoVQ0g0mEA6Gg2KV+D9LVQmZsI=;
-        fh=+UBzFLcHUNJuP0yGmDK2l6HkyfhpOhmos8llW3z35wo=;
-        b=gR6yf8cPyKlp+OEiDXRgk6loPqtbtM3Rg+CxIv1keHOM2Sa3SU8/JsSTg6gZ+6Fcws
-         sFRgnm+9621Iev8ZMDABbxWHtEDZbwL64Z7G/oEq3yC/5jqI7gd+/eDi5i735ESFAa5r
-         cfai0iFrRPxC4VFxrTIi7+GjGMFf82qOmg1WbHjRGi1DoyiVtZG6N5ByT57si8SDA50x
-         iiWI0yGmWu0oTDLZk/GiX6pgEuWlSH201i3rkoa7JfT7DvA0CvsL2/hhzxLTM1E1YoaJ
-         Bb6S1aTON7Oof4higFaGJzau7mIJ1ahbP/YLjn2fgWHlN/Qzqipq/km9wmXYZ0EfVNvK
-         Fp9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784904902; x=1785509702; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6+w9Cqa53E/ogCLTFqoVQ0g0mEA6Gg2KV+D9LVQmZsI=;
-        b=gWoUOUwLAeQ398aafUFrK21fPzFtmDn35jgX7LEqcgYnFn6juQx7Va1nUD7+jKUv8g
-         5ecGPvpGEywTt1YK5oEt63obQaWUlnqXmUNW0ETNJd4aN43+PZQ6hkkF/jF9Aw7x5d+o
-         TNuywdSP+E+3z4c1/il8QjfN3/iqwdNn2zDINAnlr38+ioqCC0cEVd6aS8acppIfOKqA
-         fpbH5loqmhH4kjnJW7bQ22HWr51vnweUxzwxcBOtcxoh1t2NJCwsd1/L4A1e6+bLlqxZ
-         vYjWHeZMbztMIf21w5g94Q0S+JuOmELlsrMSSTjSdJ9h9ABwQSp9vxp04NYxejD7aSCX
-         An+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784904902; x=1785509702;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6+w9Cqa53E/ogCLTFqoVQ0g0mEA6Gg2KV+D9LVQmZsI=;
-        b=qNIPoxkrT5zzgFWkCzDToBiGNSKlmjZZkzSN5MM1Hn3Gl/ahH6nIBGgpXWwBqdJ3fr
-         moVCScPzPuu23q/OpbbZsVzfyWMJRArl+W4oklDV1kpIhLUYXMzs69izWUF0CiT+3I3E
-         6HMmgBDHIyBKhGXyS9fvLjjLnu8zgQW66sGOcWtJyLATO1RHf/Jo7haTtWvPfKGQQ34E
-         5jLdewVb+zHd4oDEfysGVbxkCQHL7XLG1pui+l8iEyXbGqpIuax14aAwZ7LLMMlV2WsF
-         lqQc+/t7gY4YKzqOECp1koAV8+ZY8MBC8dXqnQI+F2OsA/Z2A+JnqZZtpIPlNmEaF3Nz
-         l0Ag==
-X-Forwarded-Encrypted: i=1; AHgh+RqaG9QtVhRfP9h6OHOeo+Whla53tUervIdU+UlT7dUtY6QPiyimqzBJ+ShycKBBUeqimXDO4QClDr5rMOwY@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXnbBi6lrDfyewmA8qpThxkuiZ+TCahprWNGxXjMGNXbOoGdYR
-	fY2mkmGpupp0VrRhjJFQjUMpmIGP4UHbP6ecNU8TBp1WS+0+ANTIfmGUXpu6E4EoanwDrtPM44X
-	kXa4mvC2gRKo7zSZ5mfr9nTcOePpaXws=
-X-Gm-Gg: AR+sD104d682wH8V4LJ0TkmQTkwriIFiQg0wceIWRe3FBFzdC+jThNyLxqcGAsTs1xd
-	LY6I5Q3JATJvS7JobIUMuBpqSAcTg9Mqfc22O/55GcKbdB5aZo3hPS9KKTl8OvaU0EljtIm/76X
-	H9i+2pIc9PBbMyAWI3ugUhmZ1OXTYXrcUWbj4e2S3DVTCfpnbXo+arnx6/YRPOVnauSTUv80Sai
-	/soURMnNXxtmeO4rSHR3OnkiXymU8Jr1kKQt1Gl5eJhCqvt39+X+CmI3dCD2QuIhGvniBOdsAMg
-	EjPpq5iXWEq/O9MBjw==
-X-Received: by 2002:a17:907:e1c9:20b0:c12:a588:4113 with SMTP id
- a640c23a62f3a-c1c509eb941mr238536866b.29.1784904901823; Fri, 24 Jul 2026
- 07:55:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="IU93YA0B"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260724145803epoutp037bab862ecca9ac5d546c5681209296e7~FQbde2jhe0575505755epoutp03T
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 14:58:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260724145803epoutp037bab862ecca9ac5d546c5681209296e7~FQbde2jhe0575505755epoutp03T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1784905083;
+	bh=RlDKF1N50HsiEmVfMhX9vE9WiGz6JSadAcE/1zQN2vU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=IU93YA0BiP5WQtgNQgym4F8uAreIvPDz42vjbPmA1npv18f391gVfYi+Qisyb0sot
+	 tYUrcc89/geiGqYo5v6rYNYi4QfMXX5d9WCDqHTe6G5EPp0UBRSJvHraMp4Luxlbjn
+	 Cbo9nJYEa2Bk3alBb6IM1u1tF/b/1MnCEy83A08s=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260724145802epcas5p23e58de35e56bf362815d3a34e69a4e8a~FQbdEymDx1115411154epcas5p2B;
+	Fri, 24 Jul 2026 14:58:02 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.87]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4h6B1j4Z68z3hhT3; Fri, 24 Jul
+	2026 14:58:01 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260724145800epcas5p41d7adc13127a557af92554114e6d33e7~FQbbO4yg-2731027310epcas5p4I;
+	Fri, 24 Jul 2026 14:58:00 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260724145758epsmtip1d5c833758f471a46d1b8c43cf355ac04~FQbZZjji50280002800epsmtip11;
+	Fri, 24 Jul 2026 14:57:58 +0000 (GMT)
+Message-ID: <3eb1b5dc-449c-4d13-ae38-b48e60de8705@samsung.com>
+Date: Fri, 24 Jul 2026 20:27:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260718104406.27897-1-2045gemini@gmail.com> <aeufm5ugcaps3rlvbii5a3gbjo5dqosatv4tyqjuyekt2ibl5h@xkbmjuqfn53x>
- <CAOPYjvav+B3pVhSEFdBRSQ5nfLMhZcfyGATb61+CjAF2YsZ39Q@mail.gmail.com>
-In-Reply-To: <CAOPYjvav+B3pVhSEFdBRSQ5nfLMhZcfyGATb61+CjAF2YsZ39Q@mail.gmail.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 24 Jul 2026 16:54:49 +0200
-X-Gm-Features: AUfX_mwPCNLflx_eagmko6gl2HH1dxP6oKjWjyhE6V-G3v8RdIEZRzSsz2r4Oeo
-Message-ID: <CAGudoHFoACWSwNTiDrEhav2KQOGsAdUmirxC7gcxzrV5ujw8Mg@mail.gmail.com>
-Subject: Re: [PATCH] eventpoll: pin files while checking reverse paths
-To: Guidong Han <2045gemini@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jann Horn <jannh@google.com>, Qi Tang <tpluszz77@gmail.com>, 
-	Junxi Qian <qjx1298677004@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] xfs: generic AG set based steering
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, jack@suse.cz,
+	cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org, ritesh.list@gmail.com,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260721032027.GW7380@frogsfrogsfrogs>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260724145800epcas5p41d7adc13127a557af92554114e6d33e7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260717125636epcas5p2b68dd498717813e0b395b9d57d9d97df
+References: <20260717125538.508925-1-joshi.k@samsung.com>
+	<CGME20260717125636epcas5p2b68dd498717813e0b395b9d57d9d97df@epcas5p2.samsung.com>
+	<20260717125538.508925-5-joshi.k@samsung.com>
+	<20260721032027.GW7380@frogsfrogsfrogs>
 
-On Fri, Jul 24, 2026 at 5:58=E2=80=AFAM Guidong Han <2045gemini@gmail.com> =
-wrote:
->
-> On Fri, Jul 24, 2026 at 3:51=E2=80=AFAM Mateusz Guzik <mjguzik@gmail.com>=
- wrote:
-> >
-> > On Sat, Jul 18, 2026 at 06:44:06PM +0800, Guidong Han wrote:
-> > > Commit 319c15174757 ("epoll: take epitem list out of struct file")
-> > > intentionally removed temporary file references from the reverse path
-> > > check list. At the time, both epitems and their files were freed afte=
-r
-> > > an RCU grace period, so unlist_file() could obtain file->f_lock throu=
-gh
-> > > an epitem while clear_tfile_check_list() held rcu_read_lock().
-> > >
-> > > Commit 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU") made
-> > > struct file SLAB_TYPESAFE_BY_RCU and removed its RCU-delayed freeing.
-> > > RCU still protects the epitem, but no longer keeps the referenced fil=
-e
-> > > from being freed and reused. A concurrent close can therefore make
-> > > unlist_file() lock or unlock f_lock in a recycled file object.
-> > >
-> > > This violates the documented SLAB_TYPESAFE_BY_RCU rule requiring a
-> > > reference before acquiring an object's lock. The race was reproduced,
-> > > causing a wild unlock of f_lock in a recycled file and breaking its
-> > > mutual exclusion.
-> > >
-> > > Add ->file to epitems_head to remember the pinned file independently =
-of
-> > > ->epitems. A concurrent EPOLL_CTL_DEL can empty ->epitems before the =
-head
-> > > is unlisted, leaving no epi->ffd.file from which to drop the referenc=
-e.
-> > >
-> > > In list_file(), acquire the reference before adding the head to the
-> > > check list. The caller either owns a reference or holds the ep->mtx f=
-or
-> > > the epitem leading to the file. In the latter case, file_ref_get() ca=
-n
-> > > fail after the last reference is dropped, but eventpoll_release_file(=
-)
-> > > must acquire the same mutex before the file can be freed. The dying l=
-eaf
-> > > can be skipped because removing links cannot increase the reverse pat=
-h
-> > > count.
-> > >
-> > > In unlist_file(), epnested_mutex excludes another list_file() or
-> > > unlist_file(), while head->next prevents a concurrent EPOLL_CTL_DEL f=
-rom
-> > > freeing the head. Save head->file locally, clear it with head->next
-> > > under f_lock, and drop the reference after the RCU-protected operatio=
-n.
-> > >
-> > > Reported-by: Qi Tang <tpluszz77@gmail.com>
-> > > Reported-by: Junxi Qian <qjx1298677004@gmail.com>
-> > > Fixes: 0ede61d8589c ("file: convert to SLAB_TYPESAFE_BY_RCU")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Guidong Han <2045gemini@gmail.com>
-> > > ---
-> > > SLAB_TYPESAFE_BY_RCU allows a slab slot to be reused while an RCU rea=
-der
-> > > still holds its old address. Once that address contains a new live
-> > > struct file, KASAN sees valid, unpoisoned memory and cannot distingui=
-sh
-> > > the stale object identity. CONFIG_DEBUG_SPINLOCK exposes the failure
-> > > instead.
-> > >
-> > > The failing interleaving is:
-> > >
-> > > CPU0: nested EPOLL_CTL_ADD             CPU1: close/open churn
-> > > ------------------------------------   ------------------------------=
----
-> > > p =3D hlist_first_rcu(&head->epitems)
-> > > epi =3D container_of(p, ...)
-> > >                                        close(victim)
-> > >                                          __fput()
-> > >                                            eventpoll_release_file()
-> > >                                            file_free(victim)
-> > >                                        // the slot is free; f_lock re=
-mains
-> > > spin_lock(&epi->ffd.file->f_lock)
-> > >                                        open() reuses the slot as new_=
-file
-> > >                                          spin_lock_init(&new_file->f_=
-lock)
-> > > spin_unlock(&epi->ffd.file->f_lock)     // wild unlock of new_file's =
-lock
-> > >
-> > > CONFIG_DEBUG_SPINLOCK reports:
-> > >
-> > > BUG: spinlock already unlocked on CPU#0, poc_unlist/150
-> >
-> >
-> > Well I'm no expert on epoll, but on cursory reading I think this is
-> > fixable in a simpler manner and without the extra overhead.
-> >
-> > If you were to add a constructor to the files slab, you could move the
-> > spinlock and mutex initialization into it. Then unlock can safely
-> > proceed and maybe that's good enough (as in there are no other issues
-> > stemming from the typesafe thing)?
->
-> Thanks for the suggestion.
->
-> I also looked at other struct file users while investigating this. A
-> constructor would make this particular stale lock/unlock safe, but it is
-> not a general solution to stale file identity.
->
-> For example, commit a6dc643c6931 ("eventpoll: fix ep_remove struct
-> eventpoll / struct file UAF") used file->f_ep and is_file_epoll(file).
-> Immediate reuse could select the wrong free path and cause an invalid
-> free. This case happens to use the stale file pointer only for f_lock.
->
-> I therefore preferred pinning the file, which keeps its identity stable,
-> limits the change to eventpoll, and is straightforward to backport.
+On 7/21/2026 8:50 AM, Darrick J. Wong wrote:
+> On Fri, Jul 17, 2026 at 06:25:36PM +0530, Kanchan Joshi wrote:
+>> Improve allocator concurrency and reduce interleaving by introducing
+>> fixed sized AG set.
+>> Use low bits of the inode as a hash to select AG within the AG set.
+>> Overall, a file will try to use the same AG (and contiguity is maintained),
+>> but multiple files will be spread across all AGs in the target AG set.
+>>
+>> Suggested-by: Dave Chinner<dgc@kernel.org>
+>> Signed-off-by: Kanchan Joshi<joshi.k@samsung.com>
+>> Signed-off-by: Anuj Gupta<anuj20.g@samsung.com>
+>> ---
+>>   fs/xfs/libxfs/xfs_bmap.c | 38 ++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 38 insertions(+)
+>>
+>> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
+>> index d64defeda645..fd1a3aa4ad3f 100644
+>> --- a/fs/xfs/libxfs/xfs_bmap.c
+>> +++ b/fs/xfs/libxfs/xfs_bmap.c
+>> @@ -3192,6 +3192,36 @@ xfs_bmap_select_minlen(
+>>   	return args->maxlen;
+>>   }
+>>   
+>> +#define	GENERIC_AG_SET_SZ	(2)
+> What does this define?
 
-The difference compared to other typesafe by rcu usage is that
-destruction is synchronized with a spin lock.
+We need more than 1 AG to do inode-based fanning of files and improve 
+concurrency (AGF lock). This is the minimum required to do any 
+improvement, in the default allocator.
+This 'minimum fan-out' is what Dave suggested to extract out of 
+write-stream and apply to two other allocators- default (which is what 
+you see now), and filestream (future work).
 
-In principle, the code with the racing unlock should be able to grab
-the lock (like it does now) and verify whether the file got reused, in
-which case it should merely unlock and bail as it has nothing to do.
-Keeping the spin lock safe to acquire at all times is definitely a
-missing ingredient, there might be more.
+And this can be reviewed as an independent patch as it does not require 
+any other work done in the series. No application input is required, 
+this is automatic optimization.
 
-Can you share the reproducer?
+The write-stream allocator (next patch), uses a different AG-set of size 
+NR_AGs/NR_WRITE_STREAMs. And that is an explicit (application input 
+based) allocator.
+
+  >> +
+>> +static inline xfs_agnumber_t
+>> +xfs_default_ag_set_size(
+>> +	struct xfs_inode	*ip)
+>> +{
+>> +	struct xfs_mount	*mp = ip->i_mount;
+>> +
+>> +	return min_t(xfs_agnumber_t, GENERIC_AG_SET_SZ, mp->m_sb.sb_agcount);
+> Because I'm not sure what it means on a single-AG filesystem.
+
+On a single-AG filesystem, this will do nothing. The base-AG input given 
+by the default allocator will not get changed.
+
+But we get improvements on multi-AG filsystem; not sure if you saw the 
+numbers in the cover letter. Corresponding to the 'generic AG-set' below:
+
+1. On regular NVMe
+
+a. Inter-stream concurrency
+---------------------------
+fio: 4k write, direct IO, 16 jobs, 1 directory, 16 files * 8GiB, iodepth 32
+xfs: 16 AGs, 4 write-streams
+
+base: 41 KIOPS
+generic AG-set: 93 KIOPS (+126%)
+write-stream AG-set: 227 KIOPS (+453%)
+here, 16 files are assigned 4 unique write-streams (4 files/stream)
+
+b. Intra-stream concurrency
+----------------------------
+fio: 4k write, direct IO, 4 jobs, 1 directory, 4 files * 8GiB, iodepth 32
+xfs: 16 AGs, 4 write-streams, generic AG-set size = 2, write-stream 
+AG-set size = 4
+
+base: 59 KIOPS
+generic AG-set: 94 KIOPS (+59%)
+write-stream AG-set: 112 KIOPS (+89%)
+here, 4 files are assigned single write-stream
+
+
+>> +}
+>> +
+>> +static xfs_agnumber_t
+>> +xfs_ag_to_ag_set(
+>> +	struct xfs_bmalloca	*ap,
+>> +	xfs_agnumber_t		base_agno)
+>> +{
+>> +	struct xfs_inode	*ip = ap->ip;
+>> +	struct xfs_mount	*mp = ip->i_mount;
+>> +	xfs_agnumber_t		set_size;
+>> +
+>> +	/* Apply fanning only for regular file data */
+>> +	if (!(ap->datatype & XFS_ALLOC_USERDATA))
+>> +		return base_agno;
+>> +
+>> +	set_size = xfs_default_ag_set_size(ip);
+>> +	/* Fan out within the AG set using low bits of the inode */
+>> +	return (base_agno + (XFS_INO_TO_AGINO(mp, I_INO(ip)) % set_size)) %
+>> +		mp->m_sb.sb_agcount;
+>> +}
+>> +
+>>   static int
+>>   xfs_bmap_btalloc_select_lengths(
+>>   	struct xfs_bmalloca	*ap,
+>> @@ -3587,8 +3617,16 @@ xfs_bmap_btalloc_best_length(
+>>   {
+>>   	xfs_extlen_t		blen = 0;
+>>   	int			error;
+>> +	xfs_agnumber_t		target_ag, start_ag;
+>>   
+>>   	ap->blkno = XFS_INODE_TO_FSB(ap->ip);
+>> +
+>> +	/* fan out initial AG across the generic AG set */
+>> +	start_ag = XFS_FSB_TO_AGNO(args->mp, ap->blkno);
+>> +	target_ag = xfs_ag_to_ag_set(ap, start_ag);
+>> +	if (target_ag != start_ag)
+>> +		ap->blkno = XFS_AGB_TO_FSB(args->mp, target_ag, 0);
+> /me wonders, if xfs_bmap_rtalloc looked at ap->blkno for a hint the way
+> that the data device allocator does, then would it be trivial to have
+> write streams on the rt device too?
+Trying to understand if this kind of fanning out (this patch) or the 
+logical placement (patch 5 with write-stream based AG placement) help us 
+solve anything for rt device?
+For regular RT device, the round-robin rotor will distribute files into 
+multiple RTGs. So we don't have AGF like contention.
+And using write-stream to explicitly send multiple files to a single RTG 
+will do more harm than good?
+
+And for zoned RT device, the placement is happening via write-hint.
+
+Am I missing something that you have in mind?
+
+All the above is for logical isolation. For physical isolation, your 
+comments already help to establish that write-stream can be made to 
+work. For the regular RT device sitting on top of NVMe (FDP-enabled). 
+That needs few changes, but in previous patch (#3).
+
+
+> I guess the tricky part would be figuring out what to do if you ever
+> want to switch a file between rt and data devices -- presumably you'd
+> just reset the write stream id to the default, but I guess you could
+> reject such a switch if the id had been set explicitly.
+
+Yes, we do such checks in patch 3 now also.
