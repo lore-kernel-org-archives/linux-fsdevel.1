@@ -1,74 +1,76 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6F035E1AE
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 18:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A443843BDB3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 18:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784916597; cv=none; b=HEEJeK+rgfMsMsJJSCYKZtzBokC17Z+RVuh4oBt8iFqVPk6piCkqWvdDlZVA6ODGaDm5IXj5exf/6Qx8E4/ocQLci3bHgbRPAInqfMmC+60Kimp6CkcH2u4iRlnF3CqfSzqKVcHyyUvrkzb5x9lPWkAidrUfdP53Aubh3Qzntb4=
+	t=1784917059; cv=none; b=OIvxWK0mR47RvpSzMPiiR4vFEFKfar2L1on/uPjXTYfGRLbsddJ+1BJmJ4rjtcw+CQr8cf2U4ekYE28QkoVdpBZSQtlDDrQlxgdudE0p5wBP8vBah3Us+pZPIslytNf0d82arIdMJXV9P+YBc0RCmZch/TQQQK9YqT/pq9FOm5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784916597; c=relaxed/simple;
-	bh=JZalWn5OPmsOOrSRcS0ujwmQGOJv+KEu5nL8xt/V7YQ=;
+	s=arc-20240116; t=1784917059; c=relaxed/simple;
+	bh=znegcSSW+MzVTAh+gu/DU3Gz5UPwF94YmPuZCGDa1TA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nmL6psxPLKLa0uy2R/dCebZLcRADJcNfbhgKv0D2Sx8lz9O4U+ER6WxNWRn/AbK7oWTftY3DYed2g1XaJMFUEvX2v5hdznqZT0aFfalJiglJGU6XWVbTg/Ix8lMUfcMlqqbQg5ibmttHw3ti9K/SvTxIqiVqtkJulapfzWwTr04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=RZ5X9p4M; arc=none smtp.client-ip=74.125.224.53
+	 Content-Type:MIME-Version; b=Bkox3mYbxufs7cT+N+K8M3XhfM2c1+q4GExWJKtXY9/dL6ybE+FU96khv4dpnqLk80clU5F/qvHIWK2XGJWOc8o+pUCVrMwb1uevz6b8MKbCY8eaYAOO6gn5gltxBc1LTcAI8Sx5Oa+/Nutjb1czB/ZIbuvGjvUdEzAvMXMcGRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BbExRcG3; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="RZ5X9p4M"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-668432fe416so702871d50.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 11:09:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BbExRcG3"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-81e9d8f3289so7530587b3.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 11:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784916595; x=1785521395; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784917054; x=1785521854; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JZalWn5OPmsOOrSRcS0ujwmQGOJv+KEu5nL8xt/V7YQ=;
-        b=RZ5X9p4MFDT+4mRLXz9kfuSICWHfrmopGYIq4YGkRlqqAGc42ViVNrWW0Uq2vktFIY
-         fsOfP38Ugry8pLs5rkVuCyMedZhCT8nmKXMK+tKY0XjzVhLUsB2XDKXnt6ZY9ptLiNi5
-         hqWxjEb4IsJKRMFdMKS123aqnJvvIOEWx90SiB5Hitr3vhefwlw22CNbGCwzKgZo3hcl
-         EqlZH/cOYHgtbRENaz7tRZ7gEXFaMLvtwMjRVGyp6gytPZ5Hy683XhE4QHyvMkbz0bSZ
-         AChML7Mi/WO5/4rAQ6xBEYCidK+4ziQlccMMnSLP+3TbnVGX9wRm8lywWKFgIBmCJGGT
-         G3OQ==
+        bh=znegcSSW+MzVTAh+gu/DU3Gz5UPwF94YmPuZCGDa1TA=;
+        b=BbExRcG3Y07EAd3GNcYnwHMoh+pqj0/g9ZeLfuYPzYZyhssS9fV9Kbg7aXtcF6XkqL
+         pHd0Wgx+nArW/y4syFBHNJdp6j8+J3F2p9ugNYiPu3PN1wW2dmWAKqivA3f+/8JPiTfc
+         L3jd3JgE+kP5Z71/aXyg7bfNSi2RbQKJ3BIq/5LQQw+A1hYuhbmL0jhyfbXoST32ldbq
+         lc2pynM2wzVriWLv3FhigIy/TKlE1z4QKAkpYVZEOoQuHYpADVQfBZl3BS/0Qko20R89
+         p7ppPEItvTb2q2wy3ny5P6tz2ElO3V1JVUQ/gf8otYfAOf+GmfkofXzzEedMZWvnok0P
+         LB+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784916595; x=1785521395;
+        d=1e100.net; s=20251104; t=1784917054; x=1785521854;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=JZalWn5OPmsOOrSRcS0ujwmQGOJv+KEu5nL8xt/V7YQ=;
-        b=SRnc/wwJ3gk/KEfOz0qtbfMSgaXvuWlTff8vAM4X26HnzobiXP0A6npmyb2rhBm53a
-         bunhTxWzAeLbyjEJwUPuXlAHJYP8J1UxyQ1TKG3VL5uRr2Qcnop3KleiAHNbWERXkPHx
-         ZmQefRnpfGXEolb73rBAQNvT3HPRBjniCzaATaOzSZztykFzG7gsoXgYpsestWMKC8s0
-         oa+mAOBpG4bsgSfoIqCafHFQ1bJMqapzatVvDSsjnNUqKkEiI33NJPYL3AEc5ER7GIBl
-         7ImSXAHP2Fdwf9CRi7kX1Zj4/gXh6S03DayJ4Z3aNgvhv2ohUUiwXFSp6USjfxdpGHDq
-         MRnQ==
-X-Gm-Message-State: AOJu0YzsnHvZCW24EaqyG/WpUNG3iK9XYwFfqONa++R0uiOY3khbNoQp
-	TmaNAtKnbJzhDMFmxqcWOuHe2luXWS3k/Dni0oh19m+76TImagHGLFgI7qbjIIQCDqw=
-X-Gm-Gg: AR+sD13Z7uC1R+ycJww1CknOn+oLMdnYJD2jPZI4JYIx6g0xxIY1iuadidisb5WNZdQ
-	mqAvX01F6IbplXfkFF5bDYc/bbZPJsbNl4pjqLv89BoUwe7mwtZdJMMmH/oQczxthdhOB//wVGy
-	oeRsNRPxXOLeNdWKb5g0vJphMZmPa0Fwj8FQQst6F6ZpxHiCPvo7NwidPgTewvGss/RJT26YWp6
-	SmAQDydQ/jVrONLbLlw2Jrmnz5Tc4XtsUSmMpgtQd1mic46M5ELQkNDu++fdFSLFcRdMnizTnE/
-	eWPTgmyanVRFJbKdMk0TPzpEO0n4NTu49xqFkuOY9YgKXr3JNHBfYL3N0BvSHunG8zOk9kZH+Nj
-	Ry4ymsDTobj9RLU7r3qKihN3ygSk+EpWmzAM04fFqLjSQqk9qE6aHmlJU0g+YR/oTYDyevns/fK
-	UGQ2wYYp4Wvl8iw6qprZEYuQbeQk8pQ07KXMVRb8oBobxb/XxMHXJhGtTE1ygw2xwoWs/3x1XZa
-	G0oavJliR6DsVsKyKZkbCh/W/M2s3uSZsqinqAIVnZoS/U5B1dsd+WgozIkL1LgLVdNXis=
-X-Received: by 2002:a05:690c:6f0c:b0:81c:8005:9104 with SMTP id 00721157ae682-81f4c1eaf70mr25261407b3.30.1784916594678;
-        Fri, 24 Jul 2026 11:09:54 -0700 (PDT)
+        bh=znegcSSW+MzVTAh+gu/DU3Gz5UPwF94YmPuZCGDa1TA=;
+        b=WS/pYIabHxQL1Kb4bFg0lQbII9bwTKM/M5L2Azy+e8fP1OQADWgNQcNBwarjZdcGum
+         spsa2Nd5Joiy8I+pJw1RE8nfDq7yuJwwbZbu65xJSfw86A53Gpwus+yk85qHTmLAtz3k
+         prfN8/vRMHcIH5tJFbQ/PkvB4KwfTbGxkpfyVAAztMD5nstos0QZ8bZDKbZ0nLyfv90F
+         19yvSy9vQ92gYh6kf+OpvoCGyavls+ZYkcCWN33yFpKLOCmZYj/rrInlTNB2F1b7wZwM
+         qQZrefijFJfITRI7qsKM2RJsNPyYK4M8sl1WHh4KEuNdRYDSqcRMu0IfLQJ/YnfYv4Ir
+         jjjw==
+X-Gm-Message-State: AOJu0Yyjc+ADgLHfhHJlTYl2v/XGwyCDc4ex45RhPRe81uTSG7WRQKAe
+	YHg8O88CpNB075uBZD5/gZXbOs0WE0Bbq8eP/Zq8L8KlE4qcXrIarzW/BrhONgSOzAdihrb8i3e
+	HaRi+LQQ=
+X-Gm-Gg: AR+sD12+hV+2tt+6yChFF9dtbgTf70RxbenLRxRbENMwoY11GSqtkaIJOph3frYGX5S
+	/JpuGB29XpRHo6QyE2WLkjQDyOfXWZTv2Hj+vQ6J08TAU9R3YP51sgQdpv+Y4IJdTK8f73bqZV9
+	OICp41H9NU5IEnWKQEeKYu/JWC/QgUQwQz+wWhjHyi0P9wI5kHZBtGQ0T0fWD87JoClNmNNymhf
+	LdHsZDQTOWH6VkCRokXKYmrxkCW+5fM3V6HsmC0PQ7rVLc/UmlcdoBAsBeLFiOH4Mse7/G+3a+q
+	9z/4WKpx8d7uJ4uElG3Yquyl12qdTZbcTWLwnGAk+3DumVbp1wvMXfqrxvS8n/VFvsuY3asJnge
+	5zpHr8lH26i1JoZlZdQwMJyx+STaDhZaw9wfx34OxrHSdMrnejnXXY7zoqpMC3S8SaNDsHRK1vP
+	QkJ2fxG3rrmaTOfRtft1X4H6+Io2JigIdZbvwl1gd14tG39ZsiwlEabRfFQs/rZYgNFEz2jJdg3
+	lRoJfIZ3QhIPTL9ZMC/TDCOrFojQg3exfmtgkUkZzpvTUQ/laJGNzcaLTCeKTM8YpTreSNMcs+N
+	sBnbQA==
+X-Received: by 2002:a05:690c:6d8c:b0:7dc:aa85:5c67 with SMTP id 00721157ae682-81f4c1a654bmr28371607b3.11.1784917053835;
+        Fri, 24 Jul 2026 11:17:33 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:62ee:74f6:cfbb:28e0? ([2600:1700:6476:1430:62ee:74f6:cfbb:28e0])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f65770064sm3887757b3.10.2026.07.24.11.09.52
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f65770c91sm4230667b3.2.2026.07.24.11.17.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 11:09:53 -0700 (PDT)
-Message-ID: <d97c34b070c97ec3da636c5b73f0c54c9b93ae3b.camel@dubeyko.com>
+        Fri, 24 Jul 2026 11:17:33 -0700 (PDT)
+Message-ID: <a1f28487943ecd21a97401d7caee98e0f2eb0f10.camel@dubeyko.com>
 Subject: Re: [PATCH] fs: hfsplus: remove redundant NULL check before kfree()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: mdshahid@gmail.com, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>,  Yangtao Li <frank.li@vivo.com>
+To: mdshahid03@gmail.com, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 24 Jul 2026 11:09:50 -0700
-In-Reply-To: <CACRLeC5agyqVnvjdziV5C_Z+y6NPvXg1Nyv2g_mmK2D1QbsfYQ@mail.gmail.com>
+Date: Fri, 24 Jul 2026 11:17:30 -0700
+In-Reply-To: <20260724124032.123471-1-mdshahid03@gmail.com>
 References: <20260703102256.58959-1-mdshahid03@gmail.com>
-	 <CACRLeC5agyqVnvjdziV5C_Z+y6NPvXg1Nyv2g_mmK2D1QbsfYQ@mail.gmail.com>
+	 <20260724124032.123471-1-mdshahid03@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -123,52 +125,17 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-07-24 at 12:51 +0530, md shahid wrote:
+On Fri, 2026-07-24 at 18:10 +0530, mdshahid03@gmail.com wrote:
 > Hi,
 >=20
 > Gentle ping on this patch.
 >=20
-> Could someone please review it when time permits?
-
-Sorry, I've missed this patch because of "fs: hfsplus" title.
-
+> Could you please take a look when time permits?
 >=20
-> Thanks!
-> Shahid.
->=20
-> On Fri, Jul 3, 2026 at 3:53=E2=80=AFPM <mdshahid03@gmail.com> wrote:
-> > From: Mohammad Shahid <mdshahid03@gmail.com>
-> >=20
-> > kfree() safely handles NULL pointers, so the explicit NULL check
-> > before calling kfree() is unnecessary.
-> >=20
-> > This issue was reported by ifnullfree.cocci.
-> >=20
-> > Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
-> > ---
-> > =C2=A0fs/hfsplus/unicode_test.c | 3 +--
-> > =C2=A01 file changed, 1 insertion(+), 2 deletions(-)
-> >=20
-> > diff --git a/fs/hfsplus/unicode_test.c b/fs/hfsplus/unicode_test.c
-> > index 83737c9bafa0..7f6b2a3c69d9 100644
-> > --- a/fs/hfsplus/unicode_test.c
-> > +++ b/fs/hfsplus/unicode_test.c
-> > @@ -39,8 +39,7 @@ static struct test_mock_string_env
-> > *setup_mock_str_env(u32 buf_size)
-> >=20
-> > =C2=A0static void free_mock_str_env(struct test_mock_string_env *env)
-> > =C2=A0{
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0if (env->buf)
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(env->buf)=
-;
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(env->buf);
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(env);
-> > =C2=A0}
-> >=20
 
-Makes sense.
-
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Somehow, b4 cannot see your patch and I cannot find your initial path
+in my email client. Could you please resend your patch? Something was
+wrong from the beginning.
 
 Thanks,
 Slava.
