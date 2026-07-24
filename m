@@ -1,77 +1,76 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1747B44A708
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 19:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5743C46A61B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 19:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784922042; cv=none; b=enBtDqrneY0LRtwbtqO0nNlP8jFcDh2nXYl7w8S2GFoVZiyq3f9RpKyv6H4F4QeMg0xHeTEx9KxYredNByAnhaBpHlxuK8yo5JI+7tlay1DvoEEa/g/muTxuwbMkTZMvk6o2qZdldKLJWai5aK7vu9uQC27alcpfOOkXi+f+ia4=
+	t=1784922319; cv=none; b=c/OUfFv4UhSuuxqYaEu2fvoqo/uFxR8V250+pcy6HdRaNW1DVUhAEQp7YYn1002ZqhuP1y4dylOMBbTIQt4fbMVbEFmHgSzyKIsJJPYjUb9Ia4H7CqEr/V/FhVp25MqjuA887CyRZV9BENkvB3EMxdosrIBXwC7uiuDyFt6ncrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784922042; c=relaxed/simple;
-	bh=lfuQHVKHY/BqWWar8zdelMf5JmJ3LKpeXIIe70En4NI=;
+	s=arc-20240116; t=1784922319; c=relaxed/simple;
+	bh=BZ+InYykFNcAFRMiH3X3hSnvJox8xbd+XMPKC2AST/w=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=R0XRozgVWpNPvDvCc3KG19umaIfGUT6VyKL6NBNq89fnVaYPDGDTf+5mQh7zyISVrXtUzzvH5h7q3lXf438d+BXHWVZw17gnTC+7thzm7ICCIJ0nIrt5BbHNj/2mqTFChvEKUjran2bqcho+9rdp8MWgkQZPGi3+wkg8vEYeOEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=apmcXQNL; arc=none smtp.client-ip=209.85.128.174
+	 Content-Type:MIME-Version; b=TydG1it2kdwyGq6xvtgh89isgzrUJxqqskMriinkxM8jwhaRQoITihadgoC5aZzLpMYM3BN42kis+U3iB0P7ocDJHGWnRdcfxpCKi38K+L0lCANv3JG/sdE5JRwyJH3NsM2OPwkeiaRnkTNC0vC4dc1m5Uo8NYcLIn4CfHcUdPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BhP7nom+; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="apmcXQNL"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ed2a06b9eso7464217b3.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:40:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BhP7nom+"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-81ecf499af9so8177817b3.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 12:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784922040; x=1785526840; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784922317; x=1785527117; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lfuQHVKHY/BqWWar8zdelMf5JmJ3LKpeXIIe70En4NI=;
-        b=apmcXQNL9zwHY5AJRV+oAWO0TO8RkGHWYLti5xnvpAoy98VrVYfuBLRCZeL9R8EqTy
-         Jigop7mwF/qTL39we3b/v4VnaJW1bQRm0Nl53txuWHZXkFrTmNMczySgw+rawb9CaMKf
-         F1EDiHZD7pJ2KNgCOSMLWG5kumnEOrDnIDc5dMVTkYvRedCtoWny4o8SoAnE/Vgsp2Wt
-         9REzavX90hEembH2PCvaYZ8NN2E6VIpgNtkA2gfp2jR+X3HgMr9nA7hwxiy5t936KOlM
-         m5g5zd8VLyOO+VVy0aKMojd55G8r0LghqckyyGMhdR0scwQjrSIhMVgWEjjJ9B3vsGjv
-         847w==
+        bh=Hd1IuKWfv56+I72Hk72tW6ggfznB9X/tt0IbpBW76Nc=;
+        b=BhP7nom+TZP2geN7HJG1GfbUcoNMMrXiu4sNtsBmginjrWZ8rHDCZTvlyZ4TxAml0Q
+         kA87W20/OcEIWWzQAmvSJIR/hMNd7tcRdomaHM1dqwMcbTG77NsDdF8womoQ4vtGhrnz
+         JsZbh++Yg5lvZzFQdjbCjmVJnVJ5V5OTpRGYSK2zCWzNE9z+vCBB4SiPMkmJGFdD3I/f
+         DxlKhXXUzfht8nFLIKZW5tl7gxrqasoxLzwLAM79abP3sINq5/4pULrsEdGwV1PG88AD
+         lmkiCqRpYUKgluW4Fc7mNirDfeZlLT96HVnjkCRdI6hMCdw/JHggdcS4bPwI7iRCgPKu
+         ie9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784922040; x=1785526840;
+        d=1e100.net; s=20251104; t=1784922317; x=1785527117;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=lfuQHVKHY/BqWWar8zdelMf5JmJ3LKpeXIIe70En4NI=;
-        b=hqSzRUZBFrpqvuX3EHAEnknoXrFzHfGQMyybM7ml0uL1QX2Z6qB57hQ9k0LKtV1vDa
-         /X+NAj5GbKpz6Af2VQhtj6uj12Vp60qXH/LwcmmNVWS/6TVReTnaur7uCvmk3f031X9i
-         shxxzBmMcidkXgnW8knpzPPlvHoKUyxI2GhicbS2tbbFVJrwh/pulYBrZjtcARo1FDw2
-         US7OXxRk/sWjxOxla8UPCP76REIHVQY9aX6Z9LMMZev8WOLhinjRrsVnPoSLBCwF/0DK
-         bfuf+U947RFAa2prTEgRBFfbWCvo0cpvKo6Huyl1xL7Li91pUQvp+GsFz6JvLdXt8/Re
-         C8DQ==
-X-Forwarded-Encrypted: i=1; AHgh+RocKlBkgd4FIWldD9NPSqfGvEcCL3tt/4vs2LFbOFvMhjo7xZQTdEqs5NS4rFWsldVRkHYT7VWJF3Kzg+lO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrhoX6QaYRZqoJf7IvjFSQaf6zGHoc2kTu6hRx7Xwh322/ob5L
-	YmzrL7AVt9ecdtww7yvNBBf2yxIGU1/AlYQQT7O1Q10lQ+6mKKHYag4ZmMas56IZqA3Fh5ycaCd
-	tX19+uK8=
-X-Gm-Gg: AR+sD11oIenicFpaL2ipppuvqy8NPNUKHRXgps2jyX0hhcrcQ2a/4EISrHWvzwjQRRk
-	UP6dKlVo51zQCRA8V/AGySA0IPdWuGuBJbkL+p0+95SEOi9G3LhWtSUQpjM9GLC6Sm5Z65itIpS
-	m59G69NbwaOURMsfAVv5WdAYC9eWaCe37aYfl3qhok67utjN9ehpxcqYWU+lJaotMWlP4+iCesS
-	fTGblgj+pklbdB4VY8YLuQ5soZGRpCYH4P5d8GMaKb8ek9CvmPjniYmZ8iyUEn0cIcZqGch2DbP
-	kloaIzQeRhdCMGoca20q9JmOy6nnRB6ZIVYlAN6Rde8+tnIEe7jt0/BWgLy53xGqzTLGP9Ld9G+
-	4mF7qZeF/uqDhkX2gR5dzd3FVp++SqWSWn9wer8Ic3/N9YMBc2mTjOODfr4cSFpIUbDVVuxfy/J
-	CWI/3cLxsu/6DMCu52J5ro8k8KboE5mXUjHi0igXprq4jVFMxFKDy6s2U7LgvLtZCVUldGMaIKr
-	w4xwAkjrWOAjhk3pr8lHB8gwL8VMJRp+NbWMUaDQPaazVtmvgPgHAOxdIuqOhOO0CFli5Pk2CO2
-	eryf5Q==
-X-Received: by 2002:a05:690c:2784:b0:80b:a6a3:937c with SMTP id 00721157ae682-81f4c181032mr30434467b3.20.1784922039982;
-        Fri, 24 Jul 2026 12:40:39 -0700 (PDT)
+        bh=Hd1IuKWfv56+I72Hk72tW6ggfznB9X/tt0IbpBW76Nc=;
+        b=YfhcnaGIaDZSgJbVbgKpCXgQuLqBCRMk0EBra5P/6uJR08NUBrEM7SjG6OvMximlti
+         4RuKdZLXwdXs6DlDspoqZMvAeBCuX61wKkGEKN9ZbiYkWEpyzMb3pIB8FWE/26+SyWKp
+         t0+LE1FliECKEr2WrKxjw4jc5DAa04PADQyhlZzK7pCMd5FBk0SGXS5qHZdzjkeR+cHR
+         egpBUDnvDMZmlb/+RsPGBPYRotMLb5+zrv9GTR0OqNhgzm7qlmar4IlOd1XdKOOwc+BT
+         jrRMjVIiCclBRFqoeZBlZ7S+UNge/KV1xoQ8I5iAUvMB3mXaH2YzzyjauJbPtEbRw+L2
+         or3w==
+X-Forwarded-Encrypted: i=1; AHgh+RqfTKKMRz4x1LZY47Q9M75bj07uIICIpXKSo1QJVOL8Ki7EktTWFItYhkvfZLOiXVNaI4urXHvEt9JagsA3@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywdy0Fl2pvGwdwwRlZqvScSjf5P5c8883rqNiBJnokkgCLUTVzU
+	VfqrX3S2Gv/6gAoS38ZFFDKI1wsat/r6wgEhANKCNmwbRu14aD34eBqYVYXgorLF4wm5/niMeXy
+	ib6pNe/8=
+X-Gm-Gg: AR+sD10sqk3FdJyv33Q+kOvJkfcCvjyv5jqNWyKA5mt6ivPDrlO3a551tnSLq7aN9S/
+	hx/PcLYlUbY13fVmfgrqwTswtT/fIZD5O7aphs+qHkYGhwj6+g0X4UweHqcxpdg0nnjvftA4VJC
+	ceURaiGmXXg2x5XZE6DPysBNDIeoqkC6Mq65XHj5VuHxeQj4qchPi6IsE1MujbYMv9BznUlU48r
+	Iz8bu7ezyNZmxq7kaEAJKF51Hc6t3qyxwaikXKCWnqm2O/2coegBX0y5zIvxQOjlsI/KMCP1hB9
+	ob8TVh8U3ch5Ntzw8k83Fyl9LqqJ3eVoqsLvq2Huw/aJfMJ18lO/kX2q7fVX9oDkcaE47GI8hl8
+	xK0ImfzwLR/qQasAXQypnOVZkXS4qf3Jmfff/ei7HtkjlnNpYyGvLLVoEszywhui0FqWQrBAkVI
+	GZduxjdPyhvsvQSoItYwIDLNmTq2EroJLn730lB5XOfCg2RndUsDCmWp+LlxemLygDSNpCU+mBV
+	rC0yhiLoemXLsup6556aOHjzHd0LGjiRgssxhwdeDuNO0LGQPD4H+/iQZU3+SYy0U28WW8=
+X-Received: by 2002:a05:690c:7248:b0:81d:3018:6eca with SMTP id 00721157ae682-81f4c162286mr29155537b3.12.1784922317286;
+        Fri, 24 Jul 2026 12:45:17 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:62ee:74f6:cfbb:28e0? ([2600:1700:6476:1430:62ee:74f6:cfbb:28e0])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f65770c91sm5165167b3.2.2026.07.24.12.40.37
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f65774b0dsm5378327b3.1.2026.07.24.12.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 12:40:39 -0700 (PDT)
-Message-ID: <f532f95937e8a5123ac07a796bc5aff40c2ffa40.camel@dubeyko.com>
-Subject: Re: [PATCH 3/6] hfsplus: take the bitmap page lock for allocate/free
+        Fri, 24 Jul 2026 12:45:16 -0700 (PDT)
+Message-ID: <78cb029e014d9590463729c43519b647f3a38dd3.camel@dubeyko.com>
+Subject: Re: [PATCH 4/6] hfsplus: add iomap operations for regular file data
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org
-Date: Fri, 24 Jul 2026 12:40:36 -0700
-In-Reply-To: <20260724052931.GD4181@lst.de>
+	linux-fsdevel@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>
+Date: Fri, 24 Jul 2026 12:45:14 -0700
+In-Reply-To: <20260724053229.GE4181@lst.de>
 References: <20260722213759.1360225-1-slava@dubeyko.com>
-	 <20260722213759.1360225-4-slava@dubeyko.com> <20260724052931.GD4181@lst.de>
+	 <20260722213759.1360225-5-slava@dubeyko.com> <20260724053229.GE4181@lst.de>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -126,28 +125,60 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-07-24 at 07:29 +0200, Christoph Hellwig wrote:
-> On Wed, Jul 22, 2026 at 02:37:55PM -0700, Viacheslav Dubeyko wrote:
-> > The hfsplus_block_allocate() and hfsplus_block_free() kmap
-> > the allocation bitmap's pages and modify their bits in place
-> > under sbi->alloc_mutex, but without holding the page lock.
-> > That leaves the read-modify-write of the bitmap bits
-> > unprotected against a concurrent writeback of the same page,
-> > which can read a partially-updated bitmap word or race with
-> > the dirty-bit update.
-> >=20
-> > This patch adds taking lock_page()/unlock_page() around each
-> > page's kmap/modify/kunmap section.
+On Fri, 2026-07-24 at 07:32 +0200, Christoph Hellwig wrote:
+> On Wed, Jul 22, 2026 at 02:37:56PM -0700, Viacheslav Dubeyko wrote:
+> > This patch switches regular file operations on
+> > iomap based approach.
 >=20
-> You are still unprotected against concurrent writeback, as writeback
-> drops the page lock before writing the data out.
+> Maybe spell out the benefits tradeoffs, odd bits here?=C2=A0 This commit
+> log is a bit short.
 
+OK. Let me explain it in more details.
 
-Yeah, you are right. As far as I can see, the sbi->alloc_mutex is the
-main mechanism of synchronization of access to Allocation File (block
-bitmap). And I see that hfsplus_sync_fs() doesn't use it during
-filemap_write_and_wait(sbi->alloc_file->i_mapping). Probably, it should
-be used there. Let me double check it. What do you think?
+>=20
+> Also does this actually work without the following patches?
+
+The following patches are needed too. :)
+
+>=20
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + *=C2=A0 linux/fs/hfsplus/iomap.c
+>=20
+> Please don't put the file name into the file itself.=C2=A0 It is pointles=
+s
+> and prone to get out of date.
+
+I am simply following the driver context. Other HFS+ files contain
+this. I can remove it, of course, if you like.
+
+>=20
+> > +static int hfsplus_file_write_dio_end_io(struct kiocb *iocb,
+> > ssize_t size,
+> > +					 int error, unsigned int
+> > flags)
+> > +{
+> > +	struct inode *inode =3D file_inode(iocb->ki_filp);
+> > +
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	if (size && i_size_read(inode) < iocb->ki_pos + size) {
+> > +		i_size_write(inode, iocb->ki_pos + size);
+> > +		mark_inode_dirty(inode);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+>=20
+> We've have a copy of this in various places, maye add it to a header?
+
+I can do this.
+
+> Or even into the core code based on a flag so that these file systems
+> don't need an end_io method?
+
+Let me double check this.
 
 Thanks,
 Slava.
