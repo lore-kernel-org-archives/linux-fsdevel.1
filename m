@@ -1,51 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [83.166.143.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D983C65F0;
-	Fri, 24 Jul 2026 08:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CE73FCB34
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 09:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784880271; cv=none; b=GqqKZs11Zzabjd7KzOeGy3XrMGewx9DcUZQFjBuzzhB8iYAMRVOnhg0gblTGayv3+2cpPswJYm7caFKMrbNVpJLRFt35uECGxY3qjUWCtm49IVAroYjO3d0KS7m8B2s8PEmize9wn7GB4UeoVV8kyofHLDftEO7jW2UqT/G0FvM=
+	t=1784885110; cv=none; b=UkbREVeHcRziHZPg6ZcanZ/LJXigrpdM+H2zhwpTP2Lf8kV8/YPDVqLja5Un0R7uT35ph/pIkSZP12v1Y9Ra4kkSES+hmumaqhev4FHvtYe/l7MFMBMOdFKOfKDx2fnYgFIu4VQfDX6obXpIXo+LKejP5QWsOPZuZNQrXxcAO9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784880271; c=relaxed/simple;
-	bh=9KjHpnjrQ11L763ns6b7q1nshB2M2ObqhvgJGHsHT74=;
+	s=arc-20240116; t=1784885110; c=relaxed/simple;
+	bh=33DWjaLmnQ+QtzMXYVrJLqUCgqvXz9AGWm4fZ3r5IKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wk1TW3ZCJFCutBTT7Q1fUpN0JojQY05WKVljM0+QoOqczpqYkzPPS/X18F944E0IaEBG/cAhc6y66Y+naYxuh9ku1bLsWzCJ0C8VShlWAQlfiSLtRK2CZzVL3QTh7X4M0rmD5OV0hKo12zzcgmH3FTf+6AEbt/gsgwzuM1FRMj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hg/dhdib; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOg9e3XIr2djPFALQcMgchh4yQTakyyKcAojEEkjFTznnZuXN4vBF+S/AZpQOG+rja07vTPI/kLBAHATLWxdXJ4PWL5lVdsuiNUhdhd7h0guAWhRJ96BV2LVtM4xeAQQ8ImUO26PM+XdeYL0IOGcx9VrXDYP88woBXKuGyCCST4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=HsRMnk+z; arc=none smtp.client-ip=83.166.143.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hg/dhdib"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 935DA1F00A3A;
-	Fri, 24 Jul 2026 08:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784880269;
-	bh=NRTHZmJYuxwypVNAxCEvs71U+5naG8G0pnvyuh9pSf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Hg/dhdibhxOrcsUScmSSll27l/p5+49N5w0BN0rX/Z/i+CfktexkZ38LBXXAlsKdV
-	 hKtOUUBAHtUcP8ZExxlbOyJ2oDsWOhbjYiCIYLMX6rFvaG3BuDMgM2F6DiY+bwqYv4
-	 S/xBiK4wzXxek+/xfVzQF2PJO/5jFLsm1EZa7K9Iw6WPJpLxcVBEFP5TadiFTJCcyu
-	 ihp600ZAxnoSGppeJt0jbvypVArTWpg4GwxffIWjyP9BVtpuPxRMyBnJJItoBh3DWE
-	 anzFX/RZrAwYp4FCKaO3mTjKo7lFbyVhswTD7XqGaBqdBetNTcoJpwcK7qMEKovr+U
-	 wuuUOFYh4d3Kg==
-Date: Fri, 24 Jul 2026 10:04:21 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, 
-	Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
-	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260724-wagen-melden-gemieden-a45899cdbb7f@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
- <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
- <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
- <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
- <CALCETrVjDtBmB+boCUgd069UpZGUB1TCbEn3k1HZQex-_dPgbQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="HsRMnk+z"
+Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h62dK1MJtz5TZ;
+	Fri, 24 Jul 2026 11:24:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1784885092;
+	bh=yuwKNAEajx+q7KnkeSjLMv+Ykc3LFaQt+lXtpMj6hOM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HsRMnk+zfkHoA2i9w2vzlYqTJkow/LSsf0uSJDWUUSiPBGY6CoC4sE5PF6esRB1IB
+	 7wHQ6LoSir6ZbwggHmMXTUy5t0mXfuB6OIsXcVDd7aZt9lLcjysvJEkv5seYcaRWwq
+	 KpMI6sm/t5BN5sKHbHV/JdCNO7FYIJofcXTcGqxM=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4h62dH2mVszrSP;
+	Fri, 24 Jul 2026 11:24:51 +0200 (CEST)
+Date: Fri, 24 Jul 2026 11:24:46 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
+Message-ID: <20260724.che1quaiPhee@digikod.net>
+References: <3d4fe99cd1665a1be0b36636aeeaf4ab@paul-moore.com>
+ <20260709.kaemaiTia6Li@digikod.net>
+ <CAHC9VhSVQ0MLwU=C90FmohAThwaQj-mfB7L03fvkB5A0-J2jCg@mail.gmail.com>
+ <20260709.paitheut7Ief@digikod.net>
+ <20260710-sardinen-zinken-aerodynamik-8b09dafc60a2@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,47 +54,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CALCETrVjDtBmB+boCUgd069UpZGUB1TCbEn3k1HZQex-_dPgbQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260710-sardinen-zinken-aerodynamik-8b09dafc60a2@brauner>
+X-Infomaniak-Routing: alpha
 
-> > > For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
-> > > SB_KERNMOUNT which means it's logically distinct from every mount
-> > > namespace. I think that might be the right thing to do. I need to spend
-> > > one or more brain cycles on this though.
-> >
-> > I had to take a long drive on Sunday and I kept thinking about both
-> > FD_NULLFS_ROOT and FD_FAILFS_ROOT and ofc there are some things to
-> > consider/discuss.
-> >
-> > I think the straightforward solution to FD_NULLFS_ROOT would be to just:
-> >
-> > - make it always available
-> > - refer to the caller's mount namespace nullfs
-> > - work with fchroot()/fchdir()
-> >
-> > So I considered two chroot() use-cases for the sake of simplicity:
-> >
-> > (1) You want to isolate yourself for the sake of lookup
-> >
-> > (2) You want to isolate yourself to assemble a "private mount tree" but
-> >     not really be in a separate namespace (very odd use-case... but it
-> >     helps to make a point).
-> >
-> > The problem with this approach is that everyone who chroots into the
-> > nullfs root would suffer from the problem that any mount on top of it is
-> > still visible. So that kinda makes it pointless for both (1) and (2).
-> >
-> > Also all mounts that someone else would do would also be visible
-> > allowing multiple chroot()ers to affect each others state. That also
-> > would somewhat defeat the purpose of the chroot(). So I'm not convinced
-> > this is what we should do.
-> >
+On Fri, Jul 10, 2026 at 08:55:21AM +0200, Christian Brauner wrote:
+> On 2026-07-09 17:58 +0200, Mickaël Salaün wrote:
+> > On Thu, Jul 09, 2026 at 09:03:58AM -0400, Paul Moore wrote:
+> > > On Thu, Jul 9, 2026 at 5:12 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > On Wed, Jul 08, 2026 at 11:22:17PM -0400, Paul Moore wrote:
+> > > > > On May 27, 2026 =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net> wrote:
+> > > > > >
+> > > > > > All namespace types now share the same ns_common infrastructure. Extend
+> > > > > > this to include a security blob so LSMs can start managing namespaces
+> > > > > > uniformly without having to add one-off hooks or security fields to
+> > > > > > every individual namespace type.
+> > > 
+> > > ...
+> > > 
+> > > > > > @@ -91,7 +103,10 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> > > > > >
+> > > > > >  void __ns_common_free(struct ns_common *ns)
+> > > > > >  {
+> > > > > > -   proc_free_inum(ns->inum);
+> > > > > > +   security_namespace_free(ns);
+> > > > > > +
+> > > > > > +   if (ns->inum > MNT_NS_INO_SPECIAL_MAX)
+> > > > > > +           proc_free_inum(ns->inum);
+> > > > >
+> > > > > The ns->inum check in the if-conditional above isn't quite the same as
+> > > > > the is_anon_ns() check it replaces in free_mnt_ns().  You touch on this
+> > > > > a bit in the changelog, but that really should be explained in the
+> > > > > commit description.
+> > > > >
+> > > > > ... or honestly, should that change be a separate patch?
+> > > >
+> > > > I think it's fine, but it's Christian's patch, so I'll let him answer
+> > > > and propose a new commit description.
+> > > 
+> > > I don't have a strong opinion on either approach, either a separate
+> > > patch or doc update, but one of the two needs to happen.
+> > 
+> > Noted, I'll follow on this with Christian.
 > 
-> After some contemplation and a long place flight: are we talking about
-> nullfs or failfs?  Because I would expect that it's entirely
+> I think we should add this as a separate patch.
 
-nullfs
-
-> impossible to mount anything on top of failfs.  So failfs would be
-> useless for #2 but would still solve #1.
-
-Yes, failfs can't be mounted on at all.
+Ok, I wrote this patch and I'll sent it with v3.
