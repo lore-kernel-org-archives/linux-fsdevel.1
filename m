@@ -1,221 +1,107 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FAE32142B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 14:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C19380FEE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 15:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784905089; cv=none; b=O8OTFbgO7Xf1OyxT9iz5RyLDcTsZed4A1wmXWiUxNh0ThdvwYLUefMXDdry/8nzbbTAYE4jefIp5ibI/vDlnKppCbt8+v0N7ZdA5/ingXOkLngV1G5J5ZNFVNjII0CM6DrShTmMDNUj8UNwaNXLGTID2dm7q5vtW0PlekPdp3tY=
+	t=1784905454; cv=none; b=IUJ5811/dGKHmNXlUKzFsJtWvtDOuMMdqBDoa04IwN5478Lyg6+nH/0wZrSXqCldyzdfn0JN3NQUu7SweRcZYx0JkVH4sEdeelOhSXDIZ074mwhazj3CQMK5Qeh1vWeXa+SM6yllfhbj3RGigWQKeNpjeHZy7oohhkIrLEQxx28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784905089; c=relaxed/simple;
-	bh=G2o9I89S5wuacRZuT0aUp53MkHxSYgNvKch1jD0dbh4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=cwVlQzT3JdXujggTdYzBF2/d3+y2GxSHr7pynv3mnsG+RT3gA/uKnG9OYxAMAXFxkZkAXNYV2h8jQTbwklPSc1Heeo8ZknRX/dY6hrTd66yI/f+j9X0UHvufrEvukXWVulW8Y28Gja0k5PoIaUFZ9q9ZSKDynSuMtNP9qbiDW8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=IU93YA0B; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1784905454; c=relaxed/simple;
+	bh=CrYiJM8ffDM+mtkbIdKIX6nT6ua3608EeCNadSwL8KE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=es30cqOm7ncHFm2NkhD3n6S0IJ9ubuGKph8OCrbS3MTuMlYMSr0yTCB0QbZcz1zMkKbQ2PBy/H0EcPBHxmlGwkS+NZEHITZCWA3SWWxuFC86WRrtGokJhHhoRmCEbWoxJuBojpg/oA/fLxCNCJOQ7juXz4LEMZ8eo9vhH11UgJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n5/Rd4ev; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="IU93YA0B"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260724145803epoutp037bab862ecca9ac5d546c5681209296e7~FQbde2jhe0575505755epoutp03T
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 14:58:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260724145803epoutp037bab862ecca9ac5d546c5681209296e7~FQbde2jhe0575505755epoutp03T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1784905083;
-	bh=RlDKF1N50HsiEmVfMhX9vE9WiGz6JSadAcE/1zQN2vU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=IU93YA0BiP5WQtgNQgym4F8uAreIvPDz42vjbPmA1npv18f391gVfYi+Qisyb0sot
-	 tYUrcc89/geiGqYo5v6rYNYi4QfMXX5d9WCDqHTe6G5EPp0UBRSJvHraMp4Luxlbjn
-	 Cbo9nJYEa2Bk3alBb6IM1u1tF/b/1MnCEy83A08s=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260724145802epcas5p23e58de35e56bf362815d3a34e69a4e8a~FQbdEymDx1115411154epcas5p2B;
-	Fri, 24 Jul 2026 14:58:02 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4h6B1j4Z68z3hhT3; Fri, 24 Jul
-	2026 14:58:01 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260724145800epcas5p41d7adc13127a557af92554114e6d33e7~FQbbO4yg-2731027310epcas5p4I;
-	Fri, 24 Jul 2026 14:58:00 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260724145758epsmtip1d5c833758f471a46d1b8c43cf355ac04~FQbZZjji50280002800epsmtip11;
-	Fri, 24 Jul 2026 14:57:58 +0000 (GMT)
-Message-ID: <3eb1b5dc-449c-4d13-ae38-b48e60de8705@samsung.com>
-Date: Fri, 24 Jul 2026 20:27:57 +0530
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n5/Rd4ev"
+Message-ID: <253f7ac0-205b-42f1-9fb5-d19eceb581b6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784905439;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CdO7KCyyIro+bfenb1xkDQljGGt5dLLkhErcCFsE/Qg=;
+	b=n5/Rd4evPANGbx1Hmm1azC85wU0nheG46FNmmGZJPiYVUUuGaxBTO3RHHaSsxBQmXrEiYH
+	w9WBY2Cs+toTZTVSry5TJuqptsIkQ9usv7g3oI2qlLAi3yC1kjAzyk0KK+DRltA6b8/OHH
+	0wfJYfPBAYVBhVVxrB7ixiXxNmqIs70=
+Date: Fri, 24 Jul 2026 16:03:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/6] xfs: generic AG set based steering
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, jack@suse.cz,
-	cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org, ritesh.list@gmail.com,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
+Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Pedro Falcato <pfalcato@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Kevin Brodsky <kevin.brodsky@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20260724102017.141532-1-pfalcato@suse.de>
+ <20260724102017.141532-4-pfalcato@suse.de>
+ <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
+ <amNzLXuwflIZFKtI@casper.infradead.org>
 Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260721032027.GW7380@frogsfrogsfrogs>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <amNzLXuwflIZFKtI@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260724145800epcas5p41d7adc13127a557af92554114e6d33e7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260717125636epcas5p2b68dd498717813e0b395b9d57d9d97df
-References: <20260717125538.508925-1-joshi.k@samsung.com>
-	<CGME20260717125636epcas5p2b68dd498717813e0b395b9d57d9d97df@epcas5p2.samsung.com>
-	<20260717125538.508925-5-joshi.k@samsung.com>
-	<20260721032027.GW7380@frogsfrogsfrogs>
+X-Migadu-Flow: FLOW_OUT
 
-On 7/21/2026 8:50 AM, Darrick J. Wong wrote:
-> On Fri, Jul 17, 2026 at 06:25:36PM +0530, Kanchan Joshi wrote:
->> Improve allocator concurrency and reduce interleaving by introducing
->> fixed sized AG set.
->> Use low bits of the inode as a hash to select AG within the AG set.
->> Overall, a file will try to use the same AG (and contiguity is maintained),
->> but multiple files will be spread across all AGs in the target AG set.
+
+
+On 24/07/2026 15:14, Matthew Wilcox wrote:
+> On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
 >>
->> Suggested-by: Dave Chinner<dgc@kernel.org>
->> Signed-off-by: Kanchan Joshi<joshi.k@samsung.com>
->> Signed-off-by: Anuj Gupta<anuj20.g@samsung.com>
->> ---
->>   fs/xfs/libxfs/xfs_bmap.c | 38 ++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 38 insertions(+)
 >>
->> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
->> index d64defeda645..fd1a3aa4ad3f 100644
->> --- a/fs/xfs/libxfs/xfs_bmap.c
->> +++ b/fs/xfs/libxfs/xfs_bmap.c
->> @@ -3192,6 +3192,36 @@ xfs_bmap_select_minlen(
->>   	return args->maxlen;
->>   }
->>   
->> +#define	GENERIC_AG_SET_SZ	(2)
-> What does this define?
+>> On 24/07/2026 11:20, Pedro Falcato wrote:
+>>> ptep_get() does not need write access to the PTE.
+>>>
+>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+>>> ---
+>>>  arch/parisc/include/asm/pgtable.h | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>> hmm I think you might break build bisectibility if
+>> you separate out the patches, you should squash patch 3 and 4,
+>> with patch 1.
+> 
+> I don't see how this breaks bisectability.  Can you elaborate on what
+> you think would break?
 
-We need more than 1 AG to do inode-based fanning of files and improve 
-concurrency (AGF lock). This is the minimum required to do any 
-improvement, in the default allocator.
-This 'minimum fan-out' is what Dave suggested to extract out of 
-write-stream and apply to two other allocators- default (which is what 
-you see now), and filestream (future work).
+Patch 1 does:
 
-And this can be reviewed as an independent patch as it does not require 
-any other work done in the series. No application input is required, 
-this is automatic optimization.
-
-The write-stream allocator (next patch), uses a different AG-set of size 
-NR_AGs/NR_WRITE_STREAMs. And that is an explicit (application input 
-based) allocator.
-
-  >> +
->> +static inline xfs_agnumber_t
->> +xfs_default_ag_set_size(
->> +	struct xfs_inode	*ip)
->> +{
->> +	struct xfs_mount	*mp = ip->i_mount;
->> +
->> +	return min_t(xfs_agnumber_t, GENERIC_AG_SET_SZ, mp->m_sb.sb_agcount);
-> Because I'm not sure what it means on a single-AG filesystem.
-
-On a single-AG filesystem, this will do nothing. The base-AG input given 
-by the default allocator will not get changed.
-
-But we get improvements on multi-AG filsystem; not sure if you saw the 
-numbers in the cover letter. Corresponding to the 'generic AG-set' below:
-
-1. On regular NVMe
-
-a. Inter-stream concurrency
----------------------------
-fio: 4k write, direct IO, 16 jobs, 1 directory, 16 files * 8GiB, iodepth 32
-xfs: 16 AGs, 4 write-streams
-
-base: 41 KIOPS
-generic AG-set: 93 KIOPS (+126%)
-write-stream AG-set: 227 KIOPS (+453%)
-here, 16 files are assigned 4 unique write-streams (4 files/stream)
-
-b. Intra-stream concurrency
-----------------------------
-fio: 4k write, direct IO, 4 jobs, 1 directory, 4 files * 8GiB, iodepth 32
-xfs: 16 AGs, 4 write-streams, generic AG-set size = 2, write-stream 
-AG-set size = 4
-
-base: 59 KIOPS
-generic AG-set: 94 KIOPS (+59%)
-write-stream AG-set: 112 KIOPS (+89%)
-here, 4 files are assigned single write-stream
+-static inline pte_t ptep_get_lockless(pte_t *ptep)
++static inline pte_t ptep_get_lockless(const pte_t *ptep)
+ {
+ 	return ptep_get(ptep);
+ }
 
 
->> +}
->> +
->> +static xfs_agnumber_t
->> +xfs_ag_to_ag_set(
->> +	struct xfs_bmalloca	*ap,
->> +	xfs_agnumber_t		base_agno)
->> +{
->> +	struct xfs_inode	*ip = ap->ip;
->> +	struct xfs_mount	*mp = ip->i_mount;
->> +	xfs_agnumber_t		set_size;
->> +
->> +	/* Apply fanning only for regular file data */
->> +	if (!(ap->datatype & XFS_ALLOC_USERDATA))
->> +		return base_agno;
->> +
->> +	set_size = xfs_default_ag_set_size(ip);
->> +	/* Fan out within the AG set using low bits of the inode */
->> +	return (base_agno + (XFS_INO_TO_AGINO(mp, I_INO(ip)) % set_size)) %
->> +		mp->m_sb.sb_agcount;
->> +}
->> +
->>   static int
->>   xfs_bmap_btalloc_select_lengths(
->>   	struct xfs_bmalloca	*ap,
->> @@ -3587,8 +3617,16 @@ xfs_bmap_btalloc_best_length(
->>   {
->>   	xfs_extlen_t		blen = 0;
->>   	int			error;
->> +	xfs_agnumber_t		target_ag, start_ag;
->>   
->>   	ap->blkno = XFS_INODE_TO_FSB(ap->ip);
->> +
->> +	/* fan out initial AG across the generic AG set */
->> +	start_ag = XFS_FSB_TO_AGNO(args->mp, ap->blkno);
->> +	target_ag = xfs_ag_to_ag_set(ap, start_ag);
->> +	if (target_ag != start_ag)
->> +		ap->blkno = XFS_AGB_TO_FSB(args->mp, target_ag, 0);
-> /me wonders, if xfs_bmap_rtalloc looked at ap->blkno for a hint the way
-> that the data device allocator does, then would it be trivial to have
-> write streams on the rt device too?
-Trying to understand if this kind of fanning out (this patch) or the 
-logical placement (patch 5 with write-stream based AG placement) help us 
-solve anything for rt device?
-For regular RT device, the round-robin rotor will distribute files into 
-multiple RTGs. So we don't have AGF like contention.
-And using write-stream to explicitly send multiple files to a single RTG 
-will do more harm than good?
+ptep_get() takes a non-const arg till patch 3 for example for parsic.
+I don't think you can pass a const variable to non const function arg?
 
-And for zoned RT device, the placement is happening via write-hint.
-
-Am I missing something that you have in mind?
-
-All the above is for logical isolation. For physical isolation, your 
-comments already help to establish that write-stream can be made to 
-work. For the regular RT device sitting on top of NVMe (FDP-enabled). 
-That needs few changes, but in previous patch (#3).
+So parsic won't compile in patch 1 and 2, powerprc wont compile
+for patches 1, 2 and 3..
 
 
-> I guess the tricky part would be figuring out what to do if you ever
-> want to switch a file between rt and data devices -- presumably you'd
-> just reset the write stream id to the default, but I guess you could
-> reject such a switch if the id had been set explicitly.
 
-Yes, we do such checks in patch 3 now also.
+
