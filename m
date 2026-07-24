@@ -1,131 +1,113 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638573CAE84
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 15:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21EC3382C7;
+	Fri, 24 Jul 2026 15:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784908154; cv=none; b=I9h/8jkOWHG/Rk4y8ma5lRPIYR7H5xnV12OP/DkdVyHwsravQNSNXH9+nyv6hgvLb4SBltnxEIcKBOMhPYtle/Ep7ruVDsO20MAktHlopN4s6Ren+hjmbvrDs8GSWo1ydjJBUwden9iYTUgX2DbmbMzwDoD7DRwDvcUe6OmzTnQ=
+	t=1784908390; cv=none; b=M3uNO9Z97VHnJtWd20OwH1EJGIkwvE4LH7lgQ1J2n7MzN3uSiJt2ELEBCQpgrkBNn5xJXxCFNCaOLD0bMxJJ2Er+3Y7wPcDdOSOt4YOCpr1dqZZlv/4WlPwQDDuGeBo6iwrQtPHvQDWvwjH7SdypdclrmwdjHMOQpS8mvQi9Rdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784908154; c=relaxed/simple;
-	bh=m2phItV52mWNj+mcfgLsr7GZ56HrAsdyGCSDYt9zqn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nYa+6LRdZO1XBVnKIOOXJXo9CK4mxp4CpG5PpF6Zu/zzaeQ/obxPQqAXjdMrN9neByr53Df2OlZHfO3qJ1wvpl7gG+kuIp49+PUvdpU0zX1c1QRxOXxT8dWhoa82waWYz2E6nemmqYNhFKDeh/xfOw/KbaE1shX4LwFmy/6Q1To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Nwts4fjd; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784908390; c=relaxed/simple;
+	bh=zCk3xc0UlgJlc06LMJzmE66E79omDiXT+OT0lkBAP7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OrDAGKOi1W0HOhT5dlHBErbv26CGndKMg8ZOaUaX0k3nrx1HYzgn6nWQV5DJqQWfH09jMO4Qr0U2xWJwi9P0Y4b8Z5s5SBGoe9KeemqGjRiFLHrytGuKPLlyIYHhavkgIlvuGxTjKT6H6shdiiBOR4NGpY6FHo61kYcklvp1Uh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQ/5hR2H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Nwts4fjd"
-Message-ID: <fd239383-dcbe-4daf-b337-32facef07076@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784908138;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpu1gJe0sM1zpg7qn6uKI6n3VZyrOevD5zqeBPXBfwE=;
-	b=Nwts4fjdNhRkKoiWWgZb1pTyJfagzBgyAnhKRuaoRCtBx7aSslbqFtzy/tsaZj6SPePbPj
-	+h8333InKBjxMVvWvd3VZk65pWaNGEHdIfYDP0nvTh3PcpkutNlEUvY2oMMCgrEm5Igfrr
-	HnNV1rKdfXh4xzFXjakZOI0RjFHt+wk=
-Date: Fri, 24 Jul 2026 16:48:50 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQ/5hR2H"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 333691F000E9;
+	Fri, 24 Jul 2026 15:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784908388;
+	bh=uOZiq8OWT/avS5oLoopGtVyIBHY0bCTmfT5dBxhzSis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LQ/5hR2HfB2zeVRuEY+hdzoo2HXc6VyrPB4pUzORmyST8aE6gSGUS7BXVLF1Vcowk
+	 8Ive9AiNt2a7lVTdNYc2ECH59OcyqMcFA6fo/9rci+BfMSKttDjcjrY9U9FpoUBOxp
+	 xbgD40aDmebQL5OFoo8u0W2GIPknZfUI8anIKY77HVylOTAB1WaVCggf9pzT5rdtgA
+	 uO8zofK9qJRb64zK5XLeuiVEw81p7ovqnpkcx3loHGKOMlalR26OYTDNTN7fjGtSZt
+	 /5/o3zfzZhE07vGj1oCYk7RmbOmoQDnfk8hkIVW3y9rZ1aMttsjQJUcfSZMpL8Sn6D
+	 U1CV67pyEQTpQ==
+Date: Fri, 24 Jul 2026 08:53:07 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] exfat: preserve allocated extents for swap activation
+Message-ID: <20260724155307.GA7398@frogsfrogsfrogs>
+References: <20260723191936.2419799-1-harshit.m.mogalapalli@oracle.com>
+ <CAKYAXd--N_2nY5XPr3vNyb7Ai+xYbuR3EE4ivecVf6Eur-vC_w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Kevin Brodsky <kevin.brodsky@arm.com>,
- Muhammad Usama Anjum <usama.anjum@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20260724102017.141532-1-pfalcato@suse.de>
- <20260724102017.141532-4-pfalcato@suse.de>
- <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
- <amNzLXuwflIZFKtI@casper.infradead.org>
- <253f7ac0-205b-42f1-9fb5-d19eceb581b6@linux.dev>
- <amOEUZlp1BxYh6_t@pedro-suse>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <amOEUZlp1BxYh6_t@pedro-suse>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKYAXd--N_2nY5XPr3vNyb7Ai+xYbuR3EE4ivecVf6Eur-vC_w@mail.gmail.com>
 
+On Fri, Jul 24, 2026 at 09:57:49AM +0900, Namjae Jeon wrote:
+> On Fri, Jul 24, 2026 at 4:19 AM Harshit Mogalapalli
+> <harshit.m.mogalapalli@oracle.com> wrote:
+> >
+> > exFAT reports allocated ranges beyond valid_size as IOMAP_HOLE whenever
+> > IOMAP_REPORT is set. iomap_swapfile_activate() also uses IOMAP_REPORT
+> > while collecting a swapfile's physical extents, so it treats the
+> > preallocated tail as unallocated and rejects the file with -EINVAL.
+> >
+> > Allocated space beyond valid_size is not a hole. Keep it as
+> > IOMAP_UNWRITTEN so iomap consumers that need physical extent identity,
+> > such as swap activation, can still use it. The iomap seek helpers
+> > already handle unwritten extents appropriately for SEEK_HOLE and
+> > SEEK_DATA.
+> >
+> > Fixes: b4b7fe2c7cbf ("exfat: add support for SEEK_HOLE and SEEK_DATA in llseek")
+> > Assisted-by: Codex:GPT-5.6
+> > Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> > ---
+> > LTP swapon/swapoff tests failed on exFAT, with this patch the tests
+> > pass.
+> > ---
+> >  fs/exfat/iomap.c | 16 ++++++----------
+> >  1 file changed, 6 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
+> > index 190fc6471f84..24d93288a432 100644
+> > --- a/fs/exfat/iomap.c
+> > +++ b/fs/exfat/iomap.c
+> > @@ -105,18 +105,14 @@ static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length
+> >                  * marks the exact boundary between valid data and
+> >                  * holes (or unwritten space).
+> >                  *
+> > -                * When IOMAP_REPORT is set (used by lseek(SEEK_HOLE)
+> > -                * and SEEK_DATA), we return IOMAP_HOLE. This allows
+> > -                * iomap_seek_hole_iter() to directly return the
+> > -                * precise byte position.
+> > -                *
+> > -                * For normal I/O paths (without IOMAP_REPORT) we
+> > -                * return IOMAP_UNWRITTEN so the write path can
+> > -                * distinguish it from a real hole.
+> > +                * Allocated space beyond valid_size is not a hole. Report it
+> > +                * as IOMAP_UNWRITTEN so iomap consumers that need physical
+> > +                * extent identity, such as swap activation, can still use it.
+> > +                * The iomap seek helpers already handle unwritten extents
+> > +                * appropriately for SEEK_HOLE and SEEK_DATA.
+> >                  */
+> >                 if (offset >= ei->valid_size) {
+> > -                       iomap->type = flags & IOMAP_REPORT ?
+> > -                               IOMAP_HOLE : IOMAP_UNWRITTEN;
+> > +                       iomap->type = IOMAP_UNWRITTEN;
+> Returning IOMAP_UNWRITTEN with IOMAP_REPORT can make SEEK_HOLE rely on
+> page-cache/block-granularity handling, which can lose the
+> byte-accurate valid_size boundary. Before activating the swapfile,
+> extending ->valid_size to i_size through exfat_extend_valid_size()
+> safely zeroes the preallocated range and makes it valid for swap use.
 
+iomap swapfile activation can handle unwritten extents (unlike the bmap
+activation codepath) so you probably only need to bump valid_size up to
+the next max(PAGE_SIZE, i_blocksize) boundary.  The swap code writes
+to the underlying disk blocks directly, bypassing the filesystem.
 
-On 24/07/2026 16:32, Pedro Falcato wrote:
-> On Fri, Jul 24, 2026 at 04:03:44PM +0100, Usama Arif wrote:
->>
->>
->> On 24/07/2026 15:14, Matthew Wilcox wrote:
->>> On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
->>>>
->>>>
->>>> On 24/07/2026 11:20, Pedro Falcato wrote:
->>>>> ptep_get() does not need write access to the PTE.
->>>>>
->>>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
->>>>> ---
->>>>>  arch/parisc/include/asm/pgtable.h | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>> hmm I think you might break build bisectibility if
->>>> you separate out the patches, you should squash patch 3 and 4,
->>>> with patch 1.
->>>
->>> I don't see how this breaks bisectability.  Can you elaborate on what
->>> you think would break?
->>
->> Patch 1 does:
->>
->> -static inline pte_t ptep_get_lockless(pte_t *ptep)
->> +static inline pte_t ptep_get_lockless(const pte_t *ptep)
->>  {
->>  	return ptep_get(ptep);
->>  }
->>
->>
->> ptep_get() takes a non-const arg till patch 3 for example for parsic.
->> I don't think you can pass a const variable to non const function arg?
->>
->> So parsic won't compile in patch 1 and 2, powerprc wont compile
->> for patches 1, 2 and 3..
-> 
-> Aha, yes, nice catch! I'll have to rethink that. Maybe squashing the patches
-> would be the cleanest way forward.
-> 
-
-Yes, squashing is the simplest way forward.
-
-> FWIW, the vast majority of architectures aren't doing funny things on
-> ptep_get(). E.g PA-RISC, loongarch only define these so they can use it in
-> their own asm/pgtable.h. I'd really like to delete these but I can't tell
-> if they are *actually* required.
-> 
-
-Ah maybe there is something in git history on why it was needed?
-
-If not, hopefully someone from the arch lists could clarify..
-
-> With those gone only PPC 8xx and generic would need to be squashed (arm64 also
-> defines its own version of ptep_get_lockless()).
-> 
-> 
-
+--D
