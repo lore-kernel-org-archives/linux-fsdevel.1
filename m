@@ -1,57 +1,57 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D8B3655F0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 15:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9502230569B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 15:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784906188; cv=none; b=UCRWYuXnRUOBUqW4EON0DMKIEi5T5LfJzbGclpwPUOBdLmzi4nI2d5q+0xp7wojTZJtWdSxU9B1s1YaxOBfFfZzU8q1//hwLAtj4I9lBnitbace6k4W29dvD9NwKMSy9gZE9U6Kil5DbGuygz5LuAGGAOAUDzJ2g4nw8l+lTCq0=
+	t=1784906199; cv=none; b=fr7i820SMzqSDDPxGuSuv2e2VaZFv2qRcilwHrhbH90IAD+N87u14D+ETKOAu4fNcv5I7PgSdbfoD801tDiuLb8aYZf2exR+ca+ZXo+PcVzujjVYgN29muw+a2ENXfeNvSPFmWvQEyxStTLuvZjZZ4UckLL1iSGSrDkE6PdD7kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784906188; c=relaxed/simple;
-	bh=DONY1m1MOqXdIXxaI3VW6vUwwDHvLeEs+Kz0gorx0jo=;
+	s=arc-20240116; t=1784906199; c=relaxed/simple;
+	bh=2bpP1ibW5dJmvFrzzhBS0AQ365XuAs8E3axf34t/Dlw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CdB5UKkAuBMyDnVRuerfbG83X0/Oa+5nngdc6Im7s7YdZnkauf4wqfz8slot0oSsekkr9fQ7Vd9OLUQzJIS0bfrhgq7C/4nU6oKrtylk8pNREzUdSRjC/kvu84s6Dls6AI21uZf0AaURvdIvoS9lb+aTrNBAJPgLXHVujBjPicQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=upu4uzx1; arc=none smtp.client-ip=209.85.210.198
+	 To:Cc:Content-Type; b=CQgIq96HwRhFRSwD4VUpgyt894XYF4FTRKFmLtr7f0teVw1V0/D4wXZdv9//mx8bwdbB5O+zmDTa50j/EUw9AQIaYZhzump3dgDYqHIH6hCk9hKXHEfBbn+s0NG+/0ecO7ZOOUyjQRBuqGyPrZHohNR41IZF+Hj/tT55EPtFg9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nR3fsmQ7; arc=none smtp.client-ip=209.85.216.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="upu4uzx1"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84842381150so849962b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 08:16:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nR3fsmQ7"
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38dd87656d3so556597a91.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 08:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784906186; x=1785510986; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1784906198; x=1785510998; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=H7tZ6rxVHVxA9k8QZg3mxz8r9NteqReZr++aWJKr0sY=;
-        b=upu4uzx1Ah45VrdPE2u6f+ZTk55Y918o+35LGTgf+R4c3KUfTOSVwXdD6kq1DkHl9Q
-         AdYxR/xOhK9UwCbQD6E8/tC8nN3/pO8L7h2o2HrdWvAoWoetLkNSQ8rrFR7Rp+EvTbEU
-         Mm5IOLWsV8qmxF3TKI3U3aAQZX/KqaxdadUIf6BKBsDiCVFCC3joprumO8nc9X/SJufF
-         nAw1rkkrZE9zcbrXa/fBEIFMZPFMq/agoURkaCl64dB0mQ7XEurSg8ue0wt/NIN5UcpC
-         A63viR01VPWKy1rLKyoRAz8or8j0+BG+aFCq6qBNkhJ96GWaWvzbiT909e/S0CSEehKb
-         LMDw==
+        bh=DZ8f+6ih5KROSa3iYv5xsmVxcdcq3+d3PqbnwpAR2WQ=;
+        b=nR3fsmQ7N2HcC205WKRTn3ANgIHKpjC7ExmRF3aacxKdqH00XYTJVblHa11RWR6FCB
+         8ZdSRmZUyle9IlTE7QDAqKUFVqub766g2WuTtS3F81zqo5KUF/KNzQu/lpyd8lwNPKpY
+         UOw4lvEvqLqA8HGqaZQOH4b7E3dzBx/4Z+4xXa4jFx9EFU7gRkmF6brWb81sPqOpHFmQ
+         pdA5CCXfBPTcLUkjxdKccwhT9b0juwMB6Tz2jd945ZGK2yl9g8e0FSFVViZtLEqqH26F
+         yEWUXIgXZA9E9+FzUVlnKzURYrp3itrn2VpL1PepEn8Tbb2MqXeIBK8NLW5pR8kaYfPj
+         jIxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784906186; x=1785510986;
+        d=1e100.net; s=20251104; t=1784906198; x=1785510998;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H7tZ6rxVHVxA9k8QZg3mxz8r9NteqReZr++aWJKr0sY=;
-        b=tEobbwhI5BYEdAGLQUIOwHDBUWZ5wgrTqGmhTc7zR4VWQwlTXqYHo82L6O+SHi3QrA
-         kE4gyDQNPECRX0xZ0RN2XtfCCMAMAWAc2hJdUAnpgS/c5TvezRhJCet5yZuLJC9+WCRg
-         vJ+Kt+4eIAvufu13quULqoPDKqvVlutPamGV9r2RiqGXv0o/a69GnvtD6vqM01wjggR2
-         A5LyyGe8Rx0eUArjYfgyoQ1a79s5Wlg/7N9OQddnJGpGmw0JKanb5D3M5eGVD7UOUj5X
-         G1bMuDALPe4KfQgy2LxQK/uL/1tZH0ufzsh0ppNZyKou1edV9MkFMmlOzu2KFFUPl5W3
-         k0TA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/EV9LI/1YhmFpLlPx6r7rbQAokTopaam/vWUF4eCjvKJJgRUA+T/SGVNDpYgZ3M65wUS5T6vByO1FnIlO@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOtdYWuUhDGsTcQknnjEgt6cl490uZsFehsRHIpXhVd057CczP
-	wgLby1+s7TzamGQF681+FMPTjeiT4mRCOsG8LGFthK4ea7STwFg4dpdIceItRCA2AFe51iV9llG
-	AwNAYZg==
-X-Received: from pgkg14.prod.google.com ([2002:a63:fa4e:0:b0:c86:5f41:8c94])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4211:b0:845:d274:bf8d
- with SMTP id d2e1a72fcca58-84e2bba4cf2mr8891334b3a.54.1784906186191; Fri, 24
- Jul 2026 08:16:26 -0700 (PDT)
-Date: Fri, 24 Jul 2026 08:16:25 -0700
-In-Reply-To: <amNeKcDZ66VrQ5PL@casper.infradead.org>
+        bh=DZ8f+6ih5KROSa3iYv5xsmVxcdcq3+d3PqbnwpAR2WQ=;
+        b=j0ygFedskU9hLrzT8FfQ++lsY1az1LwNB+1msSr4D8y+Y/PZW6MBAnain7DV4EUyqD
+         x69PpLfIBw4obKTTvRYOA4KSWr3rQ+FGuaGrr5c6KIuX57oIhV4Z746qNNQvR4h11OZz
+         LOPFRFK/r+Ls415+M04trpbBCov1YLNU89ipfyXmzhpb5tkSIuNANhIzoH7yL9iOqPqH
+         V8iCq8poy49FtsB2N60MgB6ulKc5T1Bi7jhuSJxihk4nZYT+LKZ87Cuzqu5KAJ1+Q8dh
+         GWxIOyMT4l8S7EAjjiFJtUycjU2qU3RmRKNFaQJ3hzdN0BgyxdsSlmBkdceLawPN6fE5
+         txow==
+X-Forwarded-Encrypted: i=1; AHgh+RqGjGL8xPcC32Lj25iWjG6ZtfCw8qsQ0fVLM15pV860QrP8LVjJicysOt/Q3EiF03ISIEr1A6YsONMoKX14@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCXqImCC6B9bvLp6SXPmqI7Vza+DiCVK4FAprvkSOxVDSqKbnO
+	o8jSmECg43bQh73NonHoYx/rXBAYzDp8wiRi0xqD0XjhDwNwKypp9qjYUaTWrcbL0utCMBJMBga
+	MhBEe9Q==
+X-Received: from pgbdp1.prod.google.com ([2002:a05:6a02:f01:b0:c92:11a5:bbce])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:1d98:b0:3c3:a490:9674
+ with SMTP id adf61e73a8af0-3c44b250f8dmr8630341637.64.1784906197213; Fri, 24
+ Jul 2026 08:16:37 -0700 (PDT)
+Date: Fri, 24 Jul 2026 08:16:36 -0700
+In-Reply-To: <20260723143034.175661-6-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,79 +59,23 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260723143034.175661-1-willy@infradead.org> <20260723143034.175661-6-willy@infradead.org>
- <amNeKcDZ66VrQ5PL@casper.infradead.org>
-Message-ID: <amOByZH4oWzmO3Zj@google.com>
+Message-ID: <amOB1ATJGo71QMkE@google.com>
 Subject: Re: [PATCH v4 05/14] guest_memfd: Use folio_has_hwpoisoned_page()
 From: Sean Christopherson <seanjc@google.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org, 
-	kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Michael Roth <michael.roth@amd.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
 	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
 	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>
 Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jul 24, 2026, Matthew Wilcox wrote:
-> Sashiko review:
-> > --- Patch [5]: [PATCH v4 05/14] guest_memfd: Use folio_has_hwpoisoned_page() ---
-> > commit b4db4098463261fdf87a2e92b28ce2b4c9445e74
-> > Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > guest_memfd: Use folio_has_hwpoisoned_page()
-> > 
-> > This commit changes guest_memfd to use folio_has_hwpoisoned_page() instead of
-> > folio_test_hwpoison() to correctly detect poisoned pages on all large folios,
-> > not just hugetlb folios.
-> > 
-> > > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> > > index db57c5766ab60..94eedcc7f1a9e 100644
-> > > --- a/virt/kvm/guest_memfd.c
-> > > +++ b/virt/kvm/guest_memfd.c
-> > > @@ -774,7 +774,7 @@ static struct folio *__kvm_gmem_get_pfn(struct file *file,
-> > >  	if (IS_ERR(folio))
-> > >  		return folio;
-> > >
-> > > -	if (folio_test_hwpoison(folio)) {
-> > > +	if (folio_has_hwpoisoned_page(folio)) {
-> > >  		folio_unlock(folio);
-> > >  		folio_put(folio);
-> > >  		return ERR_PTR(-EHWPOISON);
-> > 
-> > This is a pre-existing issue, but while looking at hwpoison
-> > checks in guest_memfd.c, I noticed a missing check in
-> > kvm_gmem_fault_user_mapping() that might trigger a host kernel MCE panic.
-> > 
-> > If a guest_memfd folio is allocated (e.g. via fallocate) but not zeroed, it
-> > remains in the page cache without the uptodate flag. If a memory failure
-> > occurs on this page, it is marked hwpoisoned.
-> > 
-> > Later, a fault could trigger kvm_gmem_fault_user_mapping() which executes:
-> > 
-> >     folio = kvm_gmem_get_folio(inode, vmf->pgoff);
-> >     ...
-> >     if (!folio_test_uptodate(folio)) {
-> >         clear_highpage(folio_page(folio, 0));
-> >         folio_mark_uptodate(folio);
-> >     }
-> > 
-> > Because there is no folio_has_hwpoisoned_page() check before clearing the
-> > page, could the kernel-mode write in clear_highpage() to the uninitialized,
-> > poisoned page trigger an unrecoverable MCE panic?
-> > 
-> > Should kvm_gmem_fault_user_mapping() include the same HWPoison check as
-> > __kvm_gmem_get_pfn() and return VM_FAULT_HWPOISON if the page is poisoned?
+On Thu, Jul 23, 2026, Matthew Wilcox (Oracle) wrote:
+> folio_test_hwpoison() only works on hugetlb folios today and will give
+> the wrong answer for other large folios.  folio_has_hwpoisoned_page()
+> works on both.
 > 
-> I have no idea, but the purpose of this patch is to stop kvm from using
-> the wrong API.  This is definitely scope creep beyond my level of interest
-> and the aims of this patch series.  I've added the KVM people to the cc
-> here, but I'm not going to do anything more with this review.
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
 
-Heh, you don't want to sign up for a week or two of onion peeling?
-
-In the future, please Cc at least kvm@ on any guest_memfd changes, both to avoid
-unexpected conflicts (the code is under heavy development), and because us KVM
-people are still learning how the hell do filesystems stuff, and can use all the
-help and knowledge sharing we can get.
-
-Thanks!
+Acked-by: Sean Christopherson <seanjc@google.com>
