@@ -1,145 +1,131 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F21A32E121
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 09:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694C93F4831;
+	Fri, 24 Jul 2026 09:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784885940; cv=none; b=Cc9UdjKceHIifjghfNZtVbwfgtASc8+0cpiHY9NdxycEEqjSR24yfi7b/BCbdDd06FCHRGs6QvGmaCD1ORRUU5WXebqp8FtuVKZjRC/ggawsRfbyz5RnDt1hRAyquqpMmxS6mGIi7R9mdumOoG2b9fWsuhxrlLlZEmUWQefPovw=
+	t=1784886801; cv=none; b=XBhgZFzsvr2Vlqu89rJnM0S/zHObdk29KITDwLIMCG5DmoCO9AgmzyQzCgM2Qd3AzgM87h3m6JhwyAs45JT2Ep1EfxHipVjXRUGjorH4xnRPGii9oOipJInqWxjphED7/N28mHat0ZrxLmnsArdYXyJxvmY/Qnzirqddd1Dxur8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784885940; c=relaxed/simple;
-	bh=5bygh+KDkyq5VnIRNVHRHMpV3wSyJVNSh4zxi7M408o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ND2XwzKAZBtBWHgT/Ze76oydYnsGl2HVsS+R6f8u+MWfuLNAj3Rsiv7obzC1cnXMOZoP6kDa4an6FU0ybXWpHpBbYHSaS/8ggFkbU8dupM4l+u7HogS+fRZt8AzEs+7Q0Qubz8XWHdBRcWr+z+fsKkjJ1XqtOwUz1CDVHM6wkoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JdAvZv9D; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FpwYVXo0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784886801; c=relaxed/simple;
+	bh=qbheOk0qDo6B9pUyZ7jklGnVheiw2kM1wuk1U1kQJMA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QSnE0Zy8wXr+HXFOUEf4YfPl0AnFQIiPNMYIIjlWHA5KuyCBXOdOjfh+6DpsYkgJcm7q9vi48pSjGYZWrS/cNkcuXopjUKkSz+5GXHvIm9V756ua17ZTfht4eXcYuSewxTIyxllSh3/HN8Um/S/1mnTBxE1czkKqNwkotTbqT9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fe7yxT6K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JdAvZv9D";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FpwYVXo0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784885938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0krbbzEdB1cnlzq7dONjoMYcCneykIRlk0aXIE/WO08=;
-	b=JdAvZv9D8icmDbEp5q5WSZuEQkWG9qCflWHTT9XXQ8iplRsQDPta+C3ezYxBE5j6f26/p0
-	LZG7CjZdUmGQcd9HhRJSV3JTYVQy6R59ENJJlSG4Z+2E0PKsgUY3x+hlFLSOcm409MKRN/
-	Tu3kiW+H5RfEREed6mlhgZlqaTbEZPs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-438-MEygReCwOqutqFnCb6owUw-1; Fri, 24 Jul 2026 05:38:56 -0400
-X-MC-Unique: MEygReCwOqutqFnCb6owUw-1
-X-Mimecast-MFC-AGG-ID: MEygReCwOqutqFnCb6owUw_1784885936
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-490a767b782so2163665e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 02:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1784885935; x=1785490735; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0krbbzEdB1cnlzq7dONjoMYcCneykIRlk0aXIE/WO08=;
-        b=FpwYVXo06a1hMvKxL8ANOh+4DMPM55GC6WcUqnVPKJsmkr/vCFdiTutgg66IUiACvq
-         S/1glKw0x0abVt4ervnALRZyII31qL4hw3UwAR5uJ2Zxso1c9tw3Psh1KltwElRd8EjM
-         jmum6WEnRLjnbXTmLfoYX2lrkJqw4QMV91OIqfiWgT1/w/2+aMOfFfsedS2EwV0Da6f3
-         0eEsq8KNehGYBct32yH4z/8nZc7LEi7LpAmT65cI7/WUXbB9/YbRQND7W2RIxXMnu91J
-         eNntSp2SfUls7EECQKpp9rE1niSV1Bt/6587cmfg4cg+cBi1Ad7EFUWXtOSmwZ60kWfO
-         9ufA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784885935; x=1785490735;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0krbbzEdB1cnlzq7dONjoMYcCneykIRlk0aXIE/WO08=;
-        b=ilrZR9145bHRY0LOgeWWLynhzkiR7+gHttoYL9sBVQNFCJB2fZAkKXnKQJqSlVg5f2
-         yHGlb6zhnjdnlxCc7CfHjeJTGIB2kZBRMP7r68PM7LcST6WYZHOFGIawQSHSCMH93I1+
-         HScQPfOSbwsKIiPwfxa1ejczrldcqxytB4Ek25ZA11U6fLqQQnwy3LkiZ7cPSS5sBrnt
-         8dtf/kgtyuJAtqT7N0WThXNiayHTUu3b1cLEr+79AIDmJVNb26Hn6YKQxMMVSzgzvpEu
-         BsQv718YnnMFnI+1XPxccwp6vRCvxbPjzETMkI/YU4aGfU6sA5okg28J2ebKewMb75jG
-         1Acw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9rt938rSzolf/upEbV0TUe756epax1NuIB8LC87aqbY8oGHD0CKOebFveyFg4Oxwdizce1gLuIWa1CX/5@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIytSpvb23maBSfShKeZtTXtagwGD3UVK4Cy6ViPinaB2226+G
-	gBT6NIKiB2l0PyWTSHyusS5kAyAUlFceXbpu7dRMb2ZgqtizwBUOB60UBuYc0B1NJ9Lty+8Uanm
-	C9BPGTbNzzdvUKsyTsIhu84vSoIAsJnIKAdM4DdV2rljk4A5jA44oiR7bGaNVhbwhTw==
-X-Gm-Gg: AR+sD10feisxkw9HV4jeXjp2aKkue06eMyKR9RJU56Na1VLGie9ZiLQ2Vz/D6knB26z
-	GT+/cT/AFpl6cbSGYqmWwgpJjfdtSGE6T10LA7KkdAaBOtN3m36pYmb/Y9RPYrBLLJUEYJazG+t
-	0I9nGvuonr4zbabxykv1CN4LPcX8uliAIYTFH96b3NXpwuJ3qLJRbH+L3OritcqRi+wjdzzRQzr
-	ujLCQNw1agB8HpNxKl2q7z63Nsm+nHsfkJS2viFBd1N2NA9GqJC4U532eCYq4XXippUM/BGGUK5
-	YyrTSDoiGX6pAy3p7Meq9wjw1dk7O2uBBeDylChLnWCVMGJ36rrKVlNymee+DRc6ebGamXHJNvm
-	IRb3hdhHl2OVaBjw/lvaxUc4zr+6tPnme+2E=
-X-Received: by 2002:a05:600c:a21c:b0:495:4811:7998 with SMTP id 5b1f17b1804b1-49573ca982fmr49201035e9.17.1784885935527;
-        Fri, 24 Jul 2026 02:38:55 -0700 (PDT)
-X-Received: by 2002:a05:600c:a21c:b0:495:4811:7998 with SMTP id 5b1f17b1804b1-49573ca982fmr49200745e9.17.1784885934954;
-        Fri, 24 Jul 2026 02:38:54 -0700 (PDT)
-Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957af6ad58sm65616845e9.4.2026.07.24.02.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 02:38:54 -0700 (PDT)
-Date: Fri, 24 Jul 2026 11:38:53 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Tal Zussman <tz2294@columbia.edu>, Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 18/22] xfs: use BIO_COMPLETE_IN_TASK for bounce buffered
- read I/Os
-Message-ID: <amMvIEtEtRrNE7A_@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260723145000.116419-1-hch@lst.de>
- <20260723145000.116419-19-hch@lst.de>
- <amItES6s54i1QSHw@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <20260724062120.GA4953@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fe7yxT6K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CDD41F000E9;
+	Fri, 24 Jul 2026 09:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784886800;
+	bh=1t+ynSssKoLM/byqDJsmQHgdHfk3hykhxZKWvgZlTqA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Fe7yxT6K6sYKWCUzY0JJpLaFQ28BuT0b6kxfd9oMU+L7NHkFguHiCAWl/IiGy0e72
+	 v5rRW7+E47M614irn4TP3+k8o/2AvBTWfsTTSfXfTZU0v1Yc8VJgzCURj819sYaDJs
+	 JXcjUqKIXbF+h4EOr2WkoUvAHiNUgBRBQvNY3RJpNnTXeRfibxzDzS67fM05LNE+uH
+	 jPpCLIJaA+A/+kM+4L3Is2AGMtNnAoKbcfoB/YETIF6j+S+JnBH/Ocd5TZZK0SeFMa
+	 ws7+3lAaqImWOWx2LV53x4aHiN9+oiQ3VAx+/Zk/PFIUhqXIkanPJPC9dZ+5w3QbUT
+	 Hy2YZzgFtLSpA==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
+Cc: aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, 
+ linux-ext4@vger.kernel.org, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+In-Reply-To: <20260716145359.28639-1-jack@suse.cz>
+References: <20260716145359.28639-1-jack@suse.cz>
+Subject: Re: [PATCH v4 0/21] fs: Fix missed inode write during fsync
+Message-Id: <20260724-einmieten-beatmen-glossar-63c4b3962e07@brauner>
+Date: Fri, 24 Jul 2026 11:52:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724062120.GA4953@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-401aa
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3612; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=qbheOk0qDo6B9pUyZ7jklGnVheiw2kM1wuk1U1kQJMA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQlm/E1d4ur1kReXVJxnfnnu92zCvNuzqjNWPLl9YJT8
+ //fcv72taOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiN/QZ/soF/mVLntS3cO5z
+ XpWZ1hrXO19sYrJPOBSa83qz+/QDX/Yx/M9ItGqSq44Oac7fFOiUa8d4faqI+Cw92Zr1J45dT35
+ 0mR8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-24 08:21:20, Christoph Hellwig wrote:
-> On Thu, Jul 23, 2026 at 05:58:49PM +0200, Andrey Albershteyn wrote:
-> > I would probably need something like this for fsverity.
-> > 
-> > When using integrity checksums with fsverity together, both file data
-> > ioends and fsverity metadata ioends get onto the inode queue
-> > (without checksums there's no metadata ioends). This way worker could
-> > self-deadlock if data ioend processed first in xfs_end_io(). It will
-> > call verify_bio to read merkle pages which could be already waiting
-> > in queue.
+On Thu, 16 Jul 2026 16:55:22 +0200, Jan Kara wrote:
+> fs: Fix missed inode write during fsync
 > 
-> Yes.  Same as the situation we have (or had as this is changing
-> for 7.3) with fsverity and fscrypt.
+> Hello,
 > 
-> > I initially considered changing xfs_end_io, for read ioends, to just
-> > schedule them instead of adding to the queue, but decided just sort
-> > metadata ioends first in the queue [1] as a bit simpler fix.
-> > 
-> > The difference is that work won't be scheduled on the high-priority
-> > fsverity's workqueue. Not sure how critical this is as with
-> > checksums all reads would be the same priority.
+> here is v4 of the patch series which fixes the possibly missing inode write
+> during fsync(2) for filesystems using generic metadata bh tracking. This
+> revision contains mostly small fixes and improvements since v3, neither
+> Sashiko nor Christian found fundamental issues with this approach.
 > 
-> I'll need to go back to your series, but just sorting isn't going
-> to fix the problem, as the reading of the verity metadata could
-> be kicked off from the completion workqueue and you could be blocking
-> the rescuer thread.  So either verity needs it's own WQ, or we'd need
-> some way for a currently running I/O completion to exit and get
-> restarted.
+> [...]
 
-Oh I see, then, the data reads could be queue further with
-fsverity_enqueue_verify_work(ioend). This way bio completion queue
-can continue process incoming metadata reads while data ioend is
-waiting for verification.
+I think there's some outstanding sashiko reviews for this one. Feel free
+to just send follow-up fixes if the changes are small enough! Thanks,
+Jan!
 
-> 
-> With BIO_COMPLETE_IN_TASK we could probably do that restart thing.
-> Or add a second set of workers for "metadata".
-> 
+---
 
--- 
-- Andrey
+Applied to the vfs-7.3.sync branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.sync branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.sync
+
+[01/21] affs: Drop support for metadata bh tracking
+        https://git.kernel.org/vfs/vfs/c/af4c5cc0e9bb
+[02/21] fs: Fix possible UAF in mark_buffer_write_io_error()
+        https://git.kernel.org/vfs/vfs/c/2a04965facca
+[03/21] fs: Fix missed inode writeback when racing with __writeback_single_inode
+        https://git.kernel.org/vfs/vfs/c/cd7af599673d
+[04/21] ext4: Allocate mapping_metadata_bhs struct on demand
+        https://git.kernel.org/vfs/vfs/c/daa81c4646af
+[05/21] fs: Provide way for filesystem to wait for metadata writeback
+        https://git.kernel.org/vfs/vfs/c/2efb5551bfd6
+[06/21] ext2: Fix lost inode updates for IS_SYNC inodes
+        https://git.kernel.org/vfs/vfs/c/8818c2c722bc
+[07/21] ext2: Drop __ext2_write_inode()
+        https://git.kernel.org/vfs/vfs/c/9df72fe0ce0d
+[08/21] ext2: Avoid unnecessary inode buffer writeback for sync(2)
+        https://git.kernel.org/vfs/vfs/c/596fcded9d2c
+[09/21] ext2: Fix data integrity writeout issues
+        https://git.kernel.org/vfs/vfs/c/354fbcf66801
+[10/21] udf: Fix data integrity writeout issues
+        https://git.kernel.org/vfs/vfs/c/44472b524843
+[11/21] udf: Use sync_inode_metadata() to writeout IS_SYNC inode
+        https://git.kernel.org/vfs/vfs/c/9f270048c816
+[12/21] udf: Drop udf_sync_inode()
+        https://git.kernel.org/vfs/vfs/c/5058a428058b
+[13/21] udf: Use sync_inode_metadata() in udf_evict_inode()
+        https://git.kernel.org/vfs/vfs/c/7523fe432c0e
+[14/21] udf: Fold udf_update_inode() into udf_write_inode()
+        https://git.kernel.org/vfs/vfs/c/6f9f30e52869
+[15/21] bfs: Fix data integrity writeout issues
+        https://git.kernel.org/vfs/vfs/c/763d78b5dbba
+[16/21] minix: Fix data integrity writeout issues
+        https://git.kernel.org/vfs/vfs/c/66355af99066
+[17/21] ext4: Fix data integrity writeout issues in nojournal mode
+        https://git.kernel.org/vfs/vfs/c/15f87bd659d2
+[18/21] fat: Fix missed inode writeback during fsync(2)
+        https://git.kernel.org/vfs/vfs/c/a4d79cb28359
+[19/21] fat: Remove some superfluous sync_dirty_buffer() calls
+        https://git.kernel.org/vfs/vfs/c/8fea9a46ea6c
+[20/21] fat: Replace fat_sync_inode() with sync_inode_metadata()
+        https://git.kernel.org/vfs/vfs/c/02019179198b
+[21/21] vfs: Remove mmb_fsync()
+        https://git.kernel.org/vfs/vfs/c/7747b73ad29a
 
