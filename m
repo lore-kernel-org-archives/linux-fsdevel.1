@@ -1,221 +1,151 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244F51A6812
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 02:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B01F2E736B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 04:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784945021; cv=pass; b=GV9UuHf/voyHdXM5Lkps+z4L6gEhA8FBP9JHTVyBh0H2BBrgz3rhre8spQjUhrWyW07VwFx0lbYKrVpGmd9DhInBVY4jaX0yEeulnnpUXDXc/4UBAYrlLtoFcml3fKs8a6Uzw2pRgpZRNmibqUMXi3CFU6NNIu/BVtaJ5IgTf/Y=
+	t=1784952106; cv=pass; b=E0FSGI2UT5b8RCN4cs+JtNwUnklN1Hy+KODYor+CvD6GTBn8KrEmxWZGHo5kQ0whu83rOtEuGg4oegRTv14F9sg2EIg9ITQimK5YR0sl2vACtVKRuBztmq21rmPeahtz/6KZLl6XR4S2/1eSoJjXlUXvHvr+6vzTRkQbIu55KcU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784945021; c=relaxed/simple;
-	bh=V7GOH5C4+1DTcmNxi1wdCRV0V1K1Gn/8pkL9PttbCHc=;
+	s=arc-20240116; t=1784952106; c=relaxed/simple;
+	bh=fNC8wElaBgCywizq8gsw7GvnGpxJrTKPY2EQunJ50fQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mcueqyt/QJnTUl+uU9peiSeRTxJHprXLnpOsfnX0758hUE8soaHDsiy9p00JHUgcX4T3V0lL2us866fwWtietBbOn8Spv3UeOuiS8dodM8HFxz8v7Y6DF4h1hlRyH03ktLgEV1GN0oyJlNE3vUhe8Oo6deaVHoUbPZz6EaT12S8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IuCkiIrX; arc=pass smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=mUqQn+/mNlh+TObpWCPAfXD4ClXFuX0Joh34HFLae7PvH6keG4kR8nD+Qsc/FS5pTmHnubqBSSJ9XdvBVS1/SDyJQAU6caaUOnI1mMJUQrSsbCZhjSXpGk0tJMwJQaRgnXEEFj01mbIjTxLCxln0kMybJSwkCpy1TdMHO/uQyY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CNAZJoN0; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IuCkiIrX"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-66896892b6cso926276d50.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 19:03:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784945019; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CNAZJoN0"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-526f963372aso9481471cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Jul 2026 21:01:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784952103; cv=none;
         d=google.com; s=arc-20260327;
-        b=pyhiNrq364cy4V9pmc7q7KPIlpAb6yF6suWzMlG2ayP1Efvcm0KHxXtIxqoQr/nfoM
-         6XLtaybjb+WjngyXOCncoJ+jUfRswUKdtrnrR/WATZXxXawhGRp5bNsbEF3rPrnSHiIC
-         AVDLYSC+M0k0bLmlc7RrPZJHxzEeMj7u/OV5tQYkDQGV8pEAWGRldtI1ALvwA1+wvgQM
-         1JGB0GIuvkOyOmEv/Pfke80pfKWklL5S4pZs0JZyXN7KyghDYCFgtQgxoAJIM4IUUnXT
-         RkWSTNEIUkjzL4Yd+sUstYhk/cDaLgO0Nq0lE1r2b2Gx8F9tjHMrZQRWVFgFQ/alBNwc
-         /q+Q==
+        b=E0WsEJvzFfBQHWY5Zv+B4yFqYp7sgIZLd7zA88fMwWeIp8b76x2eFHoiXOYC0/btzi
+         lY4KFxl33Dl0WqkLe8pPILABcRXwtAcVX5WD4NHsK4HNVjIa5gkZ1dboMl8zhzIrgQ3A
+         h0MgtJAugTHO+23QOwvoiKaSuDTS3+sYYMlENUMtGW4opaxwBRZ/VjygaiB06hr44prW
+         NPDnuNwLNwm+/OKZz/JC80hB5j3NNmw8EIZHKTPVu2WsoRCsQ+IoQONvU9CVa5ca4ab8
+         Uum++9ndyFmzY/A7Xq3pjem89WtgQgjkvvG/V5NcIzgw2HN8a80x8tfEA+fEUixi85la
+         EgbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        fh=4HyRQ7rRgivcul5oyfujo0zrQwX8E0uYoX1fig+OFco=;
-        b=H5HDUs1vLekQID1gwAIGASh8w+Z/GplrGPE1pH/gtm4H8gq9Ioh9GBsqYwtsCJedjm
-         WedWX2c1RmQFDPugSoJzZsHFMX5/17xc3DqqGNyNujorjP09yk9iw95aYWYIT3MRaxVl
-         dJNJ3cN2YUR8CG8WEUS8+gX/piBY5+vwBzRJzjXDF81dFfSvkM2Npkj572MIGSrPg1D3
-         k01dc1d1D/DCgiQKcJxiMnRf5wS4jyx4fL5QWrNsESrZfA9/7/8fdysX/5X0KZllYFas
-         z2DkVJZDR/mGqoB73W1smFqPLkCXKDh5O+be868ql7T6HYUDQWK4NUHjZpVm4fP91V01
-         wRbA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        fh=Ol+ucJlo/e4Or9R36pSLoGm48oniQAvBiYVk8I93Usg=;
+        b=OFiibXNkyI55o2tmgSKlgMUSxK3WbvRXzvFRAnNpTFUKerqYXnpJDZT6Lw81vLVMI5
+         obXHWc5KEeOClZltq51TVIlCiAT52mNSx+bNFvsPtlOAKpH0Gxn61ED8tl8nlqXbYU7L
+         +9x4y+RUZKYLiCZ/I6pacc5qfXgzaiK65OV35jomUdSlxHF39fzIIWR0UkGm8ZKmIiUe
+         2yWbzcbcLxDeGQHjzf+3G7MVeF773IdSmK+22gM/Zue5T1eefL8J4oJcrn4e561R0CYI
+         KISmqujThvE4jhIwVbkVEpbQdfkCJRAAldu18opst8Cldj59Hjz7pcLVHVvaU95G7cB1
+         cQNg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784945019; x=1785549819; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        b=IuCkiIrXE746vQCDY4QV8Qv2M2LAs/g8hDXD/8/NIWZSGRAVrhk+kuNPwFq23jvLsu
-         2Jtx30Ht4UUEMq2g6POXv5W0vT2JUex7r6SC+m/XSRpDJMi3WrnLD9fOKZ2MhOUBsjZD
-         wVQoBeB6IzT1rEgHHdtxDgL0FxP54ppZN1vdXlaE/VuywI2fLCKT0XEMJbFe/z0PtfNJ
-         YKjqkScDJr+EAjKqcy98J0GF65/KwCUEpOXDXRv7lcpLFduI/Hx5hn/o9LdfczMdMd0k
-         pLyF0U33hfwsqRRLL3EBRhXKtUwXvn96uMmp4p5Vy7ox3oJ41WI8NgSMr7EqbVmQX1bo
-         9H0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784945019; x=1785549819;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1784952103; x=1785556903; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        b=b8On6PsL9IRbzgeTBIvMXE4YtXQRSJnhyol2R4UhsRVv9N0Lfkp3rlv+1Xcy5NSdmp
-         GB/Fmv3sLnYkbKAl+c7iQNZKpJomFzOjtuzEEt62qQdjyd9CE84i3tdMhSx1IMZ8iFlz
-         xit/xeZBkFgHeLLpHLi1lwt3l4onSjd1kdfCVOwG2dvLwu/C98+U1hB59b1DzJ5EeBEb
-         bz9AehutJWElBLvHvqVA1w/3tikGyAGjUGYMLkSVKfyfT4uKCxgzFvQTCCoGFSikLbAT
-         NlUxNkQW7K/5sEKygK/zDDUhyP2mgaMUQZyhxoYXbGTKpUxLccRUQUmtXGGLsrKvgxSW
-         Ammg==
-X-Gm-Message-State: AOJu0YyM/CFy1qlRvq+EkUHmyLNqmJh8dOsQHY8/AjBrYyEONImOVoD+
-	2jqSjcoYrj1wNjq0sEUl4KXuE/FjCv5zTDhfPYv/7RM7NnNLi3h8yi5Gn6jtoJ6wZSbQIFsuHxO
-	xOYOFWHeBFbLNfyn8La7C52kdENEcniI=
-X-Gm-Gg: AR+sD10wVU/ikzIv85ZjQ13MAg32wkMSHshNhUnVU7yN39Zd9/lNH8ICAuW1f3K+LMU
-	hKxoCcsR/LXUfLtlqVoEU5T5xuCGh6q3LEBgqhaE+MUYbOcfMSL7mwfNXbRpxSw5a4VV7Z5vCE1
-	MLwgFxbrDm/rSzKYujpW2UTfTTMIQPkFkxO1rmctPYN4svhNplvZfJ0V3XKjqr+aVIcMB2sEOzS
-	HLhpCxgf+7cIND0uXVtWP8PoNNvCP9S1oeaJgv6JoT/g0NVRNPUsSmoGUfwmAonCjt4Ofylwg9t
-	jq11ei1qThuVKwLNJzlaTFO97WdEl/YZettCueiGUCdDsBVAu9NH
-X-Received: by 2002:a53:af82:0:b0:667:bbca:5112 with SMTP id
- 956f58d0204a3-668c7b8cea8mr124371d50.78.1784945018980; Fri, 24 Jul 2026
- 19:03:38 -0700 (PDT)
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        b=CNAZJoN0GTGYkkNaC+LQwZa9ZPYftYSqqF9YnFNyEv/DFmrM+msE4JBCrJb/oKRqVL
+         hih2RSoXP1ImRcm7kDGVqmiKReSP64UzzbzY7d6sGRf3Iz+pK7OkARtstKIc9iL9J3Ko
+         Jfb6ddY0nBEAbcuBHouUYHej58F60A0BJgcIg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784952103; x=1785556903;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        b=jvfmAIxnFRGEEhDDXazsK2s7B1aITqCp9mK0coNHp0N1y7uCmYV22cUpLqqDIxKBvB
+         U6zdk7G0cHzpmDrdCLd09BsyHzDuUm/Kltchp366sMGs+O3JkCSTLWeAD1IAf6/mGdZ5
+         yYJ/4XV6sYk8YmIZbhrV2ARhwknBrflscRRrkAkjK1NNWpi0Frjfb3uwxtloMYekV/1Q
+         U/nKS6jK03RZCcLpSnkf3y7N3Bbt8CjCP4ee8NA4I2RnX0HehZ0fsokUhZbnwZy3zWO6
+         ix3tcgCQA/GsrymS5oKfwCD0gnjWCnCP+hPmozl8zz6s86X8ikqoUvLDCXvbxaNtl7RT
+         PsMw==
+X-Forwarded-Encrypted: i=1; AHgh+RqfRj2Es053dHyqJBEQVrVrhh8L7QxFiTjYsqPX2W+LKF3Rb4k4MIkzqmHK7XHCoJYJqDg2j3ebQnvE756h@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZ+1dPh9i5QG0FrjhW0NcQR5/2RMfISWwI0twTmBHuEDoT6iaU
+	G1B2D/qTdGVkx/xJzTIvF8pkQvAW8Q2WPqjDkEessQShRR80V7A+mHHYrZK7qtnfKKgWJi103g0
+	S1SQWjvM75M4X5e/bmqmEVIrhm41se33Qmz1NM4jMXw==
+X-Gm-Gg: AR+sD12ZAl9+iyp3tHbCvtyDkNuy1aQ2wKNBIROsD3rAiuN3BMXxSyIUVUv7C1VD0AO
+	mYEroW6hirD+Jcl5KMmai6ilLA975Zl63TJIDK74C026elqFRuzbgM3kBD8B86aRkwC7sP4KmTc
+	sSYQ0qY04Pf2y3jHwv5mFi8iZJKFSFhq1zDynkNG1QQ/HGl90agYQEOcTCVEzZ3ghPnHgfiJeRl
+	iry2Xyzpyehr/ojZRp19fnwREbRsBsf01C6hjm9f4UZGRBWPODhZUxfwpS8SSXH8Z10Ye398yNt
+	ViO6TNq1o+qMNq5t
+X-Received: by 2002:ac8:5c90:0:b0:51c:7b12:6001 with SMTP id
+ d75a77b69052e-529a8714e88mr10045521cf.77.1784952103086; Fri, 24 Jul 2026
+ 21:01:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529131242.89876-1-kartikey406@gmail.com>
-In-Reply-To: <20260529131242.89876-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sat, 25 Jul 2026 07:33:27 +0530
-X-Gm-Features: AUfX_mw0bSbxNXbJt9-HzX7_4xMbHqAtLpGXDGdmQ-WxvwqUtgP2madPt_gk6JU
-Message-ID: <CADhLXY5gkkXEdx5-i75zSM2n=mRiOAPDmUWn-cJuMrm=VJpdTA@mail.gmail.com>
-Subject: Re: [PATCH v3] eventpoll: fix use-after-free in clear_tfile_check_list()
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+ <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+ <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com> <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+In-Reply-To: <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Sat, 25 Jul 2026 06:01:30 +0200
+X-Gm-Features: AUfX_mxAcvr2jX4Ns3aulDhtsSqUabRQhwz0VnV0bbRi_FBtOFn1nR0cN_FIRKA
+Message-ID: <CAJfpeguEptz4sEXq=pBWPFop--1kTDu5p2yZnCyzXcrZ28Nekw@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 29, 2026 at 6:42=E2=80=AFPM Deepanshu Kartikey
-<kartikey406@gmail.com> wrote:
->
-> syzbot reports a slab-use-after-free read in clear_tfile_check_list()
-> during EPOLL_CTL_ADD when ep_insert() takes an error path that calls
-> ep_remove() before do_epoll_ctl_file() drains ctx->tfile_check_list.
->
-> ep_remove_file() decides whether to kmem_cache_free() a struct
-> epitems_head by testing v->next =3D=3D NULL, on the convention that NULL
-> means "this head is not linked on any check list". list_file() pushes
-> a head onto ctx->tfile_check_list by storing the previous list head
-> into head->next; when the list is empty that store is NULL, so the
-> head that ends up at the tail of the check list also has next =3D=3D NULL=
-.
-> ep_remove_file() then misreads the tail as "not linked" and frees it.
-> clear_tfile_check_list() later walks the list and dereferences
-> head->next on the freed object:
->
->   BUG: KASAN: slab-use-after-free in
->        clear_tfile_check_list+0x114/0x380 fs/eventpoll.c:2443
->   Allocated by task 5985:
->     ep_attach_file fs/eventpoll.c:1751 [inline]
->     ep_register_epitem fs/eventpoll.c:1833 [inline]
->     ep_insert+0x512/0x1820 fs/eventpoll.c:1876
->   Freed by task 5985:
->     ep_remove+0x155/0x2a0 fs/eventpoll.c:1135
->     ep_insert+0x1372/0x1820
->
-> Terminate ctx->tfile_check_list with EP_UNACTIVE_PTR (the existing
-> non-NULL sentinel used elsewhere in this file for inactive list
-> slots) so that next =3D=3D NULL unambiguously means "not on any check
-> list". list_file() stores the sentinel when the list is empty,
-> reverse_path_check() and clear_tfile_check_list() stop the walk on
-> the sentinel, and do_epoll_ctl_file() seeds ctx->tfile_check_list
-> with it. The guard in ep_remove_file() then correctly refuses to
-> free a head while it remains on the check list.
->
-> Reported-by: syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D69a3d7738ad3aa175caf
-> Link: https://lore.kernel.org/all/20260523091107.61880-1-kartikey406@gmai=
-l.com/T/ [v1]
-> Link: https://lore.kernel.org/all/20260529042507.87593-1-kartikey406@gmai=
-l.com/T/ [v2]
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
-> v3: Drop the (struct epitems_head *) casts on EP_UNACTIVE_PTR.
->     void * converts implicitly to typed pointers in C; the casts
->     were noise.
-> v2: Reuse the existing EP_UNACTIVE_PTR sentinel instead of adding a
->     new EP_TFILE_LIST_END define, per review feedback.
-> ---
->  fs/eventpoll.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index a569e98d4a99..1756c5f489a0 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -472,7 +472,13 @@ static void list_file(struct file *file, struct ep_c=
-tl_ctx *ctx)
->
->         head =3D container_of(file->f_ep, struct epitems_head, epitems);
->         if (!head->next) {
-> -               head->next =3D ctx->tfile_check_list;
-> +               /*
-> +                * Terminate the check list with EP_UNACTIVE_PTR (non-NUL=
-L)
-> +                * so that head->next =3D=3D NULL unambiguously means "no=
-t on
-> +                * any check list". ep_remove_file() relies on that
-> +                * invariant to decide whether the head is safe to free.
-> +                */
-> +               head->next =3D ctx->tfile_check_list ? : EP_UNACTIVE_PTR;
->                 ctx->tfile_check_list =3D head;
->         }
->  }
-> @@ -1685,7 +1691,7 @@ static int reverse_path_check(struct ep_ctl_ctx *ct=
-x)
->  {
->         struct epitems_head *p;
->
-> -       for (p =3D ctx->tfile_check_list; p; p =3D p->next) {
-> +       for (p =3D ctx->tfile_check_list; p !=3D EP_UNACTIVE_PTR; p =3D p=
-->next) {
->                 int error;
->                 path_count_init(ctx);
->                 rcu_read_lock();
-> @@ -2438,11 +2444,12 @@ static int ep_loop_check(struct ep_ctl_ctx *ctx, =
-struct eventpoll *ep,
->  static void clear_tfile_check_list(struct ep_ctl_ctx *ctx)
->  {
->         rcu_read_lock();
-> -       while (ctx->tfile_check_list) {
-> +       while (ctx->tfile_check_list !=3D EP_UNACTIVE_PTR) {
->                 struct epitems_head *head =3D ctx->tfile_check_list;
->                 ctx->tfile_check_list =3D head->next;
->                 unlist_file(head);
->         }
-> +       ctx->tfile_check_list =3D EP_UNACTIVE_PTR;
->         rcu_read_unlock();
->  }
->
-> @@ -2601,7 +2608,7 @@ int do_epoll_ctl_file(struct file *f, int op, struc=
-t epoll_key *tf,
->         int full_check;
->         struct eventpoll *ep;
->         struct epitem *epi;
-> -       struct ep_ctl_ctx ctx =3D { };
-> +       struct ep_ctl_ctx ctx =3D { .tfile_check_list =3D EP_UNACTIVE_PTR=
- };
->
->         /* The target file descriptor must support poll */
->         if (!file_can_poll(tf->file))
-> --
-> 2.43.0
->
+(Replying shortly as we are starting now on a two week journey.  Won't
+read email during this time).
 
-Hi Christian,
+On Fri, 24 Jul 2026 at 22:23, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-Gentle reminder on this patch. Please let me know if anything else
-needed from my side
+> imo these changes seem doable for making the 7.3 merge window. I'm not
+> sure how much bandwidth John has though. Maybe one idea that could
+> work if John is completely slammed for time right now is having the
+> changes requested above be a separate followup series someone else can
+> do and then this current series (after the sashiko fixes) and that
+> series can get landed together in the same merge window.
 
-Thanks
+I'm all for it.
 
-Deepanshu
+
+>
+> >
+> > Maybe the striping setup can also be done with a notification.  The
+>
+> I had interpreted the FUSE_DEV_IOC_STRIPE_OPEN patch as implying that
+> the mapping gets forwarded to the kernel through the backing id in the
+> open() reply, which I think is how Amir had also interpreted it. I
+> didn't like that the striping mappings got sent through an ioctl while
+> the simple mappings didn't, but I think maybe the patch was not trying
+> to suggest that and I had interpreted it too literally. I like the
+> striping setup through an ioctl - I think it makes sense given that it
+> is connection-level instead of inode-level.
+
+Yeah, the striping setup is on a different level (like we have with
+regular filesystems).  So I think it's not that bad that the setup is
+different.
+
+Thanks,
+Miklos
