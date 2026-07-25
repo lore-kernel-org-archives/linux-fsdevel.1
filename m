@@ -1,201 +1,396 @@
-Received: from cmx-mtlrgo002.bell.net (mta-mtl-007.bell.net [209.71.208.29])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8392298CAB;
-	Sat, 25 Jul 2026 17:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.71.208.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A012C11E4
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 17:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784998923; cv=none; b=YGXHg2YMB0ceQ81RPbxAPi5n1VWSeGi1y9u17/sjqNz4iiISABT1hmuTXBvF792AibBlo4ZGT9VDhLjsbhd2EJ+NIZpsPxnWX0dzRuDdWCTvYomPUeA7eyB/H5VAenYz06kP+kYnifPN5i1l3oQ/dQnMpUnz2N0KzetfwM6jGd0=
+	t=1784999127; cv=none; b=qMpGbrcONFjOeOz+rFN3t6DbkDEuS8SCS+dTNdpSnc99soa4JoLk0jB8FO05C12gbOEfiu4LW3VBdCOhXOB/ADmyjiSMm9UKRcaLGBoSh+YcX+9WcE4MIQ3Gotyt9AZQF+313Mc5LTbZ7b7kxF3Q1n009736nZbUZEZGXES6gZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784998923; c=relaxed/simple;
-	bh=4h3IRZSZw111ETRTyYQ94MxkECV+yRSXZdrbARm2NvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QnUZUOK/qbrtDbN2pDRLVK45kLL/Mh+aWFiLooBoR8TasOeDb23IzPfdHck9f9nlTINiB5a8ZMMW1TfSU0RwTO42XiEnhklNxyigZrWtfBdsNc+4thvDC30QTIG66usP1Mh2yelbRLtO//LPTIQSdC26DMsPOiZjZOQChITbTlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bell.net; spf=pass smtp.mailfrom=bell.net; dkim=pass (2048-bit key) header.d=bell.net header.i=@bell.net header.b=3O5VCyOW; arc=none smtp.client-ip=209.71.208.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bell.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bell.net
+	s=arc-20240116; t=1784999127; c=relaxed/simple;
+	bh=iFy8aQxr8xfoG5vZX07n3hAKimrwZKRHKPFmvKdVjQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EW1ZvNDIO4OTeX05LxkWrP2nxJROqevjfHUFXq4OR/GWQGrAyz5E01CcTkbvETQsIrMn9a11JFG5V8q1ED0q3c3V4rIVLr+HRqCyHrLFQDNDOvPOHljDJmHBwmoFJyyCz66aMBGzxIna90VTlyi23QhheS7b8utE04XLQydYFr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oU9qHniG; arc=none smtp.client-ip=195.121.94.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bell.net header.i=@bell.net header.b="3O5VCyOW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bell.net; s=selector1; t=1784998920; 
-        bh=Wqzc1rdrD9/zZgtfkeN/lk6lY1WJu6IQP1Gt28locAY=;
-        h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type;
-        b=3O5VCyOWigaM9s3q4V/P9VxjaVEm4PH4BhJoBMf5/p0nbQw4no4QMS8q+bgWvMEzwDK99xatkKtmhDlJfB8dVaepGovo7iaZm0O4a3CfWeEBAzSFCm1VgeiL/SKVcleOfFriHxcAtb7aESSGWPDcIaig4J39IXkcF1KzmJ3vabPvyaYD+XG6z5wk0pvXasNt28KlfPWZlKbiYFnfzddjWdrOgjS/w5YdA7AUxqwDyM3bEk7fup7kh+wWMYvOkglV+qAtTf0UO6pZKy3IDwvjv66F8LwqUfqlftXHZCpIPYdb3H/zrfiC1usrdSnWDjc5mYWv6x5dVksUAsFrbcyBew==
-X-RG-SOPHOS: Clean
-X-RG-VADE-SC: 0
-X-RG-VADE: Clean
-X-RG-Env-Sender: dave.anglin@bell.net
-X-RG-Rigid: 69B7AEA70B5C1637
-X-RazorGate-Vade: dmFkZTFBL85r2oEp4gvfdK9Qq+Fk279rWqVJnzUbNG9fBvLFR/dedrP8wVgFqykZFUTtnttUvrht+OPOiRl/1oU1X3DnhmkwJ+4FUfJN4YMM1Uvc+FmDjW+MWZJ4A0FjpNpERM53NIjMWcPZhyZQFlG4htjVqZ7TJEV4FI7ta2yH4wzyax6s/4E4T4WCOk4oS7RVnzZ9H7irp28HQyCyZeltVxOz9AOr3uOwK79TyneqiRNx+3a7ieGIx7Rrh1xt7fPNGAbDlI7/re/7tVsLMnTzaM8sIoSYfJrV5YxItpSXdxwsobLjy7j764yoaItE9IWqOZ8nHnzugNBwWYuDikcsYd4ZIeOFwBtFev92vMT/vouaEKz+Ah1vjLT+QwgLhdKduIi9iaJDNNkjELFJJE/yNIszKpKlgjW1HQwxXcm3pFfMYsehZFbAmRqL5QVr4EPAW+cvXuonKobvy9fNczSRBD1tyEDCCz/SgvyoOPUZfFsRv1qGgvtqzStwN7Zbtrj68SxbRBYbLYJaroia6vW6b+bLrsEw/meOFF91HfqL8XVq9KdlPKuyvJg40LZ7ScGPqA+pM8+6XXzL1HD4rQYkQoM2CqPSkFuWO81zqkSvf6vLU4tetFZnIofxXAd0aTEd9y+bczB4IJxuzjc+nVt1JlVepAHkbCONpd6s8mfBgySdAQ
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-Received: from [192.168.2.49] (70.26.67.32) by cmx-mtlrgo002.bell.net (authenticated as dave.anglin@bell.net)
-        id 69B7AEA70B5C1637; Sat, 25 Jul 2026 13:00:55 -0400
-Message-ID: <4606e13f-6827-45d0-b3b8-6bc26358f7ae@bell.net>
-Date: Sat, 25 Jul 2026 13:00:55 -0400
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oU9qHniG"
+X-KPN-MessageId: 03e2031c-884b-11f1-a055-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 03e2031c-884b-11f1-a055-005056abad63;
+	Sat, 25 Jul 2026 19:05:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=B6XPxv+MxSq1+WYAvq4MMYLo5D20W7j9Wvxo+BzxqVU=;
+	b=oU9qHniGqYr/FL/6eUsu5gUo86zClJLCryBw0J7uwiIF9RkiVnbXHHnLhXp3pWXe0lwY/2h81AEj6
+	 4odkWtPsKhxy1H56c4daDew+8RdhXJMI1/O+qKfybp0c2Mw/7DPrIsP9oIfR+ACHfwuvFE1zvaOWyl
+	 lJ9xKIVtc4l5p6DytvFVJKYueCEE0UocY29wH6QliSL1MInUtDg1eDIOLaInBKu6zECedKFa75TReW
+	 eztARNTJ59asrUlTkPl/PuL38PURON+WG9rZ0s2RJa2O0xNjvoJFHGvNdXf4zW+huixYNdlW1m3USZ
+	 dpT1Ms78IxbkZQ4w2VLYiyYWlSAiJYg==
+X-KPN-MID: 33|LAz/NOKuBCOKZ82d6IZV5VkY00Chl/LC8fT5yLiPjEMQ4H+RcAvlhZ5MFwumLhh
+ J270cCbdobMY5I+/SBhCb+qR/2pkfO6zqwB16vvT9evc=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|BEkd1q7v49v3m2XpgZ6uB15o7u2OD0oa6yOfjxWSNjDdsDyKE2ZPJnvg4R8nmbz
+ fRJ5P/joExEGbZaUOQRsm2A==
+Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 03afb612-884b-11f1-86b1-005056ab7584;
+	Sat, 25 Jul 2026 19:05:19 +0200 (CEST)
+Date: Sat, 25 Jul 2026 19:05:13 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+Subject: Re: [PATCH v3 20/24] binfmt_misc: split the field parsing out of
+ create_entry()
+Message-ID: <amTrFbHSNq0lb3Jo@lt-jori.localdomain>
+References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
+ <20260710-work-binfmt_misc-locking-v3-20-a162f7cb58d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
-To: Helge Deller <deller@gmx.de>, Usama Arif <usama.arif@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>
-Cc: Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Kevin Brodsky <kevin.brodsky@arm.com>,
- Muhammad Usama Anjum <usama.anjum@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20260724102017.141532-1-pfalcato@suse.de>
- <20260724102017.141532-4-pfalcato@suse.de>
- <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
- <amNzLXuwflIZFKtI@casper.infradead.org>
- <253f7ac0-205b-42f1-9fb5-d19eceb581b6@linux.dev>
- <amOEUZlp1BxYh6_t@pedro-suse>
- <fd239383-dcbe-4daf-b337-32facef07076@linux.dev>
- <3e9dece8-4e86-4ce5-bd74-b3ec305f3003@gmx.de>
-Content-Language: en-US
-From: John David Anglin <dave.anglin@bell.net>
-Autocrypt: addr=dave.anglin@bell.net; keydata=
- xsFNBFJfN1MBEACxBrfJ+5RdCO+UQOUARQLSsnVewkvmNlJRgykqJkkI5BjO2hhScE+MHoTK
- MoAeKwoLfBwltwoohH5RKxDSAIWajTY5BtkJBT23y0hm37fN2JXHGS4PwwgHTSz63cu5N1MK
- n8DZ3xbXFmqKtyaWRwdA40dy11UfI4xzX/qWR3llW5lp6ERdsDDGHm5u/xwXdjrAilPDk/av
- d9WmA4s7TvM/DY3/GCJyNp0aJPcLShU2+1JgBxC6NO6oImVwW07Ico89ETcyaQtlXuGeXYTK
- UoKdEHQsRf669vwcV5XbmQ6qhur7QYTlOOIdDT+8zmBSlqBLLe09soATDciJnyyXDO1Nf/hZ
- gcI3lFX86i8Fm7lQvp2oM5tLsODZUTWVT1qAFkHCOJknVwqRZ8MfOvaTE7L9hzQ9QKgIKrSE
- FRgf+gs1t1vQMRHkIxVWb730C0TGiMGNn2oRUV5O5QEdb/tnH0Te1l+hX540adKZ8/CWzzW9
- vcx+qD9IWLRyZMsM9JnmAIvYv06+YIcdpbRYOngWPd2BqvktzIs9mC4n9oU6WmUhBIaGOGnt
- t/49bTRtJznqm/lgqxtE2NliJN79dbZJuJWe5HkjVa7mP4xtsG59Rh2hat9ByUfROOfoZ0dS
- sVHF/N6NLWcf44trK9HZdT/wUeftEWtMV9WqxIwsA4cgSHFR2QARAQABzTdKb2huIERhdmlk
- IEFuZ2xpbiAoRGViaWFuIFBvcnRzKSA8ZGF2ZS5hbmdsaW5AYmVsbC5uZXQ+wsF3BBMBCAAh
- BQJSXzdTAhsDBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJEF2/za5fGU3xs/4P/15sNizR
- ukZLNYoeGAd6keRtNcEcVGEpRgzc/WYlXCRTEjRknMvmCu9z13z8qB9Y9N4JrPdp+NQj5HEs
- ODPI+1w1Mjj9R2VZ1v7suFwhjxMTUQUjCsgna1H+zW/UFsrL5ERX2G3aUKlVdYmSWapeGeFL
- xSMPzawPEDsbWzBzYLSHUOZexMAxoJYWnpN9JceEcGvK1SU2AaGkhomFoPfEf7Ql1u3Pgzie
- ClWEr2QHl+Ku1xW0qx5OLKHxntaQiu30wKHBcsF0Zx2uVGYoINJl/syazfZyKTdbmJnEYyNa
- Bdbn7B8jIkVCShLOWJ8AQGX/XiOoL/oE9pSZ60+MBO9qd18TGYByj0X2PvH+OyQGul5zYM7Q
- 7lT97PEzh8xnib49zJVVrKDdJds/rxFwkcHdeppRkxJH0+4T0GnU2IZsEkvpRQNJAEDmEE8n
- uRfssr7RudZQQwaBugUGaoouVyFxzCxdpSYL6zWHA51VojvJYEBQDuFNlUCqet9LtNlLKx2z
- CAKmUPTaDwPcS3uOywOW7WZrAGva1kz9lzxZ+GAwgh38HAFqQT8DQvW8jnBBG4m4q7lbaum3
- znERv7kcfKWoWS7fzxLNTIitrbpYA3E7Zl9D2pDV3v55ZQcO/M35K9teRo6glrtFDU/HXM+r
- ABbh8u9UnADbPmJr9nb7J0tZUSS/zsFNBFJfN1MBEADBzhVn4XyGkPAaFbLPcMUfwcIgvvPF
- UsLi9Q53H/F00cf7BkMY40gLEXvsvdUjAFyfas6z89gzVoTUx3HXkJTIDTiPuUc1TOdUpGYP
- hlftgU+UqW5O8MMvKM8gx5qn64DU0UFcS+7/CQrKOJmzktr/72g98nVznf5VGysa44cgYeoA
- v1HuEoqGO9taA3Io1KcGrzr9cAZtlpwj/tcUJlc6H5mqPHn2EdWYmJeGvNnFtxd0qJDmxp5e
- YVe4HFNjUwsb3oJekIUopDksAP41RRV0FM/2XaPatkNlTZR2krIVq2YNr0dMU8MbMPxGHnI9
- b0GUI+T/EZYeFsbx3eRqjv1rnNg2A6kPRQpn8dN3BKhTR5CA7E/cs+4kTmV76aHpW8m/NmTc
- t7KNrkMKfi+luhU2P/sKh7Xqfbcs7txOWB2V4/sbco00PPxWr20JCA5hYidaKGyQxuXdPUlQ
- Qja4WJFnAtBhh3Oajgwhbvd6S79tz1acjNXZ89b8IN7yDm9sQ+4LhWoUQhB5EEUUUVQTrzYS
- yTGN1YTTO5IUU5UJHb5WGMnSPLLArASctOE01/FYnnOGeU+GFIeQp91p+Jhd07hUr6KWYeJY
- OgEmu+K8SyjfggCWdo8aGy0H3Yr0YzaHeK2HrfC3eZcUuo+yDW3tnrNwM1rd1i3F3+zJK18q
- GnBxEQARAQABwsFfBBgBCAAJBQJSXzdTAhsMAAoJEF2/za5fGU3xNDQP/ikzh1NK/UBrWtpN
- yXLbype4k5/zyQd9FIBxAOYEOogfKdkp+Yc66qNf36gO6vsokxsDXU9me1n8tFoB/DCdzKbQ
- /RjKQRMNNR4fT2Q9XV6GZYSL/P2A1wzDW06tEI+u+1dV40ciQULQ3ZH4idBW3LdN+nloQf/C
- qoYkOf4WoLyhSzW7xdNPZqiJCAdcz9djN79FOz8US+waBCJrL6q5dFSvvsYj6PoPJkCgXhiJ
- hI91/ERMuK9oA1oaBxCvuObBPiFlBDNXZCwmUk6qzLDjfZ3wdiZCxc5g7d2e2taBZw/MsKFc
- k+m6bN5+Hi1lkmZEP0L4MD6zcPuOjHmYYzX4XfQ61lQ8c4ztXp5cKkrvaMuN/bD57HJ6Y73Q
- Y+wVxs9x7srl4iRnbulCeiSOAqHmwBAoWaolthqe7EYL4d2+CjPCcfIuK7ezsEm8c3o3EqC4
- /UpL1nTi0rknRTGc0VmPef+IqQUj33GGj5JRzVJZPnYyCx8sCb35Lhs6X8ggpsafUkuKrH76
- XV2KRzaE359RgbM3pNEViXp3NclPYmeu+XI8Ls/y6tSq5e/o/egktdyJj+xvAj9ZS18b10Jp
- e67qK8wZC/+N7LGON05VcLrdZ+FXuEEojJWbabF6rJGN5X/UlH5OowVFEMhD9s31tciAvBwy
- T70V9SSrl2hiw38vRzsl
-In-Reply-To: <3e9dece8-4e86-4ce5-bd74-b3ec305f3003@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710-work-binfmt_misc-locking-v3-20-a162f7cb58d6@kernel.org>
 
-On 2026-07-25 12:27 p.m., Helge Deller wrote:
-> On 7/24/26 17:48, Usama Arif wrote:
->>
->>
->> On 24/07/2026 16:32, Pedro Falcato wrote:
->>> On Fri, Jul 24, 2026 at 04:03:44PM +0100, Usama Arif wrote:
->>>>
->>>>
->>>> On 24/07/2026 15:14, Matthew Wilcox wrote:
->>>>> On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
->>>>>>
->>>>>>
->>>>>> On 24/07/2026 11:20, Pedro Falcato wrote:
->>>>>>> ptep_get() does not need write access to the PTE.
->>>>>>>
->>>>>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
->>>>>>> ---
->>>>>>>   arch/parisc/include/asm/pgtable.h | 2 +-
->>>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>> hmm I think you might break build bisectibility if
->>>>>> you separate out the patches, you should squash patch 3 and 4,
->>>>>> with patch 1.
->>>>>
->>>>> I don't see how this breaks bisectability.  Can you elaborate on what
->>>>> you think would break?
->>>>
->>>> Patch 1 does:
->>>>
->>>> -static inline pte_t ptep_get_lockless(pte_t *ptep)
->>>> +static inline pte_t ptep_get_lockless(const pte_t *ptep)
->>>>   {
->>>>       return ptep_get(ptep);
->>>>   }
->>>>
->>>>
->>>> ptep_get() takes a non-const arg till patch 3 for example for parsic.
->>>> I don't think you can pass a const variable to non const function arg?
->>>>
->>>> So parsic won't compile in patch 1 and 2, powerprc wont compile
->>>> for patches 1, 2 and 3..
->>>
->>> Aha, yes, nice catch! I'll have to rethink that. Maybe squashing the patches
->>> would be the cleanest way forward.
->>>
->>
->> Yes, squashing is the simplest way forward.
->>
->>> FWIW, the vast majority of architectures aren't doing funny things on
->>> ptep_get(). E.g PA-RISC, loongarch only define these so they can use it in
->>> their own asm/pgtable.h. I'd really like to delete these but I can't tell
->>> if they are *actually* required.
->>>
->>
->> Ah maybe there is something in git history on why it was needed?
->>
->> If not, hopefully someone from the arch lists could clarify..
-> I tried to remove ptep_get() and ptep_test_and_clear_young() from
-> arch/parisc/include/asm/pgtable.h, but this then triggers compile errors:
+On Fri, Jul 10, 2026 at 11:33:21AM +0200, Christian Brauner wrote:
+> create_entry() is a two hundred line parser with the M and E field
+> handling inlined as the two arms of its largest branch. Move them
+> into parse_magic_fields() and parse_extension_fields() which return
+> the new parse position or NULL so create_entry() itself reads like
+> the register string grammar again.
 > 
->  CC      arch/parisc/kernel/asm-offsets.s
-> In file included from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/mm.h:31,
->                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pid_namespace.h:7,
->                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/ptrace.h:10,
->                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/arch/parisc/kernel/asm-offsets.c:21:
-> /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h: In function ‘clear_young_dirty_ptes’:
-> /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h:683:25: error: implicit declaration of function ‘ptep_test_and_clear_young’;
-> did you mean ‘pmdp_test_and_clear_young’? [-Wimplicit-function-declaration]
->   683 |                         ptep_test_and_clear_young(vma, addr, ptep);
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
->       |                         pmdp_test_and_clear_young
+> The offset parsing loses a provably dead check on the way: after
+> *s = '\0' and p = s the subsequent if (*p++) always reads the just
+> written NUL byte and can never fail, it only obscured that the code
+> simply advances past the delimiter.
 > 
-> So, I think the answer is, that the local copy of ptep_get() is used in the parisc implementation of
-> ptep_test_and_clear_young() function.
-> 
-> Switching to the default include/linux/pgtable.h seems not easy doable....
+> With the field parsing gone every remaining failure unwinds the same
+> way,
 
-Did you remove define for __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG in parisc version of pgtable.h?
+I see no causal connection here. I think you can separate the extraction
+from the move to __free. That would be a bit neater.
 
-Dave
--- 
-John David Anglin  dave.anglin@bell.net
+> so hand the entry to __free(kfree), return errors directly and
+> pass ownership out via no_free_ptr() on success instead of routing
+> every exit through goto tails.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_misc.c | 225 ++++++++++++++++++++++++++-----------------------------
+>  1 file changed, 108 insertions(+), 117 deletions(-)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index 4cfd3ce5e47e..a9e1e0bbcc60 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -340,6 +340,95 @@ static char *check_special_flags(char *p, struct binfmt_misc_entry *e)
+>  	}
+>  }
+>  
+> +/* Parse the 'offset', 'magic' and 'mask' fields of an 'M' entry. */
+> +static char *parse_magic_fields(struct binfmt_misc_entry *e, char *p, char del)
+> +{
+> +	char *s;
+> +
+> +	/* Parse the 'offset' field. */
+> +	s = strchr(p, del);
+> +	if (!s)
+> +		return NULL;
+> +	*s = '\0';
+> +	if (p != s) {
+> +		if (kstrtoint(p, 10, &e->offset) || e->offset < 0)
+> +			return NULL;
+> +	}
+> +	p = s + 1;
+> +	pr_debug("register: offset: %#x\n", e->offset);
+> +
+> +	/* Parse the 'magic' field. */
+> +	e->magic = p;
+> +	p = scanarg(p, del);
+> +	if (!p || !e->magic[0])
+> +		return NULL;
+> +	print_hex_dump_debug(
+> +		KBUILD_MODNAME ": register: magic[raw]: ",
+> +		DUMP_PREFIX_NONE, 16, 1, e->magic, p - e->magic, true);
+> +
+> +	/* Parse the 'mask' field. */
+> +	e->mask = p;
+> +	p = scanarg(p, del);
+> +	if (!p)
+> +		return NULL;
+> +	if (!e->mask[0]) {
+> +		e->mask = NULL;
+> +		pr_debug("register:  mask[raw]: none\n");
+> +	} else {
+> +		print_hex_dump_debug(
+> +			KBUILD_MODNAME ": register:  mask[raw]: ",
+> +			DUMP_PREFIX_NONE, 16, 1, e->mask, p - e->mask, true);
+> +	}
+> +
+> +	/*
+> +	 * Decode the magic & mask fields. Note: while we might have accepted
+> +	 * embedded NUL bytes from above, the unescape helpers will stop at
+> +	 * the first one they encounter.
+> +	 */
+> +	e->size = string_unescape_inplace(e->magic, UNESCAPE_HEX);
+> +	if (e->mask && string_unescape_inplace(e->mask, UNESCAPE_HEX) != e->size)
+> +		return NULL;
+> +	if (e->size > BINPRM_BUF_SIZE || BINPRM_BUF_SIZE - e->size < e->offset)
+> +		return NULL;
+> +	pr_debug("register: magic/mask length: %i\n", e->size);
+> +	print_hex_dump_debug(
+> +		KBUILD_MODNAME ": register: magic[decoded]: ",
+> +		DUMP_PREFIX_NONE, 16, 1, e->magic, e->size, true);
+> +	if (e->mask)
+> +		print_hex_dump_debug(
+> +			KBUILD_MODNAME ": register:  mask[decoded]: ",
+> +			DUMP_PREFIX_NONE, 16, 1, e->mask, e->size, true);
+> +	return p;
+> +}
+> +
+> +/* Parse the 'magic' field of an 'E' entry: the filename extension. */
+> +static char *parse_extension_fields(struct binfmt_misc_entry *e, char *p,
+> +				    char del)
+> +{
+> +	/* Skip the 'offset' field. */
+> +	p = strchr(p, del);
+> +	if (!p)
+> +		return NULL;
+> +	*p++ = '\0';
+> +
+> +	/* Parse the 'magic' field. */
+> +	e->magic = p;
+> +	p = strchr(p, del);
+> +	if (!p)
+> +		return NULL;
+> +	*p++ = '\0';
+> +	if (!e->magic[0] || strchr(e->magic, '/'))
+> +		return NULL;
+> +	pr_debug("register: extension: {%s}\n", e->magic);
+> +
+> +	/* Skip the 'mask' field. */
+> +	p = strchr(p, del);
+> +	if (!p)
+> +		return NULL;
+> +	*p++ = '\0';
+> +	return p;
+> +}
+> +
+>  /*
+>   * This registers a new binary format, it recognises the syntax
+>   * ':name:type:offset:magic:mask:interpreter:flags'
+> @@ -348,29 +437,26 @@ static char *check_special_flags(char *p, struct binfmt_misc_entry *e)
+>  static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  					      size_t count)
+>  {
+> -	struct binfmt_misc_entry *e;
+> +	struct binfmt_misc_entry *e __free(kfree) = NULL;
+>  	char *buf, *p;
+>  	char del;
+> -	int err;
+>  
+>  	pr_debug("register: received %zu bytes\n", count);
+>  
+>  	/* some sanity checks */
+> -	err = -EINVAL;
+>  	if ((count < 11) || (count > MAX_REGISTER_LENGTH))
+> -		goto out;
+> +		return ERR_PTR(-EINVAL);
+>  
+> -	err = -ENOMEM;
+>  	e = kmalloc(struct_size(e, buf, count + MISC_DELIM_PAD),
+>  		    GFP_KERNEL_ACCOUNT);
+>  	if (!e)
+> -		goto out;
+> +		return ERR_PTR(-ENOMEM);
+>  
+>  	p = buf = e->buf;
+>  
+>  	memset(e, 0, sizeof(*e));
+>  	if (copy_from_user(buf, buffer, count))
+> -		goto efault;
+> +		return ERR_PTR(-EFAULT);
+>  
+>  	del = *p++;	/* delimeter */
+>  
+> @@ -378,7 +464,7 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  
+>  	/* A flag-char delimiter runs the flag scan off the buffer. */
+>  	if (del == 'P' || del == 'O' || del == 'C' || del == 'F')
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	/* Pad the buffer with the delim to simplify parsing below. */
+>  	memset(buf + count, del, MISC_DELIM_PAD);
+> @@ -387,13 +473,13 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  	e->name = p;
+>  	p = strchr(p, del);
+>  	if (!p)
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  	*p++ = '\0';
+>  	if (!e->name[0] ||
+>  	    !strcmp(e->name, ".") ||
+>  	    !strcmp(e->name, "..") ||
+>  	    strchr(e->name, '/'))
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	pr_debug("register: name: {%s}\n", e->name);
+>  
+> @@ -408,111 +494,26 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  		e->flags = BIT(MISC_FMT_ENABLED_BIT) | BIT(MISC_FMT_MAGIC_BIT);
+>  		break;
+>  	default:
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  	}
+>  	if (*p++ != del)
+> -		goto einval;
+> -
+> -	if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+> -		/* Handle the 'M' (magic) format. */
+> -		char *s;
+> -
+> -		/* Parse the 'offset' field. */
+> -		s = strchr(p, del);
+> -		if (!s)
+> -			goto einval;
+> -		*s = '\0';
+> -		if (p != s) {
+> -			int r = kstrtoint(p, 10, &e->offset);
+> -			if (r != 0 || e->offset < 0)
+> -				goto einval;
+> -		}
+> -		p = s;
+> -		if (*p++)
+> -			goto einval;
+> -		pr_debug("register: offset: %#x\n", e->offset);
+> -
+> -		/* Parse the 'magic' field. */
+> -		e->magic = p;
+> -		p = scanarg(p, del);
+> -		if (!p)
+> -			goto einval;
+> -		if (!e->magic[0])
+> -			goto einval;
+> -		print_hex_dump_debug(
+> -			KBUILD_MODNAME ": register: magic[raw]: ",
+> -			DUMP_PREFIX_NONE, 16, 1, e->magic, p - e->magic, true);
+> -
+> -		/* Parse the 'mask' field. */
+> -		e->mask = p;
+> -		p = scanarg(p, del);
+> -		if (!p)
+> -			goto einval;
+> -		if (!e->mask[0]) {
+> -			e->mask = NULL;
+> -			pr_debug("register:  mask[raw]: none\n");
+> -		} else {
+> -			print_hex_dump_debug(
+> -				KBUILD_MODNAME ": register:  mask[raw]: ",
+> -				DUMP_PREFIX_NONE, 16, 1, e->mask, p - e->mask,
+> -				true);
+> -		}
+> +		return ERR_PTR(-EINVAL);
+>  
+> -		/*
+> -		 * Decode the magic & mask fields.
+> -		 * Note: while we might have accepted embedded NUL bytes from
+> -		 * above, the unescape helpers here will stop at the first one
+> -		 * it encounters.
+> -		 */
+> -		e->size = string_unescape_inplace(e->magic, UNESCAPE_HEX);
+> -		if (e->mask &&
+> -		    string_unescape_inplace(e->mask, UNESCAPE_HEX) != e->size)
+> -			goto einval;
+> -		if (e->size > BINPRM_BUF_SIZE ||
+> -		    BINPRM_BUF_SIZE - e->size < e->offset)
+> -			goto einval;
+> -		pr_debug("register: magic/mask length: %i\n", e->size);
+> -		print_hex_dump_debug(
+> -			KBUILD_MODNAME ": register: magic[decoded]: ",
+> -			DUMP_PREFIX_NONE, 16, 1, e->magic, e->size, true);
+> -		if (e->mask)
+> -			print_hex_dump_debug(
+> -				KBUILD_MODNAME ": register:  mask[decoded]: ",
+> -				DUMP_PREFIX_NONE, 16, 1, e->mask, e->size, true);
+> -	} else {
+> -		/* Handle the 'E' (extension) format. */
+> -
+> -		/* Skip the 'offset' field. */
+> -		p = strchr(p, del);
+> -		if (!p)
+> -			goto einval;
+> -		*p++ = '\0';
+> -
+> -		/* Parse the 'magic' field. */
+> -		e->magic = p;
+> -		p = strchr(p, del);
+> -		if (!p)
+> -			goto einval;
+> -		*p++ = '\0';
+> -		if (!e->magic[0] || strchr(e->magic, '/'))
+> -			goto einval;
+> -		pr_debug("register: extension: {%s}\n", e->magic);
+> -
+> -		/* Skip the 'mask' field. */
+> -		p = strchr(p, del);
+> -		if (!p)
+> -			goto einval;
+> -		*p++ = '\0';
+> -	}
+> +	if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags))
+> +		p = parse_magic_fields(e, p, del);
+> +	else
+> +		p = parse_extension_fields(e, p, del);
+> +	if (!p)
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	/* Parse the 'interpreter' field. */
+>  	e->interpreter = p;
+>  	p = strchr(p, del);
+>  	if (!p)
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  	*p++ = '\0';
+>  	if (!e->interpreter[0])
+> -		goto einval;
+> +		return ERR_PTR(-EINVAL);
+>  	pr_debug("register: interpreter: {%s}\n", e->interpreter);
+>  
+>  	/* Parse the 'flags' field. */
+> @@ -520,19 +521,9 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  	if (*p == '\n')
+>  		p++;
+>  	if (p != buf + count)
+> -		goto einval;
+> -
+> -	return e;
+> -
+> -out:
+> -	return ERR_PTR(err);
+> +		return ERR_PTR(-EINVAL);
+>  
+> -efault:
+> -	kfree(e);
+> -	return ERR_PTR(-EFAULT);
+> -einval:
+> -	kfree(e);
+> -	return ERR_PTR(-EINVAL);
+> +	return no_free_ptr(e);
+>  }
+>  
+>  /* Commands accepted by the /status and /<entry> files. */
+> 
+> -- 
+> 2.53.0
+> 
