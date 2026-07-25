@@ -1,193 +1,183 @@
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A80302767
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 13:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5197B30FF08
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 15:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784985576; cv=none; b=SHBVS/fGjN938vu4UGrqWb+qg588BosSwqIbm3WKuw+mmdOBqGtXqFkr0Wc3M6WQfvug2zDrYicMA5ijIaM0XUUeRD1yOgDWsFO1tMdxcP2EfaGQGzfdAKB4AcbGOUqMxx1UENWVnfWTGMSx63Qv052CbD99DgRbv0fVaz2Joo0=
+	t=1784992765; cv=none; b=HccvToB8tXm2ye+zgS5Rbpb15kkDV0d775baDy18fhPlqK848FYW4kJnmqQPAOOYlsOmRx1/tc4rcQ6UkgSSHV+Yo1x5jBhBI0GjOKV46J6RbQ8wsXqM6d1xaaFjHegrVayHYM/DO+YZ3dZt2CRTfacsqhCy6Ewx5crOSReInWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784985576; c=relaxed/simple;
-	bh=/GHvEU4DvR8iU5S2Wkxo8LoV5+oBHvjw8A06xPVmWcw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JiYYURoAIUf+DZ0Sub8wgvXfRd5SkZh9Y7GGWwqlEyIgiUDZZwykonvMeTkPFKmdjKhJysNhmup727DAG4NkuFgei+6BQ5MGYABRhxHURNAZBKQIPllK+hAMu5OwOM+Zi85/qgCECtBmpFDOevgQzZVqePcFU8FCjXmqZvQlxQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4a7de733fa9so1607829b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 06:19:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784985573; x=1785590373;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7Tt2zqDo8gV42JanURGdhRm83gbjP10nXNsRPce+zbc=;
-        b=UkOOWMb43H4tHFxdrfQfOWHGGmUX0UdL7cnt8cnMdYfGudyI78hkkE4u/QPpreCbxF
-         3Ta7n8Gd2jV0wOuN8Bshth8S3WuS7adgmg7D+gJxFFb2H/Tm7FlevLV62MrRxvo6N6P1
-         jOdGQVncV1ueK1dnhMktE9boBGiJkDYNEtVq/ap9QSn8DEdSsdUcilH+C1jTYc3gBIan
-         HMs0Tf6E1IEQFR+AwhsA5r5BuMGPAn+KhZTKC32/tWWWUQn9OkZgelkQKrT70XFOEc3f
-         h1N0UMcjAKIdz9nAh9OSt+9h7Yv0ZpgG9WsS37zFDMweIo1y86D5w5KCv52LonvBvDPo
-         5HEw==
-X-Forwarded-Encrypted: i=1; AHgh+RqlvezMvXgZXcbMwtqAy/eRthFIxDFuEmgrOGp1EYH6l6dPB1kdmAWl2Xuv/OjFjlE620aZ8yBUrUwiwegh@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhOGbE2VkfWbizbaKeBS+ZPGNs2nDRthYZfZY2j5UV7797N6Ar
-	34gCSEVzIk2GFByeRnpaIMMoLrs7J0QZRZknGISLKq3e2HPnG7u+PjRGFEFdDecrgpK/cRmHx9v
-	ZttV+rmBCTxgWY63BCu3vBVi4BnuMwE+Zx4tDizOzY4+d2bev5K5NduQdPBM=
+	s=arc-20240116; t=1784992765; c=relaxed/simple;
+	bh=Hqv3F1djcLzAo9MDiOdGAro4PDCik3lCiqHwZjMccXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTJ4oHWbGsNM3NF6GjQcSp+z5KQoLuOQ0PkpZqjX8TQk9ddHAOQTJFTUfLEn647AGdrw1roCo0xCgPqFGX8JRZDniI4qDYaaZg1lFZFSrnSojIpE33pC2dPVKDVc8xKxgRnpCMbSMVHA7B8Aady9sDLocUnYApR/Lww1nfvWtB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OTC9si2U; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OTC9si2U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784992761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIRORT1kU38zV87IyK7DJhs0FHcTVCf+7F2mJTgH46U=;
+	b=OTC9si2UgiN4Xy74pvdhNXPfTUo5oa5Ab/ryrzqxJB+Ca+D1NUYLOJnrt501b+gjXTb+MM
+	WXSNYRPGUriPV1h6FrGJTpkub22E2ZzKNUGNZNCn/9yssHYFVBAHC5/pSr0WcJr3KDqEp4
+	ZQTnWx272ySyBRgaZJEVWUc7OqpwHnA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-523-DBXaVzCgOKin7_KDTum_0g-1; Sat,
+ 25 Jul 2026 11:19:15 -0400
+X-MC-Unique: DBXaVzCgOKin7_KDTum_0g-1
+X-Mimecast-MFC-AGG-ID: DBXaVzCgOKin7_KDTum_0g_1784992753
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2A6421800587;
+	Sat, 25 Jul 2026 15:19:13 +0000 (UTC)
+Received: from fedora (unknown [10.44.33.21])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1EFBA1954229;
+	Sat, 25 Jul 2026 15:19:08 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat, 25 Jul 2026 17:19:12 +0200 (CEST)
+Date: Sat, 25 Jul 2026 17:19:07 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>, Jens Axboe <axboe@kernel.dk>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	io-uring@vger.kernel.org, Alexey Gladkov <legion@kernel.org>
+Subject: Re: [PATCH 0/1] pipe: only enable the extra wake_up(rd_wait) when
+ epoll is actually used
+Message-ID: <amTT60nc1QNIyPfL@redhat.com>
+References: <amIqfCo25rLtM2U0@redhat.com>
+ <amIu5WWgTNkdvqIz@redhat.com>
+ <amNvebqiG2fH0W_L@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1b21:b0:495:adee:29e9 with SMTP id
- 5614622812f47-4ab6a3e85b9mr2031099b6e.41.1784985573428; Sat, 25 Jul 2026
- 06:19:33 -0700 (PDT)
-Date: Sat, 25 Jul 2026 06:19:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a64b7e5.70955b6c.323240.001d.GAE@google.com>
-Subject: [syzbot] [net?] [fs?] possible deadlock in rht_lock
-From: syzbot <syzbot+ef8d17bae14efb960935@syzkaller.appspotmail.com>
-To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amNvebqiG2fH0W_L@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hello,
+On 07/24, Oleg Nesterov wrote:
+>
+> On 07/23, Oleg Nesterov wrote:
+> >
+> > OK, sashiko has some concerns
+> >
+> > 	https://sashiko.dev/#/patchset/amIqmbbZx3NlzUsX%40redhat.com
+>
+> Let me quote:
+>
+> 	Does skipping this wakeup for non-epoll consumers break io_uring?
+>
+> 	Applications polling pipes via io_uring do not attach an eventpoll context,
+> 	so pipe->epoll_usage will be false. If a writer writes to an empty pipe,
+> 	io_uring receives the wakeup.
+>
+> 	If the writer then writes a second chunk before the first is drained,
+> 	anon_pipe_write() observes was_empty == false and
+> 	pipe_get_epoll_usage() == false, skipping the waitqueue wakeup.
+>
+> 	Could this cause io_uring to miss events and hang permanently, waiting
+> 	for a CQE that will never be emitted for the new data?
+>
+> and I am starting to think sashiko is right (damn as always ;) and this
+> patch does affect/break io_uring.
+>
+> Jens, could you confirm? If yes, we need to update the comments in pipe.c
+> (I've attached 1/1 at the end, so that you can see what this patch does)
+...
+> It seems that IORING_OP_POLL_ADD / IORING_POLL_ADD_MULTI is edge-triggered
+> by default! Like EPOLL_CTL_ADD / EPOLLET.
 
-syzbot found the following issue on:
+Yes, sashiko is right. With some help from AI I wrote the simple test-case
 
-HEAD commit:    94515f3a7d42 Merge tag 'bpf-fixes' of git://git.kernel.org..
-git tree:       bpf
-console output: https://syzkaller.appspot.com/x/log.txt?x=119bf789580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
-dashboard link: https://syzkaller.appspot.com/bug?extid=ef8d17bae14efb960935
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=148d72b9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=105a1746580000
+	#include <unistd.h>
+	#include <sys/mman.h>
+	#include <sys/epoll.h>
+	#include <sys/syscall.h>
+	#include <linux/io_uring.h>
+	#include <assert.h>
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f43aa5dbbaea/disk-94515f3a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d34e80893dbb/vmlinux-94515f3a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/62b4a6d766f6/bzImage-94515f3a.xz
+	int main(void)
+	{
+		struct io_uring_params p = {};
+		int fd, pfd[2];
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ef8d17bae14efb960935@syzkaller.appspotmail.com
+		pipe(pfd);
 
-============================================
-WARNING: possible recursive locking detected
-syzkaller #0 Not tainted
---------------------------------------------
-syz-executor/5768 is trying to acquire lock:
-ffff88807d7f7038 (rhashtable_bucket){-.-.}-{0:0}, at: rht_lock+0x8b/0x180 include/linux/rhashtable.h:331
+		fd = syscall(SYS_io_uring_setup, 2, &p);
+		assert(fd >= 0);
 
-but task is already holding lock:
-ffff88802cc48038 (rhashtable_bucket){-.-.}-{0:0}, at: rht_lock+0x8b/0x180 include/linux/rhashtable.h:331
+		void *ring = mmap(0, p.cq_off.cqes + p.cq_entries * sizeof(struct io_uring_cqe),
+				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQ_RING);
+		assert(ring != MAP_FAILED);
+		*(unsigned *)(ring + p.sq_off.array) = 0;
+		*(unsigned *)(ring + p.sq_off.tail) = 1;
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
+		struct io_uring_sqe *sqes = mmap(0, p.sq_entries * sizeof(*sqes),
+				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQES);
+		assert(sqes != MAP_FAILED);
+		sqes[0].opcode = IORING_OP_POLL_ADD;
+		sqes[0].fd = pfd[0];
+		sqes[0].len = IORING_POLL_ADD_MULTI;
+		sqes[0].poll32_events = EPOLLIN;
 
-       CPU0
-       ----
-  lock(rhashtable_bucket);
-  lock(rhashtable_bucket);
+		syscall(SYS_io_uring_enter, fd, 1, 0, 0, 0, 0);
 
- *** DEADLOCK ***
+		unsigned *cq_head = ring + p.cq_off.head;
+		unsigned *cq_tail = ring + p.cq_off.tail;
+		for (int i = 0; i < 2; ++i) {
+			write(pfd[1], "", 1);
+			syscall(SYS_io_uring_enter, fd, 0, 0, IORING_ENTER_GETEVENTS, 0, 0);
+			assert(*cq_tail == ++*cq_head);
+		}
 
- May be due to missing lock nesting notation
+		return 0;
+	}
 
-5 locks held by syz-executor/5768:
- #0: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: __rhashtable_insert_fast include/linux/rhashtable.h:774 [inline]
- #0: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rhashtable_insert_fast include/linux/rhashtable.h:887 [inline]
- #0: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: pidfs_add_pid+0x169/0xc50 fs/pidfs.c:178
- #1: ffff88802cc48038 (rhashtable_bucket){-.-.}-{0:0}, at: rht_lock+0x8b/0x180 include/linux/rhashtable.h:331
- #2: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #2: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #2: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: trace_call_bpf+0xb6/0xb80 kernel/trace/bpf_trace.c:-1
- #3: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #3: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #3: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: class_rcu_constructor include/linux/rcupdate.h:1183 [inline]
- #3: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rhtab_map_delete_elem+0x21/0x190 kernel/bpf/hashtab.c:2979
- #4: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #4: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #4: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: __rhashtable_remove_fast include/linux/rhashtable.h:1137 [inline]
- #4: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rhashtable_remove_fast include/linux/rhashtable.h:1175 [inline]
- #4: ffffffff8eb59c60 (rcu_read_lock){....}-{1:3}, at: rhtab_delete_elem+0x15c/0x1b30 kernel/bpf/hashtab.c:-1
+with this patch the 2nd assert(*cq_tail == ++*cq_head) fails.
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 5768 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_deadlock_bug+0x279/0x290 kernel/locking/lockdep.c:3041
- check_deadlock kernel/locking/lockdep.c:3093 [inline]
- validate_chain kernel/locking/lockdep.c:3895 [inline]
- __lock_acquire+0x24df/0x2cf0 kernel/locking/lockdep.c:5237
- lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
- rht_lock+0xa3/0x180 include/linux/rhashtable.h:331
- __rhashtable_remove_fast_one include/linux/rhashtable.h:1065 [inline]
- __rhashtable_remove_fast include/linux/rhashtable.h:1146 [inline]
- rhashtable_remove_fast include/linux/rhashtable.h:1175 [inline]
- rhtab_delete_elem+0x404/0x1b30 kernel/bpf/hashtab.c:2954
- rhtab_map_delete_elem+0xe2/0x190 kernel/bpf/hashtab.c:2985
- bpf_prog_a4f1e23443ac9f8e+0x4e/0x56
- bpf_dispatcher_nop_func include/linux/bpf.h:1454 [inline]
- __bpf_prog_run include/linux/filter.h:724 [inline]
- bpf_prog_run include/linux/filter.h:731 [inline]
- bpf_prog_run_array include/linux/bpf.h:2597 [inline]
- trace_call_bpf+0x3f0/0xb80 kernel/trace/bpf_trace.c:147
- perf_trace_run_bpf_submit+0x78/0x170 kernel/events/core.c:11398
- do_perf_trace_lock include/trace/events/lock.h:49 [inline]
- perf_trace_lock+0x32d/0x410 include/trace/events/lock.h:49
- __do_trace_lock_release include/trace/events/lock.h:68 [inline]
- trace_lock_release include/trace/events/lock.h:68 [inline]
- lock_release+0x38e/0x3c0 kernel/locking/lockdep.c:5879
- rht_assign_unlock include/linux/rhashtable.h:431 [inline]
- __rhashtable_insert_fast include/linux/rhashtable.h:850 [inline]
- rhashtable_insert_fast include/linux/rhashtable.h:887 [inline]
- pidfs_add_pid+0x650/0xc50 fs/pidfs.c:178
- alloc_pid+0xe7a/0x1310 kernel/pid.c:338
- copy_process+0x20ea/0x4390 kernel/fork.c:2305
- kernel_clone+0x2d7/0x940 kernel/fork.c:2748
- __do_sys_clone kernel/fork.c:2889 [inline]
- __se_sys_clone kernel/fork.c:2873 [inline]
- __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2873
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f703d7c6912
-Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
-RSP: 002b:00007ffe5db74e40 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007ffe5db74e40 RCX: 00007f703d7c6912
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007ffe5db74fcc R08: 0000000000000000 R09: 0000000000000000
-R10: 000055556f65e7d0 R11: 0000000000000246 R12: 0000000000000001
-R13: 00000000000927c0 R14: 0000000000025e7d R15: 00007ffe5db75020
- </TASK>
+And just for the record, another one for epoll
 
+	#include <unistd.h>
+	#include <sys/epoll.h>
+	#include <assert.h>
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+	int main(void)
+	{
+		int pfd[2], efd;
+		struct epoll_event evt = { .events = EPOLLIN | EPOLLET };
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+		pipe(pfd);
+		efd = epoll_create1(0);
+		epoll_ctl(efd, EPOLL_CTL_ADD, pfd[0], &evt);
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+		for (int i = 0; i < 2; ++i) {
+			write(pfd[1], "", 1);
+			assert(epoll_wait(efd, &evt, 1, 0) == 1);
+		}
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+		return 0;
+	}
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+I'll try to make V2 later.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> And. io_poll_parse_events() doesn't set EPOLLET if IORING_POLL_ADD_LEVEL, but
+> how is it possible to use IORING_POLL_ADD_LEVEL? io_poll_add_prep() only allows
+> IORING_POLL_ADD_MULTI in flags? OK, I don't understand this code anyway...
 
-If you want to undo deduplication, reply with:
-#syz undup
+OK, I see: d59bd748db0a9 ("io_uring/poll: disable level triggered poll")
+
+Oleg.
+
