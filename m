@@ -1,107 +1,138 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518B22571D7
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E920377555
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784995252; cv=none; b=WmQ90jsk3crSIaJeHGMq0HfkiIzFVTL9dxC8GnDOJill1dV5OE92xdzsRR/7pVAEIoFtvYEWO1PC7EejjPtYHDR3Qo9WLrx5p8Ou3VF7btdyT5cOla7K/gImUaWmmvz67b4WGpiaswoUTaGlB7Lb42ABH51qWBKqburIAHKoCvg=
+	t=1784995259; cv=none; b=SNzRX62A8KJbH02pLWRt6XHWLqcKB8ww51g4j2AcXaRf/VSEVr6IT+VNhTphZ0yc5J0s4U0HymbkjbCKfLhH5oChuhbdqFeQp8MgWP9lOu/poePMDvmOMTWgfljRGecfFKq5bfDjoYfqEyAK0MvkW/UDH0Zat5HBdu+mR7XcAlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784995252; c=relaxed/simple;
-	bh=sQJd2oTbLbAI/W4fZaz6yf3Na9FHnnIf3u+qGSx+ypw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CV5F1ZeJF+oXy7nXzZJYmLwcu/gWgs8WOPshz7AyJk0WUe56Fdi3RF9vYGxVpFj4A9VDjQJyi57/xbnouTw1DSYA8HPYqMprngftJ1ZmbbcqyVQJ7N/Xs+14vdILhvpsp60ZdwSlvEyGRjMq56w744x4oJZ2Hi+cOJgsdQd1MdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=sw7JtyBt; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1784995259; c=relaxed/simple;
+	bh=nLsYE5MInPxDkZJRSTgck4vHBHj/tft4le37F2n9euc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JWCiyx7+vJkzvLBKrYNEZgpLJKgOyHdolE30y9LE2dsQwtLodwLXcIQYhaj8yoSO6acfhoPb2Z4PjLqUz+4Xama3At7GSOdiHJT/QGsGmgilLUc2Yl0jiZp2YyqJp34skK1MTqIdftxAQArVo3OPxXi6iwaktPOyrDr+cRmpNls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=THSuntwS; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="sw7JtyBt"
-X-KPN-MessageId: fbee96d9-8841-11f1-861c-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id fbee96d9-8841-11f1-861c-005056aba152;
-	Sat, 25 Jul 2026 18:00:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=1r7gbXcpVJa0HZz8gczXPlp1j50BEqiZutlLB29cpvs=;
-	b=sw7JtyBtN3pzednrieRQs7MCDT3glmB+HO/wOeNePJ8tAUUY6WAjavk4amT46uQkifep+LBM099n+
-	 iIIRe5JYalGoI34hBhtyh2a45V//dUR9D8S94PNcKn9nT7+7Gfe9eGOnOpBndO6Qy9sn51crTpIPfD
-	 UfAkwK0jmWUvFNk63VJSp4dajasse3j8Y8bJoSJMkzBLIN8jwWL0DP6dnTZBjvyQsStIf5/7ZCefrs
-	 b3G5yX85soTPBS8QIhJwl5ufSeK2AWKo2/OD8FH2NE/48xaAZaNW20uKNsl4jnGEhgGekG8t77AyvW
-	 Vt5iByid0PKV9GYUm7irGJ51xlaGHgg==
-X-KPN-MID: 33|hZ+YnX/W8ij3Pd1oMEZnbTEZqiX2M0B0BUBEfz3hvdQQvzWA0km1TAD+M1pSDV3
- aZKvfO5ZDbrCIXD8AZeHv/e3N7ppIyEC6UUgudlx6yEs=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|Lb9VjmF+HzgjlP+73I4kfPPlZm7HlxYtboYFtf5Xsf3oFRqwqIExWn8PnTD1BJF
- tM0XSkG/BbpLqNugbsIj3Vw==
-Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id fb8c87e5-8841-11f1-86b1-005056ab7584;
-	Sat, 25 Jul 2026 18:00:40 +0200 (CEST)
-Date: Sat, 25 Jul 2026 18:00:39 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 08/24] binfmt_misc: turn the entry behavior flags into
- an enum
-Message-ID: <amTdlrXYqNZsDC-C@lt-jori.localdomain>
-References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-8-a162f7cb58d6@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="THSuntwS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=VHllHAYD+554jhDmr6CAyg40twiId7LXCrXkJDYooJQ=; b=THSuntwSFONitnt27C7IJdW548
+	O6xJkUXRoFqUPhLIkkeKDDST1c3ZYshJLHQQXhtUlNGg2nCLFVm0fdWMJ9c8CL0qQiTsEThheFnKM
+	Q0W4bl2sEOOu/Kd0yiryGLUQAhMcyqMAgLxZjJ4ZyU8RBJ5vUYAkjH78yL0xIZJuIV7nX2htOcDzk
+	S9hEwGI9WRHHGr4D7bYNchChPF3CyG3149Wl4gPa+N6z89Ae1tsr1IMM8/GVzznSHrHfs/EnRYpg+
+	mo5miHVkGdeUQ8eBiiNUg7QRxaewROajlLxWY51dPhVzLuFCiw+e1EPezfy2Xo/qzpKxpM/I3jza4
+	Fh2hTqqw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wnens-00000006X7k-2Q6D;
+	Sat, 25 Jul 2026 16:00:44 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: [PATCH v5 11/12] filemap: Add support for authoritative mappings
+Date: Sat, 25 Jul 2026 17:00:39 +0100
+Message-ID: <20260725160042.1557264-12-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260725160042.1557264-1-willy@infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-8-a162f7cb58d6@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 10, 2026 at 11:33:09AM +0200, Christian Brauner wrote:
-> The MISC_FMT_* behavior flags are macros using unsigned long literals
-> while the entry bit numbers right above them are now a proper enum.
-> Move the flags into an enum as well so every flags word constant is
-> declared in one form and shows up in debuginfo. (1U << N) keeps the
-> enumerators within unsigned int range which is well-defined for enum
-> constants and the values are unchanged when promoted to the unsigned
-> long flags word.
-> 
-> No functional change.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/binfmt_misc.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index 90962044d19e..98ad1383ba6b 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -47,10 +47,14 @@ enum binfmt_misc_entry_bits {
->  	MISC_FMT_ENABLED_BIT	= 0,
->  	MISC_FMT_MAGIC_BIT	= 1,
->  };
-> -#define MISC_FMT_PRESERVE_ARGV0 (1UL << 31)
-> -#define MISC_FMT_OPEN_BINARY (1UL << 30)
-> -#define MISC_FMT_CREDENTIALS (1UL << 29)
-> -#define MISC_FMT_OPEN_FILE (1UL << 28)
-> +
-> +/* Entry behavior flags, fixed at registration time. */
-> +enum binfmt_misc_entry_flags {
-> +	MISC_FMT_PRESERVE_ARGV0	= (1U << 31),
-> +	MISC_FMT_OPEN_BINARY	= (1U << 30),
-> +	MISC_FMT_CREDENTIALS	= (1U << 29),
-> +	MISC_FMT_OPEN_FILE	= (1U << 28),
-> +};
->  
->  typedef struct {
->  	struct hlist_node node;
-> 
-> -- 
-> 2.53.0
-> 
+An authoritative mapping knows about all the folios in the mapping.
+If read() finds a missing folio, there's no reason to allocate one and
+try to read it because we know it's a zero region of the file.  We can
+just call iov_iter_zero() instead.
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ include/linux/pagemap.h | 11 +++++++++++
+ mm/filemap.c            | 18 ++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 968b791cfd14..22d48935ffda 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -210,6 +210,7 @@ enum mapping_flags {
+ 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
+ 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
+ 				   account usage to user cgroups */
++	AS_AUTHORITATIVE = 11,	/* If we miss in the page cache, it's a hole */
+ 	/* Bits 16-25 are used for FOLIO_ORDER */
+ 	AS_FOLIO_ORDER_BITS = 5,
+ 	AS_FOLIO_ORDER_MIN = 16,
+@@ -345,6 +346,16 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
+ 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+ }
+ 
++static inline void mapping_set_authoritative(struct address_space *mapping)
++{
++	set_bit(AS_AUTHORITATIVE, &mapping->flags);
++}
++
++static inline bool mapping_is_authoritative(const struct address_space *mapping)
++{
++	return test_bit(AS_AUTHORITATIVE, &mapping->flags);
++}
++
+ static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+ {
+ 	return mapping->gfp_mask;
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 26a5f18121f9..5a8cc20e624e 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -2697,6 +2697,8 @@ static int filemap_get_pages(struct kiocb *iocb, size_t count,
+ 	if (!folio_batch_count(fbatch)) {
+ 		DEFINE_READAHEAD(ractl, filp, &filp->f_ra, mapping, index);
+ 
++		if (mapping_is_authoritative(mapping))
++			return 0;
+ 		if (iocb->ki_flags & IOCB_NOIO)
+ 			return -EAGAIN;
+ 		if (iocb->ki_flags & IOCB_NOWAIT)
+@@ -2853,6 +2855,22 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
+ 			goto put_folios;
+ 		end_offset = min_t(loff_t, isize, iocb->ki_pos + iter->count);
+ 
++		if (!folio_batch_count(&fbatch)) {
++			size_t fsize = mapping_min_folio_nrbytes(mapping);
++			size_t offset = iocb->ki_pos & (fsize - 1);
++			size_t bytes = min_t(loff_t, end_offset - iocb->ki_pos,
++					     fsize - offset);
++			size_t copied = iov_iter_zero(bytes, iter);
++
++			already_read += copied;
++			iocb->ki_pos += copied;
++			last_pos = iocb->ki_pos;
++
++			if (copied < bytes)
++				error = -EFAULT;
++			continue;
++		}
++
+ 		/*
+ 		 * Once we start copying data, we don't want to be touching any
+ 		 * cachelines that might be contended:
+-- 
+2.47.3
+
