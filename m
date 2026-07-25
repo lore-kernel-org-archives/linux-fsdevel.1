@@ -1,232 +1,275 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE332FFF9D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 18:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA26332EBD;
+	Sat, 25 Jul 2026 19:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785003708; cv=none; b=V5IsudvqhkV2BwpFQkRmwfXM23iZGM1ROjLg1zQlAyswOR5O1MzmBa9hqD+G2AAvd+EDFD7w8gFY6IR0bnNDpIIRIjW/CIxE1DVulWxyQZcylkbPnXncNbRLTdy2SeIVaHS//jFza/0YkowKruDsdykHP79Ql1bLgiTJ2hdgtXg=
+	t=1785007427; cv=none; b=itWj2pei4VPP1tIP4DCNgAKHUhsuuoX6aGvf3QAM3bNDtmXZbNe0q8pETgE2eBl5utNcWmdM0YSNpBJBjO1qwL4hBUpYQkGxSFYXWkP75dYV5ZwQjsbbYS/eRIRO0vOfvI/5hSfbbkG6cFncq3bIgEUqtKfIHPfktzAUe1eZzD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785003708; c=relaxed/simple;
-	bh=17COEp6Pw+sFOKKXbxf1ynJVagC8mrh0Qz75M5IbeNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDtbQIjUvT/qHII6jfhrjITBFvzz2diCAMOehJKtk8W8g4dAX+FH7uwYIGQ/E1uGCY7zVcrW/Oa1bcSP3bk5irIry7D92fs3pGpI5TqHE6NGsbAdOf1j0Z/hUdlqlGGm1UPu2y69/JSlDzR9XTCRCHTfG4i/m3T2ClYRLlcuSH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uDcpzhx7; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1785007427; c=relaxed/simple;
+	bh=jVg+L2Exyf4K4F6Gf2i3SjiVAQ4iYbUyeTmPcEkO1YM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tsC6sFm979lr+cUTlx69KjgFqad8/Dhh/HBVP+8rfNr8KYCLUOfMUT7gFz27sR3pfwBPNZExpqhrNMc2V4CTHu7TO7f6dng0CR0cUOkqRDuvsnCG1NEbsU7gqogbv0Am45wrF7ucwUG9sm3KMt1kJJXS2yphTH6NeyLTTyth/E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eW9hwrQ9; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uDcpzhx7"
-X-KPN-MessageId: aeb9bd64-8855-11f1-861c-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id aeb9bd64-8855-11f1-861c-005056aba152;
-	Sat, 25 Jul 2026 20:21:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=JKAv7Rcb+XF+MTf6/2o5bbMRxppJLao2u2LZeNBPHHw=;
-	b=uDcpzhx7R1Dhfftos+ax8g7JM3qDGjVogjQ/l1L4Y9rkdq3w1LuW+goHBLL/WHWHklltK3/voBEpR
-	 k0w/QLvpaN2KIfyJ4pMg2ABod9PuLwWHQSCdwWfBvcF+EKO55lQPXUXCdQoWwSsMBUO5d2Y1Y0viO7
-	 Ok2+7r6g+7PuHZrA6FetpflUdkEYXGXU1fS5FzDJnzVcPQkU2xnQ7qv364uFVpNX8qE+bmP3scSz7b
-	 xcSuGLOVgWDIPJW9fXi0wA9fsE29sLpn7G4O9PWkiC1Th7TtD1NeCpcWPp0CVkGoy19U795Jag7eh3
-	 H+Sbgw0AT3Bk4DHBmLVjQVMCk6BBMMg==
-X-KPN-MID: 33|6qfqhItQ4gQ5bHeJtFSjfF40qFU6dL4YnwbgV8RVeAF99lAyDpv7gAzT84HJeDM
- n2iv05l+Wxd+l9b6s5j31Io370crtYt2nea1WtsMKMbU=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|7H6mtHItgB5zCIATCF614+EYUstmPoLgrrw52T/gFNOaWHcagi4/WCgHU82Z3wz
- aJnTpx6QbASd67+IveF+cGQ==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id ae932332-8855-11f1-a8b6-005056ab7447;
-	Sat, 25 Jul 2026 20:21:40 +0200 (CEST)
-Date: Sat, 25 Jul 2026 20:21:34 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 24/24] binfmt_misc: allow removing entries via
- unlink(2)
-Message-ID: <amT-nhNiupmKweJj@lt-jori.localdomain>
-References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-24-a162f7cb58d6@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eW9hwrQ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785007426; x=1816543426;
+  h=date:from:to:cc:subject:message-id;
+  bh=jVg+L2Exyf4K4F6Gf2i3SjiVAQ4iYbUyeTmPcEkO1YM=;
+  b=eW9hwrQ91gMGcgnvjIphaF4I1TA5W4zQpCjyFZxjA60D+l9BvqVarFcc
+   FH6ScOgMeLoYXdN9IJCHZg2nbH8LKaHWD8a27u52QyMsoHYTl7LEfHtTw
+   vMDrRHiKGbXhplbubH5vbygClpVoBSrCpU4LpBXgc5AulYO2qEQuBJNjk
+   jtm18IaUQ7bsCno/B0/mMlm0aJh0bgiLXkeFlW2dir6+uufHlbaEjGoDW
+   tZT5K9EzmdRd5IOnJNR3MVGXgbgJ/5s9MNVvEAjhFFv5hBAs65uykSc9v
+   i0j3Wt/EZ5MU1WbDnPyP45sJ+qc2cZvAOO7hy6BrgpVk3MqUvuq3RFWrw
+   Q==;
+X-CSE-ConnectionGUID: F/9rJmEiTOq++FHCSnqQQw==
+X-CSE-MsgGUID: 5x8USorRSpC0cMNHTGc3LQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="97151585"
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="97151585"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 12:23:45 -0700
+X-CSE-ConnectionGUID: GVhADuxjT2KVmxX9FvsHxQ==
+X-CSE-MsgGUID: VoxEGVhSSMGW3Jyvys9FwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="297242565"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 25 Jul 2026 12:23:43 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wnhxn-00000000c1u-03lw;
+	Sat, 25 Jul 2026 19:23:32 +0000
+Date: Sun, 26 Jul 2026 03:22:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 9eebf259d5352b87080d67758f483583d9e763d7
+Message-ID: <202607260311.Mnd1CzmA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-24-a162f7cb58d6@kernel.org>
 
-On Fri, Jul 10, 2026 at 11:33:25AM +0200, Christian Brauner wrote:
-> Removing a binary type handler requires echoing -1 into its entry
-> file which works but is an odd interface to discover for something
-> that already looks like a plain file in a filesystem. The comment on
-> remove_binfmt_handler() has been suggesting a proper ->unlink()
-> method for years, so add one: unlinking an entry file unhashes the
-> entry from the handler list and removes the file, exactly like
-> writing -1 to it does. The status and register control files refuse
-> removal with EPERM the same way binderfs protects binder-control.
-> Writing -1 keeps working.
-> 
-> Permission-wise nothing new is exposed: unlink(2) requires write
-> access to the root directory which is owned by the (user namespace)
-> root with mode 0755, matching the privilege needed to write to the
-> 0644 entry files. The VFS calls ->unlink() with the root inode lock
-> held so the existing writer serialization scheme applies unchanged,
-> and eviction of the unlinked inode drops the entry reference exactly
-> as for the write based removal.
-> 
-> Document the new way in admin-guide/binfmt-misc.rst.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  Documentation/admin-guide/binfmt-misc.rst |  3 +-
->  fs/binfmt_misc.c                          | 77 ++++++++++++++++++++++---------
->  2 files changed, 58 insertions(+), 22 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-> index c0a34fbf8022..306ef48f5de6 100644
-> --- a/Documentation/admin-guide/binfmt-misc.rst
-> +++ b/Documentation/admin-guide/binfmt-misc.rst
-> @@ -133,7 +133,8 @@ or 1 (to enable) to ``/proc/sys/fs/binfmt_misc/status`` or
->  Catting the file tells you the current status of ``binfmt_misc/the_entry``.
->  
->  You can remove one entry or all entries by echoing -1 to ``/proc/.../the_name``
-> -or ``/proc/sys/fs/binfmt_misc/status``.
-> +or ``/proc/sys/fs/binfmt_misc/status``. A single entry can also be removed
-> +by simply unlinking (``rm``) ``/proc/.../the_name``.
->  
->  
->  Hints
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index 46c65a618b19..fcaad14f81a3 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -639,8 +639,8 @@ static struct binfmt_misc *i_binfmt_misc(struct inode *inode)
->   * entry is removed or the filesystem is unmounted and the super block is
->   * shutdown.
->   *
-> - * If the ->evict call was not caused by a super block shutdown but by a write
-> - * to remove the entry or all entries via bm_{entry,status}_write() the entry
-> + * If the ->evict call was not caused by a super block shutdown but by
-> + * removing the entry via bm_{entry,status}_write() or unlink(2) the entry
->   * will have already been removed from the list. We keep the hlist_unhashed()
->   * check to make that explicit.
->  */
-> @@ -662,6 +662,26 @@ static void bm_evict_inode(struct inode *inode)
->  	}
->  }
->  
-> +/**
-> + * unlink_binfmt_handler - unhash a binary type handler
-> + * @misc: handle to binfmt_misc instance
-> + * @e: binary type handler to unhash
-> + *
-> + * Adding and removing entries via bm_{entry,register,status}_write() and
-> + * unlink(2) happens under the exclusively held inode lock of the root
-> + * dentry keeping the list stable for writers. load_misc_binary() walks it
-> + * concurrently under RCU. The entries_lock is only held around the actual
-> + * unlink to serialize against bm_evict_inode() which unlinks entries
-> + * during umount without holding the root inode lock.
-> + */
-> +static void unlink_binfmt_handler(struct binfmt_misc *misc,
-> +				  struct binfmt_misc_entry *e)
-> +{
-> +	spin_lock(&misc->entries_lock);
-> +	hlist_del_init_rcu(&e->node);
-> +	spin_unlock(&misc->entries_lock);
-> +}
-> +
->  /**
->   * remove_binfmt_handler - remove a binary type handler
->   * @misc: handle to binfmt_misc instance
-> @@ -669,29 +689,15 @@ static void bm_evict_inode(struct inode *inode)
->   *
->   * Remove a binary type handler from the list of binary type handlers and
->   * remove its associated dentry.
-> - *
-> - * Adding and removing entries via bm_{entry,register,status}_write()
-> - * happens under the exclusively held inode lock of the root dentry keeping
-> - * the list stable for writers. load_misc_binary() walks it concurrently
-> - * under RCU. The entries_lock is only held around the actual unlink to
-> - * serialize against bm_evict_inode() which unlinks entries during umount
-> - * without holding the root inode lock.
-> - *
-> - * In the future, we might want to think about adding a proper ->unlink()
-> - * method to binfmt_misc instead of forcing callers to use writes to files
-> - * in order to delete binary type handlers. But it has worked for so long
-> - * that it's not a pressing issue.
->   */
->  static void remove_binfmt_handler(struct binfmt_misc *misc,
->  				  struct binfmt_misc_entry *e)
->  {
-> -	spin_lock(&misc->entries_lock);
-> -	hlist_del_init_rcu(&e->node);
-> -	spin_unlock(&misc->entries_lock);
-> +	unlink_binfmt_handler(misc, e);
->  	locked_recursive_removal(e->dentry, NULL);
->  }
->  
-> -/* Remove @e unless a concurrent write already unlinked it. */
-> +/* Remove @e unless it was already removed. */
->  static void bm_remove_entry(struct binfmt_misc_entry *e, struct super_block *sb)
->  {
->  	struct inode *root = d_inode(sb->s_root);
-> @@ -716,6 +722,32 @@ static void bm_remove_all_entries(struct binfmt_misc *misc,
->  	inode_unlock(root);
->  }
->  
-> +/**
-> + * bm_unlink - remove a binary type handler via unlink(2)
-> + * @dir: inode of the root directory
-> + * @dentry: entry file to remove
-> + *
-> + * Removing the entry file removes its binary type handler, exactly like
-> + * writing -1 to it does. The status and register control files can't be
-> + * removed. The VFS calls this with the root inode lock held which
-> + * serializes against the write based add and remove paths.
-> + */
-> +static int bm_unlink(struct inode *dir, struct dentry *dentry)
-> +{
-> +	struct binfmt_misc_entry *e = d_inode(dentry)->i_private;
-> +
-> +	if (!e)
-> +		return -EPERM;
-> +
-> +	unlink_binfmt_handler(i_binfmt_misc(dir), e);
-> +	return simple_unlink(dir, dentry);
-> +}
-> +
-> +static const struct inode_operations bm_dir_inode_operations = {
-> +	.lookup		= simple_lookup,
-> +	.unlink		= bm_unlink,
-> +};
-> +
->  /* /<entry> */
->  
->  static int bm_entry_open(struct inode *inode, struct file *file)
-> @@ -966,9 +998,12 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
->  	WRITE_ONCE(misc->enabled, true);
->  
->  	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
-> -	if (!err)
-> -		sb->s_op = &bm_super_ops;
-> -	return err;
-> +	if (err)
-> +		return err;
-> +
-> +	sb->s_op = &bm_super_ops;
-> +	d_inode(sb->s_root)->i_op = &bm_dir_inode_operations;
-> +	return 0;
->  }
->  
->  static void bm_free(struct fs_context *fc)
-> 
-> -- 
-> 2.53.0
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 9eebf259d5352b87080d67758f483583d9e763d7  Add linux-next specific files for 20260723
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+Warning (recently discovered and may have been fixed):
+
+    Warning: drivers/gpu/drm/panthor/panthor_fw.c:143 Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.end', 'data.end')
+    Warning: drivers/gpu/drm/panthor/panthor_fw.c:143 Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.start', 'data.start')
+    Warning: drivers/gpu/drm/panthor/panthor_fw.c:200 Excess struct member 'buf' description in 'panthor_fw_section' (did you mean one of: 'data.buf')
+    Warning: drivers/gpu/drm/panthor/panthor_fw.c:200 Excess struct member 'size' description in 'panthor_fw_section' (did you mean one of: 'data.size')
+    Warning: drivers/gpu/drm/panthor/panthor_fw.c:273 Excess struct member 'ping_work' description in 'panthor_fw' (did you mean one of: 'watchdog.ping_work')
+    Warning: drivers/gpu/drm/panthor/panthor_mmu.c:405 Excess struct member 'kernel_auto_va.size' description in 'panthor_vm' (did you mean one of: 'kernel_auto_va.end', 'kernel_auto_va', 'kernel_auto_va.start')
+    Warning: drivers/mtd/nand/raw/omap2.c:671 Excess function parameter 'ecc_data2' description in 'omap_compare_ecc' (did you mean one of: 'ecc_data1', 'page_data')
+    Warning: drivers/phy/apple/atc.c:631 Excess struct member 'sw' description in 'apple_atcphy' (did you mean one of: 'swap_lanes')
+    Warning: drivers/tee/qcomtee/async.c:107 Excess function parameter 'msg' description in 'async_release' (did you mean one of: 'async_msg')
+    Warning: drivers/tty/serial/mux.c:117 Excess function parameter 'ports' description in 'mux_set_mctrl' (did you mean one of: 'port')
+    Warning: fs/inode.c:1300 Excess function parameter 'isnew' description in 'inode_insert5' (did you mean one of: 'inode')
+    Warning: fs/inode.c:1303 Excess function parameter 'isnew' description in 'inode_insert5' (did you mean one of: 'inode')
+
+Unverified Warning (likely false positive, kindly check if interested):
+
+    https://lore.kernel.org/oe-kbuild/202607260226.sVPNzyMU-lkp@intel.com
+
+    fs/iomap/direct-io.c:939:36-37: WARNING opportunity for min()
+
+Warning ids grouped by kconfigs:
+
+recent_errors
+|-- arc-allyesconfig
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-buf-description-in-panthor_fw_section-(
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-end-description-in-panthor_fw_binary_section_entry_hdr-(
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-ping_work-description-in-panthor_fw-(
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-size-description-in-panthor_fw_section-(
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-start-description-in-panthor_fw_binary_section_entry_hdr-(
+|   |-- Warning:drivers-gpu-drm-panthor-panthor_mmu.c-Excess-struct-member-kernel_auto_va.size-description-in-panthor_vm-(
+|   `-- Warning:drivers-phy-apple-atc.c-Excess-struct-member-sw-description-in-apple_atcphy-(
+|-- csky-allmodconfig
+|   |-- Warning:drivers-mtd-nand-raw-omap2.c-Excess-function-parameter-ecc_data2-description-in-omap_compare_ecc-(
+|   `-- Warning:drivers-tee-qcomtee-async.c-Excess-function-parameter-msg-description-in-async_release-(
+|-- i386-buildonly-randconfig-001-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-buildonly-randconfig-002-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-buildonly-randconfig-003-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-buildonly-randconfig-004-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-buildonly-randconfig-005-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-buildonly-randconfig-006-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- i386-randconfig-r053-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- loongarch-defconfig
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- m68k-randconfig-r051-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- microblaze-randconfig-r053-20260725
+|   `-- fs-iomap-direct-io.c:WARNING-opportunity-for-min()
+|-- parisc-defconfig
+|   `-- Warning:drivers-tty-serial-mux.c-Excess-function-parameter-ports-description-in-mux_set_mctrl-(
+|-- sh-defconfig
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- sparc-randconfig-r052-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-001
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-001-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-002-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-003-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-004-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-005-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-buildonly-randconfig-006-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-randconfig-161
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+|-- x86_64-randconfig-161-20260724
+|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+`-- x86_64-randconfig-r054-20260724
+    `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+
+elapsed time: 3026m
+
+configs tested: 117
+configs skipped: 1
+
+tested configs:
+alpha                            allnoconfig    gcc-16.1.0
+alpha                           allyesconfig    gcc-16.1.0
+alpha                              defconfig    gcc-16.1.0
+arc                             allmodconfig    gcc-16.1.0
+arc                             allyesconfig    gcc-16.1.0
+arc                           randconfig-001    gcc-8.5.0
+arc                  randconfig-001-20260725    gcc-11.5.0
+arc                  randconfig-002-20260725    gcc-8.5.0
+arm                  randconfig-001-20260725    gcc-8.5.0
+arm                  randconfig-002-20260725    clang-21
+arm                  randconfig-003-20260725    gcc-10.5.0
+arm                  randconfig-004-20260725    gcc-15.2.0
+arm64                randconfig-001-20260725    clang-24
+arm64                randconfig-002-20260725    gcc-13.4.0
+arm64                randconfig-003-20260725    clang-24
+arm64                randconfig-004-20260725    clang-24
+csky                            allmodconfig    gcc-16.1.0
+csky                 randconfig-001-20260725    gcc-9.5.0
+csky                 randconfig-002-20260725    gcc-16.1.0
+hexagon                       randconfig-001    clang-17
+hexagon              randconfig-001-20260725    clang-17
+hexagon              randconfig-002-20260725    clang-24
+i386                            allmodconfig    gcc-14
+i386       buildonly-randconfig-001-20260724    clang-22
+i386       buildonly-randconfig-001-20260725    clang-22
+i386       buildonly-randconfig-002-20260724    gcc-14
+i386       buildonly-randconfig-002-20260725    gcc-14
+i386       buildonly-randconfig-003-20260724    gcc-14
+i386       buildonly-randconfig-003-20260725    clang-22
+i386       buildonly-randconfig-004-20260724    gcc-13
+i386       buildonly-randconfig-004-20260725    clang-22
+i386       buildonly-randconfig-005-20260724    clang-22
+i386       buildonly-randconfig-005-20260725    gcc-14
+i386       buildonly-randconfig-006-20260724    clang-22
+i386       buildonly-randconfig-006-20260725    gcc-14
+i386                          randconfig-001    clang-22
+i386                 randconfig-001-20260725    clang-22
+i386                 randconfig-002-20260725    gcc-14
+i386                 randconfig-003-20260725    gcc-14
+i386                 randconfig-004-20260725    gcc-12
+i386                 randconfig-005-20260725    clang-22
+i386                 randconfig-006-20260725    gcc-14
+i386                 randconfig-007-20260725    gcc-14
+i386                 randconfig-011-20260725    gcc-14
+i386                 randconfig-012-20260725    gcc-14
+i386                 randconfig-013-20260725    gcc-14
+i386                 randconfig-014-20260725    clang-22
+i386                 randconfig-015-20260725    clang-22
+i386                 randconfig-016-20260725    clang-22
+i386                 randconfig-017-20260725    clang-22
+loongarch                          defconfig    clang-24
+loongarch            randconfig-001-20260725    gcc-16.1.0
+loongarch            randconfig-002-20260725    gcc-13.4.0
+nios2                           allmodconfig    gcc-11.5.0
+nios2                            allnoconfig    gcc-11.5.0
+nios2                randconfig-001-20260725    gcc-11.5.0
+nios2                randconfig-002-20260725    gcc-9.5.0
+parisc                          allmodconfig    gcc-16.1.0
+parisc                          allyesconfig    gcc-16.1.0
+parisc                             defconfig    gcc-16.1.0
+parisc               randconfig-001-20260725    gcc-10.5.0
+parisc               randconfig-002-20260725    gcc-12.5.0
+powerpc              randconfig-001-20260725    gcc-9.5.0
+powerpc              randconfig-002-20260725    gcc-15.2.0
+powerpc64            randconfig-001-20260725    clang-17
+powerpc64            randconfig-002-20260725    clang-24
+riscv                randconfig-001-20260725    gcc-8.5.0
+riscv                randconfig-002-20260725    gcc-8.5.0
+s390                 randconfig-001-20260725    gcc-10.5.0
+s390                 randconfig-002-20260725    gcc-16.1.0
+sh                                 defconfig    gcc-16.1.0
+sh                       edosk7760_defconfig    gcc-16.1.0
+sh                   randconfig-001-20260725    gcc-16.1.0
+sh                   randconfig-002-20260725    gcc-11.5.0
+sparc                randconfig-001-20260725    gcc-16.1.0
+sparc                randconfig-002-20260725    gcc-8.5.0
+sparc64              randconfig-001-20260725    gcc-8.5.0
+sparc64              randconfig-002-20260725    gcc-10.5.0
+um                   randconfig-001-20260725    gcc-14
+um                   randconfig-002-20260725    clang-24
+x86_64              buildonly-randconfig-001    gcc-12
+x86_64     buildonly-randconfig-001-20260724    clang-22
+x86_64     buildonly-randconfig-001-20260725    clang-22
+x86_64     buildonly-randconfig-002-20260724    clang-22
+x86_64     buildonly-randconfig-002-20260725    clang-22
+x86_64     buildonly-randconfig-003-20260724    gcc-14
+x86_64     buildonly-randconfig-003-20260725    clang-22
+x86_64     buildonly-randconfig-004-20260724    clang-22
+x86_64     buildonly-randconfig-004-20260725    gcc-12
+x86_64     buildonly-randconfig-005-20260724    clang-22
+x86_64     buildonly-randconfig-005-20260725    gcc-12
+x86_64     buildonly-randconfig-006-20260724    clang-22
+x86_64     buildonly-randconfig-006-20260725    gcc-14
+x86_64                                 kexec    clang-22
+x86_64                        randconfig-001    gcc-14
+x86_64               randconfig-001-20260725    gcc-14
+x86_64               randconfig-002-20260725    clang-22
+x86_64               randconfig-003-20260725    clang-22
+x86_64               randconfig-004-20260725    clang-22
+x86_64               randconfig-005-20260725    clang-22
+x86_64               randconfig-006-20260725    clang-22
+x86_64                        randconfig-011    gcc-14
+x86_64               randconfig-011-20260725    gcc-14
+x86_64               randconfig-012-20260725    gcc-14
+x86_64               randconfig-013-20260725    gcc-14
+x86_64               randconfig-014-20260725    gcc-14
+x86_64               randconfig-015-20260725    gcc-14
+x86_64               randconfig-016-20260725    gcc-14
+x86_64               randconfig-071-20260725    gcc-14
+x86_64               randconfig-072-20260725    gcc-14
+x86_64               randconfig-073-20260725    gcc-14
+x86_64               randconfig-074-20260725    gcc-14
+x86_64               randconfig-075-20260725    gcc-14
+x86_64               randconfig-076-20260725    clang-22
+x86_64                          rhel-9.4-bpf    gcc-14
+xtensa               randconfig-001-20260725    gcc-16.1.0
+xtensa               randconfig-002-20260725    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
