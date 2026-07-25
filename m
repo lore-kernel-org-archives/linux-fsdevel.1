@@ -1,154 +1,217 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5018E286D5E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 17:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4603F23B1;
+	Sat, 25 Jul 2026 17:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785000694; cv=none; b=XHrx12gZmvwauKDq6pB8yjwAcFsZC7G+ip5YQfzwlXcCkw6nwcS2B4KievTb9PoX6jMpASJjX54uld7L3Z86s0oGrGJpnhId8hz+ocJ2/8s1Xtj63h4xpB38YqAuQ/hbOQ8lu1Aspv0aslyFD+mvB1Vx6N0bNv5KI3irMfRLcnE=
+	t=1785001119; cv=none; b=YR5fu14SzTVGDxhuZQlaGT6JuouLzxt6VyT1TBRNJYb+D8uX1Vc7/zodqZqzNtT7NLZyzC40NmYznA+Lar5IgFmzqc/94z6y2cG6k204vheS+OLGdTNI5FSA16iNpaIVjZFGf3MUtm/b+xlXcGP28/msOFy3Bhi2h7z5fPZJ4xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785000694; c=relaxed/simple;
-	bh=1d+ahltGl3VM2xiX3dYFFyHgdP4EHkL/G29cqFakBlk=;
+	s=arc-20240116; t=1785001119; c=relaxed/simple;
+	bh=k2JgkmorkaNJ8D8+DSWiTjczfVCa1cmdZdl1b21Qq2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncN5jk4sZ1D31G4IIaOjrSbF8ZPEEyiV5bH+SRXrD6PGFyly7AZMJrISqoq4/BIw/9/CsU/qqmNp9KDUSyOAOHXbwdyJezvkbHBzW8SOmT7HIOMZdmqBeltDWobX4WYBksNo0Mkn/EAEsJdk3QPg/UMqclsLcxtDSWdJ6uNAENk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Haz2gRX9; arc=none smtp.client-ip=195.121.94.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 Content-Type:Content-Disposition:In-Reply-To; b=UQ9GaZ3ZUEOWiHqgEM9/oGM6oUOUoVQsrdPUmjgpYltHXLaMHH6QR3plOLanUNI1V77jK0RzvBwp1TkRH/CpLANad+ObyHlSsHj9V/P2oPHQEaP51jNvczvqnzA5Oge4AJ6Z4Wf5v85T5B7x0qy4mxiPHbdcBx1gtqrLgWaVr00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbLGkWpN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Haz2gRX9"
-X-KPN-MessageId: aaedd543-884e-11f1-b2a8-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id aaedd543-884e-11f1-b2a8-005056abbe64;
-	Sat, 25 Jul 2026 19:31:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=t+Jqw80vzuyfesh6AjBw0odAn7oHDqCK9i4qg+Orph4=;
-	b=Haz2gRX9YZlflCp3oanRaVWeWhi+06DyBaQ+YQDv+brBAka2dxqsEBzrsU7qfqLq+unTyMXelCUcG
-	 IwcCwTw+WhBMfWsbaM2CZ8Dzox1vf9E8ZaggMvhtsa/iZVt8odpk584EAczlur75VhYUIP1qwMp3T4
-	 WxA2Xf++shiIn6F1u8rzrA6ZnkPvurYDlfCeSht76/UkXEFxIzj24YihvyPTZTgeDoBjSASd+BJ6tn
-	 aJsZjr4QDo4cAZ0JTi7Zpy9XeSPAR73lFwro0rvrgNjzNplTivG6RedLORwlJzrCUYb4IpVn0RxkLq
-	 2dYuSdEbgpkBCTMimkpvHfbZrqMHvCA==
-X-KPN-MID: 33|0mNcx/hy7+/MQtMHSFRtMlqEVOpdoLjZ6B0jAiGIF6KsZswNjzrF9EJLNDS5rwu
- GDQmyNS/7SmdXiwpGSGBcSQjZ/clROHvFbgA6BYmD2p8=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|D7Hc1UxZoJs1GulRgH/CjJmrF5CqN0O4VIo8OnCcY2fU6yzhWRHgKo64XBLvCJX
- qTb3mhe/7ZGmElZTKccaDEQ==
-Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id aab91609-884e-11f1-9227-005056ab1411;
-	Sat, 25 Jul 2026 19:31:28 +0200 (CEST)
-Date: Sat, 25 Jul 2026 19:31:27 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 22/24] binfmt_misc: assorted small cleanups
-Message-ID: <amTy3udkENRN4dL2@lt-jori.localdomain>
-References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-22-a162f7cb58d6@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbLGkWpN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C003D1F000E9;
+	Sat, 25 Jul 2026 17:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785001112;
+	bh=QylY0Jj+M9aiGs5V5SL5IjP/iHtiFsye8Zowe/lAKfs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hbLGkWpNrMM4k73a7LkMKOLXC3oYWnMbIQUTX9a1AMPyP+ZB2YtDGSKAOO7LnRTqG
+	 vBTBVOyCfgkBM0MWbOb/NoVC5YN9xSGoda6NWf0PzmMOT1fw/XOO6vHcoZm2T9Hnp5
+	 55ibAzms1bMqsEcamK0sa477Sp/cRJs/DtF2sButDQG4u1jm7nFthZJfCS76oVES0q
+	 WsTkfomIff31rzlYsktIJhBXeK7omGcTHPA60jUlZ+1E5GFmI8FYxCp3658BnzoxL3
+	 TPxHPEdFzInIhLMkWjbdj7ZY/o7vUtkGVxUVFRul5xDUBZdBWJw09bqSEyMu0nLWef
+	 YF/1c7ceJP17Q==
+Date: Sat, 25 Jul 2026 19:38:23 +0200
+From: Helge Deller <deller@kernel.org>
+To: John David Anglin <dave.anglin@bell.net>,
+	Usama Arif <usama.arif@linux.dev>
+Cc: Helge Deller <deller@gmx.de>, Pedro Falcato <pfalcato@suse.de>,
+	Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
+Message-ID: <amT0j_bBT3CCxPcg@p100>
+References: <20260724102017.141532-1-pfalcato@suse.de>
+ <20260724102017.141532-4-pfalcato@suse.de>
+ <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
+ <amNzLXuwflIZFKtI@casper.infradead.org>
+ <253f7ac0-205b-42f1-9fb5-d19eceb581b6@linux.dev>
+ <amOEUZlp1BxYh6_t@pedro-suse>
+ <fd239383-dcbe-4daf-b337-32facef07076@linux.dev>
+ <3e9dece8-4e86-4ce5-bd74-b3ec305f3003@gmx.de>
+ <4606e13f-6827-45d0-b3b8-6bc26358f7ae@bell.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-22-a162f7cb58d6@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4606e13f-6827-45d0-b3b8-6bc26358f7ae@bell.net>
 
-On Fri, Jul 10, 2026 at 11:33:23AM +0200, Christian Brauner wrote:
-> Use umode_t for the mode argument of bm_get_inode(), constify the
-> fixed status strings in bm_status_read(), give the super_operations
-> the bm_ prefix everything else in this file uses, replace the stale
-> scanarg() comment which still described parameters and an err
-> variable it lost decades ago and fix the delimiter typo plus a
-> missing space nearby.
+* John David Anglin <dave.anglin@bell.net>:
+> On 2026-07-25 12:27 p.m., Helge Deller wrote:
+> > On 7/24/26 17:48, Usama Arif wrote:
+> >>
+> >>
+> >> On 24/07/2026 16:32, Pedro Falcato wrote:
+> >>> On Fri, Jul 24, 2026 at 04:03:44PM +0100, Usama Arif wrote:
+> >>>>
+> >>>>
+> >>>> On 24/07/2026 15:14, Matthew Wilcox wrote:
+> >>>>> On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 24/07/2026 11:20, Pedro Falcato wrote:
+> >>>>>>> ptep_get() does not need write access to the PTE.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+> >>>>>>> ---
+> >>>>>>>   arch/parisc/include/asm/pgtable.h | 2 +-
+> >>>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>>
+> >>>>>> hmm I think you might break build bisectibility if
+> >>>>>> you separate out the patches, you should squash patch 3 and 4,
+> >>>>>> with patch 1.
+> >>>>>
+> >>>>> I don't see how this breaks bisectability.  Can you elaborate on what
+> >>>>> you think would break?
+> >>>>
+> >>>> Patch 1 does:
+> >>>>
+> >>>> -static inline pte_t ptep_get_lockless(pte_t *ptep)
+> >>>> +static inline pte_t ptep_get_lockless(const pte_t *ptep)
+> >>>>   {
+> >>>>       return ptep_get(ptep);
+> >>>>   }
+> >>>>
+> >>>>
+> >>>> ptep_get() takes a non-const arg till patch 3 for example for parsic.
+> >>>> I don't think you can pass a const variable to non const function arg?
+> >>>>
+> >>>> So parsic won't compile in patch 1 and 2, powerprc wont compile
+> >>>> for patches 1, 2 and 3..
+> >>>
+> >>> Aha, yes, nice catch! I'll have to rethink that. Maybe squashing the patches
+> >>> would be the cleanest way forward.
+> >>>
+> >>
+> >> Yes, squashing is the simplest way forward.
+> >>
+> >>> FWIW, the vast majority of architectures aren't doing funny things on
+> >>> ptep_get(). E.g PA-RISC, loongarch only define these so they can use it in
+> >>> their own asm/pgtable.h. I'd really like to delete these but I can't tell
+> >>> if they are *actually* required.
+> >>>
+> >>
+> >> Ah maybe there is something in git history on why it was needed?
+> >>
+> >> If not, hopefully someone from the arch lists could clarify..
+> > I tried to remove ptep_get() and ptep_test_and_clear_young() from
+> > arch/parisc/include/asm/pgtable.h, but this then triggers compile errors:
+> > 
+> >  CC      arch/parisc/kernel/asm-offsets.s
+> > In file included from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/mm.h:31,
+> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pid_namespace.h:7,
+> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/ptrace.h:10,
+> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/arch/parisc/kernel/asm-offsets.c:21:
+> > /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h: In function ‘clear_young_dirty_ptes’:
+> > /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h:683:25: error: implicit declaration of function ‘ptep_test_and_clear_young’;
+> > did you mean ‘pmdp_test_and_clear_young’? [-Wimplicit-function-declaration]
+> >   683 |                         ptep_test_and_clear_young(vma, addr, ptep);
+> >       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >       |                         pmdp_test_and_clear_young
+> > 
+> > So, I think the answer is, that the local copy of ptep_get() is used in the parisc implementation of
+> > ptep_test_and_clear_young() function.
+> > 
+> > Switching to the default include/linux/pgtable.h seems not easy doable....
 > 
-> No functional change.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/binfmt_misc.c | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index eb56aa6a3ca2..189b9218e5a6 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -291,10 +291,9 @@ static int load_misc_binary(struct linux_binprm *bprm)
->  /* Command parsers */
->  
->  /*
-> - * parses and copies one argument enclosed in del from *sp to *dp,
-> - * recognising the \x special.
-> - * returns pointer to the copied argument or NULL in case of an
-> - * error (and sets err) or null argument length.
-> + * Scan the argument starting at @s up to the delimiter @del, recognising
-> + * the \x escape. Terminates the argument with a NUL and returns a pointer
-> + * past it or NULL on a malformed escape.
->   */
->  static char *scanarg(char *s, char del)
->  {
-> @@ -309,7 +308,7 @@ static char *scanarg(char *s, char del)
->  				return NULL;
->  		}
->  	}
-> -	s[-1] ='\0';
-> +	s[-1] = '\0';
->  	return s;
->  }
->  
-> @@ -458,7 +457,7 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
->  	if (copy_from_user(buf, buffer, count))
->  		return ERR_PTR(-EFAULT);
->  
-> -	del = *p++;	/* delimeter */
-> +	del = *p++;	/* delimiter */
->  
->  	pr_debug("register: delim: %#x {%c}\n", del, del);
->  
-> @@ -604,7 +603,7 @@ static int bm_entry_show(struct seq_file *m, void *unused)
->  	return 0;
->  }
->  
-> -static struct inode *bm_get_inode(struct super_block *sb, int mode)
-> +static struct inode *bm_get_inode(struct super_block *sb, umode_t mode)
->  {
->  	struct inode *inode = new_inode(sb);
->  
-> @@ -852,7 +851,7 @@ static ssize_t
->  bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
->  {
->  	struct binfmt_misc *misc;
-> -	char *s;
-> +	const char *s;
->  
->  	misc = i_binfmt_misc(file_inode(file));
->  	s = READ_ONCE(misc->enabled) ? "enabled\n" : "disabled\n";
-> @@ -899,7 +898,7 @@ static void bm_put_super(struct super_block *sb)
->  	put_user_ns(user_ns);
->  }
->  
-> -static const struct super_operations s_ops = {
-> +static const struct super_operations bm_super_ops = {
->  	.statfs		= simple_statfs,
->  	.evict_inode	= bm_evict_inode,
->  	.put_super	= bm_put_super,
-> @@ -968,7 +967,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
->  
->  	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
->  	if (!err)
-> -		sb->s_op = &s_ops;
-> +		sb->s_op = &bm_super_ops;
->  	return err;
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
+> Did you remove define for __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG in parisc version of pgtable.h?
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+Indeed, I missed to remove that.
+
+Usama, if you want you can add the patch below to your patch set, thus
+simplifying your series?
+
+Helge
+
+------
+
+From: Helge Deller <deller@gmx.de>
+Date: Sat, 25 Jul 2026 19:19:55 +0200
+Subject: [PATCH] parisc: Drop own implementations for ptep_get() and
+ ptep_test_and_clear_young()
+
+Switch to the generic implementations, which are identical.
+
+Suggested-by: Usama Arif <usama.arif@linux.dev>
+Suggested-by: John David Anglin <dave.anglin@bell.net>
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/arch/parisc/include/asm/pgtable.h b/arch/parisc/include/asm/pgtable.h
+index 467b8547ac8b..d92dee9fef3f 100644
+--- a/arch/parisc/include/asm/pgtable.h
++++ b/arch/parisc/include/asm/pgtable.h
+@@ -432,25 +432,6 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
+ 	return pte;
+ }
+ 
+-static inline pte_t ptep_get(pte_t *ptep)
+-{
+-	return READ_ONCE(*ptep);
+-}
+-#define ptep_get ptep_get
+-
+-static inline bool ptep_test_and_clear_young(struct vm_area_struct *vma,
+-		unsigned long addr, pte_t *ptep)
+-{
+-	pte_t pte;
+-
+-	pte = ptep_get(ptep);
+-	if (!pte_young(pte)) {
+-		return false;
+-	}
+-	set_pte_at(vma->vm_mm, addr, ptep, pte_mkold(pte));
+-	return true;
+-}
+-
+ bool ptep_clear_flush_young(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep);
+ pte_t ptep_clear_flush(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep);
+ 
+@@ -491,7 +472,6 @@ static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long addr,
+ #define HAVE_ARCH_UNMAPPED_AREA
+ #define HAVE_ARCH_UNMAPPED_AREA_TOPDOWN
+ 
+-#define __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG
+ #define __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
+ #define __HAVE_ARCH_PTEP_CLEAR_FLUSH
+ #define __HAVE_ARCH_PTEP_SET_WRPROTECT
