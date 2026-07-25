@@ -1,32 +1,33 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5E138E8D5
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095F339D6E8
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784995262; cv=none; b=uFM/PhA/dz0+oB5PutCuNW4HTCBQoj12li8HWd6kj0/hAs3wGgYhE0Tq7qrrjxsKS4WHqxWiBn6+nekP4LAK+Yg3mIWM3nlVie+/iPHDMxgzGVp8y/iVqPFXleuXhy00s3K9hrZVrpQREvgt5kAdytCPDmf+XQDwUn9SrWB0TiM=
+	t=1784995263; cv=none; b=VrrhznrTINmBu/7WIjY12DtrD7m6gvHBDfsTXbX+MGmwNEuyl31Q9Ov9NN2Mmg/97eKzv9sD9IiGMuqvznLZKeSwmjqOa5s/71AnaCub0H/JgdE3798CQEwyLOrfLb4PwcW4RVh7haVenefA6I/dQNhogNbWP245lOd7Up9E/Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784995262; c=relaxed/simple;
-	bh=2fIX/85D+hzx3jTRC3BR6fq0y+avPg6SEGS8l68L4Vk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tjmbzud+yFWykBUcleAiPZA4DiYee7+VwQmCC0FProQvQptXaYJq6kRcpwJuF03woFP3h6j1YQMm5wQE8nQlYMhzFAnKPC3SKGfQ6Gp3hElYVtVyu41Y/42ec5Cvkf+lKnONWbHBFztVtGsSa8Jyojgjd0U/ByqGSvhzrtaF/lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IiU4gVgB; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1784995263; c=relaxed/simple;
+	bh=zWWnk2ahsRmlcDQl6VX/ZfwP4ZFt21ab9AiuLQRPtww=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hxKP+EcRbTTTJW7F/utZFW2ZBrcj0p90JJoIqGggDtu5VBxiq5HmKzMTSpI9zDl3O6XhG7I8UrKNEwDy869lLPfao0iILGeqUWVdrecRjWIa47JZkaS7Yic4ozqP2r8TcbtKP7ZPY38X0DXINVvAF+R8E13DvcN0UZnfkb+7g4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nLAyvFAv; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IiU4gVgB"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nLAyvFAv"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=r0YooHR0oUdoStXTpiZOrGMf2KhFuxnhMN59+dhjZGM=; b=IiU4gVgBH/eoIMXPP1PKoA/BUZ
-	qxNvdTWqGVlJrIKHWZsO3UVrxsGGiKqTR3Wjn4m/YJwgLCuziBYc9fweBJ47p3TZC5GT1qM+dYGL9
-	sqBM3ErDnaPlLXEwKc0lQroA9vkzvTTPFSv3tP33s6oCUBiWQCMZ3m33c9VzG1rqW7yBIxmhSM23H
-	DjkfeQSSMbAavDkDnrlSIWxibJP1fZvareh8eF+DAp15cF2YCuSCq1yQ8tQ7l+R+s/IsPpMiB1LDe
-	HNXn/J2NoZW2qGh6xO3ycWy2sl/jdv8tOPeQrHDWzB8fZYrEBti58LbiZJwhK2pos7FJdNrvWAj2T
-	XZAAssKg==;
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=cwsU3Mhrg9KcuFxTAl0Tes+dvmZix99ipM91bAbmnN8=; b=nLAyvFAvniBvHertjThqXOGD77
+	yUSbHgNb3YTkxV5Ai6fUP86m0+etfFfCN2ARoexhEqCxop2U48snp0tJss96wgClBXfOhG5IXuZz+
+	dGk5AnDuARxU+W9DU58OuPNodAxEZSTGu5F/vq/JsD2oK9Irp0zf9gdUVgLUsJ9qXSU/VH1GJWxwt
+	S1vh76whef2u1Gyt2P4SR+zrFWCARU6tjywzT2fHIHdp5mLj/wBuIW6w5MPvXYCCtKBYsRfClQR2O
+	mIOspCWaSIWNl7sab1MqPMNKe1wsjUeLvkTt8dVztZuNra3dKVp2aJRrVQlU/rPIVw96DcQXExhtt
+	53ZfaeKQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnenr-00000006X7O-17aY;
+	id 1wnenr-00000006X7S-29ST;
 	Sat, 25 Jul 2026 16:00:43 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -41,11 +42,14 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: [PATCH v5 00/12] Use generic_file_read_iter() in hugetlbfs
-Date: Sat, 25 Jul 2026 17:00:28 +0100
-Message-ID: <20260725160042.1557264-1-willy@infradead.org>
+	Jiaqi Yan <jiaqiyan@google.com>,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v5 02/12] mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
+Date: Sat, 25 Jul 2026 17:00:30 +0100
+Message-ID: <20260725160042.1557264-3-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260725160042.1557264-1-willy@infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,59 +58,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set of patches are separated out from Jane's earlier series.
-https://lore.kernel.org/linux-mm/20260617172534.1740152-1-jane.chu@oracle.com/
+This is a better name for this predicate.  Also make the argument const
+to allow other callers to be made const.  No functional change.
 
-v4 here:
-https://lore.kernel.org/all/20260723143034.175661-1-willy@infradead.org/
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Usama Arif <usama.arif@linux.dev>
+---
+ include/linux/page-flags.h | 4 ++--
+ mm/huge_memory.c           | 2 +-
+ mm/memory_hotplug.c        | 2 +-
+ mm/shmem.c                 | 2 +-
+ mm/vmscan.c                | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-Changes from v4:
- - Drop patch "Test the page is hwpoison before taking the mutex".
-   It's not necessary for this series, and Sashiko points out a bad
-   possibility.
- - Fix try_to_unmap() checking of HWPoison for hugetlb folios
- - Protect the folio->hugetlb_hwpoison list with its own spinlock
- - Fold the "Remove raw_hwp_list_head" patch into the "Remove locking
-   mf_mutex in is_raw_hwpoison_page_in_hugepage" patch
- - Make folio_test_huge_poison() always false if CONFIG_MEMORY_FAILURE not set
- - Fix CONFIG_FILEMAP_LARGE_FOLIO -> CONFIG_LARGE_FOLIO conversion
- - Fix hugetlb_clear_poison() to clear has_hwpoisoned last
- - Add tags from Ackerley & Sean for guest_memfd patch
-
-Jane Chu (2):
-  filemap: Add hwpoison handling to filemap_read()
-  hugetlb: replace hugetlbfs_read_iter() with generic_file_read_iter()
-
-Matthew Wilcox (Oracle) (10):
-  memory-failure: Fix hardware poison check in unpoison_memory() again
-  mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
-  hugetlb: Mark some function arguments as const
-  guest_memfd: Use folio_has_hwpoisoned_page()
-  hugetlb: Use the has_hwpoisoned flag
-  mm: Remove locking mf_mutex in is_raw_hwpoison_page_in_hugepage()
-  mm: Check individual hugetlb pages for poison
-  filemap: Remove checks in mapping_set_folio_order_range()
-  hugetlb: Set mapping folio order
-  filemap: Add support for authoritative mappings
-
- fs/Kconfig                 |   2 +-
- fs/hugetlbfs/inode.c       | 123 +++---------------------
- include/linux/hugetlb.h    |  24 ++---
- include/linux/mm_types.h   |   4 +-
- include/linux/page-flags.h |  63 +++++++++++--
- include/linux/pagemap.h    |  45 +++++----
- mm/Kconfig                 |   6 +-
- mm/filemap.c               |  51 +++++++++-
- mm/huge_memory.c           |   2 +-
- mm/hugetlb.c               |  16 ++--
- mm/memory-failure.c        | 186 ++++++++++++++++++++++++-------------
- mm/memory_hotplug.c        |   2 +-
- mm/rmap.c                  |  43 +++++----
- mm/shmem.c                 |   2 +-
- mm/vmscan.c                |   2 +-
- virt/kvm/guest_memfd.c     |   2 +-
- 16 files changed, 321 insertions(+), 252 deletions(-)
-
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 7223f6f4e2b4..4185a03a45cf 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -1083,10 +1083,10 @@ static inline bool is_page_hwpoison(const struct page *page)
+ 	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
+ }
+ 
+-static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
++static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
+ {
+ 	return folio_test_hwpoison(folio) ||
+-	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
++	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+ }
+ 
+ bool is_free_buddy_page(const struct page *page);
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 2bccb0a53a0a..353340309107 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -4413,7 +4413,7 @@ static bool thp_underused(struct folio *folio)
+ 	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
+ 		return false;
+ 
+-	if (folio_contain_hwpoisoned_page(folio))
++	if (folio_has_hwpoisoned_page(folio))
+ 		return false;
+ 
+ 	for (i = 0; i < folio_nr_pages(folio); i++) {
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 7ac19fab2263..33007e8e546a 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1813,7 +1813,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		if (folio_test_large(folio))
+ 			pfn = folio_pfn(folio) + folio_nr_pages(folio) - 1;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() cannot handle large folios
+ 			 * in all cases yet.
+diff --git a/mm/shmem.c b/mm/shmem.c
+index b51f83c970bb..492c9bef3620 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3240,7 +3240,7 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (folio_contain_hwpoisoned_page(folio)) {
++	if (folio_has_hwpoisoned_page(folio)) {
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 		return -EIO;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 35c3bb15ae96..70e54ace0e74 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1086,7 +1086,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 		if (!folio_trylock(folio))
+ 			goto keep;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() can't handle large
+ 			 * folio, just skip it. memory_failure() will
 -- 
 2.47.3
 
