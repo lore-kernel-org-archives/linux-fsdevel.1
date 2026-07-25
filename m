@@ -1,166 +1,168 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9636D393DF0
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D961F942
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784995284; cv=none; b=uzBk+ljxSISkXe2mMjDKHZKM6uqVyu82zht5dJK+rLeWJEbgTpZLUfNvzT3zRPN94XHljYee4EZPPQxgm3ozEB5APel7nVHKiqEE5/1hUmbL+L0fwx03BBC6glS+J5w1ZgLWyp36DWzz4qswM763wwDFLstXKiQTjklIjLlKXss=
+	t=1784996095; cv=none; b=jZ5GEsUE6EhkVipaJO6glwUVKIuxeEvEDBA+BP6qP6jJjsmMXVI2E6F2ZtDpnqsPaM+0A1VuK7JzkIVV/Zx5cb/SLNJ/nB9JRUm90Zg97TTyZwGFokVFJiPBPfU94oPjrUmj6QOlY7RoUQ+ZD5NnPi4h56N1TgpEpwtXyKhVdRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784995284; c=relaxed/simple;
-	bh=T59rqTf5h0V/7lgZBy0rNCnt+9ImLw97cP8b+CbH49g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tlw/4ee+Sk3L41ii/2p1wd+lbRyjeGbD44FSYkqryplKiuw2TkFWU1j4nZcdXAOSJAoL/zI4abjz8dv+egn+jsPP9SEgMaMHp86Bci3Ezzh8znDlclrVTZqmOWUuurQvTlR/xaoQ7BVYhQ6xChXAzNw8VZt5TWUJ8mKynV4c4Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dzharug1; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1784996095; c=relaxed/simple;
+	bh=mGCM6bTyaBVforz8e4UYVbAHNJk071m2ivRQ12Tvkag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLNZYz96Z0mUAMdEUlfTKOU55OU1oFqEctiwNhBM2ylWq55aePtI39aw4q+soT26I5dSSSlVox/TEmU4L6S89d9n1VBb4D+Ur9HKqbRejKtoFR0OFKvoRyb1dAuYI8bOdDzJjMTl7NtIVz9JqdGKV5IFIQ2EdfvIZ3poHpRxwHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=b4FfEhmK; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dzharug1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=lL216fIv4vvT2FQ3lahp26Y5N739lhMmfF6ZddEZbhg=; b=dzharug1kLXjsR91cwzRQjJUW5
-	ratPyA1u2jsc9HZceRqkjrtdDr7Z6nFWM3iOjjPAX1QWXAHJHnarIx6vW0lM3pxcl46OyI4c10WM9
-	IjmjkMeyZEKWvjRMcRwIiTt9FxgRdZ92JUXLv9qj8hq1Pc6EzwKGqDkD7MCcC4wbUvKz/W/LDahqy
-	w8QC6ernQsbCPTF6bh17lqOvJ/XPOujcmsZtB0nPE7Fz/8egqGE8VnOKTlKmhapDbJRzUddTmWyTh
-	Vbr8j8xEJYrCDrAQWFGDejomCnp1MBULKp7d6NHuycY4xfscxCVVbiFwtajKfctaF6sDW6x2j+FOC
-	WVFRrZgw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnenr-00000006X7U-2gIF;
-	Sat, 25 Jul 2026 16:00:43 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>,
-	linux-mm@kvack.org
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>,
-	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v5 03/12] hugetlb: Mark some function arguments as const
-Date: Sat, 25 Jul 2026 17:00:31 +0100
-Message-ID: <20260725160042.1557264-4-willy@infradead.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260725160042.1557264-1-willy@infradead.org>
-References: <20260725160042.1557264-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="b4FfEhmK"
+X-KPN-MessageId: f6882f08-8843-11f1-b2a8-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id f6882f08-8843-11f1-b2a8-005056abbe64;
+	Sat, 25 Jul 2026 18:14:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=tHPJsB50xQmYK+ehVil/6FrHa+/zw3dN6HSI8VBDdlw=;
+	b=b4FfEhmKXiIWNhve1ZZ8oM/2Z5iP3puVFwu8+zlVmqA/6eGMfwFqDJmQ9tfbCV8R9gSWaWl2gy3dI
+	 4ST91thz3oG/7vbq5+30pggB63VRBN9W1FAEeZiVrrgScL5xVdu3daxdTWVHTU3e7LNCILGkxDbcsy
+	 ZY470K7DmJI/3pWgFNas7y9M7qV2upYj/OTYGom+FMNzFyf9qASQ4smngrEdpxRiW1V4haYEzlHZ7w
+	 JzCAqMagwoLWLv+YoJUzt6hQxtY9oKT/ZOWC47zzAenLa+gOpS3S89ZVYUWhEZHLY9XjTVJXJF9wak
+	 wnPlZZpEtoElG6STGL7RrnzUH4lKK/A==
+X-KPN-MID: 33|aZQz5wymlE1uLEnDHEJOnBG5lJJr2DnWat8jZk+/ibToRq9QDJOCtkIo3tWYSuT
+ 8AFflJn+IRBy1ho9dunTh0Yoo5i+idW1zCmDUIN/unTs=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|cseRJcjgKnl0i3Nynao5hE0x7To2akzhbTunPGtN5kDjFKLLf7ezQPeYz31ELDW
+ RRb6CRb5fttajPyern3h1tw==
+Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id f655308f-8843-11f1-9226-005056ab1411;
+	Sat, 25 Jul 2026 18:14:50 +0200 (CEST)
+Date: Sat, 25 Jul 2026 18:14:38 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+Subject: Re: [PATCH v3 07/24] binfmt_misc: turn the entry bit numbers into a
+ proper enum
+Message-ID: <amTelCErRS0gVXvR@lt-jori.localdomain>
+References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
+ <20260710-work-binfmt_misc-locking-v3-7-a162f7cb58d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710-work-binfmt_misc-locking-v3-7-a162f7cb58d6@kernel.org>
 
-These functions do not modify their folio argument, so we can mark them
-as being const which will allow for some minor optimisations and let us
-mark other function arguments as being const in the future.
+On Fri, Jul 10, 2026 at 11:33:08AM +0200, Christian Brauner wrote:
+> Enabled and Magic are bit numbers in the flags word of an entry but
+> are declared as bare, unprefixed enumerators with implicit values in
+> a style that predates the git history. Give the enum a name, explicit
+> bit numbers and namespaced names and use BIT() instead of open-coding
+> the shifts when building the initial flags word in create_entry().
+> 
+> No functional change.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_misc.c | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index 0b9758da1f88..90962044d19e 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -42,7 +42,11 @@ enum {
+>  	VERBOSE_STATUS = 1 /* make it zero to save 400 bytes kernel memory */
+>  };
+>  
+> -enum {Enabled, Magic};
+> +/* Entry status and match type bit numbers. */
+> +enum binfmt_misc_entry_bits {
+> +	MISC_FMT_ENABLED_BIT	= 0,
+> +	MISC_FMT_MAGIC_BIT	= 1,
+> +};
+>  #define MISC_FMT_PRESERVE_ARGV0 (1UL << 31)
+>  #define MISC_FMT_OPEN_BINARY (1UL << 30)
+>  #define MISC_FMT_CREDENTIALS (1UL << 29)
+> @@ -104,11 +108,11 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
+>  		int j;
+>  
+>  		/* Make sure this one is currently enabled. */
+> -		if (!test_bit(Enabled, &e->flags))
+> +		if (!test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
+>  			continue;
+>  
+>  		/* Do matching based on extension if applicable. */
+> -		if (!test_bit(Magic, &e->flags)) {
+> +		if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+>  			if (p && !strcmp(e->magic, p + 1))
+>  				return e;
+>  			continue;
+> @@ -417,11 +421,11 @@ static Node *create_entry(const char __user *buffer, size_t count)
+>  	switch (*p++) {
+>  	case 'E':
+>  		pr_debug("register: type: E (extension)\n");
+> -		e->flags = 1 << Enabled;
+> +		e->flags = BIT(MISC_FMT_ENABLED_BIT);
+>  		break;
+>  	case 'M':
+>  		pr_debug("register: type: M (magic)\n");
+> -		e->flags = (1 << Enabled) | (1 << Magic);
+> +		e->flags = BIT(MISC_FMT_ENABLED_BIT) | BIT(MISC_FMT_MAGIC_BIT);
+>  		break;
+>  	default:
+>  		goto einval;
+> @@ -429,7 +433,7 @@ static Node *create_entry(const char __user *buffer, size_t count)
+>  	if (*p++ != del)
+>  		goto einval;
+>  
+> -	if (test_bit(Magic, &e->flags)) {
+> +	if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+>  		/* Handle the 'M' (magic) format. */
+>  		char *s;
+>  
+> @@ -599,7 +603,7 @@ static void entry_status(Node *e, char *page)
+>  	char *dp = page;
+>  	const char *status = "disabled";
+>  
+> -	if (test_bit(Enabled, &e->flags))
+> +	if (test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
+>  		status = "enabled";
+>  
+>  	if (!VERBOSE_STATUS) {
+> @@ -621,7 +625,7 @@ static void entry_status(Node *e, char *page)
+>  		*dp++ = 'F';
+>  	*dp++ = '\n';
+>  
+> -	if (!test_bit(Magic, &e->flags)) {
+> +	if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+>  		sprintf(dp, "extension .%s\n", e->magic);
+>  	} else {
+>  		dp += sprintf(dp, "offset %i\nmagic ", e->offset);
+> @@ -745,11 +749,11 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+>  	switch (res) {
+>  	case 1:
+>  		/* Disable this handler. */
+> -		clear_bit(Enabled, &e->flags);
+> +		clear_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+>  		break;
+>  	case 2:
+>  		/* Enable this handler. */
+> -		set_bit(Enabled, &e->flags);
+> +		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+>  		break;
+>  	case 3:
+>  		/* Delete this handler. */
+> 
+> -- 
+> 2.53.0
+> 
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Acked-by: Usama Arif <usama.arif@linux.dev>
----
- include/linux/hugetlb.h | 19 +++++++++----------
- mm/hugetlb.c            |  2 +-
- 2 files changed, 10 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 2abaf99321e9..18661a7cdb37 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -165,7 +165,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
- 				 struct vm_area_struct *vma,
- 				 unsigned long address);
- 
--struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
-+struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio);
- 
- extern int movable_gigantic_pages __read_mostly;
- extern int sysctl_hugetlb_shm_group __read_mostly;
-@@ -292,8 +292,7 @@ static inline unsigned long hugetlb_total_pages(void)
- 	return 0;
- }
- 
--static inline struct address_space *hugetlb_folio_mapping_lock_write(
--							struct folio *folio)
-+static inline struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
- {
- 	return NULL;
- }
-@@ -595,8 +594,8 @@ enum hugetlb_page_flags {
- #ifdef CONFIG_HUGETLB_PAGE
- #define TESTHPAGEFLAG(uname, flname)				\
- static __always_inline						\
--bool folio_test_hugetlb_##flname(struct folio *folio)		\
--	{	void *private = &folio->private;		\
-+bool folio_test_hugetlb_##flname(const struct folio *folio)	\
-+	{	const void *private = &folio->private;		\
- 		return test_bit(HPG_##flname, private);		\
- 	}
- 
-@@ -616,7 +615,7 @@ void folio_clear_hugetlb_##flname(struct folio *folio)		\
- #else
- #define TESTHPAGEFLAG(uname, flname)				\
- static inline bool						\
--folio_test_hugetlb_##flname(struct folio *folio)		\
-+folio_test_hugetlb_##flname(const struct folio *folio)		\
- 	{ return 0; }
- 
- #define SETHPAGEFLAG(uname, flname)				\
-@@ -727,7 +726,7 @@ static inline struct hugepage_subpool *subpool_inode(struct inode *inode)
- 	return HUGETLBFS_SB(inode->i_sb)->spool;
- }
- 
--static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-+static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
- {
- 	return folio->_hugetlb_subpool;
- }
-@@ -857,7 +856,7 @@ static inline bool arch_has_huge_bootmem_alloc(void)
- }
- #endif
- 
--static inline struct hstate *folio_hstate(struct folio *folio)
-+static inline struct hstate *folio_hstate(const struct folio *folio)
- {
- 	VM_BUG_ON_FOLIO(!folio_test_hugetlb(folio), folio);
- 	return size_to_hstate(folio_size(folio));
-@@ -1088,7 +1087,7 @@ static inline unsigned long huge_page_mask_align(struct file *file)
- 	return 0;
- }
- 
--static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-+static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
- {
- 	return NULL;
- }
-@@ -1157,7 +1156,7 @@ static inline struct hstate *hstate_vma(struct vm_area_struct *vma)
- 	return NULL;
- }
- 
--static inline struct hstate *folio_hstate(struct folio *folio)
-+static inline struct hstate *folio_hstate(const struct folio *folio)
- {
- 	return NULL;
- }
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 571212b80835..cc8d98399913 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1775,7 +1775,7 @@ void init_new_hugetlb_folio(struct folio *folio)
-  * stable.  Due to locking order, we can only trylock_write.  If we can
-  * not get the lock, simply return NULL to caller.
-  */
--struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio)
-+struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
- {
- 	struct address_space *mapping = folio_mapping(folio);
- 
--- 
-2.47.3
-
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
