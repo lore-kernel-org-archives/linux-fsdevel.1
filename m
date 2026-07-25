@@ -1,55 +1,55 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA08737C92A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 15:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145EF34572B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 15:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784994808; cv=none; b=Iwfrb37kmq3KzconVWwr/Wrpg1DjshbQuXOhR/q6jkfVF2wywAZnhD49UX7leaV8OV4+bKioKsuftx9tlEPwf9P/KwDTPDdqtjc4r6tqF8GkgGQdRzOp3/KN+SQa8FmRb8HAlSoJbawrHikFBXlrn+FdOsL4QSi/8k9Vl9pCukA=
+	t=1784994848; cv=none; b=Ib9300tkKfcFTCuDpGhzoxOCp2veoxI5G7iBZvORLK3JlFZYg7+JBtm3UtzleIFKYRKkG/uadbKDCHbAuYahzQWiafPGXMUHnJtzNZoSnq7rY4T0m0By2jcNctt210YAlolxqBGt+EMXxGuTG62f2k4yDmJ/Vts2S8iGEcNNDFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784994808; c=relaxed/simple;
-	bh=w2NTSZljDwMGgkNL/zn7btvPjhxKBCyZmfUxlStA8Nw=;
+	s=arc-20240116; t=1784994848; c=relaxed/simple;
+	bh=3nVP/kakj1mDRq0taUq4hIFz3E9oEl6g7V0841JtQMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jqAuDYMFDGg/I2SspXQINd4qZTSZSi/qNEW8XmuIxeWtdvPf8pW6ry0UFk5QI+ghZsFUYewD4vttX0fZ/KIQoSSvwmTn9P45ID13rXmBK2QcV/jconTYSwqF64FXNvtybHFm3hig15sPyayeoGkEygPg4y8MHMmCno+vTc9F1YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=lAw81lEF; arc=none smtp.client-ip=195.121.94.167
+	 Content-Type:Content-Disposition:In-Reply-To; b=knpWtBAhjhzObx4knPxbl+7fKTNLKp+/Ook/kZE8yyL7xU855+EiwbloOzNoOpVRrs1xr4IeXNcNBEVuu7mXXc7cc+/dLyi9+0Hy2qIy9orOScZUZZ8Qd/sPAx8AXrntCmDb1qSiogUdx3qEALu9BA9CAPUxiiAdCAXuO+FU1YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZQjDvkn4; arc=none smtp.client-ip=195.121.94.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="lAw81lEF"
-X-KPN-MessageId: f6722ea7-8840-11f1-b2a8-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZQjDvkn4"
+X-KPN-MessageId: 0c6d650a-8841-11f1-a5a1-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f6722ea7-8840-11f1-b2a8-005056abbe64;
-	Sat, 25 Jul 2026 17:53:21 +0200 (CEST)
+	id 0c6d650a-8841-11f1-a5a1-005056994fde;
+	Sat, 25 Jul 2026 17:53:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=QyDxN4rb6c/XRh6ApxXaUggDqwL7NriZKZmwb5ZGNr0=;
-	b=lAw81lEFK7S9f/rACqMC/NqmXpYceCpp5cH4vJ17FvnFfPJM908eEIZcgO33m1NYJhLir3B8hfMsB
-	 0dkpvjnE0hnL9kyqyJyNFPMyCJJdOXTgIH+3zsUFA4jXjzs8K0WBOWiw9CSqmJ2HkU0Ct4SV+hSldA
-	 BxXnVgw/2AiYdKSW+IilNNRFCfuWHxNB5L1BvtwlniHDxXJ1x3GWWxhXVjIIX9o1tZxFwFM65UsZPh
-	 MBrAewgAs75Tws1Do3y8QvZgjbSFF0kJmccTmy0BYkvRYLnZxgq5FEpCWTUwxCTbm3p5aMsbq2gsxb
-	 qokfxdwaD0FyXEq7mN1UfwP1q4uU92Q==
-X-KPN-MID: 33|CbsXFLwPkiZSid3jhTG4eAoG0+HdmFlqVyytflOBzhjRucXogh53OgyTaWYhr2X
- c/37UxYIHX+rJYsSkSZfJ9cq1z1O6hnTsvUIarb8UqeY=
+	bh=uvvy4ZDdcswg3rQnKPRfjVI+F4d66zq2fU5XaCFzDL8=;
+	b=ZQjDvkn4iMfo/8VkPSOy8ljjN8hYriXoHoX7gYZsBFcX56/QwrXk8o/0or/YDqGfET+e8cNkBG229
+	 32UFv58SwfqpN7VLCDxpPTEmdQqdWUrnUPo0dOx1BlWTHYFX21/biz8vxDlcHtSZTi2G/IQOYJU3g8
+	 jNo/F2OpDNmFqUgOdClT7xlTOu8r3uvr1mU6Ysyi2bam5Fa8dFhxN4q4XZrW5LesgBQlcfA2gL8n/a
+	 IsO3CRajx87Gt1V9w1i/to3V1x6CjPOCw9brL68wdkokxn0onM1sLdICQbGoHoG7vDJiBapUoxW2gJ
+	 tqaKMgzhqtrYkOqXMGjGHsDvywKa7Rg==
+X-KPN-MID: 33|SYoO7BKxnSp3q+Q2zAJ+7SXDVW4QgsJw++Dyl3VqxY6PIx6G5hp/NvmtqCLduSv
+ E4W+IOvkTuabtk60FNEaL+nVQxHXTfohazi68c5Idzac=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|M10uTIOs814OUqOUH87DCyajQ3CPn/5g9oXhZWYWkEj+J4yUp3ywRikiaVEN3cF
- Wpx7wnvTeXEjwz9lyCBzNcw==
+X-CMASSUN: 33|LdJrb658pFOTEgi/Onzb7Ly4knMgFixcDhSMTOsvwBDK9Z/O/vPiMUddWNpTtMl
+ KBOn8kLU42qu8SIAjaWGm8g==
 Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id f63a02e1-8840-11f1-86b1-005056ab7584;
-	Sat, 25 Jul 2026 17:53:21 +0200 (CEST)
-Date: Sat, 25 Jul 2026 17:53:19 +0200
+	id 0c20c08f-8841-11f1-a789-00505699772e;
+	Sat, 25 Jul 2026 17:53:58 +0200 (CEST)
+Date: Sat, 25 Jul 2026 17:53:56 +0200
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
 	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 15/24] binfmt_misc: return errors directly in
- load_misc_binary()
-Message-ID: <amTb6I6mG8HcaG3y@lt-jori.localdomain>
+Subject: Re: [PATCH v3 16/24] binfmt_misc: give the parse_command() results
+ names
+Message-ID: <amTcDFzdK5a2KB6A@lt-jori.localdomain>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-15-a162f7cb58d6@kernel.org>
+ <20260710-work-binfmt_misc-locking-v3-16-a162f7cb58d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,135 +58,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-15-a162f7cb58d6@kernel.org>
+In-Reply-To: <20260710-work-binfmt_misc-locking-v3-16-a162f7cb58d6@kernel.org>
 
-On Fri, Jul 10, 2026 at 11:33:16AM +0200, Christian Brauner wrote:
-> load_misc_binary() seeds retval with the error for checks that
-> happen further down, reassigns it along the way and funnels every
-> exit through a ret label whose only job is dropping the entry
-> reference, so figuring out what an early return actually returns
-> means replaying the assignment history. Give put_binfmt_handler() a
-> cleanup class and take the reference with __free() so every failure
-> can return its error right where the condition is checked. The
-> comment at the label restated what the put_binfmt_handler()
-> kernel-doc already explains, it goes with the label. Drop the dead
-> NULL initialization of interp_file which is assigned on all paths
-> before use.
+On Fri, Jul 10, 2026 at 11:33:17AM +0200, Christian Brauner wrote:
+> parse_command() maps "0" to 1, "1" to 2 and "-1" to 3 and the write
+> handlers switch on those bare numbers, leaving every reader to redo
+> the mapping in their head. Name the commands and drop the per-case
+> comments that only existed to translate the numbers back.
 > 
 > No functional change.
 > 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/binfmt_misc.c | 41 ++++++++++++++---------------------------
->  1 file changed, 14 insertions(+), 27 deletions(-)
+>  fs/binfmt_misc.c | 38 ++++++++++++++++++++------------------
+>  1 file changed, 20 insertions(+), 18 deletions(-)
 > 
 > diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index cd5dbf61771e..06f4849cf1ad 100644
+> index 06f4849cf1ad..1f2b1d136819 100644
 > --- a/fs/binfmt_misc.c
 > +++ b/fs/binfmt_misc.c
-> @@ -183,6 +183,8 @@ static void put_binfmt_handler(struct binfmt_misc_entry *e)
->  	}
+> @@ -543,9 +543,17 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+>  	return ERR_PTR(-EINVAL);
 >  }
 >  
-> +DEFINE_FREE(put_binfmt_handler, struct binfmt_misc_entry *, if (_T) put_binfmt_handler(_T))
+> +/* Commands accepted by the /status and /<entry> files. */
+> +enum bm_command {
+> +	BM_CMD_IGNORE,	/* empty write */
+> +	BM_CMD_DISABLE,	/* "0" */
+> +	BM_CMD_ENABLE,	/* "1" */
+> +	BM_CMD_REMOVE,	/* "-1" */
+> +};
 > +
->  /**
->   * current_binfmt_misc - get the binfmt_misc instance of the caller's user namespace
->   *
-> @@ -215,30 +217,29 @@ static struct binfmt_misc *current_binfmt_misc(void)
+>  /*
+> - * Set status of entry/binfmt_misc:
+> - * '1' enables, '0' disables and '-1' clears entry/binfmt_misc
+> + * Parse what userspace wrote to /status or an entry file: '1' enables,
+> + * '0' disables and '-1' removes the entry or all entries.
 >   */
->  static int load_misc_binary(struct linux_binprm *bprm)
+>  static int parse_command(const char __user *buffer, size_t count)
 >  {
-> -	struct binfmt_misc_entry *fmt;
-> -	struct file *interp_file = NULL;
-> -	int retval = -ENOEXEC;
-> +	struct binfmt_misc_entry *fmt __free(put_binfmt_handler) = NULL;
-> +	struct file *interp_file;
->  	struct binfmt_misc *misc;
-> +	int retval;
->  
->  	misc = current_binfmt_misc();
->  	if (!READ_ONCE(misc->enabled))
-> -		return retval;
-> +		return -ENOEXEC;
->  
->  	fmt = get_binfmt_handler(misc, bprm);
->  	if (!fmt)
-> -		return retval;
-> +		return -ENOEXEC;
->  
->  	/* Need to be able to load the file after exec */
-> -	retval = -ENOENT;
->  	if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
-> -		goto ret;
-> +		return -ENOENT;
->  
->  	if (fmt->flags & MISC_FMT_PRESERVE_ARGV0) {
->  		bprm->interp_flags |= BINPRM_FLAGS_PRESERVE_ARGV0;
->  	} else {
->  		retval = remove_arg_zero(bprm);
->  		if (retval)
-> -			goto ret;
-> +			return retval;
->  	}
->  
->  	if (fmt->flags & MISC_FMT_OPEN_BINARY)
-> @@ -247,19 +248,19 @@ static int load_misc_binary(struct linux_binprm *bprm)
->  	/* make argv[1] be the path to the binary */
->  	retval = copy_string_kernel(bprm->interp, bprm);
->  	if (retval < 0)
-> -		goto ret;
-> +		return retval;
->  	bprm->argc++;
->  
->  	/* add the interp as argv[0] */
->  	retval = copy_string_kernel(fmt->interpreter, bprm);
->  	if (retval < 0)
-> -		goto ret;
-> +		return retval;
->  	bprm->argc++;
->  
->  	/* Update interp in case binfmt_script needs it. */
->  	retval = bprm_change_interp(fmt->interpreter, bprm);
->  	if (retval < 0)
-> -		goto ret;
-> +		return retval;
->  
->  	if (fmt->flags & MISC_FMT_OPEN_FILE) {
->  		interp_file = file_clone_open(fmt->interp_file);
-> @@ -274,27 +275,13 @@ static int load_misc_binary(struct linux_binprm *bprm)
->  	} else {
->  		interp_file = open_exec(fmt->interpreter);
->  	}
-> -	retval = PTR_ERR(interp_file);
->  	if (IS_ERR(interp_file))
-> -		goto ret;
-> +		return PTR_ERR(interp_file);
->  
->  	bprm->interpreter = interp_file;
->  	if (fmt->flags & MISC_FMT_CREDENTIALS)
->  		bprm->execfd_creds = 1;
-> -
-> -	retval = 0;
-> -ret:
-> -
-> -	/*
-> -	 * If we actually put the entry here all concurrent calls to
-> -	 * load_misc_binary() will have finished. We also know
-> -	 * that for the refcount to be zero someone must have concurently
-> -	 * removed the binary type handler from the list and it's our job to
-> -	 * free it.
-> -	 */
-> -	put_binfmt_handler(fmt);
-> -
-> -	return retval;
-> +	return 0;
+> @@ -556,15 +564,15 @@ static int parse_command(const char __user *buffer, size_t count)
+>  	if (copy_from_user(s, buffer, count))
+>  		return -EFAULT;
+>  	if (!count)
+> -		return 0;
+> +		return BM_CMD_IGNORE;
+>  	if (s[count - 1] == '\n')
+>  		count--;
+>  	if (count == 1 && s[0] == '0')
+> -		return 1;
+> +		return BM_CMD_DISABLE;
+>  	if (count == 1 && s[0] == '1')
+> -		return 2;
+> +		return BM_CMD_ENABLE;
+>  	if (count == 2 && s[0] == '-' && s[1] == '1')
+> -		return 3;
+> +		return BM_CMD_REMOVE;
+>  	return -EINVAL;
 >  }
 >  
->  /* Command parsers */
+> @@ -717,16 +725,13 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+>  	int res = parse_command(buffer, count);
+>  
+>  	switch (res) {
+> -	case 1:
+> -		/* Disable this handler. */
+> +	case BM_CMD_DISABLE:
+>  		clear_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+>  		break;
+> -	case 2:
+> -		/* Enable this handler. */
+> +	case BM_CMD_ENABLE:
+>  		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+>  		break;
+> -	case 3:
+> -		/* Delete this handler. */
+> +	case BM_CMD_REMOVE:
+>  		inode = d_inode(inode->i_sb->s_root);
+>  		inode_lock_nested(inode, I_MUTEX_PARENT);
+>  
+> @@ -866,16 +871,13 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+>  
+>  	misc = i_binfmt_misc(file_inode(file));
+>  	switch (res) {
+> -	case 1:
+> -		/* Disable all handlers. */
+> +	case BM_CMD_DISABLE:
+>  		WRITE_ONCE(misc->enabled, false);
+>  		break;
+> -	case 2:
+> -		/* Enable all handlers. */
+> +	case BM_CMD_ENABLE:
+>  		WRITE_ONCE(misc->enabled, true);
+>  		break;
+> -	case 3:
+> -		/* Delete all handlers. */
+> +	case BM_CMD_REMOVE:
+>  		inode = d_inode(file_inode(file)->i_sb->s_root);
+>  		inode_lock_nested(inode, I_MUTEX_PARENT);
+>  
 > 
 > -- 
 > 2.53.0
 > 
+
+Good clean-up.
 
 Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
