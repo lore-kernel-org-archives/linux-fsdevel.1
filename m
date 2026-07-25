@@ -1,275 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA26332EBD;
-	Sat, 25 Jul 2026 19:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0BC625;
+	Sat, 25 Jul 2026 20:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785007427; cv=none; b=itWj2pei4VPP1tIP4DCNgAKHUhsuuoX6aGvf3QAM3bNDtmXZbNe0q8pETgE2eBl5utNcWmdM0YSNpBJBjO1qwL4hBUpYQkGxSFYXWkP75dYV5ZwQjsbbYS/eRIRO0vOfvI/5hSfbbkG6cFncq3bIgEUqtKfIHPfktzAUe1eZzD8=
+	t=1785011472; cv=none; b=aTgBjb9cj0tsiNCIRNgwNLQgX0d4hZvqBukP+Rg2l7tWTaje0908uRIqsphDDLpNn90NS7itft0NcPZn0kT/lLzw0lkWg+AGJ+lbKUrBFyLPInQnST1u4p1GrXrFF2jSYORyEQQo4xyOyaRpTavkuvEMlc1C2OJHvum7JLtMtJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785007427; c=relaxed/simple;
-	bh=jVg+L2Exyf4K4F6Gf2i3SjiVAQ4iYbUyeTmPcEkO1YM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tsC6sFm979lr+cUTlx69KjgFqad8/Dhh/HBVP+8rfNr8KYCLUOfMUT7gFz27sR3pfwBPNZExpqhrNMc2V4CTHu7TO7f6dng0CR0cUOkqRDuvsnCG1NEbsU7gqogbv0Am45wrF7ucwUG9sm3KMt1kJJXS2yphTH6NeyLTTyth/E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eW9hwrQ9; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785011472; c=relaxed/simple;
+	bh=e6KMoD3bd5/q6p3xQeg23qgiuejFXySUo/aGZ6esyCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JKAGydDvVpvukxAV9Q1NF4vPSEA0b15yWfsrQ+p8Z/gHAJTBkG3dE+5eiVca8cKXSa3+Noh0ZRnip2j1grPveDwhnKx5JBqbrqP+cZ/zdtyC9p92rmeO423HfMKXTQCZvNPA2mBE33TwVY9FNnKOF7f2Gxtd/dBn9DwNGDP2Zzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAfTn9kP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eW9hwrQ9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785007426; x=1816543426;
-  h=date:from:to:cc:subject:message-id;
-  bh=jVg+L2Exyf4K4F6Gf2i3SjiVAQ4iYbUyeTmPcEkO1YM=;
-  b=eW9hwrQ91gMGcgnvjIphaF4I1TA5W4zQpCjyFZxjA60D+l9BvqVarFcc
-   FH6ScOgMeLoYXdN9IJCHZg2nbH8LKaHWD8a27u52QyMsoHYTl7LEfHtTw
-   vMDrRHiKGbXhplbubH5vbygClpVoBSrCpU4LpBXgc5AulYO2qEQuBJNjk
-   jtm18IaUQ7bsCno/B0/mMlm0aJh0bgiLXkeFlW2dir6+uufHlbaEjGoDW
-   tZT5K9EzmdRd5IOnJNR3MVGXgbgJ/5s9MNVvEAjhFFv5hBAs65uykSc9v
-   i0j3Wt/EZ5MU1WbDnPyP45sJ+qc2cZvAOO7hy6BrgpVk3MqUvuq3RFWrw
-   Q==;
-X-CSE-ConnectionGUID: F/9rJmEiTOq++FHCSnqQQw==
-X-CSE-MsgGUID: 5x8USorRSpC0cMNHTGc3LQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="97151585"
-X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
-   d="scan'208";a="97151585"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 12:23:45 -0700
-X-CSE-ConnectionGUID: GVhADuxjT2KVmxX9FvsHxQ==
-X-CSE-MsgGUID: VoxEGVhSSMGW3Jyvys9FwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
-   d="scan'208";a="297242565"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 25 Jul 2026 12:23:43 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wnhxn-00000000c1u-03lw;
-	Sat, 25 Jul 2026 19:23:32 +0000
-Date: Sun, 26 Jul 2026 03:22:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
- 9eebf259d5352b87080d67758f483583d9e763d7
-Message-ID: <202607260311.Mnd1CzmA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAfTn9kP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFA01F000E9;
+	Sat, 25 Jul 2026 20:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785011470;
+	bh=e6KMoD3bd5/q6p3xQeg23qgiuejFXySUo/aGZ6esyCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=hAfTn9kP3ZABFKIwidJBkzkwUEnV03/r5N7p8kmUos3uDtUKUWtEJzQPpdypzC87s
+	 s8zXrjsDbl2M4eM1W7J86H4KiLLuZnMtxMMILtEw98qiQcngdzhm3Z933lwVaUuZ1u
+	 NLkyUWEUlaRXQiJD2BrV3+doGFNu5m2sLbsSq0EGZklaA6R4wtvLOLLa2OnPQe5qNl
+	 qRc/eqpUyUDjcyObmg1ruSpXH9PI078U1i4aarlF7k3SAVuPPwJdBfCiYHUHqv1JgK
+	 gHSHbd+Pb+4KEwvFVr0Xj05kVhoMd7+HPlRE8f80fEhbz02ckPWPFwbzdqixw/v4UL
+	 pVfAw00n8dMXA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>, Tony Luck <tony.luck@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Philipp Reisner <philipp.reisner@linbit.com>, Lars
+ Ellenberg <lars.ellenberg@linbit.com>, Christoph =?utf-8?Q?B=C3=B6hmwalde?=
+ =?utf-8?Q?r?=
+ <christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>, Johan
+ Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Michal Januszewski <spock@gentoo.org>, Helge Deller
+ <deller@gmx.de>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
+ <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Mark Fasheh
+ <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner
+ <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+ Luis Chamberlain
+ <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez
+ <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
+ Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>, Len Brown
+ <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Danilo
+ Krummrich <dakr@kernel.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, David
+ Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, Paul
+ Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E.
+ Hallyn" <serge@hallyn.com>, Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
+ linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+ bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] time/jiffies: Include linux/sysctl.h for
+ proc_int_u2k_conv_uop(), ...
+In-Reply-To: <20260721131207.803760-3-petr.pavlu@suse.com>
+References: <20260721131207.803760-1-petr.pavlu@suse.com>
+ <20260721131207.803760-3-petr.pavlu@suse.com>
+Date: Sat, 25 Jul 2026 22:31:07 +0200
+Message-ID: <874ihmke0k.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 9eebf259d5352b87080d67758f483583d9e763d7  Add linux-next specific files for 20260723
+On Tue, Jul 21 2026 at 15:11, Petr Pavlu wrote:
 
-Warning (recently discovered and may have been fixed):
+> The kernel/time/jiffies.c file uses proc_int_u2k_conv_uop(),
 
-    Warning: drivers/gpu/drm/panthor/panthor_fw.c:143 Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.end', 'data.end')
-    Warning: drivers/gpu/drm/panthor/panthor_fw.c:143 Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.start', 'data.start')
-    Warning: drivers/gpu/drm/panthor/panthor_fw.c:200 Excess struct member 'buf' description in 'panthor_fw_section' (did you mean one of: 'data.buf')
-    Warning: drivers/gpu/drm/panthor/panthor_fw.c:200 Excess struct member 'size' description in 'panthor_fw_section' (did you mean one of: 'data.size')
-    Warning: drivers/gpu/drm/panthor/panthor_fw.c:273 Excess struct member 'ping_work' description in 'panthor_fw' (did you mean one of: 'watchdog.ping_work')
-    Warning: drivers/gpu/drm/panthor/panthor_mmu.c:405 Excess struct member 'kernel_auto_va.size' description in 'panthor_vm' (did you mean one of: 'kernel_auto_va.end', 'kernel_auto_va', 'kernel_auto_va.start')
-    Warning: drivers/mtd/nand/raw/omap2.c:671 Excess function parameter 'ecc_data2' description in 'omap_compare_ecc' (did you mean one of: 'ecc_data1', 'page_data')
-    Warning: drivers/phy/apple/atc.c:631 Excess struct member 'sw' description in 'apple_atcphy' (did you mean one of: 'swap_lanes')
-    Warning: drivers/tee/qcomtee/async.c:107 Excess function parameter 'msg' description in 'async_release' (did you mean one of: 'async_msg')
-    Warning: drivers/tty/serial/mux.c:117 Excess function parameter 'ports' description in 'mux_set_mctrl' (did you mean one of: 'port')
-    Warning: fs/inode.c:1300 Excess function parameter 'isnew' description in 'inode_insert5' (did you mean one of: 'inode')
-    Warning: fs/inode.c:1303 Excess function parameter 'isnew' description in 'inode_insert5' (did you mean one of: 'inode')
+jiffies.c uses ...
 
-Unverified Warning (likely false positive, kindly check if interested):
+> proc_int_k2u_conv_kop(), proc_int_conv(), proc_dointvec_conv() and
+> proc_doulongvec_minmax_conv(), which are declared in linux/sysctl.h. It
+> currently relies on this header being included indirectly through
+> linux/module.h -> linux/kmod.h. Add the missing include in preparation for
+> removing the linux/sysctl.h include from linux/kmod.h.
 
-    https://lore.kernel.org/oe-kbuild/202607260226.sVPNzyMU-lkp@intel.com
+Can you please split that spaghetti sentence into paragraphs?
 
-    fs/iomap/direct-io.c:939:36-37: WARNING opportunity for min()
+https://docs.kernel.org/process/maintainer-tip.html#changelog
 
-Warning ids grouped by kconfigs:
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
 
-recent_errors
-|-- arc-allyesconfig
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-buf-description-in-panthor_fw_section-(
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-end-description-in-panthor_fw_binary_section_entry_hdr-(
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-ping_work-description-in-panthor_fw-(
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-size-description-in-panthor_fw_section-(
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_fw.c-Excess-struct-member-start-description-in-panthor_fw_binary_section_entry_hdr-(
-|   |-- Warning:drivers-gpu-drm-panthor-panthor_mmu.c-Excess-struct-member-kernel_auto_va.size-description-in-panthor_vm-(
-|   `-- Warning:drivers-phy-apple-atc.c-Excess-struct-member-sw-description-in-apple_atcphy-(
-|-- csky-allmodconfig
-|   |-- Warning:drivers-mtd-nand-raw-omap2.c-Excess-function-parameter-ecc_data2-description-in-omap_compare_ecc-(
-|   `-- Warning:drivers-tee-qcomtee-async.c-Excess-function-parameter-msg-description-in-async_release-(
-|-- i386-buildonly-randconfig-001-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-buildonly-randconfig-002-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-buildonly-randconfig-003-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-buildonly-randconfig-004-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-buildonly-randconfig-005-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-buildonly-randconfig-006-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- i386-randconfig-r053-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- loongarch-defconfig
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- m68k-randconfig-r051-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- microblaze-randconfig-r053-20260725
-|   `-- fs-iomap-direct-io.c:WARNING-opportunity-for-min()
-|-- parisc-defconfig
-|   `-- Warning:drivers-tty-serial-mux.c-Excess-function-parameter-ports-description-in-mux_set_mctrl-(
-|-- sh-defconfig
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- sparc-randconfig-r052-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-001
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-001-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-002-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-003-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-004-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-005-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-buildonly-randconfig-006-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-randconfig-161
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-|-- x86_64-randconfig-161-20260724
-|   `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
-`-- x86_64-randconfig-r054-20260724
-    `-- Warning:fs-inode.c-Excess-function-parameter-isnew-description-in-inode_insert5-(
+Other than that.
 
-elapsed time: 3026m
-
-configs tested: 117
-configs skipped: 1
-
-tested configs:
-alpha                            allnoconfig    gcc-16.1.0
-alpha                           allyesconfig    gcc-16.1.0
-alpha                              defconfig    gcc-16.1.0
-arc                             allmodconfig    gcc-16.1.0
-arc                             allyesconfig    gcc-16.1.0
-arc                           randconfig-001    gcc-8.5.0
-arc                  randconfig-001-20260725    gcc-11.5.0
-arc                  randconfig-002-20260725    gcc-8.5.0
-arm                  randconfig-001-20260725    gcc-8.5.0
-arm                  randconfig-002-20260725    clang-21
-arm                  randconfig-003-20260725    gcc-10.5.0
-arm                  randconfig-004-20260725    gcc-15.2.0
-arm64                randconfig-001-20260725    clang-24
-arm64                randconfig-002-20260725    gcc-13.4.0
-arm64                randconfig-003-20260725    clang-24
-arm64                randconfig-004-20260725    clang-24
-csky                            allmodconfig    gcc-16.1.0
-csky                 randconfig-001-20260725    gcc-9.5.0
-csky                 randconfig-002-20260725    gcc-16.1.0
-hexagon                       randconfig-001    clang-17
-hexagon              randconfig-001-20260725    clang-17
-hexagon              randconfig-002-20260725    clang-24
-i386                            allmodconfig    gcc-14
-i386       buildonly-randconfig-001-20260724    clang-22
-i386       buildonly-randconfig-001-20260725    clang-22
-i386       buildonly-randconfig-002-20260724    gcc-14
-i386       buildonly-randconfig-002-20260725    gcc-14
-i386       buildonly-randconfig-003-20260724    gcc-14
-i386       buildonly-randconfig-003-20260725    clang-22
-i386       buildonly-randconfig-004-20260724    gcc-13
-i386       buildonly-randconfig-004-20260725    clang-22
-i386       buildonly-randconfig-005-20260724    clang-22
-i386       buildonly-randconfig-005-20260725    gcc-14
-i386       buildonly-randconfig-006-20260724    clang-22
-i386       buildonly-randconfig-006-20260725    gcc-14
-i386                          randconfig-001    clang-22
-i386                 randconfig-001-20260725    clang-22
-i386                 randconfig-002-20260725    gcc-14
-i386                 randconfig-003-20260725    gcc-14
-i386                 randconfig-004-20260725    gcc-12
-i386                 randconfig-005-20260725    clang-22
-i386                 randconfig-006-20260725    gcc-14
-i386                 randconfig-007-20260725    gcc-14
-i386                 randconfig-011-20260725    gcc-14
-i386                 randconfig-012-20260725    gcc-14
-i386                 randconfig-013-20260725    gcc-14
-i386                 randconfig-014-20260725    clang-22
-i386                 randconfig-015-20260725    clang-22
-i386                 randconfig-016-20260725    clang-22
-i386                 randconfig-017-20260725    clang-22
-loongarch                          defconfig    clang-24
-loongarch            randconfig-001-20260725    gcc-16.1.0
-loongarch            randconfig-002-20260725    gcc-13.4.0
-nios2                           allmodconfig    gcc-11.5.0
-nios2                            allnoconfig    gcc-11.5.0
-nios2                randconfig-001-20260725    gcc-11.5.0
-nios2                randconfig-002-20260725    gcc-9.5.0
-parisc                          allmodconfig    gcc-16.1.0
-parisc                          allyesconfig    gcc-16.1.0
-parisc                             defconfig    gcc-16.1.0
-parisc               randconfig-001-20260725    gcc-10.5.0
-parisc               randconfig-002-20260725    gcc-12.5.0
-powerpc              randconfig-001-20260725    gcc-9.5.0
-powerpc              randconfig-002-20260725    gcc-15.2.0
-powerpc64            randconfig-001-20260725    clang-17
-powerpc64            randconfig-002-20260725    clang-24
-riscv                randconfig-001-20260725    gcc-8.5.0
-riscv                randconfig-002-20260725    gcc-8.5.0
-s390                 randconfig-001-20260725    gcc-10.5.0
-s390                 randconfig-002-20260725    gcc-16.1.0
-sh                                 defconfig    gcc-16.1.0
-sh                       edosk7760_defconfig    gcc-16.1.0
-sh                   randconfig-001-20260725    gcc-16.1.0
-sh                   randconfig-002-20260725    gcc-11.5.0
-sparc                randconfig-001-20260725    gcc-16.1.0
-sparc                randconfig-002-20260725    gcc-8.5.0
-sparc64              randconfig-001-20260725    gcc-8.5.0
-sparc64              randconfig-002-20260725    gcc-10.5.0
-um                   randconfig-001-20260725    gcc-14
-um                   randconfig-002-20260725    clang-24
-x86_64              buildonly-randconfig-001    gcc-12
-x86_64     buildonly-randconfig-001-20260724    clang-22
-x86_64     buildonly-randconfig-001-20260725    clang-22
-x86_64     buildonly-randconfig-002-20260724    clang-22
-x86_64     buildonly-randconfig-002-20260725    clang-22
-x86_64     buildonly-randconfig-003-20260724    gcc-14
-x86_64     buildonly-randconfig-003-20260725    clang-22
-x86_64     buildonly-randconfig-004-20260724    clang-22
-x86_64     buildonly-randconfig-004-20260725    gcc-12
-x86_64     buildonly-randconfig-005-20260724    clang-22
-x86_64     buildonly-randconfig-005-20260725    gcc-12
-x86_64     buildonly-randconfig-006-20260724    clang-22
-x86_64     buildonly-randconfig-006-20260725    gcc-14
-x86_64                                 kexec    clang-22
-x86_64                        randconfig-001    gcc-14
-x86_64               randconfig-001-20260725    gcc-14
-x86_64               randconfig-002-20260725    clang-22
-x86_64               randconfig-003-20260725    clang-22
-x86_64               randconfig-004-20260725    clang-22
-x86_64               randconfig-005-20260725    clang-22
-x86_64               randconfig-006-20260725    clang-22
-x86_64                        randconfig-011    gcc-14
-x86_64               randconfig-011-20260725    gcc-14
-x86_64               randconfig-012-20260725    gcc-14
-x86_64               randconfig-013-20260725    gcc-14
-x86_64               randconfig-014-20260725    gcc-14
-x86_64               randconfig-015-20260725    gcc-14
-x86_64               randconfig-016-20260725    gcc-14
-x86_64               randconfig-071-20260725    gcc-14
-x86_64               randconfig-072-20260725    gcc-14
-x86_64               randconfig-073-20260725    gcc-14
-x86_64               randconfig-074-20260725    gcc-14
-x86_64               randconfig-075-20260725    gcc-14
-x86_64               randconfig-076-20260725    clang-22
-x86_64                          rhel-9.4-bpf    gcc-14
-xtensa               randconfig-001-20260725    gcc-16.1.0
-xtensa               randconfig-002-20260725    gcc-8.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Thomas Gleixner <tglx@kernel.org>
