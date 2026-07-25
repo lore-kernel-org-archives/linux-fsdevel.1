@@ -1,217 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4603F23B1;
-	Sat, 25 Jul 2026 17:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE332FFF9D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 18:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785001119; cv=none; b=YR5fu14SzTVGDxhuZQlaGT6JuouLzxt6VyT1TBRNJYb+D8uX1Vc7/zodqZqzNtT7NLZyzC40NmYznA+Lar5IgFmzqc/94z6y2cG6k204vheS+OLGdTNI5FSA16iNpaIVjZFGf3MUtm/b+xlXcGP28/msOFy3Bhi2h7z5fPZJ4xQ=
+	t=1785003708; cv=none; b=V5IsudvqhkV2BwpFQkRmwfXM23iZGM1ROjLg1zQlAyswOR5O1MzmBa9hqD+G2AAvd+EDFD7w8gFY6IR0bnNDpIIRIjW/CIxE1DVulWxyQZcylkbPnXncNbRLTdy2SeIVaHS//jFza/0YkowKruDsdykHP79Ql1bLgiTJ2hdgtXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785001119; c=relaxed/simple;
-	bh=k2JgkmorkaNJ8D8+DSWiTjczfVCa1cmdZdl1b21Qq2A=;
+	s=arc-20240116; t=1785003708; c=relaxed/simple;
+	bh=17COEp6Pw+sFOKKXbxf1ynJVagC8mrh0Qz75M5IbeNg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UQ9GaZ3ZUEOWiHqgEM9/oGM6oUOUoVQsrdPUmjgpYltHXLaMHH6QR3plOLanUNI1V77jK0RzvBwp1TkRH/CpLANad+ObyHlSsHj9V/P2oPHQEaP51jNvczvqnzA5Oge4AJ6Z4Wf5v85T5B7x0qy4mxiPHbdcBx1gtqrLgWaVr00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbLGkWpN; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kDtbQIjUvT/qHII6jfhrjITBFvzz2diCAMOehJKtk8W8g4dAX+FH7uwYIGQ/E1uGCY7zVcrW/Oa1bcSP3bk5irIry7D92fs3pGpI5TqHE6NGsbAdOf1j0Z/hUdlqlGGm1UPu2y69/JSlDzR9XTCRCHTfG4i/m3T2ClYRLlcuSH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uDcpzhx7; arc=none smtp.client-ip=195.121.94.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbLGkWpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C003D1F000E9;
-	Sat, 25 Jul 2026 17:38:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785001112;
-	bh=QylY0Jj+M9aiGs5V5SL5IjP/iHtiFsye8Zowe/lAKfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hbLGkWpNrMM4k73a7LkMKOLXC3oYWnMbIQUTX9a1AMPyP+ZB2YtDGSKAOO7LnRTqG
-	 vBTBVOyCfgkBM0MWbOb/NoVC5YN9xSGoda6NWf0PzmMOT1fw/XOO6vHcoZm2T9Hnp5
-	 55ibAzms1bMqsEcamK0sa477Sp/cRJs/DtF2sButDQG4u1jm7nFthZJfCS76oVES0q
-	 WsTkfomIff31rzlYsktIJhBXeK7omGcTHPA60jUlZ+1E5GFmI8FYxCp3658BnzoxL3
-	 TPxHPEdFzInIhLMkWjbdj7ZY/o7vUtkGVxUVFRul5xDUBZdBWJw09bqSEyMu0nLWef
-	 YF/1c7ceJP17Q==
-Date: Sat, 25 Jul 2026 19:38:23 +0200
-From: Helge Deller <deller@kernel.org>
-To: John David Anglin <dave.anglin@bell.net>,
-	Usama Arif <usama.arif@linux.dev>
-Cc: Helge Deller <deller@gmx.de>, Pedro Falcato <pfalcato@suse.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/5] mm/parisc: constify ptep_get() argument
-Message-ID: <amT0j_bBT3CCxPcg@p100>
-References: <20260724102017.141532-1-pfalcato@suse.de>
- <20260724102017.141532-4-pfalcato@suse.de>
- <0fd713a8-e4ab-4c07-b36e-79dd138b4a86@linux.dev>
- <amNzLXuwflIZFKtI@casper.infradead.org>
- <253f7ac0-205b-42f1-9fb5-d19eceb581b6@linux.dev>
- <amOEUZlp1BxYh6_t@pedro-suse>
- <fd239383-dcbe-4daf-b337-32facef07076@linux.dev>
- <3e9dece8-4e86-4ce5-bd74-b3ec305f3003@gmx.de>
- <4606e13f-6827-45d0-b3b8-6bc26358f7ae@bell.net>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uDcpzhx7"
+X-KPN-MessageId: aeb9bd64-8855-11f1-861c-005056aba152
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id aeb9bd64-8855-11f1-861c-005056aba152;
+	Sat, 25 Jul 2026 20:21:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=JKAv7Rcb+XF+MTf6/2o5bbMRxppJLao2u2LZeNBPHHw=;
+	b=uDcpzhx7R1Dhfftos+ax8g7JM3qDGjVogjQ/l1L4Y9rkdq3w1LuW+goHBLL/WHWHklltK3/voBEpR
+	 k0w/QLvpaN2KIfyJ4pMg2ABod9PuLwWHQSCdwWfBvcF+EKO55lQPXUXCdQoWwSsMBUO5d2Y1Y0viO7
+	 Ok2+7r6g+7PuHZrA6FetpflUdkEYXGXU1fS5FzDJnzVcPQkU2xnQ7qv364uFVpNX8qE+bmP3scSz7b
+	 xcSuGLOVgWDIPJW9fXi0wA9fsE29sLpn7G4O9PWkiC1Th7TtD1NeCpcWPp0CVkGoy19U795Jag7eh3
+	 H+Sbgw0AT3Bk4DHBmLVjQVMCk6BBMMg==
+X-KPN-MID: 33|6qfqhItQ4gQ5bHeJtFSjfF40qFU6dL4YnwbgV8RVeAF99lAyDpv7gAzT84HJeDM
+ n2iv05l+Wxd+l9b6s5j31Io370crtYt2nea1WtsMKMbU=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|7H6mtHItgB5zCIATCF614+EYUstmPoLgrrw52T/gFNOaWHcagi4/WCgHU82Z3wz
+ aJnTpx6QbASd67+IveF+cGQ==
+Received: from localhost (unknown [178.226.150.234])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id ae932332-8855-11f1-a8b6-005056ab7447;
+	Sat, 25 Jul 2026 20:21:40 +0200 (CEST)
+Date: Sat, 25 Jul 2026 20:21:34 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+Subject: Re: [PATCH v3 24/24] binfmt_misc: allow removing entries via
+ unlink(2)
+Message-ID: <amT-nhNiupmKweJj@lt-jori.localdomain>
+References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
+ <20260710-work-binfmt_misc-locking-v3-24-a162f7cb58d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4606e13f-6827-45d0-b3b8-6bc26358f7ae@bell.net>
+In-Reply-To: <20260710-work-binfmt_misc-locking-v3-24-a162f7cb58d6@kernel.org>
 
-* John David Anglin <dave.anglin@bell.net>:
-> On 2026-07-25 12:27 p.m., Helge Deller wrote:
-> > On 7/24/26 17:48, Usama Arif wrote:
-> >>
-> >>
-> >> On 24/07/2026 16:32, Pedro Falcato wrote:
-> >>> On Fri, Jul 24, 2026 at 04:03:44PM +0100, Usama Arif wrote:
-> >>>>
-> >>>>
-> >>>> On 24/07/2026 15:14, Matthew Wilcox wrote:
-> >>>>> On Fri, Jul 24, 2026 at 02:36:59PM +0100, Usama Arif wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 24/07/2026 11:20, Pedro Falcato wrote:
-> >>>>>>> ptep_get() does not need write access to the PTE.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
-> >>>>>>> ---
-> >>>>>>>   arch/parisc/include/asm/pgtable.h | 2 +-
-> >>>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>>>
-> >>>>>> hmm I think you might break build bisectibility if
-> >>>>>> you separate out the patches, you should squash patch 3 and 4,
-> >>>>>> with patch 1.
-> >>>>>
-> >>>>> I don't see how this breaks bisectability.  Can you elaborate on what
-> >>>>> you think would break?
-> >>>>
-> >>>> Patch 1 does:
-> >>>>
-> >>>> -static inline pte_t ptep_get_lockless(pte_t *ptep)
-> >>>> +static inline pte_t ptep_get_lockless(const pte_t *ptep)
-> >>>>   {
-> >>>>       return ptep_get(ptep);
-> >>>>   }
-> >>>>
-> >>>>
-> >>>> ptep_get() takes a non-const arg till patch 3 for example for parsic.
-> >>>> I don't think you can pass a const variable to non const function arg?
-> >>>>
-> >>>> So parsic won't compile in patch 1 and 2, powerprc wont compile
-> >>>> for patches 1, 2 and 3..
-> >>>
-> >>> Aha, yes, nice catch! I'll have to rethink that. Maybe squashing the patches
-> >>> would be the cleanest way forward.
-> >>>
-> >>
-> >> Yes, squashing is the simplest way forward.
-> >>
-> >>> FWIW, the vast majority of architectures aren't doing funny things on
-> >>> ptep_get(). E.g PA-RISC, loongarch only define these so they can use it in
-> >>> their own asm/pgtable.h. I'd really like to delete these but I can't tell
-> >>> if they are *actually* required.
-> >>>
-> >>
-> >> Ah maybe there is something in git history on why it was needed?
-> >>
-> >> If not, hopefully someone from the arch lists could clarify..
-> > I tried to remove ptep_get() and ptep_test_and_clear_young() from
-> > arch/parisc/include/asm/pgtable.h, but this then triggers compile errors:
-> > 
-> >  CC      arch/parisc/kernel/asm-offsets.s
-> > In file included from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/mm.h:31,
-> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pid_namespace.h:7,
-> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/ptrace.h:10,
-> >                  from /home/cvs/parisc/git-kernel/linus-linux-2.6/arch/parisc/kernel/asm-offsets.c:21:
-> > /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h: In function ‘clear_young_dirty_ptes’:
-> > /home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/pgtable.h:683:25: error: implicit declaration of function ‘ptep_test_and_clear_young’;
-> > did you mean ‘pmdp_test_and_clear_young’? [-Wimplicit-function-declaration]
-> >   683 |                         ptep_test_and_clear_young(vma, addr, ptep);
-> >       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                         pmdp_test_and_clear_young
-> > 
-> > So, I think the answer is, that the local copy of ptep_get() is used in the parisc implementation of
-> > ptep_test_and_clear_young() function.
-> > 
-> > Switching to the default include/linux/pgtable.h seems not easy doable....
+On Fri, Jul 10, 2026 at 11:33:25AM +0200, Christian Brauner wrote:
+> Removing a binary type handler requires echoing -1 into its entry
+> file which works but is an odd interface to discover for something
+> that already looks like a plain file in a filesystem. The comment on
+> remove_binfmt_handler() has been suggesting a proper ->unlink()
+> method for years, so add one: unlinking an entry file unhashes the
+> entry from the handler list and removes the file, exactly like
+> writing -1 to it does. The status and register control files refuse
+> removal with EPERM the same way binderfs protects binder-control.
+> Writing -1 keeps working.
 > 
-> Did you remove define for __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG in parisc version of pgtable.h?
+> Permission-wise nothing new is exposed: unlink(2) requires write
+> access to the root directory which is owned by the (user namespace)
+> root with mode 0755, matching the privilege needed to write to the
+> 0644 entry files. The VFS calls ->unlink() with the root inode lock
+> held so the existing writer serialization scheme applies unchanged,
+> and eviction of the unlinked inode drops the entry reference exactly
+> as for the write based removal.
+> 
+> Document the new way in admin-guide/binfmt-misc.rst.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  Documentation/admin-guide/binfmt-misc.rst |  3 +-
+>  fs/binfmt_misc.c                          | 77 ++++++++++++++++++++++---------
+>  2 files changed, 58 insertions(+), 22 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
+> index c0a34fbf8022..306ef48f5de6 100644
+> --- a/Documentation/admin-guide/binfmt-misc.rst
+> +++ b/Documentation/admin-guide/binfmt-misc.rst
+> @@ -133,7 +133,8 @@ or 1 (to enable) to ``/proc/sys/fs/binfmt_misc/status`` or
+>  Catting the file tells you the current status of ``binfmt_misc/the_entry``.
+>  
+>  You can remove one entry or all entries by echoing -1 to ``/proc/.../the_name``
+> -or ``/proc/sys/fs/binfmt_misc/status``.
+> +or ``/proc/sys/fs/binfmt_misc/status``. A single entry can also be removed
+> +by simply unlinking (``rm``) ``/proc/.../the_name``.
+>  
+>  
+>  Hints
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index 46c65a618b19..fcaad14f81a3 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -639,8 +639,8 @@ static struct binfmt_misc *i_binfmt_misc(struct inode *inode)
+>   * entry is removed or the filesystem is unmounted and the super block is
+>   * shutdown.
+>   *
+> - * If the ->evict call was not caused by a super block shutdown but by a write
+> - * to remove the entry or all entries via bm_{entry,status}_write() the entry
+> + * If the ->evict call was not caused by a super block shutdown but by
+> + * removing the entry via bm_{entry,status}_write() or unlink(2) the entry
+>   * will have already been removed from the list. We keep the hlist_unhashed()
+>   * check to make that explicit.
+>  */
+> @@ -662,6 +662,26 @@ static void bm_evict_inode(struct inode *inode)
+>  	}
+>  }
+>  
+> +/**
+> + * unlink_binfmt_handler - unhash a binary type handler
+> + * @misc: handle to binfmt_misc instance
+> + * @e: binary type handler to unhash
+> + *
+> + * Adding and removing entries via bm_{entry,register,status}_write() and
+> + * unlink(2) happens under the exclusively held inode lock of the root
+> + * dentry keeping the list stable for writers. load_misc_binary() walks it
+> + * concurrently under RCU. The entries_lock is only held around the actual
+> + * unlink to serialize against bm_evict_inode() which unlinks entries
+> + * during umount without holding the root inode lock.
+> + */
+> +static void unlink_binfmt_handler(struct binfmt_misc *misc,
+> +				  struct binfmt_misc_entry *e)
+> +{
+> +	spin_lock(&misc->entries_lock);
+> +	hlist_del_init_rcu(&e->node);
+> +	spin_unlock(&misc->entries_lock);
+> +}
+> +
+>  /**
+>   * remove_binfmt_handler - remove a binary type handler
+>   * @misc: handle to binfmt_misc instance
+> @@ -669,29 +689,15 @@ static void bm_evict_inode(struct inode *inode)
+>   *
+>   * Remove a binary type handler from the list of binary type handlers and
+>   * remove its associated dentry.
+> - *
+> - * Adding and removing entries via bm_{entry,register,status}_write()
+> - * happens under the exclusively held inode lock of the root dentry keeping
+> - * the list stable for writers. load_misc_binary() walks it concurrently
+> - * under RCU. The entries_lock is only held around the actual unlink to
+> - * serialize against bm_evict_inode() which unlinks entries during umount
+> - * without holding the root inode lock.
+> - *
+> - * In the future, we might want to think about adding a proper ->unlink()
+> - * method to binfmt_misc instead of forcing callers to use writes to files
+> - * in order to delete binary type handlers. But it has worked for so long
+> - * that it's not a pressing issue.
+>   */
+>  static void remove_binfmt_handler(struct binfmt_misc *misc,
+>  				  struct binfmt_misc_entry *e)
+>  {
+> -	spin_lock(&misc->entries_lock);
+> -	hlist_del_init_rcu(&e->node);
+> -	spin_unlock(&misc->entries_lock);
+> +	unlink_binfmt_handler(misc, e);
+>  	locked_recursive_removal(e->dentry, NULL);
+>  }
+>  
+> -/* Remove @e unless a concurrent write already unlinked it. */
+> +/* Remove @e unless it was already removed. */
+>  static void bm_remove_entry(struct binfmt_misc_entry *e, struct super_block *sb)
+>  {
+>  	struct inode *root = d_inode(sb->s_root);
+> @@ -716,6 +722,32 @@ static void bm_remove_all_entries(struct binfmt_misc *misc,
+>  	inode_unlock(root);
+>  }
+>  
+> +/**
+> + * bm_unlink - remove a binary type handler via unlink(2)
+> + * @dir: inode of the root directory
+> + * @dentry: entry file to remove
+> + *
+> + * Removing the entry file removes its binary type handler, exactly like
+> + * writing -1 to it does. The status and register control files can't be
+> + * removed. The VFS calls this with the root inode lock held which
+> + * serializes against the write based add and remove paths.
+> + */
+> +static int bm_unlink(struct inode *dir, struct dentry *dentry)
+> +{
+> +	struct binfmt_misc_entry *e = d_inode(dentry)->i_private;
+> +
+> +	if (!e)
+> +		return -EPERM;
+> +
+> +	unlink_binfmt_handler(i_binfmt_misc(dir), e);
+> +	return simple_unlink(dir, dentry);
+> +}
+> +
+> +static const struct inode_operations bm_dir_inode_operations = {
+> +	.lookup		= simple_lookup,
+> +	.unlink		= bm_unlink,
+> +};
+> +
+>  /* /<entry> */
+>  
+>  static int bm_entry_open(struct inode *inode, struct file *file)
+> @@ -966,9 +998,12 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	WRITE_ONCE(misc->enabled, true);
+>  
+>  	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
+> -	if (!err)
+> -		sb->s_op = &bm_super_ops;
+> -	return err;
+> +	if (err)
+> +		return err;
+> +
+> +	sb->s_op = &bm_super_ops;
+> +	d_inode(sb->s_root)->i_op = &bm_dir_inode_operations;
+> +	return 0;
+>  }
+>  
+>  static void bm_free(struct fs_context *fc)
+> 
+> -- 
+> 2.53.0
+> 
 
-Indeed, I missed to remove that.
-
-Usama, if you want you can add the patch below to your patch set, thus
-simplifying your series?
-
-Helge
-
-------
-
-From: Helge Deller <deller@gmx.de>
-Date: Sat, 25 Jul 2026 19:19:55 +0200
-Subject: [PATCH] parisc: Drop own implementations for ptep_get() and
- ptep_test_and_clear_young()
-
-Switch to the generic implementations, which are identical.
-
-Suggested-by: Usama Arif <usama.arif@linux.dev>
-Suggested-by: John David Anglin <dave.anglin@bell.net>
-Signed-off-by: Helge Deller <deller@gmx.de>
-
-diff --git a/arch/parisc/include/asm/pgtable.h b/arch/parisc/include/asm/pgtable.h
-index 467b8547ac8b..d92dee9fef3f 100644
---- a/arch/parisc/include/asm/pgtable.h
-+++ b/arch/parisc/include/asm/pgtable.h
-@@ -432,25 +432,6 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
- 	return pte;
- }
- 
--static inline pte_t ptep_get(pte_t *ptep)
--{
--	return READ_ONCE(*ptep);
--}
--#define ptep_get ptep_get
--
--static inline bool ptep_test_and_clear_young(struct vm_area_struct *vma,
--		unsigned long addr, pte_t *ptep)
--{
--	pte_t pte;
--
--	pte = ptep_get(ptep);
--	if (!pte_young(pte)) {
--		return false;
--	}
--	set_pte_at(vma->vm_mm, addr, ptep, pte_mkold(pte));
--	return true;
--}
--
- bool ptep_clear_flush_young(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep);
- pte_t ptep_clear_flush(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep);
- 
-@@ -491,7 +472,6 @@ static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long addr,
- #define HAVE_ARCH_UNMAPPED_AREA
- #define HAVE_ARCH_UNMAPPED_AREA_TOPDOWN
- 
--#define __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG
- #define __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
- #define __HAVE_ARCH_PTEP_CLEAR_FLUSH
- #define __HAVE_ARCH_PTEP_SET_WRPROTECT
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
