@@ -1,72 +1,74 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBA832E72F
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 06:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C293E36998A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 06:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785047122; cv=none; b=Icrf3UIYVLX0rom2MkhsgOdtKu5mT6JSjeI2/8Igr52wCcLfiOebVV4HdQZsMLHm4WOOPQje62/9v9UTPm0BsdpmZhGm1Gvz7TXs86e/IkGn+BFNGR9q7ds9W5M7fJih/t2Y8abEnbRqz+/Sk9si/yBD6W/xHFtMq/p0Y/a1Kl4=
+	t=1785048015; cv=none; b=q/OVUQ7wcN8iudzAQDtCB17Op/e7buLW4nq8xeoXbn0abpB38LD6CbAH5f9sgs/GIEqp7R7kRrK2FZiaatB/LnfpCxi8LDCEMkHQD85LcJDik/fH1yHb6iEbfpptN3rIHZ8ePijRerKf6l1b2QvZY4fkSEh0DGDKCEbuUu7vWXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785047122; c=relaxed/simple;
-	bh=Hszg99Fhnt/WRuDbGMmPk8WSIMvY26tREE486XMnpmc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FaJdJ+vWeevYeVp1yWNBIrKHi+4WrrFkdvuS0OTOnQQQcNStvxd4W6P4hjYqYqxAH8fTv+ioJIeJZLyotoGn9xzM9AoavIdCd/kWpfc8XFTru7+43uW0q5oadK35G2TKyaQ0AAePMxgIvTUy8QA8KklfImMNwK/ww7zWNQESwoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=QZ1kpC72; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
+	s=arc-20240116; t=1785048015; c=relaxed/simple;
+	bh=bi3GXdFkUHfCUO2NRaFkiDKjIfJGzdYhOZgO1a0BYR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qLTtSB8x3DODKKhRcWulclGKddlhL9t+DFwOaWN70rzf5VnY0dsLOUNgHLP+o5ZeYvNJ9pssqCQNW8FXuDQ6Ekzyi0BcJkndlUy9ZhwI4bsiDWIdqeg8Xy4gmkgKv7FPKkUzRUIc7HGVOfJCCf5xHv6T+Psf4jeTJbAd81mJ09s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJAtiPQz; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="QZ1kpC72"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso1738330b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 23:25:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJAtiPQz"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-848643382fcso1828506b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 23:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xbow.com; s=google; t=1785047120; x=1785651920; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8eyy01gUZcTypOwXF2vr3vGTrQtX1X17k4pOsofiCGY=;
-        b=QZ1kpC722EVZFG0/AWQbNnb9tbfSYtiZ8Il1avooyCNydGPXn45jo9i+HSiljCOeK9
-         FihD6kRr68xLC+lyxW9h+wr5q1k3otBdjvEDXVUpXnerF/BAJjOlJMFP0V40NTIhui7y
-         zrKXrO99Koh+CRr86sya4+hY41yfto3IsgaLbeMklZIMKEuWScRInsyIkNCL86264s18
-         zwDxBJ8/mLxZhNQ29xUfDadxc241+pItcHZYw5Qlf8UDvAOWXA3ATQu177Xt+YB1y68o
-         zjY4EygESmlep36ISa99Xthi5Jg67ZkndQ+QBprIbQi7R3M8Z3BS6u7NRMuWuFAbtmkm
-         NUpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785047120; x=1785651920;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785048014; x=1785652814; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8eyy01gUZcTypOwXF2vr3vGTrQtX1X17k4pOsofiCGY=;
-        b=PYN99g8XzyIF0EfISzTCz9cv46eOQkj57gX5DSp0ZFvSjGMcf5JCR3JVp3K0r9s8s2
-         XATJ+sdVgPKzLnXKAPjHyc4hZJw0R8JP4jtdRnruAuEaTLy1YZjoK5ou1XSG2o5ToQrv
-         U48KtM9EXgwNjxd8pa3/ZotTXhq2MMpKfxQbdGGOPUw//9vfPIsyGHmUS4aT1R/g+dSy
-         ZAeyJwg7gJrehiUo2SSKf7p4qUoq9EZFi6SYxYtALu7/XBvXGA+RXE9x6gDaG/V95GAG
-         KBm/DDCWd4hYBmPFuFwRLZx4IqEHuaLMARZejBckeO3SC5IeoUlU2wuVUc3PiWn2qxqr
-         NLzw==
-X-Gm-Message-State: AOJu0Yy3hcuDUpaWW3oHDgRo/PoKbrIUIYDM/bGuSHE+t09Y2J9cEfSb
-	VRpwVg0dBtG3bLuX68/bcq4+FKtFScyMI2zSf8LyCIBeVinUAu+AzWgea34+4vHQNvhKLusHbcc
-	AMQ1miIk=
-X-Gm-Gg: AR+sD13uqpGp6FEmVVgDpTE6tSXW1w1JopEcPlPUoP41TxKhhFA1gLXJmE7t5WZe8vM
-	PVrLW8AshOcqBBjK4/2FytgxzOix50qmuUYXGYHOWiEzUf5VI0gXkjcgzp12a9UGEtyyfiTJUrc
-	dQNIY30cqozM1lHGP6FggG4GXe2mifvQQzetEeu/HC6CbGWdqbDhVJ+mXY8VEUxi7V6LnAFWcLZ
-	GKzl28GED/SNfv6hiVvGVOwotBCR/3QOYk2AgBCwJyvas+3Mo8WLc8/MUDtOpc5nwCM+wLhVITp
-	cYl0rBHk25IVGzpAS/rnsLkxtjlQl39PIzjs7VPem81V/5acMxjdHdtRFj1YlkyqontOJF/eSmz
-	IDKRUS7Pa10N1FWz+Zx/EmdagnVhku+YjyaJMsWKTUy6GnWYYRjcf1eUmHd+PRuuoUDW5D9qSjy
-	nZso0IAW6rCEaxnbEMwAjAcfGChTUricZjFciwPVcXIow8ckVNVe+/33pjAoNR
-X-Received: by 2002:a05:6a00:4c9a:b0:845:dbdc:8652 with SMTP id d2e1a72fcca58-84e5942bcacmr3501122b3a.2.1785047120125;
-        Sat, 25 Jul 2026 23:25:20 -0700 (PDT)
-Received: from localhost.localdomain ([125.128.148.126])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb66dcd38sm1841236a12.29.2026.07.25.23.25.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 25 Jul 2026 23:25:19 -0700 (PDT)
-From: Baul Lee <baul.lee@xbow.com>
-To: linux-fsdevel@vger.kernel.org,
+        bh=bi3GXdFkUHfCUO2NRaFkiDKjIfJGzdYhOZgO1a0BYR8=;
+        b=TJAtiPQzgRrfQA+2FIID514FxddpW9SE0tcCOW2v51YRFqMlbuPXdbxOqGn7hLVJjK
+         w1dkmgbep0tLDGJQmbWsbILA/XR5De9FWYu00RZIO2UazglIm6KRmSZdQIkubYxGRCt2
+         CnIZIIRJ1/KCk/IZrDJJGg459gEMos3QaRE+4uH7oFPh0bLg69y4YdQSuf9LDAT6KbW9
+         h54s+fmOjfdXj8oGl01hxzV8lEK+ajFPITtyicaC63966OwctpLziNAIyzzqpyplaZ0U
+         U03my/fnff4R9cOenKHBr8gfQV+Y7XurgBLNWhsz0VknhfHoaSkRGBLFcJuVD+UBgw9s
+         /mQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785048014; x=1785652814;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bi3GXdFkUHfCUO2NRaFkiDKjIfJGzdYhOZgO1a0BYR8=;
+        b=MJFUeTbP+AxplMUzohFLOw2K2vbm0B1PAMS0plVUbE4y/4Fg8CNqBtwzsCCedKXo8f
+         DBuNCFOS34YEHnSCE3CZKGeLB4LxwAHZWmo5CN7w4BJ40L7QyLsUu6s9/WIYfhm6Goyw
+         qT3JpO0pa5+3TcxXQIFb9qX6M2IcoAXSrBszm6wGCQoMQPBM5EyzJUQn8g8WUjPvV25L
+         u7ztYQpte4VqLAADuJPncq5FDKwnSyWQm/pZVlVUAhithSsuLex7qfswtqE0DW/YJJP+
+         QRMePwtEUXiD0g7Lu6iadMudutU4gxptfpdoYo+AbiouTJrAsv3WWO58IjaIVdzXn79P
+         G8iA==
+X-Gm-Message-State: AOJu0Yx1hOmp+xt9GZIrgi4Dt6o8HallCbc3TdOkeOd55j9ohz5BQlCE
+	3p6aM2LEq+IlcMhoe1CNR6kxhUrWX55X0pbtaK8j1FLxDU7KfQhYR5L2gh6DooeoFZE=
+X-Gm-Gg: AR+sD10Yind+12NGVtUpAgac0RkVVV2u8z/dVXAq3Hf+4JK23Wjluy6wAwPIsckwTBR
+	e5q8VxQZXyhBoB5wQgDxfZVowYrmt5nZS/BU+dLkkJnfQzdk9hxPA8fFnuyroGsQnhnjU4IGqQh
+	Z+qny3l75JzB/FXUnEkODJvzT+OTlKB/2YMJ98eOfvKYm6G6RMxNqxs0xv2wHzCZRBfp3eflidh
+	PibWUA5lhoXDcZmMlVcLdts+Pl6XtHTAkCCQ1ORIqxsUYNmVt+HyIjxgvsH1JwDrVAPw1xdlR/s
+	hIUez8gLo6+AHyXW+S9SLByTEDjUPYZUwsch4HlJ8lFvBrroC+x6x8hWUDnepDNDAmn6molT+bL
+	x/GipFh0q7XuiYfAY3UwKkLjyZ43vtjIDr3XE4YIUipfcbB3m5iurh3uXy8xvStIY6ICo1/1qIF
+	VT
+X-Received: by 2002:a05:6a21:4a8c:b0:3c3:a969:2cf with SMTP id adf61e73a8af0-3c67e0bb04emr4007796637.53.1785048013999;
+        Sat, 25 Jul 2026 23:40:13 -0700 (PDT)
+Received: from ubuntu.. ([2405:201:8026:213e:50c0:1b11:5404:3b67])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d2eb01aa0sm26894575c88.3.2026.07.25.23.40.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 23:40:13 -0700 (PDT)
+From: mdshahid03@gmail.com
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: hch@infradead.org,
-	federico.kirschbaum@xbow.com,
-	Baul Lee <baul.lee@xbow.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] freevxfs: fix off-page read on a crafted dirblock
-Date: Sun, 26 Jul 2026 15:25:14 +0900
-Message-ID: <20260726062514.43756-1-baul.lee@xbow.com>
-X-Mailer: git-send-email 2.50.1
+Subject: Re: [PATCH] fs: hfsplus: remove redundant NULL check before kfree() 
+Date: Sun, 26 Jul 2026 12:06:09 +0530
+Message-ID: <20260726063939.247892-1-mdshahid03@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <a1f28487943ecd21a97401d7caee98e0f2eb0f10.camel@dubeyko.com>
+References: <a1f28487943ecd21a97401d7caee98e0f2eb0f10.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,71 +77,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vxfs_readdir() and vxfs_find_entry() both advance the intra-page offset
-pg_ofs by VXFS_DIRBLKOV(sbi, dbp) at each dirblock boundary and then
-dereference
+Hi Slava,
 
-	de = (struct vxfs_direct *)(kaddr + pg_ofs);
+Thanks for letting me know.
 
-without re-checking pg_ofs against PAGE_SIZE in between.  The enclosing
-while (pg_ofs < PAGE_SIZE && pos < limit) test only gates loop
-re-entry, not the deref that follows the addition in the same
-iteration.
+Resending the patch as requested.
 
-VXFS_DIRBLKOV() is 2 * d_nhash + 4, and d_nhash is an unvalidated
-on-disk __fs16, so the overhead is attacker arithmetic of up to roughly
-32 pages.  kaddr is page_address() of the single order-0 page-cache
-page returned by vxfs_get_page(), so nothing else bounds the addition
-and the de->d_reclen load lands off the mapped page.  Directory pages
-are consumed unvalidated: vxfs_check_page() was never implemented, only
-a commented-out call survives.
+Thanks!
 
-Both sites are reachable on any mounted crafted freevxfs image, the
-vxfs_readdir() one from an unprivileged getdents64(2) and the
-vxfs_find_entry() one from any path walk into the directory.  When
-d_ino is non-zero vxfs_readdir() also feeds the off-page bytes to
-dir_emit(), so they reach userspace.  KASAN reports a 2-byte
-out-of-bounds read in vxfs_readdir().
-
-Re-check pg_ofs against PAGE_SIZE right after the addition and before
-the deref in both loops, restoring the invariant they already assume.
-The added break leaves the page the same way the existing zero-d_reclen
-break does.  Well-formed directories, whose overhead never pushes
-pg_ofs past a single dirblock, are unaffected.
-
-Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
-
-Fixes: 12495ea3ac47 ("freevxfs: refactor readdir and lookup code")
-Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
-Reported-by: Baul Lee <baul.lee@xbow.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Baul Lee <baul.lee@xbow.com>
----
- fs/freevxfs/vxfs_lookup.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/freevxfs/vxfs_lookup.c b/fs/freevxfs/vxfs_lookup.c
-index 138e08de976e..b068f93359fb 100644
---- a/fs/freevxfs/vxfs_lookup.c
-+++ b/fs/freevxfs/vxfs_lookup.c
-@@ -87,6 +87,8 @@ vxfs_find_entry(struct inode *ip, struct dentry *dp, struct page **ppp)
- 
- 				pos += overhead;
- 				pg_ofs += overhead;
-+				if (pg_ofs >= PAGE_SIZE)
-+					break;
- 			}
- 			de = (struct vxfs_direct *)(kaddr + pg_ofs);
- 
-@@ -237,6 +239,8 @@ vxfs_readdir(struct file *fp, struct dir_context *ctx)
- 
- 				pos += overhead;
- 				pg_ofs += overhead;
-+				if (pg_ofs >= PAGE_SIZE)
-+					break;
- 			}
- 			de = (struct vxfs_direct *)(kaddr + pg_ofs);
- 
--- 
-2.50.1 (Apple Git-155)
+Mohammad Shahid
 
