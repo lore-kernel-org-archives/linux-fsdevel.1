@@ -1,33 +1,33 @@
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
+Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [84.16.66.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7E93C9EC2
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 16:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63EF3CB577
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 16:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785082496; cv=none; b=Zy0ITaIseYGMq76w6yoLZv3OSLGgo3yybGkujzxqULXlFCxIfh6EPq3u/9cgXNxLiBSwKvUrQ669SsuCeMRIMkWmre0UR8AMIAPyrkeXCc0U3XeNWI3HargL/BuE1WEJbgtF+Omo+HxALtHyEG98ktnzEP6hu4wryel+S7PWrGo=
+	t=1785082499; cv=none; b=Vf+aj5+E/dEYS4S5AlrAOoM0YOKOgVIQz6+dw7/eUWoRIS/DxHDM+TSVJ7oHyiH3Nz+x+tT52Ke4DnjeACSUkl6wBcRrpnAx8yYAz/ume/hKlnD0MS3ijwtnDzkhX7ATLRAdmf9ZiQnylSHbs2p6Z//1WjtkyvbXqUHKiuoG0xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785082496; c=relaxed/simple;
-	bh=I+7B4yWEAsH/wvXP1t3+HfXX46rNzk0KDim6+yz+L4Y=;
+	s=arc-20240116; t=1785082499; c=relaxed/simple;
+	bh=TxxjNznUjbE8ROK6ImwU17fJX96yYUvhaZPiRUG+/i4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UDnYHJcKGzFjLU5jA+nBvxnOqjBqXUq1iixF3BhnD6QJRlG1lP88AfdiXtgj0uxxtpRVSsAz0KnGmyNCzuNzBRa1FT1VqiwAkDBq+gb+sg0kFMQTl76uPgekY6eo8QWVfbV+jImAwDDsF9QYASTqhnzujv3npXKPumcNZTBiRyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=L2Cx7JKQ; arc=none smtp.client-ip=185.125.25.9
+	 MIME-Version:Content-Type; b=I4SLmMUa47ILu7jnzkTmjj28hf2h/3M9iqvs+FSreTYqgFWOKnUpVb4ki9BV384X9n1XVRxDzz2XtjShOdm8oTY2bczgtwJI3fgosPtIPRrfppnn3mn7yqICzT1rsOOhXe3ru4d7KOflq3xP3/zB2WknJF55oevv50AUCJZKwKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=P2/sv5RW; arc=none smtp.client-ip=84.16.66.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="L2Cx7JKQ"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h7Rd23hjYzhhM;
-	Sun, 26 Jul 2026 18:14:30 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="P2/sv5RW"
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h7Rcx2cJFzgBv;
+	Sun, 26 Jul 2026 18:14:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1785082470;
-	bh=+W12fPHzLb4Ds+TT5wLwe+CWPP/0jEFpAfEqkcbPLKg=;
+	s=20191114; t=1785082465;
+	bh=IcR3Md1flA0cZ/VY3jTeWQxBzy616AGaIJ0+flWsAZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L2Cx7JKQGWJOBTgRfQHnT5EONcI7pvKGYexkP0Oztb0PDylpQ4JsFEUD0f9WL6jX+
-	 0/O8yTSWAJfDorFzGsP7Pehi712JjDPXTWjzppMuyJhy+OszvcS2sAOlwxmA5n97Ub
-	 c9M0hNnKERwvlgZNjhx21H4B6k7B4Sy/y9sQBH9g=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4h7Rd11txyzmT0;
-	Sun, 26 Jul 2026 18:14:29 +0200 (CEST)
+	b=P2/sv5RWnPbMdP4UN8FVQam59xhQoYi6Zsqe+RVhpt7sKoiKp0B/HNARN+6Rp/FiS
+	 EixlJre3h2DK/r4jgurEMtjCC53A7ePMtjvdiS7jCJqZuqe/WKz3w10zV6uruFB3Qu
+	 oI1tX+g4K+QNnInAGwQ2+uixbrYODJKrdNKypyi8=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4h7Rcw0vHczjRL;
+	Sun, 26 Jul 2026 18:14:24 +0200 (CEST)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Christian Brauner <brauner@kernel.org>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
@@ -46,9 +46,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH v3 11/12] samples/landlock: Add capability and namespace restriction support
-Date: Sun, 26 Jul 2026 18:13:56 +0200
-Message-ID: <20260726161400.3010511-12-mic@digikod.net>
+Subject: [PATCH v3 08/12] landlock: Enforce capability restrictions
+Date: Sun, 26 Jul 2026 18:13:53 +0200
+Message-ID: <20260726161400.3010511-9-mic@digikod.net>
 In-Reply-To: <20260726161400.3010511-1-mic@digikod.net>
 References: <20260726161400.3010511-1-mic@digikod.net>
 Precedence: bulk
@@ -61,395 +61,676 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Extend the sandboxer sample to demonstrate the new Landlock capability
-and namespace restriction features.  The LL_CAP environment variable
-takes a colon-delimited list of allowed capabilities, parsed with
-cap_from_name(3) from libcap.  Names (e.g. "cap_sys_chroot",
-"CAP_SYS_ADMIN") are accepted; numeric strings (e.g. "18") work too via
-cap_from_name's internal numeric fallback.  The LL_NS variable takes a
-colon-delimited list of allowed namespace types by short name (e.g.
-"user:uts:net").  Add best-effort degradation for older kernels that
-predate the LANDLOCK_PERM_* features.
+Add Landlock enforcement for capability use via the LSM capable hook.
+This lets a sandboxed process restrict which Linux capabilities it can
+exercise, using LANDLOCK_PERM_CAPABILITY_USE and per-capability rules.
 
-Allow creating user and UTS namespaces but deny network namespaces
-(works as an unprivileged user).  All capabilities are available (LL_CAP
-is not set), but namespace creation is still restricted to the types
-listed in LL_NS.  The first command succeeds because user and UTS types
-are in the allowed set, and sets the hostname inside the new UTS
-namespace.  The second command fails because the network namespace type
-is not allowed by the LANDLOCK_PERM_NAMESPACE_USE rule:
+The capable hook is purely restrictive: commoncap is registered with
+LSM_ORDER_FIRST so cap_capable() always runs first, which means Landlock
+can deny capabilities that commoncap would allow but never grant
+capabilities that commoncap denied.
 
-  LL_FS_RO=/ LL_FS_RW=/proc LL_NS="user:uts" \
-    ./sandboxer /bin/sh -c \
-    "unshare --user --uts --map-root-user hostname sandbox \
-    && ! unshare --user --net true"
+Add hook_capable() that uses landlock_perm_is_denied() to perform a pure
+bitmask check: if the capability is not in the layer's allowed set, the
+check is denied.  No domain ancestry bypass, no cross-namespace
+discriminant, just a flat per-layer allowed-caps bitmask, matching the
+same pattern used by LANDLOCK_PERM_NAMESPACE_USE.
 
-Allow only user namespace creation and CAP_SYS_CHROOT, denying all other
-capabilities and namespace types (works as an unprivileged user).  An
-unprivileged process creates a user namespace (no capability required)
-and calls chroot inside it using the CAP_SYS_CHROOT granted within the
-new namespace:
+The capability rule attribute mirrors the namespace one: perm selects
+LANDLOCK_PERM_CAPABILITY_USE, allowed_capabilities lists the allowed
+CAP_* bits, and quiet_capabilities silences the audit records of
+specific denied capabilities without granting them.  A bit set in both
+has no effect, since an allowed capability is never denied.  The
+per-member quiet mechanism and its narrow-usage guidance are described
+in the previous commit, which introduces the shared quiet member mask;
+here landlock_log_denial() consults the denying layer's mask for the
+capability recovered from the audit data, and LANDLOCK_ADD_RULE_QUIET
+stays rejected for this rule type.
 
-  LL_FS_RO=/ LL_FS_RW="" LL_NS="user" LL_CAP="cap_sys_chroot" \
-    ./sandboxer /bin/sh -c \
-    "unshare --user --keep-caps chroot / true"
+The two-permission interaction for non-user namespaces (both
+LANDLOCK_PERM_NAMESPACE_USE and LANDLOCK_PERM_CAPABILITY_USE must allow)
+is described in the previous commit.
 
-Allow user namespace creation but deny network namespaces, and quiet the
-network-namespace denials with LL_NS_QUIET so the denied creation is not
-logged (works as an unprivileged user).  Creating the user namespace
-succeeds while creating the network namespace is denied, so the negated
-second command makes the whole line succeed:
+The enforcement is purely at exercise time via the capable hook, not by
+modifying the credential's capability sets.  Stripping denied
+capabilities would give processes an accurate capget(2) view of their
+usable capabilities, but no LSM other than commoncap modifies capability
+sets; Landlock follows this convention and restricts use without
+altering what the process holds.  A sandboxed process inside a user
+namespace will see all capabilities via capget(2) but will receive
+-EPERM when attempting to use any denied capability.
 
-  LL_FS_RO=/ LL_FS_RW=/proc LL_NS="user" LL_NS_QUIET="net" \
-    ./sandboxer /bin/sh -c \
-    "unshare --user --map-root-user true && ! unshare --user --net true"
+An earlier design tried instead to keep namespace creation independent
+of capability restriction by bypassing this hook for namespace
+management operations, via a domain-ancestry comparison against the
+namespace creator's domain stored in the LSM blob.  It was dropped
+because a Landlock decision should turn on Landlock properties (domain
+relationships), not on kernel namespace state, and the cross-namespace
+heuristic (ns != cred->user_ns) did not accurately identify
+namespace-management operations.  With the resulting flat,
+namespace-agnostic check, capability and namespace restrictions are
+enforced independently at their own hooks; consequently, creating a
+non-user namespace needs an allowed CAP_SYS_ADMIN even when combined
+with CLONE_NEWUSER in a single unshare().
 
 Cc: Christian Brauner <brauner@kernel.org>
 Cc: Günther Noack <gnoack@google.com>
 Cc: Paul Moore <paul@paul-moore.com>
 Cc: Serge E. Hallyn <serge@hallyn.com>
-Cc: Tingmao Wang <m@maowtm.org>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
 ---
 
 Changes since v2:
-https://patch.msgid.link/20260527181127.879771-9-mic@digikod.net
-- Rebased for ABI 11: bump LANDLOCK_ABI_LAST to 11 and extend the ABI
-  back-compat fall-through with a new case stripping the LANDLOCK_PERM_*
-  handled bits for ABI < 11.
-- Adopt the renamed capability and namespace rule attributes: the rule
-  bodies use perm plus allowed_capabilities / allowed_namespace_types
-  (matching the per-member quiet restructuring in the enforcement
-  patches).
-- Add LL_CAP_QUIET and LL_NS_QUIET to quiet capability and
-  namespace-type denials (per-member, merged into the allowed rule).
+https://patch.msgid.link/20260527181127.879771-6-mic@digikod.net
+- Rename the capability rule attribute fields (allowed_perm to perm,
+  capabilities to allowed_capabilities) and add a quiet_capabilities
+  bitmask that suppresses the audit records of specific denied
+  capabilities, consuming the shared per-layer quiet member mask in
+  landlock_log_denial(); the rule attribute grows from 16 to 24 bytes.
+- Dropped Reviewed-by: Günther Noack and Tingmao Wang, as this version
+  adds the quiet member mask described above, which their v1 review did
+  not cover.  Fresh review welcome.
 
 Changes since v1:
-https://patch.msgid.link/20260312100444.2609563-11-mic@digikod.net
+https://patch.msgid.link/20260312100444.2609563-7-mic@digikod.net
+- Add Reviewed-by: Tingmao Wang.
+- Rename internal struct perm_rules to perm_masks (companion change
+  to the preceding commit).
 - Rename LANDLOCK_PERM_NAMESPACE_ENTER references to
   LANDLOCK_PERM_NAMESPACE_USE (companion change to the introducing
   commit).
-- Replace handled_perm = 0 with a per-bit mask in the ABI compat
-  fall-through, mirroring the doc example so future ABI extensions
-  adding new LANDLOCK_PERM_* bits do not get stripped.
-- Parse LL_CAP values with cap_from_name(3) from libcap so users
-  can pass capability names (e.g. "cap_sys_chroot") in addition to
-  numbers.  cap_from_name accepts both: the canonical name lookup
-  is case-insensitive, and a numeric-string fallback maps "18" to
-  CAP_SYS_CHROOT identically to the previous numeric-only path.
-  Drop the BITS_PER_TYPE workaround and the manual numeric bound
-  check (cap_from_name does the right thing in both cases).  Link
-  the sandboxer against libcap by adding userldlibs += -lcap in
-  samples/landlock/Makefile.  Update help text and example command
-  to show capability names (suggested by Günther Noack).
-- Rename the LL_CAPS env var to LL_CAP for consistency with the
-  singular form of all other sandboxer env vars (LL_NS, LL_FS_RO,
-  LL_FS_RW, LL_TCP_BIND, LL_TCP_CONNECT, LL_SCOPED, LL_FORCE_LOG).
-  Internal symbols renamed accordingly: ENV_CAPS_NAME -> ENV_CAP_NAME,
-  populate_ruleset_caps() -> populate_ruleset_cap().
-- Tingmao Wang's v1 Reviewed-by is not carried forward to v2: the
-  cap_from_name() / libcap migration is a material implementation
-  change requested by Günther Noack that was not part of his
-  review.  Cc'd instead.
+- Rename struct layer_rights to struct layer_config (companion
+  change to the introducing commit).
+- Clarify in the commit body and hook_capable() kdoc that commoncap
+  (not Landlock) is registered with LSM_ORDER_FIRST.
+- Surface the empty-check semantics in the
+  landlock_capability_attr.capabilities kdoc: a rule that sets only
+  bits unknown to the running kernel (above CAP_LAST_CAP) succeeds
+  but has no runtime effect.
+- Add explicit static_assert that LANDLOCK_NUM_PERM_CAP +
+  LANDLOCK_NUM_PERM_NS fits in a u64, complementing the existing
+  implicit sizeof guard on struct perm_masks.
+- Add Reviewed-by: Günther Noack.
 ---
- samples/landlock/Makefile    |   1 +
- samples/landlock/sandboxer.c | 200 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 198 insertions(+), 3 deletions(-)
+ include/uapi/linux/landlock.h |  47 ++++++++++++
+ security/landlock/Makefile    |   3 +-
+ security/landlock/access.h    |  18 ++++-
+ security/landlock/audit.c     |  10 +++
+ security/landlock/audit.h     |   1 +
+ security/landlock/cap.c       | 137 ++++++++++++++++++++++++++++++++++
+ security/landlock/cap.h       |  50 +++++++++++++
+ security/landlock/cred.h      |   3 +
+ security/landlock/limits.h    |   4 +-
+ security/landlock/setup.c     |   2 +
+ security/landlock/syscalls.c  |  80 +++++++++++++++++++-
+ 11 files changed, 346 insertions(+), 9 deletions(-)
+ create mode 100644 security/landlock/cap.c
+ create mode 100644 security/landlock/cap.h
 
-diff --git a/samples/landlock/Makefile b/samples/landlock/Makefile
-index 5d601e51c2eb..b30239c8a281 100644
---- a/samples/landlock/Makefile
-+++ b/samples/landlock/Makefile
-@@ -3,6 +3,7 @@
- userprogs-always-y := sandboxer
+diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+index 343cb4e0f51a..393dd62fcde1 100644
+--- a/include/uapi/linux/landlock.h
++++ b/include/uapi/linux/landlock.h
+@@ -228,6 +228,11 @@ enum landlock_rule_type {
+ 	 * @LANDLOCK_RULE_NAMESPACE: Type of a &struct landlock_namespace_attr .
+ 	 */
+ 	LANDLOCK_RULE_NAMESPACE,
++	/**
++	 * @LANDLOCK_RULE_CAPABILITY: Type of a &struct
++	 * landlock_capability_attr .
++	 */
++	LANDLOCK_RULE_CAPABILITY,
+ };
  
- userccflags += -I usr/include
-+userldlibs += -lcap
+ /**
+@@ -315,6 +320,40 @@ struct landlock_namespace_attr {
+ 	__u64 quiet_namespace_types;
+ };
  
- .PHONY: all clean
++/**
++ * struct landlock_capability_attr - Capability definition
++ *
++ * Argument of sys_landlock_add_rule() with %LANDLOCK_RULE_CAPABILITY.
++ */
++struct landlock_capability_attr {
++	/**
++	 * @perm: Must be set to %LANDLOCK_PERM_CAPABILITY_USE.
++	 */
++	__u64 perm;
++	/**
++	 * @allowed_capabilities: Bitmask of capabilities (``1ULL << CAP_*``) to
++	 * allow under this rule.  Bits above ``CAP_LAST_CAP`` are silently
++	 * ignored for forward compatibility.
++	 */
++	__u64 allowed_capabilities;
++	/**
++	 * @quiet_capabilities: Bitmask of capabilities (``1ULL << CAP_*``)
++	 * whose denial by this layer should not be logged, even if logging
++	 * would normally take place per landlock_restrict_self() flags.  Only
++	 * denials attributed to this layer are suppressed (see `permission
++	 * flags`_).  Bits also set in @allowed_capabilities have no effect,
++	 * since an allowed capability is never denied.  Bits above
++	 * ``CAP_LAST_CAP`` are silently ignored.
++	 *
++	 * At least one of @allowed_capabilities or @quiet_capabilities must be
++	 * non-zero, otherwise the call returns ``-ENOMSG``.  The non-zero check
++	 * runs on the raw input before unknown-bit masking, so a rule that sets
++	 * only bits unknown to the running kernel (above ``CAP_LAST_CAP``)
++	 * succeeds but has no runtime effect.
++	 */
++	__u64 quiet_capabilities;
++};
++
+ /**
+  * DOC: fs_access
+  *
+@@ -566,9 +605,17 @@ struct landlock_namespace_attr {
+  *   process in a Landlock domain that handles this permission is denied
+  *   from using namespace types that are not explicitly allowed by a
+  *   %LANDLOCK_RULE_NAMESPACE rule.
++ * - %LANDLOCK_PERM_CAPABILITY_USE: Restrict the use of specific Linux
++ *   capabilities.  A process in a Landlock domain that handles this
++ *   permission is denied from exercising capabilities that are not
++ *   explicitly allowed by a %LANDLOCK_RULE_CAPABILITY rule.  This hook
++ *   is purely restrictive: it can deny capabilities that the kernel
++ *   would otherwise grant, but it can never grant capabilities that the
++ *   kernel already denied.
+  */
+ /* clang-format off */
+ #define LANDLOCK_PERM_NAMESPACE_USE			(1ULL << 0)
++#define LANDLOCK_PERM_CAPABILITY_USE			(1ULL << 1)
+ /* clang-format on */
  
-diff --git a/samples/landlock/sandboxer.c b/samples/landlock/sandboxer.c
-index ac71019e6212..b528ef41e2f5 100644
---- a/samples/landlock/sandboxer.c
-+++ b/samples/landlock/sandboxer.c
-@@ -14,15 +14,17 @@
- #include <fcntl.h>
- #include <linux/landlock.h>
- #include <linux/socket.h>
-+#include <sched.h>
-+#include <stdbool.h>
- #include <stddef.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-+#include <sys/capability.h>
- #include <sys/prctl.h>
- #include <sys/stat.h>
- #include <sys/syscall.h>
- #include <unistd.h>
--#include <stdbool.h>
+ #endif /* _UAPI_LINUX_LANDLOCK_H */
+diff --git a/security/landlock/Makefile b/security/landlock/Makefile
+index cacfba075dec..1927b81fea93 100644
+--- a/security/landlock/Makefile
++++ b/security/landlock/Makefile
+@@ -9,7 +9,8 @@ landlock-y := \
+ 	task.o \
+ 	fs.o \
+ 	tsync.o \
+-	ns.o
++	ns.o \
++	cap.o
  
- #if defined(__GLIBC__)
- #include <linux/prctl.h>
-@@ -62,6 +64,10 @@ static inline int landlock_restrict_self(const int ruleset_fd,
- #define ENV_TCP_BIND_NAME "LL_TCP_BIND"
- #define ENV_TCP_CONNECT_NAME "LL_TCP_CONNECT"
- #define ENV_NET_QUIET_NAME "LL_NET_QUIET"
-+#define ENV_CAP_NAME "LL_CAP"
-+#define ENV_CAP_QUIET_NAME "LL_CAP_QUIET"
-+#define ENV_NS_NAME "LL_NS"
-+#define ENV_NS_QUIET_NAME "LL_NS_QUIET"
- #define ENV_SCOPED_NAME "LL_SCOPED"
- #define ENV_QUIET_ACCESS_NAME "LL_QUIET_ACCESS"
- #define ENV_FORCE_LOG_NAME "LL_FORCE_LOG"
-@@ -232,6 +238,161 @@ static int populate_ruleset_net(const char *const env_var, const int ruleset_fd,
- 	return ret;
+ landlock-$(CONFIG_INET) += net.o
+ 
+diff --git a/security/landlock/access.h b/security/landlock/access.h
+index 9dbacccc9b99..cb456eee8c32 100644
+--- a/security/landlock/access.h
++++ b/security/landlock/access.h
+@@ -72,6 +72,13 @@ static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
+  * storage unit.
+  */
+ struct perm_masks {
++	/**
++	 * @caps: Allowed capabilities.  Each bit corresponds to a ``CAP_*``
++	 * value (e.g. ``CAP_NET_RAW`` = bit 13).  Bits are stored directly
++	 * (sequential mapping) and masked with ``CAP_VALID_MASK`` at rule-add
++	 * time.
++	 */
++	u64 caps : LANDLOCK_NUM_PERM_CAP;
+ 	/**
+ 	 * @ns: Allowed namespace types.  Each bit corresponds to a sequential
+ 	 * index assigned by the ``_LANDLOCK_NS_*`` enum (derived from
+@@ -83,6 +90,9 @@ struct perm_masks {
+ } __packed __aligned(sizeof(u64));
+ 
+ static_assert(sizeof(struct perm_masks) == sizeof(u64));
++/* All perm_masks bitfields must fit in a single u64. */
++static_assert(LANDLOCK_NUM_PERM_CAP + LANDLOCK_NUM_PERM_NS <=
++	      BITS_PER_TYPE(u64));
+ 
+ /**
+  * struct layer_config - Per-layer access configuration
+@@ -91,10 +101,10 @@ static_assert(sizeof(struct perm_masks) == sizeof(u64));
+  * This is the element type of the &struct landlock_ruleset.layers FAM.
+  *
+  * Unlike filesystem and network access rights, which are tracked per-object in
+- * red-black trees, namespace types use a flat bitmask because their keyspace is
+- * small and bounded (~8 namespace types).  A single rule adds to the allowed
+- * set via bitwise OR; at enforcement time each layer is checked directly (no
+- * tree lookup needed).
++ * red-black trees, namespace types and capabilities use flat bitmasks because
++ * their keyspaces are small and bounded (~8 namespace types, 41 capabilities).
++ * A single rule adds to the allowed set via bitwise OR; at enforcement time
++ * each layer is checked directly (no tree lookup needed).
+  */
+ struct layer_config {
+ 	/**
+diff --git a/security/landlock/audit.c b/security/landlock/audit.c
+index dc4716635942..19a8f462678f 100644
+--- a/security/landlock/audit.c
++++ b/security/landlock/audit.c
+@@ -14,6 +14,7 @@
+ 
+ #include "access.h"
+ #include "audit.h"
++#include "cap.h"
+ #include "common.h"
+ #include "cred.h"
+ #include "domain.h"
+@@ -87,6 +88,10 @@ get_blocker(const enum landlock_request_type type,
+ 	case LANDLOCK_REQUEST_NAMESPACE:
+ 		WARN_ON_ONCE(access_bit != -1);
+ 		return "perm.namespace_use";
++
++	case LANDLOCK_REQUEST_CAPABILITY:
++		WARN_ON_ONCE(access_bit != -1);
++		return "perm.capability_use";
+ 	}
+ 
+ 	WARN_ON_ONCE(1);
+@@ -657,6 +662,11 @@ void landlock_log_denial(const struct landlock_cred_security *const subject,
+ 		 * denying layer's quiet_perm mask.  The member is recovered
+ 		 * from the audit data recorded by the hook.
+ 		 */
++		case LANDLOCK_REQUEST_CAPABILITY:
++			quiet_applicable_to_access =
++				!!(youngest_denied->quiet_perm.caps &
++				   landlock_cap_to_bit(request->audit.u.cap));
++			break;
+ 		case LANDLOCK_REQUEST_NAMESPACE:
+ 			quiet_applicable_to_access =
+ 				!!(youngest_denied->quiet_perm.ns &
+diff --git a/security/landlock/audit.h b/security/landlock/audit.h
+index 9dd522b62448..1e00b12d08a7 100644
+--- a/security/landlock/audit.h
++++ b/security/landlock/audit.h
+@@ -22,6 +22,7 @@ enum landlock_request_type {
+ 	LANDLOCK_REQUEST_SCOPE_ABSTRACT_UNIX_SOCKET,
+ 	LANDLOCK_REQUEST_SCOPE_SIGNAL,
+ 	LANDLOCK_REQUEST_NAMESPACE,
++	LANDLOCK_REQUEST_CAPABILITY,
+ };
+ 
+ /*
+diff --git a/security/landlock/cap.c b/security/landlock/cap.c
+new file mode 100644
+index 000000000000..d8bdbaea4440
+--- /dev/null
++++ b/security/landlock/cap.c
+@@ -0,0 +1,137 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Landlock - Capability hooks
++ *
++ * Copyright © 2026 Cloudflare, Inc.
++ */
++
++#include <linux/capability.h>
++#include <linux/cred.h>
++#include <linux/lsm_audit.h>
++#include <linux/lsm_hooks.h>
++#include <uapi/linux/landlock.h>
++
++#include "audit.h"
++#include "cap.h"
++#include "cred.h"
++#include "limits.h"
++#include "ruleset.h"
++#include "setup.h"
++
++static const struct access_masks cap_perm = {
++	.perm = LANDLOCK_PERM_CAPABILITY_USE,
++};
++
++/**
++ * hook_capable - Deny capability use for Landlock-sandboxed processes
++ *
++ * @cred: Credentials being checked.
++ * @ns: User namespace for the capability check.
++ * @cap: Capability number (CAP_*).
++ * @opts: Capability check options.  CAP_OPT_NOAUDIT suppresses audit logging.
++ *
++ * Pure bitmask check: denies the capability if it is not in the layer's allowed
++ * set.  This hook is purely restrictive: commoncap is registered with
++ * LSM_ORDER_FIRST so cap_capable() always runs first, which means Landlock can
++ * deny capabilities that commoncap would allow, but never grant capabilities
++ * that commoncap denied.
++ *
++ * Return: 0 if allowed, -EPERM if capability use is denied.
++ */
++static int hook_capable(const struct cred *cred, struct user_namespace *ns,
++			int cap, unsigned int opts)
++{
++	const struct landlock_cred_security *subject;
++	size_t denied_layer;
++
++	subject = landlock_get_applicable_subject(cred, cap_perm, NULL);
++	if (!subject)
++		return 0;
++
++	denied_layer = landlock_perm_is_denied(subject->domain,
++					       LANDLOCK_PERM_CAPABILITY_USE,
++					       landlock_cap_to_bit(cap));
++	if (!denied_layer)
++		return 0;
++
++	if (!(opts & CAP_OPT_NOAUDIT))
++		landlock_log_denial(subject,
++				    &(struct landlock_request){
++					    .type = LANDLOCK_REQUEST_CAPABILITY,
++					    .audit.type = LSM_AUDIT_DATA_CAP,
++					    .audit.u.cap = cap,
++					    .layer_plus_one = denied_layer,
++				    });
++
++	return -EPERM;
++}
++
++static struct security_hook_list landlock_hooks[] __ro_after_init = {
++	LSM_HOOK_INIT(capable, hook_capable),
++};
++
++__init void landlock_add_cap_hooks(void)
++{
++	security_add_hooks(landlock_hooks, ARRAY_SIZE(landlock_hooks),
++			   &landlock_lsmid);
++}
++
++#ifdef CONFIG_SECURITY_LANDLOCK_KUNIT_TEST
++
++#include <kunit/test.h>
++
++static void test_cap_to_bit(struct kunit *const test)
++{
++	KUNIT_EXPECT_EQ(test, BIT_ULL(0), landlock_cap_to_bit(0));
++	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_NET_RAW),
++			landlock_cap_to_bit(CAP_NET_RAW));
++	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_SYS_ADMIN),
++			landlock_cap_to_bit(CAP_SYS_ADMIN));
++	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_LAST_CAP),
++			landlock_cap_to_bit(CAP_LAST_CAP));
++}
++
++static void test_cap_to_bit_invalid(struct kunit *const test)
++{
++	KUNIT_EXPECT_EQ(test, 0ULL, landlock_cap_to_bit(-1));
++	KUNIT_EXPECT_EQ(test, 0ULL, landlock_cap_to_bit(CAP_LAST_CAP + 1));
++}
++
++static void test_caps_to_bits_valid(struct kunit *const test)
++{
++	KUNIT_EXPECT_EQ(test, (u64)CAP_VALID_MASK,
++			landlock_caps_to_bits(CAP_VALID_MASK));
++	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_NET_RAW),
++			landlock_caps_to_bits(BIT_ULL(CAP_NET_RAW)));
++}
++
++static void test_caps_to_bits_unknown(struct kunit *const test)
++{
++	KUNIT_EXPECT_EQ(test, 0ULL,
++			landlock_caps_to_bits(BIT_ULL(CAP_LAST_CAP + 1)));
++}
++
++static void test_caps_to_bits_zero(struct kunit *const test)
++{
++	KUNIT_EXPECT_EQ(test, 0ULL, landlock_caps_to_bits(0));
++}
++
++static struct kunit_case test_cases[] = {
++	/* clang-format off */
++	KUNIT_CASE(test_cap_to_bit),
++	KUNIT_CASE(test_cap_to_bit_invalid),
++	KUNIT_CASE(test_caps_to_bits_valid),
++	KUNIT_CASE(test_caps_to_bits_unknown),
++	KUNIT_CASE(test_caps_to_bits_zero),
++	{}
++	/* clang-format on */
++};
++
++static struct kunit_suite test_suite = {
++	.name = "landlock_cap",
++	.test_cases = test_cases,
++};
++
++kunit_test_suite(test_suite);
++
++#endif /* CONFIG_SECURITY_LANDLOCK_KUNIT_TEST */
+diff --git a/security/landlock/cap.h b/security/landlock/cap.h
+new file mode 100644
+index 000000000000..3f12fd7d9788
+--- /dev/null
++++ b/security/landlock/cap.h
+@@ -0,0 +1,50 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Landlock - Capability hooks
++ *
++ * Copyright © 2026 Cloudflare, Inc.
++ */
++
++#ifndef _SECURITY_LANDLOCK_CAP_H
++#define _SECURITY_LANDLOCK_CAP_H
++
++#include <linux/bitops.h>
++#include <linux/bug.h>
++#include <linux/capability.h>
++#include <linux/compiler_attributes.h>
++#include <linux/types.h>
++
++/**
++ * landlock_cap_to_bit - Convert a capability number to a compact bitmask
++ *
++ * @cap: Capability number (CAP_*).
++ *
++ * Return: BIT_ULL(@cap), or 0 if @cap is invalid (with a WARN).
++ */
++static inline __attribute_const__ u64 landlock_cap_to_bit(const int cap)
++{
++	if (WARN_ON_ONCE(!cap_valid(cap)))
++		return 0;
++
++	return BIT_ULL(cap);
++}
++
++/**
++ * landlock_caps_to_bits - Validate and mask a capability bitmask
++ *
++ * @capabilities: Bitmask of capabilities (e.g. from user space).
++ *
++ * Return: @capabilities masked to known capabilities.  Warns if unknown bits
++ * are present (callers must pre-mask for user input).
++ */
++static inline __attribute_const__ u64
++landlock_caps_to_bits(const u64 capabilities)
++{
++	/* Callers pre-mask (CAP_VALID_MASK); the WARN guards future callers. */
++	WARN_ON_ONCE(capabilities & ~CAP_VALID_MASK);
++	return capabilities & CAP_VALID_MASK;
++}
++
++__init void landlock_add_cap_hooks(void);
++
++#endif /* _SECURITY_LANDLOCK_CAP_H */
+diff --git a/security/landlock/cred.h b/security/landlock/cred.h
+index d6f909b90403..35d6bfac8899 100644
+--- a/security/landlock/cred.h
++++ b/security/landlock/cred.h
+@@ -191,6 +191,9 @@ landlock_perm_is_denied(const struct landlock_ruleset *const domain,
+ 		case LANDLOCK_PERM_NAMESPACE_USE:
+ 			allowed = domain->layers[layer].allowed.ns;
+ 			break;
++		case LANDLOCK_PERM_CAPABILITY_USE:
++			allowed = domain->layers[layer].allowed.caps;
++			break;
+ 		default:
+ 			WARN_ONCE(1, "Unknown permission %u\n",
+ 				  (unsigned int)perm_bit);
+diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+index b7209188fd50..6cdd649005f4 100644
+--- a/security/landlock/limits.h
++++ b/security/landlock/limits.h
+@@ -11,6 +11,7 @@
+ #define _SECURITY_LANDLOCK_LIMITS_H
+ 
+ #include <linux/bitops.h>
++#include <linux/capability.h>
+ #include <linux/limits.h>
+ #include <linux/ns/ns_common_types.h>
+ #include <uapi/linux/landlock.h>
+@@ -32,11 +33,12 @@
+ #define LANDLOCK_MASK_SCOPE		((LANDLOCK_LAST_SCOPE << 1) - 1)
+ #define LANDLOCK_NUM_SCOPE		__const_hweight64(LANDLOCK_MASK_SCOPE)
+ 
+-#define LANDLOCK_LAST_PERM		LANDLOCK_PERM_NAMESPACE_USE
++#define LANDLOCK_LAST_PERM		LANDLOCK_PERM_CAPABILITY_USE
+ #define LANDLOCK_MASK_PERM		((LANDLOCK_LAST_PERM << 1) - 1)
+ #define LANDLOCK_NUM_PERM		__const_hweight64(LANDLOCK_MASK_PERM)
+ 
+ #define LANDLOCK_NUM_PERM_NS		__const_hweight64((u64)(CLONE_NS_ALL))
++#define LANDLOCK_NUM_PERM_CAP		(CAP_LAST_CAP + 1)
+ 
+ #define LANDLOCK_NUM_ACCESS_MAX \
+ 	MAX(MAX(LANDLOCK_NUM_ACCESS_FS, LANDLOCK_NUM_ACCESS_NET), LANDLOCK_NUM_SCOPE)
+diff --git a/security/landlock/setup.c b/security/landlock/setup.c
+index a7ed776b41b4..971419d663bb 100644
+--- a/security/landlock/setup.c
++++ b/security/landlock/setup.c
+@@ -11,6 +11,7 @@
+ #include <linux/lsm_hooks.h>
+ #include <uapi/linux/lsm.h>
+ 
++#include "cap.h"
+ #include "common.h"
+ #include "cred.h"
+ #include "errata.h"
+@@ -70,6 +71,7 @@ static int __init landlock_init(void)
+ 	landlock_add_fs_hooks();
+ 	landlock_add_net_hooks();
+ 	landlock_add_ns_hooks();
++	landlock_add_cap_hooks();
+ 	landlock_init_id();
+ 	landlock_initialized = true;
+ 	pr_info("Up and running.\n");
+diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
+index 28ea775c8b86..6d0b02dae2ac 100644
+--- a/security/landlock/syscalls.c
++++ b/security/landlock/syscalls.c
+@@ -30,6 +30,7 @@
+ #include <linux/uaccess.h>
+ #include <uapi/linux/landlock.h>
+ 
++#include "cap.h"
+ #include "cred.h"
+ #include "domain.h"
+ #include "fs.h"
+@@ -98,8 +99,9 @@ static void build_check_abi(void)
+ 	struct landlock_path_beneath_attr path_beneath_attr;
+ 	struct landlock_net_port_attr net_port_attr;
+ 	struct landlock_namespace_attr namespace_attr;
++	struct landlock_capability_attr capability_attr;
+ 	size_t ruleset_size, path_beneath_size, net_port_size;
+-	size_t namespace_size;
++	size_t namespace_size, capability_size;
+ 
+ 	/*
+ 	 * For each user space ABI structures, first checks that there is no
+@@ -131,6 +133,12 @@ static void build_check_abi(void)
+ 	namespace_size += sizeof(namespace_attr.quiet_namespace_types);
+ 	BUILD_BUG_ON(sizeof(namespace_attr) != namespace_size);
+ 	BUILD_BUG_ON(sizeof(namespace_attr) != 24);
++
++	capability_size = sizeof(capability_attr.perm);
++	capability_size += sizeof(capability_attr.allowed_capabilities);
++	capability_size += sizeof(capability_attr.quiet_capabilities);
++	BUILD_BUG_ON(sizeof(capability_attr) != capability_size);
++	BUILD_BUG_ON(sizeof(capability_attr) != 24);
  }
  
-+static __u64 str2ns(const char *const name)
-+{
-+	static const struct {
-+		const char *name;
-+		__u64 value;
-+	} ns_map[] = {
-+		/* clang-format off */
-+		{ "cgroup",	CLONE_NEWCGROUP },
-+		{ "ipc",	CLONE_NEWIPC },
-+		{ "mnt",	CLONE_NEWNS },
-+		{ "net",	CLONE_NEWNET },
-+		{ "pid",	CLONE_NEWPID },
-+		{ "time",	CLONE_NEWTIME },
-+		{ "user",	CLONE_NEWUSER },
-+		{ "uts",	CLONE_NEWUTS },
-+		/* clang-format on */
-+	};
-+	size_t i;
-+
-+	for (i = 0; i < sizeof(ns_map) / sizeof(ns_map[0]); i++) {
-+		if (strcmp(name, ns_map[i].name) == 0)
-+			return ns_map[i].value;
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Parses a colon-delimited list of capability names into a bitmask.  Returns 0
-+ * on success (mask 0 when the variable is unset or empty), or 1 on a parse
-+ * error.
-+ */
-+static int parse_cap_list(const char *const env_var, __u64 *const mask)
-+{
-+	int ret = 1;
-+	char *env_cap_name, *env_cap_name_next, *strcap;
-+
-+	*mask = 0;
-+	env_cap_name = getenv(env_var);
-+	if (!env_cap_name)
-+		return 0;
-+	env_cap_name = strdup(env_cap_name);
-+	unsetenv(env_var);
-+
-+	env_cap_name_next = env_cap_name;
-+	while ((strcap = strsep(&env_cap_name_next, ENV_DELIMITER))) {
-+		cap_value_t cap;
-+
-+		if (strcmp(strcap, "") == 0)
-+			continue;
-+
-+		if (cap_from_name(strcap, &cap)) {
-+			fprintf(stderr, "Failed to parse capability \"%s\"\n",
-+				strcap);
-+			goto out_free_name;
-+		}
-+		*mask |= 1ULL << cap;
-+	}
-+	ret = 0;
-+
-+out_free_name:
-+	free(env_cap_name);
-+	return ret;
-+}
-+
-+static int populate_ruleset_cap(const char *const allowed_env,
-+				const char *const quiet_env,
-+				const int ruleset_fd)
-+{
-+	struct landlock_capability_attr cap_attr = {
-+		.perm = LANDLOCK_PERM_CAPABILITY_USE,
-+	};
-+
-+	if (parse_cap_list(allowed_env, &cap_attr.allowed_capabilities))
-+		return 1;
-+	if (parse_cap_list(quiet_env, &cap_attr.quiet_capabilities))
-+		return 1;
-+
-+	if (!cap_attr.allowed_capabilities && !cap_attr.quiet_capabilities)
-+		return 0;
-+
-+	if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY, &cap_attr,
-+			      0)) {
-+		fprintf(stderr,
-+			"Failed to update the ruleset with capabilities: %s\n",
-+			strerror(errno));
-+		return 1;
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Parses a colon-delimited list of namespace type names into a bitmask.
-+ * Returns 0 on success (mask 0 when the variable is unset or empty), or 1 on a
-+ * parse error.
-+ */
-+static int parse_ns_list(const char *const env_var, __u64 *const mask)
-+{
-+	int ret = 1;
-+	char *env_ns_name, *env_ns_name_next, *strns;
-+
-+	*mask = 0;
-+	env_ns_name = getenv(env_var);
-+	if (!env_ns_name)
-+		return 0;
-+	env_ns_name = strdup(env_ns_name);
-+	unsetenv(env_var);
-+
-+	env_ns_name_next = env_ns_name;
-+	while ((strns = strsep(&env_ns_name_next, ENV_DELIMITER))) {
-+		__u64 ns_type;
-+
-+		if (strcmp(strns, "") == 0)
-+			continue;
-+
-+		ns_type = str2ns(strns);
-+		if (!ns_type) {
-+			fprintf(stderr, "Unknown namespace type \"%s\"\n",
-+				strns);
-+			goto out_free_name;
-+		}
-+		*mask |= ns_type;
-+	}
-+	ret = 0;
-+
-+out_free_name:
-+	free(env_ns_name);
-+	return ret;
-+}
-+
-+static int populate_ruleset_ns(const char *const allowed_env,
-+			       const char *const quiet_env,
-+			       const int ruleset_fd)
-+{
-+	struct landlock_namespace_attr ns_attr = {
-+		.perm = LANDLOCK_PERM_NAMESPACE_USE,
-+	};
-+
-+	if (parse_ns_list(allowed_env, &ns_attr.allowed_namespace_types))
-+		return 1;
-+	if (parse_ns_list(quiet_env, &ns_attr.quiet_namespace_types))
-+		return 1;
-+
-+	if (!ns_attr.allowed_namespace_types && !ns_attr.quiet_namespace_types)
-+		return 0;
-+
-+	if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE, &ns_attr,
-+			      0)) {
-+		fprintf(stderr,
-+			"Failed to update the ruleset with namespace types: %s\n",
-+			strerror(errno));
-+		return 1;
-+	}
-+	return 0;
-+}
-+
- /* Returns true on error, false otherwise. */
- static bool check_ruleset_scope(const char *const env_var,
- 				struct landlock_ruleset_attr *ruleset_attr)
-@@ -369,7 +530,7 @@ static int add_quiet_access(const char *const env_var,
+ /* Ruleset handling */
+@@ -506,14 +514,78 @@ static int add_rule_namespace(struct landlock_ruleset *const ruleset,
  	return 0;
  }
  
--#define LANDLOCK_ABI_LAST 10
-+#define LANDLOCK_ABI_LAST 11
- 
- #define XSTR(s) #s
- #define STR(s) XSTR(s)
-@@ -397,6 +558,17 @@ static const char help[] =
- 	"* " ENV_UDP_CONNECT_SEND_NAME ": remote UDP ports allowed to connect "
- 	"or send to (client: use as destination port / server: receive only from it)\n"
- 	"(caution: sending requires being able to bind to a local source port)\n"
-+	"* " ENV_CAP_NAME ": capabilities allowed to use, as names "
-+	"or numbers (e.g. cap_net_bind_service, cap_sys_admin, 18)\n"
-+	"* " ENV_CAP_QUIET_NAME ": capabilities whose denial should not be logged, "
-+	"same value format as " ENV_CAP_NAME " (quieting a member that is also "
-+	"allowed is inert)\n"
-+	"* " ENV_NS_NAME ": namespace types allowed to use "
-+	"(cgroup, ipc, mnt, net, pid, time, user, uts)\n"
-+	"* " ENV_NS_QUIET_NAME ": namespace types whose denial should not be "
-+	"logged, same value format as " ENV_NS_NAME "\n"
-+	"  (quieting a member that is also allowed is inert, as an allowed "
-+	"member is never denied)\n"
- 	"* " ENV_SCOPED_NAME ": actions denied on the outside of the landlock domain\n"
- 	"  - \"a\" to restrict opening abstract unix sockets\n"
- 	"  - \"s\" to restrict sending signals\n"
-@@ -423,6 +595,8 @@ static const char help[] =
- 	ENV_TCP_BIND_NAME "=\"9418\" "
- 	ENV_TCP_CONNECT_NAME "=\"80:443\" "
- 	ENV_UDP_CONNECT_SEND_NAME "=\"53\" "
-+	ENV_CAP_NAME "=\"cap_sys_admin\" "
-+	ENV_NS_NAME "=\"user:uts:net\" "
- 	ENV_SCOPED_NAME "=\"a:s\" "
- 	"%1$s bash -i\n"
- 	"\n"
-@@ -451,6 +625,8 @@ int main(const int argc, char *const argv[], char *const *const envp)
- 		.quiet_access_fs = 0,
- 		.quiet_access_net = 0,
- 		.quiet_scoped = 0,
-+		.handled_perm = LANDLOCK_PERM_CAPABILITY_USE |
-+				LANDLOCK_PERM_NAMESPACE_USE,
- 	};
- 	bool quiet_supported = true;
- 	int supported_restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
-@@ -545,7 +721,11 @@ int main(const int argc, char *const argv[], char *const *const envp)
- 			  LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP);
- 		/* Removes quiet flags for ABI < 10 later on. */
- 		quiet_supported = false;
--
-+		__attribute__((fallthrough));
-+	case 10:
-+		/* Removes LANDLOCK_PERM_* for ABI < 11 */
-+		ruleset_attr.handled_perm &= ~(LANDLOCK_PERM_NAMESPACE_USE |
-+					       LANDLOCK_PERM_CAPABILITY_USE);
- 		/* Must be printed for any ABI < LANDLOCK_ABI_LAST. */
- 		fprintf(stderr,
- 			"Hint: You should update the running kernel "
-@@ -590,6 +770,14 @@ int main(const int argc, char *const argv[], char *const *const envp)
- 			~LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP;
++static int add_rule_capability(struct landlock_ruleset *const ruleset,
++			       const void __user *const rule_attr,
++			       const u32 flags)
++{
++	struct landlock_capability_attr cap_attr;
++	int res;
++	access_mask_t mask;
++
++	/*
++	 * Capability rules support no add-rule flags.  In particular,
++	 * LANDLOCK_ADD_RULE_QUIET is filesystem/network only.
++	 */
++	if (flags)
++		return -EINVAL;
++
++	/* Copies raw user space buffer. */
++	res = copy_from_user(&cap_attr, rule_attr, sizeof(cap_attr));
++	if (res)
++		return -EFAULT;
++
++	/* Informs about useless rule: empty perm. */
++	if (!cap_attr.perm)
++		return -ENOMSG;
++
++	/*
++	 * The perm selector must match LANDLOCK_PERM_CAPABILITY_USE.  The valid
++	 * set is a single bit today, so this is an exact match now; the check
++	 * broadens to a subset test once another supported permission is added.
++	 */
++	if (cap_attr.perm != LANDLOCK_PERM_CAPABILITY_USE)
++		return -EINVAL;
++
++	/*
++	 * Checks that perm matches the ruleset constraints.  This also makes
++	 * quieting require the category to be handled.
++	 */
++	mask = landlock_get_perm_mask(ruleset, 0);
++	if (!(mask & LANDLOCK_PERM_CAPABILITY_USE))
++		return -EINVAL;
++
++	/*
++	 * Informs about useless rule: neither allows nor quiets anything.  A
++	 * quiet-only rule (empty allowed set) is legal.
++	 */
++	if (!cap_attr.allowed_capabilities && !cap_attr.quiet_capabilities)
++		return -ENOMSG;
++
++	/*
++	 * Stores only the capabilities this kernel knows about.  Unknown bits
++	 * are silently accepted for forward compatibility: user space compiled
++	 * against newer headers can pass new CAP_* bits without getting EINVAL
++	 * on older kernels.  Unknown bits have no effect because no hook checks
++	 * them.  The quiet bitmask suppresses logging of denials attributed to
++	 * this layer; see landlock_log_denial().
++	 */
++	mutex_lock(&ruleset->lock);
++	ruleset->layers[0].allowed.caps |= landlock_caps_to_bits(
++		cap_attr.allowed_capabilities & CAP_VALID_MASK);
++	ruleset->quiet_perm.caps |= landlock_caps_to_bits(
++		cap_attr.quiet_capabilities & CAP_VALID_MASK);
++	mutex_unlock(&ruleset->lock);
++	return 0;
++}
++
+ /**
+  * sys_landlock_add_rule - Add a new rule to a ruleset
+  *
+  * @ruleset_fd: File descriptor tied to the ruleset that should be extended
+  *		with the new rule.
+  * @rule_type: Identify the structure type pointed to by @rule_attr:
+- *             %LANDLOCK_RULE_PATH_BENEATH, %LANDLOCK_RULE_NET_PORT, or
+- *             %LANDLOCK_RULE_NAMESPACE.
++ *             %LANDLOCK_RULE_PATH_BENEATH, %LANDLOCK_RULE_NET_PORT,
++ *             %LANDLOCK_RULE_NAMESPACE, or %LANDLOCK_RULE_CAPABILITY.
+  * @rule_attr: Pointer to a rule (matching the @rule_type).
+  * @flags: Must be 0 or %LANDLOCK_ADD_RULE_QUIET.
+  *
+@@ -569,6 +641,8 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
+ 		return add_rule_net_port(ruleset, rule_attr, flags);
+ 	case LANDLOCK_RULE_NAMESPACE:
+ 		return add_rule_namespace(ruleset, rule_attr, flags);
++	case LANDLOCK_RULE_CAPABILITY:
++		return add_rule_capability(ruleset, rule_attr, flags);
+ 	default:
+ 		return -EINVAL;
  	}
- 
-+	/* Removes capability handling if not set by a user. */
-+	if (!getenv(ENV_CAP_NAME) && !getenv(ENV_CAP_QUIET_NAME))
-+		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_CAPABILITY_USE;
-+
-+	/* Removes namespace handling if not set by a user. */
-+	if (!getenv(ENV_NS_NAME) && !getenv(ENV_NS_QUIET_NAME))
-+		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_NAMESPACE_USE;
-+
- 	if (check_ruleset_scope(ENV_SCOPED_NAME, &ruleset_attr))
- 		return 1;
- 
-@@ -673,6 +861,12 @@ int main(const int argc, char *const argv[], char *const *const envp)
- 		}
- 	}
- 
-+	if (populate_ruleset_cap(ENV_CAP_NAME, ENV_CAP_QUIET_NAME, ruleset_fd))
-+		goto err_close_ruleset;
-+
-+	if (populate_ruleset_ns(ENV_NS_NAME, ENV_NS_QUIET_NAME, ruleset_fd))
-+		goto err_close_ruleset;
-+
- 	if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
- 		perror("Failed to restrict privileges");
- 		goto err_close_ruleset;
 -- 
 2.54.0
 
