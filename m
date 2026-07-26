@@ -1,267 +1,178 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A5D3EA66
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 23:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785020426; cv=pass; b=sp74i4XGBJGPmIJ8QCbLkI47tqnZQtnw1iajPm2WVLGGbqUSq3yKIylIFbDlZyVV6SnWUfzYr6gq5DJdwTSgydlwci7TMJLfw26oy21RgUDk9BLaMqg5th5fLk0Xz94VAUe9/frsVrTfGJzSBQyA2NoaMe/DlVJhH9io9Ut51lo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785020426; c=relaxed/simple;
-	bh=bDOet23ok2i+Vku4msUzUVIAH9gBfszWU+26BrATbeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RIL3JGjyzicMQmzXIyhE0czsW18iazJgHI0aRaBvpSEVuM9UKmztv2A2KNcfQLo3P+AsKanPabEp0PuiCibDMjpZP2ekbH8NHX2QTepTbNVePRyA5RD5M0sbVz83AhKzfKwvLVB6yCcKgPRoWGPLy4ozMqoJONmQoPObpWq8O9k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wg4DyVVB; arc=pass smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43976344DA0
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 01:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785031198; cv=none; b=dfaIF08D3Z5XoAl7kM84gf9orn+iE1cEKs43l+wahHI8m47FwctVcfi0EcbrexdkTMDpG1E9LIpyqI60Qsd8VHLkxGOAkypz5IH007EV8IvHypbIfmMMf1qGir2tqlHZl87T/r/Q4YDSpcX1QAswg0nKRoiEeNj/9JbwOwotAZc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785031198; c=relaxed/simple;
+	bh=B4IYYuGph/em9rYUeyTrjgFnY/FPWkD9+tX1J0lcrvk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hnr/rCR4HeKwH/U+HIPirCaAKFju3QxQ//6/e7/9J8XoWcmS+920J7dwF2uzurxmpqxl47jSiU8csiNkm0EGDedYTRCpEFqXLuw2T/OgLrgGVWtik+96nzchRrYUgC4INU1eWvVhrm0mJdSMtwGLv1v7ORUD9Zouw/eJGRw1Hl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBlkG3SL; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wg4DyVVB"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c8ee87f7eso13732961fa.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 16:00:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785020423; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZtrxkJ0CQqjXgrc3WxCEv5krWWAD50k2ib05NRzeYF3qeImFGaMtC4WRXMVWxz1FsE
-         XPB9DLxD+4zRb4hw5ryvK4buJLzIxF9SKsqGHoVzkutrKspc9cLCn7OJE2j1SryAcM6p
-         +mdJuYSn6dBeTk2LvvRS7hmA+Ryz4EwULxUeJWVXJiiMqa8mrY2Bhm8qNBxW1XQis/t+
-         VditZbhNle6nRdUTOOFwGX43gZ0pECQ4Bl7SsCp9FqL6vImioG6LDQP46AjKsOxZVkZy
-         e2d2ng2lROVt5HAITxapc+u0h6cPKLnNNKbFwkIzzK/NV4eavBz4SIUhD61pX7tuUvaj
-         +bAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4CrQ9yNHEvzBk4bKw+4QRIhsoZN6DsfehlXDZKDdCG4=;
-        fh=62cqvQcfpk4FhdFg9FeG50ADBfJj2dpFsIw6CcixK2U=;
-        b=PcYyHAfjyEldkwKmRb8blpsiwglepXKfZYhzK3ytOE1HN9GaNJahI3RqyBQPhLNwHa
-         BaZ2BODo9oZSzWDf+qMzY+WdtQAHUqYlXq9GBiZmIzZbLezNiSA83USWkOkf0eht1Wi8
-         jBU+PkVgqku823r656vpWE17rBzgVn4SI1Eeqoze/dznblMI7yQSg4SHX/JSS62EWBwq
-         4NKl2np+FzH2eKc6OefdqYnjevjr8J7m0MhZMhxg2DcJP/6wLgPDmyLn+t/A/v2ZhkML
-         vyfih8uX84x7m84V7T3VUG4R/O0E28y9KX46PuoDfX2iI9c4wzapE4iwvyHIWwwzKPgn
-         Hm1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBlkG3SL"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7e9ecb1e13bso604758a34.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Jul 2026 18:59:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785020423; x=1785625223; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4CrQ9yNHEvzBk4bKw+4QRIhsoZN6DsfehlXDZKDdCG4=;
-        b=Wg4DyVVBwFaeWp2vTr2q/EpvwOrBLw7GDmXq2JH7pDt0aLYnHs0BDhiWxnpG4ALNX9
-         8iG5c/u9mm+jC9zo2GkKZtizvxsLBTHQduxjSfm3Y+FrL+f0uxzVhSoMYi2J6wVDOw/h
-         5VfcZV5TgbcNWcs4zoET5Ge1AhBNzMXTl8oZAhVxi3xUb4OjyeKprMcg+zn7HxV6qLe6
-         v6XUNfFFywYkTCWxIdLw/duZPiz2oziDMQewxjU5ozfU4XgDlOCnMejoqhivFbhizvwE
-         ZcQq9Mmpn/z4Kn/Scg9eksRgmDARG5D/4Wr6DV6tWoe8lBKzsEjMCVRpgjT78KnS1uLB
-         JxqQ==
+        d=gmail.com; s=20251104; t=1785031196; x=1785635996; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dp1m+he2iASF586QKTRoFR35aZ7KbKPACpgwKYAXwl8=;
+        b=IBlkG3SLhcxdbNKay4J36gniVsEKrjjMJ+KVis26n1LtuFQ1PhoGJcqMV+GsjCPALH
+         qgVB68v4RsJiKUbCQVyVNlviYIgjT3hYAT8whXTQZY/rIZvlKDyz1XKPYp/0NGT2Say/
+         ILQL54GqDgWlPrzpB4eNt/ozLt/3t3CwAblQ04SEiu1ris0r9yEA+taMsaCwFxvK2VPO
+         F2AJ6yac58XbG/LL8stlASsDsd5q3gUOmtVyigDT74gOBrII0YxcQVH2RrDjlZNO5h08
+         T/1jaxqhxSsyyUgKfVgdq2Tab9bP7Ja+E0d17iieJrJ3/LvqXGFKrEHhj3ohixjWr2z3
+         Dqeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785020423; x=1785625223;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4CrQ9yNHEvzBk4bKw+4QRIhsoZN6DsfehlXDZKDdCG4=;
-        b=r5NaVm2iD5lDe+Lo7gOqNEfuX9ot7TYAxoRMjHpNJL8b36yLfP0elEKpSzBoXdFLHu
-         UMUSPlQmeGl1oy0QEsvDE4mhWqWUt0v7c2CdiayxDntsSvfkU3dxlagl9uNf3MDq5qNB
-         YzHghaXtlsXte/mjjIlFHtK+zakcESWBt63H4Ai/DHZGTRLW9X4LtqVNZCNgE1giZHsm
-         fPS6uPDp0LxFfN9dnJvlyU3Lrl2lE2YqgbFCZC3FSi2itZpkMqK5Zum8es2491DA8QtW
-         vlhtmjsN6btkTj2KDn9ph+vkDBKnq7Dao2LkFagXCanE+oODShwMUX9bm/PbKN3ZaVLe
-         gRJg==
-X-Forwarded-Encrypted: i=1; AHgh+RpeorPYDqIZLmV8zdScItLscNaC6ZqYPM9HQoSLpZn3lmWYNwZqvZgjrqPIq5lOfBB35mn6HqDZo+YkQAiq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxax9GaSrZvS8VPIL4gcPHDKqmhgqbT82NyAZJKZYfmsmSAj9vi
-	aciLS2w5zsnz7D0oDfo3c9Q0LBe+l1sgY5bp3xQr0uJq6jEnPXXBH8cZsPbOiVGrpgAUDcYSVOf
-	CGewVdNbu/CrEa/aqzNWHRY7qhZZZEiA3nicF
-X-Gm-Gg: AR+sD13vfhx2DLcg3ehuzw570A8NJypkkXr8yVc2bs5/ZL+hrrKvTWwI0D7nEhgY9zh
-	MdqC7zzmH4DvnxGdat4HElRW7QWNcICOTuuizFX+0hf74iX8v8eK29WPVgYJSGdQTiDM3znUnXk
-	k4x6yVczqorBxLtc8vWjTp//o2qwHRfuGrBPdol0Bu4THMMltwRMztlLOQglAz8KiE9RaXAJ6BT
-	0EHDUGjqLU+Eol/2ZjIN4hhQHUXe9rJJu0Z1HVfeaQk9eIdF2h31Q3ws1u2Kzw=
-X-Received: by 2002:a05:6512:31cf:b0:5a8:88f8:9ed4 with SMTP id
- 2adb3069b0e04-5b2c1b26f68mr667769e87.30.1785020422785; Sat, 25 Jul 2026
- 16:00:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785031196; x=1785635996;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Dp1m+he2iASF586QKTRoFR35aZ7KbKPACpgwKYAXwl8=;
+        b=rraEuePXrR38Y8iyZ0SSp9bG1eopaz3e2SpnWAYCNiMGikBwnoly3TeFCJBJl5AvXQ
+         i86H8a2HkhNuZr0jiM5xUev/l8DcuBcTAI6v56sv6MWnYYCisi7XzVUXT0WLp1cCkIB1
+         /IsDEIbIZLJuki4ohjFPrHXcQwINUxsq6YCD6z4Op2Dkkx7lgmdsZE0a1F0eTcjbAvI5
+         EmK+MOjJby9KzD7Km4Z1YlxmrbKpDdUb05ztKAjHmEhrPPpGKn+X+crsy0c2kFkwlbTA
+         QlHgjcC+5/Q5Deu+fsjrHhsoEYb24iqpLg0IJGvVUIy4rYB9iQW18IyaKn85f6o5p/uW
+         QuUQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr4ciUHIl36lSqQVEziKmvP6dRgJl0/iv5+LUH+a7HMTWjaOmHxshIjQpbJcUDxyBlLHLyTugqb0gWvpXKB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQLybGrROHZZjPuS+z4UGakT2VW6NKPgTZgFAPLYeTAYUayk5+
+	E95z6y6ZOyaxvGu+1SeFLwbWTJzOSFMpczeFDtKxAPKN+2fjBtarymeq
+X-Gm-Gg: AR+sD13pOyq8iuynGye1ahd7wZwSDEpL//W6O7iZuPmqfxup8S3NF+W9eb/FCEobtjT
+	nP2ZDVBpT4nE5qSyv3KY7/YVNXypnCwcqcV6fkMXwxuc392SkRnBqDiGlxSgDW/x9VZWt7+6B44
+	SrTrDyaiOb4uezOMPcSrUWcOzPWcRJGYxU5h3INnG7vkaI1c20+EwurmXVMKi7gxhKRqwfoj9cN
+	WEvSuKsxhv/FS7T12aeEcOeAV4WZMPHmHL156nmBnPF8y523UrUqvoKcc5dlbqVuU2jYe9WPYjg
+	pv+R4p8wP7g2MedZIzlr3g/xajfpsGExG56IftfLaT3ga2BIhY9ftUC9RoFtP/cMHzKvkMZPux6
+	OjtjxMxBD/PnLLlZhGAKfoDYnNlGzljVlo2x+WiR15oHMGIZv0VH8FbhbSLa82o3LCcWQkTG+0B
+	6vhsCpyp31umyDRYOi0Ns8FFtxKL1dbHrzUnV8G7wA1hWNnV5Da8hXWfLr/RchCoTUTevyUCiDh
+	kCf8xLHf4fpQdHEW680F2RMVKMCB6q0sw==
+X-Received: by 2002:a05:6830:2405:b0:7e9:b4d0:53af with SMTP id 46e09a7af769-7ee78e4e3fdmr3203784a34.32.1785031196089;
+        Sat, 25 Jul 2026 18:59:56 -0700 (PDT)
+Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee29e0ec5bsm9335656a34.10.2026.07.25.18.59.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 18:59:55 -0700 (PDT)
+From: Russ Fellows <russ.fellows@gmail.com>
+To: miklos@szeredi.hu
+Cc: amir73il@gmail.com,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Russ Fellows <russ.fellows@gmail.com>
+Subject: [PATCH v4 0/2] fuse: allow parallel direct writes for passthrough
+Date: Sun, 26 Jul 2026 01:59:53 +0000
+Message-ID: <20260726015955.319132-1-russ.fellows@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260616231325.16788-1-russ.fellows@gmail.com>
+References: <20260616231325.16788-1-russ.fellows@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260724222745.2107464-1-slava@dubeyko.com> <20260724222745.2107464-3-slava@dubeyko.com>
-In-Reply-To: <20260724222745.2107464-3-slava@dubeyko.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Sun, 26 Jul 2026 08:00:06 +0900
-X-Gm-Features: AUfX_my3LXNIIx8rJnvq6M3TCwzbE49wvR2sRFr4oq_7dYhXZc8uM16YisFCH9c
-Message-ID: <CAKFNMokcPu6DC4hnF=--diBtWzDhU2rROCT-rDGcuoobNzb8xg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] nilfs2: switch O_DIRECT reads to iomap
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: hch@lst.de, linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 25, 2026 at 7:28=E2=80=AFAM Viacheslav Dubeyko  wrote:
->
-> Wire the read-only nilfs_iomap_ops added in the previous patch into
-> the O_DIRECT read path, and eliminate blockdev_direct_IO() from
-> nilfs2 entirely:
->
->  - nilfs_file_open() now sets FMODE_CAN_ODIRECT explicitly, since
->    permission to open the file O_DIRECT was previously implied by
->    aops->direct_IO being non-NULL.
->  - nilfs_file_read_iter() dispatches O_DIRECT reads to iomap_dio_rw()
->    using nilfs_iomap_ops; everything else still goes through
->    generic_file_read_iter() as before.
->  - nilfs_file_write_iter() strips IOCB_DIRECT and falls through to
->    generic_file_write_iter()'s ordinary buffered path. NILFS2 cannot
->    perform true direct I/O writes: new blocks are delay-allocated and
->    only given a real disk address by the segment constructor, which
->    works on buffer_head lists, not iomap. This reproduces today's
->    actual behavior: the old nilfs_direct_IO() already just returned 0
->    for WRITE.
->  - nilfs_direct_IO() and the .direct_IO callback on nilfs_aops are
->    removed.
->  - drop the unnecessary "select LEGACY_DIRECT_IO" from Kconfig
->    in favor of "select FS_IOMAP".
->
-> Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> cc: Christoph Hellwig <hch@lst.de>
-> cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> cc: linux-nilfs@vger.kernel.org
-> cc: linux-fsdevel@vger.kernel.org
-> ---
->  fs/nilfs2/Kconfig |  2 +-
->  fs/nilfs2/file.c  | 40 +++++++++++++++++++++++++++++++++++++---
->  fs/nilfs2/inode.c | 13 -------------
->  3 files changed, 38 insertions(+), 17 deletions(-)
->
-> diff --git a/fs/nilfs2/Kconfig b/fs/nilfs2/Kconfig
-> index 7dae168e346e..0a5ace60e6ab 100644
-> --- a/fs/nilfs2/Kconfig
-> +++ b/fs/nilfs2/Kconfig
-> @@ -3,7 +3,7 @@ config NILFS2_FS
->         tristate "NILFS2 file system support"
->         select BUFFER_HEAD
->         select CRC32
-> -       select LEGACY_DIRECT_IO
-> +       select FS_IOMAP
->         help
->           NILFS2 is a log-structured file system (LFS) supporting continu=
-ous
->           snapshotting.  In addition to versioning capability of the enti=
-re
-> diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
-> index f93b68c4877c..ad2e87c049c9 100644
-> --- a/fs/nilfs2/file.c
-> +++ b/fs/nilfs2/file.c
-> @@ -10,9 +10,12 @@
->  #include <linux/fs.h>
->  #include <linux/filelock.h>
->  #include <linux/mm.h>
-> +#include <linux/uio.h>
-> +#include <linux/iomap.h>
->  #include <linux/writeback.h>
->  #include "nilfs.h"
->  #include "segment.h"
-> +#include "iomap.h"
->
->  int nilfs_sync_file(struct file *file, loff_t start, loff_t end, int dat=
-async)
->  {
-> @@ -133,20 +136,51 @@ static int nilfs_file_mmap_prepare(struct vm_area_d=
-esc *desc)
->         return 0;
->  }
->
-> +static int nilfs_file_open(struct inode *inode, struct file *file)
-> +{
-> +       file->f_mode |=3D FMODE_CAN_ODIRECT;
-> +       return generic_file_open(inode, file);
-> +}
-> +
-> +static ssize_t nilfs_file_read_iter(struct kiocb *iocb, struct iov_iter =
-*to)
-> +{
-> +       if (iocb->ki_flags & IOCB_DIRECT) {
-> +               return iomap_dio_rw(iocb, to, &nilfs_iomap_ops,
-> +                                   NULL, 0, NULL, 0);
-> +       } else
-> +               return generic_file_read_iter(iocb, to);
-> +}
-> +
-> +static ssize_t nilfs_file_write_iter(struct kiocb *iocb, struct iov_iter=
- *from)
-> +{
-> +       /*
-> +        * NILFS2 cannot perform true direct I/O writes: new blocks are
-> +        * delay-allocated and are only given a real disk address when
-> +        * the segment constructor writes them out as part of a log,
-> +        * which works directly on buffer_head lists rather than
-> +        * through iomap. Fall back to the ordinary buffered write path
-> +        * for O_DIRECT writes.
-> +        */
-> +       if (iocb->ki_flags & IOCB_DIRECT)
-> +               iocb->ki_flags &=3D ~IOCB_DIRECT;
-> +
-> +       return generic_file_write_iter(iocb, from);
-> +}
-> +
->  /*
->   * We have mostly NULL's here: the current defaults are ok for
->   * the nilfs filesystem.
->   */
->  const struct file_operations nilfs_file_operations =3D {
->         .llseek         =3D generic_file_llseek,
-> -       .read_iter      =3D generic_file_read_iter,
-> -       .write_iter     =3D generic_file_write_iter,
-> +       .read_iter      =3D nilfs_file_read_iter,
-> +       .write_iter     =3D nilfs_file_write_iter,
->         .unlocked_ioctl =3D nilfs_ioctl,
->  #ifdef CONFIG_COMPAT
->         .compat_ioctl   =3D nilfs_compat_ioctl,
->  #endif /* CONFIG_COMPAT */
->         .mmap_prepare   =3D nilfs_file_mmap_prepare,
-> -       .open           =3D generic_file_open,
-> +       .open           =3D nilfs_file_open,
->         /* .release     =3D nilfs_release_file, */
->         .fsync          =3D nilfs_sync_file,
->         .splice_read    =3D filemap_splice_read,
-> diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-> index 51f7e125a311..f4a9d9ea9c3f 100644
-> --- a/fs/nilfs2/inode.c
-> +++ b/fs/nilfs2/inode.c
-> @@ -257,18 +257,6 @@ static int nilfs_write_end(const struct kiocb *iocb,
->         return err ? : copied;
->  }
->
-> -static ssize_t
-> -nilfs_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-> -{
-> -       struct inode *inode =3D file_inode(iocb->ki_filp);
-> -
-> -       if (iov_iter_rw(iter) =3D=3D WRITE)
-> -               return 0;
-> -
-> -       /* Needs synchronization with the cleaner */
-> -       return blockdev_direct_IO(iocb, inode, iter, nilfs_get_block);
-> -}
-> -
->  const struct address_space_operations nilfs_aops =3D {
->         .read_folio             =3D nilfs_read_folio,
->         .writepages             =3D nilfs_writepages,
-> @@ -277,7 +265,6 @@ const struct address_space_operations nilfs_aops =3D =
-{
->         .write_begin            =3D nilfs_write_begin,
->         .write_end              =3D nilfs_write_end,
->         .invalidate_folio       =3D block_invalidate_folio,
-> -       .direct_IO              =3D nilfs_direct_IO,
->         .migrate_folio          =3D buffer_migrate_folio_norefs,
->         .is_partially_uptodate  =3D block_is_partially_uptodate,
->  };
-> --
-> 2.43.0
+This is v4, about six weeks after v3 [1] -- apologies for the delay.
+Thanks to Amir Goldstein for the detailed review of v3 and for the
+suggested patches; this revision implements that feedback.  The v3
+thread [1] has the full context and Amir's comments.
 
-The conversion looks good to me.
-(Note: I haven't exhaustively checked for any iomap-specific caveats.)
+The series is also available at:
+  https://github.com/russfellows/linux-fuse-passthrough-patches
 
-I verified the build and basic operations in several local
-environments, and the changes have been working without any critical
-issues so far.
+FUSE passthrough writes are fully serialised on the inode lock, even when
+the server advertises FOPEN_PARALLEL_DIRECT_WRITES and the write is a
+direct, non-append, within-EOF overwrite.  Native FUSE direct-IO writes
+already take a shared lock in that case; there is no reason passthrough
+cannot do the same.  With a passthrough backing file on XFS, this is the
+difference between serialised and fully parallel 4K random-write O_DIRECT
+throughput.
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Patch 1 stops fuse_file_io_open() from stripping
+FOPEN_PARALLEL_DIRECT_WRITES on passthrough opens (which bypass the page
+cache without FOPEN_DIRECT_IO).  Patch 2 lets fuse_passthrough_write_iter()
+take the shared lock for eligible writes by sharing the existing direct-IO
+write-lock helper rather than duplicating it.
 
-Thanks,
-Ryusuke Konishi
+Rebased onto v6.18.39 (LTS).
+
+Changes since v3:
+ - Patch 1: keep only the FOPEN_IOMODE_CACHED() helper (drop the
+   IS_DIRECT / IS_PASSTHROUGH macros, which described how I/O is performed
+   rather than the ff->iomode state and were misleading); fold the
+   O_DIRECT/fcntl note into the FOPEN_PARALLEL_DIRECT_WRITES comment; and
+   simplify fuse_file_io_open() so a pure direct-IO open needs no early
+   return.  (Per Amir's review and suggested diff.)
+ - Patch 2: instead of duplicating fuse_dio_lock() into passthrough.c,
+   generalise it: fuse_io_wr_exclusive_lock() now also handles passthrough,
+   the uncached-io refcount is factored into fuse_parallel_dio_start/end()
+   (no-ops for passthrough's permanent uncached iomode), and
+   fuse_dio_lock()/fuse_dio_unlock() are renamed fuse_io_wr_lock()/
+   fuse_io_wr_unlock() and shared by both write paths.  (Per Amir's review
+   and suggested diff.)
+
+Testing (fstests / xfstests)
+----------------------------
+Run with the libfuse passthrough_hp server under xfstests (FSTYP=fuse),
+'./check -fuse -g quick' (642 tests), on v6.18.39, backing XFS on a
+RAM-backed null_blk device.  An unpatched v6.18.39 baseline was captured
+first, then the same tree with this series applied; results were diffed to
+isolate any patch-induced change.  Two server configs were exercised, as
+suggested by Amir:
+
+  passthrough (default):    unpatched 25 failed / patched 25 failed
+  passthrough --direct-io:  unpatched 27 failed / patched 27 failed
+
+In both configs the failing set is identical with and without the series
+(the --direct-io set is the default set plus generic/355 and generic/362).
+Every failure is pre-existing on the unpatched kernel and is a known
+passthrough_hp / fuse limitation (permission/ACL/atime/mmap-coherency
+tests), unrelated to this change:
+
+  => zero regressions introduced by the series in either config.
+
+No kernel warnings, lockdep reports, or splats were observed in any run.
+
+Performance
+-----------
+Custom FUSE passthrough daemon advertising FOPEN_PASSTHROUGH |
+FOPEN_PARALLEL_DIRECT_WRITES, XFS on a RAM-backed null_blk device, kernel
+v6.18.39.  fio 4K random write, O_DIRECT, libaio, iodepth=64, single shared
+file:
+
+  numjobs | unpatched (IOPS) | patched (IOPS)
+  --------|------------------|---------------
+        1 |         352,000  |       352,000
+        2 |         440,000  |       648,000
+        3 |         429,000  |       951,000
+        4 |         423,000  |       987,000
+
+Unpatched write throughput is flat regardless of job count (the exclusive
+inode lock serialises all writers to the file); with the series it scales
+with concurrency, ~2.3x at 4 jobs, up to the backing device ceiling.
+Single-job is unchanged (no lock contention), and 4K random *read*
+throughput is unchanged (~1.37M IOPS with and without the series), since
+reads never took the exclusive lock.
+
+[1] v3: https://lore.kernel.org/all/20260616231325.16788-1-russ.fellows@gmail.com/
+
+Russ Fellows (2):
+  fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
+  fuse: allow parallel direct writes in passthrough write_iter
+
+ fs/fuse/file.c        | 53 ++++++++++++++++++++++++++++++++++---------
+ fs/fuse/fuse_i.h      |  2 ++
+ fs/fuse/iomode.c      | 23 ++++++++++---------
+ fs/fuse/passthrough.c |  6 ++---
+ 4 files changed, 59 insertions(+), 25 deletions(-)
+
+--
+2.51.0
