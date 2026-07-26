@@ -1,33 +1,33 @@
-Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [185.125.25.11])
+Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D763CA4B5
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 16:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E833CA481
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Jul 2026 16:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785082481; cv=none; b=Xb5+bsjg9wdNK1uzOEHVehNTEsmEt/ISS7WlSz6p+L3ijaoOzibbSLEGt5kpqhC3eVuEK4loycAPM0Ph91gd0m7Ev1zva/8kzmEBljjsuJRUZDnVN5Vt6xiMTcDkNZIxFiGi3HCJkbegnFqyXrEZqtHSNHyubs5L5n+CaQJN8zI=
+	t=1785082493; cv=none; b=sqa0z6q6dlfirk8ZsKQPNOpGiAuLms3iBhKz98T6tCLpT5yaN9+eQod0JuMAWrk3SGmIbZc81YbNPUHL+OFRgByqITUgf3JznUpnS8LW9F51zYzlYbi/sJpk5czDsaPpeg3EqB/d2NbyspFh3NKfNO5bjVfAYl4WjIxzKO8LvPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785082481; c=relaxed/simple;
-	bh=lDqrhfL/zng+EzrKAlCqpf/xVsQ9o2ebNyM6w3JiWug=;
+	s=arc-20240116; t=1785082493; c=relaxed/simple;
+	bh=iSsYldx2eCyGptLsuR/u2ZdNngBKBrg0XGINddSguDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LwVozvkZhAyoiT+bnLPgTtHBb4ICYOxRFCOdN1/EmtGJJE0+i89m0LvigHeIfGRmv/XwLj6Dh9nXpNRjTmzb5fYfFUb4PEMGQOmIOlG02Hp/Z7Ix/9iXSHj/ChZRMrQvpRl/e3Sivh0aN0Y4bPhwMiAgO5nrn1GX3d5+wyGX5Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=04d8nGow; arc=none smtp.client-ip=185.125.25.11
+	 MIME-Version:Content-Type; b=MWjVOCRRfFbB5vSao+I+4W2zkR6sZdANPTOJE4ymBPlybJpb04ESWbXXDf1bsqbsK9umcUJMkkpDH4e8VW9BGcf+vZTYVvauID+Xdx9SkGQi5ajqWyaJDxRFEFwLbZ5ufRIJ4R5KJ2eLa1xcTX3vbpAZSmU0p2bdizeyX67c/E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=Fhn6UBej; arc=none smtp.client-ip=185.125.25.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="04d8nGow"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h7Rcv43N4zg16;
-	Sun, 26 Jul 2026 18:14:23 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="Fhn6UBej"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h7Rcz0T7XzhS4;
+	Sun, 26 Jul 2026 18:14:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1785082463;
-	bh=vKO2ZIHlLS3ZDlvO1quto89M7KbgltaRKJBbglGFxIw=;
+	s=20191114; t=1785082466;
+	bh=pKNRff+qEl0RqFmjMM6nBhvbRdnraojPE2bNJC3hq+Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=04d8nGow+qdfONg4vLugoC8fLD0Hu+YB5WuUnUo4APhbMoN7RU/bGLtOna6iy0IPd
-	 5kHinAh7ItGToPU5c5HTLj8Rq2HXz9bKiey5Bw4PQ12DV/ol1vvkTxEpCrzHL654GR
-	 jJz+dHL6Srd6LGKylVlPI3N6AuEdis0Ib4WCa9go=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4h7Rct2s3JzRdF;
-	Sun, 26 Jul 2026 18:14:22 +0200 (CEST)
+	b=Fhn6UBejc3hThxAFo7XsNgHSuvgVjNCmuWuQD7uSI3rL8MiHZ5FXkmrDSreXmroOZ
+	 WKdMZmZIZLx/VebZ5saURzrsuV5X5s8dX7Y32wM3DYPf2alqIWv9MAWhD4EH5GTvEI
+	 vO70vaRNnWDZqxXSZX4P6fJVckrmj+4+aHJiTBq0=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4h7Rcy05Tnzp1r;
+	Sun, 26 Jul 2026 18:14:26 +0200 (CEST)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Christian Brauner <brauner@kernel.org>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
@@ -46,9 +46,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH v3 07/12] landlock: Enforce namespace use restrictions
-Date: Sun, 26 Jul 2026 18:13:52 +0200
-Message-ID: <20260726161400.3010511-8-mic@digikod.net>
+Subject: [PATCH v3 09/12] selftests/landlock: Add namespace restriction tests
+Date: Sun, 26 Jul 2026 18:13:54 +0200
+Message-ID: <20260726161400.3010511-10-mic@digikod.net>
 In-Reply-To: <20260726161400.3010511-1-mic@digikod.net>
 References: <20260726161400.3010511-1-mic@digikod.net>
 Precedence: bulk
@@ -61,1100 +61,2663 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Add Landlock enforcement for namespace use via the LSM namespace_init
-and namespace_install hooks.  This lets a sandboxed process restrict
-which namespace types it can acquire, using LANDLOCK_PERM_NAMESPACE_USE
-and per-type rules.
+Add tests covering the two namespace-related Landlock permission types:
+LANDLOCK_PERM_NAMESPACE_USE (namespace creation via unshare/clone and
+namespace entry via setns) and its interaction with
+LANDLOCK_PERM_CAPABILITY_USE.
 
-Introduce the handled_perm field in struct landlock_ruleset_attr for
-per-category permissions: each permission gates all uses of a
-kernel-defined category (CLONE_NEW* for namespace types, CAP_* for
-capabilities) and provides complete deny-by-default coverage of category
-members.  Rule values reference constants from other kernel subsystems
-(CLONE_NEW* for namespaces); unknown values are silently accepted
-because the allow-list denies them by default.  See the "Ruleset
-restriction models" section in the kernel documentation for the full
-design rationale.
+Rule validation tests verify that the kernel correctly accepts known
+CLONE_NEW* types, silently accepts unknown bits (including holes,
+upper-range bits, and bit 63) for forward compatibility, and rejects an
+empty namespace_types bitmask.  Invalid allowed_perm combinations and
+non-zero flags are also covered.  A dedicated test asserts that a rule
+listing only unknown bits is accepted at rule-add time but has no
+runtime effect: an actual CLONE_NEW* operation is still denied by
+deny-by-default once the domain is enforced.
 
-The new permissions extend the UAPI, so this bumps the Landlock ABI
-version to 11.
+Namespace creation tests use FIXTURE_VARIANT to exercise all eight
+namespace types (user, UTS, IPC, mount, cgroup, PID, network, time)
+across allowed/denied and privileged/unprivileged combinations.  This
+verifies that security_namespace_init() is correctly called for every
+type.  Layer stacking tests verify that any-layer-denies semantics work
+correctly across the three combinations of per-layer allow/deny that
+exercise distinct walker paths (allow/deny, allow/allow, deny/allow).  A
+combined test exercises both LANDLOCK_PERM_CAPABILITY_USE and
+LANDLOCK_PERM_NAMESPACE_USE in a single domain.
 
-Both hooks share check_ns_type(): if the namespace's CLONE_NEW* type is
-not in the layer's allowed set, the operation is denied.  No domain
-ancestry bypass, no namespace creator tracking, just a flat per-layer
-allowed-types bitmask.
+Namespace entry tests verify that setns is subject to the same
+type-based LANDLOCK_PERM_NAMESPACE_USE check via
+security_namespace_install(), including cross-process setns denial and
+the two-permission interaction where both LANDLOCK_PERM_NAMESPACE_USE
+and LANDLOCK_PERM_CAPABILITY_USE must allow the operation for non-user
+namespaces.
 
-- hook_namespace_init() fires during unshare(CLONE_NEW*) and
-  clone(CLONE_NEW*) via __ns_common_init().
+Mount-namespace fd-acquisition tests cover the four open_tree(2) and
+fsmount(2) variants that create a mount namespace:
+open_tree(OPEN_TREE_CLONE) and fsmount(FSMOUNT_CLOEXEC) for anonymous
+namespaces, and open_tree(OPEN_TREE_NAMESPACE) and
+fsmount(FSMOUNT_NAMESPACE) for new non-anonymous namespaces.  All four
+converge in security_namespace_init() with CLONE_NEWNS and exercise
+different code paths through alloc_mnt_ns().
 
-- hook_namespace_install() fires during setns() via validate_ns().
+A multi-flag unshare test exercises a combined unshare with
+CLONE_NEWUSER | CLONE_NEWUTS under partial-allow rules, documenting the
+kernel's atomic behavior: namespace creation is sequential, and a
+Landlock denial on any type rolls back the whole syscall with EPERM.
 
-Both record namespace_type and ns_id in the audit data; ns_id is zero at
-namespace creation.
-
-struct perm_masks is __packed __aligned(sizeof(u64)) because on m68k GCC
-packs bitfields at byte granularity, so without it a u64 bitfield struct
-can be smaller than sizeof(u64).
-
-The rule's perm selector must be LANDLOCK_PERM_NAMESPACE_USE and
-reserves room for future per-rule-type sub-permissions.
-allowed_namespace_types lists the allowed CLONE_NEW* flags; unknown bits
-are accepted for forward compatibility and have no effect since the
-allow-list denies by default.
-
-The rule also carries a quiet_namespace_types bitmask that silences the
-audit records of specific denied members without granting them.  A
-sandbox that knowingly runs a caller probing a namespace type or
-capability it will never be granted (e.g. an old runtime kept for
-compatibility) would otherwise flood the audit log and drown the
-surprising denials that matter.  Quiet is per-member rather than a
-coarse per-category ruleset bit so a sandbox can silence one member
-(CLONE_NEWNET) while still auditing another (CLONE_NEWUTS).  Making
-quiet the complement of the allowed set would be broad, could not audit
-a member that is neither allowed nor explicitly quieted, and would
-auto-hide members added by future kernels.  For the same reason a
-sandbox should quiet only specific members known to be requested but
-expected to be denied, never a blanket set, which follows the running
-kernel's known members and hides surprising or future denials.  A bit
-set in both allowed_namespace_types and quiet_namespace_types has no
-effect, since an allowed member is never denied and its layer can never
-become the youngest denying layer for that member.
-
-The merged filesystem and network quiet feature marks unbounded rb-tree
-objects (paths, ports) quiet through the LANDLOCK_ADD_RULE_QUIET flag
-and the ruleset quiet_access_* masks.  Capabilities and namespace types
-are instead a small, bounded, kernel-defined member set, so their quiet
-list is a per-rule bitmask sibling to the allowed bitmask, and the
-shared flag is rejected for these rule types.  A single add_rule call
-can allow some members and quiet others independently, and a quiet-only
-rule (empty allowed set) is valid.  Only the youngest denying layer's
-quiet mask decides, so a parent cannot silence a denial made by a deeper
-layer.
-
-User namespace creation does not require capabilities, so Landlock can
-restrict it directly.  Non-user namespace types require CAP_SYS_ADMIN
-before the Landlock check is reached; when both
-LANDLOCK_PERM_NAMESPACE_USE and LANDLOCK_PERM_CAPABILITY_USE are
-handled, both must allow the operation.
+Audit tests verify that denied namespace creation, denied setns entry,
+and allowed operations produce the expected audit records (or none).
 
 Cc: Christian Brauner <brauner@kernel.org>
 Cc: Günther Noack <gnoack@google.com>
 Cc: Paul Moore <paul@paul-moore.com>
 Cc: Serge E. Hallyn <serge@hallyn.com>
-Depends-on: 935a04923ad2 ("nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL")
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
 ---
 
 Changes since v2:
-https://patch.msgid.link/20260527181127.879771-5-mic@digikod.net
-- Rename the namespace rule attribute fields (allowed_perm to perm,
-  namespace_types to allowed_namespace_types) and add a
-  quiet_namespace_types bitmask that suppresses the audit records of
-  specific denied namespace types, together with the shared per-layer
-  quiet member mask read in landlock_log_denial(); the rule attribute
-  grows from 16 to 24 bytes.
-- Copy the accumulated quiet_perm mask into the domain hierarchy in
-  merge_ruleset(), under the ruleset merge lock and atomically with the
-  allowed mask (no separate lock).
-- Dropped Reviewed-by: Günther Noack and Tingmao Wang, as this version
-  adds the quiet member mask described above, which their v1 review did
-  not cover.  Fresh review welcome.
+https://patch.msgid.link/20260527181127.879771-7-mic@digikod.net
+- Rebased for ABI 11 and the renamed namespace rule attribute (perm
+  plus allowed_namespace_types/quiet_namespace_types).
+- Add per-member quiet audit tests for the namespace permission:
+  create_quieted, quiet_is_per_member, allow_and_quiet,
+  allow_and_quiet_same_member (quiet on an allowed member is inert),
+  quiet_youngest_layer_wins, and quiet_parent_only_denying_layer, plus a
+  quiet-only-rule leg in add_rule_bad_attr and the add_ns_rule_full
+  helper.
+- Add a positive both-caps mount setns leg (two_perm_mnt_setns_allowed)
+  and the both-perms inverse test two_perm_ns_denied (the capability is
+  allowed but the namespace type is not, so the namespace hook denies).
+- Add two_perm_combined_unshare_denied and
+  two_perm_combined_unshare_allowed: combining CLONE_NEWUSER with
+  another type in a single unshare(2) does not exempt the non-user
+  namespace from the capability check, so it still requires an allowed
+  CAP_SYS_ADMIN when the domain handles LANDLOCK_PERM_CAPABILITY_USE.
+- Add add_rule_unknown_no_runtime_effect_setns, the install-hook mirror
+  of the creation-hook unknown-bit test.
+- Add ns_audit.setns_quieted (a quieted setns denial is still EPERM but
+  unlogged) and ns_audit.quiet_unknown_bit_no_effect (an unknown quiet
+  bit does not suppress a known denial).
+- Trim ns_proc_open to two representative types (user and mnt): opening
+  /proc/self/ns/* never reaches a Landlock hook and the path is
+  namespace-type-agnostic, so the other per-type variants added no
+  coverage.
 
 Changes since v1:
-https://patch.msgid.link/20260312100444.2609563-6-mic@digikod.net
-- Add __packed __aligned(sizeof(u64)) to struct perm_masks to fix
-  static_assert failure on m68k, where GCC packs bitfields at byte
-  granularity.
-- Use ns_id instead of inum in namespace audit records.
-- Add WARN_ON_ONCE guards for invalid perm_bit or request_value in
-  landlock_perm_is_denied(), denying with the youngest layer on
-  invalid input (suggested by Tingmao Wang).
-- Fix double backtick in landlock_perm_is_denied() kernel-doc.
-- Add Reviewed-by: Tingmao Wang.
-- Mention commit 935a04923ad2 ("nsproxy: Add FOR_EACH_NS_TYPE()
-  X-macro and CLONE_NS_ALL") as a dependency in the body and add
-  Depends-on: trailer.
-- Rename internal struct perm_rules to perm_masks to parallel the
-  sibling access_masks in struct layer_config.
-- Document the allowed_perm design rationale (extensibility for
-  future sub-permissions, type discriminant safeguard).
-- Rename LANDLOCK_PERM_NAMESPACE_ENTER to LANDLOCK_PERM_NAMESPACE_USE
-  and audit blocker perm.namespace_enter to perm.namespace_use for
-  semantic accuracy.  The verb _ENTER fits setns/unshare/clone
-  (caller becomes namespace member) but misleads for open_tree and
-  fsmount (caller holds an fd reference, does not enter).  _USE
-  covers both cases and mirrors LANDLOCK_PERM_CAPABILITY_USE.
-  Update the commit title accordingly.
-- Replace "chokepoint"/"gateway" prose in @handled_perm kdoc and the
-  Permission flags DOC block with the per-category framing.
-- Expand the LANDLOCK_PERM_NAMESPACE_USE kdoc to enumerate creation
-  (unshare/clone/clone3), joining (setns), and fd-reference
-  (open_tree/fsmount) paths.
-- Rewrite the commit body to drop chokepoint/gateway terminology in
-  favour of per-category framing, matching the doc rewrite.
-- Rename struct layer_rights to struct layer_config (companion
-  change to the introducing commit).
-- Surface the empty-check semantics in the
-  landlock_namespace_attr.namespace_types kdoc: a rule that sets only
-  bits unknown to the running kernel succeeds but has no runtime
-  effect.
-- Cascade the LSM hook rename namespace_alloc -> namespace_init
-  (LSM_HOOK_INIT registration and local handler hook_namespace_alloc ->
-  hook_namespace_init), companion change to the introducing commit.
-- Rename the static helper landlock_check_ns_type() to check_ns_type():
-  the landlock_ prefix is reserved for non-static symbols exported via
-  headers; file-static helpers follow the prefix-free convention used
-  in security/landlock/.
-- Add Reviewed-by: Günther Noack.
+https://patch.msgid.link/20260312100444.2609563-9-mic@digikod.net
+- Update audit test patterns: namespace_inum replaced by namespace_id.
+- Fix user_denied.setns expected error: security_namespace_install()
+  now runs before userns_install(), so Landlock returns EPERM before
+  userns_install() returns EINVAL.
+- Rename LANDLOCK_PERM_NAMESPACE_ENTER references to
+  LANDLOCK_PERM_NAMESPACE_USE (companion change to the introducing
+  commit).
+- Add ns_proc_open fixture covering all 8 namespace types: verify that
+  open("/proc/self/ns/<type>", O_RDONLY) does not trigger Landlock
+  denial under LANDLOCK_PERM_NAMESPACE_USE.  Defensive boundary
+  documentation that the procfs ns/<type> open path is outside the
+  per-category permission's scope; catches future regressions if a hook
+  is misplaced.
+- Add ns_mount_fd fixture covering open_tree(OPEN_TREE_CLONE),
+  open_tree(OPEN_TREE_NAMESPACE), fsmount(FSMOUNT_CLOEXEC), and
+  fsmount(FSMOUNT_NAMESPACE) with denied/allowed/unsandboxed
+  variants.  All four converge in security_namespace_init() with
+  CLONE_NEWNS but exercise different code paths through alloc_mnt_ns().
+- Add ns_create_multi_flag fixture covering a combined unshare with
+  CLONE_NEWUSER | CLONE_NEWUTS under partial-allow rules: documents
+  that any Landlock denial in the sequential namespace creation
+  rolls back the entire syscall with EPERM.
+- Reshape setns_cross_process variants: rename allowed to
+  sandboxed_allowed and add an unsandboxed variant, so the fixture
+  now covers denied, sandboxed_allowed, and unsandboxed.
+- Add sys_open_tree, sys_fsopen, sys_fsconfig, sys_fsmount syscall
+  wrappers in wrappers.h, and update fs_test.c to use sys_open_tree
+  instead of its local open_tree wrapper.
+- Rename comments referencing security_namespace_alloc() and
+  hook_namespace_alloc() to security_namespace_init() and
+  hook_namespace_init() (companion change to the LSM hook rename in
+  the introducing commit).
+- Document that setns_cross_process exercises only CLONE_NEWUTS:
+  the same enforcement applies to every namespace type via the
+  unified hook_namespace_install() helper.
+- Add add_rule_unknown_no_runtime_effect: assert that a rule
+  listing only unknown namespace bits is accepted at rule-add time
+  but has no runtime effect, so an actual CLONE_NEW* operation is
+  still denied by deny-by-default once the domain is enforced.
+- Add ns_stacking parent_denies variant covering the inverse
+  direction of stacking: layer 1 denies, layer 2 allows, operation
+  still denied.  Completes the per-layer walker direction coverage.
 ---
- include/uapi/linux/landlock.h                |  80 +++++++++-
- security/landlock/Makefile                   |   3 +-
- security/landlock/access.h                   |  39 ++++-
- security/landlock/audit.c                    |  17 ++
- security/landlock/audit.h                    |   1 +
- security/landlock/cred.h                     |  50 ++++++
- security/landlock/domain.h                   |   6 +
- security/landlock/limits.h                   |   7 +
- security/landlock/ns.c                       | 156 +++++++++++++++++++
- security/landlock/ns.h                       |  74 +++++++++
- security/landlock/ruleset.c                  |  19 ++-
- security/landlock/ruleset.h                  |  54 +++++--
- security/landlock/setup.c                    |   2 +
- security/landlock/syscalls.c                 |  92 ++++++++++-
- tools/testing/selftests/landlock/base_test.c |   2 +-
- 15 files changed, 575 insertions(+), 27 deletions(-)
- create mode 100644 security/landlock/ns.c
- create mode 100644 security/landlock/ns.h
+ tools/testing/selftests/landlock/common.h   |   23 +
+ tools/testing/selftests/landlock/config     |    5 +
+ tools/testing/selftests/landlock/fs_test.c  |   13 +-
+ tools/testing/selftests/landlock/ns_test.c  | 2380 +++++++++++++++++++
+ tools/testing/selftests/landlock/wrappers.h |   29 +
+ 5 files changed, 2440 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/landlock/ns_test.c
 
-diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-index 7ffe2ef127ee..343cb4e0f51a 100644
---- a/include/uapi/linux/landlock.h
-+++ b/include/uapi/linux/landlock.h
-@@ -78,6 +78,15 @@ struct landlock_ruleset_attr {
- 	 * @quiet_scoped: Bitmask of scoped actions which should not be logged.
- 	 */
- 	__u64 quiet_scoped;
-+	/**
-+	 * @handled_perm: Bitmask of permissions (cf. `Permission flags`_) that
-+	 * this ruleset handles.  Each permission controls a per-category
-+	 * operation gated by an enum (CLONE_NEW* for namespace types, CAP_* for
-+	 * capabilities); all uses of category members are denied unless
-+	 * explicitly allowed by a rule.  See
-+	 * Documentation/security/landlock.rst for the rationale.
-+	 */
-+	__u64 handled_perm;
- };
- 
- /**
-@@ -215,6 +224,10 @@ enum landlock_rule_type {
- 	 * landlock_net_port_attr .
- 	 */
- 	LANDLOCK_RULE_NET_PORT,
-+	/**
-+	 * @LANDLOCK_RULE_NAMESPACE: Type of a &struct landlock_namespace_attr .
-+	 */
-+	LANDLOCK_RULE_NAMESPACE,
- };
- 
- /**
-@@ -268,6 +281,40 @@ struct landlock_net_port_attr {
- 	__u64 port;
- };
- 
-+/**
-+ * struct landlock_namespace_attr - Namespace type definition
-+ *
-+ * Argument of sys_landlock_add_rule() with %LANDLOCK_RULE_NAMESPACE.
-+ */
-+struct landlock_namespace_attr {
-+	/**
-+	 * @perm: Must be set to %LANDLOCK_PERM_NAMESPACE_USE.
-+	 */
-+	__u64 perm;
-+	/**
-+	 * @allowed_namespace_types: Bitmask of namespace types (``CLONE_NEW*``
-+	 * flags) to allow under this rule.  Unknown bits are silently ignored
-+	 * for forward compatibility.
-+	 */
-+	__u64 allowed_namespace_types;
-+	/**
-+	 * @quiet_namespace_types: Bitmask of namespace types (``CLONE_NEW*``
-+	 * flags) whose denial by this layer should not be logged, even if
-+	 * logging would normally take place per landlock_restrict_self() flags.
-+	 * Only denials attributed to this layer are suppressed (see `permission
-+	 * flags`_).  Bits also set in @allowed_namespace_types have no effect,
-+	 * since an allowed type is never denied.  Unknown bits are silently
-+	 * ignored.
-+	 *
-+	 * At least one of @allowed_namespace_types or @quiet_namespace_types
-+	 * must be non-zero, otherwise the call returns ``-ENOMSG``.  The
-+	 * non-zero check runs on the raw input before unknown-bit masking, so a
-+	 * rule that sets only bits unknown to the running kernel succeeds but
-+	 * has no runtime effect.
-+	 */
-+	__u64 quiet_namespace_types;
-+};
-+
- /**
-  * DOC: fs_access
-  *
-@@ -491,6 +538,37 @@ struct landlock_net_port_attr {
- /* clang-format off */
- #define LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET		(1ULL << 0)
- #define LANDLOCK_SCOPE_SIGNAL		                (1ULL << 1)
--/* clang-format on*/
-+/* clang-format on */
-+
-+/**
-+ * DOC: perm
-+ *
-+ * Permission flags
-+ * ~~~~~~~~~~~~~~~~
-+ *
-+ * These flags restrict per-category operations gated by enums (CLONE_NEW* for
-+ * namespace types, CAP_* for capabilities).  Each flag covers every kernel path
-+ * that exercises a member of the category.  Handled permissions that are not
-+ * explicitly allowed by a rule are denied by default.  Rule values reference
-+ * constants from other kernel subsystems; unknown values are silently accepted
-+ * for forward compatibility since the allow-list denies them by default.  See
-+ * Documentation/security/landlock.rst for design details.
-+ *
-+ * When a ruleset handles multiple permissions whose operations overlap (e.g. a
-+ * non-user namespace needs both its namespace type and CAP_SYS_ADMIN), the
-+ * operation is allowed only if each handled permission independently allows it.
-+ * See Documentation/userspace-api/landlock.rst.
-+ *
-+ * - %LANDLOCK_PERM_NAMESPACE_USE: Restrict the use of specific namespace
-+ *   types: creation (:manpage:`unshare(2)`, :manpage:`clone(2)`,
-+ *   :manpage:`clone3(2)`), joining (:manpage:`setns(2)`), and acquiring an
-+ *   fd reference (:manpage:`open_tree(2)`, :manpage:`fsmount(2)`).  A
-+ *   process in a Landlock domain that handles this permission is denied
-+ *   from using namespace types that are not explicitly allowed by a
-+ *   %LANDLOCK_RULE_NAMESPACE rule.
-+ */
-+/* clang-format off */
-+#define LANDLOCK_PERM_NAMESPACE_USE			(1ULL << 0)
-+/* clang-format on */
- 
- #endif /* _UAPI_LINUX_LANDLOCK_H */
-diff --git a/security/landlock/Makefile b/security/landlock/Makefile
-index ffa7646d99f3..cacfba075dec 100644
---- a/security/landlock/Makefile
-+++ b/security/landlock/Makefile
-@@ -8,7 +8,8 @@ landlock-y := \
- 	cred.o \
- 	task.o \
- 	fs.o \
--	tsync.o
-+	tsync.o \
-+	ns.o
- 
- landlock-$(CONFIG_INET) += net.o
- 
-diff --git a/security/landlock/access.h b/security/landlock/access.h
-index b4f79508729e..9dbacccc9b99 100644
---- a/security/landlock/access.h
-+++ b/security/landlock/access.h
-@@ -42,6 +42,8 @@ static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_ACCESS_FS);
- static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_ACCESS_NET);
- /* Makes sure all scoped rights can be stored. */
- static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_SCOPE);
-+/* Makes sure all permission types can be stored. */
-+static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_PERM);
- /* Makes sure for_each_set_bit() and for_each_clear_bit() calls are OK. */
- static_assert(sizeof(unsigned long) >= sizeof(access_mask_t));
- 
-@@ -50,6 +52,7 @@ struct access_masks {
- 	access_mask_t fs : LANDLOCK_NUM_ACCESS_FS;
- 	access_mask_t net : LANDLOCK_NUM_ACCESS_NET;
- 	access_mask_t scope : LANDLOCK_NUM_SCOPE;
-+	access_mask_t perm : LANDLOCK_NUM_PERM;
- } __packed __aligned(sizeof(u32));
- 
- union access_masks_all {
-@@ -61,13 +64,45 @@ union access_masks_all {
- static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
- 	      sizeof(typeof_member(union access_masks_all, all)));
- 
-+/**
-+ * struct perm_masks - Per-layer allowed bitmasks for permission types
-+ *
-+ * Compact bitfield struct holding the allowed bitmasks for permission types
-+ * that use flat (non-tree) per-layer storage.  All fields share a single 64-bit
-+ * storage unit.
-+ */
-+struct perm_masks {
-+	/**
-+	 * @ns: Allowed namespace types.  Each bit corresponds to a sequential
-+	 * index assigned by the ``_LANDLOCK_NS_*`` enum (derived from
-+	 * ``FOR_EACH_NS_TYPE``).  Bits are converted from ``CLONE_NEW*`` flags
-+	 * at rule-add time via ``landlock_ns_types_to_bits()`` and at
-+	 * enforcement time via ``landlock_ns_type_to_bit()``.
-+	 */
-+	u64 ns : LANDLOCK_NUM_PERM_NS;
-+} __packed __aligned(sizeof(u64));
-+
-+static_assert(sizeof(struct perm_masks) == sizeof(u64));
-+
- /**
-  * struct layer_config - Per-layer access configuration
-  *
-- * Wraps the per-layer handled-access bitfields.  This is the element type of
-- * the &struct landlock_ruleset.layers FAM.
-+ * Wraps the handled-access bitfields together with per-layer allowed bitmasks.
-+ * This is the element type of the &struct landlock_ruleset.layers FAM.
-+ *
-+ * Unlike filesystem and network access rights, which are tracked per-object in
-+ * red-black trees, namespace types use a flat bitmask because their keyspace is
-+ * small and bounded (~8 namespace types).  A single rule adds to the allowed
-+ * set via bitwise OR; at enforcement time each layer is checked directly (no
-+ * tree lookup needed).
-  */
- struct layer_config {
-+	/**
-+	 * @allowed: Per-layer allowed bitmasks for permission types.  Placed
-+	 * before @handled so the wider, more-aligned member comes first,
-+	 * avoiding internal padding.
-+	 */
-+	struct perm_masks allowed;
- 	/**
- 	 * @handled: Bitmask of access rights handled (i.e. restricted) by this
- 	 * layer.
-diff --git a/security/landlock/audit.c b/security/landlock/audit.c
-index 4f357a7f8532..dc4716635942 100644
---- a/security/landlock/audit.c
-+++ b/security/landlock/audit.c
-@@ -18,6 +18,7 @@
- #include "cred.h"
- #include "domain.h"
- #include "limits.h"
-+#include "ns.h"
- #include "ruleset.h"
- 
- static const char *const fs_access_strings[] = {
-@@ -82,6 +83,10 @@ get_blocker(const enum landlock_request_type type,
- 	case LANDLOCK_REQUEST_SCOPE_SIGNAL:
- 		WARN_ON_ONCE(access_bit != -1);
- 		return "scope.signal";
-+
-+	case LANDLOCK_REQUEST_NAMESPACE:
-+		WARN_ON_ONCE(access_bit != -1);
-+		return "perm.namespace_use";
- 	}
- 
- 	WARN_ON_ONCE(1);
-@@ -646,6 +651,18 @@ void landlock_log_denial(const struct landlock_cred_security *const subject,
- 				!!(quiet_mask &
- 				   LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET);
- 			break;
-+		/*
-+		 * Capability and namespace denials are per-member (single
-+		 * axis): the denied member is quiet when its bit is set in the
-+		 * denying layer's quiet_perm mask.  The member is recovered
-+		 * from the audit data recorded by the hook.
-+		 */
-+		case LANDLOCK_REQUEST_NAMESPACE:
-+			quiet_applicable_to_access =
-+				!!(youngest_denied->quiet_perm.ns &
-+				   landlock_ns_type_to_bit(
-+					   request->audit.u.ns.ns_type));
-+			break;
- 		/*
- 		 * Leave LANDLOCK_REQUEST_PTRACE and
- 		 * LANDLOCK_REQUEST_FS_CHANGE_TOPOLOGY unhandled for now - they
-diff --git a/security/landlock/audit.h b/security/landlock/audit.h
-index 620f8a24291d..9dd522b62448 100644
---- a/security/landlock/audit.h
-+++ b/security/landlock/audit.h
-@@ -21,6 +21,7 @@ enum landlock_request_type {
- 	LANDLOCK_REQUEST_NET_ACCESS,
- 	LANDLOCK_REQUEST_SCOPE_ABSTRACT_UNIX_SOCKET,
- 	LANDLOCK_REQUEST_SCOPE_SIGNAL,
-+	LANDLOCK_REQUEST_NAMESPACE,
- };
- 
- /*
-diff --git a/security/landlock/cred.h b/security/landlock/cred.h
-index 3e2a7e88710e..d6f909b90403 100644
---- a/security/landlock/cred.h
-+++ b/security/landlock/cred.h
-@@ -153,6 +153,56 @@ landlock_get_applicable_subject(const struct cred *const cred,
- 	return NULL;
+diff --git a/tools/testing/selftests/landlock/common.h b/tools/testing/selftests/landlock/common.h
+index 7206d5105d66..88c23c1089f8 100644
+--- a/tools/testing/selftests/landlock/common.h
++++ b/tools/testing/selftests/landlock/common.h
+@@ -130,6 +130,29 @@ static void __maybe_unused clear_ambient_cap(
+ 	EXPECT_EQ(0, cap_get_ambient(cap));
  }
  
-+/**
-+ * landlock_perm_is_denied - Check if a permission bitmask request is denied
-+ *
-+ * @domain: The enforced domain.
-+ * @perm_bit: The LANDLOCK_PERM_* flag to check.  Must have exactly one
-+ *            bit set.
-+ * @request_value: Compact bitmask to look for (e.g. result of
-+ *                 `landlock_ns_type_to_bit(CLONE_NEWNET)`).  Must have
-+ *                 exactly one bit set.
-+ *
-+ * Iterate from the youngest layer to the oldest.  For each layer that handles
-+ * @perm_bit, check whether @request_value is present in the layer's allowed
-+ * bitmask.  Return on the first (youngest) denying layer.
-+ *
-+ * Return: The youngest denying layer + 1, or 0 if allowed.
++/*
++ * Returns true if the current process is in the initial user namespace.
++ * Compares the readlink targets of /proc/self/ns/user and /proc/1/ns/user.
 + */
-+static inline size_t
-+landlock_perm_is_denied(const struct landlock_ruleset *const domain,
-+			const access_mask_t perm_bit, const u64 request_value)
++static bool __maybe_unused is_in_init_user_ns(void)
 +{
-+	ssize_t layer;
++	char self_buf[64], init_buf[64];
++	ssize_t self_len, init_len;
 +
-+	BUILD_BUG_ON(sizeof(perm_bit) > sizeof(u32));
++	self_len = readlink("/proc/self/ns/user", self_buf, sizeof(self_buf));
++	if (self_len <= 0 || self_len >= (ssize_t)sizeof(self_buf))
++		return false;
 +
-+	if (WARN_ON_ONCE(hweight32(perm_bit) != 1) ||
-+	    WARN_ON_ONCE(hweight64(request_value) != 1))
-+		return domain->num_layers;
++	init_len = readlink("/proc/1/ns/user", init_buf, sizeof(init_buf));
++	if (init_len <= 0 || init_len >= (ssize_t)sizeof(init_buf))
++		return false;
 +
-+	for (layer = domain->num_layers - 1; layer >= 0; layer--) {
-+		u64 allowed;
++	if (self_len != init_len)
++		return false;
 +
-+		if (!(domain->layers[layer].handled.perm & perm_bit))
-+			continue;
-+
-+		switch (perm_bit) {
-+		case LANDLOCK_PERM_NAMESPACE_USE:
-+			allowed = domain->layers[layer].allowed.ns;
-+			break;
-+		default:
-+			WARN_ONCE(1, "Unknown permission %u\n",
-+				  (unsigned int)perm_bit);
-+			return layer + 1;
-+		}
-+
-+		if (!(allowed & request_value))
-+			return layer + 1;
-+	}
-+	return 0;
++	return memcmp(self_buf, init_buf, self_len) == 0;
 +}
 +
- __init void landlock_add_cred_hooks(void);
+ /* Receives an FD from a UNIX socket. Returns the received FD, or -errno. */
+ static int __maybe_unused recv_fd(int usock)
+ {
+diff --git a/tools/testing/selftests/landlock/config b/tools/testing/selftests/landlock/config
+index 8fe9b461b1fd..d09b637bf6ca 100644
+--- a/tools/testing/selftests/landlock/config
++++ b/tools/testing/selftests/landlock/config
+@@ -3,6 +3,7 @@ CONFIG_AUDIT=y
+ CONFIG_CGROUPS=y
+ CONFIG_CGROUP_SCHED=y
+ CONFIG_INET=y
++CONFIG_IPC_NS=y
+ CONFIG_IPV6=y
+ CONFIG_KEYS=y
+ CONFIG_MPTCP=y
+@@ -10,10 +11,14 @@ CONFIG_MPTCP_IPV6=y
+ CONFIG_NET=y
+ CONFIG_NET_NS=y
+ CONFIG_OVERLAY_FS=y
++CONFIG_PID_NS=y
+ CONFIG_PROC_FS=y
+ CONFIG_SECURITY=y
+ CONFIG_SECURITY_LANDLOCK=y
+ CONFIG_SHMEM=y
+ CONFIG_SYSFS=y
++CONFIG_TIME_NS=y
+ CONFIG_TMPFS=y
+ CONFIG_TMPFS_XATTR=y
++CONFIG_USER_NS=y
++CONFIG_UTS_NS=y
+diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
+index 86e08aa6e0a7..5f7023658a79 100644
+--- a/tools/testing/selftests/landlock/fs_test.c
++++ b/tools/testing/selftests/landlock/fs_test.c
+@@ -54,13 +54,6 @@ int renameat2(int olddirfd, const char *oldpath, int newdirfd,
+ }
+ #endif
  
- #endif /* _SECURITY_LANDLOCK_CRED_H */
-diff --git a/security/landlock/domain.h b/security/landlock/domain.h
-index 56cceed5f50c..c2b72795b0d6 100644
---- a/security/landlock/domain.h
-+++ b/security/landlock/domain.h
-@@ -116,6 +116,12 @@ struct landlock_hierarchy {
- 	 * logged) if the related object is marked as quiet.
- 	 */
- 	struct access_masks quiet_access;
-+	/**
-+	 * @quiet_perm: Per-member quiet bitmasks for permission types
-+	 * (capabilities and namespace types).  A member denied by this layer is
-+	 * not logged when its bit is set here.
-+	 */
-+	struct perm_masks quiet_perm;
- #endif /* CONFIG_AUDIT */
- };
+-#ifndef open_tree
+-int open_tree(int dfd, const char *filename, unsigned int flags)
+-{
+-	return syscall(__NR_open_tree, dfd, filename, flags);
+-}
+-#endif
+-
+ static int sys_execveat(int dirfd, const char *pathname, char *const argv[],
+ 			char *const envp[], int flags)
+ {
+@@ -2454,9 +2447,9 @@ TEST_F_FORK(layout1, refer_mount_root_deny)
  
-diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-index 08d5f2f6d321..b7209188fd50 100644
---- a/security/landlock/limits.h
-+++ b/security/landlock/limits.h
-@@ -12,6 +12,7 @@
+ 	/* Creates a mount object from a non-mount point. */
+ 	set_cap(_metadata, CAP_SYS_ADMIN);
+-	root_fd =
+-		open_tree(AT_FDCWD, dir_s1d1,
+-			  AT_EMPTY_PATH | OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
++	root_fd = sys_open_tree(AT_FDCWD, dir_s1d1,
++				AT_EMPTY_PATH | OPEN_TREE_CLONE |
++					OPEN_TREE_CLOEXEC);
+ 	clear_cap(_metadata, CAP_SYS_ADMIN);
+ 	ASSERT_LE(0, root_fd);
  
- #include <linux/bitops.h>
- #include <linux/limits.h>
-+#include <linux/ns/ns_common_types.h>
- #include <uapi/linux/landlock.h>
- 
- /* clang-format off */
-@@ -31,6 +32,12 @@
- #define LANDLOCK_MASK_SCOPE		((LANDLOCK_LAST_SCOPE << 1) - 1)
- #define LANDLOCK_NUM_SCOPE		__const_hweight64(LANDLOCK_MASK_SCOPE)
- 
-+#define LANDLOCK_LAST_PERM		LANDLOCK_PERM_NAMESPACE_USE
-+#define LANDLOCK_MASK_PERM		((LANDLOCK_LAST_PERM << 1) - 1)
-+#define LANDLOCK_NUM_PERM		__const_hweight64(LANDLOCK_MASK_PERM)
-+
-+#define LANDLOCK_NUM_PERM_NS		__const_hweight64((u64)(CLONE_NS_ALL))
-+
- #define LANDLOCK_NUM_ACCESS_MAX \
- 	MAX(MAX(LANDLOCK_NUM_ACCESS_FS, LANDLOCK_NUM_ACCESS_NET), LANDLOCK_NUM_SCOPE)
- 
-diff --git a/security/landlock/ns.c b/security/landlock/ns.c
+diff --git a/tools/testing/selftests/landlock/ns_test.c b/tools/testing/selftests/landlock/ns_test.c
 new file mode 100644
-index 000000000000..9d704b0ec7ff
+index 000000000000..4377b929de93
 --- /dev/null
-+++ b/security/landlock/ns.c
-@@ -0,0 +1,156 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/tools/testing/selftests/landlock/ns_test.c
+@@ -0,0 +1,2380 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Landlock - Namespace hooks
++ * Landlock tests - Namespace restriction
 + *
 + * Copyright © 2026 Cloudflare, Inc.
 + */
 +
-+#include <linux/lsm_audit.h>
-+#include <linux/lsm_hooks.h>
-+#include <linux/ns/ns_common_types.h>
-+#include <linux/ns_common.h>
-+#include <linux/nsproxy.h>
-+#include <uapi/linux/landlock.h>
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/capability.h>
++#include <linux/landlock.h>
++#include <linux/mount.h>
++#include <linux/nsfs.h>
++#include <sched.h>
++#include <stdio.h>
++#include <sys/ioctl.h>
++#include <sys/prctl.h>
++#include <sys/wait.h>
++#include <syscall.h>
++#include <unistd.h>
 +
 +#include "audit.h"
-+#include "cred.h"
-+#include "limits.h"
-+#include "ns.h"
-+#include "ruleset.h"
-+#include "setup.h"
-+
-+/* Ensures the audit ns_id field can hold ns_common.ns_id without truncation. */
-+static_assert(sizeof(((struct common_audit_data *)NULL)->u.ns.ns_id) >=
-+	      sizeof(((struct ns_common *)NULL)->ns_id));
-+
-+static const struct access_masks ns_perm = {
-+	.perm = LANDLOCK_PERM_NAMESPACE_USE,
-+};
-+
-+/**
-+ * check_ns_type - Check namespace entry permission
-+ *
-+ * @ns: The namespace being allocated or installed.
-+ *
-+ * Shared check for namespace_init (creation via unshare(2) or clone(2)) and
-+ * namespace_install (entry via setns(2)): denies when the namespace type is not
-+ * in the domain's allowed set.  At allocation time @ns->ns_id is still zero and
-+ * is logged as such.
-+ *
-+ * Return: 0 if allowed, -EPERM if denied.
-+ */
-+static int check_ns_type(struct ns_common *const ns)
-+{
-+	const struct landlock_cred_security *subject;
-+	size_t denied_layer;
-+
-+	subject =
-+		landlock_get_applicable_subject(current_cred(), ns_perm, NULL);
-+	if (!subject)
-+		return 0;
-+
-+	denied_layer = landlock_perm_is_denied(
-+		subject->domain, LANDLOCK_PERM_NAMESPACE_USE,
-+		landlock_ns_type_to_bit(ns->ns_type));
-+	if (!denied_layer)
-+		return 0;
-+
-+	landlock_log_denial(subject, &(struct landlock_request){
-+					     .type = LANDLOCK_REQUEST_NAMESPACE,
-+					     .audit.type = LSM_AUDIT_DATA_NS,
-+					     .audit.u.ns.ns_type = ns->ns_type,
-+					     .audit.u.ns.ns_id = ns->ns_id,
-+					     .layer_plus_one = denied_layer,
-+				     });
-+	return -EPERM;
-+}
-+
-+static int hook_namespace_init(struct ns_common *const ns)
-+{
-+	return check_ns_type(ns);
-+}
-+
-+static int hook_namespace_install(const struct nsset *const nsset,
-+				  struct ns_common *const ns)
-+{
-+	return check_ns_type(ns);
-+}
-+
-+static struct security_hook_list landlock_hooks[] __ro_after_init = {
-+	LSM_HOOK_INIT(namespace_init, hook_namespace_init),
-+	LSM_HOOK_INIT(namespace_install, hook_namespace_install),
-+};
-+
-+__init void landlock_add_ns_hooks(void)
-+{
-+	security_add_hooks(landlock_hooks, ARRAY_SIZE(landlock_hooks),
-+			   &landlock_lsmid);
-+}
-+
-+#ifdef CONFIG_SECURITY_LANDLOCK_KUNIT_TEST
-+
-+#include <kunit/test.h>
-+
-+/* clang-format off */
-+#define _TEST_NS_BIT(struct_name, flag) \
-+	do { \
-+		const u64 bit = landlock_ns_type_to_bit(flag); \
-+		KUNIT_EXPECT_NE(test, 0ULL, bit); \
-+		KUNIT_EXPECT_EQ(test, 0ULL, seen & bit); \
-+		seen |= bit; \
-+	} while (0);
-+/* clang-format on */
-+
-+static void test_ns_type_to_bit(struct kunit *const test)
-+{
-+	u64 seen = 0;
-+
-+	FOR_EACH_NS_TYPE(_TEST_NS_BIT)
-+
-+	KUNIT_EXPECT_EQ(test, GENMASK_ULL(LANDLOCK_NUM_PERM_NS - 1, 0), seen);
-+}
-+
-+static void test_ns_type_to_bit_unknown(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0ULL, landlock_ns_type_to_bit(CLONE_THREAD));
-+}
-+
-+static void test_ns_types_to_bits_all(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, GENMASK_ULL(LANDLOCK_NUM_PERM_NS - 1, 0),
-+			landlock_ns_types_to_bits(CLONE_NS_ALL));
-+}
-+
-+/* clang-format off */
-+#define _TEST_NS_SINGLE(struct_name, flag) \
-+	KUNIT_EXPECT_EQ(test, landlock_ns_type_to_bit(flag), \
-+			landlock_ns_types_to_bits(flag));
-+/* clang-format on */
-+
-+static void test_ns_types_to_bits_single(struct kunit *const test)
-+{
-+	FOR_EACH_NS_TYPE(_TEST_NS_SINGLE)
-+}
-+
-+static void test_ns_types_to_bits_zero(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0ULL, landlock_ns_types_to_bits(0));
-+}
-+
-+static struct kunit_case test_cases[] = {
-+	KUNIT_CASE(test_ns_type_to_bit),
-+	KUNIT_CASE(test_ns_type_to_bit_unknown),
-+	KUNIT_CASE(test_ns_types_to_bits_all),
-+	KUNIT_CASE(test_ns_types_to_bits_single),
-+	KUNIT_CASE(test_ns_types_to_bits_zero),
-+	{}
-+};
-+
-+static struct kunit_suite test_suite = {
-+	.name = "landlock_ns",
-+	.test_cases = test_cases,
-+};
-+
-+kunit_test_suite(test_suite);
-+
-+#endif /* CONFIG_SECURITY_LANDLOCK_KUNIT_TEST */
-diff --git a/security/landlock/ns.h b/security/landlock/ns.h
-new file mode 100644
-index 000000000000..d78b36d8ce82
---- /dev/null
-+++ b/security/landlock/ns.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Landlock - Namespace hooks
-+ *
-+ * Copyright © 2026 Cloudflare, Inc.
-+ */
-+
-+#ifndef _SECURITY_LANDLOCK_NS_H
-+#define _SECURITY_LANDLOCK_NS_H
-+
-+#include <linux/bitops.h>
-+#include <linux/bug.h>
-+#include <linux/compiler_attributes.h>
-+#include <linux/ns/ns_common_types.h>
-+#include <linux/types.h>
-+
-+#include "limits.h"
-+
-+/* _LANDLOCK_NS_CLONE_NEWCGROUP, */
-+#define _LANDLOCK_NS_ENUM(struct_name, flag) _LANDLOCK_NS_##flag,
-+
-+/* _LANDLOCK_NS_CLONE_NEWCGROUP = 0, */
-+enum {
-+	FOR_EACH_NS_TYPE(_LANDLOCK_NS_ENUM) _LANDLOCK_NUM_NS_TYPES,
-+};
-+
-+static_assert(_LANDLOCK_NUM_NS_TYPES == LANDLOCK_NUM_PERM_NS);
++#include "common.h"
 +
 +/*
-+ * case CLONE_NEWCGROUP:
-+ *         return BIT_ULL(_LANDLOCK_NS_CLONE_NEWCGROUP);
++ * Max length for /proc/self/ns/<name> paths (longest: "/proc/self/ns/cgroup").
 + */
-+/* clang-format off */
-+#define _LANDLOCK_NS_CASE(struct_name, flag) \
-+	case flag: \
-+		return BIT_ULL(_LANDLOCK_NS_##flag);
-+/* clang-format on */
++#define NS_PROC_PATH_MAX 32
 +
-+static inline __attribute_const__ u64
-+landlock_ns_type_to_bit(const unsigned long ns_type)
++static int create_ns_ruleset(void)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE,
++	};
++
++	return landlock_create_ruleset(&attr, sizeof(attr), 0);
++}
++
++static int add_ns_rule(int ruleset_fd, __u64 ns_type)
++{
++	const struct landlock_namespace_attr attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = ns_type,
++	};
++
++	return landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE, &attr, 0);
++}
++
++static int add_ns_rule_full(int ruleset_fd, __u64 allowed, __u64 quiet)
++{
++	const struct landlock_namespace_attr attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = allowed,
++		.quiet_namespace_types = quiet,
++	};
++
++	return landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE, &attr, 0);
++}
++
++/*
++ * Returns the /proc/self/NS entry name for a given CLONE_NEW* type, or NULL if
++ * unknown.  Used to check kernel support without side effects.
++ */
++static const char *ns_proc_name(__u64 ns_type)
 +{
 +	switch (ns_type) {
-+		FOR_EACH_NS_TYPE(_LANDLOCK_NS_CASE)
++	case CLONE_NEWNS:
++		return "mnt";
++	case CLONE_NEWCGROUP:
++		return "cgroup";
++	case CLONE_NEWUTS:
++		return "uts";
++	case CLONE_NEWIPC:
++		return "ipc";
++	case CLONE_NEWUSER:
++		return "user";
++	case CLONE_NEWPID:
++		return "pid";
++	case CLONE_NEWNET:
++		return "net";
++	case CLONE_NEWTIME:
++		return "time";
++	default:
++		return NULL;
 +	}
-+	WARN_ONCE(1, "Unknown namespace type 0x%lx\n", ns_type);
-+	return 0;
++}
++
++static bool ns_is_supported(__u64 ns_type, char *proc_path, size_t size)
++{
++	const char *ns_name;
++
++	ns_name = ns_proc_name(ns_type);
++	if (!ns_name)
++		return false;
++
++	snprintf(proc_path, size, "/proc/self/ns/%s", ns_name);
++	return access(proc_path, F_OK) == 0;
++}
++
++/* Rule validation tests */
++
++TEST(add_rule_bad_attr)
++{
++	const struct landlock_ruleset_attr cap_only_attr = {
++		.handled_perm = LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	int ruleset_fd;
++	struct landlock_namespace_attr attr = {};
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++
++	/* Empty perm selector returns ENOMSG. */
++	attr.perm = 0;
++	attr.allowed_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, 0));
++	ASSERT_EQ(ENOMSG, errno);
++
++	/* perm with unhandled bit. */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE | LANDLOCK_PERM_CAPABILITY_USE;
++	attr.allowed_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, 0));
++	ASSERT_EQ(EINVAL, errno);
++
++	/* perm with wrong type. */
++	attr.perm = LANDLOCK_PERM_CAPABILITY_USE;
++	attr.allowed_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, 0));
++	ASSERT_EQ(EINVAL, errno);
++
++	/*
++	 * Unknown namespace bits (e.g. bit 63) are silently accepted for
++	 * forward compatibility.  Only known CLONE_NEW* bits are stored.
++	 */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = 1ULL << 63;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/* Useless rule: neither allowed nor quiet types set returns ENOMSG. */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = 0;
++	attr.quiet_namespace_types = 0;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, 0));
++	ASSERT_EQ(ENOMSG, errno);
++
++	/* Quiet-only rule (empty allowed set) is legal. */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = 0;
++	attr.quiet_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/* Allow and quiet in the same rule. */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = CLONE_NEWNET;
++	attr.quiet_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++	attr.quiet_namespace_types = 0;
++
++	/*
++	 * Bit 1 is not a CLONE_NEW* value but is silently accepted for forward
++	 * compatibility (no hole rejection).
++	 */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = (1ULL << 1);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/* Multi-bit values are valid (bitmask allows multiple types). */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = CLONE_NEWUTS | CLONE_NEWNET;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/*
++	 * LANDLOCK_ADD_RULE_QUIET (and any other flag) is filesystem/network
++	 * only and must be rejected for namespace rules, even with an
++	 * otherwise-valid attr (cases.md Q-E5).
++	 */
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, LANDLOCK_ADD_RULE_QUIET));
++	ASSERT_EQ(EINVAL, errno);
++
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * Ruleset handles PERM_CAPABILITY_USE but not PERM_NAMESPACE_USE:
++	 * adding a namespace rule must be rejected.
++	 */
++	ruleset_fd = landlock_create_ruleset(&cap_only_attr,
++					     sizeof(cap_only_attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	attr.perm = LANDLOCK_PERM_NAMESPACE_USE;
++	attr.allowed_namespace_types = CLONE_NEWUTS;
++	ASSERT_EQ(-1, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					&attr, 0));
++	ASSERT_EQ(EINVAL, errno);
++	EXPECT_EQ(0, close(ruleset_fd));
 +}
 +
 +/*
-+ * if (ns_types & CLONE_NEWCGROUP)
-+ *         bits |= BIT_ULL(_LANDLOCK_NS_CLONE_NEWCGROUP);
++ * Unknown namespace types in the upper range are silently accepted (allow-list:
++ * they have no effect since the kernel never checks them).
 + */
++TEST(add_rule_unknown)
++{
++	int ruleset_fd;
++	struct landlock_namespace_attr attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++	};
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++
++	/*
++	 * Bit 31 is in the lower 32 bits but not a CLONE_NEW* value.  Silently
++	 * accepted for forward compatibility (no hole rejection).
++	 */
++	attr.allowed_namespace_types = 1ULL << 31;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/* Bit 32 is in the unknown upper range: silently accepted. */
++	attr.allowed_namespace_types = 1ULL << 32;
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	EXPECT_EQ(0, close(ruleset_fd));
++}
++
++/*
++ * A rule that lists only namespace bits unknown to the running kernel is
++ * accepted by landlock_add_rule() but has no runtime effect: once the domain is
++ * enforced, any actual CLONE_NEW* operation is still denied by the per-category
++ * deny-by-default behaviour.  This documents the forward-compatibility
++ * contract: unknown bits are silently accepted so the same policy can be loaded
++ * across kernels, but they never grant a permission that the running kernel
++ * knows nothing about.
++ */
++TEST(add_rule_unknown_no_runtime_effect)
++{
++	const struct landlock_ruleset_attr ruleset_attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE,
++	};
++	struct landlock_namespace_attr attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		/* Only unknown bits: bit 31 (in lower 32) and bit 32. */
++		.allowed_namespace_types = (1ULL << 31) | (1ULL << 32),
++	};
++	int ruleset_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd =
++		landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/*
++	 * Baseline: absent the domain, creating CLONE_NEWUTS succeeds.  This
++	 * ensures the EPERM below is attributable to Landlock rather than to a
++	 * missing capability, and fails if the hook always allows.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	ASSERT_EQ(0, unshare(CLONE_NEWUTS));
++
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * CLONE_NEWUTS is a real, known CLONE_NEW* type but was not authorised
++	 * by the rule above; deny-by-default applies.
++	 */
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * The install-hook mirror of add_rule_unknown_no_runtime_effect: a rule listing
++ * only unknown namespace bits has no runtime effect on setns(2) either.  Once
++ * enforced, entering a known namespace type is still denied by the per-category
++ * deny-by-default behaviour.
++ */
++TEST(add_rule_unknown_no_runtime_effect_setns)
++{
++	const struct landlock_ruleset_attr ruleset_attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE,
++	};
++	struct landlock_namespace_attr attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		/* Only unknown bits: bit 31 (in lower 32) and bit 32. */
++		.allowed_namespace_types = (1ULL << 31) | (1ULL << 32),
++	};
++	int ruleset_fd, ns_fd;
++
++	disable_caps(_metadata);
++
++	/* Open the NS FD before enforcing the domain. */
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	ruleset_fd =
++		landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &attr, 0));
++
++	/*
++	 * Baseline: absent the domain, entering the process's own UTS namespace
++	 * succeeds, so the later EPERM is attributable to Landlock rather than
++	 * to a missing capability, and fails if the hook always allows.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	ASSERT_EQ(0, setns(ns_fd, CLONE_NEWUTS));
++
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * CLONE_NEWUTS is a real, known CLONE_NEW* type but was not authorised
++	 * by the rule above; deny-by-default applies at the install hook.
++	 */
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++}
++
++/* Namespace creation tests (variant-based positive/negative) */
++
 +/* clang-format off */
-+#define _LANDLOCK_NS_CONVERT(struct_name, flag) \
-+	do { \
-+		if (ns_types & (flag)) \
-+			bits |= BIT_ULL(_LANDLOCK_NS_##flag); \
-+	} while (0);
++FIXTURE(ns_create) {
++	char proc_path[NS_PROC_PATH_MAX];
++};
 +/* clang-format on */
 +
-+static inline __attribute_const__ u64
-+landlock_ns_types_to_bits(const u64 ns_types)
++FIXTURE_VARIANT(ns_create)
 +{
-+	u64 bits = 0;
++	const __u64 namespace_types;
++	const bool is_sandboxed;
++	const bool has_rule;
++	const bool drop_all_caps;
++	const int expected_result;
++};
 +
-+	/* Callers pre-mask (CLONE_NS_ALL); the WARN guards future callers. */
-+	WARN_ON_ONCE(ns_types & ~CLONE_NS_ALL);
-+	FOR_EACH_NS_TYPE(_LANDLOCK_NS_CONVERT)
-+	return bits;
++/*
++ * Unsandboxed baseline: no Landlock domain is enforced. User namespace creation
++ * should succeed without any restriction.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, user_unsandboxed) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUSER,
++	.is_sandboxed = false,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++
++/*
++ * User namespace creation denied: handled by Landlock but no rule allows
++ * CLONE_NEWUSER.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, user_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUSER,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* User namespace creation allowed: Landlock rule permits CLONE_NEWUSER. */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, user_allowed) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUSER,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++
++/*
++ * User namespace creation while unprivileged: the process has no capabilities
++ * but unshare(CLONE_NEWUSER) is an unprivileged operation so it still succeeds.
++ * The Landlock rule allows it.  For setns, the capability check (CAP_SYS_ADMIN)
++ * fails first since the process has no capabilities, yielding EPERM.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, user_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUSER,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = 0,
++};
++
++/*
++ * Unsandboxed baseline for non-user namespace: no Landlock domain, process has
++ * CAP_SYS_ADMIN.  UTS creation should succeed.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, uts_unsandboxed) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUTS,
++	.is_sandboxed = false,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++
++/*
++ * Non-user namespace denied: process has CAP_SYS_ADMIN (passes ns_capable), but
++ * Landlock denies (no rule).
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, uts_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUTS,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/*
++ * Non-user namespace allowed: process has CAP_SYS_ADMIN and Landlock rule
++ * permits CLONE_NEWUTS.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, uts_allowed) {
++	.namespace_types = CLONE_NEWUTS,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++/* clang-format on */
++
++/*
++ * Unprivileged namespace creation: process lacks CAP_SYS_ADMIN, so the kernel
++ * denies creation regardless of Landlock rules.  Landlock cannot authorize what
++ * the kernel denied (LSM hooks are restriction-only).  The rule is present to
++ * verify Landlock does not change the error code.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, uts_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWUTS,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, ipc_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWIPC,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, ipc_allowed) {
++	.namespace_types = CLONE_NEWIPC,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++/* clang-format on */
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, ipc_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWIPC,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, mnt_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWNS,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, mnt_allowed) {
++	.namespace_types = CLONE_NEWNS,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++/* clang-format on */
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, mnt_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWNS,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, cgroup_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWCGROUP,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, cgroup_allowed) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWCGROUP,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, cgroup_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWCGROUP,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, pid_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWPID,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, pid_allowed) {
++	.namespace_types = CLONE_NEWPID,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++/* clang-format on */
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, pid_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWPID,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, net_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWNET,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, net_allowed) {
++	.namespace_types = CLONE_NEWNET,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++/* clang-format on */
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, net_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWNET,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, time_denied) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWTIME,
++	.is_sandboxed = true,
++	.has_rule = false,
++	.drop_all_caps = false,
++	.expected_result = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, time_allowed) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWTIME,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = false,
++	.expected_result = 0,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create, time_unprivileged) {
++	/* clang-format on */
++	.namespace_types = CLONE_NEWTIME,
++	.is_sandboxed = true,
++	.has_rule = true,
++	.drop_all_caps = true,
++	.expected_result = EPERM,
++};
++
++FIXTURE_SETUP(ns_create)
++{
++	ASSERT_TRUE(ns_is_supported(variant->namespace_types, self->proc_path,
++				    sizeof(self->proc_path)))
++	{
++		TH_LOG("Namespace type 0x%llx not supported",
++		       (unsigned long long)variant->namespace_types);
++	}
++
++	if (variant->drop_all_caps)
++		drop_caps(_metadata);
++	else
++		disable_caps(_metadata);
 +}
 +
-+__init void landlock_add_ns_hooks(void);
++FIXTURE_TEARDOWN(ns_create)
++{
++}
 +
-+#endif /* _SECURITY_LANDLOCK_NS_H */
-diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
-index b6552415f3be..45687f348bc5 100644
---- a/security/landlock/ruleset.c
-+++ b/security/landlock/ruleset.c
-@@ -54,15 +54,14 @@ static struct landlock_ruleset *create_ruleset(const u32 num_layers)
- 	return new_ruleset;
- }
++TEST_F(ns_create, unshare)
++{
++	int ruleset_fd, err;
++
++	if (variant->is_sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd,
++						 variant->namespace_types));
++
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	/*
++	 * Non-user namespaces need CAP_SYS_ADMIN for the privileged path.  User
++	 * namespaces and unprivileged tests skip this.
++	 */
++	if (!variant->drop_all_caps &&
++	    variant->namespace_types != CLONE_NEWUSER)
++		set_cap(_metadata, CAP_SYS_ADMIN);
++
++	err = unshare(variant->namespace_types);
++	if (variant->expected_result) {
++		EXPECT_EQ(-1, err);
++		EXPECT_EQ(variant->expected_result, errno);
++	} else {
++		EXPECT_EQ(0, err);
++	}
++
++	if (!variant->drop_all_caps &&
++	    variant->namespace_types != CLONE_NEWUSER)
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * clone3 exercises a different kernel entry point than unshare: it goes through
++ * kernel_clone() -> copy_process() -> copy_namespaces() ->
++ * create_new_namespaces().  Both paths converge at __ns_common_init() ->
++ * security_namespace_init(), but the entry point and argument handling differ.
++ */
++TEST_F(ns_create, clone3)
++{
++	int ruleset_fd, status;
++	pid_t pid;
++	struct clone_args args = {};
++
++	if (variant->is_sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd,
++						 variant->namespace_types));
++
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	if (!variant->drop_all_caps &&
++	    variant->namespace_types != CLONE_NEWUSER)
++		set_cap(_metadata, CAP_SYS_ADMIN);
++
++	args.flags = variant->namespace_types;
++	args.exit_signal = SIGCHLD;
++	pid = sys_clone3(&args, sizeof(args));
++	if (pid == 0)
++		_exit(EXIT_SUCCESS);
++
++	if (variant->expected_result) {
++		EXPECT_EQ(-1, pid);
++		EXPECT_EQ(variant->expected_result, errno);
++	} else {
++		EXPECT_LE(0, pid);
++		ASSERT_EQ(pid, waitpid(pid, &status, 0));
++		ASSERT_EQ(1, WIFEXITED(status));
++		ASSERT_EQ(EXIT_SUCCESS, WEXITSTATUS(status));
++	}
++
++	if (!variant->drop_all_caps &&
++	    variant->namespace_types != CLONE_NEWUSER)
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * setns exercises the namespace install path: validate_ns() ->
++ * security_namespace_install() -> hook_namespace_install().  This is a
++ * different LSM hook than creation, so it must be tested separately for each
++ * type.
++ *
++ * Mount namespace setns requires both CAP_SYS_ADMIN and CAP_SYS_CHROOT (checked
++ * by mntns_install), so the allowed variant sets both.
++ */
++TEST_F(ns_create, setns)
++{
++	int ruleset_fd, ns_fd, err, expected;
++
++	/*
++	 * setns into the process's own user NS returns EINVAL from
++	 * userns_install() (rejects re-entry), but when Landlock denies the
++	 * operation, security_namespace_install() returns EPERM before
++	 * userns_install() runs.
++	 */
++	if (variant->namespace_types == CLONE_NEWUSER &&
++	    !variant->expected_result) {
++		expected = EINVAL;
++	} else {
++		expected = variant->expected_result;
++	}
++
++	/* Open the NS FD before enforcing the domain. */
++	ns_fd = open(self->proc_path, O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	if (variant->is_sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd,
++						 variant->namespace_types));
++
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	if (!variant->drop_all_caps) {
++		set_cap(_metadata, CAP_SYS_ADMIN);
++		/*
++		 * mntns_install() requires CAP_SYS_CHROOT in addition to
++		 * CAP_SYS_ADMIN.
++		 */
++		if (variant->namespace_types == CLONE_NEWNS)
++			set_cap(_metadata, CAP_SYS_CHROOT);
++	}
++
++	err = setns(ns_fd, variant->namespace_types);
++	if (expected) {
++		EXPECT_EQ(-1, err);
++		EXPECT_EQ(expected, errno);
++	} else {
++		EXPECT_EQ(0, err);
++	}
++
++	if (!variant->drop_all_caps) {
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++		if (variant->namespace_types == CLONE_NEWNS)
++			clear_cap(_metadata, CAP_SYS_CHROOT);
++	}
++
++	EXPECT_EQ(0, close(ns_fd));
++}
++
++/* Additional namespace creation tests */
++
++/*
++ * When LANDLOCK_PERM_NAMESPACE_USE is not handled by any domain, namespace
++ * creation must produce the same result as without Landlock.  Unlike the
++ * unsandboxed variants of ns_create (which have no domain at all), this test
++ * verifies that a domain handling only FS access does not interfere with
++ * namespace operations.
++ */
++TEST(ns_create_unhandled)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_access_fs = LANDLOCK_ACCESS_FS_READ_FILE,
++	};
++	int ruleset_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* User namespace creation should still work (unhandled). */
++	EXPECT_EQ(0, unshare(CLONE_NEWUSER));
++}
++
++/*
++ * Layer stacking: both layers must allow CLONE_NEWUSER for the operation to
++ * succeed.  Variants exercise the three combinations of per-layer allow/deny
++ * that exercise distinct semantics; the (deny, deny) combination is omitted
++ * because it is covered by every other "deny" test in this file.
++ */
++/* clang-format off */
++FIXTURE(ns_stacking) {};
++/* clang-format on */
++
++FIXTURE_VARIANT(ns_stacking)
++{
++	bool first_layer_allows;
++	bool second_layer_allows;
++};
++
++/* Layer 1 allows, layer 2 denies -> child denies. */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_stacking, deny) {
++	/* clang-format on */
++	.first_layer_allows = true,
++	.second_layer_allows = false,
++};
++
++/* Both layers allow CLONE_NEWUSER -> operation succeeds. */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_stacking, allow) {
++	/* clang-format on */
++	.first_layer_allows = true,
++	.second_layer_allows = true,
++};
++
++/*
++ * Layer 1 denies, layer 2 allows -> still denied: a child layer cannot grant
++ * what an ancestor layer withheld.  This complements the
++ * parent-allows/child-denies variant above; together they verify the walker
++ * checks both layers and accepts only the (allow, allow) cell.
++ */
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_stacking, parent_denies) {
++	/* clang-format on */
++	.first_layer_allows = false,
++	.second_layer_allows = true,
++};
++
++FIXTURE_SETUP(ns_stacking)
++{
++	disable_caps(_metadata);
++}
++
++FIXTURE_TEARDOWN(ns_stacking)
++{
++}
++
++/*
++ * Verify that any layer can deny an operation: enforcement requires all layers
++ * to allow.  Variants exercise the three combinations that exercise distinct
++ * walker paths (allow/deny, allow/allow, deny/allow); only allow/allow lets the
++ * operation through.
++ */
++TEST_F(ns_stacking, two_layers)
++{
++	int ruleset_fd;
++	const bool expect_success = variant->first_layer_allows &&
++				    variant->second_layer_allows;
++
++	/* First layer: allow or deny depending on variant. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	if (variant->first_layer_allows)
++		ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUSER));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* Second layer: allow or deny depending on variant. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	if (variant->second_layer_allows)
++		ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUSER));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	if (expect_success) {
++		EXPECT_EQ(0, unshare(CLONE_NEWUSER));
++	} else {
++		EXPECT_EQ(-1, unshare(CLONE_NEWUSER));
++		EXPECT_EQ(EPERM, errno);
++	}
++}
++
++/*
++ * Combined capability and namespace permissions in a single domain.  Verifies
++ * that both permission types can coexist and are enforced independently.
++ */
++TEST(combined_cap_ns)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_CAPABILITY_USE |
++				LANDLOCK_PERM_NAMESPACE_USE,
++	};
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN),
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWUSER,
++	};
++	int ruleset_fd;
++
++	/* Isolate hostname changes from other tests. */
++	ASSERT_EQ(0, unshare(CLONE_NEWUTS));
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* CAP_SYS_ADMIN use allowed by capability rule. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, sethostname("test", 4));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* CAP_SYS_CHROOT denied (not in allowed capability rules). */
++	set_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(-1, chroot("/"));
++	EXPECT_EQ(EPERM, errno);
++
++	/*
++	 * UTS namespace creation denied by Landlock (not in allowed namespace
++	 * rules).  CAP_SYS_ADMIN is needed for the kernel's ns_capable() check
++	 * to pass, so that Landlock's hook is actually reached.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* User namespace creation allowed by namespace rule. */
++	EXPECT_EQ(0, unshare(CLONE_NEWUSER));
++}
++
++/*
++ * Partial allow: one namespace type is allowed, another is denied.  Verifies
++ * that rules are per-type.
++ */
++TEST(ns_create_partial)
++{
++	int ruleset_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++
++	/* Only allow UTS namespace creation. */
++	ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUTS));
++
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* UTS namespace should be allowed. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, unshare(CLONE_NEWUTS));
++
++	/* User namespace should be denied (no rule). */
++	EXPECT_EQ(-1, unshare(CLONE_NEWUSER));
++	EXPECT_EQ(EPERM, errno);
++}
++
++/*
++ * open_tree(2) and fsmount(2) acquire a file descriptor referring to a
++ * newly-created mount namespace.  Both call paths funnel into
++ * security_namespace_init() with CLONE_NEWNS, gated by
++ * LANDLOCK_PERM_NAMESPACE_USE.  Without coverage here, regressions in those
++ * paths would slip past the suite.
++ */
++/* clang-format off */
++FIXTURE(ns_mount_fd) {};
++/* clang-format on */
++
++FIXTURE_VARIANT(ns_mount_fd)
++{
++	bool sandboxed;
++	bool has_rule;
++	int expected_errno;
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_mount_fd, denied) {
++	/* clang-format on */
++	.sandboxed = true,
++	.has_rule = false,
++	.expected_errno = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_mount_fd, allowed) {
++	/* clang-format on */
++	.sandboxed = true,
++	.has_rule = true,
++	.expected_errno = 0,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_mount_fd, unsandboxed) {
++	/* clang-format on */
++	.sandboxed = false,
++	.has_rule = false,
++	.expected_errno = 0,
++};
++
++FIXTURE_SETUP(ns_mount_fd)
++{
++}
++
++FIXTURE_TEARDOWN(ns_mount_fd)
++{
++}
++
++/*
++ * open_tree(OPEN_TREE_CLONE) creates an anonymous mount namespace to hold the
++ * cloned mount tree.  hook_namespace_init() fires with CLONE_NEWNS.
++ */
++TEST_F(ns_mount_fd, open_tree_clone)
++{
++	int ruleset_fd, fd;
++
++	disable_caps(_metadata);
++
++	if (variant->sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWNS));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	fd = sys_open_tree(AT_FDCWD, "/",
++			   OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC | AT_RECURSIVE);
++	if (variant->expected_errno) {
++		EXPECT_EQ(-1, fd);
++		EXPECT_EQ(variant->expected_errno, errno);
++	} else {
++		ASSERT_LE(0, fd);
++		EXPECT_EQ(0, close(fd));
++	}
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * open_tree(OPEN_TREE_NAMESPACE) clones the mount tree into a new
++ * (non-anonymous) mount namespace.  Same hook (CLONE_NEWNS) but a different
++ * code path inside fs/namespace.c (open_new_namespace -> alloc_mnt_ns).
++ * OPEN_TREE_NAMESPACE and OPEN_TREE_CLONE are mutually exclusive.
++ */
++TEST_F(ns_mount_fd, open_tree_namespace)
++{
++	int ruleset_fd, fd;
++
++	disable_caps(_metadata);
++
++	if (variant->sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWNS));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	fd = sys_open_tree(AT_FDCWD, "/",
++			   OPEN_TREE_NAMESPACE | OPEN_TREE_CLOEXEC |
++				   AT_RECURSIVE);
++	if (variant->expected_errno) {
++		EXPECT_EQ(-1, fd);
++		EXPECT_EQ(variant->expected_errno, errno);
++	} else {
++		ASSERT_LE(0, fd);
++		EXPECT_EQ(0, close(fd));
++	}
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * fsmount(2) without FSMOUNT_NAMESPACE creates an anonymous mount namespace to
++ * attach the new superblock.  hook_namespace_init() fires with CLONE_NEWNS.
++ * The fs context (fsopen + fsconfig) is set up before sandboxing because
++ * Landlock here only handles the namespace permission.
++ */
++TEST_F(ns_mount_fd, fsmount_default)
++{
++	int ruleset_fd, fs_fd, mnt_fd;
++
++	disable_caps(_metadata);
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	fs_fd = sys_fsopen("tmpfs", 0);
++	ASSERT_LE(0, fs_fd);
++	ASSERT_EQ(0, sys_fsconfig(fs_fd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
++
++	if (variant->sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWNS));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	mnt_fd = sys_fsmount(fs_fd, FSMOUNT_CLOEXEC, 0);
++	if (variant->expected_errno) {
++		EXPECT_EQ(-1, mnt_fd);
++		EXPECT_EQ(variant->expected_errno, errno);
++	} else {
++		ASSERT_LE(0, mnt_fd);
++		EXPECT_EQ(0, close(mnt_fd));
++	}
++	EXPECT_EQ(0, close(fs_fd));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * fsmount(2) with FSMOUNT_NAMESPACE creates a (non-anonymous) mount namespace
++ * for the new mount.  Same hook as the default path, different code path.
++ */
++TEST_F(ns_mount_fd, fsmount_namespace)
++{
++	int ruleset_fd, fs_fd, mnt_fd;
++
++	disable_caps(_metadata);
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	fs_fd = sys_fsopen("tmpfs", 0);
++	ASSERT_LE(0, fs_fd);
++	ASSERT_EQ(0, sys_fsconfig(fs_fd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
++
++	if (variant->sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWNS));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	mnt_fd = sys_fsmount(fs_fd, FSMOUNT_CLOEXEC | FSMOUNT_NAMESPACE, 0);
++	if (variant->expected_errno) {
++		EXPECT_EQ(-1, mnt_fd);
++		EXPECT_EQ(variant->expected_errno, errno);
++	} else {
++		ASSERT_LE(0, mnt_fd);
++		EXPECT_EQ(0, close(mnt_fd));
++	}
++	EXPECT_EQ(0, close(fs_fd));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * unshare(2) with multiple CLONE_NEW* flags: when LANDLOCK_PERM_NAMESPACE_USE
++ * denies any of the requested types, the entire syscall fails with EPERM.  This
++ * documents the kernel's atomic behavior: namespaces are created sequentially
++ * in __ns_common_init() via copy_namespaces(), and the first Landlock denial
++ * rolls back the whole operation.  Mixing CLONE_NEWUSER (no capability check)
++ * with another CLONE_NEW* type is the typical container-runtime bootstrap
++ * pattern.
++ */
++/* clang-format off */
++FIXTURE(ns_create_multi_flag) {};
++/* clang-format on */
++
++FIXTURE_VARIANT(ns_create_multi_flag)
++{
++	__u64 allowed_types;
++	int expected_errno;
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create_multi_flag, partial_denied) {
++	/* clang-format on */
++	/* User namespace allowed; UTS namespace denied. */
++	.allowed_types = CLONE_NEWUSER,
++	.expected_errno = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_create_multi_flag, both_allowed) {
++	/* clang-format on */
++	.allowed_types = CLONE_NEWUSER | CLONE_NEWUTS,
++	.expected_errno = 0,
++};
++
++FIXTURE_SETUP(ns_create_multi_flag)
++{
++}
++
++FIXTURE_TEARDOWN(ns_create_multi_flag)
++{
++}
++
++TEST_F(ns_create_multi_flag, unshare)
++{
++	int ruleset_fd, status, err;
++	pid_t child;
++
++	disable_caps(_metadata);
++
++	/* Run unshare(2) in a child to avoid polluting the test process. */
++	child = fork();
++	ASSERT_LE(0, child);
++
++	if (child == 0) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		ASSERT_EQ(0, add_ns_rule(ruleset_fd, variant->allowed_types));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++
++		err = unshare(CLONE_NEWUSER | CLONE_NEWUTS);
++		if (variant->expected_errno) {
++			EXPECT_EQ(-1, err);
++			EXPECT_EQ(variant->expected_errno, errno);
++		} else {
++			EXPECT_EQ(0, err);
++		}
++		_exit(_metadata->exit_code);
++	}
++
++	ASSERT_EQ(child, waitpid(child, &status, 0));
++	ASSERT_EQ(1, WIFEXITED(status));
++	ASSERT_EQ(EXIT_SUCCESS, WEXITSTATUS(status));
++}
++
++/* clang-format off */
++FIXTURE(setns_cross_process) {};
++/* clang-format on */
++
++FIXTURE_VARIANT(setns_cross_process)
++{
++	bool is_sandboxed;
++	bool has_rule;
++	int expected_setns;
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(setns_cross_process, denied) {
++	/* clang-format on */
++	.is_sandboxed = true,
++	.has_rule = false,
++	.expected_setns = EPERM,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(setns_cross_process, sandboxed_allowed) {
++	/* clang-format on */
++	.is_sandboxed = true,
++	.has_rule = true,
++	.expected_setns = 0,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(setns_cross_process, unsandboxed) {
++	/* clang-format on */
++	.is_sandboxed = false,
++	.has_rule = false,
++	.expected_setns = 0,
++};
++
++FIXTURE_SETUP(setns_cross_process)
++{
++}
++
++FIXTURE_TEARDOWN(setns_cross_process)
++{
++}
++
++/*
++ * setns into a child's UTS namespace: when sandboxed with
++ * LANDLOCK_PERM_NAMESPACE_USE denying UTS, the rule-based check applies
++ * regardless of which process created the namespace.  This fixture exercises
++ * only CLONE_NEWUTS; the same enforcement applies to every namespace type (see
++ * hook_namespace_install() in security/landlock/ns.c), so per-type variants
++ * would not exercise different code paths.
++ */
++TEST_F(setns_cross_process, setns)
++{
++	int ruleset_fd, ns_fd, status;
++	pid_t child;
++	int pipe_parent[2], pipe_child[2];
++	char buf, path[64];
++
++	disable_caps(_metadata);
++
++	/*
++	 * Enable dumpable so the parent can read /proc/<child>/ns/uts.  Without
++	 * this, ptrace access checks (PTRACE_MODE_READ) prevent opening another
++	 * process's namespace entries.
++	 */
++	ASSERT_EQ(0, prctl(PR_SET_DUMPABLE, 1, 0, 0, 0));
++
++	ASSERT_EQ(0, pipe2(pipe_parent, O_CLOEXEC));
++	ASSERT_EQ(0, pipe2(pipe_child, O_CLOEXEC));
++
++	child = fork();
++	ASSERT_LE(0, child);
++
++	if (child == 0) {
++		EXPECT_EQ(0, close(pipe_parent[1]));
++		EXPECT_EQ(0, close(pipe_child[0]));
++
++		/* Child: create a UTS namespace. */
++		set_cap(_metadata, CAP_SYS_ADMIN);
++		ASSERT_EQ(0, unshare(CLONE_NEWUTS));
++
++		drop_caps(_metadata);
++		ASSERT_EQ(0, prctl(PR_SET_DUMPABLE, 1, 0, 0, 0));
++
++		/* Signal parent that the namespace is ready. */
++		ASSERT_EQ(1, write(pipe_child[1], ".", 1));
++
++		/* Wait for parent to finish testing. */
++		ASSERT_EQ(1, read(pipe_parent[0], &buf, 1));
++		_exit(_metadata->exit_code);
++	}
++
++	EXPECT_EQ(0, close(pipe_parent[0]));
++	EXPECT_EQ(0, close(pipe_child[1]));
++
++	/* Wait for child namespace. */
++	ASSERT_EQ(1, read(pipe_child[0], &buf, 1));
++	EXPECT_EQ(0, close(pipe_child[0]));
++
++	/* Open the child's NS FD BEFORE creating the domain. */
++	snprintf(path, sizeof(path), "/proc/%d/ns/uts", child);
++	ns_fd = open(path, O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	if (variant->is_sandboxed) {
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		if (variant->has_rule)
++			ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUTS));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++	}
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	if (variant->expected_setns) {
++		EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++		EXPECT_EQ(variant->expected_setns, errno);
++	} else {
++		EXPECT_EQ(0, setns(ns_fd, CLONE_NEWUTS));
++	}
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++
++	/* Release child. */
++	ASSERT_EQ(1, write(pipe_parent[1], ".", 1));
++	EXPECT_EQ(0, close(pipe_parent[1]));
++	ASSERT_EQ(child, waitpid(child, &status, 0));
++	ASSERT_EQ(1, WIFEXITED(status));
++	ASSERT_EQ(EXIT_SUCCESS, WEXITSTATUS(status));
++}
++
++/*
++ * Verify that LANDLOCK_PERM_NAMESPACE_USE and LANDLOCK_PERM_CAPABILITY_USE
++ * apply simultaneously: creating/entering a non-user namespace requires both
++ * the namespace type to be allowed AND CAP_SYS_ADMIN to be allowed.  User
++ * namespace creation is the exception (no capable() call from the kernel).
++ */
++TEST(setns_and_create)
++{
++	int ruleset_fd, ns_fd;
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWUTS,
++	};
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN),
++	};
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_attr, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* UTS unshare: allowed by NS rule + CAP_SYS_ADMIN allowed. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	ASSERT_EQ(0, unshare(CLONE_NEWUTS));
++
++	/* IPC unshare: denied by NS rule (type not allowed). */
++	EXPECT_EQ(-1, unshare(CLONE_NEWIPC));
++	EXPECT_EQ(EPERM, errno);
++
++	/* setns into current UTS: allowed by NS rule. */
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++	EXPECT_EQ(0, setns(ns_fd, CLONE_NEWUTS));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++
++	/*
++	 * User namespace creation: only LANDLOCK_PERM_NAMESPACE_USE needed (no
++	 * capable() call from the kernel for user NS).  Denied because
++	 * CLONE_NEWUSER is not in the allowed namespace types.
++	 */
++	EXPECT_EQ(-1, unshare(CLONE_NEWUSER));
++	EXPECT_EQ(EPERM, errno);
++}
++
++/*
++ * Verify that LANDLOCK_PERM_CAPABILITY_USE can deny the CAP_SYS_ADMIN check
++ * that the kernel performs before the Landlock namespace hook is reached.  The
++ * NS type is allowed but the required capability is not, so the operation fails
++ * on the capability check.
++ *
++ * User namespace creation is the exception: no capable() call, so the operation
++ * succeeds with just LANDLOCK_PERM_NAMESPACE_USE.
++ */
++TEST(two_perm_cap_denied)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWUTS | CLONE_NEWUSER,
++	};
++	/* CAP_SYS_ADMIN is NOT allowed. */
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_CHROOT),
++	};
++	int ruleset_fd, ns_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_attr, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * UTS creation: the process holds CAP_SYS_ADMIN but Landlock denies it
++	 * (not in the cap rule), so the kernel's ns_capable(CAP_SYS_ADMIN) gate
++	 * fails before the namespace hook is reached.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++
++	/*
++	 * setns into the current UTS namespace: the type is allowed but
++	 * CAP_SYS_ADMIN is denied, so the kernel's ns_capable(CAP_SYS_ADMIN)
++	 * gate fails before the namespace hook is reached (the setns capability
++	 * leg, complementing the unshare/create leg above).
++	 */
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	EXPECT_EQ(0, close(ns_fd));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/*
++	 * User NS creation: no capable() call from the kernel, so only
++	 * LANDLOCK_PERM_NAMESPACE_USE applies.  CLONE_NEWUSER is in the allowed
++	 * set, so this succeeds.
++	 */
++	EXPECT_EQ(0, unshare(CLONE_NEWUSER));
++}
++
++/*
++ * Combining CLONE_NEWUSER with another namespace type in a single unshare(2)
++ * call does not exempt the non-user namespace from the capability check: the
++ * kernel checks ns_capable(new_user_ns, CAP_SYS_ADMIN) for it, and the
++ * namespace-agnostic capability hook denies it when the domain handles
++ * LANDLOCK_PERM_CAPABILITY_USE without allowing CAP_SYS_ADMIN.  Both namespace
++ * types are allowed here, yet the combined call fails atomically, exactly like
++ * the equivalent two-call sequence.
++ */
++TEST(two_perm_combined_unshare_denied)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	/* Both namespace types are allowed; no capability is allowed. */
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWUSER | CLONE_NEWUTS,
++	};
++	int ruleset_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * CAP_SYS_ADMIN is held so the kernel's commoncap check passes (via
++	 * ownership of the new user namespace) and the denial is attributable
++	 * to Landlock.  The UTS leg needs CAP_SYS_ADMIN, which the capability
++	 * hook denies, so the atomic unshare(2) fails and no namespace is
++	 * created.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUSER | CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The user namespace alone has no capability check, so it succeeds. */
++	EXPECT_EQ(0, unshare(CLONE_NEWUSER));
++}
++
++/*
++ * Positive complement to two_perm_combined_unshare_denied: allowing
++ * CAP_SYS_ADMIN lets the same combined unshare(CLONE_NEWUSER | CLONE_NEWUTS)
++ * succeed, proving the denial above comes from the missing capability allowance
++ * and not the namespace rule.  Run in a child because a successful unshare(2)
++ * mutates the caller.
++ */
++TEST(two_perm_combined_unshare_allowed)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWUSER | CLONE_NEWUTS,
++	};
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN),
++	};
++	int ruleset_fd, status;
++	pid_t child;
++
++	disable_caps(_metadata);
++
++	child = fork();
++	ASSERT_LE(0, child);
++	if (child == 0) {
++		ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++		ASSERT_LE(0, ruleset_fd);
++		ASSERT_EQ(0,
++			  landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++					    &ns_attr, 0));
++		ASSERT_EQ(0, landlock_add_rule(ruleset_fd,
++					       LANDLOCK_RULE_CAPABILITY,
++					       &cap_attr, 0));
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++
++		set_cap(_metadata, CAP_SYS_ADMIN);
++		EXPECT_EQ(0, unshare(CLONE_NEWUSER | CLONE_NEWUTS));
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++		_exit(_metadata->exit_code);
++	}
++	ASSERT_EQ(child, waitpid(child, &status, 0));
++	ASSERT_EQ(1, WIFEXITED(status));
++	ASSERT_EQ(EXIT_SUCCESS, WEXITSTATUS(status));
++}
++
++/*
++ * Inverse of two_perm_cap_denied: the required capability is allowed but the
++ * namespace type is not, so the Landlock namespace hook denies the operation
++ * (the capability leg passes).  A positive control (an allowed type creates
++ * successfully with the same allowed capability) proves CAP_SYS_ADMIN is
++ * genuinely exercisable, so the UTS denial is attributable to the namespace
++ * hook rather than the capability hook.
++ */
++TEST(two_perm_ns_denied)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	/* CLONE_NEWUTS is NOT allowed; CLONE_NEWNET is. */
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWNET,
++	};
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN),
++	};
++	int ruleset_fd;
++
++	disable_caps(_metadata);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_attr, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * Positive control: CLONE_NEWNET is allowed and CAP_SYS_ADMIN is
++	 * allowed, so the kernel's ns_capable() gate passes and the namespace
++	 * hook allows it.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, unshare(CLONE_NEWNET));
++
++	/*
++	 * CAP_SYS_ADMIN is allowed (ns_capable passes), but CLONE_NEWUTS is not
++	 * in the allowed namespace types, so the Landlock namespace hook denies
++	 * it.
++	 */
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++}
++
++/*
++ * Mount namespace setns is unique: the kernel checks both CAP_SYS_ADMIN and
++ * CAP_SYS_CHROOT in mntns_install().  Verify that allowing CAP_SYS_ADMIN alone
++ * is not sufficient.
++ */
++TEST(two_perm_mnt_setns)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWNS,
++	};
++	const struct landlock_capability_attr cap_admin = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN),
++	};
++	const struct landlock_capability_attr cap_admin_chroot = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN) |
++					(1ULL << CAP_SYS_CHROOT),
++	};
++	int ruleset_fd, ns_fd;
++
++	disable_caps(_metadata);
++
++	/* Layer 1: allow mount NS + CAP_SYS_ADMIN only (no CAP_SYS_CHROOT). */
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_admin, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	/*
++	 * Fails: mntns_install() checks CAP_SYS_ADMIN (allowed) then
++	 * CAP_SYS_CHROOT (denied by LANDLOCK_PERM_CAPABILITY_USE).
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	set_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWNS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	clear_cap(_metadata, CAP_SYS_CHROOT);
++
++	/* Layer 2: also allows CAP_SYS_CHROOT. */
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_admin_chroot, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * Still fails: layer 1 still denies CAP_SYS_CHROOT.  Landlock layer
++	 * stacking means the most restrictive layer wins.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	set_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWNS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	clear_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(0, close(ns_fd));
++}
++
++/*
++ * Positive complement to two_perm_mnt_setns: a single layer that allows the
++ * mount namespace type AND both CAP_SYS_ADMIN and CAP_SYS_CHROOT lets
++ * setns(CLONE_NEWNS) into the process's own mount namespace succeed.  Proves
++ * the denial legs above are caused by the withheld CAP_SYS_CHROOT, not an
++ * unconditional block of mount setns.
++ */
++TEST(two_perm_mnt_setns_allowed)
++{
++	const struct landlock_ruleset_attr attr = {
++		.handled_perm = LANDLOCK_PERM_NAMESPACE_USE |
++				LANDLOCK_PERM_CAPABILITY_USE,
++	};
++	const struct landlock_namespace_attr ns_attr = {
++		.perm = LANDLOCK_PERM_NAMESPACE_USE,
++		.allowed_namespace_types = CLONE_NEWNS,
++	};
++	const struct landlock_capability_attr cap_attr = {
++		.perm = LANDLOCK_PERM_CAPABILITY_USE,
++		.allowed_capabilities = (1ULL << CAP_SYS_ADMIN) |
++					(1ULL << CAP_SYS_CHROOT),
++	};
++	int ruleset_fd, ns_fd;
++
++	disable_caps(_metadata);
++
++	/* Open the NS FD before enforcing the domain. */
++	ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
++				       &ns_attr, 0));
++	ASSERT_EQ(0, landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
++				       &cap_attr, 0));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/*
++	 * mntns_install() checks CAP_SYS_ADMIN then CAP_SYS_CHROOT (both
++	 * allowed by the rule) and the mount NS type is allowed, so setns into
++	 * the process's own mount namespace succeeds.
++	 */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	set_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(0, setns(ns_fd, CLONE_NEWNS));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	clear_cap(_metadata, CAP_SYS_CHROOT);
++	EXPECT_EQ(0, close(ns_fd));
++}
++
++/*
++ * setns() through a namespace fd inherited across fork() is still governed by
++ * the child's own Landlock domain: the child enforces a domain denying
++ * CLONE_NEWUTS, then joining the inherited /proc/self/ns/uts fd is denied.
++ */
++TEST(setns_inherited_fd)
++{
++	int ns_fd, status;
++	pid_t child;
++
++	disable_caps(_metadata);
++
++	/* Open the UTS ns fd before fork() so the child inherits it. */
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	child = fork();
++	ASSERT_LE(0, child);
++	if (child == 0) {
++		int ruleset_fd;
++
++		/*
++		 * Baseline: joining the inherited fd works before the domain,
++		 * so the later EPERM is attributable to Landlock.
++		 */
++		set_cap(_metadata, CAP_SYS_ADMIN);
++		ASSERT_EQ(0, setns(ns_fd, CLONE_NEWUTS));
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++
++		ruleset_fd = create_ns_ruleset();
++		ASSERT_LE(0, ruleset_fd);
++		/* No rule allows UTS. */
++		enforce_ruleset(_metadata, ruleset_fd);
++		EXPECT_EQ(0, close(ruleset_fd));
++
++		set_cap(_metadata, CAP_SYS_ADMIN);
++		EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++		EXPECT_EQ(EPERM, errno);
++		clear_cap(_metadata, CAP_SYS_ADMIN);
++
++		_exit(_metadata->exit_code);
++		return;
++	}
++
++	EXPECT_EQ(0, close(ns_fd));
++	ASSERT_EQ(child, waitpid(child, &status, 0));
++	if (WIFSIGNALED(status) || !WIFEXITED(status) ||
++	    WEXITSTATUS(status) != EXIT_SUCCESS)
++		_metadata->exit_code = KSFT_FAIL;
++}
++
++/* Audit tests */
++
++static int matches_log_ns_create(int audit_fd, __u64 ns_type)
++{
++	static const char log_template[] = REGEX_LANDLOCK_PREFIX
++		" blockers=perm\\.namespace_use"
++		" namespace_type=0x%x"
++		" namespace_id=0$";
++	char log_match[sizeof(log_template) + 10];
++	int log_match_len;
++
++	log_match_len = snprintf(log_match, sizeof(log_match), log_template,
++				 (unsigned int)ns_type);
++	if (log_match_len >= sizeof(log_match))
++		return -E2BIG;
++
++	return audit_match_record(audit_fd, AUDIT_LANDLOCK_ACCESS, log_match,
++				  NULL);
++}
++
++static int matches_log_ns_setns(int audit_fd, __u64 ns_type, __u64 ns_id)
++{
++	static const char log_template[] = REGEX_LANDLOCK_PREFIX
++		" blockers=perm\\.namespace_use"
++		" namespace_type=0x%x"
++		" namespace_id=%llu$";
++	char log_match[sizeof(log_template) + 32];
++	int log_match_len;
++
++	log_match_len = snprintf(log_match, sizeof(log_match), log_template,
++				 (unsigned int)ns_type,
++				 (unsigned long long)ns_id);
++	if (log_match_len >= sizeof(log_match))
++		return -E2BIG;
++
++	return audit_match_record(audit_fd, AUDIT_LANDLOCK_ACCESS, log_match,
++				  NULL);
++}
++
++FIXTURE(ns_audit)
++{
++	struct audit_filter audit_filter;
++	int audit_fd;
++};
++
++FIXTURE_SETUP(ns_audit)
++{
++	ASSERT_TRUE(is_in_init_user_ns());
++
++	disable_caps(_metadata);
++
++	set_cap(_metadata, CAP_AUDIT_CONTROL);
++	self->audit_fd = audit_init_with_exe_filter(&self->audit_filter);
++	EXPECT_LE(0, self->audit_fd);
++	clear_cap(_metadata, CAP_AUDIT_CONTROL);
++}
++
++FIXTURE_TEARDOWN(ns_audit)
++{
++	set_cap(_metadata, CAP_AUDIT_CONTROL);
++	EXPECT_EQ(0, audit_cleanup(self->audit_fd, &self->audit_filter));
++}
++
++/*
++ * Verifies that a denied namespace creation produces the expected audit record
++ * with the perm.namespace_use blocker string and namespace_type.
++ */
++TEST_F(ns_audit, create_denied)
++{
++	struct audit_records records;
++	int ruleset_fd;
++	__u64 domain_id;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	EXPECT_EQ(0, matches_log_ns_create(self->audit_fd, CLONE_NEWUTS));
++
++	/*
++	 * The domain allocation record is emitted in the same event as the
++	 * first denial; anchor its status=allocated and enforcing pid.  Both
++	 * access and domain records are now consumed, so none remain.
++	 */
++	EXPECT_EQ(0, matches_log_domain_allocated(self->audit_fd, getpid(),
++						  &domain_id));
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++TEST_F(ns_audit, create_allowed)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, unshare(CLONE_NEWUTS));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* No records: allowed operations never trigger audit logging. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++TEST_F(ns_audit, setns_allowed)
++{
++	struct audit_records records;
++	int ruleset_fd, ns_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	/* Allowed: should succeed with no audit record. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, setns(ns_fd, CLONE_NEWUTS));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++
++	/* No records: allowed setns never triggers audit logging. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++TEST_F(ns_audit, setns_denied)
++{
++	struct audit_records records;
++	int ruleset_fd, ns_fd;
++	__u64 ns_id, domain_id;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	/* No rule allows UTS -> denied. */
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	/* The audit record logs the target namespace's exact ns_id. */
++	ASSERT_EQ(0, ioctl(ns_fd, NS_GET_ID, &ns_id));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++
++	/* Verify the audit record for setns denial, anchored to the ns_id. */
++	EXPECT_EQ(0, matches_log_ns_setns(self->audit_fd, CLONE_NEWUTS, ns_id));
++
++	/*
++	 * The domain allocation record is emitted in the same event as the
++	 * first denial; anchor its status=allocated and enforcing pid.  Both
++	 * access and domain records are now consumed, so none remain.
++	 */
++	EXPECT_EQ(0, matches_log_domain_allocated(self->audit_fd, getpid(),
++						  &domain_id));
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++/*
++ * A quieted denial is still denied (EPERM); only its audit record is
++ * suppressed.  Quiet-only rule (empty allowed set).
++ */
++TEST_F(ns_audit, create_quieted)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The denial is suppressed: no access record. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/*
++ * A quieted setns denial is still denied (EPERM); only its audit record is
++ * suppressed.  The install-hook mirror of create_quieted.
++ */
++TEST_F(ns_audit, setns_quieted)
++{
++	struct audit_records records;
++	int ruleset_fd, ns_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	ns_fd = open("/proc/self/ns/uts", O_RDONLY);
++	ASSERT_LE(0, ns_fd);
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, setns(ns_fd, CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, close(ns_fd));
++
++	/* The denial is suppressed: no access record. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/*
++ * Quiet is per-member: quieting one namespace type does not silence the denial
++ * of another type denied by the same layer.
++ */
++TEST_F(ns_audit, quiet_is_per_member)
++{
++	struct audit_records records;
++	int ruleset_fd;
++	__u64 domain_id;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	/*
++	 * Quiet CLONE_NEWNET only; CLONE_NEWUTS is neither allowed nor quiet.
++	 */
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, CLONE_NEWNET));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The unquieted CLONE_NEWUTS denial is still logged. */
++	EXPECT_EQ(0, matches_log_ns_create(self->audit_fd, CLONE_NEWUTS));
++	EXPECT_EQ(0, matches_log_domain_allocated(self->audit_fd, getpid(),
++						  &domain_id));
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++/*
++ * Quieting an unknown namespace bit has no effect: a rule that quiets only a
++ * bit the running kernel does not know still logs the denial of a known type.
++ * Mirrors the forward-compatibility contract for the quiet mask.
++ */
++TEST_F(ns_audit, quiet_unknown_bit_no_effect)
++{
++	struct audit_records records;
++	int ruleset_fd;
++	__u64 domain_id;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	/* Quiet only an unknown bit (bit 31 is not a CLONE_NEW* value). */
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, (1ULL << 31)));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The unknown quiet bit does not suppress the known denial. */
++	EXPECT_EQ(0, matches_log_ns_create(self->audit_fd, CLONE_NEWUTS));
++	EXPECT_EQ(0, matches_log_domain_allocated(self->audit_fd, getpid(),
++						  &domain_id));
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++	EXPECT_EQ(0, records.domain);
++}
++
++/* A single rule can both allow one member and quiet the denial of another. */
++TEST_F(ns_audit, allow_and_quiet)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, CLONE_NEWNET, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* Allowed member: succeeds. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, unshare(CLONE_NEWNET));
++	/* Quieted member: denied but not logged. */
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/*
++ * Quieting a member that is also allowed is inert: an allowed member is never
++ * denied, so its quiet bit has no effect.
++ */
++TEST_F(ns_audit, allow_and_quiet_same_member)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	/* Same member both allowed and quieted. */
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, CLONE_NEWNET, CLONE_NEWNET));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* The member is allowed (quiet is inert), so it succeeds. */
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(0, unshare(CLONE_NEWNET));
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* Nothing denied, nothing logged. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/*
++ * Only the youngest denying layer decides quieting: a parent that quiets a
++ * member cannot silence a denial by a deeper layer that handles but does not
++ * quiet it.
++ */
++TEST_F(ns_audit, quiet_youngest_layer_wins)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	/* Parent layer: handles namespaces and quiets CLONE_NEWUTS. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* Child layer: handles namespaces but does not quiet CLONE_NEWUTS. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The child layer denies and does not quiet: logged. */
++	EXPECT_EQ(0, matches_log_ns_create(self->audit_fd, CLONE_NEWUTS));
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/*
++ * A parent layer that quiets and denies a member suppresses its own denial even
++ * when it is not the youngest layer: a child layer allows the member, so the
++ * parent is the youngest (and only) denying layer and its stored quiet mask
++ * fires.  Complements quiet_youngest_layer_wins.
++ */
++TEST_F(ns_audit, quiet_parent_only_denying_layer)
++{
++	struct audit_records records;
++	int ruleset_fd;
++
++	/* Parent layer: quiet-only, so it denies CLONE_NEWUTS. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule_full(ruleset_fd, 0, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	/* Child layer: allows CLONE_NEWUTS, so only the parent denies it. */
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	ASSERT_EQ(0, add_ns_rule(ruleset_fd, CLONE_NEWUTS));
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	set_cap(_metadata, CAP_SYS_ADMIN);
++	EXPECT_EQ(-1, unshare(CLONE_NEWUTS));
++	EXPECT_EQ(EPERM, errno);
++	clear_cap(_metadata, CAP_SYS_ADMIN);
++
++	/* The parent quiets and is the youngest denying layer: suppressed. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++}
++
++/* clang-format off */
++FIXTURE(ns_proc_open) {
++	struct audit_filter audit_filter;
++	int audit_fd;
++};
++/* clang-format on */
++
++FIXTURE_VARIANT(ns_proc_open)
++{
++	__u64 ns_type;
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_proc_open, mnt) {
++	/* clang-format on */
++	.ns_type = CLONE_NEWNS,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(ns_proc_open, user) {
++	/* clang-format on */
++	.ns_type = CLONE_NEWUSER,
++};
++
++FIXTURE_SETUP(ns_proc_open)
++{
++	ASSERT_TRUE(is_in_init_user_ns());
++
++	disable_caps(_metadata);
++
++	set_cap(_metadata, CAP_AUDIT_CONTROL);
++	self->audit_fd = audit_init_with_exe_filter(&self->audit_filter);
++	EXPECT_LE(0, self->audit_fd);
++	clear_cap(_metadata, CAP_AUDIT_CONTROL);
++}
++
++FIXTURE_TEARDOWN(ns_proc_open)
++{
++	set_cap(_metadata, CAP_AUDIT_CONTROL);
++	EXPECT_EQ(0, audit_cleanup(self->audit_fd, &self->audit_filter));
++}
++
++/*
++ * Opening /proc/self/ns/<type> only acquires a procfs reference, not membership
++ * or an acquired fd of the kind LANDLOCK_PERM_NAMESPACE_USE gates.  Verify the
++ * open is unrestricted even when the permission is handled with no rules.
++ */
++TEST_F(ns_proc_open, open_unrestricted)
++{
++	char proc_path[NS_PROC_PATH_MAX];
++	struct audit_records records;
++	int ruleset_fd, fd;
++
++	ASSERT_TRUE(
++		ns_is_supported(variant->ns_type, proc_path, sizeof(proc_path)))
++	{
++		TH_LOG("Namespace type 0x%llx not supported",
++		       (unsigned long long)variant->ns_type);
++	}
++
++	ruleset_fd = create_ns_ruleset();
++	ASSERT_LE(0, ruleset_fd);
++	enforce_ruleset(_metadata, ruleset_fd);
++	EXPECT_EQ(0, close(ruleset_fd));
++
++	fd = open(proc_path, O_RDONLY);
++	ASSERT_LE(0, fd)
++	{
++		TH_LOG("open(%s) failed: %s", proc_path, strerror(errno));
++	}
++
++	/* No Landlock denial. */
++	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
++	EXPECT_EQ(0, records.access);
++
++	EXPECT_EQ(0, close(fd));
++}
++
++TEST_HARNESS_MAIN
+diff --git a/tools/testing/selftests/landlock/wrappers.h b/tools/testing/selftests/landlock/wrappers.h
+index 65548323e45d..e6fe46b7c2cc 100644
+--- a/tools/testing/selftests/landlock/wrappers.h
++++ b/tools/testing/selftests/landlock/wrappers.h
+@@ -9,6 +9,7 @@
  
--struct landlock_ruleset *
--landlock_create_ruleset(const access_mask_t fs_access_mask,
--			const access_mask_t net_access_mask,
--			const access_mask_t scope_mask)
-+struct landlock_ruleset *landlock_create_ruleset(
-+	const access_mask_t fs_access_mask, const access_mask_t net_access_mask,
-+	const access_mask_t scope_mask, const access_mask_t perm_mask)
+ #define _GNU_SOURCE
+ #include <linux/landlock.h>
++#include <linux/sched.h>
+ #include <sys/syscall.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+@@ -45,3 +46,31 @@ static inline pid_t sys_gettid(void)
  {
- 	struct landlock_ruleset *new_ruleset;
- 
- 	/* Informs about useless ruleset. */
--	if (!fs_access_mask && !net_access_mask && !scope_mask)
-+	if (!fs_access_mask && !net_access_mask && !scope_mask && !perm_mask)
- 		return ERR_PTR(-ENOMSG);
- 	new_ruleset = create_ruleset(1);
- 	if (IS_ERR(new_ruleset))
-@@ -73,6 +72,8 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
- 		landlock_add_net_access_mask(new_ruleset, net_access_mask, 0);
- 	if (scope_mask)
- 		landlock_add_scope_mask(new_ruleset, scope_mask, 0);
-+	if (perm_mask)
-+		landlock_add_perm_mask(new_ruleset, perm_mask, 0);
- 	return new_ruleset;
+ 	return syscall(__NR_gettid);
  }
- 
-@@ -404,6 +405,14 @@ static int merge_ruleset(struct landlock_ruleset *const dst,
- 
- #ifdef CONFIG_AUDIT
- 	dst->hierarchy->quiet_access = src->quiet_access;
-+	/*
-+	 * quiet_perm is accumulated per rule by landlock_add_rule() under
-+	 * ruleset->lock, so it must be snapshotted here, in the same critical
-+	 * section as the allowed mask; a later, separate copy would race
-+	 * landlock_add_rule() and split the snapshot.  The immutable
-+	 * quiet_access above shares this site for consistency.
-+	 */
-+	dst->hierarchy->quiet_perm = src->quiet_perm;
- #endif /* CONFIG_AUDIT */
- 
- out_unlock:
-diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
-index 2a825b1f08b9..005ac3550088 100644
---- a/security/landlock/ruleset.h
-+++ b/security/landlock/ruleset.h
-@@ -157,7 +157,7 @@ struct landlock_ruleset {
- 		 * section.  This is only used by
- 		 * landlock_put_ruleset_deferred() when @usage reaches zero.
- 		 * The fields @lock, @usage, @num_rules, @num_layers,
--		 * @quiet_access and @layers are then unused.
-+		 * @quiet_access, @quiet_perm and @layers are then unused.
- 		 */
- 		struct work_struct work_free;
- 		struct {
-@@ -190,24 +190,34 @@ struct landlock_ruleset {
- 			 */
- 			struct access_masks quiet_access;
- 			/**
--			 * @layers: Per-layer access configuration.  A domain
--			 * saves all layers of merged rulesets in a stack (FAM),
--			 * starting from the first layer to the last one.  These
--			 * layers are used when merging rulesets, for user space
--			 * backward compatibility (i.e. future-proof), and to
--			 * properly handle merged rulesets without overlapping
--			 * access rights.  These layers are set once and never
--			 * changed for the lifetime of the ruleset.
-+			 * @quiet_perm: Per-member quiet bitmasks for permission
-+			 * types (capabilities and namespace types) of an
-+			 * unmerged ruleset.  A denied member whose bit is set
-+			 * here is not logged when this layer is the one that
-+			 * denies it.  For a merged domain, this is stored in
-+			 * each layer's struct landlock_hierarchy instead.
-+			 */
-+			struct perm_masks quiet_perm;
-+			/**
-+			 * @layers: Per-layer access configuration, including
-+			 * handled access masks and allowed permission bitmasks.
-+			 * A domain saves all layers of merged rulesets in a
-+			 * stack (FAM), starting from the first layer to the
-+			 * last one.  These layers are used when merging
-+			 * rulesets, for user space backward compatibility (i.e.
-+			 * future-proof), and to properly handle merged rulesets
-+			 * without overlapping access rights.  These layers are
-+			 * set once and never changed for the lifetime of the
-+			 * ruleset.
- 			 */
- 			struct layer_config layers[] __counted_by(num_layers);
- 		};
- 	};
- };
- 
--struct landlock_ruleset *
--landlock_create_ruleset(const access_mask_t access_mask_fs,
--			const access_mask_t access_mask_net,
--			const access_mask_t scope_mask);
-+struct landlock_ruleset *landlock_create_ruleset(
-+	const access_mask_t access_mask_fs, const access_mask_t access_mask_net,
-+	const access_mask_t scope_mask, const access_mask_t perm_mask);
- 
- void landlock_put_ruleset(struct landlock_ruleset *const ruleset);
- void landlock_put_ruleset_deferred(struct landlock_ruleset *const ruleset);
-@@ -317,6 +327,24 @@ landlock_get_scope_mask(const struct landlock_ruleset *const ruleset,
- 	return ruleset->layers[layer_level].handled.scope;
- }
- 
-+static inline void
-+landlock_add_perm_mask(struct landlock_ruleset *const ruleset,
-+		       const access_mask_t perm_mask, const u16 layer_level)
-+{
-+	access_mask_t mask = perm_mask & LANDLOCK_MASK_PERM;
 +
-+	/* Should already be checked in sys_landlock_create_ruleset(). */
-+	WARN_ON_ONCE(perm_mask != mask);
-+	ruleset->layers[layer_level].handled.perm |= mask;
++static inline pid_t sys_clone3(struct clone_args *args, size_t size)
++{
++	return syscall(__NR_clone3, args, size);
 +}
 +
-+static inline access_mask_t
-+landlock_get_perm_mask(const struct landlock_ruleset *const ruleset,
-+		       const u16 layer_level)
++static inline int sys_open_tree(int dfd, const char *filename,
++				unsigned int flags)
 +{
-+	return ruleset->layers[layer_level].handled.perm;
++	return syscall(__NR_open_tree, dfd, filename, flags);
 +}
 +
- bool landlock_unmask_layers(const struct landlock_rule *const rule,
- 			    struct layer_masks *masks);
- 
-diff --git a/security/landlock/setup.c b/security/landlock/setup.c
-index 47dac1736f10..a7ed776b41b4 100644
---- a/security/landlock/setup.c
-+++ b/security/landlock/setup.c
-@@ -17,6 +17,7 @@
- #include "fs.h"
- #include "id.h"
- #include "net.h"
-+#include "ns.h"
- #include "setup.h"
- #include "task.h"
- 
-@@ -68,6 +69,7 @@ static int __init landlock_init(void)
- 	landlock_add_task_hooks();
- 	landlock_add_fs_hooks();
- 	landlock_add_net_hooks();
-+	landlock_add_ns_hooks();
- 	landlock_init_id();
- 	landlock_initialized = true;
- 	pr_info("Up and running.\n");
-diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-index 1924c703c280..28ea775c8b86 100644
---- a/security/landlock/syscalls.c
-+++ b/security/landlock/syscalls.c
-@@ -20,6 +20,7 @@
- #include <linux/fs.h>
- #include <linux/limits.h>
- #include <linux/mount.h>
-+#include <linux/ns/ns_common_types.h>
- #include <linux/path.h>
- #include <linux/sched.h>
- #include <linux/security.h>
-@@ -34,6 +35,7 @@
- #include "fs.h"
- #include "limits.h"
- #include "net.h"
-+#include "ns.h"
- #include "ruleset.h"
- #include "setup.h"
- #include "tsync.h"
-@@ -95,7 +97,9 @@ static void build_check_abi(void)
- 	struct landlock_ruleset_attr ruleset_attr;
- 	struct landlock_path_beneath_attr path_beneath_attr;
- 	struct landlock_net_port_attr net_port_attr;
-+	struct landlock_namespace_attr namespace_attr;
- 	size_t ruleset_size, path_beneath_size, net_port_size;
-+	size_t namespace_size;
- 
- 	/*
- 	 * For each user space ABI structures, first checks that there is no
-@@ -108,8 +112,9 @@ static void build_check_abi(void)
- 	ruleset_size += sizeof(ruleset_attr.quiet_access_fs);
- 	ruleset_size += sizeof(ruleset_attr.quiet_access_net);
- 	ruleset_size += sizeof(ruleset_attr.quiet_scoped);
-+	ruleset_size += sizeof(ruleset_attr.handled_perm);
- 	BUILD_BUG_ON(sizeof(ruleset_attr) != ruleset_size);
--	BUILD_BUG_ON(sizeof(ruleset_attr) != 48);
-+	BUILD_BUG_ON(sizeof(ruleset_attr) != 56);
- 
- 	path_beneath_size = sizeof(path_beneath_attr.allowed_access);
- 	path_beneath_size += sizeof(path_beneath_attr.parent_fd);
-@@ -120,6 +125,12 @@ static void build_check_abi(void)
- 	net_port_size += sizeof(net_port_attr.port);
- 	BUILD_BUG_ON(sizeof(net_port_attr) != net_port_size);
- 	BUILD_BUG_ON(sizeof(net_port_attr) != 16);
-+
-+	namespace_size = sizeof(namespace_attr.perm);
-+	namespace_size += sizeof(namespace_attr.allowed_namespace_types);
-+	namespace_size += sizeof(namespace_attr.quiet_namespace_types);
-+	BUILD_BUG_ON(sizeof(namespace_attr) != namespace_size);
-+	BUILD_BUG_ON(sizeof(namespace_attr) != 24);
- }
- 
- /* Ruleset handling */
-@@ -169,7 +180,7 @@ static const struct file_operations ruleset_fops = {
-  * If the change involves a fix that requires userspace awareness, also update
-  * the errata documentation in Documentation/userspace-api/landlock.rst .
-  */
--const int landlock_abi_version = 10;
-+const int landlock_abi_version = 11;
- 
- /**
-  * sys_landlock_create_ruleset - Create a new ruleset
-@@ -270,10 +281,16 @@ SYSCALL_DEFINE3(landlock_create_ruleset,
- 	    ruleset_attr.scoped)
- 		return -EINVAL;
- 
-+	/* Checks permission content (and 32-bits cast). */
-+	if ((ruleset_attr.handled_perm | LANDLOCK_MASK_PERM) !=
-+	    LANDLOCK_MASK_PERM)
-+		return -EINVAL;
-+
- 	/* Checks arguments and transforms to kernel struct. */
- 	ruleset = landlock_create_ruleset(ruleset_attr.handled_access_fs,
- 					  ruleset_attr.handled_access_net,
--					  ruleset_attr.scoped);
-+					  ruleset_attr.scoped,
-+					  ruleset_attr.handled_perm);
- 	if (IS_ERR(ruleset))
- 		return PTR_ERR(ruleset);
- 
-@@ -425,13 +442,78 @@ static int add_rule_net_port(struct landlock_ruleset *ruleset,
- 					net_port_attr.allowed_access, flags);
- }
- 
-+static int add_rule_namespace(struct landlock_ruleset *const ruleset,
-+			      const void __user *const rule_attr,
-+			      const u32 flags)
++static inline int sys_fsopen(const char *fsname, unsigned int flags)
 +{
-+	struct landlock_namespace_attr ns_attr;
-+	int res;
-+	access_mask_t mask;
-+
-+	/*
-+	 * Namespace rules support no add-rule flags.  In particular,
-+	 * LANDLOCK_ADD_RULE_QUIET is filesystem/network only.
-+	 */
-+	if (flags)
-+		return -EINVAL;
-+
-+	/* Copies raw user space buffer. */
-+	res = copy_from_user(&ns_attr, rule_attr, sizeof(ns_attr));
-+	if (res)
-+		return -EFAULT;
-+
-+	/* Informs about useless rule: empty perm. */
-+	if (!ns_attr.perm)
-+		return -ENOMSG;
-+
-+	/*
-+	 * The perm selector must match LANDLOCK_PERM_NAMESPACE_USE.  The valid
-+	 * set is a single bit today, so this is an exact match now; the check
-+	 * broadens to a subset test once another supported permission is added.
-+	 */
-+	if (ns_attr.perm != LANDLOCK_PERM_NAMESPACE_USE)
-+		return -EINVAL;
-+
-+	/*
-+	 * Checks that perm matches the ruleset constraints.  This also makes
-+	 * quieting require the category to be handled.
-+	 */
-+	mask = landlock_get_perm_mask(ruleset, 0);
-+	if (!(mask & LANDLOCK_PERM_NAMESPACE_USE))
-+		return -EINVAL;
-+
-+	/*
-+	 * Informs about useless rule: neither allows nor quiets anything.  A
-+	 * quiet-only rule (empty allowed set) is legal.
-+	 */
-+	if (!ns_attr.allowed_namespace_types && !ns_attr.quiet_namespace_types)
-+		return -ENOMSG;
-+
-+	/*
-+	 * Stores only the namespace types this kernel knows about.  Unknown
-+	 * bits are silently accepted for forward compatibility: user space
-+	 * compiled against newer headers can pass new CLONE_NEW* flags without
-+	 * getting EINVAL on older kernels.  Unknown bits have no effect because
-+	 * no hook checks them.  The quiet bitmask suppresses logging of denials
-+	 * attributed to this layer; see landlock_log_denial().
-+	 */
-+	mutex_lock(&ruleset->lock);
-+	ruleset->layers[0].allowed.ns |= landlock_ns_types_to_bits(
-+		ns_attr.allowed_namespace_types & CLONE_NS_ALL);
-+	ruleset->quiet_perm.ns |= landlock_ns_types_to_bits(
-+		ns_attr.quiet_namespace_types & CLONE_NS_ALL);
-+	mutex_unlock(&ruleset->lock);
-+	return 0;
++	return syscall(__NR_fsopen, fsname, flags);
 +}
 +
- /**
-  * sys_landlock_add_rule - Add a new rule to a ruleset
-  *
-  * @ruleset_fd: File descriptor tied to the ruleset that should be extended
-  *		with the new rule.
-  * @rule_type: Identify the structure type pointed to by @rule_attr:
-- *             %LANDLOCK_RULE_PATH_BENEATH or %LANDLOCK_RULE_NET_PORT.
-+ *             %LANDLOCK_RULE_PATH_BENEATH, %LANDLOCK_RULE_NET_PORT, or
-+ *             %LANDLOCK_RULE_NAMESPACE.
-  * @rule_attr: Pointer to a rule (matching the @rule_type).
-  * @flags: Must be 0 or %LANDLOCK_ADD_RULE_QUIET.
-  *
-@@ -485,6 +567,8 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
- 		return add_rule_path_beneath(ruleset, rule_attr, flags);
- 	case LANDLOCK_RULE_NET_PORT:
- 		return add_rule_net_port(ruleset, rule_attr, flags);
-+	case LANDLOCK_RULE_NAMESPACE:
-+		return add_rule_namespace(ruleset, rule_attr, flags);
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/tools/testing/selftests/landlock/base_test.c b/tools/testing/selftests/landlock/base_test.c
-index cbd3c1669951..b8b5fa1042ba 100644
---- a/tools/testing/selftests/landlock/base_test.c
-+++ b/tools/testing/selftests/landlock/base_test.c
-@@ -76,7 +76,7 @@ TEST(abi_version)
- 	const struct landlock_ruleset_attr ruleset_attr = {
- 		.handled_access_fs = LANDLOCK_ACCESS_FS_READ_FILE,
- 	};
--	ASSERT_EQ(10, landlock_create_ruleset(NULL, 0,
-+	ASSERT_EQ(11, landlock_create_ruleset(NULL, 0,
- 					      LANDLOCK_CREATE_RULESET_VERSION));
- 
- 	ASSERT_EQ(-1, landlock_create_ruleset(&ruleset_attr, 0,
++static inline int sys_fsconfig(int fs_fd, unsigned int cmd, const char *key,
++			       const void *value, int aux)
++{
++	return syscall(__NR_fsconfig, fs_fd, cmd, key, value, aux);
++}
++
++static inline int sys_fsmount(int fs_fd, unsigned int flags,
++			      unsigned int attr_flags)
++{
++	return syscall(__NR_fsmount, fs_fd, flags, attr_flags);
++}
 -- 
 2.54.0
 
