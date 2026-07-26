@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2503C9EE5;
-	Sun, 26 Jul 2026 22:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECC33C944A;
+	Sun, 26 Jul 2026 22:36:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785105399; cv=none; b=g5ZGPB1ope+D2cLp+HaDfPO6l+K5i7l8rDHKTjcM6i1c19bbSZdf/oOwYC+2nbtUptVqFE6ZvairaWP8uWJ3qrX8B/p7ovEFPfexApcBuUYIOmub6ApRlLfWIzWDoZPyNoXNvT32vgmT0rhz2Yp4lJcNOiNml3x1JUovTHyr0g8=
+	t=1785105406; cv=none; b=MHC+oeGnAivFKb2j3WADtR8gLoB8BnDA6T82rJrao2CXFGy13LjzEiPCjqK50Wcff6jUnwODoBf1LcSFSQweIc3bdrgsk6bB1Nn8hxyX3IVWzSEgg/fYjVCIiXuO0vODicce0rSFWU23XxdXLe7En35VUawEraTadJ+O4kc2mKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785105399; c=relaxed/simple;
-	bh=8pJh2Cd/QelbLlTz50jmL4awvrMiK2mgQMK9xL04AyE=;
+	s=arc-20240116; t=1785105406; c=relaxed/simple;
+	bh=I/3skvzNB4CXOZSbIi48uUMBXFSuXPQU3HH8ZSdnOq4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=juJGxCfxYU6+LXmKZITiJdqKA2DFcm8UMV5y92UnyMqFc+5l3ooJEZCKahYwaHQ9h5+FwYh2b55qXN8NluvpY00MjWqfFs8dHIXHBmBxPzKC5CcQklm8rnw9i8AM8BBVcWydxMVWfW9o9+/4eHYivRDYGYZYmUv+aggEQlG6b3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRuKpf1R; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=G/isc/2twIfGM2CNbv+a52r9xyHb24+s4IjQ3PvtP31jkkMFHjEQ7lnJcgrdwWkD7k3F3PYGH/6p/b1VUqqk1X/sDf1Tj3fe1Qjt3i+ZX6Dui/7DpgeU7jV8Qg7lqo0nQ5O7HgT+zEre3XNsTZGIM8mbN8CLGVtksXJXPc8rKrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E1VDFq20; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRuKpf1R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 825A31F000E9;
-	Sun, 26 Jul 2026 22:36:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E1VDFq20"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87281F00A3A;
+	Sun, 26 Jul 2026 22:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785105397;
-	bh=ZiYmSgDUR/mqRtUuUnBRJoDbF390Jt9loqq8rHQoIgI=;
+	s=k20260515; t=1785105404;
+	bh=eGQ5BxgXEIy58txNsaxSDBnOFE7cMcpHymr4qoU3+KQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lRuKpf1RYW8K1LbsH26MKi1h5PLLpYKVhWGIKeqwKxW9RuGUBwceda0ngFYO++0CM
-	 mLH0gXBBmRyqRkGBTUkTIOAwzPCY5duRZzrmMsDYXv9XxoGuTUn3FdW6CBhZxggClj
-	 rq1RHDNWQE5sSrXjIuBKlMezkTOhe93B6kqx+866xwF6/eIufB0dzy4q9EC9OcpkVQ
-	 mFbXBequYN2jH/l/A0FQQpaGLN8Nd9L7fLQhC97P62MD+Y5ojWicfL2KLQ19D8cIct
-	 lUk3kRHbMUG/bF/+GNPpwAU/IznBjk8671CpfenKyp1vFXzh3WkgdERypi5Sc0tdfn
-	 5xbh7HqiiWOmA==
+	b=E1VDFq20o/td8suAl0aQZRppt6tsuVZJROTwcOynWZF5HpQFa4cpzmOrUjBru8JZd
+	 32Rbjzy9sOlqTVRoUVX/piZrI77aXggbXcCVCfAiSLrZ+RNEwQyydsCRc+Dv9AlAb1
+	 t1zCQJzDiW941elZ6ajUSY/v+4Wz+FWRD2SwxmpI6uEGtsH14OnyC2qhMHEBC4+JKT
+	 0A+M+Wz+UjhuU8XyCxPlwVWeL3jCSqRU5BhrmhegDJHyNl7bv7xFC+/4qzMJWoDAWv
+	 6K4dwvXzejUgzbABDtgWsS92Bg7+Cg0kLfGzpvvTgBTJ9iLMrYf//niEtMZV2XDOHb
+	 y/hgkXJvppr4A==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	arve@android.com,
@@ -65,9 +65,9 @@ Cc: linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 2/5] rust: workqueue: replace deprecated system_wq with system_{percpu,dfl}_wq
-Date: Mon, 27 Jul 2026 00:36:08 +0200
-Message-ID: <20260726223613.1242940-3-dakr@kernel.org>
+Subject: [PATCH 3/5] rust: sync: add WaitQueue infrastructure
+Date: Mon, 27 Jul 2026 00:36:09 +0200
+Message-ID: <20260726223613.1242940-4-dakr@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260726223613.1242940-1-dakr@kernel.org>
 References: <20260726223613.1242940-1-dakr@kernel.org>
@@ -79,187 +79,445 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-system_wq is deprecated and triggers a runtime warning:
+Implement a wait queue wrapping the kernel's struct wait_queue_head,
+with wait_event()-style methods that take a condition closure directly.
 
-	[    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7_ enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+The API mirrors the C wait_event() family:
 
-Replace system() with system_percpu() and system_dfl(), to match the
-previous behavior of the deprecated system() and convert doc examples
-and tests to system_dfl().
+  - wait_event()
+  - wait_event_interruptible()
+  - wait_event_timeout()
+  - wait_event_interruptible_timeout()
+  - wake_up() / wake_up_all() / wake_up_sync()
+
+Interruptible and timeout variants return Result<(), WaitError>, where
+WaitError maps to ERESTARTSYS (signal) or ETIMEDOUT (timeout).
 
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/android/binder/process.rs |  4 ++--
- rust/kernel/sync/completion.rs    |  2 +-
- rust/kernel/sync/lock/spinlock.rs |  2 +-
- rust/kernel/workqueue.rs          | 40 +++++++++++++++++++------------
- 4 files changed, 29 insertions(+), 19 deletions(-)
+ rust/kernel/sync.rs      |   6 +
+ rust/kernel/sync/wait.rs | 388 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 394 insertions(+)
+ create mode 100644 rust/kernel/sync/wait.rs
 
-diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/process.rs
-index 96b8440ceac6..c0266fdaa598 100644
---- a/drivers/android/binder/process.rs
-+++ b/drivers/android/binder/process.rs
-@@ -1632,7 +1632,7 @@ pub(crate) fn release(this: Arc<Process>, _file: &File) {
-         if should_schedule {
-             // Ignore failures to schedule to the workqueue. Those just mean that we're already
-             // scheduled for execution.
--            let _ = workqueue::system().enqueue(this);
-+            let _ = workqueue::system_percpu().enqueue(this);
-         }
+diff --git a/rust/kernel/sync.rs b/rust/kernel/sync.rs
+index df4f2604ff9b..31f0999e5747 100644
+--- a/rust/kernel/sync.rs
++++ b/rust/kernel/sync.rs
+@@ -21,6 +21,7 @@
+ pub mod rcu;
+ mod refcount;
+ mod set_once;
++mod wait;
  
-         drop(binderfs_file);
-@@ -1649,7 +1649,7 @@ pub(crate) fn flush(this: ArcBorrow<'_, Process>) -> Result {
-         if should_schedule {
-             // Ignore failures to schedule to the workqueue. Those just mean that we're already
-             // scheduled for execution.
--            let _ = workqueue::system().enqueue(Arc::from(this));
-+            let _ = workqueue::system_percpu().enqueue(Arc::from(this));
-         }
-         Ok(())
-     }
-diff --git a/rust/kernel/sync/completion.rs b/rust/kernel/sync/completion.rs
-index 35ff049ff078..1771bfc0ade2 100644
---- a/rust/kernel/sync/completion.rs
-+++ b/rust/kernel/sync/completion.rs
-@@ -38,7 +38,7 @@
- ///             done <- Completion::new(),
- ///         }), GFP_KERNEL)?;
- ///
--///         let _ = workqueue::system().enqueue(this.clone());
-+///         let _ = workqueue::system_dfl().enqueue(this.clone());
- ///
- ///         Ok(this)
- ///     }
-diff --git a/rust/kernel/sync/lock/spinlock.rs b/rust/kernel/sync/lock/spinlock.rs
-index 069fcdb58735..c6fba8d0f5b2 100644
---- a/rust/kernel/sync/lock/spinlock.rs
-+++ b/rust/kernel/sync/lock/spinlock.rs
-@@ -452,7 +452,7 @@ fn run(this: Arc<Self>) {
-     fn spinlock_irq_condvar() -> Result {
-         let testdata = Test::new()?;
+ pub use arc::{Arc, ArcBorrow, UniqueArc};
+ pub use completion::Completion;
+@@ -38,6 +39,11 @@
+ pub use locked_by::LockedBy;
+ pub use refcount::Refcount;
+ pub use set_once::SetOnce;
++pub use wait::{
++    new_waitqueue,
++    WaitError,
++    WaitQueue, //
++};
  
--        let _ = workqueue::system().enqueue(testdata.clone());
-+        let _ = workqueue::system_dfl().enqueue(testdata.clone());
- 
-         // Let the updater know when we're ready to wait
-         let mut state = testdata.state.lock();
-diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
-index 7e253b6f299c..3194b9c441aa 100644
---- a/rust/kernel/workqueue.rs
-+++ b/rust/kernel/workqueue.rs
-@@ -67,7 +67,7 @@
- //! /// This method will enqueue the struct for execution on the system workqueue, where its value
- //! /// will be printed.
- //! fn print_later(val: Arc<MyStruct>) {
--//!     let _ = workqueue::system().enqueue(val);
-+//!     let _ = workqueue::system_dfl().enqueue(val);
- //! }
- //! # print_later(MyStruct::new(42).unwrap());
- //! ```
-@@ -121,11 +121,11 @@
- //! }
- //!
- //! fn print_1_later(val: Arc<MyStruct>) {
--//!     let _ = workqueue::system().enqueue::<Arc<MyStruct>, 1>(val);
-+//!     let _ = workqueue::system_dfl().enqueue::<Arc<MyStruct>, 1>(val);
- //! }
- //!
- //! fn print_2_later(val: Arc<MyStruct>) {
--//!     let _ = workqueue::system().enqueue::<Arc<MyStruct>, 2>(val);
-+//!     let _ = workqueue::system_dfl().enqueue::<Arc<MyStruct>, 2>(val);
- //! }
- //! # print_1_later(MyStruct::new(24, 25).unwrap());
- //! # print_2_later(MyStruct::new(41, 42).unwrap());
-@@ -171,13 +171,13 @@
- //! /// This method will enqueue the struct for execution on the system workqueue, where its value
- //! /// will be printed 12 jiffies later.
- //! fn print_later(val: Arc<MyStruct>) {
--//!     let _ = workqueue::system().enqueue_delayed(val, 12);
-+//!     let _ = workqueue::system_dfl().enqueue_delayed(val, 12);
- //! }
- //!
- //! /// It is also possible to use the ordinary `enqueue` method together with `DelayedWork`. This
- //! /// is equivalent to calling `enqueue_delayed` with a delay of zero.
- //! fn print_now(val: Arc<MyStruct>) {
--//!     let _ = workqueue::system().enqueue(val);
-+//!     let _ = workqueue::system_dfl().enqueue(val);
- //! }
- //! # print_later(MyStruct::new(42).unwrap());
- //! # print_now(MyStruct::new(42).unwrap());
-@@ -1024,20 +1024,30 @@ unsafe impl<T, const ID: u64> RawDelayedWorkItem<ID> for ARef<T>
- {
- }
- 
--/// Returns the system work queue (`system_wq`).
-+/// Returns the system per-cpu work queue (`system_percpu_wq`).
+ /// Represents a lockdep class.
  ///
- /// It is the one used by `schedule[_delayed]_work[_on]()`. Multi-CPU multi-threaded. There are
- /// users which expect relatively short queue flush time.
- ///
- /// Callers shouldn't queue work items which can run for too long.
--pub fn system() -> &'static Queue {
--    // SAFETY: `system_wq` is a C global, always available.
--    unsafe { Queue::from_raw(bindings::system_wq) }
-+pub fn system_percpu() -> &'static Queue {
-+    // SAFETY: `system_percpu_wq` is a C global, always available.
-+    unsafe { Queue::from_raw(bindings::system_percpu_wq) }
+diff --git a/rust/kernel/sync/wait.rs b/rust/kernel/sync/wait.rs
+new file mode 100644
+index 000000000000..ba4ee0f8d4d4
+--- /dev/null
++++ b/rust/kernel/sync/wait.rs
+@@ -0,0 +1,388 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Wait queue.
++//!
++//! C header: [`include/linux/wait.h`](srctree/include/linux/wait.h)
++
++use super::LockClassKey;
++use crate::{
++    prelude::*,
++    str::CStr,
++    task::{
++        self,
++        TASK_INTERRUPTIBLE,
++        TASK_NORMAL,
++        TASK_UNINTERRUPTIBLE, //
++    },
++    time::Jiffies,
++    types::Opaque,
++};
++
++use core::{
++    pin::Pin,
++    ptr, //
++};
++
++/// Creates a [`WaitQueue`] initialiser with the given name and a newly-created lock class.
++#[macro_export]
++macro_rules! new_waitqueue {
++    ($($name:literal)?) => {
++        $crate::sync::WaitQueue::new(
++            $crate::optional_name!($($name)?),
++            $crate::static_lock_class!(),
++        )
++    };
++}
++pub use new_waitqueue;
++
++/// Exposes the kernel's [`struct wait_queue_head`] as a Rust wait queue.
++///
++/// A `WaitQueue` allows a thread to sleep until a caller-supplied condition becomes true,
++/// re-checking the condition on each wake-up. This matches the C `wait_event()` family of macros.
++///
++/// For waiting with a lock guard (the condition variable pattern), use [`CondVar`](super::CondVar)
++/// instead.
++///
++/// Instances of `WaitQueue` need a lock class and to be pinned. The recommended way to create such
++/// instances is with the [`pin_init!`] and [`new_waitqueue!`] macros.
++///
++/// # Examples
++///
++/// ```
++/// use kernel::sync::{
++///     atomic::{
++///         Atomic,
++///         Relaxed,
++///     },
++///     new_waitqueue,
++///     WaitQueue,
++/// };
++///
++/// #[pin_data]
++/// pub struct Example {
++///     value: Atomic<i32>,
++///     #[pin]
++///     queue: WaitQueue,
++/// }
++///
++/// fn wait_for_value(e: &Example, v: i32) {
++///     e.queue.wait_event(|| e.value.load(Relaxed) == v);
++/// }
++///
++/// fn set_value(e: &Example, v: i32) {
++///     e.value.store(v, Relaxed);
++///     e.queue.wake_up();
++/// }
++/// ```
++///
++/// [`struct wait_queue_head`]: srctree/include/linux/wait.h
++#[pin_data]
++pub struct WaitQueue {
++    #[pin]
++    wait_queue_head: Opaque<bindings::wait_queue_head>,
 +}
 +
-+/// Returns the system default (unbound) work queue (`system_dfl_wq`).
-+///
-+/// Workers are not bound to any specific CPU, not concurrency managed, and all queued work items
-+/// are executed immediately as long as `max_active` limit is not reached and resources are
-+/// available.
-+pub fn system_dfl() -> &'static Queue {
-+    // SAFETY: `system_dfl_wq` is a C global, always available.
-+    unsafe { Queue::from_raw(bindings::system_dfl_wq) }
- }
- 
- /// Returns the system high-priority work queue (`system_highpri_wq`).
- ///
--/// It is similar to the one returned by [`system`] but for work items which require higher
-+/// It is similar to the one returned by [`system_percpu`] but for work items which require higher
- /// scheduling priority.
- pub fn system_highpri() -> &'static Queue {
-     // SAFETY: `system_highpri_wq` is a C global, always available.
-@@ -1046,8 +1056,8 @@ pub fn system_highpri() -> &'static Queue {
- 
- /// Returns the system work queue for potentially long-running work items (`system_long_wq`).
- ///
--/// It is similar to the one returned by [`system`] but may host long running work items. Queue
--/// flushing might take relatively long.
-+/// It is similar to the one returned by [`system_percpu`] but may host long running work items.
-+/// Queue flushing might take relatively long.
- pub fn system_long() -> &'static Queue {
-     // SAFETY: `system_long_wq` is a C global, always available.
-     unsafe { Queue::from_raw(bindings::system_long_wq) }
-@@ -1065,7 +1075,7 @@ pub fn system_unbound() -> &'static Queue {
- 
- /// Returns the system freezable work queue (`system_freezable_wq`).
- ///
--/// It is equivalent to the one returned by [`system`] except that it's freezable.
-+/// It is equivalent to the one returned by [`system_percpu`] except that it's freezable.
- ///
- /// A freezable workqueue participates in the freeze phase of the system suspend operations. Work
- /// items on the workqueue are drained and no new work item starts execution until thawed.
-@@ -1078,7 +1088,7 @@ pub fn system_freezable() -> &'static Queue {
- ///
- /// It is inclined towards saving power and is converted to "unbound" variants if the
- /// `workqueue.power_efficient` kernel parameter is specified; otherwise, it is similar to the one
--/// returned by [`system`].
-+/// returned by [`system_percpu`].
- pub fn system_power_efficient() -> &'static Queue {
-     // SAFETY: `system_power_efficient_wq` is a C global, always available.
-     unsafe { Queue::from_raw(bindings::system_power_efficient_wq) }
-@@ -1097,7 +1107,7 @@ pub fn system_freezable_power_efficient() -> &'static Queue {
- 
- /// Returns the system bottom halves work queue (`system_bh_wq`).
- ///
--/// It is similar to the one returned by [`system`] but for work items which
-+/// It is similar to the one returned by [`system_percpu`] but for work items which
- /// need to run from a softirq context.
- pub fn system_bh() -> &'static Queue {
-     // SAFETY: `system_bh_wq` is a C global, always available.
++// SAFETY: `WaitQueue` only uses a `struct wait_queue_head`, which is safe to use on any thread.
++unsafe impl Send for WaitQueue {}
++
++// SAFETY: `WaitQueue` only uses a `struct wait_queue_head`, which is safe to use on multiple
++// threads concurrently.
++unsafe impl Sync for WaitQueue {}
++
++impl WaitQueue {
++    /// Constructs a new wait queue initialiser.
++    pub fn new(name: &'static CStr, key: Pin<&'static LockClassKey>) -> impl PinInit<Self> {
++        pin_init!(Self {
++            // SAFETY: `slot` is valid while the closure is called and both `name` and `key` have
++            // static lifetimes so they live indefinitely.
++            wait_queue_head <- Opaque::ffi_init(|slot| unsafe {
++                bindings::__init_waitqueue_head(slot, name.as_char_ptr(), key.as_ptr())
++            }),
++        })
++    }
++
++    /// Returns a raw pointer to the underlying `wait_queue_head`.
++    #[expect(unused)]
++    #[inline]
++    pub(super) fn as_raw(&self) -> *mut bindings::wait_queue_head {
++        self.wait_queue_head.get()
++    }
++
++    /// Sleeps until the condition returns `true`.
++    ///
++    /// The condition is checked before each sleep and after each wake-up. The wait is
++    /// uninterruptible.
++    #[inline]
++    pub fn wait_event<F: Fn() -> bool>(&self, condition: F) {
++        self.wait_event_timeout_internal(TASK_UNINTERRUPTIBLE, &condition, Jiffies::MAX);
++    }
++
++    /// Sleeps until the condition returns `true` or a signal is received.
++    ///
++    /// Returns `Ok(())` when the condition is met, or `Err(WaitError::Signal)` if interrupted
++    /// by a signal.
++    #[inline]
++    pub fn wait_event_interruptible<F: Fn() -> bool>(&self, condition: F) -> Result<(), WaitError> {
++        self.wait_event_timeout_internal(TASK_INTERRUPTIBLE, &condition, Jiffies::MAX);
++        if !condition() && current!().signal_pending() {
++            Err(WaitError::Signal)
++        } else {
++            Ok(())
++        }
++    }
++
++    /// Sleeps until the condition returns `true` or the timeout expires.
++    ///
++    /// Returns `Ok(())` when the condition is met, or `Err(WaitError::Timeout)` if the timeout
++    /// elapsed first.
++    #[inline]
++    pub fn wait_event_timeout<F: Fn() -> bool>(
++        &self,
++        condition: F,
++        jiffies: Jiffies,
++    ) -> Result<(), WaitError> {
++        let remaining = self.wait_event_timeout_internal(TASK_UNINTERRUPTIBLE, &condition, jiffies);
++        if remaining == 0 && !condition() {
++            Err(WaitError::Timeout)
++        } else {
++            Ok(())
++        }
++    }
++
++    /// Sleeps until the condition returns `true`, a signal is received, or the timeout expires.
++    ///
++    /// Returns `Ok(())` when the condition is met, or `Err(WaitError)` on signal or timeout.
++    #[inline]
++    pub fn wait_event_interruptible_timeout<F: Fn() -> bool>(
++        &self,
++        condition: F,
++        jiffies: Jiffies,
++    ) -> Result<(), WaitError> {
++        let remaining = self.wait_event_timeout_internal(TASK_INTERRUPTIBLE, &condition, jiffies);
++        if condition() {
++            Ok(())
++        } else if current!().signal_pending() {
++            Err(WaitError::Signal)
++        } else if remaining == 0 {
++            Err(WaitError::Timeout)
++        } else {
++            Ok(())
++        }
++    }
++
++    fn wait_event_timeout_internal(
++        &self,
++        wait_state: c_int,
++        condition: &dyn Fn() -> bool,
++        jiffies: Jiffies,
++    ) -> Jiffies {
++        let wait = Opaque::<bindings::wait_queue_entry>::uninit();
++
++        // SAFETY: `wait` points to valid memory.
++        unsafe { bindings::init_wait(wait.get()) };
++
++        let mut remaining = jiffies;
++
++        loop {
++            // SAFETY: Both `wait` and `wait_queue_head` point to valid memory, and `wait` was
++            // initialised by `init_wait()` above.
++            let ret = unsafe {
++                bindings::prepare_to_wait_event(self.wait_queue_head.get(), wait.get(), wait_state)
++            };
++
++            if condition() {
++                break;
++            }
++
++            if ret != 0 || remaining == 0 {
++                break;
++            }
++
++            remaining = task::schedule_timeout(remaining);
++
++            if condition() {
++                break;
++            }
++        }
++
++        // SAFETY: Both `wait` and `wait_queue_head` point to valid memory.
++        unsafe { bindings::finish_wait(self.wait_queue_head.get(), wait.get()) };
++
++        remaining
++    }
++
++    /// Performs a single exclusive prepare-to-wait / finish-wait cycle, calling `schedule_fn`
++    /// in between.
++    #[expect(unused)]
++    pub(super) fn wait_once_exclusive<F, R>(&self, wait_state: c_int, schedule_fn: F) -> R
++    where
++        F: FnOnce() -> R,
++    {
++        let wait = Opaque::<bindings::wait_queue_entry>::uninit();
++
++        // SAFETY: `wait` points to valid memory.
++        unsafe { bindings::init_wait(wait.get()) };
++
++        // SAFETY: Both `wait` and `wait_queue_head` point to valid memory.
++        unsafe {
++            bindings::prepare_to_wait_exclusive(self.wait_queue_head.get(), wait.get(), wait_state)
++        };
++
++        let ret = schedule_fn();
++
++        // SAFETY: Both `wait` and `wait_queue_head` point to valid memory.
++        unsafe { bindings::finish_wait(self.wait_queue_head.get(), wait.get()) };
++
++        ret
++    }
++
++    /// Wakes up waiters.
++    ///
++    /// Wakes all non-exclusive waiters and one exclusive waiter, if any.  Matches C's `wake_up()`.
++    #[inline]
++    pub fn wake_up(&self) {
++        // SAFETY: `wait_queue_head` points to valid memory.
++        unsafe { bindings::__wake_up(self.wait_queue_head.get(), TASK_NORMAL, 1, ptr::null_mut()) };
++    }
++
++    /// Wakes up all waiters.
++    ///
++    /// Wakes all non-exclusive and all exclusive waiters, if any.
++    /// Matches C's `wake_up_all()`.
++    #[inline]
++    pub fn wake_up_all(&self) {
++        // SAFETY: `wait_queue_head` points to valid memory.
++        unsafe { bindings::__wake_up(self.wait_queue_head.get(), TASK_NORMAL, 0, ptr::null_mut()) };
++    }
++
++    /// Like [`wake_up()`](Self::wake_up), but hints to the scheduler that the current task is
++    /// about to sleep, so the woken task should be scheduled on the same CPU to avoid unnecessary
++    /// migration. Matches C's `wake_up_sync()`.
++    #[inline]
++    pub fn wake_up_sync(&self) {
++        // SAFETY: `wait_queue_head` points to valid memory.
++        unsafe { bindings::__wake_up_sync(self.wait_queue_head.get(), TASK_NORMAL) };
++    }
++
++    /// Wakes up all waiters and clears poll registrations.
++    ///
++    /// Used when a wait queue is about to be freed, to ensure epoll items are properly removed.
++    /// Matches C's `wake_up_pollfree()`.
++    #[inline]
++    #[expect(unused)]
++    pub(super) fn wake_up_pollfree(&self) {
++        // SAFETY: `wait_queue_head` points to valid memory.
++        unsafe { bindings::__wake_up_pollfree(self.wait_queue_head.get()) };
++    }
++}
++
++/// Error returned by [`WaitQueue`] wait functions.
++#[derive(Debug, PartialEq)]
++pub enum WaitError {
++    /// Interrupted by a signal.
++    Signal,
++    /// The timeout elapsed without the condition being met.
++    Timeout,
++}
++
++impl From<WaitError> for Error {
++    #[inline]
++    fn from(e: WaitError) -> Error {
++        match e {
++            WaitError::Signal => ERESTARTSYS,
++            WaitError::Timeout => ETIMEDOUT,
++        }
++    }
++}
++
++#[macros::kunit_tests(rust_waitqueue)]
++mod tests {
++    use super::*;
++    use crate::{
++        sync::{
++            atomic::{
++                Atomic,
++                Relaxed, //
++            },
++            Arc,
++        },
++        time::{
++            delay::fsleep,
++            Delta, //
++        },
++        workqueue,
++    };
++
++    #[pin_data]
++    struct State {
++        value: Atomic<i32>,
++        #[pin]
++        wq: WaitQueue,
++    }
++
++    impl State {
++        fn new() -> Result<Arc<Self>> {
++            Arc::pin_init(
++                pin_init!(Self {
++                    value: Atomic::new(0),
++                    wq <- new_waitqueue!(),
++                }),
++                GFP_KERNEL,
++            )
++        }
++    }
++
++    #[test]
++    fn wait_event_from_work() {
++        let s = State::new().unwrap();
++
++        let s2 = s.clone();
++        workqueue::system_dfl()
++            .try_spawn(GFP_KERNEL, move || {
++                s2.value.store(1, Relaxed);
++                s2.wq.wake_up();
++            })
++            .unwrap();
++
++        s.wq.wait_event(|| s.value.load(Relaxed) == 1);
++        assert_eq!(s.value.load(Relaxed), 1);
++    }
++
++    #[test]
++    fn wait_event_condition_already_true() {
++        let s = State::new().unwrap();
++        s.value.store(1, Relaxed);
++
++        s.wq.wait_event(|| s.value.load(Relaxed) == 1);
++        assert_eq!(s.value.load(Relaxed), 1);
++    }
++
++    #[test]
++    fn wait_event_condition_not_yet_met() {
++        let s = State::new().unwrap();
++
++        let s2 = s.clone();
++        workqueue::system_dfl()
++            .try_spawn(GFP_KERNEL, move || {
++                s2.value.store(1, Relaxed);
++                s2.wq.wake_up_all();
++
++                fsleep(Delta::from_millis(50));
++
++                s2.value.store(2, Relaxed);
++                s2.wq.wake_up_all();
++            })
++            .unwrap();
++
++        s.wq.wait_event(|| s.value.load(Relaxed) == 2);
++        assert_eq!(s.value.load(Relaxed), 2);
++    }
++
++    #[test]
++    fn wait_event_timeout_expires() {
++        let s = State::new().unwrap();
++
++        let ret = s.wq.wait_event_timeout(|| s.value.load(Relaxed) == 1, 1);
++        assert_eq!(ret, Err(WaitError::Timeout));
++    }
++}
 -- 
 2.55.0
 
