@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3373040F74E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 13:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DB640B36D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 13:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785157743; cv=none; b=DumfkvmISqM45YYLDfRUz82HQN35yimtYen7dVJ/18c5jZUH3p8YaNknkjFZwUoGtAkwwY+SelY8xTgA5KB06DRMpWv57sTLsUO2QUFOTVX2hgdSuZHFdP928toPwpkmIeGRMNs8ElBU29IRSHq7O91gHMJydY5IzhNbvKqGCic=
+	t=1785157754; cv=none; b=JB+1o949iSK4kyxYQP2F9fnryIpfdqW9P9YzXxRwr+WdOJmXkbg9iJX1YNY1NPJAFKVpeGfErJ8A5DTyLtyYEV303NjbV+JD+Gr5R0yxm5LYTxjbHsMnRotjb5guHQwje92KwuQbkI2Lq/Yy5/BmJNGUsQLadbUt+x2MEBML/20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785157743; c=relaxed/simple;
-	bh=AhEHvXnlqjhULJbnLscjMcsqHiQQVTqFOXFaQMY9Rrs=;
+	s=arc-20240116; t=1785157754; c=relaxed/simple;
+	bh=DRxU5jg4nUL3iD/GIraRBOhqNHGYJsWqH6Rj/1znLME=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vEk394o3IHJqbHR7tf3i7qAKdy9+q5CGXX1EitVL6F1dS7IWg2wwxDsQDPkbZzyCAfkd54R0jatCDAXJWbhUWCW6f9o4pQisVr1j7QmNdYHyW6NidoCnQm4dRVd6FzGQpRAbPuHmXEqNNhvbDMeqbLl0okwFlAjJ85HELIua8M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AktqIv2T; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ieWB/JsC8f569Pe1JP8sC2VMRQeM8/15pHTADMCDtgD8zRFnbL/j9OGUTAa5rdepqySRGwAgYuNfqN6LTzJUY/QVdTrE0UbSR09M62Z/9miGp8CRDgVEIl/t6ndeoK7Ta3RxJTzov9aD/8lEbCAHUm2nkasyF12HW525WBOKWEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UquI7MVG; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AktqIv2T"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UquI7MVG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785157741;
+	s=mimecast20190719; t=1785157750;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ao17jtkcyHXF1zZt5SJ094Pq8EcCzBFJGX1iQ8ssRM0=;
-	b=AktqIv2TeFlqMQ/x4S4RPXdzVJd1C9sEitqr+RvOSm6wPwPMpb4tHs1gZPThhi3Hc6ne6P
-	W8jxuTThJMVqGRr7kFKa2eqCTH0jnDTVTzGvzs/39u3jcmNayQhK7GopUdq/2b45PgCXCB
-	qezFOjp1yiU3Q4KmGyIbG2c5EqjBp5w=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=jnt/5P3UCS+e+hfuVeUdMRK4ShFDGsNK1mXOxwlLtu4=;
+	b=UquI7MVGwe3bZ6bBZWzvOHZkgUslq+pjeAyhPjHUCdX2pBI9wXQ+5uidfvvFvSATdFL2OJ
+	jUErTUVDhmiCyQ53S9ZLC8YcjdTX4j0b1d8EGAbBM8zBbBXAcLSMTPXOIo80K2bV6G+eWt
+	ERTw7T0rB3Uwah2V/eI0axDmq+3fc94=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-440-7hTGyyIlOKWOM3yVX8kQDg-1; Mon,
- 27 Jul 2026 09:08:58 -0400
-X-MC-Unique: 7hTGyyIlOKWOM3yVX8kQDg-1
-X-Mimecast-MFC-AGG-ID: 7hTGyyIlOKWOM3yVX8kQDg_1785157736
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-260-s4O8RJfxO5mhmqJ7e2RSkA-1; Mon,
+ 27 Jul 2026 09:09:06 -0400
+X-MC-Unique: s4O8RJfxO5mhmqJ7e2RSkA-1
+X-Mimecast-MFC-AGG-ID: s4O8RJfxO5mhmqJ7e2RSkA_1785157744
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B90E51800755;
-	Mon, 27 Jul 2026 13:08:56 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 712101956043;
+	Mon, 27 Jul 2026 13:09:03 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.33.159])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 39758429;
-	Mon, 27 Jul 2026 13:08:54 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 48C8A430;
+	Mon, 27 Jul 2026 13:08:58 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -49,10 +49,20 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 6/8] afs: Fix double-unmap of directory block
-Date: Mon, 27 Jul 2026 14:08:22 +0100
-Message-ID: <20260727130827.1100080-7-dhowells@redhat.com>
+	Etienne Champetier <champetier.etienne@gmail.com>,
+	Jeffrey Altman <jaltman@auristor.com>,
+	Chet Ramey <chet.ramey@case.edu>,
+	Cheyenne Wills <cwills@sinenomine.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Steve French <sfrench@samba.org>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	openafs-devel@openafs.org,
+	linux-cifs@vger.kernel.org,
+	linux-integrity@vger.kernel.org
+Subject: [PATCH 7/8] vfs: Allow filesystems with foreign owner IDs to override UID checks
+Date: Mon, 27 Jul 2026 14:08:23 +0100
+Message-ID: <20260727130827.1100080-8-dhowells@redhat.com>
 In-Reply-To: <20260727130827.1100080-1-dhowells@redhat.com>
 References: <20260727130827.1100080-1-dhowells@redhat.com>
 Precedence: bulk
@@ -64,128 +74,705 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Fix afs_edit_dir_remove() to use a cleanup function to unmap the block
-pointed to by afs_dir_iter::block if it's left pointing to something rather
-than manually kunmapping the blocks.  Manually kunmapping without clearing
-iter.blocks can result in a double-kunmap if afs_dir_find_block() is called
-twice in a row (which would be the case if the block being modified is not
-first in the hash chain).
+A number of ownership checks made by the VFS make a number of assumptions:
 
-Fixes: a5b5beebcf96 ("afs: Use the contained hashtable to search a directory")
-Closes: https://sashiko.dev/#/patchset/20260716103030.3065561-1-dhowells%40redhat.com
+ (1) that it is meaningful to compare inode->i_uid to a second ->i_uid or
+     to current_fsuid(),
+
+ (2) that current_fsuid() represents the subject of the action,
+
+ (3) that the number in ->i_uid belong to the system's ID space and
+
+ (4) that the IDs can be represented by 32-bit integers.
+
+Network filesystems, however, may violate all four of these assumptions.
+Indeed, a network filesystem may not even have an actual concept of a UNIX
+integer UID (cifs without POSIX extensions, for example).  Plug-in block
+filesystems (e.g. USB drives) may also violate this assumption.
+
+In particular, AFS implements its own ACL security model with its own
+per-cell user ID space with 64-bit IDs for some server variants.  The
+subject is represented by a token in a key, not current_fsuid().  The AFS
+user IDs and the system user IDs for a cell may be numerically equivalent,
+but that's matter of administrative policy and should perhaps be noted in
+the cell definition or by mount option.  A subsequent patch will address
+AFS.
+
+To help fix this, three functions are defined to perform UID comparison
+within the VFS:
+
+ (1) vfs_inode_is_owned_by_me().  This defaults to comparing i_uid to
+     current_fsuid(), with appropriate namespace mapping, assuming that the
+     fsuid identifies the subject of the action.  The filesystem may
+     override it by implementing an inode op:
+
+	int (*is_owned_by_me)(struct mnt_idmap *idmap, struct inode *inode);
+
+     This should return 0 if owned, 1 if not or an error if there's some
+     sort of lookup failure.  It may use a means of identifying the subject
+     of the action other than fsuid, for example by using an authentication
+     token stored in a key.
+
+ (2) vfs_inodes_have_same_owner().  This defaults to comparing the i_uids
+     of two different inodes with appropriate namespace mapping.  The
+     filesystem may override it by implementing another inode op:
+
+	int (*have_same_owner)(struct mnt_idmap *idmap, struct inode *inode1,
+			       struct inode *inode2);
+
+     Again, this should return 0 if matching, 1 if not or an error if
+     there's some sort of lookup failure.
+
+ (3) vfs_inode_and_dir_have_same_owner().  This is similar to (2), but
+     assumes that the second inode is the parent directory to the first and
+     takes a nameidata struct instead of a second inode pointer.
+
+In addition IOP_OWNERSHIP_OVERRIDE is added to i_opflags to control access
+to these new inode ops.
+
+Fix a number of places within the VFS where such UID checks are made that
+should be deferring interpretation to the filesystem.
+
+ (*) chown_ok()
+ (*) chgrp_ok()
+
+     Call vfs_inode_is_owned_by_me().  Possibly these need to defer all
+     their checks to the network filesystem as the interpretation of the
+     new UID/GID depends on the netfs too, but the ->setattr() method gets
+     a chance to deal with that.
+
+ (*) coredump_file()
+
+     Call vfs_is_owned_by_me() to check that the file created is owned by
+     the caller - but the check that's there might be sufficient.
+
+ (*) inode_owner_or_capable()
+
+     Call vfs_is_owned_by_me().  I'm not sure whether the namespace mapping
+     makes sense in such a case, but it probably could be used.
+
+ (*) vfs_setlease()
+
+     Call vfs_is_owned_by_me().  Actually, it should query if leasing is
+     permitted.
+
+     Also, setting locks could perhaps do with a permission call to the
+     filesystem driver as AFS, for example, has a lock permission bit in
+     the ACL, but since the AFS server checks that when the RPC call is
+     made, it's probably unnecessary.
+
+ (*) acl_permission_check()
+ (*) posix_acl_permission()
+
+     Unchanged.  These functions are only used by generic_permission()
+     which is overridden if ->permission() is supplied, and when evaluating
+     a POSIX ACL, it should arguably be checking the UID anyway.
+
+     AFS, for example, implements its own ACLs and evaluates them in
+     ->permission() and on the server.
+
+ (*) may_follow_link()
+
+     Call vfs_inode_and_dir_have_same_owner() and vfs_is_owned_by_me() on
+     the the link and its parent dir.
+
+ (*) may_create_in_sticky()
+
+     Call vfs_is_owned_by_me() and also vfs_inode_and_dir_have_same_owner()
+     both.
+
+     [?] Should this return ok immediately if the open call we're in
+     created the file being checked.
+
+ (*) __check_sticky()
+
+     Call vfs_is_owned_by_me() on both the dir and the inode, but for AFS
+     vfs_is_owned_by_me() on a directory doesn't work, so call
+     vfs_inodes_have_same_owner() instead to check the directory (as is
+     done in may_create_in_sticky()).
+
+ (*) may_dedupe_file()
+
+     Call vfs_is_owned_by_me().
+
+ (*) IMA policy ops.
+
+     Unchanged for now.  I'm not sure what the best way to deal with this
+     is - if, indeed, it needs any changes.
+
+Note that wrapping stuff up into vfs_inode_is_owned_by_me() isn't
+necessarily the most efficient as it means we may end up doing the uid
+idmapping an extra time - though this is only done in three places, all to
+do with world-writable sticky dir checks.
+
 Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Etienne Champetier <champetier.etienne@gmail.com>
 cc: Marc Dionne <marc.dionne@auristor.com>
+cc: Jeffrey Altman <jaltman@auristor.com>
+cc: Chet Ramey <chet.ramey@case.edu>
+cc: Cheyenne Wills <cwills@sinenomine.net>
+cc: Alexander Viro <viro@zeniv.linux.org.uk>
+cc: Christian Brauner <brauner@kernel.org>
+cc: Steve French <sfrench@samba.org>
+cc: Mimi Zohar <zohar@linux.ibm.com>
 cc: linux-afs@lists.infradead.org
+cc: openafs-devel@openafs.org
+cc: linux-cifs@vger.kernel.org
 cc: linux-fsdevel@vger.kernel.org
-cc: stable@vger.kernel.org
+cc: linux-integrity@vger.kernel.org
+Link: https://groups.google.com/g/gnu.bash.bug/c/6PPTfOgFdL4/m/2AQU-S1N76UJ
+Link: https://git.savannah.gnu.org/cgit/bash.git/tree/redir.c?h=bash-5.3-rc1#n733
 ---
- fs/afs/dir_edit.c   |  9 ++-------
- fs/afs/dir_search.c | 10 ++--------
- fs/afs/internal.h   |  8 ++++++++
- 3 files changed, 12 insertions(+), 15 deletions(-)
+ Documentation/filesystems/vfs.rst |  21 ++++
+ fs/attr.c                         |  58 ++++++-----
+ fs/coredump.c                     |   2 +-
+ fs/inode.c                        |  11 +-
+ fs/internal.h                     |   1 +
+ fs/locks.c                        |   7 +-
+ fs/namei.c                        | 161 ++++++++++++++++++++++++------
+ fs/remap_range.c                  |  20 ++--
+ include/linux/fs.h                |   7 +-
+ 9 files changed, 217 insertions(+), 71 deletions(-)
 
-diff --git a/fs/afs/dir_edit.c b/fs/afs/dir_edit.c
-index 3ead36a07048..c31303059444 100644
---- a/fs/afs/dir_edit.c
-+++ b/fs/afs/dir_edit.c
-@@ -442,7 +442,7 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 	/* Check and clear the entry. */
- 	de = &block->dirents[slot];
- 	if (de->u.valid != 1)
--		goto error_unmap;
-+		goto error;
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index 7c753148af88..893419e003ea 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -445,6 +445,9 @@ As of kernel 2.6.22, the following members are defined:
+ 				    struct dentry *dentry, struct file_kattr *fa);
+ 		int (*fileattr_get)(struct dentry *dentry, struct file_kattr *fa);
+ 	        struct offset_ctx *(*get_offset_ctx)(struct inode *inode);
++		int (*is_owned_by_me)(struct mnt_idmap *idmap, struct inode *inode);
++		int (*have_same_owner)(struct mnt_idmap *idmap, struct inode *inode,
++				       struct dentry *dentry);
+ 	};
  
- 	trace_afs_edit_dir(vnode, why, afs_edit_dir_delete, b, slot,
- 			   ntohl(de->u.vnode), ntohl(de->u.unique),
-@@ -458,7 +458,6 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 	/* Clear the constituent entries. */
- 	next = de->u.hash_next;
- 	memset(de, 0, sizeof(*de) * iter.nr_slots);
--	kunmap_local(block);
+ Again, all methods are called without any locks being held, unless
+@@ -634,6 +637,24 @@ otherwise noted.
+         filesystem must define this operation to use
+         simple_offset_dir_operations.
  
- 	/* Adjust the hash chain: if iter->prev_entry is 0, the hashtable head
- 	 * index is previous; otherwise it's slot number of the previous entry.
-@@ -485,7 +484,6 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 		pde = &pblock->dirents[ps];
- 		prev_next = pde->u.hash_next;
- 		if (prev_next != htons(entry)) {
--			kunmap_local(pblock);
- 			pr_warn("%llx:%llx:%x: not prev in chain b=%x p=%x,%x e=%x %*s",
- 				vnode->fid.vid, vnode->fid.vnode, vnode->fid.unique,
- 				iter.bucket, iter.prev_entry, prev_next, entry,
-@@ -493,7 +491,6 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 			goto error;
- 		}
- 		pde->u.hash_next = next;
--		kunmap_local(pblock);
++``is_owned_by_me``
++	called to determine if the file can be considered to be 'owned' by
++	the owner of the process or if the process has a token that grants
++	it ownership privileges.  If unset, the default is to compare i_uid
++	to current_fsuid() - but this may give incorrect results for some
++	network or plug-in block filesystems.  For example, AFS determines
++	ownership entirely according to an obtained token and i_uid may not
++	even be from the same ID space as current_uid().
++
++``have_same_owner``
++	called to determine if an inode has the same owner as its immediate
++	parent on the path walked.  If unset, the default is to simply
++	compare the i_uid of both.  For example, AFS compares the owner IDs
++	of both - but these are a 64-bit values on some variants that might
++	not fit into a kuid_t and cifs has GUIDs that cannot be compared to
++	kuid_t.
++
++
+ The Address Space Object
+ ========================
+ 
+diff --git a/fs/attr.c b/fs/attr.c
+index 4f437fabb7f0..b7e8b5d49a9f 100644
+--- a/fs/attr.c
++++ b/fs/attr.c
+@@ -16,6 +16,7 @@
+ #include <linux/fcntl.h>
+ #include <linux/filelock.h>
+ #include <linux/security.h>
++#include "internal.h"
+ 
+ /**
+  * setattr_should_drop_sgid - determine whether the setgid bit needs to be
+@@ -91,19 +92,21 @@ EXPORT_SYMBOL(setattr_should_drop_suidgid);
+  * permissions. On non-idmapped mounts or if permission checking is to be
+  * performed on the raw inode simply pass @nop_mnt_idmap.
+  */
+-static bool chown_ok(struct mnt_idmap *idmap,
+-		     const struct inode *inode, vfsuid_t ia_vfsuid)
++static int chown_ok(struct mnt_idmap *idmap,
++		    struct inode *inode, vfsuid_t ia_vfsuid)
+ {
+ 	vfsuid_t vfsuid = i_uid_into_vfsuid(idmap, inode);
+-	if (vfsuid_eq_kuid(vfsuid, current_fsuid()) &&
+-	    vfsuid_eq(ia_vfsuid, vfsuid))
+-		return true;
++	int ret;
++
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret <= 0)
++		return ret;
+ 	if (capable_wrt_inode_uidgid(idmap, inode, CAP_CHOWN))
+-		return true;
++		return 0;
+ 	if (!vfsuid_valid(vfsuid) &&
+ 	    ns_capable(inode->i_sb->s_user_ns, CAP_CHOWN))
+-		return true;
+-	return false;
++		return 0;
++	return -EPERM;
+ }
+ 
+ /**
+@@ -118,23 +121,27 @@ static bool chown_ok(struct mnt_idmap *idmap,
+  * permissions. On non-idmapped mounts or if permission checking is to be
+  * performed on the raw inode simply pass @nop_mnt_idmap.
+  */
+-static bool chgrp_ok(struct mnt_idmap *idmap,
+-		     const struct inode *inode, vfsgid_t ia_vfsgid)
++static int chgrp_ok(struct mnt_idmap *idmap,
++		    struct inode *inode, vfsgid_t ia_vfsgid)
+ {
+ 	vfsgid_t vfsgid = i_gid_into_vfsgid(idmap, inode);
+-	vfsuid_t vfsuid = i_uid_into_vfsuid(idmap, inode);
+-	if (vfsuid_eq_kuid(vfsuid, current_fsuid())) {
++	int ret;
++
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret < 0)
++		return ret;
++	if (ret == 0) {
+ 		if (vfsgid_eq(ia_vfsgid, vfsgid))
+-			return true;
++			return 0;
+ 		if (vfsgid_in_group_p(ia_vfsgid))
+-			return true;
++			return 0;
  	}
+ 	if (capable_wrt_inode_uidgid(idmap, inode, CAP_CHOWN))
+-		return true;
++		return 0;
+ 	if (!vfsgid_valid(vfsgid) &&
+ 	    ns_capable(inode->i_sb->s_user_ns, CAP_CHOWN))
+-		return true;
+-	return false;
++		return 0;
++	return -EPERM;
+ }
  
- 	netfs_single_mark_inode_dirty(&vnode->netfs.inode);
-@@ -503,18 +500,16 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 	_debug("Remove %s from %u[%u]", name->name, b, slot);
+ /**
+@@ -163,6 +170,7 @@ int setattr_prepare(struct mnt_idmap *idmap, struct dentry *dentry,
+ {
+ 	struct inode *inode = d_inode(dentry);
+ 	unsigned int ia_valid = attr->ia_valid;
++	int ret;
  
- out_unmap:
-+	afs_dir_end_iter(&iter);
- 	kunmap_local(meta);
- 	_leave("");
- 	return;
+ 	/*
+ 	 * First check size constraints.  These can't be overridden using
+@@ -189,14 +197,18 @@ int setattr_prepare(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		goto kill_priv;
  
- already_invalidated:
--	kunmap_local(block);
- 	trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_inval,
- 			   0, 0, 0, 0, name->name);
- 	goto out_unmap;
- 
--error_unmap:
--	kunmap_local(block);
- error:
- 	trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_error,
- 			   0, 0, 0, 0, name->name);
-diff --git a/fs/afs/dir_search.c b/fs/afs/dir_search.c
-index 4977ad81fa82..11ebdfffcb1d 100644
---- a/fs/afs/dir_search.c
-+++ b/fs/afs/dir_search.c
-@@ -75,10 +75,7 @@ union afs_xdr_dir_block *afs_dir_find_block(struct afs_dir_iter *iter, size_t bl
- 
- 	_enter("%zx,%d", block, slot);
- 
--	if (iter->block) {
--		kunmap_local(iter->block);
--		iter->block = NULL;
--	}
-+	afs_dir_end_iter(iter);
- 
- 	if (dvnode->directory_size < blend)
- 		goto fail;
-@@ -174,10 +171,7 @@ int afs_dir_search_bucket(struct afs_dir_iter *iter, const struct qstr *name,
- 	ret = -ENOENT;
- found:
- bad:
--	if (iter->block) {
--		kunmap_local(iter->block);
--		iter->block = NULL;
--	}
-+	afs_dir_end_iter(iter);
- 	if (ret == -ESTALE)
- 		afs_invalidate_dir(iter->dvnode, afs_dir_invalid_iter_stale);
- 	_leave(" = %d", ret);
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 290873bac89b..330654ed16ec 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -1133,6 +1133,14 @@ int afs_dir_search_bucket(struct afs_dir_iter *iter, const struct qstr *name,
- int afs_dir_search(struct afs_vnode *dvnode, const struct qstr *name,
- 		   struct afs_fid *_fid, afs_dataversion_t *_dir_version);
- 
-+static inline void afs_dir_end_iter(struct afs_dir_iter *iter)
-+{
-+	if (iter->block) {
-+		kunmap_local(iter->block);
-+		iter->block = NULL;
+ 	/* Make sure a caller can chown. */
+-	if ((ia_valid & ATTR_UID) &&
+-	    !chown_ok(idmap, inode, attr->ia_vfsuid))
+-		return -EPERM;
++	if (ia_valid & ATTR_UID) {
++		ret = chown_ok(idmap, inode, attr->ia_vfsuid);
++		if (ret < 0)
++			return ret;
 +	}
+ 
+ 	/* Make sure caller can chgrp. */
+-	if ((ia_valid & ATTR_GID) &&
+-	    !chgrp_ok(idmap, inode, attr->ia_vfsgid))
+-		return -EPERM;
++	if (ia_valid & ATTR_GID) {
++		ret = chgrp_ok(idmap, inode, attr->ia_vfsgid);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	/* Make sure a caller can chmod. */
+ 	if (ia_valid & ATTR_MODE) {
+diff --git a/fs/coredump.c b/fs/coredump.c
+index e68a76ff92a3..3f32e73aaeda 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -954,7 +954,7 @@ static bool coredump_file(struct core_name *cn, struct coredump_params *cprm,
+ 	 * filesystem.
+ 	 */
+ 	idmap = file_mnt_idmap(file);
+-	if (!vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode), current_fsuid())) {
++	if (vfs_inode_is_owned_by_me(idmap, inode) != 0) {
+ 		coredump_report_failure("Core dump to %s aborted: cannot preserve file owner", cn->corename);
+ 		return false;
+ 	}
+diff --git a/fs/inode.c b/fs/inode.c
+index 31c5b9ee3a81..a7ec830ab683 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2750,16 +2750,19 @@ EXPORT_SYMBOL(inode_init_owner);
+  * On non-idmapped mounts or if permission checking is to be performed on the
+  * raw inode simply pass @nop_mnt_idmap.
+  */
+-bool inode_owner_or_capable(struct mnt_idmap *idmap,
+-			    const struct inode *inode)
++bool inode_owner_or_capable(struct mnt_idmap *idmap, struct inode *inode)
+ {
+ 	vfsuid_t vfsuid;
+ 	struct user_namespace *ns;
++	int ret;
+ 
+-	vfsuid = i_uid_into_vfsuid(idmap, inode);
+-	if (vfsuid_eq_kuid(vfsuid, current_fsuid()))
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret == 0)
+ 		return true;
++	if (ret < 0)
++		return false;
+ 
++	vfsuid = i_uid_into_vfsuid(idmap, inode);
+ 	ns = current_user_ns();
+ 	if (vfsuid_has_mapping(ns, vfsuid) && ns_capable(ns, CAP_FOWNER))
+ 		return true;
+diff --git a/fs/internal.h b/fs/internal.h
+index 355d93f92208..be45cc638861 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -51,6 +51,7 @@ extern int finish_clean_context(struct fs_context *fc);
+ /*
+  * namei.c
+  */
++int vfs_inode_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
+ extern int filename_lookup(int dfd, struct filename *name, unsigned flags,
+ 			   struct path *path, const struct path *root);
+ int filename_rmdir(int dfd, struct filename *name);
+diff --git a/fs/locks.c b/fs/locks.c
+index 6e4ff7fcec05..02f810dc9e7e 100644
+--- a/fs/locks.c
++++ b/fs/locks.c
+@@ -68,6 +68,7 @@
+ #include <trace/events/filelock.h>
+ 
+ #include <linux/uaccess.h>
++#include "internal.h"
+ 
+ static struct file_lock *file_lock(struct file_lock_core *flc)
+ {
+@@ -2136,10 +2137,12 @@ int
+ vfs_setlease(struct file *filp, int arg, struct file_lease **lease, void **priv)
+ {
+ 	struct inode *inode = file_inode(filp);
+-	vfsuid_t vfsuid = i_uid_into_vfsuid(file_mnt_idmap(filp), inode);
+ 	int error;
+ 
+-	if ((!vfsuid_eq_kuid(vfsuid, current_fsuid())) && !capable(CAP_LEASE))
++	error = vfs_inode_is_owned_by_me(file_mnt_idmap(filp), inode);
++	if (error < 0)
++		return error;
++	if (error != 0 && !capable(CAP_LEASE))
+ 		return -EACCES;
+ 	error = security_file_lock(filp, arg);
+ 	if (error)
+diff --git a/fs/namei.c b/fs/namei.c
+index 19ce43c9a6e6..72f94d204f93 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -55,8 +55,8 @@
+  * The new code replaces the old recursive symlink resolution with
+  * an iterative one (in case of non-nested symlink chains).  It does
+  * this with calls to <fs>_follow_link().
+- * As a side effect, dir_namei(), _namei() and follow_link() are now 
+- * replaced with a single function lookup_dentry() that can handle all 
++ * As a side effect, dir_namei(), _namei() and follow_link() are now
++ * replaced with a single function lookup_dentry() that can handle all
+  * the special cases of the former code.
+  *
+  * With the new dcache, the pathname is stored at each inode, at least as
+@@ -1255,6 +1255,72 @@ fs_initcall(init_fs_namei_sysctls);
+ 
+ #endif /* CONFIG_SYSCTL */
+ 
++/*
++ * Determine if an inode is owned by the process (allowing for fsuid override),
++ * returning 0 if so, 1 if not and a negative error code if there was a problem
++ * making the determination.
++ */
++int vfs_inode_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode)
++{
++	if (unlikely(inode->i_opflags & IOP_OWNERSHIP_OVERRIDE))
++		return inode->i_op->is_owned_by_me(idmap, inode);
++	if (vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode), current_fsuid()))
++		return 0;
++	return 1; /* Not same. */
 +}
 +
- /*
-  * dir_silly.c
++/*
++ * Determine if an inode has the same owner as its parent directory, returning
++ * 0 if so, 1 if not and a negative error code if there was a problem making
++ * the determination.
++ */
++static int vfs_inode_and_dir_have_same_owner(struct mnt_idmap *idmap, struct inode *inode,
++					     const struct nameidata *nd)
++{
++	if (unlikely(inode->i_opflags & IOP_OWNERSHIP_OVERRIDE)) {
++		struct dentry *parent;
++		struct inode *dir;
++		int ret;
++
++		if (inode != nd->inode) {
++			dir = nd->inode;
++			ret = inode->i_op->have_same_owner(idmap, inode, dir);
++		} else if (nd->flags & LOOKUP_RCU) {
++			parent = READ_ONCE(nd->path.dentry);
++			dir = READ_ONCE(parent->d_inode);
++			if (!dir)
++				return -ECHILD;
++			ret = inode->i_op->have_same_owner(idmap, inode, dir);
++		} else {
++			parent = dget_parent(nd->path.dentry);
++			dir = parent->d_inode;
++			ret = inode->i_op->have_same_owner(idmap, inode, dir);
++			dput(parent);
++		}
++		return ret;
++	}
++
++	if (vfsuid_valid(nd->dir_vfsuid) &&
++	    vfsuid_eq(i_uid_into_vfsuid(idmap, inode), nd->dir_vfsuid))
++		return 0;
++	return 1; /* Not same. */
++}
++
++/*
++ * Determine if two inodes have the same owner, returning 0 if so, 1 if not and
++ * a negative error code if there was a problem making the determination.
++ */
++static int vfs_inodes_have_same_owner(struct mnt_idmap *idmap, struct inode *inode,
++				      struct inode *dir)
++{
++	if (unlikely(inode->i_opflags & IOP_OWNERSHIP_OVERRIDE))
++		return inode->i_op->have_same_owner(idmap, inode, dir);
++	if (vfsuid_eq(i_uid_into_vfsuid(idmap, inode),
++		      i_uid_into_vfsuid(idmap, dir)))
++		return 0;
++	return 1; /* Not same. */
++}
++
+ /**
+  * may_follow_link - Check symlink following for unsafe situations
+  * @nd: nameidata pathwalk data
+@@ -1271,27 +1337,28 @@ fs_initcall(init_fs_namei_sysctls);
+  *
+  * Returns 0 if following the symlink is allowed, -ve on error.
   */
+-static inline int may_follow_link(struct nameidata *nd, const struct inode *inode)
++static inline int may_follow_link(struct nameidata *nd, struct inode *inode)
+ {
+ 	struct mnt_idmap *idmap;
+-	vfsuid_t vfsuid;
++	int ret;
+ 
+ 	if (!sysctl_protected_symlinks)
+ 		return 0;
+ 
+-	idmap = mnt_idmap(nd->path.mnt);
+-	vfsuid = i_uid_into_vfsuid(idmap, inode);
+-	/* Allowed if owner and follower match. */
+-	if (vfsuid_eq_kuid(vfsuid, current_fsuid()))
+-		return 0;
+-
+ 	/* Allowed if parent directory not sticky and world-writable. */
+ 	if ((nd->dir_mode & (S_ISVTX|S_IWOTH)) != (S_ISVTX|S_IWOTH))
+ 		return 0;
+ 
++	idmap = mnt_idmap(nd->path.mnt);
++	/* Allowed if owner and follower match. */
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret <= 0)
++		return ret;
++
+ 	/* Allowed if parent directory and link owner match. */
+-	if (vfsuid_valid(nd->dir_vfsuid) && vfsuid_eq(nd->dir_vfsuid, vfsuid))
+-		return 0;
++	ret = vfs_inode_and_dir_have_same_owner(idmap, inode, nd);
++	if (ret <= 0)
++		return ret;
+ 
+ 	if (nd->flags & LOOKUP_RCU)
+ 		return -ECHILD;
+@@ -1389,12 +1456,12 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link)
+  * @inode: the inode of the file to open
+  *
+  * Block an O_CREAT open of a FIFO (or a regular file) when:
+- *   - sysctl_protected_fifos (or sysctl_protected_regular) is enabled
+- *   - the file already exists
+- *   - we are in a sticky directory
+- *   - we don't own the file
++ *   - sysctl_protected_fifos (or sysctl_protected_regular) is enabled,
++ *   - the file already exists,
++ *   - we are in a sticky directory,
++ *   - the directory is world writable,
++ *   - we don't own the file and
+  *   - the owner of the directory doesn't own the file
+- *   - the directory is world writable
+  * If the sysctl_protected_fifos (or sysctl_protected_regular) is set to 2
+  * the directory doesn't have to be world writable: being group writable will
+  * be enough.
+@@ -1405,13 +1472,45 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link)
+  * On non-idmapped mounts or if permission checking is to be performed on the
+  * raw inode simply pass @nop_mnt_idmap.
+  *
++ * For a filesystem (e.g. a network filesystem) that has a separate ID space
++ * and has foreign IDs (maybe even non-integer IDs), i_uid cannot be compared
++ * to current_fsuid() and may not be directly comparable to another i_uid.
++ * Instead, the filesystem is asked to perform the comparisons.  With network
++ * filesystems, there also exists the possibility of doing anonymous
++ * operations and having anonymously-owned objects.
++ *
++ * We have the following scenarios:
++ *
++ *	USER	DIR	FILE	FILE	ALLOWED
++ *		OWNER	OWNER	STATE
++ *	=======	=======	=======	=======	=======
++ *	A	A	-	New	Yes
++ *	A	A	A	Exists	Yes
++ *	A	A	C	Exists	No
++ *	A	B	-	New	Yes
++ *	A	B	A	Exists	Yes, FO==U
++ *	A	B	B	Exists	Yes, FO==DO
++ *	A	B	C	Exists	No
++ *	A	anon[1]	-	New	Yes
++ *	A	anon[1]	A	Exists	Yes
++ *	A	anon[1]	C	Exists	No
++ *	anon	A	-	New	Yes
++ *	anon	A	A	Exists	Yes, FO==DO
++ *	anon	anon[1]	-	New	Yes
++ *	anon	anon[1]	-	Exists	No
++ *	anon	A	A	Exists	Yes, FO==DO
++ *	anon	A	C	Exists	No
++ *	anon	A	anon	Exists	No
++ *
++ * [1] Can anonymously-owned dirs be sticky?
++ *
+  * Returns 0 if the open is allowed, -ve on error.
+  */
+ static int may_create_in_sticky(struct mnt_idmap *idmap, struct nameidata *nd,
+-				struct inode *const inode)
++				struct inode *inode)
+ {
+ 	umode_t dir_mode = nd->dir_mode;
+-	vfsuid_t dir_vfsuid = nd->dir_vfsuid, i_vfsuid;
++	int ret;
+ 
+ 	if (likely(!(dir_mode & S_ISVTX)))
+ 		return 0;
+@@ -1422,13 +1521,13 @@ static int may_create_in_sticky(struct mnt_idmap *idmap, struct nameidata *nd,
+ 	if (S_ISFIFO(inode->i_mode) && !sysctl_protected_fifos)
+ 		return 0;
+ 
+-	i_vfsuid = i_uid_into_vfsuid(idmap, inode);
+-
+-	if (vfsuid_eq(i_vfsuid, dir_vfsuid))
+-		return 0;
++	ret = vfs_inode_and_dir_have_same_owner(idmap, inode, nd);
++	if (ret <= 0)
++		return ret;
+ 
+-	if (vfsuid_eq_kuid(i_vfsuid, current_fsuid()))
+-		return 0;
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret <= 0)
++		return ret;
+ 
+ 	if (likely(dir_mode & 0002)) {
+ 		audit_log_path_denied(AUDIT_ANOM_CREAT, "sticky_create");
+@@ -3645,12 +3744,14 @@ EXPORT_SYMBOL(user_path_at);
+ int __check_sticky(struct mnt_idmap *idmap, struct inode *dir,
+ 		   struct inode *inode)
+ {
+-	kuid_t fsuid = current_fsuid();
++	int ret;
+ 
+-	if (vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode), fsuid))
+-		return 0;
+-	if (vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, dir), fsuid))
+-		return 0;
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret <= 0)
++		return ret;
++	ret = vfs_inodes_have_same_owner(idmap, inode, dir);
++	if (ret <= 0)
++		return ret;
+ 	return !capable_wrt_inode_uidgid(idmap, inode, CAP_FOWNER);
+ }
+ EXPORT_SYMBOL(__check_sticky);
+diff --git a/fs/remap_range.c b/fs/remap_range.c
+index 26afbbbfb10c..9eee93c27001 100644
+--- a/fs/remap_range.c
++++ b/fs/remap_range.c
+@@ -413,20 +413,22 @@ loff_t vfs_clone_file_range(struct file *file_in, loff_t pos_in,
+ EXPORT_SYMBOL(vfs_clone_file_range);
+ 
+ /* Check whether we are allowed to dedupe the destination file */
+-static bool may_dedupe_file(struct file *file)
++static int may_dedupe_file(struct file *file)
+ {
+ 	struct mnt_idmap *idmap = file_mnt_idmap(file);
+ 	struct inode *inode = file_inode(file);
++	int ret;
+ 
+ 	if (capable(CAP_SYS_ADMIN))
+-		return true;
++		return 0;
+ 	if (file->f_mode & FMODE_WRITE)
+-		return true;
+-	if (vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode), current_fsuid()))
+-		return true;
++		return 0;
++	ret = vfs_inode_is_owned_by_me(idmap, inode);
++	if (ret <= 0)
++		return ret;
+ 	if (!inode_permission(idmap, inode, MAY_WRITE))
+-		return true;
+-	return false;
++		return 0;
++	return -EPERM;
+ }
+ 
+ loff_t vfs_dedupe_file_range_one(struct file *src_file, loff_t src_pos,
+@@ -459,8 +461,8 @@ loff_t vfs_dedupe_file_range_one(struct file *src_file, loff_t src_pos,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = -EPERM;
+-	if (!may_dedupe_file(dst_file))
++	ret = may_dedupe_file(dst_file);
++	if (ret < 0)
+ 		goto out_drop_write;
+ 
+ 	ret = -EXDEV;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 50ce731a2b78..8013c13a353d 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -628,6 +628,7 @@ is_uncached_acl(struct posix_acl *acl)
+ #define IOP_CACHED_LINK		0x0040
+ #define IOP_FASTPERM_MAY_EXEC	0x0080
+ #define IOP_FLCTX		0x0100
++#define IOP_OWNERSHIP_OVERRIDE	0x0200	/* Use ->is_owned_by_me() and ->have_same_owner() */
+ 
+ /*
+  * Inode state bits.  Protected by inode->i_lock
+@@ -1755,8 +1756,7 @@ static inline bool file_write_not_started(const struct file *file)
+ 	return sb_write_not_started(file_inode(file)->i_sb);
+ }
+ 
+-bool inode_owner_or_capable(struct mnt_idmap *idmap,
+-			    const struct inode *inode);
++bool inode_owner_or_capable(struct mnt_idmap *idmap, struct inode *inode);
+ 
+ /*
+  * VFS helper functions..
+@@ -2036,6 +2036,9 @@ struct inode_operations {
+ 			    struct dentry *dentry, struct file_kattr *fa);
+ 	int (*fileattr_get)(struct dentry *dentry, struct file_kattr *fa);
+ 	struct offset_ctx *(*get_offset_ctx)(struct inode *inode);
++	int (*is_owned_by_me)(struct mnt_idmap *idmap, struct inode *inode);
++	int (*have_same_owner)(struct mnt_idmap *idmap, struct inode *inode1,
++			       struct inode *inode2);
+ } ____cacheline_aligned;
+ 
+ /* Did the driver provide valid mmap hook configuration? */
 
