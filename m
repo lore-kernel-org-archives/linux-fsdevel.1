@@ -1,188 +1,152 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9DDB438006;
-	Mon, 27 Jul 2026 16:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1AD42CAFC
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785170964; cv=none; b=DrRqSGu98aP+qs44tUUA4jhYZDDxh8mcH5OxqZSu5LVKQ+pVmDdrx/R7wN1+KcjafTHDuQLwUe6ysobBhkibXpr86idR+g5HlesuF6bYfyRUb+lKwYuSOQ1vR37oC6iH9/r+lVZnyZHsrITjYztAHs8grDy0/e36YJn78AQltAQ=
+	t=1785171946; cv=none; b=DiEDPELwwItX/critNBBAgmMjc1Yh9vIvX9n8e51BfCnOqZJn2LCSAx0I5z3kJqFX+6eb9RPusA3HtprM58Ix+MK44MfMWP6olROjnQ3tOmx2z1XxG9Aoli+nmFheFCXYjE3zErZl95JBXzrYWVQ5OZFnREqQTmfXhbDbGNWs/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785170964; c=relaxed/simple;
-	bh=V6zt/tVCRXmaxyFDjqVyIeLB8KQS6R6ktC8ishLU3Lk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mZMT2oe/FtnjLeLwE5SYd+dcj2J2kblanZJOV6dyC6yCqPiyNA53oyG/WcB0KYCXn7UTcZRfllM/gEi04TZfHV+R3Ddb5Xgy8YfNo3YfiRrWePETYii5keyPToV6vnte/bR8R+T3Ll5+tRpSe1B0JO4KiT5QgbnKnmYrUcfDboQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Lb/jyoKf; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785171946; c=relaxed/simple;
+	bh=acBPRN+lsRzChrp84ytZ4p1LYzUx1/v/c3Lu3UdiGrI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gY5PNLILNul3fRyhTvb7IIayvVZWrKPSgTbN1ryeMNWT939FeVuG9YwkQJoAokWd/S4MpoBq4zwIfyOlpiWHK32Fv2CDdnrO8BA/rP5qFgiQH/9UchcGK8JrTFpYOO6wCsWjxEKHduzCBYJjWfOKOEUEg7cHIkh4GMqf/5dYJwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5J5z06d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Lb/jyoKf"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B249A1A32;
-	Mon, 27 Jul 2026 09:49:10 -0700 (PDT)
-Received: from e142334-100.cambridge.arm.com (e142334-100.cambridge.arm.com [10.2.198.93])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 24B253F86F;
-	Mon, 27 Jul 2026 09:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785170954; bh=V6zt/tVCRXmaxyFDjqVyIeLB8KQS6R6ktC8ishLU3Lk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Lb/jyoKfMHEtn+EGInX+1ShDiDJE4SKeMR6pxvOnK3LevEvIfEqty1XGjueSJSBAs
-	 G42AaQQj06YclcwbnNEF+ZIACcOyOe2ZtG+CAXJ1O24QpZxYlP92nB7MGKzzIYNXvf
-	 GKb3saft/JW4/CWAMTUJrteRizHdBV+a50NOn1YA=
-From: Muhammad Usama Anjum <usama.anjum@arm.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	David Hildenbrand <david@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	SJ Park <sj@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	ziy@nvidia.com,
-	pfalcato@suse.de,
-	agordeev@linux.ibm.com,
-	ryan.roberts@arm.com
-Cc: Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-kernel@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-parisc@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	damon@lists.linux.dev
-Subject: [PATCH RFC 11/11] xen: use hw_pte_t for PTE range callbacks
-Date: Mon, 27 Jul 2026 17:47:02 +0100
-Message-ID: <20260727164715.2866609-12-usama.anjum@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260727164715.2866609-1-usama.anjum@arm.com>
-References: <20260727164715.2866609-1-usama.anjum@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5J5z06d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B451F01559
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785171945;
+	bh=TxnKWGgv3kgSGpcOLq+j0ydLE+o+ovzFIuBVVmOhisE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=A5J5z06d+ldD+/vVwpkfraF8fr6YN14SfDoyIifZV7wAu3Y0A5oHKfmQchRpNuz0R
+	 XzWjy51xjTv0zra5jT0YR5XOEK/+qDyxFFk9RC2+fHRiiW+qF3Rjb+7YXUghN7KYZC
+	 HdgVlCXqVfViTpplqUKG+KfkKgW+07NczS22VAmUSn2e5Hq+Ou8dO1GLyshGTmx7N0
+	 liHc53+1rVh0XSTXaP0SWA2y80Rri4VIDb2th9M1/wO2oLwL4lx32kCBh6XMibYdkN
+	 ggPewZmj5hPEQS/O8yA5PaPUz6NlG3rPWtl05h5nxY8Kf/m+RvemnyT6exWFFX8tph
+	 9oUZtLcd1xT/Q==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c15d47266baso361134066b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 10:05:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rrf1DUPOT+ycpAStmewoEE+IHqaKYPEUrZ4YXKZ8l+Jx0BquHUy6I/C7kH14twA3qxiO6Ch5B7IZG9lZYM5@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLqnWsDHVX8TwUmy6gOPHeNkQXY7cNnbFeqTZvHw00YjOZ7w2F
+	1kaCfy0KoGVRpYWrDknmwu17E4MrnS/z8ya9GMLsdcYRIq6lezNP0r5isK+SEyR+v1eU1PmkiZ+
+	ViJ5SXDgd6gBN+jpO8F8sscqxcAoEtrE=
+X-Received: by 2002:a17:907:983:b0:c15:f376:9642 with SMTP id
+ a640c23a62f3a-c1f1f119245mr387752466b.65.1785171943901; Mon, 27 Jul 2026
+ 10:05:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260727143618.1582318-1-alex@ghiti.fr> <20260727143618.1582318-4-alex@ghiti.fr>
+In-Reply-To: <20260727143618.1582318-4-alex@ghiti.fr>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Mon, 27 Jul 2026 10:05:32 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
+X-Gm-Features: AUfX_mymjXAGe8WFZWwKwVyHcv1lhqsWQChGfs9bdQu1IS7341exKkVzBFQ0Cg0
+Message-ID: <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Generic PTE range and remapping helpers now pass pointers to PTE table
-storage as hw_pte_t *. Update the callbacks to match those interfaces.
+On Mon, Jul 27, 2026 at 7:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
+te:
+>
+> zswap writeback decompresses an entry into a fresh swap cache folio and
+> writes it back. The folio is cold by construction, yet it is left on the
+> LRU for reclaim to find and free later, wasting a reclaim scan and keepin=
+g
+> cold memory resident longer than necessary.
+>
+> Allocate the folio off the LRU and drop it as soon as writeback completes=
+:
+> mark it PG_dropbehind so the swap dropbehind path frees it once writeback
+> ends. Synchronous-IO devices complete writeback in this context, so there
+> the folio is dropped inline instead.
 
-Keep logical PTE values as pte_t and continue to access them through the
-existing PTE helpers.
+Why does this need to be handled in zswap? Doesn't writeback from sync
+devices still call folio_end_writeaback() and do the dropbehind
+handling?
 
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
----
- drivers/xen/gntdev.c               | 2 +-
- drivers/xen/privcmd.c              | 2 +-
- drivers/xen/xenbus/xenbus_client.c | 2 +-
- drivers/xen/xlate_mmu.c            | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/xen/gntdev.c b/drivers/xen/gntdev.c
-index 1dcc4675580ed..b013bcad99b5b 100644
---- a/drivers/xen/gntdev.c
-+++ b/drivers/xen/gntdev.c
-@@ -301,7 +301,7 @@ void gntdev_put_map(struct gntdev_priv *priv, struct gntdev_grant_map *map)
- 
- /* ------------------------------------------------------------------ */
- 
--static int find_grant_ptes(pte_t *pte, unsigned long addr, void *data)
-+static int find_grant_ptes(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	struct gntdev_grant_map *map = data;
- 	unsigned int pgnr = (addr - map->pages_vm_start) >> PAGE_SHIFT;
-diff --git a/drivers/xen/privcmd.c b/drivers/xen/privcmd.c
-index 725a49a0eee72..b4a487dcc9ecb 100644
---- a/drivers/xen/privcmd.c
-+++ b/drivers/xen/privcmd.c
-@@ -1658,7 +1658,7 @@ static int privcmd_mmap(struct file *file, struct vm_area_struct *vma)
-  * on a per pfn/pte basis. Mapping calls that fail with ENOENT
-  * can be then retried until success.
-  */
--static int is_mapped_fn(pte_t *pte, unsigned long addr, void *data)
-+static int is_mapped_fn(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	return pte_none(ptep_get(pte)) ? 0 : -EBUSY;
- }
-diff --git a/drivers/xen/xenbus/xenbus_client.c b/drivers/xen/xenbus/xenbus_client.c
-index 27682cb5e58ab..387f97a555594 100644
---- a/drivers/xen/xenbus/xenbus_client.c
-+++ b/drivers/xen/xenbus/xenbus_client.c
-@@ -749,7 +749,7 @@ int xenbus_unmap_ring_vfree(struct xenbus_device *dev, void *vaddr)
- EXPORT_SYMBOL_GPL(xenbus_unmap_ring_vfree);
- 
- #ifdef CONFIG_XEN_PV
--static int map_ring_apply(pte_t *pte, unsigned long addr, void *data)
-+static int map_ring_apply(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	struct map_ring_valloc *info = data;
- 
-diff --git a/drivers/xen/xlate_mmu.c b/drivers/xen/xlate_mmu.c
-index 8efd7b55223fb..d7244f9f9a545 100644
---- a/drivers/xen/xlate_mmu.c
-+++ b/drivers/xen/xlate_mmu.c
-@@ -93,7 +93,7 @@ static void setup_hparams(unsigned long gfn, void *data)
- 	info->fgfn++;
- }
- 
--static int remap_pte_fn(pte_t *ptep, unsigned long addr, void *data)
-+static int remap_pte_fn(hw_pte_t *ptep, unsigned long addr, void *data)
- {
- 	struct remap_data *info = data;
- 	struct page *page = info->pages[info->index++];
-@@ -269,7 +269,7 @@ struct remap_pfn {
- 	unsigned long i;
- };
- 
--static int remap_pfn_fn(pte_t *ptep, unsigned long addr, void *data)
-+static int remap_pfn_fn(hw_pte_t *ptep, unsigned long addr, void *data)
- {
- 	struct remap_pfn *r = data;
- 	struct page *page = r->pages[r->i];
--- 
-2.47.3
-
+>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> ---
+>  mm/zswap.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 8163e6c5f76c..e37828e02938 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -992,6 +992,7 @@ static int zswap_writeback_entry(struct zswap_entry *=
+entry,
+>         struct folio *folio;
+>         struct mempolicy *mpol;
+>         struct swap_info_struct *si;
+> +       bool sync;
+>         int ret =3D 0;
+>
+>         /* try to allocate swap cache folio */
+> @@ -999,6 +1000,8 @@ static int zswap_writeback_entry(struct zswap_entry =
+*entry,
+>         if (!si)
+>                 return -EEXIST;
+>
+> +       sync =3D data_race(si->flags & SWP_SYNCHRONOUS_IO);
+> +
+>         mpol =3D get_task_policy(current);
+>         folio =3D __swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), =
+NULL, mpol,
+>                                          NO_INTERLEAVE_INDEX);
+> @@ -1013,7 +1016,6 @@ static int zswap_writeback_entry(struct zswap_entry=
+ *entry,
+>          */
+>         if (IS_ERR(folio))
+>                 return PTR_ERR(folio);
+> -       folio_add_lru(folio);
+>
+>         /*
+>          * folio is locked, and the swapcache is now secured against
+> @@ -1046,12 +1048,17 @@ static int zswap_writeback_entry(struct zswap_ent=
+ry *entry,
+>         /* folio is up to date */
+>         folio_mark_uptodate(folio);
+>
+> -       /* move it to the tail of the inactive list after end_writeback *=
+/
+> -       folio_set_reclaim(folio);
+> +       if (!sync)
+> +               folio_set_dropbehind(folio);
+>
+>         /* start writeback */
+>         __swap_writepage(folio, NULL);
+>
+> +       if (sync) {
+> +               swap_dropbehind_free_one_folio(folio);
+> +               return 0;
+> +       }
+> +
+>  out:
+>         if (ret) {
+>                 swap_cache_del_folio(folio);
+> --
+> 2.53.0-Meta
+>
