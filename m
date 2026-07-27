@@ -1,204 +1,184 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021076.outbound.protection.outlook.com [52.101.100.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48EF242D70;
-	Mon, 27 Jul 2026 13:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785158218; cv=none; b=JPtyf9m1kQvyINLPwzpwSewk0hyE9REtEWMsADrMWx4x18RWU8D67y4aXHp6A4GMHVQyreQNxn1a0nwOjAidJu4PtKILvSrfMV0J5e8EyxXV42U1ci06tVEIsvspDDdlCvDE5vOi/W7XRAmvZPXKA1jjKHY2YKcVL2VNJ1N6rVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785158218; c=relaxed/simple;
-	bh=49lUPvjq142fHCqneTE4p3M7cpiPelMdIEeOmzwVXYs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TjD21qFw+P96FgdgD6Ss4BoyBSqtkB5QCc/FVfaaKPkHSmkqe6cDf4mPp1scEQ5cdGhLiHJ2+ghlm/jGy1mieijjmsgwlaCeZj/HTIbN5PuL9aMk6btmPVtK6xsXDOJEwziZMT1qLvpE35WCZXhbVh+evar+r/FU4Cd2EC/jYBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jx5vvqa7; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D8F414DF5;
+	Mon, 27 Jul 2026 13:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785158490; cv=fail; b=XGacYC5slrDDWFEJUo6gz3LluxrqBwqDLfRJKdVAVpJungyFN+Ya0BhFCDN+hY6pwBoPSnGdecP4ToPnjqaS9zBlTcztxNPLS7gr8J9k+BzPlxHYcEMHGoJCO7U2XLnzU5o3w9vl1wQR+zOMGbyW+7JwU4u3Wynzc2sBFVmZxpw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785158490; c=relaxed/simple;
+	bh=VpxpvrH7D74nSuPHHYGyaNUOhg7/n0vP6UbM7bGUAoc=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=RacCDIa3Ta4pczsQtj5sU2+pmssLMLLouLWKZKuMQfzlFQf/wonSBg/Udl5y48FFl27BEU2DSJIeN7Nur9af2jHEDyVVg8BOkt3otGxYDjbcrdykXTT29kHWqQezjG/9uwispZEfYM3XuLPx5YquZ6s0xbfH2V948J0cgcXfgCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=J+sZSF6Q; arc=fail smtp.client-ip=52.101.100.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jx5vvqa7"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RAJHo7063305;
-	Mon, 27 Jul 2026 13:16:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=b7oXRd
-	OHpe5VOc5/RkRpb+TE2mckMDaNGkRwDlKJufE=; b=jx5vvqa70E1aq0iHV+J7vi
-	DMDFI+/QwFdABKJJiKKLV0HUfjXtd7EEl2dHsUgDiQRQPnuTDE3XuEiPmMuLmD18
-	2GRPcAEleKt2jXNQPe/AbezY6kZvVoDzs4XxiK1lehC+blqZgdD3UIbxZUkEvUjJ
-	3WQfYttpVUyKTNyxopgsaYB5jPUOISIGQZIv04fqDJF4klZKkaVc7ckRXhswzHqj
-	dYTceBOjIMtXSnfdxf65LV2J+Xu2RHJx2Pswg2JEug8LXVDGkJ5hz3c0ZaeTMjGQ
-	OvYYryKTCVMo3+7DElyaSIN/8oQUjEJqCPkFhPO/XtEJQh9GuC5ASk9/aCO8tB+g
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuyc857u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Jul 2026 13:16:41 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66RDBGl8015749;
-	Mon, 27 Jul 2026 13:16:40 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fna5xw7pb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Jul 2026 13:16:40 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66RDGclt36372736
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Jul 2026 13:16:38 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 757932012E;
-	Mon, 27 Jul 2026 12:59:23 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0CF5A2012D;
-	Mon, 27 Jul 2026 12:59:23 +0000 (GMT)
-Received: from [9.224.77.173] (unknown [9.224.77.173])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 Jul 2026 12:59:22 +0000 (GMT)
-Message-ID: <46a7fe72-5caa-4593-a2b1-50696a33915d@linux.ibm.com>
-Date: Mon, 27 Jul 2026 14:59:22 +0200
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="J+sZSF6Q"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DdluPiZAFwdFEDZ6sVTgJzn2b47v5ow7P2qv8w8dezL3IA7Qk4AEAazNRO23ENEGat5v1AE4RkHc68AZNAFFrWmf7OnPLjIIFKHIYcZT9B+dEtBEHzleIj33q/YntA+aAw3LCmAbtVbjOcc8/K35Uj/fsfDqk2IIEnSSgeCAz/FvRJxPTTBEuyQyrTCoLMosPSGZpLqoU3qUPC83IXcoSmWQ6hCEguFw3FLD/damockmVnJzh2/989SEb4J4RkqVckxBXU236fwkDOUCkdRoOhdQXRf484w44+MBZWyPkl3I97RZuaj8puJsjmO/SAeD0clUOp4FaKDOLcU4SjreRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D0dX5OLL0qh5zDK6LMLPlusl1on4T0gBqHQBsLUhUeI=;
+ b=GmHuV0hcVAks/z6UxCe8O2oc2GOf/Ht7RL5e52Y/shqYmR+SNvbDTkRgudNItXxH24bb//Ft/0sijKZCBrArUqLKzTP7Lxz6WwedjYXrjm9EEfF6OPCSCLN9Yiugx+5Vi4uOzLWx2TYZ1LRqjvTS0lVGnFOsBgSRVM/ZT6U3PG1zn45UcDSMg8MBi4BI3dIx5ycJoFPeB5vPO/B2eoer0jUtFFvQnM7TZNFOwDS/l209KvTtcYBb8xWK5pLFPIulaiTQhD8XrZgvmieLuhU8fxiFHAuMFruQLjWdaxTOC5nITm+Y2xIDU0tTseh5f9x06qkPUuV32Ml0tsiuClKwHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D0dX5OLL0qh5zDK6LMLPlusl1on4T0gBqHQBsLUhUeI=;
+ b=J+sZSF6Q+ysiwGjwK5AWElrQzd8eiKaL8GoEXp9PMDFmsztUNlJp78Rrxu8vVpM1M3PccZ5a0HDwr5DZrPDEzxU/mkgytElsYsxG7grgMpS7buoU4Ka0cxr9xfhhUyu8elg9tPhlYeZpG1Dw9bWhiWxNJER7AlBEFhBjCvC5M4s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO8P265MB7796.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3ac::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
+ 2026 13:21:25 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%2]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
+ 13:21:24 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Jul 2026 14:21:24 +0100
+Message-Id: <DK9DVA538I9P.3AWAGJ93EZ3CV@garyguo.net>
+Cc: <gregkh@linuxfoundation.org>, <arve@android.com>, <tkjos@android.com>,
+ <brauner@kernel.org>, <cmllamas@google.com>, <aliceryhl@google.com>,
+ <boqun@kernel.org>, <lyude@redhat.com>, <daniel.almeida@collabora.com>,
+ <work@onurozkan.dev>, <juri.lelli@redhat.com>,
+ <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+ <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+ <vschneid@redhat.com>, <kprateek.nayak@amd.com>, <ojeda@kernel.org>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <acourbot@nvidia.com>,
+ <peterz@infradead.org>, <mingo@redhat.com>, <will@kernel.org>,
+ <longman@redhat.com>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+ <tj@kernel.org>, <jiangshanlai@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 3/5] rust: sync: add WaitQueue infrastructure
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260726223613.1242940-1-dakr@kernel.org>
+ <20260726223613.1242940-4-dakr@kernel.org>
+ <DK9C6KISAMX3.H10297T645RT@garyguo.net>
+ <DK9D4LAND3I8.1CXI8473PG88M@kernel.org>
+In-Reply-To: <DK9D4LAND3I8.1CXI8473PG88M@kernel.org>
+X-ClientProxiedBy: LO0P123CA0014.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:354::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH/RFC] btrfs: fix folio lock leak in writepage_delalloc()
- for folios dirtied behind btrfs' back
-To: Qu Wenruo <quwenruo.btrfs@gmx.com>, Boris Burkov <boris@bur.io>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-btrfs@vger.kernel.org,
-        Qu Wenruo <wqu@suse.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-s390@vger.kernel.org
-References: <20260721191152.101118-1-borntraeger@linux.ibm.com>
- <20260721191152.101118-2-borntraeger@linux.ibm.com>
- <b226a6e9-fef2-49bd-b17e-9f9b015626c1@gmx.com>
- <83290932-cb8b-4741-bff0-6a7d8df2c637@linux.ibm.com>
- <224d56d2-fcad-41bf-afe3-6f5f5108172a@gmx.com>
- <f12f70e5-d84d-4a9f-ac94-693be4c863ac@linux.ibm.com>
- <amC-J7yzwk4Z5tHW@casper.infradead.org>
- <ad6eebbd-07f8-41ce-b04c-edd50d91a6e3@gmx.com>
- <amICQYTK9Xu4KLtH@casper.infradead.org>
- <d948c88b-dec5-4e29-b30a-3ea368997ceb@gmx.com>
- <20260725062614.GA2792359@zen.localdomain>
- <4f7b99e5-62b6-48ac-a141-24f25af125c1@linux.ibm.com>
- <0b0dc988-61e5-4dd5-b2a1-52699fd4391c@gmx.com>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <0b0dc988-61e5-4dd5-b2a1-52699fd4391c@gmx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: NuSZWSAOhfVc2dvC0MiYRod7SzIRoyJx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDEyNSBTYWx0ZWRfXwoh640Uiz+mp
- 83rkQSVLTNKE2OpsX0YaHTOm9xzP2T4xH97+nqAzgIi4/PineDHLcjKQOaAtIaOrhkvTua2pcYW
- nhlSHydCgRolmb5WguQpHIQTPQofCMFqVTKnj4DYRy1U4qDc+OGWP9hxwtR8MR7s5AGXBnP3pJG
- FUh4AQ1pAIJ0urDW683yo0EFyAQucLWGuS3S6tqKXWh9Y187ncBX0cTbCnKUpkKpCs5hDEsu+9O
- Ynmh090bNsTih2KrtNL6zKc9ugJKrUCSl7RlA7nCs2C0MLN0cfohUQgFypGBFuqCxhxAMk68ko2
- 4eUiAgIcqX23VTbUKn2pzrhZy+c61fswJQldmQH92jDIvJXwKKBEwWXOBRgjJOwGAUmqjdoIbuN
- WkzXFDCUrONoum6nErb/bgQcgDpPaiEHeunqtxVEtWMY2iqUBWUKTXyT/Iz74Lhjj/z8vdK6YPj
- iv41CkgLEPG0p+4TGOA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDEyNSBTYWx0ZWRfX+ACalN23wlkV
- QsX/aqSUjlDt3TChnTDNxvc+HvAk5PrCTCyN+qiuaK/dld1u90JuO8Qjmm/MhyhGxRFBEOXdMMS
- NXAVT8yIqjgwGF2peYYS751TPMl0Apk=
-X-Authority-Analysis: v=2.4 cv=AZeB2XXG c=1 sm=1 tr=0 ts=6a675a39 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=NEAV23lmAAAA:8 a=9NPKaJfuwyM--1QCZjYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: kSJjuLGpzUim82PvK6nuYdzKhqdd369W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-27_03,2026-07-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
- clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270125
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO8P265MB7796:EE_
+X-MS-Office365-Filtering-Correlation-Id: e77a1553-6d35-4b1a-24e2-08deebe1f541
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|23010399003|10070799003|1800799024|366016|56012099006|4143699003|10067099003|22082099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	Lq5cBME/8IH2qUj32m3FAlkjmYMptGyY9VDgocW1xhNDEBUKGgDjBwXbOljLv9NTBiDplpWZX0aoK+5tbTbg4qwgwQ6F6qykgWWM1nHOr+tFbu2CX6vOYo6p0oiAaysdNsnBI8iou8nIKABXd0RZzrh3SYBcZciGCVwN/w/CLbyxsWI7IJ1KB/XzhtHTuGWPgRQwDMy7TrkhD07xszil6r1T0wNfghzbh/sdzw2ZnBG0774TqU1WEMZxCHiRZRjm2Z3OkNi3X7KzRat2cC3bqtr720L4WJcj/FzcTL8Gk7YGGAHtWYDiJJjQCJkprgFR50qEs+evHX9SA6P5ziCOTNAERTHk/KD/eQgLVBxigF2whyiy1tEpZyjDq0O8MFSqf5ciEw35O31OL13QRshM21PMuiovyvcWJf1Vce92aEPBKvslrh81ekjxRFPk+LofLx8upQ7rb4M71VV3x3877ahzBTPS2XPcq7csgpwRFoWU1bDj76tGYLAjH+I9V9/3xlxHP73Lgs65c2jNhgfLsyDZgWQmszTUFVrpkffdNL5mGoqzBgvIHXcVCdoFaHsjQU1xT7HPJ/GFP49YE1q19FGpXDdNAeroXR9mo97xV9WpMLWwmbUL7SF3nTD1JU0M5TVUhWuwfvIl7QYmTNrCEEB8EgTaJWdoQ+RzdahQ9/A=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(10070799003)(1800799024)(366016)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Qk04TThiUlNscnZLdVptOUQxZTBvUmJzaS9ZNnVGV2xIMjNSZS80S2hsUU9n?=
+ =?utf-8?B?WTRKNkJWelR0U1NtVS84ZWxPNEZtMmJVeExxV05wQlZxYVVlVFlxckpDL0d1?=
+ =?utf-8?B?Y3I3WHdOcTlwSXQ0MDhWS1h3Z09ieWI2ZGFNcjdYY2hma2ExK3lMMnhweTlE?=
+ =?utf-8?B?OUhmbTJwaHJTMHhJMk5SYVRqUFcvamRMa3VoQVVOaHIwQjcxSE0zcE95ei80?=
+ =?utf-8?B?S3VvRWlNT25kVDFNTlZ3Wklmck8zY21jcnRQNjM1b1p5c01oajJTazh6Zzg0?=
+ =?utf-8?B?enI5VVN6UkVKSDlLMlJCZmhxTkRtbTE2N09sRzgrNE52ZUYzVVVGWmorNFo0?=
+ =?utf-8?B?ODFwU2RsanF6TU1BZTlVTjl0ZjMvZlFVSW1CQVl3Q2daWStjdExtMnRvQlN4?=
+ =?utf-8?B?Y2pFSitmNXc4b3pBWTZ1NVRJeUFCQ1NsNmVETXVZNjlycWI0SUFzSFJubHJH?=
+ =?utf-8?B?YzM1c0RBUUQ4U2NQcTFheFgvYWdYVU9mNXRMc3RNc0ZzRVc2L3NEbDN4RkFJ?=
+ =?utf-8?B?MW44WkVXRXB1L1puVjBhaklFVFQ2YnNUVFRSbitFeGpxWGZ5ME9XZUxRVFAv?=
+ =?utf-8?B?KzZGQnUxeWZOTkJ0WmJMNEtVWUlWbFN5RFNibitpd01WTVBLNzBweWtzNmxi?=
+ =?utf-8?B?VGEweEFEMEYzdHJSSmVlWHpwa0VlazY1Q2JBbGFEemZCVjZ2ZVl5V1pVZURY?=
+ =?utf-8?B?K2pjZFU5Mnp3UVl4eVFDU2tSMUZXMVZHNGpqSnViSWxrbGkwTnVPcG1qWFhy?=
+ =?utf-8?B?TUVwTktHZ3VBT0pENXdrR2dPS0dhMzlhY2RaVEZZbGJyb1F5UW5rRTFJVWE2?=
+ =?utf-8?B?dlhDQXhhWnV2NGdoSy9WalYrNXpYelRWOCtRZEtqbUx4YUhpU01wb2Fncll1?=
+ =?utf-8?B?SlRYQ2pHR2Y2YzZvTDJlTEs2RzJwZHVMdnU5TWpvVTh5M05sQ1NScGtzcW9I?=
+ =?utf-8?B?M2VxWTNKRVV1bjlHVFRxZm1tQUQveEZVMThCQ1NscTdBUkF6QXFFMzFHaWM4?=
+ =?utf-8?B?bTB0aHBnR3haV3dsbmc5aGtmSzJzckZPcTAzL3NFbnJUTWliQlpFeVd1bTUx?=
+ =?utf-8?B?eUtGak9HbG9tV1pPMFJyVUFBS1NHTFhPOFBpanBEb3F3TXh5bk1zci9RdlJw?=
+ =?utf-8?B?RG5UOW1GeDVUdkxPeVJKRGZJQStsYkRhSlVSd1BrUFErallSUmJMVC8zTEFn?=
+ =?utf-8?B?NklwWW1vck9VT1ZHbU5yN0Raemk3d1FsQ0prd0pqVTBYTnJYNUNYb2p4a3pE?=
+ =?utf-8?B?NVBCanhncVB2MEFMNC9mNzh6dmJLSytnWkNyajgxTm82dHZDdHF0NTVZL0VE?=
+ =?utf-8?B?U0hWcUNBNE5wWG8zcjhaOGpRZjAyTjRKMHM4R1RLaXZITU14a1BrMkt1SDR6?=
+ =?utf-8?B?YWhYWVI0TjBKVzhhZDlHZTMraTBSTTFBYXN6WHU4U3N6d2VpR29YUVA1bmoz?=
+ =?utf-8?B?WDVOejdmNWpZTjF5Nmhwd25FbkZJcUN0clFrTUlyRjFRTjFjajlOZU8zYWNP?=
+ =?utf-8?B?RFBTRExrejhaa3EvZWRXMVJybk9BVlFmNXVEQ3ovbWNrZ2Fwa1dOcGhzS1Ur?=
+ =?utf-8?B?Z1U1YlJHRDBzdjd4RUdLZWZXNDVZamtpa2NGR0JUVm4yMHpJYUkyajB2OXZ2?=
+ =?utf-8?B?YUVCREJKaGNrdHpuRFB3Nm1BUk55M0taMHJMRmRRUmdqNEMzdjFRa1lwK1Nl?=
+ =?utf-8?B?VWVLVVVHaGs2OEx1TTJrbERza0RldzREYzVGM2ZtSzJpSlBrMEp2QTJvc1BO?=
+ =?utf-8?B?aDJkS0tEbGtaSjJvaHJETVdpUWU0VTQ3aXBUMGk4VnZPNnQrQlo4WlFQNWxM?=
+ =?utf-8?B?NVJnSXZJVm5IOHA0Ny8zdkJSczU1aXRpS3ZBYnZIYjBJaVoyM2U3bFA4cmZr?=
+ =?utf-8?B?Q2dpNTVaMUVzeG9WNlM0aDRRekJjaldwVkg2UVBDbHNhMWplQThScUdvazV5?=
+ =?utf-8?B?emhJN21QMnkvenNMRENBSWY4THdmcmdJVi9LTTAzNWx0elBPUkZNYVNmZkxm?=
+ =?utf-8?B?R012YUNRUEJtS09UWTdrQlBJUGlpQ3BoOWtXaWN2NVRJSjBrcEtRN0x3ZTNH?=
+ =?utf-8?B?NUZkQm96QW1BMTh6Ulp5b2ljdWZNTWwwL1NEM0RGV1U5V2hlYVlUWWlCVmRu?=
+ =?utf-8?B?UktRWGFXaGErMFFTWWJYaS95Vy9KQzVDaGlHSXBRZkpCdXA0RlRReFVWRTlk?=
+ =?utf-8?B?em4vNGxKVkdselNZZVJ2T2R1M1YxOVJ3cHc2Yzh5NXpXRDE0UWlXd2JvdG84?=
+ =?utf-8?B?TE9Nbm50cis0dUs4NzNzQnVRdzdCMzMwSEtWdUJQSTlvbmJoNGdDZGJQanN6?=
+ =?utf-8?B?TThFdGQyMHpxQnBGbVZ6dFRKYnJPcTczN2ZnUjFHdC9Wa3NyNitpZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: e77a1553-6d35-4b1a-24e2-08deebe1f541
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 13:21:24.9002
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TY8KDKFog8TlZfzFepOkGCxjmHZZSv/E17O1bIFxJn560oUzQasGQmqkEnQCh4nlIdrYVOcLcp+NDMm/nlB3gQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7796
 
-Am 27.07.26 um 10:41 schrieb Qu Wenruo:
-> 
-> 
-> 在 2026/7/27 17:41, Christian Borntraeger 写道:
->> Am 25.07.26 um 08:26 schrieb Boris Burkov:
->>> On Fri, Jul 24, 2026 at 08:10:36AM +0930, Qu Wenruo wrote:
->>>>
->>>>
->>>> 在 2026/7/23 21:30, Matthew Wilcox 写道:
->>>>> On Thu, Jul 23, 2026 at 10:12:27AM +0930, Qu Wenruo wrote:
->>>>>>
->>>>>>
->>>>>> 在 2026/7/22 22:27, Matthew Wilcox 写道:
->>>>>>> On Wed, Jul 22, 2026 at 11:29:36AM +0200, Christian Borntraeger wrote:
->>>>>>>>     *   4. Thread B loops sync_file_range(WRITE|WAIT) on the target file.
->>>>>>>>     *      Whenever a full clean cycle (clear_page_dirty_for_io(),
->>>>>>>>     *      writeback, bits cleared) completes inside thread A's
->>>>>>>>     *      submission->completion window, the completion-time
->>>>>>>>     *      set_page_dirty_lock() hits a *clean* folio: filemap_dirty_folio()
->>>>>>>>     *      sets only the folio flag and the xarray tag - no btrfs subpage
->>>>>>>>     *      dirty bit, no delalloc reservation.  See the 20-year- old comment
->>>>>>>>     *      above bio_set_pages_dirty() in block/bio.c describing exactly
->>>>>>>>     *      this ("other code (eg, flusher threads) could clean the pages").
->>>>>>>
->>>>>>> There's your problem.  filemap_dirty_folio() documents that btrfs is
->>>>>>> doing it wrongly:
->>>>>>>
->>>>>>>     * Filesystems which do not use buffer heads should call this function
->>>>>>>     * from their dirty_folio address space operation.  It ignores the
->>>>>>>     * contents of folio_get_private(), so if the filesystem marks individual
->>>>>>>     * blocks as dirty, the filesystem should handle that itself.
->>>>>>>
->>>>>>> fs/btrfs/inode.c:       .dirty_folio    = filemap_dirty_folio,
->>>>>>>
->>>>>>> so btrfs should have its own btrfs_dirty_folio() which does whatever
->>>>>>> metadata updates it needs to and then call filemap_dirty_folio() to
->>>>>>> take care of the page cache business.  See iomap_dirty_folio() as
->>>>>>> an example, but many other filesystems also do this.
->>>>>>
->>>>>> Thanks a lot for the advice.
->>>>>>
->>>>>> However it looks like the sub-folio dirty block tracking is a little
->>>>>> different between iomap and btrfs.
->>>>>
->>>>> My point is not that "you should do it the exact same way as iomap".
->>>>> Rather "the dirty_folio op is the entry point to tell the filesystem
->>>>> that a folio is being dirtied".
->>>> And since dirty_folio() is not allowed to sleep, we should introduce some
->>>> extra mechanism, e.g. page private 2/checked, to notify the fs that the
->>>> folio is marked dirty without proper preparation.
->>>>
->>>> Then during writeback, detect such folio and do needed preparation for it
->>>> since at writeback we're allowed to sleep.
->>>>
->>>> That sounds feasible, but I haven't seen anyone doing that (including the
->>>> older btrfs cow fixup).
->>>>
->>>> Will explore that path. Thanks a lot again for the dirty_folio() help.
->>>>
->>>> Thanks,
->>>> Qu
->>>
->>> Here is my proposal for a candidate fix. It passes the reproducer in
->>> this thread as well as several more intense reproducers (alluded to but
->>> not yet included)
->>>
->>> https://lore.kernel.org/linux- btrfs/6758d4f27be0bbdb865cee7dd5adc435c969f4a3.1784960646.git.boris@bur.io/T/#u
->> I am willing to give it a try, but that does not seem to apply on 7.2-rc4
+On Mon Jul 27, 2026 at 1:46 PM BST, Danilo Krummrich wrote:
+> On Mon Jul 27, 2026 at 2:02 PM CEST, Gary Guo wrote:
+>>> @@ -0,0 +1,388 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +//! Wait queue.
+>>> +//!
+>>> +//! C header: [`include/linux/wait.h`](srctree/include/linux/wait.h)
+>>> +
+>>> +use super::LockClassKey;
+>>> +use crate::{
+>>> +    prelude::*,
+>>> +    str::CStr,
+>>> +    task::{
+>>> +        self,
+>>> +        TASK_INTERRUPTIBLE,
+>>> +        TASK_NORMAL,
+>>> +        TASK_UNINTERRUPTIBLE, //
 >>
-> 
-> The latest version is out:
-> 
-> https://lore.kernel.org/linux-btrfs/9f7a81cdd022d9e3f69d347a17c0a25438ccec14.1785131713.git.boris@bur.io/
-> 
-> And you can apply it on the latest btrfs for-next branch without any conflict:
-> 
-> https://github.com/btrfs/linux.git for-next
-> 
+>> Hmm, I am not sure why we are exposing these as constants from kernel::t=
+ask.
+>> Regardless, Given that you're using them for bindings, you should probab=
+ly get
+>> them from bindings::TASK_* instead.
+>
+> See commit f090f0d0eea9 ("rust: sync: update integer types in CondVar");
+> personally I don't mind either way.
 
-Ok that seems to work for me avoiding the lockup issues.
+We should probably find a way to do type casting in bindings crate for thes=
+e
+instead.
 
-I do have another issue (performance) with secure KVM memory on a large btrfs file but I think
-I will report this differently when I have something to tell/show
+I suppose the C API is also being inconsistent there, given that `__state` =
+is
+`unsigned int`, while `prepare_to_wait_event` and friends use `int`. Not re=
+ally
+an issue because TASK_ANY is 0xFFFF. But it does feel to me that we should
+actually be using `unsigned int` here.
+
+Best,
+Gary
