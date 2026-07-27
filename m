@@ -1,129 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823BD374721;
-	Mon, 27 Jul 2026 15:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44553B42D2
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 15:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785167558; cv=none; b=WypnDFp52ssaCViMK1Q1edPkV88doDNqsVsGvf+qW52YuD8sQclVCcTT1WPvg9H8ssYkg5B2uCHnkFgzJXk5nEiN7s1uF4OSRl0gNv5yjgBR+A1vQowAQgWfa6dWhX1NRxu+mtEYbaiGyuVHYrMzV6HcUgEoA2gvbCTDDKiTOgA=
+	t=1785167636; cv=none; b=cgkIiiVYAS5QtPnk0mg780fnxRUnCBW4JLhPnFmJR17ZRa5z4vlhM/td7BraBbU+0YJFlbIsq2dE6xECvDCbBmWQFXK6T9Re48mrIvMK9RVrKin0uaMqj6+uNlGWE+4CZ/FB3ESehe7Bp21v1Cua/3klysVceNx+oY3med/wWc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785167558; c=relaxed/simple;
-	bh=YrK348zcvhxP6xWev2I4G64QFyFRv3xOkuEDBbklTIE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ns6G4VY+i4v9jhR8NwWLYTKjIVU9MFatZ6JSMIFdJUV3RWmZNPzUlOjSerodN0BhZ2tUPo8QH3UnnlnGvRsiYWRMOIIYE4NWxZqtfwrBN6E8F5M8oHvtY+Lm9lWWICbTnLCIjIiAuiNRT0TEqQNsD8zFZp9sN/fggPaM1cXkEvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlzSUtjn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785167636; c=relaxed/simple;
+	bh=PQpsokXER4K7Glv8QPD76N73tkNS8S+gI3mU1IJKFNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UppaarqOomN2EgcxJOizM9YjPAqfZfWit93aSKhseNHB6/JIO6b2PJxoQmWYG0tXOWYYXlp8urx64bSgu7R1IOIDF2Yo+XAVqyE1siinquwyMaEGqBZxi+tHWCu41uJPKIRYaKuesvAeAePewZDEbokg/S8s2p7fDxs5bAFGK1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tZSNr4LZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=313a4l7w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r2qKVn5w; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+2VWC0y0; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlzSUtjn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E339A1F00AC4;
-	Mon, 27 Jul 2026 15:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785167557;
-	bh=bzdTRmSAqyB7WTxM5zg+XJa+NCeY8Pu4qyXJvySLEVA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=RlzSUtjnBfusLroHgHFq2zuO6F4NJYQlRJNFPMyOhi2AjJmyAhWjYtd6YqKvubhxQ
-	 zW5A3Uc8srKibOqowGF8JhW/DgdbG6hhhRaCqNH8IOkcvoByiBbP6pLV34xyN16oay
-	 6Kluh2mapq/exa51PcwujgMDbBdbCkQvkvyHm8JBq8KqZsdajmIVVebVsnZeRlx8vn
-	 s9XgLfMrwLazhjA3j47mQR87iApudWw4POx7wrY3QIwxOqXl5e8At/9NwBCiUu10gk
-	 4FiD2Ibj+d8lgpknNUk9bwy6thN8hsKWW+mC1t+KnxuLBEqGjZSBKkkaHg4dCQEURD
-	 fUWxlzdhnubiA==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Cc: aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, 
- linux-ext4@vger.kernel.org, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-In-Reply-To: <20260727101509.21667-1-jack@suse.cz>
-References: <20260727101509.21667-1-jack@suse.cz>
-Subject: Re: [PATCH v5 0/20] fs: Fix missed inode write during fsync
-Message-Id: <20260727-wallung-umzingeln-fuhren-749ee08538cf@brauner>
-Date: Mon, 27 Jul 2026 17:51:56 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tZSNr4LZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="313a4l7w";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r2qKVn5w";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+2VWC0y0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BB7434015;
+	Mon, 27 Jul 2026 15:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785167628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
+	b=tZSNr4LZ1kco1FAqEs22i5E6n7+4ylJmAQX0RYb+u6Swh7T7iD218/vQm7vQo62H+0KhQt
+	F84o2ydu2FKh1yMw8I/0Hb7aB4GlbWLs2T+FAOjOzGq3NoySnuRMo90SOnLig6M0MF/EGh
+	OXqGvtSDCjedoADFntRe3oDs8Y5SSwY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785167628;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
+	b=313a4l7wbJxyZPxg3gYPKhTu7V6PTsG0IIKn6NhAT140A/nD5WQnCGUXmYNe6A940FX5br
+	2YkEQU2N6Yo5xSBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785167624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
+	b=r2qKVn5wD1+yg5835CVPs+v2HIWJgwOMrlXA3TfIzHczhwjnnHi3QLYuvX7KCTvlxTBkrD
+	T7ABS1a7AaPdaI13WJyaFcA6M4fP7IjrrmgzxBk5a/0/n69SL2Ydq+j5ie5cQiO7H7sW5s
+	O+JXyUeMM2TofWl8BmsSmQ+k2VyHLs0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785167624;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
+	b=+2VWC0y05/3pfH9RcOTm2oaYt1jUNIQmKwSKSUXOpG99eTG+/JNu1UbAdrwdt83I6G5j8v
+	W23FFd/X/lcr2KDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3EAB779B9;
+	Mon, 27 Jul 2026 15:53:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xIrkKwh/Z2oAFgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 15:53:44 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 5F194A0BA1; Mon, 27 Jul 2026 17:53:36 +0200 (CEST)
+Date: Mon, 27 Jul 2026 17:53:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Zhan Xusheng <zhanxusheng@xiaomi.com>
+Subject: Re: [PATCH] udf: Fix i_lenExtents truncation on 32-bit kernels
+Message-ID: <jccun7ddkwrfmdjbmvwqgiuu775irnsg2zhg5l7cm57bxrte36@h7bdupdkx7of>
+References: <20260722082425.213311-1-zhanxusheng@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-09492
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3497; i=brauner@kernel.org;
- h=from:subject:message-id; bh=YrK348zcvhxP6xWev2I4G64QFyFRv3xOkuEDBbklTIE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSl1x2OmyHEsuao+DSBPbJNjbEhU50sl3pKzym/f+r1b
- pbTnuLbO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaiZ8/I8GVimKhxfJl/n8Sj
- Wd6sRq3KF170vTi+QWjy/vTfJx5Hz2P4Z+h0jmfvX+7drJdPezmLnlx2jjmrZ2v43MLy3Y7G5Xm
- xrAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260722082425.213311-1-zhanxusheng@xiaomi.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,xiaomi.com:email]
 
-On Mon, 27 Jul 2026 12:49:18 +0200, Jan Kara wrote:
-> fs: Fix missed inode write during fsync
+On Wed 22-07-26 16:24:25, Zhan Xusheng wrote:
+> In udf_do_extend_file() the total extent length is rounded up to a block
+> boundary with:
 > 
-> Hello,
+> 	iinfo->i_lenExtents = (iinfo->i_lenExtents + sb->s_blocksize - 1) &
+> 			      ~(sb->s_blocksize - 1);
 > 
-> here is v5 of the patch series which fixes the possibly missing inode write
-> during fsync(2) for filesystems using generic metadata bh tracking. This
-> revision contains mostly small fixes and improvements since v3, neither
-> Sashiko nor Christian found fundamental issues with this approach.
+> i_lenExtents is a __u64, but sb->s_blocksize is unsigned long.  On 32-bit
+> kernels unsigned long is 32-bit, so ~(sb->s_blocksize - 1) is a 32-bit
+> value (e.g. 0xfffff800 for a 2 KiB block) that is zero-extended in the AND,
+> clearing the upper 32 bits of i_lenExtents.  For UDF files whose total
+> extent length exceeds 4 GiB this truncates i_lenExtents when the file is
+> extended, corrupting the tracked extent length.
 > 
-> [...]
+> Cast the block size to 64-bit before forming the mask.  64-bit kernels are
+> unaffected.
+> 
+> Fixes: 48d6d8ff7dca ("udf: cache struct udf_inode_info")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 
-I've put three patches on top of vfs-7.3.sync that fix Sashiko reported
-bugs. @Jan, please take a look. If that looks fine to you I can fold
-them down.
+Thanks. I've added the patch to my tree.
 
----
+								Honza
 
-Applied to the vfs-7.3.sync branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.sync branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.sync
-
-[01/20] affs: Drop support for metadata bh tracking
-        https://git.kernel.org/vfs/vfs/c/b637f52f2f26
-[02/20] fs: Fix possible UAF in mark_buffer_write_io_error()
-        https://git.kernel.org/vfs/vfs/c/b0bca4e95b03
-[03/20] fs: Fix missed inode writeback when racing with __writeback_single_inode
-        https://git.kernel.org/vfs/vfs/c/5a499dad2c79
-[04/20] ext4: Allocate mapping_metadata_bhs struct on demand
-        https://git.kernel.org/vfs/vfs/c/daca0f43a934
-[05/20] fs: Provide way for filesystem to wait for metadata writeback
-        https://git.kernel.org/vfs/vfs/c/c474bc56b6d1
-[06/20] ext2: Fix lost inode updates for IS_SYNC inodes
-        https://git.kernel.org/vfs/vfs/c/356984d1a5c3
-[07/20] ext2: Drop __ext2_write_inode()
-        https://git.kernel.org/vfs/vfs/c/4efd6a43a92f
-[08/20] ext2: Avoid unnecessary inode buffer writeback for sync(2)
-        https://git.kernel.org/vfs/vfs/c/74d4faaa76b8
-[09/20] ext2: Fix data integrity writeout issues
-        https://git.kernel.org/vfs/vfs/c/917e583992e5
-[10/20] udf: Fix data integrity writeout issues
-        https://git.kernel.org/vfs/vfs/c/1ec98214ccf0
-[11/20] udf: Use sync_inode_metadata() to writeout IS_SYNC inode
-        https://git.kernel.org/vfs/vfs/c/061d83911da5
-[12/20] udf: Drop udf_sync_inode()
-        https://git.kernel.org/vfs/vfs/c/c87c0098cf61
-[13/20] udf: Use sync_inode_metadata() in udf_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/e0e30479c756
-[14/20] udf: Fold udf_update_inode() into udf_write_inode()
-        https://git.kernel.org/vfs/vfs/c/5b2e45c33565
-[15/20] bfs: Fix data integrity writeout issues
-        https://git.kernel.org/vfs/vfs/c/0cee81a3fd9f
-[16/20] minix: Fix data integrity writeout issues
-        https://git.kernel.org/vfs/vfs/c/84af7c3b3462
-[17/20] ext4: Fix data integrity writeout issues in nojournal mode
-        https://git.kernel.org/vfs/vfs/c/c26339e1df33
-[18/20] fat: Fix missed inode writeback during fsync(2)
-        https://git.kernel.org/vfs/vfs/c/525da4f40a7c
-[19/20] fat: Replace fat_sync_inode() with sync_inode_metadata()
-        https://git.kernel.org/vfs/vfs/c/e668e0668181
-[20/20] vfs: Remove mmb_fsync()
-        https://git.kernel.org/vfs/vfs/c/dc78399717c4
-
+> ---
+>  fs/udf/inode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+> index 67bcf83758c8..c519644acfd7 100644
+> --- a/fs/udf/inode.c
+> +++ b/fs/udf/inode.c
+> @@ -531,7 +531,7 @@ static int udf_do_extend_file(struct inode *inode,
+>  			  sb->s_blocksize - 1) & ~(sb->s_blocksize - 1));
+>  		iinfo->i_lenExtents =
+>  			(iinfo->i_lenExtents + sb->s_blocksize - 1) &
+> -			~(sb->s_blocksize - 1);
+> +			~((u64)sb->s_blocksize - 1);
+>  	}
+>  
+>  	add = 0;
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
