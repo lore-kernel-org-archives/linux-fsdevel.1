@@ -1,34 +1,34 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B6323536B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D8342464C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785176022; cv=none; b=QcZy/Bp/QLlAEHFQ0pYsDUVQ0AL0/9xgvhv9q1S8zXMpAxD80ryyqwF5MJWDCPYtrHcc/p8gWKBXLeqL2RI/z66628zV+03pNV0Kz3wEqL/b4HM16x6PijKm6aoGAgFNQ/ujd2/hSYhXSmGmHcOFKgj28/ddcJIy3RPIHrVKDrk=
+	t=1785176025; cv=none; b=GdwbCZx7n0Khu5ucb5GzqIYzMH8OzAUXMzRvnfRWt0RAlVeARPYaK8zbxGqM4brwklWQn8qsZAmbLn5ssTpZyEqpzF9DSi9yw37WQDbz0onYV353BM+H1UlvB+Xo52i7HOHg4SobAGIqb3YxSUat/b9eksa023o2mpzGakJiUdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785176022; c=relaxed/simple;
-	bh=nLsYE5MInPxDkZJRSTgck4vHBHj/tft4le37F2n9euc=;
+	s=arc-20240116; t=1785176025; c=relaxed/simple;
+	bh=T59rqTf5h0V/7lgZBy0rNCnt+9ImLw97cP8b+CbH49g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LP2iUPJAM44n16qEQEryACJ0d3apF3tY1l/aGoTfccSQoY0KPuQtH0z94BidHV/ekCPYhS4n5uB+UK39DVc54Or9G/WfCY2xKogaX6lErW8YGSaBrEnGpGyubwmLzO1FVk3NvzIazO1Jdlj4Js0gpGLkkjWwZIRAOT68pnDu1ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dhHNFX1F; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=pQfYs40Z1nqZHKiN+mxpD7dwSATwBigbQOzwDGMqFebfQ2PH/WQsYRyEftyVS5ymqQKhj+22++NCv9CGwnSgDuatWOOTbJu702jx5fBhOsEGoEB6frhql0fHvM9QqR6WHtnYkIcSneB+NjvNY3vwj4nRsBs8gAwYR2+J/CVS1C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iAoWnhkk; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dhHNFX1F"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iAoWnhkk"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=VHllHAYD+554jhDmr6CAyg40twiId7LXCrXkJDYooJQ=; b=dhHNFX1FHnBFsaHwsJcodHjGRf
-	YhtbqSXUGYiJgDO78bOy/MC8mO5sU1yZGVlNbuPtR83P5t6qEi9kIa8Ydea7g/4/5K/1QcWKPc6Tz
-	rey9R5mBOCjVGXv8FGrSF6jjiMjbElO22NWGZtwU8fS6ML3G01d4CBmqaOo1uRiHW03am+wvHmaU9
-	x/WArFCOA8TOvT95/SpgcWc2waBMUqjfOqZe3ZD7epa9ezmGTd7WHNs11qq/QJ4ldOTy3h3O1YrYr
-	JbremtoeF7TSc4XN2ze/QluntAgjkG5D60+jMpI8BW6tkmg3DUL+bENi5BrcYObSr9dSBGC+IMJ9i
-	qgIIvmCw==;
+	bh=lL216fIv4vvT2FQ3lahp26Y5N739lhMmfF6ZddEZbhg=; b=iAoWnhkkF9RREe+Id92K+dJPOT
+	5o7KHwxlhSwJ6Vq+JEoeuxqte49aTsi6qdPCPgG2UO3T7jXe4w59PZA5QfMb7dgq7PrYJBzT+bZey
+	N8u68K+tVSdiSdxfKm2fEsnk+8N+oHJlAzE9h4qlSJ75+un+cA8Bk5CztFJUuWwd9GgAXm0MO1fKH
+	+Wv7WZgqrRv3InbEoFrimADfyXgHVcDXzJIPvaxc8mIqpmEeoUbstnMaEBrFIPYVi8l/nMgQKPtSi
+	15r2IV4HUSKB/oVolD/f7qJMhyz4zvhfzvzuVSIm2Av7AcfnJtxT/qrgxHOpp4XQlpN4iV0xtUXVm
+	EyzOlSpw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woPpB-0000000BD7i-025w;
-	Mon, 27 Jul 2026 18:13:13 +0000
+	id 1woPpA-0000000BD7S-0Jdr;
+	Mon, 27 Jul 2026 18:13:12 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
@@ -42,10 +42,11 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: [PATCH v6 11/12] filemap: Add support for authoritative mappings
-Date: Mon, 27 Jul 2026 19:13:07 +0100
-Message-ID: <20260727181310.2671972-12-willy@infradead.org>
+	Jiaqi Yan <jiaqiyan@google.com>,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v6 03/12] hugetlb: Mark some function arguments as const
+Date: Mon, 27 Jul 2026 19:12:59 +0100
+Message-ID: <20260727181310.2671972-4-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260727181310.2671972-1-willy@infradead.org>
 References: <20260727181310.2671972-1-willy@infradead.org>
@@ -57,82 +58,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An authoritative mapping knows about all the folios in the mapping.
-If read() finds a missing folio, there's no reason to allocate one and
-try to read it because we know it's a zero region of the file.  We can
-just call iov_iter_zero() instead.
+These functions do not modify their folio argument, so we can mark them
+as being const which will allow for some minor optimisations and let us
+mark other function arguments as being const in the future.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Usama Arif <usama.arif@linux.dev>
 ---
- include/linux/pagemap.h | 11 +++++++++++
- mm/filemap.c            | 18 ++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ include/linux/hugetlb.h | 19 +++++++++----------
+ mm/hugetlb.c            |  2 +-
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 968b791cfd14..22d48935ffda 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -210,6 +210,7 @@ enum mapping_flags {
- 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
- 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
- 				   account usage to user cgroups */
-+	AS_AUTHORITATIVE = 11,	/* If we miss in the page cache, it's a hole */
- 	/* Bits 16-25 are used for FOLIO_ORDER */
- 	AS_FOLIO_ORDER_BITS = 5,
- 	AS_FOLIO_ORDER_MIN = 16,
-@@ -345,6 +346,16 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
- 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 2abaf99321e9..18661a7cdb37 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -165,7 +165,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
+ 				 struct vm_area_struct *vma,
+ 				 unsigned long address);
+ 
+-struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
++struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio);
+ 
+ extern int movable_gigantic_pages __read_mostly;
+ extern int sysctl_hugetlb_shm_group __read_mostly;
+@@ -292,8 +292,7 @@ static inline unsigned long hugetlb_total_pages(void)
+ 	return 0;
  }
  
-+static inline void mapping_set_authoritative(struct address_space *mapping)
-+{
-+	set_bit(AS_AUTHORITATIVE, &mapping->flags);
-+}
-+
-+static inline bool mapping_is_authoritative(const struct address_space *mapping)
-+{
-+	return test_bit(AS_AUTHORITATIVE, &mapping->flags);
-+}
-+
- static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+-static inline struct address_space *hugetlb_folio_mapping_lock_write(
+-							struct folio *folio)
++static inline struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
  {
- 	return mapping->gfp_mask;
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 26a5f18121f9..5a8cc20e624e 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2697,6 +2697,8 @@ static int filemap_get_pages(struct kiocb *iocb, size_t count,
- 	if (!folio_batch_count(fbatch)) {
- 		DEFINE_READAHEAD(ractl, filp, &filp->f_ra, mapping, index);
+ 	return NULL;
+ }
+@@ -595,8 +594,8 @@ enum hugetlb_page_flags {
+ #ifdef CONFIG_HUGETLB_PAGE
+ #define TESTHPAGEFLAG(uname, flname)				\
+ static __always_inline						\
+-bool folio_test_hugetlb_##flname(struct folio *folio)		\
+-	{	void *private = &folio->private;		\
++bool folio_test_hugetlb_##flname(const struct folio *folio)	\
++	{	const void *private = &folio->private;		\
+ 		return test_bit(HPG_##flname, private);		\
+ 	}
  
-+		if (mapping_is_authoritative(mapping))
-+			return 0;
- 		if (iocb->ki_flags & IOCB_NOIO)
- 			return -EAGAIN;
- 		if (iocb->ki_flags & IOCB_NOWAIT)
-@@ -2853,6 +2855,22 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
- 			goto put_folios;
- 		end_offset = min_t(loff_t, isize, iocb->ki_pos + iter->count);
+@@ -616,7 +615,7 @@ void folio_clear_hugetlb_##flname(struct folio *folio)		\
+ #else
+ #define TESTHPAGEFLAG(uname, flname)				\
+ static inline bool						\
+-folio_test_hugetlb_##flname(struct folio *folio)		\
++folio_test_hugetlb_##flname(const struct folio *folio)		\
+ 	{ return 0; }
  
-+		if (!folio_batch_count(&fbatch)) {
-+			size_t fsize = mapping_min_folio_nrbytes(mapping);
-+			size_t offset = iocb->ki_pos & (fsize - 1);
-+			size_t bytes = min_t(loff_t, end_offset - iocb->ki_pos,
-+					     fsize - offset);
-+			size_t copied = iov_iter_zero(bytes, iter);
-+
-+			already_read += copied;
-+			iocb->ki_pos += copied;
-+			last_pos = iocb->ki_pos;
-+
-+			if (copied < bytes)
-+				error = -EFAULT;
-+			continue;
-+		}
-+
- 		/*
- 		 * Once we start copying data, we don't want to be touching any
- 		 * cachelines that might be contended:
+ #define SETHPAGEFLAG(uname, flname)				\
+@@ -727,7 +726,7 @@ static inline struct hugepage_subpool *subpool_inode(struct inode *inode)
+ 	return HUGETLBFS_SB(inode->i_sb)->spool;
+ }
+ 
+-static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
++static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
+ {
+ 	return folio->_hugetlb_subpool;
+ }
+@@ -857,7 +856,7 @@ static inline bool arch_has_huge_bootmem_alloc(void)
+ }
+ #endif
+ 
+-static inline struct hstate *folio_hstate(struct folio *folio)
++static inline struct hstate *folio_hstate(const struct folio *folio)
+ {
+ 	VM_BUG_ON_FOLIO(!folio_test_hugetlb(folio), folio);
+ 	return size_to_hstate(folio_size(folio));
+@@ -1088,7 +1087,7 @@ static inline unsigned long huge_page_mask_align(struct file *file)
+ 	return 0;
+ }
+ 
+-static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
++static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
+ {
+ 	return NULL;
+ }
+@@ -1157,7 +1156,7 @@ static inline struct hstate *hstate_vma(struct vm_area_struct *vma)
+ 	return NULL;
+ }
+ 
+-static inline struct hstate *folio_hstate(struct folio *folio)
++static inline struct hstate *folio_hstate(const struct folio *folio)
+ {
+ 	return NULL;
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 571212b80835..cc8d98399913 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1775,7 +1775,7 @@ void init_new_hugetlb_folio(struct folio *folio)
+  * stable.  Due to locking order, we can only trylock_write.  If we can
+  * not get the lock, simply return NULL to caller.
+  */
+-struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio)
++struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
+ {
+ 	struct address_space *mapping = folio_mapping(folio);
+ 
 -- 
 2.47.3
 
