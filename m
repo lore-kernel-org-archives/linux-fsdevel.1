@@ -1,84 +1,49 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44553B42D2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 15:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4202426B764
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 15:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785167636; cv=none; b=cgkIiiVYAS5QtPnk0mg780fnxRUnCBW4JLhPnFmJR17ZRa5z4vlhM/td7BraBbU+0YJFlbIsq2dE6xECvDCbBmWQFXK6T9Re48mrIvMK9RVrKin0uaMqj6+uNlGWE+4CZ/FB3ESehe7Bp21v1Cua/3klysVceNx+oY3med/wWc0=
+	t=1785167752; cv=none; b=XOoK4+f2j/WZ6DxQXtEUWykwDPYTZNpLftSPKtknoQC4HbNMhBYNB55DMDtgwfwyxJlOTP5bdUFtnAtvB0OWC7+iodHOAkR+K5UUbA2nTvTNOpqTK1tSgNqhpFjlcoDp41chXAMGIaoVLn6jOcvHKzvR2cUxquT30ZeH1RH+zzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785167636; c=relaxed/simple;
-	bh=PQpsokXER4K7Glv8QPD76N73tkNS8S+gI3mU1IJKFNk=;
+	s=arc-20240116; t=1785167752; c=relaxed/simple;
+	bh=gCPf9W7lA9+zKja3T2wHMt7X/gMAmjiY5tGephwJo0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UppaarqOomN2EgcxJOizM9YjPAqfZfWit93aSKhseNHB6/JIO6b2PJxoQmWYG0tXOWYYXlp8urx64bSgu7R1IOIDF2Yo+XAVqyE1siinquwyMaEGqBZxi+tHWCu41uJPKIRYaKuesvAeAePewZDEbokg/S8s2p7fDxs5bAFGK1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tZSNr4LZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=313a4l7w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r2qKVn5w; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+2VWC0y0; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=NNWqBKT5snWx1YPukZDbG1TpOnC/2B/Ud6h2lMWytnsDbfrzBkOw1ooIF1RYdlzHTAcAasICaYnR7fwHZc5LF7jmlA3njcoxpyVKAa2K31xKujLfCyj85N9QQAIfgCIL1wzoC/99bY3zuGqLaCMB1g/Ymm5zBAepjJDlBQud6Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gGRvTUpO; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tZSNr4LZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="313a4l7w";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r2qKVn5w";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+2VWC0y0"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BB7434015;
-	Mon, 27 Jul 2026 15:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785167628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
-	b=tZSNr4LZ1kco1FAqEs22i5E6n7+4ylJmAQX0RYb+u6Swh7T7iD218/vQm7vQo62H+0KhQt
-	F84o2ydu2FKh1yMw8I/0Hb7aB4GlbWLs2T+FAOjOzGq3NoySnuRMo90SOnLig6M0MF/EGh
-	OXqGvtSDCjedoADFntRe3oDs8Y5SSwY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785167628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
-	b=313a4l7wbJxyZPxg3gYPKhTu7V6PTsG0IIKn6NhAT140A/nD5WQnCGUXmYNe6A940FX5br
-	2YkEQU2N6Yo5xSBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785167624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
-	b=r2qKVn5wD1+yg5835CVPs+v2HIWJgwOMrlXA3TfIzHczhwjnnHi3QLYuvX7KCTvlxTBkrD
-	T7ABS1a7AaPdaI13WJyaFcA6M4fP7IjrrmgzxBk5a/0/n69SL2Ydq+j5ie5cQiO7H7sW5s
-	O+JXyUeMM2TofWl8BmsSmQ+k2VyHLs0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785167624;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCAkwJDJahcpe263LcPp92lUoKA8MWt+sIoO6Xpo+fs=;
-	b=+2VWC0y05/3pfH9RcOTm2oaYt1jUNIQmKwSKSUXOpG99eTG+/JNu1UbAdrwdt83I6G5j8v
-	W23FFd/X/lcr2KDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3EAB779B9;
-	Mon, 27 Jul 2026 15:53:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xIrkKwh/Z2oAFgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 15:53:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5F194A0BA1; Mon, 27 Jul 2026 17:53:36 +0200 (CEST)
-Date: Mon, 27 Jul 2026 17:53:36 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: Re: [PATCH] udf: Fix i_lenExtents truncation on 32-bit kernels
-Message-ID: <jccun7ddkwrfmdjbmvwqgiuu775irnsg2zhg5l7cm57bxrte36@h7bdupdkx7of>
-References: <20260722082425.213311-1-zhanxusheng@xiaomi.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gGRvTUpO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=r1YKY8dxDVPOObAhaY7i0KmqUanNkeNYqSbIMl3UWEo=; b=gGRvTUpOQQT2es9H0vC5I1nKpZ
+	Fh95dMgoA6vVOVbzwRAMkDS7OJfs0dsdoCGbtglMscHw9WN9atinw840A+VcPjErxYvzcE7ghYFPE
+	yg2JaV+h0TV9D6OxoT7lp6000dEA8g+ruuYod3u0OvPs2mWOf/3mpkcrKpcShIpsQ346hZ4aK4gPJ
+	AdLA8D7lejucGBnSAYtQvuR0vWvcnVKB9AI1cJ1LIgIZ1+f2ffISGpMltDGYhCN4BLOF/tzZXYEov
+	yl3bwNaljPe7NPDPDydnB9G8w6N3V9MaXBRvv0ipspBxz7OkymphVIfA2ycMHvBJny2ILGkYmH+Jw
+	fOukjkHA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woNg1-0000000AzL0-3X7z;
+	Mon, 27 Jul 2026 15:55:37 +0000
+Date: Mon, 27 Jul 2026 16:55:37 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v5 11/12] filemap: Add support for authoritative mappings
+Message-ID: <amd_eb908Co9JeyH@casper.infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
+ <20260725160042.1557264-12-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,77 +52,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722082425.213311-1-zhanxusheng@xiaomi.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,xiaomi.com:email]
+In-Reply-To: <20260725160042.1557264-12-willy@infradead.org>
 
-On Wed 22-07-26 16:24:25, Zhan Xusheng wrote:
-> In udf_do_extend_file() the total extent length is rounded up to a block
-> boundary with:
+Sashiko:
+> --- Patch [11]: [PATCH v5 11/12] filemap: Add support for authoritative mappings ---
+> commit 7b270a787d853107f7a64dd3127d799a28d3142e
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
-> 	iinfo->i_lenExtents = (iinfo->i_lenExtents + sb->s_blocksize - 1) &
-> 			      ~(sb->s_blocksize - 1);
+> filemap: Add support for authoritative mappings
 > 
-> i_lenExtents is a __u64, but sb->s_blocksize is unsigned long.  On 32-bit
-> kernels unsigned long is 32-bit, so ~(sb->s_blocksize - 1) is a 32-bit
-> value (e.g. 0xfffff800 for a 2 KiB block) that is zero-extended in the AND,
-> clearing the upper 32 bits of i_lenExtents.  For UDF files whose total
-> extent length exceeds 4 GiB this truncates i_lenExtents when the file is
-> extended, corrupting the tracked extent length.
+> An authoritative mapping knows about all the folios in the mapping.
+> If read() finds a missing folio, there's no reason to allocate one and
+> try to read it because we know it's a zero region of the file.  We can
+> just call iov_iter_zero() instead.
 > 
-> Cast the block size to 64-bit before forming the mask.  64-bit kernels are
-> unaffected.
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index 26a5f18121f90..5a8cc20e624e4 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -2697,6 +2697,8 @@ static int filemap_get_pages(struct kiocb *iocb, size_t count,
+> >  	if (!folio_batch_count(fbatch)) {
+> >  		DEFINE_READAHEAD(ractl, filp, &filp->f_ra, mapping, index);
+> >  
+> > +		if (mapping_is_authoritative(mapping))
+> > +			return 0;
 > 
-> Fixes: 48d6d8ff7dca ("udf: cache struct udf_inode_info")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> Does returning 0 here cause an infinite loop in filemap_splice_read()?
 
-Thanks. I've added the patch to my tree.
+As before, hugetlb doesn't use splice_read() so adding support would be
+dead untestable code.  We'll add support here when we need it.
 
-								Honza
+> > @@ -2853,6 +2855,22 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
+> >  			goto put_folios;
+> >  		end_offset = min_t(loff_t, isize, iocb->ki_pos + iter->count);
+> >  
+> > +		if (!folio_batch_count(&fbatch)) {
+> > +			size_t fsize = mapping_min_folio_nrbytes(mapping);
+> > +			size_t offset = iocb->ki_pos & (fsize - 1);
+> > +			size_t bytes = min_t(loff_t, end_offset - iocb->ki_pos,
+> > +					     fsize - offset);
+> > +			size_t copied = iov_iter_zero(bytes, iter);
+> > +
+> > +			already_read += copied;
+> > +			iocb->ki_pos += copied;
+> > +			last_pos = iocb->ki_pos;
+> > +
+> > +			if (copied < bytes)
+> > +				error = -EFAULT;
+> > +			continue;
+> > +		}
+> 
+> Should filemap_fault() also be updated to handle authoritative mappings?
 
-> ---
->  fs/udf/inode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-> index 67bcf83758c8..c519644acfd7 100644
-> --- a/fs/udf/inode.c
-> +++ b/fs/udf/inode.c
-> @@ -531,7 +531,7 @@ static int udf_do_extend_file(struct inode *inode,
->  			  sb->s_blocksize - 1) & ~(sb->s_blocksize - 1));
->  		iinfo->i_lenExtents =
->  			(iinfo->i_lenExtents + sb->s_blocksize - 1) &
-> -			~(sb->s_blocksize - 1);
-> +			~((u64)sb->s_blocksize - 1);
->  	}
->  
->  	add = 0;
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Eventually, if hugetlbfs is ever converted to use filemap_fault().
+As above, it'd be dead code.
+
+
+That's it for interesting Sashiko reviews.  I've omitted some which
+are suplicates, either within this patch series or have been reported
+against previous patch series.  Feels like we're close!
