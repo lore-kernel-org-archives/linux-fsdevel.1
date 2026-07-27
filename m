@@ -1,39 +1,40 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7225E15E5BB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D5442BE99
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785176007; cv=none; b=uYifmPVPwe+MlxJ7aQxzhUbLHHKPrw5uYUQZgENH6kibY28dW9KnoUtBf8MsznOFho9F6iqCEA2QG1Y/1J/XXLa3LghgSOzRtkdtMAT5DUrshgHB4WHUVG9oCCXXN+BC9ceaSR+xMPIPBCNkjulL5xW8cePeCTx3z2aXjy2h3l8=
+	t=1785176008; cv=none; b=AatHxnKl9ootBhnaNjdgrN3rKZPoX34Jy8Nv1w0bW5OCGbREALHgPfgpf1jGOiymEOfJEQhm3hfhc6fxpGuaMKcc1ub2jgsdaSGlKCfwMTRLyWacBAuARrz12sv+IDcX1A7fLczTAHA52/QVEqEL1UQ07wS0ZL7wBLycyGNEBi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785176007; c=relaxed/simple;
-	bh=AyQWgSo8XWTUphonEAuyYBrdrjkAJEvZbg2IOcYNkbs=;
+	s=arc-20240116; t=1785176008; c=relaxed/simple;
+	bh=rdms1MUYp92u5o+bY3UaGTJvakzd6ydcKNG3ZKLZTYs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kZyG6Kj/LF19shT1X19xBO7/tVhzjJZR5fQVQ6zjsEUmNbwJpM3faIRqjJVMihQHlO2fC4Sd+ZjsdZA4CZRT8j8T77iAY55OplB5C4bPgTfWUln2Vatvr+TOgYYL+D5k/krBe3AVZtJRY15+Ww+BmsRnNE/z4B8UdJ4UdZHsjwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=L1Nqw1rx; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=cZZCnlg84CXLOJ6Jq/g+PUHrcVu/Z9P6owjTCw8lUcrz82BFf+yAACCPtIgua6aDM1ZnpRAxj02wYUeVKYPFVgQpqGp1TctJPrAye3i42kSTo1dWKCpfE9hawx30N3Qn+hd9JaEp4Rskx7rq0sGiTqJ1KBkeA9PjYPY7AKp64qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sS9iiZkw; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L1Nqw1rx"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sS9iiZkw"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=xPkMEYO9mjH/Ia6rRtWcuKRSGQrQUxUN5Ze4piyRhiI=; b=L1Nqw1rxqQyjj0xAVqNl1RwtwY
-	DG2KSR0EC8Dd7SteWpX/cZYbjTbtBSfRy2+8WrzsjjJFPf11irByaegrgsvGgIDAEOQEx/QfTcbXZ
-	/RJpqAYODJxuPNuKk7gILzVrleqEbOmWOl5/vXxnTA58hX6kSD4PV0SPmIZh5r1r0reexVgnM6AVg
-	JPsnAHRgDdviEnyJsgidw7BDq1mZpxToG8PFxwrN/StwuqLpgLFgiokOc54x7I6Cwo4jGBMimXhyA
-	+mn9VyxAuxwxPncSqfqPAdJ7WOYM/msxvObwSfik+/24fvs3ZQ0ju81K1wEZa/L+51LIpASHqCQFj
-	VMWFYHVA==;
+	bh=qOOAZt4Qxl7pCvvV0pQs7Uy6Zmn2k1TODG74e5MZNQA=; b=sS9iiZkwGmjXSR36cFBFpQbPyc
+	Pwk9iP4g0oloDY+lVu61HBvgFVIIeZNz0DNBa23A4WLz0+fwMv39/XEpO+zRG8M2cUGRosBEQgnRQ
+	rWz1lfHn+emC4AmA0SqNn2ZwUPP4RZcpTDGqP8yQPASyX5QAv57jU/WzbUxMbwhGqKo9eF+EoTkDi
+	zHkfevhwtgCLTGfRSbyH3vS6vklLq6UMJYU4bxtN7nUja9aDQN5NvAdtr/m95ST8g+RLvGhEXgHtF
+	HRzpvNgYBNdWhYD91XjejmSo14aSStNw8vcqIk7dfHzYDN+I1VlN3VnqeflvgU4uHvhblTR5gkWWX
+	9899XCdw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woPpA-0000000BD7c-2ikx;
+	id 1woPpA-0000000BD7W-16Cr;
 	Mon, 27 Jul 2026 18:13:12 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
 	linux-mm@kvack.org
-Cc: Muchun Song <muchun.song@linux.dev>,
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
 	Oscar Salvador <osalvador@suse.de>,
 	David Hildenbrand <david@kernel.org>,
 	Miaohe Lin <linmiaohe@huawei.com>,
@@ -41,11 +42,10 @@ Cc: Muchun Song <muchun.song@linux.dev>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v6 08/12] filemap: Add hwpoison handling to filemap_read()
-Date: Mon, 27 Jul 2026 19:13:04 +0100
-Message-ID: <20260727181310.2671972-9-willy@infradead.org>
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: [PATCH v6 05/12] hugetlb: Use the has_hwpoisoned flag
+Date: Mon, 27 Jul 2026 19:13:01 +0100
+Message-ID: <20260727181310.2671972-6-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260727181310.2671972-1-willy@infradead.org>
 References: <20260727181310.2671972-1-willy@infradead.org>
@@ -57,127 +57,477 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jane Chu <jane.chu@oracle.com>
+Other large folios use the has_hwpoisoned flag.  Convert hugetlb to match.
+This will help us use the per-page hwpoison flag in the future.
 
-Add hwpoison handling to filemap_read() such that .read_iter() could
-make best effort copying data out of clean pages without risking
-MCE in case page cache contains HWpoison.
+Also introduce a folio_test_huge_poison().  This has exactly the same
+meaning as folio_test_has_hwpoisoned() but can be used when we don't have
+a reference to the folio containing the page.  folio_test_has_hwpoisoned()
+can race with folio splitting / reallocation and trip the assertions
+in const_folio_flags().
 
-Signed-off-by: Jane Chu <jane.chu@oracle.com>
-Co-developed-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Matthew Wilcox <willy@infradead.org>
+This closes a gap where a page in a previously-poisoned hugetlb folio
+could be observed to not have the hwpoison bit set.
+
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- include/linux/hugetlb.h    |  2 --
- include/linux/page-flags.h | 11 +++++++++++
- mm/filemap.c               | 33 +++++++++++++++++++++++++++++++--
- 3 files changed, 42 insertions(+), 4 deletions(-)
+ fs/Kconfig                 |  2 +-
+ fs/hugetlbfs/inode.c       |  2 +-
+ include/linux/page-flags.h | 46 ++++++++++++++++++++++++-----
+ mm/Kconfig                 |  6 +++-
+ mm/hugetlb.c               | 14 ++++-----
+ mm/memory-failure.c        | 60 ++++++++++++++++++++++++++++----------
+ mm/rmap.c                  | 43 +++++++++++++++++----------
+ 7 files changed, 123 insertions(+), 50 deletions(-)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 325f0404a7eb..1878642e75ec 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -1069,8 +1069,6 @@ void hugetlb_register_node(struct node *node);
- void hugetlb_unregister_node(struct node *node);
- #endif
+diff --git a/fs/Kconfig b/fs/Kconfig
+index cf6ae64776e6..eddac4ed214b 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -272,7 +272,7 @@ endif # HUGETLBFS
  
--bool hugetlb_page_hwpoison(const struct folio *folio, const struct page *page);
--
- static inline unsigned long huge_page_mask_align(struct file *file)
- {
- 	return PAGE_MASK & ~huge_page_mask(hstate_file(file));
+ config HUGETLB_PAGE
+ 	def_bool HUGETLBFS
+-	select XARRAY_MULTI
++	select LARGE_FOLIO
+ 
+ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+ 	def_bool HUGETLB_PAGE
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 216e1a0dd0b2..fbac554886c3 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -258,7 +258,7 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 		} else {
+ 			folio_unlock(folio);
+ 
+-			if (!folio_test_hwpoison(folio))
++			if (!folio_test_has_hwpoisoned(folio))
+ 				want = nr;
+ 			else {
+ 				/*
 diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index ee026ba9b0b5..07cc7854b2de 100644
+index 4185a03a45cf..4fab3fbfd430 100644
 --- a/include/linux/page-flags.h
 +++ b/include/linux/page-flags.h
-@@ -1094,6 +1094,7 @@ static inline bool PageHuge(const struct page *page)
- 	return folio_test_hugetlb(page_folio(page));
- }
+@@ -893,14 +893,19 @@ static inline int PageTransCompound(const struct page *page)
+ TESTPAGEFLAG_FALSE(TransCompound, transcompound)
+ #endif
  
-+bool hugetlb_page_hwpoison(const struct folio *folio, const struct page *page);
- bool hugetlb_unref_page_hwpoison(const struct page *page);
+-#if defined(CONFIG_MEMORY_FAILURE) && defined(CONFIG_TRANSPARENT_HUGEPAGE)
++#if defined(CONFIG_MEMORY_FAILURE) && defined(CONFIG_LARGE_FOLIO)
+ /*
+- * PageHasHWPoisoned indicates that at least one subpage is hwpoisoned in the
+- * compound page.
++ * folio_has_hwpoisoned indicates that at least one page is hwpoisoned in the
++ * folio.  That page will usually also have the HWPoison flag set, but this
++ * is not possible for folios which have HVO (see memory-failure for the
++ * scheme used in that case).  You probably don't want to call this directly;
++ * use folio_has_hwpoisoned_page() instead.
+  *
+  * This flag is set by hwpoison handler.  Cleared by THP split or free page.
+  */
+ FOLIO_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
++FOLIO_TEST_SET_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
++FOLIO_TEST_CLEAR_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
+ #else
+ FOLIO_FLAG_FALSE(has_hwpoisoned)
+ #endif
+@@ -1041,8 +1046,29 @@ PAGE_TYPE_OPS(Slab, slab, slab)
+ 
+ #ifdef CONFIG_HUGETLB_PAGE
+ FOLIO_TYPE_OPS(hugetlb, hugetlb)
++
++#ifdef CONFIG_MEMORY_FAILURE
++static inline bool folio_test_huge_poison(const struct folio *folio)
++{
++	return (READ_ONCE(folio->page.page_type) >> 23) ==
++		((PGTY_hugetlb << 1) | 1);
++}
++
++static inline void folio_set_huge_poison(struct folio *folio)
++{
++	folio->page.page_type |= (1 << 23);
++}
++
++static inline void folio_clear_huge_poison(struct folio *folio)
++{
++	folio->page.page_type &= ~(1 << 23);
++}
++#else
++FOLIO_TEST_FLAG_FALSE(huge_poison)
++#endif
+ #else
+ FOLIO_TEST_FLAG_FALSE(hugetlb)
++FOLIO_TEST_FLAG_FALSE(huge_poison)
+ #endif
+ 
+ PAGE_TYPE_OPS(Zsmalloc, zsmalloc, zsmalloc)
+@@ -1069,9 +1095,10 @@ static inline bool PageHuge(const struct page *page)
+ }
  
  /*
-@@ -1115,6 +1116,16 @@ static inline bool is_page_hwpoison(const struct page *page)
- 	return PageHWPoison(page);
+- * Check if a page is currently marked HWPoisoned. Note that this check is
+- * best effort only and inherently racy: there is no way to synchronize with
+- * failing hardware.
++ * Check if a page is currently marked HWPoisoned.  This check is best
++ * effort only and inherently racy: there is no way to synchronize with
++ * failing hardware.  The caller may not have a refcount on the folio
++ * containing the page, so we must be careful to not trip any assertions.
+  */
+ static inline bool is_page_hwpoison(const struct page *page)
+ {
+@@ -1080,12 +1107,15 @@ static inline bool is_page_hwpoison(const struct page *page)
+ 	if (PageHWPoison(page))
+ 		return true;
+ 	folio = page_folio(page);
+-	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
++	if (folio_test_huge_poison(folio))
++		return true;
++	/* In case we raced with hugetlb transferring flags */
++	return PageHWPoison(page);
  }
  
-+static inline bool is_ref_page_hwpoison(const struct folio *folio,
-+		const struct page *page)
-+{
-+	if (PageHWPoison(page))
-+		return true;
-+	if (folio_test_hugetlb(folio))
-+		return hugetlb_page_hwpoison(folio, page);
-+	return false;
-+}
-+
  static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
  {
- 	return PageHWPoison(&folio->page) ||
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 58eb9d240643..26a5f18121f9 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2483,6 +2483,8 @@ static void filemap_get_read_batch(struct address_space *mapping,
- 
- 		if (!folio_batch_add(fbatch, folio))
- 			break;
-+		if (folio_has_hwpoisoned_page(folio))
-+			break;
- 		if (!folio_test_uptodate(folio))
- 			break;
- 		if (folio_test_readahead(folio))
-@@ -2749,6 +2751,29 @@ static inline bool pos_same_folio(loff_t pos1, loff_t pos2, struct folio *folio)
- 	return (pos1 >> shift == pos2 >> shift);
+-	return folio_test_hwpoison(folio) ||
++	return PageHWPoison(&folio->page) ||
+ 	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
  }
  
-+static size_t adjust_range_hwpoison(const struct folio *folio, size_t offset,
-+		size_t bytes)
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 9e0ca4824905..e666dd14ca0c 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -843,11 +843,15 @@ config PERSISTENT_HUGE_ZERO_FOLIO
+ config MM_ID
+ 	def_bool n
+ 
++config LARGE_FOLIO
++	def_bool n
++	select XARRAY_MULTI
++
+ menuconfig TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+ 	depends on HAVE_ARCH_TRANSPARENT_HUGEPAGE && !PREEMPT_RT
+ 	select COMPACTION
+-	select XARRAY_MULTI
++	select LARGE_FOLIO
+ 	select MM_ID
+ 	help
+ 	  Transparent Hugepages allows the kernel to use huge pages and
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index cc8d98399913..aaac6e2af4c2 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1255,7 +1255,7 @@ static struct folio *dequeue_hugetlb_folio_node_exact(struct hstate *h,
+ 		if (pin && !folio_is_longterm_pinnable(folio))
+ 			continue;
+ 
+-		if (folio_test_hwpoison(folio))
++		if (folio_test_has_hwpoisoned(folio))
+ 			continue;
+ 
+ 		if (is_migrate_isolate_page(&folio->page))
+@@ -1498,10 +1498,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
+ 	}
+ 
+ 	/*
+-	 * Move PageHWPoison flag from head page to the raw error pages,
+-	 * which makes any healthy subpages reusable.
++	 * Move HWPoison flag to each error page
++	 * which makes any healthy pages reusable.
+ 	 */
+-	if (unlikely(folio_test_hwpoison(folio)))
++	if (unlikely(folio_test_has_hwpoisoned(folio)))
+ 		folio_clear_hugetlb_hwpoison(folio);
+ 
+ 	VM_BUG_ON_FOLIO(folio_ref_count(folio), folio);
+@@ -3998,7 +3998,7 @@ long demote_pool_huge_page(struct hstate *src, nodemask_t *nodes_allowed,
+ 		struct folio *folio, *next;
+ 
+ 		list_for_each_entry_safe(folio, next, &src->hugepage_freelists[node], lru) {
+-			if (folio_test_hwpoison(folio))
++			if (folio_test_has_hwpoisoned(folio))
+ 				continue;
+ 
+ 			remove_hugetlb_folio(src, folio, false);
+@@ -5809,7 +5809,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+ 		 * don't have hwpoisoned swap entry for errored virtual address.
+ 		 * So we need to block hugepage fault by PG_hwpoison bit check.
+ 		 */
+-		if (unlikely(folio_test_hwpoison(folio))) {
++		if (unlikely(folio_test_has_hwpoisoned(folio))) {
+ 			ret = VM_FAULT_HWPOISON_LARGE |
+ 				VM_FAULT_SET_HINDEX(hstate_index(h));
+ 			goto backout_unlocked;
+@@ -6318,7 +6318,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 	ptl = huge_pte_lock(h, dst_mm, dst_pte);
+ 
+ 	ret = -EIO;
+-	if (folio_test_hwpoison(folio))
++	if (folio_test_has_hwpoisoned(folio))
+ 		goto out_release_unlock;
+ 
+ 	ret = -EEXIST;
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 944e6e1d4971..c09bad4d97f1 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1829,7 +1829,7 @@ bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+ 	struct folio *folio = page_folio(page);
+ 	bool ret = false;
+ 
+-	if (!folio_test_hwpoison(folio))
++	if (!folio_test_has_hwpoisoned(folio))
+ 		return false;
+ 
+ 	if (!folio_test_hugetlb(folio))
+@@ -1881,6 +1881,24 @@ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
+ #define	MF_HUGETLB_FOLIO_PRE_POISONED	3	/* folio already poisoned */
+ #define	MF_HUGETLB_PAGE_PRE_POISONED	4	/* exact page already poisoned */
+ #define	MF_HUGETLB_RETRY		5	/* hugepage is busy, retry */
++
++static inline int hugetlb_set_poison(struct folio *folio)
 +{
-+	const struct page *page = folio_page(folio, offset / PAGE_SIZE);
-+	size_t safe_bytes;
-+
-+	if (!folio_has_hwpoisoned_page(folio))
-+		return bytes;
-+	if (is_ref_page_hwpoison(folio, page))
-+		return 0;
-+
-+	/* Safe to read the remaining bytes in this page. */
-+	safe_bytes = PAGE_SIZE - (offset % PAGE_SIZE);
-+	page++;
-+
-+	/* Check each remaining page as long as we are not done yet. */
-+	for (; safe_bytes < bytes; safe_bytes += PAGE_SIZE, page++)
-+		if (is_ref_page_hwpoison(folio, page))
-+			break;
-+
-+	return min(safe_bytes, bytes);
++	if (folio_test_set_has_hwpoisoned(folio))
++		return MF_HUGETLB_FOLIO_PRE_POISONED;
++	folio_set_huge_poison(folio);
++	return 0;
 +}
 +
- static void filemap_end_dropbehind_read(struct folio *folio)
++static inline int hugetlb_clear_poison(struct folio *folio)
++{
++	if (!folio_test_has_hwpoisoned(folio))
++		return -EBUSY;
++	folio_clear_huge_poison(folio);
++	folio_clear_has_hwpoisoned(folio);
++	return 0;
++}
++
+ /*
+  * Set hugetlb folio as hwpoisoned, update folio private raw hwpoison list
+  * to keep track of the poisoned pages.
+@@ -1890,12 +1908,12 @@ static int hugetlb_update_hwpoison(struct folio *folio, struct page *page)
+ 	struct llist_head *head;
+ 	struct raw_hwp_page *raw_hwp;
+ 	struct raw_hwp_page *p;
+-	int ret = folio_test_set_hwpoison(folio) ? MF_HUGETLB_FOLIO_PRE_POISONED : 0;
++	int ret = hugetlb_set_poison(folio);
+ 
+ 	/*
+ 	 * Once the hwpoison hugepage has lost reliable raw error info,
+-	 * there is little meaning to keep additional error info precisely,
+-	 * so skip to add additional raw error info.
++	 * there is no point in keeping additional error info precisely,
++	 * so skip adding additional raw error info.
+ 	 */
+ 	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+ 		return MF_HUGETLB_FOLIO_PRE_POISONED;
+@@ -1950,8 +1968,8 @@ void folio_clear_hugetlb_hwpoison(struct folio *folio)
+ 		return;
+ 	if (folio_test_hugetlb_vmemmap_optimized(folio))
+ 		return;
+-	folio_clear_hwpoison(folio);
+ 	folio_free_raw_hwp(folio, true);
++	folio_clear_has_hwpoisoned(folio);
+ }
+ 
+ static int get_huge_page_for_hwpoison(unsigned long pfn, int flags,
+@@ -2104,6 +2122,11 @@ static inline unsigned long folio_free_raw_hwp(struct folio *folio, bool flag)
  {
- 	if (!folio_test_dropbehind(folio))
-@@ -2862,14 +2887,18 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
- 			if (writably_mapped)
- 				flush_dcache_folio(folio);
+ 	return 0;
+ }
++
++static inline int hugetlb_clear_poison(struct folio *folio)
++{
++	return 0;
++}
+ #endif	/* CONFIG_HUGETLB_PAGE */
  
--			copied = copy_folio_to_iter(folio, offset, bytes, iter);
-+			copied = adjust_range_hwpoison(folio, offset, bytes);
-+			if (copied < bytes)
-+				error = -EIO;
-+			copied = copy_folio_to_iter(folio, offset, copied, iter);
+ /* Drop the extra refcount in case we come from madvise() */
+@@ -2725,13 +2748,17 @@ int unpoison_memory(unsigned long pfn)
  
- 			already_read += copied;
- 			iocb->ki_pos += copied;
- 			last_pos = iocb->ki_pos;
- 
- 			if (copied < bytes) {
--				error = -EFAULT;
-+				if (!error)
-+					error = -EFAULT;
- 				break;
- 			}
+ 	ghp = get_hwpoison_page(p, MF_UNPOISON);
+ 	if (!ghp) {
++		spin_lock_irq(&hugetlb_lock);
+ 		if (folio_test_hugetlb(folio)) {
+ 			huge = true;
+ 			count = folio_free_raw_hwp(folio, false);
+ 			if (count == 0)
+ 				goto unlock_mutex;
++			ret = hugetlb_clear_poison(folio);
++		} else {
++			ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
  		}
+-		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
++		spin_unlock_irq(&hugetlb_lock);
+ 	} else if (ghp < 0) {
+ 		if (ghp == -EHWPOISON) {
+ 			ret = put_page_back_buddy(p) ? 0 : -EBUSY;
+@@ -2740,17 +2767,18 @@ int unpoison_memory(unsigned long pfn)
+ 			unpoison_pr_info("%#lx: failed to grab page\n",
+ 					 pfn, &unpoison_rs);
+ 		}
+-	} else {
+-		if (folio_test_hugetlb(folio)) {
+-			huge = true;
+-			count = folio_free_raw_hwp(folio, false);
+-			if (count == 0) {
+-				folio_put(folio);
+-				goto unlock_mutex;
+-			}
+-			p = &folio->page;
++	} else if (folio_test_hugetlb(folio)) {
++		huge = true;
++		count = folio_free_raw_hwp(folio, false);
++		if (count == 0) {
++			folio_put(folio);
++			goto unlock_mutex;
+ 		}
+-
++		ret = hugetlb_clear_poison(folio);
++		folio_put(folio);
++		if (!ret)
++			folio_put(folio);
++	} else {
+ 		folio_put(folio);
+ 		if (TestClearPageHWPoison(p)) {
+ 			folio_put(folio);
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 1c77d5dc06e9..fd19a0bfbfe7 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1978,6 +1978,22 @@ static inline unsigned int folio_unmap_pte_batch(struct folio *folio,
+ 				     FPB_RESPECT_WRITE | FPB_RESPECT_SOFT_DIRTY);
+ }
+ 
++/*
++ * Since we cannot split a hugetlb folio, we want to insert a poison
++ * entry into the page table for the whole folio even if only one page
++ * is poisoned.  Otherwise, we've split down to the PTE level and we only
++ * want to poison the precise page
++ */
++static bool ttu_create_hwpoison(const struct folio *folio,
++		const struct page *page, enum ttu_flags flags)
++{
++	if (!(flags & TTU_HWPOISON))
++		return false;
++	if (folio_test_hugetlb(folio))
++		return folio_test_has_hwpoisoned(folio);
++	return PageHWPoison(page);
++}
++
+ /*
+  * @arg: enum ttu_flags will be passed to this argument
+  */
+@@ -1993,7 +2009,6 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 	enum ttu_flags flags = (enum ttu_flags)(long)arg;
+ 	unsigned long nr_pages = 1, end_addr;
+ 	unsigned long pfn;
+-	unsigned long hsz = 0;
+ 	int ptes = 0;
+ 
+ 	/*
+@@ -2023,9 +2038,6 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 		 */
+ 		adjust_range_if_pmd_sharing_possible(vma, &range.start,
+ 						     &range.end);
+-
+-		/* We need the huge page size for set_huge_pte_at() */
+-		hsz = huge_page_size(hstate_vma(vma));
+ 	}
+ 	mmu_notifier_invalidate_range_start(&range);
+ 
+@@ -2121,7 +2133,8 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 			 * The try_to_unmap() is only passed a hugetlb page
+ 			 * in the case where the hugetlb page is poisoned.
+ 			 */
+-			VM_BUG_ON_PAGE(!PageHWPoison(subpage), subpage);
++			VM_BUG_ON_FOLIO(!folio_has_hwpoisoned_page(folio),
++					folio);
+ 			/*
+ 			 * huge_pmd_unshare may unmap an entire PMD page.
+ 			 * There is no way of knowing exactly which PMDs may
+@@ -2200,12 +2213,12 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 		/* Update high watermark before we lower rss */
+ 		update_hiwater_rss(mm);
+ 
+-		if (PageHWPoison(subpage) && (flags & TTU_HWPOISON)) {
++		if (ttu_create_hwpoison(folio, subpage, flags)) {
+ 			pteval = swp_entry_to_pte(make_hwpoison_entry(subpage));
+ 			if (folio_test_hugetlb(folio)) {
+ 				hugetlb_count_sub(folio_nr_pages(folio), mm);
+ 				set_huge_pte_at(mm, address, pvmw.pte, pteval,
+-						hsz);
++						folio_size(folio));
+ 			} else {
+ 				dec_mm_counter(mm, mm_counter(folio));
+ 				set_pte_at(mm, address, pvmw.pte, pteval);
+@@ -2423,7 +2436,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 	struct mmu_notifier_range range;
+ 	enum ttu_flags flags = (enum ttu_flags)(long)arg;
+ 	unsigned long pfn;
+-	unsigned long hsz = 0;
+ 
+ 	/*
+ 	 * When racing against e.g. zap_pte_range() on another cpu,
+@@ -2452,9 +2464,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 		 */
+ 		adjust_range_if_pmd_sharing_possible(vma, &range.start,
+ 						     &range.end);
+-
+-		/* We need the huge page size for set_huge_pte_at() */
+-		hsz = huge_page_size(hstate_vma(vma));
+ 	}
+ 	mmu_notifier_invalidate_range_start(&range);
+ 
+@@ -2607,14 +2616,14 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 		/* Update high watermark before we lower rss */
+ 		update_hiwater_rss(mm);
+ 
+-		if (PageHWPoison(subpage)) {
++		if (ttu_create_hwpoison(folio, subpage, TTU_HWPOISON)) {
+ 			VM_WARN_ON_FOLIO(folio_is_device_private(folio), folio);
+ 
+ 			pteval = swp_entry_to_pte(make_hwpoison_entry(subpage));
+ 			if (folio_test_hugetlb(folio)) {
+ 				hugetlb_count_sub(folio_nr_pages(folio), mm);
+ 				set_huge_pte_at(mm, address, pvmw.pte, pteval,
+-						hsz);
++						folio_size(folio));
+ 			} else {
+ 				dec_mm_counter(mm, mm_counter(folio));
+ 				set_pte_at(mm, address, pvmw.pte, pteval);
+@@ -2644,7 +2653,8 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 			if (arch_unmap_one(mm, vma, address, pteval) < 0) {
+ 				if (folio_test_hugetlb(folio))
+ 					set_huge_pte_at(mm, address, pvmw.pte,
+-							pteval, hsz);
++							pteval,
++							folio_size(folio));
+ 				else
+ 					set_pte_at(mm, address, pvmw.pte, pteval);
+ 				ret = false;
+@@ -2657,7 +2667,8 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 				if (anon_exclusive &&
+ 				    hugetlb_try_share_anon_rmap(folio)) {
+ 					set_huge_pte_at(mm, address, pvmw.pte,
+-							pteval, hsz);
++							pteval,
++							folio_size(folio));
+ 					ret = false;
+ 					page_vma_mapped_walk_done(&pvmw);
+ 					break;
+@@ -2703,7 +2714,7 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+ 			}
+ 			if (folio_test_hugetlb(folio))
+ 				set_huge_pte_at(mm, address, pvmw.pte, swp_pte,
+-						hsz);
++						folio_size(folio));
+ 			else
+ 				set_pte_at(mm, address, pvmw.pte, swp_pte);
+ 			trace_set_migration_pte(address, pte_val(swp_pte),
 -- 
 2.47.3
 
