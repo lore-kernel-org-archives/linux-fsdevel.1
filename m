@@ -1,88 +1,50 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C2A41D62C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0606130EF91
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785163634; cv=none; b=a4Siz+Y3QhLjP2PtDGW4wQhWdrSoHuDG13XzWU6OrweDrCnPIDbuZuZfSl8EYfae6b5nEuKJtQFKcYbMZJZTKkfcZPCaljqOjy5TaBhnTyr462Hl9SSXQT4aX5Mvdtib40p6/gEC0II6Fsoc6AEA9UcLdboPJhSyV2IkTk8NeNk=
+	t=1785163902; cv=none; b=ZLA0yksPotrvn/zGPjEcRx8bsnUd0pFq0NsPGToMj9gAhc8MV/4JWhmtmoGLB8+fJ1yEsLPaGkvOrA3SRqps0hBxzM93foUqEznzsIFDuNoMtrOiz2229aHyX2y6cDIj8LwPmqD1oBSyyC9JsheXbhdYy9MWD2nzWwsHglEP9l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785163634; c=relaxed/simple;
-	bh=muPX7iuRvJbzKVBJEnGeSScT947qOmkM19xfGrWzKHU=;
+	s=arc-20240116; t=1785163902; c=relaxed/simple;
+	bh=WzSrZppPS8AlP4yV/ZPF3i7nsO46ElCelSrv+Z5E3os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZffgTrHm8enrYsAb/9GJ5UNMUsQBteauNDxKBX0aCQNw/23n32+ggbUFCKDu44rdJDO+CdBqWXvzWEfgi+yNN3EsbVA9YuTueq14P/RkCHLc0tRnAJMb4tpSN4vkAYqdQ7qGvlimT5y5nz5x66tMGuvstAIzEP4tjB44eD0VzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mbMI9lhK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5JkuAZea; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ulNUzruO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JYY/xZq2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=WchRcfPodQzUYARozbD/IS8fGVmRYRgqGbdYwkgcR41hpF1TaHqidV3Azl8c3rZH6qB3LHoI7zQ10B+QPjFqP7ABMk4L5pX4mtWy30gNEIrRSKt9Bqi8Hg63hE8r0ijBh2wlRql1sCE8wUaVPaciHHTRIdz+VoomyD4A/OjMEak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IO+ysveH; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mbMI9lhK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5JkuAZea";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ulNUzruO";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JYY/xZq2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C67777B7AE;
-	Mon, 27 Jul 2026 14:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785163625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bmeje1d76LhZOkvFJIAbMG6Yy/XYcyJxHSnHhJv9R80=;
-	b=mbMI9lhKVkAT/kf+JZkT1WY3ihtKgC5SLatp+Glt+wGkagmxEEsmtOEtt4FMBbURML0vSa
-	csbMsaRjLoIBVPAG6ohyVSbUImXOLnFJfDNbJ3PBE+1o0639PLXELkydhkCZxRHw1AbWRw
-	aBayrDfNPOvI0vPJZFAMJT/666K3O3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785163625;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bmeje1d76LhZOkvFJIAbMG6Yy/XYcyJxHSnHhJv9R80=;
-	b=5JkuAZeatsJOIvr1g4SjpaS4gWz4xRqhosYIyiPfl4Wc6P/Vix7BsG/tZ7Ly5h0iqGaXb/
-	oTVVksJY/7CHRkCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ulNUzruO;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="JYY/xZq2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785163621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bmeje1d76LhZOkvFJIAbMG6Yy/XYcyJxHSnHhJv9R80=;
-	b=ulNUzruOckbNKaiYPunPv3yxSDceb5azkTFCwlnEOgnNPaZ9Bu9bRiAh8A7XTvBz1ile/v
-	L1H7KIFhYuGyGcgl1AR465the/+OavAcWUxsyT8y13R7GBpN4OA8sjQVWpPh4jeh4RZOTK
-	KxGEOrkc1OoH+uTgss+An2bKV9hzTXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785163621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bmeje1d76LhZOkvFJIAbMG6Yy/XYcyJxHSnHhJv9R80=;
-	b=JYY/xZq2OBu0FTp3nHxsrgmhRft5XcyozwKGl6EdL4csmmL22uIWyEn8apeDE4bBKMnV3v
-	aenD4cJiM0kCPVCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD97F779B9;
-	Mon, 27 Jul 2026 14:47:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ry2cLWVvZ2ojVQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 14:47:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5C8ACA0BA1; Mon, 27 Jul 2026 16:46:53 +0200 (CEST)
-Date: Mon, 27 Jul 2026 16:46:53 +0200
-From: Jan Kara <jack@suse.cz>
-To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, io-uring@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] fs: make file_listxattr and file_removexattr
- helpers non-static
-Message-ID: <dyyz25zraphwgpgyrfes7uunepxcsswok4z3qpnggivd3bjjzk@l3nwvj4utuib>
-References: <20260721103514.2716-1-aditya.ansh182@gmail.com>
- <20260721103514.2716-2-aditya.ansh182@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IO+ysveH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=4WLvl4z1mlw8PwVBwzpQShS1aPPG3mcmlz4u5T49hbc=; b=IO+ysveHHPCt6r2bfF/uIbJzR4
+	q284PPc1oCSzaF6wGlB8zMPLHVOev/kWX2bfBNwbdhd6psXmmFt57GpC+TO/i71cpDYV7AzuuG3MH
+	V39thLJeRr/1QXsbPjKYqpuIOfVKEUHim0sa6jxcvS334jl81aBHNYKX8CiYPkK+/HdpmcbgAa++z
+	9vE0Skj+pc2I69I3+COHn55QWpOrr5+N7NhDi7qJgONqAq+K2Bz2Lbaatg1DRbhMra/KYJEWwxurS
+	1Hcm7dlh3G2vwump+sPvQnbh5PIKnrMHDU1Fiy4dxfNYcARgSvR8l5HaqLFsxINRtY2Yoyb3+gzHD
+	oCFAFOFg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woMfy-0000000AtAg-0kmD;
+	Mon, 27 Jul 2026 14:51:30 +0000
+Date: Mon, 27 Jul 2026 15:51:29 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, Usama Arif <usama.arif@linux.dev>
+Subject: Re: [PATCH v5 02/12] mm: Rename folio_contain_hwpoison_page() to
+ folio_has_hwpoison_page()
+Message-ID: <amdwca1VRNPjEl8j@casper.infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
+ <20260725160042.1557264-3-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,101 +53,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260721103514.2716-2-aditya.ansh182@gmail.com>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C67777B7AE
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20260725160042.1557264-3-willy@infradead.org>
 
-On Tue 21-07-26 10:35:13, Aditya Prakash Srivastava wrote:
-> In preparation for adding IORING_OP_FREMOVEXATTR and
-> IORING_OP_FLISTXATTR support in io_uring, we need to invoke the VFS-layer
-> helpers from within io_uring.
+Sashiko review:
+> --- Patch [2]: [PATCH v5 02/12] mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page() ---
+> commit 8fadf59bc3118e11dab2620f6cc376507c16b29a
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
-> Make the following helpers non-static and declare them in fs/internal.h:
-> - file_listxattr()
-> - file_removexattr()
+> mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
 > 
-> No functional change is introduced.
+> This is a better name for this predicate.  Also make the argument const
+> to allow other callers to be made const.  No functional change.
 > 
-> Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+> > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> > index 7223f6f4e2b40..4185a03a45cf7 100644
+> > --- a/include/linux/page-flags.h
+> > +++ b/include/linux/page-flags.h
+> > @@ -1083,10 +1083,10 @@ static inline bool is_page_hwpoison(const struct page *page)
+> >  	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
+> >  }
+> >  
+> > -static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
+> > +static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
+> >  {
+> >  	return folio_test_hwpoison(folio) ||
+> > -	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+> > +	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+> >  }
+> 
+> This isn't a bug introduced by this patch, but can KSM trigger a machine check
+> exception when scanning memory?
 
-Looks ok to me. Feel free to add:
+Good lord.  I renamed a function.  Which apparently causes Sashiko to
+look for bugs in every caller
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/internal.h | 2 ++
->  fs/xattr.c    | 3 +--
->  2 files changed, 3 insertions(+), 2 deletions(-)
+> Looking at cmp_and_merge_page() in mm/ksm.c, the KSM scanner initiates page
+> hash calculation:
 > 
-> diff --git a/fs/internal.h b/fs/internal.h
-> index 355d93f92208..ee86b24db79a 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -297,6 +297,8 @@ int filename_setxattr(int dfd, struct filename *filename,
->  		      unsigned int lookup_flags, struct kernel_xattr_ctx *ctx);
->  int setxattr_copy(const char __user *name, struct kernel_xattr_ctx *ctx);
->  int import_xattr_name(struct xattr_name *kname, const char __user *name);
-> +ssize_t file_listxattr(struct file *f, char __user *list, size_t size);
-> +int file_removexattr(struct file *f, struct xattr_name *kname);
->  
->  int may_write_xattr(struct mnt_idmap *idmap, struct inode *inode);
->  
-> diff --git a/fs/xattr.c b/fs/xattr.c
-> index d58979115200..31b8a5eeec1e 100644
-> --- a/fs/xattr.c
-> +++ b/fs/xattr.c
-> @@ -953,7 +953,6 @@ listxattr(struct dentry *d, char __user *list, size_t size)
->  	return error;
->  }
->  
-> -static
->  ssize_t file_listxattr(struct file *f, char __user *list, size_t size)
->  {
->  	audit_file(f);
-> @@ -1036,7 +1035,7 @@ removexattr(struct mnt_idmap *idmap, struct dentry *d, const char *name)
->  	return vfs_removexattr(idmap, d, name);
->  }
->  
-> -static int file_removexattr(struct file *f, struct xattr_name *kname)
-> +int file_removexattr(struct file *f, struct xattr_name *kname)
->  {
->  	int error = mnt_want_write_file(f);
->  
-> -- 
-> 2.47.3
+> mm/ksm.c:cmp_and_merge_page() {
+>     ...
+>     checksum = calc_checksum(page);
+>     ...
+> }
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> which then maps and reads the page content:
+> 
+> mm/ksm.c:calc_checksum() {
+>     ...
+>     void *addr = kmap_local_page(page);
+>     checksum = xxhash(addr, PAGE_SIZE, 0);
+>     ...
+> }
+> 
+> If a page becomes hardware-poisoned before KSM scans it, shouldn't there be a
+> PageHWPoison(page) or folio_has_hwpoisoned_page(folio) check before the read
+> to prevent a fatal MCE?
+> 
+> 
+> This is a pre-existing issue, but does migration risk panicking on poisoned
+> memory?
+
+Yes, lots of things risk panicking on poisoned memory.  It's never been
+a priority for Linux.
+
+> During page migration, pages are passed to __migrate_folio() which copies the
+> contents without validation:
+> 
+> mm/migrate.c:__migrate_folio() {
+>     ...
+>     rc = folio_mc_copy(dst, src);
+>     if (unlikely(rc))
+>         return rc;
+>     ...
+> }
+> 
+> This executes the page copy in folio_mc_copy():
+> 
+> mm/util.c:folio_mc_copy() {
+>     ...
+>     if (copy_mc_highpage(folio_page(dst, i), folio_page(src, i)))
+>         return -EHWPOISON;
+>     ...
+> }
+> 
+> On architectures lacking copy_mc support, this falls back to copy_highpage().
+> Without a prior folio_has_hwpoisoned_page(src) check, could migrating a
+> poisoned page via mbind() or move_pages() read poisoned memory and trigger a
+> kernel panic?
+> 
+> 
+> This is a pre-existing issue, but does kill_accessing_process() return the
+> wrong error code when a task lacks an mm?
+> 
+> In memory failure handling, if the task is exiting or is a kernel thread,
+> p->mm is NULL:
+> 
+> mm/memory-failure.c:kill_accessing_process() {
+>     ...
+>     if (!p->mm)
+>         return -EFAULT;
+>     ...
+> }
+> 
+> Since the memory_failure() API protocol requires returning 0 for a successfully
+> recovered state (no user signal needed), does returning -EFAULT cause the
+> architecture MCE handler, such as kill_me_maybe(), to erroneously conclude
+> recovery failed? Could this trigger unnecessary warnings and incorrectly
+> attempt to force a SIGBUS on the dying task?
+
+Dunno, and I'm done with side-quests.  Somebody else can decide if this
+is a real problem that needs to be fixed.
