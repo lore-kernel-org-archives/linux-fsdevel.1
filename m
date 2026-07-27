@@ -1,163 +1,226 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E3538A73B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B9E34A773
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 15:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785164298; cv=none; b=Lbqz3UMs2YE9zQTaLNAq4YSnT1iHMKGsR6WJKr54eicTCXSzp6W6QduKlx1dIYA7FsB0MExlphYbBtGwCpy3kb/PsMyG/gVGexFRdXqJrjUcUdkjwVooxX1uTMZg5XhDHGLFp9VWELkBU3QsYdpu+hG9VAY4kmHbfxI9FC1rJww=
+	t=1785165596; cv=none; b=awU43qW8Yu/PsI8oqQOVpL6V9ChQd009I6TIO/khAarr34qvhWT4ACiM6gDiEYIQndXOAZ1Kq/TzPkA2bLvIG4RAdPrPTXEeg/sJPUHoVdjVv+DX9cqakauq0YIIvteq7bLSslGUzFYyysVyccT9x8xr6lMkVYx8wS+w7TniDH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785164298; c=relaxed/simple;
-	bh=/pHEhqhHim6zbvXlXGSytIteuWLfY5Kr9gwBWC8fFio=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XjuW+99uEnggCvVVNP7MWOWWwnScKqboQ3ATpqsmVftljFpHEZt8WysaMgS+RT0INucsT+ZEfGvgcRiMhE9X05xbJ2fvZmYZ8/psG/GuikpmCQ/aY4Ru4O+DK6AYxUUnYyUnGf8JG8kP29Vixi7imoeM8PCQdfRYEPrnQ7oRVoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WtIrJspU; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1785165596; c=relaxed/simple;
+	bh=WsEr1wwwwCva7mpr+Saa31SuWxenbzqVqHarZ/gD754=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PKwM6To8QUTNJvTHvtM+WLYETtZCUsQnMrriDQrxDQrJRCNReuQe4P1al9pg/vDIELvdHIxp9bakN+x5soxWtyNMw4NbZoHfjlEB6QZLwevAlZXcdt0fDcIPkkHHJvV9LnoGCu0A6sN+MOMNnUYv4I+ZxlwzjqUr3oVFBL3xy5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DRBgB5eu; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WtIrJspU"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954dff6536so20797895e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 07:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1785164294; x=1785769094; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cdTAOusKdU7cIGVdiXhGRlX7Lluomu67uAna+oJrbLI=;
-        b=WtIrJspUFDv9uYL8E4OhCURfnCutsSkbOm+juL/6yCshO8FMCiFZrYMSEpcfsdW4Nh
-         iKdHsW3hXXVC8Pl4kUTysqT9Zr8oF1RzlXcRzFSGc2UBRbewwmpIc4cUdB8jmp3pl1An
-         f6O93wZ1uT86BMhjp0hkFyCYKEgWqWi968vQRJXARDoAz7+tu8TEFguRFWLq/na2hZxb
-         h+/lKgJgJ7KvEmuOlPlx1TgAEAOP3gxpUS2jY/c4WBF4cEndQhBSKAsMyUFZVAH/YqQT
-         oXvZ+5VFrjrP5i1FIj+Vs0SajlFsW+dWgVvOzDcsFpUW8FB2tzSLDDUFkca3REdCvM53
-         ZAVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785164294; x=1785769094;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cdTAOusKdU7cIGVdiXhGRlX7Lluomu67uAna+oJrbLI=;
-        b=H5mlfCCG5pLfqzWXFMujaozbRj8eCGWKHe8sjCREB6hsS17NmqAHztUgh3oSpZtS5i
-         hg8zgzpMt1fchzXtkfgdcOMXGzqvJIkCnwOulG2zbZLwm1vDlmJ+vPUyzuohvNvNFDB1
-         UJei9DoHgRCaURkX2LgDQowyRQ25gyg0SzG+VnFA9mR00sBrgedg/srjY7DalEFbsq4J
-         CfzGRNWPgVXI3vNFLViV75jJK0NX0fgrXSj16mykboI8BjZI+12UJ95+FwixZviMFE8+
-         5BxH7rXAyJLwjok7m/spqnDo84Yz7h7dk3TESDiQ8HbPPbYcx+VkPQfVRf9R0Esr99eV
-         aW5w==
-X-Forwarded-Encrypted: i=1; AHgh+RrLoBLbHRS6LdM1LEHr/H0LMxN02yRKSkonO8fXlVJdDm8YJkyggGq5f8h1IxCQwrDgzfRid3sFG4uZMan8@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMi36RljXuyheZad0BXo7a7tRw8ueKp/4N29kfXEonzV8spPGA
-	s32+swJa6SbX3V4pT+kaWtRbd+sMQaRdrfekDx2Xlwe9DJiZdLuhCeCNkhImvkOmhEU=
-X-Gm-Gg: AR+sD12T9Y/nVYRg66KXysIqSpMGbWvir5vFU2CViiNWElYRe4gny3cJkcjAW68SeZ1
-	jfZNUxUx6Ab1VMJQ4m8aLlkQUksykA3fGWI2lTmaTWK+SicSfVohuTURTl9pVnROG7k2GACr90L
-	4mtJvzjv5R0K7J4Y4+RM+aDTmVq6Rfx+0hYtDjGt+A3LTYkcacv1V1T3Vp4qbEykP34n/N1c/Q5
-	41LliUxLkPEkID1u2ijBXrIpJeY/Je1a3BCXHOXD44Cdmm9z9YyCRu+y339puaSCTgXeRK/Qfdd
-	7Tk3C8hrmFHGvid+hIgc1bDNX2ArBYKNBAv2simbgpGE8Kl9+saLabF7eXi2/QHkTsqGgrib7dW
-	sy4AFoycbM47F23q+hq+XZZjkP9PTbA2P+wgIWzrtdQjN7/L4b67hL8gYQk0zZVa9ZhTKy704FW
-	BzIoa/5l12QCW4R5vYQ1fZiaB5QyJ8JZwdNFZ5itQ=
-X-Received: by 2002:a05:600c:1553:b0:493:e97c:216e with SMTP id 5b1f17b1804b1-496b5731987mr114339235e9.39.1785164294020;
-        Mon, 27 Jul 2026 07:58:14 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:fc6c:f9a2:4a0a:6354? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4ee0e91sm231594995e9.4.2026.07.27.07.58.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 07:58:13 -0700 (PDT)
-Message-ID: <ead73f81-26ef-4a46-9ad8-fcd2915563e1@suse.com>
-Date: Mon, 27 Jul 2026 16:58:11 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DRBgB5eu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=kvFaYGmnPcUYTMTMoWdVLVVzjSaeldohJlXUNlxwbWo=; b=DRBgB5euulFhy0xU2HuVK0AR+J
+	KyR8Ny4HEIa/BGaV3ArU4UbqXlOZheUfRnHdiZf5UnIPAy69Mnq2tlLNNmAyInO6StaHKy/fM9Sjl
+	LPEkBN9DhmOevrhmbykAi9PKcuMt9QtuKBbUX4dUd9j8oN6jnQe+TpD7NuTsWWn08bWRHdtmeR5s3
+	bJVr6Hv1AhEmxqgPScSi1cmbM8wJod0aNSeCRr49Dj1hoZG3JG5zaWmT9cKCfZvqNbfZCmAe8ZMc4
+	VlWpmshZ+uot4zz37YUO1BwOw1Vsi14A+VYqXNQGBQ/zIvrLJdhOlgCa/ogYDejHE9BDDOm9K0WGp
+	SkU57kBQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woN7F-0000000Avqo-1yf6;
+	Mon, 27 Jul 2026 15:19:41 +0000
+Date: Mon, 27 Jul 2026 16:19:41 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v5 05/12] hugetlb: Use the has_hwpoisoned flag
+Message-ID: <amd3DRf6vOQjeFEN@casper.infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
+ <20260725160042.1557264-6-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] time/jiffies: Include linux/sysctl.h for
- proc_int_u2k_conv_uop(), ...
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
- <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
- greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
- linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
- cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
- bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <20260721131207.803760-1-petr.pavlu@suse.com>
- <20260721131207.803760-3-petr.pavlu@suse.com> <874ihmke0k.ffs@fw13>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <874ihmke0k.ffs@fw13>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260725160042.1557264-6-willy@infradead.org>
 
-On 7/25/26 10:31 PM, Thomas Gleixner wrote:
-> On Tue, Jul 21 2026 at 15:11, Petr Pavlu wrote:
+Sashiko:
+> --- Patch [5]: [PATCH v5 05/12] hugetlb: Use the has_hwpoisoned flag ---
+> commit cca87d250a7a597186556cb9d897807edae0b82f
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
->> The kernel/time/jiffies.c file uses proc_int_u2k_conv_uop(),
+> hugetlb: Use the has_hwpoisoned flag
 > 
-> jiffies.c uses ...
+> This commit converts hugetlb to use the has_hwpoisoned flag to match
+> other large folios. It introduces folio_test_huge_poison() for lockless
+> checks to close a gap where a poisoned hugetlb folio could be observed
+> without the hwpoison bit set during teardown.
 > 
->> proc_int_k2u_conv_kop(), proc_int_conv(), proc_dointvec_conv() and
->> proc_doulongvec_minmax_conv(), which are declared in linux/sysctl.h. It
->> currently relies on this header being included indirectly through
->> linux/module.h -> linux/kmod.h. Add the missing include in preparation for
->> removing the linux/sysctl.h include from linux/kmod.h.
+> > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> > --- a/include/linux/page-flags.h
+> > +++ b/include/linux/page-flags.h
+> [ ... ]
+> > @@ -1041,8 +1046,29 @@ PAGE_TYPE_OPS(Slab, slab, slab)
+> >  
+> >  #ifdef CONFIG_HUGETLB_PAGE
+> >  FOLIO_TYPE_OPS(hugetlb, hugetlb)
+> > +
+> > +#ifdef CONFIG_MEMORY_FAILURE
+> > +static inline bool folio_test_huge_poison(const struct folio *folio)
+> > +{
+> > +	return (READ_ONCE(folio->page.page_type) >> 23) ==
+> > +		((PGTY_hugetlb << 1) | 1);
+> > +}
 > 
-> Can you please split that spaghetti sentence into paragraphs?
+> This is a pre-existing issue, but does this logic fully close the race
+> window?
 > 
-> https://docs.kernel.org/process/maintainer-tip.html#changelog
+> The folio_test_huge_poison() function assumes the PGTY_hugetlb bits
+> remain intact during teardown. However, __ClearPagehugetlb()
+> unconditionally sets the entire page_type to UINT_MAX.
+> 
+> When __ClearPagehugetlb() is called, folio_test_huge_poison() will evaluate
+> to false at the exact same moment folio_test_hugetlb() evaluates to false.
+> Would this allow a concurrent is_page_hwpoison() check to miss the poison
+> state?
 
-I will update it to:
+Um, no?  Here's how is_page_hwpoison() looks:
 
-    jiffies.c uses proc_int_u2k_conv_uop(), proc_int_k2u_conv_kop(),
-    proc_int_conv(), proc_dointvec_conv() and proc_doulongvec_minmax_conv(),
-    which are declared in linux/sysctl.h. It currently gets that header
-    indirectly through linux/module.h -> linux/kmod.h, but the latter no longer
-    needs to include linux/sysctl.h.
+static inline bool is_page_hwpoison(const struct page *page)
+{
+        const struct folio *folio;
 
-    Include linux/sysctl.h directly in jiffies.c ahead of removing the
-    unnecessary include from linux/kmod.h.
+        if (PageHWPoison(page))
+                return true;
+        folio = page_folio(page);
+        if (folio_test_huge_poison(folio))
+                return true;
+        /* In case we raced with hugetlb transferring flags */
+        return PageHWPoison(page);
+}
 
+We're relying on ordering; if we see a false folio_test_huge_poison(),
+we recheck that the flag hasn't already been moved to the page.  Since
+we always move the poison to the pages before clearing the page type,
+I don't see how we can miss anything.
+
+> > +static inline void folio_set_huge_poison(struct folio *folio)
+> > +{
+> > +	folio->page.page_type |= (1 << 23);
+> > +}
+> > +
+> > +static inline void folio_clear_huge_poison(struct folio *folio)
+> > +{
+> > +	folio->page.page_type &= ~(1 << 23);
+> > +}
 > 
->> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+> Can this cause a data race on the page_type field?
 > 
-> Other than that.
+> In folio_clear_huge_poison(), the bitwise operation modifies the page_type
+> field non-atomically. If unpoison_memory() calls this on a free hugetlb
+> folio while a concurrent sysfs pool shrink calls __ClearPagehugetlb()
+> under the hugetlb_lock, the UINT_MAX value could be overwritten with
+> 0xFF7FFFFF.
 > 
-> Acked-by: Thomas Gleixner <tglx@kernel.org>
+> Since unpoison_memory() relies on mf_mutex rather than hugetlb_lock,
+> would this corrupted page_type trigger a VM_BUG_ON_PAGE in the buddy
+> allocator when the page reaches free_pages_prepare()?
 
--- 
-Thanks,
-Petr
+Hmm ... if we just move the hugetlb_clear_poison() call before the call
+to folio_put(), that'll take care of this race, right?  Oh, but there's
+two calls to folio_free_raw_hwp(), and the other one is when (ugh), we
+don't have a reference to the folio.  So I think we wrap the whole thing
+in hugetlb_lock to prevent this?
+
+        ghp = get_hwpoison_page(p, MF_UNPOISON);
+        if (!ghp) {
+                spin_lock_irq(&hugetlb_lock);
+                if (folio_test_hugetlb(folio)) {
+                        huge = true;
+                        count = folio_free_raw_hwp(folio, false);
+                        if (count == 0)
+                                goto unlock_mutex;
+                        ret = hugetlb_clear_poison(folio);
+                } else {
+                        ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+                }
+                spin_unlock_irq(&hugetlb_lock);
+
+(this also includes the fix to the problem discussed below)
+
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> [ ... ]
+> > @@ -1498,10 +1498,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
+> >  	}
+> >  
+> >  	/*
+> > -	 * Move PageHWPoison flag from head page to the raw error pages,
+> > -	 * which makes any healthy subpages reusable.
+> > +	 * Move HWPoison flag to each error page
+> > +	 * which makes any healthy pages reusable.
+> >  	 */
+> > -	if (unlikely(folio_test_hwpoison(folio)))
+> > +	if (unlikely(folio_test_has_hwpoisoned(folio)))
+> >  		folio_clear_hugetlb_hwpoison(folio);
+> >  
+> >  	VM_BUG_ON_FOLIO(folio_ref_count(folio), folio);
+> 
+> This is a pre-existing issue, but is there a risk of a double free in the
+> hwpoison list teardown?
+> 
+> Both __update_and_free_hugetlb_folio() (via folio_clear_hugetlb_hwpoison())
+> and unpoison_memory() can invoke __folio_free_raw_hwp() on the same folio
+> concurrently. 
+> 
+> Looking at __folio_free_raw_hwp() in mm/memory-failure.c, it reads
+> folio->hugetlb_hwpoison and sets it to NULL without any synchronization
+> locks. If both threads read the pointer before either sets it to NULL,
+> wouldn't they concurrently iterate the linked list and call kfree() on the
+> same hwp_page elements?
+
+I think that's right, but I also think it goes away later in this series
+when hwp_page_lock serialises the calls to __folio_free_raw_hwp().
+
+> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> > --- a/mm/memory-failure.c
+> > +++ b/mm/memory-failure.c
+> [ ... ]
+> > @@ -2730,8 +2753,8 @@ int unpoison_memory(unsigned long pfn)
+> >  			count = folio_free_raw_hwp(folio, false);
+> >  			if (count == 0)
+> >  				goto unlock_mutex;
+> > +			ret = hugetlb_clear_poison(folio);
+> >  		}
+> > -		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
+> >  	} else if (ghp < 0) {
+> >  		if (ghp == -EHWPOISON) {
+> >  			ret = put_page_back_buddy(p) ? 0 : -EBUSY;
+> > @@ -2740,17 +2763,18 @@ int unpoison_memory(unsigned long pfn)
+> >  			unpoison_pr_info("%#lx: failed to grab page\n",
+> >  					 pfn, &unpoison_rs);
+> >  		}
+> 
+> Does this logic change drop the ability to unpoison free non-hugetlb pages?
+> 
+> The refactoring of the if (!ghp) block removed the fallback logic that
+> handled non-hugetlb pages. If get_hwpoison_page() returns 0 for a free
+> buddy page, execution enters the if (!ghp) block. 
+> 
+> Because folio_test_hugetlb(folio) is false, it does nothing, drops through
+> the entire if/else chain, and returns -EBUSY. Could this leave free buddy
+> pages permanently poisoned?
+
+Oh, I see.  I hadn't realised that case was also being handled here.
+I'll rework it.
