@@ -1,34 +1,34 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D8342464C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C9442FCA9;
+	Mon, 27 Jul 2026 18:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785176025; cv=none; b=GdwbCZx7n0Khu5ucb5GzqIYzMH8OzAUXMzRvnfRWt0RAlVeARPYaK8zbxGqM4brwklWQn8qsZAmbLn5ssTpZyEqpzF9DSi9yw37WQDbz0onYV353BM+H1UlvB+Xo52i7HOHg4SobAGIqb3YxSUat/b9eksa023o2mpzGakJiUdI=
+	t=1785176027; cv=none; b=HXPkljebPR1yrhlpAjbny6pwi0pdsZGwuom89vk9VXoRIbSHK89DovdMICNDR9giS5B9LTt4UIq1zHVzxAprkPoybOZapr4zfqAZTUlIfSdT8q1veTHPHYEMjCTpdc6+3aBA6iWJpO5m+whyjYPCAVTNRzZR9tmSeMFiimUnwz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785176025; c=relaxed/simple;
-	bh=T59rqTf5h0V/7lgZBy0rNCnt+9ImLw97cP8b+CbH49g=;
+	s=arc-20240116; t=1785176027; c=relaxed/simple;
+	bh=M2KSLYYNbLF9loGD0Sq3/5LKFq762/1KseQ7d6xoicU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pQfYs40Z1nqZHKiN+mxpD7dwSATwBigbQOzwDGMqFebfQ2PH/WQsYRyEftyVS5ymqQKhj+22++NCv9CGwnSgDuatWOOTbJu702jx5fBhOsEGoEB6frhql0fHvM9QqR6WHtnYkIcSneB+NjvNY3vwj4nRsBs8gAwYR2+J/CVS1C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iAoWnhkk; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=PjvHVjPjaeH2BpIOk0FJdFxE7UMTeL+TM0MHDn9GWnyL8pt0f9e8KGg03/sAhzJtxInnfalWbUZ0JLNF4DHaRKcd8J4HYtYdhAbRR16xqVh7sKPIamlwbTWFiNl1J5CUplD//73ZfjniC1SMZdo/EJixWUTyg7FRmGpolHuvG1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BqNC1Mb6; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iAoWnhkk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BqNC1Mb6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=lL216fIv4vvT2FQ3lahp26Y5N739lhMmfF6ZddEZbhg=; b=iAoWnhkkF9RREe+Id92K+dJPOT
-	5o7KHwxlhSwJ6Vq+JEoeuxqte49aTsi6qdPCPgG2UO3T7jXe4w59PZA5QfMb7dgq7PrYJBzT+bZey
-	N8u68K+tVSdiSdxfKm2fEsnk+8N+oHJlAzE9h4qlSJ75+un+cA8Bk5CztFJUuWwd9GgAXm0MO1fKH
-	+Wv7WZgqrRv3InbEoFrimADfyXgHVcDXzJIPvaxc8mIqpmEeoUbstnMaEBrFIPYVi8l/nMgQKPtSi
-	15r2IV4HUSKB/oVolD/f7qJMhyz4zvhfzvzuVSIm2Av7AcfnJtxT/qrgxHOpp4XQlpN4iV0xtUXVm
-	EyzOlSpw==;
+	bh=vE4+w4YDu9n7GIhNK4fpCQW3h/DoqyUfQ4ETqQ3wP4Q=; b=BqNC1Mb6CX3IpIk1sdjIoEYVIC
+	gbFGrRyiDq4/7YjpjwUNc+kcaXHP2BqjV/2bdZ7A9yLz26DRiE9fuoYdtLmNZvyPSagIsejqUraoP
+	2GoLp7fnEgRcdQqw6M99mi+3bZsY6Onxv2wH4W2+nr2s8iiJfIFcRIBJs9VfHFv8rhEOlLF+fvRPc
+	THehUdMHBj46N/C1pBEp5xPACz2wN6ZhpDEyqiiMCBXTypnvqosZ3nG8L7HVo/nt4ltX8tkQqu8ti
+	ScZg2c0fcAKg+1MMiz4Pguecc9F08lHEa/Hl6uerEc+TF6x6fKqoV0+iXk5rTkRKYMvVGvmt10qxY
+	Eba/mTcw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woPpA-0000000BD7S-0Jdr;
-	Mon, 27 Jul 2026 18:13:12 +0000
+	id 1woPp9-0000000BD7O-3fkE;
+	Mon, 27 Jul 2026 18:13:11 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
@@ -43,10 +43,11 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
 	Jiaqi Yan <jiaqiyan@google.com>,
-	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v6 03/12] hugetlb: Mark some function arguments as const
-Date: Mon, 27 Jul 2026 19:12:59 +0100
-Message-ID: <20260727181310.2671972-4-willy@infradead.org>
+	stable@vger.kernel.org,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>
+Subject: [PATCH v6 01/12] memory-failure: Fix hardware poison check in unpoison_memory() again
+Date: Mon, 27 Jul 2026 19:12:57 +0100
+Message-ID: <20260727181310.2671972-2-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260727181310.2671972-1-willy@infradead.org>
 References: <20260727181310.2671972-1-willy@infradead.org>
@@ -58,109 +59,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These functions do not modify their folio argument, so we can mark them
-as being const which will allow for some minor optimisations and let us
-mark other function arguments as being const in the future.
+The earlier patch (6c54312f9689) that attempted to fix unpoison_memory()
+was incorrect for hugetlb folios.  Before a6fddef49eef, we checked
+the head page for poison (which was correct for hugetlb and incorrect
+for THP).  We are currently incapable of unpoisoning pages (other than
+the first page) in a hugetlb folio.
 
+Use is_page_hwpoison() which handles hugetlb pages sufficiently well for
+this purpose.  This is racy as we don't have a reference on the folio at
+this point, but fixing that properly requires deeper surgery and this
+is a CAP_SYS_ADMIN path only so this will do for the moment and can be
+easily backported.  It's no worse than the situation before a6fddef49eef.
+
+The other bug in a6fddef49eef is that we currently clear the HWPoison
+flag on the precise page, which is wrong for hugetlb.  Fix that too.
+
+Fixes: a6fddef49eef ("mm/memory-failure: convert unpoison_memory() to folios")
+Cc: stable@vger.kernel.org
+Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Acked-by: Usama Arif <usama.arif@linux.dev>
 ---
- include/linux/hugetlb.h | 19 +++++++++----------
- mm/hugetlb.c            |  2 +-
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ mm/memory-failure.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 2abaf99321e9..18661a7cdb37 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -165,7 +165,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
- 				 struct vm_area_struct *vma,
- 				 unsigned long address);
- 
--struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
-+struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio);
- 
- extern int movable_gigantic_pages __read_mostly;
- extern int sysctl_hugetlb_shm_group __read_mostly;
-@@ -292,8 +292,7 @@ static inline unsigned long hugetlb_total_pages(void)
- 	return 0;
- }
- 
--static inline struct address_space *hugetlb_folio_mapping_lock_write(
--							struct folio *folio)
-+static inline struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
- {
- 	return NULL;
- }
-@@ -595,8 +594,8 @@ enum hugetlb_page_flags {
- #ifdef CONFIG_HUGETLB_PAGE
- #define TESTHPAGEFLAG(uname, flname)				\
- static __always_inline						\
--bool folio_test_hugetlb_##flname(struct folio *folio)		\
--	{	void *private = &folio->private;		\
-+bool folio_test_hugetlb_##flname(const struct folio *folio)	\
-+	{	const void *private = &folio->private;		\
- 		return test_bit(HPG_##flname, private);		\
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 51508a55c405..944e6e1d4971 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -2695,8 +2695,8 @@ int unpoison_memory(unsigned long pfn)
+ 		goto unlock_mutex;
  	}
  
-@@ -616,7 +615,7 @@ void folio_clear_hugetlb_##flname(struct folio *folio)		\
- #else
- #define TESTHPAGEFLAG(uname, flname)				\
- static inline bool						\
--folio_test_hugetlb_##flname(struct folio *folio)		\
-+folio_test_hugetlb_##flname(const struct folio *folio)		\
- 	{ return 0; }
+-	if (!PageHWPoison(p)) {
+-		unpoison_pr_info("%#lx: page was already unpoisoned\n",
++	if (!is_page_hwpoison(p)) {
++		unpoison_pr_info("%#lx: page is not poisoned\n",
+ 				 pfn, &unpoison_rs);
+ 		goto unlock_mutex;
+ 	}
+@@ -2748,6 +2748,7 @@ int unpoison_memory(unsigned long pfn)
+ 				folio_put(folio);
+ 				goto unlock_mutex;
+ 			}
++			p = &folio->page;
+ 		}
  
- #define SETHPAGEFLAG(uname, flname)				\
-@@ -727,7 +726,7 @@ static inline struct hugepage_subpool *subpool_inode(struct inode *inode)
- 	return HUGETLBFS_SB(inode->i_sb)->spool;
- }
- 
--static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-+static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
- {
- 	return folio->_hugetlb_subpool;
- }
-@@ -857,7 +856,7 @@ static inline bool arch_has_huge_bootmem_alloc(void)
- }
- #endif
- 
--static inline struct hstate *folio_hstate(struct folio *folio)
-+static inline struct hstate *folio_hstate(const struct folio *folio)
- {
- 	VM_BUG_ON_FOLIO(!folio_test_hugetlb(folio), folio);
- 	return size_to_hstate(folio_size(folio));
-@@ -1088,7 +1087,7 @@ static inline unsigned long huge_page_mask_align(struct file *file)
- 	return 0;
- }
- 
--static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-+static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
- {
- 	return NULL;
- }
-@@ -1157,7 +1156,7 @@ static inline struct hstate *hstate_vma(struct vm_area_struct *vma)
- 	return NULL;
- }
- 
--static inline struct hstate *folio_hstate(struct folio *folio)
-+static inline struct hstate *folio_hstate(const struct folio *folio)
- {
- 	return NULL;
- }
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 571212b80835..cc8d98399913 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1775,7 +1775,7 @@ void init_new_hugetlb_folio(struct folio *folio)
-  * stable.  Due to locking order, we can only trylock_write.  If we can
-  * not get the lock, simply return NULL to caller.
-  */
--struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio)
-+struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
- {
- 	struct address_space *mapping = folio_mapping(folio);
- 
+ 		folio_put(folio);
 -- 
 2.47.3
 
