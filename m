@@ -1,60 +1,54 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1A63FF1AE
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BE93B3894
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 18:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785173850; cv=none; b=uj27mYVz9nhkgv2HstBSS+IzBuPltB9QOGnuV1G+do3fspZ/TRtu/82nVNXWK8f/u8uB/Wm+5FCBTpp6H/3Vf0Fip2YO0Bd3cmrNW5ifz5tDbWliDuVFO2st0kFq+ZNDVdJn+UzgDswRlK1FMxRZEoXu4WLwRa7obvPSb9a+3gc=
+	t=1785176006; cv=none; b=HDLj3i3rs6eVyjaLEpTJ+6yq8/CvAfvHBYa0rfbXXvZps1cNFddavXmJJCu6P8sPPgqiY/WGKqAazhzXWrSDY02KNkUnMe21ptbjiKqoMnoiDh/nsydfmZ1CRxKLx3BSpFsFV2DHwHFkn6WSkBF9mbD9xGjdZnsq9gQCpwezlbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785173850; c=relaxed/simple;
-	bh=MiKt6D4ufElwGxFPMYnpUfYx/xsNZdOAcEr4oSDTPBU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HLB/X4mOoiyOZXYT0rWW7HTNSneQpyxxbaVxwsa+wt7asDF2GlyJKiKKsv7wjN8EuuvogR4bOgPh9g4bzVBQXNFFx35XQYArIv5z/2IPE/+rR/fP9A/5O+AvYeWvcFU9FZVsYtLZXDK0QZxEtDlgzN1XGHO4Zd4FtsGJYji/Roo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZdhvrHNU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785176006; c=relaxed/simple;
+	bh=6H0E+/8Ev4ICbFgjc7gRDPMftupZC/TiOYxk7EbQKgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tDso2xluAVVV4QdLFdaz3nDkYzmWzT4EGysWp7/p0lcSZZDhMcfF+jyov/9mTEj32SeMPFfu+WNFsVJcUimL+lz85WInIsOYarvO0n1x4IReqHZE1GS8gYaEYsJSqw44Ga1cHruG/bjbQa5Km4GaiN9vvYZax+YVfZhgzxjDi/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oz776JBe; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZdhvrHNU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785173847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EeWGPzmqEH+jI6tujANue5n8B2e96ux4rxA7LV3/P9U=;
-	b=ZdhvrHNU9tRUOQksNf9Cg3ZPKQN1S7iSZH7CjYKhTxvmkX9Gp0vDJwahEM6SgDwt14vQ6Q
-	GQo+YDthdQi0hDdHuKaIPGrWTnJCgLKPlqsXMXmeGek4He4GJQ2oufrJ7r7500qdCPtsZS
-	qsUcSEDzUtjMibR6gk/MBDUxVL038bA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-jQTHGJyiOMqvVc1IhEtb5A-1; Mon,
- 27 Jul 2026 13:37:24 -0400
-X-MC-Unique: jQTHGJyiOMqvVc1IhEtb5A-1
-X-Mimecast-MFC-AGG-ID: jQTHGJyiOMqvVc1IhEtb5A_1785173842
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 55D731955EBB;
-	Mon, 27 Jul 2026 17:37:22 +0000 (UTC)
-Received: from wsxc.redhat.com (unknown [10.96.134.60])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 065C618001DD;
-	Mon, 27 Jul 2026 17:37:17 +0000 (UTC)
-From: Ricardo Robaina <rrobaina@redhat.com>
-To: audit@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oz776JBe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=jQPhhI85VU/RfstxHcf4iE//LF5DLMgP3hQKUkFlgwE=; b=oz776JBe0DGpHe3ngY7Z6/gRNK
+	EnyoaMcqERpj8aYH/pIwiabOXVGscoJYFc1xm8T70FvipTtt3+Irc0WMU5qeVaBfGEAIxVKqEpJTT
+	UWjO+Vg6ZHJUZgQH5IDo0zlQGWg0nbr1Q4S2BChCgcwG/U6MnTbxWgOr+1i2q7P/vxOnsO8vjOioG
+	9vTVX3WAHj+1xdgC0+SPserGusLhmErToizGPw75QIhYv+cbTCaTUp9T1DxzO+K85cAFJUyfneGk/
+	HlLVNlhM8tzodYt3NQlvFu3IwSXEX9qpJZO18ebphXbtjKonxnHp9VZPQEtpn+aOs6SD+BTPYdsiv
+	Dt/mpdYA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woPpA-0000000BD7g-3igh;
+	Mon, 27 Jul 2026 18:13:12 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: paul@paul-moore.com,
-	eparis@redhat.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	sgrubb@redhat.com,
-	rbriggs@redhat.com,
-	Ricardo Robaina <rrobaina@redhat.com>
-Subject: [PATCH v2] audit: add FSCONFIG auxiliary record to log filesystem configuration
-Date: Mon, 27 Jul 2026 14:37:10 -0300
-Message-ID: <20260727173710.964626-1-rrobaina@redhat.com>
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: [PATCH v6 10/12] hugetlb: Set mapping folio order
+Date: Mon, 27 Jul 2026 19:13:06 +0100
+Message-ID: <20260727181310.2671972-11-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260727181310.2671972-1-willy@infradead.org>
+References: <20260727181310.2671972-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,182 +56,51 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Modern mount tools (util-linux >= 2.39.1) use the new mount API
-(fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
-syscall. The generic SYSCALL audit record logs the fsconfig syscall but
-does not capture the configuration parameters, creating an audit gap for
-critical mount information such as the device being mounted.
+hugetlbfs currently uses an fs-specific way to determine the size of
+the folios in its page cache.  Thanks to the support of block sizes
+larger than page sizes, we now support this as part of the page cache.
+It's somewhat more efficient as we have this information directly in the
+mapping rather than going from inode->i_sb->s_fs_info.  We can convert
+the rest of the hugetlb code to use this at our leisure; this is needed
+now so that we can use filemap_get_pages() unmodified.
 
-Add an FSCONFIG auxiliary record that logs the command type, parameter
-name (key), parameter value, and aux parameter passed to fsconfig(2).
-
- ----
- type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_SET_STRING ...
- type=FSCONFIG : fs_cmd=1 fs_key=source fs_val="tmpfs" fs_aux=0
- ----
- type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_CMD_CREATE ...
- type=FSCONFIG : fs_cmd=6 fs_key=(null) fs_val=(null) fs_aux=0
- ----
- type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_SET_BINARY ...
- type=FSCONFIG : fs_cmd=2 fs_key=hidepid fs_val="<binary>" fs_aux=4
-
-Link: https://github.com/linux-audit/audit-kernel/issues/153
-Acked-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
-Changes in v2:
-- Fixed null-check for fs_key field.
-- Clarified trimmed SYSCALL output in commit message examples. 
+ fs/hugetlbfs/inode.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
- fs/fsopen.c                |  7 +++++++
- include/linux/audit.h      | 13 +++++++++++++
- include/uapi/linux/audit.h |  1 +
- kernel/auditsc.c           | 27 +++++++++++++++++++++++++++
- 4 files changed, 48 insertions(+)
-
-diff --git a/fs/fsopen.c b/fs/fsopen.c
-index ae19e5136598..9b3c02f59df4 100644
---- a/fs/fsopen.c
-+++ b/fs/fsopen.c
-@@ -15,6 +15,7 @@
- #include <linux/namei.h>
- #include <linux/file.h>
- #include <uapi/linux/mount.h>
-+#include <linux/audit.h>
- #include "internal.h"
- #include "mount.h"
- 
-@@ -357,6 +358,7 @@ SYSCALL_DEFINE5(fsconfig,
- 	struct fs_context *fc;
- 	int ret;
- 	int lookup_flags = 0;
-+	const char *value_str = NULL;
- 
- 	struct fs_parameter param = {
- 		.type	= fs_value_is_undefined,
-@@ -423,6 +425,7 @@ SYSCALL_DEFINE5(fsconfig,
- 			goto out_key;
- 		}
- 		param.size = strlen(param.string);
-+		value_str = param.string;
- 		break;
- 	case FSCONFIG_SET_BINARY:
- 		param.type = fs_value_is_blob;
-@@ -432,6 +435,7 @@ SYSCALL_DEFINE5(fsconfig,
- 			ret = PTR_ERR(param.blob);
- 			goto out_key;
- 		}
-+		value_str = "<binary>";
- 		break;
- 	case FSCONFIG_SET_PATH_EMPTY:
- 		lookup_flags = LOOKUP_EMPTY;
-@@ -445,6 +449,7 @@ SYSCALL_DEFINE5(fsconfig,
- 		}
- 		param.dirfd = aux;
- 		param.size = strlen(param.name->name);
-+		value_str = param.name->name;
- 		break;
- 	case FSCONFIG_SET_FD:
- 		param.type = fs_value_is_file;
-@@ -458,6 +463,8 @@ SYSCALL_DEFINE5(fsconfig,
- 		break;
- 	}
- 
-+	audit_log_fsconfig(cmd, param.key, value_str, aux);
-+
- 	ret = mutex_lock_interruptible(&fc->uapi_mutex);
- 	if (ret == 0) {
- 		ret = vfs_fsconfig_locked(fc, cmd, &param);
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 45abb3722d30..978eb881974c 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -449,6 +449,8 @@ extern void __audit_tk_injoffset(struct timespec64 offset);
- extern void __audit_ntp_log(const struct audit_ntp_data *ad);
- extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
- 			      enum audit_nfcfgop op, gfp_t gfp);
-+extern void __audit_log_fsconfig(unsigned int cmd, const char *key,
-+				 const char *value, int aux);
- 
- static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
- {
-@@ -598,6 +600,13 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
- 		__audit_log_nfcfg(name, af, nentries, op, gfp);
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index dbca3f713bbf..8d15413a67ee 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -883,6 +883,16 @@ static struct inode *hugetlbfs_get_root(struct super_block *sb,
+ 	return inode;
  }
  
-+static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
-+				      const char *value, int aux)
++static void hugetlbfs_init_regular_inode(struct inode *inode)
 +{
-+	if (!audit_dummy_context())
-+		__audit_log_fsconfig(cmd, key, value, aux);
++	struct hstate *hstate = hstate_inode(inode);
++	unsigned int order = huge_page_order(hstate);
++
++	inode->i_op = &hugetlbfs_inode_operations;
++	inode->i_fop = &hugetlbfs_file_operations;
++	mapping_set_folio_order_range(inode->i_mapping, order, order);
 +}
 +
- extern int audit_n_rules;
- extern int audit_signals;
- #else /* CONFIG_AUDITSYSCALL */
-@@ -730,6 +739,10 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
- 				   enum audit_nfcfgop op, gfp_t gfp)
- { }
- 
-+static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
-+				      const char *value, int aux)
-+{ }
-+
- #define audit_n_rules 0
- #define audit_signals 0
- #endif /* CONFIG_AUDITSYSCALL */
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index e8f5ce677df7..5cd0eb602528 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -122,6 +122,7 @@
- #define AUDIT_OPENAT2		1337	/* Record showing openat2 how args */
- #define AUDIT_DM_CTRL		1338	/* Device Mapper target control */
- #define AUDIT_DM_EVENT		1339	/* Device Mapper events */
-+#define AUDIT_FSCONFIG		1341	/* Record showing fsconfig args */
- 
- #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
- #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 6610e667c728..fefc5c5dd4aa 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -2882,6 +2882,33 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
- }
- EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
- 
-+void __audit_log_fsconfig(unsigned int cmd, const char *key,
-+			  const char *value, int aux)
-+{
-+	struct audit_buffer *ab;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_FSCONFIG);
-+	if (!ab)
-+		return;
-+
-+	audit_log_format(ab, "fs_cmd=%u", cmd);
-+	audit_log_format(ab, " fs_key=");
-+	if (key)
-+		audit_log_untrustedstring(ab, key);
-+	else
-+		audit_log_format(ab, "(null)");
-+
-+	audit_log_format(ab, " fs_val=");
-+	if (value)
-+		audit_log_untrustedstring(ab, value);
-+	else
-+		audit_log_format(ab, "(null)");
-+
-+	audit_log_format(ab, " fs_aux=%d", aux);
-+
-+	audit_log_end(ab);
-+}
-+
- static void audit_log_task(struct audit_buffer *ab)
- {
- 	kuid_t auid, uid;
+ /*
+  * Hugetlbfs is not reclaimable; therefore its i_mmap_rwsem will never
+  * be taken from reclaim -- unlike regular filesystems. This needs an
+@@ -926,8 +936,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
+ 			init_special_inode(inode, mode, dev);
+ 			break;
+ 		case S_IFREG:
+-			inode->i_op = &hugetlbfs_inode_operations;
+-			inode->i_fop = &hugetlbfs_file_operations;
++			hugetlbfs_init_regular_inode(inode);
+ 			break;
+ 		case S_IFDIR:
+ 			inode->i_op = &hugetlbfs_dir_inode_operations;
 -- 
-2.53.0
+2.47.3
 
