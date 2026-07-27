@@ -1,63 +1,63 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B24E4322F8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 21:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6800842FCB1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 21:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785187507; cv=none; b=gZgdzS+MXu8gJ1nIwAqvrx1lL0f6Y226/ZTsXOexXE8P/mOLMJlrV7zO2ykSlnYWuTwE4SdHzrfMMJlx9xqPsM4u9H3doO3C4oS8Qr0p0J09/4l0JG9H6lt4AVveDvlun9guuOTyprzUuyoQnZAjs9RcttrzBKGO+h2iZGXdO38=
+	t=1785187509; cv=none; b=q6VXDOICp/i5U7wv0syaezFj2zxOljwPGEeQ1h/0+Hf7f3rGxsqJnfu3/1sIRe6whCrSI2akiKBrGqvl80VV1oU5pVhKCJBgHO0zq1pyuHsHi7R06oeFjoztJbXyuoMBE46+sKVxDeZm8Ykg1P6OFlrGyGEHJlKlBXEaaZSje+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785187507; c=relaxed/simple;
-	bh=RAVvjWU3PzVBWv16Hd4Tai94P9Dy53r30XLsHoi9Bgg=;
+	s=arc-20240116; t=1785187509; c=relaxed/simple;
+	bh=IoTbFOZjAyf7avwQh5L6KlSkgZ9QuRnmk0lJu3wGpgQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r/LENDXkEu7/yyL1uBfvnvfU6uk9G8SNej+fd4AEEpPfB+utyoWSDdBZGMExeVlwvByFIhBebrRsDXFa+q/N26qKGwu+TMbUUY3H1IZEr3F/s7TEYkqFhHsoG9vPfqjFZMt1rRkRdO+tt7lMoGmzK4cPxwCO4xYu579InNoAy7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJ9m9qtA; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=RE3qT7y5A3ztN72pK1K7YXE/MFxxjgNcU9TWBoHuMK8jwB0nu6DH5/6jKe6tRsCKGln5qku5gAK6aqAQFslWVS6+LpzYm2qKIhDmwvzeo9WYHy3P9Uxi7u3HqXBHFkqU+VHte4phLl+atX6L3NNzKA6fq5BUNlMGofo6TP2t89I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nhkxn36a; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJ9m9qtA"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ced3386430so32854455ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:25:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhkxn36a"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ceaf8a1265so38586445ad.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785187506; x=1785792306; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785187508; x=1785792308; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9/In/JZMweca3q+77p/P5Cn2PY2lsATSfApR3PJ3ALQ=;
-        b=TJ9m9qtAVWvlQZ3bfDpWjyKN2ifrelWkPwJZQehG3Qm8ejoMPM3BedESYsigNL37iT
-         kGLf4XYvRo4oZtxuaqQy7MPbHHoBKrOBH8twVdkv+KXEZgtWTuSug2OwFepDXYPjfB0d
-         ZhQ5sYgfCGpNCChfvefhmo2zmP9T5ia3jEfofWS1eB/BbAoqGKFZyOPe8pElsM24bRpY
-         Bwi4/WhzQCHWLk8rnsuxLQ9hD3ehIx0uNQgfbDrH2xljaQAGQwXgmEnepPW60NERRt94
-         agr425+ecpnzzAEYaKzNJRjAlL4Rh24bbDonbbCXW2Uxzh7dL/H/OAwoGzpeNpVixsJ/
-         +vgQ==
+        bh=k2+CmEJHSj+FxiNl193sQhU8qb1CcNkL+80ICC9UFKY=;
+        b=nhkxn36awlXKJT/9A269oVcVrZzLYZLOFaG99l+EWdCzU/XFxDWZNblcnbfcuQnEPW
+         2wMMc0y8yByldPI5gxUJFv2jjRX3pEk/0H0+KL3WEEnjn/Kpnz0g7XQOi5i1MPrwme0q
+         1VKTW43/5/SfZGZYC/zGPX9PCFn8rnfJc73fKERZW6B0XtfF/LDBZN/HsvA44tHsO7Ab
+         OELO+Dz1A2tEqLJhGAIH1RRvxX4hlg7NVg5NspGEsrUtb2az5+MKeIkhlRfiO0/39weF
+         Aj6bI2lkx4+SZy6gjR+EbMPKsFxhs8/uVQwnhZC2nrOv9vKHA4Xy3hVHYh3uYXVKMBe1
+         Uzkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785187506; x=1785792306;
+        d=1e100.net; s=20251104; t=1785187508; x=1785792308;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9/In/JZMweca3q+77p/P5Cn2PY2lsATSfApR3PJ3ALQ=;
-        b=FRnvvRKMpUHd8r2rvgw/+EzvR5TripJRFj7/htO/so2XALjetFwtglQ8fzt5anq2pe
-         WH8xycAlDp1Pt2E+KJG0t1i/dhDEyQGzcnDclL86v65btgAs2cJczJQvLUBonyl2+o6U
-         2dXgU6qP3C2x56koV4+Z8gPXTaGjxe6F2WEAWIJfPt9BtfLMrCa9IU9XWn5MruMtYGL+
-         rRnMtd/XNXsTtMd7CR4+5mmMVHuZhuCqHUA9cBKL8GHCWhjulcNXU9exEemTqZ5A5B4o
-         aV5kQQf+/bnSfnzLdc9ItEwjnVjyQLgCa//wmgUijSkUlUw4iUeemYbEURyLpgA3KnMW
-         W7Bg==
-X-Forwarded-Encrypted: i=1; AHgh+RqM9aZE2TUAdV15bBlhTRro4Zt30O/4HevnI/Nc1T4hYbupA+BxH26Z/sAHjRVAb5Dpngr/HSh16l5WN9IP@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfeYE1Hyv25qNHYEwZkeW7V6HTouXTXF0f+34yZVSNdarpDVVY
-	fkCZfu1/nvxNWqZ/lPpK7BXEfOmeNrazyjUg9gGPUFnuS3Fq4Ws329Dn
-X-Gm-Gg: AR+sD11Is6q7xBfsMEeMYjY8GAv+MFyG6lLCJEHm8oAmOaH2dvYPIxVZmMHMRmhaXDJ
-	c9uJq3UNvyPGzRBudxFVuOO6G5vSp+P4JVwEqNObFha25UQYZyGPPwauOkEh8rx1Nj7YgmOWWr3
-	nPytnumsDI3u3WeErEd4HkyzPHgEwlvetPxnvIcK6Gf1bjC9MFDTTIwGkiYFK1jcAlH1uXJzyiA
-	S1lSUyD/nrYLg0HLtc9TtSJlYn5BKC+KM7tclQb9OmvBOCK+PbqXxMEO70NGOEpmZobyIH4eU+j
-	2i14jJymxcxLBVApcEDTbXk9yAs3A1bj9S+axSWnSIDQDgcdBTNMq1WAU/ZvBqWG8tiDCVQwo7J
-	mRGp4p8iz6GZ0WhV751tf34PPsXaj/Dtn7+rOlJHMvSanqqdP/MHWnIRf4BTsJ4Op0GmjRkjHzC
-	WerLMXopdEW6MDlyD4XgcDVlr7GQwdwj+246pcNPCHtbSO2kVkrcmCSA==
-X-Received: by 2002:a17:903:2ec8:b0:2c9:c46b:1286 with SMTP id d9443c01a7336-2cfde86f7bdmr86035985ad.34.1785187505979;
-        Mon, 27 Jul 2026 14:25:05 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:4f::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bbdb7sm40703835ad.38.2026.07.27.14.25.04
+        bh=k2+CmEJHSj+FxiNl193sQhU8qb1CcNkL+80ICC9UFKY=;
+        b=MktCpIo4ZiZjAMFXM50XEfRVYkqy6dh2Jm4QFO8fEXhgO5FBps+wZG/g0tJdqEkp0s
+         JRNbpW/gRsA2V8OXcud1YOFjjLmFh8FMKuVM/ZOphAT2hWi5Dzcv3uX3DInVNQsFvi7P
+         +1pYo+2FVfm4Jz4d5F3Gskhlpc1l7rAhG34pqWx4He7IM2axe3fQRJQ70XyzYJ9orvSY
+         PGSl7DeOwTPkoAAhp8MntvvxTYj4GWTlLcKX9HDunEJLrAlQveJUCvRH2uBoLDHRI9gY
+         B3o3xpCNKvMd0rheIPOS/1QiYJYZ0uPR9E+AxqINXQaz0G1xnPlukUuyG5/jgHxsOZ+W
+         o38A==
+X-Forwarded-Encrypted: i=1; AHgh+Roi/1tvSwoj+l6nLrpP5rROSaABTJ/ycaJiosSQufZFW3S+HonhTiuMd1rasE65poRcTVCiHSo9PxaPTZsJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYL40YKAOPKWdllvGccPjXzrlS0K9kzndsGi4Fh2eX9bw5kI0J
+	gLoAxrJfv1wKzPoTsipJ66bhOMpTY8JAL6ILtg1+ouCGR/wBEBkNzX7l
+X-Gm-Gg: AR+sD13HVh1Sri+DmCBKklfMP7pU/k0XulSMJ4WqHmNfaQA/5Ca3DVW4ZDNetpR9/wL
+	npQ3RJTpadO6Z3rRgawv0yg5gjhp0SFbzMOan1klrSRurBq/F5iRQX1gCB9ZTkLksE7j1EAh4Xy
+	RhoyOGlycAP7kWCHRzl2DjTW3ohAWVzMHvcdMEhmHgJdnlyPFXJQKwdXdxpaPZhhffcVwoAGbIJ
+	/GwHUuBV2y2iXju/KaGt3ZYI/WMFu2djxRsg8/9KPNgaNpm/l7L39zcBL3B44K0sYEJ564aHRHT
+	PTLbaKZbKPA/oYpN0eZQ6M7/Cj72dcDOl7dp0363RiWp+pC+FVzf4U9Ol2Z2rWk0oPElsyb2B/G
+	JAHKDfMi/DbsxHAr1RDdgwOvwiEd6bQzFWW6H4tBhstFyavxOS5WFdHe3XOdg5PZDd4RxYVjBBf
+	tR1HNoRhvHjak/v4g/c0dhgy07BBx5hIa/syvfa48O+fY4Rp3b4vxWEwWTZHAB/4pX
+X-Received: by 2002:a17:902:e843:b0:2cc:7e4a:bcc5 with SMTP id d9443c01a7336-2d00f3e00fbmr8963385ad.32.1785187507779;
+        Mon, 27 Jul 2026 14:25:07 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:50::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde5c7678sm41171065ad.18.2026.07.27.14.25.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 14:25:04 -0700 (PDT)
+        Mon, 27 Jul 2026 14:25:07 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	hch@lst.de,
@@ -83,9 +83,9 @@ Cc: changfengnan@bytedance.com,
 	libaokun@linux.alibaba.com,
 	linux-ext4@vger.kernel.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH v4 18/21] exfat: convert iomap ops to ->iomap_next()
-Date: Mon, 27 Jul 2026 14:17:55 -0700
-Message-ID: <20260727211758.1116539-19-joannelkoong@gmail.com>
+Subject: [PATCH v4 19/21] iomap: remove ->iomap_begin()/->iomap_end() legacy path
+Date: Mon, 27 Jul 2026 14:17:56 -0700
+Message-ID: <20260727211758.1116539-20-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260727211758.1116539-1-joannelkoong@gmail.com>
 References: <20260727211758.1116539-1-joannelkoong@gmail.com>
@@ -97,48 +97,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert exfat iomap_ops to the new ->iomap_next() callback. Each
-callback is generated with the DEFINE_IOMAP_ITER_NEXT() and
-DEFINE_IOMAP_ITER_NEXT_END() macros, which wrap the iomap_iter_next()
-helper to finish the previous mapping if needed and produce the next
-one. No functional changes are intended.
+With all in-tree filesystems implementing ->iomap_next(), drop the
+->iomap_begin()/->iomap_end() path.
 
-Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/exfat/iomap.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ fs/iomap/iter.c       | 6 +-----
+ include/linux/iomap.h | 6 ++----
+ 2 files changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
-index 1aac38e63fe6..b6dd396aa60a 100644
---- a/fs/exfat/iomap.c
-+++ b/fs/exfat/iomap.c
-@@ -151,8 +151,10 @@ static int exfat_write_iomap_begin(struct inode *inode, loff_t offset, loff_t le
- 	return __exfat_iomap_begin(inode, offset, length, flags, iomap, true);
- }
+diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+index e05574602946..f7c4d5cf56be 100644
+--- a/fs/iomap/iter.c
++++ b/fs/iomap/iter.c
+@@ -107,11 +107,7 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
  
-+static DEFINE_IOMAP_ITER_NEXT(exfat_iomap_next, exfat_iomap_begin);
-+
- const struct iomap_ops exfat_iomap_ops = {
--	.iomap_begin = exfat_iomap_begin,
-+	.iomap_next = exfat_iomap_next,
+ 	trace_iomap_iter(iter, ops, _RET_IP_);
+ 
+-	if (ops->iomap_next)
+-		ret = ops->iomap_next(iter, &iter->iomap, &iter->srcmap);
+-	else
+-		ret = iomap_iter_next(iter, &iter->iomap, &iter->srcmap,
+-				ops->iomap_begin, ops->iomap_end);
++	ret = ops->iomap_next(iter, &iter->iomap, &iter->srcmap);
+ 
+ 	iter->status = 0;
+ 	if (ret > 0)
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index d203d9fe0f89..0bc1beb47a09 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -195,7 +195,7 @@ struct iomap_write_ops {
  };
  
  /*
-@@ -186,9 +188,11 @@ static int exfat_write_iomap_end(struct inode *inode, loff_t pos, loff_t length,
- 	return written;
- }
+- * Flags for iomap_begin / iomap_end.  No flag implies a read.
++ * Flags for iomap_next.  No flag implies a read.
+  */
+ #define IOMAP_WRITE		(1 << 0) /* writing, must allocate blocks */
+ #define IOMAP_ZERO		(1 << 1) /* zeroing operation, may skip holes */
+@@ -240,8 +240,6 @@ typedef int (*iomap_iter_next_fn)(const struct iomap_iter *iter,
+ 		struct iomap *iomap, struct iomap *srcmap);
  
-+static DEFINE_IOMAP_ITER_NEXT_END(exfat_write_iomap_next,
-+		exfat_write_iomap_begin, exfat_write_iomap_end);
-+
- const struct iomap_ops exfat_write_iomap_ops = {
--	.iomap_begin	= exfat_write_iomap_begin,
--	.iomap_end	= exfat_write_iomap_end,
-+	.iomap_next	= exfat_write_iomap_next,
+ struct iomap_ops {
+-	iomap_iter_begin_fn iomap_begin;
+-	iomap_iter_end_fn iomap_end;
+ 	iomap_iter_next_fn iomap_next;
  };
  
- /*
+@@ -256,7 +254,7 @@ struct iomap_ops {
+  *	incremental iter advance.
+  * @status: Status of the most recent iteration. Zero on success or a negative
+  *	errno on error.
+- * @flags: Zero or more of the iomap_begin flags above.
++ * @flags: Zero or more of the iomap_next flags above.
+  * @iomap: Map describing the I/O iteration
+  * @srcmap: Source map for COW operations
+  */
 -- 
 2.52.0
 
