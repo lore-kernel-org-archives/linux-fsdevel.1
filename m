@@ -1,198 +1,210 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288A134B1AD;
-	Mon, 27 Jul 2026 11:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785150586; cv=fail; b=MPsq2SLVMNjGmoLno7X8bcuIcNz8NxUN8snItXjEHP2vOaQt8uOFTWbSdQffjZCL3gJEjQGdIzhXKH2pvQ2SDnf2cqkIrvIuaXP1fP0dsj9+80nPLLR2ptlHnPzEaqgeDmwLFFcmtcd6oCrTKQ5EjvY+/6POiQB3sXfxJB5drEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785150586; c=relaxed/simple;
-	bh=IQsgfSOkg9Oqkic+CVemV5UgjKtq5zBFodIJcuxpnSQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OJ0jSFDIJYLj8VfaDXi0DUaP+m5bd8v6lrWW2bCuU73MAvoQ/kYSzz2z4A4UuRHaLCBeRvP59bFv0mmyB4nZlP3E+T77tqlnbcz/r3tpelnHbErvkAaUnQwo2jW0XPGMjLk0zPo0Mx8Q92ZDML01WdAWNenkFJwb7i1czrG8wME=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=fail smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=A1wvD8lD; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62043C1412
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 11:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785150806; cv=none; b=B58e8kXUrPeYvCJOWhYlwQHPpVzm5aGtrJNAhVfG53e0Iw7AFD7ZhmZmmt87b8SAgDDKbkUf0IfQfFMcQknkJ03qcGLM9HexVeznaE4uaaQHqndjoZFwtGc/P8EHkRh9Qng5g/PJmDx8goqY+jelv5hZ18OURJW7aW4A3PB+5Zs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785150806; c=relaxed/simple;
+	bh=4viYh8myA6ITujs9QzMZTEso5RC4FGcB67zcjDDwhAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmB4groNN5yG6u/SCaEEEAq0onWqMLMhcgZEPmEiAXnFNJWXAqGhwAXZtcIoiMD3AXx5jWg08yMQT8/Dnc27NNvXBk/bIFHODQnKbv/Q4I/9nC6YHrVHDdTg3JKJL+xWlFs2UKXyuvKEJ5EwmUIWwECnAomYb+hbUVDsYJ3AJFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nPK4r+5o; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fdl22dk+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2muCLxOB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=R00dPWmR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="A1wvD8lD"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RAO2FP478054;
-	Mon, 27 Jul 2026 04:08:49 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=DZSwk7wN1/B60oFYFFcRPlPhTLtwhUv2mBfSO4/IGS8=; b=
-	A1wvD8lDHweomLDKrO7GLQ5GmD54f24YbzMEO+fBtTrhcWRTPCtn2ffjGIi3yIID
-	kiQ+5LMlM98lB6jhRXLPZ4q+xhIxzTRqsUr11uQUviqkQOLT7XazKJaa/Yv1cn0s
-	h2ZOOMkcROzNa4edhVFk4qoqvVoivzs4KnLXVMuF4/v4jwpGVIewRq0Xsg0uhH2X
-	tYG4kkD0V+Z7OW2VRQqWSrIOzlGYxLFPYJ/dh5XEGfqjKqmgBwvHAEJdM1/R6cpk
-	AWxSC6zfVh4VQj/zIaoZwIeo+c/ZJTgL4x08ToWbdLwmvuxJ6RK3Ly/6mjQ9Axtt
-	lnfuBVUVOOEFwrEWRTRpZA==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012040.outbound.protection.outlook.com [52.101.53.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fmvnf1rer-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 27 Jul 2026 04:08:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cuu9k6p4rYLprLajddL+PbbRmU7+zmZxSuoVWn3FbQGhNy6Fvq1b/74jbteUskH+Kn19fqJLwCiNXleztKapijmTO6U+9Rbe7EFqlc20VkF0M5eKMAR+XH3eoozO6RAHdc8RW1YtVrSmqH5O7/1hp61Ac9qMtB6v0nEgGPPy+JeoH/OFxcuz9IcE3egkX1QVW4bLPk/UhqAjL862JGacjtxq/Nk48T85/PDigiDe2P9ngxfEWd1yZt4DEVh96jMcs06KCEWKRWDkW88KVRfiPGlw//1YjoDL7CkMaASEThDjX2Kky7DibRAlNszxsjqcSPz60JGaIeOBDPbzzx0HFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DZSwk7wN1/B60oFYFFcRPlPhTLtwhUv2mBfSO4/IGS8=;
- b=soFR8Le1BjzRlm2/Rn4dCzMKfvIodQYIFmrSUY1+6fgyI6HuiUutR+xZU1Tpa9QlT3gQO+l5AI0R/wVHgv5ZrbQLZSmNUSAIB0aRI4iiv1PA1vQu/w7wW9YjC04Rmw7xIIkt7QVnp43I88gboynlkjKSd+gWQrRFdKueEhF+E1MYamSCbmzjyFoD7GQspdR5Lbn1Vaw9pbXUsqxBTKE/fJOxp1mSp1Lzk/7oduAgqy51zTGbDPQP9L40r7T9B5ZQwYO535nRVKQFVyHrbKKOrvFHmBv3gqFyCQ8iCvZ7RqdiS+yTFZrK1tboZngzYYkVwT3ZcDc2CPC3KWJ/HS+q4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
- by SJ0PR11MB8296.namprd11.prod.outlook.com (2603:10b6:a03:47a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
- 2026 11:08:45 +0000
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13]) by CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13%6]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 11:08:45 +0000
-Message-ID: <2e003306-e6cf-4b4e-a0cb-19beb1ea08d4@windriver.com>
-Date: Mon, 27 Jul 2026 19:08:38 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] netfs: fix writeback ENOMEM by using __GFP_NOFAIL for
- rolling buffer
-To: David Howells <dhowells@redhat.com>
-Cc: pc@manguebit.org, netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hch@infradead.org
-References: <20260724073044.3400217-1-yun.zhou@windriver.com>
- <974342.1785146612@warthog.procyon.org.uk>
-Content-Language: en-US
-From: "Zhou, Yun" <yun.zhou@windriver.com>
-In-Reply-To: <974342.1785146612@warthog.procyon.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR02CA0015.apcprd02.prod.outlook.com
- (2603:1096:4:194::16) To CH0PR11MB5332.namprd11.prod.outlook.com
- (2603:10b6:610:bf::17)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nPK4r+5o";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fdl22dk+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2muCLxOB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="R00dPWmR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 452607DAED;
+	Mon, 27 Jul 2026 11:13:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785150797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPCBgkNGCALXfGpN88n4wCcsCgDMJuqH3Bklhb+BsGw=;
+	b=nPK4r+5oplLQUphpg5bwwa8rKvzD63VZ0NMHpEd/NkVrsjg0pfUIvBdD+eIvEG4b/lfDxr
+	JdAf7/Csp/DBkFuqTP+AgF+loMJJdDiRxU8bCgTKEUzJJKuJQyX57YYZZRYaRfde4kYof5
+	AiKIDVAE1b7IYPA8en5dltTjLTMpR/4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785150797;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPCBgkNGCALXfGpN88n4wCcsCgDMJuqH3Bklhb+BsGw=;
+	b=fdl22dk+Ff00wiEe/5OjsoZmLDqCX2Hbvkmiorv60Za6b+OHfJ2ngkuJfOpjjJkDA3aSPH
+	GCavNRHpDo/7vwAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=2muCLxOB;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=R00dPWmR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785150793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPCBgkNGCALXfGpN88n4wCcsCgDMJuqH3Bklhb+BsGw=;
+	b=2muCLxOBt0B3OgeqFmv0Egdydkus3klEWcFu3bowacDrV6g8ouAPlgzPvYq8OY1psxiRi1
+	rDv98U4BsKMFZbGhaSY+u9wx/RXSq5JiQIYeQJg9km2yr9pbk7qIdcSVZVW/S9kN5XU/JZ
+	JJlUn0NsMdL4NTGrLAQawPnK8Ig9NME=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785150793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPCBgkNGCALXfGpN88n4wCcsCgDMJuqH3Bklhb+BsGw=;
+	b=R00dPWmR0LEYiwy1KO3nEZCtLrRXTmKVGrhSdhNRtNEpnmkTTe/R76dnvaD6vlII7icKrl
+	LbTmpMtyVhglEJBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C5E3779C1;
+	Mon, 27 Jul 2026 11:13:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MTy9Dkk9Z2oDBAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 11:13:13 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D66A4A0BA1; Mon, 27 Jul 2026 13:13:08 +0200 (CEST)
+Date: Mon, 27 Jul 2026 13:13:08 +0200
+From: Jan Kara <jack@suse.cz>
+To: YANXIN LI <fadouse@pm.me>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	security@kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ufs: use u64 for directory size in ufs_last_byte
+Message-ID: <nweqpdbynd5dv6xq3yiqbo7s6cohpah2sibax4uy2qw7cq4u2i@ronvk3vrv4sb>
+References: <20260718190300.867109-1-fadouse@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|SJ0PR11MB8296:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90dca57e-eda9-4f7b-1298-08deebcf6ce8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|6133799003|11063799006|56012099006|4143699003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	1LScPBYT8k3RuX8XPrT73yLY3ieaUUaUjuNqTcbp1hnQeRm0N7COdXwgdR5f0TyGQb9+j4OfhecxR90+adm8KDMhy0QIqJtuGVhF3h7GUV9ACL5M6TGaa40sCLVdymt0Hcepi30X/2luF4wEwwlBnecxNAXSJZmKBzhgSpvy52wLnzImiAk8XL4pOgYS6TsfIpHRTbUzptd/MlvhyxrguIIkpzSYDQfqCa9rMB/O5PV4dxwiuLtnesOFbMXxky9LwJpP/EmBM4AOQFlwAeSgd+uLUM0EExTFW3zGWLU7m2GCVa2CVb/VjF4LFf6j5/d+LSbzqNtPGi2SO+4kZFMTpPRfKQ0/A1mfhaf3li9Hds2HJ/TadWZVJ34H6Gx3iUz/+7wvKZpEdhDOWOxhgagi8wQM7T0eceGpCI4tIdyYxrdXWgMh78fhA3Rl+nrA74B+XuTvUHv9r7dDANnfe4lLzcyUxmy47gPr3xfu3DaXPQ85jXxaYcLzQ2AsQVWeAWsvXNGnW7q7AXh8gbCabjjhrTYjW6FCA2Vx220WZ4hOddbDzdFGFJmd4hsneY8KAVgGS1re3PE/8/+d+WrujYjCT6Kui4i9X5xGzbYTPIlnolR2qfxZjZ6b8D0i96QZY892m9I7cqZVsFpuIGx/0h02byDQnV5a2XGm4XxGB4JBAwc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5332.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(6133799003)(11063799006)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aVdjbFBWSG0rSDhlc1QvUElBbktjSUhhc0JqaGVCbC9JZ1I4K2tsZVh1RWU1?=
- =?utf-8?B?MGo1Z05vN2JWUDNjMWVTdlY1eTlTbUQ3blJwRXR4V1Y0OEUxRTFOZE95OUdJ?=
- =?utf-8?B?bi9XYWszU1Q3NDVaRTFmV2tBeFZqeDE4RXZIL1p3dk4wcGMvUTVYb053TVht?=
- =?utf-8?B?eDF0ZWFaZzJQQnZjVlpQb0U4NDdpVkcvc2lMVlllTDdGTENqVndjZHB5ekZq?=
- =?utf-8?B?VnRVMG9SV1lPN3Nkdk1HZmVYYTkyZG1wUmp2ZHBiSktXeVpMdmw5blU1M2NF?=
- =?utf-8?B?Z0ZrRGhoQkE1U04yWStMT0FsR3FXV28xZ3dFK3k3YkVrcG5VOTl1UmpsUUEv?=
- =?utf-8?B?M3h1Lys1VHFOQkpUb241WG9PZkxlZmg2OEs5eDcydVZjTVQ5UWlKMi9RYXVI?=
- =?utf-8?B?ZnRFeWJSN21wblJZaHdPQ0RYZnB1TjRFQU9wZDhWWTM3Vll1Q1RCUW05WWpN?=
- =?utf-8?B?WnpvRS90YjNTUGZ6c1hPUTBTV2UwNlVSMFU4emxuQVFVYk1OR1dZbmZRUWlQ?=
- =?utf-8?B?c2MzeDVScEhNTDR2dG5sc3JUVUpTaW1SdmQxOGI1b3hSYjEwNDcxU0ViWWV3?=
- =?utf-8?B?Q2VhWUx1eTBVL2FWWkZvRXF3cEZYeG5JdlY4UmFjRlJnNXd5bUFVTTdob1o0?=
- =?utf-8?B?bXFucDdGaVZ3SXlHenNTdi90VnVZd3JZeVZFcFV4c2pBalo5QSt3UFdBNGZU?=
- =?utf-8?B?N3E1cWdXN0RnOEVxWjFBQmEyVlFEYTBEZGhPU2RpejM1STFCMVY2N0dLYWtk?=
- =?utf-8?B?ZExoRCtHaS90enZtQXBSMlZubUFhVlp6OVFQMWplSU01bEtSRU4xV1N1RGo4?=
- =?utf-8?B?cDQyaGNNazNwKzdKU0pLUm1uUlJWejJnWlFhL0VHekpGTnE1QWJ6bmdQbWI1?=
- =?utf-8?B?UllXQzBLU1h4MDBhQ2RXS0tPN2FwejFENlYrMlJ5ZHRwK01zcER4VUwzbmN2?=
- =?utf-8?B?V0E4Wkx2NE9mKzRzQVhMNVBjeW1Yd2hwN1FBeUlmVEV3YUVXSDA5eTBzeTE0?=
- =?utf-8?B?eWg2U3BHYmhlTUlLUXk3VHJBSEhPUkhUa256bHhlSWt4SzFTRlNwWGFKU2lx?=
- =?utf-8?B?YkhVMW1jNnMydU0rQ0xWZlV5cWFmb1R3RXArdHpFNitlWWR6VzlydXhoSUtj?=
- =?utf-8?B?RnRrVXNBMXJkd3ZhdFJZTHU3NmROdUM4WWpsemNrQ2FLNVZRUHp5M1RJVWdQ?=
- =?utf-8?B?bDZwMWl4TFZ5bFlIUHZYb0pkOURFd1Rna0JsKzBLMUJtQzEzaG9CQk9WeW56?=
- =?utf-8?B?LzhBRDE4UXJKM3F1dFFNQi84L0MzSmdMZkx2cXJ5ZFJKUUtmQmJWVUwwV0x5?=
- =?utf-8?B?ankzM3VJdHhlckdpdldSSERjM21hUnl1c0JQTzg5bU1FaWw0RUxjWjR1SUJj?=
- =?utf-8?B?NTdHMHVyUEVTN0ZwdjUwd3pENnNzaDZKeVY1VnZIUWJrVWhBRUpSR2MzK2hQ?=
- =?utf-8?B?L2ZsQmZBZ2RXNktaLzJSS0hhaDRsUHN6Z3RCVDVGd1ZEWWVaOFJac0NXZFJQ?=
- =?utf-8?B?S2wzaEpsUGFLZ0VLRkZGKytyNjduNWEvdlNhaDV5S2IwOCtQK1JTSnRyVUo5?=
- =?utf-8?B?UWpZRjhWZStQYlM1REJJNUpncVdUeXpHWFB6M0tYVkx0bkxpS0QzMUxhQjFO?=
- =?utf-8?B?RUE5OXNsMGNGSm1TS3hhS3d2U080eWRPM3VLd0o4c0JiQzM5WStRdnl5bE54?=
- =?utf-8?B?ZlZHRzRqZlE1UTF4Zms1RkFRVEljK1dMMjVDdlI4eDV1ZXZacEVXSndvdUNh?=
- =?utf-8?B?R3AzUnptVW5WR2dmclgvL2pnejRXNzdSeUFUSWU2NGpGMitXeHZjVlVIRHhr?=
- =?utf-8?B?UVhtckVkYUFmMW0wY1F6NHgrcXliVy9KZXRrVm15ZEdNdEZWaWwzbTQ1cVo2?=
- =?utf-8?B?aDEwc3RFNktEQ2lWT1hidm1EUlIvSW9rMkxaeW9rQlR2K1F4bWlteE5EMTVV?=
- =?utf-8?B?aTJvdnVoTTBzTzJkTG5jZkpSUStrelRKcUs5c3poK0sxNWtDMEhlSkE5aWxG?=
- =?utf-8?B?MG9sRGl6TlRScjBaVEJYZUpxQ016WUtMUTJtRkgzenpjbldiUXJGYmdnWGkx?=
- =?utf-8?B?N2MyZyt4MVZYUnlHYml1R2RSUFRONnQzZ09ocDNNbG9zdy9GREdmV0ZqNjN1?=
- =?utf-8?B?WlprRmRGazZCTTRta1BvTnljZmNSSUFzbUcyRGRsbHF1bmY0RFVONTNCQTlC?=
- =?utf-8?B?T3pTVVVNNmdmeXY0cFAxNnh2YVJZemZRM3NmTGRnUDJWVVl0dmJuVk9YK2pv?=
- =?utf-8?B?Z0duRnVrUjRaalRoeVNPVVpVdExiWWlzNEFZZjhvWjcxWGE2L25CNUY5NnBo?=
- =?utf-8?B?QnpOZVdtUlFSdk9vbWI4Y2ZEOEYyUm9EK2JPTmEzL2NVeWFNeTB1Zz09?=
-X-Exchange-RoutingPolicyChecked:
-	hePfhBfvznB42YRCdJCN7rUYTRsm09rrunmGRbXRxL2FnlFaRu980h3BGqCLKw6r45v3skltF9YjN4trmAsKeysquiasrSegABguCxAhC3goqs4n/GmZSsEEGVlUYMEAvfk15E1NJ9fdBbgzK7kwmnaVmcRN9F9rVKwMYhNYHWnhK5NnZAEaD4+aZ+nyK8t3Z/NIVJOtZO+e+7jN6O+aIaVLxI8vM0XIDP3Vg42IyPm/O37fra14JyICOdO8xkD4a4dyB2GsovIZU8w48Pjo7xZeOBv1Sv6Af283BEui/H55eNtEW+XwFesvVTkA+pL6Cner5oAQFY6yA3F02f5TGA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90dca57e-eda9-4f7b-1298-08deebcf6ce8
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 11:08:45.6523
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MqGt4D3RBtJLB9gMT8PZp+fEhVTquKZ7bizIzaUiJWhd4GSjZiI2t+ijy2jCsEK0dzbLBirX93YR36AuQvFWGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8296
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDEwOSBTYWx0ZWRfXwNnQ/dv+lAJ1
- dRArtiED65YGTKupVT/MnX+H09CR+Mt+jYEpTMXRnnmYsQ1Yqm/AMX0qlUwliW4xzFF5qIuV1UA
- vzEPO2G3iQ82YLJ72esjxsd7PNJxAWbNSDjdgo1GcV6cuwCqcQNJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDEwOSBTYWx0ZWRfX72e3Ko3uIaDV
- C8sHH51Qm9wh0QFeP2yblDPUOhcWsRMdbKvQ0HLMjs5e5fRFJAES3oFypjJhM/JoP7rBw+mMAMT
- gqFFvHEKphR2suitxlFD0ESmt9PAdsXOqt2gCcHGhqmbst1BH9Ehr3PN/Shys1e/QOFGmaKQid6
- SJFvMC+SRp7O1w5dnL3rjOagpPvRZ0TeJXyHPBFrCyrx4AT07v9nCwBS90A9TOgB7FVhCZre4PF
- cJu2mhIPgr0i+ioYxbSrXJFyv4zOiIAHF/f+e1SjCRsPkVgXoVzxf7fuOsSOTIvtUlSqoakkv0X
- IAfL7CDmsbtBsnQVpUv7tNY8WqhZqAKb1xPUDhDMsjKPwjJjtHm4Zsb3peheGVyGStpfl6TM9T0
- rOP5a1/BF0OpE1elsitSf/9uHvgLBu1zjXKiQHbwLYll38+Nlb958FpVg9wcWiBXFWx24jex30w
- 6i2aZnWn7JjJZs+KtJg==
-X-Proofpoint-GUID: bO6REgNVPePIAxR6jQXkOmbwgyi30Scx
-X-Authority-Analysis: v=2.4 cv=M7x97Sws c=1 sm=1 tr=0 ts=6a673c41 cx=c_pps
- a=94FLU6K3oGZrB1XHaeOsDA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=t7CeM3EgAAAA:8 a=ItJTzpOEGVJJb3sOj5sA:9 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: bO6REgNVPePIAxR6jQXkOmbwgyi30Scx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-27_03,2026-07-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270109
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260718190300.867109-1-fadouse@pm.me>
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 452607DAED
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 7/27/26 18:03, David Howells wrote:
-> Yun Zhou <yun.zhou@windriver.com> wrote:
+On Sat 18-07-26 19:03:07, YANXIN LI wrote:
+> ufs1_read_inode() and ufs2_read_inode() copy the untrusted 64-bit
+> on-disk size into inode->i_size.  ufs_last_byte() then truncates that
+> value to an unsigned int before calculating the valid extent of a
+> directory folio.
 > 
->> rolling_buffer_init() uses plain GFP_NOFS for its folio_queue allocation.
->> In the writeback path this can fail and trigger WARN_ON_ONCE(folio != NULL)
->> in netfs_writepages() when writeback_iter() returns additional dirty folios
->> left unhandled.
->>
->> Writeback must not fail with -ENOMEM. Fix this by adding a gfp_t parameter
->> to rolling_buffer_init() and passing GFP_NOFS | __GFP_NOFAIL from the
->> writeback path, ensuring the allocation always succeeds. Read paths
->> continue to use plain GFP_NOFS.
+> A directory size of exactly 4 GiB is truncated to zero.  In
+> ufs_find_entry(), subtracting the requested record length from that zero
+> forms an endpoint almost 4 GiB beyond the mapped folio.  A crafted UFS2
+> image produces:
 > 
-> I don't think this is the correct solution.  I think you're right that a gfp_t
-> needs to be passed into rolling_buffer*(), but I think we need a mempool as
-> well.
+>   BUG: KASAN: use-after-free in ufs_find_entry+0x583/0x6e0 [ufs]
+>   Read of size 1
+>   ...
+>   ufs_find_entry
+>   ufs_inode_by_name
+>   ufs_lookup
+>   __lookup_slow
+>   path_lookupat
 > 
-> I have most of the patch for that, but I think I need adjust things so that
-> the read path uses GFP_KERNEL, not GFP_NOFS.
+> The KASAN classification reflects that the adjacent physical page was
+> free; the source-level operation is an out-of-folio read.  A controlled
+> UFS1 test with CONFIG_UFS_FS_WRITE enabled also made ufs_find_entry()
+> return a directory entry from an adjacent anonymous page.  unlink() then
+> passed that pointer to ufs_delete_entry(), which cleared the adjacent
+> page's 3
+> 2-bit d_ino.  This write result reproduced three out of three
+> times.
+> 
+> UFS normally requires a privileged mount path.  A relevant boundary is
+> a privileged automounter or image-processing service handling an
+> attacker-supplied filesystem.  The write primitive additionally requires
+> UFS1 to be mounted read-write with CONFIG_UFS_FS_WRITE enabled; the read
+> is reachable with read-only UFS2.
+> 
+> Keep the intermediate size arithmetic at 64 bits so non-final pages are
+> bounded at PAGE_SIZE.  With this change, the same controlled tests reach
+> the real on-disk directory entry and produce no adjacent-page write or
+> KASAN report.  A reproducer and full validation logs are available on
+> request.
+> 
+> The vulnerable helper is present in v7.2-rc3, v7.1, v6.18.38, v6.12.95,
+> v6.6.111, and upstream master at 1229e2e57a5c.  Runtime reproduction and
+> fix validation were performed in an x86-64 QEMU guest running v7.2-rc3
+> with generic KASAN.
+> 
+> Fixes: b71034e5e67d ("[PATCH] ufs: directory and page cache:
+>  from blocks to pages")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: YANXIN LI <fadouse@pm.me>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ufs/dir.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ufs/dir.c b/fs/ufs/dir.c
+> index e62fe5667..69e6d5535 100644
+> --- a/fs/ufs/dir.c
+> +++ b/fs/ufs/dir.c
+> @@ -213,7 +213,7 @@ static void *ufs_get_folio(struct inode *dir, unsigned long n,
+>  static unsigned
+>  ufs_last_byte(struct inode *inode, unsigned long page_nr)
+>  {
+> -	unsigned last_byte = inode->i_size;
+> +	u64 last_byte = inode->i_size;
+>  
+>  	last_byte -= page_nr << PAGE_SHIFT;
+>  	if (last_byte > PAGE_SIZE)
+> 
+> base-commit: 1229e2e57a5c2980ccd457b9b53ea0eed5a22ab3
+> -- 
+> 2.54.0
 > 
 
-Got it. Your mempool approach looks good. Please let me know if you need 
-anything from me.
 
-BR,
-Yun
+
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
