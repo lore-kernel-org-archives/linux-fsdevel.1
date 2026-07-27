@@ -1,85 +1,51 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D644D2737F9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78A93264DA;
+	Mon, 27 Jul 2026 14:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785163357; cv=none; b=upke0fT+pWyP3+7RQlaox4DW02ucTfnXOSR9B88lSnDAPxC8TF7OOnK5acSHdkyD2YkDEIyDoJ87hjsAhBE1gULSy19lkX3JpnYZa5EC2Oqh9WqHWHDCiL3NDOqF7B6cCZx/io9nApa3PsZSLJvrpra3zw32j55mRI4ksEwgl90=
+	t=1785163456; cv=none; b=ZXKGoTHvT4+KVH5+g8ey25kHEZPeeOS8OVjiaoVhowcxROnSMmxS1f42sh7rDlJwarpUFc4xq/qena3ImRkTSKqWkOs5peb2Ev4am0rfRKVSQ0WAftbJY4Xb2N5Xyi3SwP/mWTPjcMleGE3pFSb8qKj24xbbPa6Nlak0VWnmHIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785163357; c=relaxed/simple;
-	bh=2ug483NQU1p3+g3avWFgpHHr3uwh/TRSD7qUf9rfgwA=;
+	s=arc-20240116; t=1785163456; c=relaxed/simple;
+	bh=CjhSFY3xBt6q/T0ZQwWij8vz59WBw7J38gbvRPqFtac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hYoCD58yW7pMe7yIOoYGBm9JBhcnFrpbrfxUXnIkrjT+sHz2/0rPs6A6fD8OprNmJMpfhOz6HTXUAn016Xt/9wEPnTvC7ruKckqQ2p7cuDOsOUO9ZoQxJk1i7cASzBO0wd7MhnTAEDvdwPyzsOTQylhwKX1NVMjkiK574FwztRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MxyHSQlD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OUU2hofn; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ml+ViLlw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=w7zZKOd6; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkjRRXuAyG2a0/D+XAd6bcMGoMiFJVzc5WMKHWb/f/V6TpHDtRklb6EA2upuZ0DiaBVYrG2Qb1S7TQEkLugRhW5uBdNIKIDYTITof937cNBH9Ewb5alA0MpYOGZvTF9tnAxbGEDXNK0nGrhE3V/+39Ije8W8pD29o8iJwtROwFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FzSS4rVN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MxyHSQlD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OUU2hofn";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ml+ViLlw";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="w7zZKOd6"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D51E93F50;
-	Mon, 27 Jul 2026 14:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785163350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhvlMZ7K0Bmpq+QvOYJQNyf7E+S5QeNFAuQGwLUrofo=;
-	b=MxyHSQlDy0pZyuhqkpYtcdeYJz+56qEtjxDXwkF+YWlK6S8gSvNqiZQny9l47p7V45z7OH
-	9bjcb42fliZScsAQ4jjObRWK5fNp2afzqIALuGD20YyAYCHobgfKyIhq1KT9rIJdJMopKd
-	Tjmv1KbJUDogOlQLGSHdmI41m7FA0mw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785163350;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhvlMZ7K0Bmpq+QvOYJQNyf7E+S5QeNFAuQGwLUrofo=;
-	b=OUU2hofnSFIYQrBqixSwp9Smd9WD1DNSj0Y1nDz0oioXbsZEn2MuPv0wCozRP9aPeciu72
-	8oVFxkLHXA4ciZAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Ml+ViLlw;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=w7zZKOd6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785163345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhvlMZ7K0Bmpq+QvOYJQNyf7E+S5QeNFAuQGwLUrofo=;
-	b=Ml+ViLlwaRaAtFeIOTYVRgxPxboD0cXINS4knRcCZbvhof/60auQvQyRPyI79UV3FTBH4H
-	3AsdLRnjs5Y568A2JtrXEj1FMDLnESqxJLe/KKWggUP8dW6cqHQHSnTiEpLPovPpe+74nX
-	N9++njsn01dEvMG5fgCr9JiVypKdVpA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785163345;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhvlMZ7K0Bmpq+QvOYJQNyf7E+S5QeNFAuQGwLUrofo=;
-	b=w7zZKOd6tbNAWqDfaCD4Vm/nKzmFZf1cSYfYg7w0geSQkAXD1plym29g4GkOzSa/yzQpsp
-	kQ9B2GVnYjjOABCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CCDA5779B9;
-	Mon, 27 Jul 2026 14:42:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id W/AAMlFuZ2olUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 14:42:25 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6D54FA0BA1; Mon, 27 Jul 2026 16:42:21 +0200 (CEST)
-Date: Mon, 27 Jul 2026 16:42:21 +0200
-From: Jan Kara <jack@suse.cz>
-To: Yichong Chen <chenyichong@uniontech.com>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] isofs: release zisofs block pointer buffer head
-Message-ID: <yyirb2malhkxypbryd3ud244tuelmi4m626cf5sqs3gqdyxzt3@77asbyv5yejo>
-References: <20260721091152.1450622-1-chenyichong@uniontech.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FzSS4rVN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/qlnN76+tF13o25mQrF2tByNLJl9jVDI3UupoYwfeo8=; b=FzSS4rVNlmr2vAmNPfcByvvRVm
+	muTlKZJB75MZFWDauFFbHpKxidXffT1sKlfKz8rKlrdtgWFJWlHLVN7jKkJT5trsA9spB62OyXr+o
+	vzS1ITss3JwL7f04WZ8KhvlO1pYqxJ88MnPFnPC3n0wZQdK9tBUSAHY128m92RQ6g99YYI8UoOUbr
+	lBxtt2hfFJO4tS3O2XVllmCDs6vWz6AZ9eNXcqw8BOaIUZm6AVhwkb58EH3i8+19A/XCiJvFLpTU0
+	zpymd//i1OPXyZAp1KS6a/su4PpSdMOtrLGgcidm7Rgh/UBQu+MhuD+yTNaeQ5y6/fl2XQ+pxQxEg
+	278UE33Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woMYb-0000000AsJm-1HZL;
+	Mon, 27 Jul 2026 14:43:53 +0000
+Date: Mon, 27 Jul 2026 15:43:53 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, stable@vger.kernel.org,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>
+Subject: Re: [PATCH v5 01/12] memory-failure: Fix hardware poison check in
+ unpoison_memory() again
+Message-ID: <amduqWdnxeYwToax@casper.infradead.org>
+References: <20260725160042.1557264-1-willy@infradead.org>
+ <20260725160042.1557264-2-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,74 +54,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260721091152.1450622-1-chenyichong@uniontech.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D51E93F50
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20260725160042.1557264-2-willy@infradead.org>
 
-On Tue 21-07-26 17:11:52, Yichong Chen wrote:
-> zisofs_fill_pages() reads the compressed block pointer table.
+Sashiko:
+> --- Patch [1]: [PATCH v5 01/12] memory-failure: Fix hardware poison check in unpoison_memory() again ---
+> commit 4beed8e27f2afa68261389ac2133cfe324d37d0e
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
-> The error paths release the current buffer_head.
+> memory-failure: Fix hardware poison check in unpoison_memory() again
 > 
-> The loop also releases the old buffer_head when it advances.
+> This commit modifies unpoison_memory() to use is_page_hwpoison() to better
+> support hugetlb folios and ensures the HWPoison flag is cleared on the correct
+> head page.
 > 
-> However, the success path leaves the last buffer_head referenced.
+> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> > index 51508a55c4055..944e6e1d49719 100644
+> > --- a/mm/memory-failure.c
+> > +++ b/mm/memory-failure.c
+> > @@ -2695,8 +2695,8 @@ int unpoison_memory(unsigned long pfn)
+> >  		goto unlock_mutex;
+> >  	}
+> >  
+> > -	if (!PageHWPoison(p)) {
+> > -		unpoison_pr_info("%#lx: page was already unpoisoned\n",
+> > +	if (!is_page_hwpoison(p)) {
+> > +		unpoison_pr_info("%#lx: page is not poisoned\n",
 > 
-> Release it before returning success.
+> Can this speculative evaluation of is_page_hwpoison() trigger a panic?
 > 
-> Fixes: 59bc055211b8 ("zisofs: Implement reading of compressed files when PAGE_CACHE_SIZE > compress block size")
-> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+> Since this is evaluated without a reference on the page, the underlying
+> page could be concurrently freed and reallocated as a tail page.
+> Looking at is_page_hwpoison() in include/linux/page-flags.h, it calls
+> folio_test_hugetlb(folio), which uses const_folio_flags(). That function
 
-Thanks! I've added the patch to my tree.
+No it doesn't.  folio_test_hugetlb() is one of th FOLIO_TYPE_OPS which is
+defined as return data_race(folio->page.page_type >> 24) == PGTY_##lname;
+and no asserts.  I mean, there probably should be!  But this is irrelevant;
+this whole function contains many such folio tests and the same problem
+applies to all of them.  This patch doesn't make it worse.
 
-								Honza
+> enforces a strict assertion:
+> 
+> VM_BUG_ON_PGFLAGS(PageTail(&folio->page))
+> 
+> If the page is concurrently reallocated as a tail page while
+> is_page_hwpoison() executes, won't this crash the kernel on debug builds?
+> 
+> >  				 pfn, &unpoison_rs);
+> >  		goto unlock_mutex;
+> >  	}
+> 
+> [ ... ]
+> 
+> > @@ -2748,6 +2748,7 @@ int unpoison_memory(unsigned long pfn)
+> >  				folio_put(folio);
+> >  				goto unlock_mutex;
+> >  			}
+> > +			p = &folio->page;
+> >  		}
+> >  
+> >  		folio_put(folio);
+> 
+> This isn't a bug introduced by this patch, but does this lead to a
+> double folio_put() and use-after-free for hugetlb folios?
+> 
+> If memory_failure() handles an in-use hugetlb folio, me_huge_page()
+> might fail to dissolve it, meaning no extra poison reference is taken
+> but the folio remains marked as hwpoisoned. If the folio is later
+> unmapped and holds a single transient reference, unpoison_memory()
+> will acquire a reference (ghp = 1) and perform the folio_put(folio)
+> seen just below this reassignment.
 
-> ---
->  fs/isofs/compress.c | 1 +
->  1 file changed, 1 insertion(+)
+I'm not an expert in the memory-poison field, but this also seems wrong.
+Don't all hugetlb folios have a folio_mapping()?  And thus we'll never
+take the dissolve path in me_huge_page().
+
+At any rate, it says "not introduced by this patch", so I'm not going
+to take any action.
+
+> By reassigning p = &folio->page here, the subsequent call to
+> TestClearPageHWPoison(p) will be tested on the head page and return
+> true, triggering a second unconditional folio_put(folio). Does this
+> underflow the transient pin and cause a use-after-free?
 > 
-> diff --git a/fs/isofs/compress.c b/fs/isofs/compress.c
-> index 3fda92358e22..f9869d62b850 100644
-> --- a/fs/isofs/compress.c
-> +++ b/fs/isofs/compress.c
-> @@ -293,6 +293,7 @@ static int zisofs_fill_pages(struct inode *inode, int full_page, int pcount,
->  		memzero_page(*pages, poffset, PAGE_SIZE - poffset);
->  		SetPageUptodate(*pages);
->  	}
-> +	brelse(bh);
->  	return 0;
->  }
->  
-> -- 
-> 2.51.0
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> This is a pre-existing issue, but does this same logic underflow the
+> refcount for THP folios that previously failed to split?
+> 
+> If memory_failure() handles a THP and try_to_split_thp_page() fails, it
+> explicitly drops the reference acquired via get_hwpoison_page(p), leaving
+> the THP with no extra poison pin. However, TestSetPageHWPoison(p) was
+> already called.
+> 
+> If the THP later reaches a state with a single transient reference
+> and no mappings, unpoison_memory() acquires a reference (ghp = 1),
+> calls folio_put(folio) once, and then TestClearPageHWPoison(p) clears
+> the flag and returns true. This triggers the second folio_put(folio),
+> dropping a non-existent poison pin.
+
+I don't know, and I'm losing patience with the Sashiko rabbit holes.
+This is all getting very far afield from the problem I actually want
+to fix.
