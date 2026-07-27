@@ -1,158 +1,503 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CED41E6AD;
-	Mon, 27 Jul 2026 16:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3077441A766;
+	Mon, 27 Jul 2026 16:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785168030; cv=none; b=EjKtdz3tADFpcfBp5BEAVXTAUkT2YTwVpryR/C+gX8pxWaL843Iv/lgSU5rqm1HoXP+TFAi/k10h3x06QpUtCigeCkZREC+fzZNqSsmXtBFJYyUTfAFlFz9qpKqbGRgxhK6Lv4cCncJRd1boeiLtJbB+Kv7VVT99OwX3Gpobl7A=
+	t=1785170860; cv=none; b=S9jBKVWfALE6sKsJPpnMkh+7QoUphlVZVOIm1qPfO5l3FTAYber95vOKLuNOnM3iI+PXmCyHzd1KZOPVSzEElU6oSB26bLfAJJjKWg4b2m+aVpP/eYVPOAoN1xg+IK8GhjkytIgNzf9eznTbyYML7pnaDoNUjRIZAUU5bhmamwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785168030; c=relaxed/simple;
-	bh=7eWvigEn5QtaMp2zZKyDLgT5M8OcwN29A5IrpSxGBNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4zypeJP77PygbOpBDGWhsTslqayrgRfiHs9t13KhS5gg1g7OZBgA4K1UeQtp2PhzM2AocJSMGlZJxOa2if0VJgvN+AbUwJV+T3inM25eyTZzV11jaFBWil3DkURKpNFYUwZwO6yiVppx1eA0XvUg4hIHBTzMcyAeCPOve9ZcVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nCMJxn0c; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785170860; c=relaxed/simple;
+	bh=w4k+bQmvUuHGI/24VevNijHqxyxPwL/+LhPYxLtjyuU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aeuZv7cp/WOJiI3/yDMs6pH/K61a8p1Hi/bhRzHT648LwY4vWYlUmMKy1JrpKECuo1Herg+zeUEkdtKbNxNq6gsvT2XYcU8L0LdKzzdFjZ/SR473NqNsPagPxC+FPs/o6uTco9/3KM6Tz0upDEFpD8++wiGVxbRQJ2dNKOzDg3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=eNStiesH; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nCMJxn0c"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=jB30wN8yjdXgq6NYs2kUjzKRcyWTmpmx3GjdzFD9/WE=; b=nCMJxn0cSZC7nJ47yk+Tys45BS
-	XjZkO8CDf8Pn1DcEDz3p2HE4Rm3d7OBKfKKEd8ZnDJ4MGf6OtIGkjAtJxDY7zaDOTSu3mt6eB+nD7
-	U1ifAgA5iSYkFzjtg0fpmuHkyxgdYThwBu8Q3OIXA3v0ukbFKfiBjLzrL6C71Sl1/cpvDq7ILyMtG
-	AwSTkFCwFUtuc5DYtegdIbkRU6G/ybzswTJcUbNarGqvDxTQfuiajtHYURdr6h2hJWN6SPOwGMyWR
-	u0HmsfjwnYAEOCiD/wj+VYPeuObhiX99FYbvclygFxO2rIUWAAQVo+j5z6TJZbHPr52oBFMDK167e
-	W2RI3k6g==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woNkA-0000000AzfK-3C7g;
-	Mon, 27 Jul 2026 15:59:54 +0000
-Date: Mon, 27 Jul 2026 16:59:54 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="eNStiesH"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 651831688;
+	Mon, 27 Jul 2026 09:47:31 -0700 (PDT)
+Received: from e142334-100.cambridge.arm.com (e142334-100.cambridge.arm.com [10.2.198.93])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C8E073F86F;
+	Mon, 27 Jul 2026 09:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785170855; bh=w4k+bQmvUuHGI/24VevNijHqxyxPwL/+LhPYxLtjyuU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eNStiesHwmBomV6wrOQ8H5zsD4tgspqHk2F4hp05t+nsAbON7NhhaJZIlsbIoaDE5
+	 MQeD7VCk0M0n0M/zvl59Kf+yEaeZvKmNlr01S/W3ryf24Ziy0VJkB3GKbm+aeaR8ZL
+	 t+/uPNoYKFC+9W5v+wKeGdyfY/NjlIvdqscmhDX0=
+From: Muhammad Usama Anjum <usama.anjum@arm.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, Jan Kara <jack@suse.cz>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	David Hildenbrand <david@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	SJ Park <sj@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
 	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Usama Arif <usama.arif@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 00/15] mm/rmap: index MAP_PRIVATE file-backed folios
- by virt pgoff
-Message-ID: <ameAekveMOcP7ffQ@casper.infradead.org>
-References: <20260720-b4-scalable-cow-virt-pgoff-v2-0-2d549757a76f@kernel.org>
- <880981b5-ef79-4c9a-a8bd-7540002fcd15@kernel.org>
- <amd9QR75eLNdgNU7@lucifer>
+	Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	ziy@nvidia.com,
+	pfalcato@suse.de,
+	agordeev@linux.ibm.com,
+	ryan.roberts@arm.com
+Cc: Muhammad Usama Anjum <usama.anjum@arm.com>,
+	linux-kernel@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-parisc@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	damon@lists.linux.dev
+Subject: [PATCH RFC 00/11] mm: distinguish PTE table storage from PTE values
+Date: Mon, 27 Jul 2026 17:46:51 +0100
+Message-ID: <20260727164715.2866609-1-usama.anjum@arm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amd9QR75eLNdgNU7@lucifer>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 27, 2026 at 04:57:01PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Jul 27, 2026 at 04:44:06PM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/20/26 16:38, Lorenzo Stoakes (ARM) wrote:
-> > > In memory management we've managed to manufacture a great deal of confusion
-> > > around the concept of anonymous memory. We have:
-> > >
-> > > 1. 'Pure anon' memory - anonymous VMAs whose folios are anonymous and
-> > >    swap-backed (thus for reclaim purposes, treated as anonymous). These are
-> > >    simple enough.
-> > >
-> > > 2. shmem - file-backed VMAs, file-backed folios (from rmap perspective) so
-> > >    present in the page cache and mapped by an address_space object, but
-> > >    whose folios are also swap-backed (thus treated as anonymous for reclaim
-> > >    purposes).
-> > >
-> > > 3. MAP_PRIVATE-mapped /dev/zero - a strange beast whose VMAs have
-> > >    vma->vm_file set, but whose mmap_prepare callback clears vma->vm_ops to
-> > >    satisfy vma_is_anonymous(), which results in VMAs that were mmap()'d
-> > >    referencing a file, but are in every other sense anonymous, including the
-> > >    folios.
-> > >
-> > > 4. Other MAP_PRIVATE-file backed mappings - These possess file-backed VMAs
-> > >    and have file-backed folios until CoW'd, at which point those CoW'd
-> > >    folios are anonymous.
-> > >
-> > > This series fixes issues 3 and 4.
-> > >
-> > > In order for us to traverse VMAs using the reverse mapping, we require two
-> > > fields - folio->mapping and folio->index. The first tells the rmap code
-> > > where to look for VMAs, and the second tells it at which offset the folio
-> > > starts within the referenced object.
-> > >
-> > > For anonymous folios, folio->mapping points at an anon_vma object. For
-> > > file-backed folios, it points at an address_space. And:
-> > >
-> > > * For file-backed folios folio->index is simply the page offset of the start
-> > >   of the folio within the file.
-> > >
-> > > * For anonymous folios belonging to pure anon mappings, folio->index is
-> > >   equal to the virtual page offset of the folio.
-> > >
-> > > * For anonymous folios belonging to file-backed mappings (i.e. CoW'd folios
-> > >   of a MAP_PRIVATE file-backed mapping), folio->index is equal to the file
-> > >   page offset.
-> > >
-> > > This series establishes a new virtual page offset property of VMAs to
-> > > allow us to map anonymous folios at their virtual page offset, consistent
-> > > with pure anon.
-> >
-> > As raised off-list, I consider the "virtual page offset" concept hard to grasp.
-> >
-> > Maybe it's just me :)
-> >
-> > Skimming over the code, I read "vmg->anon_pgoff", which is pretty intuitive to
-> > me. Similarly vma_start_anon_pgoff() / vmg_end_anon_pgoff().
-> >
-> > Could we similarly just call this "anon_pgoff" /  "(linear) anon page index"
-> > even on the VMA level.
-> 
-> Yeah, I had originally done this.
-> 
-> I renamed it because I worried that people might be confused by references to
-> anon for file-backed VMA mappings.
-> 
-> But I think probably you're right that referring to it as virtual page offset
-> adds even more confusion vs. simply calling it anon. Will respin accordingly.
+Hi,
 
-Would the term "logical page offset" be helpful?
+pte_t currently describes both a logical PTE value and an element stored in
+a PTE table. Consequently, pte_t * can point either to a standalone value,
+often a stack copy, or to a PTE-table slot. The compiler cannot distinguish
+these cases. A value pointer can therefore be passed to an interface that
+expects table storage, while table storage can be read by direct
+dereference instead of the architecture accessor.
 
-I already use this in my description of folios:
+This series begins a staged conversion at the PTE level. It introduces
+hw_pte_t as the element type for PTE-table storage and converts generic MM
+to use hw_pte_t *. Logical PTE values remain pte_t. Interfaces that
+intentionally return a value through pte_t *, such as install_pte, remain
+value interfaces; the relevant parameters are named ptentp to make that
+distinction explicit.
 
- * A folio is a physically, virtually and logically contiguous set
- * of bytes.  It is a power-of-two in size, and it is aligned to that
- * same power-of-two.  It is at least as large as %PAGE_SIZE.  If it is
- * in the page cache, it is at a file offset which is a multiple of that
- * power-of-two.  It may be mapped into userspace at an address which is
- * at an arbitrary page offset, but its kernel virtual address is aligned
- * to its size.
+The generic definition aliases hw_pte_t to pte_t, so this series preserves
+the representation and behaviour of every architecture. ptep_get() keeps
+its existing READ_ONCE() semantics and converts the stored element through
+__pte_from_hw(). An architecture can later define a distinct hw_pte_t and
+convert its PTE interfaces to make the distinction compiler-enforced.
+Architecture PTE implementations and most architecture code are
+deliberately left for those later opt-in conversions.
+
+Here, hw_pte_t identifies PTE-table storage rather than table lifetime:
+complete PTE tables use hw_pte_t whether or not they are currently linked
+into a page-table hierarchy, while standalone copied values use pte_t. The
+distinction between complete but unlinked tables and hardware-reachable
+tables was raised during discussion and remains an important point for
+review.
+
+PMD, PUD, P4D and PGD storage are deliberately out of scope. They can be
+converted in later series after the PTE boundary is agreed, avoiding the
+PMD-specific cases that made an all-level conversion difficult to review.
+
+Most mechanical pointer conversions were generated with the Coccinelle
+script included below, then audited and fixed by hand.
+
+This series does not add a second ptep_get_once() accessor and does not
+remove or replace STRICT_MM_TYPECHECKS.
+
+The design discussion is available at [1]; while the original idea came from
+[2].
+
+[1] https://lore.kernel.org/all/6110202c-057b-4701-8c04-1a76ee7bb9ab@arm.com/
+[2] https://lore.kernel.org/all/a063f6c5-2785-4a9f-8079-25edb3e54cef@arm.com
+
+Thanks,
+Usama
+---
+// SPDX-License-Identifier: GPL-2.0-only
+///
+/// Rename raw PTE pointer types to hardware PTE pointer types.
+///
+/// This is a mechanical type rename. It converts common declarations,
+/// function parameters, prototypes, return types and casts from "pte_t *"
+/// to "hw_pte_t *". Plain "pte_t" objects are intentionally left unchanged.
+/// Pointers named "ptentp" refer to temporary logical PTE values and are
+/// intentionally ignored in all modes.
+/// Re-run in context mode afterwards to audit remaining raw pte_t pointers
+/// and cases that need hand conversion, such as trace macros and mixed
+/// declarations.
+///
+/// Confidence: Moderate
+// Options: --no-includes --include-headers
+
+virtual patch
+virtual report
+virtual context
+
+@local_decl depends on patch@
+identifier x != ptentp;
+@@
+- pte_t *x;
++ hw_pte_t *x;
+
+@local_decl_init depends on patch@
+identifier x != ptentp;
+expression e;
+@@
+- pte_t *x = e;
++ hw_pte_t *x = e;
+
+@param_proto depends on patch@
+identifier f;
+identifier x != ptentp;
+type R;
+@@
+R f(...,
+- pte_t *x
++ hw_pte_t *x
+,...);
+
+@param_proto_unnamed depends on patch@
+identifier f;
+type R;
+@@
+R f(...,
+- pte_t *
++ hw_pte_t *
+,...);
+
+@param_def depends on patch@
+identifier f;
+identifier x != ptentp;
+type R;
+@@
+R f(...,
+- pte_t *x
++ hw_pte_t *x
+,...)
+{ ... }
+
+@ret_proto depends on patch@
+identifier f;
+parameter list ps;
+@@
+- pte_t *
++ hw_pte_t *
+  f(ps);
+
+@ret_def depends on patch@
+identifier f;
+parameter list ps;
+@@
+- pte_t *
++ hw_pte_t *
+  f(ps)
+{ ... }
+
+@struct_member depends on patch@
+identifier S;
+identifier x != ptentp;
+@@
+struct S {
+...
+- pte_t *x;
++ hw_pte_t *x;
+...
+};
+
+@union_member depends on patch@
+identifier x != ptentp;
+@@
+union {
+...
+- pte_t *x;
++ hw_pte_t *x;
+...
+};
+
+@union_member_in_struct depends on patch@
+identifier S;
+identifier x != ptentp;
+@@
+struct S {
+...
+union {
+...
+- pte_t *x;
++ hw_pte_t *x;
+...
+};
+...
+};
+
+@fnptr_struct_member depends on patch@
+identifier S,f;
+identifier x != ptentp;
+type R;
+@@
+struct S {
+...
+R (*f)(...,
+- pte_t *x
++ hw_pte_t *x
+,...);
+...
+};
+
+@fnptr_typedef_pte_fn_t depends on patch@
+identifier x != ptentp;
+@@
+typedef int (*pte_fn_t)(...,
+- pte_t *x
++ hw_pte_t *x
+,...);
+
+@cast depends on patch@
+expression e;
+@@
+- (pte_t *)e
++ (hw_pte_t *)e
+
+@remaining_decl depends on context || report@
+identifier x != ptentp;
+position p;
+@@
+* pte_t *x@p;
+
+@remaining_decl_init depends on context || report@
+identifier x != ptentp;
+expression e;
+position p;
+@@
+* pte_t *x@p = e;
+
+@remaining_param_proto depends on context || report@
+identifier f;
+identifier x != ptentp;
+type R;
+position p;
+@@
+R f(...,
+* pte_t *x@p
+,...);
+
+@remaining_param_proto_unnamed depends on context || report@
+identifier f;
+type R;
+position p;
+@@
+R f(...,
+* pte_t *@p
+,...);
+
+@remaining_param_def depends on context || report@
+identifier f;
+identifier x != ptentp;
+type R;
+position p;
+@@
+R f(...,
+* pte_t *x@p
+,...)
+{ ... }
+
+@remaining_ret_proto depends on context || report@
+identifier f;
+parameter list ps;
+position p;
+@@
+* pte_t *f@p(ps);
+
+@remaining_ret_def depends on context || report@
+identifier f;
+parameter list ps;
+position p;
+@@
+* pte_t *f@p(ps)
+{ ... }
+
+@remaining_struct_member depends on context || report@
+identifier S;
+identifier x != ptentp;
+position p;
+@@
+struct S {
+...
+* pte_t *x@p;
+...
+};
+
+@remaining_union_member depends on context || report@
+identifier x != ptentp;
+position p;
+@@
+union {
+...
+* pte_t *x@p;
+...
+};
+
+@remaining_union_member_in_struct depends on context || report@
+identifier S;
+identifier x != ptentp;
+position p;
+@@
+struct S {
+...
+union {
+...
+* pte_t *x@p;
+...
+};
+...
+};
+
+@remaining_fnptr_struct_member depends on context || report@
+identifier S,f;
+identifier x != ptentp;
+type R;
+position p;
+@@
+struct S {
+...
+R (*f)(...,
+* pte_t *x@p
+,...);
+...
+};
+
+@remaining_fnptr_typedef_pte_fn_t depends on context || report@
+identifier x != ptentp;
+position p;
+@@
+typedef int (*pte_fn_t)(...,
+* pte_t *x@p
+,...);
+
+Muhammad Usama Anjum (11):
+  mm: introduce hw_pte_t for PTE table storage
+  mm: make hw_pte_t visible to generic PTE interfaces
+  mm: name pointers to copied PTE values ptentp
+  mm: use hw_pte_t for generic PTE table storage
+  mm: convert PTE table entries in ptep_get()
+  mm/kasan: use hw_pte_t for the early shadow PTE table
+  mm/mremap: use ptep_get() for the destination PTE
+  drm/i915: use hw_pte_t for PTE range callbacks
+  misc/sgi-gru: use ptep_get() for page-table reads
+  parisc: use hw_pte_t for the data-break callback
+  xen: use hw_pte_t for PTE range callbacks
+
+ MAINTAINERS                                   |  1 +
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  4 +-
+ drivers/gpu/drm/i915/i915_mm.c                |  4 +-
+ drivers/misc/sgi-gru/grufault.c               |  4 +-
+ drivers/parisc/sba_iommu.c                    |  4 +-
+ drivers/xen/gntdev.c                          |  2 +-
+ drivers/xen/privcmd.c                         |  2 +-
+ drivers/xen/xenbus/xenbus_client.c            |  2 +-
+ drivers/xen/xlate_mmu.c                       |  4 +-
+ fs/hugetlbfs/inode.c                          |  3 +-
+ fs/proc/task_mmu.c                            | 39 ++++-----
+ include/asm-generic/hugetlb.h                 | 15 ++--
+ include/asm-generic/pgalloc.h                 |  6 +-
+ include/asm-generic/tlb.h                     |  6 +-
+ include/linux/hugetlb.h                       | 50 +++++++-----
+ include/linux/kasan.h                         |  2 +-
+ include/linux/mm.h                            | 26 +++---
+ include/linux/page_table_check.h              | 10 ++-
+ include/linux/pagewalk.h                      | 10 +--
+ include/linux/pgtable.h                       | 81 ++++++++++---------
+ include/linux/pgtable_types.h                 | 12 +++
+ include/linux/rmap.h                          |  2 +-
+ include/linux/swapops.h                       |  6 +-
+ include/linux/vmalloc.h                       |  4 +-
+ include/trace/events/xen.h                    | 10 +--
+ kernel/bpf/arena.c                            |  9 ++-
+ kernel/events/core.c                          |  3 +-
+ mm/damon/ops-common.c                         |  2 +-
+ mm/damon/ops-common.h                         |  2 +-
+ mm/damon/vaddr.c                              | 20 ++---
+ mm/debug_vm_pgtable.c                         |  2 +-
+ mm/filemap.c                                  |  4 +-
+ mm/gup.c                                      |  9 ++-
+ mm/highmem.c                                  | 15 ++--
+ mm/hmm.c                                      |  6 +-
+ mm/huge_memory.c                              |  4 +-
+ mm/hugetlb.c                                  | 60 +++++++-------
+ mm/hugetlb_vmemmap.c                          | 13 +--
+ mm/internal.h                                 | 16 ++--
+ mm/kasan/init.c                               | 14 ++--
+ mm/kasan/shadow.c                             |  6 +-
+ mm/khugepaged.c                               | 23 +++---
+ mm/ksm.c                                      | 11 +--
+ mm/madvise.c                                  | 18 +++--
+ mm/mapping_dirty_helpers.c                    |  4 +-
+ mm/memory-failure.c                           |  6 +-
+ mm/memory.c                                   | 78 +++++++++---------
+ mm/mempolicy.c                                |  4 +-
+ mm/migrate.c                                  |  4 +-
+ mm/migrate_device.c                           |  4 +-
+ mm/mincore.c                                  |  4 +-
+ mm/mlock.c                                    |  4 +-
+ mm/mprotect.c                                 | 19 ++---
+ mm/mremap.c                                   |  6 +-
+ mm/page_table_check.c                         |  4 +-
+ mm/pagewalk.c                                 |  9 ++-
+ mm/percpu.c                                   |  2 +-
+ mm/pgtable-generic.c                          | 20 ++---
+ mm/ptdump.c                                   |  4 +-
+ mm/rmap.c                                     |  6 +-
+ mm/sparse-vmemmap.c                           | 24 +++---
+ mm/swap_state.c                               |  3 +-
+ mm/swapfile.c                                 |  5 +-
+ mm/userfaultfd.c                              | 32 ++++----
+ mm/util.c                                     |  2 +-
+ mm/vmalloc.c                                  | 13 +--
+ mm/vmscan.c                                   |  6 +-
+ 67 files changed, 435 insertions(+), 374 deletions(-)
+ create mode 100644 include/linux/pgtable_types.h
+
+-- 
+2.47.3
 
