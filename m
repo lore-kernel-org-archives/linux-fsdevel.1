@@ -1,152 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1AD42CAFC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1A63FF1AE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785171946; cv=none; b=DiEDPELwwItX/critNBBAgmMjc1Yh9vIvX9n8e51BfCnOqZJn2LCSAx0I5z3kJqFX+6eb9RPusA3HtprM58Ix+MK44MfMWP6olROjnQ3tOmx2z1XxG9Aoli+nmFheFCXYjE3zErZl95JBXzrYWVQ5OZFnREqQTmfXhbDbGNWs/I=
+	t=1785173850; cv=none; b=uj27mYVz9nhkgv2HstBSS+IzBuPltB9QOGnuV1G+do3fspZ/TRtu/82nVNXWK8f/u8uB/Wm+5FCBTpp6H/3Vf0Fip2YO0Bd3cmrNW5ifz5tDbWliDuVFO2st0kFq+ZNDVdJn+UzgDswRlK1FMxRZEoXu4WLwRa7obvPSb9a+3gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785171946; c=relaxed/simple;
-	bh=acBPRN+lsRzChrp84ytZ4p1LYzUx1/v/c3Lu3UdiGrI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gY5PNLILNul3fRyhTvb7IIayvVZWrKPSgTbN1ryeMNWT939FeVuG9YwkQJoAokWd/S4MpoBq4zwIfyOlpiWHK32Fv2CDdnrO8BA/rP5qFgiQH/9UchcGK8JrTFpYOO6wCsWjxEKHduzCBYJjWfOKOEUEg7cHIkh4GMqf/5dYJwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5J5z06d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785173850; c=relaxed/simple;
+	bh=MiKt6D4ufElwGxFPMYnpUfYx/xsNZdOAcEr4oSDTPBU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HLB/X4mOoiyOZXYT0rWW7HTNSneQpyxxbaVxwsa+wt7asDF2GlyJKiKKsv7wjN8EuuvogR4bOgPh9g4bzVBQXNFFx35XQYArIv5z/2IPE/+rR/fP9A/5O+AvYeWvcFU9FZVsYtLZXDK0QZxEtDlgzN1XGHO4Zd4FtsGJYji/Roo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZdhvrHNU; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5J5z06d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B451F01559
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 17:05:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785171945;
-	bh=TxnKWGgv3kgSGpcOLq+j0ydLE+o+ovzFIuBVVmOhisE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A5J5z06d+ldD+/vVwpkfraF8fr6YN14SfDoyIifZV7wAu3Y0A5oHKfmQchRpNuz0R
-	 XzWjy51xjTv0zra5jT0YR5XOEK/+qDyxFFk9RC2+fHRiiW+qF3Rjb+7YXUghN7KYZC
-	 HdgVlCXqVfViTpplqUKG+KfkKgW+07NczS22VAmUSn2e5Hq+Ou8dO1GLyshGTmx7N0
-	 liHc53+1rVh0XSTXaP0SWA2y80Rri4VIDb2th9M1/wO2oLwL4lx32kCBh6XMibYdkN
-	 ggPewZmj5hPEQS/O8yA5PaPUz6NlG3rPWtl05h5nxY8Kf/m+RvemnyT6exWFFX8tph
-	 9oUZtLcd1xT/Q==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c15d47266baso361134066b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 10:05:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrf1DUPOT+ycpAStmewoEE+IHqaKYPEUrZ4YXKZ8l+Jx0BquHUy6I/C7kH14twA3qxiO6Ch5B7IZG9lZYM5@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLqnWsDHVX8TwUmy6gOPHeNkQXY7cNnbFeqTZvHw00YjOZ7w2F
-	1kaCfy0KoGVRpYWrDknmwu17E4MrnS/z8ya9GMLsdcYRIq6lezNP0r5isK+SEyR+v1eU1PmkiZ+
-	ViJ5SXDgd6gBN+jpO8F8sscqxcAoEtrE=
-X-Received: by 2002:a17:907:983:b0:c15:f376:9642 with SMTP id
- a640c23a62f3a-c1f1f119245mr387752466b.65.1785171943901; Mon, 27 Jul 2026
- 10:05:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZdhvrHNU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785173847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EeWGPzmqEH+jI6tujANue5n8B2e96ux4rxA7LV3/P9U=;
+	b=ZdhvrHNU9tRUOQksNf9Cg3ZPKQN1S7iSZH7CjYKhTxvmkX9Gp0vDJwahEM6SgDwt14vQ6Q
+	GQo+YDthdQi0hDdHuKaIPGrWTnJCgLKPlqsXMXmeGek4He4GJQ2oufrJ7r7500qdCPtsZS
+	qsUcSEDzUtjMibR6gk/MBDUxVL038bA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-jQTHGJyiOMqvVc1IhEtb5A-1; Mon,
+ 27 Jul 2026 13:37:24 -0400
+X-MC-Unique: jQTHGJyiOMqvVc1IhEtb5A-1
+X-Mimecast-MFC-AGG-ID: jQTHGJyiOMqvVc1IhEtb5A_1785173842
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 55D731955EBB;
+	Mon, 27 Jul 2026 17:37:22 +0000 (UTC)
+Received: from wsxc.redhat.com (unknown [10.96.134.60])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 065C618001DD;
+	Mon, 27 Jul 2026 17:37:17 +0000 (UTC)
+From: Ricardo Robaina <rrobaina@redhat.com>
+To: audit@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: paul@paul-moore.com,
+	eparis@redhat.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	sgrubb@redhat.com,
+	rbriggs@redhat.com,
+	Ricardo Robaina <rrobaina@redhat.com>
+Subject: [PATCH v2] audit: add FSCONFIG auxiliary record to log filesystem configuration
+Date: Mon, 27 Jul 2026 14:37:10 -0300
+Message-ID: <20260727173710.964626-1-rrobaina@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727143618.1582318-1-alex@ghiti.fr> <20260727143618.1582318-4-alex@ghiti.fr>
-In-Reply-To: <20260727143618.1582318-4-alex@ghiti.fr>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 27 Jul 2026 10:05:32 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
-X-Gm-Features: AUfX_mymjXAGe8WFZWwKwVyHcv1lhqsWQChGfs9bdQu1IS7341exKkVzBFQ0Cg0
-Message-ID: <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Mon, Jul 27, 2026 at 7:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
-te:
->
-> zswap writeback decompresses an entry into a fresh swap cache folio and
-> writes it back. The folio is cold by construction, yet it is left on the
-> LRU for reclaim to find and free later, wasting a reclaim scan and keepin=
-g
-> cold memory resident longer than necessary.
->
-> Allocate the folio off the LRU and drop it as soon as writeback completes=
-:
-> mark it PG_dropbehind so the swap dropbehind path frees it once writeback
-> ends. Synchronous-IO devices complete writeback in this context, so there
-> the folio is dropped inline instead.
+Modern mount tools (util-linux >= 2.39.1) use the new mount API
+(fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+syscall. The generic SYSCALL audit record logs the fsconfig syscall but
+does not capture the configuration parameters, creating an audit gap for
+critical mount information such as the device being mounted.
 
-Why does this need to be handled in zswap? Doesn't writeback from sync
-devices still call folio_end_writeaback() and do the dropbehind
-handling?
+Add an FSCONFIG auxiliary record that logs the command type, parameter
+name (key), parameter value, and aux parameter passed to fsconfig(2).
 
->
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-> ---
->  mm/zswap.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 8163e6c5f76c..e37828e02938 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -992,6 +992,7 @@ static int zswap_writeback_entry(struct zswap_entry *=
-entry,
->         struct folio *folio;
->         struct mempolicy *mpol;
->         struct swap_info_struct *si;
-> +       bool sync;
->         int ret =3D 0;
->
->         /* try to allocate swap cache folio */
-> @@ -999,6 +1000,8 @@ static int zswap_writeback_entry(struct zswap_entry =
-*entry,
->         if (!si)
->                 return -EEXIST;
->
-> +       sync =3D data_race(si->flags & SWP_SYNCHRONOUS_IO);
-> +
->         mpol =3D get_task_policy(current);
->         folio =3D __swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), =
-NULL, mpol,
->                                          NO_INTERLEAVE_INDEX);
-> @@ -1013,7 +1016,6 @@ static int zswap_writeback_entry(struct zswap_entry=
- *entry,
->          */
->         if (IS_ERR(folio))
->                 return PTR_ERR(folio);
-> -       folio_add_lru(folio);
->
->         /*
->          * folio is locked, and the swapcache is now secured against
-> @@ -1046,12 +1048,17 @@ static int zswap_writeback_entry(struct zswap_ent=
-ry *entry,
->         /* folio is up to date */
->         folio_mark_uptodate(folio);
->
-> -       /* move it to the tail of the inactive list after end_writeback *=
-/
-> -       folio_set_reclaim(folio);
-> +       if (!sync)
-> +               folio_set_dropbehind(folio);
->
->         /* start writeback */
->         __swap_writepage(folio, NULL);
->
-> +       if (sync) {
-> +               swap_dropbehind_free_one_folio(folio);
-> +               return 0;
-> +       }
-> +
->  out:
->         if (ret) {
->                 swap_cache_del_folio(folio);
-> --
-> 2.53.0-Meta
->
+ ----
+ type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_SET_STRING ...
+ type=FSCONFIG : fs_cmd=1 fs_key=source fs_val="tmpfs" fs_aux=0
+ ----
+ type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_CMD_CREATE ...
+ type=FSCONFIG : fs_cmd=6 fs_key=(null) fs_val=(null) fs_aux=0
+ ----
+ type=SYSCALL : syscall=fsconfig ... a1=FSCONFIG_SET_BINARY ...
+ type=FSCONFIG : fs_cmd=2 fs_key=hidepid fs_val="<binary>" fs_aux=4
+
+Link: https://github.com/linux-audit/audit-kernel/issues/153
+Acked-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+---
+Changes in v2:
+- Fixed null-check for fs_key field.
+- Clarified trimmed SYSCALL output in commit message examples. 
+
+ fs/fsopen.c                |  7 +++++++
+ include/linux/audit.h      | 13 +++++++++++++
+ include/uapi/linux/audit.h |  1 +
+ kernel/auditsc.c           | 27 +++++++++++++++++++++++++++
+ 4 files changed, 48 insertions(+)
+
+diff --git a/fs/fsopen.c b/fs/fsopen.c
+index ae19e5136598..9b3c02f59df4 100644
+--- a/fs/fsopen.c
++++ b/fs/fsopen.c
+@@ -15,6 +15,7 @@
+ #include <linux/namei.h>
+ #include <linux/file.h>
+ #include <uapi/linux/mount.h>
++#include <linux/audit.h>
+ #include "internal.h"
+ #include "mount.h"
+ 
+@@ -357,6 +358,7 @@ SYSCALL_DEFINE5(fsconfig,
+ 	struct fs_context *fc;
+ 	int ret;
+ 	int lookup_flags = 0;
++	const char *value_str = NULL;
+ 
+ 	struct fs_parameter param = {
+ 		.type	= fs_value_is_undefined,
+@@ -423,6 +425,7 @@ SYSCALL_DEFINE5(fsconfig,
+ 			goto out_key;
+ 		}
+ 		param.size = strlen(param.string);
++		value_str = param.string;
+ 		break;
+ 	case FSCONFIG_SET_BINARY:
+ 		param.type = fs_value_is_blob;
+@@ -432,6 +435,7 @@ SYSCALL_DEFINE5(fsconfig,
+ 			ret = PTR_ERR(param.blob);
+ 			goto out_key;
+ 		}
++		value_str = "<binary>";
+ 		break;
+ 	case FSCONFIG_SET_PATH_EMPTY:
+ 		lookup_flags = LOOKUP_EMPTY;
+@@ -445,6 +449,7 @@ SYSCALL_DEFINE5(fsconfig,
+ 		}
+ 		param.dirfd = aux;
+ 		param.size = strlen(param.name->name);
++		value_str = param.name->name;
+ 		break;
+ 	case FSCONFIG_SET_FD:
+ 		param.type = fs_value_is_file;
+@@ -458,6 +463,8 @@ SYSCALL_DEFINE5(fsconfig,
+ 		break;
+ 	}
+ 
++	audit_log_fsconfig(cmd, param.key, value_str, aux);
++
+ 	ret = mutex_lock_interruptible(&fc->uapi_mutex);
+ 	if (ret == 0) {
+ 		ret = vfs_fsconfig_locked(fc, cmd, &param);
+diff --git a/include/linux/audit.h b/include/linux/audit.h
+index 45abb3722d30..978eb881974c 100644
+--- a/include/linux/audit.h
++++ b/include/linux/audit.h
+@@ -449,6 +449,8 @@ extern void __audit_tk_injoffset(struct timespec64 offset);
+ extern void __audit_ntp_log(const struct audit_ntp_data *ad);
+ extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+ 			      enum audit_nfcfgop op, gfp_t gfp);
++extern void __audit_log_fsconfig(unsigned int cmd, const char *key,
++				 const char *value, int aux);
+ 
+ static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+ {
+@@ -598,6 +600,13 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+ 		__audit_log_nfcfg(name, af, nentries, op, gfp);
+ }
+ 
++static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
++				      const char *value, int aux)
++{
++	if (!audit_dummy_context())
++		__audit_log_fsconfig(cmd, key, value, aux);
++}
++
+ extern int audit_n_rules;
+ extern int audit_signals;
+ #else /* CONFIG_AUDITSYSCALL */
+@@ -730,6 +739,10 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+ 				   enum audit_nfcfgop op, gfp_t gfp)
+ { }
+ 
++static inline void audit_log_fsconfig(unsigned int cmd, const char *key,
++				      const char *value, int aux)
++{ }
++
+ #define audit_n_rules 0
+ #define audit_signals 0
+ #endif /* CONFIG_AUDITSYSCALL */
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index e8f5ce677df7..5cd0eb602528 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -122,6 +122,7 @@
+ #define AUDIT_OPENAT2		1337	/* Record showing openat2 how args */
+ #define AUDIT_DM_CTRL		1338	/* Device Mapper target control */
+ #define AUDIT_DM_EVENT		1339	/* Device Mapper events */
++#define AUDIT_FSCONFIG		1341	/* Record showing fsconfig args */
+ 
+ #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+ #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index 6610e667c728..fefc5c5dd4aa 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -2882,6 +2882,33 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+ }
+ EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
+ 
++void __audit_log_fsconfig(unsigned int cmd, const char *key,
++			  const char *value, int aux)
++{
++	struct audit_buffer *ab;
++
++	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_FSCONFIG);
++	if (!ab)
++		return;
++
++	audit_log_format(ab, "fs_cmd=%u", cmd);
++	audit_log_format(ab, " fs_key=");
++	if (key)
++		audit_log_untrustedstring(ab, key);
++	else
++		audit_log_format(ab, "(null)");
++
++	audit_log_format(ab, " fs_val=");
++	if (value)
++		audit_log_untrustedstring(ab, value);
++	else
++		audit_log_format(ab, "(null)");
++
++	audit_log_format(ab, " fs_aux=%d", aux);
++
++	audit_log_end(ab);
++}
++
+ static void audit_log_task(struct audit_buffer *ab)
+ {
+ 	kuid_t auid, uid;
+-- 
+2.53.0
+
