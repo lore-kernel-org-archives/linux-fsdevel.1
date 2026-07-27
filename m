@@ -1,73 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27853ED128
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 12:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5996D3FB07F;
+	Mon, 27 Jul 2026 12:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785155770; cv=none; b=S14nV3gZhHEREx3D3gQOZzFC1LqKH4wM3hUHv4Jnw8QT3oPLYhkcsvWl3ngPv2yhTn64uZWNv8qCa/Wyt6WgnhDdNIAf/5+cUvGpQ+HuhI6dPsUfm3yZk+uQYARsTBCQX1imkl7n1CEnnq1Dvig+3MAKypiE2UiLRF4NDpDyTWE=
+	t=1785156402; cv=none; b=EP9ikZm1EvuKLrl+rFZtlwUgj5pPAaryzzVU8JF+zUkqFUTV3wfRm9k5DSF3qFrp8laxooL949CuAHaimzCc4OQN3T3BUOTJt5a7jNooAwXvO92ag5S+TBTW33SzZ7my7d0oUgdYV0AisFWbmubtigEgFUdVZrVSizxh4oCf3JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785155770; c=relaxed/simple;
-	bh=8lluyG/o4XeTP4X3a03AUoWg0O0M6YnhCE5LDnhu8Ts=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=tgtuuaUXYRUbiYB9rYKom33WrI61nN8RAqUGSz1Th8+65DVpaJ4eUYPkGvq5sEA1bICA9M6MIb5dhyMV/1k0uFhEgtC0KCJ6vG+1e/6GukbTYohMqavtsI//xxxD4osl8AQPYOtW+BSWp4lSvdNRS6dY8C1B8iCJUnxrlR39TaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SgOJAgFd; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785156402; c=relaxed/simple;
+	bh=+A/TR6zl48rSZ05dBnTHE7c/MGTwhOrLP7sTtv8R5Io=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=pVB1cMGbNYgAayhQWwRLDfTcAnGnHtAAuyYWGny1I2BbYuQqj+hiHZVTvCoSOU2czLRHymT7b7fDwqHmq/DUzh12rFJDxGgEGZmm7TVC9VtAeDmbiTn9X+k5lw8uJmtEmrQzHphz+50kUlOatLCQ3pDvX0f3uCbVz1OSvvCruO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fPPO8ayJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SgOJAgFd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785155767;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8lluyG/o4XeTP4X3a03AUoWg0O0M6YnhCE5LDnhu8Ts=;
-	b=SgOJAgFdN2xkLf491AbYA3jxgRRpl5tYgI63vGxiKfQtjQqKhiRzr1bRE6EneEd7Mmequm
-	zIep6an5zqeCWGXA3ON5uNXHj6ysK+WclOmCJWhcX15p6ZqziP4c5FjqA0veJ6SQh7tMOP
-	gKbAhXrnb52VTqIuhQejTYZOsVyUk5Q=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-280-UXdWTtrlPGSL4LQ43z91aw-1; Mon,
- 27 Jul 2026 08:36:04 -0400
-X-MC-Unique: UXdWTtrlPGSL4LQ43z91aw-1
-X-Mimecast-MFC-AGG-ID: UXdWTtrlPGSL4LQ43z91aw_1785155763
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEDE019540EF;
-	Mon, 27 Jul 2026 12:36:00 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7BFD61800480;
-	Mon, 27 Jul 2026 12:35:58 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <6a4c21b3.c76b52dc.34afef.0002.GAE@google.com>
-References: <6a4c21b3.c76b52dc.34afef.0002.GAE@google.com>
-To: syzbot <syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com>
-Cc: dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org, netfs@lists.linux.dev,
-    pc@manguebit.org, Yun Zhou <yun.zhou@windriver.com>,
-    syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [netfs?] WARNING in netfs_writepages (3)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fPPO8ayJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF9C1F000E9;
+	Mon, 27 Jul 2026 12:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785156401;
+	bh=fVsYkwWYs1exNAhk7nwHtJENFxQWL6IfrmepDE9ribQ=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=fPPO8ayJmTbqQpZereTaMEbtXOtKx9ceaYtyzeLUX1AottvO3AHb6ya4OuzdajjgE
+	 6drjolZwTcw8xJoBSxbiE8s0+egNYsLTRllygW9UAuaYue6sGeuB2MJCbWmWCGKooB
+	 6j5hyWRwEnkzXPMfAHVp0B83is992Y44SSDIgYpIItOfXBdP5ZDgPBfON+DT/mZVUB
+	 MH/5CdAVdyiFf+vRw+9j0CjDqUUifOgUiqDWhXH9VesUjnKq1pZH/EgIrRCMYn2Lsh
+	 3veA5yW/EEVIcG9HlSodwzpoq9AAmEWmDdWcj4C50WxVtFC5U37fdxSuQOg28BHsBC
+	 KB2iWsZ/+Czeg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1098524.1785155757.1@warthog.procyon.org.uk>
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jul 2026 13:35:57 +0100
-Message-ID: <1098525.1785155757@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Jul 2026 14:46:32 +0200
+Message-Id: <DK9D4LAND3I8.1CXI8473PG88M@kernel.org>
+Subject: Re: [PATCH 3/5] rust: sync: add WaitQueue infrastructure
+Cc: <gregkh@linuxfoundation.org>, <arve@android.com>, <tkjos@android.com>,
+ <brauner@kernel.org>, <cmllamas@google.com>, <aliceryhl@google.com>,
+ <boqun@kernel.org>, <lyude@redhat.com>, <daniel.almeida@collabora.com>,
+ <work@onurozkan.dev>, <juri.lelli@redhat.com>,
+ <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+ <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+ <vschneid@redhat.com>, <kprateek.nayak@amd.com>, <ojeda@kernel.org>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <acourbot@nvidia.com>,
+ <peterz@infradead.org>, <mingo@redhat.com>, <will@kernel.org>,
+ <longman@redhat.com>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+ <tj@kernel.org>, <jiangshanlai@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260726223613.1242940-1-dakr@kernel.org>
+ <20260726223613.1242940-4-dakr@kernel.org>
+ <DK9C6KISAMX3.H10297T645RT@garyguo.net>
+In-Reply-To: <DK9C6KISAMX3.H10297T645RT@garyguo.net>
 
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs=
-.git netfs-fixes
+On Mon Jul 27, 2026 at 2:02 PM CEST, Gary Guo wrote:
+>> @@ -0,0 +1,388 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Wait queue.
+>> +//!
+>> +//! C header: [`include/linux/wait.h`](srctree/include/linux/wait.h)
+>> +
+>> +use super::LockClassKey;
+>> +use crate::{
+>> +    prelude::*,
+>> +    str::CStr,
+>> +    task::{
+>> +        self,
+>> +        TASK_INTERRUPTIBLE,
+>> +        TASK_NORMAL,
+>> +        TASK_UNINTERRUPTIBLE, //
+>
+> Hmm, I am not sure why we are exposing these as constants from kernel::ta=
+sk.
+> Regardless, Given that you're using them for bindings, you should probabl=
+y get
+> them from bindings::TASK_* instead.
 
+See commit f090f0d0eea9 ("rust: sync: update integer types in CondVar");
+personally I don't mind either way.
