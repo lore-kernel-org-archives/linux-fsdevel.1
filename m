@@ -1,73 +1,94 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D49348C7C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D506372B26
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 21:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785184091; cv=none; b=iC6csa+OosGxPzzLuf7VV3OyvYh0hQ0p2xKImWBilI61c1aa187OMTeJCgT6m9d5S67kvsOy/t4euov8sGT5WLQby2RuMye21qb66iB9Gm/3T0+ptstet1fqUvgE1ApNt9JwxChYQN3LnkIJnvJu1wTyaKnPr0SAFxADT/HYXNc=
+	t=1785186443; cv=none; b=jw0swvkM+2jlU6mHN5HhkU5Pd2eAoZKa8IqMPAUBVGIb3MXWE/5QvxP4T+WPH7IDQB8bgF/S5l9hpJhPiYQYGFeB2moG6QU43nDB7edxsChDUs2H4RjrmuaH8PTfoUeRiXIh5UxFQFVnHoNZemp22Bc//Y7rsqA27DyD+Pw84ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785184091; c=relaxed/simple;
-	bh=wrxCJ7U7RKSY+izvIpgXpJE2dp/4OXbtvj1HPvdfB5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uT5iabxl4afj+sLUWatIqxNBnZhPC/E0Kck0Y4wbsOUF0UYpyWGhnPSYzqBN9xhdBTYk9EzXOAUa3dC3UwBAQCrF1mWYmwdfn6WXXYxxHEpRvbcX4soqmsURX7YP0yS+jM8JZDlTc8z4oMJdlRPKTNrPk+fb153+Ct5bQLpWINI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iuw6Pkpt; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785186443; c=relaxed/simple;
+	bh=+gR5A1J1zjg+Bi7DzRGdnN3q58y3zgJk3D4u+2n6U1M=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Kjpb1lFA3MfORjH27PgjqLptfOlZDaaMejF7fSHHAg+ypkwZx+FHcBQWVePdw7n8UkWgYRmpw8lJrh+mjdlzM8qplTv7t7g2TI6kKVpW4X8vitcp+lewTfxtQUIoUbzOfU1XX54b1a5DmVuLZAysFBlEv10TazqPkkYuSFNTY6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GeDIir23; arc=none smtp.client-ip=209.85.214.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iuw6Pkpt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=C798dAa8fw/QYuryBKFnwSYvO0o2tExwKWEloLNlk4k=; b=iuw6Pkpt/Riscm6bIYyF1Pg/fA
-	20IED5i22Z4fUJhPAxkUChEfggKUFosybNALvSvNa3iFaYo1CD0P/7hlQoUdCV5XKCFw/2Mp7iTy8
-	311VJxGtq5jQpOd+L4qJ+XffqjEWZoDN8TgWbyfmoO0YzNJ5T34sjxYBQV2sr5c/87D9Md3stPV+4
-	ZC8nl8VbTfQ5rn+uu3g1k0q6mszgqzHAo18ivmSm3322kYCTDj5m0aBhZJz2F1TUlw3LoVaUuxOmz
-	p2nfmP5vfuEPFC4HBX8I2OyHVpuOD4+LAclEE8Zv/BEhZiGD4L2p8PRP2ECSTdcgFeqs2hnTnzWAh
-	EQi3jJRA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woRva-0000000BOw3-348l;
-	Mon, 27 Jul 2026 20:27:59 +0000
-Date: Mon, 27 Jul 2026 21:27:58 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v6 00/12] Use generic_file_read_iter() in hugetlbfs
-Message-ID: <ame_ToR5rr3m9x6V@casper.infradead.org>
-References: <20260727181310.2671972-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GeDIir23"
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cea6a46766so53828075ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 14:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785186441; x=1785791241; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Cq4WhpWtro5HMYWN8eGcK85O81Vkf5GCoUxt3vXYelM=;
+        b=GeDIir23skhlWyNMI9awLh9deeE9nKRlnTr1FucKU88LvG1rdtQLu+tWfiqtUfdEad
+         6R6/R1ardnM/OCE8FTOOt6BrvOu5YjZ2CHQhmvtCE9RZPd0ywLB+BzW+VSZRjhAVq3rb
+         Grk8c9jrXqk8ivRk2iv1yDWLh8N2MO0IHhoGsmGdSyVIwOPYlaQspuHimNeRRN+yFV/2
+         ywPiw0TeIwW0tL3b6t/vwvNoO1rJdYTHM36sf0CLRny1xLf4LETfhFWwmY1+xTcn6Hzu
+         znwOgBVtGXsUy6Px5vI4lDsSd6IJVCfGktP9t3k1n+OVXeXqp+Yk9cA8FLa5ysYzwP7y
+         ApjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785186441; x=1785791241;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Cq4WhpWtro5HMYWN8eGcK85O81Vkf5GCoUxt3vXYelM=;
+        b=ft+50+XmXLr9b/J1pNY3XwXoBo6TGCL4GUsZx5HiaHfvYVXY6bDNgCjzUuoNC4HeCG
+         fNbDd39iYotYGFRRqFwAMj9tezhKuoywSQk5V1yt7AYV0zMO+PuVsoyr9TLOPKoVF4lO
+         6fOozJpQ/TCh6whUgvuA250HoQDGwx3Kk7n4aBkvJ8QmWmvMFEY5YMjPQNeNxbRqDQh1
+         pI0JaFBbEfRFd9BRMQ5DwszsFedCqgd7jgD1f7uHJCLmct0yzDlcwlVWOnIdTSVEL7uK
+         xkHdaELEIF6ecM5xphz69+rWdO1Tb8ws+YLtwoqu/S7LpxGmzEyhXLZRRSKDMSQ4y3po
+         GSaA==
+X-Gm-Message-State: AOJu0Yzc4RaXRHHEppB98NfRKgfKNWE/2kPNwwxfX7o8aBo51bN0byn8
+	xMyZu+lpZ+7nKFVPjG63FOPmprpozMUeK/xa3gIqrqPkaR6daoX20iJsbdRMIVKELaDRbbLfiRo
+	MSrreiCoMeg==
+X-Received: from plbkq14.prod.google.com ([2002:a17:903:284e:b0:2cc:b904:3255])
+ (user=psalian job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2c07:b0:2c2:bd7f:ccd4
+ with SMTP id d9443c01a7336-2d00f2fec60mr7906895ad.21.1785186441218; Mon, 27
+ Jul 2026 14:07:21 -0700 (PDT)
+Date: Mon, 27 Jul 2026 21:07:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727181310.2671972-1-willy@infradead.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
+Message-ID: <20260727210718.125872-1-psalian@google.com>
+Subject: [PATCH] fuse: mark DAX VMA page protections as decrypted
+From: Punit Salian <psalian@google.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Punit Salian <psalian@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 27, 2026 at 07:12:56PM +0100, Matthew Wilcox (Oracle) wrote:
-> This set of patches are separated out from Jane's earlier series.
-> https://lore.kernel.org/linux-mm/20260617172534.1740152-1-jane.chu@oracle.com/
-> 
-> We need three things to use filemap_read_iter() instead of a hugetlbfs
-> specific read_iter: hwpoison handling, treating gaps in the pagecache as
-> holes, and having hugetlb set the folio size in the mapping.  hwopison
-> handling turned out to need a lot of prep work; the other two things
-> are fairly straightforward.
-> 
-> Sashiko complains that the implementation of AS_AUTHORITATIVE is
-> incomplete, but hugetlbfs doesn't use any of that functionality.
-> We'll add it when we need it, either when hugetlbfs uses it, or when we
-> convert shmem to use filemap.
+In confidential computing guest environments (such as AMD SEV-SNP or
+Intel TDX), direct memory access (DAX) mappings between the guest kernel
+and host-backed FUSE/virtiofs shared memory regions must be accessed
+using shared (decrypted) page protections.
 
-OK, down to two Sashiko reports that I think are real.  I sent diffs
-in replies to this thread.  I'll give the meatbags 24 hours to look
-before I post a v7.
+Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
+when establishing FUSE DAX memory mappings. This ensures guest page
+table entries for shared DAX buffers are explicitly marked as decrypted,
+preventing memory encryption faults when accessing host-shared DAX memory.
+
+Signed-off-by: Punit Salian <psalian@google.com>
+---
+ fs/fuse/dax.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+index a15c464c8d19..00e316a7f805 100644
+--- a/fs/fuse/dax.c
++++ b/fs/fuse/dax.c
+@@ -826,6 +826,7 @@ int fuse_dax_mmap(struct file *file, struct vm_area_struct *vma)
+ 	file_accessed(file);
+ 	vma->vm_ops = &fuse_dax_vm_ops;
+ 	vm_flags_set(vma, VM_MIXEDMAP | VM_HUGEPAGE);
++	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+ 
+ 	return 0;
+ }
+-- 
