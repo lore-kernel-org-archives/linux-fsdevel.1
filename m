@@ -1,129 +1,336 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441443D1713
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 19:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785180607; cv=none; b=FwJG5r8bFKR9JAdQ0V+k47wJbpKUFeX0ENXrZr72hyNLVVv2/rypFJ/6zxgU6zVcLFDaJBSHPrkPAdeGIvaBA21e1OacEUk+vRDQAdn3Kp8FRvQyNacWSY85tf/MJPzbfQ2FoF72hkeqh2UFViWliAKv+uqHVro7JZGvDCbx24I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785180607; c=relaxed/simple;
-	bh=GmIeKk3yq9keCm/8IlQLYkkVUfO/N/RkBFwxXhvmnsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xt7TrMcXQeZHsSMILdL86ffK8XrM0cA0gn7h11es/PxuAdQC2uBM8xKKPPnqSrSMgji5f8cHPmY8xHqin80ASdBQ6WYr9wPJCoLhawZc7/nH3jxKrYlr6mMGC5M7FVmUANpW3N9qbWiMy/bDqhtgLi9sFZyBJMEjFNQAbVicYrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dECcdZ3E; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0D93D5671
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 19:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785180778; cv=pass; b=EbJYosADsm268e0LgQlQId99tD86bKUysaOsKoGp+bMB1pIkx5A58o/MBwyJvMvyL/yWE3Pyr6n1oDo8yhh/cEpGn0dxv7UAN0bcTxtym0OE0Rh+iUpkntL/RusiAY5PB68Z271GvuoG7hVVTCjZ68+PvyOxKNnWljMA1FDL+hs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785180778; c=relaxed/simple;
+	bh=cRN14V5PqW0j73A1ASuvDEkG4z/xlGeTTWGDmUQyy3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HDH64GH2qqcHFNhogmqwhhCMgNZYHCYcd6AoQyDRbcm0UYyFqtEuEZQcmUJrd2QRz4+DBB42RDeXtOZEq14Y2mxNezjlSrGUmcT6c8sTqyzP6Klp6ySRolJUp8wwoaGDbyR8R63SEt+7E4SdNGJCVLhouztnkJ3cWerTlyj/ddQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inE/07mM; arc=pass smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dECcdZ3E"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RXQQvCKPFegovPWBYsHPfyk2YJzL2wBgSj2tapMk4TQ=; b=dECcdZ3EiKFQUVB+L02fve8Jau
-	IQlzRYmIde1dgB6atfX9k14pjnwP178ZV7VfKeOqJx4BitXMpKa3gsQxyh8bAI9yoes2n5AqcCW85
-	QvR8kVfSZ5awT6mWidhI+atOY0dtBHqRXmQ4HxbVrxv0cR4FKfNwfmjpkvY16Fa+s37FKIxKCfE7g
-	/vHloSPg0Xd2qL52vVYVUOwfwq/xEq/60PMXAz7+DAFyYSAoow46lmxqWka09bElkSddSzPAgZKZc
-	FI6Zun/sE7d9MOKYhc0IyAvap2xLqdxLfe/yN5mxSn5EVlAzoufOA4mBIzrD5ymEXiKzB8JQeaTFF
-	V467TZ/w==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woR1N-0000000BJnR-1515;
-	Mon, 27 Jul 2026 19:29:53 +0000
-Date: Mon, 27 Jul 2026 20:29:53 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v6 06/12] mm: Remove locking mf_mutex in
- is_raw_hwpoison_page_in_hugepage()
-Message-ID: <amexseZ43DyZjFoE@casper.infradead.org>
-References: <20260727181310.2671972-1-willy@infradead.org>
- <20260727181310.2671972-7-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inE/07mM"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso4394406a91.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 12:32:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785180776; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eSIhdTVpySuRdMYx0LGX6uY0+oCl96ODm93kO0PuCbY+ZsGDQnFb4FL4QQESuD5Owf
+         K//3gQU8+h0VN7mV2+QsmkU/lMzT+Kw+VnehLDjQ8f395czVgLu94LhN365tgu2nROQb
+         hPioNoEE2Bm6dA6DmRozZrO2+fIM60Z3o7e9sAYBp0DUVjkYdcsO6LewLQrZRdSPRQLR
+         V9tY9FTrFQo1z1NVP78l9lcx0iAqkliSCb3jZHiEDmYFu6Ocv18WEAQxXqmaVctC3hLP
+         oIE1DX6kvVTf8A9b2A5H2tVErPaTbFqqb0QXiv6XthSPT05RM6nGOOQE+Yl+W7dTGx3T
+         tFpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0QS/aDvpvt9OZjo08FZUrCVVwABGioVP1vNRnJUUgXQ=;
+        fh=3rL8DqtPfJZbeV0MqqZF+3s6bJj2z8t0l8PPkiWpxB4=;
+        b=Pli3YtQ7rhL1iXTb1YKiFkxMud6RI5EdzONkbgKJmiUxMBkALeY+LnOObmD20pxXMS
+         CHIxK6ZW8VZ32r4OS5FVYt8W1VMBMmkpUDwAjhsotrx4oXdD5AIvbvyiXVhTdmO+rig+
+         SOUcbxWv37/AWXXAhuZvPK/E2b6AWBMCmVSmOqUr22KIAaAYV1a54KrvRvAJ7uMA2Gnh
+         78hnlE5y6jJl9aD2LM87VKzxFOsYDSdlhfFCpd3ajE3RewOKEWHExLT2TAiCaRDTQ3h4
+         31hCSJ9RKhRua8SLXVObiYQaH/I3DMDIPlO9WcUT58LUvKhJwgylvO5qigFf8G/4Vm09
+         BBeQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785180776; x=1785785576; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0QS/aDvpvt9OZjo08FZUrCVVwABGioVP1vNRnJUUgXQ=;
+        b=inE/07mMuJIcRn+3tfXn0NXzEOS/YPwzKxuO9Z3a300KakJl03BGiK6jBnMivVRB4T
+         qgNTmSvCWWvoVssanDYr6TaOrTR4LzopvUwKhRZyJF7CFv6MWqWh4XfnNgAZxNGL8RIj
+         uaL4442ld3zXpTKPTcj/5vDAD5uwH7v1bYJHegxMVb8t4KnaSBcIEbEg7gAuZdc30qam
+         6dtxdVUcJukTsxLGbVSahXHWlwGfM5N8J8wJDt5xLOuMzNnQxlq8VddGuIgaaj8qj2x2
+         M0/NfskA4LZkUhIoq/Pv7+glisqTglMZpRy3NqmDUVMdnDhEW2QCGrnVy7DNadqw9yb4
+         jMKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785180776; x=1785785576;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0QS/aDvpvt9OZjo08FZUrCVVwABGioVP1vNRnJUUgXQ=;
+        b=SxdMopIJnl/FUcJnQmEg9zDMs6mIckfQomSzsERT9iYXEX5N5XneP98YbeGEJmIVTi
+         kbThdvYf1Gj/lKPyeYuFdOF7pYjLnOn6QEtaM0p2AFw68BGy/lFcThdv6ahxEIu+KH00
+         +/NbYbZJ9xH7OtcuqxSzzLDiw1rii3tEAwc/TL4jV7rs0svtPIIbbBcevlOEVQRUq3/j
+         OL+CwELxanteZmsf3RMTHnk+UHMXzn/OpsQNqG1icWpNRACX/AbEr57qIE/S3aYiehpu
+         XQrThdpccM6eBYpZrRDfV/0Mcst4oirVKKoK3Y3g8nVYwOw04pfNgaW9mY4j59cCJM/p
+         hTAA==
+X-Forwarded-Encrypted: i=1; AHgh+RrWlGfuksgmUYlX0J6/413z70vzm0NzDYcaPFixHT4xm5jnIlEeWGfmNqumF1/iCvRbAztW//eCgcdT/w8H@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy90RQ7j7QvPorjDXfxCrFeyzwvfUvUYNuqjwb/H8XFblxa4ABm
+	LRKXXWaJOzje5hgFyJWUmz93T9XfeRmZgLtAnCg3WGACjIAI+rb/ThNGB2FdWpEybWVbEiUyBR3
+	meL2iDIx9bPqZR0S0fK54plndreX/C1U=
+X-Gm-Gg: AR+sD10hWwS9LwtgEW8/e8gtYWo/O2ffCvZaXXOil0itm4+IvDbGWvkH9CDk7lMCwQw
+	SYVZGw52S7rO1pkXD5ubJw+1iOGpZtUNMuzAHzn5HKzuA6UwYQ/FKz778fjXhB6mkI63EewBuBF
+	pHgHJ+uCovMUQv083lkibssjweo1xECcKgs183ZspIGebCKZUNcnetepG2RlnlvRn3JO86dWt9u
+	zYFcw461nQfh+qnZ1UfVOWFW9CutmiVPTFDqZFSIWEyuRYJzceV8tqdKOAsGlzlvzqUHzKaEKLS
+	PUdEd7IE284yXRp1MbJ5BpSlySSMAefCHO/2MMITCw==
+X-Received: by 2002:a17:90b:5706:b0:38e:101f:c867 with SMTP id
+ 98e67ed59e1d1-38f295232dcmr9447393a91.18.1785180775618; Mon, 27 Jul 2026
+ 12:32:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727181310.2671972-7-willy@infradead.org>
+References: <20260727130827.1100080-1-dhowells@redhat.com> <20260727130827.1100080-9-dhowells@redhat.com>
+In-Reply-To: <20260727130827.1100080-9-dhowells@redhat.com>
+From: Marc Dionne <marc.c.dionne@gmail.com>
+Date: Mon, 27 Jul 2026 16:32:43 -0300
+X-Gm-Features: AUfX_mxXeZ9B1ErvAPGqD7SJ0--YBDsGi02woSWlxC1HAnkhzOLHdtYmqstk4DE
+Message-ID: <CAB9dFdu+tuOkBmFPKve2Xwt1+JkFJOatCwEXaM+ZNT46AAqGHQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] afs, bash: Fix open(O_CREAT) on an extant AFS file in
+ a sticky dir
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Etienne Champetier <champetier.etienne@gmail.com>, Jeffrey Altman <jaltman@auristor.com>, 
+	Chet Ramey <chet.ramey@case.edu>, Cheyenne Wills <cwills@sinenomine.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Steve French <sfrench@samba.org>, openafs-devel@openafs.org, linux-cifs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sashiko:
-> --- Patch [6]: [PATCH v6 06/12] mm: Remove locking mf_mutex in is_raw_hwpoison_page_in_hugepage() ---
-> commit dd77b291442dd4b4a9034d9d1b8338037122f7fd
-> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-> 
-> mm: Remove locking mf_mutex in is_raw_hwpoison_page_in_hugepage()
-> 
-> This commit replaces the sleeping mf_mutex with a new hwp_page_lock spinlock 
-> to protect the linked list of hwpoisoned pages in hugetlb folios. It also 
-> converts the list to a normal singly linked list instead of a lockless list.
-> 
-> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> > --- a/mm/memory-failure.c
-> > +++ b/mm/memory-failure.c
-> 
-> [ ... ]
-> 
-> > @@ -1838,16 +1838,17 @@ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
-> >  {
-> > -	struct llist_node *head;
-> > -	struct raw_hwp_page *p, *next;
-> > +	struct hwp_page *p, *next;
-> >  	unsigned long count = 0;
-> >  
-> > -	head = llist_del_all(raw_hwp_list_head(folio));
-> > -	llist_for_each_entry_safe(p, next, head, node) {
-> > +	next = folio->hugetlb_hwpoison;
-> > +	folio->hugetlb_hwpoison = NULL;
-> > +
-> > +	while (next) {
-> > +		p = next;
-> > +		next = p->next;
-> >  		if (move_flag)
-> >  			SetPageHWPoison(p->page);
-> >  		else
-> >  			num_poisoned_pages_sub(page_to_pfn(p->page), 1);
-> >  		kfree(p);
-> >  		count++;
-> >  	}
-> >  	return count;
-> >  }
-> 
-> [ ... ]
-> 
-> > @@ -1959,7 +1966,11 @@ static unsigned long folio_free_raw_hwp(struct folio *folio, bool move_flag)
-> >  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
-> >  		return 0;
-> >  
-> > -	return __folio_free_raw_hwp(folio, move_flag);
-> > +	spin_lock_irqsave(&hwp_page_lock, flags);
-> > +	count = __folio_free_raw_hwp(folio, move_flag);
-> > +	spin_unlock_irqrestore(&hwp_page_lock, flags);
-> > +
-> > +	return count;
-> >  }
-> 
-> Could this cause IRQ latency spikes by executing a loop of kfree() calls
-> inside an IRQ-disabled spinlock?
-> 
-> Since __folio_free_raw_hwp() detaches the list at its start by setting
-> folio->hugetlb_hwpoison = NULL, would it be better to only hold hwp_page_lock
-> during the detachment, and perform the while loop that frees the elements
-> after dropping the lock?
+On Mon, Jul 27, 2026 at 10:09=E2=80=AFAM David Howells <dhowells@redhat.com=
+> wrote:
+>
+> Since version 1.11 (January 1992) Bash has a work around in redir_open()
+> that causes open(O_CREAT) of a file to be retried without O_CREAT if open=
+()
+> fails with an EACCES error if bash was built with AFS workarounds
+> configured:
+>
+>         #if defined (AFS)
+>               if ((fd < 0) && (errno =3D=3D EACCES))
+>             {
+>               fd =3D open (filename, flags & ~O_CREAT, mode);
+>               errno =3D EACCES;    /* restore errno */
+>             }
+>
+>         #endif /* AFS */
+>
+> The ~O_CREAT fallback logic was introduced to workaround a bug[1] in the
+> IBM AFS 3.1 cache manager and server which can return EACCES in preferenc=
+e
+> to EEXIST if the requested file exists but the caller is neither granted
+> explicit PRSFS_READ permission nor is the file owner and is granted
+> PRSFS_INSERT permission on the directory.  IBM AFS 3.2 altered the cache
+> manager permission checks but failed to correct the permission checks in
+> the AFS server.  As of this writing, all IBM AFS derived servers continue
+> to return EACCES in preference to EEXIST when these conditions are met.
+> Bug reports have been filed with all implementations.
+>
+> As an unintended side effect, the Bash fallback logic also undermines the
+> Linux kernel protections against O_CREAT opening FIFOs and regular files
+> not owned by the user in world writeable sticky directories - unless the
+> owner is the same as that of the directory - as was added in commit
+> 30aba6656f61e ("namei: allow restricted O_CREAT of FIFOs and regular
+> files").
+>
+> As a result the Bash fallback logic masks an incompatibility between the
+> ownership checks performed by may_create_in_sticky() and network
+> filesystems such as AFS where the uid namespace is disjoint from the uid
+> namespace of the local system.
+>
+> However, the bash work around is going to be removed[2].
+>
+> Fix this in the kernel by using a preceding patch that allows the user ID
+> comparisons to be overridden by:
+>
+>  (1) Implement the ->is_owned_by_me() inode op for kafs to determine if t=
+he
+>      caller owns the file by checking to see if the server indicated the
+>      ADMINISTER bit was set in the access rights returned by the
+>      FS.FetchStatus and suchlike instead of checking the i_uid to
+>      current_fsuid().
+>
+>      Unfortunately, this check doesn't work for directories, but none of
+>      the ops should require that.
+>
+>      Note that anonymous accesses to AFS will never see the ADMINISTER bi=
+t
+>      being set and so will not be perceived as owning an anonymously-owne=
+d
+>      file.
+>
+>  (2) Implement the ->have_same_owner() inode op, for kafs to compare the
+>      AFS owner IDs retrieved by FS.FetchStatus (which are 64-bit integers
+>      with AuriStor's YFS server and, as such, won't fit in a kuid_t).
+>
+>      Note that whilst an anonymously-owned file will match an
+>      anonymously-owned parent directory, an anonymously-owned directory
+>      cannot have the sticky bit set.
+>
+> This can be tested by creating a sticky directory (the user must have a
+> token to do this) and creating a file in it.  Then strace bash doing "ech=
+o
+> foo >>file" and look at whether bash does a single, successful O_CREAT op=
+en
+> on the file or whether that one fails and then bash does one without
+> O_CREAT that succeeds.
+>
+> Fixes: 30aba6656f61 ("namei: allow restricted O_CREAT of FIFOs and regula=
+r files")
+> Reported-by: Etienne Champetier <champetier.etienne@gmail.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Marc Dionne <marc.dionne@auristor.com>
+> cc: Jeffrey Altman <jaltman@auristor.com>
+> cc: Chet Ramey <chet.ramey@case.edu>
+> cc: Cheyenne Wills <cwills@sinenomine.net>
+> cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> cc: Christian Brauner <brauner@kernel.org>
+> cc: Steve French <sfrench@samba.org>
+> cc: linux-afs@lists.infradead.org
+> cc: openafs-devel@openafs.org
+> cc: linux-cifs@vger.kernel.org
+> cc: linux-fsdevel@vger.kernel.org
+> Link: https://groups.google.com/g/gnu.bash.bug/c/6PPTfOgFdL4/m/2AQU-S1N76=
+UJ [1]
+> Link: https://git.savannah.gnu.org/cgit/bash.git/tree/redir.c?h=3Dbash-5.=
+3-rc1#n733 [2]
+> ---
+>  fs/afs/dir.c      |  2 ++
+>  fs/afs/file.c     |  2 ++
+>  fs/afs/inode.c    |  1 +
+>  fs/afs/internal.h |  3 +++
+>  fs/afs/security.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 54 insertions(+)
+>
+> diff --git a/fs/afs/dir.c b/fs/afs/dir.c
+> index 6df56fe9163f..ee2f5ec0b2c6 100644
+> --- a/fs/afs/dir.c
+> +++ b/fs/afs/dir.c
+> @@ -69,6 +69,8 @@ const struct inode_operations afs_dir_inode_operations =
+=3D {
+>         .permission     =3D afs_permission,
+>         .getattr        =3D afs_getattr,
+>         .setattr        =3D afs_setattr,
+> +       .is_owned_by_me =3D afs_is_owned_by_me,
+> +       .have_same_owner =3D afs_have_same_owner,
+>  };
+>
+>  const struct address_space_operations afs_dir_aops =3D {
+> diff --git a/fs/afs/file.c b/fs/afs/file.c
+> index 0467742bfeee..ba44493ccaf6 100644
+> --- a/fs/afs/file.c
+> +++ b/fs/afs/file.c
+> @@ -49,6 +49,8 @@ const struct inode_operations afs_file_inode_operations=
+ =3D {
+>         .getattr        =3D afs_getattr,
+>         .setattr        =3D afs_setattr,
+>         .permission     =3D afs_permission,
+> +       .is_owned_by_me =3D afs_is_owned_by_me,
+> +       .have_same_owner =3D afs_have_same_owner,
+>  };
+>
+>  const struct address_space_operations afs_file_aops =3D {
+> diff --git a/fs/afs/inode.c b/fs/afs/inode.c
+> index 14f39a9bea6c..af85a88d943d 100644
+> --- a/fs/afs/inode.c
+> +++ b/fs/afs/inode.c
+> @@ -91,6 +91,7 @@ static int afs_inode_init_from_status(struct afs_operat=
+ion *op,
+>         inode->i_flags |=3D S_NOATIME;
+>         inode->i_uid =3D make_kuid(&init_user_ns, status->owner);
+>         inode->i_gid =3D make_kgid(&init_user_ns, status->group);
+> +       inode->i_opflags |=3D IOP_OWNERSHIP_OVERRIDE;
 
-I think rearranging the lock & freeing would be unutterably ugly.  Since
-the lock is held by the caller (check hugetlb_update_hwpoison()), we'd
-have to eithr have a calling contract where __folio_free_raw_hwp()
-drops the lock, or __folio_free_raw_hwp() returns the list and it's
-the caller's responsibility to free the list after dropping the lock.
+This sets IOP_OWNERSHIP_OVERRIDE for all inodes, but the ops are only
+defined for files and directories.  The vfs_inode* helpers will oops
+if the subject is not a file or a directory (a symlink for instance).
 
-Until we actually have data that this is a problem, I will respectfully
-decline to follow Sashiko's advice here.
+>         set_nlink(&vnode->netfs.inode, status->nlink);
+>
+>         i_size_write(inode, status->size);
+> diff --git a/fs/afs/internal.h b/fs/afs/internal.h
+> index 330654ed16ec..40e5ce619476 100644
+> --- a/fs/afs/internal.h
+> +++ b/fs/afs/internal.h
+> @@ -1539,6 +1539,9 @@ extern struct key *afs_request_key(struct afs_cell =
+*);
+>  extern struct key *afs_request_key_rcu(struct afs_cell *);
+>  extern int afs_check_permit(struct afs_vnode *, struct key *, afs_access=
+_t *);
+>  extern int afs_permission(struct mnt_idmap *, struct inode *, int);
+> +int afs_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
+> +int afs_have_same_owner(struct mnt_idmap *idmap, struct inode *inode1,
+> +                       struct inode *inode2);
+>  extern void __exit afs_clean_up_permit_cache(void);
+>
+>  /*
+> diff --git a/fs/afs/security.c b/fs/afs/security.c
+> index 6d00d62a65ed..7092f5acdcd6 100644
+> --- a/fs/afs/security.c
+> +++ b/fs/afs/security.c
+> @@ -510,6 +510,52 @@ int afs_permission(struct mnt_idmap *idmap, struct i=
+node *inode,
+>         return ret;
+>  }
+>
+> +/*
+> + * Determine if an inode is owned by 'me' - whatever that means for the
+> + * filesystem.  In the case of AFS, this means that the file is owned by=
+ the
+> + * AFS user represented by the Rx Security Class token held in a key.  R=
+eturns
+> + * 0 if owned by me, 1 if not; can also return an error.
+> + */
+> +int afs_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode)
+> +{
+> +       struct afs_vnode *vnode =3D AFS_FS_I(inode);
+> +       afs_access_t access;
+> +       struct key *key;
+> +       int ret;
+> +
+> +       if (S_ISDIR(inode->i_mode))
+> +               return 1; /* The ADMIN right check doesn't work for direc=
+tories. */
+> +
+> +       key =3D afs_request_key(vnode->volume->cell);
+> +       if (IS_ERR(key))
+> +               return PTR_ERR(key);
+> +
+> +       /* Get the access rights for the key on this file. */
+> +       ret =3D afs_check_permit(vnode, key, &access);
+> +       if (ret < 0)
+> +               goto error;
+> +
+> +       /* We get the ADMINISTER bit if we own the file. */
+> +       ret =3D (access & AFS_ACE_ADMINISTER) ? 0 : 1;
+> +error:
+> +       key_put(key);
+> +       return ret;
+> +}
+> +
+> +/*
+> + * Determine if a file has the same owner as its parent - whatever that =
+means
+> + * for the filesystem.  In the case of AFS, this means comparing their A=
+FS
+> + * UIDs.  Returns 0 if same, 1 if not same; can also return an error.
+> + */
+> +int afs_have_same_owner(struct mnt_idmap *idmap, struct inode *inode1,
+> +                       struct inode *inode2)
+> +{
+> +       const struct afs_vnode *vnode1 =3D AFS_FS_I(inode1);
+> +       const struct afs_vnode *vnode2 =3D AFS_FS_I(inode2);
+> +
+> +       return vnode1->status.owner !=3D vnode2->status.owner;
+> +}
+> +
+>  void __exit afs_clean_up_permit_cache(void)
+>  {
+>         int i;
+>
+>
+
+Marc
