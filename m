@@ -1,86 +1,49 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769F43CB918
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 19:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D1E37A847
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 19:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785179630; cv=none; b=dCGdYxEQyAPaBaXAef6ztP5HN7leX9otXwyowmQ65DzZYUiXA+9Q4mbVI5lslGxBz5P6At8zqdiH3DoHnE/sG04ek1FYnSsFrDjvRqaQNlSqfXv+UlK6MpGI7bYBnH1CP8la8aXSC5xZKZKjAvmmtOD/NT99Kz443gmoDzyY9/0=
+	t=1785180309; cv=none; b=HRDtG7TXgtzX/XjY+34xe6GYn5J9cUXFTBopSOAnuSB8jhRkKJqR9u1DBl7h5o+5O6R1Wdk0YHKnMJEUypdudlztUe9qhn3kB3hX9gTB7Zf48W+yiEG23X054kn8u3WVoRe50LLAxANiuYf1Aid+XdwrB7/1yn2XK41lOWvfmGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785179630; c=relaxed/simple;
-	bh=jDd/fGsZGnV1Z7fNXNC8cwwpBxA8nTxDZqV4n61ktXQ=;
+	s=arc-20240116; t=1785180309; c=relaxed/simple;
+	bh=1Iwop5PIEJSfW6S00jSU3S+cpWIOiwz/MRf19lRjoWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EGUszvvkwJm58ALvhWXA4KUgA7ullWcBJ3db1nAj/P8y8+omQW3m13v/wng9JQ39xd1qYN91NNJ10eUrsLcSCUEZqQwnkm/42aPjDqu3USp7wh3Sb2DzWYi+xhYAp3YeQBXW/GWjdjDCbLeVcHE+TGy7RoUKB6XBLUzYb8WWk/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZObtBz5F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hPgfXF1y; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ePUSytKQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G74DuVlJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=HduHnWFR0cMbHx52OGrBtXSdBjYfjLSeQZlfXuP0c/csBR8B2n/AuGLZnR0DhuUjyf/9bqE2mwtGl5DqtUpZp+Ewu+O8Mqm5Qw8gX8HCv+EmBW6Yns195O7nMo2Oj2Us3ta9IefjpAqYAExc/aLyAltKXhcB4ho7MnnSnwWRQEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iR3yzklN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZObtBz5F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hPgfXF1y";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ePUSytKQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G74DuVlJ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6EDBC7BD2F;
-	Mon, 27 Jul 2026 19:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785179622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMGILCNhgCjwY+F5txoKiVf3mVd9BR/z5BR9Y9ftxpk=;
-	b=ZObtBz5FLJGwMXwx6cYcw2Q7NrwfHUqZogpGygoMdnuIxf989zzOntAwu79HQhzJb+0kCc
-	eZwcySsPVC0p2+WtVRb6H9IFoy4y5VabKB7Qgh/N+8jTMA44Hik3C4FXr0WZzCLRIDtXTY
-	3/fFVGaKP4HBUI2+dqyMopbXHxaXXfI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785179622;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMGILCNhgCjwY+F5txoKiVf3mVd9BR/z5BR9Y9ftxpk=;
-	b=hPgfXF1ythb9Ygtj94mNBg6il7uAQ0y629jrnek2NLLEhsmsvmGGtRsybFC7QvoFeRceGK
-	6Ny89Yff+aZDsDDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785179618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMGILCNhgCjwY+F5txoKiVf3mVd9BR/z5BR9Y9ftxpk=;
-	b=ePUSytKQz+f05vOcMooEN/xijAua/gofq953LfdGRU0x2C0Movn9ULuuwOj+Eh7oVF8h+k
-	pdv/XI6c8NVjV/ISmrk90Wg9QDMggl7UeLesGs2Ks4S5imWmEH+w3osY04BPcWFhHstdLA
-	PDAEVFBwyVxM5T7usuP0K0UFchfkJQo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785179618;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMGILCNhgCjwY+F5txoKiVf3mVd9BR/z5BR9Y9ftxpk=;
-	b=G74DuVlJYYaE3QqZW2NXmlDeleno9N2icQ9MsUryYJGxPVuabrx+k3xW6hAIJaDgtsNeGo
-	wj8KouzmP/G/CTAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 521F7779B9;
-	Mon, 27 Jul 2026 19:13:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZXUEFOKtZ2peUQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 19:13:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E3F7AA0BA1; Mon, 27 Jul 2026 21:13:29 +0200 (CEST)
-Date: Mon, 27 Jul 2026 21:13:29 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Mateusz Guzik <mguzik@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] super: fix emergency thaw deadlock on frozen block
- devices
-Message-ID: <3cjzaja7j3mw3ufzhlejsspfkylkxw2wladik2a3s3n7ztvoys@ck4dt5kckneb>
-References: <20260723-work-super-emergency_thaw-v1-1-7c315c600245@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iR3yzklN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7emG/Bu3YrbljPGVbZoShTn41m9g5LjbzcKv5pUpsVk=; b=iR3yzklNb9UCT2hcw6Lnf0nBOP
+	9qLjT8AOHqUKvFLV6YXWgneW/EmsUkc+6ES5oCkubbctAUec/DrZmMBBBwq6dM7QuYj9Z5Q18mg6P
+	0cbXXTvdJh97l+VIomDxcBr7dOnbKX9Sm8l/cFOGPM1pK2MKDNZls5Gsx0Zb8D8B2oSMn6hzF+57s
+	VTv8BxP60JgpI3jEklbeEU73a63fVys1IMusuDw0b4c2zVzE7BYv34kyA/FLWrm1KhPk1zoF2UnRd
+	mP4NDB9mi36WTgu4lRY3tOQpNLSzqy8ZhzeDr0bbAa4i/Kys7REvDm2OZ/Wg+zNmKymYKVNNeKtmu
+	sZqEgwGA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woQwV-0000000BJN2-1xCB;
+	Mon, 27 Jul 2026 19:24:51 +0000
+Date: Mon, 27 Jul 2026 20:24:51 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v6 05/12] hugetlb: Use the has_hwpoisoned flag
+Message-ID: <amewgw3vDEu6sC2V@casper.infradead.org>
+References: <20260727181310.2671972-1-willy@infradead.org>
+ <20260727181310.2671972-6-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,178 +52,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723-work-super-emergency_thaw-v1-1-7c315c600245@kernel.org>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+In-Reply-To: <20260727181310.2671972-6-willy@infradead.org>
 
-On Thu 23-07-26 11:37:05, Christian Brauner wrote:
-> do_thaw_all_callback() calls bdev_thaw() while holding sb->s_umount
-> exclusively. If the block device was frozen via bdev_freeze() dropping
-> the last block layer freeze reference calls fs_bdev_thaw() which
-> reacquires s_umount:
+Sashiko:
+> --- Patch [5]: [PATCH v6 05/12] hugetlb: Use the has_hwpoisoned flag ---
+> commit 0c26849a193942cada35af35e9ebcde14770667c
+> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
->   do_thaw_all_callback(sb)
->     super_lock_excl(sb)                     # holds sb->s_umount
->     bdev_thaw(sb->s_bdev)
->       mutex_lock(&bdev->bd_fsfreeze_mutex)
->       # bd_fsfreeze_count drops 1 -> 0
->       bd_holder_ops->thaw == fs_bdev_thaw
->         get_bdev_super(bdev)
->           bdev_super_lock(bdev, true)
->             super_lock(sb, true)
->               down_write(&sb->s_umount)     # same task: deadlock
+> hugetlb: Use the has_hwpoisoned flag
 > 
-> The emergency thaw worker deadlocks against itself holding both
-> s_umount and bd_fsfreeze_mutex. That fscks any subsequent unmount,
-> freeze, or thaw of that filesystem and block device.
+> This commit converts hugetlb to use the has_hwpoisoned flag like other large
+> folios, introducing folio_test_huge_poison() to handle racy lockless checks.
+> It addresses a gap where previously-poisoned hugetlb folios might not show
+> the hwpoison bit correctly.
 > 
->   [   81.878470] sysrq: Show Blocked State
->   [   81.880140] task:kworker/0:1     state:D stack:0     pid:11    tgid:11    ppid:2      task_flags:0x4208060 flags:0x00080000
->   [   81.884876] Workqueue: events do_thaw_all
->   [   81.886656] Call Trace:
->   [   81.887759]  <TASK>
->   [   81.888763]  __schedule+0x579/0x1420
->   [   81.890372]  schedule+0x3a/0x100
->   [   81.891794]  schedule_preempt_disabled+0x15/0x30
->   [   81.893848]  rwsem_down_write_slowpath+0x1ea/0x900
->   [   81.895191]  ? __pfx_do_thaw_all_callback+0x10/0x10
->   [   81.896528]  down_write+0xbd/0xc0
->   [   81.897505]  super_lock+0x91/0x180
->   [   81.898457]  ? __mutex_lock+0xa99/0x1140
->   [   81.900748]  ? __mutex_unlock_slowpath+0x1f/0x400
->   [   81.902069]  bdev_super_lock+0x5b/0x150
->   [   81.903132]  get_bdev_super+0x10/0x60
->   [   81.904042]  fs_bdev_thaw+0x23/0xf0
->   [   81.904755]  bdev_thaw+0x82/0x100
->   [   81.905484]  do_thaw_all_callback+0x2c/0x50
->   [   81.906298]  __iterate_supers+0x5d/0x130
->   [   81.907067]  do_thaw_all+0x20/0x40
->   [   81.907739]  process_one_work+0x206/0x5e0
->   [   81.908545]  worker_thread+0x1e2/0x3c0
->   [   81.909339]  ? __pfx_worker_thread+0x10/0x10
->   [   81.910171]  kthread+0xf4/0x130
->   [   81.910799]  ? __pfx_kthread+0x10/0x10
->   [   81.911528]  ret_from_fork+0x2e2/0x3b0
->   [   81.912259]  ? __pfx_kthread+0x10/0x10
->   [   81.913010]  ret_from_fork_asm+0x1a/0x30
->   [   81.913806]  </TASK>
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
 > 
-> bdev_super_lock() even documents the violated requirement with
-> lockdep_assert_not_held(&sb->s_umount).
+> [ ... ]
 > 
-> Acquiring bd_fsfreeze_mutex under s_umount also inverts the
-> bd_fsfreeze_mutex vs. s_umount ordering established by
-> bdev_{freeze,thaw}() and can thus ABBA against a concurrent block-layer
-> freeze even when the recursive path isn't hit.
+> > @@ -1255,7 +1255,7 @@ static struct folio *dequeue_hugetlb_folio_node_exact(struct hstate *h,
+> >  		if (pin && !folio_is_longterm_pinnable(folio))
+> >  			continue;
+> >  
+> > -		if (folio_test_hwpoison(folio))
+> > +		if (folio_test_has_hwpoisoned(folio))
 > 
-> Fix this by not holding s_umount around the bdev_thaw() loop at all. Pin
-> the superblock with an active reference instead as
-> filesystems_freeze_callback() does. The active reference keeps the
-> superblock from being shut down and so ->s_bdev stays valid without
-> holding s_umount. The block-layer-held freeze is dropped by
-> fs_bdev_thaw() with FREEZE_MAY_NEST | FREEZE_HOLDER_USERSPACE exactly as
-> a regular unfreeze would and thaw_super_locked() handles
-> filesystem-level freezes as before.
+> Can soft-offlined pages bypass this new check and get allocated?
 > 
-> The emergency thaw path has deadlocked like this in one form or
-> another for a long long time but the current exclusively-held
-> shape dates back to commit [1] where thaw_bdev() already ended in
-> thaw_super() with s_umount held by do_thaw_all_callback().
-> 
-> Fixes: 08fdc8a0138a ("buffer.c: call thaw_super during emergency thaw") [1]
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> When soft_offline_page() processes a free hugetlb folio, it calls
+> TestSetPageHWPoison() to set the per-page poison flag, but it does not
+> set the folio-level has_hwpoisoned flag. Since this allocation path now
+> exclusively checks the folio-level has_hwpoisoned flag, it looks like it
+> will fail to detect the poison and hand out corrupted memory to userspace.
 
-Good catch. Feel free to add:
+Seems like a hallucination to me.  There's only one place we call
+TestSetPageHWPoison:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+try_again:
+        res = try_memory_failure_hugetlb(pfn, flags);
+        /*
+         * -ENOENT means the page we found is not hugetlb, so proceed with norma
+l page handling
+         */
+        if (res != -ENOENT)
+                goto unlock_mutex;
 
-								Honza
+        if (TestSetPageHWPoison(p)) {
+                res = -EHWPOISON;
 
-> ---
->  fs/super.c | 29 ++++++++++++++++-------------
->  1 file changed, 16 insertions(+), 13 deletions(-)
+so hugetlb memory is already handled first, and won't fall through to
+here.
+
+> >  			continue;
+> >  
+> >  		if (is_migrate_isolate_page(&folio->page))
 > 
-> diff --git a/fs/super.c b/fs/super.c
-> index 70dcb07e7fa5..ffdcc6a2e0de 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -1082,16 +1082,30 @@ void emergency_remount(void)
->  	}
->  }
->  
-> +static inline bool get_active_super(struct super_block *sb)
-> +{
-> +	bool active = false;
-> +
-> +	if (super_lock_excl(sb)) {
-> +		active = atomic_inc_not_zero(&sb->s_active);
-> +		super_unlock_excl(sb);
-> +	}
-> +	return active;
-> +}
-> +
->  static void do_thaw_all_callback(struct super_block *sb, void *unused)
->  {
-> -	if (!super_lock_excl(sb))
-> +	if (!get_active_super(sb))
->  		return;
->  
-> +	/* fs_bdev_thaw() acquires s_umount so it must not be held here */
->  	if (IS_ENABLED(CONFIG_BLOCK))
->  		while (sb->s_bdev && !bdev_thaw(sb->s_bdev))
->  			pr_warn("Emergency Thaw on %pg\n", sb->s_bdev);
->  
-> -	thaw_super_locked(sb, FREEZE_HOLDER_USERSPACE, NULL);
-> +	if (super_lock_excl(sb))
-> +		thaw_super_locked(sb, FREEZE_HOLDER_USERSPACE, NULL);
-> +	deactivate_super(sb);
->  }
->  
->  static void do_thaw_all(struct work_struct *work)
-> @@ -1117,17 +1131,6 @@ void emergency_thaw_all(void)
->  	}
->  }
->  
-> -static inline bool get_active_super(struct super_block *sb)
-> -{
-> -	bool active = false;
-> -
-> -	if (super_lock_excl(sb)) {
-> -		active = atomic_inc_not_zero(&sb->s_active);
-> -		super_unlock_excl(sb);
-> -	}
-> -	return active;
-> -}
-> -
->  static const char *filesystems_freeze_ptr = "filesystems_freeze";
->  
->  static void filesystems_freeze_callback(struct super_block *sb, void *freeze_all_ptr)
+> [ ... ]
 > 
-> ---
-> base-commit: c4fd59e777f64a23778ea199937ac1e32a5a1bc2
-> change-id: 20260723-work-super-emergency_thaw-a3959dbd39d1
+> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> > --- a/mm/memory-failure.c
+> > +++ b/mm/memory-failure.c
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> [ ... ]
+> 
+> > @@ -2725,13 +2748,17 @@ int unpoison_memory(unsigned long pfn)
+> >  
+> >  	ghp = get_hwpoison_page(p, MF_UNPOISON);
+> >  	if (!ghp) {
+> > +		spin_lock_irq(&hugetlb_lock);
+> >  		if (folio_test_hugetlb(folio)) {
+> >  			huge = true;
+> >  			count = folio_free_raw_hwp(folio, false);
+> >  			if (count == 0)
+> >  				goto unlock_mutex;
+> 
+> Does this error path leak the hugetlb_lock spinlock?
+
+*sigh*.  Fixed thusly:
+
++++ b/mm/memory-failure.c
+@@ -2752,8 +2752,10 @@ int unpoison_memory(unsigned long pfn)
+                if (folio_test_hugetlb(folio)) {
+                        huge = true;
+                        count = folio_free_raw_hwp(folio, false);
+-                       if (count == 0)
++                       if (count == 0) {
++                               spin_unlock_irq(&hugetlb_lock);
+                                goto unlock_mutex;
++                       }
+                        ret = hugetlb_clear_poison(folio);
+                } else {
+                        ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+
