@@ -1,146 +1,171 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E533F7AB2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 10:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206593F8226
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 10:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785147692; cv=none; b=LlBIvJyIZipuHF9pmduEefxca4oWWVGbnAfUIrPngGIo6crLfvEVFCnAajrbekAkr7TtQ+4KdAyCjb3zOFsipkQqBJkXWpCp7rCK2ueCs0RaF83sGChiJXW7SjJpFEb80lcZDR+xy421gumZDvsEoYHIrtGRsxl228YN6T5YGo8=
+	t=1785147800; cv=none; b=HHOPcECpEgfuxy0VwaFl9ZoLpOr5QPecl3iEbpEWYmHBKx3SvvnklIFEF2lkgf4ZQUpnOrC5YZo5KkkV5KLAElcGCjSn/I0W2vZMHH0RVFU431Ey7opLqbYz2VmD0LWSwQt+Pxt6BuLjNVe1PJyTsQhZzSEK0I0EkcM7+2+KSpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785147692; c=relaxed/simple;
-	bh=bBp7i8xP7OvikDAToIsUuOG8cX6RijFyVUnqlateJys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hnv5ZiRlqI115OjZsBeiTtJKmqbrHWgoSaeElN04m21yn5xcg7LMtmXQaSeIUdEOkcPqGknYZ14BEcIkaUHcXSF5RqaDNdSqAio70bYf8un7W0uykmBdaCYvdDDyK9gQStCZFnUdZicz9JLablCYPjFJmcKuCVTYCeqFMDqnGPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yKK/Lnhe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0IQN/3Yy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zs3r1Z5Y; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CT+eNBmw; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785147800; c=relaxed/simple;
+	bh=ySLRE49fqjCghjhGTQCgjjUKLeszyf+kItNvV97jGWk=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=qC0OMd9IL7oiK/WGzxSL1ZIzkQgI1IuX0rBRXOrHjt/wSSp+jzOC8AepZoPW5g6XweKOJz1pGlR3D1KA20CigjQLRMnlwS+u1bLeoTRQOJG6uBNVEQ3wkNUuEATVbISQZuVEN65M77+YmVYkF6TGdDFVB2YxT5q/xv80JsN8o/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=n3RZuFHF; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yKK/Lnhe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0IQN/3Yy";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zs3r1Z5Y";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CT+eNBmw"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EFC797D93E;
-	Mon, 27 Jul 2026 10:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785147685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fN2GkKFOxahiB6syrKkve9WsyO0+/0IDPTMAboFn3gs=;
-	b=yKK/Lnhek+58pQ7wb2pgwKn1l2aJbCdzliGb5wgK0X+qLth2fKKYtPhMJU7rCgd1fc4b9+
-	J2oN6LwCoHjg9+TthC/B7jcru9JrEeo6+u9oSa7gVdbhaYuX8dSVVxXAkfC3EcDW3BGkvb
-	Oq8NODg/1C8jgWz4pxrHPqxoh3BaCyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785147685;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fN2GkKFOxahiB6syrKkve9WsyO0+/0IDPTMAboFn3gs=;
-	b=0IQN/3YylqxJhzfCjtHCX9C3s6H/NG1cnIvjOqDDPicFgh+DRvQf0nmgFK+ds9B4Ng7bFm
-	A9TaK0r6/EWKj5Dg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785147680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fN2GkKFOxahiB6syrKkve9WsyO0+/0IDPTMAboFn3gs=;
-	b=zs3r1Z5Y4sscikTjE8Noo9kKDdLz1BEkOKEzQXQYNSANe7MSjkieOhS699cRUUjALE5XU3
-	Gg9tTNGONfdRhfqRALf/khSmthP3U4TxojUQILaf7ehJyb6bNeVVvkybup1Xr/Zi6y7AGr
-	uGPKJmw58M712cNvFZjFZnziV1L2mtM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785147680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fN2GkKFOxahiB6syrKkve9WsyO0+/0IDPTMAboFn3gs=;
-	b=CT+eNBmw2vceQQqYxdKz2BT33ka0GbyM71uK1xgrJ1bi4AeR0JH7RGkNW5oB4lJHIzkUE5
-	5Mj7qEkTUi/uaUBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7718779B9;
-	Mon, 27 Jul 2026 10:21:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jex4OCAxZ2r6TgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Jul 2026 10:21:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 83195A0BA1; Mon, 27 Jul 2026 12:21:20 +0200 (CEST)
-Date: Mon, 27 Jul 2026 12:21:20 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [PATCH v4 0/21] fs: Fix missed inode write during fsync
-Message-ID: <pvgt7vemge5pwcs4bvlzg32fz3tzdnctni7zsai6uchtmtyx3y@sv7zv4ipg4ci>
-References: <20260716145359.28639-1-jack@suse.cz>
- <20260724-einmieten-beatmen-glossar-63c4b3962e07@brauner>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="n3RZuFHF"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92edb12cdf2so157273885a.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 03:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1785147798; x=1785752598; darn=vger.kernel.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DVZKW/HowHh3JkNN7GvaevWwLFJTPxZKAxBSNREob2s=;
+        b=n3RZuFHFoX8306qXYXZTJp6f8uIt0OxGBpWRJ35tZjlslID8evejPeYmVhpFlelXh8
+         8+pOCIEhREOj6/kyGf4h8jpOrNdREzJ2XiflS9AE7CMBXLKfiQsj/9PPqZYLOnv/Rlbp
+         4t3viLVb+6aOhUevMfuU+r2HY4a60QFcDct0ki8n64WY8dqBLlfO/eaYrT8KNMnNVf9n
+         ZDs1cO/yQFp93mcqbWhfOP8ZJugETmcSQlgAezE3pUQlMhxm72rXkjnR//sySO/lV+5/
+         o9xNWQlcfqE8wAiqEOrm/DEFg2SiqHeOC3a6LZS/4PVkHxGqdtGlKr4txM16pTw174Om
+         099w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785147798; x=1785752598;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DVZKW/HowHh3JkNN7GvaevWwLFJTPxZKAxBSNREob2s=;
+        b=E0U/NKx67x8PBN6qO8VuBXS1hoikXn5nn7VevM1+71xvJwTHRXspchUdBOT4DYW0Qx
+         ZS/bRwFi4msFbIwfKU7OeyMUSXrZKaA0LRrpjJ4o4gtQNdmjfnpw6GmoSTWaZHTmDMrf
+         CsnW+eI/nsUUl5/uDl7fczCbPp4WXZKZooJ4eqC94LT2CYnwxseU08X7dL2XhOF797kZ
+         AAVqnjKlHQnJHI6PwfiAQZ3ad8jocSVTdw4J9aRplQQuuRGeYc6Gpc2JxZiBjXfLlmZM
+         CjVtGuqq+yRwLijQhB24A/P+nczeu3i0wR6CEeodPIwVl+3myDCd2F7+5lYheY3WSsDq
+         d7nw==
+X-Forwarded-Encrypted: i=1; AHgh+RpT1M2xnnw2jo2E7xfrVtNGWVUwyvGksPQJyH0TviZM4DGy60whHyqII6U+C+c4ZzbhIIfhMWfC0TlYrhEX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5ow5xLG5vZKsCEfIR0vr5gkqWG1aLsws5p1zHjYFnJtxMWyKA
+	iYdF7sPg0Awq0B6YvWQlCxJMyJHyoTVKjrE4nbyXOfU5Ss3CiV6eevhe4tT9bry1YmQlATvFy2i
+	n9+6Phw==
+X-Gm-Gg: AR+sD135FndfMVU4mRDKnHaM6K50Xs0V8s4t1JhcVnAjhLhe9wPMYzrA6yVXISkeXj7
+	EdVY4hRjoF1k6ddiNjwzavN+FNmIr8D0TCtNZiDZ5dBYHUo3AvI5uPh8ViZUfAD1cFuoG9rb7LS
+	lOi0S+w9mw+kwMgCb1QVlHHUgbQe4VDg8qVEpVtld0z5Oiy5jsJ2NtdT5hQvsXNbRv99oQvErc0
+	myY6fR39IQoKSdRO4jBQP5S0F66VY3KPds4tz/1AGNFuEpn5g9AkVvwp8aktPmgpPxjxjf2cU6a
+	WN9xZzHLr/HuiVB/rN/hEOVHLAIgtRqB9+9NgHowIDyQmtLPXnLG/sDMWml7rIkMVnb5+pj09lK
+	sfQM/p2/RnbYt3q9R/t1HWu5bWq2FcrXGxd2+n8WIu54EXagjcghzajfMGbDvbZmKeK1RL2m4AE
+	Lilcwygt3WT6rf1qd9jbFbVgkrcnvDLnFM
+X-Received: by 2002:a05:620a:40c9:b0:92e:c116:befe with SMTP id af79cd13be357-932df75c595mr851097785a.91.1785147797776;
+        Mon, 27 Jul 2026 03:23:17 -0700 (PDT)
+Received: from smtpclient.apple ([2600:381:b393:15d8:4c70:7d83:4597:b56a])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e86d499dsm61759276d6.42.2026.07.27.03.23.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 03:23:16 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Andy Lutomirski <luto@amacapital.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724-einmieten-beatmen-glossar-63c4b3962e07@brauner>
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,gmail.com,mit.edu,mail.parknet.co.jp];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
+Date: Mon, 27 Jul 2026 12:23:04 +0200
+Message-Id: <3ECEDA35-17D3-472E-A01D-45584CF46B85@amacapital.net>
+References: <20260727-nasen-gezweifelt-weitverbreitet-d6c0d9f5d28b@brauner>
+Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Jann Horn <jannh@google.com>, linux-api <linux-api@vger.kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>,
+ Farid Zakaria <farid.m.zakaria@gmail.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc <linux-doc@vger.kernel.org>,
+ Christian Brauner <brauner@kernel.org>
+In-Reply-To: <20260727-nasen-gezweifelt-weitverbreitet-d6c0d9f5d28b@brauner>
+To: Christian Brauner <brauner@kernel.org>
+X-Mailer: iPhone Mail (23F77)
 
-On Fri 24-07-26 11:52:31, Christian Brauner wrote:
-> On Thu, 16 Jul 2026 16:55:22 +0200, Jan Kara wrote:
-> > fs: Fix missed inode write during fsync
-> > 
-> > Hello,
-> > 
-> > here is v4 of the patch series which fixes the possibly missing inode write
-> > during fsync(2) for filesystems using generic metadata bh tracking. This
-> > revision contains mostly small fixes and improvements since v3, neither
-> > Sashiko nor Christian found fundamental issues with this approach.
-> > 
-> > [...]
-> 
-> I think there's some outstanding sashiko reviews for this one. Feel free
-> to just send follow-up fixes if the changes are small enough! Thanks,
-> Jan!
 
-Thanks! Yes, there were still three bugs Sashiko rightfully pointed out. I
-already did some fixups before I went for vacation last week. Testing has
-finished while I was on vacation so I'll post a new revision of the series
-today (sorry, I didn't keep the fixes as separate patches and bfs
-compilation failure would be annoying in git history anyway).
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> On Jul 27, 2026, at 10:59=E2=80=AFAM, Christian Brauner <brauner@kernel.or=
+g> wrote:
+>=20
+> =EF=BB=BFOn 2026-07-27 00:57 -0700, Andy Lutomirski wrote:
+>>>> On Jul 27, 2026, at 9:43=E2=80=AFAM, Andy Lutomirski <luto@amacapital.n=
+et> wrote:
+>>>=20
+>>> =EF=BB=BF
+>>>>=20
+>>>> goes along way to getting Capsicum's "capability mode".
+>>>=20
+>>> One thing I dislike about this is that it=E2=80=99s (approximately) a ta=
+sk mode. Why should an fd representing a capability represent one capability=
+ (a subtree) to one task but a different capability (dotdot) in a different t=
+ask?  Do we need to prevent unsharing a userns if this bit is set?   Do we w=
+ant to have to worry about any task that could potentially SCM_RIGHTS and fd=
+ to a task without that bit set? I prefer beneathness being an OFD property.=
+
+>>=20
+>> Sigh, I keep thinking and typing OFD, and that won=E2=80=99t magically ma=
+ke it
+>> be correct.  All these privilege restrictions applied to a file or
+>> path reference need to follow every user-controllable reference around
+>> correctly.  So if I fchdir or fchroot to a restricted OFD, my cwd or
+>> root needs to preserve those restrictions, and reopening "/" or "." or
+>> any other path (via root or cwd or openat etc) needs to respect the
+>> restrictions as well.  Putting it in struct path may or may not be a
+>> good idea.
+>=20
+> I think making struct path carry more meaning than it does right now
+> will cause us endless amounts of subtle issues. I fear that change very
+> very much. That will have such a fundamental ripple effect across _all_
+> corners of the codebase that I'm very unwilling to be led down that
+> road. And I think Al had traditionally similar reservations as me. One
+> of the really thorny issues with the O_PATH upgrade masks was precisely
+> the struct path modification.
+>=20
+
+The alternative (I think) is to enumerate all the places in the kernel that a=
+ path (or file?) reference exists and would want to carry various restrictio=
+n bits.
+
+I can think of:
+
+Resolution (nameidata?)
+
+struct file
+
+cwd
+
+root
+
+optionally, vfsmount
+
+Is that it? If I open a directory with a no-dotdot restriction, what can I p=
+ossibly do with it that needs to respect that restriction?  Each such operat=
+ion either needs to respect the restriction or fail outright. fchdir really o=
+ught to work. fchroot probably should, too.  We could just not allow clone/m=
+ount (at first?).  All the /proc links either start at cwd, root, or a struc=
+t file, right?
+
+There are things like overlayfs layers, but failing an attempt to use a rest=
+rictive reference to a path as an overlayfs layer doesn=E2=80=99t seem to te=
+rrible to me.
+
+I think that, logically, we could create a struct path_restrictions and add i=
+t to struct file and two copies to fs_struct.  And we wire it up into nameid=
+ata. And we carefully make every operation that doesn=E2=80=99t understand t=
+his fail if there are restrictions, which could be some new nameidata flag m=
+eaning =E2=80=9CI understand path restrictions=E2=80=9D where any attempt to=
+ resolve a path starting at root or cwd or a struct file with restrictions t=
+hat doesn=E2=80=99t set that flag will fail immediately without even trying t=
+o resolve the path.
+
+My intuition is that the implementation wouldn=E2=80=99t be so bad and that p=
+eople could chip away at the unsupported bits that annoy them over time.
+
+=E2=80=94Andy
+
+
+
