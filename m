@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BDD3A6B81;
-	Tue, 28 Jul 2026 19:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D132471D03;
+	Tue, 28 Jul 2026 19:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785266184; cv=none; b=spVE4i47OF4eqxU89VtHX2S5UVc3SB+bsxdbm1LvIaMeT8H5jmVWDGEOaRunTxo5by+PD9Z/ku60T0Nn7MEihstoXmm/mO96fK3m0ySbtXRPBOZG5NsYhkulkly4OfbybuKt53uKaaAB8+AKo0mrEcbFVCn6oQHaqsSj5VXDYyQ=
+	t=1785266787; cv=none; b=k/l/K15MwyBG97NqiANRB/AA+5iXvUEiqsklsunXDdg4613ifvRe9KJ8U785IRSFCt5SuzmZmOJnVRiBT+TaKTKydrTRUCTEttyUPw4JfFOYRJmLfqlelpuw0Hh5CLqK96BA4LD7ieKAHsI3RbFnc6vhnAjrPMyGwC3Jtxjtyis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785266184; c=relaxed/simple;
-	bh=n2W61PVXCdtIk6SElDSA9Umo0y8Jmm0l+kWYBmb/wQc=;
+	s=arc-20240116; t=1785266787; c=relaxed/simple;
+	bh=t3PUtazpRGqw1bmR2BviNtX9wa1tr+1RO8d6vzdFsRY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y/B/UvX9gUOhCxTsZNcjXZFQ/N9MYYoYDjAIjCl9/kfv0MAGGFqQB79VC7uFO7Rsi35s9G0ka8nIXk20U453RZsxdNXgQFV0ZEal5pY28ncuIfDkvAm6CHkRnmZYnGVmkJi3PBk6hNj1CLiprck08x2QkPrGGqaZHKLJ7Vn10Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oshJ75d/; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=aSu0jOW4MO6kOYP7i9BiHtEgZSFteDZDPS2EALGv1SecwCnlr49L/2rtusW6rbdy8V9xMkE5ZY9Whcpgtprvf3vgyxm93uUVyozMgCcDohPN6cTLyyV4rctuja44MFcJAdE+3pVjm7AW3s22zx5FJzJcHL/V8U9s8lht+LqcMNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wk+Dy2Ld; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oshJ75d/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D0B1F000E9;
-	Tue, 28 Jul 2026 19:16:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wk+Dy2Ld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FCD1F000E9;
+	Tue, 28 Jul 2026 19:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785266182;
-	bh=Ucma//m7I9ZjolPSJuaz8kY1G6WksJd+BgRCHn1VKVw=;
+	s=k20260515; t=1785266786;
+	bh=B9zPErIOkKOvWU4JJG+dspgkrLmx8WSjgAIhjf1cHOk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oshJ75d/nhkILilXbfV+QYhEmihij01Vum5PFtjMxq73JzWFICXk86FGO5ZyFSTC3
-	 rejygIKvtGle9tNtPtQo0OeEqVo0/bUCFuwXGdnZQGNiF6hpbe3LPqM5VMCDp0uzhH
-	 OxwBtaGdrWhPaQbP9KlN2FbmQVh/RKAILqV+Tu5W9Cz1hPWssKkayMaiDehnRuOw/X
-	 8loLKNifFWSA6ty+JdDc0/m+X6nVSSk4MQwj7hW3Rvnc0ULgcrAl0XOgnmEY47/TOi
-	 Or1I4z9+/1zFVdGezFCCxMAMe1lAb+fUYM00ZX/M81MtnO6ovXRm8vUTF7WFRx0ERq
-	 VBZ1qZqI6hn4A==
-Message-ID: <04d881f4-419c-450e-b9b4-1341497fa93a@kernel.org>
-Date: Tue, 28 Jul 2026 21:16:08 +0200
+	b=Wk+Dy2LdjSS++FUG8ogDF9T7pT+EAMTNcB05WeR4hXNaXglCVPisWY+LtMICE7Ccn
+	 wg89k4Kvgy+wj1Z+MYeBAhF/fpDBT5QBmapIlx+G9nPNFi+PtoCZcgFGdFDnLbAXt0
+	 xB9tb7u8wQORuyWEL/5BRGQ2JQ2k9CqZ2ZVyyUj8/EZCr1Qepptpcml/7TGdY1D8nm
+	 GSTIcvePc1fP69qF+FthXNV/zsYPQIg7psEdREpgXn9BbFwQhb7/ZitQjH5BdGIeL5
+	 10/HbxBCKZnA9MQ0tzrL6PXNOGh1zI0y/tMqhlx3SWm/HNYuS05o09qLSvFYiNKTIz
+	 dUsn/WiERIxzg==
+Message-ID: <2c19247e-bee6-45f4-a353-2fcc60db26e6@kernel.org>
+Date: Tue, 28 Jul 2026 21:26:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,35 +35,48 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] mm/huge_memory: eliminate reference-counted huge zero
- folio
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Kees Cook <kees@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- nvdimm@lists.linux.dev, Pankaj Raghav <pankaj.raghav@linux.dev>
-References: <20260728-persist-huge-zero-folio-v1-1-e7b604eaf416@kernel.org>
+Subject: Re: [PATCH RFC 00/11] mm: distinguish PTE table storage from PTE
+ values
+To: Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, agordeev@linux.ibm.com,
+ ryan.roberts@arm.com
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+References: <20260727164715.2866609-1-usama.anjum@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -110,39 +123,54 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260728-persist-huge-zero-folio-v1-1-e7b604eaf416@kernel.org>
+In-Reply-To: <20260727164715.2866609-1-usama.anjum@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/28/26 15:06, Lorenzo Stoakes (ARM) wrote:
-> The reference-counted huge zero folio is problematic - it's prone to subtle
-> races, it can introduce allocation latency and it is confusing and
-> complicated code.
+On 7/27/26 18:46, Muhammad Usama Anjum wrote:
+> Hi,
+> 
+> pte_t currently describes both a logical PTE value and an element stored in
+> a PTE table. Consequently, pte_t * can point either to a standalone value,
+> often a stack copy, or to a PTE-table slot. The compiler cannot distinguish
+> these cases. A value pointer can therefore be passed to an interface that
+> expects table storage, while table storage can be read by direct
+> dereference instead of the architecture accessor.
+> 
+> This series begins a staged conversion at the PTE level. It introduces
+> hw_pte_t as the element type for PTE-table storage and converts generic MM
+> to use hw_pte_t *. Logical PTE values remain pte_t. Interfaces that
+> intentionally return a value through pte_t *, such as install_pte, remain
+> value interfaces; the relevant parameters are named ptentp to make that
+> distinction explicit.
+> 
+> The generic definition aliases hw_pte_t to pte_t, so this series preserves
+> the representation and behaviour of every architecture. ptep_get() keeps
+> its existing READ_ONCE() semantics and converts the stored element through
+> __pte_from_hw(). An architecture can later define a distinct hw_pte_t and
+> convert its PTE interfaces to make the distinction compiler-enforced.
+> Architecture PTE implementations and most architecture code are
+> deliberately left for those later opt-in conversions.
+> 
+> Here, hw_pte_t identifies PTE-table storage rather than table lifetime:
+> complete PTE tables use hw_pte_t whether or not they are currently linked
+> into a page-table hierarchy, while standalone copied values use pte_t. The
+> distinction between complete but unlinked tables and hardware-reachable
+> tables was raised during discussion and remains an important point for
+> review.
+> 
+> PMD, PUD, P4D and PGD storage are deliberately out of scope. They can be
+> converted in later series after the PTE boundary is agreed, avoiding the
+> PMD-specific cases that made an all-level conversion difficult to review.
+> 
+> Most mechanical pointer conversions were generated with the Coccinelle
+> script included below, then audited and fixed by hand.
+> 
+> This series does not add a second ptep_get_once() accessor and does not
+> remove or replace STRICT_MM_TYPECHECKS.
 
-Just a note that the subject is misleading: the huge zero folio is always
-refcounted (e.g., GUP must take references), it's just that the persistent huge
-zero folio never drops the refcount to 0 to free it.
-
-What you probably mean is "mm/huge_memory: eliminate dynamically allocated huge
-zero folio".
-
-If we go down that path here, we can also teach GUP to not take a reference on
-the huge zero folio anymore on the FOLL_PIN path, similar to how we handle the
-zero folio.
-
-See the occurrences of is_zero_folio() in mm/gup.c.
-
-The reason we do it for now for FOLL_PIN is that a remote pin might outlive the
-process, meaning the huge folio could otherwise get freed by the shrinker even
-though someone still holds a reference. Bad. So that would no longer apply if
-the huge zero folio can no longer get freed.
-
-
-I recall there was a discussion (dropping dynamically allocated huge zero folio)
-on this topic while upstreaming the persistent huge zero folio.
-
-I don't have time right now to dig, but it would be worthwhile to look at that
-history if there was a good reason to keep it buried in that discussion.
+Do you have a pointer at the arm64 part, so people can get a feeling for how an
+actual hw_pte_t implementation can look like.
 
 -- 
 Cheers,
