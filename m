@@ -1,263 +1,224 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3AD33F588
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 16:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A8633D503
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 16:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254716; cv=none; b=shrVZGgh8xSlypVP7sRaPTcYctKSLBZL1Jil3j8iUsyMK8a7KofB8aXNGXXDwpNnSZ+81qBp5+NMUk3H8hIC6WGtb9+mfsNS709R8S7kGBCocc6Fr677y2gcg62VAVRfU75Wn8d6dfIMkFzMsYM4pUOa3/9TxZIp9cgZv0tLyrI=
+	t=1785254804; cv=none; b=nnPsodPL5z9KRyaKTH5Z3LciXpQ5uSG9VQIyGVPuwiHIhr9lGS5I3+g8ONIkIMUp5qxK99r5wqGsWIHBHSeshH9F+EceIUDBPOUhPW0Ja1i6+RTExs6xfLuER/C5bV6bor0ra6ZWR7bFUEOTQO1RqlXoULLSpKz8bl5a4tahq1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254716; c=relaxed/simple;
-	bh=3E9FAtquV+6O+JVfzxx6C/MgIRRHryYmtnWAb1YxWOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pk/g3Wsj1u+EbrnNGKrjWJqbeyd/34u0Ja7fhGuqgcAiMBxeyeGj3GK06PVvTvxulb747COKODmUXk2VTdAxebetolE6HbgUtGhpT41tGIg9lNBuLOymRmxYfWz+ZbNtp18r6HYBdr+zZKbrmhQUi6+CILjGq1b25/PpI6DOkmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LsMAFJkK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IsrpBWhB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dhjJdQX2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wdk64M4G; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785254804; c=relaxed/simple;
+	bh=yr24I03G/dtvb9I4TCQ7Tdb6l6Q+skcOosUj4TP/F1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mZ63J83gNq3LBEKEVnTrAS/4lZIXMdamGGe2dMFo1pCV0CHc6vtFoCIuu/94vHSA3Nuzoe2nKL7i7IPXyO8gw/msoOlRpglG/WG0IoEBUNWUfqUyHFT4LrHSMMi/kPxuqHNwK+m7v8uXNtKd9zUOn0vyJTjNFfmjpsvmGnPkRNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d3xN29s2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LsMAFJkK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IsrpBWhB";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dhjJdQX2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wdk64M4G"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d3xN29s2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785254800;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qkNH3H26FdTRk7zvARBF2+lnCXz8gfu0NSh+cQUr6xU=;
+	b=d3xN29s2XCpDgya8ehKeXSATK7Iwjz/JeG+9kpaRXuK5byZV6P9RZ561U5rgGxqe5tSbwu
+	ywUVTrTnEWQgpbCC3AcMFOY7jPKuyWt1NgVCiwc3ofvy/s6FiM56yWRzv+1I7EoLsU7wkw
+	XcPm1BZ8evi94RNE1jvEVjCgmmaVkVw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-244-j9FHKHKvN0OgWfaG32jwRg-1; Tue,
+ 28 Jul 2026 12:06:38 -0400
+X-MC-Unique: j9FHKHKvN0OgWfaG32jwRg-1
+X-Mimecast-MFC-AGG-ID: j9FHKHKvN0OgWfaG32jwRg_1785254797
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A42817C41C;
-	Tue, 28 Jul 2026 16:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785254708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eVUCV1DppfbR6TXIE0HqqXtnqrgriHXILR6KfVMSog=;
-	b=LsMAFJkK8k4MJPAncPy1i9otGGVa4M537ZeLPaa2a39UN0+oDaz+mcu+n5djN+vvgtQRpt
-	/LNmozpiigx2IX80AyRVab8jIgseQK9jD/frO1yT45jOLB1qzTKb7w8RmBRvnDcARa/R7s
-	HtZTEt2c5Hv0uQeyWzCTEVpETM0UiO0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785254708;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eVUCV1DppfbR6TXIE0HqqXtnqrgriHXILR6KfVMSog=;
-	b=IsrpBWhBEJp3dJXlDHnqdqgjoJ945vktjEWKrJwRqqYI3wYz3a3T8ryf3YKs7D0daC12EC
-	KHD5FXkADLXVyCCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785254704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eVUCV1DppfbR6TXIE0HqqXtnqrgriHXILR6KfVMSog=;
-	b=dhjJdQX2ulIwzQRIcY6o1DTAziwmqZD1IrckqZ4K2RtY/IIH3hgGNWhemNsP/6np29ZLMg
-	vAx6W3bNRIs+5tMBrRB6OA9YcoEoMs7G6y70ZuiyTuWsdqL5FEE4IPu4/O2y1/aEPwA8TJ
-	qHlM2kO3rx2diKuMyEElUXXozNenpKM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785254704;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eVUCV1DppfbR6TXIE0HqqXtnqrgriHXILR6KfVMSog=;
-	b=wdk64M4GpgZOC97+sztB59HHSMqEPzJ25JJq/zwFeMr5fySEHAm4o5x2sEW/GirJE5/6On
-	SJnGDS+1D4sv3+CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8FBA6779B1;
-	Tue, 28 Jul 2026 16:05:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ctAUIzDTaGoqcwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 28 Jul 2026 16:05:04 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5451BA10B6; Tue, 28 Jul 2026 18:05:04 +0200 (CEST)
-Date: Tue, 28 Jul 2026 18:05:04 +0200
-From: Jan Kara <jack@suse.cz>
-To: Yichong Chen <chenyichong@uniontech.com>
-Cc: jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] isofs: validate directory records consistently
-Message-ID: <s2xkosrrjjw4eqdoguitc5xnzlbcxamzw6ylpplolkcs5jixgc@jlpqavo7c23u>
-References: <h422u6iqz6faysofnomlcqizkqjrsgqw6ooo4jdhfyjuttkqou@p6frlkumlpmd>
- <20260728074349.417508-1-chenyichong@uniontech.com>
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C54DB1956080;
+	Tue, 28 Jul 2026 16:06:36 +0000 (UTC)
+Received: from oxygen.redhat.com (unknown [10.44.48.90])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CEC411956044;
+	Tue, 28 Jul 2026 16:06:34 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: linux-erofs@lists.ozlabs.org
+Cc: cyphar@cyphar.com,
+	hsiangkao@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org,
+	gscrivan@redhat.com
+Subject: [PATCH v5] erofs: accept source file descriptor via fsconfig
+Date: Tue, 28 Jul 2026 18:05:32 +0200
+Message-ID: <20260728160619.853924-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728074349.417508-1-chenyichong@uniontech.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Tue 28-07-26 15:43:49, Yichong Chen wrote:
-> isofs_export_get_parent() assumes that the first two directory records
-> are valid "." and ".." entries.  A malformed image can provide an
-> invalid length for the first entry, causing the computed ".." offset to
-> point outside the received block.
-> 
-> Add a shared directory record validator and use it in NFS get_parent,
-> readdir and lookup.  This keeps the basic directory record length checks
-> consistent across all directory users before they consume the name field
-> or use one record length to find the next entry.
-> 
-> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+Allow userspace to pass an already-opened file descriptor as the mount
+source instead of a path string.  This is useful for tools that already
+hold an fd to the image, such as composefs reusing an existing erofs
+backing file.
 
-Thanks! I've merged this patch to my tree.
+Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+---
+v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gscrivan@redhat.com/
+v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
+v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
+v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
 
-								Honza
+ Documentation/filesystems/erofs.rst | 15 ++++++
+ fs/erofs/super.c                    | 73 ++++++++++++++++++++++++-----
+ 2 files changed, 77 insertions(+), 11 deletions(-)
 
-> ---
-> v2:
-> - Move the directory record validator to namei.c.
-> - Share the validator with NFS get_parent, readdir and lookup.
-> - Replace duplicate directory record length checks.
-> 
->  fs/isofs/dir.c    |  7 ++-----
->  fs/isofs/export.c | 10 +++++++++-
->  fs/isofs/isofs.h  |  3 +++
->  fs/isofs/namei.c  | 28 ++++++++++++++++++++++++----
->  4 files changed, 38 insertions(+), 10 deletions(-)
-> 
-> diff --git a/fs/isofs/dir.c b/fs/isofs/dir.c
-> index cc587cd25162..a96268c9ca41 100644
-> --- a/fs/isofs/dir.c
-> +++ b/fs/isofs/dir.c
-> @@ -149,10 +149,8 @@ static int do_isofs_readdir(struct inode *inode, struct file *file,
->  			}
->  			de = tmpde;
->  		}
-> -		/* Basic sanity check, whether name doesn't exceed dir entry */
-> -		if (de_len < sizeof(struct iso_directory_record) ||
-> -		    de_len < de->name_len[0] +
-> -					sizeof(struct iso_directory_record)) {
-> +		if (!isofs_dir_record_valid(de, de == tmpde ? 0 : offset_saved,
-> +					    de == tmpde ? de_len : bufsize)) {
->  			printk(KERN_NOTICE "iso9660: Corrupted directory entry"
->  			       " in block %lu of inode %llu\n", block,
->  			       inode->i_ino);
-> @@ -300,4 +298,3 @@ const struct inode_operations isofs_dir_inode_operations =
->  	.fileattr_get = isofs_fileattr_get,
->  };
->  
-> -
-> diff --git a/fs/isofs/export.c b/fs/isofs/export.c
-> index 78f80c1a5c54..4f7fa1d508a1 100644
-> --- a/fs/isofs/export.c
-> +++ b/fs/isofs/export.c
-> @@ -83,13 +83,21 @@ static struct dentry *isofs_export_get_parent(struct dentry *child)
->  
->  	/* This is the "." entry. */
->  	de = (struct iso_directory_record*)bh->b_data;
-> +	if (!isofs_dir_record_valid(de, 0, child_inode->i_sb->s_blocksize) ||
-> +	    isonum_711(de->name_len) != 1 || de->name[0] != 0) {
-> +		printk(KERN_ERR "isofs: Unable to find the \".\" directory for NFS.\n");
-> +		rv = ERR_PTR(-EACCES);
-> +		goto out;
-> +	}
->  
->  	/* The ".." entry is always the second entry. */
->  	parent_offset = (unsigned long)isonum_711(de->length);
->  	de = (struct iso_directory_record*)(bh->b_data + parent_offset);
->  
->  	/* Verify it is in fact the ".." entry. */
-> -	if ((isonum_711(de->name_len) != 1) || (de->name[0] != 1)) {
-> +	if (!isofs_dir_record_valid(de, parent_offset,
-> +				    child_inode->i_sb->s_blocksize) ||
-> +	    isonum_711(de->name_len) != 1 || de->name[0] != 1) {
->  		printk(KERN_ERR "isofs: Unable to find the \"..\" "
->  		       "directory for NFS.\n");
->  		rv = ERR_PTR(-EACCES);
-> diff --git a/fs/isofs/isofs.h b/fs/isofs/isofs.h
-> index 0ec8b24a42ed..dacb9cdae4fd 100644
-> --- a/fs/isofs/isofs.h
-> +++ b/fs/isofs/isofs.h
-> @@ -115,6 +115,9 @@ struct inode;		/* To make gcc happy */
->  extern int parse_rock_ridge_inode(struct iso_directory_record *, struct inode *, int relocated);
->  extern int get_rock_ridge_filename(struct iso_directory_record *, char *, struct inode *);
->  extern int isofs_name_translate(struct iso_directory_record *, char *, struct inode *);
-> +bool isofs_dir_record_valid(struct iso_directory_record *de,
-> +			    unsigned long offset,
-> +			    unsigned long bufsize);
->  
->  int get_joliet_filename(struct iso_directory_record *, unsigned char *, struct inode *);
->  int get_acorn_filename(struct iso_directory_record *, char *, struct inode *);
-> diff --git a/fs/isofs/namei.c b/fs/isofs/namei.c
-> index 3ace3d6a55e7..a161b28893d6 100644
-> --- a/fs/isofs/namei.c
-> +++ b/fs/isofs/namei.c
-> @@ -10,6 +10,26 @@
->  #include <linux/gfp.h>
->  #include "isofs.h"
->  
-> +bool isofs_dir_record_valid(struct iso_directory_record *de,
-> +			    unsigned long offset,
-> +			    unsigned long bufsize)
-> +{
-> +	unsigned int len;
-> +	unsigned int name_len;
-> +	unsigned long min_len = offsetof(struct iso_directory_record, name);
-> +
-> +	if (offset > bufsize || bufsize - offset < min_len)
-> +		return false;
-> +
-> +	len = isonum_711(de->length);
-> +	name_len = isonum_711(de->name_len);
-> +	if (len < min_len || name_len > len - min_len)
-> +		return false;
-> +	if (len > bufsize - offset)
-> +		return false;
-> +	return true;
-> +}
-> +
->  static int
->  isofs_cmp(struct dentry *dentry, const char *compare, int dlen)
->  {
-> @@ -88,16 +108,16 @@ isofs_find_entry(struct inode *dir, struct dentry *dentry,
->  			de = tmpde;
->  		}
->  
-> -		dlen = de->name_len[0];
-> -		dpnt = de->name;
-> -		/* Basic sanity check, whether name doesn't exceed dir entry */
-> -		if (de_len < dlen + sizeof(struct iso_directory_record)) {
-> +		if (!isofs_dir_record_valid(de, de == tmpde ? 0 : offset_saved,
-> +					    de == tmpde ? de_len : bufsize)) {
->  			printk(KERN_NOTICE "iso9660: Corrupted directory entry"
->  			       " in block %lu of inode %llu\n", block,
->  			       dir->i_ino);
->  			brelse(bh);
->  			return 0;
->  		}
-> +		dlen = de->name_len[0];
-> +		dpnt = de->name;
->  
->  		if (sbi->s_rock &&
->  		    ((i = get_rock_ridge_filename(de, tmpname, dir)))) {
-> -- 
-> 2.51.0
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 4230884fb359..774e8b236d09 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -139,6 +139,21 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
+                        page cache.
+ ===================    =========================================================
+ 
++File-backed mounts
++==================
++
++When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed images
++can be mounted directly without a loopback block device.  The backing file
++can be given either as a path, or as an already-opened file descriptor.
++
++When a file descriptor is used, the kernel resolves its path and records it
++so that /proc/mounts and similar interfaces can still report the mount
++source.
++
++Only regular files are accepted as backing files; to mount an image that
++resides on a block device, use the traditional block device mount path
++instead.
++
+ Sysfs Entries
+ =============
+ 
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 86fa5c6a0c70..558041011398 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+ enum {
+ 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+ 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
++	Opt_source,
+ };
+ 
+ static const struct constant_table erofs_param_cache_strategy[] = {
+@@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
+ };
+ 
+ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+-	fsparam_flag_no("user_xattr",	Opt_user_xattr),
+-	fsparam_flag_no("acl",		Opt_acl),
+-	fsparam_enum("cache_strategy",	Opt_cache_strategy,
++	fsparam_flag_no("user_xattr",		Opt_user_xattr),
++	fsparam_flag_no("acl",			Opt_acl),
++	fsparam_enum("cache_strategy",		Opt_cache_strategy,
+ 		     erofs_param_cache_strategy),
+-	fsparam_flag("dax",             Opt_dax),
+-	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
+-	fsparam_string("device",	Opt_device),
+-	fsparam_string("domain_id",	Opt_domain_id),
+-	fsparam_flag_no("directio",	Opt_directio),
+-	fsparam_u64("fsoffset",		Opt_fsoffset),
+-	fsparam_flag("inode_share",	Opt_inode_share),
++	fsparam_flag("dax",			Opt_dax),
++	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
++	fsparam_string("device",		Opt_device),
++	fsparam_string("domain_id",		Opt_domain_id),
++	fsparam_flag_no("directio",		Opt_directio),
++	fsparam_u64("fsoffset",			Opt_fsoffset),
++	fsparam_flag("inode_share",		Opt_inode_share),
++	fsparam_file_or_string("source",	Opt_source),
+ 	{}
+ };
+ 
+@@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+ 	return false;
+ }
+ 
++static int erofs_fc_parse_source(struct fs_context *fc,
++				 struct fs_parameter *param)
++{
++	struct erofs_sb_info *sbi = fc->s_fs_info;
++
++	if (fc->source || sbi->dif0.file)
++		return invalf(fc, "Multiple sources");
++
++	switch (param->type) {
++	case fs_value_is_string:
++		fc->source = param->string;
++		param->string = NULL;
++		return 0;
++	case fs_value_is_file: {
++		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
++		char *p;
++
++		if (!buf)
++			return -ENOMEM;
++		p = file_path(param->file, buf, PATH_MAX);
++		if (IS_ERR(p))
++			return PTR_ERR(p);
++		fc->source = kstrdup(p, GFP_KERNEL);
++		if (!fc->source)
++			return -ENOMEM;
++		sbi->dif0.file = no_free_ptr(param->file);
++		return 0;
++	}
++	default:
++		WARN_ON_ONCE(true);
++		return -EINVAL;
++	}
++}
++
+ static int erofs_fc_parse_param(struct fs_context *fc,
+ 				struct fs_parameter *param)
+ {
+@@ -524,6 +560,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 		else
+ 			set_opt(&sbi->opt, INODE_SHARE);
+ 		break;
++	case Opt_source:
++		return erofs_fc_parse_source(fc, param);
+ 	}
+ 	return 0;
+ }
+@@ -752,13 +790,26 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int erofs_fc_get_tree(struct fs_context *fc)
+ {
++	struct erofs_sb_info *sbi = fc->s_fs_info;
+ 	int ret;
+ 
++	if (sbi->dif0.file) {
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
++			errorfc(fc, "source fd option not supported");
++			return -EINVAL;
++		}
++		if (!S_ISREG(file_inode(sbi->dif0.file)->i_mode) ||
++		    !sbi->dif0.file->f_mapping->a_ops->read_folio) {
++			errorfc(fc, "source is unsupported");
++			return -EINVAL;
++		}
++		return get_tree_nodev(fc, erofs_fc_fill_super);
++	}
++
+ 	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+ 		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+ 			GET_TREE_BDEV_QUIET_LOOKUP : 0);
+ 	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
+-		struct erofs_sb_info *sbi = fc->s_fs_info;
+ 		struct file *file;
+ 
+ 		if (!fc->source)
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.55.0
+
