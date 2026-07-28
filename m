@@ -1,180 +1,335 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C41A377006;
-	Tue, 28 Jul 2026 20:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7143BB693
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 20:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785271996; cv=none; b=r928i1t/tjc4eLu6ZFYkLyys6LoRtnKCuTrAWda3O6PLqZtPlF6NJwd2Te9HubgsmqX77LrMfoH1DiXUZIgkLbzSV4ngbmV2biN/LeONN55V0ft2T/Bhn5NJ2Hk1dRi0GArl//rtwXSXDx255jEUQnGWIaRDhBhybSP6bh627+M=
+	t=1785272193; cv=none; b=YFxgMu5I3VwIDAVnMUyYfYjjOyEtAye1gisgQsOpcZc/jIqqnixKMSZInenLeGTfDmRBDwCseSt10Z6hbWdXbXV3u3wvSsARci8PVD6IalbSsBWXOroJw2huEVBPYQ6WlzabdzxgA4AMO7LdmBz2HqThurpQmipvVI1wsrneG2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785271996; c=relaxed/simple;
-	bh=HeJvnCqDL2rKOxocS8XoU3uYxjsAlQ1JbThOJIIuwak=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hoYVGR1m1fzlXQV7oG0cdC82qNiKj3MsBO5GhswkkLBmgLOs+4bvYEoi9e7iqy9XXd3neswBy01/oU3gZCYii4LkVFnQfppSbzx/T09mh5z+fOIjYEz0rmfR2hCBDXs3ktyoLw4whB07L1vonZGgD2pdpAyJcp+riYhN/8VuooQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=U+O1+uka; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1785272193; c=relaxed/simple;
+	bh=6iUZmm6qrKgFsq2bi4hOFtwAJAGI4cvL/vsBYFJyss4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RbhBmhUBhEBZG7OLcUOGvGLVuV1ZOh7MZ6TODLZMNjjDbPf3tTjEg+0+GBc/lp4we+/rARcaD9nIE2gBolMUXW6HWyNaKTFcfuOZWLznU2fb3QEwo5ef9gLFasfugqRaByC3nb76N00EMuX70Bfj9/LXzP3Gsm1/m4s2ltJB7Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=HznXHuiZ; arc=none smtp.client-ip=185.125.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="U+O1+uka"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1785271995; x=1816807995;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wY/HaOGRvQhbyShtJG8cca1pnVfiOL3EgQJ/QooanBY=;
-  b=U+O1+ukaPKNWlbF9lgAGeKmrfQOGTptLOoXhxKLfVmrokCyU6wRpl76b
-   TS9FZhqcrUvB1zAE8+JkcXPMU2P82pQhbzxioreGjgTP8K1du7AQaTpVU
-   gEF3+PRp+hb3szeKdJW9otUCzFZyhl/Q8pjgXmwoLPFqHon/9yLLG4Dhq
-   iR3YzEltPGF6xD8H/w0zuP5j0iQMt5Yo2/gscgrHVvyQwCsGRkRj0Zxf8
-   dRfygiGYDsQKJekz6KyxF6+/S1FGJsTo45Nd1crJY1z1x/IBhBMEGCqoF
-   uJMTk6D7OQaaLur6h7WUyFWnuxICIxcZlBBFFuGDR+qjTqHNP5wMQ8UjT
-   A==;
-X-CSE-ConnectionGUID: wxCYs3ExQgeCIlM6bE8t6A==
-X-CSE-MsgGUID: MFUgVu3vQ7q87v3sYPj4Kg==
-X-IronPort-AV: E=Sophos;i="6.25,191,1779148800"; 
-   d="scan'208";a="24531569"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 20:53:15 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:9970]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.152:2525] with esmtp (Farcaster)
- id 8443e69d-d20e-41d5-ad2a-02fce05eed36; Tue, 28 Jul 2026 20:53:14 +0000 (UTC)
-X-Farcaster-Flow-ID: 8443e69d-d20e-41d5-ad2a-02fce05eed36
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Tue, 28 Jul 2026 20:53:14 +0000
-Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Tue, 28 Jul 2026 20:53:14 +0000
-From: Jay Wang <wanjay@amazon.com>
-To: <stable@vger.kernel.org>
-CC: <gregkh@linuxfoundation.org>, <sashal@kernel.org>,
-	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>,
-	<linux-fsdevel@vger.kernel.org>,
-	<syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com>, Yuezhang Mo
-	<Yuezhang.Mo@sony.com>
-Subject: [PATCH 6.1.y] exfat: validate cluster allocation bits of the allocation bitmap
-Date: Tue, 28 Jul 2026 20:53:13 +0000
-Message-ID: <20260728205313.19824-1-wanjay@amazon.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="HznXHuiZ"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h8nnM0y6TznP0;
+	Tue, 28 Jul 2026 22:56:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1785272182;
+	bh=QSt3sW7Q/4VKylm31kmU2O4xQ5UTDoyVkDceL/gh9D4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HznXHuiZ6lmBnTC0LJsBbJnufcMK/GE42xn3h4XPJwGGs8n3jL5coRmOElKXcXpj7
+	 ctVN+IyEPpInJ/suAFeYX98q+wWwMVedzd9xZe9ZN+f+aJ8wL8YIU2nRVnKwgdmEEY
+	 QoiZj7JokeGGFTJlFIbC7Avsr6Qt0uNZylyA1ROE=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4h8nnK2LxSzYBL;
+	Tue, 28 Jul 2026 22:56:21 +0200 (CEST)
+Date: Tue, 28 Jul 2026 22:56:16 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Matthieu Buffet <matthieu@buffet.re>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/17] landlock: Add create_ruleset and free_ruleset
+ tracepoints
+Message-ID: <20260728.nohNgei7Nei9@digikod.net>
+References: <20260406143717.1815792-1-mic@digikod.net>
+ <20260406143717.1815792-7-mic@digikod.net>
+ <ahYOJwpiEI-gGx1Z@suesslenovo>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+In-Reply-To: <ahYOJwpiEI-gGx1Z@suesslenovo>
+X-Infomaniak-Routing: alpha
 
-From: Namjae Jeon <linkinjeon@kernel.org>
+On Tue, May 26, 2026 at 05:34:59PM -0400, Justin Suess wrote:
+> On Mon, Apr 06, 2026 at 04:37:04PM +0200, Mickaël Salaün wrote:
+> > Add tracepoints for ruleset lifecycle events: landlock_create_ruleset
+> > fires from the landlock_create_ruleset() syscall handler, logging the
+> > ruleset Landlock ID and handled access masks; landlock_free_ruleset
+> > fires in free_ruleset() before the ruleset is freed, so eBPF programs
+> > can access the full ruleset state via BTF.
+> > 
+> > The create_ruleset TP_PROTO takes only the ruleset pointer.  The handled
+> > access masks are read from the ruleset in TP_fast_assign rather than
+> > passed as scalar arguments, so eBPF programs can access the full ruleset
+> > state (rules, access masks) via BTF on a single pointer.  No lock is
+> > needed because the ruleset is not yet shared (the file descriptor has
+> > not been installed).
+> > 
+> > Create the trace header with a DOC comment documenting the consistency
+> > guarantees, locking conventions, TP_PROTO safety, and security
+> > considerations shared by all Landlock tracepoints.  Add
+> > CREATE_TRACE_POINTS in log.c to generate the tracepoint implementations.
+> > 
+> > Add an id field to struct landlock_ruleset, assigned from
+> > landlock_get_id_range() at creation time.  Extend the CONFIG guard on
+> > landlock_get_id_range() from CONFIG_AUDIT to
+> > CONFIG_SECURITY_LANDLOCK_LOG so that IDs are available for tracing even
+> > without audit support.
+> > 
+> > The deallocation events use the "free_" prefix (rather than "drop_")
+> > because they fire when the object is actually freed.  There is no need
+> > for allocated/deallocated symmetry because ruleset creation happens with
+> > the landlock_create_ruleset tracepoint.
+> > 
+> > landlock_create_ruleset tracepoint.
+> > 
+> > Unlike audit records which share a record type and need a "status="
+> > field to distinguish allocation from deallocation, tracepoints provide
+> > one event type per lifecycle transition, each with a type-safe TP_PROTO
+> > matching the specific transition.  This enables type-safe eBPF BTF
+> > access and precise ftrace filtering by event name.
+> > 
+> > Cc: Günther Noack <gnoack@google.com>
+> > Cc: Justin Suess <utilityemal77@gmail.com>
+> > Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> > Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > Cc: Tingmao Wang <m@maowtm.org>
+> > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > ---
+> > 
+> > Changes since v1:
+> > - New patch (split from the v1 add_rule_fs tracepoint patch).
+> > ---
+> >  MAINTAINERS                     |  1 +
+> >  include/trace/events/landlock.h | 94 +++++++++++++++++++++++++++++++++
+> >  security/landlock/id.h          |  6 +--
+> >  security/landlock/log.c         |  5 ++
+> >  security/landlock/ruleset.c     |  8 +++
+> >  security/landlock/ruleset.h     |  9 ++++
+> >  security/landlock/syscalls.c    |  5 ++
+> >  7 files changed, 125 insertions(+), 3 deletions(-)
+> >  create mode 100644 include/trace/events/landlock.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c3fe46d7c4bc..51104faa3951 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -14389,6 +14389,7 @@ F:	Documentation/admin-guide/LSM/landlock.rst
+> >  F:	Documentation/security/landlock.rst
+> >  F:	Documentation/userspace-api/landlock.rst
+> >  F:	fs/ioctl.c
+> > +F:	include/trace/events/landlock.h
+> >  F:	include/uapi/linux/landlock.h
+> >  F:	samples/landlock/
+> >  F:	security/landlock/
+> > diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
+> > new file mode 100644
+> > index 000000000000..5e847844fbf7
+> > --- /dev/null
+> > +++ b/include/trace/events/landlock.h
+> > @@ -0,0 +1,94 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright © 2025 Microsoft Corporation
+> > + * Copyright © 2026 Cloudflare
+> > + */
+> > +
+> > +#undef TRACE_SYSTEM
+> > +#define TRACE_SYSTEM landlock
+> > +
+> > +#if !defined(_TRACE_LANDLOCK_H) || defined(TRACE_HEADER_MULTI_READ)
+> > +#define _TRACE_LANDLOCK_H
+> > +
+> > +#include <linux/tracepoint.h>
+> > +
+> > +struct landlock_ruleset;
+> > +
+> > +/**
+> > + * DOC: Landlock trace events
+> > + *
+> > + * Consistency guarantee: every trace event corresponds to an operation
+> > + * that has irrevocably succeeded.  Lifecycle events fire only after
+> > + * the point of no return; denial events fire only for denials that
+> > + * actually happen.  This guarantees that eBPF programs observing the
+> > + * trace stream can build a faithful model of Landlock state without
+> > + * reconciliation logic.
+> > + *
+> > + * Mutable object pointers in TP_PROTO (e.g., struct landlock_ruleset
+> > + * for add_rule events) are passed while the caller holds the object's
+> > + * lock, so that TP_fast_assign and eBPF programs reading via BTF see a
+> > + * consistent snapshot.  For objects that are immutable at the emission
+> > + * site (e.g., a domain after creation), no lock is needed.
+> > + *
+> > + * All pointer arguments in TP_PROTO are guaranteed non-NULL by the
+> > + * caller.  eBPF programs can access these pointers via BTF for richer
+> > + * introspection than the TP_STRUCT__entry fields provide.
+> > + *
+> > + * TP_STRUCT__entry fields serve TP_printk display only.  eBPF programs
+> > + * access the raw TP_PROTO arguments directly.
+> > + *
+> > + * Security: as for audit, Landlock trace events may expose sensitive
+> > + * information about all sandboxed processes on the system.  See
+> > + * Documentation/admin-guide/LSM/landlock.rst for security considerations
+> > + * and privilege requirements.
+> > + */
+> > +
+> > +/**
+> > + * landlock_create_ruleset - new ruleset created
+> > + * @ruleset: Newly created ruleset (never NULL); not yet shared via an fd,
+> > + *           so no lock is needed.  eBPF programs can read the full ruleset
+> > + *           state via BTF.
+> > + */
+> > +TRACE_EVENT(
+> > +	landlock_create_ruleset,
+> > +
+> > +	TP_PROTO(const struct landlock_ruleset *ruleset),
+> > +
+> > +	TP_ARGS(ruleset),
+> > +
+> > +	TP_STRUCT__entry(__field(__u64, ruleset_id) __field(access_mask_t,
+> > +							    handled_fs)
+> > +				 __field(access_mask_t, handled_net)
+> > +					 __field(access_mask_t, scoped)),
+> > +
+> > +	TP_fast_assign(__entry->ruleset_id = ruleset->id;
+> > +		       __entry->handled_fs = ruleset->layer.fs;
+> > +		       __entry->handled_net = ruleset->layer.net;
+> > +		       __entry->scoped = ruleset->layer.scope;),
+> > +
+> > +	TP_printk("ruleset=%llx handled_fs=0x%x handled_net=0x%x scoped=0x%x",
+> > +		  __entry->ruleset_id, __entry->handled_fs,
+> > +		  __entry->handled_net, __entry->scoped));
+> > +
+> > +/**
+> > + * landlock_free_ruleset - Ruleset freed
+> > + *
+> > + * Emitted when a ruleset's last reference is dropped (typically when
+> > + * the creating process closes the ruleset file descriptor).
+> > + */
+> > +TRACE_EVENT(landlock_free_ruleset,
+> > +
+> > +	    TP_PROTO(const struct landlock_ruleset *ruleset),
+> > +
+> > +	    TP_ARGS(ruleset),
+> > +
+> > +	    TP_STRUCT__entry(__field(__u64, ruleset_id)),
+> > +
+> > +	    TP_fast_assign(__entry->ruleset_id = ruleset->id;),
+> > +
+> > +	    TP_printk("ruleset=%llx", __entry->ruleset_id));
+> > +
+> > +#endif /* _TRACE_LANDLOCK_H */
+> > +
+> > +/* This part must be outside protection */
+> > +#include <trace/define_trace.h>
+> > diff --git a/security/landlock/id.h b/security/landlock/id.h
+> > index 45dcfb9e9a8b..2a43c2b523a8 100644
+> > --- a/security/landlock/id.h
+> > +++ b/security/landlock/id.h
+> > @@ -8,18 +8,18 @@
+> >  #ifndef _SECURITY_LANDLOCK_ID_H
+> >  #define _SECURITY_LANDLOCK_ID_H
+> >  
+> > -#ifdef CONFIG_AUDIT
+> > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+> >  
+> >  void __init landlock_init_id(void);
+> >  
+> >  u64 landlock_get_id_range(size_t number_of_ids);
+> >  
+> > -#else /* CONFIG_AUDIT */
+> > +#else /* CONFIG_SECURITY_LANDLOCK_LOG */
+> >  
+> >  static inline void __init landlock_init_id(void)
+> >  {
+> >  }
+> >  
+> > -#endif /* CONFIG_AUDIT */
+> > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+> >  
+> >  #endif /* _SECURITY_LANDLOCK_ID_H */
+> > diff --git a/security/landlock/log.c b/security/landlock/log.c
+> > index c9b506707af0..ef79e4ed0037 100644
+> > --- a/security/landlock/log.c
+> > +++ b/security/landlock/log.c
+> > @@ -174,6 +174,11 @@ static void audit_denial(const struct landlock_cred_security *const subject,
+> >  
+> >  #endif /* CONFIG_AUDIT */
+> >  
+> > +#ifdef CONFIG_TRACEPOINTS
+> > +#define CREATE_TRACE_POINTS
+> > +#include <trace/events/landlock.h>
+> > +#endif /* CONFIG_TRACEPOINTS */
+> > +
+> >  static struct landlock_hierarchy *
+> >  get_hierarchy(const struct landlock_domain *const domain, const size_t layer)
+> >  {
+> > diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
+> > index c220e0f9cf5f..0d1e3dadb318 100644
+> > --- a/security/landlock/ruleset.c
+> > +++ b/security/landlock/ruleset.c
+> > @@ -22,10 +22,13 @@
+> >  #include <linux/spinlock.h>
+> >  
+> >  #include "access.h"
+> > +#include "id.h"
+> >  #include "limits.h"
+> >  #include "object.h"
+> >  #include "ruleset.h"
+> >  
+> > +#include <trace/events/landlock.h>
+> > +
+> >  struct landlock_ruleset *
+> >  landlock_create_ruleset(const access_mask_t fs_access_mask,
+> >  			const access_mask_t net_access_mask,
+> > @@ -49,6 +52,10 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
+> >  	new_ruleset->rules.root_net_port = RB_ROOT;
+> >  #endif /* IS_ENABLED(CONFIG_INET) */
+> >  
+> > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+> > +	new_ruleset->id = landlock_get_id_range(1);
+> > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+> The addition of IDs to rulesets for logging makes sense.
+> 
+> But it is limited in usefulness without some form of introspection to be
+> able to correlate it to a specific userspace ruleset.
 
-[ Upstream commit 79c1587b6cda74deb0c86fc7ba194b92958c793c ]
+The main goal for tracepoints is to correlate the created rule with all
+the related updates with rule addition, and then the domain creation
+from this ruleset.
 
-syzbot created an exfat image with cluster bits not set for the allocation
-bitmap. exfat-fs reads and uses the allocation bitmap without checking
-this. The problem is that if the start cluster of the allocation bitmap
-is 6, cluster 6 can be allocated when creating a directory with mkdir.
-exfat zeros out this cluster in exfat_mkdir, which can delete existing
-entries. This can reallocate the allocated entries. In addition,
-the allocation bitmap is also zeroed out, so cluster 6 can be reallocated.
-This patch adds exfat_test_bitmap_range to validate that clusters used for
-the allocation bitmap are correctly marked as in-use.
+> 
+> If a program creates multiple Landlock rulesets, and wishes to trace and
+> correlate which ruleset FD corresponds to the log/tracepoint, it is
+> difficult when no form of introspection exists.
 
-Reported-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
-Tested-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
-Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
-Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
-[Adapted to 6.1: replaced __le_long/lel_to_cpu word-level bitmap access
- with per-bit test_bit_le() calls, as __le_long and lel_to_cpu do not
- exist in 6.1. Uses same test_bit_le API as rest of exfat bitmap code.]
-Signed-off-by: Jay Wang <wanjay@amazon.com>
----
- fs/exfat/balloc.c | 54 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 42 insertions(+), 12 deletions(-)
+That's correct, and that's the same thing for the domain IDs, for now...
 
-diff --git a/fs/exfat/balloc.c b/fs/exfat/balloc.c
-index 32209acd51be4..2d4fe3d754bbc 100644
---- a/fs/exfat/balloc.c
-+++ b/fs/exfat/balloc.c
-@@ -45,12 +45,37 @@ static const unsigned char used_bit[] = {
- /*
-  *  Allocation Bitmap Management Functions
-  */
-+static bool exfat_test_bitmap_range(struct super_block *sb, unsigned int clu,
-+		unsigned int count)
-+{
-+	struct exfat_sb_info *sbi = EXFAT_SB(sb);
-+	unsigned int start = clu;
-+	unsigned int end = clu + count;
-+	unsigned int ent_idx, i, b;
-+
-+	if (!is_valid_cluster(sbi, start) || !is_valid_cluster(sbi, end - 1))
-+		return false;
-+
-+	while (start < end) {
-+		ent_idx = CLUSTER_TO_BITMAP_ENT(start);
-+		i = BITMAP_OFFSET_SECTOR_INDEX(sb, ent_idx);
-+		b = BITMAP_OFFSET_BIT_IN_SECTOR(sb, ent_idx);
-+
-+		if (!test_bit_le(b, sbi->vol_amap[i]->b_data))
-+			return false;
-+
-+		start++;
-+	}
-+
-+	return true;
-+}
-+
- static int exfat_allocate_bitmap(struct super_block *sb,
- 		struct exfat_dentry *ep)
- {
- 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
- 	long long map_size;
--	unsigned int i, need_map_size;
-+	unsigned int i, j, need_map_size;
- 	sector_t sector;
- 
- 	sbi->map_clu = le32_to_cpu(ep->dentry.bitmap.start_clu);
-@@ -77,20 +102,25 @@ static int exfat_allocate_bitmap(struct super_block *sb,
- 	sector = exfat_cluster_to_sector(sbi, sbi->map_clu);
- 	for (i = 0; i < sbi->map_sectors; i++) {
- 		sbi->vol_amap[i] = sb_bread(sb, sector + i);
--		if (!sbi->vol_amap[i]) {
--			/* release all buffers and free vol_amap */
--			int j = 0;
--
--			while (j < i)
--				brelse(sbi->vol_amap[j++]);
--
--			kvfree(sbi->vol_amap);
--			sbi->vol_amap = NULL;
--			return -EIO;
--		}
-+		if (!sbi->vol_amap[i])
-+			goto err_out;
- 	}
- 
-+	if (exfat_test_bitmap_range(sb, sbi->map_clu,
-+		EXFAT_B_TO_CLU_ROUND_UP(map_size, sbi)) == false)
-+		goto err_out;
-+
- 	return 0;
-+
-+err_out:
-+	j = 0;
-+	/* release all buffers and free vol_amap */
-+	while (j < i)
-+		brelse(sbi->vol_amap[j++]);
-+
-+	kvfree(sbi->vol_amap);
-+	sbi->vol_amap = NULL;
-+	return -EIO;
- }
- 
- int exfat_load_bitmap(struct super_block *sb)
--- 
-2.47.3
+These IDs are designed to be available to unprivileged processes, so
+we'll need a proper interface.  Tracepoints is the first interface to
+use ruleset IDs.
 
+> 
+> Maybe a syscall flag or ioctl to retrieve the identifier for correlation
+> would be useful?
+
+An IOCTL is a good idea for rulesets.  Also, see
+https://github.com/landlock-lsm/linux/issues/26 (I'll get back to it).
+
+> 
+> Justin
+> > +
+> >  	/* Should already be checked in sys_landlock_create_ruleset(). */
+> >  	if (fs_access_mask) {
+> >  		WARN_ON_ONCE(fs_access_mask !=
+> > @@ -312,6 +319,7 @@ void landlock_free_rules(struct landlock_rules *const rules)
+> >  static void free_ruleset(struct landlock_ruleset *const ruleset)
+> > [...]
+> 
