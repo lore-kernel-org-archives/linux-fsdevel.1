@@ -1,134 +1,99 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DAD369D57
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 16:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1863B895D;
+	Tue, 28 Jul 2026 17:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785255391; cv=none; b=D6tMvlldCePg8xoBN7rkgrGr9pmwjHMZzlJ/kowJsVr27ZRBgsPnTTqad5pjDGoZw3b7JnxNZTzYTqvw4EgF0BvK3SYgVsWBRauWd29UIcmVI8wzcL3qv+VEDLvvQJcu8qSn90SmmKbRT6XQmUWjlOMaqSCVv3KFehCKKn3jkhg=
+	t=1785259714; cv=none; b=EmiD4lZfUYZRaCblDKZHykkCBosPMB6H+ED/RWPJ4ehB4Z8l4J5lCEyFj6gOVb6eWk0SW5DUGd/70WYJ50UH/N+aGAF1yZu36Ia9hHx2DiQcN7htVT/nu22z/HMmGdZwg2u4yRuAn0umXf8fgqB1RY548Ul4cbmIVSZEBxNVeKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785255391; c=relaxed/simple;
-	bh=zbP0fgi+EApB+uBYo7yptEDQz6XO8DHNjqcRXnDFGI8=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=tUl3ZQqsEulmF/SHnHWfd+ZG6M8PVdZY+Cc78dfGvBBss6GBKCcSNmH8RCIRZVcq2WX6GEa6ZO4uRlpfT87MU6qrWuS8SuW312OBAnJnbddOw7CDquDGSDWkd2pQduDPJMUIRWIY+d5jEq7PWOdmVSiiG/HE0hu9GfAL2qEo2Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=MLrO+Sc4; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1785259714; c=relaxed/simple;
+	bh=O4rOuNLRTmbkAP1CyY/AA/19geo/K95YKftQQyUZLhg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qIOOEYpmTmt02E+vasgThLFJO9Ui33NWS2vC1p5nWdYMxgtOx1Xezo0kmehuFB/Ic+ODFC+EVgVF9Xd7ggHaOIApsjGj8ghnqNisMthtoSOZhkyyAdJPIGGDap7te4lKEB7SfReqQ3iHJtYv9EyTmqYIsN5hHne3oU6YgdjpP+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fWE0KFzy; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="MLrO+Sc4"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7475a4f8b05so2230071137.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 09:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1785255387; x=1785860187; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cAriX3tLCmrnUO4qSHhwDGkR5q4S1pPXvajnZr56PhA=;
-        b=MLrO+Sc4b6q1HMMDqe8zweEY+eTufkd72mEHrcIeunJYiD+DD8V3OG6GtVPpqOETgf
-         5eiXG39R6K6hoE7+QJXkI2Luw5UzPtDYiaB8Gs17bACYCsCG8nhymMPxlcfrulcdKfap
-         QLxp8M7Hzc07VUZqFr6zWw8gZyP9K0PJjQCoBwIwZULxzOeI3tZyALg8nhbKRV3nZzFx
-         vHUYM7XA0Mi46VMkSq6YTUr8ySBzQxhvs1298n0Fc+6amab5jL3t5JlPUT9+pa5Dmivm
-         29uFdxdKQ6eYJO+r6HPiqe6gD/VCbBJQ3FZk56Bm86uI6jWgJJXbAbLhRKFNkr+HpSB2
-         ntLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785255387; x=1785860187;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cAriX3tLCmrnUO4qSHhwDGkR5q4S1pPXvajnZr56PhA=;
-        b=FyYDyAUia/1ZmNxIcOy3ZMdkh7S61PFip4ZvTKSfonwqSaTwgcvVZK/IfvUs3KY3B7
-         wBxUL5qaj6hiZtWGAy7mlAZ4XtmmJVjhxVPGoZCdN8M/gK9pX4suN7lg31Yrqg4j0quR
-         lMYDpU2RyzDduSi2U8P40RX28Y4K/98D9yUeb+wC6rm2uTVgD6Do/U9q0ZQ2yUQy7hzK
-         FRaaJaCk7Hup/Ng1B/DyyXcXVkZRKoKSE7rc/WtrqQ/lsQwYXN4AFOOCHBAVgJFQXaSc
-         ihTU3Xkc6nPLOdwzURS/rD462k99cPZoH9dkryahC7hN4TPIjMuHzi7hmiBWN90u+eyf
-         8fKw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq/KlFGdjzB4DeGjv2ciKDR1hjDJgKuYynEM60PoM9jHQv/MAeHsdvjlPbWPisaJZ1Xo1+PzGz2fLSFKmWH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+9eTBODI+wjXM4hgOq80SBaRQ22Nm1BPx/DolPPZaQpRIUygQ
-	cP6aJ/v4Fx6uj3q1XizctHIAgL/JuTaAevcQF9P8eggqcnBY0ulPAOlrwNrlMAZZkQ==
-X-Gm-Gg: AR+sD12uQfMm8hLx7g8ZiMVWi9AKUHTWTCMH6j0lgQDDgQqxxkrNgIm5+AuRFppcyS3
-	nkg+LlH1cYW+0NDNvJBcXKSqQjjXo5AU/erCvEudd4qm1o0nAliisfntm3ClODWpWt/oWZVkoli
-	CAKtK8D45I+dEikRSsxnxkCya09gKbWIFSi6NSDETDVM9tQS0qyzU5wjghuhRveRrPY9zNc1tOq
-	0jLV2tfl1QE5bwjVzmXYycVmaypBwFxsGM2zuEOK0r+PtCCFBjLj41mqCeijPr7T6cYLEJSQMXg
-	1u4UafWrET+/bCmBGh+jGdVbqhI+x8HdDa65PQCHk8Pbo5vaMNbaAOx720QYlU5tXxaLDOb1XyS
-	eyi5oZbH/4ybn+iC0nBQUeN5d0DOt1lSl2lWil7q3O8sXBh5wmnN9rQar2Vl98QHy+nVp9AF5mk
-	nZ8tDyb8JBwmY5h+c3NT9QUtel0rte78QZqTBOr/CfcA+HI4g=
-X-Received: by 2002:a05:6102:942:b0:737:ba2e:8a26 with SMTP id ada2fe7eead31-754a2dcd8f7mr1579232137.27.1785255386692;
-        Tue, 28 Jul 2026 09:16:26 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9081dc44d0fsm2424756d6.6.2026.07.28.09.16.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 09:16:25 -0700 (PDT)
-Date: Tue, 28 Jul 2026 12:16:24 -0400
-Message-ID: <2f53e3c8ee57824f1c741f76021eb2ce@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fWE0KFzy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CB36408BD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785259706; bh=F0D1oVBp1mCNIFF0QrFoBIyEJH9M0+dob1CyNPP+u+c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fWE0KFzyxHSbSdvp+z+qb7fSOnT2pf7zwiaGMYKHRyO46fg1W0F+kCtlksrGBjXeF
+	 JnNVoqSFiNKbkAcP3/lVOY3TgJ9wou2YWoVhkmO4q9OwDNHqYeJW+sAekhg+ragUf9
+	 3yDcTUKaS7xpyr0j9G30CTmpPRHK1MSYUf/1IwI+vear/HX0weMtBWbBkP0DpTJc7H
+	 mLgWEQgSiTxQYs+91NUS3fJ18Yq5u1tVff2SSAlQz3UVcZ3WBnAbrCMMMniOtXOGUN
+	 pIE8GTiMUJsUGyHeIZPZhKZE0Luhdbm7kjK264V46xVvfkaPJZpZKKyY/sA2r32s4y
+	 YO0BEWqM+8OHQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5CB36408BD;
+	Tue, 28 Jul 2026 17:28:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Theodore Tso <tytso@mit.edu>, Jakub Kicinski <kuba@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Joanne Koong
+ <joannelkoong@gmail.com>, changfengnan@bytedance.com, Christian Brauner
+ <brauner@kernel.org>, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: selective Sashiko replies, was: Re: [PATCH 2/3] iomap: decouple
+ simple direct I/O reads from iomap_dio_rw
+In-Reply-To: <ami9NUgcJvr0zHuk@mit.edu>
+References: <20260722124931.3159664-1-hch@lst.de>
+ <20260722124931.3159664-3-hch@lst.de>
+ <CAJnrk1a_cc55HcpRAi+H-mqOn7XUt_BxKJTre=Mw=xaE-5A5Rg@mail.gmail.com>
+ <20260723045347.GA6641@lst.de> <20260723151021.GC7380@frogsfrogsfrogs>
+ <amI3Kf3lFz4FMqXh@mit.edu> <amNerp4LwjSkHS5t@andromeda.toxiclabs.cc>
+ <20260728040120.GA19400@lst.de> <20260728072756.7ddc9fdd@kernel.org>
+ <ami9NUgcJvr0zHuk@mit.edu>
+Date: Tue, 28 Jul 2026 11:28:25 -0600
+Message-ID: <87h5ljf2h2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260727_1648/pstg-lib:20260728_1147/pstg-pwork:20260727_1648
-From: Paul Moore <paul@paul-moore.com>
-To: Richard Guy Briggs <rgb@redhat.com>, Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>, LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org, Linux Kernel Audit Mailing List <audit@vger.kernel.org>
-Cc: Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>, Richard Guy Briggs <rgb@redhat.com>
-Subject: Re: [PATCH v1] audit: free proctitle in context so it can be set by  fork
-References: <d67349e701acb3125d733f833e6ef2e47c91daae.1785101356.git.rgb@redhat.com>
-In-Reply-To: <d67349e701acb3125d733f833e6ef2e47c91daae.1785101356.git.rgb@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Jul 26, 2026 Richard Guy Briggs <rgb@redhat.com> wrote:
-> 
-> Original title: fixes clean proctitle in audit context on exec call
+"Theodore Tso" <tytso@mit.edu> writes:
 
-Please don't add stuff like that to the description, it's not
-particularly helpful by itself.  If you want to link this patch to
-something outside of the git log, use the 'Link:' tag.
+> On Tue, Jul 28, 2026 at 07:27:56AM -0500, Jakub Kicinski wrote:
+>> 
+>> +1, maybe perhaps someone wants the off-list option, dunno. 
+>> But trimming the CC list of the on-list reply is a really weird idea.
+>> Submissions often CC multiple vger lists, and the bot only replies to one.
+>
+> It's not (necessarily) "just one" mailing list.
+>
+> For better or for worse, there are people who have claimed that being
+> exposed to LLM reviews would "deman their humanity".
 
-> Between the actual process startup (fork systemd) and the executable file
-> replacement (exec), systemd sets a temporary file name (executable file
-> name in parentheses). If an auditable system call occurs at this point,
-> the audit context will latch the temporary process name into the cache.
-> This name will not change again. The patch clears proctitle into the
-> audit cache when the exec call is made, allowing the new process name to
-> be latched.
-> 
-> Suggested by Roman Dolgikh https://github.com/rmd4ctf 2025-06-11
+Can I offer a slightly different perspective here?  I am not one of the
+people who has said such things about LLM reviews, but I perhaps
+understand at least part of where they are coming from.  It's not "being
+exposed" to reviews that is demeaning, it is being forced to justify
+one's work to a machine.
 
-Considering that Roman lists an email on his public GH profile, it
-would be better to use a traditional "Suggested-by:" tag, for example:
+I can see how that might feel an awful lot like convincing the
+customer-service bot that yes, you *have* tried rebooting your router
+and you should be connected to a human without having to do it again.
+*That* can be demeaning.
 
-Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
+The netdev folks are currently setting up this policy:
 
-> Link: https://github.com/linux-audit/audit-kernel/issues/170.
+	Patch authors are expected to proactively look into the
+        AI-generated reviews and handle such feedback as any other kind
+        of review: either debate it or address it. In both cases a reply
+        on the mailing list is expected.
+        (https://lore.kernel.org/all/83360de7addb13a3b5f4d5e722148f248fdb2ae0.1784884817.git.pabeni@redhat.com/)
 
-No trailing period please.
+Without taking a position on whether this view is correct, I can
+certainly see why some people would balk at the idea of being forced to
+"debate" a machine before having their work considered.
 
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> Acked-by: Christian Brauner <brauner@kernel.org>
-> ---
->  fs/exec.c             | 2 ++
->  include/linux/audit.h | 9 +++++++++
->  kernel/auditsc.c      | 4 ++--
->  3 files changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index b92fe7db176c..bd51489dec23 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1744,6 +1744,8 @@ static int exec_binprm(struct linux_binprm *bprm)
->  			fput(exec);
->  	}
->  
-> +	/* clear proctitle in audit context to allow replacement */
-> +	audit_proctitle_free(audit_context());
->  	audit_bprm(bprm);
-
-Since this is the only place where audit_bprm() is called, is there
-any reason why you simply didn't just move the free into __audit_bprm()?
-
-Doing so should shrink this patch considerably and would keep the audit
-overhead to just a single !audit_dummy_context() check as it is now.
-
---
-paul-moore.com
+jon
