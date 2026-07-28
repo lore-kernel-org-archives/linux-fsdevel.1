@@ -1,205 +1,129 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1700939E6F1
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 19:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35447276B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 19:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785265651; cv=none; b=FOYXZrHuJROg9q2lzMT0tgWdcTSS0kMoVY5hMxAbsH8W3su5OATdoLerqESciFh6fI3E7NHUyF9tf6xtGa0EqMlTqbqpxnfdHVaMVBHr7BJ5WSXYLvlgk18s5MhgREEETkQdSlTa/bN3wDKLq0ThujHhcgFqTWvRc8Ee2cChNko=
+	t=1785265985; cv=none; b=iCLS4NW24o8v13Fk0V66chlnJ11ah8p1Hk7g4xnRY4YU7s5CgmedCiLfhYEUAucCmb4fxcKJi7VKkfgs6/9wo+izxwZdtJMVk31tM2y7uwaqlgn9uviSPo61JWVBcEQJkJPzimy5ZjXKwoQus2HanSfyCKQgZlfUOp4PQc7cf8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785265651; c=relaxed/simple;
-	bh=rZNQ5+WtnZElMn8XGTOE22PyzRXgToAAQyHEQL3TpHU=;
+	s=arc-20240116; t=1785265985; c=relaxed/simple;
+	bh=BocaYVDOd2uRPxJPHwcfV4M/0jSqJL3WDeZViOZ+wAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=emB6Ue3CK+J/PGiGZgLpnx+BYP+oI1HSo7ieC1rj2HpxXGCyB+TueyaOLA/smIdXbebPwGe/BqpJiip6G2ssDGlB/a4q+nE3UYoDPqc8gOH/WxRJEET9SnKB/vZC0NfkouVnpawPlaWrbhXM1kCju0VZFEnAozcbVYT5lDU9eWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zFRkiFc+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mvLNBWKq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HIQCj3ZQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rDQYPrS9; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3ZZIVi98rY42oxvkCSoIEAN9+0XFfyxKq+kk0PIskKp/H+JfJ0CTrptJquwHjT5dgAZcdzObRAfkZJeFHrBqHBNqDyRMfptQYGprilr1CaYLmdNLldxu+UWyLB5x7Au5EsrwS1uwpNovYCACyhV18QI0jOHVuoK0/pnka3tVIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jNoLckyK; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zFRkiFc+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mvLNBWKq";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HIQCj3ZQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rDQYPrS9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jNoLckyK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785265976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nEMiVNtCUvqNNIVLoHIfPXUTyF7UcNCria85IBZ9edc=;
+	b=jNoLckyKL5+VKGJle58b41NUXWyL15XvTWiuD5CJjOHGV2OJzZfgUn/7VDfKjSwkmsdYvN
+	3b8W1HNRmZ1n4Kr8mf3ESAcLBPgTXT445NhknYWXOynp36KryXXZ3DLj678X4npxwndLek
+	JHf1XjFvY5jo2uPJEkWbHdBA8hFUQHY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-ZeI836YcPDaxjJIBjIsNDw-1; Tue,
+ 28 Jul 2026 15:12:53 -0400
+X-MC-Unique: ZeI836YcPDaxjJIBjIsNDw-1
+X-Mimecast-MFC-AGG-ID: ZeI836YcPDaxjJIBjIsNDw_1785265972
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 90B833E00;
-	Tue, 28 Jul 2026 19:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785265643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X7c9D+94r07zu2WgoQz3Oc/B0WNYxXmmFS5oXNEe5gM=;
-	b=zFRkiFc+3rJQQhdK3wv5P8V/4Sd1UEm8aX4VHX1cta6VKCUFI8HPf2BqJNcNqNwd0+sMxS
-	bhKsfN8VWXLbZMy9aGXAQtQ+H2g23la7OF9dz/68JN8r0KM0oGr93GPuBbF7g/GaLkp1M9
-	5jyAXrQo/dSgCaYPjMMHfaXvaxXpGfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785265643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X7c9D+94r07zu2WgoQz3Oc/B0WNYxXmmFS5oXNEe5gM=;
-	b=mvLNBWKqTvrqbCiluscb2ZgVv8UGybonMmzQe32GIRNnLI3aRxjmajdKPRbA6vLsqzA5Oo
-	cCxZz7y+NBsFC5AQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785265639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X7c9D+94r07zu2WgoQz3Oc/B0WNYxXmmFS5oXNEe5gM=;
-	b=HIQCj3ZQaBUCrbYU6cszD0M78PcsYphBzHF0B5tmJuin6IATFTc22t2o1o88TE92Bjb1Yv
-	fP0aXqR0dYlC4rVPMCFfYdBef4apWPfP++orOE34tfZLtwHQuUWB6mAUlWABMtzoguMDtj
-	OdUhDwlF9wj8hscDRi2ObBYFJMM0e14=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785265639;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X7c9D+94r07zu2WgoQz3Oc/B0WNYxXmmFS5oXNEe5gM=;
-	b=rDQYPrS9Ngdfsour1S5xBP8ncLhZGWwWH8y3e2EgOjNk6glPBD+nI10iqRZlEPYs4sWJW0
-	yn0JYCy3INDn9TBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82DF5779B3;
-	Tue, 28 Jul 2026 19:07:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gTF8H+f9aGqvIAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 28 Jul 2026 19:07:19 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 209A9A10B6; Tue, 28 Jul 2026 21:07:19 +0200 (CEST)
-Date: Tue, 28 Jul 2026 21:07:19 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [PATCH v5 0/20] fs: Fix missed inode write during fsync
-Message-ID: <caghofkfjzzzekirepthhytjm3hnnxxqm26gbh3vqlyepk6fpf@7im24ygj3ej6>
-References: <20260727101509.21667-1-jack@suse.cz>
- <20260727-wallung-umzingeln-fuhren-749ee08538cf@brauner>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2127B180057B;
+	Tue, 28 Jul 2026 19:12:52 +0000 (UTC)
+Received: from bfoster (unknown [10.22.88.46])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E169B19560AB;
+	Tue, 28 Jul 2026 19:12:50 +0000 (UTC)
+Date: Tue, 28 Jul 2026 15:12:48 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, hch@lst.de,
+	djwong@kernel.org
+Subject: Re: [PATCH] iomap: release the folio batch on iomap callback failures
+Message-ID: <amj_MJOEzLor4jMW@bfoster>
+References: <20260728183005.92395-1-bfoster@redhat.com>
+ <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260727-wallung-umzingeln-fuhren-749ee08538cf@brauner>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,gmail.com,mit.edu,mail.parknet.co.jp];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Mon 27-07-26 17:51:56, Christian Brauner wrote:
-> On Mon, 27 Jul 2026 12:49:18 +0200, Jan Kara wrote:
-> > fs: Fix missed inode write during fsync
-> > 
-> > Hello,
-> > 
-> > here is v5 of the patch series which fixes the possibly missing inode write
-> > during fsync(2) for filesystems using generic metadata bh tracking. This
-> > revision contains mostly small fixes and improvements since v3, neither
-> > Sashiko nor Christian found fundamental issues with this approach.
-> > 
-> > [...]
+On Tue, Jul 28, 2026 at 12:07:10PM -0700, Joanne Koong wrote:
+> On Tue, Jul 28, 2026 at 11:30 AM Brian Foster <bfoster@redhat.com> wrote:
+> >
+> > A sashiko review of an unrelated patch points out that the folio
+> > batch mechanism used for iomap zero range fails to release the batch
+> > in a couple error scenarios. If either calls to ->iomap_end() or
+> > ->iomap_begin() fail, the direct return paths bypass the batch
+> > cleanup.
+> >
+> > The ->iomap_end() case is not a practical issue at the moment
+> > because there is no user of the mechanism that returns an error from
+> > this path. The ->iomap_begin() case is theoretically possible
+> > because XFS can invoke the fill helper and error out at various
+> > points thereafter. This subtly complicates things because XFS does
+> > not transfer iomap_flags to the iomap data structure in the error
+> > path.
+> >
+> > To deal with both of these issues, first make sure to invoke the
+> > cleanup helper in the error path for either fs callback. Second,
+> > update the helper to clear the flag unconditionally and release the
+> > batch so long as it is populated. This more clearly delineates the
+> > purpose of the flag to control the I/O path and not necessarily the
+> > status of the fbatch, so add a comment around this as well.
+> >
+> > Reported-by: Sashiko <sashiko-bot@kernel.org>
+> > Assisted-by: LLM
+> > Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
+> > Signed-off-by: Brian Foster <bfoster@redhat.com>
+> > ---
+> >
+> > As noted here[1], I'm aware this conflicts with the outstanding iomap
+> > iter rework. I'm happy to rebase onto that if that is ultimately
+> > preferred. I've got at least one vote to get this in sooner, so this
+> > version is based on 7.2-rc5.
+> >
 > 
-> I've put three patches on top of vfs-7.3.sync that fix Sashiko reported
-> bugs. @Jan, please take a look. If that looks fine to you I can fold
-> them down.
+> Hi Brian,
+> 
+> As I understand your analysis of the bug in [1], given that it's an
+> unlikely / second-order scenario nobody is hitting in reality, maybe
+> it'd be easiest if I fold this patch into the iomap iter rework series
+> as a preparatory patch (keeping your authorship and Fixes: tag), make
+> the needed changes in the iomap iter series to be compatible with your
+> patch, and then submit everything together to the vfs-7.3.iomap branch
+> as v5 of the series? I think that avoids the nontrivial merge conflict
+> Christian/Stephen would have to deal with.
+> 
 
-Thanks! I went through all the Sashiko comments and the (now 4) patches you
-have on top are the only issues I have found valid among Sashiko reviews as
-well. The fixes look good, thanks for writing them! Feel free to fold them
-or leave them at the end of the series whatever is more convenient for you.
+That's perfectly fine with me if you're Ok with doing that and nobody
+otherwise objects.
 
-								Honza
+Brian
 
+> Alternatively, if you prefer to have this as part of 7.2, I can send a
+> v5 of the series to try minimizing the conflict, and then send
+> Christian or Stephen a diff for how to resolve the merge when they hit
+> it.
 > 
-> ---
+> Thanks,
+> Joanne
 > 
-> Applied to the vfs-7.3.sync branch of the vfs/vfs.git tree.
-> Patches in the vfs-7.3.sync branch should appear in linux-next soon.
+> [1] https://lore.kernel.org/linux-fsdevel/amjztG-DisHYbV9W@bfoster/
 > 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
-> 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
-> 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.3.sync
-> 
-> [01/20] affs: Drop support for metadata bh tracking
->         https://git.kernel.org/vfs/vfs/c/b637f52f2f26
-> [02/20] fs: Fix possible UAF in mark_buffer_write_io_error()
->         https://git.kernel.org/vfs/vfs/c/b0bca4e95b03
-> [03/20] fs: Fix missed inode writeback when racing with __writeback_single_inode
->         https://git.kernel.org/vfs/vfs/c/5a499dad2c79
-> [04/20] ext4: Allocate mapping_metadata_bhs struct on demand
->         https://git.kernel.org/vfs/vfs/c/daca0f43a934
-> [05/20] fs: Provide way for filesystem to wait for metadata writeback
->         https://git.kernel.org/vfs/vfs/c/c474bc56b6d1
-> [06/20] ext2: Fix lost inode updates for IS_SYNC inodes
->         https://git.kernel.org/vfs/vfs/c/356984d1a5c3
-> [07/20] ext2: Drop __ext2_write_inode()
->         https://git.kernel.org/vfs/vfs/c/4efd6a43a92f
-> [08/20] ext2: Avoid unnecessary inode buffer writeback for sync(2)
->         https://git.kernel.org/vfs/vfs/c/74d4faaa76b8
-> [09/20] ext2: Fix data integrity writeout issues
->         https://git.kernel.org/vfs/vfs/c/917e583992e5
-> [10/20] udf: Fix data integrity writeout issues
->         https://git.kernel.org/vfs/vfs/c/1ec98214ccf0
-> [11/20] udf: Use sync_inode_metadata() to writeout IS_SYNC inode
->         https://git.kernel.org/vfs/vfs/c/061d83911da5
-> [12/20] udf: Drop udf_sync_inode()
->         https://git.kernel.org/vfs/vfs/c/c87c0098cf61
-> [13/20] udf: Use sync_inode_metadata() in udf_evict_inode()
->         https://git.kernel.org/vfs/vfs/c/e0e30479c756
-> [14/20] udf: Fold udf_update_inode() into udf_write_inode()
->         https://git.kernel.org/vfs/vfs/c/5b2e45c33565
-> [15/20] bfs: Fix data integrity writeout issues
->         https://git.kernel.org/vfs/vfs/c/0cee81a3fd9f
-> [16/20] minix: Fix data integrity writeout issues
->         https://git.kernel.org/vfs/vfs/c/84af7c3b3462
-> [17/20] ext4: Fix data integrity writeout issues in nojournal mode
->         https://git.kernel.org/vfs/vfs/c/c26339e1df33
-> [18/20] fat: Fix missed inode writeback during fsync(2)
->         https://git.kernel.org/vfs/vfs/c/525da4f40a7c
-> [19/20] fat: Replace fat_sync_inode() with sync_inode_metadata()
->         https://git.kernel.org/vfs/vfs/c/e668e0668181
-> [20/20] vfs: Remove mmb_fsync()
->         https://git.kernel.org/vfs/vfs/c/dc78399717c4
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
