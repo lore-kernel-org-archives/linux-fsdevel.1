@@ -1,357 +1,160 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D938D3D47AF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 22:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B942F3AFB01
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 23:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785279143; cv=none; b=YxFyI4DBy53l9ay3KZdB/wdJF3fYyv1Atcvw77m36Q2VV25IMvDFjQfoY8G5lqRNJfELw5gxMBJvnAq6wmM3AIB+1WSBKSeZGxE3BGJEmMiuAWg4DLV/cUjbCTl40MWFrNKQ5jXxa44DHAJPxUxMj8dZajP7S6zMbA+IMpebnlQ=
+	t=1785280750; cv=none; b=qxlAZSTRql420Wd7byJnfHb4AXeZQ7WAaBo2/B28Yotrk9GS9wvnJzMM8mCO/yb75ZyzAsLHZDH55uU38G+NPqsQFySgeEMZSHHqVWuyurB2Bw2uZ8f//ZgXl5HmsoiTE5fIZB0anNfZnYngiFo7dXhd5cPeYIgUJ4ghuxFCicg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785279143; c=relaxed/simple;
-	bh=vbG/afS2jM+6Mi8MVhFOFthV7zYwQoqpXdlIshgOJS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RofiurF/EdU4Eu7LA5jmLZVMeE4rf1OxuVaSkctOp7vWYAe+EX6j5Ya7Iv5QYt7LQegy33HJkn5mir0ImnBmI+IicaEIIW/MEDeXsGtHO+Him8+csf46+TdzJvitpDKNo4w4Pk11PAFUKZ/G0TEo83yZNApDiiRR8AnVeLQ0Bq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFooTWbc; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785280750; c=relaxed/simple;
+	bh=IqzBT5md9d1L4b26Zj635oQbSo4fx+LTqdVqRSRXkmg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=r1n83aP7o+FnL7F8QyzFE6KKW0NsSxFLEpBfTFrk6A7AtfgM4VKwMQiqn/Q5ZBDm04JpWMQFSMhGzK1OQxBzWeKcAE8gr6w/nLPSiT/1ioI1TfV2rpUN0aE4jOwKHH2J6z8+qiGDDAxAkAQvuoSEnpMf/0gvyVV78t+pH1ALnkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=rrgI/OVj; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFooTWbc"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-80dc4a68e4aso5671097b3.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="rrgI/OVj"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-80e2cfe6918so5383447b3.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 16:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785279141; x=1785883941; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uPumpig1LSNZCbOMr/7Ory4bimOiAIYjHcwSmavCl04=;
-        b=LFooTWbcr9tTqj3gu2w9AhREGksMnPD0QtAmln2MLvCzvKJXePL5G7MzanSihNIxCK
-         1Wk6Qu2NOvL6qxRPwehq/tzV9mkCd00hxw8OuvEFOS4KuOOMdNqerb3u5qDIHeNR99CK
-         ZPU6LoZxVDdmHOINZSJKn+ANHUEXBMYIfqVB1DXdxqheW7gyYY8SScjFseUmJKpQHiRb
-         16++fr/HCzOO0dSBDsV62kGB/7AZoiZdfr0hbmT0pIehzn76HH8fzBmiabMsW+tO5Gs8
-         I2mLlXT5Xu2uYQeymgje4N7EVRg0iH6aBYBBS+WmT9k16VGE1W3IskcfREgXs/DKNPwb
-         0QTg==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1785280748; x=1785885548; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IqzBT5md9d1L4b26Zj635oQbSo4fx+LTqdVqRSRXkmg=;
+        b=rrgI/OVjHJHQppZlJRg5wcP5Dx0GCtHtQjvsdp843PVfOlOaj5GWbubwXqvD8mj0PZ
+         dr2s6acJJnIL1kYCS5tyvWDP5f0YCOexsnFObM1hYvw5F9qZ7idWmuBm+6Aq4gbyhBO0
+         mp1mBZ0Xs2ECWBWPr1eHJiR9Y2oVmcpB8dH6/hA60yGdOYRfEsIBlQ5t2iLDqum5NRPK
+         RSQRfUs3thlu4LAg89ffnBittKruOu2t/CNHRdH25ki+kT6Doz7iQvDjSI3ufO8eYFE8
+         CBFl+9VFkrOwuSb8ntiovBsHO+aJDh3FE32ex4GinclrRSVyb4O/TIJZ3GuTbiGGbien
+         4KMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785279141; x=1785883941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20251104; t=1785280748; x=1785885548;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=uPumpig1LSNZCbOMr/7Ory4bimOiAIYjHcwSmavCl04=;
-        b=S6zo2tOjxE1lWPsjq2wSNkr5pSZyh2cw7bU81N/ycncs2gNNu6sCm1VmXRtKhh1w/q
-         g5zO7s4WlKh1ZI4cQQ2rwrmyB7fS3P0Nn6spSfJ6xxCgiOVTe0cE7SEAJ/fPzDCxUfiv
-         Hbpi7rKvYDWIwDE/siX7qoVa3tGNXv8VPNBlI16Z9BFY5NgI8M3wccf+Mj6AJezIi91P
-         hHYrtSC9Xdo8x+1xmbZTwTY/5gwXCbImOLRLsq8CwfSYabOsH9Xfnm6q49ApJuy0fDjW
-         mf67srvdCiBTHzwHFW1rfVuTVnM07AdShaFlfPvrFWzxsLHzJlc118uoRuaAOIb32pV+
-         HHXg==
-X-Forwarded-Encrypted: i=1; AHgh+RqpFINXcUxd6/G75cd/TlSJkO7TW35kc+XnS7VjsQhwT6t0T9sw1vaJXudF5Mqrk/v3uF3W+Q8DFyckMrvg@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDwUzkTpstdusGNgtuxmZ3KR9f7mFNbEGwqGRFTlCTqJGs38y6
-	dNSNtnZQtD4ITBSpzCH0C1KO6DGJGiLNQkdAHAx/QVPzyS7xgdDJ9zZv
-X-Gm-Gg: AR+sD1164UQwDrEvhZZ2J3bFpjmLGbID/ISp4oKdg1PGaTglD0MaYHHpKXNG5JsxhWP
-	pDTKWdqtKJ0hcJQhLZdsByE1ncfJv+gG2aqu9NrsL+FPzwcdmeuiAynSe9n2/lLkzLFY/xYaRvE
-	ZED9xNHpiuRkUwWthJ1dOjbmQoqdd/u+eRNTWYKbgn1gt5PLBAIL9BlpQhy88XuyCiEYdWQazlV
-	MQbvoAJBRqxleY+Yn+vcVk9w5uU2u4eU6xEDIadBwo1Jtc1aoo9Nd2ehFld56PXdCHlY+YbTKCs
-	VCCJ4DSWEbjHodfyLj5tMz4Yj1yr/zfiDV0BISxgUZgRqG2gTzBOrR8Y4w17N0Xl2L6TRq5Vd1l
-	iEDq8j+kaVGdqf3cKOkGZWy1Av7QlVpJ9F5kJXB0BYUH7I04PQmpAOz/0E2Ictewc85GZL15B6m
-	xx273p9ufokAj8+TW31Lf2KrXBhRkMoTm2QSu7xpKmOxoX4qKPW121SgY0rktjCn+qAWx9UYW5N
-	oiBTzslxQfOLKkWIDJ8eq0=
-X-Received: by 2002:a05:690c:7205:b0:80c:85c6:898f with SMTP id 00721157ae682-81f99260de1mr18995407b3.62.1785279140753;
-        Tue, 28 Jul 2026 15:52:20 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:722a:22a9:308b:2c35])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fa29aeba6sm7138657b3.47.2026.07.28.15.52.19
+        bh=IqzBT5md9d1L4b26Zj635oQbSo4fx+LTqdVqRSRXkmg=;
+        b=pe7acSkDAcyJfdEBYBMY0QSmyY3CmdtiymuG5jmUTYY6huZT+kS+BhlAUgt/B93sQl
+         aHmug3gZ0vEiWxy5D+MwHMuh85xZqMqB5opibxmtu+7w3jCwyQZHCW2aBpsPChflS6l8
+         y5dsZBg7mzV9I9mQxwHXemRdJTtz+kcnSGD0OOqMDkzc+JCvsEz+84dP2XH3DZ7mHRUt
+         cVqK0DcvMmZAM5LK5AOaYPKCGhVWe2KckQrT1zrifcfn7rvHHm5+gNuk38LaeW+XdF7z
+         ucpTqC/XtoI7epkdhPEWKSal/uBHD0B+ljtc9n3i1ObzhyvmP1zj9uXZYTNtI49meX76
+         KyZQ==
+X-Forwarded-Encrypted: i=1; AHgh+RptNNu7y/cEY3EfON/3BCwlq0g9g7io/KtTaqlXQyddijBmzb+V4UXGwbAzi2AUfHIN6bQNoQFU1kbi/YA8@vger.kernel.org
+X-Gm-Message-State: AOJu0Yylo/3SOdHwmYiuXK9rJmenC3V0cFZeEqB4F5BbJHoeZWgS6wgU
+	FBNxrkswyevO2FXve7bsEvXLdExqAhJSBVDEKSQd9T0e9JqjnYc6iDN6CrMLQy9TZMI=
+X-Gm-Gg: AR+sD11GsKSWf+WN+iVaAtt1Xeulbn8zqLT1zrFXpAyUCwkCEOyPjBWAbHPijIagcly
+	OyiKLQu66+WpA3bc04OnUyCcqxo0yAtb5yC2U99wUzjKIkGFB8V7KK37PMoSAxwMwwGzfa19xzm
+	EYAC10nsUBD33p861fDcVPYEz0aKCx8rQ/b4QMi/dkoWFY7/oA52ZSPRMYEMZWTMbwsvdt+jwir
+	P4G1n8Fkpelle9GUhGTy+alJu3qQXPgkx9ZJpV+wSkfKMe47hTL3EnEjkLQ+UVO9wKUW/2QRie3
+	B/BUTsvYYeDr8YyWNOmbVRxEAmyvK593jI/vY5FAzC7vss7sErUopBnJbNSfmYm3RGFZho8nTew
+	e72loGY3YfxtNCX/6lKbEW9gPJcUwzAZEqIinxpKAwo6SKlSxvUNPIWmjWbMu1kcvmOpVdFhnJH
+	vxuwFl6wBOcG9lLXyzKuWPCPIqR4dmRuUDcbeoWVefs6wJEJeFJVMXJZOi/SWA/xzFx12wAR+LH
+	bZYj85trKP0w1D2rq2Mt8NUP/YbbNO2xPzE986OURTJNgxuodWyZTq85yuEAcMfOAy787LcihvL
+	+4HsHhKsO6nftiVqxN+cBC5Iuu9AGs/Y6regQx4kPM6wZCAonvd5PwM=
+X-Received: by 2002:a05:690c:7109:b0:81f:64cf:2c58 with SMTP id 00721157ae682-81f991e4f40mr21075417b3.6.1785280747667;
+        Tue, 28 Jul 2026 16:19:07 -0700 (PDT)
+Received: from [10.0.0.3] (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fa29a5f53sm7474267b3.44.2026.07.28.16.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 15:52:20 -0700 (PDT)
-Date: Tue, 28 Jul 2026 18:52:19 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Matthieu Buffet <matthieu@buffet.re>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
-	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/17] landlock: Add create_ruleset and free_ruleset
- tracepoints
-Message-ID: <amkx1TBWk6AieKuw@zenbox>
-References: <20260406143717.1815792-1-mic@digikod.net>
- <20260406143717.1815792-7-mic@digikod.net>
- <ahYOJwpiEI-gGx1Z@suesslenovo>
- <20260728.nohNgei7Nei9@digikod.net>
+        Tue, 28 Jul 2026 16:19:07 -0700 (PDT)
+Message-ID: <ec87fd45a7ec19dcddd0720a1634abd442a181d8.camel@dubeyko.com>
+Subject: Re: [PATCH 0/2] nilfs2: convert O_DIRECT reads to iomap
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: konishi.ryusuke@gmail.com, linux-nilfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Date: Tue, 28 Jul 2026 16:19:05 -0700
+In-Reply-To: <20260728035443.GB19245@lst.de>
+References: <20260724222745.2107464-1-slava@dubeyko.com>
+	 <20260728035443.GB19245@lst.de>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728.nohNgei7Nei9@digikod.net>
 
-On Tue, Jul 28, 2026 at 10:56:16PM +0200, Mickaël Salaün wrote:
-> On Tue, May 26, 2026 at 05:34:59PM -0400, Justin Suess wrote:
-> > On Mon, Apr 06, 2026 at 04:37:04PM +0200, Mickaël Salaün wrote:
-> > > Add tracepoints for ruleset lifecycle events: landlock_create_ruleset
-> > > fires from the landlock_create_ruleset() syscall handler, logging the
-> > > ruleset Landlock ID and handled access masks; landlock_free_ruleset
-> > > fires in free_ruleset() before the ruleset is freed, so eBPF programs
-> > > can access the full ruleset state via BTF.
-> > > 
-> > > The create_ruleset TP_PROTO takes only the ruleset pointer.  The handled
-> > > access masks are read from the ruleset in TP_fast_assign rather than
-> > > passed as scalar arguments, so eBPF programs can access the full ruleset
-> > > state (rules, access masks) via BTF on a single pointer.  No lock is
-> > > needed because the ruleset is not yet shared (the file descriptor has
-> > > not been installed).
-> > > 
-> > > Create the trace header with a DOC comment documenting the consistency
-> > > guarantees, locking conventions, TP_PROTO safety, and security
-> > > considerations shared by all Landlock tracepoints.  Add
-> > > CREATE_TRACE_POINTS in log.c to generate the tracepoint implementations.
-> > > 
-> > > Add an id field to struct landlock_ruleset, assigned from
-> > > landlock_get_id_range() at creation time.  Extend the CONFIG guard on
-> > > landlock_get_id_range() from CONFIG_AUDIT to
-> > > CONFIG_SECURITY_LANDLOCK_LOG so that IDs are available for tracing even
-> > > without audit support.
-> > > 
-> > > The deallocation events use the "free_" prefix (rather than "drop_")
-> > > because they fire when the object is actually freed.  There is no need
-> > > for allocated/deallocated symmetry because ruleset creation happens with
-> > > the landlock_create_ruleset tracepoint.
-> > > 
-> > > landlock_create_ruleset tracepoint.
-> > > 
-> > > Unlike audit records which share a record type and need a "status="
-> > > field to distinguish allocation from deallocation, tracepoints provide
-> > > one event type per lifecycle transition, each with a type-safe TP_PROTO
-> > > matching the specific transition.  This enables type-safe eBPF BTF
-> > > access and precise ftrace filtering by event name.
-> > > 
-> > > Cc: Günther Noack <gnoack@google.com>
-> > > Cc: Justin Suess <utilityemal77@gmail.com>
-> > > Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> > > Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > > Cc: Steven Rostedt <rostedt@goodmis.org>
-> > > Cc: Tingmao Wang <m@maowtm.org>
-> > > Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> > > ---
-> > > 
-> > > Changes since v1:
-> > > - New patch (split from the v1 add_rule_fs tracepoint patch).
-> > > ---
-> > >  MAINTAINERS                     |  1 +
-> > >  include/trace/events/landlock.h | 94 +++++++++++++++++++++++++++++++++
-> > >  security/landlock/id.h          |  6 +--
-> > >  security/landlock/log.c         |  5 ++
-> > >  security/landlock/ruleset.c     |  8 +++
-> > >  security/landlock/ruleset.h     |  9 ++++
-> > >  security/landlock/syscalls.c    |  5 ++
-> > >  7 files changed, 125 insertions(+), 3 deletions(-)
-> > >  create mode 100644 include/trace/events/landlock.h
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index c3fe46d7c4bc..51104faa3951 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -14389,6 +14389,7 @@ F:	Documentation/admin-guide/LSM/landlock.rst
-> > >  F:	Documentation/security/landlock.rst
-> > >  F:	Documentation/userspace-api/landlock.rst
-> > >  F:	fs/ioctl.c
-> > > +F:	include/trace/events/landlock.h
-> > >  F:	include/uapi/linux/landlock.h
-> > >  F:	samples/landlock/
-> > >  F:	security/landlock/
-> > > diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
-> > > new file mode 100644
-> > > index 000000000000..5e847844fbf7
-> > > --- /dev/null
-> > > +++ b/include/trace/events/landlock.h
-> > > @@ -0,0 +1,94 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +/*
-> > > + * Copyright © 2025 Microsoft Corporation
-> > > + * Copyright © 2026 Cloudflare
-> > > + */
-> > > +
-> > > +#undef TRACE_SYSTEM
-> > > +#define TRACE_SYSTEM landlock
-> > > +
-> > > +#if !defined(_TRACE_LANDLOCK_H) || defined(TRACE_HEADER_MULTI_READ)
-> > > +#define _TRACE_LANDLOCK_H
-> > > +
-> > > +#include <linux/tracepoint.h>
-> > > +
-> > > +struct landlock_ruleset;
-> > > +
-> > > +/**
-> > > + * DOC: Landlock trace events
-> > > + *
-> > > + * Consistency guarantee: every trace event corresponds to an operation
-> > > + * that has irrevocably succeeded.  Lifecycle events fire only after
-> > > + * the point of no return; denial events fire only for denials that
-> > > + * actually happen.  This guarantees that eBPF programs observing the
-> > > + * trace stream can build a faithful model of Landlock state without
-> > > + * reconciliation logic.
-> > > + *
-> > > + * Mutable object pointers in TP_PROTO (e.g., struct landlock_ruleset
-> > > + * for add_rule events) are passed while the caller holds the object's
-> > > + * lock, so that TP_fast_assign and eBPF programs reading via BTF see a
-> > > + * consistent snapshot.  For objects that are immutable at the emission
-> > > + * site (e.g., a domain after creation), no lock is needed.
-> > > + *
-> > > + * All pointer arguments in TP_PROTO are guaranteed non-NULL by the
-> > > + * caller.  eBPF programs can access these pointers via BTF for richer
-> > > + * introspection than the TP_STRUCT__entry fields provide.
-> > > + *
-> > > + * TP_STRUCT__entry fields serve TP_printk display only.  eBPF programs
-> > > + * access the raw TP_PROTO arguments directly.
-> > > + *
-> > > + * Security: as for audit, Landlock trace events may expose sensitive
-> > > + * information about all sandboxed processes on the system.  See
-> > > + * Documentation/admin-guide/LSM/landlock.rst for security considerations
-> > > + * and privilege requirements.
-> > > + */
-> > > +
-> > > +/**
-> > > + * landlock_create_ruleset - new ruleset created
-> > > + * @ruleset: Newly created ruleset (never NULL); not yet shared via an fd,
-> > > + *           so no lock is needed.  eBPF programs can read the full ruleset
-> > > + *           state via BTF.
-> > > + */
-> > > +TRACE_EVENT(
-> > > +	landlock_create_ruleset,
-> > > +
-> > > +	TP_PROTO(const struct landlock_ruleset *ruleset),
-> > > +
-> > > +	TP_ARGS(ruleset),
-> > > +
-> > > +	TP_STRUCT__entry(__field(__u64, ruleset_id) __field(access_mask_t,
-> > > +							    handled_fs)
-> > > +				 __field(access_mask_t, handled_net)
-> > > +					 __field(access_mask_t, scoped)),
-> > > +
-> > > +	TP_fast_assign(__entry->ruleset_id = ruleset->id;
-> > > +		       __entry->handled_fs = ruleset->layer.fs;
-> > > +		       __entry->handled_net = ruleset->layer.net;
-> > > +		       __entry->scoped = ruleset->layer.scope;),
-> > > +
-> > > +	TP_printk("ruleset=%llx handled_fs=0x%x handled_net=0x%x scoped=0x%x",
-> > > +		  __entry->ruleset_id, __entry->handled_fs,
-> > > +		  __entry->handled_net, __entry->scoped));
-> > > +
-> > > +/**
-> > > + * landlock_free_ruleset - Ruleset freed
-> > > + *
-> > > + * Emitted when a ruleset's last reference is dropped (typically when
-> > > + * the creating process closes the ruleset file descriptor).
-> > > + */
-> > > +TRACE_EVENT(landlock_free_ruleset,
-> > > +
-> > > +	    TP_PROTO(const struct landlock_ruleset *ruleset),
-> > > +
-> > > +	    TP_ARGS(ruleset),
-> > > +
-> > > +	    TP_STRUCT__entry(__field(__u64, ruleset_id)),
-> > > +
-> > > +	    TP_fast_assign(__entry->ruleset_id = ruleset->id;),
-> > > +
-> > > +	    TP_printk("ruleset=%llx", __entry->ruleset_id));
-> > > +
-> > > +#endif /* _TRACE_LANDLOCK_H */
-> > > +
-> > > +/* This part must be outside protection */
-> > > +#include <trace/define_trace.h>
-> > > diff --git a/security/landlock/id.h b/security/landlock/id.h
-> > > index 45dcfb9e9a8b..2a43c2b523a8 100644
-> > > --- a/security/landlock/id.h
-> > > +++ b/security/landlock/id.h
-> > > @@ -8,18 +8,18 @@
-> > >  #ifndef _SECURITY_LANDLOCK_ID_H
-> > >  #define _SECURITY_LANDLOCK_ID_H
-> > >  
-> > > -#ifdef CONFIG_AUDIT
-> > > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
-> > >  
-> > >  void __init landlock_init_id(void);
-> > >  
-> > >  u64 landlock_get_id_range(size_t number_of_ids);
-> > >  
-> > > -#else /* CONFIG_AUDIT */
-> > > +#else /* CONFIG_SECURITY_LANDLOCK_LOG */
-> > >  
-> > >  static inline void __init landlock_init_id(void)
-> > >  {
-> > >  }
-> > >  
-> > > -#endif /* CONFIG_AUDIT */
-> > > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
-> > >  
-> > >  #endif /* _SECURITY_LANDLOCK_ID_H */
-> > > diff --git a/security/landlock/log.c b/security/landlock/log.c
-> > > index c9b506707af0..ef79e4ed0037 100644
-> > > --- a/security/landlock/log.c
-> > > +++ b/security/landlock/log.c
-> > > @@ -174,6 +174,11 @@ static void audit_denial(const struct landlock_cred_security *const subject,
-> > >  
-> > >  #endif /* CONFIG_AUDIT */
-> > >  
-> > > +#ifdef CONFIG_TRACEPOINTS
-> > > +#define CREATE_TRACE_POINTS
-> > > +#include <trace/events/landlock.h>
-> > > +#endif /* CONFIG_TRACEPOINTS */
-> > > +
-> > >  static struct landlock_hierarchy *
-> > >  get_hierarchy(const struct landlock_domain *const domain, const size_t layer)
-> > >  {
-> > > diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
-> > > index c220e0f9cf5f..0d1e3dadb318 100644
-> > > --- a/security/landlock/ruleset.c
-> > > +++ b/security/landlock/ruleset.c
-> > > @@ -22,10 +22,13 @@
-> > >  #include <linux/spinlock.h>
-> > >  
-> > >  #include "access.h"
-> > > +#include "id.h"
-> > >  #include "limits.h"
-> > >  #include "object.h"
-> > >  #include "ruleset.h"
-> > >  
-> > > +#include <trace/events/landlock.h>
-> > > +
-> > >  struct landlock_ruleset *
-> > >  landlock_create_ruleset(const access_mask_t fs_access_mask,
-> > >  			const access_mask_t net_access_mask,
-> > > @@ -49,6 +52,10 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
-> > >  	new_ruleset->rules.root_net_port = RB_ROOT;
-> > >  #endif /* IS_ENABLED(CONFIG_INET) */
-> > >  
-> > > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
-> > > +	new_ruleset->id = landlock_get_id_range(1);
-> > > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
-> > The addition of IDs to rulesets for logging makes sense.
-> > 
-> > But it is limited in usefulness without some form of introspection to be
-> > able to correlate it to a specific userspace ruleset.
-> 
-> The main goal for tracepoints is to correlate the created rule with all
-> the related updates with rule addition, and then the domain creation
-> from this ruleset.
-> 
-> > 
-> > If a program creates multiple Landlock rulesets, and wishes to trace and
-> > correlate which ruleset FD corresponds to the log/tracepoint, it is
-> > difficult when no form of introspection exists.
-> 
-> That's correct, and that's the same thing for the domain IDs, for now...
-> 
-> These IDs are designed to be available to unprivileged processes, so
-> we'll need a proper interface.  Tracepoints is the first interface to
-> use ruleset IDs.
->
-Makes sense. It need not be a part of this series, just something
-to consider later on.
+On Tue, 2026-07-28 at 05:54 +0200, Christoph Hellwig wrote:
+> On Fri, Jul 24, 2026 at 03:27:43PM -0700, Viacheslav Dubeyko wrote:
+> > This series removes NILFS2 using of blockdev_direct_IO() by
+> > converting the O_DIRECT read path to iomap.
+>=20
+> I think the important part here is that right now there are no
+> direct I/O writes in nilfs2, not that you only convert the read
+> path?
+>=20
+> > NILFS2 is
+> > a log-structured, copy-on-write filesystem, which makes it
+> > a poor fit for a full iomap conversion. Newly allocated blocks
+> > are delay-allocated by nilfs_get_block() and only receive a real
+> > disk address when the segment constructor writes them out
+> > as part of a log.
+>=20
+> That's just how zoned xfs and btrfs work.=C2=A0 In fact they only know
+> the disk address one the write returns, so even later.
+>=20
+> Take a look at the IOMAP_F_ANON_WRITE flag used by xfs.=C2=A0 btrfs
+> implements
+> a similar scheme, but hidden behind a few layers of cruft.
+>=20
+> > The segment constructor walks buffer_head lists
+> > directly and is not integrated with the generic address_space
+> > writeback path.
+>=20
+> This sounds like word-soup to me.
 
-Justin
+Are you suggesting to re-write the commit message?
 
-> > [...]
+Thanks,
+Slava.
