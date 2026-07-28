@@ -1,135 +1,97 @@
-Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0DE30AAB8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDB131716A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785207886; cv=none; b=jImNjysBZk0vzlImf7k/cPvV7lZbwj4fr+k+jYymENByPKjwbWP1XhxeUbuQsuSvxG/iqLc77gSg/TGMtL27DZUQhpU78Jv8b9qzd9EHKLoeJvtAFLXgWir0sOH6YZyvqAnNhdrAKbX++d0MTYDY8S8zmuEA7wGcLTGyqkxeVug=
+	t=1785208766; cv=none; b=SC8u00GPbpO5u5RJ6UJaegvVn5701KklV7TBdVl0TceVF1Me09R++I2NBCbjoTEPHL4+jP7TxIH9M7OgD4YQPDjuplOMURmJDGs5cT6GDQizqjcmbTytYDuWu1jJTBH2SMt0eVHBVA08hmLHTnw1cBCGVZydTgUd1PsbUPYo1Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785207886; c=relaxed/simple;
-	bh=0yE7t8qNpTMSvOMi5C2p2H1utbfuX5/vCg0PXN5S8gA=;
-	h=Message-Id:To:Cc:Content-Type:Date:Subject:From:Mime-Version:
-	 References:In-Reply-To; b=Bsu1LD3z3E6eOHg1alUCpP4e7Xe8sb/mNJ8WVhUZvnVdgqeJy1NYo6Lv5u94UjpescR6cbIf08QosB/NgjRacmAmRNYl7MGHljCOMuv2Rg2eA0AHTQoM6YjhW6LhSt7mXVLGP2co7zUaQGl/6foGe9DtYZQ2l5fhRXlLEHzyR3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lABZEAom; arc=none smtp.client-ip=209.127.230.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1785208766; c=relaxed/simple;
+	bh=5tuHRWT0CLBIJ4zZVHWsRg/dbgwcFG4nTUPisJljfos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAa2XUxm5MpTG1uaKjdSAKVNKs6GTbTwIeJwqPG+gjlhz4kBZZIXn0kQWmL0FG0MyCe5v6Llf33Apa/E93t/zLrW3NJhoEbJmF2N8N8QqFpIg9TRme833tXNp/+VuxOYsPb27n5toPI8vhoZBPYXPodX9NptlB7ZYY2UFx6/fVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=SIPGtjQB; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lABZEAom"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1785207879; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=0yE7t8qNpTMSvOMi5C2p2H1utbfuX5/vCg0PXN5S8gA=;
- b=lABZEAomN5KBkr3eW0himr0GCMPKYAulTOiOI8fbPBE3NTp9loiNYSZWyurr2F9V3Z1ghd
- IcXBBHl6WY5+WnMjd0KyWdK3aJQ7PaZkrc4R7AJzKKK69iKwr5dmJ7haB/lvw8vdrrSime
- QfrQ9awOY/WDxrhzwQjt7SCQwNcNnCuPGuXr0nTTeLE/WzJAWKiH/K1gmAgXDf9wHLDocf
- bdJmCwY63YANW9hryiBkdDhiUIWih2eEHMxK4eTAWJN0o0c7YqdnKASCuwcecLN5dITzc3
- 8Xp73QOrtvbtkUTHD4LEA/xRZ6SgienHu2twVaRrB1Gp34u7WH611DZQ4xebsw==
-Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.3b277109.3b33.4175.9d57.4ea2181fb636@bytedance.com>
-To: "Joanne Koong" <joannelkoong@gmail.com>
-Cc: "Christian Brauner" <brauner@kernel.org>, <hch@lst.de>, 
-	"Darrick J . Wong" <djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>, 
-	<kbusch@kernel.org>, "Matthew Wilcox" <willy@infradead.org>, 
-	"Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, 
-	"David Sterba" <dsterba@suse.com>, "Gao Xiang" <xiang@kernel.org>, 
-	"Namjae Jeon" <linkinjeon@kernel.org>, <tytso@mit.edu>, 
-	"Jaegeuk Kim" <jaegeuk@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Mikulas Patocka" <mikulas@artax.karlin.mff.cuni.cz>, 
-	"Hyunchul Lee" <hyc.lee@gmail.com>, 
-	"Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, 
-	"Carlos Maiolino" <cem@kernel.org>, 
-	"Damien Le Moal" <dlemoal@kernel.org>, <libaokun@linux.alibaba.com>, 
-	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>
-X-Lms-Return-Path: <lba+16a681c45+fb37e0+vger.kernel.org+changfengnan@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2026 11:04:34 +0800
-Subject: Re: [PATCH v4 03/21] iomap: use GFP_NOWAIT when application for iomap_dio_simple allocations
-From: "changfengnan" <changfengnan@bytedance.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="SIPGtjQB"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-9061a795d76so34965106d6.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1785208764; x=1785813564; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gc3BaOWtNJ3jTzSBfuxoRtvMLkn1PeCp89CN3dg9r1c=;
+        b=SIPGtjQBM8oTbqZmrsIOyq/WCjV+056Jafh815n6R5rfzavJnOrVq4nC5K6bKbKOz6
+         uaceBwToYXuXZxvm3zsj2wSpwdPv+0v+LyDgbPlbBrQkaIVtM4gbZ4It40f5aWLjzjzJ
+         MC2vTGMVrsHZ0CLoocSkWWqlaBkZcP3LATsgXn2za+m6btz/et8W/F6is3XQ/TOBhL8h
+         UEQQkU40xWA/qdaX+pMRLusk2Q7ToYhtc3HCr04EtTKSnUXBdE23PafzDvLYOLQhAYUG
+         QedE2rB32aRg05q/S6jk9ER01GVzDE3ZceXFGi4riR+UzTANxgKvCJTbve03ZGtsOzWa
+         o2Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785208764; x=1785813564;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gc3BaOWtNJ3jTzSBfuxoRtvMLkn1PeCp89CN3dg9r1c=;
+        b=TytVmQq2FwbAxg6QGbuU+KIAgOpLMd8gkTQ2i1tI7ZDQe9LFL2qIIPWet5NBatNSZs
+         QQjkzFFUxpWNx3rWUzbmhcWM9YQCJ/nUFj8Xztcj1Ogm/a0CHsjtP0++WFUqfS/eYqyH
+         y2xtyQ0lHgsxQLtOiFP9qnVyIWjL+SsFbEnP84s7uXFK7BGZKUfuyfd9Q2B9D3+wu0O0
+         2Fiv+bHEpEq0y42/O2Oevd/AlzIRghExAtW87zRGgWjwN2ONFDW19p32BsGgOb35NZGL
+         GBASt3KuOMa6hinGw2FBHGXb+cKoEfqH7KpZw7Ju8Qxd4pGqxqqooJXTQBOfooM3L1l/
+         7p2Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4Hq7Q9MCqln+drtqCZHZKThsNZsm8DPMGkziYpoTX55cvaM9z2Vbkc6vRi5MACmlqzNW9sN8aLSMoJSYh@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywzv+VTU63YEn5excQzlSq/kpPAHRmun1FJRacZOv0LhdqkANeU
+	meRW7gQerB+CnJXk3hgwAsafi0K96NZ/BRGnH79N+5GXPxereIep1TvYdl2JhFzRr612nTa/8TI
+	BOEx+
+X-Gm-Gg: AR+sD118LYkH0KTTxm4V5jmG/AzRCerLVvSM444HkchPup0h7SNqynKf/4ys3ZazfSi
+	ymvyiwVOYyXWPapUx7HQotJGjg+MONKQixSy9r48VHHQFbqx3bO2EEhkz8mGH28PdyGwIKMjk/W
+	X91nGzjVJoHvx2T3qDSSjxY29j9F3Yviqye2OYwA96h/lqwPJVN5+7mRZL28aIdT/qQIg2RgYA9
+	a1enZoiwFV0HOs65r6CYQ+4GzM+8lH3kLbOJkjGGpjTYvkWUtif9dLl3lZzJgF6dAFWFtR7YVlT
+	apHyyZiLG85s/mWdQowByvHJYcSrNdMxgZjKbLjBuL04oi2pZcsxf40RCLlJPShMLbVpBkus6Pg
+	jwAn7b41SuAss0T8gxEdoW+40+W/EvnT0BNtjiR+pfYUFdGEAallJDjHGi/zsQdcRr3ltMF4yLz
+	BMZAAItOazcQOiNvC4J7I8ePC13FwD6NpO7gYzEF30alzDne7ZrXB+eQEVGg==
+X-Received: by 2002:a05:6214:1c4c:b0:8ee:88fc:e0ba with SMTP id 6a1803df08f44-908170b5f04mr6466126d6.6.1785208764168;
+        Mon, 27 Jul 2026 20:19:24 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e86d7207sm81369626d6.34.2026.07.27.20.19.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 20:19:23 -0700 (PDT)
+Date: Mon, 27 Jul 2026 23:19:18 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v6 10/12] hugetlb: Set mapping folio order
+Message-ID: <amgfohLFK_05UP7l@gourry-fedora-PF4VCD3F>
+References: <20260727181310.2671972-1-willy@infradead.org>
+ <20260727181310.2671972-11-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260727211758.1116539-1-joannelkoong@gmail.com>
-	<20260727211758.1116539-4-joannelkoong@gmail.com>
-In-Reply-To: <20260727211758.1116539-4-joannelkoong@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727181310.2671972-11-willy@infradead.org>
 
+On Mon, Jul 27, 2026 at 07:13:06PM +0100, Matthew Wilcox (Oracle) wrote:
+> hugetlbfs currently uses an fs-specific way to determine the size of
+> the folios in its page cache.  Thanks to the support of block sizes
+> larger than page sizes, we now support this as part of the page cache.
+> It's somewhat more efficient as we have this information directly in the
+> mapping rather than going from inode->i_sb->s_fs_info.  We can convert
+> the rest of the hugetlb code to use this at our leisure; this is needed
+> now so that we can use filemap_get_pages() unmodified.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-> From: "Joanne Koong"<joannelkoong@gmail.com>
-> Date:=C2=A0 Tue, Jul 28, 2026, 05:24
-> Subject:=C2=A0 [PATCH v4 03/21] iomap: use GFP_NOWAIT when application fo=
-r iomap_dio_simple allocations
-> To: "Christian Brauner"<brauner@kernel.org>, <hch@lst.de>, "Darrick J . W=
-ong"<djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>
-> Cc: <changfengnan@bytedance.com>, <kbusch@kernel.org>, "Matthew Wilcox"<w=
-illy@infradead.org>, "Jan Kara"<jack@suse.cz>, "Jonathan Corbet"<corbet@lwn=
-.net>, "David Sterba"<dsterba@suse.com>, "Gao Xiang"<xiang@kernel.org>, "Na=
-mjae Jeon"<linkinjeon@kernel.org>, <tytso@mit.edu>, "Jaegeuk Kim"<jaegeuk@k=
-ernel.org>, "Miklos Szeredi"<miklos@szeredi.hu>, "Andreas Gruenbacher"<agru=
-enba@redhat.com>, "Mikulas Patocka"<mikulas@artax.karlin.mff.cuni.cz>, "Hyu=
-nchul Lee"<hyc.lee@gmail.com>, "Konstantin Komarov"<almaz.alexandrovich@par=
-agon-software.com>, "Carlos Maiolino"<cem@kernel.org>, "Damien Le Moal"<dle=
-moal@kernel.org>, <libaokun@linux.alibaba.com>, <linux-ext4@vger.kernel.org=
->, <linux-xfs@vger.kernel.org>
-> From: Christoph Hellwig <hch@lst.de>
->=C2=A0
-> For non-blocking iocbs we should avoid blocking allocation where
-> possible, so switch to a GFP_NOWAIT allocation here.
->=C2=A0
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Looks good.
-Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
-
-> ---
-> =C2=A0fs/iomap/direct-io.c | 7 ++++++-
-> =C2=A01 file changed, 6 insertions(+), 1 deletion(-)
->=C2=A0
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index 36c976cf0848..5c28124b9f02 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -986,6 +986,7 @@ static void iomap_dio_simple_end_io(struct bio *bio)
-> =C2=A0ssize_t __iomap_dio_read_simple(struct kiocb *iocb, struct iov_iter=
- *iter,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ioma=
-p_iter *iomi)
-> =C2=A0{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0gfp_t gfp =3D (iomi->flags & IOMAP_NOWAIT) ?=
- GFP_NOWAIT : GFP_KERNEL;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_dio_simple *sr;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int alignment;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct bio *bio;
-> @@ -1015,7 +1016,11 @@ ssize_t __iomap_dio_read_simple(struct kiocb *iocb=
-, struct iov_iter *iter,
-> =C2=A0
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bio =3D bio_alloc_bioset(iomi->iomap.bd=
-ev,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bio_iov_vecs_to_alloc(iter, BIO_MAX_=
-VECS),
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REQ_OP_READ, GFP_KERNEL, &iomap_dio_simp=
-le_pool);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REQ_OP_READ, gfp, &iomap_dio_simple_pool=
-);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!bio) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -EAGAIN;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_dio_end=
-;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sr =3D container_of(bio, struct iomap_d=
-io_simple, bio);
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sr->iocb =3D iocb;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sr->dio_flags =3D 0;
-> --=C2=A0
-> 2.52.0
->=C2=A0
+Reviewed-by: Gregory Price <gourry@gourry.net>
