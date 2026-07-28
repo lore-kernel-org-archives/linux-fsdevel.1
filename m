@@ -1,65 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B3E2F0C74
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB9E418A30;
+	Tue, 28 Jul 2026 13:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785244117; cv=none; b=f2OjCreKPYQoa5sElNQZ6eoYnfFviIrjpzovCyL05t4jev7b3eegzZpTfe2FvL0PjHO+e8kjoVodJPmpd7bkE9onGaGEJ/pfuxtSnGCAlP2nFBaSbGqp4DjvCK016I/RCaLqRxfntX90DFh3A9zQxbV1tWIW3dSUr65E5HbkeeI=
+	t=1785244935; cv=none; b=T6IP4YMD3v/wn/13HqGplYNAdDNmzJbMOcdQ0gKJw4OnnXnXVMv/P3bThwQUKlEwJ1g4Ex8CG5igsKN3ezbOWd/DfLOBEGedr+PTI8iXdiMaXke9Ju90vzesiDz1Euu0dwC3xWZvkpe/7TWZcbw9KHlnkGgq3F4CCMOc892Rtr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785244117; c=relaxed/simple;
-	bh=FL24vU2K1IRAj/lusFyX5dHAMJ/v+2ExGx336kLq6Q8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L4pEfyvkxfWtmKgJxPsYZEhbpm9WUvC9j8vNhaZNWeYX36Isy7kuG2+7eQ/V1Qg0eZ5n+aJD35ntVtHYtlAW6yhiNMeA4pdMCw5uQhMpvedgYDyhT5N72oUP+fSjBdPQ/hgopZyw4QZP2lXsJtBwe0RsXK0UMDGHA3G6l4Qpp/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C//ez7el; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785244935; c=relaxed/simple;
+	bh=EuJ+24wMvEjiTGvRpiGvYYLkgozeZAl9Pt0eOWktyvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYQeWS85B418+1PICceEfi7i8Q5ZeT95nWmFgvjdDFNVyu3IVBZv50E8tujwhHlsqxoUA1jmBBqXGbkCA9bSj9j68/U4f626N0m22c1loLItU6/5CszbYc1j391cZopw6QSfy80eRRQt1TjRBUVBa5PFziuGNHGvHx5FIHAhSM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FrPIU76G; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C//ez7el"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0C521F00A3E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785244116;
-	bh=FL24vU2K1IRAj/lusFyX5dHAMJ/v+2ExGx336kLq6Q8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=C//ez7el/8buqQd8N48JDFwtLhD7knADUxkxuKvgmvXiMa2I78WvZAA1pCnAHau/w
-	 WS52vKKANmjerF4X6Qdweli/nBSjXMfUa+kpLwhT+//cpPvkMIof0v89+u8Qraqb1s
-	 4zoQLliFk52PasGuJVPgY0fWVvyTvYx8XXHhd9njWnsqfzKIFxAQOqeSXGbl2RB8Wm
-	 bnLeDZk5JGzPz4sPYc8CtEkleeOkMIe/Q4F6LmmbHmH+kOglLJvZKlTeJukSiCdHTc
-	 +e1cCOF7tYJqLxFnNAEm9nK8GOtkZlcGzUxCuPjv22qP0UPtnELkj+K0O+25NRBfkG
-	 zdwRpaL4gTx8Q==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-697bd21fdc2so6265614a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 06:08:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrof5C7NZR+sqI1jnfsRIIdxcSjRI1SZx3xDCv/lxORNB75wHJCNMmo27QQVj7uay4ohQsV1alqatJlJXcS@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbWmJNOLBRbLhlItJe/nNc0B/2WC5YePXEzjiUQfVNu6TBhFMU
-	Ma24Z6FlV3yUrOumv+wVX+ofAJFpR5OB0A4HT3X3UIXlUxYxbUOwCyXaBBFI3WY9admPy96kBIn
-	VYE3otDRZVeUx+7S3+yuX2xqKjZv7Aao=
-X-Received: by 2002:a17:906:6a27:b0:c1f:5349:361e with SMTP id
- a640c23a62f3a-c1f72251cffmr118090966b.65.1785244114538; Tue, 28 Jul 2026
- 06:08:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FrPIU76G"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1sJavEPudU+OUEHx6GFAB0ZMrxFOTjDav1o4MCgxz9c=; b=FrPIU76GLS5DXSBE02ydrmWMJ9
+	Pgsno8a+Xt51jt/rM/d32DR8Pjs5vU+CDoRCN8xjNu3e7OYu0QkXevaITuKQU0bkX6jZXVkW+av50
+	1cZsY6xw6ytvzYFsRa13dqpgp4E19xOr92mJDmyzyhR6/84UGQ3kL39Tl+J/oqi9GwVucquawcA3+
+	Uvyk837KZQ8Gww98DQS1+txFrTxkk5td09vxtvMNfQY72dMfMwN8Jr7KQTOu1Dm58gba4UrEbwD1n
+	1uuNXpgFJjJCxZFMijEYUM0K4mIi9mZiSIakuaJajNIp4ULuv1dZtxwFY2CD+/9mDCOQpWWsOSHXj
+	LWnespRg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wohkz-0000000DIUA-14sL;
+	Tue, 28 Jul 2026 13:22:05 +0000
+Date: Tue, 28 Jul 2026 14:22:05 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Hugh Dickins <hughd@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+	Kairui Song <ryncsn@gmail.com>, Jan Kara <jack@suse.cz>,
+	David Hildenbrand <david@kernel.org>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Chris Arges <carges@cloudflare.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/filemap: __filemap_add_folio() restore index before
+ retrying
+Message-ID: <amis_VNEmkifOAoI@casper.infradead.org>
+References: <562fbfa6-dd6d-0b6a-2461-ed2ff1173bc8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727153749.385152-1-dmantipov@yandex.ru>
-In-Reply-To: <20260727153749.385152-1-dmantipov@yandex.ru>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 28 Jul 2026 22:08:21 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-wWfS_ii_1HwK+bHMtiaiND0LEfvXSpSWc0gnno=oiMw@mail.gmail.com>
-X-Gm-Features: AUfX_myqe4UhzbEV6y-LBvGBkdnVSB3m6kUat-4d7L7PyV25qVR1RN8H-2H0LsY
-Message-ID: <CAKYAXd-wWfS_ii_1HwK+bHMtiaiND0LEfvXSpSWc0gnno=oiMw@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: simplify ntfs_reparse_set_native_symlink()
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <562fbfa6-dd6d-0b6a-2461-ed2ff1173bc8@google.com>
 
-On Tue, Jul 28, 2026 at 12:38=E2=80=AFAM Dmitry Antipov <dmantipov@yandex.r=
-u> wrote:
->
-> Avoid redundant 'strlen()' and use the convenient 'strreplace()'
-> to simplify 'ntfs_reparse_set_native_symlink()'.
->
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-Applied it to #ntfs-next.
-Thanks!
+On Mon, Jul 27, 2026 at 10:24:14PM -0700, Hugh Dickins wrote:
+> Production was suffering from rare SIGILLs and SIGSEGVs, executable text
+> found a page away from where it belonged, !folio_contains() bug hit when
+> debug enabled: symptoms not seen since this patch went in.
+
+That can't have been fun to find.  Thanks, Hugh!
+
+> Fixes: 200a89c159a7 ("mm/filemap: use xas_try_split() in __filemap_add_folio()")
+> Signed-off-by: Hugh Dickins <hughd@google.com>
+> Cc: stable@vger.kernel.org
+
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
