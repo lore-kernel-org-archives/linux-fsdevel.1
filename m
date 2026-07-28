@@ -1,209 +1,168 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A288543CE5C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24198446C0D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 14:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246602; cv=none; b=q1cnKErLmSnWOQrrETpenZIRJmhDrrbScgl7t+ETbSfhGkgLpYP98cXq+4IflGGd8pBL55cKALL/RM2PccIRUGj4euuAgY3XsI0nt/Cp2nOPpNimDD8rPJENQl1ldWt6faqqBdNSmGnaXm4I6/vvsQlGxsrIYYDX1BdVCWXBf6c=
+	t=1785247560; cv=none; b=guVkU1CP4eF9zWqTZ9AJ+gATrNPa5S6EW7/fca7O5da2MaKPfpb2niIVFn4hLhQFO8BeWMivhZmUkub46RTJSBpZX87Vz/wcDtSTjdw5YaPCg4uYk3N5IjPi+6qqhyIsgDmEZLC1jWAMoOgewMzqZ5FUMwwYVIQBc7elg4AfbfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246602; c=relaxed/simple;
-	bh=Zt7l5myQ2WXobQN8tGRWBSvTO+sRbD1pPUAXv4U4maU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrkPtpwV5owIRAuLqehKeCPhyKeoL1TxVLhaix28GQFLMGhhOdhCyuF42KykCu6Rjz1QJ/OUQ8AqfqHlKGTIRve+Z2NDSjL0+LkXX6xgf5TV0DBLuo8cvb3Ad5o/pyaVzmmiXrtwTw+L6UtX5+pqH9DwB1ckTnvMMgSkIfRyWAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T4FjaK6o; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785247560; c=relaxed/simple;
+	bh=evIc72wiwT1XdwA0FSRtAYgMY29DbtQ7JWn9+wbCnts=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=IJR5neJ1C4lwYVjP+KPvf3oSvTM5WkEL7XfYCiRNI1HLFRbbE2gQckSUJrkkDuaqVezLAe/L3EcuSwvVn2HCF5tKUAdqYwOiIoKhqJ92sTGCvTTrR7dRImxG2gQ4U2LoktVaOp/xI6XRckZ7b6UydmGlB5FHFOG36LN+iX9Q2ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=byDnxZ8Q; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T4FjaK6o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785246599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xq5CTHITws8PjVCNXvkWRBi305FHJPXL2e4BqYPiiCQ=;
-	b=T4FjaK6oaG/ImRBCk4pHrU/LYQckRiOZHtDSyUQT6T5gSKDDEvhDmKCj+HI4xPDB5WDdVn
-	3hg8dvXdWO2HzCcz6FqdtHmieNtKUylgESBEM0BATy0qWdk5MXUYJES7Z+goH55J66MG8m
-	JnAhN0sB7cR5hu1NnQnsgeFcSbKLaM0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-511-WEhzMV-CNJSzMZOhlwpung-1; Tue,
- 28 Jul 2026 09:49:52 -0400
-X-MC-Unique: WEhzMV-CNJSzMZOhlwpung-1
-X-Mimecast-MFC-AGG-ID: WEhzMV-CNJSzMZOhlwpung_1785246589
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C949C19560A2;
-	Tue, 28 Jul 2026 13:49:47 +0000 (UTC)
-Received: from bfoster (unknown [10.22.88.46])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B491404;
-	Tue, 28 Jul 2026 13:49:42 +0000 (UTC)
-Date: Tue, 28 Jul 2026 09:49:40 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, hch@lst.de,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	linux-fsdevel@vger.kernel.org, changfengnan@bytedance.com,
-	kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-	David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, tytso@mit.edu,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>, libaokun@linux.alibaba.com,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v4 01/21] iomap: split iomap_iter() logic into
- iomap_iter_next()
-Message-ID: <amizdHj6ICgP2xFv@bfoster>
-References: <20260727211758.1116539-1-joannelkoong@gmail.com>
- <20260727211758.1116539-2-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="byDnxZ8Q"
+X-KPN-MessageId: 71e01010-8a8d-11f1-8f54-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 71e01010-8a8d-11f1-8f54-005056992ed3;
+	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 71dcd388-8a8d-11f1-b315-0050569977a2;
+	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=y9qzNaBQaJ1HHxdW4i/51Xov/C1q/PIlpBEt7Bj0kcw=;
+	b=byDnxZ8QTVJB11AqaH1d50hnfydgqGryAF+oKPSMWm9mMCuHHdYRxIHbIi8QpF08orDIwPiWbw5p5
+	 piKHv+MuweF51WPYcJt2S4aTFv6wcEDxMViehT6i8KSePzpVXKWjPiDCczgCBFVLnkuo1Kr0cv/IJl
+	 vEnGvuqopaB+ix7eq1PQWN7cZ/hxaMje+5bYtqd1E8LV8MMqXBZHSJIVzuGUxlMNMGg4XAKkwao7zX
+	 YeDwbFdR769JYrD2/hbkwsdlPkckIuuJaVJ6GqUfJJNHnB1sd1u54TOKVfCVHSZUyWuvZwXHqxre4/
+	 Ed+h69DVsY0oXRpvfbrh+D6tfgeaO9Q==
+X-KPN-MID: 33|L3/beUzbwIgwmHaE1/vPBQJjHb/zC7dwTmdxjrSgGQ543wtcCaPmJSNGeY3cxkD
+ fkgYAq4RRDFgmMHGmW6jp6tu471JZ8xqkkkYrJSRauxU=
+X-CMASSUN: 33|1TXlOyJ4SBjb+JXD39+OGcnAnSiIdSUq2+6bt1kXloC9yPbKiyHl/FgQQXqhfzh
+ 47PwaUg94IzO3ouL557RtSQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 71cdc435-8a8d-11f1-8edb-00505699eff2;
+	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
+Date: Tue, 28 Jul 2026 16:05:52 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Message-ID: <64825400.394146.1785247552949@kpc.webmail.kpnmail.nl>
+In-Reply-To: <2048838556.1496380.1784464286664@kpc.webmail.kpnmail.nl>
+References: <20260712192958.1631672-1-jkoolstra@xs4all.nl>
+ <20260712192958.1631672-2-jkoolstra@xs4all.nl>
+ <CAAVpQUCD27YphUQ=aL3PyPtWwTo0tEtaFt-hvyoyCnepGAmYCQ@mail.gmail.com>
+ <2048838556.1496380.1784464286664@kpc.webmail.kpnmail.nl>
+Subject: Re: [net-next v5 1/4] net: af_unix: enable custom setsockopt for
+ all socket types
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727211758.1116539-2-joannelkoong@gmail.com>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+Importance: Normal
 
-On Mon, Jul 27, 2026 at 02:17:38PM -0700, Joanne Koong wrote:
-> In preparation for changing iomap to use an in-iter (->iomap_next())
-> model, move the iomap_iter() logic out into the new iomap_iter_next()
-> helper function.
-> 
-> iomap_iter_next() is added as an inlined helper so it can be called
-> directly by ->iomap_next() implementations where the begin()/end()
-> callbacks can be direct calls.
-> 
-> The DEFINE_IOMAP_ITER_NEXT() and DEFINE_IOMAP_ITER_NEXT_END() macros are
-> also provided to generate the boilerplate ->iomap_next() wrapper
-> functions that simply forward to iomap_iter_next() with the appropriate
-> begin/end callbacks. DEFINE_IOMAP_ITER_NEXT() is for the common case
-> where there is no end() callback. DEFINE_IOMAP_ITER_NEXT_END() is for
-> the case where there is an explicit end() callback.
-> 
-> No functional change intended. The only code-level difference is that on
-> the iomap_end() error path (ret < 0 && !advanced), the old code returned
-> with iter.status left as the caller's last value whereas the new code
-> zeroes it, but this is not observable in practice as there are no in-tree
-> callers that read iter.status after the iteration loop.
-> 
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/iomap/iter.c       | 123 +++++++++++++++++++++---------------------
->  include/linux/iomap.h | 102 +++++++++++++++++++++++++++++------
->  2 files changed, 147 insertions(+), 78 deletions(-)
-> 
-> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
-> index e4a29829591a..66ccb87441ab 100644
-> --- a/fs/iomap/iter.c
-> +++ b/fs/iomap/iter.c
-> @@ -6,15 +6,6 @@
->  #include <linux/iomap.h>
->  #include "trace.h"
->  
-> -static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
-> -{
-> -	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
-> -		folio_batch_release(iter->fbatch);
-> -		folio_batch_reinit(iter->fbatch);
-> -		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
-> -	}
-> -}
-> -
+@Kuniyuki,
 
-So hch forwarded me a bit of Sashiko review feedback that called out a
-potential folio batch leak on error returns from iomap_begin() or
-iomap_end(). Note that I think the ->iomap_end() variant is currently
-not an issue because nothing returns error there, but it should be fixed
-regardless.
+Could you take a look at this if you have time? Would like to move this
+along if we can.
 
-As such, I have the patch below as a fix based on current master. The
-idea here is to account for failures from either callback and also the
-fact that XFS may not necessarily transfer the iomap_flags on failure. I
-considered a couple other options here, like changing that behavior or
-using an iter flag, but I think this is the cleanest option.
+Thanks,
+Jori.
 
-However this obviously conflicts with this rework series. This isn't a
-major conflict IMO.. I'd probably just do the same thing and include the
-batch cleanup in the error/exit path of iomap_iter() (or maybe start
-passing ret into iomap_iter_done()), but I would need to reintroduce the
-helper above. Also after this series I think this could mean a duplicate
-call in the termination case where iomap_iter_continue() would have
-cleaned things up, but that is relatively harmless. Maybe there is
-something incrementally cleaner, but I'm still wrapping my head around
-the factoring here..
-
-But anyways, the main thing I wanted to ask is how folks want to handle
-this particular bug..? This rework is invasive and looks mostly reviewed
-so I don't want to unnecessarily hold it up. I can rebase on top of this
-and leave the patch below for -stable, or avoid the helper churn and
-post the patch below on its own and rework it into this, or maybe just
-tweak this to leave the helper around and avoid some churn that way..
-thoughts?
-
-Brian
-
---- 8< ---
-
-diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
-index e4a29829591a..63617ec48250 100644
---- a/fs/iomap/iter.c
-+++ b/fs/iomap/iter.c
-@@ -6,12 +6,18 @@
- #include <linux/iomap.h>
- #include "trace.h"
- 
-+/*
-+ * Release the iter folio batch. Note that the iomap flag is meant to control
-+ * the I/O path for the mapping and may not be set in error situations.
-+ */
- static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
- {
--	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
-+	if (!iter->fbatch)
-+		return;
-+	iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
-+	if (folio_batch_count(iter->fbatch)) {
- 		folio_batch_release(iter->fbatch);
- 		folio_batch_reinit(iter->fbatch);
--		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
- 	}
- }
- 
-@@ -79,7 +85,7 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
- 						  olen),
- 				advanced, iter->flags, &iter->iomap);
- 		if (ret < 0 && !advanced)
--			return ret;
-+			goto error;
- 	}
- 
- 	/* detect old return semantics where this would advance */
-@@ -110,7 +116,11 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
- 	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
- 			       &iter->iomap, &iter->srcmap);
- 	if (ret < 0)
--		return ret;
-+		goto error;
- 	iomap_iter_done(iter);
- 	return 1;
-+
-+error:
-+	iomap_iter_clean_fbatch(iter);
-+	return ret;
- }
-
+> Op 19-07-2026 14:31 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
+>=20
+> =20
+> > Op 14-07-2026 11:19 CEST schreef Kuniyuki Iwashima <kuniyu@google.com>:
+> >=20
+> > =20
+> > On Sun, Jul 12, 2026 at 9:29=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all=
+.nl> wrote:
+> > >
+> > > unix_setsockopt() and the SOCK_CUSTOM_SOCKOPT flag were only wired up
+> > > for SOCK_STREAM (introduced along with the stream-only SO_INQ).
+> > > Consequently custom AF_UNIX options are unreachable on SOCK_DGRAM and
+> > > SOCK_SEQPACKET: those setsockopt() calls bypass unix_setsockopt() and
+> > > fall through to the generic sock_setsockopt(), failing with
+> > > -ENOPROTOOPT.
+> > >
+> > > Set SOCK_CUSTOM_SOCKOPT for every AF_UNIX socket type in unix_create(=
+), and
+> > > also for accepted sockets in unix_accept() (reachable for stream and
+> > > seqpacket).
+> > >
+> > > This is a prerequisite for making SO_RIGHTS_NOTRUNC settable on all A=
+F_UNIX
+> > > socket types.
+> > >
+> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> > > ---
+> > >  net/unix/af_unix.c | 10 ++++++----
+> > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> > > index f7a9d55eee8a..3d256255085b 100644
+> > > --- a/net/unix/af_unix.c
+> > > +++ b/net/unix/af_unix.c
+> > > @@ -949,7 +949,7 @@ static int unix_setsockopt(struct socket *sock, i=
+nt level, int optname,
+> > >         switch (optname) {
+> > >         case SO_INQ:
+> > >                 if (sk->sk_type !=3D SOCK_STREAM)
+> > > -                       return -EINVAL;
+> > > +                       return -ENOPROTOOPT;
+> > >
+> > >                 if (val > 1 || val < 0)
+> > >                         return -EINVAL;
+> > > @@ -1005,6 +1005,7 @@ static const struct proto_ops unix_dgram_ops =
+=3D {
+> > >  #endif
+> > >         .listen =3D       sock_no_listen,
+> > >         .shutdown =3D     unix_shutdown,
+> > > +       .setsockopt =3D   unix_setsockopt,
+> > >         .sendmsg =3D      unix_dgram_sendmsg,
+> > >         .read_skb =3D     unix_read_skb,
+> > >         .recvmsg =3D      unix_dgram_recvmsg,
+> > > @@ -1029,6 +1030,7 @@ static const struct proto_ops unix_seqpacket_op=
+s =3D {
+> > >  #endif
+> > >         .listen =3D       unix_listen,
+> > >         .shutdown =3D     unix_shutdown,
+> > > +       .setsockopt =3D   unix_setsockopt,
+> > >         .sendmsg =3D      unix_seqpacket_sendmsg,
+> > >         .recvmsg =3D      unix_seqpacket_recvmsg,
+> > >         .mmap =3D         sock_no_mmap,
+> > > @@ -1142,9 +1144,10 @@ static int unix_create(struct net *net, struct=
+ socket *sock, int protocol,
+> > >         if (protocol && protocol !=3D PF_UNIX)
+> > >                 return -EPROTONOSUPPORT;
+> > >
+> > > +       set_bit(SOCK_CUSTOM_SOCKOPT, &sock->flags);
+> >=20
+> > Please move this to unix_create1(), then we don't need the chunk below.
+> >=20
+> >=20
+>=20
+> I don't understand how this helps. The accept() path gets its struct sock=
+et from
+> sock_alloc() not via unix_create() afaict. Also, unix_create1() is called=
+ with
+> sock =3D=3D NULL on connect(), so now you have to guard against that too.
+>=20
+> But maybe I misunderstand you?
+>=20
+> I do agree with you other comment, accept() should probably inherit the t=
+runcate
+> behavior from the listen() socket.
+>=20
+> Thanks,
+> Jori.
