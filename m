@@ -1,224 +1,182 @@
-Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E9543803C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3AD443E56;
+	Tue, 28 Jul 2026 13:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246170; cv=none; b=H6GKcMuVxEYJ6ljlYiSCpilh66oAmvyil0dnTYi0O69iXSJL3c5Pb/sAFqDDn5/1S166MFDzp/pQjb7v/5zv3ApesqY5Tn+lGyL9C7X5FgL8wjFE9H+Se5trBi9vI4VLmbPI6NrK31Q78NWirDCRTBsKscaA3YEHAfxi2v6YhPY=
+	t=1785246504; cv=none; b=q1oLETCdm74nNmW9wl17UXMffkGojQ0oOgKRAm30+VuuxBdhp5XcqiBIMIvGlwmh2uWl5cBXeiQkOM/gVOppy2BzYtmdRjnL/UOudSxczHLi0amvaUvtVw4tf4fiZouKaE/c3dD+1c7XXjcEa0c6/NP+KCDw7z2bLyGUeKrTQAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246170; c=relaxed/simple;
-	bh=rC4ixOYaB1+TVv8Ld8Ihww/HS0U/t6h3dv0GeuFYLG4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=X99WstQnlqB69oem24rOidN2Gm3BaqeXIr6EW2ShyD+x3ke/H8WY8c2oFuzSXI4k+qfZAlO6HGVmQ0e1YwpNaNXCqoEx86rn9Yl1OQIyK25ielp+JU+NmPityjdPVfeyOUmLR9tX85BErKR4PjSbslgsRe9yNcEEXfa1vPQSTiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-456ab1a7f2cso3946583fac.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 06:42:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785246155; x=1785850955;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=acF5tcKhDcr9QoRmmG9oBH4rw7Ot2b2XCU5TbPnOgiE=;
-        b=RRL5W3r4HjUFi3VRH5Re/BQHhHjGwx8nSIvo0KZoVW9Se/2xzZsUWkJ1pbjV5H9jdc
-         Qn/fDp2+GOVze3yLGV852rMruBLPz3X3MkquedhlWRtLoekPxedW9dqTMUmf8zFXNzf6
-         2Idr+vfajpJPJEGqXFctRI8Qt3gNBizfmjq5+b5sfjEA6i0jjTt1ikO0U5pMazX/F7jY
-         wFWGKRrVEqPrwKKY6C3lqyiW3yj/slmCKuhBUd24qnd+Qh5RIgNIhzR8mkZhuV35dyxu
-         tPN6t5NDvgI8cKykhF5abKIOehc/zVXTelv7/rij6W2Ou0ymO12eHSBS5gO83Wjk8vJA
-         I5EA==
-X-Forwarded-Encrypted: i=1; AHgh+RrcT7bxgKNnrvDX/w/RylC4xrHU4T4zHKB1AQL9OFfEuztPnroFw6KehywhIwZpKR1gjFuXFU0N1APlGsZm@vger.kernel.org
-X-Gm-Message-State: AOJu0YytsLMcBudzbior8vKoXZvycozI40kCAPrBMGhNGkSYtdloL4I+
-	IOh2sWcUkMTXYkql18JJqz1dWzlbHVwjTFPoH0MMiIznGzomqZ7tuiF6H8xIFwbGtZneu3qxrpE
-	0z6DHwTzgXCOi3N20QOHX4XMMwro97/7EM1v35zOJlsyVrNO2dAozLtiFmz0=
+	s=arc-20240116; t=1785246504; c=relaxed/simple;
+	bh=GfZf4OtiPvKmem6JowvFOniZu3fnPQf7hYId+0iuxks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fruw2jFtMgLScRWQ8++KCcbfGvKB69cnYx/DBau3SvNVbT5CwuoTLz6EMJeUHA6RIkOism71Ic4mXly/eFTpTZqu3omEiJllLAtCMyrA2zCY44BoZZFNTI8D7SImQirKvMgN2xBF6JE0uUznoTKuX6tInJdCt8q2dLpTVtq+ffc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzSj2fnz; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzSj2fnz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF851F000E9;
+	Tue, 28 Jul 2026 13:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785246503;
+	bh=M13c9yrS8i19jL6P1wyYS28jNcW+SVKbY4SPV3JN170=;
+	h=From:Date:Subject:To:Cc;
+	b=LzSj2fnzFxkDQEz0jAWTEyWdwJtEYTd+w6PpGK9wNAweCVLTU9kBuXBPTm6CFhePi
+	 SdU6U98d4FV7WPFrgkswIAfexxvtPTuYw/uEXSQ1yeKRieh2ln0Osk1eRTA98LtnvX
+	 JCaHRHIPqUG4MPJO6IUZVt9P9NnCLlvV37ldL1joUcAj2iu7XwNjCF+rK5qyVzJxu6
+	 CRNJameCmxNuxLBnMxlw4Kh0p+5vqgAEHFzJYsL/TGLmv+BY4jve/L5d3b7/L/4Awu
+	 lbDFiMlSpjFAKqAE5YtH01mk7uQmVPdt7v4gY9FR0X+vQ90tV+CiotyDVixQ1AqmqX
+	 pwiUMRxgBhN9Q==
+From: Christian Brauner <brauner@kernel.org>
+Date: Tue, 28 Jul 2026 15:48:10 +0200
+Subject: [PATCH] binfmt_misc: don't leak the user namespace when the mount
+ fails
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4c88:b0:6aa:da48:42c7 with SMTP id
- 006d021491bc7-6ac96cacaf1mr1324944eaf.47.1785246155280; Tue, 28 Jul 2026
- 06:42:35 -0700 (PDT)
-Date: Tue, 28 Jul 2026 06:42:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a68b1cb.b6659fcc.241ab8.00e5.GAE@google.com>
-Subject: [syzbot] [fs?] possible deadlock in configfs_depend_item_unlocked
-From: syzbot <syzbot+c75a7db5ca6ae96ed2d4@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260728-work-binfmt_misc-usernsleak-v1-1-dbd8d5e626e7@kernel.org>
+X-B4-Tracking: v=1; b=H4sIABmzaGoC/yXM3Q6CMAyG4VshPbYGF8WfWyHGrLOTigyzApoQ7
+ t1NDt+m3zODchRWuBQzRJ5EpQ8pdpsCXGPDg1HuqcGUpiqP5oSfPrZIEnw33DpRh2MSgr7Ytui
+ M2fPhXBGThSS8I3v5/vX6uraO9GQ3ZDJ/kFVGija4Jp8mr9t1sSw/f1SaopsAAAA=
+X-Change-ID: 20260728-work-binfmt_misc-usernsleak-c224e596beba
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ bpf@vger.kernel.org, jannh@google.com, mail@johnericson.me, 
+ stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev-cca4b
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5088; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=GfZf4OtiPvKmem6JowvFOniZu3fnPQf7hYId+0iuxks=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlbFbhnyO8/+nWyrYq9wz588vSZ791rj+53Pvo6/cZn
+ lFvHiz+0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARVTFGho/bPKKvBacxK99s
+ eF144ZaL45d5DSZ6zTWc39JVbW6yBjEyTOIw0vT0dQtVfJ34Z9ka/+YcxtW2x+NSfOLea0S8PXu
+ WBQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hello,
+bm_get_tree() takes a reference to the user namespace and hands it to
+get_tree_keyed() as the sget key. sget_fc() moves that reference into
+sb->s_fs_info and clears fc->s_fs_info, so from that point on the
+superblock owns it and bm_free() doesn't see it anymore.
 
-syzbot found the following issue on:
+The superblock drops it in ->put_super(). But generic_shutdown_super()
+only calls ->put_super() from inside the if (sb->s_root) branch, so
+nothing releases it when bm_fill_super() fails:
 
-HEAD commit:    48a5a7ab8d6a Merge tag 'v7.2-rc4-smb3-client-fixes' of git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1382c7b1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
-dashboard link: https://syzkaller.appspot.com/bug?extid=c75a7db5ca6ae96ed2d4
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15065fde580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=133361b9580000
+- The kzalloc_obj() failure leaves s_root NULL and the whole branch is
+  skipped.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d0d4e9604889/disk-48a5a7ab.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d0017d0f35e6/vmlinux-48a5a7ab.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/81888db0a443/bzImage-48a5a7ab.xz
+- A simple_fill_super() failure in the file loop leaves s_root set, but
+  s_op still points at simple_super_operations, which has no
+  ->put_super(). bm_fill_super() installs s_ops only once
+  simple_fill_super() returned success, and installing it earlier
+  wouldn't help either because simple_fill_super() overwrites s_op.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c75a7db5ca6ae96ed2d4@syzkaller.appspotmail.com
+Either way vfs_get_super() calls deactivate_locked_super() and the
+reference is gone for good. binfmt_misc mounts are available in a user
+namespace and both the inode and the dentry cache are SLAB_ACCOUNT, so
+an unprivileged caller under a tight memory cgroup can fail
+simple_fill_super() on demand and leak one user namespace per attempt.
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.18/5951 is trying to acquire lock:
-ffff8880230411b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
-ffff8880230411b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1259
+Drop the reference in ->kill_sb() instead, which runs unconditionally,
+the same way nfsd and rpc_pipefs release their keyed s_fs_info.
 
-but task is already holding lock:
-ffff888034090110 (&opts->dep_lock){+.+.}-{4:4}, at: usbg_make_tpg+0x147/0x590 drivers/usb/gadget/function/f_tcm.c:1678
+That also stops ->put_super() from clearing s_fs_info while the
+superblock is still on @fs_supers. generic_shutdown_super() leaves it
+there on purpose so that sget_fc() keeps finding it until kill_sb() has
+run, but a NULL s_fs_info makes test_keyed_super() miss it, so a
+concurrent mount for the same user namespace skips the grab_super()
+wait and creates a second superblock for a namespace that is still
+being torn down.
 
-which lock already depends on the new lock.
+Fixes: 21ca59b365c0 ("binfmt_misc: enable sandboxed mounts")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Note for stable: this applies as-is only from v6.19 onwards. Before
+7beafd51c4e1 ("convert binfmt_misc") ->kill_sb is kill_litter_super()
+and bm_kill_sb() has to call that instead of kill_anon_super(): back
+then simple_fill_super() left the dentries it created pinned and
+d_genocide() is what drops them. Taking this patch verbatim on v6.7 to
+v6.18 turns every binfmt_misc umount into a "Dentry still in use"
+BUG() in shrink_dcache_for_umount().
+---
+ fs/binfmt_misc.c | 32 +++++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
 
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (&opts->dep_lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       tcm_set_name+0x2b/0xd0 drivers/usb/gadget/function/f_tcm.c:2540
-       function_make+0x1a8/0x360 drivers/usb/gadget/configfs.c:636
-       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
-       vfs_mkdir+0x402/0x620 fs/namei.c:5276
-       filename_mkdirat+0x289/0x520 fs/namei.c:5309
-       __do_sys_mkdirat fs/namei.c:5330 [inline]
-       __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (gadget_subsys.su_mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       configfs_rmdir+0x5f0/0x950 fs/configfs/dir.c:1556
-       vfs_rmdir+0x3e9/0x6b0 fs/namei.c:5381
-       filename_rmdir+0x292/0x520 fs/namei.c:5438
-       __do_sys_rmdir fs/namei.c:5461 [inline]
-       __se_sys_rmdir+0x2e/0x140 fs/namei.c:5458
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x1520/0x2ce0 kernel/locking/lockdep.c:5237
-       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
-       down_write+0x3a/0x50 kernel/locking/rwsem.c:1631
-       inode_lock include/linux/fs.h:1024 [inline]
-       configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1259
-       usbg_make_tpg+0x1f6/0x590 drivers/usb/gadget/function/f_tcm.c:1686
-       target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:939
-       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
-       vfs_mkdir+0x402/0x620 fs/namei.c:5276
-       filename_mkdirat+0x289/0x520 fs/namei.c:5309
-       __do_sys_mkdirat fs/namei.c:5330 [inline]
-       __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &sb->s_type->i_mutex_key#24 --> gadget_subsys.su_mutex --> &opts->dep_lock
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&opts->dep_lock);
-                               lock(gadget_subsys.su_mutex);
-                               lock(&opts->dep_lock);
-  lock(&sb->s_type->i_mutex_key#24);
-
- *** DEADLOCK ***
-
-5 locks held by syz.0.18/5951:
- #0: ffff88801df72500 (sb_writers#12){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:494
- #1: ffff88803de41718 (&sb->s_type->i_mutex_key#7/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1069 [inline]
- #1: ffff88803de41718 (&sb->s_type->i_mutex_key#7/1){+.+.}-{4:4}, at: __start_dirop fs/namei.c:2918 [inline]
- #1: ffff88803de41718 (&sb->s_type->i_mutex_key#7/1){+.+.}-{4:4}, at: start_dirop fs/namei.c:2942 [inline]
- #1: ffff88803de41718 (&sb->s_type->i_mutex_key#7/1){+.+.}-{4:4}, at: filename_create+0x200/0x370 fs/namei.c:4955
- #2: ffffffff8ec97520 (&subsys->su_mutex){+.+.}-{4:4}, at: configfs_mkdir+0x4b0/0x9e0 fs/configfs/dir.c:1358
- #3: ffffffff8efcd1b8 (tpg_instances_lock){+.+.}-{4:4}, at: usbg_make_tpg+0xf7/0x590 drivers/usb/gadget/function/f_tcm.c:1669
- #4: ffff888034090110 (&opts->dep_lock){+.+.}-{4:4}, at: usbg_make_tpg+0x147/0x590 drivers/usb/gadget/function/f_tcm.c:1678
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 5951 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
- check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x1520/0x2ce0 kernel/locking/lockdep.c:5237
- lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
- down_write+0x3a/0x50 kernel/locking/rwsem.c:1631
- inode_lock include/linux/fs.h:1024 [inline]
- configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1259
- usbg_make_tpg+0x1f6/0x590 drivers/usb/gadget/function/f_tcm.c:1686
- target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:939
- configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
- vfs_mkdir+0x402/0x620 fs/namei.c:5276
- filename_mkdirat+0x289/0x520 fs/namei.c:5309
- __do_sys_mkdirat fs/namei.c:5330 [inline]
- __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f3fd9bcde99
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe3710df98 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
-RAX: ffffffffffffffda RBX: 00007f3fd9e55fa0 RCX: 00007f3fd9bcde99
-RDX: 00000000000001ff RSI: 0000200000001000 RDI: ffffffffffffff9c
-RBP: 00007f3fd9c63eaf R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f3fd9e55fac R14: 00007f3fd9e55fa0 R15: 00007f3fd9e55fa0
- </TASK>
-Mass Storage Function, version: 2009/09/11
-LUN: removable file: (no medium)
-
+diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+index a73a37b8a013..c97f10b48b5b 100644
+--- a/fs/binfmt_misc.c
++++ b/fs/binfmt_misc.c
+@@ -921,18 +921,9 @@ static const struct file_operations bm_status_operations = {
+ 
+ /* Superblock handling */
+ 
+-static void bm_put_super(struct super_block *sb)
+-{
+-	struct user_namespace *user_ns = sb->s_fs_info;
+-
+-	sb->s_fs_info = NULL;
+-	put_user_ns(user_ns);
+-}
+-
+ static const struct super_operations s_ops = {
+ 	.statfs		= simple_statfs,
+ 	.evict_inode	= bm_evict_inode,
+-	.put_super	= bm_put_super,
+ };
+ 
+ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+@@ -990,13 +981,12 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/*
+ 	 * When the binfmt_misc superblock for this userns is shutdown
+ 	 * ->enabled might have been set to false and we don't reinitialize
+-	 * ->enabled again in put_super() as someone might already be mounting
+-	 * binfmt_misc again. It also would be pointless since by the time
+-	 * ->put_super() is called we know that the binary type list for this
+-	 * bintfmt_misc mount is empty making load_misc_binary() return
+-	 * -ENOEXEC independent of whether ->enabled is true. Instead, if
+-	 * someone mounts binfmt_misc for the first time or again we simply
+-	 * reset ->enabled to true.
++	 * ->enabled again during shutdown as someone might already be mounting
++	 * binfmt_misc again. It also would be pointless since by then we know
++	 * that the binary type list for this binfmt_misc mount is empty making
++	 * load_misc_binary() return -ENOEXEC independent of whether ->enabled
++	 * is true. Instead, if someone mounts binfmt_misc for the first time or
++	 * again we simply reset ->enabled to true.
+ 	 */
+ 	misc->enabled = true;
+ 
+@@ -1022,6 +1012,14 @@ static const struct fs_context_operations bm_context_ops = {
+ 	.get_tree	= bm_get_tree,
+ };
+ 
++static void bm_kill_sb(struct super_block *sb)
++{
++	struct user_namespace *user_ns = sb->s_fs_info;
++
++	kill_anon_super(sb);
++	put_user_ns(user_ns);
++}
++
+ static int bm_init_fs_context(struct fs_context *fc)
+ {
+ 	fc->ops = &bm_context_ops;
+@@ -1038,7 +1036,7 @@ static struct file_system_type bm_fs_type = {
+ 	.name		= "binfmt_misc",
+ 	.init_fs_context = bm_init_fs_context,
+ 	.fs_flags	= FS_USERNS_MOUNT,
+-	.kill_sb	= kill_anon_super,
++	.kill_sb	= bm_kill_sb,
+ };
+ MODULE_ALIAS_FS("binfmt_misc");
+ 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 61d2304c0f286fe4a14ec6cee87588350c276d02
+change-id: 20260728-work-binfmt_misc-usernsleak-c224e596beba
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
