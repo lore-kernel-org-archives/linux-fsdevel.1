@@ -1,281 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16B043302F;
-	Tue, 28 Jul 2026 12:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C603BF67A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 12:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785241609; cv=none; b=L+258OPm+SnTeiP2CJrsTnluiUMhAKQa+4s6t13gR1OvEYNmf63XdgHsPhxJJele/TDWPxuxq18dtDIaJswtklWmwkjxmjSMZqJHQILRC4cEibJmRVCrEu2IBt8dYeoSOPyA0NjahaAcKlKfu7o78vSuZOa8I/UZbiFZS/PwR9k=
+	t=1785242043; cv=none; b=IRvpjhzXT/mJb92r65gAMOXl/PSmuG93Y6riKX5KasfZZGLSR+IM++XyuX10MydtDEg11uANag31RCGlk94vuhai+cmXl8U6dIcLBeVHdwoAx+Sykv7halarIIM/sZkY07V8haTY/hTSjoLuhXYtjy3t/O1MIMjjyOwE3LFmsW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785241609; c=relaxed/simple;
-	bh=CmftR+Uc2FulAhzpeWNRVyNZ624y2VtvgpyJWGwwBlM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tQ+VS8GkUa656sTSBnx35uppGjvIzPADavDtlHvpjzyK/o88f/hJHVyQA3FLnyXx9cwdcbGFtB1H3MV+FsqYgNnwHOkyUv8T2B046ZV1cQ1jLDfWxo9v7i/Qcp4nehJrL+ooWn39wIr0US5OPQCRyLwG+eH3qttLeA6HFPtczPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RkwjnDmS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785242043; c=relaxed/simple;
+	bh=gIttXfvKXqg7unNmPCtv9nQuKbP8blH4bd3fKutVu64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AlOEsSKnyns5pAPorjoOYFtSiKb+dE+LneKOeQ1OK5ZoLGCtjCAPm4clnzIuCOD4zO+1UEX8IohRkl8A1gENPnc9S7GjYWJEScWmpy3ZihjddVONjMp28JkYsFVNW10EtRpzeEIIkca1elZCpSHObvIG05X3vz0pKJi6Lh4ZoNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=X6olnusd; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RkwjnDmS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3CB51F000E9;
-	Tue, 28 Jul 2026 12:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785241607;
-	bh=vt+CJvPgKyczXyAdtoV88qBhp4afcyiatTku0ZwlgLA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=RkwjnDmS64pm/DmPqFCIfCwnQdHdazM/1/l2XmCdXFlJ3GXdmOTjev4t3PRrex56N
-	 zYYW2z5f3s4cK6w68uhCmpBC0TVyoWbbCmoScpcSzTe1dcJvt9QzOPKsljwx+LvT1S
-	 U9cRFXaNi3zkrrzQuojn2k+93bF18+ES/QjiPvNeN+UvhFbQLRxdWXADGb6aYZt90p
-	 j1EUWnYe3iMRWeSj8lhGWGjA2TggoeKZyTuJkIJOYCx6K+EHi4lQjORjySrTMmw8jN
-	 6jFD59IFqxu/Ti4XqDmcN0ixxxDH6+ME38K2CziAJbq3xdhmrTJZmtz38bZ6pyS+pM
-	 ngI/uOID+H7VQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 28 Jul 2026 14:26:33 +0200
-Subject: [PATCH 2/2] selftests/exec: check that a binfmt_misc instance
- cannot be pinned
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="X6olnusd"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1785242033; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=HZYbAcie+5Exfmk84qOueCdd8pPr5SW+ez9Sxtfghyc=;
+	b=X6olnusdJT1n6HtKvhbPfFdWZE4z4a9dHVi6lmB+Vu5UiydcRO6HrgZMSkv6vkAroFlTO4TfAN8drMB9D2Af4oDmJWzLlfuaugjQo0tVaL6hfa2Im+Oe/bGBo+5aX7k17zh4BAAU8xfUIZ7QmQK9iHIkB9sNIMuxb6L3SY4FMns=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X8-vD6H_1785242032;
+Received: from 30.180.139.68(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X8-vD6H_1785242032 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 28 Jul 2026 20:33:53 +0800
+Message-ID: <ba39c0d9-1b7a-43d6-9a91-e729cb3a2731@linux.alibaba.com>
+Date: Tue, 28 Jul 2026 20:33:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] erofs: accept source file descriptor via fsconfig
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-erofs@lists.ozlabs.org,
+ cyphar@cyphar.com, linux-fsdevel@vger.kernel.org
+References: <20260717134147.1602735-1-gscrivan@redhat.com>
+ <20260722-notnagel-allemal-kampfsport-8fd4e4d98a15@brauner>
+ <6d1ac697-d5f8-4952-ba68-27610f17bf3c@linux.alibaba.com>
+ <20260723-wickeln-schindel-rotstift-d987d4e9c036@brauner>
+ <95a5fc3a-4259-44a7-bb72-8ff35a49a26f@linux.alibaba.com>
+ <87mrvckgip.fsf@redhat.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <87mrvckgip.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260728-work-binfmt_misc-selfpin-v1-2-74df5daeca5b@kernel.org>
-References: <20260728-work-binfmt_misc-selfpin-v1-0-74df5daeca5b@kernel.org>
-In-Reply-To: <20260728-work-binfmt_misc-selfpin-v1-0-74df5daeca5b@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- bpf@vger.kernel.org, jannh@google.com, mail@johnericson.me, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.16-dev-cca4b
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7434; i=brauner@kernel.org;
- h=from:subject:message-id; bh=CmftR+Uc2FulAhzpeWNRVyNZ624y2VtvgpyJWGwwBlM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlzP8XHbF14qzo2Nuvn/toXA25t9lG7uHS9ikdxU/t9
- tw6e1hnfkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEZlxjZLh4h8Vgw62WGfJ3
- OlqEg+aZFajXOk/YKZ9nGt+3a9mez3KMDFt6V5gYzt+9Pl/9NOO7/5vus7Cm+es9U596f0HT0kX
- ySTwA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-An 'F' entry whose interpreter keeps the binfmt_misc superblock alive
-pins the instance that owns it forever. Cover both ways to build that:
+Hi Giuseppe,
 
-- an interpreter on the instance's own files, control file and entry
-  file alike
+On 2026/7/27 16:01, Giuseppe Scrivano wrote:
+> Gao Xiang <hsiangkao@linux.alibaba.com> writes:
+> 
+>> Hi Christian,
+>>
+>> On 2026/7/23 22:46, Christian Brauner wrote:
+>>>> I'm not quite sure if I catched the point, I think Giuseppe's patch here
+>>>> tried to record `file` into `sbi->dif0.file` (which indicates the primary
+>>>> "device" later.)
+>>>>
+>>>> And if `sbi->dif0.file` is set up by erofs_fc_parse_source(),
+>>>> erofs_fc_get_tree() will just use `sbi->dif0.file` instead of
+>>>> `fc->source` according to this patch.
+>>> Oh, so you only do it for file-backed mounts. Do you only allow
+>>> regular
+>>> files or do you also support block devices with
+>>> CONFIG_EROFS_FS_BACKED_BY_FILE?
+>>
+>> Block devices with CONFIG_EROFS_FS_BACKED_BY_FILE are supported,
+>> but with only `fc->source` (not this way.)
+>>
+>> That is the limitation I see in Giuseppe's patch. I'd hoped
+>> bdev-backed mounts could work the same way, but that would require
+>> changes to the VFS flow.
+>>
+>> Since this is a side improvement, I think it's fine as long as
+>> it's documented somewhere, and I do hope Giuseppe can at least
+>> address the documentation.
+> 
+> would something like the following be enough?
+> 
+> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+> index 4230884fb359..768e1d43dfcc 100644
+> --- a/Documentation/filesystems/erofs.rst
+> +++ b/Documentation/filesystems/erofs.rst
+> @@ -139,6 +139,29 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
+>                          page cache.
+>   ===================    =========================================================
+>   
+> +File-backed mounts
+> +==================
+> +
+> +When ``CONFIG_EROFS_FS_BACKED_BY_FILE`` is enabled, EROFS can mount filesystem
+> +images stored as regular files directly, without requiring a loopback block
+> +device.  The source can be specified either by path or by passing an
+> +already-opened file descriptor via ``fsconfig(fd, FSCONFIG_SET_FD, "source",
+> +NULL, source_fd)``.  Only regular files are accepted; block devices must use
 
-- and an instance used as an overlayfs lower layer.
 
-Check that an ordinary 'F' registration still succeeds so the fix stays
-honest about not changing what 'F' promises.
+File-backed mounts
+==================
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- tools/testing/selftests/exec/Makefile              |  10 ++
- tools/testing/selftests/exec/binfmt_misc_selfpin.c | 158 +++++++++++++++++++++
- tools/testing/selftests/exec/config                |   4 +
- 3 files changed, 172 insertions(+)
+When ``CONFIG_EROFS_FS_BACKED_BY_FILE`` is enabled, EROFS file-backed images
+can be mounted directly without a loopback block device.  The backing file
+can be given either as a path, or as an already-opened file descriptor via
+``fsconfig(fd, FSCONFIG_SET_FD, "source", NULL, source_fd)``.
 
-diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
-index 45a3cfc435cf..b15505f5e0bc 100644
---- a/tools/testing/selftests/exec/Makefile
-+++ b/tools/testing/selftests/exec/Makefile
-@@ -21,6 +21,10 @@ TEST_GEN_PROGS += recursion-depth
- TEST_GEN_PROGS += null-argv
- TEST_GEN_PROGS += check-exec
- 
-+# binfmt_misc must not be reachable as an exec source or as a stacking layer,
-+# or an 'F' entry can pin the instance that owns it. Unprivileged, no bpf.
-+TEST_GEN_PROGS += binfmt_misc_selfpin
-+
- EXTRA_CLEAN := $(OUTPUT)/subdir.moved $(OUTPUT)/execveat.moved $(OUTPUT)/xxxxx*	\
- 	       $(OUTPUT)/S_I*.test
- 
-@@ -55,3 +59,9 @@ $(OUTPUT)/script-exec.inc: $(CHECK_EXEC_SAMPLES)/script-exec.inc
- 	cp $< $@
- $(OUTPUT)/script-noexec.inc: $(CHECK_EXEC_SAMPLES)/script-noexec.inc
- 	cp $< $@
-+
-+# Reuses setup_userns()/write_file() from the filesystems selftests. Their
-+# wrappers.h wants the uapi headers, so ask for them here rather than widening
-+# CFLAGS for every program in this directory.
-+$(OUTPUT)/binfmt_misc_selfpin: CFLAGS += $(TOOLS_INCLUDES)
-+$(OUTPUT)/binfmt_misc_selfpin: ../filesystems/utils.c
-diff --git a/tools/testing/selftests/exec/binfmt_misc_selfpin.c b/tools/testing/selftests/exec/binfmt_misc_selfpin.c
-new file mode 100644
-index 000000000000..5286b0604eed
---- /dev/null
-+++ b/tools/testing/selftests/exec/binfmt_misc_selfpin.c
-@@ -0,0 +1,158 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * An 'F' entry keeps its interpreter open for as long as the entry exists,
-+ * and the entry only goes away when the binfmt_misc superblock is destroyed.
-+ * An interpreter that lives on a mount which in turn keeps that superblock
-+ * alive therefore pins the instance that owns it, and nothing can break the
-+ * cycle. Check the two ways userspace could arrange for that: an interpreter
-+ * on the binfmt_misc instance itself, and one on a filesystem stacked on it.
-+ *
-+ * Runs unprivileged in a user namespace; binfmt_misc is FS_USERNS_MOUNT.
-+ */
-+#define _GNU_SOURCE
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <sched.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+
-+#include "../filesystems/utils.h"
-+#include "kselftest_harness.h"
-+
-+#define MNT		"/tmp/binfmt_selfpin"
-+#define BACKING		"/tmp/binfmt_selfpin_back"
-+#define LOWER		BACKING "/lower"
-+#define MERGED		"/tmp/binfmt_selfpin_merged"
-+
-+#define MAGIC		"\\xde\\xad"
-+#define RULE(interp)	":selfpin:M::" MAGIC "::" interp ":F"
-+/* Not on the instance, and unlike /bin/true it always exists. */
-+#define INTERP		"/proc/self/exe"
-+
-+#define OPTS_MAX	(3 * PATH_MAX + 64)
-+
-+static int ensure_dir(const char *path)
-+{
-+	if (mkdir(path, 0755) && errno != EEXIST)
-+		return -1;
-+	return 0;
-+}
-+
-+/* Write @rule to this instance's register file, preserving write(2)'s errno. */
-+static int register_at(struct __test_metadata *_metadata, const char *rule)
-+{
-+	int fd, saved;
-+	ssize_t n;
-+
-+	fd = open(MNT "/register", O_WRONLY);
-+	ASSERT_GE(fd, 0);
-+	n = write(fd, rule, strlen(rule));
-+	saved = errno;
-+	close(fd);
-+	errno = saved;
-+	return n < 0 ? -1 : 0;
-+}
-+
-+/*
-+ * Mount an overlay over @lower using a private upper/work pair, so the two
-+ * mounts this test performs cannot interfere with each other and neither
-+ * overlaps the lower layer.
-+ */
-+static int mount_overlay(const char *lower, int nr)
-+{
-+	char opts[OPTS_MAX], upper[PATH_MAX], work[PATH_MAX];
-+
-+	snprintf(upper, sizeof(upper), "%s/upper%d", BACKING, nr);
-+	snprintf(work, sizeof(work), "%s/work%d", BACKING, nr);
-+	if (mkdir(upper, 0755) || mkdir(work, 0755))
-+		return -1;
-+
-+	snprintf(opts, sizeof(opts), "lowerdir=%s,upperdir=%s,workdir=%s",
-+		 lower, upper, work);
-+	return mount("ovl", MERGED, "overlay", 0, opts);
-+}
-+
-+FIXTURE(selfpin) {
-+};
-+
-+FIXTURE_SETUP(selfpin)
-+{
-+	/* setup_userns() exits rather than returns if this is not there. */
-+	if (access("/proc/self/ns/user", F_OK))
-+		SKIP(return, "kernel without user namespaces");
-+	ASSERT_EQ(setup_userns(), 0);
-+
-+	ASSERT_EQ(ensure_dir(MNT), 0);
-+	if (mount("binfmt_misc", MNT, "binfmt_misc", 0, NULL)) {
-+		int saved = errno;
-+
-+		/* Teardown doesn't run when setup skips, so clean up here. */
-+		rmdir(MNT);
-+		SKIP(return, "no binfmt_misc: %s", strerror(saved));
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(selfpin)
-+{
-+	/* The namespaces go with the process; just don't litter /tmp. */
-+	umount2(MERGED, MNT_DETACH);
-+	umount2(BACKING, MNT_DETACH);
-+	umount2(MNT, MNT_DETACH);
-+	rmdir(MERGED);
-+	rmdir(BACKING);
-+	rmdir(MNT);
-+}
-+
-+/*
-+ * The instance's own files are regular files the mounter owns, so they can be
-+ * made executable. Opening one for exec still has to fail, otherwise the entry
-+ * pins the very superblock it lives in.
-+ */
-+TEST_F(selfpin, interpreter_on_the_instance)
-+{
-+	ASSERT_EQ(chmod(MNT "/status", 0755), 0);
-+
-+	ASSERT_NE(register_at(_metadata, RULE(MNT "/status")), 0);
-+	EXPECT_EQ(errno, EACCES);
-+}
-+
-+/* Same for an entry file rather than one of the control files. */
-+TEST_F(selfpin, interpreter_on_an_entry)
-+{
-+	ASSERT_EQ(register_at(_metadata, ":victim:M::" MAGIC "::" INTERP ":"), 0);
-+	ASSERT_EQ(chmod(MNT "/victim", 0755), 0);
-+
-+	ASSERT_NE(register_at(_metadata, RULE(MNT "/victim")), 0);
-+	EXPECT_EQ(errno, EACCES);
-+}
-+
-+/*
-+ * A stacking filesystem holds a private clone of each layer for its whole
-+ * lifetime, so an instance used as a layer can be pinned by an interpreter
-+ * that does not live on it at all. Refuse to be a layer.
-+ */
-+TEST_F(selfpin, refuses_to_be_stacked_on)
-+{
-+	ASSERT_EQ(ensure_dir(BACKING), 0);
-+	ASSERT_EQ(mount("tmpfs", BACKING, "tmpfs", 0, NULL), 0);
-+	ASSERT_EQ(mkdir(LOWER, 0755), 0);
-+	ASSERT_EQ(ensure_dir(MERGED), 0);
-+
-+	/* Nothing to prove unless overlayfs works here at all. */
-+	if (mount_overlay(LOWER, 1)) {
-+		if (errno == ENODEV || errno == EPERM)
-+			SKIP(return, "no unprivileged overlayfs");
-+		SKIP(return, "overlayfs unusable here: %s", strerror(errno));
-+	}
-+	ASSERT_EQ(umount(MERGED), 0);
-+
-+	EXPECT_NE(mount_overlay(MNT, 2), 0);
-+}
-+
-+/* An ordinary interpreter still registers with 'F'. */
-+TEST_F(selfpin, ordinary_interpreter_still_works)
-+{
-+	EXPECT_EQ(register_at(_metadata, RULE(INTERP)), 0);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/exec/config b/tools/testing/selftests/exec/config
-index c308079867b3..c03d52d8abee 100644
---- a/tools/testing/selftests/exec/config
-+++ b/tools/testing/selftests/exec/config
-@@ -1,2 +1,6 @@
- CONFIG_BLK_DEV=y
- CONFIG_BLK_DEV_LOOP=y
-+CONFIG_BINFMT_MISC=y
-+CONFIG_OVERLAY_FS=y
-+CONFIG_TMPFS=y
-+CONFIG_USER_NS=y
+Only regular files are accepted as backing files; to mount an image that
+resides on a block device, use the traditional block device mount path
+instead.
 
--- 
-2.53.0
 
+It's just my own sketch of this; you could just fold this into this patch
+with modification (I'm not quite good at English.)
+
+Also it lacks how `fc->source is filled` when source_fd is specified, we
+may need to document here as well (and hopefully vfs maintainers can ack
+on this so it can be stable.)
+
+> +the standard block device mount path.
+
+> +
+> +The backing file content must remain stable for the lifetime of the mount.
+> +EROFS never writes to it, but concurrent modifications by other processes lead
+> +to undefined behavior.
+
+Yes, I explained to Christian but I don't think it should be included
+in this patch, maybe we need to document this as a new section
+in a seperate patch later (possibly as a formal security model.)
+
+> +
+> +Ioctls
+> +======
+> +
+> +``EROFS_IOC_GET_SOURCE_FD``
+> +  Return a read-only file descriptor (``O_CLOEXEC``) for the backing file of a
+> +  file-backed mount.  Returns ``-ENOENT`` on block-device-backed mounts.
+> +  Requires ``CAP_SYS_ADMIN`` in the initial user namespace (returns ``-EPERM``
+> +  otherwise).
+
+I hope document this part in the corresponding patch but I guess we have
+to get a consensus between filesystems first.
+
+Thanks,
+Gao Xiang
