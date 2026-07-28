@@ -1,97 +1,111 @@
-Received: from cvsmtppost13.nm.naver.com (cvsmtppost13.nm.naver.com [114.111.35.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5FB1C3BEB
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 10:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DD641F36F;
+	Tue, 28 Jul 2026 12:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785236005; cv=none; b=QQByZAvvBCWeApl5lLiSKXFdovCZqi13Hu7oe3Ql6/ch5WoBrf3fK30/Jr27OmKoXiQo4SJcM3dg+fmnOqaFguXgW6YmZjm1aGewAf4mOWPr1vzbqhoZqpbGIEP3KKmMKJwAa1GWo2hQZkeAj+yaoP0iEmkYsvjnukX3jRELlC8=
+	t=1785241603; cv=none; b=bsr/f/OII8BP46vwc6isjQgd74BGxo7QK+2lZVG76v/Cx+fEahsTsD3CsAzDVMR0SHLw4c9Cf8b/UeaViPLeMyacYaVqvy0W3hh5+rBJo75Aw4VfmlntRUTbz9keZL6O/hJHgQYsAvljUXpso6WDDwMytCBZAwe/Pb2hMSS/Xwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785236005; c=relaxed/simple;
-	bh=7zVnH0XfZkoE/7jd1BWn2qFid8m72bicg5wpwprCQaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AKgM2p413NgZfRlZXRnX78j0RCVH7qFvdZHSZKISfLSuKFcwhlNhihF9bVOwCY0j2dHHLj1z7dKeiT4ZGHvFbgCBGN073DYqdBrV62bhLe7vljRCw/AOIazZbf2b7nuF0Jh8BhJearEpGAeZnG8opPw6LbDOo1dSGigyMxIuTaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=gz1jJ7Ok; arc=none smtp.client-ip=114.111.35.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1785241603; c=relaxed/simple;
+	bh=ddAWSVNTGaeuz2ONnKE+rwJz9pZUjTBmmLP2VAVbfC4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hdQOZxHcx+MeMRKWamDNeT/el9naWFVD5p3HlqJP0qkVQOSgbIJiLL5Z6iA6lEuJxsjSrD4S7F8fkQ8JT1u2UwIf+ZINFdUBlSh8ul5/KfVHxPsMs2SaeP6u6oaGDPhNuZKrVRmbbYTsOcBdiZIuitGJz2RD3wt/c4+uev5nlKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVs7BNFg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="gz1jJ7Ok"
-Received: from cvsendbo003.nm ([10.112.22.30])
-  by cvsmtppost13.nm.naver.com with ESMTP id t3SBhDWwRH6l-g+Iz71-cw
-  for <linux-fsdevel@vger.kernel.org>;
-  Tue, 28 Jul 2026 10:43:07 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1785235387; bh=7zVnH0XfZkoE/7jd1BWn2qFid8m72bicg5wpwprCQaw=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=gz1jJ7OkY5Xq/FXW1xjythhxmewqzdS8RPo/ID/HeK1xU98YvNHixO5mG820x5AmP
-	 eQ0wEUBPeO8zeEtxdWeneXRKgIL5WrU4B1vWQqRgGhLb9ono6qz+nbbhNooPXDqLC1
-	 EmfXVe6ReUJt4N6BUOvSMZuqJ9r1UYmeNetkeEAnS1Mzqsy+UZsvdmGJwcI/Ix87tk
-	 koBQ9w+x6xn3trCyc4a3LDNlmd6GaXVlxtb5qYQlnC9YRbsqjyMesHsmVmho5Svp5a
-	 Q6SjJO+YPUEOIgm85C4Mvd87V+Jlc3pv4BhiqUf6EYgsPyJSJZO+qQFO2I84jTVAhc
-	 tOqAaOiucb9og==
-X-Session-ID: 6FQTT4rIRXqWoy6SgYbnNQ
-X-Works-Send-Opt: rPF8W4eXjHwYKHm9FAF9FNmwKo2mKqErKqb/jJIFjAJYKg==
-X-Works-Smtp-Source: X9nmKoE/FqJZ+HmXaAvZ+6E=
-Received: from bl4ckhyun.localdomain ([211.41.193.156])
-  by cvnsmtp004.nm.naver.com with ESMTP id 6FQTT4rIRXqWoy6SgYbnNQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Tue, 28 Jul 2026 10:43:07 -0000
-From: Hyeontae Lee <wonju345@naver.com>
-To: hyc.lee@gmail.com
-Cc: linkinjeon@kernel.org,
-	zzzccc427@gmail.com,
-	baijiaju1990@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ntfs: data race on ni->mrec between resident read path and MFT record mutation
-Date: Tue, 28 Jul 2026 19:42:53 +0900
-Message-ID: <20260728104254.2459-1-wonju345@naver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com>
-References: <20260725042421.109599-1-wonju345@naver.com> <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVs7BNFg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58541F000E9;
+	Tue, 28 Jul 2026 12:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785241601;
+	bh=ayU/6lHRgKTCK80O1xUHS/LH2s1bomipfuf9KK8K20c=;
+	h=From:Subject:Date:To:Cc;
+	b=gVs7BNFg1PY7V4cwmbpGOMGSnan6Vw42QKmoSZbJT30480I/kW+/T+jtrYnn8OulU
+	 o2CUtBZrNjG0hUL9HmQOgcj1b0g6HC3FGxCr5zHYzD4IVdbuZHZdG5woj1zgvrkbkX
+	 zwVHguBQ8RKvaUS8JBAfhtVqhKjaidUOFTsavBSTyK5+3vUp7HUABpbVxMcaPNPh8/
+	 GNkDCT/HsX6BdKizy/7dMEWwwGTIRp3SskMTDqkl42FYAUA4Fy4cSc/NWfgEy5k6J8
+	 28qauiv47nXKp15BNwRZals5F6aeKKZuaP4IEq0J/lMcdagWCu04NugEXajOf79bFG
+	 lnHhQQe2eWFOQ==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] binfmt_misc: don't let an 'F' entry pin its own
+ instance
+Date: Tue, 28 Jul 2026 14:26:31 +0200
+Message-Id: <20260728-work-binfmt_misc-selfpin-v1-0-74df5daeca5b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPifaGoC/yWMUQ6CMBAFr0L67ZrSiKhXIca0ZVdWpZAuognh7
+ rbyOS9vZlGCkVHUpVhUxJmFh5Cg3BXKdzbcEbhNrIw2R12bE3yG+ATHgfrp1rN4EHzRyAHaqnJ
+ lfT6QJlRJHyMSf//p5rqxvN0D/ZR7+eGsILhog+/yNJPsN2Ndf+Nr0RKYAAAA
+X-Change-ID: 20260728-work-binfmt_misc-selfpin-d55b1794f0fe
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ bpf@vger.kernel.org, jannh@google.com, mail@johnericson.me, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.16-dev-cca4b
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2423; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ddAWSVNTGaeuz2ONnKE+rwJz9pZUjTBmmLP2VAVbfC4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlzP/XwFq6a84W4VNne282vJziFcf1/AM7V/uDjHmp0
+ lqLEovWdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzE+g3Df+dXPjKK+z6kmrgX
+ 8un4KMWmnFUomHJ65VGfD9s2HTg1lYeRodP89Rw+ltKi7oAHGi5WytO2OM32CF8ga86apz6jbes
+ 1HgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi Hyunchul,
+An entry registered with 'F' opens its interpreter at registration time
+and holds that file until the entry is freed. Any entry nobody removes
+by hand only gets closed once the binfmt_misc superblock is shut down.
+If the interpreter lives on a mount that keeps that superblock alive the
+two pin each other:
 
-Thanks. In case it saves you some time: I tried the naive fix - taking
-mrec_lock unconditionally in __ntfs_read_iomap_begin() - and it deadlocks
-immediately. ntfs_lookup() already holds the directory inode's mrec_lock
-when it reads an index folio via read_mapping_folio(), so the read iomap
-path re-enters and lockdep reports recursive locking:
+    binfmt_misc sb -> inode -> entry -> interp_file -> vfsmount -> binfmt_misc sb
 
-  WARNING: possible recursive locking detected
-  --------------------------------------------
-  bash/1 is trying to acquire lock:
-   (&ni->mrec_lock), at: __ntfs_read_iomap_begin+0x291/0x3f0
-  but task is already holding lock:
-   (&ni->mrec_lock), at: ntfs_lookup+0x7f/0x3e0
+TL;DR the file is never closed. Once the mount namespace is gone there
+is nothing left to unregister through either.
 
-  Call Trace:
-   __mutex_lock+0xd3/0x1190
-   __ntfs_read_iomap_begin+0x291/0x3f0
-   iomap_iter+0x1a4/0x480
-   iomap_read_folio+0xb1/0x1c0
-   ntfs_read_folio+0x82/0xd0
-   filemap_read_folio+0x18/0x80
-   do_read_cache_folio+0x7a/0x1b0
-   ntfs_lookup_inode_by_name+0x624/0xe00
-   ntfs_lookup+0x93/0x3e0
-   path_openat+0xb4f/0x1370
+There are two ways to trigger this bug:
 
-So the read path is entered both with and without mrec_lock held (this one
-has no attribute list involved), which lines up with your point on the June
-thread that an unconditional lock there does not work. The comment at
-fs/ntfs/dir.c:295 notes the same read_mapping_folio() hazard.
+- Point the interpreter at the instance itself. Its files are regular
+  files owned by the mounter and both bm_get_inode() and
+  simple_fill_super() leave i_op at empty_iops. So notify_change() falls
+  back to simple_setattr() and chmod +x works. We never set SB_I_NOEXEC
+  and so open_exec() accepts it.
 
-I will think about a different approach.
+- Use the instance as an overlayfs lower layer. The overlay superblock
+  holds a clone_private_mount() of every layer until it is destroyed and
+  that clone is in no namespace. So umount_tree() never reaches it.
 
-Thanks,
-Hyeontae
+That's a DoS. And it isn't only the superblock that leaks. It pins the
+user namespace it was mounted in, so every iteration permanently eats
+one of the caller's user namespace charges.
+
+So let's just do the sane thing. SB_I_NOEXEC makes open_exec() fail on
+the instance's own files and s_stack_depth makes overlayfs reject the
+layer before it ever takes a clone. That also covers the ecryptfs and
+fuse passthrough variants. What 'F' promises is unchanged.
+
+The stable tag is narrower than the Fixes tags on purpose. Before
+sandboxed mounts this needed global root against the single instance
+everyone shares, and the change doesn't apply to those trees anyway.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      binfmt_misc: don't let an 'F' entry pin its own instance
+      selftests/exec: check that a binfmt_misc instance cannot be pinned
+
+ fs/binfmt_misc.c                                   |   4 +
+ tools/testing/selftests/exec/Makefile              |  10 ++
+ tools/testing/selftests/exec/binfmt_misc_selfpin.c | 158 +++++++++++++++++++++
+ tools/testing/selftests/exec/config                |   4 +
+ 4 files changed, 176 insertions(+)
+---
+base-commit: 744c5dd7c3c92dc7cac84a028934855cd9536a3c
+change-id: 20260728-work-binfmt_misc-selfpin-d55b1794f0fe
+
