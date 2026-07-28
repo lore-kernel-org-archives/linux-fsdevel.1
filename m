@@ -1,69 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BA130EF91
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 10:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBAA3C457A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 10:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785234285; cv=none; b=upibobIPKpprYEmZBzGuzT9vOJNZLGxdePeLpGF1TJ/o+DgRaj1Kd18qaLkl0j/CgtETpia1+FBpugPQppeFOncn8Goc1vH8HfgzOYhRn4kvXA1+b7LU4JDOdA01UIvsWUcr5PiRc5YdJlarUOXwztadWmfrlV9UV1oAUxpTJtQ=
+	t=1785234816; cv=none; b=gsCyRgX/TZG9mWZlE6QWpsX4+/lpCi+DjYcRJjSJsyuITtxpTv+QX0+oX55z/V08pv11Nh6ZSR4PkwopQqmXgSE3Folo/vgCcLBWiA27BS5RpzHL59A7dr4hvY4VuaeY6xOZCXb3ewrjGM54VRMCaZ2fTaaCzIREIGMvo3dEYxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785234285; c=relaxed/simple;
-	bh=94E8HRVRTivLOZTA/gFWLgSFoHdq1Rkcfb5c2xXbFvk=;
+	s=arc-20240116; t=1785234816; c=relaxed/simple;
+	bh=JEt36yDDZEL76dFXO9sxOTJSXmNdJgGVjufpHh89Ko8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Po4MAQRamChGkR6miYdI3H0HlwTOvgWqIe+OFhCwzbLpDWgo2rkqErSQRCRqR4yVFq7buDbcczX0HmyJlaIZW8xRbdZIlEEVNQcUURHQhgrYzC5x2qR3QhJc/gT5In1XUOGSwPjD1lFci2xNtEtIl9tnI3BYu7cRjDXOnQYj+MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jwxMssBL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EsBzjo6FcKXS9Wcg123VZSdlLAtARa6C1HRrHOwj0jetUjcIUn369T0ngX1WQULOfAFJiehnWdptSqXu1TUrZqTvV7meUT1LOY47I/GBEKjw///KvG44JcaeF5WDvnBU0IsJm3Sb1RV9XcH88N588I4ncONvYARG678pgk5g7Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hmspDYhX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dfv9hSEH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vrM7+Kpp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=15VO8SDD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jwxMssBL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06421F01559;
-	Tue, 28 Jul 2026 10:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785234284;
-	bh=s4inssPqpsD7BfQ38galVPAMa7N06dym7Nw4RodxwSQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jwxMssBLhOB8rIsSMd8YAnlLthfYIHaV8LSqShCqV6EsTTXlWGfBhgH7l/ZUmNVGN
-	 J915WjAr8AC1Ilkz6D2SxsE/6uiq5tJk6TqRbSAG4cwM9LwVAB82D8RbT02E/Zcdrr
-	 DUIofSQcqBnDdGB4RLS6OrvgINMvJwvz1wyfLd4uj0GWR9M8mD6Y2glaqnLczDbzvE
-	 5vBGJAFwVK+vPnDDtPp6E1tJUufKmC2LMTCXfgqiLd+ylXN83obNIgF0GOV4B6yEcV
-	 SaCQNqj/L+aGnIEl6CrmrmGLSP14oH0K/WgSX36ox0vfyheIDlDAi814j24YcGsARe
-	 W8kiYITkduYjg==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id D486DF4006B;
-	Tue, 28 Jul 2026 06:24:42 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 28 Jul 2026 06:24:42 -0400
-X-ME-Sender: <xms:aoNoas9G7TBIfPeEHgDvlk5EhbAe7R_soy7Wyydi-8nyyo_3EtVLdw>
-    <xme:aoNoalLn5ea_pHQYwa2OqD1z_vIXOWiboFC293hVRkEWKY2T8H_lD7nsXtWJr6QRd
-    eO0-J9aqggWOxr9NbxDfUox7W7ugCqW43V5MK176b7kd8vDNJatYA>
-X-ME-Received: <xmr:aoNoandtDQ42MXn6wBoWYA1DjCla7_EpsmB_iUDMsOogJKKpumqeKLTqTUKEGg>
-X-ME-Proxy-Cause: dmFkZTEyehosGDrX7K3E/QOll5f4laseRKTHb5EXYx6g/CSljkTyK31g3IhRDiB55hhpRD
-    +rj6sLLTD0TAT7a1nJudQaenOaU0Q6jK5rqmvXufpwIYH4DKRCeskDfAKHN3gUBRky2CHN
-    UhSqI4piK7mkQO2R4Aw7x87pfhDwGI73W92J/c1tXRrQe7AffmrnpfU+uu6DJT5c1/E/dT
-    O9lrj1TcFK6FzpMaIbm7xoPsGBMduVWfYzYAgkfOyQ+P9dzAUlUuX0zFB2lZdWSSp8DRmC
-    VV7sqWMMjXGNicieXSixPSHMw2e439xTLDc2pNBjzLhPrfNfnnxK0jfyj7sC40E4PJSpJq
-    NAWSrXzPUDBSPoYFlO6XEhhyqUSe/vFImDBq2g9YLHDhYpzCT5344zpofLOa9dlJ0vDGHs
-    xx5IM/OHQngE6vqpqa3YRLSm2ex7bALcbG3/Lj4eZMr6zIOSM/RQun1RdZJxT7OYb6F9Qy
-    8SVHdcD/UstGp8BqAbbHKLD30zXcBED8u2VmrAd21BmkFSmUU1sPjunbH3qhz+Lv8HLEnM
-    Q4VggKqr99LxIWHJ79TO1s1Ss2JcDQqCNfXlkRjiUHV63UeUzK5SoorTmND/V6Ezd6kKyE
-    8aKLdmRP2gCvWF3faEMPNJ0egFJDc9C5pic5o19aFNP12sAu6e1210B5IryQ
-X-ME-Proxy: <xmx:aoNoaqbc_D1ygYkAJW7Obc9xJEIpk_hDtBxAh4jzpaefUF1nxYy4Rg>
-    <xmx:aoNoalCPpud04phSjS5k1GV_imkGQKrNIsegsS9Krl14ZbLIlGWH7w>
-    <xmx:aoNoalLsNdrmPqQNMOZHfz6akZvAOTsFUcwN-B08lljVrUrtu3tUfQ>
-    <xmx:aoNoakowoblts5ut0D0t8TjzCr_mbWriI8OdXUyccoYugpWJy3ECFw>
-    <xmx:aoNoamOyTVFj5wfP5SLV9zq_xIPM1VYmIubpFyjM45WMbyuZbRtH8-cx>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Jul 2026 06:24:42 -0400 (EDT)
-Date: Tue, 28 Jul 2026 11:24:40 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
-	Kairui Song <ryncsn@gmail.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, Chris Arges <carges@cloudflare.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/filemap: __filemap_add_folio() restore index before
- retrying
-Message-ID: <amiC5t0HLWar2NCf@thinkstation>
-References: <562fbfa6-dd6d-0b6a-2461-ed2ff1173bc8@google.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hmspDYhX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dfv9hSEH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vrM7+Kpp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="15VO8SDD"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3524B3E03;
+	Tue, 28 Jul 2026 10:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785234809; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9ScQ16CMjFlPTjKS2k1tW3rCTBpjt7WhqtuW+Eef6SU=;
+	b=hmspDYhXrp6nsKgIWnShKcP3m1zateD3bEY3uR3GMErFfIxMI9+7/9QdoMY1OSL1i+d9Ny
+	ss+c7CzUHS0b0s/s+ubeJoKE314FUJcdwBRgQPnYA3jZnGclfq6lclfmk1jrAfkFHmjPXD
+	ALydB6hGuiNUAt7T35xwF/Q7tGqIIw4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785234809;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9ScQ16CMjFlPTjKS2k1tW3rCTBpjt7WhqtuW+Eef6SU=;
+	b=dfv9hSEHvWLKGMbbBNhVjCDz2vk/P4DzXoOYrI4DR42iExQvjuX+5M9j7wSOSUNUvXU0J9
+	pxBzL3eURvkQWNAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785234805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9ScQ16CMjFlPTjKS2k1tW3rCTBpjt7WhqtuW+Eef6SU=;
+	b=vrM7+KpprfezwZJiC2tqWLgrwHwaue0fD8f19jQfJUlGkmYWSlvkowfoF2O9cJqSfmnc2E
+	2eRBmU3pjwhTkWXbEm98yaEC3/yIJSvaC3seVOLe1nBu+YacKViosmAP40ubcTMimr6XR/
+	8Xli5LeJ4agy1c0nCZRnAXLzkzRjoIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785234805;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9ScQ16CMjFlPTjKS2k1tW3rCTBpjt7WhqtuW+Eef6SU=;
+	b=15VO8SDDjXpk6nGQsh3OpyKNDkmPEvq+Y5DXMA1IPu2e8rn0UdJqkJ/eKY1HHB5Xqxfpku
+	TyjJh3Fea260PcBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 261BF779B1;
+	Tue, 28 Jul 2026 10:33:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mOr2BXSFaGppLAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 28 Jul 2026 10:33:24 +0000
+Date: Tue, 28 Jul 2026 11:33:22 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Bo Zhang <zhangbo0325@gmail.com>
+Cc: fmayle@google.com, jack@suse.cz, akpm@linux-foundation.org, 
+	david@kernel.org, kaleshsingh@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, ljs@kernel.org, lkp@intel.com, oe-lkp@lists.linux.dev, 
+	oliver.sang@intel.com, surenb@google.com, willy@infradead.org, baohua@kernel.org, 
+	Bo Zhang <zhangbo56@xiaomi.com>
+Subject: Re: [linux-next:master] [mm] 7b32f64bc5:
+ pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
+Message-ID: <amiCX6kcQneMZu3-@pedro-suse.lan>
+References: <CAHCxdc64d-6qNBwwSZX8mdz4-V+88No2x0wG4mex5WPXBDE9AA@mail.gmail.com>
+ <20260727014610.3479784-1-zhangbo56@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -72,40 +90,101 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <562fbfa6-dd6d-0b6a-2461-ed2ff1173bc8@google.com>
+In-Reply-To: <20260727014610.3479784-1-zhangbo56@xiaomi.com>
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-On Mon, Jul 27, 2026 at 10:24:14PM -0700, Hugh Dickins wrote:
-> In __filemap_add_folio()'s split-a-conflict loop, xas_set_order() is
-> applied repeatedly: each application modifies xas.xa_index, rounding it
-> down according to the split_order attempted at that stage: and if all
-> goes as intended, it eventually (or immediately) converges on an
-> xas_try_split() to the required folio_order, with xas.xa_index now the
-> same as index: then xas_store() puts the new folio into the xarray there.
+On Mon, Jul 27, 2026 at 09:46:10AM +0800, Bo Zhang wrote:
+> On Thu, Jul 23, 2026 at 01:34:38PM -0700, Frederick Mayle wrote:
+> > I maybe missing something subtle, but, I think you've changed it from "don't
+> > read beyond the VMA" to "if there is a chance we could read beyond the VMA,
+> > don't read beyond the VMA", which seems like a more complex expression of the
+> > same behavior.
 > 
-> But if a new node was needed, and GFP_NOWAIT allocation did not get one,
-> the lock is dropped, xas_nomem() used to allocate, and sequence retried.
-> If (that part of) the xarray is unchanged when the lock is reacquired,
-> no problem. But what if the conflict was meanwhile resolved by another
-> thread (perhaps even doing the same thing, inserting a folio at that same
-> index)? Isn't there a danger of now putting our folio into the xarray at
-> an intermediate rounded-down index? With !folio_contains() bug to follow,
-> when CONFIG_DEBUG_VM=y is checking for that.
+> Hi Frederick,
 > 
-> Fix this with an xas_set_order() to restore the original xas.xa_index at
-> the bottom of the loop, so the retry does a full re-evaluation after
-> reacquiring the lock, and cannot reach xas_store() with the wrong index.
+> The subtlety is in how async readahead interacts with _max_index. The two
+> are not equivalent because async readahead sets ra->start to the end of
+> the previous readahead window, not to vmf->pgoff. So even though the user
+> is still faulting well inside the VMA, the readahead target (ra->start)
+> has already moved past the VMA end, however _max_index blocks it.
 > 
-> Production was suffering from rare SIGILLs and SIGSEGVs, executable text
-> found a page away from where it belonged, !folio_contains() bug hit when
-> debug enabled: symptoms not seen since this patch went in.
+> Here is the concrete scenario (ra_pages=128, VMA covers pages 0-1023):
 > 
-> Fixes: 200a89c159a7 ("mm/filemap: use xas_try_split() in __filemap_add_folio()")
-> Signed-off-by: Hugh Dickins <hughd@google.com>
-> Cc: stable@vger.kernel.org
+>   1. Fault at page 0 triggers sync readahead: reads pages 0-127,
+>      places PG_readahead marker at page ~96.
+> 
+>   2. Sequential faults continue. Fault at page 96 hits PG_readahead,
+>      triggers async readahead in do_async_mmap_readahead().
+> 
+>   3. page_cache_async_ra() detects sequential pattern (index == expected)
+>      and does:
+>        ra->start += ra->size;  /* pushes start to end of previous window */
+>      So ra->start = 128 (NOT vmf->pgoff=96), ra->size = 256 which is doubled
+> 
+>   4. page_cache_ra_order() calculates:
+>        limit = min(file_end, ractl->_max_index)
+> 
+>   With the unconditional approach:
+>      _max_index = 1023 (always set)
+>      limit = 1023, ra->start(128) < limit (It works fine here)
+> 
+>   But after several ramp-ups, when the window reaches the boundary:
+> 
+>   5. Fault at page ~896 hits PG_readahead, async readahead fires.
+>      page_cache_async_ra() does ra->start += ra->size:
+>        ra->start = 1024  (previous window ended at 1023)
+>        ra->size  = 128
+> 
+>   6. page_cache_ra_order():
+>        limit = min(file_end, 1023) = 1023
+>        ra->start(1024) > limit(1023) (Which will read NOTHING)
+> 
+>   Result: page 1024 (in VMA2) is never prefetched. When the process
+>   enters VMA2, it takes a major fault and readahead ramps up from scratch.
 
-Makes sense to me.
+That's on purpose.
 
-Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> 
+> With my conditional approach:
+>   At step 5, vmf->pgoff=896, vma_pages_left = 1024-896 = 128
+>   128 < 128 (the condition is false), so _max_index stays ULONG_MAX
+>   ra->start(1024) < ULONG_MAX, and it will prefetch pages 1024-1151 normally.
+
+This is exactly what we're trying to solve.
+
+>   Page 1024 is already cached when VMA2 is entered, only minor fault happens.
+> 
+> The key point: when mprotect splits a large file mapping into adjacent
+> VMAs (common for ELF segments, or read-then-write patterns), there's no
+> benefit in preventing readahead from crossing the boundary, so the data is
+> still sequential in the file. The limit only helps when we're actually
+> near the end of useful data (within ra_pages of the VMA end).
+
+This is completely missing the point. This change tried to back off from
+reading _anything_ past the VMA _on purpose_, due to ELF file spillage. This
+patch reintroduces spillage in a very obfuscated way.
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Pedro
