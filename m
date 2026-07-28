@@ -1,65 +1,65 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC916EEBB
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A1613790B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785207712; cv=none; b=DIryj9woMPGgX3LHXpGEBEw0hU617EwzgrMWrv3336TrGZuwBJNYSahM/XCXR7Z9N/N0OCT92aner0ur+kThxAQTUY97w8bEs5QzJBBnUAgtnkHFlhhFFTbYwPf23Hq3xsH7XFtICmTT7nKgzZx0remB+Et7QA5HoHWyHquiqtk=
+	t=1785207754; cv=none; b=enRVfng/iD7Bj/ADNTMwJHZM6HZ0DyOTnbLEesO0IlPXnweQfEW+aYZcFIBE1Ad/ZXwTEh8quHlaHoiHP5y9XOq4h9YPs9U66k+cf9ehML6i8ccCWTOWqlVZDb9FuF91H/vWM3bfJThDM+ePWKC7Q8I1jfo8npKzq3kS1G/1xQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785207712; c=relaxed/simple;
-	bh=yKPD8uyURJXe0BzinvoVBVjRb0gOiXVjxJMyIu+ssNQ=;
+	s=arc-20240116; t=1785207754; c=relaxed/simple;
+	bh=B6fnVXRqc2+KthV22TWtCiSs270dq/vI18HHPjC3FLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CWi1Jx4K6ubLjAJOG/o9qoHpZxqabIP6haeKnCGlZN8BBlIajQoG/AM7uEL7DDf43RYnYqk2tgHnCfjKfLVgZtkingfVwV010zaKEZRTsqVb4rIpgHxva1I3yE0uXPHFpUDYkNcAHELi7wB+06yzZFcpLeBNPR8e0QhyybglkV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=kPOZDFr5; arc=none smtp.client-ip=209.85.222.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=B7Hlawk/k9ICzmWaBHukY4FVsq9Lolj6X72FkE9auJkmYC8XrLN+3ZA13hIEa0pd27WUcGGzrNkIzKOsuCcQPI3iyiNme5VwlnNA6j8Rc/al3qYebc3DJMA1C5ut7ic/ZaqIimhnTsdpuoiLx5QqcUfTO8Ph/kmEvl9xBSIPj84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Z2W20BBv; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="kPOZDFr5"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9305a2121a1so285267085a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:01:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Z2W20BBv"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8ff5d1b0f91so21940416d6.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1785207709; x=1785812509; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1785207752; x=1785812552; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=U4Pummo+n71rvpjOibaLf+dE0Duq0sHkDOk4xh1L+FM=;
-        b=kPOZDFr5CNiYjZz/FiMgvibf2FGP214is9YqNQI1oxbVsPnDalPOWUYsR3XnoZwDCh
-         LwtfDmQexemP2+KD7L9J1bPgTxj6xhu6ECT0XkG8fCiFjqjsOpOtnVn1LDgPSdI+DqSI
-         4tbYytoepwrohGwTrRG+AlaW7YfoUWFAmARvaycxS9lvzbOVe485/CnSpGuzf1yzfQeN
-         lob6bmdNMYr5RNVal/lRIHRKrETjgr+1NfyIUXw52gDKV/4cHyJnmMLveUlH7Zb+97WC
-         XMqeYthvaN+7kPoveH4adGw5vFHVEwQiQ12RdiAyHPhak1yeFBi7ayJLUjYetxO/JjD9
-         8/oQ==
+        bh=BXSQdKo9ljS7GC2evl70cU/DxmVCFQ/8TIH5wWaTpfk=;
+        b=Z2W20BBv+5MxbNYrTdv71jdlT/i3XotJR0L61+nfqR6hulQXs+Zhk+G8VbLC2Wa2de
+         ZrXrMLBJcW3jwbSDaa3xZH/Bui2f4N80hq3nep1srlIv37cHBddGxZLHFRsigblGlkqv
+         hPM+bMvfuRoqZdHkpE+lQ2t7qpx+MLZYh9mg7R7SIV9xX6UHdimTfZCuXGHXyyyN2Zh6
+         QNN6jZFbzsj2013s1TDMdarXKhTXKlS+68NkVRpltkR7ua4B7Pe3MfbrVmghpKdl/Qa9
+         DW7DMPoI/uYdg2RtGFQq9Kuvh5/nFcNt+rmhgtydy+gdPP7r0hiICJCek737VEXpmaeQ
+         Jnyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785207709; x=1785812509;
+        d=1e100.net; s=20251104; t=1785207752; x=1785812552;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=U4Pummo+n71rvpjOibaLf+dE0Duq0sHkDOk4xh1L+FM=;
-        b=JP3gxp2L+sH5WvBEgbZv5zHxbTxy823JOUyh3StXb7db/o71vNVizH3dtC5MqJflFm
-         Y58XvjCnPrJ4n5/OiI6Rjyao+Nt3sfwNfM0vQQgiva9XmzVYJE1LG48bvy6NdRZGAe51
-         DyMHvj8UIyZU4O9RBTN+dnzPSLV8r9gtocHqFJrJCjrz0mGGJqrWcNuGZS0i1dogeqJO
-         xlEUAgi1reZ52zt8+KHDIbo0KzG43S8dkApw7UGYS75o1kjjjlt1XtwmOtIDnG7jcPqE
-         6UPACg0JRAzZ+J4aJ2TRxoxng0LNJOyuV7rOCGMTLhXebCkgkFRf20IzH35meldKecFT
-         VGIw==
-X-Forwarded-Encrypted: i=1; AHgh+RpcpQC/7OESXKCjed2lIWmKFXtzOabnvjMwFlAfIR2v+FpHeEskkcMb9JvxSs0P4emrAvHI+QZqvnnQVK3f@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXvZFUjnqNes5Yyl6aFjCo/4tpfl13Zq/Zub+7txrMHItJaTu7
-	e+vHfTqa1SDJBrjBk3hA9hu0Fa/c/gFS1DWrW1/lytLz+euLp3v0C1N/uiFr/rP4XK8=
-X-Gm-Gg: AR+sD10NgedrBM05Hl/xrzU3Ui+Jq48blCTzYjtH6GWBFKCr+DL5XUoz9BTFp9jjGSL
-	fUH1zVz0HlfUARjsUUTQevCt18eIWGIfWFC1GK959iv1QUHlaDahlLsT2zmMdasahddpxmgJHew
-	i6z7UJ+MWbYzs8hMwgaGkWgfj5KBZ1g1/IOmgX8hWrApgNmdNOGqErDs9jMLh03vXNA6TtzPoJu
-	lAWDVviDDlj0ri5EAIQ9AktQdbAtQl3YkwgT8xnXTGlXk+y4FUfZDHOYJyu5PJ6C7dPtBshEFpi
-	LA7h6WIhnKkTWDV2xwtCkBh0G6hhfhlWrf9c9YHDPgNQigLMgoqDp8dGjCMO8hAnmULZ9FEwNq5
-	6RD5XwC5C8Ly9bfdGzBLCRoVV1kHPAKqx9PWhpgXzqIAOoAMZk0qr5zzUPhNQTRDBcigtQNinTX
-	fczP0fHhlAAyXVYaMwtFo95dmLrviJ5wFoxU5PdolpFr03up7+ogftr1SdhA==
-X-Received: by 2002:a05:620a:45a5:b0:92e:78cd:13f with SMTP id af79cd13be357-93302659657mr50219385a.33.1785207709426;
-        Mon, 27 Jul 2026 20:01:49 -0700 (PDT)
+        bh=BXSQdKo9ljS7GC2evl70cU/DxmVCFQ/8TIH5wWaTpfk=;
+        b=qZSnkQwAv+vJCCqhgphUoVQ1k1f8iLvhf0bF6NhDHKO6tPlTJCQrSw7nIFwQHyTz2g
+         EGdUih16tmsl3hCefHEV2BILcIMuEsZg713RSe7mC+hE1QCOsGyHbuWUnw7E5VVGt88I
+         TUMtkP7kltgH8ZQ2LfG6Fz0H7mmpSWbkAqPUemJICHNQXg/326F64CC8+Duus6j/coFo
+         j8qhgjZzmlBgsczdDN1eA63ITtGunUD2xyhSfu8/iI9qCMp2oJlvv7t3te386NUDN0HE
+         BYNLdzmBLxjYZN9Qw32djybmCSwLDPE+lWluEuoguFau136KMDWBmSsbHfm6m4f8u+rr
+         XpMA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro0yAuyZpZohmf7utvn8kA63jlNqJ7UhY25jFwoRmTs3kjXKmrHwrZjag+iAaOQBFL8PABpE4nouJvD7efC@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrY9SwTm3Tf66Y05WoilPkvbNauTswS7ZDphPr0lWFTYXLzPmo
+	BNz4atvrvS/2iV871hU0BvmwumsNQUTSk0Jnt+6DFIClTdFQIuUYs9d7oDimZP6YX4s=
+X-Gm-Gg: AR+sD10pWw5DHtw5sBBI6Jpg//xmc4qu11vhfpBryqCsP29rHY20CK7EMmRGVWEPa9E
+	WSxuaL2RUKnUrPmlB0/DcswPdvZVaMqCEvEJydVDOe6MrfaiFCDLR73lQ0CV3b/Nbmz7UauV76f
+	1TexSmJ0AzcBCaEqhksfXeUzS24Vk6KPyJXLn65mCEd3sfPO2d6N+CV+gz3c0vXpt4sxYCxYFyC
+	wkL4wuhsc3bhKb54UX2NoVl1dXzVT7MOUk1HJJo2hCsH3fO0iZ2gp7IfCG4nIQzjl67hsQyWUFe
+	Nl505vZtzRkN0XOQ/hnbzJtwqw+4VtOJDqMqyaDJCQeEIw4dRE9LuYitidonidZxupMcFulRTF7
+	QkwbPEGfZL6/ljhO/ZJALgrdcODr+YF3dEQwq0afS6eol3CCqHIrkosklXA3pO2NR1NIeYplWWy
+	PD3x5u3e53hVbqGPeSfUqgZLSMyddrb73Kv0NFwQlFZm7n1URFc9K5vmnFPg==
+X-Received: by 2002:ad4:5f46:0:b0:8ba:3fc9:88ca with SMTP id 6a1803df08f44-908172f1128mr5966836d6.39.1785207752158;
+        Mon, 27 Jul 2026 20:02:32 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-932de53f36csm753319885a.11.2026.07.27.20.01.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e851b717sm78500686d6.7.2026.07.27.20.02.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 20:01:48 -0700 (PDT)
-Date: Mon, 27 Jul 2026 23:01:43 -0400
+        Mon, 27 Jul 2026 20:02:31 -0700 (PDT)
+Date: Mon, 27 Jul 2026 23:02:25 -0400
 From: Gregory Price <gourry@gourry.net>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -69,11 +69,10 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
 	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>, 
 	Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH v6 02/12] mm: Rename folio_contain_hwpoison_page() to
- folio_has_hwpoison_page()
-Message-ID: <amgbhnH2JJqnCQu-@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH v6 03/12] hugetlb: Mark some function arguments as const
+Message-ID: <amgbtoSMtlTDXgUs@gourry-fedora-PF4VCD3F>
 References: <20260727181310.2671972-1-willy@infradead.org>
- <20260727181310.2671972-3-willy@infradead.org>
+ <20260727181310.2671972-4-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,14 +81,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260727181310.2671972-3-willy@infradead.org>
+In-Reply-To: <20260727181310.2671972-4-willy@infradead.org>
 
-On Mon, Jul 27, 2026 at 07:12:58PM +0100, Matthew Wilcox (Oracle) wrote:
-> This is a better name for this predicate.  Also make the argument const
-> to allow other callers to be made const.  No functional change.
+On Mon, Jul 27, 2026 at 07:12:59PM +0100, Matthew Wilcox (Oracle) wrote:
+> These functions do not modify their folio argument, so we can mark them
+> as being const which will allow for some minor optimisations and let us
+> mark other function arguments as being const in the future.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > Acked-by: Usama Arif <usama.arif@linux.dev>
 
 Reviewed-by: Gregory Price <gourry@gourry.net>
-
