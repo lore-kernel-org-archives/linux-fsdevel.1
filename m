@@ -1,81 +1,40 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B787A3191CE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785253715; cv=pass; b=pan2fgd0WnbfZPFfkMc0VQ/IpQB65DJJz0UmQhzSY0VyEkUhKvL+fwHr78qHsThJGlWqOksEZS3F9fxUkn5WsyA+nqOt/AmRgbKysfrbro8CisVc/GHIxAy06o7eMFC+M8Wnhyt6iRlkxHPWGJzYiHzEqMIu8ocq66CrARGl+NA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785253715; c=relaxed/simple;
-	bh=6ekmMqEiqA8LTebT7W3nKgWOoJTnvec9dUtjjF95pMs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64942330668
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785253954; cv=none; b=EgkqJVMdgjEITIEizDfHxaABRwaORwpcSfeEgZJSHSNEU4aQXEkB4I0BKkzFpHgGULRJwwxq00lymfYHuwS4eA5bZcNKJPyPN0cnnR3Yffm4nxQvhTdGLgbIwTEKp2R5Ztr87aIFkkoa/YvlQD+eqyYiYjyjBDa3CF7I9BG/Qv8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785253954; c=relaxed/simple;
+	bh=bMOl0LoZ9OG3r13De5qvfam6hhvkOi91d3jCbtx/GCE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=isXUeChYMwGX1kH2i8H3Of2mubFOpa5HT+F8/ySY2SmVZiDqw/nYdtCI32YL7anwvJ/eZNnGjwPFUAt58Z6+4Q/yjCPQQ0O6Db95K5+w52TaQZLNGlezuc8VfNaSJVZ/YwFId1Tjh6/goz9p+h0ZOGd9C3ulUGNnXg6eyQz1YA4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJ4pQ8j0; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=nC6M0aM+xhkz5aDY5NXNa53yf5uyigPLGlgUU2tZwaMJ1sZjB8rc1GcTlZMk9yC17ArpvmS3nUXJS1u4vEW3/5B4xIgBJVMP+7s7l6UJON0mqLXk2VyCSVF+adTFx1KJwmieVj7oYnKS1zB3aRNKe/CTzF0f1F1u6V9Tbq5eN2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwQrC4Hx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJ4pQ8j0"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47f7854678cso16322f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 08:48:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785253712; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VQe9qckFZ/Vsyfb+uYd1ekaRuMB2ARXwVgoNTzzv5Cw6dZPQW6ScdVOiHj4lPNZzZo
-         NPFhbdeZ3n+IxmlblOft4dsLRD/98ViEt2lxjwHTLNcEb9Y3W3sC8owqZSwnE/1Dx8+U
-         Ms56RZmzrYZATbk0di8sb3YsYchnZtdCwqJ7kvo8pOqVqXEMb/0QU2HJZqTY/xHNixVi
-         OC3j64H/YdioU0rFleQgz60MyTq69A+xHiokUBSDqLE24H8qc+9zYWdkH7p58GqCWi6Q
-         z/EBeF9f925brKR30fF32LMtmaChHiLAik4R8nxt133WnGG1EHot/ICCG+wnjZg7nbYG
-         U0bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6ekmMqEiqA8LTebT7W3nKgWOoJTnvec9dUtjjF95pMs=;
-        fh=eDyjaTvN7S+9tvc7g2WknUl8t6dnLY/hab8nm6Ca/cE=;
-        b=lda6zee7pBUo/cvySzIAFd030FCHi8mozFdVZSth5unySGBnUatAWBaJ1NetP6w2X+
-         QLfkmlD048aluQRwxYQsVU2DuocTR7dLHJ0aM6J8aVUhScsRXEogXyMUEj9qsyVOjc5S
-         uGIxe9yqMZYipKObdrGRbKzZwJ65DozLRupPNnt7Ax3g93S7CDF0sD7ONYp0HysgeEpa
-         HTlMYDCAHtVr4OD5MA5Y/OXHE7YRA7Ba457mUZmECquAtKAOtpq/3M44ebRgfGJsug+9
-         F0FCLyBdF97DVzTr5nK4l1dyTqjODDuwT+6px5SA+OrK2QvLwJOxdrdYsQ6AGQ5eFzyi
-         1qJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785253712; x=1785858512; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6ekmMqEiqA8LTebT7W3nKgWOoJTnvec9dUtjjF95pMs=;
-        b=GJ4pQ8j0PpHVnxQxer23CYV49mAAABrjYLhjgRYfGGN7vcNW/4dKbmXbEuTAACF/mP
-         3yHl+Na56iyY8vNR2A28lYpCnp4VuDjdbnbnavth2sIbvb/trrKAlNwPmozsAnKAyHzD
-         Uv0KkeEZVPRRfMDaAbcq8XyaqzOeVrCEfqr81fJebo4kEm9TtbFXTcirGyun9jhaI8Nj
-         X7Aga6CdzyH36Jq4fY9MZfgRlXyIQAH6iuTz2lPbx1FDVGhzYn8E34gibvwEITvNDWTK
-         0UzxZJGDbPNm+WogNDkh17a17U2JUSzd2/inAB8x4/5HFqezdgJ4KcaznvqDCbCbdafB
-         c0Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785253712; x=1785858512;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6ekmMqEiqA8LTebT7W3nKgWOoJTnvec9dUtjjF95pMs=;
-        b=AK0WXB8ZjG1PwaqicmfQ6axh5f7t1YQMXIMgG5pAwwnUboSMlSUh/orbLk9vQKF/Kj
-         oKRS/NKOmOPWoOW+7xRYZF5E5D6i9vGhXo/wtK6+fvQ2isPBoyh1UDL34OxjRYhqVIOk
-         TsD3HfaMK/k0w0tzfqc/lgj/sK1pRuO3ZUvAYWVQLhJFyXtKYe87JD6PhnMRUuZz+W0Q
-         RvskQFs2APXWFau1tp3IqYDYwG3MkN/0t8PLMyF9JKKsI4jNCS0MOV+/VQGAxBZqXjAB
-         crQKZz1Y8OfY3gaZ5tYnOBBx3TNpXSFpBYGSIAWOc+xYSg+bcYg6vbtcVABy/sRXHwF3
-         07IQ==
-X-Forwarded-Encrypted: i=1; AHgh+RowXI02jYHWcYHTjFLHC4aD9rFjDNZuNQoBdCVr/pz5ErTDPqrIiAlor7SAO8X+Vrfa4IPDV+b0Cwp9WqR2@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRR36i/Dw1ztiFSzv0tIPZs3Od4zgMqVI+i+gayL3A39rWATlU
-	mFEsYnWa88qSsWULo1pj0Dz1uxq8008pFTbziNo9NFC5AGnRAgPTJ0Xyy9BLs5Ie09L6f68K4jw
-	ZRkPIXnEqoeJmSgERi0JSqFaHKHuG3NU=
-X-Gm-Gg: AR+sD11JK/BlmbQtU9A5cGoT3yvt6qn2TEQdA1/yUEJ/AUy06F9tq+Ea0zhLso3sBmU
-	LsA4wlYtM8Hgq+a5cdWQtOPssZkO4loOt7e68/g41CpPO2smY8lnB+j48cJieng8vswY1dAz+1i
-	O3LH5UZSjScvWBclRJiQCUkCqZK9szvEDIQ2Y5P/bi/hYOzIMHFwFCFxEYKrQ5VkOP3UdKBfCSq
-	Ch2yTqqphTJ1HGZjBKGPuna05iH1RUTPlqJ9IXwF19ci/vnEyS4W3M1zKtwp1OuODmNIxsyLCGa
-	Wf5uLzq4VH8sRWrU4g==
-X-Received: by 2002:a05:6000:1889:b0:475:f0d1:eb56 with SMTP id
- ffacd0b85a97d-47fb1eabd10mr3664714f8f.49.1785253711713; Tue, 28 Jul 2026
- 08:48:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwQrC4Hx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2121F00A3A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785253951;
+	bh=bMOl0LoZ9OG3r13De5qvfam6hhvkOi91d3jCbtx/GCE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=KwQrC4HxpZh8eu98lPCEWvADjY35rrDNQdlSq4/4cv+GUa/6oFVY/+nV7CaInlAMm
+	 DXxdtQri5w3Z39H9enq5RS8eJyLdgWRRbnJzIgEbZ7uqR9xQ82VNezv7zbqCZflTiZ
+	 av2L8MB5oj4OS7nZrlwUdAh2pnMNwSKAqFqB0vWkm+UIkMVIxdSR+pEm3liKMQXdb6
+	 NarPWuCCD18M0Vkec+sxLEpTP25v7QNxz10ehYPBKHa8OJ3vPK4tGgCVYyhmqlNRAE
+	 /k2nf4liDNWdfVS1E6yu8pWjYf5ZdnnXhdbHNHXemGa2Hbodp19vUsGe18RyKL8vVt
+	 fxnhlstLfgVbg==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c1740c36c5cso570221466b.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 08:52:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqbBYuofFivSLMuapUg7sGqzKH6YQh6csxf7+SkwZKcddtUSNZTOmSHhWEfMJe8qXC4dXdiFuTFxMRCde3I@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy51Ep8Ie5JTMn8jll5HSiyLHYYJQvfc0t3GNM09G8Qt4F8iiPc
+	aDrXSN6XUzvkVdgMpswaoxK7fxE7NNTSyu5hCMhRCLGnEhxUrTEJarltQ0IcjtdTYK4Mnq3qU2d
+	rm/1jTBiL1pk/uvswrD9mTIdOU4yhLnU=
+X-Received: by 2002:a17:907:1b22:b0:c15:cc30:6c70 with SMTP id
+ a640c23a62f3a-c1f7222aad1mr157579366b.42.1785253950068; Tue, 28 Jul 2026
+ 08:52:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -83,15 +42,17 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260727143618.1582318-1-alex@ghiti.fr> <20260727143618.1582318-4-alex@ghiti.fr>
- <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com> <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com>
-In-Reply-To: <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 28 Jul 2026 08:48:20 -0700
-X-Gm-Features: AUfX_mzh2_blL1kmUmwix39O8J8fZHoXTWgO9ySYA2Bkw_Iy6nOxbofDDKfyqbU
-Message-ID: <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com>
+ <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
+ <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com> <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com>
+In-Reply-To: <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 28 Jul 2026 08:52:18 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
+X-Gm-Features: AUfX_mw17xHEr87Xj-0eNal-34Y7WD8xyS6pNm9H3A2zMrpBFz_XUx8rLZL9Rcg
+Message-ID: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
 Subject: Re: [PATCH v2 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-To: Alexandre Ghiti <alexghiti@meta.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Alexandre Ghiti <alexghiti@meta.com>, Alexandre Ghiti <alex@ghiti.fr>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
 	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
 	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
@@ -106,46 +67,52 @@ Cc: Yosry Ahmed <yosry@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026 at 5:58=E2=80=AFAM Alexandre Ghiti <alexghiti@meta.com=
-> wrote:
+On Tue, Jul 28, 2026 at 8:48=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
 >
-> Hi Yosry,
->
-> On Mon, Jul 27, 2026 at 7:05=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wr=
-ote:
+> On Tue, Jul 28, 2026 at 5:58=E2=80=AFAM Alexandre Ghiti <alexghiti@meta.c=
+om> wrote:
 > >
-> > >
-> > On Mon, Jul 27, 2026 at 7:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr>=
- wrote:
-> > >
-> > > zswap writeback decompresses an entry into a fresh swap cache folio a=
-nd
-> > > writes it back. The folio is cold by construction, yet it is left on =
-the
-> > > LRU for reclaim to find and free later, wasting a reclaim scan and ke=
-eping
-> > > cold memory resident longer than necessary.
-> > >
-> > > Allocate the folio off the LRU and drop it as soon as writeback compl=
-etes:
-> > > mark it PG_dropbehind so the swap dropbehind path frees it once write=
-back
-> > > ends. Synchronous-IO devices complete writeback in this context, so t=
-here
-> > > the folio is dropped inline instead.
+> > Hi Yosry,
 > >
-> > Why does this need to be handled in zswap? Doesn't writeback from sync
-> > devices still call folio_end_writeaback() and do the dropbehind
-> > handling?
+> > On Mon, Jul 27, 2026 at 7:05=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> =
+wrote:
+> > >
+> > > >
+> > > On Mon, Jul 27, 2026 at 7:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.f=
+r> wrote:
+> > > >
+> > > > zswap writeback decompresses an entry into a fresh swap cache folio=
+ and
+> > > > writes it back. The folio is cold by construction, yet it is left o=
+n the
+> > > > LRU for reclaim to find and free later, wasting a reclaim scan and =
+keeping
+> > > > cold memory resident longer than necessary.
+> > > >
+> > > > Allocate the folio off the LRU and drop it as soon as writeback com=
+pletes:
+> > > > mark it PG_dropbehind so the swap dropbehind path frees it once wri=
+teback
+> > > > ends. Synchronous-IO devices complete writeback in this context, so=
+ there
+> > > > the folio is dropped inline instead.
+> > >
+> > > Why does this need to be handled in zswap? Doesn't writeback from syn=
+c
+> > > devices still call folio_end_writeaback() and do the dropbehind
+> > > handling?
+> >
+> > That's an optimization rather than a real need: since we know we are
+> > in a sleepable context, we can safely drop the folio from the swap
+> > cache here. And since we don't mark the sync folios as dropbehind,
+> > they never enter the list handled by the dropbehind workqueue.
 >
-> That's an optimization rather than a real need: since we know we are
-> in a sleepable context, we can safely drop the folio from the swap
-> cache here. And since we don't mark the sync folios as dropbehind,
-> they never enter the list handled by the dropbehind workqueue.
+> It's a bit artificial, but you can try testing zswap writeback to
+> zram? :) Likely you'll see some small tput win there?
+>
+> (TBH I have not seen sync IO swap backends other than zram though so
+> idk what's more realistic. We don't have pmem device available for
+> testing etc.)
 
-It's a bit artificial, but you can try testing zswap writeback to
-zram? :) Likely you'll see some small tput win there?
-
-(TBH I have not seen sync IO swap backends other than zram though so
-idk what's more realistic. We don't have pmem device available for
-testing etc.)
+I don't think it's worth optimizing zswap + sync backend tbh.
