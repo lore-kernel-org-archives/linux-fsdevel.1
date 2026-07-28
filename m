@@ -1,65 +1,65 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A1613790B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A642F12A1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 03:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785207754; cv=none; b=enRVfng/iD7Bj/ADNTMwJHZM6HZ0DyOTnbLEesO0IlPXnweQfEW+aYZcFIBE1Ad/ZXwTEh8quHlaHoiHP5y9XOq4h9YPs9U66k+cf9ehML6i8ccCWTOWqlVZDb9FuF91H/vWM3bfJThDM+ePWKC7Q8I1jfo8npKzq3kS1G/1xQ8=
+	t=1785207816; cv=none; b=OhLhglKsEzo84NHt414QXrcHMfVgywjDSrtFVzi+Ih0JizPlQ31mV34uEpUIeB2w3z1PhVtVazK2/uX+cmMuLqhemAlgEVe0nZNY+Rd/uewYWBq23a5REZqIi+MFcCj6sgCsLTy7JjL9igXWWtDZB//JM7EQOx05wJfQLfpC9c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785207754; c=relaxed/simple;
-	bh=B6fnVXRqc2+KthV22TWtCiSs270dq/vI18HHPjC3FLs=;
+	s=arc-20240116; t=1785207816; c=relaxed/simple;
+	bh=1Yi67YoV2rSIwB0L4yTtOVqoJC8cGOvw/QoY0tGceW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B7Hlawk/k9ICzmWaBHukY4FVsq9Lolj6X72FkE9auJkmYC8XrLN+3ZA13hIEa0pd27WUcGGzrNkIzKOsuCcQPI3iyiNme5VwlnNA6j8Rc/al3qYebc3DJMA1C5ut7ic/ZaqIimhnTsdpuoiLx5QqcUfTO8Ph/kmEvl9xBSIPj84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Z2W20BBv; arc=none smtp.client-ip=209.85.219.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMFa2STXw+IaJ89dMTXyuQnxBfLb7OJOVRAUh6KjPfPDECRb79DHxr/eY+TLMbt3tMdNc3L4maiEaMnUkxUNbLZhMp4VGZPMS/3cTR9oycMhnaYOx4UIPrmvVPGK7/yzeTxrYh+9oDSC2g6k0h6TYH788+zbYjRp0W0UdhYRG+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=GS18ja3k; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Z2W20BBv"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8ff5d1b0f91so21940416d6.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:02:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="GS18ja3k"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c04bf4711so33082001cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Jul 2026 20:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1785207752; x=1785812552; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1785207814; x=1785812614; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BXSQdKo9ljS7GC2evl70cU/DxmVCFQ/8TIH5wWaTpfk=;
-        b=Z2W20BBv+5MxbNYrTdv71jdlT/i3XotJR0L61+nfqR6hulQXs+Zhk+G8VbLC2Wa2de
-         ZrXrMLBJcW3jwbSDaa3xZH/Bui2f4N80hq3nep1srlIv37cHBddGxZLHFRsigblGlkqv
-         hPM+bMvfuRoqZdHkpE+lQ2t7qpx+MLZYh9mg7R7SIV9xX6UHdimTfZCuXGHXyyyN2Zh6
-         QNN6jZFbzsj2013s1TDMdarXKhTXKlS+68NkVRpltkR7ua4B7Pe3MfbrVmghpKdl/Qa9
-         DW7DMPoI/uYdg2RtGFQq9Kuvh5/nFcNt+rmhgtydy+gdPP7r0hiICJCek737VEXpmaeQ
-         Jnyw==
+        bh=0Gfu3RDiGWIEKHkevZ+RloXDenOIdQzmWURT300Hc4w=;
+        b=GS18ja3kcAMXyQIP/Q1JsFYPf4pFzYbYfPwg5bbPY7cdGH3jz94pUm+YYELV2fkyAD
+         YR0CJFDx/3i/w5ZV8c53INCWi4eBc0BSVQVMOO40MZlf1F+eB1ZWIhTNC95F2N555bew
+         Nu4rHpvPO8kXiMCpNclwr38N4k8VVPUnyKDvcieEKV6nOPEB5qZmgBa9muyZSjgSBKbV
+         wC3OGHrdmexUymlqU47q/Su9cN5cTbFIP0lmfM+Ie1ZW8HBLxi9vSgbl12h5kHvkTG9O
+         Nj4i/NXj7lCTEsEsSPfab5bvJC5sWS5wYjawQL/yiShIrVFvqo92hrSHf6otFdX9rhxi
+         vAZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785207752; x=1785812552;
+        d=1e100.net; s=20251104; t=1785207814; x=1785812614;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BXSQdKo9ljS7GC2evl70cU/DxmVCFQ/8TIH5wWaTpfk=;
-        b=qZSnkQwAv+vJCCqhgphUoVQ1k1f8iLvhf0bF6NhDHKO6tPlTJCQrSw7nIFwQHyTz2g
-         EGdUih16tmsl3hCefHEV2BILcIMuEsZg713RSe7mC+hE1QCOsGyHbuWUnw7E5VVGt88I
-         TUMtkP7kltgH8ZQ2LfG6Fz0H7mmpSWbkAqPUemJICHNQXg/326F64CC8+Duus6j/coFo
-         j8qhgjZzmlBgsczdDN1eA63ITtGunUD2xyhSfu8/iI9qCMp2oJlvv7t3te386NUDN0HE
-         BYNLdzmBLxjYZN9Qw32djybmCSwLDPE+lWluEuoguFau136KMDWBmSsbHfm6m4f8u+rr
-         XpMA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0yAuyZpZohmf7utvn8kA63jlNqJ7UhY25jFwoRmTs3kjXKmrHwrZjag+iAaOQBFL8PABpE4nouJvD7efC@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrY9SwTm3Tf66Y05WoilPkvbNauTswS7ZDphPr0lWFTYXLzPmo
-	BNz4atvrvS/2iV871hU0BvmwumsNQUTSk0Jnt+6DFIClTdFQIuUYs9d7oDimZP6YX4s=
-X-Gm-Gg: AR+sD10pWw5DHtw5sBBI6Jpg//xmc4qu11vhfpBryqCsP29rHY20CK7EMmRGVWEPa9E
-	WSxuaL2RUKnUrPmlB0/DcswPdvZVaMqCEvEJydVDOe6MrfaiFCDLR73lQ0CV3b/Nbmz7UauV76f
-	1TexSmJ0AzcBCaEqhksfXeUzS24Vk6KPyJXLn65mCEd3sfPO2d6N+CV+gz3c0vXpt4sxYCxYFyC
-	wkL4wuhsc3bhKb54UX2NoVl1dXzVT7MOUk1HJJo2hCsH3fO0iZ2gp7IfCG4nIQzjl67hsQyWUFe
-	Nl505vZtzRkN0XOQ/hnbzJtwqw+4VtOJDqMqyaDJCQeEIw4dRE9LuYitidonidZxupMcFulRTF7
-	QkwbPEGfZL6/ljhO/ZJALgrdcODr+YF3dEQwq0afS6eol3CCqHIrkosklXA3pO2NR1NIeYplWWy
-	PD3x5u3e53hVbqGPeSfUqgZLSMyddrb73Kv0NFwQlFZm7n1URFc9K5vmnFPg==
-X-Received: by 2002:ad4:5f46:0:b0:8ba:3fc9:88ca with SMTP id 6a1803df08f44-908172f1128mr5966836d6.39.1785207752158;
-        Mon, 27 Jul 2026 20:02:32 -0700 (PDT)
+        bh=0Gfu3RDiGWIEKHkevZ+RloXDenOIdQzmWURT300Hc4w=;
+        b=abTwcBVgeXusv0IBws+4NP7Gx2Lw3iYiBLixOUwpkkHCFNCk5fGpqvKFgPiM7o3Z+k
+         ZtMu88LUNaapyCAz8kHd4OSYeEzZP8dtIxCM8YZz7LSIRtUR3le9TKhMTYemDMG9XH2P
+         lwc6VTFk5ScyV8gdI+FzX4/bBkYy3/h+0s9SepIk56gznvHqVF2QC+BsvM5nHtR4KM6/
+         ol4RPDpv7jrJnqp7VFmx0C+D8xyCrG0ehlqKNEvLUeeergfq/UAAJ9TftVIrhkJVXpun
+         3YzhikjOfq6rQJ7rdZUdB4yAXsy+HaxAXwIextWO/R/Jz0JkdQlY5iXIo8EnKLYqKd+F
+         r9MQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3JtukKv8+ovr9NB3vKDbyQTsuh9sbuJ6GZ03BTyyCL2FbIXW7EFSM7+gopqpIb0wm+BhAz8XP6oZ96nHl@vger.kernel.org
+X-Gm-Message-State: AOJu0YzldC+/XJDVZnZzlPa+gouqXBZ7tAI3Qb7KfLiNEC3ROP3kiyVV
+	WEoQkYSfXI+F9ssravf4cBBv2EDbw9vkpO+SbxMz4yGO6MnMys7wgPcPP/NjVhzJyVw=
+X-Gm-Gg: AR+sD13/WnbW9aA7M4OwmmOxy5Sa5Xiy8vURvWBjzMHD6HTaLznt5Mcon6au3sqYFge
+	KB4QRdaIGCd18ePoSaK1NWd9NWmrKtB4gWaIdttHibXLm+m2b5i1rMGAvacELlvA5Hrug4vWo5M
+	ytaj2B9yVHxTBGrgn+7G/udbLD0IW9q4ysDWrrW6BmGWyOpft7YSHgEqA7GvFRwpoxYfjhbd5bE
+	MjheCo+NCiU10SNrnKcBynHfsAbmUQK3bC2ua8bQyc+nyLY0DU3LYvRd0fjYLIXZHIvc/SkJNp9
+	Y2n/0hW/uU928DSeX4mdEwOMDXU52offz5NOJefuIa/Eqcv1clM0iKqQT3lHmYQ8Z0vIjuk5c4t
+	B5CSFeidWlQu10MRdoI2rcVwx03uLsddMGM/U1oeK8HJRIcIf5BrhX23Hn9/zrPeyG6yDAd9ZMi
+	79uXcTXfp184wRklO329DmI1c0UMZzMv2XA9cqJ5hatyfr209HEPs4dZ/xzg==
+X-Received: by 2002:ac8:7e94:0:b0:528:a8c:a9fb with SMTP id d75a77b69052e-529d71a5fcamr4404971cf.87.1785207814003;
+        Mon, 27 Jul 2026 20:03:34 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e851b717sm78500686d6.7.2026.07.27.20.02.31
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529a2a4bed2sm65297261cf.29.2026.07.27.20.03.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 20:02:31 -0700 (PDT)
-Date: Mon, 27 Jul 2026 23:02:25 -0400
+        Mon, 27 Jul 2026 20:03:33 -0700 (PDT)
+Date: Mon, 27 Jul 2026 23:03:26 -0400
 From: Gregory Price <gourry@gourry.net>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -68,11 +68,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
 	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
 	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>, 
-	Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH v6 03/12] hugetlb: Mark some function arguments as const
-Message-ID: <amgbtoSMtlTDXgUs@gourry-fedora-PF4VCD3F>
+	Sean Christopherson <seanjc@google.com>, Ackerley Tng <ackerleytng@google.com>
+Subject: Re: [PATCH v6 04/12] guest_memfd: Use folio_has_hwpoisoned_page()
+Message-ID: <amgb8j0JUn9hAc6a@gourry-fedora-PF4VCD3F>
 References: <20260727181310.2671972-1-willy@infradead.org>
- <20260727181310.2671972-4-willy@infradead.org>
+ <20260727181310.2671972-5-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,14 +81,15 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260727181310.2671972-4-willy@infradead.org>
+In-Reply-To: <20260727181310.2671972-5-willy@infradead.org>
 
-On Mon, Jul 27, 2026 at 07:12:59PM +0100, Matthew Wilcox (Oracle) wrote:
-> These functions do not modify their folio argument, so we can mark them
-> as being const which will allow for some minor optimisations and let us
-> mark other function arguments as being const in the future.
+On Mon, Jul 27, 2026 at 07:13:00PM +0100, Matthew Wilcox (Oracle) wrote:
+> folio_test_hwpoison() only works on hugetlb folios today and will give
+> the wrong answer for other large folios.  folio_has_hwpoisoned_page()
+> works on both.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Acked-by: Sean Christopherson <seanjc@google.com>
+> Reviewed-by: Ackerley Tng <ackerleytng@google.com>
 
 Reviewed-by: Gregory Price <gourry@gourry.net>
