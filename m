@@ -1,40 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64942330668
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785253954; cv=none; b=EgkqJVMdgjEITIEizDfHxaABRwaORwpcSfeEgZJSHSNEU4aQXEkB4I0BKkzFpHgGULRJwwxq00lymfYHuwS4eA5bZcNKJPyPN0cnnR3Yffm4nxQvhTdGLgbIwTEKp2R5Ztr87aIFkkoa/YvlQD+eqyYiYjyjBDa3CF7I9BG/Qv8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785253954; c=relaxed/simple;
-	bh=bMOl0LoZ9OG3r13De5qvfam6hhvkOi91d3jCbtx/GCE=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D133BBCC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785254078; cv=pass; b=HXaHJj+0hZQLHOCzsMR6viw2ANFIZNV/TXlYeJu+DSgZms1epoWRDhFe6Xm6WuJVx+m9/+AZvoDyz8gm9eEbPdnXkd8ODa4h1xlWJVdALBJ4C93m6ySVVW3VCzev2kLWvvkyz5vwcerPJ+sKX9IF39TBueoSa1wI7gu+YP9GKsI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785254078; c=relaxed/simple;
+	bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nC6M0aM+xhkz5aDY5NXNa53yf5uyigPLGlgUU2tZwaMJ1sZjB8rc1GcTlZMk9yC17ArpvmS3nUXJS1u4vEW3/5B4xIgBJVMP+7s7l6UJON0mqLXk2VyCSVF+adTFx1KJwmieVj7oYnKS1zB3aRNKe/CTzF0f1F1u6V9Tbq5eN2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwQrC4Hx; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=L6il2IcrZE69PE7vNu+lJjAsWvGrMjhCrBSFtUsR4WghhhXcHpUjOl2rTG6rrauadzqhfDclC/G/FZz2KfM5IhclrpNZctT3xH4YaMRdAZa/TZh3WL1vYZmqz7bc7oUnboi3MPqiU8wmnQYfABgEf5ddUh6Kl+uNmDg6F4nXk3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvmrBEZL; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwQrC4Hx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2121F00A3A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785253951;
-	bh=bMOl0LoZ9OG3r13De5qvfam6hhvkOi91d3jCbtx/GCE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=KwQrC4HxpZh8eu98lPCEWvADjY35rrDNQdlSq4/4cv+GUa/6oFVY/+nV7CaInlAMm
-	 DXxdtQri5w3Z39H9enq5RS8eJyLdgWRRbnJzIgEbZ7uqR9xQ82VNezv7zbqCZflTiZ
-	 av2L8MB5oj4OS7nZrlwUdAh2pnMNwSKAqFqB0vWkm+UIkMVIxdSR+pEm3liKMQXdb6
-	 NarPWuCCD18M0Vkec+sxLEpTP25v7QNxz10ehYPBKHa8OJ3vPK4tGgCVYyhmqlNRAE
-	 /k2nf4liDNWdfVS1E6yu8pWjYf5ZdnnXhdbHNHXemGa2Hbodp19vUsGe18RyKL8vVt
-	 fxnhlstLfgVbg==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c1740c36c5cso570221466b.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 08:52:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqbBYuofFivSLMuapUg7sGqzKH6YQh6csxf7+SkwZKcddtUSNZTOmSHhWEfMJe8qXC4dXdiFuTFxMRCde3I@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy51Ep8Ie5JTMn8jll5HSiyLHYYJQvfc0t3GNM09G8Qt4F8iiPc
-	aDrXSN6XUzvkVdgMpswaoxK7fxE7NNTSyu5hCMhRCLGnEhxUrTEJarltQ0IcjtdTYK4Mnq3qU2d
-	rm/1jTBiL1pk/uvswrD9mTIdOU4yhLnU=
-X-Received: by 2002:a17:907:1b22:b0:c15:cc30:6c70 with SMTP id
- a640c23a62f3a-c1f7222aad1mr157579366b.42.1785253950068; Tue, 28 Jul 2026
- 08:52:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvmrBEZL"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-471eeac43bfso17256f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 08:54:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785254075; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LlED2e7k9Ukuhoc86iVKYyiuKH4zRDQvuWw0SdpDk9eYth2K10JCBECrLPovXg0ym3
+         DPhrsGO0oRq1tZkXYURWFQwALYaIzODw0Ic3sab5sGRe7tcIw+rOJ7+gFsjaWy82EwD9
+         D4CIdX7ST/e+uDsWAj2u3ku8p2I/7YETfnUD4BY+7L8VMbbNv28X6k7L8Eq6guQPhu4e
+         AqJrSUmR9iBxu2fl3PEkO2bHyCe6GgtpF7stP01uORnkyFnEC6umjb+5Pyczzzu5FbMG
+         WSS1EXDERdiiDy4Xg8Ra7HSE1NPAICXlweMA7J0qGaF41xb2LmJlr5OX4uV37ybaDjFN
+         kO9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
+        fh=NTByM6YPLUmQjUaDUMExZECiZ+4EayAu8WRVbA5vt7o=;
+        b=E2WmYgbP1lDndoxqzcGYzSSfpc7PFMPtOF/P8IyCjFt/9rPPtYQIPNH5u7zgOQxvhU
+         99GmT59s4eGo/CovA8TYNDk7yzfTNjLTUhToh7kxpne2OuoN2gf7HvtKfv+pd+N65DM7
+         w9S/4qU7iYJOv/8yvLDUyiVBDempncw6CGTBpzm7MS9LslBV4c3qRL6G/Sv/XpT9vrJi
+         QN4t3y96kiNI73EOYwqVwcbxHz8sTKPFf6JCrHK+SobR9VarBn7StbzRtKU+dc1e66Mz
+         Q7ILI6gwsco7ElBPQC0VtFZ7j6EjIPoERmXk8TQjcfX+BDmIcmnV5eXnXmsKQBclYqgp
+         AqzA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785254075; x=1785858875; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
+        b=DvmrBEZL7nH+oUd0bdVfW5WbT//knhdRJQT5W/k0Kqv4JOFUI1vIlLKug1SvVn0Zsf
+         GpuT7UTZBvAGBfy40EFzbw2avYwRT2c6lG8ncv68SNsK1v1estTbyrN3pHzMBrIUIs4Q
+         1lzXv2q3jOCOCBOz7vH0u1VHbUM3EERr+kYR/daUEL1uMQXreL98BggJ7UyMtNdf3erP
+         pwSaWAugMRhCVjX7nFYGYDJQOtiB5vVDlqtkU/4s7ROE2N8dKsCPpHfaOhCZG2DAo1TF
+         34MX7D5xvnTtecdL7cgjYBvbBYyx6Ih8JfVn+pOVSQAZuUyagYuRyyJgQq7tMfXdFuKp
+         S8jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785254075; x=1785858875;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
+        b=hQSxDjxggx+G6jdd0F1OHUVMGWvACVADSmRA4jmvZ24F15uuK4HbOY73NGqQXlVvrF
+         sDkRQYvnwvTl3v2i/gG2mTy3DAlpEJhBheqJITASth+8ZkgtiISpKOgggPxfSNYsmgQD
+         El/e82eTFKETkC0670ZONp751r539EZxKViKP6W2KyUiI3vQ4hOx+5Uvs5nBzogSk2RQ
+         pIrGFuWunrPNCOfMgo9OgI852GnW71NivLZsvSy7HEq8JHcrHoHlYsVf1lOmiO/jbUHf
+         n9289rskTVjUqLy9Uy6VcwLEUVfOP2x71XRKsclm8u9pfUsjcyyNTYYG+boKhRAna7Ol
+         qSWA==
+X-Forwarded-Encrypted: i=1; AHgh+RrVDujORAbZnUckqNlhpMrdoKM7UaHhjtMpyZPw/nhqPlCDCZELdOrr1CRSrWqg4KLHo9yH3eXQne9OwbCm@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWvi+7mfmFuXjwIsgYstRnFtbPS8QcrgFaoA4SdvG7vE92CiMg
+	RhsZ5E2+hrtGUn9LWAgi2C8l8iB500FHVeBkC7IaMvJhGdSf14CMMkJvpvzjyH3sGOB31a631ku
+	YGL6u9NvRgWxxMei7Rnjvew9gc6AT5Bg=
+X-Gm-Gg: AR+sD12qKcnOSByOTEggZm1lT+P3oFtRhOpVIIPsN2vDlH96YM7Kz9X+3mF6ZGV64mz
+	rzvtI4dFGEWYuCeF1ADjC9fxu4lyvStqr49UpN5+fee1JThgV+VtJ1djGiiOLfQa4oEx1xeZkkG
+	svdT2XoN1q3O4Nu2YX5b5tkRSPH6xu+0TCnACZKon5jw9tuXNauc50Hlf3U4D3CTczhmaH9uG9P
+	mKJkvAC+3ZDuZWieN+IvFRl5P98yuTz9yjK1AF1YPc/5ZXONTTE9E49kP16GZtpmNcnT2MKuE66
+	Wnm4jqLKG4WsC8IqIw==
+X-Received: by 2002:a05:6000:60f:b0:47f:90a5:be77 with SMTP id
+ ffacd0b85a97d-47fb1ec88ebmr3876146f8f.6.1785254075316; Tue, 28 Jul 2026
+ 08:54:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,15 +84,15 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260727143618.1582318-1-alex@ghiti.fr> <20260727143618.1582318-4-alex@ghiti.fr>
  <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
- <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com> <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com>
-In-Reply-To: <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Tue, 28 Jul 2026 08:52:18 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
-X-Gm-Features: AUfX_mw17xHEr87Xj-0eNal-34Y7WD8xyS6pNm9H3A2zMrpBFz_XUx8rLZL9Rcg
-Message-ID: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
+ <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com>
+ <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com> <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
+In-Reply-To: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 28 Jul 2026 08:54:22 -0700
+X-Gm-Features: AUfX_mwM9uU80mkdUZmobdZV83JB46gEM8E-6OObYnKo-qwfoaG6M9zE0eFhdcI
+Message-ID: <CAKEwX=MPPEBBepeaJtvZUZBJL0KmP6zGevD9HqTiUCKO4Pt_Cw@mail.gmail.com>
 Subject: Re: [PATCH v2 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-To: Nhat Pham <nphamcs@gmail.com>
+To: Yosry Ahmed <yosry@kernel.org>
 Cc: Alexandre Ghiti <alexghiti@meta.com>, Alexandre Ghiti <alex@ghiti.fr>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
 	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
@@ -67,52 +108,16 @@ Cc: Alexandre Ghiti <alexghiti@meta.com>, Alexandre Ghiti <alex@ghiti.fr>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026 at 8:48=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
+On Tue, Jul 28, 2026 at 8:52=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
 >
-> On Tue, Jul 28, 2026 at 5:58=E2=80=AFAM Alexandre Ghiti <alexghiti@meta.c=
-om> wrote:
-> >
-> > Hi Yosry,
-> >
-> > On Mon, Jul 27, 2026 at 7:05=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> =
-wrote:
-> > >
-> > > >
-> > > On Mon, Jul 27, 2026 at 7:39=E2=80=AFAM Alexandre Ghiti <alex@ghiti.f=
-r> wrote:
-> > > >
-> > > > zswap writeback decompresses an entry into a fresh swap cache folio=
- and
-> > > > writes it back. The folio is cold by construction, yet it is left o=
-n the
-> > > > LRU for reclaim to find and free later, wasting a reclaim scan and =
-keeping
-> > > > cold memory resident longer than necessary.
-> > > >
-> > > > Allocate the folio off the LRU and drop it as soon as writeback com=
-pletes:
-> > > > mark it PG_dropbehind so the swap dropbehind path frees it once wri=
-teback
-> > > > ends. Synchronous-IO devices complete writeback in this context, so=
- there
-> > > > the folio is dropped inline instead.
-> > >
-> > > Why does this need to be handled in zswap? Doesn't writeback from syn=
-c
-> > > devices still call folio_end_writeaback() and do the dropbehind
-> > > handling?
-> >
-> > That's an optimization rather than a real need: since we know we are
-> > in a sleepable context, we can safely drop the folio from the swap
-> > cache here. And since we don't mark the sync folios as dropbehind,
-> > they never enter the list handled by the dropbehind workqueue.
->
-> It's a bit artificial, but you can try testing zswap writeback to
-> zram? :) Likely you'll see some small tput win there?
->
-> (TBH I have not seen sync IO swap backends other than zram though so
-> idk what's more realistic. We don't have pmem device available for
-> testing etc.)
+> On Tue, Jul 28, 2026 at 8:48=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+> I don't think it's worth optimizing zswap + sync backend tbh.
 
-I don't think it's worth optimizing zswap + sync backend tbh.
+Yeah that's what I'm thinking too, to be completely honest. But my
+mental model for sync backend is zram, so I'm not sure if there are
+other cases that are interesting that I'm not familiar with.
+
+Normally I just use zswap on zram for correctness stress testing :)
+That set up fishes out a surprising amount of bugs.
