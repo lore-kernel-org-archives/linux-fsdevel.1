@@ -1,123 +1,204 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D133BBCC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254078; cv=pass; b=HXaHJj+0hZQLHOCzsMR6viw2ANFIZNV/TXlYeJu+DSgZms1epoWRDhFe6Xm6WuJVx+m9/+AZvoDyz8gm9eEbPdnXkd8ODa4h1xlWJVdALBJ4C93m6ySVVW3VCzev2kLWvvkyz5vwcerPJ+sKX9IF39TBueoSa1wI7gu+YP9GKsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254078; c=relaxed/simple;
-	bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6il2IcrZE69PE7vNu+lJjAsWvGrMjhCrBSFtUsR4WghhhXcHpUjOl2rTG6rrauadzqhfDclC/G/FZz2KfM5IhclrpNZctT3xH4YaMRdAZa/TZh3WL1vYZmqz7bc7oUnboi3MPqiU8wmnQYfABgEf5ddUh6Kl+uNmDg6F4nXk3Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvmrBEZL; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B75033F394;
+	Tue, 28 Jul 2026 15:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785254110; cv=none; b=eMwQcBhnGYvyJVwrLJn0H044+wXkjwe0XnLfY11KoRp+yAa1kN9r/3Ei90kzi0qkOuqIlJebeckuBsO32hpPP+3dRjdmHvttNcnkpP6G2Aa9m1AOl4i7LyJRc5AeuXRED2fpz2PkzcllcShfNNUs+WKaDyjzRPwdl/QjH2zm7tA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785254110; c=relaxed/simple;
+	bh=OsZ7vR2p5IyGbHIc0NICtQJaP3mpcxbdBnFosUxmPow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QHJY07HraD0GtCF7hy485O+gjO9pHqj3iXZFPW8ks2UeH26pPPtZuyYGLQ10Vpa08yQhrNbFq999UgILAdamN7v+MGqq9y2pEe1cFhz3hXQTAfh+84U7VHwpq+m51OXzVKsEjCQO4TRF+FSpGeAEFKgDxMSsAeh9ptl+7qpyMrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXA3b1Cj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvmrBEZL"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-471eeac43bfso17256f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 08:54:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785254075; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LlED2e7k9Ukuhoc86iVKYyiuKH4zRDQvuWw0SdpDk9eYth2K10JCBECrLPovXg0ym3
-         DPhrsGO0oRq1tZkXYURWFQwALYaIzODw0Ic3sab5sGRe7tcIw+rOJ7+gFsjaWy82EwD9
-         D4CIdX7ST/e+uDsWAj2u3ku8p2I/7YETfnUD4BY+7L8VMbbNv28X6k7L8Eq6guQPhu4e
-         AqJrSUmR9iBxu2fl3PEkO2bHyCe6GgtpF7stP01uORnkyFnEC6umjb+5Pyczzzu5FbMG
-         WSS1EXDERdiiDy4Xg8Ra7HSE1NPAICXlweMA7J0qGaF41xb2LmJlr5OX4uV37ybaDjFN
-         kO9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
-        fh=NTByM6YPLUmQjUaDUMExZECiZ+4EayAu8WRVbA5vt7o=;
-        b=E2WmYgbP1lDndoxqzcGYzSSfpc7PFMPtOF/P8IyCjFt/9rPPtYQIPNH5u7zgOQxvhU
-         99GmT59s4eGo/CovA8TYNDk7yzfTNjLTUhToh7kxpne2OuoN2gf7HvtKfv+pd+N65DM7
-         w9S/4qU7iYJOv/8yvLDUyiVBDempncw6CGTBpzm7MS9LslBV4c3qRL6G/Sv/XpT9vrJi
-         QN4t3y96kiNI73EOYwqVwcbxHz8sTKPFf6JCrHK+SobR9VarBn7StbzRtKU+dc1e66Mz
-         Q7ILI6gwsco7ElBPQC0VtFZ7j6EjIPoERmXk8TQjcfX+BDmIcmnV5eXnXmsKQBclYqgp
-         AqzA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785254075; x=1785858875; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
-        b=DvmrBEZL7nH+oUd0bdVfW5WbT//knhdRJQT5W/k0Kqv4JOFUI1vIlLKug1SvVn0Zsf
-         GpuT7UTZBvAGBfy40EFzbw2avYwRT2c6lG8ncv68SNsK1v1estTbyrN3pHzMBrIUIs4Q
-         1lzXv2q3jOCOCBOz7vH0u1VHbUM3EERr+kYR/daUEL1uMQXreL98BggJ7UyMtNdf3erP
-         pwSaWAugMRhCVjX7nFYGYDJQOtiB5vVDlqtkU/4s7ROE2N8dKsCPpHfaOhCZG2DAo1TF
-         34MX7D5xvnTtecdL7cgjYBvbBYyx6Ih8JfVn+pOVSQAZuUyagYuRyyJgQq7tMfXdFuKp
-         S8jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785254075; x=1785858875;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FBsfXxp655wnJEMHI9WpUa0JDeWDZ1N+76VJg9u87E8=;
-        b=hQSxDjxggx+G6jdd0F1OHUVMGWvACVADSmRA4jmvZ24F15uuK4HbOY73NGqQXlVvrF
-         sDkRQYvnwvTl3v2i/gG2mTy3DAlpEJhBheqJITASth+8ZkgtiISpKOgggPxfSNYsmgQD
-         El/e82eTFKETkC0670ZONp751r539EZxKViKP6W2KyUiI3vQ4hOx+5Uvs5nBzogSk2RQ
-         pIrGFuWunrPNCOfMgo9OgI852GnW71NivLZsvSy7HEq8JHcrHoHlYsVf1lOmiO/jbUHf
-         n9289rskTVjUqLy9Uy6VcwLEUVfOP2x71XRKsclm8u9pfUsjcyyNTYYG+boKhRAna7Ol
-         qSWA==
-X-Forwarded-Encrypted: i=1; AHgh+RrVDujORAbZnUckqNlhpMrdoKM7UaHhjtMpyZPw/nhqPlCDCZELdOrr1CRSrWqg4KLHo9yH3eXQne9OwbCm@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWvi+7mfmFuXjwIsgYstRnFtbPS8QcrgFaoA4SdvG7vE92CiMg
-	RhsZ5E2+hrtGUn9LWAgi2C8l8iB500FHVeBkC7IaMvJhGdSf14CMMkJvpvzjyH3sGOB31a631ku
-	YGL6u9NvRgWxxMei7Rnjvew9gc6AT5Bg=
-X-Gm-Gg: AR+sD12qKcnOSByOTEggZm1lT+P3oFtRhOpVIIPsN2vDlH96YM7Kz9X+3mF6ZGV64mz
-	rzvtI4dFGEWYuCeF1ADjC9fxu4lyvStqr49UpN5+fee1JThgV+VtJ1djGiiOLfQa4oEx1xeZkkG
-	svdT2XoN1q3O4Nu2YX5b5tkRSPH6xu+0TCnACZKon5jw9tuXNauc50Hlf3U4D3CTczhmaH9uG9P
-	mKJkvAC+3ZDuZWieN+IvFRl5P98yuTz9yjK1AF1YPc/5ZXONTTE9E49kP16GZtpmNcnT2MKuE66
-	Wnm4jqLKG4WsC8IqIw==
-X-Received: by 2002:a05:6000:60f:b0:47f:90a5:be77 with SMTP id
- ffacd0b85a97d-47fb1ec88ebmr3876146f8f.6.1785254075316; Tue, 28 Jul 2026
- 08:54:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXA3b1Cj"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CB13C1F000E9;
+	Tue, 28 Jul 2026 15:55:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785254108;
+	bh=bpqrn3faBB0R55swf7Cx6MHmLKn63qiJCaP3NGPKoZI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NXA3b1CjN+WrwDO3fKZY6+27cki7zefXDcgqw6Lw5RaeXPY/4XZg/nqe51jlH9IcY
+	 Do6ykzTQKtKcof6omTQACqZIBZdeOvogOMqeMZ01C5jwj2C3SH655vGkW6gSx0hYth
+	 MWmOmZLPifOyjCY4bPWBBYMx4ORorMJEeFrwKQscTgfFWjRZij1qyVpIqVOSgzz5ZU
+	 ujvu4cXACmPBHpL46qsBCyGpxALdRIMuGNUsI6HTukGOx2k04KL4ZpRBv9Tls/11io
+	 xct4ChExyr+VHiY15rvu53RG1O4d3B25GUk4ed0uf5LLFXGLHBxPZNJ9OkAvBw7Lex
+	 eDYrmKaS7eIUw==
+Date: Tue, 28 Jul 2026 08:55:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Brian Foster <bfoster@redhat.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, hch@lst.de,
+	linux-fsdevel@vger.kernel.org, changfengnan@bytedance.com,
+	kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+	David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, tytso@mit.edu,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, libaokun@linux.alibaba.com,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 01/21] iomap: split iomap_iter() logic into
+ iomap_iter_next()
+Message-ID: <20260728155508.GT2901224@frogsfrogsfrogs>
+References: <20260727211758.1116539-1-joannelkoong@gmail.com>
+ <20260727211758.1116539-2-joannelkoong@gmail.com>
+ <amizdHj6ICgP2xFv@bfoster>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727143618.1582318-1-alex@ghiti.fr> <20260727143618.1582318-4-alex@ghiti.fr>
- <CAO9r8zNJ1cfCVgxtpqx4Db380bjZ+Z0P842eAxPXw6Mh4XBrww@mail.gmail.com>
- <CAEmasaXR5EmGCv3T5AzM_2908R-VjfMcObrACyVGokY2U=+i+Q@mail.gmail.com>
- <CAKEwX=P5G=Ckafy6fm9ws3njWP_Zm_AHRKOFERScB9Pkd_KvGw@mail.gmail.com> <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
-In-Reply-To: <CAO9r8zNsZUvMknjmH7MvkQ=09DnB9YvtYoA0ei5Hj_cESQAVPg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 28 Jul 2026 08:54:22 -0700
-X-Gm-Features: AUfX_mwM9uU80mkdUZmobdZV83JB46gEM8E-6OObYnKo-qwfoaG6M9zE0eFhdcI
-Message-ID: <CAKEwX=MPPEBBepeaJtvZUZBJL0KmP6zGevD9HqTiUCKO4Pt_Cw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Alexandre Ghiti <alexghiti@meta.com>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amizdHj6ICgP2xFv@bfoster>
 
-On Tue, Jul 28, 2026 at 8:52=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> On Tue, Jul 28, 2026 at 8:48=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> I don't think it's worth optimizing zswap + sync backend tbh.
+On Tue, Jul 28, 2026 at 09:49:40AM -0400, Brian Foster wrote:
+> On Mon, Jul 27, 2026 at 02:17:38PM -0700, Joanne Koong wrote:
+> > In preparation for changing iomap to use an in-iter (->iomap_next())
+> > model, move the iomap_iter() logic out into the new iomap_iter_next()
+> > helper function.
+> > 
+> > iomap_iter_next() is added as an inlined helper so it can be called
+> > directly by ->iomap_next() implementations where the begin()/end()
+> > callbacks can be direct calls.
+> > 
+> > The DEFINE_IOMAP_ITER_NEXT() and DEFINE_IOMAP_ITER_NEXT_END() macros are
+> > also provided to generate the boilerplate ->iomap_next() wrapper
+> > functions that simply forward to iomap_iter_next() with the appropriate
+> > begin/end callbacks. DEFINE_IOMAP_ITER_NEXT() is for the common case
+> > where there is no end() callback. DEFINE_IOMAP_ITER_NEXT_END() is for
+> > the case where there is an explicit end() callback.
+> > 
+> > No functional change intended. The only code-level difference is that on
+> > the iomap_end() error path (ret < 0 && !advanced), the old code returned
+> > with iter.status left as the caller's last value whereas the new code
+> > zeroes it, but this is not observable in practice as there are no in-tree
+> > callers that read iter.status after the iteration loop.
+> > 
+> > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+> > Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/iomap/iter.c       | 123 +++++++++++++++++++++---------------------
+> >  include/linux/iomap.h | 102 +++++++++++++++++++++++++++++------
+> >  2 files changed, 147 insertions(+), 78 deletions(-)
+> > 
+> > diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> > index e4a29829591a..66ccb87441ab 100644
+> > --- a/fs/iomap/iter.c
+> > +++ b/fs/iomap/iter.c
+> > @@ -6,15 +6,6 @@
+> >  #include <linux/iomap.h>
+> >  #include "trace.h"
+> >  
+> > -static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
+> > -{
+> > -	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
+> > -		folio_batch_release(iter->fbatch);
+> > -		folio_batch_reinit(iter->fbatch);
+> > -		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+> > -	}
+> > -}
+> > -
+> 
+> So hch forwarded me a bit of Sashiko review feedback that called out a
+> potential folio batch leak on error returns from iomap_begin() or
+> iomap_end(). Note that I think the ->iomap_end() variant is currently
+> not an issue because nothing returns error there, but it should be fixed
+> regardless.
+> 
+> As such, I have the patch below as a fix based on current master. The
+> idea here is to account for failures from either callback and also the
+> fact that XFS may not necessarily transfer the iomap_flags on failure. I
+> considered a couple other options here, like changing that behavior or
+> using an iter flag, but I think this is the cleanest option.
+> 
+> However this obviously conflicts with this rework series. This isn't a
+> major conflict IMO.. I'd probably just do the same thing and include the
+> batch cleanup in the error/exit path of iomap_iter() (or maybe start
+> passing ret into iomap_iter_done()), but I would need to reintroduce the
+> helper above. Also after this series I think this could mean a duplicate
+> call in the termination case where iomap_iter_continue() would have
+> cleaned things up, but that is relatively harmless. Maybe there is
+> something incrementally cleaner, but I'm still wrapping my head around
+> the factoring here..
+> 
+> But anyways, the main thing I wanted to ask is how folks want to handle
+> this particular bug..? This rework is invasive and looks mostly reviewed
+> so I don't want to unnecessarily hold it up. I can rebase on top of this
+> and leave the patch below for -stable, or avoid the helper churn and
+> post the patch below on its own and rework it into this, or maybe just
+> tweak this to leave the helper around and avoid some churn that way..
+> thoughts?
 
-Yeah that's what I'm thinking too, to be completely honest. But my
-mental model for sync backend is zram, so I'm not sure if there are
-other cases that are interesting that I'm not familiar with.
+From my 30000ft view I'd say push the folio leak fix to linus ASAP for
+7.2 and work out the merge conflict resolution in for-next and send that
+to broonie/linus for 7.3.  But I'm not sure if people are actually
+hitting this and not realizing it; or if this is a fix for a theoretical
+problem.
 
-Normally I just use zswap on zram for correctness stress testing :)
-That set up fishes out a surprising amount of bugs.
+--D
+
+> Brian
+> 
+> --- 8< ---
+> 
+> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> index e4a29829591a..63617ec48250 100644
+> --- a/fs/iomap/iter.c
+> +++ b/fs/iomap/iter.c
+> @@ -6,12 +6,18 @@
+>  #include <linux/iomap.h>
+>  #include "trace.h"
+>  
+> +/*
+> + * Release the iter folio batch. Note that the iomap flag is meant to control
+> + * the I/O path for the mapping and may not be set in error situations.
+> + */
+>  static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
+>  {
+> -	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
+> +	if (!iter->fbatch)
+> +		return;
+> +	iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+> +	if (folio_batch_count(iter->fbatch)) {
+>  		folio_batch_release(iter->fbatch);
+>  		folio_batch_reinit(iter->fbatch);
+> -		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+>  	}
+>  }
+>  
+> @@ -79,7 +85,7 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+>  						  olen),
+>  				advanced, iter->flags, &iter->iomap);
+>  		if (ret < 0 && !advanced)
+> -			return ret;
+> +			goto error;
+>  	}
+>  
+>  	/* detect old return semantics where this would advance */
+> @@ -110,7 +116,11 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+>  	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
+>  			       &iter->iomap, &iter->srcmap);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto error;
+>  	iomap_iter_done(iter);
+>  	return 1;
+> +
+> +error:
+> +	iomap_iter_clean_fbatch(iter);
+> +	return ret;
+>  }
+> 
+> 
