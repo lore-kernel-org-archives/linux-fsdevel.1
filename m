@@ -1,65 +1,89 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24198446C0D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 14:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BD9427A1A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 14:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785247560; cv=none; b=guVkU1CP4eF9zWqTZ9AJ+gATrNPa5S6EW7/fca7O5da2MaKPfpb2niIVFn4hLhQFO8BeWMivhZmUkub46RTJSBpZX87Vz/wcDtSTjdw5YaPCg4uYk3N5IjPi+6qqhyIsgDmEZLC1jWAMoOgewMzqZ5FUMwwYVIQBc7elg4AfbfE=
+	t=1785247804; cv=none; b=CmhSlefr1X2kMiHBKxgPKTb57Fwk1YteU7hJCBsqaSG6mVYYnA2KzRJE45/D+ZvqRE2udM4ID542AbuaJrJFR7GHnFH1alnxTg6G80okyIKvH8lGDfPPqXs7crz3hUcty9OYIHE3slpR2njSbYLW/G5rJtBnvcODiXLYWcXBHS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785247560; c=relaxed/simple;
-	bh=evIc72wiwT1XdwA0FSRtAYgMY29DbtQ7JWn9+wbCnts=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=IJR5neJ1C4lwYVjP+KPvf3oSvTM5WkEL7XfYCiRNI1HLFRbbE2gQckSUJrkkDuaqVezLAe/L3EcuSwvVn2HCF5tKUAdqYwOiIoKhqJ92sTGCvTTrR7dRImxG2gQ4U2LoktVaOp/xI6XRckZ7b6UydmGlB5FHFOG36LN+iX9Q2ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=byDnxZ8Q; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1785247804; c=relaxed/simple;
+	bh=gRX+ywKIwU9OmqjBDAsui9Hd9CKC+9id0Hc8y1CHwtw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JhF0CMonNB7VhqHHZoUWoZTCn7HUWLnilYd1hqYLG42nbxNEWjtH8B2FGD527VQTBLHvkbfj6NYWJI/wvtalvG5O8O//h0oUPDLF2p5bGD47WOJSSGkDpXLfK/P5YyvfVC25auAwe+g3iDUbwkc04ZXFC8FHiESGopyr4NqCV4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nO+po5ZV; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="byDnxZ8Q"
-X-KPN-MessageId: 71e01010-8a8d-11f1-8f54-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 71e01010-8a8d-11f1-8f54-005056992ed3;
-	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 71dcd388-8a8d-11f1-b315-0050569977a2;
-	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nO+po5ZV"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49548aebcd8so29096065e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 07:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=y9qzNaBQaJ1HHxdW4i/51Xov/C1q/PIlpBEt7Bj0kcw=;
-	b=byDnxZ8QTVJB11AqaH1d50hnfydgqGryAF+oKPSMWm9mMCuHHdYRxIHbIi8QpF08orDIwPiWbw5p5
-	 piKHv+MuweF51WPYcJt2S4aTFv6wcEDxMViehT6i8KSePzpVXKWjPiDCczgCBFVLnkuo1Kr0cv/IJl
-	 vEnGvuqopaB+ix7eq1PQWN7cZ/hxaMje+5bYtqd1E8LV8MMqXBZHSJIVzuGUxlMNMGg4XAKkwao7zX
-	 YeDwbFdR769JYrD2/hbkwsdlPkckIuuJaVJ6GqUfJJNHnB1sd1u54TOKVfCVHSZUyWuvZwXHqxre4/
-	 Ed+h69DVsY0oXRpvfbrh+D6tfgeaO9Q==
-X-KPN-MID: 33|L3/beUzbwIgwmHaE1/vPBQJjHb/zC7dwTmdxjrSgGQ543wtcCaPmJSNGeY3cxkD
- fkgYAq4RRDFgmMHGmW6jp6tu471JZ8xqkkkYrJSRauxU=
-X-CMASSUN: 33|1TXlOyJ4SBjb+JXD39+OGcnAnSiIdSUq2+6bt1kXloC9yPbKiyHl/FgQQXqhfzh
- 47PwaUg94IzO3ouL557RtSQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 71cdc435-8a8d-11f1-8edb-00505699eff2;
-	Tue, 28 Jul 2026 16:05:53 +0200 (CEST)
-Date: Tue, 28 Jul 2026 16:05:52 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Message-ID: <64825400.394146.1785247552949@kpc.webmail.kpnmail.nl>
-In-Reply-To: <2048838556.1496380.1784464286664@kpc.webmail.kpnmail.nl>
-References: <20260712192958.1631672-1-jkoolstra@xs4all.nl>
- <20260712192958.1631672-2-jkoolstra@xs4all.nl>
- <CAAVpQUCD27YphUQ=aL3PyPtWwTo0tEtaFt-hvyoyCnepGAmYCQ@mail.gmail.com>
- <2048838556.1496380.1784464286664@kpc.webmail.kpnmail.nl>
-Subject: Re: [net-next v5 1/4] net: af_unix: enable custom setsockopt for
- all socket types
+        d=gmail.com; s=20251104; t=1785247801; x=1785852601; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YrD8ygHhYerz0DEj7rZWmow1dfxEDcUpsFk06vyQsjE=;
+        b=nO+po5ZVcybFv/Sor/Aed6UzmGe3XIFOzK4280ewhpedlAjHznboWBlLfegaoGKZG8
+         Kh4pFoEokkYydu2nP+uJFJONXyLnCG6T0pzwJAT1kKp0OyV68d5R1Bzdo6X9fT4SD8t9
+         jlljI+l0kriKltk8ikLw6TP6e6BZk7DNYvr9+zNIczYTQWvmqJ89dzIJX4oPzW5aPpan
+         mDcyNdO2VTFMAEVONO61rbg9bfjSbVZCD41GZeIKYY19iTe2yjdadnOgaebvLysIcA3Z
+         e66eBt7WGUglIN0CWFIFccgrKzSxZbwUrgYi8pCqL8tqYW1kTuYeFqfajhWFSSEGb5i7
+         3+fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785247801; x=1785852601;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YrD8ygHhYerz0DEj7rZWmow1dfxEDcUpsFk06vyQsjE=;
+        b=OVqmC2AIVjNdYnSifxnsfs/c/lkRL5Vuevrn5Qpi9VFz1cM70wSXsGWfCZaZyz2kLi
+         Wx6GnWl7z61ms0tBSEOYuRwCtpJICydlm7GTkL6my3y5o8NpayrRUCg2k7Ht0U9K09v/
+         ZuTl9ngfNUBcCMxYFOILzjioHMPiggjODQtIhF6HVUt1Qz9MV+CwobnKjMUpOcaXKPKi
+         TUvrTruEKu7mQ2DtQz5Lb57Kkj3Ut8l2M5jdCMsdxDWCMwYwqE9WY12Wbfd7P4RjK9C+
+         jkf5I3/2YQJOdF/3znyWRy16f5I0SMyPf1WvBrTYI+jYxAmcyOa/PyN0Vnl+YB5Q783k
+         8KDw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro/chmHs2OBugefmLwoUVrVwUwJy3AG/9psEAGPHCRV6DChgqnYmyCqcirIGAYvXKCCrcuqZIFxDRdjqnkx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN2k1ks8QZVXBlQuiASUeutfiKRVBg3dEHbpXKCBhYFUIbdOXL
+	P/sDktqCyBFr3aKSkmrUx0Tfn3K+M6qnf48pr5ijQqfPh3mCOxQzKvWs
+X-Gm-Gg: AR+sD10x1jHt0Ag+4YFD+ZyIy+V+QlVA7w00GhCB/595sp+qP/tNkAQz7h+K1y0h+3y
+	gpNEsKcMEiG7a+HSdOHv3rsRgICVsbRJqBVU8pE89uliLxYKvZYQFl0yOYqshuD8LsLGQe2/p3K
+	gbLQMTqVESNSguQtgvrH61+lJwxX4dNOO8/FQnJ0UNv7Fsr8/pu27OlPIF4+E87KPqu7ExAlYAP
+	+glIBbAQFqnPMT/c5pfmq8TKP0VT+Qu6R94aILTkLHZ7mM0IJRXYiOZX7fb11/1QxY07BBriCy+
+	IV6OOhZoFcTJakSbDrUGkTJ9HJg+qDftlwxumwYcBz3cYZNLj5/SGpPY80NcttdzYqv1/OsVrcg
+	Tj9O3164liYZZRpReiHExcaaIzkfA4SlJiowvC5i6E+EmJfrH5ufP2HPhnBYsQL5+vLBt+PNgni
+	3E+IU0jVxkYP2SBNhQc65FIpo6bo7wMWNYXJgR6rWb728EsAUWErtwiawWX/bfQBJBMJ0VVNzOn
+	B7KKg==
+X-Received: by 2002:a05:600c:a44:b0:495:4856:2659 with SMTP id 5b1f17b1804b1-496c6439442mr28377265e9.9.1785247800886;
+        Tue, 28 Jul 2026 07:10:00 -0700 (PDT)
+Received: from zhangbo56-PC.mioffice.cn ([43.224.245.235])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45b1c2asm82737265e9.5.2026.07.28.07.09.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 07:10:00 -0700 (PDT)
+From: Bo Zhang <zhangbo0325@gmail.com>
+X-Google-Original-From: Bo Zhang <zhangbo56@xiaomi.com>
+To: pfalcato@suse.de
+Cc: fmayle@google.com,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	kaleshsingh@google.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	lkp@intel.com,
+	oe-lkp@lists.linux.dev,
+	oliver.sang@intel.com,
+	surenb@google.com,
+	willy@infradead.org,
+	baohua@kernel.org,
+	Bo Zhang <zhangbo56@xiaomi.com>
+Subject: Re: [linux-next:master] [mm] 7b32f64bc5: pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
+Date: Tue, 28 Jul 2026 22:09:42 +0800
+Message-Id: <20260728140942.3849047-1-zhangbo56@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <amiCX6kcQneMZu3-@pedro-suse.lan>
+References: <amiCX6kcQneMZu3-@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -67,102 +91,69 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
-@Kuniyuki,
+On Tue, Jul 28, 2026 at 11:33:22AM +0100, Pedro Falcato wrote:
+> > With my conditional approach:
+> >   At step 5, vmf->pgoff=896, vma_pages_left = 1024-896 = 128
+> >   128 < 128 (the condition is false), so _max_index stays ULONG_MAX
+>
+> This is exactly what we're trying to solve.
 
-Could you take a look at this if you have time? Would like to move this
-along if we can.
+> > The key point: when mprotect splits a large file mapping into adjacent
+> > VMAs (common for ELF segments, or read-then-write patterns), there's no
+> > benefit in preventing readahead from crossing the boundary, so the data is
+> > still sequential in the file. The limit only helps when we're actually
+> > near the end of useful data (within ra_pages of the VMA end).
+>
+> This is completely missing the point. This change tried to back off from
+> reading _anything_ past the VMA _on purpose_, due to ELF file spillage.
+> This patch reintroduces spillage in a very obfuscated way.
 
-Thanks,
-Jori.
+Hi Pedro,
 
-> Op 19-07-2026 14:31 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
->=20
-> =20
-> > Op 14-07-2026 11:19 CEST schreef Kuniyuki Iwashima <kuniyu@google.com>:
-> >=20
-> > =20
-> > On Sun, Jul 12, 2026 at 9:29=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all=
-.nl> wrote:
-> > >
-> > > unix_setsockopt() and the SOCK_CUSTOM_SOCKOPT flag were only wired up
-> > > for SOCK_STREAM (introduced along with the stream-only SO_INQ).
-> > > Consequently custom AF_UNIX options are unreachable on SOCK_DGRAM and
-> > > SOCK_SEQPACKET: those setsockopt() calls bypass unix_setsockopt() and
-> > > fall through to the generic sock_setsockopt(), failing with
-> > > -ENOPROTOOPT.
-> > >
-> > > Set SOCK_CUSTOM_SOCKOPT for every AF_UNIX socket type in unix_create(=
-), and
-> > > also for accepted sockets in unix_accept() (reachable for stream and
-> > > seqpacket).
-> > >
-> > > This is a prerequisite for making SO_RIGHTS_NOTRUNC settable on all A=
-F_UNIX
-> > > socket types.
-> > >
-> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > > ---
-> > >  net/unix/af_unix.c | 10 ++++++----
-> > >  1 file changed, 6 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-> > > index f7a9d55eee8a..3d256255085b 100644
-> > > --- a/net/unix/af_unix.c
-> > > +++ b/net/unix/af_unix.c
-> > > @@ -949,7 +949,7 @@ static int unix_setsockopt(struct socket *sock, i=
-nt level, int optname,
-> > >         switch (optname) {
-> > >         case SO_INQ:
-> > >                 if (sk->sk_type !=3D SOCK_STREAM)
-> > > -                       return -EINVAL;
-> > > +                       return -ENOPROTOOPT;
-> > >
-> > >                 if (val > 1 || val < 0)
-> > >                         return -EINVAL;
-> > > @@ -1005,6 +1005,7 @@ static const struct proto_ops unix_dgram_ops =
-=3D {
-> > >  #endif
-> > >         .listen =3D       sock_no_listen,
-> > >         .shutdown =3D     unix_shutdown,
-> > > +       .setsockopt =3D   unix_setsockopt,
-> > >         .sendmsg =3D      unix_dgram_sendmsg,
-> > >         .read_skb =3D     unix_read_skb,
-> > >         .recvmsg =3D      unix_dgram_recvmsg,
-> > > @@ -1029,6 +1030,7 @@ static const struct proto_ops unix_seqpacket_op=
-s =3D {
-> > >  #endif
-> > >         .listen =3D       unix_listen,
-> > >         .shutdown =3D     unix_shutdown,
-> > > +       .setsockopt =3D   unix_setsockopt,
-> > >         .sendmsg =3D      unix_seqpacket_sendmsg,
-> > >         .recvmsg =3D      unix_seqpacket_recvmsg,
-> > >         .mmap =3D         sock_no_mmap,
-> > > @@ -1142,9 +1144,10 @@ static int unix_create(struct net *net, struct=
- socket *sock, int protocol,
-> > >         if (protocol && protocol !=3D PF_UNIX)
-> > >                 return -EPROTONOSUPPORT;
-> > >
-> > > +       set_bit(SOCK_CUSTOM_SOCKOPT, &sock->flags);
-> >=20
-> > Please move this to unix_create1(), then we don't need the chunk below.
-> >=20
-> >=20
->=20
-> I don't understand how this helps. The accept() path gets its struct sock=
-et from
-> sock_alloc() not via unix_create() afaict. Also, unix_create1() is called=
- with
-> sock =3D=3D NULL on connect(), so now you have to guard against that too.
->=20
-> But maybe I misunderstand you?
->=20
-> I do agree with you other comment, accept() should probably inherit the t=
-runcate
-> behavior from the listen() socket.
->=20
-> Thanks,
-> Jori.
+I understand the ELF spillage concern. However, I think it is better to
+distinguish two different scenarios:
+
+1. ELF segment loading: .text is typically a few hundred KB to a few
+   MB, access is random (e.g., instruction fetches jump around), and the
+   data beyond the segment boundary (e.g., .rodata padding or another
+   segment with different access patterns) is not useful to prefetch.
+
+2. Sequential mmap of contiguous file data: SVT-AV1 maps frames
+   sequentially from the same file, and the data beyond the current
+   VMA boundary is the next thing to be accessed. Same applies to
+   mprotect-split regions of a single large mapping.
+
+In your earlier message on Jun 18 [1], you noted that SVT-AV1
+"progressively mapping the file data for a given frame" and that the
+old behavior of "page faults for a given frame starting readahead for
+the next few frames" looks "reasonable". I totally agree, and my patch
+tries to preserve exactly that behavior for the sequential case while
+still limiting spillage for the ELF case.
+
+Here's why the conditional check still handles ELF spillage:
+
+For a typical ELF .text segment (512KB = 128 pages, ra_pages=128):
+  - First fault: vma_pages_left = 128, 128 < 128 is false, no limit
+    (but ra->size starts small, won't reach boundary yet)
+  - When readahead ramps up and approaches the end:
+    vma_pages_left < 128, _max_index is set, spillage is blocked.
+
+For VM_EXEC VMAs, Frederick's patch already has a separate code path
+that unconditionally limits readahead to VMA boundaries (the exec folio
+order path). So ELF .text spillage is already handled regardless.
+
+The regression comes from the non-VM_EXEC sequential path (mmap read
+of data files), where blocking cross-VMA readahead has a real cost
+with no benefit, the data is contiguous and will be needed.
+
+The 45.8% fps regression and 870% major fault increase are not
+acceptable tradeoffs for blocking readahead that would have been
+useful. My patch preserves the anti-spillage behavior for the last
+ra_pages of each VMA, while allowing the readahead machinery to work
+as designed for the bulk of sequential access.
+
+[1] https://lore.kernel.org/oe-lkp/ajQbXthzbr9xgUIM@pedro-suse/
+
+Bo
