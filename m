@@ -1,147 +1,213 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011000.outbound.protection.outlook.com [40.107.208.0])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89C730F7EB
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 09:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785229383; cv=none; b=R3ytECiJ80Hu0Q2CZvgev29Ed03AShHBx2Jb/o5x561PyXxo1j2M4rmq3XLcYr9e+TlXlodYtN6oZ0hFwSKC4D/fwIBjJRbI6yBlaz+0cs+hoM+2x3rQtKiXARUKR5ZY5D3wjLrPqtmod+ZBJpMmkkJACeU4uKspT1jvu6gc7n8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785229383; c=relaxed/simple;
-	bh=iKxf5flFKBV19jyinhFCfT0EdHAoCCxA/Z0YqlhbNmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I9VGCjDGTzp9a2Y0FHqOWD4xYZGENjrw0UCtLBfeMtHU3B8ZW82c5ACCl+o/u6TimS6RD3yf1Bf5mfGgFgKhsdCvdPzh9EBRvNv8JAfsCWaDzEFbOAySc/4rWlkG4jtsDxfuUVBwvZhJVAIb16gG21TkKJyVLyPO2neT29gT4Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wYb8resh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2fmHCJd2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YtuIeJiX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qCzd+wAK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F37A3AA4EB;
+	Tue, 28 Jul 2026 09:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.0
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785229628; cv=fail; b=JwhHztLh/EAGeux4IvxDf7NqMdPUsdaamvMfzZrdAVqjke1Xaat1RODhxfnIN2IKDdprR37b59z01LP9W9Q3w1YSjdYlR5D0AAPXclZq7XICMRQObWMgRpu/JlM3+kb+TPgXlvAtQV/3W3V4kn0PJA54lh+f0z7bvZlWK8GZNeQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785229628; c=relaxed/simple;
+	bh=SLQi18eoZj86Llp+lWDnOsrCYvdyBKQWIZHLvBCmlws=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=X0NjjK6BrePdQeo5daIUZrZo1SG29316cVBXi0geyN0iGBTu5JjMrVtta7PeFS50BLtCpF30f4ofO3p54k5MQ91v2MvId78dmZOm2Wx+iehn+LJEb5YqBgSzRUSWZO85F6ttX/fPxIVqu2o0Rxx8pzwCjWi21XBVxv47YDov6NI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ch64oEVR; arc=fail smtp.client-ip=40.107.208.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wYb8resh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2fmHCJd2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YtuIeJiX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qCzd+wAK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A8DCB7BFED;
-	Tue, 28 Jul 2026 09:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785229375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JiBhapS4yd3JBk3wJMMLnPaSViFMEz/i6gX+eA+O2Vw=;
-	b=wYb8reshhb4u0odztJ4Ng+smZ5J/g0IrHOApYodJP5HrMPW3BPbXz66qTehSjGLKS5TPMW
-	IufzoIzv3NhZofGV8MrrD6vVVY0XE9PJDgJaaxH/EI957SzxW6GXDJpA0cmesNZk3+bvXh
-	jfpO1OI/R71BOdq6tm1KxaVwcOdAxTc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785229375;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JiBhapS4yd3JBk3wJMMLnPaSViFMEz/i6gX+eA+O2Vw=;
-	b=2fmHCJd2idKLYwAG+LkZgqszy4AFjM4N5MUlg7YvQJguxz/QLAaz7wrsfD2ra0aK7EgmGu
-	KL65yyCf1wAPVuDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785229371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JiBhapS4yd3JBk3wJMMLnPaSViFMEz/i6gX+eA+O2Vw=;
-	b=YtuIeJiXTMplrLFSdAxB66MlqasaLVnU1LDXcuVat/qqWUTXIbj02psFQaGNvhoiILuMv/
-	lmfU1TUpshjZDU9yES5Ib//lY6CLu+v3FOsibGfxv2mAvX02t94bYdvUjN8PlXiXfxIPTt
-	p96Euc/+3XFdZWZKJlcxHtJ/mrG95yQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785229371;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JiBhapS4yd3JBk3wJMMLnPaSViFMEz/i6gX+eA+O2Vw=;
-	b=qCzd+wAKRqGnVNA1kDTbGrTP60YRDlO94dCbG1lOIlVEkDB0FNtXMblzA/P4RmwE2USyE6
-	RfP08vH81oxFEeAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C269F779B3;
-	Tue, 28 Jul 2026 09:02:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8zFPKzpwaGrJVAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 28 Jul 2026 09:02:50 +0000
-Date: Tue, 28 Jul 2026 10:02:49 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, David Hildenbrand <david@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] mm: do file ownership checks with the proper mount idmap
-Message-ID: <amhoqhLlYROZXOLh@pedro-suse.lan>
-References: <20260625153853.913949-1-pfalcato@suse.de>
- <20260728-kreieren-innehalten-anbot-d92ce2dd10bd@brauner>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ch64oEVR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ansdwPal9GvcSIQ3iuWunkHRKOxl1Hu5sEzx3Zr7rxONAyRc0dcBqH+K6Ri68xFDRS6AeJ8xh+fC6xu6ZNLr4IP7/9EAxwki8dJ/a0p7Fprff5dWbRKzxLHRYhJvPy/pVH0PZd34kbOHMK6VsaoRwASXILUpRVjmaAYiQQtOLciyt57P62W1NqUIiYc9HcDvuJEoJhlDjGVb0qjfZuGyNpGgJWAkIHupBdxt57Tn006J7p+tck/IXFDrWnkt+udkjBNoD3AmxAsojgMz2eblYSdFlxEf1fY2jcx5obg3kg/aVnRt7I2jTr58HVLG0fTugl8wxfaAFx5wSHICDIbtEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VifYzjSZGoKtwW5iIF6tOlJciJLCM0v/2zb5EQpAa0A=;
+ b=XarkWw612ftbq9rEf79GzugUZnqFLmnkAuDxDmztE8TX3w6WU0/p5sKW8Y53FukMVhYXQVIxRt7stAGiAFHOJ5nEz7O98Xlvv/lILaGx802JS1sEd8Kl8qTlCqMFDBMYcuW2wNvp+YedPYsa6AlBPFLR55ylU1ZpUfojqh2+3K0Ssj42noVR9mABtU9l8UT47IAsdtFG5qE6dxYjruU5rost2cBSHFvvK2iUtT17URKpJR5cy4AfaF76mPoVOo/9kvCbefyN3H+EUZDF5qF8q48MwaCMR37VymYU3geAUDgxP8Ah2KeAug8o1j69SRDK06Q0J3FyUn+tvckBjwOSJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.alibaba.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VifYzjSZGoKtwW5iIF6tOlJciJLCM0v/2zb5EQpAa0A=;
+ b=ch64oEVRRXXSPRK/i32NQjKAgmrKYRJc1w4DDzJcryMF2kjdto657Tj7dI+/42WFJX88JHzj5qIZA0F5ugK73VXOp9fAWRn2rqj9Nnnkxjfnk/rXZHVay4yDsHKDu+YnzHNVTUe0q0P0l7zG8A/tJW59AgdU0o9N49J942ytazg=
+Received: from MW4PR03CA0207.namprd03.prod.outlook.com (2603:10b6:303:b8::32)
+ by CH2PR12MB4119.namprd12.prod.outlook.com (2603:10b6:610:aa::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
+ 2026 09:07:00 +0000
+Received: from MWH0EPF000C6191.namprd02.prod.outlook.com
+ (2603:10b6:303:b8:cafe::95) by MW4PR03CA0207.outlook.office365.com
+ (2603:10b6:303:b8::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.12 via Frontend Transport; Tue,
+ 28 Jul 2026 09:07:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000C6191.mail.protection.outlook.com (10.167.249.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Tue, 28 Jul 2026 09:07:00 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 28 Jul
+ 2026 04:06:50 -0500
+From: Shivank Garg <shivankg@amd.com>
+Subject: [PATCH RFC v2 0/4] KVM: guest_memfd: folio migration for
+ non-confidential VMs
+Date: Tue, 28 Jul 2026 09:05:33 +0000
+Message-ID: <20260728-shivank-gmem-migrate-v2-0-269ac1f84e2b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728-kreieren-innehalten-anbot-d92ce2dd10bd@brauner>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN1waGoC/32NQQrCMBBFr1Jm7UgSabCuBMEDuJUu0mTaDpJUk
+ hKU0rsbcgCX73/++xskikwJLs0GkTInXkIBdWjAziZMhOwKgxJKCy0lppmzCS+cPHn0PEWzEp6
+ ttK3shpMwGsr0HWnkT9U+4XG/QV/CmdO6xG+9yrJW/61ZokDllNbDaPXYtVfj3dEuHvp933+Ut
+ z8huwAAAA==
+X-Change-ID: 20260611-shivank-gmem-migrate-8c1c519b30a6
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka
+	<vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, Johannes Weiner
+	<hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, David Hildenbrand
+	<david@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+	<joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+	<byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+	<ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, Chao Peng
+	<chao.p.peng@linux.intel.com>, Nikunj A Dadhania <nikunj@amd.com>, "Michael
+ Roth" <michael.roth@amd.com>, Pankaj Gupta <pankaj.gupta@amd.com>, "Ackerley
+ Tng" <ackerleytng@google.com>, Fuad Tabba <tabba@google.com>, "Sean
+ Christopherson" <seanjc@google.com>, Vishal Annapurve
+	<vannapurve@google.com>, Nikita Kalyazin <nikita.kalyazin@linux.dev>, Patrick
+ Roy <patrick.roy@linux.dev>, Pratik Sampat <prsampat@amd.com>, Ashish Kalra
+	<Ashish.Kalra@amd.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, Ira Weiny <iweiny@kernel.org>
+CC: <linux-fsdevel@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, Shivank Garg <shivankg@amd.com>
+X-Mailer: b4 0.15-dev-47d62
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785229610; l=3732;
+ i=shivankg@amd.com; s=20260518; h=from:subject:message-id;
+ bh=SLQi18eoZj86Llp+lWDnOsrCYvdyBKQWIZHLvBCmlws=;
+ b=5efGPm1+eSiBTsT/smZVADij8yblCcW4gJplmsUE8Wb2rJuD1LjqDCXQjzJAkmdRnxRA7ohdV
+ 9vWF+wUhmiuClYV25b+56aKDI6aIvPm+5rf0PjOwE6eZOz8luleZJdg
+X-Developer-Key: i=shivankg@amd.com; a=ed25519;
+ pk=2l2QGTeXuGkZTtfmx0nPQU8iFZfjYmX/ymMojitevx4=
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6191:EE_|CH2PR12MB4119:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa8417be-4082-4893-f33c-08deec879595
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|1800799024|7416014|82310400026|376014|11063799006|10067099003|56012099006|6133799003|921020|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	hCUAwKUKaZrq052vyWfkX9s22QfcFcgA/80gDOauK9DXAwUkUGzfeWdLBBjfw04yfKWnKa7bmP4yyONl7xdaSmdBDVBxnoS4fzi0YCMk8gkMJljzCmOjUpxbrgdJZdVDIlrhbS0Cd63r2j598qCaeZSiaLt8+gUPBeOUMxqa13R5W00MV/v6tnZ0es/C3BGkAha1Igw19F4OWVbrKViJ95EBXceRIL0onIY2Oy+Q/kLqdQoCNd2yXTxaPLbgQEQlnxzUSaR8ILrznVoyLXKYCMHUGkxAFs6xoseA6qcTEwsTbvg7mzsadpsHItiEtrln3k5SLQB2vTMF+U3EBEF326/xnmWwbe4bcvqckm01iBFevqH6Op99e54uCVtk/2sgpsPIPvnR7jvRSSP71NxJZceOHTa57U0hnSf88cnVXTFTpH2v5AFr7m4X/njwKBjHuTBfzmBwh3LpXqiW3Viu9ERkkbmYP6X0d3u84+56T7zdHWhNe010DSdXsgiHDXiSa6d14vsoi8zTgUcss0K8R8rGAH+hMkkQoF+9YeJNfL0gjiK3gMJ1aV+EmcabEghZ2uRby7onJJCulbRnRYv94AbftWA3iKgixZ8W7c08UY/r7sPZzj67qOl/wJzTjoZps8iCIPl/+EYgKwfUdv7HKDsHSZqH541HNB4QiwKhbds+iBnkE3N68V/sRKriVJ1b
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(1800799024)(7416014)(82310400026)(376014)(11063799006)(10067099003)(56012099006)(6133799003)(921020)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OfCpiRSJyr2T3taXPyWfa+7rE4qO44P+lQrhuYAQzbV7patRCIxAhAw3JmuAi2q1YTkV2glvhVdQ+HobjBA1mDvgHdu3+qkN27Cmz+Zdf2rfy+nBt7EsYx/6TdpRzjiHnm25aDKqctg7gB8LzMRSDREwMkUtq1+69vLGpbAUT3DAQt8O9iF/4WQ95Rjh1918B0mzPqtqiw+dlJw+L0Qnv9Mo2QSU9EUi8XgNPrb3WY00vuxwdft0kPRN1u+ip39gXY2bUOlzkr5jsk1F7dRvCC7ov9YwG+64auJ8dHKHrKzHJXYTrGWw9B31zo9ztPIKmwvdpktqAbW146ThpjNAwkHU441+tDWiStnEslRN0UFNAoUoP5o2PZUYp1xKvBnzF4rNTRZGSCF90ZZWo9Tbfqyq0WOvxrapFR+8q2AC6mFPc5YXCItcZKZPbUwPb30I
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 09:07:00.6714
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa8417be-4082-4893-f33c-08deec879595
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000C6191.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4119
 
-On Tue, Jul 28, 2026 at 09:52:26AM +0200, Christian Brauner wrote:
-> > Ever since idmapped mounts were introduced, inode ownership checks
-> > (for side-channel protection) in mincore() and madvise(MADV_PAGEOUT) were
-> > done against the nop_mnt_idmap, which completely ignores the file's mount's
-> > idmap. This results in odd edgecases like:
-> > 
-> > 1) mount/bind-mount with an idmap userA:userB:1
-> > 2) userB runs an owner_or_capable() check on file that is owned by userA
-> > on-disk/in-memory, but owned by userB after idmap translation
-> > 3) owner_or_capable() mysteriously fails as the correct idmap wasn't supplied
-> > 
-> > In the case of mincore/madvise MADV_PAGEOUT, this is usually benign, because
-> > file_permission(file, MAY_WRITE) will probably succeed, as it uses the proper
-> > idmap internally, but it does not need to be the case on e.g a 0444 file
-> > where even the owner itself doesn't have permissions to write to it.
-> > 
-> > Since this is clearly not trivial to get right, introduce a
-> > file_owner_or_capable() that can carry the correct semantics, and switch
-> > the various users in mm to it.
-> > 
-> > The issue was found by manual code inspection & an off-list discussion with
-> > Jan Kara.
-> > 
-> > Fixes: 9caccd41541a ("fs: introduce MOUNT_ATTR_IDMAP")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
-> 
-> Did that go in?
+guest_memfd folios are currently always marked unmovable, so the kernel cannot
+perform memory compaction, offlining, etc. This is unavoidable for
+confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
+needs firmware assistance. However, for non-confidential VMs (like
+Firecracker), we can migrate the folios.
 
-Yes, this is e187bc02f8fa4226d62814592cf064ee4557c470 in v7.2-rc3.
+This series enables folio migration for non-confidential guest_memfd and
+also lays the groundwork for migrating confidential guest_memfd later.
+Once firmware-assisted copying support is available, those VMs can be
+made movable, the confidential folio content can be copied separately,
+and the destination folio marked with FOLIO_CONTENT_COPIED so
+__migrate_folio() skips the host-side folio_mc_copy().
 
+Testing
+-------
+Host: 7.2-rc5+(62cc902415) + this, 2 NUMA nodes
+
+- KVM selftest: allocate folios on node 0, migrate them to node 1 and
+  back and verify resulting NUMA node and the folio contents at each
+  step.
+
+- Firecracker [1]: booted a microVM backed by guest_memfd. While the
+  guest was running, forced host-side migration of its folios via
+  migratepages(8) and explicit move_pages(2) of guest_memfd
+  pages. Verify with /proc/firecracker_pid/numa_maps.
+
+Notes
+-----
+- Sashiko pointed out a pre-existing ABBA deadlock between
+  kvm_gmem_error_folio() and truncation. It's being addressed separately
+  by Hao Zhang. [2][3]
+- Sashiko also asked whether selftest should dynamically discover available
+  NUMA nodes instead of hardcoding nodes 0 and 1? This feels like
+  over-complication for an artificial scenario. [3] So avoiding it.
+
+[1] https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+    In builder.rs, add GUEST_MEMFD_FLAG_MIGRATABLE to bit-2 and pass it instead
+    of GUEST_MEMFD_FLAG_NO_DIRECT_MAP to vm.create_guest_memfd().
+[2] https://lore.kernel.org/all/ambEdSPjerZIVN0b@192.168.1.215/
+[3] https://sashiko.dev/#/patchset/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95%40amd.com
+
+Signed-off-by: Shivank Garg <shivankg@amd.com>
+---
+Changes in v2:
+- Make folio migration opt-in through GUEST_MEMFD_FLAG_MIGRATABLE,
+  preserving unmovable behavior if userspace don't explictly ask. (Alexandru, David, Sean)
+- Add kvm_arch_supports_gmem_migration() so arch can control whether
+  GUEST_MEMFD_FLAG_MIGRATABLE is advertised.
+- Allocate movable folios with GFP_HIGHUSER_MOVABLE. (David)
+- Keep guest_memfd unevictable. (David, Sashiko, Sean)
+- Split migrate_folio() implementation and enablement as separate patches.
+- Update selftest with new flag.
+- Link to v1: https://lore.kernel.org/r/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com
+
+---
+Shivank Garg (4):
+      mm: split AS_UNMOVABLE back out of AS_INACCESSIBLE
+      KVM: guest_memfd: implement folio migration for non-confidential VMs
+      KVM: guest_memfd: add GUEST_MEMFD_FLAG_MIGRATABLE
+      KVM: selftests: exercise guest_memfd folio migration
+
+ arch/x86/kvm/x86.c                             |  9 +++
+ include/linux/kvm_host.h                       |  4 ++
+ include/linux/pagemap.h                        | 24 ++++++--
+ include/uapi/linux/kvm.h                       |  1 +
+ mm/compaction.c                                | 12 ++--
+ mm/migrate.c                                   |  2 +-
+ tools/include/uapi/linux/kvm.h                 |  1 +
+ tools/testing/selftests/kvm/guest_memfd_test.c | 82 ++++++++++++++++++++++++++
+ virt/kvm/guest_memfd.c                         | 53 +++++++++++++++--
+ 9 files changed, 172 insertions(+), 16 deletions(-)
+---
+base-commit: 62cc90241548d5570ee68e01aaba6506964e9811
+change-id: 20260611-shivank-gmem-migrate-8c1c519b30a6
+
+Best regards,
 -- 
-Pedro
+Shivank Garg <shivankg@amd.com>
+
