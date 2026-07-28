@@ -1,150 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75FA3BED33
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 18:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785263417; cv=none; b=oh1pOqWn1CLgAOsPlcuA4Ycsx8qINqM3Bd8MB8k21r5gsBpRcG5CDzCICJ0WLqnuDp1ixPTa1VFgSGqo60tNuR6btCdEyn75OosocI10+2WIVHQhkY/9pH9q08l5hFohYaLtJ6k2j0XmxflWaA6FsblrHldnk5jMacKqMBI8mJw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785263417; c=relaxed/simple;
-	bh=ONF7e3RAVhQ4JABQ9DM5kA8UM3Uu+eyUnRrg+8dbuSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VjD3fNrvgTxCqoC2oZ0xnrrCA1dD6ivCCivvKCf3iqZB2TE/A4uGbO9RjtpEwE8ES2sESKtso5IGpekKt0PsJwLvvKtXKSP21nNXKS9vsZ/r6ZwCW/hmdQa+3OBcAW/2nl5kUEbMoTMqjsqpRSYDd2GKT8Wx9dnBqvymVkDqsIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gyBDpXSm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1016D46F49C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 19:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785265647; cv=pass; b=nE+rhFImaWhpO8YdX7wT4CEVE5B+Z1N1eONI9ZwwQD2dL60I/AUgGZqu6GuhlIYyY2tqwdSKzweX4smqYBXBgFHU1jzoZ3O3iRNs23QbRiCI2ojDf8lBbJJeMSrb1hIUrcIiwOvbj/1oMk+6/zxjaPuMgCdoWPLXlJqlJSDCNIU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785265647; c=relaxed/simple;
+	bh=SH2IHLDio+NDuaGDNJz4MlNmJaY2jeiniMqmqafc/Kg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VKl3WmEls+WuwEfzPIcruX2sMTUWAXrxyin+UuaWTPlNS+2G3mD0T9QD7ApGBK64eJpBYfLtnBOff05+78XcKFt15TyP+QHTm4RXWolPUT+mwIo2W9qo+PpY3oJK8obh3aobDkqDP6EFZ+xTmYjDghroy99lOpjCzJv+ruPvHt4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTlZ0aDI; arc=pass smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gyBDpXSm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785263414;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qHYwPQJmw7YRfUoLhcIEsFXfANiKg9NR8lP6i3/GzJc=;
-	b=gyBDpXSmqhjrfaiE5HoO+1Wk0MGZiDJNxnbTL5F1H4qSS5OXikTXekqhaVlboXE0kr6XVJ
-	LuFaquoMjteRQOpbZAAcY/qDw/liF1vAQyv16INLUtA9VHbVOrPm6M9NAAvK4FFhcJlZzu
-	lXcponrmf7S8tyNIW/DWe80uvPbpcZ0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-390-ImwyG1DIOBGAsS-Jp80wAg-1; Tue,
- 28 Jul 2026 14:30:08 -0400
-X-MC-Unique: ImwyG1DIOBGAsS-Jp80wAg-1
-X-Mimecast-MFC-AGG-ID: ImwyG1DIOBGAsS-Jp80wAg_1785263407
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8383D180044D;
-	Tue, 28 Jul 2026 18:30:07 +0000 (UTC)
-Received: from bfoster.redhat.com (unknown [10.22.88.46])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9F560300019F;
-	Tue, 28 Jul 2026 18:30:06 +0000 (UTC)
-From: Brian Foster <bfoster@redhat.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Cc: hch@lst.de,
-	joannelkoong@gmail.com,
-	djwong@kernel.org
-Subject: [PATCH] iomap: release the folio batch on iomap callback failures
-Date: Tue, 28 Jul 2026 14:30:05 -0400
-Message-ID: <20260728183005.92395-1-bfoster@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTlZ0aDI"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-495590dde14so2238815e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 12:07:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785265642; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j4Q998BCxNm2J1mQqUNC1Y8ewFr9isxaFM6SmXTVirgCjX829RXAfbh0HNiSSWW/Rv
+         cRJkdnrDtg1lejjWi6PCxQMbVyQMAJV3PAeEgvVGFSy5RFbMJ8kYJWAF64CjcPQJ/oOo
+         Uwb4b6DJrceH0Yqvu4OBpE3BYFCYnwM86wB4jD/PvEp+LgT9FQSQ6VRglzPD1tfOSwGD
+         x1knsXvrAe166podkJknoJ5buuW5N1btyMtgYWCJySX7p3xUgiwUOCU6lRIx4IcJ9NTO
+         lsqkqLaHgtxiwcFTihmTHSCKY9nOFyaWLkXMRbA5JpG0monCTTGWFQ/fngt/mtlm7xLU
+         Mi4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SH2IHLDio+NDuaGDNJz4MlNmJaY2jeiniMqmqafc/Kg=;
+        fh=ncb5BzEetvGucww7ZLymflrsnYd+ASX9fwWJ/VRm+UQ=;
+        b=kvS00IStvX/d24WYSSlPbOcyrPUtq6mqYU2xvxkcpy1BOZIIfiW0CkjseEqz4UcvKZ
+         cPb8deo3RaeBFHpx5lyeSHhIFCbP/BPS6Qh+jolWRboYH430k4xsvpxaMqJNciYeDtvA
+         o+VEm5C/Sc4/G9t+cKY+nMO2TuPriaO8mplr/RtCh840UCDY1v0o1X388+goj+RjSyBD
+         Lubt1znupuhVC0oaAtYLo4LhDHow/aUwHbu7ff3rEggMPgkVqvF020V68xs2qqD2sDqs
+         oh79QNv+8fuxfEFj9Z+0RUC+7yjaP4kmk9u1nd1onHOSVDtpvOOSzSoqwOtE3oDkK93Y
+         1+zQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785265642; x=1785870442; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SH2IHLDio+NDuaGDNJz4MlNmJaY2jeiniMqmqafc/Kg=;
+        b=mTlZ0aDIPeSlD5uBkRFD1KhBaSmjGdptcbegN+U/970FFglW+eF51LqYEuuCVhL8fS
+         cfZwPSOgKwolHtF10TwsfD7/COTlj+DtC6Cj3gRJUCf/uUX6JCLd7tVJI887nb769U0D
+         wGys03GeNCNPl8HzxAfvVKl6ab1ilSuJVCbptObQSsXOf6lyeqjt7mBNgnjcmjzTmHJk
+         4kLdccyYVS/inDYC8hliydwJJeaR/v3KkZcBEc7vQVLo+6dJ+pcZxTbpfv5jjphuAK93
+         NcE/+9zb/kNR7y47rQxMz8/R62kKXvMciadtm034lpKXOt+dhX2826x2arIrWdBEmBrn
+         FKyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785265642; x=1785870442;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SH2IHLDio+NDuaGDNJz4MlNmJaY2jeiniMqmqafc/Kg=;
+        b=JGy6Ng1r4/JyEDdhAlkEgmaxlpKfIqJ4Gu/5m9xjPP7jhcKnBOFKEhlfLmtk12tyq1
+         BKPtbHlPfJ0px5lSNQgDyYvGq4HmkNrhBYbMziVAxEX7ExK/lDHMFtvWs2KaB3fIugtD
+         GCCGynKUnA89iLymBgZzMf26ldQcJiEhYH+lcnyOFcfWL+ch+5FV2bqW37bCqPwgmhpN
+         yictqWXL0KybZjs53oA2AikzDNgaIqqmcDWQS6sFwNXEJvZ7sb7Y4ZxUbvy92dwidZda
+         iB1iNOcNbMan8nGs4Q6nQDSZcbbZbx9T5TkTaHqkzoHaviJjbNX2VABP1kepm0jhJHMh
+         0Uhw==
+X-Gm-Message-State: AOJu0Yx8j1Pa/UqZcgDxhBcYg3ME/3mZtNEsW6sVPfsWa5yWFOsMfx83
+	JtwufqrSJZV2pnydBS/1mdimYDR9dc0o4UjXh2vxpM8jnKz0lBmDkQQrj107CluCn3vmrsnGAaQ
+	HMKlQruLoBecj9VSxgbDv/hYn8sR4X+w=
+X-Gm-Gg: AR+sD11GaDEp45ipLiXJQgcF146xy/d2j8zfn9rePJobJWOlofUq5bAQvlAiZefxISE
+	LELgfCw1SfijXNMG798YYUOr0+VXpk19c2gOJbxMXvGNyxEfyofTX1s+kCBFSRrIKTvZhPYJcB4
+	R1fS0E7vUxoONdtU/Oe//qumWtdPHHfpdy54auFPZIiw5ecGmrjeNWmeDbj+aRPxtx4BoZtnSfa
+	0eiEyvy1I9Cs1koDBCUFK78VPTTkW4Y0nJvj+YitzRd12Q1R0LyZER97K4YDVRC7yxvwjuA0Iku
+	eyjkeqwZkkTvccvemxTdp1aK+ibcM1UBWlqilz0m3Q==
+X-Received: by 2002:a05:600c:470d:b0:496:c249:dd9b with SMTP id
+ 5b1f17b1804b1-496c6431be1mr40349165e9.13.1785265641769; Tue, 28 Jul 2026
+ 12:07:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20260728183005.92395-1-bfoster@redhat.com>
+In-Reply-To: <20260728183005.92395-1-bfoster@redhat.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 28 Jul 2026 12:07:10 -0700
+X-Gm-Features: AUfX_mxVO9lB7sxDP3N-Wyk1cZUT_me-dSPmxEW5UopG3XjcAk33ZqkzbDUJiQs
+Message-ID: <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
+Subject: Re: [PATCH] iomap: release the folio batch on iomap callback failures
+To: Brian Foster <bfoster@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, hch@lst.de, 
+	djwong@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A sashiko review of an unrelated patch points out that the folio
-batch mechanism used for iomap zero range fails to release the batch
-in a couple error scenarios. If either calls to ->iomap_end() or
-->iomap_begin() fail, the direct return paths bypass the batch
-cleanup.
+On Tue, Jul 28, 2026 at 11:30=E2=80=AFAM Brian Foster <bfoster@redhat.com> =
+wrote:
+>
+> A sashiko review of an unrelated patch points out that the folio
+> batch mechanism used for iomap zero range fails to release the batch
+> in a couple error scenarios. If either calls to ->iomap_end() or
+> ->iomap_begin() fail, the direct return paths bypass the batch
+> cleanup.
+>
+> The ->iomap_end() case is not a practical issue at the moment
+> because there is no user of the mechanism that returns an error from
+> this path. The ->iomap_begin() case is theoretically possible
+> because XFS can invoke the fill helper and error out at various
+> points thereafter. This subtly complicates things because XFS does
+> not transfer iomap_flags to the iomap data structure in the error
+> path.
+>
+> To deal with both of these issues, first make sure to invoke the
+> cleanup helper in the error path for either fs callback. Second,
+> update the helper to clear the flag unconditionally and release the
+> batch so long as it is populated. This more clearly delineates the
+> purpose of the flag to control the I/O path and not necessarily the
+> status of the fbatch, so add a comment around this as well.
+>
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Assisted-by: LLM
+> Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
+> Signed-off-by: Brian Foster <bfoster@redhat.com>
+> ---
+>
+> As noted here[1], I'm aware this conflicts with the outstanding iomap
+> iter rework. I'm happy to rebase onto that if that is ultimately
+> preferred. I've got at least one vote to get this in sooner, so this
+> version is based on 7.2-rc5.
+>
 
-The ->iomap_end() case is not a practical issue at the moment
-because there is no user of the mechanism that returns an error from
-this path. The ->iomap_begin() case is theoretically possible
-because XFS can invoke the fill helper and error out at various
-points thereafter. This subtly complicates things because XFS does
-not transfer iomap_flags to the iomap data structure in the error
-path.
+Hi Brian,
 
-To deal with both of these issues, first make sure to invoke the
-cleanup helper in the error path for either fs callback. Second,
-update the helper to clear the flag unconditionally and release the
-batch so long as it is populated. This more clearly delineates the
-purpose of the flag to control the I/O path and not necessarily the
-status of the fbatch, so add a comment around this as well.
+As I understand your analysis of the bug in [1], given that it's an
+unlikely / second-order scenario nobody is hitting in reality, maybe
+it'd be easiest if I fold this patch into the iomap iter rework series
+as a preparatory patch (keeping your authorship and Fixes: tag), make
+the needed changes in the iomap iter series to be compatible with your
+patch, and then submit everything together to the vfs-7.3.iomap branch
+as v5 of the series? I think that avoids the nontrivial merge conflict
+Christian/Stephen would have to deal with.
 
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Assisted-by: LLM
-Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
-Signed-off-by: Brian Foster <bfoster@redhat.com>
----
+Alternatively, if you prefer to have this as part of 7.2, I can send a
+v5 of the series to try minimizing the conflict, and then send
+Christian or Stephen a diff for how to resolve the merge when they hit
+it.
 
-As noted here[1], I'm aware this conflicts with the outstanding iomap
-iter rework. I'm happy to rebase onto that if that is ultimately
-preferred. I've got at least one vote to get this in sooner, so this
-version is based on 7.2-rc5.
+Thanks,
+Joanne
 
-Brian
-
-[1] https://lore.kernel.org/linux-fsdevel/amizdHj6ICgP2xFv@bfoster/
-
- fs/iomap/iter.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
-index e4a29829591a..63617ec48250 100644
---- a/fs/iomap/iter.c
-+++ b/fs/iomap/iter.c
-@@ -6,12 +6,18 @@
- #include <linux/iomap.h>
- #include "trace.h"
- 
-+/*
-+ * Release the iter folio batch. Note that the iomap flag is meant to control
-+ * the I/O path for the mapping and may not be set in error situations.
-+ */
- static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
- {
--	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
-+	if (!iter->fbatch)
-+		return;
-+	iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
-+	if (folio_batch_count(iter->fbatch)) {
- 		folio_batch_release(iter->fbatch);
- 		folio_batch_reinit(iter->fbatch);
--		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
- 	}
- }
- 
-@@ -79,7 +85,7 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
- 						  olen),
- 				advanced, iter->flags, &iter->iomap);
- 		if (ret < 0 && !advanced)
--			return ret;
-+			goto error;
- 	}
- 
- 	/* detect old return semantics where this would advance */
-@@ -110,7 +116,11 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
- 	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
- 			       &iter->iomap, &iter->srcmap);
- 	if (ret < 0)
--		return ret;
-+		goto error;
- 	iomap_iter_done(iter);
- 	return 1;
-+
-+error:
-+	iomap_iter_clean_fbatch(iter);
-+	return ret;
- }
--- 
-2.55.0
-
+[1] https://lore.kernel.org/linux-fsdevel/amjztG-DisHYbV9W@bfoster/
