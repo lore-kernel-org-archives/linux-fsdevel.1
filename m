@@ -1,129 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35447276B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 19:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BDD3A6B81;
+	Tue, 28 Jul 2026 19:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785265985; cv=none; b=iCLS4NW24o8v13Fk0V66chlnJ11ah8p1Hk7g4xnRY4YU7s5CgmedCiLfhYEUAucCmb4fxcKJi7VKkfgs6/9wo+izxwZdtJMVk31tM2y7uwaqlgn9uviSPo61JWVBcEQJkJPzimy5ZjXKwoQus2HanSfyCKQgZlfUOp4PQc7cf8o=
+	t=1785266184; cv=none; b=spVE4i47OF4eqxU89VtHX2S5UVc3SB+bsxdbm1LvIaMeT8H5jmVWDGEOaRunTxo5by+PD9Z/ku60T0Nn7MEihstoXmm/mO96fK3m0ySbtXRPBOZG5NsYhkulkly4OfbybuKt53uKaaAB8+AKo0mrEcbFVCn6oQHaqsSj5VXDYyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785265985; c=relaxed/simple;
-	bh=BocaYVDOd2uRPxJPHwcfV4M/0jSqJL3WDeZViOZ+wAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t3ZZIVi98rY42oxvkCSoIEAN9+0XFfyxKq+kk0PIskKp/H+JfJ0CTrptJquwHjT5dgAZcdzObRAfkZJeFHrBqHBNqDyRMfptQYGprilr1CaYLmdNLldxu+UWyLB5x7Au5EsrwS1uwpNovYCACyhV18QI0jOHVuoK0/pnka3tVIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jNoLckyK; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785266184; c=relaxed/simple;
+	bh=n2W61PVXCdtIk6SElDSA9Umo0y8Jmm0l+kWYBmb/wQc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y/B/UvX9gUOhCxTsZNcjXZFQ/N9MYYoYDjAIjCl9/kfv0MAGGFqQB79VC7uFO7Rsi35s9G0ka8nIXk20U453RZsxdNXgQFV0ZEal5pY28ncuIfDkvAm6CHkRnmZYnGVmkJi3PBk6hNj1CLiprck08x2QkPrGGqaZHKLJ7Vn10Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oshJ75d/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jNoLckyK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785265976;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nEMiVNtCUvqNNIVLoHIfPXUTyF7UcNCria85IBZ9edc=;
-	b=jNoLckyKL5+VKGJle58b41NUXWyL15XvTWiuD5CJjOHGV2OJzZfgUn/7VDfKjSwkmsdYvN
-	3b8W1HNRmZ1n4Kr8mf3ESAcLBPgTXT445NhknYWXOynp36KryXXZ3DLj678X4npxwndLek
-	JHf1XjFvY5jo2uPJEkWbHdBA8hFUQHY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-ZeI836YcPDaxjJIBjIsNDw-1; Tue,
- 28 Jul 2026 15:12:53 -0400
-X-MC-Unique: ZeI836YcPDaxjJIBjIsNDw-1
-X-Mimecast-MFC-AGG-ID: ZeI836YcPDaxjJIBjIsNDw_1785265972
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2127B180057B;
-	Tue, 28 Jul 2026 19:12:52 +0000 (UTC)
-Received: from bfoster (unknown [10.22.88.46])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E169B19560AB;
-	Tue, 28 Jul 2026 19:12:50 +0000 (UTC)
-Date: Tue, 28 Jul 2026 15:12:48 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, hch@lst.de,
-	djwong@kernel.org
-Subject: Re: [PATCH] iomap: release the folio batch on iomap callback failures
-Message-ID: <amj_MJOEzLor4jMW@bfoster>
-References: <20260728183005.92395-1-bfoster@redhat.com>
- <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oshJ75d/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D0B1F000E9;
+	Tue, 28 Jul 2026 19:16:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785266182;
+	bh=Ucma//m7I9ZjolPSJuaz8kY1G6WksJd+BgRCHn1VKVw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oshJ75d/nhkILilXbfV+QYhEmihij01Vum5PFtjMxq73JzWFICXk86FGO5ZyFSTC3
+	 rejygIKvtGle9tNtPtQo0OeEqVo0/bUCFuwXGdnZQGNiF6hpbe3LPqM5VMCDp0uzhH
+	 OxwBtaGdrWhPaQbP9KlN2FbmQVh/RKAILqV+Tu5W9Cz1hPWssKkayMaiDehnRuOw/X
+	 8loLKNifFWSA6ty+JdDc0/m+X6nVSSk4MQwj7hW3Rvnc0ULgcrAl0XOgnmEY47/TOi
+	 Or1I4z9+/1zFVdGezFCCxMAMe1lAb+fUYM00ZX/M81MtnO6ovXRm8vUTF7WFRx0ERq
+	 VBZ1qZqI6hn4A==
+Message-ID: <04d881f4-419c-450e-b9b4-1341497fa93a@kernel.org>
+Date: Tue, 28 Jul 2026 21:16:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] mm/huge_memory: eliminate reference-counted huge zero
+ folio
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Kees Cook <kees@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ nvdimm@lists.linux.dev, Pankaj Raghav <pankaj.raghav@linux.dev>
+References: <20260728-persist-huge-zero-folio-v1-1-e7b604eaf416@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260728-persist-huge-zero-folio-v1-1-e7b604eaf416@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 28, 2026 at 12:07:10PM -0700, Joanne Koong wrote:
-> On Tue, Jul 28, 2026 at 11:30 AM Brian Foster <bfoster@redhat.com> wrote:
-> >
-> > A sashiko review of an unrelated patch points out that the folio
-> > batch mechanism used for iomap zero range fails to release the batch
-> > in a couple error scenarios. If either calls to ->iomap_end() or
-> > ->iomap_begin() fail, the direct return paths bypass the batch
-> > cleanup.
-> >
-> > The ->iomap_end() case is not a practical issue at the moment
-> > because there is no user of the mechanism that returns an error from
-> > this path. The ->iomap_begin() case is theoretically possible
-> > because XFS can invoke the fill helper and error out at various
-> > points thereafter. This subtly complicates things because XFS does
-> > not transfer iomap_flags to the iomap data structure in the error
-> > path.
-> >
-> > To deal with both of these issues, first make sure to invoke the
-> > cleanup helper in the error path for either fs callback. Second,
-> > update the helper to clear the flag unconditionally and release the
-> > batch so long as it is populated. This more clearly delineates the
-> > purpose of the flag to control the I/O path and not necessarily the
-> > status of the fbatch, so add a comment around this as well.
-> >
-> > Reported-by: Sashiko <sashiko-bot@kernel.org>
-> > Assisted-by: LLM
-> > Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
-> > Signed-off-by: Brian Foster <bfoster@redhat.com>
-> > ---
-> >
-> > As noted here[1], I'm aware this conflicts with the outstanding iomap
-> > iter rework. I'm happy to rebase onto that if that is ultimately
-> > preferred. I've got at least one vote to get this in sooner, so this
-> > version is based on 7.2-rc5.
-> >
-> 
-> Hi Brian,
-> 
-> As I understand your analysis of the bug in [1], given that it's an
-> unlikely / second-order scenario nobody is hitting in reality, maybe
-> it'd be easiest if I fold this patch into the iomap iter rework series
-> as a preparatory patch (keeping your authorship and Fixes: tag), make
-> the needed changes in the iomap iter series to be compatible with your
-> patch, and then submit everything together to the vfs-7.3.iomap branch
-> as v5 of the series? I think that avoids the nontrivial merge conflict
-> Christian/Stephen would have to deal with.
-> 
+On 7/28/26 15:06, Lorenzo Stoakes (ARM) wrote:
+> The reference-counted huge zero folio is problematic - it's prone to subtle
+> races, it can introduce allocation latency and it is confusing and
+> complicated code.
 
-That's perfectly fine with me if you're Ok with doing that and nobody
-otherwise objects.
+Just a note that the subject is misleading: the huge zero folio is always
+refcounted (e.g., GUP must take references), it's just that the persistent huge
+zero folio never drops the refcount to 0 to free it.
 
-Brian
+What you probably mean is "mm/huge_memory: eliminate dynamically allocated huge
+zero folio".
 
-> Alternatively, if you prefer to have this as part of 7.2, I can send a
-> v5 of the series to try minimizing the conflict, and then send
-> Christian or Stephen a diff for how to resolve the merge when they hit
-> it.
-> 
-> Thanks,
-> Joanne
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/amjztG-DisHYbV9W@bfoster/
-> 
+If we go down that path here, we can also teach GUP to not take a reference on
+the huge zero folio anymore on the FOLL_PIN path, similar to how we handle the
+zero folio.
 
+See the occurrences of is_zero_folio() in mm/gup.c.
+
+The reason we do it for now for FOLL_PIN is that a remote pin might outlive the
+process, meaning the huge folio could otherwise get freed by the shrinker even
+though someone still holds a reference. Bad. So that would no longer apply if
+the huge zero folio can no longer get freed.
+
+
+I recall there was a discussion (dropping dynamically allocated huge zero folio)
+on this topic while upstreaming the persistent huge zero folio.
+
+I don't have time right now to dig, but it would be worthwhile to look at that
+history if there was a good reason to keep it buried in that discussion.
+
+-- 
+Cheers,
+
+David
