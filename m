@@ -1,213 +1,561 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011071.outbound.protection.outlook.com [40.93.194.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD0A3B8406;
-	Tue, 28 Jul 2026 07:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785224726; cv=none; b=V4mmh3jlDm9l1nFD2VmwiEsj/xlT16R3OKUxDRVBLC4wq94dA4YTxfaEocrEvKZRmtGGBdlDxqSwlhWdqgGV1oyi7H3JQ4/DEK6jjKCbT2VCroZO6+RKv1v99ZxEn/U0I3xIrUE9goxjIoVGszg3PryEEqjDVHNRXkUEn991VB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785224726; c=relaxed/simple;
-	bh=ly1FRrt4btobd6hIZCecIJTs6tPvVGsm4MQ0bWnNvVk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q0JYBipvf70iu9+grq/IMQqY7x0+xEEA7JMu45lwS10XBhwJAzwBRuWCLrRPxkl4Ccld+0XoZTSVGb0W4vDkiR7mbSsSzW4UK/p1ncQIMwx4CI9JRvsAO93KfjSvX/lA6pL9oH4G5uEOk4/1wv3j2/laT7oBC5jRQLybcD4MZvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=NfaNLNLP; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45643C4B91;
+	Tue, 28 Jul 2026 07:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785224842; cv=fail; b=L5V0KPKsuwH0cTWreRCmQ0agbf5hqhwgRBaAaix3ycsyNaOdGXUhKoROmhNxrRHAQnzKIQ2onaKnQre2fo0y8Kd4cuUSGaczdTZnYbpQQlKi/hrdF9sfC6AjYjWeE7ubV/fUGEy0bSuHqtq7RkJWPubDL/CclgmJA5Pujq23aYk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785224842; c=relaxed/simple;
+	bh=Eab2ts//hoyZ1tbgnG7WvSoVNto4BAYfINSNCDszWgU=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=peu1hM3GTKOiHWko5z979R6ILAXpR7r3QzCJnKL5CkhSR92kZGbl6fnlG0X13XvmgCUPUA5mvY8otL4RKKCrHtSDPcvtl0yLCzVv0qsio7DrlNLvCv7xJ/qLgJv2fb9NGOY/Y2RFr2Tgvt4+DKpc/z9DOpr5fhpezH5rXGelw7Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Dlut1nBg; arc=fail smtp.client-ip=40.93.194.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="NfaNLNLP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1785224647;
-	bh=tETJcvCq2Am2KsRyT683GbO12+VIkEgbycDqYDEfng4=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=NfaNLNLPlsrC4n9nC4lShfDF+8kzlIMsbXV2opYg6q2gbSPG6Gw2WV3dSuHwMiU+A
-	 1BQ71wybQuUSYyGUsS0u0+4fbzMJt3PuV5VjWS6Ueo2bYc5lC1XBI/hFbQ32EnH3ij
-	 LxpTE5otApZbHmwRoTOc2LfeDIBLABebtGdn8CG4=
-X-QQ-mid: esmtpgz11t1785224632t21d0cd85
-X-QQ-Originating-IP: t0oPbhwF6uy3rSguoen8JaDLJ0CKFjHRKyq3M4bkgk8=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 28 Jul 2026 15:43:51 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2137586152499823141
-EX-QQ-RecipientCnt: 4
-From: Yichong Chen <chenyichong@uniontech.com>
-To: jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v2] isofs: validate directory records consistently
-Date: Tue, 28 Jul 2026 15:43:49 +0800
-Message-Id: <20260728074349.417508-1-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <h422u6iqz6faysofnomlcqizkqjrsgqw6ooo4jdhfyjuttkqou@p6frlkumlpmd>
-References: <h422u6iqz6faysofnomlcqizkqjrsgqw6ooo4jdhfyjuttkqou@p6frlkumlpmd>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dlut1nBg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d+o3zMoB7mfoQD/f6Qk+GwwqAoApFMl+RzyCvLM6FzaKreEglyAdWNSw91sMLMi1G99nHhWyrXbTrnNBPS2NIUwmoZ+rqdcefgDunIl+h9/kcD6LuqfAAE3Rg3RpQHATXrc5GVU8HRjNSK8ZIP+SmG8HLPlwGKGhzSlgh2mFeNu03YBTass07nNqnjIw/ux+OQ/q7hzrRJhc1QRB9DStQ7/hxOSP44XDoY93SMx4QMBlUxgjBRt+5DhrZAmXzAzrhdz42RAGsDZeyfoCtCc0IlePgkCznL7ZpY1Dzc3o2gjp9kRUQ7/np48rCsAXbxcW+k9LkfB+bZr5d6RNutNoBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HXcEYA74erMdxXXS4SBWDPqPqDOX5eaOo4ty1URnyiM=;
+ b=FMjq6kYvppVdJal79CogcBSQaqpkqMnFJLxqRh7lyVCtibE1A4AaLnzYLLG9rsvF13vLytNlFzTajROKujCYAUS+PfPfn1Mf5qqHl5B9Li8GqXiEsF+QipAFCmQpi4em5rLa8CbBOqYC4mq28TXN+4tDhIcMRqKvPcHdI0NSNXamJPrU4lKHYBSTuTnk30eONrX/LOFguXmJA84SOkeS+1FuMlww/umnMIkPulqlBnNJOQTQQEUit0v10mI+/SQcjzAy2WUKnrNJEhlaruqykejZpMeFPw+k4JMZC0A7Q9GKyiQBBOs1iHb0sOOgpCNywXgO0A0FWnHTugT91Wkjkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HXcEYA74erMdxXXS4SBWDPqPqDOX5eaOo4ty1URnyiM=;
+ b=Dlut1nBgw6M8EVYbyn4XkRRFUzE2sYYboL0JSjF/uEKqiGbddlv5X7s31xYPUd0Bvv7baHsxK4FcwblpnUIMg9aq7dEGKjKAVCd6m04S1W/HM/XhkQPuofyoegMlOqHfCLaGYyebUvMcD6jSkSxwMv5BcUKVemAxnW31CJtpX02Hazz3h7SI/mmMAexrGO65n1ndCVdIfqu+dXmuk5daLfX00jgLImrTOJSX0Sg+nbaBhDr851UuWu9u+8N2Q5KVxWUNXMVy92/xjZrKLmYUPBwOzyXFS6Sfjf1d0pjq0Z0Co3sdAduOTLygkiGKtZM1gWCtZ+g+Nejay90lQmuOgA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN1PR12MB2368.namprd12.prod.outlook.com (2603:10b6:802:32::23)
+ by PH0PR12MB7983.namprd12.prod.outlook.com (2603:10b6:510:28e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
+ 2026 07:47:15 +0000
+Received: from SN1PR12MB2368.namprd12.prod.outlook.com
+ ([fe80::281e:52ee:b18e:ad42]) by SN1PR12MB2368.namprd12.prod.outlook.com
+ ([fe80::281e:52ee:b18e:ad42%7]) with mapi id 15.21.0245.012; Tue, 28 Jul 2026
+ 07:47:15 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Jul 2026 16:47:11 +0900
+Message-Id: <DKA1DXLJ0GPY.1BHVPUJT6JIGM@nvidia.com>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
+ <boqun@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Rasmus Villemoes"
+ <linux@rasmusvillemoes.dk>, "Simona Vetter" <simona@ffwll.ch>, "Tamir
+ Duberstein" <tamird@kernel.org>, "Timur Tabi" <ttabi@nvidia.com>, "Trevor
+ Gross" <tmgross@umich.edu>, "Yury Norov" <yury.norov@gmail.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, <maple-tree@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v3] lib: test bitmap vs IDA vs Maple Tree performance
+ for region allocations
+From: "Eliot Courtney" <ecourtney@nvidia.com>
+To: "Yury Norov" <ynorov@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, "Greg KH" <gregkh@linuxfoundation.org>, "Burak
+ Emir" <bqe@google.com>, "John Hubbard" <jhubbard@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Liam R . Howlett" <liam@infradead.org>, "Andrew
+ Ballance" <andrewjballance@gmail.com>, "Matthew Wilcox"
+ <willy@infradead.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Pedro Falcato"
+ <pfalcato@suse.de>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260717053241.916441-1-ynorov@nvidia.com>
+In-Reply-To: <20260717053241.916441-1-ynorov@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0028.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:263::15) To SN1PR12MB2368.namprd12.prod.outlook.com
+ (2603:10b6:802:32::23)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MKAXChAiZNd4YZaj4jDt+10qW2C/9uBwb9S7wMm3gLeLWdwcOFsIrE10
-	adNL2E6dsF6TDax8ozLLzMPiF5H3BZSNwgcUgpypowzr746bDxM5vcLssqbOcg3KdsMC4TB
-	iDyyC+HZxzJ0CmBtK257WdCWun6sDC1IldOP7hIj6M5zCWfoDOLBlKEuTKdTrZvG80/LqsZ
-	l9O47XbQ4Fge2iB5IYKRI21gx5vWTcFKtY4+I4j+yZA6TtjhObs5s8w/uGk9lY3K4ENuzYS
-	b4I1dw9QeJs+tiq+iu0rNw7c4mfzW6zEb1gWif3BqJoFZ4/j+/WvWNuAx73Jg2zXXnB9qc3
-	F1UpeyjJk/IvmhmG7Dpss07KH842UvuKlKo8JTI4D4qRPi4+eznxIqlfM9PfVumo2sym9q9
-	QIw7385XYpc8VVnBNLVe6l+v5DbADmua7N7T0bd7Wxinb7d61H02WTkqfI8e/3wAMbneXJv
-	RDhS7sn+ZRwa6cqEo3AzRwiDa+Y8TcxVYEux5C9cznfQBR76Ax6olGp4D/jzG75szQPU9Ir
-	cm4uhdWPJlraNsqSljc6X4Du93D56h3w1OsH/5sq2YsP0SOCklMZR+IGYhm06j2W1xlNzen
-	bVnfPaTA9cBji/xqCUAx9QAxCsZpSbl75vQCuAftbuO9dzFsjQ+sO3OVRCwPeSZNtivPmNN
-	S2aBtArf4iYXhnl6SotKRG/21CpDJModWSLP0ivgdmSKZf19QyeDF0kyTkyQvQoExoF/aVN
-	xLvyfltR1saQdn+Nss2NJW3ZWuyCNLot6sPI6Q6dfn7DEAMgwej+MkwCXdrTRtm+5iQaLl8
-	YEapWoE33ZumKGrNWcecGTiUf1RGw35Hp9ES9wQmoWJ62YZB8PB2oaQGF06qp0Htfy1Ocd/
-	0YyEZM+1nEnlI21HWRTXBknmQc6EZWs2vlR3xSMkSVhxPZDd21Dvc0jKm70fKhEI7ZNCIpA
-	KvrG+/Tii9kJYjKEnKdg6TDRfNiEjgd8aAQlhGJtNds6BPJ1J05rq9wG1ulzstIJo52Oui+
-	PHq5AUkpYtsG+kZg9xDE+jpcPGhFGc04rfc4/vag/jnNqPjE61e31C/TdeSOs=
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2368:EE_|PH0PR12MB7983:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba221ca7-af5c-43cd-a852-08deec7c70db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|10070799003|23010399003|921020|6133799003|11063799006|56012099006|10067099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	1nfc4W3wM8zDz6JES9DcIxfPnGP9KQcUP7y8Tsy423UvzuZlfLmcBwORINYKfhknUsE9+odT32RKDGmscdot5IbSEIE1Mr5GWTpeV3azaDiaLsQwqhYyuWl1FUouzkX6ilWnMfzHcl2blLHEdjz8JKZUVZ7UrA/RALbplCIdVLFUhfipsOR3KOBKKueS+iEL/+9cHKto9IoUMYzMZJHAziuiCUzCv3hfX8GpLdOFYaAqOamFWui88SHqOFSOVW2+Q82yzD9LGo3UBmsZyB97GHYFQ2g42RaIO8mHwnZftH4X0KMZ4EHjDSCevz9xQytUSa9yJOqxitEFeHMbNNaIAdaRnKJTB9tia8+zS8OUbgoThjg2X0zif8aOpzH1fQMcq4bAZHwgHw70pE1l13ARGwCDAG8Y31GHJA0m1O884/ZhtypxvvD7+e71kaGeAXSk5sEgQ2ZlloFZOR94QaqFIltqcRLxKS/kHVqvwyKSIkCqvJnt14Jp/KFmjsT4ZpMys8yDdK1pL4MtV/Xh1a6MhhZgiIimPn0UwzPG5Jm0k4DMolHkuL+rbQ5IDcjuPABJzkuonehKSiJ2sGH1AWZ19NxEHO6vK/26m1U7r4Q8TMANgdZDIgNnoAQ8UGLv6AXgC/TMTRrgljF5Qp/rSSaW+HL9vHEsNIgeb1BEloTUeAovVt4a4MfkYe6c3rMjeuhBenOa4IClYcviVppbQuRVMw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2368.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(10070799003)(23010399003)(921020)(6133799003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cHV3bDRzNTRMM3JpWW1HVUd4aW01SGpsUW44R1Z4UWpsSGY3Ri9sZGVIa2dZ?=
+ =?utf-8?B?UEROSXRzeDNoVTBGTk85WTMrZEt1MmZ3ZmlTUys5UkVxRUVtWWFKeTFTZUR1?=
+ =?utf-8?B?VUN3cCtoc0lDN0pKVjhveGhCNGNpenNzQnB4TGQ3QUltUlRxSGpiaXlCT2tT?=
+ =?utf-8?B?aUZzRFlPeEFaQ3k2ZXFOV3RIQXk1TDNZbTZJZ3o1RFd2eU9NVkxESzV5TmU4?=
+ =?utf-8?B?RDFweElHeExBMCs2N085ZW1SalE3Vi9JSVR2UWdwd3BsaXlkQWpFM3lGa2FH?=
+ =?utf-8?B?OExzVXY0UWZFdVFSak9kVWhma2lNR0ZIK2c2Z2hBVnhmb0lVTTdRYjhEZVBE?=
+ =?utf-8?B?RWR1eEFZcUxmKzlubDhoL3JlVkRSaEtKcTQ4STcyZU5qSkNMODc2dFlYckxJ?=
+ =?utf-8?B?aTQ0eUppRUlpR0NPMVR3V25DQWFrdWx1OWg3K21sN3Y3UGpNT2JpMTlMd3Bh?=
+ =?utf-8?B?OWFaTE9zNFQwQUJJQzhtVmlWdDJJalJCNjh1RlNlbnNiRFdvdUh4cGRqQ1Rt?=
+ =?utf-8?B?L1lwUkpzYVNjQlpFQmdCRTlidmhKWm02elM2bmpnVlAySVQ3emlERWI5TVBy?=
+ =?utf-8?B?RnUrcXdMYVJlQy8wQUJxVWhJSi9WK1JVSmRWc3pSTlBxZldISVZWRy9kMEFN?=
+ =?utf-8?B?cFRhY0ExbUplckRpckRiU3dNc1JMT0MvbThZeUU1OGNraE5kKzRPMDY0SjFx?=
+ =?utf-8?B?eUFWQTVacG14OFAwRVhWZzRSYmtyczB3Y2YzMnBEOS9oNVlYYTBGMzRZNGFO?=
+ =?utf-8?B?eVlFYUFCd2N3K2s1bWlpSWlKaXZ0OHZySkErZjBsbnFHNGJ3bkN2ekFHUkQy?=
+ =?utf-8?B?ZGlxeDU4UWMvR2svc0VzZGlCQTJFcHJMUlVoOCs2Y1E4cFNvMzlGTXBGVG1K?=
+ =?utf-8?B?L29yZ3lwemthZGkvc1JkTEdZaDQzcU5aS095Sk44YmozeW90Y3RRTjhMQkFS?=
+ =?utf-8?B?bGVyem1hM09PdnA4LzBqRXJ5WnEvRmRadkMwbXZiQ21vd2hIU05NUlJmdEdH?=
+ =?utf-8?B?Ny9sWWRoY293T3I5ZW4ydWxkaGpRY2NwRmt5RGRMVXJQSzNkUXFuU1JvNWl5?=
+ =?utf-8?B?WTNURyswWGd3Nk5ITm5lcXpOdHBaa1I3K3hSNytrNDNRdVpmZ0ljcnZhZyts?=
+ =?utf-8?B?RkdBTy91U0RXb3Nud0pna2NqSTA2bFBabVNQV3VXUVpzeU13bFdha0laWW53?=
+ =?utf-8?B?YUJQdGlweXNyckMwVkptQVNIKzBvR0Vjbk5JR3VEdzJrZ1lzWU55Q0JIaFJx?=
+ =?utf-8?B?akJqcHgvcm96K2xaNXFtRnJ5U2J3YnhkcU1Hdlh5SUR6MzdkV3MydWFaMGVW?=
+ =?utf-8?B?M3RhV2dnZG9JcFRJeVRKc1FLRnM1a2FHekVYU2FZc0psNmtXenQxT2tqS1Zy?=
+ =?utf-8?B?d1M4VEJXaktaUDRsekNvK0RPa3ZvdmtXMWxxK0RkR3VTQjg5MGhWdjN6aTRL?=
+ =?utf-8?B?VG9QenFndnE5c3pjTVdiVEhUMTBVb3lwZm5SeGdDTkJ0RXhNQ01Sbnk0eGpz?=
+ =?utf-8?B?YkZxZkNTZ0RtR25yWm1HaEdnaFd1ZHlnNzFkbHdKcllub09XaUhPRDRFZENF?=
+ =?utf-8?B?VHZBWmVnd0NzczJXeElTR2xSK2xRSDIrR0RrQ1oyMWRSWjM5RWF0NmRjcitF?=
+ =?utf-8?B?Z2JnRSt4eENiUVpmdkcxSVFDemV0ZzAwZUpnMnVlUW84TVJqOG14TmFoa3dY?=
+ =?utf-8?B?S0xLRk9IVEZ1SHZhNy9pdUd6TDVZZnVOTG9ISDdPa0FkZjI4TmtETmRLK2NY?=
+ =?utf-8?B?MkNXdjBsZWhTdjMzY3hFYmdvY1ZlZVRoSXVvbWN4eE83RnNvLy92ZFV3VWRW?=
+ =?utf-8?B?NG80ak1YZ1ByYVM2VkQ1WGduSXQvU05UTVFlWFlta2lPNkNmeUprQno4NGFT?=
+ =?utf-8?B?Z0NwZnZZcUpKUmFpeGZQQ0VWTzBhME0xWGN5ektXTDgvaXkwalo1VXVoeWgy?=
+ =?utf-8?B?Y1BMVHY3OFBWbG5vaER2Tkx3ZmRQN004bmZVNFM5L3FxdDBaV0FOMmFSVE50?=
+ =?utf-8?B?MGVYMzBKMmljMnUza3RWUVlvQkdhRGRNNlo5WStxVnpjSDVxZk11UnRnMys0?=
+ =?utf-8?B?eDBEUWordHczYWtsYmYvQitwa1BYVnNsenp1czRPMXBoSER3NXJaMmtMMmpI?=
+ =?utf-8?B?V2tKMVRBVWk1T2d0L0w1SjMzY283Q2paWENUMGhNSVlac1dyMzlEcmgwK3FQ?=
+ =?utf-8?B?RndVY2RHdVY3VHBDejQ3NlZ1aEFDaXVKUU1JR0pvdUdDc1I4a0JaSzMrenhq?=
+ =?utf-8?B?Mi9GZWxYek5xMkgxWXBXOU5xQXVkUmJYVEVHTGJGeVdFclJoWW9KcGJtQlR0?=
+ =?utf-8?B?Zng2QkRka3JTVExZclBIdVpZaDk2RDhmZURyWHhIV2FTTHNIdStpdHZORkRr?=
+ =?utf-8?Q?V3qblhrOjcNX/Jlh+xXI8jgbiErBvsG/c12xenPERG+sx?=
+X-MS-Exchange-AntiSpam-MessageData-1: an2MCaXIXY1VxQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba221ca7-af5c-43cd-a852-08deec7c70db
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2368.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 07:47:14.9142
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XvckCa5HNrytV8AyHfx78kt/b6LlikENQKuaUeNUeBC63eSUSs88YHwzbz4B4cLVb4pENxiHAxZEmbZzM6mTTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7983
 
-isofs_export_get_parent() assumes that the first two directory records
-are valid "." and ".." entries.  A malformed image can provide an
-invalid length for the first entry, causing the computed ".." offset to
-point outside the received block.
+On Fri Jul 17, 2026 at 2:32 PM JST, Yury Norov wrote:
+> Compare the cost of allocating and freeing variable-sized regions using
+> a bitmap, IDA and a Maple Tree. All implementations process the same
+> randomly generated sequence of regions containing up to 32 entries, until
+> the configured capacity is exhausted.
+>
+> The benchmark exercises monotonic allocation into an initially empty pool=
+,
+> followed by reverse-order freeing. It does not model fragmentation or
+> interleaved allocation and freeing, nor does it isolate locking or RCU
+> overhead. Allocation time includes the terminal failed request that detec=
+ts
+> exhaustion.
+>
+> Run the benchmark at several capacities to show how the approaches scale.
+> Report allocation and free times separately because bitmap, IDA and Maple
+> Tree removal have substantially different costs.
+>
+> On x86/kvm, the output example is:
+>
+> Start testing bitmap vs IDA vs Maple Tree region allocation
+> memory: bitmap is exact; IDA and Maple Tree are lower bounds
+> Type      alloc (ns)     free (ns)   regions  capacity  memory (B)
+> Bitmap      93457345        176151     60644   1000000      125000
+> Maple       11758660      12870146     60644   1000000     1552656
+> IDA         31066416      20870824     60644   1000000      134864
+> Bitmap        919119         17679      6032    100000       12504
+> Maple        1158193       1187140      6032    100000      154640
+> IDA          2759670       2116004      6032    100000       14288
+> Bitmap         17120          2043       613     10000        1256
+> Maple         116350        117537       613     10000       15888
+> IDA           243396        202654       613     10000        1872
+> Bitmap          1220           262        55      1000         128
+> Maple          12076         10106        55      1000        1552
+> IDA            25730         20875        55      1000         144
+> Bitmap           593           124        18       100          16
+> Maple           3599          4782        18       100         528
+> IDA             3266          1960        18       100         144
+> Bitmap           414           129        10        10           8
+> Maple           2143          1385        10        10         272
+> IDA              892           648        10        10          16
+> Region allocation benchmark complete
+>
+> Reported IDA and Maple Tree memory figures exclude slab overhead
+> and transient allocations. The Maple Tree figure is additionally
+> a lower-bound estimate that assumes fully occupied leaf nodes and
+> excludes internal nodes.
+>
+> IDA has no region-allocation API, so each region is implemented as
+> a sequence of single-ID allocations. The IDs remain contiguous
+> because this benchmark fills an initially empty IDA monotonically.
+>
+> The benchmark is motivated by the discussion linked below about choosing
+> the best data structure for the channel ID pool with the capacity of 2048
+> IDs for the nova GPU driver.
+>
+> Specifically for 2048 IDs the result is:
+>
+> Bitmap          5112           615       121      2048         256
+> Maple          78526         59592       121      2048        3344
+> IDA           165274        117761       121      2048         848
+>
+> The benchmark accepts a list of up to 64 nonzero capacities to test.
+> For example:
+>
+>   insmod region_alloc_benchmark.ko capacities=3D1024,2048,4096,65536
+>
+> The list may contain duplicate capacities. Each occurrence generates a ne=
+w
+> region-size sequence, which is useful for collecting statistical
+> characteristics of the benchmark results.
+>
+> Link: https://lore.kernel.org/all/20260710-chid-maple-v1-1-4ee869055268@n=
+vidia.com/
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+> v3:
+> - allow capacities to be configured through the module parameter (Yury No=
+rov)
+> - document default and custom-capacity usage in Kconfig (Yury Norov)
+> - store and generate only the region sizes required by each run (Yury Nor=
+ov)
+> - clarify the workload, timing semantics and memory estimates (Pedro Falc=
+ato, Onur =C3=96zkan)
+> - report region count and capacity while retaining raw timings (Gary Guo)
+> - add post-free integrity checks (Yury Norov)
+> - add default capacities of 10 and 100 IDs (Matthew Wilcox)
+> - bound generated region sizes appropriately for small capacities (Matthe=
+w Wilcox)
+> - report successful completion and return -EAGAIN for repeat runs (Yury N=
+orov)
+> v2: https://lore.kernel.org/all/20260711063602.426311-1-ynorov@nvidia.com=
+/
+> v1: https://lore.kernel.org/all/20260711013910.349586-1-ynorov@nvidia.com=
+/
+>
+>  MAINTAINERS                  |   3 +
+>  lib/Kconfig.debug            |  13 +++
+>  lib/Makefile                 |   1 +
+>  lib/region_alloc_benchmark.c | 217 +++++++++++++++++++++++++++++++++++
+>  4 files changed, 234 insertions(+)
+>  create mode 100644 lib/region_alloc_benchmark.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7cc4bca5a2c5..9e487a94aba4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4615,6 +4615,7 @@ F:	lib/bitmap.c
+>  F:	lib/cpumask.c
+>  F:	lib/find_bit.c
+>  F:	lib/find_bit_benchmark.c
+> +F:	lib/region_alloc_benchmark.c
+>  F:	lib/test_bitmap.c
+>  F:	lib/tests/cpumask_kunit.c
+>  F:	tools/include/linux/bitfield.h
+> @@ -15581,6 +15582,7 @@ F:	Documentation/core-api/maple_tree.rst
+>  F:	include/linux/maple_tree.h
+>  F:	include/trace/events/maple_tree.h
+>  F:	lib/maple_tree.c
+> +F:	lib/region_alloc_benchmark.c
+>  F:	lib/test_maple_tree.c
+>  F:	rust/helpers/maple_tree.c
+>  F:	rust/kernel/maple_tree.rs
+> @@ -29323,6 +29325,7 @@ F:	Documentation/core-api/xarray.rst
+>  F:	include/linux/idr.h
+>  F:	include/linux/xarray.h
+>  F:	lib/idr.c
+> +F:	lib/region_alloc_benchmark.c
+>  F:	lib/test_xarray.c
+>  F:	lib/xarray.c
+>  F:	tools/testing/radix-tree
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 1244dcac2294..0451dfca7098 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2683,6 +2683,19 @@ config FIND_BIT_BENCHMARK
+> =20
+>  	  If unsure, say N.
+> =20
+> +config REGION_ALLOC_BENCHMARK
+> +	tristate "Benchmark bitmap, IDA and Maple Tree region allocation"
+> +	help
+> +	  This builds a microbenchmark comparing variable-sized region
+> +	  allocation using bitmaps, IDA and Maple Tree. The benchmark
+> +	  runs at initialization time.
+> +
+> +	  Usage:
+> +	    insmod region_alloc_benchmark.ko
+> +	    insmod region_alloc_benchmark.ko capacities=3D1024,2048,4096,65536
+> +
+> +	  If unsure, say N.
+> +
+>  config FIND_BIT_BENCHMARK_RUST
+>  	tristate "Test find_bit functions in Rust"
+>  	depends on RUST
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 7f75cc6edf94..adb18810e3f7 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -64,6 +64,7 @@ obj-y +=3D hexdump.o
+>  obj-$(CONFIG_TEST_HEXDUMP) +=3D test_hexdump.o
+>  obj-y +=3D kstrtox.o
+>  obj-$(CONFIG_FIND_BIT_BENCHMARK) +=3D find_bit_benchmark.o
+> +obj-$(CONFIG_REGION_ALLOC_BENCHMARK) +=3D region_alloc_benchmark.o
+>  obj-$(CONFIG_FIND_BIT_BENCHMARK_RUST) +=3D find_bit_benchmark_rust.o
+>  obj-$(CONFIG_TEST_BPF) +=3D test_bpf.o
+>  test_dhry-objs :=3D dhry_1.o dhry_2.o dhry_run.o
+> diff --git a/lib/region_alloc_benchmark.c b/lib/region_alloc_benchmark.c
+> new file mode 100644
+> index 000000000000..e88b4cf55c62
+> --- /dev/null
+> +++ b/lib/region_alloc_benchmark.c
+> @@ -0,0 +1,217 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Benchmark bitmap, IDA and Maple Tree allocation of variable-sized reg=
+ions. */
+> +
+> +#include <linux/bitmap.h>
+> +#include <linux/idr.h>
+> +#include <linux/kernel.h>
+> +#include <linux/maple_tree.h>
+> +#include <linux/module.h>
+> +#include <linux/printk.h>
+> +#include <linux/random.h>
+> +#include <linux/slab.h>
+> +#include <linux/xarray.h>
+> +
+> +#define REGION_MAX_SIZE	32
+> +
+> +static unsigned long *bitmap __initdata;
+> +/* One more request guarantees that even an all-ones trace reaches ENOSP=
+C. */
+> +static u8 *reg_sz __initdata;
+> +static unsigned long *reg_idx __initdata;
+> +static unsigned long capacities[64] =3D { 1000000, 100000, 10000, 1000, =
+100, 10 };
+> +static unsigned int cap_cnt =3D 6;
+> +
+> +module_param_array(capacities, ulong, &cap_cnt, 0400);
+> +MODULE_PARM_DESC(capacities, "Region capacities to benchmark");
+> +
+> +static unsigned long __init benchmark_bitmap(unsigned long cap)
+> +{
+> +	unsigned long cnt, idx;
+> +	ktime_t alloc_time, free_time;
+> +	size_t sz;
+> +
+> +	bitmap_zero(bitmap, cap);
+> +	alloc_time =3D ktime_get();
+> +	for (cnt =3D 0; cnt <=3D cap; cnt++) {
+> +		idx =3D bitmap_find_next_zero_area(bitmap, cap, 0, reg_sz[cnt], 0);
+> +		if (idx >=3D cap)
+> +			break;
+> +
+> +		reg_idx[cnt] =3D idx;
+> +		bitmap_set(bitmap, idx, reg_sz[cnt]);
+> +	}
+> +	alloc_time =3D ktime_get() - alloc_time;
+> +
+> +	idx =3D cnt;
+> +
+> +	free_time =3D ktime_get();
+> +	while (idx--)
+> +		bitmap_clear(bitmap, reg_idx[idx], reg_sz[idx]);
+> +	free_time =3D ktime_get() - free_time;
+> +
+> +	WARN_ON(!bitmap_empty(bitmap, cap));
+> +
+> +	sz =3D BITS_TO_LONGS(cap) * sizeof(unsigned long);
+> +	pr_err("Bitmap  %12llu  %12llu  %8lu  %8lu  %10zu\n",
+> +	       alloc_time, free_time, cnt, cap, sz);
+> +
+> +	return cnt;
+> +}
+> +
+> +static size_t __init ida_size(unsigned long nr_ids)
+> +{
+> +	unsigned long entries =3D DIV_ROUND_UP(nr_ids, IDA_BITMAP_BITS);
+> +	unsigned long bitmaps =3D nr_ids / IDA_BITMAP_BITS;
+> +	unsigned long nodes =3D 0;
+> +
+> +	if (nr_ids % IDA_BITMAP_BITS > BITS_PER_XA_VALUE)
+> +		bitmaps++;
+> +
+> +	while (entries > 1) {
+> +		entries =3D DIV_ROUND_UP(entries, XA_CHUNK_SIZE);
+> +		nodes +=3D entries;
+> +	}
+> +
+> +	return sizeof(struct ida) +
+> +		bitmaps * sizeof(struct ida_bitmap) +
+> +		nodes   * sizeof(struct xa_node);
+> +}
+> +
+> +static unsigned long __init benchmark_ida(unsigned long cap)
+> +{
+> +	struct ida ida =3D IDA_INIT(ida);
+> +	unsigned long cnt, idx, off, nr_ids =3D 0;
+> +	ktime_t alloc_time, free_time;
+> +	int id =3D -ENOSPC;
+> +
+> +	alloc_time =3D ktime_get();
+> +	for (cnt =3D 0; cnt <=3D cap; cnt++) {
+> +		for (off =3D 0; off < reg_sz[cnt]; off++) {
+> +			id =3D ida_alloc_max(&ida, cap - 1, GFP_KERNEL);
+> +			if (id < 0)
+> +				break;
+> +
+> +			if (!off)
+> +				reg_idx[cnt] =3D id;
+> +		}
+> +		if (id < 0) {
+> +			while (off--)
+> +				ida_free(&ida, reg_idx[cnt] + off);
+> +			break;
+> +		}
+> +		WARN_ON(id !=3D reg_idx[cnt] + reg_sz[cnt] - 1);
+> +		nr_ids +=3D reg_sz[cnt];
+> +	}
+> +	alloc_time =3D ktime_get() - alloc_time;
+> +
+> +	WARN_ON(id !=3D -ENOSPC);
+> +
+> +	idx =3D cnt;
+> +
+> +	free_time =3D ktime_get();
+> +	while (idx--) {
+> +		for (off =3D 0; off < reg_sz[idx]; off++)
+> +			ida_free(&ida, reg_idx[idx] + off);
+> +	}
+> +	free_time =3D ktime_get() - free_time;
+> +
+> +	WARN_ON(!ida_is_empty(&ida));
+> +
+> +	pr_err("IDA     %12llu  %12llu  %8lu  %8lu  %10zu\n",
+> +	       alloc_time, free_time, cnt, cap, ida_size(nr_ids));
+> +
+> +	ida_destroy(&ida);
+> +	return cnt;
+> +}
+> +
+> +static unsigned long __init benchmark_maple_tree(unsigned long cap)
+> +{
+> +	struct maple_tree mt =3D MTREE_INIT(mt, MT_FLAGS_ALLOC_RANGE);
+> +	unsigned long cnt, idx;
+> +	ktime_t alloc_time, free_time;
+> +	size_t sz;
+> +	int ret;
+> +
+> +	alloc_time =3D ktime_get();
+> +	for (cnt =3D 0; cnt <=3D cap; cnt++) {
+> +		ret =3D mtree_alloc_range(&mt, &idx, xa_mk_value(cnt + 1),
+> +					reg_sz[cnt], 0, cap - 1, GFP_KERNEL);
+> +		if (ret)
+> +			break;
+> +
+> +		reg_idx[cnt] =3D idx;
+> +	}
+> +	alloc_time =3D ktime_get() - alloc_time;
+> +
+> +	WARN_ON(ret !=3D -EBUSY);
+> +
+> +	idx =3D cnt;
+> +
+> +	free_time =3D ktime_get();
+> +	while (idx--)
+> +		mtree_erase(&mt, reg_idx[idx]);
+> +	free_time =3D ktime_get() - free_time;
+> +
+> +	WARN_ON(!mtree_empty(&mt));
+> +
+> +	/* Minimum storage assuming fully occupied allocation-range leaf nodes.=
+ */
+> +	sz =3D sizeof(mt) + DIV_ROUND_UP(cnt, MAPLE_ARANGE64_SLOTS) * sizeof(st=
+ruct maple_node);
+> +	pr_err("Maple   %12llu  %12llu  %8lu  %8lu  %10zu\n",
+> +	       alloc_time, free_time, cnt, cap, sz);
+> +
+> +	mtree_destroy(&mt);
+> +	return cnt;
+> +}
+> +
+> +static int __init region_alloc_benchmark(void)
+> +{
+> +	unsigned long bitmap_count, ida_count, maple_count;
+> +	unsigned long i, max_cap =3D 0;
+> +	int ret =3D -ENOMEM;
+> +
+> +	for (i =3D 0; i < cap_cnt; i++) {
+> +		if (capacities[i] =3D=3D 0) {
+> +			pr_err("capacity must be nonzero\n");
+> +			return -EINVAL;
+> +		}
+> +		max_cap =3D max(max_cap, capacities[i]);
+> +	}
+> +
+> +	bitmap =3D kvmalloc_array(BITS_TO_LONGS(max_cap), sizeof(*bitmap), GFP_=
+KERNEL);
+> +	reg_sz =3D kvmalloc_array(max_cap + 1, sizeof(*reg_sz), GFP_KERNEL);
+> +	reg_idx =3D kvmalloc_array(max_cap, sizeof(*reg_idx), GFP_KERNEL);
+> +	if (!bitmap || !reg_sz || !reg_idx)
+> +		goto out;
+> +
+> +	pr_err("\nStart testing bitmap vs IDA vs Maple Tree region allocation\n=
+");
+> +	pr_err("memory: bitmap is exact; IDA and Maple Tree are lower bounds\n"=
+);
+> +	pr_err("Type      alloc (ns)     free (ns)   regions  capacity  memory =
+(B)\n");
+> +
+> +	for (i =3D 0; i < cap_cnt; i++) {
+> +		unsigned long idx, max_size;
+> +
+> +		max_size =3D min(REGION_MAX_SIZE, capacities[i] / 10) ? : 1;
+> +		for (idx =3D 0; idx <=3D capacities[i]; idx++)
+> +			reg_sz[idx] =3D get_random_u32_below(max_size) + 1;
+> +
+> +		bitmap_count =3D benchmark_bitmap(capacities[i]);
+> +		maple_count  =3D benchmark_maple_tree(capacities[i]);
+> +		ida_count    =3D benchmark_ida(capacities[i]);
+> +
+> +		WARN_ON(bitmap_count !=3D ida_count);
+> +		WARN_ON(bitmap_count !=3D maple_count);
+> +	}
+> +
+> +	/* Return an error so the benchmark can run repeatedly without rmmod. *=
+/
+> +	pr_info("Region allocation benchmark complete\n");
+> +	ret =3D -EAGAIN;
+> +out:
+> +	kvfree(reg_idx);
+> +	kvfree(reg_sz);
+> +	kvfree(bitmap);
+> +	return ret;
+> +}
+> +module_init(region_alloc_benchmark);
+> +
+> +MODULE_AUTHOR("Yury Norov <ynorov@nvidia.com>");
+> +MODULE_DESCRIPTION("Benchmark bitmap, IDA and Maple Tree region allocati=
+on");
+> +MODULE_LICENSE("GPL");
 
-Add a shared directory record validator and use it in NFS get_parent,
-readdir and lookup.  This keeps the basic directory record length checks
-consistent across all directory users before they consume the name field
-or use one record length to find the next entry.
+Thanks Yury. I tested this out and got similar results to you. Code
+looks good to me too.
 
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
----
-v2:
-- Move the directory record validator to namei.c.
-- Share the validator with NFS get_parent, readdir and lookup.
-- Replace duplicate directory record length checks.
+Tested-by: Eliot Courtney <ecourtney@nvidia.com>
+Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
 
- fs/isofs/dir.c    |  7 ++-----
- fs/isofs/export.c | 10 +++++++++-
- fs/isofs/isofs.h  |  3 +++
- fs/isofs/namei.c  | 28 ++++++++++++++++++++++++----
- 4 files changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/fs/isofs/dir.c b/fs/isofs/dir.c
-index cc587cd25162..a96268c9ca41 100644
---- a/fs/isofs/dir.c
-+++ b/fs/isofs/dir.c
-@@ -149,10 +149,8 @@ static int do_isofs_readdir(struct inode *inode, struct file *file,
- 			}
- 			de = tmpde;
- 		}
--		/* Basic sanity check, whether name doesn't exceed dir entry */
--		if (de_len < sizeof(struct iso_directory_record) ||
--		    de_len < de->name_len[0] +
--					sizeof(struct iso_directory_record)) {
-+		if (!isofs_dir_record_valid(de, de == tmpde ? 0 : offset_saved,
-+					    de == tmpde ? de_len : bufsize)) {
- 			printk(KERN_NOTICE "iso9660: Corrupted directory entry"
- 			       " in block %lu of inode %llu\n", block,
- 			       inode->i_ino);
-@@ -300,4 +298,3 @@ const struct inode_operations isofs_dir_inode_operations =
- 	.fileattr_get = isofs_fileattr_get,
- };
- 
--
-diff --git a/fs/isofs/export.c b/fs/isofs/export.c
-index 78f80c1a5c54..4f7fa1d508a1 100644
---- a/fs/isofs/export.c
-+++ b/fs/isofs/export.c
-@@ -83,13 +83,21 @@ static struct dentry *isofs_export_get_parent(struct dentry *child)
- 
- 	/* This is the "." entry. */
- 	de = (struct iso_directory_record*)bh->b_data;
-+	if (!isofs_dir_record_valid(de, 0, child_inode->i_sb->s_blocksize) ||
-+	    isonum_711(de->name_len) != 1 || de->name[0] != 0) {
-+		printk(KERN_ERR "isofs: Unable to find the \".\" directory for NFS.\n");
-+		rv = ERR_PTR(-EACCES);
-+		goto out;
-+	}
- 
- 	/* The ".." entry is always the second entry. */
- 	parent_offset = (unsigned long)isonum_711(de->length);
- 	de = (struct iso_directory_record*)(bh->b_data + parent_offset);
- 
- 	/* Verify it is in fact the ".." entry. */
--	if ((isonum_711(de->name_len) != 1) || (de->name[0] != 1)) {
-+	if (!isofs_dir_record_valid(de, parent_offset,
-+				    child_inode->i_sb->s_blocksize) ||
-+	    isonum_711(de->name_len) != 1 || de->name[0] != 1) {
- 		printk(KERN_ERR "isofs: Unable to find the \"..\" "
- 		       "directory for NFS.\n");
- 		rv = ERR_PTR(-EACCES);
-diff --git a/fs/isofs/isofs.h b/fs/isofs/isofs.h
-index 0ec8b24a42ed..dacb9cdae4fd 100644
---- a/fs/isofs/isofs.h
-+++ b/fs/isofs/isofs.h
-@@ -115,6 +115,9 @@ struct inode;		/* To make gcc happy */
- extern int parse_rock_ridge_inode(struct iso_directory_record *, struct inode *, int relocated);
- extern int get_rock_ridge_filename(struct iso_directory_record *, char *, struct inode *);
- extern int isofs_name_translate(struct iso_directory_record *, char *, struct inode *);
-+bool isofs_dir_record_valid(struct iso_directory_record *de,
-+			    unsigned long offset,
-+			    unsigned long bufsize);
- 
- int get_joliet_filename(struct iso_directory_record *, unsigned char *, struct inode *);
- int get_acorn_filename(struct iso_directory_record *, char *, struct inode *);
-diff --git a/fs/isofs/namei.c b/fs/isofs/namei.c
-index 3ace3d6a55e7..a161b28893d6 100644
---- a/fs/isofs/namei.c
-+++ b/fs/isofs/namei.c
-@@ -10,6 +10,26 @@
- #include <linux/gfp.h>
- #include "isofs.h"
- 
-+bool isofs_dir_record_valid(struct iso_directory_record *de,
-+			    unsigned long offset,
-+			    unsigned long bufsize)
-+{
-+	unsigned int len;
-+	unsigned int name_len;
-+	unsigned long min_len = offsetof(struct iso_directory_record, name);
-+
-+	if (offset > bufsize || bufsize - offset < min_len)
-+		return false;
-+
-+	len = isonum_711(de->length);
-+	name_len = isonum_711(de->name_len);
-+	if (len < min_len || name_len > len - min_len)
-+		return false;
-+	if (len > bufsize - offset)
-+		return false;
-+	return true;
-+}
-+
- static int
- isofs_cmp(struct dentry *dentry, const char *compare, int dlen)
- {
-@@ -88,16 +108,16 @@ isofs_find_entry(struct inode *dir, struct dentry *dentry,
- 			de = tmpde;
- 		}
- 
--		dlen = de->name_len[0];
--		dpnt = de->name;
--		/* Basic sanity check, whether name doesn't exceed dir entry */
--		if (de_len < dlen + sizeof(struct iso_directory_record)) {
-+		if (!isofs_dir_record_valid(de, de == tmpde ? 0 : offset_saved,
-+					    de == tmpde ? de_len : bufsize)) {
- 			printk(KERN_NOTICE "iso9660: Corrupted directory entry"
- 			       " in block %lu of inode %llu\n", block,
- 			       dir->i_ino);
- 			brelse(bh);
- 			return 0;
- 		}
-+		dlen = de->name_len[0];
-+		dpnt = de->name;
- 
- 		if (sbi->s_rock &&
- 		    ((i = get_rock_ridge_filename(de, tmpname, dir)))) {
--- 
-2.51.0
