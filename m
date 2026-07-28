@@ -1,173 +1,180 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4FF346AC5
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 20:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785271944; cv=pass; b=YAzvnm40LDGI5nkfqUEbxhLoKOLVPoPFEISunPuUa7LTFterk/YF4ND4l23oqL/9bM2QqvejXbsWifyJPflHnImWVUXqF+MKLKCZkCtZSWZHRmiJwdnEfMjtBUJsvV8X5J+2PVw3vGmRKgIVlCJoUnHBDKswXYnqZgLhfFqv5as=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785271944; c=relaxed/simple;
-	bh=x0gOLNppm6yCyhg3j79uS80748lJ/2o4AAw4IIheMJg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rGsypKwM6BvDuXKVv4npieDv+VxYISZUp0OVm0fOXb3b3p4/nqQmEcf8HLrhshrcDt0MJaxnbKTPnEcGUoSWdbNSuVei7Mprsm9TKTY7aKEhpYDr9ZyePPK2XxEUVCmL2dF4aDK1tDO6KA6v+bXqa0AN4Wrd+geLFb1D/lTxw48=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUwbFHgr; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C41A377006;
+	Tue, 28 Jul 2026 20:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785271996; cv=none; b=r928i1t/tjc4eLu6ZFYkLyys6LoRtnKCuTrAWda3O6PLqZtPlF6NJwd2Te9HubgsmqX77LrMfoH1DiXUZIgkLbzSV4ngbmV2biN/LeONN55V0ft2T/Bhn5NJ2Hk1dRi0GArl//rtwXSXDx255jEUQnGWIaRDhBhybSP6bh627+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785271996; c=relaxed/simple;
+	bh=HeJvnCqDL2rKOxocS8XoU3uYxjsAlQ1JbThOJIIuwak=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hoYVGR1m1fzlXQV7oG0cdC82qNiKj3MsBO5GhswkkLBmgLOs+4bvYEoi9e7iqy9XXd3neswBy01/oU3gZCYii4LkVFnQfppSbzx/T09mh5z+fOIjYEz0rmfR2hCBDXs3ktyoLw4whB07L1vonZGgD2pdpAyJcp+riYhN/8VuooQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=U+O1+uka; arc=none smtp.client-ip=44.246.1.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUwbFHgr"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so113532f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:52:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785271941; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AdiGR7F6vb7FYwWXCllRlSGfHBJ2iEsJ4yZE5ztRUHDzLCj5omjkZF4SuncdyFHuWm
-         kdT+s/WRp3t6GVnYn5O4cOx0I8DX5uUIqjfZ+Sgs+qIx2EIy00o70aS7ClaKpFCYRCFQ
-         R+FwKfp6RDLBJMNb9Z8fJC2ATBFpc9ZJln0zqhIN7OHkscF6/8vlO59tcT3NRUn9KovU
-         cD+TMq9pXCFnri05chqV0O0fzbecN3GYtF4a4lJ+761uaFHKHZtCwRI6sH+P3EmnS7L4
-         oLZN9gcG3eOU8aKz4YTqEkXI/adlg3hWPyn/Wkn6623cREYvdNb4DVH85Od3D6m+C/o+
-         D6VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=x0gOLNppm6yCyhg3j79uS80748lJ/2o4AAw4IIheMJg=;
-        fh=ncb5BzEetvGucww7ZLymflrsnYd+ASX9fwWJ/VRm+UQ=;
-        b=P+kuXQnlYC8s8+trdiOokkJSV/p5AXZBDZB2RgxA7xmMTMdq/v6oxd2fz/Glt3xayM
-         R//plWF9eX8Rly6OV0Kk/NA0+eAFx/Z4iNGltxCRX5/r6Lej7tcj/kyvrsjeXVyElOqK
-         Up0/Z8pMCQV1KycSGQ0szvoh53djOLpj6HQxle1AriCejnfyRB0KWDYqMpzIoj3+D2eA
-         pVfm7/mkMWnE0N3BWqqL6n8/bZ0oq0X9Mh5Bn258ixM6A1EKItw/k7BdYTDtdFTTzy7V
-         M2jDh7NEKtNfScrcLlknGExf2j8HnawZ/WIdP+J7/6nDF4iHatZyXdbjYMtRlIZ/ErEe
-         ZjLA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="U+O1+uka"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785271941; x=1785876741; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=x0gOLNppm6yCyhg3j79uS80748lJ/2o4AAw4IIheMJg=;
-        b=CUwbFHgrlTBOV7vCWObEuQYbWJUZ/ILkyvylC0+prD60NfsocM/FpkrbMy7GesnKgH
-         MSf8L9vy2x7HNHUJVV34WC9Gq8OODE1M6J5PvjFq1Oe/TMIXLRoKlLfCZvbyPY7j0LGs
-         opUh66hU4bBSsPzyP1Eit9rCz9QtRsa4uq+x163jzBABLo0aLq4dhbBK5Wc1plrY0qGa
-         jdutwwpypaWYwOVRpcMVqfRg1ZiCNfJlDP5/krFSGJIc8SRV2RnSOOWe0UZAkxMkiiZM
-         EkBpPaf1FDYE6dyvSmtqXndrpwkp+zHABw0REvA4mksEcDMzr2fZtq95vwvGufZvB3TS
-         7p3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785271941; x=1785876741;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=x0gOLNppm6yCyhg3j79uS80748lJ/2o4AAw4IIheMJg=;
-        b=jMrOYje526mrI87lWTESy4sx8CqasbBfPKVI/zVnI92zVP10cceLRHj6Rl1bvwOz65
-         Fh1D19lbqmbGfZFQ33knToh4T1oYVbn96Hg7L5xN2S55EKS7ZAhKuxp9dFB5o8MDMKjX
-         SBrtChDA2A0I25QwxHZfcO6v61qR6fbiEzm6Rh+ouFhJjtWg17kcY0ECJ/zeRW5uX21V
-         TG1ap54EQ+Pqd7EIRymLSp5Gj06nqtwG7Z+Uj1Tv+LNa+/WMD2UE3qj0Wqo6DluL2Ybj
-         mIIGc91dOLmRxTnRhkaPTeVdd61nm23Lu5nPzd0UNwSN1uMcS3oUmOBpJaquKEzoNyj+
-         sFDw==
-X-Gm-Message-State: AOJu0Yzp847yqtabFmNRgaz995P8KgbaBqN2lGVvDKaZLhoZUef1WiH7
-	UI0vSalNasRL+t3F62c5IuSt4YxpbkYfvV6vWHeZEd5Jj+p3GtCaARpPehr4gLACb8mY0a+O8dK
-	Aue4Hzh3JzhQ1/4ClgeXzyjaCisuUth0=
-X-Gm-Gg: AR+sD12CoWZA/zGI9hCelPnWUOSBxjeuYA+ViB+BOScMog7MmzA3AenudJk3z4mOkBt
-	gVQDwLYdWPSuRPDoLxxoRQ0FlR64Eee0CNgIxOIcfag4SbGulbVes+ulMW3Co9qtxUfEIAJgMyO
-	3RcFbZ40PV2BRQFt5DxkPJwUtKZhpxcVpLp5HLYeFoyaj/zmNyAOiLAt/MkFmcmlg4a77SqGpQ9
-	ouzsyKXf3vOHa35/cktRS+h6is0UjKUCy0Nxj6Ts5cmFaYyj5M3+GRkDQK/38VOxivIs1G8Xd74
-	NoMflxngJp7qIP7OwDSDxQHnEuV49ux2sV4JlqxXqw==
-X-Received: by 2002:a5d:588f:0:b0:47f:6fa4:58e0 with SMTP id
- ffacd0b85a97d-47fb1ecd60cmr4789362f8f.35.1785271941075; Tue, 28 Jul 2026
- 13:52:21 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785271995; x=1816807995;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wY/HaOGRvQhbyShtJG8cca1pnVfiOL3EgQJ/QooanBY=;
+  b=U+O1+ukaPKNWlbF9lgAGeKmrfQOGTptLOoXhxKLfVmrokCyU6wRpl76b
+   TS9FZhqcrUvB1zAE8+JkcXPMU2P82pQhbzxioreGjgTP8K1du7AQaTpVU
+   gEF3+PRp+hb3szeKdJW9otUCzFZyhl/Q8pjgXmwoLPFqHon/9yLLG4Dhq
+   iR3YzEltPGF6xD8H/w0zuP5j0iQMt5Yo2/gscgrHVvyQwCsGRkRj0Zxf8
+   dRfygiGYDsQKJekz6KyxF6+/S1FGJsTo45Nd1crJY1z1x/IBhBMEGCqoF
+   uJMTk6D7OQaaLur6h7WUyFWnuxICIxcZlBBFFuGDR+qjTqHNP5wMQ8UjT
+   A==;
+X-CSE-ConnectionGUID: wxCYs3ExQgeCIlM6bE8t6A==
+X-CSE-MsgGUID: MFUgVu3vQ7q87v3sYPj4Kg==
+X-IronPort-AV: E=Sophos;i="6.25,191,1779148800"; 
+   d="scan'208";a="24531569"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 20:53:15 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:9970]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.152:2525] with esmtp (Farcaster)
+ id 8443e69d-d20e-41d5-ad2a-02fce05eed36; Tue, 28 Jul 2026 20:53:14 +0000 (UTC)
+X-Farcaster-Flow-ID: 8443e69d-d20e-41d5-ad2a-02fce05eed36
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Tue, 28 Jul 2026 20:53:14 +0000
+Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Tue, 28 Jul 2026 20:53:14 +0000
+From: Jay Wang <wanjay@amazon.com>
+To: <stable@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <sashal@kernel.org>,
+	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>,
+	<linux-fsdevel@vger.kernel.org>,
+	<syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com>, Yuezhang Mo
+	<Yuezhang.Mo@sony.com>
+Subject: [PATCH 6.1.y] exfat: validate cluster allocation bits of the allocation bitmap
+Date: Tue, 28 Jul 2026 20:53:13 +0000
+Message-ID: <20260728205313.19824-1-wanjay@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260728183005.92395-1-bfoster@redhat.com> <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
- <amj_MJOEzLor4jMW@bfoster>
-In-Reply-To: <amj_MJOEzLor4jMW@bfoster>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 28 Jul 2026 13:52:08 -0700
-X-Gm-Features: AUfX_mzrJuhN69emZJWfSa1QnazdLTlnFhnQh-ljjOvvrXWQXoeHTl0KnqVQ1WE
-Message-ID: <CAJnrk1YME2vEunO=y6WhqVr0hEO+QXihyrFNa+sisKR4j7-=tw@mail.gmail.com>
-Subject: Re: [PATCH] iomap: release the folio batch on iomap callback failures
-To: Brian Foster <bfoster@redhat.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, hch@lst.de, 
-	djwong@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Tue, Jul 28, 2026 at 12:12=E2=80=AFPM Brian Foster <bfoster@redhat.com> =
-wrote:
->
-> On Tue, Jul 28, 2026 at 12:07:10PM -0700, Joanne Koong wrote:
-> > On Tue, Jul 28, 2026 at 11:30=E2=80=AFAM Brian Foster <bfoster@redhat.c=
-om> wrote:
-> > >
-> > > A sashiko review of an unrelated patch points out that the folio
-> > > batch mechanism used for iomap zero range fails to release the batch
-> > > in a couple error scenarios. If either calls to ->iomap_end() or
-> > > ->iomap_begin() fail, the direct return paths bypass the batch
-> > > cleanup.
-> > >
-> > > The ->iomap_end() case is not a practical issue at the moment
-> > > because there is no user of the mechanism that returns an error from
-> > > this path. The ->iomap_begin() case is theoretically possible
-> > > because XFS can invoke the fill helper and error out at various
-> > > points thereafter. This subtly complicates things because XFS does
-> > > not transfer iomap_flags to the iomap data structure in the error
-> > > path.
-> > >
-> > > To deal with both of these issues, first make sure to invoke the
-> > > cleanup helper in the error path for either fs callback. Second,
-> > > update the helper to clear the flag unconditionally and release the
-> > > batch so long as it is populated. This more clearly delineates the
-> > > purpose of the flag to control the I/O path and not necessarily the
-> > > status of the fbatch, so add a comment around this as well.
-> > >
-> > > Reported-by: Sashiko <sashiko-bot@kernel.org>
-> > > Assisted-by: LLM
-> > > Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processi=
-ng")
-> > > Signed-off-by: Brian Foster <bfoster@redhat.com>
-> > > ---
-> > >
-> > > As noted here[1], I'm aware this conflicts with the outstanding iomap
-> > > iter rework. I'm happy to rebase onto that if that is ultimately
-> > > preferred. I've got at least one vote to get this in sooner, so this
-> > > version is based on 7.2-rc5.
-> > >
-> >
-> > Hi Brian,
-> >
-> > As I understand your analysis of the bug in [1], given that it's an
-> > unlikely / second-order scenario nobody is hitting in reality, maybe
-> > it'd be easiest if I fold this patch into the iomap iter rework series
-> > as a preparatory patch (keeping your authorship and Fixes: tag), make
-> > the needed changes in the iomap iter series to be compatible with your
-> > patch, and then submit everything together to the vfs-7.3.iomap branch
-> > as v5 of the series? I think that avoids the nontrivial merge conflict
-> > Christian/Stephen would have to deal with.
-> >
->
-> That's perfectly fine with me if you're Ok with doing that and nobody
-> otherwise objects.
+From: Namjae Jeon <linkinjeon@kernel.org>
 
-I'll wait a day for anyone to object, and if no one does, I'll send v5
-tomorrow with your patch folded in.
+[ Upstream commit 79c1587b6cda74deb0c86fc7ba194b92958c793c ]
 
-Thanks,
-Joanne
+syzbot created an exfat image with cluster bits not set for the allocation
+bitmap. exfat-fs reads and uses the allocation bitmap without checking
+this. The problem is that if the start cluster of the allocation bitmap
+is 6, cluster 6 can be allocated when creating a directory with mkdir.
+exfat zeros out this cluster in exfat_mkdir, which can delete existing
+entries. This can reallocate the allocated entries. In addition,
+the allocation bitmap is also zeroed out, so cluster 6 can be reallocated.
+This patch adds exfat_test_bitmap_range to validate that clusters used for
+the allocation bitmap are correctly marked as in-use.
 
->
-> Brian
->
-> > Alternatively, if you prefer to have this as part of 7.2, I can send a
-> > v5 of the series to try minimizing the conflict, and then send
-> > Christian or Stephen a diff for how to resolve the merge when they hit
-> > it.
-> >
-> > Thanks,
-> > Joanne
-> >
-> > [1] https://lore.kernel.org/linux-fsdevel/amjztG-DisHYbV9W@bfoster/
-> >
->
+Reported-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
+Tested-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
+Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
+Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+[Adapted to 6.1: replaced __le_long/lel_to_cpu word-level bitmap access
+ with per-bit test_bit_le() calls, as __le_long and lel_to_cpu do not
+ exist in 6.1. Uses same test_bit_le API as rest of exfat bitmap code.]
+Signed-off-by: Jay Wang <wanjay@amazon.com>
+---
+ fs/exfat/balloc.c | 54 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 42 insertions(+), 12 deletions(-)
+
+diff --git a/fs/exfat/balloc.c b/fs/exfat/balloc.c
+index 32209acd51be4..2d4fe3d754bbc 100644
+--- a/fs/exfat/balloc.c
++++ b/fs/exfat/balloc.c
+@@ -45,12 +45,37 @@ static const unsigned char used_bit[] = {
+ /*
+  *  Allocation Bitmap Management Functions
+  */
++static bool exfat_test_bitmap_range(struct super_block *sb, unsigned int clu,
++		unsigned int count)
++{
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	unsigned int start = clu;
++	unsigned int end = clu + count;
++	unsigned int ent_idx, i, b;
++
++	if (!is_valid_cluster(sbi, start) || !is_valid_cluster(sbi, end - 1))
++		return false;
++
++	while (start < end) {
++		ent_idx = CLUSTER_TO_BITMAP_ENT(start);
++		i = BITMAP_OFFSET_SECTOR_INDEX(sb, ent_idx);
++		b = BITMAP_OFFSET_BIT_IN_SECTOR(sb, ent_idx);
++
++		if (!test_bit_le(b, sbi->vol_amap[i]->b_data))
++			return false;
++
++		start++;
++	}
++
++	return true;
++}
++
+ static int exfat_allocate_bitmap(struct super_block *sb,
+ 		struct exfat_dentry *ep)
+ {
+ 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ 	long long map_size;
+-	unsigned int i, need_map_size;
++	unsigned int i, j, need_map_size;
+ 	sector_t sector;
+ 
+ 	sbi->map_clu = le32_to_cpu(ep->dentry.bitmap.start_clu);
+@@ -77,20 +102,25 @@ static int exfat_allocate_bitmap(struct super_block *sb,
+ 	sector = exfat_cluster_to_sector(sbi, sbi->map_clu);
+ 	for (i = 0; i < sbi->map_sectors; i++) {
+ 		sbi->vol_amap[i] = sb_bread(sb, sector + i);
+-		if (!sbi->vol_amap[i]) {
+-			/* release all buffers and free vol_amap */
+-			int j = 0;
+-
+-			while (j < i)
+-				brelse(sbi->vol_amap[j++]);
+-
+-			kvfree(sbi->vol_amap);
+-			sbi->vol_amap = NULL;
+-			return -EIO;
+-		}
++		if (!sbi->vol_amap[i])
++			goto err_out;
+ 	}
+ 
++	if (exfat_test_bitmap_range(sb, sbi->map_clu,
++		EXFAT_B_TO_CLU_ROUND_UP(map_size, sbi)) == false)
++		goto err_out;
++
+ 	return 0;
++
++err_out:
++	j = 0;
++	/* release all buffers and free vol_amap */
++	while (j < i)
++		brelse(sbi->vol_amap[j++]);
++
++	kvfree(sbi->vol_amap);
++	sbi->vol_amap = NULL;
++	return -EIO;
+ }
+ 
+ int exfat_load_bitmap(struct super_block *sb)
+-- 
+2.47.3
+
