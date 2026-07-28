@@ -1,182 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3AD443E56;
-	Tue, 28 Jul 2026 13:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A288543CE5C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 13:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246504; cv=none; b=q1oLETCdm74nNmW9wl17UXMffkGojQ0oOgKRAm30+VuuxBdhp5XcqiBIMIvGlwmh2uWl5cBXeiQkOM/gVOppy2BzYtmdRjnL/UOudSxczHLi0amvaUvtVw4tf4fiZouKaE/c3dD+1c7XXjcEa0c6/NP+KCDw7z2bLyGUeKrTQAM=
+	t=1785246602; cv=none; b=q1cnKErLmSnWOQrrETpenZIRJmhDrrbScgl7t+ETbSfhGkgLpYP98cXq+4IflGGd8pBL55cKALL/RM2PccIRUGj4euuAgY3XsI0nt/Cp2nOPpNimDD8rPJENQl1ldWt6faqqBdNSmGnaXm4I6/vvsQlGxsrIYYDX1BdVCWXBf6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246504; c=relaxed/simple;
-	bh=GfZf4OtiPvKmem6JowvFOniZu3fnPQf7hYId+0iuxks=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fruw2jFtMgLScRWQ8++KCcbfGvKB69cnYx/DBau3SvNVbT5CwuoTLz6EMJeUHA6RIkOism71Ic4mXly/eFTpTZqu3omEiJllLAtCMyrA2zCY44BoZZFNTI8D7SImQirKvMgN2xBF6JE0uUznoTKuX6tInJdCt8q2dLpTVtq+ffc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzSj2fnz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785246602; c=relaxed/simple;
+	bh=Zt7l5myQ2WXobQN8tGRWBSvTO+sRbD1pPUAXv4U4maU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rrkPtpwV5owIRAuLqehKeCPhyKeoL1TxVLhaix28GQFLMGhhOdhCyuF42KykCu6Rjz1QJ/OUQ8AqfqHlKGTIRve+Z2NDSjL0+LkXX6xgf5TV0DBLuo8cvb3Ad5o/pyaVzmmiXrtwTw+L6UtX5+pqH9DwB1ckTnvMMgSkIfRyWAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T4FjaK6o; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzSj2fnz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF851F000E9;
-	Tue, 28 Jul 2026 13:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785246503;
-	bh=M13c9yrS8i19jL6P1wyYS28jNcW+SVKbY4SPV3JN170=;
-	h=From:Date:Subject:To:Cc;
-	b=LzSj2fnzFxkDQEz0jAWTEyWdwJtEYTd+w6PpGK9wNAweCVLTU9kBuXBPTm6CFhePi
-	 SdU6U98d4FV7WPFrgkswIAfexxvtPTuYw/uEXSQ1yeKRieh2ln0Osk1eRTA98LtnvX
-	 JCaHRHIPqUG4MPJO6IUZVt9P9NnCLlvV37ldL1joUcAj2iu7XwNjCF+rK5qyVzJxu6
-	 CRNJameCmxNuxLBnMxlw4Kh0p+5vqgAEHFzJYsL/TGLmv+BY4jve/L5d3b7/L/4Awu
-	 lbDFiMlSpjFAKqAE5YtH01mk7uQmVPdt7v4gY9FR0X+vQ90tV+CiotyDVixQ1AqmqX
-	 pwiUMRxgBhN9Q==
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 28 Jul 2026 15:48:10 +0200
-Subject: [PATCH] binfmt_misc: don't leak the user namespace when the mount
- fails
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T4FjaK6o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785246599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xq5CTHITws8PjVCNXvkWRBi305FHJPXL2e4BqYPiiCQ=;
+	b=T4FjaK6oaG/ImRBCk4pHrU/LYQckRiOZHtDSyUQT6T5gSKDDEvhDmKCj+HI4xPDB5WDdVn
+	3hg8dvXdWO2HzCcz6FqdtHmieNtKUylgESBEM0BATy0qWdk5MXUYJES7Z+goH55J66MG8m
+	JnAhN0sB7cR5hu1NnQnsgeFcSbKLaM0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-511-WEhzMV-CNJSzMZOhlwpung-1; Tue,
+ 28 Jul 2026 09:49:52 -0400
+X-MC-Unique: WEhzMV-CNJSzMZOhlwpung-1
+X-Mimecast-MFC-AGG-ID: WEhzMV-CNJSzMZOhlwpung_1785246589
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C949C19560A2;
+	Tue, 28 Jul 2026 13:49:47 +0000 (UTC)
+Received: from bfoster (unknown [10.22.88.46])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B491404;
+	Tue, 28 Jul 2026 13:49:42 +0000 (UTC)
+Date: Tue, 28 Jul 2026 09:49:40 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, hch@lst.de,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	linux-fsdevel@vger.kernel.org, changfengnan@bytedance.com,
+	kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+	David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, tytso@mit.edu,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, libaokun@linux.alibaba.com,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 01/21] iomap: split iomap_iter() logic into
+ iomap_iter_next()
+Message-ID: <amizdHj6ICgP2xFv@bfoster>
+References: <20260727211758.1116539-1-joannelkoong@gmail.com>
+ <20260727211758.1116539-2-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260728-work-binfmt_misc-usernsleak-v1-1-dbd8d5e626e7@kernel.org>
-X-B4-Tracking: v=1; b=H4sIABmzaGoC/yXM3Q6CMAyG4VshPbYGF8WfWyHGrLOTigyzApoQ7
- t1NDt+m3zODchRWuBQzRJ5EpQ8pdpsCXGPDg1HuqcGUpiqP5oSfPrZIEnw33DpRh2MSgr7Ytui
- M2fPhXBGThSS8I3v5/vX6uraO9GQ3ZDJ/kFVGija4Jp8mr9t1sSw/f1SaopsAAAA=
-X-Change-ID: 20260728-work-binfmt_misc-usernsleak-c224e596beba
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- bpf@vger.kernel.org, jannh@google.com, mail@johnericson.me, 
- stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.16-dev-cca4b
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5088; i=brauner@kernel.org;
- h=from:subject:message-id; bh=GfZf4OtiPvKmem6JowvFOniZu3fnPQf7hYId+0iuxks=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlbFbhnyO8/+nWyrYq9wz588vSZ791rj+53Pvo6/cZn
- lFvHiz+0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARVTFGho/bPKKvBacxK99s
- eF144ZaL45d5DSZ6zTWc39JVbW6yBjEyTOIw0vT0dQtVfJ34Z9ka/+YcxtW2x+NSfOLea0S8PXu
- WBQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727211758.1116539-2-joannelkoong@gmail.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-bm_get_tree() takes a reference to the user namespace and hands it to
-get_tree_keyed() as the sget key. sget_fc() moves that reference into
-sb->s_fs_info and clears fc->s_fs_info, so from that point on the
-superblock owns it and bm_free() doesn't see it anymore.
+On Mon, Jul 27, 2026 at 02:17:38PM -0700, Joanne Koong wrote:
+> In preparation for changing iomap to use an in-iter (->iomap_next())
+> model, move the iomap_iter() logic out into the new iomap_iter_next()
+> helper function.
+> 
+> iomap_iter_next() is added as an inlined helper so it can be called
+> directly by ->iomap_next() implementations where the begin()/end()
+> callbacks can be direct calls.
+> 
+> The DEFINE_IOMAP_ITER_NEXT() and DEFINE_IOMAP_ITER_NEXT_END() macros are
+> also provided to generate the boilerplate ->iomap_next() wrapper
+> functions that simply forward to iomap_iter_next() with the appropriate
+> begin/end callbacks. DEFINE_IOMAP_ITER_NEXT() is for the common case
+> where there is no end() callback. DEFINE_IOMAP_ITER_NEXT_END() is for
+> the case where there is an explicit end() callback.
+> 
+> No functional change intended. The only code-level difference is that on
+> the iomap_end() error path (ret < 0 && !advanced), the old code returned
+> with iter.status left as the caller's last value whereas the new code
+> zeroes it, but this is not observable in practice as there are no in-tree
+> callers that read iter.status after the iteration loop.
+> 
+> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+> Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/iomap/iter.c       | 123 +++++++++++++++++++++---------------------
+>  include/linux/iomap.h | 102 +++++++++++++++++++++++++++++------
+>  2 files changed, 147 insertions(+), 78 deletions(-)
+> 
+> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> index e4a29829591a..66ccb87441ab 100644
+> --- a/fs/iomap/iter.c
+> +++ b/fs/iomap/iter.c
+> @@ -6,15 +6,6 @@
+>  #include <linux/iomap.h>
+>  #include "trace.h"
+>  
+> -static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
+> -{
+> -	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
+> -		folio_batch_release(iter->fbatch);
+> -		folio_batch_reinit(iter->fbatch);
+> -		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+> -	}
+> -}
+> -
 
-The superblock drops it in ->put_super(). But generic_shutdown_super()
-only calls ->put_super() from inside the if (sb->s_root) branch, so
-nothing releases it when bm_fill_super() fails:
+So hch forwarded me a bit of Sashiko review feedback that called out a
+potential folio batch leak on error returns from iomap_begin() or
+iomap_end(). Note that I think the ->iomap_end() variant is currently
+not an issue because nothing returns error there, but it should be fixed
+regardless.
 
-- The kzalloc_obj() failure leaves s_root NULL and the whole branch is
-  skipped.
+As such, I have the patch below as a fix based on current master. The
+idea here is to account for failures from either callback and also the
+fact that XFS may not necessarily transfer the iomap_flags on failure. I
+considered a couple other options here, like changing that behavior or
+using an iter flag, but I think this is the cleanest option.
 
-- A simple_fill_super() failure in the file loop leaves s_root set, but
-  s_op still points at simple_super_operations, which has no
-  ->put_super(). bm_fill_super() installs s_ops only once
-  simple_fill_super() returned success, and installing it earlier
-  wouldn't help either because simple_fill_super() overwrites s_op.
+However this obviously conflicts with this rework series. This isn't a
+major conflict IMO.. I'd probably just do the same thing and include the
+batch cleanup in the error/exit path of iomap_iter() (or maybe start
+passing ret into iomap_iter_done()), but I would need to reintroduce the
+helper above. Also after this series I think this could mean a duplicate
+call in the termination case where iomap_iter_continue() would have
+cleaned things up, but that is relatively harmless. Maybe there is
+something incrementally cleaner, but I'm still wrapping my head around
+the factoring here..
 
-Either way vfs_get_super() calls deactivate_locked_super() and the
-reference is gone for good. binfmt_misc mounts are available in a user
-namespace and both the inode and the dentry cache are SLAB_ACCOUNT, so
-an unprivileged caller under a tight memory cgroup can fail
-simple_fill_super() on demand and leak one user namespace per attempt.
+But anyways, the main thing I wanted to ask is how folks want to handle
+this particular bug..? This rework is invasive and looks mostly reviewed
+so I don't want to unnecessarily hold it up. I can rebase on top of this
+and leave the patch below for -stable, or avoid the helper churn and
+post the patch below on its own and rework it into this, or maybe just
+tweak this to leave the helper around and avoid some churn that way..
+thoughts?
 
-Drop the reference in ->kill_sb() instead, which runs unconditionally,
-the same way nfsd and rpc_pipefs release their keyed s_fs_info.
+Brian
 
-That also stops ->put_super() from clearing s_fs_info while the
-superblock is still on @fs_supers. generic_shutdown_super() leaves it
-there on purpose so that sget_fc() keeps finding it until kill_sb() has
-run, but a NULL s_fs_info makes test_keyed_super() miss it, so a
-concurrent mount for the same user namespace skips the grab_super()
-wait and creates a second superblock for a namespace that is still
-being torn down.
+--- 8< ---
 
-Fixes: 21ca59b365c0 ("binfmt_misc: enable sandboxed mounts")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
-Note for stable: this applies as-is only from v6.19 onwards. Before
-7beafd51c4e1 ("convert binfmt_misc") ->kill_sb is kill_litter_super()
-and bm_kill_sb() has to call that instead of kill_anon_super(): back
-then simple_fill_super() left the dentries it created pinned and
-d_genocide() is what drops them. Taking this patch verbatim on v6.7 to
-v6.18 turns every binfmt_misc umount into a "Dentry still in use"
-BUG() in shrink_dcache_for_umount().
----
- fs/binfmt_misc.c | 32 +++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
-
-diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index a73a37b8a013..c97f10b48b5b 100644
---- a/fs/binfmt_misc.c
-+++ b/fs/binfmt_misc.c
-@@ -921,18 +921,9 @@ static const struct file_operations bm_status_operations = {
+diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+index e4a29829591a..63617ec48250 100644
+--- a/fs/iomap/iter.c
++++ b/fs/iomap/iter.c
+@@ -6,12 +6,18 @@
+ #include <linux/iomap.h>
+ #include "trace.h"
  
- /* Superblock handling */
- 
--static void bm_put_super(struct super_block *sb)
--{
--	struct user_namespace *user_ns = sb->s_fs_info;
--
--	sb->s_fs_info = NULL;
--	put_user_ns(user_ns);
--}
--
- static const struct super_operations s_ops = {
- 	.statfs		= simple_statfs,
- 	.evict_inode	= bm_evict_inode,
--	.put_super	= bm_put_super,
- };
- 
- static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
-@@ -990,13 +981,12 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
- 	/*
- 	 * When the binfmt_misc superblock for this userns is shutdown
- 	 * ->enabled might have been set to false and we don't reinitialize
--	 * ->enabled again in put_super() as someone might already be mounting
--	 * binfmt_misc again. It also would be pointless since by the time
--	 * ->put_super() is called we know that the binary type list for this
--	 * bintfmt_misc mount is empty making load_misc_binary() return
--	 * -ENOEXEC independent of whether ->enabled is true. Instead, if
--	 * someone mounts binfmt_misc for the first time or again we simply
--	 * reset ->enabled to true.
-+	 * ->enabled again during shutdown as someone might already be mounting
-+	 * binfmt_misc again. It also would be pointless since by then we know
-+	 * that the binary type list for this binfmt_misc mount is empty making
-+	 * load_misc_binary() return -ENOEXEC independent of whether ->enabled
-+	 * is true. Instead, if someone mounts binfmt_misc for the first time or
-+	 * again we simply reset ->enabled to true.
- 	 */
- 	misc->enabled = true;
- 
-@@ -1022,6 +1012,14 @@ static const struct fs_context_operations bm_context_ops = {
- 	.get_tree	= bm_get_tree,
- };
- 
-+static void bm_kill_sb(struct super_block *sb)
-+{
-+	struct user_namespace *user_ns = sb->s_fs_info;
-+
-+	kill_anon_super(sb);
-+	put_user_ns(user_ns);
-+}
-+
- static int bm_init_fs_context(struct fs_context *fc)
++/*
++ * Release the iter folio batch. Note that the iomap flag is meant to control
++ * the I/O path for the mapping and may not be set in error situations.
++ */
+ static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
  {
- 	fc->ops = &bm_context_ops;
-@@ -1038,7 +1036,7 @@ static struct file_system_type bm_fs_type = {
- 	.name		= "binfmt_misc",
- 	.init_fs_context = bm_init_fs_context,
- 	.fs_flags	= FS_USERNS_MOUNT,
--	.kill_sb	= kill_anon_super,
-+	.kill_sb	= bm_kill_sb,
- };
- MODULE_ALIAS_FS("binfmt_misc");
+-	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
++	if (!iter->fbatch)
++		return;
++	iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
++	if (folio_batch_count(iter->fbatch)) {
+ 		folio_batch_release(iter->fbatch);
+ 		folio_batch_reinit(iter->fbatch);
+-		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
+ 	}
+ }
  
-
----
-base-commit: 61d2304c0f286fe4a14ec6cee87588350c276d02
-change-id: 20260728-work-binfmt_misc-usernsleak-c224e596beba
+@@ -79,7 +85,7 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+ 						  olen),
+ 				advanced, iter->flags, &iter->iomap);
+ 		if (ret < 0 && !advanced)
+-			return ret;
++			goto error;
+ 	}
+ 
+ 	/* detect old return semantics where this would advance */
+@@ -110,7 +116,11 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+ 	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
+ 			       &iter->iomap, &iter->srcmap);
+ 	if (ret < 0)
+-		return ret;
++		goto error;
+ 	iomap_iter_done(iter);
+ 	return 1;
++
++error:
++	iomap_iter_clean_fbatch(iter);
++	return ret;
+ }
 
