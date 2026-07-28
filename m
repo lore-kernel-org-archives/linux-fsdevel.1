@@ -1,34 +1,34 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A834756B1;
-	Tue, 28 Jul 2026 20:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354774756B8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 20:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785271465; cv=none; b=TFnnsPtk3lfzHQeLFqDH4G1OwtzMTIapd9NSt22rzfs+B4Ir5abB874duKPeNrPfPomMrQ2S4oXESvqgCacwAq3Ph5vogHGRTynrqYsxPl6jXTMePbIdIWX8na+Mx/GvpqhA/7/0c9axoegHCxEP+v9x/Hl0YqgZ19E56DW6I9c=
+	t=1785271466; cv=none; b=a2H0LTBLbtUoqAdprrLhI/WToVw0x3D7N+GKMkcdpDs5dYHG4ZT1KSNnAZKVH1rFweqgPkF2TkAy3h6N3rj2mxJG6CZkUkt+JK0NYas/efwHjndBtXZ6IcI7zp6I8ZSTmc+zFl97sHPo7vh5qkZkdUdMEzscmR02pSbGn9bbcqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785271465; c=relaxed/simple;
-	bh=4YeqliC+qD1YOMJCMya57r/soaSOlEzAV4jNNCShw5o=;
+	s=arc-20240116; t=1785271466; c=relaxed/simple;
+	bh=uZAFDHCeEnnR7rCZ1KGIYL5shmaw9gCnfrVZ9Gxubhs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LXgk++UrdMHZFibaKPvmRoUsAre/fQel8qu7uqBmDMFqRfNxLRaZcnl5qDU/zJbaPkstzmmSGwqQHp2bOg6Rb2Pbp+GOoIZ2NRHpnvpP2rwny1cx72cgz2k6l8rs9drdjhsMwcUrygaCrZB9esQmr6ic2htUqUAHUPbUYIkhojA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K485cUMJ; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=Kk2CBQ6EcaMDTia9zrZKUTyq2tYgwiVTYorg/CDzLE+DbxYmqFJax2TMjlo3DkBoAeNFEM7raEzvThPbGed1o2iXVzNyBojDISxxoZghpuU4K5nLGJH4ROIesSITRKtJ+5j1Bass9X55l55F8KUAld4d4ESt/GIpk4rAEKXGUL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ob4g1vrL; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K485cUMJ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ob4g1vrL"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=iHUcX5eQpRezIMY8oJMUAXej5RLYZlD3UOUjhTOMZS0=; b=K485cUMJTYK05DM335AN7gCaty
-	e/JwtpzzGi9ROGr40RuZ34lF6YBkQqyoA44fHYlQntagxBwnQUoHF/c0Krf7qMCDicc3f3skj0cKR
-	8FFxmaxgZjYY0UPniF6RxiM/vqZrn9fc/3eEZUquMxcBHW7GHYh+KAGWeBPu5boqO3cse3rSewqPe
-	M/f8xxyg/8GQxlzGIlCbWqkUBHWswio9Oan5Op9JzqTpZgRt2oK8OGV2R0CC/YF7mKUHrBTDtfRvb
-	fXhJcuDhDV6cDExm+0AiIuxZJV9/3HBoWyzkIGgwElBsiU36UsWqrVbc/8lJs3tAQQ82ciPvHzTC3
-	GHhmluyQ==;
+	bh=ouvowIcM8jLtrmPgXBz2U3nMcb3XnRPv2XSwdzDzMKk=; b=Ob4g1vrLWsoi9O+qJLgBZ1nYaI
+	hXynsEFaO+DnDuT1eDOQwtdYw6tHNdoCsP3GW1h2dS0yZWoSPijgO53PoCG1r4TRnAekiQb7Fmy1m
+	nWZdfnYJUHgfBr3xXd3BWqsK71g2BrE87eobfRhCKbizq2R9ewMeVjQIXMysYNz00trpeHBODFDRM
+	xmliwdA5R0MdKVQIXldnVkkNtFc+4Xl88qes93Z0KVxQcJGA8wJCeLL1QEPjp8HCUNT3HLzleFZZR
+	Iy96iX+dSSIwrz1IOJumHaT+aFN5pRzzGOB3Tpsctxq+Z4H293VBNx6+wvAt5kgkzrLzfcui1G+rK
+	a+tSpEcQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wooeo-0000000EFWP-35tj;
-	Tue, 28 Jul 2026 20:44:10 +0000
+	id 1wooeq-0000000EFWt-11UH;
+	Tue, 28 Jul 2026 20:44:12 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
@@ -42,11 +42,10 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v7 01/13] memory-failure: Fix hardware poison check in unpoison_memory() again
-Date: Tue, 28 Jul 2026 21:43:53 +0100
-Message-ID: <20260728204409.3396238-2-willy@infradead.org>
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: [PATCH v7 10/13] filemap: Remove checks in mapping_set_folio_order_range()
+Date: Tue, 28 Jul 2026 21:44:02 +0100
+Message-ID: <20260728204409.3396238-11-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260728204409.3396238-1-willy@infradead.org>
 References: <20260728204409.3396238-1-willy@infradead.org>
@@ -58,52 +57,102 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The earlier patch (6c54312f9689) that attempted to fix unpoison_memory()
-was incorrect for hugetlb folios.  Before a6fddef49eef, we checked
-the head page for poison (which was correct for hugetlb and incorrect
-for THP).  We are currently incapable of unpoisoning pages (other than
-the first page) in a hugetlb folio.
+These checks make it impossible to use mapping_set_folio_order_range()
+in hugetlb.  They add very little value and can simply be removed.
 
-Use is_page_hwpoison() which handles hugetlb pages sufficiently well for
-this purpose.  This is racy as we don't have a reference on the folio at
-this point, but fixing that properly requires deeper surgery and this
-is a CAP_SYS_ADMIN path only so this will do for the moment and can be
-easily backported.  It's no worse than the situation before a6fddef49eef.
-
-The other bug in a6fddef49eef is that we currently clear the HWPoison
-flag on the precise page, which is wrong for hugetlb.  Fix that too.
-
-Fixes: a6fddef49eef ("mm/memory-failure: convert unpoison_memory() to folios")
-Cc: stable@vger.kernel.org
-Cc: Miaohe Lin <linmiaohe@huawei.com>
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- mm/memory-failure.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/linux/pagemap.h | 34 ++++++++++++++--------------------
+ 1 file changed, 14 insertions(+), 20 deletions(-)
 
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 51508a55c405..944e6e1d4971 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -2695,8 +2695,8 @@ int unpoison_memory(unsigned long pfn)
- 		goto unlock_mutex;
- 	}
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 2c3718d592d6..968b791cfd14 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -373,7 +373,7 @@ static inline void mapping_set_gfp_mask(struct address_space *m, gfp_t mask)
+  * assumptions about maximum order if THP are disabled, but 8 seems like
+  * a good order (that's 1MB if you're using 4kB pages)
+  */
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#ifdef CONFIG_LARGE_FOLIO
+ #define PREFERRED_MAX_PAGECACHE_ORDER	HPAGE_PMD_ORDER
+ #else
+ #define PREFERRED_MAX_PAGECACHE_ORDER	8
+@@ -394,7 +394,7 @@ static inline void mapping_set_gfp_mask(struct address_space *m, gfp_t mask)
+  */
+ static inline size_t mapping_max_folio_size_supported(void)
+ {
+-	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
++	if (IS_ENABLED(CONFIG_LARGE_FOLIO))
+ 		return 1U << (PAGE_SHIFT + MAX_PAGECACHE_ORDER);
+ 	return PAGE_SIZE;
+ }
+@@ -405,29 +405,23 @@ static inline size_t mapping_max_folio_size_supported(void)
+  * @min: Minimum folio order (between 0-MAX_PAGECACHE_ORDER inclusive).
+  * @max: Maximum folio order (between @min-MAX_PAGECACHE_ORDER inclusive).
+  *
+- * The filesystem should call this function in its inode constructor to
+- * indicate which base size (min) and maximum size (max) of folio the VFS
+- * can use to cache the contents of the file.  This should only be used
+- * if the filesystem needs special handling of folio sizes (ie there is
+- * something the core cannot know).
++ * The filesystem should call this function in its inode constructor
++ * to indicate which size folios can be used to cache the contents of
++ * the inode.  This should only be used if the filesystem needs special
++ * handling of folio sizes (ie there is something the core cannot know).
+  * Do not tune it based on, eg, i_size.
+  *
++ * hugetlb calls this with orders larger than MAX_PAGECACHE_ORDER.
++ * Normal filesystems should not do this.
++ *
+  * Context: This should not be called while the inode is active as it
+  * is non-atomic.
+  */
+ static inline void mapping_set_folio_order_range(struct address_space *mapping,
+-						 unsigned int min,
+-						 unsigned int max)
++		unsigned int min, unsigned int max)
+ {
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
++	if (!IS_ENABLED(CONFIG_LARGE_FOLIO))
+ 		return;
+-
+-	if (min > MAX_PAGECACHE_ORDER)
+-		min = MAX_PAGECACHE_ORDER;
+-
+-	if (max > MAX_PAGECACHE_ORDER)
+-		max = MAX_PAGECACHE_ORDER;
+-
+ 	if (max < min)
+ 		max = min;
  
--	if (!PageHWPoison(p)) {
--		unpoison_pr_info("%#lx: page was already unpoisoned\n",
-+	if (!is_page_hwpoison(p)) {
-+		unpoison_pr_info("%#lx: page is not poisoned\n",
- 				 pfn, &unpoison_rs);
- 		goto unlock_mutex;
- 	}
-@@ -2748,6 +2748,7 @@ int unpoison_memory(unsigned long pfn)
- 				folio_put(folio);
- 				goto unlock_mutex;
- 			}
-+			p = &folio->page;
- 		}
- 
- 		folio_put(folio);
+@@ -460,7 +454,7 @@ static inline void mapping_set_large_folios(struct address_space *mapping)
+ static inline unsigned int
+ mapping_max_folio_order(const struct address_space *mapping)
+ {
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
++	if (!IS_ENABLED(CONFIG_LARGE_FOLIO))
+ 		return 0;
+ 	return (mapping->flags & AS_FOLIO_ORDER_MAX_MASK) >> AS_FOLIO_ORDER_MAX;
+ }
+@@ -468,7 +462,7 @@ mapping_max_folio_order(const struct address_space *mapping)
+ static inline unsigned int
+ mapping_min_folio_order(const struct address_space *mapping)
+ {
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
++	if (!IS_ENABLED(CONFIG_LARGE_FOLIO))
+ 		return 0;
+ 	return (mapping->flags & AS_FOLIO_ORDER_MIN_MASK) >> AS_FOLIO_ORDER_MIN;
+ }
+@@ -524,7 +518,7 @@ static inline bool mapping_large_folio_support(const struct address_space *mappi
+  *
+  * Return: True if PMD-sized folios are supported, otherwise false.
+  */
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#ifdef CONFIG_LARGE_FOLIO
+ static inline bool mapping_pmd_folio_support(const struct address_space *mapping)
+ {
+ 	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
 -- 
 2.47.3
 
