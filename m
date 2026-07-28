@@ -1,51 +1,62 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE3D4749D6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 20:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D1E1C862F;
+	Tue, 28 Jul 2026 20:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785271490; cv=none; b=PPHWn3yqSoy1ibEnumESncx8Re2ryudIpu0K/JJGPgxnO/2+TLpxuKdH+mTgajp1K1PjiTFXWGQXxy9vr3+qcqtaLSDKfzSk/V20flwN6hoZ/vPn/mRC+GuGIt9ggK4V/Ke+VWydqa/RaiUxmcYirKgy+TzxOoCaj92wb/D6GuM=
+	t=1785271781; cv=none; b=Z7yZaSFGJAqglzYSu0pXOWiwnCKMV20k73OhCi/TQxkzoeYalX0kToF+lqFLB6+RyzWxmkr9sZl8hUv7ViqFI+hHjogI1iRmeacMLqLahU5vIdqJIO1hTw9og1etW2HZJmoFVZcElR34SMnvLDRgeM+fxxT8oXXGVYKxCZ0pNTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785271490; c=relaxed/simple;
-	bh=OkvDMtuH7huFEoClGKgcaAjj4wMsCSZk0nFvFDspWQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=We9iLP1wpGsEzWasXnQqLOl/HuilUfnTmfjl5RLDt5bkD31NrnD3QwDtQpRrsCYvgLYYQI7fEh/gnDmzxT1Jh6HD8ghP6haipjw71jsfC5iDMJp4EydAxaUg8WdDRLzQM/1OwCpIrAWdClUvr/vc7ARi/GCmGU8FB/hM44RYn54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dl+rfaiT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785271781; c=relaxed/simple;
+	bh=c5hudVdnzwY+IIN3aq7FxRaOzUnoOdkhftDNJVr6cJc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BoC7nhAk9lJ3cGOcpr/r21n/IQ7rclv3VLr90znqkmw3I5Tfz+wH04Mnj9qEX1ZB736vOpX8Sd6EDI86i8YVg8gKn/e63Nww4+mJ54MfRpXUuN0lKl2kvjZDc7OHRJlA0taUoya+dU/jpD5SS8LqCNGANe45qrxIlqiTWcPj4tQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=CaffAYuF; arc=none smtp.client-ip=52.26.1.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dl+rfaiT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=zkJgvL5cRVJ0qHx2GRGP0XkrlNl3kn6ET+UT28ycGEc=; b=dl+rfaiTgRa+Fw10iqJ8SlPBV+
-	+uS7QuxIDOODOnfQ0k8dNQBXp2V0V+nPHJrm3sYnB0vlXWTS/zedOsTV4QYxZuPC9qltb6QjYKTB0
-	B2NIAhwnAMR0zD0EaKuLXGQBYJHDdPCR3evYB14ypswAqlDJoxX6rOgxkPE5cBT03K575TfUk/wqQ
-	zuvzsSgUyiNTzkL1XWs2fCV0mBhV+rSc21/FMJdxiI7p+fdskwzSkq/iyulIgEd+xruRPqdqXEjg6
-	GquWz1FAG5dwzXPzUXoL0xUL9bCNQQOqEJJ4MvgzKVVrphRkQ9RwClNLcNEbROvxDKxfIZz3lLEj7
-	lV/PFBRg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wooeo-0000000EFWN-2cqU;
-	Tue, 28 Jul 2026 20:44:10 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>,
-	linux-mm@kvack.org
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: [PATCH v7 00/13] Use generic_file_read_iter() in hugetlbfs
-Date: Tue, 28 Jul 2026 21:43:52 +0100
-Message-ID: <20260728204409.3396238-1-willy@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="CaffAYuF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785271780; x=1816807780;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rteBlfPyVEI5nCax/H3OHuyikrjDCNL2OwoibbcDzbY=;
+  b=CaffAYuF9e/jUq1vZVPKg6TtH+zlU2XgupGp4W8HwAFvfkgP1Zl7cg75
+   95dPZf966EetiEbCjPUeAckTfbIcGiCXmyWaqpHBJ9twxVcjY9T+cnBY1
+   tEyu/TCJr1Hi0jzhNPS4ctqQu6gNRNzjSi8OmQOYRLhms6RV1J6PD4KRY
+   D5Fmmkr7kaPVBKnLQ0TOOsF5ur8kP483M6oGBgSaEKkrlueUKxrezAqEj
+   ctHPECTtciNGiN3Kc6bFv7Q2Q0rmWzIqL4ZTReHUBct2ROq6tEkDrEWSY
+   WMoouelHaIivXoqD17WvVvsoJtnorRCqofAPLI5e0I8hn83CkoaMngEyp
+   A==;
+X-CSE-ConnectionGUID: 7Hmt0+2SQVWeyLYgYNHkxA==
+X-CSE-MsgGUID: xVmUVW4RTrCrIsUeGvUuRQ==
+X-IronPort-AV: E=Sophos;i="6.25,191,1779148800"; 
+   d="scan'208";a="24548750"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 20:49:39 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.51:16539]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.59:2525] with esmtp (Farcaster)
+ id 5a5d2cec-ed45-4021-b3a0-623761b24eb4; Tue, 28 Jul 2026 20:49:39 +0000 (UTC)
+X-Farcaster-Flow-ID: 5a5d2cec-ed45-4021-b3a0-623761b24eb4
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Tue, 28 Jul 2026 20:49:39 +0000
+Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Tue, 28 Jul 2026 20:49:38 +0000
+From: Jay Wang <wanjay@amazon.com>
+To: <stable@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <sashal@kernel.org>,
+	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>,
+	<linux-fsdevel@vger.kernel.org>,
+	<syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com>, Yuezhang Mo
+	<Yuezhang.Mo@sony.com>
+Subject: [PATCH 6.6.y] exfat: validate cluster allocation bits of the allocation bitmap
+Date: Tue, 28 Jul 2026 20:49:38 +0000
+Message-ID: <20260728204938.14116-1-wanjay@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,66 +64,117 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D046UWA003.ant.amazon.com (10.13.139.18) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-This set of patches are separated out from Jane's earlier series.
-https://lore.kernel.org/linux-mm/20260617172534.1740152-1-jane.chu@oracle.com/
+From: Namjae Jeon <linkinjeon@kernel.org>
 
-We need three things to use filemap_read_iter() instead of a hugetlbfs
-specific read_iter: hwpoison handling, treating gaps in the pagecache as
-holes, and having hugetlb set the folio size in the mapping.  hwopison
-handling turned out to need a lot of prep work; the other two things
-are fairly straightforward.
+[ Upstream commit 79c1587b6cda74deb0c86fc7ba194b92958c793c ]
 
-Sashiko complains that the implementation of AS_AUTHORITATIVE is
-incomplete, but hugetlbfs doesn't use any of that functionality.
-We'll add it when we need it, either when hugetlbfs uses it, or when we
-convert shmem to use filemap.
+syzbot created an exfat image with cluster bits not set for the allocation
+bitmap. exfat-fs reads and uses the allocation bitmap without checking
+this. The problem is that if the start cluster of the allocation bitmap
+is 6, cluster 6 can be allocated when creating a directory with mkdir.
+exfat zeros out this cluster in exfat_mkdir, which can delete existing
+entries. This can reallocate the allocated entries. In addition,
+the allocation bitmap is also zeroed out, so cluster 6 can be reallocated.
+This patch adds exfat_test_bitmap_range to validate that clusters used for
+the allocation bitmap are correctly marked as in-use.
 
-v6 here:
-https://lore.kernel.org/linux-mm/20260727181310.2671972-1-willy@infradead.org/
+Reported-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
+Tested-by: syzbot+a725ab460fc1def9896f@syzkaller.appspotmail.com
+Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
+Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+[Adapted to 6.6: replaced __le_long/lel_to_cpu word-level bitmap access
+ with per-bit test_bit_le() calls, as __le_long and lel_to_cpu do not
+ exist in 6.6. Uses same test_bit_le API as rest of exfat bitmap code.]
+Signed-off-by: Jay Wang <wanjay@amazon.com>
+---
+ fs/exfat/balloc.c | 54 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 42 insertions(+), 12 deletions(-)
 
-Changes from v6:
- - Add folio_clear_hugetlb() helper in hugetlb.c to make sure we move
-   the hwpoison flag to individual pages before clearing the hugetlb
-   page type.
- - Add missing spin_unlock in an unpoison_memory() error path.
- - Add some R-b tags
-
-Jane Chu (2):
-  filemap: Add hwpoison handling to filemap_read()
-  hugetlb: replace hugetlbfs_read_iter() with generic_file_read_iter()
-
-Matthew Wilcox (Oracle) (11):
-  memory-failure: Fix hardware poison check in unpoison_memory() again
-  mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
-  hugetlb: Mark some function arguments as const
-  guest_memfd: Use folio_has_hwpoisoned_page()
-  hugetlb: Move poison to pages before clearing hugetlb page type
-  hugetlb: Use the has_hwpoisoned flag
-  mm: Remove locking mf_mutex in is_raw_hwpoison_page_in_hugepage()
-  mm: Check individual hugetlb pages for poison
-  filemap: Remove checks in mapping_set_folio_order_range()
-  hugetlb: Set mapping folio order
-  filemap: Add support for authoritative mappings
-
- fs/Kconfig                 |   2 +-
- fs/hugetlbfs/inode.c       | 123 +++--------------------
- include/linux/hugetlb.h    |  24 ++---
- include/linux/mm_types.h   |   4 +-
- include/linux/page-flags.h |  63 ++++++++++--
- include/linux/pagemap.h    |  45 +++++----
- mm/Kconfig                 |   6 +-
- mm/filemap.c               |  51 +++++++++-
- mm/huge_memory.c           |   2 +-
- mm/hugetlb.c               |  41 ++++----
- mm/memory-failure.c        | 197 +++++++++++++++++++++++++------------
- mm/memory_hotplug.c        |   2 +-
- mm/rmap.c                  |  43 +++++---
- mm/shmem.c                 |   2 +-
- mm/vmscan.c                |   2 +-
- virt/kvm/guest_memfd.c     |   2 +-
- 16 files changed, 346 insertions(+), 263 deletions(-)
-
+diff --git a/fs/exfat/balloc.c b/fs/exfat/balloc.c
+index 32209acd51be4..2d4fe3d754bbc 100644
+--- a/fs/exfat/balloc.c
++++ b/fs/exfat/balloc.c
+@@ -45,12 +45,37 @@ static const unsigned char used_bit[] = {
+ /*
+  *  Allocation Bitmap Management Functions
+  */
++static bool exfat_test_bitmap_range(struct super_block *sb, unsigned int clu,
++		unsigned int count)
++{
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	unsigned int start = clu;
++	unsigned int end = clu + count;
++	unsigned int ent_idx, i, b;
++
++	if (!is_valid_cluster(sbi, start) || !is_valid_cluster(sbi, end - 1))
++		return false;
++
++	while (start < end) {
++		ent_idx = CLUSTER_TO_BITMAP_ENT(start);
++		i = BITMAP_OFFSET_SECTOR_INDEX(sb, ent_idx);
++		b = BITMAP_OFFSET_BIT_IN_SECTOR(sb, ent_idx);
++
++		if (!test_bit_le(b, sbi->vol_amap[i]->b_data))
++			return false;
++
++		start++;
++	}
++
++	return true;
++}
++
+ static int exfat_allocate_bitmap(struct super_block *sb,
+ 		struct exfat_dentry *ep)
+ {
+ 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ 	long long map_size;
+-	unsigned int i, need_map_size;
++	unsigned int i, j, need_map_size;
+ 	sector_t sector;
+ 
+ 	sbi->map_clu = le32_to_cpu(ep->dentry.bitmap.start_clu);
+@@ -77,20 +102,25 @@ static int exfat_allocate_bitmap(struct super_block *sb,
+ 	sector = exfat_cluster_to_sector(sbi, sbi->map_clu);
+ 	for (i = 0; i < sbi->map_sectors; i++) {
+ 		sbi->vol_amap[i] = sb_bread(sb, sector + i);
+-		if (!sbi->vol_amap[i]) {
+-			/* release all buffers and free vol_amap */
+-			int j = 0;
+-
+-			while (j < i)
+-				brelse(sbi->vol_amap[j++]);
+-
+-			kvfree(sbi->vol_amap);
+-			sbi->vol_amap = NULL;
+-			return -EIO;
+-		}
++		if (!sbi->vol_amap[i])
++			goto err_out;
+ 	}
+ 
++	if (exfat_test_bitmap_range(sb, sbi->map_clu,
++		EXFAT_B_TO_CLU_ROUND_UP(map_size, sbi)) == false)
++		goto err_out;
++
+ 	return 0;
++
++err_out:
++	j = 0;
++	/* release all buffers and free vol_amap */
++	while (j < i)
++		brelse(sbi->vol_amap[j++]);
++
++	kvfree(sbi->vol_amap);
++	sbi->vol_amap = NULL;
++	return -EIO;
+ }
+ 
+ int exfat_load_bitmap(struct super_block *sb)
 -- 
 2.47.3
 
