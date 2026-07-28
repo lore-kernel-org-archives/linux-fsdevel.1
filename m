@@ -1,504 +1,357 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870DF47607D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 21:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D938D3D47AF
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 22:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785274218; cv=none; b=RTt5uCRyIHIhzomabHKpEZ8N9UIyTDfeoSudg+MrGKJUtwlbxygyriHyAXVtwfjp81XaXv7qBF05SFLRJfUBHVLz1K8adrBoUyLQhYF2k6WP0DJ4JMkCN+Sx4n8K8JSQypztBcckxKXH5t6FygUJrCp3KfCHCeKkbfYanF7OfJA=
+	t=1785279143; cv=none; b=YxFyI4DBy53l9ay3KZdB/wdJF3fYyv1Atcvw77m36Q2VV25IMvDFjQfoY8G5lqRNJfELw5gxMBJvnAq6wmM3AIB+1WSBKSeZGxE3BGJEmMiuAWg4DLV/cUjbCTl40MWFrNKQ5jXxa44DHAJPxUxMj8dZajP7S6zMbA+IMpebnlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785274218; c=relaxed/simple;
-	bh=rd/AmBpbmKqj+156AKnJfNtSMPtgc6wewE914z4k3k0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QMADZ+kyhxS9fG/r9Ki1LFiGvNgHlnRur916aNwNW15KiBFYCM2Fyh8ASsyyRZawzMQ9Hv2fY3z6iQgezBcKIA+3v3/ONTnWgiaaaj4PkiKIqKoSWok2SqsIJNhb1LXtWA7VYzR7AdJPY1uyv3YzkWybgSy8FtkZzaJ90pOX3iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihW+4H6P; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1785279143; c=relaxed/simple;
+	bh=vbG/afS2jM+6Mi8MVhFOFthV7zYwQoqpXdlIshgOJS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RofiurF/EdU4Eu7LA5jmLZVMeE4rf1OxuVaSkctOp7vWYAe+EX6j5Ya7Iv5QYt7LQegy33HJkn5mir0ImnBmI+IicaEIIW/MEDeXsGtHO+Him8+csf46+TdzJvitpDKNo4w4Pk11PAFUKZ/G0TEo83yZNApDiiRR8AnVeLQ0Bq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFooTWbc; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihW+4H6P"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4954df200ddso1711175e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 14:30:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFooTWbc"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-80dc4a68e4aso5671097b3.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 15:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785274213; x=1785879013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=h4lFfo5ZGoFgQzeJsrKlXRAyOLh0g5mqIoi0J3evNaQ=;
-        b=ihW+4H6PjEvaiPosA07SxOh+O/aEm2AFZna5ob8G9mnyDp1FPZslI4ZONB9/lbEeFt
-         MvaQmXM8aUhqNBrA3r28idAvdi0XmyJsvqsClHq7rHQp2OJM62uojdAWd989xV0orC7K
-         UGSRUHPCjLfzozXves/44nR7jVJjue5776A+lsJ5FoGXD7V5SU7cZ1betkK1MrFgkVaG
-         nayDYakWSpjZCZS5PhFeItN9fYOQgy4tHUCaTP5EhAB5rd0GQYb4PmcC9VNEujVoMQmQ
-         r7Xupnj5Uf9R1EfY4Y83OyR4IigNud5pvEOfeqHyYbU9rO6ru3tc+nvV36FR6uBXbdre
-         8Z9Q==
+        d=gmail.com; s=20251104; t=1785279141; x=1785883941; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uPumpig1LSNZCbOMr/7Ory4bimOiAIYjHcwSmavCl04=;
+        b=LFooTWbcr9tTqj3gu2w9AhREGksMnPD0QtAmln2MLvCzvKJXePL5G7MzanSihNIxCK
+         1Wk6Qu2NOvL6qxRPwehq/tzV9mkCd00hxw8OuvEFOS4KuOOMdNqerb3u5qDIHeNR99CK
+         ZPU6LoZxVDdmHOINZSJKn+ANHUEXBMYIfqVB1DXdxqheW7gyYY8SScjFseUmJKpQHiRb
+         16++fr/HCzOO0dSBDsV62kGB/7AZoiZdfr0hbmT0pIehzn76HH8fzBmiabMsW+tO5Gs8
+         I2mLlXT5Xu2uYQeymgje4N7EVRg0iH6aBYBBS+WmT9k16VGE1W3IskcfREgXs/DKNPwb
+         0QTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785274213; x=1785879013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h4lFfo5ZGoFgQzeJsrKlXRAyOLh0g5mqIoi0J3evNaQ=;
-        b=Dxxp2lJsz/h/yzscXSk8XvgQCpAXwAtaUoF/yIW0W8ACxy/59kWCnku+GsVZhWLrAb
-         Z0VYzGErFfIPTp6JhoRA8yHH6G5n6b1Ad53Z95hBsKu5u6zM+kQEkBuQjxwOY/qgueFu
-         cS0yE6m8xCc21B/ruE1oFqFOLeUklWRKagbm1cxp+gFT1Ptylj2RF6A/MDA13uEVrYb4
-         BKVV4bNOsNDR3fL+7JmMMh5OQoYsbQFPglD8SvVwCGR0FADUrb+YUO7h08z29P3R1Mmt
-         gDKoCP95FzwDUT7nlCrlAh0lU20eVVY71xH/xfwQ+P8Z24iUMnzc9WG3PKM459M9tzSg
-         4ETA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpe7o+gnxvgQdXRM3DvAskuIS4OY3Fq9UKjK6GwFZjVOTMhdRcORSFmJ7WS4CZoUztIpToKbnjh3HDp3ZzK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0nlv8ahhr7dhD0mMxfC6mIv3c2KSxAWbxXSG/ulZt8CUBcZV/
-	OlgcQPNu/0zWV0XaZOpRcs1VOInJjVGegPFNXZMsXspbIlJB5jAeF9rq
-X-Gm-Gg: AR+sD11uig7lbDdz27UzT4CCKOdnluraVomc4Z1xi0Gfy8IIRlflcsO1ve9Ybo9tjd5
-	ElKKRtwqrF3S1OqVcL5CyzuwzC6jcS3EOtHdKZZD/4ig89fvOUpKJ885F0ra4XxiVRN13n55b0o
-	mOQae58XdSeIUYmwg8QDm3Lw8gVxuLDau1w0EcE7uVd/bz1/YOmbaXXn5ASIq3jHK969DVaVL5i
-	Rp/D+1myT3w2pVliB3NY5jtYR/R6oBOEN1Nkn+8VB94DCVGMWhJJP+N5AzsZHWk9ByPKlh08oPk
-	w23GTFIlzs6fqyvMNN6mh8gH/HbfjpOe6keMwleO+x7tfTh0JVzP6EdqfElzBtoytgfcl03NqgT
-	fJgb/atw4Q2kFuzQD4raks7yqijmmt79jbkU3VJyVET1rI/8ssyBxdZrsCAP38LsDbXFQVGlKjw
-	Ag6nTlrpcB/ZdBZC+zsJGR2TpqVq+Yh+E4wKrx07s5fIHLE+lY0shV+fdI6XrwCDVHJ0YQku9rn
-	dfF+jrQMlpj3+5UZTVoXdXBU2EwTSmvu3cXfTix0aw14euMToWKwJrtGv/VewCT3lU=
-X-Received: by 2002:a05:600c:4755:b0:495:3fe8:880f with SMTP id 5b1f17b1804b1-496c6414fe3mr44424285e9.4.1785274212668;
-        Tue, 28 Jul 2026 14:30:12 -0700 (PDT)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6ac44bcsm2245329f8f.11.2026.07.28.14.30.10
+        d=1e100.net; s=20251104; t=1785279141; x=1785883941;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uPumpig1LSNZCbOMr/7Ory4bimOiAIYjHcwSmavCl04=;
+        b=S6zo2tOjxE1lWPsjq2wSNkr5pSZyh2cw7bU81N/ycncs2gNNu6sCm1VmXRtKhh1w/q
+         g5zO7s4WlKh1ZI4cQQ2rwrmyB7fS3P0Nn6spSfJ6xxCgiOVTe0cE7SEAJ/fPzDCxUfiv
+         Hbpi7rKvYDWIwDE/siX7qoVa3tGNXv8VPNBlI16Z9BFY5NgI8M3wccf+Mj6AJezIi91P
+         hHYrtSC9Xdo8x+1xmbZTwTY/5gwXCbImOLRLsq8CwfSYabOsH9Xfnm6q49ApJuy0fDjW
+         mf67srvdCiBTHzwHFW1rfVuTVnM07AdShaFlfPvrFWzxsLHzJlc118uoRuaAOIb32pV+
+         HHXg==
+X-Forwarded-Encrypted: i=1; AHgh+RqpFINXcUxd6/G75cd/TlSJkO7TW35kc+XnS7VjsQhwT6t0T9sw1vaJXudF5Mqrk/v3uF3W+Q8DFyckMrvg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDwUzkTpstdusGNgtuxmZ3KR9f7mFNbEGwqGRFTlCTqJGs38y6
+	dNSNtnZQtD4ITBSpzCH0C1KO6DGJGiLNQkdAHAx/QVPzyS7xgdDJ9zZv
+X-Gm-Gg: AR+sD1164UQwDrEvhZZ2J3bFpjmLGbID/ISp4oKdg1PGaTglD0MaYHHpKXNG5JsxhWP
+	pDTKWdqtKJ0hcJQhLZdsByE1ncfJv+gG2aqu9NrsL+FPzwcdmeuiAynSe9n2/lLkzLFY/xYaRvE
+	ZED9xNHpiuRkUwWthJ1dOjbmQoqdd/u+eRNTWYKbgn1gt5PLBAIL9BlpQhy88XuyCiEYdWQazlV
+	MQbvoAJBRqxleY+Yn+vcVk9w5uU2u4eU6xEDIadBwo1Jtc1aoo9Nd2ehFld56PXdCHlY+YbTKCs
+	VCCJ4DSWEbjHodfyLj5tMz4Yj1yr/zfiDV0BISxgUZgRqG2gTzBOrR8Y4w17N0Xl2L6TRq5Vd1l
+	iEDq8j+kaVGdqf3cKOkGZWy1Av7QlVpJ9F5kJXB0BYUH7I04PQmpAOz/0E2Ictewc85GZL15B6m
+	xx273p9ufokAj8+TW31Lf2KrXBhRkMoTm2QSu7xpKmOxoX4qKPW121SgY0rktjCn+qAWx9UYW5N
+	oiBTzslxQfOLKkWIDJ8eq0=
+X-Received: by 2002:a05:690c:7205:b0:80c:85c6:898f with SMTP id 00721157ae682-81f99260de1mr18995407b3.62.1785279140753;
+        Tue, 28 Jul 2026 15:52:20 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:722a:22a9:308b:2c35])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fa29aeba6sm7138657b3.47.2026.07.28.15.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 14:30:11 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Cc: asml.silence@gmail.com,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	David Sterba <dsterba@suse.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	dm-devel@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org
-Subject: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered buffers
-Date: Tue, 28 Jul 2026 22:29:26 +0100
-Message-ID: <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1785274111.git.asml.silence@gmail.com>
-References: <cover.1785274111.git.asml.silence@gmail.com>
+        Tue, 28 Jul 2026 15:52:20 -0700 (PDT)
+Date: Tue, 28 Jul 2026 18:52:19 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Matthieu Buffet <matthieu@buffet.re>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/17] landlock: Add create_ruleset and free_ruleset
+ tracepoints
+Message-ID: <amkx1TBWk6AieKuw@zenbox>
+References: <20260406143717.1815792-1-mic@digikod.net>
+ <20260406143717.1815792-7-mic@digikod.net>
+ <ahYOJwpiEI-gGx1Z@suesslenovo>
+ <20260728.nohNgei7Nei9@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260728.nohNgei7Nei9@digikod.net>
 
-Implement dmabuf backed registered buffers. To register them, the user
-should specify IO_REGBUF_TYPE_DMABUF for the regitration and pass the
-desired dmabuf fd and a file for which it should be registered.
+On Tue, Jul 28, 2026 at 10:56:16PM +0200, Mickaël Salaün wrote:
+> On Tue, May 26, 2026 at 05:34:59PM -0400, Justin Suess wrote:
+> > On Mon, Apr 06, 2026 at 04:37:04PM +0200, Mickaël Salaün wrote:
+> > > Add tracepoints for ruleset lifecycle events: landlock_create_ruleset
+> > > fires from the landlock_create_ruleset() syscall handler, logging the
+> > > ruleset Landlock ID and handled access masks; landlock_free_ruleset
+> > > fires in free_ruleset() before the ruleset is freed, so eBPF programs
+> > > can access the full ruleset state via BTF.
+> > > 
+> > > The create_ruleset TP_PROTO takes only the ruleset pointer.  The handled
+> > > access masks are read from the ruleset in TP_fast_assign rather than
+> > > passed as scalar arguments, so eBPF programs can access the full ruleset
+> > > state (rules, access masks) via BTF on a single pointer.  No lock is
+> > > needed because the ruleset is not yet shared (the file descriptor has
+> > > not been installed).
+> > > 
+> > > Create the trace header with a DOC comment documenting the consistency
+> > > guarantees, locking conventions, TP_PROTO safety, and security
+> > > considerations shared by all Landlock tracepoints.  Add
+> > > CREATE_TRACE_POINTS in log.c to generate the tracepoint implementations.
+> > > 
+> > > Add an id field to struct landlock_ruleset, assigned from
+> > > landlock_get_id_range() at creation time.  Extend the CONFIG guard on
+> > > landlock_get_id_range() from CONFIG_AUDIT to
+> > > CONFIG_SECURITY_LANDLOCK_LOG so that IDs are available for tracing even
+> > > without audit support.
+> > > 
+> > > The deallocation events use the "free_" prefix (rather than "drop_")
+> > > because they fire when the object is actually freed.  There is no need
+> > > for allocated/deallocated symmetry because ruleset creation happens with
+> > > the landlock_create_ruleset tracepoint.
+> > > 
+> > > landlock_create_ruleset tracepoint.
+> > > 
+> > > Unlike audit records which share a record type and need a "status="
+> > > field to distinguish allocation from deallocation, tracepoints provide
+> > > one event type per lifecycle transition, each with a type-safe TP_PROTO
+> > > matching the specific transition.  This enables type-safe eBPF BTF
+> > > access and precise ftrace filtering by event name.
+> > > 
+> > > Cc: Günther Noack <gnoack@google.com>
+> > > Cc: Justin Suess <utilityemal77@gmail.com>
+> > > Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> > > Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> > > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > > Cc: Tingmao Wang <m@maowtm.org>
+> > > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > > ---
+> > > 
+> > > Changes since v1:
+> > > - New patch (split from the v1 add_rule_fs tracepoint patch).
+> > > ---
+> > >  MAINTAINERS                     |  1 +
+> > >  include/trace/events/landlock.h | 94 +++++++++++++++++++++++++++++++++
+> > >  security/landlock/id.h          |  6 +--
+> > >  security/landlock/log.c         |  5 ++
+> > >  security/landlock/ruleset.c     |  8 +++
+> > >  security/landlock/ruleset.h     |  9 ++++
+> > >  security/landlock/syscalls.c    |  5 ++
+> > >  7 files changed, 125 insertions(+), 3 deletions(-)
+> > >  create mode 100644 include/trace/events/landlock.h
+> > > 
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index c3fe46d7c4bc..51104faa3951 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -14389,6 +14389,7 @@ F:	Documentation/admin-guide/LSM/landlock.rst
+> > >  F:	Documentation/security/landlock.rst
+> > >  F:	Documentation/userspace-api/landlock.rst
+> > >  F:	fs/ioctl.c
+> > > +F:	include/trace/events/landlock.h
+> > >  F:	include/uapi/linux/landlock.h
+> > >  F:	samples/landlock/
+> > >  F:	security/landlock/
+> > > diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
+> > > new file mode 100644
+> > > index 000000000000..5e847844fbf7
+> > > --- /dev/null
+> > > +++ b/include/trace/events/landlock.h
+> > > @@ -0,0 +1,94 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright © 2025 Microsoft Corporation
+> > > + * Copyright © 2026 Cloudflare
+> > > + */
+> > > +
+> > > +#undef TRACE_SYSTEM
+> > > +#define TRACE_SYSTEM landlock
+> > > +
+> > > +#if !defined(_TRACE_LANDLOCK_H) || defined(TRACE_HEADER_MULTI_READ)
+> > > +#define _TRACE_LANDLOCK_H
+> > > +
+> > > +#include <linux/tracepoint.h>
+> > > +
+> > > +struct landlock_ruleset;
+> > > +
+> > > +/**
+> > > + * DOC: Landlock trace events
+> > > + *
+> > > + * Consistency guarantee: every trace event corresponds to an operation
+> > > + * that has irrevocably succeeded.  Lifecycle events fire only after
+> > > + * the point of no return; denial events fire only for denials that
+> > > + * actually happen.  This guarantees that eBPF programs observing the
+> > > + * trace stream can build a faithful model of Landlock state without
+> > > + * reconciliation logic.
+> > > + *
+> > > + * Mutable object pointers in TP_PROTO (e.g., struct landlock_ruleset
+> > > + * for add_rule events) are passed while the caller holds the object's
+> > > + * lock, so that TP_fast_assign and eBPF programs reading via BTF see a
+> > > + * consistent snapshot.  For objects that are immutable at the emission
+> > > + * site (e.g., a domain after creation), no lock is needed.
+> > > + *
+> > > + * All pointer arguments in TP_PROTO are guaranteed non-NULL by the
+> > > + * caller.  eBPF programs can access these pointers via BTF for richer
+> > > + * introspection than the TP_STRUCT__entry fields provide.
+> > > + *
+> > > + * TP_STRUCT__entry fields serve TP_printk display only.  eBPF programs
+> > > + * access the raw TP_PROTO arguments directly.
+> > > + *
+> > > + * Security: as for audit, Landlock trace events may expose sensitive
+> > > + * information about all sandboxed processes on the system.  See
+> > > + * Documentation/admin-guide/LSM/landlock.rst for security considerations
+> > > + * and privilege requirements.
+> > > + */
+> > > +
+> > > +/**
+> > > + * landlock_create_ruleset - new ruleset created
+> > > + * @ruleset: Newly created ruleset (never NULL); not yet shared via an fd,
+> > > + *           so no lock is needed.  eBPF programs can read the full ruleset
+> > > + *           state via BTF.
+> > > + */
+> > > +TRACE_EVENT(
+> > > +	landlock_create_ruleset,
+> > > +
+> > > +	TP_PROTO(const struct landlock_ruleset *ruleset),
+> > > +
+> > > +	TP_ARGS(ruleset),
+> > > +
+> > > +	TP_STRUCT__entry(__field(__u64, ruleset_id) __field(access_mask_t,
+> > > +							    handled_fs)
+> > > +				 __field(access_mask_t, handled_net)
+> > > +					 __field(access_mask_t, scoped)),
+> > > +
+> > > +	TP_fast_assign(__entry->ruleset_id = ruleset->id;
+> > > +		       __entry->handled_fs = ruleset->layer.fs;
+> > > +		       __entry->handled_net = ruleset->layer.net;
+> > > +		       __entry->scoped = ruleset->layer.scope;),
+> > > +
+> > > +	TP_printk("ruleset=%llx handled_fs=0x%x handled_net=0x%x scoped=0x%x",
+> > > +		  __entry->ruleset_id, __entry->handled_fs,
+> > > +		  __entry->handled_net, __entry->scoped));
+> > > +
+> > > +/**
+> > > + * landlock_free_ruleset - Ruleset freed
+> > > + *
+> > > + * Emitted when a ruleset's last reference is dropped (typically when
+> > > + * the creating process closes the ruleset file descriptor).
+> > > + */
+> > > +TRACE_EVENT(landlock_free_ruleset,
+> > > +
+> > > +	    TP_PROTO(const struct landlock_ruleset *ruleset),
+> > > +
+> > > +	    TP_ARGS(ruleset),
+> > > +
+> > > +	    TP_STRUCT__entry(__field(__u64, ruleset_id)),
+> > > +
+> > > +	    TP_fast_assign(__entry->ruleset_id = ruleset->id;),
+> > > +
+> > > +	    TP_printk("ruleset=%llx", __entry->ruleset_id));
+> > > +
+> > > +#endif /* _TRACE_LANDLOCK_H */
+> > > +
+> > > +/* This part must be outside protection */
+> > > +#include <trace/define_trace.h>
+> > > diff --git a/security/landlock/id.h b/security/landlock/id.h
+> > > index 45dcfb9e9a8b..2a43c2b523a8 100644
+> > > --- a/security/landlock/id.h
+> > > +++ b/security/landlock/id.h
+> > > @@ -8,18 +8,18 @@
+> > >  #ifndef _SECURITY_LANDLOCK_ID_H
+> > >  #define _SECURITY_LANDLOCK_ID_H
+> > >  
+> > > -#ifdef CONFIG_AUDIT
+> > > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+> > >  
+> > >  void __init landlock_init_id(void);
+> > >  
+> > >  u64 landlock_get_id_range(size_t number_of_ids);
+> > >  
+> > > -#else /* CONFIG_AUDIT */
+> > > +#else /* CONFIG_SECURITY_LANDLOCK_LOG */
+> > >  
+> > >  static inline void __init landlock_init_id(void)
+> > >  {
+> > >  }
+> > >  
+> > > -#endif /* CONFIG_AUDIT */
+> > > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+> > >  
+> > >  #endif /* _SECURITY_LANDLOCK_ID_H */
+> > > diff --git a/security/landlock/log.c b/security/landlock/log.c
+> > > index c9b506707af0..ef79e4ed0037 100644
+> > > --- a/security/landlock/log.c
+> > > +++ b/security/landlock/log.c
+> > > @@ -174,6 +174,11 @@ static void audit_denial(const struct landlock_cred_security *const subject,
+> > >  
+> > >  #endif /* CONFIG_AUDIT */
+> > >  
+> > > +#ifdef CONFIG_TRACEPOINTS
+> > > +#define CREATE_TRACE_POINTS
+> > > +#include <trace/events/landlock.h>
+> > > +#endif /* CONFIG_TRACEPOINTS */
+> > > +
+> > >  static struct landlock_hierarchy *
+> > >  get_hierarchy(const struct landlock_domain *const domain, const size_t layer)
+> > >  {
+> > > diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
+> > > index c220e0f9cf5f..0d1e3dadb318 100644
+> > > --- a/security/landlock/ruleset.c
+> > > +++ b/security/landlock/ruleset.c
+> > > @@ -22,10 +22,13 @@
+> > >  #include <linux/spinlock.h>
+> > >  
+> > >  #include "access.h"
+> > > +#include "id.h"
+> > >  #include "limits.h"
+> > >  #include "object.h"
+> > >  #include "ruleset.h"
+> > >  
+> > > +#include <trace/events/landlock.h>
+> > > +
+> > >  struct landlock_ruleset *
+> > >  landlock_create_ruleset(const access_mask_t fs_access_mask,
+> > >  			const access_mask_t net_access_mask,
+> > > @@ -49,6 +52,10 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
+> > >  	new_ruleset->rules.root_net_port = RB_ROOT;
+> > >  #endif /* IS_ENABLED(CONFIG_INET) */
+> > >  
+> > > +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+> > > +	new_ruleset->id = landlock_get_id_range(1);
+> > > +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+> > The addition of IDs to rulesets for logging makes sense.
+> > 
+> > But it is limited in usefulness without some form of introspection to be
+> > able to correlate it to a specific userspace ruleset.
+> 
+> The main goal for tracepoints is to correlate the created rule with all
+> the related updates with rule addition, and then the domain creation
+> from this ruleset.
+> 
+> > 
+> > If a program creates multiple Landlock rulesets, and wishes to trace and
+> > correlate which ruleset FD corresponds to the log/tracepoint, it is
+> > difficult when no form of introspection exists.
+> 
+> That's correct, and that's the same thing for the domain IDs, for now...
+> 
+> These IDs are designed to be available to unprivileged processes, so
+> we'll need a proper interface.  Tracepoints is the first interface to
+> use ruleset IDs.
+>
+Makes sense. It need not be a part of this series, just something
+to consider later on.
 
-From there, it can be used with io_uring read/write requests
-IORING_OP_{READ,WRITE}_FIXED) as normal. The requests should be issued
-against the file specified during registration, and otherwise they'll be
-failed. The user should also be prepared to handle spurious -EAGAIN by
-reissuing the request.
+Justin
 
-Internally, dmabuf registered buffers is an optin feature for io_uring
-request opcodes and they should pass a special flag on import to use it.
-
-Suggested-by: David Wei <dw@davidwei.uk>
-Suggested-by: Vishal Verma <vishal1.verma@intel.com>
-Suggested-by: Tushar Gohad <tushar.gohad@intel.com>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- include/linux/io_uring_types.h |   5 +
- include/uapi/linux/io_uring.h  |   6 +-
- io_uring/io_uring.c            |   3 +-
- io_uring/rsrc.c                | 168 ++++++++++++++++++++++++++++++++-
- io_uring/rsrc.h                |  18 ++++
- io_uring/rw.c                  |   6 +-
- 6 files changed, 198 insertions(+), 8 deletions(-)
-
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index a2c623a67a25..f90586d353c1 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -10,6 +10,7 @@
- 
- struct iou_loop_params;
- struct io_uring_bpf_ops;
-+struct dma_buf_io_map;
- 
- enum {
- 	/*
-@@ -594,6 +595,7 @@ enum {
- 	REQ_F_IMPORT_BUFFER_BIT,
- 	REQ_F_SQE_COPIED_BIT,
- 	REQ_F_IOPOLL_BIT,
-+	REQ_F_DROP_DMABUF_BIT,
- 
- 	/* not a real bit, just to check we're not overflowing the space */
- 	__REQ_F_LAST_BIT,
-@@ -689,6 +691,8 @@ enum {
- 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
- 	/* request must be iopolled to completion (set in ->issue()) */
- 	REQ_F_IOPOLL		= IO_REQ_FLAG(REQ_F_IOPOLL_BIT),
-+	/* there is a dma map attached to request that needs to be dropped */
-+	REQ_F_DROP_DMABUF	= IO_REQ_FLAG(REQ_F_DROP_DMABUF_BIT),
- };
- 
- struct io_tw_req {
-@@ -811,6 +815,7 @@ struct io_kiocb {
- 	/* custom credentials, valid IFF REQ_F_CREDS is set */
- 	const struct cred		*creds;
- 	struct io_wq_work		work;
-+	struct dma_buf_io_map		*dmabuf_map;
- 
- 	struct io_big_cqe {
- 		u64			extra1;
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 98b259901185..c39297e8beb6 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -810,6 +810,7 @@ enum io_uring_rsrc_reg_flags {
- enum io_uring_regbuf_type {
- 	IO_REGBUF_TYPE_EMPTY,
- 	IO_REGBUF_TYPE_UADDR,
-+	IO_REGBUF_TYPE_DMABUF,
- 
- 	__IO_REGBUF_TYPE_MAX,
- };
-@@ -819,7 +820,10 @@ struct io_uring_regbuf_desc {
- 	__u32 flags;
- 	__u64 size;
- 	__u64 uaddr;
--	__u64 __resv[7];
-+
-+	__s32 dmabuf_fd;
-+	__s32 target_fd;
-+	__u64 __resv[6];
- };
- 
- /* Skip updating fd indexes set to this value in the fd table */
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 1279e27c2c6d..cb88d19c8fb2 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -109,7 +109,7 @@
- 
- #define IO_REQ_CLEAN_SLOW_FLAGS (REQ_F_REFCOUNT | IO_REQ_LINK_FLAGS | \
- 				 REQ_F_REISSUE | REQ_F_POLLED | \
--				 IO_REQ_CLEAN_FLAGS)
-+				 IO_REQ_CLEAN_FLAGS | REQ_F_DROP_DMABUF)
- 
- #define IO_TCTX_REFS_CACHE_NR	(1U << 10)
- 
-@@ -1125,6 +1125,7 @@ static void io_free_batch_list(struct io_ring_ctx *ctx,
- 				io_queue_next(req);
- 			if (unlikely(req->flags & IO_REQ_CLEAN_FLAGS))
- 				io_clean_op(req);
-+			io_req_drop_dmabuf(req);
- 		}
- 		io_put_file(req);
- 		io_req_put_rsrc_nodes(req);
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 05877b4c0ee5..d23dbb0dd6b8 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -10,6 +10,7 @@
- #include <linux/compat.h>
- #include <linux/io_uring.h>
- #include <linux/io_uring/cmd.h>
-+#include <linux/dma-buf-io.h>
- 
- #include <uapi/linux/io_uring.h>
- 
-@@ -881,6 +882,95 @@ bool io_check_coalesce_buffer(struct page **page_array, int nr_pages,
- 	return true;
- }
- 
-+struct io_regbuf_dma {
-+	struct dma_buf_io_ctx		ctx;
-+	struct file			*target_file;
-+};
-+
-+static void io_release_reg_dmabuf(void *priv)
-+{
-+	struct io_regbuf_dma *db = priv;
-+
-+	fput(db->target_file);
-+	dma_buf_io_ctx_release(&db->ctx);
-+}
-+
-+static struct io_rsrc_node *io_register_dmabuf(struct io_ring_ctx *ctx,
-+						struct io_uring_regbuf_desc *desc)
-+{
-+	struct io_rsrc_node *node = NULL;
-+	struct io_mapped_ubuf *imu = NULL;
-+	struct io_regbuf_dma *regbuf = NULL;
-+	struct file *target_file = NULL;
-+	struct dma_buf *dmabuf = NULL;
-+	int ret;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (ctx->flags & IORING_SETUP_IOPOLL)
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (desc->uaddr || desc->size)
-+		return ERR_PTR(-EINVAL);
-+
-+	ret = -ENOMEM;
-+	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-+	if (!node)
-+		return ERR_PTR(-ENOMEM);
-+	imu = io_alloc_imu(ctx, 0);
-+	if (!imu)
-+		goto err;
-+	regbuf = kzalloc(sizeof(*regbuf), GFP_KERNEL);
-+	if (!regbuf)
-+		goto err;
-+
-+	ret = -EBADF;
-+	target_file = fget(desc->target_fd);
-+	if (!target_file)
-+		goto err;
-+
-+	dmabuf = dma_buf_get(desc->dmabuf_fd);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		dmabuf = NULL;
-+		goto err;
-+	}
-+	if (dmabuf->size > SZ_1G) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
-+	ret = dma_buf_io_ctx_create(target_file, &regbuf->ctx, dmabuf,
-+				    DMA_BIDIRECTIONAL);
-+	if (ret)
-+		goto err;
-+
-+	regbuf->target_file = target_file;
-+	imu->nr_bvecs = 1;
-+	imu->ubuf = 0;
-+	imu->len = dmabuf->size;
-+	imu->folio_shift = 0;
-+	imu->release = io_release_reg_dmabuf;
-+	imu->priv = regbuf;
-+	imu->flags = IO_REGBUF_F_DMABUF;
-+	imu->dir = IO_IMU_DEST | IO_IMU_SOURCE;
-+	refcount_set(&imu->refs, 1);
-+	node->buf = imu;
-+	dma_buf_put(dmabuf);
-+	return node;
-+err:
-+	kfree(regbuf);
-+	if (imu)
-+		io_free_imu(ctx, imu);
-+	if (node)
-+		io_cache_free(&ctx->node_cache, node);
-+	if (target_file)
-+		fput(target_file);
-+	if (dmabuf)
-+		dma_buf_put(dmabuf);
-+	return ERR_PTR(ret);
-+}
-+
-+
- static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 						   struct io_uring_regbuf_desc *desc)
- {
-@@ -899,6 +989,12 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)))
- 		return ERR_PTR(-EINVAL);
- 
-+	if (desc->type == IO_REGBUF_TYPE_DMABUF)
-+		return io_register_dmabuf(ctx, desc);
-+
-+	if (desc->dmabuf_fd || desc->target_fd)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
- 		if (uaddr || size)
- 			return ERR_PTR(-EFAULT);
-@@ -1170,9 +1266,64 @@ static int io_import_kbuf(int ddir, struct iov_iter *iter,
- 	return 0;
- }
- 
--static int io_import_fixed(int ddir, struct iov_iter *iter,
-+void io_drop_dmabuf_node(struct io_kiocb *req)
-+{
-+	struct io_mapped_ubuf *imu;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (WARN_ON_ONCE(req->buf_node->type != IORING_RSRC_BUFFER))
-+		return;
-+	imu = req->buf_node->buf;
-+	if (WARN_ON_ONCE(!(imu->flags & IO_REGBUF_F_DMABUF)))
-+		return;
-+	dma_buf_io_map_drop(req->dmabuf_map);
-+	req->flags &= ~REQ_F_DROP_DMABUF;
-+}
-+
-+static int io_import_dmabuf(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
-+			   struct io_mapped_ubuf *imu,
-+			   size_t len, size_t offset,
-+			   unsigned issue_flags)
-+{
-+	struct io_regbuf_dma *db = imu->priv;
-+	struct dma_buf_io_map *map;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (!len)
-+		return -EFAULT;
-+	if (req->file != db->target_file)
-+		return -EBADF;
-+
-+	if (req->flags & REQ_F_DROP_DMABUF) {
-+		map = req->dmabuf_map;
-+		goto init_iter;
-+	}
-+
-+	map = dma_buf_io_get_map(&db->ctx);
-+	if (unlikely(!map)) {
-+		if (!(issue_flags & IO_URING_F_IOWQ))
-+			return -EAGAIN;
-+		map = dma_buf_io_create_map(&db->ctx);
-+		if (IS_ERR(map))
-+			return PTR_ERR(map);
-+	}
-+
-+	req->dmabuf_map = map;
-+	req->flags |= REQ_F_DROP_DMABUF;
-+init_iter:
-+	iov_iter_dmabuf_map(iter, ddir, map, offset, len);
-+	return 0;
-+}
-+
-+static int io_import_fixed(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
- 			   struct io_mapped_ubuf *imu,
--			   u64 buf_addr, size_t len)
-+			   u64 buf_addr, size_t len,
-+			   unsigned issue_flags,
-+			   unsigned import_flags)
- {
- 	const struct bio_vec *bvec;
- 	size_t folio_mask;
-@@ -1192,6 +1343,12 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
- 
- 	offset = buf_addr - imu->ubuf;
- 
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		if (!(import_flags & IO_REGBUF_IMPORT_ALLOW_DMABUF))
-+			return -EFAULT;
-+		return io_import_dmabuf(req, ddir, iter, imu, len, offset,
-+					issue_flags);
-+	}
- 	if (imu->flags & IO_REGBUF_F_KBUF)
- 		return io_import_kbuf(ddir, iter, imu, len, offset);
- 
-@@ -1254,7 +1411,8 @@ int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 	node = io_find_buf_node(req, issue_flags);
- 	if (!node)
- 		return -EFAULT;
--	return io_import_fixed(ddir, iter, node->buf, buf_addr, len);
-+	return io_import_fixed(req, ddir, iter, node->buf, buf_addr, len,
-+				issue_flags, import_flags);
- }
- 
- static int io_buffer_acct_cloned_hpages(struct io_ring_ctx *ctx,
-@@ -1676,7 +1834,9 @@ int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 	iovec_off = vec->nr - nr_iovs;
- 	iov = vec->iovec + iovec_off;
- 
--	if (imu->flags & IO_REGBUF_F_KBUF) {
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		return -EOPNOTSUPP;
-+	} else if (imu->flags & IO_REGBUF_F_KBUF) {
- 		int ret = io_kern_bvec_size(iov, nr_iovs, imu, &nr_segs);
- 
- 		if (unlikely(ret))
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index f12abaf63270..3cb9b57f159b 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -31,6 +31,11 @@ enum {
- enum {
- 	IO_REGBUF_F_KBUF		= 1 << 0,
- 	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
-+	IO_REGBUF_F_DMABUF		= 1 << 3,
-+};
-+
-+enum {
-+	IO_REGBUF_IMPORT_ALLOW_DMABUF		= 1 << 1,
- };
- 
- struct io_mapped_ubuf {
-@@ -173,4 +178,17 @@ static inline void io_alloc_cache_vec_kasan(struct iou_vec *iv)
- 		io_vec_free(iv);
- }
- 
-+void io_drop_dmabuf_node(struct io_kiocb *req);
-+
-+static inline void io_req_drop_dmabuf(struct io_kiocb *req)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (!(req->flags & REQ_F_DROP_DMABUF))
-+		return;
-+	if (WARN_ON_ONCE(!(req->flags & REQ_F_BUF_NODE)))
-+		return;
-+	io_drop_dmabuf_node(req);
-+}
-+
- #endif
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 95038cfda615..11ff7b5a1164 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -380,8 +380,8 @@ static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_flags,
- 	if (io->bytes_done)
- 		return 0;
- 
--	ret = io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
--				issue_flags);
-+	ret = __io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
-+				  issue_flags, IO_REGBUF_IMPORT_ALLOW_DMABUF);
- 	iov_iter_save_state(&io->iter, &io->iter_state);
- 	return ret;
- }
-@@ -591,6 +591,8 @@ static void io_complete_rw(struct kiocb *kiocb, long res)
- 	struct io_rw *rw = container_of(kiocb, struct io_rw, kiocb);
- 	struct io_kiocb *req = cmd_to_io_kiocb(rw);
- 
-+	io_req_drop_dmabuf(req);
-+
- 	__io_complete_rw_common(req, res);
- 	io_req_set_res(req, io_fixup_rw_res(req, res), 0);
- 	req->io_task_work.func = io_req_rw_complete;
--- 
-2.54.0
-
+> > [...]
