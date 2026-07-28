@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5303C9EF0;
-	Tue, 28 Jul 2026 07:41:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284993E44FD;
+	Tue, 28 Jul 2026 07:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785224510; cv=none; b=BzXwA/yt7vimGxB1Ujh3fROAd3M1ujtBkfnZX8mlrHvQdnlEsBvaueQ/CVQSutzEbKu4gVbhkdma4a0qBbYui7OUjawsAJLBMBFzVruklJSGM1jUq2Ztz4Yn0aekMHfN9spFOje86r0B8lrpTbGJLpJOdFXwPxdvx99l5YR7ydI=
+	t=1785224620; cv=none; b=cbnvO0HAmLrIRlYJPDrJ9O90vBIGedBwA5YabZV5+P2NrJcduVlXxWrmnTv/t1LFaq++IWmHTKyLwHSt7fwRFrGIQVbvCwdd1aBQKOjsCJxMqPP5uYDsncRDl+cifyKhZ46WoTFlKet2xw8zptvjRbwcp6MghvK2dQy2NmAf3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785224510; c=relaxed/simple;
-	bh=E6jN+SFSluDuF5OV8oRq0i0D7Ufy7lYPtcUSjBN0DhU=;
+	s=arc-20240116; t=1785224620; c=relaxed/simple;
+	bh=WSXMM9n2o7qNRnWVPkxUOAvK6NpoutUPaZ/kNOinSME=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=LNSak8vWuOfK50Yq0H6AQFocDKhsNlB5FMAJn+Re9hhi6GaDCYjPXY+k3T4TiTzAnr7mMgEVz5Yv4V/DFPgeN54Ue9icqy3005Rq1M+Y+bOQ5YMsLrAXdHE21dhhV1UnOQzGtkHqUNX055H8rMWkev952JAdzhTeNO8q9cFFyMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j3af9A5T; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=dpgKZJ+dz2wXONlGJzXMvCvpdefJkHPdQHTZWhdWjcWDPdeH2ej9mLAAp/FwfNyJdeiuevw7+5MURXJLXnp1/s0t4yH9og7Cew1AUW/XU01Md81ohrTZVHTV9cjwx2zE0Q9MYhyz+pdWZn7ZBMJhdRXMpV9dzmmVj5tutp6YW5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljryeN6d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j3af9A5T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D441F000E9;
-	Tue, 28 Jul 2026 07:41:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljryeN6d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 262791F000E9;
+	Tue, 28 Jul 2026 07:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785224508;
-	bh=E6jN+SFSluDuF5OV8oRq0i0D7Ufy7lYPtcUSjBN0DhU=;
+	s=k20260515; t=1785224618;
+	bh=WSXMM9n2o7qNRnWVPkxUOAvK6NpoutUPaZ/kNOinSME=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=j3af9A5T3fy9GYjrJ8XaBLnAoJNfssWIME/8QJyFoqgF/mETMEVz2rKV6A3cFM2LK
-	 fHo5h/mG7GK70ukhf0yQ0kbBftNwZIqOd3jm6/VaJ6pseXlP8gogPjgAt9QrIAyc7q
-	 vvrNe7WWU64yMGLPgCxnuwVulBE4r1IHOX+LEjnvVofC2xxnutbwR4aBTSiLYOnOtD
-	 6iCb+FRhDHAL0UsSBclyVkjIUh1y2e7d3uZX8arxUtpVE7SGLVHRL61fbiy5Bp+CHd
-	 jplRR6Em3CIe33IAkSYWmY6WcRrdFxO5oIZqOx0lL1k894VPBHYa3uJAMTfrQfr8Fo
-	 08TVjxts5GVqQ==
+	b=ljryeN6d7G2H9v88YTh79X2FkZ1grZ7PXcAOWqk+F/AhneAJaZaG2YiiUFb7CcwEH
+	 47GN8E6IOJ77tWOt2MMgMzNGBs87GstISvJYS/PAtSg8scvLSFeOS5OdmFVUnmjMdq
+	 ZAc4DaJayUHZp4ykfCtK2hhLENJ9BbDaVpSwPL+Ri+3XEieDoa3+6BzXkM3gf5agDA
+	 2hx/HgwrtqrqvbpFIa8vuapbC9rIAGQ6URIcqe3M3egn4StkEeGaI2koVlmf+O9h2g
+	 waStER5J2ByKlUDScSU0hRCUoKAtZ9M4ffzOiZQgpL5AYUEr2eada76sLCpa5YnGkP
+	 eOj+yETS9GaTw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,34 +34,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH v2 0/1] pipe: only enable the extra
- wake_up(rd_wait) for edge-triggered consumers
+Subject: Re: [PATCH 7/8] vfs: Allow filesystems with foreign owner IDs to
+ override UID checks
 From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Breno Leitao <leitao@debian.org>, 
- Christian Brauner <brauner@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
- Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Alexey Gladkov <legion@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- io-uring@vger.kernel.org
-In-Reply-To: <amdO3ue2SkPUsC2J@redhat.com>
-References: <amdNxsTODR4MCl3R@redhat.com> <amdN6_UX9o1i-ceI@redhat.com>
- <amdO3ue2SkPUsC2J@redhat.com>
-Date: Tue, 28 Jul 2026 09:41:44 +0200
-Message-Id: <20260728-konsens-erdrutsch-ruhelosigkeit-6915f003a1ec@brauner>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>, 
+ Marc Dionne <marc.dionne@auristor.com>, linux-afs@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Etienne Champetier <champetier.etienne@gmail.com>, 
+ Jeffrey Altman <jaltman@auristor.com>, Chet Ramey <chet.ramey@case.edu>, 
+ Cheyenne Wills <cwills@sinenomine.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Steve French <sfrench@samba.org>, 
+ Mimi Zohar <zohar@linux.ibm.com>, openafs-devel@openafs.org, 
+ linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org
+In-Reply-To: <20260727130827.1100080-8-dhowells@redhat.com>
+References: <20260727130827.1100080-1-dhowells@redhat.com>
+ <20260727130827.1100080-8-dhowells@redhat.com>
+Date: Tue, 28 Jul 2026 09:43:32 +0200
+Message-Id: <20260728-dehnung-fluten-kriterien-ddcda5f53a96@brauner>
 X-Mailer: b4 0.16-dev-cca4b
-X-Developer-Signature: v=1; a=openpgp-sha256; l=222; i=brauner@kernel.org;
- h=from:subject:message-id; bh=E6jN+SFSluDuF5OV8oRq0i0D7Ufy7lYPtcUSjBN0DhU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlxFpdlzsTXpRsuEh6cv6igglMUSuUhVfmV4Y8rOfpf
- 7r9dNCejlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImYTGf4XyLIYrzi0+rah482
- WjAffudX9s/1uKS11s7cU4dO/pmuVsbI8OyHk+D5sPKJ+34/Z/rAEKbXuVD1rWfJUuv3jloRF9x
- WsAAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=272; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WSXMM9n2o7qNRnWVPkxUOAvK6NpoutUPaZ/kNOinSME=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlxC7bc+Kk2XvVFUY16uHXz3AuERN5Hvl5+tS5/FXn/
+ 1XWrUx53FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRb8cZGb5cnPnsJ+/quWaK
+ kW9zW7IKyo73PZ0R8FrKUtv8dNniM1kM/wNK2YS+nVZenrsz9X5trOrOT8XSjww65TntDVYqsji
+ Z8wMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-27 14:28 +0200, Oleg Nesterov wrote:
-> Damn, sorry, the subject is wrong... ignore, will resend
+On 2026-07-27 14:08 +0100, David Howells wrote:
+> A number of ownership checks made by the VFS make a number of assumptions:
 
-Fwiw, in case of minor issues such as this feel free to just indicate
-that you would like me to fix them up.
+Significant internal api changes such as this should please be sent in a
+separate series. This seems to be sent alongside afs fixes instead.
 
