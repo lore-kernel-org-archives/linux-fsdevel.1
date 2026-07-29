@@ -1,231 +1,157 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013023.outbound.protection.outlook.com [52.101.72.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C3B304BB3;
-	Wed, 29 Jul 2026 17:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.23
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785344673; cv=fail; b=ev5b/OXnzfcSAiq7J+APRMfVynL+lqxok9VhJS9tJU0hfQhPpAg4vDkMVVxJw8HNqfjhWfBqbfsYeZqAq3XeTYrO0OnbWnXNFSRJZzvS2sKJVIH0iJpKobgepmrtH6SPSkbldhiZ3bUJA2txTo2p9LsJs34FuaOTzU1sV5aE0AM=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785344673; c=relaxed/simple;
-	bh=PK8yOMUXakZ2cfqZghzpzJKHldPrTnlcNVBxo9DqwIs=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=l3u0eU8NrTvladr1zozXuYqpM7KUylpeb+zemOG5fcOmwo2X8w+LAUox1XhCVaudufhnoLf2s0lRqEPdoUW9mrH0WT+DGN8XNZw85tTsJlanAGJr2Z7DVzLWvOLXYVylb1jv3N0p3UAShtaltFmNq6D5WYBUkY7eW3lI0dzNhmw=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BncRAtb1; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BncRAtb1; arc=fail smtp.client-ip=52.101.72.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A56F469839
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 17:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785344875; cv=none; b=cQxE8KDSk8W+ahxQkv31jBXXlwkZI/2wA1b5GbJ2OZi0JMuI+83D9i+Q+/JF9kEpU6cZA9YHwCfHhdc3QY7zpB5b2PxrM7bAnMg+mA3XsRxQT4HS6gwtIuTZtc3UxgkhP63/d4RLsdcymjHoaik5HJ9ooKhS2N4SJUqgJme9UgQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785344875; c=relaxed/simple;
+	bh=bb14VU+mzqH5lBzRhhTvKjHyh5XA6yPZdb7hGKFeL+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KbstyjKuc2aCdkNHgHpMNCjVInxPL4RDXVGDvZ/UsywHzt0AakpDxRZP0xrxKxdkY6c2Vp44GotyL6TGHOKIiMuXEw6hPpHoloAhS/pC0SFBpIMvmrFPRCW+Z9c2xkZDsctOTu282YVbesXkF6Z1XFaqmjO4wBBS/is+ajpzz9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jG5gBZCV; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BncRAtb1";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BncRAtb1"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=NmDnOTYzQKdlDmLOueJT/hHtzqxVh0I5we3J8aFCT9jDLn7+8+Uoz3cigQWlTpBx5HRs0yoyCS0cXNQMW50t5S+56L4G1khCVHdVW5/21N3OH4gA5AbC1RDP2llHU0XtYVqTwgutaE+qjwPxaTn10YQ7cAFR8DVcwc0tV2jQj8NfOWJwjOB6Dt3XNcy5mCdMnFfP8ugQu+zrP5xHDauzCjQKztHztHCCBU9OO8Ovcp5X6NXIWW8QafVsgo5TBMfdogfDi6fV9UIudfea6F25DIzVWXH6guGZCAzVgcwjPwWZqc9B1KxZxUXOb+xJg7rRKCatCxfQ0D9KJAgskwfU9w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PbbUS/qk5aVVW1vC8+CkjZ6Px4apThCtOkwiM7lkMQk=;
- b=f2xFDZA3UPyvngFDD/STe3RXTpQOVspNn6JE3vNWTs8noJ4YKFe4YahPycpku7fPOHenG/nbqRyV8v81tkdRERUZWu9JsegXS4p44Wv8M4swK6BF4Mwvp3Y8sjuE6/7AoOXqie97R2VMcMYoxs7aDP40KO/uCPdvHRfff+pHJYeuY3sQyRlpya6r3Vu7k0iiX7upBpdyu93ZjCoHvi6TdUh6cFmyC6dd/b8Cu/9XqWFZlKd4uvmAqCUfVtEEn+1GGdyaredG5JwYwKkRB2FhWD5c7y3DiwQ6+YQZLmEoAh4qp6x5GxWcKGwTLFxwyaKBGJ0IGfMqLLQuKeQMRqaqRg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=suse.de smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PbbUS/qk5aVVW1vC8+CkjZ6Px4apThCtOkwiM7lkMQk=;
- b=BncRAtb1wxWuxlYq3hw2v/M+04GjdKg+y4JuhjiTTj6i7XFl/6Jgw2fj+4b0moZKpngDIgLO6TQajpcJFf7aQKeCWM0Dyr1FxXKWsS/BxLIciiQgFsBGYHYVGXc59i+87QMOgh3eg+DLAUo73vT/abtt5OLSRIIXj/lENHQ9qeY=
-Received: from DU7PR01CA0023.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50f::20) by DU4PR08MB11101.eurprd08.prod.outlook.com
- (2603:10a6:10:576::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
- 2026 17:04:26 +0000
-Received: from DU6PEPF0000A7E1.eurprd02.prod.outlook.com
- (2603:10a6:10:50f:cafe::36) by DU7PR01CA0023.outlook.office365.com
- (2603:10a6:10:50f::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.12 via Frontend Transport; Wed,
- 29 Jul 2026 17:04:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000A7E1.mail.protection.outlook.com (10.167.8.40) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.5 via
- Frontend Transport; Wed, 29 Jul 2026 17:04:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xahEWMRLnwid9CUeH2xMEOsP0mG5mVIig03K9CrPeXgnE2GOpBr+kyZG+F2d35nN7dR9xvnXrP7djuCDDm0yGzzPCPLmwN9HVJRprqNsY1afrMOM76IATPc6Bx7cxzusYrxGi0huWmRQGSfB0QfwawPJIKbKFggt3SIihvOynDbEk3eLLBRhW2rqGskNlTyPWDq8w218z4dshXjQG7JrtiCZb8UUmiCp9IeCf02pp5vMYisEfl/Fqb9WAWkRqg1ftPnNj9ppDIsf9Q6yGfC8fiNJoUKPfwXfvqkzxfOvFUxsmrsXu6aIvBBVboUs/a/ltqbKrpSiLr2Tbuo+ui5Ynw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PbbUS/qk5aVVW1vC8+CkjZ6Px4apThCtOkwiM7lkMQk=;
- b=O/164cDNkIYfZ57+OU0eVLSYvhlM5ZSK1fDakvR237cxTdJV425e5h40oM0+vWNWTYYZbjS2OvWO1AwvWygrxMBzG+ve9IVN63Qhel7K8uGgreqLZI/laB970xYq/Xnv3k6qIohwLrGyn85FCaC0O5tBWx1IcDyuQtd4HwwoU0YnPOX9oqrN4gFotW/HHWygtNEzbgx7cniww0Dz6kHuixHYY1RiZxaM3z4S5QTYNUjH6fy5mvJNpJuQ6fgPcNbXpY5xk2fXVvexrXE7I9tC2S7p7aDARcljsa4nhrjA8kxpcNWfdxBXYzmwgly8WQqD4llBzx2j+05RCCurppSevQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PbbUS/qk5aVVW1vC8+CkjZ6Px4apThCtOkwiM7lkMQk=;
- b=BncRAtb1wxWuxlYq3hw2v/M+04GjdKg+y4JuhjiTTj6i7XFl/6Jgw2fj+4b0moZKpngDIgLO6TQajpcJFf7aQKeCWM0Dyr1FxXKWsS/BxLIciiQgFsBGYHYVGXc59i+87QMOgh3eg+DLAUo73vT/abtt5OLSRIIXj/lENHQ9qeY=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com (2603:10a6:803:80::16)
- by FRRPR08MB11966.eurprd08.prod.outlook.com (2603:10a6:d10:1d0::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
- 2026 17:03:24 +0000
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4]) by VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4%3]) with mapi id 15.21.0270.009; Wed, 29 Jul 2026
- 17:03:23 +0000
-Message-ID: <e0f68f91-629a-4aa7-bad9-11ef7dafce4d@arm.com>
-Date: Wed, 29 Jul 2026 18:03:19 +0100
-User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@arm.com, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- David Hildenbrand <david@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- ziy@nvidia.com, agordeev@linux.ibm.com, ryan.roberts@arm.com,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH RFC 09/11] misc/sgi-gru: use ptep_get() for page-table
- reads
-To: Pedro Falcato <pfalcato@suse.de>
-References: <20260727164715.2866609-1-usama.anjum@arm.com>
- <20260727164715.2866609-10-usama.anjum@arm.com>
- <amnxCmFU40QQaxTx@pedro-suse.lan>
-From: Muhammad Usama Anjum <usama.anjum@arm.com>
-Content-Language: en-US
-In-Reply-To: <amnxCmFU40QQaxTx@pedro-suse.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P302CA0023.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::15) To VI1PR08MB3421.eurprd08.prod.outlook.com
- (2603:10a6:803:80::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jG5gBZCV"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f707e5d75so883499f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 10:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785344873; x=1785949673; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G/vni40zmOCZ2HqBZcbw7mWmT4z7vqgKQwHadXTDKns=;
+        b=jG5gBZCVg9YZMIvvBVKJAS+fsmbzR4fWs0xG/oV0Z1s3GGiXEra3QIJSEqRBBnfqWV
+         VzlwGNlvQ3ZQL9qW0jJ4gumBXkwnnC1l+E56/dCnn+ckSSsg2uZ9GMRV+u+lypXoEGJR
+         IUPx2pJUEM2kFE2iyTGEqn2nO44y5wMgdBnYa5gbjCvoLWPJVKDsK/CHAaD8Z4TyIuo5
+         +61u3hiBCBC7sCvR/m5ewZe/YNO6I8tjAheDrYMzv1izbKWv4A0UJTbCfNwXenhy3CHs
+         hgRXz4D6KFvG+6Ap6A9ouFeSCB2ASZ4iiFq9ECMS+23VJeZf3nj7+CiPn48QVbQ+wlOj
+         alcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785344873; x=1785949673;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G/vni40zmOCZ2HqBZcbw7mWmT4z7vqgKQwHadXTDKns=;
+        b=By70W72WZ43MtIBIswoOpxXwMVaVWjTTYhiXnlEbRrv+sPqL23YpoPiQlPS6+ybWxm
+         eP8kIyPPo04+8KHurLwDYtyNRcnJISb8uMEqjYZ9MNts88JbAzO5klg7HIaMZd00OmYN
+         FzP20JIVrveQLC0u2p8lHlaJ+Z/kHkl4ag3VabUQea94D7FBCaUbSTUq7jb6oOUeaoDl
+         oL4cBZNKX5R6bflqITuVHIyRqjLjqjhqVdXS7/ZQPB3n6PEQ8QCPyVc/G1vbIGaD8mxY
+         GLigghl5dCmh0BMZvtOWAc2lKjwblfDoEDp1kOmfJiJyENr/U+b7xum6AuTAN6S10iO7
+         B39g==
+X-Forwarded-Encrypted: i=1; AHgh+RqzonR3PME6I//J1XM1c9hSXjbEZNmHzvXib2OfhmDE+oLro0jUPtzRVJ3wjhMAmjgTffWABTD8iQshidCC@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE5EM/nfZc4qC7jKTvFOdwgkyXr6QZwrJmNZTfTt8aRnJyiKRO
+	X2qRf72soJPy+4MqqvGD6WtuZsKI2YeYJGH0jhLSE0N8aJ0FBADXv6WD
+X-Gm-Gg: AR+sD13i8Zbz6tHd43w5B62DWMQetu+C5QD6DG9aJjztmh61pJhkQbuyyoZ3CFY6++y
+	uAKzW21Zm0xAjnxmZuGRi1TBrEWKWB0GvbNSd0YMqten4ssRTFLKbiIdk5qgE7eLk/Lqkz9XKEh
+	po8PkDR0P2A2Q2oPjUTQ3Uix6TEYjEc5GuQrM3p7rnX3aGtpZNzKHIJxr5s/WqL63O+ftReegZd
+	+miQp32jqSjMVYxNSiOlxLmoMusBAwFkIfmYGqH7q+lV1GpR4ket8Jz7kshCDfiwk0k0wc6r8Z4
+	u0coP2/66/2OjfmCgvBqCBp5VqGLFaAe64j+8X68lkehysFjmLoULqU5OO48rTHKmyd3WDg16U5
+	7iis54lLSABE3vEV/iZ+9DY7bRis0J22rNZ8hDlf57TxP3xmvVYzomI40etEQptyb4iMPr4G9Y2
+	NKA9XPQg5dB4xX2WH3EG0lzcy3NbKMA0oiNugvH9xzjPFYm9Fbxyj2yTsimivpSXpMhXxO3PAc+
+	7TqLHUX8iXFfV0w8rnNnqlNkhccGUAvHQXNurL0pczrhk/mP5p8I70onBsg3uUGDmcoBc7ev5+N
+	9bZ44P94pC1EZ9puA9s=
+X-Received: by 2002:a05:600c:630d:b0:495:5365:c0d2 with SMTP id 5b1f17b1804b1-496c6558b53mr99358535e9.14.1785344872559;
+        Wed, 29 Jul 2026 10:07:52 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd6d226sm72029155e9.10.2026.07.29.10.07.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 10:07:51 -0700 (PDT)
+Message-ID: <bee0e036-3392-4a9f-9eb2-398d99319ac0@gmail.com>
+Date: Wed, 29 Jul 2026 18:07:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI1PR08MB3421:EE_|FRRPR08MB11966:EE_|DU6PEPF0000A7E1:EE_|DU4PR08MB11101:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37141c21-a2fe-40d9-70d3-08deed937228
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|4143699003|10067099003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original:
- DaJWhsTZTSxcIZbwinfD8XxtPw/2f++czvjbD1W4bd4XreSaU6D3188u9w9GWQdT1JXBI8k6WeoGO6ebdA1+x5ERQkgaS+IvsRPUFarLXoyLSoHZCSpfHIwd8F8MDWoNeQ1ES6E/mzkjlk9uqRqSUEnOeLxSkLZi6rsNJwpm6ua931PyYrgJVmT6wev4vTkMgr6syRqwCjlvl016KdBkPiyWoyKxZXNeor7nen405U+6SC5mEjJpEHoT80H3kzt3gxPjjZbNpd4hPE5DyqouQQ/VsqiaVT4B5FfF36BO841Sp/Xl1P8QhSFShghy3xRKonzeQ6A/ywt8H9Xc7keLkphSLfy4PtFSq3IQ9cNDuKln6Hvy3wazEyx/gr/sfCYkTZxE2WgTQ2sOWSeZfWA0h0Bs//n0R4D2bofUttfS5x1z/oSEZO66wztXTfYvOjSF4x+5WgQMtt44LAKW9yT0uqPjlfJb31GONqzqwi6bX+GqpqX9cYgrlXmoVI+N1K5HndLAeojNGxA1aOc+48bNI+LQ644ttsRtlgno3Kz2zTeOy2B2aSZkC+ecrjfht61nUE2Ky3+IWsStwYWvifvhWPtHsv2iZXgW/f3/PHUR8FXVam5L1/5xsQl5FIGgf0hMGGNYQ2A4WaTk1Pb40YB1BVCnjNZIvY4oAW6YwLT8GW4=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB3421.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(4143699003)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- ZiugpGqFJussUsX96Dr0qNIxsdKxjJBS2tE8DuDcDfFRexZmwdjfLQBMcHCaqX8OW1QUx7kPU5UoDm0xLd+5To+L1Lwby9UJzIjM7tj6tA5Gw+zuycwLiOY/6k46sQqIznBHfE1A0FGGTlp4WsiYDINkUezqpj2bXuRimKRIR8fvUQKmBSt1LLeBmJQ2za0zrmj0rciHYG5LhQEQzEyqn2YhvwKI5abL5D/+qqH+vCRW9DPPMD/dKpxd8el7hfi9uzaC51A5QUOe3GYui2sBAzf/m04Y5tcPJZU+DTlZbZmqZ/j2M/F5BLeLb4tlW6TNh/xL4+oFjqd9nq4+N9gbjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRRPR08MB11966
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU6PEPF0000A7E1.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	e588c869-dbac-40f5-682d-08deed934bdf
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|35042699022|14060799003|7416014|376014|23010399003|82310400026|36860700016|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	HZfv24VYe2JXYJAVJ8cbRwULxYvRmalqgSIXDe+knxEVlgHAPn9PPAf7kwpuL2ydxaiYsToXHlAkBS0LLuUKzr6nueoTKcHRPlCscEzoHwtnrm4ZNVHtjxcwYzGoB6WAVI4gTES5V6J9EmIBlLY8NSIIYlR8LmBLgDduZZojsn+7VGMv7irEFiSoEgoIAhiOGx5pJrJIxWMbpEsQoep7yRtrOVB9UJg5KewP/dARA0RQGrt0A0kuGvyrcTGbBDC83rHvkS5JNzq+Jh1T8z3Gnhkw8OBdxHzf06nkf73xC1WRYuetSD4Udb4jIKKNhY3KOh8F7iVmr9ateNzuV50BamA/dLDrabuDQvoZyLW4tgArGvIEj3wdiHMvJspE45X9YANv0OxzY6PSOipCQuXD4P3Qn+u79XXXVBP11nQYW4IO5mvrftVB5S4tKrUbL7U7vzxw8w3umcj58TMkUsPeihGI1QKx+laLMHAa/Rwne4jdaktvund2DCX129NZoR3GCYwuC0waE384Cdv1hdOJ6hcZ8QG5n/r98HfJH0AyUtF4cfDzPNAsT09pGrBHIuawEEhqXQ60Oq/8yzx1Ct7mWTUqwfnvM9qo1upZXE0DB3U+ZiABJdnAWT8TdsY2JJd/QnUo8SJQDgaGtdLRRT4HWxxHDS9jzq7ugfLO2LwIS66DeqnLIHFjboOHcRlllKB148X/q0MFK/9a6Ce3Nsb8hQ==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(14060799003)(7416014)(376014)(23010399003)(82310400026)(36860700016)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	rVI+erN+tDK1bV2DaYVwEmRJDr4VXLVJC5i79Kwb6sY1tPpWPXDqyUvP/xGW2XsYbrI+7Wwi2BotLdlKPoK9b3n/U3Xl2foE2DFyjt+FCP46rO0Amkyn6h47Sgz2sqnuHI9loq0WbH19gPc+hxNxudzSfRRHOUW6vYyByqqbsq61kJzPy1RIjrjh8haoNQr5uUiQDCN518XDGA85hrv+CaQkKIj5ON3Q/fosJjMkX4lA5OU6W2iHLJUjz7wGYwts8jKk8vVybK+CL9aPF2+mNnzVXByXoH8iSxQIR6UShOdPnVt8EAtAyhS4LbxwtwTMnJNVVJO8nLEOf1Cz0eeIlyRjIO6c33byzt2IWrDNksjzAFpYRANtjC9ItlXIYppOcCXRWmciPDCiIDth7BHg5Vafj95ym4Z+Bs5+vT7lY8fwr4K4ZhzRH7o9McHNO91R
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 17:04:26.3745
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37141c21-a2fe-40d9-70d3-08deed937228
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF0000A7E1.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR08MB11101
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/1] pipe: only enable the extra wake_up(rd_wait)
+ for edge-triggered consumers
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>,
+ Mateusz Guzik <mjguzik@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+References: <amdNxsTODR4MCl3R@redhat.com> <amdPACI3kw8PobPx@redhat.com>
+ <1bd5710b-29c8-4a8c-8f26-72d9e71c2321@gmail.com>
+ <amogeROg0Hthp7HD@redhat.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <amogeROg0Hthp7HD@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 29/07/2026 1:36 pm, Pedro Falcato wrote:
-> On Mon, Jul 27, 2026 at 05:47:00PM +0100, Muhammad Usama Anjum wrote:
->> A leaf PMD is being read through ptep_get() by treating the PMD address
->> as PTE-sized table storage. ptep_get() now accepts hw_pte_t *, so update
->> the cast accordingly.
->>
->> pte_offset_kernel() also returns hw_pte_t *. Get pte_t value by calling
->> ptep_get().
->>
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->> ---
->>  drivers/misc/sgi-gru/grufault.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
->> index 3557d78ee47a2..ff89d34ad2aa4 100644
->> --- a/drivers/misc/sgi-gru/grufault.c
->> +++ b/drivers/misc/sgi-gru/grufault.c
->> @@ -228,10 +228,10 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
->>  		goto err;
->>  #ifdef CONFIG_X86_64
->>  	if (unlikely(pmd_leaf(*pmdp)))
->> -		pte = ptep_get((pte_t *)pmdp);
->> +		pte = ptep_get((hw_pte_t *)pmdp);
->>  	else
->>  #endif
->> -		pte = *pte_offset_kernel(pmdp, vaddr);
->> +		pte = ptep_get(pte_offset_kernel(pmdp, vaddr));
->>  
->>  	if (unlikely(!pte_present(pte) ||
->>  		     (write && (!pte_write(pte) || !pte_dirty(pte)))))
+Hey Oleg,
+
+On 7/29/26 16:47, Oleg Nesterov wrote:
+> Pavel, thanks for taking the look!
 > 
-> This code is super, super broken. Can we remove this ASAP? For starters,
-> we're using is_vm_hugetlb_page() to detect page shift, the code does not
-> grab refs on the pages, uses pte_offset_kernel() on user page tables,
-> does not handle PUD-level hugepages, does not handle PMD-level hugepages on !x86_64,
-> does not hold page table locks nor check for pte table retraction, etc
+> But let me ask a couple of questions to ensure I really understand you.
 > 
-> I don't think I need to go on.
-This and parisc both have dead code. I'll send separate patches to remove
-dead code.
+> On 07/29, Pavel Begunkov wrote:
+>>
+>> On 7/27/26 13:28, Oleg Nesterov wrote:
+>>> pipe_poll() unconditionally sets poll_usage on the first call, forcing
+>>> anon_pipe_write() to wake up readers on every write even if the pipe was
+>>> not empty. But this is only needed for edge-triggered consumers: epoll
+>>> with EPOLLET and io_uring without (unsupported) IORING_POLL_ADD_LEVEL.
+>>> poll() and select() users pay for it for no reason.
+>>
+>> Sounds good, especially with prep patches you mentioned.
+> 
+> By prep patches you mean the
+> 
+> 	With or without this patch we need to update the comments to document
+> 	that io_uring depends on ->pipe_usage too. And probably rename it to
+> 	(say) ->et_poll.
+> 
+> note in "v2 0/1" ?
+
+Yep
+
+> If yes, I'll send this change as "v3 1/2", rediff this patch on top of it,
+> and make it "v3 2/2".
+
+I should've been clearer, no preference whether it's split into
+2 patches or not.
+
+>> The only note your problems are caused by IORING_OP_POLL_ADD, which
+>> is not that important comparing to other polled io_uring requests,
+>> and they also set EPOLLET while should be fine with level. Not
+>> asking to change anything, io_uring should just stop setting EPOLLET
+>> for them. And IIUC poll callback implementations don't care about
+>> EPOLLET, at least before this patch.
+> 
+> Sorry, I am a bit confused, could you add more details?
+
+TLDR, io_uring has something to improve internally after this patch
+lands.
+
+> In particular, I don't understand the "IUC poll callback implementations
+> don't care about EPOLLET, at least before this patch" part.
+
+I was saying that from a quick look I don't see any struct
+file_operations::poll implementation checking EPOLLET. And if so,
+it makes changing io_uring easier, only need to consider this
+patch.
+
+> Although it seems you agree that this patch should not break (change the
+> current behaviour of) io_uring, 
+
+Yes
+
+and right now this is my only concern.
+> Can you ack/nack my understanding?
+
+You got it all right
 
 -- 
-Thanks,
-Usama
+Pavel Begunkov
 
