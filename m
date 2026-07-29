@@ -1,156 +1,146 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE011FB1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 00:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14582853FD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 01:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785286784; cv=none; b=CGSWfwGsjcivBKHPGQfdAkGqxDRxRGrHNw+F2HiwARX2vNrsnZWwsYJqyYkAL2f4J+qZ6PuuEqd1Uyxdm6PZ8T2TpbQs50OR9+BByTNQdB7fxpDKnAkrD8HzGxRSUFBQONqNEo60bJwK/z3Q9i/hU3Kxn4JyfsGCagua0MPo4J4=
+	t=1785288058; cv=none; b=M3L1hNQItOOKDZ1MnpO7b7PgZwEVjZeXS2h9EoWx5YZ0z/MWzY311oN/TZD56c0kGkbWPkwkQCA9diUBZ9CPEgJus276q360sT5FhCB0B8hOxH4adXYCIYF2DFzPAe3sTbVW7bGY3TiinZRiVUAxNUvW4E6HDkogNilG1fSLFPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785286784; c=relaxed/simple;
-	bh=0KWF7l74NSCZbAciJn0VhYbORBxGH+vyhWCqMZH8cRs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cbQrdPdWpcYuzfvpEa6Xyd6EOcHbbjTDojW2143yoh9wfmVP+ZgdOtFvQ6Xtqmca6H2jG6PWzTQkIZbojT2OWdWP/tpcEQFEtmJla4iULQa/Mboy3ZP27laictO3I5NOa/ivBQQnHsbIL0t5VIbHXGuDjyiXzFqr9Cw1q5HPSXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv6iX0Ys; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785288058; c=relaxed/simple;
+	bh=M/56l2HmHJs8ntjWEy8IAA2c0RZXAc/WeGFBe/GHxFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DybwDOyRG/Pm0WtR2kMv3QBtIlQO3o1w2kL4/FyywcO+ga0wC39aAAJjnuaty9qzuIUSabsM97u3/IrZcY+sKKGylEae4wADL24sbO9JJabaxZ6t2zpU/fVnQ+BbNYPT5zqTT1cxPOl/R0ZJ9vJZXdKKSqTPNwKDxvnlIb2eTto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AlvSuqKA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv6iX0Ys"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso305941f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 17:59:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785286781; x=1785891581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d6+QL24j4d2zpvhuMtnoDkWU1oAuvMuECjOV2EZkZcU=;
-        b=Tv6iX0YsEE1+h94f4YZ933PmwHuxS+TYiuXMF6q/yfQ5AB/xMF/hGoNoO5q299rT5N
-         cwWH4Y7dV4g0xtsgYM8TqtmvkufaWTLE9F21FqbtQMUp0gLvqnXP7rhkQwRmzS1X2qQr
-         O2HVdy2+gFbRXNI5Uy1/L0/XHxNqMmPflvg6VAuJJ5SDsEmtufa6TrYmZNmEX7s2C1Dq
-         vank32z9q2ehxUjrAYSPDWwjGfCGwpHXqXxQjKyKZL7edLu0c0BBZ+d503jSxfhOi1Ew
-         rY6p3y6pjjKcsZg0ICLqyt6adVQ3QnCfVORQyEl6YzvIZuqi2wMY2cnOkQl5AYO6eNKB
-         DUrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785286781; x=1785891581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=d6+QL24j4d2zpvhuMtnoDkWU1oAuvMuECjOV2EZkZcU=;
-        b=m5Ip2Ut4C8LVTxyudSP1DzAGz+K7rPPVaRWZzh7NOJRgE7SGsplpckvNlUdaFc7X/r
-         tkpvCNRECde4/rjsKGq/tWduYcjCDDacHcjOcApmy2PDHPos5kulIGABkAD114SaZrY2
-         67+t85JAEvGMImQtWcOa3QfwS5fv/tV+2TU4i9qFotir0voaoUOW0hpRGSr9oXsGDQ+t
-         KRLdmanhKHbk474hpsMobdO//oYieCv/8yN874G5ix3TyCg4kUNH7bi9v1rBFiDWc3s/
-         kd/42TgDxQP/XN+xbAYq9Zls0ELJ+nCzDYpkrWTuChvHZUfoutWoBYQf8TL9CHRgpHRr
-         hRQg==
-X-Forwarded-Encrypted: i=1; AHgh+RpAnGd0ZnDSWn6zsoALQZoALEbJFy520FNuu4AB6yuqSzTYLoaZlO1NMLgNVLMsoPKlyFJuUTpEWMkqeuUO@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxhl8ZLq1Hh+wE4xMXYuPpRrWkjGkYHIHFB2JDelvO4C1JStpx
-	JBtf8FvcB3eAZItawqufBn7RsetSnKrR+QnCO49IEk9m7pUj+sPZEzUc
-X-Gm-Gg: AR+sD12VuueNGUTCZ9V3qI3qcCrkiHmAkI9A0pjb6mVVTJKSU2iVmbFoxNZli5kXKE/
-	mbTjAkdwECrviFw6FOz5+XE3csAMtQjZB2icuRzr5y7hfAAPvVb8aQzKWAIYrKWcscJYFsMzNK/
-	q5c5lycVRf4dNesZWylMABWle8J51HXAGdtC8BMG9N1PJzsx9D6/dxiZDbjv50vUg8Lnzj6WOoA
-	DawVZPh6CHgGckgVcV+H3eUKZZsWOAnwctNVLpojJCBuH80ZUUZxhnc+MVYibDJkC0dKc/XTjG/
-	lyxGnOJL9CKwjvjcUobK/ugmKRoxTJhrXuVV254FXsZcbNvy6dgm82RqlUgql2jl7oHs1b4TJoY
-	QM2cNFOyJ/wJe/DWQh9TOXJWJLfthSmf8TF6pYnfixf5I1/9kMMoiZIS9vjmrwBcrAs6/zgeciQ
-	fSrWbVZt6FpFKRCgGrmXIfKZBgmNOXLvT4HGjNineAWBQhWHk8yrdbFxVgfZDmbsgOqahRcOGNQ
-	OjqRZaImLvnX+LNthUA8PdTxRUh+V535Hdrxpf3FqIKGPEhM941dm6xh0N5P1q/FTc8DLKCsgqR
-	oZKOuazwyNrMcm4A+DZW1tQfdgAOxV7hkyWbZxz44qfB4is3UbZoAUvrCKqmhRL9ZWgn6Lojazf
-	d/k5LSQ==
-X-Received: by 2002:a05:6000:1861:b0:47f:80d1:be0a with SMTP id ffacd0b85a97d-47fb1e924ccmr5560631f8f.14.1785286780935;
-        Tue, 28 Jul 2026 17:59:40 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-b323-2b01-0d98-9fe8-a4cd-78ab.310.pool.telefonica.de. [2a02:3100:b323:2b01:d98:9fe8:a4cd:78ab])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6abc703sm3598526f8f.9.2026.07.28.17.59.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 28 Jul 2026 17:59:40 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] dcache: keep shrink_dcache_for_umount() making progress on busy roots
-Date: Wed, 29 Jul 2026 02:59:33 +0200
-Message-Id: <20260729005933.15858-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AlvSuqKA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2544A1F000E9;
+	Wed, 29 Jul 2026 01:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785288056;
+	bh=5IZ8WGUqH3pg5P7gSorB5hwy5YgA3JBJbP2h4pX7x4Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AlvSuqKAdJr/6+OEBbjLYCMPXzBpQLD9rrCN0D0ZirWgJrNQ4IINZzaVdunq7B5uw
+	 Ar+oWQi0+v37HHNpcd4J9mbxbFidCuQ41ZBVgXgmj0Luh/IzOeBmzgA/SQQ1zKcyyd
+	 KdqQl6BcrgUdT6oF4Tvx+ai0nYxaCWITK3Dte8bXguwLuCnky1r8NuNbes3iv2E6fY
+	 amlRMy36/Lwniy6s3aspN2I7s522LhRAQaJ3tC0877VQOnuhlCSXfNICjrMHwiI+rj
+	 cj2exCtshzMsBEMtJ1ZuKL+rVKEMrh0Xj/sqyUt78If0kgCYXt/HZnkwqrFJXoDBmN
+	 2s2IiUwPqg66g==
+Date: Wed, 29 Jul 2026 09:20:44 +0800
+From: Gao Xiang <xiang@kernel.org>
+To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+	josef@toxicpanda.com, lesha@meta.com, linux-fsdevel@vger.kernel.org,
+	sargun@meta.com
+Subject: Re: [PATCH v3 2/2] fanotify: introduce restartable permission events
+Message-ID: <amlVbCzhf5V-pKA4@XiangdeMacBook-Pro.local>
+Mail-Followup-To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>,
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+	josef@toxicpanda.com, lesha@meta.com, linux-fsdevel@vger.kernel.org,
+	sargun@meta.com
+References: <20260416194844.3874004-1-ibrahimjirdeh@meta.com>
+ <20260416194844.3874004-3-ibrahimjirdeh@meta.com>
+ <bcodsu6plppnwotjuisi7kvwkftpennowemslxur33qhtmd4qp@wc536gzxu53m>
+ <CAAwtZY6Bas3jLQZ_GDhbjj4pekjhT6kxAQ+5_35mzwk5_HUKhg@mail.gmail.com>
+ <g2fx5drvoen4tkmnxe2mc44gihhtcwqhhvc7nbe4dbv6ay6idh@xc2zlk3s7q2g>
+ <CAOQ4uxg7Mfk5Y1qV9YD1eifO-bJ3+miCm4-GLO=sBs9q-1mGNQ@mail.gmail.com>
+ <CAAwtZY7T-x1ChoZ6vQQVFyON1wm-E-GR8Sy6qQyy6vEc51dejg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAwtZY7T-x1ChoZ6vQQVFyON1wm-E-GR8Sy6qQyy6vEc51dejg@mail.gmail.com>
 
-Commit e9895609cb7f ("wind ->s_roots via ->d_sib instead of ->d_hash")
-moved secondary roots from ->d_hash to ->d_sib.  Secondary roots are
-now d_unhashed(), so __d_drop() returns without removing them from
-->s_roots.  Consequently, d_drop() in do_one_tree() no longer
-guarantees progress through the list.
+Hi Ibrahim, all,
 
-If a secondary root has an unexpected extra reference, do_one_tree()
-reports it, but its final dput() cannot evict it.  The root remains
-->s_roots.first and the loop selects it forever, holding ->s_umount for
-write and repeatedly reporting the same dentry.
+On Wed, Apr 22, 2026 at 09:54:37AM -0700, Ibrahim Jirdeh wrote:
+> On Wed, Apr 22, 2026 at 4:18 AM Amir Goldstein <amir73il@gmail.com> wrote:
+> > On Wed, Apr 22, 2026 at 12:36 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Wed 22-04-26 03:22:32, Ibrahim Jirdeh wrote:
+> > > > On Mon, Apr 20, 2026 at 7:37 AM Jan Kara <jack@suse.cz> wrote:
+> > > > > > +const struct file_operations fanotify_control_fops = {
+> > > > > > +     .show_fdinfo    = fanotify_show_fdinfo,
+> > > > > > +     .release        = fanotify_release,
+> > > > > > +     .unlocked_ioctl = fanotify_control_ioctl,
+> > > > > > +     .llseek         = noop_llseek,
+> > > > > > +};
+> > > > > > +
+> > > > > > +const struct file_operations fanotify_queue_fops = {
+> > > > > > +     .poll           = fanotify_poll,
+> > > > > > +     .read           = fanotify_read,
+> > > > > > +     .write          = fanotify_write,
+> > > > > > +     .release        = fanotify_queue_release,
+> > > > > > +     .unlocked_ioctl = fanotify_ioctl,
+> > > > > > +     .compat_ioctl   = compat_ptr_ioctl,
+> > > > > > +     .llseek         = noop_llseek,
+> > > > > > +};
+> > > > >
+> > > > > The new scheme with queue fd & control fd opens up an interesting new set
+> > > > > of races which needs a deeper thought I think. As it is currently
+> > > > > implemented for example if there's a task waiting for event on queue fd, it
+> > > > > will never wake up if control fd is closed. Similar problem is there for
+> > > > > fanotify_poll(). So we need to carefully define how operations on queue fd
+> > > > > synchronize with operations on control fd and closing of it in particular.
+> > > > > Besides dealing with the hung waits (which can be dealt with by just waking
+> > > > > the notification_waitq from fanotify_release()) we also need to deal with
+> > > > > fanotify_read() moving events from notification list to access list. I'm a
+> > > > > bit unhappy with how ad hoc and fragile this looks but so far don't have an
+> > > > > idea for a cleaner solution.
+> > > > >
+> > > >
+> > > > I wanted to ask a few more questions here about the race conditions you are
+> > > > outlining. Is it accurate that the main risk of races is primarily
+> > > > related to early control fd shutdown with this new two fd case, or are
+> > > > there other races to worry about?
+> > >
+> > > No, this is my main concern.
+> > >
+> > > > I added a few protections in this patch so far and wanted to check if
+> > > > there are outsanding risks:
+> > > > 1) Have queue fd also maintain a group reference as well
+> > >
+> > > Yes, this is good and takes care that the group is not freed. But it still
+> > > can be fully cleaned up even if you hold a reference.
+> > >
+> > > > 2) Check for control fd close (group->shutdown) in fanotify_read. I will also
+> > > > incorporate the wake up in fanotify_release you have suggested here.
+> > >
+> > > Yes, I've noticed that but that check is racy...
+> > >
+> > > > Regarding fanotify_read moving events from notification list to access list, do
+> > > > we need to allow pending events in fanotify_restart_pending_events
+> > > > after all to prevent potential hung waits stemming from race with shutdown?
+> > >
+> > > Thinking about this some more... Won't it be easier if the queue fd held a
+> > > struct file reference of the control fd? That way the notification group
+> > > couldn't be shut down until queue fd is also closed. That will deal with
+> > > all the possible races, we don't even have to hold a notification group
+> > > reference. I don't think this behavior would be surprising to userspace and
+> > > I don't see any other possible downsides either. Amir, any opinion?
+> > >
+> >
+> > hmm, that sounds pretty neat.
+> >
+> > queue_file->private_data = control_file;
+> > control_file->private_data = group;
+> >
+> > Makes sense to me.
+> >
+> > Please remove the group->shutdown check in read and any other
+> > safe race guards that were added.
+> 
+> Thanks, this should be much more straightforward. I will send over an updated
+> version containing this change to hold file reference and other fixes soon.
 
-Before e9895609cb7f, ___d_drop() special-cased IS_ROOT dentries and
-removed them from ->s_roots regardless of their refcount.  Commit
-9c8c10e262e0 ("more graceful recovery in umount_collect()") deliberately
-made busy dentries nonfatal: report them and finish the unmount rather
-than BUG() while holding ->s_umount.
+Just a friendly ping: I wonder if this series is still working in progress?
+Currently fanotify lacks of failover implementation, and our EROFS fanotify
+lazy pulling needs this too.
 
-Detaching busy secondary roots from ->s_roots restores the previous
-behavior.  A permanently leaked reference remains leaked after unmount;
-if the extra reference is only delayed, its final dput() may run after
-teardown has advanced and hit poisoned or freed filesystem state.  The
-current code avoids that late cleanup only by looping indefinitely under
-->s_umount for a real leak.
-
-Restore that behavior by removing each live secondary root from
-->s_roots after taking the temporary reference.  In the normal case,
-dentry_unlist() finds ->d_sib already unhashed when eviction occurs.
-
-Fixes: e9895609cb7f ("wind ->s_roots via ->d_sib instead of ->d_hash")
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-
-Notes:
-    The reproducer mounts ramfs, allocates a fresh directory inode on its
-    superblock, calls d_obtain_root(), and deliberately retains the returned
-    dentry reference before unmounting.  The fresh inode ensures that no
-    existing alias is returned.
-
-                            d_unhashed()   reports   umount returns
-      v7.1                             0         1              yes
-      7.2-rc4+ unpatched               1     13013               no
-      7.2-rc4+ patched                 1         1              yes
-
-    All 13013 reports in the unpatched run identified the same dentry,
-    confirming that the loop kept selecting ->s_roots.first.  With the patch,
-    diagnostics match v7.1: one busy-dentry warning, one busy-inode warning,
-    and no list-debug corruption.
-
-    This injects a pre-existing refcount bug; no in-tree filesystem was found
-    to create one by itself.
-
-    Detaching the root guarantees progress for a permanent leak.  If the extra
-    reference is merely delayed, however, its eventual dput() can run after
-    teardown has advanced.  Leaving the root attached avoids that late cleanup
-    but retries indefinitely for a permanent leak.
-
- fs/dcache.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 3e9af9de7074..2aff15ee07fb 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1832,6 +1832,9 @@ void shrink_dcache_for_umount(struct super_block *sb)
- 				wait_for_completion(&wait.completion);
- 		} else {
- 			dget_dlock(dentry);
-+			// A busy root survives do_one_tree(); unlink it so the
-+			// ->s_roots loop keeps making progress.
-+			unlink_secondary_root(dentry);
- 			spin_unlock(&dentry->d_lock);
- 			do_one_tree(dentry);
- 		}
--- 
-2.53.0
+Thanks,
+Gao Xiang
