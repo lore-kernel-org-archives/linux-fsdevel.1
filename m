@@ -1,151 +1,267 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BDB3955DB
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 17:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840A23C1D70
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 18:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785347178; cv=none; b=fQ8tTOXfiMIat6cy/1pgJd8YGJuMmPmM1f35F50G5aGT+ZBkYzprGatBBjTb0sxOc//klanmptI0Psa43EnFEkzVpI4KyL3qxwEGr2lsWBHxLUTXO8pbM0Qz+qW0iD9iXwMyGC9DJr7bWUaGCM9O2mTBX/l1dqhov8VSQaDQTDc=
+	t=1785348697; cv=none; b=Fo2qvMrntn/K59Be+FzjctV45jGQ6QEX8OBT/WWxhIqCgdwW95i8kU8sOmv8t3Wa88qAEpJ1S51338zg/ephRk2IWUsBcN7tnP1Fre0NmKGeH7Ji7mZRndut6hhG8iOHYjBDmblcLvCNXsywXYQxtImLrm1i6xOv13AMiPEUhuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785347178; c=relaxed/simple;
-	bh=UidFeDXv81Ur5iK25hdw53vt+RFWGx9NnnGs3apTKJM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k8arOslobTRcncdWhXhwSSyQOSXOU3W4dNjMpJ5gAB8p+Zti12qtpkJ8VCTeHSt9dWGfAFHQboySLB2WxT8tNkFdAPl5AzdGFTyAssaf+XJCxOSWlypYuvU15dxrquH/qw2miScd0rMnqkZTaZKE0XS84A5uHyN6ZIKQjLnlnlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhtNhxku; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785348697; c=relaxed/simple;
+	bh=/yI3vFaZB68stktGXcccKC05BkwsFx749+vS7sHar9w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UyvVGlhBZoMFDuo5pq7WsPbMuociG1uGzS7a9UPQmMa8xXLGyl47WOQu2YJ1IGauwkYEIqBMDqyBQqG9yymig8lvgsPrXMu1bLiSRXE7v9JzMwJJugLaWv+XSfZX7FIX7u1RtsFxVQsxbXqsvQA7E/sD0+w0EAreFD4Vu04UHhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WjJw/JC9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhtNhxku"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954d383e64so7934005e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 10:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785347168; x=1785951968; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WKE9xNdjsRTW2zyuw6/ikQhgmzmnupdLH1iSl4caYw4=;
-        b=LhtNhxkutVb/rQ1a9tAjPqKS+PDo91gQzXUzhrAppUhes7wCBEtJlmBszRWptzX92P
-         wX9M7VrN5dJQBY9YL+kcNbAKxHdLKpFnosAfFsgl71SDaYzQYZfc398fOvi1JKDaqoHI
-         Mtay1Qdc/JnUL59ypsHrWWoZb85CA3sIiyipMb2U7BFRXgz+zPg1YJx/YTGbShyP7S6H
-         F4QnP9aOsxZ91Y88DL1EIBcYtcWXvXS2O/rFN2M4KOtit3fPOLDgPEiCGFks1udshJqY
-         XMtXDO9ISMyh7B6RHX4Hw+OYY+VXibFRwRhYEtyrZMJBpjC29yLUNVys6GuWV+pYjIDE
-         FRdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785347168; x=1785951968;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WKE9xNdjsRTW2zyuw6/ikQhgmzmnupdLH1iSl4caYw4=;
-        b=PA5C7210gOtevg4bo73vgUsumeQpkXqtwVzUec03ACug7+j3SPOJKCwi9/BmrIlgRC
-         Xlu8nZAFzZJFwxUUXhcy9CzaP2xk71zl5FMXfhFNacIjwh05XAg+Aq0HYqrEheIsgc4S
-         bU1TAzXKs0EgME1k5f8YTFktf0LmNQcEUUCuMxmZLfILGhtdz3FLF0TofvEiPVGjQe6o
-         zDVFTwAqdkAgmgEnGVpYrDvpCCu2qPgTHspHAZ3oIBReEthCZcHBRztmHecDVGVuFoFX
-         pIjssSPe92ONaEHGQF2Pc7qKmP4Ozhg9G2t/Rd1TVwVgXGy3jZqoOKTTitxNYt4bWHrn
-         rilw==
-X-Forwarded-Encrypted: i=1; AHgh+RrlF5zV2dTV2Pp8EpQ/b7g/jIwv+//4n1rW2GqxUSj6mHN4/bwGucBsKww3qyctaAL/4Nk9iSEMx/UN4WvF@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2WO3Mz4kfS2LwPOwHSYdXX5BAhjWcPjhO8qUzodDH1cQJHZLT
-	DpOpwAe3UUV0HdfpYEEEwSk7mvIZMgbzPdU6G9TeSJ7a2fU/Y6LfVYBE
-X-Gm-Gg: AR+sD11NGU7G1ytG5WhZyGRZNQNC6QEsyWWsuWnSU+y9MqA7UO4puw6RU/Y+h6qQ/wo
-	N0qTX0KrFADfuhA01by0vS2iHK8PR/rsJ/BhUHEtM4Qp4DFxrJe3gRwru2OWDgq4ocoX97+b90G
-	lnGVT/qX3MNd9ciwYSSpPZMwqamfBoJdWx0WTgolsmyO+hUHnOTyS+nTq0Qn2vTbMUO3PB9jALT
-	9E6gPSTRZTpzjpR0+UTiLVzMBf1aIPcCtEI9a86hkUtXq8Ya94frN58Sjtcdtu4m6Uzhie5Ui9C
-	C2O+AzKGicdzjGdsN5zP8iBk6egrIYzeLHY/wuWkU/YKedysxMThg28OiDz5ZCrqX+DA1W0r8qN
-	jKr+EUyFbjyAv9yTY1IVcoNoBFXUBLc82zLLuEGNBSsaGJKYUCq6unHm0CH/YQhZ8wGi24MutGC
-	+ezepZBWUhqdILZ4ea6aSGh2yoFW7PnkRWuiLX+QjfZcCPG76Rea4nGVlZEB/KUGH8pOrBfDc3n
-	o3F+hRDhVg7mQ95mhjBWlsdoNXUgwAjPYRpUjcd4jpZHkN7/oMZiHz46DHVVzXcBEGVm+WRfqhQ
-	+RLAHjC8WLiK0fabeJErVvi6W/TEHN6GLGFVl8c=
-X-Received: by 2002:a05:600c:4fd2:b0:493:e79e:da6b with SMTP id 5b1f17b1804b1-496c6590660mr98300165e9.21.1785347168019;
-        Wed, 29 Jul 2026 10:46:08 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45b1c2asm171605965e9.5.2026.07.29.10.46.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 10:46:07 -0700 (PDT)
-Message-ID: <5afa3726-6c15-41c8-af19-766eb76b4b46@gmail.com>
-Date: Wed, 29 Jul 2026 18:45:58 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WjJw/JC9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785348691;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cM+cB0fhrrgjh22i56aPmAETyzcO6T23MwoLY3ZQgp0=;
+	b=WjJw/JC9TkP72hOgCyxgGhTwrx8bapdwsz49AwTekmspRvCt9ozn9byR5qNIb1r9HvXfzv
+	i1ecp0nYwCiNn3XCfamehPVdM+35rZs4XcWbgI2eRRsNiMmTYH9+tMkLFDBg/WZzp7xNO6
+	d359JMMInLqM6jVUJxLg4iYnGRyelLU=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-620-Ex3xmxqZNEmW1NYcoOLPLQ-1; Wed,
+ 29 Jul 2026 14:11:25 -0400
+X-MC-Unique: Ex3xmxqZNEmW1NYcoOLPLQ-1
+X-Mimecast-MFC-AGG-ID: Ex3xmxqZNEmW1NYcoOLPLQ_1785348684
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A3DC61956094;
+	Wed, 29 Jul 2026 18:11:23 +0000 (UTC)
+Received: from x2.localnet (unknown [10.22.89.105])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C3EDA1800480;
+	Wed, 29 Jul 2026 18:11:20 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Ricardo Robaina <rrobaina@redhat.com>, audit@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Paul Moore <paul@paul-moore.com>
+Cc: eparis@redhat.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ jack@suse.cz, rbriggs@redhat.com, Ricardo Robaina <rrobaina@redhat.com>
+Subject:
+ Re: [PATCH v2] audit: add FSCONFIG auxiliary record to log filesystem
+ configuration
+Date: Wed, 29 Jul 2026 14:11:19 -0400
+Message-ID: <-GF9cdtWTQSigd6gY6zWOw@redhat.com>
+Organization: Red Hat
+In-Reply-To: <4fad20e4737ff546ce0a822d9522adac@paul-moore.com>
+References:
+ <20260727173710.964626-1-rrobaina@redhat.com>
+ <4fad20e4737ff546ce0a822d9522adac@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered
- buffers
-To: Anuj gupta <anuj1072538@gmail.com>
-Cc: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe
- <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785274111.git.asml.silence@gmail.com>
- <CGME20260728213020epcas5p1721e72ba5544abf0b61482da005120d9@epcas5p1.samsung.com>
- <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
- <583fdfb2-5368-467f-a388-6d388859c995@samsung.com>
- <0df2f832-e8a8-4fdd-a5b6-e08657c2891f@gmail.com>
- <CACzX3Atj+hJmF+Au1Yw5KMk--EHy_J=7Yof1aQNkUV0hCrdVEA@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CACzX3Atj+hJmF+Au1Yw5KMk--EHy_J=7Yof1aQNkUV0hCrdVEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 7/29/26 17:52, Anuj gupta wrote:
-> On Wed, Jul 29, 2026 at 7:37 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>>> +static int io_import_dmabuf(struct io_kiocb *req,
->>>> +                       int ddir, struct iov_iter *iter,
->>>> +                       struct io_mapped_ubuf *imu,
->>>> +                       size_t len, size_t offset,
->>>> +                       unsigned issue_flags)
->>>> +{
->>>> +    struct io_regbuf_dma *db = imu->priv;
->>>> +    struct dma_buf_io_map *map;
->>>> +
->>>> +    if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
->>>> +            return -EOPNOTSUPP;
->>>> +    if (!len)
->>>> +            return -EFAULT;
->>>> +    if (req->file != db->target_file)
->>>> +            return -EBADF;
->>>> +
->>>> +    if (req->flags & REQ_F_DROP_DMABUF) {
->>>> +            map = req->dmabuf_map;
->>>> +            goto init_iter;
->>>> +    }
->>>
->>> O_DIRECT is checked only during registration; we should recheck
->>> (file->f_flags & O_DIRECT) per request.
->>
->> Nobody should be able to clear O_DIRECT, unless I missed something?
->> And fwiw, io_uring wouldn't be the right place to do it.
->>
-> 
-> fcntl(fd, F_SETFL, flags & ~O_DIRECT) on an already registered, already
-> open fd succeeds. The consequence is that subsequent I/Os switch to
+On Tuesday, July 28, 2026 4:35:20=E2=80=AFPM Eastern Daylight Time Paul Moo=
+re wrote:
+> On Jul 27, 2026 Ricardo Robaina <rrobaina@redhat.com> wrote:
+> > Modern mount tools (util-linux >=3D 2.39.1) use the new mount API
+> > (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+> > syscall. The generic SYSCALL audit record logs the fsconfig syscall but
+> > does not capture the configuration parameters, creating an audit gap for
+> > critical mount information such as the device being mounted.
+> >=20
+> > Add an FSCONFIG auxiliary record that logs the command type, parameter
+> > name (key), parameter value, and aux parameter passed to fsconfig(2).
+> >=20
+> >  ----
+> >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_SET_STRING ...
+> >  type=3DFSCONFIG : fs_cmd=3D1 fs_key=3Dsource fs_val=3D"tmpfs" fs_aux=
+=3D0
+> >  ----
+> >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_CMD_CREATE ...
+> >  type=3DFSCONFIG : fs_cmd=3D6 fs_key=3D(null) fs_val=3D(null) fs_aux=3D0
+> >  ----
+> >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_SET_BINARY ...
+> >  type=3DFSCONFIG : fs_cmd=3D2 fs_key=3Dhidepid fs_val=3D"<binary>" fs_a=
+ux=3D4
+> >=20
+> > Link: https://github.com/linux-audit/audit-kernel/issues/153
+> > Acked-by: Christian Brauner <brauner@kernel.org>
+> > Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+> > ---
+> > Changes in v2:
+> > - Fixed null-check for fs_key field.
+> > - Clarified trimmed SYSCALL output in commit message examples.
+> >=20
+> >  fs/fsopen.c                |  7 +++++++
+> >  include/linux/audit.h      | 13 +++++++++++++
+> >  include/uapi/linux/audit.h |  1 +
+> >  kernel/auditsc.c           | 27 +++++++++++++++++++++++++++
+> >  4 files changed, 48 insertions(+)
+> >=20
+> > diff --git a/fs/fsopen.c b/fs/fsopen.c
+> > index ae19e5136598..9b3c02f59df4 100644
+> > --- a/fs/fsopen.c
+> > +++ b/fs/fsopen.c
+> > @@ -15,6 +15,7 @@
+> >=20
+> >  #include <linux/namei.h>
+> >  #include <linux/file.h>
+> >  #include <uapi/linux/mount.h>
+> >=20
+> > +#include <linux/audit.h>
+> >=20
+> >  #include "internal.h"
+> >  #include "mount.h"
+> >=20
+> > @@ -357,6 +358,7 @@ SYSCALL_DEFINE5(fsconfig,
+> >=20
+> >  	struct fs_context *fc;
+> >  	int ret;
+> >  	int lookup_flags =3D 0;
+> >=20
+> > +	const char *value_str =3D NULL;
+> >=20
+> >  	struct fs_parameter param =3D {
+> >  =09
+> >  		.type	=3D fs_value_is_undefined,
+> >=20
+> > @@ -423,6 +425,7 @@ SYSCALL_DEFINE5(fsconfig,
+> >=20
+> >  			goto out_key;
+> >  	=09
+> >  		}
+> >  		param.size =3D strlen(param.string);
+> >=20
+> > +		value_str =3D param.string;
+> >=20
+> >  		break;
+> >  =09
+> >  	case FSCONFIG_SET_BINARY:
+> >  		param.type =3D fs_value_is_blob;
+> >=20
+> > @@ -432,6 +435,7 @@ SYSCALL_DEFINE5(fsconfig,
+> >=20
+> >  			ret =3D PTR_ERR(param.blob);
+> >  			goto out_key;
+> >  	=09
+> >  		}
+> >=20
+> > +		value_str =3D "<binary>";
+>=20
+> Is there a reason why we're not logging the binary data?  We might want
+> to impose a size limit to truncate the logged data (although we have
+> provisions to log rather large binary chunks), but I don't see a reason
+> why we couldn't log the binary data as a hex string.
 
-Very exciting.
+I did a search for any user of this. There are no known consumers. Last=20
+=46ebruary, fsparam_blob() / fs_param_is_blob parser support was removed. T=
+hat=20
+means we don't really have a use case. If, for example, someone decided to=
+=20
+use this API to insert a private key used for decryption or something, we=20
+probably don't want that in logs. So, without an actual use case, it's hard=
+=20
+to say if logging this would be a liability or something needed. But yes, i=
+t=20
+could be done with the hex string encoding if required.
 
-> buffered I/O and cause silent data loss. Something on this path needs
-> to reject this combination.
+=2DSteve
 
-Yeah, I'll fix it, thanks
 
--- 
-Pavel Begunkov
+> >  		break;
+> >  =09
+> >  	case FSCONFIG_SET_PATH_EMPTY:
+> >  		lookup_flags =3D LOOKUP_EMPTY;
+> >=20
+> > @@ -445,6 +449,7 @@ SYSCALL_DEFINE5(fsconfig,
+> >=20
+> >  		}
+> >  		param.dirfd =3D aux;
+> >  		param.size =3D strlen(param.name->name);
+> >=20
+> > +		value_str =3D param.name->name;
+> >=20
+> >  		break;
+> >  =09
+> >  	case FSCONFIG_SET_FD:
+> >  		param.type =3D fs_value_is_file;
+> >=20
+> > @@ -458,6 +463,8 @@ SYSCALL_DEFINE5(fsconfig,
+> >=20
+> >  		break;
+> >  =09
+> >  	}
+> >=20
+> > +	audit_log_fsconfig(cmd, param.key, value_str, aux);
+> > +
+> >=20
+> >  	ret =3D mutex_lock_interruptible(&fc->uapi_mutex);
+> >  	if (ret =3D=3D 0) {
+> >  =09
+> >  		ret =3D vfs_fsconfig_locked(fc, cmd, &param);
+>=20
+> ...
+>=20
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index 6610e667c728..fefc5c5dd4aa 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -2882,6 +2882,33 @@ void __audit_log_nfcfg(const char *name, u8 af,
+> > unsigned int nentries,>=20
+> >  }
+> >  EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
+> >=20
+> > +void __audit_log_fsconfig(unsigned int cmd, const char *key,
+> > +			  const char *value, int aux)
+> > +{
+> > +	struct audit_buffer *ab;
+> > +
+> > +	ab =3D audit_log_start(audit_context(), GFP_KERNEL, AUDIT_FSCONFIG);
+> > +	if (!ab)
+> > +		return;
+> > +
+> > +	audit_log_format(ab, "fs_cmd=3D%u", cmd);
+> > +	audit_log_format(ab, " fs_key=3D");
+>=20
+> Calling into audit_log_format() is expensive due to the string
+> processing, we should combine this into a single audit_log_format()
+> call:
+>=20
+>  audit_log_format(ab, "fs_cmd=3D%u fs_key=3D", cmd);
+>=20
+> > +	if (key)
+> > +		audit_log_untrustedstring(ab, key);
+> > +	else
+> > +		audit_log_format(ab, "(null)");
+> > +
+> > +	audit_log_format(ab, " fs_val=3D");
+> > +	if (value)
+> > +		audit_log_untrustedstring(ab, value);
+> > +	else
+> > +		audit_log_format(ab, "(null)");
+> > +
+> > +	audit_log_format(ab, " fs_aux=3D%d", aux);
+> > +
+> > +	audit_log_end(ab);
+> > +}
+> > +
+> >=20
+> >  static void audit_log_task(struct audit_buffer *ab)
+> >  {
+> > =20
+> >  	kuid_t auid, uid;
+>=20
+> --
+> paul-moore.com
+
+
+
 
