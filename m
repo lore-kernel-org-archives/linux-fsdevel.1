@@ -1,129 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9459235F60F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 20:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785356389; cv=none; b=BOJ07C1AczG3scSCbFtSPYfS4SotluR2steApVGQkjf0DwPnQkbTI+h8EhJHta4AQ443ulngzkHN7Pd+IBHCemsFuCBk4FZNzLObZPiwX6Pon4oNY38qhNkq8dmY7Vb/FEdrhnfdv8brqwiFvBq8fxXOggs/yQAdFk93oR/+X2M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785356389; c=relaxed/simple;
-	bh=sVqLJtmuDwopkiRM5mDQ6E5spakL+Cf5BIkXgw3JJrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kEALlb9Nd0KydMOY02qdwa5pteSeXYPAn/f+kJHDx8ya5QiLNL8uVFCvO1xf/j+BgIW/I1NjfUkyOj9Z56L7FkGUO/R+8t02pelFK4oKdT5Vb+5r/Rm4MgrKbCOiTYULNSKz9ril74mh0XdHGkA7foI/6d+ryD1drlc/MHD98P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0b/oTVX; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AC63C871E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 20:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785357209; cv=pass; b=SWmLMhISw8CW2jXV3/aphDls5AYAiIha3IU936uGMaCQOs/4tOLm8ppn2VIap6Em3pFiaafPjrDhKYC/ajr3WjflNFbRXC4PAlBPDvygQXVFsdaVpa2B/tr97+WVVvqqLTLpAq6Htwhx5CQvbbNd2b2FtvkE/eFqVeiIgNVp8oo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785357209; c=relaxed/simple;
+	bh=rl00CFnjfTQdhYmoLt+8jdSHsilIM9IioAykyBOfUKs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aigd1qugZQO6UzFHoUoCO1hmejyGy6KbPwNIm3gqRYXYPXUATpEMl3jkyo/7ZZXt9Av+dt3+VLE9lhN8GNNd7JiJOw6J79ZfZ1q+eHr8IfGTmFsAJgVcmCW4gUNAgh1xPk5LzHhfh547gIw4s3VvKSATypeT0pFrcwxd7P31EBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=fMQSdpgB; arc=pass smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0b/oTVX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1E11F000E9;
-	Wed, 29 Jul 2026 20:19:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785356387;
-	bh=WMt7YwCC0dDfpuE1qENmuDfw/kaJXYkfFl7nmsoBBlA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z0b/oTVXfDeUmhppYK57JD4ImyHuFukTrqSMz+YA1SL4o5k6I8bfakyQ5hCj6twKK
-	 cHqw7pWVvlHTBlwr2zy5V1eUmOtdRA8NgHJ+EHwJIl5s40TBmjYLrIEdu85jAvNPaN
-	 QbI2fLdMSKGWMBB2WB8+zBXD251jWwQE9Il1tusrZFfzsp0tzYK64km1GSfhMrI3C1
-	 zxH6cj+WGkzHAa55qaH4yI7LK6XtUH3JeyOTTs7kxqHk2sp8GMkHcevgNdB+sXD/Wp
-	 SLto1yoiemZ13VJmPVfX61O20TfTxqhyza5eyUjItJxPZy81rPrawxoTsDRkf7AoKN
-	 QOBJbypcJwzQw==
-Date: Thu, 30 Jul 2026 04:19:29 +0800
-From: Gao Xiang <xiang@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Gao Xiang <xiang@kernel.org>, Giuseppe Scrivano <gscrivan@redhat.com>,
-	linux-erofs@lists.ozlabs.org, cyphar@cyphar.com,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v5] erofs: accept source file descriptor via fsconfig
-Message-ID: <ampgUYqGnEVhqhXt@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Jan Kara <jack@suse.cz>, Gao Xiang <xiang@kernel.org>,
-	Giuseppe Scrivano <gscrivan@redhat.com>,
-	linux-erofs@lists.ozlabs.org, cyphar@cyphar.com,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-References: <20260728160619.853924-1-gscrivan@redhat.com>
- <amlaIt8jjy_mSK-j@XiangdeMacBook-Pro.local>
- <7kgp355d25csimg5txuxhp33zmc5onxpyxdtkarmun62rblp7j@etbql27573dl>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="fMQSdpgB"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84861fc51f5so1057230b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 13:33:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785357207; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lKj6d5fUf/nEqDPhHVVpjbhmfG0QzS5eCSJ2ek9oA42w2DvxuWxkuMqCInGkhgWvUd
+         KqDIXjrO+T5bSgK2gaR/LNXBaJxNJ5WlyvoULpwHC4XGvBxYqWnI1sRsJ+u9XPen4/Ct
+         A7Emy9i1F//7sUVvWSadOcvisTVtipy0Y9T6KUdFEopXMmaCsqSvhYSxumjsTD7gkoJF
+         D6+ejTGb6nI78HeoHxwIZgn3LjoPZnuukdcQw6ATiw1nd7VHPuT2VGF8tVBLkHbzdPWH
+         AUPnyl47HmOY8h3uawEl+YemwVMAU1UU0T+B/6sfnnS7JqjN6IGXIaVJzZKCv5RjdHmD
+         r4gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zMzMKASiaVaPlMq9bXgSDhTmU/j2ygeKpecM5A6PZIc=;
+        fh=LkTz2yshbyv3mW50eQKrIVEF7GDvCW0+qyeDjgKdSxk=;
+        b=LNmcqDd8mVdLQM63qhxE/ivczf+wxITia0IAQEI1QD6scf5ajFiC3sUYFTeDJ7YFHw
+         yUAmpjYTWcE3g1zqo6S+mzLoKTjFOGK6kj8QEi7HaX+F66MH5nBaqvYjoZCLdfc+Kjvw
+         xErtqBDMA/M8j/H0A6vF68Eupbnvp8CKV7tO0vbYOrG56eWLyJknUEXUIhIsIzXtQwbb
+         AVYaP9sPWHLKkl6IKQzHR95EZkEDBspDBmKTQJmR5Uut2AzYwZIvMCb0Vm/oihr0GfZU
+         hUWjn52ejQtSCzNIpOHIasdnhfSVV/4w3w89fqaSRbeJRSSQ1JQQL1+DgdZDFND0mURZ
+         aSCQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1785357207; x=1785962007; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zMzMKASiaVaPlMq9bXgSDhTmU/j2ygeKpecM5A6PZIc=;
+        b=fMQSdpgBPsKgFB908EtBrWpBsp+xWzcB7dUCFAsehLNVh9zmzitSlvKGCcNtcv0a6u
+         Ewaz8T9FZY3UZv9TYfdczohm/Naw0iHz91olO3sLXKu/JwIj2+1NUbSjyL5QZQmNBZU0
+         4Xp5IsqVGrf/p6Z70H842w4giCTPUDOX0ovT/sC1gPcRASfgX1EK9nJEf288osdjsTVg
+         Q86njvQDZ8O+CkSLCvH4EJ9GI21y/pIdBYt9JmOIIL7UBfQpTA++1jWd+Q1B/MXMnnL+
+         pkF2ofcrgcdcz0EZh5UtqWfWpyMtgfi1ZlpIdQHYym2bP3b3GCEoyaR1esO/Hl8VnEzl
+         M1Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785357207; x=1785962007;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zMzMKASiaVaPlMq9bXgSDhTmU/j2ygeKpecM5A6PZIc=;
+        b=mvcsna58hRStZi+1YeaBlAOkrD507ef3Dt8aqSag1GmmODNMIZhtPn/2hw4uc65Rzs
+         X9ytDyKHMQxzDo2xLDQPNQSPvZWr6SczuK2jE/GWl1VCBvTfxPu12eKUc+btV2ST5EgR
+         H6gTr8/sE2YCOxf4lc4rf83PVk9Qzho96zWIus1Tf4P0SEU1COzaPsh1yW39+Lr5H+n5
+         2BFmVeXUatmYQESuw6r+aa7aSFFKhPyOKT3yNFsKtixip2KEAJF/21djQnJhO2tISxnI
+         bHeXLbDTVn9MhmX9clK9fkbrlN2c5gwhu71FKkfAwvJ51yupytxiL383wIWgrDPdNXp2
+         IsgA==
+X-Forwarded-Encrypted: i=1; AHgh+RrPmdyH6ll0Yk44+9KzEfkJ1dN8URLnMOMXq8cW3BWhS8XIm2zFhHrZinv9d75GEVOrWHeJgLaekVUoUnM5@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeQvDgW9cOkUVux+PgcghQF3kx6EgPx0LY99Pl5KRNhUuqg27q
+	+ZhfX7xQ6XnHZWBHMmfajvOQtFn5Wp1cjKJwvi/VytPjS9+i7R7CwGxaHqjuko+2tJKApY/gNPp
+	WrfHq68iislgZTLDEneSpJxKPFwTSp/Y7OZG5Aj85
+X-Gm-Gg: AR+sD12O8VQaC0oE2TnR8qBmAZ5xUYYR17UlBx6RX7YLJWO5IfZVzdQvgsgV6h/k5Lr
+	r29+ofUL4SH+zzXs4AT2meCkXL718ou3xMZepbNm9l5E/BXk8sjND+9T6wT2j6WuLExnHboCDea
+	Bu4PBP3NMTl1pu5FjU/0T2evqKbWFtpm+E51kSl02fe4A3h6PTxhWZ+f95Sw2IvKCOZPgkz0kVj
+	b7x2ZHisU95WhRiEa7U69RSsdHTqjLK6hllvOCHHWKNyTDuucI4TSXWLuqZGz1cINIrJ3UqLbTy
+	vArYpI2bnZTriV8Z3GdGVEqOplqBxlMFnglrRzWriR5k
+X-Received: by 2002:a05:6a00:1407:b0:842:6a3b:60d8 with SMTP id
+ d2e1a72fcca58-84eba0d2741mr290741b3a.30.1785357207079; Wed, 29 Jul 2026
+ 13:33:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7kgp355d25csimg5txuxhp33zmc5onxpyxdtkarmun62rblp7j@etbql27573dl>
+References: <20260727173710.964626-1-rrobaina@redhat.com> <4fad20e4737ff546ce0a822d9522adac@paul-moore.com>
+ <-GF9cdtWTQSigd6gY6zWOw@redhat.com>
+In-Reply-To: <-GF9cdtWTQSigd6gY6zWOw@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 29 Jul 2026 16:33:15 -0400
+X-Gm-Features: AUfX_mzIikCBs8eykvIkNwAKaaJ_gfDNHj6hpFCIxVi_KmhNMPnn4-xMb0XDtzo
+Message-ID: <CAHC9VhQYFi2nioWpqOrfDkooQd=yu=0PNArjFvmBkwYfoatamw@mail.gmail.com>
+Subject: Re: [PATCH v2] audit: add FSCONFIG auxiliary record to log filesystem configuration
+To: Steve Grubb <sgrubb@redhat.com>
+Cc: Ricardo Robaina <rrobaina@redhat.com>, audit@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	eparis@redhat.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	rbriggs@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jan,
-
-On Wed, Jul 29, 2026 at 11:57:25AM +0200, Jan Kara wrote:
-> On Wed 29-07-26 09:40:50, Gao Xiang wrote:
-> > On Tue, Jul 28, 2026 at 06:05:32PM +0200, Giuseppe Scrivano wrote:
-> > > Allow userspace to pass an already-opened file descriptor as the mount
-> > > source instead of a path string.  This is useful for tools that already
-> > > hold an fd to the image, such as composefs reusing an existing erofs
-> > > backing file.
-> > > 
-> > > Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+On Wed, Jul 29, 2026 at 2:11=E2=80=AFPM Steve Grubb <sgrubb@redhat.com> wro=
+te:
+> On Tuesday, July 28, 2026 4:35:20=E2=80=AFPM Eastern Daylight Time Paul M=
+oore wrote:
+> > On Jul 27, 2026 Ricardo Robaina <rrobaina@redhat.com> wrote:
+> > > Modern mount tools (util-linux >=3D 2.39.1) use the new mount API
+> > > (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2=
+)
+> > > syscall. The generic SYSCALL audit record logs the fsconfig syscall b=
+ut
+> > > does not capture the configuration parameters, creating an audit gap =
+for
+> > > critical mount information such as the device being mounted.
+> > >
+> > > Add an FSCONFIG auxiliary record that logs the command type, paramete=
+r
+> > > name (key), parameter value, and aux parameter passed to fsconfig(2).
+> > >
+> > >  ----
+> > >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_SET_STRING ...
+> > >  type=3DFSCONFIG : fs_cmd=3D1 fs_key=3Dsource fs_val=3D"tmpfs" fs_aux=
+=3D0
+> > >  ----
+> > >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_CMD_CREATE ...
+> > >  type=3DFSCONFIG : fs_cmd=3D6 fs_key=3D(null) fs_val=3D(null) fs_aux=
+=3D0
+> > >  ----
+> > >  type=3DSYSCALL : syscall=3Dfsconfig ... a1=3DFSCONFIG_SET_BINARY ...
+> > >  type=3DFSCONFIG : fs_cmd=3D2 fs_key=3Dhidepid fs_val=3D"<binary>" fs=
+_aux=3D4
+> > >
+> > > Link: https://github.com/linux-audit/audit-kernel/issues/153
+> > > Acked-by: Christian Brauner <brauner@kernel.org>
+> > > Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
 > > > ---
-> > > v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gscrivan@redhat.com/
-> > > v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
-> > > v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
-> > > v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
-> > > 
-> > >  Documentation/filesystems/erofs.rst | 15 ++++++
-> > >  fs/erofs/super.c                    | 73 ++++++++++++++++++++++++-----
-> > >  2 files changed, 77 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-> > > index 4230884fb359..774e8b236d09 100644
-> > > --- a/Documentation/filesystems/erofs.rst
-> > > +++ b/Documentation/filesystems/erofs.rst
-> > > @@ -139,6 +139,21 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
-> > >                         page cache.
-> > >  ===================    =========================================================
-> > >  
-> > > +File-backed mounts
-> > > +==================
-> > > +
-> > > +When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed images
-> > > +can be mounted directly without a loopback block device.  The backing file
-> > > +can be given either as a path, or as an already-opened file descriptor.
-> > > +
-> > > +When a file descriptor is used, the kernel resolves its path and records it
-> > > +so that /proc/mounts and similar interfaces can still report the mount
-> > > +source.
-> > > +
-> > > +Only regular files are accepted as backing files; to mount an image that
-> > > +resides on a block device, use the traditional block device mount path
-> > > +instead.
-> > 
-> > Reviewed-by: Gao Xiang <xiang@kernel.org>
-> > 
-> > Hi Christian, Jan, could you ack this (`fc->source` filling when
-> > `source_fd` is used) if possible?
-> 
-> Whenever I see a use of d_path() (or file_path() in this case) I'm a bit
-> watchful because its result is inherently racy and unsafe. But in this case
-> the result is only used for alloc_vfsmnt() which uses it for mnt_devname so
-> in the worst case we'll get an unreliable path in /proc/mounts or similar.
-> I guess that's acceptable. So feel free to add:
+> > > Changes in v2:
+> > > - Fixed null-check for fs_key field.
+> > > - Clarified trimmed SYSCALL output in commit message examples.
+> > >
+> > >  fs/fsopen.c                |  7 +++++++
+> > >  include/linux/audit.h      | 13 +++++++++++++
+> > >  include/uapi/linux/audit.h |  1 +
+> > >  kernel/auditsc.c           | 27 +++++++++++++++++++++++++++
+> > >  4 files changed, 48 insertions(+)
+> > >
+> > > diff --git a/fs/fsopen.c b/fs/fsopen.c
+> > > index ae19e5136598..9b3c02f59df4 100644
+> > > --- a/fs/fsopen.c
+> > > +++ b/fs/fsopen.c
+> > > @@ -15,6 +15,7 @@
+> > >
+> > >  #include <linux/namei.h>
+> > >  #include <linux/file.h>
+> > >  #include <uapi/linux/mount.h>
+> > >
+> > > +#include <linux/audit.h>
+> > >
+> > >  #include "internal.h"
+> > >  #include "mount.h"
+> > >
+> > > @@ -357,6 +358,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >
+> > >     struct fs_context *fc;
+> > >     int ret;
+> > >     int lookup_flags =3D 0;
+> > >
+> > > +   const char *value_str =3D NULL;
+> > >
+> > >     struct fs_parameter param =3D {
+> > >
+> > >             .type   =3D fs_value_is_undefined,
+> > >
+> > > @@ -423,6 +425,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >
+> > >                     goto out_key;
+> > >
+> > >             }
+> > >             param.size =3D strlen(param.string);
+> > >
+> > > +           value_str =3D param.string;
+> > >
+> > >             break;
+> > >
+> > >     case FSCONFIG_SET_BINARY:
+> > >             param.type =3D fs_value_is_blob;
+> > >
+> > > @@ -432,6 +435,7 @@ SYSCALL_DEFINE5(fsconfig,
+> > >
+> > >                     ret =3D PTR_ERR(param.blob);
+> > >                     goto out_key;
+> > >
+> > >             }
+> > >
+> > > +           value_str =3D "<binary>";
+> >
+> > Is there a reason why we're not logging the binary data?  We might want
+> > to impose a size limit to truncate the logged data (although we have
+> > provisions to log rather large binary chunks), but I don't see a reason
+> > why we couldn't log the binary data as a hex string.
+>
+> I did a search for any user of this. There are no known consumers. Last
+> February, fsparam_blob() / fs_param_is_blob parser support was removed. T=
+hat
+> means we don't really have a use case. If, for example, someone decided t=
+o
+> use this API to insert a private key used for decryption or something, we
+> probably don't want that in logs. So, without an actual use case, it's ha=
+rd
+> to say if logging this would be a liability or something needed. But yes,=
+ it
+> could be done with the hex string encoding if required.
 
-Thanks for your reply and comment.  Yeah, the result of d_path() can become
-outdated later since it only uses seqcounts to ensure that within the process,
-but here I also think "mnt_devname" usage doesn't really matter (but I hope
-filling like this is fine and stable in the long term.)
+Let's just log the binary data.
 
-> 
-> Acked-by: Jan Kara <jack@suse.cz>
-
-Thanks!
-
-Thanks,
-Gao Xiang
-
-> 
-> 								Honza
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
-> 
+--=20
+paul-moore.com
