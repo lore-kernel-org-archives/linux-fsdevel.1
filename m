@@ -1,213 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91184469852;
-	Wed, 29 Jul 2026 16:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785343857; cv=none; b=tVdDTaDzvbeCZBEzTaEdntRXc4uTlhCej6HCkktGGhca/Jnmp6Eki5sbXJV2tg2jIDsWfS8rjw2IfIBEccis5LlyuYIZBHp2GFhOmSfZfKldfzR05qSjrHG11M7lErZemB5p6vPfI4/LOZyTjqDuhhXLHP5qvS88xDCUAqCz5kE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785343857; c=relaxed/simple;
-	bh=g78skL6phV+2TJQCh61fxPN8lnG10Yx7E7p8vqTiZXg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aON6EFytVEP4zVm4ZuYAk3DaHhEPWg3mMu2YXnEK1XknxYL5y1Q3O26Xc10uroN/g6DLteBkIcWSEdlftOBpjfkUJTyYedzDUSGq6kMrCj1OwsnNejVdYhIYK3Xu57D4uzST4mjrg4THHjzJ+Ut1t4lNjz6kjKmrI96xjDMlpek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqS5fVQ+; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600FE46983B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 16:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785344013; cv=pass; b=N3Dp8SQqJ9jjTgdcJyb9vSx3lWNxsWLgRjQ2ftLa9DdNeeAfisbvWkxoREado34uB8QFJCVyX7MZzCvI47mz48OrsLYDyEzi3gQ9YCzsCIHi11A/Lr5ST16q1ctJD3Iorvjb+1g4s55j/fWp5T3z/k+R09zD/mFjxSK0oePm8K0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785344013; c=relaxed/simple;
+	bh=/YYV8EJ3uAY8vVlHWLu4xPFSaaoxJidP5IaWXw3aYyM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qPK/ede2tgN+1tuX+5oa+I7nF5UvTSn7RtKGSLv80gx5Cw+klC8wmgOF8LRmGyKU6xkkgCAOBBvpCH0Fjy41rixy3k10JSnjfSLGv7alu2240KN7gJy+Y4BBY+KXj2Q1tgXukB+JeoE/3PnQCx1pR/4g0MtPF5qL9WsNSgO5sjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZnLVGTN; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqS5fVQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF52A1F00A3F;
-	Wed, 29 Jul 2026 16:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785343856;
-	bh=nWJHtHm2mvw0tY/QnZj2f5XpVK6B5wNlaZlDmcjO+WA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=IqS5fVQ+y3ZZ2N5Vr/Q4co7+X02q/Oib2UfIB/EfTWcBAH/PnfXti6gFutTOLbZa+
-	 V39pmznwtvO2xYdBRFV5A7x0BuhheopM8E31gYSASbfHLXXiTIvHsgK/wgQywgm4lA
-	 dajqHTdLQmryFkkNV9yn+ttMR2myR/a8+TxUu+Mf6T9W+KVl5MuvREpdWccjxMTXVx
-	 KlLwmsVgR7WeNJ8KqvCmSkLvdX4wbEVebpr+YLKDUZfv8DpUIWab3z0KA1wSJn2PbE
-	 Ix9+dEoeUsYoKPUv4sctc4qxCKo1FWT87CneuFLMR/JvZ2s4UUFXeVqKe0cNLJ5dfy
-	 ZCBSw9wHXTo1Q==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Wed, 29 Jul 2026 17:48:50 +0100
-Subject: [PATCH v3 15/15] tools/testing/selftests/mm: add
- MAP_PRIVATE-/dev/zero merge tests
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZnLVGTN"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso1789421a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 09:53:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785344010; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sOt8TXUpedy9pV/ji4gbE1X4StwEx66DbT3BvrYpNCNGbTT4t4F32rsg22dfdYlLZt
+         UBpogGV3oAbufRxfZxhl0ILIGBMn4/9Q5MulBFCip0crJULtmGuvV1+OsLz1or5XciRs
+         HhnmZyLQAgYAe4G7qmyFUUitOGe/4htuZn3sUdIfnWenYv1gBARDo6ypSeRAk6nBZ3W6
+         qK9JmaOfQljK11dgfLUFgCbZnIAg8RxwJ0pgK5qUP19jZXCa7md+h39rRKKJb9h5aRwt
+         YlNmmSVECVycUPKCeH/FC3MnhxGMZc8/8M4/H8j7HvLei1z5qJCv28TaGl4bxyQl2owH
+         Ktww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iRO7Ed4PohyaBZ/SmZ+npcgI12Qnh1MLhDgk3TF8jow=;
+        fh=Kao+pHCc5BxGtCB9GJKPj8RW+HBgn5Hh7ablIYTKfNg=;
+        b=MS9XFvWft7dhITg4F7dlhlS0P38ap4L9OCU+7FnLjBeF/rYJHNb5f3eJdDEEyiyhNJ
+         eo+3X/q6sTT5l+cUXygpxfMeb6O9rHeLoJlM9gGcTYWYwqLsd3rU8Ycmv/xOPDuXSe+M
+         yO7kZw8ChHRmtTFjdMPQv7Wq5AxTGOYGpf9S6OyBYAw0LUtKFAc3CBcMxTIPZJYmcvbt
+         YgH7ZAX5/thhAo86waAT7wsr6yB7TPBp0WONa2xfb++mEskz6A96DEJKuW+I/2XkMOed
+         vATxjmKjNFDhmn++NDtxQvY1lPQ9TtVx7YCAppriUJDoOmdQUlijyJwukeewD1ftuIxH
+         I4Sw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785344010; x=1785948810; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=iRO7Ed4PohyaBZ/SmZ+npcgI12Qnh1MLhDgk3TF8jow=;
+        b=bZnLVGTN71+6rOGUEDOF2KKfsBoVzgPc+6KjOtUaxwoQVgAQmK+bgtKyqFpFZyFtJq
+         nJFEqB8j7YlMnW8bUNEzJRfJdekDJcM3xXyXgWJfL8WDAjIA3f+W8yZPcnNdDQX6YYPs
+         zt8TRyVY0NOcpOxJVRgxQ3PtjdnE21ULXhmra/XwVXzB7WWEeWKmgccKwMgl8IfnmX9e
+         NcmoVChs0wbWpUsGydeoisKkkxMd3DGcCAK/J5JcBvgO1tu0OLStdS8VZccIfwTe6wFB
+         My0l1BLssPp/A1RJ4FF3WmwVQ3SdB6FnYUo9UJmt9ZOwzK9HEYfhV0xxZNVb2TFtv0WA
+         WvJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785344010; x=1785948810;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iRO7Ed4PohyaBZ/SmZ+npcgI12Qnh1MLhDgk3TF8jow=;
+        b=d3GKwpZHkh7zKT8vuCLGdRZp6L+vnyTM906gRDlJnno4fhRCcEtc9Fbn+x4MQTPXj1
+         WwFfQRgU8Rx57cGrgNffndfhy3JpjlGeTEuTmwgRAzeVwDisogHmBTWofxalZIQ/lZ6N
+         2loyvaKTjz+TSBxfDaYJzTyuYjfxduZrSv2evXK5fG5mK8safjhy9xG1tQjWccQKS+Np
+         8dDPBsEnJ0cF2gNB5joZdx4p9Vn3tgxkDx37WJJ0R4jpMzb/CypKvpvKccoYtAtgs1YE
+         2QPfygvKJVPE1wfIre0A2LxRxxJ9uNbGEzaWipt/WX1OdVIqyMR1zoZ3304Qx2uPNz15
+         TExg==
+X-Forwarded-Encrypted: i=1; AHgh+RqN8gjGvpg6vEKmKGrWozjt/ZFjVZU9c2Ohq+42KOT2yipi1qVMc8jWiucblKkAHb79rWvLSK+XLO32bOxa@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZYavHBKxRZeVwcVMghTS7CqyGNKLCEzPP8ZmSiqwDBWQZbgtX
+	lXxg3BgwJXsDZNpa1rGpGBM8gkbxhlovis44qpSzQJHrjNx1R0y/ps9jtSItKAi+cVOngl8bnE6
+	pgyh6PZtLPJSmxNzGxfqOFujA1bbuTQ==
+X-Gm-Gg: AR+sD11yZ6CbBwTCYcizWwiwzY41UO51/gMn0rkQDYxQ4w/HAsgu1Q/pwcLgTsCmz2O
+	JhWPj9KrVLsNhGLnSmN2FOYCRhP+FYDzqzZ72CCZcJDBPQurc8v94nGdUKe81QUUQYEQzinv53N
+	Xb/ENCwTFTcFtVEokeo1N/r+q+C6YEXckk8AvNr2TsnP70HnZfvPd4lzbU1p2M3DOTW3vTprQcB
+	BQKiwkbp0B/hM64ejIqa86/MOj2PQi3KCTyNnuwJxEGrT1ia0NdIfsRJcxRQlLn9+5cfsTVjAgD
+	+usofqx79k6W0umjBuXfmlMR8STr/bfV7g+uh40ctG/0dLGcu8dpuFW8JsLbuiWqrh1XnAfeNMs
+	eieA5YyDWzZvyiImP6A==
+X-Received: by 2002:a05:6402:5018:b0:698:ae69:3992 with SMTP id
+ 4fb4d7f45d1cf-6a0349ec697mr4404066a12.16.1785344009469; Wed, 29 Jul 2026
+ 09:53:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-b4-scalable-cow-virt-pgoff-v3-15-e8ecfefea812@kernel.org>
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
-In-Reply-To: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Miaohe Lin <linmiaohe@huawei.com>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, 
- Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
- Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4280; i=ljs@kernel.org;
- h=from:subject:message-id; bh=g78skL6phV+2TJQCh61fxPN8lnG10Yx7E7p8vqTiZXg=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKy9H6usDJrTMu/trbpndfMe9f3Rzqsy5BcnNBgFWS6S
- 63A9n1LRykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACbybTvD/5Bve7bN3jE3UXxv
- 5oobL8Imq3i11TnELahN2dqSVWsvo8TwP2zmPF67Tbn/hUteHN8ax5E00e2v5/lVLWvLdrrt3nS
- bgR0A
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+References: <cover.1785274111.git.asml.silence@gmail.com> <CGME20260728213020epcas5p1721e72ba5544abf0b61482da005120d9@epcas5p1.samsung.com>
+ <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
+ <583fdfb2-5368-467f-a388-6d388859c995@samsung.com> <0df2f832-e8a8-4fdd-a5b6-e08657c2891f@gmail.com>
+In-Reply-To: <0df2f832-e8a8-4fdd-a5b6-e08657c2891f@gmail.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Wed, 29 Jul 2026 22:22:50 +0530
+X-Gm-Features: AUfX_mw2n1ETd8ASN5Vcu4oMSqcqp6oKyV0zFdoD8l7zvxibNrqO80gPOx-5lV8
+Message-ID: <CACzX3Atj+hJmF+Au1Yw5KMk--EHy_J=7Yof1aQNkUV0hCrdVEA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered buffers
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: "Anuj Gupta/Anuj Gupta" <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, 
+	Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev, nvdimm@lists.linux.dev, 
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Assert that MAP_PRIVATE-mapped /dev/zero mappings behave like they are
-anonymous.
+On Wed, Jul 29, 2026 at 7:37=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
+> >> +static int io_import_dmabuf(struct io_kiocb *req,
+> >> +                       int ddir, struct iov_iter *iter,
+> >> +                       struct io_mapped_ubuf *imu,
+> >> +                       size_t len, size_t offset,
+> >> +                       unsigned issue_flags)
+> >> +{
+> >> +    struct io_regbuf_dma *db =3D imu->priv;
+> >> +    struct dma_buf_io_map *map;
+> >> +
+> >> +    if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
+> >> +            return -EOPNOTSUPP;
+> >> +    if (!len)
+> >> +            return -EFAULT;
+> >> +    if (req->file !=3D db->target_file)
+> >> +            return -EBADF;
+> >> +
+> >> +    if (req->flags & REQ_F_DROP_DMABUF) {
+> >> +            map =3D req->dmabuf_map;
+> >> +            goto init_iter;
+> >> +    }
+> >
+> > O_DIRECT is checked only during registration; we should recheck
+> > (file->f_flags & O_DIRECT) per request.
+>
+> Nobody should be able to clear O_DIRECT, unless I missed something?
+> And fwiw, io_uring wouldn't be the right place to do it.
+>
 
-We test both unfaulted and faulted/unfaulted merges - each with the regions
-having page offset of 0, which would not merge if the mappings were treated
-as if they were file-backed.
+fcntl(fd, F_SETFL, flags & ~O_DIRECT) on an already registered, already
+open fd succeeds. The consequence is that subsequent I/Os switch to
+buffered I/O and cause silent data loss. Something on this path needs
+to reject this combination.
 
-With the recent change that makes them behave as pure anonymous mappings,
-the merges should succeed as their page offsets are equal to their
-anonymous page offsets.
-
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- tools/testing/selftests/mm/merge.c | 104 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
-
-diff --git a/tools/testing/selftests/mm/merge.c b/tools/testing/selftests/mm/merge.c
-index cb7cdb6b7ada..19c9bf9eb9ce 100644
---- a/tools/testing/selftests/mm/merge.c
-+++ b/tools/testing/selftests/mm/merge.c
-@@ -1362,6 +1362,110 @@ TEST_F(merge, anon_and_page_offset_mismatch_memfd)
- 	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 5 * page_size);
- }
- 
-+TEST_F(merge, merge_map_private_dev_zero_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map two MAP_PRIVATE-/dev/zero VMAs next to one another with offset 0
-+	 * each.
-+	 *
-+	 * With these being made truly anonymous upon mapping, they will
-+	 * merge. If they were file-backed VMAs the page offsets would prevent
-+	 * merge:
-+	 *
-+	 * |-----||------|    |-------------|
-+	 * | ptr || ptr2 | -> |     ptr     |
-+	 * |-----||------|    |-------------|
-+	 */
-+	ptr = mmap(carveout, 5 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		   PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr2 == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	close(fd_zero);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 10 * page_size);
-+}
-+
-+TEST_F(merge, merge_map_private_dev_zero_faulted_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map a MAP_PRIVATE mapping of /dev/zero with page offset 0, then fault
-+	 * it in:
-+	 *
-+	 * |-------------------------------|
-+	 * |           faulted             |
-+	 * |-------------------------------|
-+	 */
-+	ptr = mmap(carveout, 15 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	if (ptr == MAP_FAILED) {
-+		close(fd_zero);
-+		ASSERT_TRUE(false);
-+	}
-+	memset(ptr, 'x', 15 * page_size);
-+
-+	/*
-+	 * Unmap the middle:
-+	 *
-+	 * |---------|           |---------|
-+	 * | faulted |           | faulted |
-+	 * |---------|           |---------|
-+	 */
-+	ASSERT_EQ(munmap(&ptr[5 * page_size], 5 * page_size), 0);
-+
-+	/*
-+	 * Map in a new unfaulted mapping in the middle with page offset 0 -
-+	 * this should merge and would not if it were treated as a file rather
-+	 * than pure anon:
-+	 *
-+	 * |---------|-----------|---------|
-+	 * | faulted | unfaulted | faulted |
-+	 * |---------|-----------|---------|
-+	 */
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE,
-+		    fd_zero, 0);
-+	close(fd_zero);
-+	ASSERT_NE(ptr2, MAP_FAILED);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 15 * page_size);
-+}
-+
- TEST_F(merge_with_fork, mremap_faulted_to_unfaulted_prev)
- {
- 	struct procmap_fd *procmap = &self->procmap;
-
--- 
-2.55.0
-
+> --
+> Pavel Begunkov
+>
+>
