@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FFA471CFF;
-	Wed, 29 Jul 2026 10:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE88477E21;
+	Wed, 29 Jul 2026 10:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322620; cv=none; b=bSBu+JTwgoxbu9zlf1xL6I/QuG8p07gkV9We5AqgJ2IsTzajpl3QRjyPUm78Vg/hiJrkPSK6URU6B4ZcM8iFiYkxxO/LA7klJpEFmexBnLqOUv7V/Bz2SXATQ+t4y0XFIGS7AR1GCyraGM8y6Vklp367xinlMah66G0mooJnrtE=
+	t=1785322625; cv=none; b=XtJM+9JP1ms0GvMRyL76Y3d0l+Wd4w4QTSY/KsxGTrYGREkeFiwxs9fXCS9yQUc5DrA5WZ4MBTNhuXW770D0A3B5QbscpvCwMY3x8wEze4TWhgWrdhjrGC/d6PUnXKrVV9vGtHqzQ7xO/D9Eptnyj+/sY67DVp8ak2hNHff7kDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322620; c=relaxed/simple;
-	bh=GN/kX4xuagAcb4PcPkVPlV61Lyu2idCVu02Xq7DM7i0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Mreg7mgK7ddTCovpauVl79zwIeABaZ1Q5lB9AjK5wbU5FVuntRYEaZ9Ohjwi66RObT3dWgH6gEqR9P5EdgwmxGYeKA5RZDHnPT4XJtGqcwJd3/8rkQ7aj2wyAdFmPNc9kvGSJ7ZO+QYVYSrIF2fGHb5AmAUcISFlTvQDeVg42V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhc1rG+P; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785322625; c=relaxed/simple;
+	bh=VLpW/dEvcKVkDmiT9lml/cSTo9kBycKoE43pnQSAfB4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KwlwhiLL8cgzeytxsOFy8boUMFznBOvbd8cCJNtlRepYvAdSLK+8GTyv9XW4HfvFya4S2ggX7YIdmS+lg8zp2D02T3rI14oY9r8Fvc9n23YoA42JWlGt4Gd0EKBl4ncvUyo1ChibyDM70Nf9lrzRgJERo2Qe3Q5Tz+O7phU0GdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LtFXfQqh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nhc1rG+P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF0B1F00A3A;
-	Wed, 29 Jul 2026 10:56:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LtFXfQqh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D801F00A3D;
+	Wed, 29 Jul 2026 10:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785322619;
-	bh=IBSQ/f7K5jV/NE43W9zs6NwVOoO9dxPAAzl4WyaHZwg=;
-	h=From:To:Cc:Subject:Date;
-	b=nhc1rG+Pwgg3MPGvsiQK4jW6VFNDQVhVEpANN6YQDZwOFZs4i/CEu2EWzVArveTTu
-	 sb5N4ur1bC2v868VENmjrAa/SAUHsuWtgJmOEhdKQLTeJp9gh/oMTgnGNy6Sp4fNGe
-	 ImVYpuHZ9TyC82GONQUPxGz6SmZGAiDU5AXK2MixMEj7vytrLiRmT7paWrbi+xwmAM
-	 4xiTW1tdMu5PsAIORWMDcotTpsx/nP7oEWgJ1I/xuvcbCHC6Mz8v4k62FTj0k+0PdM
-	 OJrE6j2Yp+L/1CxgeRBkyRWBRA6E7enlc/0N7/8Hk8FJspYPxjBHHtqRCkSItqeA1x
-	 H9uxSaysQ1vlQ==
+	s=k20260515; t=1785322623;
+	bh=CZkGzeTOvoWZrqaOctW06bUz6tq0Op+/YqR+st3a2lI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LtFXfQqhtNvIqYUzAz18zZAKNPgP90F7puBdqJxcyFRJaSDspdNswQRWx0jQR59fA
+	 wWYLmofhmVAoWhDYMRWN3NiAWNiThZxT62GdtGv9DKpjbog7gPdX1lQqsJKBlE/nzY
+	 4kNpSdHxRShnSl+1t21R/HnVyPzDyuMnRz9VkMFiu/ZHa3bnb71M8MnlY1lfq8Vfto
+	 zSTthPzM9SQP7TEBlbdnMsx7OLfVKCth6/lhqVE0BIc/OzDNQWv+OuM2E/4za/fRZY
+	 M3TD1CUzZugyb4ZX3ALm/yp4da9Mhz3X4NlIetw1GYSeheBgE+6Cn1/EL13/Xq4FWE
+	 EeIfgGzdPp4uw==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: hyc.lee@gmail.com
 Cc: ntfs@lists.linux.dev,
@@ -34,10 +35,12 @@ Cc: ntfs@lists.linux.dev,
 	cedric.blancher@gmail.com,
 	Lionelcons1972@gmail.com,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH 0/1] ntfs: introduce named data stream ioctls
-Date: Wed, 29 Jul 2026 19:52:58 +0900
-Message-Id: <20260729105259.11810-1-linkinjeon@kernel.org>
+Subject: [PATCH 1/1] ntfs: ntfs: add ioctl support for named data streams
+Date: Wed, 29 Jul 2026 19:52:59 +0900
+Message-Id: <20260729105259.11810-2-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260729105259.11810-1-linkinjeon@kernel.org>
+References: <20260729105259.11810-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,265 +49,713 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-NTFS supports multiple named $DATA attributes, commonly known as
-alternate data streams. This adds NTFS-specific ioctls to list,
-read, write, and remove named streams from an opened file.
+Sebastian and Cedric requested NTFS driver support for an interface that
+WINE can use to access named data streams.
 
-Example code (ntfs-stream-ioctl.c):
+NTFS supports multiple named $DATA attributes, commonly known as alternate
+data streams, but they are not directly accessible through the existing
+file operations. Add NTFS-specific ioctl commands to let userspace list,
+read, write, and remove named data streams on an opened file.
 
- Usage: ./ntfs-stream-ioctl <file> <command> [args...] [--utf16]
+The new UAPI provides separate commands for each operation:
 
- Commands:
-   list                          List all named streams
-   read <stream_name>            Read content of a stream
-   write <stream_name> <data>    Write data to a stream
-   remove <stream_name>          Delete a named stream
+  - NTFS_IOC_STREAM_READ
+  - NTFS_IOC_STREAM_WRITE
+  - NTFS_IOC_STREAM_REMOVE
+  - NTFS_IOC_LIST_STREAMS
 
- Options:
-   --utf16    Use raw UTF-16LE mode (lossless)
+The read and write commands use an offset and length based request format.
+Writes create the named stream when it does not already exist. The list
+command returns variable-length stream entries containing stream size,
+allocated size, and stream name.
 
+Stream names use the mounted filesystem NLS by default, or raw UTF-16LE
+when the UTF-16 flag is requested. Read and write transfers are limited to
+16 MiB per request. If the list buffer is too small, the list command
+returns -ENOSPC while reporting the required size and stream count.
 
-Example usage:
-
-  $ ./ntfs-stream-ioctl /mnt/file write Note "This is a secret note"
-      Successfully written to stream: Note
-     
-  $ ./ntfs-stream-ioctl /mnt/file read Note
-      This is a secret note
-
-  $ ./ntfs-stream-ioctl /mnt/file list
-      Total named streams: 2
-        Note   (size: 21 bytes)
-        stream0   (size: 12 bytes)
-
-
-ntfs-stream-ioctl.c:
-
-#include <errno.h>
-#include <fcntl.h>
-#include <linux/ntfs.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-static void die(const char *msg)
-{
-	perror(msg);
-	exit(EXIT_FAILURE);
-}
-
-static void usage(const char *prog)
-{
-	fprintf(stderr, "Usage: %s <file> <command> [args...] [--utf16]\n\n", prog);
-	fprintf(stderr, "Commands:\n");
-	fprintf(stderr, "  list                          List all named streams\n");
-	fprintf(stderr, "  read <stream_name>            Read content of a stream\n");
-	fprintf(stderr, "  write <stream_name> <data>    Write data to a stream\n");
-	fprintf(stderr, "  remove <stream_name>          Delete a named stream\n\n");
-	fprintf(stderr, "Options:\n");
-	fprintf(stderr, "  --utf16    Use raw UTF-16LE mode (lossless)\n\n");
-	exit(EXIT_FAILURE);
-}
-
-static void copy_name_utf16le(void *dest, const char *src, size_t len)
-{
-	uint8_t *d = dest;
-	for (size_t i = 0; i < len; i++) {
-		d[i*2]     = (uint8_t)src[i];   // Little-endian low byte
-		d[i*2 + 1] = 0;                 // high byte = 0 (ASCII)
-	}
-}
-
-static void stream_write(int fd, const char *name, const char *data, bool utf16)
-{
-	size_t name_len = strlen(name);
-	size_t data_len = strlen(data);
-	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
-	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len + data_len;
-
-	struct ntfs_stream *req = calloc(1, req_len);
-	if (!req) die("calloc");
-
-	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
-	req->name_len = name_buf_len;
-	req->io_len = data_len;
-
-	if (utf16)
-		copy_name_utf16le(req->buffer, name, name_len);
-	else
-		memcpy(req->buffer, name, name_len);
-
-	memcpy(req->buffer + name_buf_len, data, data_len);
-
-	if (ioctl(fd, NTFS_IOC_STREAM_WRITE, req) < 0)
-		die("NTFS_IOC_STREAM_WRITE");
-
-	printf("Successfully written to stream: %s\n", name);
-	free(req);
-}
-
-static void stream_read(int fd, const char *name, bool utf16)
-{
-	size_t name_len = strlen(name);
-	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
-	size_t buf_size = 8192;
-	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len + buf_size;
-
-	struct ntfs_stream *req = calloc(1, req_len);
-	if (!req) die("calloc");
-
-	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
-	req->name_len = name_buf_len;
-	req->io_len = buf_size;
-	req->stream_offset = 0;
-
-	if (utf16)
-		copy_name_utf16le(req->buffer, name, name_len);
-	else
-		memcpy(req->buffer, name, name_len);
-
-	if (ioctl(fd, NTFS_IOC_STREAM_READ, req) < 0)
-		die("NTFS_IOC_STREAM_READ");
-
-	printf("%.*s\n", (int)req->bytes_returned,
-			(char *)req->buffer + req->name_len);
-
-	free(req);
-}
-
-static void list_streams(int fd, bool utf16)
-{
-	struct ntfs_list_streams *list;
-	struct ntfs_stream_entry *entry;
-	size_t buf_len = 8192 * 4;
-	size_t off = 0;
-
-	list = calloc(1, sizeof(*list) + buf_len);
-	if (!list) die("calloc");
-
-	list->buffer_size = buf_len;
-	list->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
-
-	if (ioctl(fd, NTFS_IOC_LIST_STREAMS, list) < 0)
-		die("NTFS_IOC_LIST_STREAMS");
-
-	printf("Total named streams: %llu\n", (unsigned long long)list->stream_count);
-
-	while (off < list->bytes_returned) {
-		entry = (struct ntfs_stream_entry *)(list->buffer + off);
-
-		if (utf16) {
-			printf("  UTF16: ");
-			for (size_t i = 0; i + 1 < entry->name_len; i += 2) {
-				uint16_t c = entry->name[i] | (entry->name[i+1] << 8);
-				if (c >= 0x20 && c < 0x7F)
-					putchar(c);
-				else
-					printf("\\u%04x", c);
-			}
-			printf("  (len=%u bytes, size=%llu)\n",
-					entry->name_len, (unsigned long long)entry->size);
-		} else {
-			printf("  %.*s   (size: %llu bytes)\n",
-					(int)entry->name_len, entry->name,
-					(unsigned long long)entry->size);
-		}
-
-		if (entry->next_entry_off == 0)
-			break;
-
-		off += entry->next_entry_off;
-	}
-
-	free(list);
-}
-
-static void stream_remove(int fd, const char *name, bool utf16)
-{
-	size_t name_len = strlen(name);
-	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
-	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len;
-
-	struct ntfs_stream *req = calloc(1, req_len);
-	if (!req) die("calloc");
-
-	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
-	req->name_len = name_buf_len;
-	req->io_len = 0;
-
-	if (utf16)
-		copy_name_utf16le(req->buffer, name, name_len);
-	else
-		memcpy(req->buffer, name, name_len);
-
-	if (ioctl(fd, NTFS_IOC_STREAM_REMOVE, req) < 0)
-		die("NTFS_IOC_STREAM_REMOVE");
-
-	printf("Successfully removed stream: %s\n", name);
-	free(req);
-}
-
-int main(int argc, char **argv)
-{
-	int fd;
-	const char *filename;
-	bool utf16 = false;
-	int cmd_idx = 2;
-
-	if (argc < 3)
-		usage(argv[0]);
-
-	filename = argv[1];
-
-	for (int i = 3; i < argc; i++) {
-		if (strcmp(argv[i], "--utf16") == 0) {
-			utf16 = true;
-			argc = i;
-			break;
-		}
-	}
-
-	fd = open(filename, O_RDWR);
-	if (fd < 0)
-		die("open");
-
-	if (strcmp(argv[cmd_idx], "list") == 0) {
-		list_streams(fd, utf16);
-	}
-	else if (strcmp(argv[cmd_idx], "read") == 0) {
-		if (argc < cmd_idx + 2) usage(argv[0]);
-		stream_read(fd, argv[cmd_idx + 1], utf16);
-	}
-	else if (strcmp(argv[cmd_idx], "write") == 0) {
-		if (argc < cmd_idx + 3) usage(argv[0]);
-		stream_write(fd, argv[cmd_idx + 1], argv[cmd_idx + 2], utf16);
-	}
-	else if (strcmp(argv[cmd_idx], "remove") == 0) {
-		if (argc < cmd_idx + 2) usage(argv[0]);
-		stream_remove(fd, argv[cmd_idx + 1], utf16);
-	}
-	else {
-		fprintf(stderr, "Unknown command: %s\n", argv[cmd_idx]);
-		usage(argv[0]);
-	}
-
-	close(fd);
-	return EXIT_SUCCESS;
-}
-
-Namjae Jeon (1):
-  ntfs: add ioctl support for named data streams
-
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+---
  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
  fs/ntfs/file.c                                | 509 ++++++++++++++++++
  include/uapi/linux/ntfs.h                     | 115 ++++
  3 files changed, 625 insertions(+)
  create mode 100644 include/uapi/linux/ntfs.h
 
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 3f0ef1e27eb0..2b9869aeb811 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -399,6 +399,7 @@ Code  Seq#    Include File                                             Comments
+ 0xE5  00-3F  linux/fuse.h
+ 0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                     ChromeOS EC driver
+ 0xEE  00-09  uapi/linux/pfrut.h                                        Platform Firmware Runtime Update and Telemetry
++0xEF  00-0F  uapi/linux/ntfs.h                                         NTFS
+ 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                       sisfb (in development)
+                                                                        <mailto:thomas@winischhofer.net>
+ 0xF6  all                                                              LTTng Linux Trace Toolkit Next Generation
+diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
+index d4282822b3ce..961b94f545f2 100644
+--- a/fs/ntfs/file.c
++++ b/fs/ntfs/file.c
+@@ -15,6 +15,8 @@
+ #include <linux/posix_acl_xattr.h>
+ #include <linux/compat.h>
+ #include <linux/falloc.h>
++#include <linux/overflow.h>
++#include <uapi/linux/ntfs.h>
+ 
+ #include "lcnalloc.h"
+ #include "ntfs.h"
+@@ -23,6 +25,7 @@
+ #include "iomap.h"
+ #include "bitmap.h"
+ #include "volume.h"
++#include "mft.h"
+ 
+ #include <linux/filelock.h>
+ 
+@@ -839,6 +842,504 @@ static int ntfs_ioctl_fitrim(struct ntfs_volume *vol, unsigned long arg)
+ 	return 0;
+ }
+ 
++#define NTFS_STREAM_MAX_IO	(16 * 1024 * 1024) /* 16MB limit */
++
++/*
++ * ntfs_read_named_stream - Read data from a named $DATA stream.
++ *
++ * @ni:		NTFS inode
++ * @uname:	Stream name
++ * @uname_len:	Length of name in Unicode characters
++ * @offset:	Byte offset in the stream
++ * @len:	Number of bytes to read
++ * @data_buf:	Buffer to copy data to
++ *
++ * Return:	0 on success, negative error code otherwise.
++ *		If offset >= stream size, returns 0.
++ */
++static int ntfs_read_named_stream(struct ntfs_inode *ni, __le16 *uname,
++		u32 uname_len, u64 offset, u64 len, void *data_buf,
++		u64 *rbytes)
++{
++	struct ntfs_attr_search_ctx *ctx;
++	struct inode *attr_vi;
++	int err = 0;
++	u64 data_size;
++	s64 bytes;
++	char *rbuf = NULL;
++
++	if (!ni || !uname || uname_len == 0)
++		return -EINVAL;
++
++	if (len == 0 || len > NTFS_STREAM_MAX_IO)
++		return -EINVAL;
++
++	mutex_lock(&ni->mrec_lock);
++	ctx = ntfs_attr_get_search_ctx(ni, NULL);
++	if (!ctx) {
++		mutex_unlock(&ni->mrec_lock);
++		return -ENOMEM;
++	}
++
++	err = ntfs_attr_lookup(AT_DATA, uname, uname_len, CASE_SENSITIVE, 0,
++			NULL, 0, ctx);
++	if (err)
++		goto out_lock;
++
++	if (ctx->attr->non_resident)
++		data_size = le64_to_cpu(ctx->attr->data.non_resident.data_size);
++	else
++		data_size = le32_to_cpu(ctx->attr->data.resident.value_length);
++
++	if (offset >= data_size) {
++		*rbytes = 0;
++		/* EOF: nothing to read */
++		goto out_lock;
++	}
++
++	/* Adjust length to not read beyond EOF */
++	if (len > data_size - offset)
++		len = data_size - offset;
++
++	attr_vi = ntfs_attr_iget(VFS_I(ni), AT_DATA, uname, uname_len);
++	ntfs_attr_put_search_ctx(ctx);
++	mutex_unlock(&ni->mrec_lock);
++
++	if (IS_ERR(attr_vi)) {
++		err = PTR_ERR(attr_vi);
++		goto out_free;
++	}
++
++	rbuf = kvzalloc(len, GFP_NOFS);
++	if (!rbuf) {
++		err = -ENOMEM;
++		iput(attr_vi);
++		goto out_free;
++	}
++
++	bytes = ntfs_inode_attr_pread(attr_vi, offset, len, rbuf);
++	iput(attr_vi);
++	if (bytes < 0) {
++		err = bytes;
++		goto out_free;
++	}
++
++	*rbytes = bytes;
++	memcpy(data_buf, rbuf, bytes);
++
++out_free:
++	kvfree(rbuf);
++	return err;
++
++out_lock:
++	ntfs_attr_put_search_ctx(ctx);
++	mutex_unlock(&ni->mrec_lock);
++	return err;
++}
++
++/*
++ * ntfs_write_named_stream - Write data from a named $DATA stream.
++ *
++ * @ni:		NTFS inode
++ * @uname:	Stream name
++ * @uname_len:	Length of name in Unicode characters
++ * @offset:	Byte offset in the stream
++ * @len:	Number of bytes to write
++ * @data_stream: Data to write
++ *
++ * Return:	0 on success, negative error code otherwise.
++ */
++static int ntfs_write_named_stream(struct ntfs_inode *ni, __le16 *uname,
++		u32 uname_len, u64 offset, u64 len, void *data_stream,
++		u64 *wbytes)
++{
++	struct ntfs_attr_search_ctx *ctx;
++	struct inode *attr_vi;
++	int err;
++	s64 bytes;
++
++	if (!ni || !uname || uname_len == 0 || !data_stream)
++		return -EINVAL;
++
++	if (len == 0 || len > NTFS_STREAM_MAX_IO)
++		return -EINVAL;
++
++	mutex_lock(&ni->mrec_lock);
++	ctx = ntfs_attr_get_search_ctx(ni, NULL);
++	if (!ctx) {
++		err = -ENOMEM;
++		goto out_unlock;
++	}
++
++	err = ntfs_attr_lookup(AT_DATA, uname, uname_len, CASE_SENSITIVE, 0,
++			NULL, 0, ctx);
++	if (err) {
++		if (err != -ENOENT)
++			goto out_unlock;
++		err = ntfs_attr_add(ni, AT_DATA, uname, uname_len, NULL, 0);
++		if (err)
++			goto out_unlock;
++		mark_mft_record_dirty(ni);
++	}
++
++	attr_vi = ntfs_attr_iget(VFS_I(ni), AT_DATA, uname, uname_len);
++	ntfs_attr_put_search_ctx(ctx);
++	mutex_unlock(&ni->mrec_lock);
++
++	if (IS_ERR(attr_vi)) {
++		err = PTR_ERR(attr_vi);
++		goto out;
++	}
++
++	bytes = ntfs_inode_attr_pwrite(attr_vi, offset, len, data_stream,
++				       false);
++	if (bytes < 0)
++		err = bytes;
++	else
++		*wbytes = bytes;
++	iput(attr_vi);
++
++out:
++	return err;
++
++out_unlock:
++	if (ctx)
++		ntfs_attr_put_search_ctx(ctx);
++	mutex_unlock(&ni->mrec_lock);
++	return err;
++}
++
++/*
++ * ntfs_remove_named_stream - Remove a named $DATA stream.
++ *
++ * @ni:		NTFS inode
++ * @uname:	Stream name
++ * @uname_len:	Name length in Unicode characters
++ *
++ * Return:	0 on success, negative error
++ *              -ENOENT if stream not found
++ */
++static int ntfs_remove_named_stream(struct ntfs_inode *ni, __le16 *uname,
++		u32 uname_len)
++{
++	if (!ni || !uname || uname_len == 0)
++		return -EINVAL;
++
++	return ntfs_attr_remove(ni, AT_DATA, uname, uname_len);
++}
++
++enum ntfs_stream_op {
++	NTFS_STREAM_OP_READ,
++	NTFS_STREAM_OP_WRITE,
++	NTFS_STREAM_OP_REMOVE,
++};
++
++static long ntfs_ioctl_stream(struct file *filp, unsigned long arg,
++			      enum ntfs_stream_op op)
++{
++	struct inode *inode = file_inode(filp);
++	struct ntfs_inode *ni = NTFS_I(inode);
++	struct ntfs_stream __user *ureq =
++		(struct ntfs_stream __user *)arg;
++	struct ntfs_stream *req;
++	size_t header_size = sizeof(struct ntfs_stream);
++	size_t data_size, total_size;
++	char *kname, *kdata;
++	__le16 *uname = NULL, *sname;
++	int err = 0, sname_len;
++	bool utf16;
++	struct ntfs_stream hdr;
++
++	/* First copy fixed header */
++	if (copy_from_user(&hdr, ureq, header_size))
++		return -EFAULT;
++
++	if (hdr.io_len > NTFS_STREAM_MAX_IO ||
++	    (hdr.flags & ~NTFS_STREAM_FL_UTF16) || hdr.reserved)
++		return -EINVAL;
++
++	utf16 = hdr.flags & NTFS_STREAM_FL_UTF16;
++
++	if (hdr.name_len == 0)
++		return -EINVAL;
++	if (utf16) {
++		/* UTF-16LE byte count: must be even and within the limit. */
++		if ((hdr.name_len & 1) ||
++		    hdr.name_len > NTFS_MAX_NAME_LEN * sizeof(__le16))
++			return -EINVAL;
++	} else if (hdr.name_len > NTFS_MAX_NAME_LEN) {
++		return -EINVAL;
++	}
++
++	switch (op) {
++	case NTFS_STREAM_OP_READ:
++		if (!(filp->f_mode & FMODE_READ) || hdr.io_len == 0)
++			return -EINVAL;
++		data_size = hdr.io_len;
++		break;
++	case NTFS_STREAM_OP_WRITE:
++		if (!(filp->f_mode & FMODE_WRITE) || hdr.io_len == 0)
++			return -EINVAL;
++		data_size = hdr.io_len;
++		break;
++	case NTFS_STREAM_OP_REMOVE:
++		if (!(filp->f_mode & FMODE_WRITE) || hdr.io_len != 0)
++			return -EINVAL;
++		data_size = 0;
++		break;
++	default:
++		return -ENOTTY;
++	}
++
++	if (check_add_overflow(header_size, (size_t)hdr.name_len, &total_size) ||
++	    check_add_overflow(total_size, data_size, &total_size))
++		return -EOVERFLOW;
++
++	req = memdup_user(ureq, total_size);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	req->bytes_returned = 0;
++
++	kname = (char *)req->buffer;
++	kdata = (char *)req->buffer + req->name_len;
++
++	if (req->name_len != hdr.name_len || req->io_len != hdr.io_len ||
++	    req->flags != hdr.flags || req->reserved) {
++		err = -EINVAL;
++		goto out_free;
++	}
++
++	if (utf16) {
++		/* Name is already on-disk UTF-16LE; use it in place. */
++		sname = (__le16 *)kname;
++		sname_len = req->name_len / sizeof(__le16);
++	} else {
++		if (memchr(kname, '\0', req->name_len)) {
++			err = -EINVAL;
++			goto out_free;
++		}
++		sname_len = ntfs_nlstoucs(ni->vol, kname, req->name_len,
++				&uname, NTFS_MAX_NAME_LEN);
++		if (sname_len < 0) {
++			err = sname_len;
++			goto out_free;
++		}
++		sname = uname;
++	}
++
++	switch (op) {
++	case NTFS_STREAM_OP_READ:
++		err = ntfs_read_named_stream(ni, sname, sname_len,
++					     req->stream_offset, req->io_len,
++					     kdata,
++					     &req->bytes_returned);
++		if (!err) {
++			if (copy_to_user(ureq, req,
++					header_size + req->name_len + req->bytes_returned))
++				err = -EFAULT;
++		}
++		break;
++	case NTFS_STREAM_OP_WRITE:
++		err = mnt_want_write_file(filp);
++		if (err)
++			break;
++		err = ntfs_write_named_stream(ni, sname, sname_len,
++					      req->stream_offset, req->io_len,
++					      kdata,
++					      &req->bytes_returned);
++		mnt_drop_write_file(filp);
++		if (!err) {
++			if (copy_to_user(&ureq->bytes_returned,
++					 &req->bytes_returned,
++					 sizeof(req->bytes_returned)))
++				err = -EFAULT;
++		}
++		break;
++	case NTFS_STREAM_OP_REMOVE:
++		err = mnt_want_write_file(filp);
++		if (err)
++			break;
++		err = ntfs_remove_named_stream(ni, sname, sname_len);
++		mnt_drop_write_file(filp);
++		break;
++	default:
++		err = -ENOTTY;
++	}
++
++out_free:
++	if (uname)
++		kmem_cache_free(ntfs_name_cache, uname);
++	kfree(req);
++	return err;
++}
++
++static int ntfs_ioctl_list_streams(struct file *filp, unsigned long arg)
++{
++	struct inode *inode = file_inode(filp);
++	struct ntfs_inode *ni = NTFS_I(inode);
++	struct ntfs_list_streams hdr;
++	struct ntfs_stream_entry *entry, *last_entry = NULL;
++	size_t required = 0;
++	void *kbuf = NULL;
++	void __user *ubuf;
++	struct attr_record *a;
++	struct ntfs_attr_search_ctx *actx;
++	int ret = 0, err, count = 0;
++	size_t entry_size, offset = 0;
++	unsigned int name_len;
++	unsigned char *sn;
++	bool utf16;
++
++	if (copy_from_user(&hdr, (void __user *)arg, sizeof(hdr)))
++		return -EFAULT;
++
++	if ((hdr.flags & ~NTFS_STREAM_FL_UTF16) || hdr.reserved)
++		return -EINVAL;
++
++	utf16 = hdr.flags & NTFS_STREAM_FL_UTF16;
++
++	ubuf = (void __user *)arg + sizeof(hdr);
++
++	mutex_lock(&ni->mrec_lock);
++	actx = ntfs_attr_get_search_ctx(ni, NULL);
++	if (!actx) {
++		mutex_unlock(&ni->mrec_lock);
++		return -ENOMEM;
++	}
++
++	while ((err = ntfs_attrs_walk(actx)) == 0) {
++		a = actx->attr;
++		if (a->type != AT_DATA || !a->name_length)
++			continue;
++
++		if (utf16) {
++			name_len = a->name_length * sizeof(__le16);
++		} else {
++			sn = ntfs_attr_name_get(ni->vol,
++					(__le16 *)((u8 *)a + le16_to_cpu(a->name_offset)),
++					a->name_length);
++			if (!sn) {
++				ret = -EIO;
++				goto out;
++			}
++			name_len = strlen(sn);
++			ntfs_attr_name_free(&sn);
++		}
++
++		entry_size = sizeof(*entry) + name_len;
++		entry_size = ALIGN(entry_size, 8);
++
++		if (required > SIZE_MAX - entry_size) {
++			ret = -EOVERFLOW;
++			goto out;
++		}
++		required += entry_size;
++		count++;
++	}
++	if (err != -ENOENT) {
++		ret = err;
++		goto out;
++	}
++
++	hdr.stream_count = count;
++	hdr.bytes_returned = required;
++
++	if (!count)
++		goto out;
++
++	if (hdr.buffer_size < required) {
++		ret = -ENOSPC;
++		goto out;
++	}
++
++	kbuf = kvzalloc(required, GFP_NOFS);
++	if (!kbuf) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	ntfs_attr_reinit_search_ctx(actx);
++	while ((err = ntfs_attrs_walk(actx)) == 0) {
++		a = actx->attr;
++		if (a->type != AT_DATA || !a->name_length)
++			continue;
++		if (utf16) {
++			sn = NULL;
++			name_len = a->name_length * sizeof(__le16);
++		} else {
++			sn = ntfs_attr_name_get(ni->vol,
++					(__le16 *)((u8 *)a + le16_to_cpu(a->name_offset)),
++					a->name_length);
++			if (!sn) {
++				ret = -EIO;
++				goto out;
++			}
++			name_len = strlen(sn);
++		}
++
++		entry_size = sizeof(*entry) + name_len;
++		entry_size = ALIGN(entry_size, 8);
++		if (offset > required - entry_size) {
++			ret = -EOVERFLOW;
++			ntfs_attr_name_free(&sn);
++			goto out;
++		}
++
++		entry = (struct ntfs_stream_entry *)(kbuf + offset);
++
++		if (a->non_resident) {
++			entry->size = le64_to_cpu(a->data.non_resident.data_size);
++			entry->alloc_size =
++				le64_to_cpu(a->data.non_resident.allocated_size);
++
++		} else {
++			entry->size = le32_to_cpu(a->data.resident.value_length);
++			entry->alloc_size = le32_to_cpu(a->length) -
++				le16_to_cpu(a->data.resident.value_offset);
++		}
++
++		entry->name_len = name_len;
++		if (utf16)
++			memcpy(entry->name,
++			       (u8 *)a + le16_to_cpu(a->name_offset), name_len);
++		else
++			memcpy(entry->name, sn, name_len);
++		ntfs_attr_name_free(&sn);
++
++		entry->next_entry_off = entry_size;
++		last_entry = entry;
++		offset += entry_size;
++	}
++	if (err != -ENOENT) {
++		ret = err;
++	} else {
++		/* The chain terminates at the last entry. */
++		if (last_entry)
++			last_entry->next_entry_off = 0;
++		hdr.bytes_returned = offset;
++	}
++
++out:
++	mutex_unlock(&ni->mrec_lock);
++	ntfs_attr_put_search_ctx(actx);
++
++	if (ret && ret != -ENOSPC)
++		goto out_free;
++
++	if (!ret && kbuf && copy_to_user(ubuf, kbuf, hdr.bytes_returned)) {
++		ret = -EFAULT;
++		goto out_free;
++	}
++
++	if (copy_to_user((void __user *)arg, &hdr, sizeof(hdr)))
++		ret = -EFAULT;
++
++out_free:
++	kvfree(kbuf);
++	return ret;
++}
++
+ long ntfs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	switch (cmd) {
+@@ -850,6 +1351,14 @@ long ntfs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		return ntfs_ioctl_set_volume_label(filp, arg);
+ 	case FITRIM:
+ 		return ntfs_ioctl_fitrim(NTFS_SB(file_inode(filp)->i_sb), arg);
++	case NTFS_IOC_STREAM_READ:
++		return ntfs_ioctl_stream(filp, arg, NTFS_STREAM_OP_READ);
++	case NTFS_IOC_STREAM_WRITE:
++		return ntfs_ioctl_stream(filp, arg, NTFS_STREAM_OP_WRITE);
++	case NTFS_IOC_STREAM_REMOVE:
++		return ntfs_ioctl_stream(filp, arg, NTFS_STREAM_OP_REMOVE);
++	case NTFS_IOC_LIST_STREAMS:
++		return ntfs_ioctl_list_streams(filp, arg);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/include/uapi/linux/ntfs.h b/include/uapi/linux/ntfs.h
+new file mode 100644
+index 000000000000..a5783dc3b905
+--- /dev/null
++++ b/include/uapi/linux/ntfs.h
+@@ -0,0 +1,115 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Copyright (c) 2026 LG Electronics Co., Ltd.
++ */
++
++#ifndef _UAPI_LINUX_NTFS_H
++#define _UAPI_LINUX_NTFS_H
++#include <linux/types.h>
++#include <linux/ioctl.h>
++
++#define NTFS_IOC_MAGIC	0xEF
++
++/*
++ * Flags for ntfs_stream.flags and ntfs_list_streams.flags.
++ *
++ * The stream name is raw UTF-16LE, exactly as stored on disk, instead of
++ * being encoded with the mounted filesystem NLS. This allows lossless
++ * round-tripping of stream names whose characters are not representable
++ * in the mount NLS (e.g. for Wine, which works in UTF-16 natively).
++ * When set, the name length fields count bytes of UTF-16LE and must
++ * therefore be even.
++ */
++#define NTFS_STREAM_FL_UTF16	0x1
++
++/*
++ * ntfs named stream ioctl structure.
++ *
++ * @stream_offset:	Offset within the named stream.
++ * @io_len:		Number of bytes to read/write.
++ * @bytes_returned:	Actual bytes transferred (out).
++ * @name_len:		Stream name length in bytes, not including any
++ *			terminating NUL (which must not be present). When
++ *			NTFS_STREAM_FL_UTF16 is set this is a UTF-16LE byte
++ *			count and must be even.
++ * @flags:		Bit mask of NTFS_STREAM_FL_* flags. other bits must be
++ *			zero.
++ * @reserved:		Must be zero.
++ * @buffer:		Stream name followed by stream data.
++ *
++ * The stream name is the bare stream name, without the leading ':' or the
++ * trailing ":$DATA" decoration used by Windows. By default it is encoded with
++ * the mounted filesystem NLS. If NTFS_STREAM_FL_UTF16 is set in @flags it is
++ * raw UTF-16LE instead. For read and write, @io_len bytes of data follow the
++ * name. For remove, only the name is required and @io_len must be zero.
++ */
++struct ntfs_stream {
++	__aligned_u64 stream_offset;
++	__aligned_u64 io_len;
++	__aligned_u64 bytes_returned;
++	__u32 name_len;
++	__u32 flags;
++	__aligned_u64 reserved;
++	__u8 buffer[]; /* name + data */
++};
++
++/*
++ * Single stream entry returned by NTFS_IOC_LIST_STREAMS.
++ *
++ * @next_entry_off:	Byte offset from the start of this entry to the next
++ *			entry, or zero for the last entry. Always a multiple
++ *			of 8. Consumers must use this to advance instead of
++ *			computing the stride themselves, so the entry can grow
++ *			new fields without breaking the ABI.
++ * @size:		Stream data size in bytes.
++ * @alloc_size:		Bytes allocated for the stream (cluster aligned for
++ *			non-resident streams).
++ * @name_len:		Stream name length in bytes, not including a NUL
++ *			terminator (none is stored). Counts UTF-16LE bytes
++ *			when NTFS_STREAM_FL_UTF16 was requested.
++ * @reserved:		Must be zero.
++ * @name:		Bare stream name; NLS encoded, or raw UTF-16LE when
++ *			NTFS_STREAM_FL_UTF16 was requested (see struct
++ *			ntfs_stream).
++ */
++struct ntfs_stream_entry {
++	__aligned_u64 next_entry_off;
++	__aligned_u64 size;
++	__aligned_u64 alloc_size;
++	__u32 name_len;
++	__u32 reserved;
++	__u8 name[];
++};
++
++/*
++ * ntfs list streams ioctl structure.
++ *
++ * @buffer_size:	user buffer size(in).
++ * @bytes_returned:	actual bytes written or required(out).
++ * @stream_count:	number of streams(out).
++ * @flags:		Bit mask of NTFS_STREAM_FL_* flags controlling the
++ *			encoding of the returned names; other bits must be zero.
++ * @reserved:		Must be zero.
++ * @buffer:		ntfs_stream_entry array.
++ *
++ * The variable-length entries follow the header in @buffer, each aligned on
++ * an 8-byte boundary and chained via ntfs_stream_entry.next_entry_off. If
++ * @buffer_size is too small, no data is copied, @stream_count and
++ * @bytes_returned report the required values and the ioctl fails with
++ * -ENOSPC.
++ */
++struct ntfs_list_streams {
++	__aligned_u64 buffer_size;
++	__aligned_u64 bytes_returned;
++	__aligned_u64 stream_count;
++	__u32 flags;
++	__u32 reserved;
++	__u8 buffer[];
++};
++
++#define NTFS_IOC_STREAM_READ		_IOWR(NTFS_IOC_MAGIC, 1, struct ntfs_stream)
++#define NTFS_IOC_STREAM_WRITE		_IOWR(NTFS_IOC_MAGIC, 2, struct ntfs_stream)
++#define NTFS_IOC_STREAM_REMOVE		_IOWR(NTFS_IOC_MAGIC, 3, struct ntfs_stream)
++#define NTFS_IOC_LIST_STREAMS		_IOWR(NTFS_IOC_MAGIC, 4, struct ntfs_list_streams)
++
++#endif /* _UAPI_LINUX_NTFS_H */
 -- 
 2.25.1
 
