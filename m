@@ -1,169 +1,98 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8BF38DC45
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 15:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEFD3AFAFF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 15:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785337526; cv=none; b=df1F32MFC02GpIZW+nngXP9XS89mx8FSi66K1q2LsQoB6FeuweXDmEqZXee44SyeuUti6zoWShAuM+MHWUb6laETDo+jyb1HgpvnNhIIwWtrytgZpJs6BdC/xjtxA2DBqbp8Pg+rfGcRUrBi2NdUXG0wqg8T4sZzU+kjzTnmhow=
+	t=1785337802; cv=none; b=hsTB+xfjPS2JcQlY4OLhGpr0zwaxOvDvgNKXxf97rjMmeWridE50/SffuI/HaFjFbTKyQXioAPfmMBorql7VnliaLdUXkzdYQS0jeHaKe4O1PwQBoqVYWiOEHiLVn8bn5PTyFlK6J054asLPfdkg96qh+l2x40fDhB20+C2JEn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785337526; c=relaxed/simple;
-	bh=XANEl4Y71d9XEh5w5zCcKYOFujyJfLTF0oDYWZxt/Lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GDvLEU9T3Cf1eN5RmTbjWzF3GfcfkFlFkRmkoF0C9Vv59AV7Sg2ISsbuH/yRlT5kQXxxzxz0hDoSh5wibzpvuoscDf0Kp/L2SBgyyEOq0tzwMund8inKK/vo+2C6qBleCPjYKcuJuj97KWWA9iRtawIG+SwwCpP4v2Crew1sjXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TsYYT5Ux; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785337802; c=relaxed/simple;
+	bh=E/FLQXipQ0K2+/SZsSnDyNxS4/Ll61lf7dZ4IW4dJIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NSu51LvwUgTPPCBs7krFY0UcfgXXTJN/l6O+2nXOvgmxU+w5ZklM+64wBj5dLU3/EGbmIkSiWCRJrsBDOfsGULFU0dC75VURDTzN+zlGykQDahrq+CTuFPoYvfOAVyQRRgI51VQNgcmS73VWf9U59gIgb0lMJl+hKF6xNUUjxJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=CmYuaXqg; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TsYYT5Ux"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xpVwuT6Hev1WjQlh3dFEN4IM8UxH5igy66lsCYZfjDk=; b=TsYYT5UxfFOVD0AK6tj0Em2/CK
-	GkXbE5tsFlQLvVWpTPyxYWZ53zOKFGNy/RzWZz+F/FKIElb6H2XKcgDSh7NT1yEpBvTR43bLwKq6M
-	7PDf9tEg0QfCW85pUPYAyB7US5FyhQjgOXw/qPHM5bZhT/y65d0St/3CVc66wtWvA479Lht1I7USq
-	cZ2S05Q1fD6Zpj5g2hfiyuY2IQozk871nyl7sz3U+To4lgpLm+nRSWtUtlJAPyqdQtcNHXt4ZZDIl
-	3XH1IyImsqNkwSZvu1OjCvCUak/A1MoFkH2qDfuMXvZ/QNBn3W5+kRoKBpiBW9jwi4PYbct3g4Y3w
-	NThsYNSg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp5qM-00000008KbO-3XwE;
-	Wed, 29 Jul 2026 15:05:14 +0000
-Date: Wed, 29 Jul 2026 16:05:14 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v7 06/13] hugetlb: Use the has_hwpoisoned flag
-Message-ID: <amoWqtYhXm9_Bxhf@casper.infradead.org>
-References: <20260728204409.3396238-1-willy@infradead.org>
- <20260728204409.3396238-7-willy@infradead.org>
- <amlQYkGgLmxmwX9_@gourry-fedora-PF4VCD3F>
- <amlrjtaFSEQLYbEO@casper.infradead.org>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CmYuaXqg"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15f47e6297so127691666b.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 08:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1785337799; x=1785942599; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bbUgySyaXxdCM5TiDxVMfKO2Pl7MWD7VCGVOlsUNi5s=;
+        b=CmYuaXqg47EbYq50JRGshn20dxkc2FSOx9wT9qy00HQMCTznvf4PqPOlEPPRWWToRI
+         gUCBJaqgjuG3UhJo2JyqqNdcnjNMFi8Iw6/cPTGEYAWOUBGdoD6cGUTYPTYBFxTm633p
+         5BYkMD2bbb+lXy6saEiTcGsr+6U7PA6EsIMqA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785337799; x=1785942599;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bbUgySyaXxdCM5TiDxVMfKO2Pl7MWD7VCGVOlsUNi5s=;
+        b=iIU21nS+7XLGAV9zjhRinRyU5QkeqBDMP6yWMdko2KsQxJNRy7KTik9csd5mj6GZmz
+         oCD7FojDlxTnil/4fk69Wt54zWTzbc2IJxZGwWMhOaKFa+DqtEE6StxpMI8jb6rEzknI
+         O8tA0zNfAyQIHzl2BFVeYr9bVWTZPL36asb3KoaTC/JELbZhjVrZDc2sd3Cfl3I1RjKZ
+         f5SpBQcoJ21V2aQNDkthcM6Rr/H2vSjXMjc/uCIyVhNDdZ8zV2wQykNOuJezbXQSvh/k
+         VTTeBVNlz40nMnaEeqtyZl7gO8YLJ8w9e7gyzdhRKYpz9z+qNE8IyJDcaN9h7Ej4EdVI
+         m6HA==
+X-Forwarded-Encrypted: i=1; AHgh+RpaJlD/0MU2ZZCHxaX9UTh4fuTizAqcXSa8hCAiUXI2lyCkiW32Hw4+weM77JNmBZs33Gj6ro2mbEDx0lbe@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCPFDIBzPtoJPtIFC19gHFQ+OJ9l7Zao3OE5ARwPDnyV0VHWOt
+	Me/vpzgOebYjBsUZ6QXWJTTABZ4BIf2ll5SsaQMNGH6aFM9mVobnYoDd0NzsmTQkNiSyxww1x2g
+	UxRH0ghw=
+X-Gm-Gg: AR+sD124KTa7pLv3kt1xAVIofmzxcg8nJOVhOx4Pj64mdPpcDg7L4e6E5B0acFDDqtX
+	UBFdqACzidwUfLQ04OYVzKkrH8LpFJmNnzsZanGsL5E9PQ8nq73gB13i3QcT+QMg1NQ3hQGJZ9s
+	oePc1cG819JUrqzYXaIn5LvYwsY49fgn6w4fCwfv7t/A/3Budu0GwOoIkWceOpLlbW+zoT3yw2y
+	gDvvRh2b+tzbz79TnsvFdWDCcBfpUq6LfrKglkXDO++zstCFpk5iw+j/K7UTuv2zAYzkw+usKJ2
+	jtFcifdp/07PtWq3kViQLPo9cJNlFVbaPvFSDS2Io/98XFGmT+czE4GiLqSVdTmD93zVlAH5gTl
+	w6mWDdADD/erLf4VAHswxwPzxuwAEeo5Cso4ERTRHu60A8aZegBL5InAeq8M7ezdCuPFLpxNFsZ
+	NRcaAlXskXgAee1vygfX+7qYjDtKcyksWDo5Ypu6BLZEV/wFVrOM+TBCynIUwcGkjbeS0znulL4
+	PN492JWKa7YPXAX5+Nd8fwoAKkFXtbkUjOWcQ==
+X-Received: by 2002:a17:907:60d1:b0:c16:a484:90df with SMTP id a640c23a62f3a-c1f72221988mr381480166b.35.1785337798629;
+        Wed, 29 Jul 2026 08:09:58 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1f83cde4dbsm134799466b.15.2026.07.29.08.09.57
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 08:09:57 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1740c36c5cso153093266b.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 08:09:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoX5FZ1m4/cc1+4ILxsP97ZutBP4BdFCHpKKg1gXiVSMFb8gqVHPYnzs4EsEjH+vV72fZPga6yjg1S2D6UW@vger.kernel.org
+X-Received: by 2002:a17:907:6d1a:b0:c15:f376:9642 with SMTP id
+ a640c23a62f3a-c1f724ee1ecmr389008466b.65.1785337796931; Wed, 29 Jul 2026
+ 08:09:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amlrjtaFSEQLYbEO@casper.infradead.org>
+References: <20260514140817.623026-1-axboe@kernel.dk> <20260514140817.623026-7-axboe@kernel.dk>
+ <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site> <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
+In-Reply-To: <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 29 Jul 2026 08:09:40 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
+X-Gm-Features: AUfX_mw-kTtyuQrkUq67j8f_qvo8wTHBUpDqR2AVQRqJeAFNQym68SnG2Gs80B0
+Message-ID: <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
+Subject: Re: [PATCH 6/6] io_uring/epoll: disallow adding an epoll file to an
+ epoll context
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, brauner@kernel.org, 
+	=?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 29, 2026 at 03:55:10AM +0100, Matthew Wilcox wrote:
-> > > @@ -2725,13 +2748,19 @@ int unpoison_memory(unsigned long pfn)
-> > >  
-> > >  	ghp = get_hwpoison_page(p, MF_UNPOISON);
-> > >  	if (!ghp) {
-> > > +		spin_lock_irq(&hugetlb_lock);
-> > >  		if (folio_test_hugetlb(folio)) {
-> > >  			huge = true;
-> > >  			count = folio_free_raw_hwp(folio, false);
-> > > -			if (count == 0)
-> > > +			if (count == 0) {
-> > > +				spin_unlock_irq(&hugetlb_lock);
-> > >  				goto unlock_mutex;
-> > > +			}
-> > > +			ret = hugetlb_clear_poison(folio);
-> > > +		} else {
-> > > +			ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
-> > >  		}
-> > > -		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
-> > > +		spin_unlock_irq(&hugetlb_lock);
-> > 
-> > Adding new synchronization here without noting why - it's not
-> > immediately clear what this synchronizes.
-> > 
-> > Is this just fixing an unrelated bug / should it be a separate patch?
-> 
-> This prevents a hugetlb folio (which in this arm we don't have a
-> reference on) from being freed.  I think it ended up in this patch
-> because Sashiko pointed out the race during review of this patch.
-> It could probably go in its own patch 
+On Wed, 29 Jul 2026 at 03:54, Jens Axboe <axboe@kernel.dk> wrote:
+>
+> I think it's pretty simple - if libuv is using nesting already, then
+> we will have to revert this single commit before 7.2 release.
 
-OK, split out into its own patch.  The 0day bot chewed on it a bit and
-came up with a config that enabled MEMORY_FAILURE and disabled HUGETLB
-which showed a missing hugetlb_lock symbol.  Here's the new patch:
+Yup. What a horrible interface epoll is, and now it's made io_uring
+have any bugs it has. Oh well. Horrid or not, the first rule of kernel
+fight club is that we beat ourselves up to keep compatibility.
 
-commit 9df49152f5de
-Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-Date:   Wed Jul 29 08:41:50 2026 -0400
-
-    memory-failure: Prevent hugetlb freeing during unpoisoning
-    
-    If we fail to get a reference on the hugetlb folio, then it might be
-    freed as we operate on it.  Prevent the freeing and the attendant races
-    around manipulation of the raw_hwp list by holding the hugetlb_lock,
-    which is also held by the hugetlb code when freeing hugetlb folios.
-    
-    Fixes: ac5fcde0a96a ("mm, hwpoison: make unpoison aware of raw error info in hwpoisoned hugepage")
-    Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 2abaf99321e9..50eab2c23299 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -110,6 +110,17 @@ extern struct resv_map *resv_map_alloc(void);
- void resv_map_release(struct kref *ref);
- 
- extern spinlock_t hugetlb_lock;
-+
-+static inline void hugetlb_lock_irq(void)
-+{
-+	spin_lock_irq(&hugetlb_lock);
-+}
-+
-+static inline void hugetlb_unlock_irq(void)
-+{
-+	spin_unlock_irq(&hugetlb_lock);
-+}
-+
- extern int hugetlb_max_hstate __read_mostly;
- #define for_each_hstate(h) \
- 	for ((h) = hstates; (h) < &hstates[hugetlb_max_hstate]; (h)++)
-@@ -279,6 +290,14 @@ unsigned int arch_hugetlb_cma_order(void);
- 
- #else /* !CONFIG_HUGETLB_PAGE */
- 
-+static inline void hugetlb_lock_irq(void)
-+{
-+}
-+
-+static inline void hugetlb_unlock_irq(void)
-+{
-+}
-+
- static inline void hugetlb_dup_vma_private(struct vm_area_struct *vma)
- {
- }
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 944e6e1d4971..1dd0e7b99bb1 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -2725,13 +2725,17 @@ int unpoison_memory(unsigned long pfn)
- 
- 	ghp = get_hwpoison_page(p, MF_UNPOISON);
- 	if (!ghp) {
-+		hugetlb_lock_irq();
- 		if (folio_test_hugetlb(folio)) {
- 			huge = true;
- 			count = folio_free_raw_hwp(folio, false);
--			if (count == 0)
-+			if (count == 0) {
-+				hugetlb_unlock_irq();
- 				goto unlock_mutex;
-+			}
- 		}
- 		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
-+		hugetlb_unlock_irq();
- 	} else if (ghp < 0) {
- 		if (ghp == -EHWPOISON) {
- 			ret = put_page_back_buddy(p) ? 0 : -EBUSY;
+            Linus
