@@ -1,118 +1,310 @@
-Received: from mail-qv2-f1.google.com (mail-qv2-f1.google.com [74.125.230.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC59472552
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 10:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FFA471CFF;
+	Wed, 29 Jul 2026 10:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322475; cv=none; b=PK5ogqwesYixSfryJ0uy7TH60y9rxfFcisrS4wkCIgZW6K6AIogrSiHx7+7QkCHXKq/6gWqIL+HWyw4pk7py5NoL6BWMoHUaNahfd9mrNrwCWAlYljO7EtR2Ivzhp9ahgtEu7fENAedufzU+ZkJsl2A/dZGZhiYoeB9ZC/JvNPE=
+	t=1785322620; cv=none; b=bSBu+JTwgoxbu9zlf1xL6I/QuG8p07gkV9We5AqgJ2IsTzajpl3QRjyPUm78Vg/hiJrkPSK6URU6B4ZcM8iFiYkxxO/LA7klJpEFmexBnLqOUv7V/Bz2SXATQ+t4y0XFIGS7AR1GCyraGM8y6Vklp367xinlMah66G0mooJnrtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322475; c=relaxed/simple;
-	bh=5dZNZBYM5Zqvq5VYC89w2dXp5JVZGlmW/vvBEC/V4gE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j9nx27fajZRUwNsHR3hZ34AzxYRd1Wq00gNdyxFkZAYtZCPO25qJkWed7z/GSagpqzWH7RWBjA8R0Q0KcFNmJk/6I/LU3aJHXZogkOJJfOjPuMCl/iNuwyfoEkA0l9qi4xoBrr+Cg1pxzRpCDHkAFcvL0Fz0xtdBn68JVGk663A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=vykiBsBC; arc=none smtp.client-ip=74.125.230.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1785322620; c=relaxed/simple;
+	bh=GN/kX4xuagAcb4PcPkVPlV61Lyu2idCVu02Xq7DM7i0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Mreg7mgK7ddTCovpauVl79zwIeABaZ1Q5lB9AjK5wbU5FVuntRYEaZ9Ohjwi66RObT3dWgH6gEqR9P5EdgwmxGYeKA5RZDHnPT4XJtGqcwJd3/8rkQ7aj2wyAdFmPNc9kvGSJ7ZO+QYVYSrIF2fGHb5AmAUcISFlTvQDeVg42V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhc1rG+P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="vykiBsBC"
-Received: by mail-qv2-f1.google.com with SMTP id 6a1803df08f44-8f3f86931afso2009176d6.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 03:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785322464; x=1785927264; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=we7VYo6UQ9yJKk9ndegAj5yb3VOXk2NTtu8lueNDwdU=;
-        b=vykiBsBCA5DrxJj7IHBiKwEFbr5f7D6Uv7EgGk89UQjyxCGVnwAEDJKX5NvaD0/CC4
-         ss5GHA2znC35EOVjSZchGijSTt6AO2Vkbtqu8OrJjcPhHvdSNea1ls5/xV2vit8yK/z6
-         AlipbAtNIoWoZgtL3dp2TCRhrSI2vJZtFB2kgvuPThmctwgidWo6zJhwPqVuq8aWfPeB
-         LyFqf4IJZvcmwGek32krwKjKvVzgUjCcgkt/AaiQMNxBZju/EGzT9Xg3c0B94NcaL7ud
-         GEy3W1f3avT/eHnkh0bc47n+HXM3Q9E3pFm+bFSEVGqhyMX5VV+zZEWjtVvxr62ZGzYa
-         3Fyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785322464; x=1785927264;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=we7VYo6UQ9yJKk9ndegAj5yb3VOXk2NTtu8lueNDwdU=;
-        b=EGK6I2hhV17A/G82Cj891Y1gsgSQ6AqaH81oHBbyfd5t+UssazmX+H7pOAot1s5meH
-         5yTVgvPKBIIFXz9dW3ptHmlBiUrtzLjmqStevRDRXikQ5iPSLzUL2e6KuoUUBbS7jQaN
-         Y6EQIMpWpW27LDkjmYjr0GrhCjoGo52Z2BLNLiRftJZ07UffKFlhRSnY3LcGL/w1XyLt
-         26V4wH7AAGxV1DSySd7k1M2bx4JrOcTVqg00aNhtNF/omgYCrD+Q2emNHZCpx2uZFKMl
-         a6fBx3GHe6yi5uCb0rwDL3Zw3zWw6FBjHsjw9o6htgHTrtEYJT4Lif15z2fhMU8M+saM
-         g3+g==
-X-Gm-Message-State: AOJu0YxgO3iQ0m0vtr/u3JKwwvsoywgytdtOY+9w0gfCzsd61YyBMZ++
-	y9cd0GtG+DxI1fTRXqQPYEUYFIBUnNRBD03PcjFZytA7x836w23kaTD/piyqWihgFdujCxUX3n1
-	ZkGOkecJUCXgC
-X-Gm-Gg: AR+sD10nHoipBft1cHa3SniIIEGuR4UoP1GsutzytO7dhk46Wvh1EcETkcSQdwKN3dc
-	WIDmK0xlH7R4NEzpFmfO5kXLDDGcS2msQya7uVu/S/59+EaCpJyEQdbYgVZZTRDaO8emWcMW3li
-	nqc+FEL3G+aWHq6rLlC3+Asv3+yfgD/GUCHqVtqPesiyBHQqxdXxkXfAVzqnLZlenNaP/Cm/kvu
-	4WwmQriQVVVjGB3hbpGgkULlXBLIWDYFjmk0xw/0tJNZMDJH1o5oqKUijMEe7Y3Qeg8hDznpUSk
-	KH/05ymboPpzhkFNpkBhHctuCcPw8qfcXDt6VFac7/6PbEK5AiXAhCHujcfYoSpX7ERse9ALt2z
-	u9vKFzMFvWvtoXqVkGLaafCf+O4Yv4/02YoBOUy8j0kOb5hB5gaK+0izV2dIjC+weslxWrWNF62
-	xi9sfuQGIYO25kxb0xqE9FBMLhyVUSr5U5CnYQz7LqJcaIl3omkFOLCq7HouwZR7Mu5bBahIV7F
-	Q/HVUufqKwY6deIjqZlb0U7Urrvfhn2uFSKrT06vbPq66c=
-X-Received: by 2002:a05:620a:6016:b0:930:8e2e:f3dc with SMTP id af79cd13be357-9330267968cmr533651685a.68.1785322464252;
-        Wed, 29 Jul 2026 03:54:24 -0700 (PDT)
-Received: from [172.20.6.160] ([50.234.234.35])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e7366979sm140029785a.45.2026.07.29.03.54.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 03:54:23 -0700 (PDT)
-Message-ID: <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
-Date: Wed, 29 Jul 2026 04:54:22 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nhc1rG+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF0B1F00A3A;
+	Wed, 29 Jul 2026 10:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785322619;
+	bh=IBSQ/f7K5jV/NE43W9zs6NwVOoO9dxPAAzl4WyaHZwg=;
+	h=From:To:Cc:Subject:Date;
+	b=nhc1rG+Pwgg3MPGvsiQK4jW6VFNDQVhVEpANN6YQDZwOFZs4i/CEu2EWzVArveTTu
+	 sb5N4ur1bC2v868VENmjrAa/SAUHsuWtgJmOEhdKQLTeJp9gh/oMTgnGNy6Sp4fNGe
+	 ImVYpuHZ9TyC82GONQUPxGz6SmZGAiDU5AXK2MixMEj7vytrLiRmT7paWrbi+xwmAM
+	 4xiTW1tdMu5PsAIORWMDcotTpsx/nP7oEWgJ1I/xuvcbCHC6Mz8v4k62FTj0k+0PdM
+	 OJrE6j2Yp+L/1CxgeRBkyRWBRA6E7enlc/0N7/8Hk8FJspYPxjBHHtqRCkSItqeA1x
+	 H9uxSaysQ1vlQ==
+From: Namjae Jeon <linkinjeon@kernel.org>
+To: hyc.lee@gmail.com
+Cc: ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sebastian.n.feld@gmail.com,
+	cedric.blancher@gmail.com,
+	Lionelcons1972@gmail.com,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH 0/1] ntfs: introduce named data stream ioctls
+Date: Wed, 29 Jul 2026 19:52:58 +0900
+Message-Id: <20260729105259.11810-1-linkinjeon@kernel.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] io_uring/epoll: disallow adding an epoll file to an
- epoll context
-To: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- =?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
-References: <20260514140817.623026-1-axboe@kernel.dk>
- <20260514140817.623026-7-axboe@kernel.dk>
- <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/28/26 7:29 PM, Xi Ruoyao wrote:
-> On Thu, 2026-05-14 at 08:07 -0600, Jens Axboe wrote:
->> One of the nastier things about epoll is how it allows adding epoll
->> files to epoll contexts. This leads to all sorts of loop detection
->> code, and has been a source of issues in the past.
->>
->> Arguably adding IORING_EPOLL_CTL is a historical mistake on the
->> io_uring side, but we're kind of stuck with it now as it does seem
->> to be in use according to code searches. But we can at least minimize
->> the damage a bit and just disallow this part of epoll, where nesting
->> issues can arise.
-> 
-> libuv uses this ... thing and there's even a test case against
-> exercising the code path adding an epoll file:
-> 
-> - https://github.com/libuv/libuv/commit/3b6a1a14caee
-> - https://github.com/libuv/libuv/blob/09591002d38e/test/test-poll.c#L690
-> 
-> And the test triggers an abort on the EINVAL at
-> https://github.com/libuv/libuv/blob/09591002d38e/src/unix/linux.c#L1360
+NTFS supports multiple named $DATA attributes, commonly known as
+alternate data streams. This adds NTFS-specific ioctls to list,
+read, write, and remove named streams from an opened file.
 
-Thanks, I'll take a look.
+Example code (ntfs-stream-ioctl.c):
 
-> I'm unsure what to do here.
+ Usage: ./ntfs-stream-ioctl <file> <command> [args...] [--utf16]
 
-I think it's pretty simple - if libuv is using nesting already, then
-we will have to revert this single commit before 7.2 release.
+ Commands:
+   list                          List all named streams
+   read <stream_name>            Read content of a stream
+   write <stream_name> <data>    Write data to a stream
+   remove <stream_name>          Delete a named stream
+
+ Options:
+   --utf16    Use raw UTF-16LE mode (lossless)
+
+
+Example usage:
+
+  $ ./ntfs-stream-ioctl /mnt/file write Note "This is a secret note"
+      Successfully written to stream: Note
+     
+  $ ./ntfs-stream-ioctl /mnt/file read Note
+      This is a secret note
+
+  $ ./ntfs-stream-ioctl /mnt/file list
+      Total named streams: 2
+        Note   (size: 21 bytes)
+        stream0   (size: 12 bytes)
+
+
+ntfs-stream-ioctl.c:
+
+#include <errno.h>
+#include <fcntl.h>
+#include <linux/ntfs.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+static void die(const char *msg)
+{
+	perror(msg);
+	exit(EXIT_FAILURE);
+}
+
+static void usage(const char *prog)
+{
+	fprintf(stderr, "Usage: %s <file> <command> [args...] [--utf16]\n\n", prog);
+	fprintf(stderr, "Commands:\n");
+	fprintf(stderr, "  list                          List all named streams\n");
+	fprintf(stderr, "  read <stream_name>            Read content of a stream\n");
+	fprintf(stderr, "  write <stream_name> <data>    Write data to a stream\n");
+	fprintf(stderr, "  remove <stream_name>          Delete a named stream\n\n");
+	fprintf(stderr, "Options:\n");
+	fprintf(stderr, "  --utf16    Use raw UTF-16LE mode (lossless)\n\n");
+	exit(EXIT_FAILURE);
+}
+
+static void copy_name_utf16le(void *dest, const char *src, size_t len)
+{
+	uint8_t *d = dest;
+	for (size_t i = 0; i < len; i++) {
+		d[i*2]     = (uint8_t)src[i];   // Little-endian low byte
+		d[i*2 + 1] = 0;                 // high byte = 0 (ASCII)
+	}
+}
+
+static void stream_write(int fd, const char *name, const char *data, bool utf16)
+{
+	size_t name_len = strlen(name);
+	size_t data_len = strlen(data);
+	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
+	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len + data_len;
+
+	struct ntfs_stream *req = calloc(1, req_len);
+	if (!req) die("calloc");
+
+	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
+	req->name_len = name_buf_len;
+	req->io_len = data_len;
+
+	if (utf16)
+		copy_name_utf16le(req->buffer, name, name_len);
+	else
+		memcpy(req->buffer, name, name_len);
+
+	memcpy(req->buffer + name_buf_len, data, data_len);
+
+	if (ioctl(fd, NTFS_IOC_STREAM_WRITE, req) < 0)
+		die("NTFS_IOC_STREAM_WRITE");
+
+	printf("Successfully written to stream: %s\n", name);
+	free(req);
+}
+
+static void stream_read(int fd, const char *name, bool utf16)
+{
+	size_t name_len = strlen(name);
+	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
+	size_t buf_size = 8192;
+	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len + buf_size;
+
+	struct ntfs_stream *req = calloc(1, req_len);
+	if (!req) die("calloc");
+
+	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
+	req->name_len = name_buf_len;
+	req->io_len = buf_size;
+	req->stream_offset = 0;
+
+	if (utf16)
+		copy_name_utf16le(req->buffer, name, name_len);
+	else
+		memcpy(req->buffer, name, name_len);
+
+	if (ioctl(fd, NTFS_IOC_STREAM_READ, req) < 0)
+		die("NTFS_IOC_STREAM_READ");
+
+	printf("%.*s\n", (int)req->bytes_returned,
+			(char *)req->buffer + req->name_len);
+
+	free(req);
+}
+
+static void list_streams(int fd, bool utf16)
+{
+	struct ntfs_list_streams *list;
+	struct ntfs_stream_entry *entry;
+	size_t buf_len = 8192 * 4;
+	size_t off = 0;
+
+	list = calloc(1, sizeof(*list) + buf_len);
+	if (!list) die("calloc");
+
+	list->buffer_size = buf_len;
+	list->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
+
+	if (ioctl(fd, NTFS_IOC_LIST_STREAMS, list) < 0)
+		die("NTFS_IOC_LIST_STREAMS");
+
+	printf("Total named streams: %llu\n", (unsigned long long)list->stream_count);
+
+	while (off < list->bytes_returned) {
+		entry = (struct ntfs_stream_entry *)(list->buffer + off);
+
+		if (utf16) {
+			printf("  UTF16: ");
+			for (size_t i = 0; i + 1 < entry->name_len; i += 2) {
+				uint16_t c = entry->name[i] | (entry->name[i+1] << 8);
+				if (c >= 0x20 && c < 0x7F)
+					putchar(c);
+				else
+					printf("\\u%04x", c);
+			}
+			printf("  (len=%u bytes, size=%llu)\n",
+					entry->name_len, (unsigned long long)entry->size);
+		} else {
+			printf("  %.*s   (size: %llu bytes)\n",
+					(int)entry->name_len, entry->name,
+					(unsigned long long)entry->size);
+		}
+
+		if (entry->next_entry_off == 0)
+			break;
+
+		off += entry->next_entry_off;
+	}
+
+	free(list);
+}
+
+static void stream_remove(int fd, const char *name, bool utf16)
+{
+	size_t name_len = strlen(name);
+	size_t name_buf_len = utf16 ? name_len * 2 : name_len;
+	size_t req_len = sizeof(struct ntfs_stream) + name_buf_len;
+
+	struct ntfs_stream *req = calloc(1, req_len);
+	if (!req) die("calloc");
+
+	req->flags = utf16 ? NTFS_STREAM_FL_UTF16 : 0;
+	req->name_len = name_buf_len;
+	req->io_len = 0;
+
+	if (utf16)
+		copy_name_utf16le(req->buffer, name, name_len);
+	else
+		memcpy(req->buffer, name, name_len);
+
+	if (ioctl(fd, NTFS_IOC_STREAM_REMOVE, req) < 0)
+		die("NTFS_IOC_STREAM_REMOVE");
+
+	printf("Successfully removed stream: %s\n", name);
+	free(req);
+}
+
+int main(int argc, char **argv)
+{
+	int fd;
+	const char *filename;
+	bool utf16 = false;
+	int cmd_idx = 2;
+
+	if (argc < 3)
+		usage(argv[0]);
+
+	filename = argv[1];
+
+	for (int i = 3; i < argc; i++) {
+		if (strcmp(argv[i], "--utf16") == 0) {
+			utf16 = true;
+			argc = i;
+			break;
+		}
+	}
+
+	fd = open(filename, O_RDWR);
+	if (fd < 0)
+		die("open");
+
+	if (strcmp(argv[cmd_idx], "list") == 0) {
+		list_streams(fd, utf16);
+	}
+	else if (strcmp(argv[cmd_idx], "read") == 0) {
+		if (argc < cmd_idx + 2) usage(argv[0]);
+		stream_read(fd, argv[cmd_idx + 1], utf16);
+	}
+	else if (strcmp(argv[cmd_idx], "write") == 0) {
+		if (argc < cmd_idx + 3) usage(argv[0]);
+		stream_write(fd, argv[cmd_idx + 1], argv[cmd_idx + 2], utf16);
+	}
+	else if (strcmp(argv[cmd_idx], "remove") == 0) {
+		if (argc < cmd_idx + 2) usage(argv[0]);
+		stream_remove(fd, argv[cmd_idx + 1], utf16);
+	}
+	else {
+		fprintf(stderr, "Unknown command: %s\n", argv[cmd_idx]);
+		usage(argv[0]);
+	}
+
+	close(fd);
+	return EXIT_SUCCESS;
+}
+
+Namjae Jeon (1):
+  ntfs: add ioctl support for named data streams
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ fs/ntfs/file.c                                | 509 ++++++++++++++++++
+ include/uapi/linux/ntfs.h                     | 115 ++++
+ 3 files changed, 625 insertions(+)
+ create mode 100644 include/uapi/linux/ntfs.h
 
 -- 
-Jens Axboe
+2.25.1
 
