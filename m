@@ -1,205 +1,184 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD423AA4E7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 12:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C813E122F;
+	Wed, 29 Jul 2026 12:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785328815; cv=none; b=WZ5uDOw7j4bUsS9W45a29OEpP/x8GCHuUx+1GIhZKkvXA7RVlu007fD2zHP0JfrIcmejBhq+gGd96VzNKLmOOCkqHvHIVaIGd0YndYG5FF/BoD4XCV8JvVv91iO9UIgQXP5gctXw7YpaIjSU5baR9zGHmb7vtarYzOO33CDd6kg=
+	t=1785328973; cv=none; b=I74MRrgwD/pqGqIMvWJIi/qrr6XNsZmo5RLooTyGZ1lR6HAOruteB7N4HEyz8lPmOlclkoBlEW4wPfpJHuvsX+6q4q90/BVxleRQMuhAoeN+gES+vRi9hZkTKMyA7dcHu8KzC4SD7AeNbVggzmgl5T6dXjD9JTj/01VyhW9sNSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785328815; c=relaxed/simple;
-	bh=mmyLGWwz7ixGglm3PK/MzQvKx1c0i0DOVa0jg6OxGiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mKhdNb3iEmBp2A5nf7GVvzkkbrinwCqodSoZ82Emh4+gJXo22C/gvLPPm26HfovqtousNuJ3MArHE4oIdtOc8HFOhpQcUcIF0iFYp1oDRDwZCbcm3S8VRJoMUWiif+BfFrCYT6ZC9VQF7UdPb6yAMlZ3efrxqJ8mG1WjIUuzbiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CS39VuwG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQqhw4gr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cdJAYFaF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jhnZBAtt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785328973; c=relaxed/simple;
+	bh=eZqAWjHL2jPePlq3RJEMJ4AbBs3kRH8xuH9dG8mq7qc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZaEdhodkgbbxSDE043BO8LfMozMZL7V+1hHgfOVVHr/W00HWIKOn5rvVYRa9prvipvqr2T8ViNwSJcp7TAocC5Ud8Hhlyt0SAhg9k38I/bn/naSYD9eOZCyjdAzQylNg0TaSEol4GDElmot41ze/F7p08bluYnA/O68RxcmIMg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIiVNrud; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CS39VuwG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQqhw4gr";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cdJAYFaF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jhnZBAtt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DEBB77CAE4;
-	Wed, 29 Jul 2026 12:39:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785328800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
-	b=CS39VuwGrs8YFT7OyT/WzywmnVzf1n4mlAr9gf0kjzbLmJsJEiUNsHU5JZ3vIUVPpVwGnP
-	XU8/cEWk44RHwQPdzkHZASxKEwAS0PainwKN/Ztl+p/IUTP+kP1yU3bTmzH9WWPOkeglTD
-	+cPXe4HLmJN7CsFq3tgss2wAWlBAxy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785328800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
-	b=iQqhw4grfRWyMNfAxHbrnBWFV8zGCGoHUpB7eQ0NC5REX4wtRNLWpFXJrAdb+O2PEtE2Y5
-	FqtlVjhVJTL1J+Aw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785328795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
-	b=cdJAYFaFWjJiCQUoAdu/9I6CAk3ThRqd0LEJkn880mVPLI7E7FsPBi1fgYp9Wb36L21cne
-	DH2OSokO6yEs/y5MAcIH5z0t3ZCQf80U6h+3TiTw3zjqG92ApTeHpf+09GPsrvnjqRNGOB
-	jb/QF5+WPk97pO8pQxSQrXZJLXHdu5g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785328795;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
-	b=jhnZBAttgMBLE03IRFI6I3usKgqRe5uzRt/J3QZB4T551ivirePPSyyma3CtNdjfQbUkG2
-	GOlNcUwO5sjGyBDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D62EB779A1;
-	Wed, 29 Jul 2026 12:39:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2KBKNJv0aWpQSQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 29 Jul 2026 12:39:55 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7D348A131F; Wed, 29 Jul 2026 14:39:51 +0200 (CEST)
-Date: Wed, 29 Jul 2026 14:39:51 +0200
-From: Jan Kara <jack@suse.cz>
-To: =?utf-8?B?6raM7JiB7J6sIC8g7ZWZ7IOdIC8g7KCE6riwwrfsoJXrs7Tqs7XtlZnrtoA=?= <yjkwon0026@snu.ac.kr>
-Cc: jack@suse.cz, amir73il@gmail.com, repnop@google.com, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [BUG] fsnotify: concurrent mark updates can publish a stale
- aggregate mask and lose events
-Message-ID: <dtryuddxj63ibzfzmktla4ypj7vnxj5gia66joet3lp6zgzpot@btjuuubvckv3>
-References: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIiVNrud"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D1321F000E9;
+	Wed, 29 Jul 2026 12:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785328962;
+	bh=CCfnfjBFYExAnxJTD/rzMs4G+JVWk8LnuYF1LstcYDw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OIiVNrudGYMgEdVIx0kkjz41K/abfMmWQCuVMoltvKL88ry5vvzeu9fzcY/9OXDWp
+	 urmM5jTj5uYEwxtowv6dnJlwSS9PTo7quWtNi7gHj3ZqfWleJMlYHWWtwoq0IDEkky
+	 8P8JnLCx+cJFeHdNFsas608FWlQT7bVkC2bwM046FAmQ7zDEHB0zW1hDtHOw8f8bql
+	 4k70NlZODBKCZTfjYFNVdqOJ/v1f/eicr7a9D82muWKPn8AlDCyXeFCuwaSWyiZ0iA
+	 7EW64naZjqP6zUdWAdVwIEaL++olcUVsOGEeMV8mWUj+uyYo7qTGP16v8aSA/cUEkI
+	 1GtsvDfHUTVwQ==
+Message-ID: <5abb6bbb-973e-41e7-820c-057e85edeb95@kernel.org>
+Date: Wed, 29 Jul 2026 14:42:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 09/11] misc/sgi-gru: use ptep_get() for page-table
+ reads
+To: Pedro Falcato <pfalcato@suse.de>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, agordeev@linux.ibm.com, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+References: <20260727164715.2866609-1-usama.anjum@arm.com>
+ <20260727164715.2866609-10-usama.anjum@arm.com>
+ <amnxCmFU40QQaxTx@pedro-suse.lan>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <amnxCmFU40QQaxTx@pedro-suse.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi!
+On 7/29/26 14:36, Pedro Falcato wrote:
+> On Mon, Jul 27, 2026 at 05:47:00PM +0100, Muhammad Usama Anjum wrote:
+>> A leaf PMD is being read through ptep_get() by treating the PMD address
+>> as PTE-sized table storage. ptep_get() now accepts hw_pte_t *, so update
+>> the cast accordingly.
+>>
+>> pte_offset_kernel() also returns hw_pte_t *. Get pte_t value by calling
+>> ptep_get().
+>>
+>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+>> ---
+>>  drivers/misc/sgi-gru/grufault.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+>> index 3557d78ee47a2..ff89d34ad2aa4 100644
+>> --- a/drivers/misc/sgi-gru/grufault.c
+>> +++ b/drivers/misc/sgi-gru/grufault.c
+>> @@ -228,10 +228,10 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
+>>  		goto err;
+>>  #ifdef CONFIG_X86_64
+>>  	if (unlikely(pmd_leaf(*pmdp)))
+>> -		pte = ptep_get((pte_t *)pmdp);
+>> +		pte = ptep_get((hw_pte_t *)pmdp);
+>>  	else
+>>  #endif
+>> -		pte = *pte_offset_kernel(pmdp, vaddr);
+>> +		pte = ptep_get(pte_offset_kernel(pmdp, vaddr));
+>>  
+>>  	if (unlikely(!pte_present(pte) ||
+>>  		     (write && (!pte_write(pte) || !pte_dirty(pte)))))
+> 
+> This code is super, super broken. Can we remove this ASAP? For starters,
+> we're using is_vm_hugetlb_page() to detect page shift, the code does not
+> grab refs on the pages, uses pte_offset_kernel() on user page tables,
+> does not handle PUD-level hugepages, does not handle PMD-level hugepages on !x86_64,
+> does not hold page table locks nor check for pte table retraction, etc
+> 
+> I don't think I need to go on.
+> 
 
-On Tue 28-07-26 14:32:33, 권영재 / 학생 / 전기·정보공학부 wrote:
-> Concurrent updates to marks from different groups on the same inode can
-> leave the object's cached aggregate mask missing an event bit that is
-> still present in a live mark. An operation started after both mark-update
-> syscalls have returned can then be filtered by fsnotify_object_watched(),
-> so the matching fanotify or inotify notification is not delivered.
-> 
-> I forced this source interleaving with diagnostic scheduling barriers and
-> reproduced persistent FAN_MODIFY and IN_MODIFY loss in 3/3 independent
-> boots for each interface. A control update that caused a fresh aggregate
-> scan restored delivery. I also observed the same loss-and-repair outcome
-> without kernel instrumentation on an unmodified v6.12.95 kernel image in
-> 3/3 independent boots, with 9 strict hits in 30,000 attempts. I have not
-> identified a memory-safety issue or a security-boundary crossing; I am
-> reporting this as a notification correctness bug.
+Heh, when Usama first showed me an early diffstat I was like "what the hell are
+drivers doing with page tables here, they shouldn't be doing that".
 
-Thanks for the report. To clarify is this a result of a code review
-(personal or by LLM) or some real application was hitting the problem?
+atomic_pte_lookup documents: "Only supports Intel large pages (2MB only) on
+x86_64. ZZZ - hugepage support is incomplete"
 
-Also for the next time I'd like to ask you to try to keep your report a bit
-more condensed (either by instructing LLM or by selecting the substantial
-content from LLM output). E.g. in this case the above two paragraphs
-explain substance of the problem and reproducibility, the scheme in "The
-race" section shows how the problem happens and the rest is mostly just
-uninteresting noise so this report could have been less than two screens
-worth of text whereas now it is over 7 screens in my terminal.
+What is this crap? :)
 
-Now to the problem:
-
-> The race
-> ========
-> 
-> Let P and E be marks from different groups on one inode. P initially
-> supplies event bit X to the cached aggregate, while E does not contain X.
-> 
->   P update/removal                 E update/add
->   ----------------                ---------------------------------
->   remove X from P
->   start connector recalculation
->   scan E without X
->                                   add X to E
->                                   observe old aggregate containing X
->                                   decide recalculation is redundant
->   publish the older scan without X
->   both syscalls return
-> 
-> The add-side decisions are not serialized with connector->lock:
-> 
->   fanotify_mark_add_to_mask():
-> 
->     recalc = fsnotify_calc_mask(fsn_mark) &
->              ~fsnotify_conn_mask(fsn_mark->connector);
-> 
->   inotify_update_existing_watch():
-> 
->     dropped = old_mask & ~new_mask;
->     do_inode = new_mask & ~READ_ONCE(inode->i_fsnotify_mask);
->     if (dropped || do_inode)
->             fsnotify_recalc_mask(...);
-> 
-> __fsnotify_recalc_mask() scans under connector->lock and later publishes
-> the sampled union with WRITE_ONCE(). A different mark can be mutated after
-> it has been sampled. Its add-side redundancy check can still observe the
-> old aggregate, which the in-flight scan then overwrites.
-> 
-> After this ordering, E contains X but the aggregate does not. The state
-> persists until another operation causes a full recalculation.
-
-Yeah, right. So for simplicity I'd just solve this by always calling
-fsnotify_recalc_mask() whenever mark->mask is changed. We *could* keep the
-current behavior by providing new mark->mask to fsnotify_recalc_mask() when
-adding events and then doing the check under conn->lock or even improve on
-it and completely avoid scanning the whole conn->list and just add the new
-mask to the current connector mask. But at this point I think it is a
-premature optimization - we don't expect many notification groups to be
-watching the same inode and frequently adding marks to it. So let's keep
-things simple for now.
-
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Cheers,
+
+David
