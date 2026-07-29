@@ -1,95 +1,156 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A36E282F35
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 00:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE011FB1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 00:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785285715; cv=none; b=lVra3YU1phHd62YpfUHwN4OlpubqinMWRV7C910NWxX/cxPxCvHER71rp0svW4xiQ1oRVpz0lLcbkwdb8eztBGrCkSYusC8nIXlHcMcr8hlwgvHdWHXCSJ159pWrbNFf17w5s6Q3Z+F/Qp588OFTTALfQ3lurOuHbeQlQHyyDT4=
+	t=1785286784; cv=none; b=CGSWfwGsjcivBKHPGQfdAkGqxDRxRGrHNw+F2HiwARX2vNrsnZWwsYJqyYkAL2f4J+qZ6PuuEqd1Uyxdm6PZ8T2TpbQs50OR9+BByTNQdB7fxpDKnAkrD8HzGxRSUFBQONqNEo60bJwK/z3Q9i/hU3Kxn4JyfsGCagua0MPo4J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785285715; c=relaxed/simple;
-	bh=HD4E0cyd7wCQkWFnwtz/bq6KOmc9FXVhiSL/15chKRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dSODIZT032L6W1e/gNnIeJx78mCYiZhRpae7TsTE5vBZtPSxjtLic/2bzVrm8d4O5fvl1KX/3oQ5dVZtT5/CvQIEM2gbMYLQHk97hwSu74KM2RBXKmeeiLNGmpzQ1myJAvVIGgp6u4V5/3A01cR6gpQhvDahXpxEZDSAgH9tmJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=s3QXA4fX; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1785286784; c=relaxed/simple;
+	bh=0KWF7l74NSCZbAciJn0VhYbORBxGH+vyhWCqMZH8cRs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cbQrdPdWpcYuzfvpEa6Xyd6EOcHbbjTDojW2143yoh9wfmVP+ZgdOtFvQ6Xtqmca6H2jG6PWzTQkIZbojT2OWdWP/tpcEQFEtmJla4iULQa/Mboy3ZP27laictO3I5NOa/ivBQQnHsbIL0t5VIbHXGuDjyiXzFqr9Cw1q5HPSXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv6iX0Ys; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="s3QXA4fX"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-902fc790cd5so2544426d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 17:41:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv6iX0Ys"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso305941f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 17:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1785285713; x=1785890513; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=j9nli9m4Bc7pFK4IHJyjckwpxfCqeOd7xuoXeRuq6Jk=;
-        b=s3QXA4fXvEwyB+gcoHfScVJy2nQ4qMqruTJHNyCczHioYGfYpEAz2qOyyN/mm6VVCN
-         V011BsKeSafnKmdKdh6GfP5hcQmRPCVqQKo9qSQYtMMHR+TEc0FASG7x58FWGn9/FBDA
-         kxDR1t8uSaCWFpoK/vpyaiD+3S3i5EU4mZCCStbQOcUrZA5SmsZPjymN6XVmVS4/9AOU
-         Z1H10+iVTAUADT8ITC1oY/LcXJUFuv5ZPAuvVxAMrCqYS2emtkaMYASlg5ZgopP/I4xa
-         edAupHQNkPcyqT7BdW7e3gTQcysMrcGQXUHmmgvQV8a4tlSDO3aI3OXPTxklMdynmKvm
-         Dtew==
+        d=gmail.com; s=20251104; t=1785286781; x=1785891581; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d6+QL24j4d2zpvhuMtnoDkWU1oAuvMuECjOV2EZkZcU=;
+        b=Tv6iX0YsEE1+h94f4YZ933PmwHuxS+TYiuXMF6q/yfQ5AB/xMF/hGoNoO5q299rT5N
+         cwWH4Y7dV4g0xtsgYM8TqtmvkufaWTLE9F21FqbtQMUp0gLvqnXP7rhkQwRmzS1X2qQr
+         O2HVdy2+gFbRXNI5Uy1/L0/XHxNqMmPflvg6VAuJJ5SDsEmtufa6TrYmZNmEX7s2C1Dq
+         vank32z9q2ehxUjrAYSPDWwjGfCGwpHXqXxQjKyKZL7edLu0c0BBZ+d503jSxfhOi1Ew
+         rY6p3y6pjjKcsZg0ICLqyt6adVQ3QnCfVORQyEl6YzvIZuqi2wMY2cnOkQl5AYO6eNKB
+         DUrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785285713; x=1785890513;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=j9nli9m4Bc7pFK4IHJyjckwpxfCqeOd7xuoXeRuq6Jk=;
-        b=CjKMish5RdZtRJ3xz1eHPW+vw184THp4ZmO+BvHM0hON+WFt9vfZt1Km6T47IIVcmb
-         PVSFdTx4ErQ7qm/zgiNp0wZixRFHyu38xxfkopctc1a/f8lQqmup1B7TSFA9vNG3Mart
-         8QhNxLkWEHm45JRnVZK/BlXjY6XY1ANdkydT1Zri5pmOn17YhYn7cxIwNOgbh6970Qd2
-         Xo3I9js2Fnp4QjUWWBAXu4RIrwKDHMWC1a7Z3zWZBthETPD8yPVMFUET9HTMPK3usc8r
-         twanSPuA6xvikdmm8FGeD9ulsu6vNz5SgMhzJJ6p+0aQEC/TzSg4YhJfQsbBMr+dYz4Q
-         iRUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqVW+xStmqQbHAjRWzt/+uKgLySaCY5wRtk1O5YcxaGJE/WpA1LwEqDLAIBY+syY/DFKTZ0AG1FKw9kPyQ+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1b7SrR/g1xlErIWRRWT/pzdybo3FNBUbTcW99yIIFIz5W6Y02
-	qhbtcVD6Ka+KHz2ZAe9K8YjRNK53p7jJU/iolMV9JwngzZaYvrbXXA/pMpTts6owBGo=
-X-Gm-Gg: AR+sD10B2Z06GuliKN9HP4fhjEWMwfGjohy2Wuud9KUglx6vPu0F2NiNw0JPFaTlBB1
-	Fjh3sMpzta+SbdWQKSIRXpMcIUC4lydoGVm1ibsPi9etDB9QT9bfBmm5x4RRsuZmCuMzg1jgZ/y
-	2Ga1hQr2uoVd33QpShNdr9tpV9L01SNlnP6wBB6NpQRT6rwhCJP2EsY8hSZTbaTgs7iDJ7Yv7Ib
-	2u35RudSmq/zhw6E5Q21up38YrTFO1RNGXfvQ5Tqqv/UeDKoxN2PUCQvkC1my4ui6+RD84btdk0
-	KyqjSfcIAgdTUTybk8EnbXC1voHgb++G4QVhzkGH0SsIEAiwsNdKIahQDh+U9V063JCZOMiM7su
-	/KoJk5mf4gQF/id6PvRcUE41RjYPAODWcnD9Y5EB/ac0r+vPBsQEq5Jzs6U4eGfGR5fc78A15O6
-	0tUlHqD1kWOQ0zZqB3cnOAAxfsBYJxkLQilEo4fD2HnzR/vGX8QINeaC4CcOmGtNX9P4dHdSLDO
-	Ptnp/dM+8CvoVTqEhp1wEja75XkdTXSjXCgeM7PF0lO
-X-Received: by 2002:a05:6214:428e:b0:8dc:40bc:b593 with SMTP id 6a1803df08f44-90816fa80edmr57286176d6.10.1785285713351;
-        Tue, 28 Jul 2026 17:41:53 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9081dd6c599sm11500206d6.34.2026.07.28.17.41.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 17:41:53 -0700 (PDT)
-Date: Tue, 28 Jul 2026 20:41:50 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v7 05/13] hugetlb: Move poison to pages before clearing
- hugetlb page type
-Message-ID: <amlMOd_eTbqgtS22@gourry-fedora-PF4VCD3F>
-References: <20260728204409.3396238-1-willy@infradead.org>
- <20260728204409.3396238-6-willy@infradead.org>
+        d=1e100.net; s=20251104; t=1785286781; x=1785891581;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=d6+QL24j4d2zpvhuMtnoDkWU1oAuvMuECjOV2EZkZcU=;
+        b=m5Ip2Ut4C8LVTxyudSP1DzAGz+K7rPPVaRWZzh7NOJRgE7SGsplpckvNlUdaFc7X/r
+         tkpvCNRECde4/rjsKGq/tWduYcjCDDacHcjOcApmy2PDHPos5kulIGABkAD114SaZrY2
+         67+t85JAEvGMImQtWcOa3QfwS5fv/tV+2TU4i9qFotir0voaoUOW0hpRGSr9oXsGDQ+t
+         KRLdmanhKHbk474hpsMobdO//oYieCv/8yN874G5ix3TyCg4kUNH7bi9v1rBFiDWc3s/
+         kd/42TgDxQP/XN+xbAYq9Zls0ELJ+nCzDYpkrWTuChvHZUfoutWoBYQf8TL9CHRgpHRr
+         hRQg==
+X-Forwarded-Encrypted: i=1; AHgh+RpAnGd0ZnDSWn6zsoALQZoALEbJFy520FNuu4AB6yuqSzTYLoaZlO1NMLgNVLMsoPKlyFJuUTpEWMkqeuUO@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxhl8ZLq1Hh+wE4xMXYuPpRrWkjGkYHIHFB2JDelvO4C1JStpx
+	JBtf8FvcB3eAZItawqufBn7RsetSnKrR+QnCO49IEk9m7pUj+sPZEzUc
+X-Gm-Gg: AR+sD12VuueNGUTCZ9V3qI3qcCrkiHmAkI9A0pjb6mVVTJKSU2iVmbFoxNZli5kXKE/
+	mbTjAkdwECrviFw6FOz5+XE3csAMtQjZB2icuRzr5y7hfAAPvVb8aQzKWAIYrKWcscJYFsMzNK/
+	q5c5lycVRf4dNesZWylMABWle8J51HXAGdtC8BMG9N1PJzsx9D6/dxiZDbjv50vUg8Lnzj6WOoA
+	DawVZPh6CHgGckgVcV+H3eUKZZsWOAnwctNVLpojJCBuH80ZUUZxhnc+MVYibDJkC0dKc/XTjG/
+	lyxGnOJL9CKwjvjcUobK/ugmKRoxTJhrXuVV254FXsZcbNvy6dgm82RqlUgql2jl7oHs1b4TJoY
+	QM2cNFOyJ/wJe/DWQh9TOXJWJLfthSmf8TF6pYnfixf5I1/9kMMoiZIS9vjmrwBcrAs6/zgeciQ
+	fSrWbVZt6FpFKRCgGrmXIfKZBgmNOXLvT4HGjNineAWBQhWHk8yrdbFxVgfZDmbsgOqahRcOGNQ
+	OjqRZaImLvnX+LNthUA8PdTxRUh+V535Hdrxpf3FqIKGPEhM941dm6xh0N5P1q/FTc8DLKCsgqR
+	oZKOuazwyNrMcm4A+DZW1tQfdgAOxV7hkyWbZxz44qfB4is3UbZoAUvrCKqmhRL9ZWgn6Lojazf
+	d/k5LSQ==
+X-Received: by 2002:a05:6000:1861:b0:47f:80d1:be0a with SMTP id ffacd0b85a97d-47fb1e924ccmr5560631f8f.14.1785286780935;
+        Tue, 28 Jul 2026 17:59:40 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-b323-2b01-0d98-9fe8-a4cd-78ab.310.pool.telefonica.de. [2a02:3100:b323:2b01:d98:9fe8:a4cd:78ab])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6abc703sm3598526f8f.9.2026.07.28.17.59.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 28 Jul 2026 17:59:40 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] dcache: keep shrink_dcache_for_umount() making progress on busy roots
+Date: Wed, 29 Jul 2026 02:59:33 +0200
+Message-Id: <20260729005933.15858-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728204409.3396238-6-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 28, 2026 at 09:43:57PM +0100, Matthew Wilcox (Oracle) wrote:
-> For is_page_hwpoison() to be reliable, we need to set the hwpoison
-> flag on each page before clearing the hugetlb flag.  Introduce
-> folio_clear_hugetlb() to make this easier.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Commit e9895609cb7f ("wind ->s_roots via ->d_sib instead of ->d_hash")
+moved secondary roots from ->d_hash to ->d_sib.  Secondary roots are
+now d_unhashed(), so __d_drop() returns without removing them from
+->s_roots.  Consequently, d_drop() in do_one_tree() no longer
+guarantees progress through the list.
 
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+If a secondary root has an unexpected extra reference, do_one_tree()
+reports it, but its final dput() cannot evict it.  The root remains
+->s_roots.first and the loop selects it forever, holding ->s_umount for
+write and repeatedly reporting the same dentry.
 
+Before e9895609cb7f, ___d_drop() special-cased IS_ROOT dentries and
+removed them from ->s_roots regardless of their refcount.  Commit
+9c8c10e262e0 ("more graceful recovery in umount_collect()") deliberately
+made busy dentries nonfatal: report them and finish the unmount rather
+than BUG() while holding ->s_umount.
+
+Detaching busy secondary roots from ->s_roots restores the previous
+behavior.  A permanently leaked reference remains leaked after unmount;
+if the extra reference is only delayed, its final dput() may run after
+teardown has advanced and hit poisoned or freed filesystem state.  The
+current code avoids that late cleanup only by looping indefinitely under
+->s_umount for a real leak.
+
+Restore that behavior by removing each live secondary root from
+->s_roots after taking the temporary reference.  In the normal case,
+dentry_unlist() finds ->d_sib already unhashed when eviction occurs.
+
+Fixes: e9895609cb7f ("wind ->s_roots via ->d_sib instead of ->d_hash")
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+
+Notes:
+    The reproducer mounts ramfs, allocates a fresh directory inode on its
+    superblock, calls d_obtain_root(), and deliberately retains the returned
+    dentry reference before unmounting.  The fresh inode ensures that no
+    existing alias is returned.
+
+                            d_unhashed()   reports   umount returns
+      v7.1                             0         1              yes
+      7.2-rc4+ unpatched               1     13013               no
+      7.2-rc4+ patched                 1         1              yes
+
+    All 13013 reports in the unpatched run identified the same dentry,
+    confirming that the loop kept selecting ->s_roots.first.  With the patch,
+    diagnostics match v7.1: one busy-dentry warning, one busy-inode warning,
+    and no list-debug corruption.
+
+    This injects a pre-existing refcount bug; no in-tree filesystem was found
+    to create one by itself.
+
+    Detaching the root guarantees progress for a permanent leak.  If the extra
+    reference is merely delayed, however, its eventual dput() can run after
+    teardown has advanced.  Leaving the root attached avoids that late cleanup
+    but retries indefinitely for a permanent leak.
+
+ fs/dcache.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 3e9af9de7074..2aff15ee07fb 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -1832,6 +1832,9 @@ void shrink_dcache_for_umount(struct super_block *sb)
+ 				wait_for_completion(&wait.completion);
+ 		} else {
+ 			dget_dlock(dentry);
++			// A busy root survives do_one_tree(); unlink it so the
++			// ->s_roots loop keeps making progress.
++			unlink_secondary_root(dentry);
+ 			spin_unlock(&dentry->d_lock);
+ 			do_one_tree(dentry);
+ 		}
+-- 
+2.53.0
