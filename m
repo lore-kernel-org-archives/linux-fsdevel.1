@@ -1,82 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB80F494A04
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 14:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD5397954
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 14:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785335292; cv=none; b=azbkh1V5/QuEp3FSKG+5kJurI7SIfGAqFzGUuLjVEwqsRnyBYhOExWqJRIf30lwP46BKKW1GvkEH7qlxmdukBIr4hMwOcpUxxHoMjVsq1O5bPCJZxEXIBVIk4585iXxPpZP6/kfS731kh/xv9vW7hsi42WqCOyXsFZd/IyPJmsw=
+	t=1785335974; cv=none; b=g/frDvRPZQaOEhG9x59hSlbhHjnvhP3B2SPWS38AQDgloKV7nOUSu1wKb47TfDTcBnZgbFS2Jn4vxC8jZ9nBG9JIyIPIqQoKlx2RYvNSsPqsWgehWg4BFacoLiOBPfFcw2sJZ3aocHsTxwasLQUCiXvJStsLIFuwbNmtp2qzfew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785335292; c=relaxed/simple;
-	bh=+ErPDlVZblZibFShKcxn5UgTNOCXIxQNPxLF9T8ZPtM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=PQeq0yFF/7plVv4Jedec4afDbEb0DXFbRc1ZzyNUVFYD+cfHJCXPehjaqBFh4DJ2WJ6HhetMsfhVRewNt7TJAutZvx6hD+ed772qEWG8KQqcd0mt7JNJsw80hewDoRds471WVmUrjKIpIqD4RhWubeQDCq+MyMN9IxEO30IRHaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gm1IYhYf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QOdzqYrv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785335974; c=relaxed/simple;
+	bh=fIUbVxx+9yGhh+eKf/sW03xCy81ADYP7YU5oj2Goa4o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KfbxhcE1GlBOCvYFGyoHLe1s70cpzqV9wzV1z4DZzt6AHXnIRUDRmB5j3U+7Q9XgR0OTvOkQ4PIMONCWCdGTAP9M1ZYrcitF0pvowBUlzD+H+tIVaqJmUwyElqZFZfE0Wr/DfBSXH/XuMuZETSUhrZK6+VBdgqD8F95p9RNrek0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=a+il8zNR; arc=none smtp.client-ip=188.68.63.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gm1IYhYf";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QOdzqYrv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785335289;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EGak2HM83KvOa4m0yEIRICa7eaSA5C6mu7yl+7kc2TU=;
-	b=gm1IYhYfv7asJg/Zceu9QOq6JodjJsNr6wFzfGwdbPCDBfQQWW0B+z3re4mHd2lydX2T6s
-	de2s4cvDCesrbmTo/S/An4ueWlklIfJzapF3wUcxsJfkQZtadW3vUqFmo+Xm4bJpjz9cKj
-	FGkVHrd9dIFoAuKMr9jBYH5UkEh1PGY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-531-SMbSQZc5PGaPtgVHnELttg-1; Wed, 29 Jul 2026 10:28:08 -0400
-X-MC-Unique: SMbSQZc5PGaPtgVHnELttg-1
-X-Mimecast-MFC-AGG-ID: SMbSQZc5PGaPtgVHnELttg_1785335287
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c1c25c44d15so124457266b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 07:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785335287; x=1785940087; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EGak2HM83KvOa4m0yEIRICa7eaSA5C6mu7yl+7kc2TU=;
-        b=QOdzqYrvcBDZItcawKA2gXEbi3xur3wWOcHJpcxJx91boXxW1haR3V1TCZAtZC++No
-         VWW5DFxP4Q2I7UePksigdle4PIHfMqRea0uDkJsONXBwkIE8ByZHRJscgRRfwikUyDoh
-         e95wrDLMg6Lh3LznTjt3E1Dee9kZlIVyjhNVO4Di/4a/7ZcCNssBbNGYzRzxVAcBO+vi
-         wUIBwZKDQMZYclx9aPBzWurFfy0k13gzz7rptAa93arjYAljXv/jXINdodwOsYI+VmKw
-         Q35Q1i/HzUiR//Aw4oPtV2OOXlJupqdXah+vMY928RtCJQJsO49spVzAnummBzfkaj8l
-         Og/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785335287; x=1785940087;
-        h=content-transfer-encoding:content-type:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EGak2HM83KvOa4m0yEIRICa7eaSA5C6mu7yl+7kc2TU=;
-        b=rcUEv4pI9uWSRrQMCr71xeJI4TrjU+/91M2CtSvVkojEokKOI1mkYEQAW61XqHlnVE
-         b8p8dn+iY2bDibrZPLnsIdbWZsJ4JCjGtO/jM4JBUAPswqxahnUcl2eyRi2U9TiMLbeU
-         jmsgITYbGMEWUEacAXAavXG6q5qlWZ222izpvSqedzT2haf1rM4k0H0Z5Xo4W+eQ5gIw
-         Fb7WY2a60vh1bEzvLBFPrqRVprZy1Hzf2NZa1z39iTHL2d5zu4xf/zYZqeFOszWM53Ha
-         KL67sAv/4MSYSzULhcjwJ/JZ58tmSYrDjY/ty280kf2tvOq8JoNc5XpThmfO0pKbV5C6
-         ymPQ==
-X-Gm-Message-State: AOJu0YzAgyxs4v/O9V/u4rMD9BidOwnAdex+73bn3WELbT1CBo06fuFM
-	qp99fdWcG8htZAE6IE5HsxqclVI/xTSZu7XBaBjmHpWbYdBksFRRmrc1xfwF6QfVlQ/+90xAzSa
-	Z0y0/KvLFAocSwwlnHEWt6NCuBpfE4ZFuP29q1dh2cUSaX8lTZnRCLVHUanLsBTySILc=
-X-Gm-Gg: AR+sD10X7D+ufkNpdVmA2BwAZyadOFtXgcOv3Fok9fXXhFBGZDq24vI3q+xiunqQldd
-	BgDvZsOXUqnaxrKStwPMsL9HG9Dhh6n8BaN14ASOwOjIjB/TPPn1tfiSC/DXdMtEC4oqZRlGzem
-	coJkWLVVC29J2Ma3yvErA/Xdc1yb77o/6d6h7fqVHNiZLCXpDQX5zJ79thMxWVKI/55H1mqBaM4
-	4S9lPXw/9JckLmJPsuoYpZHPfufjNMSCH06hociL/9zTHuvqEPYTG/2uAJ2uWo/CQqMNPN0BzIq
-	GUTrWdv7GvndIETUxEpi1XIUMY1tQh6yrNbdN/JALAV89UJmOtdi+nytEnG3h/3lJDlULEYrK7z
-	u
-X-Received: by 2002:a17:906:f583:b0:c12:1651:17b2 with SMTP id a640c23a62f3a-c1f71e900c0mr379746366b.9.1785335286778;
-        Wed, 29 Jul 2026 07:28:06 -0700 (PDT)
-X-Received: by 2002:a17:906:f583:b0:c12:1651:17b2 with SMTP id a640c23a62f3a-c1f71e900c0mr379744266b.9.1785335286365;
-        Wed, 29 Jul 2026 07:28:06 -0700 (PDT)
-Received: from [172.31.1.12] ([70.105.250.248])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a050c49f7dsm957349a12.18.2026.07.29.07.28.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 07:28:05 -0700 (PDT)
-Message-ID: <dc0f6f41-84be-4a70-92db-89890bded3ab@redhat.com>
-Date: Wed, 29 Jul 2026 10:28:04 -0400
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="a+il8zNR"
+Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4h9F9d6xG3z6KpJ;
+	Wed, 29 Jul 2026 16:30:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1785335430;
+	bh=fIUbVxx+9yGhh+eKf/sW03xCy81ADYP7YU5oj2Goa4o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a+il8zNRO9pCbtaYDvlw6gxO6YxK8sgxQJPGyMQhok6pooIX4lIThdk/nFEB18VWQ
+	 EDIIKjVI+z+eTD8tm7QaBDiya3n0eCXuux10gznjcdgmDcOCpwGasbj8cKKSP5aodb
+	 7wF0z80fcSXGNLAWm4S1hdj/IiXhkRbCBsC1bkcqrnwrKbWgc7m8DXpE9qs9fdKMBW
+	 0SRmh1nF00EbX6xhfsyWWHpsfdKcaOuMhevhYhoavjUD4/fXdkSBigxw0yTYWdI5SK
+	 m/XgFb2mRzr9UTFNayBNRv/Myldc7Wf+JMVd8drZO1vrq3npPRIa2m0FuYB3KhTEjI
+	 h/AhpOBNUS5rA==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4h9F9d6CZMz4yN2;
+	Wed, 29 Jul 2026 16:30:29 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4h9F9d0gVGz8sZg;
+	Wed, 29 Jul 2026 16:30:29 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 8C7AA5F961;
+	Wed, 29 Jul 2026 16:30:20 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <eab16020-eb68-429b-a261-e02e65ff9980@leemhuis.info>
+Date: Wed, 29 Jul 2026 16:30:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,38 +53,40 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Steve Dickson <steved@redhat.com>
-Subject: ANNOUNCE: nfs-utils-2.9.2 released.
-To: Linux NFS Mailing list <linux-nfs@vger.kernel.org>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: regress caused by upstream commit
+ 6650527444dadc63d84aa939d14ecba4fadb2f69
+To: Jann Horn <jannh@google.com>, Pasha Boroffski <hex.dec.bin.oct@gmail.com>
+Cc: regressions@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: 
+ <CAHmU7G=Dsf31mJ1VH4+Tp-McSvXCg=GcO-eC+O52-_t5gc7Pyw@mail.gmail.com>
+ <CAG48ez1UqV8E8nHGq50orS+3oqXbP80R6g7kVa3Hq-domHCSsQ@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: 
+ <CAG48ez1UqV8E8nHGq50orS+3oqXbP80R6g7kVa3Hq-domHCSsQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <178533542083.1487494.4997040334203509554@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: 8C7AA5F961
+X-NC-CID: n4plyXSHRf4TnWxZTX2f0cqWAxsIBaOTrfXbFX+07mdSoY0T2n8=
 
-Hello,
+On 7/29/26 15:45, Jann Horn wrote:
+> On Wed, Jul 29, 2026 at 11:08 AM Pasha Boroffski
+> <hex.dec.bin.oct@gmail.com> wrote:
+>> Hello.
+>> I believe 6650527444dadc63d84aa939d14ecba4fadb2f69 has a bug in it as it causes "kernel bug" with PREEMPT_RT enabled.
+> [...]
+> Ugh, yes. This is not an issue on mainline, but the API contract of
+> mm_access() changed in commit cd3f8467afd4 ("mm: refactor mm_access()
+> to not return NULL"), which landed in 6.13. So we'll need a
+> stable-specific fixup for 6.12 and lower.
+> 
+> I'll try to come up with a patch for stable later today.
 
-This is a fairly large release...
+I believe Sasha already handled that:
+https://lore.kernel.org/all/20260726195203.stable-0001@kernel.org/
 
-A number of memory leaks fixed (from AI)
-A number of netlinks fixes/enhances
-A number of exportfs fixes/enhances
-A new nfs-iostat option
-A number of gcc/warnings fixes
-
-The tarballs can be found in
-   https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/
-or
-   http://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2
-
-The change log is in
-https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/2.9.2-Changelog
-or
-https://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2/2.9.2-Changelog
-
-The git tree is at:
-    git://linux-nfs.org/~steved/nfs-utils
-
-Please send comments/bugs to linux-nfs@vger.kernel.org
-
-steved.
+Ciao, Thorsten
 
