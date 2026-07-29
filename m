@@ -1,332 +1,312 @@
-Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E5931326F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 05:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9602438B7BC
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 06:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785302852; cv=none; b=LCYOQtJnPT5Q5ViIeX9pX9tiBwqxdaOhWTvrdLCFZAqt5Dok3NH6nGH2nEvIEj9/tBuKJv5z7k4KWh927CfZDvv6grQ3ANcBh6PK+c/UvtAth3O6bx5JiUEVf7sWcZR6N6HlZ/H3uYFWWkKC2B4AqS9FEhCbHiE/P/yrlz0dC34=
+	t=1785305490; cv=none; b=rNTw5AbsaRtUOtHP6SIJFy+W17heFh4dl41aVDqw8XKjmOyRCK144GB0TgUtgp/RCJ12eDl4i+pebUXKn1AmdltnJY/MILSlnHKJWjCbhodI+KoydAeQdsCsY1aTxEJixOPpHBMtEANsyqPNhpd93IgPmfG6nWfBhPFIXwuPUJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785302852; c=relaxed/simple;
-	bh=i9jEe0P2sE9IW8SXt73vwdCcYhMgdpeG6EXSa7wQ14g=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=d3weVkLeX7olIzWtUhsBw0BDl0S2rh3OmtRZ2MyL0IeOmcMFvKbocNIrte0hzV4zF0Qy6dg4rzvOBWnJW4Lm+C966B+hcDlKjC6vg0TqEL94JNMFRFl/GA7iAqMlkWbxjNcfNHWE7ffvRsLP65e/eAFJ7Pwv9YpWrOwfHM3iO6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-451ff8b9acbso1479314fac.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 22:27:30 -0700 (PDT)
+	s=arc-20240116; t=1785305490; c=relaxed/simple;
+	bh=jL1L+M9UzP23TeE1WbPlqF1oRuPeCxkLBdJWLaUGyyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QuU6ijFupq4+A57YGH0jPPx2kku3O4leS8uWW1aSrKpH3ldTTqEAR0RzZRnxlHpCIQalho7rA5C5foPos/U7/wJUdkGmOMfNE6XYDjfOJ+zfgvDPHorp/UbEia/P3Vr9RMGEm9NagaHHpZVQvLC3ux7Z4UHtjfdGYUih25T3rt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=TMkaVCOG; arc=none smtp.client-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="TMkaVCOG"
+Received: from pps.filterd (m0167077.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66T5iPM02961322
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 02:11:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=u855
+	+fk6kISuaKSmfaV9vv5egbGgNKlzL+lMI+HDIuo=; b=TMkaVCOG/I7k1Flsl7WB
+	1/4xg5/HFiDiQFPLjuJWN3AiqnVbPUdSlUhzkO0+2PbFTKoc64/HJazFYL+Bk3Ie
+	jaUR+PrDYJUmpaynWYN1UqypZxTHko8jlnCRnD63ReiW5R5FDJClh9hHCMtPpeBG
+	phTjvZzEeW6qzRJLgxv/5tEdvt3c72MZ6jHL2gt2bQgrN0oM3IDRW/dHrnJrqLlo
+	c8YBlycb5MPJRxcbKbsQA08Td001HRFEPibV1SHwiFwuTm+J7ag+AuU4n5FlojHT
+	Dn5z1gRJORA9FjapXBYzS6r0QaYg3xNo2fai5itZVSXsVnyOOGbBXhM8I1wAC6WQ
+	9A==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4fq8aggj9x-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 02:11:19 -0400 (EDT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-522de3c645dso11999051cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Jul 2026 23:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785302849; x=1785907649;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rIn/LBI9JBxDR42/aRTpRVXPaJbvrdIj7QtaG6wYi/E=;
-        b=rM1Nr5L6aCJSOF9tC6GXa9vOrnIQjUvUEpeHmZ/2bJCXU6VeO81KtG7kq4ev7e/RXj
-         OT4pgyHiRJRRDf8paR0Ju/bQjTSJMQU3hC+rTNfdSZhNRFhVuV7+HI7DyhL8H4aGARGg
-         mxmG7NVoPTxg5tUuRsbPaOZuaSa0lImY72ceR+Xkem+61os1klh5JyJS5UIYR/YX3KVD
-         Z1u/7UlXKJNJ1SkttHAF38i8yqp6NV7PMcyuHtP0NunugC8+23OYL1pRgVwoSCbUNVig
-         o7P2OH37VdV71V2s6VfKhWDnENro/ejSUDQ7lL9tssAvny8PCMuS2zSu48voS1YofU7H
-         9RsA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqc266VZLgrSkmvPugRJzQtn+r+KZP9z44pRIVm+r3pMTcOxyTGB9Kr1bZvVPLN2slYNE8N42wpDvcDpO4p@vger.kernel.org
-X-Gm-Message-State: AOJu0YxonPwQ2+53K0TTX5BOoZPobp1EpqqaEMxTr55u5VxcYLa0R+HT
-	uHcGXBbn+zpGXLmGfRnmdYNS4m0Ov6Kta/bIpqbqrthwjMHd9x2Z5OKyzJqM0GSYvIJW0GP6b5O
-	FMmwFx5YOnUnGa9cwtt8dd0IUHCIFO38V9IeuvMEO+jTunEPpNnKr1nZ2J2A=
+        d=1e100.net; s=20251104; t=1785305479; x=1785910279;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u855+fk6kISuaKSmfaV9vv5egbGgNKlzL+lMI+HDIuo=;
+        b=qpkn+93YFmtiErt4yhKdrXOya7snipeoy/FRZLseKnGs40bXckzH/fK8XG9E4/5z0e
+         AWLsL4YbhhQOEsDv0aqNWxnjH2t/QHJjERmIZ0cJXPbaziyoa7yen8TlNZ+o3EI6CRiz
+         Jn9cixNyalcTdf5G4efUaW0NruoubmXwrfqXYWjM6qWXr/sb0jASavd+6kNHpNY7tesZ
+         9Sh6cVkXLaMjI+bxhJkFvPzKoNElKT4/9iUTkEf/dCgWWcs7XLmdY0Lkg8V4wfccFjuZ
+         7T1KEpkhYOKt2Hn85efL8JSL6RGcQuI2cDh/Lfx/ZXG8mOg/YvCzvtO2kr8yeWhUsWHc
+         4khg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2KB/SB5NTtLhRugx0sfvOlVVUATKERqKYqEh8HmQWVAQcJCu0yTrOmh9TksIIQjFChBKuSD5wwRA9OKPw@vger.kernel.org
+X-Gm-Message-State: AOJu0YxI5UqjD4U6tLI5l2Nmn3uONPhMS7g6oUsZo72kU+NVrHECwnh+
+	a2KsIuRL3zon0zRjsTdVgOeWRqztyuIjKvzz1WC7JvozjQHumJ9/Zr9+JL5fBzXTzwOaCspKMta
+	IHWsAyba6WJxOfm6sgOnBegR+aqC9yAxxKLAkRO4kQa8z1Ayi1S1HILWwMBx6U9Q=
+X-Gm-Gg: AR+sD102kZVjPespXB2Eb8MaXO+kZ+cbxAllqpqu6+R3LtmvHrIJMnol3+oNUQneloN
+	MdPAkPIXBCQ1ZY9wA7JNTyy/VSlIt6Cc9LrTFhOVBfexqFLomVIVDN24WxJrsSchGyt/3c9CsyT
+	sd+x0FjI/+3nFNXjGR5ksIF8Kwi42bQ1ay34FOWq+JYCsfHznaRVOb5GMbysCtbceyScpg4nAnc
+	W2SylHTW3FqbWE8P4sidfGGgicwb0LBljrYYkOFCZv0pK7cSApTyhc8RxMNvy9Kx+nH8bIEAEtA
+	LJyTnt6j1pTkYkusCg19h5hO6HqH2GdFW/+TjXtvJCJxRR5ogYCXNrNmEIA1Qa6QUMt02y0bnRH
+	bZ7d5l/lDb0VpG8Kal/BCOq8roAGTHZbtzyF8ZyaROetsXElEfw==
+X-Received: by 2002:a05:622a:111:b0:51c:1811:6eae with SMTP id d75a77b69052e-529d70eb754mr49138331cf.47.1785305479102;
+        Tue, 28 Jul 2026 23:11:19 -0700 (PDT)
+X-Received: by 2002:a05:622a:111:b0:51c:1811:6eae with SMTP id d75a77b69052e-529d70eb754mr49138181cf.47.1785305478580;
+        Tue, 28 Jul 2026 23:11:18 -0700 (PDT)
+Received: from [192.168.1.62] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9081dc890c7sm16972566d6.19.2026.07.28.23.11.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jul 2026 23:11:17 -0700 (PDT)
+Message-ID: <8124341f-3af2-4a16-897d-38db5ab5a9d4@columbia.edu>
+Date: Wed, 29 Jul 2026 02:11:17 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1646:b0:49a:7714:ed25 with SMTP id
- 5614622812f47-4ad730d1443mr438633b6e.3.1785302849472; Tue, 28 Jul 2026
- 22:27:29 -0700 (PDT)
-Date: Tue, 28 Jul 2026 22:27:29 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a698f41.d9e86bb5.297b12.0052.GAE@google.com>
-Subject: [syzbot] [fs?] possible deadlock in configfs_read_iter
-From: syzbot <syzbot+d2085ac2d653b9e383e2@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+To: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong"
+ <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>
+References: <agq2KRd8RkP1TAf5@infradead.org>
+ <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
+ <ahPbaSEoNA755Nt3@infradead.org>
+ <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
+ <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
+ <ahbq0RdUyLIPiItB@infradead.org>
+ <80cb53f3-e7e5-4f96-bacc-f9fb7661d976@columbia.edu>
+ <cuyklvhnt37xwk3jlr2iyyxxkzvt4bsf5iqv2gag4ixdicnbk2@rfqgjlclwesz>
+ <4jtsjd2sbsn2w7fzfwb7wwowz72r4kc6345ckkkcjoxjbbwjwn@rkl44x3o3sgy>
+ <cc58a101-6d09-4e42-b99d-673271934c29@columbia.edu>
+ <amgrwn0yQoFvJP4u@infradead.org>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <amgrwn0yQoFvJP4u@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=eYwNubEH c=1 sm=1 tr=0 ts=6a699987 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=x7bEGLp0ZPQA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=QOCMdifcju39GKoXhKua:22
+ a=4b9XAn8bT_W39vTbWQgA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: km07KhLVgoFlG0SBOmCsTtrjYiKE0JJi
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDA0NyBTYWx0ZWRfX68qb0uCnV7km
+ MgUrjjiVrtyiRbsSqAVpcXJu4/kO9kOEU8QozJ/rBrSMCBG1ImVLpzeBk4K4+zC6PHRld23iBLA
+ 43+LAP6t7BmkiGbZFP+jXYmO/keXyTqv0/IP55+YSoD24+8q+Ebn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDA0NyBTYWx0ZWRfXyNZpcVfv4Jyj
+ cyA0gTJ+zFvv8ZlmCi8KV12JNkxTlin2jeBFkrI6E5ibjMmyntg2frfNV4XmmzY9lD1zL1h4kpm
+ Vl07kETfDKrzrA5FXVDYg6QTYqkNclbwMWmZbw0JWDM1OxPRIkzFS2BwDv3JMg701zNd4nwAeUu
+ TykTikVHBme8C3/qGfnb/o9bTHnIhoF/f/1Tly/rZM5mD6rl8XbSS29HmXEj+7oI3moYM7KIm9T
+ 30OEwfzh7x2rwg+/+E4cV5yxoQNQfXwhPLids5xkYs5YPHczhYpm3i83cuyFyQFmEHR8z+bkl8z
+ lU6DW0xmImzATJJ5luSfMWeuzartJp3AMc9xrvF+C7qT3zjDzinOSNORUET/ngWyfR+q+22YjHo
+ DkIsfP2V8QTE0e3hZpnU3yPJPLFQ5LlQU4yuBvLzPG7XQH9ltzFfKLf19lmak0k9d0GV6hSu+LO
+ sl9m65o8S1cl+qI2SPQ==
+X-Proofpoint-ORIG-GUID: km07KhLVgoFlG0SBOmCsTtrjYiKE0JJi
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11859
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=10 adultscore=0 priorityscore=1501 phishscore=0
+ impostorscore=10 clxscore=1015 suspectscore=0 malwarescore=0 spamscore=0
+ bulkscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607290047
 
-Hello,
+On 7/28/26 12:10 AM, Christoph Hellwig wrote:
+> On Mon, Jun 22, 2026 at 12:45:25PM -0400, Tal Zussman wrote:
+>> > 
+>> > Any progress here? The patchset looks really promising so I'd love to have
+>> > it completed :)
+>> > 
+>> Sorry for the delay - got caught up with some other work and had to set this
+>> aside for a couple weeks, but haven't forgotten about this. Planning to pick
+>> it back up some time this week.
+> 
+> Sorry for another ping, but we have a lot of code waiting on this
+> kind of infrastructure now, it would be great to get a version in.
+> 
 
-syzbot found the following issue on:
+No worries, and apologies again for the delay. I had some deadlines and
+travel that kept me busy, but I have some additional results below:
 
-HEAD commit:    f5098b6bae76 Linux 7.2-rc5
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=137026b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=d2085ac2d653b9e383e2
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+First, I investigated the workload C behavior further. The underlying
+problem is that ioends routed to the XFS completion workqueue were also
+carrying BIO_COMPLETE_IN_TASK, so unwritten completions bounced through the
+block-layer worker (plus its delay) only to be queued on
+m_unwritten_workqueue afterwards. The ioend workqueue already provides the
+task context the flag asks for, so something like this avoids the bounce:
 
-Unfortunately, I don't have any reproducer for this issue yet.
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -552,8 +552,10 @@ xfs_writeback_submit(
+        /*
+         * Send ioends that might require a transaction to the completion wq.
+         */
+-       if (xfs_ioend_needs_wq_completion(ioend))
++       if (xfs_ioend_needs_wq_completion(ioend)) {
+                ioend->io_bio.bi_end_io = xfs_end_bio;
++               bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
++       }
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2113dcf433f6/disk-f5098b6b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/413e673b7de4/vmlinux-f5098b6b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/fc40c1b83e80/bzImage-f5098b6b.xz
+        return iomap_ioend_writeback_submit(wpc, error);
+ }
+@@ -664,6 +666,7 @@ xfs_zoned_writeback_submit(
+        struct iomap_ioend              *ioend = wpc->wb_ctx;
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d2085ac2d653b9e383e2@syzkaller.appspotmail.com
+        ioend->io_bio.bi_end_io = xfs_end_bio;
++       bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
+        if (error) {
+                ioend->io_bio.bi_status = errno_to_blk_status(error);
+                bio_endio(&ioend->io_bio);
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L     
-------------------------------------------------------
-syz.3.4908/17817 is trying to acquire lock:
-ffff88807ab9cc80 (&buffer->mutex){+.+.}-{4:4}, at: configfs_read_iter+0x79/0x6f0 fs/configfs/file.c:86
+(Diffs may be whitespace-damaged, for illustrative purpose only)
 
-but task is already holding lock:
-ffff8880741349a8 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: process_measurement+0x5ab/0x2350 security/integrity/ima/ima_main.c:319
+On a fresh-file run of workload C (every completion doing an unwritten
+conversion) this stops conversion-heavy writeback from entering the
+block-layer deferral entirely and cuts write p50/p99 by 7-8% (3381 -> 3151us
+/ 6761 -> 6193us) at equal bandwidth. I tested a sync waiter workload on a
+fresh file too, and it also hit this even harder: a 4k write+fdatasync loop
+goes from 2.0 to 17.0 MB/s with this change on top of v6.
 
-which lock already depends on the new lock.
+I don't love this patch, as it feels a little hacky as currently
+constructed, but the perf impact on this worst case is substantial.
 
+I also implemented (a version) of Jan's suggestion of only delaying the
+completion work when the offload rate hits a threshold, and tested it
+against both delay=1 and delay=0.
 
-the existing dependency chain (in reverse order) is:
+We keep a per-CPU count of completions offloaded during the current jiffie
+and dispatch the worker immediately unless that count crosses
+BIO_COMPLETE_BATCH_RATE (16000/s per CPU, i.e. 16 per jiffie at HZ=1000):
 
--> #6 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       process_measurement+0x5ab/0x2350 security/integrity/ima/ima_main.c:319
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4702 [inline]
-       path_openat+0x985/0x4280 fs/namei.c:4863
-       do_file_open_root+0x2f6/0x5a0 fs/namei.c:4916
-       file_open_root+0x1c6/0x3f0 fs/open.c:1355
-       kernel_read_file_from_path_initns+0x189/0x260 fs/kernel_read_file.c:163
-       fw_get_filesystem_firmware drivers/base/firmware_loader/main.c:549 [inline]
-       _request_firmware+0x733/0x13c0 drivers/base/firmware_loader/main.c:873
-       request_firmware+0x35/0x50 drivers/base/firmware_loader/main.c:948
-       reg_reload_regdb+0x85/0x460 net/wireless/reg.c:1067
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:775 [inline]
-       __sock_sendmsg net/socket.c:790 [inline]
-       ____sys_sendmsg+0xa4d/0xbe0 net/socket.c:2684
-       ___sys_sendmsg+0x190/0x1e0 net/socket.c:2738
-       __sys_sendmsg+0x160/0x210 net/socket.c:2770
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+diff --git a/block/bio.c b/block/bio.c
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1749,10 +1749,15 @@ void bio_check_pages_dirty(struct bio *bio)
+  */
++#define BIO_COMPLETE_BATCH_RATE                16000   /* per second, per CPU */
++#define BIO_COMPLETE_BATCH_THRESH      (BIO_COMPLETE_BATCH_RATE / HZ)
 
--> #5 (cb_lock){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:775 [inline]
-       __sock_sendmsg net/socket.c:790 [inline]
-       sock_sendmsg+0x394/0x410 net/socket.c:813
-       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1f90 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ struct bio_complete_batch {
+        struct bio_list list;
+        struct delayed_work work;
+        int cpu;
++       unsigned long window;   /* jiffie that count refers to */
++       unsigned int count;     /* completions offloaded during window */
+ };
 
--> #4 (&pipe->mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       pipe_lock fs/pipe.c:91 [inline]
-       pipe_lock+0x69/0x80 fs/pipe.c:88
-       iter_file_splice_write+0x1fd/0x10b0 fs/splice.c:682
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1f90 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+@@ -1784,16 +1789,27 @@ void __bio_complete_in_task(struct bio *bio)
+ {
+        struct bio_complete_batch *batch;
++       unsigned long now = jiffies;
++       unsigned long delay = 0;
+        unsigned long flags;
+        bool was_empty;
 
--> #3 (sb_writers#6){.+.+}-{0:0}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
-       __sb_start_write include/linux/fs/super.h:19 [inline]
-       sb_start_write include/linux/fs/super.h:125 [inline]
-       mnt_want_write+0x6f/0x410 fs/namespace.c:494
-       open_last_lookups fs/namei.c:4597 [inline]
-       path_openat+0xad9/0x4280 fs/namei.c:4860
-       do_file_open+0x20e/0x430 fs/namei.c:4892
-       file_open_name+0x1c3/0x3e0 fs/open.c:1326
-       filp_open+0x2e/0x50 fs/open.c:1343
-       fsg_lun_open+0x6b/0x7b0 drivers/usb/gadget/function/storage_common.c:194
-       fsg_store_file+0x1e7/0x450 drivers/usb/gadget/function/storage_common.c:455
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6ac/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+        local_irq_save(flags);
+        batch = this_cpu_ptr(&bio_complete_batch);
++
++       if (batch->window != now) {
++               batch->count = 0;
++               batch->window = now;
++       }
++       batch->count++;
++       if (batch->count > BIO_COMPLETE_BATCH_THRESH)
++               delay = 1;
++
+        was_empty = bio_list_empty(&batch->list);
+        bio_list_add(&batch->list, bio);
+        local_irq_restore(flags);
 
--> #2 (&common->filesem){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
-       fsg_store_file+0x193/0x450 drivers/usb/gadget/function/storage_common.c:452
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6ac/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&p->frag_sem){.+.+}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       flush_write_buffer fs/configfs/file.c:205 [inline]
-       configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6ac/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&buffer->mutex){+.+.}-{4:4}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       configfs_read_iter+0x79/0x6f0 fs/configfs/file.c:86
-       __kernel_read+0x397/0xad0 fs/read_write.c:532
-       integrity_kernel_read+0x7e/0xb0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm+0x25e/0x350 security/integrity/ima/ima_crypto.c:222
-       ima_calc_file_hash+0x1e3/0x380 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x94f/0xb30 security/integrity/ima/ima_api.c:300
-       process_measurement+0xdfe/0x2350 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4702 [inline]
-       path_openat+0x985/0x4280 fs/namei.c:4863
-       do_file_open+0x20e/0x430 fs/namei.c:4892
-       do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
-       do_sys_open fs/open.c:1374 [inline]
-       __do_sys_openat fs/open.c:1390 [inline]
-       __se_sys_openat fs/open.c:1385 [inline]
-       __x64_sys_openat+0x12d/0x210 fs/open.c:1385
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &buffer->mutex --> cb_lock --> &ima_iint_mutex_key[depth]
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ima_iint_mutex_key[depth]);
-                               lock(cb_lock);
-                               lock(&ima_iint_mutex_key[depth]);
-  lock(&buffer->mutex);
-
- *** DEADLOCK ***
-
-1 lock held by syz.3.4908/17817:
- #0: ffff8880741349a8 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: process_measurement+0x5ab/0x2350 security/integrity/ima/ima_main.c:319
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 17817 Comm: syz.3.4908 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1c7 kernel/locking/lockdep.c:2043
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2175
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
- configfs_read_iter+0x79/0x6f0 fs/configfs/file.c:86
- __kernel_read+0x397/0xad0 fs/read_write.c:532
- integrity_kernel_read+0x7e/0xb0 security/integrity/iint.c:28
- ima_calc_file_hash_tfm+0x25e/0x350 security/integrity/ima/ima_crypto.c:222
- ima_calc_file_hash+0x1e3/0x380 security/integrity/ima/ima_crypto.c:280
- ima_collect_measurement+0x94f/0xb30 security/integrity/ima/ima_api.c:300
- process_measurement+0xdfe/0x2350 security/integrity/ima/ima_main.c:425
- ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
- security_file_post_open+0xc4/0x210 security/security.c:2755
- do_open fs/namei.c:4702 [inline]
- path_openat+0x985/0x4280 fs/namei.c:4863
- do_file_open+0x20e/0x430 fs/namei.c:4892
- do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f3adaf9de99
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f3adbf33028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f3adb225fa0 RCX: 00007f3adaf9de99
-RDX: 0000000000000000 RSI: 0000200000000640 RDI: ffffffffffffff9c
-RBP: 00007f3adb033eaf R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000003 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f3adb226038 R14: 00007f3adb225fa0 R15: 00007ffd05bb3858
- </TASK>
-syz_tun (unregistering): left allmulticast mode
+        if (was_empty)
+                mod_delayed_work_on(batch->cpu, bio_complete_wq,
+-                                   &batch->work, 1);
++                                   &batch->work, delay);
+ }
+ EXPORT_SYMBOL_GPL(__bio_complete_in_task);
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I used 16000/s (at HZ=1000) as the threshold rather than the 1000/s
+suggested. For async completions the 1-jiffie delay would at most double the
+latency, but a sync waiter that can reach the threshold instead gets stuck
+at it. Each deferral adds a jiffie, which drops its rate back below the
+threshold, which re-arms a few ms later. This has a significant impact on
+the qd1 fdatasync workload below (W1). My main concern is that this turns
+out to be device-specific and 16000 is too low for faster drives.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Results are below.
+fdatasync latencies are fio's sync percentiles. All three kernels
+include the xfs patch above: delay=1 is the current unconditional
+delay, delay=0 unconditional immediate dispatch, and gated is the diff above.
+C and D are the same workloads as in the previous results.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+                                 delay=1     delay=0       gated
+W1) 4k write+fdatasync, qd1 (~14k completions/s)
+  bandwidth (MB/s)                   2.0        52.6        52.5
+  fdatasync p50 (us)              1990.7        69.8        70.1
+  fdatasync p99.9 (us)            2965.5       118.3       119.6
+  context switches                  212k       4.17M       4.18M
+  cycles                          13.8e9     119.3e9     122.2e9
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+W2) 64k write+fdatasync, qd1 (~10k completions/s)
+  bandwidth (MB/s)                  32.7       657.5       655.4
+  fdatasync p50 (us)              1974.3        82.8        83.1
+  fdatasync p99.9 (us)            2987.3       137.6       136.9
+  context switches                  403k       3.30M       3.30M
+  cycles                          22.8e9     144.9e9     144.5e9
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+C) 4k buffered randwrite, qd32 (~118k completions/s)
+  bandwidth (MB/s)                 649.5       655.7       643.4
+  write lat p50 (us)               215.4       214.7       216.1
+  write lat p99.9 (us)             703.1       984.4       730.5
+  context switches                20.69M      21.98M      21.44M
+  cycles                         922.5e9     838.1e9     911.3e9
 
-If you want to undo deduplication, reply with:
-#syz undup
+D) 64k buffered mixed r/w, qd32 (~11k completions/s)
+  bandwidth (MB/s)                 761.2       753.2       757.2
+  write lat p50 (us)              2605.1      2637.8      2605.1
+  write lat p99.9 (us)            4358.1      4358.1      4358.1
+  context switches                 5.99M       6.92M       6.92M
+  cycles                         399.0e9     414.3e9     414.4e9
+
+On W1/W2 the delay=1 caps a sync waiter at ~500 syncs/s, since every
+fdatasync takes a full jiffie. The gated version never fires on either
+workload, so it matches delay=0.
+
+For C, delay=0 regresses write p99.9 by 40%, while the gated version stays
+within 4% of delay=1's tail.
+
+D is similar across configurations, but adds +3.9% cycles and +15% context
+switches vs. delay=1.
+
+Again, my main concern with this approach is that 16000 (or 1000) is a
+somewhat arbitrary value that depends on disk performance. If the C p99.9
+perf is an acceptable trade-off, I think we can get rid of the delay, but
+I'd appreciate more thoughts on that and the XFS diff above.
+
+I'll send v7 with the rest of the changes (Sashiko review, etc.) in a day or
+two, pending any additional feedback.
+
+Thanks,
+Tal
