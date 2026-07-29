@@ -1,231 +1,124 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962EA441606;
-	Wed, 29 Jul 2026 09:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709BC382F03;
+	Wed, 29 Jul 2026 09:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785316117; cv=none; b=BKN9oIepfEKpeFE7iVLrt9w1XOLPKHx0wrH8Ov2hyqCp3SZM+NKRSECEdSCeljQhzqmTn8ds8UEmG35UUDTdG8UAE2Wu9RgOAwtz0AK7K3NokrzRvOxt5794qDe5R7pdU8zn8Gp56ucJpB2IeJLnNjfpmdca5wWdcBptlvrJO4Q=
+	t=1785316347; cv=none; b=mCLUGx4rDQqJ7EQT8adZORpOwP44tVuwqep4g9pJ8zhsshOc4ItwC/cBs5Q3MF+62UK8WOt+TCru0QgK3R64ia+YnMkbgo+ejvb7nsTk6G/cllcN7bIl6AmPx9P+LrsZjl5wzxmorB3P5wvUX2Yb41UrM1JWHBZW4HHI9rgzZXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785316117; c=relaxed/simple;
-	bh=vBl0BB7eWNLqSqI2+3uZnhG73QO/Z9uxZRzzq3R/gds=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tC2pRl87J+SLGEw1NNzTuRrLfXU5AjaijkseHiOlxdgMMMyoMhgmmkclWh8GWkY/oyACY7TpV3D+SvQMoqla+VEqEkr/EB8zRtY6kBTJvoV2PV8EjyTVyzqH3cisMSiu/JXjALhJEZu7KN24AgYPpC/slSMiXg9S+FRcCMiAxmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4h960y0GyVzKHMmm;
-	Wed, 29 Jul 2026 17:07:30 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id D31B64056D;
-	Wed, 29 Jul 2026 17:08:24 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgCX1EMCw2lq_g5uAQ--.47619S6;
-	Wed, 29 Jul 2026 17:08:24 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH 2/2] ext4: protect WRITE_ZEROES written extents with orphan list
-Date: Wed, 29 Jul 2026 16:59:18 +0800
-Message-ID: <20260729085918.3336221-3-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
-References: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
+	s=arc-20240116; t=1785316347; c=relaxed/simple;
+	bh=Boj4f5NB+aFJg5EOhHMpCMpyoCgVNAOq8nSWsYT5Im8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWmW7bFzXexEDI8DTsbYN3LcgWM20coRzzgfitGTyWeIJ+DJGWoSOghambY/QfqK+B94kWZffhWJ2PVOxrNVgmycK0syGv67Wa7HmQIIHm8CwUcb/CFTUxuf8lGmfm7YmnKzfk+kXNCrdomG5y3OruAlUzOMRTwCcAMyTXa8cL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmYctjJM; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmYctjJM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B311F000E9;
+	Wed, 29 Jul 2026 09:12:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785316346;
+	bh=rVWe5ODzftWQQE1QOzNJsn1dodqJktnAFjucY5GchBw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fmYctjJMMA7/7frnc50f9MyYchxw4mNhE8nxqKRJbBTF3vxh6wtKL39KOSOmElIQf
+	 GMc4XxgP0ITOd2bmTM74SkHL5KnX4asXHQH5kkjX852UARxu34sdmKbu8qj2apVnr8
+	 VOpjWNg7FMFfh+OWq/DanLr0koaKCi1DOabJAOB+WKVW8AoDkGXywLNTdydf7PSIt/
+	 EcUKXc2J9kGpE91GJ9aLZRVmARcxYvFbASBoyY9hDuj+HgduO6Zqg9qZC7koFjsdcC
+	 GmaUoS9qVnn7gM5CAyxM+9Lb02D0fTypf461LBjjULMVkc5OSYmpDVLpDxP0WNWv2Q
+	 yZ4wi60UF5uwQ==
+Message-ID: <634717bf-d188-4de1-8465-31e31ea3642e@kernel.org>
+Date: Wed, 29 Jul 2026 11:12:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgCX1EMCw2lq_g5uAQ--.47619S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw1rtFy3AFWfZr4UtrWkJFb_yoW7Wryxpa
-	y3Ar1rGFZ5Wasa9wsavF4UZr1Fkas7GrWUXrySgrWjvas8Xr1xKFyaqa4YvFWYqr48ZF1Y
-	qr4jyryUGw4UZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x0JUqYL9UUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+ f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
+ peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org,
+ elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+ brauner@kernel.org, souvik.chakravarty@arm.com,
+ subrahmanya.lingappa@oss.qualcomm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+References: <20260724144430.1440170-1-cristian.marussi@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260724144430.1440170-1-cristian.marussi@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Zhang Yi <yi.zhang@huawei.com>
 
-In ext4_alloc_file_blocks(), the WRITE_ZEROES path converts unwritten
-extents to written in one transaction, while i_disksize is updated to
-cover them only in a later transaction. A crash in between leaves
-written extents beyond i_disksize on disk, which fsck will complain
-about.
+> NOTE THAT from v3 onwards the firmware interface level NOW supports ONLY
+> the latest SCMI v4.0 specification [0].
+> 
+> TODO
+> ----
+>  - [ABI]: add genric events supports -> generation counter/updates
+>  - [ABI]: add Secondary UUID support
+>  - [ABI]: add BATCHED DE_CONFIG and add per-de status to BATCH READS
+>  - [ABI]: more DOCS
+>  - [ABI]: some more dediceate space to grow all around the structures
+>  - (maybe) TLM chardev open-exclusive mode to ease userspace co-ordination
+>  - a few residual sparse to fix... 
 
-To fix this, add the inode to the orphan list in the same handle that
-does the conversion, and remove it once i_disksize has caught up.
-Also add a sanity check to ensure conversion does not extend beyond EOF.
+Is this a TODO list as in "must be tackled before this can be merged" or rather
+a "future works" list?
 
-Since ext4_alloc_file_blocks() is called from the fallocate() path,
-partial allocation is safe. On partial conversion failure, advance
-i_disksize only up to the boundary of successfully converted blocks, so
-that orphan cleanup sees a consistent state. Document this behavior in
-the function comment.
+Especially the "[ABI]: some more dediceate space to grow all around the
+structures" sounds like something we would want before considering merging it?
 
-Reported-by: Jan Kara <jack@suse.cz>
-Closes: https://lore.kernel.org/linux-ext4/3f6ao5amv7glbgigndtegcucgo3n34ij3lau6l3da3hgdxgn3v@ev66wv3r5umt/
-Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/extents.c | 78 ++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 70 insertions(+), 8 deletions(-)
-
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index 1ab1a6e2ed83..a3dde7ba0d23 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -4571,6 +4571,22 @@ int ext4_ext_truncate(handle_t *handle, struct inode *inode)
- 	return err;
- }
- 
-+/*
-+ * Pre-allocate blocks for the range [@offset, @offset + @len). Allocated
-+ * blocks are marked as unwritten by default. If EXT4_GET_BLOCKS_ZERO is
-+ * set, the allocated blocks are zeroed on disk and their extents are
-+ * converted to written state.
-+ *
-+ * When @new_size is nonzero, the caller intends to extend the file, and
-+ * the file size should be updated to the end of the allocated blocks.
-+ *
-+ * Allocation may partially succeed due to some non-fatal issues. In that
-+ * case, i_disksize (and i_size) is advanced up to the successfully
-+ * processed portion of the range.
-+ *
-+ * Return 0 on success, or a negative error code on failure or partial
-+ * failure.
-+ */
- static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 				  loff_t new_size, int flags)
- {
-@@ -4585,6 +4601,7 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 	loff_t epos = 0, old_size = i_size_read(inode);
- 	unsigned int blkbits = inode->i_blkbits;
- 	bool alloc_zero = false;
-+	bool orphan = false;
- 
- 	BUG_ON(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS));
- 	map.m_lblk = offset >> blkbits;
-@@ -4659,19 +4676,49 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 
- 		if (alloc_zero &&
- 		    (map.m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN))) {
-+			ext4_lblk_t converted;
-+
-+			WARN_ON_ONCE(map.m_lblk + map.m_len >
-+				EXT4_B_TO_LBLK(inode, new_size ?: old_size));
-+
- 			ret = ext4_issue_zeroout(inode, map.m_lblk, map.m_pblk,
- 						 map.m_len);
--			if (likely(!ret))
--				ret = ext4_convert_unwritten_extents(NULL,
--					inode, (loff_t)map.m_lblk << blkbits,
--					(loff_t)map.m_len << blkbits, NULL);
--			if (ret)
-+			if (unlikely(ret))
- 				break;
-+
-+			handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
-+						    credits);
-+			if (IS_ERR(handle)) {
-+				ret = PTR_ERR(handle);
-+				break;
-+			}
-+
-+			ret = ext4_convert_unwritten_extents(handle,
-+					inode, (loff_t)map.m_lblk << blkbits,
-+					(loff_t)map.m_len << blkbits,
-+					&converted);
-+			if (ret)
-+				map.m_len = converted;
-+
-+			/*
-+			 * If blocks beyond i_disksize are converted, add
-+			 * the inode to the orphan list and advance the epos.
-+			 */
-+			if (new_size && converted) {
-+				ret2 = ext4_orphan_add(handle, inode);
-+				ret = ret ? ret : ret2;
-+				orphan = true;
-+			}
-+
-+			ret3 = ext4_journal_stop(handle);
-+			ret = ret ? ret : ret3;
- 		}
- 
- 		map.m_lblk += map.m_len;
- 		map.m_len = len_lblk = len_lblk - map.m_len;
- 		epos = EXT4_LBLK_TO_B(inode, map.m_lblk);
-+		if (ret)
-+			break;
- 	}
- 
- 	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
-@@ -4687,11 +4734,23 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 	if (epos > new_size)
- 		epos = new_size;
- 
--	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
--	if (IS_ERR(handle))
--		return ret ? ret : PTR_ERR(handle);
-+	handle = ext4_journal_start(inode, EXT4_HT_MISC, 2);
-+	if (IS_ERR(handle)) {
-+		/*
-+		 * The conversion has successfully completed. Not much to
-+		 * do with the error here so just cleanup the orphan list
-+		 * and hope for the best.
-+		 */
-+		if (orphan && inode->i_nlink)
-+			ext4_orphan_del(NULL, inode);
-+		ret2 = PTR_ERR(handle);
-+		goto out;
-+	}
- 
- 	ext4_update_inode_size(inode, epos);
-+	if (orphan && inode->i_nlink)
-+		ext4_orphan_del(handle, inode);
-+
- 	ret2 = ext4_mark_inode_dirty(handle, inode);
- 	ext4_update_inode_fsync_trans(handle, inode, 1);
- 	ret3 = ext4_journal_stop(handle);
-@@ -4699,6 +4758,9 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 
- 	if (epos > old_size)
- 		pagecache_isize_extended(inode, old_size, epos);
-+out:
-+	if (ret2)
-+		ext4_std_error(inode->i_sb, ret2);
- 
- 	return ret ? ret : ret2;
- }
 -- 
-2.52.0
+Cheers,
 
+David
