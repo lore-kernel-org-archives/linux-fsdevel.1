@@ -1,96 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F6C3EC82C;
-	Wed, 29 Jul 2026 14:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8BF38DC45
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 15:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785337142; cv=none; b=q7mB1Vz3eDLwjxeB8g5geVvnaJlb7D0vpmKwe8sM75lQr4T7/MjeisUFba/QAeBl85jjy6rvQizuM1xQT6EWejIvn8r6ur2mLeyTbbOA2JrE0HBvtNEXE8SGxYrb1OLm3GNTHFeOjFhDDWgdyzDRn39nXX2fIABgYiZhvZErzrI=
+	t=1785337526; cv=none; b=df1F32MFC02GpIZW+nngXP9XS89mx8FSi66K1q2LsQoB6FeuweXDmEqZXee44SyeuUti6zoWShAuM+MHWUb6laETDo+jyb1HgpvnNhIIwWtrytgZpJs6BdC/xjtxA2DBqbp8Pg+rfGcRUrBi2NdUXG0wqg8T4sZzU+kjzTnmhow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785337142; c=relaxed/simple;
-	bh=BC9DKDkbFpZIuwKBKE1cpLaKvpdwF7SPweVBu9sPbUg=;
+	s=arc-20240116; t=1785337526; c=relaxed/simple;
+	bh=XANEl4Y71d9XEh5w5zCcKYOFujyJfLTF0oDYWZxt/Lg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DkL9Jk5X0ney8zaudtKK/cBtaAIjh77HQ3C8CVL5WRc6V2pHqNa63vHeBG8rUYGFB5oaZxF7PwvFhycOGP9ug0TX+0izAXV5MtyzZ3tGGyx9ncsWhny7apTaTkWwUfdV/dAMpneSQRSqvAS7mka11MNafxxkxk3K3d/W+9WOipI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1WAxq061; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=GDvLEU9T3Cf1eN5RmTbjWzF3GfcfkFlFkRmkoF0C9Vv59AV7Sg2ISsbuH/yRlT5kQXxxzxz0hDoSh5wibzpvuoscDf0Kp/L2SBgyyEOq0tzwMund8inKK/vo+2C6qBleCPjYKcuJuj97KWWA9iRtawIG+SwwCpP4v2Crew1sjXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TsYYT5Ux; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1WAxq061"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D627B1F00A3A;
-	Wed, 29 Jul 2026 14:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785337141;
-	bh=7RaxPzkFNolkG0Jn/Y9SXWpPiCVTq0rHihDR8xzPi3c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1WAxq061NVZ0oM2CTVmHxuhlh9E/iEZ58U8SNZbC/j1zf4/nKwxqgttZ2JlfNQKvl
-	 ZBVqMqZUMIhuzJ9UUq30EhpmwKfFNCfCjLk9RK7yCne73r0gCnx20M+TLxVF1MfbRW
-	 F2wUBZ1dVLiZkmMvRAoDkNSVTCSJeFbQ5xEtUW5A=
-Date: Wed, 29 Jul 2026 16:58:48 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jann Horn <jannh@google.com>
-Cc: Pasha Boroffski <hex.dec.bin.oct@gmail.com>,
-	stable <stable@vger.kernel.org>, Sasha Levin <sashal@kernel.org>,
-	regressions@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: regress caused by upstream commit
- 6650527444dadc63d84aa939d14ecba4fadb2f69
-Message-ID: <2026072933-widow-grouped-f9e4@gregkh>
-References: <CAHmU7G=Dsf31mJ1VH4+Tp-McSvXCg=GcO-eC+O52-_t5gc7Pyw@mail.gmail.com>
- <CAG48ez1UqV8E8nHGq50orS+3oqXbP80R6g7kVa3Hq-domHCSsQ@mail.gmail.com>
- <CAG48ez1tUk+8b7-eWw-fHh2x_bJA1n3CTANVWKQuPW=J+inCrQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TsYYT5Ux"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xpVwuT6Hev1WjQlh3dFEN4IM8UxH5igy66lsCYZfjDk=; b=TsYYT5UxfFOVD0AK6tj0Em2/CK
+	GkXbE5tsFlQLvVWpTPyxYWZ53zOKFGNy/RzWZz+F/FKIElb6H2XKcgDSh7NT1yEpBvTR43bLwKq6M
+	7PDf9tEg0QfCW85pUPYAyB7US5FyhQjgOXw/qPHM5bZhT/y65d0St/3CVc66wtWvA479Lht1I7USq
+	cZ2S05Q1fD6Zpj5g2hfiyuY2IQozk871nyl7sz3U+To4lgpLm+nRSWtUtlJAPyqdQtcNHXt4ZZDIl
+	3XH1IyImsqNkwSZvu1OjCvCUak/A1MoFkH2qDfuMXvZ/QNBn3W5+kRoKBpiBW9jwi4PYbct3g4Y3w
+	NThsYNSg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wp5qM-00000008KbO-3XwE;
+	Wed, 29 Jul 2026 15:05:14 +0000
+Date: Wed, 29 Jul 2026 16:05:14 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v7 06/13] hugetlb: Use the has_hwpoisoned flag
+Message-ID: <amoWqtYhXm9_Bxhf@casper.infradead.org>
+References: <20260728204409.3396238-1-willy@infradead.org>
+ <20260728204409.3396238-7-willy@infradead.org>
+ <amlQYkGgLmxmwX9_@gourry-fedora-PF4VCD3F>
+ <amlrjtaFSEQLYbEO@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez1tUk+8b7-eWw-fHh2x_bJA1n3CTANVWKQuPW=J+inCrQ@mail.gmail.com>
+In-Reply-To: <amlrjtaFSEQLYbEO@casper.infradead.org>
 
-On Wed, Jul 29, 2026 at 03:59:18PM +0200, Jann Horn wrote:
-> On Wed, Jul 29, 2026 at 3:45 PM Jann Horn <jannh@google.com> wrote:
-> > On Wed, Jul 29, 2026 at 11:08 AM Pasha Boroffski
-> > <hex.dec.bin.oct@gmail.com> wrote:
-> > > Hello.
-> > > I believe 6650527444dadc63d84aa939d14ecba4fadb2f69 has a bug in it as it causes "kernel bug" with PREEMPT_RT enabled.
-> > > How to reproduce the bug:
-> > > i used 'find /proc/ | grep 123'. When scanning, the kernel triggers an "Oops".
-> > >
-> > >
-> > > [  344.465851][ T3715] BUG: kernel NULL pointer dereference, address: 00000000000000f8
-> > [...]
-> > [  344.465888][ T3715] CPU: 0 UID: 0 PID: 3715 Comm: find Tainted: G
-> >    D    O       6.12.98 #9
-> > [...]
-> > > [  344.465905][ T3715] RIP: 0010:down_read_killable+0x9/0x40
-> > [...]
-> > > [  344.465974][ T3715]  proc_map_files_readdir+0xc7/0x500
-> > [...]
-> > > I think calls
-> > > mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
-> > > if (IS_ERR(mm)) {
-> > >   result = ERR_CAST(mm);
-> > >   goto out_put_task;
-> > > }
-> > >
-> > > should be fixed like
-> > > mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
-> > > if (IS_ERR_OR_NULL(mm)) {
-> > >   result = ERR_CAST(mm);
-> > >   goto out_put_task;
-> > > }
-> >
-> > Ugh, yes. This is not an issue on mainline, but the API contract of
-> > mm_access() changed in commit cd3f8467afd4 ("mm: refactor mm_access()
-> > to not return NULL"), which landed in 6.13. So we'll need a
-> > stable-specific fixup for 6.12 and lower.
-> >
-> > I'll try to come up with a patch for stable later today.
+On Wed, Jul 29, 2026 at 03:55:10AM +0100, Matthew Wilcox wrote:
+> > > @@ -2725,13 +2748,19 @@ int unpoison_memory(unsigned long pfn)
+> > >  
+> > >  	ghp = get_hwpoison_page(p, MF_UNPOISON);
+> > >  	if (!ghp) {
+> > > +		spin_lock_irq(&hugetlb_lock);
+> > >  		if (folio_test_hugetlb(folio)) {
+> > >  			huge = true;
+> > >  			count = folio_free_raw_hwp(folio, false);
+> > > -			if (count == 0)
+> > > +			if (count == 0) {
+> > > +				spin_unlock_irq(&hugetlb_lock);
+> > >  				goto unlock_mutex;
+> > > +			}
+> > > +			ret = hugetlb_clear_poison(folio);
+> > > +		} else {
+> > > +			ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+> > >  		}
+> > > -		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
+> > > +		spin_unlock_irq(&hugetlb_lock);
+> > 
+> > Adding new synchronization here without noting why - it's not
+> > immediately clear what this synchronizes.
+> > 
+> > Is this just fixing an unrelated bug / should it be a separate patch?
 > 
-> I've reproduced this, triggering this NULL deref on 6.12.98 is as easy
-> as "ls /proc/2/map_files"
+> This prevents a hugetlb folio (which in this arm we don't have a
+> reference on) from being freed.  I think it ended up in this patch
+> because Sashiko pointed out the race during review of this patch.
+> It could probably go in its own patch 
 
-Ugh, ok, let me go do some "quick" releases with just this fix in it
-right now, sorry about that!
+OK, split out into its own patch.  The 0day bot chewed on it a bit and
+came up with a config that enabled MEMORY_FAILURE and disabled HUGETLB
+which showed a missing hugetlb_lock symbol.  Here's the new patch:
 
-greg k-h
+commit 9df49152f5de
+Author: Matthew Wilcox (Oracle) <willy@infradead.org>
+Date:   Wed Jul 29 08:41:50 2026 -0400
+
+    memory-failure: Prevent hugetlb freeing during unpoisoning
+    
+    If we fail to get a reference on the hugetlb folio, then it might be
+    freed as we operate on it.  Prevent the freeing and the attendant races
+    around manipulation of the raw_hwp list by holding the hugetlb_lock,
+    which is also held by the hugetlb code when freeing hugetlb folios.
+    
+    Fixes: ac5fcde0a96a ("mm, hwpoison: make unpoison aware of raw error info in hwpoisoned hugepage")
+    Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 2abaf99321e9..50eab2c23299 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -110,6 +110,17 @@ extern struct resv_map *resv_map_alloc(void);
+ void resv_map_release(struct kref *ref);
+ 
+ extern spinlock_t hugetlb_lock;
++
++static inline void hugetlb_lock_irq(void)
++{
++	spin_lock_irq(&hugetlb_lock);
++}
++
++static inline void hugetlb_unlock_irq(void)
++{
++	spin_unlock_irq(&hugetlb_lock);
++}
++
+ extern int hugetlb_max_hstate __read_mostly;
+ #define for_each_hstate(h) \
+ 	for ((h) = hstates; (h) < &hstates[hugetlb_max_hstate]; (h)++)
+@@ -279,6 +290,14 @@ unsigned int arch_hugetlb_cma_order(void);
+ 
+ #else /* !CONFIG_HUGETLB_PAGE */
+ 
++static inline void hugetlb_lock_irq(void)
++{
++}
++
++static inline void hugetlb_unlock_irq(void)
++{
++}
++
+ static inline void hugetlb_dup_vma_private(struct vm_area_struct *vma)
+ {
+ }
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 944e6e1d4971..1dd0e7b99bb1 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -2725,13 +2725,17 @@ int unpoison_memory(unsigned long pfn)
+ 
+ 	ghp = get_hwpoison_page(p, MF_UNPOISON);
+ 	if (!ghp) {
++		hugetlb_lock_irq();
+ 		if (folio_test_hugetlb(folio)) {
+ 			huge = true;
+ 			count = folio_free_raw_hwp(folio, false);
+-			if (count == 0)
++			if (count == 0) {
++				hugetlb_unlock_irq();
+ 				goto unlock_mutex;
++			}
+ 		}
+ 		ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
++		hugetlb_unlock_irq();
+ 	} else if (ghp < 0) {
+ 		if (ghp == -EHWPOISON) {
+ 			ret = put_page_back_buddy(p) ? 0 : -EBUSY;
