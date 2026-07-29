@@ -1,182 +1,205 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6E2477E22
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 12:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD423AA4E7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 12:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785328639; cv=none; b=HkHlaDOAZshnjPADhmIDlXRMS+sHxf2y69fz56nUUhwHmkV/FkbgulhccPRFMWkqQ8DlBNrBb0RnoDLhMFjK8wHA/f2nKd2kkcPB8JCTuyvExCbhoIGHG1Ts0nCy6wQSwoQvcV2Ay9BGMBz4eVK20LNZCkhS5Cf08sSaZVYxwHA=
+	t=1785328815; cv=none; b=WZ5uDOw7j4bUsS9W45a29OEpP/x8GCHuUx+1GIhZKkvXA7RVlu007fD2zHP0JfrIcmejBhq+gGd96VzNKLmOOCkqHvHIVaIGd0YndYG5FF/BoD4XCV8JvVv91iO9UIgQXP5gctXw7YpaIjSU5baR9zGHmb7vtarYzOO33CDd6kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785328639; c=relaxed/simple;
-	bh=RqBIaQtofOMglq8E0sS3S2TKa8v1b6XvPGQKltQWdqU=;
+	s=arc-20240116; t=1785328815; c=relaxed/simple;
+	bh=mmyLGWwz7ixGglm3PK/MzQvKx1c0i0DOVa0jg6OxGiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+CZqePC3MND9BTig2s9yJxaBH0rHvHT8de5wEgWjU/O6NS1P0OW2x1sppKOdgopmx/h00qebHlqrnhnMTs5RTFXp3zmYk2IfqvPSbm2AoGKrBKq3K7dCUBeSEkzJvuuKg/Bjpe7BjsvDMXKkKhGax3cmTkA8t4Bwmoegnp5kMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HsBO/9wN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vhLdNBgT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nBonCs6a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BT3fFBrc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=mKhdNb3iEmBp2A5nf7GVvzkkbrinwCqodSoZ82Emh4+gJXo22C/gvLPPm26HfovqtousNuJ3MArHE4oIdtOc8HFOhpQcUcIF0iFYp1oDRDwZCbcm3S8VRJoMUWiif+BfFrCYT6ZC9VQF7UdPb6yAMlZ3efrxqJ8mG1WjIUuzbiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CS39VuwG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQqhw4gr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cdJAYFaF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jhnZBAtt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HsBO/9wN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vhLdNBgT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nBonCs6a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BT3fFBrc"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CS39VuwG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQqhw4gr";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cdJAYFaF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jhnZBAtt"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B2C43E10;
-	Wed, 29 Jul 2026 12:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785328628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DEBB77CAE4;
+	Wed, 29 Jul 2026 12:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785328800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aCPopA3duELZWRFQ7PC+zcU7UIlf1ZyVyMzN0xmYHFs=;
-	b=HsBO/9wNGNK0BBi/KZnybjT4wfzH1RbauNRa3BkCq1Gz1ZFYfyulio9BMMz/Qhlayjht8v
-	gD7JzPlP/j/lbzamJYZIEmtCD/24X5mlh9Cm7ueizVVj2a3/38UgR1iUgozDxsYGd00nVJ
-	81gftDjjAsCoQcZd/g/wQgIFNVzYSPo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785328628;
+	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
+	b=CS39VuwGrs8YFT7OyT/WzywmnVzf1n4mlAr9gf0kjzbLmJsJEiUNsHU5JZ3vIUVPpVwGnP
+	XU8/cEWk44RHwQPdzkHZASxKEwAS0PainwKN/Ztl+p/IUTP+kP1yU3bTmzH9WWPOkeglTD
+	+cPXe4HLmJN7CsFq3tgss2wAWlBAxy4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785328800;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aCPopA3duELZWRFQ7PC+zcU7UIlf1ZyVyMzN0xmYHFs=;
-	b=vhLdNBgT3LES3Nfy+reOhuZbF+sRDMgTm8/+rp44QydsQ0PgJmekRb7kN8gf1KeP/gQfF2
-	vhVMad65mEjeOWBw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
+	b=iQqhw4grfRWyMNfAxHbrnBWFV8zGCGoHUpB7eQ0NC5REX4wtRNLWpFXJrAdb+O2PEtE2Y5
+	FqtlVjhVJTL1J+Aw==
+Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785328624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785328795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aCPopA3duELZWRFQ7PC+zcU7UIlf1ZyVyMzN0xmYHFs=;
-	b=nBonCs6auu91fwhTCPSwwqM/BnHZLlIGXt/TmMHVYSy429b64ZCJOljFWGBAHwpGwsp+VY
-	26DPb6Xoz2zlvJd7icT3XVFcHRopeHCqPAv9U3TcLO99ha0MheRXkinzHltD+E4YU5GueL
-	hsbqCAyQMiJN0MmV5BgL9eX8TbAHxvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785328624;
+	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
+	b=cdJAYFaFWjJiCQUoAdu/9I6CAk3ThRqd0LEJkn880mVPLI7E7FsPBi1fgYp9Wb36L21cne
+	DH2OSokO6yEs/y5MAcIH5z0t3ZCQf80U6h+3TiTw3zjqG92ApTeHpf+09GPsrvnjqRNGOB
+	jb/QF5+WPk97pO8pQxSQrXZJLXHdu5g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785328795;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aCPopA3duELZWRFQ7PC+zcU7UIlf1ZyVyMzN0xmYHFs=;
-	b=BT3fFBrcAWB//UVTCQRGI3kpRDayFQs1zsoB1XrNCj60pSuBHTbHXO+sVcJVpP7eK4LEaV
-	7UMRX0P/16CpuzAw==
+	bh=hQCFbZkdkebJTE4XpBiOk+0kx0t78136/P5M44hgxIo=;
+	b=jhnZBAttgMBLE03IRFI6I3usKgqRe5uzRt/J3QZB4T551ivirePPSyyma3CtNdjfQbUkG2
+	GOlNcUwO5sjGyBDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11699779A1;
-	Wed, 29 Jul 2026 12:37:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D62EB779A1;
+	Wed, 29 Jul 2026 12:39:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +/ToAOzzaWpxRgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 29 Jul 2026 12:37:00 +0000
-Date: Wed, 29 Jul 2026 13:36:58 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	David Hildenbrand <david@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
-	Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, ziy@nvidia.com, 
-	agordeev@linux.ibm.com, ryan.roberts@arm.com, linux-kernel@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH RFC 09/11] misc/sgi-gru: use ptep_get() for page-table
- reads
-Message-ID: <amnxCmFU40QQaxTx@pedro-suse.lan>
-References: <20260727164715.2866609-1-usama.anjum@arm.com>
- <20260727164715.2866609-10-usama.anjum@arm.com>
+	id 2KBKNJv0aWpQSQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 29 Jul 2026 12:39:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7D348A131F; Wed, 29 Jul 2026 14:39:51 +0200 (CEST)
+Date: Wed, 29 Jul 2026 14:39:51 +0200
+From: Jan Kara <jack@suse.cz>
+To: =?utf-8?B?6raM7JiB7J6sIC8g7ZWZ7IOdIC8g7KCE6riwwrfsoJXrs7Tqs7XtlZnrtoA=?= <yjkwon0026@snu.ac.kr>
+Cc: jack@suse.cz, amir73il@gmail.com, repnop@google.com, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [BUG] fsnotify: concurrent mark updates can publish a stale
+ aggregate mask and lose events
+Message-ID: <dtryuddxj63ibzfzmktla4ypj7vnxj5gia66joet3lp6zgzpot@btjuuubvckv3>
+References: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260727164715.2866609-10-usama.anjum@arm.com>
-X-Spamd-Result: default: False [-2.80 / 50.00];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_GT_50(0.00)[66];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,hpe.com,arndb.de,linuxfoundation.org,hansenpartnership.com,gmx.de,suse.com,kernel.org,linux.dev,suse.de,linux-foundation.org,infradead.org,soleen.com,tencent.com,goodmis.org,iogearbox.net,redhat.com,suse.cz,ziepe.ca,huawei.com,gentwo.org,cmpxchg.org,nvidia.com,linux.ibm.com,arm.com,vger.kernel.org,lists.freedesktop.org,lists.xenproject.org,kvack.org,googlegroups.com,lists.linux.dev];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon, Jul 27, 2026 at 05:47:00PM +0100, Muhammad Usama Anjum wrote:
-> A leaf PMD is being read through ptep_get() by treating the PMD address
-> as PTE-sized table storage. ptep_get() now accepts hw_pte_t *, so update
-> the cast accordingly.
+Hi!
+
+On Tue 28-07-26 14:32:33, 권영재 / 학생 / 전기·정보공학부 wrote:
+> Concurrent updates to marks from different groups on the same inode can
+> leave the object's cached aggregate mask missing an event bit that is
+> still present in a live mark. An operation started after both mark-update
+> syscalls have returned can then be filtered by fsnotify_object_watched(),
+> so the matching fanotify or inotify notification is not delivered.
 > 
-> pte_offset_kernel() also returns hw_pte_t *. Get pte_t value by calling
-> ptep_get().
+> I forced this source interleaving with diagnostic scheduling barriers and
+> reproduced persistent FAN_MODIFY and IN_MODIFY loss in 3/3 independent
+> boots for each interface. A control update that caused a fresh aggregate
+> scan restored delivery. I also observed the same loss-and-repair outcome
+> without kernel instrumentation on an unmodified v6.12.95 kernel image in
+> 3/3 independent boots, with 9 strict hits in 30,000 attempts. I have not
+> identified a memory-safety issue or a security-boundary crossing; I am
+> reporting this as a notification correctness bug.
+
+Thanks for the report. To clarify is this a result of a code review
+(personal or by LLM) or some real application was hitting the problem?
+
+Also for the next time I'd like to ask you to try to keep your report a bit
+more condensed (either by instructing LLM or by selecting the substantial
+content from LLM output). E.g. in this case the above two paragraphs
+explain substance of the problem and reproducibility, the scheme in "The
+race" section shows how the problem happens and the rest is mostly just
+uninteresting noise so this report could have been less than two screens
+worth of text whereas now it is over 7 screens in my terminal.
+
+Now to the problem:
+
+> The race
+> ========
 > 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-> ---
->  drivers/misc/sgi-gru/grufault.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Let P and E be marks from different groups on one inode. P initially
+> supplies event bit X to the cached aggregate, while E does not contain X.
 > 
-> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
-> index 3557d78ee47a2..ff89d34ad2aa4 100644
-> --- a/drivers/misc/sgi-gru/grufault.c
-> +++ b/drivers/misc/sgi-gru/grufault.c
-> @@ -228,10 +228,10 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
->  		goto err;
->  #ifdef CONFIG_X86_64
->  	if (unlikely(pmd_leaf(*pmdp)))
-> -		pte = ptep_get((pte_t *)pmdp);
-> +		pte = ptep_get((hw_pte_t *)pmdp);
->  	else
->  #endif
-> -		pte = *pte_offset_kernel(pmdp, vaddr);
-> +		pte = ptep_get(pte_offset_kernel(pmdp, vaddr));
->  
->  	if (unlikely(!pte_present(pte) ||
->  		     (write && (!pte_write(pte) || !pte_dirty(pte)))))
+>   P update/removal                 E update/add
+>   ----------------                ---------------------------------
+>   remove X from P
+>   start connector recalculation
+>   scan E without X
+>                                   add X to E
+>                                   observe old aggregate containing X
+>                                   decide recalculation is redundant
+>   publish the older scan without X
+>   both syscalls return
+> 
+> The add-side decisions are not serialized with connector->lock:
+> 
+>   fanotify_mark_add_to_mask():
+> 
+>     recalc = fsnotify_calc_mask(fsn_mark) &
+>              ~fsnotify_conn_mask(fsn_mark->connector);
+> 
+>   inotify_update_existing_watch():
+> 
+>     dropped = old_mask & ~new_mask;
+>     do_inode = new_mask & ~READ_ONCE(inode->i_fsnotify_mask);
+>     if (dropped || do_inode)
+>             fsnotify_recalc_mask(...);
+> 
+> __fsnotify_recalc_mask() scans under connector->lock and later publishes
+> the sampled union with WRITE_ONCE(). A different mark can be mutated after
+> it has been sampled. Its add-side redundancy check can still observe the
+> old aggregate, which the in-flight scan then overwrites.
+> 
+> After this ordering, E contains X but the aggregate does not. The state
+> persists until another operation causes a full recalculation.
 
-This code is super, super broken. Can we remove this ASAP? For starters,
-we're using is_vm_hugetlb_page() to detect page shift, the code does not
-grab refs on the pages, uses pte_offset_kernel() on user page tables,
-does not handle PUD-level hugepages, does not handle PMD-level hugepages on !x86_64,
-does not hold page table locks nor check for pte table retraction, etc
+Yeah, right. So for simplicity I'd just solve this by always calling
+fsnotify_recalc_mask() whenever mark->mask is changed. We *could* keep the
+current behavior by providing new mark->mask to fsnotify_recalc_mask() when
+adding events and then doing the check under conn->lock or even improve on
+it and completely avoid scanning the whole conn->list and just add the new
+mask to the current connector mask. But at this point I think it is a
+premature optimization - we don't expect many notification groups to be
+watching the same inode and frequently adding marks to it. So let's keep
+things simple for now.
 
-I don't think I need to go on.
-
+								Honza
 -- 
-Pedro
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
