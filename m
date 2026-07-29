@@ -1,69 +1,68 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-qv2-f1.google.com (mail-qv2-f1.google.com [74.125.230.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44A344C651
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 10:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC59472552
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 10:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322194; cv=none; b=ZXLJNhA4txTKVY8Oi0jKgbO6+nUbiRcaxa4IU3UMnJSxAE41c4JA59h9Oje6hagf8mjOw/3Lg6pHeorT0i/zVnW8H/0m9jz1cUh6U9iXDQE1RCZ39/qo80KzMlISiezKW7H38RS5pp01D06f4tyvC5xH0eMdhrZsYHWC1Kv9OxM=
+	t=1785322475; cv=none; b=PK5ogqwesYixSfryJ0uy7TH60y9rxfFcisrS4wkCIgZW6K6AIogrSiHx7+7QkCHXKq/6gWqIL+HWyw4pk7py5NoL6BWMoHUaNahfd9mrNrwCWAlYljO7EtR2Ivzhp9ahgtEu7fENAedufzU+ZkJsl2A/dZGZhiYoeB9ZC/JvNPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322194; c=relaxed/simple;
-	bh=iNi2nFSA8g81W+/HnLXlWmnLlyUILEZvQTRGox6oYII=;
+	s=arc-20240116; t=1785322475; c=relaxed/simple;
+	bh=5dZNZBYM5Zqvq5VYC89w2dXp5JVZGlmW/vvBEC/V4gE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6SKdm/HWhATrdJZax/lFdBKCwa1NRKGKV6/kTef0RcOSK2TZuMS/rCOFhu+qUIPIx99zI0EvaxLnVIksSk18gi25FypFzXIb3NzPmzUejM7RAbg6sTiTY06TMhNbe3xI1Rqq956gxNMjo6Dp6Hofv4FNxl78LymU70oZ23lxnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s6f7Plz8; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=j9nx27fajZRUwNsHR3hZ34AzxYRd1Wq00gNdyxFkZAYtZCPO25qJkWed7z/GSagpqzWH7RWBjA8R0Q0KcFNmJk/6I/LU3aJHXZogkOJJfOjPuMCl/iNuwyfoEkA0l9qi4xoBrr+Cg1pxzRpCDHkAFcvL0Fz0xtdBn68JVGk663A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=vykiBsBC; arc=none smtp.client-ip=74.125.230.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s6f7Plz8"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-69c1220bd51so1165277a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 03:49:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="vykiBsBC"
+Received: by mail-qv2-f1.google.com with SMTP id 6a1803df08f44-8f3f86931afso2009176d6.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 03:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785322187; x=1785926987; darn=vger.kernel.org;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785322464; x=1785927264; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3xVEH4RvIZup14rRYV4Zvxl83sd+HTGGj/jXhd9ySH0=;
-        b=s6f7Plz8hCZXfh5yIrDR0xQ3OAAJW6lfJ2nNCx9b0/4iAG0GjMrmw0T2rVHZYMI3hC
-         ogOq+pzXWmy0m4piruY/4MCQ6T5/GjyfZFStJ+gYah5OmM+m1d++9jRz/weyos5l098f
-         FKfMfTpcSM/RQ4KFk7bZuZtsZrdsse0K1beCRAdbe3KejCBQse+RNHSN7A/poayBldUY
-         qHhGuPV6sNvmWF3VcHF0EaKge4A0A3Ypobo1f3LEr7c7xqOluLhscdDkMdcrVLONA7yh
-         GeN3q6i/ptpHpfZ3AghdpxRH9Iqg/z4mdXe7W5VY1LoT6bi8nFV5VNT3iV8ElLNkLJbG
-         UoRg==
+        bh=we7VYo6UQ9yJKk9ndegAj5yb3VOXk2NTtu8lueNDwdU=;
+        b=vykiBsBCA5DrxJj7IHBiKwEFbr5f7D6Uv7EgGk89UQjyxCGVnwAEDJKX5NvaD0/CC4
+         ss5GHA2znC35EOVjSZchGijSTt6AO2Vkbtqu8OrJjcPhHvdSNea1ls5/xV2vit8yK/z6
+         AlipbAtNIoWoZgtL3dp2TCRhrSI2vJZtFB2kgvuPThmctwgidWo6zJhwPqVuq8aWfPeB
+         LyFqf4IJZvcmwGek32krwKjKvVzgUjCcgkt/AaiQMNxBZju/EGzT9Xg3c0B94NcaL7ud
+         GEy3W1f3avT/eHnkh0bc47n+HXM3Q9E3pFm+bFSEVGqhyMX5VV+zZEWjtVvxr62ZGzYa
+         3Fyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785322187; x=1785926987;
+        d=1e100.net; s=20251104; t=1785322464; x=1785927264;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3xVEH4RvIZup14rRYV4Zvxl83sd+HTGGj/jXhd9ySH0=;
-        b=MgY7NKJt5xUyPNj4bCFVHwupiCE9r2wv0H3RU7BnrYGZAX5tYgYIbdIS1krWiD1Czq
-         u1jDPdAeSDmh2w7V0WOZ8sFiZCa+ZK5JuGV8Hja7W2ycE0YZ5cJg2K4YkBrZv+9kwpiL
-         4GmtDwkIpiK35VWCX6nKY6ixJmZOAu2G3LEG02Zr+7vDFnN6ye2EXv9oCi5uHlUXDnUj
-         oyWMoP2xW7u9JV3AbxmcNtprX9vfsnGM9h/P6Atn5WMBHMDQwK/9L+I1FCZu1XXf391D
-         IJS7I6VOmS8iLWCLfgh/1hR/UKyv1K1RbamfqkSY2aNT3fhH8aty2BqzVaN8HsE797vA
-         GoWA==
-X-Forwarded-Encrypted: i=1; AHgh+RofgYVaN8gZsA4PdLJjnFsVJzIT4X/ZwSvSWrPtQOcG6ObRj4uECva1ANiWXwJ9rM7ufAZSZtnOlWGj5rCa@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB/ae1rQFJMCmSB965f+luqv0nVbCoHwCrK9ewQ0uI8SUeukKS
-	DtnypV950mimLE1tMmOEGit11PAWUEeBWzYkCH+QGuX8cXTwf/ZMrhDZ4g7YyP1Emhg=
-X-Gm-Gg: AR+sD10UiH508KLKmmoh4hk+ZrrHGxYF7KU5bcwBfaZcjmWf2ck0YWRQui+VGBjQA2a
-	NgyFtX6ZZsl6IeosSY/5hx4UbYfkUJQfYHS3tCLWdM7rblrQtCJ2LPPbUmhCA+UKoItoJUjcwMc
-	dyRdOkTsp2rT+kq1RZI33BedvRXTTB4a5cTyO+2HCOfynvwlqb1ZXmebvgdfEs95dN+++kYuqjX
-	/1/TRDH0m3uLCo0/bL/4CFEOfeDTwAVCBqAmRZrc2FH8+EYZ6iy5dSkVJ6IAzrJT1WqphuTVAnf
-	NQqlSveO1EsXhK+j7oLihNuH4QC9OaA4Uj6I8ygWXtwPSP0X457oNXdxVduYrKf3FJ9VAg+yGY4
-	9vLObD5cPaD8FereN5JnPXjdxFUnYieb9gdEZtuRvDyheaM88MI5QxOew8iTCmacd+9a9sJXeMA
-	/Ou0iifYmWAUSqAeY2KI0iqfg4unm6Je7d8eniMhW5VY3rHxWn+Wz8yYtTSu/5LBpFIEOX4UpJk
-	WoGzmtTbA201xc71z9zsxj+eK44Gm73bR7K38Vvg1R4GBZQjYwSCZ/DPzHQW58Mz8cnnu1/hMJM
-	7QAZYQv8wMnCHS1J9J78e2/er1U2sA==
-X-Received: by 2002:a17:906:fe47:b0:c15:bea2:d209 with SMTP id a640c23a62f3a-c1f7215dee1mr299738366b.4.1785322187169;
-        Wed, 29 Jul 2026 03:49:47 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1f83d27f47sm97965566b.26.2026.07.29.03.49.44
+        bh=we7VYo6UQ9yJKk9ndegAj5yb3VOXk2NTtu8lueNDwdU=;
+        b=EGK6I2hhV17A/G82Cj891Y1gsgSQ6AqaH81oHBbyfd5t+UssazmX+H7pOAot1s5meH
+         5yTVgvPKBIIFXz9dW3ptHmlBiUrtzLjmqStevRDRXikQ5iPSLzUL2e6KuoUUBbS7jQaN
+         Y6EQIMpWpW27LDkjmYjr0GrhCjoGo52Z2BLNLiRftJZ07UffKFlhRSnY3LcGL/w1XyLt
+         26V4wH7AAGxV1DSySd7k1M2bx4JrOcTVqg00aNhtNF/omgYCrD+Q2emNHZCpx2uZFKMl
+         a6fBx3GHe6yi5uCb0rwDL3Zw3zWw6FBjHsjw9o6htgHTrtEYJT4Lif15z2fhMU8M+saM
+         g3+g==
+X-Gm-Message-State: AOJu0YxgO3iQ0m0vtr/u3JKwwvsoywgytdtOY+9w0gfCzsd61YyBMZ++
+	y9cd0GtG+DxI1fTRXqQPYEUYFIBUnNRBD03PcjFZytA7x836w23kaTD/piyqWihgFdujCxUX3n1
+	ZkGOkecJUCXgC
+X-Gm-Gg: AR+sD10nHoipBft1cHa3SniIIEGuR4UoP1GsutzytO7dhk46Wvh1EcETkcSQdwKN3dc
+	WIDmK0xlH7R4NEzpFmfO5kXLDDGcS2msQya7uVu/S/59+EaCpJyEQdbYgVZZTRDaO8emWcMW3li
+	nqc+FEL3G+aWHq6rLlC3+Asv3+yfgD/GUCHqVtqPesiyBHQqxdXxkXfAVzqnLZlenNaP/Cm/kvu
+	4WwmQriQVVVjGB3hbpGgkULlXBLIWDYFjmk0xw/0tJNZMDJH1o5oqKUijMEe7Y3Qeg8hDznpUSk
+	KH/05ymboPpzhkFNpkBhHctuCcPw8qfcXDt6VFac7/6PbEK5AiXAhCHujcfYoSpX7ERse9ALt2z
+	u9vKFzMFvWvtoXqVkGLaafCf+O4Yv4/02YoBOUy8j0kOb5hB5gaK+0izV2dIjC+weslxWrWNF62
+	xi9sfuQGIYO25kxb0xqE9FBMLhyVUSr5U5CnYQz7LqJcaIl3omkFOLCq7HouwZR7Mu5bBahIV7F
+	Q/HVUufqKwY6deIjqZlb0U7Urrvfhn2uFSKrT06vbPq66c=
+X-Received: by 2002:a05:620a:6016:b0:930:8e2e:f3dc with SMTP id af79cd13be357-9330267968cmr533651685a.68.1785322464252;
+        Wed, 29 Jul 2026 03:54:24 -0700 (PDT)
+Received: from [172.20.6.160] ([50.234.234.35])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e7366979sm140029785a.45.2026.07.29.03.54.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 03:49:46 -0700 (PDT)
-Message-ID: <c81be43c-2fe3-4403-b8a9-dd19855eeb58@gmail.com>
-Date: Wed, 29 Jul 2026 11:49:36 +0100
+        Wed, 29 Jul 2026 03:54:23 -0700 (PDT)
+Message-ID: <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
+Date: Wed, 29 Jul 2026 04:54:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,54 +70,49 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/14] nvme-pci: implement dma_token backed requests
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785274111.git.asml.silence@gmail.com>
- <19e5c945ea8114320c10f7951d19197d48b59249.1785274111.git.asml.silence@gmail.com>
- <20260729071048.GH9534@lst.de>
+Subject: Re: [PATCH 6/6] io_uring/epoll: disallow adding an epoll file to an
+ epoll context
+To: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ =?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
+References: <20260514140817.623026-1-axboe@kernel.dk>
+ <20260514140817.623026-7-axboe@kernel.dk>
+ <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260729071048.GH9534@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/29/26 08:10, Christoph Hellwig wrote:
->> +static int nvme_init_dma_buf_io_ctx(struct block_device *bdev,
->> +				    struct dma_buf_io_ctx *ctx)
+On 7/28/26 7:29 PM, Xi Ruoyao wrote:
+> On Thu, 2026-05-14 at 08:07 -0600, Jens Axboe wrote:
+>> One of the nastier things about epoll is how it allows adding epoll
+>> files to epoll contexts. This leads to all sorts of loop detection
+>> code, and has been a source of issues in the past.
+>>
+>> Arguably adding IORING_EPOLL_CTL is a historical mistake on the
+>> io_uring side, but we're kind of stuck with it now as it does seem
+>> to be in use according to code searches. But we can at least minimize
+>> the damage a bit and just disallow this part of epoll, where nesting
+>> issues can arise.
 > 
-> Please stick to two-tab indents for function declaration continuation
-> for the nvme code to keep the code easy to maintain.
+> libuv uses this ... thing and there's even a test case against
+> exercising the code path adding an epoll file:
 > 
->> +#if defined(CONFIG_DMA_SHARED_BUFFER)
+> - https://github.com/libuv/libuv/commit/3b6a1a14caee
+> - https://github.com/libuv/libuv/blob/09591002d38e/test/test-poll.c#L690
 > 
-> This should be good old #ifdef.  Same in a few other places over
-> the series.
+> And the test triggers an abort on the EINVAL at
+> https://github.com/libuv/libuv/blob/09591002d38e/src/unix/linux.c#L1360
 
-Going to apply both for v5, thanks.
+Thanks, I'll take a look.
 
-> Modulo these minor nits the patch looks good.
+> I'm unsure what to do here.
+
+I think it's pretty simple - if libuv is using nesting already, then
+we will have to revert this single commit before 7.2 release.
 
 -- 
-Pavel Begunkov
+Jens Axboe
 
