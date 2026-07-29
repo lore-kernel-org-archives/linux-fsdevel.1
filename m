@@ -1,33 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C813E122F;
-	Wed, 29 Jul 2026 12:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E525947ECF5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 13:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785328973; cv=none; b=I74MRrgwD/pqGqIMvWJIi/qrr6XNsZmo5RLooTyGZ1lR6HAOruteB7N4HEyz8lPmOlclkoBlEW4wPfpJHuvsX+6q4q90/BVxleRQMuhAoeN+gES+vRi9hZkTKMyA7dcHu8KzC4SD7AeNbVggzmgl5T6dXjD9JTj/01VyhW9sNSs=
+	t=1785330554; cv=none; b=jCeeDMfN7mbTvJv5Z7mwJz5cKaDzZlVKZH5OmPO73vU5GuJE5neUzRGuN9m+dagCAAfzOP3MKZcGHA3ynofzANuYa7185pbuSN62jdRYo2RqE9mshgpwYgKkjxyxpnGR2TEaGCBaB2epQT+HSETws3nYCYrqTBHP0h2fTpqemEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785328973; c=relaxed/simple;
-	bh=eZqAWjHL2jPePlq3RJEMJ4AbBs3kRH8xuH9dG8mq7qc=;
+	s=arc-20240116; t=1785330554; c=relaxed/simple;
+	bh=RMWSxEPwnyLa/061OQ95QqTIugHWJGG2wh5+43JQ5dE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZaEdhodkgbbxSDE043BO8LfMozMZL7V+1hHgfOVVHr/W00HWIKOn5rvVYRa9prvipvqr2T8ViNwSJcp7TAocC5Ud8Hhlyt0SAhg9k38I/bn/naSYD9eOZCyjdAzQylNg0TaSEol4GDElmot41ze/F7p08bluYnA/O68RxcmIMg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIiVNrud; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ir9vaIUau5mKoVl9H2QUWuLMJQnOIlILaVCJZt1CN6dB+ShDbb3EdJbtHjxsxVLXx5kaHBKqugAebIdDEVE9XH3RuWyKlWbkadouBlDijS75tV1/+1CVmJJYoulfoEyQzwMGnl3+XmLNb+uJQdPezT9Wuclvwhuoa8HZ9rTQFcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ti/WRjzu; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIiVNrud"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D1321F000E9;
-	Wed, 29 Jul 2026 12:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785328962;
-	bh=CCfnfjBFYExAnxJTD/rzMs4G+JVWk8LnuYF1LstcYDw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OIiVNrudGYMgEdVIx0kkjz41K/abfMmWQCuVMoltvKL88ry5vvzeu9fzcY/9OXDWp
-	 urmM5jTj5uYEwxtowv6dnJlwSS9PTo7quWtNi7gHj3ZqfWleJMlYHWWtwoq0IDEkky
-	 8P8JnLCx+cJFeHdNFsas608FWlQT7bVkC2bwM046FAmQ7zDEHB0zW1hDtHOw8f8bql
-	 4k70NlZODBKCZTfjYFNVdqOJ/v1f/eicr7a9D82muWKPn8AlDCyXeFCuwaSWyiZ0iA
-	 7EW64naZjqP6zUdWAdVwIEaL++olcUVsOGEeMV8mWUj+uyYo7qTGP16v8aSA/cUEkI
-	 1GtsvDfHUTVwQ==
-Message-ID: <5abb6bbb-973e-41e7-820c-057e85edeb95@kernel.org>
-Date: Wed, 29 Jul 2026 14:42:30 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ti/WRjzu"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4955158f26aso6228965e9.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 06:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785330547; x=1785935347; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YUW97RbS/cuxZAvn9F7FgEb6B/w45ofSr5IJCTvWkgY=;
+        b=Ti/WRjzufwHIizTPl3Yx5oIV0FpU0h3lA8EgQ6GBhVBPYMW2zDrVieQ4twNuhHAe59
+         gcwvB1WzdH6eL6+CBuhgtYNcIPzjY9ZuYT5gflPOsDGyoSgi3782oNSwLl0o5hi7Le2M
+         8D5TY2a7YgIdbVU4XjTaZci2MLeGQ/5adHRzm6dcunCqj4Lbw0YI4Ro2dzNPol8qObg5
+         Ay4ZDbYD78zsZqiZ3ppoPb5Ww8ajctBCqM3Pm1DfCRkBHzMAPORWapS6GElp2k+w3EE4
+         NPyoNcJOzpYISXFyeYgfQdUHPhpimOkhWUI1R7qytwlwsolABWCZOeutcrfzaNijWbSS
+         9qjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785330547; x=1785935347;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YUW97RbS/cuxZAvn9F7FgEb6B/w45ofSr5IJCTvWkgY=;
+        b=jepVaycsfkTzuiztgyYOAe8UYEHuEyN0s4KSnuiP+aw4sebhcBmsJsN6qnvL3qBGqX
+         CxoXKzt6Dxa++GHhTwH0RacDpYX95T8RIhZhe3JGlEb0MZxaXXY1e5KauYevvSNjFo/N
+         C3XtK+MUD2QNEu6y1/JMwzeLW88aP86pgdSNwWNMoYjHVUyVNFxG8xZXobKvCj4FDKPC
+         r0vrKuKTkx3yy5KpbMtwavTJPPDyL1YaSJPa2wp1Xsr/erqE96e8i2IFA0MTNuGgh5p4
+         eolZuCEiKBAXKhrtYPwKt55SJ1zD2qZIUIKvFnZrLNzygDUAXTkTXarVHU54jpjz5sso
+         0AkA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1veYYUJCF7M3VjfXP7ca3YInp9rgHVJIYXlNI+XvFzxJyWeNpqqt3jUp/30bq4utz5QpjKH7vlVan2nAu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyard1MIeDkgE6NUXMpdrzxi+ovfCtwk1lR2DcEUn92P7cgpQYg
+	/zaVZpXu8gS//k+tzuUcKwK6l0Zd3gdsaKa/QpCl2gdJxaVkmV7Ag0Mh
+X-Gm-Gg: AR+sD12y0nIV6FvA0rVaWoZ390dHVjoN24hf1hsNbCOwdu77t+VwKo8+iiArvhp8nmf
+	r1qTR3PXaWUQ6QYezENgMvJkjD2rPlQweizWcsVrNLfozDw0wq1YIvGo7T1vDnNRjkpo0ZDpuVI
+	jOz2OacEDrcrN0euLPOdbQRjt+Dy/sYh1SSJLwnOPzzzdX14cZtvjODlYn666epAzVvFkOaFwY4
+	iWZFoZmeM0hdOuc4m757qAclIv4PUhwlx0UXqo85GoRxJvBKdJx3bFWKWOjONuWgvMKAVvG0O3a
+	+/j768dm9ckMOGrPdtRIq9Ltl5HdlX6IeOGm9Dzr2NL2htiRe8flr2+Pwy+AfN4PjCs4lDPR/EU
+	+n4QkxmQEgSf+DaYi0knBCoh6gxcZx3qY/uJEL8UsO1TmgV1CaW0/qZLy4WgMlNsO2OmJ5qOzdv
+	TJc4kMQhygN/gAUoUhyS9cXLkBN6MLaYhb8qvdmhTVSlkJwym9lb7dI7MvWyzSAcWqDuH/KNSTR
+	bIF40MM996RBnuJVFa46A6EidPooYBtmW6j9vMOaTFVlOeT9ehkc7Vzp58O2D0Gfkv9ZiGEYgMa
+	WUlKx2CGgfUzDptpOvw=
+X-Received: by 2002:a05:600c:348c:b0:495:4fd4:f7b6 with SMTP id 5b1f17b1804b1-496c659f7e1mr79358045e9.37.1785330546620;
+        Wed, 29 Jul 2026 06:09:06 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49764d70014sm93438595e9.3.2026.07.29.06.08.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 06:09:05 -0700 (PDT)
+Message-ID: <8160ce17-6f14-4946-9146-3d261e8398d3@gmail.com>
+Date: Wed, 29 Jul 2026 14:08:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,150 +71,84 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 09/11] misc/sgi-gru: use ptep_get() for page-table
- reads
-To: Pedro Falcato <pfalcato@suse.de>,
- Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+Subject: Re: [PATCH v4 09/14] nvme-pci: add SGL support for the dmabuf path
+To: Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe
+ <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- ziy@nvidia.com, agordeev@linux.ibm.com, ryan.roberts@arm.com,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-References: <20260727164715.2866609-1-usama.anjum@arm.com>
- <20260727164715.2866609-10-usama.anjum@arm.com>
- <amnxCmFU40QQaxTx@pedro-suse.lan>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, cpgs@samsung.com
+References: <cover.1785274111.git.asml.silence@gmail.com>
+ <5c2e9c3bdd3e87c0c9a6e4395ea199002b83fd36.1785274111.git.asml.silence@gmail.com>
+ <CGME20260729072126epcas5p3ad4422a45f1274b71f15dec8bf487fcc@epcas5p3.samsung.com>
+ <20260729072117.GI9534@lst.de>
+ <81412691.21785320403945.JavaMail.epsvc@epcpadp1new>
+ <20260729113108.GA31120@lst.de>
+ <b03bba6f-0a8f-41fc-af59-2a69d271f28b@gmail.com>
+ <20260729115540.GA32573@lst.de>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <amnxCmFU40QQaxTx@pedro-suse.lan>
-Content-Type: text/plain; charset=UTF-8
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260729115540.GA32573@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/29/26 14:36, Pedro Falcato wrote:
-> On Mon, Jul 27, 2026 at 05:47:00PM +0100, Muhammad Usama Anjum wrote:
->> A leaf PMD is being read through ptep_get() by treating the PMD address
->> as PTE-sized table storage. ptep_get() now accepts hw_pte_t *, so update
->> the cast accordingly.
+On 7/29/26 12:55, Christoph Hellwig wrote:
+> On Wed, Jul 29, 2026 at 12:45:47PM +0100, Pavel Begunkov wrote:
+>> It was exposed in early version as I was passing a [{dma,len}, ...]
+>> array, but we moved from that. Maybe I should put the minimum
+>> segment size in the map structure, and (possibly over) split using
+>> that for now? Keith had this chunk in his patches:
 >>
->> pte_offset_kernel() also returns hw_pte_t *. Get pte_t value by calling
->> ptep_get().
->>
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->> ---
->>  drivers/misc/sgi-gru/grufault.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
->> index 3557d78ee47a2..ff89d34ad2aa4 100644
->> --- a/drivers/misc/sgi-gru/grufault.c
->> +++ b/drivers/misc/sgi-gru/grufault.c
->> @@ -228,10 +228,10 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
->>  		goto err;
->>  #ifdef CONFIG_X86_64
->>  	if (unlikely(pmd_leaf(*pmdp)))
->> -		pte = ptep_get((pte_t *)pmdp);
->> +		pte = ptep_get((hw_pte_t *)pmdp);
->>  	else
->>  #endif
->> -		pte = *pte_offset_kernel(pmdp, vaddr);
->> +		pte = ptep_get(pte_offset_kernel(pmdp, vaddr));
->>  
->>  	if (unlikely(!pte_present(pte) ||
->>  		     (write && (!pte_write(pte) || !pte_dirty(pte)))))
+>> +		int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
+>> +
+>> +		nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE) >>
+>> +								PAGE_SHIFT;
+>> +		if (bio->bi_iter.bi_size > max_bytes) {
+>> +			bytes = max_bytes;
+>> +			nsegs = (bytes + offset) >> PAGE_SHIFT;
+>> +		} else if (nsegs > lim->max_segments) {
+>> +			nsegs = lim->max_segments;
+>> +			bytes = PAGE_SIZE * nsegs - offset;
+>> +		} else {
+>> +			*segs = nsegs;
+>> +			return NULL;
+>> +		}
 > 
-> This code is super, super broken. Can we remove this ASAP? For starters,
-> we're using is_vm_hugetlb_page() to detect page shift, the code does not
-> grab refs on the pages, uses pte_offset_kernel() on user page tables,
-> does not handle PUD-level hugepages, does not handle PMD-level hugepages on !x86_64,
-> does not hold page table locks nor check for pte table retraction, etc
-> 
-> I don't think I need to go on.
-> 
+> This seems very pessimistic, especially for the case of the registration
+> only having a single segment, which I'd expect to be fairly common due
+> to P2P bar mappings, huge pages or IOMMU coalescing.  So at very least
 
-Heh, when Usama first showed me an early diffstat I was like "what the hell are
-drivers doing with page tables here, they shouldn't be doing that".
+Agree that PAGE_SIZE is too pessimistic, but I'd calculate it from
+the sg table on registration and use here. Not ideal but should cover
+most common cases like huge pages.
 
-atomic_pte_lookup documents: "Only supports Intel large pages (2MB only) on
-x86_64. ZZZ - hugepage support is incomplete"
+> we'd want to special case that, but in an idea world the caller would
+> be required to provide a useful nr_segments for the I/O.
 
-What is this crap? :)
+Not sure we can do it in the straightforward way from the abstraction
+perspective, mapping are hidden from io_uring, and there could be
+multi-device files with differently shaped IOMMU mappings at some
+point. We'll surely need readv/writev support later, so maybe we can
+improve while doing that as it'd mean passing a {off,len} of some
+sort from io_uring.
 
 -- 
-Cheers,
+Pavel Begunkov
 
-David
