@@ -1,79 +1,55 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F72247254F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 14:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D139D3D45C8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 14:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785333653; cv=none; b=TPFojv7/rVkK77KkFvh3SitcZ6xpcjnmxVs4TmMzdVIUy+bubx4SV2BRgqlDSu7QwgLhjmhWyfvo//CF5wNtvz9snG+7W1Uk+VJ4y1kfGlG7OH7pnyJJBF0GUXKd4/w7aBsrL9pMhwfn84i7Fib1U4jgpD3o0YiNXftINVQ5O4E=
+	t=1785334640; cv=none; b=A3T9VU0m9P1ejTP1AtawJatNz8zhAoeRmltFbWx2Zl2EYZRuIkgD2ou7hG1UmmgcWoPoSc/4csIwTEv8bNFo0lRzaCdbh+ZMvbKLxNh8jvZRJJ7URrpEssojW7wncaQ9kYq4Z7on6SDSon7EJy3jHMALQ0NK5+mWeBBv0cTN4tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785333653; c=relaxed/simple;
-	bh=E9adSgpPNqLGaL6Gxe+Dd1ghUtNkwjChdtqwrf+Us+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q4gzpg7D9NHMnxC7ISLMGrTkqjdYKB6AcF3GDMD3Bahh3tpLxzoCdScW8ptrgetCEFCi1xVV+UldicvKxVXsnlbP4CN1/ldlEeXiJ8oQYA+NHJoLdqCR3APbU0cIMMnqpT2tJFv5UuGsVgPfs+Vo7FnqZb3bUdkSkvbS7BzNGxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=X4hndjam; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=19GNC61J; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1xUEORzv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=D1aj5xtF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785334640; c=relaxed/simple;
+	bh=4YWtOsbn5Mhi7VS6aqmr6wzCigPAWdplq6jzDD1yZG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y2tDE4W78ezgQCq19rSCXwiR1uMJSbHRPzob0YSets5yLp8P736+RwyNyjPRE7PcYfKQfdW/iGwB20AGViVVJDk5COrJJmkDuczwGdqUXa+6Lz1RIwiJnsVYSlESI5wzAPeTuX50K28m4Q3JsYoB8/lFOEvCOl1xhZsOCqigqgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EXZpLQrF; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="X4hndjam";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="19GNC61J";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1xUEORzv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="D1aj5xtF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EXZpLQrF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785334637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7+n4j40225VPB6wZ9Q0L2w0LqypEnipePu3ccpC+yoU=;
+	b=EXZpLQrFhmeIGjOPUOswLEN9I+EhpFhM74Cb7ccSC0+PmJ4BDZGBBJEok4XjzR9iJmsDU4
+	67PcKuyp34OhG8d/f9Gq37HM+Cd7IPexrbUj41dVwm4bBcdQry2uvDtnETTXYTTeMhZ7Tj
+	rten+IiYlpgxKi4LZ6A+sVFSq6YbNWw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-639-DhfV98C_P-q5nCNObYc8vQ-1; Wed,
+ 29 Jul 2026 10:17:13 -0400
+X-MC-Unique: DhfV98C_P-q5nCNObYc8vQ-1
+X-Mimecast-MFC-AGG-ID: DhfV98C_P-q5nCNObYc8vQ_1785334632
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A07157B7AB;
-	Wed, 29 Jul 2026 14:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785333643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H7cOxUgGBlJLCWAnBNfeZnOWq+ylVKoMWqmA8ZxEFqY=;
-	b=X4hndjamdZZ9/Re/3TarLEkMiCVTU9+APJFwGYwlYkFx7u+cPUYrWmOwnfc6vBgrpf7+2f
-	E78XZ4LxIlkt/35/dT05zNYV9Cj87R1kBhnGlYZec+JNvGrOZxTrkFXa/wBbMUJgmJCHuh
-	ez/t3H/gzZaLneGCdVbtPmEmUCZAHB0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785333643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H7cOxUgGBlJLCWAnBNfeZnOWq+ylVKoMWqmA8ZxEFqY=;
-	b=19GNC61Jy6IJw2zMTl395IHZ+lBwGAC1L7W+R9IZ/n3Rz63LcFrM95bMivAJDCRo5wSSOA
-	xeoIJ3UT3UajZODw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785333638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H7cOxUgGBlJLCWAnBNfeZnOWq+ylVKoMWqmA8ZxEFqY=;
-	b=1xUEORzvGv2iAEz56pVcBnypcKBq/fAPDWcPcQfb4Q4ldbX0n/7gmfHYjJyHNoszdxU7Tg
-	MPI1AjXFdUURTDOl/5ssdAwOnzR0A1rL8UuH7TbwXAKabBp5ZCT8VMaycNB1FlBXEVBUrr
-	3yhemUoKaRlSv//UHxOj8ef6C1gbGJY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785333638;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H7cOxUgGBlJLCWAnBNfeZnOWq+ylVKoMWqmA8ZxEFqY=;
-	b=D1aj5xtFINLbzAI+Fx/YXOIXX55H0q4+Xk2GRoJ7ad9gMWEDtpCnd3U8Y+1QmwJauqv/Gr
-	C9PxXD/j/M1py9Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97E14779A1;
-	Wed, 29 Jul 2026 14:00:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RtAOJYYHamoKGwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 29 Jul 2026 14:00:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 28F1FA131F; Wed, 29 Jul 2026 16:00:34 +0200 (CEST)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH] fsnotify: Remove Matt Bobrowski as a reviewer
-Date: Wed, 29 Jul 2026 16:00:32 +0200
-Message-ID: <20260729140032.4022470-1-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 925F01800358;
+	Wed, 29 Jul 2026 14:17:11 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.33.159])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0511E1956089;
+	Wed, 29 Jul 2026 14:17:08 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] afs: Miscellaneous fixes
+Date: Wed, 29 Jul 2026 15:17:02 +0100
+Message-ID: <20260729141705.1977658-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,56 +57,32 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.cz];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RSPAMD_EMAILBL_FAIL(0.00)[linux-fsdevel.vger.kernel.org:query timed out];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Matt was not very active reviewer in last years. Furthermore he
-apparently left Google and his email doesn't work anymore. I didn't find
-any working contact for him so at least for now delete the entry with
-non-existent email.
+Hi Christian,
 
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+Can you pick up these miscellaneous AFS fixes, please?  They were found by
+Sashiko[1].
 
-I plan to merge this through my tree.
+ (1) Fix missing kunmap in afs_dir_search_bucket().
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 15011f5752a9..a93e2cac04cd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9907,7 +9907,6 @@ F:	net/core/failover.c
- FANOTIFY
- M:	Jan Kara <jack@suse.cz>
- R:	Amir Goldstein <amir73il@gmail.com>
--R:	Matthew Bobrowski <repnop@google.com>
- L:	linux-fsdevel@vger.kernel.org
- S:	Maintained
- F:	fs/notify/fanotify/
--- 
-2.51.0
+ (2) Fix double-unmap of directory block.
+
+The patches can be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=afs-fixes
+
+Thanks,
+David
+
+[1] https://sashiko.dev/#/patchset/20260716103030.3065561-1-dhowells%40redhat.com
+
+David Howells (2):
+  afs: Fix missing kunmap in afs_dir_search_bucket()
+  afs: Fix double-unmap of directory block
+
+ fs/afs/dir_edit.c   |  9 ++-------
+ fs/afs/dir_search.c | 11 ++---------
+ fs/afs/internal.h   |  8 ++++++++
+ 3 files changed, 12 insertions(+), 16 deletions(-)
 
