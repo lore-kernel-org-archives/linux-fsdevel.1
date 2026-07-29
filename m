@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE88477E21;
-	Wed, 29 Jul 2026 10:57:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7363AFD16;
+	Wed, 29 Jul 2026 11:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322625; cv=none; b=XtJM+9JP1ms0GvMRyL76Y3d0l+Wd4w4QTSY/KsxGTrYGREkeFiwxs9fXCS9yQUc5DrA5WZ4MBTNhuXW770D0A3B5QbscpvCwMY3x8wEze4TWhgWrdhjrGC/d6PUnXKrVV9vGtHqzQ7xO/D9Eptnyj+/sY67DVp8ak2hNHff7kDk=
+	t=1785322856; cv=none; b=eCBq+uhHKDwR18evt/wsxiqar+hKE7wCGhJwrnEQ3XuwlW30VabCJ1M34DWtWvjxb4/i59MawsFlMZMqPGcQdClQWLTyEgY2HQbOUyWZqLHH/kBUbx95fRjazEN2Sjv11hDzAOozDjCc70eKfAfOs8CJvhg2bMTL7HUmB+wIdXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322625; c=relaxed/simple;
+	s=arc-20240116; t=1785322856; c=relaxed/simple;
 	bh=VLpW/dEvcKVkDmiT9lml/cSTo9kBycKoE43pnQSAfB4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KwlwhiLL8cgzeytxsOFy8boUMFznBOvbd8cCJNtlRepYvAdSLK+8GTyv9XW4HfvFya4S2ggX7YIdmS+lg8zp2D02T3rI14oY9r8Fvc9n23YoA42JWlGt4Gd0EKBl4ncvUyo1ChibyDM70Nf9lrzRgJERo2Qe3Q5Tz+O7phU0GdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LtFXfQqh; arc=none smtp.client-ip=100.103.45.18
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s0HidyBbAvTrQianlBwhXL2DJXqzmhWl7LxvjltdKtYyTCvNB3Z5DkSh+QfH4D2EbT7fR2b6ToZcgAoqks3AHDS5/ezeWHm2zJ9qmS28KvwFOOLmq/s36wEywDlvhKiHtvgUsJdK/xfi8z3c6tfCIjbqUZYwQLoeWk4KIAjT1u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IR22DZl3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LtFXfQqh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D801F00A3D;
-	Wed, 29 Jul 2026 10:57:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IR22DZl3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D13471F000E9;
+	Wed, 29 Jul 2026 11:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785322623;
+	s=k20260515; t=1785322854;
 	bh=CZkGzeTOvoWZrqaOctW06bUz6tq0Op+/YqR+st3a2lI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=LtFXfQqhtNvIqYUzAz18zZAKNPgP90F7puBdqJxcyFRJaSDspdNswQRWx0jQR59fA
-	 wWYLmofhmVAoWhDYMRWN3NiAWNiThZxT62GdtGv9DKpjbog7gPdX1lQqsJKBlE/nzY
-	 4kNpSdHxRShnSl+1t21R/HnVyPzDyuMnRz9VkMFiu/ZHa3bnb71M8MnlY1lfq8Vfto
-	 zSTthPzM9SQP7TEBlbdnMsx7OLfVKCth6/lhqVE0BIc/OzDNQWv+OuM2E/4za/fRZY
-	 M3TD1CUzZugyb4ZX3ALm/yp4da9Mhz3X4NlIetw1GYSeheBgE+6Cn1/EL13/Xq4FWE
-	 EeIfgGzdPp4uw==
+	h=From:To:Cc:Subject:Date;
+	b=IR22DZl3JcD5M/gdl6LuxGrSvm9tvX6689LPEsjRYu5mzcKdmJtlePATxjRv6NwTY
+	 mTpRuOiDusQHmQmPAkOo5qxNeGFG6rau1T2WOxn+OF8tGiRUp4v7pohtMkawlRbmaL
+	 4ZoSO2nwR7PXhWc/DjQuz9vfS47uS+QbsxgY1JGuv3JbFA0SzZDklxWJ7gmk2INI2d
+	 X8ar7mQ1JJLgp9IxE9/biRNZTR8f8RifRJr3Cxm2Q8CvXhKYqMbadt3fUbh71EGBT+
+	 RkffwYn3MM8npMCuyXeMRELuhlrrwEnzb4rTscqLdfyY11nlOVO2LfThYMODOndfQZ
+	 0nYybMTttM3ew==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: hyc.lee@gmail.com
 Cc: ntfs@lists.linux.dev,
@@ -35,12 +34,10 @@ Cc: ntfs@lists.linux.dev,
 	cedric.blancher@gmail.com,
 	Lionelcons1972@gmail.com,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH 1/1] ntfs: ntfs: add ioctl support for named data streams
-Date: Wed, 29 Jul 2026 19:52:59 +0900
-Message-Id: <20260729105259.11810-2-linkinjeon@kernel.org>
+Subject: [PATCH 1/1] ntfs: add ioctl support for named data streams
+Date: Wed, 29 Jul 2026 20:00:36 +0900
+Message-Id: <20260729110036.12129-1-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260729105259.11810-1-linkinjeon@kernel.org>
-References: <20260729105259.11810-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
