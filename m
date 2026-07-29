@@ -1,69 +1,33 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA0B42EEBE
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 11:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201C244212B;
+	Wed, 29 Jul 2026 11:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785323042; cv=none; b=gOJHVL+D6pO14wkgxKdo/N0jgcxnhLuf8U/qUVt+4gpoSnTaiwQhGmq05aT4ZUWlhpvr8Es86otTuBoo7xxGJZszrsEWrzgPe+7q7/vNzfFPqGNJMgzE4wjryHJl2029BhZro/tJ/y+LMB5KnJSwsncxitmw+23s7cN4QjyXguQ=
+	t=1785323149; cv=none; b=k9AkK9Teb8tIsLGD1JrCwJG6w0q2hXpQMYfBMLwcTHT7vEGmEnmlu+j6kII/kjsBxAsRFMek0F6hV4wa5SkaOhrOkCVTSx5Kbf/HHuA1gaz+xALMtW3BjZ8YQCKjvGqCo7chOZAg3yG0PRIebT4/zvmSYADSUVFjQ31K0B6zsCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785323042; c=relaxed/simple;
-	bh=udEcdzuH9IWqf5RctvY9uv48hr6A/o6aMv5KW839on8=;
+	s=arc-20240116; t=1785323149; c=relaxed/simple;
+	bh=3hA+Z/GFqg1WJ97ZA7rquKKA6G+3V0bNHBuVdvl1ErM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dnKUlqgzxAwcPQf6oXO4bc/SyaA8gvy4NTIbFYS95UyCfKOVu/PNnGghUBbFkzTyi6O3tERiMqlON+US1iBDwbqNcfdD1Kq6YW5o6mg+57IIjUC92ARAxi3O35pEWMFF8sGv2fzDglLDJ8s7N1/qb7bInqH/K3W/t6rFclbBXuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V/dNijQj; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=hpLDHsvXTWZOghst/7Db6/jyxf7tYkq6rTU27j2M/XMm0uq+y5Of1+lWI963Fr2Ewo7rutwKGpnaSOh/7Mb0/C94PFnmLAaT+UZ1qgcEdz25+Akm4etL2fyGlZMiQjxr/In5cgR4khoqfeF9jKlkSkIanGSuCtRb7OgsYHDCC2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b48irzvs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V/dNijQj"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c197f968b3cso120771166b.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 04:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785323038; x=1785927838; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vraWe+r+JAvmwr9JBnRk+mSRMk+dBSFMePa2l4q/GaQ=;
-        b=V/dNijQju9uACt1iZViHkvpeE0F0EuqD4v40OCTWY/GBU3QbCRQbKk5qHYvd+Eoj2q
-         qJAZoT6rd//l5hzy54OL10iE5sYHxFuFsu8qzJfOCnJWYERVwclsMCMkbI9AlSH0MnXC
-         ld8FuWAZ3mqGM9hNWTWJ8rWoILOs/Kfopqk/VySnZFFgaj7s84LugmZBGxM+22I/QJxb
-         qfzUrKNuvIZ5nbBL/GKgc+pNCZ2H0PKWI9jnYdsI7GacdaORHrcJbzyT/ACVeVtrlZmD
-         MDPpcIcz/dE7NzPYKti9Mc3G45HDj/yVSx/5QzlprRj+FTSWmCcc90dMZ7mxIxSiJQPD
-         EdXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785323038; x=1785927838;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vraWe+r+JAvmwr9JBnRk+mSRMk+dBSFMePa2l4q/GaQ=;
-        b=g22HrHZaHu1hZaxM7zvOUwcn5XW/OMmFImugBSf2+/mB0aHyTN6YcTELRHdj1O3bXv
-         IXEhrOSk4IWMk0X9bbVUTGxlHYXtiumOBiCJ7uz1vXFhPwPW5FAs0ifjDYaUIE3cG/G2
-         TvUQCrg5KWjHwO/vqbDarUEuvm5e2ES0tQ19+vNfjAGyizz7WOmIaHuDAYoHbUjA+jQb
-         LhilYA9nD5SuDJRCAeeMvDDi+hC5S2uaNPKgyro+dCzJvyqZjJNZzAf8CUloEf+SKqyN
-         yCN1/8zo8TcEmC/sdvj2SICeaiqFmhS9xx9KY/hHnKM3t9+qjkyiL47TZFzXlbMlIKUE
-         /bsA==
-X-Forwarded-Encrypted: i=1; AHgh+RqF2l/UhCn4Jk5ndsgcCjULYP8w6MsieIPuD6JwmUYpY5SgkLA16csVuk4iIaET3f/y3A9evMMoEVigCYoI@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJTqW1OfS+GxqxK12lgoK/NGhMY7iniK5Rts193PVpv6kxtxBz
-	LpnKiORIcJ8ew/5/yi/saZTxn26NUu0KsHyEHd6z2lC+gco3CEmi6f44
-X-Gm-Gg: AR+sD1216RIBC/obRBvwCBtq/E1s67hf1VYNvBuIYqOD5vHg9PsA05vK4xCV4muegYx
-	tyHMmiQZ+BBBr5bn2CRhjdxO1Bb9vEAH/FFD8qy/kuP0QYA1amgHeDZEYbxHCf/CqolgAc98kn5
-	pkkpyynb8jFwl6cYNaQm2L/yTNn+SZHLn5AFHLC9cvsgz8Fr6ESh/W+lMfX0TQuF/jsgIhct2gd
-	CFWapGUjWGNH2GRIGgBs9mfaopC8gv7jWCgsQFtkpMHlQ23vQXjciEihu1DDVMOHiJROrxYHugS
-	7wyLzViLeFsRjGe6EW1nER+qXRuouudTHrz5v5S9ith4LnZ1akjKGyPgPj95LR/7MPacON0mT/J
-	uHYAEgtLB26bo5MzcHWutJLzUXRpgOtNtNU38O6baJigKnZVOEF+nuUPYDp7QlMXS7U4BUPdv7N
-	qTXMAml/mwO6neceXbFsTrP4/XPRm6uuilhtU1jZ1X1CsdfZUiecaeQINalQhQ7VaGcJ4trrU8o
-	orZJD0VbdCHCcv10UrdPzf15Nuf4dE1JgT0YRcsAJ60W1/4TaQID1I8vQ5HMaEwFDxHouWgHsH8
-	FbhyfbbzOsFnTo2RD6E=
-X-Received: by 2002:a17:907:5c5:b0:c12:8cbe:b897 with SMTP id a640c23a62f3a-c1f7209f906mr333725866b.15.1785323037380;
-        Wed, 29 Jul 2026 04:03:57 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1f83c6858asm99322666b.10.2026.07.29.04.03.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 04:03:56 -0700 (PDT)
-Message-ID: <e3dff1e5-8b66-49d7-9a47-88a9d26c5c10@gmail.com>
-Date: Wed, 29 Jul 2026 12:03:46 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b48irzvs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9E6C1F000E9;
+	Wed, 29 Jul 2026 11:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785323147;
+	bh=36vCc8VcM+L87TfsrGnoD5hR3X1siACB/VnlnYWIbd4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=b48irzvsg0Rb9HPmpRz1cRt988CITLctIsdsmAzYoCGHcqqDXZ2gNYuTnHHIrJbj7
+	 4H2B2eH12UqMFJgYMLsCy1KZ8q4b7/HtBh+ESujT8zNC3k4hQqfRfj+yc+rkURzE4h
+	 70Dn1hj1howXlSwenX2dUF2/DWVG876GsmhZQP8m1Dia942tWYnyC3PKB5EAolTNmB
+	 CONyTksT7fwOidO2ekfK6pe1uDUU/xaLuhg3IVs/5z07rdUbVvn8YGTImADEAyTk9V
+	 +kH3OunfyfncZZV5MjIcpVdG3+JC+QgBBibA6vztnHMkc1m9JC4YLICz4dpEmla0Jm
+	 pExAKbv9xiF0g==
+Message-ID: <6db0a8c0-b500-4364-be3d-d3a537c61258@kernel.org>
+Date: Wed, 29 Jul 2026 13:05:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,208 +35,134 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/14] block: introduce dma map backed bio type
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
+Subject: Re: [PATCH RFC 00/11] mm: distinguish PTE table storage from PTE
+ values
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785274111.git.asml.silence@gmail.com>
- <f97985ac5cfff3d9f7777b93f11456af57e253e2.1785274111.git.asml.silence@gmail.com>
- <20260729070727.GF9534@lst.de>
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+References: <20260727164715.2866609-1-usama.anjum@arm.com>
+ <2c19247e-bee6-45f4-a353-2fcc60db26e6@kernel.org>
+ <7813b5fe-e767-442c-a356-afc1a5c567ad-agordeev@linux.ibm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260729070727.GF9534@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <7813b5fe-e767-442c-a356-afc1a5c567ad-agordeev@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/29/26 08:07, Christoph Hellwig wrote:
->> -	bio->bi_io_vec = bio_src->bi_io_vec;
->> +
->> +	if (op_is_dmabuf(bio->bi_opf)) {
->> +		bio->bi_dmabuf_map = bio_src->bi_dmabuf_map;
->> +	} else {
->> +		bio->bi_io_vec = bio_src->bi_io_vec;
->> +	}
+On 7/29/26 12:13, Alexander Gordeev wrote:
+> On Tue, Jul 28, 2026 at 09:26:06PM +0200, David Hildenbrand (Arm) wrote:
+>>> The generic definition aliases hw_pte_t to pte_t, so this series preserves
+>>> the representation and behaviour of every architecture. ptep_get() keeps
+>>> its existing READ_ONCE() semantics and converts the stored element through
+>>> __pte_from_hw(). An architecture can later define a distinct hw_pte_t and
+>>> convert its PTE interfaces to make the distinction compiler-enforced.
+>>> Architecture PTE implementations and most architecture code are
+>>> deliberately left for those later opt-in conversions.
+> ...
+>> Do you have a pointer at the arm64 part, so people can get a feeling for how an
+>> actual hw_pte_t implementation can look like.
 > 
-> No need for the braces.  
+> May be we need the generic hw_pte_t implementation as { pte_t pte; }
+> right away?
 
-Got it,
+Indeed, that makes sense. We just need a way for the architecture to opt-in that
+it did the conversion.
 
-But given that these are the fields why
-> even bother doing both sides and not rely on the union?
-
-Compiles into the same, but comparing to a comment makes
-the compiler to check it for us if anything happens.
-
-Noticed static_assert() below, that works as well, though I
-think the current version is nicer b/c it preserves assignment
-types for the compiler. Strict aliasing is obviously not a
-thing, so don't have a strong opinion.
-
->> +void bio_dmabuf_map_set(struct bio *bio, struct iov_iter *iter)
->> +{
->> +	WARN_ON_ONCE(bio->bi_max_vecs);
->> +
->> +	bio->bi_dmabuf_map = iter->dmabuf_map;
->> +	bio->bi_vcnt = 0;
->> +	bio->bi_iter.bi_offset = iter->iov_offset;
->> +	bio->bi_iter.bi_size = iov_iter_count(iter);
->> +	bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
 > 
-> This seems to be largely copied from bio_iov_bvec_set, but misses
-> the REQ_CLONE there that we should probably set as well to indicate
-> that the data descriptor is not owned (although not setting it is
-> not really a bug).
-> 
-> What about merging these two into a single and easier to use interface
-> like this:
+> Also, can you envision a case when sizeof(pte_t) != sizeof(hw_pte_t)?
+> If not, the compile-time check is worth adding.
 
-No opinion on this, I can add it, probably as another prep patch.
+That wouldn't work as is. We'd have to intercept ptep++ and instead have a
+helper to advance the ptep pointer.
 
+One idea for that would be to let the compiler catch that by marking hw_pte_t an
+undefined struct (unknown size), such that the compiler would indicate any usage
+of ptep++ properly.
 
-> diff --git a/block/bio.c b/block/bio.c
-> index cc2bb9183c1a..25393bdd119d 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -860,12 +860,9 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
->   	bio->bi_write_hint = bio_src->bi_write_hint;
->   	bio->bi_write_stream = bio_src->bi_write_stream;
->   	bio->bi_iter = bio_src->bi_iter;
-> -
-> -	if (op_is_dmabuf(bio->bi_opf)) {
-> -		bio->bi_dmabuf_map = bio_src->bi_dmabuf_map;
-> -	} else {
-> -		bio->bi_io_vec = bio_src->bi_io_vec;
-> -	}
-> +	static_assert(offsetof(struct bio, bi_io_vec) ==
-> +		      offsetof(struct bio, bi_dmabuf_map));
-> +	bio->bi_io_vec = bio_src->bi_io_vec;
->   
->   	if (bio->bi_bdev) {
->   		if (bio->bi_bdev == bio_src->bi_bdev &&
-> @@ -1186,26 +1183,21 @@ void __bio_release_pages(struct bio *bio, bool mark_dirty)
->   }
->   EXPORT_SYMBOL_GPL(__bio_release_pages);
->   
-> -void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
-> +bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter)
->   {
->   	WARN_ON_ONCE(bio->bi_max_vecs);
->   
-> +	if (!iov_iter_is_bvec(iter) && !iov_iter_is_dmabuf_map(iter))
-> +		return false;
-> +
->   	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
->   	bio->bi_iter.bi_idx = 0;
->   	bio->bi_iter.bi_offset = iter->iov_offset;
->   	bio->bi_iter.bi_size = iov_iter_count(iter);
->   	bio_set_flag(bio, BIO_CLONED);
-> -}
-> -
-> -void bio_dmabuf_map_set(struct bio *bio, struct iov_iter *iter)
-> -{
-> -	WARN_ON_ONCE(bio->bi_max_vecs);
-> -
-> -	bio->bi_dmabuf_map = iter->dmabuf_map;
-> -	bio->bi_vcnt = 0;
-> -	bio->bi_iter.bi_offset = iter->iov_offset;
-> -	bio->bi_iter.bi_size = iov_iter_count(iter);
-> -	bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
-> +	if (iov_iter_is_dmabuf_map(iter))
-> +		bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
-> +	return true;
->   }
->   
->   /*
-> @@ -1265,13 +1257,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
->   	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
->   		return -EIO;
->   
-> -	if (iov_iter_is_bvec(iter)) {
-> -		bio_iov_bvec_set(bio, iter);
-> -		iov_iter_advance(iter, bio->bi_iter.bi_size);
-> -		return 0;
-> -	}
-> -	if (iov_iter_is_dmabuf_map(iter)) {
-> -		bio_dmabuf_map_set(bio, iter);
-> +	if (bio_iov_iter_set(bio, iter)) {
->   		iov_iter_advance(iter, bio->bi_iter.bi_size);
->   		return 0;
->   	}
-> diff --git a/block/blk-map.c b/block/blk-map.c
-> index d1d6bbe0ecf1..34816e6e64de 100644
-> --- a/block/blk-map.c
-> +++ b/block/blk-map.c
-> @@ -473,7 +473,7 @@ static int blk_rq_map_user_bvec(struct request *rq, const struct iov_iter *iter)
->   	bio = blk_rq_map_bio_alloc(rq, 0, GFP_KERNEL);
->   	if (!bio)
->   		return -ENOMEM;
-> -	bio_iov_bvec_set(bio, iter);
-> +	bio_iov_iter_set(bio, iter);
->   
->   	ret = blk_rq_append_bio(rq, bio);
->   	if (ret)
-> diff --git a/block/fops.c b/block/fops.c
-> index d83cdbab65a6..97fb124a19b2 100644
-> --- a/block/fops.c
-> +++ b/block/fops.c
-> @@ -340,17 +340,12 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
->   	bio->bi_end_io = blkdev_bio_end_io_async;
->   	bio->bi_ioprio = iocb->ki_ioprio;
->   
-> -	if (iov_iter_is_bvec(iter)) {
-> -		/*
-> -		 * Users don't rely on the iterator being in any particular
-> -		 * state for async I/O returning -EIOCBQUEUED, hence we can
-> -		 * avoid expensive iov_iter_advance(). Bypass
-> -		 * bio_iov_iter_get_pages() and set the bvec directly.
-> -		 */
-> -		bio_iov_bvec_set(bio, iter);
-> -	} else if (iov_iter_is_dmabuf_map(iter)) {
-> -		bio_dmabuf_map_set(bio, iter);
-> -	} else {
-> +	/*
-> +	 * Users don't rely on the iterator being in any particular state for
-> +	 * async I/O returning -EIOCBQUEUED, hence we can avoid the expensive
-> +	 * iov_iter_advance() if we could set the bvec/dmabuf directly.
-> +	 */
-> +	if (!bio_iov_iter_set(bio, iter)) {
->   		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
->   		if (unlikely(ret))
->   			goto out_bio_put;
-> diff --git a/include/linux/bio.h b/include/linux/bio.h
-> index c053e9444514..1eff02a843ef 100644
-> --- a/include/linux/bio.h
-> +++ b/include/linux/bio.h
-> @@ -484,8 +484,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t sector, void *data,
->   int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
->   		unsigned len_align_mask);
->   
-> -void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
-> -void bio_dmabuf_map_set(struct bio *bio, struct iov_iter *iter);
-> +bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter);
->   void __bio_release_pages(struct bio *bio, bool mark_dirty);
->   extern void bio_set_pages_dirty(struct bio *bio);
->   extern void bio_check_pages_dirty(struct bio *bio);
+That can be done when it would actually required, so as a first step having a
+generic hw_pte_t would just work.
 
 -- 
-Pavel Begunkov
+Cheers,
 
+David
