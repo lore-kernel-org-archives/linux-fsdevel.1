@@ -1,131 +1,459 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7EC38DC66
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 15:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785338081; cv=pass; b=GcR9HjBn3nWsnPoIPm6UxoUdTBA+KIku99s61EQsOTWNzvQ+AeK2MyGQFMjKddzvYbHRuTNwBe3JAVjcCM1d5Xs1+d96ryQ2gedQ7ERT4tqyELpqEQKcQD+AIWFiMhufVXaKqRjtjnhpBWGY+wD7hVdDLzVLoK4xnHtXXCx/x3w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785338081; c=relaxed/simple;
-	bh=KniBoIarsC6jUfj7//g6+w0nFYX+NXfQld1kXZSXya0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KyvAhGBclulIgACOHLZ8hWd2VAAjXJ0nDNE2tQnnOK9K/4D4/DizQTM8XGx+DL6/j9qeIHAyM/ne3wYGlub6MimJgMmRqi2Xyw05L82/JviM14gOcvxq+8E4u32AH7FyUH/Ks10qVZAxovFpcrCgeUvyLVHAmQdExMaC1HVYmNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCHBdVF3; arc=pass smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216D8266B72
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 15:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785338138; cv=none; b=YOMfoYwRldWvPZdn6CYM0KYEOV3Nqu+oNkN0NezCv8SS7qKOLaT2CvL4MCCDX5ZtVoNXBnYBSbehWM4qvVfQJCnZp9qNvOKiY6KBXcyfigZwXEerTln2bkFCo5TG6WPInM1ZpqpC5x8bxEUbz9+BLuFyfkbjT4JltgMTD4GYvTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785338138; c=relaxed/simple;
+	bh=q3H93oLj8BsXMEEymm+eqTeAcXI0R4qYdkcypr1sD+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ovCZacL3SDTyvi8eFbPyA3JsbSD1ELa9CS2hDk1qyAFxmjFdhRQKRvg5mdRYyne9cR8Yp+Ym8KxBQLqPYIP5RFg5ag+S2K1kfJXJ8MDgNPoSXrYgHGtdzRn36sMFUw6SL/YAWaLTo5bYRCt7cg48wfg8Hw5EbIgoO10fgJDFZi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KsHY/iBH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+29bi9Rm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mYgYvALV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q+BLmyxx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCHBdVF3"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8ff5d1b0f91so7421116d6.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 08:14:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785338079; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jsRJoCFpGsV7M3hLbo+h2/W+y4APIAe80uhIpAqtsmZgNGdb/lpxk/A7AXeEBRepK5
-         YZX4A3s8g+FhYicacbwggNylJdTmlPdBUpxoK3iy+3oJmktbWx3UhuVHmNEFJD8a5vCN
-         7Rk9vyzct6lq9d5YsDtuxICzhGeti8LftdkHqfMR6rGuxJrmCBscxPXh+XuAgfDcit5+
-         Uc/A5xw5c49+N1TwsmRi3Y9I2E/hdj9V83r05Y6od1l1fE7mYKudcQticJNLBNQOtk3q
-         aEHv9Il4gPE7vv9+VLB55FBOMjTkcpsZLzT3CpYIrnppY4dz4+4Edj3YwWDQpt3Osog9
-         28Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4mL+pZBLKUHZONupNXvHwCPfqh0qQgUJdm2KEVSO+i4=;
-        fh=O4HdkME5dJ5cS6iPcxnzzQctWbz1daIPLkk+jRTU3ts=;
-        b=k9c/UYj9NLqTiFrSlZbaSmwSeS9oIfuCAG83eLbID1q33Xcjusk637Jir+7a1Gprjt
-         MNGhLMkwTZHuHmLniui4E2SqPLV01pSMMaPsZAJ2luWpNfd4o5YtpVXNU7KpNv05FjMI
-         D7nuSj4okMAAgkc0SLY2PBx1r5UOvwwUwEtDs5K8IbZjnSah6Bg+asWrThtsLVsBgMvr
-         +rDIzSmQYEuKoWyl5lrjLyBMnSgARMa0/bii87nlZHc5wL3uRoVfKmfX4UtZ28V/E92d
-         q+GESgt1B5Kgc7Zu2LbTbSCcha3gIWQbSyqhnSqlspHtRu+DFSKfGDvJam+cNINSnz5g
-         1h4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785338079; x=1785942879; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:reply-to
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4mL+pZBLKUHZONupNXvHwCPfqh0qQgUJdm2KEVSO+i4=;
-        b=fCHBdVF3j7QYulhKrn72kW0EZ0mLeVRO/W6UMENuMK1VxDY8ZM+Hwfl3NpKDQrfjJY
-         eUP0/e/kkAOfxXQ1B/0OGP/QEzNbh6w76CDplFTsE61WPMBFmefgx/ZdobFcAkoZxerL
-         51MkAfxFKMwIctOVN2RuAy+nQ+7XqRsGDaEfEoOIn/WdnpsTYa0wf6qihoelWsOR8Flk
-         X0+akbNZ/3mCfuc6bapmCLwGMxiE00AgsjyP7cnhOsL+edtUtBbP3OlMkK/iFeJw3/jL
-         lMH/Dzx4fuwaHpQIY4cuX2nRRKGfyd77L9u47pmcI+u/RxcYSy3EYe+lSghbWVJJbNf8
-         A+uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785338079; x=1785942879;
-        h=content-type:cc:to:subject:message-id:date:from:reply-to
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4mL+pZBLKUHZONupNXvHwCPfqh0qQgUJdm2KEVSO+i4=;
-        b=aDBSojZw778ZphY1XsbBHg6Qcpq7CUV/BWvFi6mssxVOa7l4gl/efivHuWuietG/kn
-         +iiUqKFwhSDJwJt8S+OIg56PIiIU0/xp+81ZHIWtW+238efPtPem2J4fL5Qdi2f22Erd
-         CQYLyLnEn4kVZxR+C3ZVQiNTYvYah3UEvSz+Cwiuq0YssIUqzTllCJdp95wsPDqZS7bW
-         uN0RFK0J25evR0YM2HUV4wY8kPMti+7y2EfJwKPPiwmc9lm9fWg3pzirAaeOvqApz3PL
-         ZE+VCpFf4Nf60n5y0nB+wY2jR+nPecKdTtkXjF2kek0Rx73v4wz4OXbDYHgIHpn/0Ycz
-         H6wg==
-X-Forwarded-Encrypted: i=1; AHgh+RpqREjudXEzYjznjRf5I0D3FqJ0WgCUrzGelMN0sYn7oBn5Wk826+ysYcW4WfSUe31DHWB5r54JUMvXR7jX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMWUyJvLZc3/3AS2xB5uWP9bQvjDf3Y6UtFyYprGQRmv5vGYkp
-	sOut0ROKkRKQQOEmRyKdXXu9bHX96Jhe6otxeKUThTJZUmalGsYYTwnwCUs6HgqudHz9XoIlUEP
-	rOd5V4CcJzxRJxeh6KOwZL0yCpwqSyog=
-X-Gm-Gg: AR+sD10Mg6DFU/buNcKl5Jsz2b6Hp534m2JijE8AtdHm7B2HzFTmz9e7fY5Bgshj2iJ
-	LrdlZflLn/8g5PCoUVChp2ag5DOjHgCobtdbk2DeHkCht+15aqrbgaa6Z3wLXiiik6TtQyos7CM
-	8RjSghzMJEZiFFBfxi1GuHLyaiYlDZ9o+9uwHKwCpXGd45Crxfq8jmtMz8GF7ERSGwtvWxhVUku
-	C2ZiX5mGQCuJTIHCQxLUs66ZxlZZXOR1KU8X1q4OjvD7ilKW+jWK7xQldgVXGNvm0a9d22ZBZWC
-	hsIPsXxbYQC9Lg73exrkX5l/Uk5d4ZwCwIx6+NA6SPMHlIZviG7Sc/yFnDYDEKCrqiOwyZKil9P
-	M
-X-Received: by 2002:a05:6214:1c49:b0:8f0:9d9c:52c2 with SMTP id
- 6a1803df08f44-90816fda807mr75724596d6.5.1785338078814; Wed, 29 Jul 2026
- 08:14:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KsHY/iBH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+29bi9Rm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mYgYvALV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q+BLmyxx"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EC4AD3DFB;
+	Wed, 29 Jul 2026 15:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785338130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=koLhMxy+YuJ/8H2x9zHM6glRY93gfjLZAal6V9dfBoY=;
+	b=KsHY/iBHk3349gUA3Cke0KiSqJT0uKKaamMvIffk5zflwwQ5+ZxjXdwyThpvqiq09Q7gkW
+	AZN+uPKQ6LrhJRhMpw4fqEJ25mhnrkR2sY1x1DtrTwoyamAFF7gc44qUH5kTnsh8G8O2zi
+	q/mU4w8Hx0DWHoIq94aB/08WMMVa4J8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785338130;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=koLhMxy+YuJ/8H2x9zHM6glRY93gfjLZAal6V9dfBoY=;
+	b=+29bi9Rmgg7PW3B1Zc74QpugWuLBn2vqEAA42ZjHD/4AkWm8phWf90vxW3N/arwe9adCHv
+	fZsiYm3RtnF7w3DA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785338125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=koLhMxy+YuJ/8H2x9zHM6glRY93gfjLZAal6V9dfBoY=;
+	b=mYgYvALVx3rpG/QKUd35XXWt9TfDf4+IraIcAa4ZjgKvVIkBWYpFynJPhKWUeNQOtfqvNN
+	igrq1T9NacVniQ4ySYHBJmexnW2sYb5mB8IFOPvKdskcrlSly7GS3XPaTy1ktZtH5ab4Zw
+	u0yXCQFO8eTnphPusRjaolmqC68iO1c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785338125;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=koLhMxy+YuJ/8H2x9zHM6glRY93gfjLZAal6V9dfBoY=;
+	b=Q+BLmyxx9KxLhVGvqwTbUEdLtvyBKdIP1Qu4ugt+FrOGCpGWgUxRpt2eeiQgNWhBjxYM4B
+	o9VX38AXBhx/EdAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88F83779A1;
+	Wed, 29 Jul 2026 15:15:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id k9HoEAwZamq1ZAAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Wed, 29 Jul 2026 15:15:24 +0000
+From: David Disseldorp <ddiss@suse.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	David Disseldorp <ddiss@suse.de>
+Subject: [PATCH vfs-7.3.kthread] initramfs_test: use test init/exit hooks to override init fs
+Date: Thu, 30 Jul 2026 01:13:21 +1000
+Message-ID: <20260729151320.21001-2-ddiss@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <dc0f6f41-84be-4a70-92db-89890bded3ab@redhat.com>
-In-Reply-To: <dc0f6f41-84be-4a70-92db-89890bded3ab@redhat.com>
-Reply-To: mjnowen@gmail.com
-From: Mike Owen <mjnowen@gmail.com>
-Date: Wed, 29 Jul 2026 16:14:26 +0100
-X-Gm-Features: AUfX_mxOsf8nR1_TDDFPIP3g1TG9HPoPWC0Uh7jI27irRhLVewASuT0qGGW2e0w
-Message-ID: <CADFF-zfEws+xZ_tOqhC8uJZAFZvwMDtZ5yagDP9x7Umq6zabDA@mail.gmail.com>
-Subject: Re: ANNOUNCE: nfs-utils-2.9.2 released.
-To: Steve Dickson <steved@redhat.com>
-Cc: Linux NFS Mailing list <linux-nfs@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-I don't see this release tagged via git here:
-https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=summary
-Forgot to tag?
+Most initramfs kunit tests interact with initramfs via
+unpack_to_rootfs() and subsequently init_stat(), init_unlink(), etc.
 
-On Wed, 29 Jul 2026 at 15:48, Steve Dickson <steved@redhat.com> wrote:
->
-> Hello,
->
-> This is a fairly large release...
->
-> A number of memory leaks fixed (from AI)
-> A number of netlinks fixes/enhances
-> A number of exportfs fixes/enhances
-> A new nfs-iostat option
-> A number of gcc/warnings fixes
->
-> The tarballs can be found in
->    https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/
-> or
->    http://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2
->
-> The change log is in
-> https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/2.9.2-Changelog
-> or
-> https://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2/2.9.2-Changelog
->
-> The git tree is at:
->     git://linux-nfs.org/~steved/nfs-utils
->
-> Please send comments/bugs to linux-nfs@vger.kernel.org
->
-> steved.
->
->
+Commit 804dd204728c9 ("kunit: use scoped_with_init_fs() in tests that
+resolve paths") added scoped_with_init_fs() wrappers around the
+initramfs I/O calls, but it's cleaner and less error-prone to override
+current->fs with userspace_init_fs for all initramfs_test_suite tests.
+
+Signed-off-by: David Disseldorp <ddiss@suse.de>
+---
+Christian: feel free to squash this in with your 804dd204728c9 commit
+if you think it makes sense.
+
+ init/initramfs_test.c | 239 ++++++++++++++++++++----------------------
+ 1 file changed, 113 insertions(+), 126 deletions(-)
+
+diff --git a/init/initramfs_test.c b/init/initramfs_test.c
+index 1fc990a66563e..9cf316c13ffa5 100644
+--- a/init/initramfs_test.c
++++ b/init/initramfs_test.c
+@@ -117,41 +117,38 @@ static void __init initramfs_test_extract(struct kunit *test)
+ 			      GFP_KERNEL);
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		ktime_get_real_ts64(&ts_before);
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		ktime_get_real_ts64(&ts_after);
+-		if (err) {
+-			KUNIT_FAIL(test, "unpack failed %s", err);
+-			goto out;
+-		}
+-
+-		KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st, 0), 0);
+-		KUNIT_EXPECT_TRUE(test, S_ISREG(st.mode));
+-		KUNIT_EXPECT_TRUE(test, uid_eq(st.uid, KUIDT_INIT(c[0].uid)));
+-		KUNIT_EXPECT_TRUE(test, gid_eq(st.gid, KGIDT_INIT(c[0].gid)));
+-		KUNIT_EXPECT_EQ(test, st.nlink, 1);
+-		if (IS_ENABLED(CONFIG_INITRAMFS_PRESERVE_MTIME)) {
+-			KUNIT_EXPECT_EQ(test, st.mtime.tv_sec, c[0].mtime);
+-		} else {
+-			KUNIT_EXPECT_GE(test, st.mtime.tv_sec, ts_before.tv_sec);
+-			KUNIT_EXPECT_LE(test, st.mtime.tv_sec, ts_after.tv_sec);
+-		}
+-		KUNIT_EXPECT_EQ(test, st.blocks, c[0].filesize);
+-
+-		KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st, 0), 0);
+-		KUNIT_EXPECT_TRUE(test, S_ISDIR(st.mode));
+-		if (IS_ENABLED(CONFIG_INITRAMFS_PRESERVE_MTIME)) {
+-			KUNIT_EXPECT_EQ(test, st.mtime.tv_sec, c[1].mtime);
+-		} else {
+-			KUNIT_EXPECT_GE(test, st.mtime.tv_sec, ts_before.tv_sec);
+-			KUNIT_EXPECT_LE(test, st.mtime.tv_sec, ts_after.tv_sec);
+-		}
+-
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-		KUNIT_EXPECT_EQ(test, init_rmdir(c[1].fname), 0);
++	ktime_get_real_ts64(&ts_before);
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	ktime_get_real_ts64(&ts_after);
++	if (err) {
++		KUNIT_FAIL(test, "unpack failed %s", err);
++		goto out;
+ 	}
++
++	KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st, 0), 0);
++	KUNIT_EXPECT_TRUE(test, S_ISREG(st.mode));
++	KUNIT_EXPECT_TRUE(test, uid_eq(st.uid, KUIDT_INIT(c[0].uid)));
++	KUNIT_EXPECT_TRUE(test, gid_eq(st.gid, KGIDT_INIT(c[0].gid)));
++	KUNIT_EXPECT_EQ(test, st.nlink, 1);
++	if (IS_ENABLED(CONFIG_INITRAMFS_PRESERVE_MTIME)) {
++		KUNIT_EXPECT_EQ(test, st.mtime.tv_sec, c[0].mtime);
++	} else {
++		KUNIT_EXPECT_GE(test, st.mtime.tv_sec, ts_before.tv_sec);
++		KUNIT_EXPECT_LE(test, st.mtime.tv_sec, ts_after.tv_sec);
++	}
++	KUNIT_EXPECT_EQ(test, st.blocks, c[0].filesize);
++
++	KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st, 0), 0);
++	KUNIT_EXPECT_TRUE(test, S_ISDIR(st.mode));
++	if (IS_ENABLED(CONFIG_INITRAMFS_PRESERVE_MTIME)) {
++		KUNIT_EXPECT_EQ(test, st.mtime.tv_sec, c[1].mtime);
++	} else {
++		KUNIT_EXPECT_GE(test, st.mtime.tv_sec, ts_before.tv_sec);
++		KUNIT_EXPECT_LE(test, st.mtime.tv_sec, ts_after.tv_sec);
++	}
++
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_rmdir(c[1].fname), 0);
+ out:
+ 	kfree(cpio_srcbuf);
+ }
+@@ -201,11 +198,8 @@ static void __init initramfs_test_fname_overrun(struct kunit *test)
+ 		suffix_off--;
+ 	}
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NOT_NULL(test, err);
+-	}
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NOT_NULL(test, err);
+ 
+ 	kfree(cpio_srcbuf);
+ }
+@@ -240,25 +234,22 @@ static void __init initramfs_test_data(struct kunit *test)
+ 
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NULL(test, err);
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NULL(test, err);
+ 
+-		file = filp_open(c[0].fname, O_RDONLY, 0);
+-		if (IS_ERR(file)) {
+-			KUNIT_FAIL(test, "open failed");
+-			goto out;
+-		}
++	file = filp_open(c[0].fname, O_RDONLY, 0);
++	if (IS_ERR(file)) {
++		KUNIT_FAIL(test, "open failed");
++		goto out;
++	}
+ 
+-		/* read back file contents into @cpio_srcbuf and confirm match */
+-		len = kernel_read(file, cpio_srcbuf, c[0].filesize, NULL);
+-		KUNIT_EXPECT_EQ(test, len, c[0].filesize);
+-		KUNIT_EXPECT_MEMEQ(test, cpio_srcbuf, c[0].data, len);
++	/* read back file contents into @cpio_srcbuf and confirm match */
++	len = kernel_read(file, cpio_srcbuf, c[0].filesize, NULL);
++	KUNIT_EXPECT_EQ(test, len, c[0].filesize);
++	KUNIT_EXPECT_MEMEQ(test, cpio_srcbuf, c[0].data, len);
+ 
+-		fput(file);
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-	}
++	fput(file);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+ out:
+ 	kfree(cpio_srcbuf);
+ }
+@@ -298,28 +289,25 @@ static void __init initramfs_test_csum(struct kunit *test)
+ 
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NULL(test, err);
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NULL(test, err);
+ 
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), 0);
+ 
+-		/* mess up the csum and confirm that unpack fails */
+-		c[0].csum--;
+-		len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
++	/* mess up the csum and confirm that unpack fails */
++	c[0].csum--;
++	len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
+ 
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NOT_NULL(test, err);
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NOT_NULL(test, err);
+ 
+-		/*
+-		 * file (with content) is still retained in case of bad-csum abort.
+-		 * Perhaps we should change this.
+-		 */
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), -ENOENT);
+-	}
++	/*
++	 * file (with content) is still retained in case of bad-csum abort.
++	 * Perhaps we should change this.
++	 */
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), -ENOENT);
+ 	kfree(cpio_srcbuf);
+ }
+ 
+@@ -357,20 +345,17 @@ static void __init initramfs_test_hardlink(struct kunit *test)
+ 
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, cpio_srcbuf);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NULL(test, err);
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NULL(test, err);
+ 
+-		KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st0, 0), 0);
+-		KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st1, 0), 0);
+-		KUNIT_EXPECT_EQ(test, st0.ino, st1.ino);
+-		KUNIT_EXPECT_EQ(test, st0.nlink, 2);
+-		KUNIT_EXPECT_EQ(test, st1.nlink, 2);
++	KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st0, 0), 0);
++	KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st1, 0), 0);
++	KUNIT_EXPECT_EQ(test, st0.ino, st1.ino);
++	KUNIT_EXPECT_EQ(test, st0.nlink, 2);
++	KUNIT_EXPECT_EQ(test, st1.nlink, 2);
+ 
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), 0);
+-	}
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[1].fname), 0);
+ 
+ 	kfree(cpio_srcbuf);
+ }
+@@ -403,15 +388,12 @@ static void __init initramfs_test_many(struct kunit *test)
+ 	}
+ 
+ 	len = p - cpio_srcbuf;
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(cpio_srcbuf, len);
+-		KUNIT_EXPECT_NULL(test, err);
+-
+-		for (i = 0; i < INITRAMFS_TEST_MANY_LIMIT; i++) {
+-			sprintf(thispath, "initramfs_test_many-%d", i);
+-			KUNIT_EXPECT_EQ(test, init_unlink(thispath), 0);
+-		}
++	err = unpack_to_rootfs(cpio_srcbuf, len);
++	KUNIT_EXPECT_NULL(test, err);
++
++	for (i = 0; i < INITRAMFS_TEST_MANY_LIMIT; i++) {
++		sprintf(thispath, "initramfs_test_many-%d", i);
++		KUNIT_EXPECT_EQ(test, init_unlink(thispath), 0);
+ 	}
+ 
+ 	kfree(cpio_srcbuf);
+@@ -458,25 +440,22 @@ static void __init initramfs_test_fname_pad(struct kunit *test)
+ 	memcpy(tbufs->padded_fname, "padded_fname", sizeof("padded_fname"));
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, tbufs->cpio_srcbuf);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
+-		KUNIT_EXPECT_NULL(test, err);
++	err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
++	KUNIT_EXPECT_NULL(test, err);
+ 
+-		file = filp_open(c[0].fname, O_RDONLY, 0);
+-		if (IS_ERR(file)) {
+-			KUNIT_FAIL(test, "open failed");
+-			goto out;
+-		}
++	file = filp_open(c[0].fname, O_RDONLY, 0);
++	if (IS_ERR(file)) {
++		KUNIT_FAIL(test, "open failed");
++		goto out;
++	}
+ 
+-		/* read back file contents into @cpio_srcbuf and confirm match */
+-		len = kernel_read(file, tbufs->cpio_srcbuf, c[0].filesize, NULL);
+-		KUNIT_EXPECT_EQ(test, len, c[0].filesize);
+-		KUNIT_EXPECT_MEMEQ(test, tbufs->cpio_srcbuf, c[0].data, len);
++	/* read back file contents into @cpio_srcbuf and confirm match */
++	len = kernel_read(file, tbufs->cpio_srcbuf, c[0].filesize, NULL);
++	KUNIT_EXPECT_EQ(test, len, c[0].filesize);
++	KUNIT_EXPECT_MEMEQ(test, tbufs->cpio_srcbuf, c[0].data, len);
+ 
+-		fput(file);
+-		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-	}
++	fput(file);
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+ out:
+ 	kfree(tbufs);
+ }
+@@ -517,16 +496,13 @@ static void __init initramfs_test_fname_path_max(struct kunit *test)
+ 	memcpy(tbufs->fname_ok, "fname_ok", sizeof("fname_ok") - 1);
+ 	len = fill_cpio(c, ARRAY_SIZE(c), false, tbufs->cpio_src);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		/* unpack skips over fname_oversize instead of returning an error */
+-		err = unpack_to_rootfs(tbufs->cpio_src, len);
+-		KUNIT_EXPECT_NULL(test, err);
++	/* unpack skips over fname_oversize instead of returning an error */
++	err = unpack_to_rootfs(tbufs->cpio_src, len);
++	KUNIT_EXPECT_NULL(test, err);
+ 
+-		KUNIT_EXPECT_EQ(test, init_stat("fname_oversize", &st0, 0), -ENOENT);
+-		KUNIT_EXPECT_EQ(test, init_stat("fname_ok", &st1, 0), 0);
+-		KUNIT_EXPECT_EQ(test, init_rmdir("fname_ok"), 0);
+-	}
++	KUNIT_EXPECT_EQ(test, init_stat("fname_oversize", &st0, 0), -ENOENT);
++	KUNIT_EXPECT_EQ(test, init_stat("fname_ok", &st1, 0), 0);
++	KUNIT_EXPECT_EQ(test, init_rmdir("fname_ok"), 0);
+ 
+ 	kfree(tbufs);
+ }
+@@ -564,11 +540,8 @@ static void __init initramfs_test_hdr_hex(struct kunit *test)
+ 	/* inject_ox=true to add "0x" cpio field prefixes */
+ 	len = fill_cpio(c, ARRAY_SIZE(c), true, tbufs->cpio_src);
+ 
+-	/* Tests run in a nullfs kthread; borrow the init fs for path resolution. */
+-	scoped_with_init_fs() {
+-		err = unpack_to_rootfs(tbufs->cpio_src, len);
+-		KUNIT_EXPECT_NOT_NULL(test, err);
+-	}
++	err = unpack_to_rootfs(tbufs->cpio_src, len);
++	KUNIT_EXPECT_NOT_NULL(test, err);
+ 
+ 	kfree(tbufs);
+ }
+@@ -590,7 +563,7 @@ static struct kunit_case __refdata initramfs_test_cases[] = {
+ 	{},
+ };
+ 
+-static int __init initramfs_test_init(struct kunit_suite *suite)
++static int __init initramfs_suite_init(struct kunit_suite *suite)
+ {
+ 	/*
+ 	 * unpack_to_rootfs() uses module-static state (victim, byte_count,
+@@ -602,9 +575,23 @@ static int __init initramfs_test_init(struct kunit_suite *suite)
+ 	return 0;
+ }
+ 
++/* Tests run in a nullfs kthread; always use the init fs for path resolution. */
++static int __init initramfs_test_init(struct kunit *test)
++{
++	test->priv = __override_init_fs();
++	return 0;
++}
++
++static void __init initramfs_test_exit(struct kunit *test)
++{
++	__revert_init_fs(test->priv);
++}
++
+ static struct kunit_suite __refdata initramfs_test_suite = {
+ 	.name = "initramfs",
+-	.suite_init = initramfs_test_init,
++	.suite_init = initramfs_suite_init,
++	.init = initramfs_test_init,
++	.exit = initramfs_test_exit,
+ 	.test_cases = initramfs_test_cases,
+ };
+ kunit_test_init_section_suites(&initramfs_test_suite);
+-- 
+2.55.0
+
