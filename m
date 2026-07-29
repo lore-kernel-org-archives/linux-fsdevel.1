@@ -1,65 +1,64 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A63B14B7;
-	Wed, 29 Jul 2026 07:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BC23B995B;
+	Wed, 29 Jul 2026 07:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785308445; cv=none; b=tOYw1KdxUpj/v2Km22B1IUteL9dBy/CwkUkdIDyymmWz/SsYaXmL5GcJW6b3XK+DZYXFdfHT2XYTobIEvr/4zHvCwWilDsthpoPCjnc0QFCbjvPGSB3HJy28ilgovJKDO3d5VmZrEi9GmEvFd/AO1bJ0vmAyFRi7ZvZh35ALvq4=
+	t=1785308556; cv=none; b=l2TwTxnbE/6WNer4PcO85JuEESbtEDmN/qRtqpxaYhFmQXrzGQjTgnpsuSs8bLVlPUK/rqppSOZeiA1tJL93LQa5HBUrny/bLt0aLZmqfIrTBahMwj2Whd3D5E5jWXnth220e9r0eKSbxZpyvQVie+M7njTp9WeIk87fitmi9Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785308445; c=relaxed/simple;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EcRmPWgwJqenbCUcyuq+coic3uTkgLHZeGaPZEYSAreZbYjnbBpqXtmxJcuv6POdDq8YKp6+uSm/1Bv7zCLtE50CA5bVDTCQ5KW+s1raIXjSXdzVReWoXIVskmWVtPO/iO7euwv+KNkjB7V6TFBOuLjKyLW/mjMKjEEn/rvlm08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id DB66368AFE; Wed, 29 Jul 2026 09:00:40 +0200 (CEST)
-Date: Wed, 29 Jul 2026 09:00:40 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
-	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v4 05/14] block: move bvec init into __bio_clone
-Message-ID: <20260729070040.GE9534@lst.de>
-References: <cover.1785274111.git.asml.silence@gmail.com> <7423d294c6184c683d7b2ccddf060b4a308e0316.1785274111.git.asml.silence@gmail.com>
+	s=arc-20240116; t=1785308556; c=relaxed/simple;
+	bh=GiIMadqESoaDARBcIqCq2nlQMIbzwAvX8MScQbI4nns=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=rfjF09nvGWUGkaHhboB1BQrhpWnRPEpUJX+JROrJg6StQNiiXvFSStG9GdKxusns5nWgol6UARiXR1YN9n8yFAz33+4p6cwLl+LfqjF46GB+lTYQJcsK4CdF8ugEFTXFSuJZPaKExfxUbRoOxppyyrVLarAsmKHnF5KWXrwMdWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kL5GAf78; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kL5GAf78"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3195D1F000E9;
+	Wed, 29 Jul 2026 07:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785308555;
+	bh=GiIMadqESoaDARBcIqCq2nlQMIbzwAvX8MScQbI4nns=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=kL5GAf78hxRO5pHL2xzefW5/9oddwRfnBNRty5+DgAiG1Dy7vlcs3qvvhoF5cqSfi
+	 WyYEXZknF9YUjB8MRlFDnIQAqjbXzExKYou2K5WePAFKrHscVLtGM13G35vqTijvHz
+	 vWwmKYXiWHHsERQspgsztAv6z2EVL54OM1RGH65FKd/sWIGo4q8ocYIu6vWmb7Mud/
+	 Bu7nhuStdFbZxwzCUFngJwxi3BWNFeyNbBT1qTSyGM8juh7VEToEpXwl87FJMStDRR
+	 7vVJkT1HDPctZ3LBkwq2a3yzFhgPL+HyVGNCt3cYQy+PJff8pqgr/llhbQu4BG4U0C
+	 u8J2oqxOxUmnQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7423d294c6184c683d7b2ccddf060b4a308e0316.1785274111.git.asml.silence@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] iomap: release the folio batch on iomap callback
+ failures
+From: Christian Brauner <brauner@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Brian Foster <bfoster@redhat.com>, linux-fsdevel@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, hch@lst.de, djwong@kernel.org
+In-Reply-To: <CAJnrk1YME2vEunO=y6WhqVr0hEO+QXihyrFNa+sisKR4j7-=tw@mail.gmail.com>
+References: <20260728183005.92395-1-bfoster@redhat.com>
+ <CAJnrk1Z=qohEjesFFn-YbmU0mqSPkMH_Jy+E6qSCw4pM8niPhw@mail.gmail.com>
+ <amj_MJOEzLor4jMW@bfoster>
+ <CAJnrk1YME2vEunO=y6WhqVr0hEO+QXihyrFNa+sisKR4j7-=tw@mail.gmail.com>
+Date: Wed, 29 Jul 2026 09:02:31 +0200
+Message-Id: <20260729-fernweh-ohnehin-befallen-061ddf9aa450@brauner>
+X-Mailer: b4 0.16-dev-cca4b
+X-Developer-Signature: v=1; a=openpgp-sha256; l=149; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=GiIMadqESoaDARBcIqCq2nlQMIbzwAvX8MScQbI4nns=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlLu309NUzys243ZY4i9VNoN8geHWS6Kmfsj/Wij6UM
+ Pv5Mciio5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCJXRBkZ2uZl1sbNWPLo58Of
+ +1Z+ujiB1X53gc3G4CrZ/A8nL8Xu2szIcEdx/7lL/DY8TwKDHzIJnrI1/Oe7pvHWK/0Dn8t6Jkn
+ v5AQA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Looks good:
+> I'll wait a day for anyone to object, and if no one does, I'll send v5
+> tomorrow with your patch folded in.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Fold it, please. Thanks, Joanne!
 
