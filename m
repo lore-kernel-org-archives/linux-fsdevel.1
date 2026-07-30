@@ -1,68 +1,68 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02D9390986
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B80F388E49
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785428602; cv=none; b=fISwislO+wAwt7w3gb7WaiD6fxcnZ7M3rPhtKkbwZPuvOyWoaixqG/LHZNGRSlK9O/5t2dHtQHdvGUVPQfT5nasVwgFkYFitWxWI+MCr/KB7Aj6sLVW3nA1gVZrUWDcS6/jr4RK46MgINhUYLWEi0o/dM1CN7Lx9oOIq+biQYaM=
+	t=1785428711; cv=none; b=ImzufDJTKDECr595lr2RrvNROe2TYazuHAk8H9bU2DOfARocXK8X+JfLfSUuOfddzuHiipUwTH0EzCarAkEifYDmCwkX72Li1t1YZBWQXC0ghOzkhSRS4yd5RiJiHYFDCp8Nf0H20s5FM2EAdkUS0dCHSLJ6dy0bGKi/2TgO9gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785428602; c=relaxed/simple;
-	bh=JBBl12W5jAO3f1NQO9V6kLXpVGsPmJIXGnmgZPy1WWk=;
+	s=arc-20240116; t=1785428711; c=relaxed/simple;
+	bh=CWxVLNPMf30pt4+VlSY6EdX1cU2VxBfirKfTyTscMUA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jhGqGPDj9d0uTCT1XLVmONVf7pPAqwSYIbGh788HNeG/Fur2Mp3Lk4agVi832ZgSJ2lTA1+Pi+OiqNCPf8Z0g4jqKwz1Z0lQz40tDnBERbDcSOUWPuVgHwmCXSZngY/rwSxZJMp9jagwj7BRdpRrRTAetBlp4zOs6MaUwMEBw2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=bqGngMzM; arc=none smtp.client-ip=209.85.160.45
+	 In-Reply-To:Content-Type; b=R0grfpD05KOXmN0P7W+pkKIF86blNdHCV+/VIP2PuuzsjqPGz7+4DoNecsvZV3IkQWqfxgW1DR9l2pLuGZpqRkjImRlnIKLYzf4nffvPujIioAu0xZ9DGS9v5V+Tx4i7XsCYPE9ClcPE032ps5i/ULfGpqxfCtpKKsZBo7dMhTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=reimWQUr; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="bqGngMzM"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-4560d6f82edso33860fac.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:23:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="reimWQUr"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7e9f1f24cbcso1051493a34.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785428600; x=1786033400; darn=vger.kernel.org;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785428709; x=1786033509; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+2vuxkBUmVJ6H+F0FBU1KBLH+mojm8weuh8i8FR4JAI=;
-        b=bqGngMzMyUQ/OuVng4Q+ZppdAfvq4yIOa2Vtd2msMFGVwTRmrVgMEEuFzcNudDjhBb
-         XMZ9rnpN/ffA8Pi4JIASt4OQQ26UVlLSr5Nf6trhNRA4oKZzv5dT2XtfJrHf1NqwvKD7
-         c6tvBzKrS0kWwOAjAAzaog8WAIlrhYO2eZd1Noa2VbTslRtkQisrS37haeVKX1vZT1KE
-         oqUS1okTWt2sZo+nJfH+vVVPPF3o4bH+KQ4Ztb7+rt5SewWXJJ2+j9uz+z3I0SA+QItO
-         gCW0nAfOcQf32HbrLJ+Dt1am4uYXbR7+IqIRjukw+3LGxmSubCGYjwghuOhdEOZgxjJN
-         MRRg==
+        bh=FCMCSSOZLCcsJg++A7AOf3GHD4mGUbbc8wGpe4AWlYQ=;
+        b=reimWQUr82xbVTT1L/4jtcE7nT4/00gXhZ5co4mKCiMzs2c4lf6vsAWxSzWceVZiKn
+         hnnuICguxlIxsXtkXc8Kv4RXJYq1/TMh698A1T3ctXb/KZ23ZsYMNxI/2RbhDKfFri4x
+         7tXkBFdYcfaJcO8xFjSTreyLWnY6foEUKyBQ3FFQqTXK9PLz/Ogqq7S+CR7AN4khY2qS
+         lgHD6IpstIOAngy7TGa863YiVPhxJumJLaAfcw06xpU88q8Jhi8aeDbXk03giuEMMfve
+         QA6olvevyN2sqgwnBPfiH8iNgGkzTiVXHPrBSTmK5BxtT4FPdszPJJtjr3BTMhOVnMxf
+         k+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785428600; x=1786033400;
+        d=1e100.net; s=20251104; t=1785428709; x=1786033509;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+2vuxkBUmVJ6H+F0FBU1KBLH+mojm8weuh8i8FR4JAI=;
-        b=rRNp6xn9jmtKCwbJSK+8yaD/FZTExHXrmeyBBHISM2ovnGgDnOzQr9+wmVrd/drcPG
-         /fuc+k8oq288uq8dwCeHCZ4jsKuvkOnHDhwCEg/0CX6+T0v+Uk5wUH3WFfYIc0Ft7olW
-         k0eNUX445+0J9BmhlyCV0Lkxs6ZM5CfY8t24TUPAGDUBhbvvIpQuBaH7BStHiEWgeeZD
-         d5RB4N6pve5P197JbXWJ2GHs9JeO7pTVjS/keUrZQDsih8N3Jzq4ULVkyhvshh1hQ02I
-         DVRlEWHh9erMVCfGB/IJvhkSSALoGICZrdluedzeRymjWf9bBcKLMHeUUzfjn3vMrees
-         J5jw==
-X-Forwarded-Encrypted: i=1; AHgh+RoSRgMq9mkVIxcF+nk5KwnExBChm+0VSPgfReoY/2zMCcEtZhv0TSRl5hDwlnbqKqR8S6DeoGy5oXTPdAqM@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOABdfr6nQWSRfZXezistUWqmGa7kn/9M4wKZaTlBmKvXhqpt3
-	bL20R8+YagoB43Cyan1ppl5c4PvAXyUniCRFuXvQH0tz/cebNp71Pa/5EQeK/OmnndI=
-X-Gm-Gg: AR+sD11/3I/Csn+JlQW4GEQKnWzUEKACfV1aMQeYLmJGMh8RGsA7Th3o7sJz5UDkGT6
-	2IOUSwkltPzxtGeooMtK4l3GDPqceVArh0/aSDdV4Yzd1HdL0ZmTxV+83zdMpcUJJi089cscqor
-	ZTwKLj/lCNXnF1SInFwXzvTZFHv8J/BDX1HiqOupKl53HvtNztLbRcm7u8xXjoPj1W/i1lbXhy1
-	Kn3h9Ea9nTPwLX0+wW7x4XpVesze1r5aDaEkECOyvJr4UA05UpmZx/u1TgfLWZPQ7z8NUAXdYL/
-	t66mg/ECpK5h+lVSffA+JIQGbaS6eIeqJRmvjRTKi8CYzN/ab8q5ttcmo7RSb9xpM7q5se9g9Sy
-	tZRFW6JcNl2o859mQn5eBbC2W9Ltra+kz4FHgXc8fyWsTNqT9SIbEVVGQCua3tWSBo1tVcL+nO0
-	Qa1TFO2m69uOuC6KFqqrMej1Abfd6GRLnAjI0v9x99wPVFVLcfVEITZutFVtpbbvwqJITowa/dg
-	GvG0+FgzFHvBuE7PwcS/+wRqBvyXSlsW/3voWac0onvHw==
-X-Received: by 2002:a05:6808:1246:b0:4a4:e11c:7b56 with SMTP id 5614622812f47-4ad87782f6amr2123750b6e.8.1785428599570;
-        Thu, 30 Jul 2026 09:23:19 -0700 (PDT)
+        bh=FCMCSSOZLCcsJg++A7AOf3GHD4mGUbbc8wGpe4AWlYQ=;
+        b=hne2xpLU2KD2P4PkZYHf/bKpK6/ixZCyjyRly/acARhFVhrgsV8Dd7VFnKHkyErBIN
+         CXfDqgMAKS5GIqHsNtRxRXNWac2VG7QoVXH1Pp6hMt4c7/hPEeA6bqiA7kJExbypLW4L
+         ModBNUy/jdJYV7Yf4T+WT2DsIedh4qrY09LAyP0yfswv21/BXH3uiyJ1Rk71tdy83k08
+         uCD6D9zrm0TxWlMdmA1IvaWyEB1P8RvujJekkGda1Z1XddvOADAmJzmTcPns0xHYrOoX
+         AYSgAgiY3raas/0qPRHrFtSwR1r82ds2Y8wWHBFQ8+6uzPLYGhgGob9imBPI2aa1hU00
+         /mjw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrlw8xFdONmM+thA43hWckFUWfOpMcyIK/+w/0OI9U3WoQWvVVGs8aBBPALuDhlThj4/B4Q0NHNDqx5anjg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTJkYvUggTMp76aHqrbsrZ6a02r8OalwLGgrcQu6Vw++unYRso
+	gpgmzl0QenjGMC11xXc1RSr5hc9lCCjRl++0jJVCJW5LZ/CVI1wAFEHl2cx5dqgeTo0=
+X-Gm-Gg: AR+sD12SOurgmSzCFRM7XwC7uhzOfvt5hnMbw+6VyRIvbSNyLqnWzII8C2cDQMS9kbZ
+	o6Js34IXLJZHrGo9VDFpmiPdlFMJyPkfOm1D8LsHRvPNzU+JE05HT4pyXYQ0PPe4TCs2LlRlSpo
+	9ydlNdiL2uEnq//WTPbbENRrEsTMmCALGa9BLNxSOhfgWlOQgTdDkwFLZEt3UUXUAyjEaAuqWXy
+	Yi4zJWvzxCNMdsYYrcSlJ4xYoVBfyLkveNcSRTh19dbVW9vpNlL8o4WzhMvYzNU777581FOOwGZ
+	2+x14KulLjKSxcyHkMLYaEm+cq5QeteWaQPSom3b6iPKYayrvgXCoiv1fsaZYmLtjbpwLH5SR7t
+	7ol9kr8MejDYb0RtbY4N1NfHdDZNIkeevUnCdLOhM8RWM3xhN4AXvYqN1xObjGrOjvSr8LQFkBo
+	LH/bxSdZPYUw8H5ZH4obwXsaFpioa44QbVH88hy2JzDZVIKhuCujrEPloqOg4o9u87i8GTGcZJa
+	CNGBd8xPnZlcvHTdmryIcKvUm1NzIj1ypkEgxUglMM0NA==
+X-Received: by 2002:a05:6830:6b03:b0:7e9:b673:cbfd with SMTP id 46e09a7af769-7f0430f11f7mr708390a34.7.1785428708795;
+        Thu, 30 Jul 2026 09:25:08 -0700 (PDT)
 Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4ad6ef595cfsm4494333b6e.10.2026.07.30.09.23.18
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f00d5f4dfcsm5084595a34.10.2026.07.30.09.25.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 09:23:18 -0700 (PDT)
-Message-ID: <bd7249ff-d0a6-4a3b-8aec-3b5325f24b08@kernel.dk>
-Date: Thu, 30 Jul 2026 10:23:17 -0600
+        Thu, 30 Jul 2026 09:25:07 -0700 (PDT)
+Message-ID: <a50c6a4d-5c25-4cbb-baac-f622728f2693@kernel.dk>
+Date: Thu, 30 Jul 2026 10:25:06 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,61 +70,39 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/5] block: validate direct I/O memory alignment
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, brauner@kernel.org,
- djwong@kernel.org, viro@zeniv.linux.org.uk, regressions@lists.linux.dev,
- torvalds@linux-foundation.org
-References: <20260720201057.1862857-1-kbusch@meta.com>
- <ampRQyXDbGgeg49V@kbusch-mbp>
- <fbe9e74d-c389-46f4-9874-3e9ffd9c91d3@kernel.dk>
- <ampce7mxSmxAwAiu@kbusch-mbp> <20260730112626.GA24827@lst.de>
- <00104e90-48b8-4419-90c4-ac0c4a2e1c44@leemhuis.info>
+Subject: Re: [PATCH 6/6] io_uring/epoll: disallow adding an epoll file to an
+ epoll context
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+ =?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
+References: <20260514140817.623026-1-axboe@kernel.dk>
+ <20260514140817.623026-7-axboe@kernel.dk>
+ <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
+ <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
+ <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <00104e90-48b8-4419-90c4-ac0c4a2e1c44@leemhuis.info>
+In-Reply-To: <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/30/26 7:25 AM, Thorsten Leemhuis wrote:
-> On 7/30/26 13:26, Christoph Hellwig wrote:
->> On Wed, Jul 29, 2026 at 02:03:07PM -0600, Keith Busch wrote:
->>>>> Hi Jens, have you had a chance to look at this one yet? This addresses
->>>>> previous issues with certain device mappers under direct io.
->>>>
->>>> I they look fine, but at this point we should toss them into 7.3. Yes
->>>> I know there are regressions around this, but from 6.1x days. And the
->>>> series doesn't apply to the current block-7.2 anyway.
->>>
->>> This series is kind of old at this point, but yes, it's not fixing a new
->>> regression either. I'm okay if this goes to the next window, and I will
->>> handle the stable follow-up.
+On 7/29/26 9:09 AM, Linus Torvalds wrote:
+> On Wed, 29 Jul 2026 at 03:54, Jens Axboe <axboe@kernel.dk> wrote:
 >>
->> Honestly, I think that'a a reall bad idea.  This is a regression in 6.18,
->> and while it took a while for people to hit this with their a little
->> more complicated lvm/md setups, it has stopped real systems from being
->> used.  We need to fix this ASAP.
-> Thx for this, as I had been thinking along the same lines already and
-> was still considering if I wanted to speak up.
+>> I think it's pretty simple - if libuv is using nesting already, then
+>> we will have to revert this single commit before 7.2 release.
 > 
-> 6.18 still qualifies as recent in my book, but YMMV. And it's not like
-> people "took forever to notice"[1], as they reported this for a while
-> now -- and there were a few attempts to fix this; it just took us some
-> time to see the full problem (@Keith: many thx for that and the fixes
-> for them). And some of the linked reports are quite recent, so people
-> really hit this.
-> 
-> Sure, as always there is the risk that this will cause other, bigger
-> regressions. Maybe that's why it's one of those situations where the
-> right approach is "submit this separately to Linus and let him decide",
-> unless of course he speaks up here.
+> Yup. What a horrible interface epoll is, and now it's made io_uring
+> have any bugs it has. Oh well. Horrid or not, the first rule of kernel
+> fight club is that we beat ourselves up to keep compatibility.
 
-Sorry that's nonsense, because how is Linus going to make that call if
-we can't. It's on us/me to make that call. We're not first-timers around
-here, we've been around and know how to make the call that we can stand
-by.
+Exactly, no other recourse here than to just revert it. Unfortunately
+my io_uring-7.2 branch is from pre merging of the epoll changes, as those
+went in separately. Hence I can either prep a revert for you separately,
+or you can just revert cfa1539b24af yourself since you have the context
+as well. Let me know what you prefer!
 
 -- 
 Jens Axboe
+
