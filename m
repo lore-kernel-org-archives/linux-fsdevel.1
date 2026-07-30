@@ -1,221 +1,234 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE59347FCD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 01:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FF02D837C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 01:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785374562; cv=none; b=h/8JrqFwk0m6181zEduqrV2aihvaGeA2r3iKa3i+eVcdwvWrimRfz3eEhfJdj0hCtiFoAClhGqh+yOvw3TAYz0g/bYTrJXmOxgqHfCD3Lp2ZoAi/I0zWFRCzAFRb8x32K1+DRKS0J6QwItE2JdpM/oMxGdgLuGp4fmyjxPGeSwc=
+	t=1785374726; cv=none; b=AhO+YHDLajOjaB5LT12Jwu8KqpiUAgs5IsCOZyQ639E8fGx7y0CGTabuPdoMsvew+cXYYUqfLmqFTMpw8JwdGvr5if673oxZOze2sYA4NMSrLtWRnHF2hmZyXp9xVswLkIKzgupg8EdTU015Ntpdje6OKrgdQ0lkRCjNouHMgfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785374562; c=relaxed/simple;
-	bh=/4qAEzUQBFKLtCXPBStUoJsGxRzkUMLWb4q0GwsVhfo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=u6XLArNfJ6nhXzcj1z3D3ugPeL1ACXvPh1XjJnSZY5ZDXGTXG6UucmMYD1JBbbiTGlZjIXTnwBQqQtrtGEyWVBtY12USJp3t1OEJj4+nJ7tS/5Kdy1cvebXcsj8yTj8WUUUdGcK+5i1BtZIIpB8d7XT0tT0kWtRCYqmbP2sSJlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=glFDgoi0; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=SI6JH9Oa; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="glFDgoi0";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="SI6JH9Oa"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7D0EE7CD71;
-	Thu, 30 Jul 2026 01:22:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785374554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Nv/Vy1FGQZPL9hLmzLnXj02eJ10QS/d3Ra28Ulno1rs=;
-	b=glFDgoi0Jx+XW7v9VHXxv+6xeGMJr7Zmv4Wn7iPHw4fXemV5WY2Z/CmMTsfrwKK19Id0AA
-	zRzQIDkQAnm//88b9EGz7OZ7U8gQ2eOgGD+h6QzayXLt9ebFsrp/9w1t+j61rk8E4YSEEi
-	wIb8TqDEThfJQm7NcaEKWrji/89NsqQ=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785374550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Nv/Vy1FGQZPL9hLmzLnXj02eJ10QS/d3Ra28Ulno1rs=;
-	b=SI6JH9Oab6t8pZGQcBAbPuInI+ppgQ1Zbvfw0BrlQgeV9ChdjPo9zWH3Sg8q7ZsoH1fgLd
-	r1sa1EAqeOtucQe02E+Ptk9/15gKuzNraKAE77D48z5hhaIgr5DZD2DX527T+etCUXvoLm
-	LgXB+f5kZajxPETd6/N9hrTwqK8gEsk=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D974E779CC;
-	Thu, 30 Jul 2026 01:22:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1+rhIVSnamquJgAAD6G6ig
-	(envelope-from <wqu@suse.com>); Thu, 30 Jul 2026 01:22:28 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH] iomap: follow the alignment requirement for iomap_dio_hole_iter()
-Date: Thu, 30 Jul 2026 10:52:10 +0930
-Message-ID: <e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1785374726; c=relaxed/simple;
+	bh=EaEJUICJMZghMgfZCdo87EzcA/vqAgCiMD965v0YvmY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=uhjkqCbXpmvwf4bI//6k5xs951hXMys4COZr5qn7fN6TuPhdS0MuKLLlBBD0de2abyYfS8Kxc52ss9K6jkg13aD4cH02yzuHhO/QWv23XoAHWIdAb9JjIHphIIhRhg1VukPDbDt76kZViX5+XxDxFIHZdBtzFvzG7HqvB42TKig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-495f637105eso2009805b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 18:25:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785374723; x=1785979523;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QwlAByPDYK9BJ1s1xJI3jXCwX9g3TaWyFZ/4z0rbMWg=;
+        b=oxfXUMq6+BIKENHZd8rXs+6cxqpkumkLbt9sSNYaU8Zk1/+2flEhBTmjmP3JxqXrn1
+         EBVkwFrMHaEEtOdZMtUBOrzh4LT6tHfaHMQIEkv1mthfu9mBtG4iQTFnuxLWhoYW05og
+         08p3THdX8S8CNiITZf7OqUB2CXke1eJkk2Cth2AqLfYTroSkrR/xDHt5h0IJifUpIEav
+         ihXHe958P9C2CvQc6IdZXIpyOeAMtxATb6FxTOmk1oAhG5FWpjMiU3HMuLy+FFk41DEF
+         ZfWSx1Laj8PEfXI2GRFd0ndDg0chaQ9riUpbvk6O5Plc//4pWfXN5j2tlCj9tqs2jbuS
+         V9yg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp7neSMNwbO0QfSVJmpOvtj1DlvjJJ2n0XDWaLaiBfC4ma72iQ7hnqeu/NXgcmNV2emrjgE3k+pFwsOfJxi@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJj8hWBEUUxZcXjP/35HVxlALsKfKOruE0LpYLbMiVNEw5D80j
+	/7Pte7CX63w/6a7zdM3LRCz42LyZMHiNkab+Y6+4nZvr9NPj47vF9itlzCDBFzcy3QOggixPqgd
+	son+Me7DdMdYU0ZV4XAHXWjlPcnXpXPGpKdfZSno2WO/KHaWxkneEvGMsrnA=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:mid,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+X-Received: by 2002:a05:6808:191c:b0:4a3:26e5:cc02 with SMTP id
+ 5614622812f47-4ad8775780bmr605917b6e.10.1785374723694; Wed, 29 Jul 2026
+ 18:25:23 -0700 (PDT)
+Date: Wed, 29 Jul 2026 18:25:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6aa803.57649fcc.360844.000c.GAE@google.com>
+Subject: [syzbot] [fs?] inconsistent lock state in rht_lock
+From: syzbot <syzbot+2fb31ade2d0e920fea9a@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-[BUG]
-On the latest development branch, btrfs with 8K block size on 4K page
-sized systems will fail the following fsstress workload:
+Hello,
 
- # $fsstress -n 4 -d $mnt -s 1785675805 -v
- 0/0: dwrite - no filename
- 0/1: creat f0 x:0 0 0
- 0/1: creat add id=0,parent=-1
- 0/2: write dontcache f0[259 1 0 0 0 0] [816411,3620] 0
- 0/3: dread - xfsctl(XFS_IOC_DIOINFO) f0[259 1 0 0 32 820031] return 25, fallback to stat()
- 0/3: dread f0[259 1 0 0 32 820031] [483328,81920] 0
+syzbot found the following issue on:
 
-Which triggered the following ASSERT():
+HEAD commit:    0ce37745d4bf Merge tag 'block-7.2-20260724' of git://git.k..
+git tree:       bpf
+console output: https://syzkaller.appspot.com/x/log.txt?x=145c3fde580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e38b15c29e6a1d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=2fb31ade2d0e920fea9a
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10d872ea580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14aea499580000
 
- assertion failed: IS_ALIGNED(state->start, blocksize) && IS_ALIGNED(state->end + 1, blocksize), in fs/btrfs/extent-io-tree.c:346 (unaligned extent state, blocksize=8192 start=487424 end=565247 state=0x0)
- ------------[ cut here ]------------
- kernel BUG at fs/btrfs/extent-io-tree.c:346!
- Oops: invalid opcode: 0000 [#1] SMP
- CPU: 4 UID: 0 PID: 648 Comm: fsstress Tainted: G            E       7.2.0-rc5-custom+ #431 PREEMPT(full)  7c507bd40d65e4d871e698b22d80f1306bbec543
- Tainted: [E]=UNSIGNED_MODULE
- Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022
- RIP: 0010:validate_extent_state.part.0.isra.0.cold+0x24/0x26 [btrfs]
- Call Trace:
-  <TASK>
-  insert_state+0x34/0x1a0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  set_extent_bit+0x440/0x8d0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_lock_extent_bits+0x58/0x380 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_dio_iomap_begin+0x319/0xb70 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  iomap_iter+0x1a2/0x370
-  __iomap_dio_rw+0x236/0x8d0
-  iomap_dio_rw+0x12/0x30
-  btrfs_direct_read+0x15f/0x290 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_file_read_iter+0x42/0x90 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  vfs_read+0x25e/0x380
-  ksys_read+0x73/0xe0
-  do_syscall_64+0xe1/0x790
-  entry_SYSCALL_64_after_hwframe+0x4b/0x53
- RIP: 0033:0x7fc3f129318e
-  </TASK>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/570b0c02ea7a/disk-0ce37745.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/8b5239f2d447/vmlinux-0ce37745.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/dbc5fdc8b45c/bzImage-0ce37745.xz
 
-[CAUSE]
-Btrfs has recently introduced more strict extent_state alignment checks,
-which means functions like btrfs_lock_extent() will require the range
-to be block size aligned.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2fb31ade2d0e920fea9a@syzkaller.appspotmail.com
 
-But in the above workload, iomap_dio_hole_iter() only zeroed 4K, then
-hit a page fault. In that case the iov_iter is still advanced 4K bytes,
-then btrfs_dio_iomap_begin() is called for the remaining range, which is
-no longer block size (8K) aligned, triggering the ASSERT().
+================================
+WARNING: inconsistent lock state
+syzkaller #0 Not tainted
+--------------------------------
+inconsistent {INITIAL USE} -> {IN-NMI} usage.
+syz.2.555/6556 [HC1[1]:SC0[0]:HE0:SE1] takes:
+ffff88807fed6838 (rhashtable_bucket){..-.}-{0:0}, at: rht_lock+0x8b/0x180 include/linux/rhashtable.h:331
+{INITIAL USE} state was registered at:
+  lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+  rht_lock+0xa3/0x180 include/linux/rhashtable.h:331
+  __rhashtable_insert_fast include/linux/rhashtable.h:784 [inline]
+  rhashtable_insert_fast include/linux/rhashtable.h:887 [inline]
+  pidfs_add_pid+0x325/0xc50 fs/pidfs.c:178
+  alloc_pid+0xe7a/0x1310 kernel/pid.c:338
+  copy_process+0x20ea/0x4390 kernel/fork.c:2305
+  kernel_clone+0x2d7/0x940 kernel/fork.c:2748
+  user_mode_thread+0x110/0x180 kernel/fork.c:2824
+  rest_init+0x23/0x300 init/main.c:682
+  start_kernel+0x392/0x3e0 init/main.c:1175
+  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+  x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+  common_startup_64+0x13e/0x157
+irq event stamp: 1488
+hardirqs last  enabled at (1487): [<ffffffff8bd0ce38>] irqentry_exit_to_kernel_mode_after_preempt include/linux/irq-entry-common.h:507 [inline]
+hardirqs last  enabled at (1487): [<ffffffff8bd0ce38>] irqentry_exit_to_kernel_mode include/linux/irq-entry-common.h:542 [inline]
+hardirqs last  enabled at (1487): [<ffffffff8bd0ce38>] irqentry_exit+0x218/0x8f0 kernel/entry/common.c:167
+hardirqs last disabled at (1488): [<ffffffff8bd082f0>] exc_debug_kernel+0x60/0x140 arch/x86/kernel/traps.c:1235
+softirqs last  enabled at (1442): [<ffffffff81d9b01f>] bpf_prog_load+0x166f/0x1c00 kernel/bpf/syscall.c:3223
+softirqs last disabled at (1440): [<ffffffff81d742ec>] spin_lock_bh include/linux/spinlock.h:348 [inline]
+softirqs last disabled at (1440): [<ffffffff81d742ec>] bpf_ksym_add+0x2c/0x340 kernel/bpf/core.c:641
 
-This shows that, although iomap_dio_bio_iter() is properly respecting
-the alignment requirement, iomap_dio_hole_iter() is not doing the same
-thing.
+other info that might help us debug this:
+ Possible unsafe locking scenario:
 
-[FIX]
-Extract a helper, iomap_dio_alignment(), to calculate the alignment first.
+       CPU0
+       ----
+  lock(rhashtable_bucket);
+  <Interrupt>
+    lock(rhashtable_bucket);
 
-Then for iomap_dio_hole_iter() round down the copied length, and revert
-any excessive range that is beyond the aligned copied length.
-Also use @aligned_copied for the size increment and iter advancement.
+ *** DEADLOCK ***
 
-Fixes: 001397f5ef49 ("iomap: add IOMAP_DIO_FSBLOCK_ALIGNED flag")
-Signed-off-by: Qu Wenruo <wqu@suse.com>
+no locks held by syz.2.555/6556.
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 6556 Comm: syz.2.555 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <#DB>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_usage_bug+0x28b/0x2e0 kernel/locking/lockdep.c:4042
+ lock_acquire+0x1cc/0x350 kernel/locking/lockdep.c:5859
+ rht_lock+0xa3/0x180 include/linux/rhashtable.h:331
+ __rhashtable_remove_fast_one include/linux/rhashtable.h:1065 [inline]
+ __rhashtable_remove_fast include/linux/rhashtable.h:1146 [inline]
+ rhashtable_remove_fast include/linux/rhashtable.h:1175 [inline]
+ rhtab_delete_elem+0x404/0x1b30 kernel/bpf/hashtab.c:2954
+ rhtab_map_delete_elem+0xe2/0x190 kernel/bpf/hashtab.c:2985
+ bpf_prog_a4f1e23443ac9f8e+0x4e/0x56
+ bpf_dispatcher_nop_func include/linux/bpf.h:1454 [inline]
+ __bpf_prog_run include/linux/filter.h:724 [inline]
+ bpf_prog_run include/linux/filter.h:731 [inline]
+ bpf_overflow_handler kernel/events/core.c:10671 [inline]
+ __perf_event_overflow+0x3b9/0xea0 kernel/events/core.c:10770
+ perf_swevent_overflow kernel/events/core.c:10911 [inline]
+ perf_swevent_event+0x439/0x810 kernel/events/core.c:-1
+ perf_bp_event+0x318/0x430 kernel/events/core.c:11812
+ hw_breakpoint_handler arch/x86/kernel/hw_breakpoint.c:556 [inline]
+ hw_breakpoint_exceptions_notify+0x243/0x680 arch/x86/kernel/hw_breakpoint.c:587
+ notifier_call_chain+0x1a5/0x3d0 kernel/notifier.c:85
+ atomic_notifier_call_chain+0xda/0x180 kernel/notifier.c:223
+ notify_die+0x144/0x1a0 kernel/notifier.c:588
+ notify_debug+0x2e/0x50 arch/x86/kernel/traps.c:1210
+ exc_debug_kernel+0xb1/0x140 arch/x86/kernel/traps.c:1272
+ asm_exc_debug+0x1e/0x40 arch/x86/include/asm/idtentry.h:631
+RIP: 0010:rep_movs_alternative+0x4a/0xa0 arch/x86/lib/copy_user_64.S:74
+Code: 61 04 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 8b 06 48 89 07 48 83 c6 08 48 83 c7 08 83 e9 08 74 db 83 f9 08 73 e8 eb c5 <f3> a4 c3 cc cc cc cc 48 8b 06 48 89 07 48 8d 47 08 48 83 e0 f8 48
+RSP: 0018:ffffc900036efc18 EFLAGS: 00050246
+RAX: 00007ffffffff001 RBX: 0000000000000040 RCX: 000000000000003d
+RDX: 0000000000000001 RSI: 0000200000000303 RDI: ffffc900036efd53
+RBP: ffffc900036efea0 R08: ffffc900036efd8f R09: 1ffff920006ddfb1
+R10: dffffc0000000000 R11: fffff520006ddfb2 R12: 1ffff920006ddf94
+R13: ffffc900036efd50 R14: ffffc900036efd50 R15: 0000200000000300
+ </#DB>
+ <TASK>
+ copy_user_generic arch/x86/include/asm/uaccess_64.h:126 [inline]
+ raw_copy_from_user arch/x86/include/asm/uaccess_64.h:141 [inline]
+ _inline_copy_from_user include/linux/uaccess.h:185 [inline]
+ _copy_from_user+0x7a/0xb0 lib/usercopy.c:18
+ copy_from_user include/linux/uaccess.h:222 [inline]
+ copy_from_bpfptr_offset include/linux/bpfptr.h:53 [inline]
+ copy_from_bpfptr include/linux/bpfptr.h:59 [inline]
+ __sys_bpf+0x2e7/0xd90 kernel/bpf/syscall.c:6370
+ __do_sys_bpf kernel/bpf/syscall.c:6537 [inline]
+ __se_sys_bpf kernel/bpf/syscall.c:6534 [inline]
+ __x64_sys_bpf+0xba/0xd0 kernel/bpf/syscall.c:6534
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f55c159de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe0f3ce588 EFLAGS: 00000246 ORIG_RAX: 0000000000000141
+RAX: ffffffffffffffda RBX: 00007f55c1825fa0 RCX: 00007f55c159de99
+RDX: 0000000000000040 RSI: 0000200000000300 RDI: 0000000000000010
+RBP: 00007f55c1633eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f55c1825fac R14: 00007f55c1825fa0 R15: 00007f55c1825fa0
+ </TASK>
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	04 00                	add    $0x0,%al
+   2:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+   9:	00 00 00
+   c:	0f 1f 00             	nopl   (%rax)
+   f:	48 8b 06             	mov    (%rsi),%rax
+  12:	48 89 07             	mov    %rax,(%rdi)
+  15:	48 83 c6 08          	add    $0x8,%rsi
+  19:	48 83 c7 08          	add    $0x8,%rdi
+  1d:	83 e9 08             	sub    $0x8,%ecx
+  20:	74 db                	je     0xfffffffd
+  22:	83 f9 08             	cmp    $0x8,%ecx
+  25:	73 e8                	jae    0xf
+  27:	eb c5                	jmp    0xffffffee
+* 29:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi) <-- trapping instruction
+  2b:	c3                   	ret
+  2c:	cc                   	int3
+  2d:	cc                   	int3
+  2e:	cc                   	int3
+  2f:	cc                   	int3
+  30:	48 8b 06             	mov    (%rsi),%rax
+  33:	48 89 07             	mov    %rax,(%rdi)
+  36:	48 8d 47 08          	lea    0x8(%rdi),%rax
+  3a:	48 83 e0 f8          	and    $0xfffffffffffffff8,%rax
+  3e:	48                   	rex.W
+
+
 ---
- fs/iomap/direct-io.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index e2cd5f92babe..94747963cb1f 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -403,6 +403,18 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
- 	return ret;
- }
- 
-+/*
-+ * File systems that write out of place and always allocate new blocks
-+ * need each bio to be block aligned as that's the unit of allocation.
-+ */
-+static unsigned int iomap_dio_alignment(const struct iomap_iter *iter,
-+					const struct iomap_dio *dio)
-+{
-+	if (dio->flags & IOMAP_DIO_FSBLOCK_ALIGNED)
-+		return i_blocksize(iter->inode);
-+	return bdev_logical_block_size(iter->iomap.bdev);
-+}
-+
- static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
- 	const struct iomap *iomap = &iter->iomap;
-@@ -414,18 +426,9 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 	bool need_zeroout = false;
- 	u64 copied = 0;
- 	size_t orig_count;
--	unsigned int alignment;
-+	const unsigned int alignment = iomap_dio_alignment(iter, dio);
- 	ssize_t ret = 0;
- 
--	/*
--	 * File systems that write out of place and always allocate new blocks
--	 * need each bio to be block aligned as that's the unit of allocation.
--	 */
--	if (dio->flags & IOMAP_DIO_FSBLOCK_ALIGNED)
--		alignment = fs_block_size;
--	else
--		alignment = bdev_logical_block_size(iomap->bdev);
--
- 	if ((pos | length) & (alignment - 1))
- 		return -EINVAL;
- 
-@@ -588,12 +591,15 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 
- static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
--	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	const unsigned int alignment = iomap_dio_alignment(iter, dio);
-+	const loff_t aligned_copied = round_down(copied, alignment);
- 
--	dio->size += length;
--	if (!length)
-+	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
-+	dio->size += aligned_copied;
-+	if (!aligned_copied)
- 		return -EFAULT;
--	return iomap_iter_advance(iter, length);
-+	return iomap_iter_advance(iter, aligned_copied);
- }
- 
- static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
--- 
-2.54.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
