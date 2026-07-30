@@ -1,116 +1,96 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A20D4014BB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 10:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4671E3D47D9;
+	Thu, 30 Jul 2026 10:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785408174; cv=none; b=gNSvLYjDC/IIGtEndBfHycZRArtx8uyaQKXRkyDJ3zQPyc09nRoWK7d7XA2nj1Jk8+/y/GYAKAELwmSfF5AMt7jA5ZQncPK0v9oxS4emiC3VuWVmtTzONtw7lbj+N6QVTzqvzxuyei78BB8DFU65nat6ui9Iy5yzrzijmXxIqTo=
+	t=1785408283; cv=none; b=DJ5jEJijsw8onfu9k7L6g3yaDyxOkMINWJNYA+hQkySYaysAsyUWQ19ruF1CPiUicB5x+9yJujjrwssKupqqq7gWOAVM1s/9rMNDu7jofFOPFdd0YXasN6vLdc2pJPcvZBPlbjaH4g89shWbDqNcbXNOjfQati9KsCLo9g37dYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785408174; c=relaxed/simple;
-	bh=5AX3eFT/QWGzzIBO+WLTH1tym7uPsgE6Vuf2p7nHv4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hhrINZZlNGhqDY69DfM80q62Qxg+g04poI7kX87NoSuHxMcFscemumCkRgo+kpp7vAZmMn2GWc8UHjEDmkFJVz1s7Bk85hvmtIjaCcxn/8pvGkVCaXr4iW7T5wR8OXOi/eSNF0B5jOiGc/cbcGxO7tCNfQjujcr+GuFjIH2CeUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IPuyWhqo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=TbCc+E/z; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=el5qHxgU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fDokM/IP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785408283; c=relaxed/simple;
+	bh=/zoYaM/Ol1p1ApOYlAdd/13LCjynOCKbrL9P0lRvcHA=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=ch8Ldy4c8XsIrBgBDjNiAyWImVYtI/mDgrPop2Z0LuzvNzFHi4HjJptmDxyo9e9LF7zqU/6Guj8aDtHR1tUjEIq92LxLU2XAHmVaygjsbeAALERRmoK4/qMDCPvpSSxYELnSJYvn+/86XtWLVkJImkZ4wXfaju2GjKEIguYb1zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a08f1G6i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IPuyWhqo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="TbCc+E/z";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="el5qHxgU";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fDokM/IP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FFC73FDF;
-	Thu, 30 Jul 2026 10:42:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785408164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=SmghZd+D/vyPTfR9YVu44R7/u6nfVyj3nSoA6PaUDmE=;
-	b=IPuyWhqowDYUl5zZSv/Ld1m7NWCyOQWVdPhOz93VvrGyuMOUOeEhQ/bPHwf0ZfDSA4mmRq
-	MR1DydfaoIlJJv0pfO2VcaZqADnRiBoX9htbvEv+Y2uM93pXebAHag1IWHogklgoJJCR6h
-	CS1DElsKSnkrQhuKu5L2y4Cza+jvvRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785408164;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=SmghZd+D/vyPTfR9YVu44R7/u6nfVyj3nSoA6PaUDmE=;
-	b=TbCc+E/z8rfDOZZGl4f9Nai5AI2/qqVet/05/zgiUquHIFfPSn8vG87mW+9sSevbxrxTOx
-	lJoYWwkZDEnI7mBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785408160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=SmghZd+D/vyPTfR9YVu44R7/u6nfVyj3nSoA6PaUDmE=;
-	b=el5qHxgUUxZmtQCAR/yYwoTI7Iygk20pO7tosDGz2Ed9ohUL1b7srZeQ91sMNdRDCrts9n
-	9CdjXkWRmduH3YiXz8IicozSHJhXeDdLqzR7AxxKIkLc45oS/CBZbp9TGDOjfc56AQWbYT
-	6XC5eqKChoozNWaeXLvx0aukiwmzDfc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785408160;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=SmghZd+D/vyPTfR9YVu44R7/u6nfVyj3nSoA6PaUDmE=;
-	b=fDokM/IPIfA1iD6W1ECikTzVjrAP7ZDgRoToAfM9dia4jfNq/BHXsPRQ7dAz7llWmIZKTi
-	R1B7FPRk8I6oLNDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57B56779CC;
-	Thu, 30 Jul 2026 10:42:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pm1nFaAqa2p7PgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 30 Jul 2026 10:42:40 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 02D83A0AAA; Thu, 30 Jul 2026 12:42:35 +0200 (CEST)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Subject: [PATCH 0/2 v2] udf: Fix data loss when converting inline inodes to out of line
-Date: Thu, 30 Jul 2026 12:42:27 +0200
-Message-ID: <20260730104040.18150-1-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a08f1G6i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8455A1F00A3A;
+	Thu, 30 Jul 2026 10:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785408281;
+	bh=ZQ7+wfujzlBzS8eMApboqkooKGTBBB6iMz2TbbizK1E=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=a08f1G6ihVT49EA7bhAWLi5sAEtRMpiwnk0XsON8Qa/IlWYIC/FDl3srVYtJBZiX6
+	 I/ChmqsMWAeW6rVAOLRXMDRI3fy8D2vq16DTG07NquwSpBNDMyVbqhvj0chh5GNY8W
+	 bI7PJksbLM/XxLbncZXgptpW1xb14LVsB3Gzjpw/mMP2CjWewzqDfmntyGj44WNaJo
+	 OFG2o+uVtGPGBjfWnPItf6dcEvhlRFCFgXRFQ0vBK3v4/Xx4V2TKQIdAWHlsvGIUy3
+	 5lf7eATC92F2G31WHNruDuL55Myz0Dxv4v+xb/nrndZdf/SV7iZC0X8EhlzJG6d/UW
+	 ly4plhXcNFe7A==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=223; i=jack@suse.cz; h=from:subject:message-id; bh=5AX3eFT/QWGzzIBO+WLTH1tym7uPsgE6Vuf2p7nHv4Y=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqayqTkSOLAxyD8ffnzBOJ9qEdKFfQMI2rhMf1Z I3nKdO0R7qJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCamsqkwAKCRCcnaoHP2RA 2f2DCAC12lyfKIcP0Fh5Kq2YIshgwcdRTYslqS6541Nif9VYrG9GUfPXulecAwpZ/GtImd7f3II 52/C4SlY1xPVHtjPkHo5gyX190xWA0nULm1xv6B31tihTWQuaQjy10/r7hg/uBF9/t3AOeU1xYb 7osO5ucmFkf+/BXP2kt9josP+x9jCIu73BfU2+AM/Zo2sd3aAdkMsHrCeAeTU8wKlkXoMsgus5g DAt99ZBg9ISghXSaXklH1xdp7UYEp6VIGBDejU6rgGRcax+KBKvzrs2Z/+3DbXIRtALfcYLdQvt rg25rwpu1KnnN2VAiY5jdRqYDbC9ivFOXSaQFOE0FfXcOMoD
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
+Subject: Re: [PATCH v3 01/12] ns: Free anonymous mount namespaces via
+ ns_common_free()
+From: Christian Brauner <brauner@kernel.org>
+To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+ Daniel Durning <danieldurning.work@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Justin Suess <utilityemal77@gmail.com>, 
+ Lennart Poettering <lennart@poettering.net>, 
+ Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+ Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, 
+ kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+In-Reply-To: <20260726161400.3010511-2-mic@digikod.net>
+References: <20260726161400.3010511-1-mic@digikod.net>
+ <20260726161400.3010511-2-mic@digikod.net>
+Date: Thu, 30 Jul 2026 12:44:35 +0200
+Message-Id: <20260730-miterleben-minuten-komma-91fdfa5aaec7@brauner>
+X-Mailer: b4 0.16-dev-3e0c3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1342; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=/zoYaM/Ol1p1ApOYlAdd/13LCjynOCKbrL9P0lRvcHA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRla4ul+L3V+C+y3vT3rzOaGZEznzw9pfXggpRgQWVWO
+ 3fEE6fVHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO5v4nhf5Sm2lM+sSl5a6PW
+ f3RgZQ7wmxm7KNdVSEDa1m6h1f1LPgx/JaMrVt7S9ueOSQ/iFI/rkqitEwgVOyEyd/216Txvjy3
+ nAAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hello,
+Hi Mickaël,
 
-this patch series fixes a possible data loss in UDF when converting inodes from
-inline format to out of line format. More details in patch 2/2. I plan to merge
-this series through my tree.
+> free_mnt_ns() skipped ns_common_free() for anonymous mount namespaces
+> (the "if (!is_anon_ns(ns))" guard) because they carry the reserved inum
+> MNT_NS_ANON_INO, which proc_free_inum() must never release.
+> 
+> A following change needs ns_common_free() to run for every namespace, to
+> release per-namespace state attached during __ns_common_init().  Move
+> the reserved-inum decision into __ns_common_free() and let free_mnt_ns()
+> call ns_common_free() unconditionally.
+> 
+> __ns_common_free() is shared by all namespace types, so it gates
+> proc_free_inum() on ns->inum > MNT_NS_INO_SPECIAL_MAX (a new alias for
+> MNT_NS_ANON_INO) rather than the mount-specific is_anon_ns().  The
+> reserved inums (MNT_NS_ANON_INO and the *_NS_INIT_INO values just above
+> it) belong to namespaces that are never freed, except the anonymous
+> mount namespace; dynamically allocated inums are >= PROC_DYNAMIC_FIRST.
+> So the comparison frees every dynamic inum and skips exactly the
+> anonymous mount namespace, matching the previous guard.
+> 
+> Cc: Günther Noack <gnoack@google.com>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Co-developed-by: Mickaël Salaün <mic@digikod.net>
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
 
+Seems good,
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
+-- 
 
-								Honza
