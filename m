@@ -1,169 +1,71 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B061443F4BC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 17:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5A33AB273;
+	Thu, 30 Jul 2026 17:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785433061; cv=none; b=DchSw/N/V+z1RMk/IUyjOSJQDG4Rc0LY/jIN0ze8XjvRKcZc6Lshmh8SDK3wFAvs0wKF+OYoP1wapMQ3uB5UHH7Q10adPTpimwXy6pl+SPsnPev3PA0Fd08HK/YeSEjaSfRb/CTswmBLUvLQ8zhkz4svizfH6gBU/SvgfslIORI=
+	t=1785433088; cv=none; b=YY0GnxbF+Y7oVUAxMIDbhF3low+wGVRCVQEq/C0WBhwXIYpjepQ8UgSeNGYaDgGXBof2aJu0XmqIf9CCx5LMcffEduVHLXIUjUraB9aG/Cx451fPPlbr7Nm7T40BxqeNVl+IhNnHSVvwZtWT+8FkpYBwaGEyQemAwYpswNMditU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785433061; c=relaxed/simple;
-	bh=lmLFSXZJeZzjs6e2WjafdMs5Vcjcekz0yRe1DzAAEW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PCMLsNk+UVvBHQJ+jKGMtjAQldPYfhTyRc0ZCa35wkcunAOaOM3EqFXp8nw3xOcizU8R+kvo0JwjhYGcHYclF8g/kJp6i8Y8k9loBhuhOlPsMoB9knjL1L7Cwa4mr90R/4hBqbm72CWssI5zLBh8udd7bDg808a1rK9OBaS+ZVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z001HcP8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MBHpurHg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=u7NtnlWg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2KtGM8xK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785433088; c=relaxed/simple;
+	bh=9yTSYITKRyfSgAMT4KNqXonaMfmcOC6oJ44wCxs21tk=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=O/1XUsX9nWrrA5p8B3s8H1fXcFqWkbsjL7RnpRkEItxXTI7gjMh62X9xTIdW4mbZG2itjhqTyhEE4na/01ct3WUED+Rwfx0OOETkvHc/4wDkeRrVxjXPmUEwsVpx7jdlk+5TiJ1hV1XLmm27XrDppBsl/pH17Klx2Lkf/D1PvI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Ck/rHuwC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z001HcP8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MBHpurHg";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="u7NtnlWg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2KtGM8xK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 644177D645;
-	Thu, 30 Jul 2026 17:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785433053;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
-	b=z001HcP8wWRDo7+JcZOc6vAuglXef6X9EbnUbof1whEtKOQIK0Zt3vVYjyCPdszg3FcyEy
-	Y+T0cBP5yZggY9udTnX1jg0OLaC0BOiHPVRtWNoaRgx1yDSzQU7+HOkPT9EpeYrHI2L2zd
-	ie3f/1/n+CQeUsNLWpFRPTnfqn9rOrQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785433053;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
-	b=MBHpurHgTv3Czp2jk3ryfCNXjgQbo3j+XyWTU4WsBFWwE5HSksz2NYCg7BdNlMBI4DZkXK
-	59St8uqFio8njXBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=u7NtnlWg;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=2KtGM8xK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785433049;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
-	b=u7NtnlWg+owG6ebeGWmLLaJiDe07PZamtfADFWDla2mjjDQ5TvU6HaxBfJIukUNBLW9wPE
-	YinN1cvmHncq4a1VsZXimyLQmQIeQQ0d1CqtFM8uH6mUJzCYkFoWy/o1+rnIoopY/PbYR6
-	5lUZfyIzYcryQDEvlMNR+saCIU6/NnA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785433049;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
-	b=2KtGM8xKF5KYaJ/Hh798jX5CZDos4zeNNAgNsv31oC6Isqwp4+pKTncqKlk5tGbwAx1vP4
-	Mk9LUZkPfEU4L3Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 525BD779CC;
-	Thu, 30 Jul 2026 17:37:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jLeCE9mLa2rTVgAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 30 Jul 2026 17:37:29 +0000
-Date: Thu, 30 Jul 2026 19:37:20 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Agamalt 10 <agamalt10@gmail.com>, David Sterba <dsterba@suse.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: URGENT BUGS TO FIX IN THE FILE SYSTEM, KERNEL PANICS, INT
- OVERFLOWS, ETC.
-Message-ID: <20260730173719.GU10684@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <CAMwtO3LAzbJHZXixDbYD-LGu2qe5P4zVQBD4fsqNr-P3wzAZUg@mail.gmail.com>
- <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ck/rHuwC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A431F000E9;
+	Thu, 30 Jul 2026 17:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1785433085;
+	bh=Ni3oFAKFSnWXIfFUyIufn9NPE6DB7h3R++xJCPyWKBU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Ck/rHuwClLfG9ICgb/oWs/GPP+TzALltZy3TrlWrjFNP32MYVLDvNsWdEOIg9mwA2
+	 kCiOGJAkwf4GAeu7rWuGnd9gaTQSHKpf7h1q1bzOwT3lDNxwzadxKfF6f3+dE7B3mr
+	 /+KLiw/7l1AGFX56+oH62A/kjmEhwITeSSyb4Wco=
+Date: Thu, 30 Jul 2026 10:38:04 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Seunguk Shin <seunguk.shin@arm.com>
+Cc: <linux-kernel@vger.kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Matthew
+ Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+ <Nick.Connolly@arm.com>, <ffidencio@nvidia.com>
+Subject: Re: [PATCH v4, RESEND] fs/dax: check zero or empty entry before
+ converting xarray entry
+Message-Id: <20260730103804.063ce671588b02c2596d5de3@linux-foundation.org>
+In-Reply-To: <m2v79wmxig.fsf@arm.com>
+References: <m2v79wmxig.fsf@arm.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spamd-Result: default: False [-1.21 / 50.00];
-	SUBJ_ALL_CAPS(3.00)[73];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:replyto,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.21
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 644177D645
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 29, 2026 at 05:15:46PM -0700, Linus Torvalds wrote:
-> Please do proper kernel bug reporting, which means "don't just sent to
-> Linus", but figure out the maintainer etc. We have documentation about
-> this all.
-> 
-> That filesystem isn't a serious filesystem, and that code needs a lot
-> more fixing if somebody cares.
-> 
-> Instead of doing
-> 
->         if (affs_validblock(sb, block)) {
->                 bh = sb_getblk(sb, block);
-> 
-> it should probably just do
-> 
->         bh = affs_getblk(sb, block);
->         if (bh) {
-> 
-> instead, but honestly, I can't find it in myself to care about an
-> unlikely error case that nobody has ever seen and reported, all in a
-> legacy Amiga filesystem that nobody really uses outside of hobby Amiga
-> enthusiasts.
-> 
-> But we do have a listed sucker^Hmaintainer for it that says "Odd
-> Fixes", and this certainly counts as an odd fix.
-> 
-> So I'm cc'ing David and fsdevel in case there is somebody else with an
-> Amiga background.
+On Thu, 30 Jul 2026 14:12:55 +0100 Seunguk Shin <seunguk.shin@arm.com> wrote:
 
-Thanks, I have a few more pending AFFS fixes, but nothing serious so
-it's in the backlog. The last fix from the community was in 2020
-d3a84a8d0dde4e ("affs: fix basic permission bits to actually work"). The
-rest is tree-wide and recently the AI assisted reports.
+> dax_associate_entry(), dax_disassociate_entry(), and dax_busy_page()
+> call dax_to_folio(entry) before checking whether entry is a zero or
+> empty xarray entry.
+> 
+> That ordering is wrong because zero and empty entries are not folio
+> entries. Commit 98c183a4fccf ("fs/dax: don't disassociate zero page
+> entries") added guards in the associate and disassociate paths, but the
+> guards still come after dax_to_folio(entry), and dax_busy_page() still
+> has the same problem.
 
-> Me, I'm still bitter about those rich kids with their fancy sprites on
-> their Amiga HW, which may be one reason I don't feel like fixing the
-> problems in AFFS ;)
+Are there any known userspace-visible runtime effects of this?
 
-For me it was only a ZX Spectrum on a grayscale 12" TV, blissfully unaware.
+If so, please fully describe them in the changelog.  If not, please
+also mention that.
+
+This is important information for deciding which kernel(s) need the
+patch.
+
+> Move the zero/empty checks before dax_to_folio(entry) in all three helpers.
+
+Thanks.
