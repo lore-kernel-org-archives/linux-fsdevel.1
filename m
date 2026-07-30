@@ -1,73 +1,46 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E0540DFC6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 15:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B293B27E9;
+	Thu, 30 Jul 2026 15:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785424981; cv=none; b=SWDEnL5avFtpd2wEesWfHnihDPN04Jzx6Ou5B5P1aRtyqXFzAZlK9bGykG430Ba55/jFFXqx+Sdow54UTVyM/lNC2OYQYMBOCLx03FIdHvs+tS6L466uM63cxOsArrGBFpktPKXK20+S/Pv5SzTYoQNeO+nnnhbFNqZuNZjzQYs=
+	t=1785426877; cv=none; b=ZEZNihTnyh50SCGDWMaTFwFk3/V4cFDmxBX3KbxBRxiGcDuKxVrjDAvRFHL3JU7xzr8r7O29q3Q7bqwDo74q6gDAJF8CzM40pTqNeABFMMH1pynOLy37UK/p8S9gOjDD0E1UEB3hYEU3iD4uRZjzHFTE6TWYuQ+KCJ/fE68bcXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785424981; c=relaxed/simple;
-	bh=fu02ZqAH6lSLwaynlijzUGde2pYIBnjWQknKytijo4g=;
+	s=arc-20240116; t=1785426877; c=relaxed/simple;
+	bh=WWcVwy1dwp/O5WVBwHFoq+BIC/3LR9wWRek20yF6DLU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p4EY6YVU1lEWnnoHRwM7zbEWB3CaRQUmyGdRjgGF3coyeksHkC+zzWAm9zwcr0vu1dVH8/pgQdGrwjaGh7euEAewAd3c01/Hg3iwVmeGPyiQsAQSuMi8l2GIjIAvGco1KofxDiw/POLVmCbnIPzQp8XnZCupWBJ8aMBCHAsET/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=WXtjm171; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+	 MIME-Version; b=MktFnBBuh0FSEKkQ+feZFkNFhyXZslXmcpwepHVK/zS3FlL1QmupqOBKtG/+R/TtR684WD+y7adp6mK9WY0TWg2dzBCkQLBD3Iu9MIHjwXLBLsf74en0MaTrJYzJPi02jDVVURXQGz7KFjCO4HZD4s3SKnScQtVXLNEGNkivPXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I/o58wfs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="WXtjm171"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ceaf8a1265so28482555ad.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 08:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1785424976; x=1786029776; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=q9N/xBNRfsFXsnatt+u3psflJJ1kQifwOoTJGMZ+3bY=;
-        b=WXtjm171OcS0QguRCyobzkc60CmQE+2dLtqr8zP0fgXCBCg+1Ert0YyTAGpyETLPni
-         bWcGfVNzc9aKA6gpxkl1a23zCQ73Xh8H9DzSMdWX5qG2RYgvZQ3G0HRYGKlgStBzdXTe
-         4SD8c6FGL+iIHgHcw01RDL7JgWNQZOsn+bmYg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785424976; x=1786029776;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=q9N/xBNRfsFXsnatt+u3psflJJ1kQifwOoTJGMZ+3bY=;
-        b=Rue6v3h5+Bal+vmOaxHY9K1XCThO3luj5M0v6YJwnCt9eCAUIJkRXjhzuMJloTpL8k
-         z9kLZ832WSk3MYeW3j4HWszBLHjL5vrgF9TD2yIfYoimFIaeqmcdNBn8vovEJmSLzyJ8
-         tIhO1+IlWBTqLsuM7gg8fcdcN2HG//aNrMm/DeDLgZoT6AC57EnWvHG0ylTJxm3z4uoF
-         IU/2yJQnx9u9croaJkNSU+tqFk22YMJ2i4HNUUfGR+ejKrlntapits+GOKUHOp5hG9o/
-         rDY06XSaGO9hUqGwdvANC+rd8ipo7ty67gzILFlNzdh516lAD/qDtu69ILGfc7io5e9r
-         ttLA==
-X-Forwarded-Encrypted: i=1; AHgh+RqRyULT8xqtaGWLLXQ69oLQz59fL3ojRTW63kY4QCR30NwnTaHgUuyMYfpxlHocYRiorAcupmaZpLhdEm7h@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy68KcIKAOgDYzZOxtwR60i7txIqrSFq0rM0Hvqu0CA8G0jH46M
-	hIyKK0f76F6tleZOjh5ZxsXVeYMi7WDbCdEkaqg5+fVrXr3+f6gUdCX32sVpiSU3/oM=
-X-Gm-Gg: AR+sD11e6Exlg4BWPOhST1IN8K4EWfvtgcwSVSNZLbfLPjlStL7mSOchgYIvBNXEC0d
-	jWuqzWD3+tcnN6WptsLq3Be2ZdF4Ytrfd/wPpHC5wdEVP5/g5bn75jNAaN3olHRBFVD96i3wG26
-	5ibF154AYT8hzn5UUO+Ia+a7ZWZh7D6KX0FrbJWryBPWqN9zXSrunSl/o6Z9HsRiTQ+RLxXQiu/
-	D3b/w+M3UCPxXYd8RwWpi9PDImUmvwM4u3J7Dmrgh8l3AXpamB+GPucqzcwj9OnGxy0Jk/HBybm
-	BiI9HcPdDSf2p6/mvzTP33YhMWVBgwgEwoO2MA4airUJtCAn0JJitI1AqXqsCp1UEsecoblKPd/
-	wVtd8j2OaOyKBwFhJiaL7zp5xRQpczigv23PpsYUF0Ad5gXjDGxKhQJ3acBYCn/ec/CEfsI3r1o
-	quRjJ1LCyu/J/cNOP2l0C9KQBdTvC3Yys6aczfehJtmallrK9g+5STsvcZC1rl8gxFOMZcdpqcz
-	IczgWuu4ew=
-X-Received: by 2002:a17:902:d483:b0:2ca:53e1:b915 with SMTP id d9443c01a7336-2d035c20259mr29160795ad.14.1785424975781;
-        Thu, 30 Jul 2026 08:22:55 -0700 (PDT)
-Received: from ziggs ([147.46.121.36])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a468f7sm28711745ad.28.2026.07.30.08.22.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 08:22:55 -0700 (PDT)
-From: Youngjae Kwon <yjkwon0026@snu.ac.kr>
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I/o58wfs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B069A1F000E9;
+	Thu, 30 Jul 2026 15:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785426876;
+	bh=gs2dn9uEm9/N605MaUuCPlNfDA6J/WziYSKOf6pNgTI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=I/o58wfsH0N8DnKgNmBZ30JBAQ/Aqs1RuBg2ly68zNFwDIpK8wX5c9qgVdQ6nP1kN
+	 U1BungQ6nGuwSAEYMj418DDT+DZqmaPWWt07mA0kYCkGyZs6IaAtXgpd9OEdYom9+L
+	 krJDX58+2hKAi5PqFJnJ1As6+IVs6zLJLRD4bEfM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	Youngjae Kwon <yjkwon0026@snu.ac.kr>,
-	stable@vger.kernel.org
-Subject: [PATCH] fsnotify: Fix stale object mask after concurrent mark updates
-Date: Fri, 31 Jul 2026 00:22:41 +0900
-Message-ID: <20260730152241.444632-1-yjkwon0026@snu.ac.kr>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com>
-References: <CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com>
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.12 574/602] afs: Improve server refcount/active count tracing
+Date: Thu, 30 Jul 2026 16:16:06 +0200
+Message-ID: <20260730141448.111244037@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260730141435.976815864@linuxfoundation.org>
+References: <20260730141435.976815864@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,94 +49,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a mark gets a new event bit, fanotify and inotify avoid recalculating
-the object mask if the cached aggregate already contains that bit. This is
-racy with a recalculation triggered by a concurrent update to another mark
-on the same connector.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-The concurrent scan can read the mark before the new bit is added, while
-the updater reads the old aggregate before that scan publishes its result.
-The updater then skips recalculation and the scan publishes a mask without
-the bit, leaving the object mask stale after both updates complete.
+------------------
 
-This can be reproduced with two fanotify groups watching the same inode:
-one thread removes FAN_MODIFY from one existing mark while another thread
-adds FAN_MODIFY to the other mark. After both fanotify_mark() calls return,
-writes can fail to produce FAN_MODIFY for the group whose mark now contains
-the bit. This was reproduced on an unmodified v6.12.95 kernel. The
-equivalent inotify interleaving loses IN_MODIFY events.
+From: David Howells <dhowells@redhat.com>
 
-Always request recalculation when an existing mark's calculated mask
-actually changes. For fanotify, compare fsnotify_calc_mask() before and
-after normal-mask, ignore-mask, and flag updates. Keep the cached aggregate
-check for unchanged updates, and keep the flag helper's inode-reference
-handling.
+[ Upstream commit 76daa300d41acc1180f8a46eead36905054beafb ]
 
-Link: https://lore.kernel.org/all/CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com/
-Fixes: 63c882a05416 ("inotify: reimplement inotify using fsnotify")
-Fixes: 912ee3946c5e ("fanotify: do not call fanotify_update_object_mask in fanotify_add_mark")
-Cc: stable@vger.kernel.org # needs adjustments for <= 7.0
-Suggested-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Youngjae Kwon <yjkwon0026@snu.ac.kr>
+Improve server refcount/active count tracing to distinguish between simply
+getting/putting a ref and using/unusing the server record (which changes
+the activity count as well as the refcount).  This makes it a bit easier to
+work out what's going on.
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Marc Dionne <marc.dionne@auristor.com>
+cc: linux-afs@lists.infradead.org
+cc: linux-fsdevel@vger.kernel.org
+Link: https://lore.kernel.org/r/20250224234154.2014840-10-dhowells@redhat.com/ # v1
+Link: https://lore.kernel.org/r/20250310094206.801057-6-dhowells@redhat.com/ # v4
+Stable-dep-of: 330e2c514823 ("afs: Fix dynamic lookup to fail on cell lookup failure")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-I will send backports for stable kernels through 7.0.y after this lands.
+ fs/afs/fsclient.c          |    4 ++--
+ fs/afs/rxrpc.c             |    2 +-
+ fs/afs/server.c            |   11 ++++++-----
+ fs/afs/server_list.c       |    4 ++--
+ include/trace/events/afs.h |   27 +++++++++++++++------------
+ 5 files changed, 26 insertions(+), 22 deletions(-)
 
- fs/notify/fanotify/fanotify_user.c | 10 ++++++----
- fs/notify/inotify/inotify_user.c   | 13 ++-----------
- 2 files changed, 8 insertions(+), 15 deletions(-)
+--- a/fs/afs/fsclient.c
++++ b/fs/afs/fsclient.c
+@@ -1650,7 +1650,7 @@ int afs_fs_give_up_all_callbacks(struct
+ 	bp = call->request;
+ 	*bp++ = htonl(FSGIVEUPALLCALLBACKS);
+ 
+-	call->server = afs_use_server(server, afs_server_trace_give_up_cb);
++	call->server = afs_use_server(server, afs_server_trace_use_give_up_cb);
+ 	afs_make_call(call, GFP_NOFS);
+ 	afs_wait_for_call_to_complete(call);
+ 	ret = call->error;
+@@ -1756,7 +1756,7 @@ bool afs_fs_get_capabilities(struct afs_
+ 		return false;
+ 
+ 	call->key	= key;
+-	call->server	= afs_use_server(server, afs_server_trace_get_caps);
++	call->server	= afs_use_server(server, afs_server_trace_use_get_caps);
+ 	call->peer	= rxrpc_kernel_get_peer(estate->addresses->addrs[addr_index].peer);
+ 	call->probe	= afs_get_endpoint_state(estate, afs_estate_trace_get_getcaps);
+ 	call->probe_index = addr_index;
+--- a/fs/afs/rxrpc.c
++++ b/fs/afs/rxrpc.c
+@@ -190,7 +190,7 @@ static void afs_free_call(struct afs_cal
+ 	if (call->type->destructor)
+ 		call->type->destructor(call);
+ 
+-	afs_unuse_server_notime(call->net, call->server, afs_server_trace_put_call);
++	afs_unuse_server_notime(call->net, call->server, afs_server_trace_unuse_call);
+ 	kfree(call->request);
+ 
+ 	o = atomic_read(&net->nr_outstanding_calls);
+--- a/fs/afs/server.c
++++ b/fs/afs/server.c
+@@ -33,7 +33,7 @@ struct afs_server *afs_find_server(struc
+ 
+ 	do {
+ 		if (server)
+-			afs_unuse_server_notime(net, server, afs_server_trace_put_find_rsq);
++			afs_unuse_server_notime(net, server, afs_server_trace_unuse_find_rsq);
+ 		server = NULL;
+ 		seq++; /* 2 on the 1st/lockless path, otherwise odd */
+ 		read_seqbegin_or_lock(&net->fs_addr_lock, &seq);
+@@ -49,7 +49,7 @@ struct afs_server *afs_find_server(struc
+ 		server = NULL;
+ 		continue;
+ 	found:
+-		server = afs_maybe_use_server(server, afs_server_trace_get_by_addr);
++		server = afs_maybe_use_server(server, afs_server_trace_use_by_addr);
+ 
+ 	} while (need_seqretry(&net->fs_addr_lock, seq));
+ 
+@@ -76,7 +76,7 @@ struct afs_server *afs_find_server_by_uu
+ 		 * changes.
+ 		 */
+ 		if (server)
+-			afs_unuse_server(net, server, afs_server_trace_put_uuid_rsq);
++			afs_unuse_server(net, server, afs_server_trace_unuse_uuid_rsq);
+ 		server = NULL;
+ 		seq++; /* 2 on the 1st/lockless path, otherwise odd */
+ 		read_seqbegin_or_lock(&net->fs_lock, &seq);
+@@ -91,7 +91,7 @@ struct afs_server *afs_find_server_by_uu
+ 			} else if (diff > 0) {
+ 				p = p->rb_right;
+ 			} else {
+-				afs_use_server(server, afs_server_trace_get_by_uuid);
++				afs_use_server(server, afs_server_trace_use_by_uuid);
+ 				break;
+ 			}
+ 
+@@ -273,7 +273,8 @@ static struct afs_addr_list *afs_vl_look
+ }
+ 
+ /*
+- * Get or create a fileserver record.
++ * Get or create a fileserver record and return it with an active-use count on
++ * it.
+  */
+ struct afs_server *afs_lookup_server(struct afs_cell *cell, struct key *key,
+ 				     const uuid_t *uuid, u32 addr_version)
+--- a/fs/afs/server_list.c
++++ b/fs/afs/server_list.c
+@@ -16,7 +16,7 @@ void afs_put_serverlist(struct afs_net *
+ 	if (slist && refcount_dec_and_test(&slist->usage)) {
+ 		for (i = 0; i < slist->nr_servers; i++)
+ 			afs_unuse_server(net, slist->servers[i].server,
+-					 afs_server_trace_put_slist);
++					 afs_server_trace_unuse_slist);
+ 		kfree_rcu(slist, rcu);
+ 	}
+ }
+@@ -98,7 +98,7 @@ struct afs_server_list *afs_alloc_server
+ 		if (j < slist->nr_servers) {
+ 			if (slist->servers[j].server == server) {
+ 				afs_unuse_server(volume->cell->net, server,
+-						 afs_server_trace_put_slist_isort);
++						 afs_server_trace_unuse_slist_isort);
+ 				continue;
+ 			}
+ 
+--- a/include/trace/events/afs.h
++++ b/include/trace/events/afs.h
+@@ -132,22 +132,25 @@ enum yfs_cm_operation {
+ 	EM(afs_server_trace_destroy,		"DESTROY  ") \
+ 	EM(afs_server_trace_free,		"FREE     ") \
+ 	EM(afs_server_trace_gc,			"GC       ") \
+-	EM(afs_server_trace_get_by_addr,	"GET addr ") \
+-	EM(afs_server_trace_get_by_uuid,	"GET uuid ") \
+-	EM(afs_server_trace_get_caps,		"GET caps ") \
+ 	EM(afs_server_trace_get_install,	"GET inst ") \
+-	EM(afs_server_trace_get_new_cbi,	"GET cbi  ") \
+ 	EM(afs_server_trace_get_probe,		"GET probe") \
+-	EM(afs_server_trace_give_up_cb,		"giveup-cb") \
+ 	EM(afs_server_trace_purging,		"PURGE    ") \
+-	EM(afs_server_trace_put_call,		"PUT call ") \
+ 	EM(afs_server_trace_put_cbi,		"PUT cbi  ") \
+-	EM(afs_server_trace_put_find_rsq,	"PUT f-rsq") \
+ 	EM(afs_server_trace_put_probe,		"PUT probe") \
+-	EM(afs_server_trace_put_slist,		"PUT slist") \
+-	EM(afs_server_trace_put_slist_isort,	"PUT isort") \
+-	EM(afs_server_trace_put_uuid_rsq,	"PUT u-req") \
+-	E_(afs_server_trace_update,		"UPDATE")
++	EM(afs_server_trace_see_expired,	"SEE expd ") \
++	EM(afs_server_trace_unuse_call,		"UNU call ") \
++	EM(afs_server_trace_unuse_create_fail,	"UNU cfail") \
++	EM(afs_server_trace_unuse_find_rsq,	"UNU f-rsq") \
++	EM(afs_server_trace_unuse_slist,	"UNU slist") \
++	EM(afs_server_trace_unuse_slist_isort,	"UNU isort") \
++	EM(afs_server_trace_unuse_uuid_rsq,	"PUT u-req") \
++	EM(afs_server_trace_update,		"UPDATE   ") \
++	EM(afs_server_trace_use_by_addr,	"USE addr ") \
++	EM(afs_server_trace_use_by_uuid,	"USE uuid ") \
++	EM(afs_server_trace_use_cm_call,	"USE cm-cl") \
++	EM(afs_server_trace_use_get_caps,	"USE gcaps") \
++	EM(afs_server_trace_use_give_up_cb,	"USE gvupc") \
++	E_(afs_server_trace_wait_create,	"WAIT crt ")
+ 
+ #define afs_volume_traces \
+ 	EM(afs_volume_trace_alloc,		"ALLOC         ") \
+@@ -1369,7 +1372,7 @@ TRACE_EVENT(afs_server,
+ 		    __entry->reason = reason;
+ 			   ),
+ 
+-	    TP_printk("s=%08x %s u=%d a=%d",
++	    TP_printk("s=%08x %s r=%d a=%d",
+ 		      __entry->server,
+ 		      __print_symbolic(__entry->reason, afs_server_traces),
+ 		      __entry->ref,
 
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 9ee373ff5..f7080fd61 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1321,18 +1321,20 @@ static bool fanotify_mark_update_flags(struct fsnotify_mark *fsn_mark,
- static bool fanotify_mark_add_to_mask(struct fsnotify_mark *fsn_mark,
- 				      __u32 mask, unsigned int fan_flags)
- {
-+	__u32 old_mask, new_mask;
- 	bool recalc;
- 
- 	spin_lock(&fsn_mark->lock);
-+	old_mask = fsnotify_calc_mask(fsn_mark);
- 	if (!(fan_flags & FANOTIFY_MARK_IGNORE_BITS))
- 		fsn_mark->mask |= mask;
- 	else
- 		fsn_mark->ignore_mask |= mask;
- 
--	recalc = fsnotify_calc_mask(fsn_mark) &
--		~fsnotify_conn_mask(fsn_mark->connector);
--
--	recalc |= fanotify_mark_update_flags(fsn_mark, fan_flags);
-+	recalc = fanotify_mark_update_flags(fsn_mark, fan_flags);
-+	new_mask = fsnotify_calc_mask(fsn_mark);
-+	recalc |= old_mask != new_mask;
-+	recalc |= new_mask & ~fsnotify_conn_mask(fsn_mark->connector);
- 	spin_unlock(&fsn_mark->lock);
- 
- 	return recalc;
-diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-index ed37491c1..c44f2daa1 100644
---- a/fs/notify/inotify/inotify_user.c
-+++ b/fs/notify/inotify/inotify_user.c
-@@ -565,17 +565,8 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
- 	new_mask = fsn_mark->mask;
- 	spin_unlock(&fsn_mark->lock);
- 
--	if (old_mask != new_mask) {
--		/* more bits in old than in new? */
--		int dropped = (old_mask & ~new_mask);
--		/* more bits in this fsn_mark than the inode's mask? */
--		int do_inode = (new_mask & ~READ_ONCE(inode->i_fsnotify_mask));
--
--		/* update the inode with this new fsn_mark */
--		if (dropped || do_inode)
--			fsnotify_recalc_mask(fsn_mark->connector);
--
--	}
-+	if (old_mask != new_mask)
-+		fsnotify_recalc_mask(fsn_mark->connector);
- 
- 	/* return the wd */
- 	ret = i_mark->wd;
--- 
-2.50.1
+
