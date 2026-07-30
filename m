@@ -1,116 +1,150 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8375E3F4822
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 23:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7813B1D5AD4
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 00:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785368098; cv=none; b=cVqfB9RJ+DVMvgZfpflNdApATVgG13g3juDAsktgKgJVLwXk/r1bVc+m+k+21mml4a36bteZQgO55HTEx7Tr3CBsBwBTBjSg1LciKmDoQ4kdKK3VxR3PQF+uvZL9uKfdlQPBTvOyac9wTqd3w6apYkIUOKkmsLjd6th61YLZMLE=
+	t=1785370567; cv=none; b=O2SSdswfBBhcmhCrV7Sol9Ty4SiTk81czygC/MmGLvkLv4mIfKIcKi6tVTlKY33XcmHuz88ZcIVTiDUvMqnvZWyTEY50Owmbaw+JR0PVNf46k0YhsEFF0FGWNYWxZv2co+XqF857CqSpG8a5KrCfaI9gXsQo1vSNcLAc3aSY4gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785368098; c=relaxed/simple;
-	bh=RB9HtFl61EAJfv6VC2+ERAfKhcFBRkXCobO4AlkIj4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K6bGBtZQ3m/clxbu0Qz3c16OzELwj7njky/GrEpbkrAg2YI6BKcMwMiwqqTh4aal7YT17IAmplzTH5xj0718JhNnr7ADthrbCIgwD2PVm73JaQUEYWTFcWjPfnX8eLhgWHYEIIFJSaBGq56PQHWaBuAu/1d8H/0uy07vmheyVkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=jjVK0bYE; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1785370567; c=relaxed/simple;
+	bh=/8NemaW2xuFZL7yY+CwIv5j1TWBCa9SxYa5xgcMRoUI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LPlM/MQJfjSqzHedRTraUfEuZ1DhmWwsfPcXjrUy/MKaSFi+IsPEdth8+P++rn4FHy5BbNuQCT3GDbXaYYmzFeIwf3V5tmncSIammLdJqNAUb8cOrY+t+FmxOb0BVUsk5ROs3UnDj53duRJdChh9DBk1zdW0pN3Wh3vXJbLUYe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=hJM47nWg; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="jjVK0bYE"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e9eaf04bfaso774522a34.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 16:34:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hJM47nWg"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69fec980a30so1675772a12.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 17:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785368095; x=1785972895; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6uzflvLSuPG8CH9KOQG8sh8lUY8SKMS16BLacdgskhM=;
-        b=jjVK0bYEjfCQLj+ksJlNqWT57nGaGb3ye1tsu16Hjz3FQbuSh6aNtFoHClwbsVt8FT
-         Vu5/TCWMbG7k9NYnq51BW2ZRaYt1CP+ucaCkFXlknZTa43TXqYneCVckAhVreZW15gai
-         2NGqjmfaHXYz0RkSibHuKr4Q5bcrlgam0i+GUi77pHoJbDxz1GU7A9FYC1JjDm+q4/AX
-         zYRh0RYNcZjwKkcN+9sp3WKz6tczCS6POfKks32hYWVtMOeFBdbDDOalQMkj71+7a+T3
-         JItbUxICJlTLIAv1dEznP3s7haMY9F5SOh7zqJ/CHi56zTbRSwu5PsNzky1lJK59ffCL
-         Sleg==
+        d=linux-foundation.org; s=google; t=1785370563; x=1785975363; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=njr7RlcLoyLwma0jwRM4gxbwOGfa+rZyF5Hk1jimKqA=;
+        b=hJM47nWgX4S8SVukxOrKDURFbaAYbcT/kdq2BzmK4+ATd4B2AL6b+8f57IYszERBm8
+         bpeT0pjSoVvCfYqCim1zydxNZrSp+Tx8vqja2M1kAAeIN8GKA4icgaEWQ8ilip746vT3
+         uCCwnTOUDMSAQAj0IrYC8bQEYu8NIj6/EJbts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785368095; x=1785972895;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6uzflvLSuPG8CH9KOQG8sh8lUY8SKMS16BLacdgskhM=;
-        b=sAsDy3wsUIj/09Ts2XzOwtkXHzeYh8RDi7bFiTCz8n24Fw1HVqCo7BQpa7seEjcqzy
-         TlcLlRWgQogqvXNCkV4UKamX9qAK/Z1ICuA9A5DcK17+mdAPEkGvU8IZqgtSCFmuidiS
-         iGaJsjDdQTl1E1JUPsCe5Pb9nqewoUQ6trbp7LOxNNYBWBzuuqQ3/kFQ5nun1vOF+1Hz
-         rHaPGhedmns7RQVUBmgnHHXNQcv92RByomatuhiW/jLHj966HKNm30FDd86lE4c00FfY
-         WqurTwtk4Goi+sczhqp2bB7CEHf64jv1lSqojI7eV+b5j7/yRW8wCsiPQmKu6DMUN778
-         MeBA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqm1jMrd6igN1zfFB1tLybJdDQlenWcRGqGNYtdohrC5zDYhcteacAQTfk/dTd9MSCL9YU+TG+mh/NtLEkC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn0tO2dWyRdxBOO6Bh4ZxuSkiWNy4JC/FmZHNkJCPEi12VNVCd
-	9nNIeb94vsbpSnQYFO5RuvaYHZv8pqVLCNaMibwzSxscXqEa7UB4W+PAtsbX99Mr7B60EmULGmf
-	Et4sXJMjdRw==
-X-Gm-Gg: AR+sD109+CyfGm8ZzOWHCTuSol5wFpCIRqTNImC44h04lgqrbcFk9b8kyEZA6RcTg9j
-	sji7TuoTFzpWQoTu5iWbUNk6ZI9gVxQ59uxJvKDr4IHWjf3ad7W8/c5bZG3PqwoOhfAhx/RkaRV
-	Y/RRhINDCaIXESv/vq31qfikjS9BNxEosIOUV1FmVt5hZ9LeVuObIJURZCjRTkZE5BNxIx4y7P/
-	2605i0eSrONy3B+JctgPz72c5o4mNB1YboCkNJe9QXtTEblWi2Z6+lLTtIlDbmTtgYFuuhw+/Qy
-	CsjX4f+VqEdkRjUgRVTJyxJvc+Lrxc9jVgdCn2Q0np4yw4yBS5MJxPJpeyASCK9h6ejULa+hVgA
-	7WCQPsdWy4C/wASaqEr9uVUUcTCOh6Yj67iUW+eaoqlqC3nKlL1SEgm4mGTBeSxwQQI2xvKdmjQ
-	WEllCPhsU4hJOVvL0VpwQTJYhsUFq8uOWhM8xfBMPTSsaDSSmcoHW1y8AqGJtGuTmujxB3SZMnA
-	gLOYFhU0+yEZBvvmQAoXVppQPv47MLA25swif94Kp4oP6w=
-X-Received: by 2002:a05:6820:80c1:b0:6aa:e844:fb22 with SMTP id 006d021491bc7-6acbbcfa066mr243418eaf.11.1785368095394;
-        Wed, 29 Jul 2026 16:34:55 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6acbc29be1asm222785eaf.5.2026.07.29.16.34.52
+        d=1e100.net; s=20251104; t=1785370563; x=1785975363;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=njr7RlcLoyLwma0jwRM4gxbwOGfa+rZyF5Hk1jimKqA=;
+        b=cpm64Ydk1qVCH5tRSi2oE/WuBm0Vmxfz2L752OjoUCO6nzq7cBcr9OzTw24Ymmt/79
+         42pPM+ktzjwDgtaYhVU/8nyiYMOPe/jBHvILuXkQYp7L4DotwuHY3oCcUefE3EHNZCd0
+         qbiSRJvUurvh5psd1CaWtUc1vi53URe2BKnDxqDQDw0PzRTLVr7Doc/O5ubDi4uiF6ob
+         30oB+jHfwysvH1U9tSDPVHu6G326GO3MU4F3KuiO3zLRMXPqj4qh6ESzrOyGRd/5ifsd
+         8h7lZIRwn7nKbCznKKiEM47aFxdj2TUpwMdJQHqftWmSO/GK5sV/AkfmWANGxtQXymf3
+         lwVg==
+X-Gm-Message-State: AOJu0Yz0eZ9Nlplul1cA/YZ1WWcRfNO7Pscec58IpV5/mD10+4wvzPAP
+	pk+jpl6pLGYvfS/XFZOzLcLyHcoY4Cv08KqGQ25WNFP0fTPcxlVzRITSMBlCPNQZIXi75lk8dTj
+	JnjWf7v0=
+X-Gm-Gg: AR+sD10XAVBZ8PPHlLSSOjHA0VNBHhQEmhDsenbkyft3/kKliuj2D1mQ01rKChxyetD
+	jyr/aevjiax83s0nWJZx5P+4pnGDT17boyPegcXMVSrTzMA8RY2vrdKYCB7JgQbQLUuJwJZy9KO
+	hFO8iW02sYU+dF45F7Hzz0M5KkIcfEeWfJMHQSad9HCvI++vXSVXVGthiPyx7cHR58KiDorW32+
+	0rH2L3FGloBZnznM27zi8lME70EuK9tIl2FcsjhO11q7gXf0aZpv33qtYEZu7UHHlB7NM+29Ozg
+	eeGlWmtdilwloNh3hEiDwmTec4cspoYNuvbK9vEtCAHvd+pWLbJ58d6ylwnqNj0g+o2L0CSGVBD
+	JDHDD73G7u1OfvpzzO+j2dzcuZXFDOfl6nrwbtoVrycGDEGbpMnGDqZ2itB8zK5QU7OYb/OHYDi
+	hW9umzqwZyhRMAD/l71dkK5FALyiKEq55MO+BNQthMnsKPDKBfrQjcJOjJd6/hFJ8/NjSo2p7AE
+	tawqZsS0liWQvWuCwJZ2qzNk/GXBLKq/HGOzw==
+X-Received: by 2002:a05:6402:1909:b0:698:585c:f07b with SMTP id 4fb4d7f45d1cf-6a07b7ebca4mr218007a12.3.1785370563505;
+        Wed, 29 Jul 2026 17:16:03 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a07d3831ddsm38329a12.17.2026.07.29.17.16.02
+        for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 16:34:53 -0700 (PDT)
-Message-ID: <831ba530-b6a0-42ed-b636-10b1f89b6142@kernel.dk>
-Date: Wed, 29 Jul 2026 17:34:52 -0600
+        Wed, 29 Jul 2026 17:16:02 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c1c24ec9525so264757866b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 17:16:02 -0700 (PDT)
+X-Received: by 2002:a17:907:d10:b0:c12:959a:1477 with SMTP id
+ a640c23a62f3a-c1fa57076cemr24198966b.40.1785370562656; Wed, 29 Jul 2026
+ 17:16:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/5] block: validate direct I/O memory alignment
-To: Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, hch@lst.de,
- brauner@kernel.org, djwong@kernel.org, viro@zeniv.linux.org.uk
-References: <20260720201057.1862857-1-kbusch@meta.com>
- <ampRQyXDbGgeg49V@kbusch-mbp>
- <fbe9e74d-c389-46f4-9874-3e9ffd9c91d3@kernel.dk>
- <ampce7mxSmxAwAiu@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ampce7mxSmxAwAiu@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAMwtO3LAzbJHZXixDbYD-LGu2qe5P4zVQBD4fsqNr-P3wzAZUg@mail.gmail.com>
+In-Reply-To: <CAMwtO3LAzbJHZXixDbYD-LGu2qe5P4zVQBD4fsqNr-P3wzAZUg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 29 Jul 2026 17:15:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
+X-Gm-Features: AUfX_mwu7dKWTx8tRXlPlddTLn8uAgkRPSAOd4fyhQg6iXRHRalFulLyjoKR5Hw
+Message-ID: <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
+Subject: Re: URGENT BUGS TO FIX IN THE FILE SYSTEM, KERNEL PANICS, INT
+ OVERFLOWS, ETC.
+To: Agamalt 10 <agamalt10@gmail.com>, David Sterba <dsterba@suse.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/29/26 2:03 PM, Keith Busch wrote:
-> On Wed, Jul 29, 2026 at 01:18:40PM -0600, Jens Axboe wrote:
->> On 7/29/26 1:15 PM, Keith Busch wrote:
->>> On Mon, Jul 20, 2026 at 01:10:52PM -0700, Keith Busch wrote:
->>>> This addresses the misaligned direct-io problem behind various threads:
->>>
->>> Hi Jens, have you had a chance to look at this one yet? This addresses
->>> previous issues with certain device mappers under direct io.
->>
->> I they look fine, but at this point we should toss them into 7.3. Yes
->> I know there are regressions around this, but from 6.1x days. And the
->> series doesn't apply to the current block-7.2 anyway.
-> 
-> This series is kind of old at this point, but yes, it's not fixing a new
-> regression either. I'm okay if this goes to the next window, and I will
-> handle the stable follow-up.
+Please do proper kernel bug reporting, which means "don't just sent to
+Linus", but figure out the maintainer etc. We have documentation about
+this all.
 
-OK good, let's do that then.
+That filesystem isn't a serious filesystem, and that code needs a lot
+more fixing if somebody cares.
 
-> Are you planning to start the for-7.3/block branch soon? I can rebase
-> the series if there's a conflict, and would be great to get this exposed
-> to linux-next.
+Instead of doing
 
-Pushed one out - send a new version and I'll get it applied when it
-shows up.
+        if (affs_validblock(sb, block)) {
+                bh =3D sb_getblk(sb, block);
 
--- 
-Jens Axboe
+it should probably just do
+
+        bh =3D affs_getblk(sb, block);
+        if (bh) {
+
+instead, but honestly, I can't find it in myself to care about an
+unlikely error case that nobody has ever seen and reported, all in a
+legacy Amiga filesystem that nobody really uses outside of hobby Amiga
+enthusiasts.
+
+But we do have a listed sucker^Hmaintainer for it that says "Odd
+Fixes", and this certainly counts as an odd fix.
+
+So I'm cc'ing David and fsdevel in case there is somebody else with an
+Amiga background.
+
+Me, I'm still bitter about those rich kids with their fancy sprites on
+their Amiga HW, which may be one reason I don't feel like fixing the
+problems in AFFS ;)
+
+               Linus
+
+
+On Wed, 29 Jul 2026 at 17:05, Agamalt 10 <agamalt10@gmail.com> wrote:
+>
+> In here https://github.com/torvalds/linux/blob/master/fs/affs/affs.h:
+>
+> You have:
+>
+> bh =3D sb_getblk(sb, block);
+> lock_buffer(bh);
+> but, sb_getblk() can return NULL on failure.
+>
+> If allocation fails:
+>
+> bh =3D NULL;
+> lock_buffer(NULL);
+>
+> =E2=86=92 kernel crash.
+>
+> Same problem for bh =3D sb_getblk(sb, block);
+>
+> wait_on_buffer(bh);
+> Also, an INT overflow risk here:
+> #define AFFS_TAIL(sb, bh) \
+> ((struct affs_tail *)((bh)->b_data+(sb)->s_blocksize-sizeof(struct affs_t=
+ail)))
+>
+> If:
+>
+> sb->s_blocksize < sizeof(struct affs_tail)
+>
+> the subtraction underflows because s_blocksize is unsigned internally.
