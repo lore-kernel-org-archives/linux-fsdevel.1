@@ -1,138 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9742D3FFAC6;
-	Thu, 30 Jul 2026 10:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D8F400E19
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 10:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785407641; cv=none; b=WI652CfLy9j4q3KXKGNDy7blTTU1ZnVlX5P8KErA090H+lw1Y2066w6gCSCDfH0cdVBDVv1XG8WUFtQii/y3J/3xnyMjWn7iilM7vXuKjm8SVCZvemnfDm+iRhoJjJWmeD8ENGeIc4PohWo9FtcclSCsRyuRNaXtJ3urFqvf1pQ=
+	t=1785408013; cv=none; b=omRhVT6kcIDnBp+Ck9uogtBb1QWvQ8gYukQ4ud/5wtvbDdVnkbNbpM8NQ2CXKqadkVxi536D652mUTGUw/qo3j13/wISWn8oAFc0Xw4/kTrMPGRZk1nCc7SBIjG5gxqxJjMkjEjGEzhtgBEkdjOEluokzqPX5NVqI/zColJCMPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785407641; c=relaxed/simple;
-	bh=/qEWh4oCOA7I23pBmnC5fLImPusmY15jC8pzm6AA3XM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ff0Tikck3LYwPt7MHH3BbkJMkL9of3uA6DkR+iUvAwkvHVUD1wbglrss5DZP1Lsi0S64H0krdFHb6BFFiJCCXhPXgC7TzF0WFRIZT66gbw6HNLB2ECosNsk819Ir3zUe2SD1ZGLYQ320xsSck0LlDe9pJ7GeAfwUZzjVS2gztK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kiMJt017; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785408013; c=relaxed/simple;
+	bh=/MBlEYvFIICFGTGKTnmazwdW0s2gZZ7HA1j7QnDqoWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeRuRG4DTEo07zF+voifIc2dweWu8HacpXwBqGjpllAtfqLav7NqM1suSJrUUP57Uq0rKvqzJErdS4caoouY0pLcV2WKHWguPnaowoec5NrtBUQN8kKDzx1g/aYvTlhCYUg3ZFy01gNRtTxrYzQsxxkbmoVj6HlrRNTYknakZtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cMmib7JZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=FpRPKiSv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H86vLXBk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MnWhgLdf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kiMJt017"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3541F000E9;
-	Thu, 30 Jul 2026 10:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785407640;
-	bh=ad4iIDWV6Q5imgNVqOlCRj0zi5i1zdNcu7P9bmUsQiI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kiMJt017TkTCkIw518vQbRUXqwkLkxsUzmVOWaYDvQdu4DT4OcPIEHBSHQCFdMOP/
-	 woC2huEqfs6OWzZnC0XfSJx9zdPds5SEfvIA/C0xNyMd+4Kha/q2d2FOXypw0J8sKz
-	 2pdqWgEuyTw5YDFsRWWNqPU/JlDSlTgw7/3izkNqzZzr1xAPZEWP8y+ypzeZ+/CFXP
-	 ncpW/lAHH+41cGTohVmj2/8gU24JHK45SsoXVX34kII3ZTWbbdXMVGf4pvnv+2bsgq
-	 CZgsG9QwgsgQyqC7y6+FFB9rRwVMj2iqE+73Yw+5C6Sy+RaJhizH+a8QAoR1oPjrJM
-	 F/70qBESnGH0g==
-From: Christian Brauner <brauner@kernel.org>
-To: hch@lst.de, "Darrick J . Wong" <djwong@kernel.org>, 
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>
-Cc: changfengnan@bytedance.com, kbusch@kernel.org, 
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>, 
- Gao Xiang <xiang@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- Hyunchul Lee <hyc.lee@gmail.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
- libaokun@linux.alibaba.com, bfoster@redhat.com, linux-ext4@vger.kernel.org, 
- linux-xfs@vger.kernel.org
-In-Reply-To: <20260729192737.3190206-1-joannelkoong@gmail.com>
-References: <20260729192737.3190206-1-joannelkoong@gmail.com>
-Subject: Re: (subset) [PATCH v5 00/22] iomap: convert to in-iter
- iomap_next() model
-Message-Id: <20260730-habseligkeiten-adrett-axthieb-e619a48325ad@brauner>
-Date: Thu, 30 Jul 2026 12:33:44 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cMmib7JZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="FpRPKiSv";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H86vLXBk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MnWhgLdf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EBAA77D34F;
+	Thu, 30 Jul 2026 10:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785408006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gIpmj/7H1TjHvt3+EIRlO5wljTtBHj40+mJX7NWnxt0=;
+	b=cMmib7JZa55H+NMFXGCQKjHUt1M9MaTYuWy3Kw0fov9YjinoYehoF7Krp+Xhmnjdt7XIUw
+	g2R8QMX55fgQwJmzevRWbjL1Jn7SsQp3EGSYT6povEVYYLn8vlzNTq9REIAqJ+ZDub+/Xx
+	z6GvIaZxNr++rxHJApuK9fKPIQvasjA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785408006;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gIpmj/7H1TjHvt3+EIRlO5wljTtBHj40+mJX7NWnxt0=;
+	b=FpRPKiSvd6FL3NbRBy+WZiNY8xJ3DDzTaO4wWwXlXoiirZ6qpkKILtpG0CTEUorYK8f0BA
+	kg+O9nDBzupJWnDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785408001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gIpmj/7H1TjHvt3+EIRlO5wljTtBHj40+mJX7NWnxt0=;
+	b=H86vLXBkBqFi0nTvLkuDrT9V3ZJXNBr2anFnv+Zzk+1jOam3woFPborFPbDu1LfbfC/Tbj
+	hfqjucY7kzqFrw9KfjayNCtJdvvd/BvVSla0l+SwICE11RX/GuY8rI3wkgEEcfmHzyX/QE
+	DrzaGe7ZXkOFk/Vyc1dbCX1QQ9hUZJc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785408001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gIpmj/7H1TjHvt3+EIRlO5wljTtBHj40+mJX7NWnxt0=;
+	b=MnWhgLdfLI/xMJSSvP0cW/Q3N399IYBJU7rmRaxs2sZjZ8vlJH19vEH/vGn0a0X0YqNLG9
+	GVD27RtzXgxjoHBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E27EB779CC;
+	Thu, 30 Jul 2026 10:40:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oZdHNwEqa2o9PAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 30 Jul 2026 10:40:01 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 92590A0AAA; Thu, 30 Jul 2026 12:39:57 +0200 (CEST)
+Date: Thu, 30 Jul 2026 12:39:57 +0200
+From: Jan Kara <jack@suse.cz>
+To: linux-fsdevel@vger.kernel.org
+Cc: Jan Kara <jack@suse.cz>, stable@vger.kernel.org
+Subject: Re: [PATCH] udf: Fix data loss when converting inline inodes to out
+ of line
+Message-ID: <rso23jqsd7vbgyuppxqdqjldhzczd75tzsn3ubh6pdouilvk2z@zlollakdlgqp>
+References: <20260729144547.4028292-2-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-3e0c3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3471; i=brauner@kernel.org;
- h=from:subject:message-id; bh=/qEWh4oCOA7I23pBmnC5fLImPusmY15jC8pzm6AA3XM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRla0xebzu9f67JQ+3D5u+Xcxk/EcpS7tp/aEWd3Zm6x
- umV/hYSHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO58J3hf47f0j8RFqKWR+Yu
- evJ689Ja9czSvzeWHTfbdfJTstGuoO8MfwVOeCziWN+8gJunk+vDvkOzK++lSK4/K3D0lq1A2pW
- TSgwA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260729144547.4028292-2-jack@suse.cz>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Wed, 29 Jul 2026 12:27:15 -0700, Joanne Koong wrote:
-> iomap: convert to in-iter iomap_next() model
+On Wed 29-07-26 16:45:48, Jan Kara wrote:
+> When udf_expand_file_adinicb() converts file from inline format to out
+> of line, we use filemap_fdatawrite() to writeout the data to the new
+> blocks. However since 36580ed08776 ("udf: Do not allocate blocks on page
+> writeback") the writeback actually doesn't allocate the new block and
+> the folio dirty bit is just silently cleared. Thus unless the file is
+> written to after the conversion (as it can easily happen in case of
+> truncate up), the data is just lost. Fix the problem by explicitely
+> allocating the block underlying the data before starting writeback.
 > 
-> This series implements a suggestion by Christoph for finishing the conversion
-> of iomap to an iterator model. This revives Matthew's previous RFC [1], which
-> had the same intention.
+> Fixes: 36580ed08776 ("udf: Do not allocate blocks on page writeback")
+> CC: stable@vger.kernel.org
+> Signed-off-by: Jan Kara <jack@suse.cz>
+
+Sorry, this was an old version of the patch which missed prerequisite
+moving of udf_map_block() declarations up in the file.
+
+								Honza
+
+> ---
+>  fs/udf/inode.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> Every iomap operation currently drives its iteration through a struct
-> iomap_ops, which contains two callbacks, ->iomap_begin() and ->iomap_end().
-> iomap_iter() only ever sees these as pointers, so every step of every
-> iteration is an indirect call, including on the hottest paths.
+> I plan to merge this fix through my tree.
 > 
-> [...]
-
-Applied to the vfs-7.3.iomap branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.iomap branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.iomap
-
-[01/22] iomap: release the folio batch on iomap callback failures
-        https://git.kernel.org/vfs/vfs/c/c02d8298c979
-[02/22] iomap: split iomap_iter() logic into iomap_iter_next()
-        https://git.kernel.org/vfs/vfs/c/78c9e6b07ffe
-[03/22] iomap: decouple simple direct I/O reads from iomap_dio_rw
-        https://git.kernel.org/vfs/vfs/c/59389c7d3068
-[04/22] iomap: use GFP_NOWAIT when application for iomap_dio_simple allocations
-        https://git.kernel.org/vfs/vfs/c/98aa16d184b7
-[05/22] iomap: add ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/e93eeed8ce74
-[06/22] xfs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/c807f6c9de95
-[07/22] btrfs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/8a5cf58dc6c6
-[08/22] ntfs3: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/2d53882bcb18
-[09/22] ntfs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/4d9ea94adc0d
-[10/22] ext4: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/e85fe93027cf
-[11/22] erofs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/9b0cef67d4e0
-[12/22] zonefs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/4b9de085c9a2
-[13/22] ext2: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/cfcfc6724b0a
-[14/22] block: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/cb372ea04331
-[15/22] f2fs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/c034d0d0bcd0
-[16/22] gfs2: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/1096941fd797
-[17/22] hpfs: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/7e8aad7196b1
-[18/22] fuse: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/a9032fd59a40
-[19/22] exfat: convert iomap ops to ->iomap_next()
-        https://git.kernel.org/vfs/vfs/c/332f88127cfa
-[20/22] iomap: remove ->iomap_begin()/->iomap_end() legacy path
-        https://git.kernel.org/vfs/vfs/c/0210c4ba2547
-
+> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+> index b8b9b7132115..b5e374f355b2 100644
+> --- a/fs/udf/inode.c
+> +++ b/fs/udf/inode.c
+> @@ -405,6 +405,10 @@ int udf_expand_file_adinicb(struct inode *inode)
+>  {
+>  	struct folio *folio;
+>  	struct udf_inode_info *iinfo = UDF_I(inode);
+> +	struct udf_map_rq map = {
+> +		.lblk = 0,
+> +		.iflags = UDF_MAP_CREATE,
+> +	};
+>  	int err;
+>  
+>  	WARN_ON_ONCE(!inode_is_locked(inode));
+> @@ -434,20 +438,27 @@ int udf_expand_file_adinicb(struct inode *inode)
+>  		iinfo->i_alloc_type = ICBTAG_FLAG_AD_SHORT;
+>  	else
+>  		iinfo->i_alloc_type = ICBTAG_FLAG_AD_LONG;
+> +	up_write(&iinfo->i_data_sem);
+> +
+> +	/* Allocate the block underlying the data */
+> +	err = udf_map_block(inode, &map);
+> +	if (err < 0)
+> +		goto restore;
+> +
+>  	folio_mark_dirty(folio);
+>  	folio_unlock(folio);
+> -	up_write(&iinfo->i_data_sem);
+>  	err = filemap_fdatawrite(inode->i_mapping);
+>  	if (err) {
+>  		/* Restore everything back so that we don't lose data... */
+>  		folio_lock(folio);
+> +restore:
+>  		down_write(&iinfo->i_data_sem);
+>  		memcpy_from_folio(iinfo->i_data + iinfo->i_lenEAttr,
+>  				folio, 0, inode->i_size);
+> -		folio_unlock(folio);
+>  		iinfo->i_alloc_type = ICBTAG_FLAG_AD_IN_ICB;
+>  		iinfo->i_lenAlloc = inode->i_size;
+>  		up_write(&iinfo->i_data_sem);
+> +		folio_unlock(folio);
+>  	}
+>  	folio_put(folio);
+>  	mark_inode_dirty(inode);
+> -- 
+> 2.51.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
