@@ -1,110 +1,98 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A723859EF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0489B39281B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785429417; cv=none; b=ni2NszwymTBykNVmM12Pa1Ppub6/E+yS5XqhS+S90/kxDip2yn4e6IaSHgpd0UG1YgBMb5UbPZMx0Vp11jCSME0Txav4BSqE5gnjjgeO9XYW+g3bPMtSVR7+fS3tfRDrp3xb8uLHAU33fyINRB+usv0aPleHF5N7WvbaGgSAPd8=
+	t=1785429998; cv=none; b=tmSH0Q6tnTzX+43/DVzXzLCsLgIfoNEbq7FO5QS7oeEtqT9K/Vc+fIeFffjAOXfkdYRIV0RV86IIT5yJgOrxlu3yBNomP2ZbqU1gb1DXjuFtODINXRT9S4b4Jj573PqzZornlh3E5k1HuaUlw1wPeeC+5EVVSEUjJhLUFEm/fjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785429417; c=relaxed/simple;
-	bh=p0/z5/vKgpWuODVZDg2GMYm3qZvaKvu5WtLgAINXr4U=;
+	s=arc-20240116; t=1785429998; c=relaxed/simple;
+	bh=ez/ftBKUFZXPMBA1j+BIjM+rYkY7cSycREcI8v/26vo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LNzn+UbjYRMf1JgSZg3L30EidJrX8rgEwGfmBo3FtHt0Fl8FsDOxiyIi2DnzV+0fmjTCUYdczqKUSyBVLS9NKzR1wQeKB70ou2AmcOVINdSG+IDLMCyr7yedhc6IRdLIvN1+7tCtLzz3LDCrD9J75R/jPgcxwnH7ICve5bbl1mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=dX/3VGIy; arc=none smtp.client-ip=209.85.218.49
+	 To:Cc:Content-Type; b=HBNdCcPaJZLfG5tj32tKlbdG0LnUyNdjUkkpbZx4voFJ+/zvVQaDrDuxOJkFU5lMtIbQjH0U2nYfHHZDe9uomj4ZNwDDMhRG1b8+2asJqShfw6IFMaBxEQT3mZCpk6Z9wyNdEUQ4LZWLLkMM/2nwyEPG/rCOy5Ib9/ZU9Vzt/y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PGhXI/tA; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="dX/3VGIy"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c167aa9500dso312652466b.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:36:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PGhXI/tA"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c12614b81c9so422962266b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1785429413; x=1786034213; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1785429994; x=1786034794; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+pRs1V9SE4B3gxS7ytnfpQktSDKoQYwBV7VfFfoFRTY=;
-        b=dX/3VGIykjfFd2uV3S32jwcxL5i5mczs6lKc43isRWbG5pqQJskdy/kqeHCWuzdUv/
-         Vly2CQ0g2FmUKyOVxEu1PlEpO/5VwtC8gtgRDAPu8zSoYytlKUNbDwzzb8/ZsfvhWOk+
-         9RQWPTOFCVR0wfJgeYS9g7LNqLa6Fz41KTuOk=
+        bh=dZlOLGFSy/CTNPahqtj7kyVyKyd2w+qb5becmlDJdco=;
+        b=PGhXI/tAvl4JMRlLw8i6XFvIO6ZAojxRy8W5kPXs65myiAm1pR7b+vzpAgz3nEg4JK
+         /9Eq83kPX0jnms1s+ivCoGbv3knzRgqA5n2aVCQMshFpKE3NxCD0YF+l6qwW+R/4mVp6
+         32g2VK+8z20ik56Ce0mUGEYwEKhEKEs80brS4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785429413; x=1786034213;
+        d=1e100.net; s=20251104; t=1785429994; x=1786034794;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=+pRs1V9SE4B3gxS7ytnfpQktSDKoQYwBV7VfFfoFRTY=;
-        b=OnOeCbcFEPUWNi8sOJTMfoWY2odjk3e6zokHYuItX9rGD08dNB+FXr71LZbM898Qc6
-         ZNut1ixjoEBNTqZnZAYiukwq5Sm8sCWMSm0KzK3aXliX3C6TBh4E3SWC6Hto0LhsoEgJ
-         LUHcFXmhroHdAQvUAAM9C3+HBfVWGszJtr6LJKLygEcoHM7/1KT7kLZJ6Nz644hwin9n
-         USIteonUvtAgug5+9Xh2gvgyN/d4eygbFzS2F8bpTPyhHcsrhWQcgpX52BirkkmumOgJ
-         A/tSc9SOsDZF9v25iAsb11CiJYyH/RipmvFoAs26V3nTey+LEsS252F2/N70GLMteT1V
-         4P8w==
-X-Forwarded-Encrypted: i=1; AHgh+RrCewkYAp2Yru1geOuPYC8u+gx/IkcbmW4kyGiRF6nP6JQbRmdZMzqDyGsehVLBDLiep1hilHsnm9+I7qYG@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrVz4YhB8hML4NukO2me9gLUUzunr8oCBE+Wn1b4GdAXjl01mk
-	Qwi32kl8UqbLNK5YsXgfAE0F1nVgCVcnfqRGW8jc3qf97yav7jEiZGtknqLmtfzWsvUL7JHQIFt
-	+R6L9EmA=
-X-Gm-Gg: AR+sD12RVBMca+O/ZAS73EeEDbjFwTIpvu+thkHkhCcsA3QM4NMMfuyWxnfamWLVqK+
-	v1sxkkww1fZQLYfRXCgJaoMWL4nLzO3W0c7NHCKG0N3h7wtEND+cCc1NkU2iDd1wYIWDIXo+hka
-	YSvalzWFyep28/Wbb6AD0J4o3070Qybw5s/HmW1AhmxWnXaJCH2JTcTEMPw1EXc2R/TIzurTohh
-	t3gThgZIahldkeapssL0WzQcjBte3NN39r3qIX79qpCstsBKaKUFenUhkQA/1X+TnbC9vV3Irjc
-	qASKSTU43S+Hj/7B88dxGuOS3hkbLTW6DK9KSLcM3N/qp3C9Q5Qq8AVrkGqybkTZyhqfiMe3Xk5
-	qqVFpxgOEWJ3b/tl65BQjWOP0hTZmSGhF+B9FiSP57J4ns7MtkAeq1Z1CtKy64UZODupTg+xia3
-	YSw3eJB+2Ai4o8L+gUgVC1MJEct3046djTxPPR3iMmFmL08biNtgvlkBldodUbtZ+zGGdugGLIy
-	WNcg4TfcC6hF/dCuEJvttI6hPAPWOp+qn61UYDOyR1PFG4p3btgqRqnAToT
-X-Received: by 2002:a17:907:c13:b0:c1c:4fce:6518 with SMTP id a640c23a62f3a-c1fbca7b02cmr72137566b.24.1785429413578;
-        Thu, 30 Jul 2026 09:36:53 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a07cb79672sm961724a12.13.2026.07.30.09.36.51
+        bh=dZlOLGFSy/CTNPahqtj7kyVyKyd2w+qb5becmlDJdco=;
+        b=BVPnFJRIjU0iXZKySUFVS/6o+akk34uhX9gqL5ELzdzby/gZmCW7CbZxtNYJyqTSVn
+         def/rRviWKicpLSdONTs9nRVmvOHn6a0Bc1InjnKWF+Mgoz66u24EKLFHJjdEcZ0vB9Y
+         F+4/Oeh3BR0yRP5O6VEHZNMY+XQp0b6WXbJDeZpZRfZI4gftwbJD07OAMJEV/2ws6ZVR
+         7QcIBRGLIfrpRCFoWZhOg4jOTHKGxDDOucEE5qsWd+Ir9WEJYFQM9fVoKNYC6wIsiWZf
+         FWkKXBojSgSQzBtJdM1xVS5WdG9ToOPXA6567CAy/EJUrvIHHjWGlyIWqEp2SaGPquEz
+         nQyw==
+X-Forwarded-Encrypted: i=1; AHgh+RpjNXnEWIXz+rpX42GEl4NhCWX8IE8lwv6Cx6JYn+J8wGEnjE60gefAsnSkUD5h7faxbExZW0s0aFv0ET/c@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsR8VZn4V80b/NOYOYSywZ9kkEq7OOYa5C3cqHQXr2zq6gZTNX
+	TjxLkR0f2bYP+j9CRu9fRRj5HZG03jjp7gDahEGyYwOHvbdUS3BYQotpfX/PnFkZEUGw+vEas27
+	bzCMgfto=
+X-Gm-Gg: AR+sD10DaoquZDmpzUEa5ZElIGOy0YVk/tPHX3xWese/CXWeCeP17J7D6C5gg7MSCef
+	qSoMxYkmurlvxAdQWARYKfrOvwqIE2rYVAs3U9xNgMfHEKwAj0YVaMawJyCD4GkFjUE87XisqGd
+	6QubaopcVZ0L1bLWyBH7yrI6hxzck3wympU2aLb12qVG/jZh9xA+3aMQaNWPfbAnsK9JeH281tF
+	fxY8SNina8DENvCEu0DqlagFp7+sATaq9W7WkDEZMxS4yQVe85RUDFQkAjryQ+JmTrlz9aRogbE
+	TnI86aKa/xS7+WOCr2XAgnLxgNSpPjPSGNg9RHd0oUVAJj8CIMNLPJc4T3Eo5wgRSTw/vjJ8kYZ
+	XVLcbKXQeYbASf1gSZAc/SKFY+cTZnPHrQVro5y5GzApM1r2WdNkCP9qYlP/+iOgDvz8GRMIDGW
+	RS/cAhSshMEAAl2ndFXtDi4S9lefJt+1hNmKEPA45RN0RVNuo5po8ZNKi0GN6AdJ2b0BJpjUBRD
+	jkzR7VS0dMeZyW/Xs/zYUViqbKl+sbgOR8qMg==
+X-Received: by 2002:a17:907:d08:b0:c16:7c0:21f6 with SMTP id a640c23a62f3a-c1fa56ff703mr158474566b.38.1785429994090;
+        Thu, 30 Jul 2026 09:46:34 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a07d3831basm878425a12.15.2026.07.30.09.46.33
         for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 09:36:52 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15ba3a2b4bso282221566b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:36:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro49kEUW81KZhh60mS83PLHPz1t/Mz/97wORleq7d/r162SDffMlXcVQyetb9gs5UEW2vhsacDByc7brCSn@vger.kernel.org
-X-Received: by 2002:a17:906:fe46:b0:c15:abe2:e1df with SMTP id
- a640c23a62f3a-c1fbcba971cmr78194966b.43.1785429411650; Thu, 30 Jul 2026
- 09:36:51 -0700 (PDT)
+        Thu, 30 Jul 2026 09:46:33 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c12614b81c9so422959166b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:46:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rqiz8izxwP0bA2s3x74OdOVWlbtuD8s4TuNl43Brtqkg7vFC51UZJPyZ/On2PZAhlzThK3PfQDi/7sE+4ES@vger.kernel.org
+X-Received: by 2002:a17:907:c17:b0:c1f:1267:deb7 with SMTP id
+ a640c23a62f3a-c1fa57ad4d6mr193696066b.62.1785429993415; Thu, 30 Jul 2026
+ 09:46:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <amtbpwrhlNGJ9OK6@redhat.com>
-In-Reply-To: <amtbpwrhlNGJ9OK6@redhat.com>
+References: <20260720201057.1862857-1-kbusch@meta.com> <ampRQyXDbGgeg49V@kbusch-mbp>
+ <fbe9e74d-c389-46f4-9874-3e9ffd9c91d3@kernel.dk> <ampce7mxSmxAwAiu@kbusch-mbp>
+ <20260730112626.GA24827@lst.de> <00104e90-48b8-4419-90c4-ac0c4a2e1c44@leemhuis.info>
+ <bd7249ff-d0a6-4a3b-8aec-3b5325f24b08@kernel.dk>
+In-Reply-To: <bd7249ff-d0a6-4a3b-8aec-3b5325f24b08@kernel.dk>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 30 Jul 2026 09:36:35 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi7EccGaeo2Q5mdcvcQJ8VX7tcJWW2fHkg6vfmHGGX8AA@mail.gmail.com>
-X-Gm-Features: AUfX_mzy442nCbl6DY_JVeWofFI0DxIj9F6qbkbC9XQHAttzTgn3vgqCFq2lWPU
-Message-ID: <CAHk-=wi7EccGaeo2Q5mdcvcQJ8VX7tcJWW2fHkg6vfmHGGX8AA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/1] pipe: only enable the extra wake_up(rd_wait) for
- edge-triggered consumers
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, 
-	Mateusz Guzik <mjguzik@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Date: Thu, 30 Jul 2026 09:46:16 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiDsWYL2c_vpqArX+UL9k8v3qoge7HqjtcrxbVsLAjfXw@mail.gmail.com>
+X-Gm-Features: AUfX_mzqOY3ca4Dui_O7sukC5vCEWaDgT57cEJGjc9a8_XBsD7VAxqL5ujTpsZc
+Message-ID: <CAHk-=wiDsWYL2c_vpqArX+UL9k8v3qoge7HqjtcrxbVsLAjfXw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 0/5] block: validate direct I/O memory alignment
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>, Christoph Hellwig <hch@lst.de>, 
+	Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, brauner@kernel.org, 
+	djwong@kernel.org, viro@zeniv.linux.org.uk, regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 30 Jul 2026 at 07:12, Oleg Nesterov <oleg@redhat.com> wrote:
+On Thu, 30 Jul 2026 at 09:23, Jens Axboe <axboe@kernel.dk> wrote:
 >
-> Let me repeat, I do not think this patch can improve performance. In fact
-> I only hope that none of (micro)benchmarks will suffer, they are often
-> very sensitive to any changes in pipe.c
+> Sorry that's nonsense, because how is Linus going to make that call if
+> we can't.
 
-I like this patch mostly for the renaming, not because I think it
-matters. I think "poll usage" was a mistake in naming and doesn't
-explain the issue. That said, I'd go even further, and make it clear
-that it's not about "poll" itself - which is fine, it's about "epoll",
-which has that broken crazy bug where it calls something "edge
-triggered" but then actually wants effectively level-triggered
-behavior - wakeups when nothing actually changed, which is the
-*opposite* of an edge.
+There's not a big enough thumbs up emoji in the whole universe for this.
 
-Pure garbage.
-
-So the real name should be something like "epoll_pseudo_edgetrigger".
-Because "et" isn't really helpful either.
-
-             Linus
+          Linus
