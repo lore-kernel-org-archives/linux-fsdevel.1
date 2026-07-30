@@ -1,81 +1,144 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E443C7690
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 08:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3F63D3009
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 08:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785401877; cv=none; b=VJCxC9gqu7WMUFDVORTgj9KrDBBqBDVBOSsrAK7NXMpNayOdZCW/kAUwdJ4tvYHYZRzQQKJ0SO4D7Lw8kJTUL9JXuGZZd7DhM4oL32/ONSvc178DGKp4l7i9/Eba7ZEGuH78CKlS/44Q7m+xu2dxC0NFodCEuZnFF4vXRQrXgPU=
+	t=1785401904; cv=none; b=FlWuZ4h/yndA/CnC98h02Gu05a2hPqAUxLRivWNEK7lZuXuoQ35bAlv1h/o7Jipwhul0lZg8dvblgIA3b+x96NGA2TX04f05mAS6d0Oh7CD3F50jrJ8eUfnJNys5vHU1SEqn1HnOFniwo/AiCaHJdduN4uwi0nKPyYtSDNLjcX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785401877; c=relaxed/simple;
-	bh=XFck+zQbLjVXByOZI4jMj1vdRhZek34CfrD/wLcmUx8=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=MwAYfVMWzdR16JPSm/psCTiCWgInNC8C5/afdLAab4XqvcbmipNRJq8jOp/Lugc81evMhiKQDCCHukvEfHZxw4mhEqFMR6T+1W+jgza0Ge65174HisVL6hm7m2Kp6xibFM6RbyBrHPj6yzvA8x+d9u+zRF8zSSNNYej9MjK+PBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=4ezA0bOW; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1785401904; c=relaxed/simple;
+	bh=y+D01CuHJwBdiuyjGFvWK/XS+nCNrE4YSYUYDFas9Ho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eCRKDwA3zhWROf9tLhV2N+RDiJVJCdZ4yNpc06J7RBv5nvHt6/Dpxfs+9UujanH5CHjP57/VjKbOQa8kk6W16d+UT0lQer6DKBWkXZrWSfjtAYypvyV9tyhKCtvJ5lenmBKrp5GyWpcBMNMKzMaHsfwBl1I6IcVKTOcm4UuIC6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LyMfXppw; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="4ezA0bOW"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=9rMtCmYRE4yKFhMmgCu1LbAu5IZOmFSXihnF1nAJiuc=;
-	b=4ezA0bOWlGuGwTq+3v9Z7hX1eqJhwpRJMbaNvFi9IGnDLWb89LKHYCjqb3hyGTuRqIs7Ooo3F
-	q4Ym9hLwdd6ft2eGYmRwnmZbkw+LYQS/bi9qPiW0QCWbOvDfO0W3ZqI7aJNwlXQZngsUOYsCZYy
-	2ISns1h1IVv7cItxAga9gV8=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4h9jXS1DXmznTVd;
-	Thu, 30 Jul 2026 16:48:24 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id E16114055B;
-	Thu, 30 Jul 2026 16:57:50 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 30 Jul 2026 16:57:50 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 30 Jul 2026 16:57:49 +0800
-Subject: Re: [PATCH v7 03/13] hugetlb: Mark some function arguments as const
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	<linux-fsdevel@vger.kernel.org>, Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>, Usama Arif <usama.arif@linux.dev>, "Gregory
- Price" <gourry@gourry.net>, Andrew Morton <akpm@linux-foundation.org>, "Jane
- Chu" <jane.chu@oracle.com>, <linux-mm@kvack.org>
-References: <20260728204409.3396238-1-willy@infradead.org>
- <20260728204409.3396238-4-willy@infradead.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <28f41c7d-a869-4495-f2b8-822d8435ac2c@huawei.com>
-Date: Thu, 30 Jul 2026 16:57:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LyMfXppw"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-668bec50cc7so273168d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 01:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785401902; x=1786006702; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Eih1Qog6Vz/sV/m2LMmZM3AG7QY9Vu5/xohu2UqBfEQ=;
+        b=LyMfXppwk99ZByn/qhgoaHeYOkLTexbZjmdaPci8PTUftiusdhKFsNx2rBjGWVdp6w
+         w2OxsH7gLUNnjYWCjy+T0GZJLYtl654udQwxgThs8BpVFbSGvkuNnWCmmNxbxFK0uA9D
+         NvUIxK5u9DY2xEkTaaCFlwSZKKqozCADSrDcp/0a3NZCbea+ce/kQD+tqLnvmK4vSBN3
+         x5Tdq0eJBouoUKdKM/OQMTSaic2N+umh0kYEJNILDtzZC+wrmkemwMiExXU+EvP3sKFI
+         ToW+fe/17WXEHHpJRQLp5VVocv+57PcJgCF/V1iFmDe+0SULYp8V47XahsqTTarP+9b2
+         faxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785401902; x=1786006702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Eih1Qog6Vz/sV/m2LMmZM3AG7QY9Vu5/xohu2UqBfEQ=;
+        b=BM+/+9jlnyMt5RCXa7ul8kSAJvD/sBE9J5PGla16Zh0uw20MvWJYfl/DLp1wpwftr/
+         DoDugHViBLPske0zs3G6XYvdmYgmqeEwplYfZEh/Qz8DLa7EyT90X4F2lQ0Fm6zmtbov
+         tTRgHMZDxQtr44j7uValnukAt5B0gzLdYfNyV+660zi00OrJE3Hqulyu/1D3z7D6O3gp
+         BuhxXyRUDWOq6kTTrcvYwz/WVNjbKiTQwl5JSMcdSuTDtvqGMfpzowJPFKeLGYwAOyeY
+         G26eZKFt+tq5fUXe2ldMLZMYNnqoM/A/PJso4vjw9lmfp8syeFThl3xGMyxkCNnpIp0z
+         Rf+A==
+X-Gm-Message-State: AOJu0YwUf/DoMCs2QX3psPU3UWZe5h5fRT334mA2B1iAVDuDmPJiFkad
+	tnSKI3lFHhhMAF8K2yeGedTWXo3nkq1zejK0nZHuaEKD7Mr+HWqLiS9E
+X-Gm-Gg: AR+sD10oXKyICGvrXN3fgO/UBEoKfMQciSDz7j8aCFHfv2QPIAwbfSkkx3Gb7cZuGWP
+	AFSo8IpBnQeA0ZwnqNyazP0idGOadjwusAv+38zwVczf3bpDd2KvKCjaiU35Es4pgtgw5F/VFxV
+	BV1co0Drh3nWEvgizdI8rGcNDSybCFxIjj60ySXynLtxphhYm03NwXITf9mc1ZGqEneyeMPWzt+
+	vCAcieSwMpmdYbTuyXoHNNfhvT5TnfGGFIgDI6jUVL2Jjmnw3i+RNNIBt6w+oEjni/C0QNOnO6x
+	+cdkOTtWvQCZNd69gZvKn1nPJu0j+bzwpUEtOw92yjO5BP4dAMv/eMW3Kq6d9iVW8eDjntXQv7j
+	pdzJDwTgKtHzDRl5OCpmHERvNfw9KD3G2VusDJIQmKSW4cySgXyu3Bx1wVlOGvJ7q3KOPiQFlLc
+	A54DQM5RbbnE8B4HInSKceyZe6dyEc+DD8XmXLIaD6zTNqHJBWihO91Fff0O64ejcTydYAm1ovK
+	0XSEF8VIPX7Jf7YKFqdaX855SKW9J+xTscO0Zh6NLz1vX3LJ1Ez3sk=
+X-Received: by 2002:a05:690e:4296:10b0:668:99ce:a033 with SMTP id 956f58d0204a3-6692f6d5c95mr1537316d50.2.1785401901862;
+        Thu, 30 Jul 2026 01:58:21 -0700 (PDT)
+Received: from localhost.localdomain (45.78.65.84.16clouds.com. [45.78.65.84])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6692c8e2bd8sm865842d50.10.2026.07.30.01.58.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 01:58:21 -0700 (PDT)
+From: Chengfeng Ye <nicoyip.dev@gmail.com>
+To: Jan Kara <jack@suse.cz>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Matthew Bobrowski <repnop@google.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chengfeng Ye <nicoyip.dev@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fanotify: fix use-after-free of file range info
+Date: Thu, 30 Jul 2026 16:58:01 +0800
+Message-ID: <20260730085801.2068723-1-nicoyip.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260728204409.3396238-4-willy@infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Content-Transfer-Encoding: 8bit
 
-On 2026/7/29 4:43, Matthew Wilcox (Oracle) wrote:
-> These functions do not modify their folio argument, so we can mark them
-> as being const which will allow for some minor optimisations and let us
-> mark other function arguments as being const in the future.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Reviewed-by: Gregory Price <gourry@gourry.net>
+fsnotify_pre_content() builds its file_range on the triggering task's
+stack. fanotify_alloc_perm_event() saves a pointer to range.pos in the
+heap-allocated permission event so copy_range_info_to_user() can report
+the offset later.
 
-Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+The event reader can set the event state to FAN_EVENT_REPORTED and then
+sleep while preparing the file descriptor. If a signal interrupts the
+triggering task at that point, fanotify_get_response() changes the state
+to FAN_EVENT_CANCELED and returns. This unwinds the file_range stack
+frame while the reader still owns the event. The reader then dereferences
+pevent->ppos and copies the stale stack value to userspace.
 
-Thanks.
-.
+KASAN reported:
+
+  BUG: KASAN: use-after-free in fanotify_read+0x293e/0x2970
+  Read of size 8 at addr ffff88811434fc50 by task fanotify_inotif/95
+  Call Trace:
+   fanotify_read+0x293e/0x2970
+   vfs_read+0x177/0xa20
+   ksys_read+0xf7/0x1c0
+   do_syscall_64+0xf9/0x540
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Copy the range position into the permission event and make ppos refer to
+that event-owned value. The event remains alive until the reader finishes,
+so the reported offset no longer depends on the triggering task's stack.
+
+Fixes: 870499bc1d4d ("fanotify: report file range info with pre-content events")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
+---
+ fs/notify/fanotify/fanotify.c | 3 ++-
+ fs/notify/fanotify/fanotify.h | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index a3555bebad63..c97d1be70310 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -601,7 +601,8 @@ static struct fanotify_event *fanotify_alloc_perm_event(const void *data,
+ 	pevent->state = FAN_EVENT_INIT;
+ 	pevent->path = *path;
+ 	/* NULL ppos means no range info */
+-	pevent->ppos = range ? &range->pos : NULL;
++	pevent->pos = range ? range->pos : 0;
++	pevent->ppos = range ? &pevent->pos : NULL;
+ 	pevent->count = range ? range->count : 0;
+ 	path_get(path);
+ 
+diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
+index a0619e7694d5..c964df6c0514 100644
+--- a/fs/notify/fanotify/fanotify.h
++++ b/fs/notify/fanotify/fanotify.h
+@@ -438,7 +438,8 @@ FANOTIFY_ME(struct fanotify_event *event)
+ struct fanotify_perm_event {
+ 	struct fanotify_event fae;
+ 	struct path path;
+-	const loff_t *ppos;		/* optional file range info */
++	loff_t pos;
++	const loff_t *ppos;		/* &pos if range info is available */
+ 	size_t count;
+ 	u32 response;			/* userspace answer to the event */
+ 	unsigned short state;		/* state of the event */
+-- 
+2.43.0
+
