@@ -1,101 +1,136 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B927243932B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 13:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785419109; cv=pass; b=sJt5qWLz5DWtFOrY5hYa/mkjqVcSlNnO8nKIwMkFVRkwxa9QFDGXwa580yO85XeMJw6tPLu5PnBx+EFqva+hlKkNGWncKzTtje5oMVUnLUh9q65QDdo1rkpxCbp06d9C50hoEmZkqx8TWR6kAl2fAxX//wCAsJEegJcch0RNjwo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785419109; c=relaxed/simple;
-	bh=DooZteQHa6eWWZGFxr9TJH9KInviPRQxKqtAVgETm3U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FgSh+M7y20bdCLsJiSrnfzlrGFfpgDUHYRqunRCrEmRMo4KV2CWFJvQaQFvoTvrwY2PgWm6lpQZ4ku4rKVxkcz/df2NL92Ook5ZRZ66RxA/v1faYhjUeViAJcRK5SKG2G+/MlQxL39N3jNTzXURQJ0fw7CkbARpVa7ozpOFWkGM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEWYII3I; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E479339DBD7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 13:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785419365; cv=none; b=sNLIRPBRU2lcbGRPAKTwcTxP+GaZL8eTqQi2VbEavwjMhUIT13kGrvBwoYNHKfm5S+6VpssxIHaax4cukiUPrl7PHvU1xcyNcbXyIXNf2zHLqDRMU+xnJXXNNLL+YYf32tgc4i8iK/SK1TWqEGXmiA0uUZTURnbyIDFlZRuEyx4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785419365; c=relaxed/simple;
+	bh=8qwv5PHUKAWevhYZKKooQP58IC17+6pzYZvIcyxMNQs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rBSmXX7EUu9WW94ZPz1ezh3arj5XJnrUPlPeLivj1jHPz20NNdYLlZP8tJoOg1ufi5adQGZW4Hx0CntMIiNVkkyn93C0Y3EI1ateWEL1JAKMG5RuGK4B5XmhdJV9PkFpuSsdNvL3AwTYLN5LbW3vEsqFrmqt8sfQWTJcW6jazXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ICnlsd1A; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEWYII3I"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-69e0f4eb4ecso407163a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 06:45:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785419106; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fafHMFHa9VFUGa05vYkLs+MIMNVi1HFhdLME4aObXfWWfc6FNgwLVnzv3LYGI7qAtv
-         c6YSS87rgl97oGFltcbLdQr1hUCEiRwrKOpn1wPLR1YTOKTcQe+lkRLs4xSAwiL78aSC
-         RMkDsAMXiH1fHuBtEjQ5fHukbTgfZTcgy8FZUOKI3MojvykcjPRRmrT5MX08pPqBXOux
-         9wRtD3jlJ3hSFhUEXRHMjMPaR4lVVNR5P3hLlZWIf5oU8lRMmGTnoqcI9eQyCsaevypR
-         kMbWJYyDNnvmQHi80a0SRiXmUUdrO4gq/VwrKCJh5UJnnrP63btedQfgkMYWv/wmPcFZ
-         EHwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DooZteQHa6eWWZGFxr9TJH9KInviPRQxKqtAVgETm3U=;
-        fh=2lHsj27fLb48ELtx7HJH5ToeHSdf692aocSedxG9Qaw=;
-        b=esCPQFSE2+k0BPPd5EpSpgA1GFqguUmQ5dWS+vTW6C9QEdfkfVy55cAYqQBvwKEA5u
-         uhZWjtaqSCh0bHod/NQjZG/nLfxe7o0dCODtn+9pIlyNp1Cc5oWnQrVNBQ3s02MUzFhc
-         266WHDktkrzFx9NI8LZ6zJoRB+H41eS3fEujLjhxooYPbr39FMPEBf6yZwdYfB0RLtMR
-         L89xrOYbJxdJcytITqAqWsz7nIlpZrNaYWeFLg84j0dxBG3Yz/a/FaFWiegdeRCaASmo
-         p3Ufhif6k6U239/EgeN4s9XN1pbRCrHjf0kuHQ0O3BR3epAF661MqYbelN79aCmFSIyz
-         uI+A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785419106; x=1786023906; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DooZteQHa6eWWZGFxr9TJH9KInviPRQxKqtAVgETm3U=;
-        b=QEWYII3Ifkto15G1Clm01lB1APsrQ7NLiHyfD3Qm6kjRRca9pUMTSFGoRVNnqJKki9
-         vjvjOWLiZlibg85qb8JAH+Zk/dQ3GfYFN6b5aS3xXorYi7PaXzayi1r1qJGXdzpP+HxW
-         u0UIfOzkgTrbmsRvB68PffEG4t5bTUjNEdiSvU+Nv+evNgMv+qST1vLSeg89rQyxTNWf
-         jDkEKJxhUlpl4QI6Y5I5f1K+FL6YSjdPyWTpytOpJaVjN9syOdZrVgCCtdpT9/O0mBhw
-         sbRb/EWcztQWLHec46C+pQvpXFg5kckGuaoyFa4f8IfnjvRXybUC8mqTtHR/KR/SZ6mY
-         L1ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785419106; x=1786023906;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=DooZteQHa6eWWZGFxr9TJH9KInviPRQxKqtAVgETm3U=;
-        b=gQUgHaVYF4A548CEAx7gQUf3U9uVkDgk+hEg5w/tRTlwxRHq5nnx/+Ae5k8MZ5Z97H
-         hkU/NFRTnLea1TtEcqmQFMol52pPDxWdEpvFgFHXiXcHK34KeejbavVbxA+KiB4ySuJF
-         K1m8uFtk0WdLM3pnCWTabAngBI6/zGAoJk474QpChwXi8OhDsbQdwkw2UYa+8V4UY05s
-         Z+T0Dxf5tTPDlxVQDZc3rDdd4TDQeLRxaJshvr9s1DO0B0hka0YcrfbuM5069CgE8Zcf
-         EdndIHojV13C6xTdezohZx4gTaaxXVRvDk8v6snSAzUiGKYBhIzHTLq780oA8gTXTIpC
-         iQcw==
-X-Forwarded-Encrypted: i=1; AHgh+RrPVb5720SJyEMHJkgPTwaPqhnCQ3NFkV//4dno3DgIdlxncJRT2e6srV48QSnWtDRiUAv0Oxq9aWOZJioJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEcHKn3R30ADbyQv1qIp6HwJZmmfGzSobkF3KKZJKJMSx3Hg64
-	Ce1eeLFZNPw6hv9HFUg/dkkqOfuSIzFY+OjZSrmhjxhSuNXNZcbAeFIR/H8W2ScQdfRU+xFlqH2
-	QW5KYklumuP7YSPs959POBA0B7J1yliQ=
-X-Gm-Gg: AR+sD11MypfWi+5sTsLoTAMaAef2DXBsgli6EGay+HBTqxHPQzZI93Ev93h3hXipil/
-	hvy75zvUyUq/9zAF2CWWRYa+QAHPF3UM8raOQLaGI91/NtgHR6GbFl3Dd0oDGb/3o4QYWIiympd
-	oTe+CmmyTakq7EH/sjla9UhvD5UOsoz60xeqppDRk99pZQE+mnSDoIxurQ5CpCJ3wGPLsStfPbT
-	rxxEkrAl3mwuSMXRVgwDHoRdEp2/CDwSG5d7JT2uwBtzdl2tgx81kxxhYNdD4ZmaMFkeclikwCt
-	DOtJ0wnjdmECQi4i3MY9+JavLesopFfFg6QhPMq5wwvhsNd6rkbu10I6rrIa4nzFuldknK78qw=
-	=
-X-Received: by 2002:a05:6402:348a:b0:698:81d7:b812 with SMTP id
- 4fb4d7f45d1cf-6a090d4e711mr170014a12.3.1785419105759; Thu, 30 Jul 2026
- 06:45:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ICnlsd1A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785419362;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b4EqHffQZ+7yOTPccLs7D+jOVNUfFcke1CghDWdjZE8=;
+	b=ICnlsd1ANoYDPAYXLOzZwj633o3Cr6KUI9w/1rJiY1W3TLPAvwcJDIMraUeKKbCQ8c15m5
+	UZrMapZqQ1+EcJw77Qpwsb+baHUxfdvySyPhtjAXpysYhPGZekiA5IXtHnXrDxiL8hqxl7
+	kuq9/Vaxvqc61mcQ5WFYo5CaHLFsDpA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-638-shRJlmpBPsm3LdaYnEvU1Q-1; Thu,
+ 30 Jul 2026 09:49:19 -0400
+X-MC-Unique: shRJlmpBPsm3LdaYnEvU1Q-1
+X-Mimecast-MFC-AGG-ID: shRJlmpBPsm3LdaYnEvU1Q_1785419357
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E1561195608D;
+	Thu, 30 Jul 2026 13:49:16 +0000 (UTC)
+Received: from localhost (unknown [10.44.49.125])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 390E11956089;
+	Thu, 30 Jul 2026 13:49:15 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-erofs@lists.ozlabs.org,  xiang@kernel.org,
+  linux-fsdevel@vger.kernel.org,  amir73il@gmail.com
+Subject: Re: [PATCH] erofs: reuse superblock for file-backed mounts
+In-Reply-To: <amtJX8aTZT5d_sP3@pedro-suse.lan> (Pedro Falcato's message of
+	"Thu, 30 Jul 2026 13:57:29 +0100")
+References: <20260730124120.1501126-1-gscrivan@redhat.com>
+	<amtJX8aTZT5d_sP3@pedro-suse.lan>
+Date: Thu, 30 Jul 2026 15:49:14 +0200
+Message-ID: <8733x0k2p1.fsf@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260730085801.2068723-1-nicoyip.dev@gmail.com> <lkaqsnjtsfqbnlm456mxpq4k3hchwpmd4rnwydj2xektrnem7f@gwz5xjiduxfg>
-In-Reply-To: <lkaqsnjtsfqbnlm456mxpq4k3hchwpmd4rnwydj2xektrnem7f@gwz5xjiduxfg>
-From: Chengfeng Ye <nicoyip.dev@gmail.com>
-Date: Thu, 30 Jul 2026 21:44:54 +0800
-X-Gm-Features: AUfX_mzQIuIsZgyj3bKZW58ZUjulPcZN3lMNMEWWAdVUByKDmN1gIKHVWbC3Qv4
-Message-ID: <CAAo+4rW8f1MB3u4V=uHbw8RRex1=MKUY=kUQo=5zp83eR9S8pQ@mail.gmail.com>
-Subject: Re: [PATCH] fanotify: fix use-after-free of file range info
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi,
+Pedro Falcato <pfalcato@suse.de> writes:
 
-The v2 is just sent, thanks for the review!
+> On Thu, Jul 30, 2026 at 02:41:20PM +0200, Giuseppe Scrivano wrote:
+>> When the same file is mounted multiple times (via path or fd), reuse
+>> the existing superblock instead of creating a new one.  This allows
+>> multiple mounts of the same image to share in-kernel data structures
+>> more efficiently.
+>> 
+>> The backing file is identified by its inode and fsoffset.  If mount
+>> options conflict, a separate superblock is created transparently as
+>> a fallback.
+>> 
+>> Tested by mounting a 177M Fedora EROFS image 20 times with full
+>> traversal:
+>> 
+>> ```
+>> \#!/bin/sh
+>> IMG=${1:-/root/fedora.erofs}
+>> N=20
+>> DIR=$(mktemp -d)
+>> trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
+>> 
+>> sync; echo 3 > /proc/sys/vm/drop_caches
+>> INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
+>> MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
+>> 
+>> for i in $(seq 1 $N); do mkdir $DIR/m$i && mount -t erofs "$IMG"
+>> $DIR/m$i && find $DIR/m$i > /dev/null; done
+>> 
+>> echo "Superblocks: $(grep $DIR /proc/self/mountinfo | awk '{print $3}' | sort -u | wc -l)"
+>> echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | awk '{print $2}') - INODES_BEFORE ))"
+>> echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | awk '{print $2}') - MEM_BEFORE )) kB"
+>> ```
+>> 
+>> unpatched kernel:
+>> 
+>> Superblocks: 20
+>> erofs_inode delta: +46368
+>> Slab delta: +39952 kB
+>> 0.08user 0.82system 0:00.98elapsed 93%CPU (0avgtext+0avgdata 4796maxresident)k
+>> 19168inputs+10304outputs (24major+16672minor)pagefaults 0swaps
+>> 
+>> patched kernel:
+>> 
+>> Superblocks: 1
+>> erofs_inode delta: +2044
+>> Slab delta: +1088 kB
+>> 0.07user 0.21system 0:00.31elapsed 91%CPU (0avgtext+0avgdata 4848maxresident)k
+>> 19024inputs+6784outputs (25major+16810minor)pagefaults 0swaps
+>> 
+>> The time difference shows that sharing the superblock also benefits
+>> the page cache and inode cache, as subsequent mounts of the same image
+>> avoid re-reading the backing file.  This is particularly useful for
+>> container hosts running multiple containers from the same base image.
+>
+> Doesn't this approach break-down as soon as you get to change SB flags (through
+> e.g mount -o remount)? It will change superblock flags for all of them, right?
+>
+> (I don't think you can switch off the superblock transparently on a
+> reconfigure?)
 
-Best, Chengfeng
+This is the same preexisting behavior for block device mounts.  That
+said, I realize this can feel confusing since EROFS is not a block
+device and allowed this so far.
+
+One way to solve this could be an explicit mount option "share_sb" that
+is opt-in and, once set, blocks any remount operations.  Would that
+work?
+
+Regards,
+Giuseppe
+
