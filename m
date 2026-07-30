@@ -1,134 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC62C331A76;
-	Thu, 30 Jul 2026 10:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA2A3FFFA1;
+	Thu, 30 Jul 2026 11:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785409096; cv=none; b=FsZPt9gtpavGerEE1XYNwFdVO5b74RUwOv5VlgEY85KCxSCyBjuousFSSIxD/YhrH4cmhj6IQEIljha9WQGnA/OjWZZzennQfTe2kYR632rX1/br/afpq+QJIj/KbkpenCoC1UQY5SacY5LMSWNDDxdbv+M+YLQDQDAVG5VRmrM=
+	t=1785410792; cv=none; b=bLy+NkFqb+39qr/2DePT5qsS5L4OTEl2n3ina0rfqFv34Wu+DrmBjfyY1hMZRKyzJGx/VMDzFSHXXc4yLeWWkOO9DJRr21rbDa6fnFReN4/bgcvOZZ3CnsKu3MfkgkSgQHhsjopO6SMoc297yLGMOPqLRTNab1IA8+IKAhZIZxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785409096; c=relaxed/simple;
-	bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=BWJrfEZCQYAD4sJiFCqKRMVdm7OmNYbzN12G5VXDkJmLGPqL4PBYcpyRQ1NdYjipWovhY+F/qCu+QMEsDbkdjdSP1sSB949X6h424AyfrPjzJEEtVltVN2MLegFT++lx3EeXdzEf3FeveTFLvsD7UOL3sgZX86ecS0TAmDXGdck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UAX9ljGG; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UAX9ljGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621801F000E9;
-	Thu, 30 Jul 2026 10:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785409095;
-	bh=ho4YgyjQWyBPUtevx1zJhBR2CkmhZreF0QpyeyphzFE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=UAX9ljGGbRUS4xetzqrE0PMjPXbJNbJenYDiXH5cGCN/VkCypcrXMCijxjd794cE9
-	 fslK+ToUhFiTYo+XgYYKyBh2jytb9MxmQYlrLivJW3iHab5A0j3l81greEEv6bAYFq
-	 42xNk8lDButxsz0GTDUTshOJ5lgc7fy+kb/3uhbosCULe6SDNNNIXsBKU9Zx97m+RQ
-	 El7k4S7cqLSw4Oh/MP5+kcBo3bZysZee8fXz7LxMYiv1KdYqTQiTMiZdrej+TK7M9J
-	 3U6mg/VUT3EPyf2a3nCSvih3L/OIPuqk/wGS5RFiOzn8tqz4jX6L/f5l04BgmQPrFw
-	 7ZvQq+Pj1+t5w==
+	s=arc-20240116; t=1785410792; c=relaxed/simple;
+	bh=R+m8QtR9ceOKDEHgPb+6KIlq1t3NMCX0Q1A58q+CDYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThXzOqGV7JDAq276MJNlXTeFCXMIgtOwmMIKlFMf6TOsV+CF5ASjytEnadRFuAdQ1jXV6EaK5WtsD7cW/qfAqRK0VejHsWM5MjTG9lfhg9QWTxM25GJt9hyfSwOrtIw4WDrggCFN7ZUoNgLt+cmQ3O1MogdgNLCOAQutSLKyaeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BD8C168BFE; Thu, 30 Jul 2026 13:26:26 +0200 (CEST)
+Date: Thu, 30 Jul 2026 13:26:26 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev, hch@lst.de, brauner@kernel.org,
+	djwong@kernel.org, viro@zeniv.linux.org.uk,
+	regressions@lists.linux.dev, torvalds@linux-foundation.org
+Subject: Re: [PATCH RESEND 0/5] block: validate direct I/O memory alignment
+Message-ID: <20260730112626.GA24827@lst.de>
+References: <20260720201057.1862857-1-kbusch@meta.com> <ampRQyXDbGgeg49V@kbusch-mbp> <fbe9e74d-c389-46f4-9874-3e9ffd9c91d3@kernel.dk> <ampce7mxSmxAwAiu@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH v2 0/4] init: boot image-based systems without an
- initramfs (rootimage=)
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Curtin <ericcurtin17@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260727104845.2607444-1-ericcurtin17@gmail.com>
-References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
- <20260727104845.2607444-1-ericcurtin17@gmail.com>
-Date: Thu, 30 Jul 2026 12:58:09 +0200
-Message-Id: <20260730-bachbett-erwarben-harmonie-e6b8ebf05969@brauner>
-X-Mailer: b4 0.16-dev-3e0c3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3650; i=brauner@kernel.org;
- h=from:subject:message-id; bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRl67nst8uYLryqneFWZGz/Wb9dT6pv7Wj9Jpk2b3MJ0
- 8a5m/XOdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk3Jzhfw3rr4RAec7519WD
- jRoYTSTetzge/LKyZslBNVbmKwHGsQx/hRx1Vri7hUb7t7VdP+34ccKpvGmx2zKcVp5W+m7eWx/
- PAAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ampce7mxSmxAwAiu@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 2026-07-27 11:48 +0100, Eric Curtin wrote:
-> Changes since v1 (https://lore.kernel.org/all/20260718191551.1703670-1-ericcurtin17@gmail.com/),
-> following Christian Brauner's review
-> (https://lore.kernel.org/all/20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner/):
+On Wed, Jul 29, 2026 at 02:03:07PM -0600, Keith Busch wrote:
+> > > Hi Jens, have you had a chance to look at this one yet? This addresses
+> > > previous issues with certain device mappers under direct io.
+> > 
+> > I they look fine, but at this point we should toss them into 7.3. Yes
+> > I know there are regressions around this, but from 6.1x days. And the
+> > series doesn't apply to the current block-7.2 anyway.
 > 
-> The goal is unchanged: A/B image updates from a single partition,
-> without paying for a second userspace spin-up at boot. What changed is
-> how rootimage=/rootimageverity= get from "here is a path" to "here is
-> the verified, mounted root", which is what most of the v1 review was
-> about.
-> 
->  - Patches 1-2 are new: they add generic, reusable VFS infrastructure
->    (struct fs_context::source_file, path_mount_file()/
->    init_mount_file(), vfs_parse_fs_param_file()) that lets an in-kernel
->    caller hand a filesystem an already-open struct file as its mount
->    source instead of a path, and convert erofs's existing file-backed
->    mount support to use it when given. This is the "new infrastructure
->    available to any fs" asked for, so that init/do_mounts.c never has
->    to independently re-resolve a path that something else already
->    opened and validated.
-> 
->  - Patch 3 (rootimage=) now opens the image file exactly once and
->    mounts that same struct file via the above, instead of opening it,
->    doing nothing with the open, and separately handing erofs a path
->    that it re-resolved on its own with no guaranteed relationship to
->    what was checked - which is what v1 did, and which is where most of
->    the "second lookup" / "weak assumptions" findings came from. There
->    is no fd-vs-path race left because there is no second lookup left.
-> 
->    rootimagesrcdir= is now mandatory (rootimagesrcdir=none opts out
->    explicitly) instead of silently detaching the carrier by default,
->    so there's no more zombie superblock/dangling mountpoint by
->    default; you have to ask for that outcome by name.
-> 
->  - Patch 4 (rootimageverity=) is mostly unchanged in what it checks,
->    but now runs on the exact file patch 3 mounts, so the digest check
->    and the mount are guaranteed to agree on what "the image" is. It
->    also now refuses rootimageverity= together with rootimageflags=
->    containing device= (multi-device erofs images), since the digest
->    only ever covers the primary image file and silently ignoring the
->    rest would be a false sense of integrity.
-> 
-> Not changed / not attempting to fix in this version, per the v1
-> discussion:
-> 
->  - The carrier filesystem itself is still fully parsed (superblock,
->    directory entries, extents) before rootimageverity= gets to check
->    anything, since reaching the image file at all requires that. This
->    is structural to a file-backed image sitting on a general-purpose
->    writable filesystem, the same way a dm-verity root still needs a
->    trusted block layer under it; rootimage=/rootimageverity= are meant
+> This series is kind of old at this point, but yes, it's not fixing a new
+> regression either. I'm okay if this goes to the next window, and I will
+> handle the stable follow-up.
 
-dm-verity reads opaque sectors whereas this runs
-superblock/extent/directory parsers running on attacker-writable data.
-
-The mitigation mentioned below kinda defeats the feature... The
-filesystem that contains the image files is writable and the whole
-rootimagesrcdir= exists to keep it reachable. If you could dm-verity is
-as stated below, you would just dm-verity the root and used
-dm-mod.create=
-
-All of the other issues:
-
-* init suddenly becomes deployment policy
-* things shipped as modules
-* composefs can't use this
-* the alternative to achieve the same thing via CONFIG_INITRAMFS_SOURCE
-  / UKI signed initrd completely ignored
-
-/me walks away from this LLM hell.
+Honestly, I think that'a a reall bad idea.  This is a regression in 6.18,
+and while it took a while for people to hit this with their a little
+more complicated lvm/md setups, it has stopped real systems from being
+used.  We need to fix this ASAP.
 
