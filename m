@@ -1,71 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5A33AB273;
-	Thu, 30 Jul 2026 17:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03A8449B2B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 18:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785433088; cv=none; b=YY0GnxbF+Y7oVUAxMIDbhF3low+wGVRCVQEq/C0WBhwXIYpjepQ8UgSeNGYaDgGXBof2aJu0XmqIf9CCx5LMcffEduVHLXIUjUraB9aG/Cx451fPPlbr7Nm7T40BxqeNVl+IhNnHSVvwZtWT+8FkpYBwaGEyQemAwYpswNMditU=
+	t=1785435018; cv=none; b=mlHfnrSM0DJKZrPA6QGdZPufIlB9mQjakQj5/TLQznUzZT0k6koL+3x142XyHmCvHnmc8Wn/CGcnua9hHoMw0QBzVgs9JPraY2lzkx35klyiHn3fWIDpMRcBi71qZb8+/SK25UIUXBOFolRtOH2WsahcO5nRbp7+pLYYHV6tfLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785433088; c=relaxed/simple;
-	bh=9yTSYITKRyfSgAMT4KNqXonaMfmcOC6oJ44wCxs21tk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=O/1XUsX9nWrrA5p8B3s8H1fXcFqWkbsjL7RnpRkEItxXTI7gjMh62X9xTIdW4mbZG2itjhqTyhEE4na/01ct3WUED+Rwfx0OOETkvHc/4wDkeRrVxjXPmUEwsVpx7jdlk+5TiJ1hV1XLmm27XrDppBsl/pH17Klx2Lkf/D1PvI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Ck/rHuwC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785435018; c=relaxed/simple;
+	bh=j4uG85a/lUOWlekw+/37SW+8lcXDbeUugVTGhEIFrNI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=QbOSj1JSQiP7tZTZyeoO9PDJ2oqiql3BqzneB5dswSih7S0nDL4ZfVaxQxwsKNppA5WoB4p4pEDCsQz5SREbc9XP1ZxNpQxltXLOJGMVR1nlD5rBQycBOnU0hpEiHkiPK+2fKtWX8sRl9vRxjJsc7hqvnim4nziC7ft22CzfF3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TSsF5K32; arc=none smtp.client-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ck/rHuwC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A431F000E9;
-	Thu, 30 Jul 2026 17:38:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TSsF5K32"
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38e667368f0so209855a91.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 11:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1785433085;
-	bh=Ni3oFAKFSnWXIfFUyIufn9NPE6DB7h3R++xJCPyWKBU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Ck/rHuwClLfG9ICgb/oWs/GPP+TzALltZy3TrlWrjFNP32MYVLDvNsWdEOIg9mwA2
-	 kCiOGJAkwf4GAeu7rWuGnd9gaTQSHKpf7h1q1bzOwT3lDNxwzadxKfF6f3+dE7B3mr
-	 /+KLiw/7l1AGFX56+oH62A/kjmEhwITeSSyb4Wco=
-Date: Thu, 30 Jul 2026 10:38:04 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Seunguk Shin <seunguk.shin@arm.com>
-Cc: <linux-kernel@vger.kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Matthew
- Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
- <Nick.Connolly@arm.com>, <ffidencio@nvidia.com>
-Subject: Re: [PATCH v4, RESEND] fs/dax: check zero or empty entry before
- converting xarray entry
-Message-Id: <20260730103804.063ce671588b02c2596d5de3@linux-foundation.org>
-In-Reply-To: <m2v79wmxig.fsf@arm.com>
-References: <m2v79wmxig.fsf@arm.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20251104; t=1785435012; x=1786039812; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/J+SX8dpZwKLLQ+HLHdBpKmApVdFrMwrn1102lcbc08=;
+        b=TSsF5K32AejbDCJcn/YMBtVjqzkong6JGX2vhYbaLeOHfH9HkOtH4up5GFBy5+S6hj
+         j0Ncik84ofrqHEJDw0TXEvrYl2YvwzWAg4FOoyPh9gTwVf7B5Ffen91Skpwa4Y8KXI/E
+         Lxql/Rb73H6IUHxNYRFEbsJoKWKGZHtqhs8EQ0qfBQWe3NDYUOmd295fZDHNcsC8JVTT
+         2iTnq6LO3Eaz9WIuHtcbQA8JFJFiedfx0texYuMq+3HrUYUtOCiFGcgeWf0zvs7PUGfu
+         Ps5SzA5e+eIKNYLamcBucKAB3J3LNZcT7G7KOlQMy+npBuSSYOCCXvHejM8a2z3wsclW
+         qZQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785435012; x=1786039812;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/J+SX8dpZwKLLQ+HLHdBpKmApVdFrMwrn1102lcbc08=;
+        b=UibZ4yrfOwhhXU2DPkiHMMb26/f5ILY+OxATBeApYGsh/YvFGElXLegd8ueEyao6mi
+         bFVjdf1aGvo5/tQk14QcfEL2ZcZbP9nCRKjMc2lo1STyvmzEHjTcDMFaBcywgU3OX2xN
+         RWvTN+zWgg+0KU35srLaFL9lN/GPFvkP7nQe+27ZPaa48sWvXz2O6Qap53tjR43+2C+I
+         7zH9Gx2ARZrOpINz6bM8SURhENpGr7CcfBsWCpm0iCk7E3m9WGN4aOs9OTH+5DzEp6FL
+         uvWMnItzAtri7YG/U1WxmLJzduN9WhI7N/GxBZE7jxXral9d76dtuNa7a9KvZMfG6luT
+         D19w==
+X-Forwarded-Encrypted: i=1; AHgh+RrrmTGzXNkcRERJl8vvHhsCflFpLoepIjaueOAGTu21CZDBVlTQ28ZrUiImb81jyAd2rY/BtZL2OaHgqN9S@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFgDftV4ZTAYzay6D6XmuEzEAZRcY5uPmcQ1AUxmDnZou543fA
+	ZDKkNaEl0Is0V6MaJ3qLcaMTBcv5z1GdPlqftz6GYcmxrARLo4auHfOSYWeRTViGKeVHK4D2ml2
+	RgJSq2PYCAHA46A==
+X-Received: from dybvk8.prod.google.com ([2002:a05:7301:53c8:b0:30f:45f6:de06])
+ (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:4c4b:b0:38f:c71:2342 with SMTP id 98e67ed59e1d1-38f9c00dfb9mr2757140a91.31.1785435012102;
+ Thu, 30 Jul 2026 11:10:12 -0700 (PDT)
+Date: Thu, 30 Jul 2026 18:10:07 +0000
+In-Reply-To: <01421d53-c379-4044-9da3-5990186303ef@iogearbox.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <01421d53-c379-4044-9da3-5990186303ef@iogearbox.net>
+X-Mailer: git-send-email 2.55.0.508.g3f0d502094-goog
+Message-ID: <20260730181008.3654413-1-cmllamas@google.com>
+Subject: [PATCH] selinux: bpf: check SBLABEL_MNT before isec init
+From: Carlos Llamas <cmllamas@google.com>
+To: Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>
+Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	Carlos Llamas <cmllamas@google.com>, stable@vger.kernel.org, 
+	"open list:SELINUX SECURITY MODULE" <selinux@vger.kernel.org>, 
+	"open list:BPF [MISC]:Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 30 Jul 2026 14:12:55 +0100 Seunguk Shin <seunguk.shin@arm.com> wrote:
+selinux_inode_init_security() marks the isec as initialized before
+checking if mount labeling is supported (SBLABEL_MNT). This was fine
+until commit 9722955b5430 ("bpf: Add simple xattr support to bpffs"),
+where genfscon bpffs mounts fail the SBLABEL_MNT check as expected (no
+xattrs) and yet leave the isec->initialized. This breaks subsequent
+calls to inode_doinit_with_dentry().
 
-> dax_associate_entry(), dax_disassociate_entry(), and dax_busy_page()
-> call dax_to_folio(entry) before checking whether entry is a zero or
-> empty xarray entry.
-> 
-> That ordering is wrong because zero and empty entries are not folio
-> entries. Commit 98c183a4fccf ("fs/dax: don't disassociate zero page
-> entries") added guards in the associate and disassociate paths, but the
-> guards still come after dax_to_folio(entry), and dax_busy_page() still
-> has the same problem.
+Do the SBLABEL_MNT check before the inode security is initialized.
 
-Are there any known userspace-visible runtime effects of this?
+Cc: stable@vger.kernel.org
+Closes: https://lore.kernel.org/all/akWdcp6P0FkNDzBk@google.com/
+Fixes: 9722955b5430 ("bpf: Add simple xattr support to bpffs")
+Signed-off-by: Carlos Llamas <cmllamas@google.com>
+---
+ security/selinux/hooks.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-If so, please fully describe them in the changelog.  If not, please
-also mention that.
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 8d6945edae7a..09a12eb8652c 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -2980,6 +2980,10 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
+ 	if (rc)
+ 		return rc;
+ 
++	if (!selinux_initialized() ||
++	    !(sbsec->flags & SBLABEL_MNT))
++		return -EOPNOTSUPP;
++
+ 	/* Possibly defer initialization to selinux_complete_init. */
+ 	if (sbsec->flags & SE_SBINITIALIZED) {
+ 		struct inode_security_struct *isec = selinux_inode(inode);
+@@ -2988,10 +2992,6 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
+ 		isec->initialized = LABEL_INITIALIZED;
+ 	}
+ 
+-	if (!selinux_initialized() ||
+-	    !(sbsec->flags & SBLABEL_MNT))
+-		return -EOPNOTSUPP;
+-
+ 	xattr = lsm_get_xattr_slot(xattrs, xattr_count);
+ 	if (xattr) {
+ 		rc = security_sid_to_context_force(newsid,
+-- 
+2.55.0.508.g3f0d502094-goog
 
-This is important information for deciding which kernel(s) need the
-patch.
-
-> Move the zero/empty checks before dax_to_folio(entry) in all three helpers.
-
-Thanks.
