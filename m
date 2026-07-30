@@ -1,113 +1,183 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E7639BFEC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 20:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCC13A5E67
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 20:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785443744; cv=none; b=SvFJA/lLd+priaIfcepDIEDXQp5S4xOsROMbdnLbIdqprvWs6s4BTE8PLO8KrGmlshGlxVPmicxkQukkyLvWD8GJpOOfgEZAOz2M4YkV/Woz0ZNaah0JLz32Cgm2ILdCpqV94pq2ZyqbU20sOVFxCJBoEMpAIqMcfYuZNqmR6iw=
+	t=1785443949; cv=none; b=MmWeIu4gR3epNoc6PBM01HRVHMNZ99PYg6hX1nhfKDHKdQUx+UlV/FeX2cI3M5uoJHXngCgWoMrz1DP53WzJ0zWJ/gtPpyCwAy/NZ05AD1YjO5RQXlZGEKkQljAmialmbS05q9+b7GiWeTLu1cJ90GW8u71O595aq/jmb7Vr7f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785443744; c=relaxed/simple;
-	bh=zBCRRN2sWVo2r37jQBk4RKlk+khTg2FJPpvVcXxrxcA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jIV/apn9sMKf1xhsTPDz8M7w0Gc8trX6MpG4YbTcfgYrVuiiHkNrCsG60EFSs5Jq/MXWMRpYhijA4xaE+OhTiYDqLIkZQ/Bd5U+/FaYQHiqyFJmapAWR2bhChtxMhlRU6YuaAoMC1AvegYT4f1Etj3Yy7ypatHzJi0nZS0XtUr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EXUba4QT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785443949; c=relaxed/simple;
+	bh=G/vRUOm8L2XZ3XeP9CnNcbxvMqQWrQcmwiBXs9OOzgw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OSRZpsb7j088sZJxS3Z2G7r8yGTD5kQ1d1b9YkORLlkQTQ36TEFUfa27k4YnkNiBZBOoJkeve7GEyT0f29jS/5TlI+whfMdptgytDm1KejeAjUthUdDTbykrR3jhZSv6zkQ2Gu47si5C5dtvn4o3NCzoNjo3FCyuxXIkLTld1/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=WQ7HnPHx; arc=none smtp.client-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EXUba4QT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785443738;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zBCRRN2sWVo2r37jQBk4RKlk+khTg2FJPpvVcXxrxcA=;
-	b=EXUba4QT/SAsnJg8hEZPs2e/mG+L0sURGczDxfSA1xAw+Q4iW6Si8shQGSei88LWCUfDjT
-	CFpTUcvF1aJO2QpxPv8YsZbhpS6x8V7xpWO6lyZdjd2k+6n+4WRC34qztDAJIood0USuEV
-	twhQflXOzwKV3XmElVNs7pMhswX1DSc=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-590-Z4Mu8WJZPSqgt6YfMC9tYg-1; Thu,
- 30 Jul 2026 16:35:32 -0400
-X-MC-Unique: Z4Mu8WJZPSqgt6YfMC9tYg-1
-X-Mimecast-MFC-AGG-ID: Z4Mu8WJZPSqgt6YfMC9tYg_1785443729
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D75719560B6;
-	Thu, 30 Jul 2026 20:35:29 +0000 (UTC)
-Received: from fedora (unknown [10.44.33.21])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 0584B1956089;
-	Thu, 30 Jul 2026 20:35:24 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 30 Jul 2026 22:35:29 +0200 (CEST)
-Date: Thu, 30 Jul 2026 22:35:23 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Alexey Gladkov <legion@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] pipe: only enable the extra wake_up(rd_wait) for
- edge-triggered consumers
-Message-ID: <amu1i8rzQ3hZ-vAu@redhat.com>
-References: <amtbpwrhlNGJ9OK6@redhat.com>
- <amtbxpqJ3pZwyT8D@redhat.com>
- <amteY30qxRuPzFh3@gmail.com>
- <amth6owVUdVOmyAL@redhat.com>
- <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="WQ7HnPHx"
+Received: from pps.filterd (m0167070.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66UKY2Mq3753119
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:39:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=T8e8
+	k+5EzrTp13lWK2mQytn9hp17i2RRCkab9M9He5A=; b=WQ7HnPHxqZL+jR81XllF
+	JTKnzPju6U39UyyWhhTcphUfZ+xAg2wqUa791ebQ1v5NhvW0IuF//dLqtiOJvHMi
+	fmyKW7M+TGXkdSy8yhCZpU5HL/IpFm8hExjB6Zd8ZTnCZBp0FfiM/4VmQMN3Nyjj
+	wy9qKWJdLe5TFEiS34dauGmL0aNhbdETHjmjDl6ehafIPC0BA5I6nCfjcLjVALJk
+	9EAViui9QVuK3SVhaPP15FKa4Vxbk1NUe/8NEuykcAZ7ZyTVvPKKcmrPB5R0nGP7
+	1xqHFPEmX+ojBlGjFW+JqGfOPxg4M0VGW9uE0F4ziDhKljsql7UvZhC9GapkEQy5
+	vw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4frd9kr98n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:39:06 -0400 (EDT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-520a00c7a03so3518341cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 13:39:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785443945; x=1786048745;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=T8e8k+5EzrTp13lWK2mQytn9hp17i2RRCkab9M9He5A=;
+        b=o37Kb+zfSyhnV9ZDoFxXz1BPFPQ+f1PBWRG2VmYb1pQ6AubKF7YM/gtfh7FgeoGpmR
+         JhJ0UyM8y9WDcTV+Td8YeFtVWCy4X0wEL/XAvYL6qDrHsm8T5t3FSe8td+llLYiZ3TOt
+         tkzVLqcFqbyG73HKjZlJmV2fvC3kCejf9gBrb8OzbcDE2Fx/N9jzkqt+kkKXOfAUMWT7
+         JhiU41GSJ8Q+wQs02bOruy/0GjxGwIVh25i5cDKYcFgTKiSwX5DYYhEhX3Rh2yPkUFwq
+         4jlSQrISitIfPqdnv4v3IFzgQCFjS9jFXw0P4qlK6j7wZ01nmoDz92GWDmC6KOsnIS5W
+         Gtog==
+X-Forwarded-Encrypted: i=1; AHgh+RoUFTQYTMf+tTFcqUISRMRycENx3JGkzuD0GQ4tuNAy3B/dnPy4ySXpuE/m/G9k/bCl/svXO3imcE5CJql7@vger.kernel.org
+X-Gm-Message-State: AOJu0YzytOw4ABboaN/fyEZpngfaHX+3oaGX5he3IaEWDsaKod9qO5hA
+	4gLii6rlrkO0He9BwjHdari2avy0xgsvtMzoY6pCR/EZ8+JYEkrNXObFClY2qjFRbGgoCLAOQJg
+	m8mJHxN8qhiUaE3IuTHpSCzKgeeC40cbNna8pSi3PJrMGueC8tnfSEbN6A9LvdDM=
+X-Gm-Gg: AR+sD10mPCmLPDsH79Thx9s8EWIIzCS7GKxtbNhn77sLnTUztHrGBrCNmSQUNTI2LYG
+	BHLzpCjwOrc838e23ob2b+54k2gtRbtskzz3u9X+mk7ZNznv6JDus1zr9H4BqCI74EGM/X0QJgW
+	yGko8fRsB1wyWSAQjWo3DZjCATN3xjANzj1E2guO/RzXxrvjNHC5pFQWpKaeGSluH9QGhpuBW+8
+	e78c4p3esE6aMfgJ55YwWcG4bftjAKIwKxz7RyvUWa504mc2+rPK05sKVq+YA/RS+HOfXI1P76Y
+	FfG83uesxzR+NVfQOOYjewEHZ1UOVb45fZh92SsDrrU0BCw9nO3MWIF8d/zDADRrpAQyiPpNka3
+	FE7qJ5NpH3okBh9I=
+X-Received: by 2002:a05:622a:3d0:b0:51c:7b11:41a9 with SMTP id d75a77b69052e-52b38757e60mr44335581cf.86.1785443945558;
+        Thu, 30 Jul 2026 13:39:05 -0700 (PDT)
+X-Received: by 2002:a05:622a:3d0:b0:51c:7b11:41a9 with SMTP id d75a77b69052e-52b38757e60mr44335011cf.86.1785443945082;
+        Thu, 30 Jul 2026 13:39:05 -0700 (PDT)
+Received: from [10.206.71.35] ([129.236.231.134])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529e2d8251asm48127221cf.19.2026.07.30.13.39.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 13:39:04 -0700 (PDT)
+Message-ID: <15506dc8-e5b8-4fa8-a85f-912a92edb83f@columbia.edu>
+Date: Thu, 30 Jul 2026 16:39:03 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/5] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
+ writeback
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong"
+ <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+        Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Sandeep Dhavale <dhavale@google.com>,
+        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
+        Christoph Hellwig <hch@lst.de>
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+ <20260730-blk-dontcache-v7-3-3e8e6850068d@columbia.edu>
+ <amsHrVCJnuXzeGG1@infradead.org>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <amsHrVCJnuXzeGG1@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMwMDE0OSBTYWx0ZWRfX+D4QeK2JDTCN
+ C/9aDqgTd60Tul5Oh5rriNmSWj1uuU7kP0OPnG74Lqsddzl9Zo8Kr01EEEqSjPMHEBhaKq25av2
+ 6gfFejR9rs5n04uoGx8bp2+EcBaMmid47HWw3PeasTIs0SvJZsMn
+X-Proofpoint-GUID: vBa1m4JaCcgs3_BZA9sUr63-uyZJrHCL
+X-Authority-Analysis: v=2.4 cv=fPYJG5ae c=1 sm=1 tr=0 ts=6a6bb66a cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=Mx06nvryMUGB95QVe9e23A==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=x7bEGLp0ZPQA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=svvvyxlR1OQQkelhaPoB:22
+ a=qsXxR-sLYAu0WPx4Yu8A:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: vBa1m4JaCcgs3_BZA9sUr63-uyZJrHCL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMwMDE0OSBTYWx0ZWRfX+xOzWA33ikb2
+ 99BnO5kWckSGdvh17pK2r3IQCOpX/AZkezeFd4sC6w/SyXpuBAXxrfCLAISg347M/eX6Qv2q6kI
+ yCnUikLwLd6QdDs5AJQd5WknxAvPevj+LteW6J8CILw/62rfC+9DLUDleSSOHTslVDZGDsxXp00
+ CvlmEqmR2EM9kAPYwBvRo/i33eO0E8ce58A3VJnXCFhnqSDDTfuY+jFS+oCl0mfNA5Q+StPFs98
+ 5iGS7jo5Y7cqGBEf+qFw7G4H6mT3D2oSi1yb4P6362FIb/mHcv9RgYAk4O3pcmP/l1T1f1sA6mS
+ o3ZZ5xC3X3uBLJFrzuUx4M5zmwK99aoKv+dDpPo5wTwuNH3wjCVgODBSGpdwJTlu6wba2+Kzakp
+ k5VCwTKeJixK2elJSZkb69SSdUlslAUmcn1ROFA58aIHh/Ap0zVqKo8oV5/pTfuFxmVVTqKpC+m
+ MFUpiUwzBmrbyiauBYA==
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11860
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=10 spamscore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=10 bulkscore=10 clxscore=1015 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607300149
 
-Mateusz, Breno,
+On 7/30/26 4:13 AM, Christoph Hellwig wrote:
+> On Thu, Jul 30, 2026 at 02:57:53AM -0400, Tal Zussman wrote:
+>> Set BIO_COMPLETE_IN_TASK on iomap writeback bios when a dropbehind folio
+>> is added. This ensures that bi_end_io runs in task context, where
+>> folio_end_dropbehind() can safely invalidate folios.
+>> 
+>> With the bio layer now handling task-context deferral generically,
+>> IOMAP_IOEND_DONTCACHE is no longer needed, as XFS no longer needs to
+>> route DONTCACHE ioends through its completion workqueue. Remove the flag
+>> and its NOMERGE entry.
+>> 
+>> Without the NOMERGE, regular I/Os that get merged with a dropbehind
+>> folio will also have their completion deferred to task context.
+>> 
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> 
+> This seems to be missing the bug fix you identified for the double
+> deferral?
 
-thanks, I'll try to think about it later, but...
+Sorry, I misunderstood and assumed you'd take care of it in a follow-up.
+I'll adjust it as below and send v8.
 
-On 07/30, Mateusz Guzik wrote:
->
-> On Thu, Jul 30, 2026 at 4:38 PM Oleg Nesterov <oleg@redhat.com> wrote:
-> > What exactly do you think the comment should say? I agree with anything in
-> > advance. I thought that "edge-triggered" provides enough info, but I would
-> > be happy to improve the docs.
-> >
->
-> how about: There is userspace depending on the extra wake up, see
-> commit 3a34b13a88caeb28 ("pipe: make pipe writes always wake up
-> readers") for details.
+> I although thought a bit how that could be done cleaner, see below:
+> 
+>>  		ioend_flags |= IOMAP_IOEND_SHARED;
+>> -	if (folio_test_dropbehind(folio))
+>> -		ioend_flags |= IOMAP_IOEND_DONTCACHE;
+> 
+> I'd keep this flag.
+> 
+>>  	if (pos == wpc->iomap.offset && (wpc->iomap.flags & IOMAP_F_BOUNDARY))
+>>  		ioend_flags |= IOMAP_IOEND_BOUNDARY;
+>>  
+>> @@ -256,6 +254,9 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+>>  	if (!bio_add_folio(&ioend->io_bio, folio, map_len, poff))
+>>  		goto new_ioend;
+>>  
+>> +	if (folio_test_dropbehind(folio))
+>> +		bio_set_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
+> 
+> And move setting the flag to iomap_ioend_writeback_submit, and only
+> for the case where no io_bio.bi_end_io is already assigned.
+> 
 
-To me this looks confusing.
-
-IMO, the comment like this (with the reference to the commit) would make
-sense to document the unconditional/undocumented kill_fasync(fasync_readers)
-in anon_pipe_write(), this SIGIO is even worse in some sense and I would like
-to discuss it another time ;)
-
-But as for poll_usage/poll_et... We have the established API, and (afaics) it
-works as documented. It doesn't matter if EPOLLET behaviour is good or bad.
-We only need to document what ->poll_et means for pipes.
-
-> > And the helper's name? pipe_enable_poll_et() ?
->
-> perhaps pipe_enable_epoll_semantics()?
-
-Again, contrary to the current comments this is not Epoll-only...
-
-Oleg.
+To confirm, this would only work because XFS provides its own task context
+and is the only consumer of iomap that sets its own io_bio.bi_end_io.
+If another filesystem set it and didn't provide task context, this would
+break, right? I can add a comment about this requirement, but I want to
+confirm the intent, as it feels a little fragile as-is.
 
