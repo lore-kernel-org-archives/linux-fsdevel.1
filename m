@@ -1,260 +1,209 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12C542586F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 12:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785413675; cv=pass; b=lvqvA5pk+Sp37216egnKsePLfDqNsyW7uGZXKZs97HZg8O5vBon3hC3CPQgIBkdVovXb7Vnl8p5RPPQEr0WADmowpwKRj62fROkQ/+NL6vdgPnqIS4rUVxFaoQLWT0yzYduFXMDpOdx/PqIguqXS4VI4cxO6wZCH9xeGMiAUG7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785413675; c=relaxed/simple;
-	bh=sy83WF8tBDASPAVNijM5A8ViZA2FGZdaffH6yOfUtp0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bLpuISjBTHTR+QS1L/Z7sv5+BqUpCulX0exJHaH1Eumcw0r0v6ZOHbd5eI7k2rkOUtw7H7mMUIN4a5MaeYICNrllsilGp+DnEWxx+F9RJblKcuBystmCyuzg2rzaLwkTuzgmAFXzmR0qMIKenZviEAxhPxAL7ZLtovEameLH9Oo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=qIp4Fu0f; arc=pass smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="qIp4Fu0f"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39c86ce9e29so17121581fa.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 05:14:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785413665; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ck0gJpPaRXbhPg82KPxXUiKIo9M9cs/rMyD4JjaIngBrHLDmK4j926zGA929T/3nUW
-         HuJks4MPqiTE1NFLStoQvY5yFDlngdgePYEKTdUPDEK66/0nFFHHJp5idtpmf4Kyu19i
-         SfX3tMSVCa5dQjCE1jG4Jw93O5FxfOkaRwchsckcJrSmG/XKS9UmF0qj4Q9L8sUMuQH8
-         30mw4ZiJFxCSHQYJQVfzFn4xLmGHeodpzburhXyo4QH9gJbXB9HtLLO36jUIoen9tZSS
-         TowxoBJXaE+L9R8creBmta5YmYxck2IEimdTQqQufASfHqdCc5/6f7VmbDpZqINrYf4S
-         yO9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Wx+UNvwOJiLu/XduKc4iuhqajIkekuvthNe+BI1r1w0=;
-        fh=i9hWDeLYrCpBwDe+PfFKdFdoqpigvMrIBK2gYRtZHuk=;
-        b=SsQQqVYmH3Qyp0rmve8Io/fAzR/Yp+WReG8Oy+AzBRLBO33Ux7kulhGG+gdOIEDDCN
-         UTxO0BTFpZmWFN1whOSWhWNA0mxxqOR/bqdlkhHW0nxjTrA7rtsziLejD54bdC2RWOC4
-         tgAYOgf913t1qWWvTFNbE/Qw/TYKC7XbTYk4m6b4DDbXjCvClOxMzL6I+N9mPDvakI/J
-         Z1DtPXyU+arGMH4ulSqsVK0hKLG+CUVJV2ksG6jqARzMOWtVi+lct18+uWhivqfoA1v/
-         W5M/j0pQ4wFidU1shLWqkAuRoY9SS/jjFPg0bkPeCujNyQWUKo+4WholqCq4op4X9oYi
-         latA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1785413665; x=1786018465; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Wx+UNvwOJiLu/XduKc4iuhqajIkekuvthNe+BI1r1w0=;
-        b=qIp4Fu0fGqO17LoKXt7AYUKcyBs+1fr1GDqkPQBJjLHxUYJ+nV8mMseQ2INed+yw2p
-         kzLpuAf3w2PN0chpafhdhl0aO8N2qG1dhDnC2aT1Gzc+P429Qv6QqGHc/jKWQGP7mCAm
-         aMio6AMrQTRVTayaqOy8p6tcE3J6ZQ/c+TY60=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26A342DA26
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 12:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785415166; cv=none; b=fvqLKgPUTc7cUGKm2DGXJ4lr9y3Oo2ra0ges+dpes9RsMOgnXRiTyLIN1uaNtSed+Lbm2B1+/je60/mLrDC/GLUQhUuwrLFf28BBdsKXWJcp45uCBqtA0eVZ8tVqR0PbMOitJbwO8kyNwz6bdzJA1sIn0XCbeg/gIsQ+0NYjAT4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785415166; c=relaxed/simple;
+	bh=872RtX+Eg/Janu9ChgicVLa25i1SOwbk6ghPIHvTVYY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=j2ZXqdPuDA1qtIIJnd5SPYpq7yVnAx1w5MzbNEL3kl4uK43iLQY/VtQjS+FAKo6Y4XCj/60VZ5CRgTWu4+Ax4Ewb6aaLjZ54wR9/UaFitaJYFMwcdNNl1RzwT057/li/jUn46/m27Fc2YAaZuSuNSEIeIh+ot+TPmbnlcavydwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6a13b72112dso2078848eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 05:39:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785413665; x=1786018465;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785415163; x=1786019963;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Wx+UNvwOJiLu/XduKc4iuhqajIkekuvthNe+BI1r1w0=;
-        b=Yv0Ljstbf81aKqluLz2y72uVWujuO56XlDHULM/EywDbybhkelbFSPzGeHA1IZLtog
-         u+J4F91gqc4MNxi96QOs0D4NF8nUxYRjOglnNvxvzo6Z9tEKi8kTDdst2OseI6ua/5OJ
-         dSYj0ni1cFyuhUiT7UE1w/AwMfn/pEeGfKzOvfie21hzIVhh0xGBwRiWa8rnnRW608kN
-         zacwKM9beAdmibVHpxyBU0oGQ3+F1PGz2DrvqbhQBjlSqhtyVjSHYpupRMFFyh3UXXmC
-         NbHjY3j75m8veA21WLyiw4pxSPvFnaqhsbhHVRwa8ttsw1R80w5LucC70dfhbRT1yGOZ
-         whcQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpS4XmCX9275UzoCFaGl57cCCWDs8DRp0PT5F/9QoLjjgiE01kBWELwplP50TFGkrkdQcZJb9vBA96jtsvh@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP4Szp1gK4sYHhbWOw907Zl59y7hMhfZvbIzae0E5UZTWeTSTG
-	i7Im5FUKgkOR8MqX1j5y5Y5istdPdCUuxpGnOhIwVOqmQnXyLQuDDCgM5+0Hqpbt93pzw1XLBTH
-	uDphC42GUXtbGYnTI80NqQnBKtrU+5J3fJ0cKw8AwiUTH0h5j/XZH5fBEJaA/
-X-Gm-Gg: AR+sD12cvk0bsQJqN8ISEdZhUAbDSIOb8izQL+2ReJ1929E+i+7LvQT6SepsuGxHtEA
-	EnuwTtcf6zjJGqtJf29q2diOjt+RMBc9gxOFi6XxSVlRq3BYV9YEgLnQbYH3MMaZMNXj1g0KNqs
-	BpM+6GRfZdutGUsihWw1z0wHn0mOKbvf43fnOAf9HCr218CqiDA/S5Z8ahHHN625KUXT3Cxuj0A
-	WZ3BSEp5w1BQnagOZyTIWVzSt4xI0QBAykb6hJRPIYV7gD/L5CwxIKfGChljOYjh9WNcA5fk+4q
-	2FCHVe+CPiqyPNslTyoHszFyC6PKHxcNhB7V2zSUE6SCqhityUCOaOtWDLwleVDEv1W9fsDSZHf
-	j
-X-Received: by 2002:a2e:ad12:0:b0:39c:7ae9:daa4 with SMTP id
- 38308e7fff4ca-39f6b7f6069mr4269071fa.6.1785413664890; Thu, 30 Jul 2026
- 05:14:24 -0700 (PDT)
+        bh=xNsBLlBMq04JQ0HQtCl756pE3w1ThuI4TF06dXtxVcQ=;
+        b=bButJBwOK82kawbRljBxXNsvDMVBdWpY3MDvvOCLV2gfUxtvgDMmaDYBhVE5TRbPk/
+         Ys6iQH6F4K8RgBlRK9lAiWjotppfIis5MkwFN1OjYt1ZASRr/f9EyXbCzlvW+tBr3X3w
+         GH+53fwEtrHafesr/c0tYbs+pNQajCSOTcycvJqK3p8Mw3u2Vx7lvo7u+ulWOTSyOOw5
+         CNGoRkyEu0iWKvS62Wg/O2xV/7zeV5298HdXdLYflMczLVmHlo5kB8dQn97tXCMssd1j
+         jNngLFNMlQ2+V9ych7qRrOkYvVVM+/toOx49AU5SR4eB4Iv337R4LSUbelMV6IZQDKsH
+         CrJA==
+X-Forwarded-Encrypted: i=1; AHgh+RppU6rIiroKCUGwqsuN81SvOtl/GFjN1eqdNlD6dzVbre3daR9tddZPqabQYMCHUNe32v23U3sra/RDWinW@vger.kernel.org
+X-Gm-Message-State: AOJu0YziXBLvdwJM5pCP4yyi7Ai9O66EFVwfIknz9Rs/WL8exE6LGeET
+	UAURE5uRcPGu5YF67vactYsAJFwR6n4ngAx0UcDHieu/1ZT7lv+vfeBxvBuGH2VhvwYssqw2QEm
+	SRJiJko0O8pyo2Ze7eLPLE3f2Nk3X6jikqE/ex824XdXzs3mUG85uQ69Ja4I=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
- <dtryuddxj63ibzfzmktla4ypj7vnxj5gia66joet3lp6zgzpot@btjuuubvckv3>
- <CACwKKmB_wwUoW9g_hgqESwKeEuM2k4MiAUn+6Nu=zpyE1VgmYg@mail.gmail.com> <o3y7rskcnpaalaut2qro5ntewog64jdtzrxjw5q7lhg52rlo24@rxogt3dmzx6f>
-In-Reply-To: <o3y7rskcnpaalaut2qro5ntewog64jdtzrxjw5q7lhg52rlo24@rxogt3dmzx6f>
-From: =?UTF-8?B?wq3qtozsmIHsnqwgLyDtlZnsg50gLyDsoITquLDCt+ygleuztOqzte2Vmeu2gA==?= <yjkwon0026@snu.ac.kr>
-Date: Thu, 30 Jul 2026 21:14:13 +0900
-X-Gm-Features: AUfX_mwLxmYYfVA0LuBWkbbA2YsIbO3LndSAwn71BbhW_kpCXQDQIVSuMZ78iao
-Message-ID: <CACwKKmA+2CH6xKaULmgR4Jbo7oE41q6VzBgA-L3XnAsUVxXszg@mail.gmail.com>
-Subject: Re: [BUG] fsnotify: concurrent mark updates can publish a stale
- aggregate mask and lose events
-To: Jan Kara <jack@suse.cz>
-Cc: amir73il@gmail.com, linux-fsdevel@vger.kernel.org
+X-Received: by 2002:a05:6820:2221:b0:6ab:15d:e295 with SMTP id
+ 006d021491bc7-6acbc0dd21fmr1260876eaf.52.1785415163495; Thu, 30 Jul 2026
+ 05:39:23 -0700 (PDT)
+Date: Thu, 30 Jul 2026 05:39:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6b45fb.57649fcc.360844.0016.GAE@google.com>
+Subject: [syzbot] [fs?] general protection fault in __simple_recursive_removal (2)
+From: syzbot <syzbot+cc460646984184ad435a@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Honza,
+Hello,
 
-Thanks for clarifying -- I'll write the patch and send it. The "happy to
-test" line was only in case you had already started on one.
+syzbot found the following issue on:
 
-I'll go with the simple approach: call fsnotify_recalc_mask()
-unconditionally whenever mark->mask changes, and describe the reproducer
-in the commit message.
+HEAD commit:    11028ab62899 Merge tag 'probes-fixes-v7.2-rc5' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1667d632580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14dc25b9580000
 
-Thanks,
-Youngjae Kwon
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-11028ab6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e2be78614a29/vmlinux-11028ab6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/301a11d315af/bzImage-11028ab6.xz
 
-2026=EB=85=84 7=EC=9B=94 30=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 7:50, J=
-an Kara <jack@suse.cz>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hello!
->
-> On Thu 30-07-26 00:39:49, =EA=B6=8C=EC=98=81=EC=9E=AC / =ED=95=99=EC=83=
-=9D / =EC=A0=84=EA=B8=B0=C2=B7=EC=A0=95=EB=B3=B4=EA=B3=B5=ED=95=99=EB=B6=80=
- wrote:
-> > This did not come from a real application. It started as an LLM-assiste=
-d
-> > source review, but I only reported it after reproducing the lost
-> > FAN_MODIFY/IN_MODIFY events on an unmodified v6.12.95 kernel.
->
-> OK, thanks for confirmation!
->
-> > The fix you describe makes sense to me. Happy to test any patch
-> > against my reproducer.
->
-> Since you wrote: "If either direction looks reasonable, I can prepare a
-> cleaned-up patch and a regression test for review." my understanding was
-> you want to write the fix yourself to get the full credit for you work
-> (which is fair). If not, just let me know I'll write the fix myself.
->
->                                                                 Honza
->
-> > 2026=EB=85=84 7=EC=9B=94 29=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 9:4=
-0, Jan Kara <jack@suse.cz>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> > >
-> > > Hi!
-> > >
-> > > On Tue 28-07-26 14:32:33, =EA=B6=8C=EC=98=81=EC=9E=AC / =ED=95=99=EC=
-=83=9D / =EC=A0=84=EA=B8=B0=C2=B7=EC=A0=95=EB=B3=B4=EA=B3=B5=ED=95=99=EB=B6=
-=80 wrote:
-> > > > Concurrent updates to marks from different groups on the same inode=
- can
-> > > > leave the object's cached aggregate mask missing an event bit that =
-is
-> > > > still present in a live mark. An operation started after both mark-=
-update
-> > > > syscalls have returned can then be filtered by fsnotify_object_watc=
-hed(),
-> > > > so the matching fanotify or inotify notification is not delivered.
-> > > >
-> > > > I forced this source interleaving with diagnostic scheduling barrie=
-rs and
-> > > > reproduced persistent FAN_MODIFY and IN_MODIFY loss in 3/3 independ=
-ent
-> > > > boots for each interface. A control update that caused a fresh aggr=
-egate
-> > > > scan restored delivery. I also observed the same loss-and-repair ou=
-tcome
-> > > > without kernel instrumentation on an unmodified v6.12.95 kernel ima=
-ge in
-> > > > 3/3 independent boots, with 9 strict hits in 30,000 attempts. I hav=
-e not
-> > > > identified a memory-safety issue or a security-boundary crossing; I=
- am
-> > > > reporting this as a notification correctness bug.
-> > >
-> > > Thanks for the report. To clarify is this a result of a code review
-> > > (personal or by LLM) or some real application was hitting the problem=
-?
-> > >
-> > > Also for the next time I'd like to ask you to try to keep your report=
- a bit
-> > > more condensed (either by instructing LLM or by selecting the substan=
-tial
-> > > content from LLM output). E.g. in this case the above two paragraphs
-> > > explain substance of the problem and reproducibility, the scheme in "=
-The
-> > > race" section shows how the problem happens and the rest is mostly ju=
-st
-> > > uninteresting noise so this report could have been less than two scre=
-ens
-> > > worth of text whereas now it is over 7 screens in my terminal.
-> > >
-> > > Now to the problem:
-> > >
-> > > > The race
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D
-> > > >
-> > > > Let P and E be marks from different groups on one inode. P initiall=
-y
-> > > > supplies event bit X to the cached aggregate, while E does not cont=
-ain X.
-> > > >
-> > > >   P update/removal                 E update/add
-> > > >   ----------------                ---------------------------------
-> > > >   remove X from P
-> > > >   start connector recalculation
-> > > >   scan E without X
-> > > >                                   add X to E
-> > > >                                   observe old aggregate containing =
-X
-> > > >                                   decide recalculation is redundant
-> > > >   publish the older scan without X
-> > > >   both syscalls return
-> > > >
-> > > > The add-side decisions are not serialized with connector->lock:
-> > > >
-> > > >   fanotify_mark_add_to_mask():
-> > > >
-> > > >     recalc =3D fsnotify_calc_mask(fsn_mark) &
-> > > >              ~fsnotify_conn_mask(fsn_mark->connector);
-> > > >
-> > > >   inotify_update_existing_watch():
-> > > >
-> > > >     dropped =3D old_mask & ~new_mask;
-> > > >     do_inode =3D new_mask & ~READ_ONCE(inode->i_fsnotify_mask);
-> > > >     if (dropped || do_inode)
-> > > >             fsnotify_recalc_mask(...);
-> > > >
-> > > > __fsnotify_recalc_mask() scans under connector->lock and later publ=
-ishes
-> > > > the sampled union with WRITE_ONCE(). A different mark can be mutate=
-d after
-> > > > it has been sampled. Its add-side redundancy check can still observ=
-e the
-> > > > old aggregate, which the in-flight scan then overwrites.
-> > > >
-> > > > After this ordering, E contains X but the aggregate does not. The s=
-tate
-> > > > persists until another operation causes a full recalculation.
-> > >
-> > > Yeah, right. So for simplicity I'd just solve this by always calling
-> > > fsnotify_recalc_mask() whenever mark->mask is changed. We *could* kee=
-p the
-> > > current behavior by providing new mark->mask to fsnotify_recalc_mask(=
-) when
-> > > adding events and then doing the check under conn->lock or even impro=
-ve on
-> > > it and completely avoid scanning the whole conn->list and just add th=
-e new
-> > > mask to the current connector mask. But at this point I think it is a
-> > > premature optimization - we don't expect many notification groups to =
-be
-> > > watching the same inode and frequently adding marks to it. So let's k=
-eep
-> > > things simple for now.
-> > >
-> > >                                                                 Honza
-> > > --
-> > > Jan Kara <jack@suse.com>
-> > > SUSE Labs, CR
-> > >
-> > >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
->
->
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cc460646984184ad435a@syzkaller.appspotmail.com
+
+i2c i2c-4: failure writing data
+retu-mfd 4-0002: could not read Tahvo revision: -5
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000028: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]
+CPU: 3 UID: 0 PID: 6038 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:kasan_byte_accessible+0x15/0x30 mm/kasan/generic.c:210
+Code: 00 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 40 d6 48 b8 00 00 00 00 00 fc ff df 48 c1 ef 03 48 01 c7 <0f> b6 07 3c 07 0f 96 c0 c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00
+RSP: 0018:ffffc9000388f530 EFLAGS: 00010286
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81e53a84 RDI: dffffc0000000028
+RBP: 0000000000000140 R08: 0000000000000001 R09: 0000000000000000
+R10: ffff88803eb7a69b R11: 0000000000000000 R12: ffffffff81e53a84
+R13: 0000000000000001 R14: 0000000000000002 R15: 0000000000000000
+FS:  00007f75557fe6c0(0000) GS:ffff8880d60dc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f94181cf708 CR3: 000000003a18e000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ __kasan_check_byte+0x13/0x50 mm/kasan/common.c:573
+ kasan_check_byte include/linux/kasan.h:402 [inline]
+ lock_acquire kernel/locking/lockdep.c:5842 [inline]
+ lock_acquire+0x132/0x370 kernel/locking/lockdep.c:5825
+ down_write_nested+0x94/0x200 kernel/locking/rwsem.c:1757
+ inode_lock_nested include/linux/fs.h:1069 [inline]
+ __simple_recursive_removal+0x7f/0x5c0 fs/libfs.c:606
+ debugfs_remove+0x5d/0x80 fs/debugfs/inode.c:781
+ i2c_device_probe+0x6e2/0xd10 drivers/i2c/i2c-core-base.c:610
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2505
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f755619df99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f75557fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f7556425fa0 RCX: 00007f755619df99
+RDX: 0000000000000007 RSI: 0000200000000680 RDI: 0000000000000005
+RBP: 00007f7556234ec4 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f7556426038 R14: 00007f7556425fa0 R15: 00007ffcd129f658
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:kasan_byte_accessible+0x15/0x30 mm/kasan/generic.c:210
+Code: 00 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 40 d6 48 b8 00 00 00 00 00 fc ff df 48 c1 ef 03 48 01 c7 <0f> b6 07 3c 07 0f 96 c0 c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00
+RSP: 0018:ffffc9000388f530 EFLAGS: 00010286
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81e53a84 RDI: dffffc0000000028
+RBP: 0000000000000140 R08: 0000000000000001 R09: 0000000000000000
+R10: ffff88803eb7a69b R11: 0000000000000000 R12: ffffffff81e53a84
+R13: 0000000000000001 R14: 0000000000000002 R15: 0000000000000000
+FS:  00007f75557fe6c0(0000) GS:ffff8880d60dc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f94181cf708 CR3: 000000003a18e000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	0f 1f 00             	nopl   (%rax)
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	0f 1f 40 d6          	nopl   -0x2a(%rax)
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 c1 ef 03          	shr    $0x3,%rdi
+  27:	48 01 c7             	add    %rax,%rdi
+* 2a:	0f b6 07             	movzbl (%rdi),%eax <-- trapping instruction
+  2d:	3c 07                	cmp    $0x7,%al
+  2f:	0f 96 c0             	setbe  %al
+  32:	c3                   	ret
+  33:	cc                   	int3
+  34:	cc                   	int3
+  35:	cc                   	int3
+  36:	cc                   	int3
+  37:	66                   	data16
+  38:	66                   	data16
+  39:	2e                   	cs
+  3a:	0f                   	.byte 0xf
+  3b:	1f                   	(bad)
+  3c:	84 00                	test   %al,(%rax)
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
