@@ -1,117 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0E843C05F;
-	Thu, 30 Jul 2026 13:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B6635C688
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 14:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785419866; cv=none; b=Z7CJiyOznFBWZXp9TJO4YuM76F+KQS1UBNqz8LQ+sNV2yQJIHara/yKim4V+aB/s0sN722kKU2Aq9sJju692pxKr02NMgMxNCY0RhxYVqQTq8SW4keQm2eZbZrXbKjT1MVzCb+URw/+zGFDSup+MzA6TYKywpOASs8u2CcdKGX4=
+	t=1785420727; cv=none; b=aq0nlW0hnYtDwTW9o/540M5d52NU2hiFmIKtQz7hvcZL9BLiJ9kYYaLKatFMNtDuFTioNV6wMCZ+41ey51BzOA/uXyqF/sQWIikN1DLmD7k4DGRF2JUsYk2ZliUj2TU2230jNAk4k3xFXNg6AJI86Vn72TogthivYSDDlMjqGlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785419866; c=relaxed/simple;
-	bh=2oUqXrJBrUSAW81GOPAYq1YFLd+s+3pMz3/WFFP9Uq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbW/1XAPgi3JQwia8s2KvUntJ32Ugo1uU3rn3+/dXiSZnrYCTrclG/ZsdxvWiKpY0g1KPBJagYraMhy27S1X2dIDFeZHKRzMGz5/vhTSAOPnOlxnpt028bsSN26RQ79ZsjkAnkKXBlcU58i4eWhlcdErob5YFpN6qB6Tm5JFBVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQdH+7OV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785420727; c=relaxed/simple;
+	bh=e0VdA06TjsVmax3Jqb13K3p5iSoDmpml5LluYvEAqzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nAj7+BtRQm5lQR4XMEE/AznyeM3qvlPPO6j9CNnn35QJb8ZcY2ADmcirirAmuDlbJM83C2ue4dy4ihY/l6nt89l2ZfnqCcVAjhxLD0+GGhQouxAGfkM1keuMviwUyzd9MIlpnDrKFx4EpROzevR7qellG1FqM2mqagbPGYzcI3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F7ZZet2L; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQdH+7OV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C50981F000E9;
-	Thu, 30 Jul 2026 13:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785419863;
-	bh=Oz4ni0SjIgyNOKjMms23AjFfChPcr687pUNnZOhDNiU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LQdH+7OVwpD5K5PFll7+cMZ/zkdcnC8rrqvUd5QCrSMPMFLsaTjY4JD8IvC/k+lL0
-	 M5h/ls8lB70tE8dGkOcBsuafwnLo26cXwEQCiZc7+stA3uq2wHgQnr8rDvq3y4uFX+
-	 o8t3Sl6slP5vlNAiJmoP5e2KKXhUrfrpAOD7T8f/cLKM/Bs7Xxd1U4QfsK57ZBUy0w
-	 EZQ+hqgfJOu5NwLpvr2FXM/AS/Ca27liMWuzIyt88onqnqoX/w1pO4wbUuNk1ng6wd
-	 D/bW9TlMRWV+MxQJJL3SdMXzJnPoQT0Ms/vbObQfOUvIf2yO6FX4eb8EUNQA2OB8Mw
-	 B6+11xIphVEeg==
-Date: Thu, 30 Jul 2026 15:57:39 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, 
-	Giuseppe Scrivano <gscrivan@redhat.com>, linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	Amir Goldstein <amir73il@gmail.com>, Gao Xiang <hsiangkao@linux.alibaba.com>
-Subject: Re: [RFC PATCH] fs: allow opening overlayfs/erofs layers through
- O_ALT
-Message-ID: <20260730-abwesend-raumgewinn-teppich-12ac54467d14@brauner>
-References: <20260715101107.973997-1-mszeredi@redhat.com>
- <20260722-fundort-zogen-kormoran-09fb867f1b59@brauner>
- <CALCETrU9KdLsvZzUE-5sh7KkP5-cPh=hwErGmN=THsDatFJLfA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F7ZZet2L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785420725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=5y4bQQi1jrzPqBlmyy5MgPN2WYUMYMqghCZfVFVwEMI=;
+	b=F7ZZet2LPSlasn4KuBaVTxl6eOvB1Kge/qbjLZj0YgHUhEAGkq9nxtKqdcPSoNxJ7Ls7uq
+	K4F2GEDhCnosITyVFqgoouUjvrFPS7X766IPdU7+PxK4Dv6RZ7acJsZajRcdYNnCliUwDw
+	/WuHy4QgO6ElNdG0RpAd2lHa/Q0E04U=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-661-woOGO1jNMPCIrsycvHt-bQ-1; Thu,
+ 30 Jul 2026 10:12:01 -0400
+X-MC-Unique: woOGO1jNMPCIrsycvHt-bQ-1
+X-Mimecast-MFC-AGG-ID: woOGO1jNMPCIrsycvHt-bQ_1785420718
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 78498180029F;
+	Thu, 30 Jul 2026 14:11:57 +0000 (UTC)
+Received: from fedora (unknown [10.44.33.21])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 03CD4180044F;
+	Thu, 30 Jul 2026 14:11:52 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 30 Jul 2026 16:11:57 +0200 (CEST)
+Date: Thu, 30 Jul 2026 16:11:51 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Alexey Gladkov <legion@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Subject: [PATCH v3 0/1] pipe: only enable the extra wake_up(rd_wait) for
+ edge-triggered consumers
+Message-ID: <amtbpwrhlNGJ9OK6@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrU9KdLsvZzUE-5sh7KkP5-cPh=hwErGmN=THsDatFJLfA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Wed, Jul 22, 2026 at 09:29:22AM -0700, Andy Lutomirski wrote:
-> On Wed, Jul 22, 2026 at 9:06 AM Christian Brauner <brauner@kernel.org> wrote:
-> 
-> > Like I said before: I'm fine with an API where we can use open_tree() to
-> > see through into underlying layers, and given the right permission pull
-> > a mount out of it. That is a narrow, checkable primitive and it needs
-> > none of this. No new open flag, no second ->show_options, no metafs, no
-> > mnt_devname surgery. That part we can potentially do.
-> 
-> What, exactly, do you mean as the distinction between "[seeing]
-> through into underlying layers" and "[pulling] a mount out of it".  I
-> have a guess, but I'm not convinced that my guess is right.
+Let me repeat, I do not think this patch can improve performance. In fact
+I only hope that none of (micro)benchmarks will suffer, they are often
+very sensitive to any changes in pipe.c
 
-Two operations that the proposal merges into one.
+And yes, even if this patch is correct (I hope) it can expose the latent
+bugs that were hidden by the extra wakeup, like it happened in the past.
 
-Seeing through is introspection. You want to know that the overlay has
-three lower layers, that lower[0] is an erofs, which image it came
-from, what its fsid is. That's information. It should come back as
-data, from statmount(), the way every other mount property does. It
-hands out no new reachability, so it needs no new permission model, and
-it's roughly what Amir is arguing for in this thread. I think he's
-right that this half covers most of the actual use case.
+But at least the comments should be updated: io_uring depends on poll_usage
+"nasty semantics" too and this is not obvious at all. And IMO, the EPOLLET
+check added by this patch acts as a documentation too.
 
-Pulling a mount out is acquisition. You want a usable mount for that
-lower layer. That's a capability transfer and the layer is an internal
-mount with no mountpoint anywhere, and afterwards you can walk it. That
-needs to be an explicit, privileged operation with a single call site,
-and what it hands back should be a detached mount fd, which is exactly
-what open_tree(OPEN_TREE_CLONE) already gives you. Same lifetime rules,
-same move_mount() to attach it, nothing new to reason about.
+And if this patch does cause a regression... I think we need to learn who
+else depends on the extra wakeup and how; this is something we should know
+anyway.
 
-The reason to keep them apart is that they have entirely different
-security answers, and merging them into one path walk is precisely what
-forces "whose creds" to be answered per node instead of once. Split,
-the introspection half never has to ask, and the acquisition half
-answers it at the top, before anything is reachable.
+Changes since v2: renamed ->poll_usage to ->poll_et, and updated comments.
 
-And neither half needs O_ALT. Introspection is statmount() with more
-fields. Acquisition is a flag on open_tree()/open_tree_attr(), or an
-operation on a mount fd. No new resolution mode, no second namespace
-hanging off every fd, nothing for a symlink to accidentally point into.
-That is the whole of my objection to the RFC, and dropping the mount
-options half doesn't address any of it.
+See the tests in 1/1, both pass. And both fail if I remove
+WRITE_ONCE(pipe->poll_usage) in pipe_poll().
 
-Which I think is close to your capability-fd sketch minus the tree. You
-wanted privilege captured by the call that hands you the fd rather than
-rechecked on use. If the only thing that call returns is a mount fd,
-that's already how it behaves. And we don't have to invent a per-node
-cred model or a new set of rules about what a dirfd is and isn't
-allowed to do.
+Oleg.
+---
 
-Giuseppe, this is also your requirement. What you actually
-need is something persistable, so a restarted daemon can find the erofs
-mount again without anyone having to hold an fd open for it. That's the
-introspection half producing a stable identifier and the acquisition
-half consuming one. Much narrower to specify than a generic metadata
-tree, and it doesn't require settling anything about O_ALT first.
+ fs/pipe.c                 | 15 ++++++++-------
+ include/linux/pipe_fs_i.h |  4 ++--
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-> Other than that question, I think I generally agree with you.  The
-> interesting operations here (getting an fd to something that was
-> previously inaccessible) are different enough from normal path lookups
-> that I think they deserve to be explicit syscalls or syscall modes,
-> not magic links.
-
-Yes.
