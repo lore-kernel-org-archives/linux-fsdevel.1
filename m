@@ -1,68 +1,68 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E706944C4F8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02D9390986
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785428541; cv=none; b=rVB1tAtTYG4/EblZkkNQ9tl0NB8QHK0cNBg1FP9CMdS5YfvDrb2UtBC4JXWKqRbIZEqJ0cow2/dPxBOQE2nNW0Hy5ghi7g6Ea2rcjiaMVikHF9pG77LrjfKxj16scRi7oLp33X+SQSw3xFbdfFptMmbpeDTt7mnLjmVHMZfjprk=
+	t=1785428602; cv=none; b=fISwislO+wAwt7w3gb7WaiD6fxcnZ7M3rPhtKkbwZPuvOyWoaixqG/LHZNGRSlK9O/5t2dHtQHdvGUVPQfT5nasVwgFkYFitWxWI+MCr/KB7Aj6sLVW3nA1gVZrUWDcS6/jr4RK46MgINhUYLWEi0o/dM1CN7Lx9oOIq+biQYaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785428541; c=relaxed/simple;
-	bh=LzrA83SNg0xwZHckZyesHpd9prkk7E8+AsPKLw0gsqQ=;
+	s=arc-20240116; t=1785428602; c=relaxed/simple;
+	bh=JBBl12W5jAO3f1NQO9V6kLXpVGsPmJIXGnmgZPy1WWk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hD8xttqtWhlDzYmk8V3i+0sJpPU1UvVmcKpAPgihbXpD5Glrbi8GEBOsPz2Qg7UtQYQSLp81OdlAHXmo72aIOKmrv09VIr0GCdTAxN5srTU1YWP/HG+BYrM3iAt5Otyv4Xre8kcmmJHAMDSezSKIoH9K01JwYCRrEFvyfSzRPDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=BGH7Flfc; arc=none smtp.client-ip=209.85.160.53
+	 In-Reply-To:Content-Type; b=jhGqGPDj9d0uTCT1XLVmONVf7pPAqwSYIbGh788HNeG/Fur2Mp3Lk4agVi832ZgSJ2lTA1+Pi+OiqNCPf8Z0g4jqKwz1Z0lQz40tDnBERbDcSOUWPuVgHwmCXSZngY/rwSxZJMp9jagwj7BRdpRrRTAetBlp4zOs6MaUwMEBw2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=bqGngMzM; arc=none smtp.client-ip=209.85.160.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="BGH7Flfc"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-458de93b53fso31251fac.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:22:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="bqGngMzM"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-4560d6f82edso33860fac.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785428538; x=1786033338; darn=vger.kernel.org;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785428600; x=1786033400; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2TO7rhJEb0t2mz700nvgDIByTqbVS2Yz6f37I4sh7O8=;
-        b=BGH7FlfcbOvegIPbdSDyqXgjaiAYZcJO2cLiIFkujKg3lO2MakP06pbodxSiu9wx9w
-         UeglvZjGhS4N7TOOaWh78vcYzMVwYpdBdYBlnL+syvrSMoYJHjAFpPHML+b5+siBHggR
-         38wgCNPwuNNZj1Y31bUuVb2SBuNir6tbslxyLcKDaWcWtmzhPwq6FYluSO7TNAWH5LVU
-         4osnY03JcoBYxasXIfKk1c1/GdUdlK6ka7kfqCkS0k4XElSy2ZO+FL3P6M+afFiHllc7
-         /9iJf6qpy1MGmhiDonE/OIfhgO7NGlQn6Uo+UV2a3y6gNm2VBpceBVTVPG3Ge5lw6NOD
-         TeZA==
+        bh=+2vuxkBUmVJ6H+F0FBU1KBLH+mojm8weuh8i8FR4JAI=;
+        b=bqGngMzMyUQ/OuVng4Q+ZppdAfvq4yIOa2Vtd2msMFGVwTRmrVgMEEuFzcNudDjhBb
+         XMZ9rnpN/ffA8Pi4JIASt4OQQ26UVlLSr5Nf6trhNRA4oKZzv5dT2XtfJrHf1NqwvKD7
+         c6tvBzKrS0kWwOAjAAzaog8WAIlrhYO2eZd1Noa2VbTslRtkQisrS37haeVKX1vZT1KE
+         oqUS1okTWt2sZo+nJfH+vVVPPF3o4bH+KQ4Ztb7+rt5SewWXJJ2+j9uz+z3I0SA+QItO
+         gCW0nAfOcQf32HbrLJ+Dt1am4uYXbR7+IqIRjukw+3LGxmSubCGYjwghuOhdEOZgxjJN
+         MRRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785428538; x=1786033338;
+        d=1e100.net; s=20251104; t=1785428600; x=1786033400;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2TO7rhJEb0t2mz700nvgDIByTqbVS2Yz6f37I4sh7O8=;
-        b=CdLplykwsaoPKGPYAa5uzUXFMwznP7xMiWYQ3cBQrsvjAU4TQ1pESu3NZ1pG7RIo4u
-         6iVfKHhd2jpW0kHsANNyF1hfbSIKbsrQwVYiARg++R7xN/iM5cJUOYke0Y89psJPLnil
-         PsnlHfP+aGG0Dhqdy9W0xIrIBejloFYILY1krunIYq9VgrQS2keYEvfPclOx7tZko5Wp
-         RCOkH3rJhPbXUGKLEeJEGo0bCjx5mpD5Tshdgs0bBV4QxTmRieLEIYbnk2MZHXBzlSmY
-         v3T2j2IDuxEwX7/LZZgQqUA1Azd5gUp5UHAD3dGhEXdStS/8B2M+4/hRcxPIxfA60aYA
-         Nzow==
-X-Forwarded-Encrypted: i=1; AHgh+RodbEaPk9s+UyUvhULvYLFbDoaFqkqUr5daTDiPx20hx6OuwLvv0kfwn8zeZs1hBREXoNRvuDAU+s/tO2Cb@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+MQaP1kVkirEUYSv9uUQW8+tbNNtpF/6fndY2f+TavluTcQnf
-	nC4b4zkuZZl4uS5LGp1FZu2QCeVJiVEICqU3iwCuo7FhRHlxrapO4ZiG9+At+SmhOV8=
-X-Gm-Gg: AR+sD11Qa1KG52ku3AqxGIu2DoTLaXEp6cCNg6ICEGyX1zpbsD8hAjLCZhCAbDahLk6
-	ht/pMXVPUT7mJxu0fTXpHddD3cuaIct5CrQmeSvI1mbOhcY6dG1y3gDzL+/JKH0YS6wFLP+XtF6
-	QnIjokOB0e/9LHzkD0wH/+mIVporcIzUXSvkQUYcrBoDevXwqUqK6NfWLObifD5NyE1BRiapvOq
-	q/l6h1SCGvwRmgNrihqCclGDnyELaodhG7itoAkBvsuHTY+tTwhQln0sqPVjYgW2iewB8l5luR1
-	oEgWfFx47jg+TtgAEzGkaSqs4MNxJADs/MaTc9J7IeEwMGYbuAotbaTb5RTNz5XCI17vbgDZgCY
-	Dt7EFoJfNeorbY4TCSmR5KeQyA+/+6rAmpnm6B6+y//MUqzsAp2FiFgQrTqONxuEV2i8kDTLlws
-	O988nBegmAfqitUrWhkMwUUXOzrk5Lf3XtDGAJbJMw4NGSe53jYGXKOHwRbEmoSwSLFxUdATV+Y
-	Lx+gNb9l7y+d1hVI+FfD0l9Z9jd0s7Ag4VX36avtwh0h0zdWDCqJXW2
-X-Received: by 2002:a05:6870:d361:b0:456:4c3f:7e03 with SMTP id 586e51a60fabf-458c0e12897mr2206023fac.18.1785428537794;
-        Thu, 30 Jul 2026 09:22:17 -0700 (PDT)
+        bh=+2vuxkBUmVJ6H+F0FBU1KBLH+mojm8weuh8i8FR4JAI=;
+        b=rRNp6xn9jmtKCwbJSK+8yaD/FZTExHXrmeyBBHISM2ovnGgDnOzQr9+wmVrd/drcPG
+         /fuc+k8oq288uq8dwCeHCZ4jsKuvkOnHDhwCEg/0CX6+T0v+Uk5wUH3WFfYIc0Ft7olW
+         k0eNUX445+0J9BmhlyCV0Lkxs6ZM5CfY8t24TUPAGDUBhbvvIpQuBaH7BStHiEWgeeZD
+         d5RB4N6pve5P197JbXWJ2GHs9JeO7pTVjS/keUrZQDsih8N3Jzq4ULVkyhvshh1hQ02I
+         DVRlEWHh9erMVCfGB/IJvhkSSALoGICZrdluedzeRymjWf9bBcKLMHeUUzfjn3vMrees
+         J5jw==
+X-Forwarded-Encrypted: i=1; AHgh+RoSRgMq9mkVIxcF+nk5KwnExBChm+0VSPgfReoY/2zMCcEtZhv0TSRl5hDwlnbqKqR8S6DeoGy5oXTPdAqM@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOABdfr6nQWSRfZXezistUWqmGa7kn/9M4wKZaTlBmKvXhqpt3
+	bL20R8+YagoB43Cyan1ppl5c4PvAXyUniCRFuXvQH0tz/cebNp71Pa/5EQeK/OmnndI=
+X-Gm-Gg: AR+sD11/3I/Csn+JlQW4GEQKnWzUEKACfV1aMQeYLmJGMh8RGsA7Th3o7sJz5UDkGT6
+	2IOUSwkltPzxtGeooMtK4l3GDPqceVArh0/aSDdV4Yzd1HdL0ZmTxV+83zdMpcUJJi089cscqor
+	ZTwKLj/lCNXnF1SInFwXzvTZFHv8J/BDX1HiqOupKl53HvtNztLbRcm7u8xXjoPj1W/i1lbXhy1
+	Kn3h9Ea9nTPwLX0+wW7x4XpVesze1r5aDaEkECOyvJr4UA05UpmZx/u1TgfLWZPQ7z8NUAXdYL/
+	t66mg/ECpK5h+lVSffA+JIQGbaS6eIeqJRmvjRTKi8CYzN/ab8q5ttcmo7RSb9xpM7q5se9g9Sy
+	tZRFW6JcNl2o859mQn5eBbC2W9Ltra+kz4FHgXc8fyWsTNqT9SIbEVVGQCua3tWSBo1tVcL+nO0
+	Qa1TFO2m69uOuC6KFqqrMej1Abfd6GRLnAjI0v9x99wPVFVLcfVEITZutFVtpbbvwqJITowa/dg
+	GvG0+FgzFHvBuE7PwcS/+wRqBvyXSlsW/3voWac0onvHw==
+X-Received: by 2002:a05:6808:1246:b0:4a4:e11c:7b56 with SMTP id 5614622812f47-4ad87782f6amr2123750b6e.8.1785428599570;
+        Thu, 30 Jul 2026 09:23:19 -0700 (PDT)
 Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-458c257c4d0sm2482546fac.2.2026.07.30.09.22.16
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4ad6ef595cfsm4494333b6e.10.2026.07.30.09.23.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 09:22:17 -0700 (PDT)
-Message-ID: <e85ec957-d648-4d6a-bcfe-09dd2d21d090@kernel.dk>
-Date: Thu, 30 Jul 2026 10:22:15 -0600
+        Thu, 30 Jul 2026 09:23:18 -0700 (PDT)
+Message-ID: <bd7249ff-d0a6-4a3b-8aec-3b5325f24b08@kernel.dk>
+Date: Thu, 30 Jul 2026 10:23:17 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,7 +71,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RESEND 0/5] block: validate direct I/O memory alignment
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+To: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, brauner@kernel.org,
  djwong@kernel.org, viro@zeniv.linux.org.uk, regressions@lists.linux.dev,
@@ -80,15 +81,15 @@ References: <20260720201057.1862857-1-kbusch@meta.com>
  <ampRQyXDbGgeg49V@kbusch-mbp>
  <fbe9e74d-c389-46f4-9874-3e9ffd9c91d3@kernel.dk>
  <ampce7mxSmxAwAiu@kbusch-mbp> <20260730112626.GA24827@lst.de>
- <amtJDCtczVyX1baB@kbusch-mbp>
+ <00104e90-48b8-4419-90c4-ac0c4a2e1c44@leemhuis.info>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <amtJDCtczVyX1baB@kbusch-mbp>
+In-Reply-To: <00104e90-48b8-4419-90c4-ac0c4a2e1c44@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/30/26 6:52 AM, Keith Busch wrote:
-> On Thu, Jul 30, 2026 at 01:26:26PM +0200, Christoph Hellwig wrote:
+On 7/30/26 7:25 AM, Thorsten Leemhuis wrote:
+> On 7/30/26 13:26, Christoph Hellwig wrote:
 >> On Wed, Jul 29, 2026 at 02:03:07PM -0600, Keith Busch wrote:
 >>>>> Hi Jens, have you had a chance to look at this one yet? This addresses
 >>>>> previous issues with certain device mappers under direct io.
@@ -105,18 +106,25 @@ On 7/30/26 6:52 AM, Keith Busch wrote:
 >> and while it took a while for people to hit this with their a little
 >> more complicated lvm/md setups, it has stopped real systems from being
 >> used.  We need to fix this ASAP.
+> Thx for this, as I had been thinking along the same lines already and
+> was still considering if I wanted to speak up.
 > 
-> This should have gone in several weeks ago, IMO. You can most readily
-> hit a problem running qemu against one of those lvm setups. We're just
-> so late in this release cycle that I'm not pushing hard for 7.2, but I
-> would support that choice too.
+> 6.18 still qualifies as recent in my book, but YMMV. And it's not like
+> people "took forever to notice"[1], as they reported this for a while
+> now -- and there were a few attempts to fix this; it just took us some
+> time to see the full problem (@Keith: many thx for that and the fixes
+> for them). And some of the linked reports are quite recent, so people
+> really hit this.
+> 
+> Sure, as always there is the risk that this will cause other, bigger
+> regressions. Maybe that's why it's one of those situations where the
+> right approach is "submit this separately to Linus and let him decide",
+> unless of course he speaks up here.
 
-Exactly, it's been floating for a bit, and the last week is surely on
-me. But merging at the time it was posted would've been late for fairly
-substantial changes.
-
-Hence why I think 7.3 is just the better choice. We're talking weeks in
-difference on when it gets to stable anyway, which is what matters.
+Sorry that's nonsense, because how is Linus going to make that call if
+we can't. It's on us/me to make that call. We're not first-timers around
+here, we've been around and know how to make the call that we can stand
+by.
 
 -- 
 Jens Axboe
