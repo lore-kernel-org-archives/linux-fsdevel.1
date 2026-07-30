@@ -1,204 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6630423782
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 12:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EC6377563;
+	Thu, 30 Jul 2026 12:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785415296; cv=none; b=acaF48ThUs79dljagyFclruKmfxs27BPT2vguOVmcDPwyWhO6punu/KQHJ22sE6n9OlpEWG1njI5Mm3geaKwXFreVFs7fQP2hIzaTqxkMg/eTm8/JQXjlAsUR1sDzj3iCM5w345wNsPQ9l4XhfPRVebbtPFz98aLJIbczHY6GbY=
+	t=1785415778; cv=none; b=dx9zksqKZICDRVRLs7fn7DYJ4GnC8wKsn5HyE/hhs3p93Tt0M0DNppmiY7YU7YeNxYv65LjGuaqyTfq/3imuLw16ZLGN1qjC8iucepJt/G0X7LigWAct94HJ507BBev/AZ030VzqZyVL3u/raagF7VDN8oEPSrf/sZZA0WJMjMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785415296; c=relaxed/simple;
-	bh=DnUV6L5Mq9oZ4NYWunxmXTca0xmkCvzFGw4mbc2FZ/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MjEeMmGltJKTtn1GTIt9D9IbElQgy7XVcrYuMTwjdtmb0BvN9Ur8eU8D7kmaA1MrkUaT0VuRTeELYBqsq9BDlqJj9Cwopnv5+N7GFjV0w//DMeuoyxpFNw3+5wkEwReEwr0LUrREN/2jaTVE+/+XqhgB1a5soawYPLBw9swPDyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mvzf0vxG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785415778; c=relaxed/simple;
+	bh=rG/qyviCUEdnLjwI66XsDuY8TJws+QD7RRTwC1YqVXQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=jtqHoIrjhlz/jIQnBwyLPsb70HvW+f/n41dia52F9F9Al0WdHrU+++0lUUaYbr4OQL24ojWutcXmiiNsuF3us1xhghjFXpUiBDkxgVektYh+vcH/zH5TWBebLf62EbAsQeqRyvnjjUNrI6Eh3var5NmtIkK0n3yRRFHkvJxxMrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org; spf=pass smtp.mailfrom=verbum.org; dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b=f1qc/ghu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RxLpXTkS; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=verbum.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mvzf0vxG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785415293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=C470IBkrBMSkvZtZkZP2F7MQt7QNXNuLiygMFAS4EjU=;
-	b=Mvzf0vxGJAxtROGHy3avfCB1m9W3SLdoQSVr7UIjWPyHF88lIwMqqPzbgFRYTDXYzH2Y/8
-	/4V6Ze/7Cd2bCrg3/S6FMufTM85mpAI5Br6Qao/BHcNng6jzfZU4fKtBZtzbxl80T18CYr
-	3HHe1OwFyTAInkiDBKMBj217/3GyLU0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-572-k-gOyz8VMGmYj2RFqCSbDg-1; Thu,
- 30 Jul 2026 08:41:31 -0400
-X-MC-Unique: k-gOyz8VMGmYj2RFqCSbDg-1
-X-Mimecast-MFC-AGG-ID: k-gOyz8VMGmYj2RFqCSbDg_1785415290
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 12A6E19560AE;
-	Thu, 30 Jul 2026 12:41:30 +0000 (UTC)
-Received: from oxygen.redhat.com (unknown [10.44.49.125])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5874C1800480;
-	Thu, 30 Jul 2026 12:41:28 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: linux-erofs@lists.ozlabs.org
-Cc: xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	amir73il@gmail.com,
-	gscrivan@redhat.com
-Subject: [PATCH] erofs: reuse superblock for file-backed mounts
-Date: Thu, 30 Jul 2026 14:41:20 +0200
-Message-ID: <20260730124120.1501126-1-gscrivan@redhat.com>
+	dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b="f1qc/ghu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RxLpXTkS"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 722FC1D000B5;
+	Thu, 30 Jul 2026 08:49:34 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Jul 2026 08:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1785415774;
+	 x=1785502174; bh=pFIRzIr1hG3HLAm8/4OYgDP05sTVurN0+cr0OYZTuRk=; b=
+	f1qc/ghuRdPH+USdxFyPKaVvV/V3o7Yue36hz7nlACO23SoRIfgsZ5yncFuS3giV
+	tyozvxXH1xrzHkQtvx/FGnnoCuyV2+pMtEC6g81jIJPX6kJPTibAWYx8DeSaxWXu
+	eRAiocWqzFP9L5ViM1hXWmjWqv0Nkuh//dH4WvLxvzJxyTI9Ta508gXDvzgugMQ8
+	5asqVd4ThxfTi8dM2vGtiu+RBqDgFb1rELuGqmiWHvweUOyjVQwyfz0vRnhgoouw
+	x7rlleKM7fnyeA/WCSFyx3/FkmExl4skXxUmUvoOSTjouuxWw9e/4NoV3oPpeh2j
+	WeXtK7IHm2TDY8lPiL9qtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785415774; x=
+	1785502174; bh=pFIRzIr1hG3HLAm8/4OYgDP05sTVurN0+cr0OYZTuRk=; b=R
+	xLpXTkSRiSPMoOpkZVf9Zry1bOLgvqG/LTS42h7Em9pWEmuafXXvVuXlDq7+qxn7
+	JDqd2CYr/j8n/x0zwMDLYx7LjFWFOscL3A8Iz/yAjIamvmGtgVSXG1d8k6crtduS
+	tAil7biqZctLLLFAbDmqxu02DLjFe7dlB37GiEvIGQE4HKr/9WEh4aWRtk3Izsal
+	Na8b1rj69wuHrlSAw3E2+p9+iVWWerscMUZ8RdRiD2DbnpZDMBCqCIWy2LAvFnwD
+	1bizkwb3yL6Erf22a1VFCZVc29HU9wJEKoiXTeOTtgNGqOJwr00rElboA1AjCTfo
+	2IR4pT1XLq+USaqRJ4g9w==
+X-ME-Sender: <xms:XUhran0-ZGhWVaio0x897qStnnP5dPDx5JZ1nflB3qv-YX17hsLmsA>
+    <xme:XUhrag69nV_BHFhux3ATqQBiL3pkwG_gsoP_ScTJhHq9PJuOA65H3eKovYM0J6jJp
+    FUbH9j3BkzUiIKC_cuMNmTp6GAZ4aN0xBYB92A0bUrnppdWHX-1>
+X-ME-Proxy-Cause: dmFkZTFCvpUxLszjvf5XC5TdTE86RAXjQ5Z6oiIFTnP9DSmvwr7JbiHyHgb7E+weDEZLPC
+    gRpfbgUK3ejglRv9Q/hSmWw5CWEu7hKmAVlPwYW9mum7CvX/MJKLlCtlaDfvH9rQkIkFQ4
+    8gcqAq99O+DOFuOPywhv836mTYObp34fa1uBGqEyVR1cqZxGX+m4LIKPsVJKHoiiBRtmKu
+    /sNXmah26bwIdOxeDuWWO7rkvineweho6bEQ44/ETnCUu0E7+rYOY4XiCSxcXZvfQuutdt
+    QGM2304rAk4bw1O91maX9fYIR15RSKRHvxM6CyqfkYN6cbAZkJi7qc6s+yJSmOMLP6UGUR
+    aHidFeLLPFZVd/Vn0gothlBvdxAqZCPGKzioPhpNrYgGdVHOHqcrox+KgPWBCwYhGLKIAh
+    MmsOjgIJLGuTbujuK/g7zQhm8apA8z6Ce4W9+jMksmpW/03se61HgbvthOAke8mNwwlu98
+    CfVUfeOpWq4+E9UHnGVU5jnKdCj0ppdrumnl9W+ZzQW7neAAqPCH7F3x4e1pa9nruJ5Omi
+    ttk7lomm3hbb5ada/zw7QJXvfuRFc89ebJHmUEBC1VR0c0P/0mIobKsfG0i4t/VRMOPRFP
+    mPqhFHM7FZ1KtsoluYkX5cMDwuWrQkOi14g0b1P/vpFOCXptc5ZSMtUg9xeQ
+X-ME-Proxy: <xmx:XUhrat7JbF6XDh5eaG59HvegrKbT0VEXRkfgxSGIGuWAfjMeRNK2Yg>
+    <xmx:XUhrakSzvV9MLTQgQZapQgf15-PENOddNiIPPJYyQLL_l6oEmcvBjA>
+    <xmx:XUhras-pgz0Yt94sw3__YvRgBx9mTsbLWVTwJHi5KNjhjWWrgqDtYg>
+    <xmx:XUhralrFq8SC2dZJrDhVYsaoLlyWB2rHz2nvh5PWjaYwh6E7dk0eUw>
+    <xmx:XkhrauEcmAhLy8n4ON4_b0Rrwyxs5qn_2cDI761JM8aggpxNSPdM2-vo>
+Feedback-ID: ibe7c40e9:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 94D1C780070; Thu, 30 Jul 2026 08:49:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-ThreadId: A_xwXSqtliF3
+Date: Thu, 30 Jul 2026 08:49:13 -0400
+From: "Colin Walters" <walters@verbum.org>
+To: "Eric Curtin" <ericcurtin17@gmail.com>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>
+Cc: "Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Eric Biggers" <ebiggers@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+ "Gao Xiang" <xiang@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ linux-doc@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-Id: <39c6eade-510e-4210-b914-d5730b98653b@app.fastmail.com>
+In-Reply-To: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an initramfs
+ (rootimage=)
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-When the same file is mounted multiple times (via path or fd), reuse
-the existing superblock instead of creating a new one.  This allows
-multiple mounts of the same image to share in-kernel data structures
-more efficiently.
 
-The backing file is identified by its inode and fsoffset.  If mount
-options conflict, a separate superblock is created transparently as
-a fallback.
 
-Tested by mounting a 177M Fedora EROFS image 20 times with full
-traversal:
+On Sat, Jul 18, 2026, at 3:15 PM, Eric Curtin wrote:
+> Image-based Linux systems (bootc-style OS updaters, ChromeOS/Android-like
+> A/B schemes, embedded appliances) keep one or more immutable root
+> filesystem images as sealed files on a writable filesystem and pick one
+> at boot.  Booting such a system today always requires an initramfs, even
+> when that initramfs has nothing else to do; its only jobs are to parse
+> the kernel command line, mount the state filesystem, verify the image,
+> loop-mount it and switch_root into it.
 
-```
-\#!/bin/sh
-IMG=${1:-/root/fedora.erofs}
-N=20
-DIR=$(mktemp -d)
-trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
+What's the higher level goal? Is it boot speed? That's my guess, but this needs to be stated explicitly and I'd really like to see some numbers on this. If you're using LLMs to do this kind of stuff, there's ~no excuse not to spend the tokens to generate benchmarks and things.
 
-sync; echo 3 > /proc/sys/vm/drop_caches
-INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
-MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
+Also, we need to weigh this approach vs "static initramfs binary"; AFAIK it has historically been pretty common in some embedded/appliance style setups to have the initramfs basically be a single statically linked binary (and if I was doing this, it'd be in Rust nowadays). That's a wildly different thing than the typical dracut or equivalent thing, *especially* if you're comparing this approach vs a non-appliance general purpose initramfs.
 
-for i in $(seq 1 $N); do mkdir $DIR/m$i && mount -t erofs "$IMG" $DIR/m$i && find $DIR/m$i > /dev/null; done
-
-echo "Superblocks: $(grep $DIR /proc/self/mountinfo | awk '{print $3}' | sort -u | wc -l)"
-echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | awk '{print $2}') - INODES_BEFORE ))"
-echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | awk '{print $2}') - MEM_BEFORE )) kB"
-```
-
-unpatched kernel:
-
-Superblocks: 20
-erofs_inode delta: +46368
-Slab delta: +39952 kB
-0.08user 0.82system 0:00.98elapsed 93%CPU (0avgtext+0avgdata 4796maxresident)k
-19168inputs+10304outputs (24major+16672minor)pagefaults 0swaps
-
-patched kernel:
-
-Superblocks: 1
-erofs_inode delta: +2044
-Slab delta: +1088 kB
-0.07user 0.21system 0:00.31elapsed 91%CPU (0avgtext+0avgdata 4848maxresident)k
-19024inputs+6784outputs (25major+16810minor)pagefaults 0swaps
-
-The time difference shows that sharing the superblock also benefits
-the page cache and inode cache, as subsequent mounts of the same image
-avoid re-reading the backing file.  This is particularly useful for
-container hosts running multiple containers from the same base image.
-
-Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
----
- Documentation/filesystems/erofs.rst |  4 +++
- fs/erofs/super.c                    | 44 +++++++++++++++++++++++++++--
- 2 files changed, 46 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-index 774e8b236d09..ef6785035b26 100644
---- a/Documentation/filesystems/erofs.rst
-+++ b/Documentation/filesystems/erofs.rst
-@@ -154,6 +154,10 @@ Only regular files are accepted as backing files; to mount an image that
- resides on a block device, use the traditional block device mount path
- instead.
- 
-+When the same backing file is mounted more than once with compatible
-+mount options, the kernel reuses the existing superblock.  If mount
-+options conflict, a separate superblock is created transparently.
-+
- Sysfs Entries
- =============
- 
-diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-index 558041011398..cbd76727f0d3 100644
---- a/fs/erofs/super.c
-+++ b/fs/erofs/super.c
-@@ -788,6 +788,46 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
- 	return 0;
- }
- 
-+static int erofs_fc_test_file_super(struct super_block *sb,
-+				    struct fs_context *fc)
-+{
-+	struct erofs_sb_info *sbi = EROFS_SB(sb);
-+	struct erofs_sb_info *new_sbi = fc->s_fs_info;
-+
-+	if (sb->s_iflags & SB_I_RETIRED)
-+		return 0;
-+	if (!sbi->dif0.file || !new_sbi->dif0.file)
-+		return 0;
-+	return file_inode(sbi->dif0.file) == file_inode(new_sbi->dif0.file) &&
-+	       sbi->dif0.fsoff == new_sbi->dif0.fsoff &&
-+	       sbi->opt.mount_opt == new_sbi->opt.mount_opt &&
-+	       sbi->opt.cache_strategy == new_sbi->opt.cache_strategy;
-+}
-+
-+static int erofs_fc_get_tree_file(struct fs_context *fc)
-+{
-+	struct super_block *sb;
-+	int err;
-+
-+	sb = sget_fc(fc, erofs_fc_test_file_super, set_anon_super_fc);
-+	if (IS_ERR(sb))
-+		return PTR_ERR(sb);
-+
-+	if (!sb->s_root) {
-+		err = erofs_fc_fill_super(sb, fc);
-+		if (err) {
-+			deactivate_locked_super(sb);
-+			return err;
-+		}
-+		sb->s_flags |= SB_ACTIVE;
-+	} else {
-+		erofs_info(sb, "sharing superblock for the same backing file");
-+	}
-+
-+	fc->root = dget(sb->s_root);
-+	return 0;
-+}
-+
- static int erofs_fc_get_tree(struct fs_context *fc)
- {
- 	struct erofs_sb_info *sbi = fc->s_fs_info;
-@@ -803,7 +843,7 @@ static int erofs_fc_get_tree(struct fs_context *fc)
- 			errorfc(fc, "source is unsupported");
- 			return -EINVAL;
- 		}
--		return get_tree_nodev(fc, erofs_fc_fill_super);
-+		return erofs_fc_get_tree_file(fc);
- 	}
- 
- 	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
-@@ -821,7 +861,7 @@ static int erofs_fc_get_tree(struct fs_context *fc)
- 
- 		if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
- 		    sbi->dif0.file->f_mapping->a_ops->read_folio)
--			return get_tree_nodev(fc, erofs_fc_fill_super);
-+			return erofs_fc_get_tree_file(fc);
- 	}
- 	return ret;
- }
--- 
-2.55.0
+At least for the composefs case, I bet it'd be quite easy to get to that single static Rust binary, and at a high level putting that into e.g. a UKI seems to me a lot more preferable than trying to push all of this into the Linux kernel core.
 
