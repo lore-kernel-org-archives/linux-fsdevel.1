@@ -1,213 +1,174 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB9A3B8BCB;
-	Thu, 30 Jul 2026 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8223A1687
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 08:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785400107; cv=none; b=VCQvfz/uUvaO1e7lrl4JlGZOvb4ALePbfcPJ9RsDBne/UhwzSQMlmZWbYcLHFOteMvovoLOVabNvx96Kk2ZqztU3H3Q5krg/rxWj3Qv2piBrBp+PXKlSKadW6iHvD3QQyXC6h/Xj3vUJP73F6Jm6C/OSI6w48+2NDyuQ9jlvHLI=
+	t=1785400587; cv=none; b=dvX1R/j4qf9bq+KmDTTHe3+kcrwvGz4o5tGP5ZqInQtGXbu7IrrKaD5zSd2kgE3m/KQFvqyCN86qW3BozObX2gn0Rkl3IM+Xj05NtAglKaVNnxyxqmGvK4hJSRFzYj/dO1H5kR6o1uApuRQjTGyJC3w4abU6dW3Iu35uFPqLpNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785400107; c=relaxed/simple;
-	bh=NTCOoWAKaLKeipWLv93p63aESaEvGvVw3e6FCgkSZpU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CpgOxh8wgan+ELRxCTgDXajwmzH/k+TysiZZhRL0B1sQYh2UjZ6iHTYBdEQ99lexYERWm1yIk3KqP8vV5Mz/FTMTUwPujTEFtq4ksoe3bjlAH53sezhyXXpPEECR8girRVhYtLFjE/7qCzRiH/cBoJxvBL0Dsw8lH4RC9ZZ6dq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=g8XSBni0; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=eAX7KMHf; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1785400587; c=relaxed/simple;
+	bh=JjDIr/c5fC4klzNh2Bgb1Ge7WTmvkeGXbZvpz+QHk94=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qJu93cgHpNeP9FBDJiKPVr6xzq57bcNNzQxa6Z3kglqqCuFdVs4PKE3UEZaxNVMKRwqGOsBe9Jzh9PPrBJi5PlfPbMz8TbLZOAQ0w9hnQOi6qXAN7mIYxTFYPJF4Faw72mFXk0cmsOCAa1N6UUjYt6W2Rf5KwQRKHPBuQajMG94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MR7+63bE; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="g8XSBni0";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="eAX7KMHf"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id C49BA26F7695;
-	Thu, 30 Jul 2026 17:28:06 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1785400087;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MGgM+o6u1POQ8QoYDw79p4qMxBgzoC4dcKdGP2O5zyc=;
-	b=g8XSBni0ItfvP4zvC/RnHzgOO+4OBXxigC1CzgLqAZSu3EyQxh4E1RHCxiXNULNI3GNHJI
-	KzS5+Okk0zi/5TeereCWhn9nL7qYALs9C7iOyp+X/wKN8G3CLIlVAXa/VQQu7TZmJsunBW
-	r2Q/G8oF5nsWF4WWBTCMp2kc/xxn/rWp5WztG77+t0dgHF2wMYk/nqv72mJ72UDplbxcj1
-	TIiozWtW3+DxzpDz626VGuyvcl7yMTMfD41ClJKWayr9G78J7CE1ZV1/rxB9GgwnKfc166
-	hyGOXe5eC8xdOlXF5ghA4EdFTmm3e2sGA0/nkccxWyR4Q8teCY+2K+oMRRyDiw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1785400087;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MGgM+o6u1POQ8QoYDw79p4qMxBgzoC4dcKdGP2O5zyc=;
-	b=eAX7KMHfK0/xuoZIMppYtT01KcqzkP+Rm22YiR7dsXJjp0eEQL4tsih7383gwH5Xb/J219
-	Y9jpmF+jfbXM6/BA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 56E29E0099B;
-	Thu, 30 Jul 2026 17:28:06 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 498D22200185; Thu, 30 Jul 2026 17:28:06 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: guibing <guibing@nucleisys.com>
-Cc: hqfang@nucleisys.com,  linkinjeon@kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  sj1557.seo@samsung.com,  syzkaller-bugs@googlegroups.com
-Subject: Re: [BUG] fat: race between fat32_ent_put FAT update and mmc_spi
- transmit on shared page
-In-Reply-To: <3C3DB358BBDEF242+9bbeab6b-4de5-4fc4-a4c5-fefd915fb562@nucleisys.com>
-References: <3C3DB358BBDEF242+9bbeab6b-4de5-4fc4-a4c5-fefd915fb562@nucleisys.com>
-Date: Thu, 30 Jul 2026 17:28:06 +0900
-Message-ID: <871pckvq3t.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MR7+63bE"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15e592da74so224101866b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 01:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1785400584; x=1786005384; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AWNW9gGcp9mMQeLn4SF9boYQbOO04eHEN/wZUU4pOFc=;
+        b=MR7+63bEe6AHX3mhAEygdgdcTe3uWFUGaIgxa/olxIfHhhg3VvSSdcE4Z3kXlrX+fF
+         XQM17NWcqNAoZg5F9x0Dg6QVnvJyoY6yd4eQX0XSC8WR0tkuAw4rr+BQEon/dOTnuqtq
+         T+YOo5D1XuQzwlSgJgvA8Ix+drUNpms4wwI1D4A+jEisRhtd8svHaPqvviq5cizlSrgy
+         T8JWXBX9D5cViCQCqhuVuntz9a/BbYO8nkxRBoZ5EfO4Ux6MqlAsMoWgMUN101wd+Zwo
+         S7D+ElEx2wMn41bjBZ+13qhAHUxV+QhP/3wPLjYTOQR01N6HwVijhF0O3jlb/7WndOqB
+         u8bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785400584; x=1786005384;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AWNW9gGcp9mMQeLn4SF9boYQbOO04eHEN/wZUU4pOFc=;
+        b=FJf5KlJMLorbNjsi4l8DTZs3iC1JsNNmnt4aDIjMgJwiYVRghGlRyqCydhjOYlj7RF
+         QqBaekjAWUL+8FL7vMH+bEGVBw6wVcpmCwLt0i33LcqEes7H0zwZLFPmMXSSdHTS1czY
+         lpShVNbPjivJI+yQsumRzFIWyNvPk/DsVC8A0sbEnpKAURMYZXmMDGevT3hqWXWWHK8R
+         s/L5g8QJgaa4K4YOPWIfMsuR7cN3jDJmS25o9GAXw08Fnz7wVO7yMX8IrqZZeqZWV+Us
+         RJkf1ZuZSOjs20PAbl6pe9rXyERAZDZj+t2ZzrzqqjkbCw6EJRV4zW0C4vJ14LgXC+tH
+         4ESg==
+X-Forwarded-Encrypted: i=1; AHgh+RoO7JOHEM3BzfubYZGrM66qVFSTmuFJwdQ9u6ot6RJWrMpPZI4zibXmgI7gdEdFGKJuWXLhZmgod9wpKc5y@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOYt4CIBz0JSUHFWxViglC+nbmwfZnWopADdsSuhIkIBbEhBph
+	bjQqU3177NF+evTZM/nK45PYpIMMtJY6nyjq+vBmWRuObWv3OZ9R9LFeKw6vLmqdZt6sXHn6EQd
+	GG7/w/Kk=
+X-Gm-Gg: AR+sD12wl4dBQ35fAMSgJnYQGCJgJo36glbYhElJ+nJwkqa1Tu/lJK3n2u9O+5LpNaJ
+	80qSzKMMSEiIBJRMbakK5YB46jVHXmj0Q25SitdPJFUSTT8FZ2y7Layxd+Tob/2JAowEDeyIn2J
+	BtrGR5lU219EQUUqtf6hZxWB8HPvEzag5dETBqVwa4gPGA0CzlEM2Qojlu26gNc/l5RMKnB4XfD
+	o6dK9hV5LZJCKX9muJXau2QwrUyhvMrnHrGosSUHw+BLHfS36BN2afr2x3RnZECDj+IBp7DVCma
+	P24l93LmP6AHqX9nQkM7Omc2zn0FhWfspetw2xTm+M9NcgtEW0k/EURNqd/XpMXW2JN4dV4jHqp
+	Oz/p76hor/Ct8G7jqluSXE9fTI6Y0PVbM3epQtlqugJycUES8JuFq5ny59UiTmMiVQBuDhdb1S/
+	EdphgwsoMTFUG1yAyNtTIj+4VK6KVh/FUcMP6kKimbAo3/hyr0nqeQ4gfdZDYFGAZ6mg==
+X-Received: by 2002:a17:907:1b09:b0:bec:64d4:3872 with SMTP id a640c23a62f3a-c1fa54be7b7mr86420666b.24.1785400583966;
+        Thu, 30 Jul 2026 01:36:23 -0700 (PDT)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a16558sm22653955ad.6.2026.07.30.01.36.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 01:36:22 -0700 (PDT)
+Message-ID: <30f0bdfb-c8ee-4459-8137-773020960f7b@suse.com>
+Date: Thu, 30 Jul 2026 18:06:17 +0930
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iomap: follow the alignment requirement for
+ iomap_dio_hole_iter()
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org
+References: <e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com>
+ <amsBEVNnsYJjKGpK@infradead.org>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <amsBEVNnsYJjKGpK@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-guibing <guibing@nucleisys.com> writes:
 
-> Hi,
->
-> I would like to report a data corruption issue caused by a race 
-> condition between the FAT32 filesystem driver and the MMC SPI block 
-> device driver during background writeback.
->
-> == Problem Description ==
->
-> On a dual-core RISC-V platform running the SPEC CPU2006 benchmark suite,
-> the SD card inevitably becomes read-only after approximately 2 hours of
-> execution.
->
-> The issue occurs when Core 0 attempts to write 512 bytes of data to the
-> SD card via mmc_spi. The SD card returns a CRC error.
->
-> Investigation reveals that in the mmc_spi_writeblock() function, the 
-> data in t->tx_buf is correct before calling spi_sync_locked() (verified 
-> by backing up tx_buf via memcpy). However, after spi_sync_locked() 
-> returns, part of the data in t->tx_buf has been tampered with, causing 
-> the data actually sent to the SD card to be incorrect.
->
-> We have ruled out the SPI driver itself; it transmits exactly what is in
-> tx_buf, but the data is being modified in memory during the transmission
-> process.
->
-> Relevant Error Log:
-> # ./intspeed.sh 483.xalancbmk
-> Starting speed 483.xalancbmk run with 1 threads
-> [11035.536254] mmc_spi_writeblock:660 :write error eb (-84),use_crc:1
->
-> == Debugging Evidence (Page Overlap) ==
->
-> To pinpoint the corruption, I added debug variables to capture the
-> underlying struct page of both the FAT metadata buffer and the SPI TX
-> buffer.
->
-> In fs/fat/fatent.c:
->      static volatile struct page *fat_ent_put_page_debug;
->      static void fat32_ent_put(struct fat_entry *fatent, int new)
->      {
->          WARN_ON(new & 0xf0000000);
->          fat_ent_put_page_debug = fatent->bhs[0]->b_page;
->          ...
->      }
->
-> In drivers/mmc/host/mmc_spi.c:
->      static volatile struct page *mmc_spi_debug_tx_page;
->      static void mmc_spi_data_do(...)
->      {
->          ...
->          for_each_sg(data->sg, sg, data->sg_len, n_sg) {
->              ...
->              if (direction == DMA_TO_DEVICE) {
->                  mmc_spi_debug_tx_page = sg_page(sg);
->                  status = mmc_spi_writeblock(host, t, timeout);
->              }
->              ...
->          }
->      }
->
-> When the corruption occurs, the printed values show:
->      mmc_spi_debug_tx_page == fat_ent_put_page_debug
->
-> This proves that the FAT metadata page and the SPI TX buffer page are
-> the exact same physical page.
->
-> Using GDB to inspect the page flags of this shared page reveals: 0x8136.
-> This corresponds to the following flags:
->      PG_writeback
->      PG_dirty
->      PG_lru
->      PG_active
->      PG_private
->      PG_referenced
->
-> The presence of PG_writeback confirms that the page is currently being
-> written back to the block device when the corruption happens.
->
-> == Race Condition Details ==
->
-> Core 0 (Background Writeback Path):
-> The kernel writeback worker triggers an MMC SPI write.
-> Call Trace:
->    worker_thread -> blk_mq_dispatch_rq_list -> mmc_blk_mq_issue_rw_rq ->
->    mmc_spi_request -> spi_sync_locked()
->
-> Core 0 uses the page cache page directly as the SPI TX buffer and
-> transmits it to the SD card.
->
-> Core 1 (FAT Metadata Update Path):
-> Concurrently, another core is updating the FAT table during a file write.
-> Call Trace:
->    fat_write_begin -> cont_write_begin -> block_write_begin -> 
-> fat_get_block ->
->    fat_add_cluster -> fat_alloc_clusters -> fat32_ent_put()
->
-> In fat32_ent_put(), the FAT entry is updated directly via the buffer_head:
->      *fatent->u.ent32_p = cpu_to_le32(new);
->
-> == Related Issue from Syzbot ==
->
-> This race condition has also been detected by Syzbot using KCSAN (Kernel
-> Concurrency Sanitizer), which reported a data race between the FAT update
-> path and a read path (copy_folio_from_iter_atomic).
->
-> Syzbot Report:
-> https://syzbot.org/ai_job?id=68b1ff7f-84fd-4057-9672-beed284a98af
->
-> == Workaround / Verification ==
->
-> Adding the following check in fat32_ent_put() resolves the issue:
->
->   static void fat32_ent_put(struct fat_entry *fatent, int new)
->   {
->          WARN_ON(new & 0xf0000000);
-> +
-> +       struct buffer_head *bh = fatent->bhs[0];
-> +
-> +       if (bh && bh->b_page && PageWriteback(bh->b_page)) {
-> +               wait_on_page_writeback(bh->b_page);
-> +       }
->
-> }
->
-> This confirms that the corruption is caused by fat32_ent_put() modifying
-> the page while it is actively being written back via the SPI path.
->
-> == Environment ==
->
-> Architecture: Dual-core RISC-V
-> Filesystem: FAT32
-> Block Device: MMC over SPI
-> Kernel: Linux v6.6
-> Platform: FPGA/QEMU with crc patch
->
-> Any feedback or suggestions on the best way to fix this synchronization
-> issue in the FAT block layer would be greatly appreciated.
 
-Looks like this is the stable page issue that FAT is not
-supporting. Maybe workaround is - if the block layer driver told
-requires the stable page, wait the block write is completed.
+在 2026/7/30 17:15, Christoph Hellwig 写道:
+> On Thu, Jul 30, 2026 at 10:52:10AM +0930, Qu Wenruo wrote:
+>> [BUG]
+>> On the latest development branch, btrfs with 8K block size on 4K page
+>> sized systems will fail the following fsstress workload:
+>>
+>>   # $fsstress -n 4 -d $mnt -s 1785675805 -v
+> 
+> Please add this to xfstests.
 
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+In that case I'll create a more dedicated reproducer.
+> 
+>> +/*
+>> + * File systems that write out of place and always allocate new blocks
+>> + * need each bio to be block aligned as that's the unit of allocation.
+>> + */
+>> +static unsigned int iomap_dio_alignment(const struct iomap_iter *iter,
+>> +					const struct iomap_dio *dio)
+>> +{
+>> +	if (dio->flags & IOMAP_DIO_FSBLOCK_ALIGNED)
+>> +		return i_blocksize(iter->inode);
+>> +	return bdev_logical_block_size(iter->iomap.bdev);
+>> +}
+> 
+> This already exists in the VFS iomap tree (with a slightly different
+> prototype).
+> 
+>>   static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
+>>   {
+>> -	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
+>> +	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
+>> +	const unsigned int alignment = iomap_dio_alignment(iter, dio);
+>> +	const loff_t aligned_copied = round_down(copied, alignment);
+>>   
+>> -	dio->size += length;
+>> -	if (!length)
+>> +	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
+>> +	dio->size += aligned_copied;
+>> +	if (!aligned_copied)
+>>   		return -EFAULT;
+>> -	return iomap_iter_advance(iter, length);
+>> +	return iomap_iter_advance(iter, aligned_copied);
+>>   }
+> 
+> iomap generall expects extents to be block aligned, how do you end up
+> with non-aligned reporting here?
+
+The dio read buffer is 2 pages (matching the 8K alignment), but only the 
+first page is faulted in.
+
+Furthermore btrfs has disabled page fault during dio read, so the 2nd 
+page will not be faulted in.
+
+Thus iov_iter_zero() only got to zero the first page.
+
+Btrfs always returned a hole that is properly aligned, but as long as bs 
+ > ps, the page fault can always break in the middle, causing unaligned 
+range.
+
+Thanks,
+Qu
+
+
