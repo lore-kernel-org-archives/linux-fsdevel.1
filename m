@@ -1,259 +1,123 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B7E48987E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 19:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8429D35B632
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 20:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785440861; cv=pass; b=doAy+HXA+M1VuqVjBOlYLrVHgunznwQ3dSaJG9/XTk9rVs7hCn2ZBpln4gzDHGcMlEv6ycFkofRmK1lVcS6Kkc+lKsausQzZ/dJ/tD1VvS7S5X91dxP91vraAJG4XhcNHp3vP5Z+rGOWpKQj6HFTgvqxOSNTnb+fkSIETIGpEcc=
+	t=1785441734; cv=pass; b=E7sgah2Lq127pr25q0ah5oXZMqvRDw7rVI9BJpYirDJrQt8OPA0dpbg7ilEZXFRS+MJTiS5d0M3rNCERy9G7/h15meqqoiCDZ4kLeYPRndGZMy4uXOj9rBHLKEBIl6CM4SONbhIWqmLzxE0HRCusMJVEOVGFT6FTP6fhqV+CEa8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785440861; c=relaxed/simple;
-	bh=oi/xHlBdklqo4YV7qZlDYRdvWU9jT9geoNuMOps/N80=;
+	s=arc-20240116; t=1785441734; c=relaxed/simple;
+	bh=qZzJvUfZRso2RO/UiJzxOrayFiOAibqbjT0CxiatzVU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uJNlVOMkvX2So/RfP4nsK1br+olhZPWQmy6SUY8oex3VBza/XeH3ISFaSs1ROlzqJpr59bAOGek2Z/idX9lahGAxlUAzpL07TQFmSadbcN5hKfB+Ydy29nZa1ZkpbbY8+QEmYmaHX16Lon8CUNPNlvQUHGpTVrkhx2lEDsF/Qdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jbCIurmh; arc=pass smtp.client-ip=209.85.208.42
+	 To:Cc:Content-Type; b=OyLvU9mN+Aktw0C7YUD1DHwlxR+ZW2t9kC9/nheovY/C/oaSmwjD7QRh0oOTdOoOGsdDkfknqBIbMEFYZw+SbiR/vxixeJqo0wNtlLLsQvlzcam/u6CgG9LwLONMv7KU7SM71FOGQ2ntAFnrAKaH/n8YzrtC5yxIhAkb+sa3s3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q7TSNMSp; arc=pass smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jbCIurmh"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so289129a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 12:47:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785440856; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q7TSNMSp"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c167aa9500dso19977866b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 13:02:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785441730; cv=none;
         d=google.com; s=arc-20260327;
-        b=JlfIDgqtPTuBH3USyapTY130fHPHMNV89+tCRk8hLiNP4DyDIce+A734yVTtp0ahRS
-         4m6yI0oDxY3hQSBrhiLHhvWB/0nn4S2KF6l4/zmCgmUfFYC/iHyfn3uODzZLJqNT4Sgr
-         hvyfQ5MqrF1DNFvdEmn/MmNZJ39VXb2v093YXY6CIevOP1yMWtnWDRG9jKG/CrujE9ud
-         wK92l6mEkcHeANV2L/rbP5YaxApsYILGi0p9FDQ7rgJG3c0KanWg5rTewe603Dmaz52m
-         wUpAQlb1wTECeeiyk8TXxx38UlhngdfjDwk8EIqQXJQPuQiBwsydXI6hwcJByWIJswua
-         lR2A==
+        b=WQCwrrSKc4Y6VOCQa7oSRydfllbfg6mPLcnfSAyfk6kw2eZLxK0ObbQDfOevsohJoH
+         gfDIpIN7zFUFFILiS7abW8ZjmUlg1jsdHSK0R84iqJWTkeSWtzWUw8CHh9WDAzUj6Zs7
+         ffF3XKJpejpegcP4j+NXk5QsHSj2Q4mxBqgQ+bWo4hEMbaeF1InSbc6RIlnXZZTwbXEY
+         79/NKsja5ZfvYw+CYSgLWqncFaYec1mmPAxM/GrMuUytsXSzErXUZZdpm48nTLsqyyHN
+         wG/7+UWfCuqQ8kT4fGae2VkRugdwsSohqs/I4uydTnyrMnYLsxs+chFzW4fxKaP2IQ03
+         NvnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+b/MB2IBfN1O0DaR5wDrrHUKZ/8ztBtltdXanRbil6g=;
-        fh=9V8Sw9otFFWZaxzH7I9+yOi/K4QjOmIXXb6L6Rlp/ic=;
-        b=VpDNqbNB3hZky/dsCMOniukxaTeQVzR8R/ThCjJ3jMT29JbYiOx9LPEMaa3DWNwHRU
-         0OVxn2PHuxJlkJmejEdFuu15h3T33THWn70CPsDf4pviLCeP6bn6E7+gFpydGSc9PKKf
-         Tv8Nt0O9AIaDc6VMZD3WMBo7sGaFr0Uewu99LD8EfaxKrFA8euGVN4OXEzh8a2eQgyea
-         Ugy4PFmj9KpHQk9QRliTJcUl6W72ghUiVN5UH2I0UlcNAr9CEl/77VFu361Jwhfavr8Z
-         jgoAWrgKNr1hszPZUISWdLlNfpY7nARBuZWUROB5btDtMPBMkZ5UIsuRvvHJ7tV/vU0g
-         frVQ==;
+        bh=qZzJvUfZRso2RO/UiJzxOrayFiOAibqbjT0CxiatzVU=;
+        fh=rYw6Cpge+8+B7u1hf+QoCCmnoM2oYhWdeOb/3Q7Y0pw=;
+        b=NNjGLlQe2DQqwE/Q5PJydMASB2sZHZx4zZgWanFdPtlPxq4gLqcEzTIjZJ9YMclGeV
+         xLBoJFa/cA3uP+m7amwOW07qIRiY/ejkw3X8f5Hoysn4f4jCD2MvIUjzb8Vd/7vusVo9
+         YwTHiw+GGlyrpYqgj63EJle3ckxM1iTP8JhL3ErX5MWcQ8LvNNMI6GcPeplVVQ6UACPX
+         KWcA7g/5nodXI4eD2TvrNT6tff4i50AU38yzKYeTV8gmtG9pwjv8xZlxxL/FcOn989A9
+         o+2fH7t2TIKJGL765sOeOV/7pwpWOS8c6DrEvpmWxm/Hx74z58qA4gfgvk3E+r4yufgQ
+         JDDw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785440856; x=1786045656; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785441730; x=1786046530; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+b/MB2IBfN1O0DaR5wDrrHUKZ/8ztBtltdXanRbil6g=;
-        b=jbCIurmh6ziJG6JxZQomlV3pBtzflnMf/E0PrpiFoprBDAIySHYPZCLQazLbhRypuO
-         lh6h8JuJoI/csIQuWK0WNkJ//8+JZ/e2lZh26Ilzh3Z9QBlnChcIC+A03+GxUhOGtPyI
-         ID9HRefTEZ0qXE/+RxNb9NJPT8i2sE3WZ99RWK9ZUnglgDyi9yH2DSka9hHcZ8FIeIRS
-         0sIW2Q7IxmyvtsFTKL38ip2PXM/npe7yoSYfieEwWx5s22e0XQLmAgrdfgO7UIDmYO6J
-         OX137DI/UyWRrVzSGy9eqkgbeONlsR+QukaiEhYfYBm9XTwKpN3yvJTqrBWGgRNuDUa+
-         ykKQ==
+        bh=qZzJvUfZRso2RO/UiJzxOrayFiOAibqbjT0CxiatzVU=;
+        b=q7TSNMSpXT4YEcFIPnfZKwpk7cEGsUr0fZdC6VOD+7xe1tX1gG1xz6Fpl83OIEoM0e
+         0vYdSCa591l4hwNc852NAgxP8xUWeKgsURfUCPkK06cqQNT9u+NRYBdmYhKYmn62ZZ3x
+         C3p5Zs7iIRRi+7f2z1CxE8y8LaojmfkPFNjg7JEvyzNZq7RXEadzGziMUT6w40feaM4W
+         RDffI97aPoSDXD+ynKi2eJPFEhelGvk/bINlW28+g+jNgb+A+lHRP0yG9AUdzTo1O2EI
+         BkhpyW2FL4ryomoowCfHvAUPj/QPZ6mOp5GN8E4k6FiAPQ1PpQZAllq1ovTnKGr+PiHV
+         rQUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785440856; x=1786045656;
+        d=1e100.net; s=20251104; t=1785441730; x=1786046530;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+b/MB2IBfN1O0DaR5wDrrHUKZ/8ztBtltdXanRbil6g=;
-        b=HaR6q5b3MyWlFFmUp77/fXZahxkhXC3w4KzWJHw7fztKAUm2/vLRyHOMXAYZt3tOut
-         SVkbbVEierFcZcU0WELUoUqwheX1bhBueV5owzLsOif1vzEViAMAhVA4O2dmJlV7MPjk
-         nHSmVE9UuhI/Jl/ItVGPaJx++fI1kAkoxuhZIK35pXb04BoHYWbyM2+NpihZAjGiLr2V
-         oRZZpQEbtpiOvD9AgqEgon972I0iiMsNOZHi2vUx9kNDUDLBq+DIuFVeL0VgLiX4SNWF
-         AQQtbb54EXe26S0J3Pm+s+9NZDuI7PCQKvHycXGB2DkQqP0UQkwdkkIPEJ03LaBauMkD
-         Qluw==
-X-Gm-Message-State: AOJu0YxGg0SvV9DAxdXdHzvPYy+/bUo8vODh3nAFsY3R2+vHo+g7qADz
-	u7HrmTu1/SO6Hu5ovu8B9LCtLMLbliNEKaMsL47nVywHdwZ4ixIM3zx5/S7Jbw7gFA4uHHVYgwx
-	QXc1duAXPkILx28FYZZcpKoX8/dmTeTQ=
-X-Gm-Gg: AR+sD1334n1QyT3e6IUbC/JbwBYLTMmGne1rjhGWlkroxMCWd/itPc9PX2OAEIkraHC
-	bdfJCd9B1BRCY/DeTmKb465ruzd9JH69EdpJtnojrjlfmDJokjk4B+dyx2y6mr70QovHNFeLSkr
-	p5o/xFa/JA7xjPgS2bBwQh3cUcmkE9Tpw19eJheESxvkAbWxIfrq7Zf9kvblHghfYaAX66DfkXp
-	P7nInbPrcKbH4ch1s/yaDa2XLxm3QZIpauQwcs4uIA2r7hl1HMJzYITumByYXnEVron46uLIzQM
-	3NaVH1Rz2JwKS0XxvYdwL4sy74TvbtAvuUz9JjZW5Dk0
-X-Received: by 2002:a05:6402:510f:b0:6a0:eb:ae50 with SMTP id
- 4fb4d7f45d1cf-6a07b814c6cmr2031354a12.18.1785440855558; Thu, 30 Jul 2026
- 12:47:35 -0700 (PDT)
+        bh=qZzJvUfZRso2RO/UiJzxOrayFiOAibqbjT0CxiatzVU=;
+        b=e9w57QN+HBDre1LjfGBUgHnsIoP30FZWX4jydgwleT6VKiI9FU/7r+TSkcwUVrcKwH
+         U0ZxLakVZANtLfvCCq5ndRWUCDjus3jrWyjt/1yg+U5qM8tZcKUncPvAKIY8YUH8VVgS
+         nYElDWSeVLmqfrhggCOz8t7WPmbkEsvL0IF2TdBwuuT0FlFSbh9DuoW/9ISiHfm5fvPz
+         tQxkaDxOOjqucLOSwBrmlVd5Psu2XVXQoAu2Q5KH+XyAvTg1wS1yfuEGuBgDCfv6rh36
+         AjKwHsXokuCTtEJjHZGpJNuTqpsqO9ioQdWVt2YglbnmuVRjasSx2v/MEoK8YEIB5Eqm
+         8n+w==
+X-Forwarded-Encrypted: i=1; AHgh+Rqsw1rYuRYqmtlz5iPljipmvvfnH6DsWwr3PXAPKV+Xv/t1uKUjAooDnA2QlSO2Yi03rBudke7k/lQ5ZLLP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8sxuo3LIh/gwloMt663uQlQIOA/aosi3Uer94TVPrrZe2Q74j
+	0TTz88OxqTzdIL/xVSdPsgzx1qy6je7CXC+ceQQ4nK8deQaLLRKTZUSWhiPu4SWKGNeqC7VWLEh
+	H9WoIDgJ6t0j4/fahvZQOji3YQFZaqfE=
+X-Gm-Gg: AR+sD119xvM+UiMkE1YJrRXnGw1O9zjpdi/iesHGZq9NrKDqewNVn/lEAoeWWyo58m/
+	6HCdISWbW4Bm4SvnmnsDRP5uay13rneS/pKpju05LzEZasyX9rzucY9C5wZaMIE5705VxGUAQxO
+	7Q0t2K+3M7xV+aBDh3BjEuvZvjOrcaZ9Ic6iHzdhMxW/i1wHYqlQ5NiArynqVcR925Ioyf/Xg4p
+	Q8XJeRwXE8a9TdWO+TVMOw97GRkiX7Psp54kYo7Ipc9lorhhVQsY1fpNvPwGextwXMGzBGBQNRW
+	iZbTReZG1VZKIGJVAKxI+0IM+nUP1NBuWVaskLuIP7mbTQUgJBLlsDbdz48on3khrEkxhm3X+IL
+	2
+X-Received: by 2002:a17:906:d7c5:b0:c1f:6f31:2880 with SMTP id
+ a640c23a62f3a-c1fbcbbaf9amr92661266b.50.1785441729813; Thu, 30 Jul 2026
+ 13:02:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260430053645.1466196-1-coshi036@gmail.com> <xaqwfkwjnp7h2lg7ir6wy2tnyay26t3im3ftkdl64rhys3rhmu@lc5vfh5tc2f5>
- <CACd_6n17-pJuNoCLsstP7goocedrr5F8T8BwTjRUNx8frKEPgA@mail.gmail.com> <bnchcfog427eo3bxt5h6qautlq7sb2o4ww7cjgad73biycdn5f@np7qkbyqizup>
-In-Reply-To: <bnchcfog427eo3bxt5h6qautlq7sb2o4ww7cjgad73biycdn5f@np7qkbyqizup>
-From: Chris S <coshi036@gmail.com>
-Date: Thu, 30 Jul 2026 15:47:23 -0400
-X-Gm-Features: AUfX_mxYltrxwzfdRYvZPDsxYAtUi_bXZSm3IN_MgUjT84MkZaGGwYlfAdEuLMk
-Message-ID: <CACd_6n1Sht4xs6P_GT0-+wj1uu9Ww_4X=TysQRvq6ZSFJ71CBQ@mail.gmail.com>
-Subject: Re: [PATCH v2] fs/buffer: serialize set_buffer_uptodate against
- concurrent clears
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	willy@infradead.org, linux-kernel@vger.kernel.org, 
-	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+References: <amtbpwrhlNGJ9OK6@redhat.com> <amtbxpqJ3pZwyT8D@redhat.com>
+ <amteY30qxRuPzFh3@gmail.com> <amth6owVUdVOmyAL@redhat.com>
+In-Reply-To: <amth6owVUdVOmyAL@redhat.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 30 Jul 2026 22:01:56 +0200
+X-Gm-Features: AUfX_mxENwOXQ-caUgXqUerTbXH5sRM6Sld9GitjXaMQVP0pKFVSqUA-g6155GY
+Message-ID: <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] pipe: only enable the extra wake_up(rd_wait) for
+ edge-triggered consumers
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Alexey Gladkov <legion@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jan, I'm currently working on the changes we discussed.  Based on
-vfs.all now.  Four things came out of writing it that I would rather
-resolve before posting.
+On Thu, Jul 30, 2026 at 4:38=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wro=
+te:
+> What exactly do you think the comment should say? I agree with anything i=
+n
+> advance. I thought that "edge-triggered" provides enough info, but I woul=
+d
+> be happy to improve the docs.
+>
 
-1. mark_buffer_write_io_error() is not safe for jbd2's buffers yet.  It
-dereferences bh->b_folio->mapping directly (fs/buffer.c:1057), and
-jbd2_journal_write_metadata_buffer() points the temporary bh at
-virt_to_folio(jh->b_frozen_data), which is slab-backed.
-buffer_set_crypto_ctx() right next to it already uses folio_mapping() for
-exactly this reason.  So I would send a prerequisite converting
-mark_buffer_write_io_error() to folio_mapping() before the jbd2 change.
-Also worth noting the consequence of A2: in ordered mode the temp bh
-inherits the source folio, so the error lands on the bdev mapping and
-mapping_set_error() errseq_set()s s_wb_err - a later syncfs() on an
-unrelated fd of the same fs can then return EIO.
+how about: There is userspace depending on the extra wake up, see
+commit 3a34b13a88caeb28 ("pipe: make pipe writes always wake up
+readers") for details.
 
-2. gfs2 already has what we are building: gfs2_end_log_write_bh()
-(fs/gfs2/lops.c:171) calls mark_buffer_write_io_error() and does not clear
-uptodate.  Which means fs/gfs2/log.c:110 and :324 are blind to log write
-errors today, and converting them is not behaviour-preserving - it makes
-them start catching those.  I think that is right, but say if you would
-rather it were separate.
+or whatever else which refers to the commit, no need for anything
+fancy. the current commentary is definitely lame.
 
-3. On the sticky BH_Write_EIO: I am adding it to BUFFER_FLAGS_DISCARD as
-you suggested.  That covers discard_buffer(), but there are four other
-clear_buffer_req() sites (fs/buffer.c:1687, fs/gfs2/aops.c:600,
-fs/jbd2/commit.c:1035, fs/jbd2/transaction.c:2462).  Three of them also
-clear_buffer_mapped() and NULL b_bdev, so __bh_submit()'s
-BUG_ON(!buffer_mapped(bh)) makes them unreachable.  Only
-clean_bdev_aliases() leaves the buffer writable, and I could not construct
-a workload that reaches it.  So I am not sending the ungating patch.  The
-one place it would matter is ocfs2: fs/ocfs2/journal.c:691 is nested
-inside an if (!buffer_uptodate(bh)) at :675 that goes dead once the clear
-is gone, so :691 has to be hoisted out, and it then becomes a pre-use
-check on a sticky flag rather than a post-write one. I will Cc ocfs2-devel
-on that patch.
+> And the helper's name? pipe_enable_poll_et() ?
+>
 
-4. fs/jbd2/transaction.c:923, J_EXPECT_JH(jh, buffer_uptodate(bh)) in
-jbd2_freeze_jh_data(): after the series a failed write leaves the buffer
-uptodate, so this stops firing for write errors.  Arguably correct - the
-in-memory copy being frozen is still valid - but it is your assert.  Leave
-it, or convert it?  I instrumented it and ran ext4 with data=3Djournal unde=
-r
-injected write errors, forcing copy-out; it never saw a non-uptodate
-buffer, so I have no evidence either way.
-
-One thing I did settle by testing.  fs/ext4/ext4_jbd2.c:416 open-codes
-buffer_req(bh) && !buffer_uptodate(bh) after sync_dirty_buffer(), which
-already returns -EIO.  On an instrumented kernel (ext4 without a journal,
--o sync, injected write errors) the two agreed on all 40 occurrences and
-never diverged, with BH_Write_EIO set every time.  So that site just
-consumes the return value and the buffer_req() question goes away.
-
-Best,
-Chao
-
-On Tue, Jul 28, 2026 at 3:45=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Sun 19-07-26 02:28:54, Chao S wrote:
-> > On Thu 30-04-26 09:28:13, Jan Kara wrote:
-> > > But it would be actually very welcome if you took the work, went thro=
-ugh
-> > > all the places using end_buffer_write_sync() and converted them in
-> > > filesystem-by-filesystem to check for IO error by checking
-> > > buffer_write_io_error() instead of buffer_uptodate() and then we can =
-drop
-> > > clear_buffer_uptodate() call from end_buffer_write_sync().
-> >
-> > Sorry for the long delay, I've been working on some patches and a paper
-> > deadline.  Also, you were right about v2, and I have dropped it.  I
-> > would like to
-> > take the conversion work.
-> >
-> > Before writing it, I found your "fs: Fix missed inode write during fsyn=
-c"
-> > series, v4 of 16 July.  It removes four of the sites I had on my list, =
-so
-> > I will base this on top of it once it lands.  Say if you would rather
-> > sequence it differently.
->
-> Yes, please base your changes on top of vfs tree
-> (https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all). My
-> patches are already in there now.
->
-> > (end_buffer_write_sync() is now bh_end_write(), per b20f15420f78.  Curr=
-ent
-> > names below; line numbers against v7.2-rc1.)
-> >
-> > The sites, one patch each:
-> >
-> >   core     fs/buffer.c:621 (mmb_sync), :2803 (__sync_dirty_buffer)
-> >   adfs     fs/adfs/dir.c:194
-> >   ext2     fs/ext2/xattr.c:772
-> >   ext4     fs/ext4/ext4_jbd2.c:399, fs/ext4/mmp.c:52
-> >   omfs     fs/omfs/inode.c:148, :162
-> >   exfat    fs/exfat/misc.c:190
-> >   fat      fs/fat/misc.c:358
-> >   ocfs2    fs/ocfs2/buffer_head_io.c:69, :449, fs/ocfs2/journal.c:675, =
-:691
-> >   gfs2     fs/gfs2/log.c:110, :324
-> >   jbd2     fs/jbd2/commit.c:880
-> >   removal  fs/buffer.c:210 and :444
-> >
-> > Conversions first, removal last.  The list is short because
-> > __sync_dirty_buffer() and mmb_sync() test internally and return -EIO, s=
-o
-> > the ~40 callers that use the return value need no edit of their own.
->
-> Sounds good.
->
-> > I would like your suggestions on the following.
-> >
-> > 1. BH_Write_EIO is sticky.  It is cleared only on rewrite
-> > (fs/buffer.c:1196), and only if BH_Req was already set, which
-> > BUFFER_FLAGS_DISCARD clears on its own.  So a converted test can see a
-> > stale error.  I would fix this first, either by making the clear at :11=
-96
-> > unconditional for REQ_OP_WRITE, or by adding BH_Write_EIO to
-> > BUFFER_FLAGS_DISCARD.  Which do you prefer?
->
-> I think we should add it to BUFFER_FLAGS_DISCARD. It doesn't make sense t=
-o
-> keep it on a discarded buffer.
->
-> > 2. jbd2: log_bufs is a mixed list.  Commit descriptors come from
-> > journal_end_buffer_io_sync(), which never sets BH_Write_EIO; revoke
-> > descriptors from write_dirty_buffer(), so bh_end_write().  I would conv=
-ert
-> > fs/jbd2/commit.c:880 to the disjunct !buffer_uptodate(bh) ||
-> > buffer_write_io_error(bh).  The alternative is to add
-> > mark_buffer_write_io_error() to journal_end_buffer_io_sync() and conver=
-t
-> > all three jbd2 sites.  Which do you prefer?
->
-> Please convert journal_end_buffer_io_sync() to use
-> mark_buffer_write_io_error() so that we completely get rid of this
-> antipattern.
->
-> > 3. bh_end_async_write() has the same clear at fs/buffer.c:444.  I would
-> > remove both, which needs the gfs2 patch first since gfs2 reads that bit=
- at
-> > fs/gfs2/log.c:110 and :324.  I can also leave the async half out.
->
-> Please change gfs2 the same way as you are fixing jbd2. Keeping the mix o=
-f
-> uptodate & write_io_error checks only makes things more fragile...
->
-> > 4. ocfs2: fs/ocfs2/journal.c:691 sits inside an outer
-> > if (!buffer_uptodate(bh)) at :675, so dropping the clear stops ocfs2 go=
-ing
-> > read-only after a failed metadata checkpoint.  I would convert both sit=
-es
-> > and Cc ocfs2-devel.
->
-> Yes, please.
->
->                                                                 Honza
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+perhaps pipe_enable_epoll_semantics()?
