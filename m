@@ -1,207 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062AB395266
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785427997; cv=none; b=WpnAj7kXNcDxKmtCraAgzQVjlByC7kNnf9yuxP4w5hP1Nzn4aaV51MPsn3D2e62jwr4nZPujnqkARUMpdde8Esyk7gK2aolW10GyMBPTYNHr5KFFjA5d+s3auOc2dKQwnv4khLZYs7xomQjiycT4kU5WD70ch2MoI7TIxSDSnqU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785427997; c=relaxed/simple;
-	bh=v614CFXBfqSzsJ79ahhrgCsmZc7+4+adtxI0ZrlWtWQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=c5xwku5+SIKi1AfJSFnjQHVrjGCJFHbTC4QP4bU3Vj9h2YKYTIUQdfZuhTEZlgw34SEdMuX2iU2uQzVvgQaLlUo0g9TsxOPOpGb49lQIVCey476EJTBswuIZNa9w8FUJyHvYkUm6KfUyAWKH7k1mrEkqtp7Nf7JUhhvXaagiffE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bQdPCT/Q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0748144C51F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785428267; cv=pass; b=odAe8iksPqiyFTp1egFMme9bp8kieGsnnDYMzY2zHQwrCQyXpmrYxOmxNNs/Ba6OpgLnQHhTfgLLZzy8UIKzzG9uyiSEj9btzWgDQEyXcRwxH3iAHwMSqljnAQDLyE+TrLcFN7dFukPKM/cAKNSzl0mtFTrNlNswMmzxyPGnmm0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785428267; c=relaxed/simple;
+	bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pjUKAFxKyQff/YqcllRibFAwd2WEYDxHDgauwOWWgH3eiY/tBIc2UICZ2BzEBAPIi/UhzyglUCVFcP2wG/pZHpreo3cCqXYiTOnwC2MMUmpNIRY10U7qc5sUB2eGw8qlz0rTDztEz9BUPZUvZ3UzSdaEQy0D9aOZZiznEXTNMxg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=MqCUIO9y; arc=pass smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bQdPCT/Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785427995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bqoieD2YmNVSXtZenEKBk8kOT7R3kpMGyQwFIje0FU4=;
-	b=bQdPCT/Q4jGPj/pYtt5JeZ7rWgbHJmknGBMT6kSvWgoqTIcCXzsw0EWdjbaSC+mKFNdP8f
-	OqLiIbWPL2Abr42VmcaFxqw7qz7q5DxYlHLvgQZ15rouGWmy7wOEb6TeVaXve5soBz5kRu
-	WMFJQrk6EfiYPTDrd8Ymqm01quN4mJI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-aGW2d2IIO4ymuwbfuJuHDw-1; Thu,
- 30 Jul 2026 12:13:08 -0400
-X-MC-Unique: aGW2d2IIO4ymuwbfuJuHDw-1
-X-Mimecast-MFC-AGG-ID: aGW2d2IIO4ymuwbfuJuHDw_1785427985
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3EA2B180056E;
-	Thu, 30 Jul 2026 16:13:05 +0000 (UTC)
-Received: from localhost (unknown [10.44.49.125])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6A63130002E9;
-	Thu, 30 Jul 2026 16:13:04 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: linux-erofs@lists.ozlabs.org,  xiang@kernel.org,
-  linux-fsdevel@vger.kernel.org,  amir73il@gmail.com
-Subject: Re: [PATCH] erofs: reuse superblock for file-backed mounts
-In-Reply-To: <8733x0k2p1.fsf@redhat.com> (Giuseppe Scrivano's message of "Thu,
-	30 Jul 2026 15:49:14 +0200")
-References: <20260730124120.1501126-1-gscrivan@redhat.com>
-	<amtJX8aTZT5d_sP3@pedro-suse.lan> <8733x0k2p1.fsf@redhat.com>
-Date: Thu, 30 Jul 2026 18:13:02 +0200
-Message-ID: <87fr10h2wh.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="MqCUIO9y"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-451ef88519aso7736fac.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:17:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785428264; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DVVcWojHUsfzyxZL1lAiBEBYEw7ruiMvBCnitDXDm/0PcFOP/WJZ+FvuqWLKskpcW4
+         vHSbUuqJRqpuoIFxhUgwjFPeJ8EI3wCADMhtAw9LtBHB8Xyil+rjSYduUATg6AjXCNDB
+         bx28AKyjOcVpr0J768YEbmLS4FZ1eHQWbzrx4dZr10oWiuyJ86RW2y2hafspcZGC5ipr
+         ik/kdlM5LJ5naIBVAKSMGpJWMqsNFncOQm6dJytdnGFLPnqDL8PWTDY7HYGmaVxmXIe3
+         tSfpiPg/779TrzGilwwhavl6cIEeWrQD12UbaEQJTZoHcwLCuWrV2+vKQikb/xfipvnz
+         Y1bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
+        fh=iz7b5GjY6RyUdrX+GUTcTfcbPQP9XlkRSshdwPdvn5M=;
+        b=WrzYctMdi/bNwbpmq2FfEpjRC/YeRcRn2zjjsVNp/YCCjHgmKmEMxkQFuR2e8qHs5j
+         EXPZiPrjG1zdi5HFFtb92reiH8c+wOtG7bZ+mVm7EjeVpHF07cw9nIs0ffuaOZ1IiFkC
+         6te8YL527dtTXi1H9PnZvm/vKGiVpjKtMNUr0cn7taasAzpNvFQqdGT6gvtRVlCIcdcE
+         Htzx3HZDFxl+YYuqkPmLvIywTPalOf9EndTcxIWTknx+20xBbIHhNGz1ziWc/hFGjR7z
+         P57aKPt72OgAjCm+vIEECBw4mFjVYDGWfr/IFed5HvzMQS706/pqyHRaPb3YFhXDrtfL
+         z+iA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1785428264; x=1786033064; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
+        b=MqCUIO9yyYJwHrMDdiejiNqcDHA+nR86bfqK9iKWYUvi4dsxosqLK1HYtjLP+5hW70
+         k5P3caMtPDuMcCd+Q73b4jXiKqkWofjW7ZGye0Gp8XbL+MuQteuqTWNusN4S1MOtLD4h
+         f043KR8DclrbfQVIx1LIlJafF4mkqxY53CJGgcgKSlzzpPwATxfWrBB812Z2bO/xO5EC
+         elYoFSb15ifUMJi3Yt6rGgvVTnyac4gvXe8Q5aNLZI3twpMmhH335Lq9BUPv5Oxu/My9
+         v6K4aHa0gm3jyf/WIJFeYkP3hvhEKOXplgljdRIOV2CPW6euwywntOV8pDIXxSVXpgaz
+         L+fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785428264; x=1786033064;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
+        b=iDz7dvpWzFxwmyk5LP7joxz7rhKkv628wdTo172gr6HAdaLkxVveT8XO7eyICn4PkE
+         7H44wRB+a2/y2ywEUpbYQ85ae6zyHBfv5qk1fXcbK2OLX6H3ggjlF/HppbXpjSBC3VbO
+         TCVl37MYKIIMMhNytIsv4AmlN+dSlmN3tBWomKvcMMGIIcd73ZOZnvBIlmcBMlGuRWtO
+         IzP1+p+QF/FakwuoAHFxMzBAnQMlSrYh3Nc1KZjSnlfUGufHifXtkfdmDq45PdTaYfRm
+         7Mu89wzA6j5Zrju7o1h/GZv5Cx4zzszuMr8iMEa8FZg553LgIieASshUg9TskQ/RT4IF
+         pcYg==
+X-Forwarded-Encrypted: i=1; AHgh+RpCZCrlAJE62rAKWK2d7YwqXUBWIJ36KSIc1xIYEjWFEl+PG1EHnjMtHX+gTvXNQdHjG5Ya8vpcZvbzUceC@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUh3fGReFsJ43FXtJRVira7Ul+/jc5FlH/YrUa8pitL45v6l1y
+	NY8o9MSHHwBIgzVUa/rlIW6MYdh2cXTUvysL1IMa76tdx85xYViyQ8QO84Bs+UxUtV6NN0Pt3p2
+	ZX0FnLOMUZMd7/zoYDlijh/HSaFlMsaJxaaX7fkGeYg==
+X-Gm-Gg: AR+sD10wfKLPyU7Dq2O4+tq1+NQzxG4WDSQX4EhnythrJs+YI2xHGfYrI+iGC8bXvOP
+	DC6fnkWCNSylO7ANyPFdq84lGKi/loMGnlh4u/0iGvgEN/UA06lbU04ZxhST7aipW9YF4H88BSB
+	eCwCBQI48e07vFYK6igAQchRE7scsoYZYm1wpUdnEQvOn3j3DU82UcvREjutOWoU4E1HsDbrV1t
+	BBjQuQP7Tp+IoeMpaug1y0xIdm8DCPZotoiVjJpHRu7rm8aNYfuw7ruuhH7Y0qETlomS8ZTJb9B
+	mzyBa07njCCgWIp3QI1PC4NGsaRqaMHlXQNr9tneqt4j
+X-Received: by 2002:a05:6870:610c:b0:448:8595:1e8b with SMTP id
+ 586e51a60fabf-458dd203cc6mr828125fac.4.1785428263717; Thu, 30 Jul 2026
+ 09:17:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <cover.1785274111.git.asml.silence@gmail.com> <19e5c945ea8114320c10f7951d19197d48b59249.1785274111.git.asml.silence@gmail.com>
+ <CADUfDZpwF0jp2e=+c3w_NjWPbnQ858bkSD731M6+x27jzgcJiw@mail.gmail.com>
+ <CGME20260730104131epcas5p4b52720519486f7ac774c317923a79c81@epcas5p4.samsung.com>
+ <de4ec386-42ba-41c3-bcbe-1fe8b2f71ba9@gmail.com> <09134617-6d9e-4963-9319-1855e88a4df9@samsung.com>
+In-Reply-To: <09134617-6d9e-4963-9319-1855e88a4df9@samsung.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Thu, 30 Jul 2026 09:17:31 -0700
+X-Gm-Features: AUfX_mzVuCLkHKoQjKU1BgpL-X0Ty4OF1wEt1trnCKGouEKw-m3DZTMxHTHiuQw
+Message-ID: <CADUfDZoVUHMWK0KBnznB73o6Vg+iQBBzJE2NmF1Tf22Zvh4=Yw@mail.gmail.com>
+Subject: Re: [PATCH v4 08/14] nvme-pci: implement dma_token backed requests
+To: "Anuj Gupta/Anuj Gupta" <anuj20.g@samsung.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, 
+	Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev, nvdimm@lists.linux.dev, 
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Giuseppe Scrivano <gscrivan@redhat.com> writes:
+On Thu, Jul 30, 2026 at 4:36=E2=80=AFAM Anuj Gupta/Anuj Gupta
+<anuj20.g@samsung.com> wrote:
+>
+> On 7/30/2026 4:11 PM, Pavel Begunkov wrote:
+> >>
+> >> I wonder if it's possible to perform the PRP list page allocations and
+> >> initialization in nvme_dma_buf_io_map() instead of the I/O path. The
+> >> NVMe dma_pools are per-NUMA-node linked lists protected by spinlocks,
+> >> making them significant CPU hotspots. If the dmabuf registration set
+> >> up a contiguous DMA-coherent list of PRP entries for the pages of the
+> >> registered buffer, any command using the dmabuf and requiring at most
+> >> 1 PRP list page (i.e. length <=3D 2 MB) could just set its PRP list
+> >> pointer to an offset into the dmabuf's PRP list.
+> >
+> > Possible to an extent, predecessor patches tried that, I left it for
+> > later to keep the series simpler. I guess chaining won't work in
+> > general case.
+> > I mentioned this to Kanchan, Anuj and Nitesh before, they were up to
+> > playing with nvme optimisations in general, and since sgl from Anuj
+> > is ready, maybe they already have a prototype somewhere for that.
+> >
+>
+> Right, I have prototyped the PRP list optimisation before. I will send
+> it once the initial version of this series lands, to avoid adding new
+> review churn while the rest of the series is pretty settled.
 
-> Pedro Falcato <pfalcato@suse.de> writes:
->
->> On Thu, Jul 30, 2026 at 02:41:20PM +0200, Giuseppe Scrivano wrote:
->>> When the same file is mounted multiple times (via path or fd), reuse
->>> the existing superblock instead of creating a new one.  This allows
->>> multiple mounts of the same image to share in-kernel data structures
->>> more efficiently.
->>> 
->>> The backing file is identified by its inode and fsoffset.  If mount
->>> options conflict, a separate superblock is created transparently as
->>> a fallback.
->>> 
->>> Tested by mounting a 177M Fedora EROFS image 20 times with full
->>> traversal:
->>> 
->>> ```
->>> \#!/bin/sh
->>> IMG=${1:-/root/fedora.erofs}
->>> N=20
->>> DIR=$(mktemp -d)
->>> trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
->>> 
->>> sync; echo 3 > /proc/sys/vm/drop_caches
->>> INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
->>> MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
->>> 
->>> for i in $(seq 1 $N); do mkdir $DIR/m$i && mount -t erofs "$IMG"
->>> $DIR/m$i && find $DIR/m$i > /dev/null; done
->>> 
->>> echo "Superblocks: $(grep $DIR /proc/self/mountinfo | awk '{print $3}' | sort -u | wc -l)"
->>> echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | awk '{print $2}') - INODES_BEFORE ))"
->>> echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | awk '{print $2}') - MEM_BEFORE )) kB"
->>> ```
->>> 
->>> unpatched kernel:
->>> 
->>> Superblocks: 20
->>> erofs_inode delta: +46368
->>> Slab delta: +39952 kB
->>> 0.08user 0.82system 0:00.98elapsed 93%CPU (0avgtext+0avgdata 4796maxresident)k
->>> 19168inputs+10304outputs (24major+16672minor)pagefaults 0swaps
->>> 
->>> patched kernel:
->>> 
->>> Superblocks: 1
->>> erofs_inode delta: +2044
->>> Slab delta: +1088 kB
->>> 0.07user 0.21system 0:00.31elapsed 91%CPU (0avgtext+0avgdata 4848maxresident)k
->>> 19024inputs+6784outputs (25major+16810minor)pagefaults 0swaps
->>> 
->>> The time difference shows that sharing the superblock also benefits
->>> the page cache and inode cache, as subsequent mounts of the same image
->>> avoid re-reading the backing file.  This is particularly useful for
->>> container hosts running multiple containers from the same base image.
->>
->> Doesn't this approach break-down as soon as you get to change SB flags (through
->> e.g mount -o remount)? It will change superblock flags for all of them, right?
->>
->> (I don't think you can switch off the superblock transparently on a
->> reconfigure?)
->
-> This is the same preexisting behavior for block device mounts.  That
-> said, I realize this can feel confusing since EROFS is not a block
-> device and allowed this so far.
->
-> One way to solve this could be an explicit mount option "share_sb" that
-> is opt-in and, once set, blocks any remount operations.  Would that
-> work?
-
-Would something like the following fixup on top of the previous patch be
-acceptable (suggestions for better names are welcome)?
+Sure, landing it subsequently makes sense. Glad to hear it's already
+in the works.
 
 Thanks,
-Giuseppe
-
-diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
-index 580f8d9f14e7..ac26daf4f78a 100644
---- a/fs/erofs/internal.h
-+++ b/fs/erofs/internal.h
-@@ -156,6 +156,7 @@ struct erofs_sb_info {
- #define EROFS_MOUNT_DAX_NEVER		0x00000080
- #define EROFS_MOUNT_DIRECT_IO		0x00000100
- #define EROFS_MOUNT_INODE_SHARE		0x00000200
-+#define EROFS_MOUNT_SHARE_SB		0x00000400
- 
- #define clear_opt(opt, option)	((opt)->mount_opt &= ~EROFS_MOUNT_##option)
- #define set_opt(opt, option)	((opt)->mount_opt |= EROFS_MOUNT_##option)
-diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-index cbd76727f0d3..dd2a351811c8 100644
---- a/fs/erofs/super.c
-+++ b/fs/erofs/super.c
-@@ -386,7 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
- enum {
- 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
- 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
--	Opt_source,
-+	Opt_source, Opt_share_sb,
- };
- 
- static const struct constant_table erofs_param_cache_strategy[] = {
-@@ -414,6 +414,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
- 	fsparam_flag_no("directio",		Opt_directio),
- 	fsparam_u64("fsoffset",			Opt_fsoffset),
- 	fsparam_flag("inode_share",		Opt_inode_share),
-+	fsparam_flag("share_sb",		Opt_share_sb),
- 	fsparam_file_or_string("source",	Opt_source),
- 	{}
- };
-@@ -560,6 +561,12 @@ static int erofs_fc_parse_param(struct fs_context *fc,
- 		else
- 			set_opt(&sbi->opt, INODE_SHARE);
- 		break;
-+	case Opt_share_sb:
-+		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
-+			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
-+		else
-+			set_opt(&sbi->opt, SHARE_SB);
-+		break;
- 	case Opt_source:
- 		return erofs_fc_parse_source(fc, param);
- 	}
-@@ -798,6 +805,8 @@ static int erofs_fc_test_file_super(struct super_block *sb,
- 		return 0;
- 	if (!sbi->dif0.file || !new_sbi->dif0.file)
- 		return 0;
-+	if (!test_opt(&new_sbi->opt, SHARE_SB))
-+		return 0;
- 	return file_inode(sbi->dif0.file) == file_inode(new_sbi->dif0.file) &&
- 	       sbi->dif0.fsoff == new_sbi->dif0.fsoff &&
- 	       sbi->opt.mount_opt == new_sbi->opt.mount_opt &&
-@@ -874,6 +883,9 @@ static int erofs_fc_reconfigure(struct fs_context *fc)
- 
- 	DBG_BUGON(!sb_rdonly(sb));
- 
-+	if (test_opt(&sbi->opt, SHARE_SB))
-+		return -EBUSY;
-+
- 	if (new_sbi->domain_id)
- 		erofs_info(sb, "ignoring reconfiguration for domain_id.");
- 
-
+Caleb
