@@ -1,233 +1,146 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042793F86E6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 10:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74A23C09E4;
+	Thu, 30 Jul 2026 10:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785408618; cv=none; b=Upgr93cT8ZG0uH3J9fSFH0ywRbqBeptk9Cb0abB0A6AL1wM6+o6NtAZNn77TM+Fu+cDciuGsU44uYmxrN5Nrj4YPndL/M+sc+kQfYRXq3P4X8FB40V420WsG27SMtshKfxjp1ZfZUx8cICTIHf6L1oB24Pa8CBAt06gn1tkNg88=
+	t=1785408750; cv=none; b=izfbiki/D9ui099wz9WsdXL4dzgRUYyufFLGM+KsZpZSrm4wsqURv6YWIG5RZ0uLxnShlb6fOwSS8A2LXT1Vioeu0efSjJbahq6/JTeQO4JU7lUJS7lsrZSbrPf0BDAHca3KRsPipvVhGzilRDSup2v/qEw0SeIVW7WHYBIudZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785408618; c=relaxed/simple;
-	bh=PGL8hh/iPDuMx8U3wwPvLaoo1hlzWqorYsmVIC0YSdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WbqLOBRtfHWAyZJeEOGFGypei9o6XZ5c38djWp/bmklqirLMuQGuB7xr/CvhXkyp4pulu1ab9+kTt5YZfW/NJUqRjWJb8Ffi6ompugvs2t7rpdr/vNKHF7TVE3E3w4z6H1daYT/Dzlxs1yvY35UShfnxVtWFkPIN0Hyjk5l/uwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VGl7Orch; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jio/x70O; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IRw26xah; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6X08noC/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785408750; c=relaxed/simple;
+	bh=UvKCq7l6psv+9VQB3BKj5A3SAuB5ZkDp48bUDA8pE4k=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=FSuo4/mSCej8epnvUyXoVUiIRXiWDamGAN8TA8o6x5Bk3fskqqYsD5vJ4/R9791ZPsA5p2QW1CUEBN0yxhYMc8Sqj+O8BAC9e1VZAvSv5NiI3dJbpg00/mNpUVVOhJHkLpi0zZJxTSWDWJWU3aeJcmbYuNrZg6bF3jNWVvjKQyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaNLiHQ5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VGl7Orch";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jio/x70O";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IRw26xah";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6X08noC/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D859E3EAB;
-	Thu, 30 Jul 2026 10:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785408611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VeiXUf5UI0bba1l+buCl3P/hPidhOydoWlC3cuXzBSs=;
-	b=VGl7OrchmMYNqZwW6UpA+eQlHOn60uyvwwBoovF2iHOpacQHvZtZNkBnAwviRSPuU189Ui
-	AamJTjj0SwwjDh9ybCiCD7d89vg5rRqT30bkuZSATAtnnrqVxbFSkTvvjOvyf3B7K0rJ3K
-	loXCnIejoNjngIyDOwB5VBVrm1wXfTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785408611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VeiXUf5UI0bba1l+buCl3P/hPidhOydoWlC3cuXzBSs=;
-	b=Jio/x70Oi6BTiyTzzfBqRJlFOhzgOF+UBEXf/TfeI9ER3xHyz8Lq2WO+bfl5PHAu4PDChm
-	3voNWfcqskRRDKAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785408606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VeiXUf5UI0bba1l+buCl3P/hPidhOydoWlC3cuXzBSs=;
-	b=IRw26xah9JvFa5A83MmVh1l4TkKj0u6272S59n8EkdUL/HvkX89Bni9dfV1KeyAha8D5bN
-	uoF4rAWK3QjUhayF5n/omc1rAVHvslJGhxFtM48cO6WBtVto9WvEudkN+pu8B8WbVkN797
-	muLlJU68rkT1sqPSDev8SOF3wwrq4Ac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785408606;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VeiXUf5UI0bba1l+buCl3P/hPidhOydoWlC3cuXzBSs=;
-	b=6X08noC/rzZYVYpYzVwZRfJC6tpXaDehRNu4uB0COZhGPgGhiBLjWo9cRm96UTIVqBRK8g
-	gl5jiDXc8lyiBUAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3D00779CC;
-	Thu, 30 Jul 2026 10:50:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qPfHL14sa2rTRQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 30 Jul 2026 10:50:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 68884A0AAA; Thu, 30 Jul 2026 12:50:02 +0200 (CEST)
-Date: Thu, 30 Jul 2026 12:50:02 +0200
-From: Jan Kara <jack@suse.cz>
-To: =?utf-8?B?6raM7JiB7J6sIC8g7ZWZ7IOdIC8g7KCE6riwwrfsoJXrs7Tqs7XtlZnrtoA=?= <yjkwon0026@snu.ac.kr>
-Cc: Jan Kara <jack@suse.cz>, amir73il@gmail.com, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [BUG] fsnotify: concurrent mark updates can publish a stale
- aggregate mask and lose events
-Message-ID: <o3y7rskcnpaalaut2qro5ntewog64jdtzrxjw5q7lhg52rlo24@rxogt3dmzx6f>
-References: <CACwKKmANzQaVSLni4QkvfoL6Axd3_3mYvCrsWRazXg0QeO6y3w@mail.gmail.com>
- <dtryuddxj63ibzfzmktla4ypj7vnxj5gia66joet3lp6zgzpot@btjuuubvckv3>
- <CACwKKmB_wwUoW9g_hgqESwKeEuM2k4MiAUn+6Nu=zpyE1VgmYg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaNLiHQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607E31F000E9;
+	Thu, 30 Jul 2026 10:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785408748;
+	bh=6nnfs8nNtVlnONzrxIfe8gTsLCSK014Od3NMgnHpEGA=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=TaNLiHQ5r12KveIkqUueqgJ6znUisBjF6CuJz+NMS6O197mlNPse6/Ni1Ei/ySsQm
+	 Yz4ZsvWiEGISLo/wxSBykWjwf9jZoalchbdbGC2X7rcDOI5HYlYB3r7ylfSezU/+bf
+	 A2i+DbRpHPg8V5CqM/QqWCRCuMO9r4R2q+bfs5u1Yokofjic+3rTfSQHq5ZyN0/X7M
+	 hX32l1x5bSDcstnwqCcPBTEqmZr1gVjirnqoW8Q/WoPoidK9UBfszrTRhnG6DgFpfR
+	 BKCfuDNzZ1qNliYLQKGUNHSRX5HN1F4PnjiIuJOJydW69E7gWhrhYzc/JkKI4LjdHB
+	 20a6NCZn3WLjA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACwKKmB_wwUoW9g_hgqESwKeEuM2k4MiAUn+6Nu=zpyE1VgmYg@mail.gmail.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an
+ initramfs (rootimage=)
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Curtin <ericcurtin17@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
+ Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+ fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260727103104.2531937-1-ericcurtin17@gmail.com>
+References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+ <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
+ <20260727103104.2531937-1-ericcurtin17@gmail.com>
+Date: Thu, 30 Jul 2026 12:52:23 +0200
+Message-Id: <20260730-bemalen-beigaben-distribuieren-89fb44589e20@brauner>
+X-Mailer: b4 0.16-dev-3e0c3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4029; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=UvKCq7l6psv+9VQB3BKj5A3SAuB5ZkDp48bUDA8pE4k=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRl67x8NtvI4Eps49UF62r3xu6yUzb49jtmRvW6xB3rX
+ OwY1k+511HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRqSaMDHsmVs9dJV24Ntdp
+ 28I5Pk/Wzv6/dtNdPtsDk89abT6xpPs1I8O3qH8nXcxjPwfd3RYf13o2pSBF+mOlHv/JntBHmY3
+ f1nMBAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hello!
+On 2026-07-27 11:31 +0100, Eric Curtin wrote:
+> On 2026-07-27 10:55 +0200, Christian Brauner wrote:
+> > So I have several structual and design issues with this.
+> [...]
+> > You're embedding a whole deployment topology into the core code here as
+> > well... There are _five_ interacting __setup parameters. Every real
+> > deployment immediately wants a sixth knob: A/B fallback inside the
+> > mechanism. Because in your current model every failure is a panic().
+> >
+> > But that also means image selection must live in the bootloader anyway:
+> > composefs/overlay stacking, LUKS-encrypted state partitions as command
+> > lines can't do crypto secrets, fsck of the carrier, directory-based
+> > deployments yadayadayada.
+> >
+> > This is just turning do_mounts.c into policy it shouldn't be involved
+> > in.
+> 
+> Thanks for the detailed review. Let me state the goal plainly, since I
 
-On Thu 30-07-26 00:39:49, 권영재 / 학생 / 전기·정보공학부 wrote:
-> This did not come from a real application. It started as an LLM-assisted
-> source review, but I only reported it after reproducing the lost
-> FAN_MODIFY/IN_MODIFY events on an unmodified v6.12.95 kernel.
+This kinda reads like a complete 1:1 dump of an LLM session...
 
-OK, thanks for confirmation!
+> think it explains the choices even though several of your specific
+> findings below are real bugs I should just fix rather than defend.
+> 
+> The goal is A/B image updates from a *single* partition, without
+> paying for a second userspace spin-up at boot.
+> 
+> Today there are basically two ways to do A/B on Linux:
+> 
+>  1. N partitions/dm-verity volumes, each a full root image, selected
+>     by the bootloader (dm-mod.create= + a GPT attribute flip). This
+>     is the ChromeOS/Android model. It costs Nx the storage/partition
+>     budget up front and the slot count is fixed at provisioning time.
+> 
+>  2. A single filesystem holding N image files (what bootc/ostree/
+>     composefs already do), where something picks which file becomes
+>     root. Far more space- and slot-count-flexible, but "pick a file
+>     and expose it as root" is currently dracut/initramfs's job, so
+>     you pay for a whole extra userspace stage whose only work is the
+>     five steps in the cover letter.
+> 
+> rootimage= targets (2): keep single-partition flexibility, drop the
+> "spin up a second userspace just to switch_root" cost. On fast-boot
+> targets that first userspace (loading dracut/busybox, forking,
+> possibly loading modules) isn't free and is pure overhead for five
+> mechanical steps.
+> 
+> To be clear, I'm not trying to relitigate "no bootloader spec in the
+> kernel" - I agree with that call, and A/B slot selection/fallback
+> bookkeeping is meant to stay in the bootloader, exactly as it does
+> with dm-mod.create= today. rootimage= is only meant to do the same
+> mechanical "resolve the one path the bootloader already chose, verify
+> it, make it root" step dm-mod.create() does for partitions - just for
+> the file-backed case, where there's no dm table to describe it. So
+> the "sixth knob" is intentionally out of scope; where you're right is
+> that I haven't specified what happens when this step fails (currently
+> panic()), and that needs a real answer, not "bootloader's problem".
+> 
+> On the rest, these read like real bugs, not disagreements, and I'd
+> rather fix them than defend the current code:
+> 
+>  - filp_open()/fput() unused, and no guaranteed relationship between
+>    the fsverity-checked file and the path/inode init_mount() and
+>    erofs's own filp_open(fc->source) resolve independently - agreed,
+>    this needs a real "mount from an already-open fd" path.
+>  - multi-device erofs / rootimageflags=device= meaning the digest
+>    only covers the primary image - agreed, real gap.
 
-> The fix you describe makes sense to me. Happy to test any patch
-> against my reproducer.
 
-Since you wrote: "If either direction looks reasonable, I can prepare a
-cleaned-up patch and a regression test for review." my understanding was
-you want to write the fix yourself to get the full credit for you work
-(which is fair). If not, just let me know I'll write the fix myself.
+>  - the carrier fs being fully parsed, including reading the fsverity
+>    descriptor itself, before anything is verified - agreed, that
+>    ordering defeats the point.
 
-								Honza
+Yeah, and it's unaddressed as are all the other structurual issues.
 
-> 2026년 7월 29일 (수) 오후 9:40, Jan Kara <jack@suse.cz>님이 작성:
-> >
-> > Hi!
-> >
-> > On Tue 28-07-26 14:32:33, 권영재 / 학생 / 전기·정보공학부 wrote:
-> > > Concurrent updates to marks from different groups on the same inode can
-> > > leave the object's cached aggregate mask missing an event bit that is
-> > > still present in a live mark. An operation started after both mark-update
-> > > syscalls have returned can then be filtered by fsnotify_object_watched(),
-> > > so the matching fanotify or inotify notification is not delivered.
-> > >
-> > > I forced this source interleaving with diagnostic scheduling barriers and
-> > > reproduced persistent FAN_MODIFY and IN_MODIFY loss in 3/3 independent
-> > > boots for each interface. A control update that caused a fresh aggregate
-> > > scan restored delivery. I also observed the same loss-and-repair outcome
-> > > without kernel instrumentation on an unmodified v6.12.95 kernel image in
-> > > 3/3 independent boots, with 9 strict hits in 30,000 attempts. I have not
-> > > identified a memory-safety issue or a security-boundary crossing; I am
-> > > reporting this as a notification correctness bug.
-> >
-> > Thanks for the report. To clarify is this a result of a code review
-> > (personal or by LLM) or some real application was hitting the problem?
-> >
-> > Also for the next time I'd like to ask you to try to keep your report a bit
-> > more condensed (either by instructing LLM or by selecting the substantial
-> > content from LLM output). E.g. in this case the above two paragraphs
-> > explain substance of the problem and reproducibility, the scheme in "The
-> > race" section shows how the problem happens and the rest is mostly just
-> > uninteresting noise so this report could have been less than two screens
-> > worth of text whereas now it is over 7 screens in my terminal.
-> >
-> > Now to the problem:
-> >
-> > > The race
-> > > ========
-> > >
-> > > Let P and E be marks from different groups on one inode. P initially
-> > > supplies event bit X to the cached aggregate, while E does not contain X.
-> > >
-> > >   P update/removal                 E update/add
-> > >   ----------------                ---------------------------------
-> > >   remove X from P
-> > >   start connector recalculation
-> > >   scan E without X
-> > >                                   add X to E
-> > >                                   observe old aggregate containing X
-> > >                                   decide recalculation is redundant
-> > >   publish the older scan without X
-> > >   both syscalls return
-> > >
-> > > The add-side decisions are not serialized with connector->lock:
-> > >
-> > >   fanotify_mark_add_to_mask():
-> > >
-> > >     recalc = fsnotify_calc_mask(fsn_mark) &
-> > >              ~fsnotify_conn_mask(fsn_mark->connector);
-> > >
-> > >   inotify_update_existing_watch():
-> > >
-> > >     dropped = old_mask & ~new_mask;
-> > >     do_inode = new_mask & ~READ_ONCE(inode->i_fsnotify_mask);
-> > >     if (dropped || do_inode)
-> > >             fsnotify_recalc_mask(...);
-> > >
-> > > __fsnotify_recalc_mask() scans under connector->lock and later publishes
-> > > the sampled union with WRITE_ONCE(). A different mark can be mutated after
-> > > it has been sampled. Its add-side redundancy check can still observe the
-> > > old aggregate, which the in-flight scan then overwrites.
-> > >
-> > > After this ordering, E contains X but the aggregate does not. The state
-> > > persists until another operation causes a full recalculation.
-> >
-> > Yeah, right. So for simplicity I'd just solve this by always calling
-> > fsnotify_recalc_mask() whenever mark->mask is changed. We *could* keep the
-> > current behavior by providing new mark->mask to fsnotify_recalc_mask() when
-> > adding events and then doing the check under conn->lock or even improve on
-> > it and completely avoid scanning the whole conn->list and just add the new
-> > mask to the current connector mask. But at this point I think it is a
-> > premature optimization - we don't expect many notification groups to be
-> > watching the same inode and frequently adding marks to it. So let's keep
-> > things simple for now.
-> >
-> >                                                                 Honza
-> > --
-> > Jan Kara <jack@suse.com>
-> > SUSE Labs, CR
-> >
-> >
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>  - zombie superblock / dangling source path / no loop-style
+>    backing-file equivalent after detach - agreed, needs fixing.
+> 
+> I'll rework this into a v2 that only tries to solve the "take an
+
+Why? The structural issues are all still there.
+
