@@ -1,104 +1,111 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EF1448BBE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0879E43E49A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 16:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785429009; cv=none; b=QIWwHtvLhqvnodVoRmgC0uzi4b7JYA0i4P0O6BfeJQkZ1Y70rT0LRVRJJiKx+no20PQpw6aQMGSm6K++cFOOVr0f+p/b0MTSuf7DVOFjreYaC5EiNJOOQL4b67C36R0jJxNK7OgpYjA2tmUBms0ac7RsDLMCkm84tvUtmTY70zI=
+	t=1785429166; cv=none; b=mIXcbYUXI1rbp1lrALPIod3Ee40XDp5AepwupX0vPt4ItLKFd4RjQxj6U3+JMIwuZzgsfnO9T/ZeMhV8FasjiPK+VbHYA6IYN1oK5zsvAdLfPHWggPniWJlqOINsFyFtZKd8VU+Ov4hZj9M7EXvJNu9J9vZVYRjUM6mHGy0zOgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785429009; c=relaxed/simple;
-	bh=j929Td4hajJuv+QUhdI1SNg8U3FSolKErsuvAFPYvts=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hD3WXLbEtMeGhyTaF6AVe5WPoQlAOLAOv2a2ixKFNLh8Z+cT6Bfq2UxfDYuo1WQn/JVYpqB2+LC6lYWgqUPfu0cxqm4MyjG7cZ8vke6ge1EbAZdEZF25kby4iZTcOzJrxO8XLThowtFPgjM7/VKLkcZPVTdkwntpnDTEFkDI2yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=HHUB/r0Q; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1785429166; c=relaxed/simple;
+	bh=9btGk5f2a/DceEfPaKkNA5+Plv7jzRhDTY3TO4vi+kE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JmI/Q3gkQWy1VQh1AwTKeK3melaSmsh/LvZy0Uo6PzpsVXgITOsoVD6iIbEaUXEJffF6VscTDrfwhIhwjBHqZd4xQvhnTbSrfczxaHo7B7fbqEw9ROeSSBOZLSuvFwDPDSpdQV/iLmET8/WBRRn/UNerp2yCUvfJ1v4Pc6NXg5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=LupAejho; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="HHUB/r0Q"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a082b3671fso33916a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:30:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="LupAejho"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7eb64085c45so25891a34.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1785429006; x=1786033806; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785429164; x=1786033964; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JKKXILLclmc3qNlg3jUy1gcZGJ6n7s8aAYhXOiYG/9o=;
-        b=HHUB/r0Qg0rvE2sI8efigm3fsr04X+I3/C+vOanLNJM8QH4maEzX3hn68SW6jE7d/F
-         XVumhQTpWy5dwQ7TupP1Zz0+X+uZZz4fzPi4AFOr5rOIn7D9TxznYhxU4SSxaa+nVUeZ
-         Q7HMyK5Z21Hj3IoUXAC65DKbu1dkz8nxNxsL8=
+        bh=5C1EvvuLAlRHXA30Xxb4HI1T4XzyQlMzu71fYbXEDfw=;
+        b=LupAejhoSWQSMcTguID4LkXupjL8lz8kU6zgSQXLMlpQ/6mSg35/KNvzn76jnPyTNg
+         +C+qViZ7AtLW5Jhw3FjrFXUhe3GGVc4bsgrGEsy1edhrMTWTjoQDN3Vq+dlFuo8n6lKb
+         +swwtcA+idGA5OpZfKzfzIlW0iyGbhxkt1hmPxLSThELq76uovoTt5ny1qEfknUWcJr7
+         IesC2xFsOs1e2VLIcHOA7AcIk32KWOBGL6Kym/0Mbt4HJaYkGbrGxYrpXl38k0pVZxH8
+         na5VqEQbz/vNCPheI8MufSCVUtRcyyWGhT8uwVvTqZ6exYCeuR+B/BjAoFBaWSLpddIg
+         T/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785429006; x=1786033806;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JKKXILLclmc3qNlg3jUy1gcZGJ6n7s8aAYhXOiYG/9o=;
-        b=itRI1peoKf09AbG6vyZU57/WUEaXO7QVG0GFsNIFdxr4u67lhdULklcnZeWF+mAy3I
-         RSslUKxZE4d7vSrd7GicRGP4Emm2kExKO3rhWkpLUv7+PRD8VE5nX7GqzgU1Co9bBhuU
-         sZ2Lychgl/0vWuO1OyJ3m1tqAsSr3y70dJjNrwhZytUDOb8OnL/b+qcvZiPlw28XRov6
-         Vs3caNVd1djBt2gQM5Wxp96KZ3zIeS/jRw103wgBdbfpC5AkLO6ZQRuAftOjZD+y9VhU
-         0cYO5DomGOSZABfvDgJtapuZkMkN/bFV/BgTOcVO/AURt9CJVpgNQeKcvHOklzJqCq1R
-         rmMg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqa5UgwbTrsAkH3AinopgXMBiXyej4BxLaIdr3Uj8LYXbblQ1WnYkak498Ponr6cFC3+pahHItbMC7ZvP97@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt6iuFSdFXHkg3d3icZig+EL+6OpH9v9mMOcIezlufRZ/l8Jat
-	VFmfNcmaJKm7Uq5h1eNu696NZgdyI6a4f2r5jFLl0t3cSTaW9+sR2iD2eCyTAxrUItr7gcxnLoW
-	m3X+1N/4=
-X-Gm-Gg: AR+sD11ZPzadIsZkJjkhv8S968IIlUlWIMVVkrUk+J/m61VagKeIscMHEf7QhafkpMD
-	XEAkP0VVKtdTmS6Xv1iD+wepeBUXit35oMQiiPByoiukLxVqxQT2Ga1+1mECDdyD/DfFULXFerV
-	Avzl+UJwJUhNkeTxZaBaVKW2BP3tqjGm1fGxkvgyn7h4r0LHSKskX+DpSeAyKLO4zGCatzvavfE
-	AK+9zl5gPu2kVmhmvcQCLYrgZWyOaU4ktW4KlLAM35k/7Xn21oZENHwCpbx0FRxKk/xOMm+tpVh
-	6beJfxXD/LlUTdOBgaN7Ei49kUupK71ACX/c/IpV33Jdf3HeOvvkRrkJHq8JUpeb5uG0sJsVg8K
-	ehUUiOqit3Q6q06J50h785GtbE9Tex6ULiYZVn9mnXxnOz19a14CJf75jm+Etd3Wm6ZBG2Pzf9+
-	lcZo9nzK3EMjtauFVLqTKmibmJ46JmA7ffeN/vzQMD6KnZ0Q5DwBqY7wK8So3/qis8E02AcX6Qe
-	CoconGlUI3wzbN1gva+A4JYItKYXSR7ZT9k6w==
-X-Received: by 2002:a17:907:1ca1:b0:c15:ce72:9350 with SMTP id a640c23a62f3a-c1fa56d4997mr186739966b.41.1785429005579;
-        Thu, 30 Jul 2026 09:30:05 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fa8b76100sm87808766b.30.2026.07.30.09.30.04
-        for <linux-fsdevel@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1785429164; x=1786033964;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5C1EvvuLAlRHXA30Xxb4HI1T4XzyQlMzu71fYbXEDfw=;
+        b=ptRs3FfXY+boCNH5KL6i3Vpp78dH51Ns7p26pn6+2HyItv6D8YFrBcgQzROLfFrMCH
+         xUxguZhLWA8aDhzkCMOSYnpOvkjdDxKQrgF4nfLz+f71ye75rCsOa4mm5jbyQjgFRA5b
+         582sYkbJ4C/aMGz5HTc08nakuCOeIJX1m8z4H1Dz+A6V9MiOsbVPQixReAY1lMWD0HIl
+         rjYCJaqBZL2/lwbcoZOmnJgxETBRN7P9zkID2dULKetpjAyLmFbf/qRUzo4lz51wkf4N
+         4KfI15bFp7Jn5hTPnAbvCNsILuoUYSun0DT6zftJVv8kpsF5MyMYSB+Ur+7ak+Sxwbea
+         Jekw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+euDm+5CwUKi79bdidBScdZ7kJTdL4Rzfbr39Oj8QVzojLiGdZm0DG6vWnugiYzlBfFgZ7Eoahxbg6r9L@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJfnU+WaneCZmqYBUCjl2+MfA2NDolnTCeWEbUe5GMUDXjXeRF
+	QWFLp3M0SFWCXDys2QwjFQCtt9znA1+icyeW9vuCEGS+O5snT+0vBZhf2Oy86RtsLi8=
+X-Gm-Gg: AR+sD10UE3MOMIKL5ng9d0a9mie+m2fdX12suX7Co7/Dn0F7cCT7zy6xoY4LhSjeE1d
+	z+Wc02cXfxBWxo5PDlQYfgiCWVb3IB6bJgJGVxVg8ePDckp7djIvsBiOkUuww3kKSqSmEZ9UDzD
+	ME2Q2hL7iMesefAJXXA1BtYMGRypYu2ZzQZXDRFILtxkL+PbZ9721wY/zCEsolA9aSyETTQ4FQU
+	d8VJ7crUG5mNAkICWexRrn78RLp/ASKC4ORM4I6Vei5QJEjO7iUX12umrvAxITz2ElJZLvj/Fol
+	SXJkyuJD79J/FF2Ji3AGb+aYbgX6rha+ZwE623t82AFSaWmGjzTzaJz/+nWe3SiqRK5ZvCNp501
+	nwSEx3o+quw+YDLvKS66a341p9xoDBOni6Wty3iRTf1+Eo1tAJeG684r6LQMKnJM0zPF6E2kNaf
+	qPDmg5BmeC4zVXTE5IpfWeTEY+6rIvHIOKVhVZ2XbWL7EMmihlqdv9fK1ryW4PjN6YESE4tgTKv
+	rgpiBpWv9Y0s7Gj9UBVpADZO9cIOOedeC36euXYGLLNtVuK8/FnXf2uiA==
+X-Received: by 2002:a05:6820:3091:b0:6aa:4f21:dd20 with SMTP id 006d021491bc7-6acbc1db6cemr1962089eaf.64.1785429163783;
+        Thu, 30 Jul 2026 09:32:43 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f00d8df72asm5110588a34.13.2026.07.30.09.32.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 09:30:04 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1f758014b8so207303666b.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 09:30:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpduUc2p2LsBwmQXGwWAnJOFiwyyNQugVX592x4Qqd6riFdshBRt/FfpAc0v6O5fJv6/mI1Gmiy21PPOGQb@vger.kernel.org
-X-Received: by 2002:a17:907:e1c1:20b0:c1f:6f31:37c7 with SMTP id
- a640c23a62f3a-c1fa57683f8mr118873866b.54.1785429004279; Thu, 30 Jul 2026
- 09:30:04 -0700 (PDT)
+        Thu, 30 Jul 2026 09:32:43 -0700 (PDT)
+Message-ID: <3766c1e2-bfb7-4c62-85d1-3cd4afbe289b@kernel.dk>
+Date: Thu, 30 Jul 2026 10:32:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260514140817.623026-1-axboe@kernel.dk> <20260514140817.623026-7-axboe@kernel.dk>
- <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
- <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk> <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
- <a50c6a4d-5c25-4cbb-baac-f622728f2693@kernel.dk>
-In-Reply-To: <a50c6a4d-5c25-4cbb-baac-f622728f2693@kernel.dk>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 30 Jul 2026 09:29:47 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjr6LoL+k1J076cSvRHVOdR5Wvh2J1HbwZUQ-BY5vxLKQ@mail.gmail.com>
-X-Gm-Features: AUfX_mwr5GDmQnErKjwQ0Dunyz5Uw2GHS2KisR_RTCds9nNDzKaWdeGII3C9Lq8
-Message-ID: <CAHk-=wjr6LoL+k1J076cSvRHVOdR5Wvh2J1HbwZUQ-BY5vxLKQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 6/6] io_uring/epoll: disallow adding an epoll file to an
  epoll context
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, brauner@kernel.org, 
-	=?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Xi Ruoyao <xry111@xry111.site>, io-uring@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+ =?UTF-8?Q?Juan_Jos=C3=A9?= <soyjuanarbol@gmail.com>
+References: <20260514140817.623026-1-axboe@kernel.dk>
+ <20260514140817.623026-7-axboe@kernel.dk>
+ <605939add4dfb674bd7ab39ef8dbd3fd22e754e4.camel@xry111.site>
+ <427b15c8-c168-4e2a-ac38-b00dc00400d3@kernel.dk>
+ <CAHk-=wjeSgFEr3WSO1C1sPP+fy+Mt5_EL9WXW-s11BOhD_S5Ag@mail.gmail.com>
+ <a50c6a4d-5c25-4cbb-baac-f622728f2693@kernel.dk>
+ <CAHk-=wjr6LoL+k1J076cSvRHVOdR5Wvh2J1HbwZUQ-BY5vxLKQ@mail.gmail.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <CAHk-=wjr6LoL+k1J076cSvRHVOdR5Wvh2J1HbwZUQ-BY5vxLKQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 30 Jul 2026 at 09:25, Jens Axboe <axboe@kernel.dk> wrote:
->
-> Exactly, no other recourse here than to just revert it. Unfortunately
-> my io_uring-7.2 branch is from pre merging of the epoll changes, as those
-> went in separately. Hence I can either prep a revert for you separately,
-> or you can just revert cfa1539b24af yourself since you have the context
-> as well. Let me know what you prefer!
+On 7/30/26 10:29 AM, Linus Torvalds wrote:
+> On Thu, 30 Jul 2026 at 09:25, Jens Axboe <axboe@kernel.dk> wrote:
+>>
+>> Exactly, no other recourse here than to just revert it. Unfortunately
+>> my io_uring-7.2 branch is from pre merging of the epoll changes, as those
+>> went in separately. Hence I can either prep a revert for you separately,
+>> or you can just revert cfa1539b24af yourself since you have the context
+>> as well. Let me know what you prefer!
+> 
+> If you have other things pending for the next rc, let's do it in your
+> tree and I'll get it through the normal channels.
+> 
+> And if the answer is "no pending pulls for rc6", I'll do the revert here.
 
-If you have other things pending for the next rc, let's do it in your
-tree and I'll get it through the normal channels.
+I've got a few patches I'll ship tomorrow, so yeah let's just do it that
+way then - I'll revert it locally.
 
-And if the answer is "no pending pulls for rc6", I'll do the revert here.
+-- 
+Jens Axboe
 
-             Linus
