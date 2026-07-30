@@ -1,87 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F5640DFDE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 11:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CA23D3305;
+	Thu, 30 Jul 2026 11:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785411119; cv=none; b=bUQwYOzK1HhhCrq0ECg3PN6WXgJTFS3BPfGA++GSVd73PuCUj55KwN+cmnQBOSzBx8Q87TmEf69CfTxt8wkHb3WML7Nzwsd7Fs0I9Vo+XlnAFqqb8dY3vBNlEkxy7177HIq/2t52vkJ2nxNogRl9V4Gf6wOcRDJ6Kr5XqFgj6vs=
+	t=1785411387; cv=none; b=nKRa0LR8pIVYIlZZPI4iCMqpqb/gsL1RsqoGSTsQAM/FWvza5ukSo82IjY4RxDSAJPcb7BguuCymvUN9QLBERdlDGCNZTRiKWFcaZKATWS1dzOggVEEayCSkeYKLYEVkR7SuRLLXQLLqDwfFFyuRG+kDShFoz192pFS4yVTdK1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785411119; c=relaxed/simple;
-	bh=e232u/Y12qKTZX5OlS3gcTSH0tBMZOJ1MXCtIWOiahs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AfRrQE3YBkpzBksuOi71UNpXHeUdQSgqr6pE/cSt9KGzCZdZXLfCfXXlbkaMMmvlMca+NSMlTaqroiyJYSTbk/Bb9vTZxStrsLgE56AKoKXfSvNceAyXaIFJXc4CEW6PaDKwWz9o3mt2WFDfkGr95kFpqjccBXIdSduQs2mnDpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LApwSbOb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kHMaUF5B; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785411387; c=relaxed/simple;
+	bh=zLysCEEqoEuWyM6opQgluK5L0ojRhH4UN4NK8AHNaik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=MllZcHfvKioAX+u6vs9Lpgr61IP0sotV0y2UaC1N6kmPH/T6fu54VRnFkYyui3lp0SwlpcP3bN809a4eLzpg2wervCr3MokZril8s5mmN7/jaLNtsv/L3YgznaOMnX5BMVhSkpAN7qjKwOhbhtSYB/IxrEIuM1AADbnQYJHa/hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=G1m0nOj5; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LApwSbOb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kHMaUF5B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785411117;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K/oim8867mZQgToMOzPg8eJIB7HeZ+BxcHHpVKJYTOE=;
-	b=LApwSbObI7GSPTGzDmGnR7ty4ZHGdcYCFqs1tDG3seJebt34uC3VD96IfBPSaZGJ9TURoS
-	yzS980fTJ6Dz9fBYGhOtSQzRdIaYAgAAozEPx5uS+v4NXarhtsT5GA7I8aZFeVguYIRRBK
-	y5kQ6tjQm80FBKXy1Vq9s7yaXTiSEnE=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-399-XOIh2WcAOD2AXC4vdUd8mA-1; Thu, 30 Jul 2026 07:31:55 -0400
-X-MC-Unique: XOIh2WcAOD2AXC4vdUd8mA-1
-X-Mimecast-MFC-AGG-ID: XOIh2WcAOD2AXC4vdUd8mA_1785411115
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c1c7f135bso36207931cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 04:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785411115; x=1786015915; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K/oim8867mZQgToMOzPg8eJIB7HeZ+BxcHHpVKJYTOE=;
-        b=kHMaUF5BCdSpmSznZkHS31hopq2iXgv1yf9Y83LczYRefV26hl7/Xhun0s+gNPNfF9
-         kNgS6pgZRj0faTdMppBZ7OGJ/ZAElptDnvT04y/3QDY6OI+wdl4U2nBYIsbPakj1jHGK
-         A0n8rXuUq24RKgZvuuKsSrjjfA49vOg1tkwzLkfCst8ZOfwe92hagztGl1Wmc7327IK2
-         1BgU9iUI+idKf4aFai4NWC+gfr9nIzZB58/KA4gQ42k4p1PEJiDLZu3OEnushCkw++EB
-         hV3EiIO+NS5FVnsJDB16VUXpEzyVWcZXP3Kcp6g7H6MAvwQWdOkd5aYf6+hY5wI8QuL2
-         YPkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785411115; x=1786015915;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=K/oim8867mZQgToMOzPg8eJIB7HeZ+BxcHHpVKJYTOE=;
-        b=kI1N7n7m/tJ/kDpdq6C8GDwGEkb7dEpvR0xUvMjrJnenTwO/Er8uASAw5YnvQOmQ0y
-         zc7RpgU3XFzxrDEFuwV+6V8dg/g7VRXDbxEyW3itdzrAp4twpRBxvhVgTT4TV/gf/mc6
-         dNzl4Kym6DdJ3WL7JU3MaE1L7m9oipiZXM+XaeVLa0Aj+ASvTWIe7fKuK/Mu7oMuLucV
-         Vi0cRWIKRRr9uCaTtFAqKibADfsvP///MXKmVFx618vYp9XB7HlZD70h/bMgK3KWZ+7W
-         NOSwq6YX9gOX1HQl+Jx6rV6Z0y3vozV5lXFh+8/Lk8Li/Fz3lr5z7TRd8vQJ4w9xOgrC
-         ESgA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2Sxy8LdAtmero+6RiRWKOHkaiE5v7TkjV1ZzEcZx+nG3C6Jtqa0l69CPbk6BNFUcfTZa27UjGdMNIMKzG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAG/1MRnSE6DzN1lOXu3Zuf2znoX08R/A4h0oxGj3Pju4zjC1k
-	ZXYNXDHht3YD4T1wVl+gqSbu+2MzYG368Tt+QZreCFyYOn+npBq5TezICVoj9QlDkhYTBAEIWQ1
-	DOfbp3AiPAy2ffl6Ulxjn4sPhMj2nalmUBrIdH0mR+g+HfdPEqx+rMVzFnBZwTe3+DbqtYt3laN
-	k=
-X-Gm-Gg: AR+sD12C2iHhUVB2TQ8jdtzkG4E+TUleD7kfH9QPXh8e41JR730GbY4aQtcSgsVHkMY
-	c62y1wiCiT8s1pnCqzSgShn5wcd+KZwiqSYHZIAztz6DHxVeQY9D2a6+najQ9/Za8xEGrM5hZo2
-	/4qJxo5dkaSYt7nrflx9bTGMDxOHYObLqo4mDTwGnOouaP4lP3+2Wrqlw58bR/vJUBqg4WAWlQz
-	YF8hVTNnZ5+bihOBHqwLR6nYlrFVk5Qjfknu1fKFAMudkbgtBt9H361AyLTUFo/ZMQ//LSbmguz
-	DijT4c6aZ9V6LhCy9vaVEHXmOOg42ksYSG8JNV3n0SLQP4J0Yq8sauKKF9FbxcGq+9UEvff5T5c
-	P
-X-Received: by 2002:ac8:5750:0:b0:51b:ef2c:7bf0 with SMTP id d75a77b69052e-52b384c6e18mr21435421cf.35.1785411114711;
-        Thu, 30 Jul 2026 04:31:54 -0700 (PDT)
-X-Received: by 2002:ac8:5750:0:b0:51b:ef2c:7bf0 with SMTP id d75a77b69052e-52b384c6e18mr21435081cf.35.1785411114245;
-        Thu, 30 Jul 2026 04:31:54 -0700 (PDT)
-Received: from [172.31.1.12] ([70.105.250.248])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908324f3099sm15731886d6.38.2026.07.30.04.31.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 04:31:53 -0700 (PDT)
-Message-ID: <c62e53e3-139a-43aa-bc7b-e4c3d47fa6d8@redhat.com>
-Date: Thu, 30 Jul 2026 07:31:52 -0400
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="G1m0nOj5"
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260730113622epoutp01cd551f2ca3195d893edf957daba54315~HDjFDmUL01609216092epoutp01Y;
+	Thu, 30 Jul 2026 11:36:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260730113622epoutp01cd551f2ca3195d893edf957daba54315~HDjFDmUL01609216092epoutp01Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1785411382;
+	bh=mERFm4283SSrRFHo9/1ATS072a+0UIQwbggX9r32jfU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=G1m0nOj55iDA9Dd+o78RP1b6wsb5owePEsyB2HLZpWZ6TNjoaPNBKS3Bl9iVZZRQV
+	 leVdqeIcsnTbKQnqgOQLWCGR3KeuMAqMAHOvOQ5XtXOayIBD6utXS6XH8KTkELKZgr
+	 zEcrc4MUK5bcbMdqpy2eFgv3VLAU+aJAnTZlwZ/4=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260730113620epcas5p2cd2dd6e62a21b0504d36dfba298dab5e~HDjD3F8l_1787417874epcas5p2O;
+	Thu, 30 Jul 2026 11:36:20 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.88]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4h9nGC3jq9z6B9m4; Thu, 30 Jul
+	2026 11:36:19 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260730113618epcas5p2fa034480e41d3e4e7b6c61c98a1ee498~HDjB8riTb1788217882epcas5p2K;
+	Thu, 30 Jul 2026 11:36:18 +0000 (GMT)
+Received: from [107.122.10.194] (unknown [107.122.10.194]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260730113614epsmtip13123c94af622f6e0e15c09cb30ff8023~HDi9_RAYA0540705407epsmtip1s;
+	Thu, 30 Jul 2026 11:36:14 +0000 (GMT)
+Message-ID: <09134617-6d9e-4963-9319-1855e88a4df9@samsung.com>
+Date: Thu, 30 Jul 2026 17:06:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,59 +51,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: ANNOUNCE: nfs-utils-2.9.2 released.
-To: mjnowen@gmail.com
-Cc: Linux NFS Mailing list <linux-nfs@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <dc0f6f41-84be-4a70-92db-89890bded3ab@redhat.com>
- <CADFF-zfEws+xZ_tOqhC8uJZAFZvwMDtZ5yagDP9x7Umq6zabDA@mail.gmail.com>
+Subject: Re: [PATCH v4 08/14] nvme-pci: implement dma_token backed requests
+To: Pavel Begunkov <asml.silence@gmail.com>, Caleb Sander Mateos
+	<csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+	Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Alexander
+	Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan
+	Joshi <joshi.k@samsung.com>, Jason Gunthorpe <jgg@nvidia.com>, Damien Le
+	Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer
+	<snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Benjamin
+	Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, Ilya
+	Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+	nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org
 Content-Language: en-US
-From: Steve Dickson <steved@redhat.com>
-In-Reply-To: <CADFF-zfEws+xZ_tOqhC8uJZAFZvwMDtZ5yagDP9x7Umq6zabDA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>
+In-Reply-To: <de4ec386-42ba-41c3-bcbe-1fe8b2f71ba9@gmail.com>
 Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260730113618epcas5p2fa034480e41d3e4e7b6c61c98a1ee498
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260730104131epcas5p4b52720519486f7ac774c317923a79c81
+References: <cover.1785274111.git.asml.silence@gmail.com>
+	<19e5c945ea8114320c10f7951d19197d48b59249.1785274111.git.asml.silence@gmail.com>
+	<CADUfDZpwF0jp2e=+c3w_NjWPbnQ858bkSD731M6+x27jzgcJiw@mail.gmail.com>
+	<CGME20260730104131epcas5p4b52720519486f7ac774c317923a79c81@epcas5p4.samsung.com>
+	<de4ec386-42ba-41c3-bcbe-1fe8b2f71ba9@gmail.com>
 
-
-
-On 7/29/26 11:14 AM, Mike Owen wrote:
-> I don't see this release tagged via git here:
-> https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=summary
-> Forgot to tag?
-I did... It is there now!
-
-Thank you for pointing this out!
-
-steved.
+On 7/30/2026 4:11 PM, Pavel Begunkov wrote:
+>>
+>> I wonder if it's possible to perform the PRP list page allocations and
+>> initialization in nvme_dma_buf_io_map() instead of the I/O path. The
+>> NVMe dma_pools are per-NUMA-node linked lists protected by spinlocks,
+>> making them significant CPU hotspots. If the dmabuf registration set
+>> up a contiguous DMA-coherent list of PRP entries for the pages of the
+>> registered buffer, any command using the dmabuf and requiring at most
+>> 1 PRP list page (i.e. length <= 2 MB) could just set its PRP list
+>> pointer to an offset into the dmabuf's PRP list.
 > 
-> On Wed, 29 Jul 2026 at 15:48, Steve Dickson <steved@redhat.com> wrote:
->>
->> Hello,
->>
->> This is a fairly large release...
->>
->> A number of memory leaks fixed (from AI)
->> A number of netlinks fixes/enhances
->> A number of exportfs fixes/enhances
->> A new nfs-iostat option
->> A number of gcc/warnings fixes
->>
->> The tarballs can be found in
->>     https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/
->> or
->>     http://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2
->>
->> The change log is in
->> https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/2.9.2-Changelog
->> or
->> https://sourceforge.net/projects/nfs/files/nfs-utils/2.9.2/2.9.2-Changelog
->>
->> The git tree is at:
->>      git://linux-nfs.org/~steved/nfs-utils
->>
->> Please send comments/bugs to linux-nfs@vger.kernel.org
->>
->> steved.
->>
->>
+> Possible to an extent, predecessor patches tried that, I left it for
+> later to keep the series simpler. I guess chaining won't work in
+> general case.
+> I mentioned this to Kanchan, Anuj and Nitesh before, they were up to
+> playing with nvme optimisations in general, and since sgl from Anuj
+> is ready, maybe they already have a prototype somewhere for that.
 > 
+
+Right, I have prototyped the PRP list optimisation before. I will send 
+it once the initial version of this series lands, to avoid adding new 
+review churn while the rest of the series is pretty settled.
+> -- 
+> Pavel Begunkov
 
