@@ -1,332 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188ED426D33;
-	Thu, 30 Jul 2026 18:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785437349; cv=none; b=Xv/nJrNzsrgx5DWsHXW86qEhb+c5ArSBi+jylgpX2Jt0q/frdW27Rs0fHrR46UCk/fAnzKjp5wSv6N2tVd2Q902i7Q78LcAyk4myT8jUDfCQHuLpf8dJ5iDwVwn2X1VpitYdAeCXv7PhsrjGJm5+tXeMLLV4/+aX0XCjCT/Krrk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785437349; c=relaxed/simple;
-	bh=t3ZT140EEME6CAZGX1WOewbC9bU4iv2yEH/Gdet76kk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=JU3zAlpsqrwKQ0TtJs3Yx1PnT//UirhZmuWocxQO32pEaNbHxH6RKhh8wh+lov+DLBlixNK596u8kKB62oMp3lnjaM2Y5UTwvsLbKmSz/94j+Bf0daJX3OGDxSbu1nWC7RodMAmQL1Q32jMjlVlUBUi7XWzRKx/Bt8ZprLEgFcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUjEBlmr; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACE24582EA
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 18:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785437427; cv=pass; b=syNrFlOkcf+I40gtf/g41sCY9mR2p2mwDlp7v4KealpFI3bd7EVJemrZQX/TRyJtMKBiUVN7i8G2/qvNGGmFcrxPDhUwsjyqm3qx1AXxxLrOp0MgwzuzJNq9Kj9AaxX0qclyae7/axTWkkT3+mGbiPRSz8yUosJsR+Gb3yzZLfg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785437427; c=relaxed/simple;
+	bh=xNy/bcDVAaOXHFeFKod/slRT1Pma9CINKHcuSvnIRJU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JMKkjmn74GX1CcHPuTiFx74ayd9Ccw2mixkqT/Z/O0uXoU63au5BbdN5j/c2XVCT3OH5mxWnpoDT+P7alR1COHEEiSA/PEIH+4D/TYrVwYoWvh0+SPKwrJzyKZGDvRvFHkT7Loo1SZfPEZguMEvCUJN4UokhdeEQ4MGCzRHpLoc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f8Ej7zYc; arc=pass smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUjEBlmr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62C121F000E9;
-	Thu, 30 Jul 2026 18:49:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785437347;
-	bh=NzmFEMDYiP5lMx6wborXQE8KEFG+stPAeMM7azGEa8s=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=AUjEBlmrCW/9XCbDfD+dwnJ83jIJZWQPb3UTlSWBfWW7AIuI7tK7tZJawDlq/TDN3
-	 q9CYUdGSclC/5ee+fDW8L+IcUhmKGtJ7KLdKPJNy8BQ0eGy52pWz9WW0p7+iaDv5xI
-	 +J5SgstrEj25j7y35lma1VfdPaPOxphDqFEhbGgp8GOa9ls9CNnjJnLwTc6aqqOq58
-	 sqEMP+PO5EfGqvMcClkl3H54J/jRCAxbSi98FmEbuRqBuXTN63TtuTeQTTIJbiIfnp
-	 qW4BgdmfATqlEM3MyUNFHbQK88w2SDl8h1O3qHTXlRHj5JervXA4EX/TfJJjUe2XMn
-	 RjTBzXUlxs/Eg==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f8Ej7zYc"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-43ccd4f6f6eso169228fac.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 11:50:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785437425; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KOneu82mAw/51WjRIL1ufFYxebpsN2OR3tlcR3vO3wDFDeXNHaU1zoG0TC/2QfsW3B
+         22tq5mW/1kEABGeTnxpN/ySQ4zQT0xRQVdV79geTXmeYQ3pbj09P8z0IGeBNlEBJcImo
+         bXdWhBuoqNLQqwIrtX1zIB3s4WSHRyqpPWoYBODgxTwME7cXtVUuN1+2qy+P3Xhf20yp
+         zM8sJAi6etVAuUMF7J0txRkc315aOusbJ1aX1xjT0eUM0Xe8cHloYtv9kjA61ax9JHMK
+         bGS0GVzbRPMs+qEz30ldgDPQMOMcnLEOJ0FbaxYv2GWGRwszVRsBI0ISfKEyFdDkYLnR
+         bRfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xNy/bcDVAaOXHFeFKod/slRT1Pma9CINKHcuSvnIRJU=;
+        fh=P+xgUb9s14HDLkPIaucXULX61hZq+CXnX6txsei3xKI=;
+        b=SIRadTrGkZh+hzNziRgazj1pvAVFvGQiXguNthuDz37eH7FndwuYlPl/SoSCVoPLOt
+         tgil8ZAmUPObYPEmqmA6EdZzmt07cfpmKaWiqIHu2+vmezPB3zL5O5qy3KsO/Wc+X0jS
+         CZ+kyAqZQPTwg+iw8WKw00PxtB1vaxwCi/vnR7EyoT0YCCA4Z5HZZc5S/yO1SbdnocxW
+         CrcO5B7JZeJPbdl/rw1asYSkKfMyJLJKUxmoceGt7TuDG+0H7Ung/jZvYHhtctOAyUJW
+         HfqsJtWNtovERveIXW05JzMPBHlaeQlDTXYogvHxjtS8jMCI0R8Eh2SXzfiiPFXDvdoj
+         XPsA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785437425; x=1786042225; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xNy/bcDVAaOXHFeFKod/slRT1Pma9CINKHcuSvnIRJU=;
+        b=f8Ej7zYcREBo1Ix7zZLzyYMQJtQKmTw4vQxRTwvgZZ4l45bRzkXbQePryCxlA6Gpym
+         usN/hO1GLpIZSxskRSKwpaR8otVXoEkHEd3JjzWhJL3aLkcfslWeD48SDFTXsi0PqLKN
+         dhnwpfW4BT+GatS98gLfA+20Qdb3t0C5y0NDuNNK8ecekSSTGBi7r+BZol9czngbZhNW
+         1ASfRJ8CxI4ptIlM4fLxkEwKq3qaEaT3qx1+FkZrY4QBhxQr06m33FACAdtcWh2LVMcO
+         KAsDdfDivuX3+EnVudaXUvGbdN6y1GS41aw+5dGCImrGPpIx0wz3azmyE2bpaxUfXkie
+         M4Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785437425; x=1786042225;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xNy/bcDVAaOXHFeFKod/slRT1Pma9CINKHcuSvnIRJU=;
+        b=RRI05aVrnZpafFYZAffZOe0eVNl+67xcxLnvUbNO+78tlmDKHt363wlS49ZluB2QH+
+         +G07VJO8iOCYZpcctXdFG5AVR2+YKDomeJk3jTCbItOtZXsfJuyR7FUz3G8L+sDvxqjV
+         VePx745tZ9FPPGOQsLY3nKV+wxA2Z9tznpO6TQd+l8yee22ATnzj72+K+l7QU7Id52vN
+         Lm3zHafLlQOaRTv9Nkr/DsliO4Aylpxu1EVdhSmQWxafXWbkCawSzwLGAopEFwJItPhF
+         a8Ju/GLpNv28jYILJq9AESig6Ki3q/u3OJmtVxQk8E6u77rtRT6ka4JkZrYdyFmBhYv+
+         SP3A==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8GCYU+Y3nm36q1EdduRUhwRGC8oH5liiwGWXlduE54iVlCXJaqV5II1BbkOA4eCYG/LguRiZTkidyXYc7@vger.kernel.org
+X-Gm-Message-State: AOJu0YykytS+e8Dp1YEJ3lgumCTy72fCZ+ZFiWkgyL5+8CPcgXcHHypo
+	fEIL1qYOdYS3cYQllA1IYPe0S3T5r0EVi++mLMOc6HBxvbyXObruyKjUyywqf8kNcrNqASbfJW6
+	OOc4od3gfhNlOBmWIFnjYiDfGNMH/T4g=
+X-Gm-Gg: AR+sD100PEZHKcLFMVrJl7ssXvUDJ8Caq1LR4d7oErRilr9FOwrnJ+eafCkn9+jfYLA
+	SfL2b9TGkeKARGOaOQO5AnO76oPX2D3tpBtk8DfIWzUFxIdHwsMNdag06R96TfP2N7XVNZlSQKy
+	qHtc+HKUwByk3EQOXeH2476oScRqSRBKXkcHFeubbV+c2xI5Rf2tRqxz7A85A8UReu/J4/+mTq8
+	NNrGKcbpHElZQPvTyol35bi7J+CrNtXXWkTUx2qzY5BKtvgL+MnyaT4tF1PGjhGU9T7Kerf8uE1
+	ifSFVpY52JgDme/ZP7S+gnmwcoeoT8cyUzjpkIyFn6wN
+X-Received: by 2002:a05:6870:8a29:b0:456:b249:700c with SMTP id
+ 586e51a60fabf-458c0e1c200mr2600508fac.19.1785437424719; Thu, 30 Jul 2026
+ 11:50:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2] xattrat: accept empty O_PATH file descriptors
-From: Christian Brauner <brauner@kernel.org>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260722151023.1308069-1-agruenba@redhat.com>
-References: <20260722151023.1308069-1-agruenba@redhat.com>
-Date: Thu, 30 Jul 2026 20:49:03 +0200
-Message-Id: <20260730-armband-reklamieren-heuchelei-6f67abb088de@brauner>
-X-Mailer: b4 0.16-dev-3e0c3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9889; i=brauner@kernel.org;
- h=from:subject:message-id; bh=t3ZT140EEME6CAZGX1WOewbC9bU4iv2yEH/Gdet76kk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRlz1n0/TR7MsePqNaLwVpCubfXcJxpFYuKvuPBE7utf
- YHAyxj/jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIl4f2P4H34qvG9Ke/o1+z61
- HxmmSzQ07ikfY604UWxUFq+lcJnnHSPDU7eTPdHClw3WfTjQvvzSj/Zz1w3nMuW52lRxMj+cN6+
- cEwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <01421d53-c379-4044-9da3-5990186303ef@iogearbox.net> <20260730181008.3654413-1-cmllamas@google.com>
+In-Reply-To: <20260730181008.3654413-1-cmllamas@google.com>
+From: Stephen Smalley <stephen.smalley.work@gmail.com>
+Date: Thu, 30 Jul 2026 14:50:13 -0400
+X-Gm-Features: AUfX_mw-sWflnKZtGKmCqYRU0sb3jjE3qrtGy_CKaW2nfsOdhimFd1pr1NGG468
+Message-ID: <CAEjxPJ47CTKXxx_DvSbuO5F28T-eNPnQQ+Gm_-qaAeb6R3wPfQ@mail.gmail.com>
+Subject: Re: [PATCH] selinux: bpf: check SBLABEL_MNT before isec init
+To: Carlos Llamas <cmllamas@google.com>
+Cc: Paul Moore <paul@paul-moore.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+	"open list:SELINUX SECURITY MODULE" <selinux@vger.kernel.org>, 
+	"open list:BPF [MISC]:Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-07-22 17:10 +0200, Andreas Gruenbacher wrote:
-> Christian,
-> 
-> here's an updated patch for making the *xattrat() system calls accept
-> O_PATH file descriptors.
-> 
-> Compared to the previous version (see the discussion at [*]), this
-> version adds a fd_maybe_raw cleanup class that uses either fdget() or
-> fdget_raw() depending on which kinds of file descriptors are acceptable.
-> That's still a but ugly, but all the alternatives I could come up with
-> are much worse.
-> 
-> [*] https://lore.kernel.org/linux-fsdevel/20260701191649.175871-1-agruenba@redhat.com/
+On Thu, Jul 30, 2026 at 2:10=E2=80=AFPM Carlos Llamas <cmllamas@google.com>=
+ wrote:
+>
+> selinux_inode_init_security() marks the isec as initialized before
+> checking if mount labeling is supported (SBLABEL_MNT). This was fine
+> until commit 9722955b5430 ("bpf: Add simple xattr support to bpffs"),
+> where genfscon bpffs mounts fail the SBLABEL_MNT check as expected (no
+> xattrs) and yet leave the isec->initialized. This breaks subsequent
+> calls to inode_doinit_with_dentry().
+>
+> Do the SBLABEL_MNT check before the inode security is initialized.
+>
+> Cc: stable@vger.kernel.org
+> Closes: https://lore.kernel.org/all/akWdcp6P0FkNDzBk@google.com/
+> Fixes: 9722955b5430 ("bpf: Add simple xattr support to bpffs")
+> Signed-off-by: Carlos Llamas <cmllamas@google.com>
 
-Thank you. How do you feel about?
-
----
- fs/xattr.c | 100 ++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 64 insertions(+), 36 deletions(-)
-
-diff --git a/fs/xattr.c b/fs/xattr.c
-index d58979115200..133bca3371ee 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -698,9 +698,10 @@ int filename_setxattr(int dfd, struct filename *filename,
- 	return error;
- }
- 
--static int path_setxattrat(int dfd, const char __user *pathname,
--			   unsigned int at_flags, const char __user *name,
--			   const void __user *value, size_t size, int flags)
-+static int path_setxattrat(int dfd, struct file *dfd_file,
-+			   const char __user *pathname, unsigned int at_flags,
-+			   const char __user *name, const void __user *value,
-+			   size_t size, int flags)
- {
- 	struct xattr_name kname;
- 	struct kernel_xattr_ctx ctx = {
-@@ -725,11 +726,10 @@ static int path_setxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename && dfd >= 0) {
--		CLASS(fd, f)(dfd);
--		if (fd_empty(f))
-+		if (!dfd_file)
- 			error = -EBADF;
- 		else
--			error = file_setxattr(fd_file(f), &ctx);
-+			error = file_setxattr(dfd_file, &ctx);
- 	} else {
- 		error = filename_setxattr(dfd, filename, lookup_flags, &ctx);
- 	}
-@@ -756,7 +756,10 @@ SYSCALL_DEFINE6(setxattrat, int, dfd, const char __user *, pathname, unsigned in
- 	if (error)
- 		return error;
- 
--	return path_setxattrat(dfd, pathname, at_flags, name,
-+	/* setxattrat() accepts O_PATH file descriptors. */
-+	CLASS(fd_raw, f)(dfd);
-+
-+	return path_setxattrat(dfd, fd_file(f), pathname, at_flags, name,
- 			       u64_to_user_ptr(args.value), args.size,
- 			       args.flags);
- }
-@@ -765,21 +768,25 @@ SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
- 		const char __user *, name, const void __user *, value,
- 		size_t, size, int, flags)
- {
--	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags);
-+	return path_setxattrat(AT_FDCWD, NULL, pathname, 0, name, value, size,
-+			       flags);
- }
- 
- SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
- 		const char __user *, name, const void __user *, value,
- 		size_t, size, int, flags)
- {
--	return path_setxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
--			       value, size, flags);
-+	return path_setxattrat(AT_FDCWD, NULL, pathname, AT_SYMLINK_NOFOLLOW,
-+			       name, value, size, flags);
- }
- 
- SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
- 		const void __user *,value, size_t, size, int, flags)
- {
--	return path_setxattrat(fd, NULL, AT_EMPTY_PATH, name,
-+	/* fsetxattr() rejects O_PATH file descriptors. */
-+	CLASS(fd, f)(fd);
-+
-+	return path_setxattrat(fd, fd_file(f), NULL, AT_EMPTY_PATH, name,
- 			       value, size, flags);
- }
- 
-@@ -843,7 +850,8 @@ ssize_t filename_getxattr(int dfd, struct filename *filename,
- 	return error;
- }
- 
--static ssize_t path_getxattrat(int dfd, const char __user *pathname,
-+static ssize_t path_getxattrat(int dfd, struct file *dfd_file,
-+			       const char __user *pathname,
- 			       unsigned int at_flags, const char __user *name,
- 			       void __user *value, size_t size)
- {
-@@ -865,10 +873,9 @@ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename && dfd >= 0) {
--		CLASS(fd, f)(dfd);
--		if (fd_empty(f))
-+		if (!dfd_file)
- 			return -EBADF;
--		return file_getxattr(fd_file(f), &ctx);
-+		return file_getxattr(dfd_file, &ctx);
- 	} else {
- 		int lookup_flags = 0;
- 		if (!(at_flags & AT_SYMLINK_NOFOLLOW))
-@@ -898,27 +905,34 @@ SYSCALL_DEFINE6(getxattrat, int, dfd, const char __user *, pathname, unsigned in
- 	if (args.flags != 0)
- 		return -EINVAL;
- 
--	return path_getxattrat(dfd, pathname, at_flags, name,
-+	/* getxattrat() accepts O_PATH file descriptors. */
-+	CLASS(fd_raw, f)(dfd);
-+
-+	return path_getxattrat(dfd, fd_file(f), pathname, at_flags, name,
- 			       u64_to_user_ptr(args.value), args.size);
- }
- 
- SYSCALL_DEFINE4(getxattr, const char __user *, pathname,
- 		const char __user *, name, void __user *, value, size_t, size)
- {
--	return path_getxattrat(AT_FDCWD, pathname, 0, name, value, size);
-+	return path_getxattrat(AT_FDCWD, NULL, pathname, 0, name, value, size);
- }
- 
- SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
- 		const char __user *, name, void __user *, value, size_t, size)
- {
--	return path_getxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
--			       value, size);
-+	return path_getxattrat(AT_FDCWD, NULL, pathname, AT_SYMLINK_NOFOLLOW,
-+			       name, value, size);
- }
- 
- SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
- 		void __user *, value, size_t, size)
- {
--	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size);
-+	/* fgetxattr() rejects O_PATH file descriptors. */
-+	CLASS(fd, f)(fd);
-+
-+	return path_getxattrat(fd, fd_file(f), NULL, AT_EMPTY_PATH, name, value,
-+			       size);
- }
- 
- /*
-@@ -980,7 +994,8 @@ ssize_t filename_listxattr(int dfd, struct filename *filename,
- 	return error;
- }
- 
--static ssize_t path_listxattrat(int dfd, const char __user *pathname,
-+static ssize_t path_listxattrat(int dfd, struct file *dfd_file,
-+				const char __user *pathname,
- 				unsigned int at_flags, char __user *list,
- 				size_t size)
- {
-@@ -991,10 +1006,9 @@ static ssize_t path_listxattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename) {
--		CLASS(fd, f)(dfd);
--		if (fd_empty(f))
-+		if (!dfd_file)
- 			return -EBADF;
--		return file_listxattr(fd_file(f), list, size);
-+		return file_listxattr(dfd_file, list, size);
- 	}
- 
- 	lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
-@@ -1005,24 +1019,31 @@ SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname,
- 		unsigned int, at_flags,
- 		char __user *, list, size_t, size)
- {
--	return path_listxattrat(dfd, pathname, at_flags, list, size);
-+	/* listxattrat() accepts O_PATH file descriptors. */
-+	CLASS(fd_raw, f)(dfd);
-+
-+	return path_listxattrat(dfd, fd_file(f), pathname, at_flags, list, size);
- }
- 
- SYSCALL_DEFINE3(listxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return path_listxattrat(AT_FDCWD, pathname, 0, list, size);
-+	return path_listxattrat(AT_FDCWD, NULL, pathname, 0, list, size);
- }
- 
- SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return path_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list, size);
-+	return path_listxattrat(AT_FDCWD, NULL, pathname, AT_SYMLINK_NOFOLLOW,
-+				list, size);
- }
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
- {
--	return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size);
-+	/* flistxattr() rejects O_PATH file descriptors. */
-+	CLASS(fd, f)(fd);
-+
-+	return path_listxattrat(fd, fd_file(f), NULL, AT_EMPTY_PATH, list, size);
- }
- 
- /*
-@@ -1072,7 +1093,8 @@ static int filename_removexattr(int dfd, struct filename *filename,
- 	return error;
- }
- 
--static int path_removexattrat(int dfd, const char __user *pathname,
-+static int path_removexattrat(int dfd, struct file *dfd_file,
-+			      const char __user *pathname,
- 			      unsigned int at_flags, const char __user *name)
- {
- 	struct xattr_name kname;
-@@ -1088,10 +1110,9 @@ static int path_removexattrat(int dfd, const char __user *pathname,
- 
- 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
- 	if (!filename) {
--		CLASS(fd, f)(dfd);
--		if (fd_empty(f))
-+		if (!dfd_file)
- 			return -EBADF;
--		return file_removexattr(fd_file(f), &kname);
-+		return file_removexattr(dfd_file, &kname);
- 	}
- 	lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
- 	return filename_removexattr(dfd, filename, lookup_flags, &kname);
-@@ -1100,24 +1121,31 @@ static int path_removexattrat(int dfd, const char __user *pathname,
- SYSCALL_DEFINE4(removexattrat, int, dfd, const char __user *, pathname,
- 		unsigned int, at_flags, const char __user *, name)
- {
--	return path_removexattrat(dfd, pathname, at_flags, name);
-+	/* removexattrat() accepts O_PATH file descriptors. */
-+	CLASS(fd_raw, f)(dfd);
-+
-+	return path_removexattrat(dfd, fd_file(f), pathname, at_flags, name);
- }
- 
- SYSCALL_DEFINE2(removexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return path_removexattrat(AT_FDCWD, pathname, 0, name);
-+	return path_removexattrat(AT_FDCWD, NULL, pathname, 0, name);
- }
- 
- SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return path_removexattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name);
-+	return path_removexattrat(AT_FDCWD, NULL, pathname, AT_SYMLINK_NOFOLLOW,
-+				  name);
- }
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- {
--	return path_removexattrat(fd, NULL, AT_EMPTY_PATH, name);
-+	/* fremovexattr() rejects O_PATH file descriptors. */
-+	CLASS(fd, f)(fd);
-+
-+	return path_removexattrat(fd, fd_file(f), NULL, AT_EMPTY_PATH, name);
- }
- 
- int xattr_list_one(char **buffer, ssize_t *remaining_size, const char *name)
-
+Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
