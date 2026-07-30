@@ -1,46 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BEF43E06E;
-	Thu, 30 Jul 2026 17:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B061443F4BC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 17:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785432135; cv=none; b=GI1zXpFtvvKDNJSbFAwbKuJL+vELMBR0IXuuR9sDDC56YLjfvZc38gysNwoL3aqlmwZOXyQ5YYVEqm25OrIqcYAGf5NgMV5t6bpCUPQDIgJZci7XQGJ3IC3x+IULtzNcXIW1gmEWaet02ktMCiaAkyvMXILnauGoGHGRuqdRh6Q=
+	t=1785433061; cv=none; b=DchSw/N/V+z1RMk/IUyjOSJQDG4Rc0LY/jIN0ze8XjvRKcZc6Lshmh8SDK3wFAvs0wKF+OYoP1wapMQ3uB5UHH7Q10adPTpimwXy6pl+SPsnPev3PA0Fd08HK/YeSEjaSfRb/CTswmBLUvLQ8zhkz4svizfH6gBU/SvgfslIORI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785432135; c=relaxed/simple;
-	bh=jDNmc4meTOC48+Q3IEDbk4+gRBVJ/ShbSj+dJRJ29s4=;
+	s=arc-20240116; t=1785433061; c=relaxed/simple;
+	bh=lmLFSXZJeZzjs6e2WjafdMs5Vcjcekz0yRe1DzAAEW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQoegVxB2J+d99cJnOH63js5nXFeg7amzGiyBF29+/fMdv3AEntajgTUgmmJysU9XiT/9in+ZNnlSUDvMRGb1yn6SejjZMMl1xh/m/fohoWoDrOkly+K7OcQB1bkjNVvKtPOwKWBJUcjN+IFXhKiZxOVIXGSRb3+i7F3/SWpt7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oSX2F6X8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PCMLsNk+UVvBHQJ+jKGMtjAQldPYfhTyRc0ZCa35wkcunAOaOM3EqFXp8nw3xOcizU8R+kvo0JwjhYGcHYclF8g/kJp6i8Y8k9loBhuhOlPsMoB9knjL1L7Cwa4mr90R/4hBqbm72CWssI5zLBh8udd7bDg808a1rK9OBaS+ZVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z001HcP8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MBHpurHg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=u7NtnlWg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2KtGM8xK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oSX2F6X8"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 98B301F000E9;
-	Thu, 30 Jul 2026 17:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785432133;
-	bh=McAgD6bGrXTjy6SCU9zZMCKhjy/fGK+hqvLguqeEyXY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oSX2F6X8bCppWdG2XhvH4DC2YBCkQa5JqzZ0jpGA5M8YlAdYHmk9gPn8foNtgPQiA
-	 l81DnkCN0xz2AKvZ1TGMykgQovUloJiQ7i580uaaKQdpVl/JKRMoprfN38uoUSjeJa
-	 06zW3eCL3PRoIR0+v/4ndHolhVnlXyoU4g7cNR52qrT6pu4fVMHsesUQpNqpaAMZ32
-	 S3rx2n+FauNF3WNeXLgNaSDTOSecAvPnIwBLunnsWKDwZ/t9hwv0opAUEl6Swdz6MC
-	 TWM3yjySvoWbXtuF4ufClpIJ270VKPdTLnTY9S1onvxIIuFUGTyZw/e9RvQHVIoZ+a
-	 YNAvv5Bnh9o9Q==
-Date: Thu, 30 Jul 2026 10:22:11 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, jack@suse.cz,
-	cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org,
-	ritesh.list@gmail.com, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v4 1/6] fs: add write-stream management ioctls
-Message-ID: <20260730172211.GF3556460@frogsfrogsfrogs>
-References: <20260717125538.508925-1-joshi.k@samsung.com>
- <CGME20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319@epcas5p3.samsung.com>
- <20260717125538.508925-2-joshi.k@samsung.com>
- <20260721030338.GU7380@frogsfrogsfrogs>
- <71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z001HcP8";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MBHpurHg";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="u7NtnlWg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2KtGM8xK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 644177D645;
+	Thu, 30 Jul 2026 17:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785433053;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
+	b=z001HcP8wWRDo7+JcZOc6vAuglXef6X9EbnUbof1whEtKOQIK0Zt3vVYjyCPdszg3FcyEy
+	Y+T0cBP5yZggY9udTnX1jg0OLaC0BOiHPVRtWNoaRgx1yDSzQU7+HOkPT9EpeYrHI2L2zd
+	ie3f/1/n+CQeUsNLWpFRPTnfqn9rOrQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785433053;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
+	b=MBHpurHgTv3Czp2jk3ryfCNXjgQbo3j+XyWTU4WsBFWwE5HSksz2NYCg7BdNlMBI4DZkXK
+	59St8uqFio8njXBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=u7NtnlWg;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=2KtGM8xK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785433049;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
+	b=u7NtnlWg+owG6ebeGWmLLaJiDe07PZamtfADFWDla2mjjDQ5TvU6HaxBfJIukUNBLW9wPE
+	YinN1cvmHncq4a1VsZXimyLQmQIeQQ0d1CqtFM8uH6mUJzCYkFoWy/o1+rnIoopY/PbYR6
+	5lUZfyIzYcryQDEvlMNR+saCIU6/NnA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785433049;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V7PcLkae55LhJNpeUQcnpjsV2xFkFmUXM8dWWPuA5W4=;
+	b=2KtGM8xKF5KYaJ/Hh798jX5CZDos4zeNNAgNsv31oC6Isqwp4+pKTncqKlk5tGbwAx1vP4
+	Mk9LUZkPfEU4L3Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 525BD779CC;
+	Thu, 30 Jul 2026 17:37:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jLeCE9mLa2rTVgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Thu, 30 Jul 2026 17:37:29 +0000
+Date: Thu, 30 Jul 2026 19:37:20 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Agamalt 10 <agamalt10@gmail.com>, David Sterba <dsterba@suse.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: URGENT BUGS TO FIX IN THE FILE SYSTEM, KERNEL PANICS, INT
+ OVERFLOWS, ETC.
+Message-ID: <20260730173719.GU10684@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <CAMwtO3LAzbJHZXixDbYD-LGu2qe5P4zVQBD4fsqNr-P3wzAZUg@mail.gmail.com>
+ <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,128 +91,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com>
+In-Reply-To: <CAHk-=wjrds=Xi4SrMQocb7_kF5eyi0WOUbJ7Lb3bBbRf9gTvoQ@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spamd-Result: default: False [-1.21 / 50.00];
+	SUBJ_ALL_CAPS(3.00)[73];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:replyto,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.21
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 644177D645
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On Thu, Jul 30, 2026 at 08:22:51PM +0530, Kanchan Joshi wrote:
-> On 7/21/2026 8:33 AM, Darrick J. Wong wrote:
-> > On Fri, Jul 17, 2026 at 06:25:33PM +0530, Kanchan Joshi wrote:
-> >> From: Anuj Gupta<anuj20.g@samsung.com>
-> >>
-> >> Wire up the userspace interface for write stream management via four
-> >> ioctls:
-> >>
-> >>    FS_IOC_WRITE_STREAM_GET_MAX  query the max streams supported
-> >>    FS_IOC_WRITE_STREAM_OPEN     open a stream id, returns a stream fd
-> >>    FS_IOC_WRITE_STREAM_SET      attach the stream fd to an open file
-> >>    FS_IOC_WRITE_STREAM_GET      query the stream id value set on a file
-> >>
-> >> Application should query the available streams by using
-> >> FS_IOC_WRITE_STREAM_GET_MAX. If returned value is N, valid stream id for
-> >> the file are 1 to N.
-> >>
-> >> Application calls FS_IOC_WRITE_STREAM_OPEN to get fd for a stream-id.
-> >> By default, kernel picks an available stream-id and returns the fd for
-> >> it. The flag FS_WRITE_STREAM_OPEN_EXACT can be used to request a
-> >> specific stream_id. This is useful if application cares about keeping a
-> >> stable stream-id-to-spatial-isolation-bucket mapping across restarts.
-> > Hmm.  If FS_IOC_WRITE_STREAM_OPEN returns an fd that represents an open
-> > stream id, then why does STREAM_SET below take a pointer to a signed
-> > s32? 
+On Wed, Jul 29, 2026 at 05:15:46PM -0700, Linus Torvalds wrote:
+> Please do proper kernel bug reporting, which means "don't just sent to
+> Linus", but figure out the maintainer etc. We have documentation about
+> this all.
 > 
-> Not a pointer, that s32 is to pass the stream fd.
+> That filesystem isn't a serious filesystem, and that code needs a lot
+> more fixing if somebody cares.
+> 
+> Instead of doing
+> 
+>         if (affs_validblock(sb, block)) {
+>                 bh = sb_getblk(sb, block);
+> 
+> it should probably just do
+> 
+>         bh = affs_getblk(sb, block);
+>         if (bh) {
+> 
+> instead, but honestly, I can't find it in myself to care about an
+> unlikely error case that nobody has ever seen and reported, all in a
+> legacy Amiga filesystem that nobody really uses outside of hobby Amiga
+> enthusiasts.
+> 
+> But we do have a listed sucker^Hmaintainer for it that says "Odd
+> Fixes", and this certainly counts as an odd fix.
+> 
+> So I'm cc'ing David and fsdevel in case there is somebody else with an
+> Amiga background.
 
-Oh, but that third argument to ioctl() /is/ supposed to be a pointer to
-some data.  From ioctl(2):
+Thanks, I have a few more pending AFFS fixes, but nothing serious so
+it's in the backlog. The last fix from the community was in 2020
+d3a84a8d0dde4e ("affs: fix basic permission bits to actually work"). The
+rest is tree-wide and recently the AI assisted reports.
 
-"The third argument is an untyped pointer to memory.  It's traditionally
-char  *argp (from the days before void * was valid C), and will be so
-named for this discussion."
+> Me, I'm still bitter about those rich kids with their fancy sprites on
+> their Amiga HW, which may be one reason I don't feel like fixing the
+> problems in AFFS ;)
 
-You can also see this reflected in the discussion of the R/W/WR variants
-of _IO:
-https://docs.kernel.org/driver-api/ioctl.html
-
-"[data_type] may be a pointer to data to be passed into the kernel
-(_IOW), out of the kernel (_IOR), or both (_IOWR)"
-
-Granted your kernel code can treat that argp as an integer and not a
-__user pointer if it wants to, but that goes against most ioctl
-implementations.  Further, subsystems that marshal ioctl information for
-passing through to another layer (e.g. fuse) assume that the third
-argument is a pointer and that it can copy sizeof(data_type) bytes at
-that address in and out of the kernel as part of marshalling.
-
-> > And why does STREAM_GET take a pointer to a u32?
-> 
-> This also is a scalar value and not a pointer. The returned stream-id is 
-> a u32.
-> 
-> > IOWs it'd be much easier to distinguish these things if the ioctls took
-> > pointers to structs instead of u32/s32 pointers directly.
-> 
-> Maybe IOCTL naming is the source of confusion, because we introduced 
-> stream-fds alongside stream-ids. More on this below.
-> > Also it's a little weird that STREAM_SET associates an open file with a
-> > stream fd, but STREAM_GET returns the stream*id* (not the fd)
-> > associated with an open file.
-> 
-> The confusion stems from keeping symmetric names for different 
-> operations. Let me explain the intent and propose revised names below.
-> 
-> Christoph's idea was to use FD for a write-stream so that it remains 
-> exclusive to the application and unrelated applications don't collide.
-> 
-> So, in this version, write-stream ids are implemented as independent 
-> resource:
-> - To set a file's write-stream ID to X, the app must first obtain the fd 
-> for stream X.
-> - That stream/fd will be unavailable if some other application has 
-> already opened it.
-> - If applications gets the stream fd, it can use that to set stream id 
-> for multiple files.
-> - It can close the stream-fd and that does not change anything for the 
-> file resource (i.e, its inode continue to carry the stream-id value that 
-> was set).
-> 
-> Christoph - does this match?
-> 
-> Here are the revised names (suggestions?):
-> 
-> 1. FS_IOC_QUERY_MAX_WRITE_STREAM_IDS		_IOR('f', 135, __u32)
-> 
-> Returns (in __u32) number of supported stream-ids.
-> 
-> 2. FS_IOC_OPEN_WRITE_STREAM_ID			_IOWR('f', 136, struct 
-> fs_write_stream_open)
-> 
-> Open the specific write-stream id (or any available one via a flag) and 
-> return its FD. This gives right to use that stream-id.
-> 
-> And the following manage setting/clearing/querying write-stream on the file:
-> 
-> 3. FS_IOC_SET_FILE_WRITE_STREAM_BY_FD		_IOW('f', 137, __s32)
-> 
-> Sets a file's write-stream value (in inode) to whatever the stream fd 
-> (passed as __s32) carries. So one never sets scalar values into a file 
-> directly.
-> 
-> 4. FS_IOC_QUERY_FILE_WRITE_STREAM_ID		_IOR('f', 138, __u32)
-> 
-> Queries the write-stream value (__u32) currently assigned to the file 
-> (its inode).
-> 
-> 5. FS_IOC_CLEAR_FILE_WRITE_STREAM_ID		_IO('f', 139)
-> 
-> To clear (zeroing) the write-stream value on the file's inode.
-> 
-> 
-> > Can you extract the stream id from the fd that FS_IOC_WRITE_STREAM_OPEN
-> > returns?
-> 
-> Can be done by implementing the ioctl handler for that stream fd, but 
-> did not feel the need of it. Do you see the utility? If yes, name can 
-> potentially be FS_IOC_QUERY_WRITE_STREAM_ID_FROM_FD.
-
-Why not reuse FS_IOC_QUERY_FILE_WRITE_STREAM_ID?
-
---D
+For me it was only a ZX Spectrum on a grayscale 12" TV, blissfully unaware.
