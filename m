@@ -1,129 +1,167 @@
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from rev.ng (rev.ng [94.130.142.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D293DE43B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 22:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F363B19CF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 22:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.130.142.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785449720; cv=none; b=JMi7JkGlMeFCVj7zHaqK00He00QcS/hs7ltGaLLValLoQkllIkojEGc9VKbBdcWXagoS+Q/zy7F7ESY2N59jTmViA1iUHshyMqgdlU+XzRgSjjutQ1Nj/Q/I0v2oqrsLLvIXpHN1dauhu2Y9/543vJILz5GAaTN6KvV5M5iSPCk=
+	t=1785451794; cv=none; b=EvWEdvxTgV80JCF2pobWmuwhVgy6JNeusb8lUnxOIT68tmnIRBw97h9zrFjX0p3UoJsRlYvUEfQjLSgZxW1i7jkTi/Fv9CfdKqH6fQKeHvc4acCQ6S6AFaoTkt5p91vI7QYSiyHalgPtTCxKMYoBmUjorGip+/zWi3ZhG2Hrl00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785449720; c=relaxed/simple;
-	bh=F1rEmNXQzOk6OiI1HK1cJYPI6H5MIWo3CP4E+Vo3730=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=i5mY6mdsn+vLVPePHOZbU48gVbc1KWL0kodLnv7XvJZCudZhL7XUGf/Ky5dPT8TbVM3vR6q6dsqm7BqaLfjvffj1x2atJdEwYrs38weL2D3a8qGSZ88U+O8eBTvRqgJXCKm/eZhMfiqVTCxVH8uVCymr2roxtckib8FpXuDPaNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cvOSGhbJ; arc=none smtp.client-ip=209.85.216.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com
+	s=arc-20240116; t=1785451794; c=relaxed/simple;
+	bh=TfYW1H35mdWfUhfLN2YgBFGM+Zh70cNHVmyfnn9rTxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ngNfu+bCC9DdMq2mOgH8GDPYJYrAcrGeZdUzAWt6SeuDbisPuoVc433R9uo10G3pNzhwCv35Ja4MwoZVmpIJAvIEXX3HeVUdYMhTdRKDbvfL2KOeHtJ3P9+4zq8Cta5LcVlvGVuvNn3Dsg9f9W8sxClVJxSEeE35LcJpVZm5Ab0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rev.ng; spf=pass smtp.mailfrom=rev.ng; dkim=pass (1024-bit key) header.d=rev.ng header.i=@rev.ng header.b=g1Ibl3Nr; arc=none smtp.client-ip=94.130.142.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rev.ng
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rev.ng
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cvOSGhbJ"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38e7b87ce77so785561a91.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 15:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785449711; x=1786054511; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qc/ts1hmL0WVE+qOHJWMrc9/nQ0AZqaOClV7FICRT3k=;
-        b=cvOSGhbJWsltSd0E/Jg+v1pmHF/l8MVhVOQRtfFvI8ca5WOEXh23gBz+YsAD6fqVrN
-         34dJb9ZuK26JBxeyKfStdz6MEoa5c8Y+ovdVMP2HsC1kBGreynkUz8N57p7AjRSzE03L
-         3k4KlDV+oAXMtXkOlH0A9TwWCIYPPG9Fy08hF1dGvPSG66SzShWvYJnaEsAMkMG8+kUV
-         h64YP2PhOILA6vqQX7NqMFxNESv3WGr5ICqHXiQ49lexhmtbwhnocqcGXhUgymx5WgSd
-         iMv2okApsrYanX2kl6fnfuiZ5Y+VxOWDgm1sMX1jQgyQMgTCW/c3+054abXyZfYr+bGw
-         FrGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785449711; x=1786054511;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qc/ts1hmL0WVE+qOHJWMrc9/nQ0AZqaOClV7FICRT3k=;
-        b=N5A60AjHvodHEZMJAp2dn6npGYkwH8odK4kDO7dD7qs8rEv7S1qg7GV8QT67hV1uwF
-         v5T+AzS/OaHAc708+b0j2/kQQ7ScRbHrW3nBXZhXGGSVUyHElMJbdCoIB8e44W/PJmyW
-         e8ncadFqOe7vRyZbz/BXgf65SwT7HKRgGiW2+oS8Cw5WhtQ/w1YVvD63WjYdr3ifkuBj
-         Isacn2O46NLqCf2AqkVwl8vzMbmvCHqV61jkSJZNAtbvKqbXqFJpwhhkUu9Ucm/SJSEz
-         b6sy5ujUNbN9hytt104OKHR5OLYWAzn05mLB0Cj/BhQtahmK6VSPDzgHnAaFoIendI8f
-         seeg==
-X-Forwarded-Encrypted: i=1; AHgh+RoZza+oag8tqId/Wmd/vvyA3y7D3dOWs8h+EZ+OfRl41c8fHrSNr2P9nA0dVMVaAJ1M/vQWcrkit5JRo3wv@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhPGmhY3neuIH3iLu2jWEF5B4fabk1TGOrxQEmCgQIQlf/seif
-	mPJp6BucF34XSGPZ+S3/La+7usnrjJnigJPlVddJyR4RznaCALoBbPXu9xgzSp2qO+myK7G43y8
-	WSSdOgQAS+qZPow==
-X-Received: from dykg15.prod.google.com ([2002:a05:7300:578f:b0:313:cf74:cf85])
- (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:4c12:b0:381:bc4c:da74 with SMTP id 98e67ed59e1d1-38f9c0545e2mr3245704a91.32.1785449710561;
- Thu, 30 Jul 2026 15:15:10 -0700 (PDT)
-Date: Thu, 30 Jul 2026 22:15:07 +0000
-In-Reply-To: <db6fe5d2d4081f20f85abc6020b831fd@paul-moore.com>
+	dkim=pass (1024-bit key) header.d=rev.ng header.i=@rev.ng header.b="g1Ibl3Nr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+	s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+	In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive:List-Unsubscribe:List-Unsubscribe-Post:
+	List-Help; bh=LOd9UrQsAdyElCk/EAoUmPp3WhTfkS5ZbjxAY1UmPmY=; b=g1Ibl3NrKz9tqwb
+	dS1vqf6lMX9EXkKT5EcBGyoRwrBO9rUI3nmdgRE0fcKP0dGH5RgSBl6/Hiki0+vg5fX9Yr8EqirH+
+	yXGEPppxgrnFtco4SdB+PFRlsZl5JjlVY3axaFTM6cJXX9wjRBbCMs5YNde3z86iDalmqpmb2vsCF
+	8o=;
+Date: Fri, 31 Jul 2026 00:48:00 +0200
+From: Alessandro Di Federico <ale@rev.ng>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Cole Faust <colefaust@google.com>, farid.m.zakaria@gmail.co,
+ linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
+Subject: Re: Questions and concerns about BPF-selected interpreter
+Message-ID: <20260731004800.6a570438@spawn>
+In-Reply-To: <20260723-erfassen-datteln-gebot-f7ecb8c42f6e@brauner>
+References: <CA+9F0A23jrHtcGc7gx=9hSCNmjwuDWYpzf-3+UR8ELCTt1bFCQ@mail.gmail.com>
+ <20260722-bonus-annehmbar-umjubelt-e899440a34aa@brauner>
+ <CA+9F0A3Z2MaiL2PoUnhkkjD0ZKppFJoEXqkoCgXvc4qwxd482A@mail.gmail.com>
+ <20260723-erfassen-datteln-gebot-f7ecb8c42f6e@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <db6fe5d2d4081f20f85abc6020b831fd@paul-moore.com>
-X-Mailer: git-send-email 2.55.0.508.g3f0d502094-goog
-Message-ID: <20260730221508.3846409-1-cmllamas@google.com>
-Subject: [PATCH v2] selinux: bpf: check SBLABEL_MNT before isec init
-From: Carlos Llamas <cmllamas@google.com>
-To: Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Carlos Llamas <cmllamas@google.com>, stable@vger.kernel.org, 
-	"open list:SELINUX SECURITY MODULE" <selinux@vger.kernel.org>, 
-	"open list:BPF [MISC]:Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-selinux_inode_init_security() marks the isec as initialized before
-checking if mount labeling is supported (SBLABEL_MNT). This was fine
-until commit 9722955b5430 ("bpf: Add simple xattr support to bpffs"),
-where genfscon bpffs mounts fail the SBLABEL_MNT check as expected (no
-xattrs) and yet leave the isec->initialized. This breaks subsequent
-calls to inode_doinit_with_dentry().
+On Thu, 23 Jul 2026 15:15:37 +0200
+Christian Brauner <brauner@kernel.org> wrote:
 
-Do the SBLABEL_MNT check before the inode security is initialized.
+> And the deployment data doesn't have to come from android. nixos and
+> rev.ng style deployments will generate it.
 
-Cc: stable@vger.kernel.org
-Closes: https://lore.kernel.org/all/akWdcp6P0FkNDzBk@google.com/
-Fixes: 9722955b5430 ("bpf: Add simple xattr support to bpffs")
-Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Signed-off-by: Carlos Llamas <cmllamas@google.com>
----
-v2:
-  - Move the check further at the top per Paul's feedback.
-  - Collect Stephen's Ack.
+Unfortunately, we won't be able to adopt these feature if it requires
+root.
 
-v1:
-  https://lore.kernel.org/all/20260730181008.3654413-1-cmllamas@google.com/
+> Tools you hand to arbitrary end users won't be covered by any
+> kernel-side mechanism for years no matter which one wins because most
+> user machines run old kernels.
 
- security/selinux/hooks.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Well, we're here to improve things in the long run and have a new modern
+solution to a stack of suboptimal solutions (see below).
 
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 8d6945edae7a..18dd28b2bb13 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -2974,6 +2974,10 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
- 
- 	sbsec = selinux_superblock(dir->i_sb);
- 
-+	if (!selinux_initialized() ||
-+	    !(sbsec->flags & SBLABEL_MNT))
-+		return -EOPNOTSUPP;
-+
- 	newsid = crsec->create_sid;
- 	newsclass = inode_mode_to_security_class(inode->i_mode);
- 	rc = selinux_determine_inode_label(crsec, dir, qstr, newsclass, &newsid);
-@@ -2988,10 +2992,6 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
- 		isec->initialized = LABEL_INITIALIZED;
- 	}
- 
--	if (!selinux_initialized() ||
--	    !(sbsec->flags & SBLABEL_MNT))
--		return -EOPNOTSUPP;
--
- 	xattr = lsm_get_xattr_slot(xattrs, xattr_count);
- 	if (xattr) {
- 		rc = security_sid_to_context_force(newsid,
+> Is the tree immutable? Who may write to it? Which prefixes are
+> trusted? The kernel doesn't know any of that. So no amount of
+> security consideration produces semantics that are safe to turn on
+> for everyone.
+
+Can you elaborate a scenario?
+It seems to me that this is not so much different from RPATH+$ORIGIN
+for dynamic linking in user space.
+
+> But an old kernel doesn't cleanly refuse such a binary.
+> load_elf_binary() simply ignores program header types it doesn't know. A
+> binary with PT_INTERP_ORIGIN and no PT_INTERP loads as static and jumps
+> to an entry point that was never relocated and so crashes instead of
+> failing with a clean error.
+
+To clarify, the scenario I have in mind is:
+
+```
+./enter-sdk-shell
+./bin/myprogram
+```
+
+`myprogram` has both PT_INTERP_ORIGIN (relative) and PT_INTERP
+(absolute /ld.so).
+
+`enter-sdk-shell` detects the features available:
+
+1. If `PT_INTERP_ORIGIN` is supported, just go.
+
+2. If you have user namespaces available, create a new mount namespace
+   and put /ld.so there, then go.
+
+3. If everything else fails, ptrace all the things.
+
+Ideally, with time, we'll be able to use just 1).
+
+Note that 2) is not ideal, you basically need to:
+
+```
+mkdir ~/fake-root
+for X in /*; do
+  mount -o bind "$X" ~/fake-root/$(basename "$X")
+done
+
+mount -o bind ~/ld.so ~/fake-root/ld.so
+userns-chroot ~/fake-root
+```
+
+If, for some reason, someone does `mkdir /new-dir` outside of the
+chroot, `new-dir` won't be visible from the inside.
+
+This is not a proper solution, it's an hack due to the lack of
+something like `$ORIGIN`.
+
+Also, the fact that AppArmor restricts user namespace to trusted
+programs is a problem for me as someone distributing software but, from
+a security perspective, I understand that. AFAIK many LPE exploits have
+a critical path through user namespaces.
+
+$ORIGIN in PT_INTERP would have an indirect side-effect of reducing the
+use case for user namespaces.
+
+> Where I remain firm is the split. The header names the intent and the
+> handler implements the semantics. If deployments later show that one
+> specific resolution policy is stable and safe, graduating that subset
+> into the kernel is a discussion we can have.
+
+Can you elaborate a scenario emerging from data that would persuade you
+in one way and another scenario that would persuade you in the other
+way?
+
+AFAIU you would like to have systemd implement in eBPF
+`PT_INTERP_ORIGIN`, see if they get exploited and then maybe implement
+it with the acquired wisdom from their experience?
+
+It makes sense, but tbh the most likely scenario is just that this
+feature will never take off.
+Maybe we can just look at what happened to other kernels, like Illumos:
+
+    https://www.illumos.org/issues/6987
+    https://engineering.backtrace.io/2016-06-29-exploiting-elf-expansion-variables/
+
+Or even glibc:
+
+    https://seclists.org/fulldisclosure/2010/Oct/257
+
+On Wed, 22 Jul 2026 12:36:55 +0200
+Christian Brauner <brauner@kernel.org> wrote:
+
+> A PT_INTERP of $ORIGIN/ld.so isn't absolute and so Linux resolves it
+> relative to the caller's working directory. Execute such a
+> "relocatable" binary with an attacker-controlled working directory
+> and ./$ORIGIN/ld.so is your loader.
+
+For real? A relative path in PT_INTERP is interpreted relative to cwd?
+This is the most cursed thing I've heard in a while.
+I understand that Linux has strict policy of not breaking user space,
+but I would ban this right away.
+
 -- 
-2.55.0.508.g3f0d502094-goog
-
+Alessandro Di Federico
+rev.ng Labs
