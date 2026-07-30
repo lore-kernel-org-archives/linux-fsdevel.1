@@ -1,92 +1,136 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9BB4028D8;
-	Thu, 30 Jul 2026 09:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211CA3F12EC;
+	Thu, 30 Jul 2026 10:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785405356; cv=none; b=HIgaNHJvKGSlYBqMTUmlYcGM1+9iG3LB2oCFqABRM4x00abBoM+/oPsjgepsun9r6/mVGpEmCQ6sVfpu47DG9Ge8J0RpzrM7hbLln5yqNbp7/bSH9oAHyfvmOIMzs0MsveD2puf8WZjNzHhBS0MP/Xz/dK9Por3wRZr4tbrOpZI=
+	t=1785406019; cv=none; b=O5g75dj0AHf7x9a6svsfJOao5f9Uiyv9eWbXlf7oX8lcluNyoksFp6Zbz2xpcVStQgvs0o1ADopXpFFNWKngnKNDKOEdGlnM/Q+P/1jR5p0k08bpr2RrzqMRhDlHRJl/tq1SqqTQFT122BfzodJNyfEFWxCNoquDIgFh1P1Lt4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785405356; c=relaxed/simple;
-	bh=M5/koxxn0ugyrMzZKVuuf6hp5KuOxqayxGxlP6elYmQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dXErIdFY0Fr649helU/+7lzRIEkKZUFc64/iWpZxWhnAZg/7xAJz8Bo/7H7vvi2NmFkjeMtHI1Pkbg4jGVLJLYxuxms1VcG8qceggFnigS3EQ85jstrRH9h1vxXDmuaR3qnwwgQJbyprkIULA/mIpnPllHvn39g3+/zqpqY+Iag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=BNuBQFaw; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=sG9d4O3I; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1785406019; c=relaxed/simple;
+	bh=UUei0lD/EDb7h2v7ToPNN5nuFxLeREbeKm0rMZyUnpk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gCgq1VE1gSMaE/XA4jHVYMtZTOVll5TERjx7MgcGDY8Xvjl2rGWBnAEgOKXTINXSVu3MKGVmkTsvvSmbgpQH0Rk0UfFeKwnu3cjorBKm5tpRX4HSkidUK5SPReA1Zo/jvPzJ/FcNdqy0dqwTVtRersWH1SzySNVmphbfBd2VRzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/APtpjF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="BNuBQFaw";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="sG9d4O3I"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 2535F209655A;
-	Thu, 30 Jul 2026 18:55:51 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1785405351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M5/koxxn0ugyrMzZKVuuf6hp5KuOxqayxGxlP6elYmQ=;
-	b=BNuBQFawSw06pB/pIPGD2OiFNst51lvH+vJ/ZOS8dufR60G2joH2wNOmSr2fgXcgKh4DoS
-	OYtmfTmlkzrG3qmFEIN8CNJRf2wpJYnCCnZklpMP9v/kN5251I/lpGIjik9ddMIPS5Z/73
-	MxLDgnmv3euHkjOUCXZZFJO63myyqGR9PoL0xVX3eK70edKR+cOTRN71zEh1klCKHP09sW
-	EHBPgmIEeOQuZSFu+xRymUeP3fhd1ZB4McXil2GozD7snuXl8bUIwKinJwv/M6YzHgm3lT
-	y+ByNjYGMTHGCUbMqi1qfF6yB8kIRgsnYHSnDhPInQR26U3E8Y98xmhdL5xlBQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1785405351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M5/koxxn0ugyrMzZKVuuf6hp5KuOxqayxGxlP6elYmQ=;
-	b=sG9d4O3I9UyutnRlzJRVyyECNIIO6rrpmCXyIAxuHNHp9pvQej/srHjzKWe6aH6KJCacKg
-	JEZQX3IwkFu/43Bg==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id ACD3AE0099B;
-	Thu, 30 Jul 2026 18:55:50 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id A26AB2200185; Thu, 30 Jul 2026 18:55:50 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: guibing <guibing@nucleisys.com>
-Cc: hqfang@nucleisys.com,  linkinjeon@kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  sj1557.seo@samsung.com,  syzkaller-bugs@googlegroups.com
-Subject: Re: [BUG] fat: race between fat32_ent_put FAT update and mmc_spi
- transmit on shared page
-In-Reply-To: <976A3274AE66DB00+9877ce61-dcab-40c0-bcb3-08fbf30548b7@nucleisys.com>
-References: <3C3DB358BBDEF242+9bbeab6b-4de5-4fc4-a4c5-fefd915fb562@nucleisys.com>
-	<871pckvq3t.fsf@mail.parknet.co.jp>
-	<976A3274AE66DB00+9877ce61-dcab-40c0-bcb3-08fbf30548b7@nucleisys.com>
-Date: Thu, 30 Jul 2026 18:55:50 +0900
-Message-ID: <87h5lg2449.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/APtpjF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E0B1F000E9;
+	Thu, 30 Jul 2026 10:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785406017;
+	bh=UUei0lD/EDb7h2v7ToPNN5nuFxLeREbeKm0rMZyUnpk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=i/APtpjFfiUT/jwTB0X6v6oJZclMp055NF0CkBCD3J2nPkV89Jb8UtbLPeNNCRNRl
+	 EknI0ZySGCU3e0qUKusebo8eOUMFTKtX+9U/WCYY0kfVzvZCWuya2JnoHmaA6lgTRH
+	 GtHApMybmJNIXjWCNYHA2YsFvfZGjCl5LlOUTjG1zQ4OIqSvBikIjQI73QVhLPSxUY
+	 z2z9rn2N8Qm4gOJ2y0ksh0jhvcniBL8ZLeel0Tq+tmBN2C/n8R6tSbilYsv6dUAnXr
+	 IxmkYDU6XBKfun/Ho6JEv71ZRQLzPCUJhtEvxpwmnWOkQaBLN6a5aBhLGDxTu4pdDX
+	 cmaCsWWVW9zqw==
+Date: Thu, 30 Jul 2026 11:06:33 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Kees Cook <kees@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, Pankaj Raghav <pankaj.raghav@linux.dev>
+Subject: Re: [PATCH RFC] mm/huge_memory: eliminate reference-counted huge
+ zero folio
+Message-ID: <amsf4_v4EDcU6ePJ@lucifer>
+References: <20260728-persist-huge-zero-folio-v1-1-e7b604eaf416@kernel.org>
+ <04d881f4-419c-450e-b9b4-1341497fa93a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04d881f4-419c-450e-b9b4-1341497fa93a@kernel.org>
 
-guibing <guibing@nucleisys.com> writes:
-
-> Hi Hirofumi=EF=BC=8C
+On Tue, Jul 28, 2026 at 09:16:08PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/28/26 15:06, Lorenzo Stoakes (ARM) wrote:
+> > The reference-counted huge zero folio is problematic - it's prone to subtle
+> > races, it can introduce allocation latency and it is confusing and
+> > complicated code.
 >
-> Thanks for the explanation. I noticed that syzbot has also reported=20
-> similar data race issues related to this. I was wondering if there are=20
-> any plans to support stable pages for FAT in the future?
+> Just a note that the subject is misleading: the huge zero folio is always
+> refcounted (e.g., GUP must take references), it's just that the persistent huge
+> zero folio never drops the refcount to 0 to free it.
+
+I meant huge_zero_refcount not folio refcount :) but maybe could have been
+clearer.
+
 >
-> Could you help me to review the workaround ? Are there any potential=20
-> issues with it?
+> What you probably mean is "mm/huge_memory: eliminate dynamically allocated huge
+> zero folio".
 
-Your change is unconditionally waiting the condition. However, if it
-doesn't need the checksum or such, later overwrite will fix temporary
-corruption.
+Well that's not really getting to the core of it, the problem is the
+huge_zero_refcount meaning it can come and go and you have races.
 
-And the issue would not be only that function. All metadata would be
-target of same issue. Also, no need to wait whole page, just a buffer.
+But agreed refcount is imprecise + clearly confusing vs. folio refcount given
+you immediately assuemd that.
 
-Thanks.
---=20
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+So 'mm/huge_memory: eliminiate dynmaically alloc'd/freed huge zero folio' maybe?
+
+>
+> If we go down that path here, we can also teach GUP to not take a reference on
+> the huge zero folio anymore on the FOLL_PIN path, similar to how we handle the
+> zero folio.
+>
+> See the occurrences of is_zero_folio() in mm/gup.c.
+
+Ah yeah. Can do that on a respin, thanks.
+
+>
+> The reason we do it for now for FOLL_PIN is that a remote pin might outlive the
+> process, meaning the huge folio could otherwise get freed by the shrinker even
+> though someone still holds a reference. Bad. So that would no longer apply if
+> the huge zero folio can no longer get freed.
+
+Incredible that we have to think about this...
+
+>
+>
+> I recall there was a discussion (dropping dynamically allocated huge zero folio)
+> on this topic while upstreaming the persistent huge zero folio.
+>
+> I don't have time right now to dig, but it would be worthwhile to look at that
+> history if there was a good reason to keep it buried in that discussion.
+
+Maybe this:
+
+https://lore.kernel.org/all/20250811084113.647267-4-kernel@pankajraghav.com/T/#m4100481232bae8a7b661e8f6e86ecc74532c69a4
+
+Generally seems 'smaller systems blah blah'. But smaller systems that set
+CONFIG_THP get bigger reserves etc. so the argument doesn't really work.
+
+I suppose they might default CONFIG_THP on but not enable THP but at that point
+are you really so tiny a system that 2 MiB matters?
+
+Obviously it's more problematic for 64 KiB page size, but then if you have THP
+at all your reserves will already be problematic, and any read fault on a THP
+page gets you the exact same issue.
+
+>
+> --
+> Cheers,
+>
+> David
+
+Cheers, Lorenzo
