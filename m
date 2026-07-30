@@ -1,132 +1,170 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1773B47EB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 06:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D5D344021
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 06:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785393573; cv=none; b=blb15csYhY4B1N/Ap334rFlzX8uCIjFmfRXnesfx9exC+zlU4T34uM8HKq9xXL6y1ve0YzgiA2rP8VAA1PBatdPisPNaYvZN3IeDz0w580DJEZ1XIUsvINNqLN0WMO/VsLe6x7eTYAm2nHPHCC7Yc1OAiucMJhOCQgv2go5Mous=
+	t=1785394768; cv=none; b=kZevgPvZvsSXWBNuMKyM08Gmfz/Ml2Ib7z+XZ5jyLgYyI6CY83TGBvEBql7VjmtCmlcU6oz+svwi0ZsgbAN8XccsBsXh4btPwYG6YjnQpCzGpdaT6yswcdE36ieykQavi9v+EODbbnOeXeQHIy4NkSVfjBrePgA1mCi9GvUl0/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785393573; c=relaxed/simple;
-	bh=WncTQphxVp0l2Tk7Aew9QDDKQTVA3eE7asUk3yooeoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GhodS33WWbUeHD53gu5mf1FKjEkfjfOgXNLFBnhYF62QtDBLRv9Ltq+J6VLyqkyk6SKBs8eEa7bdygQHglC6zmBrj+mwgOjpTELpWEG3RdeWMldZfDtKPVvkv5g4YzToSvSMBKUvrTvZXEsJoXMYtpzOsd2DVmQgCnA+gtXx3DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=r9Bnawsg; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1785394768; c=relaxed/simple;
+	bh=Tk8jUyrOqQ7WXa1eqV1nq7SPxnPRM7zEp3j/WZJSWC8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tGPGcTpf9ixsWI68OGApjwPnfVLzEMIdlkl/P8JpSbCXb6wT+CMuIgIYKN+HU7NrjzgRWABNaMPLJ7SlEseZ1w7msdKMPPZM8th7VxPn6FMJLm0d3euKjebEwUZ2PJ+uGlTs3dU1mnpBOUZ6CEA7BcffZP5KPDJC5Bdep/bAkPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=i0qRx6nS; arc=none smtp.client-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="r9Bnawsg"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9309d4ea213so153002485a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 23:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1785393570; x=1785998370; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kOg1TP69pkfX9jACUFVlU927ii/AFS16vNDFEmK7SsI=;
-        b=r9BnawsghlDcat/pe84AtaXEUH943VqDqoT86wpPLtvduovJvTkepYIApcK1kcS8dm
-         Vsbr2HII615RJDo632lNp0VVIk4jIsyUPPLcjZ8G4kf7MUiscXwqTTMMwLZfyFdC/QnN
-         f70GImoBQnn4kdpfMeSMKIUTaVJIokZFnAWahC3B01mdSflxvyXXndmWwaULOUhz0m3q
-         tPZTXKH1pcBVfEDmSEhiq8AuTzB3paxBpAsg8AYTUEfIz9cdRVb8d9Zl+BpjDqEH0Bo9
-         nLEdgyH+WPJoX/9Jvq4uTgVa8DmfohQOLZK2BWsHLPOhSI6MWT2TSx+G8e8h2lnHSk9K
-         fJPQ==
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="i0qRx6nS"
+Received: from pps.filterd (m0167068.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66U6j15C2243668
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 02:59:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=Wwzd
+	h+lefzQ3Mewr3ag7PKLqaiugNuHuZ6D8zRZNNZY=; b=i0qRx6nSvdRp35M11yLi
+	zCDL5833R4xWz9ehYcDjCN+iJy81EVfUbRN08bHwKN4Sv0jCdbucXr7pPAXPrQxg
+	1n32YTlFzi84Wr18ittxMIrJzVdRnkygO8LEM7xlODihfBD+KKpFhVBicsOyZBR4
+	JD+7PIf6HomtCv8bssHFR2jU/sxf0CVVHqPgBDVeubE9hqpuQG2Q/5k475unjLYu
+	leSSOvM4xxdsLdk3pxUwcrvIJrrT21ENuMSN5TaP/FL7OVtRqYOQU+/M1DKF509J
+	66cfLiS/MOEbOYUmN638Fpjn7j7NmlsYIk9r74XBJWePIIUuy2ZYsp95KPo8t/ry
+	nw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4fqrjq25cm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 02:59:07 -0400 (EDT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e606e8f3eso141637685a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Jul 2026 23:59:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785393570; x=1785998370;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785394745; x=1785999545;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kOg1TP69pkfX9jACUFVlU927ii/AFS16vNDFEmK7SsI=;
-        b=ay/blahTSKEgGS0zOSJP+icc+VlqhziJwWRbg9HvB+WkqR4BC/1vrlf/2VnUZNFpUB
-         D7QoyF/0k4Z4XxbbekC+9mSUO521SIAf4voUyokWAU/OPQKjORyAPJ3r2qOtEOJ90J8L
-         ga+BpjHus5Q0muQui9r4NT7I7GeBfhso0t5n8xVhOp4coWem91imZPpKSJVrqXHY78Su
-         rmkFQq/w7kDY42NP8Jx4//gOF1uC6PvncATP5agDLIAURuDyOSi+RwCHpHKkWrRBc3qo
-         YbRnLC29Ni9feE1sAJjHC4f+8SawN1sTMeU9rRD1iW93eivRr92ac3K4QBumvIN0V2M9
-         c6Gw==
-X-Forwarded-Encrypted: i=1; AHgh+RrvS5OwMGND5FpGl8EGW8ehkJgxafMm1NaLej54R6UVcHCbUgyvvxTOEKNR0I1XR3FJHjWkzUIptIsJy90v@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRHLzPvxewe7QbBxuVl0iSQd9A/jV+qVDeoprBg8dBYywXkRsr
-	2j64EZ4d09kLIgAznvpawHYzfbANwQ9NJYaRstASC+un69pOY2++pyHy3hgoW6BLhK4=
-X-Gm-Gg: AR+sD13fUsHfrmteMaAAon0phGM3FQ3QStxuVW69+t3Aib3MENj8im0sfj86Dc7/J3D
-	QhE6FHbABdabx7hQqsbEgbfj29M20ifLXV+8+peVBxO5XTSOmBjdcyDmku9QFxHal8zKQJKX7lS
-	FCUxn4op4wVF8wm0tNc6soASCQfmbcmf6VRCM0AVS5EE0xKK9HCd4BE2Zw896Kf8717Ly/eNt/a
-	d6kLdXz+F0axlviERRZe3oCB1uJED+gyzTa8yIm+oH3olyRzSj17e8ek3dmOS5QHBeosygVjwvY
-	ftqtlHuwEHAKlwitL6C/6Eq4m08rs4jphSvN2pCtQfv6apYemPVmOS050+ZztEm+V1i63JY+DKq
-	jjFN4u17Po3miOrbPGchCkngaO/SO1VOOAn+mSXtahuYNc5UFdrQj5fS3KpkzLHPd35+cOYmAoz
-	U1hIqB7yLCKZzDreoENnVAD0zJhedB9HTouKteokgjNYJHHX1+kjZrC2m+vn7Jf3jOlcp9blMDs
-	q8CI170nThpFeLfBAf24Xxdj/gNa5o/eC1Aruq4fTIY
-X-Received: by 2002:a05:620a:72c5:10b0:930:ea99:8097 with SMTP id af79cd13be357-93486cf8599mr88361385a.61.1785393570464;
-        Wed, 29 Jul 2026 23:39:30 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933d3221c71sm356647085a.2.2026.07.29.23.39.29
+        bh=Wwzdh+lefzQ3Mewr3ag7PKLqaiugNuHuZ6D8zRZNNZY=;
+        b=Y5fD4Ees9W2Awcrk2F1OclP+Vrpf/4x+g4aLJKU/faQ9NTxBKpWPvundLEtlWweMEp
+         dCloN4XI819yBLiEdDf7oqpRQzHL2t7y+lkeM/cjLDGULwhVj6XMBFFxtazTE4uVhba6
+         KjLQ/3xdbA7OiQFRrdWkY8GXUCLMGfvYWXBkd6odyTvkV4Y99L7A+dCmIfKULuKJsfNp
+         W9JfPwLuGnp+SOgOS92ir1e79QegUTOqjba33ItXE/YuRcI16Ri7QPnkcEHXbDRlUBSt
+         OfyIPieDTP41E3vb5C1ytY6Hve5mQ1vAcY6c9EbnB7lTt8+2VYnHS37QEzi8/NV5BQ/r
+         t//Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoZ7+wA4eDX//FYDcB5d7L3TxvBJ6FgAAkAnrsYg6WVlGY2R6T27YOYvxQg2cuHAP6V47qfygTTeCM3j6Hu@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFx+LMYh1/BhFUvDCj2EqQ8cKyV3mz0x1gWZVOjXRHPOfNl8Xo
+	pzy7CN2sCP7Z4hGoCW/bA53ZLqG8QON9yFk3Yaiov05pF4kq12luruYI/eitjknZq/ZltkIt7Qf
+	IKPnvX0b2ZGQ5XD5n2ypuclg6KZVIxWGH4r5BMcDDPhvwbTVJGLBD7ad+4bd15PY=
+X-Gm-Gg: AR+sD13XyZ9E/h+ROIzbXzhX+fFEH7JRqzcmiLngpCe+0CxCn3A3vjwFc01K3YXU3hO
+	ZLwzRUqHvCOA7w6eYCJbBFZYYAKDvGdPdv6qKC2VuG08a3+u9PCijAUp7dlE6CZhJ6K7hV+mCvU
+	4SxYfnuwOu8ZPy+hqqBCTYzSfDuJtuptHpV6MXhQj+LzR6U1m6d0gu/4LFCOsk4JHGx54CCWzba
+	L3p3iO1qt4qu16bm1z/BKHt09JSJrWS6KyFEs0lWwAzO77pQoGdPBvCpVZZtLnpPBFOkQAz+9ok
+	hej9g8zX35v03R3hPHFjboAN/p+J9+mwZ1ABOZMM7CuGejpLv/nSBNr4sq6MkNvbQVMI+valBdA
+	QfNLahrq0lbFZUB0nh01P8bB9+rnNH1AyCWSHmtzlkrnHwQ==
+X-Received: by 2002:a05:620a:2886:b0:8cf:c106:faca with SMTP id af79cd13be357-93485fe35d1mr140936985a.36.1785394745152;
+        Wed, 29 Jul 2026 23:59:05 -0700 (PDT)
+X-Received: by 2002:a05:620a:2886:b0:8cf:c106:faca with SMTP id af79cd13be357-93485fe35d1mr140935685a.36.1785394744677;
+        Wed, 29 Jul 2026 23:59:04 -0700 (PDT)
+Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-933d3221bc7sm349752485a.7.2026.07.29.23.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 23:39:29 -0700 (PDT)
-Date: Thu, 30 Jul 2026 02:39:27 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 03/15] mm: abstract vma_address() and introduce
- vma_anon_address()
-Message-ID: <amrw2v7TVl_AG5_3@gourry-fedora-PF4VCD3F>
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-3-e8ecfefea812@kernel.org>
- <amrV0Y7ZUtihiB2B@gourry-fedora-PF4VCD3F>
+        Wed, 29 Jul 2026 23:59:03 -0700 (PDT)
+From: Tal Zussman <tz2294@columbia.edu>
+Date: Thu, 30 Jul 2026 02:57:55 -0400
+Subject: [PATCH v7 5/5] block: enable RWF_DONTCACHE for block devices
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amrV0Y7ZUtihiB2B@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260730-blk-dontcache-v7-5-3e8e6850068d@columbia.edu>
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+In-Reply-To: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+To: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Christoph Hellwig <hch@infradead.org>, Gao Xiang <xiang@kernel.org>,
+        Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+        Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Sandeep Dhavale <dhavale@google.com>,
+        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>
+Cc: Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
+        Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>
+X-Mailer: b4 0.14.3-dev-d7477
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785394735; l=1234;
+ i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
+ bh=Tk8jUyrOqQ7WXa1eqV1nq7SPxnPRM7zEp3j/WZJSWC8=;
+ b=os6OKouVgqku2jRKGVaPk1noDMT3+eXOUJzWQsRazIMJ1bPae/JGJpIYkqGCxir04AYNo7/bT
+ w+Brhzebg6AAvdsxWkzbY3bN7osSNAQdnJPqVkijmqj/2VMhvYhfElf
+X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
+ pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
+X-Proofpoint-ORIG-GUID: NTG06Bfhv825TXIFiyreM3w8UFBB-WbT
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMwMDA0OCBTYWx0ZWRfX99QnKQAkLVeU
+ Q/mUVMe0BdbkR/vjfZjugBmI59PdR7qCYjpWjD9vHFG/KKw+57xVY0BGVQBK7pYXUFVL54Vl3wi
+ wNzR/Gi7y44XWXJ2nhqCYWLKvSti3TFkahNnTLboT4X6QvcjQbyb
+X-Authority-Analysis: v=2.4 cv=S4PpBosP c=1 sm=1 tr=0 ts=6a6af63b cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=x7bEGLp0ZPQA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=usPcmh10W0ubT8QP8_c3:22
+ a=J9_MS8zF8NN3zyd_QTgA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: NTG06Bfhv825TXIFiyreM3w8UFBB-WbT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMwMDA0OCBTYWx0ZWRfX9zl2Kkn6LVTD
+ N6mBSDAwYZW1MHM3twLhqSMI5uPOaIM+b7YBXfk0CzFun+Ty758S11yu6yOciNibhn8sMOiOndF
+ pqJAyuXLrbo7+cAb5HAfFzAUngZGgV0FtcVkinZtE6zYQ4zz8fjMBelUqF7y4Rc6UK2nGP9bKkw
+ R2+Kee5uzVYsJydvwsFmzhfNj8hMSwgL9AHozKV9EavYRC7mG5E/+sViRcP2cWq6EwkiNr4xk0Q
+ /Vwisbb1pIk+Uiypv+SVHnGwEiBHdZMsyr+cB5HUN8M94aaP3hUsgIwHxkmBHJtYqCeJoRedl04
+ 7IlXR3QAgyANh2/9OQKy3DwnLvxo/Uu0V31zn8aqguM+4aZaFr5135BTNlIUw1QaMFwir9ViPCe
+ IZFgImGloNlNlqj0AyaKbEfo+1zXN38v89tPrSRMIBrFnQ3lty0x+k2MC7KsmCxc3yOb/efRs4M
+ nhsPZ4NZ5HOmnp65q5w==
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11859
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 phishscore=0 lowpriorityscore=10 impostorscore=10
+ clxscore=1015 priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=10
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607300048
 
-On Thu, Jul 30, 2026 at 12:58:22AM -0400, Gregory Price wrote:
-> On Wed, Jul 29, 2026 at 05:48:38PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > 
-> > This will be necessary for determining the address of a folio's index
-> > within a VMA when the folio belongs to a MAP_PRIVATE file-backed VMA but
-> > has been CoW'd, and thus is anonymous, once the anonymous VMA page offset
-> > field is used for the reverse mapping.
-> > 
-> 
-> This is a doozy of a sentence... 
-> 
-> ... determines the address of a folio's index within a VMA when
->   - the folio belongs to a MAP_PRIVATE file-backed VMA, but
->   - <The VMA> has been cow'd
->   - thus <The CoW'd VMA> is anonymous (as well)
->   - The original VMA may or may not also be marked anonymous?
->     (just clarifying, could be original mapper or a COW that COWs)
-> 
-> Ow, my brain.  One question below
-> 
+Block device buffered reads and writes already pass through
+filemap_read() and iomap_file_buffered_write() respectively, both of
+which handle IOCB_DONTCACHE. Enable RWF_DONTCACHE for block device files
+by setting FOP_DONTCACHE in def_blk_fops.
 
-After re-reading the cover-letter again - my note here is wrong and
-my brain hurts more.
+For CONFIG_BUFFER_HEAD=y, writeback goes through buffer_head's
+__bh_submit() which sets BIO_COMPLETE_IN_TASK on dropbehind folios. For
+CONFIG_BUFFER_HEAD=n, writeback goes through iomap which handles it via
+BIO_COMPLETE_IN_TASK on the ioend bio.
 
-... determines the address of a folio's index within a VMA when
-  - the folio belongs to a MAP_PRIVATE file-backed VMA, but
-  - <The Folio> has been CoW'd
-  - thus <The CoW'd Folio> is <now marked> anonymous
-  - The original folio may or may not have been anonymous
-    (depending on whether it, itself, was a CoW copy)
+This support is useful for databases that operate on raw block devices,
+among other userspace applications.
 
-Lorenzo you are truly doing Darwin's work untangling all of this.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+---
+ block/fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-~Gregory
+diff --git a/block/fops.c b/block/fops.c
+index 15783a6180de..8b39c53b6393 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -941,7 +941,7 @@ const struct file_operations def_blk_fops = {
+ 	.splice_write	= iter_file_splice_write,
+ 	.fallocate	= blkdev_fallocate,
+ 	.uring_cmd	= blkdev_uring_cmd,
+-	.fop_flags	= FOP_BUFFER_RASYNC,
++	.fop_flags	= FOP_BUFFER_RASYNC | FOP_DONTCACHE,
+ };
+ 
+ static __init int blkdev_init(void)
+
+-- 
+2.39.5
+
