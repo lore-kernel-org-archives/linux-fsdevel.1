@@ -1,92 +1,110 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B99978F3A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 00:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957B41A6806
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 00:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785456523; cv=none; b=eXvVudM+wpNO96TB18CqMkThR6grL9sUP5tO9iDmHqrL23Asch9ETI+6J65yYoqAkeerQLWfU5NT2/OIvEQoyJWPvk95PPrNuPdiJYE3yyJ0dtMVKLYoaF2nNsfQBwp02DAMdVDdy3OICjUzS0zUSVuqICBUXAdL46OXgNkb4OU=
+	t=1785456879; cv=none; b=ZnMnuUii8Q1q1V6Uzelrv9tiAEmjRtlQXXW6YlZaFNMiofuMyqwYI+zCz+qwF9z6IYWO4ODOb+++8q8ib5SpSq9gXgPorE26Fp6MiMJcwckRt46GzvffuYR5W8FhFhzOk3YPXdBuxLYKhLCkkerhG3/VgCmfbx5Sz7iYrWZTS6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785456523; c=relaxed/simple;
-	bh=56x7vzC4zMOgfO+kzkvS3sEu0G48fqeH6zTFdAxNlEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GbvFYydaWBnhQahBYAn3l7cw6OkJCFray+4U03zM/jmxnAIV6YF/EDuLtlXL69Fh75n6OKESED0GxHI4XUU7DWeW13SxGUcek6glCBUrs+1pdlvYx+fF9ivWzKKHBz2BJ5ws2hAITKV7hi/6Be04afNarK4kjkqRRMZ3GnLDilM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqY6ckqd; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785456879; c=relaxed/simple;
+	bh=MN7ge1T5lQ1JTVCub8CTaie64yF5EP52iawEc5weizk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ipW/4wMdXsKipMWy7cnEZIshy0/W/KiNe2YxhfOGJz4cxNyp2gSFoSPyhIyFF257/2/rCJnE3uHUMHRgsdteeHP1FUPc52GH3hDcg6rNWpdOJkLdAVv3AESQuzV1bEhThkGCVQBwrWBs6fkIh36SzO/6Cnb7O/NSX7O5yZp0hKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZOtBtupa; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqY6ckqd"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f707e5d75so167159f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 17:08:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZOtBtupa"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1c4c7ddaf6so45564166b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 17:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785456519; x=1786061319; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GIOuifRbm8yofop0/0N4Z7E2N0DbY2C2hD+PDPxriAE=;
-        b=AqY6ckqdqH0P/e+ti4ILhJ/Ba9EmeNVi/PwgMQ1UuOGZYwltfnexYENt0m2TG8qMNh
-         uQce0a2s9CJfWPqr427aGeqyUVgmQEZ0WT1CSSYI+qNNR0eTQKdoDQljdDiTk0jUszqK
-         0PYuXrJ+48Bel4Fkc5qnKPPnjQtfwp9nlLGU3yGIFhmJZh8kGL2jTPPqfO0dwq1EzB3W
-         oAxtWQNlteVxyuK5AXEenhxo8Q+vQH7Dn/RkCBunScLCQgnDUHEI0gy7k254LhYQGyFn
-         2MFGcTwUadSTdJWFKmvZt9dTCeKvXhK92b2oOcCcX7/6aeMNWk4YPTU/tMI/GXY0gC10
-         HTEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785456519; x=1786061319;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1785456876; x=1786061676; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GIOuifRbm8yofop0/0N4Z7E2N0DbY2C2hD+PDPxriAE=;
-        b=ajm2OyJ9incTjdG9SIEfB2SHR7yvUqz5y6qiBVuEHAd5ir/FujME5nbQM6cqw+/3Zu
-         MQIgVsqk5KNF6lxhUOUJ2H4FyOqPJM3y/S1IE1ufCjVZ2dzu0b8q7f0F96qeKd+byaQL
-         g8SPD7w4yeDTw+WbXUX8138B9Tq1GsO1BnBhDKCbKku1co0jhmngeanzI5L0ItdZQAcU
-         EsQ/DfhileuWsVBI72XUeMi6eG+wXgBQxfM+Y7wDYniWJDFNNa12kMebifpEuP9/n4Lq
-         F8+0IUsbgLsYWzYtHnVqygB8iOpTjIcDjUwmig72FTYEHHHBbCNJx5JWrdIIAsJ6sMMq
-         TZvQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrEK7f1FeU5aqg/Cg/gepl7rbwR9cgObqs2lFeVukwhp9CRj9uWAayx+ieo+RRgffDLZMkJpn9Vm87w56Cq@vger.kernel.org
-X-Gm-Message-State: AOJu0YysHTcwMFTIfRRtwFsb2FgEwB2n0m4iKkQM2STtxf9L3sYMp1ka
-	JLvXQjWZK2X5nemN2FMSIz2WrRwNCXyGAR7F25v+tYKEEPHHHK96sBuM
-X-Gm-Gg: AR+sD12Im4O7xEFkdV23uSVcVx15MDSkfHktRvN6aSgJHEovUDFhKYpNBGbmSJsxhqI
-	RAYFb0JVcVd9UrOZ4o2ne96pD0WHGS23Lg9tx/M8hppARnlZfLNQHTJ/sHPbZh4nHutAd3T1UtO
-	zog3vx8CAXTwmbnbQ3r6F5OTDRgTmCayGCAH7BkRVqFGpdDdSRBsv6SGvaG/j8SRGTnMAOBsDZ5
-	TX1FdS9511TNIqhIHMFpzGSF6LZeZgSIfDPwWHouEN2lGqnYiZMoQtlbuHhXZjFFIDUHimzCv3F
-	OABqukI38l0BBEhjZ05Nidg1Zv5N32ztgkVuJJ0ZR/Ul3YnGyO1SBrRbRzT1hePQbY8/DBN6RrJ
-	Q7LyKpIoaLrvgeQElySjjiFg+erJrQaewz4Bm5+POqO4NkM2FTuV2RbFkM4tKOa43yToDooGhVA
-	jr/327reMkHnA3qQXYy4myZ/srwZNDV0ulL4edXLwpmawHRNnQlx/rKeR441Oabp3tuWoXxQC4Q
-	BD/uOmzNvQ+Y47j2kIg6G3xzachyl5FAS0/2kjiZ5vB5qRA9bVfegy3S66Bmkq8tEP9ZFQjH0KN
-	yXGiHrkVjMwJe1K+El/rM7Hqt9BVYCJ7cG+PGmD5FpkJxeVwFHneKnf032LuXASi
-X-Received: by 2002:a05:6000:1864:b0:45e:73eb:5119 with SMTP id ffacd0b85a97d-47fd2ade32cmr107117f8f.22.1785456519031;
-        Thu, 30 Jul 2026 17:08:39 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a433-6e01-2027-dbe2-056d-7bc4.310.pool.telefonica.de. [2a02:3100:a433:6e01:2027:dbe2:56d:7bc4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fc88d708bsm11142640f8f.6.2026.07.30.17.08.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 17:08:38 -0700 (PDT)
-Date: Fri, 31 Jul 2026 02:08:36 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] dcache: keep shrink_dcache_for_umount() making
- progress on busy roots
-Message-ID: <amvnGb0faDy9X38h@gmail.com>
-References: <20260729005933.15858-1-kmehltretter@gmail.com>
- <20260729-sohlen-ballwechsel-codewort-389f639bd3ee@brauner>
+        bh=QCTwPWTe36H8QlcoShrFPKk4L1n8utyt7k+WGp1VOEw=;
+        b=ZOtBtupaUbCW04/GtbWmNTvregWKAfS2cWfMyHVlOQCPVmYLvX2DKlw7w7K8hG8Qcv
+         NZ2BfhjMlwtvuV6nxX1xGvP57MNGviFan1pMOv6g3logA6HFrK545Y5VUbJwXW5L4QiK
+         4d4POFloQLj65KWjI1Pb09BuODx4KxuBPj+Kc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785456876; x=1786061676;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QCTwPWTe36H8QlcoShrFPKk4L1n8utyt7k+WGp1VOEw=;
+        b=mD4lAR6gLiPLucBttlfsyAxdvBuO0dwYp99064XcmK/9HUpNy5JJoeFbiq3wbn2war
+         urOQFBof3+FL8JkV8G4ilW3qw3xnmh0H2wlmrj08Wd6Grz0FuG6FuySe761U7f/v25qu
+         BQ52liN9kpb30KfRZR7FH7e/XAwoXsjZxT2DUCclD3hSXsdJi7T6yyXOqKv+8b85zAoR
+         4d4zzEZZq5XqAKWICF0YjMMsGzx8LQTMLfn1DOKXubUC8nHCvq2JeAAU5dIyDTvMzcl8
+         Zg38UtOPVjSm18g6b6QDFT827ohS8gUka+0eUX94eXOwDnrJISjj7AOHO/DGCbN9sUSk
+         Z9+g==
+X-Forwarded-Encrypted: i=1; AHgh+RpQjaNNAaWV0s4PDe37JGh4tGz9M7c3Tr2G7xXN2i0Ht0SW7zLFaZK0zH38wsEl0Kk3JIVOabAW6HkUn4wv@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHhmbJEqCV8/+9v7If48Eac0nfeIk93zeYYL12daIR3Ar4dMyo
+	jRZrQvrj2iPM1jAXIHjpDeKF1G7JH2AKvNSisUy/Ui80uCDikysRN64AnWNW7XucAW92pz5RKJH
+	aBB8S12M=
+X-Gm-Gg: AR+sD13OlEeTU9Ia25+zISKhA5uPC5JVmzlm0CTsOZ9dmdSLoW77O1l3u0NPr4XmGVu
+	KiiHiepZ1z8OFNO2kyrE56fXBMSgalkOuLKZn5YVEnc8mFbDTgWavbCVPFkW6OKOHNp1r6QRIhN
+	iZr2K5J8c/zleDTanbVLqiW17+zIDekshIcmnQU7H1ROnIZItNVvgYc/Who9zWGw+iIruW6gyDT
+	Ud8V7jjxbo49WGbkXNVvXufFYGnx74cfHKhYZLRT1jyYp35Luaesm5PsZekOeQBuXHaFOGtv5w4
+	4V5B52OU7dhvpgI+AdG/HbF01Zl4T5XmGH4QxTZeRaXuaPpCXsB5InJDQddU9eS8zj9/kQ1/OEr
+	7/DdbJvMXMH9cF5sq9fwXpDR57yGUyvLB5tjXVDeTCKMPcGLc89Y/P/M8ybZoPro/be8ANNVfq9
+	i/e6OOIVqeNDko/xiQb1tkXsGVbBL+OagSs9psxYDC8G92JpzS6h85b72lwuZYdpct8+rT2ahrA
+	n1Xds6vrjojx3y9h6ngveXqfreenYHIrDUbdw==
+X-Received: by 2002:a17:906:4fc3:b0:c1f:bbf3:3b33 with SMTP id a640c23a62f3a-c1fbbf33be1mr130677166b.58.1785456875802;
+        Thu, 30 Jul 2026 17:14:35 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fa851b68dsm123954366b.3.2026.07.30.17.14.33
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 17:14:34 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6a07a051a81so707248a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Jul 2026 17:14:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rrmc0y6KmwPJfnORSKUb6ZWLFPh50O7vF+523VVk4DbJOfNmudK8yi77Cwr+9MhyT8t9v9r//QK1xjEmP8W@vger.kernel.org
+X-Received: by 2002:a17:907:97d1:b0:c16:29eb:e81a with SMTP id
+ a640c23a62f3a-c1fa56df16dmr245684466b.29.1785456873638; Thu, 30 Jul 2026
+ 17:14:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260729-sohlen-ballwechsel-codewort-389f639bd3ee@brauner>
+References: <amtbpwrhlNGJ9OK6@redhat.com> <amtbxpqJ3pZwyT8D@redhat.com>
+ <amteY30qxRuPzFh3@gmail.com> <amth6owVUdVOmyAL@redhat.com>
+ <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com> <amu1i8rzQ3hZ-vAu@redhat.com>
+In-Reply-To: <amu1i8rzQ3hZ-vAu@redhat.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 30 Jul 2026 17:14:16 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiUWQdiHbH9s4XKnYZwRs5vR1Azq83V4scN+N-w-VFRng@mail.gmail.com>
+X-Gm-Features: AUfX_mz5zon_kbqMfY60s241UG4SIgEzvMbb41Bh6TGn6yZhyVsZ-jzWpF_8les
+Message-ID: <CAHk-=wiUWQdiHbH9s4XKnYZwRs5vR1Azq83V4scN+N-w-VFRng@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] pipe: only enable the extra wake_up(rd_wait) for
+ edge-triggered consumers
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>, Breno Leitao <leitao@debian.org>, 
+	Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 29, 2026 at 12:01:48PM +0100, Christian Brauner wrote:
-> 
-> Wouldn't it make more sense to move this into do_one_tree()?
-> 
+On Thu, 30 Jul 2026 at 13:35, Oleg Nesterov <oleg@redhat.com> wrote:
+>
+> Again, contrary to the current comments this is not Epoll-only...
 
-Yes I agree. Your version is a clear improvement.
+Sure it is. As far as we know, only epoll has ever *cared*.
 
-Thanks,
-Karl
+Yes, you can show the semantics with io_uring, but do you have a user
+application that actually cares?
+
+The only reason that ugly hack exists is because we did have that
+break user space. If we can get rid of th eugly hack for io_uring,
+that would only be a good thing.
+
+So this literally *should* be about only epoll unless you have a
+report that io_uring users are equally broken and use that
+shit-for-brains notion of edges that aren't edges that nobody sane
+should ever use.
+
+               Linus
