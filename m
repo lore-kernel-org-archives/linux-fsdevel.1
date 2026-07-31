@@ -1,211 +1,182 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C6D42E018;
-	Fri, 31 Jul 2026 17:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00899445AFF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 17:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785518060; cv=none; b=FAF9VXPNLbbUm5C6OvLH4NR+o90msDzCJdMQMKE2Km195sLFrHJjHeU2bWWBQ3+xDoKLP9SLP9pLJuEg0sElDbQ1pbvgGh82Nq1IzYdTPQOf2fs/7UGjnHyExuWZn8EXEX6pzPjJQ5PEiuKfxLUI2/KmhqEMgql5KUfZoLOGC9o=
+	t=1785518073; cv=none; b=PnlNm3Hvk0fIvqqC9thJPfxU0m7tHQOdvQJESRfGo6TWMSUo6gWlqAzlXgPCAcot1bLqtHxF0jftqH9XrHmH8IFZJjV/E+uD428orm+MW3MiJciQ9/JMekna4Ox5hn5QTiAL4sU2vLlkx0yhIx7nXN/oSz9M2OO4+yuEr2n8W9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785518060; c=relaxed/simple;
-	bh=44/ePSzqm+XnLozEiIYFrtE7RzJrzPz/tr9xgQvzgWA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RrHp2rNfWoQ1OlDqvnEwcizPCTSn5huX+UWQVqh+BHmnSQD91YRdcWG/atCCHsHdXnifNIGhXVFbf/NxF/w/je+Yt89IFfQyPUemw8hhiTBpbWFBnzJgLXO+U54MJu0R2Aa6wNJDVLRECYyfJVCsh0bxA9zL8k2kZWmzkhk9sSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=IYL35imN; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="IYL35imN"
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 66VGWkwQ1453370;
-	Fri, 31 Jul 2026 10:13:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=kdeIhjfSO
-	kilQ5v8Y5Sd6MikyWpbswAMtxTRGM2ZTbE=; b=IYL35imN6IguiGsZTDs9vpw8M
-	CTZ0KM7ONDj6XGoPHVlv4/3Ps0YUr6+WMMVlZ35sIqth3dTSev7jKW2ELKJCmsRZ
-	Il36Y7JibEgNst0xtTZRGJBf/B4kluBqxC1uKa4oq6NIoihiUhh3fyBw7B9DSQwe
-	h0QUN0f3mq2Y9KiQ1mNuujV1VxyAMzFc27z8EiWPttTSoB61Bhe2/UqYUKlb90Mo
-	6BfGreOAWRUEY3rnlUalvgPOdhwSviv+uxa66CABnLoU87sTM6Rnm/aNxAumyQk/
-	48KienAWyFjca4o7+AmxVX1ZmHrpUIBM2lPHg500CZSXK1lHzDTt+kc0Nz8sg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4fqrmdxcky-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 31 Jul 2026 10:13:47 -0700 (PDT)
-Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
- (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.45; Fri, 31 Jul
- 2026 17:13:46 +0000
-From: Jacob Lalonde <jalalonde@meta.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner
-	<brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>,
-        "Lorenzo
- Stoakes" <ljs@kernel.org>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        "Vlastimil
- Babka" <vbabka@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Suren
- Baghdasaryan" <surenb@google.com>,
-        Michal Hocko <mhocko@suse.com>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
-CC: Omar Sandoval <osandov@osandov.com>, Jacob Lalonde <jalalonde@fb.com>
-Subject: [PATCH] coredump: add filesz truncation and filter
-Date: Fri, 31 Jul 2026 10:13:36 -0700
-Message-ID: <20260731171336.2255844-1-jalalonde@meta.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1785518073; c=relaxed/simple;
+	bh=GbsZ42c9Ct216hTiBMFAnKCAWIvIVGetma4/x4feBkw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=AINjRknskwJHr2n/eDWiHNYpp5c1stvYtyDfpYTosK2rsKhFaBUlkorYeIcq+UzR+QnKklRDcTxF/j3oFiQ1uaWEcbp/0HhsdUHGdOaTEEwxwngVJi2XcBnaHl7c1OgRBjXsCyX8nrDS9xUvfsEYrs1aPrwEYXGhfNUDL3sWltQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-49001defc4dso1744042b6e.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 10:14:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785518071; x=1786122871;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rQ2CTzYQc65yCHluHvU2vADHSylNpT+V4b80bDedzxE=;
+        b=rLc3e5+pfSr0kJ9GvQoCGCmoOIFyNQ1tkEk4ORF6Bpk0bbjSVty7y5vuW39+Cn/WKU
+         ueh3B4hDnTpgQSL4uyEeh80jdrItdtAQd7UAOUI2tqKcpWnpuWZzwMWMUQvUJ/HCP9Y5
+         5SledjXq4FMFwDufmXAPSIOJ690lU05HVjELgKlt92yRI3CwTw9hLb4o8XyxOboQ8+dp
+         gcpQIgRSUFrkMnoHIYrrUtQhDWREIiXKFzJhTw4fOadcY7LvRSTPt+SDD7+dy1f2jJj8
+         3zK8sdYi1UCKTkA1Ki9OuoknJtM8BmlztQcR/An4C91fSLDjWILooy/TPvKUsoDhztTu
+         yruA==
+X-Forwarded-Encrypted: i=1; AHgh+RpirgtLdhnrxtcQbiprQ29x2aW8Du4bW7WeuY0Bp+svY/ECs7KTvR/h/0vV4h2zKqvTwUKeHYzpONpPNZe/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0ce2Bxv4DAF7O9JuuQ1r5gyNM2k0NOyOnPNp2yi5jj45QCdvT
+	IZ7Sk+O2aouT9YsmAcUMXT/gZO44PBOhBGLaQOedVf+WpAYWbD9jcnubcOR8naGuW2U6xwLUCmw
+	tP52Y43BRmgugbMem1cXEO8DR2EG53LZMIk8unjdbqAACPLFxawNGIL5FDnA=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDEzMiBTYWx0ZWRfX4w+XxcM+46Dk
- zGTSWs80hd+P++WHMQhYhYDWV4g3gm9TEhbcaGGIPIKLyjhZo/PT0MLiaKvTd+gxcqnCEMNoTOl
- 4rb3z8+tBLPed6wYeqnM1acZpSeogds=
-X-Proofpoint-GUID: QgAO7R3JxY9qJrdotLFPqeZMAf55nRd4
-X-Authority-Analysis: v=2.4 cv=YK6vDxGx c=1 sm=1 tr=0 ts=6a6cd7cc cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=855S8uPTkML1Oy45N9_h:22 a=FOH2dFAWAAAA:8 a=3_ptNkD2o4TX9xly_T4A:9
-X-Proofpoint-ORIG-GUID: QgAO7R3JxY9qJrdotLFPqeZMAf55nRd4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDEzMiBTYWx0ZWRfX/oluRmmrt1kW
- jcAO5sVhJytf4812ybpH7wqZKxxpBXcbx1edFNKtTMcnjiGd0aHpy6r5vJWNvlZipZ9T8J/D1pN
- wzG6CKfAaewFtkgd8rZ/SyOK05zZUaDBCqON5CHOAiCQu6fdt7crMKX6P7TQzcrYzmyRR3ReMYt
- pMjrbDUEWntpQx9JKKGDtBU9X/6Lak75MFenP8BF+9HJ2tnXcPiBgUKwPWTihCMGw9TxKwvNPND
- hqVRjQH2+/Cll8eCDXOG6sSuha5He5GTjvd+gyJz38FqnGJAuqchwmf8M+syHTzzibH3hM1ttKv
- KCkFsTCBxdr6pCJf2h2skn2Visl9DqkdfFsT1vKDfmRjd2nPB+vyUrRZrBhJNSVIfZMTfoxszJ/
- iYEQPOAtRjyXmNpH6ZEBb3D7jolzjJvX+DcXZ7R7HjyTduKIUUqHMMNW1LRLCWk0dOahKeOGM0A
- YyJc6cOoWinqAMOUbRw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_05,2026-07-30_01,2025-10-01_01
+X-Received: by 2002:a05:6808:1792:b0:497:d252:d609 with SMTP id
+ 5614622812f47-4af5dfb8079mr1528242b6e.4.1785518070781; Fri, 31 Jul 2026
+ 10:14:30 -0700 (PDT)
+Date: Fri, 31 Jul 2026 10:14:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6cd7f6.2d659fcc.1d46f5.0199.GAE@google.com>
+Subject: [syzbot] [fs?] general protection fault in path_put
+From: syzbot <syzbot+1686d17ae576cc5f8a57@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jacob Lalonde <jalalonde@fb.com>
+Hello,
 
-This adds opt-in truncation of Coredump segments to
-`/proc/pid/coredump_filter`. The primary motivation here is to reduce the
-number of zero pages written via pipe to a user space coredump process. In
-my testing this reduces coredump size, and thus IO by ~40% at Meta. With
-some outliers such as PyTorch's TBE weights being loaded in right before a
-crash being closer to 99%.
+syzbot found the following issue on:
 
-We achieve this by having the Kernel not emit the trailing zeros of any
-VMA, resulting in a PT_LOAD with filesz < memsz. I verified that both GDB
-from v16 onward and trunk LLDB support loading cores with truncated
-sections, however LLDB won't report zeros for the truncated region
+HEAD commit:    11028ab62899 Merge tag 'probes-fixes-v7.2-rc5' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=179d4aea580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=1686d17ae576cc5f8a57
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e497b1580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14e2a48e580000
 
-I elected to iterate page by page for simplicity, and because we
-short-circuit when encountering the first faulted in page, meaning time
-spent iterating should directly replace slower copying and pipe IPC.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-11028ab6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e2be78614a29/vmlinux-11028ab6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/301a11d315af/bzImage-11028ab6.xz
 
-Below is an example program where the entire 1 GB VMA would be emitted,
-where as with the patch only the first page would be written.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+1686d17ae576cc5f8a57@syzkaller.appspotmail.com
 
-int main(void) {
-     void *p = mmap(NULL, MMAP_SIZE, PROT_READ | PROT_WRITE,
-                    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+RBP: 00007fffaa9085c0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007feae0225fac R14: 00007feae0225fa0 R15: 00007feae0225fa0
+ </TASK>
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000008: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000040-0x0000000000000047]
+CPU: 0 UID: 0 PID: 5912 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:path_put+0x22/0x70 fs/namei.c:722
+Code: 90 90 90 90 90 90 90 90 f3 0f 1e fa 53 48 89 fb e8 a3 61 78 ff 48 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 29 48 8b 7b 08 e8 4f 97 04 00 48 89 da 48 b8 00 00
+RSP: 0018:ffffc900040c7a68 EFLAGS: 00010203
+RAX: dffffc0000000000 RBX: 000000000000003c RCX: 0000000000000000
+RDX: 0000000000000008 RSI: ffffffff8291fe9d RDI: 0000000000000044
+RBP: ffffc900040c7bf8 R08: 0000000000000001 R09: 0000000000000000
+R10: ffffffff9b74bc40 R11: 0000000000000000 R12: ffff888022ab1f88
+R13: ffff88802dcb4a60 R14: ffff888022a9c680 R15: fffffffffffffff4
+FS:  000055557d29f500(0000) GS:ffff8880d5ddc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f63fff CR3: 000000003cf56000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ free_trace_uprobe kernel/trace/trace_uprobe.c:374 [inline]
+ free_trace_uprobe kernel/trace/trace_uprobe.c:369 [inline]
+ __free_free_trace_uprobe kernel/trace/trace_uprobe.c:536 [inline]
+ __trace_uprobe_create+0x96d/0x22f0 kernel/trace/trace_uprobe.c:545
+ trace_probe_create+0xef/0x100 kernel/trace/trace_probe.c:2371
+ dyn_event_create+0x46/0x70 kernel/trace/trace_dynevent.c:128
+ create_or_delete_trace_uprobe+0x5a/0xb0 kernel/trace/trace_uprobe.c:739
+ trace_parse_run_command+0x1ab/0x3b0 kernel/trace/trace.c:9565
+ vfs_write+0x2aa/0x1050 fs/read_write.c:685
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7feadff9df99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffaa908558 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007feae0225fa0 RCX: 00007feadff9df99
+RDX: 000000000000000f RSI: 0000200000000180 RDI: 0000000000000004
+RBP: 00007fffaa9085c0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007feae0225fac R14: 00007feae0225fa0 R15: 00007feae0225fa0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:path_put+0x22/0x70 fs/namei.c:722
+Code: 90 90 90 90 90 90 90 90 f3 0f 1e fa 53 48 89 fb e8 a3 61 78 ff 48 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 29 48 8b 7b 08 e8 4f 97 04 00 48 89 da 48 b8 00 00
+RSP: 0018:ffffc900040c7a68 EFLAGS: 00010203
+RAX: dffffc0000000000 RBX: 000000000000003c RCX: 0000000000000000
+RDX: 0000000000000008 RSI: ffffffff8291fe9d RDI: 0000000000000044
+RBP: ffffc900040c7bf8 R08: 0000000000000001 R09: 0000000000000000
+R10: ffffffff9b74bc40 R11: 0000000000000000 R12: ffff888022ab1f88
+R13: ffff88802dcb4a60 R14: ffff888022a9c680 R15: fffffffffffffff4
+FS:  000055557d29f500(0000) GS:ffff8880d5edc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f24008 CR3: 000000003cf56000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	f3 0f 1e fa          	endbr64
+   c:	53                   	push   %rbx
+   d:	48 89 fb             	mov    %rdi,%rbx
+  10:	e8 a3 61 78 ff       	call   0xff7861b8
+  15:	48 8d 7b 08          	lea    0x8(%rbx),%rdi
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	75 29                	jne    0x59
+  30:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
+  34:	e8 4f 97 04 00       	call   0x49788
+  39:	48 89 da             	mov    %rbx,%rdx
+  3c:	48                   	rex.W
+  3d:	b8                   	.byte 0xb8
 
-    int* p2 = (int*)p;
-    /* write a sentinel to make sure it's not fully sparse */
-    p2[0] = 0xDEADBEEF;
 
-    abort();
-}
-
-Signed-off-by: Jacob Lalonde <jalalonde@fb.com>
 ---
- fs/coredump.c            | 44 +++++++++++++++++++++++++++++++++++++---
- include/linux/mm_types.h |  3 ++-
- 2 files changed, 43 insertions(+), 4 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index e68a76ff92a3..b6cee412eb99 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1588,6 +1588,42 @@ static bool always_dump_vma(struct vm_area_struct *vma)
- 
- #define DUMP_SIZE_MAYBE_ELFHDR_PLACEHOLDER 1
- 
-+/*
-+ * Truncate the file_sz of the VMA to the last faulted page
-+ */
-+static unsigned long truncate_vma(struct vm_area_struct *vma)
-+{
-+	/*
-+	 * Same logic as dump_user_range, where we enumerate the pages
-+	 * in a VMA, but instead of skipping un-faulted pages, we move the VMA
-+	 * end
-+	 */
-+	struct page *page;
-+	unsigned long truncated_end;
-+
-+	/* We're already under the mmap lock */
-+	int locked = 1;
-+
-+	for (truncated_end = vma->vm_end; truncated_end > vma->vm_start; truncated_end -= PAGE_SIZE) {
-+		/*
-+		 * Because we're iterating backwards, we need to
-+		 * look at the page before the current address
-+		 */
-+		unsigned long probe_addr = truncated_end - PAGE_SIZE;
-+
-+		page = get_dump_page(probe_addr, &locked);
-+		/*
-+		 * We hit a faulted page, exit
-+		 */
-+		if (page) {
-+			put_page(page);
-+			break;
-+		}
-+	}
-+
-+	return truncated_end - vma->vm_start;
-+}
-+
- /*
-  * Decide how much of @vma's contents should be included in a core dump.
-  */
-@@ -1662,13 +1698,15 @@ static unsigned long vma_dump_size(struct vm_area_struct *vma,
- 		return DUMP_SIZE_MAYBE_ELFHDR_PLACEHOLDER;
- 	}
- 
--#undef	FILTER
--
- 	return 0;
- 
- whole:
--	return vma->vm_end - vma->vm_start;
-+	if (FILTER(TRUNCATE_SPARSE_VMAS))
-+		return truncate_vma(vma);
-+	else
-+		return vma->vm_end - vma->vm_start;
- }
-+#undef	FILTER
- 
- /*
-  * Helper function for iterating across a vma list.  It ensures that the caller
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index b18c2b2e7d2c..18cf8304f698 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1932,9 +1932,10 @@ enum {
- #define MMF_DUMP_HUGETLB_SHARED  8
- #define MMF_DUMP_DAX_PRIVATE	9
- #define MMF_DUMP_DAX_SHARED	10
-+#define MMF_DUMP_TRUNCATE_SPARSE_VMAS 11
- 
- #define MMF_DUMP_FILTER_SHIFT	MMF_DUMPABLE_BITS
--#define MMF_DUMP_FILTER_BITS	9
-+#define MMF_DUMP_FILTER_BITS	10
- #define MMF_DUMP_FILTER_MASK \
- 	((BIT(MMF_DUMP_FILTER_BITS) - 1) << MMF_DUMP_FILTER_SHIFT)
- #define MMF_DUMP_FILTER_DEFAULT \
--- 
-2.53.0-Meta
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
