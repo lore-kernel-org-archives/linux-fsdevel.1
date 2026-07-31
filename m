@@ -1,86 +1,90 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E13C3F4DDB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 12:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98043F4DDB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 12:32:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785500860; cv=none; b=u0Un70XbdT5Ggjd6PcDMOdujeyte4zRac2w/0czjgde/p3iPD1n7/26X3VfVdaRaFKeoS3QWRr3QAgavncPPmnZbCmo1a4TInXtDJaZKrf3NvEQSMQ/f2bkvfnzeIFmRcW7rdjp+ZV2b4D0fM7UY2yijBbxKGcAVvjSpG3CSNso=
+	t=1785501148; cv=none; b=ETBJSj45tPk5LeNNFv6bIqikN61M+OuU58H+PHps75vQKZhAceNmHEAW7zTHff9k5QCV5PFDI2R3HYcXyw677P7xAcKRJALKxPB81708mkwG2yZ5VA8ZmVpPIuCyNAU/1WTXTUg0Fzfc7Wg+C3NWcYVHQNqxag8sBbGpSytgZNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785500860; c=relaxed/simple;
-	bh=pOXK61Xg0LJX4PGsNaRRZoqjM+ptyrjJuzlThvXZoTI=;
+	s=arc-20240116; t=1785501148; c=relaxed/simple;
+	bh=4x1l13tDZXaxk1RQu5M3cxNt766PPEayJN9o1cWxA/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8Yr9ywZfPjXwv4Rm3AdMLOiW5zjK1fEz96eGwnkibiokMbozAbrB/cUfy9tNcWp0Z1tEbf1+smM7USoy1l57xXYjkdjvibeiMDycJmKZE519ydFhMdY/Fovjz/yXf2mfcsrjpJTlCzicACVFHsYLJ//IjRLup1EVxiwcxsx22k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2vyzOOTB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PlXJ69cV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FS22OlYI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vKGikB6t; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=JPwBomAxo4/2xVYd+bvCqHNcOVZIiZA2Z3Eo42mNqZRChRtCtLHaZb44EktsqtYXCYjd4xUk6Y6VCiH4uKiVXZNas+QkokqwE2js1J0fnCKzUWeJ0OamFGEIDncXy7bfD3Z6lwyaa6aJ8GPKFTsD79uJOckPDvyW/9OmTvNrl00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z8AXXofJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4JARpdH9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qGO9uSiZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=FlJ8f+Qf; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2vyzOOTB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PlXJ69cV";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FS22OlYI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vKGikB6t"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z8AXXofJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4JARpdH9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qGO9uSiZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="FlJ8f+Qf"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DAEB4096;
-	Fri, 31 Jul 2026 12:27:28 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 95178410C;
+	Fri, 31 Jul 2026 12:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785500852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785501140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TeSSD6iVeW9hQPqJ+MYjmsMx/vPG1MgRBQKXQQVnpdk=;
-	b=2vyzOOTBpXf8cKZhLNvqbcFmlqdL2ZNESxu1t1eC6Qx6mdbM7TJW4VOSV9seV5lNQrvezz
-	OllHZM47irBK+4ImNB9Ab63uiKDUYS0zsMksYviSrjhaJZOQmYea4+cEsbdvc/+xOYxvHQ
-	Yfmv1vnI61bEhh//yX/Caq1QbsJeD84=
+	bh=jBm/eTQW7pAs2FPRIDwtAbxXn/ODVdYs0PwQsRoanwo=;
+	b=Z8AXXofJfNYlND2QROkNOxUcG0YqtPvkPAnuCGbF71G8gNJD/XmFrxHCiNkJ6GsR8CQO1B
+	jUN9BBE6ru4A5LCSHDq5EjMvYakcnGaMtEtHifRq64BGBwsfmir8FmpdTuVo8GZvIyApB2
+	xTBJzUs2gKT0A/PpcTZbuacKWHTIS9c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785500852;
+	s=susede2_ed25519; t=1785501140;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TeSSD6iVeW9hQPqJ+MYjmsMx/vPG1MgRBQKXQQVnpdk=;
-	b=PlXJ69cVQ/wX8TJ/Q2uiEUmiQ4C3oZCeU19vrmRX3T2kvfxUt5q93P3/ZLowJaFWc+dEcr
-	/B73g8pjiE6WyCCw==
+	bh=jBm/eTQW7pAs2FPRIDwtAbxXn/ODVdYs0PwQsRoanwo=;
+	b=4JARpdH9nUhDXSwKpUXwEfVKYgZSl9iieFHZqC9yhJQRJzpD4Djcrv3Eo2kxujO+i+OJJS
+	660Eby7jeFhn0ZBw==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785500848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785501136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TeSSD6iVeW9hQPqJ+MYjmsMx/vPG1MgRBQKXQQVnpdk=;
-	b=FS22OlYIIxIL3yKvGGUPdgd8Q4VJcyWLxOO7fW/+CywX9BPEKqPoyv+d9pxU0QZ7726cF2
-	cfAuR+HYl+P5MR0A0RsXLabx8S7BMbKcvsa6j59TOxevMGFtBJG+8F5ZespdXe27f3j42F
-	pMQAaClv2yQCJmD7eC2XrPtxeeCkHXw=
+	bh=jBm/eTQW7pAs2FPRIDwtAbxXn/ODVdYs0PwQsRoanwo=;
+	b=qGO9uSiZyfZQz79UfLi6IoQ0OQUF9d2P2Nia7Z22yQjTx9dp3lIAqUSppQmpFzx0C3dLrk
+	hyW1FMizR+bhfAjSNYL3w/4yFKP79UyKE1qp1gSTu6hu6jKPFQP+w9awEAsN4nH18AfWqQ
+	5cHDnxW7m+vtL8c4h1meAED3cQPp+HQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785500848;
+	s=susede2_ed25519; t=1785501136;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TeSSD6iVeW9hQPqJ+MYjmsMx/vPG1MgRBQKXQQVnpdk=;
-	b=vKGikB6tCGx+NqcdOIaeMC17WRduzXx+pnl+kiC/JtktGqXiBIIA34gYB22vHcZECu3ErV
-	ylZrJ84XF68SlyCg==
+	bh=jBm/eTQW7pAs2FPRIDwtAbxXn/ODVdYs0PwQsRoanwo=;
+	b=FlJ8f+QfnmB924OjsD0j1CjGUoZOmKjsPqHqQINuGABHt/38lMAgUaKF+3GgTq8TLKayM2
+	6MLlgN9Vb0bod2CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 352B3779B0;
-	Fri, 31 Jul 2026 12:27:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BB8C779C6;
+	Fri, 31 Jul 2026 12:32:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XZ/6DLCUbGqfBgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 31 Jul 2026 12:27:28 +0000
+	id rNQSItCVbGqrCwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 31 Jul 2026 12:32:16 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D6498A13A4; Fri, 31 Jul 2026 14:27:27 +0200 (CEST)
-Date: Fri, 31 Jul 2026 14:27:27 +0200
+	id 37CB8A13A4; Fri, 31 Jul 2026 14:32:12 +0200 (CEST)
+Date: Fri, 31 Jul 2026 14:32:12 +0200
 From: Jan Kara <jack@suse.cz>
-To: Youngjae Kwon <yjkwon0026@snu.ac.kr>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fsnotify: Fix stale object mask after concurrent mark
- updates
-Message-ID: <yxm3q5glchsjgr3pudmcy2vtn3umneardtcnvbuxyfn4oaiuqq@77aualjjutwn>
-References: <CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com>
- <20260730152241.444632-1-yjkwon0026@snu.ac.kr>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+	Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-aio@kvack.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC 2/9] aio: Use accessor for hrtimer_sleeper ->task
+ field
+Message-ID: <pkeixgcd65n4mmxlrsw3i2getbkrzyybgd27h4iralrmp53llg@bczwlw3f7fzd>
+References: <e76a426b-f65c-4357-b263-96506d877136@paulmck-laptop>
+ <20260731004019.3530210-2-paulmck@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,120 +93,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260730152241.444632-1-yjkwon0026@snu.ac.kr>
+In-Reply-To: <20260731004019.3530210-2-paulmck@kernel.org>
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 X-Spam-Score: -3.80
 X-Spam-Level: 
 
-On Fri 31-07-26 00:22:41, Youngjae Kwon wrote:
-> When a mark gets a new event bit, fanotify and inotify avoid recalculating
-> the object mask if the cached aggregate already contains that bit. This is
-> racy with a recalculation triggered by a concurrent update to another mark
-> on the same connector.
+On Thu 30-07-26 17:40:12, Paul E. McKenney wrote:
+> The hrtimer_sleeper structure's ->task field is used as a flag to indicate
+> that the associated hrtimer has expired.  This means that the hrtimer
+> handler can be storing to this field while other code is loading from it
+> to check for expiry.  Note that additional races appear for hrtimers that
+> can be restarted, which could be argued to be a user error.  However, that
+> is no reason to let the compiler introduce additional confusion, and to
+> this end, the hrtimer_sleeper_task_get() was introduced, use of which also
+> has the benefit of avoiding open-code access to hrtimer_sleeper innards.
 > 
-> The concurrent scan can read the mark before the new bit is added, while
-> the updater reads the old aggregate before that scan publishes its result.
-> The updater then skips recalculation and the scan publishes a mask without
-> the bit, leaving the object mask stale after both updates complete.
+> KCSAN located this issue.
 > 
-> This can be reproduced with two fanotify groups watching the same inode:
-> one thread removes FAN_MODIFY from one existing mark while another thread
-> adds FAN_MODIFY to the other mark. After both fanotify_mark() calls return,
-> writes can fail to produce FAN_MODIFY for the group whose mark now contains
-> the bit. This was reproduced on an unmodified v6.12.95 kernel. The
-> equivalent inotify interleaving loses IN_MODIFY events.
-> 
-> Always request recalculation when an existing mark's calculated mask
-> actually changes. For fanotify, compare fsnotify_calc_mask() before and
-> after normal-mask, ignore-mask, and flag updates. Keep the cached aggregate
-> check for unchanged updates, and keep the flag helper's inode-reference
-> handling.
-> 
-> Link: https://lore.kernel.org/all/CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com/
-> Fixes: 63c882a05416 ("inotify: reimplement inotify using fsnotify")
-> Fixes: 912ee3946c5e ("fanotify: do not call fanotify_update_object_mask in fanotify_add_mark")
-> Cc: stable@vger.kernel.org # needs adjustments for <= 7.0
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Youngjae Kwon <yjkwon0026@snu.ac.kr>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Benjamin LaHaise <bcrl@kvack.org>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Cc: Frederic Weisbecker <frederic@kernel.org>
+> Cc: Thomas Gleixner <tglx@kernel.org>
+> Cc: <linux-aio@kvack.org>
+> Cc: <linux-fsdevel@vger.kernel.org>
 
-Looks mostly good, just one question below:
+Looks good. Feel free to add:
 
->  	spin_lock(&fsn_mark->lock);
-> +	old_mask = fsnotify_calc_mask(fsn_mark);
->  	if (!(fan_flags & FANOTIFY_MARK_IGNORE_BITS))
->  		fsn_mark->mask |= mask;
->  	else
->  		fsn_mark->ignore_mask |= mask;
->  
-> -	recalc = fsnotify_calc_mask(fsn_mark) &
-> -		~fsnotify_conn_mask(fsn_mark->connector);
-> -
-> -	recalc |= fanotify_mark_update_flags(fsn_mark, fan_flags);
-> +	recalc = fanotify_mark_update_flags(fsn_mark, fan_flags);
-> +	new_mask = fsnotify_calc_mask(fsn_mark);
-> +	recalc |= old_mask != new_mask;
-> +	recalc |= new_mask & ~fsnotify_conn_mask(fsn_mark->connector);
-
-How could this last line ever change anything? If old_mask == new_mask,
-then it would look like a bug that some bit from the new_mask (and thus
-old_mask) isn't already included in the aggregate connector mask?
-
-I can fix this up on commit but I want to understand why you've kept the
-line here just in case I'm missing something...
+Acked-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
->  	spin_unlock(&fsn_mark->lock);
+> ---
+>  fs/aio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/aio.c b/fs/aio.c
+> index f57fa21a250353..e8cd65fce41eba 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -1402,7 +1402,7 @@ static long read_events(struct kioctx *ctx, long min_nr, long nr,
+>  		w.min_nr = min_nr - ret;
 >  
->  	return recalc;
-> diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-> index ed37491c1..c44f2daa1 100644
-> --- a/fs/notify/inotify/inotify_user.c
-> +++ b/fs/notify/inotify/inotify_user.c
-> @@ -565,17 +565,8 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
->  	new_mask = fsn_mark->mask;
->  	spin_unlock(&fsn_mark->lock);
+>  		ret2 = prepare_to_wait_event(&ctx->wait, &w.w, TASK_INTERRUPTIBLE);
+> -		if (!ret2 && !t.task)
+> +		if (!ret2 && !hrtimer_sleeper_task_get(&t))
+>  			ret2 = -ETIME;
 >  
-> -	if (old_mask != new_mask) {
-> -		/* more bits in old than in new? */
-> -		int dropped = (old_mask & ~new_mask);
-> -		/* more bits in this fsn_mark than the inode's mask? */
-> -		int do_inode = (new_mask & ~READ_ONCE(inode->i_fsnotify_mask));
-> -
-> -		/* update the inode with this new fsn_mark */
-> -		if (dropped || do_inode)
-> -			fsnotify_recalc_mask(fsn_mark->connector);
-> -
-> -	}
-> +	if (old_mask != new_mask)
-> +		fsnotify_recalc_mask(fsn_mark->connector);
->  
->  	/* return the wd */
->  	ret = i_mark->wd;
+>  		if (aio_read_events(ctx, min_nr, nr, event, &ret) || ret2)
 > -- 
-> 2.50.1
+> 2.40.1
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
