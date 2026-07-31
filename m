@@ -1,138 +1,208 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DADC632;
-	Fri, 31 Jul 2026 09:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B663387359
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 09:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785488894; cv=none; b=m7DCKmG7rfAEEuj6TJH9hld6yKICcG3kgm2hoTXl9N4cYSYF2UznRryX0Cljc0fF0dUpgLmZARqFoYj8MrX3MObodYmaG5Lhacti9BFHtcPAlZzRjyBZQZg2xEn404vhFm3bxSTkyOQ87/LJBljo8GjJTuOVmMwnwDLEJE/0ziE=
+	t=1785489113; cv=none; b=aN84lNaV3/QscMY30n9SUOO7PiezLVjqd96y3/hKPLxcftFHpunRcsj6ZPmBjMENpACAy9Uk6jArHZwVm/3xfjkC0pEMYH+Mu1ItKGYktzV/BIuLBdyHSF8ymc/0kbQVNx4+yQOLmN9+xRpVyNhypqC1nkJC4BWmRCsoJqU1WdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785488894; c=relaxed/simple;
-	bh=ahQ78P0ay9z2l12/Wj0d/7zH0nMw0ofDjd/6A9YLnCw=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=S18OA9EkXgHy3w4hOxIcJemELbJA5JhWamKhbZeWJ00tg1ra5yvz7KIqesdXahAVhi28mEhmjDnfndPjCHPydRNi1h/Ut04jUeWaq2WW2gY0B6vpgm+BCOOVe94sKVWrTNe1cnmL1TE1DzSL4CuWc9jpKMoDKNQwArnI6jC/U0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ZK0jRoVW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bRoJPZ4A; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1785489113; c=relaxed/simple;
+	bh=EXDgL32CU8+11JRWs2p8ED9vG88KYSWEcXRA6aX/piU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=XFRyJO1Tia0LBNmpreJlrhRh9o2liHSGrmeA+QNcZmNi8stKfDBr9xzT6FeUw7oic7gBYvjBvpcJhhQVV0G+Q7yWe/mhmceyk21bjsBZtR//FP5SKamQhA5SioFdrTVLMMLXZyYBYy6+TUVnqMDlcq3WkV7d9JJJJblDbJ4zqBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=nNiivWOZ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=BaN1pOX9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ZK0jRoVW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bRoJPZ4A"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 329367A014D;
-	Fri, 31 Jul 2026 05:08:12 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 31 Jul 2026 05:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1785488892; x=1785575292; bh=kwvzQrnQmqCei1HPEzrxGu8kkBFd88QlBFW
-	KDu/FsaY=; b=ZK0jRoVWnnNaDS8ZExNdSMkESfHixdZkm0d/57yCibsu7kccgvG
-	2ayM2LyREqxQuX3/boN+XDQxsPKAMXBA0E/rWqAoqLcZA74aUZGCeRyvne3Ukp3Q
-	wuPX+3rQgkTRHQlUrE9VGYXNG6PPEBzVhYtQnVlsAvFKh4kxicfe4a6Zhoc3ufLO
-	BlEy5c4qd2GLAVwMhQzbQhk88nNpVv3EU0/jcnekmguAIpfZpSPht6ZQucvEtnNF
-	WBKnAWBMbkctpnrybPIn4ABg0yUIRr/mwjH7j25gCZV7lElWXP907lNhDN1tnfkF
-	fjvt4ZSXyQKRcR6RDTKTe8kOF65GbdVyVMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785488892; x=
-	1785575292; bh=kwvzQrnQmqCei1HPEzrxGu8kkBFd88QlBFWKDu/FsaY=; b=b
-	RoJPZ4AS1lfQTefQucSlq+tgSHM+4Ykkz0RlZYHaz+aRxzHTx1KPmbiVjAI+dKNx
-	P3RDS4YjLBbsodq3ipqNwiRpvM67MAvV0DK6qr8651W+Jp3zj8f1/X46RICQnUzz
-	tv0O4Sx29qxGoneK7YMTlORxx24OpEj6NylC2am4/eTxEimsHAAmul9xdknpwmpd
-	iAUtTz8tu1muey90pwGdOqThSunpKPbTgCUS+1xevl/wP7ga94e9z3Cgke6yk/bu
-	qSxCvlQ05vhv++cYqkTpDZYTR2JvFiDmlAA1A3RAgHT72G8OzBAyUBE0asqNhahJ
-	DYmhrNImeEKBZHcqjGO3w==
-X-ME-Sender: <xms:-2VsandLFsHM1Wd-svbFlAFSsqBdcGBHN52kxGa2eeUx5lFPd8pUeQ>
-    <xme:-2VsavcPzQBx-_t50gwWhtLKexbzGDt4QeZkj7jVc_Am5XbNHyGnYB_X9wsMPSdzp
-    mHhV2sVTi9D1K941emw7K-OTc7357AF_knBGY_NF8TcNKpCOA>
-X-ME-Received: <xmr:-2VsaiySn2jlKZIMXzm3y0HueqJD-BAj4W0It3VvEv-al9m34SRXKkl96TbnR6I9pdCMt_IfBwJC_Mz-gtwQP_Pnf63nIXE>
-X-ME-Proxy-Cause: dmFkZTEcRh68Pe70Jdr4otTzl1ZN4DBVUOxpbz1l8qHF+qQ4k6WRy4qyMXfET1j1le4uXT
-    NCwxvfJcfPasejX/oS3i48bsYblPQ9YygF3JymSsYnVd6sYKdS9Eh4HVyWb7bQPOwgwpTj
-    pblpAX/cV85syFtyUdVP+bQkAfeziK0zYyN7cVvcQ1qLjM7AjvSCG2Sxlsi2mqz8GDF7Ul
-    hC/i1leUaIxyzqM1xdpAQ8/LE4p251dlCIOruTkaYe0+hkPdkrY5f84AndFeCQHGwhZNRh
-    YLtFnhes8ibwEKckM4oqir5Lr38y+QdE9uEduKvNjKPeJO9bBpfHEanv2G/Kl2s6o9Kzms
-    UGwb+vKdYKq5Ozd2RTC/lf1UevtS+KlXGtA6UNNg02FP/w2AlO8NDGyteQIljex/aF0LCZ
-    F3mwnDQfRJ7ItL/zVau6PZL+/fZzpFSMiCdb2BTpzNUkyo+F3PW/heI34Xcoc0t1s9edXl
-    SqA3j5JxF3jMHHBYIaX8dGm8/qGoefW0TXqbx1DTSSPDWEr+zlj6WY6Kd9DnQ0OfX70kFe
-    Su8BoehRadgzu4PivGaLnVfQnmkXMVQ6KYa84hUJuryjIudW9gStluaNxsnAz6H4SOKtkm
-    LsqjitardGC90Z4c59CtGStbsPCvGntj825/PlLRcDu7tytOyp7lNIi5kVIg
-X-ME-Proxy: <xmx:-2Vsau8yhGCnVZlceeXKJt1lUBlnoPL6_ljYSGCRcVUXitYWoOYDxQ>
-    <xmx:-2Vsaig-FVywMvfzIkCQOOLH_IcvqH2NwXYTrX-3mA2ZWiaeFCns-A>
-    <xmx:-2VsatHGEJpPzs5KOjXNpuMTOPQkT_abK9PHbMl9_8IOX4gVIYtaiw>
-    <xmx:-2Vsap_ISqYXewg1alnMR86dIGpeCaquON5hebxOC8Z1yrHytjN1xg>
-    <xmx:_GVsahEXQEAypfg58UPcOPg3HXYcUlkd0EFmxkH-qyJmD0w0w2aCgvPO>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 31 Jul 2026 05:08:09 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="nNiivWOZ";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="BaN1pOX9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4498F7DE71;
+	Fri, 31 Jul 2026 09:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1785489106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZWmVuvs2r9X/ORunpHEg56gXXQpdK5iG70eQZZEdo5Q=;
+	b=nNiivWOZx538Meu+S9TbzgjqQDnJ6LF4NpzXd1mO6qbvn6OpsDkGSdg7w3E3izBbikCSHc
+	KCXxaUx2EaCaalUFFPR7/30t+IYbPZAPuf93PEBTkJfI4rF6jXXP6rCE/5EHOxQIVbLJ4f
+	48ZWFdFJIpiYO+T0mmBZSdNAVoX50Io=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=BaN1pOX9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1785489102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZWmVuvs2r9X/ORunpHEg56gXXQpdK5iG70eQZZEdo5Q=;
+	b=BaN1pOX9Q7KAOHotOFS9SsvJw13kSoOZ9BKZcAqGLoh9CRfT8JyUpvS2hVIcAIs+Qxg5iM
+	9iS2eQrr28Bva3BkR11H2rhE++1BJuNrTfFV/UIQgNVJsl9KM6dtHIIszG+Ks2twNmdymJ
+	ky3NN/hdb2KwLb507hdh18HJCvtO7Pw=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A54C3779B0;
+	Fri, 31 Jul 2026 09:11:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Nr5uFcxmbGojRAAAD6G6ig
+	(envelope-from <wqu@suse.com>); Fri, 31 Jul 2026 09:11:40 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: [PATCH v2] iomap: follow the alignment requirement for iomap_dio_hole_iter()
+Date: Fri, 31 Jul 2026 18:41:14 +0930
+Message-ID: <9209e7204fc6b7b60c28f196750084be8a2faba8.1785489008.git.wqu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jan Kara" <jack@suse.cz>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
- linux-kernel@vger.kernel.org,
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH 0/3] fs/namei.c: comment and coding style fixups
-In-reply-to: <20260731-work-lookup-fixes-v1-0-2412b85cf65c@kernel.org>
-References: <20260731-work-lookup-fixes-v1-0-2412b85cf65c@kernel.org>
-Date: Fri, 31 Jul 2026 19:08:05 +1000
-Message-id: <178548888566.3252194.860209231588124729@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 4498F7DE71
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:mid,suse.com:email,suse.com:dkim];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Fri, 31 Jul 2026, Christian Brauner wrote:
-> Neil,
-> 
-> Three comment and coding style fixups for your lookup_open() rework and
-> Jori's audit series as they sit in vfs-7.3.lookup. No functional changes.
+[BUG]
+On the latest development branch, btrfs with 8K block size on 4K page
+sized systems will fail all test cases that run fsstress.
 
-Thanks for doing that - looks good.  Feel free to add
+One very short example would be:
 
-Acked-by: NeilBrown <neil@brown.name>
+ # $fsstress -n 4 -d $mnt -s 1785675805 -v
+ 0/0: dwrite - no filename
+ 0/1: creat f0 x:0 0 0
+ 0/1: creat add id=0,parent=-1
+ 0/2: write dontcache f0[259 1 0 0 0 0] [816411,3620] 0
+ 0/3: dread - xfsctl(XFS_IOC_DIOINFO) f0[259 1 0 0 32 820031] return 25, fallback to stat()
+ 0/3: dread f0[259 1 0 0 32 820031] [483328,81920] 0
 
-if you like.
+Which triggered the following ASSERT():
 
-NeilBrown
+ assertion failed: IS_ALIGNED(state->start, blocksize) && IS_ALIGNED(state->end + 1, blocksize), in fs/btrfs/extent-io-tree.c:346 (unaligned extent state, blocksize=8192 start=487424 end=565247 state=0x0)
+ ------------[ cut here ]------------
+ kernel BUG at fs/btrfs/extent-io-tree.c:346!
+ Oops: invalid opcode: 0000 [#1] SMP
+ CPU: 4 UID: 0 PID: 648 Comm: fsstress Tainted: G            E       7.2.0-rc5-custom+ #431 PREEMPT(full)  7c507bd40d65e4d871e698b22d80f1306bbec543
+ Tainted: [E]=UNSIGNED_MODULE
+ Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022
+ RIP: 0010:validate_extent_state.part.0.isra.0.cold+0x24/0x26 [btrfs]
+ Call Trace:
+  <TASK>
+  insert_state+0x34/0x1a0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  set_extent_bit+0x440/0x8d0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  btrfs_lock_extent_bits+0x58/0x380 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  btrfs_dio_iomap_begin+0x319/0xb70 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  iomap_iter+0x1a2/0x370
+  __iomap_dio_rw+0x236/0x8d0
+  iomap_dio_rw+0x12/0x30
+  btrfs_direct_read+0x15f/0x290 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  btrfs_file_read_iter+0x42/0x90 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
+  vfs_read+0x25e/0x380
+  ksys_read+0x73/0xe0
+  do_syscall_64+0xe1/0x790
+  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+ RIP: 0033:0x7fc3f129318e
+  </TASK>
 
+[CAUSE]
+iomap_dio_hole_iter() is responsible for zeroing out the buffer for a
+hole, which calls iov_iter_zero() to zero the range.
 
-> 
-> * Update the comments above lookup_open(). It takes the parent inode lock
->   itself now but the comment still tells the caller to take it. A caller
->   following it deadlocks and the series added a second caller. The claim
->   that it returns 0 and updates @path goes as well, that one has been
->   wrong since v5.7.
-> 
-> * Give the return description of atomic_open() the colon that kernel-doc
->   needs. Without it the description is dropped and W=1 warns about it.
->   The summary line has to stand on its own line too, so the "from a
->   negative dentry" part moves into the body.
-> 
-> * Fix a space indented continuation line, three declarations without a
->   following blank line and a trailing */ on the last line of a block
->   comment.
-> 
-> Christian
-> 
-> ---
-> Christian Brauner (3):
->       fs/namei.c: update stale comments in lookup_open()
->       fs/namei.c: fix kerneldoc of atomic_open() and vfs_lookup_open()
->       fs/namei.c: fix coding style in atomic_open() and lookup_open()
-> 
->  fs/namei.c | 43 ++++++++++++++++++++++++-------------------
->  1 file changed, 24 insertions(+), 19 deletions(-)
-> ---
-> base-commit: b2f1e6301efa4a80becdb0715416c3cbc693fbb4
-> change-id: 20260731-work-lookup-fixes-73bd87cc2d24
-> 
-> 
+However btrfs disables page fault during its __iomap_dio_rw() call, so
+iov_iter_zero() can fail at any page boundary.
+
+When the fs block size is larger than page size, iov_iter_zero() may
+only have zeroed one page, which is not aligned to the fs block size.
+
+Such one page long range is passed back to btrfs, which triggers the
+above ASSERT().
+
+[FIX]
+For iomap_dio_hole_iter() round down the copied length, and revert
+any excessive range that is beyond the aligned copied length.
+Also use @aligned_copied for the size increment and iter advancement.
+
+This should only affect btrfs, which is the only fs utilizing iomap dio
+with page fault disabled.
+
+Fixes: 001397f5ef49 ("iomap: add IOMAP_DIO_FSBLOCK_ALIGNED flag")
+Signed-off-by: Qu Wenruo <wqu@suse.com>
+---
+Changelog:
+v2:
+- Rebased to the latest vfs tree
+
+- Slightly rewords the reproducer
+  In fact no special reproducer needed, any test case running fsstress
+  can easily trigger it.
+
+  The example provided is just the shortest sequence I used to debug the
+  crash.
+---
+ fs/iomap/direct-io.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index 64c6b7286c20..f170976d9de0 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -594,12 +594,20 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
+ 
+ static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
+ {
+-	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
++	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
++	unsigned int bs = iomap_dio_alignment(iter->inode, iter->iomap.bdev,
++					      dio->flags);
++	loff_t aligned_copied = round_down(copied, bs);
+ 
+-	dio->size += length;
+-	if (!length)
++	/*
++	 * If fs block size is larger than page size, page fault failure
++	 * can cause @copied to be page aligned but not fs block aligned.
++	 */
++	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
++	dio->size += aligned_copied;
++	if (!aligned_copied)
+ 		return -EFAULT;
+-	return iomap_iter_advance(iter, length);
++	return iomap_iter_advance(iter, aligned_copied);
+ }
+ 
+ static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
+-- 
+2.54.0
 
