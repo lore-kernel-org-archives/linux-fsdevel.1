@@ -1,43 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A3133D6F0;
-	Fri, 31 Jul 2026 13:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141852DF719
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 13:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785506040; cv=none; b=czR+rRQozgrET5hK99ld3vRHNJS/Gn2SOjyBt1tmBNzFDl7SMb1nwNV6zPIKw2pHJ4WOm4t3VVWNoSuYf7Fxy6moMV0ahhSuxbKB9yzpnm7ojXPeAdq9ws76EO2Amb+j4wNabO2z4u8LWox/DtWN++Z8B82rmoG96UE5rWfyYbI=
+	t=1785506090; cv=none; b=Yz/XaTmb7JQw/eFwyKdXIBW6uFFWNL95fyu11Fp8NKKV/St3yNa3D3cjxmBvpx/Dt6TcHvJOP7YqDnqTvp+Kh4K3sud7QeT2dMOZXNgTcbscnBJpp/YuRnylNKlltMEBAe170SC0vtvPu+qHRzUJdiimrLJpIEZNGIQKHCZIOQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785506040; c=relaxed/simple;
-	bh=FG8N11C0+jiKLPwJpHy1flun8dJKOaGO2lJvQ4F/oEk=;
+	s=arc-20240116; t=1785506090; c=relaxed/simple;
+	bh=EFlqNOd3Ej+dPnws+fZnQfNFUDEaDuuOWCcNT+cyAgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVW1McpPzxX9lIWH0cUY9aD7DVHodrISdDdF4HFPx0wcVEEIQhPwt4T6ysm+2IKnZI/3EwbhJvhf2WO+x8e/7LPXIdXxSys3H3Ddwoc82IIMVXjRX2PVpUPHCfHpZKWFo7p5aSQroqyXZaIR8VtfwAxAiHinCmishohWti/9y8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVRoncqq; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjG95YOhwfytpxRFrIHlcSJ77/YmyMuf9fQfdeBCav/E0BuaYUztP7QYCDN0bEmeYquxj526zP7DTegGar/2q3J5TeZovFpftgN2CZhduUVe6XnRN1FUDc6wR0K/EA/2C9/Hg8dftQwdUR8WeZkJvXTlGOfPSzmmPYBXwa2t3wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/OfkjI6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVRoncqq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353A11F000E9;
-	Fri, 31 Jul 2026 13:53:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/OfkjI6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 706C91F000E9;
+	Fri, 31 Jul 2026 13:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785506039;
-	bh=mKinHt4CQYseBYj97VnG+dAXqNLVV4EtTuhQU6aTeew=;
+	s=k20260515; t=1785506088;
+	bh=KmQK5+zoa4q3AO/prE6ZcVpVb9B86sW1UoslJEguf1A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gVRoncqqLTEJ0UcuIUr8PUuADpda4kiZXR8albN5QKsLyDiutKwdu2SP81fviE9bP
-	 uvsL096r7EepMQNo3YdK9KRBkvh8pMamMTJNl/5GEl0DqSWrS83u+QNapExoJlNgaP
-	 +lLbDn7vb70p3kErg2cdSaQBu1kgO5Np1e5sfoTQ1dUaDGS9/QH7UAIw4oafahhpzb
-	 z1aiZy46/3iYoShjA7K0cUHz2bLDK0mqFIdwkz4FmmVPnRg7UyK1OUFvvIHrZq1HCe
-	 +HWKj4K8wsY9kE3f3KyE4U10+4obWHfS6sjN+zcdNk8zaHYJhBcZwbMv1Gynucw4tb
-	 72KIZ5A6AuO9A==
-Date: Fri, 31 Jul 2026 15:53:55 +0200
+	b=C/OfkjI6Ext1XHVTCrazhxNEaF4Ev5ZsVeZI4IYIptqZd/JmgBc8e12Ln48Mj40sR
+	 H+ndgmnuWkHOre8DoyJGY3yha6ZrkDhh+cOGVludrKQOdNRWaQ0eqE6EhM9wOHPfDO
+	 nkVGP4XNs6Ud8ze9ZVtui+55c0iL2yDh8KbBdV/uiZASxYXJltORI7ye7lUSjq6B6r
+	 uAbknO6IeSpc37QTuHBCJpQ+ukQ3v7QCGjw4N5I9dOQC6B2P+NthPXEnW5S4yDz7IC
+	 iSkCKd9ceXGlLEpN/OwTj3txnGz1zuYkv7Xly2h6SJYzQ7g4wDftJaso6jEOx7DdLB
+	 9CFCD2VZtTLXg==
+Date: Fri, 31 Jul 2026 15:54:45 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH] vfs: missing inode operation should return a consistent
- error code
-Message-ID: <20260731-erdball-fangruppen-pflicht-bc2db75ed1fb@brauner>
-References: <20260531104947.6142-1-jkoolstra@xs4all.nl>
- <20260702-forensik-unfertig-korpulent-56f199eb061a@brauner>
- <90228c39-04e7-41ef-ad91-84a8bb866650@sirena.org.uk>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: how about enabling Sashiko responses on this list
+Message-ID: <20260731-rundum-gliederung-vierzehn-700809aa7863@brauner>
+References: <CAGudoHGokvqDNBz8EW5fwudfz_q-0+2eeon7-hyxZ5k=QOpF0A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,40 +42,15 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <90228c39-04e7-41ef-ad91-84a8bb866650@sirena.org.uk>
+In-Reply-To: <CAGudoHGokvqDNBz8EW5fwudfz_q-0+2eeon7-hyxZ5k=QOpF0A@mail.gmail.com>
 
-On Tue, Jul 07, 2026 at 03:27:07PM +0100, Mark Brown wrote:
-> On Thu, Jul 02, 2026 at 09:47:24AM +0200, Christian Brauner wrote:
-> > On Sun, 31 May 2026 12:49:46 +0200, Jori Koolstra wrote:
-> > > vfs: missing inode operation should return a consistent error code
-> > 
-> > I've stuffed this on a separate branch. Let's see whether we see any
-> > fallout.
+On Mon, Jul 06, 2026 at 11:07:24PM +0200, Mateusz Guzik wrote:
+> I think everyone agrees by now Sashiko reviews are a net win.
 > 
-> I'm seeing a failure in the chdir01 LTP test on arm64, everything seems
-> to work fine apart from vfat:
+> The bot is able to respond with concerns over e-mail, see
+> https://github.com/sashiko-dev/sashiko/blob/main/sashiko.dev/email_policy.toml
 > 
-> tst_buffers.c:57: TINFO: Test is using guarded buffers
-> L5023tst_tmpdir.c:316: TINFO: Using /tmp/LTP_chdkVKCfH as tmpdir (tmpfs filesystem)
-> L5024tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
-> L5025tst_test.c:2047: TINFO: LTP version: 20260130
-> L5026tst_test.c:2050: TINFO: Tested kernel: 7.2.0-rc2-next-20260707 #1 SMP PREEMPT @1783429165 aarch64
-> L5027tst_kconfig.c:88: TINFO: Parsing kernel config '/proc/config.gz'
-> L5028tst_test.c:1875: TINFO: Overall timeout per run is 0h 00m 40s
-> 
-> ...
-> 
-> tst_test.c:1985: TINFO: === Testing on vfat ===
-> L5158tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts='' extra opts=''
-> L5159tst_test.c:1302: TINFO: Mounting /dev/loop0 to /tmp/LTP_chdkVKCfH/mntpoint fstyp=vfat flags=0
-> L5160chdir01.c:85: TBROK: Cannot create symlinks: EOPNOTSUPP (95)
-> 
-> Looks like a changed the error code here has confused the test's feature
-> detection.  How many non-LTP applications have the same detection
-> algorithm is a separate question.
-> 
-> A full log may be visible at:
-> 
->   https://lava.sirena.org.uk/scheduler/job/2954697#L5157
+> Seems like a good idea to enable the feature for the list so that
+> people don't have to explicitly look for the feedback.
 
-Dropped.
+I tend to agree. I'll talk to Roman.
