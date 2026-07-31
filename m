@@ -1,195 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7894D3F8234
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 15:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFC9433E80
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 15:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785510071; cv=none; b=e3JqL9hqMJfmmzVjVfO53X3RCiU9ZC6cZWzJLMqXAtPKvfOV/0MveUb+SX/54q5GIwl6xfF1LcBRd5Ya76Il2unKD65yYUGsAPmuxDQFS88p9gmFCHSIpezGwWHxLg9mCntS9e/r8DqfXEr5NLsxZ4L9Hu3QyxrGKXLpazcrurU=
+	t=1785510073; cv=none; b=IzJDNST9ZbfZ7gXXgV0IiKsDk9Mcp9+bbp4NFWbmVsk95CBuHDxGJtB1PCIN6PFaEEzIukamQMomItSq33Q3JMOCVqb6jtyspcABTUtb7BBARDJvX+stTwhjDE8xaG4aC/42D2vKToYKf2PGaWzUgIXVHsDgYq0OBYf7110k9NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785510071; c=relaxed/simple;
-	bh=K9uvNQIHPDk0yek0Cdv3adnvuYBfT0Uq+V5+bQwupZU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tExz4e8XGLxBRGfHRISI1Qmz5iGr2SxC6A3zcfypT9hGwlV0OX/rLZ8Rx+QZQJAJgadppyfrQz6lmhh7FaBiQN6bQeqjN7HMW1+g8y8AH76Kze3s7bd4LNGAWGjJCe+NfQpA1T+dkMGSoxMGg5tREvROUALm4wopz9ECfyjM9/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0NJYthZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785510073; c=relaxed/simple;
+	bh=jCwR7UagNch/98g5M6Z4T9zNj9d+3bCJlJdwHm8NK5I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mGXJMEUnG9+WwUAiAqkWyT29fp/0Nt7h9DIymzMd8ML4hiO7cfQ0vNjrVOMguWDkIyEx8JJig9UGGDdeIEp6jMvZoCisH1iAdYO+qXHk6k5NS9vJWkWY84UKoOWypJ77ivWwIs6cZbNvtWw/2h4r8DBhHfuViQ9e5/3IBKxsnEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=d4tCqrO5; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0NJYthZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E1C11F000E9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 15:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785510070;
-	bh=Wxt5nSQrtPm/wfpm6SYiMe9gZFPZea2A7C978ewvtF0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=d0NJYthZ8Jcq1/JbCtqMFciykGgg77PQlzrBEJKJgsowlV+zLqJ1dtpMWMsMdE01y
-	 hG1KUf114xguZpbibImopkGOJdPEJXXbYrC1QmVI/sZUx7HUHz9q5Wa/lkt+xSQq1i
-	 w6qeq5tJ+8N4oX6ON8pYdISs/ghJVZ5O88xr7f+T2ivqKMJmIXSrlBgHsn9ljUDlLk
-	 pQEpM96eg6dX6gxSD3Li3m4xwGvunYsiqgIvdSFMsHFP4rOovSs0d+yR2KrvSzDjJq
-	 Mj5g9HMHQcbNZ4pJWML/8A0FgqcF+1f846Uc6yBsRO8Dh0vBCg6bwfZbItnM0h0rgJ
-	 VqLpH5W5ckj+Q==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c15e03c2763so192998066b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 08:01:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpsjQrFl6naIgl85uOq19I6RtJfhBLS0B2BOMknI+Ql06IcqU89cxNBByR5/kz2YGtzd55CyON69hOC3f13@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW8D4AAJFG0vuvMTbeCKWDFj+JPtYWejzs0Bs5lTkQrH3oizQX
-	HItHRw8zeancM4uUQKI/+DKGtTzdSlgJ45lyJUbnjhEm9aUu8dXJ5DHu3swYEUfW6R9hLgLiIRf
-	zqWvRAkM0+mspBoN1yFklKdqOyT8GQe0=
-X-Received: by 2002:a17:907:c0e:b0:c1c:285a:4751 with SMTP id
- a640c23a62f3a-c1fe7c6c3cemr788566b.29.1785510068550; Fri, 31 Jul 2026
- 08:01:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="d4tCqrO5"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-455ca262ccbso769625fac.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 08:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785510070; x=1786114870; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0QWMMe323FpJCSMO/+srY4nRAHRMTDbNnpPaXX/8/JA=;
+        b=d4tCqrO52DeJTRWTIViEZUdlMomE5Z3+CvCFedNxYTPGMVMBDDkesM3kDS4PldKomW
+         I3zHUSctZfXAUQ5yF4GJvWFyNhdl1pdoKgSKPy4HeXXdvnC6GEE9p9mFrBtFSzbNZ0e0
+         MeU/ntCOEbYzhnSrfYzGWiewfJZDfjypVHovXAnSZBZxCcWOZfytK4czPrMGpMeQVj5B
+         8kRAAJHLCr30sXEQ3iRvurUK9ypImGPfGw30SCwE+ziPSE4+hyfCm0Ts8xMh10Im2EtK
+         VGm+Sq2DFb7skc7myo/B4If0YBj4QGU9Kb/SbStk5sNoKf1+3rC6Tr//3lHJShhlEuHS
+         TzyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785510070; x=1786114870;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0QWMMe323FpJCSMO/+srY4nRAHRMTDbNnpPaXX/8/JA=;
+        b=gmJ2YqNpoP8rztAT+XZRulfL1kX/dEE9aUZrJ3ssptX1Qf3vQ5RT7RQ2sTT1Dt+Y2K
+         nCobJo59EpS+fZm1fyjjW85wE8oAvjYhy77Zb1hce+30GD5AuqKL17sxvGxFD8YXZ+LN
+         jEYPp/ehLfcMT3iEAXj9P7irfWS1qgxaoSQfN27AgPdrEQjnKPgkIv8n5j2fBWyp9yfK
+         Hi5VThFLitb1VHmPronF7BeV/C7mMOCIe8idOKMQN5RlCtEVzItuC/dHD8gkNXJYmcZr
+         gvGjREwJGDQ+NSBzXtE80hjI6xZxcCWBjWiNDvRVgUGevXbhGW/ehtnu01wiPj4YdPu2
+         NQlw==
+X-Forwarded-Encrypted: i=1; AHgh+RoOgKPBXv6cPtWUZV+d/n3CWfUkTbDvSf0/hNYQ9NtLyalJqHJ0tSFrQee7w2/JDzVd6l/fLmy5do8IeFd2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgfWyeCAro9JkGpqhwCeMhH7eS4mMlKk/3qc9/IATSwVAvDjA7
+	4jOQ57tioiClTCGP/CM10cdRnim0bBdli33l5Lx5YXmYHZB77J5bQBCs8UzhBIHyYtE=
+X-Gm-Gg: AR+sD11EIsrTCoAx3Tk953mVSlR0I76EekhoPcF0CJFu3Mtx2w1ZszK84Yf343kTj1o
+	8jnXRfcu5jdj0mdUc+s40UU3x8dQroo/W3T7jRuyRCw3W/L80jkoxEWxJyN0YODhnVY9M5xFnjQ
+	jlwYrKUVyGXpiNSt2wIu6bLi7nAaP5b6XTKoYBcoh6pTOr5GXAXM5ew0kdmTtbHC8zXTSIKKuDN
+	Ha34/9ku1oBlqMH80iTVV5EwYUZRVAenxi4fE5r1Lj36/8nFl+UyVDAIsov/05yKV5s9R2xUhAk
+	8cQEbvbEu1MFP+dd6i0Z9o6DMvZySMB0uY145acr4N80viK2ikNeyRbsjSsWXiattMDlBp/Lm4s
+	n3JgAlbgI/f40sHDQgD5T0bM7MqHMxPoqlag1+aJXsD0IQQIdh3/FYLVPo7rJr0sJ6m9BssM32r
+	VCjs/l9Dpe8rBuoB3Ih0tGfNj/d5teFUiqcyJlT6M/efzmBKgIYe8+8riDtFcFW/jNHWgSoCgDh
+	Sd11HhfmBX1S5ceHcgzafzxjrtf/9TXG2L5w93UKg==
+X-Received: by 2002:a05:6870:92c2:b0:455:9e4c:6bd8 with SMTP id 586e51a60fabf-4590572d113mr843225fac.2.1785510069701;
+        Fri, 31 Jul 2026 08:01:09 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-458f67655fesm1139402fac.18.2026.07.31.08.01.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2026 08:01:08 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@infradead.org>, Gao Xiang <xiang@kernel.org>, 
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+ Jeffle Xu <jefflexu@linux.alibaba.com>, 
+ Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
+ Chunhai Guo <guochunhai@vivo.com>, Tal Zussman <tz2294@columbia.edu>
+Cc: Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>, 
+ Hillf Danton <hdanton@sina.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-erofs@lists.ozlabs.org, 
+ Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+Subject: Re: [PATCH v7 0/5] block: enable RWF_DONTCACHE for block devices
+Message-Id: <178551006694.14426.18417795913299417263.b4-ty@b4>
+Date: Fri, 31 Jul 2026 09:01:06 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com>
- <20260731091035.28929-1-wonju345@naver.com>
-In-Reply-To: <20260731091035.28929-1-wonju345@naver.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sat, 1 Aug 2026 00:00:54 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-Pt1s2M6dnB6kCeHMB2KDqGQ2JoDGGv_-kD+Z4Rc9YNQ@mail.gmail.com>
-X-Gm-Features: AUfX_mwTw9KRVgo17E7-sNBEd47Bhrn2nFQVGgGm3e9Q5JS3sS5uq6hOGOgjMjM
-Message-ID: <CAKYAXd-Pt1s2M6dnB6kCeHMB2KDqGQ2JoDGGv_-kD+Z4Rc9YNQ@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: serialize the resident read iomap path with mrec_lock
-To: Hyeontae Lee <wonju345@naver.com>
-Cc: hyc.lee@gmail.com, zzzccc427@gmail.com, baijiaju1990@gmail.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="0000000000006170010657e97504"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
---0000000000006170010657e97504
-Content-Type: text/plain; charset="UTF-8"
 
-> diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
-> index 52eecf5cb2..f9fdceeeb3 100644
-> --- a/fs/ntfs/iomap.c
-> +++ b/fs/ntfs/iomap.c
-> @@ -95,6 +95,8 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
->         else
->                 base_ni = ni;
->
-> +       mutex_lock(&base_ni->mrec_lock);
-> +
->         ctx = ntfs_attr_get_search_ctx(base_ni, NULL);
->         if (!ctx) {
->                 err = -ENOMEM;
-> @@ -138,6 +140,8 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
->         if (ctx)
->                 ntfs_attr_put_search_ctx(ctx);
->
-> +       mutex_unlock(&base_ni->mrec_lock);
-We need to hold the lock until iomap_end() because iomap_begin() only
-returns an inline_data pointer into the MFT record. The actual data
-copy happens later in the iomap core. So can you check if the attached
-patch fixes this issue ?
+On Thu, 30 Jul 2026 02:57:50 -0400, Tal Zussman wrote:
+> Add support for using RWF_DONTCACHE with block devices.
+> 
+> Dropbehind pruning needs to be done in non-IRQ context, but block
+> devices complete writeback in IRQ context. To fix this, we defer
+> dropbehind invalidation to task context. Add infrastructure that lets
+> bi_end_io callbacks run from a worker, in two forms:
+> 
+> [...]
 
---0000000000006170010657e97504
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-ntfs-serialize-resident-iomap-reads-with-mrec_lock.patch"
-Content-Disposition: attachment; 
-	filename="0001-ntfs-serialize-resident-iomap-reads-with-mrec_lock.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_ms9204ah0>
-X-Attachment-Id: f_ms9204ah0
+Applied, thanks!
 
-RnJvbSBhMzNmZWUxYjc1YTkzM2JmZGM0MmQ1OWZiOWU5YzdiZTFiODRhMDZmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBIeWVvbnRhZSBMZWUgPHdvbmp1MzQ1QG5hdmVyLmNvbT4KRGF0
-ZTogRnJpLCAzMSBKdWwgMjAyNiAxODoxMDozNSArMDkwMApTdWJqZWN0OiBbUEFUQ0hdIG50ZnM6
-IHNlcmlhbGl6ZSByZXNpZGVudCBpb21hcCByZWFkcyB3aXRoIG1yZWNfbG9jawoKbnRmc19yZWFk
-X2lvbWFwX2JlZ2luX3Jlc2lkZW50KCkgd2Fsa3MgdGhlIE1GVCByZWNvcmQgdGhyb3VnaApudGZz
-X2F0dHJfbG9va3VwKCkgLT4gbnRmc19hdHRyX2ZpbmQoKSB3aXRob3V0IHRha2luZyBuaS0+bXJl
-Y19sb2NrLAp3aGlsZSBudGZzX2F0dHJfcmVjb3JkX3Jlc2l6ZSgpLCBudGZzX21ha2Vfcm9vbV9m
-b3JfYXR0cigpIGFuZApudGZzX3Jlc2lkZW50X2F0dHJfcmVjb3JkX2FkZCgpIG1lbW1vdmUoKSB0
-aGUgc2FtZSBiYXNlX25pLT5tcmVjIGJ1ZmZlcgp1bmRlciB0aGF0IGxvY2suIG1hcF9tZnRfcmVj
-b3JkKCkgb25seSB0YWtlcyBhIHJlZmVyZW5jZSBhbmQgZG9lcyBub3QKc2VyaWFsaXplLCBzbyB0
-aGUgcmVhZGVyIGNhbiBvYnNlcnZlIHRvcm4gYXR0cmlidXRlIGxlbmd0aCBhbmQgb2Zmc2V0CmZp
-ZWxkcyB3aGlsZSBhIHdyaXRlciBpcyByZWxvY2F0aW5nIHRoZSByZWNvcmRzLgoKS0NTQU4gcmVw
-b3J0cyB0aGUgcmFjZSBiZXR3ZWVuIHRoZSBtbWFwIHJlYWQgZmF1bHQgcGF0aCBhbmQgYm90aCBs
-aW5rKCkKYW5kIHVubGluaygpOgoKICBCVUc6IEtDU0FOOiBkYXRhLXJhY2UgaW4gbnRmc19hdHRy
-X2ZpbmQgLyBudGZzX2F0dHJfcmVjb3JkX3Jlc2l6ZQoKICB3cml0ZSB0byAweGZmZmY4ODgxMDBh
-ZjEwMTggb2YgNCBieXRlcyBieSB0YXNrIDk2IG9uIGNwdSAxOgogICBudGZzX2F0dHJfcmVjb3Jk
-X3Jlc2l6ZSsweGQyLzB4MTMwCiAgIG50ZnNfYXR0cl9yZWNvcmRfcm0rMHhhZC8weDUzMAogICBu
-dGZzX2RlbGV0ZSsweDIyNC8weDY0MAogICBudGZzX3VubGluaysweDE0ZC8weDI4MAogICB2ZnNf
-dW5saW5rKzB4MTU3LzB4NTIwCgogIHJlYWQgdG8gMHhmZmZmODg4MTAwYWYxMDE4IG9mIDQgYnl0
-ZXMgYnkgdGFzayA5NSBvbiBjcHUgMDoKICAgbnRmc19hdHRyX2ZpbmQrMHgxMDQvMHg1YjAKICAg
-bnRmc19hdHRyX2xvb2t1cCsweDM5Yy8weDEwYzAKICAgbnRmc19yZWFkX2lvbWFwX2JlZ2luX3Jl
-c2lkZW50KzB4YzYvMHgyMzAKICAgbnRmc19yZWFkX2lvbWFwX2JlZ2luKzB4NWQvMHhhMAogICBp
-b21hcF9pdGVyKzB4MmUyLzB4NmUwCiAgIGlvbWFwX3JlYWRfZm9saW8rMHgxNDcvMHgyYTAKICAg
-bnRmc19yZWFkX2ZvbGlvKzB4MTA4LzB4MTcwCiAgIGZpbGVtYXBfcmVhZF9mb2xpbysweDM1LzB4
-MTAwCiAgIGZpbGVtYXBfZmF1bHQrMHg5OTMvMHgxMDAwCgogIHZhbHVlIGNoYW5nZWQ6IDB4MDAw
-MDAyNTAgLT4gMHgwMDAwMDFmMAoKVGhlIGFkZHJlc3MgaXMgbXJlYyArIDB4MTgsIGkuZS4gbWZ0
-X3JlY29yZC5ieXRlc19pbl91c2UsIGFuZCB0aGUgY2hhbmdlCmlzIHRoZSA5NiBieXRlcyBvZiBv
-bmUgJEZJTEVfTkFNRSBhdHRyaWJ1dGUgYmVpbmcgcmVtb3ZlZC4KCktlZXAgYmFzZV9uaS0+bXJl
-Y19sb2NrIGZyb20gdGhlIHJlc2lkZW50IHJlYWQgaW9tYXAgbG9va3VwIHRocm91Z2gKaW9tYXBf
-ZW5kKCkuIFRoaXMgcHJvdGVjdHMgYm90aCB0aGUgYXR0cmlidXRlIHdhbGsgYW5kIHRoZSBzdWJz
-ZXF1ZW50IGNvcHkKZnJvbSBpb21hcC0+aW5saW5lX2RhdGEsIHdoaWNoIHBvaW50cyBpbnRvIHRo
-ZSBNRlQgcmVjb3JkLiBUaGUgbm9uLXJlc2lkZW50CnBhdGggaXMgbGVmdCBhbG9uZTogbnRmc19s
-b29rdXAoKSBhbHJlYWR5IGhvbGRzIHRoZSBkaXJlY3RvcnkgaW5vZGUncwptcmVjX2xvY2sgd2hl
-biBpdCByZWFkcyBhbiBpbmRleCBmb2xpbyB0aHJvdWdoIHJlYWRfbWFwcGluZ19mb2xpbygpLCBh
-bmQKdGFraW5nIHRoZSBsb2NrIGluIHRoZSBzaGFyZWQgd3JhcHBlciBkZWFkbG9ja3MgdGhlcmUg
-d2l0aCByZWN1cnNpdmUgbG9ja2luZwpvbiBtcmVjX2xvY2suIFRoZSBjb21tZW50IGFib3ZlIHRo
-ZSByZWFkX21hcHBpbmdfZm9saW8oKSBjYWxsIGluCmZzL250ZnMvZGlyLmMgbm90ZXMgdGhlIHNh
-bWUgaGF6YXJkLgoKVGhlIHNlZWsgcGF0aCB1c2VzIHRoZSBzYW1lIGxvb2t1cCBoZWxwZXIgYnV0
-IGRvZXMgbm90IGRlcmVmZXJlbmNlCmlvbWFwLT5pbmxpbmVfZGF0YS4gUmVsZWFzZSB0aGUgbG9j
-ayBiZWZvcmUgcmV0dXJuaW5nIGZyb20gdGhhdCBwYXRoLAp3aGVyZWFzIHRoZSByZWd1bGFyIHJl
-YWQgcGF0aCByZWNvcmRzIGJhc2VfbmkgaW4gaW9tYXAtPnByaXZhdGUgYW5kIHJlbGVhc2VzCnRo
-ZSBsb2NrIGZyb20gaXRzIGlvbWFwX2VuZCgpIGNhbGxiYWNrLgoKVGVzdGVkIHdpdGggYSByZXBy
-b2R1Y2VyIHRoYXQgZmF1bHRzIGluIGEgMTYtYnl0ZSByZXNpZGVudCBmaWxlIHdoaWxlCmFub3Ro
-ZXIgdGhyZWFkIHJ1bnMgbGluaygpL3VubGluaygpIG9uIGl0LiBCZWZvcmU6IDQwIEtDU0FOIHJl
-cG9ydHMgaW4KYWJvdXQgb25lIHNlY29uZC4gQWZ0ZXI6IG5vIHJlcG9ydHMgaW4gMTgwIHNlY29u
-ZHMgb3ZlciAyMDYsMDkwIHJlYWQKaXRlcmF0aW9ucyBhbmQgNDIzLDU0MCBsaW5rL3VubGluayBj
-eWNsZXMuIEEgUFJPVkVfTE9DS0lORyBidWlsZCBzaG93cyBubwpsb2NrZGVwIHNwbGF0IHdpdGgg
-dGhlIHNhbWUgcmVwcm9kdWNlciBydW5uaW5nIGZvciA2MCBzZWNvbmRzLgoKRml4ZXM6IGIwNDFj
-YTU2MjUyNiAoIm50ZnM6IHVwZGF0ZSBpb21hcCBhbmQgYWRkcmVzcyBzcGFjZSBvcGVyYXRpb25z
-IikKTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjYwNzI1MDQyNDIxLjEwOTU5
-OS0xLXdvbmp1MzQ1QG5hdmVyLmNvbS8KU2lnbmVkLW9mZi1ieTogSHllb250YWUgTGVlIDx3b25q
-dTM0NUBuYXZlci5jb20+Ci0tLQogZnMvbnRmcy9pb21hcC5jIHwgMzAgKysrKysrKysrKysrKysr
-KysrKysrKysrKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgNSBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9mcy9udGZzL2lvbWFwLmMgYi9mcy9udGZzL2lvbWFwLmMK
-aW5kZXggMjZhMTgzMWEyYzE4Li43M2M1MDE3MTI4NWEgMTAwNjQ0Ci0tLSBhL2ZzL250ZnMvaW9t
-YXAuYworKysgYi9mcy9udGZzL2lvbWFwLmMKQEAgLTgxLDcgKzgxLDcgQEAgY29uc3Qgc3RydWN0
-IGlvbWFwX3dyaXRlX29wcyBudGZzX2lvbWFwX2ZvbGlvX29wcyA9IHsKIH07CiAKIHN0YXRpYyBp
-bnQgbnRmc19yZWFkX2lvbWFwX2JlZ2luX3Jlc2lkZW50KHN0cnVjdCBpbm9kZSAqaW5vZGUsIGxv
-ZmZfdCBvZmZzZXQsIGxvZmZfdCBsZW5ndGgsCi0JCXVuc2lnbmVkIGludCBmbGFncywgc3RydWN0
-IGlvbWFwICppb21hcCkKKwkJdW5zaWduZWQgaW50IGZsYWdzLCBzdHJ1Y3QgaW9tYXAgKmlvbWFw
-LCBib29sIGtlZXBfbXJlY19sb2NrKQogewogCXN0cnVjdCBudGZzX2lub2RlICpiYXNlX25pLCAq
-bmkgPSBOVEZTX0koaW5vZGUpOwogCXN0cnVjdCBudGZzX2F0dHJfc2VhcmNoX2N0eCAqY3R4OwpA
-QCAtOTUsNiArOTUsOCBAQCBzdGF0aWMgaW50IG50ZnNfcmVhZF9pb21hcF9iZWdpbl9yZXNpZGVu
-dChzdHJ1Y3QgaW5vZGUgKmlub2RlLCBsb2ZmX3Qgb2Zmc2V0LCBsbwogCWVsc2UKIAkJYmFzZV9u
-aSA9IG5pOwogCisJbXV0ZXhfbG9jaygmYmFzZV9uaS0+bXJlY19sb2NrKTsKKwogCWN0eCA9IG50
-ZnNfYXR0cl9nZXRfc2VhcmNoX2N0eChiYXNlX25pLCBOVUxMKTsKIAlpZiAoIWN0eCkgewogCQll
-cnIgPSAtRU5PTUVNOwpAQCAtMTM4LDYgKzE0MCwxMyBAQCBzdGF0aWMgaW50IG50ZnNfcmVhZF9p
-b21hcF9iZWdpbl9yZXNpZGVudChzdHJ1Y3QgaW5vZGUgKmlub2RlLCBsb2ZmX3Qgb2Zmc2V0LCBs
-bwogCWlmIChjdHgpCiAJCW50ZnNfYXR0cl9wdXRfc2VhcmNoX2N0eChjdHgpOwogCisJaWYgKCFl
-cnIgJiYga2VlcF9tcmVjX2xvY2sgJiYgaW9tYXAtPnR5cGUgPT0gSU9NQVBfSU5MSU5FKSB7CisJ
-CWlvbWFwLT5wcml2YXRlID0gYmFzZV9uaTsKKwkJcmV0dXJuIDA7CisJfQorCisJbXV0ZXhfdW5s
-b2NrKCZiYXNlX25pLT5tcmVjX2xvY2spOworCiAJcmV0dXJuIGVycjsKIH0KIApAQCAtMjYxLDI0
-ICsyNzAsMzUgQEAgc3RhdGljIGludCBudGZzX3JlYWRfaW9tYXBfYmVnaW5fbm9uX3Jlc2lkZW50
-KHN0cnVjdCBpbm9kZSAqaW5vZGUsIGxvZmZfdCBvZmZzZXQKIAogc3RhdGljIGludCBfX250ZnNf
-cmVhZF9pb21hcF9iZWdpbihzdHJ1Y3QgaW5vZGUgKmlub2RlLCBsb2ZmX3Qgb2Zmc2V0LCBsb2Zm
-X3QgbGVuZ3RoLAogCQl1bnNpZ25lZCBpbnQgZmxhZ3MsIHN0cnVjdCBpb21hcCAqaW9tYXAsIHN0
-cnVjdCBpb21hcCAqc3JjbWFwLAotCQlib29sIG5lZWRfdW53cml0dGVuKQorCQlib29sIG5lZWRf
-dW53cml0dGVuLCBib29sIGtlZXBfbXJlY19sb2NrKQogewogCWlmIChOSW5vTm9uUmVzaWRlbnQo
-TlRGU19JKGlub2RlKSkpCiAJCXJldHVybiBudGZzX3JlYWRfaW9tYXBfYmVnaW5fbm9uX3Jlc2lk
-ZW50KGlub2RlLCBvZmZzZXQsIGxlbmd0aCwKIAkJCQlmbGFncywgaW9tYXAsIG5lZWRfdW53cml0
-dGVuKTsKIAlyZXR1cm4gbnRmc19yZWFkX2lvbWFwX2JlZ2luX3Jlc2lkZW50KGlub2RlLCBvZmZz
-ZXQsIGxlbmd0aCwKLQkJCQkJICAgICBmbGFncywgaW9tYXApOworCQkJCQkgICAgIGZsYWdzLCBp
-b21hcCwga2VlcF9tcmVjX2xvY2spOwogfQogCiBzdGF0aWMgaW50IG50ZnNfcmVhZF9pb21hcF9i
-ZWdpbihzdHJ1Y3QgaW5vZGUgKmlub2RlLCBsb2ZmX3Qgb2Zmc2V0LCBsb2ZmX3QgbGVuZ3RoLAog
-CQl1bnNpZ25lZCBpbnQgZmxhZ3MsIHN0cnVjdCBpb21hcCAqaW9tYXAsIHN0cnVjdCBpb21hcCAq
-c3JjbWFwKQogewogCXJldHVybiBfX250ZnNfcmVhZF9pb21hcF9iZWdpbihpbm9kZSwgb2Zmc2V0
-LCBsZW5ndGgsIGZsYWdzLCBpb21hcCwKLQkJCXNyY21hcCwgdHJ1ZSk7CisJCQlzcmNtYXAsIHRy
-dWUsIHRydWUpOworfQorCitzdGF0aWMgaW50IG50ZnNfcmVhZF9pb21hcF9lbmQoc3RydWN0IGlu
-b2RlICppbm9kZSwgbG9mZl90IHBvcywgbG9mZl90IGxlbmd0aCwKKwkJc3NpemVfdCB3cml0dGVu
-LCB1bnNpZ25lZCBpbnQgZmxhZ3MsIHN0cnVjdCBpb21hcCAqaW9tYXApCit7CisJc3RydWN0IG50
-ZnNfaW5vZGUgKmJhc2VfbmkgPSBpb21hcC0+cHJpdmF0ZTsKKworCWlmIChiYXNlX25pKQorCQlt
-dXRleF91bmxvY2soJmJhc2VfbmktPm1yZWNfbG9jayk7CisJcmV0dXJuIHdyaXR0ZW47CiB9CiAK
-IGNvbnN0IHN0cnVjdCBpb21hcF9vcHMgbnRmc19yZWFkX2lvbWFwX29wcyA9IHsKIAkuaW9tYXBf
-YmVnaW4gPSBudGZzX3JlYWRfaW9tYXBfYmVnaW4sCisJLmlvbWFwX2VuZCA9IG50ZnNfcmVhZF9p
-b21hcF9lbmQsCiB9OwogCiAvKgpAQCAtMzE4LDcgKzMzOCw3IEBAIHN0YXRpYyBpbnQgbnRmc19z
-ZWVrX2lvbWFwX2JlZ2luKHN0cnVjdCBpbm9kZSAqaW5vZGUsIGxvZmZfdCBvZmZzZXQsIGxvZmZf
-dCBsZW5nCiAJCXVuc2lnbmVkIGludCBmbGFncywgc3RydWN0IGlvbWFwICppb21hcCwgc3RydWN0
-IGlvbWFwICpzcmNtYXApCiB7CiAJcmV0dXJuIF9fbnRmc19yZWFkX2lvbWFwX2JlZ2luKGlub2Rl
-LCBvZmZzZXQsIGxlbmd0aCwgZmxhZ3MsIGlvbWFwLAotCQkJc3JjbWFwLCBmYWxzZSk7CisJCQlz
-cmNtYXAsIGZhbHNlLCBmYWxzZSk7CiB9CiAKIHN0YXRpYyBpbnQgbnRmc196ZXJvX3JlYWRfaW9t
-YXBfZW5kKHN0cnVjdCBpbm9kZSAqaW5vZGUsIGxvZmZfdCBwb3MsIGxvZmZfdCBsZW5ndGgsCi0t
-IAoyLjI1LjEKCg==
---0000000000006170010657e97504--
+[1/5] block: introduce bio_in_atomic()
+      commit: 8ed0831b5263e1aa48d99063795a1f20e4e69b50
+[2/5] block: add task-context bio completion infrastructure
+      commit: 77e73fa61b3888c9765a549af02c928372522cc9
+[3/5] iomap: use BIO_COMPLETE_IN_TASK for dropbehind writeback
+      commit: efbde6f9f449da3306f5b5d32f08829954ffb44d
+[4/5] buffer: set BIO_COMPLETE_IN_TASK for dropbehind writeback
+      commit: a2c924c240e74dc2dd14ff763245dc86b93db714
+[5/5] block: enable RWF_DONTCACHE for block devices
+      commit: 8b5ffb43ae9d27eed9165e1962963d685d879219
+
+Best regards,
+-- 
+Jens Axboe
+
+
+
