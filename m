@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A896348988E;
-	Fri, 31 Jul 2026 12:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4251A4307BC;
+	Fri, 31 Jul 2026 13:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785502683; cv=none; b=BVspCit1R1jkAb1VjPzzK9efbGdVA0AuGi2BkrXzzIfp3UKfPLAobQoWat3GfXkiiso838TTUHuQvcel4BlaoahrKtQxH60+OoEinoMyXjo/Kpq8gqWyYvywpSjTfvttKVNQvLzdoLf1Lj3WWHQtBlTHoxKfTZ+y9AB8WyQF5es=
+	t=1785503013; cv=none; b=K5axHk0oYge61eU6r8zNbV2YHGs+ut2seMAAQhNbUItahOfT1j3PluPzWj5DV1ZaZt2kW0yHnEKhvjAY3JSUFbiYH9oBmTeppX3+8cZdZm+jBb6rD8IZHOBS6xC5mXmIVNoeJowGkGh00lYV5UJUpPuhMc6IvUGas6yxJ6NnH04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785502683; c=relaxed/simple;
-	bh=z2dp672+D9J6BSDfWsf1Jb/hgmWKqne5bNDgqenso8I=;
+	s=arc-20240116; t=1785503013; c=relaxed/simple;
+	bh=eeA8ljEi176nac3Xia2CXqgFEjfxocrDt4d0PfokGzw=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=V9xzyHriqT1tSPls+qX8k98eY8n+aT5fR/4VK0MwJyppA3/+489wki2/caiIKYpPUc5N43iXjvcq4z7/Iu0Klbl67BXJh83lIj+JyrIlQdiBZARQKcL1S7yCUKLaeIaVJ5HwlY43BK5230MNcnlabWiI4C5izQL/eUfcjD+u+pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KaJOjuWK; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=X2n7f8sQBlTMw89FHvG2cLZp+9495EPVco8lWe/Yai9lL+OSYCQDwv28F3d0jHBzEanaHpx/0lqF1b7b13KgPGG8MFaPSMllwVJJteOvsl5r7TDF6UNk3kC25jWtVSD2YKfIPBhzjX5I2628Vzd6p563xpMMUDod0gTwddslBUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJlFXiXJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaJOjuWK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EFE1F000E9;
-	Fri, 31 Jul 2026 12:57:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJlFXiXJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 415041F00A3F;
+	Fri, 31 Jul 2026 13:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785502682;
-	bh=11zoYCBSDa2gt109iQxefIqcqfzZeDeW548sYDMttGo=;
+	s=k20260515; t=1785503011;
+	bh=eeA8ljEi176nac3Xia2CXqgFEjfxocrDt4d0PfokGzw=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=KaJOjuWKsVlmPQY3IiXad//deFzoNKm783P51eGfRP2aFYUlp5/vS0QZtnRl1ankM
-	 qGhfFRdk9pZkLLfHBxSU5FTDTMVcVBll9wQStok2wiN0/rUJbej2qiVRB1X13wpSwP
-	 ZIuui8a2Y0yIgmL9Xcx9nSicBpMqEVotNf0L8CLEc9XIMq/TLqm6cXgnf/vLwN7+a7
-	 cpsMsRlYCFqp4poozaiIFIZws/3L/ncR9RLNyDKDRCo3C31yrkcSCW97tWgqQ2n0JG
-	 3uMdVw2Fm/eojOT7o6z+b0XUYLNOLg1AOig/GYMaw0epoa662XqsGeu5u6rYjTGtpL
-	 NOzmssC19rNng==
+	b=IJlFXiXJTPWqlSNY4Ouop40Vn4b+A5q6ohym4B9rYnbe3wxfDnsQJRPp6SVIrFOGT
+	 MyCgWVqGjS4+dOk22vfkiNJ3P1vEjZpW5qucWie99ORMCVLzExoA2F1dT2596j7EsB
+	 EjXDzMKmtRI/NHD/9ZX41VoPwA3zlHffmXY/qotTUJ6U/INTLWwoe9IBamDIqGEnC8
+	 8ylnIQQnwtCQGMEDA8n9G3zvyr38AXpSlg3fcmn68VV1WKbzI91jOFUQ/vApdplCzg
+	 64eOeXkovARN8/aW9YzcL51cDOuJ42YX0KQKUGkMBvlPRKbTzm2IppaQJCxiBU8FoP
+	 BYativFFBXNxg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,56 +34,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH RFC 2/9] aio: Use accessor for hrtimer_sleeper ->task
- field
+Subject: Re: [PATCH v3 0/1] pipe: only enable the extra wake_up(rd_wait)
+ for edge-triggered consumers
 From: Christian Brauner <brauner@kernel.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, 
- "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-aio@kvack.org, linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260731004019.3530210-2-paulmck@kernel.org>
-References: <e76a426b-f65c-4357-b263-96506d877136@paulmck-laptop>
- <20260731004019.3530210-2-paulmck@kernel.org>
-Date: Fri, 31 Jul 2026 14:57:57 +0200
-Message-Id: <20260731-ritzen-ratgeber-fastnacht-519674d2de1d@brauner>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, 
+ Mateusz Guzik <mjguzik@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+ Pavel Begunkov <asml.silence@gmail.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+In-Reply-To: <amueLRM-DrYbnjLn@redhat.com>
+References: <amtbpwrhlNGJ9OK6@redhat.com>
+ <CAHk-=wi7EccGaeo2Q5mdcvcQJ8VX7tcJWW2fHkg6vfmHGGX8AA@mail.gmail.com>
+ <amueLRM-DrYbnjLn@redhat.com>
+Date: Fri, 31 Jul 2026 15:03:27 +0200
+Message-Id: <20260731-blechnapf-arten-blasorchester-4e05dd1b2c58@brauner>
 X-Mailer: b4 0.16-dev-af865
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1206; i=brauner@kernel.org;
- h=from:subject:message-id; bh=z2dp672+D9J6BSDfWsf1Jb/hgmWKqne5bNDgqenso8I=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTlzL6mcHFp19bQI7l7uz81l39avlFmaXBv44yXEUZWp
- 4Qtr/RVd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkSQgjwwMPncU6F69xdzI3
- GNmvMHAQnX5XxCL2SOmr+lSB9duVaxgZZgY4znlUNNve0zXi9ewlRz4tyu0yfp3rcbdtj5DLDtb
- DfAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=218; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=eeA8ljEi176nac3Xia2CXqgFEjfxocrDt4d0PfokGzw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTlzFUIeJG2Mf7N0e6LixwfZC4QN9peFHxK8/7Xj/Fbn
+ x2fWGwyo6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi9V8YGT52LWc/8ua4hMZR
+ hpPdeyrW71+5zHaB/ru0rz9Fd/lu6ZVg+O9y/Azf24zyg3s4/Mp9uxfbfc0UW2b9Lt3CKWbB76k
+ VeuwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-30 17:40 -0700, Paul E. McKenney wrote:
-> The hrtimer_sleeper structure's ->task field is used as a flag to indicate
-> that the associated hrtimer has expired.  This means that the hrtimer
-> handler can be storing to this field while other code is loading from it
-> to check for expiry.  Note that additional races appear for hrtimers that
-> can be restarted, which could be argued to be a user error.  However, that
-> is no reason to let the compiler introduce additional confusion, and to
-> this end, the hrtimer_sleeper_task_get() was introduced, use of which also
-> has the benefit of avoiding open-code access to hrtimer_sleeper innards.
-> 
-> KCSAN located this issue.
-> 
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> Cc: Benjamin LaHaise <bcrl@kvack.org>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> Cc: Frederic Weisbecker <frederic@kernel.org>
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: <linux-aio@kvack.org>
-> Cc: <linux-fsdevel@vger.kernel.org>
-> ---
+> But then we should name it "epoll_or_io_uring_pseudo_edgetrigger".
+> See the test-cases, they demonstrate the same pattern.
 
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Wouldn't pseudo_edgetrigger be sufficient? I think the comment as you
+wrote it is ok.
 
