@@ -1,240 +1,177 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AD53D6682
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 11:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA503F8231
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 11:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785497747; cv=none; b=YSL7VOiBDvKE3MqKZAadhyhXJ0RY4FkK84ANNsGc2esKtTBJWCSr7tuseJ4Yd+ILMk9a9uR12DtA3UDIL3rFglgamSyZU8d7gsmZf0rHeLGEilMNSDXKjX3PSxyYCY1v42bdkS47D8bPOFm1HptYJOFANe6K6/YdkvZlQTG/5ls=
+	t=1785498076; cv=none; b=h3iCyJL9RmpVox6dfoBlTGj5AYVeuF3P7Eq94fQlhMgP+m7rzh6YP3zcyK+SGKOiU3VDHFBRaH3bkSCDyxASDbWfBxK2KzSFLrr800tpmw3j/eulkBfmBEcxlbmm9g2rxnIiYbuoZ57fwb75AYK58Qc+ufCRB8sCe+H2y54ILec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785497747; c=relaxed/simple;
-	bh=eS7PMH8rQeLscEniFu1WBe1VHM3qvs2ecqiwFkaX0U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O2oMTgxvfwNKUoDVl1yf5EWEduBfWk69xdywO3MExhmFMLmHTEZMAHbhP1EDab5daUTrX0VDg74Jgnt/NcB08FB5G6odsi8mZlE4Wxp6CnKoIWt8v3y7NZEBP1qfJxlp+YwZtXtoV187fYYgyaWSLYqZOFLiUu+LrIWuFQuJrt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1yIQtzQh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=W9OYDnOu; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2b+imBQw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0gwssALx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1yIQtzQh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="W9OYDnOu";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2b+imBQw";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0gwssALx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A6EF67DF06;
-	Fri, 31 Jul 2026 11:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785497739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DdoKKksVgNQFUZR7FTPENhfgtHOZxTqAYBL0F6JCNi8=;
-	b=1yIQtzQh5hjbUejn+7ND5f35/RHM7s0wGxFfT0ZVk6dhAY7qU6eh+lD3Oox23HBC76rHFu
-	Veu8/F7WULseFjCiJyDe+ptu6Xac51EIIo827FhRGzBg/0v5dmIPrhGtPyDGFciejHcu99
-	gKQskqyoY/epyoukmzuvmJLVF5zuNMI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785497739;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DdoKKksVgNQFUZR7FTPENhfgtHOZxTqAYBL0F6JCNi8=;
-	b=W9OYDnOuGvsiLTNrugHgTBh4OJkMJvvzVAGQLhxY2jZ/HZKzKBZD/2WX9yw+sHVG3j+iSg
-	y3wysj8gcC3PIkAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785497735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DdoKKksVgNQFUZR7FTPENhfgtHOZxTqAYBL0F6JCNi8=;
-	b=2b+imBQwv/fcQUhYSBBy8kHv77aVq5qckaKhvJ6QnqgN069c+uzGY5oUeZPVEYQbJ43Gw7
-	wPcne7J8oEJWvLKBhzums3ZlsxiQpZ3wOYJf5Yu9pbdj1AKA+PtIajqlC9xRGyN2upuo00
-	5htvUbV68HYV2j9oLCP7+eUbVyTZ7cg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785497735;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DdoKKksVgNQFUZR7FTPENhfgtHOZxTqAYBL0F6JCNi8=;
-	b=0gwssALx2NQ4VpQ3Fxr0nhKCKafyRQQAXRo5b43ycd/irt2H5Ml6lXPtZh2K1MjqYZ9TxZ
-	bBgPPVneiHwC8+Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E5DC779B0;
-	Fri, 31 Jul 2026 11:35:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r4KjJoeIbGpgUgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 31 Jul 2026 11:35:35 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 38D7CA13A4; Fri, 31 Jul 2026 13:35:27 +0200 (CEST)
-Date: Fri, 31 Jul 2026 13:35:27 +0200
-From: Jan Kara <jack@suse.cz>
-To: Chengfeng Ye <nicoyip.dev@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	Matthew Bobrowski <repnop@google.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] fanotify: fix use-after-free of file range info
-Message-ID: <433lrqir2g4xryun3bsakomhii6al2oamua2mhn3knjdbwiaf5@knswbgm4m2x2>
-References: <20260730134316.2085087-1-nicoyip.dev@gmail.com>
+	s=arc-20240116; t=1785498076; c=relaxed/simple;
+	bh=e2vjSttxcoNtyW6JrbhYTnqq7Pxo0YsnVImfEbqlRQk=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=cGMTzpiml007vcfXLKRB42SVJIxSdAJAK3NiKWVzf4z7tnusnA4f1LbgRxK0HzFlhpVga1FLG+rb+zSZEgC2zVE0cbHqBF7e4vHb7Mwdj37HWnboBVdwbcdB25ZOdDBJDmG+3zIsZqpSWiRdrhQIvQUmqewiXTqLTGN1mEqoj3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-44d0960fb5bso657641fac.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 04:41:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785498073; x=1786102873;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=m8VUZ3s3LYwXHsVpWfjVPQGrgQzqZfc/ZafskNEpMqk=;
+        b=ORWnTjAaJa3LHUfTqme1xi78z43fJfU0oBz0VcO6phnoJBYc4dGsVL/cMBWKKSrzvN
+         /RYv8DYI7WwONXVDNQx5Xm6EV8j/WqkXTrIhV1GbKfy4I1p/knX8TPlgCoVKQrNeQcrT
+         bBwL9VJpwKSP9vCv1V0A+od7lIBiAdMwCx4nyUrCZjO/xAuVPEh+0kC/ytQKEJtNB3Hb
+         bVb1+hmYtJw0ry/IWF0yUQzzILbU7CPTcHhvxD8GvPrWqbgbtVMaUyRS2bxUgEAzC960
+         qOjL4sbhFalomOyLLaMi4y4a/cMCjQ/XqAr6aIialvEC6TA9wA6fZtx8SgwzXS51UNSV
+         Q5Gg==
+X-Forwarded-Encrypted: i=1; AHgh+RrM6TaU5GRYL8eDTCGBkNgRYA4srdRD3gnLpoviTUSJ4XFF6I9UHMmGYB660mxm88LAUnmogsXWRfO3XOxP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBU6twxW4qjwY+L5dHSW9n0bE/dwUKSA4TqA99jIXBoUFma5XR
+	uqg32jBpHLS4Z+sc0b1rCtlWLpaPKLmQgsh3ph2Tm4dgfi7FChPRpV7tMLHme6uugDxA4LoCaIh
+	SVhCAGfisTeoDxuWtOQOG2FzyFE3j9qBUegzI4msTpngxc0SW/5VyCEj9C7Y=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260730134316.2085087-1-nicoyip.dev@gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+X-Received: by 2002:a05:6808:10cc:b0:4a4:c12:49d9 with SMTP id
+ 5614622812f47-4ae4c4de8a7mr1992011b6e.3.1785498073711; Fri, 31 Jul 2026
+ 04:41:13 -0700 (PDT)
+Date: Fri, 31 Jul 2026 04:41:13 -0700
+In-Reply-To: <e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6c89d9.77639fcc.3d4fd0.0026.GAE@google.com>
+Subject: [syzbot ci] Re: iomap: follow the alignment requirement for iomap_dio_hole_iter()
+From: syzbot ci <syzbot+ci731b4119b755b229@syzkaller.appspotmail.com>
+To: linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, wqu@suse.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu 30-07-26 21:43:16, Chengfeng Ye wrote:
-> fsnotify_pre_content() builds its file_range on the triggering task's
-> stack. fanotify_alloc_perm_event() saves a pointer to range.pos in the
-> heap-allocated permission event so copy_range_info_to_user() can report
-> the offset later.
-> 
-> The event reader can set the event state to FAN_EVENT_REPORTED and then
-> sleep while preparing the file descriptor. If a signal interrupts the
-> triggering task at that point, fanotify_get_response() changes the state
-> to FAN_EVENT_CANCELED and returns. This unwinds the file_range stack
-> frame while the reader still owns the event. The reader then dereferences
-> pevent->ppos and copies the stale stack value to userspace.
-> 
-> KASAN reported:
-> 
->   BUG: KASAN: use-after-free in fanotify_read+0x293e/0x2970
->   Read of size 8 at addr ffff88811434fc50 by task fanotify_inotif/95
->   Call Trace:
->    fanotify_read+0x293e/0x2970
->    vfs_read+0x177/0xa20
->    ksys_read+0xf7/0x1c0
->    do_syscall_64+0xf9/0x540
->    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> Store the range position directly in the permission event and use
-> FANOTIFY_NO_RANGE when range information is unavailable. The event remains
-> alive until the reader finishes, so the reported offset no longer depends
-> on the triggering task's stack.
-> 
-> Fixes: 870499bc1d4d ("fanotify: report file range info with pre-content events")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
+syzbot ci has tested the following series
 
-Thanks! I've added the patch to my tree.
+[v1] iomap: follow the alignment requirement for iomap_dio_hole_iter()
+https://lore.kernel.org/all/e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com
+* [PATCH] iomap: follow the alignment requirement for iomap_dio_hole_iter()
 
-								Honza
+and found the following issue:
+general protection fault in __iomap_dio_rw
 
-> ---
-> 
-> Changes in v2:
-> - Remove ppos from fanotify_perm_event and use FANOTIFY_NO_RANGE as the
->   sentinel for unavailable range information, as suggested by Jan Kara.
-> - Read the event-owned position directly when reporting range information.
-> 
-> Link: https://lore.kernel.org/linux-fsdevel/20260730085801.2068723-1-nicoyip.dev@gmail.com/ [v1]
-> 
->  fs/notify/fanotify/fanotify.c      | 3 +--
->  fs/notify/fanotify/fanotify.h      | 6 ++++--
->  fs/notify/fanotify/fanotify_user.c | 4 ++--
->  3 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-> index a3555bebad63..b05b6d3abb87 100644
-> --- a/fs/notify/fanotify/fanotify.c
-> +++ b/fs/notify/fanotify/fanotify.c
-> @@ -600,8 +600,7 @@ static struct fanotify_event *fanotify_alloc_perm_event(const void *data,
->  	pevent->hdr.len = 0;
->  	pevent->state = FAN_EVENT_INIT;
->  	pevent->path = *path;
-> -	/* NULL ppos means no range info */
-> -	pevent->ppos = range ? &range->pos : NULL;
-> +	pevent->pos = range ? range->pos : FANOTIFY_NO_RANGE;
->  	pevent->count = range ? range->count : 0;
->  	path_get(path);
->  
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
-> index a0619e7694d5..3710543dbf82 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -428,6 +428,8 @@ FANOTIFY_ME(struct fanotify_event *event)
->  	return container_of(event, struct fanotify_mnt_event, fae);
->  }
->  
-> +#define FANOTIFY_NO_RANGE	((loff_t)-1)
-> +
->  /*
->   * Structure for permission fanotify events. It gets allocated and freed in
->   * fanotify_handle_event() since we wait there for user response. When the
-> @@ -438,7 +440,7 @@ FANOTIFY_ME(struct fanotify_event *event)
->  struct fanotify_perm_event {
->  	struct fanotify_event fae;
->  	struct path path;
-> -	const loff_t *ppos;		/* optional file range info */
-> +	loff_t pos;			/* FANOTIFY_NO_RANGE if unavailable */
->  	size_t count;
->  	u32 response;			/* userspace answer to the event */
->  	unsigned short state;		/* state of the event */
-> @@ -468,7 +470,7 @@ static inline bool fanotify_event_has_access_range(struct fanotify_event *event)
->  	if (!(event->mask & FANOTIFY_PRE_CONTENT_EVENTS))
->  		return false;
->  
-> -	return FANOTIFY_PERM(event)->ppos;
-> +	return FANOTIFY_PERM(event)->pos != FANOTIFY_NO_RANGE;
->  }
->  
->  static inline struct fanotify_event *FANOTIFY_E(struct fsnotify_event *fse)
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index b604e3da58ad..bba92d691f0d 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -675,12 +675,12 @@ static size_t copy_range_info_to_user(struct fanotify_event *event,
->  	if (WARN_ON_ONCE(info_len > count))
->  		return -EFAULT;
->  
-> -	if (WARN_ON_ONCE(!pevent->ppos))
-> +	if (WARN_ON_ONCE(pevent->pos == FANOTIFY_NO_RANGE))
->  		return -EINVAL;
->  
->  	info.hdr.info_type = FAN_EVENT_INFO_TYPE_RANGE;
->  	info.hdr.len = info_len;
-> -	info.offset = *(pevent->ppos);
-> +	info.offset = pevent->pos;
->  	info.count = pevent->count;
->  
->  	if (copy_to_user(buf, &info, info_len))
-> -- 
-> 2.43.0
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Full report is available here:
+https://ci.syzbot.org/series/81e0fbae-4715-4d62-8e9e-bcd19e46b164
+
+***
+
+general protection fault in __iomap_dio_rw
+
+tree:      vfs
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
+base:      70c2cbf8600c7d3a622b77e31136b83d6ac7d86c
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/8d5fee65-291c-46a2-9f9a-d512f8fad82b/config
+syz repro: https://ci.syzbot.org/findings/c9f79a18-3316-44ec-b805-b805b1c49325/syz_repro
+
+loop0: rw=2049, sector=53248, nr_sectors = 976 limit=40427
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
+CPU: 0 UID: 0 PID: 5842 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
+RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
+RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
+RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
+RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
+RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
+Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
+RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
+RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
+R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
+R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
+FS:  00007fd77743d6c0(0000) GS:ffff88818d951000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000078000 CR3: 000000011606a000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ f2fs_dio_read_iter fs/f2fs/file.c:4887 [inline]
+ f2fs_file_read_iter+0x60b/0x940 fs/f2fs/file.c:4950
+ copy_splice_read+0x5ff/0xaa0 fs/splice.c:362
+ do_splice_read fs/splice.c:979 [inline]
+ splice_direct_to_actor+0x4b6/0xcb0 fs/splice.c:1084
+ do_splice_direct_actor fs/splice.c:1202 [inline]
+ do_splice_direct+0x195/0x290 fs/splice.c:1228
+ do_sendfile+0x52e/0x7c0 fs/read_write.c:1371
+ __do_sys_sendfile64 fs/read_write.c:1432 [inline]
+ __se_sys_sendfile64+0x144/0x1a0 fs/read_write.c:1418
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd77659df99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fd77743d028 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
+RAX: ffffffffffffffda RBX: 00007fd776825fa0 RCX: 00007fd77659df99
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
+RBP: 00007fd776634ec4 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000800000009 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fd776826038 R14: 00007fd776825fa0 R15: 00007fff168f4a18
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
+RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
+RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
+RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
+RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
+RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
+Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
+RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
+RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
+R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
+R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
+FS:  00007fd77743d6c0(0000) GS:ffff8882a8f51000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007faa8f64dc80 CR3: 000000011606a000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	e2 5a                	loop   0x5c
+   2:	ff 83 e3 08 75 5c    	incl   0x5c7508e3(%rbx)
+   8:	e8 ab de 5a ff       	call   0xff5adeb8
+   d:	48 8b 9c 24 68 01 00 	mov    0x168(%rsp),%rbx
+  14:	00
+  15:	48 83 c3 18          	add    $0x18,%rbx
+  19:	48 89 d8             	mov    %rbx,%rax
+  1c:	48 c1 e8 03          	shr    $0x3,%rax
+  20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
+  27:	fc ff df
+* 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	48 89 df             	mov    %rbx,%rdi
+  33:	e8 d0 75 c8 ff       	call   0xffc87608
+  38:	48 8b 1b             	mov    (%rbx),%rbx
+  3b:	b8 58 01 00 00       	mov    $0x158,%eax
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
