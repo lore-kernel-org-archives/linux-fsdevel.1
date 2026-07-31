@@ -1,83 +1,92 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF993B47F9;
-	Fri, 31 Jul 2026 08:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5060635C698;
+	Fri, 31 Jul 2026 08:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785486443; cv=none; b=BEQEcfiW4lQhS1iCSuAZ9nckYjGvBuJJ9VGUSS7ORm8tysIlIyy0bxNfmTSh3ZPOm0MF6a7V/Lsdws4LiWZgkQd3elKL3sFq5c1FS+X7YMeLIiP35R+VaIT/35msPB2urkRyO08tclgYgzClzSZwIFkjiVUHj7sSXl0CyH7hQEE=
+	t=1785486979; cv=none; b=R+4xmip25/DQftRI14f2k92sUkhSFE1a7jPFfa7IWMe4J9QjDIBWEpC8EhIizKFhB8Ugfv2u0nPnR+Jqg6HxvITYt3g131PoipVDUliEKc8x4e98VgxfK325nAWsa5XVpKeXsl0Vwg5Cb2Embls42MRxeqvVArIFAXjyZ1ko6Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785486443; c=relaxed/simple;
-	bh=qPx8l2vZs7aQLW0N/GnN2h0tl44uplIUI+xx69fAfiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSDRgubXWqeRfhRAAA278LiMK53fwLTuT0IDT5HyDPB5898uGrzoC4osf/97DQ3eMtNk/VxUy3dahHi9jF65F1+vCnqNGQV+H67yOH2TGrDHjp1w00caOij+eGsVLPaZnxLZQKFnnYguDTSSwiHK1JCoZOemNH+jlkMJURmEfJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Nn21v8Zh; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1785486979; c=relaxed/simple;
+	bh=IVbqRCpob72dCbe8vFgrS4HSdigPfHsmX5MiIG7oQlA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kvaIMeB7jctvuErFzYFn5IPX3t2dAA5hywEg5aXkJJNnGeWuAxUgUAKIUnMlyyjprMbOkTZcTR3NGH/RfEq+CuJI62MpxW/CZMNFp0pT5yT9EbPe/P8Dr4IgbjRA5MFKncgP0iFpCXbAiCQ9fbPUlihXw4B+Aba6jxo8KvST8kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRd1M1HS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Nn21v8Zh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=tMcTXZW/Ce3M+CAapCCi6h6iG/V0//3pfbcUsN4Xnag=; b=Nn21v8ZhaPRU7RtPhnism5dIPC
-	801huLMfZAb0jZ8iwK21lLO4NDlepzl0M2hVreKVMKY/3CMxjsQzvSJj4/MO6PxR3qNoqxNliz8PH
-	XZk4KPiOS7XzIOl0mMePk20S/FG+gt7ltCVEFofwHL+rl1emgYCISxSemmvn6oCguVMDYkp4CH3Fs
-	oNCdbSfXF97opUEWWc9pMCmRt5aVkwy6YoyMAPyzqAR++JBzE7Yxp3c5WU6JfOlGNj3zNw/Mh9fX5
-	YH6e9ny1zZ/yd1qZr76xY5r+4LLDtNPtKCA4ospzTsOBPWactGZRSmTm8w4PQ4gIoWSb5rZu5JEnY
-	bd3riaiw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wpiaC-009sgL-0w;
-	Fri, 31 Jul 2026 08:27:08 +0000
-Date: Fri, 31 Jul 2026 01:27:03 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Oleg Nesterov <oleg@redhat.com>, 
-	Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Alexey Gladkov <legion@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] pipe: only enable the extra wake_up(rd_wait) for
- edge-triggered consumers
-Message-ID: <amxZw69gHKLDmfKX@gmail.com>
-References: <amtbpwrhlNGJ9OK6@redhat.com>
- <amtbxpqJ3pZwyT8D@redhat.com>
- <amteY30qxRuPzFh3@gmail.com>
- <amth6owVUdVOmyAL@redhat.com>
- <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRd1M1HS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09091F000E9;
+	Fri, 31 Jul 2026 08:36:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785486978;
+	bh=1zWiuzU9NI5mQ0Ur/AFAMgDwCPdQjJv6ntmIFRFLYrU=;
+	h=From:Subject:Date:To:Cc;
+	b=MRd1M1HSIHuIA4cXV4jPh/cL0HrIPGbMH+IaXl/AFH0KDkjlzYaFlXi+bxXs5YhnJ
+	 v8nSUgZzhcLQg6rwW0v6Y+uAEk1P2awCUypoTDQfxhmIOmwRvIazKPdGgXVV7JI6OJ
+	 1t3jP+zp/QlHDKXm2qf0Sw95y/gNmA3o387gEIkq7VPvX9aqBdxR9BvDUBPyIyWCKG
+	 ObzDSYPgncIoT38dejNmHy7ZsB7R4qvXrSDVKcnBgGrNTF9d/omwWpveWlPVYiJRVv
+	 R1WzVXQ/lKXBWrL7uv0mSRffxscVrTZCGbNYle1a00PypmBxAmRm9bkAANKm3fIczf
+	 HYCXMaBn/50jg==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/3] fs/namei.c: comment and coding style fixups
+Date: Fri, 31 Jul 2026 10:36:04 +0200
+Message-Id: <20260731-work-lookup-fixes-v1-0-2412b85cf65c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
-X-Debian-User: leitao
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHRebGoC/yWMyw6CMBBFf4XM2iHQGmv8FcOij0EqpiUdQRLCv
+ 9PK8tzH2YApeWJ4VBskWjz7GDK0lwrsoMOL0LvMIBpxa5Rs8RfTiJ8Yx3nC3q/EqKRxd2WtcOI
+ K+Tcl+hf59uxO5tm8yX6LqCyMZkKTdLBDiZY+S2pZn1bY9wPKBbu/lgAAAA==
+X-Change-ID: 20260731-work-lookup-fixes-73bd87cc2d24
+To: NeilBrown <neil@brown.name>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+ linux-kernel@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev-af865
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1366; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=IVbqRCpob72dCbe8vFgrS4HSdigPfHsmX5MiIG7oQlA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTlxDVslAxskeOdar5g/9Og5PPbDkjfvfNOpe1TdX202
+ EZtXv+GjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIl4zWJk+L7w0ZGlXt/US3t3
+ yzOpnjFkU3t/KYL3TJbnt7f3s+W0RRn+F1bmBJ3LEb9bWDg/hPOw3bvdx48LZGuaOuv/Ub77rv8
+ ZLwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Jul 30, 2026 at 10:01:56PM +0200, Mateusz Guzik wrote:
-> On Thu, Jul 30, 2026 at 4:38 PM Oleg Nesterov <oleg@redhat.com> wrote:
-> > What exactly do you think the comment should say? I agree with anything in
-> > advance. I thought that "edge-triggered" provides enough info, but I would
-> > be happy to improve the docs.
-> >
-> 
-> how about: There is userspace depending on the extra wake up, see
-> commit 3a34b13a88caeb28 ("pipe: make pipe writes always wake up
-> readers") for details.
-> 
-> or whatever else which refers to the commit, no need for anything
-> fancy. the current commentary is definitely lame.
+Neil,
 
-Agreed. The rationale was non-obvious without digging into commit
-3a34b13a88caeb28 ("pipe: make pipe writes always wake up readers").
+Three comment and coding style fixups for your lookup_open() rework and
+Jori's audit series as they sit in vfs-7.3.lookup. No functional changes.
 
-Having an explicit reference in the comment would clarify why the
-unconditional wakeup exists, rather than leaving it to appear as a
-potential weirdness without clear comment.
+* Update the comments above lookup_open(). It takes the parent inode lock
+  itself now but the comment still tells the caller to take it. A caller
+  following it deadlocks and the series added a second caller. The claim
+  that it returns 0 and updates @path goes as well, that one has been
+  wrong since v5.7.
+
+* Give the return description of atomic_open() the colon that kernel-doc
+  needs. Without it the description is dropped and W=1 warns about it.
+  The summary line has to stand on its own line too, so the "from a
+  negative dentry" part moves into the body.
+
+* Fix a space indented continuation line, three declarations without a
+  following blank line and a trailing */ on the last line of a block
+  comment.
+
+Christian
+
+---
+Christian Brauner (3):
+      fs/namei.c: update stale comments in lookup_open()
+      fs/namei.c: fix kerneldoc of atomic_open() and vfs_lookup_open()
+      fs/namei.c: fix coding style in atomic_open() and lookup_open()
+
+ fs/namei.c | 43 ++++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
+---
+base-commit: b2f1e6301efa4a80becdb0715416c3cbc693fbb4
+change-id: 20260731-work-lookup-fixes-73bd87cc2d24
+
