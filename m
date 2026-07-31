@@ -1,236 +1,227 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1338C45A29B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 16:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5381723D7F0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 16:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785516095; cv=pass; b=pk38GdSws8op+t2RIXxWG5XhxLfeu6ev8WnBQxsB0zhqKO/dASMKOKbZG7wf/VyKwvCl6UDAMO3ZXQnB3lygyrcYey6BlYZ/d7nRfrrif0qVJHopBPRMKcwASD9o9d19+tWgb0o1auv00Khuw5Jlwz6/25A0JqbuLpJOKeLHw/Y=
+	t=1785517174; cv=pass; b=e1Nkqj7E7fD7IlRa2Yve74ZsEKx/bXvDjqPciU7YNDSqS1t+21FViTK226K0SxWHTHI/c533NpXTZeXEgXM5Pz90uxS1VtH1pmdDeDEuur+vKDF5mqKPZd3nXN2L5UEZZmJMwIgzFLjA6TlH6XdEJA3XNANsdJdLZduHVR/mhRY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785516095; c=relaxed/simple;
-	bh=7lr2g0hOFws98Tw1rPDLdup5Lu5CnuXeBbo2FVvyuBU=;
+	s=arc-20240116; t=1785517174; c=relaxed/simple;
+	bh=QRsMcHmTFVFh22BHxXQg21CAvxZvm8fj0rIAcVM2X2k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Oq9f+lyTQeKuj8sGRq5uikeYbvYiKJJx228d1Xlp5cqwB+Ap0dbS38f8GqZ93B0EhOgCOugWp+OqfAHbkYFTWxZo4FSrMrAZtsXW+UQngM4V/uqrhMqj8ieezGB43EUv64cNejo/lUr2SFRcxFPNh30hfpmlzoNfLNPuhDtTniI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=YmYK+tOT; arc=pass smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+	 To:Cc:Content-Type; b=CYYGUOxTPdoNjuvkxpiMv+XtHtXm7L4qlJkqXCTogY4S9hbqDuNzuJUsXWT1MKwN/5zcJ7sQyIZ5ES8yEHtIMS9mXUGC2xEPU5qxwk5hys6Lyb1ePHpT15qCKUQe35gIgimojFKkL9jmCQDW3yriEztkk+GDOzflXPlsWor1f/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=RK/ffCL+; arc=pass smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="YmYK+tOT"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5b015b2d792so1177357e87.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 09:41:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785516087; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="RK/ffCL+"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38dcbade417so1246249a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 09:59:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785517172; cv=none;
         d=google.com; s=arc-20260327;
-        b=GYGS2oVaaLcwdjDb/WgeNf749IoWQ4qifFoHlVydg4yDMRKy5tKn9yxW8EBTbHKEDG
-         zlhYlitxjBFCtW9lqggA2D61leIlFJ/x5sUh1Rinv9dAcHJOCNn+++jXwtOZD3wv22h/
-         cE/KpxM/5GWaUEM18TPrJzRt0o6YZd25lyYhlNbmzJ1LdeeJERXXuDz4zZFJVa9c8+Kn
-         HJzpxW5qDH/gQ255SGZsSvEAgLPozq5z16Ke6m+NOFNdaz8iEBQqC3UJi1OPh2+SZLJp
-         djC1w3gp7MQnkxOMHllx8iFxNM2tIUL+BGnpIWJ6QI9JmNv4naiewt2spVAhdz7Ya0u/
-         bk4g==
+        b=QC45fejSU/gqsFFHUFV0c2fpBJtxO+O2kCVH+sksHJRp92TR0WEaIYFzR+Movn6tcI
+         dIgTwBcdbc3tjC1ltIjv0bwgmHmzRAUuQ6zy86O6STVdLvIUpheFYB5b1zw0XfswcShZ
+         HI6qsf/2sPBGTC8MLYhWjpdMuvkxK3ocpaa8RDU6ZwmoHngibyx1KbXCtbBsvBx2v3JI
+         +NEc3gR1/+JOQqYSork9zVrYNraRRHo9xWK1hRFBPc7GKW/5+1H1g0Y57en8CUEj4WvA
+         4GkvkLE9gVBFQ8oZlHnQ74h7eygbHF/ZSlqEvnER0h05/PWKmporcKtXBGd2tWDCYEux
+         tcKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=aYeChRbSSPfXWKbYkXW9f/czcjk7CTr5cofKA6xP7CY=;
-        fh=hyzy+TxayWz/In4P0VKRQePECW1VB1oxFnxszjod/H0=;
-        b=WPQbpVjVv/Wt8jx4EwuJEDxu9sboUyA4ayfJIBXxz+Spn0WuXZ8Md3LFUbA/gVouWX
-         xrozpmIo23d0V5QwsEFRm/uhhGz2BdTSo5niN11PDSktXio/tL3+PsxcGAYYYqBmgWXL
-         SNPq6XzSPi3U80yDxuLCuW9fcxABUg1a0aZgK5QhElI9Cncwv/e+rHP8C+0ecop3IBdY
-         I2CE7K3sahEIBy+l2dKNWK3rDkRlnxupinxJO5eQuUt3HeWGD6CJFhpcd4SY/+J8HAP+
-         IjirKAm2lxFgfDijfUA18GUZb5sL5UtnlFMbk8Dwf9IX955RH0a6gXbLH4wGo/bJsYLu
-         eLqw==;
+        bh=zOKR/PjmyeeQ5AAj59WkFZ8/Hg/6PfssbyNnrg+0nMg=;
+        fh=uuQVKLt/0BTLlrLg/uioSdSZuoWdQFh+RoLKafMrJ1M=;
+        b=HbNM5OiElSvId4ByrUS9LwSG9EFxMRNGBuuDtuG3rhCIrZkKUpd/8f7pDm1CDLH6UJ
+         09QpHGZhqlz1cgNmlJa9cy5EI4X686JLhEvNtrO4LGU/16bq5sUr7wK+AiOy75hpGyjZ
+         l60hwqHRIi+9Iz0oj2bamdFTp91voJJES2/Nho8rLVcwM8uDPrtarOwvfpphnQsaNrzv
+         tcHI+DHeNwbDyjX6Xw0OvIXmR39SMY7o91NluIYOqxOLXzf7irnX5oOk7J7rjET9spGI
+         rqF2BA2kTRijgxJPd4l25hunEl7eG3R6bihA/4o5L4R+nxl2Sp5CkQx08yrobSW7FTyq
+         8JOQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1785516087; x=1786120887; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1785517172; x=1786121972; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=aYeChRbSSPfXWKbYkXW9f/czcjk7CTr5cofKA6xP7CY=;
-        b=YmYK+tOTXBG0MUvCAo17J9cfVRGL5Yq9vq/b3uc6yjLdYA/UbIffAoilyH1MkqXchr
-         VBmEvmI7azxeFhje/5FJF/nmuPWeYv/7chJUCG/JNZ52mfyIHG/9FVwvGrnI/L7TV5yP
-         qHHo+wL2N9mtYwjphvfyxPDwMY5HkCjOH1THE=
+        bh=zOKR/PjmyeeQ5AAj59WkFZ8/Hg/6PfssbyNnrg+0nMg=;
+        b=RK/ffCL+62C/EbBLkUR5vfyVH831xrlHLmfwSa4rgWJIe6oagWgsKcMZm6SsdGdYCt
+         DYBESgUCY5oodjuf1puuRv62UVDRSa15X0LOEzot/yRH7EFy8Jh6U8VxSvZIrZLfidYy
+         bunxAGK0hH58Ai6xQ/gY9rR5RFumpoUDEr4kYFLuv1N3o0DyFjRWwfYDg2rVbdYsWoPY
+         C3rIFlOxwWxo3gshS5IiYFc/ic/XSohJ8q0qJUGqWKjm2y4jRoy+SXZLz9cSv5JBqv0q
+         oEINlI0axA/2NEhGQ5Vm/NbEkD63MjbQmGlqIAlswCIB6ruNh2Oek7pnZFfrXZxd537k
+         k8lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785516087; x=1786120887;
+        d=1e100.net; s=20251104; t=1785517172; x=1786121972;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aYeChRbSSPfXWKbYkXW9f/czcjk7CTr5cofKA6xP7CY=;
-        b=qlgIV/rQIiCJhO4Nq38RjmPXPvO+gtFpn1ryUiYpPajNfmmkFbzYioTAhUOrxwEhxV
-         lvMph3GEst4kgAKBCBWPWc1TA1TmGRZtis1Sf3gxzrTQAYqH0Nz2aB+zskV3Xx/jSVAV
-         wU45Ye8tXntoEAy3cgcZhgQVBWhvsfi5ccqOPP6EAobAJlxVJCQZNByhT21g7zaN3AJ1
-         soEXwD6ykGb475u1HQ+VZUYIYG4Q65IVh9qJXmqFrE6G7OjvnNiVk1PyFmIYqPcD23Pu
-         vHFsHGl+lb0NaX4NYt661lEmCIu7uVtfHifeyCTJ9lbRuykZ6v6caYCZyu+DdugBM5sC
-         WVmw==
-X-Forwarded-Encrypted: i=1; AHgh+RqczfQz96wJwbwuGjeta7456EsYyahK/dEXe4SR91l27FmQBu2TX4yNJ/0YQVB5hy0zuReQgkDxGhRjTIBl@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs2CIz+E6GPu2raEkPATK6jZisZnqYWEPXhB8scfVD4O4akVf4
-	IktnOW55ZvJtxwgnwW26OTJtQ/sz6pFndkC6zFpL+Ehv2+qTCOE9R8MYkbS6D8f2Zabh9MlHtXO
-	oVdPmOgFYAdDOd11hgvmvsS5OntrDLgJQVOvYpwgTpA==
-X-Gm-Gg: AR+sD136N5nz7Fb4jRuBDDuHg3So78lnEkeEOOnbFIFZp944+qVZeYxoUUi5Pwo49gF
-	IjL/qFVrrbGQkEiizN9aGMdRs+o7gftarQ2uxN1obMS0ZEpZaYloJB9YeF5ikK4wJ+re38C/u2I
-	VPqQ8VJHPzLE85tV6TqeiwwOVYUaqbW1guhNyGxaH0HZlOUQTn2XfJYpEsoAvnWjwNM5tL84Ugn
-	lkZReZpmOW3LJiIccM0Wwc1AQmWZFLao0ZdacJgHWJW5I5XIY64WfLOgDFUDp8sUv5Bv/qbm0PA
-	k30UOcvnrbnEBvlJtAJUW1YdMHYBqVxSoGlgz+8xwgKSa0Du4vq1kAv5ggoMgB6aLBaDMiAkBjq
-	s
-X-Received: by 2002:a05:6512:1092:b0:5b0:ce5:a04f with SMTP id
- 2adb3069b0e04-5b2e4f93e8amr65433e87.61.1785516087036; Fri, 31 Jul 2026
- 09:41:27 -0700 (PDT)
+        bh=zOKR/PjmyeeQ5AAj59WkFZ8/Hg/6PfssbyNnrg+0nMg=;
+        b=gjnmqGROIBrWbExdvS7lnOFcDO24oEIhXsc+6N53ZletVF/I94p391ZaJ9RQl8hItz
+         rKl+7U2jjavT+m5VTfcKYo9PSvBrCJkcGZKxnVp7PB0cffx87xwpyRblyp2JnLhs6a9M
+         ppwdYPmO4Pc/qmY/lxeRrBwaWKyfb8wjT7zz671Z2j2hiezTxYXZ/7pu/dMxBirwZ7e0
+         h6soBSlkCj4nc44SbWj8Kz5zPViQbQfu9LzTBxjuG2bA9VqziFhpAA2RE8DcdhTOtetu
+         NeYRgp8HESeVvyY0ikFlGolf35a9P51nGL1eVSFRAe9ytZKl0UwkIRMUO1QK67NTggLO
+         uLSA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpj/ZzpTb8AE3fITtz/7ykAQLwSbXt0Uaxu3d1Q2yzaujoMm3fqSqQFZNKp2j/GHuqMNXNSmPStinMlA/xA@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTAGSHl0k62LAF2q5w79GuUxjFGZ3GW3O+2hH4RyG69R53zgVj
+	4JYVNHcCdi1WXLLI7z2uWLxbuJW9xiWsbZhvovTnf5t8pMRA4GlW2poespRZ7WTP6ueWEtwNr9D
+	E9c5nx9zE2sAgzbpUCUmZjXrkyX8xo83AWxz2ILLP
+X-Gm-Gg: AR+sD1331B5uTq8UbXa/A4DIBZxCvpDxSkIgV4mE7h9AdDL9Rf/lsUKLRomhpm6MM9q
+	sJhljncmK7XFj1b3B+mVtIm2dEbk4Mga6FjclZ9da1GBvYo9dexyEJJ2CGMs/fg5or4t78+JuNL
+	JvVKzkhZBQnBvN8hCRTvaBu/lDdJhVjuiEsTyPUxmC1m8rb2u2NMOm7b4EOOmdIwBctA0rS2W5d
+	1XlJPamgWQKOGjucc9dxWAMkxru2gvp2vgVQXaJzSqPeO1qY4d1BVWazZM3FopIZVr/ywB5AyeP
+	E9Cjmx5iJf8DRzZivlDwwLsVfWnDsbTFkwwMd1sC8bYd
+X-Received: by 2002:a17:90b:564c:b0:380:9f17:6df3 with SMTP id
+ 98e67ed59e1d1-38fbc3e5947mr633869a91.4.1785517171698; Fri, 31 Jul 2026
+ 09:59:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com>
- <20260730152241.444632-1-yjkwon0026@snu.ac.kr> <yxm3q5glchsjgr3pudmcy2vtn3umneardtcnvbuxyfn4oaiuqq@77aualjjutwn>
-In-Reply-To: <yxm3q5glchsjgr3pudmcy2vtn3umneardtcnvbuxyfn4oaiuqq@77aualjjutwn>
-From: =?UTF-8?B?wq3qtozsmIHsnqwgLyDtlZnsg50gLyDsoITquLDCt+ygleuztOqzte2Vmeu2gA==?= <yjkwon0026@snu.ac.kr>
-Date: Sat, 1 Aug 2026 01:41:13 +0900
-X-Gm-Features: AUfX_myIYJBLZt1nPJDglDu80ps26Dq0mvcuZYB35jjsFoZjvKXRXDSK1Qedm6w
-Message-ID: <CACwKKmDrTKHRZczEk4z-gO+yZNXgvEgFDzKFfJSUMR4oK5VA6A@mail.gmail.com>
-Subject: Re: [PATCH] fsnotify: Fix stale object mask after concurrent mark updates
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org
+References: <20260730234533.1912709-1-dwindsor@gmail.com> <20260730234533.1912709-4-dwindsor@gmail.com>
+ <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
+ <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
+ <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
+ <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
+ <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com> <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
+ <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com>
+In-Reply-To: <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 31 Jul 2026 12:59:19 -0400
+X-Gm-Features: AUfX_mxiTF4CmakubyzcMYYVqWjlKYkApVmZz3ybbsziujIkCqg8Z2kjrrbozIE
+Message-ID: <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
+Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: David Windsor <dwindsor@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Honza,
+On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wrote:
+> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Kartikeya Dwivedi
+> > <memxor@gmail.com> wrote:
+> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Windsor wrote:
+> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul Moore <paul@paul-moore=
+.com> wrote:
+> >> >>
+> >> >>
+> >> >> Okay, it looks like there was some confusion/misunderstanding.
+> >> >>
+> >> >> My understanding of Kumar's comments was that he was referring to t=
+he
+> >> >> exisiting LSM related kfuncs that are located in fs/bpf_fs_kfuncs.c=
+,
+> >> >> not necessarily the new kfunc you are proposing in this patchset.
+> >> >> Kumar is welcome to correct either one or both of us, if we read th=
+at
+> >> >> wrong :)
+> >> >>
+> >> >
+> >> > Yes, after another reading, that does appear to be the case =3D).
+> >> >
+> >> > We'll need v7 anyway to fix the ocfs-related UAF the bot found.
+> >> >
+> >>
+> >> Since there is confusion, let me clear it up.
+> >>
+> >> I meant it for all of them. I don't think it makes sense to keep this =
+one in
+> >> security/ when others are in fs/bpf_fs_kfuncs.c. That confusing limbo =
+state is
+> >> worse than just placing it where others already are.
+> >>
+> >> As I already said, the discussion around whether all of them they shou=
+ld go in
+> >> security/ is orthogonal and should be done separately; it isn't produc=
+tive to
+> >> repeatedly bring it up in the context of this patch set.
+> >>
+> >> I honestly don't get the urgency; it will be a mechanical change if we=
+ need to
+> >> make such changes. The worst outcome would be stalling David's work ov=
+er it.
+> >>
+> >> As for landing this stuff, we can let Paul take the patches touching s=
+ecurity/
+> >> and route the rest (3-4) through bpf-next after the merge window. We n=
+eed them
+> >> to go through BPF CI anyway to ensure nothing breaks.
+> >
+> > Some existing LSM kfuncs are located in the wrong files.  I'm not
+> > suggesting that David needs to fix the existing problems, but there is
+> > no reason to keep making the same mistakes.  The new LSM kfunc must go
+> > in security/bpf_lsm_kfuncs.c; if that isn't acceptable to the BPF
+> > developers then David will need to find a new way that doesn't involve
+> > kfuncs.
+>
+> What "mistakes"? Really? It's just code organization bureaucracy. Calling=
+ it a
+> mistake is just blowing things out of proportion.
 
-The last line can affect the result, but it only narrows the race.
+ :D
 
-send_to_group() can clear mark->ignore_mask without mark->lock. Suppose a
-mark has FS_MODIFY in its normal mask and FS_ACCESS in a non-surviving
-ignore mask. After old_mask is read, FS_MODIFY clears the ignore mask and
-a concurrent recalculation scans the mark without FS_ACCESS. The add then
-puts FS_ACCESS in the normal mask, making new_mask equal to old_mask. If
-the scan publishes before the aggregate check, the last line catches it.
-If it publishes afterward, the check sees the old aggregate, skips, and
-the scan then publishes a mask without FS_ACCESS.
+You've no doubt seen the challenging interactions between some of the
+BPF and LSM developers over the past several years.  A recent BPF LSM
+bug/vulnerability as well as these interactions between the BPF/LSM
+devs, has caused me to take a much closer look at how things have been
+done regarding the BPF LSM and there are a number of things that
+should be addressed.  Not all of those things will be addressed now,
+but I won't support patches that continue to do things the wrong way
+because I currently have very little faith in our ability to correct
+them later.  I do hope that at some time in the future we can reach a
+point where there is more cooperation between the two communities, but
+given the recent difficulties over even the small things, we are not
+there yet.
 
-A raw mark->mask comparison catches this case but misses FAN_MARK_IGNORE
-updates. The inotify old/new check has the same structural problem: its
-replace path temporarily sets mark->mask to zero, which a concurrent scan
-can observe. If the final mask equals the old mask, the updater skips and
-the scan can publish an aggregate without that mark's bits.
+> I don't think you can simply decide this unilaterally either. Do you take=
+ full
+> responsibility that kfuncs going there won't introduce BPF side regressio=
+ns? Who
+> makes sure patches touching the new location run through BPF CI? All of t=
+his
+> needs to be thought through before we decide upon anything.
 
-I will therefore make recalculation unconditional after every successful
-fanotify add/update and every update of an existing inotify watch. The
-fanotify remove path can remain unchanged because it only reduces the
-calculated mask; inotify removal has no analogous conditional skip.
+I would expect, and require, that patch submitters perform the
+necessary testing for the patches they submit; this is no different
+from any other patch today that is submitted for the LSM framework.
+Patch submitters would also be required to CC the BPF mailing list and
+I would encourage interested BPF community members to offer their
+feedback and review; once again, this is no different from any other
+cross-subsystem patch today submitted for the LSM framework.
 
-I will send a v2 implementing this.
+> Thus, I am simply asking you to be reasonable: let's help David make prog=
+ress,
+> and get the changes landed. FS, BPF, and LSM folks can then decide on whe=
+re to
+> copy paste the existing kfuncs later.
 
-Thanks,
-Youngjae Kwon
+I view my position as both entirely reasonable and consistent with the
+current LSM approach to cross-subsystem patches.  The location of the
+kfunc David is proposing is dictated largely by the kfunc's contents
+and interactions; it is only legal to be called from an LSM hook
+callback, it manipulates LSM-only data structures, and aside from some
+BPF kfunc boilerplate, it only calls into LSM hooks/functions.
 
-2026=EB=85=84 7=EC=9B=94 31=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 9:27, J=
-an Kara <jack@suse.cz>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Fri 31-07-26 00:22:41, Youngjae Kwon wrote:
-> > When a mark gets a new event bit, fanotify and inotify avoid recalculat=
-ing
-> > the object mask if the cached aggregate already contains that bit. This=
- is
-> > racy with a recalculation triggered by a concurrent update to another m=
-ark
-> > on the same connector.
-> >
-> > The concurrent scan can read the mark before the new bit is added, whil=
-e
-> > the updater reads the old aggregate before that scan publishes its resu=
-lt.
-> > The updater then skips recalculation and the scan publishes a mask with=
-out
-> > the bit, leaving the object mask stale after both updates complete.
-> >
-> > This can be reproduced with two fanotify groups watching the same inode=
-:
-> > one thread removes FAN_MODIFY from one existing mark while another thre=
-ad
-> > adds FAN_MODIFY to the other mark. After both fanotify_mark() calls ret=
-urn,
-> > writes can fail to produce FAN_MODIFY for the group whose mark now cont=
-ains
-> > the bit. This was reproduced on an unmodified v6.12.95 kernel. The
-> > equivalent inotify interleaving loses IN_MODIFY events.
-> >
-> > Always request recalculation when an existing mark's calculated mask
-> > actually changes. For fanotify, compare fsnotify_calc_mask() before and
-> > after normal-mask, ignore-mask, and flag updates. Keep the cached aggre=
-gate
-> > check for unchanged updates, and keep the flag helper's inode-reference
-> > handling.
-> >
-> > Link: https://lore.kernel.org/all/CACwKKmCZdiZDoFuYm6LZhQ=3DXvHPk0fNKH=
-=3DX3LmoXMqakYqJaNw@mail.gmail.com/
-> > Fixes: 63c882a05416 ("inotify: reimplement inotify using fsnotify")
-> > Fixes: 912ee3946c5e ("fanotify: do not call fanotify_update_object_mask=
- in fanotify_add_mark")
-> > Cc: stable@vger.kernel.org # needs adjustments for <=3D 7.0
-> > Suggested-by: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Youngjae Kwon <yjkwon0026@snu.ac.kr>
->
-> Looks mostly good, just one question below:
->
-> >       spin_lock(&fsn_mark->lock);
-> > +     old_mask =3D fsnotify_calc_mask(fsn_mark);
-> >       if (!(fan_flags & FANOTIFY_MARK_IGNORE_BITS))
-> >               fsn_mark->mask |=3D mask;
-> >       else
-> >               fsn_mark->ignore_mask |=3D mask;
-> >
-> > -     recalc =3D fsnotify_calc_mask(fsn_mark) &
-> > -             ~fsnotify_conn_mask(fsn_mark->connector);
-> > -
-> > -     recalc |=3D fanotify_mark_update_flags(fsn_mark, fan_flags);
-> > +     recalc =3D fanotify_mark_update_flags(fsn_mark, fan_flags);
-> > +     new_mask =3D fsnotify_calc_mask(fsn_mark);
-> > +     recalc |=3D old_mask !=3D new_mask;
-> > +     recalc |=3D new_mask & ~fsnotify_conn_mask(fsn_mark->connector);
->
-> How could this last line ever change anything? If old_mask =3D=3D new_mas=
-k,
-> then it would look like a bug that some bit from the new_mask (and thus
-> old_mask) isn't already included in the aggregate connector mask?
->
-> I can fix this up on commit but I want to understand why you've kept the
-> line here just in case I'm missing something...
->
->                                                                 Honza
->
-> >       spin_unlock(&fsn_mark->lock);
-> >
-> >       return recalc;
-> > diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inoti=
-fy_user.c
-> > index ed37491c1..c44f2daa1 100644
-> > --- a/fs/notify/inotify/inotify_user.c
-> > +++ b/fs/notify/inotify/inotify_user.c
-> > @@ -565,17 +565,8 @@ static int inotify_update_existing_watch(struct fs=
-notify_group *group,
-> >       new_mask =3D fsn_mark->mask;
-> >       spin_unlock(&fsn_mark->lock);
-> >
-> > -     if (old_mask !=3D new_mask) {
-> > -             /* more bits in old than in new? */
-> > -             int dropped =3D (old_mask & ~new_mask);
-> > -             /* more bits in this fsn_mark than the inode's mask? */
-> > -             int do_inode =3D (new_mask & ~READ_ONCE(inode->i_fsnotify=
-_mask));
-> > -
-> > -             /* update the inode with this new fsn_mark */
-> > -             if (dropped || do_inode)
-> > -                     fsnotify_recalc_mask(fsn_mark->connector);
-> > -
-> > -     }
-> > +     if (old_mask !=3D new_mask)
-> > +             fsnotify_recalc_mask(fsn_mark->connector);
-> >
-> >       /* return the wd */
-> >       ret =3D i_mark->wd;
-> > --
-> > 2.50.1
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
->
->
+--=20
+paul-moore.com
