@@ -1,204 +1,157 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A783537E8
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 15:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA2A40B10A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 15:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785510763; cv=pass; b=mdSPgP0sVG2y0aOY2btrSgREpgT1IcT03q3hgncVqnG4PUQhumZSQzuVZ5PWDvzPa5KXUsNp41DhTZNOI2/MQbqaH1rUV6Fp9r9TS/41gCqpTH4b7yyeahrSxcR2iCfQTHTYdBmlouxuZA//BV0zHb21oPdXBELAErh+ffz4VMY=
+	t=1785511039; cv=pass; b=UD6pGzT+nzwB6X0HJMtOaChq9ryABZ/y3h0mTMZQ/GVWhmum6pA5CHvVtQiQ17Vn2hv7EfrIbKDlo4NXTXHeH9y8IdsHu7ULVwBiy9j/oY2qIZA35Z18IDyP6lbvOp3bBL1szb/LrM5LW96mTgTRuGKJyiBWfxqaFFk46schTak=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785510763; c=relaxed/simple;
-	bh=IdgRWRvcnCirdUh5sQzR67qnIXGYMC7nya6/mcmjJ6s=;
+	s=arc-20240116; t=1785511039; c=relaxed/simple;
+	bh=MaagnOxntbuxGRXITbLMVGEEGsWlGpeYqyeDM+L3JQ0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CLo23IGGpHTvuLzlKUkkPLvOr0GJQua7KP15exD4Ugc+dAnqMNZtDyoe3vBEmbKVDxmP4Mi5mJbvu0IUq9xh/mVgMTW37hJLRwzUEOdQ9pnf74ksylTFeIb2ItVcPZex1Y8urYnCJfTkv3x1L6jt/bP3G0PMbBZ6aGlu6CZy2vE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UfGnMGI1; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=l8E+0ChGwmlDWjKvFwCGkFmSS/PSB/kYsKZ2KolZ/vEERALCySAVCjSSDlwbu0UMNIPXt4xualpJKCLpOMvw7fQOHYzLUdY75b9nKzpKdlzhksqviBlZtqN8O+F+5IbMxeBV4amuJV4bajsp7KPwNPa8v21VY9+aYfs42dgrpaw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=C5URBVxJ; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfGnMGI1"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15e03c2763so196046866b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 08:12:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785510760; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="C5URBVxJ"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so14409645ad.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 08:17:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785511036; cv=none;
         d=google.com; s=arc-20260327;
-        b=SQjTLIYEST7wXQdc0qRXiYLApL2ohmBsNkCYvlaK6gCrHUudFZOx3dR4IT6cAi1Bj+
-         YP8proSLIduIi+sMZkRbWzsiEtUHDKzR1wW0CV+EpOukKqhrdd7YEkgig3Xgfoe4HCom
-         HnS9vLbjZ565wscHPnDt4hiGyY0MQZN+FN0eDf/Sxgdi66ESVq/ohrE9VWzp4MXIj9Ju
-         /1L9h8hBZP/5YuuMYl+DSCSCn2Bnzac6wVTGkNDvfiOWomQmMVlkS+aFsHSVPI7mWLP8
-         J9hlZsIxC4xAZaGreiafoj95pYszLP+zceHQ11+A1FcJYzRiIlYt0WJSD5tNSp++H2+4
-         xOJg==
+        b=PZei82bML55KPIAn7RBTdytKGWCjwQEDNANfIVyE4EO9Vp8QRvCWScJ+VEH2Vl2dIX
+         nu1wkwht5AX8Rq3MgtB/v5iIC3mq85HjndxYXqn/hv6oCQVlFYbZNu1r4SxnTWwstP5u
+         RSUQ130M8LUjhaD5H0sZ5jDx3FV2zQOzOjsVGL0OVudKKmouIx1K8oFhC3D3m0XoSqio
+         dAmxhZliKi8BtJ+zk3ma0gzx8C428hdh6cEwH2ihUKEtNRCZdSPUsF0USveh4OzVB6PC
+         cF8Ap8x2QutO2k9YWBa3QaMfQyTvIefFHTZsqswBeoijnFNH8RLPvGUwKQcDRyKybkqV
+         2z2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=COI6X7kAr0YuBq/GVy19CEVE+2293eraElc4C5SyyoM=;
-        fh=7Vh0mOFzU2E4Zyq7VDdmTwuMRZXoHkaZE8/Hrso1/AA=;
-        b=EU2qvnhA9Si1GxILincpApF3pyZUBn0HNm5uPdrippdQGfWtPe+N81Ji8cRkEl7ezg
-         Aw/BZ5U67PYrb8K5aN3TUWfrc/I+8ch8qIceHsgAqF/xlj8CyqDhlS8JxjP2++6HUW7A
-         KajAixQGs/CAdgEmSAc+uLi8Wj1bNKPEsZIo1bnWsGPy5Ntgry2/C8/EEXrogxmOwF3g
-         yP8l4GyXDBhuLAULnxMjdULdz5/Jh+5usTR9FkpSwVO2XHhvbgkN307OC05/FNKGVxO2
-         bj8oHXEUfHUkFsn1SrDe7CQRGRPfcFrdYFYMzYLaetvq0Gu8L8gMn2J34oIK2AGZ84xk
-         jjhQ==;
+        bh=MaagnOxntbuxGRXITbLMVGEEGsWlGpeYqyeDM+L3JQ0=;
+        fh=f8dGiyWFlRk/Ez8kxk0sHP9R6s5R5Qn3bIRxDkr6poE=;
+        b=NoaSR0gQ66AdUpDO2n2mPtIyb22XZ6ui86IP/8VbLK6QM4pNQWh9xHLe3YlGgTSCQC
+         jDyByYuZSsUWCQkm/pboSI50QiTgh/v9YY7Ys4v0HCSr6g6D4hMsoPhURqM0r2819Otw
+         UIDWwYCUPoQqJh4Yw6dcgoI+pzLpq6J2k/fASNwRAI8oCCq8r/cwwUyUxxTaD11kAyw0
+         iXaMbipetVhvru+uknoYsv+C4wKTXhQR/OBYTQjKlFlLcfJGIcfWAiuHQIWySkikXC/1
+         RjTBEfAtXi/47qeUaTY7jKWHE1iHVhbQ/OJFLa98wP3Vs3eEUckMosMN4NhlJvZvmtxr
+         Xi4g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785510760; x=1786115560; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1785511036; x=1786115836; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=COI6X7kAr0YuBq/GVy19CEVE+2293eraElc4C5SyyoM=;
-        b=UfGnMGI1ajycYMdA1TIvJw+Kg1jL55+1iGwLpVHhOEskXqIiSkLkqYz/js6Sk8Z4K1
-         LNqTlfHsv+XtQ0uuIq1zN3wNAohwxuG8PmT2giSrazVUvnaYnIl/7CR7RfCZO2cH1iU4
-         yyVmjTCt5m5JyZfl8o0aUAhKxd4Zmwnv8AwySWgWG5vf5uF8DkE8Oux2dy09JIZrPwXI
-         PD0+Y3DOx2gFLv7zRbkbnNX7ENrF8jVylCUiLEvwjWd1MreseOZF8++fHjZDyB0HvpQs
-         xncuMJXSfMFEL4DCAqRKnPHZeXHPvKHJKZJDahXOyCRYC5yvJ3h9p+87JAAIZeQTQcQ/
-         55zg==
+        bh=MaagnOxntbuxGRXITbLMVGEEGsWlGpeYqyeDM+L3JQ0=;
+        b=C5URBVxJ5tERBLgnpI1F6Uk1I8wczA1DgsZx6wU5E29TDJD9OlexQVboj2ikm7m4Vo
+         G+DVy29rCfY3z8DteBOBZrGBt0A6NzbErXM1yBfFloMA1eBgxFG47mHi78CJI7hh5MTS
+         Kajg4htZS9wNxXJmoOulS7kZUqkRiOhQe3zOkrQpebhQd9lt9YZIF1/aHmfGmxtjhxGa
+         rD/2gv7lce/d0vipnWSBIgY6IZW6n4Z1DEk+Iv3wdUrZyhATZdXzysAX6p/yE0ZA9PHy
+         G4lifiyT6/Kvh4p2Q7Ogfwx4NUJ17PuYzIPlojAjBifCDzNPoMo0FU5DWkCLgTqj15n3
+         ZXew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785510760; x=1786115560;
+        d=1e100.net; s=20251104; t=1785511036; x=1786115836;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=COI6X7kAr0YuBq/GVy19CEVE+2293eraElc4C5SyyoM=;
-        b=TdyYhUe/iIAZDo7/UB1jM4QcSxnHIpK+vADCI68lzLzznKukvt/7dR5ewNgBN2ysEx
-         D9GH+7HEzcDWastzlqXiq/gL98Jlk0cdoXGiOcE6BnRw0RQSs70c1gGQupIRse+A+86G
-         kEzAI5Iv2NMA4sYZLWaTXsRsk8zIiyi4geGrvwk7UgsmZAhwzvpDxuN2JglvByJshZO3
-         bMphru8RignPFJMnH5yGScDKvOyGkxAEjGlJgl+B7yqEuZDhSBxIwnm06sSBOihPR6mI
-         5YmDejVDRwsP3V26jMS/PKLV9xYscHOU1inL650LdiOYisnMOvsnOCdp8CbiOt639Bmt
-         kiwA==
-X-Forwarded-Encrypted: i=1; AHgh+RqsjFN9aIZs94p5WNhW3QPePlJAhp82vdSOvr+N4sTJCBCRpd5IJ94DPxfqRRAJzoZZ/bl0n+3eCOabWwYI@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRvJ8OHYnP1gkR7+PA+EzC2bzcL+pp/XTFmd87Vm6kuClibQVS
-	+jio6/IgY9VeftiQyvUOBnULeFgkcI56IY9kLWC0TzKeGEFjlHWiDUU+OumXNjjlQsrGyj16vW3
-	EFGGRhKxLGO7sLf2FbUcIVdLs0zwfSaw=
-X-Gm-Gg: AR+sD13eXWV3OXhmYUhM50Z2x7QqzGptpydMsxaQOCemOMavJzpJfQefAZAgeOmsHqh
-	/n30xl12vQQUkIgzHk1NqaFwRQNfOI8f6VAOOOiz0IBKz20apT2V7dGzTyG3HttmnDAvWUlu0Lh
-	Lm7i5u6/9wlTYrT0JVrT2PgUf0d15VSFmq7VxPd5rf7heiuFkIKpiFuBCsHsxpl/sTAfZ/Ff5LM
-	WBacd0F6/JWxhclwsDJtWbS8h40n8i09MFzevM39K7e6XlXz+SSe6uCS8EwWY1K6rfn7m8MIKUr
-	bS6fxbsOxVvS2m8JWjYNAM5NKtxkhQfJCNw+W5pQaLYdQRYgUuCA2z4J
-X-Received: by 2002:a17:907:960c:b0:c1c:4c72:e6df with SMTP id
- a640c23a62f3a-c1fd2b43f5bmr179379066b.0.1785510759885; Fri, 31 Jul 2026
- 08:12:39 -0700 (PDT)
+        bh=MaagnOxntbuxGRXITbLMVGEEGsWlGpeYqyeDM+L3JQ0=;
+        b=AphLNLjc2v/cREjK/CA3uVykE/lnaE8Cbk5TV5FR29Pb2vom53yyxmrpxAzgyDsMFM
+         e15nmVSRO36RLqsEpmwiqX13Wk81s5j+vPDPltPGEAFs+AjyqubDBLWI29cZAji+z6Kf
+         jyt1TdwSsZAzafMGt4b+G8vx4K3tw7vKYwbfr/qc+BW3+RLgx5GdueVnnL0zGxG5D1oE
+         joxLco4VImA/c7h1EfQNbluhG4N58BFZKbzLlAjjuBX5cHlcH4xfe+uSJX7Ejjf2OMW1
+         6t+I+0LLWCsKuWdkbtpM/zg6DNcFwi49hiCil/JeSI9/fxUQ1sorwepKcbLzVc/t86Hw
+         jBgA==
+X-Forwarded-Encrypted: i=1; AHgh+RraJo8smfd24pryBLYl0rNETnSIzFgkFI7ChIaly9SGU+0nag+4einidQI3D3yUC5r/Hr95YDtMBgO73uex@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKAgbngYTFDpYjb2yt6iPHNKwKdnAnbfNoT2lq6x5tMOkfbecs
+	8X4fQfQHthkY+r4oivVrIBt3BcDpl65748CBg9EGEIxpvPMcGmazfL1ytJfs/twM67LVHXB0dgp
+	Deo77TXwlXy1+DcPMGVHpXFF6+v/VIl73PyLgH05K
+X-Gm-Gg: AR+sD13rKeMBmmzTggdHRrJGjuKY1g8JDekzbKwsaVIp2yJvxyaw0oXqNrSP9wcSxIR
+	F+yjYSrBAFVJyeyinH8U+pDlLC+AcE9s6ROupZmVMWNduHTBqGgpGMj93DNAvt+EMXB5FHu0zFY
+	QM0v5iPnokAo/95ZKyjyugG+f1NsNqx6gkDdkQJAiEKP7q3PEf3SCuprpuTPrRiALW2/fNv/9aC
+	s/fhb4TXdwqcCmevhmFyUoRH7haNkwUvKWC8z+us8CoVPk4yYU+AYagDcj4FZ7GPqO9wzY5VGKl
+	BpKdWNu4mw708WOVYSHtlU/OE3zfJQHs8JS915w49H7P
+X-Received: by 2002:a17:902:ecd1:b0:2ca:b89:7bcf with SMTP id
+ d9443c01a7336-2d0523b96d8mr3879785ad.22.1785511036384; Fri, 31 Jul 2026
+ 08:17:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260430053645.1466196-1-coshi036@gmail.com> <xaqwfkwjnp7h2lg7ir6wy2tnyay26t3im3ftkdl64rhys3rhmu@lc5vfh5tc2f5>
- <CACd_6n17-pJuNoCLsstP7goocedrr5F8T8BwTjRUNx8frKEPgA@mail.gmail.com>
- <bnchcfog427eo3bxt5h6qautlq7sb2o4ww7cjgad73biycdn5f@np7qkbyqizup>
- <CACd_6n1Sht4xs6P_GT0-+wj1uu9Ww_4X=TysQRvq6ZSFJ71CBQ@mail.gmail.com>
- <amuyCIg0Y1YRiFT7@casper.infradead.org> <CACd_6n3C1btK38SdwiG_RPdxxCQ2qUtp4o-aODhhRzH3LNn+yA@mail.gmail.com>
- <amvwL-diBsUo2ouS@casper.infradead.org>
-In-Reply-To: <amvwL-diBsUo2ouS@casper.infradead.org>
-From: Chris S <coshi036@gmail.com>
-Date: Fri, 31 Jul 2026 11:12:27 -0400
-X-Gm-Features: AUfX_mwphgqJ2lEKI31O2yyr-NVayXI84n6sow3gKp-QJwQDl-y4pYUTfY9lYsw
-Message-ID: <CACd_6n0FW=9H9iesZ3p3+=6yXnvvH5Wz3svS1kpa2qiPuKZKvw@mail.gmail.com>
-Subject: Re: [PATCH v2] fs/buffer: serialize set_buffer_uptodate against
- concurrent clears
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, linux-kernel@vger.kernel.org, 
-	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+References: <20260730234533.1912709-1-dwindsor@gmail.com> <20260730234533.1912709-4-dwindsor@gmail.com>
+ <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com> <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
+In-Reply-To: <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 31 Jul 2026 11:17:04 -0400
+X-Gm-Features: AUfX_my_07XA5O156m3d-t8I3fv7r1HuUVA6nIPOKrM8LOdCX7kqs7sLBvl0mUM
+Message-ID: <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
+Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: David Windsor <dwindsor@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-My pleasure. I did a small check.  bh_offset() is indeed the only
-b_page user left, and
-it applies as-is: my patch guards the four callers that can see a
-folio-less bh (__bh_submit(), buffer_set_crypto_ctx(), and the two jbd2
-checksum helpers), so bh_offset() itself never sees one and stays the
-one-liner you made it.
-
-Built and ran the replay test with both applied - ext4 data=3Djournal,
-blocks starting with the JBD2 magic to force copy-out, sysrq-b without
-unmounting, then mount to replay.  Recovery completed, md5sums matched,
-e2fsck clean, and an instrumented build confirmed the b_folio =3D=3D NULL p=
-ath
-was taken.
-
-Series head:
-
-  1  buffer_head: Remove b_page                           (yours)
-  2  jbd2: point the temp bh at the frozen data directly  (b_folio =3D NULL=
-)
-  3  ... the buffer_write_io_error() conversion Jan asked for
-
-I'll note in 2's changelog that a folio-less bh must not be passed to
-bh_offset(), so the constraint is written down rather than implied.
-
-Chao
-
-On Thu, Jul 30, 2026 at 8:45=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Thu, Jul 30, 2026 at 06:09:24PM -0400, Chris S wrote:
-> > Yes, that works. And appreciate your reply.
-> >   I prototyped it, and it survives a journal replay.
+On Thu, Jul 30, 2026 at 8:01=E2=80=AFPM David Windsor <dwindsor@gmail.com> =
+wrote:
+> On Thu, Jul 30, 2026 at 7:53=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
+wrote:
 > >
-> > Six sites, with bio_add_virt_nofail() covering the submit side:
+> > Based on our discussion in the v5 patchset, I was expecting to see
+> > this under security/; did something happen, or was there some
+> > confusion?
 > >
-> >   bh_offset()                     b_page may be NULL
-> >   buffer_set_crypto_ctx()         NULL guard
-> >   __bh_submit()                   bio_add_virt_nofail() when !b_folio, =
-and
-> >                                   skip wbc_account_cgroup_owner()
-> >   jbd2_journal_write_metadata_buffer()
-> >                                   b_folio =3D NULL, b_data =3D
-> >                                   jh->b_frozen_data, not folio_set_bh()
-> >   jbd2_checksum_data(), jbd2_block_tag_csum_set()   both kmap the temp =
-bh
-> >                                   (fs/jbd2/commit.c:705 and :745)
-> >
-> > 4 files, +38/-12.  I'll send it as the first patch of the series.
 >
-> Fantastic.  Would you care to also include this patch as part of your
-> series?
+> Nothing happened, perhaps some confusion. I was basing the placement
+> off of Kumar's comment in v5:
 >
-> From f7cd3419ce0518ba429ac854282888833bf60147 Mon Sep 17 00:00:00 2001
-> From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Date: Thu, 30 Jul 2026 20:43:22 -0400
-> Subject: [PATCH] buffer_head: Remove b_page
+> > I don't think we should do that in v6 though. What you're describing af=
+fects all
+> other xattr kfuncs. That's a broader discussion we should have separately=
+ when
+> folks are back from vacation, and more importantly involve FS folks where=
+ the
+> code currently lives. As you say yourself, the lines are blurry, xattrs a=
+re as
+> much a filesystem concept.
 >
-> All users except bh_offset() have been converted to use b_folio instead.
-> Convert bh_offset() and remove b_page.
+> My take on this was, leave it in fs/ for now and then litigate the
+> placement of all of the fs-related kfuncs after bpf_init_inode_xattr
+> lands.
 >
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  include/linux/buffer_head.h | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-> index 8b23bc9a244c..3881141a3ff1 100644
-> --- a/include/linux/buffer_head.h
-> +++ b/include/linux/buffer_head.h
-> @@ -59,10 +59,7 @@ struct address_space;
->  struct buffer_head {
->         unsigned long b_state;          /* buffer state bitmap (see above=
-) */
->         struct buffer_head *b_this_page;/* circular list of page's buffer=
-s */
-> -       union {
-> -               struct page *b_page;    /* the page this bh is mapped to =
-*/
-> -               struct folio *b_folio;  /* the folio this bh is mapped to=
- */
-> -       };
-> +       struct folio *b_folio;          /* the folio this bh is mapped to=
- */
->
->         sector_t b_blocknr;             /* start block number */
->         size_t b_size;                  /* size of mapping */
-> @@ -172,7 +169,7 @@ static __always_inline int buffer_uptodate(const stru=
-ct buffer_head *bh)
->
->  static inline unsigned long bh_offset(const struct buffer_head *bh)
->  {
-> -       return (unsigned long)(bh)->b_data & (page_size(bh->b_page) - 1);
-> +       return (unsigned long)(bh)->b_data & (folio_size(bh->b_folio) - 1=
-);
->  }
->
->  /* If we *know* page->private refers to buffer_heads */
-> --
-> 2.47.3
->
+> Happy to place this in security/ in v7, if that's preferred. Apologies
+> if I misread the thread.
+
+Okay, it looks like there was some confusion/misunderstanding.
+
+My understanding of Kumar's comments was that he was referring to the
+exisiting LSM related kfuncs that are located in fs/bpf_fs_kfuncs.c,
+not necessarily the new kfunc you are proposing in this patchset.
+Kumar is welcome to correct either one or both of us, if we read that
+wrong :)
+
+However, regardless of Kumar's intent, speaking as the LSM maintainer,
+my stance on this is that the kfunc you are proposing must live in
+security/bpf_lsm_kfuncs.c to be acceptable.
+
+--=20
+paul-moore.com
