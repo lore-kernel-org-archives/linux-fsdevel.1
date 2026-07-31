@@ -1,214 +1,184 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5622E5B21
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 21:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785534489; cv=none; b=Y1ZexuFG3sv+Zmb6x8HWuFUghd7OHANK3xtXlQM5MCHBiCgtTSjl2ieffwpgQ0AuhrmPcbn0fSUw5S46gnAzSO3ivbTP1VzQAQ/xZUk/r0sWEWFMpQpkx741YcJKOdVnjSBakRW9zV8OiYv+ZWxVsUUQntQdTBGiepRYwz1RODc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785534489; c=relaxed/simple;
-	bh=KSXQJIKZ5NNst2ix6LMmrfZ3I3RflXv9i9SD/rG+b6o=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=BHVahqG3atl4+izNv81RaqKnq3Ppr5Nh6yDWeLCMd1VLAEGx4Bk7883vBuNPseURPx9JovBmATK6v65B+yK+o/ePur399/Kac9fA5j3tp8XarYJtDtY+fCbPq6w3hfSEXFdGaqoUtf/cDkfZdDUlFYB7YY8C1t3PrjdQ5ube9Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=EYljdsgw; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ivgVSixr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD932F76D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 21:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785534600; cv=pass; b=Yy6OH30iI5do6aNyu7rTyMZ8z3NfBKakzEsoijketrHobvBXLdOPv4IiiHzCUDXF6L/Is6GMK3B/Wc7rE1r+4wsW3RMMpNH7OXa07T0WLqiXUSHqJfRYXqTY1RK0afsHt9/Y4hSd2vL2Zf2Ecag5UDSmYqmZhH4bP2wVp6/uG9k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785534600; c=relaxed/simple;
+	bh=kpO9PEXx/XIiH5ZwWY4YGhkICx/l6ojRZfzW/2hja1E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pIUZzXwT/5N0q8kmLZA5nA0om4ZvGbmdiLD+Eh/CNpaWWbNzwuneTliVwNAwqPp1Oc6qu8yD94h2Dx5zuRNngy4iWvDhsAKZcD317nkKsuiLmLognpMKVEGEGp7Q+svhexDtijT4OZ56MrlAxnmiI1eSU2OZtcs/aRw4JHc0t78=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=c84Vtihi; arc=pass smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="EYljdsgw";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ivgVSixr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E474B7E17F;
-	Fri, 31 Jul 2026 21:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785534475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=QF8GMKK/aqemwW333dK1AaELIB9NNkDCp4uJFkv1Npw=;
-	b=EYljdsgwPUX3CsBkqlqgZlJ/vc4zxOzrbLejvb2z/7YeyZV6SM3dOoWfGkrjz2W2bjAGgN
-	ioSMyPZPB1218faV7bGUQR0mij3/opskXTzqaSzcbsGZNrWeQk4+cEbVa4OQeZPLHSPvSV
-	AHeeACd/PQ/hAfLyJbuwVC6YAvVsN0A=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785534470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=QF8GMKK/aqemwW333dK1AaELIB9NNkDCp4uJFkv1Npw=;
-	b=ivgVSixrQKafqCYCKyhBvrOlRyT5VEpafHo3oB3rkTJkfYJWBp/oXgOidKpP8JgHJrO8Ok
-	6ZyHh9kGFgytYTx816f32CbyxqIgqzTxQ/sNhbv6DwPfc+Aq3u0l2/vThPvoW3LlHclaoz
-	N8IbWq9vAkF2Kj29ZEXqO9MvhBzz/jo=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B872779B0;
-	Fri, 31 Jul 2026 21:47:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XZlzOgQYbWreGwAAD6G6ig
-	(envelope-from <wqu@suse.com>); Fri, 31 Jul 2026 21:47:48 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH v3] iomap: follow the alignment requirement for iomap_dio_hole_iter()
-Date: Sat,  1 Aug 2026 07:17:26 +0930
-Message-ID: <596ee3b5d0d23c42eefac651d24fae914fa16312.1785534430.git.wqu@suse.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="c84Vtihi"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84830c774a0so1577017b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 14:49:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785534598; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c4rNoQCfT/P+fEcY3/wzHc1lffCu3tPeVTrQjUDULQjlDk5WuQCDuLPfK8o9HSXxuR
+         w6v7HKhw32qeFXP8EPdcCDReGHZEtnrNMDT5M7vwpDhK/XnjQokT15XJB0Jl5FP439q2
+         bNdGVZVlbOWcSigXGn03OiYId6ujtZIDH63UQcnqrbh+OPOmRY8dZLY8M1iyoPDKY5xq
+         qfWdhW+/Xp98yMK7cP9zFuOOyNwbuUnSExmHlioAWCtQSqyJUjxpdqm9B/wEUMp8b4rw
+         lC2Ec3NKe0hv80pPnsebDtJVPCx+pEMQVE/ZKtSOdcsbgRCg5u36sCKYNOceXfJX5DWq
+         j2XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KOVe171/EgYbHhJuKKdA8XntY2KmAAQiC3TVfynAeIU=;
+        fh=lRoopRcKzzFXY7Nb4hkZDx7r+kBkvC69mxlrPHUHeYo=;
+        b=WgAHbl9lY1Zq7t6xCoUoAaCX8o0cnOY7hxru7fHP/LUb9DlKKZmwR3MZhXLeHoo39G
+         EvjUJplnjgLS5Z+lj/Tnx8+zHIVtFWsTrkeMGtNC5aRmtxlXhghvoM7H6x5dC1aIaDDN
+         YTEf0tXRQCI37i30BjBc4lHboYo5TeLorcO3MrvmN4urPbe/bbcSg9cdt9oB9jyhyq8V
+         UIMY/Bw9Kzz90R1OVPhp1HXoYFeNOSuBOvna/66byMOL9LpMXmJ6ZZPyW3OyAS6YW4PF
+         Mym+5zE4vjqY0GaO/MlyEIuWVIdgYdl8TiaTeZOY/ktZBBZtL6bJgfgIMIo5Qd+o3ArV
+         /zhQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1785534598; x=1786139398; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KOVe171/EgYbHhJuKKdA8XntY2KmAAQiC3TVfynAeIU=;
+        b=c84VtihinNTAKFTpUvWgPuywFIBXbIrIdgFC0LIyNvf9Cq/SiAlmegMpggVzpg1lCA
+         ue12iRkr6NAfm+WQocwFOaOuQkgtvioU6T5uaTIeOeNpXGEgVXMoFENwEyGlj0KD5ZDZ
+         Z7rRPBa9XFPVCfz9wtSgEis3f3ZNHc0qbrlByFvG5mmNz6GaZneri0L8eAE5p5yfmbIc
+         9Hj+cZoORh1wOvLilf/S7784TbMSler4wvoDax3QHj5Ep9w9AvBEbEz8tA1kmCWADop9
+         ggHbVBp8uFemBT5TaYqshUfvQ7bPPOEMOmu5FVJPffOEIxk5w2nBvqzcNLwUwVnP4YAk
+         jung==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785534598; x=1786139398;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KOVe171/EgYbHhJuKKdA8XntY2KmAAQiC3TVfynAeIU=;
+        b=BwHlpF3c0b49QFaQYWL3a/ZK46tdaQnj+T6fBraCiGXM+lpAkrOm7zqVFuNWXrZ3VF
+         6whj293LJEriRjAKzNwZ9g3RnFwahEkygcOUC46vToUtvq3i03wmEj9gRfMASF/VsdRE
+         AieqUgxY8mevBe5IVJMUL2A0UHC31pNXQuD0R2JP7oqcP7WvWjN1GJ+0NLjQgjL4VNjE
+         oukO6/fFQ1GA72fnstwOiyMOvO4bJ5pmL0e4WFF91N/OCJ+61SYom7/r0f3VI9pISP0k
+         KB1lQJsPUloL/EfhueFz+Mey21pWU3UUta36YNqPtWwy9P2rFVwy2pmTCp+LrSmhtEMD
+         6EIA==
+X-Forwarded-Encrypted: i=1; AHgh+RodaOkytT7Px4DCnpkiNeR9IVDrglDN9SLbaybvwNcM7eKfh6ldbmvdrwTKiUdBxA77KOMbgGycqo2jCzkd@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhsnaNlwtmlNBxpzLw/lzLT/D4yugpG2HnsO2vVQ0ywvKeBwAk
+	JX9dk6t3jef4Rfn0wQPr87GDvkwlF6xKW3q/5Di+M7JKwXrBzdENEuuT9sRC/dFodhuEN0QaQjl
+	+/zKJY1OC4hoNC6zPRoZJV4OJoueJ8CqI5MsAWj1E
+X-Gm-Gg: AR+sD13O13AZz6nUowgIFJtgWrTj9+E5fuRmFCQ7hTHL+Vrb4Y4Dwk+FrESNSDemxze
+	9vIP6JOUDkAKHocAdt/4tInS1vp4ACpSZ2nLDcOuRgNw8m/+KwwgbtN2QyQFvPvU3lT+q3eXExi
+	EatFVtYCDVd2raeJgWdE53qCOaXbBhHFx00Rh6G5p05pBkoKXmtXjSwgHJZmp0vt+PkUSYJ4i7o
+	vcPk3zhyXauCxtbY82iTlS5pcYmwE4r94xpQdVN2xObZZ4/bWLwFkzzLgsavDy7BB7nTfhKNhuM
+	JbK93LY7+9GankawDFsKeNxPy7L+ia29+FpdwXyl9p8L
+X-Received: by 2002:a05:6a00:1956:b0:84e:223b:98c2 with SMTP id
+ d2e1a72fcca58-84ee494dff0mr989540b3a.77.1785534598073; Fri, 31 Jul 2026
+ 14:49:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:mid,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+References: <20260730234533.1912709-1-dwindsor@gmail.com> <20260730234533.1912709-4-dwindsor@gmail.com>
+ <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
+ <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
+ <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
+ <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
+ <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com> <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
+ <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com> <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
+ <DKCYOLBUWJBZ.1N8JAXJ3QJYCE@gmail.com> <CAHC9VhRK38bVU5+rYxwLsvVt0oBBSWs4xKsjexbvc3TuA9LVNQ@mail.gmail.com>
+ <DKCZDM2G8VHO.38SPG4I4JZTJI@gmail.com> <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
+ <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com> <CAHC9VhQ5vSr6JK0xtNnP2cre+3bbW9GUT7kXwLAcctwNpPzwrA@mail.gmail.com>
+ <DKD17D5H7N95.2VI5IOQBNTHGX@gmail.com> <CAHC9VhQ24fp7_sy1=NiWkfzPLSM35ugSCOKDKxnm6H9W-pDa6Q@mail.gmail.com>
+ <DKD2R5268G2C.TPLR4XMTZ91R@gmail.com>
+In-Reply-To: <DKD2R5268G2C.TPLR4XMTZ91R@gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 31 Jul 2026 17:49:46 -0400
+X-Gm-Features: AUfX_mxDgkjotLxho_QpbF4kUqhzrCQm-_c1GtASttEFM0UzlBMMT_SHEoVRkJs
+Message-ID: <CAHC9VhQNozNGH4o=8D6wxks4deZ2eVOHmxFK=fvjhkCC0JSCkw@mail.gmail.com>
+Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: David Windsor <dwindsor@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[BUG]
-On the latest development branch, btrfs with 8K block size on 4K page
-sized systems will fail all test cases that run fsstress.
+On Fri, Jul 31, 2026 at 5:29=E2=80=AFPM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+> On Fri Jul 31, 2026 at 10:48 PM CEST, Paul Moore wrote:
+> > On Fri, Jul 31, 2026 at 4:16=E2=80=AFPM Kumar Kartikeya Dwivedi
+> > <memxor@gmail.com> wrote:
+> >> On Fri Jul 31, 2026 at 10:01 PM CEST, Paul Moore wrote:
+> >> > On Fri, Jul 31, 2026 at 3:20=E2=80=AFPM Kumar Kartikeya Dwivedi
+> >> > <memxor@gmail.com> wrote:
+> >> >> On Fri Jul 31, 2026 at 9:05 PM CEST, Paul Moore wrote:
+> >> >> > On Fri, Jul 31, 2026 at 2:50=E2=80=AFPM Kumar Kartikeya Dwivedi
+> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> On Fri Jul 31, 2026 at 8:42 PM CEST, Paul Moore wrote:
+> >> >> >> > On Fri, Jul 31, 2026 at 2:18=E2=80=AFPM Kumar Kartikeya Dwived=
+i
+> >> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> >> On Fri Jul 31, 2026 at 6:59 PM CEST, Paul Moore wrote:
+> >> >> >> >> > On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Kartikeya Dw=
+ivedi
+> >> >> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> >> >> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wrote:
+> >> >> >> >> >> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Kartikeya=
+ Dwivedi
+> >> >> >> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> >> >> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Windsor wrot=
+e:
+> >> >> >> >> >> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul Moore <=
+paul@paul-moore.com> wrote:
 
-One very short example would be:
+...
 
- # $fsstress -n 4 -d $mnt -s 1785675805 -v
- 0/0: dwrite - no filename
- 0/1: creat f0 x:0 0 0
- 0/1: creat add id=0,parent=-1
- 0/2: write dontcache f0[259 1 0 0 0 0] [816411,3620] 0
- 0/3: dread - xfsctl(XFS_IOC_DIOINFO) f0[259 1 0 0 32 820031] return 25, fallback to stat()
- 0/3: dread f0[259 1 0 0 32 820031] [483328,81920] 0
+> I think you keep forgetting that you cannot unilaterally decide this. Bot=
+h VFS
+> and BPF people have told you that it does not make sense. What was clearl=
+y LSM
+> specific code has been moved under security/ already.
 
-Which triggered the following ASSERT():
+I'm charged with doing the Right Thing for the LSM framework, and in
+my opinion it is in the best interest of the LSM framework that the
+kfunc being proposed lives in security/bpf_lsm_kfuncs.c, just as the
+VFS kfuncs live in fs/bpf_fs_kfuncs.c.
 
- assertion failed: IS_ALIGNED(state->start, blocksize) && IS_ALIGNED(state->end + 1, blocksize), in fs/btrfs/extent-io-tree.c:346 (unaligned extent state, blocksize=8192 start=487424 end=565247 state=0x0)
- ------------[ cut here ]------------
- kernel BUG at fs/btrfs/extent-io-tree.c:346!
- Oops: invalid opcode: 0000 [#1] SMP
- CPU: 4 UID: 0 PID: 648 Comm: fsstress Tainted: G            E       7.2.0-rc5-custom+ #431 PREEMPT(full)  7c507bd40d65e4d871e698b22d80f1306bbec543
- Tainted: [E]=UNSIGNED_MODULE
- Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022
- RIP: 0010:validate_extent_state.part.0.isra.0.cold+0x24/0x26 [btrfs]
- Call Trace:
-  <TASK>
-  insert_state+0x34/0x1a0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  set_extent_bit+0x440/0x8d0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_lock_extent_bits+0x58/0x380 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_dio_iomap_begin+0x319/0xb70 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  iomap_iter+0x1a2/0x370
-  __iomap_dio_rw+0x236/0x8d0
-  iomap_dio_rw+0x12/0x30
-  btrfs_direct_read+0x15f/0x290 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_file_read_iter+0x42/0x90 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  vfs_read+0x25e/0x380
-  ksys_read+0x73/0xe0
-  do_syscall_64+0xe1/0x790
-  entry_SYSCALL_64_after_hwframe+0x4b/0x53
- RIP: 0033:0x7fc3f129318e
-  </TASK>
+> The right way to do address that is to get people who added and maintain =
+that
+> code to agree with you ...
 
-[CAUSE]
-iomap_dio_hole_iter() is responsible for zeroing out the buffer for a
-hole, which calls iov_iter_zero() to zero the range.
+I think that statement should be read by everyone, including the
+original author ;)
 
-However btrfs disables page fault during its __iomap_dio_rw() call, so
-iov_iter_zero() can fail at any page boundary.
+From what I can see the only issue we disagree on is the location of
+the kfunc in the codebase.  Based on your earlier comments your
+concern about the location was based around testing, review, etc.
+while my primary concern about the location was based around the
+content, calling context, and general behavior of the hook with
+secondary concerns around visibility, code ownership, etc.  Once
+again, I believe your review concerns are already addressed by our
+standard process around cross-subsystem reviews, and I'm happy to work
+with you, or anyone else, to address the testing issues.  If you are
+unable or unwilling to work on resolving your testing concerns then we
+are at a stalemate as previously mentioned (a few times now).
 
-When the fs block size is larger than page size, iov_iter_zero() may
-only have zeroed one page, which is not aligned to the fs block size.
-
-Such one page long range is passed back to btrfs, which triggers the
-above ASSERT().
-
-[FIX]
-For iomap_dio_hole_iter() round down the copied length, and revert
-any excessive range that is beyond the aligned copied length.
-Also use @aligned_copied for the size increment and iter advancement.
-
-This should only affect btrfs, which is the only fs utilizing iomap dio
-with page fault disabled.
-
-Fixes: 001397f5ef49 ("iomap: add IOMAP_DIO_FSBLOCK_ALIGNED flag")
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
-v3:
-- Fix a NULL pointer dereference where @bdev can be NULL for holes
-
-v2:
-- Rebased to the latest vfs tree
-
-- Slightly rewords the reproducer
-  In fact no special reproducer needed, any test case running fsstress
-  can easily trigger it.
-
-  The example provided is just the shortest sequence I used to debug the
-  crash.
----
- fs/iomap/direct-io.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b3368d64e81b..10f0020de477 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -409,7 +409,10 @@ static inline unsigned int iomap_dio_alignment(struct inode *inode,
- {
- 	if (dio_flags & IOMAP_DIO_FSBLOCK_ALIGNED)
- 		return i_blocksize(inode);
--	return bdev_logical_block_size(bdev);
-+	/* @bdev can be NULL for hole cases. */
-+	if (bdev)
-+		return bdev_logical_block_size(bdev);
-+	return SECTOR_SIZE;
- }
- 
- static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
-@@ -594,12 +597,20 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 
- static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
--	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	unsigned int bs = iomap_dio_alignment(iter->inode, iter->iomap.bdev,
-+					      dio->flags);
-+	loff_t aligned_copied = round_down(copied, bs);
- 
--	dio->size += length;
--	if (!length)
-+	/*
-+	 * If fs block size is larger than page size, page fault failure
-+	 * can cause @copied to be page aligned but not fs block aligned.
-+	 */
-+	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
-+	dio->size += aligned_copied;
-+	if (!aligned_copied)
- 		return -EFAULT;
--	return iomap_iter_advance(iter, length);
-+	return iomap_iter_advance(iter, aligned_copied);
- }
- 
- static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
--- 
-2.54.0
-
+--=20
+paul-moore.com
