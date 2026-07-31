@@ -1,177 +1,280 @@
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA503F8231
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 11:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5BF3F9F28;
+	Fri, 31 Jul 2026 12:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785498076; cv=none; b=h3iCyJL9RmpVox6dfoBlTGj5AYVeuF3P7Eq94fQlhMgP+m7rzh6YP3zcyK+SGKOiU3VDHFBRaH3bkSCDyxASDbWfBxK2KzSFLrr800tpmw3j/eulkBfmBEcxlbmm9g2rxnIiYbuoZ57fwb75AYK58Qc+ufCRB8sCe+H2y54ILec=
+	t=1785499320; cv=none; b=JvoLeirM0VisEeMihfVGpPJCL0oXhUL99AHlASMhOXL1Mag36LuA2rff9NLrx0HzD1/30Xp1lBIToujskpNvDeqgAi05rKUblIq4rBq5P7Ggpx36XiFq31+YfZEMO8rHV4neID9/5xDyWas6mxsBDnBQnlk0y7bXM2/RT2DNLpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785498076; c=relaxed/simple;
-	bh=e2vjSttxcoNtyW6JrbhYTnqq7Pxo0YsnVImfEbqlRQk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=cGMTzpiml007vcfXLKRB42SVJIxSdAJAK3NiKWVzf4z7tnusnA4f1LbgRxK0HzFlhpVga1FLG+rb+zSZEgC2zVE0cbHqBF7e4vHb7Mwdj37HWnboBVdwbcdB25ZOdDBJDmG+3zIsZqpSWiRdrhQIvQUmqewiXTqLTGN1mEqoj3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-44d0960fb5bso657641fac.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 04:41:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785498073; x=1786102873;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=m8VUZ3s3LYwXHsVpWfjVPQGrgQzqZfc/ZafskNEpMqk=;
-        b=ORWnTjAaJa3LHUfTqme1xi78z43fJfU0oBz0VcO6phnoJBYc4dGsVL/cMBWKKSrzvN
-         /RYv8DYI7WwONXVDNQx5Xm6EV8j/WqkXTrIhV1GbKfy4I1p/knX8TPlgCoVKQrNeQcrT
-         bBwL9VJpwKSP9vCv1V0A+od7lIBiAdMwCx4nyUrCZjO/xAuVPEh+0kC/ytQKEJtNB3Hb
-         bVb1+hmYtJw0ry/IWF0yUQzzILbU7CPTcHhvxD8GvPrWqbgbtVMaUyRS2bxUgEAzC960
-         qOjL4sbhFalomOyLLaMi4y4a/cMCjQ/XqAr6aIialvEC6TA9wA6fZtx8SgwzXS51UNSV
-         Q5Gg==
-X-Forwarded-Encrypted: i=1; AHgh+RrM6TaU5GRYL8eDTCGBkNgRYA4srdRD3gnLpoviTUSJ4XFF6I9UHMmGYB660mxm88LAUnmogsXWRfO3XOxP@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBU6twxW4qjwY+L5dHSW9n0bE/dwUKSA4TqA99jIXBoUFma5XR
-	uqg32jBpHLS4Z+sc0b1rCtlWLpaPKLmQgsh3ph2Tm4dgfi7FChPRpV7tMLHme6uugDxA4LoCaIh
-	SVhCAGfisTeoDxuWtOQOG2FzyFE3j9qBUegzI4msTpngxc0SW/5VyCEj9C7Y=
+	s=arc-20240116; t=1785499320; c=relaxed/simple;
+	bh=X4s4AdfktinrK2VsZ3idw7YbGNMMsYAPcpeAPatgtMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FhrzucrCFRZJtZjobEtZNMzlSFyXx3aNJdn6d9nH1pUvLgubbvfuXwA4Fkvr6A9gu8JgO2iibbmx/VfC7biCsptRFmrvNfdlthiTwjG6iRmpwsbDJxB/zBOZqfdnCTyapmqvH816K1k1iszXLKHlc+9yPcY8mMR+dlWNo9kVbHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=n+dzQPWU; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="n+dzQPWU"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VBm05F1791118;
+	Fri, 31 Jul 2026 12:01:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=A1y0LKrTk+/GD8BxskcyTpW2M0G0HO
+	huJ6ZOXX+nDKQ=; b=n+dzQPWUkP4Fieodlw1NNtWcx9xnMXJYXn+PGFAHq9qPk9
+	d7S7XsfkODhCON7kgI3CnM21SlBbcz7HAygX3cF+99DawtAKbnXhV83Y4ejsA6VH
+	yNxWLTrF/+I/MCQhwHAvJaOBj+jES4bIvjYvX+YrTSAScusBlS4skQDb2tZrzJIy
+	y4BHH6RY37nAoMkKPTohrBse9RViKvc1rUCsYRjXK6UzDsWzAnUNbvs6YkQZSMER
+	VGoYqma6kOL06NwRMSYeZnleNPG9wmU3bGR5998ldqhwBBkC88gWmpwN4zNwSdRf
+	CIxV/5S6n72SNW94nL4z8mgV2g7YQd95JtPPGyFw==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuwdbucb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jul 2026 12:01:21 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66VBudNf021883;
+	Fri, 31 Jul 2026 12:01:21 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fn8yhqp5v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jul 2026 12:01:21 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66VC1ICA35062206
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 Jul 2026 12:01:19 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CD95420043;
+	Fri, 31 Jul 2026 12:01:18 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 515F420040;
+	Fri, 31 Jul 2026 12:01:14 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.209.143])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri, 31 Jul 2026 12:01:14 +0000 (GMT)
+Date: Fri, 31 Jul 2026 17:31:11 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+        yi.zhang@huawei.com, yizhang089@gmail.com, chengzhihao1@huawei.com,
+        yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH 1/2] ext4: export converted block count from
+ ext4_convert_unwritten_extents()
+Message-ID: <amyOh8UfI47lDr_n@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
+ <20260729085918.3336221-2-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:10cc:b0:4a4:c12:49d9 with SMTP id
- 5614622812f47-4ae4c4de8a7mr1992011b6e.3.1785498073711; Fri, 31 Jul 2026
- 04:41:13 -0700 (PDT)
-Date: Fri, 31 Jul 2026 04:41:13 -0700
-In-Reply-To: <e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6c89d9.77639fcc.3d4fd0.0026.GAE@google.com>
-Subject: [syzbot ci] Re: iomap: follow the alignment requirement for iomap_dio_hole_iter()
-From: syzbot ci <syzbot+ci731b4119b755b229@syzkaller.appspotmail.com>
-To: linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, wqu@suse.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260729085918.3336221-2-yi.zhang@huaweicloud.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: g8AA7Oz1BHdxR-DWd_4fDcsEvXHcMoqL
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA5MCBTYWx0ZWRfX2m6tE+ZMBMCj
+ Yz7zP1+bgaEMvdiM5a5QT7BFel4ROZ3eGXHs8xZQGd/otsbDXReqm8oDN3CdLzuxZJ2+RIaQ0VI
+ rbicx4Arf1b22mgI7+9bUvssEJQp2rw=
+X-Authority-Analysis: v=2.4 cv=E/z9Y6dl c=1 sm=1 tr=0 ts=6a6c8e92 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=i0EeH86SAAAA:8
+ a=VnNF1IyMAAAA:8 a=peRi4eHbvLtSymDYPC4A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA5MCBTYWx0ZWRfX0IRIb+GsVchr
+ zJVENoLkWA0VilSyLsSpsUE0cCn/wdUxOBwXg7mkYK0SBU+PpxJ1Z6AtlgbMBcpVoF9lUvY8H1n
+ fFv/7H6JdUHVQZ5x7L1CYQu2t/rFozs26APTFvSnbPYdtRhU3jDjC2aIDi2Do989uKWOg5WbbMT
+ 8DwwX6r0M+x0dqMql52qczs0Exp2uj8OcwQdHPBJevYTkwSbB6qR9audYM+9WkAsWPVIg55gxso
+ uKU+eeZaI6EcGGShPaHMeoIuhO4CeEcNXTy6HuBxSQsbAFfMx511Vg5XTJf7rNdS8t/RfMJDAaA
+ d1AQKjNnD+atxPE9IEbq0o3rwj73ULBrUaCds8HKIEJiJ5CCQlb/wwSNZY8wqRB94bfpfOn6rYB
+ AjnS60jh2y3My2z9BOP4ooQH31+7nHQOeeIoS+b8xniDqNlQ7MIIM9HBK9+ExY1guOU2DyvKTji
+ pSkHK//Qo+UeIfQg5ng==
+X-Proofpoint-GUID: h2uyUnjZxNDeUzP2gWg5fU5LqXC_RtQ5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-31_04,2026-07-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 spamscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310090
 
-syzbot ci has tested the following series
+On Wed, Jul 29, 2026 at 04:59:17PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> ext4_convert_unwritten_extents() currently returns only a success or a
+> failure indication. A zero return means all requested blocks were
+> converted, and a negative value means the conversion failed. However,
+> some blocks may have already been converted when the function fails
+> partway through, and callers have no way to learn how many were done.
+> 
+> The WRITE_ZEROES caller in ext4_alloc_file_blocks() needs this
+> information to decide whether to add the inode to the orphan list before
+> updating i_disksize to cover the already-converted written extents, so
+> that a crash before i_disksize catches up can be recovered via orphan
+> truncation.
+> 
+> Switch the function to pass out the number of converted blocks through
+> the new output parameter @converted, which will be used by later
+> patches.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-[v1] iomap: follow the alignment requirement for iomap_dio_hole_iter()
-https://lore.kernel.org/all/e69cc8a4a9c3f641b97872b50f04c397880077cd.1785374485.git.wqu@suse.com
-* [PATCH] iomap: follow the alignment requirement for iomap_dio_hole_iter()
+Looks good Zhang, feel free to add:
 
-and found the following issue:
-general protection fault in __iomap_dio_rw
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 
-Full report is available here:
-https://ci.syzbot.org/series/81e0fbae-4715-4d62-8e9e-bcd19e46b164
+Regards,
+ojaswin
 
-***
-
-general protection fault in __iomap_dio_rw
-
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      70c2cbf8600c7d3a622b77e31136b83d6ac7d86c
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/8d5fee65-291c-46a2-9f9a-d512f8fad82b/config
-syz repro: https://ci.syzbot.org/findings/c9f79a18-3316-44ec-b805-b805b1c49325/syz_repro
-
-loop0: rw=2049, sector=53248, nr_sectors = 976 limit=40427
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
-CPU: 0 UID: 0 PID: 5842 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
-RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
-RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
-RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
-RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
-RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
-Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
-RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
-RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
-R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
-R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
-FS:  00007fd77743d6c0(0000) GS:ffff88818d951000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000078000 CR3: 000000011606a000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- f2fs_dio_read_iter fs/f2fs/file.c:4887 [inline]
- f2fs_file_read_iter+0x60b/0x940 fs/f2fs/file.c:4950
- copy_splice_read+0x5ff/0xaa0 fs/splice.c:362
- do_splice_read fs/splice.c:979 [inline]
- splice_direct_to_actor+0x4b6/0xcb0 fs/splice.c:1084
- do_splice_direct_actor fs/splice.c:1202 [inline]
- do_splice_direct+0x195/0x290 fs/splice.c:1228
- do_sendfile+0x52e/0x7c0 fs/read_write.c:1371
- __do_sys_sendfile64 fs/read_write.c:1432 [inline]
- __se_sys_sendfile64+0x144/0x1a0 fs/read_write.c:1418
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fd77659df99
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fd77743d028 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007fd776825fa0 RCX: 00007fd77659df99
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
-RBP: 00007fd776634ec4 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000800000009 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fd776826038 R14: 00007fd776825fa0 R15: 00007fff168f4a18
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
-RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
-RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
-RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
-RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
-RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
-Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
-RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
-RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
-R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
-R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
-FS:  00007fd77743d6c0(0000) GS:ffff8882a8f51000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007faa8f64dc80 CR3: 000000011606a000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess):
-   0:	e2 5a                	loop   0x5c
-   2:	ff 83 e3 08 75 5c    	incl   0x5c7508e3(%rbx)
-   8:	e8 ab de 5a ff       	call   0xff5adeb8
-   d:	48 8b 9c 24 68 01 00 	mov    0x168(%rsp),%rbx
-  14:	00
-  15:	48 83 c3 18          	add    $0x18,%rbx
-  19:	48 89 d8             	mov    %rbx,%rax
-  1c:	48 c1 e8 03          	shr    $0x3,%rax
-  20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
-  27:	fc ff df
-* 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instruction
-  2e:	74 08                	je     0x38
-  30:	48 89 df             	mov    %rbx,%rdi
-  33:	e8 d0 75 c8 ff       	call   0xffc87608
-  38:	48 8b 1b             	mov    (%rbx),%rbx
-  3b:	b8 58 01 00 00       	mov    $0x158,%eax
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+> ---
+>  fs/ext4/ext4.h    |  3 ++-
+>  fs/ext4/extents.c | 53 ++++++++++++++++++++++++++++++-----------------
+>  fs/ext4/file.c    |  3 ++-
+>  3 files changed, 38 insertions(+), 21 deletions(-)
+> 
+> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> index 4e3b3165ee8f..f36d84ff0d5e 100644
+> --- a/fs/ext4/ext4.h
+> +++ b/fs/ext4/ext4.h
+> @@ -3901,7 +3901,8 @@ extern void ext4_ext_release(struct super_block *);
+>  extern long ext4_fallocate(struct file *file, int mode, loff_t offset,
+>  			  loff_t len);
+>  extern int ext4_convert_unwritten_extents(handle_t *handle, struct inode *inode,
+> -					  loff_t offset, ssize_t len);
+> +					  loff_t offset, ssize_t len,
+> +					  ext4_lblk_t *converted);
+>  extern int ext4_convert_unwritten_extents_atomic(handle_t *handle,
+>  			struct inode *inode, loff_t offset, ssize_t len);
+>  extern int ext4_convert_unwritten_io_end_vec(handle_t *handle,
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index d5f87a7f6c05..1ab1a6e2ed83 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -4664,7 +4664,7 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
+>  			if (likely(!ret))
+>  				ret = ext4_convert_unwritten_extents(NULL,
+>  					inode, (loff_t)map.m_lblk << blkbits,
+> -					(loff_t)map.m_len << blkbits);
+> +					(loff_t)map.m_len << blkbits, NULL);
+>  			if (ret)
+>  				break;
+>  		}
+> @@ -5051,21 +5051,26 @@ int ext4_convert_unwritten_extents_atomic(handle_t *handle, struct inode *inode,
+>   * all unwritten extents within this range will be converted to
+>   * written extents.
+>   *
+> - * This function is called from the direct IO end io call back
+> - * function, to convert the fallocated extents after IO is completed.
+> - * Returns 0 on success.
+> + * This function is called from the direct/buffered I/O end io call back
+> + * function and FALLOC_FL_WRITE_ZEROES, to convert the fallocated
+> + * unwritten extents after data I/O is completed.
+> + *
+> + * Returns 0 on full success, or a negative error code on partial
+> + * success or failure. The number of blocks converted is returned via
+> + * @converted.
+>   */
+>  int ext4_convert_unwritten_extents(handle_t *handle, struct inode *inode,
+> -				   loff_t offset, ssize_t len)
+> +				   loff_t offset, ssize_t len,
+> +				   ext4_lblk_t *converted)
+>  {
+> -	unsigned int max_blocks;
+> +	ext4_lblk_t max_blocks, conv_blocks = 0;
+>  	int ret = 0, ret2 = 0, ret3 = 0;
+>  	struct ext4_map_blocks map;
+>  	unsigned int blkbits = inode->i_blkbits;
+>  	unsigned int credits = 0;
+>  
+>  	map.m_lblk = offset >> blkbits;
+> -	max_blocks = EXT4_MAX_BLOCKS(len, offset, blkbits);
+> +	map.m_len = max_blocks = EXT4_MAX_BLOCKS(len, offset, blkbits);
+>  
+>  	if (!handle) {
+>  		/*
+> @@ -5073,9 +5078,8 @@ int ext4_convert_unwritten_extents(handle_t *handle, struct inode *inode,
+>  		 */
+>  		credits = ext4_chunk_trans_blocks(inode, max_blocks);
+>  	}
+> -	while (ret >= 0 && ret < max_blocks) {
+> -		map.m_lblk += ret;
+> -		map.m_len = (max_blocks -= ret);
+> +
+> +	while (max_blocks) {
+>  		if (credits) {
+>  			handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
+>  						    credits);
+> @@ -5092,23 +5096,34 @@ int ext4_convert_unwritten_extents(handle_t *handle, struct inode *inode,
+>  		ret = ext4_map_blocks(handle, inode, &map,
+>  				      EXT4_GET_BLOCKS_IO_CONVERT_EXT |
+>  				      EXT4_EX_NOCACHE);
+> -		if (ret <= 0)
+> +		if (ret <= 0) {
+>  			ext4_warning(inode->i_sb,
+> -				     "inode #%llu: block %u: len %u: "
+> -				     "ext4_ext_map_blocks returned %d",
+> -				     inode->i_ino, map.m_lblk,
+> -				     map.m_len, ret);
+> +				     "inode #%llu: block %u: len %u: ext4_map_blocks returned %d",
+> +				     inode->i_ino, map.m_lblk, map.m_len, ret);
+> +			if (unlikely(ret == 0))
+> +				ret = -EINVAL;
+> +		} else {
+> +			conv_blocks += map.m_len;
+> +		}
+> +
+>  		ret2 = ext4_mark_inode_dirty(handle, inode);
+>  		if (credits) {
+>  			ret3 = ext4_journal_stop(handle);
+>  			if (unlikely(ret3))
+>  				ret2 = ret3;
+>  		}
+> -
+> -		if (ret <= 0 || ret2)
+> +		ret = ret < 0 ? ret : ret2;
+> +		if (ret)
+>  			break;
+> +
+> +		map.m_lblk += map.m_len;
+> +		map.m_len = (max_blocks -= map.m_len);
+>  	}
+> -	return ret > 0 ? ret2 : ret;
+> +	/* Converted some or all blocks successfully? */
+> +	if (converted)
+> +		*converted = conv_blocks;
+> +
+> +	return ret;
+>  }
+>  
+>  int ext4_convert_unwritten_io_end_vec(handle_t *handle, ext4_io_end_t *io_end)
+> @@ -5131,7 +5146,7 @@ int ext4_convert_unwritten_io_end_vec(handle_t *handle, ext4_io_end_t *io_end)
+>  	list_for_each_entry(io_end_vec, &io_end->list_vec, list) {
+>  		ret = ext4_convert_unwritten_extents(handle, io_end->inode,
+>  						     io_end_vec->offset,
+> -						     io_end_vec->size);
+> +						     io_end_vec->size, NULL);
+>  		if (ret)
+>  			break;
+>  	}
+> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+> index 9a16071b719d..45e16799d0c2 100644
+> --- a/fs/ext4/file.c
+> +++ b/fs/ext4/file.c
+> @@ -436,7 +436,8 @@ static int ext4_dio_write_end_io(struct kiocb *iocb, ssize_t size,
+>  		error = ext4_convert_unwritten_extents_atomic(NULL, inode, pos,
+>  							      size);
+>  	else if (!error && size && flags & IOMAP_DIO_UNWRITTEN)
+> -		error = ext4_convert_unwritten_extents(NULL, inode, pos, size);
+> +		error = ext4_convert_unwritten_extents(NULL, inode, pos, size,
+> +						       NULL);
+>  	if (error)
+>  		return error;
+>  	/*
+> -- 
+> 2.52.0
+> 
