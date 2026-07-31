@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6452A3D7D6C;
-	Fri, 31 Jul 2026 08:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD953D969E;
+	Fri, 31 Jul 2026 08:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785486981; cv=none; b=RMg+MHqJphWCMl9lF65ZpfDK+i86X4Y8GhNGOo9+2w1euPJg3VdmkArPwWoNBTiFMkjAatlf8ueG2sXxCu0tmzSBC673EVD5FfhNzGJx5tzlR5nV970evtXVFwOeKuczepgSW3gdycmz9CAWOTHV3/ipevsXpjeYtZhPg9ubnRU=
+	t=1785486983; cv=none; b=uHFZ8hhXOQ8tyZ9U34MFLnrtbI0TtaeI64IAnDjZxWbq8R2gt/KtvDlunQZ4WsbzRpILSQFr3D2T3+h4DfzHj5966d4dm/qFDXEFQ/JnKYPTaWG7/ppEZmxSNa72yynpCrPOr7IBNYJnA9371eZmxeQfkxnmbtzbuo4YZyMPIRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785486981; c=relaxed/simple;
-	bh=2dETDKcDt+IrJS2lRAwAEp1/JvLBp/oEpwUqf7BNVdk=;
+	s=arc-20240116; t=1785486983; c=relaxed/simple;
+	bh=bIbiidaIOuPLTAdbrF+XGnUrS+bbi91IRDK6SSDbgS8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HsMIagzEq/oSVcreIJAXMAVtOX9A+e5brJaztOHzM1Iq1ted37OeiGP1EnBudRzBd0ggcHLg7UHHpatnM2bU/QeVqJmwweYXLCFipPfSPCriUMMUqJoOnDv2Qh3O10ZioZkQMif9o4mMk3dBV0O0RfsKRqSXEEQmqeeG1wr/DSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2cQccN7; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=sZWatCM16osSznBtfTnU5rgBqVw3LACROJiSpdULblIZuNOdQhX+mqbhYYF1WGbzwG6E/6ca6aM9dkZM5v9n09fR2wpfglZSOxKbgX/8ha5tJS6FEJGLItAgXWvlrrHE6JaRG4Q9AwwQzNpWfyp12a0qcUabIIyDwWXf5MRIKAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kpi1rc2u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2cQccN7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D38A1F00A3A;
-	Fri, 31 Jul 2026 08:36:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kpi1rc2u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A2161F000E9;
+	Fri, 31 Jul 2026 08:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785486980;
-	bh=4jidqUZYmny010rz/fIO7ZU938yrZ67lKtGcdhQUX/0=;
+	s=k20260515; t=1785486982;
+	bh=8sEpoYCad2ZbqifV8oaNMsJKCf+1Pn3bhni5b4xnyW8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=S2cQccN72H9b7EbIflZ4QBVGLYqkT1JVgiPz8nwp5q9SNvZxoIBl7KXX8FcWcPMbG
-	 xlCc3+Nt6Hz/XKGlSA5XqvuMTMl0n2EbdaRFGb4T6hY1KtpYZGjZePT8rWphqEvZUy
-	 orw9XCH08fAlA0YUkoiZUV2WOCNVH8gevvP3oYOA0pMzYLjKm1aYclizhEParZuUx7
-	 S5r10OerD0CMcatF4F/pMhO4tGDcXEt8Tzr0YmL1TGImcOUL2M0zw+vETaGJdSMS+V
-	 dovgVLPzQLv27rZlpcefzfBFQBdK/ej7z40lTHenBPp4fvzLrOjc8QiJlchdHLaO1R
-	 SAcggrPzX+KQw==
+	b=kpi1rc2u82N2iOb0iwnv5ooFkBDNe5vLIREeasrz33eaznSxavqKusRpEILKxX8wz
+	 92smGy8jAumq6FkYDnz8HuVFQf97BvLf1ACmqMwTnRhtFA2ZXmydAmJc7SyBsio5DT
+	 BO4/lODDbjI1CF7hF56ZGbNVhGefKcjfzUnb2eFkBTVn9MBWcUSo+uFIIkoX8gQbwo
+	 1mGtZ/gQfLL9tlguUNaLfmaBD8loM9y10zBbSKMsxkn58i/gnTFi71r8csGfeXzEi3
+	 uKB6dnurTjoXXJH6VS5bIJE2KEMopELhtpk3Yh65Kwe7RwVwgtc95zI0YT33wU/5Z5
+	 xJatNLVh3LAkQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 31 Jul 2026 10:36:05 +0200
-Subject: [PATCH 1/3] fs/namei.c: update stale comments in lookup_open()
+Date: Fri, 31 Jul 2026 10:36:06 +0200
+Subject: [PATCH 2/3] fs/namei.c: fix kerneldoc of atomic_open() and
+ vfs_lookup_open()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-work-lookup-fixes-v1-1-2412b85cf65c@kernel.org>
+Message-Id: <20260731-work-lookup-fixes-v1-2-2412b85cf65c@kernel.org>
 References: <20260731-work-lookup-fixes-v1-0-2412b85cf65c@kernel.org>
 In-Reply-To: <20260731-work-lookup-fixes-v1-0-2412b85cf65c@kernel.org>
 To: NeilBrown <neil@brown.name>
@@ -46,71 +47,80 @@ Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-kernel@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-af865
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2715; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2dETDKcDt+IrJS2lRAwAEp1/JvLBp/oEpwUqf7BNVdk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTlxDX828rzryV7znKJ9AMPWFP3m8d8bLjlrCR4qZ7J9
- J6L7fPcjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImoHmBk+PDmrE1SlhP3jj+N
- N5hlRGU7bvmEHrCS9hHKmum85p2QFCPD7owTZ/7InVWUf7mn//Q0pcriyIn1PesseYRSuA4cb/v
- KAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2954; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=bIbiidaIOuPLTAdbrF+XGnUrS+bbi91IRDK6SSDbgS8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTlxDVwfLX6Ird8yvXnNluZRepl5++83jlhU92Dl4Wfr
+ ff6XJf90VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRA+yMDO3mFlIOS+uqCtaG
+ X2RPO+B12TSQ2WlmlGPZBSm/goRNJgz/Kxg8Zs3c46ysuch7Se3OnxWTqtNsFu0W2Ju3cYs9H/8
+ JFgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Commit ddb6e6c72a0a ("VFS: move mnt_want_write() and locking into
-lookup_open()") moved the parent inode locking into lookup_open(), but
-left the comment claiming the caller has to take it.  A caller following
-that comment now deadlocks, and the series added a second caller.
+Commit ba0e87026613 ("fs/namei.c: update kerneldoc of atomic_open()")
+turned the comment above atomic_open() into kerneldoc, but wrote the
+return description as running text.  kernel-doc only recognises a return
+section introduced by "Return:" or "Returns:", so this added a warning
+under W=1:
 
-Describe what the function actually does.  While at it drop the claim
-that it returns 0 on success and updates @path, wrong ever since
-lookup_open() started returning a dentry in v5.7, and fix the reference
-to lookup_open() in a comment that now sits inside lookup_open() itself.
+  fs/namei.c:4362 No description found for return value of 'atomic_open'
 
-Fixes: ddb6e6c72a0a ("VFS: move mnt_want_write() and locking into lookup_open()")
+Give it the missing colon.  The summary line also has to stand on its
+own line, so move the "from a negative dentry" part into the body, where
+it can say that the caller has to hand over a negative dentry.
+
+Also add the "to" missing from vfs_lookup_open()'s description.
+
+Fixes: ba0e87026613 ("fs/namei.c: update kerneldoc of atomic_open()")
+Fixes: 536227b814bd ("VFS: add vfs_lookup_open() for nfsd")
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/namei.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ fs/namei.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/fs/namei.c b/fs/namei.c
-index 6db5b7e8547b..226abf613983 100644
+index 226abf613983..e31905dfeb20 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -4417,17 +4417,16 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
- /*
-  * Look up and maybe create and open the last component.
+@@ -4337,8 +4337,7 @@ static int may_o_create(struct mnt_idmap *idmap,
+ }
+ 
+ /**
+- * atomic_open() - attempt to atomically look up, create and open a file
+- * from a negative dentry.
++ * atomic_open() - atomically look up, create and open a file
+  * @path:          parent directory path
+  * @dentry:        child to ->atomic_open()
+  * @file:          file to attach child to
+@@ -4346,6 +4345,9 @@ static int may_o_create(struct mnt_idmap *idmap,
+  * @mode:          create mode
+  * @create_error:  return value from may_o_create()
   *
-- * Must be called with parent locked (exclusive in O_CREAT case).
-+ * Takes the parent inode lock itself, exclusive if O_CREAT was requested and
-+ * shared otherwise, and drops it again before returning.  The caller must not
-+ * hold it.
++ * Attempt to look up, create and open @dentry, which must be negative, in a
++ * single call into the filesystem.
++ *
+  * If a non-error dentry is returned then: when FMODE_OPENED is set,
+  * the file will have been attached to @file by the filesystem calling
+  * finish_open(). If FMODE_OPENED isn't set, the filesystem instead called
+@@ -4354,8 +4356,8 @@ static int may_o_create(struct mnt_idmap *idmap,
+  * FMODE_CREATED is set when the call to ->atomic_open() actually created
+  * the file.
   *
-- * Returns 0 on success, that is, if
-- *  the file was successfully atomically created (if necessary) and opened, or
-- *  the file was not completely opened at this time, though lookups and
-- *  creations were performed.
-- * These case are distinguished by presence of FMODE_OPENED on file->f_mode.
-- * In the latter case dentry returned in @path might be negative if O_CREAT
-- * hadn't been specified.
-+ * On success returns the dentry of the last component.  If FMODE_OPENED is set
-+ * on file->f_mode the file was also opened and attached to @file; otherwise
-+ * only lookup and creation were performed and the caller has to open it.  In
-+ * the latter case the dentry may be negative if O_CREAT hadn't been specified.
-  *
-- * An error code is returned on failure.
-+ * Returns ERR_PTR() on failure.
+- * Returns the opened/looked-up dentry on success or ERR_PTR(-E) on failure.
+- * On error, atomic_open() consumes @dentry.
++ * Returns: the opened or looked-up dentry, or ERR_PTR() on failure.  The
++ * reference to @dentry is consumed in either case.
   */
- static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 				  const struct open_flags *op)
-@@ -4452,8 +4451,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 		got_write = !mnt_want_write(nd->path.mnt);
- 		/*
- 		 * do _not_ fail yet - we might not need that or fail with
--		 * a different error; let lookup_open() decide; we'll be
--		 * dropping this one anyway.
-+		 * a different error; we'll be dropping this one anyway.
- 		 */
- 	}
- 	if (open_flag & O_CREAT)
+ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry,
+ 				  struct file *file,
+@@ -4605,7 +4607,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+  * @mode: initial permissions for file
+  *
+  * Open a file after lookup and/or create.  This provides similar
+- * functionality open_last_lookups() for non-VFS users, particularly
++ * functionality to open_last_lookups() for non-VFS users, particularly
+  * nfsd.
+  * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
+  *
 
 -- 
 2.53.0
