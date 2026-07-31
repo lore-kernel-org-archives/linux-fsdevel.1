@@ -1,145 +1,219 @@
-Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.230])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6A43AA4E8
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 09:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A0527A476;
+	Fri, 31 Jul 2026 09:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785490262; cv=none; b=Pn3MfaS+T0kI75vb3y2hcUOwvcd9yYpRHoW24fMei21MENLEBFqCRcU3gtHW/sol21hM7s1pDHckHKhjvinobyZ6RpvA+Hr7YGQHc57sYxD0veC+aB+u6TZTnWabPtuA6sv7lP7I57MqWIFvgxsYPZoRDpFLvL4IeCIUBy2IvNc=
+	t=1785490887; cv=none; b=BRNcWKbPnc9oKXi8d9vhd3OH6ggC1227RS4CEuPnmdGYG69VdWx13zCGizDivrzlFskBEuMudItiHNDcRgssuHwoUF5NDlF+B3OolumJd2LJ3MZ6EGTOgFCQfev51JACV9GZxbpJ8jeELaNv9JnIVeZuK3Gcu2G4eLQRoHQmj7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785490262; c=relaxed/simple;
-	bh=ia3z9V4IzPm+2LM5OKC607Bs7iZ3t4+hJ4i9tLyzjHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oQqQ/VoOn2UPictfvV1AJnAFSJ9DmEzZrAJ7bJlwCJ1NKR0kDMg3YI5RGSxOwv9gsUWopy0oirUPMyAvajPBP4DWO9xXfBKOpihMV2sjhhZIamzQP/vTUzdLLqmUEg13HfBpzlXUGmO4pO39zI7yNQPs7rwr88uDMydMFXCzrkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=TC7IO8aM; arc=none smtp.client-ip=114.111.35.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1785490887; c=relaxed/simple;
+	bh=5swYhhwmDsY2I9Ui+t/EYKiUCwSQ//1AdDb9h151IAQ=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=caL37fyEVl2pX6NE4akTd32623Bfy8SThdDS+oSMgRHPAu/TH2UKXQ0n7oW4i6vdlLQuWjKtEdtbJmQ2kV0OQ6TUvPKxG35OwmyOl0wDbFh/3sJ2YgxqEwX/JrQF31BcLFGKAHEUDMYAWj2bMQ6sMXhn4hZe4XXh0AaYsac95xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHyBtkKN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="TC7IO8aM"
-Received: from cvsendbo026.nm ([10.112.20.48])
-  by cvsmtppost08.nm.naver.com with ESMTP id Ni62QN6qRlySZ29bjLD8tw
-  for <linux-fsdevel@vger.kernel.org>;
-  Fri, 31 Jul 2026 09:10:43 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1785489043; bh=ia3z9V4IzPm+2LM5OKC607Bs7iZ3t4+hJ4i9tLyzjHg=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=TC7IO8aMxbkit/wJyRgJIebQNBucn/OZPoVOyY6tPyXEmXbdnq16yGokx+YbmNDg6
-	 hzig04jsv/353RDa2hkjRLiTtUWRLFX519ENK/nRGPDK7RU30OdW6fF6I2szwRiP6h
-	 widwcGvurUsvUI35phRanYtLD6gUphi/0nJ16pDI2NxdkXv09iZXsttiGXgu7wxr4X
-	 aQqRnwC/2KxzKztIa75WSqODOZr+EpVcHCYfc89FzlaLufLEe7RCguDy47tLuz+QOj
-	 h1n+b2WV9clGLwoJeS3Bt4lMZ3GGpukUj/ZoN4YbGI9DkdI7LSvdO4Z+4abesCTG4G
-	 bGV6VqpNhldkw==
-X-Session-ID: vgz81iXISzmEnTZCIAH5og
-X-Works-Send-Opt: rP+8W4eXjHwYKBm9FAF9FNmwKo2mKqErKqb/jJIFjAJYKg==
-X-Works-Smtp-Source: Qqn9FAE/FqJZ+HmZFAMr+6E=
-Received: from bl4ckhyun.localdomain ([211.41.193.194])
-  by cvnsmtp009.nm.naver.com with ESMTP id vgz81iXISzmEnTZCIAH5og
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Fri, 31 Jul 2026 09:10:42 -0000
-From: Hyeontae Lee <wonju345@naver.com>
-To: linkinjeon@kernel.org,
-	hyc.lee@gmail.com
-Cc: zzzccc427@gmail.com,
-	baijiaju1990@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hyeontae Lee <wonju345@naver.com>
-Subject: [PATCH] ntfs: serialize the resident read iomap path with mrec_lock
-Date: Fri, 31 Jul 2026 18:10:35 +0900
-Message-ID: <20260731091035.28929-1-wonju345@naver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com>
-References: <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHyBtkKN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05DE71F000E9;
+	Fri, 31 Jul 2026 09:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785490885;
+	bh=5swYhhwmDsY2I9Ui+t/EYKiUCwSQ//1AdDb9h151IAQ=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=MHyBtkKNKk3PEr5OOfeeq8QoOqdVgZebFzrICCA4sG84mDkQi7+EaB6HoTGaQyshu
+	 0znkSDBjxiq9NNhR9e/hSLDQ3SvrjizbYbnZ4UuT4lWFuFUXYiJZPPcl2JxBufqJ+y
+	 +GWnAAk1f27gj71hMC+fop9oXfWuUzUI4EjN2EjjyPHF0oga/Pv9zs0FdpcQ3QGonX
+	 lp6W8b9RLCCbWvOR1fHg+M6dzgwYEjmaeqCqEYDc3CtEDnRMbbKng9wYbp13Jakh8K
+	 1TK5gR4ZpdCqF9o2U5nEPtet1EUK+sdVdoXp7uEVMRSX/KvOSNieu8qbN99DB/R++t
+	 S70FvHl+p+XQw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
+ interpreter selection
+From: Christian Brauner <brauner@kernel.org>
+To: Alessandro Di Federico <ale@rev.ng>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, david.laight.linux@gmail.com, 
+ jack@suse.cz, jannh@google.com, kees@kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
+ shuah@kernel.org, viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
+In-Reply-To: <20260731004604.53c66732@spawn>
+References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
+ <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+ <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
+ <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
+ <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
+ <20260722011217.45e79a08@spawn>
+ <20260722-raser-leselust-konsolidieren-05f8e36a0782@brauner>
+ <20260731004604.53c66732@spawn>
+Date: Fri, 31 Jul 2026 11:41:20 +0200
+Message-Id: <20260731-batterie-galant-zumachen-d4b91acf8af0@brauner>
+X-Mailer: b4 0.16-dev-af865
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7481; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=5swYhhwmDsY2I9Ui+t/EYKiUCwSQ//1AdDb9h151IAQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTl5B5KWTjLcrO8T5fsZTvlOXIRH1qbIkvP+GafUQs8U
+ WzxWnxeRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESqVjMybGf+PC3smJ7QM7cv
+ dSV95xlSZ7jfEmVdcvjNwYkzow0YPRj+ae3obLgz9/5Gwbmn9Qz/NGyfnxh+7IDyVN7geYnZBpo
+ WXAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-ntfs_read_iomap_begin_resident() walks the MFT record through
-ntfs_attr_lookup() -> ntfs_attr_find() without taking ni->mrec_lock,
-while ntfs_attr_record_resize(), ntfs_make_room_for_attr() and
-ntfs_resident_attr_record_add() memmove() the same base_ni->mrec buffer
-under that lock. map_mft_record() only takes a reference and does not
-serialize, so the reader can observe torn attribute length and offset
-fields while a writer is relocating the records.
+On Fri, Jul 31, 2026 at 12:46:04AM +0200, Alessandro Di Federico wrote:
+> One could delegate the feature to user space, but that makes it much
+> harder to get adopted in a uniform way.
+>
+> Will systemd, Android [1] and OpenWrt implement this? In the same way?
+> If so, at that point it could have just been a feature of the Linux ELF
+> extension.
 
-KCSAN reports the race between the mmap read fault path and both link()
-and unlink():
+Whether systemd, Android or OpenWrt adopt something isn't a decision the
+kernel gets to make and it isn't one it has to make. Merging code doesn't
+create adoption. It creates an obligation to keep the behavior working
+forever. That includes the machines whose owners never asked for it.
 
-  BUG: KCSAN: data-race in ntfs_attr_find / ntfs_attr_record_resize
+It's also not how ELF conventions get established. PT_GNU_STACK and
+PT_GNU_PROPERTY are the two OS-range headers our loader acts on. And
+they came out of the toolchain and we implemented them afterwards.
 
-  write to 0xffff888100af1018 of 4 bytes by task 96 on cpu 1:
-   ntfs_attr_record_resize+0xd2/0x130
-   ntfs_attr_record_rm+0xad/0x530
-   ntfs_delete+0x224/0x640
-   ntfs_unlink+0x14d/0x280
-   vfs_unlink+0x157/0x520
+The one time we picked a program header type ourselves ahead of the ABI
+PT_ARM_MEMTAG_MTE in 761b9b366cec we collided with PT_AARCH64_UNWIND
+and had to change the name and the value three months later. We got away
+with it because it's a coredump segment that gdb reads, not the exec
+behavior of every binary on the system.
 
-  read to 0xffff888100af1018 of 4 bytes by task 95 on cpu 0:
-   ntfs_attr_find+0x104/0x5b0
-   ntfs_attr_lookup+0x39c/0x10c0
-   ntfs_read_iomap_begin_resident+0xc6/0x230
-   ntfs_read_iomap_begin+0x5d/0xa0
-   iomap_iter+0x2e2/0x6e0
-   iomap_read_folio+0x147/0x2a0
-   ntfs_read_folio+0x108/0x170
-   filemap_read_folio+0x35/0x100
-   filemap_fault+0x993/0x1000
+If you want systemd, Android and OpenWrt to agree on one marker, the
+thing that produces that agreement is generic-abi with binutils and
+glibc/musl on board, and then we can implement it.
 
-  value changed: 0x00000250 -> 0x000001f0
+So we don't actually disagree about there being an ELF feature. We
+disagree about what the header means. My position is that the header
+names the intent and userspace implements the resolution. Yours is that
+the kernel does both.
 
-The address is mrec + 0x18, i.e. mft_record.bytes_in_use, and the change
-is the 96 bytes of one $FILE_NAME attribute being removed.
+> Of course the Android people could disable the feature even if it's
+> in the kernel, but if the convention is established by the kernel,
+> there's really no reason to deviate from it in the way it's implemented.
 
-Take base_ni->mrec_lock around the lookup in
-ntfs_read_iomap_begin_resident(). The non-resident path is left alone:
-ntfs_lookup() already holds the directory inode's mrec_lock when it reads
-an index folio through read_mapping_folio(), and taking the lock in the
-shared wrapper deadlocks there with recursive locking on mrec_lock. The
-comment above the read_mapping_folio() call in fs/ntfs/dir.c notes the
-same hazard.
+The kernel can't establish this convention. It can only implement one.
+If binutils won't emit the header and no loader cooperates, we've shipped
+uapi that nothing uses and that we still can't remove.
 
-Tested with a reproducer that faults in a 16-byte resident file while
-another thread runs link()/unlink() on it. Before: 40 KCSAN reports in
-about one second. After: no reports in 180 seconds over 206,090 read
-iterations and 423,540 link/unlink cycles. A PROVE_LOCKING build shows no
-lockdep splat with the same reproducer running for 60 seconds.
+> The whole point of the portability thing is to reduce the assumptions
+> you make about the target system. Ideally, you just want to use
+> features widely available in kernels in the wild.
 
-Fixes: b041ca562526 ("ntfs: update iomap and address space operations")
-Link: https://lore.kernel.org/all/20260725042421.109599-1-wonju345@naver.com/
-Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
-Signed-off-by: Hyeontae Lee <wonju345@naver.com>
----
- fs/ntfs/iomap.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Sure, but nothing merged today is widely available tomorrow. Both need a
+new kernel. Uniform-by-default doesn't arrive sooner because it went
+into core elf.
 
-diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
-index 52eecf5cb2..f9fdceeeb3 100644
---- a/fs/ntfs/iomap.c
-+++ b/fs/ntfs/iomap.c
-@@ -95,6 +95,8 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
- 	else
- 		base_ni = ni;
- 
-+	mutex_lock(&base_ni->mrec_lock);
-+
- 	ctx = ntfs_attr_get_search_ctx(base_ni, NULL);
- 	if (!ctx) {
- 		err = -ENOMEM;
-@@ -138,6 +140,8 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
- 	if (ctx)
- 		ntfs_attr_put_search_ctx(ctx);
- 
-+	mutex_unlock(&base_ni->mrec_lock);
-+
- 	return err;
- }
- 
--- 
-2.43.0
+And a new phdr doesn't degrade nicely. On any kernel that doesn't know
+it the binary has no PT_INTERP it loads as static. Dies horribly at an
+unrelocated _start.
+
+And keeping a literal $ORIGIN fallback in PT_INTERP instead and old
+kernels or gVisor open it cwd-relative, so an attacker who controls cwd
+plants ./$ORIGIN/ld.so.
+
+> But from what I understand from another thread, your intention is to
+> use userspace as testbench, correct?
+
+Not testbench as in "go away and come back later". The difference is
+where the semantics live once they turn out to be wrong. Get a corner
+case wrong in a bpf handler and the distro ships a fix in the next
+update. Get it wrong in load_elf_binary() and it's the exec behavior of
+arbitrary binaries... which we can't change afterwards.
+
+> > This is policy that the admin should decide
+>
+> Agreed, but the admin is probably satisfied with enabling/disabling,
+> not deciding whether the program header type is `PT_INTERP_WITH_ORIGIN`
+> or `PT_ORIGIN_ENABLED_INTERP`. Same for the distro maintainers.
+
+Nobody is asking an admin to name a program header type. The distro ships
+the handler and a file in /etc/binfmt.d and the admin never sees either.
+
+But note what you argued here... If it needs an enable/disable switch
+then it is policy. And the only question left is what the switch looks
+like. A global boot-time on/off is the worst available version of it.
+It's one bit, machine-wide and can't be scoped to a subtree, can't be
+delegated.
+
+> Then, from a security perspective, AFAIU, implementing this in
+> eBPF does not solve the problems that have been discussed.
+>
+> For instance, `selftests/exec: add binfmt_misc bpf-backed handler test`
+> does string manipulation (no `openat`).
+
+The handler doing nothing but string manipulation isn't a simplification
+in the example. It's the design. The program never opens anything. It
+computes a path and hands it back, and the kernel opens it with
+open_exec() under the credentials of whoever called execve(). There is
+no openat() to add. And fwiw, it also supports pre-opened binaries for
+really crazy use-cases where you want to pin a set of loaders once.
+
+The module RFC resolved $ORIGIN in kernel code opened the interpreter
+itself with file_open_root(..., O_RDONLY, 0).
+That skips everything open_exec() does and it achors path resolution at
+the binary's directory. .. clamps there and absolute symlinks resolve
+inside it. $ORIGIN/../lib/ld.so, which is the RPATH idiom everyone
+actually writes, silently means <bindir>/lib/ld.so.
+
+I'm not holding an RFC to final-code standards. The point is that this
+is fiddly.
+
+> Overall, I feel like the current proposal pushes back on having a new
+> ELF feature for security reasons, but then delegates to distro
+> maintainers who want to use the feature to take those risks.
+
+It doesn't delegate the risk. It binds it to whoever wants the feature.
+
+Whether resolving the loader relative to the binary is safe depends on
+invariants of the deployment. Is the tree immutable, who may write to it,
+which prefixes are trusted. The kernel doesn't know any of that.
+/nix/store is root-owned and immutable, so the policy is safe there. The
+same semantics pointed at a directory the user can write to is a hole.
+Only the deployment can tell those two apart.
+
+Userspace arrived at the same answer, incidentally. glibc expands $ORIGIN
+under __libc_enable_secure only when it is the first path component and
+the result is rooted in a trusted directory. That trusted-directory
+notion is exactly what an in-kernel implementation would have to invent.
+And it is deployment-specific.
+
+> But also, distro maintainers don't really need this feature because
+> they can just write /nix.
+
+Right, and that's the honest core of it. The people who need this are
+users on machines that someone else administers.
+
+But "default-enabled ELF feature" is a strange shape of fix for it.
+Because the machines you'd be enabling it on belong to the people who
+never asked. This proposals is to change what exec does for everyone
+else in order to serve some use-cases.
+
+> I'd be happy to try to work on the example eBPF program using openat,
+> address the various security concerns that have been mentioned until it
+> looks right and then it could be loaded by default, but with an option
+> to disable it. But I'm not sure whether there's such a thing as "default
+> loaded eBPF program".
+
+And there is such a thing. The distro ships the object plus a file in
+/etc/binfmt.d and systemd loads it at boot. That is a default-loaded
+program with an option to disable, it just lives in the distro image
+rather than in vmlinux. If one handler ends up being what everybody
+ships, that's the uniformity you're after, and nobody had to freeze
+resolution semantics to get it. Could even be upstream in systemd.
+
+> Alternatively, I could extend the ELF core as a parallel feature of
+> the eBPF-based mechanism, reviving some patches from previous
+> iterations.
+
+I'd rather not, for the reasons above.
 
