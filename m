@@ -1,212 +1,86 @@
-Received: from mail-wr2-f0.google.com (mail-wr2-f0.google.com [74.125.225.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF4E3F8234
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 19:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D415131716E;
+	Fri, 31 Jul 2026 20:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785525654; cv=none; b=PcMOBpIm+jrHjq2dujPWRJGzS0u3Q0LdzcmPoXRy24RS6U+TK5EiB0ybZl3CHm7/vEI80xuW/ItSalQkZ4awBXbqhWsHKIGCf96vkC0M7G2ecVRDAyCB2lUEzcK9hZjePywsPFwLlH2ahoBYK4P6d31e/nvioz2k6XWn0yipbWU=
+	t=1785528037; cv=none; b=EpO4tQuV1ZQ2Yd/nd25OamKQMgf+LuvHu9zDwtB6NpV38yHdjj+p3DDsVqpDsVMuxwT9vF0EHW/mxNIpxjlW9oCtO/qsARhvmXfm4kmWGp4o9kgVVfeXXH7hia6HvWEgCBvORs4pYEhkO2q1YftX0qDlVY/l+SGIy4Vf/VceCQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785525654; c=relaxed/simple;
-	bh=W/cQazly5+ZSmwW+vMYjDeAOiE27Kjc1Cr7JvjQ9jfs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=D9RmRa2pOtzYrvjSjGe4Io50lDnuXy8EjzMCV1xtGi5cbnSLY52UQpzX42zKne8SAcQa8XE0iVprcJgEi7C6yR7LXmtu+umfyvTubic2aoOpFiUt9ukN/a/Z+khlBXVKFqS+e2Yc6C3QPwRCw48dOWSoKJK0Gf9nPHJAPxG3kOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nhAFGLhV; arc=none smtp.client-ip=74.125.225.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785528037; c=relaxed/simple;
+	bh=rq5n9AFQ7phucOjSWqaeRU9ORII6gUJP5PqjZLN5rwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IN38vlWV9GpNRIxEjImiWT8H3B4P5NPeD2ikJzhTjWuL52oIHWfxJS+0ntfUwHpTqOZU34Y4CFtUFpzyhN3kW48o+vgygWhJ9s68e7gQ+cwf741jDUa+lro44SR9vS7qAVDGWxsmKhfTcrbeHui6sxq6ys2srfryfBP1xQHLpxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iHmHFJD0; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhAFGLhV"
-Received: by mail-wr2-f0.google.com with SMTP id ffacd0b85a97d-47528970fbdso646804f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 12:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785525651; x=1786130451; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3/Y6YcDM4/zvWNQ6LoR9jhMZHzjhOIbqHOCYPbHDmdw=;
-        b=nhAFGLhVLCPf3TVFJtApTCWIQHVQvV9MPsEf6fHLya8JT19sY+BBoWI8P2L631IEIJ
-         JIkv0qRStiFochcRnso74FFbiEfM/zttVtvwqSjkUbHlVPAeIAYxgorGBqyGf2MlJ6Ns
-         ytLz0mKTS35yftkeGpuJ+kqpCzkq6UjL1Rl0VaszcxCHb61UAIvcd/ADrkHlbSKM5uyk
-         AHjkndgGbiaAlzFO8cM0IHpd4pxrKvRZUkari1tm7Q1M8zoC5MO5t2ioOxxnfyNtiapG
-         /zuGi/w7A7XStv38XKLTDte6pi/D36FArcTi/C/rsmrow9rW5NNV6udYKSzDpjoXZfyB
-         aJSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785525651; x=1786130451;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3/Y6YcDM4/zvWNQ6LoR9jhMZHzjhOIbqHOCYPbHDmdw=;
-        b=Ic69H64ML7KSpZqsNHR0wTicXn87jqTllttxodrfr0Il7uyTYrLathkbTfOixefl15
-         0iMnAJSWIyduzyVo5fSsyO13zxZd7wDrW2VXn6OgPgfw7winGaQmDpP5Jrirasb8sVs+
-         V2lOJDCR6B2HadmPdhqedaV0jjjKfvjmyIPJ/oOaPsj0bsS6dc28XQ/bUCUMD6POaq8h
-         uN4PeIKbGw48uIg54/HEktIaVQpeE8tBxFxKp/rHN8Rrqbzv+QQbNBkBcLIOCAQUNBrF
-         66rcHLWpQyzMZu+jJOV+pnBhiRQyulk8pjNWf0fFgN0/pCRt3L+AK/h9EpFjuI4WoVxU
-         gqyw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrb4X7sJPOstniWIfIcdmT1hn4zV2C8FUy0bUQ5UNHFYGW/HjKeRb+BsCZP+MkeSAQccIeSe2OjgmaH99jV@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6PIWoiI0UmOfIuCuVFv78rHoDq0V6DAQFSfxSo3qG077CBbGB
-	Yxk0HusO2peUsolQjydIbEJ4UIiQ5UCMpolxWrnrmxW/F6xc5pNTejmf
-X-Gm-Gg: AR+sD12EH/lbfN4aPLlfwrJC360KGdJeyAlH/xbNQpoQwnehqTt8CZFe9o/UY7XorQ9
-	jfeNAhpkttRQkXwGKuKMTEJJ5Dm72zo5JfNo41EcxIZAEiXy7+UV7GAP9o1kb4zEv3oGkQrCz04
-	rgXMZzE5aPq/SwxRuLeslQfsde3mxfkVZo6Ejw8/uenBLVU0A/SMArH+8XlvWKYWpWQsd31avf0
-	G4ulGdaiJy7EnKmOrZqIiHCE17iFkDrA6M8LW+atRjq4WeFwRuXvF57UswG7Y42Hk3FVW79/0VK
-	CTlyg1CCdknaJCZgCKorPP870aSp71elgLQB1ScnpTXfevjXk2VdwWTSTeAD4tllhJPH9/s/ukX
-	vembo+FGYZMXqx8/yEcQdVxVeSLzLpM4yzB4em2NrwXLSNGDNiBooQXTTupfjr6XuB2wQgYgRji
-	0FK1svIM3urjIIQk6/vqUqICdtyEFgRJeF5B3Lp2TnpJMbqFupXYutXd3/woZPATBE48qfbUOWT
-	pM1RYcxALhbemdjoO65HF7oKDiunUtdyERaMM5vHpFitHyCFP4ManhNzYGqD+a229maEHYG6JBc
-	zyYvvj6jmo77BPyldnT9sYx3+zM=
-X-Received: by 2002:adf:eac3:0:b0:47d:dfc6:b28b with SMTP id ffacd0b85a97d-47fd72e1887mr1421938f8f.30.1785525651097;
-        Fri, 31 Jul 2026 12:20:51 -0700 (PDT)
-Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6cbsm7789645f8f.23.2026.07.31.12.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 12:20:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iHmHFJD0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=dZT9+CTn+bjLGUN5P6jZtXT3Oe8XoKKTzXRedmYLMew=; b=iHmHFJD0hadfYVHZHTaZiKqCrV
+	G3474FAUSeNF1IIpVToLdSl+pNNnmvlHWG1a6cBEHDqR2MHr5LkIFWUDZpQI3XK0LoQoQbTghA1A/
+	Cfysl4y8kc2FaP1Sie1oTSxOmDwc3B9YlTz/MkgLFULhoG28144rFwtgOd3ACZ5N5KOjxdV4MEeSM
+	lSu8suzl60A+yZhtJAayk5EFwU0VVYjazK4NoCoyHEL/f6lLfYAmFnGmYErJwI2UuX6to0xAvF6GP
+	KzH/+y+lkfZrD2wgtmKiprd12uZWafAwCRR89azmGYC4USF892UCsNHPZfA+nGEl3vhgcPwjc5nbX
+	jmOtx0IQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wptOv-00000001zPM-4Awv;
+	Fri, 31 Jul 2026 20:00:14 +0000
+Date: Fri, 31 Jul 2026 21:00:13 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, stable@vger.kernel.org,
+	Gregory Price <gourry@gourry.net>
+Subject: Re: [PATCH v7 01/13] memory-failure: Fix hardware poison check in
+ unpoison_memory() again
+Message-ID: <amz-zad7HM-PEkjb@casper.infradead.org>
+References: <20260728204409.3396238-1-willy@infradead.org>
+ <20260728204409.3396238-2-willy@infradead.org>
+ <amlKHkemYQBxFESG@gourry-fedora-PF4VCD3F>
+ <amlav1zfVy-9fLw5@casper.infradead.org>
+ <ccce5d73-b5d8-3e23-8e49-bb154af023d4@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 31 Jul 2026 21:20:50 +0200
-Message-Id: <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com>
-Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-To: "Paul Moore" <paul@paul-moore.com>
-Cc: "David Windsor" <dwindsor@gmail.com>, "Alexei Starovoitov"
- <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii
- Nakryiko" <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
- "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "John Fastabend"
- <john.fastabend@gmail.com>, "KP Singh" <kpsingh@kernel.org>, "Jiri Olsa"
- <jolsa@kernel.org>, "Emil Tsalapatis" <emil@etsalapatis.com>, "Matt
- Bobrowski" <mattbobrowski@google.com>, "James Morris" <jmorris@namei.org>,
- "Serge E . Hallyn" <serge@hallyn.com>, "Casey Schaufler"
- <casey@schaufler-ca.com>, "Stephen Smalley"
- <stephen.smalley.work@gmail.com>, "Ondrej Mosnacek" <omosnace@redhat.com>,
- "Mimi Zohar" <zohar@linux.ibm.com>, "Roberto Sassu"
- <roberto.sassu@huawei.com>, "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
- "Eric Snowberg" <eric.snowberg@oracle.com>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, "Shuah Khan" <shuah@kernel.org>,
- <bpf@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260730234533.1912709-1-dwindsor@gmail.com>
- <20260730234533.1912709-4-dwindsor@gmail.com>
- <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
- <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
- <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
- <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
- <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com>
- <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
- <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com>
- <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
- <DKCYOLBUWJBZ.1N8JAXJ3QJYCE@gmail.com>
- <CAHC9VhRK38bVU5+rYxwLsvVt0oBBSWs4xKsjexbvc3TuA9LVNQ@mail.gmail.com>
- <DKCZDM2G8VHO.38SPG4I4JZTJI@gmail.com>
- <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
-In-Reply-To: <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ccce5d73-b5d8-3e23-8e49-bb154af023d4@huawei.com>
 
-On Fri Jul 31, 2026 at 9:05 PM CEST, Paul Moore wrote:
-> On Fri, Jul 31, 2026 at 2:50=E2=80=AFPM Kumar Kartikeya Dwivedi
-> <memxor@gmail.com> wrote:
->> On Fri Jul 31, 2026 at 8:42 PM CEST, Paul Moore wrote:
->> > On Fri, Jul 31, 2026 at 2:18=E2=80=AFPM Kumar Kartikeya Dwivedi
->> > <memxor@gmail.com> wrote:
->> >> On Fri Jul 31, 2026 at 6:59 PM CEST, Paul Moore wrote:
->> >> > On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Kartikeya Dwivedi
->> >> > <memxor@gmail.com> wrote:
->> >> >> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wrote:
->> >> >> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Kartikeya Dwivedi
->> >> >> > <memxor@gmail.com> wrote:
->> >> >> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Windsor wrote:
->> >> >> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul Moore <paul@pau=
-l-moore.com> wrote:
->> >
->> > ...
->> >
->> >> Yes, I understand you feel it should be placed under security/. You a=
-re entitled
->> >> to your opinion.
->> >>
->> >> No, I do not think the newly added kfunc is a big enough layering vio=
-lation such
->> >> that we need to do it ASAP, disregarding everything else outlined abo=
-ve. I am
->> >> sure you see that too. There are several other instances of similar k=
-funcs.
->> >>
->> >> Therefore, please attempt to meet me halfway here.
->> >
->> > I'm happy to work with you, and/or anyone else, who wants to work on
->> > finding a way to test kfuncs that live in security/bpf_lsm_kfuncs.c.
->>
->> Right, and for that file to exist, you need to get everyone (FS, BPF fol=
-ks) to
->> agree on whether placing all such kfuncs there makes sense. It is not fo=
-r both
->> of us to decide on our own. So let's revisit this whole topic once you'v=
-e done
->> that exercise.
->
-> The kfunc that David has proposed must be located in
-> security/bpf_lsm_kfuncs.c, similar to the VFS kfuncs and
-> fs/bpf_fs_kfuncs.c.  If you read David's bpf_init_inode_xattr() kfunc
+On Thu, Jul 30, 2026 at 04:45:19PM +0800, Miaohe Lin wrote:
+> On 2026/7/29 9:43, Matthew Wilcox wrote:
+> > The careful reader will observe that injecting two memory failures
+> > into the same hugetlb causes ... problems.  That's true before and after
+> 
+> Could you elaborate on what problems this might cause? IIUC, second memory
+> failure on the same hugetlb folio will make try_memory_failure_hugetlb() return
+> -EHWPOISON without holding another refcnt. Raw error pages will be added to
+> raw_hwp_page list. Then in unpoison_memory(), raw_hwp_page list will be cleaned
+> and extra refcnt held by memory_failure will be released and PageHWPoison will be
+> cleared. So it looks work to me. Or am I miss something?
 
-Sigh.
+Thanks for the explanation of what happens.  What's confusing to me is
+that we can poison pfn A and pfn A xor 1, then unpoison pfn A and that
+causes pfn A^1 to be unpoisoned too (if they're in a hugetlb folio).
+That's an unexpected difference to me; I'd expect to be able to set/clear
+their poison individually.
 
-I now went and read the archives, and Christian already told you no before =
-[0],
-which I missed in my first read. So two people whom this code affects alrea=
-dy
-objected to your proposal.
+But it has been this way for many years, so I presume people are either
+used to it, or don't notice.
 
-  [0]: https://lore.kernel.org/bpf/20260625-schnabel-rennmaschine-parieren-=
-bcb352c3cf59@brauner
+> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 
-> you will notice there is nothing in the function relating to the VFS,
-> well other than the "inode" and "xattr" in the name of the function;
-
-I can also read it the other way. There is only one "security_lsmxattr_add(=
-)"
-call that is LSM related, and the rest is VFS or BPF specific stuff.
-
-There would be no xattr support in LSM code without filesystems implementin=
-g
-them.
-
-Please avoid making absurd and non-sensical arguments.
-
-If we went by this logic, we would have to move the entirety of the kernel =
-under
-security/, since anything that calls into LSM code becomes eligible to go t=
-here.
-
-> this is purely a LSM kfunc and I stand by my previous comments.  The
-> BPF maintainers have seen fit to decide quite a few things LSM related
-> solely on their own, I see no reason why requiring a LSM kfunc be
-> located in security/bpf_lsm_kfuncs.c is unreasonable given our current
-> situation.
->
-> As I said earlier, I'm happy to work with you, David, or anyone else
-> on ensuring security/bpf_lsm_kfuncs.c has the proper test coverage,
-> but I'm not going to continue to go back and forth about the location
-> of the bpf_init_inode_xattr() kfunc that is proposed in this patchset.
-> If you, or any of the other BPF maintainers, are not able to live with
-> that location then David will need to find another way.
-
-Yeah, I think we've spilled enough ink on this. We'll figure out a way to m=
-ove
-things forward.  Since VFS people disagree too, the kfunc should stay where=
- it
-is in this series.
-
-I am always open to revisiting all this once you can convince others by mak=
-ing
-useful arguments, instead of imposing your will onto them and throwing a ta=
-ntrum.
+Thanks, added.
