@@ -1,108 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9435695
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 13:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE783B7769;
+	Fri, 31 Jul 2026 13:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785504740; cv=none; b=CTQIcCIyPF5+JIBRIunSO3wXT9xAZcMp6alQ+ImkKqoMzW9qUGJ05+jjat8IOrMRyZ2EsTreZC9x0QG+7xySq3fyg+iC53Ai2ThqDJQU/ebZygKmuxSxZOF4nj3+YooEdQpeZb1RfIDUqQF0LvfuiLhLvias/OthRmBalkqs1ko=
+	t=1785505163; cv=none; b=nKFpFIx6g5BsM6iCpyXO14SEKITyuRVyILMr+i4vQynlYF+ctX0KvlEH5RglYnLn86sEPyenR2/hfrhC2PoE+4JVFXphzFa39zZPmV0oHhzq7cxC1sCx6XHZvZPZZ9RPKBO6kbLgvo8rtOaQKjeyswTytQ6i90Bhd0JyGzz8Pkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785504740; c=relaxed/simple;
-	bh=rZY276R1dF7CQ1YEccl0wOaW4qrQZnffxN9OrAT/gFk=;
+	s=arc-20240116; t=1785505163; c=relaxed/simple;
+	bh=i6heaGQLXXeIq1FowZO+BivzaQ73eG5yAk3pGfDncKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2czDnZlCWv7nSI+VK3jAJGVF9WEx5ndUw0fNtnJ/GeYjsp5gYyHcQVEVH0dUepPgFQv9sCP527ztMZl7EwGE2foJZYBL9Ls0+64WseB+w3HjFtEAiGGN/dGf+Xsc/I411SDWd/xpL3x6CbElF5V8K+s2lXP+hCR8aHxRXYThqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cghnf9Y7; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ndzQg9suaM8WvMVAZlmjYFVNn5E+V+5dbr3upK3thH0IX+srECBBRG1MMz36xGZgJx6bd73MHR+zkOKH0Hv1zFQVuMRdpNiZGMfZepw6JcLDsP5srdOZdr/9zZKOILZDJWTdmHiljEjavxJB9Zyi5q7H9s8QWqZQyTPaOAZLXpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=igU8xHOZ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cghnf9Y7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0281F000E9;
-	Fri, 31 Jul 2026 13:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785504739;
-	bh=q5ZBFRjSaRWG49SYZwkFXwAI+svIJcrU39TitSzCLBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cghnf9Y7m8MyEdcVdGGtuv0KC9YXXAr1PAJJwjsKSvF36iYMcLbKLJFyiqGYY44TX
-	 0Ji9gvJVwsEwrxwTJ/UIOndwlJbbMwf0EsokkC2iRbBddxaTFoM4jmmHc4TllPO1jo
-	 EDG4nbpuwJDImziUksRNRSDxW0+hHYWqXI4PVNpdlQJDBNqdiBKv6LLz4k5EXHCe3G
-	 PN3cQzIXUxmmKIisdwKmHNpaRfC8cDYq8Z5nDc2BGetjkQZ+BmVNB9NIWse8YD1cOh
-	 MZEFkKGADviTAoD2GWXRmE7uPFrYK0UEBKyRCydoL+QHnso3vVVVgXf+e2ZU7kmhW/
-	 Pc/207QXqETow==
-Date: Fri, 31 Jul 2026 15:32:15 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: Pedro Falcato <pfalcato@suse.de>, linux-erofs@lists.ozlabs.org, 
-	xiang@kernel.org, linux-fsdevel@vger.kernel.org, amir73il@gmail.com
-Subject: Re: [PATCH] erofs: reuse superblock for file-backed mounts
-Message-ID: <20260731-geheilt-launenhaft-lehrjahr-7cc61610ee1c@brauner>
-References: <20260730124120.1501126-1-gscrivan@redhat.com>
- <amtJX8aTZT5d_sP3@pedro-suse.lan>
- <8733x0k2p1.fsf@redhat.com>
- <87fr10h2wh.fsf@redhat.com>
- <20260731-geeilt-hasen-demografie-83c895f789ea@brauner>
- <8733wz1ekh.fsf@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="igU8xHOZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=PMsSa8DpHjoOi6gmcOGcxYP4gI70dVR+DdX0H08nrsA=; b=igU8xHOZNj8+WBM8T2IIVwmwCe
+	gtJ75h//s9qV2OGqD9o4sG187F6HHQeHnWSNY7M3PO1AVW3dZnWPL1FKD2cihapIWAdEFRCCEg8eb
+	OVqiw/9BCu/zYeEhQLGl3VqkTF+yhYHdiW1WieoRhngC6Jao6ypH7+6XZHaf4T7EbP8gn1+FfhSGI
+	x/kiUQ4Vl6KI4m3dK8iL1f7KQPVWo81uaXr+qfxLtnZu4mWT7aZWURHvBIpc7HW8nGWFqCq3eZm/l
+	cJiguOAdO9Lal5tdBWQwRyoo7xfSphC199vM9u0kenu/ARmzPGF4Rptfdpyr5Z5pPmJjtxs0Sz30e
+	iMmbv/jA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wpnS2-00000005zwQ-0oaM;
+	Fri, 31 Jul 2026 13:39:02 +0000
+Date: Fri, 31 Jul 2026 14:39:01 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: jane.chu@oracle.com
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v7 01/13] memory-failure: Fix hardware poison check in
+ unpoison_memory() again
+Message-ID: <amyldelTLZNeGaNQ@casper.infradead.org>
+References: <20260728204409.3396238-1-willy@infradead.org>
+ <20260728204409.3396238-2-willy@infradead.org>
+ <c5b01c38-9c35-468b-9fce-ff7e1e11b03f@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8733wz1ekh.fsf@redhat.com>
+In-Reply-To: <c5b01c38-9c35-468b-9fce-ff7e1e11b03f@oracle.com>
 
-On Fri, Jul 31, 2026 at 03:19:58PM +0200, Giuseppe Scrivano wrote:
-> Christian Brauner <brauner@kernel.org> writes:
+On Thu, Jul 30, 2026 at 10:39:57PM -0700, jane.chu@oracle.com wrote:
+> I think I spot another pre-existing issue in unpoison_memory():
+> the XXX line doesn't work for non-hugetlb free large folio because it'll
+> just try to clear PG_hwpoison in the folio->page, not the precise 'pfn'
+> page.  Something like below could do.
 > 
-> >> >>> The time difference shows that sharing the superblock also benefits
-> >> >>> the page cache and inode cache, as subsequent mounts of the same image
-> >> >>> avoid re-reading the backing file.  This is particularly useful for
-> >> >>> container hosts running multiple containers from the same base image.
-> >> >>
-> >> >> Doesn't this approach break-down as soon as you get to change SB flags (through
-> >> >> e.g mount -o remount)? It will change superblock flags for all of them, right?
-> >> >>
-> >> >> (I don't think you can switch off the superblock transparently on a
-> >> >> reconfigure?)
-> >> >
-> >> > This is the same preexisting behavior for block device mounts.  That
-> >
-> > Yeah, and it sucks ass. :)
-> > Only an incompatible vfs-level RO/RW property causes a silent reuse to
-> > fail. Otherwise it not possible to detect that a superblock has been
-> > created and requested mount options silently ignore.
-> >
-> > In other words, doing this unconditionally is incompatible with current
-> > userspace.
-> >
-> > Btw, I added FSCONFIG_CMD_CREATE_EXCL for this reason which refuses to
-> > reuse an existing superblock for filesystems that would otherwise end up
-> > sharing a superblock. This way userspace is guaranteed to not silently
-> > get filesystem options ignored.
-> >
-> >> > said, I realize this can feel confusing since EROFS is not a block
-> >> > device and allowed this so far.
-> >> >
-> >> > One way to solve this could be an explicit mount option "share_sb" that
-> >> > is opt-in and, once set, blocks any remount operations.  Would that
-> >> > work?
-> >> 
-> >> Would something like the following fixup on top of the previous patch be
-> >> acceptable (suggestions for better names are welcome)?
-> >
-> > The patch as written still means that a task A creates a new erofs mount
-> > with for file F and marks it as shared. Another task B creates new erofs
-> > mount expecting to get a new superblock and will end up sharing it with
-> > task A instead.
-> >
-> > That is still quite the behavior change and could be used to subvert
-> > workloads expectations and be used in (odd) attacks.
 > 
-> no, my suggestion is that task B gets the same superblock created by A
-> only if it also specifies share_sb.
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 51508a55c405..14915718ace5 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -2730,8 +2730,10 @@ int unpoison_memory(unsigned long pfn)
+>                         count = folio_free_raw_hwp(folio, false);
+>                         if (count == 0)
+>                                 goto unlock_mutex;
+> +                       else
+> +                               ret = folio_test_clear_hwpoison(folio) ? 0 :
+> -EBUSY;
+>                 }
+> -               ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY; <---
+> XXX
+> +               ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+>         } else if (ghp < 0) {
+>                 if (ghp == -EHWPOISON) {
+>                         ret = put_page_back_buddy(p) ? 0 : -EBUSY;
 
-Yeah, that works.
+I think you're right, but this isn't a bug.  That is, we're calling the
+wrong function, but in this particular branch, we're guaranteed that
+'folio' and 'p' have the same value so the same bit is cleared.
 
-> If the option is not specified, as is the case for existing workloads,
-> then it gets a new superblock even if A is already mounted with
-> share_sb.
+This is the case where !ghp is true.  Here's the code we're looking at:
 
-Sounds good! Ship it.
+        ghp = get_hwpoison_page(p, MF_UNPOISON);
+        if (!ghp) {
+                if (folio_test_hugetlb(folio)) {
+                        huge = true;
+                        count = folio_free_raw_hwp(folio, false);
+                        if (count == 0)
+                                goto unlock_mutex;
+                }
+                ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
+
+It is my understanding that we take this path for hugetlb memory and
+pages which are in the buddy allocator.  Buddy pages aren't compound
+pages, so calling page_folio() on them returns the same pointer, just
+cast to a folio.
+
+Now, I do fix this in "hugetlb: Use the has_hwpoisoned flag" (because
+nobody gets to use folio_test_clear_hwpoison() any more):
+
+@@ -2733,8 +2756,10 @@ int unpoison_memory(unsigned long pfn)
+                                hugetlb_unlock_irq();
+                                goto unlock_mutex;
+                        }
++                       ret = hugetlb_clear_poison(folio);
++               } else {
++                       ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+                }
+-               ret = folio_test_clear_hwpoison(folio) ? 0 : -EBUSY;
+                hugetlb_unlock_irq();
+        } else if (ghp < 0) {
+                if (ghp == -EHWPOISON) {
+
+so I agree with you this should be fixed.  But I don't think it fixes
+an actual bug.  If it did, then we should do that first for easier
+backporting.  So if I've got anything wrong here, it's worth saying.
