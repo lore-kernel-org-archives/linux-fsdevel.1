@@ -1,291 +1,327 @@
-Received: from mail-wr2-f2.google.com (mail-wr2-f2.google.com [74.125.225.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052C637F010
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 21:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6562432E6BC;
+	Fri, 31 Jul 2026 21:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785533371; cv=none; b=S+WvFfWpxunKYClRVDCJRB9yHJB4crAgE3QqhpWLkSP4vb5Fg24pchq9HVL4bzQ9gg7UXg72yOsk2SFfd74EjRncOUXaeyMX+QHC8NYPbv9nT0e0uJDijl0yiNNMAk/JJimSKubuXxq3JL9VXyQDEPdvGYUgt+vKFsRG/OpSDLg=
+	t=1785533392; cv=none; b=ZDnkWAY0xJIqtfHglUrZaQ7Yba9crm/+AAG1cttfkvDQhDX2NepbkK9EWSxQwNXyszDVJGBhLZRaPrI3C1RrEe44x1ElwSIl+fQyqEkr0sRI9eovKqryIfkJ718IVmn5mISRvJoNoGD5kmsqiyMvBJGFDIbAj6KIad/O/yBhEDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785533371; c=relaxed/simple;
-	bh=xgDHCJSJUP076VEAIU5jDFMiES5x72agvJm+Htj+ukQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=LzLWN59FjdjG1sLzQVfanA+FLZDra/RE0M4rCtTKhJwCBF6GJ6h8UdS8fvP6hLX9M0rhH8ljm/vTFHeir2ShUAhzzNYDxyPKybaYEpvbeJMgLaGs2SCB/Ib0vqItqv8o6f4y77/wq1pcE6mZpNooMRQVbWPBs6e/wJzlUgqKiHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oy2yeANA; arc=none smtp.client-ip=74.125.225.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785533392; c=relaxed/simple;
+	bh=mw2X0JhM/ZvPxvciZTmnWy/8YDUT1/16MCVAztTMHiA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q2bmtROLWVGWoGQDBDee1AKynLiSjyGvDn5Nqg/TpfMF/vV3DIGfK8w+8skG00EfPxhtkF8yhkKFWlEn9KjArXS6ydk8lESceJRnHxqfaJPdgm1MeYEoZ8c1jofffzx/5XC6qI6Xb2+SMpeE1OAzzxnDE0ZCQmZVUTtsyhQfOyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=FIlaoQTq; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oy2yeANA"
-Received: by mail-wr2-f2.google.com with SMTP id ffacd0b85a97d-470713a9053so403286f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 14:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785533368; x=1786138168; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JL8gvuzkxn4fskzyW+z6arqOmzMuXIEuoBq0ytXlQVI=;
-        b=Oy2yeANAjNHNcCOCrKh10I6DYfVZ/M+NgqFtZUitKVzVsH37XgLgYcyimDXfIaFIhh
-         R4ZrYl6oBtYxYE4Vuf+XEAP0y2CY+yNZEzM+nt2W2+oIFvSR8hyAkotTLNQpYy/07dui
-         p/tseISd9LW4fWR260FFW4v/e7eoBGbdHcdzrvPSBy/rSMRMfR/EirRkE0FUGP2MaQFf
-         moQYlCm0x+DUaBDwIgs7ke1S4FtemMmr/t4DK4JlrtJ6muLOIdWzZ01b+h9CORbkkYfG
-         LjP3aL2E+AbWkimzZMJWRrSglRpjfZB+LBtUZwffRw8RlztKh043JX3qAhm8CZK5CRi/
-         I5TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785533368; x=1786138168;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JL8gvuzkxn4fskzyW+z6arqOmzMuXIEuoBq0ytXlQVI=;
-        b=ClRPKDPZnDpGyz4M0nZwMnSFbY3220ZYiqc5/0bcB2GbmrWqRyL4CErmeNHLPIo5WR
-         E6ujlgul+nDNL98c5VRTS6UHuWwrBShTLZJFpwulXEZDmHF2zjjUE+GzjlmDhS9YIVv3
-         SBBzK+TAvuqQRL0rNCpdpoVnymZbSnwEH4eZs6EsrTnLzXPATfOfR095sP9KaEoTw7sc
-         zzFvzp5foVt4eCszpco4sA6KnhN1bTQVML/HEsffT7vyzqhTJP7sHttNwwmqWzuOWk1U
-         QvdMb++uiySpyhVpD2ElhMihUIJrEpovjHbmX/VtzHpu+nSdv9HfBoZrAp98XyHJRJWK
-         DIvw==
-X-Forwarded-Encrypted: i=1; AHgh+RqJl5nsLICbYYg0FjfLQUl1NW53U0O1EP/nsD2UtNJwFAuZewDAyx9s2Ohym64h97zfThmyoLkfyL3lIB7M@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywrmjpu8d2ePJOZZSMyx/CyIiiRngk4Fc69hRCrTg1GftID8pBF
-	l1vowUQU5eSkWdjo9Grm9vnEnWv1QPtvqW307mwp46sG3ht7FgF6G/+O
-X-Gm-Gg: AR+sD11njS6h48W1BKhKhgnW5bm/FoVm4LjrG1U0huQ5rO8MY+oTj7rgsrHJourhQDe
-	QP1wUxejxBNfeV8X2GRpPgM54j8kDOwoqXURla3288yVMvM1Iv0SOnUeS8JJYjwI3QUXtkH09Je
-	FlhXzpBwKq6BoOtX7EndC++d1tEVsIfZ4Do6zCsbsshI1WgloV0f1mZTtfLqQkhcjbQTx2INAX3
-	HKNKnPRbiLGmyuXqY8vpzcqRnF7QXcX8mvcRqfLRoVSNUPrN9Yh/3c991dQZNgCCcqf05hPOh42
-	OApGWG/5l4zqUeuzMF7wrPP5Dh/mFjPACZPYCtwXrFJMv5VmgWtsi9VF/ha0DWHRjeBGjPZX/f8
-	eiT8IXVRE6wcI49SiVHy4VmrA1ZfQggyzfYYK3AHnithoVk8JgePs0Vg6AR5naEfb+onEaETfEF
-	UuChId1nAQtc+48ZhBRUjbQZJgZh4EFcAw8M2CHAMRt/HXO6uSq/8rRvHHVGIQIBBMbgSRhGj7H
-	Q8wm9UN07gPZ6R/vIlgVMpYsR11S99317J6wvIbKrQfEZ6ou5bexbIDNxutOUDmlM/9nuPHpNfr
-	BBpPqitp1plXsrO7bbf0/PFu6Awf
-X-Received: by 2002:a5d:64e3:0:b0:47f:8e50:93de with SMTP id ffacd0b85a97d-47fd732f9c7mr2389247f8f.54.1785533367982;
-        Fri, 31 Jul 2026 14:29:27 -0700 (PDT)
-Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6cbsm9121148f8f.23.2026.07.31.14.29.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 14:29:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="FIlaoQTq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1785533388; x=1786138188; i=quwenruo.btrfs@gmx.com;
+	bh=no9Y2aVtEAf0uZ7mul7hOghjXFJZpEk/v9jp9yYbLPY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=FIlaoQTqDHdxEZDcjlHmS+RPAMnt1ZFTxve06d6N6cMeynNmRQC2vgk9BeHcNKVg
+	 7SXpjoz4xDXxl1BYrhWEYX5v4Cim5toBrJkg3hhD8gA8FlkObZVn1uLgQRtvEIOnV
+	 RM9+dNhpDIiAY/7k+G30SgUUIaCxWYdpNKf/c45zRK6KVYDdYJ8ispiSyXlyw5iPL
+	 0d5lWKme1Njda8vZhBVeG7DX+0GnpLaQje8NRl48FaTpwlqV4O9H/PN94FkeJmzCQ
+	 erf2+YsgoYBhwnmmIO226XYfdM2Tgp2P2gO4KDDo3V7qk7mLjyIzxCOL01qV2lrpe
+	 iyI5udbc/PZJ54HVRA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MxDou-1x9uWh1yjA-00w01a; Fri, 31
+ Jul 2026 23:29:48 +0200
+Message-ID: <5dde7abf-97f2-45d5-b6ed-0422bee777b6@gmx.com>
+Date: Sat, 1 Aug 2026 06:59:42 +0930
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot ci] Re: iomap: follow the alignment requirement for
+ iomap_dio_hole_iter()
+To: syzbot ci <syzbot+ci731b4119b755b229@syzkaller.appspotmail.com>,
+ linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, wqu@suse.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <6a6c89d9.77639fcc.3d4fd0.0026.GAE@google.com>
+Content-Language: en-US
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
+ sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
+ xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
+ naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
+ tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
+ 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
+ VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
+ CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
+ /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
+ GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
+ q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
+ ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
+ CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
+ B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
+ Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
+ +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
+ HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
+In-Reply-To: <6a6c89d9.77639fcc.3d4fd0.0026.GAE@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 31 Jul 2026 23:29:27 +0200
-Message-Id: <DKD2R5268G2C.TPLR4XMTZ91R@gmail.com>
-Cc: "David Windsor" <dwindsor@gmail.com>, "Alexei Starovoitov"
- <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii
- Nakryiko" <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
- "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "John Fastabend"
- <john.fastabend@gmail.com>, "KP Singh" <kpsingh@kernel.org>, "Jiri Olsa"
- <jolsa@kernel.org>, "Emil Tsalapatis" <emil@etsalapatis.com>, "James
- Morris" <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, "Casey
- Schaufler" <casey@schaufler-ca.com>, "Stephen Smalley"
- <stephen.smalley.work@gmail.com>, "Ondrej Mosnacek" <omosnace@redhat.com>,
- "Mimi Zohar" <zohar@linux.ibm.com>, "Roberto Sassu"
- <roberto.sassu@huawei.com>, "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
- "Eric Snowberg" <eric.snowberg@oracle.com>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, "Shuah Khan" <shuah@kernel.org>,
- <bpf@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-To: "Paul Moore" <paul@paul-moore.com>
-X-Mailer: aerc 0.21.0
-References: <20260730234533.1912709-1-dwindsor@gmail.com>
- <20260730234533.1912709-4-dwindsor@gmail.com>
- <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
- <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
- <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
- <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
- <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com>
- <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
- <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com>
- <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
- <DKCYOLBUWJBZ.1N8JAXJ3QJYCE@gmail.com>
- <CAHC9VhRK38bVU5+rYxwLsvVt0oBBSWs4xKsjexbvc3TuA9LVNQ@mail.gmail.com>
- <DKCZDM2G8VHO.38SPG4I4JZTJI@gmail.com>
- <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
- <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com>
- <CAHC9VhQ5vSr6JK0xtNnP2cre+3bbW9GUT7kXwLAcctwNpPzwrA@mail.gmail.com>
- <DKD17D5H7N95.2VI5IOQBNTHGX@gmail.com>
- <CAHC9VhQ24fp7_sy1=NiWkfzPLSM35ugSCOKDKxnm6H9W-pDa6Q@mail.gmail.com>
-In-Reply-To: <CAHC9VhQ24fp7_sy1=NiWkfzPLSM35ugSCOKDKxnm6H9W-pDa6Q@mail.gmail.com>
+X-Provags-ID: V03:K1:7aXo6vp9hJB04aZ77IYgkUxJPZ7e5Opm36BY6faZAuNYGrDqDLs
+ qA/RQCeG/z6BDx4R1bzQOkMIIwH5rffczlMqo7IfhcwX2XfZhpu8uX2Y6mgW1xavLTnpMLM
+ UqrR0sMMfCA5/v9svHy9L7BiqqWgbGt7on/mru1n1fmo/aAw0m+Bq2fJ2WQ90fYUb3B+DwC
+ 6ZNznHUu6N5FkOWL6t/3g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Z55y99Oo0FM=;mt6+ja1niDY1eq1vHVBg6akFMRq
+ 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
+ LY+ykHRjJ5XZuGAwf62YINmX9vcnMk7PuhDWo=
 
-On Fri Jul 31, 2026 at 10:48 PM CEST, Paul Moore wrote:
-> On Fri, Jul 31, 2026 at 4:16=E2=80=AFPM Kumar Kartikeya Dwivedi
-> <memxor@gmail.com> wrote:
->> On Fri Jul 31, 2026 at 10:01 PM CEST, Paul Moore wrote:
->> > On Fri, Jul 31, 2026 at 3:20=E2=80=AFPM Kumar Kartikeya Dwivedi
->> > <memxor@gmail.com> wrote:
->> >> On Fri Jul 31, 2026 at 9:05 PM CEST, Paul Moore wrote:
->> >> > On Fri, Jul 31, 2026 at 2:50=E2=80=AFPM Kumar Kartikeya Dwivedi
->> >> > <memxor@gmail.com> wrote:
->> >> >> On Fri Jul 31, 2026 at 8:42 PM CEST, Paul Moore wrote:
->> >> >> > On Fri, Jul 31, 2026 at 2:18=E2=80=AFPM Kumar Kartikeya Dwivedi
->> >> >> > <memxor@gmail.com> wrote:
->> >> >> >> On Fri Jul 31, 2026 at 6:59 PM CEST, Paul Moore wrote:
->> >> >> >> > On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Kartikeya Dwiv=
-edi
->> >> >> >> > <memxor@gmail.com> wrote:
->> >> >> >> >> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wrote:
->> >> >> >> >> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Kartikeya D=
-wivedi
->> >> >> >> >> > <memxor@gmail.com> wrote:
->> >> >> >> >> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Windsor wrote:
->> >> >> >> >> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul Moore <pa=
-ul@paul-moore.com> wrote:
->> >> >> >
->> >> >> > ...
->> >> >> >
->> >> >> >> Yes, I understand you feel it should be placed under security/.=
- You are entitled
->> >> >> >> to your opinion.
->> >> >> >>
->> >> >> >> No, I do not think the newly added kfunc is a big enough layeri=
-ng violation such
->> >> >> >> that we need to do it ASAP, disregarding everything else outlin=
-ed above. I am
->> >> >> >> sure you see that too. There are several other instances of sim=
-ilar kfuncs.
->> >> >> >>
->> >> >> >> Therefore, please attempt to meet me halfway here.
->> >> >> >
->> >> >> > I'm happy to work with you, and/or anyone else, who wants to wor=
-k on
->> >> >> > finding a way to test kfuncs that live in security/bpf_lsm_kfunc=
-s.c.
->> >> >>
->> >> >> Right, and for that file to exist, you need to get everyone (FS, B=
-PF folks) to
->> >> >> agree on whether placing all such kfuncs there makes sense. It is =
-not for both
->> >> >> of us to decide on our own. So let's revisit this whole topic once=
- you've done
->> >> >> that exercise.
->> >> >
->> >> > The kfunc that David has proposed must be located in
->> >> > security/bpf_lsm_kfuncs.c, similar to the VFS kfuncs and
->> >> > fs/bpf_fs_kfuncs.c.  If you read David's bpf_init_inode_xattr() kfu=
-nc
->> >>
->> >> Sigh.
->> >>
->> >> I now went and read the archives, and Christian already told you no b=
-efore [0],
->> >> which I missed in my first read. So two people whom this code affects=
- already
->> >> objected to your proposal.
->> >
->> > As mentioned previously, David's kfunc has nothing to do with the VFS.
->> > Look at the code if you haven't already and you'll see what I mean.
->> > The only relevance to the VFS is the fact that "inode" and "xattr" are
->> > used in the name; David's currently proposed kfunc is an LSM kfunc,
->> > not a VFS kfunc.
->>
->> I am sorry, I read it and I don't see why it is an LSM kfunc. It is abso=
-lutely a
->> VFS kfunc, that is using LSM APIs to some end. The LSM specific bits are=
- already
->> in security/.
->
-> [...]
->
->> > If you find yourself required to abide by Christian's comment, despite
->> > this not being a VFS kfunc, that's fine, but this puts us at a
->> > stalemate and David will need to find another approach for his work.
->>
->> Paul, let me remind you of another email you sent [0], in which you cont=
-radict
->> yourself. I don't know what caused you to get confused over the month.
->>
->> In it, you tell David to move *LSM* bits into security_lsmxattr_add(), w=
-hich has
->> been done in patch 2. Thus, by your own characterization, it means the r=
-est is
->> *not LSM* code.
->>
->> Quoting you verbatim:
->> > As I said previously, if you absolutely insist on the kfunc being in
->> > the VFS kfunc file, the LSM specific bits need to be abstracted out
->>                         ^^^^^^^^^^^^^^^
->> > into an LSM function.
->>
->> You yourself made the point in that same email that the kfunc can stay i=
-n the
->> current file once LSM bits were moved out, and your request was honored.
->>
->> At this point, anybody reading this thread will only see your position a=
-s a way
->> to undermine David's work and waste everyone's time, such that you can g=
-rind an
->> axe against BPF folks. It's a repeating pattern.
->
-> It seems foolish to speculate on what *everyone* reading this thread
-> might be thinking, but since the discussion has decayed to the point
-> where we are spelunking archives for quotes, let me provide my comment
-> from David's v5 patchset where I explain myself:
->
-> "I'm sorry David, now that I'm seeing this function again, especially
-> with the LSM specific bits extracted into a LSM function, this absolutely
-> belongs somewhere under security/.  It's only callable from within a
-> BPF LSM callback and all it does outside of some BPF pointer boilerplate
-> is call right back into a LSM helper function."
 
-I think you keep forgetting that you cannot unilaterally decide this. Both =
-VFS
-and BPF people have told you that it does not make sense. What was clearly =
-LSM
-specific code has been moved under security/ already.
 
-It's all BPF code otherwise, and topical for the VFS subsystem, hence it sh=
-ould
-stay there. That is why it's a VFS kfunc. The rest of the kernel calls LSM =
-APIs
-and hooks, but it does not make them LSM code.
+=E5=9C=A8 2026/7/31 21:11, syzbot ci =E5=86=99=E9=81=93:
+> syzbot ci has tested the following series
+>=20
+> [v1] iomap: follow the alignment requirement for iomap_dio_hole_iter()
+> https://lore.kernel.org/all/e69cc8a4a9c3f641b97872b50f04c397880077cd.178=
+5374485.git.wqu@suse.com
+> * [PATCH] iomap: follow the alignment requirement for iomap_dio_hole_ite=
+r()
+>=20
+> and found the following issue:
+> general protection fault in __iomap_dio_rw
+>=20
+> Full report is available here:
+> https://ci.syzbot.org/series/81e0fbae-4715-4d62-8e9e-bcd19e46b164
+>=20
+> ***
+>=20
+> general protection fault in __iomap_dio_rw
+>=20
+> tree:      vfs
+> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/=
+vfs.git
+> base:      70c2cbf8600c7d3a622b77e31136b83d6ac7d86c
+> arch:      amd64
+> compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~=
+exp1~20260613092250.77), Debian LLD 22.1.8
+> config:    https://ci.syzbot.org/builds/8d5fee65-291c-46a2-9f9a-d512f8fa=
+d82b/config
+> syz repro: https://ci.syzbot.org/findings/c9f79a18-3316-44ec-b805-b805b1=
+c49325/syz_repro
+>=20
+> loop0: rw=3D2049, sector=3D53248, nr_sectors =3D 976 limit=3D40427
+> Oops: general protection fault, probably for non-canonical address 0xdff=
+ffc0000000003: 0000 [#1] SMP KASAN PTI
+> KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
+> CPU: 0 UID: 0 PID: 5842 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(=
+full)
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1=
+.16.2-1 04/01/2014
+> RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
+> RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
+> RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
+> RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
+> RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
+> RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
+> Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 =
+83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 =
+74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
+> RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
+> RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
+> R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
+> R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
+> FS:  00007fd77743d6c0(0000) GS:ffff88818d951000(0000) knlGS:000000000000=
+0000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000200000078000 CR3: 000000011606a000 CR4: 00000000000006f0
+> Call Trace:
+>   <TASK>
+>   f2fs_dio_read_iter fs/f2fs/file.c:4887 [inline]
 
-It needs to be reviewed by VFS and BPF maintainers. Yes, it's only called f=
-rom
-BPF LSM callbacks, but plenty of kfuncs for those are already outside secur=
-ity/.
+This looks like f2fs is not populating iomap->bdev for holes, which is=20
+not unreasonable for a hole.
 
-The right way to do address that is to get people who added and maintain th=
-at
-code to agree with you, not take the work of unsuspecting contributors host=
-age
-to meet your goals, and threatening to block their work.
+So I need to update iomap_dio_alignment() for @bdev =3D=3D NULL cases.
 
-And to set expectations, it is clear people do not agree with your stated m=
-ove.
-When everyone tells you that you are wrong about something, sometimes, it i=
-s
-helpful to revisit your position.
+Thanks for the report,
+Qu
 
->
-> You are welcome to view that however you like.  I saw the v5 patchset
-> and the nature of the kfunc became painfully obvious to me so I
-> changed my opinion.
 
-I think you have difficulties in recognizing that a piece of code can be
-cross-cutting, and affect several subsystems at once. The code that was cle=
-arly
-belonging to LSMs was already moved in patch 2. The unrelated stuff is wher=
-e it
-has belonged in the past already, so that it can be reviewed by the right f=
-olks.
+>   f2fs_file_read_iter+0x60b/0x940 fs/f2fs/file.c:4950
+>   copy_splice_read+0x5ff/0xaa0 fs/splice.c:362
+>   do_splice_read fs/splice.c:979 [inline]
+>   splice_direct_to_actor+0x4b6/0xcb0 fs/splice.c:1084
+>   do_splice_direct_actor fs/splice.c:1202 [inline]
+>   do_splice_direct+0x195/0x290 fs/splice.c:1228
+>   do_sendfile+0x52e/0x7c0 fs/read_write.c:1371
+>   __do_sys_sendfile64 fs/read_write.c:1432 [inline]
+>   __se_sys_sendfile64+0x144/0x1a0 fs/read_write.c:1418
+>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>   do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7fd77659df99
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 =
+f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fd77743d028 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
+> RAX: ffffffffffffffda RBX: 00007fd776825fa0 RCX: 00007fd77659df99
+> RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
+> RBP: 00007fd776634ec4 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000800000009 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007fd776826038 R14: 00007fd776825fa0 R15: 00007fff168f4a18
+>   </TASK>
+> Modules linked in:
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:bdev_get_queue include/linux/blkdev.h:1058 [inline]
+> RIP: 0010:bdev_logical_block_size include/linux/blkdev.h:1403 [inline]
+> RIP: 0010:iomap_dio_alignment fs/iomap/direct-io.c:415 [inline]
+> RIP: 0010:iomap_dio_hole_iter fs/iomap/direct-io.c:595 [inline]
+> RIP: 0010:iomap_dio_iter fs/iomap/direct-io.c:643 [inline]
+> RIP: 0010:__iomap_dio_rw+0x1142/0x2130 fs/iomap/direct-io.c:815
+> Code: e2 5a ff 83 e3 08 75 5c e8 ab de 5a ff 48 8b 9c 24 68 01 00 00 48 =
+83 c3 18 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 =
+74 08 48 89 df e8 d0 75 c8 ff 48 8b 1b b8 58 01 00 00
+> RSP: 0018:ffffc90003fef560 EFLAGS: 00010206
+> RAX: 0000000000000003 RBX: 0000000000000018 RCX: dffffc0000000000
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> RBP: ffffc90003fef860 R08: ffff8881148d8fff R09: 0000000000000000
+> R10: ffff8881148d8000 R11: ffffed102291b200 R12: 1ffff920007fdecc
+> R13: 0000000000000000 R14: ffff888166b45340 R15: 0000000000001000
+> FS:  00007fd77743d6c0(0000) GS:ffff8882a8f51000(0000) knlGS:000000000000=
+0000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007faa8f64dc80 CR3: 000000011606a000 CR4: 00000000000006f0
+> ----------------
+> Code disassembly (best guess):
+>     0:	e2 5a                	loop   0x5c
+>     2:	ff 83 e3 08 75 5c    	incl   0x5c7508e3(%rbx)
+>     8:	e8 ab de 5a ff       	call   0xff5adeb8
+>     d:	48 8b 9c 24 68 01 00 	mov    0x168(%rsp),%rbx
+>    14:	00
+>    15:	48 83 c3 18          	add    $0x18,%rbx
+>    19:	48 89 d8             	mov    %rbx,%rax
+>    1c:	48 c1 e8 03          	shr    $0x3,%rax
+>    20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
+>    27:	fc ff df
+> * 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instr=
+uction
+>    2e:	74 08                	je     0x38
+>    30:	48 89 df             	mov    %rbx,%rdi
+>    33:	e8 d0 75 c8 ff       	call   0xffc87608
+>    38:	48 8b 1b             	mov    (%rbx),%rbx
+>    3b:	b8 58 01 00 00       	mov    $0x158,%eax
+>=20
+>=20
+> ***
+>=20
+> If these findings have caused you to resend the series or submit a
+> separate fix, please add the following tag to your commit message:
+>    Tested-by: syzbot@syzkaller.appspotmail.com
+>=20
+> ---
+> This report is generated by a bot. It may contain errors.
+> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+>=20
+> To test a patch for this bug, please reply with `#syz test`
+> (should be on a separate line).
+>=20
+> The patch should be attached to the email.
+> Note: arguments like custom git repos and branches are not supported.
+>=20
 
-The best course of action IMO is channeling your version from 1 month ago, =
-where
-you saw things more clearly, and help everyone move forward with this by la=
-nding
-the first two patches once you think they are in good shape. We will then t=
-ake
-the rest through BPF tree. It will be a better, more productive outcome for=
- everyone.
-
-If you cannot do that, let's agree to disagree and not waste each others' t=
-ime.
-We will work on figuring out some other way to help David.
