@@ -1,89 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D203D75AB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 11:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785495900; cv=none; b=butyW5tl6QiKNYpStdbjDKQ8WQNEH9HPctCXweKzifJ7ydR3Byp2th2AVHQ6f0jowsqT1/N7mNud3Z71iUQkO/nCpb7FzMhVOmYGkUJckz1rc/0eUI1J68RtaTsQQsEU+FuT7K/9dmqv/St5ap0bEmHgu3QyjD5J6tb/J8Tj7hw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785495900; c=relaxed/simple;
-	bh=MMABK9mRgLJTa2/meeGDQJpIYoVKbZ21HTSr9Q6Tlug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOhPco4A6h45ZbVR36srqKIrBUF4/3NYYJQyWsLwu11XUBciytaWlYubpbO/w62RweEaDmqzBN7OKxz2xDr/sTeOZuOKE4//L4en7oE/WbHEd3x9CrI5v8WoHm4JyGLXO103R3byJRbZ8ORIKOSkek7Nw6bnBrwgCwgBd5H92eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eQvYLv3R; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D13F3273
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 11:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785496332; cv=pass; b=VOWOm1+2yhw9o2ZCJYwJKGKmsnWQIoMlC9iQSnGKSBXU4pZvtwHMA1NGUzk7L3kyiY5DXrxR+wgwe1Q1yMZSCY6kQGp+eUlYgwCr+UkU3MxlNPekJq+R87Awah7A3DdZ+eMcfnhG3N0+qf4DmIib6pQdggxPSOERGGcOXMvN7q0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785496332; c=relaxed/simple;
+	bh=kQon4ci3juIeb13a7BAUYGmkUEq9qgCZiXvMu88a/9g=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=qRZSDal4UDJbvB7saAJztentcuOuNvHp+1RXcUGV7c09co9oVJAiP6GMgWUDNGcZVJRQc/ZA9lBrjGmYZFhoyLjJykO5sr8vsn/Soyth/2Y7v7DzbxVAxt1VHwJzM/1o0rZH8gGWAKEtWz4Fra+yXyMRG0IkWx7eVhGPGaRoMPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IN6kQVDA; arc=pass smtp.client-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eQvYLv3R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785495898;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MMABK9mRgLJTa2/meeGDQJpIYoVKbZ21HTSr9Q6Tlug=;
-	b=eQvYLv3R2kLPwW+2gzsATKY60orq4pQhy79RW2twCYiLed7PKIm1SPyYx1X28Qe5F8w5UO
-	c0BSBnIFyFAPK2R2Eel2BeiASwbvgLEGR0nraLndSDb/O12caMImf/VI0sXlvTnb46rRpO
-	T1MgXTMUMMtUJyuiCutKpro4pDW6pOo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-icc34zekMa-ByLClSQ11GA-1; Fri,
- 31 Jul 2026 07:04:54 -0400
-X-MC-Unique: icc34zekMa-ByLClSQ11GA-1
-X-Mimecast-MFC-AGG-ID: icc34zekMa-ByLClSQ11GA_1785495893
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2923D1956096;
-	Fri, 31 Jul 2026 11:04:52 +0000 (UTC)
-Received: from fedora (unknown [10.44.33.21])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 0AEA619560AB;
-	Fri, 31 Jul 2026 11:04:47 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri, 31 Jul 2026 13:04:51 +0200 (CEST)
-Date: Fri, 31 Jul 2026 13:04:46 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mateusz Guzik <mjguzik@gmail.com>, Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] pipe: only enable the extra wake_up(rd_wait) for
- edge-triggered consumers
-Message-ID: <amyBTv5Qm3-5iAGC@redhat.com>
-References: <amtbpwrhlNGJ9OK6@redhat.com>
- <amtbxpqJ3pZwyT8D@redhat.com>
- <amteY30qxRuPzFh3@gmail.com>
- <amth6owVUdVOmyAL@redhat.com>
- <CAGudoHE=GjMRKGbip8nRUm34VUud_YSqGZJrfr+Vz6Qu22Mdaw@mail.gmail.com>
- <amu1i8rzQ3hZ-vAu@redhat.com>
- <CAHk-=wiUWQdiHbH9s4XKnYZwRs5vR1Azq83V4scN+N-w-VFRng@mail.gmail.com>
- <amx81MSmqiWfagRY@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IN6kQVDA"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-668296d0ff3so1102137d50.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 04:12:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785496329; cv=none;
+        d=google.com; s=arc-20260327;
+        b=J+X+4paYjV8/yYYJBls3VC6c4f4Al08CzbLrTzn1JWDobJgi0rQAhCZGYX7Amgxwp7
+         Y9ILWIdtlRQmp3LaeruiYT3VEADEghIV0s/2ZmjTI39yMmjG9ktv954j0J+PSWT4HBVG
+         LmgYCN4HLVqT1Nu72/T0gc8RXErgW9W6VWGyD29EmBvas9/jxxkV53s7NWV/08tDriVV
+         1UETiMDyR8ChM5SK0O9m67L01orLb0NVDmfcZSeO3Vv2R8RMv08sf+4J8NMOP+fb+jUO
+         UOzGlE3xotPxQsdnBWyjUw9JHGGrxE017EG9bg9mmHvpNI+6E3avLxmn/Ecz/TCd/78p
+         4X0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=vlFIZu1JNT0zE+f7MLVc0QneGIBHjmx5kUi+aBEagyI=;
+        fh=HsVCrx5cSDwLSUr3CW+nnHV89MjAC5I0h1D7E5cSw+4=;
+        b=HyVcqo9R5UrjdtT+oGrsv7RdpqNckgqO4vjxbnRhRXaT1IEKkhTBe0b/lz0JArWf8Q
+         dG3rx9D6CJAcdIEMrZBXYOOvZUcde2vZn0sPNJaTOSWLTn7edMQpecWx69rZ2EuMh7Ua
+         N+nzeECV+G5t/cP4qDcp35Py8tYwvKcFabEiMe6a20syS5HK991LubRcUnghVee2CWIn
+         ULEgErlJhmdF4yC6Gt3bQCUpve+giX4uNQoPCI8EG4LvIu5Ca9DLqyE1oibK/uUXKbgi
+         PG4DkXnQ0KRuJDKVMwhxFZCHE90O3gE/SQsb3W0RsiXXutuscLzt/xjQBcWOj6sGLJhz
+         pNZw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785496329; x=1786101129; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=vlFIZu1JNT0zE+f7MLVc0QneGIBHjmx5kUi+aBEagyI=;
+        b=IN6kQVDALhbcgAtR/7XtGjuF0frasaitMwd9gghI2GvJzTOr9p0e8prGsvdlmormte
+         KqMDQbnsSwCmzpABVBsDYpasbPSirYnyjuYPgvC8SdxG7tge8UrNaS7oMWkB0OUHyYTc
+         DVoFl+uz2smyz9SNZrRI5AmiVEtRAH4spyxXNdU3Mt7aGKzAfjaBcZjKNd+vM87xqsJ3
+         uG1u25WMz7BfwMI60cTInXqNoyi9oOcPmSLeThnBPrWBuVq119WS8K6SDXEby5hrNoaB
+         KXf7bicK6ouYONcdeeu1vyC9wl+g5uhmmarSzNlC/LCEjuAFmZ8mZj4WTOxqnc9Iw2xa
+         we3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785496329; x=1786101129;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vlFIZu1JNT0zE+f7MLVc0QneGIBHjmx5kUi+aBEagyI=;
+        b=WyJGasOGnxRTgmd3QzJ3Zh2UNUP8+Z9cDZ+8in6hPd9P/KSkZ+Ghkur6GE0jGfiw7x
+         lQcM8qZXPE/VxzZk9jFWCp8RvX5Evwcmj+CuYpJPwqVw5/vken3uoKuIRl2JJsfQdphC
+         TOMZnoer+1/Qo0swBJjF1mrZ7EPo3OityBNrp5z7kC3m1s445WT/JdEGzBHhXptRo/Ag
+         lLnSWdFKfeMoZJXv9W0l4jQTN5BXE5aiJ5wtcjikAWl5v/hmV89JpzZzv75An03h2vuO
+         8Nw57fiCimV9Bo/ndWV+mNe9Mw/6hjcQ2I1zfONAIq0WkWAfVDh1R9i9G5L051ERCZ8w
+         ppWw==
+X-Gm-Message-State: AOJu0YwPrKGYB7D8KC73gaYmLLsN6tknuvZVA+unu8aHay2T0m6LKm7v
+	lwfmCQk+OaHMd3OP5KQ7mQ43GT1tXZQ897nP5BXeYWMT4gVvJp+5OnC1gCbeJg8AUPyZ49tvRM8
+	csFswSwB9zzDjKHvp+nd8duC6rOnPbn1IXPQ=
+X-Gm-Gg: AR+sD13By1L+jBETs4Jc82Lm1XC8VmWD+40oQI/MatHGJliE6dZunaT6U8eexpUHAtj
+	7NoJRA0ggqYNrS4Yrsl79aSt8xGYESYak1FB9qhlUwdQlSDuSTpwJw0z8plUSAP5fE2dIj2/jNF
+	QMQzZXtSbbkwTDFaLzqEWKSfz8HGTXxVusXsXQhaPByIFDEUkaFY89PZEdBq4vA/PduVJSJVM/W
+	2G1VcVOMZ8VuavFhGGQ2KP09vkszUeJu3jNH4nTXS3g3CPrtp6+cevRhDxYithThE3jwKK0atrM
+	LlgJJarh2o564ag1yjLt/5NowUy1UJAWqtzLodOK5vI=
+X-Received: by 2002:a53:d059:0:20b0:667:dc83:f75b with SMTP id
+ 956f58d0204a3-669454a6328mr955430d50.48.1785496328844; Fri, 31 Jul 2026
+ 04:12:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amx81MSmqiWfagRY@redhat.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+From: Stef Bon <stefbon@gmail.com>
+Date: Fri, 31 Jul 2026 13:11:56 +0200
+X-Gm-Features: AUfX_myLKlSpRbGX8IeWPPgwTiQuy1SH7pCL3zZXtPmmcowNjrx5bowxJbOlGnY
+Message-ID: <CANXojcw-ZpHshxUmWPQXtSVZpdU=Pegyq=2JJ34kfKYuUFcqGw@mail.gmail.com>
+Subject: Some concerns about recent FUSE ops.
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry for noise, forgot to mention...
+Hi,
 
-> The only reason that ugly hack exists is because we did have that
-> break user space. If we can get rid of th eugly hack for io_uring,
-> that would only be a good thing.
+I have worked with FUSE for many years now, especially network filesystems.
 
-Perhaps, I can't really comment. But it seems to me that in this case
-it would make more sense to change the logic in io_uring/ rather than
-in pipe_poll(). And this needs a separate change.
+I've got a growing concern about the recent growth of the FUSE flags
+and options.
+In my opinion there are some options which should or go into
+userspace, or are only to be used in niches.
 
-Oleg.
+For example the FUSE_NO_OPEN en FUSE_NO_OPENDIR bits. Are there any
+use cases? I doubt there are.
 
+Is FUSE_READIR_PLUS_AUTO really required? I doubt it. If you are
+creating a FUSE fs, you know at INIT what the fs needs and is able to,
+so the automatic thing is not required.
+
+Is FUSE_HANDLE_KILLPRIV just bogus, and was not really thought
+through? Since there is
+FUSE_HANDLE_KILLPRIV_V2.
+
+Are FUSE_NO_EXPORT_SUPPORT really necessary? Since there is FUSE_EXPORT_SUPPORT.
+
+FUSE_OVER_IO_URING is technically a challenge, but does not offer
+extra functionality. When the  FUSE service is doing io_ring to get IO
+going, that is very possible, but it should use them in combination
+with the normal read and write (and notify) callbacks.
+In my vision you do IO_URING on the backend, not on the waiting client (==VFS).
+
+FUSE_REQUEST_TIMEOUT is really not required. I've written FUSE fs;s
+using a timeout,
+and when expired/timeout, an error is sent to the VFS (ETIMEDOUT) and
+it is all handled as it should.
+
+Please think about it, I'm concerned, and worried that at this pace we
+just need another set of 32 bits of options in a year or so.
+And maybe I've written here something you totally do not agree with.
+Ok, let's discuss.
+
+Stef Bon
+The Netherlands
