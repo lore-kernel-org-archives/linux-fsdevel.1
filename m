@@ -1,86 +1,190 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D415131716E;
-	Fri, 31 Jul 2026 20:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785528037; cv=none; b=EpO4tQuV1ZQ2Yd/nd25OamKQMgf+LuvHu9zDwtB6NpV38yHdjj+p3DDsVqpDsVMuxwT9vF0EHW/mxNIpxjlW9oCtO/qsARhvmXfm4kmWGp4o9kgVVfeXXH7hia6HvWEgCBvORs4pYEhkO2q1YftX0qDlVY/l+SGIy4Vf/VceCQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785528037; c=relaxed/simple;
-	bh=rq5n9AFQ7phucOjSWqaeRU9ORII6gUJP5PqjZLN5rwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IN38vlWV9GpNRIxEjImiWT8H3B4P5NPeD2ikJzhTjWuL52oIHWfxJS+0ntfUwHpTqOZU34Y4CFtUFpzyhN3kW48o+vgygWhJ9s68e7gQ+cwf741jDUa+lro44SR9vS7qAVDGWxsmKhfTcrbeHui6sxq6ys2srfryfBP1xQHLpxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iHmHFJD0; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0AB35C690
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 20:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785528111; cv=pass; b=f+IBAvglLwajym7UI/x2IGVL6hjvwbAgR1irRNxpSA2XTqJ3vhlf4Uxh34jtcOTubu5xMC1/xg7FaRADr1uq9rfdyiJTmXaBG0+3CNBkyDPIb2piScWjDLN6+ftZYEGGbOgI5dTl8Zesa2TYJSCw+Si6Rv+2jX7ux9FBiMkmtyg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785528111; c=relaxed/simple;
+	bh=gRRnmeN9RDyGdwkQ6hc2aJMVDCzCayRkvIQhFAXj1sA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uCAjUQsukJzwm6UOhN2emsZaOtMV8w1jpyQ+hbSxJx/xeJ5fjemrXXa/x1B37ZwHmI0/7rTEY/6b95DCm1TMx258gECX5gQtVZRu4FD3s4mlYuFlj+qzVlb0bSuLQl0nhS5abqtzQlQUioTtnjOwv6I9Q95KuQXXD31WUpm31Yg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=aFwq9SN1; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iHmHFJD0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=dZT9+CTn+bjLGUN5P6jZtXT3Oe8XoKKTzXRedmYLMew=; b=iHmHFJD0hadfYVHZHTaZiKqCrV
-	G3474FAUSeNF1IIpVToLdSl+pNNnmvlHWG1a6cBEHDqR2MHr5LkIFWUDZpQI3XK0LoQoQbTghA1A/
-	Cfysl4y8kc2FaP1Sie1oTSxOmDwc3B9YlTz/MkgLFULhoG28144rFwtgOd3ACZ5N5KOjxdV4MEeSM
-	lSu8suzl60A+yZhtJAayk5EFwU0VVYjazK4NoCoyHEL/f6lLfYAmFnGmYErJwI2UuX6to0xAvF6GP
-	KzH/+y+lkfZrD2wgtmKiprd12uZWafAwCRR89azmGYC4USF892UCsNHPZfA+nGEl3vhgcPwjc5nbX
-	jmOtx0IQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wptOv-00000001zPM-4Awv;
-	Fri, 31 Jul 2026 20:00:14 +0000
-Date: Fri, 31 Jul 2026 21:00:13 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>, stable@vger.kernel.org,
-	Gregory Price <gourry@gourry.net>
-Subject: Re: [PATCH v7 01/13] memory-failure: Fix hardware poison check in
- unpoison_memory() again
-Message-ID: <amz-zad7HM-PEkjb@casper.infradead.org>
-References: <20260728204409.3396238-1-willy@infradead.org>
- <20260728204409.3396238-2-willy@infradead.org>
- <amlKHkemYQBxFESG@gourry-fedora-PF4VCD3F>
- <amlav1zfVy-9fLw5@casper.infradead.org>
- <ccce5d73-b5d8-3e23-8e49-bb154af023d4@huawei.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="aFwq9SN1"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2caced6038eso14240685ad.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 13:01:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785528109; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YuR79Z045bOs4YU1wo75jeDinDepPOWvAXXV2IwDah9esg8/DbfzNuu3Qj+ce1uxM4
+         2D8ZDT9aH5zN992oeOTyMKYtQ6811yvQU+qvYdurxUJeYHfQ4Zy+fgrpVRkeOG9j2LOz
+         KpEfx/uy2qdmtkQCdlEvyPVbd8kpuE/NkgV5w/OeAOy1gVqG7/ixcLbmQvGOkQwtpCqM
+         veP/I92WEYQiOAd1odM7dcpyHeotR4pHUO9FAQjJpRhwPell3r4og37RrnEFPX5rjmjG
+         CmvBAfMtHa+JSOmt31fBFNS47gax5u+FaRyRSR2aAg/8LGnUNgOCD1ylyPY9Eug8xVbv
+         x5rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=90lqn9zwzwzuSyB92NhXiXKx6ZV128838nCa/C22sEw=;
+        fh=0W2E1wyykc3TlP1AtWjKSRkpkgxm1eYEgfigzeFNtPM=;
+        b=qYV5shS7Wg/03s8eYbctWsfKmiIcMpNr1I4RpydxrL8RdF+mGJs/VWYAsftvutbxdX
+         p086nzrnP0rSqSD/sIC2Rjhw+KWhcgR7VidV5JA08rIRIqZ3D/9pIU74jp4xMQvHHQGe
+         Ftvs8t7bJw2GE6Piu5d09NCHy0ONAOQUUQxz3ZWnzfTi4ocEu1k6gTq3Zp8ahTWcE2cx
+         Z0jVUtWAQ/UDYt044RZn/jZ7OnSce3c5RNTgjZq81yGn0C8t3o0DAVK/aKFmgVkL435d
+         zJhEPCUqHb3Kw+rFQWJTdSOPiBU+FwEmuCRn5z4SSTFz6H1ILKaH7+3LSCV9FfC/qpri
+         byWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1785528109; x=1786132909; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=90lqn9zwzwzuSyB92NhXiXKx6ZV128838nCa/C22sEw=;
+        b=aFwq9SN1TWTwbejPl0nWEM/1wplBm+Yh5FhIAyE4/+nAbmIaPYXNI7PRJsLgWBUm8t
+         HReBWKuTXOjAh9SkhHqbkL+aXJmEjY9HIHOWP12ghviZ8NhwyhOFHRQB+r/Zdo+NmahP
+         fMl2sB5kJRsbkHE2u9/AWh/nogdgrwqsYE0u1D+9yOr60lZqUaPZq5uwH5dftSnsieCr
+         odhDlS6y++A0BplPc2nXIgLYh0SCHDBpKvREvoCSNlE8U1MiuTyyzwl1KsNhF17C/6Lk
+         NQSeHgOpCY55snfplNnMDJ+YtBTpIJYVlQ7UGyf/4s3NPamBQ7P0qnG44V8GzLDeuoWH
+         sRvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785528109; x=1786132909;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=90lqn9zwzwzuSyB92NhXiXKx6ZV128838nCa/C22sEw=;
+        b=Z1JXCP97S6VdzljvDp+k9FRha2T3Q6CTjvz7yXq5clQ3E4Yht+gbr+IEIV5G7Dqw1K
+         wVIqmeU5KMqh/zTGJ8T5553uqQ7HE029bVEvTjTgIgcdP4gdrXF2A0KqP2a1HnmcbLaP
+         SNCcdhKqoaWiqwp+Jf81u6D6snhY4Nt+TGxpyW3538tDDrO1S8VWevV2OCV+Leqt+XYU
+         n4KFm6cYF8u6S/n4hmMcRp+AanxJQDwgPSYXkitdFIYu8ZTbdDz7Z13zLdfaFK0rerR+
+         lqsdhb02HwTF3t3edmWlO/AuvXbe62HVDj7aum9+arSvZyuhnId8djuYN/RDs4KSBogY
+         sU4w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp7p64Em14ScDqEeJRgdySp12tsq49I+tJnNIohie4pQ21yNp9uOD+aPkI0naDpxK7aT92RHl9pTkrc8onx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp4eXNdmvOlF8FvjlGZ4U0vThaOooCaywAiGYkq5QYyTRVHx5w
+	8Dr/YVihdudS0IX5IlA/xS/lzI21a3xe6kATSfLYnbDAhw/Z0LP1yfsf2EIBZslE9y6QzPl0Q8M
+	uME50wJxahJb+LRWG2PKcqC9jZJh7/WZKraNV6h3o
+X-Gm-Gg: AR+sD11ePMLP8JBp0P4ZDtpAJ6bBeapFmCsTYW3KZb8iQbIlppIbgr4csmmIqcgBeqz
+	cfZzqieFJgJ7bl2rEbpGhoS3DR1OmZ1bNsSx7mg0Hk/RyFsE39zFiiCbaTUH2TGiaRdO1B/G3md
+	jnYgx5/O8NWgBPZnAaBcjn4Rurbz6pg/rMHRve3TRQf/9LCvfTfbIOaBpiBbWtrmK5hvR7lUTS0
+	vZIl/LIzvGWp0j6MKHdU5DUxSR54b4zQQawaNA/HojbyfYJWz4XsLBuqBslC01MowMH/rtxPqXh
+	ir+2Z3skoMI4C3+nPyZjU3kXPNTdJtF7xVNb/pbX9MsC
+X-Received: by 2002:a17:903:388e:b0:2cc:fa13:dcab with SMTP id
+ d9443c01a7336-2d0535b76a5mr7661595ad.8.1785528108976; Fri, 31 Jul 2026
+ 13:01:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ccce5d73-b5d8-3e23-8e49-bb154af023d4@huawei.com>
+References: <20260730234533.1912709-1-dwindsor@gmail.com> <20260730234533.1912709-4-dwindsor@gmail.com>
+ <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
+ <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
+ <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
+ <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
+ <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com> <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
+ <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com> <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
+ <DKCYOLBUWJBZ.1N8JAXJ3QJYCE@gmail.com> <CAHC9VhRK38bVU5+rYxwLsvVt0oBBSWs4xKsjexbvc3TuA9LVNQ@mail.gmail.com>
+ <DKCZDM2G8VHO.38SPG4I4JZTJI@gmail.com> <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
+ <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com>
+In-Reply-To: <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 31 Jul 2026 16:01:36 -0400
+X-Gm-Features: AUfX_mxEzGe35aVmPcS7WDk7t2BJZHhAOGYT9pJ9XPaYGcHRGyGSxkU5VCe6zxA
+Message-ID: <CAHC9VhQ5vSr6JK0xtNnP2cre+3bbW9GUT7kXwLAcctwNpPzwrA@mail.gmail.com>
+Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: David Windsor <dwindsor@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2026 at 04:45:19PM +0800, Miaohe Lin wrote:
-> On 2026/7/29 9:43, Matthew Wilcox wrote:
-> > The careful reader will observe that injecting two memory failures
-> > into the same hugetlb causes ... problems.  That's true before and after
-> 
-> Could you elaborate on what problems this might cause? IIUC, second memory
-> failure on the same hugetlb folio will make try_memory_failure_hugetlb() return
-> -EHWPOISON without holding another refcnt. Raw error pages will be added to
-> raw_hwp_page list. Then in unpoison_memory(), raw_hwp_page list will be cleaned
-> and extra refcnt held by memory_failure will be released and PageHWPoison will be
-> cleared. So it looks work to me. Or am I miss something?
+On Fri, Jul 31, 2026 at 3:20=E2=80=AFPM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+> On Fri Jul 31, 2026 at 9:05 PM CEST, Paul Moore wrote:
+> > On Fri, Jul 31, 2026 at 2:50=E2=80=AFPM Kumar Kartikeya Dwivedi
+> > <memxor@gmail.com> wrote:
+> >> On Fri Jul 31, 2026 at 8:42 PM CEST, Paul Moore wrote:
+> >> > On Fri, Jul 31, 2026 at 2:18=E2=80=AFPM Kumar Kartikeya Dwivedi
+> >> > <memxor@gmail.com> wrote:
+> >> >> On Fri Jul 31, 2026 at 6:59 PM CEST, Paul Moore wrote:
+> >> >> > On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Kartikeya Dwivedi
+> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wrote:
+> >> >> >> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Kartikeya Dwive=
+di
+> >> >> >> > <memxor@gmail.com> wrote:
+> >> >> >> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Windsor wrote:
+> >> >> >> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul Moore <paul@p=
+aul-moore.com> wrote:
+> >> >
+> >> > ...
+> >> >
+> >> >> Yes, I understand you feel it should be placed under security/. You=
+ are entitled
+> >> >> to your opinion.
+> >> >>
+> >> >> No, I do not think the newly added kfunc is a big enough layering v=
+iolation such
+> >> >> that we need to do it ASAP, disregarding everything else outlined a=
+bove. I am
+> >> >> sure you see that too. There are several other instances of similar=
+ kfuncs.
+> >> >>
+> >> >> Therefore, please attempt to meet me halfway here.
+> >> >
+> >> > I'm happy to work with you, and/or anyone else, who wants to work on
+> >> > finding a way to test kfuncs that live in security/bpf_lsm_kfuncs.c.
+> >>
+> >> Right, and for that file to exist, you need to get everyone (FS, BPF f=
+olks) to
+> >> agree on whether placing all such kfuncs there makes sense. It is not =
+for both
+> >> of us to decide on our own. So let's revisit this whole topic once you=
+'ve done
+> >> that exercise.
+> >
+> > The kfunc that David has proposed must be located in
+> > security/bpf_lsm_kfuncs.c, similar to the VFS kfuncs and
+> > fs/bpf_fs_kfuncs.c.  If you read David's bpf_init_inode_xattr() kfunc
+>
+> Sigh.
+>
+> I now went and read the archives, and Christian already told you no befor=
+e [0],
+> which I missed in my first read. So two people whom this code affects alr=
+eady
+> objected to your proposal.
 
-Thanks for the explanation of what happens.  What's confusing to me is
-that we can poison pfn A and pfn A xor 1, then unpoison pfn A and that
-causes pfn A^1 to be unpoisoned too (if they're in a hugetlb folio).
-That's an unexpected difference to me; I'd expect to be able to set/clear
-their poison individually.
+As mentioned previously, David's kfunc has nothing to do with the VFS.
+Look at the code if you haven't already and you'll see what I mean.
+The only relevance to the VFS is the fact that "inode" and "xattr" are
+used in the name; David's currently proposed kfunc is an LSM kfunc,
+not a VFS kfunc.
 
-But it has been this way for many years, so I presume people are either
-used to it, or don't notice.
+If you find yourself required to abide by Christian's comment, despite
+this not being a VFS kfunc, that's fine, but this puts us at a
+stalemate and David will need to find another approach for his work.
 
-> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-
-Thanks, added.
+--=20
+paul-moore.com
