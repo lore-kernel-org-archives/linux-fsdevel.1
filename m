@@ -1,70 +1,85 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EE93314C2;
-	Fri, 31 Jul 2026 12:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2971D3F7865
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 12:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785499657; cv=none; b=qUG0QSGaUUFWt0OYKj3x/2LCIWVCZc9b8xQjI2Mcnrmyleld3u8u7kcClw3AAX9dPyACyzufmHPIDPs+whzO57cwq1TGEHhmIvMNiD5Fwgt6Smq18RT2AL8HlfrhnrRvOVyycM/7jpGkbiLHcQQqiT6URyYHpaDNUCkRTyk0bgs=
+	t=1785500384; cv=none; b=hhzUMJk8GOav+V20aGRhsNc6OmpmGHWZF/Db8rGLR4DDVXFJc3iFtzy3Ffxc6wlwOXEfuieIn2eJNB46HktyIb4+P6t/rhqeaFRf877BSp4GnRan0+wmuqKyUbgbPUK57hXiSXIgKwjlfshF9FmkWzlwdeS31BTIq9JAXAWwQlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785499657; c=relaxed/simple;
-	bh=K+/FjAZ2MgUyDheH6dlzUjWTX2T/yGXuR+X2JmozGUE=;
+	s=arc-20240116; t=1785500384; c=relaxed/simple;
+	bh=GJmWFzM1yIn6zHol1MvWB7/xIbDpU0K/0zBdhF0oYmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnzOKNbNL3UnJpR2Oucuz80G3ipYXgBcsX0YgkPEIIoqyZJV2A8yE0qipJp9wIFIr7r5kjSerb4ub1ukQpOQOxgKdULa07CpyskRMVFXIRim+Lr8eSpcsAE0jABS+1XvITHw25CIlAX7+bjKuTZ3BBK6KvetioEFHi1BN54GdNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LnaumRwF; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kj+QfCjI1kvqJIwYJn3KUnInJ54c60mDnHyDNX6DlzZwTgjobhzurcVC8XlaH8mI6mGMZQCU3DMKyWqIhnU3dne2vOef+qa+v3vh0fBcZviCRYbR1AegrcoQ4rFlUYle4YRNUoj7RUhbIYDYmiD+p5dICFpsrsrtfyBRed7x3b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=w7ZE91A1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JdYT3pRq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mjhvBGEJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oy5vJssx; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LnaumRwF"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VBm3UG1673725;
-	Fri, 31 Jul 2026 12:06:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=uSK2lTv85a+TmXKOZhBLw6yyeP2Bmg
-	ax2Nic6Ibhkho=; b=LnaumRwFX88Bzbi38lcP72OwULwUIkjZLvs3hpoY3GAN11
-	LZyXX+S05rOhRO4O802e451BTi5B90ZrmwM4Yh2sV3zuLVQIe+amOcz58pbtYD3a
-	M6Xb262JaJZRxegFT/hMlvc2O4iSlQXk7QjqPwg5K2yER2HtYj3BTI/p5/xRPIm8
-	jxc9yUFTAqVxkTmJoiBZjgvicAzfZWIp+aNlX4rbN9AuCatkFRwjcEOm51nYsXY2
-	PrsYqkEuu3OuirmlnPJobvwVwagAwDjPVoCnYt5t2JL7Ap8y95TejZlxd15O+e/C
-	AIGeW/bTxns6nfNlp8/vp9DXuwOlyoDx1nAFd8pg==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmv0p3u8w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 12:06:57 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66VBuN2D018721;
-	Fri, 31 Jul 2026 12:06:56 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fna5yfh2k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 12:06:56 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66VC6sV535062088
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 31 Jul 2026 12:06:55 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C63FE2004B;
-	Fri, 31 Jul 2026 12:06:54 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 68A0920043;
-	Fri, 31 Jul 2026 12:06:51 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.209.143])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 31 Jul 2026 12:06:51 +0000 (GMT)
-Date: Fri, 31 Jul 2026 17:36:48 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
-        yi.zhang@huawei.com, yizhang089@gmail.com, chengzhihao1@huawei.com,
-        yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH 2/2] ext4: protect WRITE_ZEROES written extents with
- orphan list
-Message-ID: <amyP2KXXgLUC0_aC@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
- <20260729085918.3336221-3-yi.zhang@huaweicloud.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="w7ZE91A1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JdYT3pRq";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mjhvBGEJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oy5vJssx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 288F57DF4A;
+	Fri, 31 Jul 2026 12:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785500375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UjNFs9hiMVj91PcpoE+HXByjoZhHtNXsefArY022XaU=;
+	b=w7ZE91A1JBEyvEIhiiSEI40ZMtusiFZTKB7CKjygJYk0OjmqLHqero2+os050/1GjkZQDz
+	sa1ugTelFFECV2aohGEjR9Q910k8oMprka97ViVSW4ZNSiCd3u3nnT7crCUaeK2Zy3kRSG
+	1MkcgcW1j/6TKEj5SIsOSc75Nz1CNEA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785500375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UjNFs9hiMVj91PcpoE+HXByjoZhHtNXsefArY022XaU=;
+	b=JdYT3pRqooLC1/HHMOl40d54B3JEIAeBnzcWiCPqZhOs6+mry6wCiSWFlkKEITYVtZ/swo
+	w/p9qvKMdyMP3LDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=mjhvBGEJ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=oy5vJssx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785500371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UjNFs9hiMVj91PcpoE+HXByjoZhHtNXsefArY022XaU=;
+	b=mjhvBGEJwBN2dNygFrhnHS/9V9r3/WMTEc6FpNgO9WOwRH6VTqxW9H6lcRCFpVC4qJJ4gu
+	L6eW0OsgMmKTVij/9gmxETldvrPB8lSEBdb5EZ3rZGmOTd1VQz3rb+G6KfGmdB40eDLsud
+	KUStSS876CaMQJTIQZyYmotxzW+f5+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785500371;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UjNFs9hiMVj91PcpoE+HXByjoZhHtNXsefArY022XaU=;
+	b=oy5vJssx9qoAqc53GpODibDHPubFT7BeLrmiJtQyERMb25z+Pgbzis6FCZmICmB1Xc551H
+	5+uS5gVVdhQ0cNCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1BE4F779C7;
+	Fri, 31 Jul 2026 12:19:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iavNBtOSbGrlfQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 31 Jul 2026 12:19:31 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BD6CAA13A4; Fri, 31 Jul 2026 14:19:22 +0200 (CEST)
+Date: Fri, 31 Jul 2026 14:19:22 +0200
+From: Jan Kara <jack@suse.cz>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: jack@suse.cz, amir73il@gmail.com, repnop@google.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fanotify: report full event length for FIONREAD
+Message-ID: <gpxknoebwrtfxspbgi7jhtprzimno2hdzb6pee2iwwtsatranb@prvukrmdldfp>
+References: <20260731021827.602479-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,206 +88,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260729085918.3336221-3-yi.zhang@huaweicloud.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA5MCBTYWx0ZWRfXzv3RYgLNKl2J
- ac1j0TPB4434mrUjHHBD7R/+i+7bDRjfucJB3BGKT8KhToTEWN01pL3v+7pkseDas291b4LZn6L
- 4S1tXAtyqJ6hpRjybw3RLdA7w+dpz9Q=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA5MCBTYWx0ZWRfX5cOAvRjLnR/Q
- V0D63+NZZ8qNaB586hRyt4IoihO4Sc6iV5FpBazyqqWPmnPmEx5MmkjkNePJkV0XJksBOT9+lDK
- e4E+dZkWixToyKth8LTdL+oJGa/8vthoPNAgH40vi1nf3oVVIWHfKj7+oq/Ltw80GbGuchfuCwc
- 1EZ98FCt5CGI85FXxAH2EIMinU5Uq36Fmqx1MJdOdAgYw7D3hPZLkHVVjOY7sxK2FOReidpHZw7
- gllveQdOtJV1po81kGmuu1KbVvOJ8NroLjqg/aOf/665/aJ/CpPBRzlgvHv72T4nROoHzUPkpS4
- AgWX+SWhiqwbi34AhuOyHvKLSuZstJ+irxymns9QQzRADobz+YFYpPjzVlFO2u7Cwv0L9CnDWqJ
- 3QJdmbcx5Pd3W0qpEqrVJpkCnO/NOFYD3qvIbanlsnBsZPXyhPeiXXOoUcK+ctVgiYRcmJbaC7A
- e8IN+XiJWZAvj1vDgOA==
-X-Authority-Analysis: v=2.4 cv=b5WCJNGx c=1 sm=1 tr=0 ts=6a6c8fe1 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=i0EeH86SAAAA:8 a=VnNF1IyMAAAA:8 a=ZwBjl90vFf3K6bS7ZlIA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: vkVOJJGGotHY3WSZHcWqo_ejhEbvjUMk
-X-Proofpoint-ORIG-GUID: LseUXJEJczfbWpo4eOekYwq2HvhVKKhO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_04,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 adultscore=0 malwarescore=0 impostorscore=0
- bulkscore=0 phishscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310090
+In-Reply-To: <20260731021827.602479-1-chenyichong@uniontech.com>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,uniontech.com:email,suse.com:email,suse.cz:dkim];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 288F57DF4A
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On Wed, Jul 29, 2026 at 04:59:18PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
+On Fri 31-07-26 10:18:27, Yichong Chen wrote:
+> fanotify_ioctl(FIONREAD) reports the number of bytes available to read
+> from the event queue.  It currently accounts only FAN_EVENT_METADATA_LEN
+> for each queued event.
 > 
-> In ext4_alloc_file_blocks(), the WRITE_ZEROES path converts unwritten
-> extents to written in one transaction, while i_disksize is updated to
-> cover them only in a later transaction. A crash in between leaves
-> written extents beyond i_disksize on disk, which fsck will complain
-> about.
+> That underestimates events that carry additional information records, such
+> as FAN_REPORT_DFID_NAME events.  A userspace program that uses FIONREAD to
+> size its read buffer can receive a length that is smaller than the next
+> event.  Reading with that buffer then fails with -EINVAL, while a larger
+> buffer succeeds and reports a larger metadata.event_len.
 > 
-> To fix this, add the inode to the orphan list in the same handle that
-> does the conversion, and remove it once i_disksize has caught up.
-> Also add a sanity check to ensure conversion does not extend beyond EOF.
+> Use fanotify_event_len() when summing queued events so FIONREAD includes
+> all info records.
 > 
-> Since ext4_alloc_file_blocks() is called from the fallocate() path,
-> partial allocation is safe. On partial conversion failure, advance
-> i_disksize only up to the boundary of successfully converted blocks, so
-> that orphan cleanup sees a consistent state. Document this behavior in
-> the function comment.
+> Fixes: 5e469c830fdb ("fanotify: copy event fid info to user")
+> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 
-Hi Yi,
+Thanks! I've added the patch to my tree.
 
-Look good,
+								Honza
 
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-
-Just a small question below:
-> 
-> Reported-by: Jan Kara <jack@suse.cz>
-> Closes: https://lore.kernel.org/linux-ext4/3f6ao5amv7glbgigndtegcucgo3n34ij3lau6l3da3hgdxgn3v@ev66wv3r5umt/
-> Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > ---
->  fs/ext4/extents.c | 78 ++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 70 insertions(+), 8 deletions(-)
+>  fs/notify/fanotify/fanotify_user.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-> index 1ab1a6e2ed83..a3dde7ba0d23 100644
-> --- a/fs/ext4/extents.c
-> +++ b/fs/ext4/extents.c
-> @@ -4571,6 +4571,22 @@ int ext4_ext_truncate(handle_t *handle, struct inode *inode)
->  	return err;
->  }
->  
-> +/*
-> + * Pre-allocate blocks for the range [@offset, @offset + @len). Allocated
-> + * blocks are marked as unwritten by default. If EXT4_GET_BLOCKS_ZERO is
-> + * set, the allocated blocks are zeroed on disk and their extents are
-> + * converted to written state.
-> + *
-> + * When @new_size is nonzero, the caller intends to extend the file, and
-> + * the file size should be updated to the end of the allocated blocks.
-> + *
-> + * Allocation may partially succeed due to some non-fatal issues. In that
-> + * case, i_disksize (and i_size) is advanced up to the successfully
-> + * processed portion of the range.
-> + *
-> + * Return 0 on success, or a negative error code on failure or partial
-> + * failure.
-> + */
->  static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  				  loff_t new_size, int flags)
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index 9ee373ff5840..33693886b7d8 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -1150,11 +1150,13 @@ static long fanotify_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 >  {
-> @@ -4585,6 +4601,7 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  	loff_t epos = 0, old_size = i_size_read(inode);
->  	unsigned int blkbits = inode->i_blkbits;
->  	bool alloc_zero = false;
-> +	bool orphan = false;
+>  	struct fsnotify_group *group;
+>  	struct fsnotify_event *fsn_event;
+> +	unsigned int info_mode;
+>  	void __user *p;
+>  	int ret = -ENOTTY;
+>  	size_t send_len = 0;
 >  
->  	BUG_ON(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS));
->  	map.m_lblk = offset >> blkbits;
-> @@ -4659,19 +4676,49 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
+>  	group = file->private_data;
+> +	info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
 >  
->  		if (alloc_zero &&
->  		    (map.m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN))) {
-> +			ext4_lblk_t converted;
-> +
-> +			WARN_ON_ONCE(map.m_lblk + map.m_len >
-> +				EXT4_B_TO_LBLK(inode, new_size ?: old_size));
-> +
->  			ret = ext4_issue_zeroout(inode, map.m_lblk, map.m_pblk,
->  						 map.m_len);
-> -			if (likely(!ret))
-> -				ret = ext4_convert_unwritten_extents(NULL,
-> -					inode, (loff_t)map.m_lblk << blkbits,
-> -					(loff_t)map.m_len << blkbits, NULL);
-> -			if (ret)
-> +			if (unlikely(ret))
->  				break;
-> +
-> +			handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
-> +						    credits);
-> +			if (IS_ERR(handle)) {
-> +				ret = PTR_ERR(handle);
-> +				break;
-> +			}
-> +
-> +			ret = ext4_convert_unwritten_extents(handle,
-> +					inode, (loff_t)map.m_lblk << blkbits,
-> +					(loff_t)map.m_len << blkbits,
-> +					&converted);
-> +			if (ret)
-> +				map.m_len = converted;
-> +
-> +			/*
-> +			 * If blocks beyond i_disksize are converted, add
-> +			 * the inode to the orphan list and advance the epos.
-> +			 */
-> +			if (new_size && converted) {
-> +				ret2 = ext4_orphan_add(handle, inode);
-> +				ret = ret ? ret : ret2;
-> +				orphan = true;
-> +			}
-> +
-> +			ret3 = ext4_journal_stop(handle);
-> +			ret = ret ? ret : ret3;
->  		}
+>  	p = (void __user *) arg;
 >  
->  		map.m_lblk += map.m_len;
->  		map.m_len = len_lblk = len_lblk - map.m_len;
->  		epos = EXT4_LBLK_TO_B(inode, map.m_lblk);
-> +		if (ret)
-> +			break;
->  	}
->  
->  	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
-> @@ -4687,11 +4734,23 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  	if (epos > new_size)
->  		epos = new_size;
->  
-> -	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
-> -	if (IS_ERR(handle))
-> -		return ret ? ret : PTR_ERR(handle);
-> +	handle = ext4_journal_start(inode, EXT4_HT_MISC, 2);
-> +	if (IS_ERR(handle)) {
-> +		/*
-> +		 * The conversion has successfully completed. Not much to
-> +		 * do with the error here so just cleanup the orphan list
-> +		 * and hope for the best.
-> +		 */
-> +		if (orphan && inode->i_nlink)
-> +			ext4_orphan_del(NULL, inode);
-> +		ret2 = PTR_ERR(handle);
-> +		goto out;
-> +	}
->  
->  	ext4_update_inode_size(inode, epos);
-> +	if (orphan && inode->i_nlink)
-> +		ext4_orphan_del(handle, inode);
-> +
-
-So I believe the i_nlink check is incase the inode is already at i_nlink
-= 0 before the fallocate() was called and hence mostly already on the
-orphan list. We need to skip deletion from the list as inode eviction
-will handle cleaning it up, right?
-
-
->  	ret2 = ext4_mark_inode_dirty(handle, inode);
->  	ext4_update_inode_fsync_trans(handle, inode, 1);
->  	ret3 = ext4_journal_stop(handle);
-> @@ -4699,6 +4758,9 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  
->  	if (epos > old_size)
->  		pagecache_isize_extended(inode, old_size, epos);
-> +out:
-> +	if (ret2)
-> +		ext4_std_error(inode->i_sb, ret2);
->  
->  	return ret ? ret : ret2;
->  }
+> @@ -1162,7 +1164,8 @@ static long fanotify_ioctl(struct file *file, unsigned int cmd, unsigned long ar
+>  	case FIONREAD:
+>  		spin_lock(&group->notification_lock);
+>  		list_for_each_entry(fsn_event, &group->notification_list, list)
+> -			send_len += FAN_EVENT_METADATA_LEN;
+> +			send_len += fanotify_event_len(info_mode,
+> +						       FANOTIFY_E(fsn_event));
+>  		spin_unlock(&group->notification_lock);
+>  		ret = put_user(send_len, (int __user *) p);
+>  		break;
 > -- 
-> 2.52.0
+> 2.51.0
 > 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
