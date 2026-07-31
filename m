@@ -1,215 +1,289 @@
-Received: from mail-wm2-f9.google.com (mail-wm2-f9.google.com [74.125.225.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6CB46983F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 23:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B3B1ACEDE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 23:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785540940; cv=none; b=fiHTRp55vZ5ZBcNiI6JRfpFiIZYV5x82KnolEdaSLxf2hyWjz0zuZODb47wGHNxFpsbqAKI5KyjJ0oVqKOkUcstY4XKmMOU0q/MlGTAfRP+jkJi5fL17LYWLgsSuVgTKBqN6W6a3xwrOwygqs5Pm8bYheM1M0NiXesSnYFbV/ps=
+	t=1785541107; cv=none; b=mt99hpXxYWvp3xJueSarir584z3glXvuBArw2OayAh+GLh3botxMbnRi+d6Efp3PdvGMzoaNUEgQx3V/pNmISQcDt9A2KH+6Qlh54p/gDxLgVUnX6Nk1JAzXUOJ19cni6QI2pCbi0quNMHiXjvKmpDfJYsVX+GpoYPJs4ctjE+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785540940; c=relaxed/simple;
-	bh=E7AD1CY3Sv52g2oANantVmZ5L4EPUbRo2OwSiRw2zRo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=qvjZeBGx25RQrUH24HGFCK3R6exCaW8wHbO/dG7VKiwXpH9b7wBfCVkytXnrmv3hZz36Wq7DUVjh7fl/8Q47xu1qU0V69sTk/kyR5cTTGJwrfkmhw2+pVwyf/MpO6dpxuwkm47uaocZZbkm85uw8B51JybIwFDS2j36/V/WhyjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hRMc5/Hk; arc=none smtp.client-ip=74.125.225.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785541107; c=relaxed/simple;
+	bh=RLsF1cPDBEcpGd0Z5oeS+knFVVNqkxckW5xMykZEufw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZAA0iq36SRNMoAqxinLlPFGZP4QxJKwKiF8xJrsxrsALXT/ylkppz0HiMotDs+jKkizomAka9AXG35KL9EJKZwr4jdv4vsQl6qgD85wO4vGMKcj7ojC5PT7kV1Hx3EKrPqunrVt2mH2ISdv8YNPTWF4CljUkZ6hxElp0jYZPlEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYzOIQ0a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hRMc5/Hk"
-Received: by mail-wm2-f9.google.com with SMTP id 5b1f17b1804b1-49553da76dcso1195555e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 16:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785540936; x=1786145736; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=NAH7LZBWSLN1vfCOZsndZVsDBYzJNfOag1t/z/WjVS0=;
-        b=hRMc5/HkH7EAo3d6JMqtf1CusAWagPmDZh1+2bIF4ntX3h9LCW+ETsiJ1lTyPABKoE
-         FCXSkciHGOZ0F0WUP1p8DSuAI4xTYQ7AwIqATxrEhnKMX4gwUwJEzhoRrSqDKGNYDnBO
-         PeBn/yXq0sXOmzbZ7tAQo1qGbC98+acngNaysJSaa/22qoz7xMKiIfQtvAYUdbMS3gK3
-         XPD4U0KrXX2sr/uucqyMh1J0uaJDVEcaRGXhKBIOXBi0TLMMP1ETP09G+IA74ifDLJ+a
-         LQVnXKmc6qDNeWa3TjMDTHWOUSWmz+THeOpAHC2C3mjuK9ZRIH058RGDTH+qwMa0Y5sI
-         LqSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785540936; x=1786145736;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NAH7LZBWSLN1vfCOZsndZVsDBYzJNfOag1t/z/WjVS0=;
-        b=J03qZY8G+OmNnF+4qSd/Lz07INU0xPvyXKDWUkSuYRjUZJi1d4j/3+yHs4cZsa2gwt
-         Veof/VAraCa3Rq9RL9Yp1meJTYI+1V8r3KohWwPMDtZWsqqoaR39Ti4ulidgGhSUfoeQ
-         kGOoGPdYnAXY3aQi+W+VubbLCdYr5XUb80pqHE5sirreg+eZlqbGnx2vnyo2CsFrPzwd
-         cTdvasbYGMOIJwQm+IkvwNBNKatA+erVpzGy57NQZy7ypqHHzJq5watQkSm/CntyNvIz
-         wIUMWobhSlcz1YiTTkJSWwOzQ1qzrT2II5bidDW3w5pyALIVlr2CooW31BC7KZ37P+DS
-         W8QA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp7WfP7l+C4oc0DX/9aCNVYd0v6gozyCVn1XeJlXcn4R7ZYMSFEmsVyIyV8Vt56aFjSFpIEnt5njGHaHRYI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7gAyd+g76Y0Xf72qpzdrraf4PTbjhA3W8apsirq0U07m/Thb0
-	qUEEi8VlC6wbnNeKh8d8tuI7hwFHB67a69KaHYI1bguU222D78OKEpSg
-X-Gm-Gg: AR+sD12ktPDB+pefkyotNAiiw6lzuRxXEm9F/fgtxeE6Dp8jz5co3/twe8QFXYxF3zD
-	u14rJgz8daV1Z5dsFKskqVoJECpn7gEHfVeK0jih5SNiboj7PnhB7n5mDSUObjsZtijL3OJdDsQ
-	8pYQ0PmmYQWLzX6JhUb4Ucn2CfA5vTu4n6FR37Xo6BmYNfbnTnqm8QkXgk/3ePaqsUoOBZJsNhn
-	qhqz7Z4lyJX36iVB9arakAOW4Oojipf/iTBN/n/hDhebV67xuu2U2eJwRn8ptEf3tztvQPbxOW3
-	FmbUn0FSoiyDH1Co0KSQ0PHst9/tjr+BbV0XfyuQjXOZ+QCKY8Tq2Qtxp3wxJx+CGlhAqwMnx1n
-	7j6HjtXsQqdKM0vj+zO0Pxpk8BQx1+X93NcPsPkdgtJH8rO7amFO17oyeFnyRVkKxNhN49mFmiB
-	6komRVzTc4rIOsvXkMyz4CObBDk/EMedrzSrzGsejMGwkNvfpuHasM7JQb90+WTPMFaS+rNn9A8
-	+V3LWI+NU59Out/2xuVJuMhY1OmyWy42hybC7lrDFEO++yBIG7PTaQcydt1qeA4h4wkmvOOnIwm
-	V6yVp13wpd3OkWYa9YNuk7P0F65g7vwTaLNmew==
-X-Received: by 2002:a05:600c:4292:b0:495:406f:dff6 with SMTP id 5b1f17b1804b1-4980c68e114mr998445e9.33.1785540936415;
-        Fri, 31 Jul 2026 16:35:36 -0700 (PDT)
-Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd41d1756sm10260172f8f.4.2026.07.31.16.35.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 16:35:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYzOIQ0a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F5931F00AC4;
+	Fri, 31 Jul 2026 23:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785541105;
+	bh=lIRgH+fswsCpzn6YUhK8NY0d44STr340y7VhW1O4eM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aYzOIQ0alXxk25vSechhYcfvxoCkmBSFbbuLrjkzkkqldC/1D0EwmsjkeSHPA1OOF
+	 MF4/ezo/TLvFHc6mmJme6pMEVAe2rKw9WZmbEkz92Pmm6ObtM0jsr2wo+rKihLsd8y
+	 3ntqOVt60TomQfPXn/4aPJqstxK7lEUlCPHIb5GGAOBf8dh5CG4JUrPKzlAZiVzf/y
+	 1o3/EDAekoxE8ICiIw1hwou+PR1P0QB20faHgBVlK0stf1zxg+Q+VZbF5D6+IiOsUh
+	 xf7dENKACZwGY9egS16o0gEt5oQebvAbd59+At1/ArsvLtTwkuHlvIH8Gx/O3elU2d
+	 PVPFxSFxDXsOQ==
+Date: Sat, 1 Aug 2026 07:38:20 +0800
+From: Gao Xiang <xiang@kernel.org>
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org,
+	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
+	brauner@kernel.org
+Subject: Re: [PATCH v2] erofs: reuse superblock for file-backed mounts
+Message-ID: <am0x7PYFTYjrItGy@XiangdeMacBook-Pro.local>
+Mail-Followup-To: Giuseppe Scrivano <gscrivan@redhat.com>,
+	linux-erofs@lists.ozlabs.org, xiang@kernel.org,
+	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
+	brauner@kernel.org
+References: <20260731160901.2276832-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 01 Aug 2026 01:35:35 +0200
-Message-Id: <DKD5FPZ03IMC.294CDPH0KRZGP@gmail.com>
-From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-To: "David Windsor" <dwindsor@gmail.com>, "Paul Moore" <paul@paul-moore.com>
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Eduard Zingerman" <eddyz87@gmail.com>,
- "Song Liu" <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>,
- "John Fastabend" <john.fastabend@gmail.com>, "KP Singh"
- <kpsingh@kernel.org>, "Jiri Olsa" <jolsa@kernel.org>, "Emil Tsalapatis"
- <emil@etsalapatis.com>, "James Morris" <jmorris@namei.org>, "Serge E .
- Hallyn" <serge@hallyn.com>, "Casey Schaufler" <casey@schaufler-ca.com>,
- "Stephen Smalley" <stephen.smalley.work@gmail.com>, "Ondrej Mosnacek"
- <omosnace@redhat.com>, "Mimi Zohar" <zohar@linux.ibm.com>, "Roberto Sassu"
- <roberto.sassu@huawei.com>, "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
- "Eric Snowberg" <eric.snowberg@oracle.com>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, "Shuah Khan" <shuah@kernel.org>,
- <bpf@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 bpf-next 3/4] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-X-Mailer: aerc 0.21.0
-References: <20260730234533.1912709-1-dwindsor@gmail.com>
- <20260730234533.1912709-4-dwindsor@gmail.com>
- <CAHC9VhT=m-GtOZx2AHym7uN1CNx94arKBiXeVC7LTEJ-b=1EVQ@mail.gmail.com>
- <CAEXv5_iiNspub=qE1YW-01sV_bxxFUrrcAR4KV4Ec5i_mePtHw@mail.gmail.com>
- <CAHC9VhTS7rSnBqg00ZxNkcZyh_=EeJmn_4z3CTCCxreEEDtTtg@mail.gmail.com>
- <CAEXv5_iHLmzPT3Jj+qZsdt1Nk_5OD4Up3GGV0S9G7KyQshFhDA@mail.gmail.com>
- <DKCVF3KRQSOJ.1WKITMP369I0R@gmail.com>
- <CAHC9VhR5yfw+sMfrYpy8Qm2uNoxqsTweh=KhDRZsU1CioHRDDQ@mail.gmail.com>
- <DKCWFKAD79IU.TMCNT9RUAJAU@gmail.com>
- <CAHC9VhRQWRKHi-hdtvSnYPD_dqgP7Q8RB_X4PEDLwPUe6EegYA@mail.gmail.com>
- <DKCYOLBUWJBZ.1N8JAXJ3QJYCE@gmail.com>
- <CAHC9VhRK38bVU5+rYxwLsvVt0oBBSWs4xKsjexbvc3TuA9LVNQ@mail.gmail.com>
- <DKCZDM2G8VHO.38SPG4I4JZTJI@gmail.com>
- <CAHC9VhR3AK4r4_0eqWxDmrA8UKOsbyQh6ZRRie99Pe6cW0EL8Q@mail.gmail.com>
- <DKD00NYVQQC9.OK8JEWHH1NUV@gmail.com>
- <CAHC9VhQ5vSr6JK0xtNnP2cre+3bbW9GUT7kXwLAcctwNpPzwrA@mail.gmail.com>
- <DKD17D5H7N95.2VI5IOQBNTHGX@gmail.com>
- <CAHC9VhQ24fp7_sy1=NiWkfzPLSM35ugSCOKDKxnm6H9W-pDa6Q@mail.gmail.com>
- <DKD2R5268G2C.TPLR4XMTZ91R@gmail.com>
- <CAHC9VhQNozNGH4o=8D6wxks4deZ2eVOHmxFK=fvjhkCC0JSCkw@mail.gmail.com>
- <DKD3I17NPS96.3G49BTZ4ZVUVV@gmail.com>
- <CAHC9VhQmb=v3-T5HZUzfr_me6S7bo6sX0Vs4nDFQZnMe+SQOMQ@mail.gmail.com>
- <CAEXv5_huGfd7u0tKW5Eq5bSH+rzkB=ThKOTLnfnxepqTmgcUPA@mail.gmail.com>
- <DKD5ES7LKD1F.YKD4OU6GTUXR@gmail.com>
-In-Reply-To: <DKD5ES7LKD1F.YKD4OU6GTUXR@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260731160901.2276832-1-gscrivan@redhat.com>
 
-On Sat Aug 1, 2026 at 1:34 AM CEST, Kumar Kartikeya Dwivedi wrote:
-> On Sat Aug 1, 2026 at 1:11 AM CEST, David Windsor wrote:
->> On Fri, Jul 31, 2026 at 6:23=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
- wrote:
->>>
->>> On Fri, Jul 31, 2026 at 6:04=E2=80=AFPM Kumar Kartikeya Dwivedi
->>> <memxor@gmail.com> wrote:
->>> > On Fri Jul 31, 2026 at 11:49 PM CEST, Paul Moore wrote:
->>> > > On Fri, Jul 31, 2026 at 5:29=E2=80=AFPM Kumar Kartikeya Dwivedi
->>> > > <memxor@gmail.com> wrote:
->>> > >> On Fri Jul 31, 2026 at 10:48 PM CEST, Paul Moore wrote:
->>> > >> > On Fri, Jul 31, 2026 at 4:16=E2=80=AFPM Kumar Kartikeya Dwivedi
->>> > >> > <memxor@gmail.com> wrote:
->>> > >> >> On Fri Jul 31, 2026 at 10:01 PM CEST, Paul Moore wrote:
->>> > >> >> > On Fri, Jul 31, 2026 at 3:20=E2=80=AFPM Kumar Kartikeya Dwive=
-di
->>> > >> >> > <memxor@gmail.com> wrote:
->>> > >> >> >> On Fri Jul 31, 2026 at 9:05 PM CEST, Paul Moore wrote:
->>> > >> >> >> > On Fri, Jul 31, 2026 at 2:50=E2=80=AFPM Kumar Kartikeya Dw=
-ivedi
->>> > >> >> >> > <memxor@gmail.com> wrote:
->>> > >> >> >> >> On Fri Jul 31, 2026 at 8:42 PM CEST, Paul Moore wrote:
->>> > >> >> >> >> > On Fri, Jul 31, 2026 at 2:18=E2=80=AFPM Kumar Kartikeya=
- Dwivedi
->>> > >> >> >> >> > <memxor@gmail.com> wrote:
->>> > >> >> >> >> >> On Fri Jul 31, 2026 at 6:59 PM CEST, Paul Moore wrote:
->>> > >> >> >> >> >> > On Fri, Jul 31, 2026 at 12:32=E2=80=AFPM Kumar Karti=
-keya Dwivedi
->>> > >> >> >> >> >> > <memxor@gmail.com> wrote:
->>> > >> >> >> >> >> >> On Fri Jul 31, 2026 at 6:02 PM CEST, Paul Moore wro=
-te:
->>> > >> >> >> >> >> >> > On Fri, Jul 31, 2026 at 11:44=E2=80=AFAM Kumar Ka=
-rtikeya Dwivedi
->>> > >> >> >> >> >> >> > <memxor@gmail.com> wrote:
->>> > >> >> >> >> >> >> >> On Fri Jul 31, 2026 at 5:30 PM CEST, David Winds=
-or wrote:
->>> > >> >> >> >> >> >> >> > On Fri, Jul 31, 2026 at 11:17=E2=80=AFAM Paul =
-Moore <paul@paul-moore.com> wrote:
->>>
->>> ...
->>>
->>> > As a consequence, everyone suffers because they first need to satisfy=
- your whims
->>> > on how all code and kfuncs written thus far are wrong, and need to be=
- moved
->>> > around ASAP, including the one being proposed.
->>>
->>> That's not a reasonble or truthful summary of things, I've only
->>> requested that David locate his proposed kfunc in
->>> security/bpf_lsm_kfuncs.c, I never suggested he move any others.
->>>
->>
->> Looking at what's left of the kfunc itself, it's basically nothing.
->> Everything meaningful has been moved into security/ already.
->>
->> Aside from bpf dynptr ops, what's left is:
->>
->> if (!name__str)
->>     return -EINVAL;
->>
->
-> You can actually lose this one, the verifier should prevent passing NULL =
-for
-> name__str. Other functions don't check it either. Feel free to check it, =
-or add
+Hi Giuseppe,
 
-.. and I meant, feel free to double check that passing NULL indeed fails ju=
-st in
-case.
+On Fri, Jul 31, 2026 at 06:08:21PM +0200, Giuseppe Scrivano wrote:
+> When the same file-backed image is mounted multiple times (via path or
+> fd) with the superblock_share mount option and matching domain_id, reuse
 
-> a negative test in case you're worried about it.
->
->> if (strncmp(name__str, XATTR_BPF_LSM_SUFFIX, sizeof(XATTR_BPF_LSM_SUFFIX=
-) - 1))
->>     return -EPERM;
->>
->> if (!xattrs->xattrs)
->>     return -EOPNOTSUPP;
->>
->> ... then a call to security_lsmxattr_add. Why not move this chunk into
->> security_lsmxattr_add, and leave the remaining bits, which are pure
->> bpf, in fs/ for now, and litigate the total placement of all of them
->> once v7 lands?
->>
->
-> I wouldn't bother, everything LSM specific is already where it belongs.  =
-That
-> said, your question is a good demonstration of the absurdity of the ask h=
-ere.
->
->>> --
->>> paul-moore.com
+First, I still need to get vfs maintainer opinions for "the sharing
+superblock feature for file-backed mounts"
 
+I don't think it needs to be bothered with "domain_id" since
+"domain_id" represents a trusted zone so a security concept for data
+sourcing, and here I think you should just share the same filesystem
+(with the same backing files) and the same option, so I don't think
+"domain_id" is really useful.
+
+> the existing superblock instead of creating a new one.  This allows
+> multiple mounts of the same image to share in-kernel data structures
+> more efficiently.
+> 
+> Superblock sharing requires both superblock_share and domain_id to be
+
+But I think a "superblock_share" yes/no mount option may be useful.
+
+> specified, following the same pattern as inode_share.  The backing file
+> is identified by its inode and fsoffset.  If mount options conflict, a
+> separate superblock is created transparently as a fallback.  Remount is
+> not allowed on shared superblocks.
+> 
+> Tested by mounting a 177M Fedora EROFS image 20 times with full
+> traversal:
+> 
+>   #!/bin/sh
+>   IMG=${1:-/root/fedora.erofs}
+>   N=20
+>   DIR=$(mktemp -d)
+>   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
+> 
+>   sync; echo 3 > /proc/sys/vm/drop_caches
+>   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
+>   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
+> 
+>   for i in $(seq 1 $N); do
+>       mkdir $DIR/m$i
+>       mount -t erofs -o domain_id=test,superblock_share "$IMG" $DIR/m$i
+>       find $DIR/m$i > /dev/null
+>   done
+> 
+>   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
+>       awk '{print $3}' | sort -u | wc -l)"
+>   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
+>       awk '{print $2}') - INODES_BEFORE ))"
+>   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
+>       awk '{print $2}') - MEM_BEFORE )) kB"
+> 
+> unpatched kernel:
+> 
+>   Superblocks: 20
+>   erofs_inode delta: +46368
+>   Slab delta: +39952 kB
+>   0.08user 0.82system 0:00.98elapsed
+> 
+> patched kernel:
+> 
+>   Superblocks: 1
+>   erofs_inode delta: +2044
+>   Slab delta: +1088 kB
+>   0.07user 0.21system 0:00.31elapsed
+> 
+> The time difference shows that sharing the superblock also benefits
+> the page cache and inode cache, as subsequent mounts of the same image
+> avoid re-reading the backing file.  This is particularly useful for
+> container hosts running multiple containers from the same base image.
+> 
+> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+> ---
+> v1: https://lore.kernel.org/linux-fsdevel/20260730124120.1501126-1-gscrivan@redhat.com/
+> Needs: https://lore.kernel.org/linux-fsdevel/20260728160619.853924-1-gscrivan@redhat.com/
+> 
+>  Documentation/filesystems/erofs.rst | 16 ++++++-
+>  fs/erofs/internal.h                 |  1 +
+>  fs/erofs/super.c                    | 72 +++++++++++++++++++++++++++--
+>  3 files changed, 83 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+> index 774e8b236d09..517c526163e2 100644
+> --- a/Documentation/filesystems/erofs.rst
+> +++ b/Documentation/filesystems/erofs.rst
+> @@ -131,12 +131,17 @@ device=%s              Specify a path to an extra device to be used together.
+>  directio               (For file-backed mounts) Use direct I/O to access backing
+>                         files, and asynchronous I/O will be enabled if supported.
+>  domain_id=%s           Specify a trusted domain ID. Filesystems sharing the same
+> -                       domain ID can share page cache across mounts when inode
+> -                       page sharing is enabled. (not shown in mountinfo output)
+> +                       domain ID can share page cache across mounts when
+> +                       inode_share is enabled, and share superblocks when
+> +                       superblock_share is enabled. (not shown in mountinfo
+> +                       output)
+>  fsoffset=%llu          Specify block-aligned filesystem offset for the primary device.
+>  inode_share            Enable inode page sharing for this filesystem.  Inodes with
+>                         identical content within the same domain ID can share the
+>                         page cache.
+> +superblock_share       Share the superblock when the same backing file is mounted
+> +                       more than once with the same domain_id and compatible
+> +                       options.  Remount is not allowed on shared superblocks.
+
+As I commented above.
+
+>  ===================    =========================================================
+>  
+>  File-backed mounts
+> @@ -154,6 +159,13 @@ Only regular files are accepted as backing files; to mount an image that
+>  resides on a block device, use the traditional block device mount path
+>  instead.
+>  
+> +When domain_id and superblock_share are both specified and the same
+> +backing file (identified by inode and fsoffset) is mounted more than
+> +once with the same domain_id and compatible mount options, the kernel
+> +reuses the existing superblock instead of creating a new one.
+> +
+> +Remount is not allowed on shared superblocks.
+> +
+>  Sysfs Entries
+>  =============
+>  
+> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+> index 580f8d9f14e7..8d65cac35702 100644
+> --- a/fs/erofs/internal.h
+> +++ b/fs/erofs/internal.h
+> @@ -156,6 +156,7 @@ struct erofs_sb_info {
+>  #define EROFS_MOUNT_DAX_NEVER		0x00000080
+>  #define EROFS_MOUNT_DIRECT_IO		0x00000100
+>  #define EROFS_MOUNT_INODE_SHARE		0x00000200
+> +#define EROFS_MOUNT_SUPERBLOCK_SHARE	0x00000400
+>  
+>  #define clear_opt(opt, option)	((opt)->mount_opt &= ~EROFS_MOUNT_##option)
+>  #define set_opt(opt, option)	((opt)->mount_opt |= EROFS_MOUNT_##option)
+> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+> index 558041011398..23fee43de1d1 100644
+> --- a/fs/erofs/super.c
+> +++ b/fs/erofs/super.c
+> @@ -386,7 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+>  enum {
+>  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+>  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
+> -	Opt_source,
+> +	Opt_source, Opt_superblock_share,
+>  };
+>  
+>  static const struct constant_table erofs_param_cache_strategy[] = {
+> @@ -415,6 +415,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+>  	fsparam_u64("fsoffset",			Opt_fsoffset),
+>  	fsparam_flag("inode_share",		Opt_inode_share),
+>  	fsparam_file_or_string("source",	Opt_source),
+> +	fsparam_flag("superblock_share",	Opt_superblock_share),
+>  	{}
+>  };
+>  
+> @@ -536,7 +537,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+>  		++sbi->devs->extra_devices;
+>  		break;
+>  	case Opt_domain_id:
+> -		if (!IS_ENABLED(CONFIG_EROFS_FS_PAGE_CACHE_SHARE)) {
+> +		if (!IS_ENABLED(CONFIG_EROFS_FS_PAGE_CACHE_SHARE) &&
+> +		    !IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
+>  			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
+>  		} else {
+>  			kfree_sensitive(sbi->domain_id);
+> @@ -560,6 +562,12 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+>  		else
+>  			set_opt(&sbi->opt, INODE_SHARE);
+>  		break;
+> +	case Opt_superblock_share:
+> +		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
+> +			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
+> +		else
+> +			set_opt(&sbi->opt, SUPERBLOCK_SHARE);
+> +		break;
+>  	case Opt_source:
+>  		return erofs_fc_parse_source(fc, param);
+>  	}
+> @@ -659,6 +667,10 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+>  		errorfc(fc, "domain_id is needed when inode_ishare is on");
+>  		return -EINVAL;
+>  	}
+> +	if (!sbi->domain_id && test_opt(&sbi->opt, SUPERBLOCK_SHARE)) {
+> +		errorfc(fc, "domain_id is needed when superblock_share is on");
+> +		return -EINVAL;
+> +	}
+>  	if (test_opt(&sbi->opt, DAX_ALWAYS) && test_opt(&sbi->opt, INODE_SHARE)) {
+>  		errorfc(fc, "FSDAX is not allowed when inode_ishare is on");
+>  		return -EINVAL;
+> @@ -788,6 +800,55 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	return 0;
+>  }
+>  
+> +static int erofs_fc_test_file_super(struct super_block *sb,
+> +				    struct fs_context *fc)
+> +{
+> +	struct erofs_sb_info *sbi = EROFS_SB(sb);
+> +	struct erofs_sb_info *new_sbi = fc->s_fs_info;
+> +
+> +	if (sb->s_iflags & SB_I_RETIRED)
+> +		return 0;
+> +	if (!sbi->dif0.file || !new_sbi->dif0.file)
+> +		return 0;
+> +	if (!test_opt(&new_sbi->opt, SUPERBLOCK_SHARE))
+> +		return 0;
+
+I think it'd be better to just memcmp(sbi->opt, new_sbi->opt, ..)
+directly.
+
+> +	if (!sbi->domain_id || !new_sbi->domain_id ||
+> +	    strcmp(sbi->domain_id, new_sbi->domain_id))
+> +		return 0;
+
+And also you need to ensure the devs has the same backing files too.
+
+> +	return file_inode(sbi->dif0.file) == file_inode(new_sbi->dif0.file) &&
+> +	       sbi->dif0.fsoff == new_sbi->dif0.fsoff &&
+> +	       sbi->opt.mount_opt == new_sbi->opt.mount_opt &&
+> +	       sbi->opt.cache_strategy == new_sbi->opt.cache_strategy;
+> +}
+> +
+> +static int erofs_fc_get_tree_file(struct fs_context *fc)
+> +{
+> +	struct erofs_sb_info *sbi = fc->s_fs_info;
+> +	struct super_block *sb;
+> +	int err;
+> +
+> +	if (!test_opt(&sbi->opt, SUPERBLOCK_SHARE))
+> +		return get_tree_nodev(fc, erofs_fc_fill_super);
+> +
+> +	sb = sget_fc(fc, erofs_fc_test_file_super, set_anon_super_fc);
+
+Especially the usage above, I need acks from vfs maintainers first.
+
+Thanks,
+Gao Xiang
