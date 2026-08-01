@@ -1,50 +1,50 @@
 Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A84C3955CD;
-	Sat,  1 Aug 2026 22:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7741D3BFAFA;
+	Sat,  1 Aug 2026 22:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785624997; cv=pass; b=fbKlGFcLr0DP87bYN7NgaQOGY7XkZc3uVCEqpZ/NppCrNImq/5Eoi3VxqryzQ7y/IW7UcPB3czODrdviTnCl/0i1OY0CIGAH3t3NzhbgTlvfjWaHXlwpSot6gmDUZmR0nqsA+BCxJTigbFx9EjwiE1GMUOIly0Yj3AWuLDRaByQ=
+	t=1785624997; cv=pass; b=PZRf5qoaXcvOk/4Q4Bdjik5EnnfAAvCJE4m2T2h23KQdx3dV9BFuwwRoz9uymXRh7qFNqa7whvAetgh2TNmWtfcmAZhbeOfUYgMOBygpk4XtsSvp8Xz6Y7Mxt7ehfU//6VJ7Pn0HHfUoHOPBCX+qIQADNx/5z73quRDlmbK3QV0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785624997; c=relaxed/simple;
-	bh=6NYd6in0rzVfgUh8gjPpc/kYd9uu5M96agV9tYIQgcM=;
+	bh=d1geiDUwKdYDEeo4Q9yzQSbg010Ij28kV8ydpJRb4hg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AdefJBvwz8/S40CjbzxgynfhGaB8PD774ccPO1Q+O8EHIFPY8ua1ZdwXQdGLZFw0BIB+pI52UWKbiWEVy7HylZiJIPxgy1Sxek9Aft86sJsNtpcK+yqNoL/sRQnqYQHWepA+3sjC9HgD6sMPcr61KuRChs0Bzm0sHEevYDVHk7M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=SBA37Rrx; arc=pass smtp.client-ip=136.143.169.58
+	 MIME-Version; b=gi79TKydrCs2Mx8FP015kYMO6tg68StXzVbr0MQIQfuKWvvkv38qZEejUIT3NB+GhGsVrGuIdkWrbF3/PltaIyCoOSDoTkXNyctwYa3hA2YMZafyR5B5whpD7GL2AX43RXshE9t+LjHLLeASaTtaR4Ov7Co3uBMtPNL9F6qIQl4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=NmlXZZH6; arc=pass smtp.client-ip=136.143.169.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="SBA37Rrx"
-ARC-Seal: i=1; a=rsa-sha256; t=1785624969; cv=none; 
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="NmlXZZH6"
+ARC-Seal: i=1; a=rsa-sha256; t=1785624974; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=R8N92I0M+ViE86cxahige+4EwK/EjPC4yApsIndD5VhvdvsLWTJ8wB69Jxb+98HxHCkqjWuYO/OaB7GR7JVWHq+4Eoh5DbgBcu4bctYfkhSblzkQluROuZ98CCjWwbEerEfGbKiHES4Oee7zK0p/r2G6KAyXf0h5L/Nb+Ma3hMY=
+	b=kYnKyOd72RO7oaJ3gwsbA3wZbJVVNBn6bTyf/rww5eaoSa/hkAJO/fto4qZTs2OUgeH2kw8A1QJdrr2pbAT+9oNzllNp1clJR1G3IJXGvFG6Q+R9S4byFkHRCqvbvS5Ofwk7l6EWNk7Z58IKzhw19gWHxVWIMXf5e7AzVBTOrM4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785624969; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=KJceAGSvicSHI55BXIH/luGROGrl7VGF+MQRV7iaMTM=; 
-	b=OvknFy9cD6ljgO90HnIGJVmRYxK5qmakrkolRCuz9+6tZBWvCap1XliTjEgYAqLW7+NI357/8frUHaWUGezROuuyglRyIchGSd35fO/GIs4Dkk9AppKLC9OAwDxQQHq2OcLAlJK4wRQsOT9YzznKFqwaf0O0raiXszL0qoKEkaE=
+	t=1785624974; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=PVaOx+p8YnrWRXBYpD2LawNTpt/9Sm/LDvB5QnWaisA=; 
+	b=UMVxTiQdo3WazkcmvSrCl0oEXg/4UiQAlWbKLO2WUjN+mVcznSgekRoN2n9NgllJpu9TZUVHSIgfItWm+9FAk0gnu0rbidz1+FppgzsAKGhFOTYoyXuTCt1QtQdWpPpmV/yHoS0PgsLz2JSSc70bTYHUjuwOlFVCegcClV1Lr5o=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=iusegentoo.com;
 	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
 	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624969;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624974;
 	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=KJceAGSvicSHI55BXIH/luGROGrl7VGF+MQRV7iaMTM=;
-	b=SBA37RrxmBlaXuFChukkvMl3N7eOufWGZZNntjS2n55cCjSfsFc+Cq2YhvJPA3ai
-	UO5oILxWw4IZIxk8CyloqzIoc7xieT210Uh/+vgIUL0VV6Z8Twr5BRPtCP9bGZs1KF2
-	TnDK6+rmDdTZhAx1NZH5KkOtMkB+i+GRs7kccLPM=
-Received: by mx.zoho.eu with SMTPS id 1785624966606460.58651198992493;
-	Sun, 2 Aug 2026 00:56:06 +0200 (CEST)
+	bh=PVaOx+p8YnrWRXBYpD2LawNTpt/9Sm/LDvB5QnWaisA=;
+	b=NmlXZZH6TPj4LzSIWijV3TUG+zXFPtn00xXj+o2pK9rbQrEyN6fnwStqOre5EOoS
+	1MR/3car7Q8USPifM1i1R3AVziqYPDAY4H9GkndpJtdvlWOpCMyahhKCC9hOpRhb5d5
+	hT0ard8kCyLZdzq2aZrwWCmPJo0iHxYp+ybIIdQw=
+Received: by mx.zoho.eu with SMTPS id 1785624972241544.0244080962553;
+	Sun, 2 Aug 2026 00:56:12 +0200 (CEST)
 From: Ali Ahmet Memis <ali@iusegentoo.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 02/10] ufs: use i_size to detect fast symlinks
-Date: Sat,  1 Aug 2026 22:55:22 +0000
-Message-ID: <20260801225530.148386-3-ali@iusegentoo.com>
+Subject: [PATCH 09/10] ufs: refuse read-write mount of filesystems with active snapshots
+Date: Sat,  1 Aug 2026 22:55:29 +0000
+Message-ID: <20260801225530.148386-10-ali@iusegentoo.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260801225530.148386-1-ali@iusegentoo.com>
 References: <20260801225530.148386-1-ali@iusegentoo.com>
@@ -57,160 +57,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Whether a symlink stores its target inline is decided by testing
-i_blocks == 0. The on-disk criterion is i_size < fs_maxsymlinklen;
-FreeBSD's ufs_readlink() and ufs_symlink() both use it, and our own
-ufs_symlink() already checks s_maxsymlinklen on the write side.
+A UFS2 filesystem can hold up to FSMAXSNAP snapshots, recorded in
+fs_snapinum[]. A snapshot is an inode whose block pointers describe the
+state of the filesystem at the moment it was taken, using the reserved
+values BLK_NOCOPY and BLK_SNAP alongside ordinary block numbers.
+Keeping one valid requires copy on write: before a block that the
+snapshot references is overwritten or freed, its old contents have to be
+copied into the snapshot.
 
-The two disagree on UFS2 inodes with extended attributes. ffs_alloc()
-adds every allocation to di_blocks, including the IO_EXT path, so a
-symlink carrying an extended attribute, an ACL or a MAC label has
-di_blocks != 0 while its target is still stored inline.
+Linux implements none of this. It does not read fs_snapinum[], does not
+know the SF_SNAPSHOT inode flag, and treats the reserved block pointer
+values 1 and 2 as ordinary fragment addresses. Mounting such a
+filesystem read-write and changing a single file is enough for every
+snapshot on it to stop describing the point in time it was taken at, and
+there is no way to notice afterwards.
 
-Linux then takes it for a slow symlink. readlink() reads the target
-through ufs_getfrag_block(), treating the ASCII bytes of the target as
-block pointers. On a read-write mount unlinking it reaches
-ufs_truncate_blocks() from ufs_evict_inode(), which hands the same bytes
-to ufs_free_fragments() as block numbers. Values built from printable
-characters fall outside the device, so this ends in ufs_panic() with the
-inode already modified.
+Refuse the read-write mount while any snapshot is recorded. Read-only
+access is unaffected.
 
-Add ufs_is_fast_symlink() and use it in the read, write and evict paths.
-In ufs_evict_inode() it has to run before i_size is cleared.
-
-Flavours that leave s_maxsymlinklen at 0 keep the old i_blocks
-heuristic, so only 44BSD and UFS2 change behaviour.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
 ---
- fs/ufs/inode.c | 54 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 34 insertions(+), 20 deletions(-)
+ fs/ufs/super.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/fs/ufs/inode.c b/fs/ufs/inode.c
-index 440d014cc5ed..802bc6e01db2 100644
---- a/fs/ufs/inode.c
-+++ b/fs/ufs/inode.c
-@@ -517,6 +517,17 @@ const struct address_space_operations ufs_aops = {
- 	.bmap = ufs_bmap
- };
- 
-+// on-disk criterion is i_size < fs_maxsymlinklen, not i_blocks
-+static bool ufs_is_fast_symlink(struct inode *inode)
-+{
-+	struct ufs_sb_private_info *uspi = UFS_SB(inode->i_sb)->s_uspi;
-+
-+	if (uspi->s_maxsymlinklen)
-+		return inode->i_size < uspi->s_maxsymlinklen;
-+
-+	return inode->i_blocks == 0;
-+}
-+
- static void ufs_set_inode_ops(struct inode *inode)
+diff --git a/fs/ufs/super.c b/fs/ufs/super.c
+index df95502e039e..6132c28c4308 100644
+--- a/fs/ufs/super.c
++++ b/fs/ufs/super.c
+@@ -776,6 +776,7 @@ static bool ufs_features_allow_write(struct super_block *sb)
  {
- 	if (S_ISREG(inode->i_mode)) {
-@@ -528,7 +539,7 @@ static void ufs_set_inode_ops(struct inode *inode)
- 		inode->i_fop = &ufs_dir_operations;
- 		inode->i_mapping->a_ops = &ufs_aops;
- 	} else if (S_ISLNK(inode->i_mode)) {
--		if (!inode->i_blocks) {
-+		if (ufs_is_fast_symlink(inode)) {
- 			inode->i_link = (char *)UFS_I(inode)->i_u1.i_symlink;
- 			inode->i_op = &simple_symlink_inode_operations;
- 		} else {
-@@ -578,13 +589,13 @@ static int ufs1_read_inode(struct inode *inode, struct ufs_inode *ufs_inode)
- 	ufsi->i_oeftflag = fs32_to_cpu(sb, ufs_inode->ui_u3.ui_sun.ui_oeftflag);
+ 	struct ufs_sb_private_info *uspi = UFS_SB(sb)->s_uspi;
+ 	struct ufs_super_block_third *usb3 = ubh_get_usb_third(uspi);
++	unsigned int i;
+ 	u32 fsflags;
  
- 
--	if (S_ISCHR(mode) || S_ISBLK(mode) || inode->i_blocks) {
--		memcpy(ufsi->i_u1.i_data, &ufs_inode->ui_u2.ui_addr,
--		       sizeof(ufs_inode->ui_u2.ui_addr));
--	} else {
-+	if (S_ISLNK(mode) && ufs_is_fast_symlink(inode)) {
- 		memcpy(ufsi->i_u1.i_symlink, ufs_inode->ui_u2.ui_symlink,
- 		       sizeof(ufs_inode->ui_u2.ui_symlink) - 1);
- 		ufsi->i_u1.i_symlink[sizeof(ufs_inode->ui_u2.ui_symlink) - 1] = 0;
-+	} else {
-+		memcpy(ufsi->i_u1.i_data, &ufs_inode->ui_u2.ui_addr,
-+		       sizeof(ufs_inode->ui_u2.ui_addr));
+ 	if (uspi->fs_magic != UFS2_MAGIC)
+@@ -792,6 +793,12 @@ static bool ufs_features_allow_write(struct super_block *sb)
+ 		       __func__);
+ 		return false;
  	}
- 	return 0;
- }
-@@ -625,13 +636,13 @@ static int ufs2_read_inode(struct inode *inode, struct ufs2_inode *ufs2_inode)
- 	ufsi->i_oeftflag = fs32_to_cpu(sb, ufs_inode->ui_u3.ui_sun.ui_oeftflag);
- 	*/
- 
--	if (S_ISCHR(mode) || S_ISBLK(mode) || inode->i_blocks) {
--		memcpy(ufsi->i_u1.u2_i_data, &ufs2_inode->ui_u2.ui_addr,
--		       sizeof(ufs2_inode->ui_u2.ui_addr));
--	} else {
-+	if (S_ISLNK(mode) && ufs_is_fast_symlink(inode)) {
- 		memcpy(ufsi->i_u1.i_symlink, ufs2_inode->ui_u2.ui_symlink,
- 		       sizeof(ufs2_inode->ui_u2.ui_symlink) - 1);
- 		ufsi->i_u1.i_symlink[sizeof(ufs2_inode->ui_u2.ui_symlink) - 1] = 0;
-+	} else {
-+		memcpy(ufsi->i_u1.u2_i_data, &ufs2_inode->ui_u2.ui_addr,
-+		       sizeof(ufs2_inode->ui_u2.ui_addr));
- 	}
- 	return 0;
- }
-@@ -731,13 +742,12 @@ static void ufs1_update_inode(struct inode *inode, struct ufs_inode *ufs_inode)
- 	if (S_ISCHR(inode->i_mode) || S_ISBLK(inode->i_mode)) {
- 		/* ufs_inode->ui_u2.ui_addr.ui_db[0] = cpu_to_fs32(sb, inode->i_rdev); */
- 		ufs_inode->ui_u2.ui_addr.ui_db[0] = ufsi->i_u1.i_data[0];
--	} else if (inode->i_blocks) {
--		memcpy(&ufs_inode->ui_u2.ui_addr, ufsi->i_u1.i_data,
--		       sizeof(ufs_inode->ui_u2.ui_addr));
--	}
--	else {
-+	} else if (S_ISLNK(inode->i_mode) && ufs_is_fast_symlink(inode)) {
- 		memcpy(&ufs_inode->ui_u2.ui_symlink, ufsi->i_u1.i_symlink,
- 		       sizeof(ufs_inode->ui_u2.ui_symlink));
-+	} else {
-+		memcpy(&ufs_inode->ui_u2.ui_addr, ufsi->i_u1.i_data,
-+		       sizeof(ufs_inode->ui_u2.ui_addr));
- 	}
- 
- 	if (!inode->i_nlink)
-@@ -774,13 +784,13 @@ static void ufs2_update_inode(struct inode *inode, struct ufs2_inode *ufs_inode)
- 	if (S_ISCHR(inode->i_mode) || S_ISBLK(inode->i_mode)) {
- 		/* ufs_inode->ui_u2.ui_addr.ui_db[0] = cpu_to_fs32(sb, inode->i_rdev); */
- 		ufs_inode->ui_u2.ui_addr.ui_db[0] = ufsi->i_u1.u2_i_data[0];
--	} else if (inode->i_blocks) {
--		memcpy(&ufs_inode->ui_u2.ui_addr, ufsi->i_u1.u2_i_data,
--		       sizeof(ufs_inode->ui_u2.ui_addr));
--	} else {
-+	} else if (S_ISLNK(inode->i_mode) && ufs_is_fast_symlink(inode)) {
- 		memcpy(&ufs_inode->ui_u2.ui_symlink, ufsi->i_u1.i_symlink,
- 		       sizeof(ufs_inode->ui_u2.ui_symlink));
-- 	}
-+	} else {
-+		memcpy(&ufs_inode->ui_u2.ui_addr, ufsi->i_u1.u2_i_data,
-+		       sizeof(ufs_inode->ui_u2.ui_addr));
++	for (i = 0; i < UFS_FSMAXSNAP; i++) {
++		if (usb3->fs_un2.fs_44.fs_snapinum[i]) {
++			pr_err("%s(): fs has active snapshots\n", __func__);
++			return false;
++		}
 +	}
+ 	return true;
+ }
  
- 	if (!inode->i_nlink)
- 		memset (ufs_inode, 0, sizeof(struct ufs2_inode));
-@@ -839,14 +849,18 @@ int ufs_sync_inode (struct inode *inode)
- void ufs_evict_inode(struct inode * inode)
- {
- 	int want_delete = 0;
-+	bool fast_symlink;
- 
- 	if (!inode->i_nlink && !is_bad_inode(inode))
- 		want_delete = 1;
- 
-+	// must be evaluated before i_size is cleared below
-+	fast_symlink = S_ISLNK(inode->i_mode) && ufs_is_fast_symlink(inode);
-+
- 	truncate_inode_pages_final(&inode->i_data);
- 	if (want_delete) {
- 		inode->i_size = 0;
--		if (inode->i_blocks &&
-+		if (inode->i_blocks && !fast_symlink &&
- 		    (S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) ||
- 		     S_ISLNK(inode->i_mode)))
- 			ufs_truncate_blocks(inode);
 -- 
 2.55.0
 
