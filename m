@@ -1,104 +1,115 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB2734EF1F
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 06:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785567502; cv=none; b=P14jApUJnxdomnTA4lVmMZhrlcNAePAC02UbxfgwosGWJNnqPeGOSmxpDEIP5pY6lzM2yeXINv2rTt8frPA4QVaKm4UDVDEdZVWa85sSseyOSwyPFJd2feTJ/tgzPHFtjtaTexbfBDcvxODOwHgU1LEB268FO34FaBEpOiU2KCI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785567502; c=relaxed/simple;
-	bh=pVW+S45AUw99y9jBlxP4dBrQBDW6s/gciYJoPeMq5zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzJDO4QxbkPSs+P3NvltVpAXDwwEuVMWJMBCfmZ8ji+PFeFVik0hu3GffSHRmqngbdPGQMaSoWHgwQssv6KW9tqr748tgYkasXLghDg4abfg7enamhreZadruOCOaSmKHY0GFkpb69eGabgRngL+WX3O5k9TCfLHqbLdgj49EBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=YxHumlqc; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8097E361971;
+	Sat,  1 Aug 2026 07:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785568426; cv=pass; b=DSZp2HIhZCn3TTIAoC0PjTNdrKFD/CtGvlD7+ng4vxceq3pNcKSliYbmUPnWQ23pgJiKdq3WsxCFuboAbkEMG/20Ojybz5goQuVsjD/pCbbYSxeEN3uaMT7e4PmlVxspavoGShHZaPgPv7uUNi68rl0fK41JQniP0xKxXfHwSKs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785568426; c=relaxed/simple;
+	bh=kv5wGjBGXldKVvlnGBgmUrLaYg/B1m2Ih/0xdJLbUK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LruJi91Sh4f+7Nt9pMMtGCbLaLyp6/5SIaX2NWaoXcUP2vm6PTx0LB2OTGklLLV8a5+1yT5qEdNo6ijeUGdUZrWRInx+6gGwEQmtnX07KBaOS9f1VQ3rp6A5ZXZZNfPR+UhZhehwlHorx/WoFCnAh+3LOu0eMQsye0LH0jOMXyA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=GCfgI77u; arc=pass smtp.client-ip=136.143.169.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="YxHumlqc"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51bfad59921so10682561cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 23:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1785567500; x=1786172300; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hFZDtRlmAh/lYsw1peIZwBoJQwUYUw/2AfYQGPu/NJo=;
-        b=YxHumlqccpBRSuSv/WCuyMZly5BIwNoPiTKXkxMw89qJiWrb3QLfD/fg4y83x0p/Bn
-         Ih3UOgMm4xwq2ZSaC99WVqFwNOe+DlpUmPAJlW3KlNquHtQialEnJ3vxC0SCMCRIoeY8
-         lBNNlMUGXsXG84RJrCWOUPtSc48qDbzy66IezCGOAk0mZ3SLi+x69qWCDuYFwsEuw8w3
-         D4JowN0sokojwlZdaVzrT3rw3Bn8dnm5O2lEGwl2W0oBFydwe48UAK2ovBCvg++ZZ2+E
-         eE+EpXl4qx1vgpPdNCGmTmQ+H705jXUvjH80YgR+29UGtLRFoAM0RpK6Fy/eJLBDwy6b
-         Jaow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785567500; x=1786172300;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hFZDtRlmAh/lYsw1peIZwBoJQwUYUw/2AfYQGPu/NJo=;
-        b=cKCk5EIFhSQOmwPmBPQWiLs1QxI7TYXX/MAQzVza3WEXeVEhsESJ4x2swADAfl6zao
-         p7XTwUdVYjCQGlvwZefg9NqxYecF4qntmWMY0acSWYl2Hpxyp1zVA1kh8tO6eZA0udW6
-         HAMdMMJkFSYVqi6KfeXT6rx8KxeXBf93xj0AyFoWXaY2WwIPbpZRDJbSgZSI4y+Y9JcP
-         obdP5mSGP77n62x5ld2GqXlft/alyQBazXRM8pTSWZ+UmMduL/G370XMQwpKfm2lA/lL
-         Sj2xtw+JPV/mkUyuvybYKgoq/OOgI9kBJsBz9f5l7J9pNGCLEEdmJn9vZvCdcdav1P+p
-         MKxA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp+0Tl7++ZMMvnWvoEv83Zbl0dUSO+KiSWzxG50tTgiB36WQcZ5CwBG/btSi/DMSkkBdfR9cQk0fD3x+Bbl@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLMBRvS1lkxEVfLiDEoVG/dbZiITTeKQaLWS+nRbkoICDBSZ3y
-	FF+UbjxMehGfrKEUJzJbOOIAxBIYA+hPK0qibqCJJAMS+0twqIea+xu62hGfMdjhBwQ=
-X-Gm-Gg: AR+sD13UShgj99lQdXNhZPrJABvYv8pub5sp2zrvkHz+P+AxtbvWeQVdSAPdcbr+62l
-	aSdaQ+e7g8hy+MYkvrfLV6WXyWFGrXVGEDgpAzZeeMYx5IcDvUsXz84CCDhzho+ztc0eEtOUd4j
-	2hCkyJuXMZSfvupNqK8gQtOmZgzBPHXb8V4WUWgtqozRGYN/Tn1IO6Q84J+s2+eVb4wavV2p5Ml
-	tQ8xB9ynARADhyFvmX7U7djuoyLATBhDa44XU3cltbb52LrmeDN1WzS/BvCkdp1E63xykZ6WGvF
-	K4FxmNQjDLk8XP4mGya5xSNlDE32XQp7GRFdTZ+yD267RBlO4EBbVwkHRq8PuFxOLFOzh6ETjl/
-	3iE45kf+C8OeexLITbpn9nQrkC2iR4UMwse8KT4XDWyEVuwWq8qzw3AiMIauKreYIppqqoS87be
-	AgasN0A/VH5vXT0WX0xQ6dKYAkc8KqtB0LTYrX/msR4E7Gq78RmjX69bSnw62ze2bW962CSw==
-X-Received: by 2002:a05:622a:4d04:b0:51c:1532:ae93 with SMTP id d75a77b69052e-52b567dc76bmr61225711cf.26.1785567500235;
-        Fri, 31 Jul 2026 23:58:20 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52b4eb6a862sm23462961cf.16.2026.07.31.23.58.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 23:58:19 -0700 (PDT)
-Date: Sat, 1 Aug 2026 02:58:18 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	William Kucharski <william.kucharski@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 2/2] xarray: honor XA_FLAGS_ACCOUNT in
- xas_split_alloc()
-Message-ID: <am2ZCpXRNS7BK1_g@cmpxchg.org>
-References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com>
- <20260730-add-gfp_account-to-xas_split_alloc-v2-2-5a56c2361d85@nvidia.com>
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="GCfgI77u"
+ARC-Seal: i=1; a=rsa-sha256; t=1785568399; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=HQNA/p5qurPC12kQh3ioeq9gV1TYouWhDzRdSUFL49X/wNRWsMUP40RyaECQtI3GyNsAjTw8MEq+k5q51gEDzhS+qGU7hewoX8pHu9pmJRPXk0H9t7y7hm1FsD2RcaCd2UIJzg0LOPz2uTlFxISjNAvRtc7ewfynY7WIwXtPdy4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1785568399; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=2XA8eJ8/bBWXgGImqcpf9rF0z8c5xqbbGzHIpwLE9ho=; 
+	b=JYL8Fj3R4t9RH9dtll8KDGOpc23sIjvg0OZCvOya/HxpW6CxQv6cLInrpbbaeVfioSS32+qhmaV2B2KiwFfSCxYVsv6y8yrSvGonXJ5C5a6v6qm9LtpBqXa5f/94k6LjUEoNaTDwcK0JwC8LgXAgH1Il9ooOslz/bhja6gDyw4A=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=iusegentoo.com;
+	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
+	dmarc=pass header.from=<ali@iusegentoo.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785568399;
+	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=2XA8eJ8/bBWXgGImqcpf9rF0z8c5xqbbGzHIpwLE9ho=;
+	b=GCfgI77uhlMbwpNnQ3FM0cz/wMreEAV03tFJpFkCOquTVBAId/r2qcjsk5d70gXu
+	OW2w8ZqgTODZl6TkKXYE+VukrlZt/6jurVDY7eTIfT7XAHEOqR8gmvvuKF7d4zaTeHT
+	Wslpj/85jYCiKtbl0iE/nfuA+bAveRldJZ5pcYmc=
+Received: by mx.zoho.eu with SMTPS id 178556839678562.87758756545054;
+	Sat, 1 Aug 2026 09:13:16 +0200 (CEST)
+From: Ali Ahmet Memis <ali@iusegentoo.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ufs: harden the mount path against malformed images
+Date: Sat,  1 Aug 2026 10:12:56 +0300
+Message-ID: <20260801071306.59484-1-ali@iusegentoo.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260730-add-gfp_account-to-xas_split_alloc-v2-2-5a56c2361d85@nvidia.com>
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Thu, Jul 30, 2026 at 10:18:01PM -0400, Zi Yan wrote:
-> XArray operations that allocate xa_nodes, such as xas_nomem() and
-> xas_alloc(), add __GFP_ACCOUNT when the array has XA_FLAGS_ACCOUNT set.
-> This charges the allocated memory and avoids the workingset convergence
-> issue described by commit 7b785645e8f13 ("mm: fix page cache convergence
-> regression").
-> 
-> xas_split_alloc() does not have that flag. Add it when necessary.
-> 
-> Fixes: 6b24ca4a1a8d4 ("mm: Use multi-index entries in the page cache")
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
+Two robustness fixes for the ufs mount path, both reachable by mounting
+a crafted UFS image.
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Patch 1 reorders ufs_fill_super() so the root dentry is created after the
+cylinder group metadata is loaded. Today a failure while reading the
+cylinder groups drops UFS_SB(sb) but leaves s_root installed, so the
+generic teardown oopses on a NULL pointer in ufs_sync_fs() and the
+put_super operation.
+
+Patch 2 validates the cylinder group index and the rotor positions in
+ufs_read_cylinder() before they are cached. Unchecked, c_cgx indexes the
+cylinder summary array (a 32 bit write outside s_csp), and the rotors
+become bitmap scan offsets that can wrap an unsigned length and walk past
+the cylinder group buffers during an ordinary allocation.
+
+Mounting a ufs image needs CAP_SYS_ADMIN and ufs is not
+unprivileged-mountable, so this is image-parsing hardening rather than a
+privilege boundary, handled in the open like the recent sibling work:
+
+  ufs: reject malformed cylinder summary geometry
+    https://lore.kernel.org/all/20260701215700.822003-1-kudo3228@gmail.com/
+  ufs: reject oversized cylinder group metadata
+    https://lore.kernel.org/all/20260717104033.38574-1-david.lee@trailofbits.com/
+
+Those validate fs_cssize and fs_cgsize in ufs_fill_super(); the checks
+here live in ufs_read_cylinder() and do not overlap with them.
+
+Both were reproduced under KASAN on an unpatched kernel by mounting a
+crafted UFS2 image.
+
+Patch 1, an image whose first cylinder group fails the magic check, so
+ufs_read_cylinder_structures() fails after the root dentry is installed:
+
+  BUG: KASAN: null-ptr-deref in mutex_lock+0x76/0xe0
+   ufs_sync_fs+0x5b/0x6d0
+  BUG: kernel NULL pointer dereference, address: 0000000000000100
+
+Patch 2, an image whose on-disk cg_cgx is out of range, followed by a
+write that allocates a block:
+
+  BUG: KASAN: slab-out-of-bounds in adjust_free_blocks+0x1bf0/0x2510
+   adjust_free_blocks
+
+With the patches applied, patch 1 loads the cylinder groups before
+publishing the root dentry and patch 2 rejects the mismatched cg_cgx in
+ufs_read_cylinder(), so neither faulting access is reached.
+
+Ali Ahmet Memis (2):
+  ufs: create the root dentry after loading cylinder metadata
+  ufs: validate cylinder group metadata before caching it
+
+ fs/ufs/cylinder.c | 10 ++++++++++
+ fs/ufs/super.c    | 17 +++++++++--------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
+
+-- 
+2.54.0
+
