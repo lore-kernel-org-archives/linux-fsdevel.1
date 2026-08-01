@@ -1,55 +1,54 @@
-Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
+Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE8838AC92;
-	Sat,  1 Aug 2026 07:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7BF3CB2DF
+	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 07:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785568428; cv=pass; b=D0doZgH/8WCwPjS3hxH5BobywBcYfVgW/LANfAJ0SMd18HNyYJd6XgkobT5HyvGWlcswmA54UkSyAitdPYUxG7C4TQq01oLwzJKxiJ8HrT8dp4RA5h5l0odWUvqQHydnqQdbyUmISHPAkZacnE4kJ2C80n4jB+OEUHpdfzzrEXg=
+	t=1785569530; cv=pass; b=GvhSdqZOvAO9ikOGoQWbK5ckB7+7uSmbhKNtOojxMPl66bTvpIpvTy8fA0fSAAQ2U8wToJGXLCi49VVvVnFt2q4In/9+c1LYKhw0T3xrNPBwaaB///DMKa9UqKKQe0fwxoP7BClnHrakxw7lxLK6LTihDCz77vBbNKS7Xfswk5U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785568428; c=relaxed/simple;
-	bh=CSq/ZfxhyX69pcg1hfW1WzDgWgKLpAz7yogVKbvQOpE=;
+	s=arc-20240116; t=1785569530; c=relaxed/simple;
+	bh=kLDdy2fbP0nIkSq0a7IWWE3HuI38gV2RvdCd8aJVslU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DoJ3fxyoX5/Xhuxh1yhOOI/sJXQsmj9pzkvAV/xcOccW0/mylNOxPrQKQShrz3UeIMnzPnOSBjU48lrUbL9TwKQfLS+19UrL9GWut7syQa44mfcZNAXBNd9449yQb5fpgxGl5sjo3apaW89KRzpBywNrbkAFmmM7xR300+O0QvE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=Bqk9iG3d; arc=pass smtp.client-ip=136.143.169.57
+	 MIME-Version; b=UDOqjtZVOz4pNJRmKvayqpySkdWp1wWvVZgoewp17vS5ZrRww7SRdG5q2gIHgacINhFA3hnKCkD/2IfvAJFz1QuWn9A+uPB3y4f8OO4x3Z1HHC2Kpmpl7EiDDOzDuNY0HFGJTIbzb5bZClEArqBfydj1cIcVXqgXFkyf2gp64ns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=IA1B7iI+; arc=pass smtp.client-ip=136.143.169.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="Bqk9iG3d"
-ARC-Seal: i=1; a=rsa-sha256; t=1785568408; cv=none; 
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="IA1B7iI+"
+ARC-Seal: i=1; a=rsa-sha256; t=1785569472; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=Z2qM2J24xe3lQ9sI+LShw22vrACDCGdvX0Lq4bXwZ+NKbEzWToh6HHqaOv0tokURTCLiDTuzyISNhnqvFtfBpUZaQzJpp/aGmMZWDFSeO3B+lCr3qwOCIR8kamaw1sPS6Dg4WGBuBykZuaXXoIuukBuQfch1c4yu4+JBY1acq44=
+	b=lElEU+ZF24MMY9yn4fbveVmQIkuxyWzo7Mud0M9NO3m/K6m/QpbXgITRxKy/3I5IY7rfj0I3x5Y6wHXXRDfETBxbEnuX+Yif3k0S+AAgozFK7z/fZkrizO9VbTOplkWP28+GvWltDj1CWOlYZvehuEZWrtDwsmvKNZKdv5kN1n8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785568408; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3gPiaHvRiE9a7VS3RoeEawkQAvo0NUnPaDkZy2tIKKo=; 
-	b=LKu6P7rXfHkIvsiye0ciTyO19UOTk90cdLX3oC8B6RtAvFRpcO61Lu/3o1najXzbnawalW41CfXjnLX+2OJDmMnUlOxq/JuW8wRFy4dhM4BAUNFm83nD7F5Y5+DV0ZQ/sJXJGQ3OSDMJFWSe4escaw7y7siHubma02Mo437sY0Y=
+	t=1785569472; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=80/ZHsMA6sURvDsYpknDnJzU+W0Jz6Zub+wlZq8bO2E=; 
+	b=cQj/s3ider2bTHVSmiVoF/Il8DITiXW96D8l7BkVjHdi14c94UDKBKk99J7fGimERYW6wFSI2SihQSOvErBpvXfMDJ8KfEVDdPgJxvQWVxy1PoIQCh7WIkDj4SerYImMrVAqpE2yWuUobvoOB6XnRfqixf7rkQOI9UgmpuM6iT4=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=iusegentoo.com;
 	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
 	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785568408;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785569472;
 	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=3gPiaHvRiE9a7VS3RoeEawkQAvo0NUnPaDkZy2tIKKo=;
-	b=Bqk9iG3dpdapEQNgey6DSZWZua7GBvCwPao9G4QPLmedQGx0/E0mKOefSmJj6HmS
-	a6P0HoOGm4aawZxQRl1PFN2lQy/Ce5zmYGQyk6r4tdOPuPGh6a4/DnrRMuKM7V1saQq
-	OCncH3OSJ5XbELu+CeAYueHl7TfzjMfqZBG7rssU=
-Received: by mx.zoho.eu with SMTPS id 178556840686779.84956335936783;
-	Sat, 1 Aug 2026 09:13:26 +0200 (CEST)
+	bh=80/ZHsMA6sURvDsYpknDnJzU+W0Jz6Zub+wlZq8bO2E=;
+	b=IA1B7iI+3LUkuXBNZfy8NW/DfWdadOnMvNjNDt/cJjzMAwzcIYUMQWDpW32i4QF+
+	abDWpL6ylDSGE+M7MCRSenyLu033/jVcFFjqrMcXDUVe0Pn/bIwwWCXUm1VwPziQouW
+	fJihh7y5GX5XEWmEVhsgsdhy46tSI/FTryQnENkw=
+Received: by mx.zoho.eu with SMTPS id 1785569469604853.2168044972021;
+	Sat, 1 Aug 2026 09:31:09 +0200 (CEST)
 From: Ali Ahmet Memis <ali@iusegentoo.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Kees Cook <kees@kernel.org>,
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] ufs: validate cylinder group metadata before caching it
-Date: Sat,  1 Aug 2026 10:12:58 +0300
-Message-ID: <20260801071306.59484-3-ali@iusegentoo.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: add myself as UFS filesystem maintainer
+Date: Sat,  1 Aug 2026 10:30:59 +0300
+Message-ID: <20260801073059.63651-1-ali@iusegentoo.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260801071306.59484-1-ali@iusegentoo.com>
-References: <20260801071306.59484-1-ali@iusegentoo.com>
+In-Reply-To: <am10yuQx5a3h2pXH@casper.infradead.org>
+References: <am10yuQx5a3h2pXH@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,63 +58,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-ufs_read_cylinder() copies the cylinder group index and the rotor
-positions straight from the on-disk group and caches them without any
-check:
+On Sat, Aug 01, 2026 at 05:23:38AM +0100, Matthew Wilcox wrote:
+> Convince us you aren't Jia Tan.  You have almost no history with the
+> Linux kernel (one commit that I can find, and that has a different email
+> address attached to it).
 
-	ucpi->c_cgx    = fs32_to_cpu(sb, ucg->cg_cgx);
-	ucpi->c_rotor  = fs32_to_cpu(sb, ucg->cg_rotor);
-	ucpi->c_frotor = fs32_to_cpu(sb, ucg->cg_frotor);
-	ucpi->c_irotor = fs32_to_cpu(sb, ucg->cg_irotor);
+Fair question, and after xz it is the right one to ask, so no offence
+taken.
 
-They are then used as indices during allocation and free:
+Proving a negative is hard, so here is what I can actually show.
 
-  - c_cgx indexes the cylinder summary array as
-    UFS_SB(sb)->fs_cs(ucpi->c_cgx), so a value past s_ncg writes a 32
-    bit count outside the s_csp allocation.
+The commit you found is 607af438e643 ("tools/power/x86/
+intel-speed-select: Harden daemon pidfile open"). I wrote it as Ali
+Ahmet MEMIS <dev@unknownbbqr.xyz> and Srinivas Pandruvada applied it. I
+still control that address and will confirm from it that
+ali@iusegentoo.com is the same person if that is useful. I have moved my
+kernel work to the iusegentoo.com address and will keep to one from here.
 
-  - c_frotor becomes a bitmap scan start, start = c_frotor >> 3, and
-    then length = ((s_fpg + 7) >> 3) - start. A start beyond the block
-    bitmap wraps the unsigned length to a huge value, so ubh_scanc()
-    walks far past the cylinder group buffers. c_irotor drives the
-    inode bitmap the same way.
+Past that, I would rather be judged on this week's work than on my word:
+  - ufs: do not treat unreadable directory blocks as empty (rmdir data
+    loss)
+  - ufs: free the buffer head container in ubh_bforget (Luis Henriques
+    posted this fix in 2018 and it was never applied)
+  - reviews of the pending cgsize and cssize hardening patches
+  - a two patch hardening series with KASAN reproducers, for a mount
+    teardown NULL deref and an out of bounds write driven by on-disk
+    cg_cgx
 
-A crafted image can set any of these freely, turning an ordinary
-allocation into an out of bounds access.
+On the entry: point taken, adding myself as Maintained on this much
+history is premature. Consider this patch dropped. I will keep sending
+fixes and reviews, and if an entry ever looks warranted to you and the
+other reviewers we can revisit it then. The fixes do not depend on it.
 
-Reject a cylinder group whose recorded index does not match the group
-being read, or whose rotors fall outside the group, before the metadata
-is cached. Valid filesystems keep cg_cgx equal to the group number and
-the rotors within the group, so only malformed images are rejected.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
----
- fs/ufs/cylinder.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/fs/ufs/cylinder.c b/fs/ufs/cylinder.c
-index a2813270c..b930ee1cf 100644
---- a/fs/ufs/cylinder.c
-+++ b/fs/ufs/cylinder.c
-@@ -68,6 +68,16 @@ static bool ufs_read_cylinder(struct super_block *sb,
- 	ucpi->c_clustersumoff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clustersumoff);
- 	ucpi->c_clusteroff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clusteroff);
- 	ucpi->c_nclusterblks = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_nclusterblks);
-+
-+	/* these on-disk values become array and bitmap indices */
-+	if (ucpi->c_cgx != cgno ||
-+	    ucpi->c_rotor >= uspi->s_fpg ||
-+	    ucpi->c_frotor >= uspi->s_fpg ||
-+	    ucpi->c_irotor >= uspi->s_ipg) {
-+		ufs_error(sb, __func__,
-+			  "inconsistent metadata in cylinder group %u\n", cgno);
-+		goto failed;
-+	}
- 	UFSD("EXIT\n");
- 	return true;
- 	
--- 
-2.54.0
-
+What I care about is ufs bugs not being ignored. If routing my fixes
+through you or the vfs tree is the better path, that is fine by me.
