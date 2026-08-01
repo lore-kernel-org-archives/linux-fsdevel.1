@@ -1,64 +1,64 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D2F271456
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 15:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CC33203B4
+	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 15:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785599300; cv=none; b=W2Sw+gqkJwmriciDPaYVTvlEje5LmMe87Xp5wfW/Un2Epe4/FS6Fmg4JcsB0DyFCsuCW6IU0o2SBsWMD8t3iPMlna/UuxfKuKghK/q6ykwAYN5/Uobxj5u73A0QZAPspwcm3arNipmH3PI1YLP9gjOrb8JNFiu3cWbP845P9GsI=
+	t=1785599321; cv=none; b=UuK/aGKLtvLvDPa0MZrPX8pmWSdL1Tss+HrbBlt4BaWnl2U2aecfcTo4hlKsWWXcGCCk14g6ZzvXfP15EXjBT8kloEzEsu6o6xLZ3tbppJs7RgAUnox3ZGMM/S71Ep/g82H07NfG9IR7u2F780oUPHFWnMzuqEJsUgYkwFvw46g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785599300; c=relaxed/simple;
-	bh=X3zRjuSdVBD5i7gQmFjvEEAtiBuCzXBqrfu9vE0MnhU=;
+	s=arc-20240116; t=1785599321; c=relaxed/simple;
+	bh=1jBAtnFGRJ/F8gXs/co1VF+epb8VpkeomtOw2fyD9ZA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=By+0+46PIfYnxzl5j9vL/Pm4R0OhOB26yuvAEZzVdn86YOX8YttH4fYglzuo+NmYcGDIkZP8CobG/lh64UQwZKSYmg/m8mdz915mLUAF0rc2bgk1PcGb42dx6UaOzAjhfEhPoZqXi+uk10L0GoRVGTP/BpEtckUKQpyy7N33a8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s5Yo/707; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=N0lsf9Pjn3PfA5gT6AbqtOxGxw80Hx+q6qO0pYBwHQwN0I+ivJNCzHzIP22/sxWTiEBYGcQ8aFEACUJjTKXtShTk7x629SSps2MfFXfgPFhRAbWsZBolqErwchnVYQGjTTd0wNYSdwynGQy0ab+6/XRvgpkffc7mnQsGUYY5ALY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mfc1+mx3; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s5Yo/707"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc891373e0so21196955ad.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 01 Aug 2026 08:48:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mfc1+mx3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2caced6038eso19725975ad.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 01 Aug 2026 08:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785599297; x=1786204097; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785599318; x=1786204118; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=R0GcIDTsY2CDASlyPqk465WOkbyFB/dgtSdtycnJJZM=;
-        b=s5Yo/707MVtufZXlHpHeR9eOrEXTbwgJPhF30vx7pJGrFzN0hryZ/O84JB91C4DJFA
-         TbHYUGYAXTW6nMuGTNQtbiGKzpYEL73jW/itojS9/HilH4tYfy2jMvI15KYkZhiECBud
-         CMwX7/yc3W6yyRGL1mBGzkmfAnYZ3XwdGBpwe024v1IsKk4ZBqgr7shg2iNzUU12r/pG
-         VTCGh7jP54IJsoHCaPyqt86UdTYcW9xsmoaMvH+qVR033WqEJ6V+aeAoXboHyY87aam0
-         lWSJ+5dsyJmPYmlHC8trWpIu+mHIlM0FNORMvLLyxc/Zlayu05yoAXz/zvgDhti7Tz+C
-         M7Tw==
+        bh=fyuZF+rseQvIVevAALiITcY143h/8lAr4kofVhDXVW8=;
+        b=Mfc1+mx3iaWZQWiA5QbqTZ5Zw+/2gz7kxceU2jPXHLFc7Q551+c6i9znSKBY40Mkzq
+         nNqleKOAjLfLlqvNbSdbx8mSOGzT+mcVb9LdOvSnZDurqec52Ik42xRqu3/XDqdmM6iQ
+         phiNHZDOOoTJNIGi/wJSHcNqv9HCobynIk3XdFlR+UzJK4EA2YqSHNu3UBwuHnb9dGe8
+         pUZa4XywpGm7sKEwummT7fdZUxHFNHWyz49tJRuLiaKVi0UuvTQWzyX/TvZo0grubca6
+         AiqWBvrzLV02UC8WX+M5waI5pApeOP3t7+NQnPkP3HY62bGqbKua4X02C9O8YktU+rZy
+         Ft9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785599297; x=1786204097;
+        d=1e100.net; s=20251104; t=1785599318; x=1786204118;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=R0GcIDTsY2CDASlyPqk465WOkbyFB/dgtSdtycnJJZM=;
-        b=FK5jzNXicoXFpdXxmne5tmPAGt9XUBn7x6CBOMqCmx0+/ysNU+rVqhZsquUlE4SFrv
-         t7/gTXWoERF4icYK6CbvDbdfmzqxu+fmG2WhpnoUadfqVH0saGky0LXNW/FDQxJ2OLcE
-         0hmqexD8gSlB8XRjAtJnFFC4HGVRlDfvbyd2L4oiW8Tkijmu/Jvk7YuK4jwLkL+78EdF
-         mFuMK7E1dPBlejLAhFqD+LH6ngmlNd91w6SDm7Jch/aJUUVL54bysIa6lyWiq+V9z8iE
-         xvAj5vjJIO9h3RqblyjVv9OgOa9F3DAuPk76Oht8dsVKSDgggNi9BYT0Rvc3Sd7eiBcb
-         6HHQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqIQW5F0DQjhQiS40jjXfvNJToCi+lz3IqKtbOt/L89xVI8HWb2OXdM94oEJAYKckko+LkwvBQ5akvj/a6L@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyZWZNGk84mH0aNEWGn+a/Czv9EkOkC4Ks40rf9GRXUDI/Lneg
-	RxOluEsANFN96tW7Zsga+S7+HzDTA6kF001IEDNw6kpgSuTLBlsUQ8JW
-X-Gm-Gg: AR+sD12wm1KJe+OEfY7c5KSBhz1N7o4+Pmi6A4lHnZM+zI4aFWQWEONEXvdCg5EHmw+
-	Dza/hpS/fYDNQyl4h5+fzcTsZy2BVzaiZyRs+kbkB/Wxhf9BtvzndwKjFNG6fGpz3U0ASS8xuuP
-	KdyuSC//7qqXhjOrXcXOm8oIUSy3MUHmYYoPgTlTfGY6vU6icFrUSQomU1IuJo+9UZrcSwB1VUN
-	9ZXvzomvX95Uw2HLzJ6QVGTca9bnCugnzW+YDnvSYsWJq9H+Vj3M+kPpSLB/TM+zmhtY6bsICHJ
-	SkCYcI3sdWGQJyp1PVuB7yfjhYkbugvRJFp4dvjYYQYL2xYHPc48orQuAXlL9JIa4cCLPV2VQhH
-	vZybx678keqz1c7eFo3+hapeqr8rDdcJChj7ANRUdA0OGFw22z6guLnN72XM2ra+7YB2DV3zbQm
-	ffiBGG5g9DJgXwuxdhwkWFkb4/aUOXa2XV6oTn61Xq0OXEyM7a2r3XXK7raIE3wrAdVZe78eK3T
-	tLd2vQrbjoYX7cTT3EKLHiea9Eth5BbjlqSsVvwRPufNF4=
-X-Received: by 2002:a17:903:22c3:b0:2c0:a555:80d6 with SMTP id d9443c01a7336-2d0521bcb54mr36749555ad.2.1785599297067;
-        Sat, 01 Aug 2026 08:48:17 -0700 (PDT)
+        bh=fyuZF+rseQvIVevAALiITcY143h/8lAr4kofVhDXVW8=;
+        b=KpTFq5Sua7R/TF4+2JNIsmmIBbxW4o2GiY9MYHhskhuUDg6qtBW6bjh5RM2z3ojE3m
+         /NrKKYVx9j1lKCUfik1NP3QhIeKB6J29J6usPwdGCO+1G3oJRW+orPUKM60cJz9DiztH
+         PTtxLmbsFc1gGiUINqPf9TRJVqThpSvE8mbKk8d3ryIVfr2miKIrbmcNnrPLClqqWshs
+         HyBMJB1RG6O/Bn9sx/jCFIY6izBgrx3fNW7ITynsD/fhHqf//oJiE9GO8oM/jTPt+1JF
+         xNV8FkL0GIXaTqbZ3pAtqxG5Dctf7U5gnOjYupgXDZ4dMfGv6o09l0KwcRIydxkwHuqB
+         JIQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqgQr4XoLmunlWKAOXqI6mKv1iB1sSxS7H5Va8kcnQF/Z4eGQuqO6ol8WowIurfEcgAs1xH3+TWBu7QzHsm@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwA4PacM+PgRxzhTYWpOZA0/g/dmUtZ748RiymGw7gUakXgykJ
+	5o+Ps/T8xSo/QVy+0tguUYbfGwSPtxs9qrHMga918IYxU4IROaNn1gM3KmaFi7Te
+X-Gm-Gg: AR+sD12tw8eKOec0EDrsInZwAy9Ohq2PD5pNvDxxCVtAERMX1mM75/7Yo767Mbd7+lk
+	lzVTQFRHafuy8LmA+yNSKxTFCZ31FJg91tlAfW0SUoO28IPhqAZx5DA0/PQGfQgPXwlK/904Kos
+	2eCpcIfuUaW/Sv4xJJLhohxXFeQJotUIzhHN5NTcJ2l28D/muaJaA0L+MYAWymkiGCqu+ArbZvZ
+	6TJzZnKk7oMFPZJoPGqqxLP5iCN4zBAZgtkXdOx/Rw+Ytrw6STjDL3UNP4jIv8EcCgoRbEUjU0B
+	IihluDFeQO9oijeDjrR7j+fJ0o/yBCvAwofHurA7hf9YGBCt1ubbvAWxXUKppCpmSfE6o9cGqpT
+	yvcC0QljJ6jkRkEH2f3Xt+F3BA+v2RSCvjzJiRg6JZ20vhkgfonTgzCLmi/+y61OuyUMdoWC20r
+	9j4fQYQx1IP/VmAvEMAdlsRMjeL8CdizwmPdtRRAc7ZgASnM+M+DdnEKTD7wDs/zZQxLtxcjDpN
+	RLs870dcug1o4GP1xQlUAoDHUt9sK11MBIQDTTi9ZozujM=
+X-Received: by 2002:a17:903:2c0d:b0:2c7:f5c6:c4a6 with SMTP id d9443c01a7336-2d0535b3b1amr33657505ad.7.1785599318082;
+        Sat, 01 Aug 2026 08:48:38 -0700 (PDT)
 Received: from 127.net ([2620:10d:c092:600::1:61d0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b12202bsm18287605ad.66.2026.08.01.08.47.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b12202bsm18287605ad.66.2026.08.01.08.48.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 08:48:16 -0700 (PDT)
+        Sat, 01 Aug 2026 08:48:37 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -97,9 +97,9 @@ Cc: asml.silence@gmail.com,
 	nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org,
 	ceph-devel@vger.kernel.org
-Subject: [PATCH v5 04/16] block: always adjust bi_offset on bio_advance_iter
-Date: Sat,  1 Aug 2026 16:46:16 +0100
-Message-ID: <64f559a1d1ac43880149de5950187beee6bc2aaf.1785596451.git.asml.silence@gmail.com>
+Subject: [PATCH v5 05/16] block: move bvec init into __bio_clone
+Date: Sat,  1 Aug 2026 16:46:17 +0100
+Message-ID: <6ecfe8f9b1c6bfb8665fba7daf55d9ad7a8a3243.1785596451.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1785596451.git.asml.silence@gmail.com>
 References: <cover.1785596451.git.asml.silence@gmail.com>
@@ -111,73 +111,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Extend bio_no_advance_iter() iteration to also increment the offset.
-It's not currently needed because the currently listed request types
-don't have a buffer, but will be useful once we add bios backed by
-dma-buf, which don't have a bvec but work with a single range.
+Consolidate bi_io_vec assignment for cloning in __bio_clone to keep any
+further changes in one place.
 
 Suggested-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- drivers/md/dm-io-rewind.c |  6 ++++--
- include/linux/bio.h       | 12 ++++++++----
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ block/bio.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
-index 04f3fc8aeb6f..b22719c6411c 100644
---- a/drivers/md/dm-io-rewind.c
-+++ b/drivers/md/dm-io-rewind.c
-@@ -113,10 +113,12 @@ static inline void dm_bio_rewind_iter(const struct bio *bio,
- 	iter->bi_sector -= bytes >> 9;
+diff --git a/block/bio.c b/block/bio.c
+index 4074a0496b93..00f99d03ac91 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -860,6 +860,7 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
+ 	bio->bi_write_hint = bio_src->bi_write_hint;
+ 	bio->bi_write_stream = bio_src->bi_write_stream;
+ 	bio->bi_iter = bio_src->bi_iter;
++	bio->bi_io_vec = bio_src->bi_io_vec;
  
- 	/* No advance means no rewind */
--	if (bio_no_advance_iter(bio))
-+	if (bio_no_advance_iter(bio)) {
- 		iter->bi_size += bytes;
--	else
-+		iter->bi_offset -= bytes;
-+	} else {
- 		dm_bvec_iter_rewind(bio->bi_io_vec, iter, bytes);
-+	}
+ 	if (bio->bi_bdev) {
+ 		if (bio->bi_bdev == bio_src->bi_bdev &&
+@@ -902,8 +903,6 @@ struct bio *bio_alloc_clone(struct block_device *bdev, struct bio *bio_src,
+ 		bio_put(bio);
+ 		return NULL;
+ 	}
+-	bio->bi_io_vec = bio_src->bi_io_vec;
+-
+ 	return bio;
  }
- 
- /**
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 0445ecba3b24..f9b8903c6a87 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -113,11 +113,13 @@ static inline void bio_advance_iter(const struct bio *bio,
+ EXPORT_SYMBOL(bio_alloc_clone);
+@@ -923,7 +922,7 @@ int bio_init_clone(struct block_device *bdev, struct bio *bio,
  {
- 	iter->bi_sector += bytes >> 9;
+ 	int ret;
  
--	if (bio_no_advance_iter(bio))
-+	if (bio_no_advance_iter(bio)) {
- 		iter->bi_size -= bytes;
--	else
-+		iter->bi_offset += bytes;
-+	} else {
- 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
- 		/* TODO: It is reasonable to complete bio with error here. */
-+	}
- }
- 
- /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
-@@ -127,10 +129,12 @@ static inline void bio_advance_iter_single(const struct bio *bio,
- {
- 	iter->bi_sector += bytes >> 9;
- 
--	if (bio_no_advance_iter(bio))
-+	if (bio_no_advance_iter(bio)) {
- 		iter->bi_size -= bytes;
--	else
-+		iter->bi_offset += bytes;
-+	} else {
- 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
-+	}
- }
- 
- void __bio_advance(struct bio *, unsigned bytes);
+-	bio_init(bio, bdev, bio_src->bi_io_vec, 0, bio_src->bi_opf);
++	bio_init(bio, bdev, NULL, 0, bio_src->bi_opf);
+ 	ret = __bio_clone(bio, bio_src, gfp);
+ 	if (ret)
+ 		bio_uninit(bio);
 -- 
 2.54.0
 
