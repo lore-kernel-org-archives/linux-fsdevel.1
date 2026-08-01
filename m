@@ -1,73 +1,57 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost03.nm.naver.com (cvsmtppost03.nm.naver.com [114.111.35.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AED269CE6
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 06:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECD222D7A1
+	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 06:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785564031; cv=none; b=R3/RgQW5cYnpc9GgY2hYM2oJRtGUzZwOx+TyPMhXRJFzf4bNDEt+vVAQpkJGlsiplT6qKsLe8IdUWEevNNj9h/IOxMcoQ80Uq9jOnEqYYV0KcOm9KATBhxcmXRN+OamlW4UbSV0ZmWSca6lstMrYoHl2SsGoJ6sgevaPjzAay18=
+	t=1785565661; cv=none; b=QgPe5BuCkUj6XgSdCoPCbSHKzKwRidkER7OSHDJjD2vvSUH0ZC6yc0hOxYk4qNqmfTYtXQ9He9vEd+B8OTYxmiJq8OynqAFZcvRyD1gHYXfvIGN8yUJgQs+GnLcN1bdCH8ko229pSs65e+w6tKwErF9zDvXmi7a08EIH0d590lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785564031; c=relaxed/simple;
-	bh=IyndYiFNrUnOpyjXZQ4HtCPSP8eKEsszOmjL+5Pda0U=;
+	s=arc-20240116; t=1785565661; c=relaxed/simple;
+	bh=QLx7gXdPw2Dei/WHKOJ8TTMNtiWbnnKqMyOJo7m0Ai0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ibY2+KBKq/9L7zfRxeliXTzFbXcEJwv11A/B+nssV58m3yV2IRPMCaH8wP/c2IZGhhDZD+ASb5xrirRWLCHJ7ytKFmUpfj4hd4bAKxPdB9m7spgzitySJ8VzXIgoH3tNLKkWdFxM43eZHSGKRj7c14Si4KgE9QqnaMtiQpysEZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=SURDHwFG; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+	 MIME-Version; b=mh26cgKCasPtlECLcwUeP4G//ptXPJGAdd7JpN3DVuUrBynfeaHWA5hROHj1j/HmhAPxzSOpbWULtBgPflRNQw1ZOtb3BNJRdx5QK1q3xOkZPKtNaVVDFxeywLXeaoiD+EBGkRSYM+MShuSn+pDfdz3+3Jjg256JIeRompYOSlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=eh0Fsg4g; arc=none smtp.client-ip=114.111.35.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="SURDHwFG"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84e84a6c4bfso1510693b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 23:00:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1785564025; x=1786168825; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Oh6eLSi8ec38jOBysNvV8YK8OPay/4QImPnp8jUP+UM=;
-        b=SURDHwFGnNt2EPxsUL0H3SXYsIaBTsNVpUO9/FpW6xXNuxdDW8NkXf8m+sxt1sCHjW
-         pGdfevofm0/WCyZUcz5zqZrrdxbCi/IcGWSNuXUcA1Mkz/j35RgfDPv8XICVKMpw4epQ
-         roaNFLSH61TEiEc/iw4hE+bz3yX8zV0vFTH40=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785564025; x=1786168825;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Oh6eLSi8ec38jOBysNvV8YK8OPay/4QImPnp8jUP+UM=;
-        b=kLoLuwiMvalQB7MpwxAEN+k+Kz0ujQ3flgzVBTPGcwXMEUekR1fPAt+MpDpOKJKZgX
-         mNEdIi+KNXNbi9B/8hltcrMtTp6VB9vrIcyE5T0nZO6Bue2+3gp004HnRmwVkCSccsTj
-         Bh2dkVmtODqTmN6yrlpvMzf2z/6NsEQBn6zXJNz2I+MHLc1CsdCwJsTtuQDTy+Iiw1cl
-         X2qMRdYE/9Om+5FXtuldmr4NnSFLjdPR2in28tFVcfBkcKNytT4B0dGsOoFZ32EnwXRW
-         R0Iphpu4MBeaDZnG2WxHwmMvkmK8vq7C81fUHxWJCyYoZ5jM1sd6v1n0zZMvnsDQhY2d
-         MRnw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5V2xCmqS9lV8aJa+UW4QfeFpmSxqZMvc1q2G7I+cbY+1iSv9w1Bf6f2VRZV1Zhuv1UEhi59KiQermKcRd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzuj14b/vRZaeFltfCqchP/qwEo2c76i4K4R58kiPtGRwEVwq5t
-	RYdZGSTrSccEOikavo5XSN8ww/KSs7GWmFTRUT42Cb47+/6fmZlxXDskBjMfa5w6VKU=
-X-Gm-Gg: AR+sD10sAVqynjsk0ueVXk3QY7cXNN6Wg6j4j8Uskfj1jFERqSiSJAhy4HuWVoojGgC
-	yj9VaVfSr9h88P0skGLriAbgosh4wzabDGBrE/6oRwzpwxP/Wyd9GcL0yb/8WZ8Y8Fy5ft4YXYU
-	hlsW1n45xRy5U58ssRO431qMJPL5sDcfa4cuM6GPE7BAaKnfH0i5OK4Ijzf2spQmjkHk9EEKrBM
-	YXAMQk4HP1vIE3M1uAAsvNBTbDb6FMbnbS9Vz9sFV+Vdimr/dU3oz39l8h9QzLHiV/xfJu0HQxF
-	q2kQa6V9vsj0v6HSnWuYy8YCGt+hoNrq/HkMfA4uP7lx9AZeSh/98UluCBUqllwfZE40wBYkh56
-	mfPHjbpSYg98+P2edZP47deftsE8uDrRVe04FKLkgqdOh61ta+1ZRGgIQhmrJjkT+oNg1p1Rgz3
-	SS/VEPFLuXHgGUQjqopInJ/PkuzWZK9x9psYB8R3U4hWgkFZ1uX5cvC1tuxSv7ZQqPHZHeWn3Tk
-	+ZNfKxzhsZLFjmRWyKF7A==
-X-Received: by 2002:a05:6a00:3986:b0:848:4809:51cc with SMTP id d2e1a72fcca58-84ed74c1c21mr3635850b3a.32.1785564024475;
-        Fri, 31 Jul 2026 23:00:24 -0700 (PDT)
-Received: from ziggs ([147.46.121.36])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc2d6652sm1253873b3a.44.2026.07.31.23.00.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 23:00:23 -0700 (PDT)
-From: Youngjae Kwon <yjkwon0026@snu.ac.kr>
-To: jack@suse.cz
-Cc: amir73il@gmail.com,
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="eh0Fsg4g"
+Received: from cvsendbo029.nm ([10.112.18.60])
+  by cvsmtppost03.nm.naver.com with ESMTP id cGsy8rxFStSIK2n+HXatag
+  for <linux-fsdevel@vger.kernel.org>;
+  Sat, 01 Aug 2026 06:27:36 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1785565656; bh=QLx7gXdPw2Dei/WHKOJ8TTMNtiWbnnKqMyOJo7m0Ai0=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=eh0Fsg4gDq1/uRk7jgVqXXy6ODcAXi8PinI9491Gy0lojEAlEuN8B2mMemgF7W00+
+	 ZojBwYrUHS64/QeUMH3f02jF3RN2ZIaZsd8P9wFON44uc7vC5nZqj2FDc84O1FlsZX
+	 CTekGtEVJUv65SgdfI29op+8vX89idr4fD2JTFJDscUKG9HmojUfVFphupPmC5M0Z2
+	 YyRecdG3Q5IYZltSxBPbeha6AtwH6JSimqoNkJx8uS8/ZDX3xY8d2M4G0Ua7qSp0vI
+	 +W/yEGul322hfOPDytgxcUPlFeBW5A2Ql/7EfCoqke9U4oF+rNTCBdhGxB2wsxJpd5
+	 goiTmVHwz9wZQ==
+X-Session-ID: TdGbUKsCQEWfTl5myllVlA
+X-Works-Send-Opt: rP+8W4eXjHwYKBm9FAF9FNmwKo2mKqErKqb/jJIFjAJYKg==
+X-Works-Smtp-Source: eqKqFxE/FqJZ+HmrFxUq+6E=
+Received: from bl4ckhyun.localdomain ([211.41.193.194])
+  by cvnsmtp008.nm.naver.com with ESMTP id TdGbUKsCQEWfTl5myllVlA
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Sat, 01 Aug 2026 06:27:36 -0000
+From: Hyeontae Lee <wonju345@naver.com>
+To: linkinjeon@kernel.org
+Cc: hyc.lee@gmail.com,
+	zzzccc427@gmail.com,
+	baijiaju1990@gmail.com,
 	linux-fsdevel@vger.kernel.org,
-	Youngjae Kwon <yjkwon0026@snu.ac.kr>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] fsnotify: Fix stale object mask after concurrent mark updates
-Date: Sat,  1 Aug 2026 14:57:04 +0900
-Message-ID: <20260801055704.2663156-1-yjkwon0026@snu.ac.kr>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260730150407.328731-1-yjkwon0026@snu.ac.kr>
-References: <20260730150407.328731-1-yjkwon0026@snu.ac.kr>
+	linux-kernel@vger.kernel.org,
+	Hyeontae Lee <wonju345@naver.com>
+Subject: Re: [PATCH] ntfs: serialize the resident read iomap path with mrec_lock
+Date: Sat,  1 Aug 2026 15:27:05 +0900
+Message-ID: <20260801062705.48184-1-wonju345@naver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAKYAXd-Pt1s2M6dnB6kCeHMB2KDqGQ2JoDGGv_-kD+Z4Rc9YNQ@mail.gmail.com>
+References: <20260725042421.109599-1-wonju345@naver.com> <CANFS6bbReuJMapSmtQSY+jASmY_di+X28rMFQuYtscBwjCie8g@mail.gmail.com> <20260731091035.28929-1-wonju345@naver.com> <CAKYAXd-Pt1s2M6dnB6kCeHMB2KDqGQ2JoDGGv_-kD+Z4Rc9YNQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,188 +60,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a mark gets a new event bit, fanotify and inotify avoid recalculating
-the object mask if the cached aggregate already contains that bit. This is
-racy with a recalculation triggered by a concurrent update to another mark
-on the same connector.
+Hi Namjae,
 
-The concurrent scan can read the mark before the new bit is added, while
-the updater reads the old aggregate before that scan publishes its result.
-The updater then skips recalculation and the scan publishes a mask without
-the bit, leaving the object mask stale after both updates complete.
+You are right - my version drops the lock before the iomap core copies from
+iomap->inline_data, so the copy itself was still unprotected.
 
-This can be reproduced with two fanotify groups watching the same inode:
-one thread removes FAN_MODIFY from one existing mark while another thread
-adds FAN_MODIFY to the other mark. After both fanotify_mark() calls return,
-writes can fail to produce FAN_MODIFY for the group whose mark now contains
-the bit. This was reproduced on an unmodified v6.12.95 kernel. The
-equivalent inotify interleaving loses IN_MODIFY events.
+I tested your patch and it fixes the issue:
 
-Always recalculate the connector mask after successfully updating an
-existing fanotify mark or inotify watch. In fanotify, FS_MODIFY handling
-may clear ignore_mask concurrently without taking mark->lock, so
-calculated mask snapshots are not reliable. In inotify, replacing a watch
-temporarily sets mark->mask to zero, so a concurrent scan can observe zero
-even when the old and final masks are equal. Mark updates are expected to
-be infrequent, so avoid these racy optimizations.
+KCSAN, two runs of 180 seconds each on the same reproducer:
 
-Link: https://lore.kernel.org/all/CACwKKmCZdiZDoFuYm6LZhQ=XvHPk0fNKH=X3LmoXMqakYqJaNw@mail.gmail.com/
-Fixes: 63c882a05416 ("inotify: reimplement inotify using fsnotify")
-Fixes: 912ee3946c5e ("fanotify: do not call fanotify_update_object_mask in fanotify_add_mark")
-Cc: stable@vger.kernel.org # needs adjustments for <= 7.0
-Suggested-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Youngjae Kwon <yjkwon0026@snu.ac.kr>
----
-Changes in v2:
-- Always recalculate after a successful fanotify mark add/update or update of
-  an existing inotify watch.
-- Drop the fanotify calculated-mask and cached-aggregate checks; neither can
-  close the race with concurrent ignore-mask clearing.
-- Make fanotify_mark_update_flags() return void; its recalculation
-  bookkeeping and the now-redundant first-time guard are no longer needed.
-- Drop the inotify old/new mask check because the replace path can expose a
-  temporary zero mask even when the old and final masks are equal.
+  run 1: 206,015 read faults, 415,351 link/unlink cycles
+  run 2: 205,732 read faults, 421,672 link/unlink cycles
 
-I will send backports for stable kernels through 7.0.y after this lands.
+No data-race reports in ntfs_attr_find(), ntfs_attr_value_is_valid() or
+ntfs_read_iomap_begin_resident(), and no "is corrupt" messages. Before the
+fix the same reproducer produced 40 reports in about one second.
 
- fs/notify/fanotify/fanotify_user.c | 35 ++++++++----------------------
- fs/notify/inotify/inotify_user.c   | 15 +------------
- 2 files changed, 10 insertions(+), 40 deletions(-)
+PROVE_LOCKING, 60 seconds with the same reproducer: 1,199,159 read faults,
+1,396,557 link/unlink cycles, no lockdep splat. Mount, read, write and
+unmount all behave normally.
 
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 9ee373ff5..a3648cec5 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1276,12 +1276,11 @@ static int fanotify_remove_mark(struct fsnotify_group *group,
- 	return 0;
- }
- 
--static bool fanotify_mark_update_flags(struct fsnotify_mark *fsn_mark,
-+static void fanotify_mark_update_flags(struct fsnotify_mark *fsn_mark,
- 				       unsigned int fan_flags)
- {
- 	bool want_iref = !(fan_flags & FAN_MARK_EVICTABLE);
- 	unsigned int ignore = fan_flags & FANOTIFY_MARK_IGNORE_BITS;
--	bool recalc = false;
- 
- 	/*
- 	 * When using FAN_MARK_IGNORE for the first time, mark starts using
-@@ -1293,20 +1292,15 @@ static bool fanotify_mark_update_flags(struct fsnotify_mark *fsn_mark,
- 		fsn_mark->flags |= FSNOTIFY_MARK_FLAG_HAS_IGNORE_FLAGS;
- 
- 	/*
--	 * Setting FAN_MARK_IGNORED_SURV_MODIFY for the first time may lead to
--	 * the removal of the FS_MODIFY bit in calculated mask if it was set
--	 * because of an ignore mask that is now going to survive FS_MODIFY.
-+	 * Setting FAN_MARK_IGNORED_SURV_MODIFY may remove FS_MODIFY from the
-+	 * calculated mask if it was included only to clear the ignore mask.
- 	 */
--	if (ignore && (fan_flags & FAN_MARK_IGNORED_SURV_MODIFY) &&
--	    !(fsn_mark->flags & FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY)) {
-+	if (ignore && (fan_flags & FAN_MARK_IGNORED_SURV_MODIFY))
- 		fsn_mark->flags |= FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY;
--		if (!(fsn_mark->mask & FS_MODIFY))
--			recalc = true;
--	}
- 
- 	if (fsn_mark->connector->type != FSNOTIFY_OBJ_TYPE_INODE ||
- 	    want_iref == !(fsn_mark->flags & FSNOTIFY_MARK_FLAG_NO_IREF))
--		return recalc;
-+		return;
- 
- 	/*
- 	 * NO_IREF may be removed from a mark, but not added.
-@@ -1314,28 +1308,19 @@ static bool fanotify_mark_update_flags(struct fsnotify_mark *fsn_mark,
- 	 */
- 	WARN_ON_ONCE(!want_iref);
- 	fsn_mark->flags &= ~FSNOTIFY_MARK_FLAG_NO_IREF;
--
--	return true;
- }
- 
--static bool fanotify_mark_add_to_mask(struct fsnotify_mark *fsn_mark,
-+static void fanotify_mark_add_to_mask(struct fsnotify_mark *fsn_mark,
- 				      __u32 mask, unsigned int fan_flags)
- {
--	bool recalc;
--
- 	spin_lock(&fsn_mark->lock);
- 	if (!(fan_flags & FANOTIFY_MARK_IGNORE_BITS))
- 		fsn_mark->mask |= mask;
- 	else
- 		fsn_mark->ignore_mask |= mask;
- 
--	recalc = fsnotify_calc_mask(fsn_mark) &
--		~fsnotify_conn_mask(fsn_mark->connector);
--
--	recalc |= fanotify_mark_update_flags(fsn_mark, fan_flags);
-+	fanotify_mark_update_flags(fsn_mark, fan_flags);
- 	spin_unlock(&fsn_mark->lock);
--
--	return recalc;
- }
- 
- struct fan_fsid {
-@@ -1502,7 +1487,6 @@ static int fanotify_add_mark(struct fsnotify_group *group,
- 			     struct fan_fsid *fsid)
- {
- 	struct fsnotify_mark *fsn_mark;
--	bool recalc;
- 	int ret = 0;
- 
- 	fsnotify_group_lock(group);
-@@ -1534,9 +1518,8 @@ static int fanotify_add_mark(struct fsnotify_group *group,
- 			goto out;
- 	}
- 
--	recalc = fanotify_mark_add_to_mask(fsn_mark, mask, fan_flags);
--	if (recalc)
--		fsnotify_recalc_mask(fsn_mark->connector);
-+	fanotify_mark_add_to_mask(fsn_mark, mask, fan_flags);
-+	fsnotify_recalc_mask(fsn_mark->connector);
- 
- out:
- 	fsnotify_group_unlock(group);
-diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-index ed37491c1..5f19c24ec 100644
---- a/fs/notify/inotify/inotify_user.c
-+++ b/fs/notify/inotify/inotify_user.c
-@@ -539,7 +539,6 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
- {
- 	struct fsnotify_mark *fsn_mark;
- 	struct inotify_inode_mark *i_mark;
--	__u32 old_mask, new_mask;
- 	int replace = !(arg & IN_MASK_ADD);
- 	int create = (arg & IN_MASK_CREATE);
- 	int ret;
-@@ -555,27 +554,15 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
- 	i_mark = container_of(fsn_mark, struct inotify_inode_mark, fsn_mark);
- 
- 	spin_lock(&fsn_mark->lock);
--	old_mask = fsn_mark->mask;
- 	if (replace) {
- 		fsn_mark->mask = 0;
- 		fsn_mark->flags &= ~INOTIFY_MARK_FLAGS;
- 	}
- 	fsn_mark->mask |= inotify_arg_to_mask(inode, arg);
- 	fsn_mark->flags |= inotify_arg_to_flags(arg);
--	new_mask = fsn_mark->mask;
- 	spin_unlock(&fsn_mark->lock);
- 
--	if (old_mask != new_mask) {
--		/* more bits in old than in new? */
--		int dropped = (old_mask & ~new_mask);
--		/* more bits in this fsn_mark than the inode's mask? */
--		int do_inode = (new_mask & ~READ_ONCE(inode->i_fsnotify_mask));
--
--		/* update the inode with this new fsn_mark */
--		if (dropped || do_inode)
--			fsnotify_recalc_mask(fsn_mark->connector);
--
--	}
-+	fsnotify_recalc_mask(fsn_mark->connector);
- 
- 	/* return the wd */
- 	ret = i_mark->wd;
--- 
-2.50.1
+Tested-by: Hyeontae Lee <wonju345@naver.com>
+
+Thanks,
+Hyeontae
