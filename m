@@ -1,303 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6805B38E11C
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 04:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469C432572F
+	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 05:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785560054; cv=none; b=qO768qM5sChE7neqo+7sht4YPMoi/o8WJfjwyh95IUvP0QG6Pk2hTXiFj3VG48Kc8JH2H+WTjp2LcOisKfLPz3wmKAHewD3dYjzVcqXMGGyfETRMBKEbQ7noAFeoKk8DdeuUXJXkuuh8Qrzb3Vn58IhKGGFzpiBBF35w3lHTlQg=
+	t=1785560481; cv=none; b=n8MpE5P1vuDqCIEXOGXGSP4/jSmJI3n/srUgHZ4Y6oVtF8wV+3ZI2t7VifAueL6oo2oGxycyRRpTiTSfrIc5m95bpVVQmFrtLEzqjdhZ9pfEtvUKdi2h986p3GJWVCLEDKfjSy/lmoskHL5qXHNphIUGbxwpvatUZ6qjvo4IGyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785560054; c=relaxed/simple;
-	bh=9xwEliJvg9tsnBLh1kxGzssuJyh1pagWCYud3w6709M=;
+	s=arc-20240116; t=1785560481; c=relaxed/simple;
+	bh=Mj7OCN/CqugKHviMxyCCSxtzDCQmT0E1Lm6McMTRgns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nP7dY3H8aH7s59EqOxbi4Dy0hB4xg+4K/rUZM2fG9NpDCbld1QhtmKAyUpg21owFjMa1WQfW9Dsv9sImUU0Mz31kRlhxwTGe/B46GfyZ94t/iHMXukNRptj1Q9hMUXgz2p8cla7mlQruvpYEKpdzdSI8M330+beYeZ78Bvp5iKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Thp9401/; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rGmgn41ahwiCLVZxjTwkDrgvbc/CzGn8namYHT1H3C+6axI93SeOibvCAheJcITApVpodj21rahfJFzFpPcx/DysyXBYbeeYUAXLVfndtkVYqTeBdS20gswSrIUH8vhJHSTEHb5vsgiCKXjibBpvp5X+qgCtOjG8zoblsM1xhe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=labXcmKF; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Thp9401/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E011F00AC4;
-	Sat,  1 Aug 2026 04:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785560053;
-	bh=ppJWKk0cJU55Y/c9qFRI7xsAa51NkaGOWxlmXXXq4oE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Thp9401/jMpVAx0YhTervJiX5eLi/Tk3jLgeEZEJ5EfaDen8yrW4UBsHtaOy2Ak+Y
-	 c5yqiuKwAt7hCqvR3jFSV7lL0hLdCMUc62mbx+GA6KE4ZioRIidxQSfkP/YSG3GEOs
-	 tbxhz5UfuULFqzQFwdAKebiOScuoT8Ne/oH44Ya4LErvuHFqw3pUmNINDFD2DpiW0N
-	 nVciQTmEyYs6hHXt2Lwo3QPq9lfS1G5efUzz/z3klU41JSedlVPqJ0QS7JJggAHdvL
-	 nh2YtG922b/tzGrlEaIlyo7gPI06vVRuBbADEWvRdk22VzfjZY+2JtTGZLvXUZp8Lf
-	 BDsoU4lVkK+BQ==
-Date: Sat, 1 Aug 2026 12:54:06 +0800
-From: Gao Xiang <xiang@kernel.org>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org
-Subject: Re: [PATCH v2] erofs: reuse superblock for file-backed mounts
-Message-ID: <am177uT-j-AmiTL8@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Giuseppe Scrivano <gscrivan@redhat.com>,
-	linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org
-References: <20260731160901.2276832-1-gscrivan@redhat.com>
- <am0x7PYFTYjrItGy@XiangdeMacBook-Pro.local>
- <87a4r6xy4s.fsf@redhat.com>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="labXcmKF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1785560469; bh=SjGhzSP+TxiJZz3xQCI946KoIrb+IXfUmZLW2rjZskA=;
+	h=From:Message-ID:From;
+	b=labXcmKFkZsDSuxMutHi9IWBlPb8KQoa1Q+e2K5TWYP6ahp/6TliXZlyswQYaOKud
+	 mfvLbMHZWhG+EPaPdTGETwm+GSFFy3Y2LUteDmgrhayW6gG3NQ7qb8INQmjtL4lq8S
+	 ZWqo97i7nQ/5n8sBNNbjdHcck4NPZihCQaQeoLWE=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id AAD66C0D37;
+	Sat, 01 Aug 2026 07:01:09 +0200 (CEST)
+Date: Sat, 1 Aug 2026 07:01:09 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Research & Development <research@zerotracelab.com>
+Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, brauner@kernel.org,
+        linux-fsdevel@vger.kernel.org, security@kernel.org
+Subject: Re: adfs: stack buffer overflow in adfs_fplus_getnext() (F+
+ big-directory)
+Message-ID: <am19lUpuDSEFGp13@1wt.eu>
+References: <CAGpo96PO4DPJJZtRj9vnR-ZzcWwv=oHyfM7i2Ug+A_CjR3z4+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a4r6xy4s.fsf@redhat.com>
+In-Reply-To: <CAGpo96PO4DPJJZtRj9vnR-ZzcWwv=oHyfM7i2Ug+A_CjR3z4+A@mail.gmail.com>
 
-On Sat, Aug 01, 2026 at 06:28:35AM +0200, Giuseppe Scrivano wrote:
-> Hi Gao,
-> 
-> thanks for the review!
-> 
-> Gao Xiang <xiang@kernel.org> writes:
-> 
-> > Hi Giuseppe,
-> >
-> > On Fri, Jul 31, 2026 at 06:08:21PM +0200, Giuseppe Scrivano wrote:
-> >> When the same file-backed image is mounted multiple times (via path or
-> >> fd) with the superblock_share mount option and matching domain_id, reuse
-> >
-> > First, I still need to get vfs maintainer opinions for "the sharing
-> > superblock feature for file-backed mounts"
-> >
-> > I don't think it needs to be bothered with "domain_id" since
-> > "domain_id" represents a trusted zone so a security concept for data
-> > sourcing, and here I think you should just share the same filesystem
-> > (with the same backing files) and the same option, so I don't think
-> > "domain_id" is really useful.
-> 
-> I wanted to be conservative and let it behave as inode_share, but I
-> agree it is not needed, I'll drop this.
+Hello!
 
-It doesn't need to be aligned with "inode_share", but you remind me a
-bit, let's exclude this feature with "inode_share" for now (since
-composefs doesn't need it) and let's handle more coupled features later.
+First, thanks for your report. A few comments below.
 
+On Fri, Jul 31, 2026 at 10:15:33PM -0400, Research & Development wrote:
+> Hi Security Team,
 > 
-> >> the existing superblock instead of creating a new one.  This allows
-> >> multiple mounts of the same image to share in-kernel data structures
-> >> more efficiently.
-> >> 
-> >> Superblock sharing requires both superblock_share and domain_id to be
-> >
-> > But I think a "superblock_share" yes/no mount option may be useful.
-> >
-> >> specified, following the same pattern as inode_share.  The backing file
-> >> is identified by its inode and fsoffset.  If mount options conflict, a
-> >> separate superblock is created transparently as a fallback.  Remount is
-> >> not allowed on shared superblocks.
-> >> 
-> >> Tested by mounting a 177M Fedora EROFS image 20 times with full
-> >> traversal:
-> >> 
-> >>   #!/bin/sh
-> >>   IMG=${1:-/root/fedora.erofs}
-> >>   N=20
-> >>   DIR=$(mktemp -d)
-> >>   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
-> >> 
-> >>   sync; echo 3 > /proc/sys/vm/drop_caches
-> >>   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
-> >>   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
-> >> 
-> >>   for i in $(seq 1 $N); do
-> >>       mkdir $DIR/m$i
-> >>       mount -t erofs -o domain_id=test,superblock_share "$IMG" $DIR/m$i
-> >>       find $DIR/m$i > /dev/null
-> >>   done
-> >> 
-> >>   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
-> >>       awk '{print $3}' | sort -u | wc -l)"
-> >>   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
-> >>       awk '{print $2}') - INODES_BEFORE ))"
-> >>   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
-> >>       awk '{print $2}') - MEM_BEFORE )) kB"
-> >> 
-> >> unpatched kernel:
-> >> 
-> >>   Superblocks: 20
-> >>   erofs_inode delta: +46368
-> >>   Slab delta: +39952 kB
-> >>   0.08user 0.82system 0:00.98elapsed
-> >> 
-> >> patched kernel:
-> >> 
-> >>   Superblocks: 1
-> >>   erofs_inode delta: +2044
-> >>   Slab delta: +1088 kB
-> >>   0.07user 0.21system 0:00.31elapsed
-> >> 
-> >> The time difference shows that sharing the superblock also benefits
-> >> the page cache and inode cache, as subsequent mounts of the same image
-> >> avoid re-reading the backing file.  This is particularly useful for
-> >> container hosts running multiple containers from the same base image.
-> >> 
-> >> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
-> >> ---
-> >> v1: https://lore.kernel.org/linux-fsdevel/20260730124120.1501126-1-gscrivan@redhat.com/
-> >> Needs: https://lore.kernel.org/linux-fsdevel/20260728160619.853924-1-gscrivan@redhat.com/
-> >> 
-> >>  Documentation/filesystems/erofs.rst | 16 ++++++-
-> >>  fs/erofs/internal.h                 |  1 +
-> >>  fs/erofs/super.c                    | 72 +++++++++++++++++++++++++++--
-> >>  3 files changed, 83 insertions(+), 6 deletions(-)
-> >> 
-> >> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-> >> index 774e8b236d09..517c526163e2 100644
-> >> --- a/Documentation/filesystems/erofs.rst
-> >> +++ b/Documentation/filesystems/erofs.rst
-> >> @@ -131,12 +131,17 @@ device=%s              Specify a path to an extra device to be used together.
-> >>  directio               (For file-backed mounts) Use direct I/O to access backing
-> >>                         files, and asynchronous I/O will be enabled if supported.
-> >>  domain_id=%s           Specify a trusted domain ID. Filesystems sharing the same
-> >> -                       domain ID can share page cache across mounts when inode
-> >> -                       page sharing is enabled. (not shown in mountinfo output)
-> >> +                       domain ID can share page cache across mounts when
-> >> +                       inode_share is enabled, and share superblocks when
-> >> +                       superblock_share is enabled. (not shown in mountinfo
-> >> +                       output)
-> >>  fsoffset=%llu          Specify block-aligned filesystem offset for the primary device.
-> >>  inode_share            Enable inode page sharing for this filesystem.  Inodes with
-> >>                         identical content within the same domain ID can share the
-> >>                         page cache.
-> >> +superblock_share       Share the superblock when the same backing file is mounted
-> >> +                       more than once with the same domain_id and compatible
-> >> +                       options.  Remount is not allowed on shared superblocks.
-> >
-> > As I commented above.
-> >
-> >>  ===================    =========================================================
-> >>  
-> >>  File-backed mounts
-> >> @@ -154,6 +159,13 @@ Only regular files are accepted as backing files; to mount an image that
-> >>  resides on a block device, use the traditional block device mount path
-> >>  instead.
-> >>  
-> >> +When domain_id and superblock_share are both specified and the same
-> >> +backing file (identified by inode and fsoffset) is mounted more than
-> >> +once with the same domain_id and compatible mount options, the kernel
-> >> +reuses the existing superblock instead of creating a new one.
-> >> +
-> >> +Remount is not allowed on shared superblocks.
-> >> +
-> >>  Sysfs Entries
-> >>  =============
-> >>  
-> >> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
-> >> index 580f8d9f14e7..8d65cac35702 100644
-> >> --- a/fs/erofs/internal.h
-> >> +++ b/fs/erofs/internal.h
-> >> @@ -156,6 +156,7 @@ struct erofs_sb_info {
-> >>  #define EROFS_MOUNT_DAX_NEVER		0x00000080
-> >>  #define EROFS_MOUNT_DIRECT_IO		0x00000100
-> >>  #define EROFS_MOUNT_INODE_SHARE		0x00000200
-> >> +#define EROFS_MOUNT_SUPERBLOCK_SHARE	0x00000400
-> >>  
-> >>  #define clear_opt(opt, option)	((opt)->mount_opt &= ~EROFS_MOUNT_##option)
-> >>  #define set_opt(opt, option)	((opt)->mount_opt |= EROFS_MOUNT_##option)
-> >> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> >> index 558041011398..23fee43de1d1 100644
-> >> --- a/fs/erofs/super.c
-> >> +++ b/fs/erofs/super.c
-> >> @@ -386,7 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
-> >>  enum {
-> >>  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
-> >>  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-> >> -	Opt_source,
-> >> +	Opt_source, Opt_superblock_share,
-> >>  };
-> >>  
-> >>  static const struct constant_table erofs_param_cache_strategy[] = {
-> >> @@ -415,6 +415,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
-> >>  	fsparam_u64("fsoffset",			Opt_fsoffset),
-> >>  	fsparam_flag("inode_share",		Opt_inode_share),
-> >>  	fsparam_file_or_string("source",	Opt_source),
-> >> +	fsparam_flag("superblock_share",	Opt_superblock_share),
-> >>  	{}
-> >>  };
-> >>  
-> >> @@ -536,7 +537,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
-> >>  		++sbi->devs->extra_devices;
-> >>  		break;
-> >>  	case Opt_domain_id:
-> >> -		if (!IS_ENABLED(CONFIG_EROFS_FS_PAGE_CACHE_SHARE)) {
-> >> +		if (!IS_ENABLED(CONFIG_EROFS_FS_PAGE_CACHE_SHARE) &&
-> >> +		    !IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
-> >>  			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
-> >>  		} else {
-> >>  			kfree_sensitive(sbi->domain_id);
-> >> @@ -560,6 +562,12 @@ static int erofs_fc_parse_param(struct fs_context *fc,
-> >>  		else
-> >>  			set_opt(&sbi->opt, INODE_SHARE);
-> >>  		break;
-> >> +	case Opt_superblock_share:
-> >> +		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
-> >> +			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
-> >> +		else
-> >> +			set_opt(&sbi->opt, SUPERBLOCK_SHARE);
-> >> +		break;
-> >>  	case Opt_source:
-> >>  		return erofs_fc_parse_source(fc, param);
-> >>  	}
-> >> @@ -659,6 +667,10 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
-> >>  		errorfc(fc, "domain_id is needed when inode_ishare is on");
-> >>  		return -EINVAL;
-> >>  	}
-> >> +	if (!sbi->domain_id && test_opt(&sbi->opt, SUPERBLOCK_SHARE)) {
-> >> +		errorfc(fc, "domain_id is needed when superblock_share is on");
-> >> +		return -EINVAL;
-> >> +	}
-> >>  	if (test_opt(&sbi->opt, DAX_ALWAYS) && test_opt(&sbi->opt, INODE_SHARE)) {
-> >>  		errorfc(fc, "FSDAX is not allowed when inode_ishare is on");
-> >>  		return -EINVAL;
-> >> @@ -788,6 +800,55 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static int erofs_fc_test_file_super(struct super_block *sb,
-> >> +				    struct fs_context *fc)
-> >> +{
-> >> +	struct erofs_sb_info *sbi = EROFS_SB(sb);
-> >> +	struct erofs_sb_info *new_sbi = fc->s_fs_info;
-> >> +
-> >> +	if (sb->s_iflags & SB_I_RETIRED)
-> >> +		return 0;
-> >> +	if (!sbi->dif0.file || !new_sbi->dif0.file)
-> >> +		return 0;
-> >> +	if (!test_opt(&new_sbi->opt, SUPERBLOCK_SHARE))
-> >> +		return 0;
-> >
-> > I think it'd be better to just memcmp(sbi->opt, new_sbi->opt, ..)
-> > directly.
-> >
-> >> +	if (!sbi->domain_id || !new_sbi->domain_id ||
-> >> +	    strcmp(sbi->domain_id, new_sbi->domain_id))
-> >> +		return 0;
-> >
-> > And also you need to ensure the devs has the same backing files too.
+> I am reporting a security vulnerability in the ADFS filesystem driver
+> (fs/adfs/dir_fplus.c), which is maintained under the FILESYSTEMS (VFS)
+> entry. It is unfixed in mainline (v7.2-rc5) and, as far as I can tell, in
+> all supported stable branches. I am reporting privately per documentation
+> process. A tested reproducer and a tested one-line fix are included below.
+> I am happy to coordinate and would like a CVE assigned once a fix is
+> applied.
+
+Note that the documented process says that there's no need to Cc security@
+when sending to a public list (that linux-fsdevel is).
+
+> 1. AFFECTED VERSION RANGE
+> -------------------------
+> Present since the 2020 ADFS big-directory rework (~v5.6);
+> fs/adfs/dir_fplus.c
+> was last touched on 2020-01-25 (587065d) and is unchanged since.
 > 
-> are you fine if we just skip mounts with extra_devs?  It can be
-> relaxed in future if needed.  Otherwise we would need to open them
-> before we do these checks to be sure we are referring to the same
-> files.
+>   Vulnerable, reproduced:      v7.0.1
+>   Vulnerable, code-identical:  mainline v7.2-rc5
+>   Affected:                    v5.6 -> v7.2-rc5
+> (5.10/5.15/6.1/6.6/6.12/6.18/7.0/7.1/7.2-rc)
+> 
+> I verified the vulnerable sequence is byte-for-byte identical in current
+> mainline (adfs_fplus_getnext() + adfs_fplus_validate_header()).
+> CONFIG_ADFS_FS is shipped as a module on typical distros (confirmed:
+> adfs.ko present under /lib/modules on a 6.18 kernel).
+> 
+> 
+> 2. DESCRIPTION
+> --------------
+> adfs_fplus_getnext() (fs/adfs/dir_fplus.c) reads the per-entry name length
+> field bigdirobnamelen (an unvalidated __le32, struct adfs_bigdirentry) and
+> uses it directly as the copy length into struct object_info.name, which is
+> char[ADFS_MAX_NAME_LEN] = char[260] (fs/adfs/adfs.h). struct object_info is
+> held on the caller's stack -- adfs_fplus_iterate() declares it locally
+> (dir_fplus.c:212); adfs_lookup() uses the same on-stack pattern
+> (dir.c:434). adfs_fplus_validate_header() checks only AGGREGATE sizes
+> (directory name length, total names area, entries*stride); it never bounds
+> the per-entry bigdirobnamelen. adfs_dir_copyfrom() bounds the source only
+> against dir->nr_buffers, never against the destination.
+> 
+> Therefore a crafted ADFS F+ image whose entry has bigdirobnamelen > 260
+> overflows obj->name on the kernel stack. The path is reached when the
+> directory is enumerated (readdir/getdents64) or an entry is looked up, on a
+> mounted image.
 
-Sorry I totally missed that, that is fine, but if there is a dedicated
-"superblock_inode" feature, I hope it could be errored out other than
-silent fallback.
+Is there an fsck tool for ADFS, and if so, does it detect this modification ?
+As per the documented threat model, most file systems trust images and rely
+on fsck to check them before mounting, and in this case, such bugs are not
+handled as security issues but just regular bugs..
 
-Also it'd be better to have a code comment that it doesn't cover mounts
-with extra_devs so that we could handle them in the follow-ups.
+(...)
+> 5. PROPOSED FIX (inline tested patch, applies cleanly on v7.2-rc5)
+> -------------------------------------------------------------------
+> Bound bigdirobnamelen against the destination buffer before the copy. This
+> stops both the KASAN overflow and the RIP-control variant (a
+> bigdirobnamelen of 512 or 388 is rejected with -EIO before the copy). I can
+> add a second change to adfs_fplus_validate_header() to validate per-entry
+> name pointers up front if preferred.
+> 
+> [PATCH] adfs: bound big-directory entry name length in adfs_fplus_getnext()
+> 
+> Bound bigdirobnamelen against ADFS_MAX_NAME_LEN before the copy.
+> 
+> ---
+>  fs/adfs/dir_fplus.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/fs/adfs/dir_fplus.c b/fs/adfs/dir_fplus.c
+> --- a/fs/adfs/dir_fplus.c
+> +++ b/fs/adfs/dir_fplus.c
+> @@ -192,6 +192,8 @@
+>   obj->indaddr  = le32_to_cpu(bde.bigdirindaddr);
+>   obj->attr     = le32_to_cpu(bde.bigdirattr);
+>   obj->name_len = le32_to_cpu(bde.bigdirobnamelen);
+> + if (obj->name_len > ADFS_MAX_NAME_LEN)
+> + return -EIO;
+> 
+>   offset = adfs_fplus_offset(h, le32_to_cpu(h->bigdirentries));
+>   offset += le32_to_cpu(bde.bigdirobnameptr);
+> ----
+
+Could you please resend this patch in a format that allows it to be
+applied ? This way if maintainers accept it, it would save a round
+trip, and you'd be credited for resolving this bug. From, Fixes,
+and Signed-off-by are needed. Just produce it via git-format-patch,
+as explained in Documentation/process/submitting-patches.rst. Also
+be careful, your email client replaced tabs with spaces above. You
+will need to check Documentation/process/email-clients.rst to see
+how to fix this.
+
+> I'd be grateful if you could confirm receipt and on request a CVE via
+> cve@kernel.org once the fix is in a stable tree. I will not discuss this
+> publicly or with linux-distros until a fix is accepted.
+
+Ah, then maybe linux-fsdevel was not intended then :-)
+
+  https://lore.kernel.org/linux-fsdevel/CAGpo96PO4DPJJZtRj9vnR-ZzcWwv=oHyfM7i2Ug+A_CjR3z4+A@mail.gmail.com/
+
+No worries, for this one it was the right thing to do anyway.
 
 Thanks,
-Gao Xiang
-
-> 
-> Thanks,
-> Giuseppe
+Willy
