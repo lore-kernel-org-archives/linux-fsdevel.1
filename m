@@ -1,50 +1,51 @@
-Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
+Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756153BFAD4;
-	Sat,  1 Aug 2026 22:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C05E3D7D8D;
+	Sat,  1 Aug 2026 22:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785624998; cv=pass; b=X+4v7yo6PYV23JcqTRZM7fdk3wKdYPOcyQQoadeC1NcfhfLdBtK8AQO6hsvGjApMeKKDuUQySuGcU3lEJJK3jF8/CJ0RvgVCZ21pvcNx9NaJTajDCivRZdREGKWbBd4ICEHeOKdj+G7KXouSH/ZsJ3P1B+GMZ+wNjy84pmDtFRw=
+	t=1785625002; cv=pass; b=q2hVqZazmrO2SKjZ7vhdMgMJ+ChzSvOZY5fSlZ/pW+bukiMidJJ1p9ytNqMS8z+5NRmXgOkdSqIxcuLPfiQI3MiLSrYsV1agIND2Cif0uQrY0kcp4CZmaEnIhpm1seUE4TSY1VXuYcUb/m0IqbYo8ki4ugqF3dkI6wrdKrOT8Ac=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785624998; c=relaxed/simple;
-	bh=6aYR/PtG6cnzRncR674UokAGDmIUKc2o1lWR65Jt/n4=;
+	s=arc-20240116; t=1785625002; c=relaxed/simple;
+	bh=XdkxGDfzSI7P6MMJk62hR0JJOfNVTLTtD0YeeEO23Cs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HbR4KQegfZ+cHfv/7ZXHE9mFqGgo9A2DVyWzcoDvaUZuZp74Z+wGIP2rB65Te0JUP/LcJKfeBJAm7tZ1Sm1OM2+f0ASMs8T4EF7e4APpwftI/dn5QszR/WFFWj0CG7AR9FBzOEHUyZR9E4gYfeMzTcKSncYqqSlQvQec+LV4LQ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=Bt7pLdlX; arc=pass smtp.client-ip=136.143.169.58
+	 MIME-Version; b=nfhp1IU099NLRzZCQMO3x/2CdgFbVR3bVZeJJrU9dFJAHL8uzkcQv8IiQpVY+2RCV2NdBJ9e3nWhKkVIoS5gVnyABDTFySCa9JvkcQjuxsN6CJDKpTLHZN10KIqgNevvCurSfxXvxxylWCFJ2aSTLVApgVMhm9cZDPoSep7Qe4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=pNv5cwU9; arc=pass smtp.client-ip=136.143.169.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="Bt7pLdlX"
-ARC-Seal: i=1; a=rsa-sha256; t=1785624974; cv=none; 
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="pNv5cwU9"
+ARC-Seal: i=1; a=rsa-sha256; t=1785624971; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=P1owJqSvQkJZlkz/Vl58ScdbEHvcCxLNEeZl+3XLuGyPm7CLefW5rjKHazt/hSNAxtUa/ee6onzvtv+7nZBLxRMuBHY0/vvs402OvvFYdBOq3eyFN2hSD6HsBHfCOSLrpoi2z2/iKEXRMhyj7K+Lj/obcuZvAFPZtbYuYMVEZlQ=
+	b=jt7sRDIDN01YmpNDQD2JZw3uk2DdwbrICvORWzJXdc2nNeYeU+9fOv+oqkyBAynjTAD97R996oq1NgvjlvNmNPMekuHu9SETwCyc6RFPxtft6X2o/Loyas5KiCaCkeEtiaw2slwLlEg8/XIMRBXkbrADnEAIPLYVHFAGYrSsN9c=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785624974; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wrd1BPWzTmr3/PZ0rIQk/dUqDEZiWESRgrvFaPrkgXQ=; 
-	b=RPmb7c4AnUA5OQHrBfbb7xNpNGEKKFkppF59e20gU4z+4bqpUd5dMFEw0NLy5/FT29rEgp95DAQUH/ZIoq0LH5OiLc8iE7m8x5pz9JSNrsEmHgwkb9dBrEOUAxrDSvB0++L1TR+QELliaBDC9b2umY5hsDNCd7p0CxYSGgyv4QU=
+	t=1785624971; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oPnFqlEANbkxNnysV+MSTA5NNFDMwBcEWEn1p+4Ko4s=; 
+	b=XWfwFvvZ/YNfeEAbIAcY5XvJhcnPag1k1jHe4BJWc6OyoaXePH+zkd3x0pPUolluPbtiiIwRFlYLWjqv/G4MdpXRexYFxgEw5Ux/ThSdyqnOmvvQBppngSbZArYdVQPjLxZfRU3hFxQUs0rftTEGKYhEQuSO1UMVAp+8aYRPvic=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=iusegentoo.com;
 	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
 	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624974;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624971;
 	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=wrd1BPWzTmr3/PZ0rIQk/dUqDEZiWESRgrvFaPrkgXQ=;
-	b=Bt7pLdlXw/GSR3WHYyyFovWDe5ij6tA/153mw/N2fV/cce2iv9h/7HsW48lcLpuU
-	9A1xhBzTGbW2RA8MZ9tXBeCKUTh/Q84amV5IbsVSpSUYdHOI6CRLccEY3AlalIWlPRR
-	g1tPHPTRQ3FPT3omgpAGJsA39MbtVmNCzvs4gsU4=
-Received: by mx.zoho.eu with SMTPS id 1785624971437922.1356418553123;
-	Sun, 2 Aug 2026 00:56:11 +0200 (CEST)
+	bh=oPnFqlEANbkxNnysV+MSTA5NNFDMwBcEWEn1p+4Ko4s=;
+	b=pNv5cwU9dUWyxx2DprP+0yhrDe+G2Q/p8T6ImYk6PP79vtlB6/wIA0NkPKbcFUBq
+	oLwzChfbE5L+NnZfIDIW7NCBnSDvfqna+KWdGSceyD4cetVFDuQHPtvWEX8DL1urCZi
+	84E+vLknDDKz5OK6GXuRN2gGM7ZSae/5oVGYii5U=
+Received: by mx.zoho.eu with SMTPS id 1785624969818237.25911884847096;
+	Sun, 2 Aug 2026 00:56:09 +0200 (CEST)
 From: Ali Ahmet Memis <ali@iusegentoo.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/10] ufs: refuse read-write mount when fsck or journal replay is needed
-Date: Sat,  1 Aug 2026 22:55:28 +0000
-Message-ID: <20260801225530.148386-9-ali@iusegentoo.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 06/10] ufs: fix fragment relocation offsets within a folio
+Date: Sat,  1 Aug 2026 22:55:26 +0000
+Message-ID: <20260801225530.148386-7-ali@iusegentoo.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260801225530.148386-1-ali@iusegentoo.com>
 References: <20260801225530.148386-1-ali@iusegentoo.com>
@@ -57,91 +58,91 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-FS_NEEDSFSCK, FS_SUJ and FS_GJOURNAL live in the 32 bit fs_flags of the
-modern superblock, which Linux has never read. A UFS2 filesystem that
-FreeBSD marked as needing a foreground fsck, or that carries soft
-updates journalling or a GEOM journal, therefore mounts read-write here
-and is written to with the pending recovery work still outstanding.
+ufs_change_blocknr() walks the buffers covering the fragments being
+moved from oldb to newb. Inside a folio it starts at the buffer holding
+the first fragment:
 
-FreeBSD itself will not do this. ffs_mountfs() only accepts an unclean
-filesystem when neither flag is set:
+	pos = i & mask;
+	for (j = 0; j < pos; ++j)
+		bh = bh->b_this_page;
 
-	(fs->fs_flags & (FS_SUJ | FS_NEEDSFSCK)) == 0 &&
-	    (fs->fs_flags & FS_DOSOFTDEP)
+so j is a buffer index within the folio, not an offset into the range
+being relocated. The body then uses it as if it were one:
 
-and otherwise refuses with "Filesystem is not clean - run fsck".
+	pos = (i - beg) + j;
 
-Linux has no journal replay for either journal and no way to run the
-recovery, so the only safe thing it can do is stay read-only. Check the
-flags on mount and on remount read-write.
+On the first folio i equals beg, so pos comes out as beg & mask where it
+should be zero. Every fragment is then shifted by that amount, both the
+source it is read from, oldb + pos, and the destination recorded in
+bh->b_blocknr, newb + pos. The tail of the relocation ends up past the
+end of the new allocation, which is only count fragments long, leaving
+dirty buffers pointing at fragments that can belong to another file or
+to metadata. Later folios start folio aligned and are unaffected.
 
-Only UFS2 is examined. On older layouts the same offset is scratch space
-that may hold anything, and misreading it would wrongly refuse
-filesystems that are perfectly fine.
+Reaching it needs a page larger than the filesystem block. beg is the
+start of the existing tail and so is always a multiple of fs_frag, while
+mask is blks_per_page - 1. When PAGE_SIZE is at most fs_bsize the two
+are powers of two with fs_frag the larger, beg & mask is zero and
+nothing goes wrong. ufs_fill_super() already refuses fs_bsize below
+4096, so every 4 KiB page system is in that case. A 16 KiB or 64 KiB
+page kernel, as used on arm64 and ppc64, mounting a filesystem with a
+smaller block is not.
 
+Keep the starting buffer index and subtract it, so pos counts from the
+start of the relocated range again.
+
+Reproduced on an arm64 64 KiB page kernel with a 4096/512 UFS1
+filesystem, where a block is 8 fragments and blks_per_page is 128. A
+file with a one fragment tail in its second block has beg 8, so
+beg & mask is 8. Filling the fragments that physically follow that tail
+and then extending the file forces the relocation:
+
+  ufs: RELOC: beg=8 count=1 oldb=1457 newb=1528 mask=127 beg&mask=8
+
+Before this patch the first byte of the relocated tail reads back as 0
+instead of the written data; after it the file compares equal. The same
+test on a 4 KiB page kernel never gets beg & mask nonzero, as expected.
+
+Fixes: 5431bf97ce69 ("[PATCH] ufs: prepare write + change blocks on the fly")
+Cc: stable@vger.kernel.org
 Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
 ---
- fs/ufs/super.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+ fs/ufs/balloc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index 4b0e9196fa41..df95502e039e 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -767,6 +767,34 @@ static bool ufs_state_allows_write(struct super_block *sb)
- 	}
- }
+diff --git a/fs/ufs/balloc.c b/fs/ufs/balloc.c
+index 628edfde3a9f..f617df64c45b 100644
+--- a/fs/ufs/balloc.c
++++ b/fs/ufs/balloc.c
+@@ -241,7 +241,7 @@ static void ufs_change_blocknr(struct inode *inode, sector_t beg,
+ 	const unsigned mask = blks_per_page - 1;
+ 	struct address_space * const mapping = inode->i_mapping;
+ 	pgoff_t index, cur_index, last_index;
+-	unsigned pos, j, lblock;
++	unsigned int pos, j, lblock, first;
+ 	sector_t end, i;
+ 	struct buffer_head *head, *bh;
  
-+/*
-+ * Refuse to write to a filesystem using features we do not implement.
-+ * Only UFS2 is examined: the 32 bit fs_flags lives in the modern part of
-+ * the superblock, which older layouts leave as scratch space.
-+ */
-+static bool ufs_features_allow_write(struct super_block *sb)
-+{
-+	struct ufs_sb_private_info *uspi = UFS_SB(sb)->s_uspi;
-+	struct ufs_super_block_third *usb3 = ubh_get_usb_third(uspi);
-+	u32 fsflags;
-+
-+	if (uspi->fs_magic != UFS2_MAGIC)
-+		return true;
-+
-+	fsflags = fs32_to_cpu(sb, usb3->fs_un2.fs_44.fs_flags);
-+
-+	if (fsflags & UFS_FS_NEEDSFSCK) {
-+		pr_err("%s(): fs is marked as needing fsck\n", __func__);
-+		return false;
-+	}
-+	if (fsflags & (UFS_FS_SUJ | UFS_FS_GJOURNAL)) {
-+		pr_err("%s(): journalled fs, journal replay is not supported\n",
-+		       __func__);
-+		return false;
-+	}
-+	return true;
-+}
-+
- static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
- {
- 	struct ufs_fs_context *ctx = fc->fs_private;
-@@ -1103,7 +1131,7 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	 * Check, if file system was correctly unmounted.
- 	 * If not, make it read only.
- 	 */
--	if (!ufs_state_allows_write(sb))
-+	if (!ufs_state_allows_write(sb) || !ufs_features_allow_write(sb))
- 		sb->s_flags |= SB_RDONLY;
+@@ -272,8 +272,8 @@ static void ufs_change_blocknr(struct inode *inode, sector_t beg,
  
- 	/*
-@@ -1310,7 +1338,8 @@ static int ufs_reconfigure(struct fs_context *fc)
- 			mutex_unlock(&UFS_SB(sb)->s_lock);
- 			return -EINVAL;
- 		}
--		if (!ufs_state_allows_write(sb)) {
-+		if (!ufs_state_allows_write(sb) ||
-+		    !ufs_features_allow_write(sb)) {
- 			mutex_unlock(&UFS_SB(sb)->s_lock);
- 			return -EROFS;
- 		}
+ 		head = folio_buffers(folio);
+ 		bh = head;
+-		pos = i & mask;
+-		for (j = 0; j < pos; ++j)
++		first = i & mask;
++		for (j = 0; j < first; ++j)
+ 			bh = bh->b_this_page;
+ 
+ 		if (unlikely(index == last_index))
+@@ -284,7 +284,7 @@ static void ufs_change_blocknr(struct inode *inode, sector_t beg,
+ 		do {
+ 			if (j >= lblock)
+ 				break;
+-			pos = (i - beg) + j;
++			pos = (i - beg) + (j - first);
+ 
+ 			if (!buffer_mapped(bh))
+ 					map_bh(bh, inode->i_sb, oldb + pos);
 -- 
 2.55.0
 
