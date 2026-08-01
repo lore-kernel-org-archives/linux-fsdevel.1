@@ -1,50 +1,50 @@
 Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7741D3BFAFA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EDA3BFACC;
 	Sat,  1 Aug 2026 22:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785624997; cv=pass; b=PZRf5qoaXcvOk/4Q4Bdjik5EnnfAAvCJE4m2T2h23KQdx3dV9BFuwwRoz9uymXRh7qFNqa7whvAetgh2TNmWtfcmAZhbeOfUYgMOBygpk4XtsSvp8Xz6Y7Mxt7ehfU//6VJ7Pn0HHfUoHOPBCX+qIQADNx/5z73quRDlmbK3QV0=
+	t=1785624997; cv=pass; b=uZrfKaOj7USuTYPr+/6b/WqUDdfpEUa7n1cCKGDopancB6rzKuTNti+gpPGW4Oq1mDGoyOEj4xOsydHn1fE2gLcjiaR2MlGfbwqtPTIOvr7zjDZvZPmtw8eS9V1drv41j6iSjEcrAclofmOLBXSUt4g9QSzRBmIUKwDkwLw2w7Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785624997; c=relaxed/simple;
-	bh=d1geiDUwKdYDEeo4Q9yzQSbg010Ij28kV8ydpJRb4hg=;
+	bh=CkrOf14Qi/QRj7G3amp5nZc7yDEUko522z1kVOiew8k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gi79TKydrCs2Mx8FP015kYMO6tg68StXzVbr0MQIQfuKWvvkv38qZEejUIT3NB+GhGsVrGuIdkWrbF3/PltaIyCoOSDoTkXNyctwYa3hA2YMZafyR5B5whpD7GL2AX43RXshE9t+LjHLLeASaTtaR4Ov7Co3uBMtPNL9F6qIQl4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=NmlXZZH6; arc=pass smtp.client-ip=136.143.169.58
+	 MIME-Version; b=DnzKxYl5Mtc8lD2MX3/9BXtFiMEV3wkYZb9B3UJkOIoejoExL7st+oFXJ444mGlH1r37oUAXhHpw+O0GLzNIOtiAy/ZMnYrClUvl5Iym18AsKRDbDhZ+SmeRNNiJgRHv8GX+t1iieCL4QLhJvjqQZIA617G5ceRKh5gmEOzYl9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=Pezl9Myl; arc=pass smtp.client-ip=136.143.169.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="NmlXZZH6"
-ARC-Seal: i=1; a=rsa-sha256; t=1785624974; cv=none; 
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="Pezl9Myl"
+ARC-Seal: i=1; a=rsa-sha256; t=1785624975; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=kYnKyOd72RO7oaJ3gwsbA3wZbJVVNBn6bTyf/rww5eaoSa/hkAJO/fto4qZTs2OUgeH2kw8A1QJdrr2pbAT+9oNzllNp1clJR1G3IJXGvFG6Q+R9S4byFkHRCqvbvS5Ofwk7l6EWNk7Z58IKzhw19gWHxVWIMXf5e7AzVBTOrM4=
+	b=BNddOK6BWsVqCLMKT41L+TNQRq5PPJaZeb/YKsiywPRf2WFdKycBWEqAWe1UiLFbGRcNaIiNnXA9K6SAJNyFy7FaI3ST2WvvL8FAPpPz8hZS3I5GHyRxA323TCtoykbBeSLl3TG+kUNqtKz9WTP9COh/pKU9UpSRgShWnT4mzmI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785624974; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PVaOx+p8YnrWRXBYpD2LawNTpt/9Sm/LDvB5QnWaisA=; 
-	b=UMVxTiQdo3WazkcmvSrCl0oEXg/4UiQAlWbKLO2WUjN+mVcznSgekRoN2n9NgllJpu9TZUVHSIgfItWm+9FAk0gnu0rbidz1+FppgzsAKGhFOTYoyXuTCt1QtQdWpPpmV/yHoS0PgsLz2JSSc70bTYHUjuwOlFVCegcClV1Lr5o=
+	t=1785624975; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=wlluxfYC8YUM/sMEVN4s4A7dgNizPsQ2P60nHRuy2Pg=; 
+	b=kJRfevskGvcfc3a63xLcxlFe3zZZvAZRfwmkUeFSMuL82ctypnnt6WPfYzTGBK0SUPvcpDLjSx72wpL/mVA4lKz+luR3mc5H/YUrCx1Fa4yX0zmtdaaEHUdznC2loOj2e0usrtd+oBB+XUuwsOn53uzqHHiliAwWwz4go9rftx8=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=iusegentoo.com;
 	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
 	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624974;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785624975;
 	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=PVaOx+p8YnrWRXBYpD2LawNTpt/9Sm/LDvB5QnWaisA=;
-	b=NmlXZZH6TPj4LzSIWijV3TUG+zXFPtn00xXj+o2pK9rbQrEyN6fnwStqOre5EOoS
-	1MR/3car7Q8USPifM1i1R3AVziqYPDAY4H9GkndpJtdvlWOpCMyahhKCC9hOpRhb5d5
-	hT0ard8kCyLZdzq2aZrwWCmPJo0iHxYp+ybIIdQw=
-Received: by mx.zoho.eu with SMTPS id 1785624972241544.0244080962553;
-	Sun, 2 Aug 2026 00:56:12 +0200 (CEST)
+	bh=wlluxfYC8YUM/sMEVN4s4A7dgNizPsQ2P60nHRuy2Pg=;
+	b=Pezl9MylAA2oclOBZdnkru3chTX81i+zxWbbfsDsrzM1oA6fQ8OVxqv7ZCVqUBc8
+	i3XwFUy/ruq+rPL6/FfW39kBBb8gysmchgla7BCbTKkeQyibV7jWutsSYl4XERVy9GF
+	nlCgMEjS61FYS+n7KCIuQneqDJ0clHiR1NBP7vLc=
+Received: by mx.zoho.eu with SMTPS id 178562497303091.11323045647384;
+	Sun, 2 Aug 2026 00:56:13 +0200 (CEST)
 From: Ali Ahmet Memis <ali@iusegentoo.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] ufs: refuse read-write mount of filesystems with active snapshots
-Date: Sat,  1 Aug 2026 22:55:29 +0000
-Message-ID: <20260801225530.148386-10-ali@iusegentoo.com>
+Subject: [PATCH 10/10] ufs: refuse read-write mount of check-hashed filesystems
+Date: Sat,  1 Aug 2026 22:55:30 +0000
+Message-ID: <20260801225530.148386-11-ali@iusegentoo.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260801225530.148386-1-ali@iusegentoo.com>
 References: <20260801225530.148386-1-ali@iusegentoo.com>
@@ -57,50 +57,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-A UFS2 filesystem can hold up to FSMAXSNAP snapshots, recorded in
-fs_snapinum[]. A snapshot is an inode whose block pointers describe the
-state of the filesystem at the moment it was taken, using the reserved
-values BLK_NOCOPY and BLK_SNAP alongside ordinary block numbers.
-Keeping one valid requires copy on write: before a block that the
-snapshot references is overwritten or freed, its old contents have to be
-copied into the snapshot.
+Modern UFS2 protects metadata with check hashes. fs_metackhash says
+which kinds are in use, CK_SUPERBLOCK, CK_CYLGRP, CK_INODE, CK_INDIR and
+CK_DIR, and the hashes themselves live in fs_ckhash, cg_ckhash and
+di_ckhash. FreeBSD recomputes them on every metadata write, for inodes
+in ffs_update() right before the inode goes to disk, and treats a
+mismatch as an integrity failure.
 
-Linux implements none of this. It does not read fs_snapinum[], does not
-know the SF_SNAPSHOT inode flag, and treats the reserved block pointer
-values 1 and 2 as ordinary fragment addresses. Mounting such a
-filesystem read-write and changing a single file is enough for every
-snapshot on it to stop describing the point in time it was taken at, and
-there is no way to notice afterwards.
+Linux knows about none of these fields. It happily allocates blocks,
+changes inodes and rewrites cylinder groups without touching a single
+hash, so an ordinary
 
-Refuse the read-write mount while any snapshot is recorded. Read-only
-access is unaffected.
+	touch /mnt/x
+	chmod 600 /mnt/x
+
+leaves the filesystem valid by its own rules but failing every check
+hash it advertises. Back on FreeBSD that surfaces as inode, cylinder
+group and superblock check-hash failures on a filesystem that was never
+damaged in any other way.
+
+Implementing the hashes is a lot more work than this series is doing, so
+stay read-only instead. Both the flag and a non-zero fs_metackhash are
+required, so a filesystem that advertises the feature without actually
+maintaining any hash is still writable.
+
+This does change what userspace can do with an existing image: modern
+FreeBSD enables check hashes by default, so filesystems that mount
+read-write today will start coming up read-only. That is the point, but
+it is a policy call rather than a plain bug fix, and it is the one patch
+here that could be dropped without affecting the rest.
 
 Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
 ---
- fs/ufs/super.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/ufs/super.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index df95502e039e..6132c28c4308 100644
+index 6132c28c4308..52de393aebe2 100644
 --- a/fs/ufs/super.c
 +++ b/fs/ufs/super.c
-@@ -776,6 +776,7 @@ static bool ufs_features_allow_write(struct super_block *sb)
- {
- 	struct ufs_sb_private_info *uspi = UFS_SB(sb)->s_uspi;
- 	struct ufs_super_block_third *usb3 = ubh_get_usb_third(uspi);
-+	unsigned int i;
- 	u32 fsflags;
- 
- 	if (uspi->fs_magic != UFS2_MAGIC)
-@@ -792,6 +793,12 @@ static bool ufs_features_allow_write(struct super_block *sb)
- 		       __func__);
- 		return false;
+@@ -799,6 +799,11 @@ static bool ufs_features_allow_write(struct super_block *sb)
+ 			return false;
+ 		}
  	}
-+	for (i = 0; i < UFS_FSMAXSNAP; i++) {
-+		if (usb3->fs_un2.fs_44.fs_snapinum[i]) {
-+			pr_err("%s(): fs has active snapshots\n", __func__);
-+			return false;
-+		}
++	if ((fsflags & UFS_FS_METACKHASH) &&
++	    fs32_to_cpu(sb, usb3->fs_un2.fs_44.fs_metackhash)) {
++		pr_err("%s(): fs uses metadata check hashes\n", __func__);
++		return false;
 +	}
  	return true;
  }
