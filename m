@@ -1,230 +1,241 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E43392C27
-	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 19:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785613287; cv=pass; b=TjROm/UuX6w774rLOVd/ovcSvf+Zb/Rzn9oSGQScBA20OI5+hzkl5TpVi0IqnTxJaIpJt72fpeAibdFDatEyKOu32ZfzFoV41emkhH4nAoL0RWZz5BWdU17RwUhfT/rg3/Lyj8P39hYX/IZVK5NkJ3/G+6x6wCd0T8mbodqLfj4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785613287; c=relaxed/simple;
-	bh=LNXGAw6Tz5+TiEf6Gi38jYu8BqJmNJm2XXZgBq9ghCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=esy8UCfrvS1oyz3WP06EnkyFJR9JjtvX8/LqbxG9MT5sKLklxwoxTehIocr1/50360Afbt3Iqeb1Bv5vYvItXWBix2lOlKgIdoiUcEW1mrfEQ67VM1NEk80ohRQgPeKo+FTDwEqyTiYvee+q2tfUS2XkIVLzbtvg4khrLC3+hYg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m3efuV5S; arc=pass smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC531FDE31
+	for <linux-fsdevel@vger.kernel.org>; Sat,  1 Aug 2026 22:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785621669; cv=none; b=rjPwRenL9DbqozRZhfQMpZm8kObQnLWREex09vTDrm+ACu+K7E7PacFaL2Wp+QFJFCaXCf6islqtuAtOH/aHFDI+IwmCTToTknfYkVxkhCUs/+bX535Gotcxd0TMPC1bmhR4v+0KiArBQpOsqiF9bQQibtltS9ycenepGMUp0eE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785621669; c=relaxed/simple;
+	bh=5kc6aoUsPCWVQ7ZpkvBoTWz6LMN5kOsplmsUduRg5zA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MJX5oVyQeZVFK17r5GmbrfMwd0GWsRPzioXbNeeJdsAR/cxmibYPm6joxBsSDnr9/gZJ3Bg4UIKrg6Btr5dySMbH5cYSru9vWQ72VtgEJnF8h2x3v2+rCt/3wxvqONCK2345PNf/68zoXX0ZJSwFn5bnwBThYqpWM1gFEDKRkSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NLTzTx2t; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m3efuV5S"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-698a9f11776so3348021a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 01 Aug 2026 12:41:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785613283; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZoPb+m0o4t1HPfF++bYfV2+chWeJuk8T0RLeu/2sEZJNd01upQ9+wC0wYiddOQXhap
-         b6C2+gXVRtFDq1nBKR7ArXHf4E02vAefoNcsubruu4jPhVIFmL2SaekxpD+9Zx34yQZf
-         h3v6QNkSc8tQUQ7DSl/WpAJnFWnae8pa73/shalRG5RNrO7JEZJ5AxkEQMUlvhfqgRTd
-         4Q4IZcFTFQsDx4CUhdg4Cgw3cimS6d/WTeRu0O8os7PHg9RmfRT8hA6w62lal2RSxau7
-         tlzSflGSMogE0894QEQwmHZFR+TeM8i3cSAGZWCPjGZP5+xqSjAxh50iY0RIOKIDNC/q
-         RE8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jtnMDCYtuZDOB8PvPIKFhiVJNyKCM9rWJUcJ2niqMHY=;
-        fh=pSIv9XNf2FVF+JuLFAAgwi3KLWNYkVmP2Q0DdkZjnuQ=;
-        b=TQCOEbZEj91bPkt4VkQUZ1FNiBBShYpuuKJ96NdudKh+El9kccC1ug1aALnPwiNihE
-         nm+0g+/DD/Di9fU6C3MSGbh1Ox4mmeICXgy3qykkcrLk7mw8fq86XVF5cY2m2UQ6px95
-         25AM5jvFwEOHbIUEl5XrIwHhWRT1+GH5P3JAUsrGSxJKfTGk62Tnc+j9iy15irtydzoz
-         kacRY19XBqZZP91eKGyEnscYgypwzz2sTaX8lXcVUxEY2INoq/W9rkxQwozb4+HGGvoa
-         DuZCOkWPxt1qu3BEyDnc3SAnKZ22cwjBc4RuCQZj/wxcCN0UGtAOmNpF/ya4rUMsFoIC
-         plYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NLTzTx2t"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7dbcb505578so19118317b3.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 01 Aug 2026 15:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785613283; x=1786218083; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jtnMDCYtuZDOB8PvPIKFhiVJNyKCM9rWJUcJ2niqMHY=;
-        b=m3efuV5SVh6n5r/7LNgYWsKccoMiZTSG0a90psFRAuU9nT8gHHxQfA/mxbJ4uF9aTI
-         BpnhCrbF4U17DNilL/s4hjsPLzJmQ7n7xwu/j9BqKd+aueZRLyCBiIUX9Tvc6Cof86OK
-         rXaibLXpaEuceCMjb3v7yV/9/dkFs5LEH9mSl0ljkCHyz1B+MmVsTqeQfqW1Y6s1UHpT
-         dZ62H1urm/TSNQcfIRtr8A8UYfHcI+z7M+vXVJwMXw7RWe6ey29KlDW0EnHHsi+dCYfZ
-         Jk0g1hR7WEI0l6mdSyDxTDS7JJtEfhWd/9RYBuRp92Yz2iMPoKAsOPcTYzFKfUAW7XuG
-         N87A==
+        d=gmail.com; s=20251104; t=1785621666; x=1786226466; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5qxson1aVl1hwzPiVPzIspxxMcycj2MEcHwvaNE0XYM=;
+        b=NLTzTx2tAdIDOJDEQVz7sQFlXidVwJdB1FKgKW7/wJR4rk8r6ZV3zsIPVjtG2CFZ6D
+         KeHCVCIACN7m7hMtM4S40mZtvdEm6Qua55wzn4iTzV/PTPWTsi/gi+sXGP5j8yQtB49E
+         Yfb7V7zoG583YJI+jh48jARS2c/1QA08dCj4j0umP4ogQakxD/lJ36ua9c6dpW+7/opg
+         dIkNbY5815yGzgrzg4ZtlV1JxMENfmxLt/4X4GAaClHe+DzC2a+8/jIDKWHuQcgRfji4
+         4C/EA3OGm2sXcamU/0joH2EycQf7wEzrUumsKri71nkUVFBkyqi7YEN+Pij0Ou8Wis9E
+         Y33Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785613283; x=1786218083;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jtnMDCYtuZDOB8PvPIKFhiVJNyKCM9rWJUcJ2niqMHY=;
-        b=aPfzRetcCta4zhODV3LG8k+O1PJSVmZyJuus+F45LHmjDC8v4IgJWGlzH3mNMLHyF9
-         26o+I+IKzOqqYBO9bYVPgKiVN8q8Xzcs30NASQ6v34wG4QMwybkk5za8NXnTOxhu+E5P
-         wAb2y22Y5GPWqIADRx2xqrIGbJ49jyOGy28SfRCb9KMvNjNjcIqqoa7rf78CkMN5RhI7
-         bKNEAF3gV3qJ8CS7J93nNPN0weibc4iz5BQKIGD04q+9upzxYVYFNtGLuJdb9dlWl04U
-         ChRGqyJavmBQ5By0J+H+X8mDH7WlmShlc+DhzgOedsu6U9+xQqXwQQb2t5In0QIUT/jJ
-         qsyQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrXKGY6HWXWvTHfsBDv1sHaDqLT0CD3WiVvmJyx6CaLc2XNutjwZUGxjFLLiY9tErfsz6f6QdrNwl/UwUeL@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL6ai2mrIDO86V5WQ1JjjF9C+2CsRoGlUiDXwhbISWMV3HwRra
-	R9z1EM1uCC+mx0tkXpTdY9uTJPeFuBbUu6rIDoUCXcO+3zuWWmD18Gagw1PtZsBsvlh/uCLbwVg
-	dnxlVH3q9hELc1yzQkcTvj4VAbqvfies=
-X-Gm-Gg: AR+sD12wU1dlaZxm+X8LNTwzjlPnMwuGFGjWiIC9IT1kmwbVUTikOG4xMi5DzAjD2gT
-	uHPpnaKGBSxjBLmbkBSl98i654yMNS60cHi6i6R98L85bBf3y2RLkm7spfCPFqktVD6geefaI+6
-	hGO50by692v6LMXwdKIvwbS0j7qEBbFnwWf7acrrsT8ZIiFHzCJQpsg+ctWk0nFnLAy91+0EDok
-	lBus5kRgFapTVGvsacNwdgtVSRmVJHMnACbvthUJUU4FF3xN8TBpHKT9hZPZe4VMDKV9UrxhVJC
-	PHlrnehiKsUsBvTcKcX+li2XrPaShgsi/UK4ZxdnG3v8Vw==
-X-Received: by 2002:a05:6402:4541:b0:698:ad7f:9383 with SMTP id
- 4fb4d7f45d1cf-6a0a7ca26camr2513308a12.14.1785613283186; Sat, 01 Aug 2026
- 12:41:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785621666; x=1786226466;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5qxson1aVl1hwzPiVPzIspxxMcycj2MEcHwvaNE0XYM=;
+        b=SAXA6bC37V9tcCIjYxexSAGvjDBpKe/HTFkLI+xeHrC+dDLkb6RDzBZvl0Y2iVD/Zt
+         x+QG/rpymBjWRFr/AC29zm/lFZyTjmXctoKHj3ilpZ3OicNZrrs8U1mbVN7v66th7ege
+         sW/ePnvdcJGc5VpO4VedN+9g68zjygl3fXv6hJbXM7Zu7H9MhY5Hxe/L1jKB2tzbkX+t
+         qpvr3/YSj8JlzZXXduwqDqbYZnpDU82MZkPqcgq3OFkrcUk+6CN0bnhsCmos65lOJR6w
+         JchQYBeX7qLCYUcKWV4ISxCK0ftnf/UmUR5tBQVRxgUltk3pXc7VS/+bJMWddbAVk8Cc
+         wW/w==
+X-Forwarded-Encrypted: i=1; AHgh+Rrbhw1jmghzi8rshd3VlTn/Uab4ClbbNFw4mDK0jMBrq0bMeUPyliQFRKmVYqNmmdcMNEtYQeitOtx8rpS5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9hM3jTOkzG7GA52e4GmOX64mKstF6ujYIUw+9dy7Ble8HuMcv
+	pKnFeRMrt3Zan5BXfoRnFE7iQnsdNvfy+ZllsXmKLkWiTCddy1Z1CFg1
+X-Gm-Gg: AR+sD13GlGmalsxvtV+R7eTuGL8Go7kANN1tquxzUKQvV7Tff75C1R5BOShuROPN5Li
+	6+JKJurK7KS08rpUzLS0UVfpzYnvxq3kClirZQM1eZG7ZwRB8bkKdlBY+BODYjtIdOXYnA9TgwO
+	S4HKpYy/HR3ewdPCjU3a69uGzgqAKbIiBL3txiaX2VZJD+4h+qv1ostCa0TNrMJ0+sLfnwMqqXR
+	I4wmas2AD/D/6hpMiA6MeJmp0D4pNzAPEM5zwQUHKxhuzQe0VrAVe8gM41TjGPRXgz1Qy+C+VTr
+	1T2M/D8xEoKi3G+NM+uqOvo1DpSe7Tc0H0/SsGvdSex7a4j1bHxk2pQEclcGZlgwgcRZ8zl+K8X
+	VKRDR9EcJraO3JdNSgt2X8XdPPNEHpG/zAH/3uI8WoWUdANk2cTUNLU8w+Ufr+ZidXsXJV3WtBg
+	8LJ85yOGSLL8qDPJs2hcyvdsby0jymwicaaLnhK6PwgV3+K7pI1zVQ5lFGVj7tPyMl3d8bdYYXB
+	vLdZvE=
+X-Received: by 2002:a05:690c:60c6:b0:81e:45a6:bd53 with SMTP id 00721157ae682-81fd4a4996fmr64558587b3.8.1785621666321;
+        Sat, 01 Aug 2026 15:01:06 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fcd0d6fbbsm29903767b3.25.2026.08.01.15.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 15:01:05 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Matthew Wilcox <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org
+Cc: Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>,
+	Bob Copeland <me@bobcopeland.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	linux-ext4@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	gfs2@lists.linux.dev,
+	linux-karma-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	Chao Shi <coshi036@gmail.com>
+Subject: [PATCH 00/19] buffer: stop clearing BH_Uptodate when a write fails
+Date: Sat,  1 Aug 2026 18:00:44 -0400
+Message-ID: <cover.1785621505.git.coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260616231325.16788-1-russ.fellows@gmail.com> <20260726015955.319132-1-russ.fellows@gmail.com>
-In-Reply-To: <20260726015955.319132-1-russ.fellows@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 1 Aug 2026 21:41:11 +0200
-X-Gm-Features: AUfX_mzQD4_GlZXDQI6JfCQpKnGigqG8DsmxHVr6ulogZ1XWG4BG2zyaNWasR7Y
-Message-ID: <CAOQ4uxhHx5kHT0PfyZ+yb1Y2s0LS6ph-jQ3n66w9Zw13v-5L9Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] fuse: allow parallel direct writes for passthrough
-To: Russ Fellows <russ.fellows@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 26, 2026 at 3:59=E2=80=AFAM Russ Fellows <russ.fellows@gmail.co=
-m> wrote:
->
-> This is v4, about six weeks after v3 [1] -- apologies for the delay.
-> Thanks to Amir Goldstein for the detailed review of v3 and for the
-> suggested patches; this revision implements that feedback.  The v3
-> thread [1] has the full context and Amir's comments.
->
-> The series is also available at:
->   https://github.com/russfellows/linux-fuse-passthrough-patches
->
-> FUSE passthrough writes are fully serialised on the inode lock, even when
-> the server advertises FOPEN_PARALLEL_DIRECT_WRITES and the write is a
-> direct, non-append, within-EOF overwrite.  Native FUSE direct-IO writes
-> already take a shared lock in that case; there is no reason passthrough
-> cannot do the same.  With a passthrough backing file on XFS, this is the
-> difference between serialised and fully parallel 4K random-write O_DIRECT
-> throughput.
->
-> Patch 1 stops fuse_file_io_open() from stripping
-> FOPEN_PARALLEL_DIRECT_WRITES on passthrough opens (which bypass the page
-> cache without FOPEN_DIRECT_IO).  Patch 2 lets fuse_passthrough_write_iter=
-()
-> take the shared lock for eligible writes by sharing the existing direct-I=
-O
-> write-lock helper rather than duplicating it.
->
-> Rebased onto v6.18.39 (LTS).
+When a metadata write fails, the buffer_head completion handlers clear
+BH_Uptodate.  The buffer still holds exactly the data the filesystem asked
+to be written - it is the disk that is stale, not the buffer - and saying
+otherwise has consequences:
 
-Hi Russ,
+  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)), so a
+    filesystem that dirties the buffer again to retry the write trips it.
+    That is the warning that started this.
 
-This version looks good and very well tested.
-Please add
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-to both patches.
+  - a buffer that is not up to date gets re-read from disk, which silently
+    replaces the data the filesystem was trying to write with the stale
+    on-disk copy.
 
-The only thing is that your patches need to apply to the current
-upstream master branch
-not to an LTS kernel.
+  - the state is not self consistent while it lasts: the window between the
+    write completing and BH_Uptodate being cleared is visible to anyone
+    holding the folio lock.
 
-Kernel patches always need to be merged upstream and only then
-backported to LTS kernels.
+BH_Write_EIO already records that the last write failed.  This series moves
+every consumer over to it, then removes the clears.
 
-The merge conflicts with master are minor, but please rebase and test on ma=
-ster.
-With that done, I hope that Miklos will be able to include v5 in 7.3 PR aft=
-er he
-gets back from vacation.
+Patches 1-3 are groundwork.  Matthew's patch 1 removes b_page.  Patches 2
+and 3 let a buffer_head point at memory outside the page cache and use that
+for jbd2's shadow buffers, which today sit on a slab folio - a slab folio
+overloads ->mapping, so mark_buffer_write_io_error() cannot be called on
+them at all.  That is what blocked the jbd2 conversion.
 
-Thanks,
-Amir.
+Patches 4-5 make BH_Write_EIO safe to leave set: clear it in bforget() and
+discard it on invalidate, so a freed or reused block does not inherit
+somebody else's write error.
 
->
-> Changes since v3:
->  - Patch 1: keep only the FOPEN_IOMODE_CACHED() helper (drop the
->    IS_DIRECT / IS_PASSTHROUGH macros, which described how I/O is performe=
-d
->    rather than the ff->iomode state and were misleading); fold the
->    O_DIRECT/fcntl note into the FOPEN_PARALLEL_DIRECT_WRITES comment; and
->    simplify fuse_file_io_open() so a pure direct-IO open needs no early
->    return.  (Per Amir's review and suggested diff.)
->  - Patch 2: instead of duplicating fuse_dio_lock() into passthrough.c,
->    generalise it: fuse_io_wr_exclusive_lock() now also handles passthroug=
-h,
->    the uncached-io refcount is factored into fuse_parallel_dio_start/end(=
-)
->    (no-ops for passthrough's permanent uncached iomode), and
->    fuse_dio_lock()/fuse_dio_unlock() are renamed fuse_io_wr_lock()/
->    fuse_io_wr_unlock() and shared by both write paths.  (Per Amir's revie=
-w
->    and suggested diff.)
->
-> Testing (fstests / xfstests)
-> ----------------------------
-> Run with the libfuse passthrough_hp server under xfstests (FSTYP=3Dfuse),
-> './check -fuse -g quick' (642 tests), on v6.18.39, backing XFS on a
-> RAM-backed null_blk device.  An unpatched v6.18.39 baseline was captured
-> first, then the same tree with this series applied; results were diffed t=
-o
-> isolate any patch-induced change.  Two server configs were exercised, as
-> suggested by Amir:
->
->   passthrough (default):    unpatched 25 failed / patched 25 failed
->   passthrough --direct-io:  unpatched 27 failed / patched 27 failed
->
-> In both configs the failing set is identical with and without the series
-> (the --direct-io set is the default set plus generic/355 and generic/362)=
-.
-> Every failure is pre-existing on the unpatched kernel and is a known
-> passthrough_hp / fuse limitation (permission/ACL/atime/mmap-coherency
-> tests), unrelated to this change:
->
->   =3D> zero regressions introduced by the series in either config.
->
-> No kernel warnings, lockdep reports, or splats were observed in any run.
->
-> Performance
-> -----------
-> Custom FUSE passthrough daemon advertising FOPEN_PASSTHROUGH |
-> FOPEN_PARALLEL_DIRECT_WRITES, XFS on a RAM-backed null_blk device, kernel
-> v6.18.39.  fio 4K random write, O_DIRECT, libaio, iodepth=3D64, single sh=
-ared
-> file:
->
->   numjobs | unpatched (IOPS) | patched (IOPS)
->   --------|------------------|---------------
->         1 |         352,000  |       352,000
->         2 |         440,000  |       648,000
->         3 |         429,000  |       951,000
->         4 |         423,000  |       987,000
->
-> Unpatched write throughput is flat regardless of job count (the exclusive
-> inode lock serialises all writers to the file); with the series it scales
-> with concurrency, ~2.3x at 4 jobs, up to the backing device ceiling.
-> Single-job is unchanged (no lock contention), and 4K random *read*
-> throughput is unchanged (~1.37M IOPS with and without the series), since
-> reads never took the exclusive lock.
->
-> [1] v3: https://lore.kernel.org/all/20260616231325.16788-1-russ.fellows@g=
-mail.com/
->
-> Russ Fellows (2):
->   fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
->   fuse: allow parallel direct writes in passthrough write_iter
->
->  fs/fuse/file.c        | 53 ++++++++++++++++++++++++++++++++++---------
->  fs/fuse/fuse_i.h      |  2 ++
->  fs/fuse/iomode.c      | 23 ++++++++++---------
->  fs/fuse/passthrough.c |  6 ++---
->  4 files changed, 59 insertions(+), 25 deletions(-)
->
-> --
-> 2.51.0
+Patches 6-18 convert the consumers, one filesystem at a time: the two core
+helpers in fs/buffer.c, then adfs, ext2, omfs, exfat, fat, ext4, ocfs2,
+gfs2 and jbd2.  Patch 19 removes the clears.
+
+Every patch builds on its own and the tree behaves identically at each step
+until patch 19, because a failed write currently sets BH_Write_EIO and
+clears BH_Uptodate together.
+
+Four things are worth a second look, and I would rather point at them than
+let you find them:
+
+  - gfs2 (patch 15) is not a pure conversion.  gfs2_end_log_write_bh()
+    already marks BH_Write_EIO without clearing BH_Uptodate, so the two ail
+    checks are blind to log write errors today and start catching them.
+    Jan and I agreed that is the desired fix rather than a regression, but
+    it is a real behaviour change for gfs2.
+
+  - ocfs2 (patch 14) has a check that turns the filesystem read-only when a
+    buffer whose previous write failed is handed back to a transaction.  It
+    sits inside an if (!buffer_uptodate(bh)) that goes dead, so it has to be
+    hoisted or ocfs2 silently stops making that check.  The code in that
+    patch is Jan's.
+
+  - after patch 19, BH_Write_EIO stays set until the buffer is written
+    again, forgotten or invalidated.  So a site like ext4's itable sync
+    (patch 12) now reports on every subsequent sync rather than only on the
+    write that failed.  That is intended, and matches what ocfs2 has always
+    done with this flag.
+
+  - the read path changes too.  __bread_gfp() and bh_uptodate_or_lock()
+    currently re-read a buffer whose write failed, replacing the
+    filesystem's data with the stale on-disk copy.  After patch 19 they
+    return the in-memory data.  Better, but different.
+
+On the original report: patch 19 provably closes that WARN for the write
+error case, since the state it warns about can no longer be produced that
+way.  I could not reproduce the WARN itself with fail_make_request, which
+fails synchronously at submit; the original came from a fuzzer injecting
+delayed error completions, which is what opens the window.  So there is no
+ready reproducer to offer, only the argument.
+
+Based on vfs.git vfs.all, because Jan's "fs: Fix missed inode write during
+fsync" series is in it and rewrites __ext4_handle_dirty_metadata(), which
+patch 12 touches.
+
+Testing: built and booted with all of the above filesystems enabled;
+checkpatch --strict clean on all 19; each patch built individually.
+Patches 2 and 3 were validated by crashing with sysrq-b during ext4
+data=journal,journal_checksum traffic engineered to force copy-out into
+b_frozen_data, then replaying the journal on the next mount - recovery
+completed, file contents matched, e2fsck -fn clean, and an instrumented
+build confirmed the folio-less path was actually taken.  I have not
+exercised the adfs, omfs or exfat paths beyond compiling them.
+
+The conversion was asked for here:
+  https://lore.kernel.org/linux-fsdevel/xaqwfkwjnp7h2lg7ir6wy2tnyay26t3im3ftkdl64rhys3rhmu@lc5vfh5tc2f5/
+and the shape of it was settled in the two exchanges after it:
+  https://lore.kernel.org/linux-fsdevel/CACd_6n17-pJuNoCLsstP7goocedrr5F8T8BwTjRUNx8frKEPgA@mail.gmail.com/
+  https://lore.kernel.org/linux-fsdevel/bnchcfog427eo3bxt5h6qautlq7sb2o4ww7cjgad73biycdn5f@np7qkbyqizup/
+Per-filesystem maintainers were not on that thread, hence the summary above.
+
+The earlier attempt at this, which Jan correctly rejected, was
+  https://lore.kernel.org/linux-fsdevel/20260430053645.1466196-1-coshi036@gmail.com/
+
+
+Chao Shi (18):
+  buffer: allow a buffer_head to point at memory outside the page cache
+  jbd2: point the shadow buffer at the frozen data directly
+  buffer: clear BH_Write_EIO when a buffer is forgotten
+  buffer: discard BH_Write_EIO along with the rest of the buffer state
+  buffer: detect metadata write errors with buffer_write_io_error()
+  adfs: check for a directory write error with buffer_write_io_error()
+  ext2: check for an xattr block write error with
+    buffer_write_io_error()
+  omfs: check for an inode write error with buffer_write_io_error()
+  exfat: check for a directory write error with buffer_write_io_error()
+  fat: check for a metadata write error with buffer_write_io_error()
+  ext4: check for a metadata write error with buffer_write_io_error()
+  ocfs2: check for a metadata write error with buffer_write_io_error()
+  ocfs2: check for a stale write error before reusing a metadata buffer
+  gfs2: check for a metadata write error with buffer_write_io_error()
+  jbd2: report journal write errors with BH_Write_EIO
+  jbd2: assert on a failed write, not on a buffer that is not up to date
+  ext4, jbd2: report fast commit write errors with BH_Write_EIO
+  buffer: stop clearing BH_Uptodate when a write fails
+
+Matthew Wilcox (Oracle) (1):
+  buffer_head: Remove b_page
+
+ fs/adfs/dir.c               |  2 +-
+ fs/buffer.c                 | 26 +++++++++++++++++---------
+ fs/exfat/misc.c             |  2 +-
+ fs/ext2/xattr.c             |  2 +-
+ fs/ext4/ext4_jbd2.c         |  2 +-
+ fs/ext4/fast_commit.c       |  2 +-
+ fs/ext4/mmp.c               |  2 +-
+ fs/fat/misc.c               |  2 +-
+ fs/gfs2/log.c               |  4 ++--
+ fs/gfs2/lops.c              |  2 +-
+ fs/jbd2/commit.c            | 20 +++++++++++++-------
+ fs/jbd2/journal.c           | 21 +++++++++++++++------
+ fs/jbd2/transaction.c       |  2 +-
+ fs/ocfs2/buffer_head_io.c   | 12 +++++++-----
+ fs/ocfs2/journal.c          | 25 +++++++++++++------------
+ fs/omfs/inode.c             |  4 ++--
+ include/linux/buffer_head.h |  7 ++-----
+ 17 files changed, 80 insertions(+), 57 deletions(-)
+
+
+base-commit: 05c09c9c8a79d5539fef30d42e732eba90a15dcf
+-- 
+2.43.0
+
