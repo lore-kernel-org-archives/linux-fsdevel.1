@@ -1,194 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender-of-o59.zoho.eu (sender-of-o59.zoho.eu [136.143.169.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DFF21A459;
-	Sun,  2 Aug 2026 09:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785663159; cv=none; b=SZozKQ6Ra2AtGs2PVH6z0ZC3IM2yMaQYBhTxBGZrwmKVkdqgIN+jy8/Ff8eZI4L1M23LEnLMO927iOuZl0hpAcasqFxvYE1Vij5uk/9j/q1dFOuR17HLz3PsmJadX6OjRUhQjnFErfl5qUSUOMUku6MMck8KRHfnmMZD9xDBwRA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785663159; c=relaxed/simple;
-	bh=wsJfcxF+zXKhhxCG3mZJV5k9zfaak0nkXTv6ixT2kI4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rDhPVGN7lYBfXDRAPqvP/hDK5a90dahqUnkOlCtPq/P3m9uM0uGxlbmS17mKotu/4TmEe3xI20/24rmHG2ulPjkBtKNNrEQw6kr+tNVa2MXJBoaDQxaOLwTJ4hk+kRqQsGZ5z+3HhFSqsfuOVQNxiSa2ALwrgBygj4b3NSkBUTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aErhjZzY; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CB8392C3A;
+	Sun,  2 Aug 2026 11:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785670946; cv=pass; b=YqYsV8SuiES9CiDPLRQx0w6gvvzARyWUTA0KJvA4RW7qMtcnO56xu/xfDo2NJ3kWz83LnJ1OVacyzg6btVKszksWSQMSVC4IbZsCvAHcuryuFuEvhOXK5Fisf2iWwS2lXTCot0Rq1Ff+AvwaFoyS0WVueByeJRYCw/fDdgFVyOU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785670946; c=relaxed/simple;
+	bh=SbNN7+8V8oduizTPbH+2Zhp5comn2606siWArj09Nbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X4BpS89/4zwPNMABK+TuG5iKH0WxdKcxuwix3HsfWaAksiCMJ6/PszJzQLaYTou9Pl8w34zvQv4IhlHLrPxuNY9XGu+IpjoElWM0kgzdqSxwFd3LwMYkE+a+eNEbnTJV3LC5tHoJlA/YN6kzaCMaBWdkcEpyEVacqM1MsZuyRrI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=hetj2xXf; arc=pass smtp.client-ip=136.143.169.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aErhjZzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFCA1F000E9;
-	Sun,  2 Aug 2026 09:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785663158;
-	bh=Ma6AWXAeTTct2nkWjiBXi4bm+okRWMwqVMmUTQi9zZY=;
-	h=From:To:Cc:Subject:Date;
-	b=aErhjZzYu1baQ+C0zkrwT5thfKyvFypoz/rTgbjozLvmEwP6TDT6eT3yc/7feujaj
-	 5hvGQFjnNtRrmRisH4PkBhUf7ghOzGmxgj2AeLwb28qV5Dm0HuaRw5d1AM+OH2QzRZ
-	 ngsVXvdG7j0hS7e0dcfIv+dd4gT6zByRH4+1xPGgzrDDIF/c/GzbfgWuywHwM12x6t
-	 lvGb8WGzH8UYJx0999itdifKnUC6EILfMWT19sKjr3fU98ayiJuX6tDaNm+uIIxOAy
-	 1R5j0nlOdkJu4ZIGMWLvZOkxnNDwjw//FO9egsTaBSvIVl1euxeOa3X+p+Su60lG47
-	 8tPIq8I/C6cng==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="hetj2xXf"
+ARC-Seal: i=1; a=rsa-sha256; t=1785670905; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=VrwzWeCCPB+mzQ+g+MzxjHoNUQXU1BlEPq1htTzg0Ar4o3Z1RkuiU+LiIc654nBSEEZgx+OBKp06APtEQBNDPeJZGEDsTFEW41ABabdGZRGvM0j9tlruQ7ar6IOQCrlf0mcjwS4mPqlgbGabYpho6p/aXJkyZacUBEqRHg1ZKjk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1785670905; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YNHP4YfeV0dVTpVA69OWDDuQFOPaEnTRio6h0wDegAs=; 
+	b=iEK946/NBlOZgOqzj9Kumbx1RMmoAeeMqFFSNH87pm7cGn54E2nrM6l9EHVC7tAh5BQx5M8ZsDjt227VoBkqFbXVwrLhRv+BIksdHi3dR/1QjcwM6yzDNfmrn11laVprZMduJwxQwUv8uGgHJZC0uFGsIqGAQee9cKBsTf6foBY=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=iusegentoo.com;
+	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
+	dmarc=pass header.from=<ali@iusegentoo.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785670905;
+	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=YNHP4YfeV0dVTpVA69OWDDuQFOPaEnTRio6h0wDegAs=;
+	b=hetj2xXfwhFzTHsZlRAI74Ow6ed7muYGLTfyGyRWT9bfMmxLAhcPQ6aLfQ3gpNmX
+	Y+dGUeAtzl57GT2F+BckAtiWr1bBeXf/gSyH4k3Yv0VNEv6OEbUfEF0kc2c/xQw48Ov
+	yXRCobrw4Fw4gYKgciX1cSg9PIrixIGFTnpcRP04=
+Received: by mx.zoho.eu with SMTPS id 1785670902061752.3213777965705;
+	Sun, 2 Aug 2026 13:41:42 +0200 (CEST)
+From: Ali Ahmet Memis <ali@iusegentoo.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Luis Henriques <lhenriques@suse.com>,
+	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL for v7.2] vfs fixes
-Date: Sun,  2 Aug 2026 11:31:26 +0200
-Message-ID: <20260802-vfs-7.2-rc6.fixes-d7f38ab4daa2@brauner>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] ufs: free the buffer head container in ubh_bforget
+Date: Sun,  2 Aug 2026 11:41:30 +0000
+Message-ID: <20260802114130.6261-1-ali@iusegentoo.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <875x1syipu.fsf@orpheu.olymp>
+References: <875x1syipu.fsf@orpheu.olymp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6053; i=brauner@kernel.org; h=from:subject:message-id; bh=wsJfcxF+zXKhhxCG3mZJV5k9zfaak0nkXTv6ixT2kI4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTl863YcN598pejHY+ieots+HfH7WhRbP3JadwUlal+6 86K1QnSHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPZm8/I8CSv8sTaI803GVo1 N1fM0p19bJOcLKdUYkLnBq2olsfZkQx/OGsaA6c9SlitxM0w/8fxhG3nlI3ry41v7jD4xjxpjlA rEwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Hey Linus,
+ubh_bforget() forgets the buffer heads referenced by a struct
+ufs_buffer_head but never frees the container itself, unlike its sibling
+ubh_brelse() which calls kfree() on the way out. The only caller,
+free_full_branch(), allocates the container through ubh_bread() while
+releasing an indirect block during truncate, so every fully removed
+indirect block leaks one ufs_buffer_head. Truncating or unlinking a
+large file then leaks one allocation per indirect block, which kmemleak
+reports with a free_full_branch, ufs_truncate_blocks, ufs_evict_inode
+backtrace.
 
-/* Summary */
+Free the container after forgetting its buffers, mirroring ubh_brelse().
+Drop the NULL test in the loop as well, which Luis already noted is
+redundant because bforget() ignores a NULL buffer head; ubh_brelse() has
+no such test either, so the two now match.
 
-This contains fixes for the current development cycle:
+Luis Henriques posted this fix in 2018. It never got a single reply and
+was never applied, while fs/ufs had no active maintainer, and the leak is
+still present.
 
-- binfmt_misc:
+Link: https://lore.kernel.org/all/20180705150415.25070-1-lhenriques@suse.com/
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
+---
+v2: drop the NULL test in the loop, as Luis pointed out. That makes this
+    the same change as his 2018 patch; if you would rather it went in
+    under his authorship I am happy to resend it that way, his call.
+    Whitespace on the touched lines modernised to keep checkpatch quiet.
 
-  * Don't let an 'F' entry pin its own instance. An entry registered
-    with 'F' opens its interpreter at registration time and holds that
-    file until the entry is freed, so an entry nobody removes by hand
-    is only closed once the binfmt_misc superblock is shut down. If the
-    interpreter lives on a mount that keeps that superblock alive the
-    two pin each other and the file is never closed. That's reachable
-    by pointing the interpreter at the instance itself or by using the
-    instance as an overlayfs lower layer, and once the mount namespace
-    is gone there's nothing left to unregister through either.
+v1: https://lore.kernel.org/all/20260801024119.12667-1-ali@iusegentoo.com/
 
-  * Restore write access when removing an entry. Registering with the
-    MISC_FMT_OPEN_FILE flag opens the interpreter via open_exec() which
-    denies write access for as long as the entry exists, but removal
-    only did filp_close() and never restored it. The inode's
-    i_writecount stayed permanently negative and opening the
-    interpreter for writing kept failing with ETXTBSY long after the
-    entry was gone.
+ fs/ufs/util.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-  * Use exe_file_deny_write_access() for the interpreter clone so both
-    sides base their decision on the same mode.
+diff --git a/fs/ufs/util.c b/fs/ufs/util.c
+index dff6f74618de..603d80b93066 100644
+--- a/fs/ufs/util.c
++++ b/fs/ufs/util.c
+@@ -117,8 +117,9 @@ void ubh_bforget (struct ufs_buffer_head * ubh)
+ 	unsigned i;
+ 	if (!ubh) 
+ 		return;
+-	for ( i = 0; i < ubh->count; i++ ) if ( ubh->bh[i] ) 
+-		bforget (ubh->bh[i]);
++	for (i = 0; i < ubh->count; i++)
++		bforget(ubh->bh[i]);
++	kfree(ubh);
+ }
+  
+ int ubh_buffer_dirty (struct ufs_buffer_head * ubh)
 
-  * Reject a flag character as the field delimiter. create_entry() pads
-    the buffer with the delimiter so the field parsers terminate even
-    on a truncated string, but check_special_flags() consumes flag
-    characters instead of scanning for the delimiter. If the delimiter
-    is itself a flag character the padding stops acting as a terminator
-    and the scan keeps reading past the end of the allocation. Such a
-    registration was always rejected, just only after the out of bounds
-    read has already happened.
+base-commit: 2d2338c93da79b3bfe4b6099a931d9468d539952
+-- 
+2.55.0
 
-  * Don't leak the user namespace when the mount fails. bm_get_tree()
-    hands its reference to get_tree_keyed() and sget_fc() moves it into
-    sb->s_fs_info, but generic_shutdown_super() only calls ->put_super()
-    from inside the if (sb->s_root) branch and bm_fill_super() can fail
-    before either s_root or s_op is in place. Drop the reference in
-    ->kill_sb() instead, which runs unconditionally.
-
-- netfs:
-
-  * Clear PG_private_2 on a copy-to-cache append failure.
-
-  * Handle a rolling buffer allocation failure in single-object
-    writeback and drop the extra folio reference
-    netfs_write_folio_single() took before the append.
-
-  * Release the batched readahead folios when
-    rolling_buffer_load_from_ra() fails in
-    netfs_prepare_read_iterator() after earlier folios have already
-    been batched.
-
-  * Fix the folio_queue ENOMEM in writeback by adding a mempool and
-    passing gfp flags into the rolling buffer helpers.
-
-- iomap:
-
-  * Add a separate bio_set for iomap_split_ioend(). It can split
-    bios that already come from iomap_ioend_bioset and deadlock once that
-    bioset is exhausted.
-
-- afs:
-
-  * Set call->async for an asynchronous afs_fs_fetch_data() the way
-    afs_fs_fetch_data64() already does.
-
-  * Subtract subreq->transferred from subreq->len in afs_fs_fetch_data()
-    rather than adding it.
-
-  * Fix a UAF when sending a message.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-No known conflicts.
-
-The following changes since commit 62cc90241548d5570ee68e01aaba6506964e9811:
-
-  Merge tag 'mm-hotfixes-stable-2026-07-27-14-18' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm (2026-07-27 14:36:26 -0700)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc6.fixes
-
-for you to fetch changes up to c679ce3be6cb63763d68ab9b5d9d73ddc0a40762:
-
-  iomap: add a separate bio_set for iomap_split_ioend (2026-07-31 11:49:09 +0200)
-
-----------------------------------------------------------------
-vfs-7.2-rc6.fixes
-
-Please consider pulling these changes from the signed vfs-7.2-rc6.fixes tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (8):
-      Merge patch series "afs: Miscellaneous fixes"
-      Merge patch series "netfs: Miscellaneous fixes"
-      binfmt_misc: don't let an 'F' entry pin its own instance
-      Merge patch series "binfmt_misc: don't let an 'F' entry pin its own instance"
-      binfmt_misc: restore write access when removing an entry
-      binfmt_misc: use exe_file_deny_write_access() for the interpreter clone
-      binfmt_misc: reject a flag character as the field delimiter
-      binfmt_misc: don't leak the user namespace when the mount fails
-
-Christoph Hellwig (1):
-      iomap: add a separate bio_set for iomap_split_ioend
-
-David Howells (4):
-      afs: Fix afs_fs_fetch_data() to set call->async
-      afs: Fix afs_fs_fetch_data() to subtract transferred from len
-      afs: Fix UAF when sending a message
-      netfs: Fix folio_queue ENOMEM in writeback by adding a mempool
-
-Yichong Chen (3):
-      netfs: clear PG_private_2 on copy-to-cache append failure
-      netfs: handle single writeback rolling buffer allocation failure
-      netfs: release readahead folios on iterator preparation failure
-
- fs/afs/fsclient.c              |  5 +++-
- fs/afs/internal.h              |  3 ++-
- fs/binfmt_misc.c               | 54 ++++++++++++++++++++++++++----------------
- fs/iomap/ioend.c               | 21 ++++++++++++++--
- fs/netfs/buffered_read.c       | 10 ++++----
- fs/netfs/internal.h            |  1 +
- fs/netfs/main.c                |  7 ++++++
- fs/netfs/objects.c             | 30 +++++++++++++----------
- fs/netfs/read_pgpriv2.c        |  3 ++-
- fs/netfs/rolling_buffer.c      | 22 ++++++++++-------
- fs/netfs/write_issue.c         | 15 ++++++++----
- include/linux/netfs.h          |  1 +
- include/linux/rolling_buffer.h |  6 ++---
- 13 files changed, 119 insertions(+), 59 deletions(-)
