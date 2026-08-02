@@ -1,44 +1,44 @@
 Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85093C09ED
-	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 15:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D068A3C1978
+	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 15:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785683546; cv=none; b=E6OiPa9TiD3DpB96jh6FhqNmifZwWJNHMrIsD5yP5op+WIrUf4uRVEAIie9mHtpQh+Isduxwfw7DRXYpPj+lMoqFa9rNNGjsblKCGNbuWZ2bYwkJWWIzpFWSfCNy43+CR6KFBXNuyCy11/VYWg6BXnJZ9xB0u62UkKP3mksAlyM=
+	t=1785683548; cv=none; b=sDkGmdlzCmZJ2Qvrre8p8oTrUZAJfLXIULVJ7r4BVp8G8o4j/KhwOLEmMZ+Mq+5cNINFuNDuwqPzlGtjaa8iWC5plorI7VgESK5bMwGJUeAlLzvDAnfuDl/2ruBaDZLMom3lTpILUFpPbM1OuSSC9wgorJ2JRZLRa0CMCBRU3KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785683546; c=relaxed/simple;
-	bh=RK1K+jgjA2wBeM9nLw94QnfgJsUiGjbZP4kf5/zPPHY=;
+	s=arc-20240116; t=1785683548; c=relaxed/simple;
+	bh=LkFC6Lxxt+naj8f8/Q7X0YqDnJsutlwaKTQkl1k6zkU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AyAkBa4w71G4jqcNPmeXM3RDwL/DpSN2rAXnKftCxDMk7m50iDiKNV67relqqYRXS2L67ZdoWUKu9Bq11zvbsBLTpEaT+NJ/wALeoto9bdAbZNsvSn2kdWB6gJAmapdZrAgeIYj1zJBFnX8pg4uAUNRcpQ+1tPHgsipfc7O0LSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oogFm/2j; arc=none smtp.client-ip=195.121.94.186
+	 MIME-Version; b=kqp7HLxAGmuRM4L1TsQW+3gxxA7TNw2r8djLDx70n02ciEPHXzs42BW+R0bOcduTHVighGzIHPIpR39GV/5uL9BQK+LkchYheY3Un6/D0OBwiLfvEkIMR3dlpc7jY40XFzyC66X2lIBrAgAlaUWqbbqYoUyEZ92fetxlDmH/il4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=JF0E7QPc; arc=none smtp.client-ip=195.121.94.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oogFm/2j"
-X-KPN-MessageId: 67a8494d-8e84-11f1-bfbb-00505699b430
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="JF0E7QPc"
+X-KPN-MessageId: 6898fb08-8e84-11f1-bfbb-00505699b430
 Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 67a8494d-8e84-11f1-bfbb-00505699b430;
-	Sun, 02 Aug 2026 17:11:15 +0200 (CEST)
+	id 6898fb08-8e84-11f1-bfbb-00505699b430;
+	Sun, 02 Aug 2026 17:11:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=/YCy3U6K3byUoKV7HF8qjdzGeKj8zgjBqhySeqxEWZk=;
-	b=oogFm/2jqsQCbGUrLb1q2namKqfktXXSGU4fXnizcsFpERuDi2CAtfpVxh8CDMw+CjvanIwE3T6UQ
-	 B8IRPPxA3N084LaeQGvgPNonkJT54oF/UZed4YY5ai6wTyWIClNb2eZwNGISnWqL+f7qaEnOj2+Ery
-	 ARWmT9fiZYyTcaczaJRhVCCn3WEU8lsU+mdIJ91f1tKcKlwzFyisDGybcmbxV9kEzs+A2wwADq3lhe
-	 znwZ+ZkZ7SIMKKSgNwFnCv3j4ruyUY4yycRthsadOysyzstcZ4mVoNjnWzcDSz0y2+zMgSY9nR+RTC
-	 Mp+BiLv73IC37jS2AZ2nx5kEFTJmrbA==
-X-KPN-MID: 33|YLpDifmFDXN46T/DbHhmEYVLJc4f+jvANRtVZrT6A9+BD7snTgiNR7BenK79nRJ
- e8HXcczP+xsEzlA9BmkUhwA==
+	bh=c6KOdMGfpygvEHXAACxv4zqVzhbJprSdESDK6Rkha2M=;
+	b=JF0E7QPcGDtbG1Q9DaC9vq4oZ7B2tWS3tnWgtuaiTIiHtcMgP3lDY2smbHza+jKJ/H3FqoTi59afZ
+	 SHxy42UkNUya3F5k4FNB0eW+xWSbC+fV7MgEl0Aby3YX0RFOazRo/xUaync+5rSJy9dh5r0Xnh7aWJ
+	 uoA19RHc8mEe6LJp0NaMdTXHc0lzg0ZZI0GNyWELvThy2egS3kUNzxCxRBC6mFZ266P/cqohr1bt03
+	 UV9tViA4zUZ3iGBnaD7iWxxQ+haPHUUqzzvJJ69obZWzjag8Had8hNqz0NWNLYjn0RMp50jszfoWaA
+	 HvaSJD4e1oojJBrZcBilacHSE1Yw1yw==
+X-KPN-MID: 33|SdlWrR/UrkuOrErsoWzSevvMvWTImVgZEI6engi04Px19smqOp0BxO2pMeMIxA+
+ oFD8rjKzBmwsaHtWXtVudOp3m74LjPz9fv/aJWbG/2C4=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|6+T+3sd9aB0cXhqYdUrehR80pAzTxg+3U8XCNxiyoEVXorwJHKjZl2cX9AR/uGG
- Kk1aDr6xB5Ta/eYhH7pL7iw==
+X-CMASSUN: 33|CTqvp+O4x3pMHsdPjPSOCB7G4pKdc8HgHylzsPdHQnuUCgc+GpaEMC9iy07JQZ6
+ v/pUtdgqSA/v+iW/bPoaK7Q==
 Received: from daedalus.home (unknown [178.231.250.148])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 675f9d70-8e84-11f1-8dd8-00505699d6e5;
-	Sun, 02 Aug 2026 17:11:15 +0200 (CEST)
+	id 685458da-8e84-11f1-8dd8-00505699d6e5;
+	Sun, 02 Aug 2026 17:11:16 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: brauner@kernel.org,
 	cyphar@cyphar.com,
@@ -52,9 +52,9 @@ Cc: netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	jkoolstra@xs4all.nl
-Subject: [PATCH net-next v6 3/4] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
-Date: Sun,  2 Aug 2026 17:12:11 +0200
-Message-ID: <20260802151212.3294591-4-jkoolstra@xs4all.nl>
+Subject: [PATCH net-next v6 4/4] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
+Date: Sun,  2 Aug 2026 17:12:12 +0200
+Message-ID: <20260802151212.3294591-5-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260802151212.3294591-1-jkoolstra@xs4all.nl>
 References: <20260802151212.3294591-1-jkoolstra@xs4all.nl>
@@ -66,275 +66,406 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Right now if some LSM such as Smack denies an AF_UNIX socket peer to
-receive an SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
-that point, and MSG_CTRUNC is set on return of recvmsg(). This is
-highly problematic behaviour, because it leaves the receiver
-wondering what happened. As per man page MSG_CTRUNC is supposed to
-indicate that the control buffer was sized too short, but suddenly
-a permission error might result in the exact same flag being set.
-Moreover, the receiver has no chance to determine how many fds got
-originally sent and how many were suppressed.[1]
+Tests SCM_RIGHTS fd passing on a socket with the new socket option
+SO_RIGHTS_NOTRUNC turned on. To hook into the security_file_receive()
+call, BPF is used. The BPF program shares a hashmap with userspace that
+lists the inos to be blocked (of the receiver tgid).
 
-Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
-handling of LSM denials when receiving SCM_RIGHTS messages: instead of
-truncating the message at the first blocked fd, keep every fd slot
-and store the LSM errno in the blocked slot. The socket option is
-inherited by the child accept() socket if set on the listen() socket.
-
-[1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
-
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- arch/alpha/include/uapi/asm/socket.h  |  2 ++
- arch/mips/include/uapi/asm/socket.h   |  2 ++
- arch/parisc/include/uapi/asm/socket.h |  2 ++
- arch/sparc/include/uapi/asm/socket.h  |  2 ++
- include/net/af_unix.h                 |  1 +
- include/net/scm.h                     | 13 +++------
- include/uapi/asm-generic/socket.h     |  2 ++
- net/compat.c                          |  4 +--
- net/core/scm.c                        | 38 +++++++++++++++++++++++----
- net/unix/af_unix.c                    | 12 ++++++++-
- 10 files changed, 61 insertions(+), 17 deletions(-)
+ .../testing/selftests/net/af_unix/.gitignore  |   2 +
+ tools/testing/selftests/net/af_unix/Makefile  |   8 +
+ tools/testing/selftests/net/af_unix/config    |   7 +
+ .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
+ .../net/af_unix/scm_rights_denial_lsm.c       | 285 ++++++++++++++++++
+ 5 files changed, 338 insertions(+)
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
 
-diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-index 5ef57f88df6b..946a5fad2691 100644
---- a/arch/alpha/include/uapi/asm/socket.h
-+++ b/arch/alpha/include/uapi/asm/socket.h
-@@ -155,6 +155,8 @@
- #define SO_INQ			84
- #define SCM_INQ			SO_INQ
+diff --git a/tools/testing/selftests/net/af_unix/.gitignore b/tools/testing/selftests/net/af_unix/.gitignore
+index 973176644103..954f0958dd03 100644
+--- a/tools/testing/selftests/net/af_unix/.gitignore
++++ b/tools/testing/selftests/net/af_unix/.gitignore
+@@ -3,6 +3,8 @@ msg_oob
+ scm_inq
+ scm_pidfd
+ scm_rights
++scm_rights_denial_lsm
++scm_rights_denial_lsm.bpf.o
+ so_peek_off
+ unix_connect
+ unix_connreset
+diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
+index 57d159803a3a..a66f10fb0c23 100644
+--- a/tools/testing/selftests/net/af_unix/Makefile
++++ b/tools/testing/selftests/net/af_unix/Makefile
+@@ -11,10 +11,18 @@ TEST_GEN_PROGS := \
+ 	scm_inq \
+ 	scm_pidfd \
+ 	scm_rights \
++	scm_rights_denial_lsm \
+ 	so_peek_off \
+ 	unix_connect \
+ 	unix_connreset \
+ 	unix_listen \
+ # end of TEST_GEN_PROGS
  
-+#define SO_RIGHTS_NOTRUNC      85
++TEST_GEN_FILES := scm_rights_denial_lsm.bpf.o
 +
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64
-diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-index 72fb1b006da9..f1641dde135f 100644
---- a/arch/mips/include/uapi/asm/socket.h
-+++ b/arch/mips/include/uapi/asm/socket.h
-@@ -166,6 +166,8 @@
- #define SO_INQ			84
- #define SCM_INQ			SO_INQ
- 
-+#define SO_RIGHTS_NOTRUNC      85
+ include ../../lib.mk
++include ../bpf.mk
 +
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64
-diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-index c16ec36dfee6..f3a3815c7dc2 100644
---- a/arch/parisc/include/uapi/asm/socket.h
-+++ b/arch/parisc/include/uapi/asm/socket.h
-@@ -147,6 +147,8 @@
- #define SO_INQ			0x4052
- #define SCM_INQ			SO_INQ
- 
-+#define SO_RIGHTS_NOTRUNC	0x4053
++$(OUTPUT)/scm_rights_denial_lsm: $(BPFOBJ)
++$(OUTPUT)/scm_rights_denial_lsm: CFLAGS += -I$(SCRATCH_DIR)/include
++$(OUTPUT)/scm_rights_denial_lsm: LDLIBS += -lelf -lz
+diff --git a/tools/testing/selftests/net/af_unix/config b/tools/testing/selftests/net/af_unix/config
+index 41dbb03c747e..468f7a0bb64e 100644
+--- a/tools/testing/selftests/net/af_unix/config
++++ b/tools/testing/selftests/net/af_unix/config
+@@ -2,3 +2,10 @@ CONFIG_AF_UNIX_OOB=y
+ CONFIG_UNIX=y
+ CONFIG_UNIX_DIAG=m
+ CONFIG_USER_NS=y
++CONFIG_BPF=y
++CONFIG_BPF_SYSCALL=y
++CONFIG_BPF_EVENTS=y
++CONFIG_BPF_JIT=y
++CONFIG_SECURITY=y
++CONFIG_BPF_LSM=y
++CONFIG_DEBUG_INFO_BTF=y
+diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+new file mode 100644
+index 000000000000..4f2414465bfd
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/bpf.h>
++#include <linux/errno.h>
++#include <bpf/bpf_helpers.h>
++#include <bpf/bpf_tracing.h>
 +
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64
-diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-index 71befa109e1c..7907f3b1f0ee 100644
---- a/arch/sparc/include/uapi/asm/socket.h
-+++ b/arch/sparc/include/uapi/asm/socket.h
-@@ -148,6 +148,8 @@
- #define SO_INQ                   0x005d
- #define SCM_INQ                  SO_INQ
- 
-+#define SO_RIGHTS_NOTRUNC        0x005e
++char _license[] SEC("license") = "GPL";
 +
- #if !defined(__KERNEL__)
- 
- 
-diff --git a/include/net/af_unix.h b/include/net/af_unix.h
-index 34f53dde65ce..bb1b3dee02e8 100644
---- a/include/net/af_unix.h
-+++ b/include/net/af_unix.h
-@@ -49,6 +49,7 @@ struct unix_sock {
- 	struct scm_stat		scm_stat;
- 	int			inq_len;
- 	bool			recvmsg_inq;
-+	bool			scm_rights_notrunc;
- #if IS_ENABLED(CONFIG_AF_UNIX_OOB)
- 	struct sk_buff		*oob_skb;
- #endif
-diff --git a/include/net/scm.h b/include/net/scm.h
-index c52519669349..86ae6bc109ec 100644
---- a/include/net/scm.h
-+++ b/include/net/scm.h
-@@ -50,8 +50,8 @@ struct scm_cookie {
- #endif
- };
- 
--void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
--void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
-+void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
-+void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
- int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cookie *scm);
- void __scm_destroy(struct scm_cookie *scm);
- struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
-@@ -107,13 +107,8 @@ void scm_recv(struct socket *sock, struct msghdr *msg,
- void scm_recv_unix(struct socket *sock, struct msghdr *msg,
- 		   struct scm_cookie *scm, int flags);
- 
--static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
--				  unsigned int flags)
--{
--	if (!ufd)
--		return -EFAULT;
--	return receive_fd(f, ufd, flags);
--}
-+int scm_recv_one_fd(struct file *f, int __user *ufd, unsigned int flags,
-+		    bool notrunc);
- 
- #endif /* __LINUX_NET_SCM_H */
- 
-diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-index 53b5a8c002b1..84ea7b92936e 100644
---- a/include/uapi/asm-generic/socket.h
-+++ b/include/uapi/asm-generic/socket.h
-@@ -150,6 +150,8 @@
- #define SO_INQ			84
- #define SCM_INQ			SO_INQ
- 
-+#define SO_RIGHTS_NOTRUNC	85
++struct inode {
++	unsigned long i_ino;
++} __attribute__((preserve_access_index));
 +
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64 || (defined(__x86_64__) && defined(__ILP32__))
-diff --git a/net/compat.c b/net/compat.c
-index d68cf9c3aad5..6bdf4a2c9077 100644
---- a/net/compat.c
-+++ b/net/compat.c
-@@ -286,7 +286,7 @@ static int scm_max_fds_compat(struct msghdr *msg)
- 	return (msg->msg_controllen - sizeof(struct compat_cmsghdr)) / sizeof(int);
- }
- 
--void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
-+void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, bool notrunc)
- {
- 	struct compat_cmsghdr __user *cm =
- 		(struct compat_cmsghdr __user *)msg->msg_control_user;
-@@ -296,7 +296,7 @@ void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
- 	int err = 0, i;
- 
- 	for (i = 0; i < fdmax; i++) {
--		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
-+		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags, notrunc);
- 		if (err < 0)
- 			break;
- 	}
-diff --git a/net/core/scm.c b/net/core/scm.c
-index a73b1eb30fd2..f0d44ecdb11f 100644
---- a/net/core/scm.c
-+++ b/net/core/scm.c
-@@ -351,7 +351,31 @@ static int scm_max_fds(struct msghdr *msg)
- 	return (msg->msg_controllen - sizeof(struct cmsghdr)) / sizeof(int);
- }
- 
--void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
-+int scm_recv_one_fd(struct file *f, int __user *ufd, unsigned int flags,
-+		    bool notrunc)
++struct file {
++	struct inode *f_inode;
++} __attribute__((preserve_access_index));
++
++struct {
++	__uint(type, BPF_MAP_TYPE_HASH);
++	__uint(max_entries, 16);
++	__type(key, __u64);	/* inode number */
++	__type(value, __u32);	/* tgid of the receiver being tested */
++} denied_inodes SEC(".maps");
++
++SEC("lsm/file_receive")
++int BPF_PROG(scm_rights_deny, struct file *file)
 +{
-+	int error;
++	__u32 tgid = bpf_get_current_pid_tgid() >> 32;
++	__u64 ino = file->f_inode->i_ino;
++	__u32 *owner;
 +
-+	if (!ufd)
-+		return -EFAULT;
++	owner = bpf_map_lookup_elem(&denied_inodes, &ino);
++	if (owner && *owner == tgid)
++		return -EPERM;
 +
-+	error = security_file_receive(f);
-+	if (error)
-+		return notrunc ? put_user(error, ufd) : error;
++	return 0;
++}
+diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+new file mode 100644
+index 000000000000..941b7decf798
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+@@ -0,0 +1,285 @@
++// SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <sys/socket.h>
++#include <sys/stat.h>
++#include <sys/types.h>
 +
-+	FD_PREPARE(fdf, flags, get_file(f));
-+	if (fdf.err)
-+		return fdf.err;
++#include <bpf/bpf.h>
++#include <bpf/libbpf.h>
 +
-+	error = put_user(fd_prepare_fd(fdf), ufd);
-+	if (error)
-+		return error;
++#include "kselftest_harness.h"
 +
-+	__receive_sock(fd_prepare_file(fdf));
-+	return fd_publish(fdf);
++#ifndef SO_RIGHTS_NOTRUNC
++#define SO_RIGHTS_NOTRUNC 85
++#endif
++
++#define NR_FILES 2
++
++/* Per-file content, so a received fd can be matched to the file sent */
++#define SECRET(n) "secret %d", (n)
++
++/* Indices into the socketpair */
++#define SK_SENDER 0
++#define SK_RECEIVER 1
++
++FIXTURE(scm_rights_denial_bpf)
++{
++	struct bpf_object *obj;
++	struct bpf_link *link;
++	int map_fd;
++	int sk[2];
++	int files[NR_FILES];
++	__u64 inos[NR_FILES];
++	char paths[NR_FILES][64];
++};
++
++FIXTURE_VARIANT(scm_rights_denial_bpf)
++{
++	int sock_type;
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, stream)
++{
++	.sock_type = SOCK_STREAM,
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, dgram)
++{
++	.sock_type = SOCK_DGRAM,
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, seqpacket)
++{
++	.sock_type = SOCK_SEQPACKET,
++};
++
++FIXTURE_SETUP(scm_rights_denial_bpf)
++{
++	struct bpf_program *prog;
++	char lsms[256] = {};
++	int i, fd;
++
++	if (geteuid() != 0)
++		SKIP(return, "requires root");
++
++	fd = open("/sys/kernel/security/lsm", O_RDONLY);
++	ASSERT_GE(fd, 0);
++	ASSERT_LT(0, read(fd, lsms, sizeof(lsms) - 1));
++	close(fd);
++
++	if (!strstr(lsms, "bpf"))
++		SKIP(return, "BPF LSM not active (boot with lsm=...,bpf)");
++
++	self->obj = bpf_object__open_file("scm_rights_denial_lsm.bpf.o", NULL);
++	ASSERT_NE(NULL, self->obj);
++	ASSERT_EQ(0, bpf_object__load(self->obj));
++
++	prog = bpf_object__find_program_by_name(self->obj, "scm_rights_deny");
++	ASSERT_NE(NULL, prog);
++
++	self->link = bpf_program__attach_lsm(prog);
++	ASSERT_NE(NULL, self->link);
++
++	self->map_fd = bpf_object__find_map_fd_by_name(self->obj,
++						       "denied_inodes");
++	ASSERT_GE(self->map_fd, 0);
++
++	ASSERT_EQ(0, socketpair(AF_UNIX, variant->sock_type, 0, self->sk));
++
++	for (i = 0; i < NR_FILES; i++) {
++		struct stat st;
++
++		snprintf(self->paths[i], sizeof(self->paths[i]),
++			 "/tmp/scm_rights_denial_bpf.%d.XXXXXX", i);
++		self->files[i] = mkstemp(self->paths[i]);
++		ASSERT_GE(self->files[i], 0);
++
++		ASSERT_LT(0, dprintf(self->files[i], SECRET(i)));
++
++		ASSERT_EQ(0, fstat(self->files[i], &st));
++		self->inos[i] = st.st_ino;
++	}
 +}
 +
-+void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool notrunc)
- {
- 	struct cmsghdr __user *cm =
- 		(__force struct cmsghdr __user *)msg->msg_control_user;
-@@ -365,12 +389,12 @@ void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
- 		return;
- 
- 	if (msg->msg_flags & MSG_CMSG_COMPAT) {
--		scm_detach_fds_compat(msg, scm);
-+		scm_detach_fds_compat(msg, scm, notrunc);
- 		return;
- 	}
- 
- 	for (i = 0; i < fdmax; i++) {
--		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
-+		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags, notrunc);
- 		if (err < 0)
- 			break;
- 	}
-@@ -542,8 +566,12 @@ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
- 	if (!__scm_recv_common(sock->sk, msg, scm, flags))
- 		return;
- 
--	if (scm->fp)
--		scm_detach_fds(msg, scm);
-+	if (scm->fp) {
-+		struct unix_sock *u;
++FIXTURE_TEARDOWN(scm_rights_denial_bpf)
++{
++	bpf_link__destroy(self->link);
++	bpf_object__close(self->obj);
 +
-+		u = unix_sk(sock->sk);
-+		scm_detach_fds(msg, scm, READ_ONCE(u->scm_rights_notrunc));
++	for (int i = 0; i < NR_FILES; i++) {
++		if (self->files[i] >= 0) {
++			close(self->files[i]);
++			unlink(self->paths[i]);
++		}
 +	}
- 
- 	if (sock->sk->sk_scm_pidfd)
- 		scm_pidfd_recv(msg, scm);
-diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-index 51cbf920130d..03ce23a4ebee 100644
---- a/net/unix/af_unix.c
-+++ b/net/unix/af_unix.c
-@@ -922,6 +922,7 @@ static bool unix_custom_sockopt(int optname)
- {
- 	switch (optname) {
- 	case SO_INQ:
-+	case SO_RIGHTS_NOTRUNC:
- 		return true;
- 	default:
- 		return false;
-@@ -957,6 +958,14 @@ static int unix_setsockopt(struct socket *sock, int level, int optname,
- 
- 		WRITE_ONCE(u->recvmsg_inq, val);
- 		break;
 +
-+	case SO_RIGHTS_NOTRUNC:
-+		if (val > 1 || val < 0)
-+			return -EINVAL;
++	close(self->sk[SK_SENDER]);
++	close(self->sk[SK_RECEIVER]);
++}
 +
-+		WRITE_ONCE(u->scm_rights_notrunc, val);
-+		break;
++static int deny_inode(int map_fd, __u64 ino)
++{
++	__u32 tgid = getpid();
 +
- 	default:
- 		return -ENOPROTOOPT;
- 	}
-@@ -1746,9 +1755,10 @@ static int unix_stream_connect(struct socket *sock, struct sockaddr_unsized *uad
- 	init_peercred(newsk, &peercred);
- 
- 	newu = unix_sk(newsk);
-+	otheru = unix_sk(other);
- 	newu->listener = other;
-+	newu->scm_rights_notrunc = otheru->scm_rights_notrunc;
- 	RCU_INIT_POINTER(newsk->sk_wq, &newu->peer_wq);
--	otheru = unix_sk(other);
- 
- 	/* copy address information from listening to new sock
- 	 *
++	return bpf_map_update_elem(map_fd, &ino, &tgid, BPF_ANY);
++}
++
++static int set_notrunc(int sk)
++{
++	int one = 1;
++
++	return setsockopt(sk, SOL_SOCKET, SO_RIGHTS_NOTRUNC,
++			  &one, sizeof(one));
++}
++
++static int send_fds(int sk, int *fds, int n)
++{
++	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))] = {};
++	char data = 'x';
++	struct iovec iov = {
++		.iov_base = &data,
++		.iov_len = sizeof(data),
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++		.msg_control = ctrl,
++		.msg_controllen = CMSG_SPACE(n * sizeof(int)),
++	};
++	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
++
++	cmsg->cmsg_level = SOL_SOCKET;
++	cmsg->cmsg_type = SCM_RIGHTS;
++	cmsg->cmsg_len = CMSG_LEN(n * sizeof(int));
++	memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
++
++	return sendmsg(sk, &msg, 0);
++}
++
++static int recv_fd_slots(int sk, int *slots, int *msg_flags)
++{
++	int nr_slots;
++	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))];
++	char data;
++	struct iovec iov = {
++		.iov_base = &data,
++		.iov_len = sizeof(data),
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++		.msg_control = ctrl,
++		.msg_controllen = sizeof(ctrl),
++	};
++	struct cmsghdr *cmsg;
++
++	if (recvmsg(sk, &msg, 0) < 0)
++		return -1;
++
++	*msg_flags = msg.msg_flags;
++
++	cmsg = CMSG_FIRSTHDR(&msg);
++	if (!cmsg)
++		return 0;
++
++	nr_slots = (cmsg->cmsg_len - CMSG_LEN(0)) / sizeof(int);
++	memcpy(slots, CMSG_DATA(cmsg), nr_slots * sizeof(int));
++
++	return nr_slots;
++}
++
++/* Prove a received fd works by reading back the file's content. */
++static int check_secret(int fd, int idx)
++{
++	char want[32], got[32] = {};
++
++	snprintf(want, sizeof(want), SECRET(idx));
++	if (pread(fd, got, sizeof(got) - 1, 0) < 0)
++		return -1;
++
++	return strcmp(want, got);
++}
++
++TEST_F(scm_rights_denial_bpf, all_allowed)
++{
++	int slots[NR_FILES], nr_slots, flags, i;
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++
++	for (i = 0; i < NR_FILES; i++) {
++		ASSERT_GE(slots[i], 0);
++		EXPECT_EQ(0, check_secret(slots[i], i));
++		close(slots[i]);
++	}
++}
++
++TEST_F(scm_rights_denial_bpf, first_denied)
++{
++	int slots[NR_FILES], nr_slots, flags;
++
++	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[0]));
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++	EXPECT_EQ(-EPERM, slots[0]);
++
++	ASSERT_GE(slots[1], 0);
++	EXPECT_EQ(0, check_secret(slots[1], 1));
++	close(slots[1]);
++}
++
++TEST_F(scm_rights_denial_bpf, all_denied)
++{
++	int slots[NR_FILES], nr_slots, flags, i;
++
++	for (i = 0; i < NR_FILES; i++)
++		ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[i]));
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++
++	for (i = 0; i < NR_FILES; i++)
++		EXPECT_EQ(-EPERM, slots[i]);
++}
++
++TEST_F(scm_rights_denial_bpf, denied_without_notrunc)
++{
++	int slots[NR_FILES], nr_slots, flags;
++
++	/*
++	 * Baseline behaviour without SO_RIGHTS_NOTRUNC: the fd array is
++	 * truncated at the first denied fd and MSG_CTRUNC is set.
++	 */
++	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[1]));
++
++	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(1, nr_slots);
++	EXPECT_NE(0, flags & MSG_CTRUNC);
++
++	ASSERT_GE(slots[0], 0);
++	EXPECT_EQ(0, check_secret(slots[0], 0));
++	close(slots[0]);
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.55.0
 
