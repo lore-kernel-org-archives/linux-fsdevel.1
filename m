@@ -1,115 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF8F3B19AC
-	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 14:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35353C063F
+	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 15:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785682605; cv=none; b=To+MyM0bjpBao9RXF5MXG7mGaa74EbwmBp7wdnCn8cnrFKFZWljVGGPGbQ8OofBOuHY+S84GJFksqAfy2TEhHSjWeNG+HUfE7YEBvn7ywmpBpMGN//9usj7EwcRZC9myUyQV46ramaS6ZwyXaXLxLv6bV1Cds//YBxkFu8TC4nI=
+	t=1785683474; cv=none; b=TiROPTYl8dD7R0xqFIXvTEucFVpjlH4ACh/5tmnMvkqIlodImUrzEbqv4YfPDOcS+B94ZxVRrr3KgTG2lQsYQH4qwiesoTkYjSlLe7qJ0v0y/uFay8OKGUFV/1aGyvQ+o/4pacIKSMZvvcthbRRxzkCk2Y5b3Mq0XbivjKuHSFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785682605; c=relaxed/simple;
-	bh=SsD5RD1rz4sdDznzFOM1U1xnUevkaeft3eMuj1EjcB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kXXyCMlzoVJZKSHOzhutheH5TWcX5UnqpAM7CAWGZAQ5jXTb3uO54I0ups41ukotHRQq+a0YOEJUofPTRFK5NhOLtoKAhUD8za7+tuPrLW97QIJ7B9Og9bREigtjvWbge5+rPh0vYbZo6PhUiI1M5PjA7TeZBR5eAz6+niRwiZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CK1XWySL; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785683474; c=relaxed/simple;
+	bh=3m2t7slrPSaEgJU7/zweIu4e36eHJZCgVmK0ASemOi8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z5QnxSSzWaWFLvU/SD3sBd/LhQqjVaKm/IXp/hc5FOV6kNGFEWVIP5+jy7p8gzeeLQScajrHm5o5uzrDU0B4cPr2WUEobRVAe36ztwsxp5oGy1nGU58np/7O+RgovtTP3PqWSzoZhl0+niw9wr+cgv3wRlk+pqDK8B5W7GFrYQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=bGDXPHDS; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CK1XWySL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785682602;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IZQ9Zme5wQew44ai4+QZxeqarSEtAPFpGoxcQklaPAk=;
-	b=CK1XWySLFSQITD3eb0locRtRQSWON6hpuKTB5RCofPv8SJ654qCW3dPx34Xid/ClXM3U88
-	VzdyoS1MTLmcTaSiIywZbsYeAjmO/NKVCjVUpGI2g6oJcUkQ8MOwR2ueNvJEZS+p+r84m9
-	RGXLOqAdqEZXn1OUJKE72VrrWgHOUzU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-660-3lZ48Y3fPmGKsBWwPy8yTQ-1; Sun,
- 02 Aug 2026 10:56:39 -0400
-X-MC-Unique: 3lZ48Y3fPmGKsBWwPy8yTQ-1
-X-Mimecast-MFC-AGG-ID: 3lZ48Y3fPmGKsBWwPy8yTQ_1785682598
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A41991800345;
-	Sun,  2 Aug 2026 14:56:37 +0000 (UTC)
-Received: from fedora (unknown [10.44.32.54])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 387841956044;
-	Sun,  2 Aug 2026 14:56:32 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sun,  2 Aug 2026 16:56:37 +0200 (CEST)
-Date: Sun, 2 Aug 2026 16:56:31 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Breno Leitao <leitao@debian.org>, Mateusz Guzik <mjguzik@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-Subject: Re: [PATCH v3 0/1] pipe: only enable the extra wake_up(rd_wait) for
- edge-triggered consumers
-Message-ID: <am9an4HWPGaxmbcK@redhat.com>
-References: <amtbpwrhlNGJ9OK6@redhat.com>
- <CAHk-=wi7EccGaeo2Q5mdcvcQJ8VX7tcJWW2fHkg6vfmHGGX8AA@mail.gmail.com>
- <amueLRM-DrYbnjLn@redhat.com>
- <20260731-blechnapf-arten-blasorchester-4e05dd1b2c58@brauner>
- <amysHlZp6f6q498X@redhat.com>
- <CAHk-=wg_PtU66p4iuvzCz13P_cDCfKg2OOuV-v6wq19ua8LyvQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="bGDXPHDS"
+X-KPN-MessageId: 5e44f50a-8e84-11f1-8f54-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 5e44f50a-8e84-11f1-8f54-005056992ed3;
+	Sun, 02 Aug 2026 17:10:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=6epRzrJH1V1juOLMNG3faPmMn914y5NSPjgOS26WMuI=;
+	b=bGDXPHDS+MhpqFuMGcFaUDhXOZ+3XMOUjDljTNKeV7Q+TOx2jbm61frzF9P0XM08GlUHvio4ACYcd
+	 lM480Bw4PCjVoyzP0Yf9ufJms16IFkS9CL6Q9y2L2ptc21g2E9kBkxuCgBAm2YAfzK6Bdh7IBlajOb
+	 Mbm7EkoQ/Ocjyvyys/uxEsIgTdRnS6WNPfNH4S1R7OFILxUFZiN76lfOzUC906DmXCMeslceIMCG9h
+	 RE4sPmvHBuCXoDmrCH+q9cgNx1KJnLRX7f52T8UpQncdjhq7X3ZTK7wKtUfAIzNYV8xEJq9k6qOP9b
+	 EI4d3dui4UFzVbOiJ6SWngnRkvVLO6w==
+X-KPN-MID: 33|l/SzEB/wHRNH775VKVsRAuKuFPRscPHems4xEO368mBnFWs2m2bUghghivBGb5H
+ w/6RS3FAWvfsQjvkmBCcbZ0xDM3mJNlTeTpBekD0Efnc=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|gwYEXoYSaPCLCYjc2imkcCtcB7OO+bPFu4AGGaVJJd9S2QJLbGd6TFVhwk8UaOV
+ Bz6Nvw/T+9fSiGM+bQqYB6Q==
+Received: from daedalus.home (unknown [178.231.250.148])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 5bd5cf54-8e84-11f1-8dd8-00505699d6e5;
+	Sun, 02 Aug 2026 17:10:59 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: brauner@kernel.org,
+	cyphar@cyphar.com,
+	kuniyu@google.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org
+Cc: netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jkoolstra@xs4all.nl
+Subject: [PATCH net-next v6 0/4] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
+Date: Sun,  2 Aug 2026 17:12:08 +0200
+Message-ID: <20260802151212.3294591-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wg_PtU66p4iuvzCz13P_cDCfKg2OOuV-v6wq19ua8LyvQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
 
-On 07/31, Linus Torvalds wrote:
->
-> My argument is that IF we change this area, we should damn well do it
-> right, and document it, and make it very very clear that the *ONLY*
-> reason this exists is a user space legacy bug that took advantage of
-> legacy kernel behavior, and that we are papering this over.
+Right now if some LSM denies an AF_UNIX socket peer to receive a
+SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
+that point, and MSG_CTRUNC is set on return of recvmsg(2). This is
+highly problematic behaviour, because it leaves the receiver
+wondering what happened. As per man page MSG_CTRUNC is supposed to
+indicate that the control buffer was sized too short, but suddenly
+a permission error might result in the exact same flag being set.
+Moreover, the receiver has no chance to determine how many fds got
+originally sent and how many were suppressed.[1]
 
-OK, I'll rename poll_usage/poll_et to ->pseudo_edgetrigger as Christian
-suggests and update the comments as below:
+Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
+handling of LSM denials when receiving SCM_RIGHTS messages: instead of
+truncating the message at the first blocked fd, keep every fd slot
+and store the LSM errno in the blocked slot. This option is inherited
+by the accept()-ed socket when set on the listen() socket.
 
-struct pipe_inode_info:
+[1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
 
-	@pseudo_edgetrigger: has an EPOLLET consumer, enable per-write wakeups
+Changes:
+v6:
+  - Let accept()-ed sockets inherit the SO_RIGHTS_NOTRUNC option from
+    the listen() socket, so that you don't need to set it for every
+    child. 
+v5:
+  - Enable SO_RIGHTS_NOTRUNC on all AF_UNIX socket types.
+  - Added required BPF CONFIG_ options to
+    tools/testing/selftests/net/af_unix/config.
+v4: https://lore.kernel.org/netdev/20260705123826.3818443-1-jkoolstra@xs4all.nl/
+  - Removed the __receive_fd() helper and moved logic into
+    scm_recv_one_fd() directly (suggested by Brauner).
+  - Moved selftest from Smack to BPF (LLM assisted).
+  - Add arch specific socket option values for SO_RIGHTS_NOTRUNC.
+  - Undo patch that replaced copy_from_sockptr() with
+    copy_safe_from_sockptr().
+v3:
+  - Separated net and vfs changes.
+  - Use kselftest_harness.h and system() to call the test script.
+v2: https://lore.kernel.org/netdev/20260616143020.3458085-2-jkoolstra@xs4all.nl/
+  - Reimplemented as a UNIX socket option instead of a per recvmsg(2) flag.
+v1: https://lore.kernel.org/netdev/20260428175125.2705296-1-jkoolstra@xs4all.nl/
 
-pipe_poll:
+Jori Koolstra (4):
+  net: af_unix: enable custom setsockopt for all socket types
+  net: scm: move scm_detach_fds() from common path to scm_recv_unix()
+  net: af_unix: useful handling of LSM denials on SCM_RIGHTS
+  selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
 
-	/*
-	 * Legacy epoll(EPOLLET) users depend on historical per-write wakeups,
-	 * see 3a34b13a88ca ("pipe: make pipe writes always wake up readers")
-	 * and the ->pseudo_edgetrigger check in anon_pipe_write().
-	 * Currently io_uring sets EPOLLET for multishot polls, so it gets the
-	 * same behaviour.
-	 */
-	if ((filp->f_mode & FMODE_READ) &&
-	    wait && (wait->_key & EPOLLET) &&
-	    unlikely(!READ_ONCE(pipe->pseudo_edgetrigger)))
-		WRITE_ONCE(pipe->pseudo_edgetrigger, true);
+ arch/alpha/include/uapi/asm/socket.h          |   2 +
+ arch/mips/include/uapi/asm/socket.h           |   2 +
+ arch/parisc/include/uapi/asm/socket.h         |   2 +
+ arch/sparc/include/uapi/asm/socket.h          |   2 +
+ include/net/af_unix.h                         |   1 +
+ include/net/scm.h                             |  13 +-
+ include/uapi/asm-generic/socket.h             |   2 +
+ net/compat.c                                  |   4 +-
+ net/core/scm.c                                |  40 ++-
+ net/unix/af_unix.c                            |  22 +-
+ .../testing/selftests/net/af_unix/.gitignore  |   2 +
+ tools/testing/selftests/net/af_unix/Makefile  |   8 +
+ tools/testing/selftests/net/af_unix/config    |   7 +
+ .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
+ .../net/af_unix/scm_rights_denial_lsm.c       | 285 ++++++++++++++++++
+ 15 files changed, 406 insertions(+), 22 deletions(-)
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
 
-anon_pipe_write:
 
-	 * ->pseudo_edgetrigger enables per-write wakeups, see pipe_poll()
-	 */
-	if (was_empty || READ_ONCE(pipe->pseudo_edgetrigger))
-		wake_up_interruptible_sync_poll(&pipe->rd_wait, EPOLLIN | EPOLLRDNORM);
-
-Will you agree? Or should I tweak the comments somehow to make it more clear
-that the only reason is a user space legacy bug?
-
-Oleg.
+base-commit: 69963a0678a347d57c4ac8b16939dba216eb95ce
+-- 
+2.55.0
 
