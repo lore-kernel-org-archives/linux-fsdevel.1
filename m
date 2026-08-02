@@ -1,44 +1,44 @@
 Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F97257824
-	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 15:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85093C09ED
+	for <linux-fsdevel@vger.kernel.org>; Sun,  2 Aug 2026 15:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785683544; cv=none; b=LGR46i8ZGBqx862MdLItDzH4wUMLcOIR//hIRcM1Jc0ol1LfqXUEo4BlyxBMxpEquS91+lFUx4TLv7RQk5f3U9myq4iw3WOc0KoJdRwVGcrr+B3S/N4wpMgvhITcGkEdS83A8djO8PqjYmGgeG5IgrSCqiqJdz+8lvlw6UKmCQ8=
+	t=1785683546; cv=none; b=E6OiPa9TiD3DpB96jh6FhqNmifZwWJNHMrIsD5yP5op+WIrUf4uRVEAIie9mHtpQh+Isduxwfw7DRXYpPj+lMoqFa9rNNGjsblKCGNbuWZ2bYwkJWWIzpFWSfCNy43+CR6KFBXNuyCy11/VYWg6BXnJZ9xB0u62UkKP3mksAlyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785683544; c=relaxed/simple;
-	bh=QJQE/GXd0K169a8mwkplKKdkmQ5sBJfTjp2LDq9OYG0=;
+	s=arc-20240116; t=1785683546; c=relaxed/simple;
+	bh=RK1K+jgjA2wBeM9nLw94QnfgJsUiGjbZP4kf5/zPPHY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gxJMmHGfAdkju5nlB8IX1kPKo0KqeiJZ1S5vnB9jbXsfk2HLHAeHasb4/+DQMQBW2PXrMbv6wVmdtEp1FcvOo+DEhWXIN+rawo/a2PGtPxxUrRK0G2I1t6RHyvgdikZC6YBxj2KdHSjAbG/iiO7d0fcAJ0D+8R4HYbjLWN+xUag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MRZvH9Rx; arc=none smtp.client-ip=195.121.94.186
+	 MIME-Version; b=AyAkBa4w71G4jqcNPmeXM3RDwL/DpSN2rAXnKftCxDMk7m50iDiKNV67relqqYRXS2L67ZdoWUKu9Bq11zvbsBLTpEaT+NJ/wALeoto9bdAbZNsvSn2kdWB6gJAmapdZrAgeIYj1zJBFnX8pg4uAUNRcpQ+1tPHgsipfc7O0LSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oogFm/2j; arc=none smtp.client-ip=195.121.94.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MRZvH9Rx"
-X-KPN-MessageId: 66a32409-8e84-11f1-bfbb-00505699b430
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oogFm/2j"
+X-KPN-MessageId: 67a8494d-8e84-11f1-bfbb-00505699b430
 Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 66a32409-8e84-11f1-bfbb-00505699b430;
-	Sun, 02 Aug 2026 17:11:13 +0200 (CEST)
+	id 67a8494d-8e84-11f1-bfbb-00505699b430;
+	Sun, 02 Aug 2026 17:11:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=jTewONXvFxgGhvbpYUlhsacZJwkbZKyIKe17J6I4b48=;
-	b=MRZvH9Rx8Y0g2COwAqqnN125q2SRh/fJjSZvePIYbvcrAUN/3ua2LpiGKN4nEllla5OOS5ZsrM9wc
-	 c893flL0ao7dqziGl69sgIk/siQSXUTtfjz6L2lTzNHQ9EHFGuGlC58zqCH9pxhId4xqNAioY5Uwvw
-	 S6ApgEaa8riLq8u5Wp6f0rNgySwj+gbinr7YFS1GI1zFX1yETTCOcCF7dYT3zi09gT3Wj3X8GBOQzP
-	 dCU1DjzTnAxWE/LZQwObI8uPIM1fO9P9I0ksF/T+go1ZC1T80nwBl950CidOKUEgjuqY2PLmOiIBj+
-	 EbrhdC3KClCCap+6K3ZxuEHnyS3JYeQ==
-X-KPN-MID: 33|jSuzH86cAJNe1Iz6sXCEb2kNMqo9R0wqyPcEK5oNZajBa8w27djMri6gepBkzzy
- nfvdAoGg65NuYeWxMXMYGT/7Z5neC87Xcx/DhUBjtryo=
+	bh=/YCy3U6K3byUoKV7HF8qjdzGeKj8zgjBqhySeqxEWZk=;
+	b=oogFm/2jqsQCbGUrLb1q2namKqfktXXSGU4fXnizcsFpERuDi2CAtfpVxh8CDMw+CjvanIwE3T6UQ
+	 B8IRPPxA3N084LaeQGvgPNonkJT54oF/UZed4YY5ai6wTyWIClNb2eZwNGISnWqL+f7qaEnOj2+Ery
+	 ARWmT9fiZYyTcaczaJRhVCCn3WEU8lsU+mdIJ91f1tKcKlwzFyisDGybcmbxV9kEzs+A2wwADq3lhe
+	 znwZ+ZkZ7SIMKKSgNwFnCv3j4ruyUY4yycRthsadOysyzstcZ4mVoNjnWzcDSz0y2+zMgSY9nR+RTC
+	 Mp+BiLv73IC37jS2AZ2nx5kEFTJmrbA==
+X-KPN-MID: 33|YLpDifmFDXN46T/DbHhmEYVLJc4f+jvANRtVZrT6A9+BD7snTgiNR7BenK79nRJ
+ e8HXcczP+xsEzlA9BmkUhwA==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|CvTqvkdA8ILHys7BKxwQ9dmrJRxQU9oIwQJeC0KsUB9/mxFnJQvPOtlMd5LobTt
- xJoOEsZ+aFCWkmAeWDvZMfQ==
+X-CMASSUN: 33|6+T+3sd9aB0cXhqYdUrehR80pAzTxg+3U8XCNxiyoEVXorwJHKjZl2cX9AR/uGG
+ Kk1aDr6xB5Ta/eYhH7pL7iw==
 Received: from daedalus.home (unknown [178.231.250.148])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 66612416-8e84-11f1-8dd8-00505699d6e5;
-	Sun, 02 Aug 2026 17:11:13 +0200 (CEST)
+	id 675f9d70-8e84-11f1-8dd8-00505699d6e5;
+	Sun, 02 Aug 2026 17:11:15 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: brauner@kernel.org,
 	cyphar@cyphar.com,
@@ -52,9 +52,9 @@ Cc: netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	jkoolstra@xs4all.nl
-Subject: [PATCH net-next v6 2/4] net: scm: move scm_detach_fds() from common path to scm_recv_unix()
-Date: Sun,  2 Aug 2026 17:12:10 +0200
-Message-ID: <20260802151212.3294591-3-jkoolstra@xs4all.nl>
+Subject: [PATCH net-next v6 3/4] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
+Date: Sun,  2 Aug 2026 17:12:11 +0200
+Message-ID: <20260802151212.3294591-4-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260802151212.3294591-1-jkoolstra@xs4all.nl>
 References: <20260802151212.3294591-1-jkoolstra@xs4all.nl>
@@ -66,40 +66,275 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-scm->fp can only be set when using UNIX sockets, therefore we should
-move it out of the common path __scm_recv_common() into
-scm_recv_unix().
+Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+receive an SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
+that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+highly problematic behaviour, because it leaves the receiver
+wondering what happened. As per man page MSG_CTRUNC is supposed to
+indicate that the control buffer was sized too short, but suddenly
+a permission error might result in the exact same flag being set.
+Moreover, the receiver has no chance to determine how many fds got
+originally sent and how many were suppressed.[1]
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
+handling of LSM denials when receiving SCM_RIGHTS messages: instead of
+truncating the message at the first blocked fd, keep every fd slot
+and store the LSM errno in the blocked slot. The socket option is
+inherited by the child accept() socket if set on the listen() socket.
+
+[1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
+
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- net/core/scm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/alpha/include/uapi/asm/socket.h  |  2 ++
+ arch/mips/include/uapi/asm/socket.h   |  2 ++
+ arch/parisc/include/uapi/asm/socket.h |  2 ++
+ arch/sparc/include/uapi/asm/socket.h  |  2 ++
+ include/net/af_unix.h                 |  1 +
+ include/net/scm.h                     | 13 +++------
+ include/uapi/asm-generic/socket.h     |  2 ++
+ net/compat.c                          |  4 +--
+ net/core/scm.c                        | 38 +++++++++++++++++++++++----
+ net/unix/af_unix.c                    | 12 ++++++++-
+ 10 files changed, 61 insertions(+), 17 deletions(-)
 
-diff --git a/net/core/scm.c b/net/core/scm.c
-index eec13f50ecaf..a73b1eb30fd2 100644
---- a/net/core/scm.c
-+++ b/net/core/scm.c
-@@ -523,9 +523,6 @@ static bool __scm_recv_common(struct sock *sk, struct msghdr *msg,
+diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
+index 5ef57f88df6b..946a5fad2691 100644
+--- a/arch/alpha/include/uapi/asm/socket.h
++++ b/arch/alpha/include/uapi/asm/socket.h
+@@ -155,6 +155,8 @@
+ #define SO_INQ			84
+ #define SCM_INQ			SO_INQ
  
- 	scm_passec(sk, msg, scm);
++#define SO_RIGHTS_NOTRUNC      85
++
+ #if !defined(__KERNEL__)
  
--	if (scm->fp)
--		scm_detach_fds(msg, scm);
--
- 	return true;
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
+index 72fb1b006da9..f1641dde135f 100644
+--- a/arch/mips/include/uapi/asm/socket.h
++++ b/arch/mips/include/uapi/asm/socket.h
+@@ -166,6 +166,8 @@
+ #define SO_INQ			84
+ #define SCM_INQ			SO_INQ
+ 
++#define SO_RIGHTS_NOTRUNC      85
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
+index c16ec36dfee6..f3a3815c7dc2 100644
+--- a/arch/parisc/include/uapi/asm/socket.h
++++ b/arch/parisc/include/uapi/asm/socket.h
+@@ -147,6 +147,8 @@
+ #define SO_INQ			0x4052
+ #define SCM_INQ			SO_INQ
+ 
++#define SO_RIGHTS_NOTRUNC	0x4053
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
+index 71befa109e1c..7907f3b1f0ee 100644
+--- a/arch/sparc/include/uapi/asm/socket.h
++++ b/arch/sparc/include/uapi/asm/socket.h
+@@ -148,6 +148,8 @@
+ #define SO_INQ                   0x005d
+ #define SCM_INQ                  SO_INQ
+ 
++#define SO_RIGHTS_NOTRUNC        0x005e
++
+ #if !defined(__KERNEL__)
+ 
+ 
+diff --git a/include/net/af_unix.h b/include/net/af_unix.h
+index 34f53dde65ce..bb1b3dee02e8 100644
+--- a/include/net/af_unix.h
++++ b/include/net/af_unix.h
+@@ -49,6 +49,7 @@ struct unix_sock {
+ 	struct scm_stat		scm_stat;
+ 	int			inq_len;
+ 	bool			recvmsg_inq;
++	bool			scm_rights_notrunc;
+ #if IS_ENABLED(CONFIG_AF_UNIX_OOB)
+ 	struct sk_buff		*oob_skb;
+ #endif
+diff --git a/include/net/scm.h b/include/net/scm.h
+index c52519669349..86ae6bc109ec 100644
+--- a/include/net/scm.h
++++ b/include/net/scm.h
+@@ -50,8 +50,8 @@ struct scm_cookie {
+ #endif
+ };
+ 
+-void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
+-void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
++void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
++void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
+ int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cookie *scm);
+ void __scm_destroy(struct scm_cookie *scm);
+ struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
+@@ -107,13 +107,8 @@ void scm_recv(struct socket *sock, struct msghdr *msg,
+ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
+ 		   struct scm_cookie *scm, int flags);
+ 
+-static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
+-				  unsigned int flags)
+-{
+-	if (!ufd)
+-		return -EFAULT;
+-	return receive_fd(f, ufd, flags);
+-}
++int scm_recv_one_fd(struct file *f, int __user *ufd, unsigned int flags,
++		    bool notrunc);
+ 
+ #endif /* __LINUX_NET_SCM_H */
+ 
+diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
+index 53b5a8c002b1..84ea7b92936e 100644
+--- a/include/uapi/asm-generic/socket.h
++++ b/include/uapi/asm-generic/socket.h
+@@ -150,6 +150,8 @@
+ #define SO_INQ			84
+ #define SCM_INQ			SO_INQ
+ 
++#define SO_RIGHTS_NOTRUNC	85
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64 || (defined(__x86_64__) && defined(__ILP32__))
+diff --git a/net/compat.c b/net/compat.c
+index d68cf9c3aad5..6bdf4a2c9077 100644
+--- a/net/compat.c
++++ b/net/compat.c
+@@ -286,7 +286,7 @@ static int scm_max_fds_compat(struct msghdr *msg)
+ 	return (msg->msg_controllen - sizeof(struct compat_cmsghdr)) / sizeof(int);
  }
  
-@@ -545,6 +542,9 @@ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
+-void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
++void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, bool notrunc)
+ {
+ 	struct compat_cmsghdr __user *cm =
+ 		(struct compat_cmsghdr __user *)msg->msg_control_user;
+@@ -296,7 +296,7 @@ void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
+ 	int err = 0, i;
+ 
+ 	for (i = 0; i < fdmax; i++) {
+-		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
++		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags, notrunc);
+ 		if (err < 0)
+ 			break;
+ 	}
+diff --git a/net/core/scm.c b/net/core/scm.c
+index a73b1eb30fd2..f0d44ecdb11f 100644
+--- a/net/core/scm.c
++++ b/net/core/scm.c
+@@ -351,7 +351,31 @@ static int scm_max_fds(struct msghdr *msg)
+ 	return (msg->msg_controllen - sizeof(struct cmsghdr)) / sizeof(int);
+ }
+ 
+-void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
++int scm_recv_one_fd(struct file *f, int __user *ufd, unsigned int flags,
++		    bool notrunc)
++{
++	int error;
++
++	if (!ufd)
++		return -EFAULT;
++
++	error = security_file_receive(f);
++	if (error)
++		return notrunc ? put_user(error, ufd) : error;
++
++	FD_PREPARE(fdf, flags, get_file(f));
++	if (fdf.err)
++		return fdf.err;
++
++	error = put_user(fd_prepare_fd(fdf), ufd);
++	if (error)
++		return error;
++
++	__receive_sock(fd_prepare_file(fdf));
++	return fd_publish(fdf);
++}
++
++void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool notrunc)
+ {
+ 	struct cmsghdr __user *cm =
+ 		(__force struct cmsghdr __user *)msg->msg_control_user;
+@@ -365,12 +389,12 @@ void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
+ 		return;
+ 
+ 	if (msg->msg_flags & MSG_CMSG_COMPAT) {
+-		scm_detach_fds_compat(msg, scm);
++		scm_detach_fds_compat(msg, scm, notrunc);
+ 		return;
+ 	}
+ 
+ 	for (i = 0; i < fdmax; i++) {
+-		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
++		err = scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_flags, notrunc);
+ 		if (err < 0)
+ 			break;
+ 	}
+@@ -542,8 +566,12 @@ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
  	if (!__scm_recv_common(sock->sk, msg, scm, flags))
  		return;
  
-+	if (scm->fp)
-+		scm_detach_fds(msg, scm);
+-	if (scm->fp)
+-		scm_detach_fds(msg, scm);
++	if (scm->fp) {
++		struct unix_sock *u;
 +
++		u = unix_sk(sock->sk);
++		scm_detach_fds(msg, scm, READ_ONCE(u->scm_rights_notrunc));
++	}
+ 
  	if (sock->sk->sk_scm_pidfd)
  		scm_pidfd_recv(msg, scm);
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index 51cbf920130d..03ce23a4ebee 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -922,6 +922,7 @@ static bool unix_custom_sockopt(int optname)
+ {
+ 	switch (optname) {
+ 	case SO_INQ:
++	case SO_RIGHTS_NOTRUNC:
+ 		return true;
+ 	default:
+ 		return false;
+@@ -957,6 +958,14 @@ static int unix_setsockopt(struct socket *sock, int level, int optname,
  
+ 		WRITE_ONCE(u->recvmsg_inq, val);
+ 		break;
++
++	case SO_RIGHTS_NOTRUNC:
++		if (val > 1 || val < 0)
++			return -EINVAL;
++
++		WRITE_ONCE(u->scm_rights_notrunc, val);
++		break;
++
+ 	default:
+ 		return -ENOPROTOOPT;
+ 	}
+@@ -1746,9 +1755,10 @@ static int unix_stream_connect(struct socket *sock, struct sockaddr_unsized *uad
+ 	init_peercred(newsk, &peercred);
+ 
+ 	newu = unix_sk(newsk);
++	otheru = unix_sk(other);
+ 	newu->listener = other;
++	newu->scm_rights_notrunc = otheru->scm_rights_notrunc;
+ 	RCU_INIT_POINTER(newsk->sk_wq, &newu->peer_wq);
+-	otheru = unix_sk(other);
+ 
+ 	/* copy address information from listening to new sock
+ 	 *
 -- 
 2.55.0
 
