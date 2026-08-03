@@ -1,131 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD062DB7B4
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999CD33F585
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785758509; cv=none; b=cYcB+DxbI+SwFDZbELqxv8HgxC+U6ZOo25uN3qp5vcl/GZibcF/504VoNPyVzZrVrrHKjBk9Rb+8ZJ8pDByjqcGTHcS79z8Md2kq9KHC+hG2kP1MnINPnaLXyV9+Q0+0scmSzxSdm/nQFZDvpeSSrCLhJVc5M9j1yCRTB86uh0U=
+	t=1785758752; cv=none; b=LHa2YTDbwFz8GOztE6I96WaBOffXvVm4/1M7Xd3S9Vrc4mUn6XIUwD2dYDsdUnZS2TkNipB4pyKvZirtjG0aZAqcDXuF/4Ji2pC7bEw0nQ8hq5QN1NrlKVIN1aZ4mLwkd+Iy1Hunag1NmZDqhhAKHonQDic3TbWOTlM1EBPxlzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785758509; c=relaxed/simple;
-	bh=WDmXhp7paIh1v4y355YOOlSkVY7rrPGF7dNjwNW+d24=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IYknx8q3vYC5VThxezzhM6Pb/uUYml9++njq5mHg5bp4dv1Pgp+D+3wXA4H+lanzXt4HqrVz7upooiC8s8UL9BwLcM2Tlr/nZ7z8qmQREoD1r/JElwGD0v4NXmanYkd58hYt+8+hgBSVg2qh1ClJGDPi0CvzXlFcbsa3WnLpz3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IVl7/YXw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785758752; c=relaxed/simple;
+	bh=nqTzNRCJO3wqJREleUU77/xKkveMfYlnLcF68EY26ZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AZz2umyURZ/eBgta5/5hV4fZineMDCy/k7CdnQPdTjHbf5mLyniN4iHo4gdTL0xMd6+Z6OPM40xpoQiUf0HFEEueltLoAUF5vnLJXcGHObeW1P8LzbYYloEA72tiJ9DEIR1J0kMjHH5MBSdtGrBBndoRzuxOmz+1NqR/QKPikdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qR6eKlKw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BZAiIMkw; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eLdxZkJc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vGVVMShC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IVl7/YXw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785758506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5/l/ULtq0dKzIiFBcjVXKrCzKILrVUjC7kgmZD3ajxI=;
-	b=IVl7/YXwjtVVuVvPDSUgb6rJ5JvBMA4Mb7WKHubXUXtNavpy5ykLC5MucXMasOyZ26EPfW
-	SgHvTw/efGrWCVaM4ptv4FsIVPmHmAmSk8lT8BexAysAY+IEXhyVTr5Ux875ZyJ1pT5FOM
-	1JSPWZGdi7a5/tPwFATSuiiDh0DWc6o=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-570-kulaAthoOQyfvVIq5lRYBg-1; Mon,
- 03 Aug 2026 08:01:44 -0400
-X-MC-Unique: kulaAthoOQyfvVIq5lRYBg-1
-X-Mimecast-MFC-AGG-ID: kulaAthoOQyfvVIq5lRYBg_1785758503
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qR6eKlKw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BZAiIMkw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eLdxZkJc";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vGVVMShC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 551461954B19;
-	Mon,  3 Aug 2026 12:01:43 +0000 (UTC)
-Received: from localhost (unknown [10.44.33.95])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 75CE7424;
-	Mon,  3 Aug 2026 12:01:42 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Chao Yu <chao@kernel.org>
-Cc: linux-erofs@lists.ozlabs.org,  cyphar@cyphar.com,
-  hsiangkao@linux.alibaba.com,  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5] erofs: accept source file descriptor via fsconfig
-In-Reply-To: <366a9c6b-ec56-4cdf-b373-22a3cd8c9beb@kernel.org> (Chao Yu's
-	message of "Mon, 3 Aug 2026 19:24:07 +0800")
-References: <20260728160619.853924-1-gscrivan@redhat.com>
-	<366a9c6b-ec56-4cdf-b373-22a3cd8c9beb@kernel.org>
-Date: Mon, 03 Aug 2026 14:01:41 +0200
-Message-ID: <874ihbxviy.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8199D7F0A0;
+	Mon,  3 Aug 2026 12:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785758744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8XrW9jPvYLT+yJolHSZeV1xbelIgml749r9l2fLqeHI=;
+	b=qR6eKlKwsVqJ2fBOlPW1CERKuW5dfE+bdWJIPXJpRCetRMTFRTSgZMIpcvOMg55PYQ0+6b
+	uaTtErYcQ+XDggYDyWZznr7UMOefcejeHS31EAM4Ynm3Ysd8CCkXF+qTmB8kBzQQx4/nYn
+	Y5n4T1zJLJR6EF3F07uY1ldMe4K4Ii8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785758744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8XrW9jPvYLT+yJolHSZeV1xbelIgml749r9l2fLqeHI=;
+	b=BZAiIMkwuhb/qHEtkW6r/ImNKzfl8pHpLKDer45EvsQZCeUvE8iP2gMB+KVkYVentFzyB8
+	akCTrXS1lYZW4EBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785758740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8XrW9jPvYLT+yJolHSZeV1xbelIgml749r9l2fLqeHI=;
+	b=eLdxZkJcyym2hya8zcTwZUAt93qjx2KZ+287tbxat+dgcMMYVUceXOJ4YfIR4HaDvHj5xM
+	IN8MU0c/aH5LFUOH6HcJMQ/+RkeDsyk+elIfR9LjFuJI+X3Qd20N/8ZXxCI1731sptJ8Nm
+	V0Sco1KxyiapNkmQT6/Und2Qpatb7OM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785758740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8XrW9jPvYLT+yJolHSZeV1xbelIgml749r9l2fLqeHI=;
+	b=vGVVMShCSxEqBi+PBGqchTq5etMt0X1X5CpcTAnY7JNa+Bh/UW3yFjkw9oQw9XtWB3cMaK
+	P2x7U7WPKmFP9GAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76A1F779C1;
+	Mon,  3 Aug 2026 12:05:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5BXxHBSEcGruNAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 03 Aug 2026 12:05:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1B061A13A4; Mon, 03 Aug 2026 14:05:36 +0200 (CEST)
+Date: Mon, 3 Aug 2026 14:05:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, 
+	Laurent Vivier <laurent@vivier.eu>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] ovl: don't warn when the mount is completed from
+ another user namespace
+Message-ID: <s47cadp2vvo4ybfbivknswng3ze3fvldlcspm7mygzkmxo3aas@tivvzq4d2f6k>
+References: <20260802-work-fill_super-warn-v1-0-4e987911a39a@kernel.org>
+ <20260802-work-fill_super-warn-v1-1-4e987911a39a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260802-work-fill_super-warn-v1-1-4e987911a39a@kernel.org>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,szeredi.hu,vger.kernel.org,zeniv.linux.org.uk,suse.cz,kernel.org,vivier.eu,kvack.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 
-Chao Yu <chao@kernel.org> writes:
+On Sun 02-08-26 20:00:43, Christian Brauner wrote:
+> fsopen() records the caller's user namespace in fc->user_ns and hands
+> back an ordinary file descriptor. Nothing ties the task that calls
+> fsconfig(FSCONFIG_CMD_CREATE) to the task that created the context. The
+> fd is inherited across fork() and exec() and it can be passed over a
+> unix socket.
+> 
+> Completing a context from another user namespace is allowed on purpose.
+> vfs_cmd_create() authorizes the create with mount_capable(), which for
+> FS_USERNS_MOUNT checks ns_capable(fc->user_ns, CAP_SYS_ADMIN), and that
+> succeeds for a task holding CAP_SYS_ADMIN in an ancestor of fc->user_ns.
+> So an unprivileged task can reach the WARN_ON() in ovl_fill_super():
+> create a user and a mount namespace in a child, call fsopen("overlay")
+> there, send the fscontext fd to the parent and let the parent issue
+> FSCONFIG_CMD_CREATE. Both namespaces come from a plain unshare(1) and no
+> capability is needed anywhere:
+> 
+>   WARNING: fs/overlayfs/super.c:1551 at ovl_fill_super+0x7b9/0x1e20 [overlay]
+>   CPU: 3 UID: 1000 PID: 3243376 Comm: fswarn
+>   Call Trace:
+>    get_tree_nodev+0x71/0xa0
+>    ovl_get_tree+0x15/0x20 [overlay]
+>    vfs_get_tree+0x2a/0x100
+>    vfs_cmd_create+0x60/0xf0
+>    __do_sys_fsconfig+0x4b2/0x500
+> 
+> The child needs the mount namespace because fsopen() itself gates on
+> may_mount(), which asks for CAP_SYS_ADMIN in the user namespace owning
+> the caller's mount namespace. fsconfig() doesn't repeat that check.
+> 
+> It is a WARN_ON() and not a WARN_ON_ONCE(), so the condition can be
+> raised in a loop to taint the kernel and flood the log, and it panics a
+> kernel booted with panic_on_warn.
+> 
+> Keep refusing the mount and stop warning about it. ovl_parse_param()
+> already spells a user namespace check this way for Opt_override_creds.
+> 
+> Fixes: 1784fbc2ed9c ("ovl: port to new mount api")
+> Cc: stable@vger.kernel.org # v6.5+
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> On 7/29/26 00:05, Giuseppe Scrivano wrote:
->> Allow userspace to pass an already-opened file descriptor as the mount
->> source instead of a path string.  This is useful for tools that already
->> hold an fd to the image, such as composefs reusing an existing erofs
->> backing file.
->> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
->> ---
->> v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gscrivan@redhat.com/
->> v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
->> v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
->> v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
->>   Documentation/filesystems/erofs.rst | 15 ++++++
->>   fs/erofs/super.c                    | 73 ++++++++++++++++++++++++-----
->>   2 files changed, 77 insertions(+), 11 deletions(-)
->> diff --git a/Documentation/filesystems/erofs.rst
->> b/Documentation/filesystems/erofs.rst
->> index 4230884fb359..774e8b236d09 100644
->> --- a/Documentation/filesystems/erofs.rst
->> +++ b/Documentation/filesystems/erofs.rst
->> @@ -139,6 +139,21 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
->>                          page cache.
->>   ===================    =========================================================
->>   +File-backed mounts
->> +==================
->> +
->> +When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed images
->> +can be mounted directly without a loopback block device.  The backing file
->> +can be given either as a path, or as an already-opened file descriptor.
->> +
->> +When a file descriptor is used, the kernel resolves its path and records it
->> +so that /proc/mounts and similar interfaces can still report the mount
->> +source.
->> +
->> +Only regular files are accepted as backing files; to mount an image that
->> +resides on a block device, use the traditional block device mount path
->> +instead.
->
-> Do we need to add an entry to describe the new mount option source= in
-> "Mount options" section in erofs.rst?
->
-> Thanks,
+Obvious enough :). Feel free to add:
 
-I've another patch "erofs: reuse superblock for file-backed mounts" that
-also touches erofs.rst and it is currently based on top of this version.
-I wonder what is your preferred way to handle them.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Will maintainers deal with conflicts or do I need to submit them as a
-single series?
+								Honza
 
-Do you prefer a new submission v6 with the following fixup?
-
-diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-index c972a869f3e9..49c4e7dbc5d6 100644
---- a/Documentation/filesystems/erofs.rst
-+++ b/Documentation/filesystems/erofs.rst
-@@ -137,6 +137,8 @@ fsoffset=%llu          Specify block-aligned filesystem offset for the primary d
- inode_share            Enable inode page sharing for this filesystem.  Inodes with
-                        identical content within the same domain ID can share the
-                        page cache.
-+source=%s              (For file-backed mounts) Specify the backing image as a path
-+                       or as an already-opened file descriptor.
-
-Thanks,
-Giuseppe
-
+> ---
+>  fs/overlayfs/super.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> index 60f0b7ceef0a..60b808b85fc4 100644
+> --- a/fs/overlayfs/super.c
+> +++ b/fs/overlayfs/super.c
+> @@ -1544,7 +1544,8 @@ int ovl_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	int err;
+>  
+>  	err = -EIO;
+> -	if (WARN_ON(fc->user_ns != current_user_ns()))
+> +	/* The fscontext fd may have been passed to another user namespace. */
+> +	if (fc->user_ns != current_user_ns())
+>  		goto out_err;
+>  
+>  	ovl_set_d_op(sb);
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
