@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED81435EC1;
-	Mon,  3 Aug 2026 13:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBD340F73E;
+	Mon,  3 Aug 2026 13:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785764816; cv=none; b=BUXkko5fDT5EwS3B5trqnnjLWPJfMpuVKTdwMqlFBNkpi9UfWTDZVyK/GkNObr4KUk5qLjVusPxlakKTO2W6gZrEmjYFPdysk4jNuczbX3wmrGAq6sJP0Ti0KFYT5hA93mZAjn7CXr9tEUdhDZ6czvh4mH2HkmQooJ0+duurCGU=
+	t=1785765112; cv=none; b=SpcSsz+SKJwHODMgY977+e2Ki0FbMI8CC5B/z+mwwqVmRJRnfUT/Gznpv78KpO1CC4OdXEGSPGrBaJAEKay4AXVagRrP2UVSIChvhaKbWzmSmpdwbd6IDn/vxKOLKXpaanDpWrVzqC5t7LXIcuRPD6OrVaMGZ7triw4S9TkhzDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785764816; c=relaxed/simple;
-	bh=+6t5hQGiaWrn5MIcT1oNxAGXwcUgLfnokquEL8Y5BLo=;
+	s=arc-20240116; t=1785765112; c=relaxed/simple;
+	bh=4lxDkEOj1RR7qf34CNRlnZwE1Q+oxk4pOof48/ZrePQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iji4usNl7Yg4Y4ZkdXWtwJjlddz4X6HX5VwhAcfRSaqu0sSHhlwqDnyMQRUuUrwkrzmCAA8+OzpR8kw53UDZvO5DeY8aNd9PjSZ2CWQ9FFQj6m2JPbVxuCpa2ZTdpzjvbCG3UYQ7tFBMZZs38jH1MVNkbzA89CBWHw9ebQN+UaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqmNyeRu; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2kVYISHwGVjkbXz/DsDEgqMR0O5dp0MATaB1QNmENO/jkfT++3BfMxsNVSAyKqetf5+N+44GXJ7NTf7Yb6t3EEvDbTnj6wm+7dpO0ipYSIiO6QXCyW3KqIjd0dJE2ErePxXHibi+7Uyad/K7AfkIErOPGlP+OvRwQ54xJi1Hkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUXQqDSw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqmNyeRu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 982A51F00A3E;
-	Mon,  3 Aug 2026 13:46:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUXQqDSw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0FC91F000E9;
+	Mon,  3 Aug 2026 13:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785764814;
-	bh=m2q4F0oL2477vtEU1dLCuKFUHXuEfn75EzPRR+HK7ws=;
+	s=k20260515; t=1785765110;
+	bh=wYWtREcCitn9VzwK20Ul7JwMvS/AiBKt/jNqS56Ugik=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eqmNyeRu9MMThDgrJTemIAYVn5WtoRn3cu3pmch93QP5K4lX4sDg/pm0ttCpuOjLo
-	 8+PXLi+w5RboMoDuuWynCLpTTszMlS13U6r8PTRN0vJrUbEXAWih1+pQyNXP/cyS6G
-	 4bUXzZTjw11UMbSWC6wiNClS8+y//ZlGwijgAlT5pOP301hF9HoXXhZdJb583Zu+4m
-	 IiumEe2kHNGvlWTLDFIIUXkE/WEtdAJbwtb+QHDkb6cWaw1KeSezh9SqqenYI0gPDy
-	 Owyyd2AzuKyBRmgPyVYfFdYKGccjqFlh5QQ0Z03RLC/KeTPHYlhnYeNeQdDGW1g7/r
-	 GIQVjwF83rCig==
-Date: Mon, 3 Aug 2026 14:46:32 +0100
+	b=fUXQqDSwQRNCmkLD5cemnbTUAjHE/irGyvzgbHLxPc0i1jBlBQTukK5HA+aSIvnBC
+	 R0SzlslWfUByqQyQLjFv2VKbBHYAmHOj9EWiRF3DvEyZodM3CLzCGvNK/M5dInlK4+
+	 U9wzqk6EU/OphCdVnGMO3Czmba3DqbykfibI9bvc3yGFgXNsUJ38xhXuRdsYEfwVdZ
+	 7o4p/kjve+UU+zLDVez4Qe7mmlF1YZMvbdm3762IvRErJDJH70Sft4ErX88/PAtZYd
+	 cDhgsG0sy69Q3FQZ1KH8SAU/9DRtAzOgrkS2ASxz1hjVS6rI4+uMaAJcrhu06pFGXk
+	 q/JRoSBb92K3w==
+Date: Mon, 3 Aug 2026 14:51:28 +0100
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -45,12 +45,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 06/15] mm: propagate VMA anonymous page offset on map,
- remap, split + merge
-Message-ID: <anB9MWSSITYpDibA@lucifer>
+Subject: Re: [PATCH v3 07/15] mm/rmap: track whether the page VMA mapped
+ pgoff is anonymous
+Message-ID: <anCcMvnsux22LaWU@lucifer>
 References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-6-e8ecfefea812@kernel.org>
- <4ad4b17b-bae6-4169-8649-bff4a29e7fde@kernel.org>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-7-e8ecfefea812@kernel.org>
+ <1b48cf7d-8906-43d4-a85d-5cfad10a12ac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,95 +59,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4ad4b17b-bae6-4169-8649-bff4a29e7fde@kernel.org>
+In-Reply-To: <1b48cf7d-8906-43d4-a85d-5cfad10a12ac@kernel.org>
 
-On Mon, Aug 03, 2026 at 12:52:42PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
-> > We must correctly update VMA anonymous page offset state on all VMA
-> > operations that would result in it changing, with special attention given
-> > to remapping.
+On Mon, Aug 03, 2026 at 12:57:44PM +0200, David Hildenbrand (Arm) wrote:
+> >  /*
+> > - * Then at what user virtual address will none of the range be found in vma?
+> > + * At what user virtual address will none of the range be found in vma?
+> >   * Assumes that vma_address() already returned a good starting address.
+> >   */
+> >  static inline unsigned long vma_address_end(struct page_vma_mapped_walk *pvmw)
+> >  {
+> > -	struct vm_area_struct *vma = pvmw->vma;
+> > -	pgoff_t pgoff;
+> > +	const struct vm_area_struct *vma = pvmw->vma;
+> > +	const pgoff_t pgoff = pvmw->pgoff;
+> > +	pgoff_t pgoff_vma_start;
+> >  	unsigned long address;
+> > +	pgoff_t pgoff_end;
 > >
-> > We cover most cases by simply updating vma_set_range() to do so (with a new
-> > anonymous page offset parameter), but also notably must update the merging
-> > and mapping logic to propagate this parameter correctly.
+> >  	/* Common case, plus ->pgoff is invalid for KSM */
+> >  	if (pvmw->nr_pages == 1)
+> >  		return pvmw->address + PAGE_SIZE;
 > >
-> > The remap logic remains the same - we may update the anonymous page offset
-> > if the VMA is unfaulted, but now this applies to MAP_PRIVATE file-backed
-> > mappings too, so we update the code to reflect this.
-> >
-> > Note that we use __linear_anon_page_index() upon remap as the VMA may be
-> > shared, in order that we update the field consistently regardless of VMA
-> > type.
-> >
-> > Similarly, pass through anon page offset to the merge logic, updating the
-> > vma_merge_struct struct to propagate it, and also use
-> > __linear_anon_page_index() to obtain the anonymous page index so it can be
-> > safely used for both shared and MAP_PRIVATE file-backed mappings.
-> >
-> > Finally, we update insert_vm_struct() to correctly set the anonymous page
-> > offset on insertion of a VMA.
-> >
-> > We simply ensure state is correctly propagated here, so no functional
-> > changes are intended.
-> >
-> > Also while we're here, replace a VM_BUG_ON_VMA() with a
-> > VM_WARN_ON_ONCE_VMA().
-> >
-> > Also update VMA userland tests to reflect this change.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > -	pgoff = pvmw->pgoff + pvmw->nr_pages;
+> > +	pgoff_vma_start = vma_start_pgoff(vma);
+> > +	pgoff_end = pgoff + pvmw->nr_pages;
+> >  	address = vma->vm_start +
+> > -		((pgoff - vma_start_pgoff(vma)) << PAGE_SHIFT);
+> > +		((pgoff_end - pgoff_vma_start) << PAGE_SHIFT);
+> >  	/* Check for address beyond vma (or wrapped through 0?) */
+> >  	if (address < vma->vm_start || address > vma->vm_end)
+> >  		address = vma->vm_end;
 >
+> Am I wrong or are all all changes here completely irrelevant for this patch?
 >
-> [...]
+> You mention
 >
-> >  	struct vm_area_struct *vma = *vmap;
-> >  	unsigned long vma_start = vma->vm_start;
-> > @@ -1919,11 +1929,14 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
-> >  	VMG_VMA_STATE(vmg, &vmi, NULL, vma, addr, addr + len);
-> >
-> >  	/*
-> > -	 * If anonymous vma has not yet been faulted, update new pgoff
-> > -	 * to match new location, to increase its chance of merging.
-> > +	 * If a vma has not yet been faulted, update its anonymous pgoff to
-> > +	 * match the new location to increase its chance of merging.
-> >  	 */
-> > -	if (unlikely(vma_is_anonymous(vma) && !vma->anon_vma)) {
-> > -		pgoff = addr >> PAGE_SHIFT;
-> > +	if (!vma->anon_vma && !vma_test(vma, VMA_SHARED_BIT)) {
+> "This is necessary in order to determine the correct VMA page
+> offset in vma_address_end() when pvmw->nr_pages > 1."
 >
-> Could we also use is_cow_mapping() ?
+> But I don't spot an effective change here.
 
-No this would be incorrect.
+As per commit message:
 
-A read-only mapping would become unmergeable here. So this is something apart
-from the rmap aspect, and it is a contract that upon move of an unfaulted
-mapping (which for read-only anon would always be unfaulted) that vma->vm_pgoff
-is updated.
+	This is laying the groundwork for eventually using anonymous page offsets
+	as the index for all anonymous folios.
 
-This is later in this series extended to MAP_PRIVATE file-backed mappings also.
+	No functional change intended.
 
-Also it would break the faulted_in_anon_vma logic and result in incorrect
-VM_WARN_ON_ONCE() invocations below.
+I cannot enable an effective change here, because if I did I'd break the kernel
+and introduce a bisection hazard.
 
-As for other -> is_cow_mapping() changes:
+The point is to have a reasonably broken out series that lays the foundations so
+the actual patch that enables this functionality is as small as possible for
+debuggability, reviewability, etc.
 
-* linear_anon_page_index() - [as discussed already] - fine
-* vma_anon_address() - convert to is_cow_mapping() [have to be faulted in to hit it]
-* needs_adjacent_anon_pgoff() - don't convert - same merging argument as above.
+The tracking introduced here is critical for the actual change.
 
->
->
-> > +		anon_pgoff = addr >> PAGE_SHIFT;
-> > +
-> > +		if (vma_is_anonymous(vma))
-> > +			pgoff = anon_pgoff;
-> >  		faulted_in_anon_vma = false;
-> >  	}
-> >
->
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Thanks!
+The trivial layout changes in vma_address_end() are done here so there's less
+delta in the 'switch on' patch. I can add something to the commit message saying
+that if you like?
 
 >
 > --
