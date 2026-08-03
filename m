@@ -1,202 +1,111 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C88BB672
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412F8402443;
+	Mon,  3 Aug 2026 12:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785758763; cv=none; b=jju0HRFn9xYgLOzVI2jmiI82Uu4E8825GZWZtgZbuWWaZJ1sx1qsoHBAwOhan7wSPfITacxhAXhgrFpaiTH10KtbAN8pKR5Bji76/73ukQaKl3G9lKOQw8aNSW0N1qVqi5YsIXqp0cdrz01ZUCQLV3sCochjmFhdNXjb/ZXEFDE=
+	t=1785759327; cv=none; b=HkgzTFlql04NRmafU0zCgVexW7bTgnoA4/oyhw8U0knCsT0PxiSLmHeMe5LeMij0tXTxtKWPti/Eq7Cxr8HtOmLsfkC9roIzSOQh1BieQMdXSPzgwyH0eeYR2K1xdPq0tPdg9XUCjJpjWpVuBcZ86qksbOoF7/+f2NeVHziO4ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785758763; c=relaxed/simple;
-	bh=FqQL/bkftyuKXdmwifYdp6hNSCMqSk9EwtOSp9rqJSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEaeIw7FbpewsoRfj5Ahfy6ttwnb919IwluKoctTqC6csqK4ywgW+vWSRSgr4MDonWNdSHwl6OusmaqyHalMIrJBYBGo29X0UsRRJ0Lw0KLTqJsp63QG1emZBusx5FzVAIMIKeYxYGyDAkT13N9fuqG8yvvfHPzLK6A+P+fER0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oOx541gt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=FLE+1tID; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Drjhk3Pq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V/OcfPZS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785759327; c=relaxed/simple;
+	bh=arBQ7R3qh9fuo1bIT/ltszB5Q9NNONeVHQeT13NTzno=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OgrXYHlLCUVELpgJYW6nctgw0adUW+umfV+UAk6p5ExTLRWR1U5UH8RjHfNNiMk/GzyyPewjejMvZIXYBSxqvDXlUfeQL3Zpj5qq9zm7KYjEsVWYfqYZO6Q8cQfSejZa9FqASiNYh9uIJPLM8YS65P84+V7WD1kFWuqQNYmQY5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOPUIUfo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oOx541gt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="FLE+1tID";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Drjhk3Pq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V/OcfPZS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9A6D07F0AA;
-	Mon,  3 Aug 2026 12:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785758754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2k/812Bz06aoM1Nozk9NLcznOhQ34rc/L2cEjcJolMw=;
-	b=oOx541gt22lq0QRWXu05uXqeeieN9svZv+KvcMIQRImXrRzMOUwVLTZdNErb5NtrdYGB/z
-	8Zhm5/2jSj3eKXit14/TXb38D7L5/mlfpE+wJ65q6TNL8KfGt93bxn7YlMHX9m1gmizD78
-	9M8x8WUVGODr0S/CnGaQqkFLQZO6ZYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785758754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2k/812Bz06aoM1Nozk9NLcznOhQ34rc/L2cEjcJolMw=;
-	b=FLE+1tID/Wg9Wvs7Ii4sUKFfMXzWF6OgwZ1IPgy2Y6hEnkjXmLVf/iCseBI+2F6DnN5h2R
-	4XwjEl47MmhbQbBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Drjhk3Pq;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="V/OcfPZS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785758750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2k/812Bz06aoM1Nozk9NLcznOhQ34rc/L2cEjcJolMw=;
-	b=Drjhk3Pq9Sl/s+EUwvpzBJ0Qfz33eMwIckfN+kal47jxKyxzyxY7SoSg5mfiVtJFkhtD1Z
-	QUtvxkO0/KxvPqx4wYOgqzrTCIcHapmvPHARtlZCIpTN8EYAlE9yOYyJv2qpuT7Y7hqP9m
-	RzVA9a3m88BVWyS39jBZ7rzohJB1tjM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785758750;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2k/812Bz06aoM1Nozk9NLcznOhQ34rc/L2cEjcJolMw=;
-	b=V/OcfPZSDwBwcZJAnrKc7JHCc1svX0Q0GGpuWlRO1F1ux2MiWqrbUx/ffnzWldyufmkJRj
-	vYbE+01VEWYc7GCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 907AB779A1;
-	Mon,  3 Aug 2026 12:05:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B1tGIx6EcGp+NQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 03 Aug 2026 12:05:50 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4EC94A13A4; Mon, 03 Aug 2026 14:05:50 +0200 (CEST)
-Date: Mon, 3 Aug 2026 14:05:50 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, 
-	Laurent Vivier <laurent@vivier.eu>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/3] binfmt_misc: don't warn when the mount is completed
- from another user namespace
-Message-ID: <lp42anrqt3khwf4fyp56odomifxeuitf4ejxahhxns7ze7nyha@dblztvmz4ocj>
-References: <20260802-work-fill_super-warn-v1-0-4e987911a39a@kernel.org>
- <20260802-work-fill_super-warn-v1-2-4e987911a39a@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOPUIUfo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015F01F000E9;
+	Mon,  3 Aug 2026 12:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785759321;
+	bh=8slqe05VD33waPBnQilZsaWx6TI48l4eo9pneGvh1dw=;
+	h=From:Subject:Date:To:Cc;
+	b=iOPUIUfopJmGLJ/3nXyqIKBxlp5uu9zRpFCHQvutI5ceZ164G0fYWwqErUqt9jd93
+	 S1Gkvx/BWw58afYmLRdMjwIafuyGBcP6+A/NcPbntCtmLjM8IXFGHtUlqvQz85d+tG
+	 kA00gk8tRzesYyjUPja/sZtL/qL2ycQlNbtKWH+SAJy2BC0N63zyUlOvbeYYZfQ1JF
+	 dKxGYk9LOs6XUiBqm/G/qzR6pqV8lR3MwPvPZSNu/rKixKx0/A5lW/M/W2keLRHLYv
+	 HgEHxdKYhxJ0zwFxjs8/wKK8+Ylg+Ou/beqoNMSr61n6H0CD4V4+XYH1Du6huZTPcw
+	 B/4rI5ekbFf5Q==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/3] binfmt_misc: bound the interpreters an entry can
+ pre-open
+Date: Mon, 03 Aug 2026 14:14:59 +0200
+Message-Id: <20260803-work-binfmt_misc-interplimit-v1-0-4a2435500bd9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260802-work-fill_super-warn-v1-2-4e987911a39a@kernel.org>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,szeredi.hu,vger.kernel.org,zeniv.linux.org.uk,suse.cz,kernel.org,vivier.eu,kvack.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9A6D07F0AA
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEOGcGoC/yWNUQ6CMBAFr0L22yW1JaJexRjTlkVWpZBuRRPC3
+ S3yOZOXeTMIRSaBczFDpImFh5BhvyvAdzbcCbnJDFrpgzoqg58hPtFxaPt061k8ckgUxxf3nNC
+ cNHlbNVRXGnJijNTy95+/XDeWt3uQT2tzXTgrhC7a4LtVTa1gXZpyO4Bl+QGtCoGBoQAAAA==
+X-Change-ID: 20260803-work-binfmt_misc-interplimit-392eca4de742
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com, 
+ mail@johnericson.me, "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev-f2f85
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2445; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=arBQ7R3qh9fuo1bIT/ltszB5Q9NNONeVHQeT13NTzno=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQVtIV52OTOWeD6TM+Cx/9uSoJ68YuUVzeish7Py4oRK
+ vxXvfZoRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQeCzP8T/rx2u6Ee4Aw5ym9
+ OUpvxG9VS88z0ju0+2S76KSNm6ovH2L4X1mnwfqg2rsokWn3vry47UeV3bl6bH4b9IWfkNj/MHk
+ hBwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sun 02-08-26 20:00:44, Christian Brauner wrote:
-> fsopen() records the caller's user namespace in fc->user_ns and hands
-> back an ordinary file descriptor. Nothing ties the task that calls
-> fsconfig(FSCONFIG_CMD_CREATE) to the task that created the context. The
-> fd is inherited across fork() and exec() and it can be passed over a
-> unix socket.
-> 
-> Completing a context from another user namespace is allowed on purpose.
-> vfs_cmd_create() authorizes the create with mount_capable(), which for
-> FS_USERNS_MOUNT checks ns_capable(fc->user_ns, CAP_SYS_ADMIN), and that
-> succeeds for a task holding CAP_SYS_ADMIN in an ancestor of fc->user_ns.
-> So an unprivileged task can reach the WARN_ON() in bm_fill_super():
-> create a user and a mount namespace in a child, call
-> fsopen("binfmt_misc") there, send the fscontext fd to the parent and let
-> the parent issue FSCONFIG_CMD_CREATE. Both namespaces come from a plain
-> unshare(1) and no capability is needed anywhere:
-> 
->   WARNING: fs/binfmt_misc.c:938 at bm_fill_super+0xa2/0xc0 [binfmt_misc]
->   CPU: 15 UID: 1000 PID: 3243382 Comm: fswarn
->   Call Trace:
->    get_tree_keyed+0x7d/0xb0
->    bm_get_tree+0x34/0x90 [binfmt_misc]
->    vfs_get_tree+0x2a/0x100
->    vfs_cmd_create+0x60/0xf0
->    __do_sys_fsconfig+0x4b2/0x500
-> 
-> The child needs the mount namespace because fsopen() itself gates on
-> may_mount(), which asks for CAP_SYS_ADMIN in the user namespace owning
-> the caller's mount namespace. fsconfig() doesn't repeat that check.
-> 
-> It is a WARN_ON() and not a WARN_ON_ONCE(), so the condition can be
-> raised in a loop to taint the kernel and flood the log, and it panics a
-> kernel booted with panic_on_warn.
-> 
-> Keep refusing the mount and stop warning about it. Nothing in
-> bm_fill_super() depends on the two namespaces matching, it derives
-> everything from sb->s_user_ns.
-> 
-> Fixes: 21ca59b365c0 ("binfmt_misc: enable sandboxed mounts")
-> Cc: stable@vger.kernel.org # v6.7+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+An 'F' entry opens its interpreter at registration and every exec runs a
+clone of it. A 'B' entry does the same for each interpreter it binds. That
+file stays open for as long as the entry lives. So it pins the file, its
+inode, the mount it came from and that mount's superblock.
 
-This one as well. Feel free to add:
+An entry binds at most 100 interpreters, but nothing caps the entries.
+binfmt_misc is container mountable so all of this is reachable by
+unprivileged users.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+While the pins go away when the instance is unmounted, it's still weird
+for an unprivileged namespace to be allowed to do this. And the fix is
+simple.
 
-								Honza
+Charge each binding to the user namespace and uid that makes it against
+a new UCOUNT_BINFMT_MISC_INTERPRETERS and refuse with -ENOSPC when the
+limit is hit.
 
-> ---
->  fs/binfmt_misc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index c97f10b48b5b..613dd28e3f1a 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -937,7 +937,8 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
->  		/* last one */ {""}
->  	};
->  
-> -	if (WARN_ON(user_ns != current_user_ns()))
-> +	/* The fscontext fd may have been passed to another user namespace. */
-> +	if (user_ns != current_user_ns())
->  		return -EINVAL;
->  
->  	/* Never exec off this instance and never let anything stack on it. */
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+A per-instance cap won't do. Instances are keyed on the user namespace, so
+whatever constant I pick gets multiplied by however many namespaces the
+caller cares to create. inc_ucount() charges the namespace and every one
+of its ancestors, and a namespace can only ever raise its own limit, so
+nesting buys nothing.
+
+The knob is /proc/sys/user/max_binfmt_misc_interpreters, per namespace like
+every other ucount. I left it at the max_threads/2 default that
+fork_init() hands a new ucount type. Nothing anyone runs today comes
+anywhere near that.
+
+Selftests for all of it, including that a nested namespace can't buy
+itself budget.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (3):
+      binfmt_misc: correctly account pre-opened interpreters
+      selftests/exec: test the pre-opened interpreter limit
+      binfmt_misc: document the pre-opened interpreter limit
+
+ Documentation/admin-guide/binfmt-misc.rst          |  12 +-
+ fs/binfmt_misc.c                                   |  16 +-
+ include/linux/binfmt_misc.h                        |   3 +
+ include/linux/user_namespace.h                     |   3 +
+ kernel/ucount.c                                    |   6 +
+ tools/testing/selftests/exec/.gitignore            |   1 +
+ tools/testing/selftests/exec/Makefile              |   6 +
+ tools/testing/selftests/exec/binfmt_misc_bpf.c     |  70 +++++++
+ .../selftests/exec/binfmt_misc_interplimit.c       | 232 +++++++++++++++++++++
+ 9 files changed, 343 insertions(+), 6 deletions(-)
+---
+base-commit: 7693ae84747b6e72a1a3d14b836f7bec11606e08
+change-id: 20260803-work-binfmt_misc-interplimit-392eca4de742
+
