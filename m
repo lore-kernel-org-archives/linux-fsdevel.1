@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F0F33F582
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 11:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59A9402428;
+	Mon,  3 Aug 2026 11:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785756252; cv=none; b=WsOWIYJscdVKsQZfzPcigNQnfn2sxnvwgmOO4cZN14GiZhsUJP31TT1bWyEHBpgrdQCviyU/94RjbL03rIw+H9lNooDISfuSGUQxT8Vz+bS4/oSkfc98qVHM5vhcSWCkylLLslkuKQVGkW3okuqnBFPDu4fRk8YTCOOeXMuTfmM=
+	t=1785756443; cv=none; b=NVfr27HMJ+1Ib5ShYF9d+DRLIC8yquv9HLkb6GivHFONh9zkSrD4h4cyxpDmz/UgA4qIPIFAzv5lajg9AM9U2Qec6I7sPLYc05erF1alw8PL5bm+WqIF5tZxt7OLqKgZbp4og8Gy29dgbuQmPHbRyWOQtOwdQnztJI4w7tXLXBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785756252; c=relaxed/simple;
-	bh=+qc5cXdZ7+u8gDyNrcxsoHsjZDQMrKTOhVRzKTotZkA=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=RncWMvL22hq4BtNHONkpb7oFSGZoHVp23Dw1FTbnxBmYSMZDemPQNn/MdqTHJnQ+nRcgWrE50QrL5JrCisM6oNwSYDjgZzeRMeL3h5EPRWZ+s/x0VF+60xTThwrEoZHrGx2Tdk0ixcH5pnozI4zZS9FuerrTsl2qaJHQUugMqxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gzEH3Vn6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785756443; c=relaxed/simple;
+	bh=dVLbfGR44O7nxGO7E1jYwr5GaD1ic1UTCoK/5iQ55j4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hntxoG5KOZltf381mEQNelem2Cw7E13j13lVSyVpIr9yJp5p03+Rfz8U0I0mAZTS8J4x90+yeqm8Rsbiwtodu1K2NKsSLZ4yJAJEUykp+4IeMgqXZ6mkJV/tMiN5RL64zdGAJXJJ9Kt9peaK5uTvIKL9Dl48nMazEO5aYhTIC+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrOWJ/T3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gzEH3Vn6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 788281F00A3A;
-	Mon,  3 Aug 2026 11:24:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrOWJ/T3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F2CB1F000E9;
+	Mon,  3 Aug 2026 11:27:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785756250;
-	bh=a8jUYpGWRjKfK2pFbcsKSFyQNtwQ/7x9wAUlWuXO6ag=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To;
-	b=gzEH3Vn6SZXDmv67N+MhwViK2cjpIsBSX0aGOZ6ji+ufjITteyKwMvKPuByQ7c9SD
-	 C71J+OmNx/37ev1jvBIkWxdhDqdTLjCSlveJKjZQRBnzJcOr2PNe2iwnW39ijeCMbw
-	 UwlgCk4764m5+WVkyoY4nEW2dXpxX2fLxJYhVckc8MQxiT+JSzW6Ws5glBDtW4o3D9
-	 FQd7VcQebeFyCuF15ydCR9PwzJpBxjr3kSz0Bjux/Q6gdJTPr5nztC9gkogcXiUqC7
-	 bW+NjbcS+DE1pUvs0vQlEwjSIcGv0PvxVHc37qFANtsKkjDM9TZ0hJFqUPznscmLFQ
-	 3UgZNNkTTsZYw==
-Message-ID: <366a9c6b-ec56-4cdf-b373-22a3cd8c9beb@kernel.org>
-Date: Mon, 3 Aug 2026 19:24:07 +0800
+	s=k20260515; t=1785756441;
+	bh=YSw9uK8dJUH+TEOnxzh6YVpEYxvD00f6y/AeO3+B2bY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BrOWJ/T3RZiSPYgsiuttXsyJmDns/XBJdG5Ezs0djh/inyu3iPhd4Q1b3mTHBBMc5
+	 NIXKwWXd4Tin/w6AJcPCoy5wDc7/ncbMzVCTe4HjbCjTM1ZneLr387ymLfCAcv8zaZ
+	 ehA6Jm8+NEtL1lUSbPVd5Vi9Klfj4D2x4uKSdia0JWCsH2TwBsIti7Mt45ifq2Yf8K
+	 FG5lkt6UaziiuuM3kkese1CWMncs+AbUJ4gWEXuNTp4K0Rl2BbxZnyVqd6H6IImH02
+	 hQzgQw4qdzvWIFstsJHmLRQhGrMfbD7u4TofoGgR1ldLJrrrZ4f8FFAwHijJDZyoad
+	 ujEyyYQvqbhwg==
+Message-ID: <0d9f3040-825d-49af-9d07-1e7945dd3e9d@kernel.org>
+Date: Mon, 3 Aug 2026 13:27:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,183 +35,202 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, cyphar@cyphar.com, hsiangkao@linux.alibaba.com,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5] erofs: accept source file descriptor via fsconfig
-To: Giuseppe Scrivano <gscrivan@redhat.com>, linux-erofs@lists.ozlabs.org
-References: <20260728160619.853924-1-gscrivan@redhat.com>
+Subject: Re: [PATCH v3 08/15] mm: introduce and use linear_folio_page_index()
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-8-e8ecfefea812@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <20260728160619.853924-1-gscrivan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260729-b4-scalable-cow-virt-pgoff-v3-8-e8ecfefea812@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/29/26 00:05, Giuseppe Scrivano wrote:
-> Allow userspace to pass an already-opened file descriptor as the mount
-> source instead of a path string.  This is useful for tools that already
-> hold an fd to the image, such as composefs reusing an existing erofs
-> backing file.
+On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
+> This function is, for now, a placeholder; it will be used in future to
+> determine whether to use the anonymous page index or not, based on whether
+> the folio is anonymous or not.
 > 
-> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+> Currently it simply wraps linear_page_index(), so this does not change
+> behaviour.
+> 
+> We update callers that will, once the change is introduced to track
+> anonymous folios by anonymous page offset if MAP_PRIVATE file-backed, need
+> to determine which index to use based on folio type.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
-> v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gscrivan@redhat.com/
-> v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
-> v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
-> v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
+>  include/linux/pagemap.h | 18 ++++++++++++++++++
+>  mm/huge_memory.c        |  3 ++-
+>  mm/migrate.c            |  6 ++++--
+>  mm/userfaultfd.c        |  6 ++++--
+>  4 files changed, 28 insertions(+), 5 deletions(-)
 > 
->   Documentation/filesystems/erofs.rst | 15 ++++++
->   fs/erofs/super.c                    | 73 ++++++++++++++++++++++++-----
->   2 files changed, 77 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-> index 4230884fb359..774e8b236d09 100644
-> --- a/Documentation/filesystems/erofs.rst
-> +++ b/Documentation/filesystems/erofs.rst
-> @@ -139,6 +139,21 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
->                          page cache.
->   ===================    =========================================================
->   
-> +File-backed mounts
-> +==================
-> +
-> +When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed images
-> +can be mounted directly without a loopback block device.  The backing file
-> +can be given either as a path, or as an already-opened file descriptor.
-> +
-> +When a file descriptor is used, the kernel resolves its path and records it
-> +so that /proc/mounts and similar interfaces can still report the mount
-> +source.
-> +
-> +Only regular files are accepted as backing files; to mount an image that
-> +resides on a block device, use the traditional block device mount path
-> +instead.
-
-Do we need to add an entry to describe the new mount option source= in
-"Mount options" section in erofs.rst?
-
-Thanks,
-
-> +
->   Sysfs Entries
->   =============
->   
-> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> index 86fa5c6a0c70..558041011398 100644
-> --- a/fs/erofs/super.c
-> +++ b/fs/erofs/super.c
-> @@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
->   enum {
->   	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
->   	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-> +	Opt_source,
->   };
->   
->   static const struct constant_table erofs_param_cache_strategy[] = {
-> @@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
->   };
->   
->   static const struct fs_parameter_spec erofs_fs_parameters[] = {
-> -	fsparam_flag_no("user_xattr",	Opt_user_xattr),
-> -	fsparam_flag_no("acl",		Opt_acl),
-> -	fsparam_enum("cache_strategy",	Opt_cache_strategy,
-> +	fsparam_flag_no("user_xattr",		Opt_user_xattr),
-> +	fsparam_flag_no("acl",			Opt_acl),
-> +	fsparam_enum("cache_strategy",		Opt_cache_strategy,
->   		     erofs_param_cache_strategy),
-> -	fsparam_flag("dax",             Opt_dax),
-> -	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
-> -	fsparam_string("device",	Opt_device),
-> -	fsparam_string("domain_id",	Opt_domain_id),
-> -	fsparam_flag_no("directio",	Opt_directio),
-> -	fsparam_u64("fsoffset",		Opt_fsoffset),
-> -	fsparam_flag("inode_share",	Opt_inode_share),
-> +	fsparam_flag("dax",			Opt_dax),
-> +	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
-> +	fsparam_string("device",		Opt_device),
-> +	fsparam_string("domain_id",		Opt_domain_id),
-> +	fsparam_flag_no("directio",		Opt_directio),
-> +	fsparam_u64("fsoffset",			Opt_fsoffset),
-> +	fsparam_flag("inode_share",		Opt_inode_share),
-> +	fsparam_file_or_string("source",	Opt_source),
->   	{}
->   };
->   
-> @@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
->   	return false;
->   }
->   
-> +static int erofs_fc_parse_source(struct fs_context *fc,
-> +				 struct fs_parameter *param)
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index 259177544b03..6eb8d811ba4c 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -1143,6 +1143,24 @@ static inline pgoff_t linear_anon_page_index(const struct vm_area_struct *vma,
+>  	return pgoff;
+>  }
+>  
+> +/**
+> + * linear_folio_page_index() - Determine the absolute page offset of
+> + * @address within @vma from @folio.
+> + * @folio: The folio whose linear page index is sought.
+> + * @vma: The VMA in which @address resides.
+> + * @address: The address whose absolute page offset is required.
+> + *
+> + * For compatibility, currently identical to linear_page_index().
+> + *
+> + * Returns: The absolute page offset of @address within @vma.
+> + */
+> +static inline pgoff_t linear_folio_page_index(const struct folio *folio,
+> +					      const struct vm_area_struct *vma,
+> +					      const unsigned long address)
 > +{
-> +	struct erofs_sb_info *sbi = fc->s_fs_info;
-> +
-> +	if (fc->source || sbi->dif0.file)
-> +		return invalf(fc, "Multiple sources");
-> +
-> +	switch (param->type) {
-> +	case fs_value_is_string:
-> +		fc->source = param->string;
-> +		param->string = NULL;
-> +		return 0;
-> +	case fs_value_is_file: {
-> +		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
-> +		char *p;
-> +
-> +		if (!buf)
-> +			return -ENOMEM;
-> +		p = file_path(param->file, buf, PATH_MAX);
-> +		if (IS_ERR(p))
-> +			return PTR_ERR(p);
-> +		fc->source = kstrdup(p, GFP_KERNEL);
-> +		if (!fc->source)
-> +			return -ENOMEM;
-> +		sbi->dif0.file = no_free_ptr(param->file);
-> +		return 0;
-> +	}
-> +	default:
-> +		WARN_ON_ONCE(true);
-> +		return -EINVAL;
-> +	}
+> +	return linear_page_index(vma, address);
 > +}
-> +
->   static int erofs_fc_parse_param(struct fs_context *fc,
->   				struct fs_parameter *param)
->   {
-> @@ -524,6 +560,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
->   		else
->   			set_opt(&sbi->opt, INODE_SHARE);
->   		break;
-> +	case Opt_source:
-> +		return erofs_fc_parse_source(fc, param);
->   	}
->   	return 0;
->   }
-> @@ -752,13 +790,26 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
->   
->   static int erofs_fc_get_tree(struct fs_context *fc)
->   {
-> +	struct erofs_sb_info *sbi = fc->s_fs_info;
->   	int ret;
->   
-> +	if (sbi->dif0.file) {
-> +		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
-> +			errorfc(fc, "source fd option not supported");
-> +			return -EINVAL;
-> +		}
-> +		if (!S_ISREG(file_inode(sbi->dif0.file)->i_mode) ||
-> +		    !sbi->dif0.file->f_mapping->a_ops->read_folio) {
-> +			errorfc(fc, "source is unsupported");
-> +			return -EINVAL;
-> +		}
-> +		return get_tree_nodev(fc, erofs_fc_fill_super);
-> +	}
-> +
->   	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
->   		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
->   			GET_TREE_BDEV_QUIET_LOOKUP : 0);
->   	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
-> -		struct erofs_sb_info *sbi = fc->s_fs_info;
->   		struct file *file;
->   
->   		if (!fc->source)
 
+
+I found this to be rather confusing, given that we now have a "folio" helper that
+receives a folio and a "page" helper that doesn't receive a page ...
+
+I guess the problem is the "page" in "linear_page_index", as it
+reminds of legacy page->index.
+
+
+I wonder if it would be better to have a linear_folio_index() and
+force that address points at the start of the folio.
+
+Looking below, this is exactly what we want for all except one case:
+
+
+>  		/* pgoff is invalid for ksm pages, but they are never large */
+> -		if (folio_test_large(folio) && !folio_test_hugetlb(folio))
+> -			idx = linear_page_index(vma, pvmw.address) - pvmw.pgoff;
+> +		if (folio_test_large(folio) && !folio_test_hugetlb(folio)) {
+> +			idx += linear_folio_page_index(folio, vma, pvmw.address);
+> +			idx -= pvmw.pgoff;
+> +		}
+>  		new = folio_page(folio, idx);
+
+I think we could avoid this index work entirely by using the pfn, which is much
+clearer to me, and similar to how we handle it during other rmap operations.
+
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 222c8c15f782f..686351d353203 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -362,17 +362,12 @@ static bool remove_migration_pte(struct folio *folio,
+                struct page *new;
+                unsigned long idx = 0;
+
+-               /* pgoff is invalid for ksm pages, but they are never large */
+-               if (folio_test_large(folio) && !folio_test_hugetlb(folio))
+-                       idx = linear_page_index(vma, pvmw.address) - pvmw.pgoff;
+-               new = folio_page(folio, idx);
+-
+ #ifdef CONFIG_ARCH_HAS_PMD_SOFTLEAVES
+                /* PMD-mapped THP migration entry */
+                if (!pvmw.pte) {
+                        VM_BUG_ON_FOLIO(folio_test_hugetlb(folio) ||
+                                        !folio_test_pmd_mappable(folio), folio);
+-                       remove_migration_pmd(&pvmw, new);
++                       remove_migration_pmd(&pvmw, folio_page(folio, idx));
+                        continue;
+                }
+ #endif
+@@ -385,10 +380,14 @@ static bool remove_migration_pte(struct folio *folio,
+                    try_to_map_unused_to_zeropage(&pvmw, folio, old_pte, idx))
+                        continue;
+
++               entry = softleaf_from_pte(old_pte);
++               if (folio_test_large(folio) && !folio_test_hugetlb(folio))
++                       idx = softleaf_to_pfn(entry) - folio_pfn(rmap_walk_arg->folio);
++               new = folio_page(folio, idx);
++
+                folio_get(folio);
+                pte = mk_pte(new, READ_ONCE(vma->vm_page_prot));
+
+-               entry = softleaf_from_pte(old_pte);
+                if (!softleaf_is_migration_young(entry))
+                        pte = pte_mkold(pte);
+                if (folio_test_dirty(folio) && softleaf_is_migration_dirty(entr
+
+
+remove_migration_pmd() will work for now. Later it should just receive the folio
+and do the same thing through softleaf_from_pmd() -> softleaf_to_pfn().
+
+-- 
+Cheers,
+
+David
