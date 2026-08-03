@@ -1,186 +1,236 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6863B358D37;
-	Mon,  3 Aug 2026 12:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCD540756E
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785760503; cv=none; b=jxnaz1mjI3dHuUlqUbn1CNSFld14TX5FtJcE9ObdC+bM4qvnlP6A8Sn2MUFKlCJzu2IeaycOScmDr3WVWkcNhxI6KzYh/BTNeHh4jw6MsAW/5RDh34aTKLZejtIX9ITTX2jRwoCqCZY+FrS5nGBmnBlYeWds7hBP3I4GEer/RFQ=
+	t=1785761215; cv=none; b=DABcySnVkhaEvO7P/lmeQ2eN0SYP4dDK9mcrP4gSAqPuj6T4mHqz9XeVL4CmeNMclX6A5lmVbrMyfxswwpRnDVOofdX8fZL8I5N62mmXypBr+RwTln075UhN63OtG7WfKYwvNtyxZzTCaUVKu0iuj+ukLUkzXp2uISNf0qTvxhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785760503; c=relaxed/simple;
-	bh=vIDx/sKwffmOGzvvzSDdizIEIENpZK4Ed4Y7Nq9b7XY=;
-	h=From:To:Subject:CC:Date:Message-ID:MIME-Version:Content-Type; b=PIeK360/5KXV7RJZxdxum3FeRMWqmESBUtRkWZjTCFVghlTdgawrEFs1nbmC/EXYhCo9mnFgB19TVooSrrEPCr0HbY9Nh+DHQCgpOQA685d+D5FxvtnqobJrFZuc/pdyNm24HoSUsX2IG1kWHp8eYXFx3E5ADktvylVgN8/Q9LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=m1J2hadM; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785761215; c=relaxed/simple;
+	bh=5TCgU5zbyBLDg+DnZg8eCxnpYXT4Vv2vkwIQjgy7L6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SFpHh4sg8R2LEA1sgSLICwuTtM805Bo5AMCDwqUl5zV8ej18c76PB6EgfgVocN/eJyRmpgD4CcRbZicmyjMW+PmaeIaS2FZOM8cMc4v1AlZU9EBRGuDNocT7847hxuiM4fS9VVS9OOtsdX4qa2Hi5bVL2s7WJ6Jk91z6XOFqaWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EO0Ii5p0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="m1J2hadM"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72BDE143D;
-	Mon,  3 Aug 2026 05:34:55 -0700 (PDT)
-Received: from GX9GF4H4XN (unknown [10.1.26.156])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15C713F66F;
-	Mon,  3 Aug 2026 05:34:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785760499; bh=vIDx/sKwffmOGzvvzSDdizIEIENpZK4Ed4Y7Nq9b7XY=;
-	h=From:To:Subject:CC:Date:From;
-	b=m1J2hadMs/yUicqxnFSav0TkGwG+RSZ8wVP96U8BRzjcF8EFwOIN2wc7UIAHtpD4X
-	 Y/jAr6sqTmSdGpIw60Gt3/aIx5qKG1w+9X2VymE3hUbg5gRI495jZQsHIrrJBWtPqb
-	 LjkDlCN4sAsOEECGpoa/fIGsyix8QKpRiwxnY8mg=
-From: Seunguk Shin <seunguk.shin@arm.com>
-To: <linux-kernel@vger.kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Subject: [PATCH v5] fs/dax: check zero or empty entry before converting
- xarray entry
-CC: <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
- <Nick.Connolly@arm.com>, <ffidencio@nvidia.com>, <seunguk.shin@arm.com>
-Date: Mon, 03 Aug 2026 13:34:55 +0100
-Message-ID: <m2y0enxtzk.fsf@arm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EO0Ii5p0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785761213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=lQ5xQ35lK31BPQRUsnqePjDzH7l92VhsEt/1x8cX/6g=;
+	b=EO0Ii5p0GlO/D9wl4FTsN4Ypp44KwiyYeRSnKmC2IQJ+t52RjyNBnzI1cPRktuni6qPk1F
+	zGCmuwKroD6WVd+enLSK4CvZu/0egwhH4yuJJWBJ3CH8kOonVvZxA5AVt4fSCpZl1dw+Cx
+	YuQTPY41LQU6zSi1tFDl4Qquhky9hCY=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-589-NdRnfQLPNs6h-q9o-NN78g-1; Mon,
+ 03 Aug 2026 08:46:34 -0400
+X-MC-Unique: NdRnfQLPNs6h-q9o-NN78g-1
+X-Mimecast-MFC-AGG-ID: NdRnfQLPNs6h-q9o-NN78g_1785761192
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 78C74195608D;
+	Mon,  3 Aug 2026 12:46:31 +0000 (UTC)
+Received: from fedora (unknown [10.44.32.54])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id BEDC41956087;
+	Mon,  3 Aug 2026 12:46:26 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon,  3 Aug 2026 14:46:31 +0200 (CEST)
+Date: Mon, 3 Aug 2026 14:46:25 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Pavel Begunkov <asml.silence@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Subject: [PATCH v4] pipe: only enable the extra wake_up(rd_wait) for EPOLLET
+ consumers
+Message-ID: <anCNoW-x0bcB2ggg@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Calling dax_to_folio() with empty entry causes kernel panic below
-when booting a VM with DAX enabled storage.
+pipe_poll() unconditionally sets ->poll_usage on the first call, forcing
+anon_pipe_write() to wake up readers on every write even if the pipe was
+not empty.
 
-This patch checks empty entry before calling dax_to_folio() on
-dax_associate_entry(), dax_disassociate_entry(), and dax_busy_page().
+The reason is that some legacy epoll(EPOLLET) users depend on historical
+per-write wakeups, see commit 3a34b13a88ca ("pipe: make pipe writes always
+wake up readers").
 
-Commit 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
-added guards in the associate and disassociate paths, but the guards
-still come after dax_to_folio(), and dax_busy_page() still has
-the same problem.
+Test-case:
 
-[    0.737679] EXT4-fs (pmem0p1): mounted filesystem 79676804-7c8b-491a-b2a6-9bae3c72af70 ro with ordered data mode. Quota mode: disabled.
-[    0.737891] VFS: Mounted root (ext4 filesystem) readonly on device 259:1.
-[    0.739119] devtmpfs: mounted
-[    0.739476] Freeing unused kernel memory: 1920K
-[    0.740156] Run /sbin/init as init process
-[    0.740229]   with arguments:
-[    0.740286]     /sbin/init
-[    0.740321]   with environment:
-[    0.740369]     HOME=/
-[    0.740400]     TERM=linux
-[    0.743162] Unable to handle kernel paging request at virtual address fffffdffbf000008
-[    0.743285] Mem abort info:
-[    0.743316]   ESR = 0x0000000096000006
-[    0.743371]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    0.743444]   SET = 0, FnV = 0
-[    0.743489]   EA = 0, S1PTW = 0
-[    0.743545]   FSC = 0x06: level 2 translation fault
-[    0.743610] Data abort info:
-[    0.743656]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
-[    0.743720]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[    0.743785]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[    0.743848] swapper pgtable: 4k pages, 48-bit VAs, pgdp=00000000b9d17000
-[    0.743931] [fffffdffbf000008] pgd=10000000bfa3d403, p4d=10000000bfa3d403, pud=1000000040bfe403, pmd=0000000000000000
-[    0.744070] Internal error: Oops: 0000000096000006 [#1]  SMP
-[    0.748888] CPU: 0 UID: 0 PID: 1 Comm: init Not tainted 6.18.4 #1 NONE
-[    0.749421] pstate: 004000c5 (nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[    0.749969] pc : dax_disassociate_entry.constprop.0+0x20/0x50
-[    0.750444] lr : dax_insert_entry+0xcc/0x408
-[    0.750802] sp : ffff80008000b9e0
-[    0.751083] x29: ffff80008000b9e0 x28: 0000000000000000 x27: 0000000000000000
-[    0.751682] x26: 0000000001963d01 x25: ffff0000004f7d90 x24: 0000000000000000
-[    0.752264] x23: 0000000000000000 x22: ffff80008000bcc8 x21: 0000000000000011
-[    0.752836] x20: ffff80008000ba90 x19: 0000000001963d01 x18: 0000000000000000
-[    0.753407] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-[    0.753970] x14: ffffbf3154b9ae70 x13: 0000000000000000 x12: ffffbf3154b9ae70
-[    0.754548] x11: ffffffffffffffff x10: 0000000000000000 x9 : 0000000000000000
-[    0.755122] x8 : 000000000000000d x7 : 000000000000001f x6 : 0000000000000000
-[    0.755707] x5 : 0000000000000000 x4 : 0000000000000000 x3 : fffffdffc0000000
-[    0.756287] x2 : 0000000000000008 x1 : 0000000040000000 x0 : fffffdffbf000000
-[    0.756871] Call trace:
-[    0.757107]  dax_disassociate_entry.constprop.0+0x20/0x50 (P)
-[    0.757592]  dax_iomap_pte_fault+0x4fc/0x808
-[    0.757951]  dax_iomap_fault+0x28/0x30
-[    0.758258]  ext4_dax_huge_fault+0x80/0x2dc
-[    0.758594]  ext4_dax_fault+0x10/0x3c
-[    0.758892]  __do_fault+0x38/0x12c
-[    0.759175]  __handle_mm_fault+0x530/0xcf0
-[    0.759518]  handle_mm_fault+0xe4/0x230
-[    0.759833]  do_page_fault+0x17c/0x4dc
-[    0.760144]  do_translation_fault+0x30/0x38
-[    0.760483]  do_mem_abort+0x40/0x8c
-[    0.760771]  el0_ia+0x4c/0x170
-[    0.761032]  el0t_64_sync_handler+0xd8/0xdc
-[    0.761371]  el0t_64_sync+0x168/0x16c
-[    0.761677] Code: f9453021 f2dfbfe3 cb813080 8b001860 (f9400401)
-[    0.762168] ---[ end trace 0000000000000000 ]---
-[    0.762550] note: init[1] exited with irqs disabled
-[    0.762631] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+	#include <unistd.h>
+	#include <sys/epoll.h>
+	#include <assert.h>
 
-Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
-Signed-off-by: Seunguk Shin <seunguk.shin@arm.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
+	int main(void)
+	{
+		int pfd[2], efd;
+		struct epoll_event evt = { .events = EPOLLIN | EPOLLET };
+
+		pipe(pfd);
+		efd = epoll_create1(0);
+		epoll_ctl(efd, EPOLL_CTL_ADD, pfd[0], &evt);
+
+		for (int i = 0; i < 2; ++i) {
+			write(pfd[1], "", 1);
+			assert(epoll_wait(efd, &evt, 1, 0) == 1);
+		}
+
+		return 0;
+	}
+
+it fails if WRITE_ONCE(poll_usage, true) is removed from pipe_poll().
+However, without EPOLLET in .events, it does not need the extra wakeup
+and succeeds even if write() is called only once before the main loop.
+
+Currently io_uring without (unsupported) IORING_POLL_ADD_LEVEL always
+sets EPOLLET, and in IORING_POLL_ADD_MULTI mode it depends on per-write
+wakeups the same way:
+
+	#include <unistd.h>
+	#include <sys/mman.h>
+	#include <sys/epoll.h>
+	#include <sys/syscall.h>
+	#include <linux/io_uring.h>
+	#include <assert.h>
+
+	int main(void)
+	{
+		struct io_uring_params p = {};
+		int fd, pfd[2];
+
+		pipe(pfd);
+
+		fd = syscall(SYS_io_uring_setup, 2, &p);
+		assert(fd >= 0);
+
+		void *ring = mmap(0, p.cq_off.cqes + p.cq_entries * sizeof(struct io_uring_cqe),
+				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQ_RING);
+		assert(ring != MAP_FAILED);
+		*(unsigned *)(ring + p.sq_off.tail) = 1;
+
+		struct io_uring_sqe *sqes = mmap(0, p.sq_entries * sizeof(*sqes),
+				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQES);
+		assert(sqes != MAP_FAILED);
+		sqes[0].opcode = IORING_OP_POLL_ADD;
+		sqes[0].fd = pfd[0];
+		sqes[0].len = IORING_POLL_ADD_MULTI;
+		sqes[0].poll32_events = EPOLLIN;
+
+		syscall(SYS_io_uring_enter, fd, 1, 0, 0, 0, 0);
+
+		unsigned *cq_head = ring + p.cq_off.head;
+		unsigned *cq_tail = ring + p.cq_off.tail;
+		for (int i = 0; i < 2; ++i) {
+			write(pfd[1], "", 1);
+			syscall(SYS_io_uring_enter, fd, 0, 0, IORING_ENTER_GETEVENTS, 0, 0);
+			assert(*cq_tail == ++*cq_head);
+		}
+
+		return 0;
+	}
+
+the 2nd assert() in the main loop fails without ->poll_usage == true.
+
+Rename ->poll_usage to ->pseudo_edgetrigger to make the purpose clearer,
+update the comments, and change pipe_poll() to set ->pseudo_edgetrigger
+only if wait->_key & EPOLLET is true. This check should catch both users,
+and this way poll/select and epoll without EPOLLET users will not pay for
+the extra wakeup.
+
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 ---
-Changes in v5:
-- Update the commit message
-- Link to v4: https://lore.kernel.org/all/m2jyqk7jxo.fsf@arm.com/
-Changes in v4:
-- Rebase on current upstream
-- Link to v3: https://lore.kernel.org/all/m2jythetpj.fsf@arm.com/
-Changes in v3:
-- Rebase on current upstream
-- Update the changelog for the current code state
-- Link to v2: https://lore.kernel.org/all/m2jyv11mqe.fsf@arm.com/
-Changes in v2:
-- Add Fixes and Reviewed-by tags.
-- Rebase on the latest.
-- Link to v1: https://lore.kernel.org/all/18af3213-6c46-4611-ba75-da5be5a1c9b0@arm.com/
----
- fs/dax.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ fs/pipe.c                 | 20 +++++++++++++-------
+ include/linux/pipe_fs_i.h |  4 ++--
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/fs/dax.c b/fs/dax.c
-index 6d175cd47a99..4bca6e2bc342 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -480,11 +480,12 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
-                                unsigned long address, bool shared)
- {
-        unsigned long size = dax_entry_size(entry), index;
--       struct folio *folio = dax_to_folio(entry);
-+       struct folio *folio;
-
-        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
-                return;
-
-+       folio = dax_to_folio(entry);
-        index = linear_page_index(vma, address & ~(size - 1));
-        if (shared && (folio->mapping || dax_folio_is_shared(folio))) {
-                if (folio->mapping)
-@@ -505,21 +506,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
- static void dax_disassociate_entry(void *entry, struct address_space *mapping,
-                                bool trunc)
- {
--       struct folio *folio = dax_to_folio(entry);
-+       struct folio *folio;
-
-        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
-                return;
-
-+       folio = dax_to_folio(entry);
-        dax_folio_put(folio);
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 429b0714ec57..84a81db39f8a 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -686,10 +686,9 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ 	 * how (for example) the GNU make jobserver uses small writes to
+ 	 * wake up pending jobs
+ 	 *
+-	 * Epoll nonsensically wants a wakeup whether the pipe
+-	 * was already empty or not.
++	 * ->pseudo_edgetrigger enables per-write wakeups, see pipe_poll()
+ 	 */
+-	if (was_empty || pipe->poll_usage)
++	if (was_empty || READ_ONCE(pipe->pseudo_edgetrigger))
+ 		wake_up_interruptible_sync_poll(&pipe->rd_wait, EPOLLIN | EPOLLRDNORM);
+ 	kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
+ 	if (wake_next_writer)
+@@ -752,7 +751,6 @@ static long pipe_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 	}
  }
-
- static struct page *dax_busy_page(void *entry)
+ 
+-/* No kernel lock held - fine */
+ static __poll_t
+ pipe_poll(struct file *filp, poll_table *wait)
  {
--       struct folio *folio = dax_to_folio(entry);
-+       struct folio *folio;
+@@ -760,9 +758,17 @@ pipe_poll(struct file *filp, poll_table *wait)
+ 	struct pipe_inode_info *pipe = filp->private_data;
+ 	union pipe_index idx;
+ 
+-	/* Epoll has some historical nasty semantics, this enables them */
+-	if (unlikely(!READ_ONCE(pipe->poll_usage)))
+-		WRITE_ONCE(pipe->poll_usage, true);
++	/*
++	 * Legacy epoll(EPOLLET) users depend on historical per-write wakeups,
++	 * see 3a34b13a88ca ("pipe: make pipe writes always wake up readers")
++	 * and the ->pseudo_edgetrigger check in anon_pipe_write().
++	 * Currently io_uring sets EPOLLET for multishot polls, so it gets the
++	 * same behaviour.
++	 */
++	if ((filp->f_mode & FMODE_READ) &&
++	    wait && (wait->_key & EPOLLET) &&
++	    unlikely(!READ_ONCE(pipe->pseudo_edgetrigger)))
++		WRITE_ONCE(pipe->pseudo_edgetrigger, true);
+ 
+ 	/*
+ 	 * Reading pipe state only -- no need for acquiring the semaphore.
+diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
+index 7f6a92ac9704..1acc76581af5 100644
+--- a/include/linux/pipe_fs_i.h
++++ b/include/linux/pipe_fs_i.h
+@@ -74,7 +74,7 @@ union pipe_index {
+  *	@files: number of struct file referring this pipe (protected by ->i_lock)
+  *	@r_counter: reader counter
+  *	@w_counter: writer counter
+- *	@poll_usage: is this pipe used for epoll, which has crazy wakeups?
++ *	@pseudo_edgetrigger: has an EPOLLET consumer, enable per-write wakeups
+  *	@fasync_readers: reader side fasync
+  *	@fasync_writers: writer side fasync
+  *	@bufs: the circular array of pipe buffers
+@@ -95,7 +95,7 @@ struct pipe_inode_info {
+ 	unsigned int files;
+ 	unsigned int r_counter;
+ 	unsigned int w_counter;
+-	bool poll_usage;
++	bool pseudo_edgetrigger;
+ #ifdef CONFIG_WATCH_QUEUE
+ 	bool note_loss;
+ #endif
+-- 
+2.52.0
 
-        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
-                return NULL;
 
-+       folio = dax_to_folio(entry);
-        if (folio_ref_count(folio) - folio_mapcount(folio))
-                return &folio->page;
-        else
---
-2.43.0
