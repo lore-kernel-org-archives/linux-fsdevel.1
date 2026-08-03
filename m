@@ -1,78 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117D3909B9
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 16:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F4938DC59
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 16:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785775471; cv=none; b=lMv06tceU0la6myuO5aVrB6Rjicqg2Q9Bt0KWdwhl2AYePCgD4vUfvwSskkVQwuZnOAA/4IoRgF9+0iTIuCEzc6dghOXJ1juvGk8lk8DbumeZA0Vn+G5BFqj3JILhvBvJZfW91wGvMofXELnzzK2YGI+T/JHGysTb+3APXAD374=
+	t=1785775477; cv=none; b=ujTa/ZXO6zAn7bKKOSzECeY4HnVLGl3sr766C2sCwk/s2pEyylBPJijbCDs0aQ+m4FhyVB+N9jzc/1CqNk3XLBMCStVc4uwGiKtMg9vdJ+IFdw1yOpb+oXhNaFCbaSIwaVmqh/yIgkO0NhADdaz2aRtR30L5FhTh2S+k9kU1ywA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785775471; c=relaxed/simple;
-	bh=2oJ13jK5HAb9u7eNg/Fxg9KBDuO13vrDUDpjo0SHSig=;
+	s=arc-20240116; t=1785775477; c=relaxed/simple;
+	bh=H98G8qfHJN9yMfugRU6TXdwqAwxUOCkppKYsUkmzXaM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rsr/Wm/TLGJ/2nW3B+C0Dgov/uCsDzfyD36vRMcq2xS5wKo52g3CvGR3/DTmjxLf3DIz+IA44jCk+HColfmlWg3I02+9cvJGMmg77HYAXmpkBt7h91tonPvAIesymKenvdFS2kvtQRxnH5B0v6TlBLDzZncM+VeiLYDlJN+U6k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RCnX9DvB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xaIbUspi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=giVnVJGx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KQ3BcFN2; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=JhbAyEDMqBkeK9Jit5jTMNtD5K6qUsvOtXNUAHsAj9hS7aqkkUqQViasVz1hXAHYv7eU81sW7qRxCnpmJOLRpcUNmCqtQgHB8kTQ50s63/rNr6lOD9feavcpmvF9ECCDxLA4+Z0l5mnut+Y2efFsftWGYgQ3B4FflbE9FTj0p7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oI+Ftq7Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SdaodsKJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oyC4x8nG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhuzRUQD; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RCnX9DvB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xaIbUspi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="giVnVJGx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KQ3BcFN2"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oI+Ftq7Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SdaodsKJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oyC4x8nG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhuzRUQD"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 01E9F3FC3;
-	Mon,  3 Aug 2026 16:44:20 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 04F437F29A;
+	Mon,  3 Aug 2026 16:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785775464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785775462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZBAh6Nw2Wojw1x1c/oIpX3LymyujgAPhMLX7la+5sM=;
-	b=RCnX9DvBdusp51QYUbBf7leNC2m/jnhcVFM5tmPTP/BhTZ3DqFPAqeh33IRpZN6BmPwqoP
-	rzIo4y/i0IiJp8To57XQsHwj+IPT7FV5Ll5C7nv8aEmi07CIq112ysW2y06eVZEf2dH6wJ
-	r3lk9k8/HQ6YyaSYXdsLZN6KGB8gFDQ=
+	bh=t7EZt6KO7lG8FcX9WT699sYwppoB9LUKhBecqXvd/dQ=;
+	b=oI+Ftq7QHwNOamWLfQlxR1s+VH5H/xHD/n59sLRhbDnUPY9Jvs7OPu/wS6fnjjFWyQ94kH
+	L6sBuRsm/vM98uxrAHA2p0PLJrArW8I+I4OKkUUSbVrF7M8JJrzCSxgB3JFmrDgmRulE9/
+	pLR5gNZLJOIdmogEzhi5DC5wm+3GtZo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785775464;
+	s=susede2_ed25519; t=1785775462;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZBAh6Nw2Wojw1x1c/oIpX3LymyujgAPhMLX7la+5sM=;
-	b=xaIbUspi5o6OZc06hALwJZqRpjo9E6iu/FYAsULDovkl6o6a+EctY/7NZl8UBxV14mSYy3
-	LqsBwv3e4TeH+9CA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=t7EZt6KO7lG8FcX9WT699sYwppoB9LUKhBecqXvd/dQ=;
+	b=SdaodsKJpIffkXl0rAXcmAW1realq0Vrdd5uFSKLcyUr6W4xjRiWN7LDYcdlxw7f73wVY0
+	BSW6Vv0K1rRX8ZDA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785775460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785775458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZBAh6Nw2Wojw1x1c/oIpX3LymyujgAPhMLX7la+5sM=;
-	b=giVnVJGxPhlzAiTUyO5cLvObJ3wJUrZwgTqO2byoJytTwsPx5geUMg3NE+GQojJgRcLFfW
-	nGXGK8yEXMPkiUXaTlVnnCK1/idDeaoYBPP9wfBAGdYiKRQ9MMzDN+N8K1AAGzciOFRYLJ
-	eZ2eJWx57aPm670VdUoqq6RZMBZewhk=
+	bh=t7EZt6KO7lG8FcX9WT699sYwppoB9LUKhBecqXvd/dQ=;
+	b=oyC4x8nGdSsYhE7uDhFy3mpsZSTObX+6KaI5+nPtQCCSmMzdAbivpkEH580bXfATRx/499
+	/rnbBCrFvwRNm/TnnaBO6iCsti8Q5QbYfshEt7TrUbVEgvi8IhaeAPJYfsjflNMtSyP0YU
+	D462sgy/vukAbxb8Zj7r80eCdhkeJ1w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785775460;
+	s=susede2_ed25519; t=1785775458;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZBAh6Nw2Wojw1x1c/oIpX3LymyujgAPhMLX7la+5sM=;
-	b=KQ3BcFN2qLOwnr8xm81Wv2EiUTXMUvdttWl+K12ejsYXnidRcK53HVXpu4yybbDfE5Irjs
-	3RgNNZM+XdnbmZBQ==
+	bh=t7EZt6KO7lG8FcX9WT699sYwppoB9LUKhBecqXvd/dQ=;
+	b=zhuzRUQDrnP+Domlzo3/1FCpIz6k8srBWDErZHHbFo3HOpyS4OcSjVjI8vhU471Qe7a4LZ
+	81LYndPgkMk3LsDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1C744779A1;
-	Mon,  3 Aug 2026 16:44:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CBBD779E7;
+	Mon,  3 Aug 2026 16:44:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iCzPA2LFcGp/SQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Mon, 03 Aug 2026 16:44:18 +0000
+	id sB/XA2DFcGp/SQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Mon, 03 Aug 2026 16:44:16 +0000
 From: Pedro Falcato <pfalcato@suse.de>
 To: David Hildenbrand <david@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>
@@ -107,9 +107,9 @@ Cc: Pedro Falcato <pfalcato@suse.de>,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 6/6] mm: constify the pte_offset_map_ro_nolock() return value
-Date: Mon,  3 Aug 2026 17:44:00 +0100
-Message-ID: <20260803164400.531199-7-pfalcato@suse.de>
+Subject: [PATCH v2 5/6] mm: constify generic pte_get*()
+Date: Mon,  3 Aug 2026 17:43:59 +0100
+Message-ID: <20260803164400.531199-6-pfalcato@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260803164400.531199-1-pfalcato@suse.de>
 References: <20260803164400.531199-1-pfalcato@suse.de>
@@ -120,6 +120,9 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -5.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-5.30 / 50.00];
 	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -129,7 +132,7 @@ X-Spamd-Result: default: False [-5.30 / 50.00];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FREEMAIL_CC(0.00)[suse.de,arm.com,kernel.org,HansenPartnership.com,gmx.de,linux.ibm.com,ellerman.id.au,infradead.org,google.com,suse.com,suse.cz,nvidia.com,linux.alibaba.com,redhat.com,linux.dev,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,kvack.org];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -139,121 +142,52 @@ X-Spamd-Result: default: False [-5.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_HAS_DN(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	R_RATELIMIT(0.00)[to_ip_from(RLxu57a9hfgn7tttf5jiwuqe5o)];
 	FREEMAIL_ENVRCPT(0.00)[gmx.de]
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
-X-Spam-Level: 
 
-Constify the pte_t * retval from pte_offset_map_ro_nolock(), for which it is
-already pledged that accesses must be read-only. With it, convert the three
-treewide users to use const pte_t *.
-
-khugepaged passes the result right down to fault code (do_swap_page()). This
-leads to a complicated set of conditions that, in order to be correct, must
-not install anything into *vmf->pte. This is not trivial to work around in
-fault code, and as such just trivially cast to non-const pte_t* in the
-meantime.
-
-The other users are far more trivial and the conversion is equally
-trivially simple.
+None of the helpers need write access to the PTE. Constifying the param
+allows for const typesafety.
 
 Signed-off-by: Pedro Falcato <pfalcato@suse.de>
 ---
- arch/powerpc/mm/pgtable.c | 2 +-
- include/linux/mm.h        | 4 ++--
- include/linux/pgtable.h   | 2 +-
- mm/filemap.c              | 2 +-
- mm/khugepaged.c           | 2 +-
- mm/pgtable-generic.c      | 4 ++--
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/pgtable.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/powerpc/mm/pgtable.c b/arch/powerpc/mm/pgtable.c
-index a9be337be3e4..e29db41b6043 100644
---- a/arch/powerpc/mm/pgtable.c
-+++ b/arch/powerpc/mm/pgtable.c
-@@ -390,7 +390,7 @@ void assert_pte_locked(struct mm_struct *mm, unsigned long addr)
- 	p4d_t *p4d;
- 	pud_t *pud;
- 	pmd_t *pmd;
--	pte_t *pte;
-+	const pte_t *pte;
- 	spinlock_t *ptl;
- 
- 	if (mm == &init_mm)
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7fabe6c66b4b..acf5a5e31d34 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -3885,8 +3885,8 @@ static inline pte_t *pte_offset_map(pmd_t *pmd, unsigned long addr)
- pte_t *pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
- 			   unsigned long addr, spinlock_t **ptlp);
- 
--pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
--				unsigned long addr, spinlock_t **ptlp);
-+const pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
-+				      unsigned long addr, spinlock_t **ptlp);
- pte_t *pte_offset_map_rw_nolock(struct mm_struct *mm, pmd_t *pmd,
- 				unsigned long addr, pmd_t *pmdvalp,
- 				spinlock_t **ptlp);
 diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index dc418553e57a..dd51e722c535 100644
+index 8c093c119e5a..dc418553e57a 100644
 --- a/include/linux/pgtable.h
 +++ b/include/linux/pgtable.h
-@@ -112,7 +112,7 @@ static inline pte_t *__pte_map(pmd_t *pmd, unsigned long address)
- {
- 	return pte_offset_kernel(pmd, address);
- }
--static inline void pte_unmap(pte_t *pte)
-+static inline void pte_unmap(const pte_t *pte)
- {
- 	rcu_read_unlock();
- }
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 6afec636881f..af5d3fcd1b05 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3490,7 +3490,7 @@ static vm_fault_t filemap_fault_recheck_pte_none(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	vm_fault_t ret = 0;
--	pte_t *ptep;
-+	const pte_t *ptep;
+@@ -490,7 +490,7 @@ static inline int pudp_set_access_flags(struct vm_area_struct *vma,
+ #endif
  
- 	/*
- 	 * We might have COW'ed a pagecache folio and might now have an mlocked
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index b237f6e7662a..09efac93a8c6 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -1170,7 +1170,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
- 			 * Here the ptl is only used to check pte_same() in
- 			 * do_swap_page(), so readonly version is enough.
- 			 */
--			pte = pte_offset_map_ro_nolock(mm, pmd, addr, &ptl);
-+			pte = (pte_t *) pte_offset_map_ro_nolock(mm, pmd, addr, &ptl);
- 			if (!pte) {
- 				mmap_read_unlock(mm);
- 				result = SCAN_NO_PTE_TABLE;
-diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index b91b1a98029c..2cfc6e608ef4 100644
---- a/mm/pgtable-generic.c
-+++ b/mm/pgtable-generic.c
-@@ -308,8 +308,8 @@ pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
- 	return NULL;
- }
- 
--pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
--				unsigned long addr, spinlock_t **ptlp)
-+const pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
-+				      unsigned long addr, spinlock_t **ptlp)
+ #ifndef ptep_get
+-static inline pte_t ptep_get(pte_t *ptep)
++static inline pte_t ptep_get(const pte_t *ptep)
  {
- 	pmd_t pmdval;
- 	pte_t *pte;
+ 	return READ_ONCE(*ptep);
+ }
+@@ -739,7 +739,7 @@ static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
+  * present bit set *unless* it is 'l'. Because get_user_pages_fast() only
+  * operates on present ptes we're safe.
+  */
+-static inline pte_t ptep_get_lockless(pte_t *ptep)
++static inline pte_t ptep_get_lockless(const pte_t *ptep)
+ {
+ 	pte_t pte;
+ 
+@@ -777,7 +777,7 @@ static inline pmd_t pmdp_get_lockless(pmd_t *pmdp)
+  * We require that the PTE can be read atomically.
+  */
+ #ifndef ptep_get_lockless
+-static inline pte_t ptep_get_lockless(pte_t *ptep)
++static inline pte_t ptep_get_lockless(const pte_t *ptep)
+ {
+ 	return ptep_get(ptep);
+ }
 -- 
 2.55.0
 
