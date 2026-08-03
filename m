@@ -1,260 +1,364 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9261021883E
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 23:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706AA3C5DD4
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 23:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785800277; cv=none; b=p6bYqnNvs8asbo/MdxiVKZljd1kyAHgeESP8CmL+g/Vk4AniNxPdogMXIEDm698oaVUIr3DPKBPSHrhs17gJTtfiSkdM7vUjIZlbHF0vmntEZGJjdS7i8T3pp+ODcEUzsnkvDGtkHJ78rf8aNEGEuyyzYenQjwY6qIscrSXeKZA=
+	t=1785801314; cv=none; b=uNMmMrD75v/zSyBfdyuCMkFjNX8nlIcgy8WHz67JgYS1x9mZjMd/RUQr7a0S/trJ0GIred4FL872BpeI6VrYo1bFdHoA614FT/FCxh9V+I2yE8P6xq+1jmLDJ40RaChi+jATYZrfF4VLHPCvqAw2g4zlL0oirZUqfSyBOCNKhcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785800277; c=relaxed/simple;
-	bh=wpogzMHA+86aUMR7uMC+zWKXxrxbf5zSXZ2Pl0q/UOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1PgVfzeDENnqOQUXaKEncQIMHpnQ0tl7lvDNz46cljd0GveM/PFFMmyaLsgAkyqWWwhLwztPjLP2RFBhltmpk/xTddmlv/bPNGAfiPUh/7f7QG2KdjTHt6h4qHGDJFEOTmHfrL0vANDlAtMzrxVJTy497KaO4j+UXbBEEn/9N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=hsiangkao@gmx.com header.b=D14yyF7B; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1785801314; c=relaxed/simple;
+	bh=fGvviV+vYU7uX5NqfLxSXffOZxCnI+jmw4PzZSTFLaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JxH51R6W+HzYbPSt1fMZnX8iXh4CxZJsi8a40CVGa7+7Uaup9ZHiEb2qWSr+6SL4gONXir7kW6uFNafSyrDcZujtHEWIwuVfXCXmudT/OcUqWl/g2rCwYq8b6BqEWnPvPRY1p+P2fFcuceDzELebhPFEsPJLBTkGOL5arv/gRwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=rlX27Gbl; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=tmv+KSXu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=hsiangkao@gmx.com header.b="D14yyF7B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1785800251; x=1786405051; i=hsiangkao@gmx.com;
-	bh=zDXi7OWTbpdPYjqvXuHmBoIm4oP9FwJhQNX1ofpFS64=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=D14yyF7BLL9M3PjD/D+mjMWUqt9UX5t31JKNtUKbwqJb4c+5ixDGyBnmR5gctSQE
-	 Edq4bnf/XuS7HdjfSuzpKL7fgaB/Z/Ui2dJxnRLbKphbOrKZ11EhZkI7/cMnGBa03
-	 0Y4Ljz5Cpc/K2kpRQONNkVw3XpWPsfG5g5kVMWauoOKRC7t+W9jq+CCD45yVjH1m1
-	 seTOCMHJxzkjNgYP4X0XsTH3EoqCUd3J+Wtu9LzFItq/GsQWBCF06j4JUgspL73Vt
-	 za+uzTcEtjdDSsUmV41xP54kiVNmf6WaU7ZPFmdEapHTdZjLjRwDcrX4lqcM3rota
-	 9TJHh6yKIEUx1mFtdw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1Mj8mb-1xMoGd2EMP-00hthI; Tue, 04
- Aug 2026 01:37:31 +0200
-Date: Tue, 4 Aug 2026 07:37:25 +0800
-From: Gao Xiang <hsiangkao@gmx.com>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: Chao Yu <chao@kernel.org>, linux-erofs@lists.ozlabs.org,
-	cyphar@cyphar.com, hsiangkao@linux.alibaba.com,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5] erofs: accept source file descriptor via fsconfig
-Message-ID: <anEmNQWJzo-osec6@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Giuseppe Scrivano <gscrivan@redhat.com>,
-	Chao Yu <chao@kernel.org>, linux-erofs@lists.ozlabs.org,
-	cyphar@cyphar.com, hsiangkao@linux.alibaba.com,
-	linux-fsdevel@vger.kernel.org
-References: <20260728160619.853924-1-gscrivan@redhat.com>
- <366a9c6b-ec56-4cdf-b373-22a3cd8c9beb@kernel.org>
- <874ihbxviy.fsf@redhat.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rlX27Gbl";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="tmv+KSXu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 55A5E7F434;
+	Mon,  3 Aug 2026 23:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1785801306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=y/wPOgGtSbruc5STgM5zCVYa97ouCUDc3Xi/bSAUNWg=;
+	b=rlX27Gbl3uohzIMdFJ11l9CvvfWjnPGA0BppEp+HZ7vyKIpHkFRPtTX7ZT5cZTs/XMTvdF
+	uK15Vipw0SQomlABL3mbGfQ40SeytCk3GnMbN+iiIMTZj/DzTmmRE+WyXAcTRed3n1Y/7t
+	5B7/NkatgXtO0Rdo37vCM1g9UDXOJh8=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=tmv+KSXu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1785801302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=y/wPOgGtSbruc5STgM5zCVYa97ouCUDc3Xi/bSAUNWg=;
+	b=tmv+KSXuyQ3j+8kp4xdozfQtEcTN57vL0U6u95tYd/HaEmUcglHq5EbtGjNz0nJ55W3u9F
+	4yHU5P+6rB2nbO7VIKGhxy+V2CbT1UlkxCUNIVSjx9jIzsfx8Bzm94ByWC+c04CZoSdonG
+	KaoHaDi76ARq/giS7359cnY0eHT1ye4=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF471779A1;
+	Mon,  3 Aug 2026 23:55:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XeSTI1QqcWrhZwAAD6G6ig
+	(envelope-from <wqu@suse.com>); Mon, 03 Aug 2026 23:55:00 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: [PATCH v2] fstests: add a dio-read-into-mmap and sync race test case
+Date: Tue,  4 Aug 2026 09:24:39 +0930
+Message-ID: <20260803235439.25785-1-wqu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <874ihbxviy.fsf@redhat.com>
-X-Provags-ID: V03:K1:MStWG9YfY+66xmSnK9qGZw9XYfyXfUlNxn/fbdKt5HaqrFJJmB+
- +G4V604W3dUPMCKkpky3H+aK4qlmvU3XqpbuvDmVb/XEhjDfeWn8cjlxNO82DV9AX+uh/jz
- 7iUeIgEZ1W8bdenB9Q3ZYDDGZl3Jtbx4LuHVhzZgctEEji+arQ1gv1F0fu/qWXWUQItTmv0
- mZixgxAsrDjLhHo2ZwVhA==
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 55A5E7F434
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:mid,suse.com:email,suse.com:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:email,suse.com:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:WJg7xcwtgJE=;3Fijpd2jKdUw67xenAqZ1FRkgQY
- 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
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 03, 2026 at 02:01:41PM +0200, Giuseppe Scrivano wrote:
-> Chao Yu <chao@kernel.org> writes:
->=20
-> > On 7/29/26 00:05, Giuseppe Scrivano wrote:
-> >> Allow userspace to pass an already-opened file descriptor as the moun=
-t
-> >> source instead of a path string.  This is useful for tools that alrea=
-dy
-> >> hold an fd to the image, such as composefs reusing an existing erofs
-> >> backing file.
-> >> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
-> >> ---
-> >> v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gs=
-crivan@redhat.com/
-> >> v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gsc=
-rivan@redhat.com/
-> >> v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gs=
-crivan@redhat.com/
-> >> v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
-> >>   Documentation/filesystems/erofs.rst | 15 ++++++
-> >>   fs/erofs/super.c                    | 73 ++++++++++++++++++++++++--=
-=2D--
-> >>   2 files changed, 77 insertions(+), 11 deletions(-)
-> >> diff --git a/Documentation/filesystems/erofs.rst
-> >> b/Documentation/filesystems/erofs.rst
-> >> index 4230884fb359..774e8b236d09 100644
-> >> --- a/Documentation/filesystems/erofs.rst
-> >> +++ b/Documentation/filesystems/erofs.rst
-> >> @@ -139,6 +139,21 @@ inode_share            Enable inode page sharing=
- for this filesystem.  Inodes wi
-> >>                          page cache.
-> >>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >>   +File-backed mounts
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed im=
-ages
-> >> +can be mounted directly without a loopback block device.  The backin=
-g file
-> >> +can be given either as a path, or as an already-opened file descript=
-or.
-> >> +
-> >> +When a file descriptor is used, the kernel resolves its path and rec=
-ords it
-> >> +so that /proc/mounts and similar interfaces can still report the mou=
-nt
-> >> +source.
-> >> +
-> >> +Only regular files are accepted as backing files; to mount an image =
-that
-> >> +resides on a block device, use the traditional block device mount pa=
-th
-> >> +instead.
-> >
-> > Do we need to add an entry to describe the new mount option source=3D =
-in
-> > "Mount options" section in erofs.rst?
-> >
-> > Thanks,
->=20
-> I've another patch "erofs: reuse superblock for file-backed mounts" that
-> also touches erofs.rst and it is currently based on top of this version.
-> I wonder what is your preferred way to handle them.
+There is a report that on btrfs, if the following workload are running,
+btrfs can fail:
 
-EROFS dev branch usually has a small number of patches. Since Chao gave
-a new suggestion, I think a v6 is needed (but you could add all
-previous reviewed-by:).
+- A dio read into a mmaped range
+  Only the mmap range needs to be on btrfs.
+  The dio read source makes no difference.
 
-And "erofs: reuse superblock for file-backed mounts" needs to be rebased
-too, I will find time to play with it this week (or you could add a
-testcase in erofs-utils experimental-tests if you have time.)
+- Sync_range on the mapped range
 
->=20
-> Will maintainers deal with conflicts or do I need to submit them as a
-> single series?
->=20
-> Do you prefer a new submission v6 with the following fixup?
->=20
-> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesys=
-tems/erofs.rst
-> index c972a869f3e9..49c4e7dbc5d6 100644
-> --- a/Documentation/filesystems/erofs.rst
-> +++ b/Documentation/filesystems/erofs.rst
-> @@ -137,6 +137,8 @@ fsoffset=3D%llu          Specify block-aligned files=
-ystem offset for the primary d
->  inode_share            Enable inode page sharing for this filesystem.  =
-Inodes with
->                         identical content within the same domain ID can =
-share the
->                         page cache.
-> +source=3D%s              (For file-backed mounts) Specify the backing i=
-mage as a path
-> +                       or as an already-opened file descriptor.
+The btrfs errors include:
 
-Not quite sure "an already-opened file descriptor" is "%s", but I'm fine
-since it's quite a minor one (it's unneeded to nitpick the
-documentation).
+- Hang during data writeback
+- Filesystem flips RO
 
-Thanks,
-Gao Xiang
+The mmap range is dirtied but written back by the sync_range process,
+then dio read finished and found that the folios are no longer dirty,
+so dio endio will mark those folios dirty again so that the fs can write
+them back again.
 
+However for non-experimental btrfs with 4K block size and 4K page size,
+there is a regression in v7.2 that such case is no longer handled
+properly, due to the enablement of large folios and removal of cow
+fixup.
+And btrfs can never handle it for bs < ps from day 1.
 
->=20
-> Thanks,
-> Giuseppe
->=20
->=20
+Add a regression test for it.
+
+Reported-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Link: https://lore.kernel.org/linux-btrfs/20260721191152.101118-1-borntraeger@linux.ibm.com/
+Signed-off-by: Qu Wenruo <wqu@suse.com>
+---
+Changelog:
+v2:
+- Rebased to the latest patches-in-queue branch
+  The old number is taken by another test case, now this one got the
+  number 800.
+
+- Fix a bug when the direct read failed short, the read buffer is not
+  advanced
+
+- Add _require_odirect
+
+- Add _require_xfs_io_command sync_range
+
+- Add missing tmp files cleanup
+
+- Remove unneessary trap command for the main process
+
+- Fix the unset command
+---
+ .gitignore               |  1 +
+ src/Makefile             |  2 +-
+ src/dio-read-into-mmap.c | 81 ++++++++++++++++++++++++++++++++++++++++
+ tests/generic/800        | 79 +++++++++++++++++++++++++++++++++++++++
+ tests/generic/800.out    |  2 +
+ 5 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 src/dio-read-into-mmap.c
+ create mode 100755 tests/generic/800
+ create mode 100644 tests/generic/800.out
+
+diff --git a/.gitignore b/.gitignore
+index 0b6b9452..d52ba4ad 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -216,6 +216,7 @@ tags
+ /src/truncate
+ /src/t_btrfs_received_uuid_ioctl
+ /src/btrfs_ioctl
++/src/dio-read-into-mmap
+ 
+ # Symlinked files
+ /tests/generic/035.out
+diff --git a/src/Makefile b/src/Makefile
+index e8da2636..ea3d77b2 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -21,7 +21,7 @@ TARGETS = dirstress fill fill2 getpagesize holes lstat64 \
+ 	t_mmap_writev_overlap checkpoint_journal mmap-rw-fault allocstale \
+ 	t_mmap_cow_memory_failure fake-dump-rootino dio-buf-fault rewinddir-test \
+ 	readdir-while-renames dio-append-buf-fault dio-write-fsync-same-fd \
+-	dio-writeback-race unlink-fsync truncate
++	dio-writeback-race unlink-fsync truncate dio-read-into-mmap
+ 
+ LINUX_TARGETS = xfsctl bstat t_mtab getdevicesize preallo_rw_pattern_reader \
+ 	preallo_rw_pattern_writer ftrunc trunc fs_perms testx looptest \
+diff --git a/src/dio-read-into-mmap.c b/src/dio-read-into-mmap.c
+new file mode 100644
+index 00000000..2a5ad085
+--- /dev/null
++++ b/src/dio-read-into-mmap.c
+@@ -0,0 +1,81 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) SUSE S.A.
++
++#include <fcntl.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <string.h>
++#include <errno.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <err.h>
++
++static int read_source_fd = -1;
++static int mmap_dest_fd = -1;
++static void *buf = NULL;
++static int iosize = 4 * 1024 * 1024;
++
++static void usage()
++{
++	fprintf(stderr,
++	"Usage: dio-read-into-mmap <read_source> <mmap_dest>\n");
++}
++
++int main(int argc, char **argv)
++{
++	int ret = -EINVAL;
++	const int pagesize = sysconf(_SC_PAGESIZE);
++	unsigned int cur = 0;
++
++	if (argc != 3) {
++		usage();
++		goto error;
++	}
++	if (iosize < pagesize) {
++		ret = -EINVAL;
++		fprintf(stderr, "blocksize smaller than pagesize\n");
++		goto error;
++	}
++
++	read_source_fd = open(argv[1], O_RDONLY | O_DIRECT, 0600);
++	if (read_source_fd < 0) {
++		ret = -errno;
++		fprintf(stderr, "failed to open '%s': %m", argv[1]);
++		goto error;
++	}
++	mmap_dest_fd = open(argv[2], O_RDWR, 0600);
++	if (mmap_dest_fd < 0) {
++		ret = -errno;
++		fprintf(stderr, "failed to open '%s': %m", argv[2]);
++		goto error;
++	}
++	buf = mmap(NULL, iosize, PROT_WRITE, MAP_SHARED, mmap_dest_fd, 0);
++	if (buf == MAP_FAILED) {
++		buf = NULL;
++		fprintf(stderr, "failed to mmap: %m");
++		return -errno;
++	}
++	while (cur < iosize) {
++		ret = pread(read_source_fd, buf + cur, iosize - cur, cur);
++		if (ret == 0) {
++			ret = -EINVAL;
++			fprintf(stderr, "reached EOF");
++			goto error;
++		}
++		if (ret < 0) {
++			ret = -errno;
++			fprintf(stderr, "failed to read: %m");
++			goto error;
++		}
++		cur += ret;
++	}
++error:
++	close(read_source_fd);
++	close(mmap_dest_fd);
++	if (buf)
++		munmap(buf, iosize);
++	if (ret < 0)
++		return EXIT_FAILURE;
++	return EXIT_SUCCESS;
++}
+diff --git a/tests/generic/800 b/tests/generic/800
+new file mode 100755
+index 00000000..980d1734
+--- /dev/null
++++ b/tests/generic/800
+@@ -0,0 +1,79 @@
++#! /bin/bash
++# SPDX-License-Identifier: GPL-2.0
++# Copyright (c) 2026 SUSE S.A.  All Rights Reserved.
++#
++# FS QA Test 800
++#
++# Test direct read into a mmaped range meanwhile doing data sync for the mmaped
++# range.
++# Such racy workload should cause direct endio function to mark the folio
++# dirty without going through buffered write nor page_mkwrite().
++#
++# Make sure the fs can handle such ->dirty_folio() callback correctly.
++#
++. ./common/preamble
++_begin_fstest auto rw mmap
++
++_require_test_program dio-read-into-mmap
++_require_scratch
++_require_test
++_require_odirect
++_require_xfs_io_command sync_range
++
++_cleanup()
++{
++	cd /
++	[ -n "$mount_pid" ] && kill $mount_pid &> /dev/null
++	[ -n "$remount_pid" ] && kill $remount_pid &> /dev/null
++	wait
++	rm -r -f $tmp.*
++}
++
++_scratch_mkfs >> $seqres.full
++_scratch_mount
++
++# Create the 4MiB target file on TEST_MNT as the read source.
++$XFS_IO_PROG -f -c "pwrite -i /dev/urandom 0 4M" "$TEST_MNT/dio-read-source" >> $seqres.full
++
++# Another 4MiB target file on SCRATCH_MNT as the mmap dest
++$XFS_IO_PROG -f -c "pwrite 0 4M" "$SCRATCH_MNT/mmap-dest" >> $seqres.full
++
++read_workload()
++{
++	_register_cleanup "wait"
++	while true; do
++		$here/src/dio-read-into-mmap "$TEST_MNT/dio-read-source" \
++			"$SCRATCH_MNT/mmap-dest" &> /dev/null
++		if [ $? -ne 0 ]; then
++			echo "dio read failed"
++			break;
++		fi
++	done
++}
++
++sync_workload()
++{
++	_register_cleanup "wait"
++	while true; do
++		$XFS_IO_PROG -c "sync_range 0 4m" "$SCRATCH_MNT/mmap-dest"
++		if [ $? -ne 0 ]; then
++			echo "sync_range failed"
++			break;
++		fi
++	done
++}
++
++read_workload &
++read_pid=$!
++
++sync_workload &
++sync_pid=$!
++
++sleep $((15 * $TIME_FACTOR))
++
++kill "$read_pid" "$sync_pid" &> /dev/null
++unset read_pid sync_pid
++wait
++
++echo "Silence is golden"
++_exit 0
+diff --git a/tests/generic/800.out b/tests/generic/800.out
+new file mode 100644
+index 00000000..bdfaa2ce
+--- /dev/null
++++ b/tests/generic/800.out
+@@ -0,0 +1,2 @@
++QA output created by 800
++Silence is golden
+-- 
+2.51.2
+
