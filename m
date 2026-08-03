@@ -1,112 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEC63C1D53;
-	Mon,  3 Aug 2026 12:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6863B358D37;
+	Mon,  3 Aug 2026 12:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785760486; cv=none; b=Eu+9/7RF2JEsyLjxmgAhhBIkTQ8/8XOXY2jeGdWPLRBOxV7CQwJdvKKjBDh5eTcxI4tgQNcAYanG0zCmr0SKINZDFcweX3ERd2yMLUXOrtpHp3YLaUc2ZFsubT+u8UlwtKATuDRfjlZpb9Uyv8mT94tvcjE/8nq/9Az+dgDnDn0=
+	t=1785760503; cv=none; b=jxnaz1mjI3dHuUlqUbn1CNSFld14TX5FtJcE9ObdC+bM4qvnlP6A8Sn2MUFKlCJzu2IeaycOScmDr3WVWkcNhxI6KzYh/BTNeHh4jw6MsAW/5RDh34aTKLZejtIX9ITTX2jRwoCqCZY+FrS5nGBmnBlYeWds7hBP3I4GEer/RFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785760486; c=relaxed/simple;
-	bh=VMKZwUYG6gmfdJ9OG0yTze8DUMmDnsbeFtxKK6zFMsc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qknTMdM0citm0p5NYNebG6vDlZrm1EUE3I78Jo4U9IYvIBuGJZ0z675nVGxZpy1yZ0il7AZ6R7ceEOKS4LHq63WUb/82/LiALOJHqL+joAGLnjHS6vU3swGI/VB/g0zAkkkS8suAdvTfW4N1mvpsO86qbjusZNy+3Jf3ZESC3Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dWiG8wLi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785760503; c=relaxed/simple;
+	bh=vIDx/sKwffmOGzvvzSDdizIEIENpZK4Ed4Y7Nq9b7XY=;
+	h=From:To:Subject:CC:Date:Message-ID:MIME-Version:Content-Type; b=PIeK360/5KXV7RJZxdxum3FeRMWqmESBUtRkWZjTCFVghlTdgawrEFs1nbmC/EXYhCo9mnFgB19TVooSrrEPCr0HbY9Nh+DHQCgpOQA685d+D5FxvtnqobJrFZuc/pdyNm24HoSUsX2IG1kWHp8eYXFx3E5ADktvylVgN8/Q9LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=m1J2hadM; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dWiG8wLi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777DB1F000E9;
-	Mon,  3 Aug 2026 12:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785760484;
-	bh=FvxejhTP4YjhICa+U9feAto+gAswzfWwuxi4C6BTOBM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dWiG8wLiIGChnm0xxMpUtGn/AJjxURBqLwsiYwR5SsU30zaGZ7v44kqC1i5F/V43E
-	 gXExPllep59KzmJXmKxQCphfepcfWHZ5pGMCsVPE/VFBIYm7A5T1QxNRMBKMA1+9gW
-	 NGfJrZMhyzQN5IHPpPONZ0t5ICuctB8tj9p7yDchv+y0glP1MUHmR+H641GzeAyidZ
-	 F7ET7iNpvyfBfcjTqTY2e7QOmGgZONlU4p4ZzD5TsL00fgL+z1sPDkQ/8CHDi8j4pz
-	 BADW+tayOZX3TMDTo3FL0zDDxdknp/nRnc8BA+crsdQT9ztnmnFLUlnm8++Hjg9waP
-	 p1X7EhtVuoF0A==
-Message-ID: <6e594ae3-88ed-44f6-ab92-091955cfd14e@kernel.org>
-Date: Mon, 3 Aug 2026 14:34:38 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="m1J2hadM"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72BDE143D;
+	Mon,  3 Aug 2026 05:34:55 -0700 (PDT)
+Received: from GX9GF4H4XN (unknown [10.1.26.156])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15C713F66F;
+	Mon,  3 Aug 2026 05:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785760499; bh=vIDx/sKwffmOGzvvzSDdizIEIENpZK4Ed4Y7Nq9b7XY=;
+	h=From:To:Subject:CC:Date:From;
+	b=m1J2hadMs/yUicqxnFSav0TkGwG+RSZ8wVP96U8BRzjcF8EFwOIN2wc7UIAHtpD4X
+	 Y/jAr6sqTmSdGpIw60Gt3/aIx5qKG1w+9X2VymE3hUbg5gRI495jZQsHIrrJBWtPqb
+	 LjkDlCN4sAsOEECGpoa/fIGsyix8QKpRiwxnY8mg=
+From: Seunguk Shin <seunguk.shin@arm.com>
+To: <linux-kernel@vger.kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Subject: [PATCH v5] fs/dax: check zero or empty entry before converting
+ xarray entry
+CC: <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+ <Nick.Connolly@arm.com>, <ffidencio@nvidia.com>, <seunguk.shin@arm.com>
+Date: Mon, 03 Aug 2026 13:34:55 +0100
+Message-ID: <m2y0enxtzk.fsf@arm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] mm: remove wait_on_page_writeback()
-To: Tal Zussman <tz2294@columbia.edu>, Ilya Dryomov <idryomov@gmail.com>,
- Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>
-Cc: ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260802-remove-wait-on-page-writeback-v1-0-6c35d6b3ad36@columbia.edu>
- <20260802-remove-wait-on-page-writeback-v1-3-6c35d6b3ad36@columbia.edu>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260802-remove-wait-on-page-writeback-v1-3-6c35d6b3ad36@columbia.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 8/2/26 18:50, Tal Zussman wrote:
-> The last caller was converted to folio_wait_writeback(), so drop the
-> wait_on_page_writeback() compatibility wrapper and its declaration.
-> 
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-> ---
+Calling dax_to_folio() with empty entry causes kernel panic below
+when booting a VM with DAX enabled storage.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+This patch checks empty entry before calling dax_to_folio() on
+dax_associate_entry(), dax_disassociate_entry(), and dax_busy_page().
 
--- 
-Cheers,
+Commit 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
+added guards in the associate and disassociate paths, but the guards
+still come after dax_to_folio(), and dax_busy_page() still has
+the same problem.
 
-David
+[    0.737679] EXT4-fs (pmem0p1): mounted filesystem 79676804-7c8b-491a-b2a6-9bae3c72af70 ro with ordered data mode. Quota mode: disabled.
+[    0.737891] VFS: Mounted root (ext4 filesystem) readonly on device 259:1.
+[    0.739119] devtmpfs: mounted
+[    0.739476] Freeing unused kernel memory: 1920K
+[    0.740156] Run /sbin/init as init process
+[    0.740229]   with arguments:
+[    0.740286]     /sbin/init
+[    0.740321]   with environment:
+[    0.740369]     HOME=/
+[    0.740400]     TERM=linux
+[    0.743162] Unable to handle kernel paging request at virtual address fffffdffbf000008
+[    0.743285] Mem abort info:
+[    0.743316]   ESR = 0x0000000096000006
+[    0.743371]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    0.743444]   SET = 0, FnV = 0
+[    0.743489]   EA = 0, S1PTW = 0
+[    0.743545]   FSC = 0x06: level 2 translation fault
+[    0.743610] Data abort info:
+[    0.743656]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
+[    0.743720]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[    0.743785]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[    0.743848] swapper pgtable: 4k pages, 48-bit VAs, pgdp=00000000b9d17000
+[    0.743931] [fffffdffbf000008] pgd=10000000bfa3d403, p4d=10000000bfa3d403, pud=1000000040bfe403, pmd=0000000000000000
+[    0.744070] Internal error: Oops: 0000000096000006 [#1]  SMP
+[    0.748888] CPU: 0 UID: 0 PID: 1 Comm: init Not tainted 6.18.4 #1 NONE
+[    0.749421] pstate: 004000c5 (nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.749969] pc : dax_disassociate_entry.constprop.0+0x20/0x50
+[    0.750444] lr : dax_insert_entry+0xcc/0x408
+[    0.750802] sp : ffff80008000b9e0
+[    0.751083] x29: ffff80008000b9e0 x28: 0000000000000000 x27: 0000000000000000
+[    0.751682] x26: 0000000001963d01 x25: ffff0000004f7d90 x24: 0000000000000000
+[    0.752264] x23: 0000000000000000 x22: ffff80008000bcc8 x21: 0000000000000011
+[    0.752836] x20: ffff80008000ba90 x19: 0000000001963d01 x18: 0000000000000000
+[    0.753407] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[    0.753970] x14: ffffbf3154b9ae70 x13: 0000000000000000 x12: ffffbf3154b9ae70
+[    0.754548] x11: ffffffffffffffff x10: 0000000000000000 x9 : 0000000000000000
+[    0.755122] x8 : 000000000000000d x7 : 000000000000001f x6 : 0000000000000000
+[    0.755707] x5 : 0000000000000000 x4 : 0000000000000000 x3 : fffffdffc0000000
+[    0.756287] x2 : 0000000000000008 x1 : 0000000040000000 x0 : fffffdffbf000000
+[    0.756871] Call trace:
+[    0.757107]  dax_disassociate_entry.constprop.0+0x20/0x50 (P)
+[    0.757592]  dax_iomap_pte_fault+0x4fc/0x808
+[    0.757951]  dax_iomap_fault+0x28/0x30
+[    0.758258]  ext4_dax_huge_fault+0x80/0x2dc
+[    0.758594]  ext4_dax_fault+0x10/0x3c
+[    0.758892]  __do_fault+0x38/0x12c
+[    0.759175]  __handle_mm_fault+0x530/0xcf0
+[    0.759518]  handle_mm_fault+0xe4/0x230
+[    0.759833]  do_page_fault+0x17c/0x4dc
+[    0.760144]  do_translation_fault+0x30/0x38
+[    0.760483]  do_mem_abort+0x40/0x8c
+[    0.760771]  el0_ia+0x4c/0x170
+[    0.761032]  el0t_64_sync_handler+0xd8/0xdc
+[    0.761371]  el0t_64_sync+0x168/0x16c
+[    0.761677] Code: f9453021 f2dfbfe3 cb813080 8b001860 (f9400401)
+[    0.762168] ---[ end trace 0000000000000000 ]---
+[    0.762550] note: init[1] exited with irqs disabled
+[    0.762631] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+
+Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
+Signed-off-by: Seunguk Shin <seunguk.shin@arm.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
+---
+Changes in v5:
+- Update the commit message
+- Link to v4: https://lore.kernel.org/all/m2jyqk7jxo.fsf@arm.com/
+Changes in v4:
+- Rebase on current upstream
+- Link to v3: https://lore.kernel.org/all/m2jythetpj.fsf@arm.com/
+Changes in v3:
+- Rebase on current upstream
+- Update the changelog for the current code state
+- Link to v2: https://lore.kernel.org/all/m2jyv11mqe.fsf@arm.com/
+Changes in v2:
+- Add Fixes and Reviewed-by tags.
+- Rebase on the latest.
+- Link to v1: https://lore.kernel.org/all/18af3213-6c46-4611-ba75-da5be5a1c9b0@arm.com/
+---
+ fs/dax.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/fs/dax.c b/fs/dax.c
+index 6d175cd47a99..4bca6e2bc342 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -480,11 +480,12 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+                                unsigned long address, bool shared)
+ {
+        unsigned long size = dax_entry_size(entry), index;
+-       struct folio *folio = dax_to_folio(entry);
++       struct folio *folio;
+
+        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+                return;
+
++       folio = dax_to_folio(entry);
+        index = linear_page_index(vma, address & ~(size - 1));
+        if (shared && (folio->mapping || dax_folio_is_shared(folio))) {
+                if (folio->mapping)
+@@ -505,21 +506,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+ static void dax_disassociate_entry(void *entry, struct address_space *mapping,
+                                bool trunc)
+ {
+-       struct folio *folio = dax_to_folio(entry);
++       struct folio *folio;
+
+        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+                return;
+
++       folio = dax_to_folio(entry);
+        dax_folio_put(folio);
+ }
+
+ static struct page *dax_busy_page(void *entry)
+ {
+-       struct folio *folio = dax_to_folio(entry);
++       struct folio *folio;
+
+        if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+                return NULL;
+
++       folio = dax_to_folio(entry);
+        if (folio_ref_count(folio) - folio_mapcount(folio))
+                return &folio->page;
+        else
+--
+2.43.0
