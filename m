@@ -1,288 +1,211 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7EC4028EE
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 11:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148BD37702C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 11:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785757204; cv=none; b=nU0NM+erkx0iOcVu7L69v+ajvzMlgBrkG0waHS1j48TqzGTvJ1/vB96+mL8txMcngyhP6TRwD8Kr9tkT5nGWgc/SHktbzTF4AwYvcIgUIz7UrMdQW228h/D2kXNXrKvRffM4WtbjWlS/cm5JfoVoS0hCbot1tbf/wsTPsgo4PCg=
+	t=1785758390; cv=none; b=iw7+lt+3Itg6l9kLDZezvTd1pOeNFCH1hWWbV7d/jR2g80lPGG2dGDEnEpfYYf6Dmh0w84tRKjxbutCrI3/7OueA3TeFXH2UbKtxok+VLiQTD5Kdd+rZNDs69hBRmdxayrIgq+PK+ByM8SryOArqceZwtXCFu24ogGb5LcaI95U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785757204; c=relaxed/simple;
-	bh=gFBLW616aT4qPMEI6qpCiAVmaOQ1KvRY6WE5kN0KcIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j1+D7irAYK8tuoEZVTvZkh2BwmRD+XzQ8555gaRBQ0LFuhrS0PGe9kxb9wFbsU0i5urabe6JWkjuhgosJeC7PnFh/gqz1RQhJiyRXv5tKFqi42BrJRI5If3Lxjojcyqh4k6rE2P/4VEyZteLlrC4ad99/HRcwEa9T1xU/8ZTqe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CtgmgY2x; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785758390; c=relaxed/simple;
+	bh=f0xo72uDhR/2UWK82kWye91GR7XtaT4Xuh0Ml9dOtSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBZc8CDrW2WLM+FlPcc0L+PDHVXR4Ez8oAVgLYcHP18HaKuV6AswduF324AS2Sqoa3HM2OUu9pkIzWbGJcIVI5mBSSDkl/3qlSI+KbUKJvErHG2SFHQqXiNTumt0pQpRpFX+SsiXLMvVV9b5DbLD637/N/fkAJrjM64lI1IrhF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m2a+GdkH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZNedLb0A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rO6nOLVK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xer3NVmY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CtgmgY2x"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so20357095e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 04:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785757201; x=1786362001; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KUXg0pNMmZ2Ia54IXv0zOClCgTSv5CQYxeTS7yi9LSI=;
-        b=CtgmgY2xh8Q2tJi7t0jhHw+kVPy2S6GVABJx8vMFiDm1q+Tffo/iuGPSW+5oRFB9s2
-         gp9shUB6r/IexK/QSUjd5Nq/OWK4Ak43CJJQPw6B2WKLU4DlJKighJyfqw6mD76msSos
-         IMVc5LyzXXXKefPKVWSOE5egK4zwqiIjNy/KmHLFdmAy0eVCBZWudGLgtpVEE7g+MABB
-         xx819q81kQd2zdEOHdHwFAEBtL3gjqkOoU75Ii9WLS0TWq0p91gmRQNbaOPR+1//lo5M
-         drqxMOIk+Q+QNVQX3L32QrM0fQN8Sei1msrQwBSmcq4me0kvwPZtCjMODjm+hnh+V0eK
-         fMIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785757201; x=1786362001;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KUXg0pNMmZ2Ia54IXv0zOClCgTSv5CQYxeTS7yi9LSI=;
-        b=QLyJLl8hDQDuquGGV7+IOhoa/PJqVk9MY44QfHAYNYuuwFscp3NNdgKDeZuzGxaf3l
-         0a4rAVSHKetLBLfiw3FfK0crJaUacQttrd+WsRBaJvSwdOg9EIHq9ALifb4QY03XR3R/
-         HKdLGOIEpmk9DUCveQOU8hivkO7z17is3tXvqmnQaeJ2FujJSFSPsKhA7TYYuJZ9bXVP
-         Nyswc+i3UXTlQBuTDlH9nWy7Q/32Y5eZr4+V0id4k3Tfcyiy3mFqPsLXw3cxI16lCnVD
-         12ZJ1IsQ05L7uzGWV5JJH+Kwxi/FgHAlSUCvZmS880SJhupW3VSjE7BF0U/FvLvxt1Lo
-         KCsw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpxu/l4MAoYNAb7TW7aKiSHMWmUNM634cRXLtNR5BTWVDPt64I89RXE8d9to/rbss8ScuWoJirALPApfvT5@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSGZavO/M0VHDLfRHqW8xXomyZo4RqEfljE5ZiAdRojTU6GcnI
-	CvKXwcNf8p2pw9/au6+5E8CExzLKsVj2WhFVknJVjJtYDcf3xzJHLwqi
-X-Gm-Gg: AR+sD10/y9IgcQeReS1GLfIgEOTSPLfBDYWUaQB6JKzhBjILQ2InEJggfbTTQOx1d2E
-	/dnXbYpa6F5eoi9UjkTFHVjuRJXfaXFOV1rhnvrEXa1zALODKUTrPY8NN8QU8kw1ReZ5h5Llpwq
-	+THe5MRewux3FAsutjvdasfDN0cHSp5CRgGm4aTGHb0Rstf7W3JDEAsNK4gvB1zFiTwqHobKJI3
-	5Wl0K18QuJn1VFvYc/hI+zt+NRMzztaH+WBVnTn9gyWeLp0RUnccXadFXqfE34OJN6E1iZAIFDb
-	sL27aYklaP3Oh0Ra/Jim7oaVG1RAwaK8iGeCI4H22dcT9cSfsA6IBqMd2wHK/SJ685tgUTdTOl1
-	kqsURZQTPlvfx5IJygysCpAZQG5KRXBxhjtxJhFOlOqWu3YdZ3E9L6eX2J0xRVjMiP30LmtiLNi
-	LqOLEsDtRyMq4723jXJ+zaOuGRV0WtpxQkOgEtvZ5hvuRKumv8NY8N79Phy4y8wVe0sDgWwcjbY
-	4yznnM+V2icpsu+/1v1HLpIRrNmN6+X3WV2RQ==
-X-Received: by 2002:a05:600c:1393:b0:495:4fd4:619b with SMTP id 5b1f17b1804b1-4980c649c54mr233126965e9.1.1785757200362;
-        Mon, 03 Aug 2026 04:40:00 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd458adc9sm34347619f8f.27.2026.08.03.04.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 04:40:00 -0700 (PDT)
-Date: Mon, 3 Aug 2026 12:39:58 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: phillip@squashfs.org.uk, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- squashfs-devel@lists.sourceforge.net, brauner@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, jlayton@kernel.org,
- boris@bur.io, riel@surriel.com, kernel-team@meta.com
-Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
-Message-ID: <20260803123958.414dd2ed@pumpkin>
-In-Reply-To: <664bff99-ef20-44b9-9c5f-aa6c8755133e@linux.dev>
-References: <20260724190556.1950693-1-usama.arif@linux.dev>
-	<664bff99-ef20-44b9-9c5f-aa6c8755133e@linux.dev>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m2a+GdkH";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZNedLb0A";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rO6nOLVK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xer3NVmY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E9FDE3F14;
+	Mon,  3 Aug 2026 11:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785758383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RR62/KLrjEzCknCytandeKIA4hxjrCLQTEUkKItTfag=;
+	b=m2a+GdkH5JOyk9g7b/S2OaOED0bCL1O7wHrKV3DDUNnvOkRqgxYjhWWGRY91FOMwKgg1Px
+	QeI3VRJ0EiFKctXrf3utupz/DIFFdb/p6DOGYK1R3wMwWbejWneW+BIL0FK2NTU9mgmcnA
+	0IHVNnlDOtJY9StM53MvMn/XyDwpk4A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785758383;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RR62/KLrjEzCknCytandeKIA4hxjrCLQTEUkKItTfag=;
+	b=ZNedLb0AsCU3F52JBOgNFeQkcBc6n+pdKVMDLJ5YrQpHA01zIebWeHMbLToZFkTzTLhaS6
+	nb/tCWy5ZAT0kSDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=rO6nOLVK;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=xer3NVmY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785758378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RR62/KLrjEzCknCytandeKIA4hxjrCLQTEUkKItTfag=;
+	b=rO6nOLVKsDH8azj3rzzkxfcuK4l5XC3cms17GvM5vteqIgBOxXOb6uCH7ZvOSeMud72i8H
+	UXt9RAAtQU8C1WGajasIo7FEzLa4tYSeu1T/PqvxI+DaQ23tDOkHdJvaj4R8MphH9RBZYO
+	GO4+UMH8ba49Z7AdAr6Jx4VzpUUusY4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785758378;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RR62/KLrjEzCknCytandeKIA4hxjrCLQTEUkKItTfag=;
+	b=xer3NVmYq158bMUCLllXiuedEVIFHddBHfX1ryy1VHsM/N2NYs9QtZCL7Oap5fU8EqfpS2
+	V2tGwcrq1IfeYQAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8AAB779A1;
+	Mon,  3 Aug 2026 11:59:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1azeNKqCcGrULgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 03 Aug 2026 11:59:38 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7D218A13A4; Mon, 03 Aug 2026 13:59:34 +0200 (CEST)
+Date: Mon, 3 Aug 2026 13:59:34 +0200
+From: Jan Kara <jack@suse.cz>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Tigran Aivazian <aivazian.tigran@gmail.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux Filesystems Development <linux-fsdevel@vger.kernel.org>, 
+	Linux ext4 <linux-ext4@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>
+Subject: Re: ext4: spurious "orphan cleanup on readonly fs" due to remount,ro
+ failing to reset orphan_file structures
+Message-ID: <fmdp3k4efrv44yqjmukk47ifa3rxrjvj2ndfin5lu6c3x5b5lh@5vv2yblzxy7b>
+References: <CAK+_RLmWU-GjYu9Z+AWnoKd__AiaWZUt=zOkx3jr2-a4Hv3KHg@mail.gmail.com>
+ <am_gplyBEyvbuHM_@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <am_gplyBEyvbuHM_@archie.me>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,huawei.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: E9FDE3F14
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On Mon, 3 Aug 2026 11:16:36 +0100
-Usama Arif <usama.arif@linux.dev> wrote:
+On Mon 03-08-26 07:28:30, Bagas Sanjaya wrote:
+> [Cc'ing ext4 folks with full reply context]
 
-> On 24/07/2026 20:05, Usama Arif wrote:
-> > squashfs_cache_get() puts a task to sleep when its block is not cached and
-> > every cache entry is busy.  Those sleeps are non-exclusive, so a single
-> > squashfs_cache_put() makes every waiter runnable when one entry is freed.
-> > A wakee returns to squashfs_cache_get() only if it observes cache->unused
-> > before the entry is reclaimed.  Such tasks can rescan and share a block
-> > published meanwhile; later wakees see zero and queue again inside
-> > wait_event() without rescanning.
+Thanks for CC.
+ 
+> On Sun, Aug 02, 2026 at 11:18:39PM +0100, Tigran Aivazian wrote:
+> > Hello,
 > > 
-> > The waste is dramatic under load.  On a Meta production host serving a
-> > Python web application from a packaged squashfs image, a 30-second trace
-> > caught 1,045,132 cache-release wake calls and 19,511,556 remote wakeups:
-> > 18.7 per release, although each release added only one reusable cache
-> > entry. This was causing significant spikes in CPU usage.
+> > I have been experimenting with optimising rootfs for custom builds of
+> > Ubuntu 26 with various options like fast_commit, sparse_super2,
+> > orphan_file, inline_data, metadata_csum_seed, etc. And I noticed
+> > something strange: if my root filesystem is made with "orphan_file"
+> > feature then on every reboot I get this message:
 > > 
-> > Simply making the waits exclusive (i.e. using
-> > wait_event_state_exclusive()) is not enough.  A waiter can make
-> > progress two ways, when an entry frees (capacity), or when another task
-> > publishes the block it wants and it shares that entry.  The only wait
-> > condition available is cache->unused, which captures capacity but not
-> > publication, and wake-one can release just a single sharer at a time.  A
-> > waiter woken for capacity may also find its block already published, share
-> > it, and leave the freed entry unclaimed, so that wake must be handed on.
-> > A block-targeted wake and that handoff need a custom wake callback with
-> > per-waiter state; wait_event_state_exclusive() provides neither.
+> > EXT4-fs (sda): orphan cleanup on readonly fs
 > > 
-> > Wake selectively instead.  Waiters are exclusive and keyed by requested
-> > block: freeing an entry wakes one waiter (capacity), publishing a block
-> > wakes every waiter for that block (sharing), and a capacity waiter that
-> > ends up sharing hands its wake to the next waiter.  Waiters enqueue while
-> > holding cache->lock so lookup and publication are ordered against sleeping.
+> > (tested with SSD, NVMe and even old HDD -- because initially I thought
+> > that maybe it was NVMe controller failing to flush its volatile DRAM
+> > cache to the NAND flash, but no, it wasn't the reason)
 > > 
-> > The result is an ~2x increase in throughput on stat and read.
-> > Measured on a 32-CPU VM against a read-only squashfs (gzip, per-cpu
-> > decompressor, default 8 metadata / 3 fragment cache entries) staged in tmpfs
-> > with caches dropped each iteration to force cold decompression:
+> > I think what happens here is that when a filesystem with the
+> > "orphan_file" feature is fully unmounted, ext4_put_super()
+> > successfully clears the "orphan_present" superblock flag AND properly
+> > collapses/resets the physical orphan file headers. However, during a
+> > read-only remount (which systemd must do for / in order to halt the
+> > system) ext4_reconfigure() clears the "orphan_present" superblock flag
+> > but skips resetting the physical orphan file structures. Consequently,
+> > on the next boot (which starts with a read-only mount of /),
+> > ext4_fill_super() observes that while the superblock flag is clear,
+> > the orphan file itself appears non-empty. This unconditionally
+> > triggers ext4_orphan_cleanup(), which prints the spurious warning,
+> > scans the file, finds 0 orphans, and completes silently.
 > > 
-> >   elbencho, 64 threads
-> >     metadata stat      700 ->  1320 files/s    1.9x
-> >     small-file read     40 ->    60 MiB/s      1.6x
-> > 
-> >   filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
-> >     throughput       11,314 -> 25,186 ops/s    2.2x
-> >     latency           11.30 ->   5.05 ms/op    2.2x lower
-> >     sched:sched_wakeup 9.18M ->  3.44M         2.7x fewer
-> >     context switches  12.62M ->  5.77M         2.2x fewer
-> > 
-> > The 2.7x cut in scheduler wakeups explains the results: it roughly doubles
-> > throughput and halves latency under contention, and is a no-op on
-> > workloads that never queue for a cache entry.
-> > 
-> > Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> > ---
-> >  fs/squashfs/cache.c | 66 ++++++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 60 insertions(+), 6 deletions(-)  
+> > Let's test this theory on the kernel 7.0.0-28-generic of Ubuntu 26:
 > 
-> Hi,
-> 
-> Just wanted to check if there are any reviews or comments on this patch?
-> 
-> It is attempting to solvie a real thundering herd problem we see in our fleet.
-> It also doubles throughput for small file reads and stat for squashfs.
+> Can you also confirm this on latest mainline (7.2-rc6)?
 
-But it adds a priority inversion problem.
-It the task that is woken cannot be scheduled (either because if its priority
-or because it is pinned/real-time and the cpu it would be run on has preemption
-disabled, then none of the other threads can run either.
+No need to, the behavior didn't change for a long time. In fact, any
+read-only mount with orphan_file feature enabled will result in the
+spurious "orphan cleanup on readonly fs" message. I've just checked that.
+It is only a cosmetic problem but nobody noticed so far.
 
-I had terrible trouble trying to get a 'thundering herd' from a
-pthread_broadcast() call....
-
-	David
-
-> 
-> Thanks,
-> Usama
-> 
-> 
+> > # 1. Create a filesystem with the orphan_file feature
+> > mkfs.ext4 -O orphan_file /dev/sda
 > > 
-> > diff --git a/fs/squashfs/cache.c b/fs/squashfs/cache.c
-> > index 67abd4dff222..5c790c204a1a 100644
-> > --- a/fs/squashfs/cache.c
-> > +++ b/fs/squashfs/cache.c
-> > @@ -45,6 +45,40 @@
-> >  #include "squashfs.h"
-> >  #include "page_actor.h"
-> >  
-> > +/*
-> > + * A NULL wake key selects one waiter for newly available capacity.  A block
-> > + * key selects every waiter which can share the newly published cache entry.
-> > + */
-> > +struct squashfs_cache_wait {
-> > +	wait_queue_entry_t wait;
-> > +	u64 block;
-> > +	bool capacity_wake;
-> > +};
-> > +
-> > +static int squashfs_cache_wake_function(wait_queue_entry_t *wait,
-> > +					unsigned int mode, int sync, void *key)
-> > +{
-> > +	struct squashfs_cache_wait *cache_wait =
-> > +		container_of(wait, struct squashfs_cache_wait, wait);
-> > +	u64 *block = key;
-> > +	int ret;
-> > +
-> > +	if (block && cache_wait->block != *block)
-> > +		return 0;
-> > +
-> > +	/* A failed wake remains queued, so finish_wait() sees the reset. */
-> > +	WRITE_ONCE(cache_wait->capacity_wake, !block);
-> > +	ret = autoremove_wake_function(wait, mode, sync, NULL);
-> > +	if (!ret)
-> > +		WRITE_ONCE(cache_wait->capacity_wake, false);
-> > +	return ret;
-> > +}
-> > +
-> > +static void squashfs_cache_wake_block(struct squashfs_cache *cache, u64 block)
-> > +{
-> > +	__wake_up(&cache->wait_queue, TASK_NORMAL, 0, &block);
-> > +}
-> > +
-> >  /*
-> >   * Look-up block in cache, and increment usage count.  If not in cache, read
-> >   * and decompress it from disk.
-> > @@ -54,6 +88,8 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
-> >  {
-> >  	int i, n;
-> >  	struct squashfs_cache_entry *entry;
-> > +	struct squashfs_cache_wait wait = { .block = block };
-> > +	bool consumed, pending, wake_block, wake_next;
-> >  
-> >  	spin_lock(&cache->lock);
-> >  
-> > @@ -72,9 +108,16 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
-> >  			 * go to sleep waiting for one to become available.
-> >  			 */
-> >  			if (cache->unused == 0) {
-> > +				init_wait(&wait.wait);
-> > +				wait.wait.func = squashfs_cache_wake_function;
-> >  				cache->num_waiters++;
-> > +				WRITE_ONCE(wait.capacity_wake, false);
-> > +				/* Enqueue before dropping the lock to avoid missing publish. */
-> > +				prepare_to_wait_exclusive(&cache->wait_queue,
-> > +							  &wait.wait, TASK_UNINTERRUPTIBLE);
-> >  				spin_unlock(&cache->lock);
-> > -				wait_event(cache->wait_queue, cache->unused);
-> > +				schedule();
-> > +				finish_wait(&cache->wait_queue, &wait.wait);
-> >  				spin_lock(&cache->lock);
-> >  				cache->num_waiters--;
-> >  				continue;
-> > @@ -105,8 +148,12 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
-> >  			entry->pending = 1;
-> >  			entry->num_waiters = 0;
-> >  			entry->error = 0;
-> > +			wake_block = cache->num_waiters;
-> >  			spin_unlock(&cache->lock);
-> >  
-> > +			if (wake_block)
-> > +				squashfs_cache_wake_block(cache, block);
-> > +
-> >  			entry->length = squashfs_read_data(sb, block, length,
-> >  				&entry->next_index, entry->actor);
-> >  
-> > @@ -138,7 +185,8 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
-> >  		 * for reuse.
-> >  		 */
-> >  		entry = &cache->entry[i];
-> > -		if (entry->refcount == 0)
-> > +		consumed = entry->refcount == 0;
-> > +		if (consumed)
-> >  			cache->unused--;
-> >  		entry->refcount++;
-> >  
-> > @@ -146,12 +194,18 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
-> >  		 * If the entry is currently being filled in by another process
-> >  		 * go to sleep waiting for it to become available.
-> >  		 */
-> > -		if (entry->pending) {
-> > +		pending = entry->pending;
-> > +		if (pending)
-> >  			entry->num_waiters++;
-> > -			spin_unlock(&cache->lock);
-> > +		/* Pass on capacity if this waiter shared rather than consumed it. */
-> > +		wake_next = READ_ONCE(wait.capacity_wake) && !consumed &&
-> > +			cache->unused && cache->num_waiters;
-> > +		spin_unlock(&cache->lock);
-> > +
-> > +		if (wake_next)
-> > +			wake_up(&cache->wait_queue);
-> > +		if (pending)
-> >  			wait_event(entry->wait_queue, !entry->pending);
-> > -		} else
-> > -			spin_unlock(&cache->lock);
-> >  
-> >  		goto out;
-> >  	}  
-> 
-> 
+> > # 2. Mount read-write
+> > mount -o rw /dev/sda /mnt
+> > 
+> > # 3. Remount read-only (Simulating systemd shutdown)
+> > # This clears the orphan_present flag in the superblock, but leaves
+> > the orphan file structures intact.
+> > mount -o remount,ro /mnt
+> > 
+> > # 4. Unmount and mount read-only (Simulating the next boot)
+> > umount /mnt
+> > mount -o ro /dev/sda /mnt
+> > 
+> > Expected result in dmesg: nothing (well, except the usual
+> > mount/remount messages about ordered data mode, etc).
+> > 
+> > Actual result in dmesg:
+> > 
+> > EXT4-fs (sda): orphan cleanup on readonly fs
+> > 
+> > Since this affects the default shutdown path for any modern Linux
+> > distribution using systemd and ext4 with the "orphan_file" feature, it
+> > would be great to get the remount,ro teardown path aligned with the
+> > full unmount teardown path in this aspect.
 
+The problem really isn't that the remount,ro path would be doing something
+differently. Even after standard unmount I get the spurious message if I
+mount the fs read only. What we need is to improve ext4_orphan_cleanup() to
+really skip orphan recovery if there are no orphans. It will just require
+some tweaks to the mount path.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
