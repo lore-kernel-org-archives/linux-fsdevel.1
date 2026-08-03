@@ -1,305 +1,142 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721F240B6DF
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 13:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785762330; cv=none; b=MWbBhQeurXkzLkzBt/2tAWAnVz6bDc0TibzyDd89AFrm3KFFrUzWMNQArvK5ZexwchJTSCaOCr5OtmeZQqoimoSI3rm2gimwILNckSO9n9QAiMt4mRonhZUGiZaUtLxFbmzo2BeDJMdHjxgjD4mA08KNNhFiceEqnXiYuADE/r8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785762330; c=relaxed/simple;
-	bh=1S0kEhPllGpyHf8aWNky6objCdr4MTj5ri+NkC+uz04=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XMWnw2qbmiQX0BAFF3fZFmzkTgZxj5BoDL5+B2Hjrv5vMwlPn1ZQwGqKqR6XJvvqGsfRGQh2z1U8oNGdLzYt9Bd0j95T/HxieEDGwCS10xYxXKPCBkpGS2o9XBbS3ejGWQyFxQLfjjVGl2o1okfegPDU1515851CweVPEaBwXrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dWEuoQX7; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D9440B0E3
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 13:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785763296; cv=pass; b=GNXHE/dK4BiPbGla1bStcyoK18VkP2YevzLzrvThCZrRP5FMTmAoFfuRvDmMzVOjTJSlAJOurJnnb4rebyvqbbm+R5kCw4LTLWImnfP/7/VN+G986I597mXPJguQqObil15wlV5yZrn2c1yqrqhC98VxvV8qG5P9C65S3h4X0L4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785763296; c=relaxed/simple;
+	bh=Pgl5mTcqFOqWGOQn2TZduStirxwuSm2pRwIjZSucJwE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y6kGKTgfvcE0r4iUzdL/V/O/y/DKhmTqXp2BiUAwK/NkohcEen4sa6tzOu0ES7Qs99/g0UoIUIYvaPXal/5zVphiQ7YFkMC7Z2SKaiON+4o+rfJrlA7VXkBs277G2vqNcAF1zjC1m4fZBEGpGJwDptYng75cooW3db+ezTv+5Os=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvxRm/Zc; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dWEuoQX7"
-Message-ID: <c51f516f-d18b-4bd6-8c42-53e9b82ae5a4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785762325;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=04TAGoKrolGLfjaG9F67YVZlSjLDK4SqpRC2M8QESPA=;
-	b=dWEuoQX78OJ2QoeNcBN+EabnBdmW+Zf37YRFe0OZJIO0Om4A60Jv/FTN6fqrwt61oy9+HG
-	k5NmtrKSSatLqFPus8hxvH9jLxElvFldUxWLxKcQFEiPAt4gVxzKu6SJW5k7ktsVMdTikX
-	MLYDTkgRY//naNZQSCdz3Wz8KQVUGKI=
-Date: Mon, 3 Aug 2026 14:05:05 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvxRm/Zc"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69f2c67650aso5274515a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 06:21:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785763289; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ruAE6KLO2N79MUt6DPOQWVqCZu2+G8TUNt9GMeJrwRHQ7CLMv/hLj1WrNUf/n36pW3
+         hxTwMaDK5x7J1JkjkZCbFF0BHt+d/VZOqjruQLUSvSgT9aGI0ii+qQ77oj4OJUxhvUhm
+         TsSCalfbUkGpl1ynQlG5Z+LvbE42Zid+tFMLhI2YyZeAzi/Q/PR6HPNh5C+jCVtDscfW
+         k5M0aQVdg9AmJyfYvKRqmJpQ0UrJwXpzYl5cmyWlVSsAwcO01R+P2mqaORNFE3t4/esU
+         LXu00uJh4TmeTqaaaNCEjnoVseCSD0nRXV7EZJ2QV61Vg0M+63sTIuSfH2kC6T5whjPD
+         ZVhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Y/+lXFVTL8yRFLlIHwc83PXR9zbnjKq/x3zTQK5cH9A=;
+        fh=y5I2lycqASMzW3r9n9NFt4flD8+Yqm3TCWfS09z99xI=;
+        b=lTMA29+b7JdA+P5oX1Dfh3xNSJLA9lhR9BdPqa/Vgp7nesuUMSV9lKc+uAoAUBuhtm
+         mmWrRCshkgnyaLivG9FN9skPsCnM9HunhwLxjh/v2NLIquT1szAmVVl5E0mvhF8/0mpy
+         AUFrSCAMr8vNIbRhibtE+nrrGg974qrCAxVyF5ydUZRbrMDw9ec9zhquUHpxpWwXh5Rm
+         cGMI9PBmDWAs7w3bUcV9S0EDuODjjtraDjwkDhuPe9/aUbw+yspdUpnITwcPysGfuqSq
+         gIbVqaoArFr+I+PODYkIl87xkiFo9lDChcYDuJ1DibrVTBH9q47PmbLM8FjKT8m4hqsX
+         qDJA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785763289; x=1786368089; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Y/+lXFVTL8yRFLlIHwc83PXR9zbnjKq/x3zTQK5cH9A=;
+        b=dvxRm/ZcGYR2VElqHNvrbIbP9OvHsQkpvLJObV5wRx/fXOfUt29OLPtE+JvxWK2AOQ
+         3VhaxWdK9wr8VU9F7OpdHh93UyXYln1zJIFeKxpY8byuq8uH5aOk6evZeGjO9IkqTptd
+         6pqSXC4iIsTM5Q5hI3ihgFCpFYQmHAIH17jBmK2nWesFrnXCN+cLlB30cVLoPE7iBxPq
+         YNZUhtvw1JycZThdfbfdyNVwsIyNlqZahx8PqEto4vhXRgRne7m4fkHUxVzQMxB0N/A0
+         77oJ0UDkdALZBQIED3QKAmbqVImouGpGGwdcCJe4RsLDjGD4I5xyy4Jr8+HbjvOIgaqa
+         GxCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785763289; x=1786368089;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Y/+lXFVTL8yRFLlIHwc83PXR9zbnjKq/x3zTQK5cH9A=;
+        b=RREQRYF/dV3lp3qJJEIywBebBwIPqOqFH3fBE2XMghBYSEmm2nabpNLRcP6ONRaZgG
+         eTtBvHV7zpxUX/JjJUS7TKMnUVTMCqds0xZ4zWP4iONWFGnVfhZfcZpSM7J2ccqRGc2h
+         ofAHr8ntvNAgRYE/fLg4/HP4i3X98Saxs1P94zZKs2Dl343Vucd+Ph21weaLay2Xu+MD
+         gLgKlZ/r6YWcre5aZW9cEbwUO5sm+3xSXeCRWuTH4weKRtJnKCgiMip0B+pIKINq5pDF
+         /wcGtryUF24lqaI7/i/eAxP4dESNXSmI6baBnYUMdPfNP2d3t79XFHRsA+P1x6K+etTk
+         hwCw==
+X-Forwarded-Encrypted: i=1; AHgh+RpZtiu6kavm3qK03BPSMNydWDUn+Yq1wl/+x1d79SQFgQcRsiKUzM6GMe9zaXcWdOgtBxYxUqaE9n7UQqJ5@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOIBshgbWbUaIlW9Ji0dKSS0M3+SpQvzEoGhZUKXjGXGf0Ur/g
+	w/gn8S0psVoBT3Ea2DS6HWIMIU0ueKP6AY8+OwpTAHWBfHJ+B5NHZ3lfHXmgW5pYy9pAb0pG5Ck
+	oVZgXRJGWKEZCJ5vzUXU06nlmt72anQ==
+X-Gm-Gg: AR+sD13AaVdGfbSUKCc1wbX2iOoSCmlTOzABgbA+cIIYnvdAB7ClMUy/fR7uvUo4Ze6
+	AzLU+UYPBVqI7D7ByPhzjLkAW0qBWvLLoHdhEvrx6U4arbBGGWqzetyT2MIHGB+ZoKqGrd1hj+i
+	6sNmFiNlzsoghTmr/Ny1T8iva2rFRpMSzlZtrS/w/SCKrgmtxyo4AXgNewhE2UEu8s2MBdN1OVy
+	s5W7hRnBUZFtn9ibApsUrbv3z7EhPq7DRS8ErD1ZN+VzF11F7Xqo47IMYuruP0GrWhWygUwpqXp
+	IEFp5ePwSr8faVj/AO0B6j1HwRDVV1TzlGEXAr3c26Fkh12ogdJMXI2g+R1cjrxrnfntctXz1PK
+	enZ84b8qLQHeO4Aw=
+X-Received: by 2002:a05:6402:21d9:b0:69c:794d:4862 with SMTP id
+ 4fb4d7f45d1cf-6a0a7c614f9mr7875783a12.7.1785763288576; Mon, 03 Aug 2026
+ 06:21:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
-To: David Laight <david.laight.linux@gmail.com>
-Cc: phillip@squashfs.org.uk, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- squashfs-devel@lists.sourceforge.net, brauner@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, jlayton@kernel.org,
- boris@bur.io, riel@surriel.com, kernel-team@meta.com
-References: <20260724190556.1950693-1-usama.arif@linux.dev>
- <664bff99-ef20-44b9-9c5f-aa6c8755133e@linux.dev>
- <20260803123958.414dd2ed@pumpkin>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260803123958.414dd2ed@pumpkin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <cover.1785596451.git.asml.silence@gmail.com> <c1ab6c0db3853b339a89aee0b1a9c5ac0c48b79e.1785596451.git.asml.silence@gmail.com>
+In-Reply-To: <c1ab6c0db3853b339a89aee0b1a9c5ac0c48b79e.1785596451.git.asml.silence@gmail.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Mon, 3 Aug 2026 18:50:50 +0530
+X-Gm-Features: AUfX_mwnLWCAPfRurFp37qU73Xc2KDpD6en6Q3cA2kgelroMq6uNFVC_YKEZqSE
+Message-ID: <CACzX3AvwBF32_ODomei3XHSZ=KtRaWLN-_Tfkwv7sV3Ssc3wmw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/16] iov_iter: add iterator type for dmabuf maps
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+	Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>, 
+	William Power <william.power@intel.com>, Phil Cayton <phil.cayton@intel.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev, 
+	nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Aug 1, 2026 at 9:19=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
+> @@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const st=
+ruct iov_iter *i)
+>
+>  unsigned long iov_iter_alignment(const struct iov_iter *i)
+>  {
+> -       if (likely(iter_is_ubuf(i))) {
+> +       if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
+>                 size_t size =3D i->count;
+>                 if (size)
+>                         return ((unsigned long)i->ubuf + i->iov_offset) |=
+ size;
 
+dmabuf_map shares the same union slot as ubuf, so this reads the map
+pointer as a user address. gap_alignment() below already returns 0
+correctly for dmabuf - this should too. Checked the rest of this patch
+(advance/revert/restore) - none of them dereference the union pointer
+for dmabuf, so it's isolated to this one spot. Doesn't affect the
+current series, nothing reaches this with a dmabuf iter yet.
 
-On 03/08/2026 12:39, David Laight wrote:
-> On Mon, 3 Aug 2026 11:16:36 +0100
-> Usama Arif <usama.arif@linux.dev> wrote:
-> 
->> On 24/07/2026 20:05, Usama Arif wrote:
->>> squashfs_cache_get() puts a task to sleep when its block is not cached and
->>> every cache entry is busy.  Those sleeps are non-exclusive, so a single
->>> squashfs_cache_put() makes every waiter runnable when one entry is freed.
->>> A wakee returns to squashfs_cache_get() only if it observes cache->unused
->>> before the entry is reclaimed.  Such tasks can rescan and share a block
->>> published meanwhile; later wakees see zero and queue again inside
->>> wait_event() without rescanning.
->>>
->>> The waste is dramatic under load.  On a Meta production host serving a
->>> Python web application from a packaged squashfs image, a 30-second trace
->>> caught 1,045,132 cache-release wake calls and 19,511,556 remote wakeups:
->>> 18.7 per release, although each release added only one reusable cache
->>> entry. This was causing significant spikes in CPU usage.
->>>
->>> Simply making the waits exclusive (i.e. using
->>> wait_event_state_exclusive()) is not enough.  A waiter can make
->>> progress two ways, when an entry frees (capacity), or when another task
->>> publishes the block it wants and it shares that entry.  The only wait
->>> condition available is cache->unused, which captures capacity but not
->>> publication, and wake-one can release just a single sharer at a time.  A
->>> waiter woken for capacity may also find its block already published, share
->>> it, and leave the freed entry unclaimed, so that wake must be handed on.
->>> A block-targeted wake and that handoff need a custom wake callback with
->>> per-waiter state; wait_event_state_exclusive() provides neither.
->>>
->>> Wake selectively instead.  Waiters are exclusive and keyed by requested
->>> block: freeing an entry wakes one waiter (capacity), publishing a block
->>> wakes every waiter for that block (sharing), and a capacity waiter that
->>> ends up sharing hands its wake to the next waiter.  Waiters enqueue while
->>> holding cache->lock so lookup and publication are ordered against sleeping.
->>>
->>> The result is an ~2x increase in throughput on stat and read.
->>> Measured on a 32-CPU VM against a read-only squashfs (gzip, per-cpu
->>> decompressor, default 8 metadata / 3 fragment cache entries) staged in tmpfs
->>> with caches dropped each iteration to force cold decompression:
->>>
->>>   elbencho, 64 threads
->>>     metadata stat      700 ->  1320 files/s    1.9x
->>>     small-file read     40 ->    60 MiB/s      1.6x
->>>
->>>   filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
->>>     throughput       11,314 -> 25,186 ops/s    2.2x
->>>     latency           11.30 ->   5.05 ms/op    2.2x lower
->>>     sched:sched_wakeup 9.18M ->  3.44M         2.7x fewer
->>>     context switches  12.62M ->  5.77M         2.2x fewer
->>>
->>> The 2.7x cut in scheduler wakeups explains the results: it roughly doubles
->>> throughput and halves latency under contention, and is a no-op on
->>> workloads that never queue for a cache entry.
->>>
->>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
->>> ---
->>>  fs/squashfs/cache.c | 66 ++++++++++++++++++++++++++++++++++++++++-----
->>>  1 file changed, 60 insertions(+), 6 deletions(-)  
->>
->> Hi,
->>
->> Just wanted to check if there are any reviews or comments on this patch?
->>
->> It is attempting to solvie a real thundering herd problem we see in our fleet.
->> It also doubles throughput for small file reads and stat for squashfs.
-> 
-> But it adds a priority inversion problem.
-> It the task that is woken cannot be scheduled (either because if its priority
-> or because it is pinned/real-time and the cpu it would be run on has preemption
-> disabled, then none of the other threads can run either.
-> 
-> I had terrible trouble trying to get a 'thundering herd' from a
-> pthread_broadcast() call....
-> 
-> 	David
-> 
-
-Hi,
-
-Thanks for looking at this.
-
-I don't think "priority inversion" fits: it needs a resource with an
-owner (Documentation/locking/rt-mutex-design.rst), and here the woken
-task owns nothing.  There is no handoff either - we re-test
-cache->unused with no queue-position or owner check, so the freed entry
-is not reserved for the wakee.  Any caller takes it immediately,
-including one that never slept.  If the wakee is slow to reach a CPU,
-only the wakee waits.  Nor is a wakeup to a busy CPU blocked:
-try_to_wake_up() enqueues and sets need_resched, with a resched IPI on
-SMP, and preempt-disabled sections are bounded.
-
-And one squashfs_cache_put() frees exactly one entry, so at most one
-waiter can progress from it however many you wake.  The broadcast just
-makes the rest runnable so they can re-test cache->unused, find zero and
-sleep again.  Across several hosts in the Meta fleet this is the normal
-picture; one example was 19,511,556 wakeups for 1,045,132 releases in
-30s, i.e. 18.7 wakeups per release that freed a single entry.
-
-This is the same shape as 0ddad21d3e99 ("pipe: use exclusive waits when
-reading or writing"): where the kernel sets wake_next_reader on the
-exclusive wakeup, clears it under the pipe mutex if the pipe turned out
-empty, and wakes the next reader after unlocking. That has been in since
-v5.6 on the pipe read path, with TASK_INTERRUPTIBLE waiters.
-
-Note this isn't blanket wake-one: the publish wake passes
-nr_exclusive == 0, so all waiters for that block are released together,
-and wake_up_all() on entry->wait_queue is untouched.
-squashfs_cache_put() already passed nr_exclusive == 1 under a "wake one
-up" comment; the non-exclusive waiters just made it inert.
-
-Fair point though: the handoff is serial and FIFO ignores priority, so a
-waiter inherits the latency of the one ahead of it.  I'll say so in v2.
-The filebench run is 128 threads on 32 CPUs - 4x oversubscribed, which
-is where that should hurt most - and mean latency went down from 11.30 to
-5.05 ms/op.
-
-Thanks,
-Usama
-
-
->>
->> Thanks,
->> Usama
->>
->>
->>>
->>> diff --git a/fs/squashfs/cache.c b/fs/squashfs/cache.c
->>> index 67abd4dff222..5c790c204a1a 100644
->>> --- a/fs/squashfs/cache.c
->>> +++ b/fs/squashfs/cache.c
->>> @@ -45,6 +45,40 @@
->>>  #include "squashfs.h"
->>>  #include "page_actor.h"
->>>  
->>> +/*
->>> + * A NULL wake key selects one waiter for newly available capacity.  A block
->>> + * key selects every waiter which can share the newly published cache entry.
->>> + */
->>> +struct squashfs_cache_wait {
->>> +	wait_queue_entry_t wait;
->>> +	u64 block;
->>> +	bool capacity_wake;
->>> +};
->>> +
->>> +static int squashfs_cache_wake_function(wait_queue_entry_t *wait,
->>> +					unsigned int mode, int sync, void *key)
->>> +{
->>> +	struct squashfs_cache_wait *cache_wait =
->>> +		container_of(wait, struct squashfs_cache_wait, wait);
->>> +	u64 *block = key;
->>> +	int ret;
->>> +
->>> +	if (block && cache_wait->block != *block)
->>> +		return 0;
->>> +
->>> +	/* A failed wake remains queued, so finish_wait() sees the reset. */
->>> +	WRITE_ONCE(cache_wait->capacity_wake, !block);
->>> +	ret = autoremove_wake_function(wait, mode, sync, NULL);
->>> +	if (!ret)
->>> +		WRITE_ONCE(cache_wait->capacity_wake, false);
->>> +	return ret;
->>> +}
->>> +
->>> +static void squashfs_cache_wake_block(struct squashfs_cache *cache, u64 block)
->>> +{
->>> +	__wake_up(&cache->wait_queue, TASK_NORMAL, 0, &block);
->>> +}
->>> +
->>>  /*
->>>   * Look-up block in cache, and increment usage count.  If not in cache, read
->>>   * and decompress it from disk.
->>> @@ -54,6 +88,8 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
->>>  {
->>>  	int i, n;
->>>  	struct squashfs_cache_entry *entry;
->>> +	struct squashfs_cache_wait wait = { .block = block };
->>> +	bool consumed, pending, wake_block, wake_next;
->>>  
->>>  	spin_lock(&cache->lock);
->>>  
->>> @@ -72,9 +108,16 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
->>>  			 * go to sleep waiting for one to become available.
->>>  			 */
->>>  			if (cache->unused == 0) {
->>> +				init_wait(&wait.wait);
->>> +				wait.wait.func = squashfs_cache_wake_function;
->>>  				cache->num_waiters++;
->>> +				WRITE_ONCE(wait.capacity_wake, false);
->>> +				/* Enqueue before dropping the lock to avoid missing publish. */
->>> +				prepare_to_wait_exclusive(&cache->wait_queue,
->>> +							  &wait.wait, TASK_UNINTERRUPTIBLE);
->>>  				spin_unlock(&cache->lock);
->>> -				wait_event(cache->wait_queue, cache->unused);
->>> +				schedule();
->>> +				finish_wait(&cache->wait_queue, &wait.wait);
->>>  				spin_lock(&cache->lock);
->>>  				cache->num_waiters--;
->>>  				continue;
->>> @@ -105,8 +148,12 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
->>>  			entry->pending = 1;
->>>  			entry->num_waiters = 0;
->>>  			entry->error = 0;
->>> +			wake_block = cache->num_waiters;
->>>  			spin_unlock(&cache->lock);
->>>  
->>> +			if (wake_block)
->>> +				squashfs_cache_wake_block(cache, block);
->>> +
->>>  			entry->length = squashfs_read_data(sb, block, length,
->>>  				&entry->next_index, entry->actor);
->>>  
->>> @@ -138,7 +185,8 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
->>>  		 * for reuse.
->>>  		 */
->>>  		entry = &cache->entry[i];
->>> -		if (entry->refcount == 0)
->>> +		consumed = entry->refcount == 0;
->>> +		if (consumed)
->>>  			cache->unused--;
->>>  		entry->refcount++;
->>>  
->>> @@ -146,12 +194,18 @@ struct squashfs_cache_entry *squashfs_cache_get(struct super_block *sb,
->>>  		 * If the entry is currently being filled in by another process
->>>  		 * go to sleep waiting for it to become available.
->>>  		 */
->>> -		if (entry->pending) {
->>> +		pending = entry->pending;
->>> +		if (pending)
->>>  			entry->num_waiters++;
->>> -			spin_unlock(&cache->lock);
->>> +		/* Pass on capacity if this waiter shared rather than consumed it. */
->>> +		wake_next = READ_ONCE(wait.capacity_wake) && !consumed &&
->>> +			cache->unused && cache->num_waiters;
->>> +		spin_unlock(&cache->lock);
->>> +
->>> +		if (wake_next)
->>> +			wake_up(&cache->wait_queue);
->>> +		if (pending)
->>>  			wait_event(entry->wait_queue, !entry->pending);
->>> -		} else
->>> -			spin_unlock(&cache->lock);
->>>  
->>>  		goto out;
->>>  	}  
->>
->>
-> 
-
+> @@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov=
+_iter *i)
+>         size_t size =3D i->count;
+>         unsigned k;
+>
+> -       if (iter_is_ubuf(i))
+> +       if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
+>                 return 0;
