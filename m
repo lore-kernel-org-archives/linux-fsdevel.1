@@ -1,98 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7755B392C27;
-	Mon,  3 Aug 2026 12:15:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEC63C1D53;
+	Mon,  3 Aug 2026 12:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785759333; cv=none; b=qm/DaRzoZvq3Gj8vFZyKuyPhcwXBYbXz9mo7gt7AXfNeDPd2XO1Tb/XHVY8ZG76BRpVNou3q/BpaB0mf0WmUBf1YVEk9KE+9TXMf7MENCb7Wbvkri2iaM/sbAjPDQJNz57J4vICKrP8+6Piv3qdh/JIDZbwOwooT9E6TGaOZepA=
+	t=1785760486; cv=none; b=Eu+9/7RF2JEsyLjxmgAhhBIkTQ8/8XOXY2jeGdWPLRBOxV7CQwJdvKKjBDh5eTcxI4tgQNcAYanG0zCmr0SKINZDFcweX3ERd2yMLUXOrtpHp3YLaUc2ZFsubT+u8UlwtKATuDRfjlZpb9Uyv8mT94tvcjE/8nq/9Az+dgDnDn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785759333; c=relaxed/simple;
-	bh=2n5y7obkLAnf5oBtFkR2gN8H7OTFfUdPsI44hm+1s90=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lZMx570N9tKHkfF9YGWrvp/m2xe/TnWPdYOHXP+8vdi2cESH87El9K1P07qLDFLLckeWSJJJzuPUWbFgKIRZEgeXCyuZ0CT2N0VBF6u+sJEicl7vP6tps929GcTFfAVS1/KpGDiLgevcdROeMB3zO8NL+RtmJyyBZ2cLVX/3rdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFKPUPrP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785760486; c=relaxed/simple;
+	bh=VMKZwUYG6gmfdJ9OG0yTze8DUMmDnsbeFtxKK6zFMsc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qknTMdM0citm0p5NYNebG6vDlZrm1EUE3I78Jo4U9IYvIBuGJZ0z675nVGxZpy1yZ0il7AZ6R7ceEOKS4LHq63WUb/82/LiALOJHqL+joAGLnjHS6vU3swGI/VB/g0zAkkkS8suAdvTfW4N1mvpsO86qbjusZNy+3Jf3ZESC3Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dWiG8wLi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFKPUPrP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F6E1F000E9;
-	Mon,  3 Aug 2026 12:15:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dWiG8wLi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777DB1F000E9;
+	Mon,  3 Aug 2026 12:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785759331;
-	bh=poueR7DfB9aIGfWVmCWpCQzsUcIx1p6d9MpQRvHzhFc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EFKPUPrPVthfkr8KU/etmkk+cysO6CYYC+ELmo719CZWR5PhxFFMQsC5n0aIoxd6X
-	 85mn1cl1SvdTx+AkJVZeTWt2+Bg2pd8W6RS1xY3pDFP/c50ZzBbC2WColtvL3ZWLpD
-	 jkyj/mVmPKqUvwUbcsNvgLxtR641CCzOcEhQgUGXtLdwj1EjQgTJt4VDGcor321Gj6
-	 u7dvmsh6JxE8X6Qqjlz1cdad2sWuhECnWGjX/K2wnoaGXv2flIAWzJ0dEIRPrqFWIp
-	 ZOTyBCM0R7d0LdQMI3R2iRIISbftI+I+ypvr307yqDIeCEn+BW2oH/LnsCsa83wx9t
-	 G7rvEsyxxxFrA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 03 Aug 2026 14:15:02 +0200
-Subject: [PATCH 3/3] binfmt_misc: document the pre-opened interpreter limit
+	s=k20260515; t=1785760484;
+	bh=FvxejhTP4YjhICa+U9feAto+gAswzfWwuxi4C6BTOBM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dWiG8wLiIGChnm0xxMpUtGn/AJjxURBqLwsiYwR5SsU30zaGZ7v44kqC1i5F/V43E
+	 gXExPllep59KzmJXmKxQCphfepcfWHZ5pGMCsVPE/VFBIYm7A5T1QxNRMBKMA1+9gW
+	 NGfJrZMhyzQN5IHPpPONZ0t5ICuctB8tj9p7yDchv+y0glP1MUHmR+H641GzeAyidZ
+	 F7ET7iNpvyfBfcjTqTY2e7QOmGgZONlU4p4ZzD5TsL00fgL+z1sPDkQ/8CHDi8j4pz
+	 BADW+tayOZX3TMDTo3FL0zDDxdknp/nRnc8BA+crsdQT9ztnmnFLUlnm8++Hjg9waP
+	 p1X7EhtVuoF0A==
+Message-ID: <6e594ae3-88ed-44f6-ab92-091955cfd14e@kernel.org>
+Date: Mon, 3 Aug 2026 14:34:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] mm: remove wait_on_page_writeback()
+To: Tal Zussman <tz2294@columbia.edu>, Ilya Dryomov <idryomov@gmail.com>,
+ Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>
+Cc: ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+References: <20260802-remove-wait-on-page-writeback-v1-0-6c35d6b3ad36@columbia.edu>
+ <20260802-remove-wait-on-page-writeback-v1-3-6c35d6b3ad36@columbia.edu>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260802-remove-wait-on-page-writeback-v1-3-6c35d6b3ad36@columbia.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-work-binfmt_misc-interplimit-v1-3-4a2435500bd9@kernel.org>
-References: <20260803-work-binfmt_misc-interplimit-v1-0-4a2435500bd9@kernel.org>
-In-Reply-To: <20260803-work-binfmt_misc-interplimit-v1-0-4a2435500bd9@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com, 
- mail@johnericson.me, "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.16-dev-f2f85
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2057; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2n5y7obkLAnf5oBtFkR2gN8H7OTFfUdPsI44hm+1s90=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQVtIVlPlu66fpst9a3+8UeB+9cvX8e92uvguBznxwkT
- rIV7ovz6ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIMlmGv+I7X++6Irt706Zd
- Ny2iD60T5HoY3uffGXWY9z3zfuFjZ2QZGdZu/MS5LIbtE/cs+ZWTpz8SOjxtm8XTo6sk6yIsmue
- feMYNAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Document how pre-opened interpreters are accounted.
+On 8/2/26 18:50, Tal Zussman wrote:
+> The last caller was converted to folio_wait_writeback(), so drop the
+> wait_on_page_writeback() compatibility wrapper and its declaration.
+> 
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> ---
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- Documentation/admin-guide/binfmt-misc.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-index 622b5d8c8995..d26b63a27c25 100644
---- a/Documentation/admin-guide/binfmt-misc.rst
-+++ b/Documentation/admin-guide/binfmt-misc.rst
-@@ -128,6 +128,11 @@ There are some restrictions:
-    named by an absolute path. It is opened when the binary is executed, so
-    a relative one would be resolved against the working directory of
-    whoever runs the binary
-+ - the amount of pre-opened interpreters by ``F``, or bound to a ``B`` entry
-+   is limited by the ``/proc/sys/user/max_binfmt_misc_interpreters`` sysctl. A
-+   registration past the limit is refused with ``-ENOSPC``. This limits an
-+   unprivileged namespace pinning files. A nested namespace can raise only its
-+   own limit and every ancestor is charged too
- 
- 
- To use binfmt_misc you have to mount it first. You can mount it with
-@@ -215,10 +220,9 @@ with the credentials the entry file was opened with, exactly the way ``F``
- pre-opens a static entry's interpreter; the paths must be absolute. The
- path is everything past the first space, so there is nothing it cannot
- express, and no interpreter has to fit in a register string. An entry
--binds at most 100 interpreters; a write past that is refused with
--``-ENOSPC``. To bind a file that has no path of its own - already
--unlinked, a ``memfd``, or reachable only in another mount namespace -
--open it and write ``/proc/self/fd/N``.
-+binds at most 100 interpreters, and each one is charged against
-+``max_binfmt_misc_interpreters`` like any other binding. A write past either
-+limit is refused with ``-ENOSPC``.
- 
- The ``load`` program then selects one per exec by name with the
- ``bpf_binprm_select_interp()`` kfunc, and every exec runs a clone of the
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
-2.53.0
+Cheers,
 
+David
