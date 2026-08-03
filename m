@@ -1,238 +1,203 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A632EEE78;
-	Mon,  3 Aug 2026 01:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8156C234994;
+	Mon,  3 Aug 2026 01:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785720729; cv=none; b=rFeDmD11V9el3NwgaLsf9pqATdShUwL7PCwM6+Z9GGuVF7clXm6neheY/7MSyUei5rv3WSktDEKAbpJS9ahipX4vSrAxWDrhO2+odrSrwe7zxpfjdXuqMu56aSc15sdjjRbHBI3WKViaKMw8hcOdpIde7WQbrx9HEp6dKubf1KA=
+	t=1785721024; cv=none; b=GXXz65ywOpoGoeZyUYkYFypKYGuJjQe1A3GZ8otGwsGZ+F0fcf413AkzshbZDSTnLNjI25Ab/Gw0yyzq0SH5yIFPmXD+K8X5hZYQE7qun9E/s+WtyKsVZrkW/TPjjaSCFsvYX9+ZmGqkgq5eoqEBmSiON0T8mnxTDBBuJv4wr6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785720729; c=relaxed/simple;
-	bh=ieuPbdHG5VbubJf+xHGOWfxAeD2pp79wpuVrVSMMMUE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZXNb5T9cfo6IO5BG63AXOJWnqC752RommocMrtR3TCfFxBG0obYHbXxz9SJgc0O69d72bhyhrfkYQfFUdW7V1zeud/xERdUazcjo4YdxQvEjKZ1OUaTvEonwmtNBLo1ND178vWsEQjyCX5WoyUUz6dOdHb2Wi3nxnsCxdX4Tw38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hCzfx4ZltzKHMRX;
-	Mon,  3 Aug 2026 09:31:53 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id D5FE14056D;
-	Mon,  3 Aug 2026 09:31:55 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgCX1EOJ729qUK2oAw--.7830S3;
-	Mon, 03 Aug 2026 09:31:55 +0800 (CST)
-Message-ID: <c02696f0-308f-4bee-b7b3-95d702fa441a@huaweicloud.com>
-Date: Mon, 3 Aug 2026 09:31:53 +0800
+	s=arc-20240116; t=1785721024; c=relaxed/simple;
+	bh=pC3W2Vu/zXCsiSoWjl25+t1uFdTl040qXYOdTe2P1Ec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qOp0yjYIx2z07kWCS17ZTCfdm6oGyRzbePWz47oNOl5RvBSGoswElHvBTnYzHBxAZKE6u29mepjVVNnngweb7mN1aucS9v8wgJiyzMJBbudzptf3XKvxgJ4aD5ZGOK7LCxYLbJsMF2mwEQ1eJEQyt70nI4ww+rL7tanxzS76AL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Jr5gtqj+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BJZgfqtM; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Jr5gtqj+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BJZgfqtM"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailflow.stl.internal (Postfix) with ESMTP id ED10A13000EC;
+	Sun,  2 Aug 2026 21:36:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sun, 02 Aug 2026 21:37:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm3; t=1785721019; x=1785728219; bh=hj7vVySkI2
+	yxJswQO8e4CqCndOSm6xw5GmVI7rCuyQ0=; b=Jr5gtqj+mqViXSntRhXXXORkxy
+	bQv0Muvcz5NXHgqNKLgnxM8aj2no1pyGjnqp7bWbueOahx19iIH5wW6G7FQwn1Sp
+	m/X7d9ZXB8FPA71WOuxSfzhgj+3RSYl+2rgQpsfbcK1oej+W5y4D0+OUaaEwtGzy
+	DNHEq3Gvzrdly0NnKGMpkgeKpijeCre3Ui6AZc/rdt9xqHrBfmnR2rg3CHpBTb4s
+	krj0hGE5WbEQmVrfWPffyPv61OO8DN4C8k73+tPXHOxWMFuw9LubjZkvSI3wRvmU
+	jobA88xziQiKpXnlFV4+ogLG0viSvPsnVb3jAiCFRwPj361xrYQrteZfKIFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1785721019; x=1785728219; bh=hj7vVySkI2yxJswQO8e4CqCndOSm
+	6xw5GmVI7rCuyQ0=; b=BJZgfqtMe7SiJUu+KulwM9I29Li6db5BftC3XwemXo1G
+	/WEIHDz8Xi2yoALKaaGfGZtrcQoNXrIIVpfuYIe/4VCcS66thzJmlXNfOKa/nRMM
+	4Y6AV+MEY91KcYAr205ykapEEgYWsEE9RXFAV4J89pgGVTJUIFHPGF+TQpYcrVfj
+	ix4iQQSBRszDbV34zyx6m8621ChduYRV5nyakTL4uqb2U8nntrsk9ti/Gj/VrjPW
+	7JSymljtdFbOjqTIkUuuHY3K1uK07IT5H5iyLhk+GzkiLJSJwyqwilQf9BByDk+H
+	Hy1SaNgLD8pJ8kh1iYPaAXNGZUOXcvwxyWDYhHkkwQ==
+X-ME-Sender: <xms:u_BvatX-v2807U49m5G6pYxqtr06ooUSdlyFrIU8L16W2if5g8vC3Q>
+    <xme:u_Bvaonv6ifXwAShCuu6vAhDkQfhkWC5VFU2MrdthQxk086c_HFKYDTb4UreJP3jy
+    yAS5-kk5GkSecNyfiJBfCks_3ncCTUmFvFGlkah3wI1enohx2k>
+X-ME-Received: <xmr:u_BvagBmUYFnMOTS0MRZhuHhTTj4iEJzJkarzdgq9N-E9qSs3WCnva_lyPV2ZnIOVnNMxdJdj5rve4omUbsZJQ3A9BiKFrc>
+X-ME-Proxy-Cause: dmFkZTEAF9WySxFfIy8Gk965K95nE0ICFQuQ0ULZDgfyo7FS1VDKhQiDFOZkmr+/yfa228
+    0uHag9iZbVDyTRCWbp3YAZHBJLzuisMukqt345UCr18E5mngdaf/ZkoC4Pj7ucKKYC4/Ka
+    3JH0/Y+49i1w31Mc/C60fAt4CYeoJeNGsr2foDqAlREFYOuYElde+cD6PeV/1i5RgvQnqe
+    BDTZCcBeexnhv2Egd4X3qE2IRfzCmi08Zv6FthHZ+i96zKuqZ5piAwEQ4fsf3w5QbVAZWM
+    AhLeVfidI8dToCizssD4jm1KOf0GWVcspGYuYtAE11Xwh/i70QxLzQXV5cfhGgh214SucF
+    oA349+sio/1YV8B8Q+PAhlFXOceAkh53ncW7C01Ly8TfeMyYoug8f2g46vX+BacrEVs5jM
+    ao1pSRdOPsgflqF8M0JWYSahkCHraY+bKqqSl6O6Lel7EIrUd18HbNAbJt0qtq5ZtkdgrH
+    c4cJTpAThslvE+btweu/ULGxXEnV1uKbuGNoIjDaSudeJFt0C1/iTFnr9WteXapiC0DFIC
+    p7eQ+rmB9u0XSrnGw62ZUWYfbl/5/2CUr7o8XYZvLlXFmzVLm2dyy8Itv5BKqNACTMM8Oo
+    jqqT6nWD8kTDFJeEJx+XCXJOOngjBTewoPpaDwPdB0HtfgFlnVkIHu31WAkA
+X-ME-Proxy: <xmx:u_Bvat9_lTiWDDf24LJJWdMa6OUngS9FBzp4lRfffFrkc_CrygVntw>
+    <xmx:u_BvaiTyDvzhRWUK5iYsor4rxYiYcS2OXW8WjkTaWc7dD1vf8qD2Kw>
+    <xmx:u_Bvaj6gu4kCeWW_pc117kEWWeD2CIFmvIvFshUbBcjldGBlBoQ7qg>
+    <xmx:u_Bvaro6TdwLtIQ55ISJdX-nwg2RA2WcNDIG5KqX3_tHmDfMpQeQ3w>
+    <xmx:u_Bvah9nXjoLwYG9k0TGvibnQa0jGIcg1-0pT-zMRHlmM9CgXbn2W8ap>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Aug 2026 21:36:51 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Ian Kent <raven@themaw.net>,
+	Chuck Lever <cel@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>,
+	coda@cs.cmu.edu,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Miklos Szeredi <mszeredi@redhat.com>
+Cc: autofs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Subject: [PATCH RFC/RFT v1 00/12] Fix easy bits of the negative dentry problem
+Date: Mon,  3 Aug 2026 11:21:09 +1000
+Message-ID: <20260803012648.2195405-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ext4: protect WRITE_ZEROES written extents with
- orphan list
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
- yi.zhang@huawei.com, yizhang089@gmail.com, chengzhihao1@huawei.com,
- yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
- <20260729085918.3336221-3-yi.zhang@huaweicloud.com>
- <amyP2KXXgLUC0_aC@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <amyP2KXXgLUC0_aC@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgCX1EOJ729qUK2oAw--.7830S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw17JF17Zw4UZr17Gry7GFg_yoW7uw15pF
-	Z8AF1rGFZ5Was29Fs2qF4Dur1Fka4xGrWUurySgrWjvas8Zrn7Kry5K3yY9a4qqr48ZF4Y
-	vr4Utr9rGan8AFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
-	CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
-	F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
-	kC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
-	w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUF1v3UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 
-On 7/31/2026 8:06 PM, Ojaswin Mujoo wrote:
-> On Wed, Jul 29, 2026 at 04:59:18PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> In ext4_alloc_file_blocks(), the WRITE_ZEROES path converts unwritten
->> extents to written in one transaction, while i_disksize is updated to
->> cover them only in a later transaction. A crash in between leaves
->> written extents beyond i_disksize on disk, which fsck will complain
->> about.
->>
->> To fix this, add the inode to the orphan list in the same handle that
->> does the conversion, and remove it once i_disksize has caught up.
->> Also add a sanity check to ensure conversion does not extend beyond EOF.
->>
->> Since ext4_alloc_file_blocks() is called from the fallocate() path,
->> partial allocation is safe. On partial conversion failure, advance
->> i_disksize only up to the boundary of successfully converted blocks, so
->> that orphan cleanup sees a consistent state. Document this behavior in
->> the function comment.
-> 
-> Hi Yi,
-> 
-> Look good,
-> 
-> Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Hi all,
 
-Hi, Ojaswin,
+ I was reading about the negative dentry problem in
+ https://lwn.net/Articles/1079407/ and thought I would have ago at the
+ easy bits.  Given how involved some of that was I'm glad I didn't try
+ the tricky bits!
 
-Thank you for the review!
+ So I didn't try to reduce the number of negative dentries or handle
+ them differently to positive dentries.  I just tried to address
+ specific symptoms.
 
-> 
-> Just a small question below:
->>
->> Reported-by: Jan Kara <jack@suse.cz>
->> Closes: https://lore.kernel.org/linux-ext4/3f6ao5amv7glbgigndtegcucgo3n34ij3lau6l3da3hgdxgn3v@ev66wv3r5umt/
->> Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>  fs/ext4/extents.c | 78 ++++++++++++++++++++++++++++++++++++++++++-----
->>  1 file changed, 70 insertions(+), 8 deletions(-)
->>
->> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
->> index 1ab1a6e2ed83..a3dde7ba0d23 100644
->> --- a/fs/ext4/extents.c
->> +++ b/fs/ext4/extents.c
->> @@ -4571,6 +4571,22 @@ int ext4_ext_truncate(handle_t *handle, struct inode *inode)
->>  	return err;
->>  }
->>  
->> +/*
->> + * Pre-allocate blocks for the range [@offset, @offset + @len). Allocated
->> + * blocks are marked as unwritten by default. If EXT4_GET_BLOCKS_ZERO is
->> + * set, the allocated blocks are zeroed on disk and their extents are
->> + * converted to written state.
->> + *
->> + * When @new_size is nonzero, the caller intends to extend the file, and
->> + * the file size should be updated to the end of the allocated blocks.
->> + *
->> + * Allocation may partially succeed due to some non-fatal issues. In that
->> + * case, i_disksize (and i_size) is advanced up to the successfully
->> + * processed portion of the range.
->> + *
->> + * Return 0 on success, or a negative error code on failure or partial
->> + * failure.
->> + */
->>  static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->>  				  loff_t new_size, int flags)
->>  {
->> @@ -4585,6 +4601,7 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->>  	loff_t epos = 0, old_size = i_size_read(inode);
->>  	unsigned int blkbits = inode->i_blkbits;
->>  	bool alloc_zero = false;
->> +	bool orphan = false;
->>  
->>  	BUG_ON(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS));
->>  	map.m_lblk = offset >> blkbits;
->> @@ -4659,19 +4676,49 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->>  
->>  		if (alloc_zero &&
->>  		    (map.m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN))) {
->> +			ext4_lblk_t converted;
->> +
->> +			WARN_ON_ONCE(map.m_lblk + map.m_len >
->> +				EXT4_B_TO_LBLK(inode, new_size ?: old_size));
->> +
->>  			ret = ext4_issue_zeroout(inode, map.m_lblk, map.m_pblk,
->>  						 map.m_len);
->> -			if (likely(!ret))
->> -				ret = ext4_convert_unwritten_extents(NULL,
->> -					inode, (loff_t)map.m_lblk << blkbits,
->> -					(loff_t)map.m_len << blkbits, NULL);
->> -			if (ret)
->> +			if (unlikely(ret))
->>  				break;
->> +
->> +			handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
->> +						    credits);
->> +			if (IS_ERR(handle)) {
->> +				ret = PTR_ERR(handle);
->> +				break;
->> +			}
->> +
->> +			ret = ext4_convert_unwritten_extents(handle,
->> +					inode, (loff_t)map.m_lblk << blkbits,
->> +					(loff_t)map.m_len << blkbits,
->> +					&converted);
->> +			if (ret)
->> +				map.m_len = converted;
->> +
->> +			/*
->> +			 * If blocks beyond i_disksize are converted, add
->> +			 * the inode to the orphan list and advance the epos.
->> +			 */
->> +			if (new_size && converted) {
->> +				ret2 = ext4_orphan_add(handle, inode);
->> +				ret = ret ? ret : ret2;
->> +				orphan = true;
->> +			}
->> +
->> +			ret3 = ext4_journal_stop(handle);
->> +			ret = ret ? ret : ret3;
->>  		}
->>  
->>  		map.m_lblk += map.m_len;
->>  		map.m_len = len_lblk = len_lblk - map.m_len;
->>  		epos = EXT4_LBLK_TO_B(inode, map.m_lblk);
->> +		if (ret)
->> +			break;
->>  	}
->>  
->>  	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
->> @@ -4687,11 +4734,23 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->>  	if (epos > new_size)
->>  		epos = new_size;
->>  
->> -	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
->> -	if (IS_ERR(handle))
->> -		return ret ? ret : PTR_ERR(handle);
->> +	handle = ext4_journal_start(inode, EXT4_HT_MISC, 2);
->> +	if (IS_ERR(handle)) {
->> +		/*
->> +		 * The conversion has successfully completed. Not much to
->> +		 * do with the error here so just cleanup the orphan list
->> +		 * and hope for the best.
->> +		 */
->> +		if (orphan && inode->i_nlink)
->> +			ext4_orphan_del(NULL, inode);
->> +		ret2 = PTR_ERR(handle);
->> +		goto out;
->> +	}
->>  
->>  	ext4_update_inode_size(inode, epos);
->> +	if (orphan && inode->i_nlink)
->> +		ext4_orphan_del(handle, inode);
->> +
-> 
-> So I believe the i_nlink check is incase the inode is already at i_nlink
-> = 0 before the fallocate() was called and hence mostly already on the
-> orphan list. We need to skip deletion from the list as inode eviction
-> will handle cleaning it up, right?
+ This series addresses two reported symptoms.
+  1/ refcounts on parents can potentially overflow if there are billions
+     of (negative) children.  This was the easiest easy bit.  The first
+     patch is all that is needed.
 
-Yes, after ext4_evict_inode() has reclaimed all the file blocks, the
-inode will be cleared from the orphan list.
+  2/ Walking the ->d_children list can take arbitrarily long and can
+     trigger soft lockups.  I haven't addresses the "arbitrarily long"
+     part, but the "soft lockups" only takes another 11 patches.
+     With these in place I would feel more confident addressing
+     the "arbitrarily long" part.
 
-Thanks,
-Yi.
+ The core idea is to use a common helper for all walking of
+ ->d_children, and teach it to drop the lock and schedule when needed,
+ inserting a cursor to keep its place.
+ This simple idea requires:
+   - nothing should be holding any other lock while walking ->d_children
+   - dentries shouldn't be moved around needlessly, else things might
+     get missed.
+   - quite a bit of refactoring in libfs for readdir code.
 
+ so I have probably missed some bits and would be very happy to be told
+ what I have missed.
+ I would also be very happy if someone who can trigger the soft lockups
+ can try this code and confirm that the locks are gone, and nothing bad
+ happens.
+ I have done some basic testing including the "notify" parts of
+ ltp, but that is all.
 
+ I haven't addressed d_walk() in this series - I thought it was big
+ enough for now.  Most of d_walk() already schedules as needed, but I
+ think there is still room for improvement, but that can come later.
+
+Details worth checking in various modules:
+
+NFS: patch 02 drops the parent lock between calling
+        nfs_unset_verifier_delegated()
+     on the parent and calling it on all the children.  I don't
+     think this is significant.
+
+autofs:  patch 09 removes the ->lookup_lock from
+             get_next_positive_subdir() 
+         and
+             get_next_positive_dentry()
+         I cannot see that this is serving any purpose
+
+cephfs:  nothing interesting
+coda:  patch 02 dropped the rcu_read_lock() because the spinlock() implies it.
+
+libfs: the offset_dir code has been changed (08) quite a bit but should
+      have identical behaviour.  It now uses scan_positives() (which has
+      been substantially refactored (05, 06, 07, 12)) in place of
+      find_positive_dentry()
+
+fsnotify: a few changes (03 04) to move the ->d_children walk out from under
+     various spinlocks.  This is the change I'm least confident of
+     as it is non-trivial code that I'm not familiar with.
+
+dcache: patch 11 uses an on-stack dentry as a dcache cursor.  This is
+     not something that other code does so I would appreciate it if
+     someone checked my logic.
+
+dcache: patch 10 changed d_move to *not* move dentries in the
+     ->d_children list when they are both in the same parent.
+     This brings no value and could cause some instability in
+     a d_children walk.
+
+Thanks for any review or testing that you have time for.
+
+NeilBrown
+
+This series is against v7.2-rc6 and can be found at the 
+   vfs-neg-dentries
+branch of
+   https://github.com/neilbrown/linux
+where top commit is
+   56768a600dd9145fea601649dbc74031aa25e459
+
+ [PATCH v1 01/12] VFS: don't count references through ->d_parent
+ [PATCH v1 02/12] Add and use d_for_each_positive_child family of
+ [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
+ [PATCH v1 04/12] fsnotify: reduce i_lock hold time in
+ [PATCH v1 05/12] libfs: simplify scan_positives()
+ [PATCH v1 06/12] libfs: change scan_positives() to use
+ [PATCH v1 07/12] libfs: allow scan_positives() to be called without a
+ [PATCH v1 08/12] libfs: replace find_positive_dentry() with
+ [PATCH v1 09/12] autofs: don't hold ->lookup_lock in
+ [PATCH v1 10/12] VFS: don't move dentries in d_sib list when they
+ [PATCH v1 11/12] Call cond_reshed() as needed in
+ [PATCH v1 12/12] libfs: remove cond_resched() from scan_positives()
