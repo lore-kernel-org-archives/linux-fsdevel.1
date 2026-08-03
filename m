@@ -1,131 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B663624CC;
-	Mon,  3 Aug 2026 09:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785749981; cv=none; b=gT0bPWLzrD+yjDxrtAPkmEUGI5vYByj1S4Jzz4Ce2vVzUxocQeZ4d0+cmnRAwmpwkUGpafKSxYng9lXWx/vEWY/ayFVJMuqsl8B74sWdTX747jcAWTmdUDxh74p/YXG+3Fwt06iZAPjDwpx71sXvdTmvo0nu6JBrzU7uxbpsXIQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785749981; c=relaxed/simple;
-	bh=MP0YhLWsJyA0gzPnR6C0SZ5ULMk5Acf4GWqSJyEJzzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C+STT8GBZd09TH6ZD/zyvYyUzF9jLqUXPWcPj2mjbwD20od0HBy2tKPT/ym4FBgZRZXfNAGC9YDJEtPVd0iW0Lw3jckYxYZksX2x6zHXTxNE6QC4qHQ3JtH5PiZ+dYIPXNsYbEQwXMmVGCv4T+g2jIuY+fdyNtS9t8lJv7+qmEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfeROh1v; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93E436654F;
+	Mon,  3 Aug 2026 09:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785750298; cv=pass; b=GNac4GPR+VfwHBPWXDtHzmCkW2EGUXpe0njt4JrOWA6gImg6Oyhydyrm72czTEUWMRFF8XN37D+PgEuGQZl/6uPPM3MrsONzahHHFegjY2He4zt+BNFM2dIlep0Im9x+X2d4ZabSFMLzfwovoipwRUhuAfi+v8PT0+vyVVdrFRc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785750298; c=relaxed/simple;
+	bh=CKshH6xm9efxX5dNMMLveD+DE7tdaJpoGQR6VuYPA3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pAViiNCnc7sF33X7K8h7FuIk7/uxR1a7bIT8QVBl6uHWoRNTjGHGIvsN6dYlZJ4vS+DclC0CuzYa6rqL2dKO2ufiYEk+wgUl3RfMMvKkOoQ1dGgOvWA3pDYg9nuSZm9VUsA8pzv9f75bjOB7bvS+ugYZVEQPxVwlHSXJ73rY1xM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=I0JrWOtw; arc=pass smtp.client-ip=136.143.169.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfeROh1v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CCA01F00A3A;
-	Mon,  3 Aug 2026 09:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785749973;
-	bh=BKSEegNXfW2lpOQAddhRouW7LuvpBaU2Q0GuiYjnqCw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IfeROh1vbwpu41mP1+qXu5Qi0C614XgCnptV0j/UQQK2WI8kjZTg7hDHgk70tKdgy
-	 KXDlWA7APDzfCyR4agogf4l5RdoIkbBMe3anAhxiSdRl8oc6c63ff1MVjuDJFICIHy
-	 Huj4iF991WfP1/MZGpGjBLDz/OgWcZfWBkhhBg67cgeWuUNN+UPcdgOKKHTt/g5SCR
-	 1GfMKW6HnxEYN3yq66ooaT3iRVISjMCGaukeCOiw9O3PbFthPmvHZGcoAgGAGMlNnf
-	 /hEjR+VkjxQQi/MTOq4tituznJc/cSZwBsvHepKznw+d1pOAGGxtkvDA/ECU228qU0
-	 5GYHUsSnN0YpQ==
-Message-ID: <698b8cec-3bce-4dcb-89e8-5b0d0fce4a06@kernel.org>
-Date: Mon, 3 Aug 2026 11:39:18 +0200
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="I0JrWOtw"
+ARC-Seal: i=1; a=rsa-sha256; t=1785750266; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=HBdGnpXjurNxVs/IZAr8rsQo4XBZCiv1wgvLPm53A+HtwZVl4YyW/rFay67bOc3dfKK5SFw5Eq3akN/M75b0rKUJAIUa5DjYW0VPXeaZQU/8l0GgfWcLwe/pxJcJw1qUERmb5kVTak8DGurpFXB8HVzbt26XROWZJFbvyFM2fcc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1785750266; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CKshH6xm9efxX5dNMMLveD+DE7tdaJpoGQR6VuYPA3s=; 
+	b=Y0iDNOdReuXmpPGby+d/8GquQCnLx13mQ0YFgYABuy06vrF0ki9UHnIjSoq+LeMbsmaXMP5vzjUecJGfMdQ3+Mp0KHF4YOYGR7rWPwaqof/bTC9h3ILoNUK9RaUyzbQpBKLpt1VFEWFi0m9WJFpuX0jbGz0C3W2/gNMuuLEU+iE=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=iusegentoo.com;
+	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
+	dmarc=pass header.from=<ali@iusegentoo.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785750265;
+	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=CKshH6xm9efxX5dNMMLveD+DE7tdaJpoGQR6VuYPA3s=;
+	b=I0JrWOtwdacYiHXqH+S6Xj+TuZjx7YnxpDcp+WtRh/Kww4dNiaGsClLTJdafPfow
+	P7m6kwLZSa1tShCc2nw5bhhaBNXIGN5B8vl10S1cG1lFij7+2aiutNSM0RXjKWjdwg6
+	nzefPjysE6nDceiDKP6AMT5SggdmCNsavKXX31CI=
+Received: by mx.zoho.eu with SMTPS id 17857502626134.746142058383612;
+	Mon, 3 Aug 2026 11:44:22 +0200 (CEST)
+From: Ali Ahmet Memis <ali@iusegentoo.com>
+To: jack@suse.cz
+Cc: willy@infradead.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: add myself as UFS filesystem maintainer
+Date: Mon,  3 Aug 2026 09:44:10 +0000
+Message-ID: <20260803094412.8059-1-ali@iusegentoo.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <opm7uuadw7ctvvo6uln22nb6id3pepcs4nohunq7tzeaciq3kc@kigwxsd3pcbo>
+References: <am10yuQx5a3h2pXH@casper.infradead.org> <20260801073059.63651-1-ali@iusegentoo.com> <opm7uuadw7ctvvo6uln22nb6id3pepcs4nohunq7tzeaciq3kc@kigwxsd3pcbo>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
- anonymous page index
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
-> This is potentially useful debugging information and matches the existing
-> page offset provided.
-> 
-> Use the raw __linear_anon_page_index() function so as to always output this
-> value regardless of whether the mapping is file-backed or not.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+On Mon, Aug 03, 2026 at 10:57:14AM +0200, Jan Kara wrote:
+> I'm a bit curious: Are you using UFS driver in Linux? Or do you know of
+> anybody using it?
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Yes. I run FreeBSD on a second machine that I keep as a small server, and
+its disks are UFS2. I mount those from my Linux box with the in-tree ufs
+driver to read data off them, which on Linux is read-only for UFS2. So the
+driver is not theoretical for me, it is how I reach my own data.
 
--- 
-Cheers,
+More generally that is what the driver is for: reading FreeBSD, NetBSD,
+OpenBSD and Solaris disks from Linux. Anyone dual booting a BSD, migrating
+data off one, or doing recovery or forensics on a BSD or Solaris volume
+ends up here. It is a small user base but not an empty one, and it is the
+only in-tree way to do it.
 
-David
+That is also why the mount path bugs bother me. The images I feed it are
+real BSD volumes, sometimes left unclean after a crash, so an unusual but
+legitimate on-disk layout should not panic the kernel. The fixes I have
+been sending are all in that parse and mount path.
+
+Thanks,
+Ali
