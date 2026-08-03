@@ -1,178 +1,223 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EDF35F165
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 03:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B990126FD93;
+	Mon,  3 Aug 2026 04:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785727574; cv=none; b=EXKk5DSoM7BQOImJ0pLnaXw85Susf3Jco73AjGPn4+4feO2+2X2ipCjynmEz8Erjaesw7H0YiYJrR01QnPWqm16dxX3+ncfIo/Gl/MLqhChXZcrGrrzPcujPUWWMST7Z5NeJDpurmo3AKJU6Up8cjxC1f4uEZ7qeoYT07Z9Rr88=
+	t=1785732469; cv=none; b=LICzf5iy2/9XUEWQsAO5BoAF5YE9WbHpttD17QqirUDyH6LYjoRJk2F++2IDFxSQHwRGmUiTdsX+g3qloOVff5HX942wf16e12qGMTwXyFi4Jj4vkrxHB2yy7DRNgb7VM8VdaWpjTvwH10rmhRpoCiZ2opU6BJGv24MgFb+17KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785727574; c=relaxed/simple;
-	bh=sZRItxkKEi929mswecs046fLGMHQUXMIE+250d1nYLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AfVBIYlBNVEdNmp7jYDXpWqYIvJGbO9AqixVYgG+3yCE/oeJCGb1nvmPLEAktoO1/7rPEZp/FKXmw2G7cXpJY8+YFz58gF7QziQbzx0KtIEhwc/DhjMQzAz+3OVjZYGuAwCYmJbXaPEMj3OVIyiys/3whxXWGFJXEct9mPwTjFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKuRMzT8; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785732469; c=relaxed/simple;
+	bh=nc9+VKRRyzbveSGldMDM8u2JNc9MYxLwkMCAjybbhAU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Uy3tIZE3E0faszINR+xKb7ADxVSsKo1HidecnWNgsjy3XSGMLSg9uZ/2Fbq314sfhEcNpvTFAtKYLLFsSziQ5hM+oGTe0K1jmo01sfm5nhxr09e3MYXDoiCEWw107Jj+qFZzNNvC7Se/CWVerlIxq+aJtOuRVYjqb9kg9yTMsBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Jd82uRLC; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKuRMzT8"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8486ac3f347so3664828b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 02 Aug 2026 20:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785727572; x=1786332372; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qd0UrtkXJJ6ssaYcfX3RHhmPo0J6xySI3bKftzJ6dHg=;
-        b=dKuRMzT8Twj319XXyC4LkdABEQkwRhz/VpqbbOzZwTrROWyN0VaVNWRbjNfOz7re/z
-         6LkCLsB2B3jQKP3WjYWIngcoKJ362cEfQkEcnJ8+CpmngZzVgUj+vRbWfpzNDpyM/8/v
-         AysJsyaN6zoY+pT/U/uqCY+WqB18Y17ovbuFvhahCmA7bgRfzL33LtQCfgxc6f6XoePT
-         P6wlcAQkrS0ZK5rFZUZv/icKkLwJw6/vuMjfBO6f0SNP7Rqn0EGgKKi4WgHX7aV4EGM1
-         5RHdOsVdv5a2u3bfckl1TxHrNT7hvHGdRIN0MceaLYluYF8dubgR2rjyZROiai4b7H7t
-         mxVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785727572; x=1786332372;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qd0UrtkXJJ6ssaYcfX3RHhmPo0J6xySI3bKftzJ6dHg=;
-        b=kw2aFOgu2bd2UaqDzocMcY68qPv18AgAJSCpstEiW5WBeis+8j8u/tY9lO25rqfhoP
-         DyvVpDEry4G3ZNoExELjLXZCh0InDH2sOAXYD+mPKFrLIrNLbDsPx5FPBCerv2b+7CQ9
-         9XjWMHg7Uu4kEm1//MulJAwnO6bscsazqvUiyj3JBzRxmfbS+sYyNNk2u3nNzVJ2qUhp
-         FFbdSlqKGylkUnho4nGIRbORMYSBoTkuPuSOJoubcY2oCxwGNxh11KV4orKmSw9+x2Ey
-         h0PzFsFY8AvLKCQk+WjhtLNYBOCP/xu4xIx7Yv9k8SG9Q//zAIEWfp3QELWMdW6ht4F6
-         u0/A==
-X-Forwarded-Encrypted: i=1; AHgh+RqqHNGtthRzJpToEdSqyCqeLifdR+7Coct2qS+zDjIZrES7c9EvqGu53s9lzOopyYyiTV0zYM/qWSNapQPv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2+xsWbdxWMgjWYGokOhv8S978hs2ivmiHsMSy5rElHsKUOXkz
-	rmgFdy9g+4TI5g8CC7VUCILnZmlzeHzN3W6Mh+U8ww+1ME7hO+fm9E9r
-X-Gm-Gg: AR+sD126GzEefrnaB5BDeJCjmehWv+nmK0BknidO9cTInPzRRkseymS/j9TVKr3vgBP
-	jR5gklpNVZcQURyxBLVFVU/f+6vSR5nHGJYWlkMI6VsSx8SdA4uELMhOlT0R3RtVZljyFWAt/1k
-	KjPwe7ek0pEgpRcrZcabxlZnwsux4E7R4SvXkr7MSwfUCx+ub52vBhY+avQ3xi3EJtEwYtaj3Ly
-	QUYwo8kjcf8kqOaBbXUu6pTmQpNt/GGBHdqiBxAcaN7XpQPjxGdCeAMrDU2lJ3IMwO0Xmj0ldQ4
-	eNwPrZQo/edonbmh3s6p6htLkJplQsh/BIlan4B5e01MpQHSPeV4nEuQckMeVsvNvdrd221NkA5
-	t2/F4Kfrz6d5uf7EP+l70ZXRN78VyTi1snpBpZQeZkwfF0TcFsSerXDBeZ0n/KYHUt+yZBflPAp
-	iWepqbvz3n2T3SJa2Eizuqzup8L+SFwfAwzBS0QQ4o6/woNRQBs1Gp5IFRkNYSofr3MnaUPPh4k
-	DHqlxqvOwlytA==
-X-Received: by 2002:a05:6a21:4cc5:b0:3c3:6c34:f9ea with SMTP id adf61e73a8af0-3c92afdafb1mr7337597637.39.1785727572406;
-        Sun, 02 Aug 2026 20:26:12 -0700 (PDT)
-Received: from localhost.localdomain ([113.23.46.216])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e47dsm46591358eec.3.2026.08.02.20.26.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 02 Aug 2026 20:26:11 -0700 (PDT)
-From: Yuejie Shi <syjcnss@gmail.com>
-To: Russell King <rmk+kernel@armlinux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Bae Yeonju <iwasbaeyz@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] adfs: validate zone_spare in adfs_checkdiscrecord()
-Date: Mon,  3 Aug 2026 11:26:06 +0800
-Message-ID: <20260803032606.81686-1-syjcnss@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Jd82uRLC"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 672LmVlS169288;
+	Mon, 3 Aug 2026 04:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=5AagMPrbfVWLSPSHL4sqi7MnRh3D
+	OamQMJjcTqc0Lqk=; b=Jd82uRLCCmFx/w5DA29mqj7u0Dns6ARufvi6dmrpkKWs
+	+RK456vHE7gCHrZ2pmLJlkS5UFJsXUz2jp/4vCAFIvP1IIb0c1/UmgUjUwXSRV8h
+	15Ie5+d5RqueTWQ50mpc2W2vtYNYNg+3geA3kvwQ797GAp7SaDokdPxvopibOWgN
+	Sc9QUMirfv3r3aRP5k+pOiXpitOtIO+Re7vFffvMSw8Z2F2EciLdBdFinRDsKmGU
+	ThPjeHdQ4qKBdLYMAwS1072NqXge9I+f3n+vCXvrlw/DaH8xjBFcGWvalCLqpNLq
+	fffq+YvMbzok2WStE8iX9wp8c7guvseDopT+MqsvJw==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs77fxr43-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Aug 2026 04:47:42 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6734fFoR026008;
+	Mon, 3 Aug 2026 04:47:41 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fsu4qbwj1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Aug 2026 04:47:41 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6734leQH24183310
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 3 Aug 2026 04:47:40 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 802BE5805D;
+	Mon,  3 Aug 2026 04:47:40 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A6BD858065;
+	Mon,  3 Aug 2026 04:47:37 +0000 (GMT)
+Received: from [9.61.248.87] (unknown [9.61.248.87])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  3 Aug 2026 04:47:37 +0000 (GMT)
+Message-ID: <9ac0524e-0644-4fba-a256-c5b7fe333a3e@linux.ibm.com>
+Date: Mon, 3 Aug 2026 10:17:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+To: linux-ext4@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca
+Cc: linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        ojaswin@linux.ibm.com, Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>
+From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Subject: [BUG] ext4: NULL/invalid pointer dereference in ext4_writepages()
+ during generic/039
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAzMDAzOSBTYWx0ZWRfXziExb8VGKV4d
+ wllNnCRC81Yamm6jG4IQn5VSSyAndFz4Crpd0lD0/CtqZa2vxPiHWh3wywfhQHOFnEI/AqxNe9g
+ NU04nbwf/FllispLGEQ6oFYYeTTWRspg5am9qF8ApbSIcbkYqGhJ0BjHpZzja8La5CaDjOjnLHI
+ jGMlpA7nzMm/q7ystI6cycIW+QhfhDkpFleu8jBYKughav4E24hP4a/q9hTzUsi5Q4iP8WlMowB
+ xUiTJXEkx+Kvi9PJ3uK1Yxe79slfaz0sLbMcUk/gkUDKgwv3U+bJQ6NsS8xXt+WMkfjaPwzhvV1
+ GIJ5qxKFJdXVkQV4bysurYur7lzpBZ+3pq3XhwL7L16MbMVj9RT09sv1L0AkmdRT4UM68N27y92
+ XuPmsImZ1BO8mun0GoVd+XGN42JXtDK3uPTiniyeXsBaB71qbmi0Yq+UubHcyJTmTWAgc6HyuVl
+ MGf8bT6tfdDEq+O99WA==
+X-Authority-Analysis: v=2.4 cv=WIFPmHsR c=1 sm=1 tr=0 ts=6a701d6e cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
+ a=pyDeDfM9kf01-BYV5vUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: FNwGH8O9EyLn6EmfCOYLjCicUULJ8Rwt
+X-Proofpoint-ORIG-GUID: FNwGH8O9EyLn6EmfCOYLjCicUULJ8Rwt
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODAzMDAzOSBTYWx0ZWRfXzIJsGiIl7kes
+ gwtLUDNUuwa7DSfdtlVYd1toiItEt3W7wembwyIxpVhGZ0JX2jvGkMpLrL+Bh8h0iP/EtuO/T6m
+ IjGnrIIGAEOJCbOSPABzIsah/KshBc4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-02_06,2026-07-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ suspectscore=0 clxscore=1011 impostorscore=0 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608030039
 
-The size of a free space map zone is derived from two on-disk fields:
+Hi,
 
-	zone_size = (8 << dr->log2secsize) - le16_to_cpu(dr->zone_spare);
+I am  seeing a reproducible kernel crash while running xfstests 
+generic/039 on powerpc.
 
-log2secsize is validated by adfs_checkdiscrecord() to be 8, 9 or 10, so
-the left-hand term is at most 8192.  zone_spare is a plain 16-bit
-on-disk field that nothing checks at all, so any value above the number
-of bits in a zone makes this unsigned subtraction wrap to nearly 4G.
+The crash happens during ext4 journal recovery while mounting the
+filesystem. The fault occurs inside ext4_writepages() and appears to
+dereference a userspace-looking address.
 
-zone_size is then used as the scan limit of every map zone:
+Test environment
+----------------
+Kernel:
+   7.2.0-rc5-next-20260731
 
-	dm[zone].dm_endbit = 32 + zone_size;
+Architecture:
+   powerpc64le
 
-and both bitmap walkers use dm_endbit as the bound of a buffer_head that
-is only (1 << log2secsize) bytes long:
+Platform:
+   IBM Power9 (pSeries)
 
-	fragend = find_next_bit_le(map, endbit, start + idlen);
+Machine:
+   IBM,8375-42A
+   FW950.80 (VL950_131)
 
-so lookup_zone() and scan_free_map() scan hundreds of megabytes past the
-end of the map buffer.  The fragment end they come back with feeds
-adfs_map_lookup()'s returned block number, so this is not only a crash:
-it is an out-of-bounds read whose result steers which disc block is read
-next.
+Config highlights:
+   PAGE_SIZE=64K
+   MMU=Hash
+   PREEMPTLAZY=y
 
-The same expression also divides:
+Workload
+--------
+xfstests generic/039
 
-	asb->s_ids_per_zone = zone_size / (asb->s_idlen + 1);
+Log excerpt:
+   run fstests generic/039 at 2026-08-03 00:22:44
 
-and adfs_map_lookup() does "zone = frag_id / asb->s_ids_per_zone", so a
-zone_spare that leaves fewer than idlen + 1 bits is a divide-by-zero as
-well.
+Crash
+-----
+[  615.063689] Kernel attempted to read user page (fe73f0000) - exploit 
+attempt? (uid: 0)
+[  615.063714] BUG: Unable to handle kernel data access on read at 
+0xfe73f0000
+[  615.063723] Faulting instruction address: 0xc008000015b0ed24
+[  615.063731] Oops: Kernel access of bad area, sig: 11 [#1]
 
-Reject both in adfs_checkdiscrecord(), which is the single gate both
-adfs_validate_bblk() and adfs_validate_dr0() run before adfs_read_map()
-is reached, by requiring zone_spare to leave room for at least one
-fragment id.
+The faulting instruction is:
 
-Mounting a crafted image requires CAP_SYS_ADMIN in the initial user
-namespace -- ADFS is FS_REQUIRES_DEV and not FS_USERNS_MOUNT -- so a
-plain unprivileged local user cannot reach this.  The realistic threat
-model is untrusted media and images: automounted removable media,
-container/VM disk images opened by a privileged mounting agent, and
-forensic or CI tooling.  Once mounted read-only, an ordinary
-getdents64() is enough to fire it.
+   ext4_writepages+0x12c/0x3a0
 
-  # 4 GiB sparse image, log2secsize=10, nzones=2, zone_spare=9000
-  mount -t adfs -o ro /dev/vda /mnt
-  ls -la /mnt
+Relevant call trace:
 
-  BUG: KASAN: use-after-free in _find_next_bit+0x68/0xd0
-  Read of size 8 at addr ffff0000ccc6d000 by task ls/136
-   __asan_load8+0xcc/0xd0
-   _find_next_bit+0x68/0xd0
-   adfs_map_lookup+0x1b8/0x378
-   adfs_dir_read_buffers+0x178/0x2b0
-   adfs_fplus_read+0x50/0x2c8
-   adfs_dir_read_inode+0xa8/0x120
-   adfs_iterate+0xf0/0x2c0
-   iterate_dir+0x12c/0x400
-   __arm64_sys_getdents64+0xf0/0x230
+   ext4_writepages
+   do_writepages
+   __writeback_single_inode
+   writeback_single_inode
+   write_inode_now
+   iput_final
+   ext4_fc_replay
+   do_one_pass
+   jbd2_journal_recover
+   jbd2_journal_load
+   ext4_load_journal
+   ext4_load_and_init_journal
+   __ext4_fill_super
+   ext4_fill_super
+   get_tree_bdev_flags
+   ext4_get_tree
+   vfs_get_tree
+   vfs_cmd_create
+   __do_sys_fsconfig
 
-(KASAN calls it use-after-free only because the scan leaves the
-buffer_head's page and lands in freed pages; there is no lifetime bug in
-ADFS.)  Hundreds of further reports follow, including reads from inside
-adfs_map_lookup() itself.
+Full trace:
 
-Real ADFS images use a small zone_spare -- a handful of bits of padding
-per zone -- so this rejects nothing that mounts today.
+[  615.064100] NIP [c008000015b0ed24] ext4_writepages+0x12c/0x3a0 [ext4]
+[  615.064360] Call Trace:
+[  615.064383] do_writepages+0x190/0x330
+[  615.064395] __writeback_single_inode+0x9c/0x9e0
+[  615.064411] writeback_single_inode+0x18c/0x2b0
+[  615.064425] write_inode_now+0xc0/0x100
+[  615.064439] iput_final+0x10c/0x300
+[  615.064451] ext4_fc_replay+0x374/0xdd0 [ext4]
+[  615.064583] do_one_pass+0x9bc/0x1370 [jbd2]
+[  615.064627] jbd2_journal_recover[0x358/0x400 [jbd2]
+[  [jbd2615.064670] jbd2_journal_load/0x110 [jbd2]
+[  615.064712] ext4_load_journal+0x2a0/0xb00 [ext4]
+[  615.064844] ext4_load_and_init_journal+0x6c/0x660 [ext4]
+[  615.064976] __ext4_fill_super+0x20b0/0x23a0 [ext4]
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuejie Shi <syjcnss@gmail.com>
----
- fs/adfs/super.c |  9 +++++++++
- 1 file changed, 9 insertions(+)
+Registers:
 
-diff --git a/fs/adfs/super.c b/fs/adfs/super.c
-index a4cd0a5159dd..1ab810f96edb 100644
---- a/fs/adfs/super.c
-+++ b/fs/adfs/super.c
-@@ -82,6 +82,15 @@ static int adfs_checkdiscrecord(struct adfs_discrecord
- 	if (dr->idlen > max_idlen)
- 		return 1;
- 
-+	/*
-+	 * zone_spare is subtracted from the number of bits in a map zone to
-+	 * give the zone size, which is computed as an unsigned quantity and
-+	 * is also the divisor for the number of ids per zone.  Require it to
-+	 * leave room for at least one fragment id.
-+	 */
-+	if (le16_to_cpu(dr->zone_spare) > (8 << dr->log2secsize) - dr->idlen - 1)
-+		return 1;
-+
- 	/* reserved bytes should be zero */
- 	for (i = 0; i < sizeof(dr->unused52); i++)
- 		if (dr->unused52[i] != 0)
---
-2.51.0
+   DAR:   0x0000000fe73f0000
+   DSISR: 0x40000000
+
+The address being dereferenced (0xfe73f0000) looks like a userspace
+address and triggers:
+
+   "Kernel attempted to read user page - exploit attempt?"
+
+
+Filesystem messages immediately prior to the crash:
+
+[  614.718310] EXT4-fs (loop0): mounted filesystem 
+ee09878a-da42-4d97-81ed-1b9616af2fb4 r/w with ordered data mode. Quota 
+mode: journalled.
+[  614.984409] EXT4-fs (dm-0): mounted filesystem 
+b60397dc-c40f-4c75-bba9-bfc21f3a905a r/w with ordered data mode. Quota 
+mode: journalled.
+[  615.029979] EXT4-fs (dm-0): unmounting filesystem 
+b60397dc-c40f-4c75-bba9-bfc21f3a905a.
+
+
+Meanwhile, I will attempt bisection.
+
+If you happen to fix this issue, please add below tag.
+
+Reported-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+
+
+
+
+Thanks,
+Venkat.
+
