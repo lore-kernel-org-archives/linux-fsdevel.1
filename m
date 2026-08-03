@@ -1,103 +1,71 @@
-Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646F2E6CAB;
-	Mon,  3 Aug 2026 01:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94EE2F7EF6
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 01:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785721157; cv=none; b=TffIN9hop90xkJ2NwkdJTYuiH1T2tBBGOZi0J3gjfCyYjGlrG2UODiaU9lD2Bj+qSCNeUN9p6QCUO4eNgerzjch4ut+GSNNNG+klbdVx9hKSsGUHyp3J/IBrB2MomUC1OzyTj3tvrR7d0YllqzyZBgjBpj/TOn4umLMZQf/sLrY=
+	t=1785721971; cv=none; b=OeI4IKOfjQK4RWYdAgUB0WPhOl0pnfWwjTYt5zf+4VwumjKcki1BIpkLwsmMSOCMDqyOWffxmEej7t1uyGGqktEs5QWOFePbCSnE60mJTZPSGbrtSC3VAq/JVsSFIZoC+xbxbysvZ0tysVrtclCGwiO1EV+kAGVsjiZtfGr4Upk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785721157; c=relaxed/simple;
-	bh=xah1IZBUivqmQDuiMbVbkX4ugtrL2Xtzx9N4QCKerkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p1+gWGu2VN8d1zz1uIL58yyzz1F1mCIS9uVDy2CiIp1Q1Nm7W7ZXbzwJY+6h3b/8Qn3k/vH/G9VOcVC/f4sQzsSwbGPeWY2LPD091yDilUsoSveWFzKhtnhtfexxBoynsAf90eL/ndunU8UZ9RIyPzVhaFuDWjn97rTMxkm70FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=MmTcyLcM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Kcsz9Wpk; arc=none smtp.client-ip=202.12.124.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1785721971; c=relaxed/simple;
+	bh=ojZo+ucS5/6Fu7SmbfQ0tXli7zb2FizATZBNFnUJLRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JVTptWkUHxV0O1HbjRvU9zi46/zYwCdcHUc5/fFs4CdBtfe67aitmsvDZ9ZaX3RV829UWRqehBd9WtmEfe4/mOV3FLUZKEg0562DOw7LGfOYIetkE6vYL7Rov8xThqqcQ3zDDX7sLGgslQnW+Otf8Ww+DMP1ddQuIJk2mUPhVYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDUvm62Q; arc=none smtp.client-ip=74.125.227.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="MmTcyLcM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Kcsz9Wpk"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.stl.internal (Postfix) with ESMTP id 7C7B51300128;
-	Sun,  2 Aug 2026 21:39:15 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sun, 02 Aug 2026 21:39:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm3; t=1785721155;
-	 x=1785728355; bh=48Fkc2hhO16ufhmd1558xtjY3jyS/m26wkZxQxAYLN4=; b=
-	MmTcyLcMzoglUJq5DvMYnZYd5dxPosypo6M/Czfn6KbZhjhaV5cGXYOeTv4oR0TT
-	sgQeNmTSOWtAIK1eFjh0CppB+cW3OJOGTEKFbINbZG+7FMGsDxBdw7q2B9GXviVm
-	trc4zXspmN/Ddr2UGslL7EdXUOGsx0inSYQAn4Tnm8JA5WXxbhw2lujtXlZ2j5uS
-	Oi9DUHD2G5p/kuC+nIFF9/K/rDiy2GpJykkv6lPqSgOCTwIpZKFEz2Yang/bbglA
-	//wkYWxj5HmN/ShJAlYORy8aCkVzy4YMuaUlsR7cM2m80DBbodnC+Qyl3uUgFxwg
-	JFOaflya03Xaiy9RAjuWoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1785721155; x=1785728355; bh=4
-	8Fkc2hhO16ufhmd1558xtjY3jyS/m26wkZxQxAYLN4=; b=Kcsz9WpkZmbKKAn7R
-	BSWde2q3tmv1TuCv/DZM6/QYpvZdyb4+1GtF0ImDSLUDaSYmHIEXV7e3AiN1/idL
-	4hyTU7pBZjIKFjfwp7w/NuJuT+GJgpmz/RnV8PIZrcPawUhFJ6/bCFw6T3KuHeKe
-	FfXEpr4K+fRWcUFeMt/hgZm38kep6eBowrLSAijJJdo9NIS0vpYXcz76uzCigAYS
-	LE3zGsGX7ATZz+Ce1bTJtoum4SRvYsAW7S5oqdV2vXJKwHPVprraItJvn2SidkDF
-	Et0n8U4syijG6V2teDdrN9r9IYsdi6JiZ3lEAIkpaVyxkkrr1HgGA0G8kccUYo7g
-	MhIfg==
-X-ME-Sender: <xms:Q_Fvao4OVt1w0DDQ-nTkHW0vRax88fuU8qfppt0KxI4PzNqT92Uoog>
-    <xme:Q_FvaiEZaOxw5w0nvqFa6h4kHWc88-GWzJOiJkhKb71AWUItQyZA2x36nSP4DJdJX
-    FLdCo903k0Rr1gjV_M2JxJDH7GK4zB_r1Dk_xXqjXZ8rCRRjFg>
-X-ME-Received: <xmr:Q_Fvauxqm_Z2j-DFGTtsnAgP44uhKD1605Lqs1xzbn31NI--xqChYDCF5aRzxMMZRQ26gGe9Wny5eI_0GsLV2P2Lf-S5SWc>
-X-ME-Proxy-Cause: dmFkZTEkjpQitAtmxGBQYKqyuxI2Zkeo3c6RoaKCNErqeb7OpTUkwok+umPK8wjjzKilLR
-    oEkJ4cvJVGjSJ84RQAU1yMp4OnVAa0j48I+IZh9Fdm8T9NlXb22vW2b++I/w1xpR0D9cGg
-    PY5vxXMwbazIrQndnHZZeUaDjtiO7oMO4JfvURQOW8xpTRIAhWmk/yj3tGiTCFDkK11PUi
-    8zP+PAM6p9S6yYk+YxJK09JqJLxfofUFwglAMcxid0fjJ/8eCuMBF6ZgJ9khwYNTvmmvDv
-    XHb98vv+s9pbhqVhgG7tjgoBPJWqvJT0PbLNRH63wXqa3Yd9frMtJBXjxnj2koyaKciEdl
-    uFMMz/4CEUcGyouzkIImU/OhVANGkyFS72dBLv8gabALYxnV5Tqh6acfylQZWUdliw+z9E
-    bY051siIlw2Ox7ryWHJ5c0bt3NjEccKlc099E7t+VNREBTdm8Jj+6iKP0C+r6YGgyGTDcw
-    q4sQLDcx7PBXLdmd26XcAXfyMzQu66MviRh0kq6A4mXxLyX9JOUvnTnZ3BoCPIz3FNVnj/
-    brhwej9bFhJXHOMEsW1uxSwNwWTzwQeozhxzEJicXviJfH0NqSaAH6OGUX5cgpxPJgji6/
-    N74k5PdE+TwvVvSOKrfR2olAgDTA2/Y+MSeg4U8X3elFfFCDTVNchi2yLV9g
-X-ME-Proxy: <xmx:Q_Fvaq20vStdJhBNvOoSTb4g19GsvIWQlei5GuXvWwvPK7NMNTvZCA>
-    <xmx:Q_FvapOKN_432hnaW59iQu0Nu7qbmCS9Eu2SC5VVgO2g60pxwiJ8NQ>
-    <xmx:Q_Fvaute9IUlAcE3n2mumi95ElbmkuaWisvaItgo5JRVmkm3TYiBzA>
-    <xmx:Q_FvalInVHTSd5EPpi7oprbXA0FqpodVYjtUJg7J4sBNztjtGScCVw>
-    <xmx:Q_FvakJ0jH_MWyiL7sI7PtHnFADOaliSXLBWRfFFhdNaTJMwlL03Z6kv>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Aug 2026 21:39:07 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Ian Kent <raven@themaw.net>,
-	Chuck Lever <cel@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Miklos Szeredi <mszeredi@redhat.com>
-Cc: autofs@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDUvm62Q"
+Received: by mail-pj2-f2.google.com with SMTP id d9443c01a7336-2ccc2e84048so16769155ad.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 02 Aug 2026 18:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785721969; x=1786326769; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DwmWQ5odQKMOsUvL/8xF5uR8hh2sroQZB6agvNlfobk=;
+        b=cDUvm62QWqLuioWXRvnHuSENPQ3kmWKBcsI/EAlchy7zp+ebUAUOwNbQKGwsNtpAa1
+         RQTANz/q/2zA8eAdqsZLmX8Qw3+bx4WUzC9tKez1j/Xtaw08MAafMVEi7b4jBtjhiB60
+         yQgo3AU2IsB58XQ8pNduV5mLgRsMaeFS2wbdtbUMhnJHc5JVyu5BO8LL42LULMYkYyWq
+         Cp9JLd4piPosg9xMhSRw3v+ClQNOMPix00e2a6AxfchkVIganO5hoec80ENXeNCg8rvy
+         a4r9HG6B2D174TQj26vaNWyDbSZPYw6OTHflIpkWKUHtjC7DnHERNML74GMV0yz8wB/0
+         Pkhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785721969; x=1786326769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DwmWQ5odQKMOsUvL/8xF5uR8hh2sroQZB6agvNlfobk=;
+        b=Mgh/AjYhJIl+ZSN6QTlQ8gGFqWW8RJqUaDJlwo8cWmUibNqpeS68i5zTP6EuI7zvMO
+         j7U4Z386V4Y0yyz+RbZ0Lj8p2zxpHWR91nEbY4RqlS5CIcYPZy4gIAO1WwAjZlV5YX/6
+         xtz6Mo5Bkh2ukv9aGi7xTOpuZALqUiIS0sIJmELtutvL/BY6RW4ls//iATejjryo4/Yf
+         00/3zEl5yLFPkSgxRyEn6evF8LuRTlgAnWxyCELt6tg5Lf3g7KqxhvCW6x3SvHX+JifC
+         qcsI/MiXUTjg4+YIn+q6exOgnMTT4MNSuG9ce1o7/ahtElZXw/L68CVqC+nCvBUTY+Hg
+         NbYg==
+X-Forwarded-Encrypted: i=1; AHgh+RpcfB8EMb3OTbBlazWX9aT4ebQrR33mJYtlV7KtNrk4a2FCeswh+RhlBbDNMqlGaX/EWKggFtWB8Qtu/KDJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGATiuJ3KBv1X6OUJwkdbP4NdO5boK59BsvPApiMxwSMkStpXa
+	Jp7UwoXcSnhU4WbXihb9t02U85+65fzYYZ39bVZ9cif3Q+j8NGR088QD
+X-Gm-Gg: AR+sD12rUTzS9kf/iB4YQ7HR5J4ZcX1flFIV6eeAZU9Oe5B42mYbvtWHGtFXH8YnrUK
+	LJs4n58GxKfkhdu0c0GvnjZ3hssThm1ydq8LsSq0qS9iv9K/gjYUSsi98pfTp3tUyUJK328liVk
+	BNylOhTc9Q7LMKLFsXeKU07xUzPFokvKmHiZRRBrDEvac1L8zyTsDa45tnvWo+zOPeEiBPm+hfF
+	imWp7+yGnhSFXcrQJPoA6P/1AQImPxqzbL+stOCS026Lw63XRMWsBKjqpZa9ZS+Feebg/u4LbXd
+	NpHR1G6WjtokbGuzOkXqPRVHBWwbp9+Xsxg4/GOcgDhLnZdmXiE/vTEeVD2jyVRNS5ThfMQbtwl
+	0z2qV86bpY1SPEa1KhLbM42tErG30kNxu/PjK1RSvQivbCJZAal0+nVFdgoAIAChogiaf2NHJAy
+	nEgeg840bRLLu34WGf1anJ1B+l/Qm1a2L7lTbCC1Dht/2WOdkIaHi0Qc3zvmCZpijI2An8b25Vk
+	2E=
+X-Received: by 2002:a17:902:ce8b:b0:2ce:9b49:d4a0 with SMTP id d9443c01a7336-2d0524939c7mr83300325ad.35.1785721968961;
+        Sun, 02 Aug 2026 18:52:48 -0700 (PDT)
+Received: from localhost.localdomain ([106.14.251.198])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b1222easm30240015ad.68.2026.08.02.18.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 18:52:48 -0700 (PDT)
+From: --global <syhuang.nju@gmail.com>
+To: brauner@kernel.org
+Cc: jack@suse.cz,
 	linux-kernel@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: [PATCH v1 12/12] libfs: remove cond_resched() from scan_positives()
-Date: Mon,  3 Aug 2026 11:21:21 +1000
-Message-ID: <20260803012648.2195405-13-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260803012648.2195405-1-neilb@ownmail.net>
-References: <20260803012648.2195405-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH RESEND] eventpoll: add lockless fast-path for eventfd
+Date: Mon,  3 Aug 2026 01:52:42 +0000
+Message-ID: <20260803015242.1810867-1-syhuang.nju@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -106,89 +74,437 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+From: Siyuan Huang <syhuang.nju@gmail.com>
 
-Now that d_for_each_positive_child_continue() calls cond_resced() as
-needed, scan_positives() doesn't need to any more.
+This PATCH introduces a lockless fast-path in ep_poll_callback() that
+avoids acquiring ep->lock when the target epitem is already queued on
+the ready list.  The optimization is specific to eventfd-backed epitems
+because eventfd provides the simple, deterministic readiness semantics
+needed for a correct lockless check.
 
-Signed-off-by: NeilBrown <neil@brown.name>
+== Problem ==
+
+Concurrent eventfd writers can cause substantial contention on
+eventpoll's ep->lock. Each eventfd wakeup invokes ep_poll_callback(),
+which acquires ep->lock even when the epitem is already owned by the
+ready-processing path and no additional ready-list insertion is
+required.
+
+== Solution ==
+
+Add an eventfd-specific fast path that allows ep_poll_callback() to
+return before taking ep->lock when the epitem already has a ready
+processing owner.
+
+The optimization uses two variables:
+
+  A = epi->notified
+  B = eventfd count-derived readiness
+
+The scanner executes:
+
+  W(A = false) -> smp_mb() -> dequeue -> R(B)
+
+An eventfd readiness transition executes:
+
+  W(B) -> smp_mb() -> R(A)
+
+The full barriers prohibit the store-buffering outcome in which the
+scanner reads the old readiness state while the callback reads the old
+A == true state.
+
+Consequently:
+
+  - If the callback reads A == false, no ready-processing owner is
+	registered; take the slow path to establish one (either through
+	rdllist or ovflist, depending on whether a scan is in progress).
+
+  - If the callback reads A == true, the epitem is already under
+	scanner ownership. Whether the scanner has dequeued it yet or not,
+	the scanner will either re-poll it (observing the new B) or has
+	already found it on the ready list. Either way, the event is not lost.
+
+notified is cleared before an epitem is removed from the scanner's
+batch and is set after it is inserted into rdllist, ovflist, or the
+scanner batch. A true value represents ready-processing
+responsibility; it is not intended to be an exact lockless view of
+list membership.
+
+Skipping the callback wakeup is safe because the transition that first
+establishes ready-processing responsibility still performs the
+original wakeup. ep_done_scan() also wakes epoll waiters when rdllist
+remains non-empty, and a new epoll_wait() caller rechecks the persistent
+ready condition before sleeping. For the non-exclusive items accepted
+by the fast path, returning 1 also preserves the callback's original
+return value.
+
+The fast path is restricted to directly monitored, level-triggered
+eventfds. EPOLLET, EPOLLONESHOT, EPOLLEXCLUSIVE and POLLFREE continue
+to use the original callback path.
+
+The implementation is currently guarded by CONFIG_EVENTFD_OPT and
+disabled by default while the cost of the additional full barriers is
+evaluated on more architectures and non-epoll eventfd workloads.
+
+== Performance ==
+
+On a Kunpeng-950 system, one 5-second benchmark run produced the
+following successful-read throughput changes:
+
+                         same NUMA       cross NUMA
+  1 writer / 1 reader      +5.8%           +47.2%
+  8 writers / 8 readers  +129.5%          +131.5%
+
+Mean ping-pong latency changed by -1.7% on the same NUMA node and
+-0.5% across NUMA nodes.
+
+Resending with linux-kernel@vger.kernel.org copied.
+No code changes.
+
 ---
- fs/libfs.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ fs/eventfd.c            | 45 ++++++++++++++++----
+ fs/eventpoll.c          | 92 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/eventfd.h | 11 +++++
+ init/Kconfig            | 12 ++++++
+ 4 files changed, 152 insertions(+), 8 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index c0771e8b645c..b4c9cfdc1907 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -105,7 +105,6 @@ EXPORT_SYMBOL(dcache_dir_close);
-  * If no such element exists, NULL is returned.
-  */
- static struct dentry *scan_positives(struct dentry *dentry,
--				     struct dentry *cursor,
- 				     struct dentry *last,
- 				     loff_t count)
- {
-@@ -122,15 +121,6 @@ static struct dentry *scan_positives(struct dentry *dentry,
- 				break;
- 			count = 1;
- 		}
--		if (cursor && need_resched()) {
--			if (!hlist_unhashed(&cursor->d_sib))
--				__hlist_del(&cursor->d_sib);
--			hlist_add_behind(&cursor->d_sib, &d->d_sib);
--			d = cursor;
--			spin_unlock(&dentry->d_lock);
--			cond_resched();
--			spin_lock(&dentry->d_lock);
--		}
- 	}
- 	dput(last);
- 	return found;
-@@ -157,7 +147,7 @@ loff_t dcache_dir_lseek(struct file *file, loff_t offset, int whence)
- 		inode_lock_shared(dentry->d_inode);
+diff --git a/fs/eventfd.c b/fs/eventfd.c
+index 9d33a02757d5..3d34cd652ac7 100644
+--- a/fs/eventfd.c
++++ b/fs/eventfd.c
+@@ -43,6 +43,29 @@ struct eventfd_ctx {
+ 	int id;
+ };
  
- 		if (offset > 2)
--			to = scan_positives(dentry, cursor, NULL, offset - 2);
-+			to = scan_positives(dentry, NULL, offset - 2);
- 		spin_lock(&dentry->d_lock);
- 		hlist_del_init(&cursor->d_sib);
- 		if (to)
-@@ -191,7 +181,7 @@ int dcache_readdir(struct file *file, struct dir_context *ctx)
- 	if (ctx->pos > 2)
- 		next = dget(cursor);
- 
--	while ((next = scan_positives(dentry, cursor, next, 1)) != NULL) {
-+	while ((next = scan_positives(dentry, next, 1)) != NULL) {
- 		if (!dir_emit(ctx, next->d_name.name, next->d_name.len,
- 			      d_inode(next)->i_ino,
- 			      fs_umode_to_dtype(d_inode(next)->i_mode)))
-@@ -445,7 +435,7 @@ offset_dir_lookup(struct dentry *parent, loff_t offset)
- 	MA_STATE(mas, &octx->mt, offset, offset);
- 
- 	if (offset == DIR_OFFSET_FIRST)
--		found = scan_positives(parent, NULL, NULL, 1);
-+		found = scan_positives(parent, NULL, 1);
- 	else {
- 		rcu_read_lock();
- 		spin_lock(&parent->d_lock);
-@@ -467,7 +457,7 @@ offset_dir_lookup(struct dentry *parent, loff_t offset)
- 		spin_unlock(&parent->d_lock);
- 		rcu_read_unlock();
- 		if (found && !simple_positive(found))
--			found = scan_positives(parent, NULL, found, 1);
-+			found = scan_positives(parent, found, 1);
- 	}
- 	return found;
++static inline void eventfd_wake_up_locked_poll(struct eventfd_ctx *ctx,
++					       __poll_t mask)
++{
++	lockdep_assert_held(&ctx->wqh.lock);
++
++	/* Protected by ctx->wqh.lock. */
++	if (!waitqueue_active(&ctx->wqh))
++		return;
++
++#ifdef CONFIG_EVENTFD_OPT
++	/*
++	 * Eventfd context of the two-variable protocol:
++	 *
++	 * W(B) updates ctx->count in the caller, then the callback performs
++	 * R(A) on epitem->notified.
++	 *
++	 * W(B) -> smp_mb() -> R(A)
++	 */
++	smp_mb();
++#endif
++	wake_up_locked_poll(&ctx->wqh, mask);
++}
++
+ /**
+  * eventfd_signal_mask - Increment the event counter
+  * @ctx: [in] Pointer to the eventfd context.
+@@ -72,8 +95,7 @@ void eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
+ 	current->in_eventfd = 1;
+ 	if (ctx->count < ULLONG_MAX)
+ 		ctx->count++;
+-	if (waitqueue_active(&ctx->wqh))
+-		wake_up_locked_poll(&ctx->wqh, EPOLLIN | mask);
++	eventfd_wake_up_locked_poll(ctx, EPOLLIN | mask);
+ 	current->in_eventfd = 0;
+ 	spin_unlock_irqrestore(&ctx->wqh.lock, flags);
  }
-@@ -493,7 +483,7 @@ static void offset_iterate_dir(struct file *file, struct dir_context *ctx)
- 		if (!offset_dir_emit(ctx, dentry))
+@@ -203,8 +225,8 @@ int eventfd_ctx_remove_wait_queue(struct eventfd_ctx *ctx, wait_queue_entry_t *w
+ 	spin_lock_irqsave(&ctx->wqh.lock, flags);
+ 	eventfd_ctx_do_read(ctx, cnt);
+ 	__remove_wait_queue(&ctx->wqh, wait);
+-	if (*cnt != 0 && waitqueue_active(&ctx->wqh))
+-		wake_up_locked_poll(&ctx->wqh, EPOLLOUT);
++	if (*cnt != 0)
++		eventfd_wake_up_locked_poll(ctx, EPOLLOUT);
+ 	spin_unlock_irqrestore(&ctx->wqh.lock, flags);
+ 
+ 	return *cnt != 0 ? 0 : -EAGAIN;
+@@ -234,8 +256,7 @@ static ssize_t eventfd_read(struct kiocb *iocb, struct iov_iter *to)
+ 	}
+ 	eventfd_ctx_do_read(ctx, &ucnt);
+ 	current->in_eventfd = 1;
+-	if (waitqueue_active(&ctx->wqh))
+-		wake_up_locked_poll(&ctx->wqh, EPOLLOUT);
++	eventfd_wake_up_locked_poll(ctx, EPOLLOUT);
+ 	current->in_eventfd = 0;
+ 	spin_unlock_irq(&ctx->wqh.lock);
+ 	if (unlikely(copy_to_iter(&ucnt, sizeof(ucnt), to) != sizeof(ucnt)))
+@@ -270,8 +291,7 @@ static ssize_t eventfd_write(struct file *file, const char __user *buf, size_t c
+ 	if (likely(res > 0)) {
+ 		ctx->count += ucnt;
+ 		current->in_eventfd = 1;
+-		if (waitqueue_active(&ctx->wqh))
+-			wake_up_locked_poll(&ctx->wqh, EPOLLIN);
++		eventfd_wake_up_locked_poll(ctx, EPOLLIN);
+ 		current->in_eventfd = 0;
+ 	}
+ 	spin_unlock_irq(&ctx->wqh.lock);
+@@ -310,6 +330,15 @@ static const struct file_operations eventfd_fops = {
+ 	.llseek		= noop_llseek,
+ };
+ 
++#ifdef CONFIG_EVENTFD_OPT
++bool is_eventfd_file(struct file *file)
++{
++	return file->f_op == &eventfd_fops;
++}
++EXPORT_SYMBOL_GPL(is_eventfd_file);
++
++#endif
++
+ /**
+  * eventfd_fget - Acquire a reference of an eventfd file descriptor.
+  * @fd: [in] Eventfd file descriptor.
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index eed8cecd94e3..09e9239ce2d5 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -39,6 +39,9 @@
+ #include <linux/rculist.h>
+ #include <linux/capability.h>
+ #include <linux/seqlock.h>
++#ifdef CONFIG_EVENTFD_OPT
++#include <linux/eventfd.h>
++#endif
+ #include <net/busy_poll.h>
+ 
+ /*
+@@ -285,6 +288,14 @@ struct epitem {
+ 
+ 	/* The structure that describe the interested events and the source fd */
+ 	struct epoll_event event;
++
++#ifdef CONFIG_EVENTFD_OPT
++	/* Set after queueing, cleared before dequeueing from the ready path. */
++	bool notified;
++
++	/* True if the monitored file is an eventfd. */
++	bool is_eventfd;
++#endif
+ };
+ 
+ /*
+@@ -620,6 +631,65 @@ static inline bool ep_events_available(struct eventpoll *ep)
+ 		read_seqcount_retry(&ep->seq, seq);
+ }
+ 
++#ifdef CONFIG_EVENTFD_OPT
++/*
++ * Eventfd/epoll two-variable communication:
++ *
++ *   A = epi->notified
++ *   B = eventfd count/readiness
++ *
++ *   scanner context: W(A = false) -> smp_mb() -> dequeue -> R(B)
++ *   eventfd context: W(B)         -> smp_mb() -> R(A)
++ *
++ * Therefore R(B) == old and R(A) == true cannot both occur.
++ */
++static inline void ep_set_notified(struct epitem *epi)
++{
++	if (epi->is_eventfd)
++		WRITE_ONCE(epi->notified, true);
++}
++
++static inline void ep_eventfd_prepare_repoll(struct epitem *epi)
++{
++	if (!epi->is_eventfd)
++		return;
++
++	/*
++	 * Stop callbacks from skipping before the scanner drops its ready-list
++	 * ownership. Keep the full barrier between W(A = false) and R(B); the
++	 * actual dequeue may happen between the barrier and the readiness read.
++	 */
++	WRITE_ONCE(epi->notified, false);
++	/* Scanner context: W(A = false) -> smp_mb() -> R(B). */
++	smp_mb();
++}
++
++static inline bool ep_eventfd_callback_can_skip(struct epitem *epi,
++						__poll_t pollflags)
++{
++	if (!epi->is_eventfd)
++		return false;
++
++	if (READ_ONCE(epi->event.events) &
++	    (EPOLLEXCLUSIVE | EPOLLET | EPOLLONESHOT))
++		return false;
++
++	if (pollflags & POLLFREE)
++		return false;
++
++	/* Eventfd context: W(B) -> smp_mb() -> R(A). */
++	return READ_ONCE(epi->notified);
++}
++#else
++static inline void ep_set_notified(struct epitem *epi) { }
++static inline void ep_eventfd_prepare_repoll(struct epitem *epi) { }
++static inline bool ep_eventfd_callback_can_skip(struct epitem *epi,
++						__poll_t pollflags)
++{
++	return false;
++}
++#endif
++
+ #ifdef CONFIG_NET_RX_BUSY_POLL
+ /**
+  * busy_loop_ep_timeout - check if busy poll has timed out. The timeout value
+@@ -1007,6 +1077,7 @@ static void ep_done_scan(struct eventpoll *ep,
+ 			 * reverses the iteration order into FIFO.
+ 			 */
+ 			list_add(&epi->rdllink, &ep->rdllist);
++			ep_set_notified(epi);
+ 			ep_pm_stay_awake(epi);
+ 		}
+ 	}
+@@ -1303,8 +1374,11 @@ static __poll_t __ep_eventpoll_poll(struct file *file, poll_table *wait, int dep
+ 	mutex_lock_nested(&ep->mtx, depth);
+ 	ep_start_scan(ep, &scan_batch);
+ 	list_for_each_entry_safe(epi, tmp, &scan_batch, rdllink) {
++		/* Clear notified before a possible removal from txlist. */
++		ep_eventfd_prepare_repoll(epi);
+ 		if (ep_item_poll(epi, &pt, depth + 1)) {
+ 			res = EPOLLIN | EPOLLRDNORM;
++			ep_set_notified(epi);
  			break;
+ 		} else {
+ 			/*
+@@ -1497,6 +1571,9 @@ static int ep_poll_callback(wait_queue_entry_t *wait, unsigned mode, int sync, v
+ 	unsigned long flags;
+ 	int ewake = 0;
  
--		dentry = scan_positives(dir, NULL, dentry, 1);
-+		dentry = scan_positives(dir, dentry, 1);
++	if (ep_eventfd_callback_can_skip(epi, pollflags))
++		return 1;
++
+ 	spin_lock_irqsave(&ep->lock, flags);
  
- 		if (!dentry)
- 			goto out_eod;
+ 	ep_set_busy_poll_napi_id(epi);
+@@ -1529,11 +1606,13 @@ static int ep_poll_callback(wait_queue_entry_t *wait, unsigned mode, int sync, v
+ 		if (!epi_on_ovflist(epi)) {
+ 			epi->ovflist_next = READ_ONCE(ep->ovflist);
+ 			WRITE_ONCE(ep->ovflist, epi);
++			ep_set_notified(epi);
+ 			ep_pm_stay_awake_rcu(epi);
+ 		}
+ 	} else if (!ep_is_linked(epi)) {
+ 		/* In the usual case, add event to ready list. */
+ 		list_add_tail(&epi->rdllink, &ep->rdllist);
++		ep_set_notified(epi);
+ 		ep_pm_stay_awake_rcu(epi);
+ 	}
+ 
+@@ -1840,6 +1919,9 @@ static struct epitem *ep_alloc_epitem(struct eventpoll *ep,
+ 	epi->ffd = *tf;
+ 	epi->event = *event;
+ 	epi_clear_ovflist(epi);
++#ifdef CONFIG_EVENTFD_OPT
++	epi->is_eventfd = is_eventfd_file(tfile);
++#endif
+ 
+ 	return epi;
+ }
+@@ -1956,6 +2038,7 @@ static int ep_insert(struct ep_ctl_ctx *ctx, struct eventpoll *ep,
+ 
+ 	if (revents && !ep_is_linked(epi)) {
+ 		list_add_tail(&epi->rdllink, &ep->rdllist);
++		ep_set_notified(epi);
+ 		ep_pm_stay_awake(epi);
+ 
+ 		if (waitqueue_active(&ep->wq))
+@@ -2031,6 +2114,7 @@ static int ep_modify(struct eventpoll *ep, struct epitem *epi,
+ 		spin_lock_irq(&ep->lock);
+ 		if (!ep_is_linked(epi)) {
+ 			list_add_tail(&epi->rdllink, &ep->rdllist);
++			ep_set_notified(epi);
+ 			ep_pm_stay_awake(epi);
+ 
+ 			/* Notify waiting tasks that events are available */
+@@ -2084,6 +2168,12 @@ static int ep_deliver_event(struct eventpoll *ep, struct epitem *epi,
+ 		__pm_relax(ws);
+ 	}
+ 
++	/*
++	 * Clear notified while epi is still on txlist. A callback that
++	 * races with the following dequeue must take the slow path and
++	 * publish the event through ovflist.
++	 */
++	ep_eventfd_prepare_repoll(epi);
+ 	list_del_init(&epi->rdllink);
+ 
+ 	/*
+@@ -2104,6 +2194,7 @@ static int ep_deliver_event(struct eventpoll *ep, struct epitem *epi,
+ 		 * attempt.
+ 		 */
+ 		list_add(&epi->rdllink, scan_batch);
++		ep_set_notified(epi);
+ 		ep_pm_stay_awake(epi);
+ 		return -EFAULT;
+ 	}
+@@ -2120,6 +2211,7 @@ static int ep_deliver_event(struct eventpoll *ep, struct epitem *epi,
+ 		 * during scans.
+ 		 */
+ 		list_add_tail(&epi->rdllink, &ep->rdllist);
++		ep_set_notified(epi);
+ 		ep_pm_stay_awake(epi);
+ 	}
+ 	return 1;
+diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
+index e32bee4345fb..0f5d0f589d92 100644
+--- a/include/linux/eventfd.h
++++ b/include/linux/eventfd.h
+@@ -40,6 +40,10 @@ int eventfd_ctx_remove_wait_queue(struct eventfd_ctx *ctx, wait_queue_entry_t *w
+ 				  __u64 *cnt);
+ void eventfd_ctx_do_read(struct eventfd_ctx *ctx, __u64 *cnt);
+ 
++#ifdef CONFIG_EVENTFD_OPT
++bool is_eventfd_file(struct file *file);
++#endif
++
+ static inline bool eventfd_signal_allowed(void)
+ {
+ 	return !current->in_eventfd;
+@@ -82,6 +86,13 @@ static inline void eventfd_ctx_do_read(struct eventfd_ctx *ctx, __u64 *cnt)
+ 
+ }
+ 
++#ifdef CONFIG_EVENTFD_OPT
++static inline bool is_eventfd_file(struct file *file)
++{
++	return false;
++}
++#endif
++
+ #endif
+ 
+ static inline void eventfd_signal(struct eventfd_ctx *ctx)
+diff --git a/init/Kconfig b/init/Kconfig
+index 10f2013b5321..c734dfe3490c 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1896,6 +1896,18 @@ config EVENTFD
+ 
+ 	  If unsure, say Y.
+ 
++config EVENTFD_OPT
++	bool "Optimize eventfd/epoll interaction" if EXPERT
++	depends on EVENTFD && EPOLL
++	default n
++	help
++	  Enables a lockless fast-path in ep_poll_callback for eventfd
++	  files, reducing ep->lock contention under concurrent workloads.
++	  Full memory barriers prevent lost wakeups when eventfd updates
++	  race with epoll re-polling.
++
++	  If unsure, say N.
++
+ config SHMEM
+ 	bool "Use full shmem filesystem" if EXPERT
+ 	default y
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.43.0
 
