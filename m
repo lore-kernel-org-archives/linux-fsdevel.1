@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAA5361977;
-	Mon,  3 Aug 2026 09:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B663624CC;
+	Mon,  3 Aug 2026 09:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785749974; cv=none; b=umO9WRkI+rWctFR2/I8hpgi584X9oWnpKWJY0OyT9VQ2+R7/esiO+xm5HQUKsfTdPhM3b/PSFuBTXuzNDRAnLdSyycasxebWBV4P3KtBBur0iAyRFp9UQheZz5FqHSV/JKJg1obu32WUgz5cw87+Bxpet0AYMlILWiMxQgS8yeg=
+	t=1785749981; cv=none; b=gT0bPWLzrD+yjDxrtAPkmEUGI5vYByj1S4Jzz4Ce2vVzUxocQeZ4d0+cmnRAwmpwkUGpafKSxYng9lXWx/vEWY/ayFVJMuqsl8B74sWdTX747jcAWTmdUDxh74p/YXG+3Fwt06iZAPjDwpx71sXvdTmvo0nu6JBrzU7uxbpsXIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785749974; c=relaxed/simple;
-	bh=RxxnBEAQ6tFhMR7SZDhDA4nJV8jvlAY41r8tMrHRZW0=;
+	s=arc-20240116; t=1785749981; c=relaxed/simple;
+	bh=MP0YhLWsJyA0gzPnR6C0SZ5ULMk5Acf4GWqSJyEJzzQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XrKhmesqlZeEM7TDm5syCiMGcXUqXtREckrvZ5NoHiNtYWPxnTS5p8bfZarE2Nj14/5D6SAP7gY8CGWXvkxOjEhXUv/JCQ6iU8c/sfyj0k4deNnM4E1xksjBbtmmWXwJ6MzCHrMU7D8imWSS5ruKmBEy6kRZLPXWMBw6CsZzBQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTW3o3um; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=C+STT8GBZd09TH6ZD/zyvYyUzF9jLqUXPWcPj2mjbwD20od0HBy2tKPT/ym4FBgZRZXfNAGC9YDJEtPVd0iW0Lw3jckYxYZksX2x6zHXTxNE6QC4qHQ3JtH5PiZ+dYIPXNsYbEQwXMmVGCv4T+g2jIuY+fdyNtS9t8lJv7+qmEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfeROh1v; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTW3o3um"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3531F000E9;
-	Mon,  3 Aug 2026 09:39:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfeROh1v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CCA01F00A3A;
+	Mon,  3 Aug 2026 09:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785749963;
-	bh=G7JjU4ooA85a6HMKOqAz8GampirGAdEOAJEDh++/oLA=;
+	s=k20260515; t=1785749973;
+	bh=BKSEegNXfW2lpOQAddhRouW7LuvpBaU2Q0GuiYjnqCw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CTW3o3umAUW5i3xZFQFPZWNNC+eznu5VcXbR94t32vqQzdG4pXucsis/KnVxBUJ7a
-	 CsDnu+Lq6WltnFb8vy1kfVbBUXJ5n7U8GZQMQB/n9XpCY2lL1Zf7XgWsDndR3wMhXx
-	 C1AONjihG1SRW9D2z/z1RhG2l08NkV1HFHiQZGS6cPs7r17Kz/aVAvgU3C5Ons8KM3
-	 Q8d1+IG2D6FzlYMdUsdFT/6rsLpY/b31cpAfYuCyKsMc4N+SSkaG/8jGFmX3f7A3g+
-	 S7iFOaGC70kOFkj35OoE8rECH6orIFX3kMbdfXoT59PhrLhL+Rov5qFIN8uPjxsWuG
-	 V6DnzmasuYYpg==
-Message-ID: <fec1be38-406d-4656-95eb-048729afec40@kernel.org>
-Date: Mon, 3 Aug 2026 11:39:11 +0200
+	b=IfeROh1vbwpu41mP1+qXu5Qi0C614XgCnptV0j/UQQK2WI8kjZTg7hDHgk70tKdgy
+	 KXDlWA7APDzfCyR4agogf4l5RdoIkbBMe3anAhxiSdRl8oc6c63ff1MVjuDJFICIHy
+	 Huj4iF991WfP1/MZGpGjBLDz/OgWcZfWBkhhBg67cgeWuUNN+UPcdgOKKHTt/g5SCR
+	 1GfMKW6HnxEYN3yq66ooaT3iRVISjMCGaukeCOiw9O3PbFthPmvHZGcoAgGAGMlNnf
+	 /hEjR+VkjxQQi/MTOq4tituznJc/cSZwBsvHepKznw+d1pOAGGxtkvDA/ECU228qU0
+	 5GYHUsSnN0YpQ==
+Message-ID: <698b8cec-3bce-4dcb-89e8-5b0d0fce4a06@kernel.org>
+Date: Mon, 3 Aug 2026 11:39:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,9 +37,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
  anonymous page index
-To: Gregory Price <gourry@gourry.net>, "Lorenzo Stoakes (ARM)"
- <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
  Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
@@ -54,16 +53,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
  Matthew Brost <matthew.brost@intel.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
  <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
- <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -110,24 +109,21 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
+In-Reply-To: <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/30/26 08:32, Gregory Price wrote:
-> On Wed, Jul 29, 2026 at 05:48:39PM +0100, Lorenzo Stoakes (ARM) wrote:
->> This is potentially useful debugging information and matches the existing
->> page offset provided.
->>
->> Use the raw __linear_anon_page_index() function so as to always output this
->> value regardless of whether the mapping is file-backed or not.
->>
+On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
+> This is potentially useful debugging information and matches the existing
+> page offset provided.
 > 
-> Begs the question whether we should mark the value based on whether
-> it is file backed or not, but i suppose you can gleen that from the
-> other printed values (anon_mem, mapping, vm_ops, etc).
+> Use the raw __linear_anon_page_index() function so as to always output this
+> value regardless of whether the mapping is file-backed or not.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
-You mean something anon_pgoff_t or what did you have in mind?
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
