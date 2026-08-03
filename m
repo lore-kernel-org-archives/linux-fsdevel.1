@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6A6359A68;
-	Mon,  3 Aug 2026 09:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAA5361977;
+	Mon,  3 Aug 2026 09:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785749867; cv=none; b=K9NUXIhKQcW6GHHygx0bVp83FuYkAlf5Cm4Xt0yV/v2bx5QB2nXO7cwrmf9GdpO++WAkb0o18woJhlIi69JuLnbCLXWs+EJz/VIh+NIVLpM9TEFEI1l2O0HprZTKhe7xO9ysAJhwbPjbiNGchoBq+NqX9+A+mb79rlYOAm8Xkbc=
+	t=1785749974; cv=none; b=umO9WRkI+rWctFR2/I8hpgi584X9oWnpKWJY0OyT9VQ2+R7/esiO+xm5HQUKsfTdPhM3b/PSFuBTXuzNDRAnLdSyycasxebWBV4P3KtBBur0iAyRFp9UQheZz5FqHSV/JKJg1obu32WUgz5cw87+Bxpet0AYMlILWiMxQgS8yeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785749867; c=relaxed/simple;
-	bh=DuGWTf2TgSMbFZJhnfwWiT6L/51lofMrHw26rT4PzZY=;
+	s=arc-20240116; t=1785749974; c=relaxed/simple;
+	bh=RxxnBEAQ6tFhMR7SZDhDA4nJV8jvlAY41r8tMrHRZW0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IMbc5lZv5ko12xWspfCTJAVJDBfn/owRGXS0yTnGiMYmZF+aAeUICZkqFF9OrrOGjdWVd4QNbRq1Q6OKvlh70AyrEp1fTf5PLFfpGn3THSbe8+SnsBsWVbd4S5A1FnbPC8IUR3fzBukiX887/LHGzPChGLwH1lzFKgnrIrZUBAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhSdC25k; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=XrKhmesqlZeEM7TDm5syCiMGcXUqXtREckrvZ5NoHiNtYWPxnTS5p8bfZarE2Nj14/5D6SAP7gY8CGWXvkxOjEhXUv/JCQ6iU8c/sfyj0k4deNnM4E1xksjBbtmmWXwJ6MzCHrMU7D8imWSS5ruKmBEy6kRZLPXWMBw6CsZzBQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTW3o3um; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhSdC25k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 380EF1F000E9;
-	Mon,  3 Aug 2026 09:37:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTW3o3um"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3531F000E9;
+	Mon,  3 Aug 2026 09:39:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785749862;
-	bh=hXyZXVLZ2cKjGQ01KvKu8F68JgDydaJTqMDqaHQUQGU=;
+	s=k20260515; t=1785749963;
+	bh=G7JjU4ooA85a6HMKOqAz8GampirGAdEOAJEDh++/oLA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IhSdC25kYuJBV/OO+NKRzjHxPrWMZItLLRr9nl5V5uI7xEgOV5iXkntOSXjjYIZui
-	 65vvEhard0FtHNQg1rwnAyyeH2J5nRVKmPsnSBC4wcmJrE+SYFnNEwEzbcWj78LbPN
-	 wCfdsGki3O/7fQLhDFx4bfOSZoOpngoXt+u0vokfTAnQ9FQawmJ/XPYcG46OP5jIF8
-	 adFoy9xdUxiPjgl+5C9qYFp27CjoFI9ZtPhgW/9hKZ01HXRNUp0avT+EkkvdKzG/6d
-	 S/6MHgYT2jsnzRPU7P7SD6Pn0yOuuJgy93+FSrxlVaOcMJOVo5SuZkY+IOr+HxTAd6
-	 KTb9HbgmtmkAg==
-Message-ID: <5d34aa86-c083-46b4-adde-8dfa520d51ab@kernel.org>
-Date: Mon, 3 Aug 2026 11:37:30 +0200
+	b=CTW3o3umAUW5i3xZFQFPZWNNC+eznu5VcXbR94t32vqQzdG4pXucsis/KnVxBUJ7a
+	 CsDnu+Lq6WltnFb8vy1kfVbBUXJ5n7U8GZQMQB/n9XpCY2lL1Zf7XgWsDndR3wMhXx
+	 C1AONjihG1SRW9D2z/z1RhG2l08NkV1HFHiQZGS6cPs7r17Kz/aVAvgU3C5Ons8KM3
+	 Q8d1+IG2D6FzlYMdUsdFT/6rsLpY/b31cpAfYuCyKsMc4N+SSkaG/8jGFmX3f7A3g+
+	 S7iFOaGC70kOFkj35OoE8rECH6orIFX3kMbdfXoT59PhrLhL+Rov5qFIN8uPjxsWuG
+	 V6DnzmasuYYpg==
+Message-ID: <fec1be38-406d-4656-95eb-048729afec40@kernel.org>
+Date: Mon, 3 Aug 2026 11:39:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,10 +35,11 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/15] mm: abstract vma_address() and introduce
- vma_anon_address()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
+Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
+ anonymous page index
+To: Gregory Price <gourry@gourry.net>, "Lorenzo Stoakes (ARM)"
+ <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
  Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
@@ -53,16 +54,16 @@ To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
  Matthew Brost <matthew.brost@intel.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
 References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-3-e8ecfefea812@kernel.org>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
+ <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -109,33 +110,24 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260729-b4-scalable-cow-virt-pgoff-v3-3-e8ecfefea812@kernel.org>
+In-Reply-To: <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
-> Introduce __vma_address() which abstracts the VMA start page offset field
-> as pgoff_start, then update vma_address() to use it.
+On 7/30/26 08:32, Gregory Price wrote:
+> On Wed, Jul 29, 2026 at 05:48:39PM +0100, Lorenzo Stoakes (ARM) wrote:
+>> This is potentially useful debugging information and matches the existing
+>> page offset provided.
+>>
+>> Use the raw __linear_anon_page_index() function so as to always output this
+>> value regardless of whether the mapping is file-backed or not.
+>>
 > 
-> Then introduce vma_anon_address() which does the equivalent of
-> vma_address(), only using the anonymous page offset of the VMA rather than
-> the file-backed one.
-> 
-> Also add an assert to ensure that the function is not called for mappings
-> which are file-backed but not MAP_PRIVATE to ensure it is only used in the
-> correct places.
-> 
-> This will be necessary for determining the address of a folio's index
-> within a VMA when the folio belongs to a MAP_PRIVATE file-backed VMA but
-> has been CoW'd, and thus is anonymous, once the anonymous VMA page offset
-> field is used for the reverse mapping.
-> 
-> No callers are updated, so no functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+> Begs the question whether we should mark the value based on whether
+> it is file backed or not, but i suppose you can gleen that from the
+> other printed values (anon_mem, mapping, vm_ops, etc).
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+You mean something anon_pgoff_t or what did you have in mind?
 
 -- 
 Cheers,
