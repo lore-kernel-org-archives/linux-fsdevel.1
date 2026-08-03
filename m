@@ -1,127 +1,77 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C480323395C;
-	Tue,  4 Aug 2026 03:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AA842C4FE
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 04:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785814947; cv=none; b=XwIc0Zc3NZHAESy3+MuX1boM3xm3PXvHW0zy7y2KQxey/+xjjYRYDlW4WrsnXHLsWGcHvw/IdCAbspWrFIvoRvs1vQb5Lq2hoSKlIhMiYtsrU6NjnjGgtdYJP5Ra5IhStBuYZ8xBeWgn+pqsKDcFyGZFZAqZp+hTvuRfllSEGds=
+	t=1785816845; cv=none; b=g/JuEWauANTi7FrVK4jF01gPSNfDqVPu7oEeIWFAeIRXWSWSTigjqEufoExvR2wsFEVUpv4OCPEqABy/pS4mSzi+yaDJFboSkeIqAcQzk0fyJmxuRvfVyQuVDdmByyXXoStoNbFwZIfQr5ZnSAeDWNSzpgzUZZyTE5dShS42poQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785814947; c=relaxed/simple;
-	bh=HY+wc+h7ZqyfDwRCBo7DarwuJjO+rxgVoerLchOhDP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=StHnAi87uKa4NuwhgPHUBT8IKVxcy60su4zcVmvFyBlnFAVVGT/47sVnpULDcF3Lf7BsRz+SU1MLGhUJj1n8HdfQ5eInyEl08xx7oSP0ebwoERMc8U7TTMTDX24Ag1gFPkCwnTfp3VzBTSpEvXrMrHkMpNIQBg64Jrhizkv00do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=rzJuelgA; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1785816845; c=relaxed/simple;
+	bh=QgyXbajf8k1ouWp76clM/q24oXyH9GRpwK55eN5BX+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TYljs5w4SMIMlkaOHvsXWsxu9lO2Xsfqy3VnjzCQAFxGhQYwWMqySB5MutlzgE6ZTwU/vHLFbcmysL+tA/sLcfd16Aj/n2alwFvOE6GGZEEXEg/8ih21kKUQkxi3pxbtMJ+/pMb9bwV+2NhwdMSex21pJXS3yX/NKkXxA9iFVbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XZGsiXYc; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="rzJuelgA"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1785814935; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=hyIxI4f5S72ocCkgfTlMm04f5fzfsAi2imhvD9eLIrs=;
-	b=rzJuelgAWdOSKMay0Vu/g5UZi//1lQCNRH37l5JTVqkKnPiXnYzp8fBjENkuAdDl+N29w0z89ilQtxIB0L7S3g05ForHZYwluebjswcqqqLWbZt/LxojEvErltOhS5/zBIHutM2p6L+dM5ca28MMoFjSKTKb9yRVJPfhbJVBjWs=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X8MUTlI_1785814925;
-Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X8MUTlI_1785814925 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 04 Aug 2026 11:42:14 +0800
-From: Baokun Li <libaokun@linux.alibaba.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: miklos@szeredi.hu,
-	amir73il@gmail.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	paul@paul-moore.com,
-	serge@hallyn.com,
-	linux-unionfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] fs: fix user path of nested backing files
-Date: Tue,  4 Aug 2026 11:42:04 +0800
-Message-ID: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XZGsiXYc"
+Message-ID: <b4eb8a90-d11e-4992-87d2-99091d4aafd0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785774947;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vkrn64K2O1qrTL7hm4UrLcILaI10/JPPjTcY5a64cWM=;
+	b=XZGsiXYcTF3XNAplQQEQg5zT+sto4CSZeNb19L2IxkUDWNIpEz84q8NdGbCovZiM0sDaFf
+	GOGvaUr8LlxoRwpuB3LdqCZ5xg88BASLPs4bE6YurjydslxV9RK5vE3BzsOrrdMnfQAHAf
+	Tc67SMfPGB2odqYPxVlGOnWyuJpvQYg=
+Date: Mon, 3 Aug 2026 17:35:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
+To: Phillip Lougher <phillip@squashfs.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, squashfs-devel@lists.sourceforge.net
+Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
+References: <20260724190556.1950693-1-usama.arif@linux.dev>
+ <664bff99-ef20-44b9-9c5f-aa6c8755133e@linux.dev>
+ <20f40e87-02b8-4714-b417-2730f304d624@squashfs.org.uk>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20f40e87-02b8-4714-b417-2730f304d624@squashfs.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-backing_file_open() derives the path to be stored in the new backing
-file from user_file->f_path.  This is incorrect when user_file itself
-is a backing file, which is the case for nested stacking filesystems,
-e.g. overlayfs mounts where the lowerdir of one overlayfs is the merged
-directory of another.  Since commit def3ae83da02 ("fs: store real path
-instead of fake path in backing file f_path") the f_path of a backing
-file holds the real path of the intermediate layer, not the path that
-the user opened.
 
-Commit 924577e4f6ca ("ovl: Fix nested backing file paths") fixed this
-for such configurations by passing file_user_path() from
-ovl_open_realfile().  However, commit 6af36aeb147a ("lsm: add
-backing_file LSM hooks") changed the first argument of
-backing_file_open() from the user path back to the user file and
-derived the path from user_file->f_path again, silently re-introducing
-the problem.
 
-As a result, files mapped through a nested overlayfs show the wrong
-path in /proc/<pid>/maps and in perf/ftrace mmap records.  For example,
-with two nested overlayfs mounts:
+On 03/08/2026 15:43, Phillip Lougher wrote:
+> On 03/08/2026 11:16, Usama Arif wrote:
+>>
+> 
+>>
+>> Hi,
+>>
+>> Just wanted to check if there are any reviews or comments on this patch?
+>>
+>> It is attempting to solvie a real thundering herd problem we see in our fleet.
+>> It also doubles throughput for small file reads and stat for squashfs.
+>>
+>> Thanks,
+>> Usama
+>>
+>>
+> 
+> I have been on vacation.  I will review it this week.
+> 
+No worries! Thank you!
 
-  mkdir -p /ovl/{lower,upper,work,merged} /ovl/nested
-  echo hello > /ovl/lower/foo
-  mount -t overlay overlay \
-	-o lowerdir=/ovl/lower,upperdir=/ovl/upper,workdir=/ovl/work \
-	/ovl/merged
-  # at least two lowerdirs are needed when upperdir is nonexistent
-  mount -t overlay overlay \
-	-o lowerdir=/ovl/merged:/ovl/lower /ovl/nested
-
-mapping /ovl/nested/foo shows a disconnected path instead of the user
-path:
-
-  # readlink /proc/self/fd/3
-  /ovl/nested/foo
-  # grep foo /proc/self/maps
-  7f6e2c100000-7f6e2c101000 r--s 00000000 00:24 15813027 /foo
-
-The bogus path is derived from the f_path of the intermediate backing
-file, whose mount is a private clone that d_path() cannot resolve.
-
-Fix this by using file_user_path(), which returns the outermost
-user-visible path for backing files and falls back to
-&user_file->f_path for regular files.  This restores the behavior of
-commit 924577e4f6ca ("ovl: Fix nested backing file paths") for
-overlayfs and also fixes the same problem for the other
-backing_file_open() callers, fuse passthrough and erofs ishare, when
-their user file is itself a backing file.
-
-backing_tmpfile_open() has the same pattern but is not affected: it is
-only called by ovl_create_tmpfile() for the upper layer, and another
-overlayfs is rejected as upperdir by the DCACHE_OP_REAL check in
-ovl_mount_dir_check(), so its user_file can never be a backing file.
-
-Fixes: 6af36aeb147a ("lsm: add backing_file LSM hooks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
----
- fs/backing-file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index 080c99696cd0..cc101143f921 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -35,7 +35,7 @@ struct file *backing_file_open(const struct file *user_file, int flags,
- 			       const struct path *real_path,
- 			       const struct cred *cred)
- {
--	const struct path *user_path = &user_file->f_path;
-+	const struct path *user_path = file_user_path(user_file);
- 	struct file *f;
- 	int error;
- 
--- 
-2.43.7
-
+Usama
