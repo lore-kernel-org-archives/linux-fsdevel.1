@@ -1,133 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011006.outbound.protection.outlook.com [52.101.57.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540AF30C174;
-	Mon,  3 Aug 2026 14:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785767600; cv=none; b=bIQvH9M+mbAmtNDk08cz/G0zc2+Sz0xtHwiOE/GCzqXFwZdOdX1FCjBRw4z9fa48BnwtJM8/RF4O2elH/QnItk1cWZ1C8RPpgSi7ly/Ik0gzK62rSdTeb/HGD3vOLMnZB2JRVNg3JlK7GC4je8L9zOVxkc7tjv4feDruL8pxFmY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785767600; c=relaxed/simple;
-	bh=xlN3HMZp7/A1/QoZkhYzXS4toxq0AXF6sxtOeXogk6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oYRqRDdb9UskAXObj3jxl9S6qQssaoPREIUEzFs1F09yX53oRVmWqaGkQsAb6zr49ohHCcPMW/11lprUNEsIjUGwwkDCroGa+an9RRYfDQsKfnJfSuh4UycTO82Sfo8JwLrmXWNFz3PZBBYkrmGYQ9qwpiKupsMuzIXSOBZItyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MbmNiW3/; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865773438A2;
+	Mon,  3 Aug 2026 15:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785769365; cv=fail; b=P3qHbRHJuFfL6F5FR16bMNww5Xyp/18agqWbPSys7j8ZuVH3NtwiYStBHkF7GlWi/xlerhbPsfsxxqlGkLfRaEp/5xW6FZtGNsFdso1KZ8C6azf29/gTWVof337tldFSehIvAvHymJzzGcZq6CbBepTG/u6Xyfq31GIoHf5xf5Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785769365; c=relaxed/simple;
+	bh=Jflat7+YApczWje0YkPllbv6QMpkkXyP7MHaijAOVeQ=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=tbvCslhKvJ/0V+Kvd2srlDZDrP0XQ1bf7/tEYWjyVaf8shedD5RVUG18508cT+RojKAjTElCy85FFQeV5acH61/NwDGOZ6Xq0vvOie7SUkUI0t9lo69746rR0YfpT8TGGO13/Zl32OY5KeFe3EePgqaUpzz5iA7Gk6geLr1Kuoc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=q2860WRC; arc=fail smtp.client-ip=52.101.57.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MbmNiW3/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F94F1F000E9;
-	Mon,  3 Aug 2026 14:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785767599;
-	bh=mphLP5S8b/9n/v2PFE9M1KkdjdKyrA/jY3VZr3lL4rI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MbmNiW3/tIvlutcDN45W36ceGJ2hcM79xennooUYVZBeIVDH0aG/tT9HWNKOWm+xh
-	 G/r0e2vBuWTrZI/VUsJYQZ8SANxl6iIw5Y1jmVW5+dj0izkc6EuYTcrRwfVaAVg3vS
-	 64SK04ven+xr+o9Exw3nTVdXa9avymUeBspH8jnoyFDrT38dgW08ABefRcxDFSxY0V
-	 wDe+RsJeUwV/j3WaWqNtiqWDpd6x8tSwtufta7hgLv07MfpBDMjSleZyrdlVugbui3
-	 UGj2iD5YIX/WvXdNTGOPqq1oxyntG6uGXvQFZSqtWFzAH23kAwJgpfihRlffNDWoKq
-	 r2L2Sgc5AEvOA==
-Date: Mon, 3 Aug 2026 15:32:57 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 07/15] mm/rmap: track whether the page VMA mapped
- pgoff is anonymous
-Message-ID: <anCmQdKzZFRMqcxs@lucifer>
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-7-e8ecfefea812@kernel.org>
- <1b48cf7d-8906-43d4-a85d-5cfad10a12ac@kernel.org>
- <anCcMvnsux22LaWU@lucifer>
- <007258ed-3fd7-4d90-b909-6fdda15e0485@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="q2860WRC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=clMThK8GiU6oCvuU8XEzbtmsB3xUDnWgjUDnayos9kCFkoK9i2mrGwPMgbhlFHZ79bD9YeH2O/epn6/bkH8tySb01DC6Rmd7h+d+0y4lx+k0RQCRYhJzQTMPTS2jS3QL15Qx2OO+YUd0EOB7ER0oVvsOysS+klNXYi7WJWBWp3mPdPAzHBqK/JgLTqwmX5mMhKBO9Cmjit2Fgbgqa1kXTm9PEwHpVVwGRvKrpAGxlOQ+tFj8yTvjqz4gGhEd9wt/2RoDdsHwswB43pBj/npS4V75k7wujXvNWZynqq+tds70KwZcBsdfSlg2gF6y5RysJ8nHrjuAz82NFGpsBOsb2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M63GrzIg+7bRMujSWNFuQqhgmz7+RZPTjZJ4KBPrjug=;
+ b=hPFi0enTiBaRwYGrgXgz2qiv4RinOpJ8eT9N4ib7Mhnwj2O+hMdX+Wj2XYgz6Ag/JQ7GYIYrg9OKlep19YybffINavoYxVGGMXo4kxS0VRi0qma4CuunscFPdKjGR+FTTvwuucCUxHlDsVs4rqEiDLVpxnAEIqTqxG/FPiIuVcZ9C6o90J3F59GSU07W/NO2DfyX3jNZu70wJn9XF7Ko7djtuDDbx3J6lDwUZufHqjfAQwamsQD1t2lUqELDkH/XVUH9gRCVG9k7BkK0kZyHj/4bKrDDJEgPdYxHR0izfvTb76w8pE1zckU6Q1hZpSMiViSv2LTehZUBsYr9iBNhhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M63GrzIg+7bRMujSWNFuQqhgmz7+RZPTjZJ4KBPrjug=;
+ b=q2860WRCwMakny9BmOA+q15gglRpSOWbdNU6deO97ZFksMqpItvqoLQ6z+75Ov3kmSyxWWZFrGXiw6SSFrBfIPYpRDpqQ+Z89br9OIUqxV/TUqAltf2Gci3CXXlgx61fzV0+TqaSd8zHrej3yh9p072LrztZuaUJZHBwunlYUhqXdBYx3mWJd5vXE3LewhQxtZi8Uw0lQa3uoPtPXxBKrxxTS9KdkCUB0dEoVOXozITe2sF4hY3GCafBD9ha3Ze8B3/obN9ht7txagHcjOgSxkJjQPcElHg0pwRZKSdFQsJnYbAvBu8HPshzzd544ldAAE4jRWoIG0DTrcq2f2iLXQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by CY5PR12MB6298.namprd12.prod.outlook.com (2603:10b6:930:21::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Mon, 3 Aug
+ 2026 15:02:32 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0270.017; Mon, 3 Aug 2026
+ 15:02:32 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 03 Aug 2026 11:02:30 -0400
+Message-Id: <DKFEEI2EDS4F.1AHGKB1EL6XRG@nvidia.com>
+Subject: Re: [PATCH v2 1/2] mm/huge_memory: use folio's memcg inside
+ __folio_split()
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "Matthew Wilcox"
+ <willy@infradead.org>, "William Kucharski" <william.kucharski@oracle.com>,
+ "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>,
+ "Nico Pache" <nico.pache@linux.dev>, "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
+ Yang" <lance.yang@linux.dev>, "Usama Arif" <usama.arif@linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>
+To: "Johannes Weiner" <hannes@cmpxchg.org>, "Lorenzo Stoakes (ARM)"
+ <ljs@kernel.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com> <20260730-add-gfp_account-to-xas_split_alloc-v2-1-5a56c2361d85@nvidia.com> <am28pV2PEfHsi4p-@lucifer>
+In-Reply-To: <am28pV2PEfHsi4p-@lucifer>
+X-ClientProxiedBy: CH0PR07CA0011.namprd07.prod.outlook.com
+ (2603:10b6:610:32::16) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <007258ed-3fd7-4d90-b909-6fdda15e0485@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY5PR12MB6298:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55d73992-3e95-4ed2-d39c-08def1703e4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|56012099006|10067099003|11063799006|5023799004|4143699003|6133799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	eiwLvlMFIBRLQdyYqDNtRe55Ae+obUClM2GyndalAaItKbXgMYyESI8WdOMTThJzWEVYrdSu2BIlPArBS5rSXaZPWwhvPZT2Uulk2HKKjn6M9bN3m5mqumbkKBf9S/Wvckp14ZhBVey8dncPijjpG4BoN44bFe76YsO0hoEj9Ex3d2w4k2++T1H7tPfq1sMWsD8hUfsy+WYBT60wof2mE1L9Q2I37Yt36AkOe0Fe22KDbosURD9JFKqJHWvgEb3hT9tetRREn3ciWhnOvzaOJrLs5BTo90Is0gpNSFoCLf6vxHj+HTjX8pD6VSUwRj9pyyQU0tPjwUbA3v91XqQx09uHrVkRRM4L4J2r0os8dzSRARFunDDeEKid3IGcB+S4luhi3rt3t4udWmjcxVWxIz9XQGuwL/GIn/3escADHwYZzSUy3N9kyQ13nRYkA8eBzptwWoe2XFjufvXG6PaAZZwCrJ6wLuwhu4jCMXiWcp1lubKlKZv0Rxcyqms195wC7jqQCCxT5g1WEcP86Fnb55X0xl4ECmzfLpeH5HeNUbMI08ALNx5g1v2BLIr5nSslHLDAtIo7gikgbE+Jk7Ovhk+MxNPRgjCvozG06KtCptw9x7495yhjSdfk0jovo1T+yaWf2IHFxwiFAQcJS5GSVXpOBelMoziWo6wNwASgCgQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(56012099006)(10067099003)(11063799006)(5023799004)(4143699003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WjgrNU10SmZmT1RMMzJGVWVPa1lOdFhuMXh6OTluekNMU2VFa0FLT092V2Nl?=
+ =?utf-8?B?VmZtNkxjdHErUHFRKzM4OGhtdU9FOEtsQWFVUHE5TnFLa3RDMnVDbkRYbVFt?=
+ =?utf-8?B?MS9QaHRyU1A4ZGVNT2FLa1FKUjlVWndFc0E1R2wvdm9QUlltRWhaY3kxTkNo?=
+ =?utf-8?B?d2hjdU83dUxlQ3I1YXB1ZTJZTXprK093ZUpNK3ZjaHpFWUhZNkZJcFY0TzFY?=
+ =?utf-8?B?eSs5TEhQWjFZRkUwWkNtenZxNk9NaXpVT1BQR1hyWFM5MmdORzdSTTczeFhm?=
+ =?utf-8?B?d3FtTk1reitpOUswK0x1allsYURwMlExQWlXaUpiNjN4cTNFYmhDZnplMTcx?=
+ =?utf-8?B?OUdGek9SMDdYVVBKcGE5ZWZ0U1Vkd3BXc25OaW9ua1FUWG5mcnZlbjhIc0sw?=
+ =?utf-8?B?WG5BQW9qc1QyRWVmeXZ2Q2pnWlZHNTc1QjU0QmVWUmUxR1JSTzZrZ0wyOGxV?=
+ =?utf-8?B?REV6MlpuRHRqRjY2blYwblN0Z2FJS2tJL3B5bVJSYktCeGd6S3lHdHQ3cXBm?=
+ =?utf-8?B?NjIweERJOUZsejV2QVZ2VkhQZW52anNhYWlDM0lKVVFhWU1OeDZjeld0SU4v?=
+ =?utf-8?B?TWZJQjh1aS9HbzlkWnJuckFabzV4ekhEYnVVRkdiMldla0J2TmtmbDk2azBn?=
+ =?utf-8?B?YXY5MExYbHRzUWZ4SWxLajFCamp0c2NJalNTMmdTdCtkYy90MmhvdElSNTVP?=
+ =?utf-8?B?bGpMRjZLSFdRVzBLMXRUVW51RXBjYUtrdlRXcDBuaUt2Nlc0ZnNkWjhHSjJy?=
+ =?utf-8?B?WmtBQ3pLT0NPSE1WeG9ZeTVZdmtIcWFQN0VFNG1WdWwxTGh4TG5rZnpqWW5W?=
+ =?utf-8?B?WVNZazRrOE9RRWVvSlBwMG52MmV6Wmh5cUs0S0VyV1JFdzFLTDVnbXRYdEE2?=
+ =?utf-8?B?dEx3MDJ3enZKL0lYbldXQ0UvVVJ1eUxvajlWL2pkY29Ec0xSUHl4dDg3eEZN?=
+ =?utf-8?B?TExvV2VaalFHMHJ6M2JyTjA1dGxReFJJMVJJSGVMdEpwdmxrekRIYnpQMFY3?=
+ =?utf-8?B?MU1QOS85QlU1MlJUR1hFb2VKVDhBOTN2bTBCK0p0OWYrTE5nQlIycHVPODJO?=
+ =?utf-8?B?Q0NqMzdvYmJRVTNicW1Qd3VtN1V5MmFQSzl1N1NMcUdabFlwKzkxaDFNdlFF?=
+ =?utf-8?B?OWFNZDJlMWU0dG14MCtZYm4yZWdtZVYzdGZxRDM0QUgwS1JlSGJROHFkY0xx?=
+ =?utf-8?B?dGtDaGVjNHd0c3VYYjgvWVZaZmNhY3J6c0JrNXk1cHpseWgxQ0UwVmllK2JE?=
+ =?utf-8?B?TjV2R0J2b2p4OVNrWUpiTGtsaVJ3NjBLNzFoYjdiNDkwcjBWMFdSRFVxYVRy?=
+ =?utf-8?B?Sk5jeUlKb2FvY3dXN0Y0U2RLeTNDTHAxTlBFbDBZNzNuSVhVVlc3YWI0Y2Zz?=
+ =?utf-8?B?QytJdUptY3RFTm9sTk5pZHV4czRIVWRrN1BVNmNKRlFEL2Jkbko5VTBOeHNp?=
+ =?utf-8?B?TFd1STE4M3Vpei83cUZ3SkhPcExRTE5hd1g5bVdkM3pyejRBM2JvY3BaNHk1?=
+ =?utf-8?B?ZG9KRHdaTXB3ZUpDSWNZNWFHd2xMaUk2SjdET1VuelRCb3owTXgzeUVZMUk0?=
+ =?utf-8?B?a1pVUGYwcTUzYWVKK3ozQSt2Q1JkOXRjMjBhWmhVS0NUS2RmODlvVFFIQ2lm?=
+ =?utf-8?B?N0V1aU1Wa2VyeUI2ZEVScjN3Qk4rSmNvUGFZeGhlQTVJSC9wQzBUbWlRUW40?=
+ =?utf-8?B?MnFVUXlzK3J1cG51R2pJRHQ5QTNIMlhPRjAvU2lCYUxnN2VhSitWamZ3VEpo?=
+ =?utf-8?B?NjhXYkRSU2diVEkvRkdYcWU4UXlHQjlkRUdCRlF3dGJTR2VIM1BuZXR1cnVJ?=
+ =?utf-8?B?VWtCcWRDRlA5RG5JU3dvOGZmTTBkOFlOdDNickFHOHNxVmNSZC9yd2VGSVJz?=
+ =?utf-8?B?ckR3N2tad00yalZtZzFZZENRL0VBaUFpY2FRakp6dW5HeitZcnhmV3oxZ3RJ?=
+ =?utf-8?B?Z3QwMmtlUGlmSVAvSXpzYU5XbjBpWSttNFFSY3FvM3c5eFJRU3N0eFc5TUo3?=
+ =?utf-8?B?YzVWOXAzNDVVZVVpYytScGtmU3FnNVArQ2UzWm9CQ21jWlVRWWl2OHBqajBC?=
+ =?utf-8?B?UjJaNnJkc2dnRU9sWDc4Rkp5dmpVYUs0QTQzZVgvd0FvQWphcHFQRkRaYUpo?=
+ =?utf-8?B?U1lSVzd3NHlqVnRqZFFGejFQMUVUWGJmc21MM0pVaVhNWTNNNzZMa1c5UjNT?=
+ =?utf-8?B?bVVESExRTXlEUUxyUkVyYWdPbU9FRmhFZ0FYZmNnTkZONUJiOVJ2LzkvRDJ5?=
+ =?utf-8?B?SXhhbVR1TkRBRWlRelFEVVh1Wmt2K3BwOTcyZTloai95L3FhLzcrbkV0NDAz?=
+ =?utf-8?Q?sjnWr15ZnY9tb5Mlsj?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55d73992-3e95-4ed2-d39c-08def1703e4f
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2026 15:02:31.9611
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0RIc8vSKNvRBV7wZ/RBOtbV+pxVYP7cfP+dLZogz7olPYYLcI+t9f9/260yhZWJG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6298
 
-On Mon, Aug 03, 2026 at 04:02:45PM +0200, David Hildenbrand (Arm) wrote:
-> On 8/3/26 15:51, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Aug 03, 2026 at 12:57:44PM +0200, David Hildenbrand (Arm) wrote:
-> >>>  /*
-> >>> - * Then at what user virtual address will none of the range be found in vma?
-> >>> + * At what user virtual address will none of the range be found in vma?
-> >>>   * Assumes that vma_address() already returned a good starting address.
-> >>>   */
-> >>>  static inline unsigned long vma_address_end(struct page_vma_mapped_walk *pvmw)
-> >>>  {
-> >>> -	struct vm_area_struct *vma = pvmw->vma;
-> >>> -	pgoff_t pgoff;
-> >>> +	const struct vm_area_struct *vma = pvmw->vma;
-> >>> +	const pgoff_t pgoff = pvmw->pgoff;
-> >>> +	pgoff_t pgoff_vma_start;
-> >>>  	unsigned long address;
-> >>> +	pgoff_t pgoff_end;
-> >>>
-> >>>  	/* Common case, plus ->pgoff is invalid for KSM */
-> >>>  	if (pvmw->nr_pages == 1)
-> >>>  		return pvmw->address + PAGE_SIZE;
-> >>>
-> >>> -	pgoff = pvmw->pgoff + pvmw->nr_pages;
-> >>> +	pgoff_vma_start = vma_start_pgoff(vma);
-> >>> +	pgoff_end = pgoff + pvmw->nr_pages;
-> >>>  	address = vma->vm_start +
-> >>> -		((pgoff - vma_start_pgoff(vma)) << PAGE_SHIFT);
-> >>> +		((pgoff_end - pgoff_vma_start) << PAGE_SHIFT);
-> >>>  	/* Check for address beyond vma (or wrapped through 0?) */
-> >>>  	if (address < vma->vm_start || address > vma->vm_end)
-> >>>  		address = vma->vm_end;
-> >>
-> >> Am I wrong or are all all changes here completely irrelevant for this patch?
-> >>
-> >> You mention
-> >>
-> >> "This is necessary in order to determine the correct VMA page
-> >> offset in vma_address_end() when pvmw->nr_pages > 1."
-> >>
-> >> But I don't spot an effective change here.
-> >
-> > As per commit message:
-> >
-> > 	This is laying the groundwork for eventually using anonymous page offsets
-> > 	as the index for all anonymous folios.
-> >
-> > 	No functional change intended.
-> >
-> > I cannot enable an effective change here, because if I did I'd break the kernel
-> > and introduce a bisection hazard.
+On Sat Aug 1, 2026 at 5:36 AM EDT, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Jul 30, 2026 at 10:18:00PM -0400, Zi Yan wrote:
+>> During a pagecache folio split, an xarray node allocation can happen and
+>> needs to charge at folio's memcg instead of folio split invoker's memcg,
+>> because for example folio split can happen during reclaim and reclaim's
+>> active memcg might not be folio's memcg. Switch to folio's memcg at the
+>> beginning and switch back afterwards.
 >
-> You can just throw in a patch that cleans that up and avoids messing with confusing pgoff?
+> I assume this is the only allocation? I guess in general it makes sense t=
+o have
+> the folio's memcg be active here regardless.
+>
+>>
+>> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+>> Fixes: 6b24ca4a1a8d4 ("mm: Use multi-index entries in the page cache")
+>
+> Cc: stable?
 
-You mean do a separate patch for this change?
+Like you said above, only xas_split_alloc() is affected. And we have not
+seen related workingset regression report (like what Johannes reported
+in commit 7b785645e8f13 ("mm: fix page cache convergence regression")).
+It might be OK to not backport.
 
-The existing code is already very confusing :) it becomes worse with the
-anon stuff added, hence the change.
-
-I will separate it out assuming this is what you mean?
+Johannes, what is your take on this?
 
 >
-> --
-> Cheers,
+>> Signed-off-by: Zi Yan <ziy@nvidia.com>
 >
-> David
+> Change seems reasonable overall.
+>
+> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
+>> ---
+>>  mm/huge_memory.c | 20 ++++++++++++++++----
+>>  1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>> index 04e8a6b553435..b9c2d8908e564 100644
+>> --- a/mm/huge_memory.c
+>> +++ b/mm/huge_memory.c
+>> @@ -4063,34 +4063,42 @@ static int __folio_split(struct folio *folio, un=
+signed int new_order,
+>>  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
+>>  	struct folio *end_folio =3D folio_next(folio);
+>>  	bool is_anon =3D folio_test_anon(folio);
+>> +	struct mem_cgroup *memcg, *old_memcg;
+>>  	struct address_space *mapping =3D NULL;
+>>  	struct anon_vma *anon_vma =3D NULL;
+>>  	int old_order =3D folio_order(folio);
+>>  	struct folio *new_folio, *next;
+>>  	int nr_shmem_dropped =3D 0;
+>>  	enum ttu_flags ttu_flags =3D 0;
+>> -	int ret;
+>>  	pgoff_t end =3D 0;
+>> +	int ret;
+>>
+>>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
+>>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
+>>
+>>  	if (folio !=3D page_folio(split_at) || folio !=3D page_folio(lock_at))=
+ {
+>>  		ret =3D -EINVAL;
+>> -		goto out;
+>> +		goto out_no_memcg;
+>>  	}
+>>
+>>  	if (new_order >=3D old_order) {
+>>  		ret =3D -EINVAL;
+>> -		goto out;
+>> +		goto out_no_memcg;
+>>  	}
+>>
+>>  	ret =3D folio_check_splittable(folio, new_order, split_type);
+>>  	if (ret) {
+>>  		VM_WARN_ONCE(ret =3D=3D -EINVAL, "Tried to split an unsplittable foli=
+o");
+>> -		goto out;
+>> +		goto out_no_memcg;
+>
+> This function really badly needs splitting up and probably some cleanup.h=
+ work :)
 
---
-Cheers, Lorenzo
+You mean folio_check_splittable()? You want to move -EINVAL checks a
+separate one?
+
+--=20
+Best Regards,
+Yan, Zi
+
