@@ -1,200 +1,152 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013006.outbound.protection.outlook.com [40.93.196.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F7740DB2F;
-	Mon,  3 Aug 2026 15:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785769947; cv=fail; b=bHMiLWnva4DXV1JIooPU1pUSLMbH3axv+ycFMWQ2whTY8HwXHGzWofv/F6ujpTIqFZn4dHtA3G0rFwDDEBrS/p7atmm5C8ZC6ZDL20CjK0j4pprLqz9WZf0zGsaOIX6wWTLCkY1nVBGWCvgNcHkIM5hWnEvhz+HVOURQuhr2NiY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785769947; c=relaxed/simple;
-	bh=QZd4JUgkMhKJlRR/SF2f3wldeyEguo3jVqNFBzvIZkA=;
-	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To:MIME-Version; b=PyxlQsSUmjV0cwQwngHk+mwJlh9ch0qFE4UmV/MqQF/Q6BG7qcDTVUj6MXIxO0OJzt3+Ny9RxQsDn3ElRkTqQkea4tQJhoN6FenuD2rVo+QPY1V7ZDEaEs0610C/OTvPw7riDEZxhOAhpDgGl56waE3QjyzqiZn+UXvLOqFS9bs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pMsnPlZU; arc=fail smtp.client-ip=40.93.196.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B027240DB4F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 15:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785770081; cv=none; b=GxMmjfQf6/gmpL5abMf+NdOXV2eltg51YuHkKodpa1SWgbmzLg/2/7xicIawoXODj9/VhIFCsUocPxTsdN0XhYHviWOfSjVOT3rd9JyNxR5mwMQOOwSLP4UBtE9Ja9Vmbx5kceGdeTbzBPl3eLm13+1r2OnmgPWzF3WX1BSE8YU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785770081; c=relaxed/simple;
+	bh=YHKWdFXEZgiNsrjLh74otqn42EYVlAFnvBCfXPOZl74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pFxzOnsgl6OW5lN9qQvthTGShOvN+Q548vVyD0OnNtKpJ1DU2Bvg8wJSM1rQ05I0iF2P/XndHJGLDUQALQ6cbFuUUz2favXjs1wTUxRsV98vveDM4SdJLRhmVL9xsCORRlruilb9nlsTjjy5hYzibMa3zhLQGplD8scXMnS4A8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GFk3stLl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ycld4mOy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=o9YNPEsE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=AAr/ORL5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pMsnPlZU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E5vuR1jJUn/gaVAf2xxYvwnBGJvM7ERIyTOLsMOiMUGz1SRRnP+knRyqWSoVDeWgxMFZ5somk056jkfQVsQNc75+SKWvK4f9U37xmSd1X2+GLSq9ilahutViwev1GK/H08aFsX/MV8NqUXhmqZeJzUF0u7tMKWQNDTaNuwuGrrpB3nqR4kGTna/OpAHahgNBwNRuKoZDnnRCR/tzS+EW/SquOeqPKmpax7nMAmyfnbeJHjoc9n0gWtLoU5+7PvuhLBTAQ6e1bFG1nswwCI8f6GEuSe3PLsvdk2KJM6UXCdw3AxLrSprM3fuuF5oFKEIhEqbwAlpOr+Y63F0gL86N5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=APxF5AxL9bzAk2/0y3lcoCL5UH9KpeBUg+hdha/6jLc=;
- b=lbp7vfzgA91ost2RbUtsxGKiCtVMCPKp1KGshZd39/V66Sy0XMfy3fIlb661+Ks9ZugKvjZ3l18mMPsVoE4/yQwNXQTHSVieYSpSzoSI8wWiBU3mtWKxpG+dOFWwtS9ED5ePOoYL/QYWDOcCfO+wOTT1xcaBzSlSnimPInMekXCyOkjlijX8mvh8pZ1LytAvmwKapQkgyk7KnIXaj8HL27eYy6/vrBt3X6Qj8U80b9p3o8HcStyZi+5ifpQTSru/wgGNpJlsfyFaYiQ92okcDrKr5stIJK0B2qXxYdEHmowlzW3Ez3Jx/cVEMREi9LCa2yDQMKyRWJ/Z5MWQnyqIdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=APxF5AxL9bzAk2/0y3lcoCL5UH9KpeBUg+hdha/6jLc=;
- b=pMsnPlZUR74h/vu8NovvxAFZ55sYhH1UMjaRL31qwkW0WbOEIf0Jwm8qkrONGhR5JnRlrpiubobnjyIH9pOlDyj+NAAO8v4ZJniNBoc46OmGKzAjbUIxjtet/zPgONgiKNDmTLFspKGh4I/tCyMoGrlxDDK+D1mdO0eQPjgG+tinypv3AcFu30N9W0HB5fcLWMMJxXJ7b1HyRrG8FED4AsCX8qY5dDNT1eNenS8IhF+BrEp/HRFrNkZ/cuOp1781+tXccrIQuH6eeZImPFIUy4VZ/3MM8H+pjm2At0PLjm61edGrvfKwrYjynV5HUt8AiJ7ZttMbHRtlm6SUbPczGA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by CH3PR12MB9147.namprd12.prod.outlook.com (2603:10b6:610:19a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Mon, 3 Aug
- 2026 15:12:14 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0270.017; Mon, 3 Aug 2026
- 15:12:13 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 11:12:10 -0400
-Message-Id: <DKFELWPHSJNO.3GGVW270HENEG@nvidia.com>
-Cc: "Johannes Weiner" <hannes@cmpxchg.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Matthew Wilcox" <willy@infradead.org>,
- "William Kucharski" <william.kucharski@oracle.com>, "David Hildenbrand"
- <david@kernel.org>, "Baolin Wang" <baolin.wang@linux.alibaba.com>, "Liam R.
- Howlett" <liam@infradead.org>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
- Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH v2 2/2] xarray: honor XA_FLAGS_ACCOUNT in
- xas_split_alloc()
-X-Mailer: aerc 0.21.0
-References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com> <20260730-add-gfp_account-to-xas_split_alloc-v2-2-5a56c2361d85@nvidia.com> <am2-HmShC6VXP_-G@lucifer>
-In-Reply-To: <am2-HmShC6VXP_-G@lucifer>
-X-ClientProxiedBy: CY5PR18CA0026.namprd18.prod.outlook.com
- (2603:10b6:930:5::35) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GFk3stLl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ycld4mOy";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="o9YNPEsE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AAr/ORL5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B51897F168;
+	Mon,  3 Aug 2026 15:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785770073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9+LIq3DttxS8J5n/t1BC58ym4Oa9PoEAA58OYuz4dlw=;
+	b=GFk3stLlKdvtDKmPnm67ZVv4tnps2OtRuMMEGedqSI85iGXmuSfeBfxXfFJf/0Pavr0qSs
+	aVUMLMdiH+J5t3uHLQowTXy4dHmqxyu7+3WTJYSshlNIeP7Rkm1b+jtiWau/QnAJEcMM62
+	walEl8mLvn3fK20cUCyj073TG8hX+GE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785770073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9+LIq3DttxS8J5n/t1BC58ym4Oa9PoEAA58OYuz4dlw=;
+	b=ycld4mOydU/WKpgpC+W74IuVPfyZClhHtj0uCeX+Tboo63tGP9t6ODDbUZORvrarQ1axlW
+	F21BeuLzchYVEGDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785770069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9+LIq3DttxS8J5n/t1BC58ym4Oa9PoEAA58OYuz4dlw=;
+	b=o9YNPEsEugFxFhC+nrdHG7UGWcMKYtDrj8BAK4FqjxS4IMFMf731/oXj8zM5FFaYZoAL5V
+	PdW2lGSytl6qgq5MMnkn4YTap+WqDfMP0Y6HgUtyAZmPpieYNtiGV9NhLas/fxxxySJHPJ
+	7Ohr2AwLH294tw4rQGcqob+tUJprU+M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785770069;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9+LIq3DttxS8J5n/t1BC58ym4Oa9PoEAA58OYuz4dlw=;
+	b=AAr/ORL5p/sQTadbPzskGZpiUENhXXl1oBIefgPl3KX/YQ66gBhGnxcFYwUHtIoaBne/an
+	4oifa+2YLjLOTUCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FEF3779D3;
+	Mon,  3 Aug 2026 15:14:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VTUFJ1WwcGqtbwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 03 Aug 2026 15:14:29 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3F397A13A4; Mon, 03 Aug 2026 17:14:29 +0200 (CEST)
+Date: Mon, 3 Aug 2026 17:14:29 +0200
+From: Jan Kara <jack@suse.cz>
+To: Tigran Aivazian <aivazian.tigran@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux Filesystems Development <linux-fsdevel@vger.kernel.org>, 
+	Linux ext4 <linux-ext4@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>
+Subject: Re: ext4: spurious "orphan cleanup on readonly fs" due to remount,ro
+ failing to reset orphan_file structures
+Message-ID: <g7fk4a4rsokzzficx63yqcjwbyneq7ipfhshvi5xhylihetjrd@d6sv5y6kwnzs>
+References: <CAK+_RLmWU-GjYu9Z+AWnoKd__AiaWZUt=zOkx3jr2-a4Hv3KHg@mail.gmail.com>
+ <am_gplyBEyvbuHM_@archie.me>
+ <fmdp3k4efrv44yqjmukk47ifa3rxrjvj2ndfin5lu6c3x5b5lh@5vv2yblzxy7b>
+ <CAK+_RLkvc3b0vC7SHygRv+4xdk_mC-362T60NbtQT4Zmpp6fxg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CH3PR12MB9147:EE_
-X-MS-Office365-Filtering-Correlation-Id: b574c18f-e2e2-4f4e-ffe0-08def171993c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|18002099003|22082099003|4143699003|11063799006|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	y/gXA73WyImIa9rVYpWgJgyYmsfdYtDLRaISl4u2vQQnmBbVFISZYxsIiqgswqXHwZtez8TfRo65xwRFYdvGjCZ9w2usIOf30iv+2J5OgAEnOrLPGR8/0tE4VAlEKAV2bGMmCEk+fqsmtB4q/t+RRQZWedrNkk7xWN8p0IxD350Er1SdGo20pAAaG/vgaFpbqshXhP5sQqJZ0ADRAKkefo9OyNHvsQZp5v7ZbPW4pEUv1ibSgcaYl5Bav3zT2FkFNYHko4U8BtmHrAIsapH0iCS2KP3hqeNwZCG4YWS4KXXEGtw06CM/TWmFKnqckVQd+x9KCXicdREiUuDd+B51PO2A2tSzYbSmPtVeC2tp0f5adgJjSpi/SkgeW5cHkhBtU0Kfanjz+0A5J/PxOUH+9ymZf9cywwb926LXjjR/1Ie2UPBbav0qHVUH5IxJRW58048fznMazV1eKowg3yoaOFu28nMww/zSkU+QyxZyQV/EHFeALk0PAbGFUGyU9nj4h503o3xNStX58aackGgUeqk7LplTtdDw9grd2/k5XmvddF8hXhWkITrFP5UANVXwqXA4DcZmL3O8DfeacChwihW1AeQNZzBbqZj9dxbjeyZnvdDwXgbkzHYcxY43O6M4XnY8pwCDYy1btghJ7WDyC3mQF4Ul/bLVbzUS+2XqMOE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UmNkeHM0OGJ1QzFjaGQ4T2hBR1V6eTR5VHNhTlVxbDN1bEFDT09SNDB6WnlS?=
- =?utf-8?B?aXJEdW5JT0dGOWhUM1N1Z1A1NjhlNGlTbE5ISGhkTmxDdGhJK3NEcGpPenJV?=
- =?utf-8?B?OHpzZUFtWDMreGtXWVRrSk1hUHN0OUlaWlV1SlVMLzRTMm5Sd2lpWTdiTXMy?=
- =?utf-8?B?VCtSdFhyZHVOMktpQngreG1PVFBpTXJaQzlpd3hNTWNrQW1hRzZzdXVyOWI1?=
- =?utf-8?B?RzE4RUx3V2VhU0p4NGpXVEliNDlBeWNKblFJZVBlTzlzL2Fxck1hcHpaOFFn?=
- =?utf-8?B?azVCSnd0SkdmZFJmMVhHVjlqZnc2b0s4M2VBd3BROFBBeDE2d3ZFS0ZzU3NH?=
- =?utf-8?B?YXJJU2owc0grUmlzOG1tcElZYU5nN01TYVUyWkRlL0NZL2RjK2s3MS9YRGxS?=
- =?utf-8?B?akxISHo2bDNIcm1BZkpYL0gxWHRJQ0VCa28yWlZGQVJ5ckNad2tyaThxUXUw?=
- =?utf-8?B?cndmV1BJWTB0ajJGajFubTh0MjZaMXNtNXo3WTJCWVoxT01MZWpFajBuaWhN?=
- =?utf-8?B?UThoTkx1cUh1V2RCNTJ2aDdibStXNU1wK09kMkQvNGo5VTZHcCtkU0VoTHNp?=
- =?utf-8?B?WnhnOE81a0taRkhTZUZWNm1ZVXZDY2pCamIvN0dwUGxKMDJtbDYycE5QV1RN?=
- =?utf-8?B?WTFZODVzVlR5TklRU2dOZFRVWjdFU2J3NHF0ZGxFc0V0T3NTOUZxZ0JMUmxq?=
- =?utf-8?B?b2lVbU9RVXVCSnFIZFdaUTd0a2pIWGJsaVhHQVBhTE1nLzRSOHVZZGkzREY0?=
- =?utf-8?B?WVNRT3drSHVSWkpFQVNaamVKaTFaajBHSmF3R2kycVc0RVBWenZzeW9xNFRx?=
- =?utf-8?B?WTIxR3ZwdDc4Z2NZNGFMdndMVGw0ejV5aVBPeElMRlYwLytzSkg1RnI2OXp5?=
- =?utf-8?B?K2hTaDJpbC9VSW5rQTVBL1o0Z2ZPcWFyTG91ejZENHpDbHJyaWhIbjBUMW5j?=
- =?utf-8?B?MjV2SHdMODI1dXo0S0loODBjNW5WeHFzMXpVK0hXdVpVbGdjRFNwMnJhT2o1?=
- =?utf-8?B?ZVByT3Z6N0h3SndIbSsraGFwVERXU2phWVlsUlpzQVEvNmJ2WkpTRXNoWU5P?=
- =?utf-8?B?MUJucWtwSVBybVV3RFJQSmNLdDl6WHhDNnR1MllHVzErSTRrQkNqU3JGWStG?=
- =?utf-8?B?L3hReXdKbEw1ZlRaSVN2S0hmdlRFOVJabUZydHo2NmVsOS9taGdPMWdtQ1RB?=
- =?utf-8?B?UkVIV3V4NHhxd0ZlM1VnSzRSeTBoWUV1b0pIL3hmanNPWGRBL0hJUzFIbnVy?=
- =?utf-8?B?RW1pSEJtK3BBeHRFSzRyVmRNeFE0NmhWQTMzdEd1RWlhTmcxODc5T1A1TWdi?=
- =?utf-8?B?WkNKUW1leFlpVmZHRC9FK0NOaTY0Mk9CNndnTTF4NXQwVHBNSHNZYk5LdE5w?=
- =?utf-8?B?UmtQcnZMVEVLVnR2NnlKVlVJOW5MNkpYUjVHQ1pldkUrSjZGME91VE9ZcE9q?=
- =?utf-8?B?VkxHUjdHMXVyV0NDa2RQVmR6N1Jic290bjBQZmhxbzdsbDFDTE92RDdvaEpE?=
- =?utf-8?B?Nlp6Z1ByMFZHYTlqNE1FT2FEZVNDUUdPTWswZ1B3cE9iMjFsb0pialIrUzZE?=
- =?utf-8?B?MDhTQVhvTWZ4TURvMTJVQmxYWjU4Ti9kcCt3YVlqZEFkNXhNVlhJOE5yOUow?=
- =?utf-8?B?TExBaTZyQmZLYWhldlN5SnFiYlVYeE80dmdkTW05cGFObHR6UEJLWFEzQzBK?=
- =?utf-8?B?OCswZ09rVWJENFZ3R2VmNDA0K0F5cjlraVByR3FCQ3pwY280NVZiUW1QUkhk?=
- =?utf-8?B?YllDbEdrVVdVK2h5ditGQWVINmtXdndoSjduT0pZYjlQall6QXVaQzR0cXU1?=
- =?utf-8?B?UFd0QmdhY3I4VnlEbCtFQzVZaGdlT05SRDVoMFJISzNIeGdLUVJxemVneWdi?=
- =?utf-8?B?ajlDNWQwemVkaW9YY1A5L0xuNUprQUFuMXlydEYva2grS1h2UE9NMEEyTE9E?=
- =?utf-8?B?NUQ4enB6UXJvMFNkSzlXSitGSjM0b25mTFBTQUQvcGhIeWF5N3paaFV4eURk?=
- =?utf-8?B?OFk5c2Q4dG5ueVNZOHhpRjVjZVJXZ05PSWUrODJRV25laUFzNllSOGRUMks4?=
- =?utf-8?B?amR0eEp0UW1HVm13MUpOQkplUm1BbVN2UjRZbXM2YzBBSURFeXhGV3VDdXRv?=
- =?utf-8?B?T3lWSUpOSER1eHBqRHozakRxVngrRUs4RjBMWktWWGdWa0RoZHU3bExvN25q?=
- =?utf-8?B?SEpoNm1yaXdxMzZTRnRVdUZwNnZYQ0NZT1RtaVBPcTlaMzFVcFRWdHA5TjVv?=
- =?utf-8?B?ZHplSmI1U3BGVkx4WTh4eTVmS1k4N1dEa2lJZ3N6TVNHSG9DclhTYUcwRUJl?=
- =?utf-8?Q?PnxDfNpRXFJJOabh/n?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b574c18f-e2e2-4f4e-ffe0-08def171993c
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2026 15:12:13.8814
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qq6SHnCJPZ0jNul+DJwJBDxyylX1RzStpscqh0sOPH7YSkXbLQ+41jCWsZxFlDEx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9147
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK+_RLkvc3b0vC7SHygRv+4xdk_mC-362T60NbtQT4Zmpp6fxg@mail.gmail.com>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	URIBL_BLOCKED(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,huawei.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
 
-On Sat Aug 1, 2026 at 5:38 AM EDT, Lorenzo Stoakes (ARM) wrote:
-> On Thu, Jul 30, 2026 at 10:18:01PM -0400, Zi Yan wrote:
->> XArray operations that allocate xa_nodes, such as xas_nomem() and
->> xas_alloc(), add __GFP_ACCOUNT when the array has XA_FLAGS_ACCOUNT set.
->> This charges the allocated memory and avoids the workingset convergence
->> issue described by commit 7b785645e8f13 ("mm: fix page cache convergence
->> regression").
->>
->> xas_split_alloc() does not have that flag. Add it when necessary.
->
-> Nit but maybe 'split' rather than 'have'?
+On Mon 03-08-26 13:57:55, Tigran Aivazian wrote:
+> Hi,
+> 
+> On Mon, 3 Aug 2026 at 13:36, Jan Kara <jack@suse.cz> wrote:
+> > No need to, the behavior didn't change for a long time. In fact, any
+> > read-only mount with orphan_file feature enabled will result in the
+> > spurious "orphan cleanup on readonly fs" message. I've just checked that.
+> > It is only a cosmetic problem but nobody noticed so far.
+> 
+> You say it is a cosmetic problem, but here I somewhat disagree.
+> Logically, seeing "orphan cleanup on readonly fs" implies an unclean
+> shutdown that caused those orphans. Consequently, I spent time
+> debugging it by instrumenting scripts in
+> /usr/lib/systemd/system-shutdown/ and even suspecting the NVMe
+> controller caches, etc. Any sysadmin who doesn't like leaving
+> "mysteries" on their Linux host would have done the same.
 
-Yeah, the sentence is pretty vague. How about?
+Fair point and to be clear I think this needs to fixed. I can see how this
+"cosmetic problem" misled you and you have wasted time debugging that. I'm
+sorry for that.
 
-xas_split_alloc() does not add _GFP_ACCOUNT when XA_FLAGS_ACCOUNT is
-present. Add code to do it.
-
->
->>
->> Fixes: 6b24ca4a1a8d4 ("mm: Use multi-index entries in the page cache")
->
-> Cc: stable?
-
-This should go along with Patch 1. So if we decided to backport Patch 1,
-I will Cc: stable for this as well.
-
->
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->
-> Makes sense to me so:
->
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->
->> ---
->>  lib/xarray.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/lib/xarray.c b/lib/xarray.c
->> index 9a8b4916540cf..bfe7bef80f34e 100644
->> --- a/lib/xarray.c
->> +++ b/lib/xarray.c
->> @@ -1053,6 +1053,9 @@ void xas_split_alloc(struct xa_state *xas, void *e=
-ntry, unsigned int order,
->>  	if (xas->xa_shift + XA_CHUNK_SHIFT > order)
->>  		return;
->>
->> +	if (xas->xa->xa_flags & XA_FLAGS_ACCOUNT)
->> +		gfp |=3D __GFP_ACCOUNT;
->> +
->
-> This is some confluence of flags :) I wonder if there are other places we=
-'ve
-> missed setting this for?
-
-I did check the whole lib/xarray.c. xas_nomem(), __xas_nomem(),
-xas_alloc(), xas_try_split(), and xas_split_alloc() are the ones using
-gfp to allocate memory. Only xas_split_alloc() does not add
-__GFP_ACCOUNT for XA_FLAGS_ACCOUNT.
-
---=20
-Best Regards,
-Yan, Zi
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
