@@ -1,236 +1,285 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCD540756E
-	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF2136D9F9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  3 Aug 2026 12:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785761215; cv=none; b=DABcySnVkhaEvO7P/lmeQ2eN0SYP4dDK9mcrP4gSAqPuj6T4mHqz9XeVL4CmeNMclX6A5lmVbrMyfxswwpRnDVOofdX8fZL8I5N62mmXypBr+RwTln075UhN63OtG7WfKYwvNtyxZzTCaUVKu0iuj+ukLUkzXp2uISNf0qTvxhM=
+	t=1785761515; cv=none; b=XKo094Q6o+tbOByig2DjoMFxonKlu5D5Yi6/LSgZUAUkSHmsih+DB24zYk2yJonYiNFcpvrEc+EdgSvrLXyB2iD4+C/Ws6ehx/3vEK/Xi18lqau4bOhe+lkBZDpILLbAjsLo84E5ZDecRt28tTJNY1B4BzYD968JrlqCHdacj0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785761215; c=relaxed/simple;
-	bh=5TCgU5zbyBLDg+DnZg8eCxnpYXT4Vv2vkwIQjgy7L6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SFpHh4sg8R2LEA1sgSLICwuTtM805Bo5AMCDwqUl5zV8ej18c76PB6EgfgVocN/eJyRmpgD4CcRbZicmyjMW+PmaeIaS2FZOM8cMc4v1AlZU9EBRGuDNocT7847hxuiM4fS9VVS9OOtsdX4qa2Hi5bVL2s7WJ6Jk91z6XOFqaWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EO0Ii5p0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785761515; c=relaxed/simple;
+	bh=qJDZyJaPrTUKbQ3b/EdHrd0SnnQCDvFSy6slc3wqj2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XjwkRFxPmDLwiVpXHa2pWNj5y/vLFTHNvMpGJB+6X+TXWJLA7pnz6mYZrwF02aOlGSEgsMnsB4tod/qjFYHR095F5f5fke3ALR2lRmqSSjfX1x5e1TBZeqe1K6nCDgLxEhgK8zV08pjyfGV6Pcdw3Vxaub+XY8KzfArBuVlDLow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQu+4v8c; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EO0Ii5p0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785761213;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=lQ5xQ35lK31BPQRUsnqePjDzH7l92VhsEt/1x8cX/6g=;
-	b=EO0Ii5p0GlO/D9wl4FTsN4Ypp44KwiyYeRSnKmC2IQJ+t52RjyNBnzI1cPRktuni6qPk1F
-	zGCmuwKroD6WVd+enLSK4CvZu/0egwhH4yuJJWBJ3CH8kOonVvZxA5AVt4fSCpZl1dw+Cx
-	YuQTPY41LQU6zSi1tFDl4Qquhky9hCY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-589-NdRnfQLPNs6h-q9o-NN78g-1; Mon,
- 03 Aug 2026 08:46:34 -0400
-X-MC-Unique: NdRnfQLPNs6h-q9o-NN78g-1
-X-Mimecast-MFC-AGG-ID: NdRnfQLPNs6h-q9o-NN78g_1785761192
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 78C74195608D;
-	Mon,  3 Aug 2026 12:46:31 +0000 (UTC)
-Received: from fedora (unknown [10.44.32.54])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id BEDC41956087;
-	Mon,  3 Aug 2026 12:46:26 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon,  3 Aug 2026 14:46:31 +0200 (CEST)
-Date: Mon, 3 Aug 2026 14:46:25 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Pavel Begunkov <asml.silence@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-Subject: [PATCH v4] pipe: only enable the extra wake_up(rd_wait) for EPOLLET
- consumers
-Message-ID: <anCNoW-x0bcB2ggg@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQu+4v8c"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso13591505e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 05:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785761512; x=1786366312; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8UBY5JJk6ucDrVNZKtjRD505n3yq4bKSlPUs5EcW+mg=;
+        b=OQu+4v8cFP68s8D6pdo+Zb8WgzxEVQB2Ntvw/QHkYAKS3KQ+xRUcbrVlI6WCo2oFIN
+         2T/rGtNyuByHmIwWDoG2/DBDjHXJt5MB2GmpRjSHMk0ZPWTqLojRAJQUYjlO4+/ZYk29
+         REsQAWBXBH68HP8I3WLiURiJdOW1Nt//yJ2mFUaQx+IaWL/cuxM8eGZcgpSIYQzDK0zc
+         QAk73uI+Yy/osoh11KvAMBM/wiUvuYPsMpNLbaYDIBQRDGLSpsJYAkXJE30bymiO8hwX
+         eNbkDzuUGbWQLkKf4RzFzqk4T732jUMtsqoTe/8iMHrYjmjrQEeo3WmAWeesrxyvMQx2
+         Qw0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785761512; x=1786366312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8UBY5JJk6ucDrVNZKtjRD505n3yq4bKSlPUs5EcW+mg=;
+        b=eytZFTjsi5xJ9V8A5MZ0KAVzANGQWPQpPaYFJgrFyggrm7xW4/2+/4JL3Rfc5TB3+d
+         ntgHCDxWiBpyrvZaZCwiP68dKZ8Cg8JvY7AvtKOMftD8G80DWjDZ0vXuDw6tX5tLMJhY
+         lrBnkqVs/mgj7j7NnJ649GbTkRQ4l7Jhf494N4yhREBtgVCBZ4SjF6kuwX1sH2CKy8zG
+         WCrgH+UNOQjVoVuhfN9jdHnjftn05996fbLU0LxOOSkE2kSl3/69y+r/4qNygfUz2rOw
+         97cLZgxFe3V70chQcdVpSo9eNSsbgbMXiZeR4VAZ8wz2n0N46tXFsFj+cSKXpNUoNVhu
+         FRyQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqnK554pjuJ6XXrgrd78w1vjEitLa6gjFr9IjBE7w+9hEryRSkGGDX4C4+ZTAicU52dtkEDwML06Wg2WOl+@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIweAx2GnVrgG/sVaKnETSk3dc3z35lZLoSgXuwwaMi5jcF+y7
+	slQU+sQiP1MRofojGzY9Ldz3UDEvh27zO9T0TRtdzZFvS+KN+EGbU9LX
+X-Gm-Gg: AR+sD11WTkh5J31V3/l+MV/g8wpAEVf1kmsze+rQik92USJAk81HamjKwcPsOilrmU/
+	Y6FRpAbOfhXAPy40Lj8E0d65c7t10objMvk17GujhSVmiuttFGhwZKdmYRaAe6dBm/+VLSKGPuM
+	wom2lO7dwMtJxdti8gGOQTfIQDG3xmVWugPV70CHY9w+u578usoVP+0EYuRvcNZM0ABdvHZqV6V
+	NVJY0sc4KlmyVRZylnfPUYvpcvtcwBSyruaq3sUXTZiKhou5fMacCWkK/fuSvNQiIyuGiwNYIM4
+	HrjDus4u/X3g4Kj8TX6kchwru5OPeCzB0QU0tATvsJwUboQBa4CSHbAgqWTm5s/C9RaU543nJhy
+	n9lj4/z8+gpEd97/j1PoJwubrzqzujHvYyInMKuUp/4fUPoQQ7tnK3ApK5L7izIFV0VqECCfUTN
+	/q14Z0SJb1g/zr6Phho/pTmwvdzYSETI3P06C6Va3/OV8iKyXAmKLMDACuQPpNZfiJvs/DR7Kj7
+	+WLDURLX9djM5RQ+iz8Jo1wxCWwKlhfSWsdntI=
+X-Received: by 2002:a05:600c:8489:b0:495:495b:9248 with SMTP id 5b1f17b1804b1-4980c64b73emr247171055e9.4.1785761512390;
+        Mon, 03 Aug 2026 05:51:52 -0700 (PDT)
+Received: from f.. (cst-prg-94-167.cust.vodafone.cz. [46.135.94.167])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b916e1sm196922935e9.9.2026.08.03.05.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 05:51:51 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH v5] fs: avoid spurious dentry ref/unref cycle on open
+Date: Mon,  3 Aug 2026 14:51:38 +0200
+Message-ID: <20260803125138.1937674-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
 
-pipe_poll() unconditionally sets ->poll_usage on the first call, forcing
-anon_pipe_write() to wake up readers on every write even if the pipe was
-not empty.
+Opening a file grabs a reference on the terminal dentry in
+__legitimize_path(), then another one in do_dentry_open() and finally
+drops the initial reference in terminate_walk().
 
-The reason is that some legacy epoll(EPOLLET) users depend on historical
-per-write wakeups, see commit 3a34b13a88ca ("pipe: make pipe writes always
-wake up readers").
+That's 2 modifications which don't need to be there -- do_dentry_open()
+can consume the already held reference instead.
 
-Test-case:
+When benchmarking on a 20-core vm using will-it-scale to open the same
+file read-only, the results are (ops/s):
+before:	4043375
+after:	5629378 (+39%)
 
-	#include <unistd.h>
-	#include <sys/epoll.h>
-	#include <assert.h>
-
-	int main(void)
-	{
-		int pfd[2], efd;
-		struct epoll_event evt = { .events = EPOLLIN | EPOLLET };
-
-		pipe(pfd);
-		efd = epoll_create1(0);
-		epoll_ctl(efd, EPOLL_CTL_ADD, pfd[0], &evt);
-
-		for (int i = 0; i < 2; ++i) {
-			write(pfd[1], "", 1);
-			assert(epoll_wait(efd, &evt, 1, 0) == 1);
-		}
-
-		return 0;
-	}
-
-it fails if WRITE_ONCE(poll_usage, true) is removed from pipe_poll().
-However, without EPOLLET in .events, it does not need the extra wakeup
-and succeeds even if write() is called only once before the main loop.
-
-Currently io_uring without (unsupported) IORING_POLL_ADD_LEVEL always
-sets EPOLLET, and in IORING_POLL_ADD_MULTI mode it depends on per-write
-wakeups the same way:
-
-	#include <unistd.h>
-	#include <sys/mman.h>
-	#include <sys/epoll.h>
-	#include <sys/syscall.h>
-	#include <linux/io_uring.h>
-	#include <assert.h>
-
-	int main(void)
-	{
-		struct io_uring_params p = {};
-		int fd, pfd[2];
-
-		pipe(pfd);
-
-		fd = syscall(SYS_io_uring_setup, 2, &p);
-		assert(fd >= 0);
-
-		void *ring = mmap(0, p.cq_off.cqes + p.cq_entries * sizeof(struct io_uring_cqe),
-				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQ_RING);
-		assert(ring != MAP_FAILED);
-		*(unsigned *)(ring + p.sq_off.tail) = 1;
-
-		struct io_uring_sqe *sqes = mmap(0, p.sq_entries * sizeof(*sqes),
-				  PROT_READ | PROT_WRITE, MAP_SHARED, fd, IORING_OFF_SQES);
-		assert(sqes != MAP_FAILED);
-		sqes[0].opcode = IORING_OP_POLL_ADD;
-		sqes[0].fd = pfd[0];
-		sqes[0].len = IORING_POLL_ADD_MULTI;
-		sqes[0].poll32_events = EPOLLIN;
-
-		syscall(SYS_io_uring_enter, fd, 1, 0, 0, 0, 0);
-
-		unsigned *cq_head = ring + p.cq_off.head;
-		unsigned *cq_tail = ring + p.cq_off.tail;
-		for (int i = 0; i < 2; ++i) {
-			write(pfd[1], "", 1);
-			syscall(SYS_io_uring_enter, fd, 0, 0, IORING_ENTER_GETEVENTS, 0, 0);
-			assert(*cq_tail == ++*cq_head);
-		}
-
-		return 0;
-	}
-
-the 2nd assert() in the main loop fails without ->poll_usage == true.
-
-Rename ->poll_usage to ->pseudo_edgetrigger to make the purpose clearer,
-update the comments, and change pipe_poll() to set ->pseudo_edgetrigger
-only if wait->_key & EPOLLET is true. This check should catch both users,
-and this way poll/select and epoll without EPOLLET users will not pay for
-the extra wakeup.
-
-Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- fs/pipe.c                 | 20 +++++++++++++-------
- include/linux/pipe_fs_i.h |  4 ++--
- 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 429b0714ec57..84a81db39f8a 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -686,10 +686,9 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 	 * how (for example) the GNU make jobserver uses small writes to
- 	 * wake up pending jobs
- 	 *
--	 * Epoll nonsensically wants a wakeup whether the pipe
--	 * was already empty or not.
-+	 * ->pseudo_edgetrigger enables per-write wakeups, see pipe_poll()
- 	 */
--	if (was_empty || pipe->poll_usage)
-+	if (was_empty || READ_ONCE(pipe->pseudo_edgetrigger))
- 		wake_up_interruptible_sync_poll(&pipe->rd_wait, EPOLLIN | EPOLLRDNORM);
- 	kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
- 	if (wake_next_writer)
-@@ -752,7 +751,6 @@ static long pipe_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+The spurious ref cycle remains an issue and it is trivially avoidable,
+for the most common case anyway.
+
+Al Viro had a more involved patchset which got stalled, see:
+https://lore.kernel.org/linux-fsdevel/20240822003359.GO504335@ZenIV/
+
+I already pointed this out over a year ago when sending v3.
+
+Given lack of traffic on the more involved variant, the nice win from my
+simple patch and its overall triviality, I think it should go in. Worst
+case, if the more involved work ever gets off the ground it can be
+trivially reverted later.
+
+bench is:
+$ cat tests/openro3.c
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <assert.h>
+
+static char tmpfile[] = "/tmp/willitscale.XXXXXX";
+
+char *testcase_description = "Same file open/close read-only";
+
+void testcase_prepare(unsigned long nr_tasks)
+{
+	int fd = mkstemp(tmpfile);
+
+	assert(fd >= 0);
+	close(fd);
+}
+
+void testcase(unsigned long long *iterations, unsigned long nr)
+{
+	while (1) {
+		int fd = open(tmpfile, O_RDONLY);
+		assert(fd >= 0);
+		close(fd);
+
+		(*iterations)++;
+	}
+}
+
+void testcase_cleanup(void)
+{
+	unlink(tmpfile);
+}
+
+v5:
+- the extra ref is of course needed, i blame the heatwave for thinking
+  it is not this time around
+
+v4:
+- rebase
+- don't grab the extra ref on mnt for truncate
+- bench opening things r/o. note perf improved from last year thanks to
+  other changes
+
+
+ fs/internal.h |  1 +
+ fs/namei.c    | 15 ++++++++++++---
+ fs/open.c     | 27 ++++++++++++++++++++++++++-
+ 3 files changed, 39 insertions(+), 4 deletions(-)
+
+diff --git a/fs/internal.h b/fs/internal.h
+index c658c8a5ebd5..9632239036ac 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -205,6 +205,7 @@ int do_fchownat(int dfd, const char __user *filename, uid_t user, gid_t group,
+ 		int flag);
+ int chown_common(const struct path *path, uid_t user, gid_t group);
+ extern int vfs_open(const struct path *, struct file *);
++int vfs_open_consume(struct path *, struct file *);
+ 
+ /*
+  * inode.c
+diff --git a/fs/namei.c b/fs/namei.c
+index 3f9bf103ba12..f71481b9bf8f 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4789,6 +4789,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+ static int do_open(struct nameidata *nd,
+ 		   struct file *file, const struct open_flags *op)
+ {
++	struct vfsmount *mnt;
+ 	struct mnt_idmap *idmap;
+ 	int open_flag = op->open_flag;
+ 	bool do_truncate;
+@@ -4830,11 +4831,17 @@ static int do_open(struct nameidata *nd,
+ 		error = mnt_want_write(nd->path.mnt);
+ 		if (error)
+ 			return error;
++		/*
++		 * A dedicated reference is needed because after the call to
++		 * vfs_open_consume() we no longer own the reference in nd->path.mnt
++		 * while we need to undo write acess below.
++		 */
++		mnt = mntget(nd->path.mnt);
+ 		do_truncate = true;
  	}
+ 	error = may_open(idmap, &nd->path, acc_mode, open_flag);
+ 	if (!error && !(file->f_mode & FMODE_OPENED))
+-		error = vfs_open(&nd->path, file);
++		error = vfs_open_consume(&nd->path, file);
+ 	if (!error)
+ 		error = security_file_post_open(file, op->acc_mode);
+ 	if (!error && do_truncate)
+@@ -4843,8 +4850,10 @@ static int do_open(struct nameidata *nd,
+ 		WARN_ON(1);
+ 		error = -EINVAL;
+ 	}
+-	if (do_truncate)
+-		mnt_drop_write(nd->path.mnt);
++	if (do_truncate) {
++		mnt_drop_write(mnt);
++		mntput(mnt);
++	}
+ 	return error;
  }
  
--/* No kernel lock held - fine */
- static __poll_t
- pipe_poll(struct file *filp, poll_table *wait)
+diff --git a/fs/open.c b/fs/open.c
+index 6b1c14e684a9..2a7697cee00b 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -931,6 +931,11 @@ static inline int file_get_write_access(struct file *f)
+ 	return error;
+ }
+ 
++/*
++ * Populate struct file
++ *
++ * NOTE: it assumes f_path is populated and consumes the caller's reference.
++ */
+ static int do_dentry_open(struct file *f,
+ 			  int (*open)(struct inode *, struct file *))
  {
-@@ -760,9 +758,17 @@ pipe_poll(struct file *filp, poll_table *wait)
- 	struct pipe_inode_info *pipe = filp->private_data;
- 	union pipe_index idx;
+@@ -938,7 +943,6 @@ static int do_dentry_open(struct file *f,
+ 	struct inode *inode = f->f_path.dentry->d_inode;
+ 	int error;
  
--	/* Epoll has some historical nasty semantics, this enables them */
--	if (unlikely(!READ_ONCE(pipe->poll_usage)))
--		WRITE_ONCE(pipe->poll_usage, true);
-+	/*
-+	 * Legacy epoll(EPOLLET) users depend on historical per-write wakeups,
-+	 * see 3a34b13a88ca ("pipe: make pipe writes always wake up readers")
-+	 * and the ->pseudo_edgetrigger check in anon_pipe_write().
-+	 * Currently io_uring sets EPOLLET for multishot polls, so it gets the
-+	 * same behaviour.
-+	 */
-+	if ((filp->f_mode & FMODE_READ) &&
-+	    wait && (wait->_key & EPOLLET) &&
-+	    unlikely(!READ_ONCE(pipe->pseudo_edgetrigger)))
-+		WRITE_ONCE(pipe->pseudo_edgetrigger, true);
+-	path_get(&f->f_path);
+ 	f->f_inode = inode;
+ 	f->f_mapping = inode->i_mapping;
+ 	f->f_wb_err = filemap_sample_wb_err(f->f_mapping);
+@@ -1055,6 +1059,7 @@ int finish_open(struct file *file, struct dentry *dentry,
+ 	BUG_ON(file->f_mode & FMODE_OPENED); /* once it's opened, it's opened */
  
- 	/*
- 	 * Reading pipe state only -- no need for acquiring the semaphore.
-diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
-index 7f6a92ac9704..1acc76581af5 100644
---- a/include/linux/pipe_fs_i.h
-+++ b/include/linux/pipe_fs_i.h
-@@ -74,7 +74,7 @@ union pipe_index {
-  *	@files: number of struct file referring this pipe (protected by ->i_lock)
-  *	@r_counter: reader counter
-  *	@w_counter: writer counter
-- *	@poll_usage: is this pipe used for epoll, which has crazy wakeups?
-+ *	@pseudo_edgetrigger: has an EPOLLET consumer, enable per-write wakeups
-  *	@fasync_readers: reader side fasync
-  *	@fasync_writers: writer side fasync
-  *	@bufs: the circular array of pipe buffers
-@@ -95,7 +95,7 @@ struct pipe_inode_info {
- 	unsigned int files;
- 	unsigned int r_counter;
- 	unsigned int w_counter;
--	bool poll_usage;
-+	bool pseudo_edgetrigger;
- #ifdef CONFIG_WATCH_QUEUE
- 	bool note_loss;
- #endif
+ 	file->__f_path.dentry = dentry;
++	path_get(&file->f_path);
+ 	return do_dentry_open(file, open);
+ }
+ EXPORT_SYMBOL(finish_open);
+@@ -1098,6 +1103,7 @@ int vfs_open(const struct path *path, struct file *file)
+ 	int ret;
+ 
+ 	file->__f_path = *path;
++	path_get(&file->f_path);
+ 	ret = do_dentry_open(file, NULL);
+ 	if (!ret) {
+ 		/*
+@@ -1110,6 +1116,25 @@ int vfs_open(const struct path *path, struct file *file)
+ 	return ret;
+ }
+ 
++/**
++ * vfs_open_consume - open the file at the given path and consume the reference
++ * @path: path to open
++ * @file: newly allocated file with f_flag initialized
++ */
++int vfs_open_consume(struct path *path, struct file *file)
++{
++	int ret;
++
++	file->__f_path = *path;
++	path->mnt = NULL;
++	path->dentry = NULL;
++	ret = do_dentry_open(file, NULL);
++	if (!ret) {
++		fsnotify_open(file);
++	}
++	return ret;
++}
++
+ struct file *dentry_open(const struct path *path, int flags,
+ 			 const struct cred *cred)
+ {
 -- 
-2.52.0
-
+2.53.0
 
