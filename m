@@ -1,136 +1,95 @@
-Received: from va-2-17.ptr.blmpb.com (va-2-17.ptr.blmpb.com [209.127.231.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C9339B943
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 15:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C293399340
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 15:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857492; cv=none; b=TsyPhns3Z94mpFXYv2cnr1f2YUMNX6HvOZrpmXosR1zTGHT7p+Y3mvjI6zMhnESxYCnnwBMnsjBEwExkJyvY/TYJIu1VwReS6ZTI2Z/JtKkcql5U49S4ajMZCWV6xhOk4tAzD+M5JthRKzDSvASeiBhXvjbFOwFdJbR0Dn/o+is=
+	t=1785857737; cv=none; b=nyrqEd21JWSf0SYmSevxsUbNBSUsj40SMdlj5o+L0STdRSVfNQ6jGkYAqOQxhViBuay1UXVMdyHLR+Q95gRqqNbysVFR9zULZmdxb3lGdmllJFskQ2UbxB8oJRnItrRt42l/xnvpTy6AF5gErH+Dk1o9Ki4nP0AT8H77ZAR8wzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857492; c=relaxed/simple;
-	bh=by/fcGncfc5OCuRW9skgJuC6t1LUujBBm0TnhfUwb/o=;
-	h=From:Content-Type:Mime-Version:In-Reply-To:Cc:Subject:References:
-	 To:Date:Message-Id; b=FB/jZsnoqrrjQkwMQJpmH37kD88SwTD8MU9o2ac5B+bIqYuT1oH/Pz4uQdO6hlzdRPip9pkZVOZOn39v5mqxRG3BVulqO61JKUV05osyKxAuE6jMzz7/xALa8JNWzKHnmJnbX7yiZJrsrJFDMueZkqqPwZsEzq6qB1tfknznzYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=KCx+1o48; arc=none smtp.client-ip=209.127.231.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1785857737; c=relaxed/simple;
+	bh=QXJIXbouAKaDq1yQ2zHVoyObhcolmrYCHntKPz3lg94=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppbVIKtDQ+LmAACwyDhAQmTaQ/KdfcjqlSoZ5QsQm66MOYDoTGZrIdNW8iMnrwMyFSBKtS5LvoH+VOvKluXqCXnuV6hd20zdSmEu1vLMIoX7nm8zWmMXAaYVoj5sqXpD06FQvppq5OnFfZKH6dfElBLfIXo2eBymX7HdXUvm5qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jP6W4WUb; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="KCx+1o48"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jP6W4WUb"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1785857481;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=LX/Wg0tks/cc/fTlAyp1t5QsfNTLQnLsZm1iWKs61Hs=;
- b=KCx+1o48T4ApZja3REEIsBvCLXKGQSoqz06MiQ6c9jWZQlJBtOmKbBAl+BF+YS2kjndhtr
- 1KCgMy2O7p5E0ws25diQw8AzTTSPj74SF9VIeRUj/+udLpYiNGiFCrlBoE00cEsfANhcra
- ccLpFR70d4mR7GWmn0U0iiJ/jvH1hsOOrBljE3xWA6mC/KcJDnKCOfwyoEuuxzArkB15IR
- BltUYAAQeQpOXj4NdTSz7g8SKCmQXLRsdjnIUen1WKcLAO7mKxKPn4T4xyP4uLiKIuIiOO
- TXDLliYO0vF0+7zv7wqlYIf0Z+WI8tNPFDYHwfAktNnXyo7PyAmB6zGHC6EtUw==
-From: "yu kuai" <yukuai@fygo.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Reply-To: yukuai@fygo.io
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=r67WbSGJFOJ3m1cb1BTsiBKOB/G7xLlz+d84UQNgMrg=; b=jP6W4WUbd+BQvlFAif99nMriLt
+	QB7Z5FQtFkh9MEJFpTavQl03ecClCBbb+ORaTP287JSk6Wxbwy/GqFhBaM4UosHej5/AgcWkYtniZ
+	t+HGWIVJIs+ADEa/x46vd54UfcpKvGLhbXJTnlvIAVXqDJiKXmDr8cG7+PNdYokV8TD3s5JnD2Xwe
+	UcRZNBNbhqAnAyU6BOK4CEJoDazO9mHSIFyNkXFQ1u+1AxwnKrn7pjVjKJuFYGhe7kReo3a0CbVSW
+	QNn0OR88uSrnYvcM/TCiCOpMf5B7Cxd19YZGYV47wU8d4CsetablOYuc1O2uSF687oeOhsUtqF0fe
+	R6vB3+qg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wrHAm-000000048FO-2n8G;
+	Tue, 04 Aug 2026 15:35:20 +0000
+Date: Tue, 4 Aug 2026 16:35:20 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: jane.chu@oracle.com
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>,
+	"Gregory Price (Meta)" <gourry@gourry.net>
+Subject: Re: [PATCH v8 02/15] memory-failure: Prevent hugetlb freeing during
+ unpoisoning
+Message-ID: <anIGuLZ-x2pIb6mg@casper.infradead.org>
+References: <20260731200802.574821-1-willy@infradead.org>
+ <20260731200802.574821-3-willy@infradead.org>
+ <2f5fb8e1-67bb-41ec-af8f-b4da60be4583@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Original-From: yu kuai <yukuai@fygo.io>
-In-Reply-To: <20260804133208.GB8078@lst.de>
-User-Agent: Mozilla Thunderbird
-Cc: "Yu Kuai" <yukuai@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
-	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
-	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	"Jonathan Corbet" <corbet@lwn.net>, "Josef Bacik" <josef@toxicpanda.com>, 
-	"Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
-	"Dan Williams" <djbw@kernel.org>, 
-	"Vishal Verma" <vishal.l.verma@intel.com>, 
-	"Dave Jiang" <dave.jiang@intel.com>, 
-	"Alison Schofield" <alison.schofield@intel.com>, 
-	"Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
-	"Andrew Morton" <akpm@linux-foundation.org>, 
-	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
-	"Nilay Shroff" <nilay@linux.ibm.com>, <cgroups@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-block@vger.kernel.org>, <linux-bcache@vger.kernel.org>, 
-	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>, 
-	<nvdimm@lists.linux.dev>, <virtualization@lists.linux.dev>, 
-	<gfs2@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
-References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev> <20260804133208.GB8078@lst.de>
-Received: from [192.168.1.104] ([39.182.0.181]) by smtp.larksuite.com with ESMTPS; Tue, 04 Aug 2026 15:31:03 +0000
-To: "Christoph Hellwig" <hch@lst.de>, "Tao Cui" <cui.tao@linux.dev>, 
-	"yu kuai" <yukuai@fygo.io>
-Date: Tue, 4 Aug 2026 23:30:55 +0800
-Message-Id: <0fc5dd22-7a8d-43f0-8555-d2ca966efff6@fygo.io>
-X-Lms-Return-Path: <lba+26a7205b8+e473bc+vger.kernel.org+yukuai@fygo.io>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f5fb8e1-67bb-41ec-af8f-b4da60be4583@oracle.com>
 
-Hi,
+On Mon, Aug 03, 2026 at 11:40:25PM -0700, jane.chu@oracle.com wrote:
+> Patch itself looks good, so Reviewed-by: Jane Chu <jane.chu@oracle.com>
 
-=E5=9C=A8 2026/8/4 21:32, Christoph Hellwig =E5=86=99=E9=81=93:
-> On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
->> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
->> gave it a try =E2=80=94 and the WARN_ON_ONCE triggers every time for me.
->>
->> I may well be missing something, but my worry is that the bio's ref on
->> the blkg keeps the object alive, not its entry in the radix tree.
->> blkg_destroy() runs throtl_pd_offline (which only schedules an async
->> flush) before radix_tree_delete(), so the queued bio ends up dispatched
->> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
->> bio_pinned_blkg) after the blkg is already gone from the tree, and
->> blkg_lookup() returns NULL.
->>
->> I applied the series and wrote a small reproducer:
->>
->>    - null_blk, cgroup v2, a child cgroup with io.max rbps=3D4096;
->>    - a read issued in the child cgroup gets throttled and queued, pinnin=
-g
->>      the blkg;
->>    - migrate the reader out and rmdir the cgroup; the queued bio is then
->>      flushed after the blkg has left the tree.
-> Can you add this to blktests?
->
->> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
->> the lookup can't miss?
+Thanks!
 
-The problem here is that blkg_destroy can be called while blkg is still pin=
-ned
-by blkg_get, in this case remove the cgroup directly remove the blkg from r=
-adix
-tree, that's why blkg_lookup can't find this blkg anymore, and the extra bl=
-kg ref
-is leaked :(
+> That said, there is a pre-existing issue:
+> folio_free_raw_hwp() should check HPG_raw_hwp_unreliable, and fail the act
+> of unpoison just like what __update_and_free_hugetlb_folio() does -
+> 
+> static void __update_and_free_hugetlb_folio(struct hstate *h,
+>                                                 struct folio *folio)
+> {
+>         bool clear_flag = folio_test_hugetlb_vmemmap_optimized(folio);
+> 
+>         if (hstate_is_gigantic_no_runtime(h))
+>                 return;
+> 
+>         /*
+>          * If we don't know which subpages are hwpoisoned, we can't free
+>          * the hugepage, so it's leaked intentionally.
+>          */
+>         if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+>                 return;
 
-> That would grow the bio, which we try hard to avoid.  I think the way to
-> avoid this is to have active/passive refcounts on the blkg, where an
-> active one keeps it in the radix tree, but a 0 passive one would prevent
-> the caller from getting a new reference to it.  The users who rely on the
-> pin for the I/O completion path would then just keep the active reference
-> and use a pure lookup without getting a new passive reference in the
-> completion path.  This would remove the need for BIO_BLKG_REF which
-> feels a bit kludgy and eats up precious bio flag space.
+I'm not sure I agree with that, but I'm new to hugetlb & hwpoison
+handling, so please check my reasoning.
 
-The problem here is that remove a cgroup can also remove the blkg from radi=
-x tree,
-even through it still has active refcounts. I think this can be fixed by ch=
-ecking
-the cgroup online_pin first, if it's zero, we can search the blkg from the
-request_queue blkg list, where blkg will not be removed until blkg_free_wor=
-kfn().
-What's better, if we can convert the blkg list to hash table with key as bl=
-k-cgroup,
-it will be much better as we can lookup from this table instead of blkcg ra=
-dix tree.
+We set the unreliable bit when memory allocation fails (ie we can't
+allocate a raw_hwp_page).  That does mean that if we have a real hardware
+error, we can't know which page was poisoned, but for a simulated hwpoison
+which we are now clearing, it doesn't matter which page specifically
+contained the hwpoison.  We're going to unpoison all of the pages in
+this hugetlb folio anyway.
 
->
---=20
-Thanks,
-Kuai
+Maybe there's more to it than that.
