@@ -1,102 +1,170 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF94772A3
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 16:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785862728; cv=none; b=WtvbxmX3B5NHjuVJD3xkxfpcVe9sbAi3kyrQBKBYYaMFw1sibXqACASQuV0qztnxlvcU/l8APiis6rOm1k6lu71JpEceK95OeGoUBa9002vFMbVR9mQAzPDVv4Qpj7+GZ3JV/XJ9l+ILr8V1fzf2lbIxJR2dd7orDjt7Ghsgpg4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785862728; c=relaxed/simple;
-	bh=aU1gopZ5E3lIiRZFykslCRAx3GiiKZCKyVhLtJCDR2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UgWc888Djl3sHmwMpP9xaqw/y4awjNRkgGf9pXuBoWcwWwS3tK4iUAczO0LuixhGoTbQS0kvxN/3Fufsz5fGOUAoeb4c4KZEOKSlGo+RQFofmysSYu5bF3J1hYD+hTcHIfJKbmcpfC4cB7dNHhu9QqxfZGEZkLmcsmBAw8chaJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dGe+td3k; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A594048380B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 17:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785862883; cv=pass; b=eiwF9GVp5nsvcVhBoqpl5dRzFV6vi17+xAUks1Luikw2s1ia9JuJjmVSXWeNkRBjcXIg3B3sncgR+/lNv4chbhGikkCBeF24QwNVMKLo26ryO8cgxEVk3pkhy9l99yEbyaXHfP13EvfOjII4EEKSBZwvtXhBslfm2iJyULsC9Wk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785862883; c=relaxed/simple;
+	bh=NN7RQwZEWIcd3u0Kef8iTQYndBZrEjQokV6obVKC/Dc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F7zoDDCVRo3jqRAAvSNAOmdvSRNOuKh/tCjeFrNbMwZ/EKkGrdt5u/9pdYgAQeIxcOt7klP6iZ8xpxnBW7oKwvJEJ3BoMjMAS9hjFj2JNcDyp4EPzSv1gcUdzcbiMuwIgXSTiuMEP4nHZTnTJCGTxlGfkUW1aYUP+1TI72TtEGc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=SZHhjSu+; arc=pass smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dGe+td3k"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=w0GJoGVxbTlIBAP42YKS4cXI+GskDdJ5ICUAbo2EeCI=; b=dGe+td3k7UwjmVOjPgl3jDZCCu
-	CdnD4eYaC6V2CTUkATigem2GiHGmlHomRhH3jIrx5LMmC65izTa6jou+FuAXT8EFvB58hMFtUyPeV
-	b292cWiywxz13a4y2kjTMG3QqaipkOoy0gX0mfodrQ8aWTJtlwG/MgC2U7uwmc6MfKPqADKqkSYUu
-	xrV+x1MxnkdZIucGQC4RAE0vzePNhUdX9GcqCBlU/lEQPQDpCmv2PjIIBvk/EhS5Jl/iaia2vYBI3
-	e7kg6ofl610y5oJNQN0sGj/A9dbMicchAvoeov+Bp8c8DIo92e22n8j3czErH7B0BVhVA87bKDP29
-	76NVB/aw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrITC-00000004K3v-2AK3;
-	Tue, 04 Aug 2026 16:58:26 +0000
-Date: Tue, 4 Aug 2026 17:58:26 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v8 09/15] mm: Remove locking mf_mutex in
- is_raw_hwpoison_page_in_hugepage()
-Message-ID: <anIaMs7XtXp631QU@casper.infradead.org>
-References: <20260731200802.574821-1-willy@infradead.org>
- <20260731200802.574821-10-willy@infradead.org>
- <anIUe_Zq8bFX0-Dk@gourry-fedora-PF4VCD3F>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="SZHhjSu+"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so4132289a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 10:00:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785862855; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NGVDCuSxHo7LZ4rrsp8jcOPIbnOwvStYyCAVc3cNfxzDPlm1f8xMWhRM6c2GWWXeUw
+         L7JV94DzbPIaJikpcUWF2kZSiZwf1s6mH66HLoo+7aebMSCW02vLPsngLw1V8+udWMTC
+         OCsCeJbhMcAMK7nh/uYT3FKkIQsX/sk9Hn7tpRXhWegeWmVzDkKcOtJya5IVbA8IO3vA
+         k8UaQcmQ+3kDab8C9NMHLO/A6Z9kRKQMqzWOnh8iiLho9kC/h8B0FJP3R/+VELM0FtUZ
+         3uMJVbubN9Hcp7RaAEaPMuPx7LNBDX2WJg6SRbzfZWdgO4EFUg9Mc+h7vhryQF1InzkC
+         5gAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
+        fh=j+ugDgMUSSROHH/+h6LNvUshJ/meEK91hP0kVy/X2jk=;
+        b=QsopzT7YH9hAuJCsNJ4XsYeWu8xmMxdr5uiEE6dIiSCuLTZCal2cX6hD/2rFWqZ8wx
+         O8szASTBWXGPgUCnodMTCDTT9J+OCNyvQzFJdNt0Il5/nNJ3/0W0epCLC+RbwlN5bi8l
+         4h5YrB5SENGK1mmV7ZKfiLpJDrQZAo8pUQZQsf51I2by2UDUwF6IG6VVA7B5WWPRQmL4
+         DoGCqkGWRP/JPE27Vjsp5op4KmPIj7oYE7qiXcE5DFz/L87pDDLOU9jiWvJPiuYm8nxF
+         +qixeS6qUYjV1jNCxPFegovT7spUwJDvtn7gBIVS8AZnH1SGksZTHEpASHj1nD+kwY1S
+         LKhQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1785862855; x=1786467655; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
+        b=SZHhjSu+914kO7qex0mPblU4m6opNNQ8SYzai3bSARLJLgxVPtp34YzgW7oNbu+Fuq
+         4k48OU3THdvgN3jqv+jM8b9hg4IuP4x5ZijnVcsu409eI/9qvBshVlFF9iR0I16pcYE9
+         8EkVEiEQ0LZ4BthS/SlV0K0QhtVk8no3npBUgkYyjDuhrbnahz6Q6mEKaxT+xuEvfw+O
+         HGBFPVy/uByJ5rIO9oNE0+N946LUW2e2Kdacwu07ETwulGTTUCTxb1+jZ4znPHIPIpVC
+         FB1jraJdPJh9m/LBOHcBHjtCTxZu8G794pvx/MD3enegq88zBZWC0w0rApfKO0ybDjfA
+         3Bnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785862855; x=1786467655;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
+        b=bJGCqO8mfg6vZ2DaugiJs3tSjQ53/HonFtTn1f8I6HUrGLSA8BL1/uChB/jIvUNFIA
+         JQ9npcRPxFRiBut2n20QB+nbc9MJXdrFRbzx5oZ4fceiXLGuFHtIy+bu5emOzm9AK13D
+         JiafBWN07ADLpyFqKDvMoLnnleUdJvZ0Vx0t6GkTPVpxLZSqcUQxLqoOlXqjO3+Y5T/g
+         G+dHGnrgngPLNAtOY4bVUzzvtm5lUEClbz7Jhhnvuan6HhVkbT3NpJpACo+/kzTB3+1K
+         qroqIyWwHJWfQxn4v+sKlD0yetRaTVBJLUAusL+rnEtj2v6PHbZmFqdRgG1TOhuLCbW9
+         wMGw==
+X-Gm-Message-State: AOJu0YyfGVr1aqHRkPaF3FxwtlbZHb5Cnw0pBvCkY8xA6j7HIKsH1xbw
+	qU7a0X7r0qzK3xo6jBUI4KFIUOOSgNu3debgW0+I5EVYuEACGJixm1VCRHU/KMb0nr+oNAOiAz6
+	JuY8K9siKWmOpqpz4PiJLkyKJdnFfOZPNvj0lUNAZ
+X-Gm-Gg: AR+sD13kaP8YK+VDyGupbZ+OI9WJee1S90qny80fgO83j3zU5sdl1Vu/ncHz1InNofp
+	v6ZezsVQfOhzBiSzuHH90R0vtKP5Lao0DQDojtB3vYkHZwzgimLNSmWMfywovE1lPMa8sUOlaHP
+	sIChW2BWA/1K0dNCgngHyQvVMGWTD8iBJQfK6vE9krt6Bxvpp7aygfW/wD/4giQnVgxj6bQLuKC
+	t7AS8sKW5iJ0zusbS6iFJcbsO7xBU7mh3eZvuodERmsLJDIw38Jlbb6A5QKEo87Aae1zlp1KLc1
+	OFvdG9NjAsMt6sTCMZkfY17597oLddQPPGXgD0frdaT7
+X-Received: by 2002:a05:6a21:3204:b0:3c3:834e:89b9 with SMTP id
+ adf61e73a8af0-3cb85e7370emr306570637.17.1785862855065; Tue, 04 Aug 2026
+ 10:00:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anIUe_Zq8bFX0-Dk@gourry-fedora-PF4VCD3F>
+References: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 4 Aug 2026 13:00:43 -0400
+X-Gm-Features: AUfX_my2GHODSgWpz7u9PLF5sftBX1mO9fjStT4uqGF3r0dq7sFB5ilyjzEJ3cE
+Message-ID: <CAHC9VhTWuX6D0yeBKr0bPbJ_mKUdiLYRtQpcwq-jJgovY_akDA@mail.gmail.com>
+Subject: Re: [PATCH] fs: fix user path of nested backing files
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, amir73il@gmail.com, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, serge@hallyn.com, 
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 04, 2026 at 12:36:00PM -0400, Gregory Price wrote:
-> On Fri, Jul 31, 2026 at 09:07:54PM +0100, Matthew Wilcox (Oracle) wrote:
-> > Sleeping in this kind of predicate is unexpected.  Add a new spinlock
-> > to protect access to the list, and turn it into a normal singly linked
-> > list now that it doesn't need to be a lockless list.
-> 
-> Out of curiosity, wouldn't sleeping in this context not just be
-> unexpected but theoretically cause issues? (mid-poison, sleep, scheduled
-> process generates more poison on the same page...) - at a minimum this
-> takes a thread out of the future potential poison-generating pool?
+On Mon, Aug 3, 2026 at 11:42=E2=80=AFPM Baokun Li <libaokun@linux.alibaba.c=
+om> wrote:
+>
+> backing_file_open() derives the path to be stored in the new backing
+> file from user_file->f_path.  This is incorrect when user_file itself
+> is a backing file, which is the case for nested stacking filesystems,
+> e.g. overlayfs mounts where the lowerdir of one overlayfs is the merged
+> directory of another.  Since commit def3ae83da02 ("fs: store real path
+> instead of fake path in backing file f_path") the f_path of a backing
+> file holds the real path of the intermediate layer, not the path that
+> the user opened.
+>
+> Commit 924577e4f6ca ("ovl: Fix nested backing file paths") fixed this
+> for such configurations by passing file_user_path() from
+> ovl_open_realfile().  However, commit 6af36aeb147a ("lsm: add
+> backing_file LSM hooks") changed the first argument of
+> backing_file_open() from the user path back to the user file and
+> derived the path from user_file->f_path again, silently re-introducing
+> the problem.
+>
+> As a result, files mapped through a nested overlayfs show the wrong
+> path in /proc/<pid>/maps and in perf/ftrace mmap records.  For example,
+> with two nested overlayfs mounts:
+>
+>   mkdir -p /ovl/{lower,upper,work,merged} /ovl/nested
+>   echo hello > /ovl/lower/foo
+>   mount -t overlay overlay \
+>         -o lowerdir=3D/ovl/lower,upperdir=3D/ovl/upper,workdir=3D/ovl/wor=
+k \
+>         /ovl/merged
+>   # at least two lowerdirs are needed when upperdir is nonexistent
+>   mount -t overlay overlay \
+>         -o lowerdir=3D/ovl/merged:/ovl/lower /ovl/nested
+>
+> mapping /ovl/nested/foo shows a disconnected path instead of the user
+> path:
+>
+>   # readlink /proc/self/fd/3
+>   /ovl/nested/foo
+>   # grep foo /proc/self/maps
+>   7f6e2c100000-7f6e2c101000 r--s 00000000 00:24 15813027 /foo
+>
+> The bogus path is derived from the f_path of the intermediate backing
+> file, whose mount is a private clone that d_path() cannot resolve.
+>
+> Fix this by using file_user_path(), which returns the outermost
+> user-visible path for backing files and falls back to
+> &user_file->f_path for regular files.  This restores the behavior of
+> commit 924577e4f6ca ("ovl: Fix nested backing file paths") for
+> overlayfs and also fixes the same problem for the other
+> backing_file_open() callers, fuse passthrough and erofs ishare, when
+> their user file is itself a backing file.
+>
+> backing_tmpfile_open() has the same pattern but is not affected: it is
+> only called by ovl_create_tmpfile() for the upper layer, and another
+> overlayfs is rejected as upperdir by the DCACHE_OP_REAL check in
+> ovl_mount_dir_check(), so its user_file can never be a backing file.
+>
+> Fixes: 6af36aeb147a ("lsm: add backing_file LSM hooks")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
+> ---
+>  fs/backing-file.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-A reasonable question.  We don't try to handle races terribly well --
-hwpoison can be generated asynchronously by patrol scrub, so it's always
-going to be possible for a thread to hit poison on something that the
-kernel didn't know about.
+The selinux-testsuite runs clean with this patch applied.
 
-What we're trying to do is avoid touching memory which we already knew
-to be poisoned, while also permitting touching memory which we haven't
-been told is poison.
+Tested-by: Paul Moore <paul@paul-moore.com>
 
-I see the locking in here as preventing list corruption and UAF rather
-than preventing races.  I'm also considering that we're now exposing this
-mutex fairly directly to userspace -- before it was only being touched
-through some fairly weird mechanisms like reading kcore.  With this
-patch series, every call to read() potentially touches this mutex.
-And that could hold off recording any hwpoison for some time, not to
-mention serialising all other calls to read() on a given folio.
-
-So we have all manner of protections that prevent us from taking this mutex
--- the folio must have a hwpoison page in it and must be hugetlb, but at
-the end of the day, one can still be preempted while holding a mutex and
-we never know when we might want to call this from a non-sleepable context.
-
-I'd be open to arguments that this should be an rwlock rather than
-a spinlock.  Or figure out a way to shard the lock per folio (lockdep
-etc make it very hard to embed a spinlock in struct folio).  I think
-it'd also be profitable to change how we record poison for hugetlb to
-not need locking or memory allocation.
-
-But this is all a very long way from where I want to be working -- cleaning
-up the page fault path.  I think I've made a reasonable set of improvements
-here, and somebody else can come along later to make the code even better.
+--=20
+paul-moore.com
