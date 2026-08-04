@@ -1,227 +1,376 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149DF4C6F0E
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 20:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785874943; cv=fail; b=C6RNdBrOMO4T3fwXRX5R6QoCRDhLjxJ845zbjDF2+6QJW16W8JxTJx6GasYTmtrq8Nq9BTUm+5J7bQpw5xaZ2Gs8G6NPNfTt26KX942+oYIHAlTDzUe1eH5SuRvwIZH2r2kVMG/Yq9NKfzZCsn6skX6jPXgrefxPejcjklXKXJ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785874943; c=relaxed/simple;
-	bh=UwDACx0+UQwL4OhpTC5ra+HXM5nmnlfwjVFMwTUGsv0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 MIME-Version:Content-Type; b=R653YgMVOlQBL8pvAyIt1E81uLkzGA5iL8Py44HprxCj1ZS4jLXQTWmJIXvXm0M1Wz8NAfDv3SC+Adb7AwnPLZPVHEI0y8WlK5HwTC0wTh9T3CgJ+//1ly5lypowQXWmjJiSDA5UG7Tin62NNN/CCxiuLuR4In3m29BpeqFg3Nw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=W4FSTPP7; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=yz+859f8 reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D1840DB2D
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 20:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785875142; cv=none; b=by18BPdI5new5gjYfQiES+ZeFx8MLChjVlNuqgt7OzjtEar+ZvaSHnMMzT0m2LSmOJNBkOl5rWJEqH1+IeIvrYrWPJIFtFb2rspIMImuuCzCnel8tO3me2WfQEzBwf64x2F5Wh3zOYM7uSrstL2y+Zfo3q3WwTAYwJOtAXt4oU4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785875142; c=relaxed/simple;
+	bh=kTBXNB2tLJinmV+meWCRY/M/YjJPpZZg3idzCVatug8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D11mRvTy6pazop5GD2IY4EJ9QgSm/j1k5HncR6xfXV9uKPhTu+uCEdAhbq2RPCFVWk1WsV3iImjDcYYt0yh+Q2pJLEabJaLIkNZZ2amL3PMvzFkA+OtKvP70R1BIeIWI+3MMH6XgtpyhfD1OJxT+VydIrCjKBBk2/GqZoiMzHMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ea8vt7xN; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="W4FSTPP7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="yz+859f8"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674Fu3tS1392913;
-	Tue, 4 Aug 2026 20:21:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=1fU5dRl58e4XQKMbWR1h7VqmdV8YtUTmoyDX1x0xH4A=; b=
-	W4FSTPP7E0V+T+vBoCIZzx7PuoNqOyuB5g/uDI/5RG8yfwfP82coQBj6+UYQ3I1a
-	rNrbFmwA2CwG4EyeyakPHRBk/TAeujGfj48/wXfBDE/0eHrwKkkxfKqcXqXdOnax
-	7/jEqd2xJfuRVDGIi+irRmaSuZSk4n7aIa8rslHXP2HS/gsxPdREPec3AseXD+c9
-	0zhHbc2GrGCoII9+B131Vil9UMLbstWfDN8WqgHDH0YzoU8Tfe5YuZ+efkDk+sbp
-	Uj1xgabDW79P/H0ceCAQVFmbPVq2d6obnu0iUVvhz+AUnZo8l3caJutUg+Dp7c38
-	nij6SXMNLnOcqE9f6DZKRA==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fs9bt6a5s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 04 Aug 2026 20:21:30 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 674KKi7N032747;
-	Tue, 4 Aug 2026 20:21:29 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010037.outbound.protection.outlook.com [52.101.46.37])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fs78ue775-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 04 Aug 2026 20:21:29 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eCR8iqoVZMzI4PGF54aTRf7A/9QifqF1+vcpFBxZpCCWOge/AB960CbbLst2IqTlLsJYDWZEwnS/GibW9lZXIdR466Jbihr9OxRPAAxlJnHZd3AIagijp5CBuM5Wm1RxxR04jEevWoz9Q9HkDv36UEHQbKIuUfWnYKhBcaL9WVqntt5rADJlwYWmLjdkQ7iUXnNnXd81vk0evB88JFC3ZJc0UjXmoeat+HIzRBOqf6hzXqQGGNukI4XgMyDqjLNfiU5q+MpqMfWv1ontJL4J0nDR18yATMYlJTN6WUQBLcgx0ZDvX2QVkxRDC7HJnrK2Vk6zROpgmhbpirYWdp+j/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P/eUbMDJ0ZW01OwNHcgUAPb5ZTbCWNx6reB7wzS71PM=;
- b=Tycku1cj3DYsg46y5aeE7kgMKhef2WVwKnrCpXC2JxbOU9x+J4knMvKIGgx897f/PUMEgf4Xd3wr1OIEbOQAK/6bqLjYTltDq4ZtAlXDwL3fFx1tDDJgNkNbZMredwGq21wHd7edKnTfKd1WeDtuG6iIH5Ao6YhoDBJOcd0J0QIIV6S+dAG+WeAecOnx4NyN0uA3krU5TCX0gx+eOBHrMPFzXCC1tdICQVzTCuUkZ2iLSLO+udcefic65Gh1H1o+U/Fqowrs2iIXoQAA6gOCKXTH+0YPQHC8VbYgLoGaDwYTH8hZINmiHBeHLk8cyaYb0rLQbwnk88vnfyrkJ9EiRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ea8vt7xN"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-820100e3504so3179997b3.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 13:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/eUbMDJ0ZW01OwNHcgUAPb5ZTbCWNx6reB7wzS71PM=;
- b=yz+859f8CsvjZyKBBGRvjlVQGvxy5tF3CapQNoqZHztPhaYn3sGavKn8hbnxnCQMAuOq6C5d257VgX38HEsdodq1AYEPQw/Mn54623d4BehTNihDSFgB1Qixbx3xVU4QbJtZdPswHe3ACyvIZwUDP+F4IHw2sXmTcoqyZmRnlfw=
-Received: from DS0PR10MB7364.namprd10.prod.outlook.com (2603:10b6:8:fe::6) by
- PH7PR10MB7105.namprd10.prod.outlook.com (2603:10b6:510:27f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Tue, 4 Aug
- 2026 20:21:22 +0000
-Received: from DS0PR10MB7364.namprd10.prod.outlook.com
- ([fe80::a4df:c903:e1aa:322f]) by DS0PR10MB7364.namprd10.prod.outlook.com
- ([fe80::a4df:c903:e1aa:322f%5]) with mapi id 15.21.0292.013; Tue, 4 Aug 2026
- 20:21:22 +0000
-Message-ID: <89180cde-f637-48db-9a82-f8b0753d852a@oracle.com>
-Date: Tue, 4 Aug 2026 13:21:18 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/15] kpageflags: Use is_page_hwpoison() to set
- KPF_HWPOISON
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-        linux-fsdevel@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        Jiaqi Yan <jiaqiyan@google.com>
-References: <20260731200802.574821-1-willy@infradead.org>
- <20260731200802.574821-7-willy@infradead.org>
- <7a72bcaa-06ed-4485-954b-2376f754eebd@oracle.com>
- <anIJaPXquzQrnCdK@casper.infradead.org>
-Content-Language: en-US
-From: jane.chu@oracle.com
-In-Reply-To: <anIJaPXquzQrnCdK@casper.infradead.org>
-X-ClientProxiedBy: BY3PR05CA0026.namprd05.prod.outlook.com
- (2603:10b6:a03:254::31) To DS0PR10MB7364.namprd10.prod.outlook.com
- (2603:10b6:8:fe::6)
+        d=gmail.com; s=20251104; t=1785875127; x=1786479927; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NKkjXnnqGQF2M+u6ias5bB7wHPmpsm3RwoGuV3wwepg=;
+        b=ea8vt7xN8uO7pphq5f2uQ7z8YfDucEy8Bnwu5T3CJOI59VlETfagwcsYKboeXC0Awr
+         6ms+YL2vQZlxlawt+u1xgGefkxR5EtzqXyo1bt2dJQtLNf8gR38uZDQy7E8XpO43ZG/j
+         fJZoxurVIc6RTXqoqlH226Ki+kZ2FgLYyAnWtl19lYTLeNxKLCsLfwbFI+DZgRTWj6Hg
+         QsHJxUhzH1Yj1F3UvZhpsunhS29vrh1Enk66QET0qIaMN3yqhDaY0SZ5BUrgTqT8XVup
+         b6qNKyqDqDSj5+3PWGBjqWuM7Fyp5xRUYTZ6NjF442dF5JgOiteKfMJQdDVI8a24PL9z
+         FMlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785875127; x=1786479927;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NKkjXnnqGQF2M+u6ias5bB7wHPmpsm3RwoGuV3wwepg=;
+        b=b7scIqWnOxXMTigaa3FqEqRkB7vYC2Lw3EJCCJJqoghULOBIpQeNc0F6cMS7YxY+8c
+         MJink2k7iAWgxQAKV43psApadIIZlobKLjbtw04DecWr0kabZeBDyJ5Bp/Wql1obsVqz
+         uPTqTBeK7vp+IuBIgh4Ca0rRAWx+BgSLwosGLBgTlhqy/imST+q9MJScIPO1nGdCzM95
+         RTD0qrVZsqv5J5zCYXeZscarlUArBdswk+IPbYhFWnoa0cYSy1moWgfCi+zx+onhZ9gH
+         wgkplsuAUq3MqgPBYtjluWZBClj8+auyNTPtV3MIhRZ/DyKZ5Fju6Ww9T1zdoauvFszM
+         RceQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrdrccqVO9UHGU+sTBTPBTeoRCKWE2kZEpadNZg4ESxl4gDOirBOSZ3VSChb87MHqs6xxNER7GuK2X0+bHd@vger.kernel.org
+X-Gm-Message-State: AOJu0YxERTpwglAWt/88PEGrvBHJ77zEUROi64NwUTglH9SvgBiKuJUn
+	k5qHbGQ4ZRqBqnfYIYXTFRAoRizcFAumZB8pkqse2DuAKDcM2wTOzrh9
+X-Gm-Gg: AR+sD12PDWJTIQx48BlDuu8gThK+7cyasOU6KHzG/u+4OoY53GmIYDpJIeskt8Te9uE
+	2/2naBASj+UYDH3/tI7dq/XKn00+ZYaonKYDuhf9E05z1zOqQ/K/0DHPN2ahLetKiPMrDaNU1OY
+	uL2DtsfvKka2Quk9Vyi+eRH3a/y3KeYCZrK7/oyFVTL6Gl/Sa25QPw8uryidw2kl2b8tMRJD3nI
+	P7PqYNRtWXtOV7Yi2dBMvZm9iQQySYd4CjXkifHPKUBsZZcUFprweZcEmYBteCc/GpLkn69gp9y
+	KlGwSucVdWju2svEyMP6opxEVqudmVC59u0f1p3JYttJsLc09eqvv+V204Qnz2skjRpxBW+KjX5
+	bvzndunnvNJ1Mp62bLPdsr7bI27gpO3NjptbOgP5WWNQehzFXLovnxUwqOq14inGfx1WQLG1+P7
+	u1BCbkesikOVC1P7PjUJP7kz6yu1lIsog+pNXs4mrcqRtZorOf7WVJPkG5gxFICjiAX62aVuZia
+	G3M3CsjJGSFLVQ185wWN0k=
+X-Received: by 2002:a05:690c:6904:b0:80c:b92c:77a9 with SMTP id 00721157ae682-82022293d52mr7702217b3.6.1785875126957;
+        Tue, 04 Aug 2026 13:25:26 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:572c:6770:834b:60f2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-820134ccc5csm11632827b3.43.2026.08.04.13.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 13:25:26 -0700 (PDT)
+Date: Tue, 4 Aug 2026 16:25:25 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Li Chen <me@linux.beauty>
+Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Gabriel Krisman Bertazi <krisman@kernel.org>, Josh Triplett <josh@joshtriplett.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Andy Lutomirski <luto@kernel.org>, 
+	John Ericson <mail@johnericson.me>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH 00/24] pidfd: add a minimal process spawn builder
+Message-ID: <anJE8SfBLtkh6QSa@zenbox>
+References: <cover.1784204592.git.me@linux.beauty>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7364:EE_|PH7PR10MB7105:EE_
-X-MS-Office365-Filtering-Correlation-Id: 870608f5-1d03-4145-c406-08def265f340
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|10067099003|56012099006|22082099003|18002099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	sgJholBiuHSkQsbjmH+dYKB5rjusAzEAtHpQ8Dqymw9PblzsTh159nRiRT1XfMcmNHYwGBk59ZnUNU3Vcs1f3vcoVQUSKZcnONqeJEtcYOUvKR4FP2MfmYnwiILhx+RKxO7UnA7yxvGNobUOoaqxJ9wda8e0/fnrX4rt1a8paqWZhxTIrjl1oDSRbBZEvoCe08Ja5ztXdia/PidNwXuuHMkw64r55crfdJ/Kbvlf1i23RrCHm/aJVGyUowGSfRG2Bs4x7e0kUEYuyXT8A29Aqpc+BWszTBS3YylF/Q5DdhAx804/mmQ+qlU49KYu9NaDUP9ekl8ToWpvvNI2IJkctdcQuGb9B2y32XTWIc3a4mx354iSF7FNzzfE+7exmkzg1bYViUewPUw/pd1ChgP3YXTOVrp0GLURWVSigX3rzsD2mveXmVQmVimqrfTmVQhNbIkiZVaLrLfShS4VCLtlp6B447VhGEI7cGGCiZmvr4S7CFCXRqnMV9ImjlaW6iWiyMnWx63fl3q/bL6/89cJHCKArpJEzzsZsIcZySZxCy0+oBKxDbz/D6kjkMVPi+1ObKL8wptx7ATY8JTAnChAHl8Mr+ONUAeRmzMGKyli9gy6O1fCXImzcMgzrAibOONU6iFPswMtcZKQGJPlUmahGNuE6XBRHjz9dpyiFAYFJ/s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7364.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(10067099003)(56012099006)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bG1kcnFnYVJXN3c4WDZVYmdNWVlQSStiOGx0bnZxdDdQOStPZFVDVldQdDNL?=
- =?utf-8?B?UHNLT0VDUVZEcDB0WFZ5UjloOE9sNXlTajhRL2czcllDT3dQcGhxckpUc3FV?=
- =?utf-8?B?U3ZJU0hzK1BnYkJYSWV2cnpPYTVOWTBNRkcwa3JVRFVScDlQVklCa0RyNk53?=
- =?utf-8?B?UHBsbHJXTEU4YjFUaU94VHNMSVVHZEpXN3ovRHlBR0JHMnpLb29OYWQ0UDFZ?=
- =?utf-8?B?dnhZTkZrSHNOUSs3V3pTQW56YzY5aEpkaFZoenpta0VxUXhla1F2d1VRakp1?=
- =?utf-8?B?dDF0bjMxc2hrVU4rMzBrOUI1MVRBUlRJcGE1Uy8rWjNkNldwN0RPemh0amVY?=
- =?utf-8?B?U2dFT1NxU2pCLzQ0NC9MUXpCWkJna2hWbGJyUE5zOGNTRXBnb2RzSnc3VXBJ?=
- =?utf-8?B?OVhvMG9nT2xoeThUWW9FN2xESTR1b2FWdTVYRDhNbkxBSWtpWUJ3T1BFVHZr?=
- =?utf-8?B?SFV6TjFMMFUzYm43ZVB6MlBsYXlMOEZlUTQ1MXF3Z2xOYXRsSVNiR0FvM2tO?=
- =?utf-8?B?bjRkZWlIbmZrWVVXNzFzZ1doS2JYZEFNT2tjblBCUXFxSVFCenhMcitJWmRU?=
- =?utf-8?B?VmR3b3AxN3RkQ0l0aER0eTlnVGJlcG9ONFQzb3J3Z1diUW1IL05KdXluNjhL?=
- =?utf-8?B?bWpmdGk4UGVQTVdPUEdsaTMxbWx3aXVNQWR2T0N4YkFyYlZjUXZCa2o5eDFL?=
- =?utf-8?B?R2doOG4wcXVvNHlZaDE5cGFwdmdjTTlKNm05TmVPOHYyYzNOTUpuSHgzYUJj?=
- =?utf-8?B?cU5sUzdhVTl3UkVxUlVYVUE5akhZb2xDT1dDTnJtVkxtajZ1WGw0WFdLSTVa?=
- =?utf-8?B?VmpScXFiZkMwRm5RcGJ4MnRGZGxJc3RIU1pxTGFjYmhiclZHWmJLbUdUUVBV?=
- =?utf-8?B?YmdZNTFDZGp3WXVHQ2NwZGlCRDE4dlRxdlU2YWlwSndoVlg5Q0hiZVVrQjZZ?=
- =?utf-8?B?MDhZTFVHRFpnN0xVSlIzYWt5blJSQnF0S2N6M1hQYm9IeG9CRUlpdm93OWp0?=
- =?utf-8?B?YnhoSnYvSXRGckpOUWRaazA2ZGVKRVM5V0Z1bk9XMGwyL2NzRWZWc0R3djdL?=
- =?utf-8?B?TVFGbXZzUlhmdlQ5QUxwcnEzeVZTVEhMYTBESWZ6YnNNdkxIeTUvcUY3elBi?=
- =?utf-8?B?T1hlK2x3N3FlamxnbTdjend0TGgzMnBaUnRsaFhYQlFvUm5aM05DblVDbk1F?=
- =?utf-8?B?OXhsYnBKK3FSelRWQWNMa0ZhdVRzNzdscHdyWlNOR2xwTFplTmdYb2JzUTY1?=
- =?utf-8?B?Uk1sRzdaREY4S0JmMFA5VWdMSVFEaHF4NkVsVXI0Z0hCV1QvODZVMzUvV0dy?=
- =?utf-8?B?bUJvUHhXNk42RGUxYXdXNFRDbW1WQnNqcUk3TEdRUWxCN1lSVnZUbEpOQ1lx?=
- =?utf-8?B?Z0JvcjNLM0RIOXEwZzBuMmR4TitSZitDbE5tRXZlUFk2YVdaNWJjMkwrbjV3?=
- =?utf-8?B?TG1GS29YZ3pGQ2VSQXROZ1J2NU56cVJOcHFYYnRNUHlZeWtoQUFYbFVZMTJO?=
- =?utf-8?B?aEIrT3BUUEVkMGZzZW94ZkZDU3pScXcxMzRES2FvRi9LK3I2c2tDeFJTbjZU?=
- =?utf-8?B?ZW9IRnk2MzFlK0hjNGxsVVJqc3BtL3k2aFhmUnZ1L1hqZVRiZEpOMHhEYU1D?=
- =?utf-8?B?dnd2ZU9WejZWWEU3UkNnSG1SYTRHdkYxS2UxU2NOZzY1ZmZpeWtJU3J4bjJh?=
- =?utf-8?B?bkNXVmwrMWtGdDR2NjdFb2dVeVhIT0V4NDVKSlNGZ2dtMmJvTXF0Wm8vS0hs?=
- =?utf-8?B?bFkzN0ZkNldOK2ZqY0ttcmFZVEE0TXBsbHJTRStMSXc3R3hLcDU0UEluOHJL?=
- =?utf-8?B?RWpjUTc1UUF6eUlpblVoanR6ZTk4R1U2TlpSQm5xQUY3ejArWkxwaXFxZExq?=
- =?utf-8?B?MzlrM2hVeWM4Q3RGaDZCb0FveG5IS1hqVlVlV1NiaWpLNnVFb3hjTytLb1ZD?=
- =?utf-8?B?c0xucWVOVjhVY09iWWt2V1FWTHcrSFlPbDkwRGZhZzEveVloWUoxNUViaVFQ?=
- =?utf-8?B?WjNEZ1JZeXlrUTJ6N3puR2hVZk1GMmNLcmhCaHN2OG5idE0vZ1ZRMnk3aUc3?=
- =?utf-8?B?STlqS09yWVFLY1AzMG94V0xXWmtNcHZNSzFkTmxlTjBERVg5citUN0Q3bFgr?=
- =?utf-8?B?Wll4L2QzK3QramNWMXNSSE5zZmhkT1ZSeFhia2c5bVFrbWdITE9CcDJBNDkr?=
- =?utf-8?B?aDBNV3hnM3RjVmpob3Q4WTRxMkJoL0VseEsrMjh4ZkxYM1lYTWxTbWcrUThm?=
- =?utf-8?B?UFE0MFpzWDAvTUNGRS9EVlBNaXVHemoxYjZHSlNxN2pveit5QTlaUDZBUFU5?=
- =?utf-8?B?dnZzVGJiR01YNFovYlVqdEhEeHlQdTlWM043WE1tbm8zU1BJNHBOQT09?=
-X-Exchange-RoutingPolicyChecked:
-	B9paA/e6Zu/yvZk2SNE/TwZGsdmYACHLI5Z8ISSZzsOVPUNltyLJ7uqKcivpesFBcXldcw5SpgzI2DPSvsyQxiSH6JoaHoyur5q0FYtXa6lUDbohuKVowB0T8D98dZrCQ37D95fu+Z+6ezIEQmGSStrhUtbzhO4xlxXXQ8QphLLRPYWhu5yoifYh8qKskIFoXeI7Gi4t3ZyDRBgp4TES54ejYpeBk13IQRhxqyZehrCuw+DDM1KPWyTwZAawP447i/lhmKbs/BF98SI5Fb3vAzK4VMR89eVrJSOE6oM5aPWR/tEc0fKewjqLhBZ/1dX5YCWcAY6vnG20MmosOwG22Q==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	RpjZsQ2jXtV3DqvR1I4MSpRkbk1Dt6gHRhzdMfHTm1RMnvrH9NFtZOZWEKX9+SgTPKoTXU4z6VidF8y2gG4bRdA0Oldiv06WdcDDr+tnP1Ij/Bb9LKubRWRdFUlOXLpQRNZlHuQLPEId7Z/asKfnQfGI6ewWAhQHQ2aookHp1UeonrHvR973AnSLceQNzvOI1MaloFtSvQpBzJoFHvbvzPA86bDpoxsc1rXJmggma/uOzWtc7UHd5XJeqsj6BCKicOLRpW6F0LcUOF6McHnc4AObjgedOmf27JJ07Nv47jp/Y77mUPD0QokR9i64gJdo9dqwnW/mXqo1C4bEiDcB9iRgxUoqHLuep4LVdPmcYS0p9Rtyh8nnZs+CaVDD+nzXtMc4f0TBNz3JDfTmPgDV3ZCjRGreZ2P2TUKMWGO6/WyRfoCofUofK3I8hp24wNnNX4wFAnvzNZK2Ogm4/DHw5uzJ+qzROhQHzzzDxUiw33rfuX3lJtf2ETWAHDz0DRCc5tXfeqvs+SE6IE6qWsTLnL3rfvcmXCbBicokKyoaRXpeCb3k76DbEPO1K+Ky2JVxA0qY4GBTb3brL2JmO2+XNppCD0OZ80AWxIC1Fmq1pfM=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 870608f5-1d03-4145-c406-08def265f340
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7364.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 20:21:22.1493
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZJlhfJ30dPpxWOqs3A878hNMM328IzZly0nE3x+1Ke+GPtPo4crndtH26nYWJq/kseUVUil+xPMt/gYXNODxzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB7105
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-04_05,2026-08-04_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- malwarescore=0 suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608040164
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDE2NCBTYWx0ZWRfX5phqr04KKBCp
- ZVbQ7EETysTTtah7t3Gv8fFLHKZ1ICS78M3SHElQAD90rgeYaFNJ3en4vWrVH1SDCBOEsxmFr3S
- wP92okghmMgbrrQfJl8jRIaSgYfweIzFZJAOrutTgRnTXRM/3kHljprJkAVQR9x8cDCGZtliteu
- c0Ko70QKsh8SpPFSCg5mta9bMCS1IpK5eMhh8z18BbzLXf7U2f8S9+9+uziRZ0a0JbzpWJrQQiZ
- /t3iTqDtMj5671u7fgIRvdVCFxDl910y8CkR7UOiEeVE2uAoSg8/X9kwoieocIq0F70uwyThc4x
- FMIe3ah8kHsANiMp7mdOly5k2R3qZ2QpHAqnPoQ3LVPD7fBg89EygT+Zu4xKgfMDyqcI+9mgh4h
- MMrkDQ+6rVKmjZw4SSyQ+eonCuouuBJxCKW4BDWKeUdt7KsW75xkRWtcjA+Oo8mcvvqCNEikj37
- HN6h8aoayxMxxh/Kt6Sg1Sfiv9lmW7x/3NbonXlY=
-X-Proofpoint-ORIG-GUID: 95fjKyaCHN0h-EhAMugPmtZApBHE2bBi
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDE2NCBTYWx0ZWRfXwdIi3X54AHQj
- FNWEUmFj3sigUtIhHwlGd+p7rqaMQTjwv522j/kSfzUovD0MKughO+hEszBctpuUe4YzEEJ2rkt
- wTHo7s4AlxMa9cUAbuVPbCSBCdHQEqfMbj/aSADxYjAF1WyBUWmR
-X-Authority-Analysis: v=2.4 cv=ZOTnX37b c=1 sm=1 tr=0 ts=6a7249ca b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=7Gl3-_t3PgB9XO-mQDs3:22 a=RpNjiQI2AAAA:8
- a=yPCof4ZbAAAA:8 a=LlYQg72hSJEtsmc9uGIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12100
-X-Proofpoint-GUID: 95fjKyaCHN0h-EhAMugPmtZApBHE2bBi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1784204592.git.me@linux.beauty>
 
+On Thu, Jul 16, 2026 at 10:31:26PM +0800, Li Chen wrote:
+> Hi,
+> 
+> This RFC follows feedback on my earlier spawn_template RFC [1]. That
+> proposal made caching the primary interface; this one starts with general
+> process construction. Christian suggested a pidfd/pidfs exec builder
+> modeled after fsconfig(), with enough semantics for userspace to implement
+> posix_spawn() [2], and Kees agreed [3].
+> 
+> This RFC is based on linux-next next-20260710 and depends on two pidfs
+> fixes that I sent separately:
+> 
+>   * pidfs: preserve thread pidfds reopened by file handle
+>     https://lore.kernel.org/all/20260716052726.1032092-1-me@linux.beauty/
+>   * pidfs: handle FS_IOC32_GETVERSION in compat ioctl
+>     https://lore.kernel.org/all/20260716052822.1034228-1-me@linux.beauty/
+> 
+> The initial implementation is source-based. The executable path can be
+> provided with the final run request:
+> 
+>     struct pidfd_spawn_run_args run = {
+>         .path = (unsigned long)"/usr/bin/rg",
+This should probably be an FD for the path.
 
+This way it prevents race conditions over multiple configuration steps.
+>         .argv = (unsigned long)argv,
+>         .envp = (unsigned long)envp,
+>     };
+> 
+>     fd = pidfd_open(0, PIDFD_EMPTY);
+>     pidfd_spawn_run(fd, &run, sizeof(run));
+> 
+> Alternatively, the path can be staged before the final run step:
+> 
+>     struct pidfd_spawn_run_args run = {
+>         .argv = (unsigned long)argv,
+>         .envp = (unsigned long)envp,
+>     };
+> 
+>     fd = pidfd_open(0, PIDFD_EMPTY);
+>     pidfd_config(fd, PIDFD_CONFIG_SET_STRING,
+>                  PIDFD_CONFIG_KEY_PATH, "/usr/bin/rg", 0);
+Same here. Should probably be an FD to the binary instead.
 
-On 8/4/2026 8:46 AM, Matthew Wilcox wrote:
-> On Mon, Aug 03, 2026 at 11:=E2=80=8A44:=E2=80=8A28PM -0700, jane.=E2=80=
-=8Achu@=E2=80=8Aoracle.=E2=80=8Acom=20
-> wrote: > Good idea, but agreed with Sushiko about the bit setting issue,=
-=20
->  > with that fixed, > > Reviewed-by: Jane Chu <jane.=E2=80=8Achu@=E2=80=
-=8Aoracle.=E2=80=8Acom>=20
-> Thanks. That's the only
->=20
->=20
-> On Mon, Aug 03, 2026 at 11:44:28PM -0700, jane.chu@oracle.com wrote:
->> Good idea, but agreed with Sushiko about the bit setting issue,
->> with that fixed,
->>=20
->> Reviewed-by: Jane Chu <jane.chu@oracle.com>
->=20
-> Thanks.  That's the only diff I have between v8 and v9  at this point:
->=20
->          if (is_page_hwpoison(page))
-> -               u |=3D KPF_HWPOISON;
-> +               u |=3D 1 << KPF_HWPOISON;
->=20
->=20
+>     pidfd_spawn_run(fd, &run, sizeof(run));
+I'm worried this pidfd_spawn_run just adds another varient to the existing
+myriad of exec* syscalls we already have. Would it be better to just have this
+work through execveat(fd, "", argv, envp, AT_EMPTY_PATH) instead?
 
-Looks good.
+(i.e have execveat take a pidfd directly).
 
-Thanks!
--jane
+Then you can get rid of pidfd_spawn_run which looks almost structurally
+identical to execveat (with the argv and envp collapsed).
+
+Justin
+> 
+> pidfd_open(0, PIDFD_EMPTY) creates a taskless future pidfd with a stable
+> pidfs inode, but no task, PID, or process-count charge. pidfd_spawn_run()
+> creates the task and PID; after publication the same fd is the child pidfd,
+> and a numeric pidfd resolves to the same inode. Live-task operations return
+> -ESRCH before publication. A terminal pre-task failure wakes poll/epoll
+> with POLLERR | POLLHUP.
+> 
+> Source-based mode follows posix_spawn-style defaults. At run time it
+> samples the caller's cwd, root, umask, fd table, signal dispositions and
+> blocked mask, and namespaces.
+> Non-FD_CLOEXEC descriptors remain unless an action changes them; file and
+> filesystem state are private child copies before actions. Configuration and
+> run stay bound to the creating mm_struct, exact credential object, and
+> child PID namespace, so SCM_RIGHTS does not delegate launch authority.
+> 
+> The first authorized run claims the builder before copying its payload, so
+> later failures are terminal. Pre-task failure leaves the fd taskless;
+> setup or exec failure leaves it as the child pidfd and exits the child with
+> status 127. PIDFD_GET_INFO with PIDFD_INFO_EXIT distinguishes them.
+> Success returns the positive child PID in the caller's PID namespace.
+> 
+> The RFC supports ordered DUP2, CLOSE_RANGE, and FCHDIR actions in
+> extensible UAPI records. This exercises child-private fd and cwd setup, but
+> is not the complete posix_spawn() action or attribute surface.
+> 
+> Between task publication and successful exec, the child is explicitly
+> embryonic and may not have a valid userspace register frame. Ptrace and
+> pidfd_getfd() are denied, procfs treats the PID as absent to other tasks,
+> and coredump information reports PIDFD_COREDUMP_SKIP. The child can use its
+> own proc entries during executable lookup. Setup runs as initial child task
+> work, and successful exec releases this state before exec events are
+> published.
+> 
+> Seccomp sees pidfd_spawn_run(), not separate file-action or exec syscalls,
+> and cannot inspect the path or action records behind the run pointer. An
+> exec-only denylist that allows unknown syscalls therefore does not block
+> this initial exec; policy must filter the builder syscall as a unit. Should
+> later expansion provide an immutable restriction profile or action mask
+> that seccomp can reason about, or is the coarse syscall boundary
+> preferable?
+> 
+> LSM exec checks and inherited seccomp state remain active. Child setup uses
+> a dedicated AUDIT_PIDFD_SPAWN transaction, not a synthetic AUDIT_SYSCALL.
+> Should it be selected through the source pidfd_spawn_run() exit rule? An
+> existing rule naming only execve() or execveat() does not select it.
+> For source/child correlation, could an auxiliary record carry
+> the source PID plus the stable pidfs inode? An already traced source is
+> rejected before the claim; ptrace auto-attach is not implemented.
+> 
+> The implementation still uses CLONE_VM | CLONE_VFORK plus exec internally.
+> Mateusz suggested that an initial implementation might start with vfork to
+> get the API off the ground [4]. That is what this RFC does. It does not yet
+> construct a pristine target process without first inheriting source state.
+> 
+> Missing posix_spawn() pieces include open and close file actions, resetids,
+> signal masks/defaults, process groups, sessions, scheduler attributes,
+> affinity, cgroup placement, PATH lookup/posix_spawnp(), and exec by fd. The
+> RFC also does not include pristine/no-source creation or the executable
+> metadata/template cache from my earlier work.
+> 
+> John Ericson described a real, partially initialized process that remains
+> unscheduled while callers install its state, and linked an exploratory
+> FreeBSD proc_new()/proc_setfd()/proc_start() refactoring [5]. This RFC
+> implements the source-based mode first; a lower-authority pristine/no-source
+> mode would be explicit follow-up work.
+> 
+> Direct process construction is not unprecedented. XNU's posix_spawn path
+> does not inherit the parent's address space [6], and Windows
+> CreateProcess() accepts explicit startup state [7]. Josh's io_uring_spawn
+> LPC slides list "set up process from scratch" as future work and provide
+> useful performance context [8]; I am not using those numbers as a claim for
+> this RFC.
+> 
+> If the direction is acceptable, I plan to continue toward:
+> 
+>   * the complete file-action and attribute set needed by posix_spawn();
+>   * pristine target-process construction and an explicit no-source mode;
+>   * PATH/posix_spawnp support, if it belongs on the kernel side; and
+>   * an optional executable/template layer for workloads such as agent tool
+>     calling and compiler drivers.
+> 
+> The exposed UAPI surface is intentionally limited so the state model and
+> kernel/userspace boundary can be reviewed first. If maintainers would
+> prefer more posix_spawn semantics or backend work in this RFC, please say
+> so and I will adjust the split.
+> 
+> Codex GPT-5.5 and GPT-5.6-sol provided substantial assistance across design
+> conceptualization, implementation, patch splitting, code review, development
+> of self-test cases, and test planning and execution.
+> 
+> Thanks to Christian, Kees, Mateusz, Gabriel, Josh, Andy, John, and others
+> for the review and direction.
+> 
+> [1]: https://patchew.org/linux/20260528095235.2491226-1-me%40linux.beauty/
+> [2]: https://lore.kernel.org/all/20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner/
+> [3]: https://lore.kernel.org/all/202606011254.5FCBD65@keescook/
+> [4]: https://lore.kernel.org/all/vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt/
+> [5]: https://lore.kernel.org/all/ce71d6df-6851-4e4b-9603-1d55d8d522b8@app.fastmail.com/
+> [6]: https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/kern/kern_exec.c#L4039
+> [7]: https://learn.microsoft.com/en-us/windows/win32/procthread/creating-processes
+> [8]: https://lpc.events/event/16/contributions/1213/attachments/1012/1945/io-uring-spawn.pdf
+> 
+> 
+> Li Chen (24):
+>   pidfd: add spawn builder uapi
+>   libfs: allow custom validation of stashed inode data
+>   pidfs: add taskless future pidfd inodes
+>   pidfd: create taskless spawn builders
+>   pidfd: add spawn builder path configuration
+>   exec: expose execveat internals to process builders
+>   fork: expose vfork completion helper
+>   pidfs: attach pids to future pidfd files
+>   fork: let process builders supply preallocated pids
+>   pidfs: publish future pidfd files
+>   pidfd: add spawn builder state tracking
+>   fork: let kernel callers create embryonic tasks
+>   fork: let new tasks start with task work
+>   pidfd: create and execute spawn builder tasks
+>   fork: keep embryonic tasks hidden until exec completes
+>   audit: add pidfd spawn child contexts
+>   pidfd: audit child spawn execution
+>   pidfd: make spawn builder execution signal-safe
+>   file: expose spawn file-action helpers
+>   pidfd: add initial spawn file actions
+>   pidfd: consume spawn builders on the first run attempt
+>   pidfd: expose spawn builder system calls
+>   selftests/pidfd: cover pidfd spawn builders
+>   Documentation: describe pidfd spawn builders
+> 
+>  Documentation/userspace-api/index.rst         |    1 +
+>  Documentation/userspace-api/pidfd_spawn.rst   |  247 ++++
+>  MAINTAINERS                                   |    6 +
+>  arch/alpha/kernel/syscalls/syscall.tbl        |    2 +
+>  arch/arm/tools/syscall.tbl                    |    2 +
+>  arch/arm64/tools/syscall_32.tbl               |    2 +
+>  arch/m68k/kernel/syscalls/syscall.tbl         |    2 +
+>  arch/microblaze/kernel/syscalls/syscall.tbl   |    2 +
+>  arch/mips/kernel/syscalls/syscall_n32.tbl     |    2 +
+>  arch/mips/kernel/syscalls/syscall_n64.tbl     |    2 +
+>  arch/mips/kernel/syscalls/syscall_o32.tbl     |    2 +
+>  arch/parisc/kernel/syscalls/syscall.tbl       |    2 +
+>  arch/powerpc/kernel/syscalls/syscall.tbl      |    2 +
+>  arch/s390/kernel/syscalls/syscall.tbl         |    2 +
+>  arch/sh/kernel/syscalls/syscall.tbl           |    2 +
+>  arch/sparc/kernel/syscalls/syscall.tbl        |    2 +
+>  arch/x86/entry/syscalls/syscall_32.tbl        |    2 +
+>  arch/x86/entry/syscalls/syscall_64.tbl        |    2 +
+>  arch/xtensa/kernel/syscalls/syscall.tbl       |    2 +
+>  fs/Makefile                                   |    2 +-
+>  fs/coredump.c                                 |    4 +-
+>  fs/exec.c                                     |   30 +-
+>  fs/exec_internal.h                            |   40 +
+>  fs/file.c                                     |   11 +-
+>  fs/internal.h                                 |    3 +
+>  fs/libfs.c                                    |    5 +-
+>  fs/open.c                                     |    7 +-
+>  fs/pidfd_spawn.c                              | 1095 +++++++++++++++
+>  fs/pidfs.c                                    |  478 ++++++-
+>  fs/proc/base.c                                |   11 +-
+>  fs/proc/internal.h                            |   18 +-
+>  include/linux/audit.h                         |   31 +
+>  include/linux/pid.h                           |   13 +
+>  include/linux/pidfd_spawn.h                   |    9 +
+>  include/linux/pidfs.h                         |   28 +
+>  include/linux/sched.h                         |   21 +
+>  include/linux/sched/task.h                    |    6 +
+>  include/linux/syscalls.h                      |    7 +
+>  include/uapi/asm-generic/unistd.h             |    8 +-
+>  include/uapi/linux/audit.h                    |    1 +
+>  include/uapi/linux/pidfd.h                    |    1 +
+>  include/uapi/linux/pidfd_spawn.h              |   49 +
+>  kernel/audit.h                                |    1 +
+>  kernel/auditsc.c                              |  105 +-
+>  kernel/fork.c                                 |   26 +-
+>  kernel/nsproxy.c                              |   11 +-
+>  kernel/pid.c                                  |   41 +-
+>  kernel/ptrace.c                               |    4 +
+>  kernel/signal.c                               |    2 +-
+>  scripts/syscall.tbl                           |    2 +
+>  tools/include/uapi/asm-generic/unistd.h       |    8 +-
+>  tools/include/uapi/linux/pidfd_spawn.h        |   49 +
+>  .../arch/alpha/entry/syscalls/syscall.tbl     |    2 +
+>  .../perf/arch/arm/entry/syscalls/syscall.tbl  |    2 +
+>  .../arch/arm64/entry/syscalls/syscall_32.tbl  |   11 +
+>  .../arch/mips/entry/syscalls/syscall_n64.tbl  |    2 +
+>  .../arch/parisc/entry/syscalls/syscall.tbl    |    2 +
+>  .../arch/powerpc/entry/syscalls/syscall.tbl   |    2 +
+>  .../perf/arch/s390/entry/syscalls/syscall.tbl |    2 +
+>  tools/perf/arch/sh/entry/syscalls/syscall.tbl |    2 +
+>  .../arch/sparc/entry/syscalls/syscall.tbl     |    2 +
+>  .../arch/x86/entry/syscalls/syscall_32.tbl    |    2 +
+>  .../arch/x86/entry/syscalls/syscall_64.tbl    |    2 +
+>  .../arch/xtensa/entry/syscalls/syscall.tbl    |    2 +
+>  tools/scripts/syscall.tbl                     |    2 +
+>  tools/testing/selftests/landlock/audit.h      |    6 +-
+>  tools/testing/selftests/pidfd/.gitignore      |    9 +
+>  tools/testing/selftests/pidfd/Makefile        |   25 +-
+>  tools/testing/selftests/pidfd/config          |    6 +
+>  .../pidfd/pidfd_spawn_accounting_test.c       |  428 ++++++
+>  .../pidfd/pidfd_spawn_actions_test.c          |  474 +++++++
+>  .../selftests/pidfd/pidfd_spawn_audit_test.c  |  521 +++++++
+>  .../selftests/pidfd/pidfd_spawn_common.c      |  512 +++++++
+>  .../selftests/pidfd/pidfd_spawn_common.h      |   59 +
+>  .../selftests/pidfd/pidfd_spawn_compat.c      |  221 +++
+>  .../selftests/pidfd/pidfd_spawn_exec_test.c   |  301 ++++
+>  .../selftests/pidfd/pidfd_spawn_policy_test.c |  294 ++++
+>  .../selftests/pidfd/pidfd_spawn_race_test.c   |  923 ++++++++++++
+>  .../pidfd/pidfd_spawn_security_test.c         | 1242 +++++++++++++++++
+>  .../selftests/pidfd/pidfd_spawn_test.c        |  550 ++++++++
+>  80 files changed, 7938 insertions(+), 81 deletions(-)
+>  create mode 100644 Documentation/userspace-api/pidfd_spawn.rst
+>  create mode 100644 fs/exec_internal.h
+>  create mode 100644 fs/pidfd_spawn.c
+>  create mode 100644 include/linux/pidfd_spawn.h
+>  create mode 100644 include/uapi/linux/pidfd_spawn.h
+>  create mode 100644 tools/include/uapi/linux/pidfd_spawn.h
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_accounting_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_actions_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_audit_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_common.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_common.h
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_compat.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_exec_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_policy_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_race_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_security_test.c
+>  create mode 100644 tools/testing/selftests/pidfd/pidfd_spawn_test.c
+> 
+> -- 
+> 2.52.0
+> 
