@@ -1,96 +1,104 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6367B43BDA5;
-	Tue,  4 Aug 2026 13:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1849543E07B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 13:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785850337; cv=none; b=JxeTsQxv2zb7ELt5CydqYwQYzq/Ht8rA/cUZxPLO6xJ/XiM749RBtgs4ssDWGH4G9Z2T5GyuKeGGtbD1qi8sXgqDLbLrB1dQQfjP2uPplIoSlN577ScvKCNJ/u8dpJCBPWph4smLMPOHTacJo20EN1ogMpVg3G2WepnoOYjQTU8=
+	t=1785850952; cv=none; b=mwp3HxpyOyLdd4Ly+zM/fxryu/tIVWnPgs3ulk4g+4gbzQ3ZttmEUD4Xs0PJLmjri9tysh5KaWaF33Fpcb2Me3HBSKTY23LC6Ce7yHmE5Pul1DCwJLkPqBhYUpX4OXrRaPredQPb7hh6fJQwhcuvKksHrx1mJr2JbhgN3Mzch60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785850337; c=relaxed/simple;
-	bh=nTLiwxrMjLSfaiIVFmR3cQtrnNCiV4/Sy7TgcYaomcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B/egnh4LgT9Coer74s7wB7kmErtaFw3tLMyQic3IZ9ozl/SxupLpeKl8tD95qVIHUDmsYzpj1hNdrnuNVmzch1as4sju8zmVjV1Bqalfvb3ClqsvWy9kIW9XPR2qTuotobipPtQ6f+i/UXB0Sap7HBIwd5D5jN64JbRllwB1kSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E2ABD6732A; Tue,  4 Aug 2026 15:32:08 +0200 (CEST)
-Date: Tue, 4 Aug 2026 15:32:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>,
-	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
-	virtualization@lists.linux.dev, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of
- blkg
-Message-ID: <20260804133208.GB8078@lst.de>
-References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
+	s=arc-20240116; t=1785850952; c=relaxed/simple;
+	bh=6BqqmJ+CkjzQyLJ9nl1mxgsYp2XZlncwLWU2u6v8GGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J3/L89n0lUhKGnC3WpdX05qABHxkmpfk7RAMiVpXK8PhZ54kqz+Sm33o9wmMryXgmD+nGaqKOOZ8ruo+EkcqK+gIKZpf0k0B+IDntilpkbcfWBlWhskkBh6Bd/rpIznzZFPYHW1vnNDH2qBfNuWRT+1I76j7QJF/R+Grj6/gYsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b=HVNDJ2sl; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b="HVNDJ2sl"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84e27035206so4714841b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 06:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0x0f.com; s=google; t=1785850950; x=1786455750; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6BqqmJ+CkjzQyLJ9nl1mxgsYp2XZlncwLWU2u6v8GGk=;
+        b=HVNDJ2slChBLAnAtHJWsuM0GqQ+U+3j5u8Cc8lkAul0O+w064O3addkYOLXF8JgZA5
+         JVvXgnopt/Ar23f/ERGQYebRecvOLu1bnMh/KasRc4bAUdtPyEymba/0tQk3od0O1/n1
+         seakULTsJyWKgcz8t2Th3LZwg9ADI7IyEVMSw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785850950; x=1786455750;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6BqqmJ+CkjzQyLJ9nl1mxgsYp2XZlncwLWU2u6v8GGk=;
+        b=hhFpHwC4p+aRweg3wkclAOV6fZTzxqF2rRMdWZWfRViiwx9NFZ9y1Bp7dmI1BBXBOl
+         xMZq3MKDZsJ/WQsTuzuVadUJ17o6guv4RaEtVoFY+7N5ML+JIh6etL0CBgpo99PTGXWl
+         LS6bEXjRCGf815XNQKMeg24nkBQ4vxzlUOBtr6qXjqOT/sBdOhMVaFISIvAJJ8+UVp67
+         scLBsjwJpzh4RO+hYig9muI+GPOQ3I1FGe2Rul7TPUg30qzDzUOYLW1an3s1FceFnpd0
+         +t/X02j0h7dvhsy0JN7VbE3PrmXuUDmDtX98H9abzoerJbT0tL1LSvblnANCud8XHd16
+         5L2g==
+X-Forwarded-Encrypted: i=1; AHgh+RqY6DmABjS83V+S9IofPuhJbxoHg3m7GytWVi6hOCFqvDfJ/2IpJE6g4DkiWhABSIAdoVZRV5KAIlkrsm2f@vger.kernel.org
+X-Gm-Message-State: AOJu0YyF1fVVOzJTaRm86HHjD1G2RMrtiO7kgNw1QpnF9as5j1yCuI5k
+	T8MZ4jHvQu77l5NZ0Vryyov4i/dRoo9RrDvQsjE6H3x/txef8FzDl8rJQMilsBHsCA8=
+X-Gm-Gg: AR+sD10qsYRCyUDUygto3b11O90dGtCnTjSjoFkokXmR+vDe9SBtSoinaynUAfDcDbj
+	9HtMEIvFjO4xg5OCMj275OoPFSuekO76tyKQB23N9xLCMh2zIQq6JV4J6jgD0lR+AiLbDYT0yjO
+	6QrPhsey84eE48KLIrW0hsdPgC0v30Znj2tEMfzBCFxnja0Wzy0gHu1sItXhz4Nv1ILmMqP2knz
+	UJW7674CuH6IBAqirzcnjKLzifwoPJ8jJ8NcYCQde0cI++zlnySi2mTqopxpnkX8NQZ52D/1dYU
+	DjVVE+xnXM9FngPVfHGKs6HEmHyDOzkfGuf5oKM5CqStpRQkNBQBM27e2CUwLJAaj8bNxuLA6aj
+	48SeRw7uNKkpumkL9A9/p9qH0yNSZ4wXMVOgW03tSK9r7f9mdHWnSg3py7BqrXWPF2AEdEgscFo
+	goRYwyE/Mt6rgskYeHdBkXfb4F+IgPt0jZ8UTe9x4etQp180eAhIA=
+X-Received: by 2002:a05:6a00:12c9:b0:848:67ca:c03 with SMTP id d2e1a72fcca58-84ee4915d1fmr13645029b3a.58.1785850950265;
+        Tue, 04 Aug 2026 06:42:30 -0700 (PDT)
+Received: from shiro ([2400:4162:2428:2ffe:e3e3:8255:fe3e:c7f5])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-84edc29e6f0sm5258690b3a.39.2026.08.04.06.42.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 06:42:29 -0700 (PDT)
+From: Daniel Palmer <daniel@0x0f.com>
+To: jkoolstra@xs4all.nl
+Cc: ast@kernel.org,
+	bpf@vger.kernel.org,
+	brauner@kernel.org,
+	corbet@lwn.net,
+	daniel@iogearbox.net,
+	farid.m.zakaria@gmail.com,
+	jack@suse.cz,
+	jannh@google.com,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mail@johnericson.me,
+	stable@vger.kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH] binfmt_elf_fdpic: only honour the first PT_INTERP
+Date: Tue,  4 Aug 2026 22:42:25 +0900
+Message-ID: <20260804134225.3631912-1-daniel@0x0f.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <al_MqBrjDW1QjRau@daedalus>
+References: <al_MqBrjDW1QjRau@daedalus>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
-> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
-> gave it a try — and the WARN_ON_ONCE triggers every time for me.
-> 
-> I may well be missing something, but my worry is that the bio's ref on
-> the blkg keeps the object alive, not its entry in the radix tree.
-> blkg_destroy() runs throtl_pd_offline (which only schedules an async
-> flush) before radix_tree_delete(), so the queued bio ends up dispatched
-> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
-> bio_pinned_blkg) after the blkg is already gone from the tree, and
-> blkg_lookup() returns NULL.
-> 
-> I applied the series and wrote a small reproducer:
-> 
->   - null_blk, cgroup v2, a child cgroup with io.max rbps=4096;
->   - a read issued in the child cgroup gets throttled and queued, pinning
->     the blkg;
->   - migrate the reader out and rmdir the cgroup; the queued bio is then
->     flushed after the blkg has left the tree.
+Hi,
 
-Can you add this to blktests?
+Sorry if I messed this up. First time replying via git.
 
-> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
-> the lookup can't miss?
+>Afaict, currently read_code() may blow past what vm_mmap() allocated
+>there, which may result in memory corruption for a non MMU system.
 
-That would grow the bio, which we try hard to avoid.  I think the way to
-avoid this is to have active/passive refcounts on the blkg, where an
-active one keeps it in the radix tree, but a 0 passive one would prevent
-the caller from getting a new reference to it.  The users who rely on the
-pin for the I/O completion path would then just keep the active reference
-and use a pure lookup without getting a new passive reference in the
-completion path.  This would remove the need for BIO_BLKG_REF which
-feels a bit kludgy and eats up precious bio flag space.
+I ran Fable on all of the "nommu files" and it found the issue this
+commit fixes and the above issue,
+I sent a patch (co-written with fable) and we proved this is an actual
+issue on nommu via a reproducer tested on a real system.
 
+https://lore.kernel.org/all/20260710121443.1059549-1-daniel@thingy.jp/
+
+Thanks,
+
+Daniel
