@@ -1,123 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A853E00BE;
-	Tue,  4 Aug 2026 12:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB964399E4
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 13:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785848371; cv=none; b=Ftal4qW9eIUohfpIt/Z5btQz+ZfLlQiVWx85btFHKKlSMWoy/xnxh5tmfsyH0WX5UImRmTGinD9pXVh9TIhPBMlHAFuelnJVuAjhmrfQC1x1dBC1bkkme2Ovp6OS/YINoEn9a8MnMKXzyjpTso31/ClBtUBwjOPxyaXZW4qh0HA=
+	t=1785848442; cv=none; b=O0ng6aVCDLqneQ7lmkBwE0EhihBFiqJvC8xvUz3J9MFoR1Lxgnv2zyRZj/8OqZEDO57lC3lrA+EmqO1LIyiPgZQnMmcFelViYc8TzAm5AbdFSlPIHUU4R/y3Q8Fjesu+VU0xZPxAoHtDprzILXmAE8GAz4G7jcXuuKd+rshbF+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785848371; c=relaxed/simple;
-	bh=cmKzuBijcDPvK7lbmrVWF4TTSNMZ5YyfBQGhlIqOBjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qN6oqo+xcnbCbDJFWwHireiUtPFp87t0DXRB/p6rOTBkdUSX4v1iQL1dolpkcT8Z9J3WvCNFswukwIwNBPjt928eIibx1MJdOHSzbKkuRpV+JsfU2bdwcCqwqAEKErWN74FpA3KPuELFWz9T0JqpIO6ScAejJ9REO6xlPxuRobg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVucjhvr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785848442; c=relaxed/simple;
+	bh=Jf/ulHB64njn4WmjKBUzNqvAIC1wFOlc2MREPr/01m8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Q1j+Mf0NuWB4dUn3erNqSSQT7Z2pQwWHVd7kl9bWumtmycvKlsPxA73n+eOBnStdqOClr5/Gc2xwD4FO5QLzA5p5skLnKDpQPTI7gt3IEBTEcof27uCMS77WFL0eVTb6u06bUVVDp36BbuFG0UhdQb9Lw4/0wMuNpbBH+AqeZ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=mnlu+R31; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVucjhvr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B111F000E9;
-	Tue,  4 Aug 2026 12:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785848370;
-	bh=rkEir9uFm1qRBCXp0zpCOeuLTQKL4glDCYZRatT+50Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gVucjhvrdbhER92eS5xBHqYeZpRRPk+DMQSNxJPje3bAw5/f6Is/Nlxg+QiKYxfyL
-	 pGQoOaMN++o0pL9N4wS88gUthxS0LEzYZKJZYvjbiDx/YUuiHmFTpl65FF4Q9xwM0s
-	 a3HI42iOihbi5kLSp3FDAlBecuXQkaSEbziibdWB2HI43ExYZ5VxAwgNzL8NLKy4/V
-	 BvJA7uaB+cbSx42oZRA6c8/ULe0tqE31ITKSKG8p1/ldAswRXodrmvS/+E0is3fQsS
-	 w6b9GFu80tahoLmlwJ3y8g26YTuFV2gojiLnnLp6U02LXioHwZLgPZzUCMN88kobJv
-	 U6M2c8qhm7r5g==
-Date: Tue, 4 Aug 2026 13:59:08 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] mm/powerpc/8xx: constify ptep_get() argument
-Message-ID: <anHgw2Z-d-OQk9qs@lucifer>
-References: <20260803164400.531199-1-pfalcato@suse.de>
- <20260803164400.531199-4-pfalcato@suse.de>
- <anHI4B-lMu6AJJfA@lucifer>
- <dcdb8cab-c18c-4995-ad1d-2f2d4700e7c1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="mnlu+R31"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6ae5baaef5dso788762eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 06:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785848440; x=1786453240; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CD2iqK/EPaClCBXLVXSOQDWirgcUGjlrzZ6ba7dIsAs=;
+        b=mnlu+R31J6ogLzyJU9L/xFL15Xzm7aCfoKV7X/e568sX+3uyYWN+HCjxMTRdRfHEZO
+         FYCiKTaN2Z5VcTOn8XU0tOAuX0NZj9c0oDGvOMEMxadmpXLIDjls2cTLKSAV6btVcAld
+         8gXIlAbcesIlLVIDCjgc4+KxCsjBhwn7caSrGk+Szj+CEGfTN8hkE+isGTATG1uF78K5
+         ODyUNJuDCoZLw6ky3CCpYbWE12/vDgoCfFSDMfZ8esYHqSj6+V0EQTOFVPKqZk5z7We2
+         psNb99Gtj4gDwddphD6zV1ppAVxxE2Ocu2VynBjMZcqQmi/gWxvWoLceU1HXmbljNDrc
+         DHJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785848440; x=1786453240;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CD2iqK/EPaClCBXLVXSOQDWirgcUGjlrzZ6ba7dIsAs=;
+        b=JXUOif7MAwJUzyEQwAm5lvNuk5KdRPTzex2+qKqYp9nA+TopvT64jBZeX8twr8xYog
+         IhA7u5vqJTBkwVR+/HHaEenE/HurunXGpsQSZztnpyOSavCuEs0wW2gwEApqvKG4ybTp
+         k5lYGFF1YUX6e/FUQn8h/RfOtaz7hhaXpHOpF+UfX/ug7r7M5V2E2CawcJCY1h1bZToO
+         mku38ACaU+k6fqFDp3QoYQ0bXjcDh8bvNjTe6Vp4+MzZi1qt4fC9ajdCvf8NwucSUOsH
+         Ii/Q3CnyF1zO0PsHgct08HHIJUKXiQqIWUUyMFaF3xGuPL+VCGP5h1B1aUfZPWnBoEjS
+         CW9A==
+X-Forwarded-Encrypted: i=1; AHgh+RqwZZpu+ByfAdzKYe4GiF/B0+H5coVQuoz06F8yrEcY2MiPUcjOlubHNB2z8fTle1lUnP4wcb1pJGkImjzx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtQOKbax+8T43t6dDtIejW4y4faVuIUMKGBXgl62aD3TB4DgVZ
+	zqra9xyxHuxcvBm21KHzsNERawcnjYLvax0uHwYP55JjXm8/WJBMz5Ila8HtMmvk1NUHC421sjQ
+	dwrOtW6Y7oQ==
+X-Gm-Gg: AR+sD13VF9tobAHRKe5hzBlLUcNSbNZeu6IcMlJHk5/PjbkAKN9Q7mwzUm96BxzX4B3
+	WTraR31ItNqxQtj4qX9Sba86U3vKFsF8n3L8ykp5KLhqhM1wqPoghdg1n7zPJvzsvXWwkeEMsA6
+	SSe+9gOUFlSVNpW0f/Yq6y5cSsSqjl5ZgTjsxAEJq/1tI3W33FeeFDZxBh70dffJzYuyEzM76WN
+	hNyW6RAbalntN9zB63VZjIk8/P0EQDQ7TsZrh93UKZU9z5y6JJjiU+PsytXSkj57ik2+xuGRPQC
+	Nkyv5IwFh+4Mxh1E/INc8FJCjjiUy7aKP3UDSXXws8m0wWptGxewvMihVXM6QCoeyOQuxBOJTN7
+	+iMUPURFVksUKLFyG8zkud0w16X2XblWcqoXlMqEvlsdyRjK5rAFrxv4VBWjgGRhvHVWgF2y0pP
+	x8b/6ZSbEhj9z0PQnMTQ7285bPV+7dzDLxYFN1kHjRJkw4LFkFfdn+UyTMeJZFwvE0zgnnzWZiB
+	WzkKBa0kMuBIvZ4Q2f1MvR0LoRYDtXKhhHLLgR5J191jGCt5Gh8
+X-Received: by 2002:a05:6820:4de4:b0:6aa:e7f9:fa68 with SMTP id 006d021491bc7-6ae828b8bfdmr4365672eaf.11.1785848439805;
+        Tue, 04 Aug 2026 06:00:39 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6ae93d61482sm61530eaf.7.2026.08.04.06.00.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 06:00:39 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-aio@kvack.org, linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, 
+ linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+In-Reply-To: <20260804125524.740996-1-hch@lst.de>
+References: <20260804125524.740996-1-hch@lst.de>
+Subject: Re: [PATCH v2] block: split out a new blk_plug.h header
+Message-Id: <178584843869.926496.8137441533296046276.b4-ty@b4>
+Date: Tue, 04 Aug 2026 07:00:38 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dcdb8cab-c18c-4995-ad1d-2f2d4700e7c1@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-On Tue, Aug 04, 2026 at 02:50:19PM +0200, Christophe Leroy (CS GROUP) wrote:
-> Hi Lorenzo,
->
-> Le 04/08/2026 à 13:13, Lorenzo Stoakes (ARM) a écrit :
-> > On Mon, Aug 03, 2026 at 05:43:57PM +0100, Pedro Falcato wrote:
-> > > There is no need for write access to the PTE.
-> > >
-> > > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
-> >
-> > With below addressed LGTM so:
-> >
-> > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >
-> > > ---
-> > >   arch/powerpc/include/asm/nohash/32/pte-8xx.h | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/powerpc/include/asm/nohash/32/pte-8xx.h b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
-> > > index e2ea8ba9f8ca..f2bab31040c7 100644
-> > > --- a/arch/powerpc/include/asm/nohash/32/pte-8xx.h
-> > > +++ b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
-> > > @@ -226,7 +226,7 @@ static inline pte_basic_t pte_update(struct mm_struct *mm, unsigned long addr, p
-> > >
-> > >   #ifdef CONFIG_PPC_16K_PAGES
-> > >   #define ptep_get ptep_get
-> > > -static inline pte_t ptep_get(pte_t *ptep)
-> > > +static inline pte_t ptep_get(const pte_t *ptep)
-> > >   {
-> > >   	pte_basic_t val = READ_ONCE(ptep->pte);
-> > >   	pte_t pte = {val, val, val, val};
-> >
-> > Worth making these const too (that {val, val, val, val} horrifies me btw :)?
->
-> Any suggestion welcome.
 
-I'm being super nitty, all I mean is:
+On Tue, 04 Aug 2026 05:55:10 -0700, Christoph Hellwig wrote:
+> blkdev.h gets included in various places outside the block layer just
+> for struct blk_plug and related plugging functions.
+> 
+> Split blk_plug into a separate helper to reduce the amount of code
+> that needs to get rebuilt when blkdev.h changes and to slightly
+> reduce compile times.
+> 
+> [...]
 
--   	pte_basic_t val = READ_ONCE(ptep->pte);
--  	pte_t pte = {val, val, val, val};
-+   	const pte_basic_t val = READ_ONCE(ptep->pte);
-+  	const pte_t pte = {val, val, val, val};
+Applied, thanks!
 
-:)
+[1/1] block: split out a new blk_plug.h header
+      commit: 758b86f7bc8a2582d0783f3535854ea05d3ff97d
 
->
-> powerpc 8xx page table is independant on page size. When you use 16k pages,
-> depending on the address you hit the page for the first time, the HW assist
-> page table walk will fetch one of four 4k cells in page table that need to
-> be identical as they all four define the same 16k page. Not sure I'm clear.
+Best regards,
+-- 
+Jens Axboe
 
-No that's clear, thanks!
 
-(I say 'horrifying' because I am looking into RCU page table freeing which this
-may complicate, though perhaps not in practice, to be continued :)
 
->
-> Christophe
->
-
---
-Cheers, Lorenzo
