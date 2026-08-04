@@ -1,170 +1,291 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A594048380B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 17:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785862883; cv=pass; b=eiwF9GVp5nsvcVhBoqpl5dRzFV6vi17+xAUks1Luikw2s1ia9JuJjmVSXWeNkRBjcXIg3B3sncgR+/lNv4chbhGikkCBeF24QwNVMKLo26ryO8cgxEVk3pkhy9l99yEbyaXHfP13EvfOjII4EEKSBZwvtXhBslfm2iJyULsC9Wk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785862883; c=relaxed/simple;
-	bh=NN7RQwZEWIcd3u0Kef8iTQYndBZrEjQokV6obVKC/Dc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F7zoDDCVRo3jqRAAvSNAOmdvSRNOuKh/tCjeFrNbMwZ/EKkGrdt5u/9pdYgAQeIxcOt7klP6iZ8xpxnBW7oKwvJEJ3BoMjMAS9hjFj2JNcDyp4EPzSv1gcUdzcbiMuwIgXSTiuMEP4nHZTnTJCGTxlGfkUW1aYUP+1TI72TtEGc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=SZHhjSu+; arc=pass smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935A0484257
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 17:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785863083; cv=none; b=pFEy4xQcwKM/o3dT3jO6ZQr4DO0QoH4lpfKzufOLahY1OgsJsbRNUr6QRAZdSfljdzrVqlEJgIoNOdP7aQyIE9+vNk6PaIKGFHiUkM9uAfBEI5If2SFyS6oZNHIXO559k2Z2ymISmTi3VnAk0QhblHdbnVtMe87DgP4u/dJM+3g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785863083; c=relaxed/simple;
+	bh=ETbqy1CcMIOhwIvFx9ZHp8n2e3OiVgGSuFJZLPCtesI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hrf54VcoxyPJM6jUYx71La5yT1cTKdoQ9bFIJet7sllrT12eJ/IyBWF3EIiA64nFm24ZydcbEMpdrKvIbE8qZgvE0+qSWitHCqZ847EeIu89StdB/HQ6cWZ2m8ow2utBL75CT/nrjldHB4W652fNwR/z5XzuvTocgG7VFm2L4Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NzP7nDte; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0I8ng/Lb; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JcfVmEHS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ACZaZmlW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="SZHhjSu+"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so4132289a12.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 10:00:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785862855; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NGVDCuSxHo7LZ4rrsp8jcOPIbnOwvStYyCAVc3cNfxzDPlm1f8xMWhRM6c2GWWXeUw
-         L7JV94DzbPIaJikpcUWF2kZSiZwf1s6mH66HLoo+7aebMSCW02vLPsngLw1V8+udWMTC
-         OCsCeJbhMcAMK7nh/uYT3FKkIQsX/sk9Hn7tpRXhWegeWmVzDkKcOtJya5IVbA8IO3vA
-         k8UaQcmQ+3kDab8C9NMHLO/A6Z9kRKQMqzWOnh8iiLho9kC/h8B0FJP3R/+VELM0FtUZ
-         3uMJVbubN9Hcp7RaAEaPMuPx7LNBDX2WJg6SRbzfZWdgO4EFUg9Mc+h7vhryQF1InzkC
-         5gAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
-        fh=j+ugDgMUSSROHH/+h6LNvUshJ/meEK91hP0kVy/X2jk=;
-        b=QsopzT7YH9hAuJCsNJ4XsYeWu8xmMxdr5uiEE6dIiSCuLTZCal2cX6hD/2rFWqZ8wx
-         O8szASTBWXGPgUCnodMTCDTT9J+OCNyvQzFJdNt0Il5/nNJ3/0W0epCLC+RbwlN5bi8l
-         4h5YrB5SENGK1mmV7ZKfiLpJDrQZAo8pUQZQsf51I2by2UDUwF6IG6VVA7B5WWPRQmL4
-         DoGCqkGWRP/JPE27Vjsp5op4KmPIj7oYE7qiXcE5DFz/L87pDDLOU9jiWvJPiuYm8nxF
-         +qixeS6qUYjV1jNCxPFegovT7spUwJDvtn7gBIVS8AZnH1SGksZTHEpASHj1nD+kwY1S
-         LKhQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1785862855; x=1786467655; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
-        b=SZHhjSu+914kO7qex0mPblU4m6opNNQ8SYzai3bSARLJLgxVPtp34YzgW7oNbu+Fuq
-         4k48OU3THdvgN3jqv+jM8b9hg4IuP4x5ZijnVcsu409eI/9qvBshVlFF9iR0I16pcYE9
-         8EkVEiEQ0LZ4BthS/SlV0K0QhtVk8no3npBUgkYyjDuhrbnahz6Q6mEKaxT+xuEvfw+O
-         HGBFPVy/uByJ5rIO9oNE0+N946LUW2e2Kdacwu07ETwulGTTUCTxb1+jZ4znPHIPIpVC
-         FB1jraJdPJh9m/LBOHcBHjtCTxZu8G794pvx/MD3enegq88zBZWC0w0rApfKO0ybDjfA
-         3Bnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785862855; x=1786467655;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=d0whWseHxQspZUWpMNteiPZ9cq9DmnQxMjSfFcf9OVs=;
-        b=bJGCqO8mfg6vZ2DaugiJs3tSjQ53/HonFtTn1f8I6HUrGLSA8BL1/uChB/jIvUNFIA
-         JQ9npcRPxFRiBut2n20QB+nbc9MJXdrFRbzx5oZ4fceiXLGuFHtIy+bu5emOzm9AK13D
-         JiafBWN07ADLpyFqKDvMoLnnleUdJvZ0Vx0t6GkTPVpxLZSqcUQxLqoOlXqjO3+Y5T/g
-         G+dHGnrgngPLNAtOY4bVUzzvtm5lUEClbz7Jhhnvuan6HhVkbT3NpJpACo+/kzTB3+1K
-         qroqIyWwHJWfQxn4v+sKlD0yetRaTVBJLUAusL+rnEtj2v6PHbZmFqdRgG1TOhuLCbW9
-         wMGw==
-X-Gm-Message-State: AOJu0YyfGVr1aqHRkPaF3FxwtlbZHb5Cnw0pBvCkY8xA6j7HIKsH1xbw
-	qU7a0X7r0qzK3xo6jBUI4KFIUOOSgNu3debgW0+I5EVYuEACGJixm1VCRHU/KMb0nr+oNAOiAz6
-	JuY8K9siKWmOpqpz4PiJLkyKJdnFfOZPNvj0lUNAZ
-X-Gm-Gg: AR+sD13kaP8YK+VDyGupbZ+OI9WJee1S90qny80fgO83j3zU5sdl1Vu/ncHz1InNofp
-	v6ZezsVQfOhzBiSzuHH90R0vtKP5Lao0DQDojtB3vYkHZwzgimLNSmWMfywovE1lPMa8sUOlaHP
-	sIChW2BWA/1K0dNCgngHyQvVMGWTD8iBJQfK6vE9krt6Bxvpp7aygfW/wD/4giQnVgxj6bQLuKC
-	t7AS8sKW5iJ0zusbS6iFJcbsO7xBU7mh3eZvuodERmsLJDIw38Jlbb6A5QKEo87Aae1zlp1KLc1
-	OFvdG9NjAsMt6sTCMZkfY17597oLddQPPGXgD0frdaT7
-X-Received: by 2002:a05:6a21:3204:b0:3c3:834e:89b9 with SMTP id
- adf61e73a8af0-3cb85e7370emr306570637.17.1785862855065; Tue, 04 Aug 2026
- 10:00:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NzP7nDte";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0I8ng/Lb";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JcfVmEHS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ACZaZmlW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 834C37F9C0;
+	Tue,  4 Aug 2026 17:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785863052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5v7MkDI4Dtpq/Qliw3bpPtxAQ4VzKqgcoQOQ2I8B4A=;
+	b=NzP7nDtelMe+b+taflIEH1Ih7EA+zpoaRjoHxBaRJg4zRkipq6bc5B+Qtlij/L0b5HdzX7
+	dklukd4c/qkMwnBiQmBsZnhHpUk/Z+iDNomLyEShRjrHbMNfNW4mT4bcApJdri/KWsiswu
+	mI4GxjZmNQyM/SRbX5Z0o8wqarNJ12Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785863052;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5v7MkDI4Dtpq/Qliw3bpPtxAQ4VzKqgcoQOQ2I8B4A=;
+	b=0I8ng/Lb6ZboK95ZUQpPJxJUIWJ1vDVgwjOkNHKh+nbd/uUPb9jQxNimxSvW8CEWTQDG+Y
+	1OT2iULKP+GXDlBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785863048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5v7MkDI4Dtpq/Qliw3bpPtxAQ4VzKqgcoQOQ2I8B4A=;
+	b=JcfVmEHSRj0suLTD08CtW028Ianxbe8YUbG6aqBAK7sSaVNnYXuJQ3MN4/fiOwiwMvJTr+
+	fewzRc+rw7H3AQo2s57kMiRIFWNy0obiW3ukVmnHdUWmfVxTtX5qGw7E2RBn+sMQKvOi5e
+	jesn+3ZJ7OOXQDG7Z5M2+VzlLnE9sHk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785863048;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5v7MkDI4Dtpq/Qliw3bpPtxAQ4VzKqgcoQOQ2I8B4A=;
+	b=ACZaZmlW7Js3yZLwzUjecV7cs2WuHQYbJZx/VOwQikbrXC2XRa+qQYJmWNzZ/f8xHiVtCM
+	Y/+g0pEvgZY6MJBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 732CD779BB;
+	Tue,  4 Aug 2026 17:04:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RbIYHIgbcmpQYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 04 Aug 2026 17:04:08 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 14D26A12F2; Tue, 04 Aug 2026 19:04:08 +0200 (CEST)
+Date: Tue, 4 Aug 2026 19:04:08 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, 
+	Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC 07/14] fs/erofs: mm/pagemap: add
+ readahead_folio_reverse() to avoid folio->private
+Message-ID: <2evaxdu6cobpnzzer3y7fsrqvmtmhj7gm3e5buebdaw564igx6@7bs5enipxnpx>
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+ <20260731-remove-pg_private-v1-7-142c97ba3562@nvidia.com>
+ <332rknj4vo3cfhvfhhlf6pvg37s3lbrnzbbnv4swa6gctsiu6a@ndotgokvnglc>
+ <DKFGTVA0XD01.OZYNYUOU9FTX@nvidia.com>
+ <huzyeqj6a57nbcqc23v6f6rdhkob5552fcwy4mlrsagycqi4rz@ggsapkumc2gq>
+ <DKGA508ERSYM.26RBD4HYM1SL8@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
-In-Reply-To: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 4 Aug 2026 13:00:43 -0400
-X-Gm-Features: AUfX_my2GHODSgWpz7u9PLF5sftBX1mO9fjStT4uqGF3r0dq7sFB5ilyjzEJ3cE
-Message-ID: <CAHC9VhTWuX6D0yeBKr0bPbJ_mKUdiLYRtQpcwq-jJgovY_akDA@mail.gmail.com>
-Subject: Re: [PATCH] fs: fix user path of nested backing files
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, amir73il@gmail.com, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, serge@hallyn.com, 
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DKGA508ERSYM.26RBD4HYM1SL8@nvidia.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,infradead.org,linux-foundation.org,linux.dev,google.com,suse.com,linux.alibaba.com,arm.com,gourry.net,nvidia.com,cmpxchg.org,tencent.com,kvack.org,vger.kernel.org,gmail.com,vivo.com,lists.ozlabs.org];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLc5chj8mdhigtayhgqted7wkp)]
 
-On Mon, Aug 3, 2026 at 11:42=E2=80=AFPM Baokun Li <libaokun@linux.alibaba.c=
-om> wrote:
->
-> backing_file_open() derives the path to be stored in the new backing
-> file from user_file->f_path.  This is incorrect when user_file itself
-> is a backing file, which is the case for nested stacking filesystems,
-> e.g. overlayfs mounts where the lowerdir of one overlayfs is the merged
-> directory of another.  Since commit def3ae83da02 ("fs: store real path
-> instead of fake path in backing file f_path") the f_path of a backing
-> file holds the real path of the intermediate layer, not the path that
-> the user opened.
->
-> Commit 924577e4f6ca ("ovl: Fix nested backing file paths") fixed this
-> for such configurations by passing file_user_path() from
-> ovl_open_realfile().  However, commit 6af36aeb147a ("lsm: add
-> backing_file LSM hooks") changed the first argument of
-> backing_file_open() from the user path back to the user file and
-> derived the path from user_file->f_path again, silently re-introducing
-> the problem.
->
-> As a result, files mapped through a nested overlayfs show the wrong
-> path in /proc/<pid>/maps and in perf/ftrace mmap records.  For example,
-> with two nested overlayfs mounts:
->
->   mkdir -p /ovl/{lower,upper,work,merged} /ovl/nested
->   echo hello > /ovl/lower/foo
->   mount -t overlay overlay \
->         -o lowerdir=3D/ovl/lower,upperdir=3D/ovl/upper,workdir=3D/ovl/wor=
-k \
->         /ovl/merged
->   # at least two lowerdirs are needed when upperdir is nonexistent
->   mount -t overlay overlay \
->         -o lowerdir=3D/ovl/merged:/ovl/lower /ovl/nested
->
-> mapping /ovl/nested/foo shows a disconnected path instead of the user
-> path:
->
->   # readlink /proc/self/fd/3
->   /ovl/nested/foo
->   # grep foo /proc/self/maps
->   7f6e2c100000-7f6e2c101000 r--s 00000000 00:24 15813027 /foo
->
-> The bogus path is derived from the f_path of the intermediate backing
-> file, whose mount is a private clone that d_path() cannot resolve.
->
-> Fix this by using file_user_path(), which returns the outermost
-> user-visible path for backing files and falls back to
-> &user_file->f_path for regular files.  This restores the behavior of
-> commit 924577e4f6ca ("ovl: Fix nested backing file paths") for
-> overlayfs and also fixes the same problem for the other
-> backing_file_open() callers, fuse passthrough and erofs ishare, when
-> their user file is itself a backing file.
->
-> backing_tmpfile_open() has the same pattern but is not affected: it is
-> only called by ovl_create_tmpfile() for the upper layer, and another
-> overlayfs is rejected as upperdir by the DCACHE_OP_REAL check in
-> ovl_mount_dir_check(), so its user_file can never be a backing file.
->
-> Fixes: 6af36aeb147a ("lsm: add backing_file LSM hooks")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
-> ---
->  fs/backing-file.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue 04-08-26 11:54:41, Zi Yan wrote:
+> On Tue Aug 4, 2026 at 5:32 AM EDT, Jan Kara wrote:
+> > On Mon 03-08-26 12:56:36, Zi Yan wrote:
+> >> On Mon Aug 3, 2026 at 5:54 AM EDT, Jan Kara wrote:
+> >> > On Fri 31-07-26 22:13:30, Zi Yan wrote:
+> >> >> erofs needs to traverse readahead folios in reverse order to achieve
+> >> >> maximum performance by
+> >> >> 1. reading all folios from readahead_folio();
+> >> >> 2. storing the prior folio pointer in folio->private;
+> >> >> 3. traverse from the last folio to the first one.
+> >> >> 
+> >> >> Add readahead_folio_reverse() to achieve the same function without using
+> >> >> folio->private.
+> >> >> 
+> >> >> It prepares for a future commit that replaces PG_private checks with
+> >> >> !folio->private checks. After switching the checks, erofs's use of
+> >> >> folio->private without bumping folio refcount can cause unexpected
+> >> >> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers() becomes
+> >> >> reachable.
+> 
+> <snip>
+> 
+> >> 
+> >> The below is what I come up with. I did not add a bool to
+> >> readahead_control, since I think that is the decision of caller of
+> >> __readahead_advance(). But let me know if you disagree.
+> >
+> > The reason why I wanted bool in readahead_control is that if some code
+> > ends up mixing readahead_folio() with readahead_folio_last() things will
+> > get confused (because __readahead_advance() really wants to skip the batch
+> > returned from the *previous* call to readahead_folio[_last]()). With the
+> > bool in rac, even mixed use will properly advance the state of the
+> > readahead_control. I don't think mixed use is very realistic (at this
+> > point at least) so I'm ok with leaving that for later if you don't like it.
+> 
+> Got it. I am trying to figure out your mental model of how the mix of
+> readahead_folio() and readahead_folio_last() works with the bool inside
+> ractl. By looking at readahead_folio_last() code, it is almost the same
+> as readahead_folio() with __readahead_folio() inlined
+> (__readahead_folio() is only used by readahead_folio(), so the inline
+> can happen without any issue). As a result, we can get rid of
+> readahead_folio_last(), add set_readahead_direction() to set the
+> embedded bool read_from_head, and use readahead_folio() only. This
+> removes redundant code in readahead_folio_last(). One thing I am not
+> certain is whether we want to
+> 
+> 1. use set_readahead_direction() explicit and warn readahead_folio() if
+> read_from_head is not initialized, or
+> 
+> 2. set read_from_head to true by default, so that only erofs needs to
+> call set_readahead_direction() to change read_from_head.
+> 
+> The former is less confusing but changes how readahead_folio() works;
+> the latter is simpler but implicit read_from_head state might confuse
+> people at some point.
 
-The selinux-testsuite runs clean with this patch applied.
+My idea was: readahead_folio() will call __readahead_advance() and then set
+rac->forward = true. readahead_folio_last() will call __readahead_advance()
+and set rac->forward = false. __readahead_advance() advances from beginning
+/ end based on rac->_forward value.
 
-Tested-by: Paul Moore <paul@paul-moore.com>
+								Honza
 
---=20
-paul-moore.com
+
+> > Also I have some minor comments below.
+> >
+> >> diff --git a/fs/erofs/zdata.c b/fs/erofs/zdata.c
+> >> index b59f2745a8e72..23f423c22ac8c 100644
+> >> --- a/fs/erofs/zdata.c
+> >> +++ b/fs/erofs/zdata.c
+> >> @@ -1908,8 +1908,8 @@ static void z_erofs_readahead(struct readahead_control *rac)
+> >>  	trace_erofs_readahead(realinode, readahead_index(rac), nrpages, false);
+> >>  	z_erofs_pcluster_readmore(&f, rac, true);
+> >>  
+> >> -	/* traverse in reverse order for best metadata I/O performance */
+> >> -	while ((folio = readahead_folio_reverse(rac))) {
+> >> +	/* traverse from last to first for best metadata I/O performance */
+> >> +	while ((folio = readahead_folio_last(rac))) {
+> >>  		err = z_erofs_scan_folio(&f, folio, true);
+> >>  		if (err && err != -EINTR)
+> >>  			erofs_err(realinode->i_sb, "readahead error at folio %lu @ nid %llu",
+> >> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> >> index 5ca5aa365f319..2cc3de5594518 100644
+> >> --- a/include/linux/pagemap.h
+> >> +++ b/include/linux/pagemap.h
+> >> @@ -1510,13 +1510,21 @@ void page_cache_async_readahead(struct address_space *mapping,
+> >>  	page_cache_async_ra(&ractl, folio, req_count);
+> >>  }
+> >>  
+> >> +static inline void __readahead_advance(struct readahead_control *rac,
+> >> +		bool read_from_head)
+> >> +{
+> >> +	if (read_from_head)
+> >> +		rac->_index += rac->_batch_count;
+> >> +
+> >> +	rac->_nr_pages -= rac->_batch_count;
+> >> +}
+> >
+> > Maybe we can add:
+> >
+> > 	rac->_batch_count = 0;
+> >
+> > as well since after the advance the _batch_count isn't valid anymore? We
+> > can then also remove it from the callers.
+> 
+> Yes, for __readahead_batch(), _batch_count is zeroed right after. For
+> __readahead_folio() and readahead_folio_last(), _batch_count is either
+> zeroed or overwritten by folio_nr_pages() before any use.
+> 
+> >
+> >> +
+> >>  static inline struct folio *__readahead_folio(struct readahead_control *ractl)
+> >>  {
+> >> -	struct folio *folio;
+> >> +	struct folio *folio = NULL;
+> >
+> > Not sure why this initialization got here...
+> 
+> Will remove it. It is some leftover during my development. Thank you for
+> pointing it out.
+> 
+> >
+> >>  
+> >>  	BUG_ON(ractl->_batch_count > ractl->_nr_pages);
+> >> -	ractl->_nr_pages -= ractl->_batch_count;
+> >> -	ractl->_index += ractl->_batch_count;
+> >> +	__readahead_advance(ractl, /* read_from_head= */ true);
+> > 				   ^^^^
+> > This is not really a kernel style :), please delete this comment. I'm ok with
+> > pure false/true here - it is an internal helper used in few places. If
+> > things get wider use, we tend to switch to 'unsigned flags' with explicit
+> > flag names to ease code reading. But that's not the case here.
+> 
+> We did this in some MM code. I will delete the comment like you
+> suggested.
+> 
+> <snip>
+> 
+> >> @@ -1583,11 +1594,10 @@ static inline unsigned int __readahead_batch(struct readahead_control *rac,
+> >>  {
+> >>  	unsigned int i = 0;
+> >>  	XA_STATE(xas, &rac->mapping->i_pages, 0);
+> >> -	struct folio *folio;
+> >> +	struct folio *folio = NULL;
+> >
+> > Again not sure why this initialization got here...
+> 
+> Will remove.
+> 
+> -- 
+> Best Regards,
+> Yan, Zi
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
