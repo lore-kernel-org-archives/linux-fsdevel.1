@@ -1,235 +1,164 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010012.outbound.protection.outlook.com [52.101.56.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A2A481658;
-	Tue,  4 Aug 2026 17:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785863409; cv=fail; b=EYyLFA1ICgm4Qy4HqwgxbaCKmi3XmMv9eIp8OCK3cKP6JPDQhXPltSYqSEJJYybWhKxL9fSD+01YM5VPnngc8LDxaLH1TuicstqWcCS4W1FXA9yDEUJOB+YqZvDU5Ho/ZgMuhYG5rsBEEezurJcp8G0I+od+QByN0IgqKlsH+qw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785863409; c=relaxed/simple;
-	bh=bxYnPNQqmSWeESnueY2FEcMEGz8M3x8w1XfCAVhdjbQ=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=rWgKO2Q/Jfpfy9CP/u3h63cauEb6GoZ1MH68T38qh99pBZTinhy2c5Wv54U+9zEa7MWlJQU76C3W2AwV2WTn2mnNQsXGVrtcvd/qMkleiJkcWqGItCsv3SJ4AX1vclGZ4jljSHJfYvOtzOcMxkkuzn6TzaIFv6QHlTYofrzritg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=krlOF4Qx; arc=fail smtp.client-ip=52.101.56.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="krlOF4Qx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bZ/8FcT3Q6zDqc7PmYr4q8pfgFJfYMiYVqQGV1+CnE+SdOj5KcduNsNmkRa/I068l4/5tDbwwgNR3DGxno+6AIUiApG7cPjVm/VFrFYXTn8IUjzEKYzuDl+6MT4VDlLA+uS0RagfWes02VXBToB+rMiIHk1SYIcbiK+8y4ongRJpKUtVT8f/c5JBNH3J4oDo2uYTONRes/3m0m/jW9UulAHsGXJENu58MAesHtBEeweB08qnPiIYHPTFGEziJsTQ6vNH2045DkgHYH3TRh1zs/pzLJNx3Qc0/aCzAnUpp2Dr6TByZa0wMfFD8+3AHLg0cbE3ZB7CAPiDXndu1IYBdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bxYnPNQqmSWeESnueY2FEcMEGz8M3x8w1XfCAVhdjbQ=;
- b=aYmkybBUCA+F59CVWtaZsL3SvdS8INlhRkFd3EQObnn5afmaF5LumXBeGQd+0c+0vY5XoC0YfM+o+K38xeBmA95PPWHyFb63UOh6CVJx+2rLcCziMllp/D9/88/7dZ8rLa0eliIzS23CSJIYOjJd1zwGlsuYwYTiZxlP02xHr387msyGbC0+mnqaDJFUllYlzjtT3a8B2qL+mY5R2OmQpzsmbmNqD8CJ/gIH5xAxjVcELI6ga6J7zAb+i7GGN85FfZpC5cEm9mKfgfsqZc9qdCI1Dbi6GR6tTh4GT3gNRhCWtC+E4n2k/Er2P/k96yDolG0rWEhcvVJJuMSK43/cwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bxYnPNQqmSWeESnueY2FEcMEGz8M3x8w1XfCAVhdjbQ=;
- b=krlOF4QxMJZegQUJyDE27TykcHBaathCM2NnPfkKbdHfl18L1ByJz1W0iBwhQVSGMyLWMKgNnOsy+FlNvJN2WcPIFfjiwrvWOVTEvxQfR4/0lycBltHmMWqven40z7sV5x0nVoFr67huvGkwCiL9c5AUPKCgxWs96ZgleVpbzWI/R2VCEHJxAC5J8DVMHPbBAYshQNxMLrDWiKtkqsA6PgKVzY8nV91RZaF4L61U7sNMgwG8VB64iCr38u1lO597iTlrGWq+jgwUZqg49E1uh/Jok57UXFFdpbEaZlq4xJ79tJED9vf41yxgHLQzsSCH9xUVRmPlY5TfFnwZJiI6ww==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB8371.namprd12.prod.outlook.com (2603:10b6:8:e9::18) by
- BL1PR12MB5945.namprd12.prod.outlook.com (2603:10b6:208:398::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Tue, 4 Aug
- 2026 17:09:49 +0000
-Received: from DS7PR12MB8371.namprd12.prod.outlook.com
- ([fe80::23d7:9e07:1de8:d80a]) by DS7PR12MB8371.namprd12.prod.outlook.com
- ([fe80::23d7:9e07:1de8:d80a%3]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
- 17:09:48 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 04 Aug 2026 13:09:46 -0400
-Message-Id: <DKGBQHP25RE0.3NKUQSDULAQSX@nvidia.com>
-Subject: Re: [PATCH RFC 07/14] fs/erofs: mm/pagemap: add
- readahead_folio_reverse() to avoid folio->private
-Cc: "David Hildenbrand" <david@kernel.org>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Muchun
- Song" <muchun.song@linux.dev>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Mike
- Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>,
- "Michal Hocko" <mhocko@suse.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
- Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>, "Gregory Price" <gourry@gourry.net>, "Ying
- Huang" <ying.huang@linux.alibaba.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng"
- <qi.zheng@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>, "Kairui
- Song" <kasong@tencent.com>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, "Gao Xiang" <xiang@kernel.org>, "Chao Yu"
- <chao@kernel.org>, "Yue Hu" <zbestahu@gmail.com>, "Jeffle Xu"
- <jefflexu@linux.alibaba.com>, "Sandeep Dhavale" <dhavale@google.com>,
- "Hongbo Li" <hongbohbli@tencent.com>, "Chunhai Guo" <guochunhai@vivo.com>,
- <linux-erofs@lists.ozlabs.org>, <linux-fsdevel@vger.kernel.org>
-To: "Jan Kara" <jack@suse.cz>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.21.0
-References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
- <20260731-remove-pg_private-v1-7-142c97ba3562@nvidia.com>
- <332rknj4vo3cfhvfhhlf6pvg37s3lbrnzbbnv4swa6gctsiu6a@ndotgokvnglc>
- <DKFGTVA0XD01.OZYNYUOU9FTX@nvidia.com>
- <huzyeqj6a57nbcqc23v6f6rdhkob5552fcwy4mlrsagycqi4rz@ggsapkumc2gq>
- <DKGA508ERSYM.26RBD4HYM1SL8@nvidia.com>
- <2evaxdu6cobpnzzer3y7fsrqvmtmhj7gm3e5buebdaw564igx6@7bs5enipxnpx>
-In-Reply-To: <2evaxdu6cobpnzzer3y7fsrqvmtmhj7gm3e5buebdaw564igx6@7bs5enipxnpx>
-X-ClientProxiedBy: BL1PR13CA0081.namprd13.prod.outlook.com
- (2603:10b6:208:2b8::26) To DS7PR12MB8371.namprd12.prod.outlook.com
- (2603:10b6:8:e9::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A15246AA97
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 17:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.78
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785863762; cv=none; b=O4pvM38vR7QzNjKFQh3raJk9Zbr9L4m0acLJDPh0GCKrWDLs89+Bf2QyeGKbFfcV1jnRIu4mwriHCIKZFpavE2dKDSNLQisG//dHlIA/m04v5hct3FvoC2tsZeF9ExunLfvjJoKpHNwzYEu5h3E9FnxUrbxFvxOxCSmlBtxljzE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785863762; c=relaxed/simple;
+	bh=VwwTpV+ezdcw39Sr3AKQMGIAF2VE506c/8kWk/yhDXc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=iFLW5N0aEGnRYsRRs1rwg76WPVCPm5K5cFHtkk7gdBVjVN4FcpEArORnOIHCKYYgk4u3BelVcRP6qKo+H0WG4bDk+XAvdU9MJSyPjRgXUGvIlxgllwTumYAFfjCnvQgQLHKFfBzf92Qlve3KJ6QVD5L+kyfyf7JcYytv9+ey3jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-7ead32f5c6aso77892a34.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 10:15:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785863739; x=1786468539;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XKd940BQHqh/j+Z3cKxp/K2Wgbp0NxV7joqVuJPtBE0=;
+        b=BBtjdg4SMAOl2s0TFA3G+gA0fmNaaKkpgswFT2pac9gOyU/MKQlqrd0ALWQksD9y3P
+         Q9cBvlzrmwfZpR6U3fo4YH8HwLgbvFM1sLHmgfu3G9xcjVKIoG5NjowSFl61L2YJ+ad4
+         gD2qmu5ILgPwQGkNXUyOoCPP5KuPMl8Z1D2y+AcHrXJ12ygkdkCEOdcQH9RuKqSYPzLC
+         OizTbG3wvNrqdAhwyoTxG+owscqGFlfitAZrI/O+O1T9P4a/8/i/YhbGBWQCju5pEcUb
+         /avWlsmdg9rtjblooYfxi2/oonROE9sRrRUmZgRkIBxlmJt3cdy9NDGJwovJ1SMPB3OD
+         TTAA==
+X-Forwarded-Encrypted: i=1; AHgh+RqqCVaXcjFfpkfB+fns08jRtbrza0pnvEMFT2EPNvjZ8ihAgeIjoNdtwd8PyuWpZmb+b7UcLAz+nHsoHhpy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj2jwoaqiDL3UsIihejhCye0JlAhhZWFap3UpK0dcAacmbKSf8
+	qFw4ZzYlVMbX1Q43ilhWRcr9BkoHixdI4BsjyZjb2hBnJC6QIb1o6P/IuBII0rWDrvpJKLrPp4b
+	ms3FLtQWupx8NXuQuZzb+BWpx8ad4BU+nk5C1KJ2ZAp5Zkh6YUFUesfFHrHk=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB8371:EE_|BL1PR12MB5945:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a975512-31a5-460d-1803-08def24b309f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|22082099003|18002099003|4143699003|5023799004|11063799006|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	ZARgyfms6DfUb8F0jCvMT2HkFcM8S+RblCEnTZUdK5sTzhL6HJjh2nYLmjeBBghS3zekOnTjIS31UDN1xenBZxZiUQj58XHFi6I3cg9oFPdbdnHc3n7iGt9lsf+sy3/Y5sLhVHhI463MxvDq+UqK2R3CruFbZ36+OwIEqsa6YMt6Q7Rlp1wb7VGK95Cr2imAqHYgqPQLim87LG9PfwchAb8PWUZGtmY6PhtMiNOaP5Br+PLuRPHIWuyyiewGgfULHkR2Pv4zf7u1dIJ6PVOpRiRo1nyLGHwiMAlhP8qOdKyN53tAmTO10Yy7Hq0m63+wI4sarmF9UNqVMEt48MGuCS+LcVezFi3L3mjF0nZ1RTil4Nkx1swS0v1pbkQPXQ6ZhttUmI3cEVx4IIkR61qSGfrqJcnslYeWp0GjlgSVi/EBcoCdo/zVTInprgzn42CHh0C9A3/bDTqissFyNeQltmT8A8l/Rubevby9tWXfVASRvWMmxI/uxOqIfmsQcB6060fQZ5kDYmOLR46K0zTVjSekbevtupGfkYI2PpI/M3lmmRPpb7muKl6feOI/Fna2jhXUe1THUtgb3w0wjGYcBvA2MKXBFYdizz0XdBWn2jUSe8uyjquu3HIU8tXm+3blZQde3Y1bI9eZCe+hBrcJEOBYoOuhgaq79bISdAZSZnk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB8371.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(22082099003)(18002099003)(4143699003)(5023799004)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Vm8yOERRZW9XdWQ5dU4yVXhCNEQ1ZzV2VGE2V3F6eTVhSFo2U2UrL2FkUTRx?=
- =?utf-8?B?NFRkZW5ydTZtZm55VmNDY1I1aHFXekdCNVBZaEd2SnNFRjlUSk4rOUZOR01v?=
- =?utf-8?B?Wkh6SHB6ZHdxaEVOV2NZenZuU1dmT0NoOUdHK0NQRXZlbDVOK0JNclc5RXZ2?=
- =?utf-8?B?WGZmaDBOTitFM3FvV3p2bC9taXZveTBxVC9CUWNibG1ueVVKQ0EzZC8vbG10?=
- =?utf-8?B?M1R6djdobjhPRTR1V1RhWDRpc3NWWi90K21laCtjNFMrQmVNbnBBdjlGR0N1?=
- =?utf-8?B?TGJ5bkdXOWJVdWxnb1FOUHZBQWRHZUxqaGdDd1pHUVcvbTlKclNaOFo5SWp5?=
- =?utf-8?B?MjFFdFowVlMzTk96YmZUTWhkd1ExcXZRenBxQllUdndFTElrZjRTRk9meERl?=
- =?utf-8?B?aGs5TndXUExkREYrRlk3ckQxZk1kYjZucUhxQmFGajhJdjBaSkNvcWZsWnNy?=
- =?utf-8?B?Z0U5cUhDNlR2L3dPeU9MM0xiNmxnYjRBV01ES2NkcDJscWh1eGlKSDRpajN0?=
- =?utf-8?B?bTZMWWFOMVU0TzhSeEJJSTVjZmNKaklsdHI5OW1lSWhLMWJOb3dsYndhWVJy?=
- =?utf-8?B?UDhDV3FBQzBaYk8wUWs4OHlHYk5iZnpuUjVVdTVQNysrKzlza3pQMEJtNnNr?=
- =?utf-8?B?MWUvUy8xUmZxQ2tDaTRSbHJuZUc3aWZiRGsxTWVmSXI1Tm53YkVGMU1DVWVC?=
- =?utf-8?B?S1lYUVZFWmJZNVozSlNRWlc4ZTR1R3M0RTIvcmw3Y1dNZlcxN1dFR1drUFNs?=
- =?utf-8?B?bE1KdVB0MDVxaE10TDZ2N2Q3SFoyYzNEZ1plclpMK1pVaGJScS8zbVdRV2Iv?=
- =?utf-8?B?S2w2MDJMdlRvL0VmTVV6V1doTmdsNk1qcFk0UFhsMnJHVDBVbWRCYU1CQmRE?=
- =?utf-8?B?RmdUV2xFY1ZUemtBUDJ4MTViZWVzNEJDTnlLRnRaZ3VLenNBMm5XaDFtdTg3?=
- =?utf-8?B?Y1pkRC9HN3d6UStWVlFlQzlWejR5TlVHRWVzbTFGaEJJVXFHa2g1TXpDNFRx?=
- =?utf-8?B?dlVnenplWG9ibloyMWR0Uy9oQ28zUGlqNWozZGZwemVLcmQxMk1ya2tYL1Yz?=
- =?utf-8?B?OFJPazQzcThVSTlZNXhjNTZITURjYmxBa3BocmR0ZDdmU0NEU2ptR2xlUTAw?=
- =?utf-8?B?Yi9tQjNtb2lJck0xbEZzVzlhNXMwQ3ZLalg0dW1iQTRrcXdjZTh1ZmtrQklm?=
- =?utf-8?B?ZEJZNVhsWGNyZURzK1oxcUdpUDkvaDF4c2tkczNQWHQ5TGJ0TmJUUzNyemY1?=
- =?utf-8?B?RGpQM3NTME03dHk3cWx5TnBjeW1oQi82MG1mdm5mWHMraXcvZkZSclgrL3Fn?=
- =?utf-8?B?a0xCRzVCUjZzSHM5a3gzek5GU0U4QjJTSTlEQWYxcFd6ZEQ0ZWVMb0ppL2xj?=
- =?utf-8?B?V29lU3FPbWtzU1F3aXVhdEw0TlpaMW5VVlhETzZOcDI5Tlh5VE1DbkxJNTJH?=
- =?utf-8?B?TVhHOC9GR3FTbStFZU5DaUZtQU10STJzclZwaTFZWTI0d09MS2tLRFhKdTZS?=
- =?utf-8?B?T0lDSTRxaUVtOFBkRUs2Qy9RMDdWOE04VUVGamdTQUZiUFk2aElSV1N1eDFm?=
- =?utf-8?B?R0ppQ296NDRKNHN0ay83aExiNHJpRjFGenUzSjNEMTdRUi8yVDJvTFBXaVdq?=
- =?utf-8?B?OXVYamwwR0JHdkVaSHllOUFrSHVGTS93M1JicjhWTHduVnpPQ3V0REd2QTdV?=
- =?utf-8?B?WGdLekZJVVJrZkNrY0lnTXpQV2hzSUJDRmFrQ0xRd1pzWk8zME4vOXEwbVhB?=
- =?utf-8?B?TE1KUzZ0bmdkS1V3Nm9GNll2b3o5ZWhtcFFhREFpTTVyUHgvd282cjkwRFRt?=
- =?utf-8?B?RTFqYkRRMHZTUGU3RXYxK05PQnNUNkxTa29JK3JxVllGU3lLeVMyYklEeERZ?=
- =?utf-8?B?L0RITnUrc0FIaEFqOXZPQVNLdCtxdzdlbGwwWHFaVU1EWWk3Y0VsQzZpTU85?=
- =?utf-8?B?ZmJiOUZiNnJocUNWUXB5NUE5MlhZREZHekFnNjV6QU9yQUc1d2lsSlEwc3Ev?=
- =?utf-8?B?YzYxcmhXQTc1aS9LbzBLTGpMLy83TTBCdDlzbURNcjJzNmNRajd2WFZsQ1Ux?=
- =?utf-8?B?Tlh5SmV5STBwV1FkZzJVbVI0Y05Va1g5UmlUVjNrQW50ZGM2QXQ5bUVnaWF3?=
- =?utf-8?B?cXg1QVd0SVIvYzN5U20wdm40NkZhVC85bmNyczY4dUdPZmVML3l1MmUzUGtF?=
- =?utf-8?B?ZkYrS1ZVY1JwOUxONFF1dzVkUUJYTWNwd01zODBQUTlwTEdyMUF3R1ZOTVZP?=
- =?utf-8?B?VElKMjl5QndlUldFRDcydkpaMDJzVmJyTWtiVzNDdlVCVjFhZDJHRnR1ODFx?=
- =?utf-8?Q?IcvmbrSvPTJIbM6GRG?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a975512-31a5-460d-1803-08def24b309f
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB8371.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 17:09:48.7379
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BMyyt8eoB9jokY5p0pwBISKHYf0eKMNWMe6sdz4xe8viFd8YbLoDvyqWDFoReaTA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5945
+X-Received: by 2002:a05:6808:4fd3:b0:496:2b3:ae71 with SMTP id
+ 5614622812f47-4afadef488fmr149848b6e.18.1785863739303; Tue, 04 Aug 2026
+ 10:15:39 -0700 (PDT)
+Date: Tue, 04 Aug 2026 10:15:39 -0700
+In-Reply-To: <6a6b45fb.57649fcc.360844.0016.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a721e3b.40259c87.584f4.04bd.GAE@google.com>
+Subject: Re: [syzbot] [fs?] general protection fault in __simple_recursive_removal
+ (2)
+From: syzbot <syzbot+cc460646984184ad435a@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue Aug 4, 2026 at 1:04 PM EDT, Jan Kara wrote:
-> On Tue 04-08-26 11:54:41, Zi Yan wrote:
->> On Tue Aug 4, 2026 at 5:32 AM EDT, Jan Kara wrote:
->> > On Mon 03-08-26 12:56:36, Zi Yan wrote:
->> >> On Mon Aug 3, 2026 at 5:54 AM EDT, Jan Kara wrote:
->> >> > On Fri 31-07-26 22:13:30, Zi Yan wrote:
->> >> >> erofs needs to traverse readahead folios in reverse order to achie=
-ve
->> >> >> maximum performance by
->> >> >> 1. reading all folios from readahead_folio();
->> >> >> 2. storing the prior folio pointer in folio->private;
->> >> >> 3. traverse from the last folio to the first one.
->> >> >>=20
->> >> >> Add readahead_folio_reverse() to achieve the same function without=
- using
->> >> >> folio->private.
->> >> >>=20
->> >> >> It prepares for a future commit that replaces PG_private checks wi=
-th
->> >> >> !folio->private checks. After switching the checks, erofs's use of
->> >> >> folio->private without bumping folio refcount can cause unexpected
->> >> >> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers() =
-becomes
->> >> >> reachable.
->>=20
->> <snip>
->>=20
->> >>=20
->> >> The below is what I come up with. I did not add a bool to
->> >> readahead_control, since I think that is the decision of caller of
->> >> __readahead_advance(). But let me know if you disagree.
->> >
->> > The reason why I wanted bool in readahead_control is that if some code
->> > ends up mixing readahead_folio() with readahead_folio_last() things wi=
-ll
->> > get confused (because __readahead_advance() really wants to skip the b=
-atch
->> > returned from the *previous* call to readahead_folio[_last]()). With t=
-he
->> > bool in rac, even mixed use will properly advance the state of the
->> > readahead_control. I don't think mixed use is very realistic (at this
->> > point at least) so I'm ok with leaving that for later if you don't lik=
-e it.
->>=20
->> Got it. I am trying to figure out your mental model of how the mix of
->> readahead_folio() and readahead_folio_last() works with the bool inside
->> ractl. By looking at readahead_folio_last() code, it is almost the same
->> as readahead_folio() with __readahead_folio() inlined
->> (__readahead_folio() is only used by readahead_folio(), so the inline
->> can happen without any issue). As a result, we can get rid of
->> readahead_folio_last(), add set_readahead_direction() to set the
->> embedded bool read_from_head, and use readahead_folio() only. This
->> removes redundant code in readahead_folio_last(). One thing I am not
->> certain is whether we want to
->>=20
->> 1. use set_readahead_direction() explicit and warn readahead_folio() if
->> read_from_head is not initialized, or
->>=20
->> 2. set read_from_head to true by default, so that only erofs needs to
->> call set_readahead_direction() to change read_from_head.
->>=20
->> The former is less confusing but changes how readahead_folio() works;
->> the latter is simpler but implicit read_from_head state might confuse
->> people at some point.
->
-> My idea was: readahead_folio() will call __readahead_advance() and then s=
-et
-> rac->forward =3D true. readahead_folio_last() will call __readahead_advan=
-ce()
-> and set rac->forward =3D false. __readahead_advance() advances from begin=
-ning
-> / end based on rac->_forward value.
+syzbot has found a reproducer for the following issue on:
 
-Got it. I can do that. Just to be clear, it should be that
-readahead_folio() first sets rac->forward =3D true, then calls
-__readahead_advance(), since __readahead_advance() advances based on
-rac->forward, right? readahead_folio_last() as well.
+HEAD commit:    7235a3e71949 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=16c913b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf4bea59f67007
+dashboard link: https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1116acc6580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121fb649580000
 
---=20
-Best Regards,
-Yan, Zi
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/fd45635beaae/disk-7235a3e7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d7d2e6507223/vmlinux-7235a3e7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b5b5d8de4cea/Image-7235a3e7.gz.xz
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cc460646984184ad435a@syzkaller.appspotmail.com
+
+i2c i2c-1: failure reading functionality
+i2c i2c-1: failure reading functionality
+Unable to handle kernel paging request at virtual address dfff800000000028
+KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]
+Mem abort info:
+  ESR = 0x0000000096000005
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x05: level 1 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0
+[dfff800000000028] address between user and kernel address ranges
+Internal error: Oops: 0000000096000005 [#1]  SMP
+Modules linked in:
+CPU: 1 UID: 0 PID: 5728 Comm: syz.4.648 Not tainted syzkaller #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/02/2026
+pstate: 23400005 (nzCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : kasan_byte_accessible+0x10/0x20 mm/kasan/generic.c:210
+lr : __kasan_check_byte+0x20/0x54 mm/kasan/common.c:573
+sp : ffff800096777240
+x29: ffff800096777240 x28: ffff800088b0a000 x27: ffff0000d0da3a80
+x26: 2eb980008045b830 x25: 0000000000000000 x24: 0000000000000001
+x23: 0000000000000000 x22: 0000000000000140 x21: 0000000000000140
+x20: 0000000000000002 x19: ffff80008045b830 x18: 1fffe00035bc9e28
+x17: 0000000000000003 x16: ffff800088b07000 x15: ffff800088bbd0a0
+x14: 00000000ffff8000 x13: 0000000000000001 x12: 0000000000000000
+x11: 0000000000000000 x10: 0000000000000003 x9 : dfff800000000000
+x8 : 0000000000000028 x7 : ffff8000818fc2c8 x6 : ffff800080d4edec
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : ffff80008045b830 x0 : 0000000000000140
+Call trace:
+ kasan_mem_to_shadow include/linux/kasan.h:65 [inline] (P)
+ kasan_byte_accessible+0x10/0x20 mm/kasan/generic.c:210 (P)
+ kasan_check_byte include/linux/kasan.h:402 [inline]
+ lock_acquire+0xa4/0x364 kernel/locking/lockdep.c:5842
+ down_write_nested+0x58/0xcc kernel/locking/rwsem.c:1757
+ inode_lock_nested include/linux/fs.h:1069 [inline]
+ __simple_recursive_removal+0x7c/0x430 fs/libfs.c:606
+ simple_recursive_removal+0x2c/0x3c fs/libfs.c:646
+ debugfs_remove+0x60/0x88 fs/debugfs/inode.c:781
+ i2c_device_probe+0x884/0x9d4 drivers/i2c/i2c-core-base.c:610
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x29c/0x800 drivers/base/dd.c:706
+ __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
+ driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
+ __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
+ bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
+ __device_attach+0x248/0x390 drivers/base/dd.c:1098
+ device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
+ bus_probe_device+0x58/0x120 drivers/base/bus.c:620
+ device_add+0x6cc/0x9e0 drivers/base/core.c:3772
+ device_register+0x28/0x38 drivers/base/core.c:3854
+ i2c_new_client_device+0x5ac/0xadc drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x210/0x3d4 drivers/i2c/i2c-core-base.c:1307
+ dev_attr_store+0x6c/0x90 drivers/base/core.c:2505
+ sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x51c/0xa0c fs/read_write.c:687
+ ksys_write+0x12c/0x228 fs/read_write.c:739
+ __do_sys_write fs/read_write.c:750 [inline]
+ __se_sys_write fs/read_write.c:747 [inline]
+ __arm64_sys_write+0x84/0x98 fs/read_write.c:747
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
+ el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
+Code: d503245f d343fc08 d2d00009 f2fbffe9 (38696908) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	d503245f 	bti	c
+   4:	d343fc08 	lsr	x8, x0, #3
+   8:	d2d00009 	mov	x9, #0x800000000000        	// #140737488355328
+   c:	f2fbffe9 	movk	x9, #0xdfff, lsl #48
+* 10:	38696908 	ldrb	w8, [x8, x9] <-- trapping instruction
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
