@@ -1,47 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE33421236;
-	Tue,  4 Aug 2026 19:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2AF30F938
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 19:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785870031; cv=none; b=qBz1YRfQ8+R+XwPcBNX+d2mEAUbFhui/fSeygm5RAa2ELtUkEJBVNc3WZ8koIPQvrqmYboj7DPWZMl2w1gcC8mtuqfU7vdJnhIHz/mYmHsmJhqNwQ2vAceGTpYZAlBJ35vVe6mxvBAPt8yMWAaupl5+/0rVOCytnRPctvXlpk44=
+	t=1785870941; cv=none; b=U4kGMa/U9ldWUo3YUGwIbpH+I6CvsBRyDMWxq3BS0jopvx1u1GQhyYWHnhRVjX6RSxGe8hOqS+Rqd9fPtcOMc4WUD8temxvIGLXBvksXhO5PWAVA52eXsIUAPvPF0SARxWeJrCtSg1HrOtozmJGHmbWaJV9+oC/DJZ13BvxNYUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785870031; c=relaxed/simple;
-	bh=U0cUnBHXXBzpX4hs+2YD00oNzK/cvSlJUd7PyjV3MPo=;
+	s=arc-20240116; t=1785870941; c=relaxed/simple;
+	bh=BRJRgqVzw8tzW9n3dNOPAJ88xu1B5vDrpU9FzebZmwE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nt5NU3FPIvkeHwQjFgGRWMi64pLrJKRSJ7n8Eq7vzGaIkht41NSx5nXL/xP68P3miTXTc9CqdUohtLvlz9REn7F/+YAMKHai/WaLIiRMdtnRGSrynofhmfxyApaa3zTxQVnZV6vqzsnuDAfBL3gF4EQlUqxfw5kwQUU+JER0I5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnwpTPvv; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bt3wSEEsMRb5IxKzLbMJjHaSK9WwCvQhqc+a7YPpb2sd0P3i1SjQ/syOkEbr3R5l5M0XFy8wRKbYostaRu4OD4B2GxrNE14nbN3xeLXiegznZc3GJoEuIqtDNmmf5CTpGGRsxcpq8/GN+xkj0SJiLYRHeBYkA6TctNSX+u4yl/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=AXVzQWU6; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnwpTPvv"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 75F9D1F00A3D;
-	Tue,  4 Aug 2026 19:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785870027;
-	bh=oTbuw/euW+vCmgqmL6+mJcayXncOdyukRicUuH2+0kI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BnwpTPvvn3TIPcenIfDsdMZXWdypqmknhdx/u5JgPYdVJssvRi6efz4Ee+BETc6+d
-	 vSSkWiSMf5CvqIwFL770NKdjcAFcMaeeOTjxIl6JOLolmO3k/xMaXfZccvfvy9x0BU
-	 dCLeCU76Z8Yw9+w+qS9x9AQnrt3WilfeYvkKcL4uobYs2KAnhMXPlUTG6Z6kXQTUOC
-	 MEiEmZE45rmayhVfHemzGodB3Po5hFtBsnbPmpGTcmifbyfIweM9zETwYSljoX+0X2
-	 wJwuAuuG370yPZTs4dkSm5sKrOH3MyN3Mf0zTh0aF4a47z4Y4jduwqLjSGEbLzitAI
-	 KhMZ8ePtgux0Q==
-Date: Tue, 4 Aug 2026 12:00:27 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v14 05/21] fsverity: improve flushing performance of
- fsverity_fill_zerohash
-Message-ID: <20260804190027.GQ3556460@frogsfrogsfrogs>
-References: <20260803200820.393203-1-aalbersh@kernel.org>
- <20260803200820.393203-6-aalbersh@kernel.org>
- <20260804174223.GB14046@lst.de>
- <20260804183752.GC2904385@google.com>
- <20260804185700.GE2904385@google.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="AXVzQWU6"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-52cd38ddcdfso821431cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 12:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1785870939; x=1786475739; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=k1Dta2RSeoe9YdJLecTqGrTMMuZ8ntJIXx9AmBauxos=;
+        b=AXVzQWU6y1ENCr31nnkqYtnOU6rnDvSRJaYSIp++wqms+ILFNYT9ffWL9TaiJ1T2NC
+         5SnrhCqfLM4oEwG1M7hpPZm6z0vYwB2Xr2WMZJhDzxeGRDjPPLD98r0oM8ltClw/MPum
+         ZYPUIE7ib8lWMSbhP5n3sp3jaCwfcxJ++JIcwnUTYCIK5m8LhMMAHWPZQXLzh4pAlxSc
+         qQsXeeaKiGp5tPbfV9tdzN7vSN8FrElK4/0YTOI0Bcp4RdGgC/PPbxTXmIt0qU+crCd+
+         g4y0r+Rwzh+aFCoTpF9A9VPDxFIKH6Y+bGJ870sOVjDPNsLQe5XYv+VJiAYYrAsHZIwJ
+         XTOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785870939; x=1786475739;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=k1Dta2RSeoe9YdJLecTqGrTMMuZ8ntJIXx9AmBauxos=;
+        b=f71ucQqHpJo/ane4cJxZ/CkvYDUCOVFyviwA3LW5tyQLbpBqroMUfyuGzhjgVOvenb
+         twk9l1fBgwlO5tx7BGn5x6Xr6Of5w8cZ1wM3jleU4SMsqLK06KA3euhPpwmW7Q6WjIDU
+         NUe9NzucMlRJuISfNmMRDeTF5V7JF8P6KDqGURgg/NZNyMUQUkkeb4vxU8fChNGtXVHn
+         A1Bjr1f2Im7C2a4eq9uySsuxhT7FHpLR5mpPim1n3thh5Xm1EQyBXzYfDANVKyRb7cBx
+         p+vA1S2lK+W2bWTr3J28j8K6dbADSzrFc5bMqUAxhW/DNiqQIVkfFsGzJtzpWhbn5Ppc
+         ELHA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1dCslvLSEPg4H3+ffbxPqvT85jC2/b9WoPyYNrezGX8b9j1Bhye5gb8XG1tKDlJGFdpw+Gnk+OKikfxvE@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyivhdeh5uR6XSzb/r9pTbvqlKDFIHrs7kuLceSXJncn+ZOI2du
+	rK5WzelWGnJz6Zt1D9uUVUR32aJr8K2OyiRlEfkBoS2blE5kGtWNWUKL4ree2B521FA=
+X-Gm-Gg: AR+sD10JjTi6zbxr9j9ThmuJhY1ZhoyAAnACAlDa0XNGE9fGkn1v8NI9IbX1DmzvMsh
+	2Q5DYRi+0Ttm+ci5UGMUdhWVR1zb5Okwxmi/IZVCya4K6W9CW9+PIe1NohimeER/lolmXznh0JB
+	EaJ3mu0IQLr2w0Ccd8XSDsoPDfWLiW/Jx0EPDOAg8EfS6yMzQA4rpG0zxmi94oZVcN/iDDh4Nlf
+	CvNXuJuCsmpaTlfQsu5vbLz5wJAwZLSVMhSqv7sbwUJQWhPWnviuZUscS3tlx/kM0mBZSFwXt3e
+	8Cq+dpCw4mPIYy2dO44LTWmOvCS9eGJ++qsOxmEEPX3rsGgQxQFJJgowtEkfvnuI2P7sDFHeX03
+	Qh+D66eWG+6SwqvsgqZVBNCbGwOvRTtkkSI3XdygS3RuKY15CIEpcW6mzHQVw+SCefMVoUwoqVy
+	xvgNvXMK9/3tFGKQsFSxQ6RNAb1G9Js4NBORVulpqBd0NAMldL8DHtrd1/rus/yYBfQxSSCYpkE
+	7PAVKrPgVRyvmfG9FAY/UPUPr0Xq4F0kIeA7sWoqlIt4w==
+X-Received: by 2002:a05:622a:4c14:b0:51c:2633:9ddd with SMTP id d75a77b69052e-52ce61eabd5mr16510221cf.41.1785870939179;
+        Tue, 04 Aug 2026 12:15:39 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9087ff9d814sm8251026d6.10.2026.08.04.12.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 12:15:38 -0700 (PDT)
+Date: Tue, 4 Aug 2026 15:15:37 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v8 10/15] mm: Check individual hugetlb pages for poison
+Message-ID: <anI5bPVScck1WXvh@gourry-fedora-PF4VCD3F>
+References: <20260731200802.574821-1-willy@infradead.org>
+ <20260731200802.574821-11-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,59 +81,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260804185700.GE2904385@google.com>
+In-Reply-To: <20260731200802.574821-11-willy@infradead.org>
 
-On Tue, Aug 04, 2026 at 06:57:00PM +0000, Eric Biggers wrote:
-> On Tue, Aug 04, 2026 at 06:37:52PM +0000, Eric Biggers wrote:
-> > On Tue, Aug 04, 2026 at 07:42:23PM +0200, Christoph Hellwig wrote:
-> > > On Mon, Aug 03, 2026 at 10:07:55PM +0200, Andrey Albershteyn wrote:
-> > > > The current version calls flush_dcache_folio(), in memcpy_to_folio(), to
-> > > > flush whole folio on every digest (which is 128 for 4k) on the HIGHMEM
-> > > > systems. Open code folio mapping and flushing to copy all digests at
-> > > > once.
-> > > 
-> > > This looks correct, although to me optimizing for this feels like
-> > > premature optimizations not worth the ugly code unless we have numbers
-> > > to justify it.
-> > > 
-> > > If Eric wants it:
-> > > 
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > 
-> > > > +		if (folio_test_partial_kmap(folio) &&
-> > > > +		    off > PAGE_SIZE - offset_in_page(offset))
-> > > > +			off = PAGE_SIZE - offset_in_page(offset);
-> > > > +		for (; to < (vaddr + off); to += vi->tree_params.digest_size)
-> > > 
-> > > Style nitpick: no need for braces when comparing with simple
-> > > integer arithmetics like this.
-> > > 
-> > > > +	for (off = offset; off < (offset + len);
-> > > 
-> > > Same here.
-> > 
-> > Well I didn't ask for it per se, but I pointed it out and asked whether
-> > anyone will care about the combination of XFS && FS_VERITY && HIGHMEM.
-> > Based on Darrick's email it seems the answer may be no?
-> > 
-> > If it's kept as-is, adding a comment mentioning that it doesn't need to
-> > be optimized for HIGHMEM would help preempt any questions about it.
-> 
-> Note that the explanation in the commit message seems to be confusing
-> people as well.  It only mentions flush_dcache_folio(), when the actual
-> performance problem on HIGHMEM would be the mapping and unmapping.
+On Fri, Jul 31, 2026 at 09:07:55PM +0100, Matthew Wilcox (Oracle) wrote:
+> +/*
+> + * We have no reference on the folio containing this page.
+> + * The hugetlb_lock keeps hugetlb folios from being freed.
+> + */
+> +bool hugetlb_unref_page_hwpoison(const struct page *page)
+> +{
+> +	const struct folio *folio;
+> +	unsigned long flags;
+> +	bool ret;
+> +
+> +	spin_lock_irqsave(&hugetlb_lock, flags);
+> +	folio = page_folio(page);
+> +	if (!folio_test_huge_poison(folio)) {
+> +		ret = PageHWPoison(page);
+> +		goto unlock;
+> +	}
+> +
+> +	ret = precise_page_poisoned(folio, page);
+> +unlock:
+> +	spin_unlock_irqrestore(&hugetlb_lock, flags);
+> +	return ret;
+> +}
+> +
 
-Ah.  In that case I definitely don't care to optimize it unless we get a
-complaint from a real user.  XFS doesn't really support 32-bit anymore
-because xfs_repair on large filesystems is known to run out of address
-space for all of its temporary indexes and crash.
+I ended up with the same question as sashiko - i think this behavior
+implies we must hold a reference on the page, otherwise the folio can
+be invalid and all these accesses are unsafe.
 
-(I'd be fine with dropping this entirely.)
+But that must be the existing behavior for poison checks like this, so
+this is at least no worse. Not sure it's worth addressing.
 
-((Yes, we could increase the amount of address space by cheating with
-memfds, but yuck.))
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
---D
-
-> - Eric
-> 
