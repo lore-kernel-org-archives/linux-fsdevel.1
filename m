@@ -1,223 +1,169 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B773603E0
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 01:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785806551; cv=none; b=Fo8kfpn8FibBR7tWJcAurfQByjs3NXzpKSh+Ff5qBDMAoya9PK7qt9Gf1JawFcp8KANO1vdkmRc5EflubHXLOYfdVd0dd7K9RVZ8+orwgrdMnfdA/LvnnNAtZp9tayQ63ZjVN4Wwjt63r/kp1lkjBKUqw268BkpRGAZUN0rs+ZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785806551; c=relaxed/simple;
-	bh=qRqnXLyfzoi6U819BVmQMD9BvtRbcz9twZE+6VW4Arg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rfYJtsg/957dGQLxjVKUoxYhpr12UkUq8FCwH9d5m/vyDmZ6bYvw1vMdBxCKg4Eu5XxJ8TkR2FWr+mg47qOZLvgeq/u14eoYUDFUWDeTFREZYLCvzw60lHQ1EhTBilJDZc82zo4aKxwI3Fs7lCMHBIsFR5bTS2JO50JdnAC06P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a41f46d629so6371484b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 18:22:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482912E738F
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 03:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785812991; cv=pass; b=uAHJiSobaJLo+xQW1NoSbUBgtQEHXCKv8jPdOePC9E4hvrekfr0QSGgqRQ/dh+SsXGPnqPIUj041sI4ZVmk8bIShd/8kSRISabssZEJ2RFvVLPMdV8OgxrQpZa20eeGLlWHnjoLUfsi4fi/5RlpVsMkmHepNYto/c8o3xw2N4w4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785812991; c=relaxed/simple;
+	bh=PaXew+FZpfDX6CTHu7tlK3pwxbda2KE6TQKtVwb/Pgk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n/trYuwp/K7QMOYxqRKiAhjT8dx/nJUJs8JdRv4bAcTIkQNRx8UkrOrg0oib7JWTgrpsYUbmpV8/CcHAejqhg1aZw3GdmlDTILg75qRgWsFsSqor3RTOb5rXXhjv9bkVAoMndMJ1fBySJtWEDEUzx8eSeigekXSn2Y23Vd3KZpE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0vixZ4m; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0vixZ4m"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso579333866b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 20:09:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785812988; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JnwzJHATW++b9CfsOUl0gkWoMDsm/UWScTSreqBwdJefi8WtdJhZSAcic4fYf5F1SL
+         MQllMZZit0SNl3CUv0/UANbqTaJq5q8Vg7W0rywCKGHlorXqOPXT5F2tRE/m2/ACCgy4
+         cMvM6C6M5/xCfEGojEBenKj11WViHDP7E93XlFAYV+0CTVg0t+az165AZK7ND0ZOMKya
+         M7/xb1knvoPj7/LhcY0P6DTV8oOfWoV4/fKpR1Ho2NHP0Pyz6MmS7LDXFv5xR6A/L5c0
+         1i1+pIyTrsWtmo6s/HFxM9LBJEK6L9di0XFFkHpbPXfzEO+cb7KMgmfQnZs6Mt01lKNF
+         EVWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+lD7EshW+wqvTAIy0+vw88oURzXcR3MWC7k5l35qTt4=;
+        fh=pVoNshpgKWXM9LAkZs6Fd+qcV1NlazC3E5s4vExRNtA=;
+        b=NuI6yLRQkoLAEWpY1u9JcFQKHt18LIX2gbL6Fv6gbjyI3h8NLKgDH8YVf2WEehso2H
+         I76o3WqVddPEpEbUtj12R6ZLsjZQqH+vS69Z+Nj5XoH3fJVCdWhmfvaJ6jaNXBpJ0EkA
+         coHHXDpDMiZ/CQpLfu+49t81q4yOCI88DA2XH7f/xICrNYuAiY9BFJaXW1yDkcYG+XOB
+         tzKuQNtkWCQql9YvX2CALA7iogrpgfJkC92bUEaoiyut/zTtYbRJCws14qhdZmqZFqZJ
+         44cWtUIdRMwXWyVMRYPVXuVAgFk/Jwi8l1QBNTHjPsWHU8XRg8EA2/LYx61Rk2sw2UJn
+         1VWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785812988; x=1786417788; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+lD7EshW+wqvTAIy0+vw88oURzXcR3MWC7k5l35qTt4=;
+        b=W0vixZ4mH8nO5nYFFd4tX5PlQH++Yf1p09jx1ASvp60eltDIA7vkPxHdcdcYQ3Z6UG
+         sRBIX4PTmhzL0+2UkHpmslhFdcu8kOaXC0o6u4hSpgRU9UtjO0Vb+3UalSyCZt2ibqIO
+         YT7EIBJ6FI5QhryYyxIfPOrqNRebxpPwaw+Wb4iVuwnUbMMDY1ibUc7HaENd9k/4w53U
+         BYDsGiMwN0W/7zm5ABhKG6x8hG9NDJvTe468qE/R/+SJx6J5Z4bOLhlHf4dOjSv36z/R
+         9NiwAR+g2zZp+J9fvnC/87593CktvbatoiGoB7s3ClDSdu2EnslQZGP1DduXsRzlxWhh
+         JokQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785806548; x=1786411348;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1785812988; x=1786417788;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=qtCjnm/puTsZsa/2CwFjtGJb+lx6edEGVd7fXIrsF7U=;
-        b=MITpPYRmKC76OrAoWUp94M7jeuV2pO+JSLW+G41S4IwJRBv2mOpNCgIc+k4Py31eYO
-         2rH5L0XMmt2YxwZDzFrDBiIT1WkJOyaaSaVfCRJrpXMKIjrpeRFcarySpgfA0+ke6maj
-         bC5uMkI9D8b/8uJPFesPeVMa+gWFKqfnugdMC5ui+1N/l8Z+/KorfyUUZQq/rZwkiOTU
-         yz3OF+3AC84G2kkTvFPYSOspYiwtBdz7GmFocgYZXWo35JgrnCDVDrhDEhAlW+YLDKdq
-         MeyL8fMkACqmLkPTnWWAAvfm5MD7d79Ys306FIYhbyIMQ3I7yS4yDqpSnIx72FpxW248
-         RX6Q==
-X-Gm-Message-State: AOJu0YzOrWXGuaASEk2Tdo4rAnqBJCsaDIwjo2hftUhSTCmCKDcj5d0D
-	42bGoh1OI05TcnGbrWMK5qOOuRODQAR3xkSwRHfHqrbnDi1diSdpU3qWt8s/kRBjrrpcC2kLAKS
-	c4MsvfKITGAmQeBQnBbKCfiGm/WEeUbfl09iVJ3cBVaI7XqXEo8AJJgILkfq+VA==
+        bh=+lD7EshW+wqvTAIy0+vw88oURzXcR3MWC7k5l35qTt4=;
+        b=U6V7p6HJoXlRs+Y+kMmHBIloMonH89TpOz5r3poZWG+7iC1XhRPAt6CECFMnPNzYa+
+         rMVgFTqb6EIjrhmh3pxb9M2SqNJ5a9jMDwM6/YCPr74Q3q7+4nMATSrtML3qv7puSyaG
+         xTYmQHyXPZb23rsfqK/ROOC7KbZsc4csOA6eFYli5pP3tqYb++KFu9Qyro64HazUr/37
+         2Q78iobCaa2tusEGj5IoUefnithqK6CePYncextTTtRKRe1reV5ZPYgu1XlWW10qIKHf
+         QHzMNjyjtD6TofPx0oa4+aGkWjeK/PYZeo7FNwSDI4YaA2t5ot1ly5yxGGUWDf+5Bsw/
+         5mdA==
+X-Forwarded-Encrypted: i=1; AHgh+RpCKlFO1Qr+oFGHiaT9M9SQIFi21lK0q/w7VzYH9aTC1pJF+3eLu3DMa4u1TiHlf3+HZcTNyGzNtSMEL//H@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywb92t1XumdedT4V97QtpVSxteJQ50JN+opSOT77YM8BZsrwsRd
+	sfiifaP/8hKue9d8YTgNSLGuZOw86bLTaouHMc6a1eXtLvk21Qes5eompjL0WBeLfjkZBvt7tXy
+	xHm2aWuS3r7Qwaq6FleegQz5QicEKaxE=
+X-Gm-Gg: AR+sD11bQc6VHGx6HoJ5wX/Pw2JVW2bPuDaoR/Gu1ZqMb92T/b8pSMV6WeO5iVaYJQQ
+	Q/dSWGlmA0XB4LKS4IVMlAtZpY/0oPgYU/1YADXNKbtcLVSrZErMRQVAxkfIL0achr6eb9Okvj6
+	R9536Xk7jlj/q5wWwdFgT4UPrFg297M1ZMk6l4W5g8ROTeMNYGDYUwDbAujLln3LH3HwsDfLMbN
+	+zl95nVDXJqyH5vYtvJpok5mR2rYWqk02YeYRVoAcUsvZw51XqCTYNttNtgJUOTdw4v72UG5Al/
+	auk8/65XE2r10ESAB5DdZX9Qb30ScWpiUceyaabUjNfKBPFsx4V1NkS05nKQCMNbwEcIB/DYpn1
+	+HQ==
+X-Received: by 2002:a17:907:c18:b0:c15:a1e8:c141 with SMTP id
+ a640c23a62f3a-c1fe8205b11mr1194078366b.30.1785812988580; Mon, 03 Aug 2026
+ 20:09:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:14c6:b0:4a3:4598:f390 with SMTP id
- 5614622812f47-4af5e3d7eabmr18997623b6e.17.1785806548189; Mon, 03 Aug 2026
- 18:22:28 -0700 (PDT)
-Date: Mon, 03 Aug 2026 18:22:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a713ed4.d35e88fd.de8b.0007.GAE@google.com>
-Subject: [syzbot] [fuse?] KASAN: slab-use-after-free Read in fuse_copy_do
-From: syzbot <syzbot+a036bdf7d7bad319e404@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com
+References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com>
+ <20260730-add-gfp_account-to-xas_split_alloc-v2-1-5a56c2361d85@nvidia.com>
+ <am28pV2PEfHsi4p-@lucifer> <DKFEEI2EDS4F.1AHGKB1EL6XRG@nvidia.com>
+ <anCtxQE5hDUH5N6a@lucifer> <DKFEUPDED2AF.22PKCFTWTG6G5@nvidia.com>
+ <CAMgjq7CHDG8JhesSPMkn1kzG8jKb0BXO756BvxMQC_MCn2eTyA@mail.gmail.com> <D6EE6133-8B15-438C-8616-4639710F8973@nvidia.com>
+In-Reply-To: <D6EE6133-8B15-438C-8616-4639710F8973@nvidia.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Tue, 4 Aug 2026 11:09:11 +0800
+X-Gm-Features: AUfX_myZp7suhmCghhsEDX845pFAgs6S7SpJWDhswAN7FOhlW09QWQBizRnPBhM
+Message-ID: <CAMgjq7DjCVxLLXU15ue6MVrqvWqW6goED_0QZLQ=USNJm9c4TA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] mm/huge_memory: use folio's memcg inside __folio_split()
+To: Zi Yan <ziy@nvidia.com>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	William Kucharski <william.kucharski@oracle.com>, David Hildenbrand <david@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Aug 4, 2026 at 1:55=E2=80=AFAM Zi Yan <ziy@nvidia.com> wrote:
+>
+> On 3 Aug 2026, at 13:25, Kairui Song wrote:
+>
+> > On Tue, Aug 4, 2026 at 12:53=E2=80=AFAM Zi Yan <ziy@nvidia.com> wrote:
+> >>
+> >> On Mon Aug 3, 2026 at 11:07 AM EDT, Lorenzo Stoakes (ARM) wrote:
+> >>> No __folio_split().
+> >>>
+> >>> Comment about cleanup.h really was the whole pattern of goto xxx for =
+various
+> >>> levels of unwinding things.
+> >>>
+> >>> But really I mean the folio splitting code in general, there's a lot =
+of
+> >>> massive-complicated-functions with a million things going on at once,
+> >>> __folio_freeze_and_split_unmapped() is another.
+> >>>
+> >>> Feels like we should really have this stuff in something like mm/foli=
+o.c anyway
+> >>> too now that's renamed :)
+> >>>
+> >>
+> >> I agree that __folio_split() is handling multiple cases, anon, shmem,
+> >> pagecache, all together. Do you prefer:
+> >>
+> >> 1. split __folio_split() to handle each case in a separate function wi=
+th
+> >> some code duplication, like xarray for pagecache and shmem,
+> >> freeze/unfreeze folio for all;
+> >
+> > Hi all,
+> >
+> > Do you like a __folio_freeze_split_unmap /
+> > __folio_freeze_split_unmap_file split? :),  I'm asking this as I'm
+> > currently trying to sort up the mess about swap cache in huge_memory.c
+> > and found it will be much cleaner if we move file related code into
+> > __folio_freeze_split_unmap_file, and let __folio_freeze_split_unmap
+> > handle anon and swap cache, and then saw the discussion here. (A bit
+>
+> Sounds good to me.
+> Maybe s/__folio_freeze_split_unmap/__folio_freeze_split_unmap_anon/
+> to be specific?
 
-syzbot found the following issue on:
+We will have to deal with clean (not yet added to anon) swap cache;
+I'm not sure if that counts as anon? I'm fine either way about naming
+though.
 
-HEAD commit:    92e3f6ef4ffb Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=117200d6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a4a42e870a0b0ae0
-dashboard link: https://syzkaller.appspot.com/bug?extid=a036bdf7d7bad319e404
-compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-userspace arch: arm64
+> > more detail on this, I think we ca just assume we just don't need or
+> > want shmem swapcache split, because shmem swap cache is meant to be an
+> > intermediate state during IO, and shmem drops swap cache once IO
+> > compete, and hybrid half-tmpfs-half-swap state is really ugly and
+> > should be avoided competely, swap cache lookup is still fine for shmem
+> > just make sure the folio is not in shmem's mapping).
+>
+> The reason looks good to me. Can you remove the shmem in swapcache TODO
+> and firmly say shmem in swapcache is not supported due to the above reaso=
+n
+> when you split the code?
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/75ce25b4a6ef/disk-92e3f6ef.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/14bda28d7d38/vmlinux-92e3f6ef.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/247283a18992/Image-92e3f6ef.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a036bdf7d7bad319e404@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in fuse_copy_do+0x1a0/0x38c fs/fuse/dev.c:-1
-Read of size 64 at addr ffff0000cbe00888 by task syz.7.1148/9889
-
-CPU: 1 UID: 0 PID: 9889 Comm: syz.7.1148 Tainted: G             L      syzkaller #0 PREEMPT 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/02/2026
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack+0x30/0x40 lib/dump_stack.c:94
- dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
- print_address_description+0xb0/0x238 mm/kasan/report.c:378
- print_report+0x68/0x84 mm/kasan/report.c:482
- kasan_report+0x8c/0xc4 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x17c/0x1ac mm/kasan/generic.c:200
- __asan_memcpy+0x3c/0x84 mm/kasan/shadow.c:105
- fuse_copy_do+0x1a0/0x38c fs/fuse/dev.c:-1
- fuse_copy_one+0xc4/0x130 fs/fuse/dev.c:1215
- fuse_copy_args+0x2a8/0x398 fs/fuse/dev.c:1233
- fuse_dev_do_read+0xac8/0xfe8 fs/fuse/dev.c:1507
- fuse_dev_read+0x140/0x1c8 fs/fuse/dev.c:1586
- new_sync_read fs/read_write.c:493 [inline]
- vfs_read+0x498/0x8c8 fs/read_write.c:574
- ksys_read+0x12c/0x228 fs/read_write.c:717
- __do_sys_read fs/read_write.c:726 [inline]
- __se_sys_read fs/read_write.c:724 [inline]
- __arm64_sys_read+0x7c/0x90 fs/read_write.c:724
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
- el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
-
-Allocated by task 9885:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x40/0x78 mm/kasan/common.c:78
- kasan_save_alloc_info+0x44/0x54 mm/kasan/generic.c:570
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x9c/0xb4 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x2d4/0x624 mm/slub.c:5420
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- fuse_new_init fs/fuse/inode.c:1519 [inline]
- fuse_send_init+0x64/0x630 fs/fuse/inode.c:1579
- fuse_fill_super+0x100/0x124 fs/fuse/inode.c:1990
- vfs_get_super+0xb8/0x148 fs/super.c:1327
- get_tree_nodev+0x2c/0x3c fs/super.c:1346
- fuse_get_tree+0x240/0x324 fs/fuse/inode.c:2055
- vfs_get_tree+0x90/0x28c fs/super.c:1754
- fc_mount+0x24/0xac fs/namespace.c:1193
- do_new_mount_fc fs/namespace.c:3758 [inline]
- do_new_mount+0x2a4/0x538 fs/namespace.c:3834
- path_mount+0x5f0/0xa88 fs/namespace.c:4154
- do_mount+0xe8/0x148 fs/namespace.c:4167
- __do_sys_mount fs/namespace.c:4383 [inline]
- __se_sys_mount fs/namespace.c:4360 [inline]
- __arm64_sys_mount+0x334/0x380 fs/namespace.c:4360
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
- el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
-
-Freed by task 9885:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x40/0x78 mm/kasan/common.c:78
- kasan_save_free_info+0x58/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x74/0xa4 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2689 [inline]
- slab_free mm/slub.c:6251 [inline]
- kfree+0x188/0x690 mm/slub.c:6566
- process_init_reply+0xdc/0x1b30 fs/fuse/inode.c:1503
- fuse_send_init+0x378/0x630 fs/fuse/inode.c:1594
- fuse_fill_super+0x100/0x124 fs/fuse/inode.c:1990
- vfs_get_super+0xb8/0x148 fs/super.c:1327
- get_tree_nodev+0x2c/0x3c fs/super.c:1346
- fuse_get_tree+0x240/0x324 fs/fuse/inode.c:2055
- vfs_get_tree+0x90/0x28c fs/super.c:1754
- fc_mount+0x24/0xac fs/namespace.c:1193
- do_new_mount_fc fs/namespace.c:3758 [inline]
- do_new_mount+0x2a4/0x538 fs/namespace.c:3834
- path_mount+0x5f0/0xa88 fs/namespace.c:4154
- do_mount+0xe8/0x148 fs/namespace.c:4167
- __do_sys_mount fs/namespace.c:4383 [inline]
- __se_sys_mount fs/namespace.c:4360 [inline]
- __arm64_sys_mount+0x334/0x380 fs/namespace.c:4360
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
- el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
-
-The buggy address belongs to the object at ffff0000cbe00800
- which belongs to the cache kmalloc-512 of size 512
-The buggy address is located 136 bytes inside of
- freed 512-byte region [ffff0000cbe00800, ffff0000cbe00a00)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10be00
-head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x5ffc00000000040(head|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 05ffc00000000040 ffff0000c0001c80 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-head: 05ffc00000000040 ffff0000c0001c80 dead000000000100 dead000000000122
-head: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-head: 05ffc00000000002 fffffdffc32f8001 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff0000cbe00780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff0000cbe00800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff0000cbe00880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                      ^
- ffff0000cbe00900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff0000cbe00980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Sure, will do. Thanks!
