@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067993BCD29;
-	Tue,  4 Aug 2026 12:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2063C1977;
+	Tue,  4 Aug 2026 12:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785847397; cv=none; b=jCXKCbsY11QKHDo2ttvwq3wM23BN5L7xOQO7yTIeN9Ip4ZBMD9pvp0z5F9v5hbmqSMSFJTDxYssAN2LUsdR4ZLJ5s6tjB+JimbMx0jFmGR1L7A9iWXwr7BUXkheBOQhgDGmGSmkPp0vf8DjJvEnDxsKzOuqRSeN80auGw4eGr2A=
+	t=1785847449; cv=none; b=fBD8bLsiUSGG/7YABhcupeAa6QtGTVs8FOszWW9TE4BhYNNsYBv/eQJdpwtC/Dg6+w93OawyQNj/EEgsmVPCn8g8ffXlCxA9+M6TZUVFFriY+N7A8Wc7smdxdISyEYi9ogSkRXlvnYlAVFWzMVJqSQXe83WipJTQJ0X//NgG8tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785847397; c=relaxed/simple;
-	bh=84QprRHwhrz+Nkiqha49/PA9CxYa6FBg6w6noEz86g8=;
+	s=arc-20240116; t=1785847449; c=relaxed/simple;
+	bh=Ffcc/x6DAj/Y1ENB6vgLES72vzmjuYEgE0m5wp8ZL58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEv5hUisTNNOUJcv8JH4UMY+vpWzSkMaUfinqITRXcR60xZrrlmf+MKIUO2kdh0DsgIi9tnxPC43Cy4ojonw76qd1mqeL4Gemywoxi0aPWPCw1B6BZXo6kpy2a++qDnN4+curbj7YJfAEM2DH9vNCXeI4TiliLJeHQMX/vtqCOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWOdWAkR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PNDlXrogFKtAmSOpRftGPaUOgi8Xoe8T4c4Vaxtfc6WxDuxNbGRrlkQgSGi7Tvg4pTTgUxb3j/GzJNOv1PCIkYCPjRbupCAoZ/s8aJjiVDbKayIXoZlyqje4rzU8lLgzsmGLfoNq9ZBAGt2DPp2F+qkdb2P3PfNKFBswrg00qlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+v+kmdg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWOdWAkR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F3F1F000E9;
-	Tue,  4 Aug 2026 12:43:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+v+kmdg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034D81F000E9;
+	Tue,  4 Aug 2026 12:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785847393;
-	bh=84QprRHwhrz+Nkiqha49/PA9CxYa6FBg6w6noEz86g8=;
+	s=k20260515; t=1785847447;
+	bh=GKB4l2IZdbP/Q0kXwbUuYXowkK37syxnhhgXnRPRqN4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UWOdWAkRkJHZkJxmRSHFZYlpGkORiS1kGH2fYisI2uada2AxRE+GeYyHciAVPQr30
-	 MNZd6q6kuVhstTX1GSsaMMzewptHToT1kUH0WuveZ7i5IRR9AZFh985L1e0HOxs32H
-	 wXbHaoX6vi/rrkSLGy0movwuGO/cWJNMbN6vwTmSwcxFllPwoOqPNM4CgVKNryMIWa
-	 OEW9DeHljNMC9Hvnie84zgLGzjIjuFDoip29CmY7iUbIDxnCzqtPygXPJBrUyyRV78
-	 YpoweashigOAa2jiQFa9l0ujqRtV9rDaln9png6xRNUr3jCjFaCfpjuh2tbsAOeuHv
-	 zbwT/VJNUydlA==
-Date: Tue, 4 Aug 2026 13:42:51 +0100
+	b=T+v+kmdgCi3T4UxR1mhAPlH3L3GeQtz+35K3qNK/vTqxJ2yOhaKoAVspBfOMxLtsn
+	 FIWPLNKujn5Olk6Z1+BnoEkDpCRSlRtCDxuydX1h9GeE6Eo2MOGwzDqGMneFaBwi/s
+	 k1oHBA1ZQ6LyPgdPLKQitX4rEDVnEILfBvI9RX+oJ2Ihm42LEJmI4EzjPJ+9HlvHfA
+	 kAMfGranFVW0VA+QEd5XUJV+yYuDvEayQq7xHv1OcCe6lMi7yMbcz8Nt00EWijb0Sc
+	 z41BRatoKPG4RoVOTuLaS2r3qLW8wT6a0YEEg0Aik0zKahizkE1Pp51jHOmksup38v
+	 HLAh1qHJ/KsIQ==
+Date: Tue, 4 Aug 2026 13:43:45 +0100
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: Pedro Falcato <pfalcato@suse.de>
 Cc: David Hildenbrand <david@kernel.org>, 
@@ -42,15 +42,13 @@ Cc: David Hildenbrand <david@kernel.org>,
 	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
 	Kevin Brodsky <kevin.brodsky@arm.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	John David Anglin <dave.anglin@bell.net>
-Subject: Re: [PATCH v2 2/6] parisc: Drop own implementations for ptep_get()
- and ptep_test_and_clear_young()
-Message-ID: <anHd7ho3daZFZ-4r@lucifer>
+	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] mm/powerpc/8xx: constify ptep_get() argument
+Message-ID: <anHeZx6Gg7waNWjL@lucifer>
 References: <20260803164400.531199-1-pfalcato@suse.de>
- <20260803164400.531199-3-pfalcato@suse.de>
- <anHHyiHqYf3yLf2K@lucifer>
- <anHcJZYyz9Zrshdm@pedro-suse>
+ <20260803164400.531199-4-pfalcato@suse.de>
+ <anHI4B-lMu6AJJfA@lucifer>
+ <anHc4aUbwxWx9YJF@pedro-suse>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,49 +57,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <anHcJZYyz9Zrshdm@pedro-suse>
+In-Reply-To: <anHc4aUbwxWx9YJF@pedro-suse>
 
-On Tue, Aug 04, 2026 at 01:34:41PM +0100, Pedro Falcato wrote:
-> On Tue, Aug 04, 2026 at 12:11:08PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Aug 03, 2026 at 05:43:56PM +0100, Pedro Falcato wrote:
-> > > From: Helge Deller <deller@gmx.de>
+On Tue, Aug 04, 2026 at 01:38:52PM +0100, Pedro Falcato wrote:
+> On Tue, Aug 04, 2026 at 12:13:13PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > On Mon, Aug 03, 2026 at 05:43:57PM +0100, Pedro Falcato wrote:
+> > > There is no need for write access to the PTE.
 > > >
-> > > Switch to the generic implementations, which are identical.
-> >
-> > You sure do like succinct commit messages :)
->
-> I didn't even write this one! See the From: :))
-
-Lol well then feedback addressed to Helge ;)
-
->
-> >
-> > Maybe worth saying by dropping the __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG and
-> > ptep_get defines you get the generic versions from include/pgtable.h which are
-> > functionally identical.
-> >
->
-> I can touch it up though, if you insist.
-
-Yeah, I'm being pedantic here it's not vital to have this change :) but be nice
-if you could, I'm sure Helge probably wouldn't mind too much? :)
-
->
-> > (Being pedantic, they're not quite strictly identical as the
-> > ptep_test_and_clear_young() generic function does some weird unnecessary
-> > indirection with a local variable and the single {} is dropped etc.)
-> >
-> > >
-> > > Suggested-by: Usama Arif <usama.arif@linux.dev>
-> > > Suggested-by: John David Anglin <dave.anglin@bell.net>
-> > > Signed-off-by: Helge Deller <deller@gmx.de>
 > > > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
 > >
-> > Nits above notwithstanding, LGTM so:
+> > With below addressed LGTM so:
 > >
 > > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >
+> > > ---
+> > >  arch/powerpc/include/asm/nohash/32/pte-8xx.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/arch/powerpc/include/asm/nohash/32/pte-8xx.h b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
+> > > index e2ea8ba9f8ca..f2bab31040c7 100644
+> > > --- a/arch/powerpc/include/asm/nohash/32/pte-8xx.h
+> > > +++ b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
+> > > @@ -226,7 +226,7 @@ static inline pte_basic_t pte_update(struct mm_struct *mm, unsigned long addr, p
+> > >
+> > >  #ifdef CONFIG_PPC_16K_PAGES
+> > >  #define ptep_get ptep_get
+> > > -static inline pte_t ptep_get(pte_t *ptep)
+> > > +static inline pte_t ptep_get(const pte_t *ptep)
+> > >  {
+> > >  	pte_basic_t val = READ_ONCE(ptep->pte);
+> > >  	pte_t pte = {val, val, val, val};
+> >
+> > Worth making these const too (that {val, val, val, val} horrifies me btw :)?
 >
-> Thanks!
+> This is PPC code, so I don't know if they have any particular opinion here,
+> but I could definitely do this.
+>
+> (FWIW, it seems we're more aggressive in MM in doing this than other places
+> in the kernel?)
+
+I mean I can't see why there'd be any objection given you're already const-ing
+here :)
+
 >
 > --
 > Pedro
