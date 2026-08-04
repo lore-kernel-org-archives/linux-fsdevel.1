@@ -1,124 +1,102 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6727F48097D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 16:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785862221; cv=pass; b=H8Y+Ge2pDjOPowO7btcJShDrwYPhJTS+f2itZ3LSl+nMzde1pt9jOPBrmK2lE8xYX/TLp/sXTcGDEUuRM5J1ARMrudB8mUz0RHzqTm79YwHE8Dk5LXZNsGXV0tcJczN3QPqt1vY7+KyZU5NQ12ZzWU21Y/T9IFcuw5OGZgaRcEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785862221; c=relaxed/simple;
-	bh=tuanMOupDYAV+JqOtUwVlLQmntJtBt1U3N0HaQ3Aw5I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tO3b1/EqCtJ9ut54j0tyP3IyXTHZI+DORIVLKTpMBV8OvigZbY+Mc/ZzY52FD2gl3x87XJ/59lp164wpBmRFazvLvLlheaRiLnvdmrwu80PUVdL387riM98CfaRsWoZB2/U8uGgIFH6/pHpQ+L4HnTYBwT0YOOrgSiGhAnUpy2s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BuahdNWw; arc=pass smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF94772A3
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 16:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785862728; cv=none; b=WtvbxmX3B5NHjuVJD3xkxfpcVe9sbAi3kyrQBKBYYaMFw1sibXqACASQuV0qztnxlvcU/l8APiis6rOm1k6lu71JpEceK95OeGoUBa9002vFMbVR9mQAzPDVv4Qpj7+GZ3JV/XJ9l+ILr8V1fzf2lbIxJR2dd7orDjt7Ghsgpg4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785862728; c=relaxed/simple;
+	bh=aU1gopZ5E3lIiRZFykslCRAx3GiiKZCKyVhLtJCDR2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgWc888Djl3sHmwMpP9xaqw/y4awjNRkgGf9pXuBoWcwWwS3tK4iUAczO0LuixhGoTbQS0kvxN/3Fufsz5fGOUAoeb4c4KZEOKSlGo+RQFofmysSYu5bF3J1hYD+hTcHIfJKbmcpfC4cB7dNHhu9QqxfZGEZkLmcsmBAw8chaJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dGe+td3k; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BuahdNWw"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-848761b5897so25685b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 09:50:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785862206; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VkekUjqsP4vv3E+Qix0DtZMyboNFwZ6AdlvU/GzOhXEUt9Aq9Wxk5lUQlys/i3nmMV
-         Jj//vFIcEGGueWQ3s4CECx63NER4WWty2zLL5Au9v9W5//5S80Oa59lAHk0KfdNN23NG
-         Dqq/Imss03HR/gpQT1lN7tMAUZ/y7dr27AY0QeLKXU3sT6ssNG0jlY8xbHX9YKwODmTY
-         pmfHacEDmHTYHf2bG2VnxCtOBLZurlkXr0Uw+KrxmLX63pAPs9fvgyu0XdJbocbVpMct
-         /+gl6Ckk1hXyhEfOe1pJC4LT8LOa1pxHwOC+A9l73PAnmqk/1KCe9ZfasouZndQM5MH1
-         gahg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tuanMOupDYAV+JqOtUwVlLQmntJtBt1U3N0HaQ3Aw5I=;
-        fh=ZlTwrYC/T5Ct/HFHxiVJY1SNipOLuGA9fm/m1tkR1L4=;
-        b=X8RuOFYwQ5UDAsQdEp/cHYu7Yt9f6JXanBPE2ahlC/V3TJ+sBzi0SDOQuR6cgApqaT
-         CGN5U8B79PVFYYBxuzEI3OYkPH/jfbIB7J1vGn+XDCB2OwZWfsGJAc8PnclqY3goKYVf
-         SrLb326aVFY1hkh2O1VjlpgDQ34Kn5IJz7sJPepL7ycGE40M6KP3YRZA+2eIT8fvDviz
-         3m35z82qT0Lh2/FBHkpOnN2QMMtukbdcEmQ9RXe3D/V86rTrXt4feZXSQXg6FgsLUtdA
-         1jy4qUZsMzJoGKi6uvj02VH32pEEKwcg8mT8obuTSs2IhMETJY+1jXkprl0O8szvCq+e
-         4COQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785862206; x=1786467006; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tuanMOupDYAV+JqOtUwVlLQmntJtBt1U3N0HaQ3Aw5I=;
-        b=BuahdNWwupVIZfb7zF7Dc++15mYkom2zG69fp+MXGRdCzuZyaPpWCeK2RSJdbxGq3J
-         ze/L+gnKXaamm8it8a/8xWRhM1nE21GeIciYAPYPD9okkJJBuU02XfXO0zMyeRRVRV1B
-         dGpn1J0RfdJwpl17EwKT+O4I6dnFlRjgrSvbfYp5OIpc91nVxcm1cpf8LhEV4PnARCjx
-         /Hx13+frt0uZ642YEvh6467doCmXBABxhkIPEBJZQadzjck1C+i8tlXYtoCi9uQLnb8R
-         afEcFuEq1DY4JcxJx1tL8cY+PFIfqpMHBW++OFFXItu8vSxsLLnAbW/iW7Mu67Fajw62
-         KDHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785862206; x=1786467006;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tuanMOupDYAV+JqOtUwVlLQmntJtBt1U3N0HaQ3Aw5I=;
-        b=jFPu8ZttmAx0L8K2mMxhBoKzJH8gy7ycJuwKXU7/6O6c6LvLEoE4cMVOOtLSiCHE9d
-         oZnWKqwnIvNNZrlSfenJ8+9Fexto/AWt1NeDrM6sn1gr1D+uWyr4eCFygC7mNVK2nPTv
-         uFICRXfwWKQtuabj00eJYhwTtl25RVDeKQ50ZMUR1g143LLRDB6I5JWfahTcoknF8Fh4
-         PR3Sbn1vTYFBS4kT4VvxZ8wDGXu/ce2CW2Z/p60pjgmWjLC1pUq9egAk7zC7JGIzLw58
-         w02Iin7BqhMPmAue21sk/lfM5j+drncPqhrJAFxIxi/fQH8+gG99uz420DsGKqXwC7eq
-         WpqQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrMQhcJH+siJ3Gj+S/WWorBBBPED88Ujs9NtwBR/hTl/hjIhlJxYywh/5lAs5X+fruHXXO55OkbsN4qc6qh@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVr/6gu8h+6JYEYIz4D9JcB6omCz5whnlbyTSuyU+dFu6p3xW7
-	Lc8uwZqeCH8AdNPTM5gyqr1tY88pfDN70MvDKFhRA1EM5OBzU/1qPsuxPxkEA5DXrMbf0vLhCZ4
-	8YAnVSmVKb78tBLUKR4zvbpOEijlapLNfi9m3ZdDO
-X-Gm-Gg: AR+sD13MNpUBJCDXbNGfJUlI07wXyNYB+E5K0SuiRuHrga6ozmzePBHLq29krD1gvVd
-	MBxw8oetRuNslUfHrz9G2dCgkNmvKZ6CDT4neC8t+atpWVQE4mA5GsH6b9iRyIbETI6HDG4RcMS
-	qPYjQn5I1EVdCFnpoI7Ova9OrGjjODGbVyiLNylB7U/rTNpNROIUcg2TCxb8/3W1Mb2dHTnpMcO
-	DqzgGWYTrVYXrWvHAy1UtVK7EQAptlGxoWryOZ7/iU4qolIQNJrvfe9ieMFXExkKvc440mRZy/G
-	ovW1y9qqvTzcw4RLj8496CleNymNrYafM8jS/oxJLKpDaeXKaE5kOl0PgI5zdLEbsmlrf2fwdkI
-	kv/gPdxInHCe5yHlkactWicuDD538UQYV3G37hNywUxuB12BaL/9Bm68V6kd06U7wFQQMzjN49i
-	In1TwvW+BHb2cspZNSH9SO0Ww=
-X-Received: by 2002:a05:6a21:3392:b0:3c3:9595:57ef with SMTP id
- adf61e73a8af0-3cb85ffd1cemr193900637.31.1785862205404; Tue, 04 Aug 2026
- 09:50:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dGe+td3k"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=w0GJoGVxbTlIBAP42YKS4cXI+GskDdJ5ICUAbo2EeCI=; b=dGe+td3k7UwjmVOjPgl3jDZCCu
+	CdnD4eYaC6V2CTUkATigem2GiHGmlHomRhH3jIrx5LMmC65izTa6jou+FuAXT8EFvB58hMFtUyPeV
+	b292cWiywxz13a4y2kjTMG3QqaipkOoy0gX0mfodrQ8aWTJtlwG/MgC2U7uwmc6MfKPqADKqkSYUu
+	xrV+x1MxnkdZIucGQC4RAE0vzePNhUdX9GcqCBlU/lEQPQDpCmv2PjIIBvk/EhS5Jl/iaia2vYBI3
+	e7kg6ofl610y5oJNQN0sGj/A9dbMicchAvoeov+Bp8c8DIo92e22n8j3czErH7B0BVhVA87bKDP29
+	76NVB/aw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wrITC-00000004K3v-2AK3;
+	Tue, 04 Aug 2026 16:58:26 +0000
+Date: Tue, 4 Aug 2026 17:58:26 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v8 09/15] mm: Remove locking mf_mutex in
+ is_raw_hwpoison_page_in_hugepage()
+Message-ID: <anIaMs7XtXp631QU@casper.infradead.org>
+References: <20260731200802.574821-1-willy@infradead.org>
+ <20260731200802.574821-10-willy@infradead.org>
+ <anIUe_Zq8bFX0-Dk@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260802151212.3294591-1-jkoolstra@xs4all.nl> <20260802151212.3294591-2-jkoolstra@xs4all.nl>
-In-Reply-To: <20260802151212.3294591-2-jkoolstra@xs4all.nl>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Tue, 4 Aug 2026 09:49:52 -0700
-X-Gm-Features: AUfX_myNnvBRmCYK55Ljjsutf2qL7MqRgERjXdZYx1md0JbPpsxmxzq8ks8CsOU
-Message-ID: <CAAVpQUAW4eTfvNGaY+9gD06Jct6tgM3LRYdLEVFG+VzhCFYojw@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 1/4] net: af_unix: enable custom setsockopt
- for all socket types
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: brauner@kernel.org, cyphar@cyphar.com, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
-	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anIUe_Zq8bFX0-Dk@gourry-fedora-PF4VCD3F>
 
-On Sun, Aug 2, 2026 at 8:11=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl> =
-wrote:
->
-> unix_setsockopt() and the SOCK_CUSTOM_SOCKOPT flag were only wired up
-> for SOCK_STREAM (introduced along with the stream-only SO_INQ).
-> Consequently custom AF_UNIX options are unreachable on SOCK_DGRAM and
-> SOCK_SEQPACKET: those setsockopt() calls bypass unix_setsockopt() and
-> fall through to the generic sock_setsockopt(), failing with
-> -ENOPROTOOPT.
->
-> Set SOCK_CUSTOM_SOCKOPT for every AF_UNIX socket type in unix_create(), a=
-nd
-> also for accepted sockets in unix_accept() (reachable for stream and
-> seqpacket).
->
-> This is a prerequisite for making SO_RIGHTS_NOTRUNC settable on all AF_UN=
-IX
-> socket types.
->
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+On Tue, Aug 04, 2026 at 12:36:00PM -0400, Gregory Price wrote:
+> On Fri, Jul 31, 2026 at 09:07:54PM +0100, Matthew Wilcox (Oracle) wrote:
+> > Sleeping in this kind of predicate is unexpected.  Add a new spinlock
+> > to protect access to the list, and turn it into a normal singly linked
+> > list now that it doesn't need to be a lockless list.
+> 
+> Out of curiosity, wouldn't sleeping in this context not just be
+> unexpected but theoretically cause issues? (mid-poison, sleep, scheduled
+> process generates more poison on the same page...) - at a minimum this
+> takes a thread out of the future potential poison-generating pool?
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+A reasonable question.  We don't try to handle races terribly well --
+hwpoison can be generated asynchronously by patrol scrub, so it's always
+going to be possible for a thread to hit poison on something that the
+kernel didn't know about.
+
+What we're trying to do is avoid touching memory which we already knew
+to be poisoned, while also permitting touching memory which we haven't
+been told is poison.
+
+I see the locking in here as preventing list corruption and UAF rather
+than preventing races.  I'm also considering that we're now exposing this
+mutex fairly directly to userspace -- before it was only being touched
+through some fairly weird mechanisms like reading kcore.  With this
+patch series, every call to read() potentially touches this mutex.
+And that could hold off recording any hwpoison for some time, not to
+mention serialising all other calls to read() on a given folio.
+
+So we have all manner of protections that prevent us from taking this mutex
+-- the folio must have a hwpoison page in it and must be hugetlb, but at
+the end of the day, one can still be preempted while holding a mutex and
+we never know when we might want to call this from a non-sleepable context.
+
+I'd be open to arguments that this should be an rwlock rather than
+a spinlock.  Or figure out a way to shard the lock per folio (lockdep
+etc make it very hard to embed a spinlock in struct folio).  I think
+it'd also be profitable to change how we record poison for hugetlb to
+not need locking or memory allocation.
+
+But this is all a very long way from where I want to be working -- cleaning
+up the page fault path.  I think I've made a reasonable set of improvements
+here, and somebody else can come along later to make the code even better.
