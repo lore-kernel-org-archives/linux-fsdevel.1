@@ -1,204 +1,204 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19A041A4FC
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 22:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785880823; cv=none; b=ls2M4faYce2t+y8HRdpAiZ4IUi/eo4t31ZqUABHNEp+BjqWF5SfE60YCxcFBADhu60nWeINMa9l8Hn7eHo3vbHn5JYVH2OpKD2LqO1p4/jCX0NcrL2B+Gt3Y82xY9HRlJ7htQthmkg7RTDqg3lEMtRNJanilMrIGan9fAZthx+c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785880823; c=relaxed/simple;
-	bh=lzImomLB7VcX1QeNR35stZa/tXhzCK8N/aUXG4r7ZJs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=CzOGi8Teo4BoByN++NV9+ClKfOz7Ql6ZBN1qUzuIHmSH4w1uPVx0/p/mxlWzp5OyN6j+Sfs3HyinWSIyknZ6dcORPLQ12K7t0dY9ZnR2i9kKLU2PCjX4zdCR0tNyN7MT3xSz6bl9S0tKfDKzx+yeZ/abYt2EbquE+9nA8hRe5qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=n2Po/aWo; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=rJAdjibk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A5E367B85
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 23:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785884487; cv=pass; b=HDb2GHndWCZOnX38f/q8sWuvd6l5MxQC/e1udYiPlgdl9/0IAOD/7WxV1rh3elf226CRYFYU9BHufhIZvecFsRwLCqURW4VWzgDtoiqsKNdS4933objiX1vc+dL41s+nV68qED3NeHkDa+J/NvF8bpjMEHlzm8BjtabapNTzRKE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785884487; c=relaxed/simple;
+	bh=IopsMBq3Iqrmhpt1GvIJX0f0inBUyip79dSnD2RW0vI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YiveOpisv+IRAkfkluEAAaa/4pSEkx3NUD7wjqtL/yVils6dQN71ASOEiqu+TcpEqW0qHKXtK0LVUFtHmXM1HTO95uwZ9FyEe6bR93yq1KVL7v6QtvvllTMr4sCNkzEOIejk/mr1b1xON5PlNJoKQIL5H2b19lYyXFrJ0rU9aRE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d684zmVV; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="n2Po/aWo";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rJAdjibk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C108B3E72;
-	Tue,  4 Aug 2026 22:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785880814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OlCA0AGAOld1JWr3xa6FuQqbEH3KeaqUp8HFeYuYznw=;
-	b=n2Po/aWosnrx8yFT0YZwc0v0hJvougP64pKgI3ZTG+F1V5is1iNn7T5+7suxck2gmemYUk
-	C54S+685LjQfFSVvjhJKlGR/VS0yB+xtGznJXpe1fmhgkJwMTKm1vfhpe4H1HPxhbuptt8
-	CjZ50Umg+f7JWqHhHqD2lfDaU9fmfPg=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1785880810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OlCA0AGAOld1JWr3xa6FuQqbEH3KeaqUp8HFeYuYznw=;
-	b=rJAdjibkmNANWmAj/bWVawAzhBhtXJQDXPY+6N7r5C9e+m+fFs5fGSVk72RdI6DAw3CzHh
-	/trktgoYnCa+D9W9NR0Z3fg1KRopkCQGDlVobPtVhx2sBj7RqfK0VP71Cy0EmvV2LqUAss
-	Xw047rZR5UoJG/81fA1vysOAJ6V/g0g=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82C27779BB;
-	Tue,  4 Aug 2026 22:00:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e1EBEelgcmphegAAD6G6ig
-	(envelope-from <wqu@suse.com>); Tue, 04 Aug 2026 22:00:09 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH v4] iomap: follow the alignment requirement for iomap_dio_hole_iter()
-Date: Wed,  5 Aug 2026 07:29:51 +0930
-Message-ID: <73bd4d9b39e821453028ca8e567eaad2ebe0fc18.1785880740.git.wqu@suse.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d684zmVV"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a0a4a18180so493987a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 16:01:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785884483; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VcVTx/laRacgquO6lzBA39lOKnENTyiAP2VcTCQ2reJNRC30wUjQRZ2RmXYVUeDsNX
+         gW7Zt+O/uecP913DusMvbSTNyaTqOesJv+/ej5IgQLNXoy7lb5usx8naWy7qaGYTkFKM
+         ta6zGhVwz3HI8aZG4FT/1H19+bXgkL1xEyInzFcC2E3ciRG5l0TGYPdgPuJENtXkt2RI
+         ntatQqA6ZA32Lutgv96YcA2V/WDG5bpHPARqMIOkwz3wus2tK7WLcGAZ8U0kuhGKRiYl
+         B02QSS2eINpYEV7nwuDHfooA97SunZbZyKX5OIawBAt1NNJT1zDB4lSx5t1lv1cEy864
+         YFug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1yp2h2soLRnEcYsxIwWN6JD3tw9DOEM8R0hdKPhFP8g=;
+        fh=ylX038VURjgBD16D8V6iBOH5sEJULp38ydWDEIIfCNc=;
+        b=aCK/etLCkluTUJvgXZScKAARvj8MnRKUtFKLgbBF+CBpcNtVXNGuSd2+T7bzHGM04U
+         EgFvQoEIZAVpFjNfOVED1l62SfWoeJxVO+DxgKqSfBVO8dBxSvMd1e9k6tKshQ3EiKSW
+         Hg3GZocf5g2LH7hSfG+qeheEILJ/5EKh9ZZE6W8HAemFo/Wntt9ZS2fOCjEZUFtIlPBb
+         DSgy2727lHobNC2M1xOUsRHoHtW32UZDh1+Bc+QREpjVUNfyenSaTZrmgbjCd3KKevuY
+         VGOBI4h7oTUSOS9XorKIvlrq2Mt7lTbKxYXzgA56uzkjjRKENZmmXf9FaTkAxtDIR9WY
+         Z6+Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785884483; x=1786489283; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1yp2h2soLRnEcYsxIwWN6JD3tw9DOEM8R0hdKPhFP8g=;
+        b=d684zmVVUDvH76KTkE/JHRALhH1p6ct83GO0P/OUAvjVKRKjUYr60lu7WumTn26RkW
+         DUA2h0zETTlE1ynnXhM2kewN946wyPLdsAEyeq4j+gJBLUgKKPdIFJdYau2eVSm3SReH
+         YwwcSQnDz4eqfoeATePu3q9LqreStNKh874fklLTf3k3o85UX0Bl9Hmbi+YO+RgTd1wP
+         jsYwQtb90SuyRp695eKHRAIsCl4WxAGoVHC+RWn0DZzomRdZVGKScqPsWgCdnjF3bWOB
+         u7MNXXNVxDDglPBSP9Oh5jUZ4gYCHq0k9c31m8QgpSjaDGb3+DPMQZxkxppHOauTDReY
+         XEiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785884483; x=1786489283;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1yp2h2soLRnEcYsxIwWN6JD3tw9DOEM8R0hdKPhFP8g=;
+        b=WGJQF9dlJnP36w0PHM99+ickoq5nBdaxXdQInzu1a4CN0B0hxVg430qEM3TEk8XcX1
+         w2Sc8Yq6jUKd1JiUR/W3OmnbgzH4ujWTd22r3D/knCRuneQPU6N4IiZxiAFhtf25lGY2
+         E66NmabKB8C4qiVo+/cS+dFJTDfVrK5BMTuCxSJn4KiRxMP3VcoKx6e27zybiNNXiGRm
+         WH/HnyOc/KaNZ3qIZaZQjz6v5gPzt2HcppX2l9cncP/Yb1aYMDuWKB9lwX+Xm34Gjfw1
+         7Hgzwe3lS7RdIameIUFezG1//wx+7R0g+V3clphf+9HnJhK8gLNrhtYbM8GXEwZCXBeJ
+         k2WA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqmb19I110qaNMvlt67R53oKUXn+qHS9AL1GapBsG6oPMurn2akDlD7Sjqhw/OSWLDjJFqRvZtRBsIJaBmZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZ0NbSxvcC3zoiWnMmk+IrFRP3rEXcSY1PImYYOrv/DE5BmnXO
+	chgrF6ZnhVTu1F0d9I7quwzmIwyqCLS8CbMnmLg+m5AVS6WxN6vVFww3nPVihqyB1zV1xE/+kcZ
+	Q4IRRfBP718nQbHRfVQbL0/AhWlgIM3o=
+X-Gm-Gg: AR+sD12PXImOz2dgHDUFP/uId4krXUVIL88DE5Ft9rulE70r4dj0y77TExgHS54tI8E
+	LKiey0IxEEm0ypk/g6YdHXl6Fkv1ShHQSLoi9jMqqVDZSQokQ1eLy/1oD02Whdfgj8mfkftZ0G7
+	N2fznD8UF3JE4GP58ZGT0B566AX+jzMbzx0pavvVJ6KDV3arENG1oSlHXFkdX0CeLUk1pggyhi6
+	F62tnqBWdzjT+jUqlY7JGmNsMwCumP4cqmcuhvGVIZ0xB/L3nd6TnzSAjnGLTtVis/Dl1Fs2qac
+	gUZOcu/gHHkq8hXOpjgN/ZvzIHs+sV2vwFjSwP0uKt3/WFr5Ea3gGmXC
+X-Received: by 2002:a05:6402:1f4b:b0:69f:d4b7:9476 with SMTP id
+ 4fb4d7f45d1cf-6a14f0e51c5mr1269188a12.4.1785884482828; Tue, 04 Aug 2026
+ 16:01:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:mid,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+References: <cover.1785621505.git.coshi036@gmail.com> <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
+ <k6v2pwtt67ifaeqyeiv5fiwuui7vttyet3firu6v3huxbq334q@jhl56exixqru>
+In-Reply-To: <k6v2pwtt67ifaeqyeiv5fiwuui7vttyet3firu6v3huxbq334q@jhl56exixqru>
+From: Chris S <coshi036@gmail.com>
+Date: Tue, 4 Aug 2026 19:01:10 -0400
+X-Gm-Features: AUfX_mxYao6cSkbq9heyNF_IuXvbT2WPjBf_yLUjm-kTEtW0_MWXVTs6WeiPsWA
+Message-ID: <CACd_6n3dYd6PatZqCEBcctkfzA0AzVMZJfPvdAxUA01zhXbAEQ@mail.gmail.com>
+Subject: Re: [PATCH 19/19] buffer: stop clearing BH_Uptodate when a write fails
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[BUG]
-On the latest development branch, btrfs with 8K block size on 4K page
-sized systems will fail all test cases that run fsstress.
+Hi Jan, Thanks for your suggestion, changes on v2.
 
-One very short example would be:
+Write completion no longer touches BH_Uptodate in either direction, here
+and in the jbd2 and ext4 fast commit handlers.  I instrumented all four
+with WARN_ONCE(success && !buffer_uptodate(bh)) and exercised ext4
+(data=3Djournal, fast_commit, -o sync), vfat and exfat - creates, rewrites,
+hardlinks, renames, deletes.  It never fired.
 
- # $fsstress -n 4 -d $mnt -s 1785675805 -v
- 0/0: dwrite - no filename
- 0/1: creat f0 x:0 0 0
- 0/1: creat add id=0,parent=-1
- 0/2: write dontcache f0[259 1 0 0 0 0] [816411,3620] 0
- 0/3: dread - xfsctl(XFS_IOC_DIOINFO) f0[259 1 0 0 32 820031] return 25, fallback to stat()
- 0/3: dread f0[259 1 0 0 32 820031] [483328,81920] 0
+The BH_Write_EIO change is a separate patch at the end, since it has to
+move all five handlers and __bh_submit() together to stay bisectable.
+gfs2's handler is in it too; it already marked errors this way and needed
+the matching clear.  __bh_submit() keeps set_buffer_req(), and the local
+'op' goes with the clear - it had no other user.
 
-Which triggered the following ASSERT():
+Chao
 
- assertion failed: IS_ALIGNED(state->start, blocksize) && IS_ALIGNED(state->end + 1, blocksize), in fs/btrfs/extent-io-tree.c:346 (unaligned extent state, blocksize=8192 start=487424 end=565247 state=0x0)
- ------------[ cut here ]------------
- kernel BUG at fs/btrfs/extent-io-tree.c:346!
- Oops: invalid opcode: 0000 [#1] SMP
- CPU: 4 UID: 0 PID: 648 Comm: fsstress Tainted: G            E       7.2.0-rc5-custom+ #431 PREEMPT(full)  7c507bd40d65e4d871e698b22d80f1306bbec543
- Tainted: [E]=UNSIGNED_MODULE
- Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022
- RIP: 0010:validate_extent_state.part.0.isra.0.cold+0x24/0x26 [btrfs]
- Call Trace:
-  <TASK>
-  insert_state+0x34/0x1a0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  set_extent_bit+0x440/0x8d0 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_lock_extent_bits+0x58/0x380 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_dio_iomap_begin+0x319/0xb70 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  iomap_iter+0x1a2/0x370
-  __iomap_dio_rw+0x236/0x8d0
-  iomap_dio_rw+0x12/0x30
-  btrfs_direct_read+0x15f/0x290 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  btrfs_file_read_iter+0x42/0x90 [btrfs 6924944583e4bc91a7c5183a1e7908e745a9b0c8]
-  vfs_read+0x25e/0x380
-  ksys_read+0x73/0xe0
-  do_syscall_64+0xe1/0x790
-  entry_SYSCALL_64_after_hwframe+0x4b/0x53
- RIP: 0033:0x7fc3f129318e
-  </TASK>
-
-[CAUSE]
-iomap_dio_hole_iter() is responsible for zeroing out the buffer for a
-hole, which calls iov_iter_zero() to zero the range.
-
-However btrfs disables page fault during its __iomap_dio_rw() call, so
-iov_iter_zero() can fail at any page boundary.
-
-When the fs block size is larger than page size, iov_iter_zero() may
-only have zeroed one page, which is not aligned to the fs block size.
-
-Such one page long range is passed back to btrfs, which triggers the
-above ASSERT().
-
-[FIX]
-For iomap_dio_hole_iter() round down the copied length, and revert
-any excessive range that is beyond the aligned copied length.
-Also use @aligned_copied for the size increment and iter advancement.
-
-This should only affect btrfs, which is the only fs utilizing iomap dio
-with page fault disabled.
-
-Fixes: 001397f5ef49 ("iomap: add IOMAP_DIO_FSBLOCK_ALIGNED flag")
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
-v4:
-- Always align down to fs block size
-
-v3:
-- Fix a NULL pointer dereference where @bdev can be NULL for holes
-
-v2:
-- Rebased to the latest vfs tree
-
-- Slightly rewords the reproducer
-  In fact no special reproducer needed, any test case running fsstress
-  can easily trigger it.
-
-  The example provided is just the shortest sequence I used to debug the
-  crash.
----
- fs/iomap/direct-io.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b3368d64e81b..01f26fb3b3b2 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -594,12 +594,19 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 
- static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
--	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	unsigned int bs = i_blocksize(iter->inode);
-+	loff_t aligned_copied = round_down(copied, bs);
- 
--	dio->size += length;
--	if (!length)
-+	/*
-+	 * If fs block size is larger than page size, page fault failure
-+	 * can cause @copied to be page aligned but not fs block aligned.
-+	 */
-+	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
-+	dio->size += aligned_copied;
-+	if (!aligned_copied)
- 		return -EFAULT;
--	return iomap_iter_advance(iter, length);
-+	return iomap_iter_advance(iter, aligned_copied);
- }
- 
- static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
--- 
-2.54.0
-
+On Tue, Aug 4, 2026 at 5:19=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+>
+> On Sat 01-08-26 18:01:03, Chao Shi wrote:
+> > A buffer whose write failed still holds exactly the data the filesystem
+> > asked to be written.  It is the disk that is out of date, not the buffe=
+r.
+> > Clearing BH_Uptodate says the opposite, and callers act on it:
+> >
+> >  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)).  A
+> >    filesystem that dirties the buffer again after a failed write - whic=
+h is
+> >    the normal way to retry - trips it.  That is the warning this series
+> >    started from.
+> >
+> >  - a buffer that is not up to date gets re-read from disk, which replac=
+es
+> >    the data the filesystem was trying to write with the stale on-disk c=
+opy,
+> >    silently.
+> >
+> >  - the window between the write completing and the buffer being marked =
+not
+> >    up to date is visible to anyone holding the folio lock, so the state=
+ is
+> >    not even self consistent while it lasts.
+> >
+> > BH_Write_EIO already records the failure, and by now every place in the
+> > tree that needs to know about it tests that flag instead: the two core
+> > helpers in this file, adfs, exfat, ext2, ext4, fat, gfs2, jbd2, ocfs2 a=
+nd
+> > omfs, converted one filesystem at a time in the preceding patches.  The
+> > private completion handlers in jbd2 and ext4 fast commit were converted
+> > along with their waiters.  Nothing is left that reads BH_Uptodate to fi=
+nd
+> > out whether a write failed, so the clears can go.
+> >
+> > Found by FuzzNvme.
+> >
+> > Signed-off-by: Chao Shi <coshi036@gmail.com>
+> > ---
+> >  fs/buffer.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/fs/buffer.c b/fs/buffer.c
+> > index ac978d9090c2..0002f0736398 100644
+> > --- a/fs/buffer.c
+> > +++ b/fs/buffer.c
+> > @@ -207,7 +207,6 @@ void bh_end_write(struct bio *bio)
+> >       } else {
+> >               buffer_io_error(bh, ", lost sync page write");
+> >               mark_buffer_write_io_error(bh);
+> > -             clear_buffer_uptodate(bh);
+> >       }
+> >       unlock_buffer(bh);
+> >  }
+> > @@ -441,7 +440,6 @@ void bh_end_async_write(struct bio *bio)
+> >       } else {
+> >               buffer_io_error(bh, ", lost async page write");
+> >               mark_buffer_write_io_error(bh);
+> > -             clear_buffer_uptodate(bh);
+> >       }
+> >
+> >       first =3D folio_buffers(folio);
+>
+> Please remove setting of the uptodate flag from these functions as well.
+> Write IO completion shouldn't really touch the uptodate flag at all...
+>
+> Hum, maybe we should actually clear the BH_Write_EIO flag on successful
+> write completion in all the end io handlers. And then we can drop the
+> clearing from __bh_submit(). And this will actually also address the
+> concern Sahiko raised (mostly harmless but still) that if the user gets t=
+o
+> check BH_Write_EIO after another process managed to redirty the buffer an=
+d
+> resubmit it for IO, it can miss detecting IO error that happened.
+>
+>                                                                 Honza
+> --
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
