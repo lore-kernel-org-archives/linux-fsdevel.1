@@ -1,77 +1,231 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AA842C4FE
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 04:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEEC31F985
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 06:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785816845; cv=none; b=g/JuEWauANTi7FrVK4jF01gPSNfDqVPu7oEeIWFAeIRXWSWSTigjqEufoExvR2wsFEVUpv4OCPEqABy/pS4mSzi+yaDJFboSkeIqAcQzk0fyJmxuRvfVyQuVDdmByyXXoStoNbFwZIfQr5ZnSAeDWNSzpgzUZZyTE5dShS42poQ=
+	t=1785823205; cv=none; b=c3a8b0Pz2yHgn0wJrUzNmC3CibLQbuCg4l0LAzTgirXol4I08Z+szn1Pf028y3L4kKv5Y0fPor+YhG3c1g/xawiH6/8gfAsXz3nkvaYnGki6n4Se4z4vJF/jQuIRo955bGhMfFF6ruxijySkeJ866jHgfFyeoSM+wBLZdAWf6mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785816845; c=relaxed/simple;
-	bh=QgyXbajf8k1ouWp76clM/q24oXyH9GRpwK55eN5BX+U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TYljs5w4SMIMlkaOHvsXWsxu9lO2Xsfqy3VnjzCQAFxGhQYwWMqySB5MutlzgE6ZTwU/vHLFbcmysL+tA/sLcfd16Aj/n2alwFvOE6GGZEEXEg/8ih21kKUQkxi3pxbtMJ+/pMb9bwV+2NhwdMSex21pJXS3yX/NKkXxA9iFVbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XZGsiXYc; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785823205; c=relaxed/simple;
+	bh=Twon7XJBMGVUOGdo2nZilrIP6BG3kW8RZ89KZYTAw2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KBtmj51WEtGJ6Pxg0yR9FgOhPckYcVb7dbkP/YeYdWytvS2QcgulUqjhkNGj1G2+BTFrf+80N+XvUUVmursRV9Q5RmU0HcEjNj5TC8HIMGoQlN1q3p+WOYT0/SUZbD4GCNHFqHzr2jyBgVi5pT6J1RlYOjs/UV24kq8MFE3baf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SWoUqxGa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XZGsiXYc"
-Message-ID: <b4eb8a90-d11e-4992-87d2-99091d4aafd0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785774947;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SWoUqxGa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785823202;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vkrn64K2O1qrTL7hm4UrLcILaI10/JPPjTcY5a64cWM=;
-	b=XZGsiXYcTF3XNAplQQEQg5zT+sto4CSZeNb19L2IxkUDWNIpEz84q8NdGbCovZiM0sDaFf
-	GOGvaUr8LlxoRwpuB3LdqCZ5xg88BASLPs4bE6YurjydslxV9RK5vE3BzsOrrdMnfQAHAf
-	Tc67SMfPGB2odqYPxVlGOnWyuJpvQYg=
-Date: Mon, 3 Aug 2026 17:35:41 +0100
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nqj8Qxuj4PaU5i4QdVpLQG/TB7fOUrL15E/tCKEo5Vg=;
+	b=SWoUqxGai8euIzCfHnTYY2yRex+s6NU5WrLWoosalwgzNyA4JCAg5k6bsLMTghsFlxgn/j
+	DrG9SXdenahlchIRxqZDoDrbYpDsWHRDQpk6Es2yTDbv0gP07LpUcrimhqGvYtZRnBoUaJ
+	T9gq+cJ2Rv+NCrs5e810cxJ9gED9jqo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-6-TI00wMDjNoeskEpNxjjDjQ-1; Tue,
+ 04 Aug 2026 01:59:59 -0400
+X-MC-Unique: TI00wMDjNoeskEpNxjjDjQ-1
+X-Mimecast-MFC-AGG-ID: TI00wMDjNoeskEpNxjjDjQ_1785823198
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B784419560AF;
+	Tue,  4 Aug 2026 05:59:57 +0000 (UTC)
+Received: from oxygen.redhat.com (unknown [10.44.48.84])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EA5521956087;
+	Tue,  4 Aug 2026 05:59:55 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: linux-erofs@lists.ozlabs.org
+Cc: xiang@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	gscrivan@redhat.com
+Subject: [PATCH v6] erofs: accept source file descriptor via fsconfig
+Date: Tue,  4 Aug 2026 07:58:42 +0200
+Message-ID: <20260804055949.2927896-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
-To: Phillip Lougher <phillip@squashfs.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, squashfs-devel@lists.sourceforge.net
-Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
-References: <20260724190556.1950693-1-usama.arif@linux.dev>
- <664bff99-ef20-44b9-9c5f-aa6c8755133e@linux.dev>
- <20f40e87-02b8-4714-b417-2730f304d624@squashfs.org.uk>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20f40e87-02b8-4714-b417-2730f304d624@squashfs.org.uk>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+Allow userspace to pass an already-opened file descriptor as the mount
+source instead of a path string.  This is useful for tools that already
+hold an fd to the image, such as composefs reusing an existing erofs
+backing file.
 
+Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+Reviewed-by: Gao Xiang <xiang@kernel.org>
+Acked-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Acked-by: Jan Kara <jack@suse.cz>
+---
+v5: https://lore.kernel.org/linux-fsdevel/20260728160619.853924-1-gscrivan@redhat.com/
+v4: https://lore.kernel.org/linux-fsdevel/20260717134147.1602735-1-gscrivan@redhat.com/
+v3: https://lore.kernel.org/linux-fsdevel/20260714154917.489993-1-gscrivan@redhat.com/
+v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
+v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
 
-On 03/08/2026 15:43, Phillip Lougher wrote:
-> On 03/08/2026 11:16, Usama Arif wrote:
->>
-> 
->>
->> Hi,
->>
->> Just wanted to check if there are any reviews or comments on this patch?
->>
->> It is attempting to solvie a real thundering herd problem we see in our fleet.
->> It also doubles throughput for small file reads and stat for squashfs.
->>
->> Thanks,
->> Usama
->>
->>
-> 
-> I have been on vacation.  I will review it this week.
-> 
-No worries! Thank you!
+ Documentation/filesystems/erofs.rst | 17 +++++++
+ fs/erofs/super.c                    | 73 ++++++++++++++++++++++++-----
+ 2 files changed, 79 insertions(+), 11 deletions(-)
 
-Usama
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 4230884fb359..d301d9ac946a 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -137,8 +137,25 @@ fsoffset=%llu          Specify block-aligned filesystem offset for the primary d
+ inode_share            Enable inode page sharing for this filesystem.  Inodes with
+                        identical content within the same domain ID can share the
+                        page cache.
++source=%s              (For file-backed mounts) Specify the backing image as a path
++                       or as an already-opened file descriptor.
+ ===================    =========================================================
+ 
++File-backed mounts
++==================
++
++When CONFIG_EROFS_FS_BACKED_BY_FILE is enabled, EROFS file-backed images
++can be mounted directly without a loopback block device.  The backing file
++can be given either as a path, or as an already-opened file descriptor.
++
++When a file descriptor is used, the kernel resolves its path and records it
++so that /proc/mounts and similar interfaces can still report the mount
++source.
++
++Only regular files are accepted as backing files; to mount an image that
++resides on a block device, use the traditional block device mount path
++instead.
++
+ Sysfs Entries
+ =============
+ 
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 03d108a7a3e5..d40961248a49 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+ enum {
+ 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+ 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
++	Opt_source,
+ };
+ 
+ static const struct constant_table erofs_param_cache_strategy[] = {
+@@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
+ };
+ 
+ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+-	fsparam_flag_no("user_xattr",	Opt_user_xattr),
+-	fsparam_flag_no("acl",		Opt_acl),
+-	fsparam_enum("cache_strategy",	Opt_cache_strategy,
++	fsparam_flag_no("user_xattr",		Opt_user_xattr),
++	fsparam_flag_no("acl",			Opt_acl),
++	fsparam_enum("cache_strategy",		Opt_cache_strategy,
+ 		     erofs_param_cache_strategy),
+-	fsparam_flag("dax",             Opt_dax),
+-	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
+-	fsparam_string("device",	Opt_device),
+-	fsparam_string("domain_id",	Opt_domain_id),
+-	fsparam_flag_no("directio",	Opt_directio),
+-	fsparam_u64("fsoffset",		Opt_fsoffset),
+-	fsparam_flag("inode_share",	Opt_inode_share),
++	fsparam_flag("dax",			Opt_dax),
++	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
++	fsparam_string("device",		Opt_device),
++	fsparam_string("domain_id",		Opt_domain_id),
++	fsparam_flag_no("directio",		Opt_directio),
++	fsparam_u64("fsoffset",			Opt_fsoffset),
++	fsparam_flag("inode_share",		Opt_inode_share),
++	fsparam_file_or_string("source",	Opt_source),
+ 	{}
+ };
+ 
+@@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+ 	return false;
+ }
+ 
++static int erofs_fc_parse_source(struct fs_context *fc,
++				 struct fs_parameter *param)
++{
++	struct erofs_sb_info *sbi = fc->s_fs_info;
++
++	if (fc->source || sbi->dif0.file)
++		return invalf(fc, "Multiple sources");
++
++	switch (param->type) {
++	case fs_value_is_string:
++		fc->source = param->string;
++		param->string = NULL;
++		return 0;
++	case fs_value_is_file: {
++		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
++		char *p;
++
++		if (!buf)
++			return -ENOMEM;
++		p = file_path(param->file, buf, PATH_MAX);
++		if (IS_ERR(p))
++			return PTR_ERR(p);
++		fc->source = kstrdup(p, GFP_KERNEL);
++		if (!fc->source)
++			return -ENOMEM;
++		sbi->dif0.file = no_free_ptr(param->file);
++		return 0;
++	}
++	default:
++		WARN_ON_ONCE(true);
++		return -EINVAL;
++	}
++}
++
+ static int erofs_fc_parse_param(struct fs_context *fc,
+ 				struct fs_parameter *param)
+ {
+@@ -524,6 +560,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 		else
+ 			set_opt(&sbi->opt, INODE_SHARE);
+ 		break;
++	case Opt_source:
++		return erofs_fc_parse_source(fc, param);
+ 	}
+ 	return 0;
+ }
+@@ -752,13 +790,26 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int erofs_fc_get_tree(struct fs_context *fc)
+ {
++	struct erofs_sb_info *sbi = fc->s_fs_info;
+ 	int ret;
+ 
++	if (sbi->dif0.file) {
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
++			errorfc(fc, "source fd option not supported");
++			return -EINVAL;
++		}
++		if (!S_ISREG(file_inode(sbi->dif0.file)->i_mode) ||
++		    !sbi->dif0.file->f_mapping->a_ops->read_folio) {
++			errorfc(fc, "source is unsupported");
++			return -EINVAL;
++		}
++		return get_tree_nodev(fc, erofs_fc_fill_super);
++	}
++
+ 	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+ 		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+ 			GET_TREE_BDEV_QUIET_LOOKUP : 0);
+ 	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
+-		struct erofs_sb_info *sbi = fc->s_fs_info;
+ 		struct file *file;
+ 
+ 		if (!fc->source)
+-- 
+2.55.0
+
