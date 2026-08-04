@@ -1,119 +1,216 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C328543BDA4
-	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 08:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD5041D64C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 08:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785832928; cv=none; b=BIzb9b2NHbIVGI7PIqTdJJlD3FcVn0zaP4X7P0YIBXBLw+YPwBehTB22IhmFGgmVhIMFMCereR7T/N+KIUVZJNZMlm+ENK90d9oR2jzyf1bgN7mUvr6KfTp7ff4UwCDTuLZwXruyefgpwdi98+ZZsEpwzk65EdUK7xiMXhN8ZXA=
+	t=1785833369; cv=none; b=SwtolF6NLlb120kD3hLF9P5SBQ3H2zDRqd0HFo1jqoL4dK0fuu6Q11W+6FGjGhgHw5LJ7Gq4cXOc4nQW1H9M4gFWx9aNZlaTUJvUQ0wEEnO2M/TmE+KD6K6vfR8upOngcw00A1KenzUY0TTsgWbVCJUCcQ8fzIObI0SnPOzKmqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785832928; c=relaxed/simple;
-	bh=SD2jpuPrRshOPjZPDhOULtKF/IyS30DOHYKRJQ1eYRs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dByDcOCCtsKdQiy4BGPsEQaflsMRCJ0Fzje4oK3bQz6OJ4tK3WlSDalDlQ3+vg3cSsSCz2ta2TemZvqIJrEuU71h7qo9Z8Y8XNefxI/jelgod0LkPCaarDhNhQdiK/e7vQik4KicWIMBD28oKPL2pUIT1YdvCeil0VAjQ6N72uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PA0v0brP; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785833369; c=relaxed/simple;
+	bh=dF4scuXWvD23kCwingMzXWqFuk6IVoLwQM6KKFUJcTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TVQfAU/jAIc8WZWZtL7PENc+/+UHLIkx1Y3Pmq9TfVUIijWgqaE3PJ2frDlFQpAzc6i2uZmMrOKUcBAp150cinZmdIciIkNGtFYIqsjsQENRA6z4ymdi8VsJa9/HuKsm9iiXshdM6vYD+rCiMYqQUmsXx7Pu3E1XV5BEuVCzKdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Kx9nJWft; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CSxOdfYm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GJw8f3Q8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zP7pt2Bs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PA0v0brP"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-ca80d708489so532474a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 01:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785832926; x=1786437726; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=U2I8sdYMfYJjOc8dSgSE9HfEVezQOKs2ggEWu0ibP00=;
-        b=PA0v0brPxdaG3MEMmRscI/ZEK7lPZvVtloK+bV3z/F9OTMQIQYQK3/DIi4u1GI7qFN
-         loGlkGRq//5VBuMSUY8lNrmwfGcdY4Dc3skR5sZU+/7VijefGzbiWad1oWBUhNiRIcBR
-         cATciU315li3smb1VkkPjTv/WGRzNvjMRooeuj3M8NegTKCk5+CniXtcBKbrwzdX5Ppk
-         AEZ81m5gD/uKb6SuQr7oj0ccxoRAvDdPkdHbgbpQj8hdWtBtKR3OCIc+XDmV+K49o6JU
-         g8ze6gtlfWfC4/AeGKb2PunLoQvQYsHnEgqI3aEJhVqD8xaegcnxUAv7aD+3NAQ+DF75
-         YToA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785832926; x=1786437726;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=U2I8sdYMfYJjOc8dSgSE9HfEVezQOKs2ggEWu0ibP00=;
-        b=GQtRJu/42JQhTRorzH7RvCmtHoG/1HuKAFuM+haIfvXxsPvkhg6Ct1mF7OhyQbgvtg
-         oodXyyBjEGLP19FypfH5YN2le9L0qEaTOvPMISdQbfOXcKp3Sx3XhYqRE2plpN23d1o/
-         1hollE1ZHUD2cm61VAQ6isINWtLFWPdfCel70dCAgg+fQGbT3f5VtDGer31gro0Kw361
-         rVhlsxhUsIRpzp0Ajz7hx1wjk6locMMvEU6q5zskYb00JXtFguyMurShaH2EDmAoJL2O
-         m9wNKwvxM0Pyzp9E3mLhQcZhAd0rH9y47cDrNJOMr8T/eGCcVMUGA7g3jV9UT+bchiuK
-         cZCg==
-X-Forwarded-Encrypted: i=1; AHgh+RpT+gTc6rEwCKVemf2/9ry5frL3u8R9Ot0o9EU8GJSTpIjEmt/4q+NdLNJsYQmijSdFPUKCO0HlW35Su+wr@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+MkRMiJOj6pdxebFCNkNoU2a1E5iXYzTqryZw1KYEQY26a+fV
-	rIpoICQBrFP8EGty7tCxDwYUW3w3h6CZ7UfuK9ntS7iA7Fp0LcbLWxAK
-X-Gm-Gg: AR+sD13qJy0n3G7IKUBJmpG0D5rrAnk7YnK4Lhpj8SRx6kUdIw/wAYe9MQ/Be27c6T6
-	PlSLkpGXF4oXMZAC1/mjgtnBReYA8MTbF/fw02CoCgqNoaXbizzPScBSLZXzLWaK/I8TNQm3eiJ
-	6NGbt6sxGKX4Bwlh/18JWkPiORjmvOot5RrV/V/+JbqhoZVGydAFUrFdIqEAA460mv1iVpxW4Wd
-	x536gnhlTGzGZdz6lZmlKciF00gZezowES+L4Sbw9tLdq2AycGInsIwLJTgVkUmdQhzXnbDGgdJ
-	fs9K/w7aF6FkzZcBJsEJQbQ687MisP2H4inav1bx3yWeeEnWGrC1qwj1M37gTcuXMgRMgQP3r7v
-	DWL9dk8BNhJ1mt2pEynQzLLrIF/ecjlCMzoa+N2c0HUM9KtX/nJi580VGJIlqaSewfqUTk7U4cZ
-	ZYY6nMunrNkhJ5wzfo3uOmbNLcU7AnRty/LS2gkuR4sEGU8vLKERtyGW3i1tJP3tkuMMQMAbwIC
-	9Aq6obOEAbPXnWzdPLHhZY4C5J2RULeKIWX0oJAzsuK4gSz2SvN1mgPy2ExxepItg2vhpIRy6k5
-	AopCLCo1utaP80petXvl
-X-Received: by 2002:a05:6a20:9188:b0:3bf:6c27:38b with SMTP id adf61e73a8af0-3cb6c937c3amr2601207637.29.1785832926102;
-        Tue, 04 Aug 2026 01:42:06 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:541b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe39ea0a73sm4753273a12.23.2026.08.04.01.41.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 01:42:05 -0700 (PDT)
-Message-ID: <53c9cf90-4284-4b6a-ab2f-1686c7461bf8@gmail.com>
-Date: Tue, 4 Aug 2026 09:41:47 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Kx9nJWft";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CSxOdfYm";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GJw8f3Q8";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zP7pt2Bs"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 283867F72E;
+	Tue,  4 Aug 2026 08:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785833361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4tTMLkJ1Zy3XOygz4WgrC6rjuZ02/P3Jll4UXDnuLtQ=;
+	b=Kx9nJWfth1ZxY2vI+m9O7fylsHvWEPLY+PkQso0TS6YgSrgnPYf1wHOBx7KdyKoobMGmrQ
+	Qnv0O4VkSquh/udfvv3D0yDP6dNkIQ1296bNZ8o6SWBtAuXuj5N/w70q2X+6lKLWI6OTME
+	SP0Gx1nVAtcdDM3GZJL2FfO2qxk9G40=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785833361;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4tTMLkJ1Zy3XOygz4WgrC6rjuZ02/P3Jll4UXDnuLtQ=;
+	b=CSxOdfYmLgOFwUY+nZP8FyXmgeMsnxLK6Km1juoeyEYSFv0GUNPD8bbwS1iDVG1yC1cU85
+	6SjEYvUf3iJUDzDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=GJw8f3Q8;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=zP7pt2Bs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785833357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4tTMLkJ1Zy3XOygz4WgrC6rjuZ02/P3Jll4UXDnuLtQ=;
+	b=GJw8f3Q8ulnJEKFcPxoldUmFUswAPLCSDa1Y0UPouS+yReIitCNjrKVWBtCbN6dmOKWoHt
+	eTJo1mnL/jt3JQMH5Jh+14o12Xku/2X2FD3I/rzrFNZspiSkxkFgmqSl8H3I0tzsiIklEU
+	Pctyrp1sYFEnWzjMM9ZEZEALfRxWfYA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785833357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4tTMLkJ1Zy3XOygz4WgrC6rjuZ02/P3Jll4UXDnuLtQ=;
+	b=zP7pt2BsR9Y8B6kLP/RToKglCPck/vdWKm3J5pFPpqnChOIOvnQFHWIOFhAM1DJv6AJcMU
+	4SWbwqqRjIn3wXAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1BA5F779BB;
+	Tue,  4 Aug 2026 08:49:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Yem9Bo2ncWo/bwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 04 Aug 2026 08:49:17 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BB2B5A13A6; Tue, 04 Aug 2026 10:49:12 +0200 (CEST)
+Date: Tue, 4 Aug 2026 10:49:12 +0200
+From: Jan Kara <jack@suse.cz>
+To: Chao Shi <coshi036@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Matthew Wilcox <willy@infradead.org>, 
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Bob Copeland <me@bobcopeland.com>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/19] ocfs2: check for a metadata write error with
+ buffer_write_io_error()
+Message-ID: <zr3we2xntqhn7ieev2khdkqvoi44vrkyd5hhgxjol2bggcllhr@g4wpvgfolwni>
+References: <cover.1785621505.git.coshi036@gmail.com>
+ <bd2c982e7c91fcfdb8a326ae8166853351398aa2.1785621505.git.coshi036@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/16] nvme-pci: implement dma-buf backed requests
-To: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe
- <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785596451.git.asml.silence@gmail.com>
- <CGME20260801155005epcas5p4ecdcdf532aa2c2ff4e94638eedaa435b@epcas5p4.samsung.com>
- <9e3dd1b2d71dc0f9bd556b6a6d6e48fb6a8d727b.1785596451.git.asml.silence@gmail.com>
- <c4cec417-24b8-428a-853f-4e1ff1e29a6a@samsung.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <c4cec417-24b8-428a-853f-4e1ff1e29a6a@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd2c982e7c91fcfdb8a326ae8166853351398aa2.1785621505.git.coshi036@gmail.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,zeniv.linux.org.uk,infradead.org,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,bobcopeland.com,samsung.com,sony.com,mail.parknet.co.jp,fasheh.com,evilplan.org,redhat.com,lists.linux.dev,lists.sourceforge.net];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 283867F72E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On 8/4/26 08:29, Anuj Gupta/Anuj Gupta wrote:
-> On 8/1/2026 9:16 PM, Pavel Begunkov wrote:
-...>> +	if (WARN_ON_ONCE(seg_shift < NVME_CTRL_PAGE_SHIFT))
->> +		return ERR_PTR(-EFAULT);
+On Sat 01-08-26 18:00:57, Chao Shi wrote:
+> ocfs2_write_block() and ocfs2_write_super_or_backup() detect a failed write
+> by looking at BH_Uptodate afterwards.  That relies on the write completion
+> handler clearing BH_Uptodate on error, which this series removes: a buffer
+> whose write failed still holds the data the filesystem asked to be written,
+> so declaring it not up to date is wrong and makes callers re-read it.
 > 
-> This should be 'goto err;' instead of a direct return. If this ever
-> triggers, it leaks the map and already established sgt mapping.
+> Test BH_Write_EIO instead.  Note that ocfs2_write_block()'s test is the
+> positive one, so the sense has to be inverted rather than the flag simply
+> swapped.
+> 
+> The comment in ocfs2_write_block()'s error arm needs updating for the same
+> reason.  It said the clustered uptodate information did not have to be
+> removed because the buffer was not marked locally uptodate; after this
+> series it is, so the reason no longer holds.  Not advertising the block to
+> the cluster is still the right thing to do - the data is in memory but not
+> on disk - so only the justification changes, not the behaviour.
+> 
+> No behaviour change today - a failed write sets BH_Write_EIO and clears
+> BH_Uptodate together.  It stops being a no-op at the end of the series,
+> where the new test is the one that still works.
+> 
+> Signed-off-by: Chao Shi <coshi036@gmail.com>
 
-I can change it as I'm going to respin the series anyway,
-but it doesn't really matter here as it's a warning and
-shouldn't happen.
+This looks ok to me so feel free to add:
 
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+but it would be good to get a feedback from ocfs2 maintainers whether the
+logic change in ocfs2_write_block() where we now keep the cluster cache
+block uptodate after write IO error doesn't break some expectations of
+ocfs2.
+
+								Honza
+
+> ---
+>  fs/ocfs2/buffer_head_io.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/ocfs2/buffer_head_io.c b/fs/ocfs2/buffer_head_io.c
+> index 7bfe377af2df..733ceda79ca1 100644
+> --- a/fs/ocfs2/buffer_head_io.c
+> +++ b/fs/ocfs2/buffer_head_io.c
+> @@ -66,12 +66,14 @@ int ocfs2_write_block(struct ocfs2_super *osb, struct buffer_head *bh,
+>  
+>  	wait_on_buffer(bh);
+>  
+> -	if (buffer_uptodate(bh)) {
+> +	if (!buffer_write_io_error(bh)) {
+>  		ocfs2_set_buffer_uptodate(ci, bh);
+>  	} else {
+> -		/* We don't need to remove the clustered uptodate
+> -		 * information for this bh as it's not marked locally
+> -		 * uptodate. */
+> +		/*
+> +		 * The buffer still holds what we tried to write, but it did
+> +		 * not reach the disk, so don't advertise it to the cluster
+> +		 * as up to date.
+> +		 */
+>  		ret = -EIO;
+>  		mlog_errno(ret);
+>  	}
+> @@ -446,7 +448,7 @@ int ocfs2_write_super_or_backup(struct ocfs2_super *osb,
+>  
+>  	wait_on_buffer(bh);
+>  
+> -	if (!buffer_uptodate(bh)) {
+> +	if (buffer_write_io_error(bh)) {
+>  		ret = -EIO;
+>  		mlog_errno(ret);
+>  	}
+> -- 
+> 2.43.0
+> 
 -- 
-Pavel Begunkov
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
