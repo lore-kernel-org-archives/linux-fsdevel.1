@@ -1,294 +1,223 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5E1367B9B;
-	Tue,  4 Aug 2026 00:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B773603E0
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 01:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785802779; cv=none; b=Ul2jPstvp6EcaAQnkzWx6KptUFr9iKcnCMafZMzK0cz/VLoCYPYwo9l0GyUmhNUV4yZV6elHzlDsQXIJtfzouANJ+IzEj7fupGfxJTlDFX5ZR3uLjGzwdV87DUWs5PWRXI/xkeHaJUL1w73iyCPcANe/6lOrkRwKGQEitA8x+l4=
+	t=1785806551; cv=none; b=Fo8kfpn8FibBR7tWJcAurfQByjs3NXzpKSh+Ff5qBDMAoya9PK7qt9Gf1JawFcp8KANO1vdkmRc5EflubHXLOYfdVd0dd7K9RVZ8+orwgrdMnfdA/LvnnNAtZp9tayQ63ZjVN4Wwjt63r/kp1lkjBKUqw268BkpRGAZUN0rs+ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785802779; c=relaxed/simple;
-	bh=cEpopMIhsaBpUiLJmBSeSwFVLwNVsyqs2iNp2/Gcutc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C4cXAnV29coU+XRYhGLgsKw5BaV9IVEpHq1SEdo2sVlmSsR2Z6TQPVSUG1EJMzEtg3gxFPtj8HMcefVv9bfwCzeKGd46NLi62EbGCPbtLSJiZgL18t44saOTfYfjRLQLVS5X3ODl3myHRPDIoqZw9dTLkpsCsr3fixRV/wWNjcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=NbOvFE0i; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="NbOvFE0i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=fa
-	kx8fO1lb75FHVblWJYFn6kI9yDxy6JbMx9zeWX64k=; b=NbOvFE0io+Xl4bWer6
-	EtypmH54DSf0p13Vf7pW2mVzV5YX5FonHLp8V1+08k4b9d7xIPeREPolyqBow9uM
-	0R1x6/XaZxM7BRb6HdNvQPsRxf8cu1w+ThPe2JOFdmpCzw3t4HHkgVdyhnjopjLo
-	r5k4f6Df3zbUX1VTpvdEbBrUY=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wD3d2aBL3FqcoEkNQ--.19550S2;
-	Tue, 04 Aug 2026 08:17:07 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: brauner@kernel.org,
-	ljs@kernel.org,
-	rppt@kernel.org,
-	pfalcato@suse.de,
-	viro@zeniv.linux.org.uk,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	akpm@linux-foundation.org,
-	liam@infradead.org,
-	david@kernel.org,
-	vbabka@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	mjguzik@gmail.com,
-	ebiederm@xmission.com,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de,
-	keescook@chromium.org,
-	mcgrof@kernel.org,
-	j.granados@samsung.com,
-	allen.lkml@gmail.com
-Cc: kuba@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Xin Zhao <jackzxcui1989@163.com>
-Subject: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-Date: Tue,  4 Aug 2026 08:17:03 +0800
-Message-Id: <20260804001703.1340667-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1785806551; c=relaxed/simple;
+	bh=qRqnXLyfzoi6U819BVmQMD9BvtRbcz9twZE+6VW4Arg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rfYJtsg/957dGQLxjVKUoxYhpr12UkUq8FCwH9d5m/vyDmZ6bYvw1vMdBxCKg4Eu5XxJ8TkR2FWr+mg47qOZLvgeq/u14eoYUDFUWDeTFREZYLCvzw60lHQ1EhTBilJDZc82zo4aKxwI3Fs7lCMHBIsFR5bTS2JO50JdnAC06P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a41f46d629so6371484b6e.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 03 Aug 2026 18:22:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785806548; x=1786411348;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qtCjnm/puTsZsa/2CwFjtGJb+lx6edEGVd7fXIrsF7U=;
+        b=MITpPYRmKC76OrAoWUp94M7jeuV2pO+JSLW+G41S4IwJRBv2mOpNCgIc+k4Py31eYO
+         2rH5L0XMmt2YxwZDzFrDBiIT1WkJOyaaSaVfCRJrpXMKIjrpeRFcarySpgfA0+ke6maj
+         bC5uMkI9D8b/8uJPFesPeVMa+gWFKqfnugdMC5ui+1N/l8Z+/KorfyUUZQq/rZwkiOTU
+         yz3OF+3AC84G2kkTvFPYSOspYiwtBdz7GmFocgYZXWo35JgrnCDVDrhDEhAlW+YLDKdq
+         MeyL8fMkACqmLkPTnWWAAvfm5MD7d79Ys306FIYhbyIMQ3I7yS4yDqpSnIx72FpxW248
+         RX6Q==
+X-Gm-Message-State: AOJu0YzOrWXGuaASEk2Tdo4rAnqBJCsaDIwjo2hftUhSTCmCKDcj5d0D
+	42bGoh1OI05TcnGbrWMK5qOOuRODQAR3xkSwRHfHqrbnDi1diSdpU3qWt8s/kRBjrrpcC2kLAKS
+	c4MsvfKITGAmQeBQnBbKCfiGm/WEeUbfl09iVJ3cBVaI7XqXEo8AJJgILkfq+VA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3d2aBL3FqcoEkNQ--.19550S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3JF4fKw18Xw1UZrWDGr4Uurg_yoWfZr1UpF
-	WrKayfKF1UKF4xta97Ga17Xa4rAwsYgrWa9ry2qw43Aa15A34xur4ft3W3WwnrAr93Ka18
-	XF4jqr9ruryqqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEveHkUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwAXj7WpxL4URBQAA3u
+X-Received: by 2002:a05:6808:14c6:b0:4a3:4598:f390 with SMTP id
+ 5614622812f47-4af5e3d7eabmr18997623b6e.17.1785806548189; Mon, 03 Aug 2026
+ 18:22:28 -0700 (PDT)
+Date: Mon, 03 Aug 2026 18:22:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a713ed4.d35e88fd.de8b.0007.GAE@google.com>
+Subject: [syzbot] [fuse?] KASAN: slab-use-after-free Read in fuse_copy_do
+From: syzbot <syzbot+a036bdf7d7bad319e404@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-A coredump typically takes seconds or even longer to complete. If we
-happen to hold a write lock with flock just before triggering the
-coredump, that write lock will not be released during the entire coredump
-process. As a result, other processes attempting to acquire the same write
-lock may experience significant delays. Another typical scenario is that
-some custom management modules for shared memory also need to release the
-reference counts of the related buffers as soon as possible, rather than
-waiting until the coredump is complete.
+Hello,
 
-Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
-We set it by default because tools like systemd-coredump go through the
-fds. Some other coredump pipe programs like minicoredump do not use fds by
-default. If you are sure that your coredump backend does not use the fds,
-you can clear bit 9, which will allow some file resources without VMA
-references to be released earlier.
+syzbot found the following issue on:
 
-In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
-otherwise file put operation will NOT execute util coredump finish.
+HEAD commit:    92e3f6ef4ffb Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=117200d6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a4a42e870a0b0ae0
+dashboard link: https://syzkaller.appspot.com/bug?extid=a036bdf7d7bad319e404
+compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+userspace arch: arm64
 
-Test Case One - flock
-Test program send signal SIGABRT to the program which owns the flock,
-output the wait time(unit ms) to successfully attach the flock.
-Test program malloc 500MB heap and memset it.
-If NOT set bit9 of coredump_filter, waitms is 11280.
-If set bit9 of coredump_filter, waitms is 0.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Test Case Two - ion buffer
-Test programs include ion buffer publisher and ion buffer subscriber.
-Ion buffer publisher output the ion buffer hold_time if the subscriber
-NOT send ack to publisher and NOT release it. The subscriber will trig
-coredump by itself in some time.
-If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
-If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/75ce25b4a6ef/disk-92e3f6ef.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/14bda28d7d38/vmlinux-92e3f6ef.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/247283a18992/Image-92e3f6ef.gz.xz
 
-Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a036bdf7d7bad319e404@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in fuse_copy_do+0x1a0/0x38c fs/fuse/dev.c:-1
+Read of size 64 at addr ffff0000cbe00888 by task syz.7.1148/9889
+
+CPU: 1 UID: 0 PID: 9889 Comm: syz.7.1148 Tainted: G             L      syzkaller #0 PREEMPT 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/02/2026
+Call trace:
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
+ __dump_stack+0x30/0x40 lib/dump_stack.c:94
+ dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
+ print_address_description+0xb0/0x238 mm/kasan/report.c:378
+ print_report+0x68/0x84 mm/kasan/report.c:482
+ kasan_report+0x8c/0xc4 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x17c/0x1ac mm/kasan/generic.c:200
+ __asan_memcpy+0x3c/0x84 mm/kasan/shadow.c:105
+ fuse_copy_do+0x1a0/0x38c fs/fuse/dev.c:-1
+ fuse_copy_one+0xc4/0x130 fs/fuse/dev.c:1215
+ fuse_copy_args+0x2a8/0x398 fs/fuse/dev.c:1233
+ fuse_dev_do_read+0xac8/0xfe8 fs/fuse/dev.c:1507
+ fuse_dev_read+0x140/0x1c8 fs/fuse/dev.c:1586
+ new_sync_read fs/read_write.c:493 [inline]
+ vfs_read+0x498/0x8c8 fs/read_write.c:574
+ ksys_read+0x12c/0x228 fs/read_write.c:717
+ __do_sys_read fs/read_write.c:726 [inline]
+ __se_sys_read fs/read_write.c:724 [inline]
+ __arm64_sys_read+0x7c/0x90 fs/read_write.c:724
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
+ el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
+
+Allocated by task 9885:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x40/0x78 mm/kasan/common.c:78
+ kasan_save_alloc_info+0x44/0x54 mm/kasan/generic.c:570
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x9c/0xb4 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2d4/0x624 mm/slub.c:5420
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ fuse_new_init fs/fuse/inode.c:1519 [inline]
+ fuse_send_init+0x64/0x630 fs/fuse/inode.c:1579
+ fuse_fill_super+0x100/0x124 fs/fuse/inode.c:1990
+ vfs_get_super+0xb8/0x148 fs/super.c:1327
+ get_tree_nodev+0x2c/0x3c fs/super.c:1346
+ fuse_get_tree+0x240/0x324 fs/fuse/inode.c:2055
+ vfs_get_tree+0x90/0x28c fs/super.c:1754
+ fc_mount+0x24/0xac fs/namespace.c:1193
+ do_new_mount_fc fs/namespace.c:3758 [inline]
+ do_new_mount+0x2a4/0x538 fs/namespace.c:3834
+ path_mount+0x5f0/0xa88 fs/namespace.c:4154
+ do_mount+0xe8/0x148 fs/namespace.c:4167
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount fs/namespace.c:4360 [inline]
+ __arm64_sys_mount+0x334/0x380 fs/namespace.c:4360
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
+ el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
+
+Freed by task 9885:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x40/0x78 mm/kasan/common.c:78
+ kasan_save_free_info+0x58/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x74/0xa4 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6251 [inline]
+ kfree+0x188/0x690 mm/slub.c:6566
+ process_init_reply+0xdc/0x1b30 fs/fuse/inode.c:1503
+ fuse_send_init+0x378/0x630 fs/fuse/inode.c:1594
+ fuse_fill_super+0x100/0x124 fs/fuse/inode.c:1990
+ vfs_get_super+0xb8/0x148 fs/super.c:1327
+ get_tree_nodev+0x2c/0x3c fs/super.c:1346
+ fuse_get_tree+0x240/0x324 fs/fuse/inode.c:2055
+ vfs_get_tree+0x90/0x28c fs/super.c:1754
+ fc_mount+0x24/0xac fs/namespace.c:1193
+ do_new_mount_fc fs/namespace.c:3758 [inline]
+ do_new_mount+0x2a4/0x538 fs/namespace.c:3834
+ path_mount+0x5f0/0xa88 fs/namespace.c:4154
+ do_mount+0xe8/0x148 fs/namespace.c:4167
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount fs/namespace.c:4360 [inline]
+ __arm64_sys_mount+0x334/0x380 fs/namespace.c:4360
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
+ el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
+
+The buggy address belongs to the object at ffff0000cbe00800
+ which belongs to the cache kmalloc-512 of size 512
+The buggy address is located 136 bytes inside of
+ freed 512-byte region [ffff0000cbe00800, ffff0000cbe00a00)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10be00
+head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x5ffc00000000040(head|node=0|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 05ffc00000000040 ffff0000c0001c80 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
+head: 05ffc00000000040 ffff0000c0001c80 dead000000000100 dead000000000122
+head: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
+head: 05ffc00000000002 fffffdffc32f8001 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff0000cbe00780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff0000cbe00800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff0000cbe00880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                      ^
+ ffff0000cbe00900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff0000cbe00980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Change in v6:
-- Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Change in v5:
-- Not add another bootargs for the feature,
-  as suggested by Christian Brauner and Lorenzo Stoakes.
-  Add bit9 of coredump_filter to tag whether need to dump fd list.
-  Set bit9 to 1 as default.
-- Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
-  problems of the code related to umap that was added in v4, delete all of
-  it which is unnecessary. The management of reference counting for shared
-  memory generally does not need to be released through the release
-  operation of files that have VMA references. Traversing all the threads
-  within the process and executing exit_files() is sufficient.
-- Fulfill comments and commit log,
-  as suggested by Pedro Falcato and Lorenzo Stoakes.
-- Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Change in v4:
-- Christian pointed out that the coredump process will traverse file
-  descriptors (fd), so certain fds should not be closed by default.
-  Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
-  pre-exit resources selection, default is NOT pre-exit anything.
-- Mateusz suggested that walking the fd table and release the file-lock is
-  reasonable. No longer release all the fd(s). Based on user config, only
-  the flock fd(s) and the fd(s) correspondent to file-backed shared memory
-  will be released at most.
-- Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Change in v3:
-- Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
-  mm_flags_test() check, note that memory mapped files keep their own
-  separate references to the files. The case to work around is that early
-  unlocking a flock on a file allows other processes to lock and modify
-  the mapped data protected by the flock,
-  as suggested by Pedro Falcato.
-- Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Change in v2:
-- Get rid of the implement of adding new fcntl API, the issue does not
-  worth inflicting the cost on everyone,
-  as suggested by Al Viro.
-- Call exit_files() in coredump_wait(),
-  as suggested by Eric W. Biederman.
-  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
-  need to dump file-backed shared memory.
-- Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
-
-v1:
-- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
----
- Documentation/filesystems/proc.rst | 14 ++++++++++++--
- fs/coredump.c                      | 21 +++++++++++++++++++++
- fs/file_table.c                    |  7 ++++++-
- include/linux/mm_types.h           |  6 ++++--
- 4 files changed, 43 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index db6167bef..d590a1dda 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
-   - (bit 6) hugetlb shared memory
-   - (bit 7) DAX private memory
-   - (bit 8) DAX shared memory
-+  - (bit 9) fd list
- 
-   Note that MMIO pages such as frame buffer are never dumped and vDSO pages
-   are always dumped regardless of the bitmask status.
-@@ -1946,13 +1947,22 @@ The following 9 memory types are supported:
-   Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
-   only affected by bit 5-6, and DAX is only affected by bits 7-8.
- 
-+  Note that bit 9 is set by default because tools like systemd-coredump go
-+  through the fds. If you do not set bit 9, files that are not referenced by
-+  any VMA are released before dumping core. Some file release logic, such as
-+  exiting flock or releasing references to shared buffers is executed much
-+  earlier.
-+
-+The default value of coredump_filter is 0x233; this means all anonymous memory
-+segments, ELF header pages, hugetlb private memory and fd list are dumped.
-+
- The default value of coredump_filter is 0x33; this means all anonymous memory
- segments, ELF header pages and hugetlb private memory are dumped.
- 
- If you don't want to dump all shared memory segments attached to pid 1234,
--write 0x31 to the process's proc file::
-+write 0x231 to the process's proc file::
- 
--  $ echo 0x31 > /proc/1234/coredump_filter
-+  $ echo 0x231 > /proc/1234/coredump_filter
- 
- When a new process is created, the process inherits the bitmask status from its
- parent. It is useful to set up coredump_filter before the program runs.
-diff --git a/fs/coredump.c b/fs/coredump.c
-index bb6fdb1f4..ed4d30916 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -521,6 +521,25 @@ static int zap_threads(struct task_struct *tsk,
- 	return nr;
- }
- 
-+/*
-+ * If do not dump fd list, files that are not referenced by any VMA
-+ * can be released before dumping core. Therefore, some file release
-+ * logic, such as exiting flock or releasing references to shared
-+ * buffers is executed much earlier. Note that do_coredump() often
-+ * takes several seconds or even longer to execute.
-+ */
-+static void coredump_pre_exit(void)
-+{
-+	struct task_struct *tsk = current, *t;
-+
-+	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
-+		return;
-+
-+	for_each_thread(tsk, t) {
-+		exit_files(t);
-+	}
-+}
-+
- static int coredump_wait(int exit_code, struct core_state *core_state)
- {
- 	struct task_struct *tsk = current;
-@@ -1124,6 +1143,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
- 	if (cn->mask & COREDUMP_REJECT)
- 		return;
- 
-+	coredump_pre_exit();
-+
- 	/* get us an unshared descriptor table; almost always a no-op */
- 	/* The cell spufs coredump code reads the file descriptor tables */
- 	if (unshare_files())
-diff --git a/fs/file_table.c b/fs/file_table.c
-index 16e52e7fc..6ed8ace8c 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -566,7 +566,12 @@ static void __fput_deferred(struct file *file)
- 		return;
- 	}
- 
--	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-+	/*
-+	 * coredump_pre_exit() may release files before dumping core.
-+	 * Cannot use task_work in the case, needs to release files
-+	 * earlier.
-+	 */
-+	if (likely(!in_interrupt() && !(task->flags & (PF_KTHREAD | PF_DUMPCORE)))) {
- 		init_task_work(&file->f_task_work, ____fput);
- 		if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
- 			return;
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index c7db35be6..e865edb04 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1954,14 +1954,16 @@ enum {
- #define MMF_DUMP_HUGETLB_SHARED  8
- #define MMF_DUMP_DAX_PRIVATE	9
- #define MMF_DUMP_DAX_SHARED	10
-+#define MMF_DUMP_FD_LIST	11
- 
- #define MMF_DUMP_FILTER_SHIFT	MMF_DUMPABLE_BITS
--#define MMF_DUMP_FILTER_BITS	9
-+#define MMF_DUMP_FILTER_BITS	10
- #define MMF_DUMP_FILTER_MASK \
- 	((BIT(MMF_DUMP_FILTER_BITS) - 1) << MMF_DUMP_FILTER_SHIFT)
- #define MMF_DUMP_FILTER_DEFAULT \
- 	(BIT(MMF_DUMP_ANON_PRIVATE) | BIT(MMF_DUMP_ANON_SHARED) | \
--	 BIT(MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF)
-+	 (1 << MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF |\
-+	 (1 << MMF_DUMP_FD_LIST))
- 
- #ifdef CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS
- # define MMF_DUMP_MASK_DEFAULT_ELF	BIT(MMF_DUMP_ELF_HEADERS)
--- 
-2.34.1
-
+If you want to undo deduplication, reply with:
+#syz undup
