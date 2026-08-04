@@ -1,132 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF5352031;
-	Tue,  4 Aug 2026 13:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA8843D4F5
+	for <linux-fsdevel@vger.kernel.org>; Tue,  4 Aug 2026 13:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785848966; cv=none; b=SwYVTMaUx1H3Pw+sKdgO91gydJYSAjwzNeoiD8Mtb+gouqUHa3R4XyQDAWDC3dVplZIQRDjSIewWVAz0tZ2JReN0zRZ3kbNWjoOi1jL+s8LeESHDOPja954tfqw8Q2NcvXFAKGE2RvuT94xi25mDDMLHOJj1q4QEudAxl2UlkW4=
+	t=1785849767; cv=none; b=dOQrcQS51ihd9LPicQhP83294wlOrHj7L7aWL20HspWUMFr3kWJCZfs/L3z2xoH9AmZRC3HLNc/lht0L/eG2xcmm6UZKHX0wq/3xmkARntkq3q7M/9JnQhNH+cmr9DsOZizJyKFEQ4CxghL/WsmsTPJhyLAgm+BnRQNo6GYlipA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785848966; c=relaxed/simple;
-	bh=bImrk0GogDNKfUCv7zQeMqs/sv6XiPq+SX4g2NWvkDc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=DwdpWsna1gv8lxe7SsQ47n7YWHIcKxF5kUWIAm/6wopT8oiJ1YLxgSwKeDovTAFWrv1RSPNbGtqKA52Ei28G1PKA6y/eCqnUYAtvv76j2OAaETDAijl7rfeeTmN3ZjMpM5fyTQ+EY7Xw3wl+OwbC3WYzRMHH3tEOrHIbfBTR0Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ui7t6UYn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785849767; c=relaxed/simple;
+	bh=FevyRYJfa7aLcNPNfj5fxSj6PUN+bEmuYe7JDXhkGoI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pzqlqh6Utaus6HOs9uCj/ekr7EybEEEEe1qpXcEMFKgEClug/5fm6jHK9ga288bNYgjNeKFkcCkaRVbog8k7njgSlbAS4H81wY9S/S0kwOxnwoU4L5ks6khs5iKUYcmdEZU1KNRKVJ+u3VBLCYnn3iRPm2gVf3f/OXyHvDNMmq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=bJ4ZY/ys; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ui7t6UYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BCF1F000E9;
-	Tue,  4 Aug 2026 13:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785848964;
-	bh=4f7ucuIUW8vF4hICwF+LuP1Ke4k5i/LOY8wkqoppgQU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=Ui7t6UYnjDGA7jUXdMOZJ6Axzrun5isfzKVm2Uxl2vfraDeFP2914FnkkgGhu02mt
-	 voOMjZW+YQ46kAl40nY5yZAVMVTwc2qmAKmCz9LQhk5ulRqhzZ/m3BmyZQAM9NVgx8
-	 FwOD9Y8T/fvcC5vlvAad/UEgX4uXdJMGHYQlatXXVZVZd+jSgiNaUDo3eXIDHUpHPb
-	 H9f3aviudsPqRTHHXbL4Vk5hI08JKwkf42AE7BMOT0rqjFGPcbbnzBwf1XrdOxPL93
-	 HRXzP9YkSZKmWwWsTd+SDFdFB4YbPaM8pEuJ0zHw4olpd2r+ILT02xSPpdClMWKtk7
-	 45CLGnbTDgBTw==
-Message-ID: <6bd4f498-6699-4d54-a43a-57c954bff958@kernel.org>
-Date: Tue, 4 Aug 2026 15:09:13 +0200
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="bJ4ZY/ys"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7ec3b429a3aso3172498a34.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 04 Aug 2026 06:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1785849764; x=1786454564; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Son60ydP+iiCgzZN46L5iW0372a03THY3apQWLtWwgo=;
+        b=bJ4ZY/ys+X2o7SSyKlp9gqCf8RVnaQ5zsDFEQ27YYGK28uNgXTV46FwE0smb13wj/V
+         2nDJtcNBflNtDJryyeurU8qEf89XELvXurEsgy75lfhuxBBFdCxqMQyBJ5VpJJ4mV29C
+         YPUbngxZOvMG31Air0dco7372BJmSxMdCBCVg+zg/pFEyecYz+bDnQQTx4TbAhmb4NqU
+         TtOee6dLO5krN1QRMW6X7s2AySUWcuALiGmoty3Ogdqrqb31fandqog+NAxaSivkeGch
+         PF+gk81dc9bRgeTqSOfYf6StizOVZt5acNy7ZbxTO8WIXuChFtJlxWYVYNrhbQPPtSy/
+         YvEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785849764; x=1786454564;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Son60ydP+iiCgzZN46L5iW0372a03THY3apQWLtWwgo=;
+        b=X4jbEicJOLBkuU5simrmO81tr3kGb2zkQxEiShq22KV6+poH51m37SaKn0ITMOORVI
+         kX4dx460lGQ9/6NhxkzZLSZS+3lxdJfSuF+7YviPFU20jp/KelyuyvMJlXfhwEgf7Q5t
+         KMsRUKfBQ5Hbo2pdaxRADya+bqZ4Elp96wwKvI1udCeLa2u7wWaE1PLLF5ZlNCH5gfA6
+         YDjFs0IW/eYfKUUflZv23sV6w0eo5pp40biLy4gYBqeZxPQL3jgpFD9Gr0lCNSvgfjnL
+         +q3oz1zO0pmab46uF2b7QSPP/HWxtv+d9rOReTGSa4o5wvQOMU2DkkNwERFMNH02jPki
+         Kw8Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2OnlMAAtRntGw4Y5RfEitYsWatrzZT35T42ddIpOG1IszERAgWG6hKf2nMs+LPTTdT2uQuRBjxcx3gw+x@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8EDNv6b64cvD8PJBFGbKECA+/b/S8VzeMFbvDFSjweX0Qws4T
+	6HPCPYg/WqmLdo6pl9YFR7cdWmsB8TSPDtMJMVjlrn1caWifnKMSFwFLlLJgOMMm1S4=
+X-Gm-Gg: AR+sD13SCnJFJczJAuqDUgXKojjphSHYkeFKPiPpRV1X0T2Rp/23ARHKa8jC7fQ8yUQ
+	Qb6QrdhYrpXkZbrfLkBhBPZzkQeGQLcbTWgjiwv1StSSHxp1Uj4fnD4B3pP/eAZnc8A/XUEd5+O
+	eyObQLiQYFf7WzbAXRGuXJmc8WutRQ0lsmaYNVpgAXDNqjlx0fUw1g05mlc37qfCLFJMdBnFPNS
+	SEl8/uKnjqF1jk4zgXaCe7NIH1mk0ptOytmJDIW2GwZn9NR4yfWLHh9GVeWnPWpaAV9ChwMCXBh
+	C60pPEq3CYiPqjmkmZ2STPeVAnRquS+jIiDw2vvaD2ieZbZQWyOuxs+Kmo6piTvqArzPH1J3cbW
+	XbAJxQ42TOiUpCRTmXFV1FUDK/73fRpggAg7KK7vfMFANilXLaHnwJMvYAqj0YFOBPQH17X+l2O
+	UwBPL25O4U1WudTOyrPI8f4ixX+4aeMgOx2AAN6CjYVNgcVK9+HyxENw6oVbB0neOm5odacXSpT
+	PiGCqFPxRDcVWztWyL2Y6LWmWPqZTVEu2ytYVrxcA==
+X-Received: by 2002:a05:6808:318b:b0:495:f85b:d08f with SMTP id 5614622812f47-4af5e31fe13mr22655308b6e.18.1785849764329;
+        Tue, 04 Aug 2026 06:22:44 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4af60f08b56sm7447037b6e.1.2026.08.04.06.22.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 06:22:42 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, 
+ Christian Brauner <brauner@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, linux-block@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260804123928.736596-2-hch@lst.de>
+References: <20260804123928.736596-2-hch@lst.de>
+Subject: Re: [PATCH 1/3] block: remove bip_should_check
+Message-Id: <178584976213.949603.6178092261493847339.b4-ty@b4>
+Date: Tue, 04 Aug 2026 07:22:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Subject: Re: [PATCH v2 3/6] mm/powerpc/8xx: constify ptep_get() argument
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Usama Arif <usama.arif@linux.dev>, Kevin Brodsky <kevin.brodsky@arm.com>,
- Muhammad Usama Anjum <usama.anjum@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20260803164400.531199-1-pfalcato@suse.de>
- <20260803164400.531199-4-pfalcato@suse.de> <anHI4B-lMu6AJJfA@lucifer>
- <dcdb8cab-c18c-4995-ad1d-2f2d4700e7c1@kernel.org> <anHgw2Z-d-OQk9qs@lucifer>
-Content-Language: fr-FR
-In-Reply-To: <anHgw2Z-d-OQk9qs@lucifer>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
 
+On Tue, 04 Aug 2026 05:39:23 -0700, Christoph Hellwig wrote:
+> There is no benefit in using this helper over the simple flags check.
 
-Le 04/08/2026 à 14:59, Lorenzo Stoakes (ARM) a écrit :
-> On Tue, Aug 04, 2026 at 02:50:19PM +0200, Christophe Leroy (CS GROUP) wrote:
->> Hi Lorenzo,
->>
->> Le 04/08/2026 à 13:13, Lorenzo Stoakes (ARM) a écrit :
->>> On Mon, Aug 03, 2026 at 05:43:57PM +0100, Pedro Falcato wrote:
->>>> There is no need for write access to the PTE.
->>>>
->>>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
->>>
->>> With below addressed LGTM so:
->>>
->>> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>>
->>>> ---
->>>>    arch/powerpc/include/asm/nohash/32/pte-8xx.h | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/arch/powerpc/include/asm/nohash/32/pte-8xx.h b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
->>>> index e2ea8ba9f8ca..f2bab31040c7 100644
->>>> --- a/arch/powerpc/include/asm/nohash/32/pte-8xx.h
->>>> +++ b/arch/powerpc/include/asm/nohash/32/pte-8xx.h
->>>> @@ -226,7 +226,7 @@ static inline pte_basic_t pte_update(struct mm_struct *mm, unsigned long addr, p
->>>>
->>>>    #ifdef CONFIG_PPC_16K_PAGES
->>>>    #define ptep_get ptep_get
->>>> -static inline pte_t ptep_get(pte_t *ptep)
->>>> +static inline pte_t ptep_get(const pte_t *ptep)
->>>>    {
->>>>    	pte_basic_t val = READ_ONCE(ptep->pte);
->>>>    	pte_t pte = {val, val, val, val};
->>>
->>> Worth making these const too (that {val, val, val, val} horrifies me btw :)?
->>
->> Any suggestion welcome.
-> 
-> I'm being super nitty, all I mean is:
-> 
-> -   	pte_basic_t val = READ_ONCE(ptep->pte);
-> -  	pte_t pte = {val, val, val, val};
-> +   	const pte_basic_t val = READ_ONCE(ptep->pte);
-> +  	const pte_t pte = {val, val, val, val};
-> 
-> :)
+Applied, thanks!
 
-I'm fine with that, I was reacting on the "horrifying".
+[1/3] block: remove bip_should_check
+      commit: 6c13180dba60f835d6909e2a3b4f50862de156c6
+[2/3] block: lift BIP_CHECK_FLAGS to include/linux/bio-integrity.h
+      commit: 738f01912a1ad68c81a6aed06cac94e09b5f609d
+[3/3] block: handle nogenerate/noverify properly in fs-integrity
+      commit: 3bf9a21e7bccfd8c35b440efd114c61cc9838a41
 
-> 
->>
->> powerpc 8xx page table is independant on page size. When you use 16k pages,
->> depending on the address you hit the page for the first time, the HW assist
->> page table walk will fetch one of four 4k cells in page table that need to
->> be identical as they all four define the same 16k page. Not sure I'm clear.
-> 
-> No that's clear, thanks!
-> 
-> (I say 'horrifying' because I am looking into RCU page table freeing which this
-> may complicate, though perhaps not in practice, to be continued :)
+Best regards,
+-- 
+Jens Axboe
 
-A few more details here if needed: 55c8fc3f4930 ("powerpc/8xx: 
-reintroduce 16K pages with HW assistance")
 
-Christophe
 
