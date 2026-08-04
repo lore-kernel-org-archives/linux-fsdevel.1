@@ -1,58 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6517B43C7B6;
-	Tue,  4 Aug 2026 13:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A754E43C7B6;
+	Tue,  4 Aug 2026 13:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785848650; cv=none; b=L2b3E8UfJe7NtQDIqNJ/eVierVMjt5rS6wE2byGZrqtiWouTs5K8Gi1mrmv4OOs8KSztOJxcmctIDKIWLFjX/KHIvBP1adDb/67mnR/9RKo7sOSrev6KscxrTkqHlvL5nzxxXyIAQhYIxvqW5bakRp8ddw9xjy3+rAfJS9t7nyI=
+	t=1785848654; cv=none; b=kjt8UKiCxokrsLS2RCe1mT2YRrtrlb9ymkzixj7OMQp/xvdc4CgTUTIrlwHAP4sXdxgzY/Ui6PDwU/3DTR3S20ZgjClcfjtu5cZ3YovhXAfRv5JB+hvLjnyyQhYGx1ClY53RVCWThH9JZq+a0rhTj14czJTaBEZ3tXeiJq0C6pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785848650; c=relaxed/simple;
-	bh=7WVi0zd6LcUoDLabZYLULWttoR4Wlz1WJNokp6HKtFM=;
+	s=arc-20240116; t=1785848654; c=relaxed/simple;
+	bh=ZCeNCBoxvi1EiAiAIP93iHr1y7Woff81jffOy++3ziU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhaCSp4iwQlX97OhzyJ9BAlPBDmLRgsEQ6Mn+RIgnT2lrMxYFiQOUdNKtMgosizOR8GvOEbLGhQSmcPk/0YJiyLw/6qsdH38ybV3EqRTmPuvIpu0PX5zM+T6fEbxtg9EUAMcaeTwLrEN8JjAPZAbMkzOuZ5C+aA9eqUtDTQtS8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZ8xZk5P; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HxtKCbt4cjy/2rbEJt2264XJNdSVd7m4xypOEKxqlSu5ZVGlxQMlT8zvJdzVlsh9KjMCZY4iSeLnT1HsX4+QluZlQWpUl96fmgmgEaHK1sJ9OtYfpoyCX/ZkRmqQvIzUSYPxHBRkZ5FC+ncrew/qRLG6gOd2pmS0Q+ae7QardTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K1Rf8ruX; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZ8xZk5P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41DAB1F00A3D;
-	Tue,  4 Aug 2026 13:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785848649;
-	bh=7WVi0zd6LcUoDLabZYLULWttoR4Wlz1WJNokp6HKtFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aZ8xZk5PzuGz/b2moWBb4VVtz0n3Ung2XSO7gIhRagGOIZjNIMkuzHy6jFMeVHTWF
-	 nA1BvJi/iE2VrsC4XD17lCgxplfi63Afoif31Yj2W0EGlxUQiKtKFRwnI+14Z77Zm/
-	 wyREeQLepUuHknwIHKHs5MtSxkyB6+MmQecXZ+aqfDSvp48OtiFS+A/zUg63hoVMix
-	 vyCQNYITywtcPJ3HpjO2neSJHyvnHkv687QC8xcOOIa/gki5DxBEwggQe/7XGb0akN
-	 nzWsq0j8rO5RTc990ehdmT0keE1zCMZ4cmTlxK1aOc4jA6KVyjsh2uKeL8OyzltUDm
-	 Jyzl0tvAyFYNw==
-Date: Tue, 4 Aug 2026 14:03:47 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Cc: Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	John David Anglin <dave.anglin@bell.net>
-Subject: Re: [PATCH v2 2/6] parisc: Drop own implementations for ptep_get()
- and ptep_test_and_clear_young()
-Message-ID: <anHi9n3_8bLjAsxy@lucifer>
-References: <20260803164400.531199-1-pfalcato@suse.de>
- <20260803164400.531199-3-pfalcato@suse.de>
- <anHHyiHqYf3yLf2K@lucifer>
- <anHcJZYyz9Zrshdm@pedro-suse>
- <anHd7ho3daZFZ-4r@lucifer>
- <e7ac6f83-72ff-43c0-b67b-6b17caed995e@gmx.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K1Rf8ruX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=LQl1PoD9whXshfiGdiRGN/MouZH83WKAc5uKqtzgf1s=; b=K1Rf8ruXaCO0RHwTW3HGNdLxEN
+	UehSuFaYjmEaaycnFZiN1zXEnHPIpv5BQe5q+js0SXAxb3TK4Eyyw3IFJBYhM991O+oZBiGLyF4xG
+	D/IIu5cl0XYEmgzOftRVRUHYN0XXfbhDwmMRHoW584lsu4K91Vgou+tdv96EGyc46GJRVKMo6RSYf
+	LqEIlAUHCod75QZwf7Q/l+n7ZL+VQdaZw4K8MgdXixh79SEAGwHL3U71hMpCYhR0qnT27wkXgDvr3
+	3FvJDKRGqJXN5nNn6rOJV/Dhnq0BaFup841dec2g2gf0W9CppXwCz5+owbsrZyrUQcBApb1qjNLMX
+	3gt007yg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wrEoF-00000001sbx-14Kr;
+	Tue, 04 Aug 2026 13:03:55 +0000
+Date: Tue, 4 Aug 2026 06:03:55 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Dave Chinner <dgc@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Hillf Danton <hdanton@sina.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v7 3/5] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
+ writeback
+Message-ID: <anHjO1vokMmADsZP@infradead.org>
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+ <20260730-blk-dontcache-v7-3-3e8e6850068d@columbia.edu>
+ <amsHrVCJnuXzeGG1@infradead.org>
+ <15506dc8-e5b8-4fa8-a85f-912a92edb83f@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,51 +65,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e7ac6f83-72ff-43c0-b67b-6b17caed995e@gmx.de>
+In-Reply-To: <15506dc8-e5b8-4fa8-a85f-912a92edb83f@columbia.edu>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Aug 04, 2026 at 03:00:43PM +0200, Helge Deller wrote:
-> On 8/4/26 14:42, Lorenzo Stoakes (ARM) wrote:
-> > On Tue, Aug 04, 2026 at 01:34:41PM +0100, Pedro Falcato wrote:
-> > > On Tue, Aug 04, 2026 at 12:11:08PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > > On Mon, Aug 03, 2026 at 05:43:56PM +0100, Pedro Falcato wrote:
-> > > > > From: Helge Deller <deller@gmx.de>
-> > > > >
-> > > > > Switch to the generic implementations, which are identical.
-> > > >
-> > > > You sure do like succinct commit messages :)
-> > >
-> > > I didn't even write this one! See the From: :))
-> >
-> > Lol well then feedback addressed to Helge ;)
->
-> Noted :-)
->
-> > > > Maybe worth saying by dropping the __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG and
-> > > > ptep_get defines you get the generic versions from include/pgtable.h which are
-> > > > functionally identical.
->
-> Isn't that basically the same as:
-> "Switch to the generic implementations, which are identical."
-> ;-)
+On Thu, Jul 30, 2026 at 04:39:03PM -0400, Tal Zussman wrote:
+> Sorry, I misunderstood and assumed you'd take care of it in a follow-up.
+> I'll adjust it as below and send v8.
 
-I am being _exceedingly_, possibly outrageously pedantic here :>)
+My plan was to move from the version you had to something better in a
+follow-up.  Anyway, Jens merged it as-is so I'll look into a fixup.
+Travelling for two conferences this week might make this a bit slow,
+though.
 
->
-> > > I can touch it up though, if you insist.
-> >
-> > Yeah, I'm being pedantic here it's not vital to have this change :) but be nice
-> > if you could, I'm sure Helge probably wouldn't mind too much? :)
->
-> Yes, I'm fine with any cleanup/rephrasing of the commit message.
+> > And move setting the flag to iomap_ioend_writeback_submit, and only
+> > for the case where no io_bio.bi_end_io is already assigned.
+> > 
+> 
+> To confirm, this would only work because XFS provides its own task context
+> and is the only consumer of iomap that sets its own io_bio.bi_end_io.
+> If another filesystem set it and didn't provide task context, this would
+> break, right? I can add a comment about this requirement, but I want to
+> confirm the intent, as it feels a little fragile as-is.
 
-Thanks :)
+Yes.  And I think this might be a good time to actually open code
+iomap_ioend_writeback_submit in XFS and remove the "accept an overriden
+bi_io_end" thing entirely.  Back in the original code that was required,
+but now that the submission happens from a file system methods there is
+no good reason for keeping it.
 
-> Thanks!
-> Helge
->
-> > > > (Being pedantic, they're not quite strictly identical as the
-> > > > ptep_test_and_clear_young() generic function does some weird unnecessary
-> > > > indirection with a local variable and the single {} is dropped etc.)
-
---
-Cheers, Lorenzo
