@@ -1,30 +1,33 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD3B3C9EEF;
-	Wed,  5 Aug 2026 04:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6250E3403E8;
+	Wed,  5 Aug 2026 05:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785905542; cv=none; b=s0/uUKE20JCtAqyPu0Nhs5ozOdh0/DAcjLnSQ4ubtvYLJJuaucxmiR2gtaF4IJED8BhhLW71YdzRbWITC1N1lkqO9m8nuoqLGv8y7pE0L1IjRfG/b9225nFdFZy9OUCo0g6CRAucP6swj3HCT4Uov/JHObkeRbigtxO1c1bUZ1I=
+	t=1785909491; cv=none; b=kx1CNYjaqFANVatDbUB1UAks0JjEIp3I/haqaIpT7A6WDIKjOvklIsEvYKftY0tNE1FD7f450O+54vZZS8Ti3IIwePBVl/V+PCghN1BGXVM71lWZ0wrwMkO350s2rK8nOR2kwgAdIWXf9nvIzyV2GI5xExJzh69ZgD2cqFE2X4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785905542; c=relaxed/simple;
-	bh=b4jS/PSKofjywi4GK8miSXk7RD3FvHhZighQMAil6Kw=;
+	s=arc-20240116; t=1785909491; c=relaxed/simple;
+	bh=05r7tS7FwUKD/e4NnomclcLpuPqMIKhQGaOK/mPLxWI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bEN3l5b6OXsBpAmPbqwL7KrmAqD7T1F621BEWkocR96+v1nB0RX04yodu+r/6aQfup2fS8vE/9qIZlwN2pkWR5OBvQsy3G3lBws/6NJshJBjhsSq7IH2TR4q7ZflQCuvYcOdzgDJKvFqEwotuTqxC/uy9gLTrAPa4NGGJLLDXm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hFJ146B6wzKHMcm;
-	Wed,  5 Aug 2026 12:52:08 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 90AEB4058D;
-	Wed,  5 Aug 2026 12:52:14 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgDn1kV7wXJqFbyuBA--.3256S3;
-	Wed, 05 Aug 2026 12:52:14 +0800 (CST)
-Message-ID: <ff2f92ab-6c98-42f2-be0b-0c807bc9438e@huaweicloud.com>
-Date: Wed, 5 Aug 2026 12:52:11 +0800
+	 In-Reply-To:Content-Type; b=Yd2amsJXl1jCscPKOPBk8Cc6v7/BtZ6mz0fSfF+OpEeiU8tbHyziZYapnWK3B3DVJ2BEX09iDWKuQ9ShzobGcDll00VLeg+Hi2HVnnol4MV1wsL9JfnSgaP10bUH5OPfSQQ6P3aAo5tJ1MxMlab/Bgf1Yfr2fJJj3ReA/jkDQIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WpTfVY+g; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WpTfVY+g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574631F000E9;
+	Wed,  5 Aug 2026 05:58:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785909490;
+	bh=v7zCWK++jNfxfhEt8Y8jIgML8WXQN15ZQy6uHyDnBnc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WpTfVY+gis0GaZ8Ilij2iuNXtip1yECYuuQNUlYVo6jVc87VSMT30kmNOwPl/ZTao
+	 7oJbpElLKRYZM/H9E3uzPA0m2dDs7qxBrWfUSWeNQgVusyFJAB0zhgsb3CndB3eLBl
+	 oVx+8kJVKo/dvCnEjFd77EC7hbxP5rQoI682riTb93MQ9TfiRSWCb3g5JOckn0oZli
+	 58e+xTR7r2M3llPSRy5MrzI9rSBdgu2K2JYrZI3FiSOydblbfVLAtbSKgrhbcozdEM
+	 SIQIBRN5owC9lJ1/5UdzSc5P9So3/Y8YL+DvqEaETnFE51wJndUFjamNuiFbFR2lzb
+	 lLGJvpl87Db5A==
+Message-ID: <595fe323-59d3-4f4a-92a3-ac5d67b7461b@kernel.org>
+Date: Wed, 5 Aug 2026 07:58:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -32,111 +35,74 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/19] buffer: stop clearing BH_Uptodate when a write
- fails
-To: Chao Shi <coshi036@gmail.com>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo
- <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>,
- Zhang Yi <yi.zhang@huawei.com>, Bob Copeland <me@bobcopeland.com>,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>,
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-References: <cover.1785621505.git.coshi036@gmail.com>
- <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgDn1kV7wXJqFbyuBA--.3256S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cry3Gr18CFy3GF1fKFWUCFg_yoW5JrWrpr
-	Z8KayDKrWqgF4UArnFkF4fJ3W0yFykuF43CFWru347Zr98Gr97WFy2qw1YgFWUAr9agw4Y
-	qr4FgryrCF4UXrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	4xRDUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Subject: Re: [PATCH v2 6/6] mm: constify the pte_offset_map_ro_nolock() return
+ value
+To: Pedro Falcato <pfalcato@suse.de>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Kevin Brodsky <kevin.brodsky@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20260803164400.531199-1-pfalcato@suse.de>
+ <20260803164400.531199-7-pfalcato@suse.de> <anHJ48Glq8EdHatd@lucifer>
+ <anI6BEyTJFzQY-N9@pedro-suse.lan>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <anI6BEyTJFzQY-N9@pedro-suse.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 8/2/2026 6:01 AM, Chao Shi wrote:
-> A buffer whose write failed still holds exactly the data the filesystem
-> asked to be written.  It is the disk that is out of date, not the buffer.
-> Clearing BH_Uptodate says the opposite, and callers act on it:
-> 
->  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)).  A
->    filesystem that dirties the buffer again after a failed write - which is
->    the normal way to retry - trips it.  That is the warning this series
->    started from.
-> 
->  - a buffer that is not up to date gets re-read from disk, which replaces
->    the data the filesystem was trying to write with the stale on-disk copy,
->    silently.
-> 
->  - the window between the write completing and the buffer being marked not
->    up to date is visible to anyone holding the folio lock, so the state is
->    not even self consistent while it lasts.
-> 
-> BH_Write_EIO already records the failure, and by now every place in the
-> tree that needs to know about it tests that flag instead: the two core
-> helpers in this file, adfs, exfat, ext2, ext4, fat, gfs2, jbd2, ocfs2 and
-> omfs, converted one filesystem at a time in the preceding patches.  The
-> private completion handlers in jbd2 and ext4 fast commit were converted
-> along with their waiters.  Nothing is left that reads BH_Uptodate to find
-> out whether a write failed, so the clears can go.
-> 
-> Found by FuzzNvme.
-> 
-> Signed-off-by: Chao Shi <coshi036@gmail.com>
 
-It looks like after this series, we may need to revisit the necessity of
-ext4_buffer_uptodate() in the ext4 filesystem. IIRC, it was originally
-introduced as a compromise to address this issue. Now that we no longer
-clear the buffer uptodate flag after a failed IO write, this flag will
-still remain valid when getting/reading bh. Therefore, the necessity of
-ext4_buffer_uptodate() is worth reconsidering.
 
-Thanks,
-Yi.
-
-> ---
->  fs/buffer.c | 2 --
->  1 file changed, 2 deletions(-)
+Le 04/08/2026 à 21:22, Pedro Falcato a écrit :
+> On Tue, Aug 04, 2026 at 12:22:19PM +0100, Lorenzo Stoakes (ARM) wrote:
 > 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index ac978d9090c2..0002f0736398 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -207,7 +207,6 @@ void bh_end_write(struct bio *bio)
->  	} else {
->  		buffer_io_error(bh, ", lost sync page write");
->  		mark_buffer_write_io_error(bh);
-> -		clear_buffer_uptodate(bh);
->  	}
->  	unlock_buffer(bh);
->  }
-> @@ -441,7 +440,6 @@ void bh_end_async_write(struct bio *bio)
->  	} else {
->  		buffer_io_error(bh, ", lost async page write");
->  		mark_buffer_write_io_error(bh);
-> -		clear_buffer_uptodate(bh);
->  	}
->  
->  	first = folio_buffers(folio);
+>>
+>>>   			if (!pte) {
+>>>   				mmap_read_unlock(mm);
+>>>   				result = SCAN_NO_PTE_TABLE;
+>>> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+>>> index b91b1a98029c..2cfc6e608ef4 100644
+>>> --- a/mm/pgtable-generic.c
+>>> +++ b/mm/pgtable-generic.c
+>>> @@ -308,8 +308,8 @@ pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+>>>   	return NULL;
+>>>   }
+>>>
+>>> -pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
+>>> -				unsigned long addr, spinlock_t **ptlp)
+>>> +const pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
+>>
+>> Can pmd be const too?
+> 
+> I was going to say "yes but then pmdp_get() also needs to be constfified" but
+> actually no, it can't:
+> 
+> pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp) {
+>          if (unlikely(pmd_bad(pmdval))) {
+>                  pmd_clear_bad(pmd);
+>                  goto nomap;
+>          }
+> }
+> 
+> so PTE mapping actually needs to write to the pmdp if the pmd looks bad.
+> Tricky stuff :)
+
+But if pmd is const, can it be bad at all ?
+
+Christophe
+
 
