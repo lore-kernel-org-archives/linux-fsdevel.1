@@ -1,143 +1,252 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4CD47D935
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 15:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785943892; cv=pass; b=LFmXBXkK0sWCcV4Ban4GzZypsX/NM2WmhYxMdZqc+72SDKKrwlhCDy7/0kJTI7SQmDdInoO//AwQ+V76dn3fUHhHu8FkSWkyTBwifo3dwpZT/hQIrc7Fr2i0rXkKIuxnMVjMY1KEieRG3zadtmPpNooEwx7Jxvb61a4aWUABG5k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785943892; c=relaxed/simple;
-	bh=dJPCdypeOQacbOHsNXmqZAmTMKMgt8YOMGaXHcDNHkg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cGFJ1g8bQepH28glRR8lbgSaqn1GI2hVw7Vay0kKnOPBbkZPOCHBLtUff5FCFayizqRhaioqspjSIlL386pLu+fMxtjMrchqI4Fm1qW4MPVD8oy+0CroEKsKtpuh40z1xQ93DIPVCPhxhg4u6WrdxR5K/Ec4kYPkpX5jiAJOd1Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qDHleAUJ; arc=pass smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C5A47CA73;
+	Wed,  5 Aug 2026 16:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785946219; cv=none; b=TEWHBaVc6Uccd4hjOMe+Et4KK9LWEAsovgQO6FByzXWwAFCGvbeD850Vl4MW8KWLi3rdYaNf+38Pw4PP4oGaxQFTQaR3fq1aAstic0CgmQz7xnzLyDAe+vEeCsSw7VxOuH1R57aR4rxLjs//F8q7iwpNMr4gsEkjCEc6JkddMYo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785946219; c=relaxed/simple;
+	bh=sAyfHPmr+lF8ktr90E+S4wcL6WTeCsvzFIkj12Qt5kY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iewkqJ3j/aDd5IlLbQCEvyQkklYLhGA82LZPQpEKIaB8ATxOMLoajct+oU/iFMKUfTmPZYSHfZAj25UaYdS2yXk8S0d7mbnk/CGj0t+FXUN2Xe8w/0q6KPUqRyocHbV6ShB/zAeYJ7z0zzlU6d+xGh4rpnvbDLzOrQCD1/ltnYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h5XQ1L1X; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EWe59/xI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xli57Era; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5tcAQy0S; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qDHleAUJ"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-448cf99c133so2700931fac.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 08:31:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785943887; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e6aSTGqyfZiIMqQV7s+w4mgKRDOXcXdCRl0NFdUPnVmF/p3Lih6JqxxguJaHH/Eqlw
-         eBIreRiC6mkOcx37M/Va1hFI/7v4oyQidcrzuuPXjyxJd/V4mXvCq8uSMmCDKC853UhS
-         peyADt63viEDjdtb2ReEK2m5w/4mE0TNU6n/UsXDFBToO1YTlclOCqzlriDW4t0Jf5qE
-         d8yyFyiCxDwnTu/FCQe6VhKhjDPULZVux3QLwzJAVr/pfivM+0aMuxW1BQZ+CW5iwThv
-         9Gfh4Pa8nipX3CvTOfyZTXUKE8hk3bniin8Av4hUMawhGqX/jn7zr489DWdxIS38hoSs
-         NUqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WopFs36fjBNe4p827wx+9JX7Lwtk8JPVIwqGHdzA5zc=;
-        fh=thD4YFX1GkLd+9JXu0JZ0ZTjkeKJROBZoUCtijBZCSI=;
-        b=LbfLCpcsdwxnnVOpPAq7NfiWoCBhQeyg0COtSiubxSNq2IIYqNiZsGR+Krkf0GStMp
-         W5usDgaoIFlLTdtGJSG7osx5YDiKwnrVqssYQiOFHf98akqcZuD3GRSB9nOe8mpIW+Q6
-         YLGoT/ow4ZvDNnq0mLYpEgoNj9/jmf1c0MkRKU2b4eDFqF5ePFhxu0J98FQjcMq/g1+H
-         /RRNPhULOS/GoiwuOfUh2B6xlYXobPrZNmnXjlMd5gIEKj+e/DnGW1VDgqBmYZ6hkf+d
-         qAr0tzB/PF07gfhoy3/jMdvzydZSl4ABmCgKPy0BNsPC71sNicOrXeM1GtVvU2x/Z0/l
-         rpZA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785943887; x=1786548687; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WopFs36fjBNe4p827wx+9JX7Lwtk8JPVIwqGHdzA5zc=;
-        b=qDHleAUJxgsCUfR4HPO0zhUwzygyenvCoRBqDd+OmmfbyVu5gxD8Op/C7KblzFHtFA
-         K9YMj0V5RfemHBeGZLLV7U2pNIs2r9WNsWoCLzjXxI5dxgJxEDvY7YLdDBouEpJSP9xx
-         4v5OSNazeMQn5tX94yQareFcugZ7TsnIHNfvFtwuKMScCdtaJD6vP4deuDJVKfxbfoun
-         l3OYOSdWbgMASS2e53DO38uim+uz0m8/wrYDExO+dmCIEIRkwNjyF/H99L/5qpV1HeCk
-         4nJPcy5x/FvFxrjowSQAbmdj/DWIYwkBif9y+ZI1omcjaU2XPPox/wpu3TIHAXmtMrKq
-         0Zew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785943887; x=1786548687;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WopFs36fjBNe4p827wx+9JX7Lwtk8JPVIwqGHdzA5zc=;
-        b=Z3KAgw6kbsY/+688+rfpmBSmlKKRh7btbPJuEYaCAOCBmnQ2IX938P8LxhYAZ5MvaX
-         6BSDacwAe8/mWDd9eqQgLinzLqQftSN8c0vgZn/M/hKVYuBYWuNo5kB+GNdJxNdBOJtH
-         O0xq8N3cf3gztXhkXlH5dTSWPuTzJdL+roaNRfdyq6Hd1pxvaI18Y7obc3+bzNdcx1Mu
-         opOWIDl23KQExg7BI07izdJSb7tPJD+GA9dtn+FXRvyUQvger9vA4oOBJkGd2eJyEW7E
-         X3dFH+Cz8685RrRW0xGna9zkfWU/uk0aViUzw5L6NfRhB9UPEtlxXiuy9OWjIi84Iz1P
-         jCcQ==
-X-Gm-Message-State: AOJu0YzBfikp96FJBNrea2bFdsRcuq32a3CVlIp82rhC+pGN8+s7ZNc7
-	smnCy91T3s3qB8Bb0mzCHWPedR4shtA4PuMtJf8QJTJYnGWuwiD+itEFjbchzhS8tp6MXXXu3Vs
-	qMixdlRtXMGC7axAd1YOrIR+RzWhgAqs=
-X-Gm-Gg: AR+sD13udV3DTLS3I95ttVuwNvDWtESg4RBLUYKZ6YKHJdu71/sZokqk8t2pFltT2re
-	O8FQeSoMfOI1vnBVlQ3zF7Y/yWUXLvGzx52v/Sg/JGSySujp389xUjMUo8kI4HtXVL55y1PJ9y/
-	RLkMGIGrRqhsd5RVZr6SeZl+usWCsQYtNWHWnbgYyKSilRuSUHF2a6cAn3wg7C2IFOiUcp6YOHI
-	iV2Oswix19m9u79BQx8FBTm9Xs7FFbw3XuJt105eyrxmRHwgK1oywyr8Js1aCUDDTSJqS6urAmK
-	7/kBMIhwFJzyThcDaGstUI0IhD5/H2+PdBU6NPoWEUU=
-X-Received: by 2002:a05:6820:4b04:b0:6ab:19c3:370e with SMTP id
- 006d021491bc7-6aeaba25ae8mr23166eaf.1.1785943886510; Wed, 05 Aug 2026
- 08:31:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h5XQ1L1X";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EWe59/xI";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xli57Era";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5tcAQy0S"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AC89B7EFC3;
+	Wed,  5 Aug 2026 16:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785946209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HskJbUE1aNqCuNXRMEy5hyx9jsFoyh9wIHexTfa7E5w=;
+	b=h5XQ1L1XESwBu4lX1BLS0KL8+Qjut/rS9S5KsnvS0BH/pXQUfsfurL8d0Qss8ajH+XLU1P
+	3vYz46qTE2pBShledGfdEuNK/ec4MRZJR7Rfa6xD8OayfWt3I28RL/mpk7hnNcD3hBmj/C
+	rW+kd2jjx46LtCYmqR8l+cMAX9ZwyvM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785946209;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HskJbUE1aNqCuNXRMEy5hyx9jsFoyh9wIHexTfa7E5w=;
+	b=EWe59/xIDiP5vTKrNSNXwLfnMgku2cQdCaXx4qm5Nik5EYSY4GCdLqiTDtBX+4+8ddrWOm
+	Agh+0USaxFyE3nAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785946205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HskJbUE1aNqCuNXRMEy5hyx9jsFoyh9wIHexTfa7E5w=;
+	b=Xli57Erab/Nk3CLdJjFnHdG6ttlcEODmtSCxIx/RTtO2VnPgP4fDCbbUdQom+mgzPtmYwm
+	VT5eZGsdFQG7Ak4wKU5OceaAW3HgN+ScTaksqBILvtaab8GtVHGeYxjE8MN19dXw0Kuxbx
+	3GKIitNOX7OOBuYbwc1F8JRCmUoRRYA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785946205;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HskJbUE1aNqCuNXRMEy5hyx9jsFoyh9wIHexTfa7E5w=;
+	b=5tcAQy0S/zzzaTqeZqq3rXnGjW2LHS4wwXQqWwHF6UQE5kfSV+RNg3zOCC2O6Ov0qvLYc9
+	lfuT2s/I/hb2bYBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C44B779C2;
+	Wed,  5 Aug 2026 16:10:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ag0eJl1gc2pxUQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 05 Aug 2026 16:10:05 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 4534BA13B1; Wed, 05 Aug 2026 18:10:05 +0200 (CEST)
+Date: Wed, 5 Aug 2026 18:10:05 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, 
+	Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC 07/14] fs/erofs: mm/pagemap: add
+ readahead_folio_reverse() to avoid folio->private
+Message-ID: <44w5y7ehefqmo4jkvxjm7abfm7bmqh2p2uucfu2cqnizmgzvmx@lk3xamijvglg>
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+ <20260731-remove-pg_private-v1-7-142c97ba3562@nvidia.com>
+ <332rknj4vo3cfhvfhhlf6pvg37s3lbrnzbbnv4swa6gctsiu6a@ndotgokvnglc>
+ <DKFGTVA0XD01.OZYNYUOU9FTX@nvidia.com>
+ <huzyeqj6a57nbcqc23v6f6rdhkob5552fcwy4mlrsagycqi4rz@ggsapkumc2gq>
+ <DKGA508ERSYM.26RBD4HYM1SL8@nvidia.com>
+ <2evaxdu6cobpnzzer3y7fsrqvmtmhj7gm3e5buebdaw564igx6@7bs5enipxnpx>
+ <DKGBQHP25RE0.3NKUQSDULAQSX@nvidia.com>
+ <ivg5x7hjo4tmpd34i6wrd5cp2v56c3vorwru7h6kqxnqlcpte7@lvd7xa4ncwxu>
+ <DKGZEK0AQP6R.1RTQEY44OQD65@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260730-work-binfmt_misc-preopen-v1-0-4a0b0da71f16@kernel.org>
- <20260730-work-binfmt_misc-preopen-v1-1-4a0b0da71f16@kernel.org>
- <178571387898.1880415.17662890925792360904.b4-review@b4> <20260803-notunterkunft-wildtier-restaurant-1733e9660017@brauner>
-In-Reply-To: <20260803-notunterkunft-wildtier-restaurant-1733e9660017@brauner>
-From: Farid Zakaria <farid.m.zakaria@gmail.com>
-Date: Wed, 5 Aug 2026 08:31:15 -0700
-X-Gm-Features: AUfX_mzXyERgbDVMxdqUz6VFtphDyebsN972OxffP9NIbYDefxKewbjkZdrOpws
-Message-ID: <CACCo2jnjvYVG82cgwq-UcEU7ZLRaMp12xG4wBLM=zNHUqqVg7g@mail.gmail.com>
-Subject: Re: [PATCH 1/9] binfmt_misc: let a register string create an entry disabled
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Alexei Starovoitov <ast@kernel.org>, jannh@google.com, mail@johnericson.me
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DKGZEK0AQP6R.1RTQEY44OQD65@nvidia.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,infradead.org,linux-foundation.org,linux.dev,google.com,suse.com,linux.alibaba.com,arm.com,gourry.net,nvidia.com,cmpxchg.org,tencent.com,kvack.org,vger.kernel.org,gmail.com,vivo.com,lists.ozlabs.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLc5chj8mdhigtayhgqted7wkp)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon, Aug 3, 2026 at 10:18=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Sun, Aug 02, 2026 at 04:37:58PM -0700, Farid Zakaria wrote:
-> > On Thu, 30 Jul 2026 15:34:03 +0200, Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> > > diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> > > index 707f8a14f8a6..ca7840b01a2b 100644
-> > > --- a/fs/binfmt_misc.c
-> > > +++ b/fs/binfmt_misc.c
-> > > @@ -75,6 +86,7 @@ static const struct binfmt_misc_flag misc_flags[] =
-=3D {
-> > >     { 'F', MISC_FMT_OPEN_FILE,      0,                      "open int=
-erpreter file now"     },
-> > >     { 'T', MISC_FMT_TRANSPARENT,    MISC_FMT_OPEN_BINARY,   "transpar=
-ent"                   },
-> > >     { 'L', MISC_FMT_LOADER,         0,                      "loader s=
-ubstitution"           },
-> > > +   { 'D', MISC_FMT_DISABLED,       0,                      "register=
- disabled"             },
+On Wed 05-08-26 07:42:37, Zi Yan wrote:
+> On Wed Aug 5, 2026 at 5:25 AM EDT, Jan Kara wrote:
+> > On Tue 04-08-26 13:09:46, Zi Yan wrote:
+> >> On Tue Aug 4, 2026 at 1:04 PM EDT, Jan Kara wrote:
+> >> > On Tue 04-08-26 11:54:41, Zi Yan wrote:
+> >> >> On Tue Aug 4, 2026 at 5:32 AM EDT, Jan Kara wrote:
+> >> >> > On Mon 03-08-26 12:56:36, Zi Yan wrote:
+> >> >> >> On Mon Aug 3, 2026 at 5:54 AM EDT, Jan Kara wrote:
+> >> >> >> > On Fri 31-07-26 22:13:30, Zi Yan wrote:
+> >> >> >> >> erofs needs to traverse readahead folios in reverse order to achieve
+> >> >> >> >> maximum performance by
+> >> >> >> >> 1. reading all folios from readahead_folio();
+> >> >> >> >> 2. storing the prior folio pointer in folio->private;
+> >> >> >> >> 3. traverse from the last folio to the first one.
+> >> >> >> >> 
+> >> >> >> >> Add readahead_folio_reverse() to achieve the same function without using
+> >> >> >> >> folio->private.
+> >> >> >> >> 
+> >> >> >> >> It prepares for a future commit that replaces PG_private checks with
+> >> >> >> >> !folio->private checks. After switching the checks, erofs's use of
+> >> >> >> >> folio->private without bumping folio refcount can cause unexpected
+> >> >> >> >> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers() becomes
+> >> >> >> >> reachable.
+> >> >> 
+> >> >> <snip>
+> >> >> 
+> >> >> >> 
+> >> >> >> The below is what I come up with. I did not add a bool to
+> >> >> >> readahead_control, since I think that is the decision of caller of
+> >> >> >> __readahead_advance(). But let me know if you disagree.
+> >> >> >
+> >> >> > The reason why I wanted bool in readahead_control is that if some code
+> >> >> > ends up mixing readahead_folio() with readahead_folio_last() things will
+> >> >> > get confused (because __readahead_advance() really wants to skip the batch
+> >> >> > returned from the *previous* call to readahead_folio[_last]()). With the
+> >> >> > bool in rac, even mixed use will properly advance the state of the
+> >> >> > readahead_control. I don't think mixed use is very realistic (at this
+> >> >> > point at least) so I'm ok with leaving that for later if you don't like it.
+> >> >> 
+> >> >> Got it. I am trying to figure out your mental model of how the mix of
+> >> >> readahead_folio() and readahead_folio_last() works with the bool inside
+> >> >> ractl. By looking at readahead_folio_last() code, it is almost the same
+> >> >> as readahead_folio() with __readahead_folio() inlined
+> >> >> (__readahead_folio() is only used by readahead_folio(), so the inline
+> >> >> can happen without any issue). As a result, we can get rid of
+> >> >> readahead_folio_last(), add set_readahead_direction() to set the
+> >> >> embedded bool read_from_head, and use readahead_folio() only. This
+> >> >> removes redundant code in readahead_folio_last(). One thing I am not
+> >> >> certain is whether we want to
+> >> >> 
+> >> >> 1. use set_readahead_direction() explicit and warn readahead_folio() if
+> >> >> read_from_head is not initialized, or
+> >> >> 
+> >> >> 2. set read_from_head to true by default, so that only erofs needs to
+> >> >> call set_readahead_direction() to change read_from_head.
+> >> >> 
+> >> >> The former is less confusing but changes how readahead_folio() works;
+> >> >> the latter is simpler but implicit read_from_head state might confuse
+> >> >> people at some point.
+> >> >
+> >> > My idea was: readahead_folio() will call __readahead_advance() and then set
+> >> > rac->forward = true. readahead_folio_last() will call __readahead_advance()
+> >> > and set rac->forward = false. __readahead_advance() advances from beginning
+> >> > / end based on rac->_forward value.
+> >> 
+> >> Got it. I can do that. Just to be clear, it should be that
+> >> readahead_folio() first sets rac->forward = true, then calls
+> >> __readahead_advance(), since __readahead_advance() advances based on
+> >> rac->forward, right? readahead_folio_last() as well.
 > >
-> > AI brought up an interesting point that this now changes the set of
-> > valid delimiters which you might want to call out in the commit message=
-.
-> >
-> > For instance 'DnameDMD0DmagicDDinterpD' was allowed before.
-> > It might be a very obscure feature to pick a delimiter because
-> > https://docs.kernel.org/admin-guide/binfmt-misc.html does not even
-> > mention it beyond 'where you can choose the : upon your needs'.
->
-> Yeah, I can send a separate doc addition for that. But that's kinda true
-> for any new thing we give meaning. So _shrug_.
+> > No. I wrote "and then set" which means after and that is what I really
+> > wanted to say. You still don't seem to be understanding the logic of handling
+> > the _batch_count. _batch_count is the length of the returned batch.
+> > __readahead_advance() updates _index and _nr_pages to remove the folios
+> > returned in the last batch from the range. So _forward needs to contain
+> > whether the last returned batch was taken from the beginning or the end of
+> > the range and __readahead_advance() uses it to update current range
+> > accordingly (before we go and return the next batch). We cannot clobber
+> > _forward before calling __readahead_advance(). I hope things are clearer
+> > now.
+> 
+> Got it. Sorry I made some assumption instead of asking my question, so I
+> misinterpret your words. My question is who sets the initial value of
+> _forward? So that __readahead_advance() can update _index and _nr_pages
+> correctly at the first time __readahead_folio() is called?
 
-I figured but thought it was worth calling out.
-Maybe you will want to reserve A-Z for non-delimiters; the
-documentation seems to point readers
-to #:;- all sensible options. I don't have the history about this.
+This first time __readahead_folio() is called _batch_count is 0 so the
+value of _forward doesn't really matter... But DEFINE_READAHEAD() will
+implicitly initialize it to 'false' which is fine.
 
-Having a growing flag set and arbitrary delimiters seems odd.
+> __readahead_folio() does:
+> 
+> 1. update _nr_pages and _index,
+> 2. return NULL if _nr_pages is 0 and set _batch_count to 0,
+> 3. return folio using xa_load and set _batch_count to folio_nr_pages().
+> 
+> after the change:
+> 
+> 1. call __readahead_advance() to update _index, _nr_pages, and
+> _batch_count based on _forward,
+> 2. update _forward to true, since it is __readahead_folio()
+> 3. return NULL or folio based on _nr_pages.
+> 
+> Then the first time __readahead_folio() is called, who sets _forward to
+> make 1 work correctly?
 
-I am headed to DEFCON tomorrow but I saw a few more patch series will
-go through.
-They are getting a little more esoteric for me though :)
+See above...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
