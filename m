@@ -1,206 +1,188 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEA13FBEBC
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 09:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054AB412C1A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 09:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785922788; cv=none; b=pLQer2iyvIIhgYPA9vW0IHzY8L88J5io8fiCfwKrqYnXJ020u60jViv7mh1ynckgOmvjk4rOEJzKTu3NJQrZPlsfdUOjwn3QGY4hw/JTwSrSn0QihMlRoP+1oW+W22Mr70dsrhAbwy+5MXdakt4y3S6qUts+CPlhK9/nj/C2KAw=
+	t=1785923661; cv=none; b=HMIj+TRo2xJ8tI86QdeCcpkMHThGWdVWU4hUdvkQmLfNbnC6c+TnxV2YR7Afeg3TGJnIWKB2X9wyjOkom1KLdc9YjTHNv+zFvY5rSK/5EBWfzUULlnVfoHVf1ETfkR7lmiVbreCserM+R5zybMoEafzsDKInCqjHjwuRy2EUhfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785922788; c=relaxed/simple;
-	bh=1N4hMDGgfLWcZ0iw99rx75WDQgKwuA+e0WQ6QLMv+98=;
+	s=arc-20240116; t=1785923661; c=relaxed/simple;
+	bh=Ee04C6YOyTAFvgtqxzoAzySxH8fuwp/doP38lRemS8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c/jfzqod9SccWSYKgNtaYINe6rsLpcuQUZWfmoSJ3SXoeDWsSGpIkQ4WZcS5zRPk4riH0Z4vbj48s57cHC+fbH2psrEJo0BbIkITwjOQHcnBe1XbpQ8Fc97w33eOJb18glWF2LVLHnRxZY1n8J72EF1YEH1Qzui19TGhVgfNcyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yi2ZR8Xl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6TZFTWyo; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AX6nMKyo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g7qO1uA3; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=g/plqw1wpJMNh4N+SCou/aFz1mAk0Z8ziCQQ3XSXX1o2IvXc9kFVyBHB273r7ladqSdK/JUVrcWAYX3hXxLnuHh8YlzVXWnKNTb8BXuYLasb8HD/o2XogqEQb2cxjavhAKtP3KubII4BFRx8CkNo3bNhsVzLcA+5HOZr2PmBOE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wzR+ohd4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0NO3IQ4x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sfuHkkSY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OyGd9H2+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yi2ZR8Xl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6TZFTWyo";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AX6nMKyo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g7qO1uA3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wzR+ohd4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0NO3IQ4x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sfuHkkSY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OyGd9H2+"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 90F597FD2C;
-	Wed,  5 Aug 2026 09:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785922780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E35817FD43;
+	Wed,  5 Aug 2026 09:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785923653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GQVwr3gnBJOHSgeW9bCvvZBvXsMXD7EH3ku70gJIfoQ=;
-	b=yi2ZR8XlagMVBg52yBL52rT2DhnP9SkazsC2usqtm2Fdp+/ywzdxy0qLWmEeF6iiSQImID
-	TyWE0isyLzBOIs903hQ+m1hoYPAA56IRaz6+8npRxadbimWif+Do4hSkqdWvdqlfdHqf7r
-	FX5nPew37I8kp/CdduBGBC1OKFUHxsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785922780;
+	bh=CU4WpIubcpWK9hCH2PEh/5TTaHzVeki/xiz4teIymqk=;
+	b=wzR+ohd4v+0lgQWsYVhJoHKuZEtEb3YNwJc3v7q8zHLgDVW4LNwaXDrXwWIpNBFvtlK4Mj
+	TKoKJO3eGxFZFt+KE9G87nTZpQhcrz1VGNbvP2VnMvCS7Rs9WCoI3nygsN7hvZ2XNO9V/b
+	w0zcXDOVtiV3ZIsR0/uj9pv0VbIowqM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785923653;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GQVwr3gnBJOHSgeW9bCvvZBvXsMXD7EH3ku70gJIfoQ=;
-	b=6TZFTWyor/50frl5M3SOQWOXgOkQe8Z43UcFdpP5YzT3/Xpx24bb2EqM6Kakfz74OudwHl
-	0gaUYrsxZTZ4qUAw==
+	bh=CU4WpIubcpWK9hCH2PEh/5TTaHzVeki/xiz4teIymqk=;
+	b=0NO3IQ4xJEXNmoj/S5jhj6eu/u4nn6+Hww7p8Rcaf6NIkFyJHxb5+ggX0+7QrXFe3cTYaZ
+	BY/vkPKrr8vVfjAQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785922776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785923648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GQVwr3gnBJOHSgeW9bCvvZBvXsMXD7EH3ku70gJIfoQ=;
-	b=AX6nMKyonJLT1KeWcLsKlFFlLGMNrtcISnrmtn0x9F8rlN2xsthDW1jYjsEikPY0LXN+xj
-	TaIO19z8hr4aldCRnREpoPA3MKL6eZf3KrOiKieTkarzYWSnMUTW0emgrigYR+7sZBNrR0
-	pN+s3i2L/X2KmFNZAeDf5h3ygxN4nfI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785922776;
+	bh=CU4WpIubcpWK9hCH2PEh/5TTaHzVeki/xiz4teIymqk=;
+	b=sfuHkkSYBH/rMYK9Ymy4w/oFuE/D0G/iXwSNRfeVql/WBcnVstNmrxr04BS1enCpHmVVeM
+	2t3u0+WlVHt1sG3GP4x7Yh9a4D3BVInpfVYmHLxHpBLQuBgvnFYLIAZItUdgpCmRDbP52k
+	x780PSShWatmHhVTu0TKjUxoZm6GEIk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785923648;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GQVwr3gnBJOHSgeW9bCvvZBvXsMXD7EH3ku70gJIfoQ=;
-	b=g7qO1uA38mTs+HG7a4ORr+8vtdWO8B1V+t3zaOOPzMFqy9ZNIRs6dplDvQ46/Liw1xv4Cm
-	S8JZrfCTsDhl4OAQ==
+	bh=CU4WpIubcpWK9hCH2PEh/5TTaHzVeki/xiz4teIymqk=;
+	b=OyGd9H2+JlMMeeivriHeQILv068qUPXI16OSZOsL+0ColwikZcoY/8I86KN0BqQvpuUhe1
+	Vlk/VTgRxbyvOLDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 873E9779B6;
-	Wed,  5 Aug 2026 09:39:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFCEE779C2;
+	Wed,  5 Aug 2026 09:54:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uOD9INgEc2oGPwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 05 Aug 2026 09:39:36 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 14607A13A7; Wed, 05 Aug 2026 11:39:32 +0200 (CEST)
-Date: Wed, 5 Aug 2026 11:39:32 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jann Horn <jannh@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: document semantics of kstat::{uid,gid} fields
-Message-ID: <jdgkb7u77fc56g7nm3k4ict4hk73ypu7whjriqocsjbawudm24@we72tpaxods6>
-References: <20260803-vfs-comment-stat-uid-v1-1-162d062b737c@google.com>
+	id wl97Lz4Ic2p2TQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 05 Aug 2026 09:54:06 +0000
+Date: Wed, 5 Aug 2026 10:54:05 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kevin Brodsky <kevin.brodsky@arm.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] mm: constify the pte_offset_map_ro_nolock()
+ return value
+Message-ID: <anMHQn_mBs6DTrZB@pedro-suse.lan>
+References: <20260803164400.531199-1-pfalcato@suse.de>
+ <20260803164400.531199-7-pfalcato@suse.de>
+ <anHJ48Glq8EdHatd@lucifer>
+ <anI6BEyTJFzQY-N9@pedro-suse.lan>
+ <595fe323-59d3-4f4a-92a3-ac5d67b7461b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260803-vfs-comment-stat-uid-v1-1-162d062b737c@google.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <595fe323-59d3-4f4a-92a3-ac5d67b7461b@kernel.org>
+X-Spamd-Result: default: False [-6.80 / 50.00];
+	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmx.de];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,arm.com,hansenpartnership.com,gmx.de,linux.ibm.com,ellerman.id.au,infradead.org,google.com,suse.com,suse.cz,nvidia.com,linux.alibaba.com,redhat.com,linux.dev,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,kvack.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLxu57a9hfgn7tttf5jiwuqe5o)];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -6.80
+X-Spam-Level: 
 
-On Mon 03-08-26 21:46:19, Jann Horn wrote:
-> The uid stored in struct kstat is logically a vfsuid; file systems
-> initialize it by converting a kuid (filesystem perspective) to a vfsuid
-> (mount perspective), then use vfsuid_into_kuid(), which essentially just
-> typecasts from vfsuid to kuid.
+On Wed, Aug 05, 2026 at 07:58:02AM +0200, Christophe Leroy (CS GROUP) wrote:
 > 
-> For now, just add a comment to note this mismatch between C type and
-> semantic type.
 > 
-> Below are some notes for anyone who wants to refactor this in the future.
+> Le 04/08/2026 à 21:22, Pedro Falcato a écrit :
+> > On Tue, Aug 04, 2026 at 12:22:19PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > 
+> > > 
+> > > >   			if (!pte) {
+> > > >   				mmap_read_unlock(mm);
+> > > >   				result = SCAN_NO_PTE_TABLE;
+> > > > diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+> > > > index b91b1a98029c..2cfc6e608ef4 100644
+> > > > --- a/mm/pgtable-generic.c
+> > > > +++ b/mm/pgtable-generic.c
+> > > > @@ -308,8 +308,8 @@ pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+> > > >   	return NULL;
+> > > >   }
+> > > > 
+> > > > -pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
+> > > > -				unsigned long addr, spinlock_t **ptlp)
+> > > > +const pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
+> > > 
+> > > Can pmd be const too?
+> > 
+> > I was going to say "yes but then pmdp_get() also needs to be constfified" but
+> > actually no, it can't:
+> > 
+> > pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp) {
+> >          if (unlikely(pmd_bad(pmdval))) {
+> >                  pmd_clear_bad(pmd);
+> >                  goto nomap;
+> >          }
+> > }
+> > 
+> > so PTE mapping actually needs to write to the pmdp if the pmd looks bad.
+> > Tricky stuff :)
 > 
-> There are probably two options to refactor this away:
-> 
-> 1. Change the type of kstat::uid to vfsuid_t, and perform the conversion
->    from vfsuid to userspace-uid in the VFS layer. This wouldn't change
->    machine code, just be more semantically correct.
-> 2. Change the semantics of kstat::uid to really be a kuid_t, and let the
->    VFS layer take care of doing the translation from kuid to vfsuid that is
->    currently done in filesystem code (or in generic_fillattr, on behalf of
->    the filesystem code).
-> 
-> Option 2 is probably neater since it moves more logic into the generic VFS
-> layer, and this is something that is expected to work the same way in all
-> file systems?
-> 
-> The following coccinelle script:
-> ```
-> virtual context
-> 
-> @@
-> struct kstat *stat;
-> @@
-> * stat->uid
-> 
-> @@
-> struct kstat *stat;
-> @@
-> * stat->gid
-> 
-> @@
-> struct kstat stat;
-> @@
-> * stat.uid
-> 
-> @@
-> struct kstat stat;
-> @@
-> * stat.gid
-> ```
-> detects 43 field accesses to these uid/gid fields.
-> 
-> Signed-off-by: Jann Horn <jannh@google.com>
+> But if pmd is const, can it be bad at all ?
 
-I don't remember the reason why things are like this - Christian will have
-to return from vacation for that :). But I agree with your analysis so feel
-free to add:
+Yes, you just need a stray write or a bit of memory corruption and it can
+go bad. And then we need to do clear_bad() :)
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+(it's unclear to me whether this is actually common or useful enough these
+days; the way this was explained to me, page tables can be best-effort
+redundant; but it's not like we know clearing the whole range is ok, and
+the way pmd_ERROR, etc work they don't even communicate to userspace what
+happened, unlike normal hwpoison mechanisms)
 
-								Honza
-
-> ---
->  include/linux/stat.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/stat.h b/include/linux/stat.h
-> index e3d00e7bb26d..9c5709132862 100644
-> --- a/include/linux/stat.h
-> +++ b/include/linux/stat.h
-> @@ -41,8 +41,8 @@ struct kstat {
->  	u64		ino;
->  	dev_t		dev;
->  	dev_t		rdev;
-> -	kuid_t		uid;
-> -	kgid_t		gid;
-> +	kuid_t		uid;		/* This is logically a vfsuid_t. */
-> +	kgid_t		gid;		/* This is logically a vfsgid_t. */
->  	loff_t		size;
->  	struct timespec64 atime;
->  	struct timespec64 mtime;
-> 
-> ---
-> base-commit: 075b74841bd0065a3bda3440873c747938e69b68
-> change-id: 20260803-vfs-comment-stat-uid-ea9d874f9368
-> 
-> Best regards,
-> --  
-> Jann Horn <jannh@google.com>
-> 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Pedro
