@@ -1,52 +1,51 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB45841F5CD;
-	Wed,  5 Aug 2026 10:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5785B421228;
+	Wed,  5 Aug 2026 10:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785926548; cv=none; b=jJuJXXO9CnJdFNQ1qNXp4sc6EXkTOn9mU3YBPzJjGZYnsMiQKcbrZ/DFX3ekFTYjYJcBrU+pkXVZMCBZ2lQPmV/yS/Zg3NHWQ5fGDOqzrXSBh2vKAdVKra/VgN6bqXmwrEenp9ttdDuRxCY2X6uYwh0HzTRcWWhFWNFVwPc2vH8=
+	t=1785927171; cv=none; b=sevJPuo7b0Fr3p73V4fzLOTFLax/iIrdRRRtN/pQNdoxfo5QFqDrAsihKl2LIecj0MmzEeL1YzWXTX1HwRCUo0Kt0iPCRwGUJ/ZU0j3UVJR+dBO1mviGYu3BBWN2I3iCjKsyDxD1FX80H2ivIRecZJoCN5tR0HDIWtEujvOfxVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785926548; c=relaxed/simple;
-	bh=dLnCHFABrcZb/4lMb8OKip2XrApMrTNt9jLEKjSti1o=;
+	s=arc-20240116; t=1785927171; c=relaxed/simple;
+	bh=scnfdtV+1gbuSy3LTZsCXdrZEq+21NEz7PX/c+P+Tzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nr6QebVltvRMypxT9UxdMNya684WSNF007q2dgV11uvBaoLRfXd6nsc9YbMKsEF70Y8BNSOn8Gr2DhVh+E3/3XXaQIm68cqD165Xmx6beTXqAK8ZlpTfDXIjirHJ2ndRZ3n69vMo7OKoi5DXGTz0chNR8OXUppNWRaAd/rGnaXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ai1MPx4+; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/tPn9WRB7wHM8XbioHME8Ir1vrlyeWMb6MDtUwRzKXhhUAkE/L5C1Ko2mWc8BMW8K2EEa9h7qdVDCUkKQ8kKapA20e5biMLeDkPegNakBBSTK0fEROcCTo0l626Yz19PhdTS5pF1fFCiMETUBk9zGjSsh5InhTlKYAjGWj69EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2X7bjf7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ai1MPx4+"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA2D2153B;
-	Wed,  5 Aug 2026 03:42:20 -0700 (PDT)
-Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E9F63F632;
-	Wed,  5 Aug 2026 03:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785926544; bh=dLnCHFABrcZb/4lMb8OKip2XrApMrTNt9jLEKjSti1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ai1MPx4+Ir9VhFeH2HWxjevL9kszGJ6grspTTZUKC4wtSs46+DRMHe7SevW8UESlp
-	 nEm2r4W4I9DKOG0PZ90sfhgLuvCLZGB6e8v5MNNQqPMOIVLQnZJ/pyE+ZB356so1Ga
-	 R5xoG9ECl/ieCh3WindUP/tPTEQ7Blav4otAFLv8=
-Date: Wed, 5 Aug 2026 16:12:21 +0530
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] mm: add basic PTE const type-safety
-Message-ID: <a5afofuxhzwkeb76jdheottyxt4mms3arg2iucunztczbmd3lf@wiqp7yccjzlt>
-References: <20260803164400.531199-1-pfalcato@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2X7bjf7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C8B61F000E9;
+	Wed,  5 Aug 2026 10:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785927170;
+	bh=dqMBK15onO+7JT1dZXU8R/Sw5n89R/z58pLEVJzn0hs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l2X7bjf7DRVZgmFo0bPic+lRCzPiIWHHmdqPOhIcRSCT2j+hsZ/FvPwed12w3TsVC
+	 iqR5lXso5Vj0GPcXpcC1vhPNZpj7X5fRVo2DMAbXFvi59HcLW/vO2vul3lik0Ncx8Y
+	 D9BxmsIaCDZd8/a5w4PHfl1VgyO4kxP+IBDP+mGP20aN8aN86iR/AI7ltt7DX92LAE
+	 s9SlgwUQPfrlWN9WvIASQR2uS6VpHRY/FI2v4F26zxHJWqcLUU+6916WITL6XvFkpE
+	 WR+/dRHysdFzJ6J2zu3tIWs2ByAaNoZS2BTTPZMq1Oh9UpF1m91kXsAsNsHAKLminE
+	 FiQtrcpjTMvLw==
+Date: Wed, 5 Aug 2026 11:52:31 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	William Kucharski <william.kucharski@oracle.com>, David Hildenbrand <david@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/2] mm/huge_memory: use folio's memcg inside
+ __folio_split()
+Message-ID: <anMVxagM7db3cT_Q@lucifer>
+References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com>
+ <20260730-add-gfp_account-to-xas_split_alloc-v2-1-5a56c2361d85@nvidia.com>
+ <am28pV2PEfHsi4p-@lucifer>
+ <DKFEEI2EDS4F.1AHGKB1EL6XRG@nvidia.com>
+ <anCtxQE5hDUH5N6a@lucifer>
+ <DKFEUPDED2AF.22PKCFTWTG6G5@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,100 +54,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803164400.531199-1-pfalcato@suse.de>
+In-Reply-To: <DKFEUPDED2AF.22PKCFTWTG6G5@nvidia.com>
 
-On Mon, Aug 03, 2026 at 05:43:54PM +0100, Pedro Falcato wrote:
-> Since forever, MM code has thrown pte_t * around with no concern for const
-> safety, or typesafety of any kind. This is confusing. Attempt to address it
-> by:
-> 1) Making sure pte_get*() helpers can cope with const pte_t * arguments
-> 2) Constifying the pte_offset_map_ro_nolock() return type, which by definition
-> already pledges that users will not write to it.
-> 
-> These two simple steps were already able to uncover code smell from
-> khugepaged + do_swap_page().
-> 
-> Separate steps could include introducing pte_offset_map_ro_lock() for more
-> widespread usage of this.
-> 
-> Benefits of this include less confusion and better type-safety. It could also
-> futurely aid in efforts such as [0] which may want semantic annotation of these
-> accesses.
-> 
-> Based on mm-unstable and compile-tested on a handful of architectures.
-> 
-> No functional changes intended.
+On Mon, Aug 03, 2026 at 11:23:39AM -0400, Zi Yan wrote:
+> On Mon Aug 3, 2026 at 11:07 AM EDT, Lorenzo Stoakes (ARM) wrote:
+> > On Mon, Aug 03, 2026 at 11:02:30AM -0400, Zi Yan wrote:
+> >> On Sat Aug 1, 2026 at 5:36 AM EDT, Lorenzo Stoakes (ARM) wrote:
+> >> > On Thu, Jul 30, 2026 at 10:18:00PM -0400, Zi Yan wrote:
+> >> >> During a pagecache folio split, an xarray node allocation can happen and
+> >> >> needs to charge at folio's memcg instead of folio split invoker's memcg,
+> >> >> because for example folio split can happen during reclaim and reclaim's
+> >> >> active memcg might not be folio's memcg. Switch to folio's memcg at the
+> >> >> beginning and switch back afterwards.
+> >> >
+> >> > I assume this is the only allocation? I guess in general it makes sense to have
+> >> > the folio's memcg be active here regardless.
+> >> >
+> >> >>
+> >> >> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> >> >> Fixes: 6b24ca4a1a8d4 ("mm: Use multi-index entries in the page cache")
+> >> >
+> >> > Cc: stable?
+> >>
+> >> Like you said above, only xas_split_alloc() is affected. And we have not
+> >> seen related workingset regression report (like what Johannes reported
+> >> in commit 7b785645e8f13 ("mm: fix page cache convergence regression")).
+> >> It might be OK to not backport.
+> >>
+> >> Johannes, what is your take on this?
+> >>
+> >> >
+> >> >> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> >> >
+> >> > Change seems reasonable overall.
+> >> >
+> >> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >> >
+> >> >> ---
+> >> >>  mm/huge_memory.c | 20 ++++++++++++++++----
+> >> >>  1 file changed, 16 insertions(+), 4 deletions(-)
+> >> >>
+> >> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> >> >> index 04e8a6b553435..b9c2d8908e564 100644
+> >> >> --- a/mm/huge_memory.c
+> >> >> +++ b/mm/huge_memory.c
+> >> >> @@ -4063,34 +4063,42 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
+> >> >>  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
+> >> >>  	struct folio *end_folio = folio_next(folio);
+> >> >>  	bool is_anon = folio_test_anon(folio);
+> >> >> +	struct mem_cgroup *memcg, *old_memcg;
+> >> >>  	struct address_space *mapping = NULL;
+> >> >>  	struct anon_vma *anon_vma = NULL;
+> >> >>  	int old_order = folio_order(folio);
+> >> >>  	struct folio *new_folio, *next;
+> >> >>  	int nr_shmem_dropped = 0;
+> >> >>  	enum ttu_flags ttu_flags = 0;
+> >> >> -	int ret;
+> >> >>  	pgoff_t end = 0;
+> >> >> +	int ret;
+> >> >>
+> >> >>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
+> >> >>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
+> >> >>
+> >> >>  	if (folio != page_folio(split_at) || folio != page_folio(lock_at)) {
+> >> >>  		ret = -EINVAL;
+> >> >> -		goto out;
+> >> >> +		goto out_no_memcg;
+> >> >>  	}
+> >> >>
+> >> >>  	if (new_order >= old_order) {
+> >> >>  		ret = -EINVAL;
+> >> >> -		goto out;
+> >> >> +		goto out_no_memcg;
+> >> >>  	}
+> >> >>
+> >> >>  	ret = folio_check_splittable(folio, new_order, split_type);
+> >> >>  	if (ret) {
+> >> >>  		VM_WARN_ONCE(ret == -EINVAL, "Tried to split an unsplittable folio");
+> >> >> -		goto out;
+> >> >> +		goto out_no_memcg;
+> >> >
+> >> > This function really badly needs splitting up and probably some cleanup.h work :)
+> >>
+> >> You mean folio_check_splittable()? You want to move -EINVAL checks a
+> >> separate one?
+> >
+> > No __folio_split().
+> >
+> > Comment about cleanup.h really was the whole pattern of goto xxx for various
+> > levels of unwinding things.
+> >
+> > But really I mean the folio splitting code in general, there's a lot of
+> > massive-complicated-functions with a million things going on at once,
+> > __folio_freeze_and_split_unmapped() is another.
+> >
+> > Feels like we should really have this stuff in something like mm/folio.c anyway
+> > too now that's renamed :)
+> >
+>
+> I agree that __folio_split() is handling multiple cases, anon, shmem,
+> pagecache, all together. Do you prefer:
+>
+> 1. split __folio_split() to handle each case in a separate function with
+> some code duplication, like xarray for pagecache and shmem,
+> freeze/unfreeze folio for all;
+>
+> or
+>
+> 2. encapulate per-case code in small functions, like
+> if (is_anon)
+>     split_prepare_anon();
+> else
+>     split_prepare_file_backed();
+>
+> __folio_freeze_and_split_unmapped();
+>
+> if (is_anon)
+>     post_split_anon();
+> else
+>     post_split_file_backed();
 
-Even though the pte accesses should always be type-safe, this series does
-not really address the problem completely and instead changes things only
-for a small set of pte access sites. So just wondering how much beneficial
-this series really is ?
+Well these 'post' functions are a bit confusing so I guess I'd say experiment
+with different approaches and see which ones end up with the nicest code :)
 
-> 
-> [CC list editorially trimmed for brevity reasons; apologies if you're not on it]
-> 
-> Link: https://lore.kernel.org/linux-mm/20260526-kpkeys-v8-0-eaaacdacc67c@arm.com/#t [0]
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: "Liam R. Howlett" <liam@infradead.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: Usama Arif <usama.arif@linux.dev>
-> Cc: Kevin Brodsky <kevin.brodsky@arm.com>
-> Cc: Muhammad Usama Anjum <usama.anjum@arm.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-fsdevel@vger.kernel.org
-> 
-> v2:
->  - Small fixups on the arm64 side
->  - Re-order patches in a way such that bisection is preserved
->  - Pick up Helge's patch dropping parisc ptep_get()
->  - Constify s390's ptep_get() as well
-> 
-> Helge Deller (1):
->   parisc: Drop own implementations for ptep_get() and
->     ptep_test_and_clear_young()
-> 
-> Pedro Falcato (5):
->   mm/arm64: constify pte_get*() and contpte get logic
->   mm/powerpc/8xx: constify ptep_get() argument
->   mm/s390: constify ptep_get() argument
->   mm: constify generic pte_get*()
->   mm: constify the pte_offset_map_ro_nolock() return value
-> 
->  arch/arm64/include/asm/pgtable.h             | 10 +++++-----
->  arch/arm64/mm/contpte.c                      | 11 ++++++++---
->  arch/parisc/include/asm/pgtable.h            | 20 --------------------
->  arch/powerpc/include/asm/nohash/32/pte-8xx.h |  2 +-
->  arch/powerpc/mm/pgtable.c                    |  2 +-
->  arch/s390/include/asm/pgtable.h              |  2 +-
->  include/linux/mm.h                           |  4 ++--
->  include/linux/pgtable.h                      |  8 ++++----
->  mm/filemap.c                                 |  2 +-
->  mm/khugepaged.c                              |  2 +-
->  mm/pgtable-generic.c                         |  4 ++--
->  11 files changed, 26 insertions(+), 41 deletions(-)
-> 
-> -- 
-> 2.55.0
-> 
+>
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
+
+--
+Cheers, Lorenzo
