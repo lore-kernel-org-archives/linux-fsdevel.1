@@ -1,407 +1,248 @@
-Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257B3394499
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 19:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785956897; cv=none; b=soDX5LXLY6DL9mqb9MFSf8zE9aVp2l89dSM8uW2efeeEtm5YTIz9+u6Pwuzd0GcmIWdjbt+KpqFzDIzYvFOxYxxlAz0pXyxAwmNciOx8SpsbO3i/AywgtTE95lGx3y/+K6OhWGb7VbcaBbEvvtJEdBAtbad5js2FjgaRACDdkqU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785956897; c=relaxed/simple;
-	bh=BV9J3THl4S5DP5wy6kNT9WEsaKIRd2/LEOJgTvPPIhE=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AT0r4iXRlxebAu3qFAp2ExhSRn5Q7Gwc18bh5MWjVi+xU9bLVUsKF4mYV78gx00QvRUaL76zDRArLDDAJeDb9//yRgTTp6E1b8x0vGztqDMzPJFyJKuCxL1eGbCr4nL13Av5iiIOy1yVNmtlyvvbWkPFd0KjCSqBxgzZHdUqe/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr; spf=pass smtp.mailfrom=lukasldc.fr; dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b=B4oJAnvx; arc=none smtp.client-ip=57.129.93.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukasldc.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABABE3D7D6A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 20:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785960515; cv=pass; b=JCMXqLYF0arXR7ubLzVnHNKPjHSHQ8VSDhuuV7FpK0BTdbwJowaXXh2I/PS+24Zyfili9Yfe7Tl2SQDuN/wY0sdUJhQ3MXSZa3g3m/h0gafGgH8gfPxST5Fg+461OrbyaSCUol+M4jJWPfO8kj094nOEpO+RvZe4hy6s1mcefoc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785960515; c=relaxed/simple;
+	bh=dcnH6nAMoToD8W2PlOqGbdIQ0CwYDRECs1EnTxefy+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZwoQzY7rACC8PRecVmT2Y9nozOr2W++tWanf0vu0y9tXbX5aKjFACwo05vZalAMEWLkMUBV8saOAKNsU9bZTuqFbY4NlCrcv40iXlnMIDbopEyqi8E53419yOqTHMvTnLyCOYb7Do9xTxwI7zpJduFpaqJWRFnJIfwctitVlEN8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOQtgS2t; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b="B4oJAnvx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lukasldc.fr;
-	s=protonmail3; t=1785956880; x=1786216080;
-	bh=1RzhjpKE23bNvZ6/pRW+z0pJdpUp3ZDeFIGuOFzpBrg=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=B4oJAnvxSwo/TN1kYVq6MF3NfTkmnlT6apwjZNTolhflEpIaeKBho6ekFZNCun6dl
-	 lgT7k2QuFFzUhkA+vLuUSTqRStlZBYCiGWpepG7vgfCoEdI8DmUrj8lg6ZsKsvqWc8
-	 34I2duHnafKVNuofqRlcsxH2ndrUFOyibuspoyfMT4VKkaV66ByogSFDmmdXTDT1cT
-	 ZR/51pgmSR9BrOHMouLCOR60HP57ByI31a50YdR9TZjZhfWw59nF+WVcQGto2LQM/p
-	 jhuNdJ2PHYcYQaKiAofCrPnu0RCZwdjjXbxlusKLXWy2ltnN4K4W+qKzoJiNBX1utd
-	 ypSygxKFlkY0g==
-Date: Wed, 05 Aug 2026 19:07:58 +0000
-To: "almaz.alexandrovich@paragon-software.com" <almaz.alexandrovich@paragon-software.com>
-From: Lukas LOPES DA CONCEICAO <contact@lukasldc.fr>
-Cc: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brauner@kernel.org" <brauner@kernel.org>, "djwong@kernel.org" <djwong@kernel.org>
-Subject: [BUG] ntfs3: IOMAP_INLINE mapping exceeds its page - BUG_ON in iomap
-Message-ID: <4_qSHDGTzev3i2hKqtp_9TpB7p5JWTBKwOucZ49wWdoLB9TphDDLl-QsnEjjPLerlfuk-xS9J_qL7TQefUZxd3qW9MttPZT-UgBWJW9B_eE=@lukasldc.fr>
-Feedback-ID: 100544131:user:proton
-X-Pm-Message-ID: aca22f412653724044935216046ffe16d8d39e9d
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOQtgS2t"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a17c04563fso1297036a12.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 13:08:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785960511; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CerAPEN4euM/RSHWX958D6rvolIaItoysGD0JT+63uUwRmprnCABg3kP5cNK5gaeic
+         NUeANcZIGFW8efXAlsSOd+WQAShkuY8dioYqnfJHCSb0ube1f5alNADlEjc5YcoIgSlF
+         LGeClMbZOwkim8t4RnwHj74Dcd35ILU6KC9LWJhXLwPKSjj4paUFzkevt8185oHdUTKk
+         RpAAkipwbYG2886LI3079u/0PvY6nA3TH+qW+eJzgdn1CdkVMAHTWYGM7EE3TC5RO8NM
+         JPZYAPEhQdw3mvvOiE460VYVZD+InxZQ5zeLhTBmFT4XuJvC186JZSrLYmwqWSkbnGfI
+         gFDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
+        fh=wMQXeXaRy8eYDClxpHHjCfYWEmnVZwjGpQKS75qCHVY=;
+        b=d+o/fbjijImp8nZPDzoQgN8Fv8i+QvSfenk3vz51cUjEStxRWqwZw1Vz/NYuPZ7QMC
+         QTBEeoa3Vi/OmM5zD1e+OAgRW/C2CfXI+NANv11J1766BTrQm0xfcbqsQ5EzoK+XEDzU
+         ihYyNq4H7T8TdiLRRUDk6i18o2IstSJMFf7DsabYDNQOUFN8PH9r4zDtXT1pqVBJniee
+         PBpc3KjAUEARbE1iEA1ChsSUHIRMSvjJSSy++pTtqUq9+/dLA/UWc9IxCZ/sn2r4wD6V
+         WqxcJHL0w5eEc4AnIi5rgk19feJOVOLWHDjOXI2vn7vcH7NQCJVrpOJ0+7PwNCJGEgjJ
+         rveA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785960511; x=1786565311; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
+        b=EOQtgS2tlIwYv3GpWpEh7kO8nhLgSlzCE9nmkVVe9qPlXsq9pzTd8/Yk2ky7l/oKro
+         KO9HoGF6fjUSJar/MJP/4yvE9AMuXzGsccCRsf4+5mxd599AUls1TbTX5dEOHQIsLo77
+         DCdb+tO+yF2/i8YoMUY0MSQd4aHQfzFnINm7jan4YRaBUnTW7xUWcC4Ph2XWGGErQE/V
+         cUf1di8Yg3RGh/Qf5FGkp73qGgg3DONqOrolDbzr7i1aIUTEkolwGRjq7AL8bPr5d5OH
+         rBhmF8zp1+WUrB711XSxwwrpx73QiZSyUJ3RAOlyiAAt6pMdKEvi8rXUxiY/QhtTtO5q
+         AFCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785960511; x=1786565311;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
+        b=nwIjEqe3n0RlwXp9iGQKOPUXIa9nly7u4qFDM1Fvl0CIZ/XYl/Pam0QfCB3k2Pvd8A
+         tV7478BR/i3v7copB4eKjBBHYltf4slnDWwH9F/WC2fy8r7VjH4aVLLR/CVUXAww6Sa0
+         O4XGqIBWPWDjXk1gPNRDNQUYLgU5pfJPmO5U9Onvmkhf9x/NLfZaWB0vNBftHIxLg5Sr
+         g6wfYNE4BQenvDtVzI7i6fkpG8XRbg3nxaYezJpd4NbzS9csKXTy0HsnZS27JOh3nA13
+         le/divl5hxNWdnxlHGlEDrKbLkDO4lPsd488DoBQd64pXMh9whstIaGzsdqvWHXXs8qS
+         ggKg==
+X-Forwarded-Encrypted: i=1; AHgh+Rowl0Pi+v7SUndHZqXaLOytmOiHSaNJYjD3SqHBlILAe1ijihiuRY0kz93oUwzvaK+ilv4OMU03Cuq6Vn+A@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSFi4hYI7tEw6FToxwrLGVegFtjlBErsEcrOCwPLoZahyLfbp+
+	1va2ErrpVNd2G43KD02FHa25zEwKQaZmb11dPgL0PmGtnWMcQnlP6m1WGXUm/CySIJ1lMGAYWvq
+	aIbQ4D9vQrJ5TE0L1DDHoXZaAZnk7kIEebtpODLq3Iw==
+X-Gm-Gg: AR+sD12yut7yNWhfokqIELUKH/1fGGzOjCaGSFTXPjWgwuakZ0OrZDxAUFHrAmSmY7b
+	M6VKg4VbhqmpJ8903xkScQ8a8pz8gNbTkSSbw7LsSvQItWa0OP/UKHvUjJlaVCLAW+oBQVJZPM6
+	zClm6WuMGw4qJ/xBcmrSt/loJV492IHZDaH48u4efl9m+xnDulXHCcWN25CoKA7QWcFQDX5MblO
+	TGFDPu2WD0PCAxRpFOB4e7mA5U9k2HX3BfOsaOEUVX/ccpM9O5PokyVHNf56H2kI2WOucn3ctJS
+	7oo7+gpopJjIJCCO6Qz7PPRL8+LuOedSiacgcBunQrRa
+X-Received: by 2002:a05:6402:5416:b0:6a0:926e:f8f9 with SMTP id
+ 4fb4d7f45d1cf-6a14f07bbc4mr5124454a12.2.1785960510703; Wed, 05 Aug 2026
+ 13:08:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------efa0dbf689cf65b250962014e3f19bda2f30acafa787622ee3543735d0cce140"; charset=utf-8
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------efa0dbf689cf65b250962014e3f19bda2f30acafa787622ee3543735d0cce140
-Content-Type: multipart/mixed;boundary=---------------------25ba79cbbfdfa0f645d94e32445bb00b
-
------------------------25ba79cbbfdfa0f645d94e32445bb00b
+References: <cover.1785621505.git.coshi036@gmail.com> <41c6fee66724e374d4682124a1eb80041e22efb9.1785621505.git.coshi036@gmail.com>
+ <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
+In-Reply-To: <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
+From: Chris S <coshi036@gmail.com>
+Date: Wed, 5 Aug 2026 16:08:18 -0400
+X-Gm-Features: AUfX_mxgWX_SrUpIktUbfQ75eZAdB8HOgpBdd-DDrx5djXTy8AE98I_F_BmiHsU
+Message-ID: <CACd_6n0GGwW16bU2PguYhCou8v0q3K5tU=tLS=QfknpUkQinYA@mail.gmail.com>
+Subject: Re: [PATCH 02/19] buffer: allow a buffer_head to point at memory
+ outside the page cache
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
 
-Hi,
+Hi Jan,
+Thanks - changelog reworded along those lines in v2: a folio-less buffer is
+a narrow thing, most of the buffer_head API will not tolerate one -
+touch_buffer(), the async read completion path and plenty more - and it is
+the job of whoever builds such a buffer to keep it away from all of that.
+NULL only buys us that getting it wrong fails loudly instead of quietly
+following a slab folio's ->mapping.  Reviewed-by carried; the code itself
+is unchanged.
 
-Up front, so nobody wastes time on a wrong assumption: the analysis and
-the wording of this report were produced by an AI assistant (Assisted-by
-tag at the end). I work in software but not on kernels; I read it through
-and it holds together as far as I can judge, but I cannot independently
-verify the reasoning or the source reading behind it.
+On your folio_mapping() question: it is the right call in general, just not
+on this path, for the reason Matthew gave - it would hand back a
+swap_address_space if a buffer ever sat on a swap cache folio.  v2 does
+make that switch, but in a new patch, v2's 04, rather than in this one; my
+reply to Matthew has why it cannot be done here.  And agreed on forming the
+bio directly for these temporary bhs eventually - that is a bigger cleanup
+than this series.
 
-What is mine is the data. The machine, the seven crashes, the traces and
-the probe runs are real and reproducible here. Please treat the measured
-output as evidence and the analysis as a hypothesis to check.
+Chao
 
-Buffered writes to small (resident) files on an ntfs3 volume reliably
-trigger a kernel BUG in the iomap layer: 7 times in 11 days of normal
-desktop use, on both 7.0.0-28 and 7.0.0-29. It points at
-ntfs_iomap_begin() in fs/ntfs3/inode.c building an IOMAP_INLINE mapping
-whose length is not bounded by the page holding iomap->inline_data.
-
-Environment
------------
-Kernel:     7.0.0-28-generic and 7.0.0-29-generic (Ubuntu), both affected
-Board:      Intel Z790 desktop, x86_64
-Filesystem: ntfs3 on a 3.6T NVMe partition, 4096-byte blocks
-Mount opts: rw,nosuid,nodev,relatime,uid=3D1000,gid=3D1000,acl,
-            iocharset=3Dutf8,prealloc
-Taint:      G O - out-of-tree NVIDIA module. The faulting path is
-            entirely in fs/iomap and fs/ntfs3; the module is unrelated.
-
-The workload is the Steam client writing to a game library directory on
-the ntfs3 volume - shader cache, game metadata, runtime installs. No
-special configuration and no stress tooling; ordinary buffered write()
-calls from an unmodified Steam client.
-
-Occurrences
------------
-  date         process           write len   syscall path
-  2026-07-26   CGenericAsyncFi   0x81  129   __ia32_sys_write (int80)
-  2026-07-27   CGenericAsyncFi   0xa6  166   __ia32_sys_write (int80)
-  2026-07-27   CGenericAsyncFi   0xba  186   __ia32_sys_write (int80)
-  2026-07-29   fossilize_repla   0x18   24   __x64_sys_write
-  2026-07-31   fossilize_repla   0x18   24   __x64_sys_write
-  2026-08-03   fossilize_repla   0x18   24   __x64_sys_write
-  2026-08-05   CGenericAsyncFi   0x8c  140   __ia32_sys_write (int80)
-
-The 2026-08-03 one fired 21 seconds after the volume was mounted, during
-Steam's Vulkan shader pre-caching pass - so it does not need a
-long-running or heavy workload to show up. The 2026-08-05 one is on
-7.0.0-29 and happened while Steam was installing its Linux runtime -
-an ordinary download-and-install, no stress tool involved. It was caught
-live by the probe described below.
-
-Both the 32-bit compat and the native 64-bit write paths hit it, so this
-is not a compat-layer issue. All seven crash at the exact same
-instruction, iomap_write_end+0x1e0/0x1f0, and the trapping insn is ud2.
-
-Analysis
---------
-fs/iomap/buffered-io.c:1061 is, in iomap_write_end_inline():
-
-	BUG_ON(!iomap_inline_data_valid(iomap));
-
-with, from include/linux/iomap.h:
-
-	static inline bool iomap_inline_data_valid(const struct iomap *iomap)
-	{
-		return iomap->length <=3D
-			PAGE_SIZE - offset_in_page(iomap->inline_data);
-	}
-
-The register state is identical across all seven oopses:
-
-	RAX =3D 0x40  =3D 64    -> PAGE_SIZE - offset_in_page(inline_data)
-	RDX =3D 0xfc0 =3D 4032  -> offset_in_page(iomap->inline_data)
-	RDI ends in 0xfc0   -> iomap->inline_data itself
-	RBX =3D RCX           -> the folio
-
-So inline_data sits 4032 bytes into its page, leaving 64 bytes, while
-iomap->length exceeds that.
-
-The mapping is built in ntfs_iomap_begin(), fs/ntfs3/inode.c:
-
-	if (lcn =3D=3D RESIDENT_LCN) {
-		if (offset >=3D clen) {
-			kfree(res);
-			...
-			return -EFAULT;
-		}
-
-		iomap->private =3D iomap->inline_data =3D res;
-		iomap->type =3D IOMAP_INLINE;
-		iomap->offset =3D 0;
-		iomap->length =3D clen; /* resident size in bytes. */
-		return 0;
-	}
-
-iomap->length is set to the full resident attribute size, and the
-function returns immediately. It therefore never reaches the clamping
-block at the end of the same function:
-
-	if (... && (iomap->type =3D=3D IOMAP_MAPPED ||
-		    iomap->type =3D=3D IOMAP_DELALLOC)) {
-		/* Avoid too large requests. */
-		u32 tail;
-		u32 off_a =3D offset & (PAGE_SIZE - 1);
-		if (off_a)
-			tail =3D PAGE_SIZE - off_a;
-		else
-			tail =3D PAGE_SIZE;
-
-		if (iomap->length > tail)
-			iomap->length =3D tail;
-	}
-
-which in any case excludes IOMAP_INLINE.
-
-This looks like a regression from "fs/ntfs3: implement iomap-based file
-operations" (Dec 2025), which introduced the IOMAP_INLINE path for
-resident attributes. 6.x kernels are unaffected.
-
-Instrumented evidence
----------------------
-A kprobe/kretprobe pair on ntfs_iomap_begin() evaluating
-iomap_inline_data_valid() on every IOMAP_INLINE mapping it returns
-(script at the end) catches the violation live:
-
-  WOULD BUG  comm=3Dcs2              len=3D135 off_in_page=3D4032 tail=3D6=
-4 flags=3D0x0 read
-  WOULD BUG  comm=3DCGenericAsyncFi  len=3D140 off_in_page=3D4032 tail=3D6=
-4 flags=3D0x1 WRITE
-
-The read one did not panic; only the write path reaches
-iomap_write_end_inline(). The write one is the 2026-08-05 oops below,
-whose RSI is 0x8c =3D 140, matching the value the probe reported
-microseconds earlier. Same invalid mapping on both paths.
-
-Geometry: 135 and 140 both land in kmalloc-192, and 192 * 21 =3D 4032, so
-the 22nd object of an order-1 slab starts at page offset 4032 and runs to
-4224, straddling the 4096 boundary. Offset 4032 and tail 64 appear in all
-seven oopses (RDX =3D 0xfc0, RAX =3D 0x40).
-
-Buckets whose size divides PAGE_SIZE cannot straddle, and over several
-thousand further samples they never came close to failing: with
-kmalloc-64, -128, -256 and -512 the buffer sits in the last slot of its
-page, so tail equals the bucket size and is always >=3D len. Closest was
-exact equality (len=3D512, tail=3D512).
-
-So the trigger is a resident attribute sized into a non-power-of-two
-kmalloc bucket, placed at a slab offset that crosses a page boundary.
-
-Suggested fix
--------------
-iomap requires inline data to live within a single page, so the fix is
-to make sure res never straddles one. Since kmalloc buckets whose size
-divides PAGE_SIZE never place an object across a page boundary,
-rounding the allocation up to a power of two would be enough, and keeps
-the mapping complete:
-
-	res =3D kmalloc(roundup_pow_of_two(clen), GFP_NOFS);
-
-Clamping the length instead:
-
-	iomap->length =3D min_t(loff_t, clen,
-			      PAGE_SIZE - offset_in_page(res));
-
-would silence the BUG_ON but truncate the mapping, so the caller would
-see a short inline extent - probably not what you want here.
-
-Note on the BUG_ON
-------------------
-Independently of the ntfs3 fix: this BUG_ON is reachable from an
-unprivileged write(). The task dies holding the inode and folio locks, so
-every later access to that mount blocks in D state, the filesystem cannot
-be unmounted, and shutdown hangs - forcing a hard power-off that leaves
-the volume dirty. Here that has already cost data: chkdsk recovered
-orphaned directory entries into found.000, and two Proton prefixes were
-emptied.
-
-A WARN_ON_ONCE plus returning false would let the write fail cleanly
-instead of wedging the mount. Would the iomap maintainers consider that?
-
-Impact
-------
-Steam libraries on NTFS are a common dual-boot setup, so this likely
-affects a fair number of desktop users on 7.0. Two existing reports look
-like the same bug:
-
-  https://github.com/CachyOS/linux-cachyos/issues/841
-  https://bbs.archlinux.org/viewtopic.php?pid=3D2296728
-
-Full oops (2026-08-05, kernel 7.0.0-29, the one caught by the probe)
---------------------------------------------------------------------
-------------[ cut here ]------------
-kernel BUG at fs/iomap/buffered-io.c:1061!
-Oops: invalid opcode: 0000 [#1] SMP NOPTI
-CPU: 6 UID: 1000 PID: 17654 Comm: CGenericAsyncFi Tainted: G           O  =
-      7.0.0-29-generic #29-Ubuntu PREEMPT(lazy) =
-
-
-Tainted: [O]=3DOOT_MODULE
-Hardware name: [redacted]
-RIP: 0010:iomap_write_end+0x1e0/0x1f0
-Code: 8b 38 e8 e3 1c f9 ff e9 23 ff ff ff 48 8b 03 a8 08 74 10 e9 8c fe ff=
- ff eb 8a 0f 0b e9 54 ff ff ff 0f 0b 31 c0 e9 0a ff ff ff <0f> 0b 0f 1f 00=
- 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90
-RSP: 0000:ffffcfff4bb67b80 EFLAGS: 00010297
-RAX: 0000000000000040 RBX: fffff61fcc304f40 RCX: fffff61fcc304f40
-RDX: 0000000000000fc0 RSI: 000000000000008c RDI: ffff8b315cdc2fc0
-RBP: ffffcfff4bb67bb0 R08: ffffcfff4bb67c50 R09: 000000000000008c
-R10: 0000000000000000 R11: 0000000000000000 R12: 000000000000008c
-R13: ffffcfff4bb67c50 R14: 000000000000008c R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8b39108ff000(0063) knlGS:00000000bb4f9b=
-40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000734dfc569000 CR3: 000000037e81b002 CR4: 0000000000f72ef0
-PKRU: 55555554
-Call Trace:
- <TASK>
- iomap_write_iter+0x171/0x340
- iomap_file_buffered_write+0xa6/0x110
- ntfs_file_write_iter+0x267/0x310 [ntfs3]
- vfs_write+0x25b/0x490
- ksys_write+0x71/0xf0
- __ia32_sys_write+0x17/0x30
- ia32_sys_call+0x1ed9/0x2b10
- do_int80_emulation+0xaf/0x540
- ? __do_fast_syscall_32+0xd7/0x610
- ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xe0
- ? __do_fast_syscall_32+0xd7/0x610
- ? __do_fast_syscall_32+0xd7/0x610
- ? __audit_syscall_exit+0x36/0x120
- ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xe0
- ? do_fast_syscall_32+0x33/0x90
- asm_int80_emulation+0x1b/0x20
-RIP: 0023:0xed3e164b
-Code: 57 56 53 8b 44 24 14 f6 00 08 75 23 8b 44 24 18 8b 5c 24 1c 8b 4c 24=
- 20 8b 54 24 24 8b 74 24 28 8b 7c 24 2c 8b 6c 24 30 cd 80 <5b> 5e 5f 5d c3=
- 5b 5e 5f 5d e9 07 31 ff ff 66 90 66 90 66 90 90 f3
-RSP: 002b:00000000bb4f762c EFLAGS: 00000246 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 00000000000000e6 RCX: 00000000bf226640
-RDX: 000000000000008c RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000282 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Modules linked in: [redacted]
----[ end trace 0000000000000000 ]---
-
-Assisted-by: Claude:claude-opus-5 bpftrace
-
-Appendix: the bpftrace probe
-----------------------------
-Evaluates iomap_inline_data_valid() on every IOMAP_INLINE mapping
-ntfs_iomap_begin() hands back, so the invalid mapping can be observed
-on a live system without waiting for the write path to panic.
-
-  #!/usr/bin/env bpftrace
-  /*
-   * Observe ntfs3 resident (IOMAP_INLINE) mappings.
-   *
-   * iomap_write_end_inline() asserts:
-   *     iomap->length <=3D PAGE_SIZE - offset_in_page(iomap->inline_data)
-   *
-   * This probe reports both sides of that comparison without triggering i=
-t,
-   * so we can see how close normal workloads get to the BUG_ON.
-   */
-
-  BEGIN
-  {
-  	printf("probing ntfs_iomap_begin, IOMAP_INLINE only. Ctrl-C to stop.\n\=
-n");
-  }
-
-  kprobe:ntfs3:ntfs_iomap_begin
-  {
-  	@iomap[tid] =3D arg4;
-  	@flags[tid] =3D arg3;	/* IOMAP_WRITE is bit 0 */
-  }
-
-  kretprobe:ntfs3:ntfs_iomap_begin
-  /@iomap[tid]/
-  {
-  	$io =3D (struct iomap *)@iomap[tid];
-
-  	if ($io->type =3D=3D 4) {			/* IOMAP_INLINE */
-  		$off  =3D (uint64)$io->inline_data & 0xfff;
-  		$tail =3D 4096 - $off;
-  		$len  =3D $io->length;
-
-  		@resident_len =3D hist($len);
-  		@offset_in_page =3D lhist($off, 0, 4096, 256);
-  		@by_comm[comm] =3D count();
-
-  		@margin =3D lhist($tail - $len, 0, 512, 64);
-
-  		/* Near-miss cases are already characterised: the buffer always
-  		 * sits in the last slot of its slab page, so tail equals the
-  		 * bucket size and len never exceeds it.  Printing them again
-  		 * adds noise, so only the real thing is reported.  The margin
-  		 * histogram still records how close we get. */
-  		if ($len > $tail) {
-  			/* Only the write path reaches iomap_write_end_inline(),
-  			 * where the BUG_ON lives.  A read builds the same invalid
-  			 * mapping but never asserts on it. */
-  			printf("WOULD BUG  comm=3D%-16s len=3D%llu off_in_page=3D%llu tail=3D=
-%llu flags=3D0x%x %s\n",
-  			       comm, $len, $off, $tail, @flags[tid],
-  			       (@flags[tid] & 1) ? "WRITE" : "read");
-  			@would_bug[(@flags[tid] & 1) ? "write" : "read"] =3D count();
-  		} else if ($tail - $len < 16) {
-  			@tight =3D count();
-  		}
-  	}
-
-  	delete(@iomap, tid);
-  	delete(@flags, tid);
-  }
-
-  END
-  {
-  	clear(@iomap);
-  	clear(@flags);
-  }
-
------------------------25ba79cbbfdfa0f645d94e32445bb00b--
-
---------efa0dbf689cf65b250962014e3f19bda2f30acafa787622ee3543735d0cce140
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wsG5BAEBCgBtBYJqc4n+CRDuBpvbNc2xoEUUAAAAAAAcACBzYWx0QG5vdGF0
-aW9ucy5vcGVucGdwanMub3Jn8JG1ThgTpU8ZJdRKdhY6yiL+aRYKvUyjhRS1
-2pM9Ms8WIQTaXN155Azon7TFONPuBpvbNc2xoAAAgVMP/34lvJ06e2Bd554h
-nFeFyFaIdfaUe79WX6yjBjz3+V99Py3tsi2QLzeO1IIGOw7txOwGXwwDJxYp
-y/9mWyxGlfEslWOd9wf4MQ7ScTbi6MXEuFiPsIvriMCqpEREzFH444GUQju2
-iqMq3bcWCChDrGdlu6M547i2nSTZ85nnVZF+TB5WuQZSOSw7gs+t3ORiF4SO
-taFIAGnpVIfbFtQyCcVeFydbebb4iHdBEAzfvLwUYQyVM5C75RqkJ8GWejoV
-I1+S/Wxf2QURq909IHv6zQaDhJXWCESd3hEpYNxhMh+0mHY7x2TRZV/EK59e
-yWpfJ6OQK+wKbh8Yjjm2ryp4DaK0btb0z7cCftB2wzyxIRu8MDC4c5rSgkwf
-WMJGEguPuLIb6n0rAO70XQZXB+ECw2jrF8knQlBAFgU4YN/kmGAPpsx/NVfY
-PAo4Kba1O7OrtlmROC/N8vT/Y4etWYLlFB3LkFZf/6kRGGxCwocj70vxEXhJ
-LWIW9DGNU8oSbZ4m7LUQrPoBOGoSG+9pyFYn9UP1j//mDzndegflJ3cMXym6
-lU0yCrnNO7KKUwnV/QWNOpxzMXzL6QW+/DJJeV1b98cmzRYypYNSmcOrbFsN
-5uT+qbqgec/IGzf1Qf9ISvXbh38Qfn9spWP1OCgdY83/rkTdv4wy6Y16Zo+L
-PXTC0rX5
-=0SKP
------END PGP SIGNATURE-----
-
-
---------efa0dbf689cf65b250962014e3f19bda2f30acafa787622ee3543735d0cce140--
-
+On Mon, Aug 3, 2026 at 12:13=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> On Sat 01-08-26 18:00:46, Chao Shi wrote:
+> > jbd2 builds a temporary buffer_head to write out the frozen copy of a
+> > metadata block, and that copy lives in slab memory.  Today jbd2 points =
+the
+> > temporary buffer at the slab folio backing it.  A slab folio's ->mappin=
+g is
+> > not an address_space, so anything that follows bh->b_folio->mapping the=
+re
+> > gets garbage rather than NULL; mark_buffer_write_io_error() does exactl=
+y
+> > that, and we are about to start calling it on this buffer.
+> >
+> > Rather than teach every such helper about slab folios, allow bh->b_foli=
+o to
+> > be NULL and let b_data point straight at the memory.  Code that needs t=
+he
+> > folio has to check.  There are two places in this file:
+> >
+> >  - __bh_submit() adds the data by virtual address using
+> >    bio_add_virt_nofail(), and skips the cgroup accounting: a buffer tha=
+t is
+> >    not in the page cache has no owning folio to attribute writeback to.
+> >
+> >  - buffer_set_crypto_ctx() returns early.  fscrypt has no interest in a
+> >    buffer that is not part of a file mapping, which is why it already
+> >    returns when folio_mapping() comes back NULL.
+> >
+> > Nothing sets b_folio to NULL yet, so this patch is a no-op on its own.
+> >
+> > This is deliberately not a general capability.  Buffers over highmem ha=
+ve
+> > no permanent kernel virtual address, which is why folio_set_bh() record=
+s a
+> > folio and an offset instead of an address.  A folio-less buffer_head is
+> > only valid over memory that is always mapped, and must not be passed to
+> > bh_offset().
+>
+> There are much more things you cannot do with a bh that doesn't have vali=
+d
+> b_folio - touch_buffer(), end_buffer_async_read(), ... and many more. But
+> that's a bussiness of the code that sets up such temporary bhs. I agree
+> that setting b_folio to NULL will if nothing else lead to much more obvio=
+us
+> failures than when we accidentally get slab folio. So I'd prefer we updat=
+e
+> the description a bit in this direction but otherwise feel free to add:
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+>
+>                                                                 Honza
+>
+> >
+> > Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > Signed-off-by: Chao Shi <coshi036@gmail.com>
+> > ---
+> >  fs/buffer.c | 17 +++++++++++++----
+> >  1 file changed, 13 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/fs/buffer.c b/fs/buffer.c
+> > index be8b57a635cd..04fcc34e4fa6 100644
+> > --- a/fs/buffer.c
+> > +++ b/fs/buffer.c
+> > @@ -1099,12 +1099,16 @@ EXPORT_SYMBOL(__bforget);
+> >  static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer=
+_head *bh,
+> >                                 gfp_t gfp_mask)
+> >  {
+> > -     const struct address_space *mapping =3D folio_mapping(bh->b_folio=
+);
+> > +     const struct address_space *mapping;
+> >
+> >       /*
+> >        * The ext4 journal (jbd2) can submit a buffer_head it directly c=
+reated
+> > -      * for a non-pagecache page.  fscrypt doesn't care about these.
+> > +      * for memory that is not in the page cache at all.  fscrypt does=
+n't
+> > +      * care about these.
+> >        */
+> > +     if (!bh->b_folio)
+> > +             return;
+> > +     mapping =3D folio_mapping(bh->b_folio);
+> >       if (!mapping)
+> >               return;
+> >       fscrypt_set_bio_crypt_ctx(bio, mapping->host,
+> > @@ -1142,7 +1146,11 @@ static void __bh_submit(struct buffer_head *bh, =
+blk_opf_t opf,
+> >       bio->bi_iter.bi_sector =3D bh->b_blocknr * (bh->b_size >> 9);
+> >       bio->bi_write_hint =3D write_hint;
+> >
+> > -     bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh))=
+;
+> > +     if (bh->b_folio)
+> > +             bio_add_folio_nofail(bio, bh->b_folio, bh->b_size,
+> > +                                  bh_offset(bh));
+> > +     else
+> > +             bio_add_virt_nofail(bio, bh->b_data, bh->b_size);
+> >
+> >       bio->bi_end_io =3D end_bio;
+> >       bio->bi_private =3D bh;
+> > @@ -1152,7 +1160,8 @@ static void __bh_submit(struct buffer_head *bh, b=
+lk_opf_t opf,
+> >
+> >       if (wbc) {
+> >               wbc_init_bio(wbc, bio);
+> > -             wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
+> > +             if (bh->b_folio)
+> > +                     wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_=
+size);
+> >       }
+> >
+> >       blk_crypto_submit_bio(bio);
+> > --
+> > 2.43.0
+> >
+> --
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
