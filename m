@@ -1,248 +1,206 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABABE3D7D6A
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 20:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785960515; cv=pass; b=JCMXqLYF0arXR7ubLzVnHNKPjHSHQ8VSDhuuV7FpK0BTdbwJowaXXh2I/PS+24Zyfili9Yfe7Tl2SQDuN/wY0sdUJhQ3MXSZa3g3m/h0gafGgH8gfPxST5Fg+461OrbyaSCUol+M4jJWPfO8kj094nOEpO+RvZe4hy6s1mcefoc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785960515; c=relaxed/simple;
-	bh=dcnH6nAMoToD8W2PlOqGbdIQ0CwYDRECs1EnTxefy+o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZwoQzY7rACC8PRecVmT2Y9nozOr2W++tWanf0vu0y9tXbX5aKjFACwo05vZalAMEWLkMUBV8saOAKNsU9bZTuqFbY4NlCrcv40iXlnMIDbopEyqi8E53419yOqTHMvTnLyCOYb7Do9xTxwI7zpJduFpaqJWRFnJIfwctitVlEN8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOQtgS2t; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOQtgS2t"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a17c04563fso1297036a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 13:08:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785960511; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CerAPEN4euM/RSHWX958D6rvolIaItoysGD0JT+63uUwRmprnCABg3kP5cNK5gaeic
-         NUeANcZIGFW8efXAlsSOd+WQAShkuY8dioYqnfJHCSb0ube1f5alNADlEjc5YcoIgSlF
-         LGeClMbZOwkim8t4RnwHj74Dcd35ILU6KC9LWJhXLwPKSjj4paUFzkevt8185oHdUTKk
-         RpAAkipwbYG2886LI3079u/0PvY6nA3TH+qW+eJzgdn1CdkVMAHTWYGM7EE3TC5RO8NM
-         JPZYAPEhQdw3mvvOiE460VYVZD+InxZQ5zeLhTBmFT4XuJvC186JZSrLYmwqWSkbnGfI
-         gFDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
-        fh=wMQXeXaRy8eYDClxpHHjCfYWEmnVZwjGpQKS75qCHVY=;
-        b=d+o/fbjijImp8nZPDzoQgN8Fv8i+QvSfenk3vz51cUjEStxRWqwZw1Vz/NYuPZ7QMC
-         QTBEeoa3Vi/OmM5zD1e+OAgRW/C2CfXI+NANv11J1766BTrQm0xfcbqsQ5EzoK+XEDzU
-         ihYyNq4H7T8TdiLRRUDk6i18o2IstSJMFf7DsabYDNQOUFN8PH9r4zDtXT1pqVBJniee
-         PBpc3KjAUEARbE1iEA1ChsSUHIRMSvjJSSy++pTtqUq9+/dLA/UWc9IxCZ/sn2r4wD6V
-         WqxcJHL0w5eEc4AnIi5rgk19feJOVOLWHDjOXI2vn7vcH7NQCJVrpOJ0+7PwNCJGEgjJ
-         rveA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785960511; x=1786565311; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
-        b=EOQtgS2tlIwYv3GpWpEh7kO8nhLgSlzCE9nmkVVe9qPlXsq9pzTd8/Yk2ky7l/oKro
-         KO9HoGF6fjUSJar/MJP/4yvE9AMuXzGsccCRsf4+5mxd599AUls1TbTX5dEOHQIsLo77
-         DCdb+tO+yF2/i8YoMUY0MSQd4aHQfzFnINm7jan4YRaBUnTW7xUWcC4Ph2XWGGErQE/V
-         cUf1di8Yg3RGh/Qf5FGkp73qGgg3DONqOrolDbzr7i1aIUTEkolwGRjq7AL8bPr5d5OH
-         rBhmF8zp1+WUrB711XSxwwrpx73QiZSyUJ3RAOlyiAAt6pMdKEvi8rXUxiY/QhtTtO5q
-         AFCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785960511; x=1786565311;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ynrqdlhZ91y0Zv8KPKDZQ6wEEWPqJVnZyD9Ks4Cipks=;
-        b=nwIjEqe3n0RlwXp9iGQKOPUXIa9nly7u4qFDM1Fvl0CIZ/XYl/Pam0QfCB3k2Pvd8A
-         tV7478BR/i3v7copB4eKjBBHYltf4slnDWwH9F/WC2fy8r7VjH4aVLLR/CVUXAww6Sa0
-         O4XGqIBWPWDjXk1gPNRDNQUYLgU5pfJPmO5U9Onvmkhf9x/NLfZaWB0vNBftHIxLg5Sr
-         g6wfYNE4BQenvDtVzI7i6fkpG8XRbg3nxaYezJpd4NbzS9csKXTy0HsnZS27JOh3nA13
-         le/divl5hxNWdnxlHGlEDrKbLkDO4lPsd488DoBQd64pXMh9whstIaGzsdqvWHXXs8qS
-         ggKg==
-X-Forwarded-Encrypted: i=1; AHgh+Rowl0Pi+v7SUndHZqXaLOytmOiHSaNJYjD3SqHBlILAe1ijihiuRY0kz93oUwzvaK+ilv4OMU03Cuq6Vn+A@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSFi4hYI7tEw6FToxwrLGVegFtjlBErsEcrOCwPLoZahyLfbp+
-	1va2ErrpVNd2G43KD02FHa25zEwKQaZmb11dPgL0PmGtnWMcQnlP6m1WGXUm/CySIJ1lMGAYWvq
-	aIbQ4D9vQrJ5TE0L1DDHoXZaAZnk7kIEebtpODLq3Iw==
-X-Gm-Gg: AR+sD12yut7yNWhfokqIELUKH/1fGGzOjCaGSFTXPjWgwuakZ0OrZDxAUFHrAmSmY7b
-	M6VKg4VbhqmpJ8903xkScQ8a8pz8gNbTkSSbw7LsSvQItWa0OP/UKHvUjJlaVCLAW+oBQVJZPM6
-	zClm6WuMGw4qJ/xBcmrSt/loJV492IHZDaH48u4efl9m+xnDulXHCcWN25CoKA7QWcFQDX5MblO
-	TGFDPu2WD0PCAxRpFOB4e7mA5U9k2HX3BfOsaOEUVX/ccpM9O5PokyVHNf56H2kI2WOucn3ctJS
-	7oo7+gpopJjIJCCO6Qz7PPRL8+LuOedSiacgcBunQrRa
-X-Received: by 2002:a05:6402:5416:b0:6a0:926e:f8f9 with SMTP id
- 4fb4d7f45d1cf-6a14f07bbc4mr5124454a12.2.1785960510703; Wed, 05 Aug 2026
- 13:08:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDBC3D47DD;
+	Wed,  5 Aug 2026 20:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785961343; cv=none; b=Xv91gJSVUA6ZG1KV6RIHv9+oyp2pya2zTPzkCsQshIIc7eIQuH3sodxZxf3Sikw1k9t2vAYtm0Pu0RP8tujd8hTt7+oY8iDCTpwjENt+mdiI4+Oc/Mh8lM/szT+s2IbHRV4gkdU6u4DUmdMspFzblLzsDAXIF0eUDm2bk3EiM/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785961343; c=relaxed/simple;
+	bh=bjJELJGjRJBekkjijGW+YIzeuEcnI4WoOsPTOsfXV0o=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=g9E2q58yJO6qWaAAEdC11kZqlbslgfzD68LYm+9dR/BTP1TJlZ2V9A+QA3qfvo2q/axjdaqT7lSUzToafhQrJg2CISm+oN8JCrRKmYkgN///DJmsE0YjZvoglYRdkmmp/nF1jtsy3zMZuC3dxQXQ1zvI6VP5/Rt5k1totCh//X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id E77DDC0543;
+	Wed,  5 Aug 2026 20:22:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf03.hostedemail.com (Postfix) with ESMTPA id 26F416000D;
+	Wed,  5 Aug 2026 20:22:09 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 7ED7CF40066;
+	Wed,  5 Aug 2026 16:22:08 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Wed, 05 Aug 2026 16:22:08 -0400
+X-ME-Sender: <xms:cJtzalyKJkYqo2-wlgWeiORImd-jFhF1R80AvvWE5Rgs4Cr66zW9dw>
+    <xme:cJtzauvGyICl7o4ZonHm4ORvHHTTRh9mw_x75qpQfreWqYJtgAKqldp7v--sMjkuN
+    RA4ILX6qXzeClYLnBGB--9OO9hjgudv3Dipedv6ysyGV_4K21Q8P7DU>
+X-ME-Proxy-Cause: dmFkZTFjEpNeqnW4cjngFW8Sqgh9dzjywUMaqT88pXxIdOcsYHk8lLqwZVOzWB5kahBnIK
+    flYqq7r30MaEfl1vgf0iHySKq7hvlcwdGgpvn8jUx6CdaOdmCYQlQnbK2VHgAbly3IQrjp
+    ZkHL2KZt+tosdBMRAzIHETv9YIiqZerCc4qnrQukG46b8FBSgvT8MPa0MzlLOB6PIi7uzG
+    IUd52cOpHrf0Tj9s7rJaLmOhUrUvKPwbTMu8aaTTbkevmeorqE3/7BKtnrSJlJcecEQ1XX
+    XdOQR9AYj6RqtI4Rqe6nZD8SO0XR5hw28Y+rmhofNkzpuCml1uSvCVChULodiZoO2dJBT4
+    WVk3HapLrIsvQYVAtFmY3wupPjqQ3ZD4EMxIzrSBouAZJx48Y5D4CFcJusg7boJYCC1Jy1
+    E1oX5tsaQzJGNQ6sdih2lVsYjxwJUqvc1hoijxoPJUGv8Bdj4FoU26a957NNlb2vaeJJ9z
+    5w4JDdFuaYLmjiU2U3k9DR/Y3Ntdp4TRI/I1ETR3apUA9LkKAQrNlaEMEVzYnpHO6t+hsy
+    hfHOLsH/46zRSJIpH2CSU5LnGSJb8Uju7CrGbznDoHtI6u535r9YMJvZa0k9o1aZgIbvCU
+    m5FhPZg4ihvFXL0mNfKZwZSTNBJeJ2wRv+qbv9EGlakRmpTy+B9Uxe/sYb2A
+X-ME-Proxy: <xmx:cJtzarIRRm3trZ_hVL0rW_ZZFpjp2xgySJQ1qCMSrnNBdIXoSE37IA>
+    <xmx:cJtzasBJ8a0TkOEgvIfQ8mFlnAeuj6dqxl1Wt1ijpW1KAHROYXDNNw>
+    <xmx:cJtzajeci2Jpm3gxHj0GoUoPufQJdloxQ9keqqQflMHLVjVe06D4lA>
+    <xmx:cJtzaj0d_5kmW3Mr03AeFtzGTxPmi1Ww74eiwlcOmSeMO3TeRZAfEA>
+    <xmx:cJtzaij3wbHCxfzqTPioQVvvPYKJe9BtVxvQM1FbrFbNXm4BVk6mPoyK>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 71021700065; Wed,  5 Aug 2026 16:22:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1785621505.git.coshi036@gmail.com> <41c6fee66724e374d4682124a1eb80041e22efb9.1785621505.git.coshi036@gmail.com>
- <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
-In-Reply-To: <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
-From: Chris S <coshi036@gmail.com>
-Date: Wed, 5 Aug 2026 16:08:18 -0400
-X-Gm-Features: AUfX_mxgWX_SrUpIktUbfQ75eZAdB8HOgpBdd-DDrx5djXTy8AE98I_F_BmiHsU
-Message-ID: <CACd_6n0GGwW16bU2PguYhCou8v0q3K5tU=tLS=QfknpUkQinYA@mail.gmail.com>
-Subject: Re: [PATCH 02/19] buffer: allow a buffer_head to point at memory
- outside the page cache
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
-	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
-	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Aug 2026 15:21:48 -0500
+From: "John Groves" <john@groves.net>
+To: "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves" <john@jagalactic.com>
+Cc: "Miklos Szeredi" <miklos@szeredi.hu>, "Dan Williams" <djbw@kernel.org>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "David Hildenbrand" <david@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Chen Linxuan" <chenlinxuan@uniontech.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ira Weiny" <iweiny@kernel.org>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Haren Myneni" <haren@linux.ibm.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>,
+ "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Gabriel Whigham" <gabewhigham@gmail.com>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Message-Id: <94e39ae2-08e5-4606-a43a-d4a8ca71cdae@app.fastmail.com>
+In-Reply-To: <anDoPTHjlOPhnnR-@aschofie-mobl2.lan>
+References: 
+ <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022817.75759-1-john@jagalactic.com>
+ <0100019fc5737596-636bde4f-7fc7-46a4-b011-63870098df09-000000@email.amazonses.com>
+ <anDoPTHjlOPhnnR-@aschofie-mobl2.lan>
+Subject: Re: [PATCH V12 01/12] dax: replace exported dax_dev_get() with non-allocating
+ dax_dev_find()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: u88sotnenpmaed7eg6m9y68wxw5o8a7k
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 26F416000D
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+fBOagJ/x0yk7FSbvZQCPmf1ci6P7O35w=
+X-HE-Tag: 1785961329-630173
+X-HE-Meta: U2FsdGVkX1/OfdeEOIeasLDTdudUHUKiVoiprb1J8gtSE7pFYewT4bLB9wyKwXVCbmGYJmdnThriXZhqUuw/iRzInlkZ50Mp1/JDWmbma/r3+yIWKEm4jLAexZgiL/VB6gf+y+/qAcS1zm+ap5fFMYLFOMLaDRKfUSovnSOjP72nBNN7ctTj+2pUxBxQrPfGw7ak8QF3w+qsZDc+k1GrgOq0zAqS7k97pDIdh6WkTf6RQPHTlr6WsYwFnR+XNCSoVu3y1xVLGdgLb3JdZy6vFeAFTtORQfsu4tTJ6H1z9eQET6gIVx/TrgrpvRkdz1RKRLnR/YSvRwLKLFM9/ZVx6qxkoR9RF456FyTdxL+L7OL310Wt0E3XDoUuZsbffzp0buTougiPPWAg3lr4muhdSQ==
 
-Hi Jan,
-Thanks - changelog reworded along those lines in v2: a folio-less buffer is
-a narrow thing, most of the buffer_head API will not tolerate one -
-touch_buffer(), the async read completion path and plenty more - and it is
-the job of whoever builds such a buffer to keep it away from all of that.
-NULL only buys us that getting it wrong fails loudly instead of quietly
-following a slab folio's ->mapping.  Reviewed-by carried; the code itself
-is unchanged.
 
-On your folio_mapping() question: it is the right call in general, just not
-on this path, for the reason Matthew gave - it would hand back a
-swap_address_space if a buffer ever sat on a swap cache folio.  v2 does
-make that switch, but in a new patch, v2's 04, rather than in this one; my
-reply to Matthew has why it cannot be done here.  And agreed on forming the
-bio directly for these temporary bhs eventually - that is a bigger cleanup
-than this series.
 
-Chao
+On Mon, Aug 3, 2026, at 2:13 PM, Alison Schofield wrote:
+> On Mon, Aug 03, 2026 at 02:28:26AM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > This fix is in response to a Sashiko review, and some subsequent
+> > analysis.
+> > 
+> > dax_dev_get() uses iget5_locked() which creates a new inode if no
+> > matching one exists. This is correct for the internal caller
+> > (alloc_dax), but dangerous for external callers that look up devices
+> > from user-supplied or metadata-supplied dev_t values:
+> > 
+> > 1. A new inode is created with DAXDEV_ALIVE set but no backing driver,
+> >    no ops, and no IDA-allocated minor number.
+> > 
+> > 2. On teardown, dax_destroy_inode() warns because kill_dax() was never
+> >    called, and dax_free_inode() calls ida_free() for a minor that was
+> >    never ida_alloc'd -- potentially freeing the minor of a real device.
+> > 
+> > Add dax_dev_find() which uses ilookup5() for lookup-only semantics:
+> > it returns an existing dax_device with an elevated inode reference, or
+> > NULL if no device with the given dev_t exists. It never creates inodes.
+> > A dax_alive() check under dax_read_lock() guards against returning a
+> > device that is concurrently being torn down by kill_dax().
+> > 
+> > Make dax_dev_get() static again (internal to super.c for alloc_dax),
+> > export dax_dev_find() instead, and update the two external callers
+> > (famfs_inode.c, famfs.c). Also add the missing CONFIG_DAX=n stub.
+> 
+> There are no external callers yet as those arrive in subsequent
+> famfs patches.
+> 
+> 
+> > 
+> > About the 'fixes' tag: this removes the export of dax_dev_get(),
+> > which was flawed, and replaces is with dax_dev_find(). It feels like
+> > the fixes tag makes sense for correcting an ABI error.
+> > 
+> > Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
+> 
+> Hi John,
+> 
+> I think this should be split.
+> 
+> Please send a standalone DAX patch that only removes the dax_dev_get()
+> export (make it static again, drop the header declaration). It's unused
+> in-tree and unsafe for its intended use, so it stands on its own with
+> no FAMFS dependency. I'll take it through the DAX tree for 7.3.
+> 
+> Please drop the Fixes: tag on the removal. IIUC the stable team uses
+> it to pick backports, and this shouldn't land in 7.2.y. Removing this
+> fixes nothing since no in-tree code calls the symbol. Name the commit
+> in prose instead, something like:
+> 
+>   Commit 2ae624d5a555 ("dax: export dax_dev_get()") exported
+>   dax_dev_get() in v7.2 for famfs, which has not merged. The export
+>   has never had an in-tree caller, so make dax_dev_get() static again.
+> 
+> Keep the dax_dev_find() addition in this famfs series, so the new export
+> lands with famfs.
+> 
+> -- Alison
+> 
+> > 
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> 
+> I think you can carry the tags for both patches because the code
+> should end up byte identical.
+> 
+> snip
+> 
 
-On Mon, Aug 3, 2026 at 12:13=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Sat 01-08-26 18:00:46, Chao Shi wrote:
-> > jbd2 builds a temporary buffer_head to write out the frozen copy of a
-> > metadata block, and that copy lives in slab memory.  Today jbd2 points =
-the
-> > temporary buffer at the slab folio backing it.  A slab folio's ->mappin=
-g is
-> > not an address_space, so anything that follows bh->b_folio->mapping the=
-re
-> > gets garbage rather than NULL; mark_buffer_write_io_error() does exactl=
-y
-> > that, and we are about to start calling it on this buffer.
-> >
-> > Rather than teach every such helper about slab folios, allow bh->b_foli=
-o to
-> > be NULL and let b_data point straight at the memory.  Code that needs t=
-he
-> > folio has to check.  There are two places in this file:
-> >
-> >  - __bh_submit() adds the data by virtual address using
-> >    bio_add_virt_nofail(), and skips the cgroup accounting: a buffer tha=
-t is
-> >    not in the page cache has no owning folio to attribute writeback to.
-> >
-> >  - buffer_set_crypto_ctx() returns early.  fscrypt has no interest in a
-> >    buffer that is not part of a file mapping, which is why it already
-> >    returns when folio_mapping() comes back NULL.
-> >
-> > Nothing sets b_folio to NULL yet, so this patch is a no-op on its own.
-> >
-> > This is deliberately not a general capability.  Buffers over highmem ha=
-ve
-> > no permanent kernel virtual address, which is why folio_set_bh() record=
-s a
-> > folio and an offset instead of an address.  A folio-less buffer_head is
-> > only valid over memory that is always mapped, and must not be passed to
-> > bh_offset().
->
-> There are much more things you cannot do with a bh that doesn't have vali=
-d
-> b_folio - touch_buffer(), end_buffer_async_read(), ... and many more. But
-> that's a bussiness of the code that sets up such temporary bhs. I agree
-> that setting b_folio to NULL will if nothing else lead to much more obvio=
-us
-> failures than when we accidentally get slab folio. So I'd prefer we updat=
-e
-> the description a bit in this direction but otherwise feel free to add:
->
-> Reviewed-by: Jan Kara <jack@suse.cz>
->
->                                                                 Honza
->
-> >
-> > Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > Signed-off-by: Chao Shi <coshi036@gmail.com>
-> > ---
-> >  fs/buffer.c | 17 +++++++++++++----
-> >  1 file changed, 13 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/buffer.c b/fs/buffer.c
-> > index be8b57a635cd..04fcc34e4fa6 100644
-> > --- a/fs/buffer.c
-> > +++ b/fs/buffer.c
-> > @@ -1099,12 +1099,16 @@ EXPORT_SYMBOL(__bforget);
-> >  static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer=
-_head *bh,
-> >                                 gfp_t gfp_mask)
-> >  {
-> > -     const struct address_space *mapping =3D folio_mapping(bh->b_folio=
-);
-> > +     const struct address_space *mapping;
-> >
-> >       /*
-> >        * The ext4 journal (jbd2) can submit a buffer_head it directly c=
-reated
-> > -      * for a non-pagecache page.  fscrypt doesn't care about these.
-> > +      * for memory that is not in the page cache at all.  fscrypt does=
-n't
-> > +      * care about these.
-> >        */
-> > +     if (!bh->b_folio)
-> > +             return;
-> > +     mapping =3D folio_mapping(bh->b_folio);
-> >       if (!mapping)
-> >               return;
-> >       fscrypt_set_bio_crypt_ctx(bio, mapping->host,
-> > @@ -1142,7 +1146,11 @@ static void __bh_submit(struct buffer_head *bh, =
-blk_opf_t opf,
-> >       bio->bi_iter.bi_sector =3D bh->b_blocknr * (bh->b_size >> 9);
-> >       bio->bi_write_hint =3D write_hint;
-> >
-> > -     bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh))=
-;
-> > +     if (bh->b_folio)
-> > +             bio_add_folio_nofail(bio, bh->b_folio, bh->b_size,
-> > +                                  bh_offset(bh));
-> > +     else
-> > +             bio_add_virt_nofail(bio, bh->b_data, bh->b_size);
-> >
-> >       bio->bi_end_io =3D end_bio;
-> >       bio->bi_private =3D bh;
-> > @@ -1152,7 +1160,8 @@ static void __bh_submit(struct buffer_head *bh, b=
-lk_opf_t opf,
-> >
-> >       if (wbc) {
-> >               wbc_init_bio(wbc, bio);
-> > -             wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
-> > +             if (bh->b_folio)
-> > +                     wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_=
-size);
-> >       }
-> >
-> >       blk_crypto_submit_bio(bio);
-> > --
-> > 2.43.0
-> >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+Thanks Alison, done in my local tree.
+
+The patch that drops dev_dax_get() should hit your inbox today or tomorrow;
+the one that adds dev_dax_find() will stay with this series.
+
+Best,
+John
