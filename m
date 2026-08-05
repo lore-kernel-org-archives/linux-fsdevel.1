@@ -1,214 +1,83 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75853BD643
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 17:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785951736; cv=pass; b=Ppk/MIuTCopvVG2fKHya/CSFy1gJRuNXSEL4NVE9592AOu982TRf+xeUPQFo2tXoFT74wnAHFAZuap/ZXKRXj3z6JYWu37Mt3+YTuElsRZDs4zOgnnearNYGoxVPoZHW2MgRm6kH3DlefqaL7ra/vjTESB2r3iNaIRrlEP3lmss=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785951736; c=relaxed/simple;
-	bh=EyaYqKudXSYNb2x8/wPi+3HpDy7w6KyE/JUWlmLyn/Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IVlj8Qc3ceLwElz09N1BQcTZ/1uXpo+Ibgm/YGt1GcbKXR3cm9ZN9PPZCXetHD6I11x+S4AADgJZOKOXg6jXn8ICviooXMb+8p2eDDgbdDElbGt3+gGiwU264WVYI2e+hB64oOrGMKFFdfEgv9i7lLN2In7SOVdRfzsQWsbfzMY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXc9tgtX; arc=pass smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6707338E8BE;
+	Wed,  5 Aug 2026 18:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785954579; cv=none; b=mlH7rU1FnV8ez1a4JyeizQX+AaaYa48aEjuGYal/d0ASw1IWhTAx848pwXaDSlU7MCn97Tq1WEu1nD79tanNp+DahDhSDstXeUFDqQxWQ6r2s+eBvEBVcGtDnXEVM/5fLfKTgNM00YaYvFllv7UhNLYQTDxl2bmsHJWCsvHb6DA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785954579; c=relaxed/simple;
+	bh=Ubge1xIhaMVtNlK1W4+X5SNrqz3ntDqZDTmYPkn/nf0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HF5SHRX7b8TVjro75voyyGTBa4i6eVuvPDVBTBbR+hDIkK/bl43DfCRGrb7axmsq1iAcg30IPQNKl0x2oxdPoUyqmjc2UuW4opmEAUiOz2npY/C8PHmH597rtLk/SzIGxSU7+IwAW2XXtIciojwsJ8TUk2c18Ekxo7j5oE+VczA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKIksMlR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXc9tgtX"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a144c8f01fso217501a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 10:42:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785951733; cv=none;
-        d=google.com; s=arc-20260327;
-        b=N/z0YaBc97S1fQNGevfvzX+mAJ5nziHlA1QT6WGzGgHhpY2uoLiIpD5Zu04Oul0gYM
-         HmizcKs993X3l1AL7jc7qBrw37/y7jCPgryZ9zOUfyr03bvASlkmTOddq49Qa75kv8fd
-         1QjN++5qJ0hpC286EYhgSHeQvcUxPAgo/O0x6x5m81aJiTk+sRJ4+EOk+Ch6kFc4peqi
-         n8n/8Lg7BY6RMHNBHY0IMuGmMKt7wHsye4wf36dTnelBQR6/POzIXKz/f36thILpNc5S
-         OUhyUuOR8Ta2moL5OQg9cE/8dXJo0d4kjXRqOOxjCA7YHefXFhuETt5W/Hvw9191Vnkz
-         cBDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
-        fh=8yzDYNXocEpg2Z2iVkYwv3J47IwNjxOL6LwlSH7Oe7E=;
-        b=gFHvyL2P0dprsQnTt6gNaw+rxnm9yZiyl5DzDtA0gmlgHDuJaPZdK3IZP1xghlJ3WY
-         psYgDrFE1kZQP+3ZDLO77zLMGRcUl7gpfNk0eC7uufjVAxBSlszi5Qx/0K2wlFAFOD6n
-         faKrlP4SvhjqgzPSY14N125gz6IuV++49ywcbZUDCPVvv0yTXa7L/qlBPWiLYQzRITZo
-         jca38T7jddXxBq7pHZtv3k0KzHygJ9U9VirHIdZuoJEw76d7zz24+jSTU7rVpR2G+0+I
-         MZZlEup6QoWydxMvcCkH5FF06xBoHuNKfs3npja4G3r3XgE4KYFQ24clsFEzwx2EZXHg
-         eJ6A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785951733; x=1786556533; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
-        b=SXc9tgtXVCpK1JaMvtt2vVpaBgdJGznsMoO7WsenaPOgSelGPJ4xt2CAJczmCw5w0z
-         alh5gHFsAWusCoq+Mh43NzwBph52EiolV1hItKyKDZXAbQtFPtzi/mHwWFzdmdVnnOrb
-         nxm2S1D5A6YNjKwOxzR+j9Y683mCzxmuIlL1bxvaCnmaeXPWYBTpRAcx/NnqApTLoHLZ
-         FU2VNk50Inn8iiQizSZeP8ZwwnntyB7Eutw39eVfRzebyQJbVUgax9LRK7hicsgYZ17a
-         EB2soddUn8SnzD7a1HoxZzUnaPIEpEPuIevJUa/4XjMK6bjS0usAOk77aRQlAJVpJ0KT
-         BPnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785951733; x=1786556533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
-        b=epIQoggIBqVyPIjMdh14TgDvEHQIO26J10mRWc32tmlsZZP1/Kqmg99MpSU8ZLNZqe
-         JB5Ddqlk+mE1Aq1ua8+b5lSBGJbqCAiLM6dnJemR7Ube/uymbtmxxHy8TFZvbVJfHZv6
-         RXyLHdDEi5DpHIzJ9UChRTcyHy2gEqUD1NyTbVz1cntcn1jmqX7EIgXdnHqjO+b5/yC0
-         euKVtQE0SP5lwrWo8K9fxVrt3MXSyHtgJvLRyfrKzbmnVlsXAauvj6yWdadsk8+pu664
-         Xt2XGLzHfdDaFXg7JUE6BnKOURJvuicI7YObmVoaTHnjy1XZIbTMSXc+3BVHF/cI29ZE
-         D3dA==
-X-Forwarded-Encrypted: i=1; AHgh+RohCl/ublp5dhP9p1x5ny3PiK33HZkEhhBNNWOPt/81dVQB2uZYRO6dFxjsFtD+mlh8P2KnhWL6Pq1H6yzu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxv7x9KdaOQbv6PAaJ3l2T12BPy1rnvykJMXBFiFRf6yKZTt8j5
-	wuAy9bzSsUosAe1O0j1HTPTjGqykfYFf8uxy31pjk5w1F/utJfDpplhG6b8iqShiwpmyG1WIiZE
-	V1+ApzaB69YJqpSUjoXvjnLpTFQo3Kj4=
-X-Gm-Gg: AR+sD11c3DzShTxWxuByyTVSJi72RfHeDAmXUpznS8881kKhdgO5FVQHyPIGn95RFAA
-	+vET9En9rMipOQ1poOVAFxxnbjSZyCu5nTgqJgL16WL0x9YLK/E/sh+8++IbCvPsFg9GoBLtHNh
-	y63htLjPM1yrEWPb9RTDdHXapwMomWYSOrSj/it/XX0hpXooiml0OYpvJrZhlbwcWyopPDQWzwb
-	btLbN0hNE+m/XbzNLyjC5O6Y0bH7i8pwnTv8t7eacYoDAVhNBZCWiiQv90lbzsoek7YsUc4jDO1
-	zc6zjY6yyxXp7QoF75VoLUdUwMUG6bahUwxWZmSzx9Lb
-X-Received: by 2002:a05:6402:4586:b0:69f:c929:b88 with SMTP id
- 4fb4d7f45d1cf-6a18f0a9fbdmr501901a12.5.1785951732581; Wed, 05 Aug 2026
- 10:42:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKIksMlR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD051F000E9;
+	Wed,  5 Aug 2026 18:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785954578;
+	bh=Ubge1xIhaMVtNlK1W4+X5SNrqz3ntDqZDTmYPkn/nf0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=oKIksMlRhAGkTOqGfbYfo2uxbddIDPJ6yRuC1+qz0HD367Nw3b5uYOY7dJs6so52h
+	 lPBCXxoBowrthLhtQuXnRCtfrCBvaNpishqA1ly4MRtnADuozm09vt/3ADBMG9VT1p
+	 sHCeYqeSdkUWyfKQYQmHKenSMrN7+VuS0ZRKwMl8uXLFyKsxYTnc5tw/MCBeLUmmLI
+	 ggBxcCdCTCPM7IIkH1PxMMHu9hGrczfwaqeUHJHXEbvL8qOtOBtF2pJmv5nEOHNnOL
+	 mF6nK8TqTY51otnDD0UUyZIImdB35MGEF+GZ7VXF4qwBwGi4jMOtjwSIlPD0dmk2Gk
+	 7iT75Pb8pB9+Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Trevor Chan <trev@trevrosa.dev>, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, ojeda@kernel.org, paul@paul-moore.com,
+ aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, igor.korotin@linux.dev,
+ vireshk@kernel.org, nm@ti.com, sboyd@kernel.org, m.wilczynski@samsung.com,
+ boqun@kernel.org, gary@garyguo.net, axboe@kernel.dk,
+ daniel.almeida@collabora.com, shankari.ak0208@gmail.com, lyude@redhat.com,
+ j@jananu.net, lossin@kernel.org, acourbot@nvidia.com,
+ markus.probst@posteo.de, driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Cc: david.m.ertman@intel.com, iweiny@kernel.org, leon@kernel.org,
+ bjorn3_gh@protonmail.com, tmgross@umich.edu, tamird@kernel.org,
+ work@onurozkan.dev, sergeh@kernel.org, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, jack@suse.cz, ljs@kernel.org,
+ liam@infradead.org, bhelgaas@google.com, kwilczynski@kernel.org,
+ ptikhomirov@virtuozzo.com
+Subject: Re: [PATCH v7] rust: aref: make `AlwaysRefCounted::inc_ref` an
+ associated function
+In-Reply-To: <20260628100731.64885-1-trev@trevrosa.dev>
+References: <UWdIvfYijKEB-nyPuUo4FRBSzoE63d32sYuIQ9Cn-wWmceZpbNq-V2rcl_vTofMvOWAuXSPSc6YnxpYgwiMmjw==@protonmail.internalid>
+ <20260628100731.64885-1-trev@trevrosa.dev>
+Date: Wed, 05 Aug 2026 20:29:21 +0200
+Message-ID: <87se4s775q.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1785621505.git.coshi036@gmail.com> <41c6fee66724e374d4682124a1eb80041e22efb9.1785621505.git.coshi036@gmail.com>
- <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
- <anDW5UTbF2d0EQmr@casper.infradead.org> <74ts4lwsq73mce3rvc7imisot436742ykzahnogysnbklot45b@q3nhfq55knx3>
- <anHyBATDe8yQEFNi@casper.infradead.org> <CACd_6n0zcg85_p=+dcVK__SECdom8K01BBsdzakuwJ1ibMhKJQ@mail.gmail.com>
-In-Reply-To: <CACd_6n0zcg85_p=+dcVK__SECdom8K01BBsdzakuwJ1ibMhKJQ@mail.gmail.com>
-From: Chris S <coshi036@gmail.com>
-Date: Wed, 5 Aug 2026 13:42:00 -0400
-X-Gm-Features: AUfX_mzn0laRrr3SVV705RV57FVYpzTyUQWOE8QEtN7_m8lMA0sJaYZzNUqNq2w
-Message-ID: <CACd_6n0hCFbEnJwKbMoR5qxdQoRoicKA8OE+Th6HshkL-NiKsA@mail.gmail.com>
-Subject: Re: [PATCH 02/19] buffer: allow a buffer_head to point at memory
- outside the page cache
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
-	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
-	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Correcting myself: it is not the kmem_cache pointer that lands at that
-offset.  SLAB_MATCH(compound_info, slab_cache) puts slab_cache at word 1,
-while ->mapping is word 3, so what a slab folio has there is slab_list.prev=
-.
-Not an address_space either way, so the reason for splitting the patch
-stands, but I named the wrong field.
+"Trevor Chan" <trev@trevrosa.dev> writes:
 
-Best,
-Chao
+> `AlwaysRefCounted::inc_ref` is a function that shouldn't be called lightly.
+>
+> To prevent accidentally calling it, change `inc_ref` to be an associated function.
+>
+> Modify all `AlwaysRefCounted` implementors to work with this change.
+>
+> Suggested-by: Benno Lossin <lossin@kernel.org>
+> Link: https://github.com/Rust-for-Linux/linux/issues/1177
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Trevor Chan <trev@trevrosa.dev>
 
-On Tue, Aug 4, 2026 at 7:06=E2=80=AFPM Chris S <coshi036@gmail.com> wrote:
->
-> Agreed, and done - but not in this patch, which is worth flagging because=
- it
-> is not obvious.
->
-> folio_mapping() is doing two jobs here.  The one you are objecting to is =
-the
-> swap cache mapping.  The other is that it returns NULL for a slab folio, =
-and
-> that is the only reason this path is safe for jbd2's shadow buffers today=
- -
-> they are the slab-backed buffers this series is getting rid of, and they =
-do
-> reach buffer_set_crypto_ctx() through __bh_submit().
->
-> So doing it in this patch would leave one commit where shadow buffers sti=
-ll
-> sit on slab folios, and this code reads folio->mapping directly, i.e., ha=
-nds
-> fscrypt a struct kmem_cache and dereferences ->host on it.  Fine at the e=
-nd
-> of the series, broken in the middle of it.
->
-> v2 does it as its own patch 4, after the jbd2 change.
->
-> Chao
->
-> On Tue, Aug 4, 2026 at 10:07=E2=80=AFAM Matthew Wilcox <willy@infradead.o=
-rg> wrote:
-> >
-> > On Tue, Aug 04, 2026 at 10:07:39AM +0200, Jan Kara wrote:
-> > > > Yes, agreed.  I think it's fine to add in some 'if (!bh->b_folio)'
-> > > > tests, but only where they're needed for the occasional consumer.  =
-This
-> > > > really is a rare (but legitimate) case.
-> > >
-> > > Yes. If we were to write this code from scratch, I'd rather push for
-> > > forming and submitting the bio directly instead of trying to bend the=
- bh
-> > > layer for these temporary bhs. Eventually we might want to do this cl=
-eanup
-> > > anyway (since bhs don't really buy us much in this path) but not in t=
-his
-> > > patch set.
-> >
-> > I think that would be better, but it is out of scope.
-> >
-> > > > > >  static void buffer_set_crypto_ctx(struct bio *bio, const struc=
-t buffer_head *bh,
-> > > > > >                                   gfp_t gfp_mask)
-> > > > > >  {
-> > > > > > -       const struct address_space *mapping =3D folio_mapping(b=
-h->b_folio);
-> > > > > > +       const struct address_space *mapping;
-> > > > > >
-> > > > > >         /*
-> > > > > >          * The ext4 journal (jbd2) can submit a buffer_head it =
-directly created
-> > > > > > -        * for a non-pagecache page.  fscrypt doesn't care abou=
-t these.
-> > > > > > +        * for memory that is not in the page cache at all.  fs=
-crypt doesn't
-> > > > > > +        * care about these.
-> > > > > >          */
-> > > > > > +       if (!bh->b_folio)
-> > > > > > +               return;
-> > > > > > +       mapping =3D folio_mapping(bh->b_folio);
-> > > > > >         if (!mapping)
-> > > > > >                 return;
-> > > >
-> > > > Do we want to call folio_mapping() here?  The only case where I can=
- see
-> > > > this being useful is if we attach a buffer_head to an anonymous fol=
-io,
-> > > > and I don't see a good reason to do that.  I think this can just be
-> > > >
-> > > >     mapping =3D bh->b_folio->mapping;
-> > >
-> > > For all I know yes, bh->b_folio->mapping should be enough here. But I
-> > > thought folio_mapping() is kind of preferred to open-coding?
-> >
-> > It rather depends on the path we're talking about.  Looking at the
-> > implementation of folio_mapping(), it's actually mildly dangerous
-> > to call folio_mapping() in this path.  If we were ever to point a
-> > buffer_head at some memory on a page in swap cache, we'd get a pointer
-> > to a swap_address_space.  I think we'd safely crash in that case becaus=
-e
-> > mapping->host would be NULL, but in other contexts doing things to a
-> > swap mapping would be quite bad.
-> >
-> > So I think this should just be folio->mapping; don't risk getting a
-> > pointer to a swap mapping.
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+
+Best regards,
+Andreas Hindborg
+
+
