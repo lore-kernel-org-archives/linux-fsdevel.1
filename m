@@ -1,80 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BA13EDE72;
-	Wed,  5 Aug 2026 21:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC049421243
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 21:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785964892; cv=none; b=bzQoBqZGlC7WIC9UbPv9wnNBRHCsQFh8VsmATRppHjxsMuyMQAQxcfk5pskugkXmpubVgm6Os9QMQZfiZkn4SKdPXTcT8vfRoBTI0efJLxeCkmbXMx8tRnsA1ydABzbdY7T6xblV2PTtGjC0cFL5/FR4s7ypHkkAlrSPdeTisac=
+	t=1785965665; cv=none; b=btLqucFJbg7XIr5qeqvyGy7NaSsKWSuPUsohFatY/GeDu/A7Au/Sx2kllgBc8DseGRash7JH+szfLOoedzN3WK42rvh7RFPpTD+N+Us0sX1WCqcSv0LRiXhy96r+dhwkjA+mL9hQFn4Fb0wTLrYk/My6W3f0keygtEGln63skes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785964892; c=relaxed/simple;
-	bh=MLVqhXy1aHbM69JMysKjljAE99zpmfGGYttGJXK3H2o=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=tqYoJ4QDLWKxBw+3s8WqyXvy0St1ENrgOaw0B0cZeQrwGZ/aTOPuhFv4HXyOpCcVpLMV1KNyQaTX7g/qECSXrQLq4AlqgUPljjsVNq14UYscp8bknSCI1YOc8/Wmef36RcwRVFpG0S682Air0+4/JBtS+WflrhEfCziFMg7B0R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IaB0ohv1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785965665; c=relaxed/simple;
+	bh=K9zMd4hk7uM/CFEnTD2X3nBbNPjZ1JaU7ol/O2TGlWk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=DtUIO4J47pCLhQhgNi6aYlO8lVWdzR+xtHoonSXsiSd1GZxJHqd0P4Lsok7ohwQv4rF2y/o7UXMdVlFBAfEjdqbUBPWS2Sx830cPkZ2J0kZosP3OiSPVxVp1wyd+U2s/yBAF5bzUq+cKQW6rd6/X/8xI/nWxm34UJdE8uk3NgBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPSJolok; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IaB0ohv1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170451F00A3A;
-	Wed,  5 Aug 2026 21:21:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785964882;
-	bh=0x6FWa3CcZ+trlpKog+0j1YzF5iFFxuOpBdpFBzJpTw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=IaB0ohv1/vKKZgeBUyFgY9cTwhRrwcrLPz+HpWZNdj5k3BAswITidOM4hRaBcY0q/
-	 ha8wchlLDm2xY2sU1jmU8vHPeR3PZoOxSUSknZRGn9j8o6Ns6IsvvjlKHh8ct1QGu0
-	 iPtsdqgGQaHNE4vmFvnnJlfavsEZISatH0wg01f8R7mgW8KfftyqlLKXsGhJATJ83X
-	 Q4Fmc5AQoMHr6Ir9d1FZffibGKy9znVu5VkoKdWGKS2cfmdvR3lwvn4OkP5w7JnmBJ
-	 o7P9KEJP3ofyt5M6IEY1ayebdsIxfq9nSa4IH3qDfe9k1KC8YOQJBVmrJCVEHlwEJR
-	 vFuF/rSzYgSmA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198D6392FFD1;
-	Wed,  5 Aug 2026 21:20:43 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPSJolok"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso14401365e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 14:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785965658; x=1786570458; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K9zMd4hk7uM/CFEnTD2X3nBbNPjZ1JaU7ol/O2TGlWk=;
+        b=WPSJoloky8ezU4S483FiL1KVysPMvXwzastgDckNB7EqE1HlKonEY8o4kEP34wdzqp
+         wCTIeZMV4IDrh5/HJRyOQOSySL9c9SOE22vG/nwlLqcHvA9p0wnn+imucc6rkcOTOZIA
+         77FEhBVzmDC5/2Whi3XFHF0ws5AKEl0dbER6C7cKPglSW0s3OrvkjAqSpL10u68MZYE1
+         0BFl/G6ICkqYWNVXfltJ1hzBUBmRUlPhyZom1bcDTMyPZhnsYzWZPVvyhRJok2rCP03V
+         dzeUBbwSkyKEHZJkhaNgpFQ5GzYL7m+5YFS4fOIWINgCmxaz2VXOgnZlao4wxhhRNe1T
+         In/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785965658; x=1786570458;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=K9zMd4hk7uM/CFEnTD2X3nBbNPjZ1JaU7ol/O2TGlWk=;
+        b=jxg0oyy/2XQY32bI8NIAhj9Gd3yEYj009J6EGGnY3aZt032gFyAhguuoCFbYVeUFkW
+         M4bDal6/XsfUdK0O1EqHjmJi6C4ofoksTwZlRPJ5sXjxoRDVR6iFxwMxqujr84FWphW1
+         LC1zMCjBdQNpQ6lVn0zPQcPyL2Y5vLVwmiIoFFfIYVANqT/oTI5+Gmq1ZW5MBBiN4Thm
+         aKdQtByVfPmpzkMqQUh0qLA0Weyy9j1WHNBPUimuASm2riZykWDaXgQR8wH+fZHnOmj1
+         NeU0uAjlrwIOEvq2xGBXEmofnjW4p2g6Xn5c0ehXlAXcKAsyogS82fwY8omvD8Wce+H1
+         WPLA==
+X-Gm-Message-State: AOJu0YwcTO3acGlH03YM+PKUBcOjm5MLNFpZh/dDqUaEfuztjdGBfZ9T
+	D64gsxpYWvJi6nu9qhoM35GT0dKnOJA4qCOBMSs+H9UXGBZGsVhVVmsgOmLMAg2J
+X-Gm-Gg: AR+sD13sQ0ShqEEmGM4QJVCAeLVf3QUXpxTT9zoeibias5c64604OsSpeQGg8dOMdld
+	p/Yas6XtiRWi85qsmx8GiST6ynvtOz12joxYqIwmR0LNXUjlNV8LWHz4HrWDLn5xM8zfc0ERHLD
+	5gtJaoj5W6gdCwTSBAg1kJYswiJOV8eHG1dN8V09EtT9mcweDgmatsUfxFHwbJt4MUTZbWhBXTU
+	vxVS2s0ZxcFK1twAIrrGbREWVWp86Y7MxtbFSqSvVRmpdShe5cqF/WpTefqthmR/QECJrjei9I+
+	URVmXD1eOq7sjv6rzhde3K7iwz9hvuCisw2Mu6QPvgvtjpG46yNlH904lnA389Sqm+2Nq/GG/Er
+	Q6bVb6vkppzjveTKa5kVp3OHZzJFDEbP3TPBIZEB7JrIN9mK3reCgQ6uvM2J4d4x0tUSN/ENMVw
+	Z3tlVWpV1nKrb0RMd3hxwYEtB8ILJwjIk/JQDqvzB+4mWAPg6KOCPhNLgTNL5WxkyJf5sy4SqlC
+	vK/kaHW0QGge+oEq7+OKVGPpOv2xbDonLFPS9CPRYM=
+X-Received: by 2002:a05:600c:4f82:b0:495:4cb8:42b9 with SMTP id 5b1f17b1804b1-4994e7112a3mr116556125e9.4.1785965657638;
+        Wed, 05 Aug 2026 14:34:17 -0700 (PDT)
+Received: from ?IPV6:2a02:2f04:a000:a300:fc5:1920:8bdd:a336? ([2a02:2f04:a000:a300:fc5:1920:8bdd:a336])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b26809sm430373f8f.25.2026.08.05.14.34.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2026 14:34:16 -0700 (PDT)
+Message-ID: <6659036b-2f4d-44c0-bd1b-3d76b87a8476@gmail.com>
+Date: Thu, 6 Aug 2026 00:34:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH] f2fs: use the mount idmap for the owner check
- in
- f2fs_xattr_advise_set()
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <178596484188.530543.11645876783488345046.git-patchwork-notify@kernel.org>
-Date: Wed, 05 Aug 2026 21:20:41 +0000
-References: <20260729041656.51967-1-rochan.avlur@gmail.com>
-In-Reply-To: <20260729041656.51967-1-rochan.avlur@gmail.com>
-To: Rochan Avlur <rochan.avlur@gmail.com>
-Cc: jaegeuk@kernel.org, chao@kernel.org, brauner@kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+To: contact@lukasldc.fr
+Cc: linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev
+References: <4_qSHDGTzev3i2hKqtp_9TpB7p5JWTBKwOucZ49wWdoLB9TphDDLl-QsnEjjPLerlfuk-xS9J_qL7TQefUZxd3qW9MttPZT-UgBWJW9B_eE=@lukasldc.fr>
+Subject: Re: [BUG] ntfs3: IOMAP_INLINE mapping exceeds its page - BUG_ON in
+ iomap
+Content-Language: en-US
+From: Mihai Brodschi <m.brodschi@gmail.com>
+In-Reply-To: <4_qSHDGTzev3i2hKqtp_9TpB7p5JWTBKwOucZ49wWdoLB9TphDDLl-QsnEjjPLerlfuk-xS9J_qL7TQefUZxd3qW9MttPZT-UgBWJW9B_eE=@lukasldc.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
+> Hi,
+>
+> Up front, so nobody wastes time on a wrong assumption: the analysis and
+> the wording of this report were produced by an AI assistant (Assisted-by
+> tag at the end). I work in software but not on kernels; I read it through
+> and it holds together as far as I can judge, but I cannot independently
+> verify the reasoning or the source reading behind it.
+>
+> What is mine is the data. The machine, the seven crashes, the traces and
+> the probe runs are real and reproducible here. Please treat the measured
+> output as evidence and the analysis as a hypothesis to check.
+>
+> Buffered writes to small (resident) files on an ntfs3 volume reliably
+> trigger a kernel BUG in the iomap layer: 7 times in 11 days of normal
+> desktop use, on both 7.0.0-28 and 7.0.0-29. It points at
+> ntfs_iomap_begin() in fs/ntfs3/inode.c building an IOMAP_INLINE mapping
+> whose length is not bounded by the page holding iomap->inline_data.
 
-This patch was applied to jaegeuk/f2fs.git (dev)
-by Jaegeuk Kim <jaegeuk@kernel.org>:
+Hi Lukas,
 
-On Tue, 28 Jul 2026 21:16:56 -0700 you wrote:
-> f2fs_xattr_advise_set() calls inode_owner_or_capable() with
-> &nop_mnt_idmap before allowing the advise xattr to be set, instead of
-> the idmap that was passed into the handler.
-> 
-> Since f2fs supports idmapped mounts, this compares the caller's fsuid
-> against the unmapped on-disk owner rather than the mapped owner; resulting
-> in the actual owner to be wrongly denied with -EPERM. Use the idmap
-> argument that was already passed to the xattr handler instead.
-> 
-> [...]
+This bug has been reported multiple times.
+It was fixed in v7.2-rc1 and recently in stable v7.1.5 as well.
+However, there are still other issues which cause fs corruption
+with Steam.
 
-Here is the summary with links:
-  - [f2fs-dev] f2fs: use the mount idmap for the owner check in f2fs_xattr_advise_set()
-    https://git.kernel.org/jaegeuk/f2fs/c/a54ffce4637a
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Regards,
+Mihai Brodschi
 
