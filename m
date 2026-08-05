@@ -1,30 +1,69 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E1938E8A7;
-	Wed,  5 Aug 2026 10:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE5E3D88EC
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 10:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785927336; cv=none; b=dlHWhn5vJUwMyX+lSvX0syDCM6V4Ithk8tifa4R39cz52aZMEUs83HTlXBnoS2gz0jQD9EUP+5xGR47XWWCDF0BulFIE5YAGu1O5a98lypapyoQsmUCRx9OwfiKZ1JeRy/eeNPhbBCQebZkxX3YK9C+GzLlBoiPQN5uckOgUrlg=
+	t=1785927551; cv=none; b=O29x10/VWx9cE0Rb801R3g/w/JNGtC1tcV8XQlo8I2jhnSSYfrIpDFD8GOPEQPZwwH34av/ko6j+5rVB3q6MdFtkFleyReMGTvbN7qvpFmrndVKBfaDvpgFZwW1QEJM8qt5z+hvQdb0IcoEzA9fsWJytCqioywUcpHWcIbdZucI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785927336; c=relaxed/simple;
-	bh=JUdBqFjm9fK/OlqJ2kX4GpW/Llh2cJlNW/cxLiJoMC4=;
+	s=arc-20240116; t=1785927551; c=relaxed/simple;
+	bh=/1dtEFjUK+P0pvRVxCDasuHqjQBqBeraGQRhegPMj5o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KQvtPZRdDN9rKgtUowH5IuA6KyL524Ll8HlVffOvZiPkK/7mFXLwy7rYJZ9d8X4HTJOWw8gHYcwq5Vkph0+uSw3z4yYQjfHRMb7QD99j3t590QJ77mAYiicNqf7T2epE+zcEkfQ1mm3n3VTZGFiZ8M4JDJ9KUywgzwxCKQzTi10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hFS3B5Jc1zYQx8y;
-	Wed,  5 Aug 2026 18:54:30 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id A3B5C4058C;
-	Wed,  5 Aug 2026 18:55:23 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgDn1kWZFnNqZM3NBA--.7867S3;
-	Wed, 05 Aug 2026 18:55:23 +0800 (CST)
-Message-ID: <a7312401-3bed-4d5d-847e-a0c96be503d3@huaweicloud.com>
-Date: Wed, 5 Aug 2026 18:55:20 +0800
+	 In-Reply-To:Content-Type; b=B3uFgPGoYMM4dwS4rmiv1y+E16Dv5DI2UhqlIzwWHY6IuI9iK3ecUT8IFMe8w/it85rhMDd5DdCAR+oKhFJa3lvblQq86fTH0LD4d4sbp3J/Se7MePvfg31IKt5gAtaiPpouyiwqaglYlWJLZQnTXLhnjczXJZvTf0nS2K4W7zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZEXOh1K; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZEXOh1K"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso7946945e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 03:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785927546; x=1786532346; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qChqnXEV/RUrII3F6FtB3OpL17H6S0GQj9i1G4DFOPk=;
+        b=SZEXOh1KpuYJfaF3im7hVoma9sONKG+vqzLlaf7ooZ3+DAVgQF2n8nHiu3IBzKzRRw
+         dp61JCqy4D2c2x5T+fFsho0Kc4LPfYzRhYnaRPQxTWRUmJNY2O3uEtNUJ9g0jtsQzB78
+         acwHo/V/p7Z+a/CycbdYZGZ0/BQXrBPXtv82DmWLOJ6CXmegiDSc5Vpr9pIheKRjGqMF
+         r+UcPmzDpbWcI8H13x2BkfrjOdsL8Xsy75IrRzcWKT2gi+twbWrzsVK/oIe0qJM2wJoa
+         yEryF/AJxdc6tNkssc5mLthTAMvFEWY1cWRMtRboKcJGJ7HfUeRlxV4Ne690/an9Vv8/
+         6wYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785927546; x=1786532346;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qChqnXEV/RUrII3F6FtB3OpL17H6S0GQj9i1G4DFOPk=;
+        b=Qew4FclaWcy9QokT6cG2GzXe2OeFL1GRJYtegWWEvZZ55RfsZBZ+TjdWj6e9PD3Rkh
+         BUqnMSVWbOPiW5LoGrH1ItLZFDN9nzdLq+6eKj82bXM/2ng4+ZbNttYiopYCMX1i5isa
+         lZW5Ik2nSOTNcygXC2DLZYqHJhhcljZPnyMMs1yxrCUTcG7NpLIviByWiFMYNUoWzeO9
+         Mi5EFQxmlTP1LnADw4XJbBMM6apSSjyz//zvo6UbZWPaOryjoYieJdY1QqNvjhb1YIhC
+         t1Bs3pSNoiO818KCB+OZdTo4VwOajyuufaW3RH2YzFgO+K45wjLEIWrvh8NwUh5HhQPu
+         TtwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoRTitOrj09u1rHhu0bg3H0VUTbhn+Vr3QfJYQiwM9Wj5m0dJemsHjpX6r2wCp+3zM5S8lo+zPYele3ExTk@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN8qX3/o++AHIcbUayUSZSbpA/l0abhS7bhyfSgQDtsU2iYchc
+	UplaH/c8vOXm38DwGyZ6VMmGji2PCGCzoTL5kT15ry302AJryhD4mHF6
+X-Gm-Gg: AR+sD131nfzpMah7qnmsCzy5OG1Fd6V9nWeM6iCHMbCktZN0t+mqWJX8uV5Oq9eKW21
+	JQ6Kw9YYr8wKofbdrZkabqswVdaLnYt94r4znCC1jep74pgao9+3ApEgV8VXuFGblomCZR3vCBV
+	XGhz2VyL3kT+Eu5oUM0XfS/qrFRdykKzKn0yxbM0umQeTwApk5Xt4p6z0TdOrwihJmeMBX6KjJM
+	NcAMcHmKHhkSWHMwHl8z7ss2Wk2ehOwl/0BjEenlggxtD/wnQkuwkOBfUJ/xTojtlOwMXkOUuPn
+	wsWshuTerb11r5vH06Wi/tRfSfP6I45ufBLazgbqua3KkmXm5PkLrP1t1orVcDnXwkBlPiYBxKV
+	wIm8uZZ1GgbhqrW/9nPitWR9TLzAjS92z1wMQO8wkTmgkSxC+vOEDdyfHv9F4OCoMUI5so+1SE/
+	RaCPd6K8m+QAAIWJbG93Kn2UrPEhsfbc4facOtrE5Z1WW79ffevtmdQmB6maoxyCtjVzNY4JkKk
+	rNSuSgpt4G37Mngct1eceTZK6+XJcHV3SUahS+C8mDuU3AO3A0b3O4gqjVZo5b/BC3tHnQ2Ew8D
+	sJuFD5J9aGkb3GJfesAap2x3aQlTflvI/IRop+P/PLmDiZqj
+X-Received: by 2002:a05:600c:4e94:b0:497:ff73:68d5 with SMTP id 5b1f17b1804b1-4994e6c5eafmr60022735e9.0.1785927545848;
+        Wed, 05 Aug 2026 03:59:05 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4994e035900sm80665575e9.11.2026.08.05.03.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2026 03:59:05 -0700 (PDT)
+Message-ID: <8285ede8-bebb-403a-8a37-b9987cd37a8f@gmail.com>
+Date: Wed, 5 Aug 2026 11:59:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -32,128 +71,159 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/19] buffer: stop clearing BH_Uptodate when a write
- fails
-To: Jan Kara <jack@suse.cz>
-Cc: Chao Shi <coshi036@gmail.com>, linux-fsdevel@vger.kernel.org,
+Subject: Re: [PATCH v4 01/14] dma-buf: introduce initial file I/O
+ infrastructure
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo
- <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>,
- Zhang Yi <yi.zhang@huawei.com>, Bob Copeland <me@bobcopeland.com>,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>,
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-References: <cover.1785621505.git.coshi036@gmail.com>
- <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
- <ff2f92ab-6c98-42f2-be0b-0c807bc9438e@huaweicloud.com>
- <t5vasainmrq7zlo2ptmjn5qfyiy26l4vvuqfkoldtx3naf5tir@4v6bktopybsk>
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Nitesh Shetty
+ <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org
+References: <cover.1785274111.git.asml.silence@gmail.com>
+ <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
+ <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
 Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <t5vasainmrq7zlo2ptmjn5qfyiy26l4vvuqfkoldtx3naf5tir@4v6bktopybsk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgDn1kWZFnNqZM3NBA--.7867S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFWDuw45AF1Uuw4fWFWrAFb_yoW5Ar1Upr
-	Z5Ka1DKw4qqFyjyrnFkF1Fqa40yFyvvF47urWrG3WxZr90vr93WFy7Xw4Y9FW8Arnaga1j
-	vr4Fgr93CF1UXrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIF
-	4iUUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 8/5/2026 5:00 PM, Jan Kara wrote:
-> On Wed 05-08-26 12:52:11, Zhang Yi wrote:
->> On 8/2/2026 6:01 AM, Chao Shi wrote:
->>> A buffer whose write failed still holds exactly the data the filesystem
->>> asked to be written.  It is the disk that is out of date, not the buffer.
->>> Clearing BH_Uptodate says the opposite, and callers act on it:
->>>
->>>  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)).  A
->>>    filesystem that dirties the buffer again after a failed write - which is
->>>    the normal way to retry - trips it.  That is the warning this series
->>>    started from.
->>>
->>>  - a buffer that is not up to date gets re-read from disk, which replaces
->>>    the data the filesystem was trying to write with the stale on-disk copy,
->>>    silently.
->>>
->>>  - the window between the write completing and the buffer being marked not
->>>    up to date is visible to anyone holding the folio lock, so the state is
->>>    not even self consistent while it lasts.
->>>
->>> BH_Write_EIO already records the failure, and by now every place in the
->>> tree that needs to know about it tests that flag instead: the two core
->>> helpers in this file, adfs, exfat, ext2, ext4, fat, gfs2, jbd2, ocfs2 and
->>> omfs, converted one filesystem at a time in the preceding patches.  The
->>> private completion handlers in jbd2 and ext4 fast commit were converted
->>> along with their waiters.  Nothing is left that reads BH_Uptodate to find
->>> out whether a write failed, so the clears can go.
->>>
->>> Found by FuzzNvme.
->>>
->>> Signed-off-by: Chao Shi <coshi036@gmail.com>
->>
->> It looks like after this series, we may need to revisit the necessity of
->> ext4_buffer_uptodate() in the ext4 filesystem. IIRC, it was originally
->> introduced as a compromise to address this issue. Now that we no longer
->> clear the buffer uptodate flag after a failed IO write, this flag will
->> still remain valid when getting/reading bh. Therefore, the necessity of
->> ext4_buffer_uptodate() is worth reconsidering.
+On 8/5/26 09:27, Christian König wrote:
+...>> +struct dma_buf_io_fence {
+>> +	struct dma_fence base;
+>> +	spinlock_t lock;
+>> +};
 > 
-> Deninitely :) There are several hacks in ext4 (and other filesystems as
-> well) that could be removed after this patch set. But let's settle on the
-> generic changes first.
+> Upstream has change to allow embedding the spinlock into the dma_fence, so this structure here is most likely not necessary any more.
+
+ok
+
+>> +static const char *dma_buf_io_fence_drv_name(struct dma_fence *fence)
+>> +{
+>> +	/* default fence release kfree's the base pointer */
+>> +	BUILD_BUG_ON(offsetof(struct dma_buf_io_fence, base));
+>> +
+>> +	return "dma-buf-io-ctx";
+>> +}
+...>> +static void dma_buf_io_map_release_work(struct work_struct *work)
+>> +{
+>> +	struct dma_buf_io_map *map = container_of(work, struct dma_buf_io_map,
+>> +						  release_work);
+>> +	struct dma_buf_io_fence *fence = map->fence;
+>> +	struct dma_buf_io_ctx *ctx = map->ctx;
+>> +	struct dma_buf *dmabuf = ctx->dmabuf;
+>> +
+>> +	/* the release path must wait for fences */
+>> +	if (WARN_ON_ONCE(refcount_read(&ctx->refs) == 0))
+>> +		return;
 > 
-> 								Honza
+> Stuff like that is usually illegal.
 
-Yeah, that would be great!
+Should be fine, it's just a warning. The map holds a ctx
+reference so can't be 0. IIRC, it was synchronised a bit
+differently before. I can kill it, refcount_inc() has the
+same warning anyway.
 
-Best Regards,
-Yi.
+> And why are you using refcount directly instead of kref?
+
+Not sure it'd make much difference here.
 
 > 
->>> ---
->>>  fs/buffer.c | 2 --
->>>  1 file changed, 2 deletions(-)
->>>
->>> diff --git a/fs/buffer.c b/fs/buffer.c
->>> index ac978d9090c2..0002f0736398 100644
->>> --- a/fs/buffer.c
->>> +++ b/fs/buffer.c
->>> @@ -207,7 +207,6 @@ void bh_end_write(struct bio *bio)
->>>  	} else {
->>>  		buffer_io_error(bh, ", lost sync page write");
->>>  		mark_buffer_write_io_error(bh);
->>> -		clear_buffer_uptodate(bh);
->>>  	}
->>>  	unlock_buffer(bh);
->>>  }
->>> @@ -441,7 +440,6 @@ void bh_end_async_write(struct bio *bio)
->>>  	} else {
->>>  		buffer_io_error(bh, ", lost async page write");
->>>  		mark_buffer_write_io_error(bh);
->>> -		clear_buffer_uptodate(bh);
->>>  	}
->>>  
->>>  	first = folio_buffers(folio);
->>
+>> +
+>> +	/* Prevent from destoying the ctx while unmapping */
+>> +	refcount_inc(&ctx->refs);
+> 
+>> +
+>> +	/*
+>> +	 * There are no more requests using the map, we can signal the fence.
+>> +	 * It should be done before taking the resv lock as someone could be
+>> +	 * waiting for the fence while holding the lock.
+>> +	 */
+>> +	dma_fence_signal(&fence->base);
+> 
+> Signaling fences has a whole bunch of very strict rules associated with it. E.g. you can't alocate memory for example.
+> 
+> Are you sure you actually need and want a dma_fence here?
+
+Waiting for potentially a ton of IO synchronously on invalidate
+sounds like a bad idea though. Hmm.
+
+>> +
+>> +	dma_resv_lock(dmabuf->resv, NULL);
+>> +	ctx->dev_ops->unmap(ctx, map);
+>> +	dma_resv_unlock(dmabuf->resv);
+>> +
+>> +	dma_fence_put(&fence->base);
+> 
+> You should probably set map->fence to NULL after that.
+
+The map is freed two lines below, but I can add it as
+a defensive measure.
+
+>> +	percpu_ref_exit(&map->refs);
+>> +	kfree(map);
+
+...>> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+>> +{
+>> +	struct dma_buf *dmabuf = ctx->dmabuf;
+>> +	struct dma_buf_io_map *map;
+>> +	long ret;
+>> +
+>> +retry:
+>> +	/*
+>> +	 * ->dmabuf_map() will be calling dma_buf_map_attachment(), for which
+>> +	 * we'll need to wait for fences. Do a bit nicer and try to wait
+>> +	 * without the resv lock first.
+>> +	 */
+> 
+> Clear NAK to that. Always wait while holding the resv lock if you can!
+> 
+> It is absolutely not beneficial to do this outside of the lock and usually just hides problems instead and prevent fixing them.
+
+Ok
+
+...
+>> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+>> +	if (WARN_ON_ONCE(ret)) {
+>> +		struct dma_fence *fence = &map->fence->base;
+>> +
+>> +		dma_fence_get(fence);
+>> +		percpu_ref_kill(&map->refs);
+>> +		dma_fence_wait(fence, false);
+>> +		dma_fence_put(fence);
+>> +		return;
+>> +	}
+>> +
+>> +	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
+>> +			   DMA_RESV_USAGE_KERNEL);
+> 
+> That sequence is clearly incorrect!
+> 
+> The fence must be created after dma_resv_reserve_fences(), otherwise you definately have an illegal memory operation here.
+
+I'm not sure what you mean, can you elaborate? I only cared about
+pre-allocating it to avoid allocations here. We add / signal the fence
+only once, no reuse. The map is going to be killed here, and if we
+create a new map, it'll have its own fence.
+
+I can move the dma_fence_init() call here if that makes a difference?
+
+-- 
+Pavel Begunkov
 
