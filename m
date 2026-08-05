@@ -1,34 +1,34 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B338E47ECDD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B8421227
 	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 21:06:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785963997; cv=none; b=jJIVokh1ns5qw7RVfyBK4t5gvP4B0T4mGi1Icjd8A66a1c3zGx/4y6hTqh0kQfgTHcP6r/sPzPYMP/BzVmAKaBRE09uAKnyxB7Ebmj/gv1eFET9ISNdX6UO8G2owthkDruwC90/CNDjJXvbBIjvNTulHBoK65wfJKqSNwQ4eiTo=
+	t=1785963998; cv=none; b=LGV38YERxHcq5QwQBhqEtHziHmLTF5EXZXE4makeu+UR2Z/EFSM3JPvRxoiZuz2LHI7sh8y+thTWV0W5RIjdT8uevq+doO9KCJqLb1Wy8M4S0a1XqXLMEVvkQg4vp7e9AmVmlpDGzFf2KG6pOM/ob7Ce1iXAe0v6pREmcPv2cNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785963997; c=relaxed/simple;
-	bh=f+HSjLN87MW8D9ExncNnPg+1pjk6RB9XTTFlW02OcGY=;
+	s=arc-20240116; t=1785963998; c=relaxed/simple;
+	bh=JJM0ef5YmyuW+xjDWBxRQR2DFYZHgBLZmcS/+I/dXAs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WXo/zhcAJdeQPBmxy1Spx5tnUGY4LR+F0UcfErPAeN1kAvMsbaY+n9iBv1xtbln32ltbXV0EVaKHsalbZYSCvrzEtOrfO7DunQER7w74F20wt6Ne+72JT5hXIi6iTsdBgmViqSakakEpJC+VzxrUkVTPR22SLJHyMwmy9Az17Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Lbm9vEcx; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=MNbQD2KjjfH1qhiP6+yevVD9nh52N5w0i8xXsfNm2ndh7qyACtagOrVxoyF2jBuR5zAKg3Vbc3Jkqa7fweRW+Ra7FiPxph3fhK+lTXoCGbbrNQp2eewW30GWC6+k1ILnDGGMPBnHXvopOq3kbSdNO95tYo9FW/StNNQNyNHg6Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rRFLGEHM; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Lbm9vEcx"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rRFLGEHM"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=6lDWcoHFVU4wxDffv+bvNmFatPp5AtNCjgOLFP2+Ns8=; b=Lbm9vEcxjN77uyC+iUuRjOCXPZ
-	AeIJVjtI+irJAxkfW5viw65PL9pARg8P0ZJC58R6U2bTLJkcaolRYAHKrXhQD8BYt52CTvG8HD4pL
-	b+xu6j7qKf8CMxeTRau+tkmnQ2yiGewhi8Pj30rF0b9GClnHM3mK41bclqf+DW2Bkm9TEXIO8DvEE
-	ikn27RHNNSV12Kcsx4ut44aXD9X+XWGb1tJlL1MN50aWhIlt/N0E7D01zK7eA3EJOvEr87G69x82y
-	r9RQ2PC0tFOewBFY7TwEABARFoZewG3mSfw3gFmWasA2knu0IzXxK848VPjssEBQR7pgjQwc4Foue
-	5CfurTEA==;
+	bh=hIzJYRQZPpHEWuu6W/AISPT7gNqOr/DEAar1Fg4H3OU=; b=rRFLGEHMqkRsxYpNukq9XG9Lf0
+	m2iq4L3gzpuvKeJ0qLel2MCNMDT8voD0I79gAr6juu0xwloudbo7mblV5YjTs+40+vPY3mf6rbmQE
+	cW96klxX3NcOSR/R0msKF1dyQKsZynohQp3nBBnRAs1FSmEkMVfh9Ib0ZqgLcOvja2JHZ0AOBwYaF
+	6yS+5vwdagikB/dQi6J9CTsTfqmcKug8B7GTPyN1f+BU6aS8ZJWEAUevqB8jiZekxJcTo1ry1QnKR
+	+NNSJaS9JgCMvaEvWPm+gYEIgYiE1Xl5CvyMTKWXmrCmOcEI7wZ4Z7U/zaT0wavEpwxpDTL3XBJiZ
+	gIq1fZDA==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrioK-00000004h6V-3jn3;
-	Wed, 05 Aug 2026 21:06:00 +0000
+	id 1wrioJ-00000004h69-2Hbp;
+	Wed, 05 Aug 2026 21:05:59 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jane Chu <jane.chu@oracle.com>,
@@ -42,10 +42,12 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: [PATCH v9 14/15] filemap: Add support for authoritative mappings
-Date: Wed,  5 Aug 2026 22:05:54 +0100
-Message-ID: <20260805210557.1118966-15-willy@infradead.org>
+	Jiaqi Yan <jiaqiyan@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Gregory Price <gourry@gourry.net>
+Subject: [PATCH v9 03/15] mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
+Date: Wed,  5 Aug 2026 22:05:43 +0100
+Message-ID: <20260805210557.1118966-4-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260805210557.1118966-1-willy@infradead.org>
 References: <20260805210557.1118966-1-willy@infradead.org>
@@ -57,83 +59,91 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An authoritative mapping knows about all the folios in the mapping.
-If read() finds a missing folio, there's no reason to allocate one and
-try to read it because we know it's a zero region of the file.  We can
-just call iov_iter_zero() instead.
+This is a better name for this predicate.  Also make the argument const
+to allow other callers to be made const.  No functional change.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Usama Arif <usama.arif@linux.dev>
+Reviewed-by: Gregory Price <gourry@gourry.net>
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 Reviewed-by: Jane Chu <jane.chu@oracle.com>
 ---
- include/linux/pagemap.h | 11 +++++++++++
- mm/filemap.c            | 18 ++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ include/linux/page-flags.h | 4 ++--
+ mm/huge_memory.c           | 2 +-
+ mm/memory_hotplug.c        | 2 +-
+ mm/shmem.c                 | 2 +-
+ mm/vmscan.c                | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 968b791cfd14..22d48935ffda 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -210,6 +210,7 @@ enum mapping_flags {
- 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
- 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
- 				   account usage to user cgroups */
-+	AS_AUTHORITATIVE = 11,	/* If we miss in the page cache, it's a hole */
- 	/* Bits 16-25 are used for FOLIO_ORDER */
- 	AS_FOLIO_ORDER_BITS = 5,
- 	AS_FOLIO_ORDER_MIN = 16,
-@@ -345,6 +346,16 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
- 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 7223f6f4e2b4..4185a03a45cf 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -1083,10 +1083,10 @@ static inline bool is_page_hwpoison(const struct page *page)
+ 	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
  }
  
-+static inline void mapping_set_authoritative(struct address_space *mapping)
-+{
-+	set_bit(AS_AUTHORITATIVE, &mapping->flags);
-+}
-+
-+static inline bool mapping_is_authoritative(const struct address_space *mapping)
-+{
-+	return test_bit(AS_AUTHORITATIVE, &mapping->flags);
-+}
-+
- static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+-static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
++static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
  {
- 	return mapping->gfp_mask;
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 26a5f18121f9..5a8cc20e624e 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2697,6 +2697,8 @@ static int filemap_get_pages(struct kiocb *iocb, size_t count,
- 	if (!folio_batch_count(fbatch)) {
- 		DEFINE_READAHEAD(ractl, filp, &filp->f_ra, mapping, index);
+ 	return folio_test_hwpoison(folio) ||
+-	    (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
++	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+ }
  
-+		if (mapping_is_authoritative(mapping))
-+			return 0;
- 		if (iocb->ki_flags & IOCB_NOIO)
- 			return -EAGAIN;
- 		if (iocb->ki_flags & IOCB_NOWAIT)
-@@ -2853,6 +2855,22 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
- 			goto put_folios;
- 		end_offset = min_t(loff_t, isize, iocb->ki_pos + iter->count);
+ bool is_free_buddy_page(const struct page *page);
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 2bccb0a53a0a..353340309107 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -4413,7 +4413,7 @@ static bool thp_underused(struct folio *folio)
+ 	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
+ 		return false;
  
-+		if (!folio_batch_count(&fbatch)) {
-+			size_t fsize = mapping_min_folio_nrbytes(mapping);
-+			size_t offset = iocb->ki_pos & (fsize - 1);
-+			size_t bytes = min_t(loff_t, end_offset - iocb->ki_pos,
-+					     fsize - offset);
-+			size_t copied = iov_iter_zero(bytes, iter);
-+
-+			already_read += copied;
-+			iocb->ki_pos += copied;
-+			last_pos = iocb->ki_pos;
-+
-+			if (copied < bytes)
-+				error = -EFAULT;
-+			continue;
-+		}
-+
- 		/*
- 		 * Once we start copying data, we don't want to be touching any
- 		 * cachelines that might be contended:
+-	if (folio_contain_hwpoisoned_page(folio))
++	if (folio_has_hwpoisoned_page(folio))
+ 		return false;
+ 
+ 	for (i = 0; i < folio_nr_pages(folio); i++) {
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 7ac19fab2263..33007e8e546a 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1813,7 +1813,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		if (folio_test_large(folio))
+ 			pfn = folio_pfn(folio) + folio_nr_pages(folio) - 1;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() cannot handle large folios
+ 			 * in all cases yet.
+diff --git a/mm/shmem.c b/mm/shmem.c
+index b51f83c970bb..492c9bef3620 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3240,7 +3240,7 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (folio_contain_hwpoisoned_page(folio)) {
++	if (folio_has_hwpoisoned_page(folio)) {
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 		return -EIO;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 35c3bb15ae96..70e54ace0e74 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1086,7 +1086,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 		if (!folio_trylock(folio))
+ 			goto keep;
+ 
+-		if (folio_contain_hwpoisoned_page(folio)) {
++		if (folio_has_hwpoisoned_page(folio)) {
+ 			/*
+ 			 * unmap_poisoned_folio() can't handle large
+ 			 * folio, just skip it. memory_failure() will
 -- 
 2.47.3
 
