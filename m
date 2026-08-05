@@ -1,129 +1,128 @@
-Received: from mail-wr2-f0.google.com (mail-wr2-f0.google.com [74.125.225.64])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AB2424D69
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 16:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785948636; cv=none; b=cVxshuIMEQ/PxUzlx1IcpoWekmj882txbL/fWRS58IOABCF4nHqAgpNpPc+tluvjy5/99kMdTtqnYC1SijhqnZcp54NCCdRKqbK+OzBnjJNVO5hDp4tAJcuutW5P+9xR8X/11xXPQy3b3WtncC7ZWu6fFSvFGYWFD4iSDmEvBHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785948636; c=relaxed/simple;
-	bh=BszZ6KBeKZ6Qg3CtgvJEAnRrVNmYR4/7gcB+znjO7EI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZpXd/NU1Rq5sAAcjhfdCQ3G9LDjl1ukEbZdw2+/fEQ1X8PRVjdWwaZAThNIMLp03AYdT/VHT25v8XQS2d50YnJsv3MLH7Hvk/zhEmWcchv+pN87mre7FJcMLdO3NEq2JEr7B+fYZqV4nLusnsuvlvGKaAC6OzWb3Z+2oA+v/qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZHVUv/NU; arc=none smtp.client-ip=74.125.225.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63856363090
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 17:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785950465; cv=pass; b=SyOup0s/PQLbvEWQ/yumMIoBMwnO+U3l61ZsxbJzC1LAnRkyYmoEfqEH4ynNrEDrhjlwshl0nd8Oujz8yAjN8Ceh3QYxP/yjpszrWNveF3cGE5BXkE7mi4qQAro2dBbp9d7Hn+i+AeKhw3XupLKcTTIEMMxQoLL2K16QgnhijLk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785950465; c=relaxed/simple;
+	bh=f+1hgjoLe+9OAau5GDXmSyjb/F1lcu3rz3NObPtffwY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CPUIxs0ifErgOorFbPL6NJWwlqKvHG/5hTjVNLVl2XPtGs9tfKtoqJNUIr9/o/8vGkB0+BcNWKhvHaSExEExzwBbbYW1u/HoDI4DEGCCQjBwG9jN+DYLKm4W7vT3lsjcM1ZI2A3Gjht7UGoc8t7ekCSdNsuKAUcGDuZD3sdIPUU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZT1xHc2x; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZHVUv/NU"
-Received: by mail-wr2-f0.google.com with SMTP id ffacd0b85a97d-47f4c92d1b3so255170f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 09:50:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZT1xHc2x"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cc8311c6ddso1672325ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 10:21:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785950460; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hGv1aM925Z54dW1UEA0yu075xdZs0cKk1YzXoPRiRAh9EJNpicO90Qj4sXHorRX/TX
+         nWtosiNv4RRnlNZkcOrartDjkpkIahuTKbxlmQlz/4fGVJqw5h2TchUOoA38myHjV2As
+         xRaq1VdCgZrgB94U96va0/SZ432aDjfWWrT0cUZrvgsExk/kCZ8RpKEZm0W/qENLEXhu
+         AKiO64j2VhtPgX2PKTuDyqj3x1D1azqexS2zgcvTmutBcvKuK1HzucaC9pnvJRX18yBg
+         S3moXwuRvbE9LtwBpTmjLWHTl2PbKJqunIj2Qc+9P3L5Jqok565kqrxr2PvjiizGdWnz
+         TLIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
+        fh=YSAbLqK4KAvftcassmrj2C8RbQ43cwzcxJdXmBhS+Hk=;
+        b=MDd8tPRZ0yKjSGwzoYVVrsJFcyrVYpa9s0nZfzad/Gu95FhV4JJdVGwAJbw5YdpqXr
+         HSQfER3Aw1Uuxy/7PMlZ0Yz0zSEz7YT3+HCSCe9EWISylJpVvr6NVsQcnO3D0h3efURp
+         mEvJmhXhxyPnomozspLXLgXxnLnJY4rupBlk0+2H7t8aTn95PjhhG326DNQiioZmOk2M
+         rv+JzfpKAzaH+ezg0hlzbgKGnZwzX+R7DELnf8yO8Xl/eF72ByzPESS6EeXQhViKeMFI
+         qzv2i1ZhVZeHUbTmj87EGK1F8ulXHWzUSkIXTX2zfv4ljCsWpAKK1Zj0UkHJ2NOD5d/n
+         St5Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1785948632; x=1786553432; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1785950460; x=1786555260; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=d+VuNurPstAmXmltuo2GrH5As/aKoCfWEX/g2T2jGFE=;
-        b=ZHVUv/NUYJ33hELhK5Hk0kFOaOTBBPuQSkD29UmYqwP/PK8SDly698gOYsvBZlbWDU
-         fYisgUfxVg4bXXYMHKHtVpSHTYwtAXEV/TZ7WPAmiH1CpCGhVDfCxx+eDGpdW65MhH0s
-         z9tjGEQwkOtnIW1f0GyVIJwDn8xfdeGu6gIvnw/QZuvw6KX5Q/ZEGWm2qecMri4yomyd
-         hENIKhRIT0tQMFohErC2B8eqqDy62QIUrtytuy5sjCME+gShmummldnvQsGYX6JnRhSY
-         KrRFZLdlTyP8bCOi3SFMszApBpE8oZxLH4l+ZLC16t/eXVznNlrQ7VwKQg7i++7lWDaI
-         T0zw==
+        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
+        b=ZT1xHc2xyP9XYk8PUPnDAntsicElF5elLjXJHYxK/dTIRxhOXP4BYmKyaAm7D4myJe
+         FXySCyN7nRIDJjvQu9UXCW9eDvMXBTKWNXVzmoLwbtoeTkM+2avemvUwcCdFVmdxcM5y
+         HMcojfHT74MtjHUYX3FGuPiSQu6CG9RcMZN10Jij5DCneHFtm2g+5oKnouFZiqpXEehp
+         s6g/qW8DnpBdkqN4RMvOha0mJmzKRXFYxdpGFxxrgKrHq8SOqH3+XjNo42K8aYfHQQpY
+         ieaRXp6TarxQO7iZdwat5LWdNaE6ED/8Ui2j8nc1nYOEyzIfdGs6la8xuL4tQi7opQXq
+         gWug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785948632; x=1786553432;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785950460; x=1786555260;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=d+VuNurPstAmXmltuo2GrH5As/aKoCfWEX/g2T2jGFE=;
-        b=IOJ0dBRDrnFw7LBV5in1xZLLWdlmD2uDAaFkkaojREuyQ1CvPjFHYO9uRjIeXAp0Ua
-         ZSVnqzcxTagynsNDA1POD0nJJ6JqhVhIYGyy9PNAYwgjYsinj+B9nZDcLMAUmi5XbU2o
-         aoShKy7UvDgu6rmynkLCribGgLsb/h3fnLaEt+gvm6G7+/8P/D/+BkRlo9ysS9NeBbam
-         9zZO0gWEeQBpjyyTIns8+Pnbhfs71JhPjf8JUYYvqMYODeEtXvqo62zNvVGREQ6Sqhzo
-         Ko/gzU6QaZtLiH8d3YOAnCyFYHrU5ydDJ8bhp4TAiXRRQWUYBX9sl52k8mbAsk6Wvqet
-         lxbg==
-X-Forwarded-Encrypted: i=1; AHgh+RoDKylEGi1T0qDycmAmdPxHFKyEWoMAom18Ysrt5AbC2gwvT/qWCxdVQMf++yQWA4vaU8DA51M2cXxhWcUN@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhPBXOZ3ZwgrvfOumSmPuLeyIQkqrETcqJEbDQBrF92f2A5aB5
-	w3uE9bU5oMnximUVyJ+hXmy/s7yeNCzByywQNrWGCEViGdRH0VHvyfJnHy6tVIDeJpE=
-X-Gm-Gg: AR+sD12UADxeNr4YJ5t/6sQBfMMg6aiS74WYb2/hJ1zTXvt4uF8apvDqv5oUF8nE3Tk
-	f/g72utBU0b8FNCnEH0gUm+F68yECqAiX3Y6c5MS0RheUnktb0dLsLi32eAVigku4elpSfyDQSK
-	qh7Cpt6+Z+ogzqT9+jBhbQAg1xNbdKL1u3xV6b/spAk0hyKYZSAh+kxRNVMKswqlEFex+sxOLvw
-	LWN/1GML87i58nsQDWaG1bA1gCxzHs/p8c9ikZHla+WB/8lHRUKAXllXpFchUYQJGtclTTJ2iTa
-	iPpPVrxxdXR1Dp1S1HheeXzYyQZwyCfpxGrSrJKSB+UsTnn58xlmWztEk9LyQy23HjbzBcq3eD+
-	IAwqZkCJK6vhSHy0wJjmSZ/7+2hw7GhHeHAW9+D6vup3pWywtSrOgCKlzYr14wtNamJRMplNFWx
-	4AZiyz6pGZxLDslMfaGOzjnEpLARAuG5s9o+LnouXbLYtGzOXTKv+4ABbIuaRCb4yO
-X-Received: by 2002:a05:6000:d4f:b0:47f:9d0e:f8f with SMTP id ffacd0b85a97d-47fec627a65mr12452020f8f.26.1785948632621;
-        Wed, 05 Aug 2026 09:50:32 -0700 (PDT)
-Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47febf7e5bdsm9821153f8f.0.2026.08.05.09.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 09:50:31 -0700 (PDT)
-Date: Wed, 5 Aug 2026 18:50:30 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: cgroups@vger.kernel.org, containers@lists.linux.dev, 
-	criu@lists.linux.dev
-Cc: Kamalesh Babulal <kamalesh.babulal@gmail.com>, bpf@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	lxc-devel@lists.linuxcontainers.org, fuse-devel@lists.linux.dev, 
-	=?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@stgraber.org>, Mike Rapoport <mike.rapoport@gmail.com>, 
-	Christian Brauner <christian@brauner.io>, Adrian Reber <adrian@lisas.de>, 
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>
-Subject: Re: [ANNOUNCE/CFP] Linux Plumbers 2026 Containers and
- Checkpoint/Restore Microconference
-Message-ID: <anNn1INJrRef2ViZ@localhost.localdomain>
-References: <7959ba0b-c39d-4cb3-8269-482d1d593257@gmail.com>
+        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
+        b=Huo/YIZHiH3GmfC9QxH+Q1FBVkat5WrRlBrzQoKBtTECp2k6aJimXL+tujMqeA1r7R
+         lIDZUGT+NKBgNx94f0h5yIdhx3nUlElvDP8VCsyToIq440tQBBNOrAhE3aMphO78+41j
+         vHGsYSbW1/oVGmx3w7teMCUgh+Q7jjSSwZ5j4nGr4ql3dUQoC76DuFZ2lhTYjIqsEkbE
+         f2wjE+DDwfUr8ddsT2YMuAuyDat/SPF/PCloH21UkdJMA7/TE4e4F9wxsntq5b4x51pr
+         ct1HYENOZd1XRv2RrSqWvHyqAfKcLJptZ/jWwVK0IrDnztD2gtX2/OuejSXqMH8u0Tl6
+         BddQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrDAls5tjFKl/MLc9zh3Gt7k9u1EgureoA8ly+KFAGuYRLhFh1WE2Gm36LfRGn+JmZWPRQQLqpdi42mdLXf@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXV0saeLq3VEBv7OZfXoVZCFVWdaUJh86YNzrCPjxqw3il4Flq
+	nkM/QPUWSEddGYR03Kq+uouxRupNbJ1MhvINDqW8s4jl+GWbLwu9c/qsIVVOOd2NFjHPVjTiICX
+	5H5BMDLjcZkJqlaXa7mIcxhlpCb81xu8=
+X-Gm-Gg: AR+sD12whgZAJJeOpMR/JRwBFuzbuKf+j+NXxYjS/JUXLOaZquWInygFHTeCMEUn2Ca
+	DscQK1+o02mukcAd+aE5z3zywvQZ+76d36mWFoUGE+2GWaTmTvvHxY5kCyLA78sHqBh3+ulK4RQ
+	eQHm2yjb7NKZvXK7qcY13512TT/XmIopncfDD1b+EZP4VuRaBg956rZ0UdbccVeEBv9s/Tdn35O
+	sbVDLg2WmunGyTVF2vSCAbyt1XyzL0/JauNX8ax0eiGMYBNJ5LiMRYZ9ZK7ai0uEdz2XGvrHW1z
+	3zv6XatneQQ81bbSz6f0IKGtP+CG4/oYTMV4WrsqcmMxqUibh8SMbwix2y8+WqztgL21xQnmUQW
+	XYfyxUn3VZ/irh/qFdcZFPyHsnVQ+Q9HQesRZl3HHU8jpjKyWF5ehvrElcyqG
+X-Received: by 2002:a17:902:ec8a:b0:2c9:ed4a:c3a4 with SMTP id
+ d9443c01a7336-2d0ca1658f2mr73522915ad.0.1785950460122; Wed, 05 Aug 2026
+ 10:21:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7ozpukrxhw32oga7"
-Content-Disposition: inline
-In-Reply-To: <7959ba0b-c39d-4cb3-8269-482d1d593257@gmail.com>
-
-
---7ozpukrxhw32oga7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <0CoR7Z5B4-PH8GYYbWlZysVJpMnNLTFzTO0tBlOpJQNFiQ2CPrhdjyD4-4jQs4n0J_1QqovCd_EaYpclyigEKw==@protonmail.internalid>
+ <20260628095132.47753-1-trev@trevrosa.dev> <87pkzw9aut.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <87pkzw9aut.fsf@t14s.mail-host-address-is-not-set>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 5 Aug 2026 19:20:45 +0200
+X-Gm-Features: AUfX_mwN2wRwvmcNPuq0EpEyS5qgayFtXbsdflDPhbgmFxUJf-YMOIqJTLTJEvs
+Message-ID: <CANiq72=wo4LOfa3hrJhTFr8UzkchW4QQtUespCTq7qRJvrr6CA@mail.gmail.com>
+Subject: Re: [PATCH v6] rust: aref: make `AlwaysRefCounted::inc_ref` an
+ associated function
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Trevor Chan <trev@trevrosa.dev>, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, ojeda@kernel.org, paul@paul-moore.com, aliceryhl@google.com, 
+	airlied@gmail.com, simona@ffwll.ch, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, igor.korotin@linux.dev, vireshk@kernel.org, nm@ti.com, 
+	sboyd@kernel.org, m.wilczynski@samsung.com, boqun@kernel.org, 
+	gary@garyguo.net, axboe@kernel.dk, daniel.almeida@collabora.com, 
+	shankari.ak0208@gmail.com, lyude@redhat.com, j@jananu.net, lossin@kernel.org, 
+	acourbot@nvidia.com, markus.probst@posteo.de, driver-core@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, david.m.ertman@intel.com, iweiny@kernel.org, 
+	leon@kernel.org, bjorn3_gh@protonmail.com, tmgross@umich.edu, 
+	tamird@kernel.org, work@onurozkan.dev, sergeh@kernel.org, 
+	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com, jack@suse.cz, 
+	ljs@kernel.org, liam@infradead.org, bhelgaas@google.com, 
+	kwilczynski@kernel.org, ptikhomirov@virtuozzo.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [ANNOUNCE/CFP] Linux Plumbers 2026 Containers and
- Checkpoint/Restore Microconference
-MIME-Version: 1.0
 
-Hello.
+On Wed, Aug 5, 2026 at 11:26=E2=80=AFAM Andreas Hindborg <a.hindborg@kernel=
+.org> wrote:
+>
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-On Thu, Jun 25, 2026 at 09:25:58AM +0530, Kamalesh Babulal <kamalesh.babula=
-l@gmail.com> wrote:
-> We are pleased to announce the Call for Proposals for the Containers and
-> Checkpoint/Restore Microconference[0] at Linux Plumbers Conference 2026,
-> taking place in Prague, Czechia, from October 5 to 7, 2026.
-=2E..
-> Please submit proposals through the LPC 2026 abstracts page by August 7:
->=20
->         https://lpc.events/event/20/abstracts/
+In case it helps, there was a v7 of this one:
 
-Just a quick reminder that the CfP for the MC [1] topics is just around
-the corner. There is a chance to bring up topics of _your_ liking.
+  https://lore.kernel.org/rust-for-linux/20260628100731.64885-1-trev@trevro=
+sa.dev/#r
 
-Regards,
-Michal
-
-
-[1] https://lpc.events/event/20/sessions/267/
-
---7ozpukrxhw32oga7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCanNp0RsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ajh6gEA+JVKvBO47pbrAwGAdZKn
-odfo4fAHSl0NLd8LTjOZA9ABAPg+Z9QFz4yhF4juz/IqW3AL7DcP/4GylW4G2PcG
-K90I
-=KTnA
------END PGP SIGNATURE-----
-
---7ozpukrxhw32oga7--
+Cheers,
+Miguel
