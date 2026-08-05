@@ -1,184 +1,192 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B250360751
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 18:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785954975; cv=none; b=OiVMnE+iMRdJvWiWuhhXLmuH3Yrjv456uSQHmCNA5WEZS8BvumaItR2j2mrsLdapXy4tq/LZG+J20J1AI47iPk3CKz5TIMXUnqPAVGoj7RAIa0WTasLvKDgr7zrVGsktZMZYHMXZmrqH4sytD+Mt85UzyKmMcYpjL82dnJqZTvs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785954975; c=relaxed/simple;
-	bh=prqmpukwj7MAs2TEzHYbpi5lV4A+T3BMzX6jdh7zaNE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u1LUcJ3YU7yRrkg2lARlooK3wlcj2mCpHHEFp2vuegQImYJAELfrBqJ6LTriVgv+CmhL9nSAeMx/EgRbN8StfiC7mex2vu1+FWY6ZX/t3q+n7P9XzYyeSvsnj3szk1G7xVHvuh45jNvTTjpoUG5cdZtgkb1AdsqUpniVlrFyoq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjL270aN; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DF83DAAD4
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 19:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785956547; cv=pass; b=HzjYD7OIbh8WJxWAOUMGYUWIPRpJB33dAi+wK5mGpLTZ/dbICxXhj7ZnS8eHTLTT3VY++k9zAeJTHLnJf7QUjdoHe5zINJhJP9h8ulL7GIeN3TXTb9jnb82/jxD0KxH+R4VC+4OwglQYdO50VvZkfVLUrmBW+2kPUcw6D9b4kAY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785956547; c=relaxed/simple;
+	bh=ALS4z1Gntn76BUGW7fczi1PamcwbMhAJ+HBZQNl5qW0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i1mX7lwX32bTC/R9ne31vrN61QObN9+GumldF2daUyb5GgOI7hvLEJfHJOQEmcnqPZFLRZOmXpOcPOb+V5eFnd5DmOM+4M/J8UrD1RPTmQWXLkAs3ssG80ZebI/UnwzWgplUYNByajucUc6vGI7iniUEtV9ni7lG/O+Zj6HUtCA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cgZzS1Hr; arc=pass smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjL270aN"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c96b08cdd1cso1014664a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 11:36:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cgZzS1Hr"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso1956660a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 12:02:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785956537; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ej7GFcet4LL7vPP3aTGvN2w9nkAz+BZCaekr/gv3ANA1kVR56e9/q9ZRITRtirfBmq
+         uankmVhSJkhfK7vKFbNEfANjSiMwGYxWHwxwtwkkGYTbNXUKVUecSfSgWjiO+iIHIEkA
+         rj6Q+oHqKXL9ah7fOPtpLyiW9iGVwFIfgjYSby2DQw2cMC9/1uAeB5mkwHWmVYDg607f
+         0wygfVvd7Fwt0mk+auauJ5/nXpFFyFsOhYtwbvhcQij4WbGuuyauxPFBZ+zPotV6ZgJW
+         qr4S3Wfitvm6MJjVFRzRvSk/5p9Ha/Ew2ZHqS84HnnnQhqJkJ9ouxdxNBfnaeLdeg4Ez
+         R0gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bXL8fOwPfzW8cmIw726T8X174t2PQj7sWrk7UD/8Cqs=;
+        fh=k8LN1nhaDQI2GdTzxgIoytyzkR5Ub0fhFVhS1slyujs=;
+        b=k8JOdq318WsHPrkq5N+MzR2Eq+7LcYNn8lMazjV4HHnVRQfu7fc8UNUL3/Pvtx4tvi
+         XcNeG8H6nzSehREcTAoJRNHQZWXPJ5aJ32ik1SIgJLY7LaZHsQdcV+bJm7WumuBF2C0t
+         ACW7gPO1jLQz1sgquis47E0ocERtP6K7T8170HB5n/GUkT6tCIktX0LbDMuDaOp04gtX
+         eMpCWbAhKt8Q6WxwDE9+55XWWFjRxyoKiRSoSPMlSmTdEH11sub/2jL3lEYmNgjE0b54
+         nzpAT9x77nBDAYKYolBU8gHFfVrUAblrH0wID5AcCUGnqVQeONZQL1OFBfyV8poHolhC
+         mgTQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785954974; x=1786559774; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1Nn5sTiUfJk4xsJUwHMcr/Wplm60ufC1bmyAw/7EgqA=;
-        b=mjL270aN+uOQUd0weWCr0JD33j8Ee0fhXHlGC/4CrZWA0ZwO3ZHTNp4cz/f8l1fksc
-         5BVdpemIVwLb7aHOYDQjH/4vK9TlFGy8YTLlYLjtu5EvRIWLhhDaH2HAtYh8LKd+Vq9R
-         ERgIkDJeJYC4VhOEpOweKjrj5sZ4lr2y0s9c6nzjPilNa2HC516kljCBqkphE65XOxlI
-         1zeoIsT+d2qkFBnBODJRHUflLn3K5ZQu9S1nf8PYYnZQuDkdYyBO8UYLayQOes+JryTE
-         slfYaihzqTzPvmGFGTU5ds2noSfh06ToPwWoLIn81iOeDQ03xFU305TPY4rlGNVhpBdB
-         8zBg==
+        d=gmail.com; s=20251104; t=1785956537; x=1786561337; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bXL8fOwPfzW8cmIw726T8X174t2PQj7sWrk7UD/8Cqs=;
+        b=cgZzS1HrcybBAQzDLzBWmiQJ4n29RGThXWOxPiuU4xthiqwHH1PrJQuOiTQUn2m5id
+         XPNi0w1SbVX3809FKXUwnsj/joR6GfQ4mlLN0kYS/7PiLZ4LWX0RUEmyPv3XuzsVxUtS
+         xiXE1NsFQJx1gjgst5G1SxVJd9elgafqbzSCoc1+4Mz6I/fnwRbS3vpNRa9va5WKUoUV
+         hQ+TM6U1e9OHmwrnwb2AVLAJG413G5yfjTpbj4UXST5B2iqG6hD8nWpRodgsBsfe34Og
+         32IOALEzq4+DhovfABfJeTic+FoTBLtCE4xgac9Uz03I1/8xer0JZkKaeTlPcYEovR6S
+         wIcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785954974; x=1786559774;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1Nn5sTiUfJk4xsJUwHMcr/Wplm60ufC1bmyAw/7EgqA=;
-        b=F44ky5tgkgwkjIPbBuKjw0LnTvmXF6pBQ7T6dPNh5bUDmGMWbBvQC/o/aLGFwyL5sn
-         5kTFPUfXesquzHx07zzluvAoRS+kvkM5YQ6qcfaqwxw/l1lBce0iJ+slbkJBUn0EvXpf
-         X6MbDsKMuawmC/yTXfgwZjEUHxcnS8kCmSLhLQkRr344v6Epdov4XXoK4Eyxw/Zyoz99
-         vXTnOB5tl206VaZeES6vEfQdBQY9MEx6GoCWMc3rXYQuegnk2aZwBv//G5jMyyO4eGxe
-         IW4hPbDER9Q8vj1w+A+pVUqdkstpElI/BdmVZkv9is2v3wwDtvF984OxuRu1nntNSkp4
-         NJ9A==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9wWFJIHpPRTIlSZDHy6zOvwzAZEzde+xb3s/x2HsK38ER+THTu7Ghh9GeLp63tklWMLcSkgLGI0ChxNGJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzniW5jAxx62yTJINBMpbrWuE4HW67yDQrWl4Pt27O7B6JDw1EQ
-	jRM3nGrYD3KWAW7B8pO7c1En8zoAM10Tcta2CNRIjN1ZBKfw1UNDnJys
-X-Gm-Gg: AR+sD11St+1um6eoSLGmV6TryvvC8VlhRINj+44N0nma/wHmCr64KqbbYqYI0O6GJvX
-	hics88JyXnlhOWdsoZPtJAYz9XLHpzXRBMPZdA36qpsgy65FrPD148kdGHIgeate7V6096fNNmw
-	udXbU0Dq7BiekbOIiObogGH9H82K3GHagyLc4iY7c+11MV8iKR7Dk+t1WkMesyl4g6Wbg8Ggzf3
-	YzlZOOx5qPDumhL31H0pGaYRKPxux61hW47WoNLLsYiewrybzPvfMA0lIEJdrUBiCsHsu43o5PQ
-	mHMhMy+N0GQvHceCjFBoF6nR2jeFFk0gQESyYTFQ9u6M69zbbG3cXItqgMW+iSqPBzErxzo22bm
-	tdwq0FN4sdB7inr0TK0/a78qa3HgQEewMKFYvPgSgRvZtAMkfNafxNwoNrJAW+IkJ2SChDGueFl
-	0VG+un0/sVdKYyAvD4mgHy3g2r8LDOJSOCThsXloJwLvlk8MHTeoNmXAQDbIxSujBmICk=
-X-Received: by 2002:a05:6a21:7a9c:b0:3bf:983d:e9b4 with SMTP id adf61e73a8af0-3cb8603af0dmr10608465637.33.1785954973594;
-        Wed, 05 Aug 2026 11:36:13 -0700 (PDT)
-Received: from fedora ([2804:1b3:a8c3:8ee5:1c39:64d9:e257:73dc])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3158673be99sm32720249eec.15.2026.08.05.11.36.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 11:36:13 -0700 (PDT)
-From: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
-To: syzbot+608f7f2a86361e18ba0b@syzkaller.appspotmail.com
-Cc: a.hindborg@kernel.org,
-	leitao@debian.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
-Subject: [PATCH] configfs: fix UAF race between rmdir and symlink
-Date: Wed,  5 Aug 2026 15:35:56 -0300
-Message-ID: <20260805183556.18283-1-marcelomspessoto@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <6a6d3f0e.f794c993.27aeb.000a.GAE@google.com>
-References: <6a6d3f0e.f794c993.27aeb.000a.GAE@google.com>
+        d=1e100.net; s=20251104; t=1785956537; x=1786561337;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bXL8fOwPfzW8cmIw726T8X174t2PQj7sWrk7UD/8Cqs=;
+        b=RZ2OaECxYEKM2xn+fuhbtXTcHXLqmuBbRds/MdqfXQm4IQDpN9wZvgEkQIkFqAwM10
+         SAbkZLu8POylUOixNsO8TdpoJPEn6/oZmOF18D3dKBxlUA0FY9gXjpD54OpslcKupEV2
+         xwKLdfVz3X59LcW6fp/LiLsxFwSDTT3OWZ0CxSiCd2AVAaCk3br60lacCuidCoBlTgux
+         WuIcfZFT/Q3XoGTNeLQt6YvB9Rt/TKCzMjhfkBcybMjcxk2UXi+qaSPylQZ9eC1ExnaU
+         zZXBwzanIh+qrT+UDz3/FeI9wdYY4Ion+ScVAphn4NzOvMcsYuac5NNIjRqnTYFCqtDJ
+         uAVQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqXMCIkhSyMU4e9hknvt6zjR6pdBZGqKeSYakqAxjKjQU3Nb46w3g18UMTg9i2vvI652KqqG4YY9EPTTwqp@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQZNHg6POh51kKtHPWwoCDyR33L+MwKjrbI7jKrzjtD4XN9Ndi
+	y1x42DYCW5sx4+LtAopKLGN1ze14xiEm91VsT2grEtcoVhwmpjRlNuhdfEUWuobuqWzCGOaLCQF
+	TGAG4c8H7lxt/+zcOneWe/vWL6itQpsE=
+X-Gm-Gg: AR+sD13cTp1MLLp3isWYdtk1xDsANYyaobQzLOlJblxMLkwcMGGyoTM/dTx0SiU442R
+	V6avpxU+3joNFiFQt9MCijL/ksu4sBt7+EpDUkz7x9AoitWS6KDgAfPUdu+ZAh7Iu1RdXOUl4UB
+	mygfasJnzqhHdQLLQRUN1mGHtMuaOEOs3ixlTfr2qsPKhtEqpgVHPjNomG2ACqGa6a8+6cbPqnD
+	AIVTVOylS6cdjzBwyzMJrTV1F60aHm6hujtMXGAbvLmxRaXssDcAA0S/frvexLNB8YRL9dyzh+2
+	VxwIrvXQkhCf0rNG/Eeb9Ur3OXCD/45AksnoGblG02K0
+X-Received: by 2002:a05:6402:e87:b0:6a1:28d8:2306 with SMTP id
+ 4fb4d7f45d1cf-6a14f07bc72mr5050205a12.1.1785956536576; Wed, 05 Aug 2026
+ 12:02:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1785621505.git.coshi036@gmail.com> <2824f30bbc43e6a0b318564fa641228e9a096e37.1785621505.git.coshi036@gmail.com>
+ <anDZ5YG-Ljflv7Vm@casper.infradead.org> <anFYf1iKrNLAjJMw@casper.infradead.org>
+In-Reply-To: <anFYf1iKrNLAjJMw@casper.infradead.org>
+From: Chris S <coshi036@gmail.com>
+Date: Wed, 5 Aug 2026 15:02:05 -0400
+X-Gm-Features: AUfX_myV5AVdy2Vk3b4_r8TJRgGAg0iuSL9FFYfHvWZSH4sclQZJlO_bQY1K40Y
+Message-ID: <CACd_6n2GY2RRQPeKtJEuVkHcSBN-Ne2gJdHRfwxg2i=OT06MFg@mail.gmail.com>
+Subject: Re: [PATCH 03/19] jbd2: point the shadow buffer at the frozen data directly
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To avoid touching a target that is concurrently being removed,
-configfs_get_config_item() and create_link() both rely on a hashed
-dentry as proof that the config_item/configfs_dirent behind it is
-still alive (using locks could lead to deadlocks, as described on
-configfs_symlink).
+Thank you so much.
+Taken, with a change: the helper needs a matching unmap, and must not map
+the folio-less case at all.
 
-However, configfs_remove_dir drops the last reference without
-enforcing proper unhash over the dentry. This enables a possible
-race condition where a symlink leads to UAF over a dentry that
-has no reference but is still stale on the hash. Therefore, the
-dentry removal must also enforce proper unhash, avoiding this
-specific UAF scenario.
+static inline void *kmap_local_bh(const struct buffer_head *bh)
+{
+if (!bh->b_folio)
+return bh->b_data;
+return kmap_local_folio(bh->b_folio, bh_offset(bh));
+}
 
-Verified against syzbot's C reproducer: no longer triggers the
-WARN_ON/KASAN panics after this change.
+static inline void kunmap_local_bh(const struct buffer_head *bh, void *addr=
+)
+{
+if (bh->b_folio)
+kunmap_local(addr);
+}
 
-Reported-by: syzbot+608f7f2a86361e18ba0b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=608f7f2a86361e18ba0b
-Signed-off-by: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
----
- fs/configfs/dir.c     | 15 +++++++++++++++
- fs/configfs/symlink.c | 30 ++++++++++++++++++++++++++----
- 2 files changed, 41 insertions(+), 4 deletions(-)
+Two reasons.  kmap_local_page(virt_to_page(bh->b_data)) loses the offset
+within the page, and b_frozen_data is kmalloc(b_size), which is only
+guaranteed page aligned when the block size is at least PAGE_SIZE.
 
-diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 3c88f13f1ca2..ec6f3550178a 100644
---- a/fs/configfs/dir.c
-+++ b/fs/configfs/dir.c
-@@ -411,6 +411,21 @@ static void configfs_remove_dir(struct dentry *d)
- {
- 	struct dentry * parent = dget(d->d_parent);
- 
-+	/*
-+	 * Unhash before dropping any reference to the dirent/item this
-+	 * dentry pins: a concurrent configfs_get_config_item() (e.g. from
-+	 * configfs_symlink()'s target resolution, which runs unlocked
-+	 * against directories it doesn't otherwise own) only checks
-+	 * d_unhashed() under d_lock before pinning the item.  Unhashing
-+	 * first ensures that check reliably fails once we're past this
-+	 * point, instead of racing the dirent/item's refcount reaching
-+	 * zero while the dentry is still (briefly) hashed.
-+	 */
-+	spin_lock(&d->d_lock);
-+	if (simple_positive(d))
-+		__d_drop(d);
-+	spin_unlock(&d->d_lock);
-+
- 	configfs_remove_dirent(d);
- 
- 	if (d_really_is_positive(d)) {
-diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
-index 31eb28b27309..b8043a6b0b42 100644
---- a/fs/configfs/symlink.c
-+++ b/fs/configfs/symlink.c
-@@ -78,18 +78,40 @@ static int create_link(struct config_item *parent_item,
- 		       struct config_item *item,
- 		       struct dentry *dentry)
- {
--	struct configfs_dirent *target_sd = item->ci_dentry->d_fsdata;
-+	struct dentry *target_dentry = item->ci_dentry;
-+	struct configfs_dirent *target_sd;
- 	char *body;
- 	int ret;
- 
--	if (!configfs_dirent_is_ready(target_sd))
-+	/*
-+	 * item is pinned by the caller, but that only keeps the config_item
-+	 * itself alive.  item->ci_dentry's configfs_dirent (and thus its
-+	 * s_count) is a separate refcount that a concurrent rmdir of this
-+	 * same directory can drop to zero and free independently -- see the
-+	 * matching d_lock/d_unhashed() dance in configfs_get_config_item()
-+	 * and the unhash-before-free ordering configfs_remove_dir() now
-+	 * guarantees.  Do the same check here instead of trusting
-+	 * target_dentry->d_fsdata unconditionally.
-+	 */
-+	spin_lock(&target_dentry->d_lock);
-+	if (d_unhashed(target_dentry)) {
-+		spin_unlock(&target_dentry->d_lock);
- 		return -ENOENT;
-+	}
-+	target_sd = configfs_get(target_dentry->d_fsdata);
-+	spin_unlock(&target_dentry->d_lock);
-+
-+	if (!configfs_dirent_is_ready(target_sd)) {
-+		configfs_put(target_sd);
-+		return -ENOENT;
-+	}
- 
- 	body = kzalloc(PAGE_SIZE, GFP_KERNEL);
--	if (!body)
-+	if (!body) {
-+		configfs_put(target_sd);
- 		return -ENOMEM;
-+	}
- 
--	configfs_get(target_sd);
- 	spin_lock(&configfs_dirent_lock);
- 	if (target_sd->s_type & CONFIGFS_USET_DROPPING) {
- 		spin_unlock(&configfs_dirent_lock);
--- 
-2.55.0
+The second one is your other point.  With CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP=
+,
+__kmap_local_page_prot() maps even a lowmem page, one page at a time.  So
+mapping memory that is already permanently mapped would walk this path
+straight into the bs>PS problem you just described, which it is otherwise
+immune to - b_data covers the whole block whatever its size.  Returning
+b_data and calling kunmap_local() on it anyway is not an option either:
+kunmap_local_indexed() WARNs on an address outside the fixmap range under
+that config.  Hence the pair.
 
+On the bs>PS folio path itself: agreed it is real and predates this series.
+I would rather not fold a fix into this one, but I will take it - I'll look
+at it separately once this has settled.
+
+Chao
+
+On Mon, Aug 3, 2026 at 11:12=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> On Mon, Aug 03, 2026 at 07:11:49PM +0100, Matthew Wilcox wrote:
+> > On Sat, Aug 01, 2026 at 06:00:47PM -0400, Chao Shi wrote:
+> > > @@ -330,6 +330,8 @@ static __u32 jbd2_checksum_data(__u32 crc32_sum, =
+struct buffer_head *bh)
+> > >     char *addr;
+> > >     __u32 checksum;
+> > >
+> > > +   if (!bh->b_folio)
+> > > +           return crc32_be(crc32_sum, bh->b_data, bh->b_size);
+> > >     addr =3D kmap_local_folio(bh->b_folio, bh_offset(bh));
+> > >     checksum =3D crc32_be(crc32_sum, addr, bh->b_size);
+> > >     kunmap_local(addr);
+> >
+> > This is awkward.  How about ...
+>
+> ... Oh.  It's not just awkward.  The current code is actually wrong.
+> If one uses ext4 on a bs>PS device and one has
+> CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP enabled, it'll only map one
+> page of the buffer and we should get a crash when trying to checksum
+> the entire block.
+>
+> Supporting mapping multiple pages from a folio simultaneously is
+> something we haven't figured out how to support.  Since HIGHMEM is
+> dying (see Arnd's recent work), I'm not inclined to spend effort
+> on it.
+>
+> We probably just need to make ext4 depend on !DEBUG_KMAP_LOCAL_FORCE_MAP
+> or something?
+>
+> > static inline void *kmap_local_bh(const struct buffer_head *bh)
+> > {
+> >       if (bh->b_folio)
+> >               return kmap_local_folio(bh->b_folio, bh_offset(bh));
+> >       return kmap_local_page(virt_to_page(bh->b_data);
+> > }
+> >
+> > (this is also somewhat awkward because it feels like we could just
+> > return bh->b_data, but kunmap_local_indexed() does some ... stuff)
+> >
+> > Anyway, it all gets optimised away on non-HIGHMEM.  Or if it doesn't,
+> > you can force it to ;-)
+> >
+> >
