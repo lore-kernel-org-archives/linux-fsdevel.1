@@ -1,114 +1,93 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D773D7D6A;
-	Wed,  5 Aug 2026 20:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672D13E7151
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 21:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785962485; cv=none; b=XdHljvbF7zqJoVGNHgEMwg2zpUkh3SlzSQ7v6kKQs9QoeGb6pqfgo7W1dsY8Sj2QBDvQMoUqyonJ48GF4JSUQIfABctdlFG+HL0Pi2u7EYM//3G2pq3Pxmgcj8FOqJyTbc1sS0zKUCQEGq6QpSU07hgV38NWCi9kGwcwIStaG+M=
+	t=1785963971; cv=none; b=lDdmXYIgxghzNI3VlEIb/y5ZjSc+BIsEae3nddM6nfqJvFfHR3BIoPieXzTMuWFUHhczK/eeP6mskcyA0NZq5Orxhti29ZUm3p7s4YODO63+N/OZLzEr+1OPB7EuSCwtFxX7Yzb/bhWG6jePCPX+73RUSzyzCWVTkYjzETT4eC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785962485; c=relaxed/simple;
-	bh=bKHF6u0QFrLiKhwziRU9z0gIPX0/5d2MZCi2+Cv5dZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=meNB8YsLxN9yudiqDc0gH1kzH00IYhgk2VjwQCrVMB53CzFGOJOmbmeR9wpQgAhE8PcvtHKo5oKhefWk7A+sk6nXFPZbok4gywpfYk8M+MnanMqb6Ib7YILMslDsTLNL0tASlVXIqtvnY8rz/KMvDvv5UvQWuhSOsDI0TcXrKGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p3I43qte; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1785963971; c=relaxed/simple;
+	bh=Y3ZXcHV7865zV9eHkjKb4GnIhC8DaJA8pIN1vZo1cEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iDWwQSHtjTJ+Zz+gIm6ab9Q0H0KjcveO9uk4hZOzTCOdrw/B7nzGO0eQgEoMq9OGIBS+fD+RX8DbLNO30GwuKql23p/9N4W1/uM5JFMrcuSjmJ176ZUJebp5t8cSX1iWAwWiSIyFWFFCYWHnMvfzgjRV1tpymkajllS0dThGrM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jttHYba7; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p3I43qte"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jttHYba7"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Y2VOXKtf863PLMWvVnlp8n68uju+vZ0BqWAtRD1HEeM=; b=p3I43qte4ysCVWGyt6CdofRNq1
-	vv9J3pOYzyDaT51j14fwuFr4gCccuTNlMpPpx2IfCm+zOGeVC93SyWLXyLR2NTBjPOSgXa+b0K6uW
-	t5BzNaZ3Wsh9QGkN3WbPeHTpw4IwgiJUk8K6RD607y8NcRfUggsKFf2wkdPICysg2GM4La9N/NPVh
-	4UE0bK1Z0DVVTXUSRBn5EX13PH7kwnY6Tx2noRzIielIMrTerse8l47vM/qhGXo060Zcf6Zp92CUL
-	BLY/AGr30pKYgmbyENfuGKSnH2u7Zs7iGySkibAh/Fy+QwYvWdojec3bLQMAQIDcNZSZzDuo/vv5M
-	QPu8q+dg==;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=+Iuudu8THMhTPdbtY99FmaOUUzNBZygqz4n4fsPGJTs=; b=jttHYba7DCQZkDO6zhHaEiHRPQ
+	Q2vrpqDBKr67LBvg6g1EMpDyF3plhZbSAE8Z8FFGzEi4s1MVEgp6cfoBCLddP9I3uegd5dRX8THMo
+	G8Mhm3S9swaNqLWhq/inKzLG393Ou39Cl4hFLlZzrXp7qACb1fTPNQ5pORZgT7Y+oG3NS7UwkyjBE
+	ZQZx+P8a/6IccPRxQHrDjKpad+xr5aWvYqtgGk300fbd9MFF5QpE1NhNfZXy86nSy15S6iXMx65oh
+	uzE56ARnYqcdsOf7blHS65y8fgMop6i6TNtoTiQjlXgTxgM9KAiPkbfHbHyYX+ocEbowJlqnV0L3V
+	aTmReqTw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wriQE-00000004fGu-3BHb;
-	Wed, 05 Aug 2026 20:41:06 +0000
-Date: Wed, 5 Aug 2026 21:41:06 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Chris S <coshi036@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>, Bob Copeland <me@bobcopeland.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	gfs2@lists.linux.dev, linux-karma-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/19] jbd2: point the shadow buffer at the frozen data
- directly
-Message-ID: <anOf4vNU_XPvyhb0@casper.infradead.org>
-References: <cover.1785621505.git.coshi036@gmail.com>
- <2824f30bbc43e6a0b318564fa641228e9a096e37.1785621505.git.coshi036@gmail.com>
- <anDZ5YG-Ljflv7Vm@casper.infradead.org>
- <anFYf1iKrNLAjJMw@casper.infradead.org>
- <CACd_6n2GY2RRQPeKtJEuVkHcSBN-Ne2gJdHRfwxg2i=OT06MFg@mail.gmail.com>
+	id 1wrioJ-00000004h6F-3eDl;
+	Wed, 05 Aug 2026 21:05:59 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>,
+	"Gregory Price (Meta)" <gourry@gourry.net>
+Subject: [PATCH v9 06/15] kpageflags: Use is_page_hwpoison() to set KPF_HWPOISON
+Date: Wed,  5 Aug 2026 22:05:46 +0100
+Message-ID: <20260805210557.1118966-7-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260805210557.1118966-1-willy@infradead.org>
+References: <20260805210557.1118966-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACd_6n2GY2RRQPeKtJEuVkHcSBN-Ne2gJdHRfwxg2i=OT06MFg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 05, 2026 at 03:02:05PM -0400, Chris S wrote:
-> Thank you so much.
-> Taken, with a change: the helper needs a matching unmap, and must not map
-> the folio-less case at all.
-> 
-> static inline void *kmap_local_bh(const struct buffer_head *bh)
-> {
-> if (!bh->b_folio)
-> return bh->b_data;
-> return kmap_local_folio(bh->b_folio, bh_offset(bh));
-> }
-> 
-> static inline void kunmap_local_bh(const struct buffer_head *bh, void *addr)
-> {
-> if (bh->b_folio)
-> kunmap_local(addr);
-> }
+Instead of knowing how hugetlb handles hwpoison, just ask
+is_page_hwpoison().  This gives us the flexibility to change how hwpoison
+is handled without updating this function in the future.
 
-Ah, I hadn't considered that option.  Yes, I think this is the right
-approach.  Thanks!
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: Jane Chu <jane.chu@oracle.com>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+---
+ fs/proc/page.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-> Two reasons.  kmap_local_page(virt_to_page(bh->b_data)) loses the offset
-> within the page, and b_frozen_data is kmalloc(b_size), which is only
-> guaranteed page aligned when the block size is at least PAGE_SIZE.
+diff --git a/fs/proc/page.c b/fs/proc/page.c
+index 7d9387143435..323e4c049f69 100644
+--- a/fs/proc/page.c
++++ b/fs/proc/page.c
+@@ -233,12 +233,8 @@ u64 stable_page_flags(const struct page *page)
+ 	u |= kpf_copy_bit(k, KPF_UNEVICTABLE,	PG_unevictable);
+ 	u |= kpf_copy_bit(k, KPF_MLOCKED,	PG_mlocked);
+ 
+-#ifdef CONFIG_MEMORY_FAILURE
+-	if (u & (1 << KPF_HUGE))
+-		u |= kpf_copy_bit(k, KPF_HWPOISON,	PG_hwpoison);
+-	else
+-		u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
+-#endif
++	if (is_page_hwpoison(page))
++		u |= 1 << KPF_HWPOISON;
+ 
+ 	u |= kpf_copy_bit(k, KPF_RESERVED,	PG_reserved);
+ 	u |= kpf_copy_bit(k, KPF_OWNER_2,	PG_owner_2);
+-- 
+2.47.3
 
-Yeah; my bad.  I should have added in PAGE_MASK(bh->b_data) to that,
-but what you have is better.
-
-> The second one is your other point.  With CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP,
-> __kmap_local_page_prot() maps even a lowmem page, one page at a time.  So
-> mapping memory that is already permanently mapped would walk this path
-> straight into the bs>PS problem you just described, which it is otherwise
-> immune to - b_data covers the whole block whatever its size.  Returning
-> b_data and calling kunmap_local() on it anyway is not an option either:
-> kunmap_local_indexed() WARNs on an address outside the fixmap range under
-> that config.  Hence the pair.
-> 
-> On the bs>PS folio path itself: agreed it is real and predates this series.
-> I would rather not fold a fix into this one, but I will take it - I'll look
-> at it separately once this has settled.
-
-I've been considering adding a folio_vmap() which would be a nop for
-!highmem, kmap_local() for order-0 highmem folios and vmap() for
-large highmem folios.  It's not reached the top of my todo list yet.
