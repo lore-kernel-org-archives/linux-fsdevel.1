@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3CC17B418;
-	Wed,  5 Aug 2026 07:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5554B3E51CB;
+	Wed,  5 Aug 2026 07:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785914835; cv=none; b=Xy3HDQgCr8avlfLu+yQLvvPPp9sh9cXuDt5cSL94TomKvQaZPuj4qXHX096p1wZ3//MrHShcFfZS+zbvfru0OFh93ybOQtr/9YvyZskfvfn8CtZg2rvwmzRShtTlCXiJu4gOcWlPZJJLDZ+le7x4TJKPivvkHQd/pxKMh7USgOE=
+	t=1785915372; cv=none; b=VSZcRUUulGCqhrZnUOTUXXc1pPRlUU+t1XJahLgumus5ncJ6t8+8oUqTXVPk62FlBFHpsmSg6YV0NWppvwSQiu2NOP8QszUDdvcxZhqDvcozcVvg6NUBnXewMtVjqykqHu/0YW3mcvsoVNEo4/8IjKfQfoePZ4kBJam9Kz24sg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785914835; c=relaxed/simple;
-	bh=SlrRPosrfEhTGKRXJJlEVXfgchRjwj1opidh3czqxu4=;
+	s=arc-20240116; t=1785915372; c=relaxed/simple;
+	bh=5efCkzrWgO2ljY/PhhQ7MxFhBGN8K+dxROkABlEQW4A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BsuP+0AJTHhfx65wHr8N/mzKu1CWsdkhq0oMqjKPYbb3aisikULrZ2FwzqqYNyzIuXia/Zw6BzxvbGlJXF0onAGAXoDDyc40g1gWDOgKXrvFtBv9WpcbkYwot/Z44MMr2z9/+uWgD2DWiZ4hDO7SDixBgwC9+K1st9Rl/jPykdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+v/98Al; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=iZn/tVOx+Gb75YrTVzkyTyQSpGYgQ/3E5LEjIVFBmVufMRiWKcL/hgciRAHmm2xrVCP9xyHCDSX8a74bXWmyKX/i/kaNIHV4Coth7ZYCR3ZYQQU6EFZmc7Jl4txj2gbzRYALmHWMufVRI2jPmPeP+XgCaE340PKe3htqHsUyLMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/SYiQjD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+v/98Al"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08831F000E9;
-	Wed,  5 Aug 2026 07:27:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/SYiQjD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056B71F000E9;
+	Wed,  5 Aug 2026 07:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785914834;
-	bh=kLCEDMEWoRWDPyfIvG4ZyZLFV2PRUJ/ex0Ur9410S/I=;
+	s=k20260515; t=1785915370;
+	bh=78alTOF1FqEo4Ow5pLyKuZcZuxJN46NIcS9bo25EeB0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Y+v/98AlrzRsVa+G/E+YOuw9MyvNxHaK7U8nTX8z9IaaR9fbUg62QVfb+weIf50pU
-	 R+ITkdhH36uOj9CdpupgW3NYmI+WZQ306cvkxQZiUKBXSiJwcJwDBrwJJvUz9hfd/2
-	 baSwFxoPR8uinfUSut7f7pmhKbvKDujtKQL4rMl6N1Gn/sLMpLYpbDt403w9nk96WI
-	 NeqmRnldtJTWIyPFLaCpb38J0LT5AgEtGzNz6oJt1tkJSzzZfeNoPnH68crx911xCF
-	 OaZ1CQCxp1/8WBgkyEYtrJsiawcSViajjWWsUick2CO15YzILgU/5cudI/TZ9KXzxR
-	 rJeNH7Bp4b0og==
-Message-ID: <784eab3a-2b37-476c-a6fc-7fb6e27b6c66@kernel.org>
-Date: Wed, 5 Aug 2026 09:26:59 +0200
+	b=M/SYiQjDmuZSjqnYxXZ95MsY7qnrZNP/2qcBuPFpwww/h3s7augHkh4Qb7sJDNIpI
+	 zCJpS8TfaqPSJX9Xkbimbbu/AtEZ+sru5+OWBQ/Dedf7v1HjexBRfOeEGjYJanu+e9
+	 0FsoKGiSNpztorzZoQ7tT92Rw9IG2bagJ/XkKGt25a5weYaV5WtIolvU0wS0Pf5Wba
+	 41KhCSPLcZ5zeMwwlhwHjZgjPl3lz4ZeEsJq6JwFWgNMdZCgehBh8yfliDC3flvjjZ
+	 MmnglQoFHz9Nxe56kAKFbywu//t4JOMZ6MCpDyjIDG9R+oiPQqKLA6VC1fCRrf26D9
+	 1xVofBvwKBvPA==
+Message-ID: <6ea7cdad-afb1-45af-a63c-30b760fe160d@kernel.org>
+Date: Wed, 5 Aug 2026 09:35:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/15] mm: introduce and use linear_folio_page_index()
+Subject: Re: [PATCH v3 06/15] mm: propagate VMA anonymous page offset on map,
+ remap, split + merge
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
@@ -61,8 +62,8 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kselftest@vger.kernel.org
 References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-8-e8ecfefea812@kernel.org>
- <0d9f3040-825d-49af-9d07-1e7945dd3e9d@kernel.org> <anCdkHNmG5K43E6l@lucifer>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-6-e8ecfefea812@kernel.org>
+ <4ad4b17b-bae6-4169-8649-bff4a29e7fde@kernel.org> <anB9MWSSITYpDibA@lucifer>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -109,200 +110,89 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <anCdkHNmG5K43E6l@lucifer>
+In-Reply-To: <anB9MWSSITYpDibA@lucifer>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/3/26 16:30, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Aug 03, 2026 at 01:27:09PM +0200, David Hildenbrand (Arm) wrote:
+On 8/3/26 15:46, Lorenzo Stoakes (ARM) wrote:
+> On Mon, Aug 03, 2026 at 12:52:42PM +0200, David Hildenbrand (Arm) wrote:
 >> On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
->>> This function is, for now, a placeholder; it will be used in future to
->>> determine whether to use the anonymous page index or not, based on whether
->>> the folio is anonymous or not.
+>>> We must correctly update VMA anonymous page offset state on all VMA
+>>> operations that would result in it changing, with special attention given
+>>> to remapping.
 >>>
->>> Currently it simply wraps linear_page_index(), so this does not change
->>> behaviour.
+>>> We cover most cases by simply updating vma_set_range() to do so (with a new
+>>> anonymous page offset parameter), but also notably must update the merging
+>>> and mapping logic to propagate this parameter correctly.
 >>>
->>> We update callers that will, once the change is introduced to track
->>> anonymous folios by anonymous page offset if MAP_PRIVATE file-backed, need
->>> to determine which index to use based on folio type.
+>>> The remap logic remains the same - we may update the anonymous page offset
+>>> if the VMA is unfaulted, but now this applies to MAP_PRIVATE file-backed
+>>> mappings too, so we update the code to reflect this.
 >>>
->>> No functional change intended.
+>>> Note that we use __linear_anon_page_index() upon remap as the VMA may be
+>>> shared, in order that we update the field consistently regardless of VMA
+>>> type.
+>>>
+>>> Similarly, pass through anon page offset to the merge logic, updating the
+>>> vma_merge_struct struct to propagate it, and also use
+>>> __linear_anon_page_index() to obtain the anonymous page index so it can be
+>>> safely used for both shared and MAP_PRIVATE file-backed mappings.
+>>>
+>>> Finally, we update insert_vm_struct() to correctly set the anonymous page
+>>> offset on insertion of a VMA.
+>>>
+>>> We simply ensure state is correctly propagated here, so no functional
+>>> changes are intended.
+>>>
+>>> Also while we're here, replace a VM_BUG_ON_VMA() with a
+>>> VM_WARN_ON_ONCE_VMA().
+>>>
+>>> Also update VMA userland tests to reflect this change.
 >>>
 >>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>>  include/linux/pagemap.h | 18 ++++++++++++++++++
->>>  mm/huge_memory.c        |  3 ++-
->>>  mm/migrate.c            |  6 ++++--
->>>  mm/userfaultfd.c        |  6 ++++--
->>>  4 files changed, 28 insertions(+), 5 deletions(-)
+>>
+>>
+>> [...]
+>>
+>>>  	struct vm_area_struct *vma = *vmap;
+>>>  	unsigned long vma_start = vma->vm_start;
+>>> @@ -1919,11 +1929,14 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+>>>  	VMG_VMA_STATE(vmg, &vmi, NULL, vma, addr, addr + len);
 >>>
->>> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
->>> index 259177544b03..6eb8d811ba4c 100644
->>> --- a/include/linux/pagemap.h
->>> +++ b/include/linux/pagemap.h
->>> @@ -1143,6 +1143,24 @@ static inline pgoff_t linear_anon_page_index(const struct vm_area_struct *vma,
->>>  	return pgoff;
->>>  }
->>>
->>> +/**
->>> + * linear_folio_page_index() - Determine the absolute page offset of
->>> + * @address within @vma from @folio.
->>> + * @folio: The folio whose linear page index is sought.
->>> + * @vma: The VMA in which @address resides.
->>> + * @address: The address whose absolute page offset is required.
->>> + *
->>> + * For compatibility, currently identical to linear_page_index().
->>> + *
->>> + * Returns: The absolute page offset of @address within @vma.
->>> + */
->>> +static inline pgoff_t linear_folio_page_index(const struct folio *folio,
->>> +					      const struct vm_area_struct *vma,
->>> +					      const unsigned long address)
->>> +{
->>> +	return linear_page_index(vma, address);
->>> +}
+>>>  	/*
+>>> -	 * If anonymous vma has not yet been faulted, update new pgoff
+>>> -	 * to match new location, to increase its chance of merging.
+>>> +	 * If a vma has not yet been faulted, update its anonymous pgoff to
+>>> +	 * match the new location to increase its chance of merging.
+>>>  	 */
+>>> -	if (unlikely(vma_is_anonymous(vma) && !vma->anon_vma)) {
+>>> -		pgoff = addr >> PAGE_SHIFT;
+>>> +	if (!vma->anon_vma && !vma_test(vma, VMA_SHARED_BIT)) {
 >>
->>
->> I found this to be rather confusing, given that we now have a "folio" helper that
->> receives a folio and a "page" helper that doesn't receive a page ...
+>> Could we also use is_cow_mapping() ?
 > 
-> This is just to avoid having to duplicate the if (folio_test_anon()) { ... }
-> else { ... } stuff.
+> No this would be incorrect.
 > 
-> Agreed it's a bit confusing!
-> 
-> Really you are figuring things out from (vma, address) - 'what is the correct
-> page offset based on the VMA'.
-> 
-> And yeah it seems migrate can do it via PFN as you suggest, it really is
-> just trying to find the page offset in the folio.
-> 
-> But...
-> 
->>
->> I guess the problem is the "page" in "linear_page_index", as it
->> reminds of legacy page->index.
->>
->>
->> I wonder if it would be better to have a linear_folio_index() and
->> force that address points at the start of the folio.
->>
->> Looking below, this is exactly what we want for all except one case:
-> 
-> ...I don't think this is true.
-> 
-> The uffd code uses this too in move_present_ptes():
-> 
-> 		src_folio->index = linear_folio_page_index(src_folio, dst_vma,
-> 							   dst_addr);
-> 
-> And it's now _updating_ the source folio index to the offset in the destination
-> VMA, so it doesn't even relate to the source folio's offset at all?
-> 
-> (move_swap_pte() calls linear_folio_page_index() but obviously has to be
-> anon, so that can just use linear_anon_page_index() there instead, will
-> update.)
-> 
-> With your change we can just eliminate the linear_folio_page_index()
-> function and open-code the uffd case.
+> A read-only mapping would become unmergeable here. So this is something apart
+> from the rmap aspect,
 
-The would be even better!
+I'd assume that we should never even consider anon_pgoff when merging
+!is_cow_mapping(), it doesn't make any sense.
 
-> 
-> It's a bit of a special case anyway and is neatly the one place where you
-> actually don't know if it's anon or file-backed (well anon or shmem
-> specifically I think).
-> 
->>
->>
->>>  		/* pgoff is invalid for ksm pages, but they are never large */
->>> -		if (folio_test_large(folio) && !folio_test_hugetlb(folio))
->>> -			idx = linear_page_index(vma, pvmw.address) - pvmw.pgoff;
->>> +		if (folio_test_large(folio) && !folio_test_hugetlb(folio)) {
->>> +			idx += linear_folio_page_index(folio, vma, pvmw.address);
->>> +			idx -= pvmw.pgoff;
->>> +		}
->>>  		new = folio_page(folio, idx);
->>
->> I think we could avoid this index work entirely by using the pfn, which is much
->> clearer to me, and similar to how we handle it during other rmap operations.
->>
->> diff --git a/mm/migrate.c b/mm/migrate.c
->> index 222c8c15f782f..686351d353203 100644
->> --- a/mm/migrate.c
->> +++ b/mm/migrate.c
->> @@ -362,17 +362,12 @@ static bool remove_migration_pte(struct folio *folio,
->>                 struct page *new;
->>                 unsigned long idx = 0;
->>
->> -               /* pgoff is invalid for ksm pages, but they are never large */
->> -               if (folio_test_large(folio) && !folio_test_hugetlb(folio))
->> -                       idx = linear_page_index(vma, pvmw.address) - pvmw.pgoff;
->> -               new = folio_page(folio, idx);
->> -
->>  #ifdef CONFIG_ARCH_HAS_PMD_SOFTLEAVES
->>                 /* PMD-mapped THP migration entry */
->>                 if (!pvmw.pte) {
->>                         VM_BUG_ON_FOLIO(folio_test_hugetlb(folio) ||
->>                                         !folio_test_pmd_mappable(folio), folio);
->> -                       remove_migration_pmd(&pvmw, new);
->> +                       remove_migration_pmd(&pvmw, folio_page(folio, idx));
-> 
-> I think we'd need the idx code below to go above where the idx code is now
-> as otherwise this will be incorrect right?
-> 
-> But then again, if it's a PMD softleaf it'd have to be aligned right, so
-> couldn't we just update that function to be passed a folio instead and
-> avoid the idx here at all?
+No anon folios -> no anon_vma -> no anon_pgoff
 
-Right, that's what I mentioned below
+But I think I am missing one detail here:
 
-"remove_migration_pmd() will work for now. Later it should just receive the folio
-and do the same thing through softleaf_from_pmd() -> softleaf_to_pfn().
+> and it is a contract that upon move of an unfaulted
+> mapping (which for read-only anon would always be unfaulted) that vma->vm_pgoff
+> is updated.
 
-> 
->>                         continue;
->>                 }
->>  #endif
->> @@ -385,10 +380,14 @@ static bool remove_migration_pte(struct folio *folio,
->>                     try_to_map_unused_to_zeropage(&pvmw, folio, old_pte, idx))
->>                         continue;
->>
->> +               entry = softleaf_from_pte(old_pte);
->> +               if (folio_test_large(folio) && !folio_test_hugetlb(folio))
->> +                       idx = softleaf_to_pfn(entry) - folio_pfn(rmap_walk_arg->folio);
-> 
-> Could actually be softleaf_to_pfn(entry) - pvmw.pfn even?
+"read-only anon": I assume you mean an anon mapping that does not have
+VM_MAYWRITE set?
 
-Given that DEFINE_FOLIO_VMA_WALK() sets
-
-	.pfn = folio_pfn(_folio);
-
-I think so.
-
-> 
->> +               new = folio_page(folio, idx);
->> +
->>                 folio_get(folio);
->>                 pte = mk_pte(new, READ_ONCE(vma->vm_page_prot));
->>
->> -               entry = softleaf_from_pte(old_pte);
->>                 if (!softleaf_is_migration_young(entry))
->>                         pte = pte_mkold(pte);
->>                 if (folio_test_dirty(folio) && softleaf_is_migration_dirty(entr
->>
->>
->> remove_migration_pmd() will work for now. Later it should just receive the folio
->> and do the same thing through softleaf_from_pmd() -> softleaf_to_pfn().
-> 
-> Ah you already addressed it. But since this would move the idx code above,
-> I think I should just change it to accept a folio instead?
-> 
-> Or for less churn &folio->page...
-Right, whatever you prefer.
-
-
+I recall that that's a combination that cannot be created. While you can create
+something that does not have VM_WRITE set, IIRC VM_MAYWRITE is always set for
+anon vmas.
 
 -- 
 Cheers,
