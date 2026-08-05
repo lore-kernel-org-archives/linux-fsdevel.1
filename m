@@ -1,229 +1,283 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012044.outbound.protection.outlook.com [52.101.43.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE5E3D88EC
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 10:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785927551; cv=none; b=O29x10/VWx9cE0Rb801R3g/w/JNGtC1tcV8XQlo8I2jhnSSYfrIpDFD8GOPEQPZwwH34av/ko6j+5rVB3q6MdFtkFleyReMGTvbN7qvpFmrndVKBfaDvpgFZwW1QEJM8qt5z+hvQdb0IcoEzA9fsWJytCqioywUcpHWcIbdZucI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785927551; c=relaxed/simple;
-	bh=/1dtEFjUK+P0pvRVxCDasuHqjQBqBeraGQRhegPMj5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B3uFgPGoYMM4dwS4rmiv1y+E16Dv5DI2UhqlIzwWHY6IuI9iK3ecUT8IFMe8w/it85rhMDd5DdCAR+oKhFJa3lvblQq86fTH0LD4d4sbp3J/Se7MePvfg31IKt5gAtaiPpouyiwqaglYlWJLZQnTXLhnjczXJZvTf0nS2K4W7zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZEXOh1K; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AD83CB2DA;
+	Wed,  5 Aug 2026 11:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785930169; cv=fail; b=uUasSvIOvU9h0LDy4z/qWjMjsf6aK7Yjr5s8sBQpMLgIP3Nas/Q8KkwNLb5CNX0gMQtSRez6xCcrPe2aQolFg/IfUjTcBRTnwrA5HtHBjaNdL845ITe5QzzJqsGLAAyW7rKtcxp3rmIA6UmrI14zltZnXW7iDWDBnDLbibKpOv0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785930169; c=relaxed/simple;
+	bh=Q8tXROnhtzWgEtAv1OeMz+DF3v0IIxHXQX+EH+skMVQ=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To:MIME-Version; b=Skeegg8zTBK6p9PTDVwl3od9bQEBfsjDLrAwJPUSDUkRgYs/cRgKPF7EclyKKagBGeQbT0R8adFvdnE+5UGmotDnydN4wQ537eo2k2zx3AaeihojlDXMtRTHt8GaBS4T4hFIorRJjBhLrsgTDPcz3HZRdUNbZlSx2X7Mk1F1AiA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=XwFiOdZa; arc=fail smtp.client-ip=52.101.43.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZEXOh1K"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso7946945e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 03:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785927546; x=1786532346; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qChqnXEV/RUrII3F6FtB3OpL17H6S0GQj9i1G4DFOPk=;
-        b=SZEXOh1KpuYJfaF3im7hVoma9sONKG+vqzLlaf7ooZ3+DAVgQF2n8nHiu3IBzKzRRw
-         dp61JCqy4D2c2x5T+fFsho0Kc4LPfYzRhYnaRPQxTWRUmJNY2O3uEtNUJ9g0jtsQzB78
-         acwHo/V/p7Z+a/CycbdYZGZ0/BQXrBPXtv82DmWLOJ6CXmegiDSc5Vpr9pIheKRjGqMF
-         r+UcPmzDpbWcI8H13x2BkfrjOdsL8Xsy75IrRzcWKT2gi+twbWrzsVK/oIe0qJM2wJoa
-         yEryF/AJxdc6tNkssc5mLthTAMvFEWY1cWRMtRboKcJGJ7HfUeRlxV4Ne690/an9Vv8/
-         6wYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785927546; x=1786532346;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qChqnXEV/RUrII3F6FtB3OpL17H6S0GQj9i1G4DFOPk=;
-        b=Qew4FclaWcy9QokT6cG2GzXe2OeFL1GRJYtegWWEvZZ55RfsZBZ+TjdWj6e9PD3Rkh
-         BUqnMSVWbOPiW5LoGrH1ItLZFDN9nzdLq+6eKj82bXM/2ng4+ZbNttYiopYCMX1i5isa
-         lZW5Ik2nSOTNcygXC2DLZYqHJhhcljZPnyMMs1yxrCUTcG7NpLIviByWiFMYNUoWzeO9
-         Mi5EFQxmlTP1LnADw4XJbBMM6apSSjyz//zvo6UbZWPaOryjoYieJdY1QqNvjhb1YIhC
-         t1Bs3pSNoiO818KCB+OZdTo4VwOajyuufaW3RH2YzFgO+K45wjLEIWrvh8NwUh5HhQPu
-         TtwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoRTitOrj09u1rHhu0bg3H0VUTbhn+Vr3QfJYQiwM9Wj5m0dJemsHjpX6r2wCp+3zM5S8lo+zPYele3ExTk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN8qX3/o++AHIcbUayUSZSbpA/l0abhS7bhyfSgQDtsU2iYchc
-	UplaH/c8vOXm38DwGyZ6VMmGji2PCGCzoTL5kT15ry302AJryhD4mHF6
-X-Gm-Gg: AR+sD131nfzpMah7qnmsCzy5OG1Fd6V9nWeM6iCHMbCktZN0t+mqWJX8uV5Oq9eKW21
-	JQ6Kw9YYr8wKofbdrZkabqswVdaLnYt94r4znCC1jep74pgao9+3ApEgV8VXuFGblomCZR3vCBV
-	XGhz2VyL3kT+Eu5oUM0XfS/qrFRdykKzKn0yxbM0umQeTwApk5Xt4p6z0TdOrwihJmeMBX6KjJM
-	NcAMcHmKHhkSWHMwHl8z7ss2Wk2ehOwl/0BjEenlggxtD/wnQkuwkOBfUJ/xTojtlOwMXkOUuPn
-	wsWshuTerb11r5vH06Wi/tRfSfP6I45ufBLazgbqua3KkmXm5PkLrP1t1orVcDnXwkBlPiYBxKV
-	wIm8uZZ1GgbhqrW/9nPitWR9TLzAjS92z1wMQO8wkTmgkSxC+vOEDdyfHv9F4OCoMUI5so+1SE/
-	RaCPd6K8m+QAAIWJbG93Kn2UrPEhsfbc4facOtrE5Z1WW79ffevtmdQmB6maoxyCtjVzNY4JkKk
-	rNSuSgpt4G37Mngct1eceTZK6+XJcHV3SUahS+C8mDuU3AO3A0b3O4gqjVZo5b/BC3tHnQ2Ew8D
-	sJuFD5J9aGkb3GJfesAap2x3aQlTflvI/IRop+P/PLmDiZqj
-X-Received: by 2002:a05:600c:4e94:b0:497:ff73:68d5 with SMTP id 5b1f17b1804b1-4994e6c5eafmr60022735e9.0.1785927545848;
-        Wed, 05 Aug 2026 03:59:05 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4994e035900sm80665575e9.11.2026.08.05.03.59.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Aug 2026 03:59:05 -0700 (PDT)
-Message-ID: <8285ede8-bebb-403a-8a37-b9987cd37a8f@gmail.com>
-Date: Wed, 5 Aug 2026 11:59:10 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="XwFiOdZa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fzooYuxINBgfDP4nShN+MHUJesRm+LM1rNd4KTS2Be4hF3U033YWk15adD2YoJ3AiGGfhRsPUa4+mtNf7f2MNzNUQcYeeb3AzelrBjnxT/rdSFddfyxpWEqD8xE4V4HM3CcVLYfG3+VWcEpucwZzwrmYRs6j6xUbzEJ2hE3XAY2tNOaOVjzLR2mk5xipbpz5u6lkNzbWKAgHzo784Bt6wEbSyI0IqeJYlRdOL1AhwgI1Lntd/xY1Q5yQaOKQgkZahHvo6ouFyddcvGFxJV8cbTrOBVkpiItlTpD5cMIzB4eO+UryDQEPImESSEpDH69IDAnEDUPXaT2j5FqQCZY2UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q8tXROnhtzWgEtAv1OeMz+DF3v0IIxHXQX+EH+skMVQ=;
+ b=WvpRxJf0cBbXGvJkoNXlYjYmfJGak0p+Cs6RV3uX75cLqn69mMn/gLNWB69y4x/Re2cOcMpKbweZYizOEXgx4t0GXLIZi40GTu4b2Lh4wAhQMFxZp4aitZYkdrC9jB2KdFL2WAhbftmC/WQPNaf9/31dCW8pheMUE4zKvS57mGCRW64ISKN3HNSZRFi3qjZx7K0CKg0SIWpE8csg0rIuS/uiXN+l3lYPf+sxlwcBq9aUKR1S8ceXK7ZGgHbene9zEQUR+e4EbnQaVcYHUPjjLtGEahh1KNfyLhYt8rZ5w4LeXi2p6KygCE7Dg4cXPAXuXC5hlTLP6yrxzvF4Gl3H3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q8tXROnhtzWgEtAv1OeMz+DF3v0IIxHXQX+EH+skMVQ=;
+ b=XwFiOdZakfzGH8xqDM+934AdSCoayRkSboBYoOsPEv9ihw+T2hyrtp1D/KUVqaJUbrefbJuRh6E5crYK3jXFrO5VxbZzalTs3isSoKRBgOVlRopFp/nMszHXNfdAQpik4GDlTyWH0nW8QLiUEun5K4qhxpAdnK08u13OW5jI6O6hisC/UGJbUNzOR/x//2GdxI5caOd1Jw+evE0BTNWihobzF73KXLNLbFLRjui12TnwQlNlJYwDiIel7SFekx3ZOvT1Eo9OYhI0wze8Foxna5m9ToBUXZcdMmVLFJe9LiYuuF7Gu3RUqLuB4rCMzAOH5Xb46Fc/DhKeSYEIUEAxLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by LV3PR12MB9142.namprd12.prod.outlook.com (2603:10b6:408:198::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
+ 2026 11:42:39 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0292.018; Wed, 5 Aug 2026
+ 11:42:38 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 05 Aug 2026 07:42:37 -0400
+Message-Id: <DKGZEK0AQP6R.1RTQEY44OQD65@nvidia.com>
+Cc: "David Hildenbrand" <david@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Muchun
+ Song" <muchun.song@linux.dev>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Mike
+ Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Gregory Price" <gourry@gourry.net>, "Ying
+ Huang" <ying.huang@linux.alibaba.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng"
+ <qi.zheng@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>, "Kairui
+ Song" <kasong@tencent.com>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, "Gao Xiang" <xiang@kernel.org>, "Chao Yu"
+ <chao@kernel.org>, "Yue Hu" <zbestahu@gmail.com>, "Jeffle Xu"
+ <jefflexu@linux.alibaba.com>, "Sandeep Dhavale" <dhavale@google.com>,
+ "Hongbo Li" <hongbohbli@tencent.com>, "Chunhai Guo" <guochunhai@vivo.com>,
+ <linux-erofs@lists.ozlabs.org>, <linux-fsdevel@vger.kernel.org>
+To: "Jan Kara" <jack@suse.cz>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH RFC 07/14] fs/erofs: mm/pagemap: add
+ readahead_folio_reverse() to avoid folio->private
+X-Mailer: aerc 0.21.0
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+ <20260731-remove-pg_private-v1-7-142c97ba3562@nvidia.com>
+ <332rknj4vo3cfhvfhhlf6pvg37s3lbrnzbbnv4swa6gctsiu6a@ndotgokvnglc>
+ <DKFGTVA0XD01.OZYNYUOU9FTX@nvidia.com>
+ <huzyeqj6a57nbcqc23v6f6rdhkob5552fcwy4mlrsagycqi4rz@ggsapkumc2gq>
+ <DKGA508ERSYM.26RBD4HYM1SL8@nvidia.com>
+ <2evaxdu6cobpnzzer3y7fsrqvmtmhj7gm3e5buebdaw564igx6@7bs5enipxnpx>
+ <DKGBQHP25RE0.3NKUQSDULAQSX@nvidia.com>
+ <ivg5x7hjo4tmpd34i6wrd5cp2v56c3vorwru7h6kqxnqlcpte7@lvd7xa4ncwxu>
+In-Reply-To: <ivg5x7hjo4tmpd34i6wrd5cp2v56c3vorwru7h6kqxnqlcpte7@lvd7xa4ncwxu>
+X-ClientProxiedBy: MN0PR04CA0002.namprd04.prod.outlook.com
+ (2603:10b6:208:52d::13) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/14] dma-buf: introduce initial file I/O
- infrastructure
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Nitesh Shetty
- <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785274111.git.asml.silence@gmail.com>
- <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
- <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|LV3PR12MB9142:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ce06ff3-f5f6-47da-36b8-08def2e6a6b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|56012099006|4143699003|5023799004|11063799006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	5pcg7hjAwzLk3sKKuyfkYeoxJG0hhBCvORcAfBPd02sZsAq3hWQPYUsg+vgQy49RihLtV97ksHFGPt9iZyxpTFQRebMGe+i61kepjc8jQS8oIDG/oWrAPVRo6v7UHhcm4zKubhze9476b7I6f4VD8rYpeaGpg/ryksTv0UP11yFpqdRFt7Vb2Z0c36JSEReoPChfJquWuynbVr3ZBLIAbM9v68ZwnNIYINHyl6Je3qwDNprWBS/1uVNKas4x3EeMq5l/dCEsKpsXsGbxOA/jsqzMEbvB8fp7aobfVFrBM7QAzk+jNibpT0zRaxFBFexTs9xY6JFQq7EKVLfma08+wlpkwm5qHndCE2JptM+my0/nkbU5dwOcdRhRJXdP2ndAucqoZPAZfIXZcTiNedM2MCJc434zzGW0QC1rSuod7oW566V+/LFKyoJDEAwTiTvkyxBSryF84+9qNW6NZ4QY7vR0ctb/OqYgSb/vvJrCVe/KJAjVY9/LiMYxbTAufaeTY5WDsFpx5bChe+fQCHqObqdQx1nHml2RCpG+R9+nQwozelEuV8eY3AKnn+YJZaYStjNEPboSABIIBtCXeOgIOOkrcfY9zaphah3qJvEPbNWImoUPFtlkeeGrU1zRRreEbx3jNkw/pwcU7d7YKCSSVonDy8fvpkHa7qUOcQUHF4g=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(56012099006)(4143699003)(5023799004)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OEFyeHp5R0FvQnkzdkJIOHE0SW9JZkZCbmE4Mm8vMnJaUEtZZE1VSVV5VU03?=
+ =?utf-8?B?Mmp2QVdjcXlTZnloQjMrOW5ZNStpVFVoWERZdXJRK2NhcDNFcHhxekFHeldB?=
+ =?utf-8?B?NUdCdG1SR2JKNzhSSk9CbEt2YmIzOVZxYS8vUjVVdVdJMi8zKzQ5em10dmJV?=
+ =?utf-8?B?bmV6ZS85eDlabHZjYUpBcWZWRUxsYmJPOTRpNXJKNHR5L2ZlMmYvWUk5ZnNr?=
+ =?utf-8?B?eE9DRDVoMWFJeUV0MjZhTDRoSVkvdzRBaDRnVVlHMEYzN1VTeW1sTFY3dVZG?=
+ =?utf-8?B?MWNFL1lPd0hjajdlWGhTbytaUlBXdHZ6M1JvSnVwMG4ySFdrbElXWnE3SVp0?=
+ =?utf-8?B?TDB1RTVZV1pXdVpBVHo1anZ6Z2dTc1dXeDZPS3doVmFvUnZrUjBoK3d0Ujkz?=
+ =?utf-8?B?TDN2TjFQT2RUZjdnc1ZQQlJFVWhIa25CMFB1WXZyT1h0c3ZsV3VrQjZQdk9t?=
+ =?utf-8?B?UFBicS9HcXVJREFvV2xZend1LzE1Umx4NmdKUVFQWWZWMGVCb201MnNrbG9Y?=
+ =?utf-8?B?aUxGTmd3eEtUc1RxRzY2YmhSS2Y4Q0ZqTTBnY2RIOVVkbHdSMGROVFU2V1F5?=
+ =?utf-8?B?YTJJVk92dURYN1J3cmhPOUpxYUlWa0dMSVRMczBtWWJTVnp3azdrQWlEbURz?=
+ =?utf-8?B?aG94Y1ZoMHVUZXNSZzFqL29TVE14TFFsZkwzSFFmZ0tJVE5YR211amJqaU94?=
+ =?utf-8?B?ZkVrcC8wY1ZpdE8vN0Vic2JoUSs0UlNxSklXSXVFQjhEQkZ0Z0J1WEpjc2Z2?=
+ =?utf-8?B?TkU0YklrcnJnbFhDSlhFNitxOXJ1NGpQT1lmRFV1WEpJb2FYMFpKR0lwT2k1?=
+ =?utf-8?B?WDlKZzVYeXA3SktiNU9FMXpiZ0VmTkNrT3o0YXpaT3R4MlJjQkQ0bk9YNkE2?=
+ =?utf-8?B?Y1J1c0lNMXRlOTh2OFdCU3pmc1ovc2t3TE1lcG9ZZEROd25VSEk2UE9vY2Qz?=
+ =?utf-8?B?QW9nK3NuRXpZdlFXSW9HYkxmK0w2VVdreDJsNzhpZG5RTFhsUU5ZZTZXMzQ3?=
+ =?utf-8?B?WmJMbGNOazI3YmtnNDhudkR4NWZFYmhuK1d1bVN5NmdqWEhjSGxGMnltU2Nq?=
+ =?utf-8?B?aFAwVVJ6aGNKZW9LWlpCVFZnZmJ4NUpDeGFXczBycEJwdUV4MWhTV0xMeDhu?=
+ =?utf-8?B?T0pBekUyOFdFMzZBSW0zSjN5VG9RakVKVmxCSzFqdzd2dE9rdFp3VlVTOGhp?=
+ =?utf-8?B?K2FRSGhsbEhkanFKMUlSQ0ZoeUdzWmw2eEZmWXBzZ1dLTWNYYXE2K01PMGVJ?=
+ =?utf-8?B?bFZSSXlxNTlRRTVlbG1nRVpsb0V6V3dlTVpPYlVXS05SM0taRDlLREVhaTlF?=
+ =?utf-8?B?VVlxVnRDaHVuWVhmSUI4dHFNSkpSYWtRZkk5R0VKTzF0TnNGVFhYTURBcmFV?=
+ =?utf-8?B?aW9kTDQrWXBHSTVVZE1RK3BjN3g3ZnJBcE42NG42ME1rNU9Na3YxekdSMG9m?=
+ =?utf-8?B?dVRiNk1pYjBHYkNYWWRaRm9LbDgwbTZZZVUrRXU3YUdlS1BlWVBIK3hZS2ZQ?=
+ =?utf-8?B?QVZDYmlmQks1SWFGeGZUNXhXaEpDWk9BSW9YVmdzN0MzSnhJdGQ0S2JEVFl5?=
+ =?utf-8?B?dzFydmhjZmZvSVdGMkVXRUhnbzFwYlRCSVdFU1RzOFhRYzhoTjdSaVV1YjNZ?=
+ =?utf-8?B?QVl6MUszeVBBcE5DajVYV2cvdTZWM3lrNThkTTBJbENiTU82RHRLUXJBVVpv?=
+ =?utf-8?B?R0d0VFVEOGhXRVJQb1hnaGFzWkluajlxclpFV2RmRlZZZnE3bVZNejdFQXFn?=
+ =?utf-8?B?WkJRYXhVdVhPSnZPOWwrckZId3p2QUZBd1M2bjU0Z3ZSbkQrQktIVDdFbDQ3?=
+ =?utf-8?B?azVSWW44cmNTLzhRNnVNV0M1a1VHWU9ETkRhYmY0RC9tZlNhNXJDUFQ5UnZT?=
+ =?utf-8?B?bXFTZ2pYNlZYcGptUk5sd2x0TVdwU2g0U0pYS1ZxMldTNzlmU2gvRWRCVE5o?=
+ =?utf-8?B?dldRMlozVDFzTE5SbEkwaG80dkRkSGd5VzFqT05xVGJkRGVBYTUzOEtmZ3Ns?=
+ =?utf-8?B?V0QzUStRcU56YjJWaDU5T05ScnVBWEcwaUxyYXlkTkd0V0dVWTI4TFRSWUJE?=
+ =?utf-8?B?SXgxem5FQ1ZGbmFNcTN6RDArVXRoQ1pQMjNNZ2IyVGY1Q0lvZ0pJaVJxR3dq?=
+ =?utf-8?B?dEZ1djNpeVlPZ1NPL21oNU9FNE8rMk1oSjdQdWdUMFBsVGpTVSt6ODRycFoy?=
+ =?utf-8?B?WjZkRWEyNC9YN0J6MjV3Y1BFeGx1QWIzdUpYNFlpYlZoNWIrZXBaUml5L2w5?=
+ =?utf-8?B?UTR6TjhVR0NzelNDdVd3WWtwQnM5RUJKeUtCMUk2czZYYTl0VFZBOVJJWS9W?=
+ =?utf-8?Q?4097320iasubhFD1Dz?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ce06ff3-f5f6-47da-36b8-08def2e6a6b7
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 11:42:38.8299
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ycGubgkmt6Bk23RwlcSpW/P/8wBBBAozictGVAXAhqQD4+Tg+pcQEX6wrUPsCpx2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9142
 
-On 8/5/26 09:27, Christian König wrote:
-...>> +struct dma_buf_io_fence {
->> +	struct dma_fence base;
->> +	spinlock_t lock;
->> +};
-> 
-> Upstream has change to allow embedding the spinlock into the dma_fence, so this structure here is most likely not necessary any more.
+On Wed Aug 5, 2026 at 5:25 AM EDT, Jan Kara wrote:
+> On Tue 04-08-26 13:09:46, Zi Yan wrote:
+>> On Tue Aug 4, 2026 at 1:04 PM EDT, Jan Kara wrote:
+>> > On Tue 04-08-26 11:54:41, Zi Yan wrote:
+>> >> On Tue Aug 4, 2026 at 5:32 AM EDT, Jan Kara wrote:
+>> >> > On Mon 03-08-26 12:56:36, Zi Yan wrote:
+>> >> >> On Mon Aug 3, 2026 at 5:54 AM EDT, Jan Kara wrote:
+>> >> >> > On Fri 31-07-26 22:13:30, Zi Yan wrote:
+>> >> >> >> erofs needs to traverse readahead folios in reverse order to ac=
+hieve
+>> >> >> >> maximum performance by
+>> >> >> >> 1. reading all folios from readahead_folio();
+>> >> >> >> 2. storing the prior folio pointer in folio->private;
+>> >> >> >> 3. traverse from the last folio to the first one.
+>> >> >> >>=20
+>> >> >> >> Add readahead_folio_reverse() to achieve the same function with=
+out using
+>> >> >> >> folio->private.
+>> >> >> >>=20
+>> >> >> >> It prepares for a future commit that replaces PG_private checks=
+ with
+>> >> >> >> !folio->private checks. After switching the checks, erofs's use=
+ of
+>> >> >> >> folio->private without bumping folio refcount can cause unexpec=
+ted
+>> >> >> >> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers=
+() becomes
+>> >> >> >> reachable.
+>> >>=20
+>> >> <snip>
+>> >>=20
+>> >> >>=20
+>> >> >> The below is what I come up with. I did not add a bool to
+>> >> >> readahead_control, since I think that is the decision of caller of
+>> >> >> __readahead_advance(). But let me know if you disagree.
+>> >> >
+>> >> > The reason why I wanted bool in readahead_control is that if some c=
+ode
+>> >> > ends up mixing readahead_folio() with readahead_folio_last() things=
+ will
+>> >> > get confused (because __readahead_advance() really wants to skip th=
+e batch
+>> >> > returned from the *previous* call to readahead_folio[_last]()). Wit=
+h the
+>> >> > bool in rac, even mixed use will properly advance the state of the
+>> >> > readahead_control. I don't think mixed use is very realistic (at th=
+is
+>> >> > point at least) so I'm ok with leaving that for later if you don't =
+like it.
+>> >>=20
+>> >> Got it. I am trying to figure out your mental model of how the mix of
+>> >> readahead_folio() and readahead_folio_last() works with the bool insi=
+de
+>> >> ractl. By looking at readahead_folio_last() code, it is almost the sa=
+me
+>> >> as readahead_folio() with __readahead_folio() inlined
+>> >> (__readahead_folio() is only used by readahead_folio(), so the inline
+>> >> can happen without any issue). As a result, we can get rid of
+>> >> readahead_folio_last(), add set_readahead_direction() to set the
+>> >> embedded bool read_from_head, and use readahead_folio() only. This
+>> >> removes redundant code in readahead_folio_last(). One thing I am not
+>> >> certain is whether we want to
+>> >>=20
+>> >> 1. use set_readahead_direction() explicit and warn readahead_folio() =
+if
+>> >> read_from_head is not initialized, or
+>> >>=20
+>> >> 2. set read_from_head to true by default, so that only erofs needs to
+>> >> call set_readahead_direction() to change read_from_head.
+>> >>=20
+>> >> The former is less confusing but changes how readahead_folio() works;
+>> >> the latter is simpler but implicit read_from_head state might confuse
+>> >> people at some point.
+>> >
+>> > My idea was: readahead_folio() will call __readahead_advance() and the=
+n set
+>> > rac->forward =3D true. readahead_folio_last() will call __readahead_ad=
+vance()
+>> > and set rac->forward =3D false. __readahead_advance() advances from be=
+ginning
+>> > / end based on rac->_forward value.
+>>=20
+>> Got it. I can do that. Just to be clear, it should be that
+>> readahead_folio() first sets rac->forward =3D true, then calls
+>> __readahead_advance(), since __readahead_advance() advances based on
+>> rac->forward, right? readahead_folio_last() as well.
+>
+> No. I wrote "and then set" which means after and that is what I really
+> wanted to say. You still don't seem to be understanding the logic of hand=
+ling
+> the _batch_count. _batch_count is the length of the returned batch.
+> __readahead_advance() updates _index and _nr_pages to remove the folios
+> returned in the last batch from the range. So _forward needs to contain
+> whether the last returned batch was taken from the beginning or the end o=
+f
+> the range and __readahead_advance() uses it to update current range
+> accordingly (before we go and return the next batch). We cannot clobber
+> _forward before calling __readahead_advance(). I hope things are clearer
+> now.
 
-ok
+Got it. Sorry I made some assumption instead of asking my question, so I
+misinterpret your words. My question is who sets the initial value of
+_forward? So that __readahead_advance() can update _index and _nr_pages
+correctly at the first time __readahead_folio() is called?
 
->> +static const char *dma_buf_io_fence_drv_name(struct dma_fence *fence)
->> +{
->> +	/* default fence release kfree's the base pointer */
->> +	BUILD_BUG_ON(offsetof(struct dma_buf_io_fence, base));
->> +
->> +	return "dma-buf-io-ctx";
->> +}
-...>> +static void dma_buf_io_map_release_work(struct work_struct *work)
->> +{
->> +	struct dma_buf_io_map *map = container_of(work, struct dma_buf_io_map,
->> +						  release_work);
->> +	struct dma_buf_io_fence *fence = map->fence;
->> +	struct dma_buf_io_ctx *ctx = map->ctx;
->> +	struct dma_buf *dmabuf = ctx->dmabuf;
->> +
->> +	/* the release path must wait for fences */
->> +	if (WARN_ON_ONCE(refcount_read(&ctx->refs) == 0))
->> +		return;
-> 
-> Stuff like that is usually illegal.
+__readahead_folio() does:
 
-Should be fine, it's just a warning. The map holds a ctx
-reference so can't be 0. IIRC, it was synchronised a bit
-differently before. I can kill it, refcount_inc() has the
-same warning anyway.
+1. update _nr_pages and _index,
+2. return NULL if _nr_pages is 0 and set _batch_count to 0,
+3. return folio using xa_load and set _batch_count to folio_nr_pages().
 
-> And why are you using refcount directly instead of kref?
+after the change:
 
-Not sure it'd make much difference here.
+1. call __readahead_advance() to update _index, _nr_pages, and
+_batch_count based on _forward,
+2. update _forward to true, since it is __readahead_folio()
+3. return NULL or folio based on _nr_pages.
 
-> 
->> +
->> +	/* Prevent from destoying the ctx while unmapping */
->> +	refcount_inc(&ctx->refs);
-> 
->> +
->> +	/*
->> +	 * There are no more requests using the map, we can signal the fence.
->> +	 * It should be done before taking the resv lock as someone could be
->> +	 * waiting for the fence while holding the lock.
->> +	 */
->> +	dma_fence_signal(&fence->base);
-> 
-> Signaling fences has a whole bunch of very strict rules associated with it. E.g. you can't alocate memory for example.
-> 
-> Are you sure you actually need and want a dma_fence here?
+Then the first time __readahead_folio() is called, who sets _forward to
+make 1 work correctly?
 
-Waiting for potentially a ton of IO synchronously on invalidate
-sounds like a bad idea though. Hmm.
+Thanks.
 
->> +
->> +	dma_resv_lock(dmabuf->resv, NULL);
->> +	ctx->dev_ops->unmap(ctx, map);
->> +	dma_resv_unlock(dmabuf->resv);
->> +
->> +	dma_fence_put(&fence->base);
-> 
-> You should probably set map->fence to NULL after that.
 
-The map is freed two lines below, but I can add it as
-a defensive measure.
-
->> +	percpu_ref_exit(&map->refs);
->> +	kfree(map);
-
-...>> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
->> +{
->> +	struct dma_buf *dmabuf = ctx->dmabuf;
->> +	struct dma_buf_io_map *map;
->> +	long ret;
->> +
->> +retry:
->> +	/*
->> +	 * ->dmabuf_map() will be calling dma_buf_map_attachment(), for which
->> +	 * we'll need to wait for fences. Do a bit nicer and try to wait
->> +	 * without the resv lock first.
->> +	 */
-> 
-> Clear NAK to that. Always wait while holding the resv lock if you can!
-> 
-> It is absolutely not beneficial to do this outside of the lock and usually just hides problems instead and prevent fixing them.
-
-Ok
-
-...
->> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
->> +	if (WARN_ON_ONCE(ret)) {
->> +		struct dma_fence *fence = &map->fence->base;
->> +
->> +		dma_fence_get(fence);
->> +		percpu_ref_kill(&map->refs);
->> +		dma_fence_wait(fence, false);
->> +		dma_fence_put(fence);
->> +		return;
->> +	}
->> +
->> +	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
->> +			   DMA_RESV_USAGE_KERNEL);
-> 
-> That sequence is clearly incorrect!
-> 
-> The fence must be created after dma_resv_reserve_fences(), otherwise you definately have an illegal memory operation here.
-
-I'm not sure what you mean, can you elaborate? I only cared about
-pre-allocating it to avoid allocations here. We add / signal the fence
-only once, no reuse. The map is going to be killed here, and if we
-create a new map, it'll have its own fence.
-
-I can move the dma_fence_init() call here if that makes a difference?
-
--- 
-Pavel Begunkov
+--=20
+Best Regards,
+Yan, Zi
 
