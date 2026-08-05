@@ -1,128 +1,214 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63856363090
-	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 17:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75853BD643
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 17:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785950465; cv=pass; b=SyOup0s/PQLbvEWQ/yumMIoBMwnO+U3l61ZsxbJzC1LAnRkyYmoEfqEH4ynNrEDrhjlwshl0nd8Oujz8yAjN8Ceh3QYxP/yjpszrWNveF3cGE5BXkE7mi4qQAro2dBbp9d7Hn+i+AeKhw3XupLKcTTIEMMxQoLL2K16QgnhijLk=
+	t=1785951736; cv=pass; b=Ppk/MIuTCopvVG2fKHya/CSFy1gJRuNXSEL4NVE9592AOu982TRf+xeUPQFo2tXoFT74wnAHFAZuap/ZXKRXj3z6JYWu37Mt3+YTuElsRZDs4zOgnnearNYGoxVPoZHW2MgRm6kH3DlefqaL7ra/vjTESB2r3iNaIRrlEP3lmss=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785950465; c=relaxed/simple;
-	bh=f+1hgjoLe+9OAau5GDXmSyjb/F1lcu3rz3NObPtffwY=;
+	s=arc-20240116; t=1785951736; c=relaxed/simple;
+	bh=EyaYqKudXSYNb2x8/wPi+3HpDy7w6KyE/JUWlmLyn/Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CPUIxs0ifErgOorFbPL6NJWwlqKvHG/5hTjVNLVl2XPtGs9tfKtoqJNUIr9/o/8vGkB0+BcNWKhvHaSExEExzwBbbYW1u/HoDI4DEGCCQjBwG9jN+DYLKm4W7vT3lsjcM1ZI2A3Gjht7UGoc8t7ekCSdNsuKAUcGDuZD3sdIPUU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZT1xHc2x; arc=pass smtp.client-ip=209.85.214.175
+	 To:Cc:Content-Type; b=IVlj8Qc3ceLwElz09N1BQcTZ/1uXpo+Ibgm/YGt1GcbKXR3cm9ZN9PPZCXetHD6I11x+S4AADgJZOKOXg6jXn8ICviooXMb+8p2eDDgbdDElbGt3+gGiwU264WVYI2e+hB64oOrGMKFFdfEgv9i7lLN2In7SOVdRfzsQWsbfzMY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXc9tgtX; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZT1xHc2x"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cc8311c6ddso1672325ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 10:21:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785950460; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXc9tgtX"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a144c8f01fso217501a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 05 Aug 2026 10:42:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785951733; cv=none;
         d=google.com; s=arc-20260327;
-        b=hGv1aM925Z54dW1UEA0yu075xdZs0cKk1YzXoPRiRAh9EJNpicO90Qj4sXHorRX/TX
-         nWtosiNv4RRnlNZkcOrartDjkpkIahuTKbxlmQlz/4fGVJqw5h2TchUOoA38myHjV2As
-         xRaq1VdCgZrgB94U96va0/SZ432aDjfWWrT0cUZrvgsExk/kCZ8RpKEZm0W/qENLEXhu
-         AKiO64j2VhtPgX2PKTuDyqj3x1D1azqexS2zgcvTmutBcvKuK1HzucaC9pnvJRX18yBg
-         S3moXwuRvbE9LtwBpTmjLWHTl2PbKJqunIj2Qc+9P3L5Jqok565kqrxr2PvjiizGdWnz
-         TLIQ==
+        b=N/z0YaBc97S1fQNGevfvzX+mAJ5nziHlA1QT6WGzGgHhpY2uoLiIpD5Zu04Oul0gYM
+         HmizcKs993X3l1AL7jc7qBrw37/y7jCPgryZ9zOUfyr03bvASlkmTOddq49Qa75kv8fd
+         1QjN++5qJ0hpC286EYhgSHeQvcUxPAgo/O0x6x5m81aJiTk+sRJ4+EOk+Ch6kFc4peqi
+         n8n/8Lg7BY6RMHNBHY0IMuGmMKt7wHsye4wf36dTnelBQR6/POzIXKz/f36thILpNc5S
+         OUhyUuOR8Ta2moL5OQg9cE/8dXJo0d4kjXRqOOxjCA7YHefXFhuETt5W/Hvw9191Vnkz
+         cBDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
-        fh=YSAbLqK4KAvftcassmrj2C8RbQ43cwzcxJdXmBhS+Hk=;
-        b=MDd8tPRZ0yKjSGwzoYVVrsJFcyrVYpa9s0nZfzad/Gu95FhV4JJdVGwAJbw5YdpqXr
-         HSQfER3Aw1Uuxy/7PMlZ0Yz0zSEz7YT3+HCSCe9EWISylJpVvr6NVsQcnO3D0h3efURp
-         mEvJmhXhxyPnomozspLXLgXxnLnJY4rupBlk0+2H7t8aTn95PjhhG326DNQiioZmOk2M
-         rv+JzfpKAzaH+ezg0hlzbgKGnZwzX+R7DELnf8yO8Xl/eF72ByzPESS6EeXQhViKeMFI
-         qzv2i1ZhVZeHUbTmj87EGK1F8ulXHWzUSkIXTX2zfv4ljCsWpAKK1Zj0UkHJ2NOD5d/n
-         St5Q==;
+        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
+        fh=8yzDYNXocEpg2Z2iVkYwv3J47IwNjxOL6LwlSH7Oe7E=;
+        b=gFHvyL2P0dprsQnTt6gNaw+rxnm9yZiyl5DzDtA0gmlgHDuJaPZdK3IZP1xghlJ3WY
+         psYgDrFE1kZQP+3ZDLO77zLMGRcUl7gpfNk0eC7uufjVAxBSlszi5Qx/0K2wlFAFOD6n
+         faKrlP4SvhjqgzPSY14N125gz6IuV++49ywcbZUDCPVvv0yTXa7L/qlBPWiLYQzRITZo
+         jca38T7jddXxBq7pHZtv3k0KzHygJ9U9VirHIdZuoJEw76d7zz24+jSTU7rVpR2G+0+I
+         MZZlEup6QoWydxMvcCkH5FF06xBoHuNKfs3npja4G3r3XgE4KYFQ24clsFEzwx2EZXHg
+         eJ6A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785950460; x=1786555260; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785951733; x=1786556533; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
-        b=ZT1xHc2xyP9XYk8PUPnDAntsicElF5elLjXJHYxK/dTIRxhOXP4BYmKyaAm7D4myJe
-         FXySCyN7nRIDJjvQu9UXCW9eDvMXBTKWNXVzmoLwbtoeTkM+2avemvUwcCdFVmdxcM5y
-         HMcojfHT74MtjHUYX3FGuPiSQu6CG9RcMZN10Jij5DCneHFtm2g+5oKnouFZiqpXEehp
-         s6g/qW8DnpBdkqN4RMvOha0mJmzKRXFYxdpGFxxrgKrHq8SOqH3+XjNo42K8aYfHQQpY
-         ieaRXp6TarxQO7iZdwat5LWdNaE6ED/8Ui2j8nc1nYOEyzIfdGs6la8xuL4tQi7opQXq
-         gWug==
+        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
+        b=SXc9tgtXVCpK1JaMvtt2vVpaBgdJGznsMoO7WsenaPOgSelGPJ4xt2CAJczmCw5w0z
+         alh5gHFsAWusCoq+Mh43NzwBph52EiolV1hItKyKDZXAbQtFPtzi/mHwWFzdmdVnnOrb
+         nxm2S1D5A6YNjKwOxzR+j9Y683mCzxmuIlL1bxvaCnmaeXPWYBTpRAcx/NnqApTLoHLZ
+         FU2VNk50Inn8iiQizSZeP8ZwwnntyB7Eutw39eVfRzebyQJbVUgax9LRK7hicsgYZ17a
+         EB2soddUn8SnzD7a1HoxZzUnaPIEpEPuIevJUa/4XjMK6bjS0usAOk77aRQlAJVpJ0KT
+         BPnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785950460; x=1786555260;
+        d=1e100.net; s=20251104; t=1785951733; x=1786556533;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Cz1E8dA+nCFkDM0OHZhKzEI4Qib+t52DoabszOc2ICI=;
-        b=Huo/YIZHiH3GmfC9QxH+Q1FBVkat5WrRlBrzQoKBtTECp2k6aJimXL+tujMqeA1r7R
-         lIDZUGT+NKBgNx94f0h5yIdhx3nUlElvDP8VCsyToIq440tQBBNOrAhE3aMphO78+41j
-         vHGsYSbW1/oVGmx3w7teMCUgh+Q7jjSSwZ5j4nGr4ql3dUQoC76DuFZ2lhTYjIqsEkbE
-         f2wjE+DDwfUr8ddsT2YMuAuyDat/SPF/PCloH21UkdJMA7/TE4e4F9wxsntq5b4x51pr
-         ct1HYENOZd1XRv2RrSqWvHyqAfKcLJptZ/jWwVK0IrDnztD2gtX2/OuejSXqMH8u0Tl6
-         BddQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrDAls5tjFKl/MLc9zh3Gt7k9u1EgureoA8ly+KFAGuYRLhFh1WE2Gm36LfRGn+JmZWPRQQLqpdi42mdLXf@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXV0saeLq3VEBv7OZfXoVZCFVWdaUJh86YNzrCPjxqw3il4Flq
-	nkM/QPUWSEddGYR03Kq+uouxRupNbJ1MhvINDqW8s4jl+GWbLwu9c/qsIVVOOd2NFjHPVjTiICX
-	5H5BMDLjcZkJqlaXa7mIcxhlpCb81xu8=
-X-Gm-Gg: AR+sD12whgZAJJeOpMR/JRwBFuzbuKf+j+NXxYjS/JUXLOaZquWInygFHTeCMEUn2Ca
-	DscQK1+o02mukcAd+aE5z3zywvQZ+76d36mWFoUGE+2GWaTmTvvHxY5kCyLA78sHqBh3+ulK4RQ
-	eQHm2yjb7NKZvXK7qcY13512TT/XmIopncfDD1b+EZP4VuRaBg956rZ0UdbccVeEBv9s/Tdn35O
-	sbVDLg2WmunGyTVF2vSCAbyt1XyzL0/JauNX8ax0eiGMYBNJ5LiMRYZ9ZK7ai0uEdz2XGvrHW1z
-	3zv6XatneQQ81bbSz6f0IKGtP+CG4/oYTMV4WrsqcmMxqUibh8SMbwix2y8+WqztgL21xQnmUQW
-	XYfyxUn3VZ/irh/qFdcZFPyHsnVQ+Q9HQesRZl3HHU8jpjKyWF5ehvrElcyqG
-X-Received: by 2002:a17:902:ec8a:b0:2c9:ed4a:c3a4 with SMTP id
- d9443c01a7336-2d0ca1658f2mr73522915ad.0.1785950460122; Wed, 05 Aug 2026
- 10:21:00 -0700 (PDT)
+        bh=BXreRkBEGbHPBEEBrdZNIuUhCIMHTazKQC4iCv4R03M=;
+        b=epIQoggIBqVyPIjMdh14TgDvEHQIO26J10mRWc32tmlsZZP1/Kqmg99MpSU8ZLNZqe
+         JB5Ddqlk+mE1Aq1ua8+b5lSBGJbqCAiLM6dnJemR7Ube/uymbtmxxHy8TFZvbVJfHZv6
+         RXyLHdDEi5DpHIzJ9UChRTcyHy2gEqUD1NyTbVz1cntcn1jmqX7EIgXdnHqjO+b5/yC0
+         euKVtQE0SP5lwrWo8K9fxVrt3MXSyHtgJvLRyfrKzbmnVlsXAauvj6yWdadsk8+pu664
+         Xt2XGLzHfdDaFXg7JUE6BnKOURJvuicI7YObmVoaTHnjy1XZIbTMSXc+3BVHF/cI29ZE
+         D3dA==
+X-Forwarded-Encrypted: i=1; AHgh+RohCl/ublp5dhP9p1x5ny3PiK33HZkEhhBNNWOPt/81dVQB2uZYRO6dFxjsFtD+mlh8P2KnhWL6Pq1H6yzu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv7x9KdaOQbv6PAaJ3l2T12BPy1rnvykJMXBFiFRf6yKZTt8j5
+	wuAy9bzSsUosAe1O0j1HTPTjGqykfYFf8uxy31pjk5w1F/utJfDpplhG6b8iqShiwpmyG1WIiZE
+	V1+ApzaB69YJqpSUjoXvjnLpTFQo3Kj4=
+X-Gm-Gg: AR+sD11c3DzShTxWxuByyTVSJi72RfHeDAmXUpznS8881kKhdgO5FVQHyPIGn95RFAA
+	+vET9En9rMipOQ1poOVAFxxnbjSZyCu5nTgqJgL16WL0x9YLK/E/sh+8++IbCvPsFg9GoBLtHNh
+	y63htLjPM1yrEWPb9RTDdHXapwMomWYSOrSj/it/XX0hpXooiml0OYpvJrZhlbwcWyopPDQWzwb
+	btLbN0hNE+m/XbzNLyjC5O6Y0bH7i8pwnTv8t7eacYoDAVhNBZCWiiQv90lbzsoek7YsUc4jDO1
+	zc6zjY6yyxXp7QoF75VoLUdUwMUG6bahUwxWZmSzx9Lb
+X-Received: by 2002:a05:6402:4586:b0:69f:c929:b88 with SMTP id
+ 4fb4d7f45d1cf-6a18f0a9fbdmr501901a12.5.1785951732581; Wed, 05 Aug 2026
+ 10:42:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0CoR7Z5B4-PH8GYYbWlZysVJpMnNLTFzTO0tBlOpJQNFiQ2CPrhdjyD4-4jQs4n0J_1QqovCd_EaYpclyigEKw==@protonmail.internalid>
- <20260628095132.47753-1-trev@trevrosa.dev> <87pkzw9aut.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87pkzw9aut.fsf@t14s.mail-host-address-is-not-set>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 5 Aug 2026 19:20:45 +0200
-X-Gm-Features: AUfX_mwN2wRwvmcNPuq0EpEyS5qgayFtXbsdflDPhbgmFxUJf-YMOIqJTLTJEvs
-Message-ID: <CANiq72=wo4LOfa3hrJhTFr8UzkchW4QQtUespCTq7qRJvrr6CA@mail.gmail.com>
-Subject: Re: [PATCH v6] rust: aref: make `AlwaysRefCounted::inc_ref` an
- associated function
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Trevor Chan <trev@trevrosa.dev>, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	dakr@kernel.org, ojeda@kernel.org, paul@paul-moore.com, aliceryhl@google.com, 
-	airlied@gmail.com, simona@ffwll.ch, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, igor.korotin@linux.dev, vireshk@kernel.org, nm@ti.com, 
-	sboyd@kernel.org, m.wilczynski@samsung.com, boqun@kernel.org, 
-	gary@garyguo.net, axboe@kernel.dk, daniel.almeida@collabora.com, 
-	shankari.ak0208@gmail.com, lyude@redhat.com, j@jananu.net, lossin@kernel.org, 
-	acourbot@nvidia.com, markus.probst@posteo.de, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, david.m.ertman@intel.com, iweiny@kernel.org, 
-	leon@kernel.org, bjorn3_gh@protonmail.com, tmgross@umich.edu, 
-	tamird@kernel.org, work@onurozkan.dev, sergeh@kernel.org, 
-	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com, jack@suse.cz, 
-	ljs@kernel.org, liam@infradead.org, bhelgaas@google.com, 
-	kwilczynski@kernel.org, ptikhomirov@virtuozzo.com
+References: <cover.1785621505.git.coshi036@gmail.com> <41c6fee66724e374d4682124a1eb80041e22efb9.1785621505.git.coshi036@gmail.com>
+ <z5jfe6bsxhgqqgjtxcm7ass2fslc4ynizvpmzlqxtr6rrfaopu@fxzntlxafmxj>
+ <anDW5UTbF2d0EQmr@casper.infradead.org> <74ts4lwsq73mce3rvc7imisot436742ykzahnogysnbklot45b@q3nhfq55knx3>
+ <anHyBATDe8yQEFNi@casper.infradead.org> <CACd_6n0zcg85_p=+dcVK__SECdom8K01BBsdzakuwJ1ibMhKJQ@mail.gmail.com>
+In-Reply-To: <CACd_6n0zcg85_p=+dcVK__SECdom8K01BBsdzakuwJ1ibMhKJQ@mail.gmail.com>
+From: Chris S <coshi036@gmail.com>
+Date: Wed, 5 Aug 2026 13:42:00 -0400
+X-Gm-Features: AUfX_mzn0laRrr3SVV705RV57FVYpzTyUQWOE8QEtN7_m8lMA0sJaYZzNUqNq2w
+Message-ID: <CACd_6n0hCFbEnJwKbMoR5qxdQoRoicKA8OE+Th6HshkL-NiKsA@mail.gmail.com>
+Subject: Re: [PATCH 02/19] buffer: allow a buffer_head to point at memory
+ outside the page cache
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 5, 2026 at 11:26=E2=80=AFAM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
+Correcting myself: it is not the kmem_cache pointer that lands at that
+offset.  SLAB_MATCH(compound_info, slab_cache) puts slab_cache at word 1,
+while ->mapping is word 3, so what a slab folio has there is slab_list.prev=
+.
+Not an address_space either way, so the reason for splitting the patch
+stands, but I named the wrong field.
+
+Best,
+Chao
+
+On Tue, Aug 4, 2026 at 7:06=E2=80=AFPM Chris S <coshi036@gmail.com> wrote:
 >
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-In case it helps, there was a v7 of this one:
-
-  https://lore.kernel.org/rust-for-linux/20260628100731.64885-1-trev@trevro=
-sa.dev/#r
-
-Cheers,
-Miguel
+> Agreed, and done - but not in this patch, which is worth flagging because=
+ it
+> is not obvious.
+>
+> folio_mapping() is doing two jobs here.  The one you are objecting to is =
+the
+> swap cache mapping.  The other is that it returns NULL for a slab folio, =
+and
+> that is the only reason this path is safe for jbd2's shadow buffers today=
+ -
+> they are the slab-backed buffers this series is getting rid of, and they =
+do
+> reach buffer_set_crypto_ctx() through __bh_submit().
+>
+> So doing it in this patch would leave one commit where shadow buffers sti=
+ll
+> sit on slab folios, and this code reads folio->mapping directly, i.e., ha=
+nds
+> fscrypt a struct kmem_cache and dereferences ->host on it.  Fine at the e=
+nd
+> of the series, broken in the middle of it.
+>
+> v2 does it as its own patch 4, after the jbd2 change.
+>
+> Chao
+>
+> On Tue, Aug 4, 2026 at 10:07=E2=80=AFAM Matthew Wilcox <willy@infradead.o=
+rg> wrote:
+> >
+> > On Tue, Aug 04, 2026 at 10:07:39AM +0200, Jan Kara wrote:
+> > > > Yes, agreed.  I think it's fine to add in some 'if (!bh->b_folio)'
+> > > > tests, but only where they're needed for the occasional consumer.  =
+This
+> > > > really is a rare (but legitimate) case.
+> > >
+> > > Yes. If we were to write this code from scratch, I'd rather push for
+> > > forming and submitting the bio directly instead of trying to bend the=
+ bh
+> > > layer for these temporary bhs. Eventually we might want to do this cl=
+eanup
+> > > anyway (since bhs don't really buy us much in this path) but not in t=
+his
+> > > patch set.
+> >
+> > I think that would be better, but it is out of scope.
+> >
+> > > > > >  static void buffer_set_crypto_ctx(struct bio *bio, const struc=
+t buffer_head *bh,
+> > > > > >                                   gfp_t gfp_mask)
+> > > > > >  {
+> > > > > > -       const struct address_space *mapping =3D folio_mapping(b=
+h->b_folio);
+> > > > > > +       const struct address_space *mapping;
+> > > > > >
+> > > > > >         /*
+> > > > > >          * The ext4 journal (jbd2) can submit a buffer_head it =
+directly created
+> > > > > > -        * for a non-pagecache page.  fscrypt doesn't care abou=
+t these.
+> > > > > > +        * for memory that is not in the page cache at all.  fs=
+crypt doesn't
+> > > > > > +        * care about these.
+> > > > > >          */
+> > > > > > +       if (!bh->b_folio)
+> > > > > > +               return;
+> > > > > > +       mapping =3D folio_mapping(bh->b_folio);
+> > > > > >         if (!mapping)
+> > > > > >                 return;
+> > > >
+> > > > Do we want to call folio_mapping() here?  The only case where I can=
+ see
+> > > > this being useful is if we attach a buffer_head to an anonymous fol=
+io,
+> > > > and I don't see a good reason to do that.  I think this can just be
+> > > >
+> > > >     mapping =3D bh->b_folio->mapping;
+> > >
+> > > For all I know yes, bh->b_folio->mapping should be enough here. But I
+> > > thought folio_mapping() is kind of preferred to open-coding?
+> >
+> > It rather depends on the path we're talking about.  Looking at the
+> > implementation of folio_mapping(), it's actually mildly dangerous
+> > to call folio_mapping() in this path.  If we were ever to point a
+> > buffer_head at some memory on a page in swap cache, we'd get a pointer
+> > to a swap_address_space.  I think we'd safely crash in that case becaus=
+e
+> > mapping->host would be NULL, but in other contexts doing things to a
+> > swap mapping would be quite bad.
+> >
+> > So I think this should just be folio->mapping; don't risk getting a
+> > pointer to a swap mapping.
