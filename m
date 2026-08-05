@@ -1,188 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5785B421228;
-	Wed,  5 Aug 2026 10:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E1938E8A7;
+	Wed,  5 Aug 2026 10:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785927171; cv=none; b=sevJPuo7b0Fr3p73V4fzLOTFLax/iIrdRRRtN/pQNdoxfo5QFqDrAsihKl2LIecj0MmzEeL1YzWXTX1HwRCUo0Kt0iPCRwGUJ/ZU0j3UVJR+dBO1mviGYu3BBWN2I3iCjKsyDxD1FX80H2ivIRecZJoCN5tR0HDIWtEujvOfxVw=
+	t=1785927336; cv=none; b=dlHWhn5vJUwMyX+lSvX0syDCM6V4Ithk8tifa4R39cz52aZMEUs83HTlXBnoS2gz0jQD9EUP+5xGR47XWWCDF0BulFIE5YAGu1O5a98lypapyoQsmUCRx9OwfiKZ1JeRy/eeNPhbBCQebZkxX3YK9C+GzLlBoiPQN5uckOgUrlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785927171; c=relaxed/simple;
-	bh=scnfdtV+1gbuSy3LTZsCXdrZEq+21NEz7PX/c+P+Tzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T/tPn9WRB7wHM8XbioHME8Ir1vrlyeWMb6MDtUwRzKXhhUAkE/L5C1Ko2mWc8BMW8K2EEa9h7qdVDCUkKQ8kKapA20e5biMLeDkPegNakBBSTK0fEROcCTo0l626Yz19PhdTS5pF1fFCiMETUBk9zGjSsh5InhTlKYAjGWj69EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2X7bjf7; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2X7bjf7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C8B61F000E9;
-	Wed,  5 Aug 2026 10:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785927170;
-	bh=dqMBK15onO+7JT1dZXU8R/Sw5n89R/z58pLEVJzn0hs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=l2X7bjf7DRVZgmFo0bPic+lRCzPiIWHHmdqPOhIcRSCT2j+hsZ/FvPwed12w3TsVC
-	 iqR5lXso5Vj0GPcXpcC1vhPNZpj7X5fRVo2DMAbXFvi59HcLW/vO2vul3lik0Ncx8Y
-	 D9BxmsIaCDZd8/a5w4PHfl1VgyO4kxP+IBDP+mGP20aN8aN86iR/AI7ltt7DX92LAE
-	 s9SlgwUQPfrlWN9WvIASQR2uS6VpHRY/FI2v4F26zxHJWqcLUU+6916WITL6XvFkpE
-	 WR+/dRHysdFzJ6J2zu3tIWs2ByAaNoZS2BTTPZMq1Oh9UpF1m91kXsAsNsHAKLminE
-	 FiQtrcpjTMvLw==
-Date: Wed, 5 Aug 2026 11:52:31 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
-	William Kucharski <william.kucharski@oracle.com>, David Hildenbrand <david@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH v2 1/2] mm/huge_memory: use folio's memcg inside
- __folio_split()
-Message-ID: <anMVxagM7db3cT_Q@lucifer>
-References: <20260730-add-gfp_account-to-xas_split_alloc-v2-0-5a56c2361d85@nvidia.com>
- <20260730-add-gfp_account-to-xas_split_alloc-v2-1-5a56c2361d85@nvidia.com>
- <am28pV2PEfHsi4p-@lucifer>
- <DKFEEI2EDS4F.1AHGKB1EL6XRG@nvidia.com>
- <anCtxQE5hDUH5N6a@lucifer>
- <DKFEUPDED2AF.22PKCFTWTG6G5@nvidia.com>
+	s=arc-20240116; t=1785927336; c=relaxed/simple;
+	bh=JUdBqFjm9fK/OlqJ2kX4GpW/Llh2cJlNW/cxLiJoMC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KQvtPZRdDN9rKgtUowH5IuA6KyL524Ll8HlVffOvZiPkK/7mFXLwy7rYJZ9d8X4HTJOWw8gHYcwq5Vkph0+uSw3z4yYQjfHRMb7QD99j3t590QJ77mAYiicNqf7T2epE+zcEkfQ1mm3n3VTZGFiZ8M4JDJ9KUywgzwxCKQzTi10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hFS3B5Jc1zYQx8y;
+	Wed,  5 Aug 2026 18:54:30 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id A3B5C4058C;
+	Wed,  5 Aug 2026 18:55:23 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgDn1kWZFnNqZM3NBA--.7867S3;
+	Wed, 05 Aug 2026 18:55:23 +0800 (CST)
+Message-ID: <a7312401-3bed-4d5d-847e-a0c96be503d3@huaweicloud.com>
+Date: Wed, 5 Aug 2026 18:55:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DKFEUPDED2AF.22PKCFTWTG6G5@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 19/19] buffer: stop clearing BH_Uptodate when a write
+ fails
+To: Jan Kara <jack@suse.cz>
+Cc: Chao Shi <coshi036@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo
+ <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>,
+ Zhang Yi <yi.zhang@huawei.com>, Bob Copeland <me@bobcopeland.com>,
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
+ Yuezhang Mo <yuezhang.mo@sony.com>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>,
+ Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
+ Andreas Gruenbacher <agruenba@redhat.com>, linux-ext4@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev,
+ linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+References: <cover.1785621505.git.coshi036@gmail.com>
+ <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
+ <ff2f92ab-6c98-42f2-be0b-0c807bc9438e@huaweicloud.com>
+ <t5vasainmrq7zlo2ptmjn5qfyiy26l4vvuqfkoldtx3naf5tir@4v6bktopybsk>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <t5vasainmrq7zlo2ptmjn5qfyiy26l4vvuqfkoldtx3naf5tir@4v6bktopybsk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_Ch0CgDn1kWZFnNqZM3NBA--.7867S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFWDuw45AF1Uuw4fWFWrAFb_yoW5Ar1Upr
+	Z5Ka1DKw4qqFyjyrnFkF1Fqa40yFyvvF47urWrG3WxZr90vr93WFy7Xw4Y9FW8Arnaga1j
+	vr4Fgr93CF1UXrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIF
+	4iUUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Mon, Aug 03, 2026 at 11:23:39AM -0400, Zi Yan wrote:
-> On Mon Aug 3, 2026 at 11:07 AM EDT, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Aug 03, 2026 at 11:02:30AM -0400, Zi Yan wrote:
-> >> On Sat Aug 1, 2026 at 5:36 AM EDT, Lorenzo Stoakes (ARM) wrote:
-> >> > On Thu, Jul 30, 2026 at 10:18:00PM -0400, Zi Yan wrote:
-> >> >> During a pagecache folio split, an xarray node allocation can happen and
-> >> >> needs to charge at folio's memcg instead of folio split invoker's memcg,
-> >> >> because for example folio split can happen during reclaim and reclaim's
-> >> >> active memcg might not be folio's memcg. Switch to folio's memcg at the
-> >> >> beginning and switch back afterwards.
-> >> >
-> >> > I assume this is the only allocation? I guess in general it makes sense to have
-> >> > the folio's memcg be active here regardless.
-> >> >
-> >> >>
-> >> >> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> >> >> Fixes: 6b24ca4a1a8d4 ("mm: Use multi-index entries in the page cache")
-> >> >
-> >> > Cc: stable?
-> >>
-> >> Like you said above, only xas_split_alloc() is affected. And we have not
-> >> seen related workingset regression report (like what Johannes reported
-> >> in commit 7b785645e8f13 ("mm: fix page cache convergence regression")).
-> >> It might be OK to not backport.
-> >>
-> >> Johannes, what is your take on this?
-> >>
-> >> >
-> >> >> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> >> >
-> >> > Change seems reasonable overall.
-> >> >
-> >> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >> >
-> >> >> ---
-> >> >>  mm/huge_memory.c | 20 ++++++++++++++++----
-> >> >>  1 file changed, 16 insertions(+), 4 deletions(-)
-> >> >>
-> >> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> >> >> index 04e8a6b553435..b9c2d8908e564 100644
-> >> >> --- a/mm/huge_memory.c
-> >> >> +++ b/mm/huge_memory.c
-> >> >> @@ -4063,34 +4063,42 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> >> >>  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
-> >> >>  	struct folio *end_folio = folio_next(folio);
-> >> >>  	bool is_anon = folio_test_anon(folio);
-> >> >> +	struct mem_cgroup *memcg, *old_memcg;
-> >> >>  	struct address_space *mapping = NULL;
-> >> >>  	struct anon_vma *anon_vma = NULL;
-> >> >>  	int old_order = folio_order(folio);
-> >> >>  	struct folio *new_folio, *next;
-> >> >>  	int nr_shmem_dropped = 0;
-> >> >>  	enum ttu_flags ttu_flags = 0;
-> >> >> -	int ret;
-> >> >>  	pgoff_t end = 0;
-> >> >> +	int ret;
-> >> >>
-> >> >>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-> >> >>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
-> >> >>
-> >> >>  	if (folio != page_folio(split_at) || folio != page_folio(lock_at)) {
-> >> >>  		ret = -EINVAL;
-> >> >> -		goto out;
-> >> >> +		goto out_no_memcg;
-> >> >>  	}
-> >> >>
-> >> >>  	if (new_order >= old_order) {
-> >> >>  		ret = -EINVAL;
-> >> >> -		goto out;
-> >> >> +		goto out_no_memcg;
-> >> >>  	}
-> >> >>
-> >> >>  	ret = folio_check_splittable(folio, new_order, split_type);
-> >> >>  	if (ret) {
-> >> >>  		VM_WARN_ONCE(ret == -EINVAL, "Tried to split an unsplittable folio");
-> >> >> -		goto out;
-> >> >> +		goto out_no_memcg;
-> >> >
-> >> > This function really badly needs splitting up and probably some cleanup.h work :)
-> >>
-> >> You mean folio_check_splittable()? You want to move -EINVAL checks a
-> >> separate one?
-> >
-> > No __folio_split().
-> >
-> > Comment about cleanup.h really was the whole pattern of goto xxx for various
-> > levels of unwinding things.
-> >
-> > But really I mean the folio splitting code in general, there's a lot of
-> > massive-complicated-functions with a million things going on at once,
-> > __folio_freeze_and_split_unmapped() is another.
-> >
-> > Feels like we should really have this stuff in something like mm/folio.c anyway
-> > too now that's renamed :)
-> >
->
-> I agree that __folio_split() is handling multiple cases, anon, shmem,
-> pagecache, all together. Do you prefer:
->
-> 1. split __folio_split() to handle each case in a separate function with
-> some code duplication, like xarray for pagecache and shmem,
-> freeze/unfreeze folio for all;
->
-> or
->
-> 2. encapulate per-case code in small functions, like
-> if (is_anon)
->     split_prepare_anon();
-> else
->     split_prepare_file_backed();
->
-> __folio_freeze_and_split_unmapped();
->
-> if (is_anon)
->     post_split_anon();
-> else
->     post_split_file_backed();
 
-Well these 'post' functions are a bit confusing so I guess I'd say experiment
-with different approaches and see which ones end up with the nicest code :)
 
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
+On 8/5/2026 5:00 PM, Jan Kara wrote:
+> On Wed 05-08-26 12:52:11, Zhang Yi wrote:
+>> On 8/2/2026 6:01 AM, Chao Shi wrote:
+>>> A buffer whose write failed still holds exactly the data the filesystem
+>>> asked to be written.  It is the disk that is out of date, not the buffer.
+>>> Clearing BH_Uptodate says the opposite, and callers act on it:
+>>>
+>>>  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)).  A
+>>>    filesystem that dirties the buffer again after a failed write - which is
+>>>    the normal way to retry - trips it.  That is the warning this series
+>>>    started from.
+>>>
+>>>  - a buffer that is not up to date gets re-read from disk, which replaces
+>>>    the data the filesystem was trying to write with the stale on-disk copy,
+>>>    silently.
+>>>
+>>>  - the window between the write completing and the buffer being marked not
+>>>    up to date is visible to anyone holding the folio lock, so the state is
+>>>    not even self consistent while it lasts.
+>>>
+>>> BH_Write_EIO already records the failure, and by now every place in the
+>>> tree that needs to know about it tests that flag instead: the two core
+>>> helpers in this file, adfs, exfat, ext2, ext4, fat, gfs2, jbd2, ocfs2 and
+>>> omfs, converted one filesystem at a time in the preceding patches.  The
+>>> private completion handlers in jbd2 and ext4 fast commit were converted
+>>> along with their waiters.  Nothing is left that reads BH_Uptodate to find
+>>> out whether a write failed, so the clears can go.
+>>>
+>>> Found by FuzzNvme.
+>>>
+>>> Signed-off-by: Chao Shi <coshi036@gmail.com>
+>>
+>> It looks like after this series, we may need to revisit the necessity of
+>> ext4_buffer_uptodate() in the ext4 filesystem. IIRC, it was originally
+>> introduced as a compromise to address this issue. Now that we no longer
+>> clear the buffer uptodate flag after a failed IO write, this flag will
+>> still remain valid when getting/reading bh. Therefore, the necessity of
+>> ext4_buffer_uptodate() is worth reconsidering.
+> 
+> Deninitely :) There are several hacks in ext4 (and other filesystems as
+> well) that could be removed after this patch set. But let's settle on the
+> generic changes first.
+> 
+> 								Honza
 
---
-Cheers, Lorenzo
+Yeah, that would be great!
+
+Best Regards,
+Yi.
+
+> 
+>>> ---
+>>>  fs/buffer.c | 2 --
+>>>  1 file changed, 2 deletions(-)
+>>>
+>>> diff --git a/fs/buffer.c b/fs/buffer.c
+>>> index ac978d9090c2..0002f0736398 100644
+>>> --- a/fs/buffer.c
+>>> +++ b/fs/buffer.c
+>>> @@ -207,7 +207,6 @@ void bh_end_write(struct bio *bio)
+>>>  	} else {
+>>>  		buffer_io_error(bh, ", lost sync page write");
+>>>  		mark_buffer_write_io_error(bh);
+>>> -		clear_buffer_uptodate(bh);
+>>>  	}
+>>>  	unlock_buffer(bh);
+>>>  }
+>>> @@ -441,7 +440,6 @@ void bh_end_async_write(struct bio *bio)
+>>>  	} else {
+>>>  		buffer_io_error(bh, ", lost async page write");
+>>>  		mark_buffer_write_io_error(bh);
+>>> -		clear_buffer_uptodate(bh);
+>>>  	}
+>>>  
+>>>  	first = folio_buffers(folio);
+>>
+
