@@ -1,58 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288513E49F7;
-	Wed,  5 Aug 2026 08:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9A43ED3A4
+	for <linux-fsdevel@vger.kernel.org>; Wed,  5 Aug 2026 09:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785920381; cv=none; b=u3MSFVEPNc34JFQM+H2MQr1lyYWqt/EJLiOTxCE8XkNnWns+nOGGXNOJVG+vrM7EeN/uaNeHlGfw38VkHkH1FHvsv6YePCb+LFOwcVCs/3XN1ztJ0RMxt4iUEAJlH7uxYSxGOYj0ZOUbuMVdutkz70Zhr6cQIjnUl4aBopYJYBY=
+	t=1785920469; cv=none; b=Sk+EvoqfM0whyXI4f19KHtEvHc8OmhfPCYa+giwSObVPZ0mvGdJwbQCkqZre7ptCaRf1eEWWPYq7KxyvpXMf/rGJi+J3LdvQ4s4JPWhxntoQ7JKtOfXLZcamwgT4o5ZkzCX4jUcDAa3jIJoobBZsX5OJsLFJEUQnn0H1SJqudGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785920381; c=relaxed/simple;
-	bh=1Zpye7X5O3XNwKDO5om4yeP7kri9nwvCpDEG6m/bpWw=;
+	s=arc-20240116; t=1785920469; c=relaxed/simple;
+	bh=R1FaZhD/ZF1hQZIfO4YQWJBsvSPxBHcdoa72jVYIBjs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nTCMeqo+4GWQzzBJPyIEPZlQsg6nsWQEaR7vQWb57k5L3FlWxOJ1/QqYOcp7Dsee11+SuTsjzYA8t7BYgexk5CdgvS1aU4mSyAZ1+NgEbZuHweHqlIazLVBUUCp3CR+WVxcedgPuItQOLsIqcdnydbCR1lduW5fubu5Dl165ifM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+1Rt2ao; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ISGOnmqCT5NbIP3aKv1bmLs4zQZv5NQBrr7IiJAlQBYnDW4p7syge9GIAxmAfUeI+ET47HMNegFmBYJn28PDQS/RpwEB/W5MrVG9hMDGCNBx1uATgHlBhobxhOgb8YKNwaLZc4X5SkHPRsfa3ZtWB+YsVQ4Mj9aSuXWdHeVXBfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QSieqJbf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kl4m23+O; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cmZFu2S7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SkzNL8fW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+1Rt2ao"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 018091F000E9;
-	Wed,  5 Aug 2026 08:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785920379;
-	bh=1yRpRg/YjcbX7C2paRrZom5mhwTrr0QvF5ECsYRO/+w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K+1Rt2aozvXZ6W3FHxtBV97CQTGhnvf409HxCGwFj1X7JitOXG86TUEDPv2k6/x1G
-	 9O21hqeZLoY80QDCALep3ZAzkMnjq2H4JgVfTCNCL3LSyWqgHDPxpQkvn6OEdCzSTP
-	 nFTo5dTvUmevSjaaFR31pHViXEAjraEDTdHwz8ddfwS+yWdKF9/yRqpRB/xSbt/oU/
-	 9gsWhKTBxLM2/PQ9fPfZu+Y5waWH5MhkyPQergkWmtzoLZgE1MUZ+ljzvSOkksvxg9
-	 P3PI82Af/rplRRKV01PYALUmNe+GNe41JF0++hzkt1334sQRaqV8XOvJxYe66oAdn7
-	 Fn3FDMZalFhGg==
-Date: Wed, 5 Aug 2026 09:59:17 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 06/15] mm: propagate VMA anonymous page offset on map,
- remap, split + merge
-Message-ID: <anLyhaI6kW-EWk13@lucifer>
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-6-e8ecfefea812@kernel.org>
- <4ad4b17b-bae6-4169-8649-bff4a29e7fde@kernel.org>
- <anB9MWSSITYpDibA@lucifer>
- <6ea7cdad-afb1-45af-a63c-30b760fe160d@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QSieqJbf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kl4m23+O";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cmZFu2S7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SkzNL8fW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F0DF40E4;
+	Wed,  5 Aug 2026 09:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785920461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xx9xLz7w13YPVZy59Ta84uPlKd/2a07mTIeuXyXpHWg=;
+	b=QSieqJbfSqaNZw8oBtMZ3wwjnwjifxT1kLwCXB+O0uV+tJddzOQ6CZWj9WEQ0DyOTOyv54
+	BgNydoi8riU0sBca7qxtPoBmcWDZUj+HRKkBk1lYGRWLUJc12weLdkzSSEPO26zmasuYxp
+	kEM4bd0ZKBX+93XDdLVywhDQVZ8lVnM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785920461;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xx9xLz7w13YPVZy59Ta84uPlKd/2a07mTIeuXyXpHWg=;
+	b=kl4m23+O7asyM4zhrbK+xIa9cfkq4BiYKMBZzFRi1sIWNbSHDgJ44ehcD3cUjFkqwoN62o
+	GKyWzdYcqa5EzZDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785920457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xx9xLz7w13YPVZy59Ta84uPlKd/2a07mTIeuXyXpHWg=;
+	b=cmZFu2S7uuH3sQuZ2OwFoY3qiSPicXEh9GFkZQMIOXH48LLzFYFcYafGHE4Mj3K4Z3yAer
+	fyInytm7n/Yln1w/5fB66/g9F4XAij1MVsVBDAR2aiNbQk/Obky7VeCwgSzOiG1x3MEddf
+	s9mOujHgP/otS+ldDDJhM3UDMMOTA8c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785920457;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xx9xLz7w13YPVZy59Ta84uPlKd/2a07mTIeuXyXpHWg=;
+	b=SkzNL8fWXYNyLXPdrvSC0olAofL++bI1mNGWXsWCzFVSbukN55N7R1VEKjQcUdecsCqse5
+	I54iV4bAkcMlw1CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83B49779B6;
+	Wed,  5 Aug 2026 09:00:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2MIiIMn7cmqBGQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 05 Aug 2026 09:00:57 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 25C6EA13A7; Wed, 05 Aug 2026 11:00:57 +0200 (CEST)
+Date: Wed, 5 Aug 2026 11:00:57 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: Chao Shi <coshi036@gmail.com>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Matthew Wilcox <willy@infradead.org>, 
+	Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-karma-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 19/19] buffer: stop clearing BH_Uptodate when a write
+ fails
+Message-ID: <t5vasainmrq7zlo2ptmjn5qfyiy26l4vvuqfkoldtx3naf5tir@4v6bktopybsk>
+References: <cover.1785621505.git.coshi036@gmail.com>
+ <3aa278c3b75de2bca8a94ec0c0e40922b1170881.1785621505.git.coshi036@gmail.com>
+ <ff2f92ab-6c98-42f2-be0b-0c807bc9438e@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,145 +100,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6ea7cdad-afb1-45af-a63c-30b760fe160d@kernel.org>
+In-Reply-To: <ff2f92ab-6c98-42f2-be0b-0c807bc9438e@huaweicloud.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,infradead.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,huawei.com,bobcopeland.com,samsung.com,sony.com,mail.parknet.co.jp,fasheh.com,evilplan.org,redhat.com,lists.linux.dev,lists.sourceforge.net];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLhn4jw3wthgom179184pqozfe)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Wed, Aug 05, 2026 at 09:35:56AM +0200, David Hildenbrand (Arm) wrote:
-> On 8/3/26 15:46, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Aug 03, 2026 at 12:52:42PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 7/29/26 18:48, Lorenzo Stoakes (ARM) wrote:
-> >>> We must correctly update VMA anonymous page offset state on all VMA
-> >>> operations that would result in it changing, with special attention given
-> >>> to remapping.
-> >>>
-> >>> We cover most cases by simply updating vma_set_range() to do so (with a new
-> >>> anonymous page offset parameter), but also notably must update the merging
-> >>> and mapping logic to propagate this parameter correctly.
-> >>>
-> >>> The remap logic remains the same - we may update the anonymous page offset
-> >>> if the VMA is unfaulted, but now this applies to MAP_PRIVATE file-backed
-> >>> mappings too, so we update the code to reflect this.
-> >>>
-> >>> Note that we use __linear_anon_page_index() upon remap as the VMA may be
-> >>> shared, in order that we update the field consistently regardless of VMA
-> >>> type.
-> >>>
-> >>> Similarly, pass through anon page offset to the merge logic, updating the
-> >>> vma_merge_struct struct to propagate it, and also use
-> >>> __linear_anon_page_index() to obtain the anonymous page index so it can be
-> >>> safely used for both shared and MAP_PRIVATE file-backed mappings.
-> >>>
-> >>> Finally, we update insert_vm_struct() to correctly set the anonymous page
-> >>> offset on insertion of a VMA.
-> >>>
-> >>> We simply ensure state is correctly propagated here, so no functional
-> >>> changes are intended.
-> >>>
-> >>> Also while we're here, replace a VM_BUG_ON_VMA() with a
-> >>> VM_WARN_ON_ONCE_VMA().
-> >>>
-> >>> Also update VMA userland tests to reflect this change.
-> >>>
-> >>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >>
-> >>
-> >> [...]
-> >>
-> >>>  	struct vm_area_struct *vma = *vmap;
-> >>>  	unsigned long vma_start = vma->vm_start;
-> >>> @@ -1919,11 +1929,14 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
-> >>>  	VMG_VMA_STATE(vmg, &vmi, NULL, vma, addr, addr + len);
-> >>>
-> >>>  	/*
-> >>> -	 * If anonymous vma has not yet been faulted, update new pgoff
-> >>> -	 * to match new location, to increase its chance of merging.
-> >>> +	 * If a vma has not yet been faulted, update its anonymous pgoff to
-> >>> +	 * match the new location to increase its chance of merging.
-> >>>  	 */
-> >>> -	if (unlikely(vma_is_anonymous(vma) && !vma->anon_vma)) {
-> >>> -		pgoff = addr >> PAGE_SHIFT;
-> >>> +	if (!vma->anon_vma && !vma_test(vma, VMA_SHARED_BIT)) {
-> >>
-> >> Could we also use is_cow_mapping() ?
-> >
-> > No this would be incorrect.
-> >
-> > A read-only mapping would become unmergeable here. So this is something apart
-> > from the rmap aspect,
->
-> I'd assume that we should never even consider anon_pgoff when merging
-> !is_cow_mapping(), it doesn't make any sense.
->
-> No anon folios -> no anon_vma -> no anon_pgoff
+On Wed 05-08-26 12:52:11, Zhang Yi wrote:
+> On 8/2/2026 6:01 AM, Chao Shi wrote:
+> > A buffer whose write failed still holds exactly the data the filesystem
+> > asked to be written.  It is the disk that is out of date, not the buffer.
+> > Clearing BH_Uptodate says the opposite, and callers act on it:
+> > 
+> >  - mark_buffer_dirty() has a WARN_ON_ONCE(!buffer_uptodate(bh)).  A
+> >    filesystem that dirties the buffer again after a failed write - which is
+> >    the normal way to retry - trips it.  That is the warning this series
+> >    started from.
+> > 
+> >  - a buffer that is not up to date gets re-read from disk, which replaces
+> >    the data the filesystem was trying to write with the stale on-disk copy,
+> >    silently.
+> > 
+> >  - the window between the write completing and the buffer being marked not
+> >    up to date is visible to anyone holding the folio lock, so the state is
+> >    not even self consistent while it lasts.
+> > 
+> > BH_Write_EIO already records the failure, and by now every place in the
+> > tree that needs to know about it tests that flag instead: the two core
+> > helpers in this file, adfs, exfat, ext2, ext4, fat, gfs2, jbd2, ocfs2 and
+> > omfs, converted one filesystem at a time in the preceding patches.  The
+> > private completion handlers in jbd2 and ext4 fast commit were converted
+> > along with their waiters.  Nothing is left that reads BH_Uptodate to find
+> > out whether a write failed, so the clears can go.
+> > 
+> > Found by FuzzNvme.
+> > 
+> > Signed-off-by: Chao Shi <coshi036@gmail.com>
+> 
+> It looks like after this series, we may need to revisit the necessity of
+> ext4_buffer_uptodate() in the ext4 filesystem. IIRC, it was originally
+> introduced as a compromise to address this issue. Now that we no longer
+> clear the buffer uptodate flag after a failed IO write, this flag will
+> still remain valid when getting/reading bh. Therefore, the necessity of
+> ext4_buffer_uptodate() is worth reconsidering.
 
-You can merge unfaulted ranges is the thing here.
+Deninitely :) There are several hacks in ext4 (and other filesystems as
+well) that could be removed after this patch set. But let's settle on the
+generic changes first.
 
-But anyway I actually wonder whether this whole branch shouldn't be:
+								Honza
 
-	if (!vma->anon_vma) {
-		...
-	}
-
-Because that way we keep anon_pgoff updated even for MAP_SHARED mappings. This
-isn't necessary and doesn't impact anything _except_ print_bad_page_map which
-outputs both pgoffs.
-
-But it'd be consistent, avoid any confusion about gating on VMA_SHARED, and
-simplify the code :)
-
->
-> But I think I am missing one detail here:
->
-> > and it is a contract that upon move of an unfaulted
-> > mapping (which for read-only anon would always be unfaulted) that vma->vm_pgoff
-> > is updated.
->
-> "read-only anon": I assume you mean an anon mapping that does not have
-> VM_MAYWRITE set?
-
-A MAP_SHARED mapping of a read-only file becomes a MAP_PRIVATE !VMA_MAYWRITE_BIT
-mapping and must adhere to the same contract.
-
-Also mmap hooks can clear the VMA_MAYWRITE_BIT.
-
-However:
-
-- If you're a driver clearing VMA_MAYWRITE_BIT you should only be doing this for
-  'special' mappings anyway (I have a series I've not sent yet that establishes
-  this as an invariant also) - and these are not mergeable anyway.
-
-- If you're a !VMA_MAYWRITE_BIT MAP_PRIVATE-file backed mappings you never set
-  vma->anon_vma and always update anon pgoff so you always have alignment for
-  purposes of merge.
-
-So I think also we can then change needs_adjacent_anon_pgoff() to:
-
-static bool needs_adjacent_anon_pgoff(const struct vma_merge_struct *vmg)
-{
-	return vmg->file && is_cow_mapping(...);
-}
-
-[I have to create a vma_flags_t variant of is_cow_mapping()]
-
-With those two changes we gate on VMA_SHARED_BIT nowhere :)
-
->
-> I recall that that's a combination that cannot be created. While you can create
-> something that does not have VM_WRITE set, IIRC VM_MAYWRITE is always set for
-> anon vmas.
-
-For pure anon yeah, see above for the MAP_SHARED->MAP_PRIVATE-file backed weird
-case.
-
->
-> --
-> Cheers,
->
-> David
-
-(It's funny to me that if you want a truly read-only MAP_PRIVATE file-backed
-mapping (no idea why you would but anyway) you have to MAP_SHARED, but an
-actually MAP_PRIVATE file-backed mapping of a read-only file is writable [which
-makes sense obviously] :)
-
---
-Cheers, Lorenzo
+> > ---
+> >  fs/buffer.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/fs/buffer.c b/fs/buffer.c
+> > index ac978d9090c2..0002f0736398 100644
+> > --- a/fs/buffer.c
+> > +++ b/fs/buffer.c
+> > @@ -207,7 +207,6 @@ void bh_end_write(struct bio *bio)
+> >  	} else {
+> >  		buffer_io_error(bh, ", lost sync page write");
+> >  		mark_buffer_write_io_error(bh);
+> > -		clear_buffer_uptodate(bh);
+> >  	}
+> >  	unlock_buffer(bh);
+> >  }
+> > @@ -441,7 +440,6 @@ void bh_end_async_write(struct bio *bio)
+> >  	} else {
+> >  		buffer_io_error(bh, ", lost async page write");
+> >  		mark_buffer_write_io_error(bh);
+> > -		clear_buffer_uptodate(bh);
+> >  	}
+> >  
+> >  	first = folio_buffers(folio);
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
