@@ -1,206 +1,274 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9B1366057
-	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 19:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1459D2C17A3;
+	Thu,  6 Aug 2026 20:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786045916; cv=none; b=h2kOC0QN8sHPB/580QDQ0zBeyMqT0jLrw/9uRuykDlc+moAdmDmdBgrXlRCqQLK0jID/fPWplnif2f3C7//KA/4V8eY9DIbBtU17BcdmkJlrJcE8hdV+Td0Y/GO1PaSiW6WduwpK5e8Eh39XLRItBCBdaPmBXmYteEkAXhXLdVY=
+	t=1786046602; cv=none; b=KLpdUzkksRRownNLAF/j+EBwWZvxC4bw/qmTcRIBdvBree+RSRasUFuxCkdCorCMNBYZPyfv0TT1zD5tDRnEhpcW2H3Pgbz/ycggGmOyJlwKhHOU2kDCH6MyKHhNHAFxa6UR2IzDlB5Yaa3vf0v5tsJwB8Fp0cplBleUDoPHJ+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786045916; c=relaxed/simple;
-	bh=lTTpjODhYHba5wOLeu29fKL9Vo+uC5X6ugh4lCvBx3s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KleB371nWuHafQZk8idp19/tv6ZRAnt/WmmO6nbhVTXjYgajhXk0TsJEMERRIl6+VY84pHhisViosUX6LXcOZce9UbaSSlWKWI2iHrMK92bYlxpD0Ns3kuidk9YZ92RTnAGy7yYr9DbUF6Olf7LJRS0TxLkyZm0G7ieXhEF1mtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=YxHt4sU1; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="YxHt4sU1"
-Received: from pps.filterd (m0167075.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676IYKYH085228
-	for <linux-fsdevel@vger.kernel.org>; Thu, 6 Aug 2026 15:51:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=Zkma
-	NtQ8BSIkFCQ/5kE6NoXn5l5qzjWnoHIHZn2DAkI=; b=YxHt4sU1bLe939IWOhZb
-	iVMmeBgmLwWs7T31I0opvtRBd0Nipn73SR99bDHGSlepuLOnV0Qgyt4RI5h5RRrV
-	NA6iRkzhwa0faVOYd94hoCW+jnQtUot0zZqwgoU5fmQeZjZyXNDK0VMBcBUOCTH7
-	fwoUbvzoe1Ai/S1oI4Xj246I/6m3WDt95ZjM7EdrFgnsKcV8n5D1snn8JJOCmaHK
-	4fYcWO1QlqRfRcd0F4Pk+5P6bqZHXNEr4IiwDayCqCMUMoDyb0jppMuqUuny+xVb
-	rXFOEkWflxcTfPBs60DV1RZFaeUdravsdMUMrVZE6Vg+8fGhl8wrqP+iFWRkszAA
-	yA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4fvxnrh0nc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 15:51:41 -0400 (EDT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-52ce3c7cb2eso38963811cf.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 12:51:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786045900; x=1786650700;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZkmaNtQ8BSIkFCQ/5kE6NoXn5l5qzjWnoHIHZn2DAkI=;
-        b=jDzzUUI9lH0unrN9uPZS5xO/cXQKuSNqkDFPYVS9mBVkEV2bYGcRVHTyhTQ9fWkD+O
-         PUOfkGFYDoQWCjTscmDFKYOe1EbOXmOjczrTBKNztHVVGqiR6xy8mEdLK2idKLFd31bn
-         TKVl1r38jS39Pf0kloFjQQJmgZDLURl0WKSIkSt/Atlkt6G0Nl5hmozCBf2nAK9gDGUi
-         YDGeosOATp8EzOSt1d+sKIZFbFd0mtVldDEc6pDBwknbtCCBvm9kJSmztejpHBONAzGA
-         Hxp1pQPo1J3NfW/RwulVq7ywn+j4U+0a66ghkrfLzSInkho9l3kwB1L7KkOjc2BLQ/fy
-         90Zg==
-X-Forwarded-Encrypted: i=1; AHgh+RoS4yqctIRs9SKtIoiwz6Fu4G+RfUId2m2yHwI/nIazqoD5SGhARAty9EYaew6UPyAKauUXlIk8cIikzzv8@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmW+GycD2ILbNiIl4PNPGPwqICb+qXz2m2GUoiVT47jKriD8dN
-	XuCZqB/4VBbIy9h6aTAIucP4CQjWSKzXaV2JBMeDLnGLzuKd2rWsecJnNEHl62rxl5ZyZndKqEm
-	8AnchTJLKzO91MzKH/8YNWCXPfa7w0TnbJAW1JNe9x4Dieih8mr5NFs5wsezu/4o=
-X-Gm-Gg: AR+sD10r7N+K5eFySEtFUfqHVTFcak+f1W8dY0XL67dTcupSugFTjgyzuhORh+S5fIr
-	slzesIeDcOIdswVE8J4z+RaZM8pbXpN22tC6b3PY/MtzLNXjyN/TeM0v0+SYLC5h4MMfbyt1IVO
-	SBA/9odWpb7HRHKlanofqWgJH5du8mY3ewHDAQC9hntv/cT4BxsnEmzDKHLqo70RJ7RDW+a4C8r
-	o/aYPyzy4+NDF4mcbUmiOX49cIqxxAV/Q2nLxapFVWyXBt1NcnKoA7S5CVYP8z/79pyKD28zfWv
-	7kUNU2WJ6LBFXW6lCqkDuitXQhm9vy3vPYQM2dif6c8tia0Y2k8Ok7ojA1ajmRzkQYYaIwF1tqh
-	5PN9LzQBxolPwuxhvGfjMRg8H5jvW2Mtpshk3w1ye05IQHbtBNAj5hWPsoQJYglGT
-X-Received: by 2002:a05:622a:261a:b0:516:d83c:edb6 with SMTP id d75a77b69052e-52d0b06e247mr51576991cf.12.1786045900651;
-        Thu, 06 Aug 2026 12:51:40 -0700 (PDT)
-X-Received: by 2002:a05:622a:261a:b0:516:d83c:edb6 with SMTP id d75a77b69052e-52d0b06e247mr51576641cf.12.1786045900174;
-        Thu, 06 Aug 2026 12:51:40 -0700 (PDT)
-Received: from ?IPV6:2a00:a040:199:782e:b593:3821:1a47:8a5e? ([2a00:a040:199:782e:b593:3821:1a47:8a5e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff79b529fsm9689344f8f.12.2026.08.06.12.51.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2026 12:51:39 -0700 (PDT)
-Message-ID: <43fbe30d-54da-4bcd-ad2e-5391b327b642@columbia.edu>
-Date: Thu, 6 Aug 2026 22:51:36 +0300
+	s=arc-20240116; t=1786046602; c=relaxed/simple;
+	bh=7JKyxC0lVhQOIrumF7ydzSJc5ZSRS+xdk/3yQU4vWvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T50PSvr0anEq7Is9WrxZarVVIAPx9W+flC2INxE4a8bAy7dn/Vjtvo0FU1vbcC8xOkstcpqjqWvcgqcUud+PE4FxZM591/1SBCp7qYLVjdwGBz3mF+FnqnkFyIONopdPpoZkS5N7qCfOta6NP/iyekKmrKluow+AZSmp35CTPGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf10.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id A4AD640215;
+	Thu,  6 Aug 2026 20:03:18 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf10.hostedemail.com (Postfix) with ESMTPA id CAB693E;
+	Thu,  6 Aug 2026 20:03:01 +0000 (UTC)
+Date: Thu, 6 Aug 2026 15:03:00 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 05/12] famfs: Introduce file_operations read/write
+Message-ID: <anTfcB7thypyYosz@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022859.75838-1-john@jagalactic.com>
+ <0100019fc5741536-d6b2c2f4-794a-43b4-abf4-f38f2d812e19-000000@email.amazonses.com>
+ <20260806051454.GE3560084@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/10] ceph: convert ceph_submit_write() to folios
-From: Tal Zussman <tz2294@columbia.edu>
-To: Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
-        Viacheslav Dubeyko <slava@dubeyko.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Zi Yan <ziy@nvidia.com>
-Cc: ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260804-remove-wait-on-page-writeback-v2-0-81f0ab065284@columbia.edu>
- <20260804-remove-wait-on-page-writeback-v2-5-81f0ab065284@columbia.edu>
- <f835fc25-7841-47ff-bb2a-7f91b534dec1@columbia.edu>
-Content-Language: en-US
-In-Reply-To: <f835fc25-7841-47ff-bb2a-7f91b534dec1@columbia.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=MNZQXsZl c=1 sm=1 tr=0 ts=6a74e5cd cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Da8U98TiO7q1upZEImrf:22 a=HpS3TJQ9O3Ob1ozEcmik:22 a=b_efBAy1TN-SQDnTdmkA:9
- a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDE1NSBTYWx0ZWRfXytHVsskI6dCL
- 1ajAU91GGoInR4Sprj6lpfZ5rO9Zwg85A3KOse8bCxxjC9fZ3yZ65bUoKBj3mtt9jQbbt7TuOO6
- wrVQxMt2WiJDbcQUYy2Fiv/RZTRMZT7X/f8t6c8btYsNCfKsMvlv8fwVnsjky8E//uC2Bp7ITxr
- YFE1JHObAjAlcn92wUsisGnisX9Yr2e8HtByfbVzzB96p2LzQMv7dm3ysV6Za8bhfwD6sZdgD5W
- YLygYCdRRQEpwtVP3JwjOLx2B6qm/hFfK43PQ0ba1dfk0d4QHI34dmf66AXt9dz/ISFGelDjk6P
- Vyvaj3NerPgUcJ23kcr4CZ47CGXIWdweEsMW8XJST8MWT7PowpFqyZGZZh/nUIC/IB8uX7o73xv
- 6QX9OyayGrlgoyW8sOevMfDCUs4VkIQfZyoETIIb/Xt4W5ut/ciYMtf7YXBFfVV2QJOUFk+X+p3
- 2uSNItxLlGCpSonodLg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDE1NSBTYWx0ZWRfX5yVpnhpLmP1G
- uhuE5D+IAxfReSzBXZr7ckIVEd0SRzTnlKFJ1in4FuYfT5l41jBXz87hf5xANhQFy0yGBP1PAZ/
- ZJLaSyhdI2PhyXJq1eftRoqQNWkV4oSXjrh7xSKX541Y++pSwUNm
-X-Proofpoint-GUID: MsYV33RdRO64wEjjBMba7f_A5_C6ouzU
-X-Proofpoint-ORIG-GUID: MsYV33RdRO64wEjjBMba7f_A5_C6ouzU
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11867
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 impostorscore=10 priorityscore=1501 suspectscore=0
- lowpriorityscore=10 phishscore=0 bulkscore=10 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608060155
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806051454.GE3560084@frogsfrogsfrogs>
+X-Stat-Signature: gm7ukas5jaj58ofp167htxxde8tqhqwn
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: CAB693E
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+LXEKbbJ65PH0h4WQ/rVEovV2QmqmVb70=
+X-HE-Tag: 1786046581-812498
+X-HE-Meta: U2FsdGVkX1/q5xUraaNuYkBkOe9mViYAGWr7FuIimwMbrqtFOSLKir8hdx+AUb2/UEFIdoEY6U8kAf8GSXddDNosfoDtCfksrejeD+bW/uAGliqL9zjKCDm8qmTEKvpgrYiOcG2ooeac3dw6jx0F5Wy396jO3AcU7/LmLd8LastlQd/OkCYVVaOUM4rpVC5/NHUelf4vKma4j+O26TNskt5sXgMAJlbLCF7a0z1qrVPCUYMjwrnBZ1e0iJILsuDJj1LrZNjuXyySQ6Nc+FT98N+yfStaUB9Dl9i+oWZxnswBJo+brjduKginYQ6IuADNbVgn52Ydq+NnmRrXrGK4LPTmtgC2ghdIh9t57cQPcc5UKs+OEU3JgO985ZTLk62U
 
-On 8/6/26 2:58 PM, Tal Zussman wrote:
-> On 8/4/26 2:52 PM, Tal Zussman wrote:
->> @@ -1436,14 +1445,14 @@ int ceph_submit_write(struct address_space *mapping,
->>  	struct ceph_client *cl = fsc->client;
->>  	struct ceph_vino vino = ceph_vino(inode);
->>  	struct ceph_osd_request *req = NULL;
->> -	struct page *page = NULL;
->> +	struct folio *folio = NULL;
->>  	bool caching = ceph_is_cache_enabled(inode);
->>  	u64 offset;
->>  	u64 len;
->>  	unsigned i;
->>  
->>  new_request:
->> -	offset = ceph_fscrypt_page_offset(ceph_wbc->pages[0]);
->> +	offset = ceph_fscrypt_folio_offset(page_folio(ceph_wbc->pages[0]));
->>  	len = ceph_wbc->wsize;
->>  
->>  	req = ceph_osdc_new_request(&fsc->client->osdc,
->> @@ -1467,29 +1476,28 @@ int ceph_submit_write(struct address_space *mapping,
->>  		BUG_ON(IS_ERR(req));
->>  	}
->>  
->> -	page = ceph_wbc->pages[ceph_wbc->locked_pages - 1];
->> -	BUG_ON(len < ceph_fscrypt_page_offset(page) + thp_size(page) - offset);
->> +	folio = page_folio(ceph_wbc->pages[ceph_wbc->locked_pages - 1]);
->> +	BUG_ON(len < ceph_fscrypt_folio_offset(folio) + folio_size(folio) - offset);
->>  
->>  	if (!ceph_inc_osd_stopping_blocker(fsc->mdsc)) {
->>  		for (i = 0; i < folio_batch_count(&ceph_wbc->fbatch); i++) {
->> -			struct folio *folio = ceph_wbc->fbatch.folios[i];
->> +			folio = ceph_wbc->fbatch.folios[i];
->>  
->>  			if (!folio)
->>  				continue;
+On 26/08/05 10:14PM, Darrick J. Wong wrote:
+> On Mon, Aug 03, 2026 at 02:29:07AM +0000, John Groves wrote:
+> > From: John Groves <john@groves.net>
+> > 
+> > This commit introduces fs/famfs/famfs_file.c and the famfs
+> > file_operations for read/write.
+> > 
+> > This is not usable yet because:
+> > 
+> > * It calls dax_iomap_rw() with NULL iomap_ops (which will be
+> >   introduced in a subsequent commit).
+> > * famfs_ioctl() is coming in a later commit, and it is necessary
+> >   to map a file to a memory allocation.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/famfs/Makefile         |   2 +-
+> >  fs/famfs/famfs_file.c     | 138 ++++++++++++++++++++++++++++++++++++++
+> >  fs/famfs/famfs_inode.c    |   2 +-
+> >  fs/famfs/famfs_internal.h |   2 +
+> >  4 files changed, 142 insertions(+), 2 deletions(-)
+> >  create mode 100644 fs/famfs/famfs_file.c
+> > 
+> > diff --git a/fs/famfs/Makefile b/fs/famfs/Makefile
+> > index 62230bcd6793..8cac90c090a4 100644
+> > --- a/fs/famfs/Makefile
+> > +++ b/fs/famfs/Makefile
+> > @@ -2,4 +2,4 @@
+> >  
+> >  obj-$(CONFIG_FAMFS) += famfs.o
+> >  
+> > -famfs-y := famfs_inode.o
+> > +famfs-y := famfs_inode.o famfs_file.o
+> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
+> > new file mode 100644
+> > index 000000000000..e192b573c51f
+> > --- /dev/null
+> > +++ b/fs/famfs/famfs_file.c
+> > @@ -0,0 +1,138 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * famfs - dax file system for shared fabric-attached memory
+> > + *
+> > + * Copyright 2023-2024 Micron Technology, Inc.
+> > + *
+> > + * This file system, originally based on ramfs the dax support from xfs,
+> > + * is intended to allow multiple host systems to mount a common file system
+> > + * view of dax files that map to shared memory.
+> > + */
+> > +
+> > +#include <linux/fs.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/dax.h>
+> > +#include <linux/iomap.h>
+> > +
+> > +#include "famfs_internal.h"
+> > +
+> > +/*********************************************************************
+> > + * file_operations
+> > + */
+> > +
+> > +/* Reject I/O to files that aren't in a valid state */
+> > +static ssize_t
+> > +famfs_file_invalid(struct inode *inode)
+> > +{
+> > +	if (!IS_DAX(inode)) {
+> > +		pr_debug("%s: inode %llx IS_DAX is false\n",
+> > +			 __func__, (u64)inode);
+> > +		return -ENXIO;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static ssize_t
+> > +famfs_rw_prep(struct kiocb *iocb, struct iov_iter *ubuf)
+> > +{
+> > +	struct inode *inode = iocb->ki_filp->f_mapping->host;
+> > +	struct super_block *sb = inode->i_sb;
+> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
+> > +	size_t i_size = i_size_read(inode);
+> > +	size_t count = iov_iter_count(ubuf);
+> > +	size_t max_count;
+> > +	ssize_t rc;
+> > +
+> > +	if (fsi->deverror)
+> > +		return -ENODEV;
+> > +
+> > +	rc = famfs_file_invalid(inode);
+> > +	if (rc)
+> > +		return rc;
+> > +
+> > +	/* Avoid unsigned underflow if position is past EOF */
+> > +	if (iocb->ki_pos >= i_size)
+> > +		max_count = 0;
+> > +	else
+> > +		max_count = i_size - iocb->ki_pos;
+> > +
+> > +	if (count > max_count)
+> > +		iov_iter_truncate(ubuf, max_count);
+> > +
+> > +	if (!iov_iter_count(ubuf))
+> > +		return 0;
+> > +
+> > +	return rc;
+> > +}
+> > +
+> > +static ssize_t
+> > +famfs_dax_read_iter(struct kiocb *iocb, struct iov_iter	*to)
+> > +{
+> > +	struct inode *inode = iocb->ki_filp->f_mapping->host;
+> > +	ssize_t rc;
+> > +
+> > +	/* dax_iomap_rw() requires i_rwsem held (shared for read) */
+> > +	inode_lock_shared(inode);
+> > +	rc = famfs_rw_prep(iocb, to);
+> > +	if (rc || !iov_iter_count(to)) {
+> > +		inode_unlock_shared(inode);
+> > +		return rc;
+> > +	}
+> > +
+> > +	rc = dax_iomap_rw(iocb, to, NULL /*&famfs_iomap_ops */);
+> > +	inode_unlock_shared(inode);
+> > +
+> > +	file_accessed(iocb->ki_filp);
 > 
-> This, ...
+> Is it really accessed if rc != 0?
+
+Good point; looks like only if rc > 0. Will update, thanks.
+
 > 
->>  
->> -			page = &folio->page;
->> -			redirty_page_for_writepage(wbc, page);
->> -			unlock_page(page);
->> +			folio_redirty_for_writepage(wbc, folio);
->> +			folio_unlock(folio);
->>  		}
->>  
-
-Actually, Sashiko points out a deeper issue with this loop:
-
-"Could this unconditional folio_unlock() crash the kernel?
-Looking at ceph_process_folio_batch(), folios that fail folio_trylock() or
-are already under writeback are left in the fbatch array without being locked
-by the current thread.
-Then ceph_shift_unused_folios_left() shifts these unprocessed, unlocked folios
-to the start of the batch.
-If ceph_submit_write() subsequently fails the ceph_inc_osd_stopping_blocker()
-check, it iterates over all remaining folios in ceph_wbc->fbatch and calls
-folio_unlock() on folios we don't hold the lock for."
-
-...along with 5 other pre-existing issues.
-
-Seems like the folio_batch loop here should just be deleted? But that seems
-like it should be a separate patch with a Fixes tag...
-
->>  		for (i = 0; i < ceph_wbc->locked_pages; i++) {
->> -			page = ceph_fscrypt_pagecache_page(ceph_wbc->pages[i]);
->> +			folio = ceph_fscrypt_pagecache_folio(page_folio(ceph_wbc->pages[i]));
->>  
->> -			if (!page)
->> +			if (!folio)
->>  				continue;
->>  
+> > +	return rc;
+> > +}
+> > +
+> > +/**
+> > + * famfs_dax_write_iter()
+> > + *
+> > + * We need our own write-iter in order to prevent append
+> > + *
+> > + * @iocb:
+> > + * @from: iterator describing the user memory source for the write
+> > + */
+> > +static ssize_t
+> > +famfs_dax_write_iter(struct kiocb *iocb, struct iov_iter *from)
+> > +{
+> > +	struct inode *inode = iocb->ki_filp->f_mapping->host;
+> > +	struct famfs_fs_info *fsi = inode->i_sb->s_fs_info;
+> > +	ssize_t rc;
+> > +
+> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_WRITE))
+> > +		return -EPERM;
+> > +
+> > +	/* dax_iomap_rw() requires i_rwsem held (exclusive for write) */
+> > +	inode_lock(inode);
+> > +	rc = famfs_rw_prep(iocb, from);
+> > +	if (rc || !iov_iter_count(from)) {
+> > +		inode_unlock(inode);
+> > +		return rc;
+> > +	}
+> > +
+> > +	rc = dax_iomap_rw(iocb, from, NULL /*&famfs_iomap_ops*/);
 > 
-> ... and this check are unnecessary. ceph_fscrypt_pagecache_page() can't
-> take or return NULL, and ceph_shift_unused_folios_left() compacts NULLs
-> out of ceph_wbc->fbatch. Will remove both in v3.
+> What happens if you pass a null iomap ops?  TBH I was expecting you to
+> define the iomap ops with a dummy ->iomap_begin that returns EIO or
+> something.
+
+If we actually called dax_iomap_rw() with null iomap ops, it would
+hork. However, if we called it with null iomap_ops->iomap_begin it
+will also hork. I could introduce the dax_iomap_rw call later, when
+sufficient code is in, but that might require (void) declarations
+to squelch the compiler about unreferenced stuff.
+
+So dummy iomap_ops won't actually work. My objective was to drop in
+bite-sized chunks that were functionally coherent, until it's complete
+(in commit 12).
+
+I suspect multiple of these commits would do something bad if you
+tried to run them before you had all.
+
+Given all that, I'm inclined to leave it alone. 
+
+Hmm, I could keep things where all commits compile, but cause 
+module_init to fail until all commits are in. Then it couldn't do 
+any harm to try to try running incomplete famfs.
+
+I think I'll do that...
+
 > 
->> -			redirty_page_for_writepage(wbc, page);
->> -			unlock_page(page);
->> +			folio_redirty_for_writepage(wbc, folio);
->> +			folio_unlock(folio);
->>  		}
->>  
+> > +	inode_unlock(inode);
+> > +	return rc;
+> 
+> Do you need to update mtime here?
+> 
+> --D
+
+Yeah, I guess I should - will do.
+
+FYI file times in famfs have limited usefulness, because they don't
+propagate in the cluster.
+
+<snip> 
+
