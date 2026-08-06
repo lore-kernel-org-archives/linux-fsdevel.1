@@ -1,60 +1,76 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8293624CF;
-	Thu,  6 Aug 2026 16:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B016E3812DB;
+	Thu,  6 Aug 2026 16:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786033899; cv=none; b=GOpbTUusKXM7o5GWc6/PeNZvQOGDKv29wvdrtFRQWGL/odnD+3ouTswS+63GhSYToCKJ+wpZxx5YFLW3g3WGytgl5x4Q4bM+aGfGbqXVogt5d1BuyPyjh3UdqTmVNFinZUKAiU4aF7XYavZhQRpVp5MgZSGitYCGxQP5kWCfQa4=
+	t=1786035408; cv=none; b=LRK9IUxe+PH0cgWBT4vfdSEa7pUcaYgwL/6CmSWwlLl95ikDKOF47BuCj/KF/cd+BgHVII6SUcbAtNtgmwMS1WR2JKvOY40WL2nnOAc8u+QgPGK5xNS6Uma2Gy0Wbv+HBqfyQdjaqjWtYeuF+y5T39ZaJ+Gi718I7riALw3SAo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786033899; c=relaxed/simple;
-	bh=S1WHS47dZqOWcWdyoLnXM71Fkc3PHLqdyZiQgtqEFPs=;
+	s=arc-20240116; t=1786035408; c=relaxed/simple;
+	bh=fs4OZSjxUz8gopfydd/fM3JYYKMAVuAHsrqd0PZgDG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wbr1FzgCV5vPLdY/PI3A7Lo5W3w98v1+KT33q2IZCnIu6xhfXUpIahGKB5JMUpqMSInWFpdM6oBEgYloaMJlQy457OYa6e1JVoXanUxA44AmK/RagvugXgWIgJIDpiFicfIBP/vucMCMSAxkRPln350BZAhFV+U02fphaCQrez4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id CBFBD1A014C;
-	Thu,  6 Aug 2026 16:31:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id 1FEAF17;
-	Thu,  6 Aug 2026 16:31:17 +0000 (UTC)
-Date: Thu, 6 Aug 2026 11:31:16 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 04/12] famfs: Introduce inode_operations and
- super_operations
-Message-ID: <anSgvuQ872AjkSK2@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022849.75812-1-john@jagalactic.com>
- <0100019fc573edf6-93c159df-6197-4bdf-9f1d-74b77a72ce7e-000000@email.amazonses.com>
- <20260806051230.GD3560084@frogsfrogsfrogs>
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+8gKdL/g6Z+7kGIMLRiS4VglXSOS6koNcPuQPgE2duACrrwsgKCJIMf3XPOiJA7XQyuemtrDcUCvmKTRe1J+2PsDXjgXrtzqHx2wX9o1eBRTAGUr8I0YEyVBTsSVM3SSSkbaxiFTs2RW0272LDxAZj4EPwnQ8JeNzWK2yEFTBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NOHtkX6M; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NOHtkX6M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=6oRZ7bVSXyuafN/Una/b4mH0BdxkEb9tpDXSUb5X6ns=; b=NOHtkX6MmsJFk0WyudbePHVb+Z
+	ifpcELU49/bxvCXnPyti3zMDsf3vrEU1uxAk5TYIm/D1FmsoElU2FUYaQQhQ4LoovHo3rp7Vne63J
+	YaH62vM9cItZaSIxWJvPMTb1bbL31lHBb0Cf1CDgA8fCz7g0C5l3D9Iv+z7K/HEZOk3iw5NNU2Q5w
+	XWkjd05TJgdOjBOzSepKpZBB9dAo9D9Tq9Btj3KmOmB3/bcy+aFEvpv1v4RfKmy2Y8w71xUI4dBbm
+	aLBAQDqgpuzc2KJRh2DXEL8L92qWHYySh/ECP6u6w7N7KhG1J+RoXQcK8AMm7hkIB1Cn6XNWew/k9
+	8Zw2AsQg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1ws1Mg-0000000CA8T-02wp;
+	Thu, 06 Aug 2026 16:54:42 +0000
+Date: Thu, 6 Aug 2026 17:54:41 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>, Jan Kara <jack@suse.cz>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Usama Arif <usama.arif@linux.dev>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
+ anonymous page index
+Message-ID: <anS8UbQF1aE70gus@casper.infradead.org>
+References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
+ <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
+ <fec1be38-406d-4656-95eb-048729afec40@kernel.org>
+ <anBqV9z6hVLIqoIn@lucifer>
+ <anL0LEhb_bp_uQ1J@gourry-fedora-PF4VCD3F>
+ <anL7eZcHnM5mPr_T@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -63,211 +79,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260806051230.GD3560084@frogsfrogsfrogs>
-X-Stat-Signature: ha4eefzwkjiajen9eszr5zyeqn47tzdi
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 1FEAF17
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+8g1aralK8ALulQm0aAsZil2Ejzt4LBlM=
-X-HE-Tag: 1786033877-219472
-X-HE-Meta: U2FsdGVkX19FDx7M19BFjDZUbutSb/i+gHmwI5uUhFDw0kOlD+8xaf2k6wfg6MtvehsDkMFGuBvN4S0We2DKi3glVZE29vIPxTCKx4WUvmxXCsuBiGEekBW3N5Pmts0imjwbdoDr4E1Yl0DSbcsnmn+ZwiODX5smwNoXp6N6o5O5jTYfj0naen56uroTnTKrzYYHXOhQ42qcDuTiaLP+VrlN0y33KluDXqEafT5k4INmq+MchKXeKb1DSTEVzWEVTLPAv+OEuZf6GzPyet0CykF4hmOB3jUiQR7OH8U5Ux0F9SjsGdUyd+jHwb4W9GErzzYimJd2po9PdGdFu0l0bOfPWfwq3TDhVItCmwkc00YPKv9AP5gBqAk11GK6ws8P
+In-Reply-To: <anL7eZcHnM5mPr_T@lucifer>
 
-On 26/08/05 10:12PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:28:56AM +0000, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > The famfs inode and super operations are generic other than
-> > show_options, evict_inode and setattr (which prevents truncation..
-> > 
-> > This commit builds but is still too incomplete to run
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/famfs/famfs_inode.c    | 249 +++++++++++++++++++++++++++++++++++++-
-> >  fs/famfs/famfs_internal.h |   6 +
-> >  2 files changed, 252 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index ad71e5e7a8e3..efc6b852eca0 100644
-> > --- a/fs/famfs/famfs_inode.c
-> > +++ b/fs/famfs/famfs_inode.c
-> > @@ -29,6 +29,9 @@
-> >  
-> >  #define FAMFS_DEFAULT_MODE	0755
-> >  
-> > +static const struct inode_operations famfs_file_inode_operations;
-> > +static const struct inode_operations famfs_dir_inode_operations;
-> > +
-> >  static struct inode *famfs_get_inode(
-> >  			struct super_block *sb,
-> >  			const struct inode *dir,
-> > @@ -54,11 +57,11 @@ static struct inode *famfs_get_inode(
-> >  		init_special_inode(inode, mode, dev);
-> >  		break;
-> >  	case S_IFREG:
-> > -		inode->i_op = NULL /* famfs_file_inode_operations */;
-> > +		inode->i_op = &famfs_file_inode_operations;
-> >  		inode->i_fop = NULL /* &famfs_file_operations */;
-> >  		break;
-> >  	case S_IFDIR:
-> > -		inode->i_op = NULL /* famfs_dir_inode_operations */;
-> > +		inode->i_op = &famfs_dir_inode_operations;
-> >  		inode->i_fop = &simple_dir_operations;
-> >  
-> >  		/* Directory inodes start off with i_nlink == 2 (for ".") */
-> > @@ -72,6 +75,246 @@ static struct inode *famfs_get_inode(
-> >  	return inode;
-> >  }
-> >  
-> > +/***************************************************************************
-> > + * famfs inode_operations
-> > + */
-> > +
-> > +static int
-> > +famfs_setattr(
-> > +	struct mnt_idmap *idmap,
-> > +	struct dentry *dentry,
-> > +	struct iattr *iattr)
-> > +{
-> > +	struct inode *inode = d_inode(dentry);
-> > +	struct famfs_fs_info *fsi = inode->i_sb->s_fs_info;
-> > +
-> > +	/* Resizing a famfs file (its size is pinned to the fmap) */
-> > +	if ((iattr->ia_valid & ATTR_SIZE) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_TRUNCATE) &&
+On Wed, Aug 05, 2026 at 10:01:43AM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Wed, Aug 05, 2026 at 04:30:18AM -0400, Gregory Price wrote:
+> > Yeah just an F/A in the print I suppose.  Sorry if that was unclear.
+> >
+> > If it saves someone the head-scratch of whether some bug is because it's
+> > "file" or "true anon", given the ambiguity here, seems like maybe useful
+> > debug information.
 > 
-> Does truncating the file down release the mapped memory?
-> Can you truncate it up?  How does the famfs manager deal with this?
-
-Truncate won't be enabled in any situation I can currently think of,
-but it made sense to gate it with the opt_enabled mechanism in case
-it makes sense at some point.
-
-Space is not freed; It's still part of the daxdev, which is never
-sparse.  The famfs metadata log is authoritative on allocations, and 
-doesn't currently support delete, so the dax memory for a file is 
-spoken for until the whole file system is killed.
-
-There are cases where chmod/chown make sense, but the change is local
-and ephemeral - not recorded to the metadata log.
-
+> Yeah will do on respin I think actually!
 > 
-> > +	    iattr->ia_size != i_size_read(inode))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & ATTR_MODE) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_CHMOD))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & (ATTR_UID | ATTR_GID)) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_CHOWN))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & (ATTR_ATIME | ATTR_MTIME)) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_UTIMES))
-> > +		return -EPERM;
-> > +
-> > +	return simple_setattr(idmap, dentry, iattr);
-> > +}
-> > +
-> > +static const struct inode_operations famfs_file_inode_operations = {
-> > +	/* All generic */
-> > +	.setattr	   = famfs_setattr,
-> > +	.getattr	   = simple_getattr,
-> > +};
-> > +
-> > +/*
-> > + * Internal inode creation helper, shared by ->create, ->mkdir, ->mknod and
-> > + * ->symlink. Each of those callers is responsible for its own FAMFS_OPT_*
-> > + * permission check before getting here.
-> > + */
-> > +static int
-> > +famfs_mknod(struct mnt_idmap *idmap, struct inode *dir, struct dentry *dentry,
-> > +	    umode_t mode, dev_t dev)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +	struct timespec64 tv;
-> > +	struct inode *inode;
-> > +
-> > +	if (fsi->deverror)
-> > +		return -ENODEV;
-> > +
-> > +	inode = famfs_get_inode(dir->i_sb, dir, mode, dev);
-> > +	if (!inode)
-> > +		return -ENOSPC;
-> > +
-> > +	d_make_persistent(dentry, inode);
-> > +	tv = inode_set_ctime_current(inode);
-> > +	inode_set_mtime_to_ts(inode, tv);
-> > +	inode_set_atime_to_ts(inode, tv);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct dentry *famfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
-> > +		struct dentry *dentry, umode_t mode)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +	int rc;
-> > +
-> > +	if (fsi->deverror)
-> > +		return ERR_PTR(-ENODEV);
-> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_MKDIR))
-> > +		return ERR_PTR(-EPERM);
-> > +
-> > +	rc = famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFDIR, 0);
-> > +	if (rc)
-> > +		return ERR_PTR(rc);
-> > +
-> > +	inc_nlink(dir);
-> > +
-> > +	return ERR_PTR(0);
-> > +}
-> > +
-> > +static int famfs_create(struct mnt_idmap *idmap, struct inode *dir,
-> > +			struct dentry *dentry, umode_t mode, bool excl)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +
-> > +	if (fsi->deverror)
-> > +		return -ENODEV;
-> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_CREATE))
-> > +		return -EPERM;
-> > +
-> > +	return famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFREG, 0);
-> 
-> Is the model here that you creat() a file and then the famfs server has
-> to go find it some cxl memory?  I was kinda under the impression that
-> you'd get the famfs software to map some memory to a name, and then the
-> famfs server on each node would create it and upload the mapping, and
-> now the cxlmem-backed file can be mmaped from multiple nodes?
-> 
-> But maybe this is less of a cluster filesystem than I assumed it was.
-> 
-> --D
+> I do think not providing that could result in some confusion like 'hm I
+> thought this was file-backed'.
 
-Not quite. The memory is allocated when a file is committed to the
-metadata log, before a file is ever creat'd. When the log is played, 
-initially empty file instances get created (by the famfs lib in user
-space) and then the fmaps get passed in via FAMFS_IOC_MAP_CREATE 
-(after which files are usable). (the word "file" is admittedly 
-overloaded here; hope it makes sense.)
+not sure it would.  Look at the whole thing:
 
-The cluster aspect is unusual if not unique. Only one node (the master) 
-can write the MD log, meaning only that node can create files (by which 
-I mean commit file_create log entries). Other nodes can only play the 
-log, which guarantees they see files that point the the same memory 
-cluster-wide.
+        pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+                 pgtable_level_to_str(level), entry);
+        __print_bad_page_map_pgtable(vma->vm_mm, addr);
+        if (page)
+                dump_page(page, "bad page map");
+        pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
+                 (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index);
+        pr_alert("file:%pD fault:%ps mmap:%ps mmap_prepare: %ps read_folio:%ps\n",
+                 vma->vm_file,
+                 vma->vm_ops ? vma->vm_ops->fault : NULL,
+                 vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
+                 vma->vm_file ? vma->vm_file->f_op->mmap_prepare : NULL,
+                 mapping ? mapping->a_ops->read_folio : NULL);
 
-Although file allocation is immutable until you kill the superblocks
-and start over, data can be mutable from any node you like. This is
-definitely unusual.
+even if we don't have 'page' and thus dump_page() won't tell us
+anything, we look at mapping (NULL means true-anon, non-NULL means
+file, possibly COW).
 
-The MD log is append-only, and does not support mutations to allocation
-(truncate/append/delete), which solves the cluster consistency problem
-around which files point where. The worst structural inconsistency
-that's possible, if some nodes are behind on playing the log, is that
-those nodes don't see the newest files.
+> (We've made our lives hard with varying definitions of 'anon'
+> also... [shmem being 'anon in page cache' is especially lol] so it's
+> already confusing but there we go :)
 
-Thank you!
-John
-
-<snip>
+Woah, woah, woah.  Do *not* think of shmem as being anon-in-page-cache.
+shmem is a filesystem that happens to use swap to store its backing
+file.  I dislike a number of things about how it's implemented, but
+describing it as anon-in-page-cache is furthering the confusion.
 
