@@ -1,64 +1,64 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D533B4E98
-	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 16:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95347430312
+	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 16:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786035547; cv=none; b=OfIGVmclbCLE81AmDeFHbkRcD0nSvuboI6v52DEBrCGlomVuVN3Taff6r4tUFSEYW/3DCkc7O9+iyRY2Ses5folv61/fHausWFs5XLV2vkRpMwPt1eGwUbgp6TIKS1KY4IFL8QgCq9yLMIQxIULmsmwHxBPWOqLC2sqoAH7JJkk=
+	t=1786035552; cv=none; b=F8ceFirHtD1ob/arobsMLeHb14jv8QCidvxhOykHqfa0Btl8oS4JvtQ2H6UvYw2y2tKLRyKr6adRzysomc/xMDYwIjbynjyGL+fOThsMSLde8tl/HmLY+XEQz9Sf1wmzeX7OQ/8VRGpfldzBUB8+5ayETPrgA5w/0WXLfAPlnrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786035547; c=relaxed/simple;
-	bh=hjREzgpzo5QzVUOXcfPLZusIOE1tYvynFiHWCGrfyGs=;
+	s=arc-20240116; t=1786035552; c=relaxed/simple;
+	bh=ABYpqZ4wdvX2qJo1aEQHOIyoxUhBwtpPontmC2KZtYA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bu/ja94K6/rJZ6vRv+dIOIP1GKR0wJTPrfIxi6+QgdRXVw3ONeJLiKAAhuHA57fl6gFOEfY46I0MNRAiMN7uM/BrfIMgrICrtZkQQlfsOkID8mf4Ghn+i4XS3pvWujY41M2JLMXZ9SrlYyp3OJqFjLs9WirBlvnL5Xy1YMYy5ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imPXJnGD; arc=none smtp.client-ip=209.85.221.172
+	 MIME-Version; b=jOXqyJgHrDxK17o6POEGh9AooIN8JsOQnsDcBfVEuLXHAJd/qA1QmlZqLpVc1nMMMhMi5FYPYO9PsDxkz+AXIZo74/+UBrcY8+aYbbCoHpy6NjMjcewiPLZqsyzK5Til4uCPXmyrpw+Bbt4LjWwZgApQibnsJN6IOzVlVE3EK0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tgsa97+b; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imPXJnGD"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5bfb5e20a90so1678768e0c.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 09:59:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tgsa97+b"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5c3fabe908eso168331e0c.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 09:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786035543; x=1786640343; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786035548; x=1786640348; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=k3JV3rYlfmcwigTL3Ipqk1+R5zcTkEoUEmgylrQxXIQ=;
-        b=imPXJnGDOfb4roQ+X6WBd7zySacKBqMeFhpwQsWWzyRlY0bzQvWA5tzGbHSSfRTP+O
-         JEPd82BDDRpW7jzNhiWTWvwNPmPOSQavFmTGp9CE1aeHqcHY4m9LcxpVCJLJlUNdtUI2
-         nqV2DwVMYn9IFLnoNM+UOysnnQNyIigX195mENSEbmcK327WAX2TTMEqZUD30CbrKhwj
-         eJuxvk3MiOmT+reXUY7NlTlF0Goatu5YycGuQieG8stdK2CKx2vf5OEgvqxSMNlRv4+7
-         DfH/Pan8MtIoDaOpJZTeubjV4mijXnDPKo+NPk9HOoozb3EOGHarp959NPyHPNO+95d5
-         h90Q==
+        bh=lPJc5i9oK410kPZ6pKnGJ863FCeOeeCOTy1FxDFDZ4s=;
+        b=Tgsa97+buIDLWDysMRhBS0mJigTpwqHhvCF8pFIWtY7VQpZH0DRiCT1NJk0M16TO95
+         /2oNTCwsN5/MC3h8PDRzsvEGKOO1+ewPnetOhOSmpf1xoHmtZkOwXpSbLcttdTbJPUaC
+         1s9jfJbloJyZSv+mz92li6NMRN19nANKqiWu4MEKjQcpxPCSbiQW7rfw1zCnOL9csz49
+         sUtbnZoibnjphdGLcJBBILF9U2kn/ERST92komYLPZu3Yf5yBzBKsaXvNK7UIfgZ/VCG
+         1RX7Ud68QzUEIFP/HtViecbQy7YHdPh8KKWmT8Yb1XZ4BN/gHTxkLFOrMUyMv8ZOjch8
+         rzbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786035543; x=1786640343;
+        d=1e100.net; s=20251104; t=1786035548; x=1786640348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k3JV3rYlfmcwigTL3Ipqk1+R5zcTkEoUEmgylrQxXIQ=;
-        b=Q9NCESBo/bHFcIj+NOZBzhbncdb6TPUolHZCER06kNMznsdQjhJl/G883YN5mlbC1w
-         M987A35yNHo9Aavqgbh12CBw63Md/n6A7y5digPY7QAwXv/nJI/DuIkJMdaY2q94wEpZ
-         LgUxpsQowEroOP2YVqJjPc1hkz3RLCNJi8/KpRyOIi5Qx/FFXStcFYhv7y5/w2r4WBjl
-         nFnpkxQ+GphRotQxP9SY7i3oHfY8sp0tM9cmO9BAWci0iNtf3l/5Uaj6mlcBaFMBRD9w
-         QHV2u82NdqFVfQisyIuCj9187T6ZkPRVxBq2f1R/2AdxvnVI3pDoFHyDWRZb2XzpXwnk
-         YA8g==
-X-Forwarded-Encrypted: i=1; AHgh+RqTM3NXq/G3TTsgABENh6lINZXxlDCx63KXCulO5/r2y12+01BfyP17ZCNiS3EaIx/o/LTTgqZpI0HSr9GJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywcip1NPYVYzlW9ASTmIhgecX7LNYHC3/ywozvtf/VCBGAywesC
-	9Rs59HDCAD76IiL5Hql7hVBcIIFB1t17mL4CcGDlYIy5VfxbY1x8LKBy
-X-Gm-Gg: AR+sD12kyWxGqGrQpifVmoUqd44ih+10XURmKpAOCWXEKBOMVta+bIb4DbMirdv1ngn
-	Mzt2tgUQ6WuKq5+fbrdDTs1PdOJ06p9BdgE6Lmwt5stDTBzseBDA/gSVFmBNaVm6RY59AZQnPXY
-	nZ4ixbtqPPLzwvKbRpIfmnfocgCVSzaEZ0noz63G2AhUphPENGPRRHhKIHvEPtfJUWZFK/ZomiZ
-	vU5oE+j+UScdXmKWqmyjc4t1PGHknuWMegnehAWbp+A0CPnOIPLnyJr5wQniDLL1Xnzs68tvqzt
-	EOcE36g0SIyeiq5gm5QENvjVZwCOTB86hekM9qTU+eo7uIyWR6TdDxaLQySD1AbO/K7x05aG0L1
-	26lzPY9xIrIqSivDvGrIbPybpr7E2jiOk8D8pK2o0cybc89bCe+ldSMg4C6ERN0MRXO36x/CjvC
-	nj1xTolOLC/U5RO3m3AQdbYCXbiNB4FwLpC0W+ef5U/YG2/9RLK9d4pNVq4Fol1UQVJ67wD42c5
-	5Tkk1Q=
-X-Received: by 2002:a05:6122:8b8d:b0:5bd:ecad:8f80 with SMTP id 71dfb90a1353d-5c3f9e68046mr593111e0c.2.1786035543192;
-        Thu, 06 Aug 2026 09:59:03 -0700 (PDT)
+        bh=lPJc5i9oK410kPZ6pKnGJ863FCeOeeCOTy1FxDFDZ4s=;
+        b=FyPzjimzc/ycCZlaHCkFzg09Lu8b7NzFGp6fTAfcJa54nyUsyQEu5Uw9gyJzhgdBbk
+         ascvCZ7nQNufrixsfAG3FvDAqQjXm4BkU8FyW6YufmFvrtg1YCXmglrLrkkCAKodgtxk
+         xtHUPjDkxhEkMUB6H3iZjIPL9SkE6LDBheCI8eGsjPjzTJP/A1/EnCp8j25EEk4jE0Cm
+         LFJM8e7D+1olITQY5CXk80sKCG82uCIxbINwq9XyX1I1/duJy6IOwibWT56bozRK2T8z
+         C42MLAwb7QLiBwim1OzCqP0pbVBb3+igj7iZCX4ZrlClWpV/suIJ1h3R3cACPOXtJLbT
+         f0LQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqeaOyruXzSLUNP3VCwESUHxs2VujGt2tevp6Fq7zvFSdRw7C1mxAjHJgX5z6HEMxw1DF2G5LXao1FCgypQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJW01OvPtvUqZkawtjtp2H/XsA6ErZPcDrz/9NAflRWM3skbBW
+	RRaBj2gunDqezsehwlc5hLM051nYYUqAJFanyaURNGgIO+2XjQqHjY5u
+X-Gm-Gg: AR+sD129+gsfAygTLFu/VGGDBLvorhHO+25XiMrupw4gykHphQzueAF6+s3j3sFSmwY
+	MoaSNrzdciF+hLa5ibybYAZUNtq0g0Uvy/LEV6v08CiLM4yex6A3uKTCAjpQ4cn+0SNDr0Y1hza
+	nrjiGwE+dbp2d7iF1GGa5I7jgEOf66X5eeIZTOhL9JuAOefV1iIJuCJnqMtJugpH/ISY5dGYsxL
+	3q4ApFfnIHe0FcB6X5Mw3AnwhqTx/vZOq0QEB4xTR7WVvXKw5chT442MhLbPKUp2e40feW33qnB
+	+3ULUHVa4F5Uhid256KxXnZ0egSGWJBzprwJvZAK7oGSBy0Yo82bKbEOzuTlpfFkUlg/aDm5LZr
+	kP9n7WT6g50VrxYrqhia4EzOLBt+wUcKr97SbhtQUV6/Mtg03k8Uhqgfooqkh1hE39Uhh2Yk8AD
+	EF8aZaEvYlEe2fG9PUAp8v9WdWliKqEvYKwX50WY7hQ3arcU9MsO1X+2EQXgdFtLKvUI01PxUtp
+	3sAOO4=
+X-Received: by 2002:a05:6122:2191:b0:5c1:2b9a:7cae with SMTP id 71dfb90a1353d-5c3d90fad18mr2103554e0c.6.1786035548364;
+        Thu, 06 Aug 2026 09:59:08 -0700 (PDT)
 Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3d05c594fsm3706321e0c.8.2026.08.06.09.59.01
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3d05c594fsm3706321e0c.8.2026.08.06.09.59.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 09:59:02 -0700 (PDT)
+        Thu, 06 Aug 2026 09:59:07 -0700 (PDT)
 From: Chao Shi <coshi036@gmail.com>
 To: Jan Kara <jack@suse.cz>,
 	Christian Brauner <brauner@kernel.org>,
@@ -87,9 +87,9 @@ Cc: Theodore Ts'o <tytso@mit.edu>,
 	linux-kernel@vger.kernel.org,
 	Chao Shi <coshi036@gmail.com>,
 	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH v2 02/21] buffer: allow a buffer_head to point at memory outside the page cache
-Date: Thu,  6 Aug 2026 12:58:25 -0400
-Message-ID: <bb6fab2111a48d7ba61887fc1372362576fce6e6.1785951556.git.coshi036@gmail.com>
+Subject: [PATCH v2 03/21] jbd2: point the shadow buffer at the frozen data directly
+Date: Thu,  6 Aug 2026 12:58:26 -0400
+Message-ID: <6140cd23beb88e99f40eaeff4044a16213f6caab.1785951556.git.coshi036@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1785951556.git.coshi036@gmail.com>
 References: <cover.1785951556.git.coshi036@gmail.com>
@@ -101,91 +101,203 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-jbd2 builds a temporary buffer_head to write out the frozen copy of a
-metadata block, and that copy lives in slab memory.  Today jbd2 points the
-temporary buffer at the slab folio backing it.  A slab folio's ->mapping is
-not an address_space, so anything that follows bh->b_folio->mapping there
-gets garbage rather than NULL; mark_buffer_write_io_error() does exactly
-that, and we are about to start calling it on this buffer.
+When a metadata buffer has to be copied out before it can be journalled,
+jbd2_journal_write_metadata_buffer() writes jh->b_frozen_data rather than
+the page cache copy.  b_frozen_data is kmalloc()ed, so folio_set_bh() makes
+the shadow buffer point at a slab folio.
 
-Rather than teach every such helper about slab folios, allow bh->b_folio to
-be NULL and let b_data point straight at the memory.  Code that needs the
-folio has to check.  There are two places in this file:
+That is not something the buffer_head layer can reason about.  A slab folio
+overloads ->mapping, so a shadow buffer looks like it belongs to an
+address_space when it does not.  buffer_set_crypto_ctx() already has to
+work around this, and it is the reason mark_buffer_write_io_error() cannot
+be called on a shadow buffer today.
 
- - __bh_submit() adds the data by virtual address using
-   bio_add_virt_nofail(), and skips the cgroup accounting: a buffer that is
-   not in the page cache has no owning folio to attribute writeback to.
+Point the shadow buffer at the frozen data itself instead: leave b_folio
+NULL, which it already is out of alloc_buffer_head(), and set b_data.  The
+previous patch taught fs/buffer.c to submit such a buffer.  folio_set_bh()
+is now needed on only one path - the one that journals the page cache copy
+directly - so it moves there, and new_folio, new_offset and the flag that
+used to pick between them all go away.
 
- - buffer_set_crypto_ctx() returns early.  fscrypt has no interest in a
-   buffer that is not part of a file mapping, which is why it already
-   returns when the folio has no mapping.
+The two commit-path checksum helpers reach the shadow buffer's contents
+through a new kmap_local_bh()/kunmap_local_bh() pair, which handle a buffer
+with or without a folio.  Memory outside the page cache is always mapped,
+so for those there is nothing to map or unmap.  Mapping it anyway would be
+worse than pointless: with CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP,
+kmap_local_page() hands back a one page mapping even for such memory, which
+is not enough for a buffer bigger than a page.
 
-Nothing sets b_folio to NULL yet, so this patch is a no-op on its own.
-
-A buffer_head without a folio is a narrow thing, not a new general
-capability.  Most of the buffer_head API assumes a folio and will fault or
-corrupt state without one - touch_buffer(), bh_offset(), the async read
-completion path, and plenty more - so it is up to whoever builds such a
-buffer to keep it away from all of that.  What NULL buys us is that getting
-it wrong fails loudly instead of quietly following a slab folio's
-overloaded ->mapping.  It is also only valid over memory that is always
-mapped: buffers over highmem have no permanent kernel virtual address,
-which is why folio_set_bh() records a folio and an offset instead.
+Tested with ext4 mounted data=journal,journal_checksum on a metadata_csum
+filesystem, writing files whose every block begins with the JBD2 magic so
+that escaping forces the copy-out, then crashing with sysrq-b without
+unmounting and replaying the journal on the next mount.  Recovery
+completed, the file contents matched, e2fsck -fn was clean, and an
+instrumented build confirmed the b_folio == NULL path was taken.
 
 Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 Acked-by: Weidong Zhu <weizhu@fiu.edu>
 Signed-off-by: Chao Shi <coshi036@gmail.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/buffer.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ fs/jbd2/commit.c            |  8 ++++----
+ fs/jbd2/journal.c           | 29 +++++++++++++++++------------
+ include/linux/buffer_head.h | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+), 16 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index be8b57a635cd..04fcc34e4fa6 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -1099,12 +1099,16 @@ EXPORT_SYMBOL(__bforget);
- static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
- 				  gfp_t gfp_mask)
- {
--	const struct address_space *mapping = folio_mapping(bh->b_folio);
-+	const struct address_space *mapping;
+diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
+index 3029cb6f6d64..0c85af91f9b2 100644
+--- a/fs/jbd2/commit.c
++++ b/fs/jbd2/commit.c
+@@ -330,9 +330,9 @@ static __u32 jbd2_checksum_data(__u32 crc32_sum, struct buffer_head *bh)
+ 	char *addr;
+ 	__u32 checksum;
  
- 	/*
- 	 * The ext4 journal (jbd2) can submit a buffer_head it directly created
--	 * for a non-pagecache page.  fscrypt doesn't care about these.
-+	 * for memory that is not in the page cache at all.  fscrypt doesn't
-+	 * care about these.
- 	 */
-+	if (!bh->b_folio)
-+		return;
-+	mapping = folio_mapping(bh->b_folio);
- 	if (!mapping)
+-	addr = kmap_local_folio(bh->b_folio, bh_offset(bh));
++	addr = kmap_local_bh(bh);
+ 	checksum = crc32_be(crc32_sum, addr, bh->b_size);
+-	kunmap_local(addr);
++	kunmap_local_bh(bh, addr);
+ 
+ 	return checksum;
+ }
+@@ -357,10 +357,10 @@ static void jbd2_block_tag_csum_set(journal_t *j, journal_block_tag_t *tag,
  		return;
- 	fscrypt_set_bio_crypt_ctx(bio, mapping->host,
-@@ -1142,7 +1146,11 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
- 	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
- 	bio->bi_write_hint = write_hint;
  
--	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
-+	if (bh->b_folio)
-+		bio_add_folio_nofail(bio, bh->b_folio, bh->b_size,
-+				     bh_offset(bh));
-+	else
-+		bio_add_virt_nofail(bio, bh->b_data, bh->b_size);
+ 	seq = cpu_to_be32(sequence);
+-	addr = kmap_local_folio(bh->b_folio, bh_offset(bh));
++	addr = kmap_local_bh(bh);
+ 	csum32 = jbd2_chksum(j->j_csum_seed, (__u8 *)&seq, sizeof(seq));
+ 	csum32 = jbd2_chksum(csum32, addr, bh->b_size);
+-	kunmap_local(addr);
++	kunmap_local_bh(bh, addr);
  
- 	bio->bi_end_io = end_bio;
- 	bio->bi_private = bh;
-@@ -1152,7 +1160,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
+ 	if (jbd2_has_feature_csum3(j))
+ 		tag3->t_checksum = cpu_to_be32(csum32);
+diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+index 09efa337649e..6e05dc47e20a 100644
+--- a/fs/jbd2/journal.c
++++ b/fs/jbd2/journal.c
+@@ -327,8 +327,6 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+ {
+ 	int do_escape = 0;
+ 	struct buffer_head *new_bh;
+-	struct folio *new_folio;
+-	unsigned int new_offset;
+ 	struct buffer_head *bh_in = jh2bh(jh_in);
+ 	journal_t *journal = transaction->t_journal;
  
- 	if (wbc) {
- 		wbc_init_bio(wbc, bio);
--		wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
-+		if (bh->b_folio)
-+			wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
+@@ -348,24 +346,31 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+ 	/* keep subsequent assertions sane */
+ 	atomic_set(&new_bh->b_count, 1);
+ 
++	/*
++	 * b_frozen_data is slab memory, not page cache, so when we use it the
++	 * shadow buffer gets no folio at all: b_folio stays NULL from the
++	 * allocation and b_data points straight at the copy.  Pointing it at
++	 * the slab folio instead would hand its overloaded ->mapping to
++	 * anything that goes looking for an address_space.
++	 */
++
+ 	spin_lock(&jh_in->b_state_lock);
+ 	/*
+ 	 * If a new transaction has already done a buffer copy-out, then
+ 	 * we use that version of the data for the commit.
+ 	 */
+ 	if (jh_in->b_frozen_data) {
+-		new_folio = virt_to_folio(jh_in->b_frozen_data);
+-		new_offset = offset_in_folio(new_folio, jh_in->b_frozen_data);
+ 		do_escape = jbd2_data_needs_escaping(jh_in->b_frozen_data);
+ 		if (do_escape)
+ 			jbd2_data_do_escape(jh_in->b_frozen_data);
++		new_bh->b_data = jh_in->b_frozen_data;
+ 	} else {
++		struct folio *folio = bh_in->b_folio;
++		unsigned int offset = offset_in_folio(folio, bh_in->b_data);
+ 		char *tmp;
+ 		char *mapped_data;
+ 
+-		new_folio = bh_in->b_folio;
+-		new_offset = offset_in_folio(new_folio, bh_in->b_data);
+-		mapped_data = kmap_local_folio(new_folio, new_offset);
++		mapped_data = kmap_local_folio(folio, offset);
+ 		/*
+ 		 * Fire data frozen trigger if data already wasn't frozen. Do
+ 		 * this before checking for escaping, as the trigger may modify
+@@ -379,8 +384,10 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+ 		/*
+ 		 * Do we need to do a data copy?
+ 		 */
+-		if (!do_escape)
++		if (!do_escape) {
++			folio_set_bh(new_bh, folio, offset);
+ 			goto escape_done;
++		}
+ 
+ 		spin_unlock(&jh_in->b_state_lock);
+ 		tmp = kmalloc(bh_in->b_size, GFP_NOFS | __GFP_NOFAIL);
+@@ -391,7 +398,7 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+ 		}
+ 
+ 		jh_in->b_frozen_data = tmp;
+-		memcpy_from_folio(tmp, new_folio, new_offset, bh_in->b_size);
++		memcpy_from_folio(tmp, folio, offset, bh_in->b_size);
+ 		/*
+ 		 * This isn't strictly necessary, as we're using frozen
+ 		 * data for the escaping, but it keeps consistency with
+@@ -400,13 +407,11 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+ 		jh_in->b_frozen_triggers = jh_in->b_triggers;
+ 
+ copy_done:
+-		new_folio = virt_to_folio(jh_in->b_frozen_data);
+-		new_offset = offset_in_folio(new_folio, jh_in->b_frozen_data);
+ 		jbd2_data_do_escape(jh_in->b_frozen_data);
++		new_bh->b_data = jh_in->b_frozen_data;
  	}
  
- 	blk_crypto_submit_bio(bio);
+ escape_done:
+-	folio_set_bh(new_bh, new_folio, new_offset);
+ 	new_bh->b_size = bh_in->b_size;
+ 	new_bh->b_bdev = journal->j_dev;
+ 	new_bh->b_blocknr = blocknr;
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index 699970b4bbf2..20b8fca1abfa 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -172,6 +172,35 @@ static inline unsigned long bh_offset(const struct buffer_head *bh)
+ 	return (unsigned long)(bh)->b_data & (folio_size(bh->b_folio) - 1);
+ }
+ 
++/**
++ * kmap_local_bh - Map the data of a buffer.
++ * @bh: The buffer.
++ *
++ * Buffers usually live in the page cache, but a few are built over memory
++ * which is not.  Those carry no folio and b_data is already a kernel address
++ * which is always mapped, so there is nothing to do for them.  Pair with
++ * kunmap_local_bh().
++ *
++ * Return: A pointer to the buffer's data.
++ */
++static inline void *kmap_local_bh(const struct buffer_head *bh)
++{
++	if (!bh->b_folio)
++		return bh->b_data;
++	return kmap_local_folio(bh->b_folio, bh_offset(bh));
++}
++
++/**
++ * kunmap_local_bh - Unmap the data of a buffer.
++ * @bh: The buffer.
++ * @addr: The address returned by kmap_local_bh().
++ */
++static inline void kunmap_local_bh(const struct buffer_head *bh, void *addr)
++{
++	if (bh->b_folio)
++		kunmap_local(addr);
++}
++
+ /* If we *know* page->private refers to buffer_heads */
+ #define page_buffers(page)					\
+ 	({							\
 -- 
 2.43.0
 
