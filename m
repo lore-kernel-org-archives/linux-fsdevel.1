@@ -1,238 +1,489 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388FD340A52
-	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 12:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60BC473C72
+	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 12:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786018724; cv=none; b=Y6pgiOOcZhW7TlO4wjZXhjLW+XfDmhX97vcblgVsD6UaRgzsgmoRmuNge9Pw1haowtmmyvmjKm2macdzjQAMOrlRqQYHDW0iqSIz/0uYKzbgMEdBh83Oc+nv871ETEZtKRISnhEoBSdiGa51bGLqj++25xmJ7wuD0pI3daabNak=
+	t=1786018773; cv=none; b=Kf8hxBqfCpB9d63haeNVkBW0Hb7kG0whETyxs0g9JqoaLSrtClaFd+cqux3Vtsr0uoHKNSL5KFnLj61FpN4aaS/eSdrUYMQa9Jq+9e5g3H74N47wrbQOpXqpw3XnmWx5NeVLu02wZu7ttrQRT4ouA7SPxFOkzgTvYRNSWbCwiRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786018724; c=relaxed/simple;
-	bh=M1MegnHzV73grper8Ny/IvBLmgNiJ5172cKqmQGZWwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYQ0eXHE6efiJcMtXoTkyNqCnWlwz4fCnELFKRrOhjlvMWcbw0r9FEdMV/Xi7dS4Z+xVqL9eihD/KVxYtzG8U0sGEmxQugKkJqNpt28m0MK1FN/ID4bwZciqrSQCap8XnriAdlEoxaNkQHEssFrlCjRNhACyh/MMBJlKq/iWnLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hD+kGZor; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786018773; c=relaxed/simple;
+	bh=Bzt9rHxzAvaipHEkJlqGAiX1z5f5ogvjmdms2lFk8zE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VGYaU2/S/udrvLC8kGOtGIPPQ0yqMioN7j2y2queHsAFFndIVJSERqKQ+1jvj94BT5L6SsWOwCu4fng47GAi+mBaEhJ7yIwW2XMOxZeuLKctlPtw0vxQX1CniRCQzwnjHIeurJR2ViyCEBTLlprAYWsLfxvj6SjQX4o6Jm47sNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aoikkBdJ; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hD+kGZor"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786018718;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzebfzj2r5MvZp6xkUR1tS7BFg5VZp9XY03lp902VFw=;
-	b=hD+kGZor3tDWvy8MZx/DtOLjXwR6MVNMpvvUIJ1OGEKIHDM0UTbVQsCvKZURtkhiDTsUeB
-	Qz7M7PPFlf9LXddg1vdbFwUS77/bqd76y2a6lzVaQUeJugkZhOWFjUG4MjeMquY6kRMolv
-	esG6DdoHNaOue6ut1RkYGih+WDCMjPE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-33-uhnALEEQNHiKhJnMRBnydg-1; Thu,
- 06 Aug 2026 08:18:36 -0400
-X-MC-Unique: uhnALEEQNHiKhJnMRBnydg-1
-X-Mimecast-MFC-AGG-ID: uhnALEEQNHiKhJnMRBnydg_1786018714
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E8AA1955E70;
-	Thu,  6 Aug 2026 12:18:33 +0000 (UTC)
-Received: from bfoster (unknown [10.22.80.193])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B9C21422;
-	Thu,  6 Aug 2026 12:18:29 +0000 (UTC)
-Date: Thu, 6 Aug 2026 08:18:27 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Zhang Yi <yi.zhang@huaweicloud.com>, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	brauner@kernel.org, hch@infradead.org, joannelkoong@gmail.com,
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>, yi.zhang@huawei.com,
-	yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: Re: [PATCH v4 2/5] iomap: support invalidating partial folios
-Message-ID: <anR7k9Nt8Qa0NduG@bfoster>
-References: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
- <20260714082325.325163-3-yi.zhang@huaweicloud.com>
- <a638a8fb-c184-4069-ae33-379ec12cd514@huaweicloud.com>
- <anH-WKA1coW6wtfG@bfoster>
- <20260804184142.GA3560084@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoikkBdJ"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso10775465e9.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 05:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786018769; x=1786623569; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CmiuwiCBxj43pnL6F4PU+TmqwE1tdFiaUXEdM+UwrCk=;
+        b=aoikkBdJTU4uIs26qsg7MxP6tjrS753rFdPWG31h5BlHONXHmE8qzuO1aeg7cnhH2q
+         JGntuq4RHfKqPVWi+EhoxIgY1W8hwWtyd1fRCYwnPStYGBZAmv8UVUoPjQne7Jeyh5uL
+         nkdplowzEFju1EIoBb4ZPISRXpszcF+6jJoX0cLZSgFyOUXHUO5vXnqzVpy+Q3TOPK3Z
+         QxJJ5dB9TwUzj8EA3vKJ6enVoUi6keJUNuSiymXgo0qErsDbvRkXgdrF34xHKB+A0IOE
+         dpn8JamyOsMVzzl6aC0CO0HNXKw4XtGQObZLEFdsM2rEq5s4kC4AniKecIU/HTQlFjjC
+         VD6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786018769; x=1786623569;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CmiuwiCBxj43pnL6F4PU+TmqwE1tdFiaUXEdM+UwrCk=;
+        b=bJQM/4bsO21Yo3K+0win9UWOqYBzzlQb2xPha3ArY3KW67spS1N0UWpZq0d1iFLkst
+         uA0CV9ZaU/giaGpeoBpn6sLzyseabZzUuHgEGEvcme0PRz8OWND724rdE5tzBFayejuP
+         YWHpW0MNF74gHA5C8veInTqIrLQEmq3SBZYGlShLiIpVefDNGfek8NKGw/mPyS2LGXAZ
+         q3sASx7Mzi6+0COd/R69n4yPygxvjga0asGvqmNkpy/q1i82sEkByHhYMauzLGZU4UIk
+         MOIa/SDuC0wkKWpu1ripRJE9bThmMrXYdFHyXmu00U4yfi80lshes9NHvHucH460/l/7
+         xbdw==
+X-Forwarded-Encrypted: i=1; AHgh+RrbOiYTv35Tzy2jr4QgfjwAKITfX7jweEyfv9WJ2w63Ik2a99lnbLqTPXLmrPU0dux6MAKqhHw5icT/DtWf@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQCng5FNh5VKFQ1y4kSxhnnJzA/yCbDNZC978HNKZ4XzPF3iJH
+	pAJcKvpJSNEDm7Kqo0BSdzp9VW5WzZAzGFrgzrvMgBJNWfMrpZfTczvK
+X-Gm-Gg: AR+sD12liqS+Bqiw2YaWWO8I6bbZhJ+8Q0F1tQUhTE9RGKyQZV2/eLEtwHirfHoPQ+z
+	Ej3pJskLHZgUA1GTLizNTFjsn6wbgY1uWulAHp0eGU/6TzjKl0QDHfh+bGOqCRryHJYW/HmWXil
+	a0jpWN5BjEvQ0vY3novsYaIBUFVg/s7KVX2+O3iBNHXYI4gJ9BAa2drW7Ts6QIN+r70uIFxQJdX
+	qMbam9wXB4kggyTURUc+JWxuRiTHt6LjT1xdzR/Al2J/LPX4EpmawO3W7yHZbCF13m4JjlWrBk8
+	5ZNTdE+zmt2WrrAIjr64rHIMZp0EtlQ3z+Q11uGRg5ojM5ztnHdnC9ow8lPoG9nvm+XEwTi0T30
+	/sHivjDhNobn2Qoxtk9CXv81Ga0IhRwJrF3GHdjQ5l4wvGVyxtl7nzT3oFQ9hXuqqhOmTYePjuT
+	/mNPkbeTTgsfzF5lsi9DC/EqdWkYU5FPUrXjfhrw/Z8Ud8cyDsCR8rVPhMJVhSsfAng5CRkV548
+	ZqiPiNDkxQxR2w/ZP6SMEaDsVIzQErfmx86UF7RsYERYpr+O5/ksVp/REe7GsnTCg==
+X-Received: by 2002:a05:600c:c046:b0:499:491e:4b0d with SMTP id 5b1f17b1804b1-4994e7d1ccdmr159730335e9.19.1786018768810;
+        Thu, 06 Aug 2026 05:19:28 -0700 (PDT)
+Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49952dda992sm32751305e9.2.2026.08.06.05.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 05:19:27 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: linux-block@vger.kernel.org
+Cc: asml.silence@gmail.com,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Dongsheng Yang <dongsheng.yang@linux.dev>,
+	Zheng Gu <cengku@gmail.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ceph-devel@vger.kernel.org
+Subject: [PATCH 1/1] block: rename bi_bvec_done
+Date: Thu,  6 Aug 2026 13:19:27 +0100
+Message-ID: <4e4c21858705a200bd8848ffe4080522e3eb5c1c.1786018753.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804184142.GA3560084@frogsfrogsfrogs>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 04, 2026 at 11:41:42AM -0700, Darrick J. Wong wrote:
-> On Tue, Aug 04, 2026 at 10:59:36AM -0400, Brian Foster wrote:
-> > On Mon, Aug 03, 2026 at 03:13:28PM +0800, Zhang Yi wrote:
-> > > On 7/14/2026 4:23 PM, Zhang Yi wrote:
-> > > > From: Zhang Yi <yi.zhang@huawei.com>
-> > > > 
-> > > > Current iomap_invalidate_folio() can only invalidate an entire folio. If
-> > > > we truncate a partial folio on a filesystem where the block size is
-> > > > smaller than the folio size, it will leave behind dirty bits for the
-> > > > truncated or punched blocks. During the write-back process, it will
-> > > > attempt to map the invalid hole range. Fortunately, this has not caused
-> > > > any real problems so far because the ->writeback_range() function
-> > > > corrects the length.
-> > > > 
-> > > > However, the implementation of FALLOC_FL_ZERO_RANGE in ext4 depends on
-> > > > the support for invalidating partial folios. When ext4 partially zeroes
-> > > > out a dirty and unwritten folio, it does not perform a flush first like
-> > > > XFS. Therefore, if the dirty bits of the corresponding area cannot be
-> > > > cleared, the zeroed area after writeback remains in the written state
-> > > > rather than reverting to the unwritten state. Fix this by supporting
-> > > > invalidation of partial folios.
-> > > 
-> > > Hi all,
-> > > 
-> > > While working on the v5 of the ext4 iomap conversion series[1], I've
-> > > observed a rare data inconsistency issue in xfstests generic/127. After
-> > > debugging, I found that the root cause lies in the fact that the current
-> > > patch does not cover all scenarios when handling partial folio
-> > > invalidation during punch hole operations in cases where
-> > > block size < folio size. Specifically, the sub-folio dirty state is not
-> > > properly cleaned up in all cases. I think we need to discuss the fix,
-> > > and I'd like to hear your suggestions.
-> > > 
-> > > Root cause:
-> > > 
-> > > In both iomap buffered write and mmap write paths, if the write range
-> > > covers an entire folio (regardless of whether the folio size is larger
-> > > than block size), an ifs (iomap_folio_state) is not allocated
-> > > immediately. Instead, it is deferred until writeback time, where it gets
-> > > created in iomap_writeback_folio(). This creates a problem: when ext4
-> > > performs a punch or zero_range operation on a partial range within such
-> > > a dirty folio, there is no way to clear the dirty state for the
-> > > corresponding blocks.
-> > > 
-> > > This leads to two specific issues:
-> > > 
-> > > 1. After issuing FALLOC_FL_ZERO_RANGE on a range covering
-> > >    dirty+unwritten blocks within a large folio, the dirty state cannot
-> > >    be cleared. During subsequent writeback, zeroed data is still
-> > >    written back, and the final extent state for those blocks becomes
-> > >    written. As a result, the fix from this patch becomes ineffective in
-> > >    this case.
-> > > 
-> > 
-> > I suspect this may be (occasionally) the case even with an ifs. IIRC the
-> > folio batch stuff made a tradeoff for just zeroing any folio passed in
-> > from the fs that was determined to be dirty, regardless of whether
-> > underlying block aligned ranges may be unwritten and still clean.
-> > 
-> > I think this is relatively harmless so long as the underlying range
-> > returns zeroes from subsequent reads. The caveat may be if there are any
-> > cases where we have a really large folio and some small portion of it is
-> > dirtied and that causes some huge amount of unnecessary zeroing. I'm not
-> > sure if we've hit something like that in practice though..
-> > 
-> > > 2. The aforementioned rare data inconsistency in xfstests generic/127.
-> > >    When performing a partial folio punch hole on a dirty large folio,
-> > >    truncate_inode_pages_range() zeros the partial folio and then splits
-> > >    the folio. This causes an incorrect 'end' offset calculation in
-> > >    truncate_inode_pages_range(), which then results in all split folios
-> > >    being truncated via truncate_inode_folio(), turning partial valid
-> > >    data into zeroes.  For example:
-> > > 
-> > >    Suppose we have a large folio of 4 pages, and we punch a range
-> > >    starting from the beginning to the middle of the last page.
-> > >    truncate_inode_pages_range() will go through two rounds of splitting.
-> > >    Normally, if an ifs is present, the split path would hit
-> > >    folio_split() -> filemap_release_folio() -> iomap_release_folio(),
-> > >    which would intercept the operation and refuse splitting because the
-> > >    folio is dirty.
-> > > 
-> > >    However, without an ifs, filemap_release_folio() returns early via
-> > >    folio_needs_release(), causing the interception to fail. In the first
-> > >    round, the folio is split into 3 folios (1, 1, 2). In the second
-> > >    round, we expect to split into 4 folios (1, 1, 1, 1). If the second
-> > >    split succeeds, everything is fine, because
-> > >    truncate_inode_pages_range() calculates end = 3, and only the first 3
-> > >    folios are truncated. However, the second split is allowed to fail.
-> > >    If it does fail, truncate_inode_pages_range() still uses end = 3 and
-> > >    ends up truncating all 3 folios, resulting in data loss.
-> > > 
-> > 
-> > I was never really a huge fan of the ifs optimization thing, but I don't
-> > recall what the performance benefits really were.
-> 
-> IIRC at the time it was an optimization to avoid allocating an ifs for
-> the "uncommon" case of fsblock size < page size.  Then willy made it the
-> common case with large folios, so there's probably little point in
-> maintaining all this on/off complexity because large folios with no ifs
-> resulted in huge write amplification.
-> 
-> The only problem with always having an ifs is that splitting a large
-> folio with an ifs into smaller ones is (I think) currently not supported
-> because iomap doesn't know how to split the ifs and might not be able to
-> allocate the second one if memory is scarce.
-> 
+struct bvec_iter::bi_bvec_done is used an offset in the current bvec,
+let's rename it accordingly for better clarity. I also plan to use it
+for non-bvec based iteration in the future like dma-buf, so drop the
+"bvec" part.
 
-I see.. Zhang Yi touches on this in the other reply as well.
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ Documentation/block/biovecs.rst |  8 ++++----
+ block/bio.c                     |  4 ++--
+ block/blk-merge.c               |  8 ++++----
+ block/blk-mq-dma.c              |  2 +-
+ block/blk.h                     |  2 +-
+ drivers/block/loop.c            |  2 +-
+ drivers/block/zloop.c           |  2 +-
+ drivers/md/dm-io-rewind.c       | 10 +++++-----
+ drivers/md/dm-pcache/segment.c  |  4 ++--
+ drivers/nvdimm/btt.c            |  2 +-
+ drivers/nvme/host/tcp.c         |  2 +-
+ fs/btrfs/misc.h                 |  2 +-
+ include/linux/bvec.h            | 14 +++++++-------
+ io_uring/net.c                  |  4 ++--
+ lib/iov_iter.c                  |  2 +-
+ net/ceph/messenger.c            |  4 ++--
+ 16 files changed, 36 insertions(+), 36 deletions(-)
 
-I wonder how critical this behavior really is to the large folio case,
-particularly if the base case is block size == page size and we wouldn't
-need the ifs at all. I'd think if we're under memory pressure then at
-some point writeback will trigger anyways and allow a release and split
-to proceed..?
-
-Brian
-
-> --D
-> 
-> > That aside, doesn't this seem like more of a bug within the
-> > truncate_inode_pages_range() path? It's not clear to me if that's the
-> > only problem wrt iomap, but I'd think if the end offset split down in
-> > truncate_inode_partial_folio() fails, we should be able to return
-> > partial progress or something instead of a true/false for the whole
-> > thing. Would that allow this path to properly update the end index for
-> > the full truncate loop and at least prevent throwing away a folio with
-> > partial data like this?
-> > 
-> > Brian
-> > 
-> > > Now I remember I previously submitted two patches [2] that always
-> > > allocated an ifs in the iomap buffered write path and the mmap fault
-> > > path for the block size < folio size case. However, Christoph pointed
-> > > out that the iomap design intentionally defers ifs allocation to avoid
-> > > unnecessary overhead and improve performance, and suggested creating the
-> > > ifs in iomap_invalidate_folio() instead [3]. There is a hurdle, though:
-> > > iomap_invalidate_folio() is only called when the folio has private data
-> > > (in truncate_inode_partial_folio(), folio_needs_release() is called
-> > > first to check the private flag). So if we go with this approach, we
-> > > need to ensure that folio_invalidate() can be called even when the folio
-> > > does not have an ifs.
-> > > 
-> > > One relatively simple approach is to always set the AS_RELEASE_ALWAYS
-> > > flag on ext4 inodes that go through the iomap path. I don't think this
-> > > would introduce significant overhead, but it doesn't feel very generic.
-> > > 
-> > > Another approach is to modify truncate_inode_partial_folio(). Regarding
-> > > this, I don't want to introduce other magics to achieve this, so perhaps
-> > > modify truncate_inode_partial_folio() to check whether
-> > > i_blocks_per_folio > 1 before calling folio_invalidate(), and call it if
-> > > so.
-> > > 
-> > > So, what do people think? Any better idea?
-> > > 
-> > > Thanks,
-> > > Yi.
-> > > 
-> > > [1] https://github.com/zhangyi089/linux/commits/ext4_buffered_iomap_v5-devel13/
-> > > [2] https://lore.kernel.org/linux-fsdevel/20240812121159.3775074-4-yi.zhang@huaweicloud.com/
-> > >     https://lore.kernel.org/linux-fsdevel/20240812121159.3775074-5-yi.zhang@huaweicloud.com/
-> > > [3] https://lore.kernel.org/linux-fsdevel/ZrxBfKi_DpThYo94@infradead.org/
-> > > 
-> > > 
-> > 
-> > 
-> 
+diff --git a/Documentation/block/biovecs.rst b/Documentation/block/biovecs.rst
+index 11126ed6f40f..49da2147b7d8 100644
+--- a/Documentation/block/biovecs.rst
++++ b/Documentation/block/biovecs.rst
+@@ -16,16 +16,16 @@ bv_len by the number of bytes completed in that biovec.
+ In the new scheme of things, everything that must be mutated in order to
+ partially complete a bio is segregated into struct bvec_iter: bi_sector,
+ bi_size and bi_idx have been moved there; and instead of modifying bv_offset
+-and bv_len, struct bvec_iter has bi_bvec_done, which represents the number of
++and bv_len, struct bvec_iter has bi_offset, which represents the number of
+ bytes completed in the current bvec.
+ 
+ There are a bunch of new helper macros for hiding the gory details - in
+ particular, presenting the illusion of partially completed biovecs so that
+-normal code doesn't have to deal with bi_bvec_done.
++normal code doesn't have to deal with bi_offset.
+ 
+  * Driver code should no longer refer to biovecs directly; we now have
+    bio_iovec() and bio_iter_iovec() macros that return literal struct biovecs,
+-   constructed from the raw biovecs but taking into account bi_bvec_done and
++   constructed from the raw biovecs but taking into account bi_offset and
+    bi_size.
+ 
+    bio_for_each_segment() has been updated to take a bvec_iter argument
+@@ -101,7 +101,7 @@ Other implications:
+    I.e. instead of using bio_iovec_idx() (or bio->bi_iovec[bio->bi_idx]), you
+    now use bio_iter_iovec(), which takes a bvec_iter and returns a
+    literal struct bio_vec - constructed on the fly from the raw biovec but
+-   taking into account bi_bvec_done (and bi_size).
++   taking into account bi_offset (and bi_size).
+ 
+  * bi_vcnt can't be trusted or relied upon by driver code - i.e. anything that
+    doesn't actually own the bio. The reason is twofold: firstly, it's not
+diff --git a/block/bio.c b/block/bio.c
+index 500389f332d9..4074a0496b93 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -229,7 +229,7 @@ void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+ 	bio->bi_iter.bi_sector = 0;
+ 	bio->bi_iter.bi_size = 0;
+ 	bio->bi_iter.bi_idx = 0;
+-	bio->bi_iter.bi_bvec_done = 0;
++	bio->bi_iter.bi_offset = 0;
+ 	bio->bi_end_io = NULL;
+ 	bio->bi_private = NULL;
+ #ifdef CONFIG_BLK_CGROUP
+@@ -1188,7 +1188,7 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
+ 
+ 	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
+ 	bio->bi_iter.bi_idx = 0;
+-	bio->bi_iter.bi_bvec_done = iter->iov_offset;
++	bio->bi_iter.bi_offset = iter->iov_offset;
+ 	bio->bi_iter.bi_size = iov_iter_count(iter);
+ 	bio_set_flag(bio, BIO_CLONED);
+ }
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index ab1161ca69f1..258a726071d1 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -33,7 +33,7 @@ static inline void bio_get_last_bvec(struct bio *bio, struct bio_vec *bv)
+ 
+ 	bio_advance_iter(bio, &iter, iter.bi_size);
+ 
+-	if (!iter.bi_bvec_done)
++	if (!iter.bi_offset)
+ 		idx = iter.bi_idx - 1;
+ 	else	/* in the middle of bvec */
+ 		idx = iter.bi_idx;
+@@ -41,11 +41,11 @@ static inline void bio_get_last_bvec(struct bio *bio, struct bio_vec *bv)
+ 	*bv = bio->bi_io_vec[idx];
+ 
+ 	/*
+-	 * iter.bi_bvec_done records actual length of the last bvec
++	 * iter.bi_offset records actual length of the last bvec
+ 	 * if this bio ends in the middle of one io vector
+ 	 */
+-	if (iter.bi_bvec_done)
+-		bv->bv_len = iter.bi_bvec_done;
++	if (iter.bi_offset)
++		bv->bv_len = iter.bi_offset;
+ }
+ 
+ static inline bool bio_will_gap(struct request_queue *q,
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index bfdb9ed70741..88fd9cbc951f 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -44,7 +44,7 @@ static bool blk_map_iter_next(struct request *req, struct blk_map_iter *iter,
+ 	 * one could be merged into it.  This typically happens when moving to
+ 	 * the next bio, but some callers also don't pack bvecs tight.
+ 	 */
+-	while (!iter->iter.bi_size || !iter->iter.bi_bvec_done) {
++	while (!iter->iter.bi_size || !iter->iter.bi_offset) {
+ 		struct bio_vec next;
+ 
+ 		if (!__blk_map_iter_next(iter))
+diff --git a/block/blk.h b/block/blk.h
+index eaac05815cb0..50abfd932886 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -406,7 +406,7 @@ static inline bool bio_may_need_split(struct bio *bio,
+ 		return true;
+ 
+ 	bv = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+-	if (bio->bi_iter.bi_size > bv->bv_len - bio->bi_iter.bi_bvec_done)
++	if (bio->bi_iter.bi_size > bv->bv_len - bio->bi_iter.bi_offset)
+ 		return true;
+ 	if ((bv->bv_offset | bv->bv_len) & lim->dma_alignment)
+ 		return true;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 26d7130c3f55..8639fa34b847 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -379,7 +379,7 @@ static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
+ 		iov_iter_bvec(&iter, rw,
+ 			__bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter),
+ 			nr_bvec, blk_rq_bytes(rq));
+-		iter.iov_offset = rq->bio->bi_iter.bi_bvec_done;
++		iter.iov_offset = rq->bio->bi_iter.bi_offset;
+ 	}
+ 	atomic_set(&cmd->ref, 2);
+ 
+diff --git a/drivers/block/zloop.c b/drivers/block/zloop.c
+index 58ec8161b7e2..4323ac108cae 100644
+--- a/drivers/block/zloop.c
++++ b/drivers/block/zloop.c
+@@ -555,7 +555,7 @@ static int zloop_do_rw(struct zloop_cmd *cmd)
+ 		iov_iter_bvec(&iter, rw,
+ 			__bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter),
+ 					nr_bvec, blk_rq_bytes(rq));
+-		iter.iov_offset = rq->bio->bi_iter.bi_bvec_done;
++		iter.iov_offset = rq->bio->bi_iter.bi_offset;
+ 	}
+ 
+ 	cmd->iocb.ki_pos = (cmd->sector - zone->start) << SECTOR_SHIFT;
+diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
+index 6155b0117c9d..04f3fc8aeb6f 100644
+--- a/drivers/md/dm-io-rewind.c
++++ b/drivers/md/dm-io-rewind.c
+@@ -16,12 +16,12 @@ static inline bool dm_bvec_iter_rewind(const struct bio_vec *bv,
+ 	int idx;
+ 
+ 	iter->bi_size += bytes;
+-	if (bytes <= iter->bi_bvec_done) {
+-		iter->bi_bvec_done -= bytes;
++	if (bytes <= iter->bi_offset) {
++		iter->bi_offset -= bytes;
+ 		return true;
+ 	}
+ 
+-	bytes -= iter->bi_bvec_done;
++	bytes -= iter->bi_offset;
+ 	idx = iter->bi_idx - 1;
+ 
+ 	while (idx >= 0 && bytes && bytes > bv[idx].bv_len) {
+@@ -32,13 +32,13 @@ static inline bool dm_bvec_iter_rewind(const struct bio_vec *bv,
+ 	if (WARN_ONCE(idx < 0 && bytes,
+ 		      "Attempted to rewind iter beyond bvec's boundaries\n")) {
+ 		iter->bi_size -= bytes;
+-		iter->bi_bvec_done = 0;
++		iter->bi_offset = 0;
+ 		iter->bi_idx = 0;
+ 		return false;
+ 	}
+ 
+ 	iter->bi_idx = idx;
+-	iter->bi_bvec_done = bv[idx].bv_len - bytes;
++	iter->bi_offset = bv[idx].bv_len - bytes;
+ 	return true;
+ }
+ 
+diff --git a/drivers/md/dm-pcache/segment.c b/drivers/md/dm-pcache/segment.c
+index 7e9818701445..8f8816e1c539 100644
+--- a/drivers/md/dm-pcache/segment.c
++++ b/drivers/md/dm-pcache/segment.c
+@@ -14,7 +14,7 @@ int segment_copy_to_bio(struct pcache_segment *segment,
+ 
+ 	iov_iter_bvec(&iter, ITER_DEST, &bio->bi_io_vec[bio->bi_iter.bi_idx],
+ 			bio_segments(bio), bio->bi_iter.bi_size);
+-	iter.iov_offset = bio->bi_iter.bi_bvec_done;
++	iter.iov_offset = bio->bi_iter.bi_offset;
+ 	if (bio_off)
+ 		iov_iter_advance(&iter, bio_off);
+ 
+@@ -35,7 +35,7 @@ int segment_copy_from_bio(struct pcache_segment *segment,
+ 
+ 	iov_iter_bvec(&iter, ITER_SOURCE, &bio->bi_io_vec[bio->bi_iter.bi_idx],
+ 			bio_segments(bio), bio->bi_iter.bi_size);
+-	iter.iov_offset = bio->bi_iter.bi_bvec_done;
++	iter.iov_offset = bio->bi_iter.bi_offset;
+ 	if (bio_off)
+ 		iov_iter_advance(&iter, bio_off);
+ 
+diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+index 7e1112960d7f..5d910a64503d 100644
+--- a/drivers/nvdimm/btt.c
++++ b/drivers/nvdimm/btt.c
+@@ -1155,7 +1155,7 @@ static int btt_rw_integrity(struct btt *btt, struct bio_integrity_payload *bip,
+ 		bv = bvec_iter_bvec(bip->bip_vec, bip->bip_iter);
+ 		/*
+ 		 * The 'bv' obtained from bvec_iter_bvec has its .bv_len and
+-		 * .bv_offset already adjusted for iter->bi_bvec_done, and we
++		 * .bv_offset already adjusted for iter->bi_offset, and we
+ 		 * can use those directly
+ 		 */
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..ce03a0ea4ded 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -357,7 +357,7 @@ static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
+ 		iov_iter_bvec(&req->iter, dir,
+ 			__bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter), nr_bvec,
+ 			bio->bi_iter.bi_size);
+-		req->iter.iov_offset = bio->bi_iter.bi_bvec_done;
++		req->iter.iov_offset = bio->bi_iter.bi_offset;
+ 	}
+ }
+ 
+diff --git a/fs/btrfs/misc.h b/fs/btrfs/misc.h
+index 694be6d0562a..802060943180 100644
+--- a/fs/btrfs/misc.h
++++ b/fs/btrfs/misc.h
+@@ -74,7 +74,7 @@ static inline struct bvec_iter init_bvec_iter_for_bio(struct bio *bio)
+ 		.bi_sector = 0,
+ 		.bi_size = bio_size,
+ 		.bi_idx = 0,
+-		.bi_bvec_done = 0,
++		.bi_offset = 0,
+ 	};
+ }
+ 
+diff --git a/include/linux/bvec.h b/include/linux/bvec.h
+index 92837e2743f1..fc566ee1c1ff 100644
+--- a/include/linux/bvec.h
++++ b/include/linux/bvec.h
+@@ -110,7 +110,7 @@ struct bvec_iter {
+ 	/*
+ 	 * Current offset in the bvec entry pointed to by `bi_idx`.
+ 	 */
+-	unsigned int		bi_bvec_done;
++	unsigned int		bi_offset;
+ } __packed __aligned(4);
+ 
+ struct bvec_iter_all {
+@@ -135,14 +135,14 @@ mp_bvec_iter_page(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ static __always_inline unsigned int
+ mp_bvec_iter_len(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ {
+-	return min(__bvec_iter_bvec(bvecs, iter)->bv_len - iter.bi_bvec_done,
++	return min(__bvec_iter_bvec(bvecs, iter)->bv_len - iter.bi_offset,
+ 			iter.bi_size);
+ }
+ 
+ static __always_inline unsigned int
+ mp_bvec_iter_offset(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ {
+-	return __bvec_iter_bvec(bvecs, iter)->bv_offset + iter.bi_bvec_done;
++	return __bvec_iter_bvec(bvecs, iter)->bv_offset + iter.bi_offset;
+ }
+ 
+ static __always_inline unsigned int
+@@ -204,7 +204,7 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ 	}
+ 
+ 	iter->bi_size -= bytes;
+-	bytes += iter->bi_bvec_done;
++	bytes += iter->bi_offset;
+ 
+ 	while (bytes && bytes >= bv[idx].bv_len) {
+ 		bytes -= bv[idx].bv_len;
+@@ -212,7 +212,7 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ 	}
+ 
+ 	iter->bi_idx = idx;
+-	iter->bi_bvec_done = bytes;
++	iter->bi_offset = bytes;
+ 	return true;
+ }
+ 
+@@ -223,13 +223,13 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ static inline void bvec_iter_advance_single(const struct bio_vec *bv,
+ 				struct bvec_iter *iter, unsigned int bytes)
+ {
+-	unsigned int done = iter->bi_bvec_done + bytes;
++	unsigned int done = iter->bi_offset + bytes;
+ 
+ 	if (done == bv[iter->bi_idx].bv_len) {
+ 		done = 0;
+ 		iter->bi_idx++;
+ 	}
+-	iter->bi_bvec_done = done;
++	iter->bi_offset = done;
+ 	iter->bi_size -= bytes;
+ }
+ 
+diff --git a/io_uring/net.c b/io_uring/net.c
+index a74d15f7b7d2..439c99ad1884 100644
+--- a/io_uring/net.c
++++ b/io_uring/net.c
+@@ -1471,7 +1471,7 @@ static int io_sg_from_iter(struct sk_buff *skb,
+ 		return zerocopy_fill_skb_from_iter(skb, from, length);
+ 
+ 	bi.bi_size = min(from->count, length);
+-	bi.bi_bvec_done = from->iov_offset;
++	bi.bi_offset = from->iov_offset;
+ 	bi.bi_idx = 0;
+ 
+ 	while (bi.bi_size && frag < MAX_SKB_FRAGS) {
+@@ -1490,7 +1490,7 @@ static int io_sg_from_iter(struct sk_buff *skb,
+ 	from->bvec += bi.bi_idx;
+ 	from->nr_segs -= bi.bi_idx;
+ 	from->count -= copied;
+-	from->iov_offset = bi.bi_bvec_done;
++	from->iov_offset = bi.bi_offset;
+ 
+ 	skb->data_len += copied;
+ 	skb->len += copied;
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 34a52e9ba9e1..81e5c5e5121f 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1634,7 +1634,7 @@ static ssize_t iov_iter_extract_bvec_pages(struct iov_iter *i,
+ 	}
+ 	bi.bi_idx = 0;
+ 	bi.bi_size = maxsize;
+-	bi.bi_bvec_done = skip;
++	bi.bi_offset = skip;
+ 
+ 	maxpages = want_pages_array(pages, maxsize, skip, maxpages);
+ 	if (!maxpages)
+diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
+index 34b3097b4c7b..9c1b6cf8c36f 100644
+--- a/net/ceph/messenger.c
++++ b/net/ceph/messenger.c
+@@ -762,7 +762,7 @@ static bool ceph_msg_data_bio_advance(struct ceph_msg_data_cursor *cursor,
+ 	if (!cursor->resid)
+ 		return false;   /* no more data */
+ 
+-	if (!bytes || (it->iter.bi_size && it->iter.bi_bvec_done &&
++	if (!bytes || (it->iter.bi_size && it->iter.bi_offset &&
+ 		       page == bio_iter_page(it->bio, it->iter)))
+ 		return false;	/* more bytes to process in this segment */
+ 
+@@ -817,7 +817,7 @@ static bool ceph_msg_data_bvecs_advance(struct ceph_msg_data_cursor *cursor,
+ 	if (!cursor->resid)
+ 		return false;   /* no more data */
+ 
+-	if (!bytes || (cursor->bvec_iter.bi_bvec_done &&
++	if (!bytes || (cursor->bvec_iter.bi_offset &&
+ 		       page == bvec_iter_page(bvecs, cursor->bvec_iter)))
+ 		return false;	/* more bytes to process in this segment */
+ 
+-- 
+2.54.0
 
