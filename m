@@ -1,105 +1,50 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F0941BA9B;
-	Thu,  6 Aug 2026 08:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E8421228;
+	Thu,  6 Aug 2026 08:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786005668; cv=none; b=s6IOrQfp0bHHV7+O3NuFnFjZ4wyDtf3rsqXt+Pu7R4jHRDL15YSxL1SNRZmrX+D6ma5gOozdg+B9PXiW7e6J4+TDBLJSB45iiJGLfux4CQMjpmMYrdXcqp85MJO67NxwgaTkkjDLe56EytCKhQeiUxD+vOe3+lSq94wc0sgv65U=
+	t=1786006291; cv=none; b=LAcDl+GuMEwXsxkon7GPDCtmvaVoSALIQVULhRZdT4RaTCM7vblVWnIwgM8eNDGDO6dUz7TtPGGvYP/Di19lltuk7TMhL0bn2/mBneAzz7H4+fy3O9kbeY2IKnPQNaw+zSM04oza2QF0h37ZlLhg/kNaWQHMLRXw/6QHBSB0c30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786005668; c=relaxed/simple;
-	bh=26js+M9zWrHNC4a3AjcYSrQ4VRwzJZBtm9+Mxf/tKbk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IgvOQT21fFH9b/0NizdFXz0g6cYQHnP6wYVGqoOG9JLBHoj2w+gBdUz6MzYPOZIL7Fg5U4LUAaUkovPz5H4ZGBmumGlA24J4f84LAOZ17p+O7TtsFdSNWG2RF/T17TrwzKKRUrNp+qt5ggYw7HgMysXbVpTsviZ0/VKuDVTqXHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=TTBSkLer; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1786006291; c=relaxed/simple;
+	bh=UR6Q75kaIoRh0QC3MX6poxK17wa2d1T+dd6T+zwZwC8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pu2BB12own0ekzNV49hVeHKQxxw0IkAUsqBOTrrQlzAARocg2kL9bxijJN2woVV8sv+G89yYVx9w7i8MKXVbR4j2kh/JP93WlSUswIyMbEyk/XlTiX6Yw4/kgkYvIjQTlgjF4iM8midiQ/E9QKuiV+tZPgwhw09V5idAWNxW0Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HpoWAvVR; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="TTBSkLer"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3796C16F2;
-	Thu,  6 Aug 2026 01:41:02 -0700 (PDT)
-Received: from e142334-100.cambridge.arm.com (e142334-100.cambridge.arm.com [10.2.198.93])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7CABF3F632;
-	Thu,  6 Aug 2026 01:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786005666; bh=26js+M9zWrHNC4a3AjcYSrQ4VRwzJZBtm9+Mxf/tKbk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TTBSkLercTTP8PzXx2W54PajQtmr3ocTbHrCDjoVYDyhLdl97U7CcPQ3qilKSBkf9
-	 vIh9ep96aTHrl1x02wMw5yGa/VgSgdxL9PNbjwHpeKiFJfhkPl82/MnNvLvZO9B0+j
-	 c9NuO4Hhw/STBkgcZsI3sprKusZaJGcpuNEKybDo=
-From: Muhammad Usama Anjum <usama.anjum@arm.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HpoWAvVR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=ez
+	9HrIE9e6r7XA5Om/8+sgqbjIrbte6YDzvu6Y22ZFc=; b=HpoWAvVR0XXnuUzMNG
+	Ai0nzVtQ/D29s/CFAdKzoSzEM5WVtKLZE/ukEjpryCHXud8f7fxmS2LyZSgIfaiH
+	5XhQoOeMzoTq2f5v4bXYIVswLnrzXLjyNOLoPmqaaKTmZ3O+B4Lv6s7LWf36H0zK
+	QCDGeGQzKs2ynfSLldF4OzyCo=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDXGqvjSnRqmYLmMA--.78S3;
+	Thu, 06 Aug 2026 16:50:49 +0800 (CST)
+From: Yang Xiuwei <yangxiuwei@kylinos.cn>
+To: Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	David Hildenbrand <david@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	SJ Park <sj@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	ziy@nvidia.com,
-	pfalcato@suse.de,
-	agordeev@linux.ibm.com,
-	ryan.roberts@arm.com
-Cc: Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-kernel@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-parisc@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-mm@kvack.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Mark Harmstone <maharmstone@fb.com>,
+	Qu Wenruo <quwenruo.btrfs@gmx.com>,
+	linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	damon@lists.linux.dev
-Subject: [PATCH 9/9] xen: use hw_pte_t for PTE range callbacks
-Date: Thu,  6 Aug 2026 09:38:47 +0100
-Message-ID: <20260806083926.1807279-10-usama.anjum@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260806083926.1807279-1-usama.anjum@arm.com>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
+	linux-block@vger.kernel.org,
+	Yang Xiuwei <yangxiuwei@kylinos.cn>,
+	Yue Sun <samsun1006219@gmail.com>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH v2 1/7] btrfs: always return -EIOCBQUEUED after btrfs_uring_read_extent_endio
+Date: Thu,  6 Aug 2026 16:50:35 +0800
+Message-Id: <20260806085041.1410576-2-yangxiuwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260806085041.1410576-1-yangxiuwei@kylinos.cn>
+References: <20260806085041.1410576-1-yangxiuwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -107,87 +52,57 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXGqvjSnRqmYLmMA--.78S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF4rCw13KF43JryDAw1xGrg_yoW8Ww4Dpr
+	1DCFy5Gw4DA34vvFWkKa1qgFyfJa1kJa9rXFZYk3y3A3W7tFnIvryIkFyYgr1qqr97CrWY
+	vrWY9ryDu3W7ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UK1v-UUUUU=
+Sender: yangxiuwei2025@163.com
+X-CM-SenderInfo: p1dqw55lxzvxisqskqqrwthudrp/xtbC6QmEFWp0SukrVgAA3x
 
-Generic PTE range and remapping helpers now pass pointers to PTE table
-storage as hw_pte_t *. Update the Xen callbacks to match those interfaces.
+If all bios finish before btrfs_encoded_read_regular_fill_pages()
+returns, it calls btrfs_uring_read_extent_endio() and previously
+returned the I/O status.  A negative errno then made
+btrfs_uring_read_extent() unlock and free while
+btrfs_uring_read_finished() did the same again.
 
-Keep logical PTE values as pte_t and continue to access them through the
-existing PTE helpers. This is required when Xen is built for an
-architecture that selects the distinct hw_pte_t wrapper.
+Return -EIOCBQUEUED so only the deferred path cleans up.
 
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+Reported-by: Yue Sun <samsun1006219@gmail.com>
+Closes: https://lore.kernel.org/linux-btrfs/20260630091609.3414-1-samsun1006219@gmail.com/
+Suggested-by: Jens Axboe <axboe@kernel.dk>
+Fixes: 34310c442e17 ("btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)")
+Signed-off-by: Yang Xiuwei <yangxiuwei@kylinos.cn>
 ---
-Changes since RFC v1:
-- Clarify why the callback conversion is required after architecture
-  opt-in.
----
- drivers/xen/gntdev.c               | 2 +-
- drivers/xen/privcmd.c              | 2 +-
- drivers/xen/xenbus/xenbus_client.c | 2 +-
- drivers/xen/xlate_mmu.c            | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ fs/btrfs/inode.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/xen/gntdev.c b/drivers/xen/gntdev.c
-index 1dcc4675580ed..b013bcad99b5b 100644
---- a/drivers/xen/gntdev.c
-+++ b/drivers/xen/gntdev.c
-@@ -301,7 +301,7 @@ void gntdev_put_map(struct gntdev_priv *priv, struct gntdev_grant_map *map)
+diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+index b446c3014b24..8e3cee3845e6 100644
+--- a/fs/btrfs/inode.c
++++ b/fs/btrfs/inode.c
+@@ -9411,7 +9411,6 @@ int btrfs_encoded_read_regular_fill_pages(struct btrfs_inode *inode,
+ 	struct completion sync_reads;
+ 	unsigned long i = 0;
+ 	struct btrfs_bio *bbio;
+-	int ret;
  
- /* ------------------------------------------------------------------ */
+ 	/*
+ 	 * Fast path for synchronous reads which completes in this call, io_uring
+@@ -9458,10 +9457,10 @@ int btrfs_encoded_read_regular_fill_pages(struct btrfs_inode *inode,
  
--static int find_grant_ptes(pte_t *pte, unsigned long addr, void *data)
-+static int find_grant_ptes(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	struct gntdev_grant_map *map = data;
- 	unsigned int pgnr = (addr - map->pages_vm_start) >> PAGE_SHIFT;
-diff --git a/drivers/xen/privcmd.c b/drivers/xen/privcmd.c
-index 725a49a0eee72..b4a487dcc9ecb 100644
---- a/drivers/xen/privcmd.c
-+++ b/drivers/xen/privcmd.c
-@@ -1658,7 +1658,7 @@ static int privcmd_mmap(struct file *file, struct vm_area_struct *vma)
-  * on a per pfn/pte basis. Mapping calls that fail with ENOENT
-  * can be then retried until success.
-  */
--static int is_mapped_fn(pte_t *pte, unsigned long addr, void *data)
-+static int is_mapped_fn(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	return pte_none(ptep_get(pte)) ? 0 : -EBUSY;
- }
-diff --git a/drivers/xen/xenbus/xenbus_client.c b/drivers/xen/xenbus/xenbus_client.c
-index 27682cb5e58ab..387f97a555594 100644
---- a/drivers/xen/xenbus/xenbus_client.c
-+++ b/drivers/xen/xenbus/xenbus_client.c
-@@ -749,7 +749,7 @@ int xenbus_unmap_ring_vfree(struct xenbus_device *dev, void *vaddr)
- EXPORT_SYMBOL_GPL(xenbus_unmap_ring_vfree);
+ 	if (uring_ctx) {
+ 		if (refcount_dec_and_test(&priv->pending_refs)) {
+-			ret = blk_status_to_errno(READ_ONCE(priv->status));
+-			btrfs_uring_read_extent_endio(uring_ctx, ret);
++			int err = blk_status_to_errno(READ_ONCE(priv->status));
++
++			btrfs_uring_read_extent_endio(uring_ctx, err);
+ 			kfree(priv);
+-			return ret;
+ 		}
  
- #ifdef CONFIG_XEN_PV
--static int map_ring_apply(pte_t *pte, unsigned long addr, void *data)
-+static int map_ring_apply(hw_pte_t *pte, unsigned long addr, void *data)
- {
- 	struct map_ring_valloc *info = data;
- 
-diff --git a/drivers/xen/xlate_mmu.c b/drivers/xen/xlate_mmu.c
-index 8efd7b55223fb..d7244f9f9a545 100644
---- a/drivers/xen/xlate_mmu.c
-+++ b/drivers/xen/xlate_mmu.c
-@@ -93,7 +93,7 @@ static void setup_hparams(unsigned long gfn, void *data)
- 	info->fgfn++;
- }
- 
--static int remap_pte_fn(pte_t *ptep, unsigned long addr, void *data)
-+static int remap_pte_fn(hw_pte_t *ptep, unsigned long addr, void *data)
- {
- 	struct remap_data *info = data;
- 	struct page *page = info->pages[info->index++];
-@@ -269,7 +269,7 @@ struct remap_pfn {
- 	unsigned long i;
- };
- 
--static int remap_pfn_fn(pte_t *ptep, unsigned long addr, void *data)
-+static int remap_pfn_fn(hw_pte_t *ptep, unsigned long addr, void *data)
- {
- 	struct remap_pfn *r = data;
- 	struct page *page = r->pages[r->i];
+ 		return -EIOCBQUEUED;
 -- 
-2.47.3
+2.25.1
 
