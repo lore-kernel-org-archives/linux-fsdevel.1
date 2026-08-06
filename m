@@ -1,534 +1,246 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63D83905E0
-	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 07:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786001718; cv=none; b=KXycWQGer8rR7PTHNk2bzrR09IRjT4qWRkqUb2wEDVv7G+7ktZJeVpaq7xKZgUz6HnclW3SpHyMQVhQwXGSfJNwPGG2bLGPymorAgYx+gT450QvDDZF/UtrvSQf9GDamZvvlHryE1elUsh7tJjhRmG0/nn9CMlbrNTWWXbVN+PM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786001718; c=relaxed/simple;
-	bh=UvzjQOayiHeWhjDv/dRwHXihCuG2Pc62F+H32Xj/R88=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hIUd5S66EPYw27exvPpEZY8rPP+oS6rfznKmU1WilzT9P4/p5B5Omp/GyoagzBSnH4DZHw3M6l0UdFoQe6xs9iYviA8+uzoe7XrxARB6Cbp0TRetKTEGdeUPI03eHomkIc2n+8YEF3Vmo+FZ/+MWZth0bWILQknPbhK/JEL48t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKgpE9AS; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAFB3E9C32;
+	Thu,  6 Aug 2026 08:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.141.245
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786003454; cv=fail; b=DVleOxxcjCtK7FXRsBqI4vVH8hFn0KOE9GsD8H9e6phXcNCEMy81A+q3kNv9yKqhPaENcNJqXmWkm/hohL1byufwnVwaplGOzUqgEaCYAOUsTr7NuQf8d5qZS3vmHMKg+3xfxB3RLglZDtONtvVMQuoHqkXdlXMtUwsQZiyqB+4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786003454; c=relaxed/simple;
+	bh=ROrfI40do/rrpwwUrHiC2mSnMA7SNmEC/glvTY3iMQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AJCUBGzwTEkn8+DiaWUVvxfJTxOV1suOmWImfQ1oVyeCI0H4f1OSUoAPZRfJuLUd39nwB2U8Z/Z2c24bO35x7FXjHtWZWvqjRmqs2SW6JSUmiBb+MEgmFtuxzsNgz2wo2jGQXTPiSIWzuJzgUfzRu7QmcEq4aDD/JldKumlJ08M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=RenxTttm; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=RHXqy2vp; arc=fail smtp.client-ip=68.232.141.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKgpE9AS"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ccf2360620so18608245ad.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 00:35:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="RenxTttm";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="RHXqy2vp"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1786003450; x=1817539450;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ROrfI40do/rrpwwUrHiC2mSnMA7SNmEC/glvTY3iMQg=;
+  b=RenxTttmHWI9o9s2hsUqMN3A1i/rzIqncev9o3NvBFH6yz569v0ak8tr
+   4qrgQJjuL8eyXoLrL+tLN1HSIbNFBJVi8NGfskyyLPf4NPScfhunOPDXj
+   gzpMf77+6qRLPHYqu+HKTymPvg0JwRWhH6CwYWjQ6YpbJKjSX5pE6BAv1
+   FL7HFc4l1GZFCw5rDhECNLao1PxrU8FojD5OIWLzpmplafSJ+Iz7sOYNV
+   C6HYG1n0Z7ekwfTl9yeSeWFUmd9W12gqaJU1f6T6q4zB7d+giKus88TMb
+   v2H5j26lGfrjpcGgU9ruc7X8BDG/793sGdQZk5SHkmsM/2Lcnocbq7rMI
+   Q==;
+X-CSE-ConnectionGUID: rOVhungaQwmZ4J8EA9GtfA==
+X-CSE-MsgGUID: cHL7qiz0RyG67bSRD+BFxA==
+X-IronPort-AV: E=Sophos;i="6.25,208,1779120000"; 
+   d="scan'208";a="152316259"
+Received: from mail-centralusazon11011003.outbound.protection.outlook.com (HELO DM5PR21CU001.outbound.protection.outlook.com) ([52.101.62.3])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Aug 2026 16:04:03 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ckvI1irpB1bmJqmM6iyyRX817uv9U2EdxVoBVGbuASk8xCWaX1Egz4cZlfUISvMMH+q2ovkAVtHeKOSa/BuLJGUz3s6BjjUsTQum9O4JoqAEp64AbcynPi0bQ4dYuIHWhGDYP/bnRIlGICUANdV1SDzwqlkjrvQ9olZ+LQLpS4f493/X1/Z261kK/DP9uZax4RvX7EOGgbUvsDTIKRxS7yt3OGwzjqYzU9tXysW9/5ucmbtPyDtJ/8KkxtRfvEX5zs6FTUn4rgvwnikFRIxvsyZZCIEg2fommEX7e7uutDMkCcCvH1SOFm4s/I9HR5lCalJ3yVyHHWNKoENjjtpsbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gkp1WrvtPYfyewV3GMAWyLZq7ubfwBxr1VMdOV5B7y4=;
+ b=bqE/2AC+A8k1ifWc2hClzGZVyeh00prAZKDcALgSEyryIdiXPJUKmL7yq8AJyzLSa/e5lZyrNPU+3fsFnLi7AjJsL0m9yAH+PDMTO6yKdhQkllt2vdDuHBEeVDXb+ezu0/R/u2jdIHd3+/UXm+Po9C2tt9qp9eF8v1+WL6SnjenwH4BPuopYTJrvwcyvmHnVD1wx86yUrVlFL+1BhAYVtW0G2hbghsMcRL2G1sE4P2CFB4yoEmivCdGTT/SjxTPQpbwyBsSJ2mEcT1azlQFyDjaDy49RGK9ZnsExnpoiEEIEsAyafvtQ1TC3pGKFu9dYcLR8DSvLLe09beSkaIWNPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786001716; x=1786606516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6hHuJMJuPH+Jlz+mz1NnahHp/4c0ubd7NlP2ar9mHVI=;
-        b=nKgpE9ASmuoMwpAppM44ZV3+FnTgdrkXd1rBona02GaIdLTSlgxNSBCCei/FyUxeZu
-         qW9pc8wQAeFpyvTgQ7tuOE1tmf0sFlSHCzL8ZoOBUsiClAc8heYw5qFX+ynOupnb3vgN
-         yDLlDiTLfAo7v99V7yHiii6J+BIp9lQdfrhT1ezFVC/ZYbsQQGILTgJF0GnGbt+XYVtV
-         sLQEUBq+oP2HQHN4N+hGxYfep31wUu0yDZICbu55nYoB9X1SHesxRegKKJSwA1qM0NM9
-         Azaf+fnPKB5iLftBpBkRRyvMC0J+nRdzyP1FDaSMF9UCAm2DPllhFmDITlYkU/BEPjwW
-         2Miw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786001716; x=1786606516;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6hHuJMJuPH+Jlz+mz1NnahHp/4c0ubd7NlP2ar9mHVI=;
-        b=qxGiweQ2A4BemGbNfBCMdZxBiuaU9CPCKsTXI7LtBdLO6CMRV7VeQ12D3IhKondDve
-         oUO0dznUAtec4/J9KMLSoleLnbG5gBSSg3pwtF1v8YgNcVFKgUAFsMZ+yGubAMNDS85C
-         Ujocn0LBsVd6UYqmxZv9RpHQ5cjgm3nOm4al9yjZGjaYxvjMcm0cT4rME2dkSfcplHjD
-         dQK58M9sEVjyxIE2x3jhx+IVJFUu212od7xsGkMhr5oIzGq4AZBiVGyqGhSTyE6E+8I0
-         234jjKD0OyHqom9raiysrOogoOinrK1eMEoCujGxrgby3nhCtH5ikDf2WM5d8tB6HiH6
-         XEfQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq3z7/PstCJebm2eV+aUCxb16pHVrleUcXZRriHivuV+wwh84Lnv28Fg5hVP7j3wesbFPwS5uX07k3QEnuq@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvgM2N5u61885GjsUWVvpPRID8gFTH63r50P7+l6uJc6KnphSU
-	EKguy4SmSaZLdbtaX1uUIIFPEa5ZmY4ZOlDpsVAxTLoKeiKwQZOVCZCD
-X-Gm-Gg: AR+sD13rvHvBfqvSMdeBqiyvBJVjo05zXQkYQKJQkXPt0mMP8cY6CyJ6ycINHTMt163
-	0wTFaYVt651I4eXR/0uyhpBcTYVD82xhFZOsXcSQ3DMaCotIqeEZxVCkrJTGcG844Qs8oKevCeY
-	LT+ZUNfPy9/l5ji54nEOJ/s7ulGChB4IeDIXJmrPQm0HAqF8mRMD07AmnLFwPgyN7knJ9Ibq0g7
-	t6qdMmJS1lIslQxGfnxh6LVKsubs+4RQOTXu+lgpe3rolW3RWOzknTa341KXWg3VO10R8XqJV1X
-	edVM65rJEtlB7KKOSxYNKJ/vvWqDBN6DML8Pz8oc8yuaJAUouqLClLyH6Oj2U7XildKpWcEdHP6
-	XAbMyQC+6uZ8rFUOh92lQXCn4VB7Wj1cyqHBihOP8ly8wGLysY0KcdkBpUhL6sZbQp+yS3p49wv
-	p8TpN0hGEjoW4QiaL0On2duFN5yY1Y0FeP4BSc/LZfAf22MCK6Q58OsqzciNu4hWpygdYX+9U=
-X-Received: by 2002:a17:903:24c:b0:2c2:62ee:5a0d with SMTP id d9443c01a7336-2d0ca783597mr142582565ad.14.1786001715638;
-        Thu, 06 Aug 2026 00:35:15 -0700 (PDT)
-Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0aa4cf714sm26811215ad.67.2026.08.06.00.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 00:35:15 -0700 (PDT)
-From: Jiaming Zhang <r772577952@gmail.com>
-To: slava@dubeyko.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	r772577952@gmail.com,
-	syzkaller@googlegroups.com
-Subject: [PATCH v6] hfsplus: validate B-tree record offset table
-Date: Thu,  6 Aug 2026 15:33:58 +0800
-Message-ID: <20260806073358.1184938-1-r772577952@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <ee23d8f65b44586d6b630bec295fd581a6be1160.camel@dubeyko.com>
-References: <ee23d8f65b44586d6b630bec295fd581a6be1160.camel@dubeyko.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gkp1WrvtPYfyewV3GMAWyLZq7ubfwBxr1VMdOV5B7y4=;
+ b=RHXqy2vpEd9QFaV367OTsOmCFN3k0vpvxd7ffQcJ+cArmeOS/2YYAKe2ltGvKt9oesxBpWlGOeL5ldnNMlhC7qsRqcti/roLCmNrU3yTbx0etJdQJtxS0PvgtSRbpR7MIoqZupiA+TYk+cD6O9Ki7KPcGeSRgrRP7Y+CfUVaRPE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by DS1PR04MB9096.namprd04.prod.outlook.com
+ (2603:10b6:8:1df::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.20; Thu, 6 Aug
+ 2026 08:04:00 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0292.018; Thu, 6 Aug 2026
+ 08:04:00 +0000
+Date: Thu, 6 Aug 2026 17:03:53 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	dm-devel@lists.linux.dev, hch@lst.de, axboe@kernel.dk, brauner@kernel.org, 
+	djwong@kernel.org, viro@zeniv.linux.org.uk, Keith Busch <kbusch@kernel.org>, 
+	stable@vger.kernel.org, Hannes Reinecke <hare@kernel.org>, 0wnerD1ed <l7z@0b1t.tech>
+Subject: Re: [PATCH RESEND 5/5] block: validate user space vectors during
+ extraction
+Message-ID: <anQ-28nxOqBmQjxu@shinmob>
+References: <20260720201057.1862857-1-kbusch@meta.com>
+ <20260720201057.1862857-6-kbusch@meta.com>
+ <anMscoGkR5BYjSGy@shinmob>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anMscoGkR5BYjSGy@shinmob>
+X-ClientProxiedBy: TYCP286CA0170.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::11) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DS1PR04MB9096:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3f48aa6-8830-46c0-8e10-08def39145e6
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|23010399003|366016|376014|7416014|1800799024|6133799003|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	P/N2HL9w28hfKbS799/iVv3npUMdWEnGC3w40uIwJTinsvWDxyCzK+7RhCvCIR+x8ehlsCSPvLl/d/Sadr+PwzeP8L8SMCTaLGg+GNixY55u51ccKWLluJZWQsudkxivSD6UVkUP2N2Nch5OQ6EwrOYatYODee9GZkGby4oalJwZ/NiRvcvkPgOX9xR6bs5LpnTR72VKShafH0pX3PoPzeLRtGAmVpwCf2JR6bJjBImQ8kqdS8DwlXqS22H5Nbl2mzBCrM+xKYItsE7EH/NrUy2MqoS8boLNqVnqYtfsMEInpuEb9KDmMPSrvWO1josQsaKhJnYVZb9dOP3Mfe8pW1dKTOQ2d+DkM5hFMKhh3+cV7ME+HIBjZPkknGpzpCVHYCs2/QRKRCzInXWIFqrhXBauP1jV/wgKzwKSrCL340vEvLBfZFzxR2MIl8yRj9A0pXpAZ58rwGDdx8g11enJIMA2yjPoW+h4/fj+dqXNdUioiUeqRd5YlwTmu+TeMjqgxu38en7GdJg/hOvFdpw40+pFD1JZWtGibfb4I5isWzyeWnTjazXO141vhze1pRHwF4k3mQla3NuSJbKtQk1IRihmh2n92JK0NAlANfDjzEeg/u9qoKtmChfGUzfxO3mssHJffJHS1/Cs2bhkCsn8ireKigTTYjey3xBXU+ZF00A=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(366016)(376014)(7416014)(1800799024)(6133799003)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HHU6ZI7vAUMuWWk5GMqZBM0Jw9CjjnDBJ1pVA9Hb0qpbvlu2xJOlvHnmQ+CL?=
+ =?us-ascii?Q?NMl+LL72DV7XpMXS5TKq2d0Zf0SRf19C09da6wP/+XHjknyqvnislj86NeYY?=
+ =?us-ascii?Q?c1biMSGyOtuM2wipa4ERBaCrHGTZ2ePl+iwYUMSSkt8DVV9pccN/OpJEWHrb?=
+ =?us-ascii?Q?HcCd0IyVIj7OnkQ6lH00B85eznj4MjHiZqFQjTx0aAtwrqUZrEsylPnUaJej?=
+ =?us-ascii?Q?hRxR8hpOug+Zdpdbngx1aeN9YLsug+2oSQ8OXZEQ7opHO7pXrlHQOi2WiWdf?=
+ =?us-ascii?Q?pc9KXKOHHi7qtMw1dWTaP0viyRhjAubANx8XrO+uMI5axskzKFnRXnTZjcPr?=
+ =?us-ascii?Q?rfp6+repVBYIBuRTFzGIg4H80JBoSaKSBz135yXfyatnGHZpJsfqICyI1xoB?=
+ =?us-ascii?Q?cOvIceggmx7bvQ1gmMtGu6vjfgVA/AFVPPK8Xo/Pg8VceBWwQrjsK6D+92Ob?=
+ =?us-ascii?Q?U01D0YQCYsNuPz7tGTbAnCR19rEkpSiqBIsBxNwnoxW2WWn0fnfMiQ5C8YQj?=
+ =?us-ascii?Q?V0U4stxXhir+u15B9a7/STzbkiKgKKirXGO0puhEK24MaoLX2vonySPoK4wo?=
+ =?us-ascii?Q?I6ajchebZjIIW9YktneVScycC+36CX0Be39d2+BueC6uEUwe2R2+q0ExGJaD?=
+ =?us-ascii?Q?TiS2nFX8KLP76jFEEUwA8sYHvIwsa3Zfto68CPM1d6lU5XAJ1xXoE5PgBXKw?=
+ =?us-ascii?Q?rG2PJNJvnVr/tkkRsXVb4FtnogeyqmYCZKha5UixaB4KQ+vUpxv3x+V1stzn?=
+ =?us-ascii?Q?Dmb9fRv/uOQeT0GyMDUyypY/rAfdenfiYJkI8nbOe6qCStU45wxPHIgakS0H?=
+ =?us-ascii?Q?Y2RsLJe649zqtvanBej0MNM+ULgjSJIyu9dwt+XG1cfx5GINoLqSjniGf1n8?=
+ =?us-ascii?Q?k7QvnJ5y5w0irwlL4VO5ofBObyKG4zccXmoKvrChnuPL8naKfuINntLD4ggS?=
+ =?us-ascii?Q?3AzxJc78HF8SmyPRYJSthbm9ETYpP9wS6Qj5bKuk0r+9JxU9f5Mvo3yIKlfh?=
+ =?us-ascii?Q?6AnhDCT0gUQC+je9QW7s3FzIZSMb+9kN/PhB/tWewa9zNiuuXPi5H1LHSLOW?=
+ =?us-ascii?Q?nhxBca/QXfX7AxXXWCzVudGgps3714nRU0feUaGp4k3Zprl+ofZ+9eyrr1Un?=
+ =?us-ascii?Q?d4IEM+JH4CSsnM3KaQQM62thGqyXvX0GU+PDWndgc/0ZKh0XMt5JtHLV9EjH?=
+ =?us-ascii?Q?x4bth+OFUuT1xRcGaAgphIZS/nlzQtvEO8gr0cJvXscSTGHp1gdyxF+ZRiUn?=
+ =?us-ascii?Q?mgTwdUOgZtVNk2WHNMZHdXHstWY7QeKdpcYsL3OzLZIEhsS6j4Er8IewlvcR?=
+ =?us-ascii?Q?RDYg2S1cQnvPouawWo4GIdAUt13lBmVGoE577VAAbAu1592UE2QTwT78cKqA?=
+ =?us-ascii?Q?16IUbX2tA/wd+aKHTnI9onTgmuHihPbtHta93DXRp1KODNqtw3ahPYDy7YiC?=
+ =?us-ascii?Q?5vYapnFvEqgziJEan4FK+hS5HykUlo/QlK4Azju+6EQpYJEM5UQ/F6RNdyzx?=
+ =?us-ascii?Q?fUUn0fFFlmwykgUiOa0f1+T8HCHheel+sXvQjt4dq2dHM34fyOFHMixGX1og?=
+ =?us-ascii?Q?HhUKcmAiaNZJB351eiUeWRNBIVQ7xEbFEdJNme4K2uiTjO9pMRaul8EEOkTy?=
+ =?us-ascii?Q?bTft0jkoagIwgKxCzHCFbcYGlsmyChHmP4vbbvJLS77ds7zCs+55QT05BfnO?=
+ =?us-ascii?Q?VgRDr8/jjJc0YA5xR2k7p6YDydBeKdZiaFBCmvlb8J/M4NYdkKnbDwh22m7z?=
+ =?us-ascii?Q?fGKG5RgjyZHrDFndjrCf4eOt1+QiWMw=3D?=
+X-Exchange-RoutingPolicyChecked:
+	O7ZAzqV6Jq3106eNKe5mGTAUv1ou+/kp3hSdQiMjPnWi3Q17eJkH314iV9Bg3PnmXbvxs5TspaaiKBlH+JQX3gJnwpj9LJvIzecexm0CS93+zueOYC51uoByLG3aw/8TPtBV8VLHg+UERcolBhWK6a3joUgiEP1dC8a4Rn4uLUXrI3RRa0kUYJ4iAnxp5bxoIBIw6j2JAJUMnweWhxWKdopl4VSziQnZtEQLwrUmvtuAULz1My/NbcO35NmfiMHvrkBRPlqprhoGT8Gu2QlRykbx7zcgaLWKNiAsqpJW7YCiGgTT1NWQxB7BqaK1/OIl28RSoKPBJ3VIvfH6C7Nhiw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	lraHDGijr08mm6EXYiB1yFwWbhknxVqquarq9N3MnNgEolLxrusw97nzUSrdAK43IsDnVNbxFpQULyLqIdTPzOiCgun5BkTzTwiM4ORoFOVab6BOdzt2MlihpW3GdTv2XESYK1jL8416Dw3dvmTzf1fJF1+4EK5wockkGIdp/W4QIoPiXUHwoMn9ebyevnVvgj6F0+4aVkQJhi1qHKNGoOJbPbrUyrVhYLhmr+jaeSthfocZUwHQf2i5O4wOFYz9Fc66sRwdjjo6/bxpaqy2qMV4Dtt51swnrSlqN20zT7T0HmwszVPOBt4wJ+KYXQr3Qj6sPrz5jte5l6D3uTi+ZeryB+1RIpn8UzEPLVUX5VqB64zWM4a1QN7sNsCpy58g6E8b8j/1+WBfrJqr2HVO5QMcM3+pPNKCb487JlKzYPCvplIp0e2QRXIbyDGYwe2sdoxdEk1ke8YvXQ0Vcm1Tr3RZGjdJkxRMha0PUYqLn6hEda1Ac1HINCLLvzqWLj1q4Jq7cqZkrMgftu1iePFl2f9zyXbOoAeLVhinbBgE7UY+h9mKht/gAp+s54ikYwadkJ23Jv83mOntduw1xbzj+wBcwutUYIahstOK9B/SJdTaWk0GEnI5WLzsii/umusL
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3f48aa6-8830-46c0-8e10-08def39145e6
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 08:04:00.3948
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nwxZtXyW550yTRFwO390nnbtnp6yyp8q+basO1WOa6C0AV+p2FYJTflbQeJ9KmHwWdoBjw5eQn5MZk1IjcN9dgalfN5mo5OOlFbIq6RS/so=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR04MB9096
 
-A crafted HFS+ image can contain a corrupted B-tree node. The node
-descriptor may contain a record count that does not fit in the node, and
-record offsets may be unordered, unaligned, outside the node, or point into
-the offset table itself.
+On Aug 05, 2026 / 21:46, Shin'ichiro Kawasaki wrote:
+> Cc+: 0wnerD1ed
+> 
+> On Jul 20, 2026 / 13:10, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > The bio-based drivers don't necessarily check the alignment split, and
+> > stacking block drivers don't always handle a misalignment detected after
+> > submitting the bio. Validate user vectors against the device's
+> > dma_alignment as the bio is built from the iov_iter, rejecting
+> > misaligned early with -EINVAL.
+> 
+> Recently, the new test case block/045 was added to blkests through a GitHub PR
+> [1]. The test case passes with the Linux master branch tags v7.2-rcX. Today, I
+> found that it fails with block/for-next branch tip [2]. I bisected and found
+> that this patch triggers the failure.
+> 
+> 0wnerDied, Keith, may I ask your help to resolve the failure? I'm guessing
+> the test case needs to care device's dma alignment, but not so sure.
 
-Several B-tree helpers consume these on-disk fields before validating them:
-hfs_bnode_dump() can walk past the offset table when num_recs is corrupted,
-hfs_brec_lenoff() can produce an underflowed length or a record range that
-overlaps the offset table. This can make the unlink/writeback path
-repeatedly call hfs_bnode_read_u16() with invalid offsets while holding the
-HFS+ B-tree lock, producing a flood of "requested invalid offset" messages.
-Other writeback workers then block on tree->tree_lock and the system
-reports tasks hung in hfsplus_write_inode().
+I took a closer look. I modified the test case to respect the dma alignment [*],
+and now the test case passes. This approach looks working. Will post the change
+as a formal patch for review.
 
-Validate num_recs against the node size before walking the record offset
-table. Reject record ranges that are unordered, unaligned, outside the
-node, or overlapping the offset table. Reject invalid record indexes before
-reading their offset entries, and avoid decrementing an already-zero
-leaf_count.
+[*] fix trial patch for blktests
 
-Closes: https://lore.kernel.org/lkml/CANypQFb_2TqKGrztAXj5m0_v+QChxXDnQVeifzV8J25Vuju10Q@mail.gmail.com/
-Assisted-by: Codex:gpt-5.5-xhigh
-Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
----
-Changes in v6:
-- hfs_bmap_free(): Drop offset checks and print error message when B-tree
-  map record length is invalid.
-
-Changes in v5:
-- Switch helpers to invalid checker and invert callers.
-- hfs_brec_offsets_invalid(): Drop the redundant offset-table argument
-  since it is already covered by the offset-table overlap check and take
-  just the two neighboring record offsets (off and next_off).
-- hfs_brec_len_invalid(): reject a length against node_size.
-- Use hfs_brec_len_invalid() for both length checks in hfs_bmap_get_map_page().
-- Validate the record offset in hfs_bmap_free().
-- Check the __hfs_brec_find() return code in [2] and [3]. [1] and [4] call
-  it to find the insertion slot for a new index key after a split, -ENOENT is
-  one of expected, even -EINVAL the following hfs_brec_insert() just inserts
-  at slot 0 of a node already validated by hfs_bnode_find(), so it stays
-  in-bounds and cannot trigger the invalid-offset flood. Hence no check was
-  added.
-
-[1] https://elixir.bootlin.com/linux/v7.2-rc3/source/fs/hfsplus/brec.c#L160
-[2] https://elixir.bootlin.com/linux/v7.2-rc3/source/fs/hfsplus/brec.c#L208
-[3] https://elixir.bootlin.com/linux/v7.2-rc3/source/fs/hfsplus/brec.c#L382
-[4] https://elixir.bootlin.com/linux/v7.2-rc3/source/fs/hfsplus/brec.c#L449
-
-Changes in v4:
-- Rename hfs_find_reset() to hfs_find_result_init().
-- Reset find result fields in __hfs_brec_find().
-- Move num_recs validation next to descriptor field initialization.
-- Rename hfs_brec_range_valid() to hfs_brec_offpair_valid().
-- Use U16_MAX for invalid offset/len/keylen sentinels and update callers.
-- Add hfs_brec_len_valid() to check validity of len/keylen.
-- Handle invalid B-tree map record lengths in hfs_bmap_get_map_page()
-  and hfs_bmap_free().
-- Return -EINVAL instead of -EIO for invalid remove cursor/leaf_count state.
-
-Changes in v3:
-- Drop the keylen == len check.
-- Drop the explicit zero-record check in __hfs_brec_find().
-- Move find cursor reset into hfs_find_reset() and call it from hfs_find_init() and hfs_brec_find().
-- Rename helper-local variables as suggested.
-
- fs/hfsplus/bfind.c      | 23 ++++++------
- fs/hfsplus/bnode.c      | 16 ++++++---
- fs/hfsplus/brec.c       | 53 ++++++++++++++++++---------
- fs/hfsplus/btree.c      | 16 +++++++--
- fs/hfsplus/hfsplus_fs.h | 79 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 155 insertions(+), 32 deletions(-)
-
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index 9a55fa6d5294..ca9813f58a6d 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -18,6 +18,7 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+diff --git a/src/bio-full-trim.c b/src/bio-full-trim.c
+index e304b2c..7cea3f9 100644
+--- a/src/bio-full-trim.c
++++ b/src/bio-full-trim.c
+@@ -12,20 +12,38 @@
+ #include <sys/mman.h>
+ #include <unistd.h>
  
- 	fd->tree = tree;
- 	fd->bnode = NULL;
-+	hfs_find_result_init(fd);
- 	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
- 	if (!ptr)
- 		return -ENOMEM;
-@@ -106,17 +107,21 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	u16 off, len, keylen;
- 	int rec;
- 	int b, e;
--	int res;
-+	int res = -ENOENT;
- 
- 	BUG_ON(!rec_found);
-+	hfs_find_result_init(fd);
-+	if (hfs_bnode_num_recs_invalid(bnode))
-+		goto fail;
++int msb(unsigned int v)
++{
++	unsigned int b = 0;
 +
- 	b = 0;
- 	e = bnode->num_recs - 1;
--	res = -ENOENT;
- 	do {
- 		rec = (e + b) / 2;
- 		len = hfs_brec_lenoff(bnode, rec, &off);
- 		keylen = hfs_brec_keylen(bnode, rec);
--		if (keylen == 0) {
-+		if (hfs_brec_len_invalid(bnode, len) ||
-+		    hfs_brec_len_invalid(bnode, keylen)) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -130,7 +135,8 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	if (rec != e && e >= 0) {
- 		len = hfs_brec_lenoff(bnode, e, &off);
- 		keylen = hfs_brec_keylen(bnode, e);
--		if (keylen == 0) {
-+		if (hfs_brec_len_invalid(bnode, keylen) ||
-+		    hfs_brec_len_invalid(bnode, len)) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -158,11 +164,7 @@ int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare)
- 	__be32 data;
- 	int height, res;
- 
--	fd->record = -1;
--	fd->keyoffset = -1;
--	fd->keylength = -1;
--	fd->entryoffset = -1;
--	fd->entrylength = -1;
-+	hfs_find_result_init(fd);
- 
- 	tree = fd->tree;
- 	if (fd->bnode)
-@@ -274,7 +276,8 @@ int hfs_brec_goto(struct hfs_find_data *fd, int cnt)
- 
- 	len = hfs_brec_lenoff(bnode, fd->record, &off);
- 	keylen = hfs_brec_keylen(bnode, fd->record);
--	if (keylen == 0) {
-+	if (hfs_brec_len_invalid(bnode, len) ||
-+	    hfs_brec_len_invalid(bnode, keylen)) {
- 		res = -EINVAL;
- 		goto out;
- 	}
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index d088fb7eb0df..3a1a1fa6f2e2 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
- 	struct hfs_bnode_desc desc;
- 	__be32 cnid;
- 	int i, off, key_off;
-+	u16 num_recs;
- 
- 	hfs_dbg("node %d\n", node->this);
- 	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-+	num_recs = node->num_recs;
- 	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs %d\n",
- 		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
- 		desc.type, desc.height, be16_to_cpu(desc.num_recs));
- 
-+	if (hfs_bnode_num_recs_invalid(node)) {
-+		hfs_dbg("invalid num_recs %u\n", num_recs);
-+		return;
-+	}
++	while (v >>= 1)
++		b++;
 +
- 	off = node->tree->node_size - 2;
--	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
-+	for (i = num_recs; i >= 0; off -= 2, i--) {
- 		key_off = hfs_bnode_read_u16(node, off);
- 		hfs_dbg(" key_off %d", key_off);
- 		if (i && node->type == HFS_NODE_INDEX) {
-@@ -561,6 +568,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 	node->height = desc->height;
- 	kunmap_local(desc);
- 
-+	if (hfs_bnode_num_recs_invalid(node))
-+		goto node_error;
++	return b;
++}
 +
- 	switch (node->type) {
- 	case HFS_NODE_HEADER:
- 	case HFS_NODE_MAP:
-@@ -586,9 +596,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 	for (i = 1; i <= node->num_recs; off = next_off, i++) {
- 		rec_off -= 2;
- 		next_off = hfs_bnode_read_u16(node, rec_off);
--		if (next_off <= off ||
--		    next_off > tree->node_size ||
--		    next_off & 1)
-+		if (hfs_brec_offsets_invalid(node, off, next_off))
- 			goto node_error;
- 		entry_size = next_off - off;
- 		if (node->type != HFS_NODE_INDEX &&
-diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-index e3df89284079..f416e562d439 100644
---- a/fs/hfsplus/brec.c
-+++ b/fs/hfsplus/brec.c
-@@ -9,6 +9,8 @@
-  * Handle individual btree records
-  */
- 
-+#include <linux/limits.h>
-+
- #include "hfsplus_fs.h"
- #include "hfsplus_raw.h"
- 
-@@ -20,41 +22,49 @@ static int hfs_btree_inc_height(struct hfs_btree *);
- u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
+ int main(int argc, char **argv)
  {
- 	__be16 retval[2];
--	u16 dataoff;
-+	u16 data_off;
-+	u16 next_off;
-+
-+	if (hfs_brec_record_invalid(node, rec)) {
-+		*off = U16_MAX;
-+		return U16_MAX;
-+	}
+ 	unsigned int block_size;
+ 	unsigned char *p;
+ 	long page_size;
++	unsigned int dma_alignment;
++	unsigned int dma_aligned_offset;
+ 	ssize_t ret;
+ 	int fd;
  
--	dataoff = node->tree->node_size - (rec + 2) * 2;
--	hfs_bnode_read(node, retval, dataoff, 4);
-+	data_off = node->tree->node_size - (rec + 2) * 2;
-+	hfs_bnode_read(node, retval, data_off, 4);
- 	*off = be16_to_cpu(retval[1]);
--	return be16_to_cpu(retval[0]) - *off;
-+	next_off = be16_to_cpu(retval[0]);
-+	if (hfs_brec_offsets_invalid(node, *off, next_off)) {
-+		*off = U16_MAX;
-+		return U16_MAX;
-+	}
-+	return next_off - *off;
- }
+-	if (argc != 2)
++	if (argc != 3)
+ 		return EXIT_FAILURE;
++
+ 	page_size = sysconf(_SC_PAGESIZE);
+ 	if (page_size <= 0)
+ 		errx(EXIT_FAILURE, "invalid page size");
  
- /* Get the length of the key from a keyed record */
- u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
- {
--	u16 retval, recoff;
-+	u16 retval, recoff, len;
++	dma_alignment = atoi(argv[2]);
++	dma_aligned_offset = 1 << (msb(dma_alignment) + 1);
++	if (dma_aligned_offset >= page_size)
++		err(EXIT_FAILURE, "unexpected dma_alignment");
++
+ 	fd = open(argv[1], O_RDONLY | O_DIRECT);
+ 	if (fd < 0)
+ 		err(EXIT_FAILURE, "open %s", argv[1]);
+@@ -40,7 +58,7 @@ int main(int argc, char **argv)
+ 		err(EXIT_FAILURE, "mprotect");
  
- 	if (node->type != HFS_NODE_INDEX && node->type != HFS_NODE_LEAF)
- 		return 0;
-+	if (hfs_brec_record_invalid(node, rec))
-+		return U16_MAX;
+ 	errno = 0;
+-	ret = pread(fd, p + page_size - 1, block_size, 0);
++	ret = pread(fd, p + page_size - dma_aligned_offset, block_size, 0);
+ 	if (ret == -1 && errno == EFAULT)
+ 		return EXIT_SUCCESS;
+ 	errx(EXIT_FAILURE, "pread returned %zd (errno %d)", ret, errno);
+diff --git a/tests/block/045 b/tests/block/045
+index 65bfcb9..6e112b6 100755
+--- a/tests/block/045
++++ b/tests/block/045
+@@ -25,7 +25,8 @@ test() {
+ 		return 1
+ 	fi
  
- 	if ((node->type == HFS_NODE_INDEX) &&
- 	   !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
- 	   (node->tree->cnid != HFSPLUS_ATTR_CNID)) {
- 		retval = node->tree->max_key_len + 2;
- 	} else {
--		recoff = hfs_bnode_read_u16(node,
--			node->tree->node_size - (rec + 1) * 2);
--		if (!recoff)
--			return 0;
--		if (recoff > node->tree->node_size - 2) {
--			pr_err("recoff %d too large\n", recoff);
--			return 0;
--		}
-+		len = hfs_brec_lenoff(node, rec, &recoff);
-+		if (hfs_brec_len_invalid(node, len))
-+			return len;
+-	if ! src/bio-full-trim /dev/nullb1; then
++	if ! src/bio-full-trim /dev/nullb1 \
++	     $(< /sys/block/nullb1/queue/dma_alignment); then
+ 		echo "bio-full-trim helper failed"
+ 	fi
  
- 		retval = hfs_bnode_read_u16(node, recoff) + 2;
- 		if (retval > node->tree->max_key_len + 2) {
- 			pr_err("keylen %d too large\n",
- 				retval);
--			retval = 0;
-+			retval = U16_MAX;
- 		}
- 	}
- 	return retval;
-@@ -181,14 +191,20 @@ int hfs_brec_remove(struct hfs_find_data *fd)
- 	struct hfs_btree *tree;
- 	struct hfs_bnode *node, *parent;
- 	int end_off, rec_off, data_off, size;
-+	int res;
- 
- 	tree = fd->tree;
- 	node = fd->bnode;
- again:
-+	if (hfs_brec_record_invalid(node, fd->record))
-+		return -EINVAL;
-+
- 	rec_off = tree->node_size - (fd->record + 2) * 2;
- 	end_off = tree->node_size - (node->num_recs + 1) * 2;
- 
- 	if (node->type == HFS_NODE_LEAF) {
-+		if (tree->leaf_count == 0)
-+			return -EINVAL;
- 		tree->leaf_count--;
- 		mark_inode_dirty(tree->inode);
- 	}
-@@ -205,7 +221,9 @@ int hfs_brec_remove(struct hfs_find_data *fd)
- 		hfs_bnode_put(node);
- 		node = fd->bnode = parent;
- 
--		__hfs_brec_find(node, fd, hfs_find_rec_by_key);
-+		res = __hfs_brec_find(node, fd, hfs_find_rec_by_key);
-+		if (res && res != -ENOENT)
-+			return res;
- 		goto again;
- 	}
- 	hfs_bnode_write_u16(node,
-@@ -368,6 +386,7 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
- 	int newkeylen, diff;
- 	int rec, rec_off, end_rec_off;
- 	int start_off, end_off;
-+	int res;
- 
- 	tree = fd->tree;
- 	node = fd->bnode;
-@@ -379,7 +398,9 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
- 	parent = hfs_bnode_find(tree, node->parent);
- 	if (IS_ERR(parent))
- 		return PTR_ERR(parent);
--	__hfs_brec_find(parent, fd, hfs_find_rec_by_key);
-+	res = __hfs_brec_find(parent, fd, hfs_find_rec_by_key);
-+	if (res && res != -ENOENT)
-+		return res;
- 	if (fd->record < 0)
- 		return -ENOENT;
- 	hfs_bnode_dump(parent);
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index 394542a47e60..2ea8cd5658e1 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -168,8 +168,8 @@ static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
- 	}
- 
- 	ctx->len = hfs_brec_lenoff(node, rec_idx, &off16);
--	if (!ctx->len)
--		return ERR_PTR(-ENOENT);
-+	if (hfs_brec_len_invalid(node, ctx->len))
-+		return ERR_PTR(-EINVAL);
- 
- 	if (!is_bnode_offset_valid(node, off16))
- 		return ERR_PTR(-EIO);
-@@ -622,6 +622,12 @@ void hfs_bmap_free(struct hfs_bnode *node)
- 	if (IS_ERR(node))
- 		return;
- 	len = hfs_brec_lenoff(node, 2, &off);
-+	if (hfs_brec_len_invalid(node, len)) {
-+		pr_err("invalid bmap record length: node %u, len %u\n",
-+		       node->this, len);
-+		hfs_bnode_put(node);
-+		return;
-+	}
- 	while (nidx >= len * 8) {
- 		u32 i;
- 
-@@ -648,6 +654,12 @@ void hfs_bmap_free(struct hfs_bnode *node)
- 			return;
- 		}
- 		len = hfs_brec_lenoff(node, 0, &off);
-+		if (hfs_brec_len_invalid(node, len)) {
-+			pr_err("invalid bmap record length: node %u, len %u\n",
-+			       node->this, len);
-+			hfs_bnode_put(node);
-+			return;
-+		}
- 	}
- 
- 	res = hfs_bmap_clear_bit(node, nidx);
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index ec04b82ad927..90fcf1eac913 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -587,6 +587,85 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
- 	return is_valid;
- }
- 
-+static inline
-+bool hfs_bnode_num_recs_invalid(struct hfs_bnode *node)
-+{
-+	u32 node_size;
-+	u32 table_size;
-+	u32 area_size;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return true;
-+
-+	node_size = node->tree->node_size;
-+	if (node_size < desc_size)
-+		return true;
-+
-+	area_size = node_size - desc_size;
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+
-+	return table_size > area_size;
-+}
-+
-+static inline
-+bool hfs_brec_record_invalid(struct hfs_bnode *node, int record)
-+{
-+	if (hfs_bnode_num_recs_invalid(node))
-+		return true;
-+	if (record < 0)
-+		return true;
-+
-+	return record >= node->num_recs;
-+}
-+
-+static inline
-+bool hfs_brec_offsets_invalid(struct hfs_bnode *node, u16 off, u16 next_off)
-+{
-+	u32 table_size;
-+	u32 table_start;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return true;
-+
-+	if (off < desc_size || (off & 1))
-+		return true;
-+
-+	if (next_off <= off ||
-+	    next_off > node->tree->node_size ||
-+	    (next_off & 1))
-+		return true;
-+
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+	table_start = node->tree->node_size - table_size;
-+	if (next_off > table_start)
-+		return true;
-+
-+	return false;
-+}
-+
-+static inline
-+bool hfs_brec_len_invalid(struct hfs_bnode *node, u16 len)
-+{
-+	if (!node || !node->tree)
-+		return true;
-+
-+	return len == 0 || len > node->tree->node_size;
-+}
-+
-+static inline
-+void hfs_find_result_init(struct hfs_find_data *fd)
-+{
-+	fd->record = -1;
-+	fd->keyoffset = -1;
-+	fd->keylength = -1;
-+	fd->entryoffset = -1;
-+	fd->entrylength = -1;
-+}
-+
- static inline
- u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
- {
 -- 
-2.43.0
+2.55.0
+
