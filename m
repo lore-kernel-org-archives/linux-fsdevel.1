@@ -1,362 +1,215 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC2371D1E;
-	Thu,  6 Aug 2026 13:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C0322B8F;
+	Thu,  6 Aug 2026 14:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786023408; cv=none; b=ITfXSxrbcM1Qb9nwAZ/sdWranN9DUYDkbAgYwpmIz0wMHgUKdD8K9PRkwUb8u83Hq7e2/JZIpmxYEh5iaZS/vGTeMbr6zz5z3rV0R67ebr+v6oeIZz3Owc0sgsB8KUBMNA2PQeSUTTJsXBZW5xTYWRJOaOJSvqHlZC3s+KOwwNc=
+	t=1786024928; cv=none; b=apJJ7j+nwsaItWIy6QZH9uWD0wComDTM8lnPQFvj2WRD89xtXPxN+GVCTTuYXKGcvIPAJBleSo2C50IZp52eAugPD0Z2+khYMr8QMn4mcDymfR6ZUEkFg+9N3dNCJt3ezYfVdnS6JV4yYsgbUxoMmDxIdqT9HCu3scG0zp7tZRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786023408; c=relaxed/simple;
-	bh=1jilKzxFY+yt4QHXYapG9VrqSYnTTieJrea1TD9oyFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eNRxETmTXAiA5w2c7V3GHOafvxIGLXLkwi0v87enDz+GsaH6CwScFghvOF+SSI3B/Ol4gNcmj4WYEuVv9SuXuCutcDlM5tLqtg1ek/cKHaWuwiClbMG7kPA8o/Vq3f63wu/Cn5pXXcmuWVCCMxQZRVINMdF9KcjfFNKAZqvVYso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 625D340769;
-	Thu,  6 Aug 2026 13:36:37 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id D18892002A;
-	Thu,  6 Aug 2026 13:36:20 +0000 (UTC)
-Date: Thu, 6 Aug 2026 08:36:19 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 03/12] famfs: Add daxdev table and dax notify_failure
- support
-Message-ID: <anSLGYPHAw6OjXo_@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022839.75794-1-john@jagalactic.com>
- <0100019fc573c7cd-d37cbc1c-7687-4b05-99e7-7d3624087b98-000000@email.amazonses.com>
- <20260806050527.GC3560084@frogsfrogsfrogs>
+	s=arc-20240116; t=1786024928; c=relaxed/simple;
+	bh=7uikDqcUSON7uqNGM7h37lnEznB8FDrnFTV8wbSCGVo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HAYaG7ntA+nbyKKod600Kjfme+yaHLxXOorF+3AtSblGD3rWTC9ZkIUnSBstW6lYFfsIHvNdlLAHrSlEvKZQAMBYqmODSHCXJf58o9zz0UjhMvjg98Zh8DsYu1qud02eynsRUAnbTlc+Dx5S3J/kPusm1rOqjsLEzUljESNYsvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3mH/ZAJ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3mH/ZAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5371F000E9;
+	Thu,  6 Aug 2026 14:01:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786024927;
+	bh=sj8CY+ONiryU5APtwGc/YgR+xr5XRUh8Uhoc/B/yfJM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=G3mH/ZAJKCJgwvR/WrgftIJm0005B7WQFMvcWeCYDpwdVnLh7nNFwwWciAmB/E4Fc
+	 cvegeZcVis1f2q0QFmnlkIOgrIdHYQTUs3lBuIaFyetIg23BXmPc5dFGbcAssiZGOn
+	 9uaI9TV/EPRa9wHchr/EtZYg+s5birOeVhMfpVny0x7NFRC6TP9NbPV9rFFu3WZ86e
+	 SRArRbZedRs8ijk1OKnZQTg5Boe7IQVsAlpcgmM6tEZr8wmQipGDbpBuXvTEcuVard
+	 57/TDa5Wnq/eqrkTTHDUCrOMNmdtgmWwvrkaoY+stU6YUTGAAM9mLz0B7/1hYlhwFk
+	 wcKf4BErxoW+w==
+Message-ID: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
+Date: Thu, 6 Aug 2026 16:01:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806050527.GC3560084@frogsfrogsfrogs>
-X-Rspamd-Queue-Id: D18892002A
-X-Stat-Signature: 98okigfjbtq8fsq47gg46t9mt68bby4b
-X-Rspamd-Server: rspamout07
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX18rCJ03bEiGaIW33HDQgfAKKDy6499XHo0=
-X-HE-Tag: 1786023380-59630
-X-HE-Meta: U2FsdGVkX19PYkvTOYROG/8Csf4/oSvpmL3bJl7etF2c8GvfIDrKF0z+yxEFdxMDToAteXhLyQenqvZZGd0DHv3E1mBEedBKi+yestjeDyStwZa5WJ4y3lJSqA5k+ZWAIFd7AwBKOpg99GojX8WIwQQ5bLTxwmkMMnGTg1DDAi+sylT7/dYe5L8BfNEAmsel63LR9ZvAoifYC0GMEA8tGa5DBeDY7ykaNxmaELUGQqrZ8zNbrkPATIa63pYHvmJzfqw1ELrGSJNpiylo6A3qIanXQvxyHPBOTwRRNCugK4iEkvh8ITT91u7+Cbi9cQ4eNPAC+kW/+RkthBxoAVa9DJGWBzMrw5JIYOkMVE3Q4/TZOESBOUuGaw265W+eq95E
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit
+ files before dumping
+To: Xin Zhao <jackzxcui1989@163.com>, brauner@kernel.org, ljs@kernel.org,
+ rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk, corbet@lwn.net,
+ skhan@linuxfoundation.org, akpm@linux-foundation.org, liam@infradead.org,
+ vbabka@kernel.org, surenb@google.com, mhocko@suse.com, mingo@redhat.com,
+ peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ mjguzik@gmail.com, ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
+ chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
+ keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
+ allen.lkml@gmail.com
+Cc: kuba@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20260804001703.1340667-1-jackzxcui1989@163.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260804001703.1340667-1-jackzxcui1989@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Quick heads-up: my email provider may rate-limit me before 
-I'm done responding to this thread, since there are a *lot* of 
-recipients. But hopefully not...
-
-On 26/08/05 10:05PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:28:47AM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > Famfs file systems can span multiple dax devices, and daxdevs are stored
-> > in the daxdev_table. This adds the basic table structure, primtives and
-> > serialization code. Famfs file extents reference daxdevs by index, which
-> > is a cluster invariant maintained by user space.
-> > 
-> > We also add dax_holder_operations and a notify_failure handler, which
-> > is necessary to properly "open" a famfs-mode daxdev.
+On 8/4/26 02:17, Xin Zhao wrote:
+> A coredump typically takes seconds or even longer to complete. If we
+> happen to hold a write lock with flock just before triggering the
+> coredump, that write lock will not be released during the entire coredump
+> process. As a result, other processes attempting to acquire the same write
+> lock may experience significant delays. Another typical scenario is that
+> some custom management modules for shared memory also need to release the
+> reference counts of the related buffers as soon as possible, rather than
+> waiting until the coredump is complete.
 > 
-> So you have to "mount /dev/somedaxthing0 /mnt" but you can then add more
-> dax devices later through some ioctl?
-
-The primary daxdev is in the mount command line. Secondaries are added
-via the famfs metadata log (their superblocks know the uuid of the primary,
-and the primary finds the secondaries via those log entries).
-
-In-memory metadata references daxdevs by their index, which is their order
-of appearance in the metadata log (with the primary being index=0).
-
-Theoretically they could be added at any time, but the normal case is they
-get added as a "last" step of mkfs.famfs.
-
-Also, in a later message you asked if daxdevs could be passed in by file
-descriptor rather than by path. Yes they could, and I did that in the most
-recent famfs_fuse patch series, but then I'd have two different methods of 
-"opening" them, which seemed worth avoiding. (Because mount is by dev path).
-
+> Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
+> We set it by default because tools like systemd-coredump go through the
+> fds. Some other coredump pipe programs like minicoredump do not use fds by
+> default. If you are sure that your coredump backend does not use the fds,
+> you can clear bit 9, which will allow some file resources without VMA
+> references to be released earlier.
 > 
-> Can you remove daxdevs?  (I gather not...)
-
-Daxdevs can't be removed - you just blow away the whole fs and start over.
-
+> In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
+> otherwise file put operation will NOT execute util coredump finish.
 > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/famfs/famfs_inode.c    | 234 ++++++++++++++++++++++++++++++++++++++
-> >  fs/famfs/famfs_internal.h |  46 ++++++++
-> >  2 files changed, 280 insertions(+)
-> > 
-> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index c299a90912a5..ad71e5e7a8e3 100644
-> > --- a/fs/famfs/famfs_inode.c
-> > +++ b/fs/famfs/famfs_inode.c
-> > @@ -75,6 +75,225 @@ static struct inode *famfs_get_inode(
-> >  /*
-> >   * famfs dax_operations (for famfs-mode dax)
-> >   */
-> > +static void famfs_set_daxdev_err(struct famfs_fs_info *fsi,
-> > +				 struct dax_device *dax_devp);
-> > +
-> > +static int
-> > +famfs_dax_notify_failure(
-> > +		struct dax_device *dax_dev, u64 offset,
-> > +		u64 len, int mf_flags)
-> > +{
-> > +	struct super_block *sb = dax_holder(dax_dev);
-> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> > +
-> > +	pr_err("%s: offset=%lld len=%llu flags=%x\n", __func__,
-> > +	       offset, len, mf_flags);
-> > +
-> > +	/*
-> > +	 * Record the error on the specific daxdev and, near-term, shut the
-> > +	 * mount down: famfs_set_daxdev_err() also sets fsi->deverror so
-> > +	 * subsequent famfs operations fail. The resolver's per-daxdev
-> > +	 * famfs_dax_err() check remains and can make this finer later.
-> > +	 */
-> > +	famfs_set_daxdev_err(fsi, dax_dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct dax_holder_operations famfs_dax_holder_ops = {
-> > +	.notify_failure		= famfs_dax_notify_failure,
-> > +};
-> > +
-> > +/*
-> > + * Allocate the daxdev table on first use (idempotent via cmpxchg).
-> > + */
-> > +int famfs_devlist_alloc(struct famfs_fs_info *fsi)
-> > +{
-> > +	struct famfs_dax_devlist *devlist;
-> > +
-> > +	if (fsi->dax_devlist)
-> > +		return 0;
-> > +
-> > +	devlist = kcalloc(1, sizeof(*devlist), GFP_KERNEL);
-> > +	if (!devlist)
-> > +		return -ENOMEM;
-> > +
-> > +	devlist->nslots = FAMFS_MAX_DAXDEVS;
-> > +	devlist->devlist = kcalloc(FAMFS_MAX_DAXDEVS, sizeof(struct famfs_daxdev),
-> > +				   GFP_KERNEL);
-> > +	if (!devlist->devlist) {
-> > +		kfree(devlist);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	/* If another thread allocated it first, drop ours */
-> > +	if (cmpxchg(&fsi->dax_devlist, NULL, devlist) != NULL) {
-> > +		kfree(devlist->devlist);
-> > +		kfree(devlist);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * famfs_install_daxdev() - exclusively acquire a resolved daxdev and publish
-> > + * it in the table at @index. Slot 0 is the mount primary; slots 1..n come from
-> > + * the daxdev-open ioctl.
-> > + *
-> > + * Serializes with concurrent installers under devlist_sem and rechecks
-> > + * ->valid, so re-registering an already-installed slot is idempotent. A daxdev
-> > + * is entered in the table only once it has been exclusively acquired via
-> > + * fs_dax_get() (with the super_block as the holder); on failure the
-> > + * dax_dev_find() reference is released and the slot is left invalid. @name may
-> > + * be NULL (the ioctl path passes no pathname).
-> > + */
-> > +int famfs_install_daxdev(
-> > +		struct famfs_fs_info *fsi,
-> > +		struct super_block *sb,
-> > +		u64 index,
-> > +		dev_t devno,
-> > +		const char *name)
-> > +{
-> > +	struct famfs_daxdev *daxdev;
-> > +	int rc = 0;
-> > +
-> > +	if (index >= fsi->dax_devlist->nslots) {
-> > +		pr_debug("%s: index(%llu) >= nslots(%d)\n",
-> > +		       __func__, index, fsi->dax_devlist->nslots);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
-> > +		daxdev = &fsi->dax_devlist->devlist[index];
-> > +
-> > +		/* Installed already by a concurrent (or repeated) open */
-> > +		if (daxdev->valid)
-> > +			return 0;
-> > +
-> > +		/*
-> > +		 * A prior attempt already determined this daxdev cannot be
-> > +		 * exclusively acquired (see the fs_dax_get() failure handling
-> > +		 * below). Don't thrash on fs_dax_get(); fail fast.
-> > +		 */
-> > +		if (daxdev->dax_err)
-> > +			return -EIO;
-> > +
-> > +		daxdev->devp = dax_dev_find(devno);
-> > +		if (!daxdev->devp) {
-> > +			pr_debug("%s: device %u:%u not found or not dax\n",
-> > +				__func__, MAJOR(devno), MINOR(devno));
-> > +			return -ENODEV;
-> > +		}
-> > +
-> > +		rc = fs_dax_get(daxdev->devp, sb, &famfs_dax_holder_ops);
-> > +		if (rc) {
-> > +			/*
-> > +			 * Distinguish a lost race from a real failure. -EBUSY
-> > +			 * with the daxdev already held by *this* super_block
-> > +			 * means a concurrent acquire won and will publish the
-> > +			 * slot valid: not an error, and must not be cached as
-> > +			 * dax_err. Any other failure is permanent for this
-> > +			 * mount, so record dax_err to stop re-acquiring it.
-> > +			 */
-> > +			if (!(rc == -EBUSY && dax_holder(daxdev->devp) == sb)) {
-> > +				pr_debug("%s: fs_dax_get(%u:%u) failed rc=%d\n",
-> > +				       __func__, MAJOR(devno), MINOR(devno), rc);
-> > +				daxdev->dax_err = true;
-> > +			}
-> > +			put_dax(daxdev->devp);
-> > +			daxdev->devp = NULL;
-> > +			return rc;
-> > +		}
-> > +
-> > +		daxdev->devno = devno;
-> > +		if (name) {
-> > +			daxdev->name = kstrdup(name, GFP_KERNEL);
-> > +			if (!daxdev->name) {
-> > +				fs_put_dax(daxdev->devp, sb);
-> > +				put_dax(daxdev->devp);
-> > +				daxdev->devp = NULL;
-> > +				return -ENOMEM;
-> > +			}
-> > +		}
-> > +
-> > +		wmb(); /* All other fields must be visible before valid */
-> > +		daxdev->valid = 1;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * Release every daxdev in the table and free it. Detach the table under
-> > + * devlist_sem so a notify_failure racing teardown either runs first against
-> > + * the live table or observes dax_devlist == NULL and bails.
-> > + */
-> > +static void famfs_devlist_free(
-> > +			struct famfs_fs_info *fsi,
-> > +			struct super_block *sb)
-> > +{
-> > +	struct famfs_dax_devlist *devlist __free(kfree) = NULL;
-> > +	int i;
-> > +
-> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
-> > +		devlist = fsi->dax_devlist;
-> > +		fsi->dax_devlist = NULL;
-> > +	}
-> > +
-> > +	if (!devlist || !devlist->devlist)
-> > +		return;
-> > +
-> > +	for (i = 0; i < devlist->nslots; i++) {
-> > +		struct famfs_daxdev *dd = &devlist->devlist[i];
-> > +
-> > +		if (!dd->valid)
-> > +			continue;
-> > +
-> > +		if (dd->devp) {
-> > +			if (!dd->dax_err)
-> > +				fs_put_dax(dd->devp, sb);
-> > +			put_dax(dd->devp);
-> > +		}
-> > +		kfree(dd->name);
-> > +	}
-> > +	kfree(devlist->devlist);
-> > +}
-> > +
-> > +/*
-> > + * Record a memory error on the daxdev matching @dax_devp. Searches the table
-> > + * under the write lock (which serializes against famfs_devlist_free()).
-> > + */
-> > +static void famfs_set_daxdev_err(
-> > +			struct famfs_fs_info *fsi,
-> > +			struct dax_device *dax_devp)
-> > +{
-> > +	int i;
-> > +
-> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
-> > +		if (!fsi->dax_devlist)
-> > +			return;
-> > +		for (i = 0; i < fsi->dax_devlist->nslots; i++) {
-> > +			struct famfs_daxdev *dd = &fsi->dax_devlist->devlist[i];
-> > +
-> > +			if (!dd->valid || dd->devp != dax_devp)
-> > +				continue;
-> > +
-> > +			dd->error = true;
-> > +			/*
-> > +			 * Near-term policy: any daxdev memory error shuts down
-> > +			 * the whole mount. Finer per-daxdev handling (via
-> > +			 * famfs_dax_err() in the resolver) already exists and
-> > +			 * can supersede this later.
-> > +			 */
-> > +			fsi->deverror = true;
+> Test Case One - flock
+> Test program send signal SIGABRT to the program which owns the flock,
+> output the wait time(unit ms) to successfully attach the flock.
+> Test program malloc 500MB heap and memset it.
+> If NOT set bit9 of coredump_filter, waitms is 11280.
+> If set bit9 of coredump_filter, waitms is 0.
 > 
-> Hmm, I guess this is memory where really bad stuff happens ...?
+> Test Case Two - ion buffer
+> Test programs include ion buffer publisher and ion buffer subscriber.
+> Ion buffer publisher output the ion buffer hold_time if the subscriber
+> NOT send ack to publisher and NOT release it. The subscriber will trig
+> coredump by itself in some time.
+> If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
+> If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
 > 
-> I would have thought that you'd just kill the files on that device, but
-> you can relax this later if desirable.
+> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+> ---
+> 
+> Change in v6:
+> - Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
+> 
+> Change in v5:
+> - Not add another bootargs for the feature,
+>   as suggested by Christian Brauner and Lorenzo Stoakes.
+>   Add bit9 of coredump_filter to tag whether need to dump fd list.
+>   Set bit9 to 1 as default.
+> - Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
+>   problems of the code related to umap that was added in v4, delete all of
+>   it which is unnecessary. The management of reference counting for shared
+>   memory generally does not need to be released through the release
+>   operation of files that have VMA references. Traversing all the threads
+>   within the process and executing exit_files() is sufficient.
+> - Fulfill comments and commit log,
+>   as suggested by Pedro Falcato and Lorenzo Stoakes.
+> - Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+> 
+> Change in v4:
+> - Christian pointed out that the coredump process will traverse file
+>   descriptors (fd), so certain fds should not be closed by default.
+>   Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
+>   pre-exit resources selection, default is NOT pre-exit anything.
+> - Mateusz suggested that walking the fd table and release the file-lock is
+>   reasonable. No longer release all the fd(s). Based on user config, only
+>   the flock fd(s) and the fd(s) correspondent to file-backed shared memory
+>   will be released at most.
+> - Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+> 
+> Change in v3:
+> - Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
+>   mm_flags_test() check, note that memory mapped files keep their own
+>   separate references to the files. The case to work around is that early
+>   unlocking a flock on a file allows other processes to lock and modify
+>   the mapped data protected by the flock,
+>   as suggested by Pedro Falcato.
+> - Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+> 
+> Change in v2:
+> - Get rid of the implement of adding new fcntl API, the issue does not
+>   worth inflicting the cost on everyone,
+>   as suggested by Al Viro.
+> - Call exit_files() in coredump_wait(),
+>   as suggested by Eric W. Biederman.
+>   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+>   need to dump file-backed shared memory.
+> - Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+> 
+> v1:
+> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+> ---
+>  Documentation/filesystems/proc.rst | 14 ++++++++++++--
+>  fs/coredump.c                      | 21 +++++++++++++++++++++
+>  fs/file_table.c                    |  7 ++++++-
+>  include/linux/mm_types.h           |  6 ++++--
+>  4 files changed, 43 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index db6167bef..d590a1dda 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
+>    - (bit 6) hugetlb shared memory
+>    - (bit 7) DAX private memory
+>    - (bit 8) DAX shared memory
+> +  - (bit 9) fd list
 
-It's memory, not storage ;). And the longer you leave something in memory,
-the more likely you'll get unrecoverable errors. Users are warned not to keep
-their only copy of valuable data in famfs. Famfs is mostly for fast access to 
-more data than fits in regular memory.
+"The following 9 memory types are supported: ... fd list"
 
-Right now I'm taking the cautious approach, basically shutting down the whole
-mount if there are memory errors. Getting smarter is for later...
+What?
 
-Finding all the files that touch a device isn't trivial, but *might* be worth
-doing at some later date.
+-- 
+Cheers,
 
-Thank you!
-
-John
-
-<snip>
-
+David
