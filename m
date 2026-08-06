@@ -1,86 +1,81 @@
-Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF393471CF6;
-	Thu,  6 Aug 2026 15:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786028430; cv=pass; b=H+fY+e4+XVAe7mgAb3ZurOlTHPKlOWRdXfJ5XbTbICzf9G1WFqfzK3rKKx0dlVFZRQ2GDPmihbZS6qWFVliKkSpz4HFkXRI0zUCqYsZYk2wCMwEwLxQqFddYBqBpZAH6wtjt7nRvjcp+8T9MTLnMixA68s2I3FzrxaiSpr7Isxs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786028430; c=relaxed/simple;
-	bh=lPyoDCNeAjZWPFVhtXpKm8eFfwsnf6eQ2P5RI7WTssM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iO9g3tR3SV7uhN1L8auN//BMT7HFSeY1aNePeH1vnT8fOPaw00/LnqXRLpexAoUwO62GrJO7d9hwBrvN0vHci4Wq5hgYEMVjPyVu+tIpBiew3RYJX2y5sxFKJIflbNdzW4jprh66Wj4LlUxqNVxU/eoycptbtUC8LVgcraX6sgQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=UBa2VCkY; arc=pass smtp.client-ip=136.143.169.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D643947279E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 15:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786028538; cv=none; b=eAgpDYK9WTKGIE4TruYEknzwBFAxvSQR9KbLYjGoDjQDDrCtaIGHkp6FyWKOVQXjpOtjlAJoWMSnpxe+RnLgdW96nDV+7NTxzLi/h5p5P+0BKzEshMBXHK4ft2ATLD12mdZEVRl7SCqogAKnWwtS6IJrA1CJedpeSmqtYZDPJjU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786028538; c=relaxed/simple;
+	bh=8a0i6zzX4RW3yEqgPoZjG3Y29Src0CVEEsCFzITAmw4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hnTQ6TlHhAb0tHP7vHXpbSI0XPJWxBFX1PF3Q2KhOOEcZoofPCIx3qW/FrwprUVQzec8PP+LfYIebDubu/DsPCLwLXj/SPbNzRk/zcgxrTsxCttRsMA98WQPN5TF2vah/59PClGu/57M0VrQuk5JgtRx604r5mtrlZaMV95MO5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=nLusXsBo; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="UBa2VCkY"
-ARC-Seal: i=1; a=rsa-sha256; t=1786028385; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=GEHI7RLSiKkft1oq6jLFLXuR7jYxWuQCW9Fk1UeXxtTafYsmhuvD5L3XI3WUjq/AVCP4Pfsd/MC6fQr/JmP935HPelOUKF02oPEIgL1NpJheH8oU1fdHYIc/c7fKOjGx6EAfgH699FugH3Z9UbtYaF1maqTST9BFMYpV8OwSDjw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1786028385; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lPyoDCNeAjZWPFVhtXpKm8eFfwsnf6eQ2P5RI7WTssM=; 
-	b=Fs/KnUqB33qkpZqnkpsDytSuvoG4XMdGOKGviDSeHoK7IADxvS66/gmAQwNtcOCvcNOwBeBSauu1iweCTPV8cY4VL6vJZTFkF2zbw4mASr2GVgdhhp2pNTUfxclLue0RxrMNJoxHXkqVtCoYpDScbJTFy3wIDQEcOfFgkJxcbDI=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=iusegentoo.com;
-	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
-	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1786028385;
-	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=lPyoDCNeAjZWPFVhtXpKm8eFfwsnf6eQ2P5RI7WTssM=;
-	b=UBa2VCkYbGTdqyClUp4Mb2CLjYMaKeB093MGYXfcce7QIfeBvAo/4RICz+nIuuIh
-	tyXZUJg6FuqN1YWGnqQVHp8AuUp/w2/tmY0QtOpW5u6foiYu8Uk1mt0GyfF6UroMHZh
-	jB4aG5kQ9+Cd9E4q51Ot4KWvzzRXrgJd4hdg0v/Q=
-Received: by mx.zoho.eu with SMTPS id 1786028382741726.2084533446523;
-	Thu, 6 Aug 2026 16:59:42 +0200 (CEST)
-From: Ali Ahmet Memis <ali@iusegentoo.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: ufs: adding read support for UFS2 extended attributes
-Date: Thu,  6 Aug 2026 14:59:26 +0000
-Message-ID: <20260806145930.173654-1-ali@iusegentoo.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="nLusXsBo"
+Received: from trampoline.thunk.org (pool-173-48-113-153.bstnma.fios.verizon.net [173.48.113.153])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 676F18lS011332
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 6 Aug 2026 11:01:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1786028471; bh=xI/3XBRHzNV1HKH1aWzcP+7ZombObMaSf6W4f0dBs2k=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=nLusXsBoq1bnSlCYw4PuE7gmEggLEeQZ2AkDbI/KYDN3NWHZevdX0XWB9FkbuCTku
+	 FxVO8BKAi4JaD24Iav6CccREW8b3Ue2U6dB8DekOjlqGTNMmn1KqUK7t+1gxqBnsdd
+	 omyJgILRfAoQwsNp+iCQD2u9ZtY3dX8Gr5ojBYWb/9Fa3RC6RXd3nNFwhv0iVb4Tzm
+	 VVOi3zxT266IlE1LB9HAM/pnwQ1L1nABWsgxEtorGTf0TQ1kxrcsyHsX0N6r+BISat
+	 ELNDooG8nlnhoP8OIlVzg6bVprgCP2VpGb3ElDpKL5F8jiCvWImLdB9b5zbzk8HFUS
+	 CLx4iRfeXvmTA==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 191B52E3F19; Thu, 06 Aug 2026 11:01:06 -0400 (EDT)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: linux-ext4@vger.kernel.org, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+        ritesh.list@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
+        chengzhihao1@huawei.com, yangerkun@huawei.com,
+        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
+Subject: Re: [PATCH 0/2] ext4: ensure WRITE_ZEROES is power-failure-safe.
+Date: Thu,  6 Aug 2026 11:01:01 -0400
+Message-ID: <178602814510.965683.9213425035068203757.b4-ty@b4>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
+References: <20260729085918.3336221-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Linux mounts UFS2 but ignores the per-inode extended attribute area
-completely. There is no xattr code in fs/ufs at all, so the POSIX.1e
-ACLs and MAC labels FreeBSD wrote are silently dropped on the floor.
-The volumes I read are FreeBSD ones, so that metadata is invisible to
-me today, and I would like to add read-only getxattr/listxattr for it.
 
-The first question is whether you want that in fs/ufs at all. I would
-rather hear no now than after posting a series.
+On Wed, 29 Jul 2026 16:59:16 +0800, Zhang Yi wrote:
+> This series is extracted from the last patch of my previous series
+> "ext4: fix unaligned edge handling in FALLOC_FL_WRITE_ZEROES"[1]. It
+> fixes the issue where FALLOC_FL_WRITE_ZEROES could leave written extents
+> beyond EOF after a power failure (reported by Jan). This series fixes
+> the on-disk orphan list corruption and filesystem corruption that could
+> occur during partial extent conversion in
+> ext4_convert_unwritten_extents() as reported by sashiko in the previous
+> version.
+> 
+> [...]
 
-If you do, I have the on-disk format already. I took it off an image
-FreeBSD 15.1 wrote rather than off extattr.h, which turned out to
-matter. The base length is roundup8(offsetof(struct extattr, ea_name)
-+ ea_namelength), not roundup8(sizeof(struct extattr) + ea_namelength).
-sizeof() is 8 because of ea_name[1], so the obvious reading puts every
-short-named attribute eight bytes out of place. A single record can
-also straddle both ui_extb blocks, so the area has to be parsed as one
-linear buffer rather than block by block.
+Applied, thanks!
 
-The other thing I would rather settle up front is the namespace
-mapping. I am planning EXTATTR_NAMESPACE_USER -> user.*,
-EXTATTR_NAMESPACE_SYSTEM -> trusted.*, contents passed through
-untouched, and explicitly not translating system.posix1e.acl_access
-into Linux POSIX ACLs. The encodings differ, and guessing at the
-semantics does not belong in a first version.
+[1/2] ext4: export converted block count from ext4_convert_unwritten_extents()
+      commit: 5b3dcb924a38ecd2c0d828ff30c357357eda1da8
+[2/2] ext4: protect WRITE_ZEROES written extents with orphan list
+      commit: f7237a775c8f3e99e0e77b7c10fb626815fb2877
 
-RFC series after the merge window.
-
-Thanks,
-Ali
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
