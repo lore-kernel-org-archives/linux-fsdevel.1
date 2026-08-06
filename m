@@ -1,223 +1,136 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFD64908B3
-	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 17:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B71E329373;
+	Thu,  6 Aug 2026 17:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786035615; cv=none; b=fgr6ONdYTQayy68/moN5prblbaFmY2l2UiYtkWyhF07SQcM7NUrYdGzTjTqjxGEW9wKzgV24B5wCyqU9gI3Mc6rNH67nRy3TVXPLYxe3Ei/0TkIblBlqCU5BEkZ3jhbj0EiRE8ijh6IauYNFraORVPZvzxFvHIFGa8Mgs9vkuxU=
+	t=1786036744; cv=none; b=fHnnnl55xslg/CPuTGI/C32T2s4RNHq6nVJE62/3H+zmbk6rlNC3hKbHfj+fkGRfRkuwBmnFW2o+hpS2LtjuSMLWqDRNdd6syfqh1Q+v6ZjVWrWf7pID+yNJruo5qWoXGq+Tl44b4MBkiifu5Rar/FAzcKvh0SsZ8pDAurKtBJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786035615; c=relaxed/simple;
-	bh=K9/W1FO8N8xTnhyFws4RenGjtbgDOPBPnEUZbmmiB0U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O3Lj9wHno91c1+DkN6tkd6WoUTW7uBNYFrT9Gv50Z5sFqsmumX8nIdgTcxZ0/jtL1iuakDYE4rR1bHP95wsjPeZiUCyuYJDhO7SEmFKB4EZCtgdu07369R39I7wV7PrGkL9iENN2C3s0RU5EpNY4BMAUTyHkNkDLJY7dUV0rnw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYMymKr9; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786036744; c=relaxed/simple;
+	bh=slq4Bj7jiOMCyV+sJSTo5EMRwhAsp72FaqZDVxgH6mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vBi8PEI+o7c93jZd05Qbe4brM3gV3dvIVPE1E3cYVb80v5bgCGQx0jL9DneSGW2nn947aRxTR1xEN7kC+F4pFqk+//wTN0GXOJQK+Wsd7F4uM2SwoGDxOebOqD0udMXdwq79eRH0CvVzvaqQFeKZXNmMKAVyteGibUHSK1jhwXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzMqYvoc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYMymKr9"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5c276bfce7eso1727133e0c.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 06 Aug 2026 10:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786035613; x=1786640413; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dBfFE9yENSRT1Ltqp2iNdGevVOH72zBv0XCWLRoCCcc=;
-        b=DYMymKr9iJ0MfWNFmHTMcDp+vfbmJcVQ4S81aC4XPOGI5fJYig+5tGL9yuQ7IjHb4J
-         5fjgTj8DJ/MP2ApXWr5CxtfH/jEotJgLkxPkTflbko7TdRb/yUmI1lZlVCGtpN3mG86k
-         GsKAHGU84ajwLE1ch2hnLPfL66yAj44ebPDrkLC3IBGK+BEzh9HiS8kuotGS58UNR6Ff
-         8f/3fcEDC9jjcRSwGDq3fqLEVNyjKQNdllgRt5DjatQ6RDeoLfb+VS3S0TVmD74Ye+OZ
-         vUW/74/GKVa/mnu6Gv8OV7cbDAWDVC03WSNg98YruRvqahYi/g3Lg6Pbj52sND835+Tp
-         u6MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786035613; x=1786640413;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dBfFE9yENSRT1Ltqp2iNdGevVOH72zBv0XCWLRoCCcc=;
-        b=opJwD5WTsZ5jLvthowHMVX5Zy9hz0hP/3gVL39ObiTF4HwvcYF4crG5zw7Lxl6RKbS
-         IGQ+GLSTH+4QNOx8eSMpFryQSpGkVmciwUCqBGOY0tCkEvo8vm6hp4znMDbnQK8hg0hv
-         Vb+lTSHSdK9VnWt+NfaFIeAyCxrT1jl1mFhaBw4noJb8m9QutL6JFNYVJzkgnbokjX7F
-         jodfLDFNp73KGl0mvdh/7wz3qYxM5KyvFOTI7zL+WKLZSAsGySRuFa1CeNW6hae2aX3/
-         4dDyWJPq4Eb7ZGEviBfdijOBcS4yAe6Lh2FRMX3dOUtf8ed7PFFD0bHvZwIMBS6443i+
-         r4sA==
-X-Forwarded-Encrypted: i=1; AHgh+RqnI9gZhJaxDhYYZu6HFbEwOZY0zpq5v0QLUsP3tJnbmpsNIW9JoPrIicHE9TnyIUTecPrCxfTMLElz5rgT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2tgKCYfpZ7/g7pdxbwKVZRGIp9D9SmUAm/a/wBLsd5QKf/jkq
-	KqpyWUM6trtkZqGBMCD+XbgEXNOSDWGb19geTfsek17/Y6i1e6UcjcAg
-X-Gm-Gg: AR+sD11SWHQbj6dhO4JqRoZYoKyQviEF7UvmmDkKs4QK2RTVmVuBtja+IOUx0Y+1QyQ
-	DMHvXmSFxL2YMosuwprXb83Egz6QWSJKKzoeUkpr0odmx07yo1j67Ct/4NF048PPMg4rYx2f/Ik
-	Uwkfw46NRBfjIYridltjZBF3umgWf/gMFFGGaq5/F52sKNO4S2EbN1R19r8xOZGaXN/4802k+sv
-	WR63XMOS4ZIkWk57ehINeQ1x67MwEJzsbbDSyEm2ik183GDDTRalGhxBHF38cTNAA+mI1WIoI3c
-	JO3l/ELYnxThPrOC/juJgFz/XiCIDDuS1+AWJQtd06GQ1N8Bcv6bsdDjQrUF9XXx3y3/frKRBhB
-	ZWEi82D0P2g5VTCoIO71Saevy0w9nnuYPrqT40jYDg8KqfvecTLGVARkhPtjkS13TgcJ1+xea/6
-	DcDtSGharxeYY5UY3NoCrDB0RfWYituKD55EWaOgz7K+Yzc7ZfP00fknITArhD0bDZHEjiV9ing
-	WRh+PQ=
-X-Received: by 2002:a05:6122:d96:b0:5a4:7e8b:3171 with SMTP id 71dfb90a1353d-5c3d91e6c7amr2524108e0c.11.1786035612662;
-        Thu, 06 Aug 2026 10:00:12 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3d05c594fsm3706321e0c.8.2026.08.06.10.00.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 10:00:12 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
-To: Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org
-Cc: Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	Zhang Yi <yi.zhang@huaweicloud.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	linux-ext4@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	gfs2@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chao Shi <coshi036@gmail.com>,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH v2 21/21] buffer: clear BH_Write_EIO when a write succeeds, not when one starts
-Date: Thu,  6 Aug 2026 12:58:44 -0400
-Message-ID: <1c976fd191aa6e99dbe65d6a1ec63f8706cc0dfa.1785951556.git.coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1785951556.git.coshi036@gmail.com>
-References: <cover.1785951556.git.coshi036@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzMqYvoc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68EC81F000E9;
+	Thu,  6 Aug 2026 17:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786036742;
+	bh=9DtZb8DjUtisjREwEwWOkrSi6943Av38G03foEcQ5Cs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OzMqYvocxdfGC7/3077EFSOTpCiRyY/S///tKrAxuNSNHDGT7dYqW/ifw8C53hn08
+	 bVPveNzCLYASrmi+XIBsRC5dHYyKhvnEgJ7RRYM5UaDV2ShMS3HdHOIYQxzooWczah
+	 uJw3asizLGfuGO0yG4jMJvfxju5LTC8IkCj46t6HOZDaVyvG5nQFIzKvISEBW15ZX/
+	 XVDkGY27+aumRkGCpa8T3TIyVNkiUEcqPO4IdulUjKtvDy+9OeQO2FwYjVdee+3WqU
+	 ZXTOdK03H0E2NO+41f1dG8ICvMjqi5euq978ibaYowC2NC86ibx4uWtEdZmVVaYLX7
+	 cxKyb9XkgRFWQ==
+Date: Thu, 6 Aug 2026 18:18:38 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Gregory Price <gourry@gourry.net>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
+ anonymous page index
+Message-ID: <anTAk9V9ceYq1jyt@lucifer>
+References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
+ <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
+ <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
+ <fec1be38-406d-4656-95eb-048729afec40@kernel.org>
+ <anBqV9z6hVLIqoIn@lucifer>
+ <anL0LEhb_bp_uQ1J@gourry-fedora-PF4VCD3F>
+ <anL7eZcHnM5mPr_T@lucifer>
+ <anS8UbQF1aE70gus@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anS8UbQF1aE70gus@casper.infradead.org>
 
-BH_Write_EIO is cleared in __bh_submit(), when a buffer that has been
-written before is submitted for write again.  That is early: it says the
-error is gone at the moment we start trying to fix it, rather than when we
-have.
+On Thu, Aug 06, 2026 at 05:54:41PM +0100, Matthew Wilcox wrote:
+> On Wed, Aug 05, 2026 at 10:01:43AM +0100, Lorenzo Stoakes (ARM) wrote:
+> > On Wed, Aug 05, 2026 at 04:30:18AM -0400, Gregory Price wrote:
+> > > Yeah just an F/A in the print I suppose.  Sorry if that was unclear.
+> > >
+> > > If it saves someone the head-scratch of whether some bug is because it's
+> > > "file" or "true anon", given the ambiguity here, seems like maybe useful
+> > > debug information.
+> >
+> > Yeah will do on respin I think actually!
+> >
+> > I do think not providing that could result in some confusion like 'hm I
+> > thought this was file-backed'.
+>
+> not sure it would.  Look at the whole thing:
+>
+>         pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+>                  pgtable_level_to_str(level), entry);
+>         __print_bad_page_map_pgtable(vma->vm_mm, addr);
+>         if (page)
+>                 dump_page(page, "bad page map");
+>         pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
+>                  (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index);
+>         pr_alert("file:%pD fault:%ps mmap:%ps mmap_prepare: %ps read_folio:%ps\n",
+>                  vma->vm_file,
+>                  vma->vm_ops ? vma->vm_ops->fault : NULL,
+>                  vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
+>                  vma->vm_file ? vma->vm_file->f_op->mmap_prepare : NULL,
+>                  mapping ? mapping->a_ops->read_folio : NULL);
+>
+> even if we don't have 'page' and thus dump_page() won't tell us
+> anything, we look at mapping (NULL means true-anon, non-NULL means
+> file, possibly COW).
 
-It also loses errors.  A task whose write fails sets the flag and then goes
-to look at it; if another task redirties the buffer and resubmits it in
-between, the submission clears the flag and the first task sees no error at
-all.  Neither of them is doing anything wrong.
+Ohhhh ok. But you still can't tell whether what's actually mapped in a
+MAP_PRIVATE file-backed mapping.
 
-Clear it on successful write completion instead, in the end io handlers -
-the same four the rest of this series has been converting, plus gfs2's,
-which already marked errors this way.  Then the flag means what it says:
-the last write of this buffer that finished, failed.  A resubmission no
-longer hides an error that has not been fixed yet, and one that has been
-fixed clears the flag when the data reaches the disk.
+So I still think giving separate anon and file indexes is useful for debugging
+purposes in that case because you might be debugging an rmap thing and the
+ranges of linear indexes might be handy.
 
-__bh_submit() keeps setting BH_Req, which is what the rest of the tree
-reads it for.
+>
+> > (We've made our lives hard with varying definitions of 'anon'
+> > also... [shmem being 'anon in page cache' is especially lol] so it's
+> > already confusing but there we go :)
+>
+> Woah, woah, woah.  Do *not* think of shmem as being anon-in-page-cache.
+> shmem is a filesystem that happens to use swap to store its backing
+> file.  I dislike a number of things about how it's implemented, but
+> describing it as anon-in-page-cache is furthering the confusion.
 
-Suggested-by: Jan Kara <jack@suse.cz>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Signed-off-by: Chao Shi <coshi036@gmail.com>
----
- fs/buffer.c           | 15 +++++++--------
- fs/ext4/fast_commit.c |  1 +
- fs/gfs2/lops.c        |  2 ++
- fs/jbd2/commit.c      |  4 +++-
- 4 files changed, 13 insertions(+), 9 deletions(-)
+I am not sure 'file system that happens to use swap to back it' is that much
+clearer ;)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 425fbfe72ad1..68ea0ef8470e 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -202,7 +202,9 @@ void bh_end_write(struct bio *bio)
- 	struct buffer_head *bh;
- 	bool success = bio_endio_bh(bio, &bh);
- 
--	if (!success) {
-+	if (success) {
-+		clear_buffer_write_io_error(bh);
-+	} else {
- 		buffer_io_error(bh, ", lost sync page write");
- 		mark_buffer_write_io_error(bh);
- 	}
-@@ -433,7 +435,9 @@ void bh_end_async_write(struct bio *bio)
- 	BUG_ON(!buffer_async_write(bh));
- 
- 	folio = bh->b_folio;
--	if (!success) {
-+	if (success) {
-+		clear_buffer_write_io_error(bh);
-+	} else {
- 		buffer_io_error(bh, ", lost async page write");
- 		mark_buffer_write_io_error(bh);
- 	}
-@@ -1114,7 +1118,6 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
- 		enum rw_hint write_hint, struct writeback_control *wbc,
- 		bio_end_io_t end_bio)
- {
--	const enum req_op op = opf & REQ_OP_MASK;
- 	struct bio *bio;
- 
- 	BUG_ON(!buffer_locked(bh));
-@@ -1122,11 +1125,7 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
- 	BUG_ON(buffer_delay(bh));
- 	BUG_ON(buffer_unwritten(bh));
- 
--	/*
--	 * Only clear out a write error when rewriting
--	 */
--	if (test_set_buffer_req(bh) && (op == REQ_OP_WRITE))
--		clear_buffer_write_io_error(bh);
-+	set_buffer_req(bh);
- 
- 	if (buffer_meta(bh))
- 		opf |= REQ_META;
-diff --git a/fs/ext4/fast_commit.c b/fs/ext4/fast_commit.c
-index a2028fbd4540..95998827ff01 100644
---- a/fs/ext4/fast_commit.c
-+++ b/fs/ext4/fast_commit.c
-@@ -209,6 +209,7 @@ static void ext4_end_buffer_io_sync(struct bio *bio)
- 	if (success) {
- 		ext4_debug("%s: Block %lld written",
- 			   __func__, bh->b_blocknr);
-+		clear_buffer_write_io_error(bh);
- 	} else {
- 		ext4_debug("%s: Block %lld write failed",
- 			   __func__, bh->b_blocknr);
-diff --git a/fs/gfs2/lops.c b/fs/gfs2/lops.c
-index 3df6e4b7e8b9..7440e5b72f8a 100644
---- a/fs/gfs2/lops.c
-+++ b/fs/gfs2/lops.c
-@@ -179,6 +179,8 @@ static void gfs2_end_log_write_bh(struct gfs2_sbd *sdp, struct folio *folio,
- 	do {
- 		if (error)
- 			mark_buffer_write_io_error(bh);
-+		else
-+			clear_buffer_write_io_error(bh);
- 		unlock_buffer(bh);
- 		next = bh->b_this_page;
- 		size -= bh->b_size;
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index cd7ef783bd36..ebf6ba58ff4d 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -36,7 +36,9 @@ static void journal_end_buffer_io_sync(struct bio *bio)
- 	struct buffer_head *orig_bh = bh->b_private;
- 
- 	BUFFER_TRACE(bh, "");
--	if (!success)
-+	if (success)
-+		clear_buffer_write_io_error(bh);
-+	else
- 		mark_buffer_write_io_error(bh);
- 	if (orig_bh) {
- 		clear_and_wake_up_bit(BH_Shadow, &orig_bh->b_state);
--- 
-2.43.0
+But that _at least_ uses different terminology and swap-backed is pretty clear.
 
+But :)
+
+Functionally it's PG_swapbacked and !folio_test_anon() and nothing calls
+it anon, except... well reclaim! Which gates on folio_test_swapbacked() for the
+'anon' LRU and refers to it as anon throughout vmscan.c...
+
+My point here was we made our lives difficult with naming and yeah we do. We so
+so do.
+
+--
+Cheers, Lorenzo
