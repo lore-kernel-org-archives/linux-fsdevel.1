@@ -1,125 +1,107 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B016E3812DB;
-	Thu,  6 Aug 2026 16:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C48391832
+	for <linux-fsdevel@vger.kernel.org>; Thu,  6 Aug 2026 16:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786035408; cv=none; b=LRK9IUxe+PH0cgWBT4vfdSEa7pUcaYgwL/6CmSWwlLl95ikDKOF47BuCj/KF/cd+BgHVII6SUcbAtNtgmwMS1WR2JKvOY40WL2nnOAc8u+QgPGK5xNS6Uma2Gy0Wbv+HBqfyQdjaqjWtYeuF+y5T39ZaJ+Gi718I7riALw3SAo0=
+	t=1786035531; cv=none; b=kZ3SyPoh4WX1MeY3ho30BUitYDeQi2qJzXI5SMuGppew83vj/BjsEHGlD4csKif1dF0DWEN2MQG9A0vsbUezCWfSSHuGPhJUQX5DIiVKDZfnaz3cVgrB7j6wdmCbmEkiA/M0rAxesMbX9u6LjUwg+kIeycYuigeCLN0Eg9dO8Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786035408; c=relaxed/simple;
-	bh=fs4OZSjxUz8gopfydd/fM3JYYKMAVuAHsrqd0PZgDG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n+8gKdL/g6Z+7kGIMLRiS4VglXSOS6koNcPuQPgE2duACrrwsgKCJIMf3XPOiJA7XQyuemtrDcUCvmKTRe1J+2PsDXjgXrtzqHx2wX9o1eBRTAGUr8I0YEyVBTsSVM3SSSkbaxiFTs2RW0272LDxAZj4EPwnQ8JeNzWK2yEFTBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NOHtkX6M; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1786035531; c=relaxed/simple;
+	bh=zDjR74WGb5cEe4crVD8tms/rTlSv7BcEL4nYLlKDgqk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a6SPjYxUrF2OQdny92bQrLRVtkbj7nYSJcgg2x8AWSekqrbnrOVxpJbUTZz5vnSCdzIwhAFQEZuQcjUHWvC2fvVvr3EzI8IUd/kLg1aiZ61JFOLvbhw/FoXNnPJw6a2UcIKlJTZme+NuWSlYjnLJYH/F40P8x+S8R1/KJvFegyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr; spf=pass smtp.mailfrom=lukasldc.fr; dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b=D+rW87GF; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukasldc.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NOHtkX6M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6oRZ7bVSXyuafN/Una/b4mH0BdxkEb9tpDXSUb5X6ns=; b=NOHtkX6MmsJFk0WyudbePHVb+Z
-	ifpcELU49/bxvCXnPyti3zMDsf3vrEU1uxAk5TYIm/D1FmsoElU2FUYaQQhQ4LoovHo3rp7Vne63J
-	YaH62vM9cItZaSIxWJvPMTb1bbL31lHBb0Cf1CDgA8fCz7g0C5l3D9Iv+z7K/HEZOk3iw5NNU2Q5w
-	XWkjd05TJgdOjBOzSepKpZBB9dAo9D9Tq9Btj3KmOmB3/bcy+aFEvpv1v4RfKmy2Y8w71xUI4dBbm
-	aLBAQDqgpuzc2KJRh2DXEL8L92qWHYySh/ECP6u6w7N7KhG1J+RoXQcK8AMm7hkIB1Cn6XNWew/k9
-	8Zw2AsQg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws1Mg-0000000CA8T-02wp;
-	Thu, 06 Aug 2026 16:54:42 +0000
-Date: Thu, 6 Aug 2026 17:54:41 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, Jan Kara <jack@suse.cz>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Usama Arif <usama.arif@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] mm: update print_bad_page_map() to show
- anonymous page index
-Message-ID: <anS8UbQF1aE70gus@casper.infradead.org>
-References: <20260729-b4-scalable-cow-virt-pgoff-v3-0-e8ecfefea812@kernel.org>
- <20260729-b4-scalable-cow-virt-pgoff-v3-4-e8ecfefea812@kernel.org>
- <amrvgjPNfKqWPUU0@gourry-fedora-PF4VCD3F>
- <fec1be38-406d-4656-95eb-048729afec40@kernel.org>
- <anBqV9z6hVLIqoIn@lucifer>
- <anL0LEhb_bp_uQ1J@gourry-fedora-PF4VCD3F>
- <anL7eZcHnM5mPr_T@lucifer>
+	dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b="D+rW87GF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lukasldc.fr;
+	s=protonmail3; t=1786035517; x=1786294717;
+	bh=zDjR74WGb5cEe4crVD8tms/rTlSv7BcEL4nYLlKDgqk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=D+rW87GFXmg73GfEEq7Arf+n5JMN+3KbIgD6lKmgv7hyYmoRVoFQ4pooWkEOSY9hC
+	 cbBx0vx3an3mcae0ewTU728tDCnwGFgi7Fq/Ehi+js/UBwIHb82liNqWx3KbuLMPGJ
+	 1UUWat1lfuA7xJHATOxH2W1D3UnmFOvVydbUXfxELYBHsRvV2tcaypOpLRaGJ8r+LB
+	 j3p4DSCCrhSgaZSpjpstdqYzM9kDvq9u3FZo7Q9hnJIB6lR7SYYWmykqih7QYEv1SD
+	 K5gpGGNgs7B+2IJER+1dPSUhdPxVhYjSNm8dK39te3FLJePcVDgUpoawOD3gTDhNCh
+	 e2P0gxOa8YuYw==
+Date: Thu, 06 Aug 2026 16:58:32 +0000
+To: Mihai Brodschi <m.brodschi@gmail.com>
+From: Lukas LOPES DA CONCEICAO <contact@lukasldc.fr>
+Cc: linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev
+Subject: Re : Re: [BUG] ntfs3: IOMAP_INLINE mapping exceeds its page - BUG_ON in iomap
+Message-ID: <KVTyVEuJVJ64fthW0XFP0keHPuRYrmTizNV-YBxUEf0UTRjuC9YiY5KUMfNC5Oo8q4AcM90C8ZqQQ33EbO2W8inK6oaBN5ZJCKgnbpYuekw=@lukasldc.fr>
+In-Reply-To: <6659036b-2f4d-44c0-bd1b-3d76b87a8476@gmail.com>
+References: <4_qSHDGTzev3i2hKqtp_9TpB7p5JWTBKwOucZ49wWdoLB9TphDDLl-QsnEjjPLerlfuk-xS9J_qL7TQefUZxd3qW9MttPZT-UgBWJW9B_eE=@lukasldc.fr> <6659036b-2f4d-44c0-bd1b-3d76b87a8476@gmail.com>
+Feedback-ID: 100544131:user:proton
+X-Pm-Message-ID: c3a450ba51ac5215466c2c09f912f777d96166ea
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anL7eZcHnM5mPr_T@lucifer>
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244"; charset=utf-8
 
-On Wed, Aug 05, 2026 at 10:01:43AM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Wed, Aug 05, 2026 at 04:30:18AM -0400, Gregory Price wrote:
-> > Yeah just an F/A in the print I suppose.  Sorry if that was unclear.
-> >
-> > If it saves someone the head-scratch of whether some bug is because it's
-> > "file" or "true anon", given the ambiguity here, seems like maybe useful
-> > debug information.
-> 
-> Yeah will do on respin I think actually!
-> 
-> I do think not providing that could result in some confusion like 'hm I
-> thought this was file-backed'.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244
+Content-Type: multipart/mixed;boundary=---------------------640155ef14d6b4ed0056e13a43d7bdd8
 
-not sure it would.  Look at the whole thing:
+-----------------------640155ef14d6b4ed0056e13a43d7bdd8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;charset=utf-8
 
-        pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
-                 pgtable_level_to_str(level), entry);
-        __print_bad_page_map_pgtable(vma->vm_mm, addr);
-        if (page)
-                dump_page(page, "bad page map");
-        pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
-                 (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index);
-        pr_alert("file:%pD fault:%ps mmap:%ps mmap_prepare: %ps read_folio:%ps\n",
-                 vma->vm_file,
-                 vma->vm_ops ? vma->vm_ops->fault : NULL,
-                 vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
-                 vma->vm_file ? vma->vm_file->f_op->mmap_prepare : NULL,
-                 mapping ? mapping->a_ops->read_folio : NULL);
+> Hi Lukas,
+> =
 
-even if we don't have 'page' and thus dump_page() won't tell us
-anything, we look at mapping (NULL means true-anon, non-NULL means
-file, possibly COW).
 
-> (We've made our lives hard with varying definitions of 'anon'
-> also... [shmem being 'anon in page cache' is especially lol] so it's
-> already confusing but there we go :)
+> This bug has been reported multiple times.
+> It was fixed in v7.2-rc1 and recently in stable v7.1.5 as well.
+> However, there are still other issues which cause fs corruption
+> with Steam.
+> =
 
-Woah, woah, woah.  Do *not* think of shmem as being anon-in-page-cache.
-shmem is a filesystem that happens to use swap to store its backing
-file.  I dislike a number of things about how it's implemented, but
-describing it as anon-in-page-cache is furthering the confusion.
+
+> Regards,
+> Mihai Brodschi
+
+Hi Mihai,
+
+Good news, thanks for the info !
+
+Regards,
+Lukas
+-----------------------640155ef14d6b4ed0056e13a43d7bdd8--
+
+--------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wsG5BAEBCgBtBYJqdL0rCRDuBpvbNc2xoEUUAAAAAAAcACBzYWx0QG5vdGF0
+aW9ucy5vcGVucGdwanMub3Jn3InUOO1IshihUOR3uFTyJJm3q7gE2G8JnEtb
+By5hheUWIQTaXN155Azon7TFONPuBpvbNc2xoAAAGMQQAIBWrfCKqJoHn0c3
+6CEFH/p9wO+WXLpPHrpNPiC8QtyVnwfEQglJCUv+W6BzJJ2amgqGqCReVQ0n
+a62iAtf9NqAkzwxxVU9/Rq1HSEpLQZdNoWIFfLBY3XVt+oXrB2PkUBEs0I3j
+RU5QQeXjQJAlffdxHorLIfyJq+j1aydahToJVrY0o764WjIXioV8RlTv439l
+M4/zA/iyME+x1LGMWPabN5Tm8iT70OBzlTxNjlSIzScmNwpNIM/Ymn38Wbg1
+/5ih7jB1zKzp2YuuIVoNHN5k78g9tqsMPcSyv8bYGISJRx2Ic1lqN4LeC+6O
+v/zoS57P8pFG3QJxFA5pcH76MwpTX0v4LHcI7z39eevI+a6qR/CIXs4CS8Sn
+MXI8iv8/1HQEBYsJd5VcT+gkYF+7MZAxcQ8L3vQQJ49Mp7N6MEHd7wRfLhHP
+gVYydOEKXVgfvJnx0t5KgMaFznS3NdIvdmsUEmhNm+ZAexZ3rsT1MFGeLz0C
+A3CpM9Tll7/AdDRc9uLyVI6D88M8hVmombNpG6CC2spfbyflhzaX5CzxvKPW
+MU2H6ROZRYnciSLPlcyxORL8ak+97k6KtbRrac3rLldEISd5FCnoAKeE6YQ2
+IA9ylTKB7Y3FJT2duyXIXJXRyO2p5WEhnPD5C5GUtzzrHljksarUHWMKPPfK
+8WUvKJWf
+=bwPq
+-----END PGP SIGNATURE-----
+
+
+--------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244--
 
