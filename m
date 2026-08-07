@@ -1,234 +1,173 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028053A16AC;
-	Fri,  7 Aug 2026 07:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D361A3793DF
+	for <linux-fsdevel@vger.kernel.org>; Fri,  7 Aug 2026 09:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786086630; cv=none; b=gxPwTMLY/rqmN7ZDvruzLVb2mOxReXBE+MyHzN9i9/UqTP9uoSrhk71DfCvygYZhqQ8Lg8195jLGbry/cXUVRlG/IldRzmOm0ut17XPINZ6B+Wqtfp7AC9Lyw3/5RTMz8olFJpsNCUOJkORTJZ9Dcdsq39WNMVAmicMu+FUjPOY=
+	t=1786094497; cv=none; b=dMIX0QmawiIrYs6xNNJny380Dh6N5reJEc3aX+BUOwYQ3mnUMs3iiF9OhKl3GzeXWu552xvnnIjpYpVlL+2jji/fcfDIrLxNNuzpWsvgpf45WjG5WZ2KaF5ioygqMy1WI4HuBhKr6rIQS49482xOYT3NYumWL+r61OdPLYM798k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786086630; c=relaxed/simple;
-	bh=okUo/lBwawQ2ShVhicuL+c1RSgIwQ+JfXxkA9MP2fZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FE5L4zROxtOVRfMO3knpYPG2EUUEnyuKDmTzxYzliNmppYWHKhhB9wDddfrpT+Wl92oV4Mh/zb5vTB5/bE2SHsLAsADHqtUUoNxwduxlNEVYZxFXS/YNxDCGGeQThN5EtT0NAgqjOWIX6vBG8U/HWVSruEHjXSfoNG1nQsqeCRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Qh6BCzQc; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Qh6BCzQc"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6770JZQv4064146;
-	Fri, 7 Aug 2026 07:09:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=jpeOcxycXBTAlw8xEd8qyVhgpwcjWF
-	NB4soWtck85Pw=; b=Qh6BCzQcqD/AGOqi1hTQHgQVz6HuWuBJB87Gbu8R2QRIrL
-	ftEfzBmybSkNntrd41XE524cbuEjupU7byCqaB7YxW9kBgydkUCxBhrhTSiwT6H+
-	U4OKIllzATyLLGfNArjEOqj0akgLZ0asqOkSM0XKJyYYoIst8JvDseeB2sH706u4
-	hhs9ueI6JSC+Ld/f6qPFOuLXDpab+v18Jf4LeEQIr4j5+MFCFi1kjnwg8/MvRqx/
-	KhT+u3vzeF7qrRG7dH6ram2Pu9RQGcAByOzaawNWn2aii58OGSRM1hM7xmzHRjNe
-	Si5vdvDt7lOVvC8K31hkxayAWljo7JjlQf3ZTeQg==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fvy02anmy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 07:09:18 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6776uIAD024920;
-	Fri, 7 Aug 2026 07:09:17 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsvmhpmkb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 07:09:17 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67779F7T51315084
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 7 Aug 2026 07:09:15 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 668A020040;
-	Fri,  7 Aug 2026 07:09:15 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA50320043;
-	Fri,  7 Aug 2026 07:09:12 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.111.55.180])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  7 Aug 2026 07:09:12 +0000 (GMT)
-Date: Fri, 7 Aug 2026 09:09:11 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Will Deacon <will@kernel.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-        Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        David Hildenbrand <david@kernel.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Eduard Zingerman <eddyz87@gmail.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@gentwo.org>, Mike Rapoport <rppt@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>, ziy@nvidia.com, pfalcato@suse.de,
-        ryan.roberts@arm.com, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH 1/9] mm: introduce hw_pte_t for PTE table storage
-Message-ID: <3db8233c-3785-444e-b2eb-3e5fc5cb2f17-agordeev@linux.ibm.com>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
- <20260806083926.1807279-2-usama.anjum@arm.com>
+	s=arc-20240116; t=1786094497; c=relaxed/simple;
+	bh=X0t/MAcZpTNODHUjtSRgs7rJrIqj7xNlQX5YtnbWaWo=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=ZZwgybQqrenzewbrZHUJc25JGnQlfNuH4EdfHfk7Ig5jDP5sTHku7vXiIiNd04jmr7dPTS97g//eIRXLGCd1CnPzEwkJJHDmDlmo2mUxvpb9wKwn3te/RQUXzz0yODKXxrGQ04cBrQbT/fCkPjurUwRMD2DquRkQV0D7YivW9nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-49ab6a82cd5so3300685b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 07 Aug 2026 02:21:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786094494; x=1786699294;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=1w1bzy8ztEMz76rKTp6YTKy70X4mXB83RhI3ZGRktQI=;
+        b=QSN60/WCK3gO7gzD+VXZZZC01Miq2giBK68itvd/USL2ug07fn4tNyndDPPy6nOxjd
+         eqIcH4Nx0F7+uXtD1eiFCoBURzpmnWdPb3ZuW2CycZK3VgM74lQK/TmO0hCKIewtVieb
+         CRGUlr/8Vgnkb0mEvxa13SWm0sn9s1FGBgrymtj7iO5YJ4HOoutYyU3/yj5h5HynrVJf
+         X6FW6KyxSLgbgDx8+9g2LxJgTT58fYcPC5JX7q6veOeuYpQ2LpGOqYqMCLrvUCztHbRE
+         Xx8WVHbJz9aN/a3wtq9Se2Xut11ljdHKYmYJUUOO35DcMMkU83oVtVDiftEOYNrH3NYz
+         NbTg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq5+NxP2iHqeQ0OJgIMKFc+f8SWQry03HEVOCUgIYajio5DswHVRwBY64pmTu/zqxjyJdjGUJhSyPm24uS1@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbeCwwBHLO3ZoEy1U4SysCaIbdDOQES2nTY6R/bzMSQqPq5hYZ
+	n1uQV4M5L1A6btkYUk595VIucm0CQom7N6+QmAI2v1vJsfCOfMcZqIDyN+6DPZUL5sPxQ3DB/sY
+	jJ0yGblAMeNF5GhR1hYRhJxntnK3cPEPBN5UWzCY+kxInaDeckLkWbykeHUI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806083926.1807279-2-usama.anjum@arm.com>
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=G6ws1dk5 c=1 sm=1 tr=0 ts=6a75849e cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=7CQSdrXTAAAA:8
- a=knT6YJskkHJV9nTHl7IA:9 a=CjuIK1q_8ugA:10 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA0OSBTYWx0ZWRfX0nP+lx57+9VF
- 1gmEHMdPT9FDdcpiQyi8SmdcwszvdSJS7mABzCaLeNrHd5Sn8+sTGSPk7wgKar3hoAN1E4B/pVx
- bnXvboS9h3/hfmNoqiGrVCRZoMjtdCQHGGcTi/BUQBFwhU3T8reyBMtbDszvLlwmh+wtmaSZLqp
- yvHKwixzlq6G3K0WuaMTKb0rV/vx4p/+UD+c1HQ1XyaQGUDlAtP+qGdAxuohRKj+obB6JSz4pJf
- zR2/7yIz+BcCrmWWxRtyEAkQu5yJbla8dkOuZTNT+Te2QfvIou3iP7qEQNN4GRIU2Q5uHMR6b+I
- Dj47k0jZ1vEd4+qsmknTL/rQ5DO0GSFvsjQsVYtZ2xV19zVeKyvXq+fRINOYMQUEmIHFL/MkEMn
- a61cmrTNbkwX+us4u3c+MP3DMEixACEHjWeKrnFUAYotTcrys6EiCMj8gXkAJjhYM+ZfvANLuAs
- LDq51urlTaBYjwemYPw==
-X-Proofpoint-ORIG-GUID: 24rCQEgxgE9QBP75I4HmK7CgK28n9dSJ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA0OSBTYWx0ZWRfX1i5aYO825ZYa
- TwQN6H3jwP2QZ+OLP/IGdT3C7Slc5GOjV5747KQtgAdatwi/16p60JYaM2efb4DysHgyipihWtH
- 8fPlfABrpBSxaw7p4kLOdK2+bYjkzog=
-X-Proofpoint-GUID: 24rCQEgxgE9QBP75I4HmK7CgK28n9dSJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-07_01,2026-08-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070049
+X-Received: by 2002:a05:6808:c1f3:b0:496:10e6:f76e with SMTP id
+ 5614622812f47-4afadf21ab6mr12718158b6e.4.1786094494766; Fri, 07 Aug 2026
+ 02:21:34 -0700 (PDT)
+Date: Fri, 07 Aug 2026 02:21:34 -0700
+In-Reply-To: <682ffdaa.a70a0220.253bc2.0061.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
+Subject: Re: [syzbot] [kernfs?] [ext4?] INFO: task hung in sb_start_write (2)
+From: syzbot <syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com>
+To: brauner@kernel.org, cem@kernel.org, gregkh@linuxfoundation.org, 
+	jack@suse.cz, jfs-discussion@lists.sourceforge.net, kent.overstreet@linux.dev, 
+	linux-bcachefs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, shaggy@kernel.org, syzkaller-bugs@googlegroups.com, 
+	tj@kernel.org, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 06, 2026 at 09:38:39AM +0100, Muhammad Usama Anjum wrote:
-> pte_t is used both for logical PTE values and for entries stored in a PTE
-> table, so pte_t * does not distinguish a pointer to a copied value from a
-> pointer to table storage.
-> 
-> Introduce hw_pte_t as the generic name for a PTE table element. Define it
-> as a macro alias of pte_t by default. When an architecture selects
-> ARCH_HAS_HW_PTE_T, define it as a structure containing a pte_t instead.
-> This preserves the representation while allowing converted architectures
-> to enforce the distinction at compile time.
-> 
-> Keep the C type definitions behind an __ASSEMBLY__ check because
-> architecture assembly sources can include this header indirectly. Include
-> asm/page.h so consumers such as linux/vmalloc.h retain the page definitions
-> they previously obtained from that header.
-> 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-> ---
-> Changes since RFC v1:
-> - Add the ARCH_HAS_HW_PTE_T opt-in and generic wrapper definition.
-> - Exclude the C type definitions from assembly sources.
-> - Update the description for the new opt-in model.
-> ---
->  MAINTAINERS                   |  1 +
->  include/linux/pgtable_types.h | 17 +++++++++++++++++
->  mm/Kconfig                    |  3 +++
->  3 files changed, 21 insertions(+)
->  create mode 100644 include/linux/pgtable_types.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e9c8567308a75..7169bea968cf5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16982,6 +16982,7 @@ F:	include/linux/mmu_notifier.h
->  F:	include/linux/pagewalk.h
->  F:	include/linux/pgalloc.h
->  F:	include/linux/pgtable.h
-> +F:	include/linux/pgtable_types.h
->  F:	include/linux/ptdump.h
->  F:	include/linux/vmpressure.h
->  F:	include/linux/vmstat.h
-> diff --git a/include/linux/pgtable_types.h b/include/linux/pgtable_types.h
-> new file mode 100644
-> index 0000000000000..70c3edd00a01b
-> --- /dev/null
-> +++ b/include/linux/pgtable_types.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _LINUX_PGTABLE_TYPES_H
-> +#define _LINUX_PGTABLE_TYPES_H
-> +
-> +#include <asm/page.h>
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +#ifdef CONFIG_ARCH_HAS_HW_PTE_T
-> +typedef struct { pte_t __pte; } hw_pte_t;
+syzbot has found a reproducer for the following issue on:
 
-On s390 it fails to compile once we do typedef hw_pte_t *pgtable_t
-in asm/page.h. m68k, powerpc and sparc may also have such problem.
+HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-18-4..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1379cfb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=98da55a882774dfe
+dashboard link: https://syzkaller.appspot.com/bug?extid=b3fba2e269970207b61d
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14b9d7b9580000
 
-The below declaration helps to resolve it using forward declaration
-and without meddling with headers, though I do not like it much:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com
 
-typedef struct __hw_pte_t { pte_t __pte; } hw_pte_t;
+INFO: task syz-executor328:5959 blocked for more than 15 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor328 state:D stack:28328 pid:5959  tgid:5959  ppid:5947   task_flags:0x400040 flags:0x00080000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x16dc/0x5500 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7326
+ percpu_rwsem_wait+0x32d/0x4a0 kernel/locking/percpu-rwsem.c:164
+ __percpu_down_read+0xf8/0x140 kernel/locking/percpu-rwsem.c:180
+ percpu_down_read_internal include/linux/percpu-rwsem.h:67 [inline]
+ percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+ __sb_start_write include/linux/fs/super.h:19 [inline]
+ sb_start_write+0x18e/0x1c0 include/linux/fs/super.h:125
+ mnt_want_write+0x41/0x90 fs/namespace.c:494
+ do_tmpfile+0x6c/0x240 fs/namei.c:4817
+ path_openat+0x3095/0x3850 fs/namei.c:4854
+ do_file_open+0x23e/0x4a0 fs/namei.c:4892
+ do_sys_openat2+0x115/0x200 fs/open.c:1368
+ do_sys_open fs/open.c:1374 [inline]
+ __do_sys_openat fs/open.c:1390 [inline]
+ __se_sys_openat fs/open.c:1385 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1385
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3fb490aaf7
+RSP: 002b:00007fff7f2f6f10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 0000555578a51400 RCX: 00007f3fb490aaf7
+RDX: 0000000000410001 RSI: 00007f3fb494a764 RDI: ffffffffffffff9c
+RBP: 00007f3fb494a764 R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000000001b6 R11: 0000000000000202 R12: 00007fff7f2f70d8
+R13: 0000000000000002 R14: 00007f3fb4970c80 R15: 0000000000000002
+ </TASK>
 
-> +#else
-> +#define hw_pte_t pte_t
-> +#endif
-> +
-> +#endif /* !__ASSEMBLY__ */
-> +
-> +#endif /* _LINUX_PGTABLE_TYPES_H */
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 331daf7fcfab5..31ba9ebf4aafd 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1316,6 +1316,9 @@ comment "GUP_TEST needs to have DEBUG_FS enabled"
->  config GUP_GET_PXX_LOW_HIGH
->  	bool
->  
-> +config ARCH_HAS_HW_PTE_T
-> +	bool
-> +
->  config DMAPOOL_TEST
->  	tristate "Enable a module to run time tests on dma_pool"
->  	depends on HAS_DMA
-> -- 
-> 2.47.3
-> 
+Showing all locks held in the system:
+1 lock held by khungtaskd/38:
+ #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6775
+2 locks held by getty/5356:
+ #0: ffff88803688d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+ #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x460/0x1360 drivers/tty/n_tty.c:2211
+1 lock held by syz-executor328/5959:
+ #0: ffff888035a88500 (sb_writers#4){++++}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:494
+
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 38 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
+ nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
+ trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x135/0x170 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+Code: cb 6e 02 e9 13 cf 03 00 cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 33 44 24 00 fb f4 <c3> cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+RSP: 0018:ffffffff8de07de0 EFLAGS: 00000242
+RAX: 000000000009a1e9 RBX: ffffffff81998590 RCX: 0000000080000001
+RDX: 0000000000000001 RSI: ffffffff8d887e30 RDI: ffffffff8bca6d80
+RBP: ffffffff8de07eb8 R08: ffff8880b8633d5b R09: 1ffff110170c67ab
+R10: dffffc0000000000 R11: ffffed10170c67ac R12: 0000000000000000
+R13: 1ffffffff1bdede8 R14: 1ffffffff1bc0fc4 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff888125c36000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000563216b981d0 CR3: 000000000dfb0000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ arch_safe_halt arch/x86/kernel/process.c:767 [inline]
+ default_idle+0x9/0x20 arch/x86/kernel/process.c:768
+ default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+ do_idle+0x2e0/0x540 kernel/sched/idle.c:355
+ cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
+ rest_init+0x2de/0x300 init/main.c:717
+ start_kernel+0x392/0x3e0 init/main.c:1175
+ x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+ x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+ common_startup_64+0x13e/0x157
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
