@@ -1,268 +1,309 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3FE2E764D;
-	Fri,  7 Aug 2026 01:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663213E47B;
+	Fri,  7 Aug 2026 04:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786066076; cv=none; b=VkIVXO1qGmmFgVv7aHkrGX8EobWBNt3Hm1pH4Iv2cLrPeZyAIA2Q9VUVOBW5yq2HfYdCkNtCCaxmLKDyMhajJ7p50sB3ZG2EWYd8IzcJyBvsXQViNqQ4T4In+RxvUceTLHOtP95F6/1Nnog24qY1YdEAPsKqtei8+mumj+fyMCk=
+	t=1786075418; cv=none; b=LkY1a5nzzYh5GrTpNekD63kwZaknlb+54Phf92we3sU5jmX7qRQCmJzV/nMRhcbV/pGb8tYzsjVCBKfPHY2lNPFxILrF42MRHPGWgcxAESLiIjGDFX4ajzMRfs8T2jSj4f/coY1OFeV+wvQbYatr9aIN9Hz/f/gs82z5aDfYCYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786066076; c=relaxed/simple;
-	bh=lpJTDr3pb/KNQZ/CIQGrWUo8y1y/bM9Y95IqYH9B6dg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HrGdisOc84RHEGEaly9pcuCxxRfXaFjfHHabp+A5b+geSoeCWQz+A1ZAhPuUEVhs9DzAa0TLp0vIp51FKVE2cEZ5y3Yuytqnulf6y5NiYnIIcduzWLNjn/yWF8Dj8AF5kETla7YCz7wB9u4chJngDg3qkVqmWxanXyySkA3OHo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hGRN053BszKHMWl;
-	Fri,  7 Aug 2026 09:27:28 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 68B454058D;
-	Fri,  7 Aug 2026 09:27:37 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgA3J0aGNHVqNE6SBQ--.39735S3;
-	Fri, 07 Aug 2026 09:27:37 +0800 (CST)
-Message-ID: <e2179651-0e18-4e9a-81c0-9b9dc639acfd@huaweicloud.com>
-Date: Fri, 7 Aug 2026 09:27:34 +0800
+	s=arc-20240116; t=1786075418; c=relaxed/simple;
+	bh=QdnUZ/1RQP4y7jtPb7o7EKN2ulMmKmTsmcM+xHGCVWE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VZnBFS8332NHj+q6AesgEP43M4vdM7VFTVY+jvFJ6HYOKWJYotWxjfPpVrQYrdjFizu/ztUuU74KM7JTc/VkH498VHLjXbPglKrEJJYzH6bQbbOCjeRWcSx4y6U9HBQeEicPECN7e748GuClCdItb0PyTFBIrkI9CuUTneMC6uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oaznZLub; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oaznZLub"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PV
+	njRD7StArmNZCJz/ovC5T3H+x2rUiTPvE7OuI7tZw=; b=oaznZLubF/vpHKc8Ip
+	7m7rvN3wYF2Y+AZhC1I/EfGuiO5IDqiBearkPZgGbPi/SYkVrKxiJt+rV/l2C/3i
+	hkyO8hXrAawjnB5yO6ZQPXh7Znzssr6QYFqrN9s7UBbnVCgtMn5Kzj61B/67imdU
+	Rqhq+yaTeNTY217rXJF9iPHSI=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3F3KWWHVqYovENw--.12045S2;
+	Fri, 07 Aug 2026 12:01:28 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: david@kernel.org,
+	brauner@kernel.org,
+	ljs@kernel.org,
+	rppt@kernel.org,
+	pfalcato@suse.de,
+	viro@zeniv.linux.org.uk,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	akpm@linux-foundation.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	mjguzik@gmail.com,
+	ebiederm@xmission.com,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	alex.aring@gmail.com,
+	arnd@arndb.de,
+	keescook@chromium.org,
+	mcgrof@kernel.org,
+	j.granados@samsung.com,
+	allen.lkml@gmail.com
+Cc: kuba@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Xin Zhao <jackzxcui1989@163.com>
+Subject: [PATCH v7] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+Date: Fri,  7 Aug 2026 12:01:24 +0800
+Message-Id: <20260807040124.1706927-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/5] iomap: support invalidating partial folios
-To: Brian Foster <bfoster@redhat.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, brauner@kernel.org, djwong@kernel.org,
- hch@infradead.org, joannelkoong@gmail.com, "Theodore Y. Ts'o"
- <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, Matthew Wilcox <willy@infradead.org>,
- ziy@nvidia.com, yi.zhang@huawei.com, yizhang089@gmail.com,
- chengzhihao1@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260714082325.325163-1-yi.zhang@huaweicloud.com>
- <20260714082325.325163-3-yi.zhang@huaweicloud.com>
- <a638a8fb-c184-4069-ae33-379ec12cd514@huaweicloud.com>
- <anH-WKA1coW6wtfG@bfoster>
- <ba0c9502-c9f8-40f7-bfd6-47942eb88dec@huaweicloud.com>
- <anR7Td1iZnQgu6h_@bfoster>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <anR7Td1iZnQgu6h_@bfoster>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgA3J0aGNHVqNE6SBQ--.39735S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3GFy8tr47CF17Jr1DKF1kuFg_yoWfKw4DpF
-	WUKFn8Kr4DGa18Ar1Iva18Xr1FyrWxJFW5uFyfK3y3CFn09r17KF47Ka4j9a9rZr18Gw40
-	qr40vry7WFn8AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
-	0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
-	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
-	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	jIksgUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3F3KWWHVqYovENw--.12045S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3JF4fKw18Xw1UZrWDGr4DArb_yoWDGF43pF
+	WrKay3KF48KF47tFZ7Ja17Xa4rJw4vgrWa9ry2gw43Ca15Aryxur4ft3W3XwnrAr9aka18
+	XF4jqr9ru34qqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_byCDUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwBo0Pmp1WJr7LQAA3b
 
-On 8/6/2026 8:17 PM, Brian Foster wrote:
-> On Wed, Aug 05, 2026 at 10:42:50AM +0800, Zhang Yi wrote:
->> On 8/4/2026 10:59 PM, Brian Foster wrote:
->>> On Mon, Aug 03, 2026 at 03:13:28PM +0800, Zhang Yi wrote:
->>>> On 7/14/2026 4:23 PM, Zhang Yi wrote:
->>>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>>
->>>>> Current iomap_invalidate_folio() can only invalidate an entire folio. If
->>>>> we truncate a partial folio on a filesystem where the block size is
->>>>> smaller than the folio size, it will leave behind dirty bits for the
->>>>> truncated or punched blocks. During the write-back process, it will
->>>>> attempt to map the invalid hole range. Fortunately, this has not caused
->>>>> any real problems so far because the ->writeback_range() function
->>>>> corrects the length.
->>>>>
->>>>> However, the implementation of FALLOC_FL_ZERO_RANGE in ext4 depends on
->>>>> the support for invalidating partial folios. When ext4 partially zeroes
->>>>> out a dirty and unwritten folio, it does not perform a flush first like
->>>>> XFS. Therefore, if the dirty bits of the corresponding area cannot be
->>>>> cleared, the zeroed area after writeback remains in the written state
->>>>> rather than reverting to the unwritten state. Fix this by supporting
->>>>> invalidation of partial folios.
->>>>
->>>> Hi all,
->>>>
->>>> While working on the v5 of the ext4 iomap conversion series[1], I've
->>>> observed a rare data inconsistency issue in xfstests generic/127. After
->>>> debugging, I found that the root cause lies in the fact that the current
->>>> patch does not cover all scenarios when handling partial folio
->>>> invalidation during punch hole operations in cases where
->>>> block size < folio size. Specifically, the sub-folio dirty state is not
->>>> properly cleaned up in all cases. I think we need to discuss the fix,
->>>> and I'd like to hear your suggestions.
->>>>
->>>> Root cause:
->>>>
->>>> In both iomap buffered write and mmap write paths, if the write range
->>>> covers an entire folio (regardless of whether the folio size is larger
->>>> than block size), an ifs (iomap_folio_state) is not allocated
->>>> immediately. Instead, it is deferred until writeback time, where it gets
->>>> created in iomap_writeback_folio(). This creates a problem: when ext4
->>>> performs a punch or zero_range operation on a partial range within such
->>>> a dirty folio, there is no way to clear the dirty state for the
->>>> corresponding blocks.
->>>>
->>>> This leads to two specific issues:
->>>>
->>>> 1. After issuing FALLOC_FL_ZERO_RANGE on a range covering
->>>>    dirty+unwritten blocks within a large folio, the dirty state cannot
->>>>    be cleared. During subsequent writeback, zeroed data is still
->>>>    written back, and the final extent state for those blocks becomes
->>>>    written. As a result, the fix from this patch becomes ineffective in
->>>>    this case.
->>>>
->>>
->>> I suspect this may be (occasionally) the case even with an ifs. IIRC the
->>> folio batch stuff made a tradeoff for just zeroing any folio passed in
->>> from the fs that was determined to be dirty, regardless of whether
->>> underlying block aligned ranges may be unwritten and still clean.
->>>
->>> I think this is relatively harmless so long as the underlying range
->>> returns zeroes from subsequent reads. The caveat may be if there are any
->>> cases where we have a really large folio and some small portion of it is
->>> dirtied and that causes some huge amount of unnecessary zeroing. I'm not
->>> sure if we've hit something like that in practice though..
->>
->> This does seem likely harmless, since at least the user data is as
->> expected. Moreover, the ext4 filesystem itself may retain a small
->> portion of a written extent due to reasons such as the inability to
->> split extents. So I understand that the result should be acceptable.
->>
->> However, from the iomap perspective, it seems that we support sub-folio
->> handling, but not fully - and the traditional buffer_head path does not
->> exhibit this phenomenon, which is somewhat puzzling to me. So I was
->> wandering whether it's necessary to fill this case?
->>
-> 
-> I don't think there is any inherent requirement to match exact behavior
-> between iomap and buffer heads, if that's what you mean?
-> 
-> Brian
+A coredump typically takes seconds or even longer to complete. If we
+happen to hold a write lock with flock just before triggering the
+coredump, that write lock will not be released during the entire coredump
+process. As a result, other processes attempting to acquire the same write
+lock may experience significant delays. Another typical scenario is that
+some custom management modules for shared memory also need to release the
+reference counts of the related buffers as soon as possible, rather than
+waiting until the coredump is complete.
 
-I was just curious about why iomap doesn't always allocate ifs when the
-block size is smaller than the folio size. I think Darrick's reply has
-answered my question. :)
+Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
+We set it by default because tools like systemd-coredump go through the
+fds. Some other coredump pipe programs like minicoredump do not use fds by
+default. If you are sure that your coredump backend does not use the fds,
+you can clear bit 9, which will allow some file resources without VMA
+references to be released earlier.
 
-Now I understand that unless we are indeed facing a severe write
-amplification problem, the current situation is acceptable. It's just
-that when I add support for ext4, I need to be especially careful about
-the side effects it brings, such as concurrent scenarios during punch
-hole and writeback, because it could turn blocks that were just punched
-into allocated ones again. Apart from the mm bug mentioned below, Apart
-from the mm bug mentioned below, I haven't encountered any other issues
-outside of ext4 so far.
+In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
+otherwise file put operation will NOT execute util coredump finish.
 
-Thanks,
-Yi.
+Test Case One - flock
+Test program send signal SIGABRT to the program which owns the flock,
+output the wait time(unit ms) to successfully attach the flock.
+Test program malloc 500MB heap and memset it.
+If NOT set bit9 of coredump_filter, waitms is 11280.
+If set bit9 of coredump_filter, waitms is 0.
 
-> 
->>>
->>>> 2. The aforementioned rare data inconsistency in xfstests generic/127.
->>>>    When performing a partial folio punch hole on a dirty large folio,
->>>>    truncate_inode_pages_range() zeros the partial folio and then splits
->>>>    the folio. This causes an incorrect 'end' offset calculation in
->>>>    truncate_inode_pages_range(), which then results in all split folios
->>>>    being truncated via truncate_inode_folio(), turning partial valid
->>>>    data into zeroes.  For example:
->>>>
->>>>    Suppose we have a large folio of 4 pages, and we punch a range
->>>>    starting from the beginning to the middle of the last page.
->>>>    truncate_inode_pages_range() will go through two rounds of splitting.
->>>>    Normally, if an ifs is present, the split path would hit
->>>>    folio_split() -> filemap_release_folio() -> iomap_release_folio(),
->>>>    which would intercept the operation and refuse splitting because the
->>>>    folio is dirty.
->>>>
->>>>    However, without an ifs, filemap_release_folio() returns early via
->>>>    folio_needs_release(), causing the interception to fail. In the first
->>>>    round, the folio is split into 3 folios (1, 1, 2). In the second
->>>>    round, we expect to split into 4 folios (1, 1, 1, 1). If the second
->>>>    split succeeds, everything is fine, because
->>>>    truncate_inode_pages_range() calculates end = 3, and only the first 3
->>>>    folios are truncated. However, the second split is allowed to fail.
->>>>    If it does fail, truncate_inode_pages_range() still uses end = 3 and
->>>>    ends up truncating all 3 folios, resulting in data loss.
->>>>
->>>
->>> I was never really a huge fan of the ifs optimization thing, but I don't
->>> recall what the performance benefits really were.
->>>
->>> That aside, doesn't this seem like more of a bug within the
->>> truncate_inode_pages_range() path? It's not clear to me if that's the
->>> only problem wrt iomap, but I'd think if the end offset split down in
->>> truncate_inode_partial_folio() fails, we should be able to return
->>> partial progress or something instead of a true/false for the whole
->>> thing. Would that allow this path to properly update the end index for
->>> the full truncate loop and at least prevent throwing away a folio with
->>> partial data like this?
->>>
->>
->> + Matthew and Zi Yan to CC
->>
->> I suspect this is because most filesystems these days, when splitting
->> large folios, generally carry fs-specific private metadata for sub-folio
->> management, and when a sub-folio is dirty, ->release_folio() will
->> directly return EBUSY. As a result, dirty folios cannot be split because
->> their private data cannot be released, which is why this issue has
->> remained undetected until now. I also do think this does appear to be a
->> bug in truncate_inode_partial_folio(). Matthew and Zi Yan, what do you
->> think of this?
->>
->> Thanks,
->> Yi.
->>
->>> Brian
->>>
->>>> Now I remember I previously submitted two patches [2] that always
->>>> allocated an ifs in the iomap buffered write path and the mmap fault
->>>> path for the block size < folio size case. However, Christoph pointed
->>>> out that the iomap design intentionally defers ifs allocation to avoid
->>>> unnecessary overhead and improve performance, and suggested creating the
->>>> ifs in iomap_invalidate_folio() instead [3]. There is a hurdle, though:
->>>> iomap_invalidate_folio() is only called when the folio has private data
->>>> (in truncate_inode_partial_folio(), folio_needs_release() is called
->>>> first to check the private flag). So if we go with this approach, we
->>>> need to ensure that folio_invalidate() can be called even when the folio
->>>> does not have an ifs.
->>>>
->>>> One relatively simple approach is to always set the AS_RELEASE_ALWAYS
->>>> flag on ext4 inodes that go through the iomap path. I don't think this
->>>> would introduce significant overhead, but it doesn't feel very generic.
->>>>
->>>> Another approach is to modify truncate_inode_partial_folio(). Regarding
->>>> this, I don't want to introduce other magics to achieve this, so perhaps
->>>> modify truncate_inode_partial_folio() to check whether
->>>> i_blocks_per_folio > 1 before calling folio_invalidate(), and call it if
->>>> so.
->>>>
->>>> So, what do people think? Any better idea?
->>>>
->>>> Thanks,
->>>> Yi.
->>>>
->>>> [1] https://github.com/zhangyi089/linux/commits/ext4_buffered_iomap_v5-devel13/
->>>> [2] https://lore.kernel.org/linux-fsdevel/20240812121159.3775074-4-yi.zhang@huaweicloud.com/
->>>>     https://lore.kernel.org/linux-fsdevel/20240812121159.3775074-5-yi.zhang@huaweicloud.com/
->>>> [3] https://lore.kernel.org/linux-fsdevel/ZrxBfKi_DpThYo94@infradead.org/
->>>>
->>>>
->>>
->>>
->>
-> 
-> 
+Test Case Two - ion buffer
+Test programs include ion buffer publisher and ion buffer subscriber.
+Ion buffer publisher output the ion buffer hold_time if the subscriber
+NOT send ack to publisher and NOT release it. The subscriber will trig
+coredump by itself in some time.
+If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
+If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
+
+Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+---
+
+Change in v7:
+- Fix description error in proc.rst. Since bit9 has been added, the
+  supported memory types should now be 10,
+  as suggested by David Hildenbrand (Arm).
+
+Change in v6:
+- Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
+- Link to v6: https://lore.kernel.org/all/20260804001703.1340667-1-jackzxcui1989@163.com/
+
+Change in v5:
+- Not add another bootargs for the feature,
+  as suggested by Christian Brauner and Lorenzo Stoakes.
+  Add bit9 of coredump_filter to tag whether need to dump fd list.
+  Set bit9 to 1 as default.
+- Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
+  problems of the code related to umap that was added in v4, delete all of
+  it which is unnecessary. The management of reference counting for shared
+  memory generally does not need to be released through the release
+  operation of files that have VMA references. Traversing all the threads
+  within the process and executing exit_files() is sufficient.
+- Fulfill comments and commit log,
+  as suggested by Pedro Falcato and Lorenzo Stoakes.
+- Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+
+Change in v4:
+- Christian pointed out that the coredump process will traverse file
+  descriptors (fd), so certain fds should not be closed by default.
+  Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
+  pre-exit resources selection, default is NOT pre-exit anything.
+- Mateusz suggested that walking the fd table and release the file-lock is
+  reasonable. No longer release all the fd(s). Based on user config, only
+  the flock fd(s) and the fd(s) correspondent to file-backed shared memory
+  will be released at most.
+- Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+
+Change in v3:
+- Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
+  mm_flags_test() check, note that memory mapped files keep their own
+  separate references to the files. The case to work around is that early
+  unlocking a flock on a file allows other processes to lock and modify
+  the mapped data protected by the flock,
+  as suggested by Pedro Falcato.
+- Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+
+Change in v2:
+- Get rid of the implement of adding new fcntl API, the issue does not
+  worth inflicting the cost on everyone,
+  as suggested by Al Viro.
+- Call exit_files() in coredump_wait(),
+  as suggested by Eric W. Biederman.
+  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+  need to dump file-backed shared memory.
+- Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+
+v1:
+- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+---
+ Documentation/filesystems/proc.rst | 16 +++++++++++++---
+ fs/coredump.c                      | 21 +++++++++++++++++++++
+ fs/file_table.c                    |  7 ++++++-
+ include/linux/mm_types.h           |  6 ++++--
+ 4 files changed, 44 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index db6167bef..0728ebd73 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1927,7 +1927,7 @@ will be dumped when the <pid> process is dumped. coredump_filter is a bitmask
+ of memory types. If a bit of the bitmask is set, memory segments of the
+ corresponding memory type are dumped, otherwise they are not dumped.
+ 
+-The following 9 memory types are supported:
++The following 10 memory types are supported:
+ 
+   - (bit 0) anonymous private memory
+   - (bit 1) anonymous shared memory
+@@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
+   - (bit 6) hugetlb shared memory
+   - (bit 7) DAX private memory
+   - (bit 8) DAX shared memory
++  - (bit 9) fd list
+ 
+   Note that MMIO pages such as frame buffer are never dumped and vDSO pages
+   are always dumped regardless of the bitmask status.
+@@ -1946,13 +1947,22 @@ The following 9 memory types are supported:
+   Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
+   only affected by bit 5-6, and DAX is only affected by bits 7-8.
+ 
++  Note that bit 9 is set by default because tools like systemd-coredump go
++  through the fds. If you do not set bit 9, files that are not referenced by
++  any VMA are released before dumping core. Some file release logic, such as
++  exiting flock or releasing references to shared buffers is executed much
++  earlier.
++
++The default value of coredump_filter is 0x233; this means all anonymous memory
++segments, ELF header pages, hugetlb private memory and fd list are dumped.
++
+ The default value of coredump_filter is 0x33; this means all anonymous memory
+ segments, ELF header pages and hugetlb private memory are dumped.
+ 
+ If you don't want to dump all shared memory segments attached to pid 1234,
+-write 0x31 to the process's proc file::
++write 0x231 to the process's proc file::
+ 
+-  $ echo 0x31 > /proc/1234/coredump_filter
++  $ echo 0x231 > /proc/1234/coredump_filter
+ 
+ When a new process is created, the process inherits the bitmask status from its
+ parent. It is useful to set up coredump_filter before the program runs.
+diff --git a/fs/coredump.c b/fs/coredump.c
+index bb6fdb1f4..ed4d30916 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -521,6 +521,25 @@ static int zap_threads(struct task_struct *tsk,
+ 	return nr;
+ }
+ 
++/*
++ * If do not dump fd list, files that are not referenced by any VMA
++ * can be released before dumping core. Therefore, some file release
++ * logic, such as exiting flock or releasing references to shared
++ * buffers is executed much earlier. Note that do_coredump() often
++ * takes several seconds or even longer to execute.
++ */
++static void coredump_pre_exit(void)
++{
++	struct task_struct *tsk = current, *t;
++
++	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
++		return;
++
++	for_each_thread(tsk, t) {
++		exit_files(t);
++	}
++}
++
+ static int coredump_wait(int exit_code, struct core_state *core_state)
+ {
+ 	struct task_struct *tsk = current;
+@@ -1124,6 +1143,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+ 	if (cn->mask & COREDUMP_REJECT)
+ 		return;
+ 
++	coredump_pre_exit();
++
+ 	/* get us an unshared descriptor table; almost always a no-op */
+ 	/* The cell spufs coredump code reads the file descriptor tables */
+ 	if (unshare_files())
+diff --git a/fs/file_table.c b/fs/file_table.c
+index 16e52e7fc..6ed8ace8c 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -566,7 +566,12 @@ static void __fput_deferred(struct file *file)
+ 		return;
+ 	}
+ 
+-	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
++	/*
++	 * coredump_pre_exit() may release files before dumping core.
++	 * Cannot use task_work in the case, needs to release files
++	 * earlier.
++	 */
++	if (likely(!in_interrupt() && !(task->flags & (PF_KTHREAD | PF_DUMPCORE)))) {
+ 		init_task_work(&file->f_task_work, ____fput);
+ 		if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
+ 			return;
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index c7db35be6..e865edb04 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -1954,14 +1954,16 @@ enum {
+ #define MMF_DUMP_HUGETLB_SHARED  8
+ #define MMF_DUMP_DAX_PRIVATE	9
+ #define MMF_DUMP_DAX_SHARED	10
++#define MMF_DUMP_FD_LIST	11
+ 
+ #define MMF_DUMP_FILTER_SHIFT	MMF_DUMPABLE_BITS
+-#define MMF_DUMP_FILTER_BITS	9
++#define MMF_DUMP_FILTER_BITS	10
+ #define MMF_DUMP_FILTER_MASK \
+ 	((BIT(MMF_DUMP_FILTER_BITS) - 1) << MMF_DUMP_FILTER_SHIFT)
+ #define MMF_DUMP_FILTER_DEFAULT \
+ 	(BIT(MMF_DUMP_ANON_PRIVATE) | BIT(MMF_DUMP_ANON_SHARED) | \
+-	 BIT(MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF)
++	 (1 << MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF |\
++	 (1 << MMF_DUMP_FD_LIST))
+ 
+ #ifdef CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS
+ # define MMF_DUMP_MASK_DEFAULT_ELF	BIT(MMF_DUMP_ELF_HEADERS)
+-- 
+2.34.1
 
