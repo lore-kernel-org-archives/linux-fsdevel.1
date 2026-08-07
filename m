@@ -1,121 +1,154 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872A842F71B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  7 Aug 2026 20:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03FF45D19F;
+	Fri,  7 Aug 2026 22:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786133514; cv=none; b=J+FlE6i4mHC/3AEm7nrqt6lsal/Av6spXBULVQFZMvXT4yuY2LQFBumeotanaXALXojZyYRH5JE4kDWH3HOPW6xkJmA07r3jVVoBLvWzlPaqreQA5r0zrdsGUk70iwrMKkCTcL3Ditcf3zgOE8KYgsUGRCBgohL0gbvUv+FWUdw=
+	t=1786141069; cv=none; b=A3VgVKlTJ9x+8V12uLtYfuyAbk/38npLjzX5YIK6e/rpa4xFdRXLgWLmkrZcPmBZi2xOTWjniRNjS+W63xH1OZo8HQZUDs6GbCRYaeSYXH3jZbkkGcNRVFq8pEQEeLrA1bxZL4kt3J8nXZSpAkMn4cRGa0K4XXG4YkALDkPzn1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786133514; c=relaxed/simple;
-	bh=Apvh0u5eXDSx863rY7fsHuM/O8cdC0VODFAfSZWWdDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aVpHnICDcG2VV7EL02ozG9n7jqvtaVLAMIgmwLDjGQPOCB9NiC800v73GTYXZcEsIBFOdYahEQ6Sl1Ol5rymc8XrM35qxD5xrYwEohcx0vbz759OnaMwbvlWaVp3/W2Me8rnGrO4aKmf6/qFBpymCVlavdVdJFVMrsBr8FTmXTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rK4FNMf8; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rK4FNMf8"
-Message-ID: <2b1a75f9-528c-4b33-946b-d1452372a5ed@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786133509;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=COYAz0/fn9f9zQMqxdnS8F+AaTPqDwUGO++486vjWrg=;
-	b=rK4FNMf8ZLmXAC9A9ufsnjj80noZmotG1gbAy4Na+GVcZbohwGM7fppahlUVn16sNdc0+1
-	7LN+B3lUnTdKzPh7LiZiSCxqoAmRgvJx2/kv7+l0ufErowdUqa+Q8Qn+LzRBdVQKydeu2e
-	zCweJL08enSH/sZpu7IjfbwBvRpZOUQ=
-Date: Fri, 7 Aug 2026 21:11:29 +0100
+	s=arc-20240116; t=1786141069; c=relaxed/simple;
+	bh=J4JLIR8qt7OMPKMUTgAP0WX5jKAWME93N1J+XGiazdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gbJvk4W/R7Xfs1dT90tnJ7PDum+4MDB6yLUwbYBR/rzE5P1sGIirCO5drt2i1ztraC5WfCAZHJUlzFGyNqdcNZMA0ZenOOI4Pjd/xuA8FYuqZ0HBK0D9bF6B/FAPSvVQtLhhkJLvAVcBOssbNAl83rRoN3v3+UdEFS+5Nx05bEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 40B041C07BF;
+	Fri,  7 Aug 2026 22:17:39 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id C813317;
+	Fri,  7 Aug 2026 22:17:22 +0000 (UTC)
+Date: Fri, 7 Aug 2026 17:17:21 -0500
+From: John Groves <john@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
+ 44)
+Message-ID: <anZXxns2H0hraevA@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022919.75875-1-john@jagalactic.com>
+ <0100019fc5746312-6cfe9a07-a658-4aba-b1e9-5233b0ddfcf4-000000@email.amazonses.com>
+ <20260806052449.GG3560084@frogsfrogsfrogs>
+ <anTxt3qsUQuCKvMz@groves.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
-To: Andrew Morton <akpm@linux-foundation.org>,
- Phillip Lougher <phillip@squashfs.org.uk>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
-References: <20260724190556.1950693-1-usama.arif@linux.dev>
- <7d92d30a-c92e-451b-907e-74c91562d4ae@squashfs.org.uk>
- <20260807115844.d4eca51ea2b6ddfdcd7dc25c@linux-foundation.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260807115844.d4eca51ea2b6ddfdcd7dc25c@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anTxt3qsUQuCKvMz@groves.net>
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: C813317
+X-Stat-Signature: 8j34j75gqi1wmp6t4z3xaq87gdp38by1
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+Jhg+QZrZX5fW8FKmAtX44m54gPSILj4M=
+X-HE-Tag: 1786141042-871016
+X-HE-Meta: U2FsdGVkX19CtPIfRxeFZ3e99ugG6+ZU3FJMM8tlxbxau2+hivErNN8eJFH7VkJHIzdcrThG0zrLMFoBhzt+qIVnrbtUGpNoH2u0ciCcd1TX4m8T34JMcfhKMrCpF1shSRwIqSGS6E9LxQ0z67EQxus0sJB8AqdTVFbP+mFcJhkxSzvGwXcl6DAp1lEouJWztVlhsYZ3ixSy8Cn8s4mKt8jyY2cmnMcg8sxPxG0dz4NQwdQaIqamoAtByXbmTzVN6ymFtoS2vI78/PkZL15H5B2V3yN3vEpo79o3qWwgaxcvIEHzBRpRh+tOZf13+uWS4nO+5VnxYxqjD+oqAyCgLBwCy9PjI0xTdbLAdVpXmobkOf4+RwMP0ar5Mk01PK5t
 
-
-
-On 07/08/2026 19:58, Andrew Morton wrote:
-> On Fri, 7 Aug 2026 17:01:30 +0100 Phillip Lougher <phillip@squashfs.org.uk> wrote:
+On 26/08/06 03:53PM, John Groves wrote:
+> On 26/08/05 10:24PM, Darrick J. Wong wrote:
+> > On Mon, Aug 03, 2026 at 02:29:26AM +0000, John Groves wrote:
+> > > From: John Groves <John@Groves.net>
+> > > 
+> > > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
+> > > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
+> > > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
+> > > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
+> > > message in, parses both the simple-extent and interleaved (striped) wire
+> > > forms into inode->i_private, and sets S_DAX.
+> > > 
+> > > Resolving those mappings to dax-device offsets (iomap_begin) is added in
+> > > the following commit; the read/write/fault paths keep their NULL iomap_ops
+> > > stub until then.
+> > > 
+> > > Also add famfs ioctls to ioctl-number.rst
+> > > 
+> > > Signed-off-by: John Groves <john@groves.net>
+> > > ---
+> > >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+> > >  fs/famfs/famfs_file.c                         | 326 +++++++++++++++++-
+> > >  fs/famfs/famfs_inode.c                        |   1 +
+> > >  fs/famfs/famfs_internal.h                     |  46 +++
+> > >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
+> > >  5 files changed, 462 insertions(+), 3 deletions(-)
+> > >  create mode 100644 include/uapi/linux/famfs_ioctl.h
+> > > 
+> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > index 3f0ef1e27eb0..5e244dec1b98 100644
+> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
+> > >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
+> > >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
+> > >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
+> > > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
+> > >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
+> > >  'v'   00-1F  linux/fs.h                                                conflict!
+> > >  'v'   00-0F  linux/sonypi.h                                            conflict!
+> > > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
+> > > index 678f2035fd5f..d710c8a0c923 100644
+> > > --- a/fs/famfs/famfs_file.c
+> > > +++ b/fs/famfs/famfs_file.c
+> > > @@ -13,9 +13,313 @@
+> > >  #include <linux/mm.h>
+> > >  #include <linux/dax.h>
+> > >  #include <linux/iomap.h>
+> > > +#include <linux/capability.h>
+> > >  
+> > > +#include <linux/famfs_ioctl.h>
+> > >  #include "famfs_internal.h"
+> > >  
+> > > +/* Expose famfs kernel abi version as a read-only module parameter */
+> > > +static int famfs_kabi_version = FAMFS_KABI_VERSION;
+> > > +module_param(famfs_kabi_version, int, 0444);
+> > > +MODULE_PARM_DESC(famfs_kabi_version, "famfs kernel abi version");
+> > 
+> > Maybe make the "NOP" ioctl a geometry ioctl that tells you the abi
+> > version and (I guess) the page and pmd size? :D
 > 
->>
->>
->> Hi Usama,
->>
->> Sashiko (the new patch reviewing AI) failed to apply and review your patch.
->>
->> See https://sashiko.dev/#/patchset/20260724190556.1950693-1-usama.arif%40linux.dev
->>
->> I have been dealing with this issue all week because Sashiko also rejected my
->> patch sent this week.
->>
->> https://sashiko.dev/#/patchset/20260805175900.600140-1-phillip%40squashfs.org.uk
->>
->> After quite a bit of investigation, it appears the problem is Sashiko is applying
->> the patches against the squashfs-next-git URL listed in the MAINTAINERS file.
->>
->> Unfortunately that squashfs-next.git tree is unused and twelve years out of date
->> (last updated 2014).
->>
->> See
->>
->> https://lore.kernel.org/all/267938f6-8212-4ddc-9055-452f9d166010@squashfs.org.uk/
->>
->> and
->>
->> https://lore.kernel.org/all/anUi3bkwfM8teo_R@debarbos-thinkpadt14gen5.rmtusma.csb/
->>
->>
->> But as it stands your patch and mine are going nowhere because Andrew won't
->> pull any patch that has not passed Sashiko.
->>
->> See
->>
->> https://lwn.net/Articles/1064830/
-> 
-> Geeze, that's very overstated.
-> 
-> If Sashiko can't review a thing then that's annoying because sometimes
-> it finds bugs.  If it does review a thing and claims to find
-> significant issues then I want to see the developer or maintainer
-> explain why things are OK.
-> 
-> If you the maintainer want the patchset merged in this situation then I
-> have no problem with that.
-> 
->>
->> I'm going to resend my patch with a base-commit: tag to see if it makes
->> a difference to Sashiko.
-> 
-> That would be interesting.
+> I like it - will do
 
+Err, gonna leave this alone after all. The kabi_version is already exposed
+as a module parameter - which is better. That is needed before mount (and
+the ioctls can't be called till mounted). The other useful stuff that goes 
+here is the supported page sizes (which famfs generally calls "allocation 
+units". But there again, user space needs them prior to mount. So exposing 
+those as one or more module parameters is ideal.
 
-It worked! This is for the v2, that I just sent on top of linus upstream
-from today, commit a13307e97d5c54b65720bb71fa379960ded1e51a which is also
-mentioned in the sashiko review in "baseline" section.
+The NOP ioctl originated to answer the question "is this file famfs", and
+it still works fine for that (and user space relies on that in certain
+circumstances).
 
-https://sashiko.dev/#/patchset/20260807172421.3875982-1-usama.arif%40linux.dev
+Thanks!
+John
 
-Sashiko found no regressions! So hopefully the patch is in a good shape.
-
-Thanks,
-Usama
+<snip>
 
