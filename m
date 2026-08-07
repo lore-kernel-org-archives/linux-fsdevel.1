@@ -1,252 +1,190 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011004.outbound.protection.outlook.com [40.107.130.4])
+Received: from sxplsmtpa04-04.prod.sxb1.secureserver.net (sxplsmtpa04-04.prod.sxb1.secureserver.net [188.121.53.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA7537E5DD;
-	Fri,  7 Aug 2026 16:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.4
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786120014; cv=fail; b=YUI9l26glEN1DWatLBQRa1+DUENl+B25p9ebMjNhKUCjeBPhES3GythOlRDnvAsus+pjpzSY+5nGZ4OE1KqadLQG3VNvOYq7atdlX3COdksIE6c0M6V1wcgVawGnz33EQ+IhSL1jAb1pyBvXga8huDnYoAnqzrWpn9I1mdGJUbc=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786120014; c=relaxed/simple;
-	bh=ivi6SkSu4KC5kFkH+SMpwmoPjZrWBdMtf3OmP4UnPnU=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Tdrn4YcPgVgQd++b1LXmVGkOhznOeSnqF+WsCS3Yfiv+3JBHrZOSre4bQL+ar/ae4ysELsXUCGsazrjdKdiYKSyuHqbFeJFEW8cbiKmLDWA5xhqA3tUaSaWqMHkneOlfQWd8b0Y5yZj5hlsVX1gOg12ve+mabn5bDDvM8iWCYzk=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=LbE4HoBx; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=LbE4HoBx; arc=fail smtp.client-ip=40.107.130.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85772BE043
+	for <linux-fsdevel@vger.kernel.org>; Fri,  7 Aug 2026 16:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.121.53.38
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786120888; cv=none; b=WJktSgMYhHRNkMJRjBYo5qQiYG5KSNwDPK0cz/W16v4epIu/S0nBi8eaAygU9bMCsuRa597hqdJ3nP1+TSrjfsARJVCE6jW+pJ/fIPKBzIuoeTQP9w2CBvlWq8JXGvWJSWrqRgTz8d6ShjhQLEPvP52SkoFbhS2WfyVijwc2xGE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786120888; c=relaxed/simple;
+	bh=fJPzeCS2NKXqRWmnv0UbEKKCrMUirTWpALVZ7SbogpI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hEAc9C99C5Mr2S8hQi3JcYmr9irOMqwUcoMdIUtGfF/QHzliOd2JFzndo2AUzFmA7I8L6Ad1l3pH8N/FkxOUK7F1pLiwyFOAHLQkYXtMhnHO2d54uYlpzOcSUPQ3AGZ4lfp0bOfnNjGzknkdMlhKJ/6dh3Q0AamB2Nx02NJilr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk; spf=pass smtp.mailfrom=squashfs.org.uk; dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b=jh6HOxC6; dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b=idL75SJg; arc=none smtp.client-ip=188.121.53.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="LbE4HoBx";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="LbE4HoBx"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=S1XfxwbdoezrGNtcj8UyE3GCZXPXBdAlOWQPBP28V+8tyrszTTGsxfqldiEGqWUtuUE3vGD6hP9N8iWgN/hWSoqJbKvP7dCnk5mClR/jGw+Xd8ULlXemEMgYLQG5a8+SX+zAiRD/IiLlYYyj9WdOPaiYjjvyJLvzn4300I63UoltiCDj8Jg0P5yNqhROTB5cT1IJ66IKetoBSUH9ZlAkDZ0jb1JhqadNZhlcWhQg0uXCf1ZZJUT/3VejedLWxaDFhoB7eXKVxueFE8+BcEVbJjRFeKflCsN6qbZXJGnduh1MfFIEI7/GxeHQ+Rq3Rlf9McLwZh3G/s7I32c5KxrR3g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MS1lmnXLC+3vPC4LjFRguif+C4PkJMlmWukiMTyIh2c=;
- b=QoPWnMGbeaEPY70JHB5FQkhZMhNEsKVxusaXcu3ZHcrzDdOsIH9+aABL25xarJ2p0BlpVUxRf6Rgne1yLcv5zGx6QYZC0BurUyoI26KRLxEWfz7BT1WkTKdGln9XQj+21bbKcTWU5FdswTkyPLbGGfARa3gbWsvHVimPUlPOEt/SW7LYQCODLdiyL+SIffv0U//X6j+iV2CRM+LdaMa6FV/uONol3kF+A/EQq4DM41RU4LgJE6M4FV88hSW9/TUJWGaUuxL5/L7o/ivebYQhF9bO3h+hR2CNByMmIjCJr6HDtFMzZtLfkA/9O71rEd8cKcmANziXxWRrfApO7Lw8Fw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MS1lmnXLC+3vPC4LjFRguif+C4PkJMlmWukiMTyIh2c=;
- b=LbE4HoBxjfRtlY7c6ZHDXc95qdWRroP7GkPtXzaFqe+eQxYuiOQOAwMBr7zadR4TuTA5v2UTuXmiECUnpZtueKfuejTnnfUkBfLrYjyJgXAvWpK0ohfjKh71EC1IompC0jkrflMssKe0/wRqt9RdzegAqcf5Dc1XBW/fb9/q1tA=
-Received: from AS4P192CA0049.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:658::22)
- by PAXPR08MB7442.eurprd08.prod.outlook.com (2603:10a6:102:2b8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Fri, 7 Aug
- 2026 16:26:44 +0000
-Received: from AMS0EPF00000199.eurprd05.prod.outlook.com
- (2603:10a6:20b:658:cafe::5) by AS4P192CA0049.outlook.office365.com
- (2603:10a6:20b:658::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.23 via Frontend Transport; Fri, 7
- Aug 2026 16:26:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000199.mail.protection.outlook.com (10.167.16.245) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Fri, 7 Aug 2026 16:26:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FBDF7vggKyg/P39qymfNUnPXNLSQX3uZtATlVOwaLtC8TwntOHJPr284gwOOE6pZfD9pmyFHAa1UmVfQW8bWlKsBhgNU/ouiGX+26VsQpjWXWZ03OJBCOzmApMN/ySTKE8mQDBvgdWMFtoxsru3C01DYlr7vL3iyKVBB5c54bw0QQucf/VJGVkwhwn0z/NmQitzGga1XjI0FH3FYglUvWzdpCvBaLvOiejWwJW7tBPnR8nOSG9qg1A/4DhkmlwKTNOGQjqPvIBUIIUSuFkWtbpulF3P6v2SWp5fzB49KalXQ7i7JhAcvUoHoajLSseZYDQIz+xv6ilzZFCFfYm3ztg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MS1lmnXLC+3vPC4LjFRguif+C4PkJMlmWukiMTyIh2c=;
- b=RvoYgMTkY2CEpoffjFhgvcG6DOqoHwEYbJ3Ie40Y2aRdAowA7ORsQl6ZnFxPWEiRodcf+LQDB5UOCktktQ+uxJAXXkH3XltD1V1wzgI2rtyhQsrVcO8xIqGBAnRZ+pnWcT0zs6U3BkS0mNhhnOV96LiBzjqE7VbRskZWsDvkN+P1KzSRZcbvzKEh42wx0U5sjamKWFkxFTgC6XqVLLTJ//iITABk8mNNNio7hfW87kMwg27jLdrB+/9eJLsIyVTVEgYOvUXJ1zW80G/r81Ak3LDbRkKk/TMVrZf9o1etFK7qrsmJCJNLp2hUG362ZxNhsBXDxRQjMohSfbormJVZnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MS1lmnXLC+3vPC4LjFRguif+C4PkJMlmWukiMTyIh2c=;
- b=LbE4HoBxjfRtlY7c6ZHDXc95qdWRroP7GkPtXzaFqe+eQxYuiOQOAwMBr7zadR4TuTA5v2UTuXmiECUnpZtueKfuejTnnfUkBfLrYjyJgXAvWpK0ohfjKh71EC1IompC0jkrflMssKe0/wRqt9RdzegAqcf5Dc1XBW/fb9/q1tA=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com (2603:10a6:803:80::16)
- by VI0PR08MB10655.eurprd08.prod.outlook.com (2603:10a6:800:209::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Fri, 7 Aug
- 2026 16:26:07 +0000
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4]) by VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4%3]) with mapi id 15.21.0292.018; Fri, 7 Aug 2026
- 16:26:07 +0000
-Message-ID: <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
-Date: Fri, 7 Aug 2026 17:26:04 +0100
-User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@arm.com, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- David Hildenbrand <david@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- ziy@nvidia.com, pfalcato@suse.de, ryan.roberts@arm.com,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH 6/9] mm: convert PTE table entry to pte
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
- <20260806083926.1807279-7-usama.anjum@arm.com>
- <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
-From: Muhammad Usama Anjum <usama.anjum@arm.com>
-Content-Language: en-US
-In-Reply-To: <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0420.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18b::11) To VI1PR08MB3421.eurprd08.prod.outlook.com
- (2603:10a6:803:80::16)
+	dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b="jh6HOxC6";
+	dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b="idL75SJg"
+Received: from [192.168.178.95] ([82.69.79.175])
+	by :SMTPAUTH: with ESMTPSA
+	id sMw1wtKAdFndAsMw3wfDHx; Fri, 07 Aug 2026 15:56:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
+	s=secureserver2; t=1786118200;
+	bh=iUW+n07tKCnuJGbTqP7GoavXIDdaWSes/c26PK0IhrA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jh6HOxC6yS1G8yBOfcrJoyZU5bSqq4TGhQb7ZUPtCMl9aesKS22cySpRa57Ufdw4p
+	 32TbBbZQoG5oTNfHOdeucIFbal0wcMz8URNvumfIsHsppUToOUpBgF6Opw8S4fvubA
+	 R9QQqtABTfuN6IpIR8mSPp+4DYUi8njjKzngwADefe1zr8u1YHzetSnGquvXrTAMoh
+	 O5R4RY2fMDfLqzDQbzQi7ogRP6M5pxJtf/zExy9FMsDUHqkg4/YwxiianKPcw3Ppv1
+	 xmXDUt9u3FaDQG0cHDpLWbgsmCiogSc0xcKTkCOZurPzLaBfnsax3JeX7CKsNJy0Wi
+	 vJIXxvqyoV8MA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
+	s=secureserver1; t=1786118200;
+	bh=iUW+n07tKCnuJGbTqP7GoavXIDdaWSes/c26PK0IhrA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=idL75SJgZBjX4xqKqPnwS46bwiI5fX46erF7jwIe8QuRafsXa0rTqDFf0b64lVnv1
+	 R+rB1IuLwvz34rVi1tWD1wvi/3AB9Tfu9OTW+sc5fkGEsSOXVr/Mh7P4Z4kJEXe1Be
+	 R3sxRv8bW6NwXSTpS4OaagVX6gbbqUDG1DDFVxdGkBZ8Xc4BnR/Sg2M+4quWwpCWv0
+	 RVpi1jD4xkaP3hOJSi0ZCCRxEWkYEbupysgJRp86cbzyS6whj0CnOI4FpgfaW9DZR6
+	 lpk8eyXdelMiosMe7wG6Mr6D0cO7nnTxsPR0xWUn3BgleRxlLJrFI+S7dsORsCh7DU
+	 EYYAY0l/JSvtw==
+X-CMAE-Analysis: v=2.4 cv=Y5VBWheN c=1 sm=1 tr=0 ts=6a760037
+ a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=IkcTkHD0fZMA:10 a=c92rfblmAAAA:8 a=FXvPX3liAAAA:8 a=VwQbUJbxAAAA:8
+ a=07d9gI8wAAAA:8 a=NEAV23lmAAAA:8 a=ij-RcgZyvwWuXYiz9aMA:9 a=QEXdDO2ut3YA:10
+ a=GvGzcOZaWPEFPQC_NcjD:22 a=UObqyxdv-6Yh2QiB9mM_:22 a=e2CUPOnPG4QKp8I52DXD:22
+Feedback-ID: 1cd59531474cef23836056c1d21566b6:squashfs.org.uk:ssnet
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk
+Message-ID: <7d92d30a-c92e-451b-907e-74c91562d4ae@squashfs.org.uk>
+Date: Fri, 7 Aug 2026 17:01:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI1PR08MB3421:EE_|VI0PR08MB10655:EE_|AMS0EPF00000199:EE_|PAXPR08MB7442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18b46daa-e409-4390-8a75-08def4a0abaf
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|18002099003|22082099003|4143699003|11063799006|56012099006|3023799007|10067099003;
-X-Microsoft-Antispam-Message-Info-Original:
- 1mEC+1GW7muqv9YRUa+5/AFrrrerVojSEnd0ecaTJkfa3ovLhwzSUtq/5/iXk3EltNs1VIgCRf8Zh7GTAr6czHLzj1LlHiHnMTDT5Dcb24wAlC09Mw+6D5YHPspvL2sx1EVI20obl2sTrjQoXjDCgA7aBVp0HoJDluRDuV7/B58aAjYrXiLYtdilyVB/c4ILJZct9XSAPErba2JDglH3GKJD4ype/UD4mcHzequXHk1JMOE06O16tguwAUEIG0u+MJ8ggTWNqgYTzNOd6MVIq6sd2hHoWdX2Y2qjuTpQTX+YA2OBeZDzPK349/Ui6sl0RztQtbMC3yY/MuAf8RC0UbnnCeYg8DCCD41dNdhUatK+JRo5T3IK1KmdaqJIqc1SsTX08C88FG2Lg8b1iyt7B2jUsYSIVllojrtRN+9N6ntm73XxGeP7W/EKk2HijMVLt/zJ00cBPF+s6ehrAwUuLcXR3bFWdCxqikr9Hu5qgLqNLiBeQyU9LZ3Rn0uE/AjKJr7KxBolhiCVsfoUtLoROh7bFHlrC6EFaGGtVgi1y6ZHnr30Pd2XXuuZe89Ym83TMhdg1ihZmFB2EXbHj6gKjLziMPVkfqXTj4k6Xt+iMxg68NNxRNU+gVap/tVp0ZnjQsNUaocWwqx1SokpwWWnu8VdsKL2mjWzZqYQVxBsrn0=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB3421.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006)(3023799007)(10067099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- dn/YewereVVzC5A5tIWzHJtVSWhBYpgpDSi5ALQzfsiowfVbPFqVXI1S32+w2Gf3hBalkT4ScA+EB4sUwudcOtIJhjhR9aueBLUTgRnHXPmr0dbhEUDZJ+v2rrucvP3u7iERclCslQl2A5NyoZhvKU3h4jrT3J9OorOozCFUP/qcN/HdbFVtvnLxCOyew+JGCZ6WkqiuZJrWgmbPl2r9U72xSp7bx/EmXd8DnNf3SnfIcujY2BMitEtNTLz7u55xSDP2vPsc11Dyxs/oe8ZFQ05c4AHjsCyEnqkcV8VIhBM96NYmH5IBO7uCDB0P5KyPkh6gWTBXXIEFZ97AzZVXsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10655
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS0EPF00000199.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	0a4a3d81-f480-4118-d51a-08def4a09582
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|14060799003|7416014|82310400026|23010399003|376014|35042699022|1800799024|36860700016|13003099007|10067099003|11063799006|56012099006|4143699003|3023799007|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	3ee23sDBvCMpGWS4TDHQCLYyUuSwv+AYpmfNHpcECbYwo+er0pcuW0YBJ/JGlzMVJsYwX+sABSXsOIooXGv1Z0M+CPTlgjlg8l/Ty/wmwVr9lgrVojIjexEIkm6+ajX+jCaGQkEO1zUJo0wXkMoWdebOCQaVpddKqpa301BXJrr6TFCTFHFnP4U3N8xqK/Yw3VDWz/HR+Tmja6qer8yUgdSzdJJOcu3WoyKS89aiOVle25K9alBtrNPHYoQoWKJ06NlFBf751x6aeo652mwomwBFkHSiU2zKXMeAFWuaxSYXq1glMto7hAF/gOGGTL2KsodAfMs/ljrXF2CelpRYmy7dwl871eDCtbhP7HZoQm95AyQDVHiuS6igbUrWVHInoFmIcSSYQ/pKGROsSzIS9uHKiT7mjVo4I+Jt8RhdN6Qu7v9+iowjNrvL73d5s7jF/NcJvL+dVY88XcquKU700NMF0mYZsemFR7s3WLsgCe9H7NzHlwj0UTfVbvv+b/p3fSGye2GK0W+Cf5h6XQwGCOInM1gxaeD2SAmf6gEEMx0eI5VC946Ussig+Y5WXGfBzdXeBSVELZFMUB3Mrj0zZ87rzh8sgxNwXrn0iQFJEUDkZkzpkge9bwfairbgtuVQtzayx75zCTl1VV7FA1Sk9FfxIDz8ceClCSD8heLSBoia02CVnceaJ5LQ/HpxSzWGxbG6EIome9u0k4ClWpNNmw==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(7416014)(82310400026)(23010399003)(376014)(35042699022)(1800799024)(36860700016)(13003099007)(10067099003)(11063799006)(56012099006)(4143699003)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	d+88svJ5Haq6WSE5QYn4CZJyPMiUwhrt6t1V2RHk3Ee1c9prJyx4tb+QtGTj3UbgmutI/PnhCtEHsr35ZeMYJIjsJ1kttUusNFj9C44KxueqFhTUJy1pVRJjR7gJbqZb0XMMkZZBV8qaszUzoOYuG3Fmn74WxXMTHpIniau7xxMzQqqH+IEnWJ+LM/afEF7mm1UuFtpi61Es1j6qU/6DdzZefnT+s7uMDbLXE75755Yr3IgrwazWn4HlBUcwVZSyzmwFVXX+7IB10zw772A9Uc0UPJ5QKASwy6/zQ3PJ05eo7i0EfLOboN8P005OBeG3KiQdN6k/85+GF3+NgIOzozCldvxfEbHC+2lhiRP1hysiIPiJVK+xNnkfisRuPDTC/zUrbgJfQU3UTvywsjWWCl89sfVDR1zg4iJA8cEZxL45be/o2DGrtvgTNcV8TyCA
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 16:26:44.4840
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18b46daa-e409-4390-8a75-08def4a0abaf
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000199.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7442
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] squashfs: avoid thundering-herd cache wakeups
+To: Usama Arif <usama.arif@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
+References: <20260724190556.1950693-1-usama.arif@linux.dev>
+Content-Language: en-US
+From: Phillip Lougher <phillip@squashfs.org.uk>
+In-Reply-To: <20260724190556.1950693-1-usama.arif@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKQLQzZM9qe1T2IkN6r5M1oP3ce9yF7WaCHE8VMIsrdDu1fa0mjSlYsLNifd5yGvPEznFI4TOcVQF6AnIoWUOXe2K/a4Glmlo1q4QfFyTN6VON+T2kHX
+ kQfikOQppShIFPbFnluI0sTevSDXmFZLwMCK6r7FNJYgj1q8vf3sTqCXejPpYqYYomhZ0BO9/hvp3RN6wkUx5yMk6fLSzeGdfDxdNJaZZxrUw9xzZUqToKNl
+ 2+RogdPa+ZZ7tMjvNrjFC/qSqrU+Yt+9rB/jFBei2w4EcA9vqMnKEC5Jdl9qiXDFCW8ReYj+Yv8/SE+DNNeQ2GV3fXjRBPX5JKhEz6Fe3BXQWEKuElQ+wfuj
+ Ktj9YQ0ztgEH/iOMMr1ITI6eKbjOJjMsQW6JjXITX/O35W0zlUfYwin2DpJKg22g+QEQjYoNb+fvHSJ6sqp05n/I9qB87rfy1u93LPkwpqvF5aQx0erbL4H1
+ CrKAqonpCCX9NTFA44SEdS5oxZu6lCblmYegEBgxDCY0YjFKWxKzh29Dm4Q=
 
-On 07/08/2026 7:58 am, Alexander Gordeev wrote:
-> On Thu, Aug 06, 2026 at 09:38:44AM +0100, Muhammad Usama Anjum wrote:
->> The non-MMU stub receives hw_pte_t but returns a logical pte_t
->> value. Convert the stored entry through __pte_from_hw() before
->> returning.
->>
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->> ---
->>  include/linux/hugetlb.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
->> index bc0b9c65aa1d0..9e8b391aa4bc9 100644
->> --- a/include/linux/hugetlb.h
->> +++ b/include/linux/hugetlb.h
->> @@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
->>  #ifdef CONFIG_MMU
->>  	return ptep_get(ptep);
->>  #else
->> -	return *ptep;
->> +	return __pte_from_hw(*ptep);
-> 
-> But this is a direct dereferencing, which breaks the whole point, isn't it?
-Yes, this is particular line is for non MMU. In this case, CONIFG_ARCH_HAS_HW_PTE
-would never be defined. Hence hw_pte_t is just pte_t and direct dereference is
-allowed. I'd thought a lot about it; is better to leave direct dereference here
-or use some helper. Then used __pte_from_hw() was already being used in generic
-ptep_get().
 
-There are only two users of __pte_from_hw() at this time. 
+On 24/07/2026 20:05, Usama Arif wrote:
+> squashfs_cache_get() puts a task to sleep when its block is not cached and
+> every cache entry is busy.  Those sleeps are non-exclusive, so a single
+> squashfs_cache_put() makes every waiter runnable when one entry is freed.
+> A wakee returns to squashfs_cache_get() only if it observes cache->unused
+> before the entry is reclaimed.  Such tasks can rescan and share a block
+> published meanwhile; later wakees see zero and queue again inside
+> wait_event() without rescanning.
+> 
+> The waste is dramatic under load.  On a Meta production host serving a
+> Python web application from a packaged squashfs image, a 30-second trace
+> caught 1,045,132 cache-release wake calls and 19,511,556 remote wakeups:
+> 18.7 per release, although each release added only one reusable cache
+> entry. This was causing significant spikes in CPU usage.
+> 
+> Simply making the waits exclusive (i.e. using
+> wait_event_state_exclusive()) is not enough.  A waiter can make
+> progress two ways, when an entry frees (capacity), or when another task
+> publishes the block it wants and it shares that entry.  The only wait
+> condition available is cache->unused, which captures capacity but not
+> publication, and wake-one can release just a single sharer at a time.  A
+> waiter woken for capacity may also find its block already published, share
+> it, and leave the freed entry unclaimed, so that wake must be handed on.
+> A block-targeted wake and that handoff need a custom wake callback with
+> per-waiter state; wait_event_state_exclusive() provides neither.
+> 
+> Wake selectively instead.  Waiters are exclusive and keyed by requested
+> block: freeing an entry wakes one waiter (capacity), publishing a block
+> wakes every waiter for that block (sharing), and a capacity waiter that
+> ends up sharing hands its wake to the next waiter.  Waiters enqueue while
+> holding cache->lock so lookup and publication are ordered against sleeping.
+> 
+> The result is an ~2x increase in throughput on stat and read.
+> Measured on a 32-CPU VM against a read-only squashfs (gzip, per-cpu
+> decompressor, default 8 metadata / 3 fragment cache entries) staged in tmpfs
+> with caches dropped each iteration to force cold decompression:
+> 
+>    elbencho, 64 threads
+>      metadata stat      700 ->  1320 files/s    1.9x
+>      small-file read     40 ->    60 MiB/s      1.6x
+> 
+>    filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
+>      throughput       11,314 -> 25,186 ops/s    2.2x
+>      latency           11.30 ->   5.05 ms/op    2.2x lower
+>      sched:sched_wakeup 9.18M ->  3.44M         2.7x fewer
+>      context switches  12.62M ->  5.77M         2.2x fewer
+> 
+> The 2.7x cut in scheduler wakeups explains the results: it roughly doubles
+> throughput and halves latency under contention, and is a no-op on
+> workloads that never queue for a cache entry.
+> 
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> ---
+>   fs/squashfs/cache.c | 66 ++++++++++++++++++++++++++++++++++++++++-----
 
+>   1 file changed, 60 insertions(+), 6 deletions(-)
 > 
-> What about introducing something like pte_t ptep_get_sw(hw_pte_t *ptep)
-> to be used in exactly situations like this? With that the semantics of
-> hw_pte_t pointers becomes straightforward and closes the still ongoing
-> "storage vs lifetime" discussion:
-> 
-> hw_pte_t*     points to HW-formatted page table entries
-> 
-> ptep_get()    is used to obtain HW-linked/attached entries, and may wire
->               extra code like [1] or [2]
-> 
-> ptep_get_sw() is used to obtain HW-unlinked/unattached entries and in
->               most cases is just a direct dereference
-ptep_get_sw() or ptep_get_deref() is better name here?
 
-I thought __pte_from_hw() is ugly enough that if someone tries to use it
-wrongly, it'll be noticed pretty easily. I'm fine with any other name.
+Hi Usama,
 
-> 
-> The caller should always know whether the entry is attached or not, so
-> confusions like [3] are avoided.
-> 
-> 1. https://lore.kernel.org/linux-mm/20260526-kpkeys-v8-21-eaaacdacc67c@arm.com/
-> 2. https://lore.kernel.org/linux-s390/650903a4-0dd9-4e6b-9d4b-3c32c5657236-agordeev@linux.ibm.com/
-> 3. https://lore.kernel.org/linux-s390/b44e071d-7c9d-4e7e-a84d-4af3499a5a05@arm.com/
-> 
->>  #endif
->>  }
->>  
->> -- 
->> 2.47.3
->>
+Sashiko (the new patch reviewing AI) failed to apply and review your patch.
 
--- 
-Thanks,
-Usama
+See https://sashiko.dev/#/patchset/20260724190556.1950693-1-usama.arif%40linux.dev
+
+I have been dealing with this issue all week because Sashiko also rejected my
+patch sent this week.
+
+https://sashiko.dev/#/patchset/20260805175900.600140-1-phillip%40squashfs.org.uk
+
+After quite a bit of investigation, it appears the problem is Sashiko is applying
+the patches against the squashfs-next-git URL listed in the MAINTAINERS file.
+
+Unfortunately that squashfs-next.git tree is unused and twelve years out of date
+(last updated 2014).
+
+See
+
+https://lore.kernel.org/all/267938f6-8212-4ddc-9055-452f9d166010@squashfs.org.uk/
+
+and
+
+https://lore.kernel.org/all/anUi3bkwfM8teo_R@debarbos-thinkpadt14gen5.rmtusma.csb/
+
+
+But as it stands your patch and mine are going nowhere because Andrew won't
+pull any patch that has not passed Sashiko.
+
+See
+
+https://lwn.net/Articles/1064830/
+
+
+I can see two ways of getting past this issue, and get Sashiko to approve the patches.
+
+1.  Wait until my patch to the MAINTAINERS file goes through and then send a V2
+     patch.  Unfortunately, that may take months.
+
+2. The URL mentioned in the last email details how Sashiko chooses the baseline.
+    See https://github.com/sashiko-dev/sashiko/pull/398/files.  Apparently the
+    first thing it uses is any base-commit: trailer in the patch body.  So if
+    you put a base-commit: in your patch it should force Sashiko to use the Linus
+    Torvald's development kernel.
+
+For info about base-commit: tags see
+
+https://people.kernel.org/monsieuricon/all-patches-must-include-base-commit-info
+
+I'm going to resend my patch with a base-commit: tag to see if it makes
+a difference to Sashiko.
+
+Phillip
+
 
