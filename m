@@ -1,172 +1,254 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAE437DE99
-	for <linux-fsdevel@vger.kernel.org>; Fri,  7 Aug 2026 12:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786105543; cv=pass; b=XGZHe21h7M1mh7c+1w3DYAkHB6Z69YJqVVdW71xynPy4//P/oWnAXVza1qMtfUz5AIxoFgnegSelcG80eJuV3VJnZ0ybOPVujN2Ab/79vNc1fugAjC7iIiAX8Rzm6WmcqxPKqMvpykTO6TkTrq2CrYk5O3VZfKO79zLORAn42NM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786105543; c=relaxed/simple;
-	bh=fBVOn8mK3knmw46L9mpY8gHcIvb6lpKYd3tG5GSLjvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RHT7doAwHAVYP93K2HD5EeMgR66s27FosYtiOko7RQnfINIsB3ed5SNbauj+8LCUZrErGKuug0o1U4FTPlVDott5WaJ2cQcW5NXmsim/bO7WdqL4wnrUwTngTWEg0DMWhMzCBGujs3YWhtiMtrPV0S9zjbiGwBFQT+ejC/4b+hU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UshIOI7L; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q7TaLFV4; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UshIOI7L";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q7TaLFV4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786105525;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jgnh0JW9lGf8+TSOMsKievjYM8NZFQv/RqGFuu07TDs=;
-	b=UshIOI7LAeQj3kTBhyAy21J9HxH0dh7KfUklvkTENeFFwVmrSyt4/oMoj2XI9Z8erwggOw
-	i8u72kuzBch2VzGenwY9D0ymYP75DP4uxCZwpsi2EeXFn0tCjhacrX2TVZpoUac4zF6ciW
-	wy4PPaX9Iy0DJAmvZtvCXYlS7WmaG8k=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-149-HJ5bOE0dNcmQF9iDOP-nbw-1; Fri, 07 Aug 2026 08:25:21 -0400
-X-MC-Unique: HJ5bOE0dNcmQF9iDOP-nbw-1
-X-Mimecast-MFC-AGG-ID: HJ5bOE0dNcmQF9iDOP-nbw_1786105521
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c1c25c44d15so393358766b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 07 Aug 2026 05:25:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786105520; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VsgqzCsUh1OjZHT/jVU8datQDjSfrKWVCWQTWIXdF8TjkEpfbE9cMpZjSNX70lE/hy
-         N8M5Iaq2gOR1+VCQwgV8At2AKVA/QEZbwquckaBg30TcF9oSiGdjhQUz8An+w3/yy6zF
-         m51dpY0sjLi26ArSSZAzh/kUEN05XttBUgYkhYtIz1/8kbGIsyj7TdcB3fxQatJ6c1Ls
-         +knV60rsVqq7QzXYVw5HV8m54jEWsUuI436laWH0X3ay9EBDksv7vC11b3vVs3FN02eb
-         r5+vvsHRRN56iCSDOJf7BlzEDSQfRl5GU02+H+jNg6xq1MabAjYh5BgKWa8x/KNsaeTW
-         c85Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jgnh0JW9lGf8+TSOMsKievjYM8NZFQv/RqGFuu07TDs=;
-        fh=v5x+Z3GH6Mn99ViOlvtInpDJExDxoRcDLhNJNW68aGQ=;
-        b=TSdhzlrvi2lyfR2OkAa5wY7WIvA0vOPN3EWvKVQVJIUQBCsw4m7kdbhMYxZmJlFzrE
-         9InvGnYH/vAZI1AD0sgU8mW9WAdSpMdM3WKL4IoNiTyuqhYwBgu2FoNjopV72dmyX+p5
-         U6MobZw3GPwXf9I9RQOHeKAM2nGKJo6cazT+jZA+DYJ4vROgJGJSsHT8IAh3Rp2fWYnP
-         ro0MG19n1CQN6NH46y7DoF2BDH+jPW90qjvVx+7CEYpCCOADXcNd6m/EXpM0HZ/MGHsw
-         J+tpSYDz45S287SuhxVzzU1jaFmUbsmhvLC7yZcPakdC7kSocZPauA62wX3WTqUZR/je
-         fp2Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1786105520; x=1786710320; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jgnh0JW9lGf8+TSOMsKievjYM8NZFQv/RqGFuu07TDs=;
-        b=Q7TaLFV4LCs1xqwFftfZN/Yb7Xw4AVZJPGGj98Sksc6moBE88rgw1z3pfa5gszJB64
-         gbYOgOIb4WziYEqr+MvNIsb+6Ro5xOs5YaCo55k4XLcbZzFHRffnVOfuGn/uPJ6tP+57
-         GJ9rZxHVzSQWmepqx4AVuDbFUeDoFITOyCjmcuBwrWJefNX4VpwMx9c5gl4CkE2rrj+G
-         ZRbAWXJz/dp9cSVgsJ5rRQZpdlFUi1BmyWjmigw+oJsMrF3a9qNJKJflljVm6x00GHb+
-         apAXCpbT36tg0Cu6M6iBn8KLI2mVsaHH4+Wy9DLawNdn6hH88wPqF2i8tz5Jjy6ADr8j
-         hghA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786105520; x=1786710320;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jgnh0JW9lGf8+TSOMsKievjYM8NZFQv/RqGFuu07TDs=;
-        b=LXGQ5egght7soVPR6i0d2uOwsmLPYiDxdGZBHzKNdpsSPClXvI6W5Y6onaCW3hGejo
-         IXtpfNs9Bl9YB0sV3N9i2WqxsdNMoZ1/ifzerpjgS35g6/Lqs8CDGh9RNqD4DBrfGYsa
-         FwHSihSYfLZUbZ2eY2Woz5qu/4Z2HXQv60rFCBXid3UO3v8mPD71cF6qjE32Thdf4ckF
-         YSlnVQ4O/POQOOk5QRZNj93AwRzskkCttj3kAzYfCPwQzji4j2TzdCYHR9WVDZNc8Nuz
-         D04jpHd9twBS5heRbpjeFH5IRJtbjUi6C5EHPKx7SCGiMVbuMrAT50GukcRNYoTfQkXY
-         npUg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro+MEt+ReauSj+s3BySHZczgB1GyTcroty2JtXy5mi3p6v66kkv8DSwOjyivYz+ecz+sbQLv2Q6TLU6XHDG@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEvC1r6tUDMsmKjKsVHjKb82l19LgO4Viv2eIaljr7k5AX8KbN
-	1VyofpHwlpRrEbLKdHh7TVs77eSctarjIJEX7UTUfWIXA55lMAS2DVOjcsVFWM6RS8evKcMJ5hO
-	nMy8q+wybx2JDb8Ywj8P5TD5PD6e+0iOSsZpiYmCa5dxWRTnpdtDDyTSa9wXzua7mH2xtey9Csl
-	xsUsfKXt4F9+D/P4zD8VFPHzRWWvr1J41WPIbn3qTn0Q==
-X-Gm-Gg: AR+sD12Oxka5UcO/qxuM1WeW6moyFZiYIYYOTmTK+QWuB5Oovhd8llXwL0JTfppnF1t
-	m4K1W4xzoMRQsmEXMPHXpsQ2twW43mhYcThOB+nRpig18bgUM1nOvoOLjQl8jf4sHcF6R53pLPB
-	Pow7hr39wTWa+DPXMRv1O4bPxNhNqtPywCkh/4yDSKJz/d2U7/R0S5HsOfOC5rwkp/O573JNbiJ
-	nz1oOZhfHiaPZuO5EM7ZZIMmvvuMUTr2wdq0bAZC3/zKw==
-X-Received: by 2002:a17:907:7ba5:b0:c12:67d2:3d6b with SMTP id a640c23a62f3a-c2039d2648bmr526428466b.11.1786105520518;
-        Fri, 07 Aug 2026 05:25:20 -0700 (PDT)
-X-Received: by 2002:a17:907:7ba5:b0:c12:67d2:3d6b with SMTP id
- a640c23a62f3a-c2039d2648bmr526424066b.11.1786105519943; Fri, 07 Aug 2026
- 05:25:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7A82C21F1;
+	Fri,  7 Aug 2026 13:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786110465; cv=none; b=aptv5m+c9wOG2zFOy/lHSX8S2MKFopAFb0XJWR8UouovLTB8PrRgEl7/9h3r6rWXr3XEPrHBGO/TCesvgIcb+6SCzP8vYyEV/Du0jBvPcPuS6Kg0FPEQ3j6rUgjjwHiMAsypsVDiQiI3PXnLLSIQRUQwJHskIpppp+GHo78Y1WE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786110465; c=relaxed/simple;
+	bh=eYl16HP5uXexE4QsoqXNys6JrQgZzYjwhcMhwbxiam4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kkf3XMG06zLNQD5CvPKRMa1hS5r4hQwQ0HY11tdAJ8e7cLdguT0PF8U3HXwvlIbh6+zgbG3a02J32zeaozG79ZCRDaLps7GE5wkheDv5E6bOlaHrK7yq119A3XVq+VH7vFuSb9WFK6blN8oDRIj+hHO9N+jaJYhQik6GlrMQPwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf06.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 220FF14039E;
+	Fri,  7 Aug 2026 13:47:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf06.hostedemail.com (Postfix) with ESMTPA id 7B8F32000F;
+	Fri,  7 Aug 2026 13:47:20 +0000 (UTC)
+Date: Fri, 7 Aug 2026 08:47:19 -0500
+From: John Groves <john@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 11/12] famfs: Report device capacity via statfs so df
+ works
+Message-ID: <anXhywwC-DWjHGRz@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803023000.75948-1-john@jagalactic.com>
+ <0100019fc57500f5-06c293c8-393c-44e3-ad42-d4f4de58245d-000000@email.amazonses.com>
+ <20260806053300.GK3560084@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c8581fcfb66e5cfb2e6e9b0e95f9b356b2245b7b.1785261601.git.rgb@redhat.com>
-In-Reply-To: <c8581fcfb66e5cfb2e6e9b0e95f9b356b2245b7b.1785261601.git.rgb@redhat.com>
-From: Ricardo Robaina <rrobaina@redhat.com>
-Date: Fri, 7 Aug 2026 09:25:08 -0300
-X-Gm-Features: AUfX_myz0xLBSU21NiiwHaNKz0JlrAWhqLCIPB9tOEADbE79qPnJz3NgKL-BtIY
-Message-ID: <CAABTaaAR4O188N6wazEuqMMUmMyWFxr2oX0WhyS7Hw_CauuC0Q@mail.gmail.com>
-Subject: Re: [PATCH v2] audit: free proctitle in context so it can be re-set
- by fork on exec_binprm
-To: Richard Guy Briggs <rgb@redhat.com>
-Cc: Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>, 
-	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Linux Kernel Audit Mailing List <audit@vger.kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>, 
-	Roman Dolgikh <rmd4work@mail.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806053300.GK3560084@frogsfrogsfrogs>
+X-Stat-Signature: pwrq6rgztu5gdqo7od7a6fg3d45qzcuy
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 7B8F32000F
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/1vmEfcB0ZWzj6v0b7ezNU01nhES/SZBA=
+X-HE-Tag: 1786110440-538022
+X-HE-Meta: U2FsdGVkX18XfVA4JrV3nFfuua9yhjn8m+dg/G+LQxmf4sMMGGtOUQeXXEIGISUaUu2JXALFW2BVZgTaH+aLE+iiUKA6KBpKfPLmriNfaWgaaNO3gDRGkhL9PknoGyjO4ZfsB91+bThfZy/mFbb/FV4wwDKoAjrYlqZ9aT0hy84B5GoSYVx1b77c5IiFpOiobgd0krwslBQXQcV5QetVVePkDJMKd38vkethLgeN4HSUCM9LcQR7+vvX4pHFK8u4H8GFzvxBQRfgP8jaHaadlZv//y3F7EKkr2oUqGs+I5QvKS9nbYQRTiLWS+CosOTDiGZ76yRmhpE5r5HZZw15st6ikc3A7GCiTRUhab1kTKTC+JkbRnhogTcDhWHxpDd+
 
-On Thu, Aug 6, 2026 at 6:17=E2=80=AFPM Richard Guy Briggs <rgb@redhat.com> =
-wrote:
->
-> Between the actual process startup (fork systemd) and the executable file
-> replacement (exec), systemd sets a temporary file name (executable file
-> name in parentheses). If an auditable system call occurs at this point,
-> the audit context will latch the temporary process name into the cache.
-> This name will not change again. The patch clears proctitle into the
-> audit cache when the exec call is made, allowing the new process name to
-> be latched.
->
-> Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
-> Link: https://github.com/user-attachments/files/20751461/fix_audit_procti=
-tle.txt
-> Link: https://github.com/linux-audit/audit-kernel/issues/170
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
-> Changelog:
-> v2: simplified to call single use directly before need in audit_bimprm
-> ---
->  kernel/auditsc.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 6610e667c728..c12b5dfcb279 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -2601,6 +2601,8 @@ void __audit_bprm(struct linux_binprm *bprm)
->  {
->         struct audit_context *context =3D audit_context();
->
-> +       /* clear proctitle in audit context to allow replacement */
-> +       audit_proctitle_free(audit_context());
+On 26/08/05 10:33PM, Darrick J. Wong wrote:
+> On Mon, Aug 03, 2026 at 02:30:07AM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Replace simple_statfs(), which reports zero blocks (so df omits the mount),
+> > with famfs_statfs() reporting real capacity and usage.
+> > 
+> > Add dax_fsdev_size() in drivers/dax/fsdev.c, returning the size fsdev
+> > caches at probe (dev_dax->cached_size - the sum of the device's ranges,
+> > stable while bound), exported. It lives in fsdev.c because cached_size is
+> > set only by the fsdev driver, and famfs only ever holds fsdev-mode daxdevs
+> > (fs_dax_get() enforces DAXDRV_FSDEV_TYPE); famfs.ko therefore depends on
+> > fsdev_dax.ko.
+> > 
+> > famfs tracks two byte counters under a new stats_sem:
+> >  - total_capacity: summed in famfs_install_daxdev() from dax_fsdev_size(),
+> >    covering the mount primary and every DAXDEV_OPEN secondary, counted once
+> >    per daxdev (on the valid 0->1 transition).
+> >  - used_capacity: summed in famfs_file_init_dax() from the fmap's mapped
+> >    device bytes (superblock + log + data files).
+> > 
+> > famfs_statfs() reports total and free (total - used). Free is an
+> > approximation of the userspace allocator's free space (it ignores allocator
+> > gaps and reserved regions), which is adequate for df.
+> > 
+> > (Side note: I am the maintainer of drivers/dax/fsdev.c)
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  drivers/dax/fsdev.c       | 19 +++++++++++++++++
+> >  fs/famfs/famfs_file.c     |  5 +++++
+> >  fs/famfs/famfs_inode.c    | 43 ++++++++++++++++++++++++++++++++++++++-
+> >  fs/famfs/famfs_internal.h |  8 ++++++++
+> >  include/linux/dax.h       |  1 +
+> >  5 files changed, 75 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> > index 188b2526bee4..a5b4b2d79428 100644
+> > --- a/drivers/dax/fsdev.c
+> > +++ b/drivers/dax/fsdev.c
+> > @@ -104,6 +104,25 @@ static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff
+> >  	return _copy_from_iter_flushcache(addr, bytes, i);
+> >  }
+> >  
+> > +/**
+> > + * dax_fsdev_size() - total size in bytes of an fsdev dax device
+> > + * @dax_dev: the dax device (must be bound to this driver)
+> > + *
+> > + * Returns the size cached at probe time (sum of all ranges); it cannot change
+> > + * while the driver is bound. Only valid for fsdev dax devices - callers
+> > + * ensure that (e.g. fs_dax_get() enforces DAXDRV_FSDEV_TYPE). Returns 0 if the
+> > + * device is not alive.
+> > + */
+> > +u64 dax_fsdev_size(struct dax_device *dax_dev)
+> > +{
+> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> > +
+> > +	if (!dev_dax)
+> > +		return 0;
+> > +	return dev_dax->cached_size;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dax_fsdev_size);
+> > +
+> >  static const struct dax_operations dev_dax_ops = {
+> >  	.direct_access = fsdev_dax_direct_access,
+> >  	.zero_page_range = fsdev_dax_zero_page_range,
+> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
+> > index abf049b32a4b..5be39d677089 100644
+> > --- a/fs/famfs/famfs_file.c
+> > +++ b/fs/famfs/famfs_file.c
+> > @@ -280,6 +280,11 @@ famfs_file_init_dax(struct file *file, void __user *arg)
+> >  	}
+> >  	inode_unlock(inode);
+> >  
+> > +	/* Account the mapped device bytes for statfs (only on success) */
+> > +	if (!rc) {
+> > +		scoped_guard(rwsem_write, &fsi->stats_sem)
+> > +			fsi->used_capacity += extent_total;
+> > +	}
+> >  out:
+> >  	kvfree(fmap_buf);
+> >  	if (meta)
+> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
+> > index 6cbd7d657fd8..3c0d1094d653 100644
+> > --- a/fs/famfs/famfs_inode.c
+> > +++ b/fs/famfs/famfs_inode.c
+> > @@ -24,6 +24,7 @@
+> >  #include <linux/iomap.h>
+> >  #include <linux/path.h>
+> >  #include <linux/namei.h>
+> > +#include <linux/statfs.h>
+> >  
+> >  #include "famfs_internal.h"
+> >  
+> > @@ -307,8 +308,37 @@ static void famfs_evict_inode(struct inode *inode)
+> >  	clear_inode(inode);
+> >  }
+> >  
+> > +/*
+> > + * famfs_statfs() - report device capacity and consumption so 'df' works.
+> > + * @total_capacity is the sum of installed daxdev sizes; @used_capacity is the
+> > + * sum of device bytes mapped by fmaps (superblock + log + data files). Free is
+> > + * the difference - an approximation of the userspace allocator's free space
+> > + * (it ignores allocator gaps / reserved regions), which is fine for df.
+> > + */
+> > +static int famfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+> > +{
+> > +	struct famfs_fs_info *fsi = dentry->d_sb->s_fs_info;
+> > +	u64 total, used, free;
+> > +
+> > +	scoped_guard(rwsem_read, &fsi->stats_sem) {
+> > +		total = fsi->total_capacity;
+> > +		used  = fsi->used_capacity;
+> > +	}
+> > +	free = total > used ? total - used : 0;
+> > +
+> > +	buf->f_type    = FAMFS_SUPER_MAGIC;
+> > +	buf->f_bsize   = PAGE_SIZE;
+> > +	buf->f_frsize  = PAGE_SIZE;
+> > +	buf->f_blocks  = total >> PAGE_SHIFT;
+> > +	buf->f_bfree   = free  >> PAGE_SHIFT;
+> > +	buf->f_bavail  = free  >> PAGE_SHIFT;	/* no root reservation */
+> > +	buf->f_namelen = NAME_MAX;
+> > +	buf->f_fsid    = u64_to_fsid(huge_encode_dev(dentry->d_sb->s_dev));
+> > +	return 0;
+> > +}
+> > +
+> >  static const struct super_operations famfs_super_ops = {
+> > -	.statfs		= simple_statfs,
+> > +	.statfs		= famfs_statfs,
+> >  	.drop_inode	= inode_just_drop,
+> >  	.show_options	= famfs_show_options,
+> >  	.evict_inode    = famfs_evict_inode,
+> > @@ -399,6 +429,7 @@ int famfs_install_daxdev(
+> >  		const char *name)
+> >  {
+> >  	struct famfs_daxdev *daxdev;
+> > +	struct dax_device *devp = NULL;
+> >  	int rc = 0;
+> >  
+> >  	if (index >= fsi->dax_devlist->nslots) {
+> > @@ -462,6 +493,15 @@ int famfs_install_daxdev(
+> >  
+> >  		wmb(); /* All other fields must be visible before valid */
+> >  		daxdev->valid = 1;
+> > +		devp = daxdev->devp;
+> > +	}
+> > +
+> > +	/* Freshly installed: add its capacity to the statfs accounting */
+> > +	if (devp) {
+> > +		u64 sz = dax_fsdev_size(devp);
+> > +
+> > +		scoped_guard(rwsem_write, &fsi->stats_sem)
+> > +			fsi->total_capacity += sz;
+> 
+> Can dax devices change size the same way block devices can?
+> 
+> Though for statfs that hardly matters; a bdev shrinkage rarely causes
+> b_avail to be updated even if the filesystem starts barfing IO errors
+> due to invalid LBA range.
+> 
+> The code in here looks good to me otherwise.
+> 
+> --D
 
-Since we already got the context right above, it would probably be
-better to use the context var instead to avoid calling audit_context()
-again.
+There are cases where a daxdev can change size, but fsdev/famfs mode
+explicitly prohibits that.
 
-Otherwise looks good to me.
+Since the whole idea is that daxdevs probably point to shared memory,
+We can't let the size change because it might not happen at the same
+instant everywhere. Because special relativity ;)
 
-Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
+I watched a video of Leslie Lamport some time back where he said software
+concurrency was like special relativity: you often *cannot* know whether
+A happened after B, etc.
 
->         context->type =3D AUDIT_EXECVE;
->         context->execve.argc =3D bprm->argc;
->  }
-> --
-> 2.43.5
->
->
+Thanks!
+John
 
--Ricardo
-
+<snip>
