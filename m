@@ -1,131 +1,159 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DEF39B497
-	for <linux-fsdevel@vger.kernel.org>; Sat,  8 Aug 2026 20:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786219478; cv=none; b=Jo7Mtwn8ZI6WoZvYTIpIbl4Cavf6sPh6eQze3slZpPZsn9D3RrVRItBYN8pm4Dw0LfNNGgnIbHjmg9vzXjWmZXqgur8NoBDnuUfK798yy5U7C4Utu6wdSX6dba9Z+rvZ42AVFnADL7RczOov+cHzgfbi4QSVEwPx3g9oNtiuUdY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786219478; c=relaxed/simple;
-	bh=LlH0TC1nAkRMBmXknw3v23nVN/4enwHto4egCDkbd4Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t0EybhfAOfKYk6mzHNbQ8rZmR3wHayk0fHQirEQVYDfBcgQTHTzXQseBexjWMYU+kSgqLC6O+psQ4JEpU4CdV3gBFIrhPGn9iu/XP6lOKHe+f3BZibEoCKYMFWgV5kkQeZT6kQLE8C+sVhZMjjGWYYXWXAZZdBA8P1XfHg2X8SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oEP2dTJi; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEDC1F09A5
+	for <linux-fsdevel@vger.kernel.org>; Sat,  8 Aug 2026 23:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786233082; cv=pass; b=EltQIOln8llE678GQqYu+pu2B1MHctNmk0ban4UH2nOLVp0iswIyBLkkufKv6CAgILfYyTIUE6ex9G+DyxsvP5z5Kha+IRPH6LCUO0R7igzcl3+yiEAL8gpFKqcEMNX7K5jIRafzSXA8QjeOjAQgvE8bR1Gn+3AUOMDXEe6ONZY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786233082; c=relaxed/simple;
+	bh=X/4GL697DIpdRLh2JolYFh0Xvpfh0iDY1+pv9hSlcss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U56hgeP1UvxT5FH51wDjTfwSCTw+imRr6k9lO0FbPkJLQ5hwDnJQPjFNCVKGFsF4y/PhwDOpSi8oI+qnBoZ3t/ImPQon8AGKlxdiWyobXZeRQig5wH06zAhbGxCVGhhBfFcoX9VVJO5tQBsEvQXWlmZiLX7lnHZAsE0QU/MeT4A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sh8KaKSW; arc=pass smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oEP2dTJi"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso4751425e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 08 Aug 2026 13:04:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sh8KaKSW"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39f9d4bed90so26228221fa.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 08 Aug 2026 16:51:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786233079; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DJ6QWEBINF1etFsIX0mElsUrq8aoqMAGS32FofS57OkV7G1kBJa5wSeqy3KbjUNENq
+         WAlYb7LBgWXAm9wUbHU/S61Eqwnnxb+n0nLZLUr9gcAwBmxHv3s1vvnIB9hxxGPzXVW1
+         Ifs4mfIuGb+4tYAngRKB/IeLWF8F3s25e89hDC+4lnl9r2MzU71chii8oLZR+U+CYgld
+         yaBhj6O8gnWB+Ok6gEpZAvZfLkbEgIdHmIhBsLtQvPN3ZT4JRZ2tkLp6yDDMK7uHafca
+         DeLGslTGtmtOcHxmPmkfEonSJSk1Mgi0hqYYF/fKW/g2j1omUKQZzpsJRDu4VqTOfyY7
+         ZNSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0EI/7cdTrv+pUiQdbGaU4idt8hz2XXFh5kbiSCgsyCQ=;
+        fh=G6yzRo6q0ge+eoeXe+zmxLznGGcORg6VgRHomE3yaTI=;
+        b=Giw7hUrW+p8FkQTmPGF64XxiGZ942Gd+ZLSsPgyja8/zbiuZg7UtzuIDGLKqUwVaGZ
+         NTH2qce0zAMldsf4FHbq97qxXf6NDIF0pAAg/AVfCw4/MJ5bFek+JrtM/tqAJWpt+5ul
+         cwZtZjG9qzE58GyE1pyIEX+xoy/maV8aTRzMb/21APfHMaNPdjmxWFK/fIUIkBnudJ3t
+         nFSmCp0+KTtKB6m/Zo/fHgT31G3b/ZLKqDFzFFuhSg+R6UsCICn5uNNjX5c/t2wVefLW
+         YMdbdJvwLJIGbcnMxM7WGclDFaVa1zuKq/Fmqmq5UIpetXXMwAHunEx4BVeBQzZ+mjj/
+         y/zA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786219475; x=1786824275; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FTWOCf3x+WMKSnT7DYKaYqLrpreFxQU4MBSEOLxHycI=;
-        b=oEP2dTJiXcPnbYHB1ufP5ggp8uuXRFzA+xQkSfKl3UGFPZ3sFsV49brI82CY0ziwF5
-         l0RxQKzCfSxAJ8BhZNYjbH9VfQRO5+4WZEHbeEdMiIMvCDwoMnQh+v0eq2ElZViwhQW5
-         wAjArZmBgUbn/rso0rgXLdcmudE48QsdDUI2Az875bqcPDIGbDOKOK754C0ODMCTHiL+
-         pYn0uUF99PkhaXZQu3RG9Nix/2Hd9ZrrLnsbxOuLTT7E/qpECcHz22arJQfUvIm3jlT2
-         0hGHRyeS7UAJQkgTtjCJfhsWejOc6Se4EpWPsT1ycVCTlg9rjSnM1txCK9KgDnZ6GnDB
-         +aDA==
+        d=gmail.com; s=20251104; t=1786233079; x=1786837879; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0EI/7cdTrv+pUiQdbGaU4idt8hz2XXFh5kbiSCgsyCQ=;
+        b=sh8KaKSWQCVETf+JqFd3hYxiU1b/Nw+u+4RpAMCM/0Iomd0/kbJw9Db4QNPyRqISPz
+         c2rTGDga8w68t9H6kxCD6wRqPW+Eqin88t2d8OL5a/SoyxXRMoOEL/4fM0rOuKddCRD0
+         VIUTeVIN2Qp/e+C8ii9rj2SGfeixBecCVSRXvLkPWFuwSgn4AjSDL1Q8C9BH6D89fJ7L
+         UnTIq9D7b7Jo2butvnC5L/dzpsBvbW5e7U0PyvIDoQ/u44m+9979Yox/54AJtv/jyXrV
+         jpjItNLsRVIBuXFatujVhDxif/r1qEePABItkRUS59UJg+k/SWpouBeNlvozXENzye73
+         BB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786219475; x=1786824275;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FTWOCf3x+WMKSnT7DYKaYqLrpreFxQU4MBSEOLxHycI=;
-        b=d+iCiEHL5tP8IGbIKt7o6+Q4E7sM30lPd3XmtZMmZqGZy4Bn8pKIWkUVm3za9/7f3Z
-         qKwOeqPq3Pxv98HGzhjFyhi/qR53qTaGK9fjV/6G8L/scLlUlIuH/1Bt53R8n+3NFJj8
-         YT207eTr+KP3Y8a6FbcB52gUeJVTaVE7HERuiTkzq04JyhxqY+FsJ6OYAdX9pBlWACCv
-         /sN7lloQNbNUDNr0ctxI3AgmTsxW/5EEGj+zSJR4xEmDOwFG24w3EVjNCNwv5fqxnLgh
-         rr7OW3BFcV4kY7waUPlVqJ6yVaMZooxYJdOe8Uu4BTVtU2aZ34ONToO1fr/Zi934GLvW
-         tSKA==
-X-Forwarded-Encrypted: i=1; AHgh+RrYNKb9AS6X0445M+FIU8MgEEWbNIAXUKtOsdOKOM9+lt9sQE5LU402wSCGBDAQDYIUNEpRI1KtoQ2K0T6i@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIhntXxjLF8b2Q3XYbRrTR+Odq1mfq10TWdJWZr6v0vplLWinX
-	5yp0EAXIPnlYY7q19Nv1iGmRdMEGlSUUz+TkOTiyjypD5PIqL42cNlXm
-X-Gm-Gg: AR+sD13EQN03wbFcIhNwqhhTGnMz/2MY8h7jS77Fp7af73PjoctLk4Q8e03IwXvPdrT
-	3i5R0wilLPA+vklWaK0ezi8ZE/pSlHHX3HMFYHrPq/rB4x5rojEYu2+7SMpNvx6fk+UQKRaPY6d
-	ktdodpCxEqVZFREP+SxB5kz7aFM3jM/ElBRwS68aTZ8cdgmsba/XmCuwBZTrqxByDEIIqQOHiMl
-	wvbzfR/5YGjDJDEMZITOPcY05jjh2VLNEIb0jppqX7/Lwss9crGqKdKbJMedogi1Elg6/E1fPf2
-	EARta5HBYXxMe7CTMWafZZgJ8xjsoPiqp34GJiSawRWu+Rvz9GGTCYeTZsD+OGscaaRkJ5k1a7F
-	B7pTc5xWEW7FaoqqkxoTXHrx6y1nMh+Pu7OyN3zVjKRC6RiaV0r0lOWYArON1HoBoeP+9jJh0tu
-	gIWnLLSIpoovzMr7EjG/PeOUlI4mh4H6K7T8bnr4QdHIlgcB2SnFG1M5NfTXBM1zHziYoMkgw12
-	KgG5+c/J3VBxnJ+vfxGvrzLuuge/BgLrEFY+28erwd+2kKlZmQwy5v2Vyd6QUOjaEqo0k4CYM6b
-	6XFTz+IhtnQ1s4YXxIT9
-X-Received: by 2002:a05:600c:6612:b0:495:4811:7998 with SMTP id 5b1f17b1804b1-4995e0ebf84mr186829685e9.17.1786219474873;
-        Sat, 08 Aug 2026 13:04:34 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-077-007-004-134.77.7.pool.telefonica.de. [77.7.4.134])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995919df87sm196278975e9.6.2026.08.08.13.04.33
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 08 Aug 2026 13:04:34 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Jann Horn <jannh@google.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] selftests/proc: make proc-maps-race work with READ_IMPLIES_EXEC
-Date: Sat,  8 Aug 2026 22:03:12 +0200
-Message-Id: <20260808200312.6326-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        d=1e100.net; s=20251104; t=1786233079; x=1786837879;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0EI/7cdTrv+pUiQdbGaU4idt8hz2XXFh5kbiSCgsyCQ=;
+        b=WEHFPLwfQaVUz9/GyKJqiKExwStrp7A10L8jh0386DAY+ScZ21IzacOUNjYGBuXW/F
+         aG2dzi6vIAMXR3M8wYi+Sk5/I0TbC53WmbosN47DUYqzH40M79w2jPrSn38J9TsE+/mq
+         kzjeLpZq4gHlqMd0KDndM+fhQZdP+H96DaREWDJlpkhdSbfbbGsBy8avrSMq6erJqBE/
+         sL2TyEl1hB7ZnBfvTKkAjgNW6HkZL5i8lDb7wkej4asnQz84dP258Csy00bvwOzfIYbq
+         jLXJXNixNVUuMi1rwY3d8C0nsDM6I1avvSJW8N/WuADa+fJjI3UFZ0owSuuC4i05P+pB
+         LBAg==
+X-Forwarded-Encrypted: i=1; AHgh+RqJhByivsZgbY2RNfq1uv0g2IJSmJQqfaelma6IMahY4aTyYjqU28pJEWWhsAo53Yu/8uyT/35pGcad9AD0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7KoCEbUv0pvDgsPvFM8uee5FWSQrLixdILaZyOEEhfX1R/H8F
+	JNfhB17+C1ejeyvoCR6ZGAA+hTG8cZu+LVrfnSfzUuUE7gW4AbVBvPe8lF2HjMwXvUJ9covOmRP
+	zAnZrtxtujQbOWBuNkiTQ64x1PYNyDFU=
+X-Gm-Gg: AR+sD125WGZ8d6+LYGchzE+Ceoh9/ggPM0IVMMt4rEsNrFVZr1vaHSa1JMryUNlYrhl
+	ZBkc2JhCr9p72VmJo9AynZT+Z2lIQnVtEx73XGsvzrXhg5N6qlBVkhdZSG0I/Z6KUsk6jQxUu7a
+	U4af/bAQy5Zk9j0FbnTEusmH+2qYGxCbxN9zZmf4FgQOPadoHoDK0iPQBh+L/6L9N3o18yDcoMF
+	J7fcL/B8nNImqJlnD2qRmJjyeV0TRvvmnKdWMDpc3E4QZfyzOwIfovdwLYYrybXSXJ6I06mZuQt
+	05UnRllpbXQgbqxbmyzIJfg0zjp+1TUbYOd0z0steurjdQ==
+X-Received: by 2002:a05:651c:150a:b0:39a:c1dd:5399 with SMTP id
+ 38308e7fff4ca-39fe8461201mr11982351fa.7.1786233078738; Sat, 08 Aug 2026
+ 16:51:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260808003523.2760509-1-slava@dubeyko.com> <20260808003523.2760509-3-slava@dubeyko.com>
+In-Reply-To: <20260808003523.2760509-3-slava@dubeyko.com>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Sun, 9 Aug 2026 08:51:01 +0900
+X-Gm-Features: AUfX_mwvQ3IKbHIJ3MMQqTH9pNa9TgYyTxYyCM0XMxMS9Y8cSH8SIlDIbLcdMLg
+Message-ID: <CAKFNMokwaRf7e1yzYBNAxpHhvMZCsEzeqc8L066OaJRfS4b4zQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] nilfs2: switch O_DIRECT to iomap based operations
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: hch@lst.de, linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	lilinmao@kylinos.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-test_maps_tearing_from_split times out when READ_IMPLIES_EXEC is set.
-This happens by default on pre-ARMv6 CPUs, which lack no-execute support.
+Hi Viacheslav,
 
-split_vma() re-maps the first page with mod_info->prot | PROT_EXEC to
-make it differ from its neighbours.  With READ_IMPLIES_EXEC the original
-mapping is already executable, so no split occurs and the test hangs
-waiting for the modifier child.
+On Sat, Aug 8, 2026 at 9:35=E2=80=AFAM Viacheslav Dubeyko wrote:
+...
+> +static ssize_t nilfs_file_read_iter(struct kiocb *iocb, struct iov_iter =
+*to)
+> +{
+> +       if (iocb->ki_flags & IOCB_DIRECT) {
+> +               return iomap_dio_rw(iocb, to, &nilfs_iomap_ops,
+> +                                   NULL, 0, NULL, 0);
+> +       } else
+> +               return generic_file_read_iter(iocb, to);
+> +}
 
-Use PROT_NONE for the split mapping, which always differs from its
-readable neighbours.
+Among the tests that used to pass before the iomap conversion, I found that
+running xfstests generic/418 and generic/465 now fails with a "broken bmap"
+error, causing the filesystem to remount read-only.
 
-Fixes: beb69e817246 ("selftests/proc: add /proc/pid/maps tearing from vma split test")
-Assisted-by: Codex:gpt-5.6-terra
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-Tested on:
-- QEMU versatilepb/ARM926EJ-S: maps and smaps fail before, pass after
-- QEMU realview-eb-mpcore/ARM11MPCore: maps and smaps pass before and after
+This happens because iomap_dio_rw() is called without holding the shared
+inode lock.  To prevent this race, I think iomap_dio_rw() should be
+protected as follows:
 
-Changes since v1:
-- v1 went out without any recipients in To: and received no reply in 19 days.
-- No functional change. reworked the commit message.
+        struct inode *inode =3D file_inode(iocb->ki_filp);
+        ssize_t ret;
 
-v1: https://lore.kernel.org/all/20260720061835.6290-1-kmehltretter@gmail.com/
+        if (iocb->ki_flags & IOCB_DIRECT) {
+                inode_lock_shared(inode);
+                ret =3D iomap_dio_rw(iocb, to, &nilfs_iomap_ops,
+                                NULL, 0, NULL, 0);
+                inode_unlock_shared(inode);
+        } else {
+                ret =3D generic_file_read_iter(iocb, to);
+        }
 
- tools/testing/selftests/proc/proc-maps-race.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+        return ret;
 
-diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-index 1026d8c400e1..415eccb70468 100644
---- a/tools/testing/selftests/proc/proc-maps-race.c
-+++ b/tools/testing/selftests/proc/proc-maps-race.c
-@@ -490,7 +490,8 @@ static bool query_addr_at(int maps_fd, void *addr,
- 
- static inline bool split_vma(FIXTURE_DATA(proc_maps_race) *self)
- {
--	return mmap(self->mod_info->addr, self->page_size, self->mod_info->prot | PROT_EXEC,
-+	/* PROT_NONE differs from both readable neighbors. */
-+	return mmap(self->mod_info->addr, self->page_size, PROT_NONE,
- 		    MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0) != MAP_FAILED;
- }
- 
--- 
-2.53.0
+Adding this locking resolved the failures in both generic/418 and
+generic/465 in my tests.
+
+> +
+> +static ssize_t nilfs_file_write_iter(struct kiocb *iocb, struct iov_iter=
+ *from)
+> +{
+> +       /*
+> +        * NILFS2 cannot perform true direct I/O writes: new blocks are
+> +        * delay-allocated and are only given a real disk address when
+> +        * the segment constructor writes them out as part of a log,
+> +        * which works directly on buffer_head lists rather than
+> +        * through iomap. Fall back to the ordinary buffered write path
+> +        * for O_DIRECT writes.
+> +        */
+
+Also, regarding this comment, following Christoph's suggestion, how
+about simplifying it as follows?
+
+        /*
+         * NILFS2 lacks direct I/O write support; fall back to buffered wri=
+tes.
+         */
+
+Thanks,
+Ryusuke Konishi
