@@ -1,154 +1,128 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03FF45D19F;
-	Fri,  7 Aug 2026 22:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113F239085
+	for <linux-fsdevel@vger.kernel.org>; Sat,  8 Aug 2026 00:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786141069; cv=none; b=A3VgVKlTJ9x+8V12uLtYfuyAbk/38npLjzX5YIK6e/rpa4xFdRXLgWLmkrZcPmBZi2xOTWjniRNjS+W63xH1OZo8HQZUDs6GbCRYaeSYXH3jZbkkGcNRVFq8pEQEeLrA1bxZL4kt3J8nXZSpAkMn4cRGa0K4XXG4YkALDkPzn1A=
+	t=1786149351; cv=none; b=gJWLmU4tjhapOfYAanZ1Tuvs/EnCJ+ei60GTBHp5EkW9qqZWxI0kRiNTaj3iDm2XEc9s+FKuCgDCw8rLC/18vHSPxSjhoOXLkR5ro4ZKp1fZ+JrtbfergpmYCTyA2hphpNG/MSZK5hCDKPydjlcbqERzSOb9Xgmf+TJdphyYWaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786141069; c=relaxed/simple;
-	bh=J4JLIR8qt7OMPKMUTgAP0WX5jKAWME93N1J+XGiazdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gbJvk4W/R7Xfs1dT90tnJ7PDum+4MDB6yLUwbYBR/rzE5P1sGIirCO5drt2i1ztraC5WfCAZHJUlzFGyNqdcNZMA0ZenOOI4Pjd/xuA8FYuqZ0HBK0D9bF6B/FAPSvVQtLhhkJLvAVcBOssbNAl83rRoN3v3+UdEFS+5Nx05bEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 40B041C07BF;
-	Fri,  7 Aug 2026 22:17:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id C813317;
-	Fri,  7 Aug 2026 22:17:22 +0000 (UTC)
-Date: Fri, 7 Aug 2026 17:17:21 -0500
-From: John Groves <john@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
- 44)
-Message-ID: <anZXxns2H0hraevA@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022919.75875-1-john@jagalactic.com>
- <0100019fc5746312-6cfe9a07-a658-4aba-b1e9-5233b0ddfcf4-000000@email.amazonses.com>
- <20260806052449.GG3560084@frogsfrogsfrogs>
- <anTxt3qsUQuCKvMz@groves.net>
+	s=arc-20240116; t=1786149351; c=relaxed/simple;
+	bh=evGr4lXAU8wxOk3Sd8wjHipyN8A7pIn6q50Ro1n7EEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DVyVUdcVdsH8Tu6pi6RdkG9SKWeOrOCFO5NmOuX0l9JWLThvB+r7WtDyk7dSXrTp7d+9rUcXwZD5kRSs/5BRCzGPzQL4DvT8TnUIflN9rlVVqu/iX6/m3p7sCmzm1ImW+6jrLr7TvXOS5fxWVkB6Hoqw1q4JZE+PiL0l6Cy1Mgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=d5UBFgyG; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="d5UBFgyG"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-80dc4a68e4aso1042387b3.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 07 Aug 2026 17:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1786149348; x=1786754148; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lTUbkeLAstZXVLMcIbeCry7HvkPjiIqoDA5druseeWY=;
+        b=d5UBFgyGBUuN7qvAaFawWWyqp958hSwmhLL4+fe1zcmUq+JY4MFk3HL8GVxWfcbd5R
+         wctskQ4vRgAP23Y1+NIRJV/zmN3KMSTAmZnRcWsKZCeALxlpSKos48n2KQ/Swgk2/fg3
+         zZj/LceVImisRKHqOU74lYB7fYBXc+/1XbkPYTOMudKwaSSdMM9P+hZ2AzLduY8ppEut
+         esP/YZ+x/SmUnaFqFJukFnZc7HzQZK2gNiRHUsrGNfmq3fZJCtCJ1pUoHLuxs94lqSAd
+         V5HQKLqCBAUTlKAWXz7J/DKWcDCZr2QI2xVloD1LcLoVEi3A5VR3MjIWE37mDggQGifV
+         jjaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786149348; x=1786754148;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lTUbkeLAstZXVLMcIbeCry7HvkPjiIqoDA5druseeWY=;
+        b=UCpOv1PWJhc7x07yUCFDnPi2UC6pe26/H7mvVEJ+QP21WyoWCk/YODumNfj960ELJV
+         6Vzx9KpXEv2Doiiqv5tppZheYBwlgpvfuy041bXFm4FrQUfSmqHbocmpLWBJ6hIOYyTz
+         NCWrbYxAggjg9eT8UHob5hKkcy0JSLyEeNeabfp/bafPlregJowiMhSwmlpx2xvwbh6v
+         tpaYe6PndXAgC9NR8wmzOeN+V4zsvxZeIHOnik4JMOlO7f9gSNV/02XCBlLe9o+aBsKm
+         arRIrP4EZiGdULhFcl8pm9fhbRybaGqWiGwfnd3j1BQ3Kq5h9TDEV1vwv1aFjViujwaJ
+         oUVg==
+X-Forwarded-Encrypted: i=1; AHgh+RpfRSYtt4gTxBGUUAZ+7vz1cwb3Ulpueo+eTTRzcLdULBa82W9rZxKr10yPjFIP/sn49QA53i6nVKt9lU5I@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFUqKZAz8R5Dj8QfsgXygPrO8rHR2I5rVtT7LM2KGbcvRsmUxL
+	3nl/AqvIadpmRZTAGWc4dbtekh2wQPP1WAEVfuUCDgd4EBXU48LwmasbfeHom9W8T41oTMGA1Ro
+	DtVTujyKt3A==
+X-Gm-Gg: AR+sD10vJppVWoHBv6pYoMVBhpkED7GE9VG+NpyufD62GypAv3uHv6reYFBtkIyK/BT
+	2kXPLpviNRjrfggWakdHvo/f8kK01XB7e/yRVKr8xGcaeGvRoYm5gVW4RoM5gLdjjFcjRtospUz
+	OdCQStMPO66edTR9Dshb4L+ht/1AmZCRMDp2L8f9aFIW2whlUQPrtiSkRBYgDFLOcUBUx3iKZsg
+	vRvTJ77KIX3YORF7i6HX0r9Mv3kfyeVaxKSwUrYq8GL8gJ9wNK/dWJscCpUV9Lx/WslOuwtSwSL
+	qpVO6BbaCUC7V3D7KFYIBo/MGXUh2FQKLUvrb1OJouNvRbQ5qXwI7oAxBC8AKUYpzMknA/fNEU+
+	OxIRiki+3ke1WpyEkHPRqA/yHHfhhpAlUfJoNcBwusulVXR/OdwZHvJ9D4UCcJw62vXw6g522sZ
+	99al6s1JA3nYloWhxC/XIh8VENHV5oe9rQQeYqEzD7HAbGcbUIz2qRtYSJ74qvtFlqgNPZRWHAP
+	MCtOlhkwTpd1s7MD+Np+K/RoJjEdxDBFLC7d8feZi/dUja0xWT9wf7KYZjerthQTWjdofy7RAV4
+	uz+dYB1vfSi4uPtHTQ==
+X-Received: by 2002:a05:690c:e250:20b0:81e:f825:5840 with SMTP id 00721157ae682-820224da2d2mr123482867b3.21.1786149348132;
+        Fri, 07 Aug 2026 17:35:48 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:891e:7b31:87a7:701f])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-823f577c580sm19024407b3.27.2026.08.07.17.35.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 17:35:47 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: konishi.ryusuke@gmail.com,
+	hch@lst.de
+Cc: linux-nilfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	lilinmao@kylinos.cn,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH v2 0/2] nilfs2: eliminate blockdev_direct_IO() call
+Date: Fri,  7 Aug 2026 17:35:21 -0700
+Message-ID: <20260808003523.2760509-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anTxt3qsUQuCKvMz@groves.net>
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: C813317
-X-Stat-Signature: 8j34j75gqi1wmp6t4z3xaq87gdp38by1
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+Jhg+QZrZX5fW8FKmAtX44m54gPSILj4M=
-X-HE-Tag: 1786141042-871016
-X-HE-Meta: U2FsdGVkX19CtPIfRxeFZ3e99ugG6+ZU3FJMM8tlxbxau2+hivErNN8eJFH7VkJHIzdcrThG0zrLMFoBhzt+qIVnrbtUGpNoH2u0ciCcd1TX4m8T34JMcfhKMrCpF1shSRwIqSGS6E9LxQ0z67EQxus0sJB8AqdTVFbP+mFcJhkxSzvGwXcl6DAp1lEouJWztVlhsYZ3ixSy8Cn8s4mKt8jyY2cmnMcg8sxPxG0dz4NQwdQaIqamoAtByXbmTzVN6ymFtoS2vI78/PkZL15H5B2V3yN3vEpo79o3qWwgaxcvIEHzBRpRh+tOZf13+uWS4nO+5VnxYxqjD+oqAyCgLBwCy9PjI0xTdbLAdVpXmobkOf4+RwMP0ar5Mk01PK5t
+Content-Transfer-Encoding: 8bit
 
-On 26/08/06 03:53PM, John Groves wrote:
-> On 26/08/05 10:24PM, Darrick J. Wong wrote:
-> > On Mon, Aug 03, 2026 at 02:29:26AM +0000, John Groves wrote:
-> > > From: John Groves <John@Groves.net>
-> > > 
-> > > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
-> > > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
-> > > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
-> > > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
-> > > message in, parses both the simple-extent and interleaved (striped) wire
-> > > forms into inode->i_private, and sets S_DAX.
-> > > 
-> > > Resolving those mappings to dax-device offsets (iomap_begin) is added in
-> > > the following commit; the read/write/fault paths keep their NULL iomap_ops
-> > > stub until then.
-> > > 
-> > > Also add famfs ioctls to ioctl-number.rst
-> > > 
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> > >  fs/famfs/famfs_file.c                         | 326 +++++++++++++++++-
-> > >  fs/famfs/famfs_inode.c                        |   1 +
-> > >  fs/famfs/famfs_internal.h                     |  46 +++
-> > >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
-> > >  5 files changed, 462 insertions(+), 3 deletions(-)
-> > >  create mode 100644 include/uapi/linux/famfs_ioctl.h
-> > > 
-> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > index 3f0ef1e27eb0..5e244dec1b98 100644
-> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
-> > >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
-> > >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
-> > >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
-> > > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
-> > >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
-> > >  'v'   00-1F  linux/fs.h                                                conflict!
-> > >  'v'   00-0F  linux/sonypi.h                                            conflict!
-> > > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > > index 678f2035fd5f..d710c8a0c923 100644
-> > > --- a/fs/famfs/famfs_file.c
-> > > +++ b/fs/famfs/famfs_file.c
-> > > @@ -13,9 +13,313 @@
-> > >  #include <linux/mm.h>
-> > >  #include <linux/dax.h>
-> > >  #include <linux/iomap.h>
-> > > +#include <linux/capability.h>
-> > >  
-> > > +#include <linux/famfs_ioctl.h>
-> > >  #include "famfs_internal.h"
-> > >  
-> > > +/* Expose famfs kernel abi version as a read-only module parameter */
-> > > +static int famfs_kabi_version = FAMFS_KABI_VERSION;
-> > > +module_param(famfs_kabi_version, int, 0444);
-> > > +MODULE_PARM_DESC(famfs_kabi_version, "famfs kernel abi version");
-> > 
-> > Maybe make the "NOP" ioctl a geometry ioctl that tells you the abi
-> > version and (I guess) the page and pmd size? :D
-> 
-> I like it - will do
+The patchset eliminates blockdev_direct_IO() from
+nilfs2 entirely. It adds iomap.h with declaration of iomaps
+operations and iomap.c with implementation of
+nilfs_iomap_begin(). The nilfs_direct_IO() and the .direct_IO
+callback on nilfs_aops are removed. The nilfs_file_read_iter()
+dispatches O_DIRECT reads to iomap_dio_rw() using nilfs_iomap_ops.
+Everything else still goes through generic_file_read_iter().
+The unnecessary "select LEGACY_DIRECT_IO" has been exchanged on
+"select FS_IOMAP" in Kconfig.
 
-Err, gonna leave this alone after all. The kabi_version is already exposed
-as a module parameter - which is better. That is needed before mount (and
-the ioctls can't be called till mounted). The other useful stuff that goes 
-here is the supported page sizes (which famfs generally calls "allocation 
-units". But there again, user space needs them prior to mount. So exposing 
-those as one or more module parameters is ideal.
+v2
+The bug has been discovered in nilfs_iomap_begin() of patchset's
+first version thanks to Linmao Li.
 
-The NOP ioctl originated to answer the question "is this file famfs", and
-it still works fine for that (and user space relies on that in certain
-circumstances).
+nilfs_iomap_begin() looks up the filesystem block containing the requested
+offset and returns the physical address of that block.  However, it sets
+iomap->offset to the original, possibly sub-block, offset while leaving
+iomap->addr at the start of the physical block.
 
-Thanks!
-John
+iomap_sector() adds the difference between the I/O position and
+iomap->offset to iomap->addr.  For an O_DIRECT read at offset 512 on a
+filesystem with 4 KiB blocks, the two file offsets are equal and the I/O is
+therefore submitted at the start of the physical block instead of 512 bytes
+into it.  iomap direct I/O permits this alignment when the device logical
+block size is 512 bytes.
 
-<snip>
+Describe mapped and hole extents from the filesystem-block-aligned file
+offset.  This makes the physical and file offsets refer to the same byte.
+It also prevents a one-block hole mapping from extending into the following
+block.
+
+Viacheslav Dubeyko (2):
+  nilfs2: add iomap operations for direct I/O
+  nilfs2: switch O_DIRECT to iomap based operations
+
+ fs/nilfs2/Kconfig  |  2 +-
+ fs/nilfs2/Makefile |  2 +-
+ fs/nilfs2/file.c   | 40 ++++++++++++++++++++++++--
+ fs/nilfs2/inode.c  | 13 ---------
+ fs/nilfs2/iomap.c  | 72 ++++++++++++++++++++++++++++++++++++++++++++++
+ fs/nilfs2/iomap.h  | 13 +++++++++
+ 6 files changed, 124 insertions(+), 18 deletions(-)
+ create mode 100644 fs/nilfs2/iomap.c
+ create mode 100644 fs/nilfs2/iomap.h
+
+-- 
+2.43.0
 
