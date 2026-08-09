@@ -1,420 +1,144 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB072E54B6
-	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 00:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786236686; cv=pass; b=Oj42wCCVuXOZo8UH21QQOXcNUoOFXerKCSZrRikMqRPYy1k0GRJdjX92kuPTD8zhIdQOOOqnA/laV0BpHpOlIzaHCpqqCRsPO/zEZ1va5ZUO/wutHfjUbGe5dc2DaFCmaQnB8bJbivU2AuXTqIh5xAnzBKXKd5W2Y/GsjbwOHfk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786236686; c=relaxed/simple;
-	bh=zs4SfiVaTFG87zEuWa7DYEYXMveiqU+3HeFFRIGyKW0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PHp11JusgdzqTNB/vDHLI1cYtiUMfGBUp74gjuGI4cE5DAykp5KewqcVf0RHBanGhI79R8Ga1nl04zAn6nJ8FbyCHWlJkHqg1K6D6QTVU+ou/7pajEW/84LE7FtiBrtDpiOMCOmjroPXQ43ATvhibgE4wDMJIIWbL8Tyv8SPGOY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mayzSwPH; arc=pass smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7ED377016
+	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 02:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786241204; cv=none; b=D6BEuKhL8+q4RItW1XHFeL8YGAZb7JZq3YQ1tqkIMuUkX+OOOmtA+9HkCMdfptLJJJzhhtluwGuPxHcAJBlA8kuuYR65zg5btJnQyy8vQH0Loy4M8nxQOYDAD0MamIAGkY3vWO6Aw/l3VoZ1Xn/8G//qJI5Xhg3UV0crdK8znpU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786241204; c=relaxed/simple;
+	bh=hJrKzkOWzxqkGrUmikEr/V20FKCfell32fsSs9xXSVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AgHbBvlxDlMb5G6oZ8Cp3uCnXoU5tdodueyiB34DkTZjqeCNjV8Dc22/FHN45BFyYN8/+ZUWc163DKDvBHoifiL8OlaJ/cm0J5C3pPHAWsDmauwf+2or4scx+y27dvwGyUIit02qWvaJXbXDPF0PQ2vrL20q9qLFYWn6sk5lKwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O7thCw3+; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mayzSwPH"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c15a5b265so178661cf.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 08 Aug 2026 17:51:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786236682; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pbKVh+SSnKkzkwRrMVQdJGTodf4xOHdybP5+Nb3oweaAPS3Mmiw5Pj7hsB6oybfVn0
-         +01N+eINwA4fpANI5pk158k8JLj5AGGSjAaqS69H4NLSPysJFc03endrNMhkSO4/7RN3
-         DBzQcnin9lOuDVDSQLf/v4xyPOGX+zcwqAYtteUGNNegGR0BGP0iUrQUseSA9Rpq3KtX
-         +pZ+rkgDDEO3Cg6F8KFghPTlJ/XNyw7LYqlujk3OsHfLPeYVCbz1SzNzx41lIqzITHCm
-         /XvB7Q5SrVnW/tGBSTB2/zDHhvBCDZ3Ntm24Es/XQGw7qsz2yydw09MluJ0iQjWMh7/r
-         bsfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5t26LPlL2x6rRQWr8/8g+glnpY16lnjlFmjLTvMppKc=;
-        fh=5i0Z9bVkrz0cCNnXMmkXe7frmwy3scx+aGCm/5KQUCQ=;
-        b=VKBCS1sy1erxy2S5SxHNFF4zKc7XlqGuw/4cO6gEUCbXL5DgItUEGiTysWBxX4E33x
-         L5XvMs0iPBewDpwOCQVwZX3Gx1TlkWTJSPhaaWhdM+Ax/gCM321r2qAYoYuiEzeQK5kI
-         wstkXhMmvj0AF9jgiQMG8/cdX5pG9/QSiHXlgMDnoem4RTOPBllYWbnQ3qWCd82WjYKa
-         pF/LEnW+hIPPueDbT7AlZVCoqH7NJM+57KWAyN3drXzNTOoX1zMU3sDlThqaWmNgXlxZ
-         NpDoP5lCXy/B4BvBaT1ZuGOPizkdrc2m0UMt56zArUGUM94duGrn/Wcsd+zMLCDpltip
-         xA7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7thCw3+"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so707065a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 08 Aug 2026 19:06:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786236682; x=1786841482; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5t26LPlL2x6rRQWr8/8g+glnpY16lnjlFmjLTvMppKc=;
-        b=mayzSwPHAL/EG8FJoZI5aKdT8CHoYJZoOfGR60texMJUcsaFfweID2d2APveCsFmm1
-         7NfP3GfZ2EQU894bhlpMILuLG+mTAieRNk2Jbtyqn98artzE34Y0EuWwG/QK6ZJ6toMn
-         n5lK4xcaN8kCTgvUrVo9N9V5hR2yPbiohBmiih119V+93+N+BujhVBcKw9vy47pvbFo+
-         TwQZREPnF2dEqkUaMXFFfIH2oMsuXEzfppmkQt9dP8O7W2ds8X2A8VUohwh1dmhKplIl
-         3fWjha0ZSz5WNIA8LvL1QIChiW5WKOaWQhiyxQJ06q+i6dlaSnIGjChtT02tH4Fvqxot
-         LKGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786236682; x=1786841482;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786241202; x=1786846002; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5t26LPlL2x6rRQWr8/8g+glnpY16lnjlFmjLTvMppKc=;
-        b=ntArgP4fWjwE0+lWws6RATS2e4CDofI8HrNudL4eA8f9yQIzlJypQRqAp71r8XarZn
-         TGxAH2d3cx3LX5k2nh41ifoV3q2Zy+62cssJ/B9+gjhan06y78OHXCLvTsjv8PxYGCi+
-         o+NxAbYQixlyhGEEJsFiDG3IssAZwNUsYZE980FAjvH5wxMlTMml+51XBAMOdDTpLM5d
-         pFPO2psbbqHKfx4kVo7dYR9tUmGX1CqmTK8SKa2IBaBsvcqHdUX3LWh3E9iN67DmEK3U
-         Xpj+EEwO6wJg7ZQGNzTaCc8eSj8ZK2uqb47Q/fpllydcfRSErUj9Jzi26OkeNHxhSYid
-         s4HA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpt24RcSkvw1wam3VZLt1TXDE3hyAtCBadzJTQtY9asKV4z6Q+xzoySen3pb1nNzAZYX25TSQYN4x+PTXUA@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpA5PClEac6ZmuXAGYux28K2R3RqkgIBHLACd3ZzGDJzmCYnWi
-	AiMi+T2AzlgsZPHprNuZVps1uU1xpGMS2oMTPjiYqoJurhU/AsIHfTNCS/zNywer1o1Dz/VHEAj
-	iydMOi/H2hDMQS1h9vmX2BklU/rFSu7E9JtcXBABK
-X-Gm-Gg: AR+sD136S0qze4HnZV9kMaVZt7/PdOGlx+STTsYwp2vVLRgD0UVMzy1NQ3nNxwX/nid
-	SIvwL3P7hy8bB91llc7LIoLqlL6unuaYrU2wXDcuRLAuN25b8MFgFBTthgefDQ9fsfOqilhxaeP
-	mQ//FOi6yc5iLh4GMf92iXipmRnJFw1+y+U39KrGeVdJ3U12bQanIQdQ1fMy0kfFmEbhm1PE2DG
-	xoIbVgZyC7a8mLsQRRyG+QSpJl/D/eQXYFf+5l58NM359L9+k66b7F7si0jtqivDdH+ad1Jofvn
-	WQ7BdAvNv0cSazPi7FCG3IEkFqB6vHUf7zB5h18baLk=
-X-Received: by 2002:a05:622a:2c2:b0:517:5d71:84e5 with SMTP id
- d75a77b69052e-52d28104052mr10844831cf.5.1786236681095; Sat, 08 Aug 2026
- 17:51:21 -0700 (PDT)
+        bh=JUi5CZ/mm/6LIkM/Ynog72l5rYYaKtcE2jJwcesfnKA=;
+        b=O7thCw3+oS6AYLbRYh5I08vzcAGwWjvk2KII2htdapj+YOp9BTFaeZ0PdvusZE1ldC
+         Rv4ijXPsS1/Bkg7HVtNt/MOuuDMg6GtE4RYa1o4my7gixQ+EqliHHEvxpXusY5ZjmvMF
+         Ocrhds8Yz4v0fIWFaac2FMkjd9cd35LfKVy6M1+NA/TkaGTC3FaoESaIHhvJgqQYPRQh
+         Lk3Ch8uPVyFT8MXHPW2w60J4FSlMHmSx1wSCEOwSjmHRanSOSOqZNuQQyFE4J02L+tjp
+         Cc79R2jW1qpDTY1HGZsGsMYQ90t40/opd9nYQcXE+NO2mOcBkFN4H0Ys4iI0EGMOjBYZ
+         0sFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786241202; x=1786846002;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JUi5CZ/mm/6LIkM/Ynog72l5rYYaKtcE2jJwcesfnKA=;
+        b=NBPc5Nx+kuzHiSE9Z0K0WMtKgdq+CniuiVs1KP9h/nXyv2KtJCPiMnBQre2mzGPtUi
+         rnYuFZs0WuH22UsnaiJsfnjM1otJYXU8G778qeEK5HfvqgRrf/DAHI7pnu920POfKxxZ
+         R1upWmLWbYytuDyXsimx9xCZipdpkBskh2hJNGd8IJTvcPSx8HAGWaYFKw3PSB3aG1z6
+         EoE1rGBEYLuxChIqS9WVh75CF13WdGjiWdfDFb+ZAWR7zn0womD0hNUt1uskeqA3qv5I
+         ZGJ0NbQyFA6s3ckISc3+bGhgY5Zm1guU4HsxQp7ZwpqmRDp6qrpInSQaYKmTREC2aS1b
+         fVnQ==
+X-Gm-Message-State: AOJu0YwB2YKvFxn/gpHJyCnVN8k9HVkGfvmwVyh8oemmEH+RYXjNOUNd
+	7Onery1ZIf/FRVOQ0MQFpQQXjIZBjHs5YZ8psFVJgKbYyd1f2cluEdvC
+X-Gm-Gg: AR+sD12jz3vUKtipRRK4wi1FW/V3A5uoICAxDuJIvuQk2BS5cSWr+k6UefQa95/ueOW
+	SKAr6FXY0s3pw+0LBgFujl9N5JkIyDBSJ9BdbZ25SmJhPPobMJl2ajr/X8yzB/7yZlM8FN7RWA2
+	vitbz0I4g9D0dMwkDl+OZAcxAd1k6Pmc2/cUkkjj7lPZmbwIA+aAUCb5OGvH6QxI6K6m/A013Eo
+	jH4hYsjBXbA3Z8E2QHBAC3Klg/RSeo1s8qa+HzAFgGsTkvXrRWZ8UXyoTJxdIym6j458N15xZo4
+	lSPAdeJnemXDsCgP5mYQoFZbzj4CIxFrjTiPOb5I8w+lSa6UL8ZbW9hoVB6vh2ZW7s05NbAYw5r
+	Qmp31o1MFQOSZLsnjIAI2/sn9Sn/mTLP63pCWvAZE0vwqWRQYYPg/fvAvzMV7XedIshAu9oQt6B
+	t6qtGN8tzmit6rVSLNWmqBlrCwbb0M3t44gEBYNO2hKjNLEwvJqDagLnZqo7V0Q2h8gYcTdb2B3
+	oYmevC1pn3d8g1UsJc=
+X-Received: by 2002:a17:90a:d010:b0:38d:eaec:4396 with SMTP id 98e67ed59e1d1-3903c58bdd2mr33450215a91.11.1786241202015;
+        Sat, 08 Aug 2026 19:06:42 -0700 (PDT)
+Received: from v4bel ([58.123.110.97])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39085dc396dsm10023664a91.3.2026.08.08.19.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2026 19:06:41 -0700 (PDT)
+Date: Sun, 9 Aug 2026 11:06:38 +0900
+From: Hyunwoo Kim <imv4bel@gmail.com>
+To: viro@zeniv.linux.org.uk, brauner@kernel.org, tglx@kernel.org,
+	ebiederm@xmission.com
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, imv4bel@gmail.com
+Subject: [PATCH] posix-cpu-timers: Dequeue per-thread timers before
+ exchange_tids()
+Message-ID: <anfgrsPlUdwBhdrp@v4bel>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org> <20260806-b4-scalable-cow-virt-pgoff-v4-1-ab318a350404@kernel.org>
-In-Reply-To: <20260806-b4-scalable-cow-virt-pgoff-v4-1-ab318a350404@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sat, 8 Aug 2026 17:51:10 -0700
-X-Gm-Features: AUfX_mwrAfErRpWaGdsaXjFbVsuLxmBdhaCS8dBRSF7bNpazo-ZM1X1L3isxLV8
-Message-ID: <CAJuCfpFAA1H2pOi6EOarNtrdzLQDJyhm6QOGsfZ4SFTuM5eiLQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/20] mm/vma: introduce VMA anon page offset field and
- add helpers
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Aug 6, 2026 at 1:22=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Establish fields in vm_area_struct to store the anonymous page offset of
-> VMAs.
->
-> Initially, the anonymous page offset of a VMA is vma->vm_start >>
-> PAGE_SHIFT.
->
-> When a VMA is remapped to new_address its anonymous page offset is either
-> updated to new_address >> PAGE_SHIFT if unfaulted or, if faulted, remains
-> equal to the anonymous page offset it had when first faulted.
->
-> Currently, anonymous folios belonging to CoW'd MAP_PRIVATE-mapped
-> file-backed VMAs are tracked by their file offsets. By adding anonymous
-> offset as a property of VMAs, we can now track them by their anonymous pa=
-ge
-> offset instead.
->
-> By tracking this, we provide the means by which to eliminate this
-> inconsistency, and more importantly lay the foundations for future work f=
-or
-> the scalable CoW anonymous rmap rework.
->
-> This patch simply adds the fields and some simple helpers. Subsequent
-> patches will update mm code to make use of these fields correctly.
->
-> The fields chosen are packed in the VMA such that, for 64-bit kernel
-> builds, no additional space is taken up.
->
-> The first field is present on cacheline 0 containing key VMA fields, and
-> the second on cacheline 3, which contains file-backed reverse mapping
-> fields.
->
-> Given the relative time spent accessing reverse mapping fields as well as
-> updating them, there shouldn't be any performance impact here from false
-> sharing.
->
-> Update the VMA userland tests to account for this change.
->
-> No callsites are updated yet, so no functional change intended.
->
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> Reviewed-by: Xu Xin <xu.xin16@zte.com.cn>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  include/linux/mm.h              | 59 +++++++++++++++++++++++++++++++++++=
-++++++
->  include/linux/mm_types.h        | 12 +++++++++
->  mm/vma.h                        | 14 ++++++++++
->  mm/vma_init.c                   |  1 +
->  tools/testing/vma/include/dup.h | 26 ++++++++++++++++++
->  5 files changed, 112 insertions(+)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 87feaa5a2b78..df78847f5f07 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -4393,6 +4393,65 @@ static inline pgoff_t vma_last_pgoff(const struct =
-vm_area_struct *vma)
->         return vma_end_pgoff(vma) - 1;
->  }
->
-> +/**
-> + * vma_start_anon_pgoff() - Get the anonymous page offset of the start o=
-f @vma
-> + * @vma: The VMA whose anonymous page offset is required.
-> + *
-> + * If unfaulted, then this is vma->vm_start >> PAGE_SHIFT, if faulted th=
-en the
-> + * anonymous page offset at the time of first fault.
-> + *
-> + * If the VMA is anonymous, this returns the same value as vma_start_pgo=
-ff().
-> + *
-> + * This value is used for tracking MAP_PRIVATE file-backed mappings by t=
-heir
-> + * anonymous page offset.
+A per-thread CPU timer holds a reference to the PID of the thread it is
+attached to and, while it is armed, its node is queued in that thread's
+posix_cputimers. The task is looked up by that PID.
 
-I assume this function should not be used with shared file-backed
-mappings, right? If so, maybe add a comment like the one you have for
-linear_anon_page_index(): "It is not valid to call this function for
-shared file-backed mappings."?
+When a non-leader thread exec()s, de_thread() changes which task owns
+that PID:
 
+  de_thread(tsk)
+    exchange_tids(tsk, leader);		// tsk's PID now belongs to leader
+    ...
+    release_task(leader)
+      __exit_signal(leader)
+        posix_cpu_timers_exit(leader);	// cleans leader's queue, not tsk's
+        __unhash_process(leader)	// that PID has no task anymore
 
+pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL, but the node
+is still queued on tsk, which is alive. timer_lock_sighand() takes a
+failed lookup to mean that the node is already dequeued, so it has
+nothing to undo.
 
-> + *
-> + * Returns: The anonymous page offset of the start of @vma.
-> + */
-> +static inline pgoff_t vma_start_anon_pgoff(const struct vm_area_struct *=
-vma)
-> +{
-> +       pgoff_t pgoff =3D 0;
-> +
-> +#ifdef CONFIG_64BIT
-> +       pgoff +=3D vma->__vm_anon_pgoff_hi;
-> +       pgoff <<=3D 32;
-> +#endif
-> +       pgoff +=3D vma->__vm_anon_pgoff_lo;
-> +       return pgoff;
-> +}
-> +
-> +/**
-> + * vma_end_anon_pgoff() - Get the anonymous page offset of the exclusive=
- end of
-> + * @vma.
-> + * @vma: The VMA whose end anonymous page offset is required.
-> + *
-> + * This returns the anonymous exclusive end page offset of @vma, which i=
-s useful
-> + * for expressing page offset ranges.
-> + *
-> + * See the description of vma_start_anon_pgoff() for a description of VM=
-A
-> + * anonymous page offsets.
-> + *
-> + * Returns: The exclusive end anonymous page offset of @vma.
-> + */
-> +static inline pgoff_t vma_end_anon_pgoff(const struct vm_area_struct *vm=
-a)
-> +{
-> +       return vma_start_anon_pgoff(vma) + vma_pages(vma);
-> +}
-> +
-> +/**
-> + * vma_last_anon_pgoff() - Get the anonymous page offset of the last pag=
-e in
-> + * @vma.
-> + * @vma: The VMA whose last anonymous page offset is required.
-> + *
-> + * See the description of vma_start_anon_pgoff() for a description of VM=
-A
-> + * anonymous page offsets.
-> + *
-> + * Returns: The last anonymous page offset of @vma.
-> + */
-> +static inline pgoff_t vma_last_anon_pgoff(const struct vm_area_struct *v=
-ma)
-> +{
-> +       return vma_end_anon_pgoff(vma) - 1;
-> +}
-> +
->  static inline unsigned long vma_desc_size(const struct vm_area_desc *des=
-c)
->  {
->         return desc->end - desc->start;
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 939b5ea8c9e0..ebf0d912be7d 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -967,6 +967,11 @@ struct vm_area_struct {
->          */
->         unsigned int vm_lock_seq;
->  #endif
-> +       /*
-> +        * Low 32-bits of anonymous page offset.
-> +        * See vma_start_anon_pgoff() comment for details.
-> +        */
-> +       unsigned int __vm_anon_pgoff_lo;
->         /*
->          * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_v=
-ma
->          * list, after a COW of one of the file pages.  A MAP_SHARED vma
-> @@ -1041,6 +1046,13 @@ struct vm_area_struct {
->  #ifdef CONFIG_DEBUG_LOCK_ALLOC
->         struct lockdep_map vmlock_dep_map;
->  #endif
-> +#endif
-> +#ifdef CONFIG_64BIT
-> +       /*
-> +        * High 32-bits of anonymous page offset.
-> +        * See vma_start_anon_pgoff() comment for details.
-> +        */
-> +       unsigned int __vm_anon_pgoff_hi;
->  #endif
->         /*
->          * For areas with an address space and backing store,
-> diff --git a/mm/vma.h b/mm/vma.h
-> index 0bc7d521e976..54ed7c744e3b 100644
-> --- a/mm/vma.h
-> +++ b/mm/vma.h
-> @@ -283,6 +283,20 @@ static inline void vma_set_pgoff(struct vm_area_stru=
-ct *vma, pgoff_t pgoff)
->         vma->vm_pgoff =3D pgoff;
->  }
->
-> +static inline void __vma_set_anon_pgoff(struct vm_area_struct *vma, pgof=
-f_t pgoff)
-> +{
-> +#ifdef CONFIG_64BIT
-> +       vma->__vm_anon_pgoff_hi =3D pgoff >> 32;
-> +#endif
-> +       vma->__vm_anon_pgoff_lo =3D pgoff & GENMASK(31, 0);
-> +}
-> +
-> +static inline void vma_set_anon_pgoff(struct vm_area_struct *vma, pgoff_=
-t pgoff)
-> +{
-> +       vma_assert_can_modify(vma);
-> +       __vma_set_anon_pgoff(vma, pgoff);
-> +}
-> +
->  static inline void vma_add_pgoff(struct vm_area_struct *vma, pgoff_t del=
-ta)
->  {
->         vma_assert_can_modify(vma);
-> diff --git a/mm/vma_init.c b/mm/vma_init.c
-> index 715feee283f0..baa7e82f47e3 100644
-> --- a/mm/vma_init.c
-> +++ b/mm/vma_init.c
-> @@ -51,6 +51,7 @@ static void vm_area_init_from(const struct vm_area_stru=
-ct *src,
->         dest->vm_end =3D src->vm_end;
->         dest->anon_vma =3D src->anon_vma;
->         dest->vm_pgoff =3D vma_start_pgoff(src);
-> +       __vma_set_anon_pgoff(dest, vma_start_anon_pgoff(src));
->         dest->vm_file =3D src->vm_file;
->         dest->vm_private_data =3D src->vm_private_data;
->         vm_flags_init(dest, src->vm_flags);
-> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
-dup.h
-> index c52b23773cd2..26d9210b1e8b 100644
-> --- a/tools/testing/vma/include/dup.h
-> +++ b/tools/testing/vma/include/dup.h
-> @@ -577,6 +577,7 @@ struct vm_area_struct {
->          */
->         unsigned int vm_lock_seq;
->  #endif
-> +       unsigned int __vm_anon_pgoff_lo;
->
->         /*
->          * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_v=
-ma
-> @@ -612,6 +613,9 @@ struct vm_area_struct {
->  #ifdef CONFIG_PER_VMA_LOCK
->         /* Unstable RCU readers are allowed to read this. */
->         refcount_t vm_refcnt;
-> +#endif
-> +#ifdef CONFIG_64BIT
-> +       unsigned int __vm_anon_pgoff_hi;
->  #endif
->         /*
->          * For areas with an address space and backing store,
-> @@ -1320,6 +1324,28 @@ static inline pgoff_t vma_end_pgoff(const struct v=
-m_area_struct *vma)
->         return vma_start_pgoff(vma) + vma_pages(vma);
->  }
->
-> +static inline pgoff_t vma_start_anon_pgoff(const struct vm_area_struct *=
-vma)
-> +{
-> +       pgoff_t pgoff =3D 0;
-> +
-> +#ifdef CONFIG_64BIT
-> +       pgoff +=3D vma->__vm_anon_pgoff_hi;
-> +       pgoff <<=3D 32;
-> +#endif
-> +       pgoff +=3D vma->__vm_anon_pgoff_lo;
-> +       return pgoff;
-> +}
-> +
-> +static inline pgoff_t vma_end_anon_pgoff(const struct vm_area_struct *vm=
-a)
-> +{
-> +       return vma_start_anon_pgoff(vma) + vma_pages(vma);
-> +}
-> +
-> +static inline pgoff_t vma_last_anon_pgoff(const struct vm_area_struct *v=
-ma)
-> +{
-> +       return vma_end_anon_pgoff(vma) - 1;
-> +}
-> +
->  static inline int vfs_mmap_prepare(struct file *file, struct vm_area_des=
-c *desc)
->  {
->         return file->f_op->mmap_prepare(desc);
->
-> --
-> 2.55.0
->
+begin_new_exec() calls posix_cpu_timers_exit(me) right after
+exec_task_namespaces() and that removes the leftover node, so the state
+normally stays invisible. But bprm->point_of_no_return is set before
+de_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or
+exec_task_namespaces() fails, the task dies before it gets there.
+exit_itimers() then frees the k_itimer while its node is still queued,
+and reaping tsk later erases that freed node from the rbtree.
+
+Dequeue the per-thread CPU timers of tsk before the PID changes hands, so
+that a failed lookup again implies a dequeued node. Process-wide timers
+are looked up with PIDTYPE_TGID and transfer_pid() moves that link to
+tsk, so they are left alone.
+
+Fixes: 55e8c8eb2c7b ("posix-cpu-timers: Store a reference to a pid not a task")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+---
+ fs/exec.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index c7b8f2d6366c44..f80f70e1c26de4 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1000,6 +1000,18 @@ static int de_thread(struct task_struct *tsk)
+ 		 * the former thread group leader:
+ 		 */
+ 
++#ifdef CONFIG_POSIX_TIMERS
++		/*
++		 * exchange_tids() hands this thread's PID to the old leader,
++		 * which is reaped right after. The PID lookup in
++		 * timer_lock_sighand() then fails while the per thread CPU
++		 * timers are still queued here, so dequeue them first.
++		 */
++		spin_lock(lock);
++		posix_cpu_timers_exit(tsk);
++		spin_unlock(lock);
++#endif
++
+ 		/* Become a process group leader with the old leader's pid.
+ 		 * The old leader becomes a thread of the this thread group.
+ 		 */
+-- 
+2.43.0
+
