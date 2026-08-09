@@ -1,122 +1,96 @@
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8562F2F3C37
-	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 08:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9478423EAAA
+	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 15:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786263377; cv=none; b=eqUEdqftt6zjZjHem5W/NACs3IoK7tNyz0zObKN9E0DUTfSz1KSBKou16ZpLJAZaIq2NArGdW3M0FuVTRktsd7w0BjJP0+CjjNAHG7l3TGEqj1DSBdjqxdI6uqBZ7WdMW/rTu5GcQ9BBoBsjTEYDJ3uI+rkWmIywKsuCpGa1E+4=
+	t=1786289877; cv=none; b=pi274YzBTl6ekJzmQ2Y65ln0IFw81BTO7dm3YWaX1cMzuDSUzlrEBxzXeNOxy+D7akkk0dRHbv9ZyI81xoXkK1MD0DSMgdptEoW86jn/kfV5q5v2ft9MPWIu1WDtsJtd2Pe+IReSmR2AZC3bbwxI8IXMHyY3vE1vlzmC0gnfi8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786263377; c=relaxed/simple;
-	bh=tO05SZSolndT0IvPDD2TMHPNg59EDdJKM0G58kCMy7g=;
-	h=From:To:Subject:Mime-Version:Content-Type:Date:Message-ID; b=sn7tIC22Kf/CbGnrwrHt67vQSthFvo7G7Ceyi1zCuxdHdFaZagrN9UfkC2k9Kidr4LDLXKLP3T2+ksDYp/FtdtsHeQ/EIq/bSXbfM8kFGIf9Se735hby+FKIEJLPVZVA9RIMwljMUplRS0tL1wFx/Gs8OLc1t32RfDz1zghJMPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XkGoQH2B; arc=none smtp.client-ip=162.62.57.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1786289877; c=relaxed/simple;
+	bh=QiHspMmrWYR6JR0lI/2orn0XnTH1GeGpZkIk4IxJEEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rOCrZVdYLUkMI3OD/vkwHPYYAFJSc72gPLjlvWZQGo1iG7+te3RFDXMN80wau+x86wgokjdiqUC+CAXwLsQTf4A4gD8IfuZZdFWdA21pBQBhMJQwqV3TD1uw/oJ5q31geVC1Qg7/o1ekdm90ZxX2fDMgyNrlnCtCjYmPKz7U04I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkwVQ42v; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XkGoQH2B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1786263370; bh=tO05SZSolndT0IvPDD2TMHPNg59EDdJKM0G58kCMy7g=;
-	h=From:To:Subject:Date;
-	b=XkGoQH2BX6fIVwZhEC869gOqNq71S0DGNyA/gqRvA08OMn1t3YPD9T/Q3EwNSgJf9
-	 vibcj82V9ZZWCi0l34JopSTItv42b3DQzWVY/1ZRhBxjm9BJNZl1EVgumX96UKmfl1
-	 R+wxER4K+1ZBuzdCTejfJgYRvDT71uzNnuSxxIc8=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-XMAILINFO: NNgSqAauJRa76vz68PkyyOfsEOqLRlZX9U39F7hNd4+N4RaGPLpnZomJLB4sks
-	 LGT1LGCHPiTTVyXdklwW3qCC3puyk/T412gk4xbLVrZpq6FLi9cm73J1IL2ESSJ5uEH4wsjFFPoTr
-	 JSTcPpnomqlp6RnvKKSDv0bR8dJVoUb6g4wW6COrV/X7deTR8ntwq/oBhPUxYJERS0h8mfU7lUQVL
-	 f74zbL2XFDKMnvNXiagf2/5GSfAHp6UTik4rvdCTiCWCxGEQmHxyEOGYWZCLIwJIQQJh1Vi/YoABY
-	 DnXaDNQ+z0qnS3Uw9e8NWUeWN1fvHEC9Qsw0mfvX8J/Cp8R74Ywa/udQntxY1icxCs05cJkkfiAgf
-	 +VWRTgMPDZM52cJALevJZZWRRqnOdQQFVo7GIYo6q/X4q0oTyvfwiORzJTI06e5vdFSwa7VVCyBNv
-	 Z67e+lauMqVCGJcmRTm1H+88srmpSTt09+Dep71bCfQcPq+I8kHYlMryeR0EoqLAykSXSroaq0550
-	 CHkiA4K5dlvfsVH8g/V7fBaSDpRm6yPwtAvnmFUHGqzIJ7XX52u8R2uTzV/2/1pfjhZNmW2HJAVK7
-	 tmc/lbVpnohTD8OLBMywroeTULA4YAHXaaJozUp0iXCfvcOPS9834QZYVlG1cX2krCTlcSt4pOqC8
-	 29OAcACuFOj6VS0P85IjyqbRMtbAz1xhRjeGRGfVT+WekJFiNV9kVTD+dkD53rzBakceOCkTtpyWw
-	 uU265CQmV/n/AJliisOwGMFjTywetHTr0IwqFu2CiVx8zdDnUHLdZTNr9mHWEbeRZ70NpCnLrCAbA
-	 2R/XlcLgv/m3VaQ3IwP5tQP63vuDd1EuOuLQSdV8xneiCTcv4gHVCPMmCTNQC/wVDpK8elE5gWxsM
-	 iurgdF4jk8e6+6z7DzLf4O/tKxIvn1eHF9sjSoyN44f2qvysYKF4dhcvqNPFtdoMLXKbjHhUgnDPC
-	 j5TlE23AXErMGXiPhpo71ykYAJw9/9eGZgXHMjsWBVsVkAS0uXMRMqOANBaUB5bdKdC0C4EM0FGDB
-	 dp3Ua6SY3yzL6FSxSD9epesZK67SE4VHiiTtuz8LPDb+KvMk=
-From: "=?utf-8?B?5LqT5qKm6Iiw?=" <691464208@qq.com>
-To: "=?utf-8?B?bGludXgtZnNkZXZlbA==?=" <linux-fsdevel@vger.kernel.org>
-Subject: [BUG] NTFS rename fails with "Failed to add AT_INDEX_ALLOCATION" on Linux 7.1 new ntfs driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkwVQ42v"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495590dde14so12437875e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 08:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786289875; x=1786894675; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HnCiaDhSZ4E0IEu3bcXK+4RsdFqJOB7eO6e26VetAM0=;
+        b=VkwVQ42vOY85JVWSgzSTtm/6P+n/bID+roGRqi3Iz+UVtPitl4wAAAauC2m6S1yMS0
+         DIE2BTYbNrAk/gE8ugEql1K95W/DQHV4rgEWZyKKBiD40svg0h9BcgMFoPilGIkhWALp
+         prJM6rwwFWsE8IxtqnyR07RSeY/GWSAWAjgksIytdrn9ELpbETt3RUS/0SBEnQwXwRvu
+         iWsibDod01KUjR9uMTqWjEEoWAXs8EJR6B21bpLfekPIi8IPZHLxUwXuE2iLKReaIxj4
+         pZwAzf7ko9qcH8Uhww+tVq8OH4TaPYVU9G4JBCkQTfpwIo+GYdfzWbyi2M1CQHBcC3jP
+         R3dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786289875; x=1786894675;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HnCiaDhSZ4E0IEu3bcXK+4RsdFqJOB7eO6e26VetAM0=;
+        b=Z/d78vZpNVPpLN+JqDW8+jbn92KKCGBZoDRZEG33Qc1VImc2tuMOqCqags5e3qHcde
+         gilwbmuJeX9/W7MHVGq2mKYktDnfP0upOE2ocpxdahUvOBNkgP+7d3gVBf2K8sme5GHr
+         UhzeUa5xaIMflma9x5Tbuh93zY++WtxWy5Z9UKUSJvz1IIvlb+h7SuCgU5v2fWWoLjYW
+         L6xOZjvSKTnw5TG9166BX4DlTBrlVpfYxvxQ8ZYb3mFyV441Os6hotOeSyZ2HBY0wO+v
+         nKtVMGR5Pt/ZwVkpPJaDytTAzzrLzt+330r0AbfcxP9F0GGHVEWtKzib35GPKUw+G5yo
+         PcOg==
+X-Forwarded-Encrypted: i=1; AHgh+RqSj69dBd1+DPqRIv43jnxJoB9oxSlzQCzrfKN5YTVoSTEJfHKe1m7MxczLJdIHBGkl7CFXeuUdTd3YHZF3@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywl9diFZNel8FiZIVnLZX0kNslAnVRl2ZCDlklGJhylmBo2NhD+
+	vCpIJTllsr5g0xzBYq6aQ+mh+vo/rJmxcYYHNT7qOD8ZRajjpRmLtfqc
+X-Gm-Gg: AR+sD11Pm8BTV+iEt6ZZWqhwFFxjgUQRZlMpJX2Z8L3kcoHh0vMaUES0ErE50JgPtc5
+	Up27qRJNJWGqI92L7v5DzwahFKsvJsNibLBx2CJhHY6Uzs5VcClFqSc09HojY7RVF1KYqUDDYzj
+	zNaT0/4MUUhXB0NH86qHfgA3I8XsUtTaLoD7zSVbzwuLFzRLugSC5kfWlX+4NB/j8pm+GFDJnpg
+	BJfbLfF4lwT/N5Vfauoo2G2arZ2JfmbjzVNGkxjBUM0UG1AkBZ8XJnCfBYXX3DCEJVGbNUH6q5o
+	NAFaE47SsiImWBRDvpylMZ+l8/0/T0M83XkjWLe+FSSDape0qI5i/NGzzRYlC5s2xUPfuKkVMLr
+	bvfhv33ECPneDm9eURcH7vmjghSVfmjA1bsKJsddm1UUTXgDQOXF0c6awZNwsLzs4oR28R08lW2
+	sEGLORaFBpni1AM6J6IVpVdE1z2CBTnNkd5b6H8c7nZC++N1VCLdDLDWi4
+X-Received: by 2002:a05:600c:1d20:b0:499:6123:ac11 with SMTP id 5b1f17b1804b1-4996123ac36mr146379375e9.11.1786289874734;
+        Sun, 09 Aug 2026 08:37:54 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4800220727bsm26316077f8f.33.2026.08.09.08.37.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Aug 2026 08:37:54 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: jack@suse.cz
+Cc: aivazian.tigran@gmail.com,
+	brauner@kernel.org,
+	hirofumi@mail.parknet.co.jp,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu
+Subject: Re: [PATCH v5 0/20] fs: Fix missed inode write during fsync
+Date: Sun,  9 Aug 2026 18:36:19 +0300
+Message-ID: <20260809153619.1888764-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260727101509.21667-1-jack@suse.cz>
+References: <20260727101509.21667-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Sun, 9 Aug 2026 16:16:09 +0800
-X-Priority: 3
-Message-ID: <tencent_38D4A05E2E6F54A070D0CE2801B3E988B207@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-mid: xmsezb43-0t1786263369tfvbavvyj
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-U3ViamVjdDogW0JVR10gTlRGUyByZW5hbWUgZmFpbHMgd2l0aCAiRmFpbGVkIHRvIGFkZCBB
-VF9JTkRFWF9BTExPQ0FUSU9OIiBvbiBMaW51eCA3LjEgbmV3IG50ZnMgZHJpdmVyCgpTdW1t
-YXJ5Ogo9PT09PT09PQpPbiBMaW51eCA3LjEgd2l0aCB0aGUgbmV3IGluLWtlcm5lbCBOVEZT
-IGRyaXZlciAoTlRGU1BsdXMvTlRGU19GUyksIApyZW5hbWUoKSBvcGVyYXRpb25zIGZhaWwg
-d2hlbiB0aGUgdGFyZ2V0IGRpcmVjdG9yeSdzIGluZGV4IGlub2RlIE1GVCByZWNvcmQgCmlz
-IGZ1bGwuIFRoaXMgbWFuaWZlc3RzIGFzICJEaXNrIHdyaXRlIGZhaWx1cmUiIGluIGFwcGxp
-Y2F0aW9ucyBsaWtlIFN0ZWFtLgoKUmVwcm9kdWN0aW9uOgo9PT09PT09PT09PT09CjEuIE1v
-dW50IGFuIE5URlMgdm9sdW1lIHVzaW5nIHRoZSBuZXcgIm50ZnMiIGRyaXZlciAobm90IG50
-ZnMzKQoyLiBDcmVhdGUgYSBkaXJlY3Rvcnkgd2l0aCBtYW55IGZpbGVzIChvciB1c2UgYSBw
-cmUtZXhpc3RpbmcgU3RlYW0gbGlicmFyeSkKMy4gQXR0ZW1wdCB0byByZW5hbWUgb3IgY3Jl
-YXRlIGEgbmV3IGZpbGUgaW4gdGhhdCBkaXJlY3RvcnkKNC4gVGhlIG9wZXJhdGlvbiBmYWls
-cyB3aXRoIEVJTywgZG1lc2cgc2hvd3MgYXR0cmlidXRlIGFkZCBmYWlsdXJlcwoKRXhwZWN0
-ZWQgYmVoYXZpb3I6Cj09PT09PT09PT09PT09PT09PQpSZW5hbWUgc3VjY2VlZHMsIG9yIGF0
-IG1pbmltdW0gcmV0dXJucyBhIGNsZWFyIEVOT1NQQyBlcnJvciBpZiB0aGUgZmlsZXN5c3Rl
-bSAKaXMgYWN0dWFsbHkgZnVsbC4KCkFjdHVhbCBiZWhhdmlvcjoKPT09PT09PT09PT09PT09
-PQpkbWVzZyBzaG93cyBjYXNjYWRpbmcgZmFpbHVyZXM6CiAgbnRmczogKGRldmljZSBzZGMx
-KTogbnRmc19hdHRyX2FkZCgpOiBGYWlsZWQgdG8gYWRkIHJlc2lkZW50IGF0dHJpYnV0ZQog
-IG50ZnM6IChkZXZpY2Ugc2RjMSk6IG50ZnNfaWFfYWRkKCk6IEZhaWxlZCB0byBhZGQgQVRf
-SU5ERVhfQUxMT0NBVElPTgogIG50ZnM6IChkZXZpY2Ugc2RjMSk6IG50ZnNfaXJfbWFrZV9z
-cGFjZSgpOiBGYWlsZWQgdG8gbW9kaWZ5IElOREVYX1JPT1QKClRoZSBhcHBsaWNhdGlvbiBy
-ZWNlaXZlcyAiRGlzayB3cml0ZSBmYWlsdXJlIiAoRUlPKS4KClJvb3QgQ2F1c2UgQW5hbHlz
-aXM6Cj09PT09PT09PT09PT09PT09PT09CkZyb20gY29kZSByZXZpZXcgb2YgdjcuMSBmcy9u
-dGZzL2luZGV4LmMgYW5kIGZzL250ZnMvYXR0cmliLmM6CgoxLiBXaGVuIGEgZGlyZWN0b3J5
-J3MgSU5ERVhfUk9PVCBuZWVkcyB0byBncm93IGJleW9uZCBpdHMgY3VycmVudCBNRlQgcmVj
-b3JkIAogICBzcGFjZSwgbnRmc19pcl9tYWtlX3NwYWNlKCkgKGluZGV4LmM6MTMwOSkgaXMg
-Y2FsbGVkLgoKMi4gSWYgbnRmc19pcl90cnVuY2F0ZSgpIHJldHVybnMgLUVOT1NQQywgaXQg
-Y2FsbHMgbnRmc19pcl9yZXBhcmVudCgpIAogICAoaW5kZXguYzoxMTY5KSB0byBtb3ZlIHRo
-ZSBpbmRleCByb290IGludG8gYW4gaW5kZXggYmxvY2suCgozLiBudGZzX2lyX3JlcGFyZW50
-KCkgY2FsbHMgbnRmc19pYV9hZGQoKSAoaW5kZXguYzoxMTQzKSB0byBjcmVhdGUgdGhlIAog
-ICBBVF9JTkRFWF9BTExPQ0FUSU9OIGF0dHJpYnV0ZS4KCjQuIG50ZnNfaWFfYWRkKCkgY2Fs
-bHMgbnRmc19pYm1fYWRkKCkgKGluZGV4LmM6OTE5KSB0byBjcmVhdGUgdGhlIEFUX0JJVE1B
-UCAKICAgYXR0cmlidXRlIGZpcnN0LgoKNS4gbnRmc19pYm1fYWRkKCkgY2FsbHMgbnRmc19h
-dHRyX2FkZCgpIChhdHRyaWIuYzoyNjE0KSB3aGljaCB0cmllcyB0byBhZGQgCiAgIHRoZSBB
-VF9CSVRNQVAgYXMgYSByZXNpZGVudCBhdHRyaWJ1dGUgaW4gdGhlIGluZGV4IGlub2RlJ3Mg
-TUZUIHJlY29yZC4KCjYuIElmIHRoZSBNRlQgcmVjb3JkIGRvZXNuJ3QgaGF2ZSBlbm91Z2gg
-ZnJlZSBzcGFjZSAKICAgKGJ5dGVzX2FsbG9jYXRlZCAtIGJ5dGVzX2luX3VzZSA8IGF0dHJf
-cmVjX3NpemUpLCBudGZzX2F0dHJfYWRkKCkgZmFpbHMgCiAgIHdpdGggRU5PU1BDLgoKNy4g
-VW5saWtlIG50ZnMzLCB0aGUgbmV3IGRyaXZlciBkb2Vzbid0IGF0dGVtcHQgdG8gYWxsb2Nh
-dGUgYW4gZXh0ZW50IE1GVCAKICAgcmVjb3JkIGZvciB0aGUgaW5kZXggaW5vZGUgYmVmb3Jl
-IGFkZGluZyB0aGVzZSBhdHRyaWJ1dGVzLiBJdCBvbmx5IHRyaWVzIAogICBleHRlbnQgYWxs
-b2NhdGlvbiBmb3IgdGhlIGJhc2UgZGF0YSBpbm9kZSwgbm90IGZvciBpbmRleCBpbm9kZXMu
-CgpTeXN0ZW0gSW5mb3JtYXRpb246Cj09PT09PT09PT09PT09PT09PT0KLSBLZXJuZWw6IExp
-bnV4IDcuMS4wLTA3MDEwMC1nZW5lcmljCi0gRHJpdmVyOiBudGZzIChuZXcgTlRGU1BsdXMg
-ZHJpdmVyLCBDT05GSUdfTlRGU19GUykKLSBBcHBsaWNhdGlvbjogU3RlYW0gKExlZnQgNCBE
-ZWFkIDIgdXBkYXRlKQotIEZpbGVzeXN0ZW06IE5URlMgMy4xLCA0S0IgY2x1c3RlciBzaXpl
-Ci0gVGhlIHNhbWUgdm9sdW1lIHdvcmtzIGNvcnJlY3RseSB3aXRoIG50ZnMzIGRyaXZlcgoK
-V29ya2Fyb3VuZDoKPT09PT09PT09PT0KVXNpbmcgIm50ZnMzIiAoQ09ORklHX05URlMzX0ZT
-KSBpbnN0ZWFkIG9mICJudGZzIiB3b3JrcyBjb3JyZWN0bHkuCgpSZWxldmFudCBkbWVzZyBv
-dXRwdXQ6Cj09PT09PT09PT09PT09PT09PT09PQpbMTA2MS4yOTA4MzJdIG50ZnM6IChkZXZp
-Y2Ugc2RjMSk6IG50ZnNfYXR0cl9hZGQoKTogRmFpbGVkIHRvIGFkZCBub24gcmVzaWRlbnQg
-YXR0cmlidXRlClsxMDYxLjI5MDgzN10gbnRmczogKGRldmljZSBzZGMxKTogbnRmc19pYV9h
-ZGQoKTogRmFpbGVkIHRvIGFkZCBBVF9JTkRFWF9BTExPQ0FUSU9OClsxMDYxLjI5MDg0MV0g
-bnRmczogKGRldmljZSBzZGMxKTogbnRmc19pcl9tYWtlX3NwYWNlKCk6IEZhaWxlZCB0byBt
-b2RpZnkgSU5ERVhfUk9PVAoKU3VnZ2VzdGVkIEZpeDoKPT09PT09PT09PT09PT0KSW4gbnRm
-c19pYm1fYWRkKCkgb3IgbnRmc19pYV9hZGQoKSwgaWYgbnRmc19hdHRyX2FkZCgpIHJldHVy
-bnMgLUVOT1NQQywKdGhlIGRyaXZlciBzaG91bGQgYXR0ZW1wdCB0byBhbGxvY2F0ZSBhbiBl
-eHRlbnQgTUZUIHJlY29yZCBmb3IgdGhlIGluZGV4IAppbm9kZSAoaWN4LT5pZHhfbmkpIGFu
-ZCBhZGQgYW4gYXR0cmlidXRlIGxpc3QgYmVmb3JlIHJldHJ5aW5nIHRoZSBhdHRyaWJ1dGUg
-CmFkZGl0aW9uLiBUaGlzIGlzIHNpbWlsYXIgdG8gaG93IG50ZnNfYXR0cl9hZGQoKSBoYW5k
-bGVzIC1FTk9TUEMgZm9yIHJlZ3VsYXIgCmlub2RlcyB2aWEgbnRmc19pbm9kZV9hZGRfYXR0
-cmxpc3QoKSArIG50ZnNfbWZ0X3JlY29yZF9hbGxvYygpLgoKUmVwb3J0ZXI6IHlpCkVtYWls
-OiA2OTE0NjQyMDhAcXEuY29tCgoJCuS6k+aipuiIsAo2OTE0NjQyMDhAcXEuY29tCgoKCgo=
+Jan Kara <jack@suse.cz>:
+> The series strives to make sure sync_inode_metadata() ->
+> writeback_single_inode() will end up to properly persisting not only the inode
+> but also all metadata associated with the inode.  This is beneficial for
+> several reasons:
 
+It is well known that if one just created a file and wants to properly
+persist it, they should not only call fsync on it, but also on its
+parent directory.
+
+Is it true that after your patchset this will not be needed anymore?
+
+-- 
+Askar Safin
