@@ -1,165 +1,122 @@
-Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F04353A6A
-	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 05:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8562F2F3C37
+	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 08:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786252650; cv=none; b=qNRQ2FjO6hLa3C9J2kCC1hXRaPkc/fnRQi4o5dlucPFO2rk7rmWqP9m6apDt6qnHIJHm8WjziAS1AolWENT9w9LQsVQx065BogJ3Z/jXnvHgirZsh7/6Au+bwQceZnclW3kzgYVJsT8bZjYj96W1fBDF7+QJ9GTgv8aZ66/kJCI=
+	t=1786263377; cv=none; b=eqUEdqftt6zjZjHem5W/NACs3IoK7tNyz0zObKN9E0DUTfSz1KSBKou16ZpLJAZaIq2NArGdW3M0FuVTRktsd7w0BjJP0+CjjNAHG7l3TGEqj1DSBdjqxdI6uqBZ7WdMW/rTu5GcQ9BBoBsjTEYDJ3uI+rkWmIywKsuCpGa1E+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786252650; c=relaxed/simple;
-	bh=6rf9DNcFmUeHBIAD3k7+LZHmY6Fort1VqQQCDNvTd2o=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=VeEr1aK7rc+nYQwwGvFtYFoDeZl0RdS7gglbiCVuTVqjzclQ4EycPp9MkUDCa18GasX5NrMkBGUcT49QvTnuJPzlb6gQG91x3tu87qRsreUood/Iv7h2Q8CRizWVSDxxPWkRx40792jll6XXJy500CgPYcafhw6+nlhpgdaldRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-455e3cdda0dso651227fac.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 08 Aug 2026 22:17:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786252648; x=1786857448;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Cir+hjq1/GcjmbQ+u2CnKvFg129q3AEWuRxIVt/GoKQ=;
-        b=LxdcUBXB6v2YBVdpZ8Q9jd4kMjZa8KVRLSO2ga8fTIW+GROAIRJYvQOw1M4M5Grdjd
-         9jHsKv+XMOGV9rXROtZNvDPS5Hpv/BdlcZJN6hZY7CPzTPS4bf0pBrSh2i9Gz0W+W8iv
-         1RHnOmawYkH2sUrtY+sQREGhxWnsL5qIk9I4D5o9g0sTRmq9jVb+NfbHgtVpeX+LsIZy
-         r+Z1tjCEDMnhOeIC9RRb9hzjIXVI66EracrghMXob+FvqaJbd7rONyXkYXJMg+L1ql+S
-         zKS3y+W3d95U1Beh32OK3Z+/HClsBV+Bf+6h4LnlAqa2bL40XpJJE+6r3BLovULb8oFz
-         7S/w==
-X-Forwarded-Encrypted: i=1; AHgh+RpzqO+OUOUcB1+NWA/z6UYaW22agBLagfXLn81l1UO5eQYVV7kIyNAsB8IQblTRQhuoZOjZdKrzR0eJA8Oz@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtzbdTw76k4F64Tqv+AceytV0xWUwb5L7/DWYu+qzLpCfpC1Po
-	2pJi3sCVEdFC212PtwlUwzXfAqUeIX2FOC7KVfyUqms84jt4P5u6mmlKjKjWSE4ex5OzsZ+X8w4
-	Px0OAgZomKc7ItXp8+iY5fnmTadsYmAQTQW1etaw7KqWKdBsws4+AQq0zR3U=
+	s=arc-20240116; t=1786263377; c=relaxed/simple;
+	bh=tO05SZSolndT0IvPDD2TMHPNg59EDdJKM0G58kCMy7g=;
+	h=From:To:Subject:Mime-Version:Content-Type:Date:Message-ID; b=sn7tIC22Kf/CbGnrwrHt67vQSthFvo7G7Ceyi1zCuxdHdFaZagrN9UfkC2k9Kidr4LDLXKLP3T2+ksDYp/FtdtsHeQ/EIq/bSXbfM8kFGIf9Se735hby+FKIEJLPVZVA9RIMwljMUplRS0tL1wFx/Gs8OLc1t32RfDz1zghJMPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XkGoQH2B; arc=none smtp.client-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XkGoQH2B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786263370; bh=tO05SZSolndT0IvPDD2TMHPNg59EDdJKM0G58kCMy7g=;
+	h=From:To:Subject:Date;
+	b=XkGoQH2BX6fIVwZhEC869gOqNq71S0DGNyA/gqRvA08OMn1t3YPD9T/Q3EwNSgJf9
+	 vibcj82V9ZZWCi0l34JopSTItv42b3DQzWVY/1ZRhBxjm9BJNZl1EVgumX96UKmfl1
+	 R+wxER4K+1ZBuzdCTejfJgYRvDT71uzNnuSxxIc8=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-XMAILINFO: NNgSqAauJRa76vz68PkyyOfsEOqLRlZX9U39F7hNd4+N4RaGPLpnZomJLB4sks
+	 LGT1LGCHPiTTVyXdklwW3qCC3puyk/T412gk4xbLVrZpq6FLi9cm73J1IL2ESSJ5uEH4wsjFFPoTr
+	 JSTcPpnomqlp6RnvKKSDv0bR8dJVoUb6g4wW6COrV/X7deTR8ntwq/oBhPUxYJERS0h8mfU7lUQVL
+	 f74zbL2XFDKMnvNXiagf2/5GSfAHp6UTik4rvdCTiCWCxGEQmHxyEOGYWZCLIwJIQQJh1Vi/YoABY
+	 DnXaDNQ+z0qnS3Uw9e8NWUeWN1fvHEC9Qsw0mfvX8J/Cp8R74Ywa/udQntxY1icxCs05cJkkfiAgf
+	 +VWRTgMPDZM52cJALevJZZWRRqnOdQQFVo7GIYo6q/X4q0oTyvfwiORzJTI06e5vdFSwa7VVCyBNv
+	 Z67e+lauMqVCGJcmRTm1H+88srmpSTt09+Dep71bCfQcPq+I8kHYlMryeR0EoqLAykSXSroaq0550
+	 CHkiA4K5dlvfsVH8g/V7fBaSDpRm6yPwtAvnmFUHGqzIJ7XX52u8R2uTzV/2/1pfjhZNmW2HJAVK7
+	 tmc/lbVpnohTD8OLBMywroeTULA4YAHXaaJozUp0iXCfvcOPS9834QZYVlG1cX2krCTlcSt4pOqC8
+	 29OAcACuFOj6VS0P85IjyqbRMtbAz1xhRjeGRGfVT+WekJFiNV9kVTD+dkD53rzBakceOCkTtpyWw
+	 uU265CQmV/n/AJliisOwGMFjTywetHTr0IwqFu2CiVx8zdDnUHLdZTNr9mHWEbeRZ70NpCnLrCAbA
+	 2R/XlcLgv/m3VaQ3IwP5tQP63vuDd1EuOuLQSdV8xneiCTcv4gHVCPMmCTNQC/wVDpK8elE5gWxsM
+	 iurgdF4jk8e6+6z7DzLf4O/tKxIvn1eHF9sjSoyN44f2qvysYKF4dhcvqNPFtdoMLXKbjHhUgnDPC
+	 j5TlE23AXErMGXiPhpo71ykYAJw9/9eGZgXHMjsWBVsVkAS0uXMRMqOANBaUB5bdKdC0C4EM0FGDB
+	 dp3Ua6SY3yzL6FSxSD9epesZK67SE4VHiiTtuz8LPDb+KvMk=
+From: "=?utf-8?B?5LqT5qKm6Iiw?=" <691464208@qq.com>
+To: "=?utf-8?B?bGludXgtZnNkZXZlbA==?=" <linux-fsdevel@vger.kernel.org>
+Subject: [BUG] NTFS rename fails with "Failed to add AT_INDEX_ALLOCATION" on Linux 7.1 new ntfs driver
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2083:b0:6aa:9be1:484a with SMTP id
- 006d021491bc7-6ae96c10158mr19163201eaf.7.1786252647937; Sat, 08 Aug 2026
- 22:17:27 -0700 (PDT)
-Date: Sat, 08 Aug 2026 22:17:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a780d67.9c11d2ce.289b96.00c5.GAE@google.com>
-Subject: [syzbot] [fs?] VFS: Close: file count is zero (use-after-free) (2)
-From: syzbot <syzbot+592c653b056459925299@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Sun, 9 Aug 2026 16:16:09 +0800
+X-Priority: 3
+Message-ID: <tencent_38D4A05E2E6F54A070D0CE2801B3E988B207@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-mid: xmsezb43-0t1786263369tfvbavvyj
 
-Hello,
+U3ViamVjdDogW0JVR10gTlRGUyByZW5hbWUgZmFpbHMgd2l0aCAiRmFpbGVkIHRvIGFkZCBB
+VF9JTkRFWF9BTExPQ0FUSU9OIiBvbiBMaW51eCA3LjEgbmV3IG50ZnMgZHJpdmVyCgpTdW1t
+YXJ5Ogo9PT09PT09PQpPbiBMaW51eCA3LjEgd2l0aCB0aGUgbmV3IGluLWtlcm5lbCBOVEZT
+IGRyaXZlciAoTlRGU1BsdXMvTlRGU19GUyksIApyZW5hbWUoKSBvcGVyYXRpb25zIGZhaWwg
+d2hlbiB0aGUgdGFyZ2V0IGRpcmVjdG9yeSdzIGluZGV4IGlub2RlIE1GVCByZWNvcmQgCmlz
+IGZ1bGwuIFRoaXMgbWFuaWZlc3RzIGFzICJEaXNrIHdyaXRlIGZhaWx1cmUiIGluIGFwcGxp
+Y2F0aW9ucyBsaWtlIFN0ZWFtLgoKUmVwcm9kdWN0aW9uOgo9PT09PT09PT09PT09CjEuIE1v
+dW50IGFuIE5URlMgdm9sdW1lIHVzaW5nIHRoZSBuZXcgIm50ZnMiIGRyaXZlciAobm90IG50
+ZnMzKQoyLiBDcmVhdGUgYSBkaXJlY3Rvcnkgd2l0aCBtYW55IGZpbGVzIChvciB1c2UgYSBw
+cmUtZXhpc3RpbmcgU3RlYW0gbGlicmFyeSkKMy4gQXR0ZW1wdCB0byByZW5hbWUgb3IgY3Jl
+YXRlIGEgbmV3IGZpbGUgaW4gdGhhdCBkaXJlY3RvcnkKNC4gVGhlIG9wZXJhdGlvbiBmYWls
+cyB3aXRoIEVJTywgZG1lc2cgc2hvd3MgYXR0cmlidXRlIGFkZCBmYWlsdXJlcwoKRXhwZWN0
+ZWQgYmVoYXZpb3I6Cj09PT09PT09PT09PT09PT09PQpSZW5hbWUgc3VjY2VlZHMsIG9yIGF0
+IG1pbmltdW0gcmV0dXJucyBhIGNsZWFyIEVOT1NQQyBlcnJvciBpZiB0aGUgZmlsZXN5c3Rl
+bSAKaXMgYWN0dWFsbHkgZnVsbC4KCkFjdHVhbCBiZWhhdmlvcjoKPT09PT09PT09PT09PT09
+PQpkbWVzZyBzaG93cyBjYXNjYWRpbmcgZmFpbHVyZXM6CiAgbnRmczogKGRldmljZSBzZGMx
+KTogbnRmc19hdHRyX2FkZCgpOiBGYWlsZWQgdG8gYWRkIHJlc2lkZW50IGF0dHJpYnV0ZQog
+IG50ZnM6IChkZXZpY2Ugc2RjMSk6IG50ZnNfaWFfYWRkKCk6IEZhaWxlZCB0byBhZGQgQVRf
+SU5ERVhfQUxMT0NBVElPTgogIG50ZnM6IChkZXZpY2Ugc2RjMSk6IG50ZnNfaXJfbWFrZV9z
+cGFjZSgpOiBGYWlsZWQgdG8gbW9kaWZ5IElOREVYX1JPT1QKClRoZSBhcHBsaWNhdGlvbiBy
+ZWNlaXZlcyAiRGlzayB3cml0ZSBmYWlsdXJlIiAoRUlPKS4KClJvb3QgQ2F1c2UgQW5hbHlz
+aXM6Cj09PT09PT09PT09PT09PT09PT09CkZyb20gY29kZSByZXZpZXcgb2YgdjcuMSBmcy9u
+dGZzL2luZGV4LmMgYW5kIGZzL250ZnMvYXR0cmliLmM6CgoxLiBXaGVuIGEgZGlyZWN0b3J5
+J3MgSU5ERVhfUk9PVCBuZWVkcyB0byBncm93IGJleW9uZCBpdHMgY3VycmVudCBNRlQgcmVj
+b3JkIAogICBzcGFjZSwgbnRmc19pcl9tYWtlX3NwYWNlKCkgKGluZGV4LmM6MTMwOSkgaXMg
+Y2FsbGVkLgoKMi4gSWYgbnRmc19pcl90cnVuY2F0ZSgpIHJldHVybnMgLUVOT1NQQywgaXQg
+Y2FsbHMgbnRmc19pcl9yZXBhcmVudCgpIAogICAoaW5kZXguYzoxMTY5KSB0byBtb3ZlIHRo
+ZSBpbmRleCByb290IGludG8gYW4gaW5kZXggYmxvY2suCgozLiBudGZzX2lyX3JlcGFyZW50
+KCkgY2FsbHMgbnRmc19pYV9hZGQoKSAoaW5kZXguYzoxMTQzKSB0byBjcmVhdGUgdGhlIAog
+ICBBVF9JTkRFWF9BTExPQ0FUSU9OIGF0dHJpYnV0ZS4KCjQuIG50ZnNfaWFfYWRkKCkgY2Fs
+bHMgbnRmc19pYm1fYWRkKCkgKGluZGV4LmM6OTE5KSB0byBjcmVhdGUgdGhlIEFUX0JJVE1B
+UCAKICAgYXR0cmlidXRlIGZpcnN0LgoKNS4gbnRmc19pYm1fYWRkKCkgY2FsbHMgbnRmc19h
+dHRyX2FkZCgpIChhdHRyaWIuYzoyNjE0KSB3aGljaCB0cmllcyB0byBhZGQgCiAgIHRoZSBB
+VF9CSVRNQVAgYXMgYSByZXNpZGVudCBhdHRyaWJ1dGUgaW4gdGhlIGluZGV4IGlub2RlJ3Mg
+TUZUIHJlY29yZC4KCjYuIElmIHRoZSBNRlQgcmVjb3JkIGRvZXNuJ3QgaGF2ZSBlbm91Z2gg
+ZnJlZSBzcGFjZSAKICAgKGJ5dGVzX2FsbG9jYXRlZCAtIGJ5dGVzX2luX3VzZSA8IGF0dHJf
+cmVjX3NpemUpLCBudGZzX2F0dHJfYWRkKCkgZmFpbHMgCiAgIHdpdGggRU5PU1BDLgoKNy4g
+VW5saWtlIG50ZnMzLCB0aGUgbmV3IGRyaXZlciBkb2Vzbid0IGF0dGVtcHQgdG8gYWxsb2Nh
+dGUgYW4gZXh0ZW50IE1GVCAKICAgcmVjb3JkIGZvciB0aGUgaW5kZXggaW5vZGUgYmVmb3Jl
+IGFkZGluZyB0aGVzZSBhdHRyaWJ1dGVzLiBJdCBvbmx5IHRyaWVzIAogICBleHRlbnQgYWxs
+b2NhdGlvbiBmb3IgdGhlIGJhc2UgZGF0YSBpbm9kZSwgbm90IGZvciBpbmRleCBpbm9kZXMu
+CgpTeXN0ZW0gSW5mb3JtYXRpb246Cj09PT09PT09PT09PT09PT09PT0KLSBLZXJuZWw6IExp
+bnV4IDcuMS4wLTA3MDEwMC1nZW5lcmljCi0gRHJpdmVyOiBudGZzIChuZXcgTlRGU1BsdXMg
+ZHJpdmVyLCBDT05GSUdfTlRGU19GUykKLSBBcHBsaWNhdGlvbjogU3RlYW0gKExlZnQgNCBE
+ZWFkIDIgdXBkYXRlKQotIEZpbGVzeXN0ZW06IE5URlMgMy4xLCA0S0IgY2x1c3RlciBzaXpl
+Ci0gVGhlIHNhbWUgdm9sdW1lIHdvcmtzIGNvcnJlY3RseSB3aXRoIG50ZnMzIGRyaXZlcgoK
+V29ya2Fyb3VuZDoKPT09PT09PT09PT0KVXNpbmcgIm50ZnMzIiAoQ09ORklHX05URlMzX0ZT
+KSBpbnN0ZWFkIG9mICJudGZzIiB3b3JrcyBjb3JyZWN0bHkuCgpSZWxldmFudCBkbWVzZyBv
+dXRwdXQ6Cj09PT09PT09PT09PT09PT09PT09PQpbMTA2MS4yOTA4MzJdIG50ZnM6IChkZXZp
+Y2Ugc2RjMSk6IG50ZnNfYXR0cl9hZGQoKTogRmFpbGVkIHRvIGFkZCBub24gcmVzaWRlbnQg
+YXR0cmlidXRlClsxMDYxLjI5MDgzN10gbnRmczogKGRldmljZSBzZGMxKTogbnRmc19pYV9h
+ZGQoKTogRmFpbGVkIHRvIGFkZCBBVF9JTkRFWF9BTExPQ0FUSU9OClsxMDYxLjI5MDg0MV0g
+bnRmczogKGRldmljZSBzZGMxKTogbnRmc19pcl9tYWtlX3NwYWNlKCk6IEZhaWxlZCB0byBt
+b2RpZnkgSU5ERVhfUk9PVAoKU3VnZ2VzdGVkIEZpeDoKPT09PT09PT09PT09PT0KSW4gbnRm
+c19pYm1fYWRkKCkgb3IgbnRmc19pYV9hZGQoKSwgaWYgbnRmc19hdHRyX2FkZCgpIHJldHVy
+bnMgLUVOT1NQQywKdGhlIGRyaXZlciBzaG91bGQgYXR0ZW1wdCB0byBhbGxvY2F0ZSBhbiBl
+eHRlbnQgTUZUIHJlY29yZCBmb3IgdGhlIGluZGV4IAppbm9kZSAoaWN4LT5pZHhfbmkpIGFu
+ZCBhZGQgYW4gYXR0cmlidXRlIGxpc3QgYmVmb3JlIHJldHJ5aW5nIHRoZSBhdHRyaWJ1dGUg
+CmFkZGl0aW9uLiBUaGlzIGlzIHNpbWlsYXIgdG8gaG93IG50ZnNfYXR0cl9hZGQoKSBoYW5k
+bGVzIC1FTk9TUEMgZm9yIHJlZ3VsYXIgCmlub2RlcyB2aWEgbnRmc19pbm9kZV9hZGRfYXR0
+cmxpc3QoKSArIG50ZnNfbWZ0X3JlY29yZF9hbGxvYygpLgoKUmVwb3J0ZXI6IHlpCkVtYWls
+OiA2OTE0NjQyMDhAcXEuY29tCgoJCuS6k+aipuiIsAo2OTE0NjQyMDhAcXEuY29tCgoKCgo=
 
-syzbot found the following issue on:
-
-HEAD commit:    06cf61899d64 Merge tag 'x86-urgent-2026-08-08' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=100e8149580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
-dashboard link: https://syzkaller.appspot.com/bug?extid=592c653b056459925299
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=140e8149580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-06cf6189.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0e1bfee0387b/vmlinux-06cf6189.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c8ce37486654/bzImage-06cf6189.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
-
- slab filp start ffff888028e2dc00 pointer offset 0 size 352
-VFS: Close: file count is 0 (f_op=snd_ctl_f_ops)
-------------[ cut here ]------------
-kernel BUG at fs/open.c:1464!
-Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-CPU: 2 UID: 0 PID: 5914 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:filp_flush.cold+0x30/0x39 fs/open.c:1464
-Code: 8d 7b 48 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 80 3c 02 00 75 13 48 8b 73 48 48 c7 c7 20 a7 e5 8b e8 f9 4f fd ff 90 <0f> 0b e8 11 07 56 01 eb e6 e8 ca 78 e5 00 65 48 8b 2d 5a 45 3e 13
-RSP: 0018:ffffc900037e7828 EFLAGS: 00010286
-RAX: 0000000000000030 RBX: ffff888028e2dc00 RCX: 0000000000000000
-RDX: 0000000000000030 RSI: ffffffff81e8bfd9 RDI: fffff520006fcef6
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000000 R11: 0000000000000000 R12: e000000000000000
-R13: bfffffffffffffff R14: ffff88802e9e2528 R15: 0000000000000000
-FS:  00007f799a6e96c0(0000) GS:ffff8880d5fec000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7999670000 CR3: 0000000048439000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- filp_close+0x1c/0x30 fs/open.c:1484
- gaudio_close_snd_dev drivers/usb/gadget/function/u_uac1_legacy.c:263 [inline]
- gaudio_cleanup+0x59/0x100 drivers/usb/gadget/function/u_uac1_legacy.c:305
- f_audio_bind+0x56c/0x660 drivers/usb/gadget/function/f_uac1_legacy.c:792
- usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
- bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
- bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
- driver_register+0x1e2/0x360 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
- gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f799979e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f799a6e9028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f7999a25fa0 RCX: 00007f799979e0d9
-RDX: 000000000000000c RSI: 0000200000000400 RDI: 0000000000000003
-RBP: 00007f7999835024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f7999a26038 R14: 00007f7999a25fa0 R15: 00007ffe3d1aeca8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:filp_flush.cold+0x30/0x39 fs/open.c:1464
-Code: 8d 7b 48 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 80 3c 02 00 75 13 48 8b 73 48 48 c7 c7 20 a7 e5 8b e8 f9 4f fd ff 90 <0f> 0b e8 11 07 56 01 eb e6 e8 ca 78 e5 00 65 48 8b 2d 5a 45 3e 13
-RSP: 0018:ffffc900037e7828 EFLAGS: 00010286
-RAX: 0000000000000030 RBX: ffff888028e2dc00 RCX: 0000000000000000
-RDX: 0000000000000030 RSI: ffffffff81e8bfd9 RDI: fffff520006fcef6
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000000 R11: 0000000000000000 R12: e000000000000000
-R13: bfffffffffffffff R14: ffff88802e9e2528 R15: 0000000000000000
-FS:  00007f799a6e96c0(0000) GS:ffff8880d5fec000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7999670000 CR3: 0000000048439000 CR4: 0000000000352ef0
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
