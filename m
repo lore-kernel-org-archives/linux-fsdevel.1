@@ -1,96 +1,92 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9478423EAAA
-	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 15:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B33B21256C;
+	Sun,  9 Aug 2026 16:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786289877; cv=none; b=pi274YzBTl6ekJzmQ2Y65ln0IFw81BTO7dm3YWaX1cMzuDSUzlrEBxzXeNOxy+D7akkk0dRHbv9ZyI81xoXkK1MD0DSMgdptEoW86jn/kfV5q5v2ft9MPWIu1WDtsJtd2Pe+IReSmR2AZC3bbwxI8IXMHyY3vE1vlzmC0gnfi8M=
+	t=1786291283; cv=none; b=TtKTMJNNzCZXj01vrL9CAQ64n2Nd5fymB8bctNhMdgx/nCQymaNodZmtyEY7qP0IOukB07DFHut58qMdQqI9CMuiCCiua2vlsKg5q2KyOUp0GRxGciAebqXV2NX3rJfDfbOvN3GggYjh6/ldF7AJxWiuR+9rzqMUhCZQEliWuis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786289877; c=relaxed/simple;
-	bh=QiHspMmrWYR6JR0lI/2orn0XnTH1GeGpZkIk4IxJEEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rOCrZVdYLUkMI3OD/vkwHPYYAFJSc72gPLjlvWZQGo1iG7+te3RFDXMN80wau+x86wgokjdiqUC+CAXwLsQTf4A4gD8IfuZZdFWdA21pBQBhMJQwqV3TD1uw/oJ5q31geVC1Qg7/o1ekdm90ZxX2fDMgyNrlnCtCjYmPKz7U04I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkwVQ42v; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786291283; c=relaxed/simple;
+	bh=EyEbculfdmcKB1EZX0QglINCttopCIL5evClcdTV5Ik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VzQsuDKFjqPpH5Fradim9ZAynhbz9dx3cW+qND5CJ5YoYUgWC/2A1SssM2gM3aKGJgI4/m8pMJ7qBHQ6vrKmkXvq6U7/QEA04qqjvxg5xb0CkqyMK9gKkv9jfJnQKSIU/CKksG4uNDQg/E5ZlYoQI29Stbf7LG163bfvomKoWiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org; spf=pass smtp.mailfrom=maowtm.org; dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b=C98RkyLq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dAdmSYUu; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maowtm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkwVQ42v"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495590dde14so12437875e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 08:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786289875; x=1786894675; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HnCiaDhSZ4E0IEu3bcXK+4RsdFqJOB7eO6e26VetAM0=;
-        b=VkwVQ42vOY85JVWSgzSTtm/6P+n/bID+roGRqi3Iz+UVtPitl4wAAAauC2m6S1yMS0
-         DIE2BTYbNrAk/gE8ugEql1K95W/DQHV4rgEWZyKKBiD40svg0h9BcgMFoPilGIkhWALp
-         prJM6rwwFWsE8IxtqnyR07RSeY/GWSAWAjgksIytdrn9ELpbETt3RUS/0SBEnQwXwRvu
-         iWsibDod01KUjR9uMTqWjEEoWAXs8EJR6B21bpLfekPIi8IPZHLxUwXuE2iLKReaIxj4
-         pZwAzf7ko9qcH8Uhww+tVq8OH4TaPYVU9G4JBCkQTfpwIo+GYdfzWbyi2M1CQHBcC3jP
-         R3dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786289875; x=1786894675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HnCiaDhSZ4E0IEu3bcXK+4RsdFqJOB7eO6e26VetAM0=;
-        b=Z/d78vZpNVPpLN+JqDW8+jbn92KKCGBZoDRZEG33Qc1VImc2tuMOqCqags5e3qHcde
-         gilwbmuJeX9/W7MHVGq2mKYktDnfP0upOE2ocpxdahUvOBNkgP+7d3gVBf2K8sme5GHr
-         UhzeUa5xaIMflma9x5Tbuh93zY++WtxWy5Z9UKUSJvz1IIvlb+h7SuCgU5v2fWWoLjYW
-         L6xOZjvSKTnw5TG9166BX4DlTBrlVpfYxvxQ8ZYb3mFyV441Os6hotOeSyZ2HBY0wO+v
-         nKtVMGR5Pt/ZwVkpPJaDytTAzzrLzt+330r0AbfcxP9F0GGHVEWtKzib35GPKUw+G5yo
-         PcOg==
-X-Forwarded-Encrypted: i=1; AHgh+RqSj69dBd1+DPqRIv43jnxJoB9oxSlzQCzrfKN5YTVoSTEJfHKe1m7MxczLJdIHBGkl7CFXeuUdTd3YHZF3@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl9diFZNel8FiZIVnLZX0kNslAnVRl2ZCDlklGJhylmBo2NhD+
-	vCpIJTllsr5g0xzBYq6aQ+mh+vo/rJmxcYYHNT7qOD8ZRajjpRmLtfqc
-X-Gm-Gg: AR+sD11Pm8BTV+iEt6ZZWqhwFFxjgUQRZlMpJX2Z8L3kcoHh0vMaUES0ErE50JgPtc5
-	Up27qRJNJWGqI92L7v5DzwahFKsvJsNibLBx2CJhHY6Uzs5VcClFqSc09HojY7RVF1KYqUDDYzj
-	zNaT0/4MUUhXB0NH86qHfgA3I8XsUtTaLoD7zSVbzwuLFzRLugSC5kfWlX+4NB/j8pm+GFDJnpg
-	BJfbLfF4lwT/N5Vfauoo2G2arZ2JfmbjzVNGkxjBUM0UG1AkBZ8XJnCfBYXX3DCEJVGbNUH6q5o
-	NAFaE47SsiImWBRDvpylMZ+l8/0/T0M83XkjWLe+FSSDape0qI5i/NGzzRYlC5s2xUPfuKkVMLr
-	bvfhv33ECPneDm9eURcH7vmjghSVfmjA1bsKJsddm1UUTXgDQOXF0c6awZNwsLzs4oR28R08lW2
-	sEGLORaFBpni1AM6J6IVpVdE1z2CBTnNkd5b6H8c7nZC++N1VCLdDLDWi4
-X-Received: by 2002:a05:600c:1d20:b0:499:6123:ac11 with SMTP id 5b1f17b1804b1-4996123ac36mr146379375e9.11.1786289874734;
-        Sun, 09 Aug 2026 08:37:54 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4800220727bsm26316077f8f.33.2026.08.09.08.37.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Aug 2026 08:37:54 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: jack@suse.cz
-Cc: aivazian.tigran@gmail.com,
-	brauner@kernel.org,
-	hirofumi@mail.parknet.co.jp,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu
-Subject: Re: [PATCH v5 0/20] fs: Fix missed inode write during fsync
-Date: Sun,  9 Aug 2026 18:36:19 +0300
-Message-ID: <20260809153619.1888764-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260727101509.21667-1-jack@suse.cz>
-References: <20260727101509.21667-1-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b="C98RkyLq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dAdmSYUu"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 855A0EC00A7;
+	Sun,  9 Aug 2026 12:01:20 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Sun, 09 Aug 2026 12:01:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maowtm.org; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786291280;
+	 x=1786377680; bh=EyEbculfdmcKB1EZX0QglINCttopCIL5evClcdTV5Ik=; b=
+	C98RkyLqAeKPffcm3kpuFaGkK2As0WCeiC/o83M7H5cmRV1ZIpOOxkqS0jY43b+7
+	aWBx7yjLDwnX1HmEYrS0FVwsMYXl93JsPzmJ6p88CTiT6t8mfDpzl2uK/v6bEX/e
+	IAqOrfm2QoRGQAIv2T7hoWMnN3okYb/O2UWqvmnhGDSlpc6ojF1qOdbr8PvdXIdN
+	wORLAz/qls2IB54md9ldhC28t8XydQKDlY+Uzx7LoEw0gfcUkHAY1oJ3K1BqONM6
+	eUFNiPZSaVLe5/UyKKiilUaFAO/PVZRCS4f5O8IW/r6dxJCpBgX1upvo0syucobz
+	E2TzKEMkKYsbPxQXSdxEIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786291280; x=
+	1786377680; bh=EyEbculfdmcKB1EZX0QglINCttopCIL5evClcdTV5Ik=; b=d
+	AdmSYUuCfDuJBs6e4QGlHWtR07IidkiL+sK7RKv08crXZI4y9NEvIrcscZq+fPtM
+	eM2bH0uns5RvycZeWjwl8QXPEYZez3bhAeECiJr43jpYLeu0Y9ldM1x/geaYCGo5
+	jT1GbLk9I/CC2UUKRiGy4IDsO34m5nx/Xy90cLkRrx6lmBGMEo3h3npgqmCRUa2j
+	ZbmxHdYCr7sHmbXqiJ5PQFIf6lw3u7gYyVp5/tvJ/ZdgiNkwAj7Uo8F+7ko8pjTT
+	ozuvHTXEShg2YHiV0at6odJaqk0s52gcB6C7oELfTWs1IkfausOCyOLgoyxaswhF
+	xc8J5786nwsZw5dLLOqpw==
+X-ME-Sender: <xms:UKR4arQqiSSyijb8ldwiQouMcSGWYN3ZxUtHr84QMnThzsoDK7CVIQ>
+    <xme:UKR4altAsUTHuIW4c-FG0hKGIY5BOvVwnNi6ai97khwcrbLxzf_as6iOa3QWMpnd2
+    nmcGaO2wxaBJS19eDGrAbnPblQSPSbA5qrVgActH5LuizxkRRXEyuP8>
+X-ME-Received: <xmr:UKR4asZwZxOq9kxanDODPN0IaW9w5dLBHPabqKMFS-298lVQ5sXzOIotuqRBHhQXjZeUjqQknL40MdlwFA>
+X-ME-Proxy-Cause: dmFkZTEjx6qIP7eMhzMZphCIXDAnOfYjQaD0F3caSctHdgFSZOEkZD/vXKVMYffUgbhyul
+    QfdhmJHq572x5X/XzXor6K93EqZ8wB5g+VSSl9M2B/USDS32cYmv5HtVlIBB1UeVr5/oWL
+    2ybPhX3wMnA/l87AGx0GJKI0ejSSc8pWgOxwtDSAaH+tEC5L7bFrUSvCfRvonZLbWVrYpi
+    V2KxpCFEsieYDL0zXH7yavTuzUJQgzM3R+A+3rQ0Y44hLZCHVmXr6fCzQtuUWRRqktWtsj
+    dEJdIPQsOYmTuTrTdvVrRVCYAEyPEds4xBjLw7ddKU5iv0C+C/Iv6tehNTnQJCYLFYnpr+
+    gA4sIYyVcc34GoKzjhbbcWSnqIlicaZ4wn+/JiZGgBPngvUWpz4c2zGqzqcn0XuNxqJRK7
+    BkjjJ2m/9+jawGQI69iaGIyyOyHbyx6ezOM6c+HIRmMPzzNYs+gpstM9Uqm3sY5rVK/Zd+
+    hUkgvqF6I24Y+HVUF4Qf2r/yHpINVI1Yi4JAVdCxUioLVs8NXVI8uaARxNL0/dCFilPDrw
+    pBpH7JoF52mqf7G+OjszYT6D7QKr1ppacxqyxxK1+q4tRDlaPFIQ1Sg1f0nfWhD0w6k32V
+    +e41ctHSpWaKyhSuWYuN5/sTQnENPmERc1Fam8rprok9yFuecE0UMefHMiVA
+X-ME-Proxy: <xmx:UKR4arEpVtS35TZLMUJSy6LVTcIxgqFfoEj5etPJ4ZNcisPaUNQYpA>
+    <xmx:UKR4agwhFAg9hq2Lwp4siF4tm7IC8m0TYx7vvdC3qeRHYTiHYjVE2Q>
+    <xmx:UKR4atlJQEn7d8idLWqtzu7OPmsKwZZCO9prG0Y0LodSOhxJjE_IeA>
+    <xmx:UKR4apk2OpvEuP_8yPUUpIAldQ3-5QEvL0cPtWkS4g9h_J3j0AYWGg>
+    <xmx:UKR4aswhYR7eSvUwaTQxP-ocPC0vXSu6HYKz7FcWIGqgVXkAbecElZlH>
+Feedback-ID: i580e4893:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 9 Aug 2026 12:01:19 -0400 (EDT)
+Message-ID: <5e6cb8c8-2d83-4190-b83c-148c490adcc8@maowtm.org>
+Date: Sun, 9 Aug 2026 17:01:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/12] landlock: Rename quiet_masks to quiet_access
+To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20260726161400.3010511-1-mic@digikod.net>
+ <20260726161400.3010511-5-mic@digikod.net>
+Content-Language: en-US
+From: Tingmao Wang <m@maowtm.org>
+In-Reply-To: <20260726161400.3010511-5-mic@digikod.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Jan Kara <jack@suse.cz>:
-> The series strives to make sure sync_inode_metadata() ->
-> writeback_single_inode() will end up to properly persisting not only the inode
-> but also all metadata associated with the inode.  This is beneficial for
-> several reasons:
-
-It is well known that if one just created a file and wants to properly
-persist it, they should not only call fsync on it, but also on its
-parent directory.
-
-Is it true that after your patchset this will not be needed anymore?
-
--- 
-Askar Safin
+Reviewed-by: Tingmao Wang <m@maowtm.org>
