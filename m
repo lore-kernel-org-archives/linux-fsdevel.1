@@ -1,44 +1,50 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B652C21DD;
-	Mon, 10 Aug 2026 03:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE463358AF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 04:05:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786334284; cv=none; b=CN/6/1NzR31OJPu1b8oJxW6kEQC7Us+crtvkop8oDwu3VeIBBfrUfddit+umg+vxVWMbyauPpzc5gFoYgW8eSsEMfc+aGw6nVGx+Cbsoczw5leK6PO33b0DswY2MrQW6yJFA21u8aCL8S802kSiTpl5+LI7dcHr6raERhn7kawY=
+	t=1786334755; cv=none; b=dmleOV8lYQZCWfJLszlSLmFGa3eDGE1cDByhR4J7MyWIZtfdcfuDFF94N/B/lLJVnThUJwB5R6DxEm0bLTGr622DQyM3hQIG6AW8oY5NTyQI5wZMeIqGey7eCIh1ET9VYVx9AY17EFqYPMph9t/gvEQWst5lbnLCWY3BMcLOEPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786334284; c=relaxed/simple;
-	bh=clHP3IDfl4IfUAR9zQps8eHApxZWDbbm44890vI2+yM=;
+	s=arc-20240116; t=1786334755; c=relaxed/simple;
+	bh=VNNshdBiBfoddcokH/A/HxQN4EprZHJdc8cTudCnnAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GyPGQYtQsoZKxDpH+K+YBaiTB6LyPAykq+QgHhuH3ZAqY6SYQLYWfcBGhNP3w59kIepwgW0yM962O8AP5VAECdlzyS9cyglsPpi2M11HMqcy/i6sVCRrowuFJzfWeZIlImHc6wbarfGbW8cRZ2VzLurXif0WtquLFVNZIL7clo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tYuBJESp; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=ngBzmY7Q8BFNLgbdcfDLPH7RzaUDA145CCc82r2ZCCBoK5B/XlLz6YlLY0rIPO7i+X1e9Yd8cdN/6VcXrSgOWHiVUaGlTdtZuhchjfOx26X8xnFzPeo+oqy2L5rGn/DBJxJhe52iAwtq4pNf5RBH6BXRFdA5Spl0J6l0jjPtsZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FaAWcN9M; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tYuBJESp"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FaAWcN9M"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=5cyYkN1EQ24tQxXyVZTOoGkVO8nl+cTo+yqYQ284NsA=; b=tYuBJESpdcm+Dv9QOEZSn22Too
-	TnHBuP2jdAqn/HfzU2H5GjQUuAht7e0wO3h/CGvn/4Mzsbu1HXq21DlyH2sF6ieSbHUXubcNSEpr4
-	PJOXDhspx92K0GiEzLRDclqoCVe071JPuEzrqff7ta0VO+GEbnN0Gn+5j7OfGHu0Qkqlmv01cpB/x
-	ku9t2+CHPnW5FBz2GZ95NpIbEe5gn1B57HsnpxkDaNTRiE2d3iyr1+VeWfgfkdlBT68AM481nhSpx
-	mt6nj7pyvJsBhkC1Q1OeIcTyr0b2dhCTYZlqrCszJbAJ1dUqopyU74yhC8wUVBaf5YACdR/dr7Vc9
-	GK1heIYw==;
+	bh=w3mkdXzNugogzg/Uybf5Bwmxm4mLQcy7cnOBTawf1SE=; b=FaAWcN9Mdmiwj1QIxlrzffFtQb
+	dxdYnXJR468/2SRKtk66MkzRgIuZiN8DlX0d7MF5X9XQ9W1RFTLfM9CDmmZZ2v5Xbi3fRVcdzqQvY
+	yqWlkfDvlpi6KAIFJleElHHAZeucAqerL1cWx+5zDn6NbBx8PynqZm5raW7++SP0b8iax8M92eEqq
+	Afom2j4BBpsEGs2ORReT3iVHh3w9HujLDz0zjlba4HjJKDKdkUv1xo33AVkEN+ZQ66UJMwL0v4N2O
+	oIhrfJ+QzuvBdE0r4ugnmcxAGuECJ29KJIdp/y7yoD2JAAvtXvCaMgygnsKUUtp/lIQUIDbhm3IuC
+	sO+0NKzA==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtH9A-0000000AEYp-2ots;
-	Mon, 10 Aug 2026 03:57:56 +0000
-Date: Mon, 10 Aug 2026 04:57:56 +0100
+	id 1wtHGi-0000000AFF1-3vil;
+	Mon, 10 Aug 2026 04:05:44 +0000
+Date: Mon, 10 Aug 2026 05:05:44 +0100
 From: Matthew Wilcox <willy@infradead.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] orangefs: use folio_pos() and folio_size() in
- orangefs_page_mkwrite()
-Message-ID: <anlMRDG9xqB-DMMA@casper.infradead.org>
-References: <20260809-orangefs-mkwrite-folio-v1-1-4978a4239475@columbia.edu>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: vova tokarev <vladimirelitokarev@gmail.com>, akpm@linux-foundation.org,
+	security@kernel.org, linux-mm@kvack.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: Fwd: BadBunny: UFFDIO_COPY shmem killpriv bypass leading to
+ local privilege escalation
+Message-ID: <anlOGOmO1HWVCMdF@casper.infradead.org>
+References: <CAGBKPgOm8q-8_rwyRPEmSj8JXdh_GaK1Q8vpJ=j-+yA0SgcNQw@mail.gmail.com>
+ <CAGBKPgPPALX_5CQJAKUNjwi2fD28pBeS5pRuwQgePU93pOy8EA@mail.gmail.com>
+ <anXnHMInq_JLYbWc@pedro-suse.lan>
+ <CAGBKPgOfbMJruqcegJca6BBpEtpd91s5ASF_VU+gucWsjwp8WA@mail.gmail.com>
+ <ancYCBUT8aB0qHwz@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,22 +53,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260809-orangefs-mkwrite-folio-v1-1-4978a4239475@columbia.edu>
+In-Reply-To: <ancYCBUT8aB0qHwz@pedro-suse.lan>
 
-On Sun, Aug 09, 2026 at 04:07:10PM -0400, Tal Zussman wrote:
-> orangefs_page_mkwrite() records the faulted range with
-> page_offset(vmf->page) and PAGE_SIZE, although the write range it sets
-> is attached to the folio and the rest of the function already operates
-> on folios. Use folio_pos() and folio_size() instead. This gets rid of
-> two calls to page_offset(), removing two calls to compound_head().
+On Sat, Aug 08, 2026 at 01:17:09PM +0100, Pedro Falcato wrote:
+> I'm adding a bunch of fs people that might have opinions about this. Please
+> see the rest of the thread below.
 > 
-> No functional change. orangefs folios are always order-0, so the values
-> are identical. However, if orangefs ever enables large folios, this
-> change is necessary for correctness with the current write range
-> tracking scheme. Tracking only a single page of a larger folio would
-> leave the rest of the folio's dirty data outside the range that gets
-> written back, leading to data loss.
+> On Sat, Aug 08, 2026 at 12:13:06PM +0300, vova tokarev wrote:
+> > Pedro,
+> > 
+> > Thanks for the review. Let me address both points.
+> > 
+> > On the page fault comparison:
+> > 
+> > UFFDIO_COPY is not comparable to a page fault. Page faults serve
+> > existing page cache content (read-like). UFFDIO_COPY adds new,
+> 
+> A page fault can also write to the page cache. On MAP_SHARED mappings.
+> 
+> > 
+> > user-controlled content to the shmem page cache (write-like).
+> > 
+> > The correct comparison is to write(), which calls file_modified()
+> > 
+> > -> __remove_privs() to strip SUID/SGID.
+> > 
+> > 
+> > This is exactly the reasoning used when fallocate() was fixed
+> > 
+> > across XFS (commit fbe7e5200365), ext4, and f2fs to call
+> > 
+> > file_modified(). The XFS commit message says:
+> > 
+> > "as various fallocate modes can change the file contents [...]
+> > 
+> > we should drop file privileges like suid just like we do for a
+> > 
+> > regular write()"
+> 
+> I can't speak for fallocate, or other system calls. As far as I'm aware,
+> this is a best-effort kind of thing. As I said, writing to a MAP_SHARED
+> mapping does not clear the setuid bit. It's a super trivial thing to do,
+> too. But it's not a problem because setuid executables are not world-writable.
 
-Yeah, I agree.
+I mean, you're right.  But maybe we should make a bit more of an effort?
+I wouldn't like to see this used as part of a chain of exploits, and I
+can just about see a path where a confused actor manages to create an
+04777 executable.
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+All the tmpfs on my system are mounted nosuid, and many of them noexec too:
+
+willy@deadly:~$ mount |grep tmp |wc -l
+8
+willy@deadly:~$ mount |grep tmp |grep nosuid |wc -l
+8
+willy@deadly:~$ mount |grep tmp |grep noexec |wc -l
+4
+
+This certainly isn't a hair-on-fire situation, it's just a place we
+could do slightly better.  Not so much BadBunny as MildlyMisbehavingMicrobe
+
