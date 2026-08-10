@@ -1,146 +1,176 @@
-Received: from sxplsmtpa04-05.prod.sxb1.secureserver.net (sxplsmtpa04-05.prod.sxb1.secureserver.net [188.121.53.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25A51AF0BB
-	for <linux-fsdevel@vger.kernel.org>; Sun,  9 Aug 2026 22:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.121.53.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA55CA6F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 00:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786315552; cv=none; b=r/WimLkJJoWpR0MZGxBCFEpOuU654SHAh2AvChPtCFkR+Mm0fMtsdC9nV1AlA/Q24zNNE/jxr/hIv8zbKOzxNN1Tl2xEP55BaznVj0BvALNiaB/nJZQrwmuXTo2CiFwhWTjBzM9u/ivENP0ljowFm5dgsV8xaSmiSG2ol2z/Hp4=
+	t=1786320954; cv=none; b=ZQWRNJa/SD+MI9RQxr74jM0um3lwHUzxUXfUI3WMcwz/+fTu2NrcWavld3LsizzF7Kg7Tvpn1XPYp99fBwWWMlS5yx5MkMx50wiQwo67Yh27RgyCpx9mnisb68mX057OG0ZGysoNWyF0K+m//lrZb4JWpUukKBT9ls8/bkJI/fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786315552; c=relaxed/simple;
-	bh=wUazQWvbqGQYm2OYDhmtH6nMr485wb99rgo7eUz7Ht4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R4mHdMQgM8rUYtaenvrZv/BywcxLIrwttcvsaNke1pZi8igOHQjpnnlAG0ZnfBkR8g5NhmFG1vGm1nsE76MvGR7iq5iaHnuaos1+FdKni298yyXVDeHf7gbwYmCTbctaF7xnE8pR6A2bqO68LDGQxpAHrDmRP1Q8ZCESQJUe6ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk; spf=pass smtp.mailfrom=squashfs.org.uk; dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b=OT9CeYe0; dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b=rO0kJ1ei; arc=none smtp.client-ip=188.121.53.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
+	s=arc-20240116; t=1786320954; c=relaxed/simple;
+	bh=AaPlFmXt3mTC2YTK0wuANbxjn4M10ryqdnyborU+XA8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gYiPjCukzpFfGkV1IDqlVe4UeczuN43pliDCA1MNY7SUNq+RBkHyU6FKKr9PG600vsA440t0u+tU4sIFGpgp6eM9yLNhDzZaE5L2zWcTJ1sRmHgK1auB/pC6rRrNyrgdQQiLM4gNsx8I5qGREDvnOP0GzBE+GXjO94ya+X8vnAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=y+WpukCq; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b="OT9CeYe0";
-	dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b="rO0kJ1ei"
-Received: from [192.168.178.95] ([82.69.79.175])
-	by :SMTPAUTH: with ESMTPSA
-	id tC9gwvyFckA4ztC9hwZrUu; Sun, 09 Aug 2026 22:38:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
-	s=secureserver2; t=1786315091;
-	bh=AOzmmy/+yJhh5D1zb7HMWSUog2xZ0R2gKFDteUG3RnM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OT9CeYe0kVCM/Rnko9oIdmHnPjaRx4QaO4ws4y/6UiCDAetrGQMXoqgAWDmeZNMcF
-	 fyk2LFklXhLtCk3DwNGYPHaLTesgaXCogNN+/MA8QGOSL8zjtXvlj8yCWcfE4SeiIg
-	 Ob0XnFASvkIPSfiNtBPEa4ZZ1ILCrWD23h4qLtUOM7zUfxQLOMfDtCtgfIed1PTKC2
-	 w57pGMCjmt6cMmwRjUA4fyEHR/XY6Z01Rwn9QfP7Hx08nzm1lMcF5hirMc7/HqSt7e
-	 BZAUK/2mkrR/uEZvUYCOcHZfsW7VyDuDZd8FfuqHW951NCbBE87jJJHZ683gmczqt7
-	 V4mqqdGe7TdYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
-	s=secureserver1; t=1786315091;
-	bh=AOzmmy/+yJhh5D1zb7HMWSUog2xZ0R2gKFDteUG3RnM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=rO0kJ1eirUoU0pxWAZErKR/rnxDe3UJy8LaNrc6i49qyuaGNDsEnna8B3V1PwjeLv
-	 g8ePeKBMFc1dSD4x4Kr4V6XBJwZot3dTdxp/qiFBdsH4x7+CH4foMAL8M8crvXCBjV
-	 GZWcwRqoy9lhfkASRVJvvg1ZgibwDZPMfCj0KWVaPRVxztR/YprH32rN4Zdd2jb2z+
-	 AN1kE/Tq8C7VgmPI/k6evB2SrXPxEDxbhI7CqSfwUmKM64sYFuPhzO6gaRkjO+tyWe
-	 0xlndiutSVWviiVxzuywfUWWBx74W2/xi0xUvX7rH2ZFR+cWPC9pzHPQNB5W0ehxgl
-	 LokZjbxYO9Y2w==
-X-CMAE-Analysis: v=2.4 cv=SdhOnvRu c=1 sm=1 tr=0 ts=6a790152
- a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
- a=IkcTkHD0fZMA:10 a=FXvPX3liAAAA:8 a=uv5Gj36uXf3UX4Z9gggA:9 a=QEXdDO2ut3YA:10
- a=O8hF6Hzn-FEA:10 a=UObqyxdv-6Yh2QiB9mM_:22
-Feedback-ID: df46d3daf9d6ca5edd96087b970c2a77:squashfs.org.uk:ssnet
-X-SECURESERVER-ACCT: phillip@squashfs.org.uk
-Message-ID: <f03dc086-220f-4aca-92ce-dd3184a100a6@squashfs.org.uk>
-Date: Sun, 9 Aug 2026 23:43:04 +0100
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="y+WpukCq"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-81ed073fed0so17564827b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 17:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1786320952; x=1786925752; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AaPlFmXt3mTC2YTK0wuANbxjn4M10ryqdnyborU+XA8=;
+        b=y+WpukCqmqajDJV/Wdr/l3/RpouBDkAIdcDWftwWMKu9J3/HnwYHINwnpAiIUxsaGN
+         K7+bt0ESuH37YVPYfr24LbFjYKliRPWCtqmjs0UdUGVFMpoXw0GpOmtyK/1Ct/CdFTEk
+         YHJ1sbN/XadESBdhKI/DZ5hyeQEFUN3kDGTdTeSGsItINEb3utXx9N1W6bE2hTU0Txg7
+         piuTK0cGD7KEoH86PrhvwOqJ4cW31ELJhakQTP2e+bTI69c9yr7Tb8eWW29DWyKlNw6+
+         3kjUzKMO9BC7ZF/KNZFTMZf7ie4+VLEIbUE0LRaYbfpyvEn36d2KSL92vdkxwJyuHunl
+         rImw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786320952; x=1786925752;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AaPlFmXt3mTC2YTK0wuANbxjn4M10ryqdnyborU+XA8=;
+        b=FF6cQnioR61M3HC6onea/LOb3vxPbESCCasrtGOJsVtggQ4RlxyhhLpr3CFd4vGNsH
+         iEkptrzu25j24HHzPfO1aU13P2X1lNTOmmp39EtHBXlwjNmBRTlC3G7a22oc9mOSZVuA
+         BoHswoenBPTcodF2/Gaa8JCkjeQXtBKQsWOtWQRdnstwvhBaWvGiwE6e1iHzdtcp84Tw
+         RQkgaI423bAyLZduTpCbTKhfObmLIXMlanXTDUiMUK7mnx/LNFPeHAvnFlR0FuAyqsA7
+         WP6DJq1Ttk3lAprcstTKAvpNXbvr7ozkd45fqNZ/aF2N5Y6BmZCLvNNjjN2XG4FJDsff
+         9E8w==
+X-Forwarded-Encrypted: i=1; AHgh+RqIYL+IWICn3IH4Mp2RUJNrzPTe7wvFm1u3MdKqbkNtwyi/9YJHAQkAWXNfiwbFuUKPIUby47oad/MTOxoZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzPXuzcruklh5UAm5hAPljWodkvvzgGvVt75eH7kC+75Y0MLYv
+	sN95dwSo8WyEzs6wZstVoiZtYPi0sBwywkQKMl2/xaaIzJ2XKOUAj6dlkz99BT1Z7Ws=
+X-Gm-Gg: AR+sD13TCfb02aMN2D0aMa8xzQ/tOH9BoUK0kTndXzz7bAJhJohm0OTcw0/vp3rX9my
+	9CusRIStb9IxneT2k6zKj6Ab3s5R+zWD/6YrSGz+pVTQiMXoIA1SDFqc1/3b5rkwUc61MSuxwlc
+	EbHl5eerkGk/YlXxr7eINXvH43+fiCsCfx/EvJIfNHHLE82K0cm9oxo2x3TFVzlTL0lmyxEegM2
+	TqQ6ulHu6wgKm6eGWLgMOeBsMIa1/VE4ZF5LhPZNxkQAWL4zWWnR9U7SeED+1qS3m0LP+nWCwA+
+	hFuYSX62O99dmYaO4j/qH7Rtr9XNn8YIs8mqPKjGm66LJmhKltZ/vuLATRwXxffIIs4YZhK6HFk
+	FI9Fuq0GaWL+Qw6mYOOPumH6HBe/VpC18/4eoWbSIR/YSe4NW4IeqfcHGROb5S2X6/5BkgKDiqd
+	nJWydA8Uf7ssg26nKM3Xi2HZwxfHqh/UVF4/+smzZ11PdTApZ2X10Ywd6VTWBJvta9JY0SMNque
+	kJmzbBddkMnEXY9YXnV3+UF3PIW55rwa1Vo3FodrDidU8MYqxtfBQ7609P1H84o698Tjil7qaaE
+	UFZnHg2x6UMLA5QY
+X-Received: by 2002:a05:690c:7247:b0:81e:4aa9:d025 with SMTP id 00721157ae682-8201bc8540bmr245573617b3.6.1786320952099;
+        Sun, 09 Aug 2026 17:15:52 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:c24:25ad:39a6:33c1])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-823f1150104sm47024277b3.21.2026.08.09.17.15.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 17:15:51 -0700 (PDT)
+Message-ID: <7cd1c574330b89f502f8ac3851090414455d481a.camel@dubeyko.com>
+Subject: Re: [PATCH v2 2/2] nilfs2: switch O_DIRECT to iomap based operations
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: hch@lst.de, linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	lilinmao@kylinos.cn
+Date: Sun, 09 Aug 2026 17:15:49 -0700
+In-Reply-To: <CAKFNMokwaRf7e1yzYBNAxpHhvMZCsEzeqc8L066OaJRfS4b4zQ@mail.gmail.com>
+References: <20260808003523.2760509-1-slava@dubeyko.com>
+	 <20260808003523.2760509-3-slava@dubeyko.com>
+	 <CAKFNMokwaRf7e1yzYBNAxpHhvMZCsEzeqc8L066OaJRfS4b4zQ@mail.gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] squashfs: avoid thundering-herd cache wakeups
-To: Usama Arif <usama.arif@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
-References: <20260807172421.3875982-1-usama.arif@linux.dev>
-Content-Language: en-US
-From: Phillip Lougher <phillip@squashfs.org.uk>
-In-Reply-To: <20260807172421.3875982-1-usama.arif@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFrSreGN7kD4nScn1hRimI2EzLHj3uFiJ+oo/msYBHRh0N8V+8oF1fhaPFLHM6d892eGd0yen8PeP5rP1uHODKiscx/f/ZjI2cN3Z2Q0xczaZUW/hq/4
- nKbLH1mwxpm28mzbIcoaAqgFzE41/0njzOcgH1Vj1rc8C17MR6vzdOmm1oFgnKL1nrJsSlyL06EVcJS3vgDIx54oC4ZTk6/EqhgLrwA3+JS7FzZOD6tzM2J9
- mYUisj1J1B+5pt0tkVdSkm1oTu9x/Oc4t0GnVbQ98vr+e1he4cCTMQnBGSPbof0qwM9ucfMTa65xC0QZIBXyIchLueowB+1SD2/3WasCoChOFCXvSKLsx+Gg
- mbCbULDZdfqcnRrsknBjmmyM7hegZE+UVlBQVO/chFJbdtwty64LO/NuwRY48SEKganRo7333VTQAg+nhfnQBvsfM1xnEVsiJeRwrNzQLOQ8vFrk8roaDNXO
- oujhS38wfb7EiSh/nSAnrmT9tjVhKPVGKwN1w/OjJ0BPYkTDdCH0OblgN7w=
 
-
-
-On 07/08/2026 18:24, Usama Arif wrote:
-> squashfs_cache_get() puts a task to sleep when its block is not cached
-> and every cache entry is busy.  Those sleeps are non-exclusive, so the
-> nr_exclusive == 1 budget squashfs_cache_put() has always passed to
-> wake_up() is inert and one release makes every waiter runnable.  A wakee
-> only returns to squashfs_cache_get() if it observes cache->unused before
-> the entry is reclaimed; later wakees see zero and re-queue inside
-> wait_event() without rescanning.  One freed entry satisfies exactly one
-> capacity waiter, so waking the rest is waste.
-> 
-> On a Meta production host serving a Python web application from a
-> packaged squashfs image, a 30-second trace caught 1,045,132
-> cache-release wake calls and 19,511,556 wakeups: 18.7 per release,
-> although each release added only one reusable cache entry.  This was
-> causing significant spikes in CPU usage.
-> 
-> Make the waits exclusive, enqueueing while still holding cache->lock so
-> that a concurrent lookup either sees the waiter queued or the waiter
-> sees the block that lookup publishes.  Two things follow.
-> 
-> A wakee cannot be assumed to consume the entry it was woken for: it may
-> find its own block published meanwhile, share that entry, and leave the
-> freed one unclaimed.  So a wakee which shares hands its wakeup on to the
-> next waiter, as commit 0ddad21d3e99 ("pipe: use exclusive waits when
-> reading or writing") does with wake_next_reader.
-> 
-> And a waiter can now sleep through a publication of the very block it
-> wants, which the old broadcast gave it repeated chances to notice.  So
-> waiters are keyed by block: publishing wakes every waiter for that block
-> (nr_exclusive == 0), freeing an entry wakes one.  That needs a custom
-> wake callback, like wake_page_function() in mm/filemap.c, which also
-> records which wakeup arrived so the handoff only fires for a capacity
-> wakee.
-> 
-> Broadcast is kept where more than one task can proceed - every waiter
-> for a published block, and the wake_up_all() on entry->wait_queue - at
-> the cost of walking the queue under wait_queue.lock to test the key.
-> Waiters are now served FIFO with a scheduling round trip per handoff
-> hop, so per-waiter latency changes; the filebench run below is 4x
-> oversubscribed, where that should hurt most.
-> 
-> Measured on a 32-CPU VM against a read-only squashfs (gzip,
-> DECOMP_MULTI_PERCPU, FILE_DIRECT, default 8 metadata / 3 fragment cache
-> entries) staged in tmpfs, page cache dropped each iteration to force
-> cold decompression:
-> 
->    elbencho, 64 threads
->      metadata stat        700 ->  1320 files/s    1.9x
->      small-file read       40 ->    60 MiB/s      1.5x
-> 
->    filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
->      throughput        11,314 -> 25,186 ops/s     2.2x
->      sched:sched_wakeup  27.0 ->   4.55 per op    5.9x fewer
->      context switches    37.2 ->   7.64 per op    4.9x fewer
-> 
-> Wakeups and context switches are per operation, since the two runs did
-> 2.2x different amounts of work.  Workloads which never queue for a cache
-> entry gain no wakeups.
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> ---
->   fs/squashfs/cache.c          | 114 +++++++++++++++++++++++++++++++++--
->   fs/squashfs/squashfs_fs_sb.h |   9 +++
->   2 files changed, 117 insertions(+), 6 deletions(-)
-
-Very nice performance improvement.  Thanks.
-
-Reviewed-by: Phillip Lougher <phillip@squashfs.org.uk>
+SGkgUnl1c3VrZSwKCk9uIFN1biwgMjAyNi0wOC0wOSBhdCAwODo1MSArMDkwMCwgUnl1c3VrZSBL
+b25pc2hpIHdyb3RlOgo+IEhpIFZpYWNoZXNsYXYsCj4gCj4gT24gU2F0LCBBdWcgOCwgMjAyNiBh
+dCA5OjM14oCvQU0gVmlhY2hlc2xhdiBEdWJleWtvIHdyb3RlOgo+IC4uLgo+ID4gK3N0YXRpYyBz
+c2l6ZV90IG5pbGZzX2ZpbGVfcmVhZF9pdGVyKHN0cnVjdCBraW9jYiAqaW9jYiwgc3RydWN0Cj4g
+PiBpb3ZfaXRlciAqdG8pCj4gPiArewo+ID4gK8KgwqDCoMKgwqDCoCBpZiAoaW9jYi0+a2lfZmxh
+Z3MgJiBJT0NCX0RJUkVDVCkgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
+dXJuIGlvbWFwX2Rpb19ydyhpb2NiLCB0bywgJm5pbGZzX2lvbWFwX29wcywKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBOVUxMLCAwLCBOVUxMLCAwKTsKPiA+ICvCoMKgwqDCoMKgwqAgfSBlbHNlCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gZ2VuZXJpY19maWxlX3JlYWRfaXRlcihp
+b2NiLCB0byk7Cj4gPiArfQo+IAo+IEFtb25nIHRoZSB0ZXN0cyB0aGF0IHVzZWQgdG8gcGFzcyBi
+ZWZvcmUgdGhlIGlvbWFwIGNvbnZlcnNpb24sIEkKPiBmb3VuZCB0aGF0Cj4gcnVubmluZyB4ZnN0
+ZXN0cyBnZW5lcmljLzQxOCBhbmQgZ2VuZXJpYy80NjUgbm93IGZhaWxzIHdpdGggYSAiYnJva2Vu
+Cj4gYm1hcCIKPiBlcnJvciwgY2F1c2luZyB0aGUgZmlsZXN5c3RlbSB0byByZW1vdW50IHJlYWQt
+b25seS4KPiAKPiBUaGlzIGhhcHBlbnMgYmVjYXVzZSBpb21hcF9kaW9fcncoKSBpcyBjYWxsZWQg
+d2l0aG91dCBob2xkaW5nIHRoZQo+IHNoYXJlZAo+IGlub2RlIGxvY2suwqAgVG8gcHJldmVudCB0
+aGlzIHJhY2UsIEkgdGhpbmsgaW9tYXBfZGlvX3J3KCkgc2hvdWxkIGJlCj4gcHJvdGVjdGVkIGFz
+IGZvbGxvd3M6Cj4gCj4gwqDCoMKgwqDCoMKgwqAgc3RydWN0IGlub2RlICppbm9kZSA9IGZpbGVf
+aW5vZGUoaW9jYi0+a2lfZmlscCk7Cj4gwqDCoMKgwqDCoMKgwqAgc3NpemVfdCByZXQ7Cj4gCj4g
+wqDCoMKgwqDCoMKgwqAgaWYgKGlvY2ItPmtpX2ZsYWdzICYgSU9DQl9ESVJFQ1QpIHsKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5vZGVfbG9ja19zaGFyZWQoaW5vZGUpOwo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXQgPSBpb21hcF9kaW9fcncoaW9jYiwgdG8s
+ICZuaWxmc19pb21hcF9vcHMsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTlVMTCwgMCwgTlVMTCwgMCk7Cj4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlub2RlX3VubG9ja19zaGFyZWQoaW5vZGUpOwo+IMKgwqDC
+oMKgwqDCoMKgIH0gZWxzZSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldCA9
+IGdlbmVyaWNfZmlsZV9yZWFkX2l0ZXIoaW9jYiwgdG8pOwo+IMKgwqDCoMKgwqDCoMKgIH0KPiAK
+PiDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+IAo+IEFkZGluZyB0aGlzIGxvY2tpbmcgcmVz
+b2x2ZWQgdGhlIGZhaWx1cmVzIGluIGJvdGggZ2VuZXJpYy80MTggYW5kCj4gZ2VuZXJpYy80NjUg
+aW4gbXkgdGVzdHMuCgpZZWFoLCBtYWtlcyBzZW5zZS4gTGV0IGRvdWJsZSBjaGVjayB0aGlzLgoK
+PiAKPiA+ICsKPiA+ICtzdGF0aWMgc3NpemVfdCBuaWxmc19maWxlX3dyaXRlX2l0ZXIoc3RydWN0
+IGtpb2NiICppb2NiLCBzdHJ1Y3QKPiA+IGlvdl9pdGVyICpmcm9tKQo+ID4gK3sKPiA+ICvCoMKg
+wqDCoMKgwqAgLyoKPiA+ICvCoMKgwqDCoMKgwqDCoCAqIE5JTEZTMiBjYW5ub3QgcGVyZm9ybSB0
+cnVlIGRpcmVjdCBJL08gd3JpdGVzOiBuZXcgYmxvY2tzCj4gPiBhcmUKPiA+ICvCoMKgwqDCoMKg
+wqDCoCAqIGRlbGF5LWFsbG9jYXRlZCBhbmQgYXJlIG9ubHkgZ2l2ZW4gYSByZWFsIGRpc2sgYWRk
+cmVzcwo+ID4gd2hlbgo+ID4gK8KgwqDCoMKgwqDCoMKgICogdGhlIHNlZ21lbnQgY29uc3RydWN0
+b3Igd3JpdGVzIHRoZW0gb3V0IGFzIHBhcnQgb2YgYQo+ID4gbG9nLAo+ID4gK8KgwqDCoMKgwqDC
+oMKgICogd2hpY2ggd29ya3MgZGlyZWN0bHkgb24gYnVmZmVyX2hlYWQgbGlzdHMgcmF0aGVyIHRo
+YW4KPiA+ICvCoMKgwqDCoMKgwqDCoCAqIHRocm91Z2ggaW9tYXAuIEZhbGwgYmFjayB0byB0aGUg
+b3JkaW5hcnkgYnVmZmVyZWQgd3JpdGUKPiA+IHBhdGgKPiA+ICvCoMKgwqDCoMKgwqDCoCAqIGZv
+ciBPX0RJUkVDVCB3cml0ZXMuCj4gPiArwqDCoMKgwqDCoMKgwqAgKi8KPiAKPiBBbHNvLCByZWdh
+cmRpbmcgdGhpcyBjb21tZW50LCBmb2xsb3dpbmcgQ2hyaXN0b3BoJ3Mgc3VnZ2VzdGlvbiwgaG93
+Cj4gYWJvdXQgc2ltcGxpZnlpbmcgaXQgYXMgZm9sbG93cz8KPiAKPiDCoMKgwqDCoMKgwqDCoCAv
+Kgo+IMKgwqDCoMKgwqDCoMKgwqAgKiBOSUxGUzIgbGFja3MgZGlyZWN0IEkvTyB3cml0ZSBzdXBw
+b3J0OyBmYWxsIGJhY2sgdG8KPiBidWZmZXJlZCB3cml0ZXMuCj4gwqDCoMKgwqDCoMKgwqDCoCAq
+LwoKU29ycnksIG15IGJhZC4gSSBtaXNzZWQgdGhpcy4gTGV0IG1lIHJld29yayB0aGUgY29tbWVu
+dC4KClRoYW5rcywKU2xhdmEuCgo=
 
