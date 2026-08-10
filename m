@@ -1,388 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9B94C6D;
-	Mon, 10 Aug 2026 18:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786386664; cv=none; b=GvN1hQPEmGRKFSpvynTeWHmh0bWCLel9nWJ4UeCdUiUprbgHXCsL1wjuwhubZIwnAIiOwvoxEWoWqc4f6naSZbkw0HMvHSNsK91gVZ3tceeHJK7vNAJKML2abfE31+9r0MlOxXc0M5TJFvfvyyEB85RhWUAFE2E7DOZw6NkPqwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786386664; c=relaxed/simple;
-	bh=Fc67WWQAQS31s3ip1450lTQP/sRgDBioX84yBC/TnXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/qFJ3+UlNMBUHA1PSXZSkq2Zp4VBDhDDSWMMYNMAteuZ7VSfiea1S/MytdDOhT2Wk1SApQ7zIY5boIyWgycm5ioSOifUCgroRzz40JYxSWhCjQ2SVnLnViIOWOUBn9TiHKSpRu0OBTADz96PqtUq+D6SW2jzXSTP/9hAeHc8xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cx6NWy1m; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57D943802C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 18:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786387443; cv=pass; b=aI6uq4jIZ3BnT6xif83NDwOiOwxD7nCyxKm3Cyyu2z1q11J+ERsHBXohZZYq/Q9B2Cf9COcrBYNdMvCZh7xZm1ZNzEppM/Al8H6dGmRsSufZav0tQWZo8lEt4k5X6tp3Shz1L4HhZ5YmCJIkd3Avz9A1Lrm71wt4dWcq847mKWs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786387443; c=relaxed/simple;
+	bh=C3672GsGsY2/UL7vfkutsQ4ku3Q5wCtnn5EwQZops84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VNdspwkN9+CYmFGjl53TiaoYy8EuhWuTfpQnpmTegg/4bRyoVBfCQqYtCv+o06kLG33uE5F8xcWF4RkEFVHjYdj7FAZZBo8lO/M/IT2Szl9MtvNYQ6/NcYbe3nfXdlurgC9kEG/5ei+795yAXcFTY0RbI71T2s8YlvZYh1ghI9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbGH2IXY; arc=pass smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cx6NWy1m"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1B5C41F000E9;
-	Mon, 10 Aug 2026 18:31:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786386663;
-	bh=goYOk9VlISGk7mk9mhJABGfgizOqo+K4EiV71l1r7Uk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Cx6NWy1mxYY9jD1Roqw6WZt822bUeW6JBCmVfzL1dHNudwJYN98lulPfzWMzhU5+/
-	 t1MqonL+N2SmaYvJS5EZqKSQOZp7iF57/HGY5tF3P+xg7pFiHgLc0rOcFcJFZXXKm8
-	 CaRqqIrWGmRMzPF1XNxEY+zMyiHzjCqn1N6GdIj4qcaN3vfsgMmDanYMz3wlZ/lt8j
-	 APkdXE5zHfRsBbMeMyOvoslnH9+Bs/TA/vZOsuyzpx8PDPTeChFipUD/6krdlu+hSm
-	 lZSXi9IJLzOZ1E9Z7Vh/Qs1TaLAnO/ZqFQutPuzKrp4voGtE4US54BHuvtHRe9Bwqy
-	 DRhsa9pAEP01g==
-Date: Mon, 10 Aug 2026 11:31:02 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v14 13/21] xfs: use read ioend for fsverity data
- verification
-Message-ID: <20260810183102.GY3556460@frogsfrogsfrogs>
-References: <20260803200820.393203-1-aalbersh@kernel.org>
- <20260803200820.393203-14-aalbersh@kernel.org>
- <20260804183632.GO3556460@frogsfrogsfrogs>
- <anmNNNNy4YsV_KLB@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbGH2IXY"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso293534766b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 11:44:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786387440; cv=none;
+        d=google.com; s=arc-20260327;
+        b=a/XUc7negmU89eVp0J7ZBMXZWTnF1hYr8JF3dfY97RZBTIcfhBEN7vSw5XNQJzceKp
+         jrbXxs9YpVBPoKNzPOf4a/wj6Qu0+r5bFD7xfQFaT79nuS5rTQbkNUjmbOyQVnAnG0pw
+         vvmy+ba9voR3eM3/PPi6j+ke3BJhOKcoBvMbhsWaoB+ATT1nNGyw1zsO4lIRTSynixQP
+         hhBCoj4vOi75d5MVsE2jtf6MPMJWlWVXPqFcbfktG7lWlMtaYSKLSMuhulpVid/nF9u7
+         uSA4vp6hCo7CrJX2pGQmwdc6JUB5S1UI8KYzGiSQ5/vqQc/O8SXfEOywd+iPR/XypVkU
+         SzIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        fh=mGeTvYJHimVBLVZ9pIm512nh/i7pf+wmSfrvJ0wJ27o=;
+        b=Mle5MHXbAZnPfOfdQM4xJXEuK1G6YyHPJ0HjPUW4aPSt1i+T74uz8gKDXZG8cf1d8P
+         KDHxLnVD6q99ZhBORgDKvKgH03RfyHwJC41ndPUzNtzQOF1/7rC+v64IZzXUQC589KpU
+         JAtrXgLEUKGSsuJNOu2a62Vd7ItrgEtVYbPXB29FQIVmpKzaLUswnVurhC9t6g02r6lz
+         KUn0X+bKzdJqFi3utwuNSjgfX60UZHHFW6F9rdGp8t/B84W8fxDkGwMCvsriiTRyjhqg
+         qXyf+agjerkAdsopdywpznSU2rzqxMc9W1d5O8VVgvE5qxcXfmXb+8rIwMgL8ZKOJYrf
+         96ng==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786387440; x=1786992240; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=LbGH2IXYqYTzx943KYvvZJeGgQwqow6Wk7jRpVqrv163Gjm7R56bxZ38E8rQ76ylMy
+         0y+HSOGJw9FSzD2Lh68Dmyn2qlDfxsS/czi6Xte7nZDrPoFchJWHM0yy/X3hDJGuGDGB
+         uOxcBs4DscZ5KMlUnyq3tGOA6AWSIW4hjiy7IYqje2+lYd93fLKpu94uF15E+KtJjrPf
+         T4UAsddTrIouHhvScYlgtzSLcCtHRzK6UjxEYfX1R9YkB+6dXZAjLPzX3vBJhYvbKAjd
+         z+36Avwe78XuXlio1CMs1HR1/ovRScyS6J4M1n2Kzvb6lkGJhjKh1g4/jSW8iN11HDTf
+         FxsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786387440; x=1786992240;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=EmfY2vARUQIipDEK0wWfq6BYhACJDs90rjENR95fJ7ruDt0ZhCOpx4vkhCrtpV+MTp
+         mWVRMJMIfg6j/ItqNNdNbLk1Jc9LZUD/79KGwlXbgQsOSyEyJ1arYbm/TwUSZG1SZKSS
+         6dKR+zIswZJ3R4QHs9TxQIGG3m0S8ezOJ3ceB8H0t09kWrOhWnKF7XwtqoXx02PhbQiq
+         VQrBLs4bFRrxpT00OcGb+IMLnzdloMwNe0a7mnK8IMactENtZDZo9GXLhJg2L7ycVMqq
+         TJmcbETOtK58RJtzOtRWs4fRuABndf0ECsvt+hO1OVpLUYYcNy2dNTw5Y1lAtQ2YBAM/
+         HiwA==
+X-Forwarded-Encrypted: i=1; AHgh+RrL4tOWmE85MdjmKJ/8HaXcgIgHNIbsWbFONnqDNe8l/42gKhV+doGBsfshSdEIF1eC/yI92yA8PTTXmq+M@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHT0gnQzSyPG17xLG+s1PaA6pxxEY5SMT5IQ7Pp1/H16CFqoJn
+	dMYyHXC/SjvPU2GakmTjMuRFKokQwYGSqfQXrFuWUgbKvbvKMnCy8jjfqVNRTyD3nihc63ZX/dV
+	4YpOom5wJMX95IoxRoeqnudwiPQTT7kw=
+X-Gm-Gg: AR+sD12bIwaX5fstoBxRAa4FRZMnGk9LfszluWDu4WbqalMymNB5+vsLwCn8M2HCFKH
+	P2VUrPV0rbttykquyltDKODJfHwhJfR8JT85b74OErgzONAvllgjmSJ/At6wCuqTbuAqAr5NolR
+	+54QtCR0UGCN+OH+pMiciJB67A3VkRSBk59DkkFGSePS4WCPLAUwbYuoprk4YooMLDikEYoOGmM
+	TwgNQHPgbufAJsBTO22dDvRGPGjYTqZHt4JHEcHtJHkmJ6h636fQAp8o5HZMCNwu0+jBFnsJH//
+	+x30eyehKrNF8Lxp3uU0xJg0BaR4dhd1g9q+0UnVLJ517gOHESB4kzCK
+X-Received: by 2002:a17:907:1c01:b0:c12:b227:614b with SMTP id
+ a640c23a62f3a-c2087558b24mr976428066b.27.1786387439743; Mon, 10 Aug 2026
+ 11:43:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anmNNNNy4YsV_KLB@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260803022730.75731-1-john@jagalactic.com> <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <CAOQ4uxhpkP7FsjaqqVO2aDSKCJ9yc3WKms6dncqnDuwGxqthng@mail.gmail.com>
+ <anQZdSsJSyoqJkCo@casper.infradead.org> <20260806053409.GL3560084@frogsfrogsfrogs>
+In-Reply-To: <20260806053409.GL3560084@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 10 Aug 2026 20:43:48 +0200
+X-Gm-Features: AUfX_mzPA_vPx6O-eQdEFVgO0KbHbmWxqFSTIYp2pX0K6A7Tp_f_HeH4HfA_LAw
+Message-ID: <CAOQ4uxgP5K6JM-WJfYDAQxN+6aWCNZLjeaocT2KGdxapjq3u-w@mail.gmail.com>
+Subject: Re: [PATCH V12 00/12] famfs: the Fabric-Attached Memory File System (standalone)
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 10, 2026 at 12:01:13PM +0200, Andrey Albershteyn wrote:
-> On 2026-08-04 11:36:32, Darrick J. Wong wrote:
-> > On Mon, Aug 03, 2026 at 10:08:03PM +0200, Andrey Albershteyn wrote:
-> > > Use read ioends for fsverity verification. Do not issue fsverity
-> > > metadata I/O through the same workqueue due to risk of a deadlock by a
-> > > filled workqueue.
-> > > 
-> > > Pass fsverity_info from iomap context down to the ioend as hashtable
-> > > lookups are expensive.
-> > > 
-> > > Add a simple helper to check that this is not fsverity metadata but file
-> > > data that needs verification.
-> > > 
-> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > > ---
-> > >  fs/xfs/xfs_aops.c     | 13 ++++++++-----
-> > >  fs/xfs/xfs_file.c     |  3 ++-
-> > >  fs/xfs/xfs_fsverity.c |  9 +++++++++
-> > >  fs/xfs/xfs_fsverity.h |  6 ++++++
-> > >  fs/xfs/xfs_ioend.c    | 42 +++++++++++++++++++++++++++++++++++++++++-
-> > >  fs/xfs/xfs_ioend.h    |  4 +++-
-> > >  include/linux/iomap.h |  1 +
-> > >  7 files changed, 70 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> > > index b8813e577285..14bfaed1f1f6 100644
-> > > --- a/fs/xfs/xfs_aops.c
-> > > +++ b/fs/xfs/xfs_aops.c
-> > > @@ -24,6 +24,7 @@
-> > >  #include "xfs_zone_alloc.h"
-> > >  #include "xfs_rtgroup.h"
-> > >  #include "xfs_fsverity.h"
-> > > +#include <linux/fsverity.h>
-> > >  
-> > >  struct xfs_writepage_ctx {
-> > >  	struct iomap_writepage_ctx ctx;
-> > > @@ -607,7 +608,7 @@ xfs_bio_submit_read(
-> > >  {
-> > >  	xfs_ioend_submit_read(iter->inode, ctx->read_ctx,
-> > >  			ctx->read_ctx_file_offset,
-> > > -			iomap_ioend_flags(&iter->iomap));
-> > > +			iomap_ioend_flags(&iter->iomap), ctx->vi);
-> > >  	ctx->read_ctx = NULL;
-> > >  }
-> > >  
-> > > @@ -619,11 +620,13 @@ static const struct iomap_read_ops xfs_iomap_read_ops = {
-> > >  
-> > >  static inline const struct iomap_read_ops *
-> > >  xfs_get_iomap_read_ops(
-> > > -	const struct address_space	*mapping)
-> > > +	const struct address_space	*mapping,
-> > > +	loff_t				position)
-> > >  {
-> > >  	struct xfs_inode		*ip = XFS_I(mapping->host);
-> > >  
-> > > -	if (bdev_has_integrity_csum(xfs_inode_buftarg(ip)->bt_bdev))
-> > > +	if (bdev_has_integrity_csum(xfs_inode_buftarg(ip)->bt_bdev) ||
-> > > +			xfs_fsverity_is_file_data(ip, position))
-> > >  		return &xfs_iomap_read_ops;
-> > >  	return &iomap_bio_read_ops;
-> > >  }
-> > > @@ -635,7 +638,7 @@ xfs_vm_read_folio(
-> > >  {
-> > >  	struct iomap_read_folio_ctx	ctx = { .cur_folio = folio };
-> > >  
-> > > -	ctx.ops = xfs_get_iomap_read_ops(folio->mapping);
-> > > +	ctx.ops = xfs_get_iomap_read_ops(folio->mapping, folio_pos(folio));
-> > >  	iomap_read_folio(&xfs_read_iomap_ops, &ctx, NULL);
-> > >  	return 0;
-> > >  }
-> > > @@ -646,7 +649,7 @@ xfs_vm_readahead(
-> > >  {
-> > >  	struct iomap_read_folio_ctx	ctx = { .rac = rac };
-> > >  
-> > > -	ctx.ops = xfs_get_iomap_read_ops(rac->mapping),
-> > > +	ctx.ops = xfs_get_iomap_read_ops(rac->mapping, readahead_pos(rac));
-> > >  	iomap_readahead(&xfs_read_iomap_ops, &ctx, NULL);
-> > >  }
-> > >  
-> > > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> > > index 67c1357f4701..e9927688086d 100644
-> > > --- a/fs/xfs/xfs_file.c
-> > > +++ b/fs/xfs/xfs_file.c
-> > > @@ -237,7 +237,8 @@ xfs_dio_read_bounce_submit_io(
-> > >  	loff_t			file_offset)
-> > >  {
-> > >  	xfs_ioend_submit_read(iter->inode, bio, file_offset,
-> > > -			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT);
-> > > +			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT,
-> > > +			NULL);
-> > >  }
-> > >  
-> > >  static const struct iomap_dio_ops xfs_dio_read_bounce_ops = {
-> > > diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-> > > index d86009629b56..d1b3ccc65322 100644
-> > > --- a/fs/xfs/xfs_fsverity.c
-> > > +++ b/fs/xfs/xfs_fsverity.c
-> > > @@ -20,3 +20,12 @@ xfs_fsverity_metadata_offset(
-> > >  {
-> > >  	return round_up(i_size_read(VFS_IC(ip)), XFS_FSVERITY_START_ALIGN);
-> > >  }
-> > > +
-> > > +bool
-> > > +xfs_fsverity_is_file_data(
-> > > +	const struct xfs_inode	*ip,
-> > > +	loff_t			offset)
-> > > +{
-> > > +	return fsverity_active(VFS_IC(ip)) &&
-> > > +			offset < xfs_fsverity_metadata_offset(ip);
-> > > +}
-> > > diff --git a/fs/xfs/xfs_fsverity.h b/fs/xfs/xfs_fsverity.h
-> > > index 5771db2cd797..ec77ba571106 100644
-> > > --- a/fs/xfs/xfs_fsverity.h
-> > > +++ b/fs/xfs/xfs_fsverity.h
-> > > @@ -9,12 +9,18 @@
-> > >  
-> > >  #ifdef CONFIG_FS_VERITY
-> > >  loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip);
-> > > +bool xfs_fsverity_is_file_data(const struct xfs_inode *ip, loff_t offset);
-> > >  #else
-> > >  static inline loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip)
-> > >  {
-> > >  	WARN_ON_ONCE(1);
-> > >  	return ULLONG_MAX;
-> > >  }
-> > > +static inline bool xfs_fsverity_is_file_data(const struct xfs_inode *ip,
-> > > +					    loff_t offset)
-> > > +{
-> > > +	return false;
-> > > +}
-> > >  #endif	/* CONFIG_FS_VERITY */
-> > >  
-> > >  #endif	/* __XFS_FSVERITY_H__ */
-> > > diff --git a/fs/xfs/xfs_ioend.c b/fs/xfs/xfs_ioend.c
-> > > index 641f0d881b07..b0370af7a0f7 100644
-> > > --- a/fs/xfs/xfs_ioend.c
-> > > +++ b/fs/xfs/xfs_ioend.c
-> > > @@ -18,7 +18,9 @@
-> > >  #include "xfs_ioend.h"
-> > >  #include "xfs_error.h"
-> > >  #include "xfs_errortag.h"
-> > > +#include "xfs_fsverity.h"
-> > >  #include <linux/bio-integrity.h>
-> > > +#include <linux/fsverity.h>
-> > >  
-> > >  static void
-> > >  xfs_end_bio_bounced(
-> > > @@ -87,6 +89,20 @@ xfs_read_bounce_and_resubmit(
-> > >  			xfs_bounce_submit_ioend);
-> > >  }
-> > >  
-> > > +static void
-> > > +xfs_end_fsverity_io_read(
-> > > +	struct work_struct	*work)
-> > > +{
-> > > +	struct iomap_ioend	*ioend =
-> > > +		container_of(work, struct iomap_ioend, work);
-> > > +
-> > > +	if (!ioend->io_bio.bi_status)
-> > > +		fsverity_verify_bio(ioend->io_vi, &ioend->io_bio);
-> > > +
-> > > +	iomap_finish_ioends(
-> > > +		ioend, blk_status_to_errno(ioend->io_bio.bi_status));
-> > > +}
-> > > +
-> > >  static void
-> > >  xfs_end_io_read(
-> > >  	struct bio		*bio)
-> > > @@ -113,6 +129,26 @@ xfs_end_io_read(
-> > >  		}
-> > >  	}
-> > >  
-> > > +	/*
-> > > +	 * If we don't have block device integrity (IOMAP_IOEND_INTEGRITY),
-> > > +	 * there won't be any ioends containing fsverity metadata. This means
-> > > +	 * that those won't get mixed with data ioends causing self-deadlock or
-> > > +	 * rescuer thread deadlock.
-> > 
-> > I think this comment should be inverted since fsverity + PI is
-> > probably(?) more of an edge case?
-> 
-> Yes, this is more of an edge case, I will inverted it
-> 
-> > 
-> > "If we have fsverity and block device integrity attached to this bio,
-> > we need to run both validations from the separate fsverity workqueue
-> > to avoid deadlocking due to fsverity issuing its own reads."
-> > 
-> > (Assuming I understand the fsverity && pi case correctly.)
-> > 
-> > One thing I'm not clear about -- why is it safe to do the fsverity
-> > validation here if PI isn't enabled?  Can't that also issue IO to pull
-> > in merkle tree blocks?
-> 
-> Without PI, fsverity metadata is read without XFS bio completion
-> path, we don't get here for the descriptor/metadata reads
-> (see xfs_get_iomap_read_ops()). So, we won't block the queue, as
-> data ioends won't be mixed with metadata ioends.
-> 
-> With PI, all fsverity reads goes through this path. We could get a
-> case that data ioend is waiting for metadata IO to be completed which
-> in turn is pending for data ioend to be finished (due to batch
-> processing of multiple BIOs in the bio_complete wq).
-> 
-> So, this will issue more IO, but this IO will not get onto this
-> queue (it will go through iomap_bio_submit_read()).
+On Thu, Aug 6, 2026 at 7:34=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+>
+> On Thu, Aug 06, 2026 at 06:19:49AM +0100, Matthew Wilcox wrote:
+> > On Mon, Aug 03, 2026 at 10:52:19AM +0200, Amir Goldstein wrote:
+> > > > The most important thing to know about famfs is that it CANNOT be u=
+sed as a
+> > > > general purpose file system. It is for enabling file-based byte-lev=
+el access
+> > > > (including direct mmap) to very large (e.g. 100TB) shared/disaggreg=
+ated
+> > > > memory appliances - which have become available during this long pr=
+ocess,
+> > > > and which are in need of Linux support.
+> > > >
+> > > > So famfs cannot be used by anybody who doesn't know why they need i=
+t; Making
+> > > > famfs standalone means it can't affect users who don't use it. And =
+my super-
+> > > > mega-corp employer (Micron), as well as other memory companies, nee=
+d it.
+> > > > We do not intend to abandon it, but imagine if we did: fs/famfs/ sh=
+ould be
+> > > > removed if the memory companies can't be bothered to maintain it.
+> > >
+> > > It does not work this way.
+> > > When vfs maintainers accept standalone famfs they accept the burden o=
+f
+> > > maintaining it whenever vfs internal APIs change even if the filesyst=
+em was
+> > > abandoned by the mega-corps.
+> > > That is the code of the push back for adding new filesystems.
+> > > Removing the fs and breaking deployed systems is not an option for th=
+e vfs
+> > > maintainers.
+> >
+> > Sure it is.  We removed EFS just last month, because we decided that it
+> > wasn't worth keeping any more.  Just like we removed Itanium architectu=
+re
+> > support (and a number of other architectures before that).  We've remov=
+ed
+> > other filesystems in the past (xiafs, ext, surely a few others).
+>
+> and freevxfs just this week because the one user/complainer said hch
+> could let it die.
+>
 
-Ah, ok.  Maybe add to that comment:
+Guys really, these examples prove what point exactly?
+They prove that if all the users are gone we can remove a filesystem
+wow, revelation.
 
-"If we have fsverity enabled but block device integrity is not enabled,
-completion of the fsverity metadata reads does not require a workqueue
-so there is no deadlock potential."
+This is the reality as I see it:
+Famfs is backed by a major corp selling expensive hardware
+and championed by John who has proved commitment above and beyond.
+So as it stands, famfs is a fair candidate for merging standalone.
 
-then?
+And yet, circumstances can and do change over the years.
+I need only name your employer as a recent example of
+major corp losing interest and axing the maintainers budget to many project=
+s.
 
-(Just echoing you to make sure I understand completely.)
+These things can and do happen and when they happen there is often
+little correlation to the number of deployed users who paid many $$$ for th=
+e
+expensive hardware, which major corp lost interest in maintaining.
 
-> > > +	 *
-> > > +	 * Without offloading the data ioend, verification can be done directly
-> > > +	 * in this task context.
-> > > +	 */
-> > > +	if (IS_ENABLED(CONFIG_FS_VERITY) && !error && ioend->io_vi &&
-> > > +			xfs_fsverity_is_file_data(ip, ioend->io_offset)) {
-> > > +		if (ioend->io_flags & IOMAP_IOEND_INTEGRITY) {
-> > > +			fsverity_enqueue_verify_work(&ioend->work);
-> > > +			return;
-> > > +		}
-> > > +
-> > > +		fsverity_verify_bio(ioend->io_vi, &ioend->io_bio);
-> > > +		error = blk_status_to_errno(ioend->io_bio.bi_status);
-> > > +	}
-> > > +
-> > >  	iomap_finish_ioends(ioend, error);
-> > >  }
-> > >  
-> > > @@ -121,13 +157,17 @@ xfs_ioend_submit_read(
-> > >  	struct inode		*inode,
-> > >  	struct bio		*bio,
-> > >  	loff_t			file_offset,
-> > > -	u16			ioend_flags)
-> > > +	u16			ioend_flags,
-> > > +	struct fsverity_info	*vi)
-> > >  {
-> > >  	struct xfs_inode	*ip = XFS_I(inode);
-> > >  	struct xfs_mount	*mp = ip->i_mount;
-> > >  	struct iomap_ioend	*ioend;
-> > >  
-> > >  	ioend = iomap_init_ioend(inode, bio, file_offset, ioend_flags);
-> > > +	ioend->io_vi = vi;
-> > > +	INIT_WORK(&ioend->work, xfs_end_fsverity_io_read);
-> > > +
-> > >  	if ((ioend_flags & IOMAP_IOEND_DIRECT) &&
-> > >  	    READ_ONCE(mp->m_read_bounce) == XFS_READ_BOUNCE_ALWAYS) {
-> > >  		iomap_bounce_read(ioend, bdev_logical_block_size(bio->bi_bdev),
-> > > diff --git a/fs/xfs/xfs_ioend.h b/fs/xfs/xfs_ioend.h
-> > > index 7c2a1ea3e6ed..992c248a693a 100644
-> > > --- a/fs/xfs/xfs_ioend.h
-> > > +++ b/fs/xfs/xfs_ioend.h
-> > > @@ -2,6 +2,8 @@
-> > >  #ifndef __XFS_IOEND_H
-> > >  #define __XFS_IOEND_H
-> > >  
-> > > +#include <linux/fsverity.h>
-> > > +
-> > >  /*
-> > >   * Fast and loose check if this write could update the on-disk inode size.
-> > >   */
-> > > @@ -13,6 +15,6 @@ static inline bool xfs_ioend_is_append(struct iomap_ioend *ioend)
-> > >  
-> > >  void xfs_end_bio(struct bio *bio);
-> > >  void xfs_ioend_submit_read(struct inode *inode, struct bio *bio,
-> > > -		loff_t file_offset, u16 ioend_flags);
-> > > +		loff_t file_offset, u16 ioend_flags, struct fsverity_info *vi);
-> > >  
-> > >  #endif /* __XFS_IOEND_H */
-> > > diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-> > > index f9e2fce21be0..96a00d61d4e8 100644
-> > > --- a/include/linux/iomap.h
-> > > +++ b/include/linux/iomap.h
-> > > @@ -455,6 +455,7 @@ struct iomap_ioend {
-> > >  	sector_t		io_sector;	/* start sector of ioend */
-> > >  	void			*io_private;	/* file system private data */
-> > >  	struct fsverity_info	*io_vi;		/* fsverity info */
-> > > +	struct work_struct	work;		/* fsverity blocking I/O */
-> > 
-> > io_work?
-> 
-> sure
-> 
-> > 
-> > >  	struct bio		io_bio;		/* MUST BE LAST! */
-> > 
-> > I slightly wonder about iomap_ioend getting bigger but I don't have
-> > access to my usual workstations and can't pahole this to learn how much
-> > that embiggens the structure.
-> > 
-> > Also I wouldn't be shocked if someone else kinda wants the work struct
-> > here too for (say) future fscrypt/compression/whatever.
-> 
-> It add 72 bytes:
-> 
-> $ pahole -C iomap_ioend fs/iomap/ioend.o  
-> struct iomap_ioend {
->         struct list_head           io_list;              /*     0    16 */
->         u16                        io_flags;             /*    16     2 */
-> 
->         /* XXX 2 bytes hole, try to pack */
-> 
->         u32                        io_bvec_offset;       /*    20     4 */
->         struct inode *             io_inode;             /*    24     8 */
->         size_t                     io_size;              /*    32     8 */
->         atomic_t                   io_remaining;         /*    40     4 */
->         int                        io_error;             /*    44     4 */
->         struct iomap_ioend *       io_parent;            /*    48     8 */
->         loff_t                     io_offset;            /*    56     8 */
->         /* --- cacheline 1 boundary (64 bytes) --- */
->         sector_t                   io_sector;            /*    64     8 */
->         void *                     io_private;           /*    72     8 */
->         struct fsverity_info *     io_vi;                /*    80     8 */
->         struct work_struct         work;                 /*    88    72 */
->         /* --- cacheline 2 boundary (128 bytes) was 32 bytes ago --- */
->         struct bio                 io_bio;               /*   160   120 */
-> 
->         /* size: 280, cachelines: 5, members: 14 */
->         /* sum members: 278, holes: 1, sum holes: 2 */
->         /* last cacheline: 24 bytes */
-> };
+If as a community we do not prepare ourselves for this possibility we
+would be fools.
+In the unlikely event of future famfs abandonment we are left with two tech=
+nical
+options depending on the choices that we make in the present:
 
-<nod> Thanks for pasting that in.
+1. The VFS maintainers are left to maintain an abandoned fs whose surface
+    area interacting with the code is super/inode/file/vm operations and mo=
+re
+2. FUSE maintainer is left to maintain an abandoned feature whose surface
+    area interacting with the code is substantially smaller - basically, so=
+me
+    custom logic for DAX fault handling - because the rest is (or can be)
+    plain fuse with a dash of fuse passthrough.
 
---D
+No option is categorically better or worse than the other.
+The burden just falls on different people and the weight of the burden
+depends on how much active development of the API is going on.
 
-> 
-> -- 
-> - Andrey
-> 
+We have had many mostly-dead filesystems which did not bother anyone
+for a long time, until someone comes along and starts a revolution in the A=
+PI,
+such as folios, iomap, new mount api, parallel dirops and then we pay the p=
+rice,
+or the abandoned customers pay the price.
+
+I said enough, probably too much.
+I'll be happy with any decision, just as long as we make it continuously
+based on correct information.
+
+Thanks,
+Amir.
