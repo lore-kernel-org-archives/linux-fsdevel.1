@@ -1,174 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E01D34DCE3;
-	Mon, 10 Aug 2026 08:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E28396D38
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 09:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786351222; cv=none; b=Ax5qCR/OhFsulpw1WNp102YkVJW7mIpDbnW9Y+PGkVgsuiI+2pJxIzvI1fPHpHz674ibSODNGI/a9pEbZdjfKCP8iOXJ8V1+zLCjRJksHpwsJrb6AOm60ETZU+SYgJLF9mXTEaIxS4Xf1lDIb5OUTarT7cEwNZrlcmnP7+LaLOU=
+	t=1786353872; cv=none; b=WULCpsWhgI6b5vnXrADEyBXERkaKjy5m0KgzohBPnA9IhCHVWvYARL3nA9uPxP+sqrNfxKLAIUv8/xBGlyZewniM1Wgnn70VEdB3eqY7tWth+hvFV2Pfql251avVfql8hcp9ObEWfWs0YkdJOuYe4O5EoUug3EmRSPiHW1SQais=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786351222; c=relaxed/simple;
-	bh=OoE2ABdkhBCOOhXw3w+Oo6y1L2B9PUhLd0DoRAk/r7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yfh/CTxjC+qA0J79lGppPhUlXmrc1vR/534zkPDn8nH9oqKo0E0j29tYj/kRlsWORw7ZeGBLBPRMVVMpld2D72ZkJhbxzDdpnucMOmEJou2g4jIhzhv2Rzb0mwlB3t5fUqPuAxIRCHhGHAf/pgYCY7QhZmKFOZDEPc8n50iIuj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKo9vEdD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786353872; c=relaxed/simple;
+	bh=/qBC/7mUgpptEqXEahTihgpIWaLMGVOgudQpjF6Pjxk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VSVGwkmNnUXzwUdTRvxrHCt9w2E/LMJiR+uxLZ2D3+mv9QUA8tK46BkjMIl5lO1UuwfLMYVar1uM8GxGbpn1MfnLs/zH0Ot0QihA1EbQMTXMyE1CEXcGmTGfG4pvnssxnFdQXeC09PQrhOValg2PX2MGCqaus3wusIxcpGHRr0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZMKFcP4; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKo9vEdD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15B481F000E9;
-	Mon, 10 Aug 2026 08:40:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786351221;
-	bh=pqefW5WYGaVGXBp1EcWnADXqL4SSTTp93r2Me4s4EHs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JKo9vEdDRY9kEpH19pzoxMjPpB+BwegkZ/hk4gIse31W3/UahgMnQa9xh4JjiQFgo
-	 vyAT1sLy2fN77hi3ktVZitRAApigE7usTNwPtrxSB+xZCKedho76MmsOO/kaNwnbCG
-	 G3vVVXUDdlBbR1BRn+wmJtYxwXZyV17hCm0IC+Cr7LvHqWPryov+rSycK1U6Sf07Q1
-	 a7K8Tx1IL6pcLFaXbOdwrOnccNyiajONZXrnTfr9FsiSjC5tGcxHcAlw+KE9+lCQDw
-	 I5B2NwM1a16Nkb4aClNBGjXSL3P4mApb8jLLnQeWlG5EA6ipQr7F/Z059iZBFNYRbF
-	 tXXNVEkrpiKjA==
-Date: Mon, 10 Aug 2026 09:39:47 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 03/20] mm: introduce linear_anon_page_index()
-Message-ID: <anmNojqwGzdiLkIm@lucifer>
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
- <20260806-b4-scalable-cow-virt-pgoff-v4-3-ab318a350404@kernel.org>
- <CAJuCfpGjE66Duhw0r8H0GKBFDExjroRar6n5MgVOOQjz4ZfTuA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZMKFcP4"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso946189a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 02:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786353869; x=1786958669; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k7ldNj0eJUVnWcxlhmWvzp8Wx4neTsZd5jvrWXN9nzg=;
+        b=JZMKFcP4qhtrmWDv09CHe9FLSaOmbFRnt4f0g5sK1f8bR1LIxuR4qdPZG6VYTpG2t/
+         bJf6bAiic1nBzyEWUEbDoXGm1ln0gkbDzyTxpB/63osh4fc8z5dwQprlNGym6Pno40sq
+         ogKTn/ewXJyav48IwxIGr/jmwZpZXDbAxrAs/mHIyKZTslfwkqT9qRCIFOwUgSQ9oEPI
+         SL3qDKV1H+9ZWVCTAdWnehTYyP8JPfQe8zVJ/IJUtxLJ4P3d97wluD4vynzKKnPgMuI9
+         WV5djVHgmJBE0toKoguuw8YrpinZsM3atVKyPoasUJAhvfiYpRmhqWfqpENcTHnHD5Xr
+         Zx3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786353869; x=1786958669;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k7ldNj0eJUVnWcxlhmWvzp8Wx4neTsZd5jvrWXN9nzg=;
+        b=VcADgj1YPcCro0vFrKds+4FaghOj76vkzG4/ZB8d0YoyYNo06okkaIiIy+1IfcFzmk
+         tkicoHGB9EoTfPojSlJ5fDH/uacKtafp77XyGHDvD3HvQOlKCGrw8vbA9XkN/jlyqBiZ
+         ImmPdLUAvWzpBUN72zeATlZJxZxON+hf+ACMGBm5F7HSn+fY93295i1p3JOHTKnsB29s
+         70UxTV90BXr6vULl23F+pzTdsVHDyALQ7MHIIh0c+IykkJqYuZlzKzX/v9oaDV6UjdE/
+         6Cn/qOhH/q3HxqkxxIa7iFNMLyfcj1NNSnyFyMXyR6eJ2lPedUrdzZKxVwQZRXBkVe6g
+         npLw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrunp7mDvafJEivoP8OFn5mwAlA2ZDQm17aPrGbO7+3NOWClC6JqOSWcS1UHisu1YsVTgHzZR5hQ//MKGie@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuF59XQpuGRAPmvGETuy0PHIQp0XS5LilrePxk1Zuc1/RbFPXq
+	W+iv173qNbPVNi3a5604OBe+l26khofV7nFL5OfH+gJP0tOfl7Nqa/K39A7XL7jP
+X-Gm-Gg: AR+sD12tZsNdCk7dgbA5pewnwnmJXdwdfnqqY6qxGa3GBANPmX9tJ67PR76y7LAvOOw
+	c4O5mc9sppECEZ10S+i9DnPLremF7RSn4fwZIxss9KGRy5yXqsy6mk2d/mlHonltrz5P+YQ+pSi
+	QnbDTEc3j7BSZQhJ07LzENlCYLk+g1QIiqDdU7qYVpPxoWRHXxtbFXlEAg0z4laZm6NYbuuJ57O
+	Ll9MZLVwSWI6P76tYDuFOgIjtV24hgoW5SyPlzFHpKZOubAgYQHpkxCklhSvPdi4jAq9JjyYciV
+	eTBETyxVKiDN/0WfkGQUSs+1qijhFT8EQdxJ4zDzezAXJ1hhVgeDZkJHRASrzdrZVNjTQvNwhSL
+	NT6o1m4FAyMQWVlowhr3EgKWunsDqX/9dKxmENFlpZLt8vCe5O3/MWV6tczcmSN6315QvgO4WmQ
+	QagVt3RUY2lR2PPsrMCYIPJLTgG06ujhZHMeVMfqpsmjcrgLyFY5S7+yIVSA8T2OyyJpfzbWE=
+X-Received: by 2002:a05:6a00:3992:b0:84c:2e2d:57b with SMTP id d2e1a72fcca58-84f2e05d4b1mr40600740b3a.27.1786353869198;
+        Mon, 10 Aug 2026 02:24:29 -0700 (PDT)
+Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe8f38b7d9sm3562009a12.32.2026.08.10.02.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2026 02:24:28 -0700 (PDT)
+From: Jiaming Zhang <r772577952@gmail.com>
+To: slava@dubeyko.com
+Cc: frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	r772577952@gmail.com,
+	syzkaller@googlegroups.com,
+	vdubeyko@coreweave.com
+Subject: [PATCH] hfsplus: validate extent record length before writing it back
+Date: Mon, 10 Aug 2026 17:24:21 +0800
+Message-ID: <20260810092422.1691377-1-r772577952@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <0720c3ba6399c11a0a328e8d8eef99a19e6999c8.camel@dubeyko.com>
+References: <0720c3ba6399c11a0a328e8d8eef99a19e6999c8.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpGjE66Duhw0r8H0GKBFDExjroRar6n5MgVOOQjz4ZfTuA@mail.gmail.com>
 
-On Sat, Aug 08, 2026 at 05:49:48PM -0700, Suren Baghdasaryan wrote:
-> On Thu, Aug 6, 2026 at 1:23 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> >
-> > This function provides the anonymous equivalent of linear_page_index(),
-> > instead offsetting based on the anonymous page offset of the VMA.
-> >
-> > It is valid only for anonymous or MAP_PRIVATE file-backed mappings, in
-> > other words CoW mappings.
-> >
-> > For pure anon VMAs, this will be equal to linear_page_index().
-> >
-> > Assert that both of these invariants are true In linear_anon_page_index()
->
-> s/In/in
+__hfsplus_ext_write_extent() writes the cached extent record back into a
+B-tree node using fd->entrylength as the length, and fd->entrylength is
+derived in __hfs_brec_find() from two on-disk values:
 
-Ack. I ran these patches through claude several times and it didn't get this ;)
-the machines are not taking over just yet...
+	fd->entrylength = len - keylen;
 
-Andrew - could you change this in-place? Thanks!
+A crafted image can keep both len and keylen valid but make fd->entrylength
+negative (keylen > len). __hfsplus_ext_write_extent() doesn't check
+fd->entrylength before consuming it, and hfs_bnode_write() takes the length
+as u32, so the negative value turns into a huge one. The copy then reads
+data past the end of hip->cached_extents, which is only
+sizeof(hfsplus_extent_rec) bytes long, and leaks kernel memory into the
+image.
 
-> > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> > index c6fc783aaee5..0adfa6605653 100644
-> > --- a/include/linux/pagemap.h
-> > +++ b/include/linux/pagemap.h
-> > @@ -1094,10 +1094,44 @@ static inline pgoff_t linear_page_delta(const struct vm_area_struct *vma,
-> >  static inline pgoff_t linear_page_index(const struct vm_area_struct *vma,
-> >                                         const unsigned long address)
-> >  {
-> > -       pgoff_t pgoff;
-> > +       return linear_page_delta(vma, address) + vma_start_pgoff(vma);
-> > +}
-> > +
-> > +static inline pgoff_t __linear_anon_page_index(const struct vm_area_struct *vma,
-> > +               const unsigned long address)
-> > +{
-> > +       return linear_page_delta(vma, address) + vma_start_anon_pgoff(vma);
-> > +}
-> > +
-> > +/**
-> > + * linear_anon_page_index() - Determine the absolute anonymous page offset of
-> > + * @address within @vma.
-> > + * @vma: An anonymous or MAP_PRIVATE file-backed VMA in which @address resides.
-> > + * @address: The address whose absolute page offset is required.
-> > + *
-> > + * This returns the anonymous page offset of @address, which is the page offset
-> > + * the address possessed at the time the VMA was first faulted.
-> > + *
-> > + * For anonymous mappings, this returns the same value as linear_page_index().
-> > + *
-> > + * For MAP_PRIVATE file-backed mappings, this returns the anonymous page offset
-> > + * of @address, which is the page offset the address possessed at the time the
-> > + * VMA was first faulted.
-> > + *
-> > + * It is not valid to call this function for shared file-backed mappings.
-> > + *
-> > + * Returns: The absolute anonymous page offset of @address within @vma.
-> > + */
-> > +static inline pgoff_t linear_anon_page_index(const struct vm_area_struct *vma,
-> > +               const unsigned long address)
-> > +{
-> > +       const pgoff_t pgoff = __linear_anon_page_index(vma, address);
-> > +
-> > +       VM_WARN_ON_ONCE(!vma_is_cow_mapping(vma));
->
-> As discussed off the list, this assertion works even for read-only
-> anon mappings because, as you said, "there's no such thing as a pure
-> anon mapping that is !VMA_MAYWRITE_BIT, there is no way to achieve
-> that."
-> It took me some time to see that after reading your discussion with
-> David at [1] and [2], and I don't think it's very intuitive. Could you
-> please add a comment explaining that? Maybe add a comment at
-> vma_is_cow_mapping() definition since you are using the same assertion
-> in another patch of this series?
+Reject an fd->entrylength that does not match sizeof(hfsplus_extent_rec) in
+__hfsplus_ext_write_extent(), mirroring the check already performed in
+__hfsplus_ext_read_extent().
 
-Sure will do! It is very confusing stuff (and I was duly confused also at
-first).
+Link: https://lore.kernel.org/lkml/cbd7003314c530d4f910eacf019ff80adad6687e.camel@dubeyko.com/
+Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+---
+ fs/hfsplus/extents.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-To save a respin (unless there's more stuff I need to address) I will probably
-reply to the relevant patch with a proposed new comment.
+diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+index 813e68b8ecd6..eb7c11524d18 100644
+--- a/fs/hfsplus/extents.c
++++ b/fs/hfsplus/extents.c
+@@ -110,6 +110,8 @@ static int __hfsplus_ext_write_extent(struct inode *inode,
+ 	} else {
+ 		if (res)
+ 			return res;
++		if (fd->entrylength != sizeof(hfsplus_extent_rec))
++			return -EIO;
+ 		hfs_bnode_write(fd->bnode, hip->cached_extents,
+ 				fd->entryoffset, fd->entrylength);
+ 		hip->extent_state &= ~HFSPLUS_EXT_DIRTY;
+-- 
+2.43.0
 
->
-> [1] https://lore.kernel.org/linux-mm/anBjpdMicqaGADr-@lucifer/
-> [2] https://lore.kernel.org/linux-mm/anLyhaI6kW-EWk13@lucifer/
-
---
-Cheers, Lorenzo
