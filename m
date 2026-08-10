@@ -1,193 +1,207 @@
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736B0364953
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 16:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786378231; cv=none; b=fEXIeytaaTnUXHB4A+s2HAGwSg7kuZSc2iCv3YmSXsNzLIFO4nvmjmppj6R2y1/vErN9oRvb43wP97FxNzTM7xL5EsnqGb6bsixurKp8laUgi8WS0QEcKhm5FObd+n8v15lJnAtAOo35Wlg9KmXoym2s3C0Ifd7VLzKnDPXoKAw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786378231; c=relaxed/simple;
-	bh=/AF03rHuJDyQBfFPu4ugDlBCG/z+8RMKjZwI9veqS/M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RllVb9urXig+pHfWOGFOKocqt53tn1aveWrIktf6TUhDGZ38VtdTJnMFEyt6jCQcqfOAT5vokWjEbGf3/Eu+gmOfJ5OqET+juSnSqUJVagfRNyPbcUysIPnXqeTfdOFs/DWSmzY/weKc6syVY7NzSRoX1fIM+B1CVZ0Ars/svGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=CyN46gAF; arc=none smtp.client-ip=148.163.135.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB4237DEBE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 16:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786379084; cv=pass; b=BSc0SKuSd0Fz4jmt/t5hpSUDQTubKpmr62u0WciJqUh4kJIRPgaZfcwujRVqZEFZNak4xT1iG3PeS8VQwQHCgoQj8LgQ+LMaWkg7FwhogEQH23kQxnstri/C1H7bQMxYudXQon3f0Dta8D7/a5gMszwipaQXGSEaCR2ts/yyOXA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786379084; c=relaxed/simple;
+	bh=xsv3OYq+qhqNl5YPp2xtEfRcSQIlgKl80gny1Oxx4q8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GNJXGYdbPLZqN4egoXrjV3tmY2imw9BnPv11IVS2V83Jr9r0gxUDefc+8e+3eZP1hMgU7xE2QduJqtGt9dmnEkERibDKVUCavFXMD24qVZNlBrt5p5sC2ZgHIYynyWTDAUB7Isqo7tmqsibvqO9w0+aiSMoJzuCbXJIaJ5Gt6DA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CwVJn2aU; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="CyN46gAF"
-Received: from pps.filterd (m0167072.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AFjFYt3224790
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 12:10:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=f0bZ
-	ditIahGukFZnD48c1dgtAdNiTQKz0eXUlzu/oaY=; b=CyN46gAFzGTv5sCQAiJ+
-	xhJD7DYCrTeiGETf4yox+1+3CDtlrqNvkTFW4J4vobHmLbXUHDE3doFn2xz6glN6
-	k3BaKUBMntJiRVVcyGVM+aPSYqFm+iaf0XYNNoNBeRDmY9JppLG3h/hrnHSqxXvv
-	vjK8KVgvBMjsQt6iPYPncBt/4wLvSNnFasjiicrFClgJgyo8becIWZAI0ulxYnrR
-	6gWJbEIwkZVX0gc0uqUhLZ6UiI8xM4a2dmU0T4jB029Z7GGdBlXVd/OkAW3bqRIn
-	Cc8m/OyKwiMnlPkQ7RPRQxLQ1PMxJu4vRWd97Of20SU/QcoKr4fq6yE9zIqHq0a3
-	1Q==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4fy3jdbq3n-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 12:10:22 -0400 (EDT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5276aa86d00so20749951cf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 09:10:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CwVJn2aU"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c15a5b265so440811cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 09:24:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786379076; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hMhB4qiRciWzEx9YShB4+u+PmePfIVrWStgFObSy93uodKGXlUzzekMTzw8ruONDCx
+         RqDfwEusa2/bhj84YheJJ3pQophgMXj2RhSsSzFHCmqcNRVVRcAMBhpyFn5yRDiOrGI2
+         yBymNF25RHY5a4otMv5B9z39crwKMtjy19B3s1QLMSTvoQOgcJF2SY6ijDr78kWZQswI
+         mDZVpn89ipKshOz18/AEPSWjYIRPeIeANozjvLQ2DJ5mGfo1ziF/mahtZKoa8gnmA27v
+         dRrxTyMTCbgaCCgFXTNVdM0iRN1gfj+qzAU5XRJzmXQFynp8kOL50VigtT9vDGYM4gSK
+         U6cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JnpU+yjthofc0zpgkM1QSjOc8GqltDckB0JeUB3rUkg=;
+        fh=0YNcFk3hn6u8ifuHTL+9Bz/kn1fi5j9+iz0fJFWSBGU=;
+        b=FCX0P2AqteD2hyDiMGUMowQGd1LctQJL5nNPpuSuCOsP6VMvkFrYXROhvr8tlt/OKT
+         EClgcbmj9fDJrJb0SpN30q+C1jB2O0pbcGWIAq/KrkkO0FFHXBf7kiUMw/f47BFq5i1F
+         aHcx8ZPyflqfU9afGAx4GpaEaFCmnx9iATCaA0qo6HreWyT8pG/VPknKLOw+8TLLvVkV
+         pJH6fhp9/TcgYzhX3bo5yiQO8qU8P1yhlZJIs1Y5Msc1qmr4SySxBWJgXD8/PNxK+4xr
+         0m8U2OiL5LL0PYyioP5yedylnq1crLSV06IRSD1/FhEjqrgoRkbT3yXGSlWVshz/C85p
+         Kq+A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786379076; x=1786983876; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JnpU+yjthofc0zpgkM1QSjOc8GqltDckB0JeUB3rUkg=;
+        b=CwVJn2aUT+uPUxvWndznLyNgoAttgvstZNGf6IG+zWNLE0PcW9XUojG1o+LB55xczN
+         eoxS4uFpilcfMF2uGQ9vvcoKMshs03OE07DjaKlRhDxGm2YN8wF6Pz6zC94t0Ebqm6Y/
+         Jmg1TzeA6qCQJz7G6PidXwbBeZQZOElJQcKgtahyQBla3thC2s5HmQy85YM6cBds+D8C
+         Tv+j1RMaHLEQl+fxJQZph3PbguWzf/bB1D/ZMG7wc3BRdQ9EnSqvsmZG9vh+fGU6lqyC
+         qCjCDULhxVX+9MktVBl/uCczxb1m4VD/7p1X5DngHRseshP7DSlWncnCytksMbggpEzU
+         g3cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786378221; x=1786983021;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=f0bZditIahGukFZnD48c1dgtAdNiTQKz0eXUlzu/oaY=;
-        b=B8+2kWsSnc9nOAfnlquBJkSIPZxJMc7byPlvahPXM5dRtp20nszwH7U95rR3rt3W5+
-         zLdIQUwKfJnUAVu91x+0TBMEARqSyqj24DTvBI0VK25aEZ616W9m9vxrSimo/BQORNUM
-         20EgehWawQbfLUjsD6Txcmgym88Ikzg3XGVZaILJna3VQXt73Z/AL0n78GdbZaw0r2ch
-         Yyg2hI8xE0lSy8E8dGm9hw/hc4SDeigI86K0z6HJmmFgkYRJOX0z+I7dSGaMdFeOXyvY
-         EPz6wn2W4eTLTvESoii6psrwVaXCp0z9Z7h9vnDg7aM6ri+unclB6Fg4oHh7IFPQ2IqX
-         cXtA==
-X-Forwarded-Encrypted: i=1; AHgh+RrEmFlTgi9qqMsnDPlVWqMGRAZ7lZf050rogpohut3AMqt7Y+vrwRb3XuUSuhlEKSTlfF2lXFlzyJAo9gLC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/KJJfP6dgV5l+X3BkXHo8cKGKCLX4D9jdFf0wI1e6G97vd4UT
-	frCKhdEX5ot5ISjkECxldLJLfMugb5KIPbKZS0BGyeSMCEEhN071VZxKrM/mAJ60GJomVLGvK3P
-	6H4q4tjxmo4X1Xqc8wstzvzw1fIqplCONvMPtkGGanhNhPrDtK1gABwCIG65xl6g=
-X-Gm-Gg: AR+sD13wpajr+oe0pdgfDMr+Axjhmb/29iAH73TluCONAnmDB8mMfYf8ppLrDIZROcu
-	n0ybkWfm4HLbiTkXGwPfaJBwDv41ImLFrvCUFJB7/vN9mjKXEuw6tu08/E78pBwY6P8DzCASpRr
-	fMxrER1M5Fzkb6abnpZe8lrsCjKBBf1VWFnqLZcydL/Y2Ehc/sT3TgRxffbHjzGWyeYcKW0l8gd
-	4yPOk7ctBkGuXez1/9TySXW9eSyL2mL9JBrDZdiFzgAJQpi/1kb+Ej4m3n1KGinfiOu/nPSLZ0F
-	zcrx/gzgapYDFItiYLjASqnvgcPkYybawFtiwA0WHfNJkote7vSE3e9lTie2iVrP5kUt3QISa21
-	9b52BlX12UAjFX5RRPI6juJYJx2uWwt/2Dbj4AphzNLw6JU4dSRVStg==
-X-Received: by 2002:ac8:7fc7:0:b0:519:89b6:78b4 with SMTP id d75a77b69052e-52d20a819bamr234404681cf.40.1786378221627;
-        Mon, 10 Aug 2026 09:10:21 -0700 (PDT)
-X-Received: by 2002:ac8:7fc7:0:b0:519:89b6:78b4 with SMTP id d75a77b69052e-52d20a819bamr234403791cf.40.1786378221085;
-        Mon, 10 Aug 2026 09:10:21 -0700 (PDT)
-Received: from [192.168.0.165] (bzq-79-179-7-133.red.bezeqint.net. [79.179.7.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997402a89bsm4159805e9.0.2026.08.10.09.10.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2026 09:10:19 -0700 (PDT)
-Message-ID: <8eb00a03-d6c6-423e-9768-48fd2566f11d@columbia.edu>
-Date: Mon, 10 Aug 2026 19:10:16 +0300
+        d=1e100.net; s=20251104; t=1786379076; x=1786983876;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JnpU+yjthofc0zpgkM1QSjOc8GqltDckB0JeUB3rUkg=;
+        b=Temz6F1TwP6Yoc9sTFjnvMw9FD46PiYv1VoDkjs5majXO8jZpZWsw8DHGjdSzT/DcL
+         VuCKYn4dv12Xh7Of1Wpcl2LLZY5PvHtSXO5ubA7On9PlJMYbA+uygRJwInVC8iNhl7J8
+         FRquCAr8BxT+17juvNQtJ6Jt3IiBSLnmKX74rVUlSE3Fjo6tQNXEQoZJ3/3DZSk6qlkA
+         1LimMgWsJZNaI/tqoi2kDB6PSEq/lN+SCUFfrRTlSlrvpZGPkn9QP/y/Na6sb4x8fmpc
+         TW8bwJzO7qlM7Ud5RcahA3Op/1z6FmsTkFMb3cLwLDu3b4IPfTGrYnVeyNeoBDr1hfMC
+         Mx8w==
+X-Forwarded-Encrypted: i=1; AHgh+RpSDv5RJkzCO7nRVdKmUPqyg1NAHkJsIayZLY09s4GgKO0B+9rfJ3GDaBszMmCJl4znLP7Elv/O8gQbaBGx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5pjz2q6KC9MAm5m6iNaRrDOSqPdu1UNwoZZg4Nwr4xcWHpH29
+	0Ry+x4TI1YIXv9O7kAMuVTt8z211n45ieuk6ajMMxk9PIFXak6SWiaL2QMBE0paaXvSu93OOGdJ
+	oP4LoHonwMhBFW0AixhwYGIKh/cIV/H2ot1m3aCSS
+X-Gm-Gg: AR+sD10gHMDPfsjXKMqw5FNLyKHS4DtqCgNy7reiTOsOA14vxWn4SbCNUYSeA6Q5jEC
+	5XvVuM2NSLm+Igoj3dpYi79Zs408b5RSo1hqA2pWdBbgU5hcB1oAPZ2hx1HYAUhj7qOdtldiAkS
+	P3LbAkLi3AW9SmR54MhcaC+SfBNh+JPnGzLF70Qz3UOy1gh/L2U4G5bE2IBBmvGKSLEaiBNcqOr
+	Fo+JNX4kh0UqeKbMsZVDfeET/REJeR9TzqWh+EhWlf1PBEt1fX0UL82DFUxah/XDZbCWFqCdR20
+	7Gxu1TDP2HrX/A0z7Idtw7A0mjPRd13mwU4FDDXX4J/FyRT30szQxQ==
+X-Received: by 2002:a05:622a:2b0a:b0:519:b655:235 with SMTP id
+ d75a77b69052e-52d2810222bmr38915311cf.3.1786379075203; Mon, 10 Aug 2026
+ 09:24:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RWF_DONTCACHE regression fix for xfs
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong"
- <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-        Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
-        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
-        Christoph Hellwig <hch@lst.de>
-References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
- <annkDbhXBEeMoNVT@infradead.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <annkDbhXBEeMoNVT@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDEzOSBTYWx0ZWRfX4LgZxjD7325w
- fg6SyLNjGmm9KU+S41NJ40vhEDUBwwoMHugQzx8lghMN5cXjqq153uUQlR4EDZRDaBEFdQvCfm4
- 0FJaOwaJHeKVechd09s3PRP4SBFAuvqZJ/k1Uz/J/uC0FdOzhk42
-X-Proofpoint-GUID: xtb3d5YG7fqNeFGlegzxVI-BCJ4cptp4
-X-Proofpoint-ORIG-GUID: xtb3d5YG7fqNeFGlegzxVI-BCJ4cptp4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDEzOSBTYWx0ZWRfXwhpn7NP8anqp
- jBDfni+Qf4m7c8kasd/hOcYX5oMlKr+ELzkoJOhIsRhpcJWshtXoBwHmiKo7g3EiQVYFfxuhYNo
- rlX8sjYlQUwgQXU24Jttoi4G8dObjGWWvfptclJ1utLuKRR8sh+O6c90KR6WKuGn4+UZB4nKczE
- 9LMbXUyom2IWQ5PiTIFTH6oy74qNpjN56lZxpSAx3U+QMOivrtvuVZvFV0KJ+IQAkvV5Ss0O/ux
- 4+8KmoUiRDC5i/d9BQNcPwFXwW96pBxImF8dTLJMpXxK+nxbl++IqArnCtZN0cRu4CpNG9urPNR
- 9DNJc0dIdSL2sqsF98OXx0Ubd5DW8avxwzGk/Zhk0eKVn1VEWwCu3bkP3RtLt/zoFGBAs8/2Z86
- UgFAWaLHemjY8H2ovzv2p++P0OmyQImSxW85ye5JSqrNoqxTry8Rh6QV3jmQntWVDoTHn8wx9oW
- XTuH1Mefn6Uos41rojQ==
-X-Authority-Analysis: v=2.4 cv=JPQLdcKb c=1 sm=1 tr=0 ts=6a79f7ee cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=LRATYcvZeiQrLRB5MfbBvg==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=SsB-OO3BMngHh3ZO9fOt:22
- a=dys9yn6NND9hJ5TNHOUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11871
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=10 adultscore=0
- phishscore=0 spamscore=0 suspectscore=0 bulkscore=10 clxscore=1015
- impostorscore=10 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608100139
+References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
+ <20260806-b4-scalable-cow-virt-pgoff-v4-1-ab318a350404@kernel.org>
+ <CAJuCfpFAA1H2pOi6EOarNtrdzLQDJyhm6QOGsfZ4SFTuM5eiLQ@mail.gmail.com> <anmLnvWAyIJwjsXj@lucifer>
+In-Reply-To: <anmLnvWAyIJwjsXj@lucifer>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 10 Aug 2026 09:24:23 -0700
+X-Gm-Features: AUfX_mykce6fbL166nHsURFiLv_kMzKY9gOukzdEiVHYnjVKW8Vop-MtXqL00bE
+Message-ID: <CAJuCfpGJuf3NOuPg4+7TaWhNOv5sN7WEY2awZOpDv1VV13J-DQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/20] mm/vma: introduce VMA anon page offset field and
+ add helpers
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Boris Brezillon <boris.brezillon@collabora.com>, 
+	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/10/26 10:45 AM, Christoph Hellwig wrote:
-> Below is Tal's suggested fixup for xfs with the whitespace damage fixeѕ.
-> It should probably be attributed to Tal instead.  Can you handled it
-> from here and send it to Jens with your signoff/authorship to avoid
-> the performance regression in XFS?
-> 
+On Mon, Aug 10, 2026 at 1:36=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
+rg> wrote:
+>
+> On Sat, Aug 08, 2026 at 05:51:10PM -0700, Suren Baghdasaryan wrote:
+> > On Thu, Aug 6, 2026 at 1:22=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kerne=
+l.org> wrote:
+> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > index 87feaa5a2b78..df78847f5f07 100644
+> > > --- a/include/linux/mm.h
+> > > +++ b/include/linux/mm.h
+> > > @@ -4393,6 +4393,65 @@ static inline pgoff_t vma_last_pgoff(const str=
+uct vm_area_struct *vma)
+> > >         return vma_end_pgoff(vma) - 1;
+> > >  }
+> > >
+> > > +/**
+> > > + * vma_start_anon_pgoff() - Get the anonymous page offset of the sta=
+rt of @vma
+> > > + * @vma: The VMA whose anonymous page offset is required.
+> > > + *
+> > > + * If unfaulted, then this is vma->vm_start >> PAGE_SHIFT, if faulte=
+d then the
+> > > + * anonymous page offset at the time of first fault.
+> > > + *
+> > > + * If the VMA is anonymous, this returns the same value as vma_start=
+_pgoff().
+> > > + *
+> > > + * This value is used for tracking MAP_PRIVATE file-backed mappings =
+by their
+> > > + * anonymous page offset.
+> >
+> > I assume this function should not be used with shared file-backed
+> > mappings, right? If so, maybe add a comment like the one you have for
+> > linear_anon_page_index(): "It is not valid to call this function for
+> > shared file-backed mappings."?
+>
+> No that's not the case, it is valid to access this for any VMA though it'=
+s only
+> meaningful for MAP_PRIVATE and anonymous VMAs (though in the latter case =
+pgoff
+> =3D=3D anon pgoff).
+>
+> The code keeps the anon pgoff values consistent even for shared mappings =
+because
+> - hey - we have the field anyway and it's easiest and safest to just keep=
+ it the
+> same.
+>
+> One alternative would be to have code that checks the flags and zeroes th=
+e field
+> otherwise , but then you have problems like - early on initialisation now
+> there's an ordering requirement which can easily go wrong.
+>
+> Another alternative is to just leave it stale, but then that seems object=
+ively
+> worse and again requires branching code on update and set.
+>
+> All-in-all it's easier to keep this working the same for any type of mapp=
+ing,
+> it's just useless to do anything with the anon pgoff for a shared mapping=
+ :)
 
-Yes, will do shortly. Thanks Christoph!
+Makes sense. Thanks for the explanation!
 
-> From: Christoph Hellwig <hch@lst.de>
-> Subject: xfs: avoid double deferrals for RWF_DONTCACHE writes
-> 
-> XFS already defers some writes to a workqueue when transactions are
-> needed to process the I/O completion.  Disable the block layer bio
-> task completion in this case to avoid a major performance drop.
-> 
-> Fixes: efbde6f9f449 ("iomap: use BIO_COMPLETE_IN_TASK for dropbehind writeback")
-> ---
->   fs/xfs/xfs_aops.c | 15 +++++++++++++--
->   1 file changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index f73e26d9c9f9..059846a8d65c 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -372,10 +372,14 @@ xfs_writeback_submit(
->   	}
->   
->   	/*
-> -	 * Send ioends that might require a transaction to the completion wq.
-> +	 * Send ioends that might require a transaction to the completion wq,
-> +	 * and disable the block layer task completion for them as there is no
-> +	 * need to defer twice.
->   	 */
-> -	if (xfs_ioend_needs_wq_completion(ioend))
-> +	if (xfs_ioend_needs_wq_completion(ioend)) {
->   		ioend->io_bio.bi_end_io = xfs_end_bio;
-> +		bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
-> +	}
->   
->   	return iomap_ioend_writeback_submit(wpc, error);
->   }
-> @@ -481,7 +485,14 @@ xfs_zoned_writeback_submit(
->   {
->   	struct iomap_ioend		*ioend = wpc->wb_ctx;
->   
-> +	/*
-> +	 * Defer all completions to our workqueue as all zoned writes require a
-> +	 * transaction to be persisted.  This also means we never need the block
-> +	 * layer in-task completion for a task context.
-> +	 */
->   	ioend->io_bio.bi_end_io = xfs_end_bio;
-> +	bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
-> +
->   	if (error) {
->   		ioend->io_bio.bi_status = errno_to_blk_status(error);
->   		bio_endio(&ioend->io_bio);
-> -- 
-> 2.53.0
-> 
-
+>
+> --
+> Cheers, Lorenzo
