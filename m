@@ -1,155 +1,114 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63F43552F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 18:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786385413; cv=none; b=Xc+cBRd9s4ajJZSuIACh8du5bXdCAdNYROgJh1lk2fTZ/c3ZKBSknEBPqmgdDkMxcubntgndxsukS2yG78/uVYdL/rnvBSlxBC8+QYjG9yllUmZTGVA3Tv2llph5GI60Zk3MQPuTtlPJ5I1ZzrXklM4VuAhDkXdnG76QUd5ltLM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786385413; c=relaxed/simple;
-	bh=bJXRfg3f1kV3ccy2QSpAR+7YljKtfWl7hXv2p8G7tDE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HzC8kJbztQiBUftjtrXaG0Mg6SSfcWJhun3W+VwW75yrWqVw5mH/UdJ2QkW/J2iS8YhMX1N6q0U+koB9I19gKDbBlpJOirIHumh3uDVtaUyLBjPu2B0BFFFyrPHKzlLiOpsXc8Bt5E642ECtfrYxhO7N99+fT0am2SMla8TsgaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XnwI6LS7; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A61339391
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 18:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786386600; cv=pass; b=dY6WTMQziX6tfSHOJR3LwXJhVfNKXD4CqzqlDsOKfk/W/ucfFfknR1aDHE8MS7DHrpDySkBY430z1818rRy9XOnjVWdaIQJH5pxAhRrmluoHMcOmlm3SVMCVg4360dEBpG+MWnMQVfYVQL48nClVICtEu6Fx/9VMIZ2s4ct9LFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786386600; c=relaxed/simple;
+	bh=1jzRT/jzG6fGTHeaMqBTKR94VOv7jRZ9cIp6Lbey6ug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EEi1T97xXkEJHOIMxBLLgAwuMdtxnocvQ4wrMagk06qAIpXBBZhoQsU/oFOdpo58rJwr3VuoUQcymgQvsQog16m60VJJWUWn2aOHBQGeYM5vnqTRrosXYBN/tImk35PxKpBg8jMhSNYMIpNM1yakmNHWHjT6WSiSgIl8coHaBLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=URFXbuEm; arc=pass smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XnwI6LS7"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-498012a61f6so6155e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 11:10:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="URFXbuEm"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ccdf36f63dso16755ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 11:29:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786386599; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qn7/24JK2EQYaBnaYAXPPVfvTSF5WpVwa4HCABoSwam5LA9mRbKvmq4hwiSsmTKaB3
+         2CUHKWvZWQUqcnNTJDykz7B0O29W7yJxa/e5gIsvuwQw9ZPPZNarjjEm+RFUjSgNd247
+         /BDtOcwJJR36svbi+54e6oWbmejsBZvd6q1l3VAD7BlZta16CZebEWdxxtHaddVNxuSw
+         D0qg7XXc4P2OZoPbXDov8ZadpH0ukaU0ZSx+TTqZyR+4oNTOH3/pSC8C+OvTQYg7szDX
+         qK8P2jl1ULl3Oly/cxwkiPB/VXsHR3AKs2yVuuVpH41TUuFTCLv65UltcvixDtFUicqM
+         wTFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1jzRT/jzG6fGTHeaMqBTKR94VOv7jRZ9cIp6Lbey6ug=;
+        fh=ZAevp8txJlIbCLSXMwhLtQkPaIJetdnkW+XW7xVPObA=;
+        b=Hm1EVDRNfffSlRCEjeyUny702/OFoUcDLNkuW1wWIm2wKKtCpPYr/DfbfPMbQ+aPTH
+         chp8REtN79UE0u+SakOd2XKVtduDWgFv+uE+m4zgaBJ5ptqz6fAB7X7/nVlZh+DUROmx
+         0DO7LgdJzicvseBZJjUL249+h/crAErSr7CZMnEocCpGiJqA8h4MvPMSX7LO3OEJeEMR
+         T8zrmI3wJwfdBeZf/lgY7Zgf9aO2VTSXdZe5Ih8GrHSMEnY+M0cIxCG5502DwSFbGaWI
+         nJbxwcg96fFsIENd9Fb6FNhVerb9fBHGM+c6nudYpOQTZFQqY3yd3BL8nKB+9Qt1qa1o
+         1W/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786385410; x=1786990210; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MxlbjW9Gub36tupqbS+bClfYkYoCr7n6Y2ztqAqDsEc=;
-        b=XnwI6LS7t2Z8W2Cz9lwjpXK5z1zDiWF5FkF+g89cWWTRLra+eHUcZmvL0kM9g5PXpQ
-         bO/yMV75GuZ7BRlehxzAcfy72re7jKYuOR5TPnzZ2GGn/AN527WOD4EUSwNf3rnXZ2Ux
-         AQnPksMFoGFMKwdJqHf7tJNKNybNXNEThi/75dNUAAXrSQZ9lQbb1IEsLoHVOZGYAK4Y
-         YdtkxSPEVUN2SHq4Vv8lYpZOLf2mVst9y76V/SIsImlaGLx/uDiEkFLKliSobPYyltHf
-         Lr2xVsu8MTGX5p3Rs4ceoVLXV/xiiRBQg/VjWQwHUfaMPdqA4EcsPmXZNIv2FI9JtTYI
-         qMdQ==
+        d=google.com; s=20251104; t=1786386599; x=1786991399; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1jzRT/jzG6fGTHeaMqBTKR94VOv7jRZ9cIp6Lbey6ug=;
+        b=URFXbuEmnG1SZetyWj5NomTtStek86NFsSQUGZwgbajBaff5KEbPizkuxG9eO5La81
+         Rwyopnhhmuc0y555wYWPwkNzCAZUwjYQG8FyLyADRMJxmxjt3bEMGOOtY8Wp5cbxcfLQ
+         PpP/Fx++y9N/frgR4Q8jRivbXj0MLxHp/M17saqJoq+LrUFnqNxHwyAfvg2O553l58/7
+         6wY9fuT8GcEGmTJyOIv88Pki0wzGSrB2Rzn1BWfOoewHjXFtKpo70wxbseOvphVxkmez
+         htNRfugh2on7SfP6nsK72GpTs/FB6N1tkGK4ihO+q3jtN4KZnmfrB2VTGSFMYlkiTyrK
+         Nabw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786385410; x=1786990210;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=MxlbjW9Gub36tupqbS+bClfYkYoCr7n6Y2ztqAqDsEc=;
-        b=IxtBjcQ48hYLaKzOiGASdM7ijWBe1Gf7p1xICk5dArns+KlsMUwihtDNttxbYpFKMI
-         eSuHIEidI+TA1kS40Yvj2pPTEEcXO+eMeKnJE93CmWF4zr7VORXhGKKfboRFgG6e3L1T
-         8OrGHzWlBPXoyTRFZZlLPRnMGCi3uoUqKFLq8zlpC9/Gt/RMvf+FowG38ctTDRutrv1X
-         XYMPqkTNvqGyVzSdRYUiIu7aB1TZB9FD9On2nrOEE8GXC8Wn+J6piM3TiYIN7db5OeZI
-         OfKz7PCqJiPT7P1DWj3uPeo8DwcogjrRLoAnxQxiQ+7+mJ74zgSR3miPLdshvnABfMAq
-         aDGQ==
-X-Gm-Message-State: AOJu0YyxeJtCPCfpY0dtSzrKN9zwnlv2acRtcvRHSKXEZ1pplMRYHXDk
-	beLoVqDgy7Q6PGv1Pqge8xua3QNRW+5yvig/Ocdir+whZ8RkTaFt09xcpSes1/6SRA==
-X-Gm-Gg: AR+sD12hA7BvrcwyPeOvif5ixnC02n93LMdDzi6OaStotAEfg1j8Kf7wJLgLrOqEx3a
-	F6jv7VmnoAUM41/xt3/+j+iX0JgBTkKGFsUUFiGwpgv2zqRBbKWN8CZ3a9ZCLGyJYGDeUAmYeMJ
-	zNxSzSvCdur5dz3cN0B5N2Z7L/bf3C1xLEwjssVqCqBNWUXLR0sEwYYQhhN6hNTqmGCAQIx9Iz+
-	JjqLXK6NCsSep9aamaP9oCtK2Ozh1fE4kurZ480moKkewnQ+gNdnVeSj2xiWtcxE+ja3liPuPSb
-	b8MYn4SVrdcempc8+HE8TJQ7BjAvep6/4HiRZxsHVj9JtMPuPVsP+mf+Y3qS68MNwzLOgkeRiaS
-	886UpAjMAjir7iiZgKrC8s5hBAcoHWRQRFg4JGxLnqatMVgZcuQmfFQRD2NtRA1KZ8PysuTVNnW
-	UHWswYrbmC6WxjkcDqkjDLEN9IMQ+SuvWv1O9aeC5i2gh4yJcxyisvSe5I83hscQuY4+ousHxuM
-	eW9/TAKqCWxR8czU0NjxrYsDADqFWJWVkMSSl/i5ECBYgg=
-X-Received: by 2002:a05:600c:4288:b0:495:3ffd:5e39 with SMTP id 5b1f17b1804b1-499745be994mr58225e9.3.1786385409115;
-        Mon, 10 Aug 2026 11:10:09 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:5c4:b02b:cff6:9cc6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499740e13e3sm9004625e9.10.2026.08.10.11.10.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 11:10:08 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Mon, 10 Aug 2026 20:10:01 +0200
-Subject: [PATCH v2] mm/page-writeback: document folio_mark_dirty() locking
- more explicitly
+        d=1e100.net; s=20251104; t=1786386599; x=1786991399;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1jzRT/jzG6fGTHeaMqBTKR94VOv7jRZ9cIp6Lbey6ug=;
+        b=mvcr6UoiNJ1gtJzPMaHRqM2WzL0lfjVmpmwrPBQT8woDZpyfEMcHKMhkOmxoxw2BBj
+         vgznzFkIHOXHbxzTyC2NaFxQfPNCGwVQXzPRpCziWcwMTcfmTV4k6350RKLo23fiUXjg
+         cEU4d6PklMZb893eqe1QKD+qYnFh0PMCsVT0fkYrW3fPHVIDqUegDFtttrRlFNJqO3DK
+         72Vr9xdfzNZQ8MqP/Duq88MQa5jAfT+wBeGczMZHBI14FdBkGYDONPoYm1uwWhxOPQ6t
+         NBpIj6wnwTUAcWqDPAii+XMLTsCEWzg1l9QZ8s5kP2nYIhq6DN/2C7W1t/oPpK9Bc6Ae
+         +KBg==
+X-Forwarded-Encrypted: i=1; AHgh+RpseMBnVNLQU6RnCHmk21mfKXgYvd4F6Xyw8q8ZOdMwTzR8T9ZhC1MfT5l4vbBRTkZxx4REOJ68UP3sw0qQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOZVdnVj+JIZ/C06XY+c4YMGFBEn26bxR7M8Pn+3Jb+Ucf8JhT
+	S9cRO64jEuLNjz8JTu1Xewek/JPCiJWDmcDzMhZPthOey/+c8dZsKddglAoXaFnOsXo3b8qqb4e
+	Vwx3ecFE21/AEyUEj01yE2js9ltSNLTMReWWYKrwT
+X-Gm-Gg: AR+sD12l51YdG63cFxNz6aS313X4wWuOkUS3LCUZ3TBGuME2nxOsunAa4XPBqfDgBgN
+	YHswkgZhQe1Opk0WhqSLW0arWQqpby+nCuX+1sZ6gw1ZDO99hLJl5bVO/ISEAq9Qt6mtNw+rBMj
+	OHZeZndiBLZYZ3IJv3C2/cPVkdJu1My7MBifETLrzOrXm6hMAovQSHeR5wN8hg/ZmS6A53ro3kg
+	K7axh0Um30czMPgzd8VMxRY7rdVPmFn6fAtnkv5KfCGFV47xtLk8C/7Mn3Lp34NWwHj1Hw+gzCB
+	XxsR7vshklxWV65ZZ49DtXP4CoPi0OzmH1tsbtN2IVKsqWXrRv+UEj2cYtYtsDrmxc0K2FkVmnK
+	OJVIO15idh9y4VQN04tb3SH/mUCCPvA==
+X-Received: by 2002:a17:903:2643:b0:2c7:b1e7:501e with SMTP id
+ d9443c01a7336-2d3108235ffmr875305ad.3.1786386598231; Mon, 10 Aug 2026
+ 11:29:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260810-set-page-dirty-warnings-v2-1-1bd40fadfacd@google.com>
-X-B4-Tracking: v=1; b=H4sIAPgTemoC/4WNQQ6CMBREr0K6tua3gCmuvIdhUcunfKMtaStKC
- He34AFcvsnMvIVFDISRnYuFBZwokncZ5KFgZtDOIqcuM5MgT6AE8IiJjzrnHYU087cOjpyNvAK
- AHkDUZVOxvB4D9vTZn6/tj+PrdkeTtrutMVBMPsy7ehJb779lElzwujS6q1QDCtTFem8feDT+y
- dp1Xb9B6MN50QAAAA==
-X-Change-ID: 20260810-set-page-dirty-warnings-4000f0015394
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786385403; l=2530;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=bJXRfg3f1kV3ccy2QSpAR+7YljKtfWl7hXv2p8G7tDE=;
- b=df8Qhd2Ukq3GZytYeSVtH/STCIAEcIKcgxQNFYPewQdmLafxN/6eI7SK/34O21LsVc2ZWwJz7
- KDS3Rs9yYdZCQoVCsnjhEF0af9LPwr0Xw2mJuc5ohMjYJYaw+SCGnq8
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+References: <20260810-set-page-dirty-warnings-v1-1-53cad4890808@google.com> <anoMNezqJ10YgcoN@infradead.org>
+In-Reply-To: <anoMNezqJ10YgcoN@infradead.org>
+From: Jann Horn <jannh@google.com>
+Date: Mon, 10 Aug 2026 20:29:20 +0200
+X-Gm-Features: AUfX_my0h3pMPDz0xsvhZgSJb9FSJGPCEVL1ZaEAlqutcr_1WPGPSeLUtGzDBnc
+Message-ID: <CAG48ez3ZSX5hN2wXSf-GWXH7eZ9Zu=S0eVfTyzNw5F4j17kOsw@mail.gmail.com>
+Subject: Re: [PATCH] mm/page-writeback: document folio_mark_dirty() locking
+ more explicitly
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We have had bugs where set_page_dirty() was used on a page from GUP without
-appropriate locking, leading to UAF, in:
+On Mon, Aug 10, 2026 at 7:36=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
+g> wrote:
+> On Mon, Aug 10, 2026 at 06:02:36PM +0200, Jann Horn wrote:
+> > I have found two out-of-tree driver bugs in the past where set_page_dir=
+ty()
+> > was used on a page from GUP without appropriate locking, leading to UAF=
+:
+>
+> More documentation is always good, but out of tree drivers are totally
+> irrelevant for upstream, so please reword your commit message to be
+> relevant for the kernel itself and drop these references.
 
- - KVM, see
-   https://lore.kernel.org/r/20260810-x86-kvm-setpagedirty-v1-1-85f180892d4f@google.com
- - i915, see commit 0d4bbe3d407f ("drm/i915/userptr: Try to acquire the
-   page lock around set_page_dirty()").
- - VMCI, see commit 5a16c535409f ("VMCI: Use set_page_dirty_lock() when
-   unregistering guest memory")
- - kpc2000 staging driver, see commit b6d13bd9f2c1 ("staging: kpc2000:
-   kpc_dma: Convert set_page_dirty() --> set_page_dirty_lock()")
-
-I think set_page_dirty() and folio_mark_dirty() need more explicit
-documentation on how they should be used with pages from GUP; so add a
-comment on top of set_page_dirty() and make the comment above
-folio_mark_dirty() more explicit.
-
-Signed-off-by: Jann Horn <jannh@google.com>
----
-Changes in v2:
-- reword commit message to drop references to out-of-tree drivers, and
-  instead add more examples of upstream bugs
-- Link to v1: https://patch.msgid.link/20260810-set-page-dirty-warnings-v1-1-53cad4890808@google.com
----
- mm/folio-compat.c   | 1 +
- mm/page-writeback.c | 5 +++++
- 2 files changed, 6 insertions(+)
-
-diff --git a/mm/folio-compat.c b/mm/folio-compat.c
-index a02179a0bded..6212fdd6761a 100644
---- a/mm/folio-compat.c
-+++ b/mm/folio-compat.c
-@@ -41,6 +41,7 @@ void set_page_writeback(struct page *page)
- }
- EXPORT_SYMBOL(set_page_writeback);
- 
-+/* Read the comment above folio_mark_dirty() regarding required locks! */
- bool set_page_dirty(struct page *page)
- {
- 	return folio_mark_dirty(page_folio(page));
-diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-index e98748112d1e..b0ab687c83be 100644
---- a/mm/page-writeback.c
-+++ b/mm/page-writeback.c
-@@ -2773,6 +2773,11 @@ EXPORT_SYMBOL(folio_redirty_for_writepage);
-  * in this folio.  Truncation will block on the page table lock as it
-  * unmaps pages before removing the folio from its mapping.
-  *
-+ * .. DANGER::
-+ *    Do not use this on a folio obtained from a function like
-+ *    get_user_pages_fast() without holding appropriate locks; you might want to
-+ *    use set_page_dirty_lock() or folio_mark_dirty_lock() instead.
-+ *
-  * Return: True if the folio was newly dirtied, false if it was already dirty.
-  */
- bool folio_mark_dirty(struct folio *folio)
-
----
-base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260810-set-page-dirty-warnings-4000f0015394
-
-Best regards,
---  
-Jann Horn <jannh@google.com>
-
+Ack, I've reworded the commit message and added some more examples I
+found in mainline history.
