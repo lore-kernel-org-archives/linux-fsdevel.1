@@ -1,179 +1,289 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECB7145B3F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 00:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2A61E9B1A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 00:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786321329; cv=none; b=A+3PrY5nH7BNX64NXGb5bjrvj81BwECqFhrS8d+dMNEaZ7VNqXp5OCqb2UpNSSie208KeBIORKH1NriaAgn1kTSV4299S8nCFcIK1gy5lqN4FuZGArxXsP6pRqtsXT9qqfQKa4C0MX/S1LUkvInATmVn22fGCq8erl04Zt9Cy9w=
+	t=1786321389; cv=none; b=FYeiUURatwG9jTsCepNBauWqvrlMK0stfLN8XMECy3jdq8icY46+xDhvPuMgQAzp2OOQXPAaQlBBIYG3ytfTqz3O4QnbhF+hvkq6DO6opFzSzi+uhlN7TYbiUE+t7Btrc3pPTJZLsY5p1uXstE+pvzyn4N+7/H5YuG/mfj0fvqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786321329; c=relaxed/simple;
-	bh=GIwUV2G5B82ttz4RR5yrvVeCGMbentO5f3paTcE0lv8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=huuhPBUHkATkCaJzVfjVfpEekVeGe7AgvCsXLUx4nTsgUJxSlZJeIoCL8BKsmEofnBWs95gOlccr+XxVsmSsp+e0TcYGPH3sb4SoF00WnpjPYjaI0oDmSX7Jf7oeWaFxM7cdyBWxMHpC3AmIGQZ+a1CGfOTse2l+L0OKU0fn4Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=UP9GI7tJ; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1786321389; c=relaxed/simple;
+	bh=k21sPb48usHdoyH+HWwqXvykfiYfhfVhDPc25Uayv1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V0t42hNQm8zZDglL+osX9k12yL191A9Y7Wk6vlW3BATjhPJudilFKl+CHbwRN+JV+pQkGzIi6vtoqeX1Cwdkf8CkxOb4i7bL05au5V9WHTSA2S5Dtpv52g7Jvm4as4Wf0lDLD470L5ibRVy7LPYYpTUhqY9CsHwihsFUaYRqKko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRm+KE59; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="UP9GI7tJ"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ecf499af9so17610437b3.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 17:22:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRm+KE59"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84eb992a881so788041b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 17:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1786321327; x=1786926127; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GIwUV2G5B82ttz4RR5yrvVeCGMbentO5f3paTcE0lv8=;
-        b=UP9GI7tJEOAl3XLjjFpCjESaqDqBYAZ/C+yE4hpTtPcGNBGfVi3t3110EFUt23RuJH
-         cfg98eSpct4rYYYezRqQich6v0Vh9g4FdYqpWkHSXTA8BwV/uwxK1sBZtbS1q/LUsylx
-         Xswtzztvl9WTaeVyknXegEKjaXR60wkUyI69Ovtm7vaYJ50n1Z80lG8GyyPtad9WWG9V
-         Wg5YIgejeNMkVXWNkuqpOsvmf8EvahCYSv5u3cSdxcUqDbkg8IGF7p6+G6Gob8nVEzAT
-         QSfjDxw8a7CfyHPLWRhLGcoC9zCXhMtNs/jYQLwIcr7duIqOVbScPyEZsyYOK8HbbzeG
-         dasA==
+        d=gmail.com; s=20251104; t=1786321387; x=1786926187; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OR/NeAT70AXkJxV5qLrjC7wfN9T2B+VjuoviUV573+o=;
+        b=HRm+KE59rV30z9muzdAdxTyn3eBZrfpPobNe0M3GMF33GCklr9uhnOB4qUSciKNzSD
+         ckZmU4vB72VrxCgHh09hJmVjssHwi3cyN6e2N90wzYxddpM/VWjAl/NZzS1JNR24VGTr
+         0WZeFRSEqr6E66FDU29i2QQ+hMc97prgKc9VFyE8jJ42SMwDjx4VB/pkCtsgQgMzLhD6
+         +UtqyIqec36cDG3xMehZm5LY8FdGviUfaaWjSR/EdYSIKDdWwpgpzb0jOR4rdXE7CWna
+         ouUbrG8EuMZTUvJVYPm0w3KI+LAhqjRUU9KQFSc0FtdqSF4vbOGZJ/NZZ/I4TCI45+By
+         b8IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786321327; x=1786926127;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=GIwUV2G5B82ttz4RR5yrvVeCGMbentO5f3paTcE0lv8=;
-        b=p/oA5N6DluS7QxLqsTybZqHQY1vkRflvvq3CxzC6AG6Q1mazixqbvxTyHM9BUEBGRh
-         4ip5r6AD9hvv+I6AeNNdFWG0MsgXwbWsEn76hvWg8RHG18+5fK8GyTWSVZJL1JQQ6vDi
-         uEwWUEpZdkw7CXNBeAojQ/rpdmH4HSkdlXFDQ0wnXFHzYqOiXp1D1qJmh21rhJZ8fNFq
-         dYtW4pQD+QOSbJzZWAaNjhY13N1SMoTkXughEFR5htsdVfd0hKM9MZpgo0442pdyKf+Q
-         ZGsdIlgaIS3HFu2yNg6t0A8d2W06Bz8cKgE10k57gNwBIH2X4fK8BecbCK4C+Pb10rmu
-         TJNg==
-X-Forwarded-Encrypted: i=1; AHgh+Rry4wmBnj8XKHb9XNtZYd5qaH6yfRi6Qh58zjDaOrXvuijvK8DoC3opKN/xwZ6Y6nbbPGsi0bAunr07jALU@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz3wT0OwonOI2F8IA0EnrQJVRbuuN47bE4qDZ7GCpXZW3Xso/p
-	cghZ41q8GlAxG33nemISz8wk6beUuogSmo73G3hg2HfDtvxFu/Bd+Kciv7DDdZ6wu+o=
-X-Gm-Gg: AR+sD12noVS4jB7MCAOax59fR6hb0YICFyTVrq0cC3ArUtY1v/DORf//8qTbO9wFQly
-	uW36WC0qxhA4IG56K5ttXL5GFrhci8ikwbk5QMwmKGBAF/wBZ+5oJkJ7GEOYEmOGGttpyfUrmkl
-	peKBJ7muBMIr0+ws5kMP3xcBNRQhkDjDcZnSjisbhc8KKUaKL3tCojczpvYEbpwTQk/1nrNgCmT
-	0d00G1BXonjswy2hbT7zlJAMwfkem3vHDOX/wDXNgdrY7x89TF++JDHg940uIjr44eE8Zk9HM0C
-	DEYYkPsozjk1+sw+pIAGDAytgKQx3rN+7bRFsflvfb1eAi63vuA05b+nd16oEFKiEP+iH/Eh+P0
-	HUQs4oyhtbPmj9uglfc5ZcqD0rVlFhslw9p6QalV3p+f15LaWVg3PcRL2ZVHuXNi/CdCxvSQ5iG
-	cy/HjpRLXCo0YY4xC0A5z8+sg7IOtXHBObQVplv3pnr5bCqW3+k3wB7FyOq8JkxVdCRpOAxNOrP
-	vm6UdTKfReR/r+HGDGL0n5cK4LFUg/Bb8TirPyShfX0YMHYXtgG3eUtfTuaYDtNtWXRyOnye55E
-	mY0pk5x9HSP4zhBB
-X-Received: by 2002:a05:690c:b85:b0:81e:6cd1:5329 with SMTP id 00721157ae682-8202275ac60mr231650537b3.34.1786321327387;
-        Sun, 09 Aug 2026 17:22:07 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:c24:25ad:39a6:33c1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-823f098ec15sm47191317b3.15.2026.08.09.17.22.04
+        d=1e100.net; s=20251104; t=1786321387; x=1786926187;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OR/NeAT70AXkJxV5qLrjC7wfN9T2B+VjuoviUV573+o=;
+        b=NNDz3b2+UI73zuy9OLK1AC8crZ56hfry8RPLNVfgDvpWC+E7QnOMJnQf74hND/IFL9
+         ySdbEWzRi/BRT/doIEQKpEzSKoJXMCjKg0Fh/5McAgPni+lzhyT75ecx4CSrcqst0jK1
+         eeNDdTe1RBUnAYXcK9IYbfrhXufVQLGXHqqzDCR3nUpJvdgkYBHb7qCRr6EHz/+Q5HtC
+         F93SJtxg+E46UZIEIT6lj+JSDKSWESp5ZEUExjiBiysmxv++ZASh8IVJVvfORMweJfIh
+         78EhqSt0x+r66ipLwRnvL0k5/6CGF9Icbe6Ims+gDi/w/D1cfnNIYPpBQ760aiDb5W7I
+         omtA==
+X-Gm-Message-State: AOJu0Yx/65YUQe/I88WqRVLuNY92NECWoavEgYeJHL16SG2sLFnKfNet
+	BzxaGZxF+/jvcjrzBUBB7BZ3u6BqfCieTh4cviPPb0ztl4y7R5qM06Rt
+X-Gm-Gg: AR+sD13Accz5vZ6hhsYjbWsIkokE5Qum6XCXGi5pYoYWqnSKcicIvMzVMX7kjP7BsAE
+	Bam1VsyzHSxMT5VdB82n5AcVj+gLYnCPidzWFnrj6PC6lP/fBZ90B9PCGWdAPjcrLaa/LFsBeyk
+	COTw2zj8YmBlhtl/haWAMLcwpTfNpR4BohqoH4bhGMwn3mRpOOnzxCvFiAAjXhA/ocJMB9i0VIz
+	S9jpX0lfW6rL4nu+djfml9nh09aoLq3IGUCco4Ps0f/oRD8ARtMFYq/wyF3qxws9WRi3e9CtSH4
+	tTCLPlZR5H6nDFdh0CcSQUHdDilPs/ccursre9iJQYNlm3KwSjlw9/hSumH2iFJdTBPqjhWS3uX
+	yLgSzh+01TpLExap+8OuyaS7+HedmtBZyDFTgIiJufdyEt60yrNFRrkDFAweM0qX4YO3/gqFNv8
+	EEzJz4TveJt1A80dPbH6xa3QwzOuG1yUNJDpETgCFJq1LFSUBHFAdq3LkZIEzvktdQyVrc0ijpu
+	AfxdO/4
+X-Received: by 2002:a05:6a00:2d9a:b0:848:70dd:f5a9 with SMTP id d2e1a72fcca58-84f4fee2fd9mr26312460b3a.38.1786321387379;
+        Sun, 09 Aug 2026 17:23:07 -0700 (PDT)
+Received: from v4bel ([58.123.110.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f753b7dacsm1248234b3a.41.2026.08.09.17.23.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 17:22:05 -0700 (PDT)
-Message-ID: <0720c3ba6399c11a0a328e8d8eef99a19e6999c8.camel@dubeyko.com>
-Subject: Re: [PATCH v6] hfsplus: validate B-tree record offset table
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com, vdubeyko@coreweave.com
-Date: Sun, 09 Aug 2026 17:22:03 -0700
-In-Reply-To: <CANypQFZ-kejru9P3D7rvCzDp5hP-xqM9okq7LpiHEobbU=oQpw@mail.gmail.com>
-References: <ee23d8f65b44586d6b630bec295fd581a6be1160.camel@dubeyko.com>
-	 <20260806073358.1184938-1-r772577952@gmail.com>
-	 <cbd7003314c530d4f910eacf019ff80adad6687e.camel@dubeyko.com>
-	 <CANypQFZ-kejru9P3D7rvCzDp5hP-xqM9okq7LpiHEobbU=oQpw@mail.gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        Sun, 09 Aug 2026 17:23:06 -0700 (PDT)
+Date: Mon, 10 Aug 2026 09:23:01 +0900
+From: Hyunwoo Kim <imv4bel@gmail.com>
+To: viro@zeniv.linux.org.uk, brauner@kernel.org, tglx@kernel.org,
+	mingo@redhat.com, peterz@infradead.org, dave@stgolabs.net,
+	andrealmeid@igalia.com, akpm@linux-foundation.org, david@kernel.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, imv4bel@gmail.com
+Subject: [PATCH v2] futex: Keep the PI owner of a private futex in the key's
+ mm
+Message-ID: <ankZ5euBcxDo0-Zq@v4bel>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gU2F0LCAyMDI2LTA4LTA4IGF0IDIyOjUwICswODAwLCBKaWFtaW5nIFpoYW5nIHdyb3RlOgo+
-ID4gCgo8c2tpcHBlZD4KCj4gPiBJJ3ZlIHJlYWxpemVkIHRoYXQgd2UgaGF2ZSBhZGRpdGlvbmFs
-IGlzc3VlIGluIEhGUysgbG9naWMuCj4gPiBQb3RlbnRpYWxseSwKPiA+IGtleWxlbiBhbmQgbGVu
-IGNvdWxkIGJlIG5vdCBpbnZhbGlkIGJ1dCB3ZSBjb3VsZCBoYXZlIG5lZ2F0aXZlCj4gPiB2YWx1
-ZQo+ID4gbGF0ZXIgaW4gdGhlIGxvZ2ljOgo+ID4gCj4gPiBkb25lOgo+ID4gwqDCoMKgwqDCoMKg
-wqAgZmQtPnJlY29yZCA9IGU7Cj4gPiDCoMKgwqDCoMKgwqDCoCBmZC0+a2V5b2Zmc2V0ID0gb2Zm
-Owo+ID4gwqDCoMKgwqDCoMKgwqAgZmQtPmtleWxlbmd0aCA9IGtleWxlbjsKPiA+IMKgwqDCoMKg
-wqDCoMKgIGZkLT5lbnRyeW9mZnNldCA9IG9mZiArIGtleWxlbjsKPiA+IMKgwqDCoMKgwqDCoMKg
-IGZkLT5lbnRyeWxlbmd0aCA9IGxlbiAtIGtleWxlbjsgPC0tIG5lZ2F0aXZlIHZhbHVlIGhlcmUu
-Cj4gPiAKPiA+IFRoZSBuZWdhdGl2ZSB2YWx1ZSBvZiBmZC0+ZW50cnlsZW5ndGggaXMgY2hlY2tl
-ZCBpbiBtdWx0aXBsZQo+ID4gcGxhY2VzLgo+ID4gSG93ZXZlciwgdGhlcmUgaXMgZXh0ZW50cyB0
-cmVlIGxvZ2ljIHRoYXQgaGFzIG5vIHN1Y2ggY2hlY2sgWzFdOgo+ID4gCj4gPiBzdGF0aWMgaW50
-IF9faGZzcGx1c19leHRfd3JpdGVfZXh0ZW50KHN0cnVjdCBpbm9kZSAqaW5vZGUsCj4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGhmc19maW5kX2RhdGEgKmZkKQo+ID4g
-ewo+ID4gPHNraXBwZWQ+Cj4gPiAKPiA+IMKgwqDCoMKgwqDCoMKgIH0gZWxzZSB7Cj4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHJlcykKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJlczsKPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBoZnNfYm5vZGVfd3JpdGUoZmQtPmJub2RlLCBoaXAtPmNhY2hl
-ZF9leHRlbnRzLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZmQtPmVudHJ5b2Zmc2V0LCBmZC0+ZW50cnlsZW5ndGgpOwo+
-ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhpcC0+ZXh0ZW50X3N0YXRlICY9IH5I
-RlNQTFVTX0VYVF9ESVJUWTsKPiA+IMKgwqDCoMKgwqDCoMKgIH0KPiA+IAo+ID4gPHNraXBwZWQ+
-Cj4gPiB9Cj4gPiAKPiA+IENvdWxkIHlvdSBwbGVhc2UgZG91YmxlIGNoZWNrIG15IGNvbmNsdXNp
-b24/IFdlIGNhbiBmaXggdGhlIGlzc3VlCj4gPiBpbgo+ID4gYW5vdGhlciBwYXRjaC4gQ291bGQg
-eW91IHBsZWFzZSBmaXggdGhlIGlzc3VlPwo+ID4gCj4gCj4gSSBhZ3JlZSB3aXRoIHlvdXIgY29u
-Y2x1c2lvbi4gQSBjcmFmdGVkIGltYWdlIGNhbiBrZWVwIGJvdGggbGVuIGFuZAo+IGtleWxlbiB2
-YWxpZCBidXQgbWFrZSBmZC0+ZW50cnlsZW5ndGggbmVnYXRpdmUgKGkuZS4ga2V5bGVuID4gbGVu
-KSwKPiB3aGljaCBtYXkgbGVhZCB0byBvdXQtb2YtYm91bmQgcmVhZCBhbmQga2VybmVsIG1lbW9y
-eSBsZWFraW5nLgo+IAo+IFRvIGZpeCB0aGlzIGlzc3VlLCB3ZSBjYW4gY2hlY2sgdmFsaWRpdHkg
-b2YgZmQtPmVudHJ5bGVuZ3RoIGluCj4gX19oZnNwbHVzX2V4dF93cml0ZV9leHRlbnQoKSBsaWtl
-IHRoZSBjaGVjayBpbgo+IF9faGZzcGx1c19leHRfcmVhZF9leHRlbnQoKS4gRm9yIGV4YW1wbGU6
-Cj4gCj4gZGlmZiAtLWdpdCBhL2ZzL2hmc3BsdXMvZXh0ZW50cy5jIGIvZnMvaGZzcGx1cy9leHRl
-bnRzLmMKPiBpbmRleCA4MTNlNjhiOGVjZDYuLmViN2MxMTUyNGQxOCAxMDA2NDQKPiAtLS0gYS9m
-cy9oZnNwbHVzL2V4dGVudHMuYwo+ICsrKyBiL2ZzL2hmc3BsdXMvZXh0ZW50cy5jCj4gQEAgLTEx
-MCw2ICsxMTAsOCBAQCBzdGF0aWMgaW50IF9faGZzcGx1c19leHRfd3JpdGVfZXh0ZW50KHN0cnVj
-dAo+IGlub2RlICppbm9kZSwKPiDCoMKgwqDCoMKgwqDCoCB9IGVsc2Ugewo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmVzKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJlczsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBpZiAoZmQtPmVudHJ5bGVuZ3RoICE9IHNpemVvZihoZnNwbHVzX2V4dGVudF9yZWMp
-KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
-LUVJTzsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZzX2Jub2RlX3dyaXRlKGZk
-LT5ibm9kZSwgaGlwLT5jYWNoZWRfZXh0ZW50cywKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmZC0+ZW50cnlvZmZzZXQsIGZk
-LT5lbnRyeWxlbmd0aCk7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhpcC0+ZXh0
-ZW50X3N0YXRlICY9IH5IRlNQTFVTX0VYVF9ESVJUWTsKPiAKPiBEbyB5b3UgdGhpbmsgdGhpcyBm
-aXggaXMgYWNjZXB0YWJsZT8gSWYgc28sIEknbSBoYXBweSB0byBzZW5kIGFub3RoZXIKPiBwYXRj
-aC4KPiAKCkFzIGZhciBhcyBJIGNhbiBzZWUsIHRoZSBmaXggbWFrZXMgc2Vuc2UuCgpUaGFua3Ms
-ClNsYXZhLgo=
+The futex word read by the FUTEX_LOCK_PI operations can hold an arbitrary
+TID. For the task looked up by that TID, attach_to_pi_owner() only checks
+whether it is a kernel thread and whether it is already exiting. It does
+not verify that the task belongs to the address space the futex key was
+taken from.
+
+A private futex key is the pair (mm, address), and the mm is stored as a
+plain pointer without taking a reference. __attach_to_pi_owner() copies
+that key into the pi_state by value and links the pi_state onto the
+owner's futex.pi_state_list. The pi_state can therefore hold a key of an
+mm which is not the owner's, either because the TID named a task in
+another mm to begin with, or because exec_mmap() installs a new mm on the
+owner after the attach. de_thread() runs before exec_mmap(), so the waiter
+in the latter case is not a thread but a sibling that only shares the mm.
+
+When the owner exits, exit_pi_state_list() pins the private hash of the
+owner's mm with guard(private_hash)(current->mm), but resolves the hash
+bucket from the key stored in the pi_state, which points at the waiter's
+mm (M below). The stored key holds no reference on M, and
+futex_hash_free() does not look at the fph references still outstanding.
+
+  T1 (waiter, CLONE_VM sibling)     T2 (owner, mm = M -> new_mm)
+
+  clone(CLONE_VM)   // creates M's private hash
+
+                                 execve()
+                                   exec_mmap()
+                                     exec_mm_release()
+                                       futex_exec_release()  // STATE_OK
+
+  futex_lock_pi()
+    attach_to_pi_owner()   // p->mm == key->private.mm
+      pi_state->key = *key   // {M, addr}
+      list_add(&pi_state->list, &T2->futex.pi_state_list)
+
+                                     tsk->mm = new_mm
+                                 do_exit()
+                                   exit_pi_state_list()
+                                     guard(private_hash)(current->mm)
+                                     key = pi_state->key   // M
+                                     CLASS(hbr, hbr)(&key)
+                                     hb = hbr.hb           // +refcount
+
+  do_exit()
+    exit_mm()
+      mmput(M)
+        __mmput(M)
+          futex_hash_free(M)
+            kvfree(fph)
+
+                                     spin_lock(&hb->lock)  // UAF
+
+A private futex only has meaning inside the mm its key was taken from.
+Verify in attach_to_pi_owner() that the candidate owner belongs to the mm
+of the private key and return -ESRCH otherwise, as the TID is then simply
+a bogus user space value. p->mm is not protected by p->pi_lock, so it is
+read with READ_ONCE(), and the check is placed after the exit state check.
+That check alone does not stop exec, so futex_exec_release() is split into
+begin/end to keep FUTEX_STATE_EXITING set until the mm has been swapped.
+An attach in that window gets -EBUSY, retries, and then fails the check
+against the new mm. Fixing only one of the two leaves the same
+use-after-free reachable through the other path.
+
+Fixes: 80367ad01d93 ("futex: Add basic infrastructure for local task local hash")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+---
+Changes in v2:
+- Also keep FUTEX_STATE_EXITING set across the whole exec transition. v1 only
+validated at attach time, and a successful execve() invalidates that
+afterwards, so the same use-after-free stayed reachable with v1 alone.
+futex_exec_release() is split into begin/end, and every exec_mmap() unwind
+calls the end half.
+- Rewrite the commit message to cover both paths.
+- v1: https://lore.kernel.org/all/angLZrg_1yeCW0ig@v4bel/
+---
+ fs/exec.c             | 7 ++++++-
+ include/linux/futex.h | 8 ++++++--
+ kernel/fork.c         | 2 +-
+ kernel/futex/core.c   | 8 +++++++-
+ kernel/futex/pi.c     | 7 +++++++
+ 5 files changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index c7b8f2d6366c44..42eb98fbd12593 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -65,6 +65,7 @@
+ #include <linux/io_uring.h>
+ #include <linux/syscall_user_dispatch.h>
+ #include <linux/coredump.h>
++#include <linux/futex.h>
+ #include <linux/time_namespace.h>
+ #include <linux/user_events.h>
+ #include <linux/rseq.h>
+@@ -857,8 +858,10 @@ static int exec_mmap(struct linux_binprm *bprm)
+ 	exec_mm_release(tsk, old_mm);
+ 
+ 	ret = down_write_killable(&tsk->signal->exec_update_lock);
+-	if (ret)
++	if (ret) {
++		futex_exec_release_end(tsk);
+ 		return ret;
++	}
+ 
+ 	if (old_mm) {
+ 		/*
+@@ -869,6 +872,7 @@ static int exec_mmap(struct linux_binprm *bprm)
+ 		ret = mmap_read_lock_killable(old_mm);
+ 		if (ret) {
+ 			up_write(&tsk->signal->exec_update_lock);
++			futex_exec_release_end(tsk);
+ 			return ret;
+ 		}
+ 	}
+@@ -896,6 +900,7 @@ static int exec_mmap(struct linux_binprm *bprm)
+ 		local_irq_enable();
+ 	lru_gen_add_mm(mm);
+ 	task_unlock(tsk);
++	futex_exec_release_end(tsk);
+ 	lru_gen_use_mm(mm);
+ 	if (old_mm) {
+ 		mmap_read_unlock(old_mm);
+diff --git a/include/linux/futex.h b/include/linux/futex.h
+index 51f4ccdc909272..324f49493cbb43 100644
+--- a/include/linux/futex.h
++++ b/include/linux/futex.h
+@@ -72,7 +72,10 @@ static inline void futex_init_task(struct task_struct *tsk)
+ 
+ void futex_exit_recursive(struct task_struct *tsk);
+ void futex_exit_release(struct task_struct *tsk);
+-void futex_exec_release(struct task_struct *tsk);
++void futex_exec_release_begin(struct task_struct *tsk)
++	__acquires(&tsk->futex.exit_mutex);
++void futex_exec_release_end(struct task_struct *tsk)
++	__releases(&tsk->futex.exit_mutex);
+ 
+ long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
+ 	      u32 __user *uaddr2, u32 val2, u32 val3);
+@@ -90,7 +93,8 @@ static inline int futex_hash_free(struct mm_struct *mm) { return 0; }
+ static inline void futex_init_task(struct task_struct *tsk) { }
+ static inline void futex_exit_recursive(struct task_struct *tsk) { }
+ static inline void futex_exit_release(struct task_struct *tsk) { }
+-static inline void futex_exec_release(struct task_struct *tsk) { }
++static inline void futex_exec_release_begin(struct task_struct *tsk) { }
++static inline void futex_exec_release_end(struct task_struct *tsk) { }
+ static inline long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
+ 			    u32 __user *uaddr2, u32 val2, u32 val3)
+ {
+diff --git a/kernel/fork.c b/kernel/fork.c
+index f0e2e131a9a5af..d2736b24ff7520 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1510,7 +1510,7 @@ void exit_mm_release(struct task_struct *tsk, struct mm_struct *mm)
+ 
+ void exec_mm_release(struct task_struct *tsk, struct mm_struct *mm)
+ {
+-	futex_exec_release(tsk);
++	futex_exec_release_begin(tsk);
+ 	mm_release(tsk, mm);
+ }
+ 
+diff --git a/kernel/futex/core.c b/kernel/futex/core.c
+index 128c5752f225c2..a920dfbd0390d5 100644
+--- a/kernel/futex/core.c
++++ b/kernel/futex/core.c
+@@ -1539,7 +1539,8 @@ static void futex_cleanup_end(struct task_struct *tsk, int state)
+ 	mutex_unlock(&tsk->futex.exit_mutex);
+ }
+ 
+-void futex_exec_release(struct task_struct *tsk)
++void futex_exec_release_begin(struct task_struct *tsk)
++	__acquires(&tsk->futex.exit_mutex)
+ {
+ 	/*
+ 	 * The state handling is done for consistency, but in the case of
+@@ -1550,6 +1551,11 @@ void futex_exec_release(struct task_struct *tsk)
+ 	 */
+ 	futex_cleanup_begin(tsk);
+ 	futex_cleanup(tsk);
++}
++
++void futex_exec_release_end(struct task_struct *tsk)
++	__releases(&tsk->futex.exit_mutex)
++{
+ 	/*
+ 	 * Reset the state to FUTEX_STATE_OK. The task is alive and about
+ 	 * exec a new binary.
+diff --git a/kernel/futex/pi.c b/kernel/futex/pi.c
+index 795011ea1202f1..d97611196b34ac 100644
+--- a/kernel/futex/pi.c
++++ b/kernel/futex/pi.c
+@@ -465,6 +465,13 @@ static int attach_to_pi_owner(u32 __user *uaddr, u32 uval, union futex_key *key,
+ 		return ret;
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_MMU) && futex_key_is_private(key) &&
++	    READ_ONCE(p->mm) != key->private.mm) {
++		raw_spin_unlock_irq(&p->pi_lock);
++		put_task_struct(p);
++		return -ESRCH;
++	}
++
+ 	__attach_to_pi_owner(p, key, ps);
+ 	raw_spin_unlock_irq(&p->pi_lock);
+ 
+-- 
+2.43.0
 
