@@ -1,113 +1,124 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71DE3F9F45
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 14:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786372647; cv=pass; b=kkVmq6vQxYEAglfXgKzpiGI4FaZZJ3I6ie+Ze4xs2UGrlctHhczs482skYar347V5aKZKReKEu5r5UJqW0U+/sOyL/F3WuxpNTRu7l8TgMJMq0+DSN5p+ka+yhvRr6HO/h+OtvAq1URuxhA08Elo5Z8e9MQ8okATuMobLAU1LkU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786372647; c=relaxed/simple;
-	bh=1TOh47GuX2DYZgrLBuHx9ZqIJlL5qlbKX0nFvU4QG8Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D/XYqpreRUN89ktFZMScO17pLVh7rqAGIUB4h/Ja35iDJGiWrVx0yIHflgi331R2mA0kMxlFWLZKIPH+KGKtJQpWMNWfYmll9dMRDr7Sh+hEAdw9gJvmOPX8uSYspNlmKxMwT+XVIxW3rOFRSMvaJPCz7F3WM1Qn84OHEno4EsM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=BnjWOSSE; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4023F39CB;
+	Mon, 10 Aug 2026 14:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786373164; cv=none; b=BXWWdEps3bTd+v728REG23xhriwIQ3zzYItovtl9jOw4k6mEK62J2P06XfyGtMLtS6sSVK4wdIRoaNl3EHQJT8wQJfEy4tfphRZtHd1BpcZ9rA2wmU8uTuMY/mLdkzaVskOr1B7niLzAgKtAGAfeTZQ6ZdF4oRSp5NOBsa4wmrA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786373164; c=relaxed/simple;
+	bh=ubvtpYsrYWmH9jz19PeR1V+LHbnbiyhArbvyhk7FgDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ji5KCxvlfjVjq1AlBeXVOLm6F6RAKaT6gVPXXaY27HafDmGu8uU6Oh53emRzAvsFVuxiItWEaOrvHKLmTjsc9XqgBLEUFIKab2e/FRSnAl9ZcJNjYBWY7oS72eeW9Wm6KbXTMtLnVDC1vcCIhUySR4H/MmK2HvSFFBiQ7g627VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZjlpOaxc; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="BnjWOSSE"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-9063b380982so22034626d6.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 07:37:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786372644; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oYS9C8v6+ftaig0zUKjwEN11kU2B6sU0wnsyaSvhcI8ix1U7ll1GVhfT19VWRYJNWD
-         I812uws9UkGdHHt/o9342hIfkK0oU3him8FcMUYEAR0oDvVaC0eYm6iAu+9bFr7QiFTz
-         bBCmTNU7VFCDvzdl15/n1x9ZAllZJQ/AQpeQi6HGGEjKiajk0bvWFDCaufq206/GjHMR
-         xTHxOsqyCxFyi169g4HsBOxEPeLWhI4FJF4gHbiyQMy29kYJE9JuoK3nQ1knVrhrAiiX
-         LgFOlTE320H1ykdSvBtV258nSBoSv0oJcttmTeinFHjFYdd5ezAsCSXvJX9A4nNP4Qky
-         S3sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=N9K6RvXQXpCBgnaYxLabarFuImKKDVr9pRNexvL1dnw=;
-        fh=1sgIdUow/zL+YnufEoL9jRDxYRwLjbf0zN8bHyq0I4k=;
-        b=Lfo4GRVzcpmo6OXBNnKhZiTrNscC0tDAKgrsArRXdGfSnPUjbemu3Cx/vPqSOWh82K
-         C5uK3Ls7NcUpm3mBJo5Mi1AlxdZjsyXHtojRb21Zs51jCMBa64Bx0RIMyQQ40JCHSQ1Z
-         FJbsljyFArl3YahK0yK26icvmBYCMo7D644jRoVXbD4Od2CH5doUq0xW7RYFZNUQXvhF
-         ym3qBxvYClang+krxrt6mOGTKnjsc0qkeCQb8TQJUU0FYdpdStmBpcex9z51pbSg9jiP
-         Ubq8TpxjCo7q/+1nZ2ua2647wGIp8VswjXquSoFWgs0hpqrN39Bmz+4LEFPDe3tTFvhJ
-         3xYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1786372644; x=1786977444; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N9K6RvXQXpCBgnaYxLabarFuImKKDVr9pRNexvL1dnw=;
-        b=BnjWOSSEvEzWJR5J14cWubjkTZghiLwSDr8kJW4rvp0BwKy+nI2ukNW8e93CAslQWz
-         oCQhP/5/uCvPqx210NpA5dAr7YKD1Po/1H7JGoWx0owTdLfkUjN6DLKhHhLpSAH2I+iI
-         vgQcsTPjEjbabHAo6lj8yF/WExkf+DhpOI64s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786372644; x=1786977444;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=N9K6RvXQXpCBgnaYxLabarFuImKKDVr9pRNexvL1dnw=;
-        b=fdp7NuXIn3do0BEfs2L7NAWXp0mdws60OWVvTbMgJhHYoyDgJvYc84cpMfo03HIR78
-         0DX8mLfxvP24bN2Jlfq9YsFtwvyCXac3BqilOZCC7neMTyBwZpqJa4Q8zFCBUcVk4zAs
-         BGbHInb0DI2uJSu5HTebeuHJISKXZEFZmdaB6xj4xmcX4qP5hJ7EQa043md1gxym3VyG
-         fiS05TZ5gfKUjjezP/6s4O3BljBuXgCjTuyM5jmZ3TJkIS3slxy+Ch7+Hvd5+jzB89zu
-         z9tkgeNgEJsuomxiDBf4Khb8317KPzlH5KxvYUdGs15l6FhFyZneXeOl9w2atrKaLxot
-         09RQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqXPLqTZZ0jWhaKOGfNuE0R+/pmZZdUEtWdki+BWuX8rSMRSCpA/Fdeu+3o2VGeHWMnH+dy2Mu4WymagQxh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze1T/G1zF7zoAAOb6F3fTE9pLSTn2JwOCbRVNhlvvl6xlHFItk
-	/g2uQPvVju8oTIL5kVEuJ4fReQkbmJm3EvBhhYRB30RIUZfKTG2w0bJbLbg7Vb8O8CfMynFeDpn
-	NzjcHsXd6q/5yT39Hoj+oOnN5hZbxI+U14AZ3P+EPaw==
-X-Gm-Gg: AR+sD11zexv80AsKEp2NvOG5SlkUCMG7j2+d4Nw1jyCs10SZlH6xEXmutVne5fGMWeK
-	DLhLFkPN0+Bv/GmVl94WKua2+iPKHnAXgivWLNpqiu5uX9c4rCDxtxzMB1oVrb5698+a6urupUT
-	gjJRFOkdY4YE9S47ZyKhL6hezDU6H2X+Kpn585XqbP4QJha31aXbua02mYvEz+YYy10Qq33dQST
-	LKJZUja1PoIRWqZt5EbUW90OkQD1nrAKPvIFO7nuRpkUe4NhMNcbvhDrw8gnqU4F9ltXs6Lzmyr
-	hAId6zjWqzddLOzsz+5VujxBxMx0z+4d/7FJstD7dV2TS92KYwDNLqMZDPPrDVzeOTAvTPnk71F
-	wlZinmivlQg==
-X-Received: by 2002:a05:6214:20ef:b0:8ee:f531:4de4 with SMTP id
- 6a1803df08f44-90a5dfa37c0mr27777156d6.13.1786372644393; Mon, 10 Aug 2026
- 07:37:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZjlpOaxc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=1Lmb88p+cpryq5HXWLXRKXYmtZimwxaBhgeOhNY3PzE=; b=ZjlpOaxcjkG2f9OfkwELBNEzTf
+	ggKbF5B/67GpDWQrfUEvvWOm6N35oevLeRO+6030iJHPj2PMWXpaVJNv2DIyP+hoYeHLmSGhctapb
+	XIWAc93R4BkxMMeHs/qT7cJ04hcrL1srn8hMzvbpo27fVKLTPh9o17t71xQv1LzenM628CCqDIVCM
+	0PPEM3Fzl2tBQIgkvF7VFgp+VT6O6s/c5dYBFz1uP5ISwD07DTcy8DmnF5TwTbrxwV4pvYGuhKH0v
+	XX+DTw51mufx9Ucgtu6kXV8a8QyxeZIQAMXvdBM9tD4QHFcET45iUo8jbR02cL5G8JYBbwoWtRyNV
+	sLfeSgLw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wtRFt-0000000C3l2-13Nj;
+	Mon, 10 Aug 2026 14:45:35 +0000
+Date: Mon, 10 Aug 2026 07:45:33 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@infradead.org>, Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Dave Chinner <dgc@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Hillf Danton <hdanton@sina.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: RWF_DONTCACHE regression fix for xfs
+Message-ID: <annkDbhXBEeMoNVT@infradead.org>
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803012648.2195405-1-neilb@ownmail.net> <20260803012648.2195405-5-neilb@ownmail.net>
-In-Reply-To: <20260803012648.2195405-5-neilb@ownmail.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 10 Aug 2026 16:37:13 +0200
-X-Gm-Features: AUfX_mwDV5L6hLfp08WK2RA4_U7t0g-kBuPpgpA2dBgLwUCWyqeJ369EboEHc-4
-Message-ID: <CAJfpegv2TTEGgfFBvAB1j2ixyEMXruG0AhL=R9iMC-LMJToiAg@mail.gmail.com>
-Subject: Re: [PATCH v1 04/12] fsnotify: reduce i_lock hold time in fsnotify_set_children_dentry_flags()
-To: NeilBrown <neil@brown.name>
-Cc: Ian Kent <raven@themaw.net>, Chuck Lever <cel@kernel.org>, Jake Edge <jake@lwn.net>, 
-	Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, autofs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 3 Aug 2026 at 03:39, NeilBrown <neilb@ownmail.net> wrote:
+Below is Tal's suggested fixup for xfs with the whitespace damage fixeѕ.
+It should probably be attributed to Tal instead.  Can you handled it
+from here and send it to Jens with your signoff/authorship to avoid
+the performance regression in XFS?
 
-> +       /* Find the dentry for inode - there can only be one */
-> +       for_each_alias(alias, inode)
-> +               break;
-> +       dget(alias);
+From: Christoph Hellwig <hch@lst.de>
+Subject: xfs: avoid double deferrals for RWF_DONTCACHE writes
 
-This is __d_find_dir_alias().
+XFS already defers some writes to a workqueue when transactions are
+needed to process the I/O completion.  Disable the block layer bio
+task completion in this case to avoid a major performance drop.
 
-Could add a get_dir_alias() primitive that does the i_lock locking as well?
+Fixes: efbde6f9f449 ("iomap: use BIO_COMPLETE_IN_TASK for dropbehind writeback")
+---
+ fs/xfs/xfs_aops.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-Thanks,
-Miklos
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index f73e26d9c9f9..059846a8d65c 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -372,10 +372,14 @@ xfs_writeback_submit(
+ 	}
+ 
+ 	/*
+-	 * Send ioends that might require a transaction to the completion wq.
++	 * Send ioends that might require a transaction to the completion wq,
++	 * and disable the block layer task completion for them as there is no
++	 * need to defer twice.
+ 	 */
+-	if (xfs_ioend_needs_wq_completion(ioend))
++	if (xfs_ioend_needs_wq_completion(ioend)) {
+ 		ioend->io_bio.bi_end_io = xfs_end_bio;
++		bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
++	}
+ 
+ 	return iomap_ioend_writeback_submit(wpc, error);
+ }
+@@ -481,7 +485,14 @@ xfs_zoned_writeback_submit(
+ {
+ 	struct iomap_ioend		*ioend = wpc->wb_ctx;
+ 
++	/*
++	 * Defer all completions to our workqueue as all zoned writes require a
++	 * transaction to be persisted.  This also means we never need the block
++	 * layer in-task completion for a task context.
++	 */
+ 	ioend->io_bio.bi_end_io = xfs_end_bio;
++	bio_clear_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
++
+ 	if (error) {
+ 		ioend->io_bio.bi_status = errno_to_blk_status(error);
+ 		bio_endio(&ioend->io_bio);
+-- 
+2.53.0
+
