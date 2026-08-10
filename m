@@ -1,252 +1,115 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714294052C9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 16:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786379131; cv=pass; b=uFlSltvXUxGteWtuKeC3VHVHj/V+KUVZLz99vz+ZFsBn286vbURBwfGz4HZbNvy+WNZQLXQAz013oKjalvvlpbafpn4JIVMNPVh/C9i1kfkRCv9v/vEVxyWcZZ9hT6/o3Q2f2vi4NEKxU4vmgyw30HVjP0BJHpPWMefhuDc+Wq0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786379131; c=relaxed/simple;
-	bh=vvgNKu9uyv9I5R9kHg2ihehIkxNH8NosNyyy4+wPpsc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dmfo1QAuAZWsgJuQq32JHaNG3eICI9kuCbXvLRL7Slc6qx8m4iX0WUDAcLl0Q8kWCHx8bx1l0n7DEDbY2VU+y0yZm5y8BE52hqkPFuiNAldRoeMp4pYZRtpIM65ZAO7MVGt1MFt0bvSG4hFSOqIjp6xvyKi/mYB+CQs/d0fzL4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cnSX4srl; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F446426D2B;
+	Mon, 10 Aug 2026 16:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786379693; cv=none; b=nyaPITvp2eFvd0H6wwfE/D3HWgpmZuc85I529aK2Y0dVtvmeJVGnXbsZIymLBV8W2RmcrxBEOjA+0y3oY3jR8m71YkJKUZS/5DQeiXOVjv3JfXI32EElHQ68SnZdc2HMYkEm2/B0G1Tf+JPnKNtr+EzxqJzwPS57wK12SrOlLek=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786379693; c=relaxed/simple;
+	bh=1n5weGA3xtEKw6UG7igLss/eE5+zLKS9ArDekgYueoI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tiy0FWKnDKQNlLIwnJEodK6xQl8HW/buJGHVM1IHj/ePoGfxshK8KuzWr4uRukRctQkj9XfwJEKa8tCJlqHYvpTn+o4k0tdiUO3R2nPSVH0NoEGulam3aTruMxHqqJiPK+gjDmc6wTU2KWoSN1DhFJTYNmRRSz2cUF6bYi9TXwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=wuedhpCe; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cnSX4srl"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c10e86e52so429251cf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 09:25:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786379128; cv=none;
-        d=google.com; s=arc-20260327;
-        b=n1inUr9TvqpjoMw45yV6uTmV4Xu7wvdxYRuSj67+3IO2RYxDujgvcIwDovVcudG1FN
-         fB1yGtrN9YhLbRogeoQd62qbrqXbZ3NDYiiCH+u639ATrdjfOnqzCOOcUNIOX8CL7lce
-         +ukoNDsjtPr7sdMII48BjBgZpCje6mFF5e72cc1oKeskS3mCVoySPyrS+daj0ojXE5W3
-         jBdKNCsnsBT4I42ryviDjLuXsyOe2d2cPiDRwmhLz79Pr6c9xl+hMyfMU6OlTqDMt1cm
-         c1IzY2xgNitVyrJJ3bezS0BkXs2McRoIa3oM8MfTzA8mNc58mSZpGsSOp0Zvv7KmHNw2
-         MHcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oQBA7RZMWG8pbHKGdFOSfTUai8Qp0mhMLH3fVjxyT/A=;
-        fh=+p64dYaf2MTIVg2XsM7oMjQwrGB0CR0k6P3Rx/rAaDc=;
-        b=L8R5ZzKS9/pJLsq+YARDwJHgsKfgmjShcK11PnQnCws6fPbSYkcsHK154aebUi1wiC
-         Rmoe2rzrY/W8+PMTpu707Dj0+zs6Hk8cywmMLCQ9KvyDWNwa8fC+yHcm7vsNhC7FitiC
-         ggnex8q6mtqDkSIcjjl8rxyKm/gG6hx4OxkZmIj5iw5KuZZTeYwaM27ar0DLuVpnibBB
-         7c/w9Y/+MCTWyqa/Z0mr7n/u8tYr0UAjp5C4LApU/KK2TAuh4n2GKOKR/mBgAzRP1cfM
-         EMkzxSksCRNoJka6mYDBUCORVndDEOF9Ych6ccdTEVrD7czBFVPIIY62niA+MgIzwSux
-         YTeQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786379128; x=1786983928; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oQBA7RZMWG8pbHKGdFOSfTUai8Qp0mhMLH3fVjxyT/A=;
-        b=cnSX4srljyHNxtz8+ebQsbPLVxspqfpoIqSLmsWAildeeNYgXoHZa7KGoAxUyX77W8
-         D4KguptuceXODwM8sSDS3p0s/amPy4tk+0ZFSm55MxazfgCDZe3PeT+WxElOCjKq6roJ
-         r4vSyIRR9ejNSjq49zaOp9cMSJmbiSZC3WBoxA53w7seEAZpUaGyTpMnkkdcP1xyK+wX
-         VYAwX8Auqw00xcAkHeGfaFPwoYNXnXXfhtwyP1COxg5ltXdanflWeA8lr2oOomNqfTA1
-         Hwi7+82yfHl6cT+dEZ5OgCgY09gNanMzX3aOPmbj/3VwMfiwJkmXH1dCPDhOCNdC48cZ
-         8Vpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786379128; x=1786983928;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oQBA7RZMWG8pbHKGdFOSfTUai8Qp0mhMLH3fVjxyT/A=;
-        b=Sb6wfE/B1vsCbl+63e9vuFR9xoZBMVUHKfVk75zFvVQhKblMcRUeR+9OkDn++bHazF
-         /CMYsdAqPXkESuSVLmDzwbluMH3+9bnjr6ZSt+Lf9KAY8Q1v1mh9aVo/ruvw2hiKELz1
-         /LAz6snpmr1dmhcYqSaed1qY4wGk2uiK7MnQLGsW45fCuDL+BhElNMxODlOSVtEMBWIY
-         6MEDEvg+e2QvvSDd9jf8xqyPOHhZqUx76cxFQQVedmQ/jbwomwh1GwAGIvNiAtbwHyfH
-         yicgt39/oEB13Y7XWyi52Urttv1p7OyN+6WrRRZVdCBaF1lWUYnMj4/t7BM5IZCZfwkK
-         VTAg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2zT8BXeadzqpz6wKQ06I85FdzOT2VTpR4SWQqrEQCTLXn4eikhOMbV04HET7UQnbzRSwlsxKKBR7etLh4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6egdmUcGZxYCmqSNI38IZ/LVZOBZ8zCKn6xtf1i5dCSikq0g1
-	WQCIFvtMLC2l0zkpWaYp9ERIAc8R6wU+4o6AY9S8IC5t49SC17jRK8Ueym/a9BdCulAzjpgJfb7
-	leoQOTPVox4A4QhiFeqYlpLu2YZXkZIxBuO4/o3H1
-X-Gm-Gg: AR+sD10cvsMkK6GzKVi8LiaOZiOoSDrMBjtNC78kG+xmqVRYfirZtvPbZWjbKQNk1Pc
-	V2qoSiLGJ5N7a921QZzhevmbkiMpai5so3qAo08MFIN6jxQh9vDZk+q7a9/5v/+h1FRD2++enFh
-	x66Oq70P3TQ/hLAyfhE9ojW3Hke8r5PkEpAla2S+npzWY9qFb6fsmQjlS8q4Vm7hqLJ0kpFMjON
-	l/dR7F6A3bPr68CxgiAmNeY5VwwyhjT60ll07iELD8dnfrLta29/cOsVspmd6Klzcc4fR72FeXD
-	BVnb0mYZ+69V+zvjoh/2TDvrh0ZbX1Artu0EIkLliMc=
-X-Received: by 2002:a05:622a:1b06:b0:516:3f51:81cb with SMTP id
- d75a77b69052e-52d2817b938mr34999921cf.13.1786379127554; Mon, 10 Aug 2026
- 09:25:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="wuedhpCe"
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4hJgMT3mvLz1XM30j;
+	Mon, 10 Aug 2026 16:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1786379677; x=1788971678; bh=GA+WLiTlvjArbsYCWEM0t+Rl
+	0HCxi12K1ZGpQe+GWcs=; b=wuedhpCelYOQX8TPOIHXkV5XLSVA1UJyIgx33s5G
+	5lryYVaJasvQZFr5DJRF4ipPBcwUQnCnA3r48yAA1QGh3FRvUGX7j0QBAx42zeJ6
+	TloGPaoDshk2iyFKL8yWCAT47Sst0fLEV5LKKQpc2xaF99DBA0tuQvNSlT0QqL/x
+	WyB+VnkUwOIHwz79BGCUVJynMCK76wCGRkiPhgNOYnQsF0mD6GiMvLdeAUU+3S9v
+	qdopmSEe1npfMEOQhjLGtEEogYPxMLRAyR+IxoczkjSg2qWzBwa1bk3ySusLkBI1
+	AFtjcUEygrtdZcIdKwwvZivpC+Q7OPp4O3WI6Z/oyHHJVg==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id sk6PZJJKqySN; Mon, 10 Aug 2026 16:34:37 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2e3b:8:bf02:1d5:26f3:7213] (unknown [104.135.204.235])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4hJgMG2MbTz1XM30h;
+	Mon, 10 Aug 2026 16:34:34 +0000 (UTC)
+Message-ID: <ff74edb1-43c7-485f-ab78-ec13b500a0bb@acm.org>
+Date: Mon, 10 Aug 2026 09:34:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
- <20260806-b4-scalable-cow-virt-pgoff-v4-3-ab318a350404@kernel.org>
- <CAJuCfpGjE66Duhw0r8H0GKBFDExjroRar6n5MgVOOQjz4ZfTuA@mail.gmail.com> <anmNojqwGzdiLkIm@lucifer>
-In-Reply-To: <anmNojqwGzdiLkIm@lucifer>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 10 Aug 2026 09:25:16 -0700
-X-Gm-Features: AUfX_mz9WU1SPgoH6YTV3DTKwNKGMKFcURK6j4M8chTMyTH0jJu5GwZ0wv2wrtI
-Message-ID: <CAJuCfpHtaeeqn9UbnG1U0iA8uhrcQpEG8g8+G_RybVbwoOE0sA@mail.gmail.com>
-Subject: Re: [PATCH v4 03/20] mm: introduce linear_anon_page_index()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] f2fs: quiesce background threads during system suspend
+ using PM notifier
+To: Christoph Hellwig <hch@infradead.org>, Daeho Jeong <daeho43@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ kernel-team@android.com, Daeho Jeong <daehojeong@google.com>,
+ linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org
+References: <20260806170108.2100312-1-daeho43@gmail.com>
+ <ann0OPPglToV_hjs@infradead.org>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ann0OPPglToV_hjs@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 10, 2026 at 1:40=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
->
-> On Sat, Aug 08, 2026 at 05:49:48PM -0700, Suren Baghdasaryan wrote:
-> > On Thu, Aug 6, 2026 at 1:23=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kerne=
-l.org> wrote:
-> > >
-> > > This function provides the anonymous equivalent of linear_page_index(=
-),
-> > > instead offsetting based on the anonymous page offset of the VMA.
-> > >
-> > > It is valid only for anonymous or MAP_PRIVATE file-backed mappings, i=
-n
-> > > other words CoW mappings.
-> > >
-> > > For pure anon VMAs, this will be equal to linear_page_index().
-> > >
-> > > Assert that both of these invariants are true In linear_anon_page_ind=
-ex()
-> >
-> > s/In/in
->
-> Ack. I ran these patches through claude several times and it didn't get t=
-his ;)
-> the machines are not taking over just yet...
->
-> Andrew - could you change this in-place? Thanks!
->
-> > > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> > > index c6fc783aaee5..0adfa6605653 100644
-> > > --- a/include/linux/pagemap.h
-> > > +++ b/include/linux/pagemap.h
-> > > @@ -1094,10 +1094,44 @@ static inline pgoff_t linear_page_delta(const=
- struct vm_area_struct *vma,
-> > >  static inline pgoff_t linear_page_index(const struct vm_area_struct =
-*vma,
-> > >                                         const unsigned long address)
-> > >  {
-> > > -       pgoff_t pgoff;
-> > > +       return linear_page_delta(vma, address) + vma_start_pgoff(vma)=
-;
-> > > +}
-> > > +
-> > > +static inline pgoff_t __linear_anon_page_index(const struct vm_area_=
-struct *vma,
-> > > +               const unsigned long address)
-> > > +{
-> > > +       return linear_page_delta(vma, address) + vma_start_anon_pgoff=
-(vma);
-> > > +}
-> > > +
-> > > +/**
-> > > + * linear_anon_page_index() - Determine the absolute anonymous page =
-offset of
-> > > + * @address within @vma.
-> > > + * @vma: An anonymous or MAP_PRIVATE file-backed VMA in which @addre=
-ss resides.
-> > > + * @address: The address whose absolute page offset is required.
-> > > + *
-> > > + * This returns the anonymous page offset of @address, which is the =
-page offset
-> > > + * the address possessed at the time the VMA was first faulted.
-> > > + *
-> > > + * For anonymous mappings, this returns the same value as linear_pag=
-e_index().
-> > > + *
-> > > + * For MAP_PRIVATE file-backed mappings, this returns the anonymous =
-page offset
-> > > + * of @address, which is the page offset the address possessed at th=
-e time the
-> > > + * VMA was first faulted.
-> > > + *
-> > > + * It is not valid to call this function for shared file-backed mapp=
-ings.
-> > > + *
-> > > + * Returns: The absolute anonymous page offset of @address within @v=
-ma.
-> > > + */
-> > > +static inline pgoff_t linear_anon_page_index(const struct vm_area_st=
-ruct *vma,
-> > > +               const unsigned long address)
-> > > +{
-> > > +       const pgoff_t pgoff =3D __linear_anon_page_index(vma, address=
-);
-> > > +
-> > > +       VM_WARN_ON_ONCE(!vma_is_cow_mapping(vma));
-> >
-> > As discussed off the list, this assertion works even for read-only
-> > anon mappings because, as you said, "there's no such thing as a pure
-> > anon mapping that is !VMA_MAYWRITE_BIT, there is no way to achieve
-> > that."
-> > It took me some time to see that after reading your discussion with
-> > David at [1] and [2], and I don't think it's very intuitive. Could you
-> > please add a comment explaining that? Maybe add a comment at
-> > vma_is_cow_mapping() definition since you are using the same assertion
-> > in another patch of this series?
->
-> Sure will do! It is very confusing stuff (and I was duly confused also at
-> first).
->
-> To save a respin (unless there's more stuff I need to address) I will pro=
-bably
-> reply to the relevant patch with a proposed new comment.
+On 8/10/26 8:54 AM, Christoph Hellwig wrote:
+> On Thu, Aug 06, 2026 at 10:01:08AM -0700, Daeho Jeong wrote:
+>> From: Daeho Jeong <daehojeong@google.com>
+>>
+>> During system suspend, a race condition can cause f2fs_gc and f2fs_discard
+>> threads to call submit_bio() while the underlying block device (e.g., UFS)
+>> is in Runtime PM suspend. Because Runtime PM worker threads are already
+>> frozen during task freezing, the threads become trapped in
+>> __bio_queue_enter() waiting on mq_freeze_wq, leading to a PM freezer
+>> timeout.
+> 
+> That does sound like a general issue with our block device / threading
+> handling.
 
-Sounds good!
+Daeho's description above mixes up unrelated topics. A runtime suspended 
+UFS device is resumed automatically by the block layer if necessary. The
+issue Daeho is trying to solve is unrelated to runtime suspend according
+to my understanding.
 
->
-> >
-> > [1] https://lore.kernel.org/linux-mm/anBjpdMicqaGADr-@lucifer/
-> > [2] https://lore.kernel.org/linux-mm/anLyhaI6kW-EWk13@lucifer/
->
-> --
-> Cheers, Lorenzo
+>> To prevent this deadlock, register a PM notifier to set SBI_IS_SUSPENDING
+>> during PM_SUSPEND_PREPARE. Background GC and discard threads check this
+>> flag and immediately stop issuing new bios, allowing them to enter a
+>> freezable sleep state cleanly before process freezing begins.
+>>
+>> In addition, check freezing() as a fast path to stop issuing new I/O
+>> when non-PM freezing (e.g. dm-snapshot or cgroup freezer) is requested.
+> 
+> .. which means that we really sould have all the relevant parties
+> invited into figuring out whast is happening here, rather than
+> band-aiding something that looks like a horrible hack inside a
+> file system.
+> 
+> Unfortunately I see this a lot with f2fs.  Please reach out to all
+> relevant maintainers for something that does not look strictly local
+> to f2fs.
+
+This information was shared earlier with Daeho 
+(https://b.corp.google.com/issues/515470309#comment45): [ ... ]
+Register a Freezable Kernel Thread (Recommended) [ ... ]
+Why this works: During suspend, freezer stops freezable kernel threads 
+before devices and block queues enter their PM suspend phases. When the 
+queue freezes later, your thread is already safely sleeping in 
+try_to_freeze() and will not attempt submit_bio(). [ ... ]
+
+PS: I'm no longer subscribed to the f2fs-devel mailing list.
+
+Bart.
