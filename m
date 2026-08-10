@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D9A426402
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 14:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F46426435
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 14:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786373464; cv=none; b=VKx18ebQCEglx2XsnICjOdk/yWi+ntugkW/hFq0RV8TnGRKZIRtF11Az3igIeTw5eM1qEjG2q7Wu1Gk7TPxasHA5iYy/BX99LgMAH+o429hn61QslCwxixA6iX1254p1iJu+gejrgR9LdqFuouSHFDVNmeypO/MNYlj/6QOOf0A=
+	t=1786373464; cv=none; b=Zo5tvhFaI6r24tP6F6PoGev0UoywcuAQgrEq7cOK/6aOLG9asPIIUsBG9NcEif7C6wAfgydyFKgIrdFI05AVq7cPSxJIZUgETX3MY4UHab3/y2AMQQEEBuL9kKPt5LphdEdAs2qP8b3UQ8O0iIaeE1x8gBiEUlhuUBe5zIB7pmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786373464; c=relaxed/simple;
-	bh=SYupTjLvS/TEO7GcNP4j+RsP+NBsTzURw4yVrL+bwOk=;
+	bh=SnzjxGr1ObfiTgSytLIaFvqJ/IwqyuWS+JU0aTT4udI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mgXUMppp4cmk+4n15JW5QP4uenAgROVHQQY1CfiBtdCSB4iFLKJ3K47zmxiNEEl5svagK6H6MkqhAi73Uj50s5vSMtjsFsk5hJSkYOWytz4y4/VjroEUxwKJ/4IFlkkPDloxlWcn/fVZlEAdb4T4eKqeeDNUNl4kMWz4GnRfLws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PYigQTf4; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=CtsVP4oNlBH6LW6QAEDo6CWKjnpBgBIN7le3CPyXlV6rYQbq310q3YOzzHkUBt8lAd9VK0Li7gW0iFcTxcVqeZ+L/wv/bETCTVKYtemb2FCAcuqV9EanGdXtwVgVWQ5vVUzEjCH9HFXlQ1PfvuVjfDqWo3l8HZ72JyFDXeNn/9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CU9yqAnx; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PYigQTf4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CU9yqAnx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786373459;
+	s=mimecast20190719; t=1786373461;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PnIiN/RkqBQ3gUjObVfTybOaq4fU3P77LFE4LGLh24E=;
-	b=PYigQTf4vrG+RXoF4XYBiOkzXBLYaG1wq8+R+R3SgCW4DEcCRpm3wDFW5MKz0/HKTvnXXM
-	EM3Y39AST2VyFN8Q3QXAkbBbrDgDi9JDLfR7QeQGZ1UnorQYIbH4KLoXjzewZ6gt/dWh2K
-	qTZexK9wkRCuU/yLslNHe54VRvYZJ9k=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=udHRs2kiVLjRbFuKm2bh/PWrtXgxwRv6a82qPQRXBLQ=;
+	b=CU9yqAnxeDUi9Ff22/F4ClOBGiG9h++VNsdTGZVjUYoUzFEC5gAp4+qUt+lQc6Ayft5oij
+	3mBMbF075HFUVvWTqt1F2jsRGqWoTuRDGYP+WpC1RijlWjqXJeaxamAHIJ+IU7qEuGJqCz
+	3+ttwX+9xzFtOnhTq6Z3BGb6vrE6CgI=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-497-zGgXAvLzOZiri60acITZMQ-1; Mon,
- 10 Aug 2026 10:50:57 -0400
-X-MC-Unique: zGgXAvLzOZiri60acITZMQ-1
-X-Mimecast-MFC-AGG-ID: zGgXAvLzOZiri60acITZMQ_1786373454
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-682-Xf3BcEd6NH-L5r-srgiW6g-1; Mon,
+ 10 Aug 2026 10:49:48 -0400
+X-MC-Unique: Xf3BcEd6NH-L5r-srgiW6g-1
+X-Mimecast-MFC-AGG-ID: Xf3BcEd6NH-L5r-srgiW6g_1786373385
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9552419560AE;
-	Mon, 10 Aug 2026 14:50:54 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5413C18002C0;
+	Mon, 10 Aug 2026 14:49:45 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.32.44])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 66B2519560AB;
-	Mon, 10 Aug 2026 14:50:48 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8DDB01800346;
+	Mon, 10 Aug 2026 14:49:39 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>,
 	Matthew Wilcox <willy@infradead.org>,
@@ -66,9 +66,9 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-erofs@lists.ozlabs.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 22/26] netfs: Remove folio_queue and rolling_buffer
-Date: Mon, 10 Aug 2026 15:47:39 +0100
-Message-ID: <20260810144746.574036-23-dhowells@redhat.com>
+Subject: [PATCH v9 13/26] netfs: Remove the writethrough code
+Date: Mon, 10 Aug 2026 15:47:30 +0100
+Message-ID: <20260810144746.574036-14-dhowells@redhat.com>
 In-Reply-To: <20260810144746.574036-1-dhowells@redhat.com>
 References: <20260810144746.574036-1-dhowells@redhat.com>
 Precedence: bulk
@@ -78,1189 +78,397 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Remove folio_queue and rolling_buffer as they're no longer used.
+Remove the netfs writethrough code as it's very tricky to get the locking
+right and it will probably deadlock if used in conjunction with Ceph snapshots
+because it excludes writeback for the duration, but to flush out old
+snapshots, it does a synchronous flush that invokes writeback.
+
+Instead, O_SYNC writes do a flush after performing the write - which is
+already there as the callers of netfs_perform_write() all call
+generic_write_sync().
 
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
 cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: Steve French <sfrench@samba.org>
-cc: linux-cifs@vger.kernel.org
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- Documentation/core-api/folio_queue.rst      | 209 --------------
- Documentation/core-api/index.rst            |   1 -
- Documentation/filesystems/netfs_library.rst |   2 +-
- fs/netfs/internal.h                         |   1 -
- fs/netfs/iterator.c                         | 192 -------------
- fs/netfs/main.c                             |   1 -
- fs/netfs/rolling_buffer.c                   | 301 --------------------
- include/linux/folio_queue.h                 | 282 ------------------
- include/linux/netfs.h                       |   2 -
- include/linux/rolling_buffer.h              |  64 -----
- kernel/bpf/btf.c                            |   2 -
- 11 files changed, 1 insertion(+), 1056 deletions(-)
- delete mode 100644 Documentation/core-api/folio_queue.rst
- delete mode 100644 fs/netfs/rolling_buffer.c
- delete mode 100644 include/linux/folio_queue.h
- delete mode 100644 include/linux/rolling_buffer.h
+ fs/9p/vfs_addr.c             |   1 -
+ fs/afs/file.c                |   1 -
+ fs/netfs/buffered_write.c    |  56 ++-----------------
+ fs/netfs/internal.h          |   7 ---
+ fs/netfs/main.c              |   1 -
+ fs/netfs/stats.c             |   4 +-
+ fs/netfs/write_collect.c     |   2 -
+ fs/netfs/write_issue.c       | 104 +----------------------------------
+ include/linux/netfs.h        |   1 -
+ include/trace/events/netfs.h |   8 +--
+ 10 files changed, 9 insertions(+), 176 deletions(-)
 
-diff --git a/Documentation/core-api/folio_queue.rst b/Documentation/core-api/folio_queue.rst
-deleted file mode 100644
-index b7628896d2b6..000000000000
---- a/Documentation/core-api/folio_queue.rst
-+++ /dev/null
-@@ -1,209 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0+
--
--===========
--Folio Queue
--===========
--
--:Author: David Howells <dhowells@redhat.com>
--
--.. Contents:
--
-- * Overview
-- * Initialisation
-- * Adding and removing folios
-- * Querying information about a folio
-- * Querying information about a folio_queue
-- * Folio queue iteration
-- * Folio marks
-- * Lockless simultaneous production/consumption issues
--
--
--Overview
--========
--
--The folio_queue struct forms a single segment in a segmented list of folios
--that can be used to form an I/O buffer.  As such, the list can be iterated over
--using the ITER_FOLIOQ iov_iter type.
--
--The publicly accessible members of the structure are::
--
--	struct folio_queue {
--		struct folio_queue *next;
--		struct folio_queue *prev;
--		...
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index 1ac0b3dcc077..2129fcb0f65c 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -124,7 +124,6 @@ static int v9fs_init_request(struct netfs_io_request *rreq, struct file *file)
+ 	struct p9_fid *fid;
+ 	struct dentry *dentry;
+ 	bool writing = (rreq->origin == NETFS_READ_FOR_WRITE ||
+-			rreq->origin == NETFS_WRITETHROUGH ||
+ 			rreq->origin == NETFS_UNBUFFERED_WRITE ||
+ 			rreq->origin == NETFS_DIO_WRITE);
+ 
+diff --git a/fs/afs/file.c b/fs/afs/file.c
+index 0467742bfeee..3617c245f319 100644
+--- a/fs/afs/file.c
++++ b/fs/afs/file.c
+@@ -400,7 +400,6 @@ static int afs_init_request(struct netfs_io_request *rreq, struct file *file)
+ 		}
+ 		break;
+ 	case NETFS_WRITEBACK:
+-	case NETFS_WRITETHROUGH:
+ 	case NETFS_UNBUFFERED_WRITE:
+ 	case NETFS_DIO_WRITE:
+ 		if (S_ISREG(rreq->inode->i_mode))
+diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
+index 2cdb68e6b16f..39f00b326e0f 100644
+--- a/fs/netfs/buffered_write.c
++++ b/fs/netfs/buffered_write.c
+@@ -91,44 +91,14 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 	struct inode *inode = file_inode(file);
+ 	struct address_space *mapping = inode->i_mapping;
+ 	struct netfs_inode *ctx = netfs_inode(inode);
+-	struct writeback_control wbc = {
+-		.sync_mode	= WB_SYNC_NONE,
+-		.for_sync	= true,
+-		.nr_to_write	= LONG_MAX,
+-		.range_start	= iocb->ki_pos,
+-		.range_end	= iocb->ki_pos + iter->count,
 -	};
--
--A pair of pointers are provided, ``next`` and ``prev``, that point to the
--segments on either side of the segment being accessed.  Whilst this is a
--doubly-linked list, it is intentionally not a circular list; the outward
--sibling pointers in terminal segments should be NULL.
--
--Each segment in the list also stores:
--
-- * an ordered sequence of folio pointers,
-- * the size of each folio and
-- * three 1-bit marks per folio,
--
--but these should not be accessed directly as the underlying data structure may
--change, but rather the access functions outlined below should be used.
--
--The facility can be made accessible by::
--
--	#include <linux/folio_queue.h>
--
--and to use the iterator::
--
--	#include <linux/uio.h>
--
--
--Initialisation
--==============
--
--A segment should be initialised by calling::
--
--	void folioq_init(struct folio_queue *folioq);
--
--with a pointer to the segment to be initialised.  Note that this will not
--necessarily initialise all the folio pointers, so care must be taken to check
--the number of folios added.
--
--
--Adding and removing folios
--==========================
--
--Folios can be set in the next unused slot in a segment struct by calling one
--of::
--
--	unsigned int folioq_append(struct folio_queue *folioq,
--				   struct folio *folio);
--
--	unsigned int folioq_append_mark(struct folio_queue *folioq,
--					struct folio *folio);
--
--Both functions update the stored folio count, store the folio and note its
--size.  The second function also sets the first mark for the folio added.  Both
--functions return the number of the slot used.  [!] Note that no attempt is made
--to check that the capacity wasn't overrun and the list will not be extended
--automatically.
--
--A folio can be excised by calling::
--
--	void folioq_clear(struct folio_queue *folioq, unsigned int slot);
--
--This clears the slot in the array and also clears all the marks for that folio,
--but doesn't change the folio count - so future accesses of that slot must check
--if the slot is occupied.
--
--
--Querying information about a folio
--==================================
--
--Information about the folio in a particular slot may be queried by the
--following function::
--
--	struct folio *folioq_folio(const struct folio_queue *folioq,
--				   unsigned int slot);
--
--If a folio has not yet been set in that slot, this may yield an undefined
--pointer.  The size of the folio in a slot may be queried with either of::
--
--	unsigned int folioq_folio_order(const struct folio_queue *folioq,
--					unsigned int slot);
--
--	size_t folioq_folio_size(const struct folio_queue *folioq,
--				 unsigned int slot);
--
--The first function returns the size as an order and the second as a number of
--bytes.
--
--
--Querying information about a folio_queue
--========================================
--
--Information may be retrieved about a particular segment with the following
--functions::
--
--	unsigned int folioq_nr_slots(const struct folio_queue *folioq);
--
--	unsigned int folioq_count(struct folio_queue *folioq);
--
--	bool folioq_full(struct folio_queue *folioq);
--
--The first function returns the maximum capacity of a segment.  It must not be
--assumed that this won't vary between segments.  The second returns the number
--of folios added to a segments and the third is a shorthand to indicate if the
--segment has been filled to capacity.
--
--Not that the count and fullness are not affected by clearing folios from the
--segment.  These are more about indicating how many slots in the array have been
--initialised, and it assumed that slots won't get reused, but rather the segment
--will get discarded as the queue is consumed.
--
--
--Folio marks
--===========
--
--Folios within a queue can also have marks assigned to them.  These marks can be
--used to note information such as if a folio needs folio_put() calling upon it.
--There are three marks available to be set for each folio.
--
--The marks can be set by::
--
--	void folioq_mark(struct folio_queue *folioq, unsigned int slot);
--	void folioq_mark2(struct folio_queue *folioq, unsigned int slot);
--
--Cleared by::
--
--	void folioq_unmark(struct folio_queue *folioq, unsigned int slot);
--	void folioq_unmark2(struct folio_queue *folioq, unsigned int slot);
--
--And the marks can be queried by::
--
--	bool folioq_is_marked(const struct folio_queue *folioq, unsigned int slot);
--	bool folioq_is_marked2(const struct folio_queue *folioq, unsigned int slot);
--
--The marks can be used for any purpose and are not interpreted by this API.
--
--
--Folio queue iteration
--=====================
--
--A list of segments may be iterated over using the I/O iterator facility using
--an ``iov_iter`` iterator of ``ITER_FOLIOQ`` type.  The iterator may be
--initialised with::
--
--	void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
--				  const struct folio_queue *folioq,
--				  unsigned int first_slot, unsigned int offset,
--				  size_t count);
--
--This may be told to start at a particular segment, slot and offset within a
--queue.  The iov iterator functions will follow the next pointers when advancing
--and prev pointers when reverting when needed.
--
--
--Lockless simultaneous production/consumption issues
--===================================================
--
--If properly managed, the list can be extended by the producer at the head end
--and shortened by the consumer at the tail end simultaneously without the need
--to take locks.  The ITER_FOLIOQ iterator inserts appropriate barriers to aid
--with this.
--
--Care must be taken when simultaneously producing and consuming a list.  If the
--last segment is reached and the folios it refers to are entirely consumed by
--the IOV iterators, an iov_iter struct will be left pointing to the last segment
--with a slot number equal to the capacity of that segment.  The iterator will
--try to continue on from this if there's another segment available when it is
--used again, but care must be taken lest the segment got removed and freed by
--the consumer before the iterator was advanced.
--
--It is recommended that the queue always contain at least one segment, even if
--that segment has never been filled or is entirely spent.  This prevents the
--head and tail pointers from collapsing.
--
--
--API Function Reference
--======================
--
--.. kernel-doc:: include/linux/folio_queue.h
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 13769d5c40bf..16c529a33ac4 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -39,7 +39,6 @@ Library functionality that is used throughout the kernel.
-    kref
-    cleanup
-    assoc_array
--   folio_queue
-    xarray
-    maple_tree
-    idr
-diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-index ddd799df6ce3..18e3c3aae57c 100644
---- a/Documentation/filesystems/netfs_library.rst
-+++ b/Documentation/filesystems/netfs_library.rst
-@@ -449,7 +449,7 @@ be called from the writeback code to write the data to the cache, if there is
- one.
+-	struct netfs_io_request *wreq = NULL;
+-	struct folio *folio = NULL, *writethrough = NULL;
++	struct folio *folio = NULL;
+ 	unsigned int bdp_flags = (iocb->ki_flags & IOCB_NOWAIT) ? BDP_ASYNC : 0;
+-	ssize_t written = 0, ret, ret2;
++	ssize_t written = 0, ret;
+ 	loff_t pos = iocb->ki_pos;
+ 	size_t max_chunk = mapping_max_folio_size(mapping);
+ 	bool maybe_trouble = false;
  
- The inode should be marked ``NETFS_ICTX_SINGLE_NO_UPLOAD`` if this API is to be
--used.  The writeback function requires the buffer to be of ITER_FOLIOQ type.
-+used.
+-	if (unlikely(iocb->ki_flags & (IOCB_DSYNC | IOCB_SYNC))
+-	    ) {
+-		wbc_attach_fdatawrite_inode(&wbc, mapping->host);
+-
+-		ret = filemap_write_and_wait_range(mapping, pos, pos + iter->count);
+-		if (ret < 0) {
+-			wbc_detach_inode(&wbc);
+-			goto out;
+-		}
+-
+-		wreq = netfs_begin_writethrough(iocb, iter->count);
+-		if (IS_ERR(wreq)) {
+-			wbc_detach_inode(&wbc);
+-			ret = PTR_ERR(wreq);
+-			wreq = NULL;
+-			goto out;
+-		}
+-		if (!is_sync_kiocb(iocb))
+-			wreq->iocb = iocb;
+-		netfs_stat(&netfs_n_wh_writethrough);
+-	} else {
+-		netfs_stat(&netfs_n_wh_buffered_write);
+-	}
++	netfs_stat(&netfs_n_wh_buffered_write);
  
- High-Level VM API
- ==================
+ 	do {
+ 		enum netfs_folio_trace trace;
+@@ -390,15 +360,8 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 		pos += copied;
+ 		written += copied;
+ 
+-		if (likely(!wreq)) {
+-			folio_mark_dirty(folio);
+-			folio_unlock(folio);
+-		} else {
+-			netfs_advance_writethrough(wreq, &wbc, folio, copied,
+-						   offset + copied == flen,
+-						   &writethrough);
+-			/* Folio unlocked */
+-		}
++		folio_mark_dirty(folio);
++		folio_unlock(folio);
+ 	retry:
+ 		folio_put(folio);
+ 		folio = NULL;
+@@ -420,15 +383,6 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			ctx->ops->post_modify(inode);
+ 	}
+ 
+-	if (unlikely(wreq)) {
+-		ret2 = netfs_end_writethrough(wreq, &wbc, writethrough);
+-		wbc_detach_inode(&wbc);
+-		if (ret2 == -EIOCBQUEUED)
+-			return ret2;
+-		if (ret == 0 && ret2 < 0)
+-			ret = ret2;
+-	}
+-
+ 	iocb->ki_pos += written;
+ 	_leave(" = %zd [%zd]", written, ret);
+ 	return written ? written : ret;
 diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index 667d18911949..315b02f5fa67 100644
+index c68eea2ecc60..5aea8d34adcf 100644
 --- a/fs/netfs/internal.h
 +++ b/fs/netfs/internal.h
-@@ -45,7 +45,6 @@ extern spinlock_t netfs_proc_lock;
- extern mempool_t netfs_request_pool;
- extern mempool_t netfs_subrequest_pool;
- extern mempool_t netfs_bvecq_pool;
--extern mempool_t netfs_folioq_pool;
+@@ -156,7 +156,6 @@ extern atomic_t netfs_n_rh_write_zskip;
+ extern atomic_t netfs_n_rh_retry_read_req;
+ extern atomic_t netfs_n_rh_retry_read_subreq;
+ extern atomic_t netfs_n_wh_buffered_write;
+-extern atomic_t netfs_n_wh_writethrough;
+ extern atomic_t netfs_n_wh_dio_write;
+ extern atomic_t netfs_n_wh_writepages;
+ extern atomic_t netfs_n_wh_copy_to_cache;
+@@ -216,12 +215,6 @@ void netfs_issue_write(struct netfs_io_request *wreq,
+ size_t netfs_advance_write(struct netfs_io_request *wreq,
+ 			   struct netfs_io_stream *stream,
+ 			   loff_t start, size_t len, bool to_eof);
+-struct netfs_io_request *netfs_begin_writethrough(struct kiocb *iocb, size_t len);
+-int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+-			       struct folio *folio, size_t copied, bool to_page_end,
+-			       struct folio **writethrough_cache);
+-ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+-			       struct folio *writethrough_cache);
  
- #ifdef CONFIG_PROC_FS
- static inline void netfs_proc_add_rreq(struct netfs_io_request *rreq)
-diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-index 499516ba6399..271ede100746 100644
---- a/fs/netfs/iterator.c
-+++ b/fs/netfs/iterator.c
-@@ -158,195 +158,3 @@ ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pag
- 
- }
- EXPORT_SYMBOL_GPL(netfs_extract_iter);
--
--#if 0
--/*
-- * Select the span of a bvec iterator we're going to use.  Limit it by both maximum
-- * size and maximum number of segments.  Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_bvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct bio_vec *bvecs = iter->bvec;
--	unsigned int nbv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_bvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nbv && skip) {
--		len = bvecs[ix].bv_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nbv) {
--		len = min3(n, bvecs[ix].bv_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a kvec iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  Returns the size of the span
-- * in bytes.
-- */
--static size_t netfs_limit_kvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct kvec *kvecs = iter->kvec;
--	unsigned int nkv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_kvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nkv && skip) {
--		len = kvecs[ix].iov_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nkv) {
--		len = min3(n, kvecs[ix].iov_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of an xarray iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  It is assumed that segments
-- * can be larger than a page in size, provided they're physically contiguous.
-- * Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_xarray(const struct iov_iter *iter, size_t start_offset,
--				 size_t max_size, size_t max_segs)
--{
--	struct folio *folio;
--	unsigned int nsegs = 0;
--	loff_t pos = iter->xarray_start + iter->iov_offset;
--	pgoff_t index = pos / PAGE_SIZE;
--	size_t span = 0, n = iter->count;
--
--	XA_STATE(xas, iter->xarray, index);
--
--	if (WARN_ON(!iov_iter_is_xarray(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = min(max_size, n - start_offset);
--
--	rcu_read_lock();
--	xas_for_each(&xas, folio, ULONG_MAX) {
--		size_t offset, flen, len;
--		if (xas_retry(&xas, folio))
--			continue;
--		if (WARN_ON(xa_is_value(folio)))
--			break;
--		if (WARN_ON(folio_test_hugetlb(folio)))
--			break;
--
--		flen = folio_size(folio);
--		offset = offset_in_folio(folio, pos);
--		len = min(max_size, flen - offset);
--		span += len;
--		nsegs++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--	}
--
--	rcu_read_unlock();
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a folio queue iterator we're going to use.  Limit it by
-- * both maximum size and maximum number of segments.  Returns the size of the
-- * span in bytes.
-- */
--static size_t netfs_limit_folioq(const struct iov_iter *iter, size_t start_offset,
--				 size_t max_size, size_t max_segs)
--{
--	const struct folio_queue *folioq = iter->folioq;
--	unsigned int nsegs = 0;
--	unsigned int slot = iter->folioq_slot;
--	size_t span = 0, n = iter->count;
--
--	if (WARN_ON(!iov_iter_is_folioq(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = umin(max_size, n - start_offset);
--
--	if (slot >= folioq_nr_slots(folioq)) {
--		folioq = folioq->next;
--		slot = 0;
--	}
--
--	start_offset += iter->iov_offset;
--	do {
--		size_t flen = folioq_folio_size(folioq, slot);
--
--		if (start_offset < flen) {
--			span += flen - start_offset;
--			nsegs++;
--			start_offset = 0;
--		} else {
--			start_offset -= flen;
--		}
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--
--		slot++;
--		if (slot >= folioq_nr_slots(folioq)) {
--			folioq = folioq->next;
--			slot = 0;
--		}
--	} while (folioq);
--
--	return umin(span, max_size);
--}
--
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs)
--{
--	if (iov_iter_is_folioq(iter))
--		return netfs_limit_folioq(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_bvec(iter))
--		return netfs_limit_bvec(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_xarray(iter))
--		return netfs_limit_xarray(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_kvec(iter))
--		return netfs_limit_kvec(iter, start_offset, max_size, max_segs);
--	BUG();
--}
--EXPORT_SYMBOL(netfs_limit_iter);
--#endif
+ /*
+  * write_retry.c
 diff --git a/fs/netfs/main.c b/fs/netfs/main.c
-index 041810707eb4..5d8b87f71888 100644
+index 9f72e5054aff..3908ea2422c8 100644
 --- a/fs/netfs/main.c
 +++ b/fs/netfs/main.c
-@@ -29,7 +29,6 @@ static struct kmem_cache *netfs_subrequest_slab;
- mempool_t netfs_request_pool;
- mempool_t netfs_subrequest_pool;
- mempool_t netfs_bvecq_pool;
--mempool_t netfs_folioq_pool;
+@@ -45,7 +45,6 @@ static const char *netfs_origins[nr__netfs_io_origin] = {
+ 	[NETFS_DIO_READ]		= "DR",
+ 	[NETFS_WRITEBACK]		= "WB",
+ 	[NETFS_WRITEBACK_SINGLE]	= "W1",
+-	[NETFS_WRITETHROUGH]		= "WT",
+ 	[NETFS_UNBUFFERED_WRITE]	= "UW",
+ 	[NETFS_DIO_WRITE]		= "DW",
+ 	[NETFS_PGPRIV2_COPY_TO_CACHE]	= "2C",
+diff --git a/fs/netfs/stats.c b/fs/netfs/stats.c
+index 84c2a4bcc762..a10d34f88597 100644
+--- a/fs/netfs/stats.c
++++ b/fs/netfs/stats.c
+@@ -32,7 +32,6 @@ atomic_t netfs_n_rh_write_zskip;
+ atomic_t netfs_n_rh_retry_read_req;
+ atomic_t netfs_n_rh_retry_read_subreq;
+ atomic_t netfs_n_wh_buffered_write;
+-atomic_t netfs_n_wh_writethrough;
+ atomic_t netfs_n_wh_dio_write;
+ atomic_t netfs_n_wh_writepages;
+ atomic_t netfs_n_wh_copy_to_cache;
+@@ -59,9 +58,8 @@ int netfs_stats_show(struct seq_file *m, void *v)
+ 		   atomic_read(&netfs_n_rh_read_single),
+ 		   atomic_read(&netfs_n_rh_write_begin),
+ 		   atomic_read(&netfs_n_rh_write_zskip));
+-	seq_printf(m, "Writes : BW=%u WT=%u DW=%u WP=%u 2C=%u\n",
++	seq_printf(m, "Writes : BW=%u DW=%u WP=%u 2C=%u\n",
+ 		   atomic_read(&netfs_n_wh_buffered_write),
+-		   atomic_read(&netfs_n_wh_writethrough),
+ 		   atomic_read(&netfs_n_wh_dio_write),
+ 		   atomic_read(&netfs_n_wh_writepages),
+ 		   atomic_read(&netfs_n_wh_copy_to_cache));
+diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
+index 210eb8f3958d..2eac588e37de 100644
+--- a/fs/netfs/write_collect.c
++++ b/fs/netfs/write_collect.c
+@@ -214,7 +214,6 @@ static void netfs_collect_write_results(struct netfs_io_request *wreq)
+ 	smp_rmb();
+ 	collected_to = ULLONG_MAX;
+ 	if (wreq->origin == NETFS_WRITEBACK ||
+-	    wreq->origin == NETFS_WRITETHROUGH ||
+ 	    wreq->origin == NETFS_PGPRIV2_COPY_TO_CACHE)
+ 		notes = NEED_UNLOCK;
+ 	else
+@@ -411,7 +410,6 @@ bool netfs_write_collection(struct netfs_io_request *wreq)
+ 	switch (wreq->origin) {
+ 	case NETFS_WRITEBACK:
+ 	case NETFS_WRITEBACK_SINGLE:
+-	case NETFS_WRITETHROUGH:
+ 		netfs_wb_end(ictx);
+ 		break;
+ 	default:
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index 11f59e5a9953..f531dda7856a 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -96,7 +96,6 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
+ 	struct netfs_inode *ictx;
+ 	bool is_cacheable = (origin == NETFS_WRITEBACK ||
+ 			     origin == NETFS_WRITEBACK_SINGLE ||
+-			     origin == NETFS_WRITETHROUGH ||
+ 			     origin == NETFS_PGPRIV2_COPY_TO_CACHE);
  
- #ifdef CONFIG_PROC_FS
- LIST_HEAD(netfs_io_requests);
-diff --git a/fs/netfs/rolling_buffer.c b/fs/netfs/rolling_buffer.c
-deleted file mode 100644
-index 4e8584725b6a..000000000000
---- a/fs/netfs/rolling_buffer.c
-+++ /dev/null
-@@ -1,301 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* Rolling buffer helpers
-- *
-- * Copyright (C) 2024 Red Hat, Inc. All Rights Reserved.
-- * Written by David Howells (dhowells@redhat.com)
+ 	wreq = netfs_alloc_request(mapping, file, start, 0, origin);
+@@ -365,11 +364,7 @@ static int netfs_write_folio(struct netfs_io_request *wreq,
+ 		streamw = true;
+ 	}
+ 
+-	if (wreq->origin == NETFS_WRITETHROUGH) {
+-		to_eof = false;
+-		if (flen > i_size - fpos)
+-			flen = i_size - fpos;
+-	} else if (flen > i_size - fpos) {
++	if (flen > i_size - fpos) {
+ 		flen = i_size - fpos;
+ 		if (!streamw)
+ 			folio_zero_segment(folio, flen, fsize);
+@@ -611,103 +606,6 @@ int netfs_writepages(struct address_space *mapping,
+ }
+ EXPORT_SYMBOL(netfs_writepages);
+ 
+-/*
+- * Begin a write operation for writing through the pagecache.
 - */
--
--#include <linux/bitops.h>
--#include <linux/mempool.h>
--#include <linux/pagemap.h>
--#include <linux/rolling_buffer.h>
--#include <linux/slab.h>
--#include "internal.h"
--
--static atomic_t debug_ids;
--
--/**
-- * netfs_folioq_alloc - Allocate a folio_queue struct
-- * @rreq_id: Associated debugging ID for tracing purposes
-- * @gfp: Allocation constraints
-- * @trace: Trace tag to indicate the purpose of the allocation
-- *
-- * Allocate, initialise and account the folio_queue struct and log a trace line
-- * to mark the allocation.
-- */
--struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
--				       unsigned int /*enum netfs_folioq_trace*/ trace)
+-struct netfs_io_request *netfs_begin_writethrough(struct kiocb *iocb, size_t len)
 -{
--	struct folio_queue *fq;
+-	struct netfs_io_request *wreq = NULL;
+-	struct netfs_inode *ictx = netfs_inode(file_inode(iocb->ki_filp));
 -
--	if (gfp == GFP_KERNEL)
--		fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
--	else
--		fq = mempool_alloc(&netfs_folioq_pool, gfp);
--	if (fq) {
--		netfs_stat(&netfs_n_folioq);
--		folioq_init(fq, rreq_id);
--		fq->debug_id = atomic_inc_return(&debug_ids);
--		trace_netfs_folioq(fq, trace);
+-	netfs_wb_begin(ictx, false);
+-
+-	wreq = netfs_create_write_req(iocb->ki_filp->f_mapping, iocb->ki_filp,
+-				      iocb->ki_pos, NETFS_WRITETHROUGH);
+-	if (IS_ERR(wreq)) {
+-		netfs_wb_end(ictx);
+-		return wreq;
 -	}
--	return fq;
--}
--EXPORT_SYMBOL(netfs_folioq_alloc);
 -
--/**
-- * netfs_folioq_free - Free a folio_queue struct
-- * @folioq: The object to free
-- * @trace: Trace tag to indicate which free
-- *
-- * Free and unaccount the folio_queue struct.
-- */
--void netfs_folioq_free(struct folio_queue *folioq,
--		       unsigned int /*enum netfs_trace_folioq*/ trace)
--{
--	trace_netfs_folioq(folioq, trace);
--	netfs_stat_d(&netfs_n_folioq);
--	mempool_free(folioq, &netfs_folioq_pool);
--}
--EXPORT_SYMBOL(netfs_folioq_free);
--
--/*
-- * Initialise a rolling buffer.  We allocate an empty folio queue struct to so
-- * that the pointers can be independently driven by the producer and the
-- * consumer.
-- */
--int rolling_buffer_init(struct rolling_buffer *roll, unsigned int rreq_id,
--			unsigned int direction, gfp_t gfp)
--{
--	struct folio_queue *fq;
--
--	fq = netfs_folioq_alloc(rreq_id, gfp, netfs_trace_folioq_rollbuf_init);
--	if (!fq)
--		return -ENOMEM;
--
--	roll->head = fq;
--	roll->tail = fq;
--	iov_iter_folio_queue(&roll->iter, direction, fq, 0, 0, 0);
--	return 0;
+-	wreq->io_streams[0].avail = true;
+-	__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
+-	trace_netfs_write(wreq, netfs_write_trace_writethrough);
+-	return wreq;
 -}
 -
 -/*
-- * Add another folio_queue to a rolling buffer if there's no space left.
+- * Advance the state of the write operation used when writing through the
+- * pagecache.  Data has been copied into the pagecache that we need to append
+- * to the request.  If we've added more than wsize then we need to create a new
+- * subrequest.
 - */
--int rolling_buffer_make_space(struct rolling_buffer *roll, gfp_t gfp)
+-int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+-			       struct folio *folio, size_t copied, bool to_page_end,
+-			       struct folio **writethrough_cache)
 -{
--	struct folio_queue *fq, *head = roll->head;
+-	int ret;
 -
--	if (!folioq_full(head))
--		return 0;
+-	_enter("R=%x ic=%zu ws=%u cp=%zu tp=%u",
+-	       wreq->debug_id, wreq->buffer.iter.count, wreq->wsize, copied, to_page_end);
 -
--	fq = netfs_folioq_alloc(head->rreq_id, gfp, netfs_trace_folioq_make_space);
--	if (!fq)
--		return -ENOMEM;
--	fq->prev = head;
+-	/* The folio is locked. */
 -
--	roll->head = fq;
--	if (folioq_full(head)) {
--		/* Make sure we don't leave the master iterator pointing to a
--		 * block that might get immediately consumed.
--		 */
--		if (roll->iter.folioq == head &&
--		    roll->iter.folioq_slot == folioq_nr_slots(head)) {
--			roll->iter.folioq = fq;
--			roll->iter.folioq_slot = 0;
+-	if (*writethrough_cache != folio) {
+-		if (*writethrough_cache) {
+-			/* Did the folio get moved? */
+-			folio_put(*writethrough_cache);
+-			*writethrough_cache = NULL;
 -		}
--	}
--
--	/* Make sure the initialisation is stored before the next pointer.
--	 *
--	 * [!] NOTE: After we set head->next, the consumer is at liberty to
--	 * immediately delete the old head.
--	 */
--	smp_store_release(&head->next, fq);
--	return 0;
--}
--
--/*
-- * Decant the list of folios to read into a rolling buffer.
-- */
--ssize_t rolling_buffer_load_from_ra(struct rolling_buffer *roll,
--				    struct readahead_control *ractl,
--				    struct folio_batch *put_batch)
--{
--	struct folio_queue *fq;
--	struct page **vec;
--	int nr, ix, to;
--	ssize_t size = 0;
--
--	if (rolling_buffer_make_space(roll, GFP_KERNEL) < 0)
--		return -ENOMEM;
--
--	fq = roll->head;
--	vec = (struct page **)fq->vec.folios;
--	nr = __readahead_batch(ractl, vec + folio_batch_count(&fq->vec),
--			       folio_batch_space(&fq->vec));
--	ix = fq->vec.nr;
--	to = ix + nr;
--	fq->vec.nr = to;
--	for (; ix < to; ix++) {
--		struct folio *folio = folioq_folio(fq, ix);
--		unsigned int order = folio_order(folio);
--
--		fq->orders[ix] = order;
--		size += PAGE_SIZE << order;
--		trace_netfs_folio(folio, netfs_folio_trace_read);
--		if (!folio_batch_add(put_batch, folio))
--			folio_batch_release(put_batch);
--	}
--	WRITE_ONCE(roll->iter.count, roll->iter.count + size);
--
--	/* Store the counter after setting the slot. */
--	smp_store_release(&roll->next_head_slot, to);
--	return size;
--}
--
--/*
-- * Decant the entire list of folios to read into a rolling buffer.
-- */
--ssize_t rolling_buffer_bulk_load_from_ra(struct rolling_buffer *roll,
--					 struct readahead_control *ractl,
--					 unsigned int rreq_id)
--{
--	XA_STATE(xas, &ractl->mapping->i_pages, ractl->_index);
--	struct folio_queue *fq;
--	struct folio *folio;
--	ssize_t loaded = 0;
--	int nr, slot = 0, npages = 0;
--
--	/* First allocate all the folioqs we're going to need to avoid having
--	 * to deal with ENOMEM later.
--	 */
--	nr = ractl->_nr_folios;
--	do {
--		fq = netfs_folioq_alloc(rreq_id, GFP_KERNEL,
--					netfs_trace_folioq_make_space);
--		if (!fq) {
--			rolling_buffer_clear(roll);
--			return -ENOMEM;
--		}
--		fq->prev = roll->head;
--		if (!roll->tail)
--			roll->tail = fq;
+-		/* We can make multiple writes to the folio... */
+-		if (wreq->len == 0)
+-			trace_netfs_folio(folio, netfs_folio_trace_wthru);
 -		else
--			roll->head->next = fq;
--		roll->head = fq;
--
--		nr -= folioq_nr_slots(fq);
--	} while (nr > 0);
--
--	rcu_read_lock();
--
--	fq = roll->tail;
--	xas_for_each(&xas, folio, ractl->_index + ractl->_nr_pages - 1) {
--		unsigned int order;
--
--		if (xas_retry(&xas, folio))
--			continue;
--		VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
--
--		order = folio_order(folio);
--		fq->orders[slot] = order;
--		fq->vec.folios[slot] = folio;
--		loaded += PAGE_SIZE << order;
--		npages += 1 << order;
--		trace_netfs_folio(folio, netfs_folio_trace_read);
--
--		slot++;
--		if (slot >= folioq_nr_slots(fq)) {
--			fq->vec.nr = slot;
--			fq = fq->next;
--			if (!fq) {
--				WARN_ON_ONCE(npages < readahead_count(ractl));
--				break;
--			}
--			slot = 0;
--		}
+-			trace_netfs_folio(folio, netfs_folio_trace_wthru_plus);
+-		*writethrough_cache = folio;
+-		folio_get(folio);
 -	}
 -
--	rcu_read_unlock();
+-	wreq->len += copied;
 -
--	if (fq)
--		fq->vec.nr = slot;
--
--	WRITE_ONCE(roll->iter.count, loaded);
--	iov_iter_folio_queue(&roll->iter, ITER_DEST, roll->tail, 0, 0, loaded);
--	ractl->_index    += npages;
--	ractl->_nr_pages -= npages;
--	return loaded;
--}
--
--/*
-- * Append a folio to the rolling buffer.
-- */
--ssize_t rolling_buffer_append(struct rolling_buffer *roll, struct folio *folio,
--			      unsigned int flags, gfp_t gfp)
--{
--	ssize_t size = folio_size(folio);
--	int slot;
--
--	if (rolling_buffer_make_space(roll, gfp) < 0)
--		return -ENOMEM;
--
--	slot = folioq_append(roll->head, folio);
--	if (flags & ROLLBUF_MARK_1)
--		folioq_mark(roll->head, slot);
--	if (flags & ROLLBUF_MARK_2)
--		folioq_mark2(roll->head, slot);
--
--	WRITE_ONCE(roll->iter.count, roll->iter.count + size);
--
--	/* Store the counter after setting the slot. */
--	smp_store_release(&roll->next_head_slot, slot);
--	return size;
--}
--
--/*
-- * Delete a spent buffer from a rolling queue and return the next in line.  We
-- * don't return the last buffer to keep the pointers independent, but return
-- * NULL instead.
-- */
--struct folio_queue *rolling_buffer_delete_spent(struct rolling_buffer *roll)
--{
--	struct folio_queue *spent = roll->tail, *next = READ_ONCE(spent->next);
--
--	if (!next)
--		return NULL;
--	next->prev = NULL;
--	netfs_folioq_free(spent, netfs_trace_folioq_delete);
--	roll->tail = next;
--	return next;
--}
--
--/*
-- * Clear out a rolling queue.  Folios that have mark 1 set are put.
-- */
--void rolling_buffer_clear(struct rolling_buffer *roll)
--{
--	struct folio_batch fbatch;
--	struct folio_queue *p;
--
--	folio_batch_init(&fbatch);
--
--	while ((p = roll->tail)) {
--		roll->tail = p->next;
--		for (int slot = 0; slot < folioq_count(p); slot++) {
--			struct folio *folio = folioq_folio(p, slot);
--
--			if (!folio)
--				continue;
--			if (folioq_is_marked(p, slot)) {
--				trace_netfs_folio(folio, netfs_folio_trace_put);
--				if (!folio_batch_add(&fbatch, folio))
--					folio_batch_release(&fbatch);
--			}
--		}
--
--		netfs_folioq_free(p, netfs_trace_folioq_clear);
+-	if (!to_page_end) {
+-		folio_mark_dirty(folio);
+-		folio_unlock(folio);
+-		return 0;
 -	}
 -
--	folio_batch_release(&fbatch);
+-	ret = netfs_write_folio(wreq, wbc, folio);
+-	folio_put(*writethrough_cache);
+-	*writethrough_cache = NULL;
+-	wreq->submitted = wreq->len;
+-	return ret;
 -}
-diff --git a/include/linux/folio_queue.h b/include/linux/folio_queue.h
-deleted file mode 100644
-index f6d5f1f127c9..000000000000
---- a/include/linux/folio_queue.h
-+++ /dev/null
-@@ -1,282 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/* Queue of folios definitions
-- *
-- * Copyright (C) 2024 Red Hat, Inc. All Rights Reserved.
-- * Written by David Howells (dhowells@redhat.com)
-- *
-- * See:
-- *
-- *	Documentation/core-api/folio_queue.rst
-- *
-- * for a description of the API.
-- */
--
--#ifndef _LINUX_FOLIO_QUEUE_H
--#define _LINUX_FOLIO_QUEUE_H
--
--#include <linux/folio_batch.h>
--#include <linux/mm.h>
 -
 -/*
-- * Segment in a queue of running buffers.  Each segment can hold a number of
-- * folios and a portion of the queue can be referenced with the ITER_FOLIOQ
-- * iterator.  The possibility exists of inserting non-folio elements into the
-- * queue (such as gaps).
-- *
-- * Explicit prev and next pointers are used instead of a list_head to make it
-- * easier to add segments to tail and remove them from the head without the
-- * need for a lock.
+- * End a write operation used when writing through the pagecache.
 - */
--struct folio_queue {
--	struct folio_batch	vec;		/* Folios in the queue segment */
--	u8			orders[FOLIO_BATCH_SIZE]; /* Order of each folio */
--	struct folio_queue	*next;		/* Next queue segment or NULL */
--	struct folio_queue	*prev;		/* Previous queue segment of NULL */
--	unsigned long		marks;		/* 1-bit mark per folio */
--	unsigned long		marks2;		/* Second 1-bit mark per folio */
--#if FOLIO_BATCH_SIZE > BITS_PER_LONG
--#error marks is not big enough
--#endif
--	unsigned int		rreq_id;
--	unsigned int		debug_id;
--};
--
--/**
-- * folioq_init - Initialise a folio queue segment
-- * @folioq: The segment to initialise
-- * @rreq_id: The request identifier to use in tracelines.
-- *
-- * Initialise a folio queue segment and set an identifier to be used in traces.
-- *
-- * Note that the folio pointers are left uninitialised.
-- */
--static inline void folioq_init(struct folio_queue *folioq, unsigned int rreq_id)
+-ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+-			       struct folio *writethrough_cache)
 -{
--	folio_batch_init(&folioq->vec);
--	folioq->next = NULL;
--	folioq->prev = NULL;
--	folioq->marks = 0;
--	folioq->marks2 = 0;
--	folioq->rreq_id = rreq_id;
--	folioq->debug_id = 0;
+-	ssize_t ret;
+-
+-	_enter("R=%x", wreq->debug_id);
+-
+-	if (writethrough_cache) {
+-		folio_lock(writethrough_cache);
+-		netfs_write_folio(wreq, wbc, writethrough_cache);
+-		folio_put(writethrough_cache);
+-		wreq->submitted = wreq->len;
+-	}
+-
+-	netfs_end_issue_write(wreq);
+-
+-	if (wreq->iocb)
+-		ret = -EIOCBQUEUED;
+-	else
+-		ret = netfs_wait_for_write(wreq);
+-	netfs_put_request(wreq, netfs_rreq_trace_put_return);
+-	return ret;
 -}
 -
--/**
-- * folioq_nr_slots: Query the capacity of a folio queue segment
-- * @folioq: The segment to query
-- *
-- * Query the number of folios that a particular folio queue segment might hold.
-- * [!] NOTE: This must not be assumed to be the same for every segment!
-- */
--static inline unsigned int folioq_nr_slots(const struct folio_queue *folioq)
--{
--	return FOLIO_BATCH_SIZE;
--}
--
--/**
-- * folioq_count: Query the occupancy of a folio queue segment
-- * @folioq: The segment to query
-- *
-- * Query the number of folios that have been added to a folio queue segment.
-- * Note that this is not decreased as folios are removed from a segment.
-- */
--static inline unsigned int folioq_count(struct folio_queue *folioq)
--{
--	return folio_batch_count(&folioq->vec);
--}
--
--/**
-- * folioq_full: Query if a folio queue segment is full
-- * @folioq: The segment to query
-- *
-- * Query if a folio queue segment is fully occupied.  Note that this does not
-- * change if folios are removed from a segment.
-- */
--static inline bool folioq_full(struct folio_queue *folioq)
--{
--	//return !folio_batch_space(&folioq->vec);
--	return folioq_count(folioq) >= folioq_nr_slots(folioq);
--}
--
--/**
-- * folioq_is_marked: Check first folio mark in a folio queue segment
-- * @folioq: The segment to query
-- * @slot: The slot number of the folio to query
-- *
-- * Determine if the first mark is set for the folio in the specified slot in a
-- * folio queue segment.
-- */
--static inline bool folioq_is_marked(const struct folio_queue *folioq, unsigned int slot)
--{
--	return test_bit(slot, &folioq->marks);
--}
--
--/**
-- * folioq_mark: Set the first mark on a folio in a folio queue segment
-- * @folioq: The segment to modify
-- * @slot: The slot number of the folio to modify
-- *
-- * Set the first mark for the folio in the specified slot in a folio queue
-- * segment.
-- */
--static inline void folioq_mark(struct folio_queue *folioq, unsigned int slot)
--{
--	set_bit(slot, &folioq->marks);
--}
--
--/**
-- * folioq_unmark: Clear the first mark on a folio in a folio queue segment
-- * @folioq: The segment to modify
-- * @slot: The slot number of the folio to modify
-- *
-- * Clear the first mark for the folio in the specified slot in a folio queue
-- * segment.
-- */
--static inline void folioq_unmark(struct folio_queue *folioq, unsigned int slot)
--{
--	clear_bit(slot, &folioq->marks);
--}
--
--/**
-- * folioq_is_marked2: Check second folio mark in a folio queue segment
-- * @folioq: The segment to query
-- * @slot: The slot number of the folio to query
-- *
-- * Determine if the second mark is set for the folio in the specified slot in a
-- * folio queue segment.
-- */
--static inline bool folioq_is_marked2(const struct folio_queue *folioq, unsigned int slot)
--{
--	return test_bit(slot, &folioq->marks2);
--}
--
--/**
-- * folioq_mark2: Set the second mark on a folio in a folio queue segment
-- * @folioq: The segment to modify
-- * @slot: The slot number of the folio to modify
-- *
-- * Set the second mark for the folio in the specified slot in a folio queue
-- * segment.
-- */
--static inline void folioq_mark2(struct folio_queue *folioq, unsigned int slot)
--{
--	set_bit(slot, &folioq->marks2);
--}
--
--/**
-- * folioq_unmark2: Clear the second mark on a folio in a folio queue segment
-- * @folioq: The segment to modify
-- * @slot: The slot number of the folio to modify
-- *
-- * Clear the second mark for the folio in the specified slot in a folio queue
-- * segment.
-- */
--static inline void folioq_unmark2(struct folio_queue *folioq, unsigned int slot)
--{
--	clear_bit(slot, &folioq->marks2);
--}
--
--/**
-- * folioq_append: Add a folio to a folio queue segment
-- * @folioq: The segment to add to
-- * @folio: The folio to add
-- *
-- * Add a folio to the tail of the sequence in a folio queue segment, increasing
-- * the occupancy count and returning the slot number for the folio just added.
-- * The folio size is extracted and stored in the queue and the marks are left
-- * unmodified.
-- *
-- * Note that it's left up to the caller to check that the segment capacity will
-- * not be exceeded and to extend the queue.
-- */
--static inline unsigned int folioq_append(struct folio_queue *folioq, struct folio *folio)
--{
--	unsigned int slot = folioq->vec.nr++;
--
--	folioq->vec.folios[slot] = folio;
--	folioq->orders[slot] = folio_order(folio);
--	return slot;
--}
--
--/**
-- * folioq_append_mark: Add a folio to a folio queue segment
-- * @folioq: The segment to add to
-- * @folio: The folio to add
-- *
-- * Add a folio to the tail of the sequence in a folio queue segment, increasing
-- * the occupancy count and returning the slot number for the folio just added.
-- * The folio size is extracted and stored in the queue, the first mark is set
-- * and and the second and third marks are left unmodified.
-- *
-- * Note that it's left up to the caller to check that the segment capacity will
-- * not be exceeded and to extend the queue.
-- */
--static inline unsigned int folioq_append_mark(struct folio_queue *folioq, struct folio *folio)
--{
--	unsigned int slot = folioq->vec.nr++;
--
--	folioq->vec.folios[slot] = folio;
--	folioq->orders[slot] = folio_order(folio);
--	folioq_mark(folioq, slot);
--	return slot;
--}
--
--/**
-- * folioq_folio: Get a folio from a folio queue segment
-- * @folioq: The segment to access
-- * @slot: The folio slot to access
-- *
-- * Retrieve the folio in the specified slot from a folio queue segment.  Note
-- * that no bounds check is made and if the slot hasn't been added into yet, the
-- * pointer will be undefined.  If the slot has been cleared, NULL will be
-- * returned.
-- */
--static inline struct folio *folioq_folio(const struct folio_queue *folioq, unsigned int slot)
--{
--	return folioq->vec.folios[slot];
--}
--
--/**
-- * folioq_folio_order: Get the order of a folio from a folio queue segment
-- * @folioq: The segment to access
-- * @slot: The folio slot to access
-- *
-- * Retrieve the order of the folio in the specified slot from a folio queue
-- * segment.  Note that no bounds check is made and if the slot hasn't been
-- * added into yet, the order returned will be 0.
-- */
--static inline unsigned int folioq_folio_order(const struct folio_queue *folioq, unsigned int slot)
--{
--	return folioq->orders[slot];
--}
--
--/**
-- * folioq_folio_size: Get the size of a folio from a folio queue segment
-- * @folioq: The segment to access
-- * @slot: The folio slot to access
-- *
-- * Retrieve the size of the folio in the specified slot from a folio queue
-- * segment.  Note that no bounds check is made and if the slot hasn't been
-- * added into yet, the size returned will be PAGE_SIZE.
-- */
--static inline size_t folioq_folio_size(const struct folio_queue *folioq, unsigned int slot)
--{
--	return PAGE_SIZE << folioq_folio_order(folioq, slot);
--}
--
--/**
-- * folioq_clear: Clear a folio from a folio queue segment
-- * @folioq: The segment to clear
-- * @slot: The folio slot to clear
-- *
-- * Clear a folio from a sequence in a folio queue segment and clear its marks.
-- * The occupancy count is left unchanged.
-- */
--static inline void folioq_clear(struct folio_queue *folioq, unsigned int slot)
--{
--	folioq->vec.folios[slot] = NULL;
--	folioq_unmark(folioq, slot);
--	folioq_unmark2(folioq, slot);
--}
--
--#endif /* _LINUX_FOLIO_QUEUE_H */
+ /**
+  * netfs_writeback_single - Write back a monolithic payload
+  * @mapping: The mapping to write from
 diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 08b7b7e643a3..43696fc67a2a 100644
+index 6a4d4fd2551d..c8f4941b0ad7 100644
 --- a/include/linux/netfs.h
 +++ b/include/linux/netfs.h
-@@ -457,8 +457,6 @@ void netfs_put_subrequest(struct netfs_io_subrequest *subreq,
- ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pages,
- 			   unsigned long long fpos, struct bvecq **_bvecq_head,
- 			   iov_iter_extraction_t extraction_flags, gfp_t gfp);
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs);
- void netfs_prepare_write_failed(struct netfs_io_subrequest *subreq);
- void netfs_write_subrequest_terminated(void *_op, ssize_t transferred_or_error);
+@@ -210,7 +210,6 @@ enum netfs_io_origin {
+ 	NETFS_DIO_READ,			/* This is a direct I/O read */
+ 	NETFS_WRITEBACK,		/* This write was triggered by writepages */
+ 	NETFS_WRITEBACK_SINGLE,		/* This monolithic write was triggered by writepages */
+-	NETFS_WRITETHROUGH,		/* This write was made by netfs_perform_write() */
+ 	NETFS_UNBUFFERED_WRITE,		/* This is an unbuffered write */
+ 	NETFS_DIO_WRITE,		/* This is a direct I/O write */
+ 	NETFS_PGPRIV2_COPY_TO_CACHE,	/* [DEPRECATED] This is writing read data to the cache */
+diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
+index 5354a0439324..2ce162baaad1 100644
+--- a/include/trace/events/netfs.h
++++ b/include/trace/events/netfs.h
+@@ -30,8 +30,7 @@
+ 	EM(netfs_write_trace_dio_write,		"DIO-WRITE")	\
+ 	EM(netfs_write_trace_unbuffered_write,	"UNB-WRITE")	\
+ 	EM(netfs_write_trace_writeback,		"WRITEBACK")	\
+-	EM(netfs_write_trace_writeback_single,	"WB-SINGLE") \
+-	E_(netfs_write_trace_writethrough,	"WRITETHRU")
++	E_(netfs_write_trace_writeback_single,	"WB-SINGLE")
  
-diff --git a/include/linux/rolling_buffer.h b/include/linux/rolling_buffer.h
-deleted file mode 100644
-index 1e37750e4ff8..000000000000
---- a/include/linux/rolling_buffer.h
-+++ /dev/null
-@@ -1,64 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/* Rolling buffer of folios
-- *
-- * Copyright (C) 2024 Red Hat, Inc. All Rights Reserved.
-- * Written by David Howells (dhowells@redhat.com)
-- */
--
--#ifndef _ROLLING_BUFFER_H
--#define _ROLLING_BUFFER_H
--
--#include <linux/folio_queue.h>
--#include <linux/uio.h>
--
--/*
-- * Rolling buffer.  Whilst the buffer is live and in use, folios and folio
-- * queue segments can be added to one end by one thread and removed from the
-- * other end by another thread.  The buffer isn't allowed to be empty; it must
-- * always have at least one folio_queue in it so that neither side has to
-- * modify both queue pointers.
-- *
-- * The iterator in the buffer is extended as buffers are inserted.  It can be
-- * snapshotted to use a segment of the buffer.
-- */
--struct rolling_buffer {
--	struct folio_queue	*head;		/* Producer's insertion point */
--	struct folio_queue	*tail;		/* Consumer's removal point */
--	struct iov_iter		iter;		/* Iterator tracking what's left in the buffer */
--	u8			next_head_slot;	/* Next slot in ->head */
--	u8			first_tail_slot; /* First slot in ->tail */
--};
--
--/*
-- * Snapshot of a rolling buffer.
-- */
--struct rolling_buffer_snapshot {
--	struct folio_queue	*curr_folioq;	/* Queue segment in which current folio resides */
--	unsigned char		curr_slot;	/* Folio currently being read */
--	unsigned char		curr_order;	/* Order of folio */
--};
--
--/* Marks to store per-folio in the internal folio_queue structs. */
--#define ROLLBUF_MARK_1	BIT(0)
--#define ROLLBUF_MARK_2	BIT(1)
--
--int rolling_buffer_init(struct rolling_buffer *roll, unsigned int rreq_id,
--			unsigned int direction, gfp_t gfp);
--int rolling_buffer_make_space(struct rolling_buffer *roll, gfp_t gfp);
--ssize_t rolling_buffer_load_from_ra(struct rolling_buffer *roll,
--				    struct readahead_control *ractl,
--				    struct folio_batch *put_batch);
--ssize_t rolling_buffer_bulk_load_from_ra(struct rolling_buffer *roll,
--					 struct readahead_control *ractl,
--					 unsigned int rreq_id);
--ssize_t rolling_buffer_append(struct rolling_buffer *roll, struct folio *folio,
--			      unsigned int flags, gfp_t gfp);
--struct folio_queue *rolling_buffer_delete_spent(struct rolling_buffer *roll);
--void rolling_buffer_clear(struct rolling_buffer *roll);
--
--static inline void rolling_buffer_advance(struct rolling_buffer *roll, size_t amount)
--{
--	iov_iter_advance(&roll->iter, amount);
--}
--
--#endif /* _ROLLING_BUFFER_H */
-diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-index 7e25051dc1ea..b9558a0c2c1e 100644
---- a/kernel/bpf/btf.c
-+++ b/kernel/bpf/btf.c
-@@ -6742,8 +6742,6 @@ static const struct bpf_raw_tp_null_args raw_tp_null_args[] = {
- 	/* amdgpu */
- 	{ "amdgpu_vm_bo_map", 0x1 },
- 	{ "amdgpu_vm_bo_unmap", 0x1 },
--	/* netfs */
--	{ "netfs_folioq", 0x1 },
- 	/* xfs from xfs_defer_pending_class */
- 	{ "xfs_defer_create_intent", 0x1 },
- 	{ "xfs_defer_cancel_list", 0x1 },
+ #define netfs_rreq_origins					\
+ 	EM(NETFS_READAHEAD,			"RA")		\
+@@ -43,7 +42,6 @@
+ 	EM(NETFS_DIO_READ,			"DR")		\
+ 	EM(NETFS_WRITEBACK,			"WB")		\
+ 	EM(NETFS_WRITEBACK_SINGLE,		"W1")		\
+-	EM(NETFS_WRITETHROUGH,			"WT")		\
+ 	EM(NETFS_UNBUFFERED_WRITE,		"UW")		\
+ 	EM(NETFS_DIO_WRITE,			"DW")		\
+ 	E_(NETFS_PGPRIV2_COPY_TO_CACHE,		"2C")
+@@ -221,9 +219,7 @@
+ 	EM(netfs_folio_trace_redirtied,		"redirtied")	\
+ 	EM(netfs_folio_trace_store,		"store")	\
+ 	EM(netfs_folio_trace_store_copy,	"store-copy")	\
+-	EM(netfs_folio_trace_store_plus,	"store+")	\
+-	EM(netfs_folio_trace_wthru,		"wthru")	\
+-	E_(netfs_folio_trace_wthru_plus,	"wthru+")
++	E_(netfs_folio_trace_store_plus,	"store+")
+ 
+ #define netfs_collect_contig_traces				\
+ 	EM(netfs_contig_trace_collect,		"Collect")	\
 
