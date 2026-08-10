@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F46426435
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 14:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0500A4266BF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 14:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786373464; cv=none; b=Zo5tvhFaI6r24tP6F6PoGev0UoywcuAQgrEq7cOK/6aOLG9asPIIUsBG9NcEif7C6wAfgydyFKgIrdFI05AVq7cPSxJIZUgETX3MY4UHab3/y2AMQQEEBuL9kKPt5LphdEdAs2qP8b3UQ8O0iIaeE1x8gBiEUlhuUBe5zIB7pmI=
+	t=1786373475; cv=none; b=apkj2SRXRZjfdTDwjB+6cAZoHXdrU1GNYSpdcmSWgxqABGbl+o53CjqLpm/1asxnTyrF/yoIk1lonr/czoilM+6QG8rYWDxLrJzJ8R9KaerCADH8/0V/xQycgmuWY4TV7Egk5DbI7On3HF+7K5zQEKBD9sIST2Ve56/UIPQQYx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786373464; c=relaxed/simple;
-	bh=SnzjxGr1ObfiTgSytLIaFvqJ/IwqyuWS+JU0aTT4udI=;
+	s=arc-20240116; t=1786373475; c=relaxed/simple;
+	bh=mlanOmHU8sKtERLRe01oLN9O9Fn/vxkzFx6my+544/Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CtsVP4oNlBH6LW6QAEDo6CWKjnpBgBIN7le3CPyXlV6rYQbq310q3YOzzHkUBt8lAd9VK0Li7gW0iFcTxcVqeZ+L/wv/bETCTVKYtemb2FCAcuqV9EanGdXtwVgVWQ5vVUzEjCH9HFXlQ1PfvuVjfDqWo3l8HZ72JyFDXeNn/9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CU9yqAnx; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=RH0qRZnGNsMk+avI3y06uzRauL98kMMC81hSU2h6RQcBJaUY1Hv4JW0jenbhH3xt4fEs8TzNxvbM694n1/BDYehw64VhyJS62qSPu3RUmYEarCS2y4j2vDM5VMlvQ24qjtH9tDPh+B9PjPnAC0/wV4sView5KbiAobdsue2mK18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V5dkO9rd; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CU9yqAnx"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V5dkO9rd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786373461;
+	s=mimecast20190719; t=1786373471;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=udHRs2kiVLjRbFuKm2bh/PWrtXgxwRv6a82qPQRXBLQ=;
-	b=CU9yqAnxeDUi9Ff22/F4ClOBGiG9h++VNsdTGZVjUYoUzFEC5gAp4+qUt+lQc6Ayft5oij
-	3mBMbF075HFUVvWTqt1F2jsRGqWoTuRDGYP+WpC1RijlWjqXJeaxamAHIJ+IU7qEuGJqCz
-	3+ttwX+9xzFtOnhTq6Z3BGb6vrE6CgI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=zCKCHVU4x1+k2/6kAbaEEPJTYyTGEg0cSKfx7OBMmiQ=;
+	b=V5dkO9rdz3SqgQ8PPKdnrfbdBAOv1DRIcA53omyMVda3jFV8FQ3IxAuRWCdDEzSKDIoqAr
+	PP+588dk0Q6s61ZjHDFMFyDC8nc12tg24YGQFSlm/v8JqP7m5sicALB1+Id26ZK6niV7tO
+	/4+4WkbaxKj2UmM3R2DnDqMnarTFlnA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-682-Xf3BcEd6NH-L5r-srgiW6g-1; Mon,
- 10 Aug 2026 10:49:48 -0400
-X-MC-Unique: Xf3BcEd6NH-L5r-srgiW6g-1
-X-Mimecast-MFC-AGG-ID: Xf3BcEd6NH-L5r-srgiW6g_1786373385
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-297-nWL5YjxwOEyHVhodz7oNqw-1; Mon,
+ 10 Aug 2026 10:51:04 -0400
+X-MC-Unique: nWL5YjxwOEyHVhodz7oNqw-1
+X-Mimecast-MFC-AGG-ID: nWL5YjxwOEyHVhodz7oNqw_1786373462
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5413C18002C0;
-	Mon, 10 Aug 2026 14:49:45 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E18581800578;
+	Mon, 10 Aug 2026 14:51:01 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.32.44])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8DDB01800346;
-	Mon, 10 Aug 2026 14:49:39 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2768719560AB;
+	Mon, 10 Aug 2026 14:50:55 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>,
 	Matthew Wilcox <willy@infradead.org>,
@@ -66,9 +66,9 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-erofs@lists.ozlabs.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 13/26] netfs: Remove the writethrough code
-Date: Mon, 10 Aug 2026 15:47:30 +0100
-Message-ID: <20260810144746.574036-14-dhowells@redhat.com>
+Subject: [PATCH v9 23/26] netfs: Simplify read abandonment
+Date: Mon, 10 Aug 2026 15:47:40 +0100
+Message-ID: <20260810144746.574036-24-dhowells@redhat.com>
 In-Reply-To: <20260810144746.574036-1-dhowells@redhat.com>
 References: <20260810144746.574036-1-dhowells@redhat.com>
 Precedence: bulk
@@ -78,397 +78,318 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Remove the netfs writethrough code as it's very tricky to get the locking
-right and it will probably deadlock if used in conjunction with Ceph snapshots
-because it excludes writeback for the duration, but to flush out old
-snapshots, it does a synchronous flush that invokes writeback.
+Currently, if one or more of the subrequests in a read request fails, the
+read collection algorithm will attempt to salvage folios that are fully
+downloaded but that span multiple subreqs, provided all of the contributory
+subreqs succeeded, but this makes the algorithm quite complicated as a
+subreq can contribute to multiple folios and a folio can be contributed to
+by multiple subreqs.
 
-Instead, O_SYNC writes do a flush after performing the write - which is
-already there as the callers of netfs_perform_write() all call
-generic_write_sync().
+Simplify this by just abandoning the rest of a read request once a
+permanently failed subreq is hit.  This is what read_folio, DIO/unbuffered
+read, gap filling, RMW and write preload all need to do; readahead is the
+odd one out as it doesn't have any return other than unlocking folios.
+
+With this change, even for readahead, the rest of the read is simply
+abandoned; read() and suchlike will call ->read_folio() on each
+non-uptodate folio to retry and retrieve the error.
+
+Note that retryable failures still get retried by netfslib as part of the
+request as before.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/9p/vfs_addr.c             |   1 -
- fs/afs/file.c                |   1 -
- fs/netfs/buffered_write.c    |  56 ++-----------------
- fs/netfs/internal.h          |   7 ---
- fs/netfs/main.c              |   1 -
- fs/netfs/stats.c             |   4 +-
- fs/netfs/write_collect.c     |   2 -
- fs/netfs/write_issue.c       | 104 +----------------------------------
- include/linux/netfs.h        |   1 -
- include/trace/events/netfs.h |   8 +--
- 10 files changed, 9 insertions(+), 176 deletions(-)
+ fs/netfs/read_collect.c | 190 ++++++++++++++++++++++++++++------------
+ include/linux/netfs.h   |   1 +
+ 2 files changed, 137 insertions(+), 54 deletions(-)
 
-diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
-index 1ac0b3dcc077..2129fcb0f65c 100644
---- a/fs/9p/vfs_addr.c
-+++ b/fs/9p/vfs_addr.c
-@@ -124,7 +124,6 @@ static int v9fs_init_request(struct netfs_io_request *rreq, struct file *file)
- 	struct p9_fid *fid;
- 	struct dentry *dentry;
- 	bool writing = (rreq->origin == NETFS_READ_FOR_WRITE ||
--			rreq->origin == NETFS_WRITETHROUGH ||
- 			rreq->origin == NETFS_UNBUFFERED_WRITE ||
- 			rreq->origin == NETFS_DIO_WRITE);
- 
-diff --git a/fs/afs/file.c b/fs/afs/file.c
-index 0467742bfeee..3617c245f319 100644
---- a/fs/afs/file.c
-+++ b/fs/afs/file.c
-@@ -400,7 +400,6 @@ static int afs_init_request(struct netfs_io_request *rreq, struct file *file)
- 		}
- 		break;
- 	case NETFS_WRITEBACK:
--	case NETFS_WRITETHROUGH:
- 	case NETFS_UNBUFFERED_WRITE:
- 	case NETFS_DIO_WRITE:
- 		if (S_ISREG(rreq->inode->i_mode))
-diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
-index 2cdb68e6b16f..39f00b326e0f 100644
---- a/fs/netfs/buffered_write.c
-+++ b/fs/netfs/buffered_write.c
-@@ -91,44 +91,14 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 	struct inode *inode = file_inode(file);
- 	struct address_space *mapping = inode->i_mapping;
- 	struct netfs_inode *ctx = netfs_inode(inode);
--	struct writeback_control wbc = {
--		.sync_mode	= WB_SYNC_NONE,
--		.for_sync	= true,
--		.nr_to_write	= LONG_MAX,
--		.range_start	= iocb->ki_pos,
--		.range_end	= iocb->ki_pos + iter->count,
--	};
--	struct netfs_io_request *wreq = NULL;
--	struct folio *folio = NULL, *writethrough = NULL;
-+	struct folio *folio = NULL;
- 	unsigned int bdp_flags = (iocb->ki_flags & IOCB_NOWAIT) ? BDP_ASYNC : 0;
--	ssize_t written = 0, ret, ret2;
-+	ssize_t written = 0, ret;
- 	loff_t pos = iocb->ki_pos;
- 	size_t max_chunk = mapping_max_folio_size(mapping);
- 	bool maybe_trouble = false;
- 
--	if (unlikely(iocb->ki_flags & (IOCB_DSYNC | IOCB_SYNC))
--	    ) {
--		wbc_attach_fdatawrite_inode(&wbc, mapping->host);
--
--		ret = filemap_write_and_wait_range(mapping, pos, pos + iter->count);
--		if (ret < 0) {
--			wbc_detach_inode(&wbc);
--			goto out;
--		}
--
--		wreq = netfs_begin_writethrough(iocb, iter->count);
--		if (IS_ERR(wreq)) {
--			wbc_detach_inode(&wbc);
--			ret = PTR_ERR(wreq);
--			wreq = NULL;
--			goto out;
--		}
--		if (!is_sync_kiocb(iocb))
--			wreq->iocb = iocb;
--		netfs_stat(&netfs_n_wh_writethrough);
--	} else {
--		netfs_stat(&netfs_n_wh_buffered_write);
--	}
-+	netfs_stat(&netfs_n_wh_buffered_write);
- 
- 	do {
- 		enum netfs_folio_trace trace;
-@@ -390,15 +360,8 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 		pos += copied;
- 		written += copied;
- 
--		if (likely(!wreq)) {
--			folio_mark_dirty(folio);
--			folio_unlock(folio);
--		} else {
--			netfs_advance_writethrough(wreq, &wbc, folio, copied,
--						   offset + copied == flen,
--						   &writethrough);
--			/* Folio unlocked */
--		}
-+		folio_mark_dirty(folio);
-+		folio_unlock(folio);
- 	retry:
- 		folio_put(folio);
- 		folio = NULL;
-@@ -420,15 +383,6 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			ctx->ops->post_modify(inode);
- 	}
- 
--	if (unlikely(wreq)) {
--		ret2 = netfs_end_writethrough(wreq, &wbc, writethrough);
--		wbc_detach_inode(&wbc);
--		if (ret2 == -EIOCBQUEUED)
--			return ret2;
--		if (ret == 0 && ret2 < 0)
--			ret = ret2;
--	}
--
- 	iocb->ki_pos += written;
- 	_leave(" = %zd [%zd]", written, ret);
- 	return written ? written : ret;
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index c68eea2ecc60..5aea8d34adcf 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -156,7 +156,6 @@ extern atomic_t netfs_n_rh_write_zskip;
- extern atomic_t netfs_n_rh_retry_read_req;
- extern atomic_t netfs_n_rh_retry_read_subreq;
- extern atomic_t netfs_n_wh_buffered_write;
--extern atomic_t netfs_n_wh_writethrough;
- extern atomic_t netfs_n_wh_dio_write;
- extern atomic_t netfs_n_wh_writepages;
- extern atomic_t netfs_n_wh_copy_to_cache;
-@@ -216,12 +215,6 @@ void netfs_issue_write(struct netfs_io_request *wreq,
- size_t netfs_advance_write(struct netfs_io_request *wreq,
- 			   struct netfs_io_stream *stream,
- 			   loff_t start, size_t len, bool to_eof);
--struct netfs_io_request *netfs_begin_writethrough(struct kiocb *iocb, size_t len);
--int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
--			       struct folio *folio, size_t copied, bool to_page_end,
--			       struct folio **writethrough_cache);
--ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
--			       struct folio *writethrough_cache);
+diff --git a/fs/netfs/read_collect.c b/fs/netfs/read_collect.c
+index 5d0a8a75ce26..cf7c36037edc 100644
+--- a/fs/netfs/read_collect.c
++++ b/fs/netfs/read_collect.c
+@@ -19,8 +19,8 @@
+ #define MADE_PROGRESS	0x04	/* Made progress cleaning up a stream or the folio set */
+ #define BUFFERED	0x08	/* The pagecache needs cleaning up */
+ #define NEED_RETRY	0x10	/* A front op requests retrying */
+-#define COPY_TO_CACHE	0x40	/* Need to copy subrequest to cache */
+-#define ABANDON_SREQ	0x80	/* Need to abandon untransferred part of subrequest */
++#define COPY_TO_CACHE	0x20	/* Need to copy subrequest to cache */
++#define ABANDON_RREQ	0x40	/* Need to abandon the rest of a request */
  
  /*
-  * write_retry.c
-diff --git a/fs/netfs/main.c b/fs/netfs/main.c
-index 9f72e5054aff..3908ea2422c8 100644
---- a/fs/netfs/main.c
-+++ b/fs/netfs/main.c
-@@ -45,7 +45,6 @@ static const char *netfs_origins[nr__netfs_io_origin] = {
- 	[NETFS_DIO_READ]		= "DR",
- 	[NETFS_WRITEBACK]		= "WB",
- 	[NETFS_WRITEBACK_SINGLE]	= "W1",
--	[NETFS_WRITETHROUGH]		= "WT",
- 	[NETFS_UNBUFFERED_WRITE]	= "UW",
- 	[NETFS_DIO_WRITE]		= "DW",
- 	[NETFS_PGPRIV2_COPY_TO_CACHE]	= "2C",
-diff --git a/fs/netfs/stats.c b/fs/netfs/stats.c
-index 84c2a4bcc762..a10d34f88597 100644
---- a/fs/netfs/stats.c
-+++ b/fs/netfs/stats.c
-@@ -32,7 +32,6 @@ atomic_t netfs_n_rh_write_zskip;
- atomic_t netfs_n_rh_retry_read_req;
- atomic_t netfs_n_rh_retry_read_subreq;
- atomic_t netfs_n_wh_buffered_write;
--atomic_t netfs_n_wh_writethrough;
- atomic_t netfs_n_wh_dio_write;
- atomic_t netfs_n_wh_writepages;
- atomic_t netfs_n_wh_copy_to_cache;
-@@ -59,9 +58,8 @@ int netfs_stats_show(struct seq_file *m, void *v)
- 		   atomic_read(&netfs_n_rh_read_single),
- 		   atomic_read(&netfs_n_rh_write_begin),
- 		   atomic_read(&netfs_n_rh_write_zskip));
--	seq_printf(m, "Writes : BW=%u WT=%u DW=%u WP=%u 2C=%u\n",
-+	seq_printf(m, "Writes : BW=%u DW=%u WP=%u 2C=%u\n",
- 		   atomic_read(&netfs_n_wh_buffered_write),
--		   atomic_read(&netfs_n_wh_writethrough),
- 		   atomic_read(&netfs_n_wh_dio_write),
- 		   atomic_read(&netfs_n_wh_writepages),
- 		   atomic_read(&netfs_n_wh_copy_to_cache));
-diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
-index 210eb8f3958d..2eac588e37de 100644
---- a/fs/netfs/write_collect.c
-+++ b/fs/netfs/write_collect.c
-@@ -214,7 +214,6 @@ static void netfs_collect_write_results(struct netfs_io_request *wreq)
- 	smp_rmb();
- 	collected_to = ULLONG_MAX;
- 	if (wreq->origin == NETFS_WRITEBACK ||
--	    wreq->origin == NETFS_WRITETHROUGH ||
- 	    wreq->origin == NETFS_PGPRIV2_COPY_TO_CACHE)
- 		notes = NEED_UNLOCK;
- 	else
-@@ -411,7 +410,6 @@ bool netfs_write_collection(struct netfs_io_request *wreq)
- 	switch (wreq->origin) {
- 	case NETFS_WRITEBACK:
- 	case NETFS_WRITEBACK_SINGLE:
--	case NETFS_WRITETHROUGH:
- 		netfs_wb_end(ictx);
- 		break;
- 	default:
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 11f59e5a9953..f531dda7856a 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -96,7 +96,6 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 	struct netfs_inode *ictx;
- 	bool is_cacheable = (origin == NETFS_WRITEBACK ||
- 			     origin == NETFS_WRITEBACK_SINGLE ||
--			     origin == NETFS_WRITETHROUGH ||
- 			     origin == NETFS_PGPRIV2_COPY_TO_CACHE);
+  * Clear the unread part of an I/O request.
+@@ -174,6 +174,78 @@ static void netfs_read_unlock_folios(struct netfs_io_request *rreq,
+ 	rreq->collect_cursor.slot = slot;
+ }
  
- 	wreq = netfs_alloc_request(mapping, file, start, 0, origin);
-@@ -365,11 +364,7 @@ static int netfs_write_folio(struct netfs_io_request *wreq,
- 		streamw = true;
++/*
++ * Abandon all remaining read results.  Once we've hit a permanent failure, we
++ * assume that the file is probably unusable.  In the event of readahead, in
++ * theory we might manage to read some data later in the file, that we could
++ * still unlock, but ->read_folio() will be called again.
++ */
++static void netfs_abandon_read_results(struct netfs_io_request *rreq)
++{
++	struct netfs_io_stream *stream = &rreq->io_streams[0];
++	unsigned int notes = ABANDON_RREQ;
++
++	_enter("%llx-%llx", rreq->start, rreq->start + rreq->len);
++	trace_netfs_rreq(rreq, netfs_rreq_trace_collect);
++	trace_netfs_collect(rreq);
++
++	if (rreq->origin == NETFS_READAHEAD ||
++	    rreq->origin == NETFS_READPAGE ||
++	    rreq->origin == NETFS_READ_FOR_WRITE)
++		notes |= BUFFERED;
++
++	/* Remove completed subrequests from the front of the stream and
++	 * advance the completion point.  We stop when we hit something that's
++	 * in progress.  The issuer thread may be adding stuff to the tail
++	 * whilst we're doing this.
++	 */
++	for (;;) {
++		struct netfs_io_subrequest *front;
++		unsigned long front_flags;
++
++		front = list_first_entry_or_null_acquire(&stream->subrequests,
++							 struct netfs_io_subrequest, rreq_link);
++		/* Read first subreq pointer before IN_PROGRESS flag. */
++		if (!front)
++			break;
++
++		front_flags = smp_load_acquire(&front->flags);
++		/* Order read of flags before read of anything else, such as error. */
++
++		/* Wait for each subreq to complete. */
++		if (test_bit(NETFS_SREQ_IN_PROGRESS, &front_flags)) {
++			notes |= HIT_PENDING;
++			break;
++		}
++
++		/* The subreq now belongs to us. */
++		if (!stream->failed) {
++			stream->failed = true;
++			stream->error = front->error;
++			rreq->error = front->error;
++			trace_netfs_rreq(rreq, netfs_rreq_trace_set_abandon);
++		}
++
++		stream->collected_to = front->start + front->len;
++		trace_netfs_sreq(front, netfs_sreq_trace_abandoned);
++
++		spin_lock(&rreq->lock);
++		list_del_init(&front->rreq_link);
++		spin_unlock(&rreq->lock);
++		netfs_put_subrequest(front, netfs_sreq_trace_put_abandon);
++	}
++
++	rreq->collected_to = stream->collected_to;
++	rreq->abandon_to = rreq->collected_to;
++	if (notes & BUFFERED)
++		netfs_read_unlock_folios(rreq, &notes);
++	else
++		rreq->cleaned_to = rreq->collected_to;
++
++	trace_netfs_collect_stream(rreq, stream);
++	trace_netfs_collect_state(rreq, rreq->collected_to, notes);
++}
++
+ /*
+  * Collect and assess the results of various read subrequests.  We may need to
+  * retry some of the results.
+@@ -193,6 +265,9 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
+ 	trace_netfs_collect(rreq);
+ 
+ reassess:
++	if (test_bit(NETFS_RREQ_ABANDON_REQ, &rreq->flags))
++		goto abandon_request;
++
+ 	if (rreq->origin == NETFS_READAHEAD ||
+ 	    rreq->origin == NETFS_READPAGE ||
+ 	    rreq->origin == NETFS_READ_FOR_WRITE)
+@@ -210,7 +285,9 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
+ 	/* Read first subreq pointer before IN_PROGRESS flag. */
+ 
+ 	while (front) {
++		unsigned long front_flags;
+ 		size_t transferred;
++		uoff_t unlock_at = rreq->start + rreq->progress_at;
+ 
+ 		trace_netfs_collect_sreq(rreq, front);
+ 		_debug("sreq [%x] %llx %zx/%zx",
+@@ -221,25 +298,63 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
+ 			stream->collected_to = front->start;
+ 		}
+ 
+-		if (netfs_check_subreq_in_progress(front))
++		front_flags = smp_load_acquire(&front->flags);
++		/* Order read of flags before read of anything else, such as error. */
++
++		if (test_bit(NETFS_SREQ_FAILED, &front_flags))
++			goto abandon_request;
++		if (test_bit(NETFS_SREQ_IN_PROGRESS, &front_flags))
+ 			notes |= HIT_PENDING;
+-		smp_rmb(); /* Read counters after IN_PROGRESS flag. */
++
+ 		transferred = READ_ONCE(front->transferred);
+ 
++		/* If we can collect the next folio from a pending op, do so,
++		 * but we should only do it if we don't otherwise need to wait
++		 * for completion.
++		 */
++		if ((notes & HIT_PENDING) &&
++		    (notes & BUFFERED) &&
++		    !test_bit(NETFS_SREQ_HIT_EOF, &front_flags) &&
++		    front->error == 0 &&
++		    transferred < front->len
++		    ) {
++			stream->collected_to = front->start + transferred;
++			rreq->collected_to = stream->collected_to;
++
++			if (test_bit(NETFS_SREQ_COPY_TO_CACHE, &front_flags))
++				notes |= COPY_TO_CACHE;
++			if (front->start + transferred >= unlock_at)
++				netfs_read_unlock_folios(rreq, &notes);
++		}
++
++		/* Stall if the front is still undergoing I/O. */
++		if (notes & HIT_PENDING)
++			break;
++
++		if (test_bit(NETFS_SREQ_NEED_RETRY, &front_flags)) {
++			stream->need_retry = true;
++			notes |= NEED_RETRY | MADE_PROGRESS;
++			break;
++		} else if (test_bit(NETFS_RREQ_SHORT_TRANSFER, &rreq->flags)) {
++			notes |= MADE_PROGRESS;
++		} else {
++			stream->transferred += transferred;
++			stream->transferred_valid = true;
++			if (front->transferred < front->len)
++				set_bit(NETFS_RREQ_SHORT_TRANSFER, &rreq->flags);
++			notes |= MADE_PROGRESS;
++		}
++
+ 		/* If we can now collect the next folio, do so.  We don't want
+ 		 * to defer this as we have to decide whether we need to copy
+ 		 * to the cache or not, and that may differ between adjacent
+ 		 * subreqs.
+ 		 */
+ 		if (notes & BUFFERED) {
+-			uoff_t unlock_at = rreq->start + rreq->progress_at;
+-
+ 			/* Clear the tail of a short read. */
+-			if (!(notes & HIT_PENDING) &&
+-			    front->error == 0 &&
+-			    transferred < front->len &&
+-			    (test_bit(NETFS_SREQ_HIT_EOF, &front->flags) ||
+-			     test_bit(NETFS_SREQ_CLEAR_TAIL, &front->flags))) {
++			if (transferred < front->len &&
++			    (test_bit(NETFS_SREQ_HIT_EOF, &front_flags) ||
++			     test_bit(NETFS_SREQ_CLEAR_TAIL, &front_flags))) {
+ 				netfs_clear_unread(front);
+ 				transferred = front->transferred = front->len;
+ 				trace_netfs_sreq(front, netfs_sreq_trace_clear);
+@@ -248,67 +363,28 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
+ 			stream->collected_to = front->start + transferred;
+ 			rreq->collected_to = stream->collected_to;
+ 
+-			if (test_bit(NETFS_SREQ_COPY_TO_CACHE, &front->flags))
++			if (test_bit(NETFS_SREQ_COPY_TO_CACHE, &front_flags))
+ 				notes |= COPY_TO_CACHE;
+ 
+-			if (test_bit(NETFS_SREQ_FAILED, &front->flags)) {
+-				rreq->abandon_to = front->start + front->len;
+-				front->transferred = front->len;
+-				transferred = front->len;
+-				trace_netfs_rreq(rreq, netfs_rreq_trace_set_abandon);
+-			}
+ 			if (front->start + transferred >= unlock_at ||
+-			    test_bit(NETFS_SREQ_HIT_EOF, &front->flags))
++			    test_bit(NETFS_SREQ_HIT_EOF, &front_flags))
+ 				netfs_read_unlock_folios(rreq, &notes);
+ 		} else {
+ 			stream->collected_to = front->start + transferred;
+ 			rreq->collected_to = stream->collected_to;
+ 		}
+ 
+-		/* Stall if the front is still undergoing I/O. */
+-		if (notes & HIT_PENDING)
+-			break;
+-
+-		if (test_bit(NETFS_SREQ_FAILED, &front->flags)) {
+-			if (!stream->failed) {
+-				stream->error = front->error;
+-				rreq->error = front->error;
+-				set_bit(NETFS_RREQ_FAILED, &rreq->flags);
+-				stream->failed = true;
+-			}
+-			notes |= MADE_PROGRESS | ABANDON_SREQ;
+-		} else if (test_bit(NETFS_SREQ_NEED_RETRY, &front->flags)) {
+-			stream->need_retry = true;
+-			notes |= NEED_RETRY | MADE_PROGRESS;
+-			break;
+-		} else if (test_bit(NETFS_RREQ_SHORT_TRANSFER, &rreq->flags)) {
+-			notes |= MADE_PROGRESS;
+-		} else {
+-			if (!stream->failed) {
+-				stream->transferred += transferred;
+-				stream->transferred_valid = true;
+-			}
+-			if (front->transferred < front->len)
+-				set_bit(NETFS_RREQ_SHORT_TRANSFER, &rreq->flags);
+-			notes |= MADE_PROGRESS;
+-		}
+-
+ 		/* Remove if completely consumed. */
+ 		stream->source = front->source;
+ 		spin_lock(&rreq->lock);
+ 
+ 		remove = front;
+-		trace_netfs_sreq(front,
+-				 notes & ABANDON_SREQ ?
+-				 netfs_sreq_trace_abandoned : netfs_sreq_trace_consumed);
++		trace_netfs_sreq(front, netfs_sreq_trace_consumed);
+ 		list_del_init(&front->rreq_link);
+ 		front = list_first_entry_or_null(&stream->subrequests,
+ 						 struct netfs_io_subrequest, rreq_link);
+ 		spin_unlock(&rreq->lock);
+-		netfs_put_subrequest(remove,
+-				     notes & ABANDON_SREQ ?
+-				     netfs_sreq_trace_put_abandon :
+-				     netfs_sreq_trace_put_done);
++		netfs_put_subrequest(remove, netfs_sreq_trace_put_done);
  	}
  
--	if (wreq->origin == NETFS_WRITETHROUGH) {
--		to_eof = false;
--		if (flen > i_size - fpos)
--			flen = i_size - fpos;
--	} else if (flen > i_size - fpos) {
-+	if (flen > i_size - fpos) {
- 		flen = i_size - fpos;
- 		if (!streamw)
- 			folio_zero_segment(folio, flen, fsize);
-@@ -611,103 +606,6 @@ int netfs_writepages(struct address_space *mapping,
+ 	trace_netfs_collect_stream(rreq, stream);
+@@ -337,6 +413,12 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
+ 	_debug("retry");
+ 	netfs_retry_reads(rreq);
+ 	goto out;
++
++abandon_request:
++	set_bit(NETFS_RREQ_FAILED, &rreq->flags);
++	set_bit(NETFS_RREQ_ABANDON_REQ, &rreq->flags);
++	netfs_wake_rreq_flag(rreq, NETFS_RREQ_PAUSE, netfs_rreq_trace_unpause);
++	return netfs_abandon_read_results(rreq);
  }
- EXPORT_SYMBOL(netfs_writepages);
  
--/*
-- * Begin a write operation for writing through the pagecache.
-- */
--struct netfs_io_request *netfs_begin_writethrough(struct kiocb *iocb, size_t len)
--{
--	struct netfs_io_request *wreq = NULL;
--	struct netfs_inode *ictx = netfs_inode(file_inode(iocb->ki_filp));
--
--	netfs_wb_begin(ictx, false);
--
--	wreq = netfs_create_write_req(iocb->ki_filp->f_mapping, iocb->ki_filp,
--				      iocb->ki_pos, NETFS_WRITETHROUGH);
--	if (IS_ERR(wreq)) {
--		netfs_wb_end(ictx);
--		return wreq;
--	}
--
--	wreq->io_streams[0].avail = true;
--	__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
--	trace_netfs_write(wreq, netfs_write_trace_writethrough);
--	return wreq;
--}
--
--/*
-- * Advance the state of the write operation used when writing through the
-- * pagecache.  Data has been copied into the pagecache that we need to append
-- * to the request.  If we've added more than wsize then we need to create a new
-- * subrequest.
-- */
--int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
--			       struct folio *folio, size_t copied, bool to_page_end,
--			       struct folio **writethrough_cache)
--{
--	int ret;
--
--	_enter("R=%x ic=%zu ws=%u cp=%zu tp=%u",
--	       wreq->debug_id, wreq->buffer.iter.count, wreq->wsize, copied, to_page_end);
--
--	/* The folio is locked. */
--
--	if (*writethrough_cache != folio) {
--		if (*writethrough_cache) {
--			/* Did the folio get moved? */
--			folio_put(*writethrough_cache);
--			*writethrough_cache = NULL;
--		}
--		/* We can make multiple writes to the folio... */
--		if (wreq->len == 0)
--			trace_netfs_folio(folio, netfs_folio_trace_wthru);
--		else
--			trace_netfs_folio(folio, netfs_folio_trace_wthru_plus);
--		*writethrough_cache = folio;
--		folio_get(folio);
--	}
--
--	wreq->len += copied;
--
--	if (!to_page_end) {
--		folio_mark_dirty(folio);
--		folio_unlock(folio);
--		return 0;
--	}
--
--	ret = netfs_write_folio(wreq, wbc, folio);
--	folio_put(*writethrough_cache);
--	*writethrough_cache = NULL;
--	wreq->submitted = wreq->len;
--	return ret;
--}
--
--/*
-- * End a write operation used when writing through the pagecache.
-- */
--ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
--			       struct folio *writethrough_cache)
--{
--	ssize_t ret;
--
--	_enter("R=%x", wreq->debug_id);
--
--	if (writethrough_cache) {
--		folio_lock(writethrough_cache);
--		netfs_write_folio(wreq, wbc, writethrough_cache);
--		folio_put(writethrough_cache);
--		wreq->submitted = wreq->len;
--	}
--
--	netfs_end_issue_write(wreq);
--
--	if (wreq->iocb)
--		ret = -EIOCBQUEUED;
--	else
--		ret = netfs_wait_for_write(wreq);
--	netfs_put_request(wreq, netfs_rreq_trace_put_return);
--	return ret;
--}
--
- /**
-  * netfs_writeback_single - Write back a monolithic payload
-  * @mapping: The mapping to write from
+ /*
 diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 6a4d4fd2551d..c8f4941b0ad7 100644
+index 43696fc67a2a..f277c187c408 100644
 --- a/include/linux/netfs.h
 +++ b/include/linux/netfs.h
-@@ -210,7 +210,6 @@ enum netfs_io_origin {
- 	NETFS_DIO_READ,			/* This is a direct I/O read */
- 	NETFS_WRITEBACK,		/* This write was triggered by writepages */
- 	NETFS_WRITEBACK_SINGLE,		/* This monolithic write was triggered by writepages */
--	NETFS_WRITETHROUGH,		/* This write was made by netfs_perform_write() */
- 	NETFS_UNBUFFERED_WRITE,		/* This is an unbuffered write */
- 	NETFS_DIO_WRITE,		/* This is a direct I/O write */
- 	NETFS_PGPRIV2_COPY_TO_CACHE,	/* [DEPRECATED] This is writing read data to the cache */
-diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
-index 5354a0439324..2ce162baaad1 100644
---- a/include/trace/events/netfs.h
-+++ b/include/trace/events/netfs.h
-@@ -30,8 +30,7 @@
- 	EM(netfs_write_trace_dio_write,		"DIO-WRITE")	\
- 	EM(netfs_write_trace_unbuffered_write,	"UNB-WRITE")	\
- 	EM(netfs_write_trace_writeback,		"WRITEBACK")	\
--	EM(netfs_write_trace_writeback_single,	"WB-SINGLE") \
--	E_(netfs_write_trace_writethrough,	"WRITETHRU")
-+	E_(netfs_write_trace_writeback_single,	"WB-SINGLE")
- 
- #define netfs_rreq_origins					\
- 	EM(NETFS_READAHEAD,			"RA")		\
-@@ -43,7 +42,6 @@
- 	EM(NETFS_DIO_READ,			"DR")		\
- 	EM(NETFS_WRITEBACK,			"WB")		\
- 	EM(NETFS_WRITEBACK_SINGLE,		"W1")		\
--	EM(NETFS_WRITETHROUGH,			"WT")		\
- 	EM(NETFS_UNBUFFERED_WRITE,		"UW")		\
- 	EM(NETFS_DIO_WRITE,			"DW")		\
- 	E_(NETFS_PGPRIV2_COPY_TO_CACHE,		"2C")
-@@ -221,9 +219,7 @@
- 	EM(netfs_folio_trace_redirtied,		"redirtied")	\
- 	EM(netfs_folio_trace_store,		"store")	\
- 	EM(netfs_folio_trace_store_copy,	"store-copy")	\
--	EM(netfs_folio_trace_store_plus,	"store+")	\
--	EM(netfs_folio_trace_wthru,		"wthru")	\
--	E_(netfs_folio_trace_wthru_plus,	"wthru+")
-+	E_(netfs_folio_trace_store_plus,	"store+")
- 
- #define netfs_collect_contig_traces				\
- 	EM(netfs_contig_trace_collect,		"Collect")	\
+@@ -281,6 +281,7 @@ struct netfs_io_request {
+ #define NETFS_RREQ_FAILED		3	/* The request failed */
+ #define NETFS_RREQ_RETRYING		4	/* Set if we're in the retry path */
+ #define NETFS_RREQ_SHORT_TRANSFER	5	/* Set if we have a short transfer */
++#define NETFS_RREQ_ABANDON_REQ		6	/* Set if the request is to be abandoned */
+ #define NETFS_RREQ_CACHE_STOP		8	/* Set to stop caching (ENOBUFS or error) */
+ #define NETFS_RREQ_CACHE_ERROR		9	/* Set if we got an error from the cache */
+ #define NETFS_RREQ_OFFLOAD_COLLECTION	12	/* Offload collection to workqueue */
 
