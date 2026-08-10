@@ -1,94 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A4D380FC7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 20:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A30442B03
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 20:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786393888; cv=none; b=HWevag3mLPgfACL99PIzcu0zadz+AiFZNjqh/5Ro4N6GfiwWsNAO13VL30+nOTBi6ScFY9ek8Dw0Sq+38UucKhJUj+wvcR2O7XJgHT1XbgSR3ZtPyi+F5RU5DXXg9DCdkQ0OQlPf++1/iBVTysaR903VTZaiVqHDv/dBWGhi4fE=
+	t=1786394494; cv=none; b=mZ4XCqeP83om3tzxI5sqYeZogx/3t697bq5egGzL/gVIDGAS6VzEyNEa3o8PkFtPmAZUDkgdFoQGFzHR6InHs0Fce+PEXhmT2mLk3+A7IVG+Sn1b9xVlghQGGyrScJ5bpEm+alaWL3HtrHGdXFNj0OYPzXItn3P637Kajbqcu2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786393888; c=relaxed/simple;
-	bh=SqaRd//dvVr9mB50I7wn+QndPUln3nLYJ57OMJu5Bos=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=jqYRnAR/At0DRu3KKNYqWg71+ix2AyFDVx5r5ve5k/ARhFSsIqFqV0bQe6AsuGyAnMEpdGLGxxUvgxiWOTaZGplrAuz3VYxW4NexpR7EXY035tYdSzjE3tUOR/QSoLg4A3EVlx2lcIeg9uybmaphm/r7PuSuw1Q+IYOWL+xi4hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=USc0yzG1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786394494; c=relaxed/simple;
+	bh=pFQD9MFc4A7vMMm3znX2ZQ/fMcPWFpch65waZMmi/CM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 Cc:Content-Type; b=VywhbvhAz0K/tXqXeRNZOXZvfCWPpr4aJwq8G4SFhbl6G72Mfq6FRQUBlgOyFZ1KGFTBX52QE/IwMr+ivgw3N+/DbqhMlSWGSFtJcft5EQkSolzLnIEBBWpbbny0EIc1zHGoPnbV2Oy4jU0qDpphEWQ7xOui3PO6M4xvYjfhpqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ix1jsaBp; arc=none smtp.client-ip=209.85.214.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="USc0yzG1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786393886;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N+nHIX4qndv3AfBXSobDAVXCw7W2PVPh2/yZZQrRWZU=;
-	b=USc0yzG1rpbm8GjUYUOby0h/msaGoqe3onHu93k8mytiI5jN21s8FfbhQngdDe6AOd/ocZ
-	qvDZYcHT6ElLn6o3trAhUoTqmA47hwBbgLEpfMGKUTggBAztgmhjS3/4Z0abHeFbFRn9+/
-	xjrZ4eez3Y7gXmIN/rX0G7qWIKZA7Yc=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-278-8366SUk-OtWzAoVznGm_-g-1; Mon,
- 10 Aug 2026 16:31:19 -0400
-X-MC-Unique: 8366SUk-OtWzAoVznGm_-g-1
-X-Mimecast-MFC-AGG-ID: 8366SUk-OtWzAoVznGm_-g_1786393877
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 03F33195608A;
-	Mon, 10 Aug 2026 20:31:15 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.44])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2A89D1800346;
-	Mon, 10 Aug 2026 20:31:04 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <anooK9-UCNTmoSAq@casper.infradead.org>
-References: <anooK9-UCNTmoSAq@casper.infradead.org> <20260810144746.574036-1-dhowells@redhat.com> <20260810144746.574036-5-dhowells@redhat.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
-    Christoph Hellwig <hch@infradead.org>,
-    Paulo Alcantara <pc@manguebit.org>, Jens Axboe <axboe@kernel.dk>,
-    Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
-    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-    linux-block@vger.kernel.org
-Subject: Re: [PATCH v9 04/26] Add a function to kmap one page of a multipage bio_vec
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ix1jsaBp"
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2ce7dff6253so2898815ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 13:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786394491; x=1786999291; darn=vger.kernel.org;
+        h=content-type:cc:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TEfuVEjGYGEogEAHeBDsRpCxcd7/D4XhwfU+1h+Q/ks=;
+        b=ix1jsaBpWEe//RJdvGX7Lyiirw4HtQN2Ym/FEDxpBrxcJAuiRcUddZSSwgnMOLMjDX
+         8NJsrlNX71uJ1+d5SORB/KPATmtqow+q1+qkLDITGgHlGCZ4nTi9EI8DaabgxE+Z6TOO
+         vw/d03PwXJ18oPJjD/NFZu8TGMR5kWhCzCubGcrOKiMaUTuJJKiPh17Cj41SwwgxMzs4
+         pFxIgLDI0raULDzYSYTdxepsQ5REf3icghHcEKXZ29g9/xM7mcU1MUmQecLOgwW47v8Q
+         diUTm2KvHwx6RCdHqJ10NnbkDhR0YB3JNjd50HSDmDlUJC1zkO54iI8EY7dZsyp1bYw+
+         8wag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786394491; x=1786999291;
+        h=content-type:cc:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TEfuVEjGYGEogEAHeBDsRpCxcd7/D4XhwfU+1h+Q/ks=;
+        b=qqJIpwfah4NwrLAVnT1ounBy38DrCd5/kkJccRZJKNe9ODc4+IG27RE9gZzLYqBSw2
+         ZeA6EpR6gt+hWkAq7zoAyCXzioOnA2X5UdoX4VYg/kkk1OFePxf6IaibQr56HvfWbTje
+         xpg3Dg+7BsB6zHz+pMFVz5kn5L4Ecx5GoQbVi0YpRIvV7bjxjmlmQoGxvLrTWPw9m5ao
+         SJXSV8VDxitXhGEI8ucA+TqpL/g/bVy03qcfaWL13GwPAKI5quBuSfKQhx6A/RgFj5kk
+         KnTxyuYfe0U0Ikltl3zw+biFod6ntYem44yDuwQE3T/MkqIJ6xBsoB5m331D56fE4zU3
+         Zyag==
+X-Forwarded-Encrypted: i=1; AHgh+RqOp8+YGF76XaiVyHfALKyzcOd9IgBkZh9s1Sc7f07FtyCuftuMArW306dBmkvIbndElGNUkKVyMfbDuq4D@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyot7hIBbh+Ba9vStryLVyAUjI88ICxjJ2Cxd43u36EfwEyHhMg
+	QIFgvc/smOfQNZSaNLjHE3mGDVHUe9ewWggUOYQAoIhkp+xjKxoizWLeG59Puo3/RiRp6Nuen1X
+	s
+X-Received: from pjab15.prod.google.com ([2002:a17:90a:100f:b0:381:171e:961c])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2d0e:b0:390:b3c5:e2c9
+ with SMTP id 98e67ed59e1d1-392d61cf225mr489608a91.17.1786394491093; Mon, 10
+ Aug 2026 13:41:31 -0700 (PDT)
+Date: Mon, 10 Aug 2026 20:41:12 +0000
+In-Reply-To: <20260810204118.1981755-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <586047.1786393863.1@warthog.procyon.org.uk>
-Date: Mon, 10 Aug 2026 21:31:03 +0100
-Message-ID: <586048.1786393863@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Mime-Version: 1.0
+References: <20260810204118.1981755-1-morbo@google.com>
+X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
+Message-ID: <20260810204118.1981755-2-morbo@google.com>
+Subject: [PATCH 1/2] vfs: Annotate struct fdtable's fd field with __counted_by_ptr
+From: Bill Wendling <morbo@google.com>
+Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Matthew Wilcox <willy@infradead.org> wrote:
+The 'struct fdtable' holds the file descriptor table information,
+including the current file descriptor array 'fd' and its size 'max_fds'.
+To harden the kernel against out-of-bounds accesses, we can annotate the
+'fd' pointer field with the '__counted_by_ptr' attribute, referencing
+'max_fds'.
 
-> On Mon, Aug 10, 2026 at 03:47:21PM +0100, David Howells wrote:
-> > Add a function to kmap one page of a multipage bio_vec by offset (which is
-> > added to the offset in the bio_vec internally).  The caller is responsible
-> > for calculating how much of the page is then available.
-> 
-> I think this should be kmap_local_bvec().  Living in bvec.h makes sense,
-> but keeping it in the kmap_local_ namespace is better than putting it in
-> the bvec_ namespace.
+The compiler uses the '__counted_by_ptr' attribute to track the
+size of the memory allocated for the pointer field, enabling
+runtime bounds checks under KASAN and fortified functions. There are
+three places where a 'struct fdtable' is initialized, and in all of
+them, 'max_fds' is set before the 'fd' pointer is accessed or assigned
+in all allocation and initialization places.
 
-Christoph disagrees with you:-/
+No accesses to 'fd' occur before 'max_fds' is set, preventing any
+potential runtime false-positives or panics due to uninitialized count
+fields.
 
-David
+This patch was generated by CodeMender and checked by submitter.
+
+Cc: codemender-patching+linux@google.com
+Signed-off-by: Bill Wendling <morbo@google.com>
+---
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Kees Cook <kees@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-hardening@vger.kernel.org
+---
+ include/linux/fdtable.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+index c45306a9f007..3a5c88291125 100644
+--- a/include/linux/fdtable.h
++++ b/include/linux/fdtable.h
+@@ -25,7 +25,7 @@
+ 
+ struct fdtable {
+ 	unsigned int max_fds;
+-	struct file __rcu **fd;      /* current fd array */
++	struct file __rcu **fd __counted_by_ptr(max_fds);      /* current fd array */
+ 	unsigned long *close_on_exec;
+ 	unsigned long *open_fds;
+ 	unsigned long *full_fds_bits;
+-- 
+2.55.0.679.g6767b8d81c-goog
 
