@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9BB3DD50D;
-	Mon, 10 Aug 2026 13:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AC62BE656
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 13:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786368298; cv=none; b=C6gi4qylRsONma7J7f9JsEKvFqCVKdGVRPYqWdpR+ecCZiavkiJqQ0fgJGReqob1W+CpJd9JYfqdnvLW6OhHWGDywGBIsmnMXf2z4nT7jXcJc3my5GPNv+WJMExAzwz76e7oaHu/RtySzCHjmnz+o62EBBVH7CLP8urBttNFGVY=
+	t=1786368866; cv=none; b=pye1ItLi89LFXZunE0L0WxMmhgrgMjvBdfHAIDIJLDcQAQ41GuBLCbMRku3pYuKQUgLcyBnZ3C+JXqmLVMZT1Lh/6/LAf5q2JwOZ/dE96NOvL4evDAT22jWiOQsvuHsBzHjmqWGdtojOO2mZoOKSz7XS0uRNaNOktX0wwWqjxng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786368298; c=relaxed/simple;
-	bh=maQOpdiE0Nzwl9nHvXTPD7Hmop2fglx39GVbR/iCWLc=;
+	s=arc-20240116; t=1786368866; c=relaxed/simple;
+	bh=Gdl9lFp8bb1Ad7U9d6ZbHg46SyvNZwcX7+m2PALfoO4=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=FXpoB7L/9ya+H21NNE2U4xi8bRwqRVtOxV9vKXfFr1fuziCO7TFpcQVVE28a17PjWaUHY2mKEsmhrBoJRnsTsd09X+kR5d01wMWSsReyNB+h0+FDtvj9qSjk3X6dvbtb3fsQbookUzioVykh41JMCtswHHPZ4lwjyWlcxybkMus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHU9+DmU; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=n4UW5KP6OLRIJJVn5PPsrHH+CpPlF7bbbshsZLfoCaGBrfx9VkcsPnnd70DqtlQjeDJnln+OgEhLWgXQKhAbmhDq2dUldF54GbrgiKEnqcIhHjcLMyWEw0we58Wolr9aMdzKKQpkrFXPAgsubh70sG8ftkgg5Mc05zLijoRLtac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqRS9D6q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHU9+DmU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65A11F000E9;
-	Mon, 10 Aug 2026 13:24:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqRS9D6q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1911F000E9;
+	Mon, 10 Aug 2026 13:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786368297;
-	bh=LqbXuIW1AzbFRLlq+BlUwIYUreMyPkDhS0NmZzNzwDs=;
+	s=k20260515; t=1786368865;
+	bh=kR71C2Ubt4WiR9h4PtQLeumpWbg0KGu8uex6hXcc5F8=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=QHU9+DmUad00AqAVMjudvnPWCwaquhLGto8OXMhUsDoF0L2J1FS/N7uW7ZpszY7Wj
-	 svXfOgfonUAlX1R9cDhLEWl1MhvlPG1IoLYDIL6/QskY1wwKDXM6Zb61KAkAozVv5Q
-	 fxKRahgEQFAXZmA87gDXoJssKUE9mvATq0EMm7RZtniRgYrPkzXvy8C4hp+plDyczo
-	 3cqtBSMmKZo96+AYKJ4wpuFljIJNA4HQN6H+WemMK0+ciUxIMNX+yksGgen3pPLjQI
-	 kQQFZ/fZ/PZ+d4A0RPWHVErYAXPnddIKGVWrk9K8LR1CEBvIBbLPy2smFisKgRDnDl
-	 mZuHErsvEMGoA==
+	b=IqRS9D6qpUfWNnkV9VTBBzgON+P3tW+KcBrnf+wQTQ6ukR6YPy01PhLjQcnvRzm0y
+	 8soQIABwHT2TaeXnI4OLCHmZ7xSNOktylxg+DQdt7ycfSLTUTqkynp00UZb7k968g0
+	 o6r2HjhdatJ4LDdd3l7H46PSL0gptZOipwXU08hQNH51MiEMCVZCiYL7Xz7yiMgCU+
+	 2KZADKZicvcew9YBi8JtaYQXFXKEv+Ed7upEC5FvrCoMOKJcnZr7o0P0flZY8hCQix
+	 xSBEQ5PswbUxcf4HLgbHkfXnamAH9lwyrDyvS4kSDnShVFL+w5qmk0UFFYimQc0fss
+	 iZu1QJ+wsJGuA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,89 +34,242 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 0/2] vfs, afs, bash: Fix miscomparison of foreign
- user IDs in the VFS
+Subject: Re: [PATCH v4] erofs: reuse superblock for file-backed mounts
 From: Christian Brauner <brauner@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <christian@brauner.io>, 
- Marc Dionne <marc.dionne@auristor.com>, 
- Jeffrey Altman <jaltman@auristor.com>, Steve French <sfrench@samba.org>, 
- linux-afs@lists.infradead.org, openafs-devel@openafs.org, 
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260728141344.1811120-1-dhowells@redhat.com>
-References: <20260728141344.1811120-1-dhowells@redhat.com>
-Date: Mon, 10 Aug 2026 15:24:52 +0200
-Message-Id: <20260810-jazzfest-unglaubhaft-miene-4d1cf4cf42d3@brauner>
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org, 
+ linux-fsdevel@vger.kernel.org, amir73il@gmail.com, brauner@kernel.org
+In-Reply-To: <20260804060455.2928514-1-gscrivan@redhat.com>
+References: <20260804060455.2928514-1-gscrivan@redhat.com>
+Date: Mon, 10 Aug 2026 15:34:19 +0200
+Message-Id: <20260810-losging-beengt-zarte-1047dd62c195@brauner>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3040; i=brauner@kernel.org;
- h=from:subject:message-id; bh=maQOpdiE0Nzwl9nHvXTPD7Hmop2fglx39GVbR/iCWLc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRVXlQ7qvirz0TGy/+jfkrD3qrvbHfKHnVtnxah3OMv8
- OlIdqVtRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESWbGdkmD7z7cU7Rf83ynz8
- aunf97QkmDXU6aNwW4rntXOSW0p5fzP8FWm+FW2+PGfxtlPvJQzFXh6M3SJ+4pdxecTHSon8s5a
- BDAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8165; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Gdl9lFp8bb1Ad7U9d6ZbHg46SyvNZwcX7+m2PALfoO4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRVXo6/Pn3fk7fxPAd992cYvZvWH7ega+e0uWEqKxau2
+ 7VuU1G6dkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEZt1hZPiqluVmanVhz3Z3
+ R7s16+P6k5j8wpoeLGGa1ZO2n1/7uifDX6G4j/78MYmvd1rsinaVm/M+V8x22cI1p+wdfh5S+7J
+ clhcA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-28 15:13 +0100, David Howells wrote:
-> Hi Al, Christian,
-> 
-> Here's a pair of fixes that deal with some places the VFS mishandles
-> foreign user ID checks.  By "foreign" I mean that the user IDs from the
-> filesystem do not belong in the same number space as the system's user IDs.
-> Network filesystems are prime examples of this, but it may also impact
-> things like USB drives or cdroms.
-> 
-> Take AFS as example: Whilst each file does have a numeric user ID, the file
-> may be accessed from a world-accessible public-facing server from some
-> other organisation with its own idea of what that user ID refers to.  IDs
-> from AFS may also collide with the system's own set of IDs and may also be
-> unrepresentable as a 32-bit UID (in the case of AuriStor servers).
-> 
-> Further, kAFS uses a key containing an authentication token to specify the
-> subject doing an RPC operation to the server - and, as such, this needs to
-> be used instead of current_fsuid() in determining whether the current user
-> has ownership rights over a file.
-> 
-> Additionally, filesystems (CIFS being a notable example) may also have user
-> identifiers that aren't simple integers.
-> 
-> Now the problem in the VFS is that there are a number of places where it
-> assumes it can directly compare i_uid (possibly id-mapped) to either than
-> on another inode or a UID drawn from elsewhere (e.g. current_uid()) - but
-> this doesn't work right.
-> 
-> This causes the write-to-sticky check to work incorrectly for AFS (though
-> this is currently masked by a workaround in bash that has now been removed
-> as of bash-5.3) whereby open(O_CREAT) of such a file will fail when it
-> shouldn't.
-> 
-> Two patches are provided:
-> 
->  (1) Add a pair of inode operations, one to compare the ownership of a pair
->      of inodes and the other to see if the current process has ownership
->      rights over an inode with an IOP flag to control access to them.
-> 
->      Usage of this is then extended out into the VFS, replacing comparisons
->      between i_uid and i_uid and between i_uid and current_fsuid().  The
->      default, it the inode ops are unimplemented, is to do those direct i_uid
->      comparisons.
-> 
->  (2) Fixes the bash workaround issue with regard to AFS, overriding the
->      checks as to whether two inodes have the same owner and the check as
->      to whether the current user owns an inode to work within the AFS
->      model.
-> 
-> kAFS uses the result of a status-fetch with a suitable key to determine
-> file ownership (if the ADMINISTER bit is set) and just compares the 64-bit
-> owner IDs to determine if two inodes have the same ownership.
-> 
-> Note that chown may also need modifying in some way - but that can't
-> necessarily supply the information required (for instance, an AuriStor YFS ID
-> is 64 bits, but chown can only handle a 32-bit integer; CIFS might use a
-> GUID).
+Hi Giuseppe,
 
-Seems that some other changes are required for this. I'll take a look
-once a new version is out.
+> When the same file-backed image is mounted multiple times (via path or
+> fd) with the superblock_share mount option, reuse the existing
+> superblock instead of creating a new one.  This allows multiple mounts
+> of the same image to share in-kernel data structures more efficiently.
+> 
+> The backing file is identified by its inode and fsoffset.  If mount
+> options conflict or extra devices are used, a separate superblock
+> is created transparently as a fallback.  Remount is not allowed on
+> shared superblocks.
+> 
+> Tested by mounting a 177M Fedora EROFS image 20 times with full
+> traversal:
+> 
+>   #!/bin/sh
+>   IMG=${1:-/root/fedora.erofs}
+>   OPTS=${2:+-o $2}
+>   N=20
+>   DIR=$(mktemp -d)
+>   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
+> 
+>   sync; echo 3 > /proc/sys/vm/drop_caches
+>   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
+>   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
+> 
+>   for i in $(seq 1 $N); do
+>       mkdir $DIR/m$i
+>       mount -t erofs $OPTS "$IMG" $DIR/m$i
+>       find $DIR/m$i > /dev/null
+>   done
+> 
+>   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
+>       awk '{print $3}' | sort -u | wc -l)"
+>   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
+>       awk '{print $2}') - INODES_BEFORE ))"
+>   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
+>       awk '{print $2}') - MEM_BEFORE )) kB"
+> 
+> without superblock_share:
+> 
+>   # time ./test.sh /root/fedora.erofs
+>   Superblocks: 20
+>   erofs_inode delta: +45864
+>   Slab delta: +37448 kB
+>   real	0m2.311s
+>   user	0m0.222s
+>   sys	0m1.998s
+> 
+> with superblock_share:
+> 
+>   # time ./test.sh /root/fedora.erofs superblock_share
+>   Superblocks: 1
+>   erofs_inode delta: +2044
+>   Slab delta: +284 kB
+>   real	0m0.679s
+>   user	0m0.157s
+>   sys	0m0.469s
+> 
+> The time difference shows that sharing the superblock also benefits
+> the page cache and inode cache, as subsequent mounts of the same image
+> avoid re-reading the backing file.  This is particularly useful for
+> container hosts running multiple containers from the same base image.
+> 
+> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+>
+> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+> index d301d9ac946a..49c4e7dbc5d6 100644
+> --- a/Documentation/filesystems/erofs.rst
+> +++ b/Documentation/filesystems/erofs.rst
+> @@ -139,6 +139,9 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
+>                         page cache.
+>  source=%s              (For file-backed mounts) Specify the backing image as a path
+>                         or as an already-opened file descriptor.
+> +superblock_share       (For file-backed mounts) Share the superblock when the same
+> +                       backing file is mounted more than once with compatible
+> +                       options.  Remount is not allowed on shared superblocks.
+>  ===================    =========================================================
+>  
+>  File-backed mounts
+> @@ -156,6 +159,11 @@ Only regular files are accepted as backing files; to mount an image that
+>  resides on a block device, use the traditional block device mount path
+>  instead.
+>  
+> +When superblock_share is specified and the same backing file (identified
+> +by inode and fsoffset) is mounted more than once with compatible mount
+> +options, the kernel reuses the existing superblock instead of creating a
+> +new one.  Remount is not allowed on shared superblocks.
+> +
+>  Sysfs Entries
+>  =============
+>  
+> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+> index 57bd21859c65..86da219f8f4e 100644
+> --- a/fs/erofs/internal.h
+> +++ b/fs/erofs/internal.h
+> @@ -156,6 +156,7 @@ struct erofs_sb_info {
+>  #define EROFS_MOUNT_DAX_NEVER		0x00000080
+>  #define EROFS_MOUNT_DIRECT_IO		0x00000100
+>  #define EROFS_MOUNT_INODE_SHARE		0x00000200
+> +#define EROFS_MOUNT_SUPERBLOCK_SHARE	0x00000400
+>  
+>  #define clear_opt(opt, option)	((opt)->mount_opt &= ~EROFS_MOUNT_##option)
+>  #define set_opt(opt, option)	((opt)->mount_opt |= EROFS_MOUNT_##option)
+> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+> index 3d92caec8d3a..4e926376e17b 100644
+> --- a/fs/erofs/super.c
+> +++ b/fs/erofs/super.c
+> @@ -386,7 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+>  enum {
+>  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+>  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
+> -	Opt_source,
+> +	Opt_source, Opt_superblock_share,
+>  };
+>  
+>  static const struct constant_table erofs_param_cache_strategy[] = {
+> @@ -415,6 +415,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+>  	fsparam_u64("fsoffset",			Opt_fsoffset),
+>  	fsparam_flag("inode_share",		Opt_inode_share),
+>  	fsparam_file_or_string("source",	Opt_source),
+> +	fsparam_flag("superblock_share",	Opt_superblock_share),
+>  	{}
+>  };
+>  
+> @@ -560,6 +561,12 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+>  		else
+>  			set_opt(&sbi->opt, INODE_SHARE);
+>  		break;
+> +	case Opt_superblock_share:
+> +		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
+> +			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
+> +		else
+> +			set_opt(&sbi->opt, SUPERBLOCK_SHARE);
+> +		break;
+>  	case Opt_source:
+>  		return erofs_fc_parse_source(fc, param);
+>  	}
+> @@ -652,6 +659,17 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+>  		errorfc(fc, "FSDAX is not allowed when inode_share is on");
+>  		return -EINVAL;
+>  	}
+> +	if (test_opt(&sbi->opt, SUPERBLOCK_SHARE) &&
+> +	    test_opt(&sbi->opt, INODE_SHARE)) {
+> +		errorfc(fc, "superblock_share is not allowed when inode_share is on");
+> +		return -EINVAL;
+> +	}
+> +	/* Extra devices are not yet supported with superblock sharing.  */
+> +	if (test_opt(&sbi->opt, SUPERBLOCK_SHARE) &&
+> +	    sbi->devs->extra_devices) {
+> +		errorfc(fc, "superblock_share does not support extra devices");
+> +		return -EINVAL;
+> +	}
+>  
+>  	sbi->blkszbits = PAGE_SHIFT;
+>  	if (!sb->s_bdev) {
+> @@ -779,6 +797,51 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	return 0;
+>  }
+>  
+> +static int erofs_fc_test_file_super(struct super_block *sb,
+> +				    struct fs_context *fc)
+> +{
+> +	struct erofs_sb_info *sbi = EROFS_SB(sb);
+> +	struct erofs_sb_info *new_sbi = fc->s_fs_info;
+> +
+> +	if (sb->s_iflags & SB_I_RETIRED)
+> +		return 0;
+> +	if (!sbi->dif0.file || !new_sbi->dif0.file)
+> +		return 0;
+> +	if (!test_opt(&new_sbi->opt, SUPERBLOCK_SHARE))
+> +		return 0;
+> +	return file_inode(sbi->dif0.file) == file_inode(new_sbi->dif0.file) &&
+> +	       sbi->dif0.fsoff == new_sbi->dif0.fsoff &&
+> +	       !memcmp(&sbi->opt, &new_sbi->opt, sizeof(sbi->opt));
+> +}
+> +
+> +static int erofs_fc_get_tree_file(struct fs_context *fc)
+> +{
+> +	struct erofs_sb_info *sbi = fc->s_fs_info;
+> +	struct super_block *sb;
+> +	int err;
+> +
+> +	if (!test_opt(&sbi->opt, SUPERBLOCK_SHARE))
+> +		return get_tree_nodev(fc, erofs_fc_fill_super);
+> +
+> +	sb = sget_fc(fc, erofs_fc_test_file_super, set_anon_super_fc);
+> +	if (IS_ERR(sb))
+> +		return PTR_ERR(sb);
+> +
+> +	if (sb->s_root) {
+> +		erofs_info(sb, "sharing superblock for the same backing file");
+> +	} else {
+> +		err = erofs_fc_fill_super(sb, fc);
+> +		if (err) {
+> +			deactivate_locked_super(sb);
+> +			return err;
+> +		}
+> +		sb->s_flags |= SB_ACTIVE;
+> +	}
+> +
+> +	fc->root = dget(sb->s_root);
+> +	return 0;
+> +}
+
+I think you should rename vfs_get_super() to get_tree_super() and expose
+it to modules. Then this function collapses to:
+
+if (!test_opt(&sbi->opt, SUPERBLOCK_SHARE))
+	get_tree_super(fc, NULL, erofs_fc_fill_super);
+
+return get_tree_super(fc, erofs_fc_test_file_super, erofs_fc_fill_super);
+
+or simpler, if you move the sbi test for SUPERBLOCK_SHARE into
+erofs_fc_test_file_super:
+
+get_tree_super(fc, erofs_fc_test_file_super, erofs_fc_fill_super);
+
+-- 
 
