@@ -1,224 +1,146 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD5835C1A6;
-	Mon, 10 Aug 2026 06:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A69339378
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 06:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786344366; cv=none; b=aOkI5RfwEuxrH4BY5RonYEylSOE6qCk5nJ4Fs81S52zDVNkBJ2aUaxyNPkfCPGEVGmeK/037B4O0tDwsTZOX5uUzcuGL/WQOLzsws0dYjuYZeX8EWYSXI4XV5Px4Ff+KrMCuBFl4GRqV54NdpEhrSCjvZ4/7C+WhxZmpGq+lBYw=
+	t=1786344691; cv=none; b=E5+iurKBI6WzlgwkcC1EmglLVwpp5JET0Y7C/5ZiRJCsOsf8nS4DAvuj8aS7b/qiJ5eUZuXzDNoKWuHGyg7IWAqPUJ2R+SIV0mNQsWL5sud19GbXbtoUSNSWVuqeWhnBqedsvZt1Bkc7f+L4xHQWDitc0ywaySu6p0OX58noZw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786344366; c=relaxed/simple;
-	bh=46c6vocBVce9Y/Apjkez7FMUK7jmFceu+6/gfgpl9AM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dPCY/YupmhqQcAbXv57O/NrpjAbB8DJ+pHIN0588486X1hVt2uetBzcPGdWrlLjypxTSSLD+6uq+mLIrYMUS7f7gez/PDZKz8PLubFRmyrP7ek+Pv76PPCkT4Fv44b/xECTvVI3zEOwb08HHnr4wV55IfHJZYmiIa0azVJ1xKVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cP2dX1rq; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cP2dX1rq"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67A5VYZX3085069;
-	Mon, 10 Aug 2026 06:44:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=vVPGPVZ23NsreeExE7+jGCM0ud2bcA
-	JA4ypv1DILR34=; b=cP2dX1rqRgJGyJQPsc4KFbE1PC99K1ErC8LoPBcJX/kDVk
-	D9Jo4Iz1SXdFchU8Ko5W4WB9COXrRcti5DpxhwdI5dfEePzz5UmgRzT8EYYyBi07
-	KU36zRJaFsP0Akw7apyJ4SCl4IAb1VRGvP8L0mKhwBZnn0XUkDZ2PW7t9oviZUQq
-	bN2tmVBhSWNgiSiSi7ymdtf6iKh4gNTCCXIweHK0Tg6HF6KYslOZj/J1AEcJVHnf
-	kWNlsq5fwLgQr2DlUZF0whZYM5XqlyiEV4xJgAR6wPkWOH+OEMcVL/bVHH8IYS6D
-	MxDe73qz6EXJrcPmB5P+oxGbZoA1keo68zERDcAg==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvjypkqg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Aug 2026 06:44:37 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67A6ffw0026503;
-	Mon, 10 Aug 2026 06:44:36 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxhfxueyp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Aug 2026 06:44:36 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67A6iYQG34930976
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Aug 2026 06:44:34 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 17B532004B;
-	Mon, 10 Aug 2026 06:44:34 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2335D20043;
-	Mon, 10 Aug 2026 06:44:31 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.87.135.220])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 10 Aug 2026 06:44:31 +0000 (GMT)
-Date: Mon, 10 Aug 2026 08:44:29 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Will Deacon <will@kernel.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-        Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        David Hildenbrand <david@kernel.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Eduard Zingerman <eddyz87@gmail.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@gentwo.org>, Mike Rapoport <rppt@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>, ziy@nvidia.com, pfalcato@suse.de,
-        ryan.roberts@arm.com, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH 6/9] mm: convert PTE table entry to pte
-Message-ID: <2599c5b3-e8ac-4865-993b-d41e6f060d52-agordeev@linux.ibm.com>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
- <20260806083926.1807279-7-usama.anjum@arm.com>
- <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
- <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
+	s=arc-20240116; t=1786344691; c=relaxed/simple;
+	bh=6qhdnA4FsO3ujZJcF60jrKRJ7LofjlSCpuQNm3fYe/0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=hBpT5ePm7g6G+iNoDRxMJD6W+IPLu371qviZc5YMPMFO3L+4K9MficdRSFFlP50WHGXD/Wr7x40qTCESWpMMOpu7n94vPrgu0GFQIPq1sBpvO87SlbACzvZsffTyQN3TqNsG8svtKwb8F1tS7PMlihZ7mkqztz0hWoQ0/WfV9l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7e9fdc2870fso957864a34.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 23:51:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786344689; x=1786949489;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nIJBDA7AsowxSH5xDU7NSUE60BtJkb/Ozou0eGLS6Ow=;
+        b=r2r6+Sdx9m5jTxriOSm+BXU1UwFttElkyqQgyqlIGpNpHc0TPQvUq+jUF1XQOC7zj9
+         0TTWnKRsNVRWKNtTYvDS5XRnZ+OOuTZH+w2KgQOmvPjx9Kf7ow56kpvDehFVnI28/Rbt
+         uT1xIUvTNC6ijMyMN02mVeuhGA+lOkyv0eBPpcUdSFBnpU6uAh132FNitxFMUNiVZnSB
+         upFM9ZibGj44weRNseY4fUjxPPdq99WaEeSEnr5vrNz6dOlo0UkioEo0AsGwF97uPkQM
+         cWkLG+E1SM9F2HvHmtUA5/FlqReuw6Dh+qcAyFzLxqIKmsAwFT0rI73MGtFB7LoVVsQX
+         RGfw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq4OepuvR6QuVDLj8hebqXNCSDV7LXsdqAFcFb6Jp2V62Hz73sCoRPSNok83NYngby1WvlNuqb1HECZzHuY@vger.kernel.org
+X-Gm-Message-State: AOJu0YywtbKhNOA0Rd+mwuZErPBxh6H+t6vt+fSYo09sQtHMhxF4QqJu
+	5nbojygT1POljQqcNPyJU8xiWk8Rkw7VN3P2sa2YV6hAjteK5Z+UsF3B6uQ7+n6N5yvQy3aEmgq
+	rxclroZKT6mdq5ETT9uGCuH8lzfDWQ8Rn+5STzzeexPt2xZPPCmw8G4PE+Nc=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDA1NCBTYWx0ZWRfXxI/cthX2D0Wc
- iHPLS8hc2Kj/zk+XaKiAAFgipdFaX6yt5ULiZYFw9cMykKZhsGzYdz8Ozez/WjJFTxNxMxdlY+Z
- xRKD8hb46fc3eq4T3zk/Ay2gFewaqBQyLERBaqjOrmguPqyfrY4V/sj3PMJQSwHxbC9gQ3JPdGp
- nwoFQng/LWfi/b2CNXX0ejbyTRbXCpU6ISkPy5ReFIqwletsdYxZQh3JZdOlQrUjBCsND1GblNt
- G/4DaSrhSqHIA4lB3PliH1JLOCq/gqtakESjF4VI9bapYhuQXt1SuBKOBQMvOtnuq4THGnpYdaA
- 9DlU8ZKdg0fttjy6cWWMXxwJNMzsJQnfWACC9mQPG3O4x/cS3d0NgAmCjmdVYfXi8XGUV9/5PxJ
- HdlkuRfRyvN/kE+SQ4EeTy+wa+g6t6URPTCSrkC11WsiBzyO9FuJFEs1QK/7K/rvQyfHrqCYbs4
- iMEVrVdUzEx5zR0r21A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDA1NCBTYWx0ZWRfX9Ko1NY31ilHb
- y/krrlO5A2ANnAiXusNks5NMrWI4UvS7c1Y7yzgoGS6CxTGjDGRyAu8EHxJ1ITitPdxPjbMc8pe
- lyb7xPyJDB1SIBriSbnTKYVPxMcf33w=
-X-Authority-Analysis: v=2.4 cv=RqD16imK c=1 sm=1 tr=0 ts=6a797355 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=7CQSdrXTAAAA:8 a=VnNF1IyMAAAA:8 a=2hzp2EkNZNX3k9pX5ccA:9 a=CjuIK1q_8ugA:10
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: YbHEwP5JTLZr3QYF8zr2RkJeozrhuIz7
-X-Proofpoint-ORIG-GUID: YbHEwP5JTLZr3QYF8zr2RkJeozrhuIz7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-10_01,2026-08-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608100054
+X-Received: by 2002:a4a:ee17:0:b0:6ae:42c7:ef95 with SMTP id
+ 006d021491bc7-6b041f7ff09mr8184468eaf.13.1786344689091; Sun, 09 Aug 2026
+ 23:51:29 -0700 (PDT)
+Date: Sun, 09 Aug 2026 23:51:29 -0700
+In-Reply-To: <6a780d67.9c11d2ce.289b96.00c5.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7974f1.01d0871a.3a0d52.00a1.GAE@google.com>
+Subject: Re: [syzbot] [fs?] VFS: Close: file count is zero (use-after-free) (2)
+From: syzbot <syzbot+592c653b056459925299@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 07, 2026 at 05:26:04PM +0100, Muhammad Usama Anjum wrote:
-> On 07/08/2026 7:58 am, Alexander Gordeev wrote:
-> > On Thu, Aug 06, 2026 at 09:38:44AM +0100, Muhammad Usama Anjum wrote:
-> >> The non-MMU stub receives hw_pte_t but returns a logical pte_t
-> >> value. Convert the stored entry through __pte_from_hw() before
-> >> returning.
-> >>
-> >> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-> >> ---
-> >>  include/linux/hugetlb.h | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> >> index bc0b9c65aa1d0..9e8b391aa4bc9 100644
-> >> --- a/include/linux/hugetlb.h
-> >> +++ b/include/linux/hugetlb.h
-> >> @@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
-> >>  #ifdef CONFIG_MMU
-> >>  	return ptep_get(ptep);
-> >>  #else
-> >> -	return *ptep;
-> >> +	return __pte_from_hw(*ptep);
-> > 
-> > But this is a direct dereferencing, which breaks the whole point, isn't it?
-> Yes, this is particular line is for non MMU. In this case, CONIFG_ARCH_HAS_HW_PTE
-> would never be defined. Hence hw_pte_t is just pte_t and direct dereference is
-> allowed. I'd thought a lot about it; is better to leave direct dereference here
-> or use some helper. Then used __pte_from_hw() was already being used in generic
-> ptep_get().
+syzbot has found a reproducer for the following issue on:
 
-But in case CONIFG_ARCH_HAS_HW_PTE=n __pte_from_hw() is still gets called.
-That looks inconsistent to me. Why not just call ptep_deref() (see below)?
+HEAD commit:    db2ddb871435 Linux 7.2-rc7
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12ce2079580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
+dashboard link: https://syzkaller.appspot.com/bug?extid=592c653b056459925299
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15406079580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11745132580000
 
-> There are only two users of __pte_from_hw() at this time. 
-> 
-> > 
-> > What about introducing something like pte_t ptep_get_sw(hw_pte_t *ptep)
-> > to be used in exactly situations like this? With that the semantics of
-> > hw_pte_t pointers becomes straightforward and closes the still ongoing
-> > "storage vs lifetime" discussion:
-> > 
-> > hw_pte_t*     points to HW-formatted page table entries
-> > 
-> > ptep_get()    is used to obtain HW-linked/attached entries, and may wire
-> >               extra code like [1] or [2]
-> > 
-> > ptep_get_sw() is used to obtain HW-unlinked/unattached entries and in
-> >               most cases is just a direct dereference
-> ptep_get_sw() or ptep_get_deref() is better name here?
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-db2ddb87.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/698def9fcf7a/vmlinux-db2ddb87.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/fd8b6091a563/bzImage-db2ddb87.xz
 
-ptep_deref() would be it.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
 
-Do you agree to the suggested API requirements?
+ slab filp start ffff888033422a80 pointer offset 0 size 352
+VFS: Close: file count is 0 (f_op=snd_ctl_f_ops)
+------------[ cut here ]------------
+kernel BUG at fs/open.c:1464!
+Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+CPU: 0 UID: 0 PID: 5911 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:filp_flush.cold+0x30/0x39 fs/open.c:1464
+Code: 8d 7b 48 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 80 3c 02 00 75 13 48 8b 73 48 48 c7 c7 20 a7 e5 8b e8 f9 4f fd ff 90 <0f> 0b e8 91 07 56 01 eb e6 e8 ca 78 e5 00 65 48 8b 2d 5a 45 3e 13
+RSP: 0018:ffffc9000681f828 EFLAGS: 00010286
+RAX: 0000000000000030 RBX: ffff888033422a80 RCX: 0000000000000000
+RDX: 0000000000000030 RSI: ffffffff81e8bfd9 RDI: fffff52000d03ef6
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000000 R11: 0000000000000000 R12: e000000000000000
+R13: bfffffffffffffff R14: ffff888027786528 R15: 0000000000000000
+FS:  000055556f1f4500(0000) GS:ffff8880d5dec000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb5d8c70000 CR3: 000000003c1d3000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ filp_close+0x1c/0x30 fs/open.c:1484
+ gaudio_close_snd_dev drivers/usb/gadget/function/u_uac1_legacy.c:263 [inline]
+ gaudio_cleanup+0x59/0x100 drivers/usb/gadget/function/u_uac1_legacy.c:305
+ f_audio_bind+0x56c/0x660 drivers/usb/gadget/function/f_uac1_legacy.c:792
+ usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
+ bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
+ bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
+ driver_register+0x1e2/0x360 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb5d8d9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdccfb2e58 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fb5d9025fa0 RCX: 00007fb5d8d9e0d9
+RDX: 000000000000000c RSI: 0000200000000400 RDI: 0000000000000003
+RBP: 00007fb5d8e35024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fb5d9025fac R14: 00007fb5d9025fa0 R15: 00007fb5d9025fa0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:filp_flush.cold+0x30/0x39 fs/open.c:1464
+Code: 8d 7b 48 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 80 3c 02 00 75 13 48 8b 73 48 48 c7 c7 20 a7 e5 8b e8 f9 4f fd ff 90 <0f> 0b e8 91 07 56 01 eb e6 e8 ca 78 e5 00 65 48 8b 2d 5a 45 3e 13
+RSP: 0018:ffffc9000681f828 EFLAGS: 00010286
+RAX: 0000000000000030 RBX: ffff888033422a80 RCX: 0000000000000000
+RDX: 0000000000000030 RSI: ffffffff81e8bfd9 RDI: fffff52000d03ef6
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000000 R11: 0000000000000000 R12: e000000000000000
+R13: bfffffffffffffff R14: ffff888027786528 R15: 0000000000000000
+FS:  000055556f1f4500(0000) GS:ffff8880d5eec000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffdccfb3118 CR3: 000000003c1d3000 CR4: 0000000000352ef0
 
-> I thought __pte_from_hw() is ugly enough that if someone tries to use it
-> wrongly, it'll be noticed pretty easily. I'm fine with any other name.
 
-The name may be not perfect, but it is the way it is used above looks
-wrong to me.
-
-> > The caller should always know whether the entry is attached or not, so
-> > confusions like [3] are avoided.
-> > 
-> > 1. https://lore.kernel.org/linux-mm/20260526-kpkeys-v8-21-eaaacdacc67c@arm.com/
-> > 2. https://lore.kernel.org/linux-s390/650903a4-0dd9-4e6b-9d4b-3c32c5657236-agordeev@linux.ibm.com/
-> > 3. https://lore.kernel.org/linux-s390/b44e071d-7c9d-4e7e-a84d-4af3499a5a05@arm.com/
-> > 
-> >>  #endif
-> >>  }
-
-Thanks!
-
-> -- 
-> Thanks,
-> Usama
-> 
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
