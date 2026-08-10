@@ -1,131 +1,114 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBBF39BFEC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 10:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1813B8D40;
+	Mon, 10 Aug 2026 10:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786357841; cv=none; b=LIfd65mq8Xz7UROklwYUKmk905K/HG4gAWJqUvPVINcDnUGMtb9QUKx0kgUT721F3SpSjbTXJ+zmg2Rb5CdSDQJ17A88JptUJHjgawFq4HoZnUjeYBAYjje+xas5L2Flz4Lr1EdiKwLbYe5ZiMGRecusOqrAoN60u1nk/K0xOFw=
+	t=1786359166; cv=none; b=C/ZFBs2CeGQsakmSdNr1o570rB03beYqTx7KVlgfp02xK3A2V4rMjM/zPK6fxU6yd08nVflSew1YdaMzlPT4ZwNIsj+ZV2xVocpu7844rkGTtL0OCGxhLQXfDCHH5eL9vyRB5i57wfQH1RZXdaTv4TdTqe6UfJ5QSqn6CQwftEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786357841; c=relaxed/simple;
-	bh=oqOD90cvP560lV3808f3OJ16n01uvBDzZIhAL7iROIc=;
+	s=arc-20240116; t=1786359166; c=relaxed/simple;
+	bh=14ljZKx8+rnpkOU2bY6EeU4UyPhEINA0LUfwidRQTok=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j+sdGXmAV+FynfakO8s1onXZzHYLT4LUF0O+S7n5qSPZQRdHOR4dlH8e/cgGsWuSpW2wBO4GSR8dI0EVaZ6PV2wYymoxz2mIOD12O3tffVzxQxYB9VNbkl+nl6MvzkJxQqAPerKsYNR5EiadKgmuLFU+MXZc1namXhxT1D+6D/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MPHo/Lq5; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=UP52ZXADx3ieIb3F8QAvXyhzfXy90WPKX/u2MlZO2i7TOVeFlzsIvodV9yzC3P0U33C3O6Wl+BreGBqVZhjfadVmDuxl8XRnyT65mEbh/5pnYityE3wUGFRXCY9lGF+kNXsZvxzEBvAJUSQBUn6wmnDycXUegnvj81XbBGFTyZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XFB1dv/E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MPHo/Lq5"
-Message-ID: <23a6115a-b508-4601-a304-04d05fce9426@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786357835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QcX4iYDIG4tZ3Zi5HXRelDg76qaqUVIxBiMwmC/d7oI=;
-	b=MPHo/Lq5X9VQ3XIXo5xua3gevUEIQVC+So0erk4/1nGqWktTs6H2Bim4UVE0ZQ/M+v+VdK
-	kcRoVjzuE+5ctznmRvE1MNrAzyzQg4LsHlDDELVxGtndLTvT79jGCmdVeps6KEWplfnn2v
-	sP2tKYnKaxbdV4c1CNqG5emfEaXtZJ8=
-Date: Mon, 10 Aug 2026 11:30:28 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XFB1dv/E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D1DB1F000E9;
+	Mon, 10 Aug 2026 10:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786359165;
+	bh=xd7uYlI3wnjsUpJNqV8hMKDPnzd4/RrOMCkHIu6ecco=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XFB1dv/E1xORbGmgRjDNX1HyLkdZhUvti4vokmTBUS5WWoC/8aCtfNGix+ti0ljCQ
+	 tRmjUfaRtN+omFlttkw8IpYh28r9q3lmEmeUXzmOUuLu2Eyvdx+zy/B4ydniOmloSK
+	 oYSlKhZ15KK1hFX8mnzA9zDKeK9t5zGWfn6+tIf5q1uv7AxB96UEMB5P3KDWN3vrsC
+	 7tppJGXbcW97ZkA58zyFlln2hVOEFJITZHnJwP1zVCQIIXI6YvKwazQrrTXSSvS3UT
+	 hw0E2yTZyuey76B98vwPO3doBlVa6TVfPwv/0+Mh+oMBM+E2JIxiLBNeVcb2sImMnv
+	 sg+CtjYVoEycQ==
+Message-ID: <69df3080-a719-4131-a247-62bf47bda8a6@kernel.org>
+Date: Mon, 10 Aug 2026 12:52:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] squashfs: avoid thundering-herd cache wakeups
-To: Phillip Lougher <phillip@squashfs.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
-References: <20260807172421.3875982-1-usama.arif@linux.dev>
- <f03dc086-220f-4aca-92ce-dd3184a100a6@squashfs.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] tracing: report buffer memory in /proc/meminfo
+To: Xiang Gao <gxxa03070307@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, liam@infradead.org,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xiang Gao <gaoxiang17@xiaomi.com>
+References: <20260810094025.136705-1-gaoxiang17@xiaomi.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <f03dc086-220f-4aca-92ce-dd3184a100a6@squashfs.org.uk>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260810094025.136705-1-gaoxiang17@xiaomi.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 
+On 8/10/26 11:40, Xiang Gao wrote:
+> Report the data capacity of all ftrace ring buffers through a new Ftrace
+> field in /proc/meminfo. Include the main and snapshot buffers of the
+> global trace array and all tracing instances, while leaving ring-buffer
+> metadata accounted for by Slab.
 
+why? :)
 
-On 09/08/2026 23:43, Phillip Lougher wrote:
-> 
-> 
-> On 07/08/2026 18:24, Usama Arif wrote:
->> squashfs_cache_get() puts a task to sleep when its block is not cached
->> and every cache entry is busy.  Those sleeps are non-exclusive, so the
->> nr_exclusive == 1 budget squashfs_cache_put() has always passed to
->> wake_up() is inert and one release makes every waiter runnable.  A wakee
->> only returns to squashfs_cache_get() if it observes cache->unused before
->> the entry is reclaimed; later wakees see zero and re-queue inside
->> wait_event() without rescanning.  One freed entry satisfies exactly one
->> capacity waiter, so waking the rest is waste.
->>
->> On a Meta production host serving a Python web application from a
->> packaged squashfs image, a 30-second trace caught 1,045,132
->> cache-release wake calls and 19,511,556 wakeups: 18.7 per release,
->> although each release added only one reusable cache entry.  This was
->> causing significant spikes in CPU usage.
->>
->> Make the waits exclusive, enqueueing while still holding cache->lock so
->> that a concurrent lookup either sees the waiter queued or the waiter
->> sees the block that lookup publishes.  Two things follow.
->>
->> A wakee cannot be assumed to consume the entry it was woken for: it may
->> find its own block published meanwhile, share that entry, and leave the
->> freed one unclaimed.  So a wakee which shares hands its wakeup on to the
->> next waiter, as commit 0ddad21d3e99 ("pipe: use exclusive waits when
->> reading or writing") does with wake_next_reader.
->>
->> And a waiter can now sleep through a publication of the very block it
->> wants, which the old broadcast gave it repeated chances to notice.  So
->> waiters are keyed by block: publishing wakes every waiter for that block
->> (nr_exclusive == 0), freeing an entry wakes one.  That needs a custom
->> wake callback, like wake_page_function() in mm/filemap.c, which also
->> records which wakeup arrived so the handoff only fires for a capacity
->> wakee.
->>
->> Broadcast is kept where more than one task can proceed - every waiter
->> for a published block, and the wake_up_all() on entry->wait_queue - at
->> the cost of walking the queue under wait_queue.lock to test the key.
->> Waiters are now served FIFO with a scheduling round trip per handoff
->> hop, so per-waiter latency changes; the filebench run below is 4x
->> oversubscribed, where that should hurt most.
->>
->> Measured on a 32-CPU VM against a read-only squashfs (gzip,
->> DECOMP_MULTI_PERCPU, FILE_DIRECT, default 8 metadata / 3 fragment cache
->> entries) staged in tmpfs, page cache dropped each iteration to force
->> cold decompression:
->>
->>    elbencho, 64 threads
->>      metadata stat        700 ->  1320 files/s    1.9x
->>      small-file read       40 ->    60 MiB/s      1.5x
->>
->>    filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
->>      throughput        11,314 -> 25,186 ops/s     2.2x
->>      sched:sched_wakeup  27.0 ->   4.55 per op    5.9x fewer
->>      context switches    37.2 ->   7.64 per op    4.9x fewer
->>
->> Wakeups and context switches are per operation, since the two runs did
->> 2.2x different amounts of work.  Workloads which never queue for a cache
->> entry gain no wakeups.
->>
->> Signed-off-by: Usama Arif <usama.arif@linux.dev>
->> ---
->>   fs/squashfs/cache.c          | 114 +++++++++++++++++++++++++++++++++--
->>   fs/squashfs/squashfs_fs_sb.h |   9 +++
->>   2 files changed, 117 insertions(+), 6 deletions(-)
-> 
-> Very nice performance improvement.  Thanks.
-> 
-> Reviewed-by: Phillip Lougher <phillip@squashfs.org.uk>
-> 
+To report a handful of KiB as in your example below? Doesn't sound super helpful
+TBH.
 
-Thanks Phillip!
+-- 
+Cheers,
 
-Regards,
-Usama
+David
