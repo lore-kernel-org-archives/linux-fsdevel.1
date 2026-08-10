@@ -1,115 +1,99 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE463358AF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 04:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CABF357CF1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 06:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786334755; cv=none; b=dmleOV8lYQZCWfJLszlSLmFGa3eDGE1cDByhR4J7MyWIZtfdcfuDFF94N/B/lLJVnThUJwB5R6DxEm0bLTGr622DQyM3hQIG6AW8oY5NTyQI5wZMeIqGey7eCIh1ET9VYVx9AY17EFqYPMph9t/gvEQWst5lbnLCWY3BMcLOEPU=
+	t=1786343830; cv=none; b=rSu7dReiAinzEW9gbDjWSTfwneUd5x7i8KdKiuAiusrldXc1jjgFit+2paFtFwKHOlp6BwvEHE6pMl88Kol369aUHmXCthR30VvW3xAoqNV2NQPG907Qdo8RvF+bn8Vtr50gymtEjtDkJbLAiyW9VUN1fmeOeklQhrqEw2dJVKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786334755; c=relaxed/simple;
-	bh=VNNshdBiBfoddcokH/A/HxQN4EprZHJdc8cTudCnnAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ngBzmY7Q8BFNLgbdcfDLPH7RzaUDA145CCc82r2ZCCBoK5B/XlLz6YlLY0rIPO7i+X1e9Yd8cdN/6VcXrSgOWHiVUaGlTdtZuhchjfOx26X8xnFzPeo+oqy2L5rGn/DBJxJhe52iAwtq4pNf5RBH6BXRFdA5Spl0J6l0jjPtsZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FaAWcN9M; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1786343830; c=relaxed/simple;
+	bh=eCY2+fzzmHBLeBz/ir7niiKbAlRZr888YSvC7sxtA4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YDkdeVuRy1y5Dns1q+baXy/Kpih5FD3CSraXUPoTYM3ZzaoCIQ3PSpM4SYsZXC8arwSV9MTzYk+PpNbtdHerzmmq6RBHNJSmrTcA4tkE+H6kK80htXZ2y0zHMwvn4E2uhOf6KuG8OiCP0eWupEGcSplriaBFR8VDe+c0m6tjelA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ey7CIMzE; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FaAWcN9M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=w3mkdXzNugogzg/Uybf5Bwmxm4mLQcy7cnOBTawf1SE=; b=FaAWcN9Mdmiwj1QIxlrzffFtQb
-	dxdYnXJR468/2SRKtk66MkzRgIuZiN8DlX0d7MF5X9XQ9W1RFTLfM9CDmmZZ2v5Xbi3fRVcdzqQvY
-	yqWlkfDvlpi6KAIFJleElHHAZeucAqerL1cWx+5zDn6NbBx8PynqZm5raW7++SP0b8iax8M92eEqq
-	Afom2j4BBpsEGs2ORReT3iVHh3w9HujLDz0zjlba4HjJKDKdkUv1xo33AVkEN+ZQ66UJMwL0v4N2O
-	oIhrfJ+QzuvBdE0r4ugnmcxAGuECJ29KJIdp/y7yoD2JAAvtXvCaMgygnsKUUtp/lIQUIDbhm3IuC
-	sO+0NKzA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtHGi-0000000AFF1-3vil;
-	Mon, 10 Aug 2026 04:05:44 +0000
-Date: Mon, 10 Aug 2026 05:05:44 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: vova tokarev <vladimirelitokarev@gmail.com>, akpm@linux-foundation.org,
-	security@kernel.org, linux-mm@kvack.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: Fwd: BadBunny: UFFDIO_COPY shmem killpriv bypass leading to
- local privilege escalation
-Message-ID: <anlOGOmO1HWVCMdF@casper.infradead.org>
-References: <CAGBKPgOm8q-8_rwyRPEmSj8JXdh_GaK1Q8vpJ=j-+yA0SgcNQw@mail.gmail.com>
- <CAGBKPgPPALX_5CQJAKUNjwi2fD28pBeS5pRuwQgePU93pOy8EA@mail.gmail.com>
- <anXnHMInq_JLYbWc@pedro-suse.lan>
- <CAGBKPgOfbMJruqcegJca6BBpEtpd91s5ASF_VU+gucWsjwp8WA@mail.gmail.com>
- <ancYCBUT8aB0qHwz@pedro-suse.lan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ey7CIMzE"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ca8a3a77daaso87317a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 09 Aug 2026 23:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786343828; x=1786948628; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wKDxKvtxfKiLVXpIQqZolVU649XYNHS35A+eOiSJKEw=;
+        b=Ey7CIMzEqSrWaWyKhSCkuArPdEOOb9kWmOtOT3imt2MRm+DobWYVP+tZ4x2/nnqWiG
+         gMZtdB/YVT4s1sfNHiJTnmMhMBos0fbfkkDzdDrElGeF+HSZsA75kLvZLT6obYUPbKfk
+         n4cwoZMpL0Ux7mjntW9SwaHREflOxqzTOdaicTrNSzMCV1iBaxqP8N9M5uDjO7C+Ct/X
+         85L8GWyRpwmk1GrPKv7KjhHTZC0WKCEsQ5UikFFcpKYxpPQB606eSFq5nI48OoRtgNQD
+         EMSMJnr05TfiiU9ptKslRvV7H3HjrT9SR3YkYeo3We70D0kdj9WFCMKZ62GNEZm/uEF/
+         6BFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786343828; x=1786948628;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wKDxKvtxfKiLVXpIQqZolVU649XYNHS35A+eOiSJKEw=;
+        b=kZsLqjlC2hw3sIqktfVpbC1GPPIqesEoFZhaP6QVnDGkJMxnMfJkF2whkxugD+Li10
+         ZtYTU2g01AvKKudjw85CIvAlNuaeJtkk1FewKDlC6llKi2x7/N+SWyFjE5hiOYmEyodM
+         gjyE/cDRTisg/h9eKtYzBohn+fYQSe7q1F0yAw1TexcNg74Ni2a1BvTgktLIq9E7Vmq5
+         GEHc7bECaW3Ec4dfUbVgMVvYYjGQR1FFaNPv7MRq8BTqtWsVjrfh1963YbdEYr243Pvi
+         p+1s1slEfnFFkyrh8DC4f52703YTurAVsxX+UzE0kwRy5OcHfYWFajLqvprHPHtqmTXS
+         na1Q==
+X-Gm-Message-State: AOJu0Yysv1ysZz+e8RCpn/HEScRhQqUruWEpSg5+T0/EicyDSvaHOINT
+	NA0eurnNDToFXgMy0GUMe7xHPv8gHPCNMo5NbxWaDFIZkiaKbPdyNj8b
+X-Gm-Gg: AR+sD10tmb2Rv4wS89N+Ll3hEB2ZgqPyR4VRfYKrcv9tDbxViE83ya4RWElpApbwQKX
+	abED/fEyTc7M+RCOthJe1QSsPaXxOHY1UlKg5kniYZ3Ncn4goFzuSHA2hnwajbYT5xWTy1fZCGP
+	u0vnO2/iS8V3VVq349k81KPYEJD1pN9ogF4NS4LcTvr9P48zsoUmi/DC+Yur3Q89Ey5uTma4Cq2
+	Autc479cglGTGGSdExRILebP8oJT76RTNrCbsqlVodT3suSt/37etg/LvaD0UFef1RjoBBICFfc
+	JCGVn7YLV2szmv+SiUeOHygg6KmZ8xu7k71yWJMV13BaQBjIr768Me5blaVcOYBWyezc4gEGPFR
+	uISKxrRevquM2RIjd1IyhQ9LaeiI4/r693wefs3UZHcLhk/+oTxLjIUnAbrTBV0UkEsmcnCyMy4
+	3Xm9oWNIDS9yo6C8Isxt7JqlMvPbv2TQOtb5gDl213OsDKs3reLoyYm0E6xnabgS1TQENIknbag
+	dtQ9E3ioX0iKenfHAVS
+X-Received: by 2002:a17:90b:4410:b0:38e:6d4c:14df with SMTP id 98e67ed59e1d1-3903c5bff9dmr26198582a91.1.1786343828191;
+        Sun, 09 Aug 2026 23:37:08 -0700 (PDT)
+Received: from PC.hsd1.ca.comcast.net ([2601:644:4383:32e0::16a2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39085dc396dsm13491402a91.3.2026.08.09.23.37.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 23:37:07 -0700 (PDT)
+From: Benjamin Wu <benjamin.wu37@gmail.com>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	Benjamin Wu <benjamin.wu37@gmail.com>
+Subject: [PATCH] docs: fix grammatical error in iomap docs
+Date: Sun,  9 Aug 2026 23:36:31 -0700
+Message-ID: <20260810063704.355933-1-benjamin.wu37@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ancYCBUT8aB0qHwz@pedro-suse.lan>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 08, 2026 at 01:17:09PM +0100, Pedro Falcato wrote:
-> I'm adding a bunch of fs people that might have opinions about this. Please
-> see the rest of the thread below.
-> 
-> On Sat, Aug 08, 2026 at 12:13:06PM +0300, vova tokarev wrote:
-> > Pedro,
-> > 
-> > Thanks for the review. Let me address both points.
-> > 
-> > On the page fault comparison:
-> > 
-> > UFFDIO_COPY is not comparable to a page fault. Page faults serve
-> > existing page cache content (read-like). UFFDIO_COPY adds new,
-> 
-> A page fault can also write to the page cache. On MAP_SHARED mappings.
-> 
-> > 
-> > user-controlled content to the shmem page cache (write-like).
-> > 
-> > The correct comparison is to write(), which calls file_modified()
-> > 
-> > -> __remove_privs() to strip SUID/SGID.
-> > 
-> > 
-> > This is exactly the reasoning used when fallocate() was fixed
-> > 
-> > across XFS (commit fbe7e5200365), ext4, and f2fs to call
-> > 
-> > file_modified(). The XFS commit message says:
-> > 
-> > "as various fallocate modes can change the file contents [...]
-> > 
-> > we should drop file privileges like suid just like we do for a
-> > 
-> > regular write()"
-> 
-> I can't speak for fallocate, or other system calls. As far as I'm aware,
-> this is a best-effort kind of thing. As I said, writing to a MAP_SHARED
-> mapping does not clear the setuid bit. It's a super trivial thing to do,
-> too. But it's not a problem because setuid executables are not world-writable.
+Change "This origins" -> "The origins"
 
-I mean, you're right.  But maybe we should make a bit more of an effort?
-I wouldn't like to see this used as part of a chain of exploits, and I
-can just about see a path where a confused actor manages to create an
-04777 executable.
+Signed-off-by: Benjamin Wu <benjamin.wu37@gmail.com>
+---
+ Documentation/filesystems/iomap/design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All the tmpfs on my system are mounted nosuid, and many of them noexec too:
+diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
+index 0f7672676c0b..681e0cbb6944 100644
+--- a/Documentation/filesystems/iomap/design.rst
++++ b/Documentation/filesystems/iomap/design.rst
+@@ -43,7 +43,7 @@ as:
+  * lseek ``SEEK_DATA`` and ``SEEK_HOLE``
+  * swapfile activation
+ 
+-This origins of this library is the file I/O path that XFS once used; it
++The origins of this library is the file I/O path that XFS once used; it
+ has now been extended to cover several other operations.
+ 
+ Who Should Read This?
 
-willy@deadly:~$ mount |grep tmp |wc -l
-8
-willy@deadly:~$ mount |grep tmp |grep nosuid |wc -l
-8
-willy@deadly:~$ mount |grep tmp |grep noexec |wc -l
-4
-
-This certainly isn't a hair-on-fire situation, it's just a place we
-could do slightly better.  Not so much BadBunny as MildlyMisbehavingMicrobe
+base-commit: a7c7074b58d28c4206d666a12aa2e33447b3c581
+-- 
+2.54.0
 
