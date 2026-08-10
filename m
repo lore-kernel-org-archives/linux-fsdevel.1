@@ -1,324 +1,290 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010019.outbound.protection.outlook.com [52.101.84.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34D3B841D;
-	Mon, 10 Aug 2026 10:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786359460; cv=none; b=GOievN1QWYmRpoeCUkBIWlAh/P13Wi4SMckw+ndFl6I40/6Wmu3FzA2c9MmSjvnx/Vk8pHoTcP8vQh6R5fUcxu1LpRYbrRoRJ5gL2e6ao20TAC5LCd0Vtvi58yH5XOVUVIQGzMgpj94KanSAU8GV9pSbq5igT2U0PvDrqh1dOpw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786359460; c=relaxed/simple;
-	bh=X0L9Xyu2S07x1IGUI3tQ7oVu7pfwjQehmyzT4vDHGyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I9QlQe9VkYlUFaYzFtZaifICch2jhDQktxfIPl87Sf2tFGPvW3aed2whnVXNNfNY8xwH7Scfug3gYMo87gv6cJ4Njn3TukQwXxlGXObZC6x/OJT0UwDBwr0NxPihZkQ5eCH/NsMgsfuVdQvTLUf+f2gEwCuhGxHWsLOGEgs2O6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvpoEMh5; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BCB3BA244;
+	Mon, 10 Aug 2026 11:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.19
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786360052; cv=fail; b=FgkYZ4c/ggAvKigpnUIbRVq8ukqzcfc/oi/etzvDaIK/LgfQFYm4Vc/SB2RfPXA6KIPA7dsQVAtWacp7reHeB1vDhTQKSEYDTVWL3lI+u1rrQV10f3KdMZMcPU3oVph4GYYgQvebjojWQl+9lQAipAT64bJ9eWj1K1ntz1EkOh4=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786360052; c=relaxed/simple;
+	bh=hBYwPOj3y8kO75TmfgPtxjTsSU1L4cqos7hTA68DQZQ=;
+	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OcADWuCjML7KCv/Ms3RT9DAxyJO16KM2dOy4NBlQBglPtXUadVNCVFtf01jLTxovMQCy//3FqdpnHzwnGmDYSbbNLGUqo2hZavQ17e0vD0YaRReZBk7VsWuB9pkPR/5CT1p49JAuG/xLqe+/HqYZuR8cCYFOyR56dP2iU0RwloU=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=kPqHrKjb; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=kPqHrKjb; arc=fail smtp.client-ip=52.101.84.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvpoEMh5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A6501F00A3D;
-	Mon, 10 Aug 2026 10:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786359458;
-	bh=evQZ0QBvfnZQ55OKOqMXlq84jQBALaOZA6w84yFv36I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hvpoEMh52cuo/1S06wtVjrLA5YAe/QrjH8i1zDsro/w7gJldb3yzJMtmh6ANl2pMn
-	 lp53jtZgt5kUajBCmSLru28GtY3hipZCeXJBTtUVVZS5y/XQGs7iLiHwKn2Qua2V0J
-	 0CBq+qLV7JsOKb1iS67oLo3DmVKQ29nzzSz9jtiuh542/f6WCvYgnPB6kUnK6QjOL5
-	 q3T2iARjWXs2HQpzt6yhYR8d9tVYCKfMEDMNm/QkTvrFjXZrxlgG00RYh4GvykNVfn
-	 sB78E3i6+aIeKcIvbL4TctgK1/iIU1HsoJp+09KFr9dxEjBSEA4rMoSPelEcSYI022
-	 b8TxK+fJBd9FQ==
-Date: Mon, 10 Aug 2026 12:57:33 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v14 14/21] xfs: add flags to xfs_free_eofblocks() to pass
- down to block processing
-Message-ID: <anmrNOVcXRsZenqj@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260803200820.393203-1-aalbersh@kernel.org>
- <20260803200820.393203-15-aalbersh@kernel.org>
- <20260804181848.GM3556460@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="kPqHrKjb";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="kPqHrKjb"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=NpfveSg/8h0SZbLFOQkd9a23PTo9LDt9y+bWfMh9J2+KQ80xwXGIx2B+WmDxkOTlFdPMn9r3AUQrASz7wbWOVso69P75Ftpp2ZuW0uadEWi3ULKuuNCXT3UDo/MlPmBHD6+nR7vThRvrHpmX+XfcH+okPBXjn2EiHm3DLtJnSfZL2kRK5ebWvkwJi6y0+oXilnoS04k+uqH5AqQkrBGxKTXh1lN22oU0gb8TQWEFHM6utJA105mYrmHpMHos1igY/vRJWkOSMz7+fibMeeAWrhjRc178ZFOCB5MVEONnWquzfdhZi8u9jPDAQg+YggpyzOJUC0oGgLg509lWVZrHZw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BnQqdXX1ZyOUKKU4li9Bc+RBJzrUk6RyawcfqsSj/Eo=;
+ b=G+FkAECJjVw0S0GHsHYBzilgEhx+mh3nMjHEmm3/QIsdHJuFaqOpe7EWTpH/cIUsAcDUJe5YGHTq9H0Mv6vxDe4cUXZ/lxFnlfuCyYwf14o1x20iWGXYw8co5Qtoa7sTdmQfm+dg0efhWdP8B/tltGRDVog1K04qF7Ba2EewOo/Oqezxs9Jss462e6DuhRO1JjRFbNeISoIdqmM6wO8n/tWoMivh28F7lDgxxSGQfgLXNBPImvDgGR/zOB3tPl2CRDbR8juQv3PiO0bH0xi4lMtTwizYvC6VGayanrxr+pVY+Y8Dz2UgpZOnoQeDPdv1LMgmNGjqO+C9rdorbSqtIQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BnQqdXX1ZyOUKKU4li9Bc+RBJzrUk6RyawcfqsSj/Eo=;
+ b=kPqHrKjbFDa0OLbzp0kgLoxHv44vUa1iZaGhbeDApeXGB9si5HckD9jCUzXFUvjwQ6ya/WFbbblYxXJlQHpxAODd9pB0y6zyz/xt54rLMTBPk10MHoPyHEicMGmUNuP6ZNCcHkdYwPp2GXqM5wrurn9J2iWj+66UzgYkF/HfI7U=
+Received: from DU6P191CA0014.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::15)
+ by AM0PR08MB5473.eurprd08.prod.outlook.com (2603:10a6:208:180::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
+ 2026 11:07:23 +0000
+Received: from DB1PEPF0003922F.eurprd03.prod.outlook.com
+ (2603:10a6:10:540:cafe::48) by DU6P191CA0014.outlook.office365.com
+ (2603:10a6:10:540::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Mon,
+ 10 Aug 2026 11:07:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF0003922F.mail.protection.outlook.com (10.167.8.102) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
+ via Frontend Transport; Mon, 10 Aug 2026 11:07:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ziuome5/djtyBQzLEzz0klmAysoiBI5ZAwdG5vnb3nMr09jdV9VGv97x/PZogNuexDHgr5Xo5nw3XjHMCCjfiOoa3inGpsNMEfFzlW8yKZg8LiwfBlpVURriB1zGsB2mAyZBoQUt4prjIke7q/FWySr+Ygo8QBVmuE6d+O/0OjpAKTIxOIjcOkraqFpDsBHE4rCU647hc4e0D6FVP0Kv4noUVajpvIWXLH9litFTkeZXuLKIJYC12llbrMGJ4d2Dt8a8LFKPaUChAGM6/FefuJTy4GvU/zRGIvq3uWLhj4xlGe29JKudC2FebNsOezbu0guaNOMNCGQI/DuWebZESA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BnQqdXX1ZyOUKKU4li9Bc+RBJzrUk6RyawcfqsSj/Eo=;
+ b=GdzwAUCegwRfCxVii+ZLGkAHtO3xXp4tzYPyF0iDSnfrKkoUNGEAMGhyDAQb39r1zcUcsMnxah9Xs/c0/bOPAN64IsYrxlHANrH0uiSvjthio3zxLLdIAClSLHTCk/a2+wLIy/0MPUkjKdt2o8mrBSwHvXehtjU2VwCbcamMxE5XsWs9w1H5IV6kNrcPdqkbq5Q6QOTzInJZbqCCym37I5EOnc2q7D/bPp1USuGxXPCX3As3bQ2IIjG6tgAGC81jJJmeoYrKOCrspJs2VC20PJ0vlwKKSWXEZu3j4/LNx5lQiLcRbzue4l6uOentjCiBOvApUlYxv4u6XBCNs2j9Kg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BnQqdXX1ZyOUKKU4li9Bc+RBJzrUk6RyawcfqsSj/Eo=;
+ b=kPqHrKjbFDa0OLbzp0kgLoxHv44vUa1iZaGhbeDApeXGB9si5HckD9jCUzXFUvjwQ6ya/WFbbblYxXJlQHpxAODd9pB0y6zyz/xt54rLMTBPk10MHoPyHEicMGmUNuP6ZNCcHkdYwPp2GXqM5wrurn9J2iWj+66UzgYkF/HfI7U=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM6PR08MB3414.eurprd08.prod.outlook.com (2603:10a6:20b:49::10)
+ by VI0PR08MB10485.eurprd08.prod.outlook.com (2603:10a6:800:1b9::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
+ 2026 11:06:41 +0000
+Received: from AM6PR08MB3414.eurprd08.prod.outlook.com
+ ([fe80::dde8:bf0b:1dc:2a2]) by AM6PR08MB3414.eurprd08.prod.outlook.com
+ ([fe80::dde8:bf0b:1dc:2a2%2]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
+ 11:06:41 +0000
+Message-ID: <f0b0dacb-fb83-4402-b0ea-30072727dfd7@arm.com>
+Date: Mon, 10 Aug 2026 12:06:39 +0100
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@arm.com, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ David Hildenbrand <david@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+Subject: Re: [PATCH 6/9] mm: convert PTE table entry to pte
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+References: <20260806083926.1807279-1-usama.anjum@arm.com>
+ <20260806083926.1807279-7-usama.anjum@arm.com>
+ <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
+ <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
+ <2599c5b3-e8ac-4865-993b-d41e6f060d52-agordeev@linux.ibm.com>
+From: Muhammad Usama Anjum <usama.anjum@arm.com>
+Content-Language: en-US
+In-Reply-To: <2599c5b3-e8ac-4865-993b-d41e6f060d52-agordeev@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0240.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a7::11) To AM6PR08MB3414.eurprd08.prod.outlook.com
+ (2603:10a6:20b:49::10)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804181848.GM3556460@frogsfrogsfrogs>
+X-MS-TrafficTypeDiagnostic:
+	AM6PR08MB3414:EE_|VI0PR08MB10485:EE_|DB1PEPF0003922F:EE_|AM0PR08MB5473:EE_
+X-MS-Office365-Filtering-Correlation-Id: a953ce51-28e1-48aa-165f-08def6cf8d94
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|6133799003|10067099003|4143699003|56012099006|11063799006|22082099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info-Original:
+ lQ0hyfxi02b4F9VwRxN8Znn5OAewgjlyPjRZcVcEUaWc/2czU2/V4NIVgJiRy5t4QbhGiEJ0KwtaSe7jPvxwE+NAtXM/byDqA7dfUzahbycT7I25PzR5jhkw4frdVt9oxMHTuT5akKF8RzZ33dyxm3YumgOMNPXleL3/6dgR5gVsXlm7rW/4NEmneY9iocIiXc9AJnfTRej+kH5hV/eFNjczN84h/tHRt+GWHZjzpSAoJPL9JYvhN2uJY/S+VrzqF+CWj+0w5yWDWDTqJ2PBgzAAUUUZs2kukSyhTiklg5Og1PLgZuW6iLLN9l3sFHSU2tcSI9gz7kEmj/CGBr9gAEUkaYQ39JJiiB4jvVQCheZ+7eOV/F/NBXKAzFVSt5gbfbkSknaem3qoa0pI/BVUw5qogKsLivyhv9KJhur+AwUg3Hgnw5miP0aiKhBTfaPE0nfqcrLZgmGWMPvil7+FlI8U60XhaDqEly8cC0jIpSQvVcvtGMEalbBtDiQFFCEDkDZUFQgjRdmfVg8KexBPyscLIZeZnbQZrbdecvE8TcK0E/1c/PBQ2CN+jz7B3aX/bKPp9LZqOK57affgO+aFBh9J1aTXDH4Sj/DOUdJRckS46M4BPeWnU89+1GK6l1c08XjUtoEwa9L+S8w73BiSAlNMsrmS1vmLGiUwtdwZAdU=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3414.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(6133799003)(10067099003)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ cPVi6hN5aavRhhAswfgv28wAXtZ6qeLTlP8q/AgWsrYcs7+vK+svJwSvC9NxV7RCHctlS0aIjO7/jx28wsEyjQwzfPGHOGPv1O1cSupSolWeBAX4rw+U98JrzgQTU06aoDW97oqwj+5onDZpDRYSBHwBov2+hRwPNJzrr2UbtXUdSOHd+PD4+E88nTrZSLjZV/sS2M1LGA2uVyfjDBfSo+DAoVyrKGPcprIh6Cee/RdcDdxZjE1/fY7YTLbnfllaV7GL+zNTiE62tYtPGYGbhMmEk7fG0EHHuqShM2REU2EwVZP0Wify25HFm73akjgX+cx6WziW0ou0CWTB9iKpKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10485
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB1PEPF0003922F.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	ca79a833-59da-449f-a5ec-08def6cf7495
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|14060799003|35042699022|1800799024|23010399003|82310400026|36860700016|6133799003|56012099006|10067099003|11063799006|4143699003|3023799007|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	aB9doTRqRN7kd9TfOrTQxmun2zbzD4oTTuD1y4OqC14UyKyJNSMCGw36kf1xi38PqJ9Rtp0jlNKym4r2OvGN7Mdrix8L0sWVy1R3t6kLJaHIHqtZQGtm9crMkpQLwvqLi2JgPsgruMFGtOnAnNv3RQ3jd0sHJDccJkUb6R1CgSG5NjxGfKwCzdTVzH0f7NMXHC32MDDQrfjyaYntV5Z6MTlqnp74aBu1/Vfz2aUWF1CyaM76flGKf/iR3DBVz4zXlZ8gFMj5t7TWKAJYlfH2RHQyl1+ejF9TEC0M1d3EUUSKNIcAXS2+B6uwgaDjBF9YYZPsBe3x+8jsnEctfOzx5+LgWISUO8YhGuEFvPM/zwSeQ/ZhMN9x2dHjXnduF7LZAfeeCdXdli081Iv3yl6OxpFpBdzWQzTDA8t3zPUqrfsxQqi4pJn9BIAcFetfFrc1SZhlCQIvXZF5riUG97QLoOgJ5jTFlh2d6z5sTdXhjEujrl1WgCaQb26YYn0WAFkV5x7f+IKzUmVPkdVDWwLvrqlJA5wR2gYDNc+HKbuzIcI1SMN0BthkYebkD7uyDh23PB+OSWYO5+W8R7TMXcL4WzHNl8Ib05dzPcPnUmL6C1ZLD8qMzrvGTZ2v73Td3vbzSktxFDUeAgTLYg7gm00imt20iVjJbxchyo81jYXSiun4qm4IeZsyVNCM67/xrcFUHwajnV6IM3mpC+M3quGFmg==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(14060799003)(35042699022)(1800799024)(23010399003)(82310400026)(36860700016)(6133799003)(56012099006)(10067099003)(11063799006)(4143699003)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	BtLaHivFG2MjBv8/s8qRcGiJDKiPENYB+2PYjmVYu+THljKaOqxVe40MzKEcSJKsZWVaiKFtOKgq9S7joX+TrjW4CONkg8omF1hSH5KQcXcggLJulUwFxWbo+WyIVRRnie8RGxdM8oI9wId9eGQEVsIa2lyk7lpRNcmJSduk+6bTsON6zLC1kFnHFKOPdQWuDJ+5gvPtkQH4gI0OcploDbbXUEAvdfQjGSf1ocLCBOu97QcYTPG0/hDWOR8EDViud7W10iQ+bgqduvXMyNwOhAmdDEZ01OiYXqqsUfO2i2bLso0Pv0p/qqXtnpvfSJ2dA7uAlOKWN9wQfclNiV893SiPpDWiKNOkuyLlnRCSZuEXEGiiQknPj+wo2iq8eG6Smx9xZv6RYcEamsBsfgmbep0Y20LINnYyBgOzRLzRtRNvmy3fgDmgtJD0KNuUHASX
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 11:07:22.6360
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a953ce51-28e1-48aa-165f-08def6cf8d94
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF0003922F.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5473
 
-On 2026-08-04 11:18:48, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 10:08:04PM +0200, Andrey Albershteyn wrote:
-> > Add a flags parameter to xfs_free_eofblocks() to support selective
-> > extent unmapping. Add two flags for unmapping all extents (unwritten and
-> > normal) and fsverity leftover extents (only unwritten ones, leaving
-> > normal in place).
+On 10/08/2026 7:44 am, Alexander Gordeev wrote:
+> On Fri, Aug 07, 2026 at 05:26:04PM +0100, Muhammad Usama Anjum wrote:
+>> On 07/08/2026 7:58 am, Alexander Gordeev wrote:
+>>> On Thu, Aug 06, 2026 at 09:38:44AM +0100, Muhammad Usama Anjum wrote:
+>>>> The non-MMU stub receives hw_pte_t but returns a logical pte_t
+>>>> value. Convert the stored entry through __pte_from_hw() before
+>>>> returning.
+>>>>
+>>>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+>>>> ---
+>>>>  include/linux/hugetlb.h | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+>>>> index bc0b9c65aa1d0..9e8b391aa4bc9 100644
+>>>> --- a/include/linux/hugetlb.h
+>>>> +++ b/include/linux/hugetlb.h
+>>>> @@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
+>>>>  #ifdef CONFIG_MMU
+>>>>  	return ptep_get(ptep);
+>>>>  #else
+>>>> -	return *ptep;
+>>>> +	return __pte_from_hw(*ptep);
+>>>
+>>> But this is a direct dereferencing, which breaks the whole point, isn't it?
+>> Yes, this is particular line is for non MMU. In this case, CONIFG_ARCH_HAS_HW_PTE
+>> would never be defined. Hence hw_pte_t is just pte_t and direct dereference is
+>> allowed. I'd thought a lot about it; is better to leave direct dereference here
+>> or use some helper. Then used __pte_from_hw() was already being used in generic
+>> ptep_get().
 > 
-> Er, why do we need this?  Is this to clear out unwritten merkle tree
-> blocks after a failed fsverity enrollment or something?  The commit
-> message should say a little bit more about why anyone needs this.
+> But in case CONIFG_ARCH_HAS_HW_PTE=n __pte_from_hw() is still gets called.
+> That looks inconsistent to me. Why not just call ptep_deref() (see below)?
 
-Ok sure I will extend the message
-
-> 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > ---
-> >  fs/xfs/libxfs/xfs_bmap.c | 56 +++++++++++++++++++++++++++++-----------
-> >  fs/xfs/libxfs/xfs_bmap.h |  6 ++++-
-> >  fs/xfs/xfs_bmap_util.c   | 20 ++++++++++----
-> >  fs/xfs/xfs_bmap_util.h   | 13 +++++++++-
-> >  fs/xfs/xfs_file.c        |  2 +-
-> >  fs/xfs/xfs_icache.c      |  2 +-
-> >  fs/xfs/xfs_inode.c       |  2 +-
-> >  7 files changed, 76 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-> > index cc48f6e20e80..1d8d157a9dfa 100644
-> > --- a/fs/xfs/libxfs/xfs_bmap.c
-> > +++ b/fs/xfs/libxfs/xfs_bmap.c
-> > @@ -6144,15 +6144,12 @@ xfs_bmap_validate_extent(
-> >  			XFS_IS_REALTIME_INODE(ip), whichfork, irec);
-> >  }
-> >  
-> > -/*
-> > - * Used in xfs_itruncate_extents().  This is the maximum number of extents
-> > - * freed from a file in a single transaction.
-> > - */
-> > -#define	XFS_ITRUNC_MAX_EXTENTS	2
-> > -
-> >  /*
-> >   * Unmap every extent in part of an inode's fork.  We don't do any higher level
-> >   * invalidation work at all.
-> > + *
-> > + * The XFS_BMAPI_UNWRITTEN could be passed to remove only unwritten extents,
-> > + * leaving out normal extents in place.
-> 
-> What flags do we support here?  ATTRFORK, NODISCARD, and UNWRITTEN?  Can
-> that be documented in the comment or turned into asserts?
-
-The xfs_bmapi_read has read_flags and ASSERT inside, the other flags
-are then passed to xfs_bunmapi which probably be a better place for
-an assert.
-
-> 
-> >   */
-> >  int
-> >  xfs_bunmapi_range(
-> > @@ -6162,23 +6159,52 @@ xfs_bunmapi_range(
-> >  	xfs_fileoff_t		startoff,
-> >  	xfs_fileoff_t		endoff)
-> >  {
-> > -	xfs_filblks_t		unmap_len = endoff - startoff + 1;
-> >  	int			error = 0;
-> > +	int			nimaps = 1;
-> > +	int			done = 0;
-> > +	struct xfs_bmbt_irec	imap;
-> > +	int			read_flags =
-> > +			flags & (XFS_BMAPI_ATTRFORK | XFS_BMAPI_ENTIRE);
-> 
-> Why BMAPI_ENTIRE?
-> 
-
-These two flags is what xfs_bmapi_read() takes (assert inside).
-
-> > +	xfs_exntst_t		exntst = XFS_EXT_NORM;
-> >  
-> >  	xfs_assert_ilocked(ip, XFS_ILOCK_EXCL);
-> >  
-> > -	while (unmap_len > 0) {
-> > -		ASSERT((*tpp)->t_highest_agno == NULLAGNUMBER);
-> > -		error = __xfs_bunmapi(*tpp, ip, startoff, &unmap_len, flags,
-> > -				XFS_ITRUNC_MAX_EXTENTS);
-> > +	if (flags & XFS_BMAPI_UNWRITTEN)
-> > +		exntst = XFS_EXT_UNWRITTEN;
-> > +
-> > +	while (startoff < endoff) {
-> > +		nimaps = 1;
-> > +
-> > +		error = xfs_bmapi_read(ip, startoff, endoff - startoff + 1,
-> > +				&imap, &nimaps, read_flags);
-> >  		if (error)
-> >  			goto out;
-> >  
-> > -		/* free the just unmapped extents */
-> > -		error = xfs_defer_finish(tpp);
-> > -		if (error)
-> > +		if (nimaps == 0)
-> >  			goto out;
-> > -		cond_resched();
-> > +
-> > +		if ((exntst == XFS_EXT_UNWRITTEN) &&
-> > +				(imap.br_state != exntst)) {
-> 
-> No need for parentheses around these condition checks.
-> 
-> Would it be clearer if this was:
-> 
-> 		/* caller only wants to unmap unwritten extents */
-> 		if ((flags & XFS_BMAPI_UNWRITTEN) &&
-> 		    imap.br_state != XFS_EXT_UNWRITTEN) {
-> 			...
-> 		}
-
-Thanks, sure will change it
+Agreed. Calling __pte_from_hw() directly exposes the representation
+conversion at the call site. I will introduce ptep_deref() and use it
+here.
 
 > 
-> > +			startoff = imap.br_startoff + imap.br_blockcount;
-> > +			continue;
-> > +		}
-> > +
-> > +		done = 0;
-> > +		while (!done) {
-> > +			ASSERT((*tpp)->t_highest_agno == NULLAGNUMBER);
-> > +			error = xfs_bunmapi(*tpp, ip, imap.br_startoff,
-> > +					imap.br_blockcount, flags, 0, &done);
-> > +			if (error)
-> > +				goto out;
-> > +
-> > +			/* free the just unmapped extent */
-> > +			error = xfs_defer_finish(tpp);
-> > +			if (error)
-> > +				goto out;
-> > +			cond_resched();
-> > +		}
-> > +
-> > +		startoff = imap.br_startoff + imap.br_blockcount;
-> >  	}
-> >  out:
-> >  	return error;
-> > diff --git a/fs/xfs/libxfs/xfs_bmap.h b/fs/xfs/libxfs/xfs_bmap.h
-> > index d5f2729305fa..0f36431d9936 100644
-> > --- a/fs/xfs/libxfs/xfs_bmap.h
-> > +++ b/fs/xfs/libxfs/xfs_bmap.h
-> > @@ -90,6 +90,9 @@ struct xfs_bmalloca {
-> >  /* Try to align allocations to the extent size hint */
-> >  #define XFS_BMAPI_EXTSZALIGN	(1u << 11)
-> >  
-> > +/* Process unwritten extents only. Used for unmapping */
-> > +#define XFS_BMAPI_UNWRITTEN	(1u << 12)
-> > +
-> >  #define XFS_BMAPI_FLAGS \
-> >  	{ XFS_BMAPI_ENTIRE,	"ENTIRE" }, \
-> >  	{ XFS_BMAPI_METADATA,	"METADATA" }, \
-> > @@ -102,7 +105,8 @@ struct xfs_bmalloca {
-> >  	{ XFS_BMAPI_COWFORK,	"COWFORK" }, \
-> >  	{ XFS_BMAPI_NODISCARD,	"NODISCARD" }, \
-> >  	{ XFS_BMAPI_NORMAP,	"NORMAP" },\
-> > -	{ XFS_BMAPI_EXTSZALIGN,	"EXTSZALIGN" }
-> > +	{ XFS_BMAPI_EXTSZALIGN,	"EXTSZALIGN" }, \
-> > +	{ XFS_BMAPI_UNWRITTEN,	"UNWRITTEN" }
-> >  
-> >  
-> >  static inline int xfs_bmapi_aflag(int w)
-> > diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
-> > index c88b9ade7389..6323eac48fc8 100644
-> > --- a/fs/xfs/xfs_bmap_util.c
-> > +++ b/fs/xfs/xfs_bmap_util.c
-> > @@ -574,11 +574,13 @@ xfs_can_free_eofblocks(
-> >   */
-> >  int
-> >  xfs_free_eofblocks(
-> > -	struct xfs_inode	*ip)
-> > +	struct xfs_inode	*ip,
-> > +	int			flags)
-> >  {
-> >  	struct xfs_trans	*tp;
-> >  	struct xfs_mount	*mp = ip->i_mount;
-> >  	int			error;
-> > +	int			bmapi_flags = XFS_BMAPI_NODISCARD;
-> >  
-> >  	/* Attach the dquots to the inode up front. */
-> >  	error = xfs_qm_dqattach(ip);
-> > @@ -593,15 +595,20 @@ xfs_free_eofblocks(
-> >  	 *
-> >  	 * Note that this means we also leave speculative preallocations in
-> >  	 * place for preallocated files.
-> > +	 *
-> > +	 * Clean up delalloc reservations for fsverity too as those won't be
-> > +	 * used
-> >  	 */
-> > -	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)) {
-> > +	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND) ||
-> > +			(flags & XFS_FREE_FSVERITY)) {
+>> There are only two users of __pte_from_hw() at this time. 
+>>
+>>>
+>>> What about introducing something like pte_t ptep_get_sw(hw_pte_t *ptep)
+>>> to be used in exactly situations like this? With that the semantics of
+>>> hw_pte_t pointers becomes straightforward and closes the still ongoing
+>>> "storage vs lifetime" discussion:
+>>>
+>>> hw_pte_t*     points to HW-formatted page table entries
+>>>
+>>> ptep_get()    is used to obtain HW-linked/attached entries, and may wire
+>>>               extra code like [1] or [2]
+>>>
+>>> ptep_get_sw() is used to obtain HW-unlinked/unattached entries and in
+>>>               most cases is just a direct dereference
+>> ptep_get_sw() or ptep_get_deref() is better name here?
 > 
-> Oh, this patch keeps going after adding new flags to xfs_bunmapi.
+> ptep_deref() would be it.
 > 
-> Uh, this part should be a separate patch then.
+> Do you agree to the suggested API requirements?
 
-Ok, sure, I will split it
+Yes. hw_pte_t * identifies storage containing hardware-formatted PTEs,
+regardless of whether it is attached. ptep_get() is used for attached
+entries and may provide additional architecture-specific handling.
+ptep_deref() is used for unattached entries and performs only the raw
+storage-to-value conversion.
 
-> 
-> >  		if (ip->i_delayed_blks) {
-> >  			xfs_bmap_punch_delalloc_range(ip, XFS_DATA_FORK,
-> >  				round_up(XFS_ISIZE(ip), mp->m_sb.sb_blocksize),
-> >  				LLONG_MAX, NULL);
-> >  		}
-> >  		xfs_inode_clear_eofblocks_tag(ip);
-> > -		return 0;
-> > +		if (!(flags & XFS_FREE_FSVERITY))
-> > +			return 0;
-> >  	}
-> >  
-> >  	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_itruncate, 0, 0, 0, &tp);
-> > @@ -613,6 +620,9 @@ xfs_free_eofblocks(
-> >  	xfs_ilock(ip, XFS_ILOCK_EXCL);
-> >  	xfs_trans_ijoin(tp, ip, 0);
-> >  
-> > +	if (flags & XFS_FREE_FSVERITY)
-> > +		bmapi_flags |= XFS_BMAPI_UNWRITTEN;
-> > +
-> >  	/*
-> >  	 * Do not update the on-disk file size.  If we update the on-disk file
-> >  	 * size and then the system crashes before the contents of the file are
-> > @@ -620,7 +630,7 @@ xfs_free_eofblocks(
-> >  	 * bug).
-> >  	 */
-> >  	error = xfs_itruncate_extents_flags(&tp, ip, XFS_DATA_FORK,
-> > -				XFS_ISIZE(ip), XFS_BMAPI_NODISCARD);
-> > +				XFS_ISIZE(ip), bmapi_flags);
-> >  	if (error)
-> >  		goto err_cancel;
-> >  
-> > @@ -928,7 +938,7 @@ xfs_prepare_shift(
-> >  	 * into the accessible region of the file.
-> >  	 */
-> >  	if (xfs_can_free_eofblocks(ip)) {
-> > -		error = xfs_free_eofblocks(ip);
-> > +		error = xfs_free_eofblocks(ip, XFS_FREE_ALL);
-> >  		if (error)
-> >  			return error;
-> >  	}
-> > diff --git a/fs/xfs/xfs_bmap_util.h b/fs/xfs/xfs_bmap_util.h
-> > index eaaf094154b9..9ea3000466cc 100644
-> > --- a/fs/xfs/xfs_bmap_util.h
-> > +++ b/fs/xfs/xfs_bmap_util.h
-> > @@ -64,9 +64,20 @@ int	xfs_collapse_file_space(struct xfs_inode *, xfs_off_t offset,
-> >  int	xfs_insert_file_space(struct xfs_inode *, xfs_off_t offset,
-> >  		xfs_off_t len);
-> >  
-> > +/*
-> > + * Remove all extents and reservations beyond EOF
-> > + */
-> > +#define XFS_FREE_ALL		0
-> > +
-> > +/*
-> > + * Do the normal post EOF cleaning except don't remove normal extents, in other
-> > + * words, remove unwritten, delayed allocation and cow reservations
-> 
-> IOWs it preserves written blocks storing a merkle tree?
+For review, this patch would become:
 
-yes
-
-> 
-> > + */
-> > +#define XFS_FREE_FSVERITY	1
-> 
-> /me wonders if this should be XFS_FREE_EOF_{ALL,PRESERVE_MERKLE} ?
-> 
-> Also, can we decide this from the XFS_DIFLAG2_VERITY state?
-
-I suppose we can, then these XFS_FREE_* flags aren't necessary
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index bc0b9c65aa1d0..ce900d2652d91 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
+ #ifdef CONFIG_MMU
+ 	return ptep_get(ptep);
+ #else
+-	return *ptep;
++	return ptep_deref(ptep);
+ #endif
+ }
+ 
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 1768421755a9c..08613593f3320 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -490,6 +490,13 @@ static inline int pudp_set_access_flags(struct vm_area_struct *vma,
+ #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+ #endif
+ 
++#ifndef ptep_deref
++static inline pte_t ptep_deref(hw_pte_t *ptep)
++{
++	return __pte_from_hw(*ptep);
++}
++#endif
++
+ #ifndef ptep_get
+ static inline pte_t ptep_get(hw_pte_t *ptep)
+ {
 
 -- 
-- Andrey
+Thanks,
+Usama
+
