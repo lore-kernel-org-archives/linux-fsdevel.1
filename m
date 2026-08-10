@@ -1,200 +1,131 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B363B7771
-	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 10:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBBF39BFEC
+	for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 10:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786357216; cv=none; b=TllJrakHLyMdcSZOfqwImZxIynqBvZcsi458wqQc2vw6xZzwUVlfsENVqWt2I1XujHWFGsFo57ftV9k0AC3LP4kn4vu/3LlChNwynkCjMZnz4u+QehI1K/EoK1XCsdQ2/IJEwDICoAylQnGV85VFNp3+gmmvvPXjzVxx5IcxUCQ=
+	t=1786357841; cv=none; b=LIfd65mq8Xz7UROklwYUKmk905K/HG4gAWJqUvPVINcDnUGMtb9QUKx0kgUT721F3SpSjbTXJ+zmg2Rb5CdSDQJ17A88JptUJHjgawFq4HoZnUjeYBAYjje+xas5L2Flz4Lr1EdiKwLbYe5ZiMGRecusOqrAoN60u1nk/K0xOFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786357216; c=relaxed/simple;
-	bh=S3tC3XwyCQIlqsXvJZnXU3u+9DkFlQbCtiIWEShahuE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=id5AjQMiBP5dOODweSLlKVjtMZRIORHn1j2sAPXEJcArQjjsdwsGwEf6wceYfUfg9+QHhn0zHu4lwPe3MA5Enujj210rFR1c/eD6OJOvi3xtcYP9H8H5KE219WGJlq6aiAg21EZO8htsBYOomS64RCZ3xkehMgwhbqNvKdwMB+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fGXDlnyO; arc=none smtp.client-ip=91.218.175.189
+	s=arc-20240116; t=1786357841; c=relaxed/simple;
+	bh=oqOD90cvP560lV3808f3OJ16n01uvBDzZIhAL7iROIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j+sdGXmAV+FynfakO8s1onXZzHYLT4LUF0O+S7n5qSPZQRdHOR4dlH8e/cgGsWuSpW2wBO4GSR8dI0EVaZ6PV2wYymoxz2mIOD12O3tffVzxQxYB9VNbkl+nl6MvzkJxQqAPerKsYNR5EiadKgmuLFU+MXZc1namXhxT1D+6D/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MPHo/Lq5; arc=none smtp.client-ip=91.218.175.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fGXDlnyO"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MPHo/Lq5"
+Message-ID: <23a6115a-b508-4601-a304-04d05fce9426@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786357201;
+	t=1786357835;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kxNcoz88gUTv2RyDdUD2oJ4g9y+1zQ1kNSN4EE2fzA=;
-	b=fGXDlnyOZW78tBnMnlQ1tn0gaqx7mSxN8jnpxd3X5ZBs5A+AHB+T0i5Ka2ATUkpwOgnsv1
-	KMqRp0Augsx1/HsaVXbYVEtsd6TD99UKyuJ+3mT8utVuks9GQoMS+0WK8+l44Y4crMrbtQ
-	xIGnFQ0O2uyU8LD3THLBVtNK7IeoZsw=
-From: Usama Arif <usama.arif@linux.dev>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	david@fromorbit.com,
-	dgc@kernel.org,
-	qi.zheng@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	cgroups@vger.kernel.org,
-	clm@fb.com,
-	dsterba@suse.com,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mhocko@kernel.org,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	kernel-team@meta.com
-Subject: Re: [PATCH v2] fs: push nr_cached_objects memcg gating into individual filesystems
-Date: Mon, 10 Aug 2026 03:19:52 -0700
-Message-ID: <20260810101954.822260-1-usama.arif@linux.dev>
-In-Reply-To: <20260715103516.2410175-1-usama.arif@linux.dev>
-References: 
+	bh=QcX4iYDIG4tZ3Zi5HXRelDg76qaqUVIxBiMwmC/d7oI=;
+	b=MPHo/Lq5X9VQ3XIXo5xua3gevUEIQVC+So0erk4/1nGqWktTs6H2Bim4UVE0ZQ/M+v+VdK
+	kcRoVjzuE+5ctznmRvE1MNrAzyzQg4LsHlDDELVxGtndLTvT79jGCmdVeps6KEWplfnn2v
+	sP2tKYnKaxbdV4c1CNqG5emfEaXtZJ8=
+Date: Mon, 10 Aug 2026 11:30:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v2] squashfs: avoid thundering-herd cache wakeups
+To: Phillip Lougher <phillip@squashfs.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Cc: brauner@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ jlayton@kernel.org, boris@bur.io, riel@surriel.com, kernel-team@meta.com
+References: <20260807172421.3875982-1-usama.arif@linux.dev>
+ <f03dc086-220f-4aca-92ce-dd3184a100a6@squashfs.org.uk>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <f03dc086-220f-4aca-92ce-dd3184a100a6@squashfs.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On Wed, 15 Jul 2026 03:35:16 -0700 Usama Arif <usama.arif@linux.dev> wrote:
-
-> Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
-> in memcg slab shrink") added a check in fs/super.c that skipped every
-> ->nr_cached_objects() hook whenever the shrinker was invoked for a
-> non-root memcg, on the assumption that none of them honour sc->memcg.
-> 
-> That assumption is wrong for XFS, whose inode-reclaim hook is
-> intentionally driven from per-memcg contexts to free memcg-charged
-> slab. Encoding a blanket "never memcg-aware" policy in fs/super.c
-> short-circuits that path.
-> 
-> Push the check down into the callbacks whose counters really are
-> irrelevant to per-memcg reclaim - btrfs_nr_cached_objects() and
-> shmem_unused_huge_count() - and drop the fs/super.c gate. Each
-> filesystem can now lift the restriction independently if its counter
-> later grows memcg awareness, without touching fs/super.c.
-> 
-> Introduce mem_cgroup_shrink_is_root() in <linux/memcontrol.h> so the
-> callbacks don't open-code "sc->memcg is NULL or root".
-> 
-> Fixes: 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects in memcg slab shrink")
-> Acked-by: Qi Zheng <qi.zheng@linux.dev>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> ---
-> v1 -> v2:
-> - Do not gate xfs_fs_nr_cached_objects(); XFS's inode reclaim is
->   intentionally driven from per-memcg contexts to free memcg-charged
->   slab (Dave Chinner).
-> - Add mem_cgroup_shrink_is_root() helper in <linux/memcontrol.h> so the
->   filesystem callbacks don't open-code "sc->memcg is NULL or root".
->   (Dave Chinner)
-> - Add fixes tag (Dave Chinner)
-> ---
->  fs/btrfs/super.c           | 10 ++++++++++
->  fs/super.c                 | 19 ++-----------------
->  include/linux/memcontrol.h | 21 +++++++++++++++++++++
->  mm/shmem.c                 | 10 ++++++++++
->  4 files changed, 43 insertions(+), 17 deletions(-)
-> 
-> diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-> index a7d804219bec..cc4537435399 100644
-> --- a/fs/btrfs/super.c
-> +++ b/fs/btrfs/super.c
-> @@ -22,6 +22,7 @@
->  #include <linux/namei.h>
->  #include <linux/miscdevice.h>
->  #include <linux/magic.h>
-> +#include <linux/memcontrol.h>
->  #include <linux/slab.h>
->  #include <linux/ratelimit.h>
->  #include <linux/crc32c.h>
-> @@ -2434,6 +2435,15 @@ static long btrfs_nr_cached_objects(struct super_block *sb, struct shrink_contro
->  	struct btrfs_fs_info *fs_info = btrfs_sb(sb);
->  	const s64 nr = percpu_counter_read_positive(&fs_info->evictable_extent_maps);
->  
-> +	/*
-> +	 * The evictable extent map counter is filesystem-global and does not
-> +	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
-> +	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
-> +	 * shrink_slab_memcg() to avoid queueing duplicate global work.
-> +	 */
-> +	if (!mem_cgroup_shrink_is_root(sc))
-> +		return 0;
-> +
->  	trace_btrfs_extent_map_shrinker_count(fs_info, nr);
->  
->  	return nr;
-> diff --git a/fs/super.c b/fs/super.c
-> index d2d04a6f4f84..a8fd61136aaf 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -24,7 +24,6 @@
->  #include <linux/export.h>
->  #include <linux/slab.h>
->  #include <linux/blkdev.h>
-> -#include <linux/memcontrol.h>
->  #include <linux/mount.h>
->  #include <linux/security.h>
->  #include <linux/writeback.h>		/* for the emergency remount stuff */
-> @@ -170,19 +169,6 @@ static void super_wake(struct super_block *sb, unsigned int flag)
->  	wake_up_var(&sb->s_flags);
->  }
->  
-> -/*
-> - * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
-> - * operate on filesystem-global state and ignore sc->memcg. Driving them
-> - * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
-> - * per-cpu counters and queueing duplicate work: the actual reclaim happens on
-> - * the global path (kswapd or root direct reclaim) regardless. Restrict them
-> - * to that path.
-> - */
-> -static inline bool super_fs_objects_eligible(struct shrink_control *sc)
-> -{
-> -	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
-> -}
-> -
->  /*
->   * One thing we have to be careful of with a per-sb shrinker is that we don't
->   * drop the last active reference to the superblock from within the shrinker.
-> @@ -212,7 +198,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
->  	if (!super_trylock_shared(sb))
->  		return SHRINK_STOP;
->  
-> -	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
-> +	if (sb->s_op->nr_cached_objects)
->  		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
->  
->  	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
-> @@ -273,8 +259,7 @@ static unsigned long super_cache_count(struct shrinker *shrink,
->  		return 0;
->  	smp_rmb();
->  
-> -	if (sb->s_op && sb->s_op->nr_cached_objects &&
-> -	    super_fs_objects_eligible(sc))
-> +	if (sb->s_op && sb->s_op->nr_cached_objects)
->  		total_objects = sb->s_op->nr_cached_objects(sb, sc);
->  
->  	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
-
-Hi Christian,
 
 
-It looks like the changes in fs/super.c didnt make it into the patch that was
-merged in vfs.fixes [1]. Just wanted to check how we could correct this?
-Should Qi (or I) send a followup patch?
+On 09/08/2026 23:43, Phillip Lougher wrote:
+> 
+> 
+> On 07/08/2026 18:24, Usama Arif wrote:
+>> squashfs_cache_get() puts a task to sleep when its block is not cached
+>> and every cache entry is busy.  Those sleeps are non-exclusive, so the
+>> nr_exclusive == 1 budget squashfs_cache_put() has always passed to
+>> wake_up() is inert and one release makes every waiter runnable.  A wakee
+>> only returns to squashfs_cache_get() if it observes cache->unused before
+>> the entry is reclaimed; later wakees see zero and re-queue inside
+>> wait_event() without rescanning.  One freed entry satisfies exactly one
+>> capacity waiter, so waking the rest is waste.
+>>
+>> On a Meta production host serving a Python web application from a
+>> packaged squashfs image, a 30-second trace caught 1,045,132
+>> cache-release wake calls and 19,511,556 wakeups: 18.7 per release,
+>> although each release added only one reusable cache entry.  This was
+>> causing significant spikes in CPU usage.
+>>
+>> Make the waits exclusive, enqueueing while still holding cache->lock so
+>> that a concurrent lookup either sees the waiter queued or the waiter
+>> sees the block that lookup publishes.  Two things follow.
+>>
+>> A wakee cannot be assumed to consume the entry it was woken for: it may
+>> find its own block published meanwhile, share that entry, and leave the
+>> freed one unclaimed.  So a wakee which shares hands its wakeup on to the
+>> next waiter, as commit 0ddad21d3e99 ("pipe: use exclusive waits when
+>> reading or writing") does with wake_next_reader.
+>>
+>> And a waiter can now sleep through a publication of the very block it
+>> wants, which the old broadcast gave it repeated chances to notice.  So
+>> waiters are keyed by block: publishing wakes every waiter for that block
+>> (nr_exclusive == 0), freeing an entry wakes one.  That needs a custom
+>> wake callback, like wake_page_function() in mm/filemap.c, which also
+>> records which wakeup arrived so the handoff only fires for a capacity
+>> wakee.
+>>
+>> Broadcast is kept where more than one task can proceed - every waiter
+>> for a published block, and the wake_up_all() on entry->wait_queue - at
+>> the cost of walking the queue under wait_queue.lock to test the key.
+>> Waiters are now served FIFO with a scheduling round trip per handoff
+>> hop, so per-waiter latency changes; the filebench run below is 4x
+>> oversubscribed, where that should hurt most.
+>>
+>> Measured on a 32-CPU VM against a read-only squashfs (gzip,
+>> DECOMP_MULTI_PERCPU, FILE_DIRECT, default 8 metadata / 3 fragment cache
+>> entries) staged in tmpfs, page cache dropped each iteration to force
+>> cold decompression:
+>>
+>>    elbencho, 64 threads
+>>      metadata stat        700 ->  1320 files/s    1.9x
+>>      small-file read       40 ->    60 MiB/s      1.5x
+>>
+>>    filebench, 128 threads, open+read+stat+close (mean of 3x 30s)
+>>      throughput        11,314 -> 25,186 ops/s     2.2x
+>>      sched:sched_wakeup  27.0 ->   4.55 per op    5.9x fewer
+>>      context switches    37.2 ->   7.64 per op    4.9x fewer
+>>
+>> Wakeups and context switches are per operation, since the two runs did
+>> 2.2x different amounts of work.  Workloads which never queue for a cache
+>> entry gain no wakeups.
+>>
+>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+>> ---
+>>   fs/squashfs/cache.c          | 114 +++++++++++++++++++++++++++++++++--
+>>   fs/squashfs/squashfs_fs_sb.h |   9 +++
+>>   2 files changed, 117 insertions(+), 6 deletions(-)
+> 
+> Very nice performance improvement.  Thanks.
+> 
+> Reviewed-by: Phillip Lougher <phillip@squashfs.org.uk>
+> 
 
-Thanks,
+Thanks Phillip!
+
+Regards,
 Usama
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/commit/?h=vfs.fixes&id=0ef8faff490be6aa1a1e5dfcb0c8492689e91c0f 
