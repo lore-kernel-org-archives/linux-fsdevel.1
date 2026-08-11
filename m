@@ -1,95 +1,100 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325FD426405;
-	Tue, 11 Aug 2026 09:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F3041A77C;
+	Tue, 11 Aug 2026 09:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786440298; cv=none; b=mvrbARM72TnWOm2K0HhkS0ftbvE/K/kg4wf/XRQQiJv8JvTLNTc1s+1lIxp8gW2Zt5SfGm7pnvfUKDsr+HxghmiCGksJCDPTl8ns7d1++eV3KDBv5skatEufY8VfJg9q5MQZOnxCQBcyGqNK16HZ5t48rs3V3gy0gtARyzx2mzc=
+	t=1786440308; cv=none; b=R9Op5ZDGHzKhJzZEHDmUiF1tzkf9dIXe12BKs0LFY20JAfGYyrhw/o18QcfQvABBH7lI5cGXOc9khkhMGGK/LcNNE7D6keIweryIJB67awFh9NiaGkOPKcKeVmB5Kv5Jo9MIW0G9tkYWIfWbGsp6nvg3FI13gESSpGFqAgs7S4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786440298; c=relaxed/simple;
-	bh=fo9j8kdnZ3d1Cb7R3JXH4+6v4YrCB+a7W8evI8c2Q1U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c1WWg6U7GPqBFcBBI8jJ1uNoFba9Ug99aGuLP7osljML3LcUbQi4Jctixvn4YtpmsAZ1sq0hmi7p8a1Lg6NIsoYhBVV844YbwfBDdPLLYaJahNtknUqqYj0NQOXH6Nv++NJwAzSCFozDcRcAze8+GAMxWtzPIH7UucKFqQwL130=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=EbtKTIPx; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1786440308; c=relaxed/simple;
+	bh=rW4Gn8nuPAChuOaOAphRZUDkedE+y6quD4t7euLTO2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lcLUX1yJsre2nCVsWZ+Am4x6jp554bxejjk0nGxJdPPNx1Gn+rr2k3nQgXF3qHtbrCZwaTxrS++vz2sUVyvSrJjjmJDEzCA+Kqwwrcoh11rTNlcoGD0P353EHP7KdRqrnDYRYRHZmaDRyis5zLP1L1iO/wwhpwMw/YJdwf6V8QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0Aq5Cvy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="EbtKTIPx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=fo
-	9j8kdnZ3d1Cb7R3JXH4+6v4YrCB+a7W8evI8c2Q1U=; b=EbtKTIPxIWSGrnDo9o
-	rLyi9otRSvWLd4uSSBTkMpjsQuXJq9/WSDYQRGxt9rcXTl6Oqz/f3TIH7ifqyeVF
-	5bkyNRy3ToVrnoH5eOThDU4ykIlo1z7Tc9G+vK0hiudifoT1gwNpHTVuWiol5XkR
-	EcziWewFP3XaFau8tqxifYL6M=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wBnRqbR6Xpq5jVXPA--.54025S2;
-	Tue, 11 Aug 2026 17:22:27 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: brauner@kernel.org
-Cc: akpm@linux-foundation.org,
-	alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	chuck.lever@oracle.com,
-	corbet@lwn.net,
-	david@kernel.org,
-	ebiederm@xmission.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	juri.lelli@redhat.com,
-	keescook@chromium.org,
-	kuba@kernel.org,
-	liam@infradead.org,
-	linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mcgrof@kernel.org,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	mjguzik@gmail.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	rdunlap@infradead.org,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	vincent.guittot@linaro.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v8] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-Date: Tue, 11 Aug 2026 17:22:24 +0800
-Message-Id: <20260811092224.2068821-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260811-zerfallen-boiler-bissfest-cdb998278337@brauner>
-References: <20260811-zerfallen-boiler-bissfest-cdb998278337@brauner>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0Aq5Cvy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2D71F000E9;
+	Tue, 11 Aug 2026 09:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786440303;
+	bh=1d60DmOiyf9vsbdMyOWLJ3UiUYY8mb2XIfOf8L0jGDE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=j0Aq5Cvyz+T1Uud910iFya0piC9xc+brcKgCD1Db6hjJr3STNtbaXxFVUwpuXwqBz
+	 TQQJ+uvbdjhto04m+YOzULdfS3vs+J+3utCDaw+WRfEFYvk7xkEkY2+TSqQfFlukjZ
+	 Q/Jao7LxvvZfOINF15S0zz5HaO2AbStAErUS6/mP8FTWHCRV69piYvapF6a6RGyr3F
+	 4mVy/kXkRALUb7iVBbAe5jRVfXuBIALgZiTA2Wf0QZK3x9HjrLQxGhZGuA2KpOqZOl
+	 6uZnLkcBX86LvDtxdh6nmS26Vl4JyZC4nAlKmoQEfTzTxZ2rqeTy83L1BWpayRjojT
+	 LceiMr3EkrCNA==
+Date: Tue, 11 Aug 2026 11:24:50 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, 
+	John Groves <john@jagalactic.com>, John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Message-ID: <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBnRqbR6Xpq5jVXPA--.54025S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRC_MVUUUUU
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5xPn8Wp66dPLgwAA3A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
 
-On Tue, 11 Aug 2026 11:09:47 +0200 Christian Brauner <brauner@kernel.org> wrote:
+On Tue, Aug 11, 2026 at 10:59:50AM +0200, Miklos Szeredi wrote:
+> On Thu, 6 Aug 2026 at 06:37, Darrick J. Wong <djwong@kernel.org> wrote:
+> 
+> > IOWs, let's fix the remaining wobbles (if any) and just merge this
+> > already.  No more side quests through gigantic refactorings of fusex,
+> > that's too much to ask after you already redesigned and reimplemented
+> > the whole thing already.
+> 
+> Without any intention to change the direction, let me just state some facts:
+> 
+>  - it was never suggested that famfs depend on the fusex work in any way
+> 
+>  - the plan to add famfs mappings to fuse was laid out two and a half
+> years ago in reply to the very first rfc posting and has basically
+> remained unchanged since then:
+> 
+> https://lore.kernel.org/all/CAJfpegv8XzFvty_x00UehUQxw9ai8BytvGNXE8SL03zfsTN6ag@mail.gmail.com/
+> 
+> I understand how that seemingly simple API addition was overwhelming
+> for John, and I should have been more proactive in helping with the
+> implementation.  That's entirely my fault.
+> 
+> On the other hand John could have been more trusting that the plan will work.
+> 
+> But that's behind us now, let's move on...
 
-> Fwiw, I still refuse this patch for the reasons I mentioned in the
-> various other postings of this...
-
-Yes, I know. I updated several versions because we found some obvious errors.
-Perhaps there are others like me who have the same needs and can benefit from
-this patch. If there are no new special circumstances, I will not update any
-related content regarding this patch anymore. Sorry for that.
-
-Thanks
-Xin Zhao
-
+with fuse, please...
