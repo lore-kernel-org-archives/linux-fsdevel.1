@@ -1,210 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA8137B016;
-	Tue, 11 Aug 2026 08:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF782236F7;
+	Tue, 11 Aug 2026 08:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786437686; cv=none; b=q9lxL+SuDwjLDxVjsQ4bpteMl7SET5bJnOCDa5RHWGeSh8VyT0Q5YKsdWrX1sriQCthnk7Jb+RU5T7kmdkiep7ZNnLNKqmXBdyFKSGFJJ199NtdYYjl6TeAdsJwQtX04eYHS2k617XYUr7MMn4U01gXZHnY/hRjiakSnqs3dnAs=
+	t=1786438281; cv=none; b=vCm7+lyYmX/1P50LNGkV5B0CUxSq1tWxpyJluhYfj+xxr9v4hjmALgJxxIxqmyJMRNwaHVA9r2V0zYbcUiwfNsfXRXTjF6IdGnheHbmSGIIfpGCmOfXSvCd81B0zGvlpcqD176yIvE68C+M5foPSOCC3urQNPtzutGGsj26LQQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786437686; c=relaxed/simple;
-	bh=liZ7uxR0O6+U7as8qZpKKYS3EubE1GUoT7kMKF2zH6Q=;
+	s=arc-20240116; t=1786438281; c=relaxed/simple;
+	bh=fHDfwfWOEIV3an+rXLr2UVCrctvpLCh+r+GjLNR75qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qslWVWeB3QLmHun/8ewAt2CZAZHhUHN4AN92oYHK7vk4BPEAgqEL4lUqDYbadIbXCqFybr9/j98mVwvFz4nRzD/GRqDFPPFhf8GGv7Spd7mL1gYeL2yzOh2LX6tIZWfcyTVJH1S28kNE6kO+hHj+ZezghBANV0+B/jae87eJwTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HneO5wKc; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oQiFa2lrGC50e1w1GymDRYEZANXNFeEwuk8NrgiU1ubzwTy1EIOdDOPDo30jMxqP6t2Va6ec9p2gI8itNFfqk5DuIRBuY+P+7H3SxivzYubtnC+0tMbiB68XXPqemXHrXgOH45hkjtMGRfnZR+iLMFyYJYt11G7KS1nAnZqDSSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcZcRvus; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HneO5wKc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8E21F000E9;
-	Tue, 11 Aug 2026 08:41:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcZcRvus"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94B661F000E9;
+	Tue, 11 Aug 2026 08:51:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786437685;
-	bh=B9oyw8VGrdnmKGUbtduBgbxCRdwpvdeLqgkhrCXDNKQ=;
+	s=k20260515; t=1786438279;
+	bh=WGix9+ChbUADTuxGGhQgnktQZ1ZRs7VSctwhrFpgqIk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HneO5wKcZdSzCZgiPL7O6y0hkp8NxpOysOwjQ1/0p5DZJDgbHmr8oIIto+qbUqUP8
-	 QSncbqQais7NDR31QFmgQ7SJeueG1RlsaCn/ugXce/uqztMKctFvKx1+vcfyXCvqNZ
-	 VJEHlmRInootV9fshr8tYk5LG1afiv/E+UOYl58uNgPRApc4UGU+ngmdh3PqQBdarD
-	 Za9aH05yjKoWK0cBkN69Xhhb9cMAk62gCUKpXkd+IC3tlRx4y1qZ5QJ3SYz3eWJwWJ
-	 /V1P5kbBwkgzwAFtJUA4uuFpLGZnK495BJYq41HQc15Y/yGaMH9StOXlfO1t3CLsMy
-	 Wo0bc8EiRjuEw==
-Date: Tue, 11 Aug 2026 09:40:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, 
+	b=kcZcRvusAGp8SBxsLE/wDLrFd85OxjKoeJNy86QvtKCyBGD1cgyhzx3Mo+zhq7u84
+	 yEZmU2BsoRT9wyCf19rypfWAmeEwPEbShEDqCyvC26uGPgHvv6/p3RvACw1zTXDx3L
+	 c+ps32DuOjovUkUEdLYgRaOvrkTWrPf8bqSxarzJBEwurpOSXymS9dQzEtEm1utNZg
+	 QSOee1kNV3l8wZ1yDB39yiHJCKQA/2K7P5nWoOct+7U7PMFg+Rn/PnIJeE+DrHvueG
+	 93eq7u40jvWGmJgujAMuyQTVFshixMJ3r2xalBwT3uRAjxP8uqnmmS2/PHdrnZ4gLl
+	 ixBVO13PGfhxw==
+Date: Tue, 11 Aug 2026 10:51:13 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jacob Lalonde <jalalonde@meta.com>, 
+	David Hildenbrand <david@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
 	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/20] mm: provide vma_[flags_]is_cow_mapping() and
- remove is_cow_mapping()
-Message-ID: <anrfA56ZIL7QQqvk@lucifer>
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
- <20260806-b4-scalable-cow-virt-pgoff-v4-2-ab318a350404@kernel.org>
- <ann-vS6MYT9kuXqu@lucifer>
- <20260810151007.c1cfbcf46d498d2f8ce566f9@linux-foundation.org>
+	Michal Hocko <mhocko@suse.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Omar Sandoval <osandov@osandov.com>, 
+	Jacob Lalonde <jalalonde@fb.com>
+Subject: Re: [PATCH] coredump: add filesz truncation and filter
+Message-ID: <20260811-achtfach-backpulver-mundart-70a7e5a20ac6@brauner>
+References: <20260731171336.2255844-1-jalalonde@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260810151007.c1cfbcf46d498d2f8ce566f9@linux-foundation.org>
+In-Reply-To: <20260731171336.2255844-1-jalalonde@meta.com>
 
-On Mon, Aug 10, 2026 at 03:10:07PM -0700, Andrew Morton wrote:
-> On Mon, 10 Aug 2026 18:59:34 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
->
-> > Hi Andrew - would it be possible to insert the comments added below? Trying
-> > to avoid a respin if possible :)
->
-> np, like this?
+On Fri, Jul 31, 2026 at 10:13:36AM -0700, Jacob Lalonde wrote:
+> From: Jacob Lalonde <jalalonde@fb.com>
+> 
+> This adds opt-in truncation of Coredump segments to
+> `/proc/pid/coredump_filter`. The primary motivation here is to reduce the
+> number of zero pages written via pipe to a user space coredump process. In
+> my testing this reduces coredump size, and thus IO by ~40% at Meta. With
+> some outliers such as PyTorch's TBE weights being loaded in right before a
+> crash being closer to 99%.
+> 
+> We achieve this by having the Kernel not emit the trailing zeros of any
+> VMA, resulting in a PT_LOAD with filesz < memsz. I verified that both GDB
+> from v16 onward and trunk LLDB support loading cores with truncated
+> sections, however LLDB won't report zeros for the truncated region
 
-Great thanks!
+Hey!
 
-Just one minor edit below (being pedantic here but kinda what the comment
-needs I think :)
+So I remember having talked to Josef (Bacik) about this a few months
+ago. He had a similar goal. I don't think this is the right place to fix
+this, though.
 
->
-> From: Andrew Morton <akpm@linux-foundation.org>
-> Subject: mm-provide-vma_is_cow_mapping-and-remove-is_cow_mapping-fix
-> Date: Mon Aug 10 03:07:02 PM PDT 2026
->
-> add comments, per Lorenzo
->
-> Link: https://lore.kernel.org/ann-vS6MYT9kuXqu@lucifer
-> Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
->
->  include/linux/mm.h |   57 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
->
-> --- a/include/linux/mm.h~mm-provide-vma_is_cow_mapping-and-remove-is_cow_mapping-fix
-> +++ a/include/linux/mm.h
-> @@ -2271,17 +2271,74 @@ void unpin_user_pages(struct page **page
->  void unpin_user_folio(struct folio *folio, unsigned long npages);
->  void unpin_folios(struct folio **folios, unsigned long nfolios);
->
-> +/**
-> + * vma_flags_is_cow_mapping() - Do these VMA flags imply a CoW mapping?
-> + * @flags: The VMA flags to check.
-> + *
-> + * Mappings which could be CoW'd (subject to Copy-On-Write faults) are
-> + * described as CoW mappings.
-> + *
-> + * All mappings backed by anonymous folios (all anonymous mappings and most
-> + * MAP_PRIVATE-file backed ranges) are CoW mappings.
-> + *
-> + * All other mappings (including all writable MAP_SHARED mappings) are
-> + * non-CoW.
+coredump_filter allows exclusion/inclusion per-memory-type. So it says
+which mappings will end up in the dump. And such filters are inherited
+across fork.
 
-I ummed and ahhed over how to put this but now I think this could cause
-confusion so could you replace the paragraph with:
+The new bit isn't a memory type at all though. All it does is to change
+the encoding of the data that's sent.
 
- * All other mappings (including all MAP_SHARED mappings) are non-CoW.
+So the receiver has to understand the new bit and not the crashing
+process. This scheme will only work with a subset of debuggers. That's
+kinda annoying. Basically the tail of a mapping can show up as
+unavailable memory rather than zeroes. And it's inherited across fork
+and exec so some unsuspecting crashing process does start generating
+such coredumps purely because its parent did opt in.
 
-It's _all_ MAP_SHARED mappings not just writable, I thought people would
-automatically assume read-only wasn't included plus drivers could in theory
-do crazy things (I have a pending series to fix that though) but it's
-clearer just to say all.
+Some time ago I added the coredump socket. There's a simple protocol
+built on top of it. See coredump_req and coredump_ack in
+include/uapi/linux/coredump.h. The kernel advertises the features it
+supports in coredump_req->mask. Userspace picks the ones it wants in
+coredump_ack->mask. It's explicitly extensible. And it's per-coredump.
 
-> + *
-> + * The criteria are !VMA_SHARED_BIT, VMA_MAYWRITE_BIT.
-> + *
-> + * VMA_MAYWRITE_BIT is checked instead of VMA_WRITE_BIT to account for both
-> + * future mprotect() calls which can render a read-only mapping writable, and
-> + * GUP with FOLL_FORCE (e.g. ptrace) which can CoW a read-only mapping.
-> + *
-> + * - No anonymous mapping can ever clear VMA_MAYWRITE_BIT.
-> + *
-> + * - Writes to anonymous mappings do not immediately result in CoW faults but
-> + *   may do so after the process is forked or if a read is followed by a
-> + *   write.
-> + *
-> + * - Writes to MAP_PRIVATE file-backed mappings result in CoW faults and may
-> + *   do so again after fork.
-> + *
-> + * - MAP_SHARED mappings of a file opened read-only are transformed into
-> + *   VMA_MAYSHARE_BIT, !VMA_SHARED_BIT, !VMA_MAYWRITE_BIT mappings, so remain
-> + *   non-CoW.
-> + *
-> + * - Drivers may clear VMA_MAYWRITE_BIT but do so at mmap() time and cannot
-> + *   mark themselves anonymous. Having cleared this flag it is not valid for
-> + *   them to leave the VMA_WRITE_BIT flag set.
-> + *
-> + * As a consequence, the anonymous reverse mapping only tracks CoW mappings.
-> + *
-> + * Returns: true if the flags indicate a CoW mapping, otherwise false.
-> + */
->  static inline bool vma_flags_is_cow_mapping(const vma_flags_t *flags)
->  {
->  	return vma_flags_test(flags, VMA_MAYWRITE_BIT) &&
->  		!vma_flags_test(flags, VMA_SHARED_BIT);
->  }
->
-> +/**
-> + * vma_is_cow_mapping() - Is this VMA a CoW mapping?
-> + * @desc: The VMA to check.
-> + *
-> + * See vma_flags_is_cow_mapping() for details.
-> + *
-> + * Returns: true if the VMA is a CoW mapping, otherwise false.
-> + */
->  static inline bool vma_is_cow_mapping(const struct vm_area_struct *vma)
->  {
->  	return vma_flags_is_cow_mapping(&vma->flags);
->  }
->
-> +/**
-> + * vma_desc_is_cow_mapping() - Is this VMA descriptor a CoW mapping?
-> + * @desc: The VMA descriptor to check.
-> + *
-> + * See vma_flags_is_cow_mapping() for details.
-> + *
-> + * Returns: true if the VMA descriptor describes a CoW mapping, otherwise
-> + * false.
-> + */
->  static inline bool vma_desc_is_cow_mapping(struct vm_area_desc *desc)
->  {
->  	return vma_flags_is_cow_mapping(&desc->vma_flags);
-> _
->
+What you want to do can actually be achieved by just using the coredump
+socket today:
 
---
-Cheers, Lorenzo
+Set coredump_filter to 0. The kernel now streams a complete skeleton:
+ELF header, the full PT_LOAD table and every note. The dumping process
+then blocks in coredump_sock_wait(). And now the coredump server in
+userspace can fill in the memory from /proc/<pid>/mem driven by
+PAGEMAP_SCAN and then writes the sparse file itself (also works with
+threads as they're also parked and you can always trace threads within
+your thread-group).
+
+That obviously means you have to assemble the ELF in userspace. But you
+get full control over what memory is collected and how.
+
+I find that quite appealing but if you wanted kernel-based zero
+filtering I have a proposal as well.
+
+Right now the mask only carries COREDUMP_{KERNEL,USERSPACE,REJECT,WAIT}.
+Adding memory options is simple enough. Extend the enum and raise the
+bit in coredump_sock_request(). Add a new bit COREDUMP_SPARSE to the
+protocol.
+
+The coredump socket stops streaming raw core data and becomes a sequence
+of records. The coredump server can reassemble the data as
+needed/wanted.
+
+So every__dump_emit() gets a data record and every __dump_skip() becomes
+a zero record with no payload. That can live entirely fs/coredump.c
+below binfmt. So it applies to every binfmt and needs no elf knowledge
+at all.
