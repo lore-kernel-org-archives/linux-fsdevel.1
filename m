@@ -1,95 +1,97 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A6736C5A9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 03:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDEC285CA2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 04:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786419425; cv=none; b=bSPD9+7nc2YTMUe4rcAxSRXmaR9Ipt4UyfE8YNsOWXYCXb50/J5ynnkLXKdK1ish5qTJAIg36V+dV7LOU1Na2yVWY+kmffRBQrTW1o6yAYAH0ufLNptqdnguGiSWn5ZsQEc6dTE2pnI1uJZO0R9LzQlVoTZb3aBY1ztyoOyFeBU=
+	t=1786422749; cv=none; b=Kgs78z+/NxxuwUqL7v1P1/rfmfeyxzTpCkhlhEIqL9CwqatUNBgaWZE+ZPLbpVCH0w/XXRM9cbnxuPytRPaE/MW4ZawOEmbmorAaoNcDjDWuCGVb68icOhMxMhEO/I4wX5DIEqdoaloouU21SrnJ782R7aNeTskW/L1b+3ci7ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786419425; c=relaxed/simple;
-	bh=bWR4KnznzFNDQRt5mfMCgZm4Zm2R+XatTiiCOHYxjx0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XSJnZWaqno8avGjgtlKiaWWQ758GMEAPWHNFKGDG4hCX+pDm7d/+nRgTeSW0Zk8qbO6kikjubGLynbe8T1fPJmVnpNLdrZLwX+y2aKi7knrk7AJWQak/aID/BITDdetzL/RSimBilSxTIJOLJR8XM+7hj9YCmx8VIDAqmMvxEP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QADIpN8J; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QADIpN8J"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786419411;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3rmW+tHa6kovhH6yy177yV/pA5fI2DQqyj8ArGhMWDg=;
-	b=QADIpN8JxDQrtlOR105KV7dV83Aqxk9jlF9GvAE5AtX+AS2UoxLPzvTKnQMtlHXBVlbizm
-	5ZTTh3MFXu/2TgDR9L9wR+/KVcSEw0IOBFyiv7NdDxmIIciougrn3hd/De1N0MJIC6xFk1
-	2Z4b9HStb+7CT7beqHooD/ItS1O8oO0=
-From: Ye Liu <ye.liu@linux.dev>
-To: Michal Hocko <mhocko@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Ye Liu <liuye@kylinos.cn>,
-	David Rientjes <rientjes@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH] mm/oom_kill, proc: replace magic number 1000 with OOM_SCORE_ADJ_MAX
-Date: Tue, 11 Aug 2026 11:36:08 +0800
-Message-Id: <20260811033609.3992348-1-ye.liu@linux.dev>
+	s=arc-20240116; t=1786422749; c=relaxed/simple;
+	bh=7tsF3bhriRgTLVc7XkHR3UDy7okFEmbuWfjaey39zpY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mf+TzezSIFfZzzAOu/RiGrBEA+aVI9+4dDi+uBdrFHx+SW3NMW823N7mntgXggLi3oL3+WLExIXpxlc779216fs/6UdkC6198nv9YuxobRg1BjGHP6MNjWTV4YXpAdSDCeMoZPPcSF+o/6JXK/c0Db++Kyx6Ri/2Yiwz1EiIe+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4a45997664aso476642b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 21:32:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786422747; x=1787027547;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Emz8++jbQppo3JzvJo1XWhlrDgRtz8rlCIN7+DNlLgk=;
+        b=c8e7ABYLi3HH6VtbsAlVlAMKRvYflhDZacb848bXhpbdSJUXZzpED1DpvEi5cyuMgZ
+         7LSeJi2lTpjZYksJxBba9rzdo2RTm5wFLRQpcqckFM4RHjP+6EqJC1vUjqYVdz2+Bxe6
+         93OwIpw7Adi2JoWN7U6zB0dtzjTdQJiOUc1fsA1YfUUnBZi/gHmDSMyvjtHN9uVw4ZZu
+         +XYMmQ0txFR+TfJt172LcTu+q7bq2njvrk+ai5KzC/GHz9HowWM6ZiTuQaBIrExdZK6X
+         RnQvgAW9XTbTH5CzZZ8bCtAMQeMY9RhJ0MG81EM+UDHuaBYVUtZjPnDDzOQx7K/7EMwJ
+         zs4A==
+X-Gm-Message-State: AOJu0Ywac8JuM4qHFxzV03a4xisivuDrJa2F8/8GfjN1Na3tr0e8YUpR
+	FUs+/+LhIbU5Ba/Awly9Qp0enDw+KjanBMDgmzlzkxnrBZVrX+tnPxPd3qCqAqTRGBq5BUmRTcq
+	J0kzqIuxeRgGsuUwsguer/1hQR5THBzzhzc+cW00xdMhmyVJuGMcXOjEcbns=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Received: by 2002:a05:6808:1a13:b0:48b:5dcb:85ab with SMTP id
+ 5614622812f47-4b1fd6a797fmr393807b6e.8.1786422746987; Mon, 10 Aug 2026
+ 21:32:26 -0700 (PDT)
+Date: Mon, 10 Aug 2026 21:32:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7aa5da.9c11d2ce.289b96.00fc.GAE@google.com>
+Subject: [syzbot] Monthly fs report (Aug 2026)
+From: syzbot <syzbot+list94bce93db358929bf37c@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ye Liu <liuye@kylinos.cn>
+Hello fs maintainers/developers,
 
-In oom_badness() and proc_oom_score(), the oom_score_adj normalization
-uses a hardcoded 1000, which is the value of OOM_SCORE_ADJ_MAX defined
-in include/uapi/linux/oom.h.  Other code in the kernel (e.g.
-fs/proc/base.c oom_adj handling) already uses OOM_SCORE_ADJ_MAX for
-the same purpose.
+This is a 31-day syzbot report for the fs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/fs
 
-Replace the magic number with the macro for consistency and
-readability.  No functional change.
+During the period, 13 new issues were detected and 0 were fixed.
+In total, 51 issues are still open and 636 have already been fixed.
+There are also 20 low-priority issues.
 
-Signed-off-by: Ye Liu <liuye@kylinos.cn>
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  8671    Yes   INFO: task hung in __iterate_supers
+                   https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9368d
+<2>  4270    Yes   INFO: task hung in synchronize_rcu (4)
+                   https://syzkaller.appspot.com/bug?extid=222aa26d0a5dbc2e84fe
+<3>  2681    Yes   INFO: task hung in filename_create (4)
+                   https://syzkaller.appspot.com/bug?extid=72c5cf124089bc318016
+<4>  2029    Yes   INFO: task hung in user_get_super (2)
+                   https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
+<5>  1999    Yes   INFO: task hung in lookup_slow (3)
+                   https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
+<6>  212     Yes   WARNING in path_openat
+                   https://syzkaller.appspot.com/bug?extid=be8872fcb764bf9fea73
+<7>  16      Yes   VFS: Close: file count is zero (use-after-free) (2)
+                   https://syzkaller.appspot.com/bug?extid=592c653b056459925299
+<8>  16      Yes   general protection fault in __simple_recursive_removal (2)
+                   https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
+<9>  13      Yes   KASAN: slab-use-after-free Read in lockref_get (2)
+                   https://syzkaller.appspot.com/bug?extid=227dbc9afd022922d624
+<10> 11      Yes   KASAN: use-after-free Read in hpfs_count_dnodes
+                   https://syzkaller.appspot.com/bug?extid=7d1563afac6cb196a444
+
 ---
- fs/proc/base.c | 3 ++-
- mm/oom_kill.c  | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 6a39de424f62..58be38942460 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -594,7 +594,8 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
- 	 * exporting for a long time so userspace might depend on it.
- 	 */
- 	if (badness != LONG_MIN)
--		points = (1000 + badness * 1000 / (long)totalpages) * 2 / 3;
-+		points = (OOM_SCORE_ADJ_MAX +
-+			  badness * OOM_SCORE_ADJ_MAX / (long)totalpages) * 2 / 3;
- 
- 	seq_printf(m, "%lu\n", points);
- 
-diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-index 5f372f6e26fa..08bff7a55db8 100644
---- a/mm/oom_kill.c
-+++ b/mm/oom_kill.c
-@@ -230,7 +230,7 @@ long oom_badness(struct task_struct *p, unsigned long totalpages)
- 	task_unlock(p);
- 
- 	/* Normalize to oom_score_adj units */
--	adj *= totalpages / 1000;
-+	adj *= totalpages / OOM_SCORE_ADJ_MAX;
- 	points += adj;
- 
- 	return points;
--- 
-2.25.1
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
