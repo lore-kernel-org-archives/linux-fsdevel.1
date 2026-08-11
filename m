@@ -1,114 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9289941F349
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 09:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325FD426405;
+	Tue, 11 Aug 2026 09:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786440095; cv=none; b=huGR+iWAm+Jgrj/C2wkxepUx0t+sGXR2ub2YlWelj//3oUvtHr7qfVb+b/gHHk+/H4oRP17Gk1kxDS5KujsZ/hj0YPFJ3cLbcAqNWz6CunDNZHitYIF/sUPSlX+QPybYdqCboIPSFN5xhi5kII5ohg38nBlZdbCVjhQbEkHcoyc=
+	t=1786440298; cv=none; b=mvrbARM72TnWOm2K0HhkS0ftbvE/K/kg4wf/XRQQiJv8JvTLNTc1s+1lIxp8gW2Zt5SfGm7pnvfUKDsr+HxghmiCGksJCDPTl8ns7d1++eV3KDBv5skatEufY8VfJg9q5MQZOnxCQBcyGqNK16HZ5t48rs3V3gy0gtARyzx2mzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786440095; c=relaxed/simple;
-	bh=/ZKDMCQ5EB7eTjSYaaF9qb8Dktwh1vw7ruel48S3MKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSC/BqaPt9XjvXVRYgbH/vUXl0H+TPxhoi+0RB17wf3UNRZS9nGs6TAuqpJ9wBYy+d9QnCCbckb4yinkEvEPmkhSbwtGqhSkyBx+kNRhJHj5ktuqLnmyzzD3EvSurZsCkMxWWG4yvL6O6SYpFqbK2o/e1Ded15Ol3DxoGVm5XGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mi4IM3Zm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786440298; c=relaxed/simple;
+	bh=fo9j8kdnZ3d1Cb7R3JXH4+6v4YrCB+a7W8evI8c2Q1U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=c1WWg6U7GPqBFcBBI8jJ1uNoFba9Ug99aGuLP7osljML3LcUbQi4Jctixvn4YtpmsAZ1sq0hmi7p8a1Lg6NIsoYhBVV844YbwfBDdPLLYaJahNtknUqqYj0NQOXH6Nv++NJwAzSCFozDcRcAze8+GAMxWtzPIH7UucKFqQwL130=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=EbtKTIPx; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mi4IM3Zm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D7F1F000E9;
-	Tue, 11 Aug 2026 09:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786440094;
-	bh=PG40/i9jiQY5IRXEmIjhZ6VgH2PeUxz+CsRiWBpSJik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mi4IM3Zm1aUQHm/L3z82FoZcBlBiJKIUEdZEqXrTnt9We1xT+EENAL5sp88tEJnNG
-	 EyRfyhbe2KrUB+juT3/8RZ6D2KPRZZJTt97aQf91ovs7ggMUGEeNOJINDfMU8t9Ybx
-	 j+s1/Snpz1D4UodLuYAJWJLbSEGXsIIG7+5dV9GFr+B8s4y6kUgJctRB3Qgyx0Tqw7
-	 rKRzSdkRButcubtIHmOhoJorAeLrZWgIZqxGt3zWoY2FZ6NTXJTrC+NBJYj/9ngvxU
-	 dGwbo2QtLIDCRGheqZuY74iTzqGlc6jYp4Jw1CVPTGUK+F8onS5ohsbGw4qkOmFSEZ
-	 N8ujtUPGwPYZw==
-Date: Tue, 11 Aug 2026 11:21:29 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, 
-	vova tokarev <vladimirelitokarev@gmail.com>, akpm@linux-foundation.org, security@kernel.org, 
-	linux-mm@kvack.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: Fwd: BadBunny: UFFDIO_COPY shmem killpriv bypass leading to
- local privilege escalation
-Message-ID: <20260811-knieprobleme-holten-palmen-4d42742b1962@brauner>
-References: <CAGBKPgOm8q-8_rwyRPEmSj8JXdh_GaK1Q8vpJ=j-+yA0SgcNQw@mail.gmail.com>
- <CAGBKPgPPALX_5CQJAKUNjwi2fD28pBeS5pRuwQgePU93pOy8EA@mail.gmail.com>
- <anXnHMInq_JLYbWc@pedro-suse.lan>
- <CAGBKPgOfbMJruqcegJca6BBpEtpd91s5ASF_VU+gucWsjwp8WA@mail.gmail.com>
- <ancYCBUT8aB0qHwz@pedro-suse.lan>
- <anlOGOmO1HWVCMdF@casper.infradead.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="EbtKTIPx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=fo
+	9j8kdnZ3d1Cb7R3JXH4+6v4YrCB+a7W8evI8c2Q1U=; b=EbtKTIPxIWSGrnDo9o
+	rLyi9otRSvWLd4uSSBTkMpjsQuXJq9/WSDYQRGxt9rcXTl6Oqz/f3TIH7ifqyeVF
+	5bkyNRy3ToVrnoH5eOThDU4ykIlo1z7Tc9G+vK0hiudifoT1gwNpHTVuWiol5XkR
+	EcziWewFP3XaFau8tqxifYL6M=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wBnRqbR6Xpq5jVXPA--.54025S2;
+	Tue, 11 Aug 2026 17:22:27 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: brauner@kernel.org
+Cc: akpm@linux-foundation.org,
+	alex.aring@gmail.com,
+	allen.lkml@gmail.com,
+	arnd@arndb.de,
+	chuck.lever@oracle.com,
+	corbet@lwn.net,
+	david@kernel.org,
+	ebiederm@xmission.com,
+	j.granados@samsung.com,
+	jack@suse.cz,
+	jackzxcui1989@163.com,
+	jlayton@kernel.org,
+	juri.lelli@redhat.com,
+	keescook@chromium.org,
+	kuba@kernel.org,
+	liam@infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mcgrof@kernel.org,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	mjguzik@gmail.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rdunlap@infradead.org,
+	rppt@kernel.org,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	vincent.guittot@linaro.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v8] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+Date: Tue, 11 Aug 2026 17:22:24 +0800
+Message-Id: <20260811092224.2068821-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260811-zerfallen-boiler-bissfest-cdb998278337@brauner>
+References: <20260811-zerfallen-boiler-bissfest-cdb998278337@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <anlOGOmO1HWVCMdF@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBnRqbR6Xpq5jVXPA--.54025S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRC_MVUUUUU
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5xPn8Wp66dPLgwAA3A
 
-On Mon, Aug 10, 2026 at 05:05:44AM +0100, Matthew Wilcox wrote:
-> On Sat, Aug 08, 2026 at 01:17:09PM +0100, Pedro Falcato wrote:
-> > I'm adding a bunch of fs people that might have opinions about this. Please
-> > see the rest of the thread below.
-> > 
-> > On Sat, Aug 08, 2026 at 12:13:06PM +0300, vova tokarev wrote:
-> > > Pedro,
-> > > 
-> > > Thanks for the review. Let me address both points.
-> > > 
-> > > On the page fault comparison:
-> > > 
-> > > UFFDIO_COPY is not comparable to a page fault. Page faults serve
-> > > existing page cache content (read-like). UFFDIO_COPY adds new,
-> > 
-> > A page fault can also write to the page cache. On MAP_SHARED mappings.
-> > 
-> > > 
-> > > user-controlled content to the shmem page cache (write-like).
-> > > 
-> > > The correct comparison is to write(), which calls file_modified()
-> > > 
-> > > -> __remove_privs() to strip SUID/SGID.
-> > > 
-> > > 
-> > > This is exactly the reasoning used when fallocate() was fixed
-> > > 
-> > > across XFS (commit fbe7e5200365), ext4, and f2fs to call
-> > > 
-> > > file_modified(). The XFS commit message says:
-> > > 
-> > > "as various fallocate modes can change the file contents [...]
-> > > 
-> > > we should drop file privileges like suid just like we do for a
-> > > 
-> > > regular write()"
-> > 
-> > I can't speak for fallocate, or other system calls. As far as I'm aware,
-> > this is a best-effort kind of thing. As I said, writing to a MAP_SHARED
-> > mapping does not clear the setuid bit. It's a super trivial thing to do,
-> > too. But it's not a problem because setuid executables are not world-writable.
-> 
-> I mean, you're right.  But maybe we should make a bit more of an effort?
-> I wouldn't like to see this used as part of a chain of exploits, and I
-> can just about see a path where a confused actor manages to create an
-> 04777 executable.
-> 
-> All the tmpfs on my system are mounted nosuid, and many of them noexec too:
-> 
-> willy@deadly:~$ mount |grep tmp |wc -l
-> 8
-> willy@deadly:~$ mount |grep tmp |grep nosuid |wc -l
-> 8
-> willy@deadly:~$ mount |grep tmp |grep noexec |wc -l
-> 4
-> 
-> This certainly isn't a hair-on-fire situation, it's just a place we
-> could do slightly better.  Not so much BadBunny as MildlyMisbehavingMicrobe
+On Tue, 11 Aug 2026 11:09:47 +0200 Christian Brauner <brauner@kernel.org> wrote:
 
-Let's not drag Bad Bunny's good name into kernel development. ;)
+> Fwiw, I still refuse this patch for the reasons I mentioned in the
+> various other postings of this...
+
+Yes, I know. I updated several versions because we found some obvious errors.
+Perhaps there are others like me who have the same needs and can benefit from
+this patch. If there are no new special circumstances, I will not update any
+related content regarding this patch anymore. Sorry for that.
+
+Thanks
+Xin Zhao
+
