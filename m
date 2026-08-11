@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DF5426D2B;
-	Tue, 11 Aug 2026 09:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9289941F349
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 09:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786439993; cv=none; b=KtoTvKlxv3I41FbFfFw3nyU4tuKvpNwQZlJi95wi/hLctuqN2zKain4+ccppfPnTp5OIS6ykDFk3HK+buSSkbK/fdDoqsAecBrve0fd7v8A/G6HhhHDzXA+dFgmLz3G83xkPZij9Dfen+3/caV6aNMbQ+YBwk5B6jWl8fQI/ifA=
+	t=1786440095; cv=none; b=huGR+iWAm+Jgrj/C2wkxepUx0t+sGXR2ub2YlWelj//3oUvtHr7qfVb+b/gHHk+/H4oRP17Gk1kxDS5KujsZ/hj0YPFJ3cLbcAqNWz6CunDNZHitYIF/sUPSlX+QPybYdqCboIPSFN5xhi5kII5ohg38nBlZdbCVjhQbEkHcoyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786439993; c=relaxed/simple;
-	bh=hsE4PBe2hb6q0V2ZlmSaMJT2Rik1ktH6/52G+3ykBeE=;
+	s=arc-20240116; t=1786440095; c=relaxed/simple;
+	bh=/ZKDMCQ5EB7eTjSYaaF9qb8Dktwh1vw7ruel48S3MKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNW1yYEA3Q5h3RpNDCdqZhrHiIrRMTFNF5+94suqsJ+vNrWBLNaRbEACBwryLsoL8Vncm2dHfDVQqot7hVQfEXSW3ZFVYyxvureGZRdJEBAnxrPKhxR4fA5DsrgcFXN1o9Kj6EZQBcHSjNwZh3ltgUHkePwvF2IKBNtZ+JSGYL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4ol3hkh; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSC/BqaPt9XjvXVRYgbH/vUXl0H+TPxhoi+0RB17wf3UNRZS9nGs6TAuqpJ9wBYy+d9QnCCbckb4yinkEvEPmkhSbwtGqhSkyBx+kNRhJHj5ktuqLnmyzzD3EvSurZsCkMxWWG4yvL6O6SYpFqbK2o/e1Ded15Ol3DxoGVm5XGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mi4IM3Zm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4ol3hkh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ADB01F000E9;
-	Tue, 11 Aug 2026 09:19:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mi4IM3Zm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D7F1F000E9;
+	Tue, 11 Aug 2026 09:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786439992;
-	bh=laT/P8hOM5nGLJJKFHrRuF1eD0Z9W43CTTyAgJiUwNk=;
+	s=k20260515; t=1786440094;
+	bh=PG40/i9jiQY5IRXEmIjhZ6VgH2PeUxz+CsRiWBpSJik=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n4ol3hkhHgq4N6abV2ZP6r9R12Hz5wIFk+YGgtEWtKcjXjsLQYUkH6zPjt6V0iDBg
-	 OBIVUXXCPIX0lhqWZFJasMAkSicDsIcp5Cmvto9pFbUAvc/h4/kKB5red6uoUoq86f
-	 jpukGLs6F4oybbtlGwMgw+/2SCofIWK0sjgY3brv2nPskcjP9MXh2I1zl6avi6y7Lh
-	 lATi+8pQlRr4OjM0uTrCKUKuY6ufonUCaEdhO1VTXJM5ksAAbIJqc1rQqT34CcPHoa
-	 7h1ko+RdGWQLhH6lNkQZSp3A10ceBQozA9SZRkaFN6E+Te8GzLMqaSnODVTkd3jMar
-	 5ajTmuRS6HUCw==
-Date: Tue, 11 Aug 2026 11:19:48 +0200
+	b=mi4IM3Zm1aUQHm/L3z82FoZcBlBiJKIUEdZEqXrTnt9We1xT+EENAL5sp88tEJnNG
+	 EyRfyhbe2KrUB+juT3/8RZ6D2KPRZZJTt97aQf91ovs7ggMUGEeNOJINDfMU8t9Ybx
+	 j+s1/Snpz1D4UodLuYAJWJLbSEGXsIIG7+5dV9GFr+B8s4y6kUgJctRB3Qgyx0Tqw7
+	 rKRzSdkRButcubtIHmOhoJorAeLrZWgIZqxGt3zWoY2FZ6NTXJTrC+NBJYj/9ngvxU
+	 dGwbo2QtLIDCRGheqZuY74iTzqGlc6jYp4Jw1CVPTGUK+F8onS5ohsbGw4qkOmFSEZ
+	 N8ujtUPGwPYZw==
+Date: Tue, 11 Aug 2026 11:21:29 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: GuLingguang <liu83783@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	containers@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	"Eric W . Biederman" <ebiederm@xmission.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Alexey Gladkov <legion@kernel.org>, "Serge E . Hallyn" <serge@hallyn.com>
-Subject: Re: [RFC] mnt_already_visible(): should regular-file mountpoints
- participate in the visibility check?
-Message-ID: <20260811-obsession-propeller-eiskalt-a2ca8b0a1017@brauner>
-References: <20260808132309.35924-1-liu83783@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, 
+	vova tokarev <vladimirelitokarev@gmail.com>, akpm@linux-foundation.org, security@kernel.org, 
+	linux-mm@kvack.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: Fwd: BadBunny: UFFDIO_COPY shmem killpriv bypass leading to
+ local privilege escalation
+Message-ID: <20260811-knieprobleme-holten-palmen-4d42742b1962@brauner>
+References: <CAGBKPgOm8q-8_rwyRPEmSj8JXdh_GaK1Q8vpJ=j-+yA0SgcNQw@mail.gmail.com>
+ <CAGBKPgPPALX_5CQJAKUNjwi2fD28pBeS5pRuwQgePU93pOy8EA@mail.gmail.com>
+ <anXnHMInq_JLYbWc@pedro-suse.lan>
+ <CAGBKPgOfbMJruqcegJca6BBpEtpd91s5ASF_VU+gucWsjwp8WA@mail.gmail.com>
+ <ancYCBUT8aB0qHwz@pedro-suse.lan>
+ <anlOGOmO1HWVCMdF@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,77 +50,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260808132309.35924-1-liu83783@gmail.com>
+In-Reply-To: <anlOGOmO1HWVCMdF@casper.infradead.org>
 
-On Sat, Aug 08, 2026 at 09:23:09PM +0800, GuLingguang wrote:
-> Hi all,
+On Mon, Aug 10, 2026 at 05:05:44AM +0100, Matthew Wilcox wrote:
+> On Sat, Aug 08, 2026 at 01:17:09PM +0100, Pedro Falcato wrote:
+> > I'm adding a bunch of fs people that might have opinions about this. Please
+> > see the rest of the thread below.
+> > 
+> > On Sat, Aug 08, 2026 at 12:13:06PM +0300, vova tokarev wrote:
+> > > Pedro,
+> > > 
+> > > Thanks for the review. Let me address both points.
+> > > 
+> > > On the page fault comparison:
+> > > 
+> > > UFFDIO_COPY is not comparable to a page fault. Page faults serve
+> > > existing page cache content (read-like). UFFDIO_COPY adds new,
+> > 
+> > A page fault can also write to the page cache. On MAP_SHARED mappings.
+> > 
+> > > 
+> > > user-controlled content to the shmem page cache (write-like).
+> > > 
+> > > The correct comparison is to write(), which calls file_modified()
+> > > 
+> > > -> __remove_privs() to strip SUID/SGID.
+> > > 
+> > > 
+> > > This is exactly the reasoning used when fallocate() was fixed
+> > > 
+> > > across XFS (commit fbe7e5200365), ext4, and f2fs to call
+> > > 
+> > > file_modified(). The XFS commit message says:
+> > > 
+> > > "as various fallocate modes can change the file contents [...]
+> > > 
+> > > we should drop file privileges like suid just like we do for a
+> > > 
+> > > regular write()"
+> > 
+> > I can't speak for fallocate, or other system calls. As far as I'm aware,
+> > this is a best-effort kind of thing. As I said, writing to a MAP_SHARED
+> > mapping does not clear the setuid bit. It's a super trivial thing to do,
+> > too. But it's not a problem because setuid executables are not world-writable.
 > 
-> I have a question about the child-mount check in mnt_already_visible()
-> in fs/namespace.c, and I would like to understand the intended
-> invariant before proposing anything.
+> I mean, you're right.  But maybe we should make a bit more of an effort?
+> I wouldn't like to see this used as part of a chain of exploits, and I
+> can just about see a path where a confused actor manages to create an
+> 04777 executable.
 > 
-> Background
+> All the tmpfs on my system are mounted nosuid, and many of them noexec too:
 > 
-> The check considers an existing proc mount "not fully visible" when
-> it has a locked child mount whose mountpoint is not a permanently
-> empty directory:
+> willy@deadly:~$ mount |grep tmp |wc -l
+> 8
+> willy@deadly:~$ mount |grep tmp |grep nosuid |wc -l
+> 8
+> willy@deadly:~$ mount |grep tmp |grep noexec |wc -l
+> 4
 > 
->         list_for_each_entry(child, &mnt->mnt_mounts, mnt_child) {
->                 struct inode *inode = child->mnt_mountpoint->d_inode;
->                 /* Only worry about locked mounts */
->                 if (!(child->mnt.mnt_flags & MNT_LOCKED))
->                         continue;
->                 /* Is the directory permanently empty? */
->                 if (!is_empty_dir_inode(inode))
->                         goto next;
->         }
-> 
-> is_empty_dir_inode() returns false for regular files, so a locked
-> file mount under /proc (e.g. /proc/uptime) makes the whole proc mount
-> "not fully visible", and mounting a fresh proc instance inside a user
-> namespace is rejected with EPERM:
-> 
->         bwrap: Can't mount proc on /newroot/proc: Operation not permitted
-> 
-> Real-world impact
-> 
-> This affects established workloads:
-> 
->  * lxcfs (since 2014) overmounts /proc/meminfo and /proc/uptime with
->    FUSE files; lxc reported in March 2016 that this blocked running
->    an unprivileged container inside a privileged one
->    (LKML: "user namespace and fully visible proc and sys mounts").
->  * systemd-nspawn can mask paths under /proc (via --inaccessible=,
->    overmounting them with inaccessible placeholder nodes);
->    flatpak/bwrap inside the container then fails with the EPERM
->    above (systemd issue #34226, still open).
->  * droidspaces virtualizes /proc/uptime and /proc/loadavg the same
->    way today.
->  * Kubernetes works around mount_too_revealing() by mounting proc
->    from an empty pid namespace (noted in the 2025 procfs pidns API
->    series, merge 46582a15c174).
-> 
-> The invariant
-> 
-> The check's stated purpose, in Eric Biederman's own words
-> (commit 7236c85e1be5), is that fresh mounts of proc and sysfs must
-> give the mounter:
-> 
->         "no more access to proc and sysfs than if they could have
->          by creating a bind mount"
-> 
-> The original commit (e51db73532955) phrased it as verifying that
-> "the mounted filesystem is not covered in any significant way".
-> 
-> For a regular-file mountpoint, does a fresh proc mount violate this
-> invariant?  It seems not, on three counts:
-> 
->  1. Content.  The only thing a fresh mount reveals beyond the covered
->     file is the kernel-generated value of that file, which is already
->     reachable through other means -- e.g. the real uptime is available
->     from /proc/stat's btime and from the uptime(2) syscall, which are
->     not affected by the overmount.  No new information becomes
->     accessible.
+> This certainly isn't a hair-on-fire situation, it's just a place we
+> could do slightly better.  Not so much BadBunny as MildlyMisbehavingMicrobe
 
-It's an information leak. Please trim LLM generated questions to the
-bare minimum. We don't have time to read essays the whole day...
+Let's not drag Bad Bunny's good name into kernel development. ;)
