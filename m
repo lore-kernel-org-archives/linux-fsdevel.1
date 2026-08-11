@@ -1,269 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DF92DCBEC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 15:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786462318; cv=none; b=Ooiypjf84Vu0pyb9VJ/qTgg2VHud587j76zEnAIEDL6ytbRUbfFfZldmJ8OZB1kqt1gsNQSBR7jA5dK+CidXXfMMRYtoWmcVu0OMFPuQbfHOLZMTK+ys20utiTbrbNwAs3KQkwcDoDsfiYStok7mTvw/SQeI+9HRkIiOWYMdTIg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786462318; c=relaxed/simple;
-	bh=i0yyfYS0s4EeD6wLX3A6v/s14evNK2KszB7szF3T30E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FwyY+SbtLrv4hDKFQLDwkIYxtAudq/EHbdXzXXt2TDrf2acQnbZ9ArzuVC7YsgZKnd7xgs/z7qp44+LvAnsXGn61SRC8Byg5xwNktWw7a71iVdDSBOXETN8cTuuOq9SRRJ9EQBF97e+QFYUl58exai3FOMaWOuKNPRUcdY3zCTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YbmEBnrs; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0256F1F4631
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 15:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786462965; cv=pass; b=O5PC5UCaa5kClc5pKepihF++d3iZVhtebk9z+oz00/5kuOIT3NN9B2qM/cLJwXBjRvr+340mcQKNKZKIs51EyRtDQcY+SEzHwADuX/vdITI+ui8flp/xtoeeeoJS88zb0gRXSsZZ+JAZ1nj9D5A1qaDPqgCMXaUfsk1mbF5CV60=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786462965; c=relaxed/simple;
+	bh=WK32yOxbLjB3jonpeVMeBQOLae3OsMqNjNC0RLtddE4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qw6xVWn+QFx2l7mkiUSZCHLiCmYijZkz/nCBqF44TswVDSzMbPknZO8lXNvblujHz4xJJq3xLPqDZBzkZyrGHc4P55zM8hmZ+4FXj6u+NtIX2xqdlAi47SqXHfpr1nXW8cjKIUgOZ/NdgkbezlQaaEZBJVmQJX6akrLman5528U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P/vZT5Fl; arc=pass smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YbmEBnrs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215711F000E9;
-	Tue, 11 Aug 2026 15:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786462316;
-	bh=8NCjoWCKD79x4yksCp0pUGr3DDto2NgOkys/lZwlwug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YbmEBnrsvGvja98VQQ6cvVGUIqsEaXlKUgF511HLSsyTsmrsLfxnhsbW3tdNe5WO+
-	 xGfnvse3SRgYzxrFZy/Fzxx4/0x1cIc3rMlx3rhR0gUSBlAHD3Ng8SDoFn+U42j5Z4
-	 pNXUvz6EgZLvTOSGVjfvNEfdsi2O3tPWRNFWDpClU9/90eJwRqdkXkvra5S2f/RhlJ
-	 RFPlnJmPU50licfJ+rktCQqoh/NDntWsqVGwl/plDBx/BxDHC+zBmCGCWKpxy5sDi+
-	 JsrVWDWppEApcBlpyCtflhzGyx0S7yA8Ss9c/N4dj/oh8dYV7mk5TzWGYZizwDZGqO
-	 f8DfNP99las4g==
-Date: Tue, 11 Aug 2026 23:31:46 +0800
-From: Gao Xiang <xiang@kernel.org>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org
-Subject: Re: [PATCH v5 2/2] erofs: reuse superblock for file-backed mounts
-Message-ID: <antAYlH-bZ2NQWCR@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Giuseppe Scrivano <gscrivan@redhat.com>,
-	linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org
-References: <20260811071241.389589-1-gscrivan@redhat.com>
- <20260811071241.389589-3-gscrivan@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P/vZT5Fl"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cede6375caso119585ad.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 08:42:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786462963; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oWpdYBe1ieqQtD6B8Lt14t6+1Bg4LtOo49K6FHPlU6P9nFaysTLWMHvITvkzC6hWvg
+         NywiHC0cWGAtOCncvH/gBscLKfFNQwzg8RaPhO/oqbgretFXFvbFSZlvKNX+PM3VThAG
+         wI7I6YcYh8qHQ1Ku2ZEgKL+ZtRuqoXFgr/fJn3k3r6hb3H2HxQR90XnMmza1l/xrx80/
+         PqEIYqlkEqA7Kf2dU9PCd+xtXFMZmaNAlbMzlPSe30AmiE3aQqClZ0Tka7aurdZ3UV1F
+         quNPiAAwfp09mjL2R3Ukk2z4W5O5Jx9l3uIZkaEHzMWuL5S+4L3A+EBretnzDQATru9P
+         xXXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=67yVZg7Sclh/kMsuis6FMTvEKCWItPaYWqtUQHP9qvk=;
+        fh=5HMLG50Pe8iWW6axQqnw8bVlzrItUQXdzho5MIZz87M=;
+        b=Ko7ccGIwBYZcFnfo8aWq3FbtfZ1j324auBprNgm/gxoiwwdKPWSnnUsNZYPYvOB8WR
+         SMtgUX/CpDnxNOAhuBrAHe4pxN0AuBEAAJwcEkiRWsdKTsziInn+r+WWXAlFZl+dMPPZ
+         0+SV/P6jZxQHTEqeAsXV7zvD6CybNGur/LCG1ViZOPomcv6l9akZ9YW14SykD9WIQvKP
+         uUED26ZyYcYSS2/Ni9vl6N7sJXQ3ZfGujjwi2uPnjPYjVzAq31JFCpbu4ZQM4oqwUgjA
+         qD3oz/cBaFaLnYZ6wU9b6lDEiXTY3sqRno+hFWmLtBWE9SksMpzAnGe064LzaHSGaSv/
+         vMkg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786462963; x=1787067763; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=67yVZg7Sclh/kMsuis6FMTvEKCWItPaYWqtUQHP9qvk=;
+        b=P/vZT5FlGeRzPydjx7H88Wt495KHomad8D0qpb2LeNzGd6hiJB7GHy5pZDLgzgD+xf
+         Cfy4oCGY+pxleUs9ohfVRPjS9KjzR8Cl++268NzO5cESHhvmQ14HevsnEbP+IB+3I9TK
+         kw3kq/cXzc40urXdS6Z5BxOIhSpEPqdi2PgUYKGU6haWqPXKHMvHgz0b1A/XEglBQW5K
+         IJt7l/kssuI7w/ORgfyX006OYNWn+z4hwL1kl1W/yHdz8EGnv+1OwuM1VLyq30357JW5
+         xmnJQIxI3csfCaxOgcWr4nCwPVVnyM6SdNtUmBqf9fWl9N4hdES9R0fI6hOppJ124n2E
+         e8tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786462963; x=1787067763;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=67yVZg7Sclh/kMsuis6FMTvEKCWItPaYWqtUQHP9qvk=;
+        b=RUOaya1Lw63Jc3LwvlN3mvrpm+XMZHrLk+Sne+AiauT7mcz69ZAtmXmfwcP7fW7GGy
+         /OoGRFcdON69Paj8zvO2S1Vr3BNcFGCus0mOVgBXlv3VwHg17BvCugANHjFobwo5gNEJ
+         awQJuAvz4lBSnRRh38bojQpr1c7/FeS0xJ5qHYW1RxTgKRctAf0Mww3LljqhJhZV9qLN
+         ohO+0sQ4DpYjE3CCkYVAE9NqzWovLlZZ9Sd96TmhFfHIh6RUY9njkvc4SiSuohPM29sI
+         6VPAqaF3GrBqh9PQ5AOC6WparO/R99rmsaEYksY5apJCVdfvIpljP6w80TGbzqbKZqop
+         JLsw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrn67NxzT/nvcnD5/b836yk03Szx4Ru8yTBEPu39L9jkJT5ZjwtjKcU1hSVtu4RZaiKCo8awL/4zHiQ8c3F@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkELlc1ENVG6Th/qx6pGJ9JvkRMIH3tVCcyliwsNTi5j+4MZED
+	VqkAhKwBAyBcaOrd5OwxthREIA74KYsVIh4Cnh18yrI3HRLmHfb4woJm4sw6NQ1kCu3mRIY6j1h
+	hr2ehrEskxjg6v1mDkMGH39pJbnTM2lV+aLlhHwRl
+X-Gm-Gg: AR+sD10mmV9oLhXx6EnfxWbLbcvfeglVGwvg10M4BBPEqkVW/qiLtZKmXx9X2bF5rVY
+	BJMC6jobzl908k7+iAnDT8dlFxHfcqAhrQ8QK59yn0ZUJcCuJULpW7xIGMpOMZgQ31Cu7KrGORL
+	garYAA7l0pk64eOe9t0vA9NvNI2w6LkJ7OPUeQSeTFCUOaWiB6KhO70l1/74GdOLXkbBxd/yLiV
+	p58gF8Yt3jVEJIUcEK0Zx31fYUN9MquUDekwpPjy21C2OtlY5moYdDv/H/SNrYjnmeWliScKUi9
+	x/NeOkkEBPloZF/BB5/7xUPA11YxbxwJthbfrIkuvASlAVV5Ecp2sFXIhTysq/LV4Qj4GVJzGjM
+	IaHprCPutsqV6pPqOV+ddHzrs2DdLa1k=
+X-Received: by 2002:a17:903:4b2b:b0:2bd:3bfd:74f1 with SMTP id
+ d9443c01a7336-2d3171a56dfmr5502005ad.2.1786462962320; Tue, 11 Aug 2026
+ 08:42:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260811071241.389589-3-gscrivan@redhat.com>
+References: <20260810204118.1981755-1-morbo@google.com> <20260810204118.1981755-3-morbo@google.com>
+ <202608101713.34DEA00E9D@keescook>
+In-Reply-To: <202608101713.34DEA00E9D@keescook>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 11 Aug 2026 17:42:05 +0200
+X-Gm-Features: AUfX_mxNDlgHpFyI6ONdIW4H6ADGwKcPUAc6snIFj_-8RLhUKE1_F9ggNW9ZDT0
+Message-ID: <CAG48ez1VBBkukXH17RRSnAU7rMu0St5x59rkTDVkcMebxuS4-g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] vfs: Add KUnit tests for fdtable
+To: Kees Cook <kees@kernel.org>
+Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Giuseppe,
+On Tue, Aug 11, 2026 at 2:16=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+> On Mon, Aug 10, 2026 at 08:41:13PM +0000, Bill Wendling wrote:
+> > +static void fdtable_test_alloc(struct kunit *test)
+> > +{
+> > +     struct fdtable *fdt;
+> > +     unsigned int slots =3D 64;
+> > +
+> > +     fdt =3D alloc_fdtable(slots);
+> > +     KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdt);
+> > +
+> > +     /* Check that max_fds is set correctly and is >=3D slots */
+> > +     KUNIT_EXPECT_GE(test, fdt->max_fds, slots);
+> > +
+> > +     /* Check that fd is allocated */
+> > +     KUNIT_EXPECT_NOT_ERR_OR_NULL(test, fdt->fd);
+>
+> Nice to add these tests! Can you add one for each of the conditionals
+> in alloc_fdtable (e.g. ENOMEM, EMFILE, and the power-of-two rounding-up
+> logic, etc)?
 
-On Tue, Aug 11, 2026 at 09:10:51AM +0200, Giuseppe Scrivano wrote:
-> When the same file-backed image is mounted multiple times (via path or
-> fd) with the superblock_share mount option, reuse the existing
-> superblock instead of creating a new one.  This allows multiple mounts
-> of the same image to share in-kernel data structures more efficiently.
-> 
-> The backing file is identified by its inode and fsoffset.  If mount
-> options conflict or extra devices are used, a separate superblock
-> is created transparently as a fallback.  Remount is not allowed on
-> shared superblocks.
-> 
-> Tested by mounting a 177M Fedora EROFS image 20 times with full
-> traversal:
-> 
->   #!/bin/sh
->   IMG=${1:-/root/fedora.erofs}
->   OPTS=${2:+-o $2}
->   N=20
->   DIR=$(mktemp -d)
->   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
-> 
->   sync; echo 3 > /proc/sys/vm/drop_caches
->   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
->   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
-> 
->   for i in $(seq 1 $N); do
->       mkdir $DIR/m$i
->       mount -t erofs $OPTS "$IMG" $DIR/m$i
->       find $DIR/m$i > /dev/null
->   done
-> 
->   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
->       awk '{print $3}' | sort -u | wc -l)"
->   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
->       awk '{print $2}') - INODES_BEFORE ))"
->   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
->       awk '{print $2}') - MEM_BEFORE )) kB"
-> 
-> without superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs
->   Superblocks: 20
->   erofs_inode delta: +45864
->   Slab delta: +37448 kB
->   real	0m2.311s
->   user	0m0.222s
->   sys	0m1.998s
-> 
-> with superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs superblock_share
->   Superblocks: 1
->   erofs_inode delta: +2044
->   Slab delta: +284 kB
->   real	0m0.679s
->   user	0m0.157s
->   sys	0m0.469s
-> 
-> The time difference shows that sharing the superblock also benefits
-> the page cache and inode cache, as subsequent mounts of the same image
-> avoid re-reading the backing file.  This is particularly useful for
-> container hosts running multiple containers from the same base image.
-> 
-> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
-
-Thanks for the patch.
-
-It generally looks good to me. Just some minor nits:
-
-> ---
->  Documentation/filesystems/erofs.rst |  8 ++++
->  fs/erofs/internal.h                 |  1 +
->  fs/erofs/super.c                    | 58 +++++++++++++++++++++++++++--
->  3 files changed, 64 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-> index d301d9ac946a..49c4e7dbc5d6 100644
-> --- a/Documentation/filesystems/erofs.rst
-> +++ b/Documentation/filesystems/erofs.rst
-> @@ -139,6 +139,9 @@ inode_share            Enable inode page sharing for this filesystem.  Inodes wi
->                         page cache.
->  source=%s              (For file-backed mounts) Specify the backing image as a path
->                         or as an already-opened file descriptor.
-> +superblock_share       (For file-backed mounts) Share the superblock when the same
-> +                       backing file is mounted more than once with compatible
-> +                       options.  Remount is not allowed on shared superblocks.
->  ===================    =========================================================
->  
->  File-backed mounts
-> @@ -156,6 +159,11 @@ Only regular files are accepted as backing files; to mount an image that
->  resides on a block device, use the traditional block device mount path
->  instead.
->  
-> +When superblock_share is specified and the same backing file (identified
-> +by inode and fsoffset) is mounted more than once with compatible mount
-> +options, the kernel reuses the existing superblock instead of creating a
-
-When superblock_share is specified, multiple mounts of the same backing
-file at the same fsoffset with compatible mount options can share a single
-superblock.  Remount is now allowed on shared superblocks.
-
-> +new one.  Remount is not allowed on shared superblocks.
-> +
->  Sysfs Entries
->  =============
->  
-> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
-> index 580f8d9f14e7..8d65cac35702 100644
-> --- a/fs/erofs/internal.h
-> +++ b/fs/erofs/internal.h
-> @@ -156,6 +156,7 @@ struct erofs_sb_info {
->  #define EROFS_MOUNT_DAX_NEVER		0x00000080
->  #define EROFS_MOUNT_DIRECT_IO		0x00000100
->  #define EROFS_MOUNT_INODE_SHARE		0x00000200
-> +#define EROFS_MOUNT_SUPERBLOCK_SHARE	0x00000400
->  
->  #define clear_opt(opt, option)	((opt)->mount_opt &= ~EROFS_MOUNT_##option)
->  #define set_opt(opt, option)	((opt)->mount_opt |= EROFS_MOUNT_##option)
-> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> index d40961248a49..72d654ce49b7 100644
-> --- a/fs/erofs/super.c
-> +++ b/fs/erofs/super.c
-> @@ -386,7 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
->  enum {
->  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
->  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-> -	Opt_source,
-> +	Opt_source, Opt_superblock_share,
->  };
->  
->  static const struct constant_table erofs_param_cache_strategy[] = {
-> @@ -415,6 +415,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
->  	fsparam_u64("fsoffset",			Opt_fsoffset),
->  	fsparam_flag("inode_share",		Opt_inode_share),
->  	fsparam_file_or_string("source",	Opt_source),
-> +	fsparam_flag("superblock_share",	Opt_superblock_share),
->  	{}
->  };
->  
-> @@ -560,6 +561,12 @@ static int erofs_fc_parse_param(struct fs_context *fc,
->  		else
->  			set_opt(&sbi->opt, INODE_SHARE);
->  		break;
-> +	case Opt_superblock_share:
-> +		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
-> +			errorfc(fc, "%s option not supported", erofs_fs_parameters[opt].name);
-> +		else
-> +			set_opt(&sbi->opt, SUPERBLOCK_SHARE);
-> +		break;
->  	case Opt_source:
->  		return erofs_fc_parse_source(fc, param);
->  	}
-> @@ -663,6 +670,17 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
->  		errorfc(fc, "FSDAX is not allowed when inode_share is on");
->  		return -EINVAL;
->  	}
-> +	if (test_opt(&sbi->opt, SUPERBLOCK_SHARE) &&
-> +	    test_opt(&sbi->opt, INODE_SHARE)) {
-> +		errorfc(fc, "superblock_share is not allowed when inode_share is on");
-> +		return -EINVAL;
-> +	}
-> +	/* Extra devices are not yet supported with superblock sharing.  */
-
-Okay, if the comment is added here, I don't think it's helpful since the
-error message indicates the same.
-
-> +	if (test_opt(&sbi->opt, SUPERBLOCK_SHARE) &&
-> +	    sbi->devs->extra_devices) {
-> +		errorfc(fc, "superblock_share does not support extra devices");
-> +		return -EINVAL;
-> +	}
->  
->  	sbi->blkszbits = PAGE_SHIFT;
->  	if (!sb->s_bdev) {
-> @@ -788,6 +806,36 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
->  	return 0;
->  }
->  
-
-Maybe just move the comment below here:
-
-/*
- * The function is used only with a sbi that has SUPERBLOCK_SHARE set,
- * so that the memcmp later ensures new_sbi is also shareable.
- */
-
-> +static int erofs_fc_test_file_super(struct super_block *sb,
-
-Can we just rename it as erofs_sb_share_test_super()?
-
-> +				    struct fs_context *fc)
-> +{
-> +	/*
-> +	 * The assumption is that the function is used only with a sbi that
-> +	 * has SUPERBLOCK_SHARE set, so that the memcmp later ensures
-> +	 * new_sbi also is shareable.
-> +	 */
-> +	struct erofs_sb_info *sbi = EROFS_SB(sb);
-> +	struct erofs_sb_info *new_sbi = fc->s_fs_info;
-> +
-> +	if (sb->s_iflags & SB_I_RETIRED)
-> +		return 0;
-> +	if (!sbi->dif0.file || !new_sbi->dif0.file)
-> +		return 0;
-> +	return file_inode(sbi->dif0.file) == file_inode(new_sbi->dif0.file) &&
-> +	       sbi->dif0.fsoff == new_sbi->dif0.fsoff &&
-> +	       !memcmp(&sbi->opt, &new_sbi->opt, sizeof(sbi->opt));
-> +}
-> +
-> +static int erofs_fc_get_tree_file(struct fs_context *fc)
-
-Could we just rename it as erofs_file_get_tree()?
-
-Thanks,
-Gao Xiang
+Wouldn't tests for stuff like the rounding-up logic get into
+implementation details too much, and break if implementation choices
+change?
