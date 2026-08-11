@@ -1,119 +1,140 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDFA441612
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 12:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786450475; cv=pass; b=hJTHbJ6c2pIptc+fJJyn8uf66Gq7Csf9IgDaqva1MCVfVnzIxh9Q+UGmPKICsWWg8T8YTO2QAX7/k/WEyvtzwGVdy9IBGwznjC9lqcJ7T7tqA0vip1vsk0ov2jmHkF0Lmwa9wOK7mwvqh/BDAQ5/ronkR+J6gdskNHSR0f75wNE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786450475; c=relaxed/simple;
-	bh=uKswzyf3oANr0x5zb0bJBPrPAkNK77rK/33VzGVtg1I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=brcUE5KViM4byGbx8j2H3phL225Xm/6v2CUExGUET5qzKSUbyaqK5wM/3VeC9YfY453lqBry+cmy72hxkLIsUVmUHcAzrf3v5S9Oi0k4xpMGnZa69aXDdzX/Q1LKF4AbthpTilNaxD6cO62L69lM8mQHcSdi98yevVORmmUh7fo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=LYhhybqo; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7F342FCB5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 12:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786453104; cv=none; b=nNrWFV8gqETzzSWHAN+eS8gecZwW45nz0rrPo0tpKbIfQJz1ysZVgzjO7FSxeHrgJa4bCMGI/YaITqIjwAPBraKpSQKNRNIIJifCPnhVN12t8HGkCAVvz6hefF0PgZsfrHr8KqNlE9HydYOVUuDtgQVhTOg0IjHdYyZfE5YFrdo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786453104; c=relaxed/simple;
+	bh=JS1/e3NtMBcOe49UexsetxgejmOuLNrBnRooyabTsJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIQEZYWjAQ9CY1/RffPnXcftFeQHo/n1VqyQSHE+casgqSLAF/9PeOq/GbWjS/bGwVaAG0Ggi5ik0MO2pJ3qDu7TFf/3hZ+jQTHkYDzaHxuSkZmdY2FuTq4PrM9ygCHTdP0yahPXm/0YtXjSkG9uVmOq+mIIrfccRsptm+SdqtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Yj1CKiSk; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="LYhhybqo"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c0c45c580so4403921cf.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 05:14:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786450473; cv=none;
-        d=google.com; s=arc-20260327;
-        b=r+3ACUI5KK0M0MXZjiIwJ/vxiBksaeJ7Ki9iWOcMgZTQYj7ycON6bOaz3v4MzGfS5X
-         XlxGJ+jj1DIYr1SSNJ2MeqUilvgEQmnfbg4MkDsUzer5qZJ0lJyz6CKT3IUnM9jR2U3S
-         c0nC8g451t595hMHbAPE4zblqpUW/99I61iBrsSLjwSQsW4m2rCgwGh2IC3mM8oHJgLF
-         T+qXV6tf6z5UGVRGoKjxIXjsvyFqb3ECHquoNiaI6kMef1tLWU+8+8JIiroHdVsDjCzn
-         9Czw97ZbrmNBpR20GfCOJIAWR8ERH2zKojTHiR7TKC7mrowQAHUXzB8hFciDkX+6XRAa
-         p9og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=NrfMxAmOI1dOmAoAUYNtBxs6J6vBQ4QSPSkOCCv87C8=;
-        fh=kay/riEft+fn/DRejjR0fcIhNoGpgBcNTjck061LU0I=;
-        b=Bud+XWJPjhKQ09oVH6JRA9JaEB34E8tZ1p3yktsSLgUz3gKc7M8XvHsnqJiNPpQwpr
-         yZvaU/oHUoDuDBJbaioOLX8h87yQnPHRs9euKqP8xfc9odxuszukq3sZRXxKzSDLoFxf
-         ubogVpQdvXPx/Aaw9kMrk3ZY4ziWgr/6LWfjPd8Y4uvqQMwlW5wUJRjV020xTu4VQ656
-         gnJc1NYx9SgZ1CD2pvFun+IZ5+6MjOf4nUSWY/C9kZIgF4sqFbUeGiV8WUndfru+FWVh
-         lsny19AWEtRgr/I9R6UzkOr7h6cVJgEqN5G42C1iRCya44UWo7Tc70Ix9AmDJHpIsvFw
-         AkoQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Yj1CKiSk"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4996f1ee4a4so17211575e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 05:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1786450473; x=1787055273; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NrfMxAmOI1dOmAoAUYNtBxs6J6vBQ4QSPSkOCCv87C8=;
-        b=LYhhybqowWX6ZR+Nf5Xxsft7xXDxdFX3reI2VxNHFPBCKIsh8yC66ANIAQgBMBikIZ
-         99mOfXZFzwE+fla4yJjoCv1zBbfR1iPecQ7opVFYRx2aUa01sY/qYo/E7B2JCkdw3MWb
-         feyvqbpjBXul4yjwwI3Ksk3aN7ddKGi7W+kCQ=
+        d=suse.com; s=google; t=1786453101; x=1787057901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wadoVsDULYZYXWQe9At0Wixp1lsixD+0O8hIBiY/5QA=;
+        b=Yj1CKiSkpv5GHWZuelmXs/kKq+9bGIXQ6UHDM/Feyhy5LM7CA/DLo4DQRFPEKzlmuu
+         +dmby/6aYbcZNKwcDVQiPyGGh+QwhQtAAQykKnTp+yOYfw/gftPxfnpZepJ6TbkXiEgs
+         PAFb3wE8DJDhE21Vuy4VpqHPEOtuj/AnzQZ4XdNLE/TJiNPFBmPWjXjsqnMVJu7vzsrl
+         2GkMcETyDtJ4LGBhNe8VfYWac/3IGumQx7JnG05Leavfu67Epzp0SzqTNUm+LMOPfknL
+         T/QVRPUXFwuoZO4pravHj/maRo6eKMyMtm2HueLIDcsD1VebR+M75JIf9Zspx2LCLRKm
+         +T+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786450473; x=1787055273;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=NrfMxAmOI1dOmAoAUYNtBxs6J6vBQ4QSPSkOCCv87C8=;
-        b=BS7j5qOOvT0WrcoDI67es+BBZy4qo3jNbI3yzaZReHhjuUOqKSLxSSt5rzLohrIUV+
-         1CT6Nzc+p2W2PFK0WZ01VUUGipkBeD+0c31UuLfXGYm7Z65m6Ds/JEIAkphESnRvnwcn
-         mLj13WZT2mpJgN5yQGBAH0735OGCcrf/ETaUBTMzNJFQjrNx8qDCgLrmjNpV57faRnQY
-         F+aR3N9QdYey7kWLMsu28RKaSjoUCvwaVyrCiLhAPOZfa+4GdxfOZpeGjM2B2QOhqExZ
-         q+WC0SZKd25VdCoppNGrIccdX+JC1GXAyKjkGt6blGRKzrjJyP7kNYrypcRUKKceEo9S
-         Uq6g==
-X-Forwarded-Encrypted: i=1; AHgh+Rqv6p7Ld84rh3plBS3Zy3eVz88WYaYYA5TRbQDw4OSMGg8VHk58sVLnHBQZ8JFjq2rF0Ps72SKSomuEVF7Z@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx70DARcFdol2J+ZLrISIJSlXj+aqwqLOVTSFLs4UcF0PArpo8j
-	Q6fgAMbBsIKxX4QX3CKRQsm2DDJceig+Q9Je2uUGrERJlZp2Jsqmh4CepNlDubrgzYSmZ1af0jv
-	qJM4RIhD7xsjF1UE/1moovkdXqMF1trtGn03lRW9BSQ==
-X-Gm-Gg: AR+sD110qHVS3ec9NZVXJ1QbTEwgHe6Gx5AGktc9DB1GvBj1iutiFKzlmUcTJIG2QJQ
-	lTaNB5tSyE1cIUH+Q7ZsoH0goBEa+uXnzFhs1Q6O0i/2onrQv9WcWk/w2l0KCG+4wTpFLR/e5q9
-	TBpnQUULLLEYLEAxssxM68qxeG+OnlMxqXE9hcoPkfwrTEo2aPAGOx2/qkze4lhddoBteV4lN1o
-	NQ8z7dASjko47NkoUKgpL4uz2Qd+2/UxLX/WczJrc9K747ctWmG7B5Cft9lIK1xP8kYXF5ojYYX
-	X1N8w7A9DfP1pe52WKjyzSpYDedfWuCum84sHaghWhTeE7ewGvmSK6KZAzabVnZ+XkjNXCoohqM
-	yYA==
-X-Received: by 2002:a05:622a:1389:b0:517:906b:c043 with SMTP id
- d75a77b69052e-52d5869769dmr20988111cf.36.1786450473109; Tue, 11 Aug 2026
- 05:14:33 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786453101; x=1787057901;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wadoVsDULYZYXWQe9At0Wixp1lsixD+0O8hIBiY/5QA=;
+        b=UzF84z+7fOJZSty8VGCVRIzvzjrbdew1FdvbS9tLIYAIFXg4cnXG8RsKiC/aAzUzHB
+         66U3587nS+dlJv/RqQDdmGjY5RHs//c/VBilmx7QASeJIk208cyur73WVUwqd5OVRgAK
+         lMKC938mEIEvZ9ekmQtWS2UaD/6ONGd3BbUBSSYu/KpJoog+GAfYUtaX9RLqlRxRM22C
+         HRhdyNmoTIJIK84/0i1TWbz8G9+aC3rEQUCwwkpfIjsrfJZWi3eOFzYeFhKXnwT0VxeO
+         h+/xxzgGuepS8358U2CrvpNx57hvTNvG/3IReEr9taarP3eqhNsitIQrpqsdvNbpZ/j9
+         5JQw==
+X-Forwarded-Encrypted: i=1; AHgh+RrhAp0VKZc2mpF8X8+pk7WsBehcO+jBiSH3Rxv77d3QTToKaQNX5MLHBfG6gSxUXui6+aeiZv0QuhDvuyHC@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkG+MmngoS3U4NlOPq4LwqLNKX3iM6nCu6etCKtnJu/iIJozcr
+	NzhlD2DBLKVFrjxZ7WBkZ9RtyDdi5SR27zknqOIGvxEyOYgm10i5M67rarZDAM/Cu5n5ppwY2kh
+	kSU7Qwc8=
+X-Gm-Gg: AR+sD1287XijkN8oTp8i+EntygkYyjPRYwtwm7qFM0rOE+/DVPzLZWRK4UB12LwntPw
+	C98LrCyDb0Jur2kzzO7Ykzqd3XNIJihPz1aLfrpLFK+Rm3dtLgBBU/E7ZcjoVQMb900SimHsHVB
+	QnqvbHIr6GU0RZF8cHPOYaXWMI9shpTe/2NI5cBCbrPSmAhYpRC2TrmQ8L1o5qKpIewMG2FZVyq
+	Z0pRiI/aRJiMixTlX7MRMBboT35ZFWsjTSYOl9G8JMowqNub0dyZkLk0bW6J4bEZY8Cs40eis1/
+	uiM0c4LfgjgL7yG+L4ckfF8SRrITGNsUYNWBZIZfyszt2voFczNRpv3ElaijZLP6L0joFzZRU+a
+	IrJXg8+6pR/CeBj8uDEG/2tzRXjqm79L2cvmP5qMwK1xcApAq7orSgjTac3zdfnNzokHOfKon5K
+	/SnQLm6IONB0GTDt160gzVl30rO9dX8cNWg4i/SXQGJk4J1ZRyjdiCIz+2b35AV/gCuStAl5w=
+X-Received: by 2002:a05:600c:3114:b0:495:6e68:5df2 with SMTP id 5b1f17b1804b1-4997844f628mr47773285e9.12.1786453101143;
+        Tue, 11 Aug 2026 05:58:21 -0700 (PDT)
+Received: from localhost (109-81-91-46.rct.o2.cz. [109.81.91.46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499788fd9a4sm53399135e9.12.2026.08.11.05.58.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 05:58:20 -0700 (PDT)
+Date: Tue, 11 Aug 2026 14:58:19 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Ye Liu <liuye@kylinos.cn>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/oom_kill, proc: replace magic number 1000 with
+ OOM_SCORE_ADJ_MAX
+Message-ID: <ansca1TVAXul9lMK@tiehlicka>
+References: <20260811033609.3992348-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803012648.2195405-1-neilb@ownmail.net> <20260803012648.2195405-2-neilb@ownmail.net>
- <CAJfpegt1wHngLs9uR943gT6zxV67D53k3n4GiFKowsAb3C6LJw@mail.gmail.com> <178641431036.2852630.14175693646176331672@noble.neil.brown.name>
-In-Reply-To: <178641431036.2852630.14175693646176331672@noble.neil.brown.name>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 11 Aug 2026 14:14:13 +0200
-X-Gm-Features: AUfX_mx5_QZpyNyj5Ni2I_IHkZVhUDCHgR5x1MospzmB8YaToZll8PeS64_iAm0
-Message-ID: <CAJfpeguZh6Bo7hxVW5f-OvKJ3UazJTn26Wkba8+rXY-LC-QNWA@mail.gmail.com>
-Subject: Re: [PATCH v1 01/12] VFS: don't count references through ->d_parent
-To: NeilBrown <neil@brown.name>
-Cc: Ian Kent <raven@themaw.net>, Chuck Lever <cel@kernel.org>, Jake Edge <jake@lwn.net>, 
-	Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, autofs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811033609.3992348-1-ye.liu@linux.dev>
 
-On Tue, 11 Aug 2026 at 04:12, NeilBrown <neilb@ownmail.net> wrote:
+On Tue 11-08-26 11:36:08, Ye Liu wrote:
+> From: Ye Liu <liuye@kylinos.cn>
+> 
+> In oom_badness() and proc_oom_score(), the oom_score_adj normalization
+> uses a hardcoded 1000, which is the value of OOM_SCORE_ADJ_MAX defined
+> in include/uapi/linux/oom.h.  Other code in the kernel (e.g.
+> fs/proc/base.c oom_adj handling) already uses OOM_SCORE_ADJ_MAX for
+> the same purpose.
+> 
+> Replace the magic number with the macro for consistency and
+> readability.  No functional change.
+> 
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
 
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -169,6 +169,8 @@ loff_t dcache_dir_lseek(struct file *file, loff_t offset, int whence)
->                 hlist_del_init(&cursor->d_sib);
->                 if (to)
->                         hlist_add_behind(&cursor->d_sib, &to->d_sib);
-> +               else if (hlist_empty(&dentry->d_children)
-> +                       dput_dlock(dentry);
+I am not really sure this adds to the readability much TBH but no
+fundamental objections from me.
 
-you mean dput_dlock(cursor)?
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-But that's no good, since the directory could be repopulated and the
-cursor needed again.
+> ---
+>  fs/proc/base.c | 3 ++-
+>  mm/oom_kill.c  | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 6a39de424f62..58be38942460 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -594,7 +594,8 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+>  	 * exporting for a long time so userspace might depend on it.
+>  	 */
+>  	if (badness != LONG_MIN)
+> -		points = (1000 + badness * 1000 / (long)totalpages) * 2 / 3;
+> +		points = (OOM_SCORE_ADJ_MAX +
+> +			  badness * OOM_SCORE_ADJ_MAX / (long)totalpages) * 2 / 3;
+>  
+>  	seq_printf(m, "%lu\n", points);
+>  
+> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> index 5f372f6e26fa..08bff7a55db8 100644
+> --- a/mm/oom_kill.c
+> +++ b/mm/oom_kill.c
+> @@ -230,7 +230,7 @@ long oom_badness(struct task_struct *p, unsigned long totalpages)
+>  	task_unlock(p);
+>  
+>  	/* Normalize to oom_score_adj units */
+> -	adj *= totalpages / 1000;
+> +	adj *= totalpages / OOM_SCORE_ADJ_MAX;
+>  	points += adj;
+>  
+>  	return points;
+> -- 
+> 2.25.1
 
-Thanks,
-Miklos
+-- 
+Michal Hocko
+SUSE Labs
