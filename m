@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8318D13B5B3;
-	Tue, 11 Aug 2026 00:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E361DB95E;
+	Tue, 11 Aug 2026 00:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786407390; cv=none; b=LfBy3RrVNoo3DQYOMclScrVkOEy7mM5fUqtnpR/kCJ2UQLfKHDnCqXSEHKuF03AEbsvLs0UDPmpSEFdE08hbl7tb1zvmIUWhpmemYeqjXiDjqAG43sRAh08WoW1P+kiQgsq7iKiQNckQ2SQxCFBZXudYUU2cU3EMbtgeP+S5T0M=
+	t=1786407502; cv=none; b=thcEC9iPNVvXUopnBoMVtwGtT3XhX2oSSDhSSg0HWYLxiXJ+uFcyOnKyGg9RGKmlS7cCz7fGLUL7AkL0V2vAI5uNvsD1m90EY5PVCKthm75jbnr37PbDPIligj3lnGr719K4fVlxNLNa4PtjuXkdLhZK4h29gjsQBI4KoLyNLEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786407390; c=relaxed/simple;
-	bh=8NglSblnzUZZ6PuixG1N/FsAlVOLJAw6hzBUL47J+yw=;
+	s=arc-20240116; t=1786407502; c=relaxed/simple;
+	bh=857fUMoUSfLOST+BKfMGP/IbNkcc3FjR4DL/gwDVLcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GWlPZtqkuYderDHqDx16gkXmUhLXN3cqc2IxYFBQLU1pXMLlnr0qK4LaEFdf/hTlKYJ20eB9BrU1gzzoNMBxXl+qGuzW+FevB/Uj+WPul51xPp4kNqguPY/XhIS2OxKX03mfZmPfEiK4Rs90Pr74TJGWbldwIeYJoKSfHyygQdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nyQnA5Rw; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Koq9YI0Oo3whIwjfgLbVzCy34/TuWb8PjHneuAg4qG/2TXZ32WBA4rp9fAdsN+FscJTVStm2HU6bVK3shDGdvgAlvUY7kmJ7RGcL8VarrFVsp7SbYeYNY+5TICoh62AFP6u4/HAPMs4I2jEdky+zFll34/c8a1nyR9ACit0YBQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jl3Mc1jM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nyQnA5Rw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87CC91F000E9;
-	Tue, 11 Aug 2026 00:16:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jl3Mc1jM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0A21F000E9;
+	Tue, 11 Aug 2026 00:18:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786407386;
-	bh=8m5+gmXmE7S/zEc/dPZwpU+WcrnnCAAWirZENDQg6lY=;
+	s=k20260515; t=1786407501;
+	bh=QYYO//O9FKiOXceIuF8/HYvjBBLBt8HU6pLdJidZZ04=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nyQnA5Rwxkz4BCY8E8KHQyBid2g6x8EhCah/eiJZ/ssE02Tdc5S+7DA5Ei/PHjmVa
-	 y2R3ShJTUSZ+iK1WS35P+gYBvEwSscDPdWbpHC1+D5DwDNxodjA0Xjs328+Siuh1JH
-	 jjS3RcWoK3jTSZfxW0VmAKlkhk83rKDtE6ucqDEQ0DrNwyurAv/SISr19EYx2dS4a/
-	 Z//AuQXyJE9mKkoqxVBP5ORBl9eZ/QlBjfBapWvvi3vwZPrngLv/36qSr+qpeJOEPd
-	 o4tNabV5577pobbALBLAKv9dR+z5bOikaPBuSpY1rVrQFsBDCFzetI7l55G++hhduQ
-	 w/bktBjkPWjMg==
-Date: Mon, 10 Aug 2026 17:16:26 -0700
+	b=Jl3Mc1jMMubGQydbrdf6lY5LceG/jSxDkxwZ9ldU0sEaWWHgBWJXulHwYLzzRmxDW
+	 EVpoxIVb6NVyDhRmDGvcuzIcbm+uL5LOfD8L6vBjP8zJ9bM1XvMDb2c45+JZ45vC+I
+	 WETBBk+Zbi7i6EE9XtDDy9H5TqRqmQRzuj62TFoilBTC1O1Ejw22STUsddtf7hxMwP
+	 L2FDbHMezaGi0fpRM1azAkSFaUVDFoV5SLZMN/MZ8Zj7/j8WWVV8gFoi0eMZ7SSJpp
+	 i0AWBZkYKqgrkddeEbUtAVRfkkllO7rVNBPIKXvWTNPSY0hsGj0IY7tIeHHZTpUti8
+	 wa1mp6g60Ho3g==
+Date: Mon, 10 Aug 2026 17:18:20 -0700
 From: Kees Cook <kees@kernel.org>
 To: Bill Wendling <morbo@google.com>
 Cc: codemender-patching+linux@google.com,
@@ -35,10 +35,11 @@ Cc: codemender-patching+linux@google.com,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 2/2] vfs: Add KUnit tests for fdtable
-Message-ID: <202608101713.34DEA00E9D@keescook>
+Subject: Re: [PATCH 1/2] vfs: Annotate struct fdtable's fd field with
+ __counted_by_ptr
+Message-ID: <202608101716.FB6205EA50@keescook>
 References: <20260810204118.1981755-1-morbo@google.com>
- <20260810204118.1981755-3-morbo@google.com>
+ <20260810204118.1981755-2-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,28 +48,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260810204118.1981755-3-morbo@google.com>
+In-Reply-To: <20260810204118.1981755-2-morbo@google.com>
 
-On Mon, Aug 10, 2026 at 08:41:13PM +0000, Bill Wendling wrote:
-> +static void fdtable_test_alloc(struct kunit *test)
-> +{
-> +	struct fdtable *fdt;
-> +	unsigned int slots = 64;
-> +
-> +	fdt = alloc_fdtable(slots);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdt);
-> +
-> +	/* Check that max_fds is set correctly and is >= slots */
-> +	KUNIT_EXPECT_GE(test, fdt->max_fds, slots);
-> +
-> +	/* Check that fd is allocated */
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, fdt->fd);
+On Mon, Aug 10, 2026 at 08:41:12PM +0000, Bill Wendling wrote:
+> The 'struct fdtable' holds the file descriptor table information,
+> including the current file descriptor array 'fd' and its size 'max_fds'.
+> To harden the kernel against out-of-bounds accesses, we can annotate the
+> 'fd' pointer field with the '__counted_by_ptr' attribute, referencing
+> 'max_fds'.
+> 
+> The compiler uses the '__counted_by_ptr' attribute to track the
+> size of the memory allocated for the pointer field, enabling
+> runtime bounds checks under KASAN and fortified functions. There are
+> three places where a 'struct fdtable' is initialized, and in all of
+> them, 'max_fds' is set before the 'fd' pointer is accessed or assigned
+> in all allocation and initialization places.
+> 
+> No accesses to 'fd' occur before 'max_fds' is set, preventing any
+> potential runtime false-positives or panics due to uninitialized count
+> fields.
+> 
+> This patch was generated by CodeMender and checked by submitter.
+> 
+> Cc: codemender-patching+linux@google.com
+> Signed-off-by: Bill Wendling <morbo@google.com>
+> ---
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-hardening@vger.kernel.org
+> ---
+>  include/linux/fdtable.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+> index c45306a9f007..3a5c88291125 100644
+> --- a/include/linux/fdtable.h
+> +++ b/include/linux/fdtable.h
+> @@ -25,7 +25,7 @@
+>  
+>  struct fdtable {
+>  	unsigned int max_fds;
+> -	struct file __rcu **fd;      /* current fd array */
+> +	struct file __rcu **fd __counted_by_ptr(max_fds);      /* current fd array */
+>  	unsigned long *close_on_exec;
+>  	unsigned long *open_fds;
+>  	unsigned long *full_fds_bits;
 
-Nice to add these tests! Can you add one for each of the conditionals
-in alloc_fdtable (e.g. ENOMEM, EMFILE, and the power-of-two rounding-up
-logic, etc)?
-
--Kees
+I see the alloc_fdtable test, that's one max_fds assignment, but I also
+see dup_fd(), which does the assignment after the newf allocation, so
+that looks safe too, but it might be nice to add that allocation path to
+the tests too?
 
 -- 
 Kees Cook
