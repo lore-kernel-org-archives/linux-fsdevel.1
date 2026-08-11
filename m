@@ -1,204 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A98E2F5A12;
-	Tue, 11 Aug 2026 19:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88F43876CC;
+	Tue, 11 Aug 2026 19:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786476345; cv=none; b=jb8FUmt5TWlaunvzHqfvOqzSfL8kXFLa6Q2r2+ZBLCuHLsZznynF2S6aP4D5SP8KRaFdKTGh2ScZKYR7NtTIb3EcOK0CZLV965CoSp8Ra9zXaGz7alU0X4Vs5gPKLdGIfuH1fn5z25w62iAyWV+PrgOt2o0vb2Jdafwu3sBtGdc=
+	t=1786477116; cv=none; b=V1f5iaIKUFOUgKXRPUB+BiUFqgo+LxT/vS9s38coMeB4PCQ5pEUaK6VYNVG9++H9XwgOCFjZINDRaBSLod73TGuLyg9RsKsAvnYi5uxbWb6pnj9q+6Vr/C39b88KNRjCckXg+kOhojyQiRgq3oLkYlR3s56Q6Ip5+T8CXGn9EVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786476345; c=relaxed/simple;
-	bh=/LsIYChc/MAnsTy+F0FLbPWqnINkbEE++Grc/fOfoAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTHn7Lg8NLX3tc/hjQtPrR36Tyrt3ueppmeI28XTBIRkSzKmikNxw7QiBcoFWA0mYys9A2h3hZmxOS9oz/ibnyGcMiN/mefmRM5mVF7ywkTu4vOCNqZdjvvVGGTG+JUOmYn36g2Pztd3yectQ3//Lgw/4B4/85+Tnbpot49IeGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjR46Q4l; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786477116; c=relaxed/simple;
+	bh=KtT7T2Cl0Bd6AZKXsqdksNyHtnQ0lBNVEOMRPG5JkaQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T0Ho9OzS6DIve6em4uaGCYe++khchMWZlNeH3oOvt40ADKFWrdgoJcStMo/cOjR8uaZhYgznwK7e3hKe9dmrmlPPdlw/7wV2x6txcUPR1ttTiBKHCsp3/zdN/eG8gF9Cj/nn1rkdi9VupbKZkmuxIqc6/GGSXeHRlDe5uHYIVMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de; spf=pass smtp.mailfrom=jaseg.de; dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b=keVFG8pp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kVEP8+AW; arc=none smtp.client-ip=202.12.124.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaseg.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjR46Q4l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2051F000E9;
-	Tue, 11 Aug 2026 19:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786476343;
-	bh=d/kFT/bPhzj3VGlufcHrxy72DzfiKj46fSUWmYSSRdY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QjR46Q4l38ohpBPR9a3NVpyj00X97b0QAtzWD4CJusxEIHEk06ZVprfqvGEwliaFz
-	 ApBeXPVAZFUoE+1iAOYtGAf1euN2IjulS05jD3suRf8nP+UXfJAjvY23m4sDGtj2gN
-	 0iZV+swR1WmPVz6C9JwEZAJHMXnIVG0wfTVbm3960TN4McRip96oHmA0zV1PTgK4PR
-	 sMEkhML8HuqBfgHxpw5B+Vxc7jB7S5Ing8jtzB1kK0TmQkbcsUP5Z6S8nxav9KhiA5
-	 LIHxirdJ5+/7iEag07J0iZPWWUreSRXob3X4jSbGiOtkALzPRhYglSoT5SwTdh0u/I
-	 C3aXsRk4aSs+g==
-Date: Tue, 11 Aug 2026 20:25:07 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 17/20] mm/vma: only permit MAP_PRIVATE /dev/zero to be
- mapped anonymous
-Message-ID: <ant1xwiG3djtoXoe@lucifer>
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
- <20260806-b4-scalable-cow-virt-pgoff-v4-17-ab318a350404@kernel.org>
- <c7930f14-5978-4709-bac2-54950c988883@kernel.org>
+	dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b="keVFG8pp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kVEP8+AW"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id 57A4B130049E;
+	Tue, 11 Aug 2026 15:38:32 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Tue, 11 Aug 2026 15:38:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786477112;
+	 x=1786484312; bh=ACCE0ULeByOYA7YhgUX1DRUvF3xjVfa2RU3k/FuhH8g=; b=
+	keVFG8ppzrE7UbbLjDHiHSJtI9Dx+qC2GlT9JBlIpkopIeTpIFALoZj3OtkLvdfN
+	dfL2TBMn3a8uaRV/m816Rf06e3mr0hroGzSdd+B5ec8J0g2eXeGeXjAuwNMSLkNY
+	QIjP2XadwJIHsrJ/wbPmwKdH35yPb1NnCPs66i2bSRa4Uq99sf8Nuw0Mf6pCfK+J
+	kThrNnZcp1NSqIPErfXOc0RfhaVu59cUmelnkBO3KSzIXrXopIKIgEgDldYVzvNI
+	welmLWkOkfy/F4HepsMn0mcxgLK91+D5vUgKj8fPfntYtmvq7Qhm1HYOa6KmzjUl
+	6UkxnbzI2bD68I7n+GzHEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786477112; x=
+	1786484312; bh=ACCE0ULeByOYA7YhgUX1DRUvF3xjVfa2RU3k/FuhH8g=; b=k
+	VEP8+AWcOEN0Mp8eXvv+rwkUV7PDWhxr0tETvHConAUEJWsr5f8F6/s0efBUcZ+t
+	+tKA/3QG8yfvjLoGuQ6/Misma2xkaBu88+TWXveDjIS3BEt7BxwsiXHU0cozOXqR
+	FG3TNEhUFL1/1aVP9JL7O6hqjhW3wkdWINPBSoZp1gTB42ghiPvu1HXAlOxieyJc
+	B5nrDMw0Q2ZQEKk5fID63UCSF/YVDhETlOCv3eVsPxfm2H2kGwpyif3PZ+VFZXAK
+	7csxHjdbjst4EPf3kEKw164Lo1wXGh4eu544U4PqHAfbOSwnSwjdebJ2kwl+NidD
+	vDFxPVxM+qN6NWXI1f83A==
+X-ME-Sender: <xms:NXp7am3-JJHEDtakJK9cAwxYvmI-jjPH2GCQRBduEHk2S38me8JTOQ>
+    <xme:NXp7avov-avCmDj8oLbuR8A5eYaVWYCcUyJXQ22XIB5_lUbdCTR9RmC5ytOyYdN1w
+    7mGQ0P5p7r1wS-EMaHeIKH490Nwj2DOR79-a-fRez07FIS_Xc0a>
+X-ME-Received: <xmr:NXp7arqerxAnts3xbAyAAikoad2gB26eLQppY9rMC6Cwoki__UgeviPCfAfNuPIOwBcPWUsCfXfuh8u4c2cAyIE>
+X-ME-Proxy-Cause: dmFkZTFMHFIUIFNvfOCiTcNbNas89HIxDpu9vnd9/UyYgPH+U8B/ewhZbOiCiNis/URMGi
+    +GT3IjL+W7d23Jp2vVIoo0Dbticg5NyiB4xdyohEAzMY0lTBOp6JwJcW/q1E+SUSRo1/Az
+    Amazx7B1t7Blz7aJHJrO+95WGbidE49E7NYEFoPjlZ9V6JiRV3Zj99ZPpw65cgBRTJN3ty
+    V/otn2YNr7GDO5K1Y3PMGh6dJY1GfVQQ3Nadzvp6cPmJMPN1NICOE+yG1W3AymuWe2qnWi
+    fcMMX1Ez44JzFnr50gj0OpqfOcphWiK5daA6xFPWxoB/nhcjlc+u9hcZFFOQ40nBAzjsnK
+    NMSjsTAO0vS1FK0Nr7jBjGyYa27zDR8eNYzNfRC9pXsGY1rmnGcC+AIF1Zb/D/6KLKa9Ou
+    KKiKG/B9ngGjM2/SC/ymMZ66VQj0q2OuI7Rvit9fFSdQI6+bU9vCZMe1Mp6T2VQcXOYvOw
+    3ZVzBxjUPfcm392xJSNo3VbfDVgmBsZBqpFK3IPQn8t47FgUF5IyQdJVItFen8viK6s5Mi
+    SEmladhakf8mkcxN38BHlSQJK3l1sP+qkjxo+US0nY0YwThgQliMkpmx6ze9nRadCGZU2R
+    pFDTS02lG661OsONPL4SRaIr3QDOgPy97mTuAyYveBqhiYE7Jf2293Ztmz/w
+X-ME-Proxy: <xmx:NXp7agecPCXtitwtn-MKPhHK6ycgOCvoVLPCy0jV8P3xwJrr1XpGnQ>
+    <xmx:NXp7at1-8sj_G9Pne2cEf1vpSgTqhA2o4Ge-0aRba0lPolsRGpaEJA>
+    <xmx:NXp7ajopnqavo_iqjEeHVPULvVuOnZ9VXmNSk83PNejxnKRLeZCFXQ>
+    <xmx:NXp7akX6WQfEGCSrvykRgTkoakw86_WE-9CjQg8gLIhQb09ObgHPHg>
+    <xmx:OHp7as81X0aOqOxljXrCGrq-RZMo05SALg18SFfIAdpgXoxGsje0SZ8t>
+Feedback-ID: i60a14417:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Aug 2026 15:38:22 -0400 (EDT)
+Message-ID: <d242ab53-a39e-421d-ac39-4bee49be6ac0@jaseg.de>
+Date: Tue, 11 Aug 2026 21:38:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7930f14-5978-4709-bac2-54950c988883@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] CRASH_WIPE_SECRETS: Wipe secrets before kdump
+ (was: CRASH_ZEROIZE)
+To: Eric Biggers <ebiggers@kernel.org>, =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?=
+ <linux@jaseg.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
+ Ignat Korchagin <ignat@linux.win>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Marc Dionne <marc.dionne@auristor.com>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mm@kvack.org, keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
+ netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811182012.GB2895176@google.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <contact@jaseg.de>
+In-Reply-To: <20260811182012.GB2895176@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 11, 2026 at 07:07:27PM +0200, David Hildenbrand (Arm) wrote:
-> On 8/6/26 22:21, Lorenzo Stoakes (ARM) wrote:
-> > In order to use mmap_prepare() with MAP_PRIVATE mappings of /dev/zero
-> > without the success_hook hack we explicitly permitted mmap_prepare handlers
-> > to set NULL vm_ops.
->
-> The sentence is a bit hard to get as you are mixing "with" with another "without".
->
-> >
-> > However this is dangerous and we really only want to allow this for
-> > MAP_PRIVATE-mapped /dev/zero.
-> >
-> > Make it possible to explicitly identify /dev/zero by setting a global
-> > DEVZERO_MINOR device minor number then explicitly check for this in mmap
-> > code for a MAP_PRIVATE mapping and only set the VMA anonymous if we have
-> > positively identified it.
-> >
-> > Then remove all ability for mmap_prepare or mmap hooks to set a VMA
-> > anonymous and update mmap_zero_prepare() to leave it to the core mmap code
-> > to mark the VMA anonymous.
-> >
-> > Note that this disallows nested MAP_PRIVATE-mappings of /dev/zero
-> > regions. Doing this would be broken in any case.
->
-> What exactly do you mean by "nested MAP_PRIVATE mappings"? You mean, reusing
-> parts in other drives?
+On 8/11/26 20:20, Eric Biggers wrote:
+> On Tue, Aug 11, 2026 at 07:52:49PM +0200, Jan Sebastian Götte wrote:
+>> I'm using linux on an embedded target in a Hardware Security Module-like
+>> application. One requirement is that I want the system to be able to
+>> quickly erase its memory when it detects physical tampering. I'm
+>> approaching that by using kdump to load into a small payload that
+>> instead of dumping RAM, erases RAM from start to end. However, writing
+>> all of RAM, especially on an embedded target, is rather slow. For this
+>> reason, I propose the mechanism in this patch series:
+>>
+>> Add CONFIG_CRASH_ZEROIZE (default off), which when enabled makes various
+>> subsystems handling secret data do a quick, targeted wipe of these
+>> secrets before kdump. This behavior might also be interesting in cases
+>> where you run a normal kdump kernel but you still want to keep things
+>> like fde crypto keys out of these dumps.
+>>
+>> CONFIG_CRASH_ZEROIZE is a best effort, defense in depth solution. There
+>> are circumstances, such as when a panic is triggered after memory
+>> corruption, or when a panic interrupts some operation that mutates data
+>> structures under locks, when the kernel cannot safely wipe some memory
+>> areas. The handlers proposed in this series will just print a warning
+>> and skip the affected areas in this case.
+>>
+>> This series introduces handlers for the major locations I found where
+>> having this sort of thing makes sense. Notable omissions right now are
+>> the Ceph and CIFS subsystems. I have WIP patches for these, but since I
+>> can't easily test them right now, I omitted them from this patch set for
+>> now. Currently included locations are:
+>>
+>> * various key types in security/keys
+>> * rxrpc
+>> * fscrypt
+>> * dm-crypt
+>> * crypto tfm instances
+>> * secretmem (which I'm going to start using in my application)
+>>
+>> I've verified this patch series on an ARM64 target using the helper code
+>> at https://codeberg.org/yasec/crash-wipe-test . This code stuffs the
+>> affected kernel subsystems with keys and secret data, then crashes the
+>> system, takes a RAM dump and verifies the dump is clean of secrets. Note
+>> that the helper code is partially LLM-generated, so read with care. It
+>> passes a positive control test with the config option disabled.
+>>
+>> The patch series applies on top of linux-next but should work on 7.0.0,
+>> too. I've tested the patches on a Arduino uno Q (Qualcomm QRB2210,
+>> ARM64) embedded target.
+> 
+> Can we not?  It's already hard enough to zeroize keys and data at the
+> normal end of their lifetime in the kernel: that's something that is
+> always a struggle, with fix patches regularly going by for many years
+> and many subsystems never fixed at all.  If we can barely even do that,
+> we aren't going to be able to correctly and completely implement and
+> maintain separate zeroization code for every kernel subsystem that runs
+> only on kernel panics and has special constraints, like not being able
+> to take locks.
 
-I should have said stacked I think.
+These crash wipe code paths are less critical than places where you'd 
+use memzero_explicit or kfree_sensitive. They are "only" a defense in 
+depth / hardening measure. For most of these, if the crash happens at 
+the exact time when data structures are being modified or when things 
+are being intialized/deinitialized, they can skip things so they can 
+never be 100% reliable anyway.
 
->
-> Do you mean things like ...
->
-> [...]
->
-> >
-> > An example of this is drm_gem_shmem_mmap() which deliberately clears
-> > vma->vm_ops before handing the VMA to dma-buf. Cases such as this will be
-> > updated when they are converted to mmap_prepare.
->
-> ... this?
+It's not realistic to clean *all* sensitive data in the first place, 
+since that would include plaintext as well, which would mean cleaning 
+the entire page cache which would be too complex, take too long, and 
+destroy forensic evidence that people might want to keep intact for 
+regular kdump uses.
 
-Yup.
+> This is never going to be done either, with the scope always wanting to
+> grow to include other keys and data.  You may think this series covers
+> "almost everything" but it's actually not even close.
 
->
-> >
-> > Also, in order to avoid a single commit bisection hazard, add a temporary
-> > workaround to set the VMA anonymous only after vma->vm_file is assigned in
-> > __mmap_new_file_vma().
-> >
-> > This is because vma_set_range() calls vma_set_pgoff() and
-> > assert_sane_pgoff() in turn, prior to the vma->vm_file being assigned. If
-> > we set the VMA anonymous early then this assert will fail.
-> >
-> > This is removed in the subsequent commit.
-> >
-> > Also update the VMA userland tests to reflect the change.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
->
-> [...]
->
-> >
-> > +static bool map_is_dev_zero(const struct mmap_state *map)
-> > +{
-> > +	const struct file *file = map->file;
-> > +	struct inode *inode;
-> > +
-> > +	if (!file)
-> > +		return false;
-> > +	inode = file_inode(file);
-> > +	if (!S_ISCHR(inode->i_mode))
-> > +		return false;
-> > +	return imajor(inode) == MEM_MAJOR && iminor(inode) == DEVZERO_MINOR;
-> > +}
->
-> My brain is a bit slow after digging through this series.
->
-> We identify shmem, for example, through shmem_vm_ops/shmem_anon_vm_ops.
->
-> So naturally I am wondering: couldn't we do something similar to identify that?
-> Like, checking for zero_fops?
+I'm sure there's always more. In my particular application, I'm using 
+this not for complete coverage (for that I have another full memory wipe 
+afterwards), but for speed - I want the obviously sensitive stuff like 
+keys gone as fast as possible, with the full wipe cleaning up whatever 
+the fast wipe here missed.
 
-We don't assign vm_ops for a MAP_PRIVATE-/dev/zero mapping. So that won't work.
+> Could you perhaps narrow the scope to one or two things that actually
+> are useful and can reasonably be supported for the application?  For
+> example, secretmem seems to be the only thing you mentioned that you're
+> actually planning to use.
 
-We could expose zero->f_ops but then it's literally in drivers/char/ and that's
-just weird to expose in mm.h or whatever.
+I'm open to whittling down the scope of this series. In my use case I 
+need at least secretmem as well as dm-crypt, which then pulls in the 
+crypto tfm stuff. Personally, I could live without the other bits, I 
+just thought they'd be easy enough to include.
 
-I'm giving a really minimal possible thing to export, which is the DEVZERO_MINOR
-number which avoids all kinds of weirdness like that. No driver stuff exported,
-just a number :) MEM_MAJOR is already available.
-
-So I think it's the least bad choice in this one, very very specific scenario.
-
->
-> > +
-> > +static bool map_is_private(const struct mmap_state *map)
-> > +{
-> > +	return !vma_flags_test(&map->vma_flags, VMA_SHARED_BIT);
->
-> Can't we use the is_cow_mapping() helper instead somehow?
-
-Lol... yup. Let's see how the rest of the review goes and we'll see whether I
-can ask Andrew to change it or I'll change it on a respin.
-
->
->
->
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
+- Jan
