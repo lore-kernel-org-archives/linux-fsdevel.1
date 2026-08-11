@@ -1,178 +1,183 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D732F3264F9;
-	Tue, 11 Aug 2026 10:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33603437472;
+	Tue, 11 Aug 2026 11:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786445894; cv=none; b=sVCiqcT3bTvkB9v0o0ir78TJ2u9EZTARSt+CsV+7LC9LkwL5rsRb513l11dhHJsvqwirFd9fi68STvT793lgBxhOlkO971jUc+80qB92xvC2PtNIIeePbuXulvmCFuCXJ8yK5M994XSq8ZEhXcyvOZGXNBxSBydDqqHEV56YCrs=
+	t=1786447300; cv=none; b=kT03FOZDXifthpp+j+dz09dnXPudAJDp5eRTzaOK0tT0YNLBAfj/y/bPsddB1Plyj7FfPO37gCbZOhV+9wM9p0UwKOpkte79Qw6nLlLHBcIBLWxwI/o8aKhvPJE8lUeAdr8JtjEVfox+/01gmfSaGfXalt38I6ue3rcvPvzw2Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786445894; c=relaxed/simple;
-	bh=E2Q5I65meboDct+4hfaKsQDzSd1S1/tsAKEVH3DzJwo=;
+	s=arc-20240116; t=1786447300; c=relaxed/simple;
+	bh=ihCDGTLDO/8BDQcsApjnRyWmmm+fr4iVTJI/jfzjsJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oD/4e6ytZCSAphAmmUHPkFfz5ytN/OqEjuAIM0jmRwttlAKncQfXahDYQciEQawFge8V5PR4LGsNepPUkUZs7DIDiWOaNJFtb/3LlHgJM3orPZxYE8hEhZaaxBY6Z3bGa5ZKPVCy5xXGkW8B/MeEZS/E1aeb3PWFCLf3kZ0D77k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tKGjJivw; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHgTbvviBTfAYKJ0lCHM4PJDog2Wo582bd0Z/IsTuPRKdXYJgtQZJh0YuniClk0HICyhhyTVeYqtLH2rvxQA8+SWe08Hf1liURreJFZZY03YCBVR0n1YL2dT4oJvq7dTLmbcTDlC3NU8bdH9Fr2bO4b3W2NCNNtSmihKmalho0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6V+7pu/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tKGjJivw"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 424FA1516;
-	Tue, 11 Aug 2026 03:58:08 -0700 (PDT)
-Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 820043F86F;
-	Tue, 11 Aug 2026 03:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786445892; bh=E2Q5I65meboDct+4hfaKsQDzSd1S1/tsAKEVH3DzJwo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tKGjJivwGyrqmHqJQhgHkKc1NYH5dpUS0DWnYV/mVHQACS1frf2TRd2UhTyMG8JvA
-	 Bw0BndUTcgOm1QZBl4JI/V5svJA1QNwOZVE/G2oL5rd2q44W5xc5apxl/s1/v2NISQ
-	 JQrQY7r9UAbIHixEwxX6nTsx2ykLpYcEoEZ681SE=
-Date: Tue, 11 Aug 2026 16:28:09 +0530
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	David Hildenbrand <david@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
-	Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, ziy@nvidia.com, 
-	pfalcato@suse.de, agordeev@linux.ibm.com, ryan.roberts@arm.com, 
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	damon@lists.linux.dev
-Subject: Re: [PATCH 3/9] mm: name pointers to copied PTE values ptentp
-Message-ID: <e7osakog3yvdewhdlrk3bsp27pwt2nnhroeb7zihlfxyjotarb@rwxkcb25crh3>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
- <20260806083926.1807279-4-usama.anjum@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6V+7pu/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870351F00A3A;
+	Tue, 11 Aug 2026 11:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786447293;
+	bh=ItqqIGsGoJL6FHy3XeGYDx+XuWP4CiIjJLQMgN/jVUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=k6V+7pu/vlQb+PTDmSKZaGQ6SmrZVJADI7Wy+N/eg7JvUfRYRNR/FISdgTDukKoWM
+	 hCNnd4U3w6qNYkb2vnvQJMmOTLJq88Mca3wBmGjnJfiDx1BqinrlbQx1hnzEog/uH5
+	 wCSPIvCGkgwhHodBtQx2jBVqGIRRgeJOGYs57KedN+8Bnc/Kp7c8WMOijzRdqTstqm
+	 QN1xEY1BPzb5yau00cGILhpNiz0YNFcSGi3oyQTGU8BgWOVor3efE/82qcwgCqnHyM
+	 b0/qT8XGUcXxyfwA4bctPVnBgB+CFV6HmFM+7PqvnRZQv3Iks/ZOXoAoQm4uHB/57R
+	 qNpU7a5mnNh3A==
+Date: Tue, 11 Aug 2026 13:21:28 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: syzbot <syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com>
+Cc: cem@kernel.org, gregkh@linuxfoundation.org, jack@suse.cz, 
+	jfs-discussion@lists.sourceforge.net, kent.overstreet@linux.dev, linux-bcachefs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, shaggy@kernel.org, syzkaller-bugs@googlegroups.com, 
+	tj@kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [syzbot] [kernfs?] [ext4?] INFO: task hung in sb_start_write (2)
+Message-ID: <20260811-schlecht-arkaden-spickzettel-0dfee4014102@brauner>
+References: <682ffdaa.a70a0220.253bc2.0061.GAE@google.com>
+ <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260806083926.1807279-4-usama.anjum@arm.com>
+In-Reply-To: <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
 
-Subject line is very confusing. Perhaps something like the following.
-
-mm: Rename pointers to copied PTE values as ptentp
-
-But even 'copied PTE values' is not very clear as well.
-
-On Thu, Aug 06, 2026 at 09:38:41AM +0100, Muhammad Usama Anjum wrote:
-> The hw_pte_t conversion must retain pte_t * for pointers to standalone PTE
-
-We need to explain what is `standalone PTE values` first.
-
-> values. Name the value parameters ptentp in the install_pte callback,
-> write_protect_page(), and guard_install_set_pte() so the later mechanical
-> conversion can distinguish them from pointers to PTE table storage.
+On Fri, Aug 07, 2026 at 02:21:34AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
 > 
-> Some functions already use the ptentp name, including:
-> - madvise_folio_pte_batch()
-> - folio_pte_batch_flags()
-> No need to convert them.
+> HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-18-4..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1379cfb9580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=98da55a882774dfe
+> dashboard link: https://syzkaller.appspot.com/bug?extid=b3fba2e269970207b61d
+> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14b9d7b9580000
 > 
-> This is a naming-only change.
-
-Small nit - s/naming-only/rename
-
-The commit message needs rewrite clearly explaining the following details
-
-- What are standalone PTE values
-- How these are different from HW pgtable pointers
-- Change is just a rename for pointers into such 'standalone PTE'
-- These renamed 'ptentp' here would be used for skip or replaced during
-  upcoming mechanical change via a script
-- No functional changes intended
-
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com
 > 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+> INFO: task syz-executor328:5959 blocked for more than 15 seconds.
+>       Not tainted syzkaller #0
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:syz-executor328 state:D stack:28328 pid:5959  tgid:5959  ppid:5947   task_flags:0x400040 flags:0x00080000
+> Call Trace:
+>  <TASK>
+>  context_switch kernel/sched/core.c:5510 [inline]
+>  __schedule+0x16dc/0x5500 kernel/sched/core.c:7234
+>  __schedule_loop kernel/sched/core.c:7311 [inline]
+>  schedule+0x164/0x2b0 kernel/sched/core.c:7326
+>  percpu_rwsem_wait+0x32d/0x4a0 kernel/locking/percpu-rwsem.c:164
+>  __percpu_down_read+0xf8/0x140 kernel/locking/percpu-rwsem.c:180
+>  percpu_down_read_internal include/linux/percpu-rwsem.h:67 [inline]
+>  percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+>  __sb_start_write include/linux/fs/super.h:19 [inline]
+>  sb_start_write+0x18e/0x1c0 include/linux/fs/super.h:125
+>  mnt_want_write+0x41/0x90 fs/namespace.c:494
+>  do_tmpfile+0x6c/0x240 fs/namei.c:4817
+>  path_openat+0x3095/0x3850 fs/namei.c:4854
+>  do_file_open+0x23e/0x4a0 fs/namei.c:4892
+>  do_sys_openat2+0x115/0x200 fs/open.c:1368
+>  do_sys_open fs/open.c:1374 [inline]
+>  __do_sys_openat fs/open.c:1390 [inline]
+>  __se_sys_openat fs/open.c:1385 [inline]
+>  __x64_sys_openat+0x138/0x170 fs/open.c:1385
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f3fb490aaf7
+> RSP: 002b:00007fff7f2f6f10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+> RAX: ffffffffffffffda RBX: 0000555578a51400 RCX: 00007f3fb490aaf7
+> RDX: 0000000000410001 RSI: 00007f3fb494a764 RDI: ffffffffffffff9c
+> RBP: 00007f3fb494a764 R08: 0000000000000000 R09: 0000000000000000
+> R10: 00000000000001b6 R11: 0000000000000202 R12: 00007fff7f2f70d8
+> R13: 0000000000000002 R14: 00007f3fb4970c80 R15: 0000000000000002
+>  </TASK>
+> 
+> Showing all locks held in the system:
+> 1 lock held by khungtaskd/38:
+>  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+>  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+>  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6775
+> 2 locks held by getty/5356:
+>  #0: ffff88803688d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+>  #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x460/0x1360 drivers/tty/n_tty.c:2211
+> 1 lock held by syz-executor328/5959:
+>  #0: ffff888035a88500 (sb_writers#4){++++}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:494
+> 
+> =============================================
+> 
+> NMI backtrace for cpu 1
+> CPU: 1 UID: 0 PID: 38 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
+>  nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
+>  trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+>  __sys_info lib/sys_info.c:157 [inline]
+>  sys_info+0x135/0x170 lib/sys_info.c:165
+>  check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+>  watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+>  kthread+0x388/0x470 kernel/kthread.c:436
+>  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> Sending NMI from CPU 1 to CPUs 0:
+> NMI backtrace for cpu 0
+> CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+> RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+> Code: cb 6e 02 e9 13 cf 03 00 cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 33 44 24 00 fb f4 <c3> cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+> RSP: 0018:ffffffff8de07de0 EFLAGS: 00000242
+> RAX: 000000000009a1e9 RBX: ffffffff81998590 RCX: 0000000080000001
+> RDX: 0000000000000001 RSI: ffffffff8d887e30 RDI: ffffffff8bca6d80
+> RBP: ffffffff8de07eb8 R08: ffff8880b8633d5b R09: 1ffff110170c67ab
+> R10: dffffc0000000000 R11: ffffed10170c67ac R12: 0000000000000000
+> R13: 1ffffffff1bdede8 R14: 1ffffffff1bc0fc4 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff888125c36000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000563216b981d0 CR3: 000000000dfb0000 CR4: 00000000003526f0
+> Call Trace:
+>  <TASK>
+>  arch_safe_halt arch/x86/kernel/process.c:767 [inline]
+>  default_idle+0x9/0x20 arch/x86/kernel/process.c:768
+>  default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
+>  cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+>  do_idle+0x2e0/0x540 kernel/sched/idle.c:355
+>  cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
+>  rest_init+0x2de/0x300 init/main.c:717
+>  start_kernel+0x392/0x3e0 init/main.c:1175
+>  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+>  x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+>  common_startup_64+0x13e/0x157
+>  </TASK>
+> 
+> 
 > ---
-> Changes since RFC v1:
-> - Update the description for the architecture opt-in conversion.
-> ---
->  include/linux/pagewalk.h | 2 +-
->  mm/ksm.c                 | 4 ++--
->  mm/madvise.c             | 4 ++--
->  3 files changed, 5 insertions(+), 5 deletions(-)
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
 > 
-> diff --git a/include/linux/pagewalk.h b/include/linux/pagewalk.h
-> index b41d7265c01bc..c34d826c5e4a2 100644
-> --- a/include/linux/pagewalk.h
-> +++ b/include/linux/pagewalk.h
-> @@ -89,7 +89,7 @@ struct mm_walk_ops {
->  		       struct mm_walk *walk);
->  	void (*post_vma)(struct mm_walk *walk);
->  	int (*install_pte)(unsigned long addr, unsigned long next,
-> -			   pte_t *ptep, struct mm_walk *walk);
-> +			   pte_t *ptentp, struct mm_walk *walk);
->  	enum page_walk_lock walk_lock;
->  };
->  
-> diff --git a/mm/ksm.c b/mm/ksm.c
-> index ad05d7791307e..11d50518d02e9 100644
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -1292,7 +1292,7 @@ static u32 calc_checksum(struct page *page)
->  }
->  
->  static int write_protect_page(struct vm_area_struct *vma, struct folio *folio,
-> -			      pte_t *orig_pte)
-> +			      pte_t *ptentp)
->  {
->  	struct mm_struct *mm = vma->vm_mm;
->  	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, 0, 0);
-> @@ -1371,7 +1371,7 @@ static int write_protect_page(struct vm_area_struct *vma, struct folio *folio,
->  
->  		set_pte_at(mm, pvmw.address, pvmw.pte, entry);
->  	}
-> -	*orig_pte = entry;
-> +	*ptentp = entry;
->  	err = 0;
->  
->  out_unlock:
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 07a21ca31bad4..c324cc991f841 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1101,12 +1101,12 @@ static int guard_install_pte_entry(pte_t *pte, unsigned long addr,
->  }
->  
->  static int guard_install_set_pte(unsigned long addr, unsigned long next,
-> -				 pte_t *ptep, struct mm_walk *walk)
-> +				 pte_t *ptentp, struct mm_walk *walk)
->  {
->  	unsigned long *nr_pages = (unsigned long *)walk->private;
->  
->  	/* Simply install a PTE marker, this causes segfault on access. */
-> -	*ptep = make_pte_marker(PTE_MARKER_GUARD);
-> +	*ptentp = make_pte_marker(PTE_MARKER_GUARD);
->  	(*nr_pages)++;
->  
->  	return 0;
-> -- 
-> 2.47.3
->
 
-How did we ensure that the above changes are comprehensive and nothing
-else got left in here ?
+The reproducer freezes the root filesystem with FIFREEZE and then opens
+O_TMPFILE on it from a child. Excellent. In addition to that it also
+lowers hung_task_timeout_secs to 15 before freezing and only thaws after
+60 seconds... Nothing is stuck and the machine recovers.
+
+The older crashes look like the same thing. So the fuzzer freezes a
+filesystem and some other program writes to it. That also explains why
+there's only ever the one blocked task and nothing else in the system
+holding anything.
+
+So maybe gate that ioctl for syzkaller?
+
+And the LLM thing that is attached to the report is wrong.
+
+#syz invalid
