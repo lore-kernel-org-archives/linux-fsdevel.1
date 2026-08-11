@@ -1,98 +1,178 @@
-Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF18143C7C5
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 10:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D732F3264F9;
+	Tue, 11 Aug 2026 10:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786445373; cv=none; b=d/o1ZUZYDP5q/rUh/yOEz1FtdjjwefIPpSBHbeeHHoz9NG1SiPevwa7oTwFUbYXCJ3E7WCWM/OPEnqCpY84Jb7G4H+5B45WXaDfzSLD2i4/f68FJfLihIqr+nZlZN8IbpwuS/i7/M8mtt1fFiWAoG4aGGArKrVQ6gbur1cqMXAg=
+	t=1786445894; cv=none; b=sVCiqcT3bTvkB9v0o0ir78TJ2u9EZTARSt+CsV+7LC9LkwL5rsRb513l11dhHJsvqwirFd9fi68STvT793lgBxhOlkO971jUc+80qB92xvC2PtNIIeePbuXulvmCFuCXJ8yK5M994XSq8ZEhXcyvOZGXNBxSBydDqqHEV56YCrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786445373; c=relaxed/simple;
-	bh=ghS+Q8ddKbWmypXRks4ACpl90kL3VTsYQSivB8z4dzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DgD3t9csLLOvHZ0rcrBQfiQ7+FSoC9qWMvBRrIu2xP4mZUcJHE6qGoFXWT2LIY4KE8CRQRnner/kFxavEDiVr296jt+VAUf6PJHDkYrS3yEUBfGelWx9lQPAniSI7ex4myCC7byUwQ+OPIarGF0tvUEv/dqb8o6McnyPQ8D+p6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQTER56P; arc=none smtp.client-ip=74.125.227.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786445894; c=relaxed/simple;
+	bh=E2Q5I65meboDct+4hfaKsQDzSd1S1/tsAKEVH3DzJwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oD/4e6ytZCSAphAmmUHPkFfz5ytN/OqEjuAIM0jmRwttlAKncQfXahDYQciEQawFge8V5PR4LGsNepPUkUZs7DIDiWOaNJFtb/3LlHgJM3orPZxYE8hEhZaaxBY6Z3bGa5ZKPVCy5xXGkW8B/MeEZS/E1aeb3PWFCLf3kZ0D77k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tKGjJivw; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQTER56P"
-Received: by mail-pj2-f2.google.com with SMTP id 98e67ed59e1d1-37fb1883fbfso1046660a91.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 03:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786445368; x=1787050168; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ghS+Q8ddKbWmypXRks4ACpl90kL3VTsYQSivB8z4dzM=;
-        b=fQTER56Pu3UMA1VJgujKwNm4EKFjuFlf6tjrcPMofvyGZEmw2qHQWKuJTt1X8HzMAy
-         MlGsjt7vfjMWngXWbnEb1TyzSZ9abJ4sY/KX1cvCDqFf7+wE9+kX0LH1Y25ODgqVmFQO
-         pgjKTPjPeeWNWqj0sI/OUP6WtN9TmniOktSKoD5Q8zbb2g7EdmW9KwZtgmKbAAhx5lyb
-         DhdXDci+8BEruhHVhlRfjS9zYd9CT946LLuzi1+tzp0MF7Pt9jP3KFCgxOkgLNSC43PH
-         pBaNfHNe93Q3kaM1+eIFT9AIWNPDLHWd4UAnZe+4J8cC03WTRd0siid+DHnGY6s28L7S
-         8Czg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786445368; x=1787050168;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ghS+Q8ddKbWmypXRks4ACpl90kL3VTsYQSivB8z4dzM=;
-        b=oHwcMXI9GdygWjTDfNU/QzDtwsRM7jo1hgZgL3gIuysfV5DWbSTycl7bMuyrK8E+up
-         L+1Z1q+8ID7irBQE6E6Nj8ytYYC+U3g27SxglZ0vvVJiLOFNxMWfN8Er1hoBYyyDz7mc
-         uc9QRpiWzMgI4wJkXLKHCge4583dtUDiSO3QAHVrGo/dstTq5S/LdrYx96PFCv9p8MWl
-         /7uCg+IRc2HR/cdEP6AqwkIglcmRzZvwK+qSEMZZ9PQrqftq+nPGAZXLhjR8AeEImZe7
-         CbrAkIa0Nz9mGymfJcACvO4m7HYXHhnKbBW0e6Qmo8ZPjk5D/Dct0cuMy0irTKjlDnu6
-         J0Mg==
-X-Gm-Message-State: AOJu0YzmG4PagxKf1VEVSSxSJaon98dxPdaNd5Z8nDpd9b6FLLHekSbT
-	HUjgMIKhUVqlbEsKF6L2PKGJa5pYtMheew8mIUMDpgJN00FaaMSA9c86
-X-Gm-Gg: AR+sD11mVL8TU0JZSNfgJG6gTSb++FkGZkujnHjSoF5vu5YJJG111oZdeYFV5fFuJGl
-	UYirBsNUEGG8VPPznsDJQojowsAzLPFjHvXZBbrBQVtAjqaw5qrNvo+sHNCE/trNGRqPj7nbCBz
-	wVCA9OUp1vKj4Qc0CRLuKL4WTwbTtQBY9/3QSY0NB3Dzrkdr929y0e2O6E62ExoSOI8UzpIRt+3
-	X+W6Cos56WNBQWmtj2OuVWQ5ITlrUC4uKz7WLkiz+UuruT611CC+I4TiVUK8NyNslBWTStSJULb
-	UuAi9hfwdqJZAP5EcIihxzcELkB+fJGduYWJU4i383xsMZueZZjHFEEUBpsvXtuKWnotzUIN1w9
-	XPUmeIc5s8MOWIZUZ+Lsg2N8LAwf51WlK8mFBXfxA8MM+e3//Xxwv5T1a14Rq48m7UcKdh0F/IJ
-	yOloMKIqrodzFtxpPB4tbm1XL/GxBNxjP4UOZBo3J1vG0U4y1krV0UjUw5xQQJ+CLTv0ul954X7
-	N6L7tVScKOf9pE8WA==
-X-Received: by 2002:a17:90b:3143:b0:381:5a08:6291 with SMTP id 98e67ed59e1d1-392ec747b05mr2307488a91.20.1786445368003;
-        Tue, 11 Aug 2026 03:49:28 -0700 (PDT)
-Received: from xiaomip5p-elish-armbian.. ([2408:8220:6b4b:bb0:3bc5:a2cf:f997:7a80])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392d51e3467sm3436132a91.8.2026.08.11.03.49.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 03:49:27 -0700 (PDT)
-From: Gu Lingguang <liu83783@gmail.com>
-To: Alexey Gladkov <legion@kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	containers@lists.linux.dev,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Gu Lingguang <liu83783@gmail.com>
-Subject: Re: [RFC] mnt_already_visible(): should regular-file mountpoints participate in the visibility check?
-Date: Tue, 11 Aug 2026 18:49:21 +0800
-Message-ID: <20260811104921.8099-1-liu83783@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260811-obsession-propeller-eiskalt-a2ca8b0a1017@brauner>
-References: <20260811-obsession-propeller-eiskalt-a2ca8b0a1017@brauner>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tKGjJivw"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 424FA1516;
+	Tue, 11 Aug 2026 03:58:08 -0700 (PDT)
+Received: from localhost (a085714.arm.com [10.164.19.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 820043F86F;
+	Tue, 11 Aug 2026 03:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786445892; bh=E2Q5I65meboDct+4hfaKsQDzSd1S1/tsAKEVH3DzJwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tKGjJivwGyrqmHqJQhgHkKc1NYH5dpUS0DWnYV/mVHQACS1frf2TRd2UhTyMG8JvA
+	 Bw0BndUTcgOm1QZBl4JI/V5svJA1QNwOZVE/G2oL5rd2q44W5xc5apxl/s1/v2NISQ
+	 JQrQY7r9UAbIHixEwxX6nTsx2ykLpYcEoEZ681SE=
+Date: Tue, 11 Aug 2026 16:28:09 +0530
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	David Hildenbrand <david@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+	Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, ziy@nvidia.com, 
+	pfalcato@suse.de, agordeev@linux.ibm.com, ryan.roberts@arm.com, 
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	damon@lists.linux.dev
+Subject: Re: [PATCH 3/9] mm: name pointers to copied PTE values ptentp
+Message-ID: <e7osakog3yvdewhdlrk3bsp27pwt2nnhroeb7zihlfxyjotarb@rwxkcb25crh3>
+References: <20260806083926.1807279-1-usama.anjum@arm.com>
+ <20260806083926.1807279-4-usama.anjum@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806083926.1807279-4-usama.anjum@arm.com>
 
-Thanks to both of you for the replies.
+Subject line is very confusing. Perhaps something like the following.
 
-@legion: The /proc/keys and /proc/interrupts case you raised is one
-I missed, and it shows that a new mount can grant access that the
-container's creators do not want to grant. I withdraw the suggestion.
+mm: Rename pointers to copied PTE values as ptentp
 
-@Brauner: you're right, and I apologize for the length. I'll keep
-future questions to the bare minimum.
+But even 'copied PTE values' is not very clear as well.
 
-Thanks,
-Gu Lingguang
+On Thu, Aug 06, 2026 at 09:38:41AM +0100, Muhammad Usama Anjum wrote:
+> The hw_pte_t conversion must retain pte_t * for pointers to standalone PTE
+
+We need to explain what is `standalone PTE values` first.
+
+> values. Name the value parameters ptentp in the install_pte callback,
+> write_protect_page(), and guard_install_set_pte() so the later mechanical
+> conversion can distinguish them from pointers to PTE table storage.
+> 
+> Some functions already use the ptentp name, including:
+> - madvise_folio_pte_batch()
+> - folio_pte_batch_flags()
+> No need to convert them.
+> 
+> This is a naming-only change.
+
+Small nit - s/naming-only/rename
+
+The commit message needs rewrite clearly explaining the following details
+
+- What are standalone PTE values
+- How these are different from HW pgtable pointers
+- Change is just a rename for pointers into such 'standalone PTE'
+- These renamed 'ptentp' here would be used for skip or replaced during
+  upcoming mechanical change via a script
+- No functional changes intended
+
+> 
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+> ---
+> Changes since RFC v1:
+> - Update the description for the architecture opt-in conversion.
+> ---
+>  include/linux/pagewalk.h | 2 +-
+>  mm/ksm.c                 | 4 ++--
+>  mm/madvise.c             | 4 ++--
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/pagewalk.h b/include/linux/pagewalk.h
+> index b41d7265c01bc..c34d826c5e4a2 100644
+> --- a/include/linux/pagewalk.h
+> +++ b/include/linux/pagewalk.h
+> @@ -89,7 +89,7 @@ struct mm_walk_ops {
+>  		       struct mm_walk *walk);
+>  	void (*post_vma)(struct mm_walk *walk);
+>  	int (*install_pte)(unsigned long addr, unsigned long next,
+> -			   pte_t *ptep, struct mm_walk *walk);
+> +			   pte_t *ptentp, struct mm_walk *walk);
+>  	enum page_walk_lock walk_lock;
+>  };
+>  
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index ad05d7791307e..11d50518d02e9 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -1292,7 +1292,7 @@ static u32 calc_checksum(struct page *page)
+>  }
+>  
+>  static int write_protect_page(struct vm_area_struct *vma, struct folio *folio,
+> -			      pte_t *orig_pte)
+> +			      pte_t *ptentp)
+>  {
+>  	struct mm_struct *mm = vma->vm_mm;
+>  	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, 0, 0);
+> @@ -1371,7 +1371,7 @@ static int write_protect_page(struct vm_area_struct *vma, struct folio *folio,
+>  
+>  		set_pte_at(mm, pvmw.address, pvmw.pte, entry);
+>  	}
+> -	*orig_pte = entry;
+> +	*ptentp = entry;
+>  	err = 0;
+>  
+>  out_unlock:
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 07a21ca31bad4..c324cc991f841 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -1101,12 +1101,12 @@ static int guard_install_pte_entry(pte_t *pte, unsigned long addr,
+>  }
+>  
+>  static int guard_install_set_pte(unsigned long addr, unsigned long next,
+> -				 pte_t *ptep, struct mm_walk *walk)
+> +				 pte_t *ptentp, struct mm_walk *walk)
+>  {
+>  	unsigned long *nr_pages = (unsigned long *)walk->private;
+>  
+>  	/* Simply install a PTE marker, this causes segfault on access. */
+> -	*ptep = make_pte_marker(PTE_MARKER_GUARD);
+> +	*ptentp = make_pte_marker(PTE_MARKER_GUARD);
+>  	(*nr_pages)++;
+>  
+>  	return 0;
+> -- 
+> 2.47.3
+>
+
+How did we ensure that the above changes are comprehensive and nothing
+else got left in here ?
