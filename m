@@ -1,128 +1,157 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447C40F738
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 08:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786435798; cv=pass; b=WOskqyMbw5i/iqp6unVuuzdE/iKnyCpo6K/fC6J6BN9F8WpLC3dTnQWFL3S05fPfVhFhlXSFYObUzOEKM9eJVTnL/RRuP9l8qrbF4OOoWkw6TrJFBvvwYbslhSBaxKYNplVBAgWMAegLFIXHY4LL+mvNf2whSIsISX/49UZUJ4A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786435798; c=relaxed/simple;
-	bh=lnwTgcWmbcIBg2Qgc8rEXw/pFK3g8h7NAtGPGlBFVOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JJNiXAXJi/oEf5g1oqXvDpkSX7Zp1If0ySxXPlvSDmUex/OHzZKMZb8WXnTmFwC9qpT4sa0F5p4ttJ1Dl7Wbp/4X8lqE9d6F7B7MUZAMx4Mmcfw+Zrn2CpC0Hk/fBFtu8lLmVgERF8HN5O6McmCfp6lOiTOHsqSA6GFcZ4yTLpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=HVVyr6Fu; arc=pass smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7983A4156E8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 08:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786436293; cv=none; b=Juziq4dMMOPdmqBbByR+ibsb9CZQh7fOu7Xs3Y1iIZkIzuobzEqBX3TQX2sBBK2+R3d1CMh+nKPJRYAekG+CYCmnVSdqHag2GEztruSiSVRwu1IcYAcDfCSHpXarCc/095xvyDwYRU4vNcSvYagN8yF7pXCmf1vTiYOV5ZqoPhg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786436293; c=relaxed/simple;
+	bh=0m0VCrVFS50IL0+ZPUc8eV8aQ+yXJjlZWMeXsIJ1aBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l1XedoIsmATLhD7vaYdnRNzcg2xAqOmw9u5y6+TKGQEjw67glx5sW7AJSJm7/af8PK59yDJscb/tfGFnUZsUHlrdYLkWRhAMMT+gOZfEXPNwA/aYp/560wcrqY8W77aCcm+xR0FuGPyEZogyzYsQR89tvAdwPvivtzABMX7F2P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jGk31qTM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QmpED+JA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="HVVyr6Fu"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c15ca7a7ca9so270923266b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 01:09:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786435794; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RZWVEu8IkKsrU/jugZ1LtE0iRDHq1VFPQNkv/vfYdaqt778F3EIfEKLT0KiZJ955FD
-         XY6DsTaE9lKerVXRXhhcCSEIeyoEZmeVACtsH/tiIhAIOrhaQz3rFvgErVLzrp5hvOvl
-         Xbf3vsGHv0UsKRVzTneUoEEYLBkWTMNfP9o27rpWcUMk4NLpk/9ZORMod18xKEpDK1ur
-         jyhwYVH6vH7pRuHqbjWr8Y3bCgIH1ALBZcWtIq7mqGoPzZKewbZOwwP6jKCfwhCsdBdI
-         PUWAL1MuKVLUwp2juydSY6X7HJD4IDgKNftHxIn8yanMseQHDYJjp33ZqTmOqlzLPfaG
-         eYnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T54VimS/CucgMjNGFDBKP4gUuwtmX/EU6Le6wVxQiWU=;
-        fh=r2zOp+HROPgmj2Qcw6LsbZWwPNlq3vUYMS2pLHa37Hk=;
-        b=baNK5ezxwokf/J6Iv6ljLV4rA3/HnlX1CUuKwIZsGHFTJe1EcqMNHvWww7XXfKFmKd
-         c6tksgJubOyUhdShN7t13Q3pwoniUaZnXA1em6oUaDY2kXfYGtT5PZ+eP3T2Ucmm6+SJ
-         ywW/JwuY+PvUGImiYl1Jj4GUR7/aqAmwR5ZJv9PBEIXBWMj2IrEV20e2/+IGdElYGOnp
-         Gau5QGBMlBXc8u83luJwv6JhXhtqR+AwSjcC5Yt/xo20CgzBlHWnkaJP68D7687BHuaP
-         ZrkyECM4iahs6XypQh5Wb5Oom1gupIZ6q5FQb+cnUJyz3w0IIBjrRwD9N1KxfLtMfFYW
-         SaWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jGk31qTM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QmpED+JA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786436290;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rQoYgawLl/uFdgKGximNInLlgWg1ECp2Ql+MmIdl1KM=;
+	b=jGk31qTMZe89vYcLuMtG1w29oh5Txnm9VLlzyTkNm3Pa+A6Hs3LmIVqpzk6aCJKSCVSHOF
+	ZX08u9Tdo/pGoR9S45MDsa+weOr+Wf0SpIQrTFJPGqoru8QyDmOmNOR17nz7K4ThLaYpYe
+	Lk1eI6MtKN+3gHV+Q9eWuJAvhVPG1x4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-362-cobujxLXMsCEDwHVwiHQCA-1; Tue, 11 Aug 2026 04:18:09 -0400
+X-MC-Unique: cobujxLXMsCEDwHVwiHQCA-1
+X-Mimecast-MFC-AGG-ID: cobujxLXMsCEDwHVwiHQCA_1786436288
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4954a93c565so14789065e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 01:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1786435794; x=1787040594; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=redhat.com; s=google; t=1786436288; x=1787041088; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=T54VimS/CucgMjNGFDBKP4gUuwtmX/EU6Le6wVxQiWU=;
-        b=HVVyr6Fu35rSQCWNvO+e0CSUWWlj3IH75HD05i3776Mdqo5gcPiIxqAdPYQQflF8+O
-         Kcs+ibeKXHFbqeKiY6jnnJLCjNhRS+92ocu4RDeSi4lskOpHpqdsMoRE1lf1Oyr/3LPj
-         9cHAbHMu+WN7LYpKBaiyInit8zblzd/B6Xb6HY8bd/MeT1jrLToNogCVeoLlC9SkVUUL
-         Xdi1EvRLrJU3K+JUX0CQQnfWlESexmkhGEp/X0YljyvVdArnLbL75Q6bpucrMswU5BPx
-         t+pmNBrDMddoAkyMxNyS1+bDLqDz/J49FJNo+B3JejV4N9GNtYB6YBGoRDKJeVH2Kgi/
-         PoQQ==
+        bh=rQoYgawLl/uFdgKGximNInLlgWg1ECp2Ql+MmIdl1KM=;
+        b=QmpED+JAJESU5FyhCyTatmFHkwiMWEcr86kck2O1E19QIoD8iACqFSniC+z71Bpfq4
+         lHB1cC5988ZWcEpXS2jBbpl+8bXcTaLF8Ptn6iuAQctnkw0EAWlxJH5T4lbUGq24RFMp
+         GJqAElN8kpyPqFyZbfxEMzC7fY4Adwq29Anc1K6TT3RoJ8W6Cepb59LpBtoTldmd57sv
+         +RK+pY23KXHX7vOSXvBWA/75gbtexXvCU7XavuoLarCi2r+Po0wiHkarYvRaQnDOgE96
+         T/kbvYnmh4mQ1APbZLZmE5zJErEFlCpDXIta8RUNNQp2k8wDRzLHurpwSIdNXVBl5PSW
+         UJ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786435794; x=1787040594;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1786436288; x=1787041088;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=T54VimS/CucgMjNGFDBKP4gUuwtmX/EU6Le6wVxQiWU=;
-        b=h2AOVDPaKmb1pCzsbuMDlaiXFaPtuYZ4uLXyOeZst+FiK1GJiUsSUuXOfUsDLiCE3s
-         +9v1sV54mRoA5/cvnAYOUu0dtIAOF6Nc03+hw+W4QW4ikWrIH+xHKt6oP0E6u/iZVDMd
-         J3krBMRdLcPZbhEWfuSpdn71cAjfOeulybn8CrwOJStvbcq0WewhBDTzdgu1yAi8pW7K
-         Hn8xIb83hHEFq3uk9vy9t7+HgGtMHWWp4U2HyqBcotkGBAUm3qgJ8PtOEApPEBdxRQAM
-         6hSdcZlecJIJHpdk+q9jdqtXOu12ooaCtqVoOY6k3SiVxzMCZnNTI4NAFHU9D99X9xkg
-         0N0g==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2UCG6thU3IFL3afVj0f83pl2BdvJS38qntL+BHWFKQfuye5v3IBz2mooU9JX/RziF/Fi5+lOlzB1g95bF@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeJWdpzskktHEFX0TjDhJFJ1GO3Jxao+dEXrPX+jCqLu3JMkAH
-	ORTtppVeCaKIg51lHpeWFaOHZIi62Em4d5bndiivg59P0sWyjELSeK5CrC+fBSqgworq9JovfMc
-	EUGBNmzpkNU8E8uMLfWDZdVZSz8XxeyQxwbqAeLlflw==
-X-Gm-Gg: AR+sD13xPjeeSf6qt8oDyLsGYEoOssJt1rhpzsJIsyy64++/4YGPFzZCaWQ5n++aqua
-	Qq9T4+v/QRKDJiIlh8BwYzknnHyk1MSgpir3OBtAJxEti9Do7iQBCVCOvrhy3Gn9PO6+O/UpbuR
-	nFTDf9g5C1pOgfSi0JRonxEuGXUvO8SVHMPb6vJum+65pHj6b570Q0JYglbU04iYgZaTw6sjFJO
-	EAtnTYKC5ntD01ENCd1AUJvCN3EhUHW6EC4O/dj7DnrmWHp2QEVUDPDVOflCdkPWLslvpYgfJjb
-	HHru22bntA3CBytH8z88J/FPX4Cs1HdPTjMI2w3KF9R6e1YuzxvkaNK3JK8PCHaD4BmBpjmba54
-	s04o9OGK6Zw==
-X-Received: by 2002:a17:907:c14:b0:c20:83b1:396c with SMTP id
- a640c23a62f3a-c20e622569dmr56516466b.17.1786435794433; Tue, 11 Aug 2026
- 01:09:54 -0700 (PDT)
+        bh=rQoYgawLl/uFdgKGximNInLlgWg1ECp2Ql+MmIdl1KM=;
+        b=qW9yf6Gj5xz6gOYaH4q/MubYZytC/O8yML9gaHsWb2ZyC0vmZoLSPdta01FBfxWGM6
+         f5U8E1MIxKeqZ/3qb85Ih8yAWt6gdS9dG6OIhwsXHzSA/z0YPzx+Q2WCKi+vhTlol9Gl
+         /OeEtz/G3RwVQNL4Sycc2xv6VYaLGrZrmDDyVC7bv28n1NgzpUaTFCkEfmPBpau7KrwP
+         EDKzfFVlJf0Ze3gvhCYwZp0kLW3y2RixBWyKaYAN5BmwjgRv72P7wcAcNwd2A5i8yB3j
+         /wjWT/ABotg5JzM2qiHELExMseR4hLNkTDTVyyF02l42u3kIYflhRO3QUPxsPI/j7gNX
+         iapg==
+X-Forwarded-Encrypted: i=1; AHgh+RrTGogrnXGiczhX2Uj5DvF6LNC2Y/yCK5oJJDg2+y9E1UYu9nQGRWee0O1FJv2tiLKqe8WODPeQGS4mbmqx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4YGysz5YiiyLNEA792dilmiR29oG006mF0XTzjm0SFcRs8hyY
+	8BhSx6WZavjC1kiXvn56EEYplfjnHjyIAR52pIZwo+ZViMdG2Bld0z6xX39phkJ5tZjYyUMhWIA
+	UNUldm+mK5jDd9eE7Sbw03cttM4ySQ0tQZH3jFgLmB9aEbRajTqV/35WwAH0FYK8q0A==
+X-Gm-Gg: AR+sD12rtJ68kM+XzhJ8X14JmKH9cDAfKAYJ40l0qVQ7/a9CQI92F9q/gSdBqtWf0UV
+	7WjvjrLWnEHdgvvYJSueAohjPG53Faow5hFa5kySRnLsELaUfuLAYAfOgjq+d5fPP3qz8kFzQAx
+	dvzcB+2NCfS5UqbPw10gHp6WMwJ04QQKxPh1prvaLml35QZKfY2fA3hHRhHMFYCKKoY3Kgd2WLi
+	XldrwAuTZ/iCfyBOSrSeC0wVqeERFVkiDGO7E61uhQxPNJ/qGGiiho+hHI7h2Ek9ObkOGbwZyCg
+	NIvBbFAoIsXn6y6O0RZzWkrkPCxvFArRCoVDtPbz1FVeTbB5o7cGtHSayJZ6ScqQvjRJ/T0k4i2
+	bAR6RdK+nWCyhZImkYs0NMtK1fxS2CoY3OgpVSg==
+X-Received: by 2002:a05:600c:4683:b0:499:5210:c537 with SMTP id 5b1f17b1804b1-4997842c1efmr23685955e9.1.1786436287862;
+        Tue, 11 Aug 2026 01:18:07 -0700 (PDT)
+X-Received: by 2002:a05:600c:4683:b0:499:5210:c537 with SMTP id 5b1f17b1804b1-4997842c1efmr23685055e9.1.1786436287342;
+        Tue, 11 Aug 2026 01:18:07 -0700 (PDT)
+Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([91.245.205.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499788f11b8sm26013505e9.10.2026.08.11.01.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 01:18:07 -0700 (PDT)
+Date: Tue, 11 Aug 2026 10:18:05 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH v14 13/21] xfs: use read ioend for fsverity data
+ verification
+Message-ID: <anrZR9SarXJMBLgI@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260803200820.393203-1-aalbersh@kernel.org>
+ <20260803200820.393203-14-aalbersh@kernel.org>
+ <20260804183632.GO3556460@frogsfrogsfrogs>
+ <anmNNNNy4YsV_KLB@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+ <20260810183102.GY3556460@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727130716.1099906-1-dhowells@redhat.com> <20260727130716.1099906-2-dhowells@redhat.com>
-In-Reply-To: <20260727130716.1099906-2-dhowells@redhat.com>
-From: Max Kellermann <max.kellermann@ionos.com>
-Date: Tue, 11 Aug 2026 10:09:43 +0200
-X-Gm-Features: AUfX_mwxuJUD9QwttfMG68Fi2B7SoG82gh9YWa1e7DmPzlVYbeVeeqOw4OhyccU
-Message-ID: <CAKPOu+_iAa675Axx94Z15X12EOatM-FBCiG3UGN3zMT65rgNwQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] netfs: clear PG_private_2 on copy-to-cache append failure
-To: David Howells <dhowells@redhat.com>
-Cc: netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Yichong Chen <chenyichong@uniontech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260810183102.GY3556460@frogsfrogsfrogs>
 
-On Tue, Aug 11, 2026 at 9:59=E2=80=AFAM David Howells <dhowells@redhat.com>=
- wrote:
->         /* Attach the folio to the rolling buffer. */
->         if (rolling_buffer_append(&creq->buffer, folio, 0) < 0) {
-> +               folio_end_private_2(folio);
->                 clear_bit(NETFS_RREQ_FOLIO_COPY_TO_CACHE, &creq->flags);
->                 return;
->         }
+> > > "If we have fsverity and block device integrity attached to this bio,
+> > > we need to run both validations from the separate fsverity workqueue
+> > > to avoid deadlocking due to fsverity issuing its own reads."
+> > > 
+> > > (Assuming I understand the fsverity && pi case correctly.)
+> > > 
+> > > One thing I'm not clear about -- why is it safe to do the fsverity
+> > > validation here if PI isn't enabled?  Can't that also issue IO to pull
+> > > in merkle tree blocks?
+> > 
+> > Without PI, fsverity metadata is read without XFS bio completion
+> > path, we don't get here for the descriptor/metadata reads
+> > (see xfs_get_iomap_read_ops()). So, we won't block the queue, as
+> > data ioends won't be mixed with metadata ioends.
+> > 
+> > With PI, all fsverity reads goes through this path. We could get a
+> > case that data ioend is waiting for metadata IO to be completed which
+> > in turn is pending for data ioend to be finished (due to batch
+> > processing of multiple BIOs in the bio_complete wq).
+> > 
+> > So, this will issue more IO, but this IO will not get onto this
+> > queue (it will go through iomap_bio_submit_read()).
+> 
+> Ah, ok.  Maybe add to that comment:
+> 
+> "If we have fsverity enabled but block device integrity is not enabled,
+> completion of the fsverity metadata reads does not require a workqueue
+> so there is no deadlock potential."
+> 
+> then?
+> 
+> (Just echoing you to make sure I understand completely.)
+> 
 
-David, I submitted the same patch 4 months ago already, why didn't you
-merge that?
-https://lore.kernel.org/netfs/20260330105548.1371339-1-max.kellermann@ionos=
-.com/
+yes,
 
-The "Fixes" tag in Yuchon Chen's patch is incorrect. Commit
-e2d46f2ec332 ("netfs: Change the read result collector to only use one
-work item") does not introduce the bug. The bug has existed ever since
-netfs_pgpriv2_copy_folio() was initially added by commit ee4cdf7ba857
-("netfs: Speed up buffered reading"), as my older patch states in its
-"Fixes" tag.
+I've changed it to:
 
---=20
-Max Kellermann
-Principal Architect
-Hosting Technology
++       /*
++        * If we have fsverity and block device integrity attached to this bio,
++        * we need to run fsverity verification of data folios from a separate
++        * fsverity workqueue. This is necessary to avoid deadlocking due to
++        * fsverity issuing more reads of fsverity metadata which would be
++        * processed by the same worker in the BIO completion workqueue.
++        *
++        * Without device integrity, fsverity metadata IO will not use ioends for
++        * completion.
++        */
 
-cm4all | Im Mediapark 6a | 50670 K=C3=B6ln | Germany
-General information about the company can be found here:
-https://www.cm4all.com/impressum
-A member of the IONOS Group
+
+-- 
+- Andrey
+
