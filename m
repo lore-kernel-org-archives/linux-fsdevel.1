@@ -1,262 +1,208 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59322F4A05;
-	Tue, 11 Aug 2026 09:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41757426EB6;
+	Tue, 11 Aug 2026 09:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786439399; cv=none; b=K437bM9CmPohwtHlEkw1SCvW1mtg/ZJ8RMscz70GSPCwhMvN5m5ajFAlsQChJtSS5yzXgt7/CkGZA5utG3bzOjy1q1cu4HZDMZ61Pi71ZyUT3vN7+pIFdzWyDNB4hdWJApAA1koWq521cHgliYIZTx6NH8eFDjPW5exs/F4W67Y=
+	t=1786439826; cv=none; b=CmrU8TMpiJfnKd3JmQTP0TlnGWNa0M1c1WmJdkNKPHvunKDEuc9dCfuUeoXhZQPlRWeufS6R+wJsipHaI3GNmgq3Yup9uHm2Z6ULBEjWMSO2qdLAhBTZYpgCqfHA009RhFcj8OzhWBp+CeescDFDOwJlcLcNFNkpFLKRxrvWaXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786439399; c=relaxed/simple;
-	bh=/sYPR8/7RGrLixjSL66F0lolpGzIcR4tb2QakiZWiy4=;
+	s=arc-20240116; t=1786439826; c=relaxed/simple;
+	bh=q+2kDqyqlGUxRfpPMHuHdhGL+eSfCCVENPXHKU9qZfE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIsXebVbKOZfueFiMO/lRWkrEHoRlEgkn+mtUcSWn8FZqka72l852PojBB0HNTt7zyM1ZvreZke58e0bS4OZUGxTZlA1W/HYnlctlYLIDaYc2ndJQRz3MwJxD/67XFd1lsLmOYYx6O61DSst3/5UaENBq/rETJX1dt9VZ4GvAhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RLCqqLRw; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBgEtfcND2lreYPWGZsRhMxxguZFFVsjPF/Na0XjY9c6ZjKhQ2OLuDvGy7ltQePupUvWnyaxDj7yYihXGWe3RpRzqg2At0r9J1q9mcQED8PAAVUCNk29PNrPjgXctzg41Q3EbnQ6itpMqTlHlFyRCc/8VWvTaEer+RmAAsaBNwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NArFqj7b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLCqqLRw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067AC1F000E9;
-	Tue, 11 Aug 2026 09:09:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NArFqj7b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EA11F000E9;
+	Tue, 11 Aug 2026 09:17:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786439397;
-	bh=uyzzvzNRD/y1wYaupn9NyKGeEGY5rdCsEO29WGWYMac=;
+	s=k20260515; t=1786439824;
+	bh=nSRwv3mhpZ4CnCiTzYpHnXxv6ua9WpBy3lSUyjOwMRA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RLCqqLRwnISjALYoK8j7TalrECysnVS5E3CUJZTrDf1nYiwOQjPrfJ/UKit5z/gBX
-	 tEVuhT0bpx0aOPU3+0JVhLs0Rm0cVU41KGAPscuK5CADAUcb/gysU1JROECAqjSKtd
-	 rQH8WMwogAjlSYTrNE6hwvrKaC0b+O+nb10lbff4JM3qni17XYkLmd+8QYMhQilfBR
-	 QZ4pDGz1VSbj6f3TRr/DMVl8ihXdzIXJTgpsx69tWalBJ30f45sy/i2BSv6UFPL7NP
-	 EIJmjVutgy8VBjSO/eRwfACVtWRe2aGFInVKnekBt1mLj3QVx/DSfjXL4ZmSB1QgS5
-	 LWwDUCdYxAtTw==
-Date: Tue, 11 Aug 2026 11:09:47 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: david@kernel.org, ljs@kernel.org, rppt@kernel.org, pfalcato@suse.de, 
-	viro@zeniv.linux.org.uk, corbet@lwn.net, skhan@linuxfoundation.org, 
-	akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, surenb@google.com, 
-	mhocko@suse.com, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, mjguzik@gmail.com, ebiederm@xmission.com, jack@suse.cz, 
-	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com, allen.lkml@gmail.com, 
-	rdunlap@infradead.org, kuba@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8] coredump: Add bit 9 of coredump_filter for pre-exit
- files before dumping
-Message-ID: <20260811-zerfallen-boiler-bissfest-cdb998278337@brauner>
-References: <20260808052732.2589657-1-jackzxcui1989@163.com>
+	b=NArFqj7b02quSyB+YxLhxgkkkdJIr2BQvaxV7vklqstqwlGdjjw/ALySwNK4W88Pu
+	 TcFQer1V8pryzHxpfOgkBlz3yPPpr/4SItF+1tD7GsvXA7D8gD5xnGYaQVSkG70nfv
+	 yyRATkb9Gdr3wsm9dTrP0yHJyJKpLtOorONu0nEPagtiqrjJvTU26tqevJdUVdFKWV
+	 UaFZBtDfXGTUepmyPYMBABDLg8A1tcQPOqweIusXU+3VD8a/jG2m+mClNZCaYlVcqg
+	 gEe14IH7/rOgJugMj7/MjQ+p9WpTeeUsntNtHu7qy061b7qWubDlA3YZFVKCKDbSZy
+	 OdH+CPm51fNQA==
+Date: Tue, 11 Aug 2026 11:16:58 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: GuLingguang <liu83783@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	containers@lists.linux.dev,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	"Serge E . Hallyn" <serge@hallyn.com>
+Subject: Re: [RFC] mnt_already_visible(): should regular-file mountpoints
+ participate in the visibility check?
+Message-ID: <anroiuNYZTID6VXS@example.org>
+References: <20260808132309.35924-1-liu83783@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260808052732.2589657-1-jackzxcui1989@163.com>
+In-Reply-To: <20260808132309.35924-1-liu83783@gmail.com>
 
-On Sat, Aug 08, 2026 at 01:27:32PM +0800, Xin Zhao wrote:
-> A coredump typically takes seconds or even longer to complete. If we
-> happen to hold a write lock with flock just before triggering the
-> coredump, that write lock will not be released during the entire coredump
-> process. As a result, other processes attempting to acquire the same write
-> lock may experience significant delays. Another typical scenario is that
-> some custom management modules for shared memory also need to release the
-> reference counts of the related buffers as soon as possible, rather than
-> waiting until the coredump is complete.
+On Sat, Aug 08, 2026 at 09:23:09PM +0800, GuLingguang wrote:
+> Hi all,
 > 
-> Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
-> We set it by default because tools like systemd-coredump go through the
-> fds. Some other coredump pipe programs like minicoredump do not use fds by
-> default. If you are sure that your coredump backend does not use the fds,
-> you can clear bit 9, which will allow some file resources without VMA
-> references to be released earlier.
+> I have a question about the child-mount check in mnt_already_visible()
+> in fs/namespace.c, and I would like to understand the intended
+> invariant before proposing anything.
 > 
-> In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
-> otherwise file put operation will NOT execute util coredump finish.
+> Background
 > 
-> Test Case One - flock
-> Test program send signal SIGABRT to the program which owns the flock,
-> output the wait time(unit ms) to successfully attach the flock.
-> Test program malloc 500MB heap and memset it.
-> If NOT set bit9 of coredump_filter, waitms is 11280.
-> If set bit9 of coredump_filter, waitms is 0.
+> The check considers an existing proc mount "not fully visible" when
+> it has a locked child mount whose mountpoint is not a permanently
+> empty directory:
 > 
-> Test Case Two - ion buffer
-> Test programs include ion buffer publisher and ion buffer subscriber.
-> Ion buffer publisher output the ion buffer hold_time if the subscriber
-> NOT send ack to publisher and NOT release it. The subscriber will trig
-> coredump by itself in some time.
-> If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
-> If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
+>         list_for_each_entry(child, &mnt->mnt_mounts, mnt_child) {
+>                 struct inode *inode = child->mnt_mountpoint->d_inode;
+>                 /* Only worry about locked mounts */
+>                 if (!(child->mnt.mnt_flags & MNT_LOCKED))
+>                         continue;
+>                 /* Is the directory permanently empty? */
+>                 if (!is_empty_dir_inode(inode))
+>                         goto next;
+>         }
 > 
-> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
-> ---
+> is_empty_dir_inode() returns false for regular files, so a locked
+> file mount under /proc (e.g. /proc/uptime) makes the whole proc mount
+> "not fully visible", and mounting a fresh proc instance inside a user
+> namespace is rejected with EPERM:
 > 
-> Change in v8:
-> - Delete the duplicate description of default value of coredump_filter in
->   proc.rst, as suggested by Randy Dunlap.
+>         bwrap: Can't mount proc on /newroot/proc: Operation not permitted
 > 
-> Change in v7:
-> - Fix description error in proc.rst. Since bit9 has been added, the
->   supported memory types should now be 10,
->   as suggested by David Hildenbrand (Arm).
-> - Link to v7: https://lore.kernel.org/all/20260807040124.1706927-1-jackzxcui1989@163.com/
+> Real-world impact
 > 
-> Change in v6:
-> - Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
-> - Link to v6: https://lore.kernel.org/all/20260804001703.1340667-1-jackzxcui1989@163.com/
+> This affects established workloads:
 > 
-> Change in v5:
-> - Not add another bootargs for the feature,
->   as suggested by Christian Brauner and Lorenzo Stoakes.
->   Add bit9 of coredump_filter to tag whether need to dump fd list.
->   Set bit9 to 1 as default.
-> - Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
->   problems of the code related to umap that was added in v4, delete all of
->   it which is unnecessary. The management of reference counting for shared
->   memory generally does not need to be released through the release
->   operation of files that have VMA references. Traversing all the threads
->   within the process and executing exit_files() is sufficient.
-> - Fulfill comments and commit log,
->   as suggested by Pedro Falcato and Lorenzo Stoakes.
-> - Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+>  * lxcfs (since 2014) overmounts /proc/meminfo and /proc/uptime with
+>    FUSE files; lxc reported in March 2016 that this blocked running
+>    an unprivileged container inside a privileged one
+>    (LKML: "user namespace and fully visible proc and sys mounts").
+>  * systemd-nspawn can mask paths under /proc (via --inaccessible=,
+>    overmounting them with inaccessible placeholder nodes);
+>    flatpak/bwrap inside the container then fails with the EPERM
+>    above (systemd issue #34226, still open).
+>  * droidspaces virtualizes /proc/uptime and /proc/loadavg the same
+>    way today.
+>  * Kubernetes works around mount_too_revealing() by mounting proc
+>    from an empty pid namespace (noted in the 2025 procfs pidns API
+>    series, merge 46582a15c174).
 > 
-> Change in v4:
-> - Christian pointed out that the coredump process will traverse file
->   descriptors (fd), so certain fds should not be closed by default.
->   Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
->   pre-exit resources selection, default is NOT pre-exit anything.
-> - Mateusz suggested that walking the fd table and release the file-lock is
->   reasonable. No longer release all the fd(s). Based on user config, only
->   the flock fd(s) and the fd(s) correspondent to file-backed shared memory
->   will be released at most.
-> - Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+> The invariant
 > 
-> Change in v3:
-> - Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
->   mm_flags_test() check, note that memory mapped files keep their own
->   separate references to the files. The case to work around is that early
->   unlocking a flock on a file allows other processes to lock and modify
->   the mapped data protected by the flock,
->   as suggested by Pedro Falcato.
-> - Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+> The check's stated purpose, in Eric Biederman's own words
+> (commit 7236c85e1be5), is that fresh mounts of proc and sysfs must
+> give the mounter:
 > 
-> Change in v2:
-> - Get rid of the implement of adding new fcntl API, the issue does not
->   worth inflicting the cost on everyone,
->   as suggested by Al Viro.
-> - Call exit_files() in coredump_wait(),
->   as suggested by Eric W. Biederman.
->   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
->   need to dump file-backed shared memory.
-> - Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+>         "no more access to proc and sysfs than if they could have
+>          by creating a bind mount"
 > 
-> v1:
-> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
-> ---
->  Documentation/filesystems/proc.rst | 17 ++++++++++++-----
->  fs/coredump.c                      | 21 +++++++++++++++++++++
->  fs/file_table.c                    |  7 ++++++-
->  include/linux/mm_types.h           |  6 ++++--
->  4 files changed, 43 insertions(+), 8 deletions(-)
+> The original commit (e51db73532955) phrased it as verifying that
+> "the mounted filesystem is not covered in any significant way".
 > 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index db6167bef..aee03858b 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1927,7 +1927,7 @@ will be dumped when the <pid> process is dumped. coredump_filter is a bitmask
->  of memory types. If a bit of the bitmask is set, memory segments of the
->  corresponding memory type are dumped, otherwise they are not dumped.
->  
-> -The following 9 memory types are supported:
-> +The following 10 memory types are supported:
->  
->    - (bit 0) anonymous private memory
->    - (bit 1) anonymous shared memory
-> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
->    - (bit 6) hugetlb shared memory
->    - (bit 7) DAX private memory
->    - (bit 8) DAX shared memory
-> +  - (bit 9) fd list
->  
->    Note that MMIO pages such as frame buffer are never dumped and vDSO pages
->    are always dumped regardless of the bitmask status.
-> @@ -1946,13 +1947,19 @@ The following 9 memory types are supported:
->    Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
->    only affected by bit 5-6, and DAX is only affected by bits 7-8.
->  
-> -The default value of coredump_filter is 0x33; this means all anonymous memory
-> -segments, ELF header pages and hugetlb private memory are dumped.
-> +  Note that bit 9 is set by default because tools like systemd-coredump go
-> +  through the fds. If you do not set bit 9, files that are not referenced by
-> +  any VMA are released before dumping core. Some file release logic, such as
-> +  exiting flock or releasing references to shared buffers is executed much
-> +  earlier.
-> +
-> +The default value of coredump_filter is 0x233; this means all anonymous memory
-> +segments, ELF header pages, hugetlb private memory and fd list are dumped.
->  
->  If you don't want to dump all shared memory segments attached to pid 1234,
-> -write 0x31 to the process's proc file::
-> +write 0x231 to the process's proc file::
->  
-> -  $ echo 0x31 > /proc/1234/coredump_filter
-> +  $ echo 0x231 > /proc/1234/coredump_filter
->  
->  When a new process is created, the process inherits the bitmask status from its
->  parent. It is useful to set up coredump_filter before the program runs.
-> diff --git a/fs/coredump.c b/fs/coredump.c
-> index bb6fdb1f4..ed4d30916 100644
-> --- a/fs/coredump.c
-> +++ b/fs/coredump.c
-> @@ -521,6 +521,25 @@ static int zap_threads(struct task_struct *tsk,
->  	return nr;
->  }
->  
-> +/*
-> + * If do not dump fd list, files that are not referenced by any VMA
-> + * can be released before dumping core. Therefore, some file release
-> + * logic, such as exiting flock or releasing references to shared
-> + * buffers is executed much earlier. Note that do_coredump() often
-> + * takes several seconds or even longer to execute.
-> + */
-> +static void coredump_pre_exit(void)
-> +{
-> +	struct task_struct *tsk = current, *t;
-> +
-> +	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
-> +		return;
-> +
-> +	for_each_thread(tsk, t) {
-> +		exit_files(t);
-> +	}
-> +}
-> +
->  static int coredump_wait(int exit_code, struct core_state *core_state)
->  {
->  	struct task_struct *tsk = current;
-> @@ -1124,6 +1143,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
->  	if (cn->mask & COREDUMP_REJECT)
->  		return;
->  
-> +	coredump_pre_exit();
-> +
->  	/* get us an unshared descriptor table; almost always a no-op */
->  	/* The cell spufs coredump code reads the file descriptor tables */
->  	if (unshare_files())
-> diff --git a/fs/file_table.c b/fs/file_table.c
-> index 16e52e7fc..6ed8ace8c 100644
-> --- a/fs/file_table.c
-> +++ b/fs/file_table.c
-> @@ -566,7 +566,12 @@ static void __fput_deferred(struct file *file)
->  		return;
->  	}
->  
-> -	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-> +	/*
-> +	 * coredump_pre_exit() may release files before dumping core.
-> +	 * Cannot use task_work in the case, needs to release files
-> +	 * earlier.
-> +	 */
-> +	if (likely(!in_interrupt() && !(task->flags & (PF_KTHREAD | PF_DUMPCORE)))) {
+> For a regular-file mountpoint, does a fresh proc mount violate this
+> invariant?  It seems not, on three counts:
+> 
+>  1. Content.  The only thing a fresh mount reveals beyond the covered
+>     file is the kernel-generated value of that file, which is already
+>     reachable through other means -- e.g. the real uptime is available
+>     from /proc/stat's btime and from the uptime(2) syscall, which are
+>     not affected by the overmount.  No new information becomes
+>     accessible.
 
-Still NAK to this whole appraoch.
+In this particular case, yes, but that is not true for other files in
+/proc.
+
+>  2. Structure.  A file mountpoint never covers a directory tree, so
+>     the directory hierarchy of the fresh mount matches what a bind
+>     mount of the existing proc would show.
+> 
+>  3. Permissions.  The files themselves remain subject to their own
+>     permission checks; a fresh mount does not bypass them.
+>     (One theoretical caveat: an overmount could in principle replace
+>     a proc file with a bind of a less permissive file (e.g. mode
+>     0600), which a fresh mount would undo, potentially giving
+>     non-root users in the namespace access they did not have before.
+>     I am not aware of any real deployment doing this -- the overmounts
+>     I know of virtualize read-only values such as uptime/loadavg/
+>     meminfo with unchanged permissions -- but I would like the
+>     maintainers' view on whether this caveat is a concern.)
+
+A new mount may give you access to content that you could potentially have
+(due to insecure file permissions), but the container's creators do not
+want to grant you access to it.
+
+For example, podman does not allow you to view the contents of /proc/keys
+(0444) or /proc/interrupts (0444), which is set to read-only for everyone
+on the system.
+
+> Directory mountpoints are a different matter: a locked directory
+> mount can hide an entire subtree (hidepid-style masking), which is
+> what the check is designed to catch.  The question is whether file
+> mountpoints belong in the same determination.
+> 
+> Historical record
+> 
+> The behaviour for file mountpoints has been unchanged since the check
+> was introduced in 2013 (rejected then, rejected now), and I could not
+> find any record -- commit message, mailing list discussion, or code
+> comment -- in which file mountpoints were discussed.  For example,
+> the commit message of the 2015 rewrite (7236c85e1be5) speaks only of
+> directories.  If the rejection of file mountpoints is intentional,
+> could you point to where that intention was recorded?
+> 
+> Related upstream work
+> 
+> The check was relaxed earlier this year for restricted proc variants
+> (subset=pid) on the grounds that "almost all container
+> implementations override part of procfs to hide certain directories"
+> (merge a76640171b29, April 2026), and the 2016 LKML thread already
+> discussed the same problem, ending with a userspace workaround rather
+> than a kernel change.
+
+This change was acceptable because the dynamic part of the proc cannot
+be overridden by another mount. 
+
+> Questions
+> 
+>  1. Should regular-file mountpoints participate in the "not fully
+>     visible" determination at all?
+
+Yes. Otherwise, you'll break the existing container creation systems like
+docker or podman.
+
+>  2. Is the invariant the check protects about the presence/type of
+>     mounts on proc, or about the visibility of procfs's directory
+>     tree?
+
+The purpose of the check is described by Eric and applies not only to
+directories but also to files.
+
+>  3. Is there a recorded intent for rejecting file mountpoints, and
+>     does it still apply given the above?
+
+Previously, this behavior existed in practice, and the container
+developers were aware of it. And now it's documented.
+
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/proc.rst#n2440
+
+> I am deliberately not proposing an implementation yet; I would like
+> to understand the intended invariant first.
+> 
+> Thanks,
+> GuLingguang <liu83783@gmail.com>
+> 
+
+-- 
+Rgrds, legion
+
