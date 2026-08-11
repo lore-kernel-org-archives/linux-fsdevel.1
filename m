@@ -1,97 +1,132 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDEC285CA2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 04:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1451C860C;
+	Tue, 11 Aug 2026 04:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786422749; cv=none; b=Kgs78z+/NxxuwUqL7v1P1/rfmfeyxzTpCkhlhEIqL9CwqatUNBgaWZE+ZPLbpVCH0w/XXRM9cbnxuPytRPaE/MW4ZawOEmbmorAaoNcDjDWuCGVb68icOhMxMhEO/I4wX5DIEqdoaloouU21SrnJ782R7aNeTskW/L1b+3ci7ho=
+	t=1786423942; cv=none; b=kZ85nPMDQnr+DXjKsJ9UM3syfGpK7PUPd5FVHn0KFC3jrUktmOImNtrsMsMy+FF96bDMwhVjLHyreT/h9kqfkyMcwOOeBV6NroYYf0Yddbdk6OL2V7C2wfcCPFODrMMp2yGMwQALi8f6nDTwS/DbeW9g8TdMv0RoaOH8Nt2Sup0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786422749; c=relaxed/simple;
-	bh=7tsF3bhriRgTLVc7XkHR3UDy7okFEmbuWfjaey39zpY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mf+TzezSIFfZzzAOu/RiGrBEA+aVI9+4dDi+uBdrFHx+SW3NMW823N7mntgXggLi3oL3+WLExIXpxlc779216fs/6UdkC6198nv9YuxobRg1BjGHP6MNjWTV4YXpAdSDCeMoZPPcSF+o/6JXK/c0Db++Kyx6Ri/2Yiwz1EiIe+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4a45997664aso476642b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 21:32:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786422747; x=1787027547;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Emz8++jbQppo3JzvJo1XWhlrDgRtz8rlCIN7+DNlLgk=;
-        b=c8e7ABYLi3HH6VtbsAlVlAMKRvYflhDZacb848bXhpbdSJUXZzpED1DpvEi5cyuMgZ
-         7LSeJi2lTpjZYksJxBba9rzdo2RTm5wFLRQpcqckFM4RHjP+6EqJC1vUjqYVdz2+Bxe6
-         93OwIpw7Adi2JoWN7U6zB0dtzjTdQJiOUc1fsA1YfUUnBZi/gHmDSMyvjtHN9uVw4ZZu
-         +XYMmQ0txFR+TfJt172LcTu+q7bq2njvrk+ai5KzC/GHz9HowWM6ZiTuQaBIrExdZK6X
-         RnQvgAW9XTbTH5CzZZ8bCtAMQeMY9RhJ0MG81EM+UDHuaBYVUtZjPnDDzOQx7K/7EMwJ
-         zs4A==
-X-Gm-Message-State: AOJu0Ywac8JuM4qHFxzV03a4xisivuDrJa2F8/8GfjN1Na3tr0e8YUpR
-	FUs+/+LhIbU5Ba/Awly9Qp0enDw+KjanBMDgmzlzkxnrBZVrX+tnPxPd3qCqAqTRGBq5BUmRTcq
-	J0kzqIuxeRgGsuUwsguer/1hQR5THBzzhzc+cW00xdMhmyVJuGMcXOjEcbns=
+	s=arc-20240116; t=1786423942; c=relaxed/simple;
+	bh=X/2QnnsktF4WXKr/vX4FVIwRKMveAg0TaT0OXQxA/rA=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=cB03fgDfuL8lq5TsWt4unEh6e2vhR7VJjuQu4wto2QWRnuW1y/cpB8+wmJ9wyPaHJMwSDEb+Z8rZEOo0g+A4s/O70LIMjMczo2PxEb9GnK5LdmkLJScn3FIdX8Dg7sAjBJ2m7TINV0ldQu/mRHvSjRJ/pTw98Rj5Fh/7Y4y1kQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Lz9+VXLU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SOx3JixF; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Lz9+VXLU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SOx3JixF"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailflow.phl.internal (Postfix) with ESMTP id C524B1380013;
+	Tue, 11 Aug 2026 00:52:18 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Tue, 11 Aug 2026 00:52:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1786423938; x=1786431138; bh=ekTBr3doJmrrAeJj4ehw8/L9FJAkO0UqerH
+	r2gMD4JY=; b=Lz9+VXLU44VgkUNkfXkF8BBsrluBO7OWZQpFxfIHRjBShF/bQYL
+	a889Qimvz5on00P59tfvjhCAD+9XFMdKSBd6vpI/V8JKmk7I3CdHYrVkFxOlQyHS
+	ASptwydJRufLHSW2zL62Q9HKTG4uKhWzMwI6b3CJ4cWS0DfeYrFL8betFGf9lZ6D
+	VyCa8DOSLuwbcV5FN1MTpnnBeY/3UZ3Wym9OK2cFaaiZnOW1JVmQQzvbIyhcgTgR
+	AMT97okADeXl/Vw0v1AcnKSYlgEPAlKlP3iBqGnWh5aYGi51f1qi3MniW3egUXwH
+	h/hXNP7LogH8PZlLqqFKwj6i1DnSoiBjVZA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786423938; x=
+	1786431138; bh=ekTBr3doJmrrAeJj4ehw8/L9FJAkO0UqerHr2gMD4JY=; b=S
+	Ox3JixFn9rwHIl2mjSRy+zFJhYZZdblV+lW6MIRuHh1UNBZxL7FqvXZxnNpmdFXU
+	uYaiN3gPV0adt7P37zQgazkd+6icaaGuKz/O2EYauJ125QufCoXjtabO41RLVctc
+	l6WF9keqDksCXZoosx0rO6Te0xj4jM9XydbsAO7SZzjChptE8utBhAsnqrdYMvcB
+	GavDlgbDjfpsVquSYiKtm3Dai4NutwLWjyH6QNm5VGvndNuyV45lg1QJA7oGIfEL
+	C/Fez7tOfaVgU4zqmruP7N6EQonKwPnixlYRbyMhhX/lTlVGdYRaPs324r+7g6i2
+	2tApu6mokwcfOrn04xrzA==
+X-ME-Sender: <xms:gap6ah6fkGyzTcu4ufMufQMgYaJcL77sjevaboRp_0QVJ03Rl-5cwg>
+    <xme:gap6aglPjW_PPkYvJJgqLIiL17CaZu_z7SUXvzS0YzpTYNRDK-zpOYThU-BED4JCb
+    KHgx8GMbJDgs7P_P8YwiyLaTZwIlzFq6X2Gb0jj0agw44o>
+X-ME-Received: <xmr:gap6ar5tdxu7oF9MoV8qpsQJQXk6dUEo6Vo1BVy5QqkpUTBLDKmgwVJvfoTomvtqiViVhi8x0sLXB8DNz38lz92KtwPA8ZA>
+X-ME-Proxy-Cause: dmFkZTE1dc9CbechtpXaWl+dm7IoP012eGu+JbmaMQmZ3E5PnUICFQoF84rE9FxW+eoV0N
+    XbVHtzOC8A/iKr3YxvxxEGlhIVSoVA0ELtjoQuWqoRvcJJTE8jzJihiWJ0FLNyqMzf/uUL
+    ncAYArvR9mUpu9BXiGC//bgv/8XcXCJdx+V9rpCY8UHd+FX4tCNOqOkTE4ek9QCCLFp6Fe
+    ftd/fXGKyVhYeNrysK6DQqvZoebt/zzww4Iv5ye12W+andjR2gG/QXZ4Xka2v+ZSrng2tZ
+    Ho3bYFyxbAuYc36s69aRDDrbvhO8L1Iys3CTKcc5diyM7p78MhxhhSEoTocjZC4WrO76No
+    62ziB3wkww419qqj6KGV5PPjpVQGzkVrZM75D1iFWyEyeJ47WOU1nbOgwKwJp3rn2VpixO
+    nu8wei88nKeZAJKYCCzyagJcG4VMZ8xe6cpSSM/KAtF0JLIYkkyudJOuDTdf/PZ2s5IoEG
+    sKh+JNCWEST2pz7PYlGN07zC5PbuLSUsdKvxqooG956BZq2NkMI8okEM5/uNFxiwnpLGpe
+    FoSy3wIhsbEhwMt8U5roFoRJSgzAjzxzLs4e1pKoxHlB7t33biCOVY6zOCdUceGUBMSlDk
+    DYmuF0StS07DL2KqdcrEEQA4kPie1Bbp9yB9fxZhhm4gQMhwz0t/ha6+HkXA
+X-ME-Proxy: <xmx:gap6ap9jCUepx8n1FcSiVcS5dEYu8oJdINHtjw-zHCsFCcZTrraSJw>
+    <xmx:gap6arihgGtK9lwCJFNHuyjdtnjWgwxYY8FeALzded4LdoQkiLcA2Q>
+    <xmx:gap6an6qkh1A-fGAL8NjV_EeT6yCTalTmUIp52EiKLwPe2yyXbunDQ>
+    <xmx:gap6aobSnyNCcWW0-TDM9qWJd6ujLIl_ItjIMyxSZXovdquRMury8g>
+    <xmx:gqp6aqkl2hQ7wjyWLuvarOIcNnODXYbALCir6xSeyr5wNfOh-GpnSsUZ>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Aug 2026 00:52:11 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1a13:b0:48b:5dcb:85ab with SMTP id
- 5614622812f47-4b1fd6a797fmr393807b6e.8.1786422746987; Mon, 10 Aug 2026
- 21:32:26 -0700 (PDT)
-Date: Mon, 10 Aug 2026 21:32:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7aa5da.9c11d2ce.289b96.00fc.GAE@google.com>
-Subject: [syzbot] Monthly fs report (Aug 2026)
-From: syzbot <syzbot+list94bce93db358929bf37c@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+From: NeilBrown <neilb@ownmail.net>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "Ian Kent" <raven@themaw.net>, "Chuck Lever" <cel@kernel.org>,
+ "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 04/12] fsnotify: reduce i_lock hold time in
+ fsnotify_set_children_dentry_flags()
+In-reply-to:
+ <CAJfpegv2TTEGgfFBvAB1j2ixyEMXruG0AhL=R9iMC-LMJToiAg@mail.gmail.com>
+References: <20260803012648.2195405-1-neilb@ownmail.net>
+  <20260803012648.2195405-5-neilb@ownmail.net>
+  <CAJfpegv2TTEGgfFBvAB1j2ixyEMXruG0AhL=R9iMC-LMJToiAg@mail.gmail.com>
+Date: Tue, 11 Aug 2026 14:52:08 +1000
+Message-id: <178642392818.2852630.1335784298767574361@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Hello fs maintainers/developers,
+On Tue, 11 Aug 2026, Miklos Szeredi wrote:
+> On Mon, 3 Aug 2026 at 03:39, NeilBrown <neilb@ownmail.net> wrote:
+> 
+> > +       /* Find the dentry for inode - there can only be one */
+> > +       for_each_alias(alias, inode)
+> > +               break;
+> > +       dget(alias);
+> 
+> This is __d_find_dir_alias().
 
-This is a 31-day syzbot report for the fs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fs
+True.
 
-During the period, 13 new issues were detected and 0 were fixed.
-In total, 51 issues are still open and 636 have already been fixed.
-There are also 20 low-priority issues.
+> 
+> Could add a get_dir_alias() primitive that does the i_lock locking as well?
 
-Some of the still happening issues:
+We already have d_find_alias() and d_find_any_alias().
+They seem much the same for directories, so I'll use d_find_alias().
 
-Ref  Crashes Repro Title
-<1>  8671    Yes   INFO: task hung in __iterate_supers
-                   https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9368d
-<2>  4270    Yes   INFO: task hung in synchronize_rcu (4)
-                   https://syzkaller.appspot.com/bug?extid=222aa26d0a5dbc2e84fe
-<3>  2681    Yes   INFO: task hung in filename_create (4)
-                   https://syzkaller.appspot.com/bug?extid=72c5cf124089bc318016
-<4>  2029    Yes   INFO: task hung in user_get_super (2)
-                   https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
-<5>  1999    Yes   INFO: task hung in lookup_slow (3)
-                   https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
-<6>  212     Yes   WARNING in path_openat
-                   https://syzkaller.appspot.com/bug?extid=be8872fcb764bf9fea73
-<7>  16      Yes   VFS: Close: file count is zero (use-after-free) (2)
-                   https://syzkaller.appspot.com/bug?extid=592c653b056459925299
-<8>  16      Yes   general protection fault in __simple_recursive_removal (2)
-                   https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
-<9>  13      Yes   KASAN: slab-use-after-free Read in lockref_get (2)
-                   https://syzkaller.appspot.com/bug?extid=227dbc9afd022922d624
-<10> 11      Yes   KASAN: use-after-free Read in hpfs_count_dnodes
-                   https://syzkaller.appspot.com/bug?extid=7d1563afac6cb196a444
+Thanks for the suggestion.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+NeilBrown
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+> 
+> Thanks,
+> Miklos
+> 
 
-You may send multiple commands in a single email message.
