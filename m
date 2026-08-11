@@ -1,214 +1,287 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010025.outbound.protection.outlook.com [52.101.84.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824D33AFD1C;
-	Tue, 11 Aug 2026 11:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.25
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786447694; cv=fail; b=WwKvmEDtkJ2pE97ggOGRDn8cRm2JlDAdUYLd9taf4tE0IlYRNaqcWV8F1l5noZVa/1iJVnz9h/g2b3IjMF3Y9/wjNo8tp9uhi0dav3b2bPPriDOcWWF+gm53tSUynFlM/WSS6J1ZfPYxKNbqh+wZDfeSswsidCD2L27oPvMEFbY=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786447694; c=relaxed/simple;
-	bh=QHesBVyFEEVvzGlxlYJ9IHg/wUB4RGCz0EN7ohT0vWc=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MI9k4fQSYbBidKy1gOpyPxyUKvfg2NGy0X+U+4Nii3fOwV3sqCYIcS8qoliitcyp1vHTawHnG73fz3TaEAGSEhFVCFh21B5DDD3qFd/vEEED4xMyMkEEItKnBfWTTSc9MJibFX6/BrIfYumvOVmKe49+KE0YJhstdvaVSPme1W8=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZUpGE89U; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZUpGE89U; arc=fail smtp.client-ip=52.101.84.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B308421EF8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 11:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786448485; cv=pass; b=LI0k4SbszKxS0GbVRoo/0cg9YUgzHb48RhrtT/bN2mePxdVPjfWdL1A0ork4kbfgsxomf6A3dxrMLrlSpme1/9PstBQlz4ECWxg9Der6u+cHxwBfr4fzDeAhvy2uL5AXMcLkHjDs70Z+Pe54EFvsg1a1EOZB5Vw5ESiPZVdEtno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786448485; c=relaxed/simple;
+	bh=hzTgHF9d08is9w+V9nsLW49iAm3HBVkgSGdrCi3WiwI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dRjmpHxGijgfwZiMmYTS6J9L/hvHJHIdgEm0CsqSmgQ8ly/3P/bNEzAJaN4MzM/UOilSeQ0qp5gJ3/+oM3tIEoTl4rt3j65Z5tILX6WO5Ogsfe9CZ8Kx5MIYFg2gHV2y4rxoRXck4YaTVfG5EoiqLc1vUokyUn9VGAMB2njsIVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G9vK3R5D; arc=pass smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZUpGE89U";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZUpGE89U"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=qoS21m4gqpl2A6mSYODK138AgZwscC6N6PBwKh0DY+U4/TY/d+9O22I+jnT6RZQ1qRmAbHotdmjz24h5HLuMHt2xruX853hADfuN6vM3ogka7+wik6xxKKcTFwHu7PtzYakC6Myv0tXrUbbdk1QdAOhE/6C3RCxk18Z5okURGuqvdXeUhwSCteSgY/PFWRSf/ibAUzhFYrFJFUzMdZYOsC5p7ihZV6k89/8jsGVt5koH2dtKgIS6T9ydUNiqRKgiv/tuhR+Wwz6RUfw8Tgf4hhzLqCY+dDo+bvZwodjNnzpyNCFt70WuLC6WYUXgkPGwTinVi6xnlV43aTLXM4CJzw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jJvqjQtYhPn+5rlwiCulIyzL4lgkY2x9AtSglnQ/lYY=;
- b=QVqwLDL6dU8ENykUrSBX3azgWcaNBU6rqxz+4rZeM+oyBC8GK/x3lCMDcem5YrIRmulghNj6VZuwOTenlfLgwKxoRyvMvv4DcMLhMsYZysLvJ+bXVj/umUVRJ+GXV6RG9+cyZPlmF7smr3sIzUdtipk3EJEAjvh/cCSxy4yW9t6nm4GaD3LzSwVuTpWgTr6IqF2QCAn2ay0QSAMvb6hWnHsdsYwC49R0ozqycBMAzPrkyb8zntGg9EL26TKTJ0RoaOp3AOtfQ7ZObsG5F01dT/jSmt/ufiJ25S0XpCnqXiFUiPX8vCaGjUlPl9KLA7lmU4xdE8T137K9YLQWtx7kyw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jJvqjQtYhPn+5rlwiCulIyzL4lgkY2x9AtSglnQ/lYY=;
- b=ZUpGE89U93omH662/JXtCNc15E3velUKg/MY+8EtCB58awMrAJ55DvQpiyUbXmRWgGbeUbeaF1kB4Mf/vJIUzh9u5D1IYs0UbuSUkN9eR4mUz6yAUzJl+btZ4QsOeyW8mPHysbYosEhYL1r7OxUUxylALgW+wLqgDL+K2823ehs=
-Received: from AM0PR10CA0002.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::12)
- by DBAPR08MB5591.eurprd08.prod.outlook.com (2603:10a6:10:1ae::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
- 2026 11:28:02 +0000
-Received: from AMS0EPF00000197.eurprd05.prod.outlook.com
- (2603:10a6:208:17c:cafe::1e) by AM0PR10CA0002.outlook.office365.com
- (2603:10a6:208:17c::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Tue,
- 11 Aug 2026 11:28:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000197.mail.protection.outlook.com (10.167.16.219) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Tue, 11 Aug 2026 11:28:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TtAUGRcJ6AWlPqIQMLOFqdpWYxlTC4E2nUnOT3chDTEIsmQcnbc7C4Y2sSB+uTDKwOvo2ZRT6Em8+BPrJnX7eXUTotZQn8/QVz2bJayIE79ffJW5RQRmoE9taCWO1CRXKXSMtue7nY/k7SBTekqwHh499iyRUbYpsQOFjkQrA0ckSpbIO9s0kAJ7nZE0iUrOiqvUKvT1dA3BtLcz5cjBQsNYUdJq+D9dJ9nsXo7du0pJvj30fC46fGjK2Fb0oDCav9SQ6O8F+n4Ny5fHFBYw4zeGzzIlme6w72w8fxAFJJS2I8DsZiwUGAxrBHih8QF8wD9eb0Gf3vg1RbgJMx1eYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jJvqjQtYhPn+5rlwiCulIyzL4lgkY2x9AtSglnQ/lYY=;
- b=BUubzy05M5a0o/rrnDSXc2KdVNLdPVbJYF1vXwuI3/COJyE/qtHU44Dl3N54SOa/fu/35NVq+uVAGrPBVNXLVeUge3lOZz6SgrGkjDkjsf0CCohtaUm397MMHWHoKlzfgWUPT0NDVZ/OILkn8pomnIoZgwZ7XLrU1HMBt+mc3XClJEnNlKc2NFjlgVA2oaBTo1lN3Mup6A5NInGri1ekKwe78rvvGzamNFBrREnJ2nEKadoQ5NFB3sW9jYunsvp1SIMclM93siICuij+o1E10npQlj8GB80SeLV7W2OsvQivrs79f+K5bjWjAMnQrVdUTAr1zajM6lpYD7FbYq4NXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jJvqjQtYhPn+5rlwiCulIyzL4lgkY2x9AtSglnQ/lYY=;
- b=ZUpGE89U93omH662/JXtCNc15E3velUKg/MY+8EtCB58awMrAJ55DvQpiyUbXmRWgGbeUbeaF1kB4Mf/vJIUzh9u5D1IYs0UbuSUkN9eR4mUz6yAUzJl+btZ4QsOeyW8mPHysbYosEhYL1r7OxUUxylALgW+wLqgDL+K2823ehs=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com (2603:10a6:803:80::16)
- by AS8PR08MB7790.eurprd08.prod.outlook.com (2603:10a6:20b:527::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 11:27:27 +0000
-Received: from VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4]) by VI1PR08MB3421.eurprd08.prod.outlook.com
- ([fe80::e079:6bd:fbe0:89b4%3]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 11:27:27 +0000
-Message-ID: <00e4f324-18b1-4120-bdd0-2715cb8c8481@arm.com>
-Date: Tue, 11 Aug 2026 12:27:24 +0100
-User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@arm.com, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- ziy@nvidia.com, pfalcato@suse.de, agordeev@linux.ibm.com,
- ryan.roberts@arm.com, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-perf-users@vger.kernel.org, damon@lists.linux.dev
-Subject: Re: [PATCH 2/9] mm: make hw_pte_t visible to generic PTE interfaces
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
- David Hildenbrand <david@kernel.org>
-References: <20260806083926.1807279-1-usama.anjum@arm.com>
- <20260806083926.1807279-3-usama.anjum@arm.com>
- <7xbai2nyu6nuyr6otqv556dnphpgwaqsmvwkqwoqwbh5nvj3ns@ddy5ezgvb7w3>
- <85286df7-363a-4671-bce8-8157ae5c8f02@arm.com>
-From: Muhammad Usama Anjum <usama.anjum@arm.com>
-Content-Language: en-US
-In-Reply-To: <85286df7-363a-4671-bce8-8157ae5c8f02@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0528.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2c5::10) To VI1PR08MB3421.eurprd08.prod.outlook.com
- (2603:10a6:803:80::16)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G9vK3R5D"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7ee37dc91f5so1713904a34.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 04:41:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786448482; cv=none;
+        d=google.com; s=arc-20260327;
+        b=R1xDb3zUpCNgqCMRFUAOtlrV4jfMJrCV26VHX487vEh1Qwa0LDEs8eJNhuMu0I0z+G
+         po0iACGMl8Fc3QpNebfE/GgwdGMKgql7sOuC7RiFG28jsYxo7gxCR65x1SXcb8Ye+YOD
+         JeQoa3+MsWa8ERlDY4YJ+IEejYVFrGL3cqHFejBJudAUtdGVQRmT00wAgw2WmzwTPlCe
+         WEKnUGpQ1CmbvqX4wjqD4mReqpPrEC6VBru/6blS+D+47Y96BRcoYHSeuR5js3tg440Y
+         Caw6ojBcRUBzYRE0BkDOgzz7lvAHELD6XhVSb1DgdWj1Mq1mEZAH1yiBGSIljmqL9Rz4
+         QGkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
+        fh=qlSp6lxBZsC9oGDOBtLOntRCvD+aSKqjpBhrFddE3zQ=;
+        b=rhecNU9WqP/kuybuzzwaFOUOls31r6oUai439VjFTg5ZRxXA8LwHoU5vru1z7yKeK9
+         SOQHKObBaVkXWIQMAzgE2bpoIIijbkVns1L9Z8F9VtJnSHqqPXaX9MPHytuYXhrBiscO
+         lbW7zjwDNAwVbIMrUftdXBTo2BHpLpYGdUyvEZf5XBGWmEjjArOc0SZLqI3dBwy6hK1r
+         fzoLrJelAPRLSkXUayqqyouUHvJY4cqgFA2yi8o6+rxUP/M7IJ6wwqWkdfqG1p5jotU3
+         UtTxhpPgCUXP74SzucKTmQyj27j7wMZwBU1JTa/IGC+SH3tm6gyIJai5cUxYRkeS1zIH
+         LFXg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786448482; x=1787053282; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
+        b=G9vK3R5D0EpNx/TM/9UJFbKX9iiFrkj5tw4n5bl3lpaBn0Y9GvL3GKJGssb3+h7tgl
+         OqX2PgE41e3g9Bc0Gy9GycdwRTpGVumCiA9wUATNKt52L+hmb5zsTj/8iyMQdyzuph3V
+         0X8ZPjT3FEqr2cnMg6fJlpg+HJeqYv+/h4NkUgT39oWBHk9BiFUgSWQjaR+Z5j6JRcwr
+         uK7xl/FhdyaJ+5r/A6NMejbaIrxOfo0fwnvC7zeZBDA7Nh7xr4lnIDCoadLea+9VrO34
+         xX6WptuVvJjGY6ubfS7FvUM8seWJw/TQ0J/BYky2q3gp40CeoHW+e5T7bRNcL76uFwW3
+         G+Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786448482; x=1787053282;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
+        b=Yd8Kw1cpYKVQpe4oE8iDAu1We1Fop9JQyE7k1dGRZdteMdH03r+5RwnRjgNf0k4KB6
+         jh+71wqVQejd0tKMwUcRcSf9GgsLeybUYVIxMn6746H4rDHNb2vIKRXhoj1v1L28LVTz
+         XqCb3ncKMjdPNl5mBE/8EpKjLajNp1xzKLP34Bu70LGhOG+R3jGtYPo6AgTf7+dkPFWr
+         Q/vSrMs+nbgjNuJ9gPo2sAKny5cPYaP23Ad5k+d3glLcJ33NrMGofExtyN8jhg6hFFZl
+         vGeJOt2OgntpqRZUFUw5ekCbcmHFa06bL32tGmaP884yw1LT74kZEhBv1DZUyECoOj8O
+         wuYg==
+X-Forwarded-Encrypted: i=1; AHgh+RrAC9u5LaHaSHpVEH5odrrzCj8u+7xVcC0+LbtS9Kobr929/0SlFVKLJlYDpypr+iL9ivMrH4XaK9jLIELX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPx28EDoi70gf2EJbFnl/FXtdtNclpJ7bOutpbVnp5WTZMjik7
+	hGiNiGCTiGjA9WkA3WN28brmc5bJjJlXRQzleIqFnI1uZUoKaLAWAXzKJW+IZT+ngEjEoakmBb6
+	vvYa9rKLLCZlF8Xqr9BI0ebZP5KHDsrvGWdG1dqnC
+X-Gm-Gg: AR+sD1171Yd4Gg1/DHc+uwYob9JIlFN7mPErl9RGgyAWw2GX6j6ObHLGfA6h0Dn/1/O
+	BiRgHZGavaQ9U3ucvGw/AGnS3p52gNUnL21HkfqHFeXeIL+KhqUr4UFxJNHZIlpqdSrr4YD553S
+	SDYzCc99ggvgCLMUrAiJkt7IIUAI+O2aOQsrb0duapVjCqq5dmAkxrUtSKLnEuj/2uCFsZXalbC
+	G2LshNJJfVnJiatdvNxdADvyZVh3TF6KQXDmNZ6dVc2ypJQ23Esd+v3gwjLpfNxUgBLH8UrscPA
+	oa+zekVaO2KMfJvyLZNGRaZot5esUtc6txAUbBHXGq54YGmiWnzlBTYF//S5YX8t8F5d6/u+J3S
+	ez3MLianKftACCim9XOk7zolKQxU8RUreeFzPJaI5TFw5sS9LTGy2dZnCE/DooNo2ay7sd+oXSB
+	GTA237ZJCnpfzKgLDwgVb2hNA=
+X-Received: by 2002:a05:6830:67f8:b0:7e7:45f:ce3c with SMTP id
+ 46e09a7af769-7f3a830b8eamr1779384a34.14.1786448481678; Tue, 11 Aug 2026
+ 04:41:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI1PR08MB3421:EE_|AS8PR08MB7790:EE_|AMS0EPF00000197:EE_|DBAPR08MB5591:EE_
-X-MS-Office365-Filtering-Correlation-Id: 844557b4-3d08-49e0-57de-08def79b9ace
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|11063799006|56012099006|10067099003|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original:
- MTpsf3IvsMf7LVKWeyhvKaEhr96cF7yvH7aAkJB0bN7Dz2cNvpHXLH1fyHZGxfSN239QNIaI0+Jcok45W8o6dR4xsKN68cgbWwRp1dzQPww8VsZXlkd40hV+KhrcssadBi6n0BtjeK57do7GEQf9oFzJbDCKBGKEr/aV+5jAIFyIZeHeh5kMOB9Qrjk9lo8ssRQA+eChm6iIsXGtD+CSOW4NioxM8SGHVL3AteUAnM8e4g774whpKM+LAnfDDjcLSX4MFF9hSkCzLPofT/OqYQzv+EwMtqda4QQ3+eunavGYKJYsOeegTMveEFkeBGvj6JTMm/hOKqolApr0MUGBdr41GqT/ssdVZNPKYsYEt9xqPyShcC5PyLIgKCnX0v/tTebELHCxdk51b5+2EAOWhVI77v4UDPfelMHZNmq21/aREZCxR9W6n0o5k4YLX5a3uijZLV6UVlfpJNgZ3QuTO2Bc6BphO3IM+ARnj71zys1h3r+Kd1pb9EbS1Jq989xaLY051Ts6i4KRA6aMFZo9LueNV/CeTUhnbiREzQtnXolfLW9GvmLGkm7fnud0MoPESxMefIj4l0ubl/7OWFxpNp2b3IZPQBAFKTvfGCVWSb5hVvqbhexADPkBEFLs81yOY+RJW4pds8/DrhzuSgfKHQo42UznNPz83AM+zvWSmgA=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB3421.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(11063799006)(56012099006)(10067099003)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- hdQ7nn26YN7Vq0hE6oTx+kKoU45kJvqrMn0abldXFwKud0iJoW85VnYLUJpGpJvIJxgBFh5raADG36uRwV2AaPoefUNSSsVWUW5Y0zg8xQjIC+gS+uPl8TNSAFyKERlMdMsUi0xE67L6J47pXwlISmSbpRVwkLFrYG++90jViVROoUAQ0CjGmPthS/NBEXTu9BnqGOFLyjUMftDMlwsgCQzUj+8ciRZetLxOt7/pjNpvjEIqP4rEUksxKtNuI3nmtRimaXmtBqx+3z5zVXMWLYpAPEr4PTzqyXYAU22s9MqBWyN4hojABhxaeNE2vm0Mc7y2GYdrTtg6FpMnYERIRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7790
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS0EPF00000197.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	18d48398-875e-496f-3753-08def79b8605
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|14060799003|35042699022|36860700016|23010399003|22082099003|18002099003|11063799006|56012099006|4143699003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	2EUmajtFjD2DNOQiqDYJhx/duHHhmL0owb4dTyfZ9bsnUL0uoX2XHDDcNEc8ffXH0yXFMc54S3eDdd3FK7Rgvf4oSdqjiuUijkmLVLhvYqiCS6p8fA/HIzvhi6DErNoUOFkJy4QHGrQyelLZh56K5hTOBUnG1R5SLFbyT4aPXHyPwsw8wUBIP9Y9rXgptG6nI/+P7u4RJRImjY27HbdHVXIJgwWS6rL/yVVXlDfZuS4eh/6+ZD5HHB9ucDqX4VFdjRdQxF8HJxek3eSNARe4FG/qKSh70eBDyPnSouR7KyaGJMR/2iMOrQaTK7DsGNaNX9Rm2OyL+30OXWY/2qczX+GyRC5rN9DAiEQhB3Nwo4lOeinyDhdoGapUIK+wGhd2NmJ7dikDhU/t+9ZF/O0XmDzmqlpA16nEikeqk4T9qWAuMIphpCWAnKhVQ0lg0uDbNpFs7KJXbDVsHyPCmrHptMgrtBPYXWY7zodgjZzIcSCYwgXWfLiBRhg6tbathu7RR3dFRTSo4E0WFqB9nQYl46Pyb4ttMR/EQ3BkRR83ob34C+egtvZWEdiZtbTCwt5jBuwjLoWW2cFDMx6CMCdAgWQz9boCtXX+LZNxDTVtT2tu7m0Y3zuKxbu+sK5MaVwhDmgDFOgKIqWUBggriZgqwdFaqZsSSnIl4BQlXlIEigG9yMV6bK1RxorlpjUUuOJJMGm8LrT2Y7fiutRFecm12w==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(14060799003)(35042699022)(36860700016)(23010399003)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	WyhUxGQhEoSVrTLtM6KTQBdls8wJsW8gVWLkbWdx6cT7Xk/GYLPsBmlh93x9ztJFgtKrG41K/BR325MTqhuTQWTOaCrXraK0rMkVwnxR47oSdh9fsdqsKI+B3VpHMqo4o/Hv/BDlEsUXshXASkbsuTmzu1uD1bz0cGpBPcmOfP+Iid0iyfWDi72D4I7Ue+JJkSYEQYbepcZRsEhuGUIVVkfPWqPOga74+qtzICPnzDmuWc7QVcFVVVv0fZsfk7ZGiKMz8epspjJVn9Q/22nE55LUCy6f3tDgfOUCAEc3sw7T0cSYCJK554b7Cfd0iG/qiST8q0ESTYex1eiK8/ENww5D0y1dJNo92UpI+ykfXr+eBR4Azp5L80JDcstN4cax67P2PQm3jW1TJPF8UYWxA82cG2ywWMYG/z97+a9N57pgyA+k9Yizy3VGl1dJjFYh
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:28:02.1748
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 844557b4-3d08-49e0-57de-08def79b9ace
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000197.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5591
+References: <682ffdaa.a70a0220.253bc2.0061.GAE@google.com> <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
+ <20260811-schlecht-arkaden-spickzettel-0dfee4014102@brauner>
+In-Reply-To: <20260811-schlecht-arkaden-spickzettel-0dfee4014102@brauner>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Tue, 11 Aug 2026 13:41:10 +0200
+X-Gm-Features: AUfX_mzBu8CIDC9ZPCMtDgC0yVRojn8ttuv_kDfXYrQLl6jQlY65j0BQ_c5J44I
+Message-ID: <CANp29Y70AJYhLqifEAw67vyw=UKPvPosu=1ELMi_daAY8xqyBw@mail.gmail.com>
+Subject: Re: [syzbot] [kernfs?] [ext4?] INFO: task hung in sb_start_write (2)
+To: Christian Brauner <brauner@kernel.org>
+Cc: syzbot <syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/08/2026 12:25 pm, Muhammad Usama Anjum wrote:
-> On 11/08/2026 11:15 am, Anshuman Khandual wrote:
->> On Thu, Aug 06, 2026 at 09:38:40AM +0100, Muhammad Usama Anjum wrote:
->>> Later conversions use hw_pte_t in page-table checking, generic page-table
->>> helpers, and vmalloc interfaces. Include linux/pgtable_types.h from the
->>> headers that declare those interfaces before changing their types.
->>>
->>> For vmalloc.h, replace the direct asm/page.h include with
->>> linux/pgtable_types.h. The latter includes asm/page.h, so pgprot_t remains
->>> available. It also provides either the default alias or the opted-in
->>> hw_pte_t wrapper.
->>
->> Stand-alone header file updates are not ideal. Why cannot these changes be
->> folded in, where hw_pte_t gets used first time ever in the above mentioned
->> places.
-> That's correct. This patch should be merged with the 3/9 patch. But that patch
-> is already too much big as it was generated with the help of Coccinelle. So I
-> kept it separate.
-> 
-> Do you still think we should merge it as its a special case?
+On Tue, Aug 11, 2026 at 1:21=E2=80=AFPM 'Christian Brauner' via syzkaller-b=
+ugs
+<syzkaller-bugs@googlegroups.com> wrote:
+>
+> On Fri, Aug 07, 2026 at 02:21:34AM -0700, syzbot wrote:
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-1=
+8-4..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1379cfb9580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D98da55a8827=
+74dfe
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3Db3fba2e269970=
+207b61d
+> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e=
+255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D14b9d7b9580=
+000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com
+> >
+> > INFO: task syz-executor328:5959 blocked for more than 15 seconds.
+> >       Not tainted syzkaller #0
+> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messag=
+e.
+> > task:syz-executor328 state:D stack:28328 pid:5959  tgid:5959  ppid:5947=
+   task_flags:0x400040 flags:0x00080000
+> > Call Trace:
+> >  <TASK>
+> >  context_switch kernel/sched/core.c:5510 [inline]
+> >  __schedule+0x16dc/0x5500 kernel/sched/core.c:7234
+> >  __schedule_loop kernel/sched/core.c:7311 [inline]
+> >  schedule+0x164/0x2b0 kernel/sched/core.c:7326
+> >  percpu_rwsem_wait+0x32d/0x4a0 kernel/locking/percpu-rwsem.c:164
+> >  __percpu_down_read+0xf8/0x140 kernel/locking/percpu-rwsem.c:180
+> >  percpu_down_read_internal include/linux/percpu-rwsem.h:67 [inline]
+> >  percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+> >  __sb_start_write include/linux/fs/super.h:19 [inline]
+> >  sb_start_write+0x18e/0x1c0 include/linux/fs/super.h:125
+> >  mnt_want_write+0x41/0x90 fs/namespace.c:494
+> >  do_tmpfile+0x6c/0x240 fs/namei.c:4817
+> >  path_openat+0x3095/0x3850 fs/namei.c:4854
+> >  do_file_open+0x23e/0x4a0 fs/namei.c:4892
+> >  do_sys_openat2+0x115/0x200 fs/open.c:1368
+> >  do_sys_open fs/open.c:1374 [inline]
+> >  __do_sys_openat fs/open.c:1390 [inline]
+> >  __se_sys_openat fs/open.c:1385 [inline]
+> >  __x64_sys_openat+0x138/0x170 fs/open.c:1385
+> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+> >  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> > RIP: 0033:0x7f3fb490aaf7
+> > RSP: 002b:00007fff7f2f6f10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+> > RAX: ffffffffffffffda RBX: 0000555578a51400 RCX: 00007f3fb490aaf7
+> > RDX: 0000000000410001 RSI: 00007f3fb494a764 RDI: ffffffffffffff9c
+> > RBP: 00007f3fb494a764 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 00000000000001b6 R11: 0000000000000202 R12: 00007fff7f2f70d8
+> > R13: 0000000000000002 R14: 00007f3fb4970c80 R15: 0000000000000002
+> >  </TASK>
+> >
+> > Showing all locks held in the system:
+> > 1 lock held by khungtaskd/38:
+> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire=
+ include/linux/rcupdate.h:300 [inline]
+> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock in=
+clude/linux/rcupdate.h:840 [inline]
+> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: debug_show_all_l=
+ocks+0x2e/0x180 kernel/locking/lockdep.c:6775
+> > 2 locks held by getty/5356:
+> >  #0: ffff88803688d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_=
+wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+> >  #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty=
+_read+0x460/0x1360 drivers/tty/n_tty.c:2211
+> > 1 lock held by syz-executor328/5959:
+> >  #0: ffff888035a88500 (sb_writers#4){++++}-{0:0}, at: mnt_want_write+0x=
+41/0x90 fs/namespace.c:494
+> >
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > NMI backtrace for cpu 1
+> > CPU: 1 UID: 0 PID: 38 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT=
+_{RT,(full)}
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
+ Google 07/24/2026
+> > Call Trace:
+> >  <TASK>
+> >  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+> >  nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
+> >  nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
+> >  trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+> >  __sys_info lib/sys_info.c:157 [inline]
+> >  sys_info+0x135/0x170 lib/sys_info.c:165
+> >  check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+> >  watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+> >  kthread+0x388/0x470 kernel/kthread.c:436
+> >  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+> >  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> >  </TASK>
+> > Sending NMI from CPU 1 to CPUs 0:
+> > NMI backtrace for cpu 0
+> > CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT_{=
+RT,(full)}
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
+ Google 07/24/2026
+> > RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+> > Code: cb 6e 02 e9 13 cf 03 00 cc cc cc 90 90 90 90 90 90 90 90 90 90 90=
+ 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 33 44 24 00 fb f4 <c3> cc cc cc =
+cc cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+> > RSP: 0018:ffffffff8de07de0 EFLAGS: 00000242
+> > RAX: 000000000009a1e9 RBX: ffffffff81998590 RCX: 0000000080000001
+> > RDX: 0000000000000001 RSI: ffffffff8d887e30 RDI: ffffffff8bca6d80
+> > RBP: ffffffff8de07eb8 R08: ffff8880b8633d5b R09: 1ffff110170c67ab
+> > R10: dffffc0000000000 R11: ffffed10170c67ac R12: 0000000000000000
+> > R13: 1ffffffff1bdede8 R14: 1ffffffff1bc0fc4 R15: dffffc0000000000
+> > FS:  0000000000000000(0000) GS:ffff888125c36000(0000) knlGS:00000000000=
+00000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 0000563216b981d0 CR3: 000000000dfb0000 CR4: 00000000003526f0
+> > Call Trace:
+> >  <TASK>
+> >  arch_safe_halt arch/x86/kernel/process.c:767 [inline]
+> >  default_idle+0x9/0x20 arch/x86/kernel/process.c:768
+> >  default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
+> >  cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+> >  do_idle+0x2e0/0x540 kernel/sched/idle.c:355
+> >  cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
+> >  rest_init+0x2de/0x300 init/main.c:717
+> >  start_kernel+0x392/0x3e0 init/main.c:1175
+> >  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+> >  x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+> >  common_startup_64+0x13e/0x157
+> >  </TASK>
+> >
+> >
+> > ---
+> > If you want syzbot to run the reproducer, reply with:
+> > #syz test: git://repo/address.git branch-or-commit-hash
+> > If you attach or paste a git patch, syzbot will apply it before testing=
+.
+> >
+>
+> The reproducer freezes the root filesystem with FIFREEZE and then opens
+> O_TMPFILE on it from a child. Excellent. In addition to that it also
+> lowers hung_task_timeout_secs to 15 before freezing and only thaws after
+> 60 seconds... Nothing is stuck and the machine recovers.
 
-Sorry, I wanted to mention merging this patch and 4/9 patch (instead of 3/9 patch) in
-my previous email.
+Thanks for sharing the analysis!
 
- 
-Thanks,
-Usama
+>
+> The older crashes look like the same thing. So the fuzzer freezes a
+> filesystem and some other program writes to it. That also explains why
+> there's only ever the one blocked task and nothing else in the system
+> holding anything.
+>
+> So maybe gate that ioctl for syzkaller?
 
+Normally, we prohibit using FIFREEZE during fuzzing, so the original
+finding shouldn't have been caused by it.
+
+But the C reproducer was indeed generated by an LLM, which was not
+subject to such restrictions.
+I've filed the issue and we'll find a way to address it.
+
+>
+> And the LLM thing that is attached to the report is wrong.
+>
+> #syz invalid
+>
+
+FWIW it's better to just keep such bugs open.
+"syz invalid" indicates that the issue is a rare or already addressed
+false positive and is no longer relevant. In this case, however,
+syzbot keeps observing the crash daily, so it will try to re-report it
+the next time it observes it.
+
+Something like "#syz set prio: low" and/or "#syz set no-reminders"
+would have been a better fit here:
+https://github.com/google/syzkaller/blob/master/docs/syzbot.md#bug-labels
+
+--=20
+Aleksandr
