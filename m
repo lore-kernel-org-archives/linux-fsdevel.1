@@ -1,287 +1,208 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B308421EF8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 11:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786448485; cv=pass; b=LI0k4SbszKxS0GbVRoo/0cg9YUgzHb48RhrtT/bN2mePxdVPjfWdL1A0ork4kbfgsxomf6A3dxrMLrlSpme1/9PstBQlz4ECWxg9Der6u+cHxwBfr4fzDeAhvy2uL5AXMcLkHjDs70Z+Pe54EFvsg1a1EOZB5Vw5ESiPZVdEtno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786448485; c=relaxed/simple;
-	bh=hzTgHF9d08is9w+V9nsLW49iAm3HBVkgSGdrCi3WiwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dRjmpHxGijgfwZiMmYTS6J9L/hvHJHIdgEm0CsqSmgQ8ly/3P/bNEzAJaN4MzM/UOilSeQ0qp5gJ3/+oM3tIEoTl4rt3j65Z5tILX6WO5Ogsfe9CZ8Kx5MIYFg2gHV2y4rxoRXck4YaTVfG5EoiqLc1vUokyUn9VGAMB2njsIVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G9vK3R5D; arc=pass smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41B3B71B6;
+	Tue, 11 Aug 2026 12:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786450311; cv=none; b=qkf5rDq2L25ojW3JgZWbA7/eHDFNBuWyAXTUAjc5ECYnz5W89jBNCrMIN3Ub/Epn6QIsTBXkGTt2lKRgJD8xEzyPK7YNSYuP+7xuZN2CZ18bNi3z/jVn8XE7fncleGkw11E3BKH+GwJVIU+20TW7BJ9czFDWeHNGI60kVq6O23Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786450311; c=relaxed/simple;
+	bh=nInDi7/nGPIcNHx3XhP2r2B28pAKpq9pB70NVwqzbGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gk32dfASBvrkSV3p/hImwynhbRzUr+HtWIXajxl1Ugawg3zjfRxOtkXgtyftpsFm1YpKug7I2Yav/RIeIAXkppO5Mvlv2SuAWWPyqoQC1ydgfiRE6/HOx5+hpW1LMK2rS/14o6xZNA5bnL5hTJm/v4xMD5Ec4xRzMsHk7a0/WOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMzFJcn9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G9vK3R5D"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7ee37dc91f5so1713904a34.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 04:41:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786448482; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R1xDb3zUpCNgqCMRFUAOtlrV4jfMJrCV26VHX487vEh1Qwa0LDEs8eJNhuMu0I0z+G
-         po0iACGMl8Fc3QpNebfE/GgwdGMKgql7sOuC7RiFG28jsYxo7gxCR65x1SXcb8Ye+YOD
-         JeQoa3+MsWa8ERlDY4YJ+IEejYVFrGL3cqHFejBJudAUtdGVQRmT00wAgw2WmzwTPlCe
-         WEKnUGpQ1CmbvqX4wjqD4mReqpPrEC6VBru/6blS+D+47Y96BRcoYHSeuR5js3tg440Y
-         Caw6ojBcRUBzYRE0BkDOgzz7lvAHELD6XhVSb1DgdWj1Mq1mEZAH1yiBGSIljmqL9Rz4
-         QGkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
-        fh=qlSp6lxBZsC9oGDOBtLOntRCvD+aSKqjpBhrFddE3zQ=;
-        b=rhecNU9WqP/kuybuzzwaFOUOls31r6oUai439VjFTg5ZRxXA8LwHoU5vru1z7yKeK9
-         SOQHKObBaVkXWIQMAzgE2bpoIIijbkVns1L9Z8F9VtJnSHqqPXaX9MPHytuYXhrBiscO
-         lbW7zjwDNAwVbIMrUftdXBTo2BHpLpYGdUyvEZf5XBGWmEjjArOc0SZLqI3dBwy6hK1r
-         fzoLrJelAPRLSkXUayqqyouUHvJY4cqgFA2yi8o6+rxUP/M7IJ6wwqWkdfqG1p5jotU3
-         UtTxhpPgCUXP74SzucKTmQyj27j7wMZwBU1JTa/IGC+SH3tm6gyIJai5cUxYRkeS1zIH
-         LFXg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786448482; x=1787053282; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
-        b=G9vK3R5D0EpNx/TM/9UJFbKX9iiFrkj5tw4n5bl3lpaBn0Y9GvL3GKJGssb3+h7tgl
-         OqX2PgE41e3g9Bc0Gy9GycdwRTpGVumCiA9wUATNKt52L+hmb5zsTj/8iyMQdyzuph3V
-         0X8ZPjT3FEqr2cnMg6fJlpg+HJeqYv+/h4NkUgT39oWBHk9BiFUgSWQjaR+Z5j6JRcwr
-         uK7xl/FhdyaJ+5r/A6NMejbaIrxOfo0fwnvC7zeZBDA7Nh7xr4lnIDCoadLea+9VrO34
-         xX6WptuVvJjGY6ubfS7FvUM8seWJw/TQ0J/BYky2q3gp40CeoHW+e5T7bRNcL76uFwW3
-         G+Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786448482; x=1787053282;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HarlHs3JzDA/aPfRbDLTnFFB+dRZtDzPIHhxV2Lz20M=;
-        b=Yd8Kw1cpYKVQpe4oE8iDAu1We1Fop9JQyE7k1dGRZdteMdH03r+5RwnRjgNf0k4KB6
-         jh+71wqVQejd0tKMwUcRcSf9GgsLeybUYVIxMn6746H4rDHNb2vIKRXhoj1v1L28LVTz
-         XqCb3ncKMjdPNl5mBE/8EpKjLajNp1xzKLP34Bu70LGhOG+R3jGtYPo6AgTf7+dkPFWr
-         Q/vSrMs+nbgjNuJ9gPo2sAKny5cPYaP23Ad5k+d3glLcJ33NrMGofExtyN8jhg6hFFZl
-         vGeJOt2OgntpqRZUFUw5ekCbcmHFa06bL32tGmaP884yw1LT74kZEhBv1DZUyECoOj8O
-         wuYg==
-X-Forwarded-Encrypted: i=1; AHgh+RrAC9u5LaHaSHpVEH5odrrzCj8u+7xVcC0+LbtS9Kobr929/0SlFVKLJlYDpypr+iL9ivMrH4XaK9jLIELX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPx28EDoi70gf2EJbFnl/FXtdtNclpJ7bOutpbVnp5WTZMjik7
-	hGiNiGCTiGjA9WkA3WN28brmc5bJjJlXRQzleIqFnI1uZUoKaLAWAXzKJW+IZT+ngEjEoakmBb6
-	vvYa9rKLLCZlF8Xqr9BI0ebZP5KHDsrvGWdG1dqnC
-X-Gm-Gg: AR+sD1171Yd4Gg1/DHc+uwYob9JIlFN7mPErl9RGgyAWw2GX6j6ObHLGfA6h0Dn/1/O
-	BiRgHZGavaQ9U3ucvGw/AGnS3p52gNUnL21HkfqHFeXeIL+KhqUr4UFxJNHZIlpqdSrr4YD553S
-	SDYzCc99ggvgCLMUrAiJkt7IIUAI+O2aOQsrb0duapVjCqq5dmAkxrUtSKLnEuj/2uCFsZXalbC
-	G2LshNJJfVnJiatdvNxdADvyZVh3TF6KQXDmNZ6dVc2ypJQ23Esd+v3gwjLpfNxUgBLH8UrscPA
-	oa+zekVaO2KMfJvyLZNGRaZot5esUtc6txAUbBHXGq54YGmiWnzlBTYF//S5YX8t8F5d6/u+J3S
-	ez3MLianKftACCim9XOk7zolKQxU8RUreeFzPJaI5TFw5sS9LTGy2dZnCE/DooNo2ay7sd+oXSB
-	GTA237ZJCnpfzKgLDwgVb2hNA=
-X-Received: by 2002:a05:6830:67f8:b0:7e7:45f:ce3c with SMTP id
- 46e09a7af769-7f3a830b8eamr1779384a34.14.1786448481678; Tue, 11 Aug 2026
- 04:41:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMzFJcn9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E88261F000E9;
+	Tue, 11 Aug 2026 12:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786450309;
+	bh=/fTG1Cghw/RG7+KE3x88oxH8TI74VawrjBf3qjRRniY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oMzFJcn9VOzkFaKMEx9vCYCdx1Pq7igNm3SDyOEjzrOpDudIApIUK8tbQWGyhMTA2
+	 t05Mkqhok9RLYIMUol0cpCiu3QthaSWyzaAoYQ2iTd1AckujJZDZf2+JmOHRJ0KvP7
+	 mcsYLS8a7sO8YaLXbyWEeOK99DFlaVD5L55J3MTekojG6h3FMWYgpjeoMH//X24lZs
+	 5lfWAxjxOdrK+/s8jDuKs0rLQeM8RFflAxNY1JPwZF3i/yhkf94kLkVqbTR4mmJWjo
+	 hK2SQwlx7kI/9C/spjKPKM5IkvDG9SLQ6RAQ5o7kkbgcPTchuBQb5gh+4ZPvUgW8mp
+	 IkyibBYe3lp/w==
+Message-ID: <e9de4158-b829-471b-980c-1999959bbc48@kernel.org>
+Date: Tue, 11 Aug 2026 14:11:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <682ffdaa.a70a0220.253bc2.0061.GAE@google.com> <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
- <20260811-schlecht-arkaden-spickzettel-0dfee4014102@brauner>
-In-Reply-To: <20260811-schlecht-arkaden-spickzettel-0dfee4014102@brauner>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Tue, 11 Aug 2026 13:41:10 +0200
-X-Gm-Features: AUfX_mzBu8CIDC9ZPCMtDgC0yVRojn8ttuv_kDfXYrQLl6jQlY65j0BQ_c5J44I
-Message-ID: <CANp29Y70AJYhLqifEAw67vyw=UKPvPosu=1ELMi_daAY8xqyBw@mail.gmail.com>
-Subject: Re: [syzbot] [kernfs?] [ext4?] INFO: task hung in sb_start_write (2)
-To: Christian Brauner <brauner@kernel.org>
-Cc: syzbot <syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] mm: convert PTE table entry to pte
+To: Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+References: <20260806083926.1807279-1-usama.anjum@arm.com>
+ <20260806083926.1807279-7-usama.anjum@arm.com>
+ <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
+ <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
+ <2599c5b3-e8ac-4865-993b-d41e6f060d52-agordeev@linux.ibm.com>
+ <f0b0dacb-fb83-4402-b0ea-30072727dfd7@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <f0b0dacb-fb83-4402-b0ea-30072727dfd7@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 11, 2026 at 1:21=E2=80=AFPM 'Christian Brauner' via syzkaller-b=
-ugs
-<syzkaller-bugs@googlegroups.com> wrote:
->
-> On Fri, Aug 07, 2026 at 02:21:34AM -0700, syzbot wrote:
-> > syzbot has found a reproducer for the following issue on:
-> >
-> > HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-1=
-8-4..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1379cfb9580=
-000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D98da55a8827=
-74dfe
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=3Db3fba2e269970=
-207b61d
-> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e=
-255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D14b9d7b9580=
-000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the co=
-mmit:
-> > Reported-by: syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com
-> >
-> > INFO: task syz-executor328:5959 blocked for more than 15 seconds.
-> >       Not tainted syzkaller #0
-> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messag=
-e.
-> > task:syz-executor328 state:D stack:28328 pid:5959  tgid:5959  ppid:5947=
-   task_flags:0x400040 flags:0x00080000
-> > Call Trace:
-> >  <TASK>
-> >  context_switch kernel/sched/core.c:5510 [inline]
-> >  __schedule+0x16dc/0x5500 kernel/sched/core.c:7234
-> >  __schedule_loop kernel/sched/core.c:7311 [inline]
-> >  schedule+0x164/0x2b0 kernel/sched/core.c:7326
-> >  percpu_rwsem_wait+0x32d/0x4a0 kernel/locking/percpu-rwsem.c:164
-> >  __percpu_down_read+0xf8/0x140 kernel/locking/percpu-rwsem.c:180
-> >  percpu_down_read_internal include/linux/percpu-rwsem.h:67 [inline]
-> >  percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
-> >  __sb_start_write include/linux/fs/super.h:19 [inline]
-> >  sb_start_write+0x18e/0x1c0 include/linux/fs/super.h:125
-> >  mnt_want_write+0x41/0x90 fs/namespace.c:494
-> >  do_tmpfile+0x6c/0x240 fs/namei.c:4817
-> >  path_openat+0x3095/0x3850 fs/namei.c:4854
-> >  do_file_open+0x23e/0x4a0 fs/namei.c:4892
-> >  do_sys_openat2+0x115/0x200 fs/open.c:1368
-> >  do_sys_open fs/open.c:1374 [inline]
-> >  __do_sys_openat fs/open.c:1390 [inline]
-> >  __se_sys_openat fs/open.c:1385 [inline]
-> >  __x64_sys_openat+0x138/0x170 fs/open.c:1385
-> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-> >  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
-> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > RIP: 0033:0x7f3fb490aaf7
-> > RSP: 002b:00007fff7f2f6f10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
-> > RAX: ffffffffffffffda RBX: 0000555578a51400 RCX: 00007f3fb490aaf7
-> > RDX: 0000000000410001 RSI: 00007f3fb494a764 RDI: ffffffffffffff9c
-> > RBP: 00007f3fb494a764 R08: 0000000000000000 R09: 0000000000000000
-> > R10: 00000000000001b6 R11: 0000000000000202 R12: 00007fff7f2f70d8
-> > R13: 0000000000000002 R14: 00007f3fb4970c80 R15: 0000000000000002
-> >  </TASK>
-> >
-> > Showing all locks held in the system:
-> > 1 lock held by khungtaskd/38:
-> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire=
- include/linux/rcupdate.h:300 [inline]
-> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock in=
-clude/linux/rcupdate.h:840 [inline]
-> >  #0: ffffffff8e1c3000 (rcu_read_lock){....}-{1:3}, at: debug_show_all_l=
-ocks+0x2e/0x180 kernel/locking/lockdep.c:6775
-> > 2 locks held by getty/5356:
-> >  #0: ffff88803688d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_=
-wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
-> >  #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty=
-_read+0x460/0x1360 drivers/tty/n_tty.c:2211
-> > 1 lock held by syz-executor328/5959:
-> >  #0: ffff888035a88500 (sb_writers#4){++++}-{0:0}, at: mnt_want_write+0x=
-41/0x90 fs/namespace.c:494
-> >
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > NMI backtrace for cpu 1
-> > CPU: 1 UID: 0 PID: 38 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT=
-_{RT,(full)}
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
- Google 07/24/2026
-> > Call Trace:
-> >  <TASK>
-> >  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
-> >  nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
-> >  nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
-> >  trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
-> >  __sys_info lib/sys_info.c:157 [inline]
-> >  sys_info+0x135/0x170 lib/sys_info.c:165
-> >  check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
-> >  watchdog+0xfd7/0x1030 kernel/hung_task.c:561
-> >  kthread+0x388/0x470 kernel/kthread.c:436
-> >  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-> >  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-> >  </TASK>
-> > Sending NMI from CPU 1 to CPUs 0:
-> > NMI backtrace for cpu 0
-> > CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT_{=
-RT,(full)}
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
- Google 07/24/2026
-> > RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
-> > Code: cb 6e 02 e9 13 cf 03 00 cc cc cc 90 90 90 90 90 90 90 90 90 90 90=
- 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 33 44 24 00 fb f4 <c3> cc cc cc =
-cc cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
-> > RSP: 0018:ffffffff8de07de0 EFLAGS: 00000242
-> > RAX: 000000000009a1e9 RBX: ffffffff81998590 RCX: 0000000080000001
-> > RDX: 0000000000000001 RSI: ffffffff8d887e30 RDI: ffffffff8bca6d80
-> > RBP: ffffffff8de07eb8 R08: ffff8880b8633d5b R09: 1ffff110170c67ab
-> > R10: dffffc0000000000 R11: ffffed10170c67ac R12: 0000000000000000
-> > R13: 1ffffffff1bdede8 R14: 1ffffffff1bc0fc4 R15: dffffc0000000000
-> > FS:  0000000000000000(0000) GS:ffff888125c36000(0000) knlGS:00000000000=
-00000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 0000563216b981d0 CR3: 000000000dfb0000 CR4: 00000000003526f0
-> > Call Trace:
-> >  <TASK>
-> >  arch_safe_halt arch/x86/kernel/process.c:767 [inline]
-> >  default_idle+0x9/0x20 arch/x86/kernel/process.c:768
-> >  default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
-> >  cpuidle_idle_call kernel/sched/idle.c:199 [inline]
-> >  do_idle+0x2e0/0x540 kernel/sched/idle.c:355
-> >  cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
-> >  rest_init+0x2de/0x300 init/main.c:717
-> >  start_kernel+0x392/0x3e0 init/main.c:1175
-> >  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
-> >  x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
-> >  common_startup_64+0x13e/0x157
-> >  </TASK>
-> >
-> >
-> > ---
-> > If you want syzbot to run the reproducer, reply with:
-> > #syz test: git://repo/address.git branch-or-commit-hash
-> > If you attach or paste a git patch, syzbot will apply it before testing=
-.
-> >
->
-> The reproducer freezes the root filesystem with FIFREEZE and then opens
-> O_TMPFILE on it from a child. Excellent. In addition to that it also
-> lowers hung_task_timeout_secs to 15 before freezing and only thaws after
-> 60 seconds... Nothing is stuck and the machine recovers.
+On 8/10/26 13:06, Muhammad Usama Anjum wrote:
+> On 10/08/2026 7:44 am, Alexander Gordeev wrote:
+>> On Fri, Aug 07, 2026 at 05:26:04PM +0100, Muhammad Usama Anjum wrote:
+>>> Yes, this is particular line is for non MMU. In this case, CONIFG_ARCH_HAS_HW_PTE
+>>> would never be defined. Hence hw_pte_t is just pte_t and direct dereference is
+>>> allowed. I'd thought a lot about it; is better to leave direct dereference here
+>>> or use some helper. Then used __pte_from_hw() was already being used in generic
+>>> ptep_get().
+>>
+>> But in case CONIFG_ARCH_HAS_HW_PTE=n __pte_from_hw() is still gets called.
+>> That looks inconsistent to me. Why not just call ptep_deref() (see below)?
+> 
+> Agreed. Calling __pte_from_hw() directly exposes the representation
+> conversion at the call site. I will introduce ptep_deref() and use it
+> here.
+> 
+>>
+>>> There are only two users of __pte_from_hw() at this time. 
+>>>
+>>> ptep_get_sw() or ptep_get_deref() is better name here?
+>>
+>> ptep_deref() would be it.
+>>
+>> Do you agree to the suggested API requirements?
+> 
+> Yes. hw_pte_t * identifies storage containing hardware-formatted PTEs,
+> regardless of whether it is attached. ptep_get() is used for attached
+> entries and may provide additional architecture-specific handling.
+> ptep_deref() is used for unattached entries and performs only the raw
+> storage-to-value conversion.
+> 
+> For review, this patch would become:
+> 
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index bc0b9c65aa1d0..ce900d2652d91 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
+>  #ifdef CONFIG_MMU
+>  	return ptep_get(ptep);
+>  #else
+> -	return *ptep;
+> +	return ptep_deref(ptep);
+>  #endif
+>  }
+>  
+> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+> index 1768421755a9c..08613593f3320 100644
+> --- a/include/linux/pgtable.h
+> +++ b/include/linux/pgtable.h
+> @@ -490,6 +490,13 @@ static inline int pudp_set_access_flags(struct vm_area_struct *vma,
+>  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>  #endif
+>  
+> +#ifndef ptep_deref
+> +static inline pte_t ptep_deref(hw_pte_t *ptep)
+> +{
+> +	return __pte_from_hw(*ptep);
+> +}
+> +#endif
+> +
+>  #ifndef ptep_get
+>  static inline pte_t ptep_get(hw_pte_t *ptep)
+>  {
+> 
 
-Thanks for sharing the analysis!
+I mean, how many such users do we expect? 1? :)
 
->
-> The older crashes look like the same thing. So the fuzzer freezes a
-> filesystem and some other program writes to it. That also explains why
-> there's only ever the one blocked task and nothing else in the system
-> holding anything.
->
-> So maybe gate that ioctl for syzkaller?
+Why have a helper for that then, that seems to encourage it's use, when really
+people should be using ptep_get() ?
 
-Normally, we prohibit using FIFREEZE during fuzzing, so the original
-finding shouldn't have been caused by it.
+-- 
+Cheers,
 
-But the C reproducer was indeed generated by an LLM, which was not
-subject to such restrictions.
-I've filed the issue and we'll find a way to address it.
-
->
-> And the LLM thing that is attached to the report is wrong.
->
-> #syz invalid
->
-
-FWIW it's better to just keep such bugs open.
-"syz invalid" indicates that the issue is a rare or already addressed
-false positive and is no longer relevant. In this case, however,
-syzbot keeps observing the crash daily, so it will try to re-report it
-the next time it observes it.
-
-Something like "#syz set prio: low" and/or "#syz set no-reminders"
-would have been a better fit here:
-https://github.com/google/syzkaller/blob/master/docs/syzbot.md#bug-labels
-
---=20
-Aleksandr
+David
