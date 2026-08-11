@@ -1,118 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB6D2EA754;
-	Tue, 11 Aug 2026 16:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039C53F9F22;
+	Tue, 11 Aug 2026 16:44:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786465748; cv=none; b=e9fZ5yD670xa9ISnSFn0mR1jLGX4WiBjbDQXGTWURo2Wm9NnTQWpjIuKwLNRUG7KYuiqHSqI+rTDMCYpVv44ERHwbJeHO+XToQCus7O3tHD+3J8ZT91G1vOzA/YMHbW+EJmPgBTPKH5gR9ynkK/E3Rxk6J83LeyH8VCV49+MaYk=
+	t=1786466674; cv=none; b=F+cNrLMz6xzT206tQ7lF3delsl9b6VSCxZ10Y2pAiG+/A9t4qzyVdTzNtcjfufxN+HxIEeNgnHMQeQIbu1ksHwzG/eJBYWSBfvckkqn2/e9euxOdvVxdoWGiV7PLCQzvKVoSNmyveGBlwWKzqf25j8sPN5Sy+RhSjt+u9hNvMVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786465748; c=relaxed/simple;
-	bh=C1jpajQrWuOF3j5Pr1Ddzi0Kc/tRtKfoGXct28RFEoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8UCiak6bEXSiX6kF+PUrk3eNwVT1QykZaKidT+fijpmwSNmfvkQAz9kgkh4yGGQnXcWrIXhxAlTxPN+zJC4MOLOXKloSSl0YLZ7kYHQHVu0dpgP2/7/4FRN64CqhWYd8yqnIBsGN4Dxgx1I+pgD1EGjxzNlKcmfON0SqHJMsuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWXP9E1S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786466674; c=relaxed/simple;
+	bh=0jMyZZEBWeHJFGWFY7uMvVyDeU/qet406ZJAsDX8aaU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sBZncrobQUPIl3Syky6uRJBHkqU1jdm+m/L/Fk8eiZrXOeKc/XAzClTh3fZc39vUjRpeCSxGtfDKZxYaj3neDyMM/WAx5M8xHSlELVcQimygC+IwI4YIAHDfku3q9X3kDwbGsfMhPe2juwJoRSy8Vq4sPzSXIJiqXZZL4LIcMHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHVkB6GY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWXP9E1S"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C99E11F000E9;
-	Tue, 11 Aug 2026 16:29:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHVkB6GY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 955941F000E9;
+	Tue, 11 Aug 2026 16:44:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786465746;
-	bh=91UQoUF/zJ0f/Ujq+Dd1GUnY1kZrsRbXE5pzSQBIH/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iWXP9E1SeF4g2o15ZNrOMyxfJ9jT7WnhSBimlWhEU3cHPs2HdAhN9qC8saGgdrb9r
-	 IAIdhMbaRQBnVz8f3jb037oBNQcL2odbhgChRfNIgmfH0zCyQqZkNA9mpobxMMlYzl
-	 dAq1pTnIp3Sueixht9VXowiiNlrO0WEEUxQIWWmGZUYUCjVfeePiJNEhv8GnDfGgXe
-	 Y3HTzvJ4IyXMNXBV1x3rcTevMEuBMrwiT8sbKYd8187HtK1I+huuq6L9gCD1yP9YFo
-	 2aw9PZFmMmt38UbtUzTNZb689mmTijVDH9KM8qMslc0+BxrxZnqAyRiE9zRaNmUMHn
-	 OdMAZUf1qiUJQ==
-Date: Tue, 11 Aug 2026 09:29:06 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org, hch@lst.de, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v14 13/21] xfs: use read ioend for fsverity data
- verification
-Message-ID: <20260811162906.GC3556460@frogsfrogsfrogs>
-References: <20260803200820.393203-1-aalbersh@kernel.org>
- <20260803200820.393203-14-aalbersh@kernel.org>
- <20260804183632.GO3556460@frogsfrogsfrogs>
- <anmNNNNy4YsV_KLB@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <20260810183102.GY3556460@frogsfrogsfrogs>
- <anrZR9SarXJMBLgI@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	s=k20260515; t=1786466664;
+	bh=2nDP2yo4Z7/8hyrcK4LHPjnUI6OonoDg03U38JzRLms=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hHVkB6GYhX+6ZWhhsgZFxKzOnkGl2RYOjzFptgt0LCOOUol9ozVzcavLD6CvDQydn
+	 dD7uSwc6jau6XFfSmk+IKexK6u8o6CeKGHkCuKXrrZ5ZTjQpBaNq7q2BAxRoNZpfbB
+	 DFn7OzDXW1vNtKFqNmrCGSpgV8QZYUsLSUd8vGpNzrrwVHH9yLjObobUtS5Znirks1
+	 g0F47R8DNocE+LgLop8peVMqvNZ90+CL5I6DyccMXHmwf3Ag+Y2iz6YFiIln1mRPt7
+	 UdIgWjZ1qv52eMMvDlYKcast9now6cuY+C80b4nyZpyoCm5Lw8Zk1YHCZaDr08uci1
+	 VSMkUMM/zhr7g==
+Message-ID: <3a0a9aaf-20f5-4f92-b848-00ab702e8fe2@kernel.org>
+Date: Tue, 11 Aug 2026 18:44:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anrZR9SarXJMBLgI@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/20] mm/vma: fix self-merge check in copy_vma()
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
+ <20260806-b4-scalable-cow-virt-pgoff-v4-7-ab318a350404@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260806-b4-scalable-cow-virt-pgoff-v4-7-ab318a350404@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 11, 2026 at 10:18:05AM +0200, Andrey Albershteyn wrote:
-> > > > "If we have fsverity and block device integrity attached to this bio,
-> > > > we need to run both validations from the separate fsverity workqueue
-> > > > to avoid deadlocking due to fsverity issuing its own reads."
-> > > > 
-> > > > (Assuming I understand the fsverity && pi case correctly.)
-> > > > 
-> > > > One thing I'm not clear about -- why is it safe to do the fsverity
-> > > > validation here if PI isn't enabled?  Can't that also issue IO to pull
-> > > > in merkle tree blocks?
-> > > 
-> > > Without PI, fsverity metadata is read without XFS bio completion
-> > > path, we don't get here for the descriptor/metadata reads
-> > > (see xfs_get_iomap_read_ops()). So, we won't block the queue, as
-> > > data ioends won't be mixed with metadata ioends.
-> > > 
-> > > With PI, all fsverity reads goes through this path. We could get a
-> > > case that data ioend is waiting for metadata IO to be completed which
-> > > in turn is pending for data ioend to be finished (due to batch
-> > > processing of multiple BIOs in the bio_complete wq).
-> > > 
-> > > So, this will issue more IO, but this IO will not get onto this
-> > > queue (it will go through iomap_bio_submit_read()).
-> > 
-> > Ah, ok.  Maybe add to that comment:
-> > 
-> > "If we have fsverity enabled but block device integrity is not enabled,
-> > completion of the fsverity metadata reads does not require a workqueue
-> > so there is no deadlock potential."
-> > 
-> > then?
-> > 
-> > (Just echoing you to make sure I understand completely.)
-> > 
 > 
-> yes,
+> Since copy_vma_and_data() which calls copy_vma() intends to reference the
+> old VMA after the merge, it must have this pointer updated.
 > 
-> I've changed it to:
+> This kind of self-merge is not possible with a succeeding merge, as the
+> merge always prefers to expand the preceding VMA if possible.
 > 
-> +       /*
-> +        * If we have fsverity and block device integrity attached to this bio,
-> +        * we need to run fsverity verification of data folios from a separate
-> +        * fsverity workqueue. This is necessary to avoid deadlocking due to
-> +        * fsverity issuing more reads of fsverity metadata which would be
-> +        * processed by the same worker in the BIO completion workqueue.
-> +        *
-> +        * Without device integrity, fsverity metadata IO will not use ioends for
+> copy_vma() accounts for this by explicitly checking to see if a self-merge
+> occurred and updating the vmap pointer if so. However it incorrect did so
+> even for a subsequent merge (this is simply a noop so it had no impact).
 
-I would like to nitpick this to "Without block device integrity..." but
-otherwise this comment looks good to me :)
+Took me longer than it should to find out that this is no real fix ;)
 
-With that fixed,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> 
+> So change this to only check for the case which matters - a backwards
+> merge - and rearrange the parameters to make it clearer we're doing that -
+> i.e. check new_vma->vm_start < old_vma_start (having already renamed
+> vma_start to old_vma_start to make it clear this is the previous VMA).
+> 
+> Also update the existing wall-of-text comment to be a lot clearer.
+> 
+> While we're here, replace the VM_BUG_ON_VMA() with a VM_WARN_ON_ONCE_VMA()
+> and update the VMA userland tests accordingly.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+I skimmed over it, looks correct, but the merging stuff is way over my head to
+confidentially give a RB tag her :)
 
---D
+-- 
+Cheers,
 
-> +        * completion.
-> +        */
-> 
-> 
-> -- 
-> - Andrey
-> 
-> 
+David
