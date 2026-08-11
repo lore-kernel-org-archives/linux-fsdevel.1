@@ -1,185 +1,289 @@
-Received: from mail-yx2-f1.google.com (mail-yx2-f1.google.com [74.125.224.129])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23F91DDFE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 00:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9932A1E3DDE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 00:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786406570; cv=none; b=d+q3GeAIClFo+5bJHIpNPMXFlLpf1gkO7QW6jA4RWJw8nu/yz/VM/nn2EEtdd9jsHy7or2NjT+bYwfTyaMQQLDhImvly4STb8LXXDrbj0ts5anDgH8sAw0qitszVT4TFdBY+Q9Red3j3Nd3NCD/gy2GvxfHTz71gj4KTtUxHN8A=
+	t=1786407149; cv=none; b=HpzyiyH5Eo/S46RuS1NrBSfz9zIJcEwqfF9p0u6h8xF6jGnRzVDjHNO0/Zd76xHWi0ypjems118eBcmkO+vvq3+6E8PDTCeygitMVx73WPXaCA96Ko95ZQL6+H/FtGvPaA4xh/G/4dUdDsVYNj6um1jCs1/IPYiWCTVXCtS3IqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786406570; c=relaxed/simple;
-	bh=rclWJlRfIPhuRSoZO9Q3ivcPzP8aL92uCdwLgc97HTQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hpkhCVWVS9kuRzy2OPWuPN42ZnP6o/OfHYd055Am4yNFpoZFnG9H8mh2f/EUo7dBcetOdVYZgRLm9r+UjPxtK7NpjjGkqwpfYtK+Rli5w/hPNxaNmt2k9QJjEyU50V2JrR7GzK+jFCB8AXWhzwHW6Dr7nWt2Ho5SmdySUeaFj2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=troEIKFV; arc=none smtp.client-ip=74.125.224.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="troEIKFV"
-Received: by mail-yx2-f1.google.com with SMTP id 00721157ae682-8200c88611eso15155837b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 17:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1786406568; x=1787011368; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xYiVcQ7n1Vw7jigeXWA7191Ayx/8beAKuU+DgnEvJHA=;
-        b=troEIKFVv5YFbHXhIe8S07A+g62nETle5lzI7D6doMna7NG/M0HptGUU7Cfg9Ydk6u
-         LU9WRIJSYUT3T2xYZ68cnMofM8eOpDdWysNHMCJV9Mo2J6nTu55Yd+7NqKb+5zDHzBIn
-         eqcE1e9/EkQ9i21x50qMQBTmyEvxe3tR84IoJAB6Kk6I9QW4jYn5D3hAtvtu6+uKUeOP
-         VIMqgst+GXbSYpaRCXhE9o4Pe/M69yXotS8SvnrUAlvUWIZ4QXuDnWucFFTeYAn8x8g2
-         T4mTxj5SM9rlr3/XDNsOqZpfYkG2MgyseHWuJluCOpkm/1UG8GFgJoltEAexGJpY3HqB
-         xpfw==
+	s=arc-20240116; t=1786407149; c=relaxed/simple;
+	bh=123IcB4NztDi49zrvLRaHwB8pVdf6Tcr5y4ZqCHn5Ns=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GxfWa8QTiOTdNvX6IsIzgCozYC3vG43F+RPpt3HLSmXvfrx0anAaSvgLomGGLQxmPn3jVPBf7R7kap0IONwsHi0gMN78H2VIWTP53xP4rpgllT2MmnJQFU1pJHkoJmzBaUyAMhwa8wX3xvrGlDsOoPApJ2uLK+1xDtc/IgAPNrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4ab4af22d09so2673259b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 10 Aug 2026 17:12:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786406568; x=1787011368;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=xYiVcQ7n1Vw7jigeXWA7191Ayx/8beAKuU+DgnEvJHA=;
-        b=K5KHES2GOS4nhFQL9ldUWHrdtw4KixagPLkO9t3WQrXuvdEqIDOq0R8vgyBv+gH1h4
-         IrtPvZnaNAS3AacQBGUNcaFJkS24oS2k8LIIwuFl8Y2l1o0fxt3Yf9AGjqinlRoQ9tDr
-         hdgm4JgDxT2CoNEQ5+tG/dRnQCrsXrTuWOiTwUOfcWCXfhq5ofKe89HCwC1DNuUfjilS
-         UQYVWbrMkGtDDnDUFnFnvKnCUX/RwUyMXKDWgAAJLXIqAfA9I6srr1XjXFBc460jG71j
-         KRg0CtC4j7bITNHN8ki+wLYYgSWn1Zzs9rFdDxZqLOGFVuxg2pnU3Z+74+YWZMxbjsOb
-         wzNw==
-X-Forwarded-Encrypted: i=1; AHgh+RrtMyRnMPZ5vbm8d/TXq2HSeEbhJVQumUtIbIP4a+6u5EOVbiVoye8GGzwzunZlxjddVgTiz6IFbVTIafjo@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/agSjAG4RnyCK+P7uz4HZ7VleKZovP2hNXzKS0VF1o70oAMuw
-	xorPbCMHobGedjmcH+eLXrNgsq7gpB/+pNA9/3Bj4BgV/gNfbLeidVeWzyBE6518Clc=
-X-Gm-Gg: AR+sD10W1woKyX5WayvFsAiQEoul19YXIOA40Dn9Aj9KjkGXKVn+lsZuSDJ7be8MuQZ
-	WfuVgW1SF3LG1yZvB5vbYTRJVgMFEq7TNLT2yUs9NY8C7fxFKZDUrVOgvcJzoJQe2ZtoXmfHZ7w
-	UVhv3xkVAta05wkxaTdhk9so3i6KHrACHzT7HRDdq/9Cg1j47BRtqhYiPD0WtRIKC4BaVy3GcO4
-	j3UyelOx2laHTncQHrar1ZvF1VvcCdBV+g1evIkQQ7gVRdnSg1f8YYBQFtsnipXPDXYM1Qi9mc2
-	Cp+AnO5+q/Nwp+biHeoCdtR+GHNFLQmhlPVEKRXUtv+g++idVswtelJH2awOUgr87YkrLObyBei
-	I6MF1utGpjIe0vj8yoy9csjW+CEdCUDU8D31vPcJi43Vuljf5lzrTXGMAxqKnvseLkSYQAH4h+0
-	XZOpSKq2j6Si5VrKMQfe9U0MehKZ16jhinJWi+zFgUDTrtMb32WuRlwFfUrigjHhV/arQqkscoU
-	R5iTOpNgmYrkN+zH2lL9BB1yQKFh3neC4NQmN1fILHcNBqZMDVPWKcBIFBqdxsz4cA/I+DY2ACt
-	oEqG9uDvUIhA6SN/H9K3KSSE4NYZoLt59evmGFyPVIKMKg+O
-X-Received: by 2002:a05:690c:dd3:b0:80c:5ce9:8f1a with SMTP id 00721157ae682-82d2fe69775mr37849517b3.34.1786406567712;
-        Mon, 10 Aug 2026 17:02:47 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:9c3:cf0:a72e:f469? ([2600:1700:6476:1430:9c3:cf0:a72e:f469])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-82ebd0cda6asm245077b3.6.2026.08.10.17.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 17:02:46 -0700 (PDT)
-Message-ID: <5f60c60a03b3d3e4b6d4adc2f241371b72977206.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: validate extent record length before writing
- it back
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com, vdubeyko@coreweave.com
-Date: Mon, 10 Aug 2026 17:02:43 -0700
-In-Reply-To: <20260810092422.1691377-1-r772577952@gmail.com>
-References: <0720c3ba6399c11a0a328e8d8eef99a19e6999c8.camel@dubeyko.com>
-	 <20260810092422.1691377-1-r772577952@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1786407146; x=1787011946;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QSAHm/bZXok2btxi3dN3u/5Ahmbp+kzZbQ3xT8+awFY=;
+        b=dfAj/hmiGmfI8ZtXVcq5Z0dLf2njMgg5gOGbRcWUawQ8JMMu7gut4KRG3jmstEHtsy
+         JquW2byGL/NleeXfBh/zP4Wglvoqf0sy8uj8eYSIaMA8B3qIkiIfVdPJRraOUT+7J59v
+         R4NrWf32o74qbrCQmmWl04OACGXs7zMRwbDFx/3MXqG+sjMR+F4fu6IBxPEAzII9Xec5
+         QZ+nNjK52UNYiZN6T0kuY8N6z/24dl4C5+OMepYaLQoQtTwppmo7HyryAezwpRIoUK5O
+         h0L588PaBpPlxuRP5Xh1JlHA+jhEJ4Lf62Pz6rSBjR0RKranSHNsaiPAG5+gLzcPKiPn
+         Cx9Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpBNnLSoHFf2tLqPAqiz3v07iTAeVB/xXFaOVrjhfmbpDd1M3s8OSCxsYJNt0K6SXTanY29iTufdFXMOJa7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6qZh9pQ4SgTmqOQrMWvZ64abgSJdEKke2dRrPIUtbuoJWSM4L
+	w/4UeKW7ne9ch4p/q1AL4JwB6L3pXwHFhFeBvARN7p68XVCSQBbbfA7dJpxsr5rnVgfZOmMJ/Zy
+	5L2St71fDdllQegSVp8eiS1ZEFoQHWAuSqyEfpLtQJw4uX6wzQ1cy7aLEiZs=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Received: by 2002:a05:6808:1a06:b0:4af:5d69:1cb4 with SMTP id
+ 5614622812f47-4b1ab975a97mr11697000b6e.15.1786407146513; Mon, 10 Aug 2026
+ 17:12:26 -0700 (PDT)
+Date: Mon, 10 Aug 2026 17:12:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7a68ea.9c11d2ce.289b96.00f2.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] BUG: sleeping function called from invalid
+ context in kvm_xen_set_evtchn_fast (2)
+From: syzbot <syzbot+e42793f1299e53beb2ee@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2026-08-10 at 17:24 +0800, Jiaming Zhang wrote:
-> __hfsplus_ext_write_extent() writes the cached extent record back
-> into a
-> B-tree node using fd->entrylength as the length, and fd->entrylength
-> is
-> derived in __hfs_brec_find() from two on-disk values:
->=20
-> 	fd->entrylength =3D len - keylen;
->=20
-> A crafted image can keep both len and keylen valid but make fd-
-> >entrylength
-> negative (keylen > len). __hfsplus_ext_write_extent() doesn't check
-> fd->entrylength before consuming it, and hfs_bnode_write() takes the
-> length
-> as u32, so the negative value turns into a huge one. The copy then
-> reads
-> data past the end of hip->cached_extents, which is only
-> sizeof(hfsplus_extent_rec) bytes long, and leaks kernel memory into
-> the
-> image.
->=20
-> Reject an fd->entrylength that does not match
-> sizeof(hfsplus_extent_rec) in
-> __hfsplus_ext_write_extent(), mirroring the check already performed
-> in
-> __hfsplus_ext_read_extent().
->=20
-> Link:
-> https://lore.kernel.org/lkml/cbd7003314c530d4f910eacf019ff80adad6687e.cam=
-el@dubeyko.com/
-> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
-> ---
-> =C2=A0fs/hfsplus/extents.c | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-> index 813e68b8ecd6..eb7c11524d18 100644
-> --- a/fs/hfsplus/extents.c
-> +++ b/fs/hfsplus/extents.c
-> @@ -110,6 +110,8 @@ static int __hfsplus_ext_write_extent(struct
-> inode *inode,
-> =C2=A0	} else {
-> =C2=A0		if (res)
-> =C2=A0			return res;
-> +		if (fd->entrylength !=3D sizeof(hfsplus_extent_rec))
-> +			return -EIO;
-> =C2=A0		hfs_bnode_write(fd->bnode, hip->cached_extents,
-> =C2=A0				fd->entryoffset, fd->entrylength);
-> =C2=A0		hip->extent_state &=3D ~HFSPLUS_EXT_DIRTY;
+Hello,
 
-Looks good.
+syzbot found the following issue on:
 
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=128b7cc6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
+dashboard link: https://syzkaller.appspot.com/bug?extid=e42793f1299e53beb2ee
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=138157b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=127cf29e580000
 
-Thanks,
-Slava.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e42793f1299e53beb2ee@syzkaller.appspotmail.com
+
+BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:248
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 5622, name: syz-executor363
+preempt_count: 10000, expected: 0
+RCU nest depth: 1, expected: 1
+locks held by syz-executor363/5622: 4, last CPU#0:
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1069 [inline]
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: __simple_recursive_removal+0x19a/0x520 fs/libfs.c:619
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ #2: ffffffff8e3c3880 (rcu_read_lock){....}-{1:3}, at: rtlock_slowlock_locked+0x2ab/0x3c20 kernel/locking/rtmutex.c:1874
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: kvm_xen_set_evtchn_fast+0x1be/0x990 arch/x86/kvm/xen.c:1827
+irq event stamp: 13272
+hardirqs last  enabled at (13271): [<ffffffff8b53b4b3>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:187 [inline]
+hardirqs last  enabled at (13271): [<ffffffff8b53b4b3>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:206
+hardirqs last disabled at (13272): [<ffffffff8b501aee>] sysvec_apic_timer_interrupt+0xe/0xc0 arch/x86/kernel/apic/apic.c:1062
+softirqs last  enabled at (6940): [<ffffffff81882fe0>] __local_bh_enable_ip+0x1a0/0x2b0 kernel/softirq.c:305
+softirqs last disabled at (6932): [<ffffffff891cda09>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (6932): [<ffffffff891cda09>] __alloc_skb+0x189/0x7a0 net/core/skbuff.c:697
+Preemption disabled at:
+[<ffffffff81883b8e>] irq_enter_rcu+0x1e/0x1f0 kernel/softirq.c:668
+CPU: 0 UID: 0 PID: 5622 Comm: syz-executor363 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x329/0x480 kernel/sched/core.c:9194
+ rt_read_lock+0xa9/0x4b0 kernel/locking/spinlock_rt.c:248
+ kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+ xen_timer_callback+0x109/0x220 arch/x86/kvm/xen.c:141
+ __run_hrtimer kernel/time/hrtimer.c:2065 [inline]
+ __hrtimer_run_queues+0x3a0/0xaf0 kernel/time/hrtimer.c:2122
+ hrtimer_interrupt+0x44a/0x900 kernel/time/hrtimer.c:2241
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:rt_mutex_owner include/linux/rtmutex.h:52 [inline]
+RIP: 0010:rtmutex_spin_on_owner kernel/locking/rtmutex.c:1504 [inline]
+RIP: 0010:rtlock_slowlock_locked+0x34e5/0x3c20 kernel/locking/rtmutex.c:1893
+Code: 80 3c 01 00 4c 8b b4 24 80 00 00 00 4c 8b 2c 24 74 08 4c 89 ef e8 db 0e df f6 48 8d 84 24 60 01 00 00 49 39 45 00 75 6c f3 90 <48> b8 00 00 00 00 00 fc ff df 48 8b 8c 24 a8 00 00 00 80 3c 01 00
+RSP: 0018:ffffc90004e6f7a0 EFLAGS: 00000246
+RAX: ffffc90004e6f900 RBX: 1ffff11006ff9bbe RCX: 1ffffffff1ca7871
+RDX: 00000000e6b90d15 RSI: ffffffff8bcbd060 RDI: 0000000000000001
+RBP: ffffc90004e6f9f0 R08: 1d00000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8e3c3880 R12: ffff888037fcddc0
+R13: ffffffff8e53c388 R14: ffffffff8e53c390 R15: 1ffff11006ff9bba
+ rtlock_slowlock kernel/locking/rtmutex.c:1922 [inline]
+ rtlock_lock kernel/locking/spinlock_rt.c:43 [inline]
+ __rt_spin_lock kernel/locking/spinlock_rt.c:49 [inline]
+ rt_spin_lock+0x165/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ __simple_recursive_removal+0x215/0x520 fs/libfs.c:623
+ debugfs_remove+0x5b/0x70 fs/debugfs/inode.c:781
+ kvm_destroy_vm_debugfs virt/kvm/kvm_main.c:988 [inline]
+ kvm_destroy_vm virt/kvm/kvm_main.c:1261 [inline]
+ kvm_put_kvm+0x147/0xae0 virt/kvm/kvm_main.c:1331
+ kvm_vm_release+0x46/0x50 virt/kvm/kvm_main.c:1354
+ __fput+0x42a/0xa80 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1009
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1152
+ __do_sys_exit_group kernel/exit.c:1163 [inline]
+ __se_sys_exit_group kernel/exit.c:1161 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1161
+ x64_sys_call+0x18bf/0x18c0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f132ec60d05
+Code: Unable to access opcode bytes at 0x7f132ec60cdb.
+RSP: 002b:00007ffe413e3968 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f132ec60d05
+RDX: 00000000000000e7 RSI: ffffffffffffffd8 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000009
+R10: 0000000000000009 R11: 0000000000000202 R12: 0000000000000000
+R13: 00007f132ecfa118 R14: 00007f132ecfc3c8 R15: 00007f132ecfc3e0
+ </TASK>
+
+=============================
+[ BUG: Invalid wait context ]
+syzkaller #0 Tainted: G        W          
+-----------------------------
+syz-executor363/5622 is trying to lock:
+ffff888038241530 (&gpc->lock){....}-{3:3}, at: kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+other info that might help us debug this:
+context-{2:2}
+locks held by syz-executor363/5622: 4, last CPU#0:
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1069 [inline]
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: __simple_recursive_removal+0x19a/0x520 fs/libfs.c:619
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ #2: ffffffff8e3c3880 (rcu_read_lock){....}-{1:3}, at: rtlock_slowlock_locked+0x2ab/0x3c20 kernel/locking/rtmutex.c:1874
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: kvm_xen_set_evtchn_fast+0x1be/0x990 arch/x86/kvm/xen.c:1827
+stack backtrace:
+CPU: 0 UID: 0 PID: 5622 Comm: syz-executor363 Tainted: G        W           syzkaller #0 PREEMPT_{RT,(full)} 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4846 [inline]
+ check_wait_context kernel/locking/lockdep.c:4918 [inline]
+ __lock_acquire+0xef0/0x2e40 kernel/locking/lockdep.c:5204
+ lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5906
+ rt_read_lock+0xcc/0x4b0 kernel/locking/spinlock_rt.c:249
+ kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+ xen_timer_callback+0x109/0x220 arch/x86/kvm/xen.c:141
+ __run_hrtimer kernel/time/hrtimer.c:2065 [inline]
+ __hrtimer_run_queues+0x3a0/0xaf0 kernel/time/hrtimer.c:2122
+ hrtimer_interrupt+0x44a/0x900 kernel/time/hrtimer.c:2241
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:rt_mutex_owner include/linux/rtmutex.h:52 [inline]
+RIP: 0010:rtmutex_spin_on_owner kernel/locking/rtmutex.c:1504 [inline]
+RIP: 0010:rtlock_slowlock_locked+0x34e5/0x3c20 kernel/locking/rtmutex.c:1893
+Code: 80 3c 01 00 4c 8b b4 24 80 00 00 00 4c 8b 2c 24 74 08 4c 89 ef e8 db 0e df f6 48 8d 84 24 60 01 00 00 49 39 45 00 75 6c f3 90 <48> b8 00 00 00 00 00 fc ff df 48 8b 8c 24 a8 00 00 00 80 3c 01 00
+RSP: 0018:ffffc90004e6f7a0 EFLAGS: 00000246
+RAX: ffffc90004e6f900 RBX: 1ffff11006ff9bbe RCX: 1ffffffff1ca7871
+RDX: 00000000e6b90d15 RSI: ffffffff8bcbd060 RDI: 0000000000000001
+RBP: ffffc90004e6f9f0 R08: 1d00000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8e3c3880 R12: ffff888037fcddc0
+R13: ffffffff8e53c388 R14: ffffffff8e53c390 R15: 1ffff11006ff9bba
+ rtlock_slowlock kernel/locking/rtmutex.c:1922 [inline]
+ rtlock_lock kernel/locking/spinlock_rt.c:43 [inline]
+ __rt_spin_lock kernel/locking/spinlock_rt.c:49 [inline]
+ rt_spin_lock+0x165/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ __simple_recursive_removal+0x215/0x520 fs/libfs.c:623
+ debugfs_remove+0x5b/0x70 fs/debugfs/inode.c:781
+ kvm_destroy_vm_debugfs virt/kvm/kvm_main.c:988 [inline]
+ kvm_destroy_vm virt/kvm/kvm_main.c:1261 [inline]
+ kvm_put_kvm+0x147/0xae0 virt/kvm/kvm_main.c:1331
+ kvm_vm_release+0x46/0x50 virt/kvm/kvm_main.c:1354
+ __fput+0x42a/0xa80 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1009
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1152
+ __do_sys_exit_group kernel/exit.c:1163 [inline]
+ __se_sys_exit_group kernel/exit.c:1161 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1161
+ x64_sys_call+0x18bf/0x18c0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f132ec60d05
+Code: Unable to access opcode bytes at 0x7f132ec60cdb.
+RSP: 002b:00007ffe413e3968 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f132ec60d05
+RDX: 00000000000000e7 RSI: ffffffffffffffd8 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000009
+R10: 0000000000000009 R11: 0000000000000202 R12: 0000000000000000
+R13: 00007f132ecfa118 R14: 00007f132ecfc3c8 R15: 00007f132ecfc3e0
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
+   4:	4c 8b b4 24 80 00 00 	mov    0x80(%rsp),%r14
+   b:	00
+   c:	4c 8b 2c 24          	mov    (%rsp),%r13
+  10:	74 08                	je     0x1a
+  12:	4c 89 ef             	mov    %r13,%rdi
+  15:	e8 db 0e df f6       	call   0xf6df0ef5
+  1a:	48 8d 84 24 60 01 00 	lea    0x160(%rsp),%rax
+  21:	00
+  22:	49 39 45 00          	cmp    %rax,0x0(%r13)
+  26:	75 6c                	jne    0x94
+  28:	f3 90                	pause
+* 2a:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax <-- trapping instruction
+  31:	fc ff df
+  34:	48 8b 8c 24 a8 00 00 	mov    0xa8(%rsp),%rcx
+  3b:	00
+  3c:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
