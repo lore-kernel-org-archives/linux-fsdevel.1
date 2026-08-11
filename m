@@ -1,188 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F053C28504F;
-	Tue, 11 Aug 2026 00:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A664B04B7;
+	Tue, 11 Aug 2026 02:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786409306; cv=none; b=mEfSKX9Igncm6inxQtmi5EZ7LZXspO/rFFmf+/1z0Ui2aqvYFn8oeX09NyipbJyEJNszTdfsgTQh7bWPtVBewp2biAuF36gXNwHU+pHwd09zWwWCiDpkCixZ4jrSevcAL6qCc5HBRYTJVvJE2tbcooW2NGaDxElWMOmMH+FME2U=
+	t=1786414324; cv=none; b=a4pYKy1AfpKunKdpvjGjwVR916i3FNWmwwFYvN0Y6GETWI2e94LTUq8yOIBK1PmTlEZqyCkPInpMGacCE83zGFlJqsHh6apdgqN0K5reawD5LVxhcJqFOkfh5W1GesRhKBiJq5xP2KtYNqHS6meXTyegAs7cWYv1FEqERIG1UMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786409306; c=relaxed/simple;
-	bh=tQJKYAJCM8/IP2w8iYhe+xhqvbrDNSqHT+FreZPPRTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXreWYQwzp+pUTeQx3RE8Ra5AdSBm0lZJVF5fKc1UQnQVcQ6yGZbUhfhKbgRpaSxaasx6+qRoxbRw8QXOe9NRZjXaRtU1c+tJhJjpsuvcTm0XDdkslMHMZS6srZU8fI+06LKecgaj+cX+stwWrpUltK82hpzL4f6X5F+ylbQ+OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KcUlgPzU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786414324; c=relaxed/simple;
+	bh=KwaRZdlc7REB2zDbfklX0C4zMUsVEiT3D81VVqMcX+4=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=RAUp/Sk/E49YXXN81a9Lese58NqzXHmkXoLwmvTDxVbSw1y5Gjt3Cu9m4Z7H2i4zT0lwQCWarnMrvgS3EMeBtWzGUB19cJhBS8OgybdW0nFPIQ/XlVq5TwDCBKlC8dNsFamduMtkLff03nO1ASOT1OG6J8JDAA2HGxpQVY5N0cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ev/Z7da9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BeRe5VzN; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KcUlgPzU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D35F71F000E9;
-	Tue, 11 Aug 2026 00:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786409304;
-	bh=qKS1JcrH56Iarz4e1apBMWyGOHTnqlTit3H0mkZq1+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KcUlgPzUP/WSHmvVXiEzTL5xhOjnjhy7SP7rgYlFvuerL+rkI/JPIc+z7BGGVt1sU
-	 ZyFZN7JkpLvRGEI6sU/jVXwO5WmJP91a/h99jXywKX7eYkdeJI3VVnlczza/UfQU82
-	 +LNG1qA870ipZuZNLOKkx77RgZu8h51N+IBnUuynE25xmHem+jjw3tuIVPL2F5+7cn
-	 k0tieup1r3NUEn8y8sV61DAq9Kb2oD7p7ty72liD9iKhtaTB/e2jJs4dbAjLepqR8w
-	 PpHOwAI+e205XoAy1r9jq2Ahu/S+ZL6UC1DsRDMyYPzkmDNEtm9iCOdCSzBpjMAYPK
-	 AGyK+owE1mQCA==
-Date: Tue, 11 Aug 2026 00:48:22 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi
- strictlimiting")
-Message-ID: <anpsLy_pCanocgS1@google.com>
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ev/Z7da9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BeRe5VzN"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailflow.phl.internal (Postfix) with ESMTP id 8B8DB13800E9;
+	Mon, 10 Aug 2026 22:12:01 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Mon, 10 Aug 2026 22:12:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1786414321; x=1786421521; bh=z59H84mGp5chtaSVDA9MWaRAa7fU4ciWmVM
+	LKTtAoYg=; b=ev/Z7da9p8cwQcaNeHVWhphBQkNLxbkRm7S0l36OJ+d8S+Q9qpb
+	uvJOjgeeRpjUEJ7vH9Hzu1hp8K9wMiH4myBGCqCvLwUNr/+4HLkcSfYzDJfHM1Ba
+	sVPa1Bp460YU8A6TEn9xJtSpeCr6hmLdZ6IF1TBbVB74B23WJWet3Trz/Wl3pj8E
+	Me83adV8XvpvoMPF6JPHYLs9g74+D4cwXDv8ttU06KE5hvSCe5LMjFlMfo03r3nn
+	hJ4qn3ILZgZXwdvYlXaQ/YaFPRkU6GhA76dnZYNL7R8yvSiZ3gb6jZcMCJ9muNB7
+	CkwLzC0gHO5OY+b8adPpq+45ish4ZgqX69g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786414321; x=
+	1786421521; bh=z59H84mGp5chtaSVDA9MWaRAa7fU4ciWmVMLKTtAoYg=; b=B
+	eRe5VzNt+LlY+tHSbVayqPRJjuRndPXKsRDh2jvrEkojis7w41tucjBajRhLI/kA
+	e94Rt+BmEIGyNanp0UHl5YWgSGA2kC11ZG7JpgpUkF0folXSIfRh/2oHT/lzZvCL
+	RPs2J6nXbVqmYk7/T3awEz4F/N+J5rFU14GK7sknHOTI0fwcn6jjXGLzpIQlVlrX
+	y52lb91ii9cvBG9AZ216p/gYo7VONmxgtcXLbQuKT4hfvrYdYpzFG1eNoTinMpsc
+	sEp0QN511yAtN7bMDua8b59atPmGHL8awiKHWj1dp7kcPoVzM7fkFoknuvtYVuR7
+	yhWITatRJj4Efjl6w9CUA==
+X-ME-Sender: <xms:8IR6arCyA7tyPch4iET4Mq2YTh60wDVI7XdLMOFPY1yaD0e7c4fHJg>
+    <xme:8IR6ajPQueAIyi5ky1_QHldQ7gIArqfmoPo0FfQ2rjti7jiigoXe9-1654kC3Ufuf
+    L_mRprFvOSckEhXffPQzDanAuwJIJIIw-7iW4D74BScFxmqr9A>
+X-ME-Received: <xmr:8IR6aqAoLsYqYihWGkohZ22EauJJQnelGTKqwIhODNaIhrzWrx7ICl2NXF9MswSpDboaKxgxViyXoo3oCnO8eLIgrXJKbwA>
+X-ME-Proxy-Cause: dmFkZTGiFhqbMavz1GnHNgGnrM7aRU5foa/cHmUyoXxGd+EScvvMJzvJekNH/ltV7v2YtA
+    KKbMVreFRkOyPn5sqVW2TgecBr3u2xPZOvs//haZKfCkUETFc9Dc+20w7B10YcIOqo4B3E
+    TabCpIpl6/tH0XT0IGvOLprJTGWis8gKtNk1Rjm9VB88Tx3PzlLryvVLrq5lxuhVtQseO1
+    1etPysa+a2nh8j/Ut8fnJ9KZdaeKaUwp61VZN57Xdd9LTnyPmhtnDkEuLIj5n3pyqWyG6x
+    cZSa+pOJNSOie1q67PHP7DSVBVmOr1Pm3I4UkDSGGBMfN3tV9DodOiU8cpEWqDKzTuRcGz
+    m6rPQvpdVdnLZODlanSGCKc6LKgwo2VUHapaar4Te0Y37NMl9dwAL4JfTjddJwQafGWl6H
+    K0n0cgZrmq72mitnu6Z5gPbxIp6sNJXZvSVIgD8TVZkO/Tu9euem23e4SgO4b3BOT4Yo7L
+    Q6CUJDi+O4BbUTVXw+dOPqEJCip/vPCwlW2GkmsViDuJnwRkkKVq2H3NSvmVQgHRteloxi
+    WvTqS9HIEr+yVHLyrtHaEhwFcR1r7Zxz61HH3QO1RsmRtXfZQoqFnQzHrAnlZ5RduTyQaN
+    NzNXd4Mswgswb4fo1mWdAIKNF3RdkBypQw8KE6kvXkHMEzF1cigCX6iUJd4w
+X-ME-Proxy: <xmx:8IR6atkBFmfF5mlzsOM77rPYCO3p0-Y4ysejWCirCPvTVrTkTiR8Gg>
+    <xmx:8IR6amocgJDydj6SrAkFnif_fEF5D5D2xwf8EcFtD-1B8bDhr74GdQ>
+    <xmx:8IR6akjUrd7A9aBU37mBBRx5sulvzXqcBEHY9XR2gC7r4tMFmYYjdw>
+    <xmx:8IR6aogZ9HXVMHvePRPh4E20z1v7OEizhENFM97ib_U6rbT-AWR8cQ>
+    <xmx:8YR6an_MxMSzzg6Gcknh3_Ntgu1j2vBeMa0aMQyuwwdOJgwGNVTYpik6>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Aug 2026 22:11:54 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+From: NeilBrown <neilb@ownmail.net>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "Ian Kent" <raven@themaw.net>, "Chuck Lever" <cel@kernel.org>,
+ "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 01/12] VFS: don't count references through ->d_parent
+In-reply-to:
+ <CAJfpegt1wHngLs9uR943gT6zxV67D53k3n4GiFKowsAb3C6LJw@mail.gmail.com>
+References: <20260803012648.2195405-1-neilb@ownmail.net>
+  <20260803012648.2195405-2-neilb@ownmail.net>
+  <CAJfpegt1wHngLs9uR943gT6zxV67D53k3n4GiFKowsAb3C6LJw@mail.gmail.com>
+Date: Tue, 11 Aug 2026 12:11:50 +1000
+Message-id: <178641431036.2852630.14175693646176331672@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
-> On Thu, Aug 6, 2026 at 2:31 PM Yosry Ahmed <yosry@kernel.org> wrote:
-> >
-> > On Thu, Aug 6, 2026 at 2:04 PM Joanne Koong <joannelkoong@gmail.com> wrote:
-> > >
-> > > I'm not too familiar with memcg or vmstat so apologies if this is a
-> > > naive question, but does it make sense for memcg to just do a similar
-> > > approach to what vmstat does? As I understand it, mod_lruvec_state()
-> > > updates the node counter and the memcg counter (if memcg applies),
-> > > where for updating the node counter, mod_node_state() does some
-> > > batching where it updates the global counter for that stat only once
-> > > it crosses some threshold (pcp->stat_threshold). Could memcg keep its
-> > > per-CPU counter as the accumulator but once it reaches some threshold,
-> > > it then propagates it up the parent/ancestors into a per-memcg atomic
-> > > global counter? The atomic would then only have to be touched once per
-> > > batch than on every update, which might eliminate the overhead of the
-> > > per-memcg atomic you saw previously? It seems like this would get rid
-> > > of needing to do any flushing altogether, as we could just read that
-> > > global counter directly.
-> >
-> > The memcg stats perform similar per-CPU counting and thresholding. The
-> > main difference from vmstat AFAICT is the cgroup hierarchy. In vmstat
-> > we have per-CPU counters and a global atomic counter for each stat.
-> > For memcg, we have the same for each cgroup, then we also have a
-> > cgroup tree. When we read the stats of a cgroup, we usually want the
-> > hierarchical stats including all of its children, so we can't just
-> > read the global counter.
-> >
-> > We use rstat, a cgroup framework that keeps track of which cgroups
-> > have updates on which CPUs, and then memcg has thresholding logic on
-> > top to only flush if the number of pending updates exceeds a
-> > threshold. Essentially, if the magnitude updates on a CPU exceeds
-> > MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We only
-> > flush if that global per-memcg counter has > NR_CPUS *
-> > MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to 2 *
-> > NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
-> > stats).
-> >
-> > See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this logic.
-> >
-> > Looking at this code again, it made me realize that we already iterate
-> > the per-CPU stats_updates on every update to increment the number of
-> > pending stats on this CPU. I wonder if we can replace this with
-> > actually updating the stat on each parent, then the flush path only
-> > needs to accumulate CPU counters. Or maybe as you mention, we update
-> > the global per-memcg counter when updates on a CPU exceed a threshold,
-> > and forgo the rstat flushing logic completely.
-> >
-> 
-> I can run some experiments and see if updating the global per-memcg
-> counter per batch and forgoing flushing could be a viable solution.
-> I can use my setup to test it for writeback, but for the zswap use
-> case, what's the best way to test if the changes are too expensive? Is
-> there a benchmark program you're running?
+On Mon, 10 Aug 2026, Miklos Szeredi wrote:
+> On Mon, 3 Aug 2026 at 03:37, NeilBrown <neilb@ownmail.net> wrote:
+>=20
+> > When a DCACHE_CURSOR dentry is added to d_children, it is only ever
+> > added "before" or "behind" an existing child, so it will never be the
+> > first and so never needs to adjust the refcount on the parent.  If it
+> > remains on the list until dput() it could be the last child to be
+> > removed, in which case normal handling applies in dentry_unlist() (where
+> > it has been moved from dentry_kill().
+>=20
+> Not handling the parent refcount together with cursor removal can
+> result in inconsistency, e.g:
+>=20
+>  - add cursor (seek between two positive dentries)
+>  - remove all real children (parent refcount not touched, since cursor
+> is still on d_children)
+>  - remove cursor (seek to zero offset)
+>  - close directory (dentry_unlist() will skip parent refcount update
+> since dentry->d_sib is no longer linked)
+>=20
+> Repro attached, produces "BUG: Dentry ffff888107ef75d0{i=3D143e,n=3Ddir}
+> still in use (1) [unm
+> ount of hugetlbfs hugetlbfs]".
+>=20
+> Thanks,
+> Milklos
+>=20
 
-I was running stress-ng and measuring the latency of zswap_load() and
-zswap_store() with bpftrace. But I suspect whatever works for writeback
-should work for zswap :)
+Thanks for the review.  I realised that when I was doing patch 11 which
+changes d_for_each_positive_child() to use a cursor, but I didn't think
+the apply that understand back at this patch.
 
-> 
-> For updating the stat on each parent and having the flush path only
-> accumulate CPU counters, I think this means we would have to
-> unconditionally walk the ancestors + update its counters on every
-> update, as we wouldn't be able to early break if the flushable
-> threshold was already exceeded. I don't think we could replace the
-> stats_update update, as it seems like readers still need some way of
-> knowing when to flush. It seems like this could be a nontrivial
-> performance hit, but maybe it's a non-factor in reality. If you think
-> this would be useful to get benchmark numbers on, I can run some
-> experiments on this too.
+There is only on user of cursors so it can be easily fixed as follows.
 
-I think we need to experiment with how much work we can shift around
-between the update and reader sides.
+Thanks,
+NeilBrown
 
-Right now, on the update side, we call __css_rstat_updated(), which
-iterates the parents and puts them on the per-CPU rstat tree, then we
-iterate the parents again in memcg_rstat_updated() and:
-- Check if flushing threshold is already met.
-- Update per-CPU counter for stats_updates.
-- If per-CPU update exceeds (another) threshold, we update an atomic for
-  stats_updates.
+index 5a0d276379d1..91f535192ee2 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -169,6 +169,8 @@ loff_t dcache_dir_lseek(struct file *file, loff_t offset,=
+ int whence)
+ 		hlist_del_init(&cursor->d_sib);
+ 		if (to)
+ 			hlist_add_behind(&cursor->d_sib, &to->d_sib);
++		else if (hlist_empty(&dentry->d_children)
++			dput_dlock(dentry);
+ 		spin_unlock(&dentry->d_lock);
+ 		dput(to);
+=20
+@@ -213,6 +215,8 @@ int dcache_readdir(struct file *file, struct dir_context =
+*ctx)
+ 	hlist_del_init(&cursor->d_sib);
+ 	if (next)
+ 		hlist_add_before(&cursor->d_sib, &next->d_sib);
++	else if (hlist_empty(&dentry->d_children))
++		dput_dlock(dentry);
+ 	spin_unlock(&dentry->d_lock);
+ 	dput(next);
+=20
 
-The flush side checks the flushing threshold and does an rstat flush,
-which will walk the update trees on all CPUs and iterates all child
-cgroups on it. Pretty expensive when the threshold is met.
-
-I think we discussed two different options:
-
-(a) On stats updates, iterate the parents and update the per-CPU
-counters of the stat directly.
-
-In this case, we can't keep using rstat, as we would still need to add
-the cgroup and all its ancestors to the update tree anyway and the flush
-cost will remain similar. So on the flush path we'll need to iterate all
-CPUs and add the counters. We can explore if use a cpumask can help
-here, but perhaps not since we'll need to update it atomically on all
-stat updates.
-
-I imagine that if we do this we'll drop the stats_updates optimization
-to avoid adding more cost to the update side. We'll be replacing parent
-stats_updates modification with parent stat counter modification. But
-maybe it's feasible to keep both to limit the cost of flusing.
-
-This only works if the cost of iterate the CPUs on the flush side ends
-up being cheaper than the current flush. I imagine the average cost will
-be higher but the cost should be much more consistent vs the current
-flush, so the tail should be better.
-
-(b) On stats updates, iterate the parents and update the per-CPU
-counters of the stat directly AND update a global atomic if the per-CPU
-counter exceeds a threshold. I think updates may get too expensive as we
-may need to update multiple atomics, especially when updating the root
-counter as it will be contended by all cgroups.
-
-The flush side becomes an atomic read, so should be very cheap, and we
-can drop other heuristics and optimizations.
-
----
-
-I think ultimately we need to experiment with these approachs (and
-perhaps others) to check what actually works in practice. You'll
-probably want some benchmarks or synthetic tests with many cgroups to
-exercise the worst case scenarios.
-
-For the zswap stats, I used to run stress-ng with a bunch of workers
-(20, 50, 100, ..) in cgroups of different levels. Since all workers are
-in the same cgroups, all the parents are common and all threads end up
-competing on the same atomics, so worst case scenario. I was also
-testing in a VM that has more CPUs than stress-ng workers, to exercise
-the full extent of the concurrency and contention.
-
-This could be a lot of work, so I am not really asking you to do it, but
-just brainstorming and sharing ideas :)
