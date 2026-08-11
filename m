@@ -1,149 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1D836E48C;
-	Tue, 11 Aug 2026 18:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786472417; cv=none; b=VOLgtC2EDiqIhRxNoMKxSUJTrB+O1P064Iw/UfyWQWzuR+tznRnea0vsTr4ialzlSZmeO8KGIv+MR9FGrHCStMo9in7EqAngrndoTdV+FDFkYp1IQ1YE6VYqkbNLFYfcwy8kO9T/yH2A7b0jLBsFLEBcvBYPuBZTGLJ6DB9K8OI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786472417; c=relaxed/simple;
-	bh=Wiawra5kKkPi4nsu5a2lb9gjs/CukzGmHJKtuwRoeUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lPPKgdZ1m9KhKeTOwn5siiPbi13dG7NfXkL61JB+9AKmw3yfMX7vSgkQTh6rO1h+cpvCdQJclrkCB565HwqkLUa/cbNCr7CJpN0qFOtAVbwS4gv7sVL3nyxLJA9efUCXth6EVE8qeVrQ+jo+MY/UzrjOu6Xaclimt8mpR03lInk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUR7edvf; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B75E466B58
+	for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 19:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786475278; cv=pass; b=XFXWEx7eXDdWrWTYFjYPLLyiNmirhqDjR2tT+kbSUonGEl/8rAf6u0e71V0vi1Iqni7Ip29bHKfIawy55yNIbLjonHvufOXF8h5oDl0OEMo0bZo37sTCMuAwb+x4nAJ0TZG9mfLLgc5P47IlsV4zx0pZDzcNMkL+eZGs/KUfCe0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786475278; c=relaxed/simple;
+	bh=C1hreM4FHEoohH+eGJumQkjd/LtpSUCRmMU2uj8Ja0M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MLCFYu0vWggTlkAn7ZB5cLXnbnXUjlGQ6x/VRbx3MiQ4k2G9MmCB4UW7VLoMcRysWFm99vfMj3MotHt9QaY5W0P1lnXzT96p4UoSJoZlYmtZ/RaITLVlh97LOjEpdz7YojpNp9JiIzBfgN33YS3ow1DzUefMasKHevbmatBXQMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f52Q6cZ+; arc=pass smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUR7edvf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFD51F000E9;
-	Tue, 11 Aug 2026 18:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786472416;
-	bh=82HGZsPxUpcnk6FVJkVR/8JEXad9K6uAipsabFS3WKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LUR7edvfMpZPiPQqCKTxT7C3PKhPuFxcyN3AHk76XXbKOfB1CBf4sTCfdKV5Ptp4R
-	 B0Rr4m/ibr0q7uguVB5xMvUrzpA8/e+L2+D9mySRGX5Sq0cqu+VYzXeRVwQrmn8234
-	 LLnbTRtpZli/PRucZ123m1vW61I1Ec7S9rn6NHL66Uz8AgA+u1osyHEAldC8tMp/bB
-	 3BQBwPF2oCqK3n/Lk1m+IdZa16AC9fzGUZA/cJejpmaPF4+nICKJrHugBAWx1OXFHB
-	 1g92/VYVXhZEus1ZDlSComjJTk6nmL6YLxSHx6h3SPp+ggcFhbtYmnXS3XfL7840n/
-	 mAUvBvG/OpnMw==
-Date: Tue, 11 Aug 2026 18:20:12 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Lukas Wunner <lukas@wunner.de>, Ignat Korchagin <ignat@linux.win>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	dm-devel@lists.linux.dev
-Subject: Re: [PATCH v2 00/13] CRASH_WIPE_SECRETS: Wipe secrets before kdump
- (was: CRASH_ZEROIZE)
-Message-ID: <20260811182012.GB2895176@google.com>
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f52Q6cZ+"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cacef7d299so22865ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 11 Aug 2026 12:07:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786475274; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jiATUj9TNwdGfmBQMo3mBISWGkA9UPQnHdo85ABaDIewBvFUjPwV5D+95Jiz7R36Dj
+         YNs/E9rvzis9KPoXH0s/PztUn7td64o0LPuPNEbKcgqPuu4GnIPXEQVGyQ3H5mxHUI9q
+         mhvCQBbCwoUN9HFLaouWOpPEeTlwSYjJcO5HlL8VJIp6IqFaSRhIGHir/eJhL/450xlm
+         5jfusUR2ZbVUz8YHVyWAhM+uSED1ficmnoRPmJdt3P1aRO4pAogYSWcNtJubsP94eNib
+         ID+ja6Sl6lBET9bwaB/lg+XltqesohudUELanzqAZhd4bqKgtMouZspDi8GtUS1X7jOb
+         knwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=C1hreM4FHEoohH+eGJumQkjd/LtpSUCRmMU2uj8Ja0M=;
+        fh=gVRqdwdwEnhC5KImVgj3JOibPpV3ANOtVu51699cNCA=;
+        b=iMtAwWaMaD1YXg3lBGStpmycUc8gVAzeH5wuKG/RU5tyj2a9s+wX25pIpbnuVRpolj
+         +n2nZ2E1M4wLAwHpPX5U7wVvq8NP2Pyxyg3x6xgj+mGprdNCE1Twk49xs80QtDDA9Dxs
+         knDwSSbPrZdmtBoO1w4+1fXNu9cJs27hsm/JlOJBuSomma/hlus8MPFdAHEpr5RYjiDM
+         Lov2MdeIquT/qgRJgeJ5kVUMyN7/sydPAef4pajVFuUN8ky+WnEYbq1GRoKpTBXy0VRT
+         QFjR+N+UClTtT8eLv1FmTtFgg5/qdqmFVeN0FR+ti08ToldYNdQ8ovimYhOJ0ogTs685
+         BBpg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786475274; x=1787080074; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C1hreM4FHEoohH+eGJumQkjd/LtpSUCRmMU2uj8Ja0M=;
+        b=f52Q6cZ+pga+sW7FR+YhQgyATx0vGbkY9yFhTJof/GW8VCujYo3OQ9f1omJuccegHZ
+         52Xm451BQfwvRnU0k3mpvbRtGgHaFXM+4HbiLD3StuwkwSUaI8DncAz6CmS/M5cY0EnE
+         pzN7hcYfAyqCYNfokleRmnMie27iOCqIUFo0/MA516Xb9bYOaM9ZB5xlc0Thf1BDkR6M
+         Xv4oiQnymXumR4l903+9cQwKiMxhrRjz690VdOWgq91JHYAjiqWs0dvcGCGTW7aMxRX+
+         thvfs1XxLMGjiEO/QYgoIPuftMRmLVpN8u47OIM6PO2DkJzXde6jgxlMrY0YqfwJviGW
+         A+cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786475274; x=1787080074;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C1hreM4FHEoohH+eGJumQkjd/LtpSUCRmMU2uj8Ja0M=;
+        b=jOqUErZIVi7a9SZv/y1ArHl22FFcBUovocqEyyRtjyGbCBwTGQs6Y74iVq8bvV9cob
+         /HMTNgoL7TEFwolJyheIMNSakJZgMWxmSF0V06moA8uMsRYyoSACdgCifvRCpSulSvHF
+         RGMIlvGx5pzghVdX6b+tHXHCQxRSRJYm1mL5cm2Zz6Sh08zs/nFBTqV9skAJksfVzF0w
+         4zs4ha4xf/Gdb0MKCK2iH4QMZWqMsl8z3pMiTQ24TBZrIKTmKqVYEKPdSQLaPZyHGRnl
+         juQJOlKIMZTqHpgqgbkrmr12yqfpamOvi9we+3PPgdwH5XKsOiXk363TpSUjJhtb+zIt
+         f52Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpEBJ5gyzOMNN6oLUE91QFb1oc0JPCk8btK73jMCS+/EVU2RwJhVIus1WiRimRgMccCIo/4uE7C2metFqXe@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywj17uW+ypmvA1I4aRk59SPxzmPE9Kd2qNTcei1RZGaCS3mDZNo
+	vTPsu/eiGugoIk00oUdh9JUm1ciSfvQ3NC+J8uywzcQ42geJqLZBGthU7mxpfj3LERPx44Btnx3
+	aaJTtUu9/Ae3a1pitdcwYb7ryk7kx9CCpTH7n+YqS
+X-Gm-Gg: AR+sD11qUTBpOR9BPpwVZSFVIuo/WG1l3/xG8fjmWFbaeIQPxnDg1tiCTOC1FZVwiry
+	/QrXsiSGlZNt9bXDbG8VslRIqa11OPG3R135SqiO0SSyPlLSItArH/wwXrbnIDir33r4vMEQoMz
+	IB11fELbx65Br0LxpNZZjHlnKK+6T4+KiWWu30i5jjQMVxTlRNPPUNlbUPUqTVoMw26/gno8OAL
+	GBMPYyquSVtHGPwfDNZRK/LKP84R4qqK7ZecRj0exPwOdEtEYA47oUOPytS1RndwmXh/sr5LGsr
+	kfm4VdDu0bfod3KAYuB/5io+MlCPgtA5abuAZ/ron/R7DTel3/iRhioGo36WoCpymmCzqF9hilw
+	+h/l1Q3l+jKLLwDLz9O5JtombWHlGCKE=
+X-Received: by 2002:a17:903:1843:b0:2bf:3579:cdaa with SMTP id
+ d9443c01a7336-2d33a99905amr481575ad.10.1786475273937; Tue, 11 Aug 2026
+ 12:07:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+References: <20260811-work-coredump-sparse-v1-0-cd3e8b1e356d@kernel.org>
+In-Reply-To: <20260811-work-coredump-sparse-v1-0-cd3e8b1e356d@kernel.org>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 11 Aug 2026 21:07:16 +0200
+X-Gm-Features: AUfX_mwl8D17qLmpn2j9POaLRIWa5xMeaCP1oLEBxMsBs01SgCKLca4ifFR7LFM
+Message-ID: <CAG48ez3QwUopEyfB0tEc84A57g3GZdnptazJW+htiTi2e0Gc=A@mail.gmail.com>
+Subject: Re: [PATCH 00/11] coredump: allow to create sparse coredumps on the
+ coredump socket
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Omar Sandoval <osandov@osandov.com>, Jacob Lalonde <jalalonde@fb.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 11, 2026 at 07:52:49PM +0200, Jan Sebastian Götte wrote:
-> I'm using linux on an embedded target in a Hardware Security Module-like
-> application. One requirement is that I want the system to be able to
-> quickly erase its memory when it detects physical tampering. I'm
-> approaching that by using kdump to load into a small payload that
-> instead of dumping RAM, erases RAM from start to end. However, writing
-> all of RAM, especially on an embedded target, is rather slow. For this
-> reason, I propose the mechanism in this patch series:
-> 
-> Add CONFIG_CRASH_ZEROIZE (default off), which when enabled makes various
-> subsystems handling secret data do a quick, targeted wipe of these
-> secrets before kdump. This behavior might also be interesting in cases
-> where you run a normal kdump kernel but you still want to keep things
-> like fde crypto keys out of these dumps.
-> 
-> CONFIG_CRASH_ZEROIZE is a best effort, defense in depth solution. There
-> are circumstances, such as when a panic is triggered after memory
-> corruption, or when a panic interrupts some operation that mutates data
-> structures under locks, when the kernel cannot safely wipe some memory
-> areas. The handlers proposed in this series will just print a warning
-> and skip the affected areas in this case.
-> 
-> This series introduces handlers for the major locations I found where
-> having this sort of thing makes sense. Notable omissions right now are
-> the Ceph and CIFS subsystems. I have WIP patches for these, but since I
-> can't easily test them right now, I omitted them from this patch set for
-> now. Currently included locations are:
-> 
-> * various key types in security/keys
-> * rxrpc
-> * fscrypt
-> * dm-crypt
-> * crypto tfm instances
-> * secretmem (which I'm going to start using in my application)
-> 
-> I've verified this patch series on an ARM64 target using the helper code
-> at https://codeberg.org/yasec/crash-wipe-test . This code stuffs the
-> affected kernel subsystems with keys and secret data, then crashes the
-> system, takes a RAM dump and verifies the dump is clean of secrets. Note
-> that the helper code is partially LLM-generated, so read with care. It
-> passes a positive control test with the config option disabled.
-> 
-> The patch series applies on top of linux-next but should work on 7.0.0,
-> too. I've tested the patches on a Arduino uno Q (Qualcomm QRB2210,
-> ARM64) embedded target.
+On Tue, Aug 11, 2026 at 5:27=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+> A server that raises COREDUMP_HEADER in coredump_ack->mask doesn't get
+> the coredump as a plain byte stream but as a sequence of frames. Each
+> one a struct coredump_frame_header followed by what it describes. A data
+> frame carries its bytes. If a server also raises COREDUMP_SPARSE, zero
+> frames are sent for unpopulated mappings. They only indicate how many
+> zero bytes need to be written and to not include data. Reassembling the
+> frames gives back the same coredump. A debugger and everything else
+> still see an ordinary core file and nothing outside the coredump server
+> has to learn anything.
 
-Can we not?  It's already hard enough to zeroize keys and data at the
-normal end of their lifetime in the kernel: that's something that is
-always a struggle, with fix patches regularly going by for many years
-and many subsystems never fixed at all.  If we can barely even do that,
-we aren't going to be able to correctly and completely implement and
-maintain separate zeroization code for every kernel subsystem that runs
-only on kernel panics and has special constraints, like not being able
-to take locks.
+Hmm...
 
-This is never going to be done either, with the scope always wanting to
-grow to include other keys and data.  You may think this series covers
-"almost everything" but it's actually not even close.
+I think what you're doing is probably the easiest way to do this in
+practice. I guess some design alternatives would be:
 
-Could you perhaps narrow the scope to one or two things that actually
-are useful and can reasonably be supported for the application?  For
-example, secretmem seems to be the only thing you mentioned that you're
-actually planning to use.
-
-- Eric
+1. (overengineered, not generically useful enough): If the transport
+was a pipe (which already has the concept of different types of pipe
+buffers) instead of a unix domain socket, we could introduce a special
+representation for zero-filled pipe buffers and some API for receiving
+zeroed holes through lseek(pipefd, 0, SEEK_DATA), but that's probably
+not sufficiently useful for stuff other than core dumping to be worth
+the effort.
+2. (somewhat overengineered) With some refactoring, we could maybe do
+something like /proc/kcore and create a seekable virtual coredump file
+that we send over the socket via SCM_RIGHTS?
+3. We could leave the userspace memory dump out of the core dump data,
+and let userspace take care of filling out the memory contents using
+/proc/$pid/pagemap and /proc/$pid/mem? That would also avoid task
+switches and SKB allocations, and probably reduce the number of data
+copies involved in this by 1.
