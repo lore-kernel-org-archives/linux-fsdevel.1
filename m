@@ -1,173 +1,123 @@
-Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1ACC41379E;
-	Wed, 12 Aug 2026 10:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C46B4307AD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 11:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786529334; cv=none; b=DvpkIACyyJoTKelXJ9P4iw/1nXcC/ds96T8wBJTEGmEJSUS7P3sYscsL0j4vCy5bfe0JIo6IHRfbDJapsBmMwaK5m7F2kruqwqN4IF+jypIYPyi9701h00MXGp3//dTXApElA3i9luqNdXLQF7jC9WE2aT/ZLdzAu3BJDCep89E=
+	t=1786533131; cv=none; b=l1kHNkP4cBJL0R8z7NB6ppII8N9BpufLyqVC5iHTM8IF8JeXq/ueNMKWMhBGFEiO/kgtFNQEliximGrRHbGaphmvDYxgd1dOnq9a7Ft0TkWmmzejkbaeTw6p8FtA3ktTI4/pjChLEJlkNd/QymqMjmgjSul7lRKi1VW6yOvJMFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786529334; c=relaxed/simple;
-	bh=g+DD3uHXa4UUhT/lPNztmr+/Ptgyo2Iymel1zvvVQDY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f1/RAlCN4gAHfLQ1LPMyixT00GxZ818MzyN1/Ka9flSYG01GIcEdiYCyDP0QQY5t1cA9TT2zBCNx2z/RkV9u8/wxx8z+xzhCb189VdNSw46ExaVg9Vf1EU7y8qhZhL5ioGVofX9qn9OCtvXUdSy7D7vw8Fjo1UcTR4FRwYEot3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de; spf=pass smtp.mailfrom=jaseg.de; dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b=DcXGvPte; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UjdjRg4+; arc=none smtp.client-ip=103.168.172.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaseg.de
+	s=arc-20240116; t=1786533131; c=relaxed/simple;
+	bh=OGxckeJmWrizXAHqZWRfuMMkJcH1fqycD1u6bjgSYRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eyRJkY/XO8u78PT2LnTjib5Z/hNp4le7JGWib+HHvUgpBWrPEzQOdprh99T8z5G0pSfoouPp/W8K6TUKI4v9R6xQGY+41RjW+f4z2GSus20oo9XrSxxFemtFpHU1o9jAS2yWcvKQYpS7wf3S9ZdLTFY/whb6l2mH17ol56bE7FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzgD/hKB; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b="DcXGvPte";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UjdjRg4+"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id BBF2A1380318;
-	Wed, 12 Aug 2026 06:08:51 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 12 Aug 2026 06:08:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786529331;
-	 x=1786536531; bh=bW88MBwEWiHxXalK9p7mEtRxunSdhzNV0Ppwj/k9i1k=; b=
-	DcXGvPteCscZI/GwRFTH4mv+X4SBB/L2nxEuJXbaNHkr7F0smm74zCR8ytyfyDK2
-	deNYonkvGo9MorQPdzMgQpumMiqEhc8kh7MDjUKKqGqjt+dgXudLF2NAd+JuTt7x
-	UOp9kU5qnPaxYmSlfLw9SLn1YvREorfEChCB8Vdv59wlD+g3/yCoYgGcpIqSe4Rc
-	Qq1tBLIylDAWQwRLdfmoCCE0zKkoMgVOuw4NGvt6C++AcqG/yFKk+wuMQ/frzzUe
-	WpyHueUkS66e1tAjVlj6aRNRY0MVy/A61UttJXizY4zHHKHxwuCQ04mYK+JdJibV
-	BW5DkvddWVJNd+e4921zzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786529331; x=
-	1786536531; bh=bW88MBwEWiHxXalK9p7mEtRxunSdhzNV0Ppwj/k9i1k=; b=U
-	jdjRg4+0h4GBVHbZWuRmenc5MOZBfXytCFvmTozoVejQhqsVKAEMlXEwYPkPtGUf
-	ngjYTyAlntHn8cPfnVBmFXK6yymSNOQjVjq/zODcJ/9KAsZQleveajikxRPmdHh+
-	f0699mdyLBUNwQDcrQyRiireEzWnN1ycYuWE7UFyW7W5Vk+y62fJjCiUztDkiwHF
-	hSPudpSXapetWUF82JoBdX+pfYcfIkKdL7WAcPaR+mxL4Agav8Dq2b1FFMhPkhW0
-	HB0CWybFVT+kC+5ykPmgP4BfbRihc8/zeqNji8x9JptmpqNW06HCLUF8eo8SwZoq
-	IYnBLOl1NKyId+2gBMSzQ==
-X-ME-Sender: <xms:M0Z8agx7iq5l6vNO6xYCruRD2E00yv5vuI2Kb3O7lpjSeZknJuQQxg>
-    <xme:M0Z8atE67uJ8acOVlANAZcbJPqLF1EXgJHG8w-W29FC42CpoMUpPc6zJZrUmQ15pJ
-    vbAW4CmdwXunbNC3IL4ubajn9C7kB0m_c4Th5Y1NuVPh6cIuhZOS6A>
-X-ME-Received: <xmr:M0Z8ao6-Ga9RNzEg3L_Tve-n8wkgt46prWBGzOHpl3dDvS1SWuS8m7L0jyPxpVTOqCKd2Q0SAuTvsdN3islXKgI>
-X-ME-Proxy-Cause: dmFkZTFhXuUc5zonLNYLcZR1VVfiawIf/DLo3p0z5ttoTk/im5FO3AIzDhACbr4L+QCnil
-    kioW5B72/SP07lPyYbCILOUlCTgqnf/GMHpVt2rW3DvDsF8fWXLyV6Ac927tGENmhoEL+J
-    Z6CH2rvUSCSrM3xrC6dBhmoeT9oKOxUe4lTyzrsaEkFV1JXqZigC3Blmzh555hht6TIiKi
-    4nTF00vMvYIsG9kgYkE+A7k3OF7cYtOAnFjzfRjDuHBWPJ8P5jOo39HJ5TosgHthcL4QlG
-    P7LPfpZKOLHflDDP05PIzu6Ek0lvi9TNUbB3XsXC6/c/eoqN+joQ+KYmRU6qOJdnW6tfk2
-    b3LcfBVqFT/qDJEWQC1jHMYXTbxwbN1oIMefnFPjOiXoCu9W7XlYR2+Vi6xD+4IcDtaHDf
-    3Pk7JEFjV5aRi/7eHGIdN9qQLITdCzsUHDcCHNYmXmuCjX0de6WRjIKRBxkr9zr/UoSGMy
-    BNKaooHXOUsyG6uKaR7kNVptOhuOAnNTQ7wosLA3fxbSinTppxLVYVo701XXDmkSXpvxOt
-    2fnf6YwlDC373uXVWWSjQbW5oUSUiaeZBnj2S+q+kGyVEaXlZUP3YiSxUlbXsnbIPZIJSU
-    LpZLpLWNEokxMls5XhgH+3e+Mki9vSCEGaM/bL8SmICNy1uQbJHeVjIUfaAg
-X-ME-Proxy: <xmx:M0Z8ar5LFW4HLTNx65wrmfFVFhE9YUH4fWdaEbGOL_R2dQ7JIIx9kQ>
-    <xmx:M0Z8arveqDruVQu_W3KqNZ2-dNqOPrxild92m5A8icNTm2aZXyRXQQ>
-    <xmx:M0Z8aoGd6MFhQRaDPRdZ0DLf5Q5xuyIoonETpFoTn-LlvXMTUatv4g>
-    <xmx:M0Z8ag6NID7YDETuV96A4Hm8RKzm3lppAKyjDREHWTD8S7uA_ah42g>
-    <xmx:M0Z8ajPt2vz0J2SwGT_bgJZVQ8rEA86QoRBfb4QhSwW7QoKJpm_Hd2Xr>
-Feedback-ID: i60a14417:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Aug 2026 06:08:41 -0400 (EDT)
-Message-ID: <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
-Date: Wed, 12 Aug 2026 12:08:39 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzgD/hKB"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954dff6536so6321615e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 04:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786533127; x=1787137927; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OLpqRHzThXr7YoPCHJa6pbt4R/oii9J/OGrNuRU8D5k=;
+        b=RzgD/hKBvaQHmUpFWk9m4S9hMEd0JE1OHzw6WvyZ+GEV3LWCEeo7+hgG9TohAe+50X
+         bBp3cOF/2SV8RjQqsVkjvOdoMjK9fQFyQZn2zzKTx6DG4R9P977ipiv+nKKcMbtnWuvT
+         /5IqbjbPMRq0GFDD9IE31lNsdGN/M2gwRUCKub4v9+A9QW4vOLCtJkegrks4/MfF4wfy
+         ZuXEjPhb6AoDOTNxpDdNrxyfckUhklR1GjdOk4MT+1AEoEalG54p6MAkrfs6fNMR27uL
+         YyJ8+R0xS/WSBpkBqWwuIBKmR1NfR/ty37glSIRduaz7wmSwQybMBAQUPJwbf0GEPXRn
+         DH7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786533127; x=1787137927;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OLpqRHzThXr7YoPCHJa6pbt4R/oii9J/OGrNuRU8D5k=;
+        b=nnGSk++dt3s1mAt25rIrr87zcdj5vJSqlRsrH9zKHRW/DvLutt9nDLUf1XhX1cSWlv
+         P9ivcOoRigy/eYtQKb9KGXkaJpNprpjvJzCO71UVOuL///9RwYUoiC50JL1tp1iSMAx/
+         cMGhVM6zWwh7byG/+fRB+DXkTCkkuPS16OAz2MSgUyQUgEZanoPUIwmH7zPckCWk2dPK
+         6qzE6F9UY54p2F//zmt1v9BHSC66HlMnPzXBl4VJGKyYDiSaTyQoYO8Kt2FTwa5ORPLU
+         0gpk7RLgGMFcyuo5u+jJVbo5DbYyfMeG5qzzk+O2ucPDr/6C0k1BZp1HzLMtr4O/138O
+         KTzw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8F2WK0grEx8PSgEc+/8ZGg8t6VN3n6wbE3PJrKpNKSmGJCnxcCkbeaGQ6k5OL/1S74tMblzspGiBgQakX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGWMLzWF/cNwtT4n0URG4VGrYzvyv3+WE//iFXKxYFm0oVAqmY
+	wwltwMfYxY9RcHaSaR+geIlWe6qPiEmtpMqAOzL9qvoAoNw6TpCo5Q2X
+X-Gm-Gg: AR+sD13Omvc7+Qv2REuTfmamkFGyqeFA0lBnhomLSDS1UJilH1GtCAuKFPSwbPC4Q1h
+	Yj5OKqE0QPmKU6p29jHaj7tTcvxcYpzPz+b0LTD0sthXd8bFVEFcLG5qZKCf7iq/G7osvEzG9WB
+	RQjkruqUH6+3e56h9cgRnKrf7RGm/b5XaM38PLE0oOn1ZHJi5O7JpPnt01N9vgzz6rVEyrg3Eb+
+	7SdrYVyyQsTo/S464I/K5XiX28x9BEuKiZkQPSLtvij4yV3qe0gKqP/nEsp8+ngX5ZULXZ3yMgV
+	uQQ0vshKd2FfVHaluXpoteD+bgz+W5R/HYkn7jI5CfbcoJfSwdzjAt3uXwd78wE6vu/i64I3jUH
+	qKE7m5JwPAw3DkUN5hzAVjQdy5WLgMIUBUYhlOOfhmXjvVOqS5SRB7upr1R1FecNnscou8pxN4d
+	pNKP74K+LTNqHRxQxsvYJmDboGZlqG1D2AWuaEhvh4lAxSTPCidR8G2YPUJh8ap2GMdAEMNWeFh
+	kNo
+X-Received: by 2002:a05:600c:4fc5:b0:499:76c5:5855 with SMTP id 5b1f17b1804b1-4997c15fc13mr42107915e9.16.1786533127011;
+        Wed, 12 Aug 2026 04:12:07 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b5e:1100:7303:647d:7cc4:8552])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997c9417bcsm54830855e9.4.2026.08.12.04.12.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 04:12:06 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bpf@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	eddyz87@gmail.com,
+	memxor@gmail.com,
+	kpsingh@kernel.org,
+	matt@bobrowski.net,
+	song@kernel.org,
+	tasos.papagiannnis@gmail.com
+Subject: [PATCH bpf-next 0/3] bpf: Add user memory access kfuncs for linux_binprm
+Date: Wed, 12 Aug 2026 14:11:37 +0300
+Message-ID: <20260812111140.7762-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
- before kdump
-To: Baoquan He <baoquan.he@linux.dev>, =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?=
- <linux@jaseg.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
- Ignat Korchagin <ignat@linux.win>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Marc Dionne <marc.dionne@auristor.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org, keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
- netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
- <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
-Content-Language: en-US
-From: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <contact@jaseg.de>
-In-Reply-To: <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 8/12/26 11:30, Baoquan He wrote:
-> On 08/11/26 at 07:52pm, Jan Sebastian Götte wrote:
-> .....snip...
->> @@ -142,6 +170,7 @@ void __noclone __crash_kexec(struct pt_regs *regs)
->>   			crash_save_vmcoreinfo();
->>   			machine_crash_shutdown(&fixed_regs);
->>   			crash_cma_clear_pending_dma();
->> +			crash_wipe_secrets();
-> 
-> I remember when crash_cma added this, we argued a lot about the risk,
-> finally it's added in with an added note to tell it's an opt-in feature
-> and risky. I don't know if it opens a Pandora box, I think anything
-> wanted being here need prove anything else has been tried, and the thing
-> is very very important. If we don't guard the door well, one day one guy
-> cold come and said I need ask Oracle database to do some transactions
-> before juming into kdump kernel because the actions will save billions
-> of dollar.
+During exec, argument and environment strings are copied into the new
+address space held by struct linux_binprm before that address space is
+installed on the task_struct. Existing eBPF user memory helpers only
+support reading from the old address space (i.e. current process)
+and for this reason programs cannot access these strings from the
+bprm_check_security LSM hook.
 
-I see your point.
+This series adds two sleepable BPF kfuncs for copying bytes or
+NUL-terminated strings from the address space held by struct linux_binprm.
+This allows BPF LSM programs to inspect exec arguments before allowing
+the exec to continue.
 
-> And what does security people say about this wiping? Is it very
-> important information and wiping is mandotary? There's no any other way
-> to wipe it or pollute it, no way in kdump kernel?
+The series also adds selftests covering both kfuncs.
 
-I'm doing both - my kdump kernel does a linear memzero of all of DRAM. 
-However, that's too slow - it takes several hundred milliseconds, and I 
-want these cryptographic keys gone within no more than 10 ms.
+Anastasios Papagiannis (3):
+  mm: Add copy_remote_mm_str()
+  bpf: Add user memory access kfuncs for linux_binprm
+  selftests/bpf: Test linux_binprm user memory kfuncs
 
-Doing this in the original kernel is cleanest I think, because to do a 
-targeted erase in the kdump kernel, that kernel would have to know all 
-the original kernel's symbols, and it would have to forensically 
-reconstruct it's memory content similar to the crash utility. I think 
-that's too complex and error-prone to do in this use case.
+ fs/bpf_fs_kfuncs.c                            | 112 ++++++++++++++++++
+ include/linux/mm.h                            |   2 +
+ mm/memory.c                                   |  25 +++-
+ mm/nommu.c                                    |  25 +++-
+ .../bpf/prog_tests/copy_from_user_bprm.c      |  52 ++++++++
+ .../selftests/bpf/progs/copy_from_user_bprm.c |  74 ++++++++++++
+ 6 files changed, 288 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+ create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
 
-I can imagine one alternative way to approach this, tell me what you 
-think: Instead of registering wipe handlers that memzero places on 
-panic, I could put an optional registry of (addr, len) descriptors into 
-crashkernel memory that the original kernel populates with the PAs of 
-buffers to clear ahead of time. Then the kdump kernel could do the 
-actual memzero. This would remove all code from the actual kdump path 
-here. The registry could be made per-core to avoid locks.
 
-> I noticed it's
-> happening on en embedded target, is it possible you do this on your
-> embedded kernel tree, but not mainline tree?
+base-commit: 07cb86aa50816b070b99c89bf948762ef035a1f2
+-- 
+2.55.0
 
-I could keep it in a vendor tree, but I think the functionality is 
-useful beyond my particular use case.
