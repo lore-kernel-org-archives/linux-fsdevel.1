@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED34386576;
-	Wed, 12 Aug 2026 07:27:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79632ED21;
+	Wed, 12 Aug 2026 07:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519674; cv=none; b=mvwEdYeSjTtyR2udKJvBAyt2QNzVSfp+a4TuSfglPIQn9K7oiPoQHHwFs/6bXYIDMd9qj0mFck0+cxlz+yXGX9AcwHKcAMun8FXjkXnL945rENPxWTukFchWdI8FMyG1LenyOkonMicNW7emoITbLirPez7Eg7iV41hNTCztEcc=
+	t=1786520615; cv=none; b=iT5oybN2sduC1GHutrewOvY+MbhsNVLqy93ovQU7mdPaN58MqQHAUu3XG04CwJN5U8l+kjgvbBvwxRocBBWaqktQWp0dAfWdD64BzfKCzJi8an9H1k2sqAHrOCYPUDKc/14yQ1T1bRS1AEn/8bg5N9AjbTusQEQz9d0KVoJxj0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519674; c=relaxed/simple;
-	bh=AA40xgGlrspag9jqHVzMXxRdaRl75ymLBMBcmaeUDn4=;
+	s=arc-20240116; t=1786520615; c=relaxed/simple;
+	bh=oCbKEzMrSrLBlfkmyXR1UEYF3RY4CbqMgcl48WwJGKY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Z5lZZZpMIRtrPSWhz0OpD1uKWb6UMxyfTDfESJtCxRo06x3EwLb8GyvT8/t9SmCbTJPk1DEnPMU3g+4Wg2Hc66g2R3ryxEY5HqriWzr5TmfNGdEwf9DxZTaBnnStXwS0iDEvAyRNBIijnaw7pK+kR3reDDKfYA0dip2Q18dTZBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFOZ9YQ5; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=NcVOl8V46cb0WFjkzSYI98a/4CFeza1Z1hrMz83nQWcO3Hw/QdJtJPdwISk+L/ktIx4N8pxwA6BtBnmzhYvG8BhG/nk8bzDyaV9AYPe4zx8lTlFt4dNUWXtXo6v9ZitCTW79kqIpn9PAmwMCnAYbZQ6R4GC8B1NnOLkeUwSw8bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFXqfeX6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFOZ9YQ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418541F00ACF;
-	Wed, 12 Aug 2026 07:27:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFXqfeX6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A071F000E9;
+	Wed, 12 Aug 2026 07:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786519669;
-	bh=eWhuCJo4Sc0ofWnzOquBMPtCZHU/TwETIJ0Lz4nmSvs=;
+	s=k20260515; t=1786520614;
+	bh=/fNBl1AVYmLz/IVUMwtjVNxpYD2IfzN9xWZKk4qesVg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TFOZ9YQ5etXFlZ5iW6fKnLRkmj7pdcjDNEciAaVDi9vc3i7mYxgpR/wFBEZshOwHE
-	 tO8RLycCZJMBiKkA5T4g3aj4ZvInk6InXRp21hpovxhbDg5q2v4EBxfHlO49nBaraV
-	 f2rZgelPSuehMa0DiYclFlxu6eWZBiP+YGh8s7TAxFp6hj2ETejbVtg2Uf6NWBpdAM
-	 tQNFG4WCYR8pk7H09DlPxB/FMzmoMODicO7qrmETikvI7UQ1SOujR9T8enyUcPBeTN
-	 9ZgWL8l+CI9q71MQrb9jH4B4SPJ4kdcKvjvkEQTi25PS/eY5t28AJdefGfM+vauXH1
-	 z7nuTrs+V2CsA==
+	b=BFXqfeX6voYtzHDWJAkHkCRpwQCiosDHBthG5SpgFTr97PkSzDhHJCEDhmvQ0F3Bs
+	 UP1Kx9p3d8OsyuMVRxtIz41Fp1FSO0zCJiJLVvWHZLlBghoGpLSRtl2jO6ExjGDxoC
+	 biSXQ+pZsHKXbIVPzjKkOdOI1f4z869PL5Nb5+IoqF3WgkCsFQk/8s8OCWisiA50ud
+	 csVKwWJJ9Np00bIuXq+al2D6eps8BB45Y+jlGdEy7KTTZG3+e2lM1yBMhPtkrs2efZ
+	 rsVE14o3CI9lxC92iwABg6C4RiWgKGmGaraBpJbrZckAv9SRTG5ipPHJZLzo5Qvpqz
+	 PguNRab4Q2Xtw==
 From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Baokun Li <libaokun@linux.alibaba.com>
-Cc: miklos@szeredi.hu, amir73il@gmail.com, viro@zeniv.linux.org.uk, 
- jack@suse.cz, paul@paul-moore.com, serge@hallyn.com, 
- linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jeff Layton <jlayton@kernel.org>, 
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+ Josef Bacik <josef@toxicpanda.com>, Chen Linxuan <me@black-desk.cn>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org
-In-Reply-To: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
-References: <20260804034204.3487077-1-libaokun@linux.alibaba.com>
-Subject: Re: [PATCH] fs: fix user path of nested backing files
-Message-Id: <20260812-auszog-rehkitz-wonach-182a7eaad0ca@brauner>
-Date: Wed, 12 Aug 2026 09:27:43 +0200
+In-Reply-To: <20260731-pidfd-exec-update-lock-v1-1-b388f2f3a8b0@black-desk.cn>
+References: <20260731-pidfd-exec-update-lock-v1-1-b388f2f3a8b0@black-desk.cn>
+Subject: Re: [PATCH] pidfd: hold exec_update_lock around namespace ioctl
+Message-Id: <20260812-gewonnen-kasten-heillos-f98528dd6ea4@brauner>
+Date: Wed, 12 Aug 2026 09:43:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,17 +47,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=864; i=brauner@kernel.org;
- h=from:subject:message-id; bh=AA40xgGlrspag9jqHVzMXxRdaRl75ymLBMBcmaeUDn4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVKBTdfMmqKGl4X3jx7MlHdr9ebJz1jJVLU5D/y7RS5
- vLIHXu3dJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkqSUjw/TQIqWlqeL53t0u
- Be+bDDvnbDeXPP7pz+QHLycX/09t+sbwT3PhM6vNS7+VbquWOVujU2Ua4fLe5XVMa+X9pT7y849
- O4AAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=887; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=oCbKEzMrSrLBlfkmyXR1UEYF3RY4CbqMgcl48WwJGKY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVqKg87tj+79fS8za71C4s/aL0ac6c7/vEvsk2H7oWX
+ HnlyG3D7o5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJ9DAy/BWODhJ5obyTteFy
+ cdOKbdVdN9a/UtxcmCBU8N7LWchWp4Dhn86fhctkP7WUPWPJZT2zckcr7w++rmcP72qc3f3WK41
+ vGS8A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, 04 Aug 2026 11:42:04 +0800, Baokun Li wrote:
-> fs: fix user path of nested backing files
+On Fri, 31 Jul 2026 22:50:08 +0800, Chen Linxuan wrote:
+> pidfd: hold exec_update_lock around namespace ioctl
 
 Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
 Patches in the vfs-7.3.misc branch should appear in linux-next soon.
@@ -73,6 +74,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs-7.3.misc
 
-[1/1] fs: fix user path of nested backing files
-      https://git.kernel.org/vfs/vfs/c/ffb5dde2f64a
+[1/1] pidfd: hold exec_update_lock around namespace ioctl
+      https://git.kernel.org/vfs/vfs/c/a852a3066d3f
 
