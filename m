@@ -1,31 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27DA2FFDFC
-	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 07:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583D434DB7B;
+	Wed, 12 Aug 2026 07:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519152; cv=none; b=YddRvjCbDv7Q80xnwxrK1GGHqjhs+vBHHf0ZJauQAYHrgUuNlegd939XoyctFTuDrAkDoTv5jXTJmzNg80L9f5qUSUQLNXxfvZi8tdhEANeKywZ3tkSwva8nmybdLXBbiJQs8L9KQmgwu545ZGWNIkd9Fl7oSJ0X0VMN6dzZeiE=
+	t=1786519245; cv=none; b=NdgZ8lZxqXdqWW768qQynRJmYVnQt5JkbrrHtP4xSlPY8gQAuX56L/PspCUzoO4TeTuHHV86rxmFFeMNshx0QDC+Cvw95Af8bKK6BLQEIhcyaDKHWrEJcMdnbTtISJYxvQvTfaDKv6M9mc2zW4qYk0JPtNSicEhEJAYO3pB47jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519152; c=relaxed/simple;
-	bh=e2pbG5Bzr1WSgKCg8eEYEAL4qBLlTEhVNej7EWmvhtU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=a9BbtWyr2y8zq24GVunzlGMCWah4faHBAx2lsHRsgjpaN501vO6XazmEAavl+rJfMBFWnqmzDLK+xKAzfRFY54fNMfufnNVdFqGuZEESYzZOJqEVyCqTfxiBIWlEwpRN72l7HURl+zwVm4OYVHIvxHqN1myhztZI3mrW/mnHIe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8YXbWjN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786519245; c=relaxed/simple;
+	bh=FBIhbS2wvMv4iplkO9rVe6W1nxR2eeXLLBUwM9KdvbI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VsLzEHxs8xvlM35nhxVMPXtIItTTGC0+PbwFXR0+pX6c6HvEmiqT/Pf9eMlrpIw/KXUpOees0QsuSus9NVZ1bPFAHGeYL2SCD4BoHkcQ5A/q530qB7CkAUHHA6MtGJfD3VCEJ0Edr0KuASDoblt+7/mGRPEzCRvaUooPbpJzjPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0RZK2hQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8YXbWjN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EA91F000E9;
-	Wed, 12 Aug 2026 07:19:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0RZK2hQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F7A1F000E9;
+	Wed, 12 Aug 2026 07:20:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786519151;
-	bh=h6Zm1zIX24ULpA+dXIgBmTLKMYud3W/lb0PiR5af0hw=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=f8YXbWjNz85I0rjKOs/T8FcosiWXHP6nGRcDaSztCKlP12HF2ckVIAgTtsmHNKokL
-	 gysRAKddbaAREB2RXPjuvprFQb0cHRenTAlffdvuJUNa1ozNmkRFOwxRVzH9vl2ZG+
-	 eLeYvggxYWDHG8elNrG+oXB1EM+l4161eDP80e+If8uHnVu07j54m2H/UqvfuGQZJU
-	 tX1KCSeQsvCsyneRLpVeo1ngv9D/B/6gS/xxg0SCax+eKRTu+RV8g0IogOAgYEVQ5B
-	 1WhW6Uf6Q+/fSaraUtzeoKnpeDxtITRzyOSfoIWrJwP+Cs+WB1Huftv7N9Lo3jQHvl
-	 eZuflWZ3X2+sg==
+	s=k20260515; t=1786519244;
+	bh=XwOx99E5L6i1IGijIVQOV7C0HqDTRdGmibtsv8j9tec=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=G0RZK2hQU4/+i+QvJVxebJYcOPBYXjISZ+rdkGI9tfBVRaB9kq69uuJ2B1DYbdzJ1
+	 pPvFzQ08iZ9JUY0//qIH7lGdRBTUaATAwG/3r5IhO3eYhPjUroNOwvMkVX5nRs69u1
+	 ZVn/S5litSd7feaPQNvNufy7MUabqjuhJclvv7h7j/hYWmE3CXODgMsc0IzO7HRC5L
+	 j4wQxMDfXQvgshmd5JEoTFrU3aEwSyddU3bcxRsUEU667ezQWwsGewATgYy1EhZuBd
+	 kAU4PFx6jp6JxBueXe0v8WK0vlsboQ78CuKFYNkoIeMaqWVrLJ8rE+ZujkZ+WZoAiL
+	 HhAj558VC81Dg==
+From: Christian Brauner <brauner@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+In-Reply-To: <20260808123802.73687-1-kmehltretter@gmail.com>
+References: <20260808123802.73687-1-kmehltretter@gmail.com>
+Subject: Re: [PATCH] super: fix dying superblock warning messages
+Message-Id: <20260812-zuwenden-gekapert-urzeiten-80967e8dd320@brauner>
+Date: Wed, 12 Aug 2026 09:20:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,39 +44,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] fs: fix comment typos in bpf_fs_kfuncs.c, inode.c,
- fs-writeback.c
-From: Christian Brauner <brauner@kernel.org>
-To: Manush Prajwal <manushprajwal555@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260809192249.4485-1-manushprajwal555@gmail.com>
-References: <20260809192249.4485-1-manushprajwal555@gmail.com>
-Date: Wed, 12 Aug 2026 09:19:06 +0200
-Message-Id: <20260812-galeria-kahlschlag-zucchini-a100e715d311@brauner>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=533; i=brauner@kernel.org;
- h=from:subject:message-id; bh=e2pbG5Bzr1WSgKCg8eEYEAL4qBLlTEhVNej7EWmvhtU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVyOVOPrj1xTrGfS+1t89eUyPiofzvzrItGVcsnztdS
- 16WXrPmWkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBENqcxMsx9cHp7VxIL+6MP
- b8We/JFjP6Luat9tmN27SLzqWmDejGuMDAv9PxbqTVB4PO1gx96fn54nsNs6OTk2CixJfZddvGL
- /ZgYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=880; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=FBIhbS2wvMv4iplkO9rVe6W1nxR2eeXLLBUwM9KdvbI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVyJ3aHfXPyKj5gujKmBsXW9tCI9RiAhirIqedcir/Y
+ 96Vwd3SUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJG9hYwMZ3+lB1RZJnAYrkpY
+ w6jf4V82cbPX1CMcguts5db8zN20neGv+NqF15JWH6uT36BofNZLe46gBPvRn5v9Zf/E33Wu+G7
+ CDwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi Manush,
+On Sat, 08 Aug 2026 14:38:02 +0200, Karl Mehltretter wrote:
+> super: fix dying superblock warning messages
 
-> Fix a handful of spelling mistakes in kernel-doc and code comments
-> under fs/: "Rmove" -> "Remove" (x2, in the bpf_[set|remove]_dentry_xattr
-> kernel-doc), "funtion" -> "function" in find_inode_nowait()'s comment,
-> and "paramters" -> "parameters" in the foreign-inode-detection comment
-> above wb_wait_for_completion(). No functional change.
-> 
-> Signed-off-by: Manush Prajwal <manushprajwal555@gmail.com>
+Applied to the vfs-7.3.super branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.super branch should appear in linux-next soon.
 
-Please split into separate patches. They're very distinct files that all
-received patches.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.super
+
+[1/1] super: fix dying superblock warning messages
+      https://git.kernel.org/vfs/vfs/c/9ac8fd831252
 
