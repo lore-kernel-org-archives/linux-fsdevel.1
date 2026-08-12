@@ -1,81 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E677035CBCB;
-	Wed, 12 Aug 2026 07:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38ED40DB35
+	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 09:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786520833; cv=none; b=EXimphR5rAQ01hs6ohYrUcJu2iywjMiagr1OkcfacI2pcqogjt9BkbeZgytaLt7pUQ5Z98Qfo57QwUmwuI22PcIZspNvYSmnbk+OIEBGM6yxIbwHoNItEPvXEOZDJp4tNqpgWRFFRWuVqOEbnLFFn/BaUW254CSVt40z8qgZKjk=
+	t=1786527026; cv=none; b=qCCc47s0rqDvFXp1+QyzjVTaYBhvvOMj43AlC6o8LM2oYYRWUiy8XpvlZv3uiVXAeAixQSK8lqSarrvMun7DZZ0BqEMZGw1Wv5vQiKV2hznqDnIHI0IhahbbLH9U2HCtZQxMKsBBr1/2uwoI8H+QKz6DM1DwDE0yVoVsQ93FtVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786520833; c=relaxed/simple;
-	bh=YAO7/Z3FwVPhLTDNo6IBHCdZaFTioqw4FGAPksXEaOQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FvPTDpUxQVYGgoodM3TRu6q37QP5eBzuYymdeIfxPgQTI/i1lpyM9++zYWvflWRWm1WEDpRd4bT+DKwx4DxRLut//EZEI3+lM/boFiOG0CYWuFwcyZUW6ISj+iuC81J6cLMXT/9DIsEfpPYjTj/C9AEbxVJAc6Fwpq5OldnwRDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwlJFuTw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786527026; c=relaxed/simple;
+	bh=5Hb81DX76S8IAtLPuaQ2fxU+mq3IGFWwbuaXDXn7mzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iyHAualu5+tlRWixO28akfF9NHkWZe10gt/FvmVUgcJxd+Q3UFHRjYqaW+vsTb04EuWxt+U4bwnqB68LWUxu60CfjDDHU2UzMOJOS+SA1S/FTIKEI4kknvEYRZRJFtkhy5GUXobB8WCRLBPUUsP2ivsqza4B+4TNFt0reBafhsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hlXYeBwk; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwlJFuTw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FEA1F00ADF;
-	Wed, 12 Aug 2026 07:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786520831;
-	bh=7+4xqBQZFNKYLiBulFqJHuUElTToD0WrY6Nfi/ICEro=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=KwlJFuTw0uvX78gDZDSkAh9GYTHB/ga2dPLBWo43THKZKQgH1nZfdqwBjB+WRBQgs
-	 edVNte8LHVJw8GqtJd92PgeVYYqT9FwvYM2VaKENRwvMNRkx95MOiC2Ik+Bs7OSTQ3
-	 DOmv3I8qQo7+3aV11potFs97CQaYAbeF93h/xXsGBRo9dSO/Ax8ffJhPuT/AdXkRZa
-	 VRFze7ys/oCQwCmIrIU/12oZJ0n/BVz0EifHWk+PpY/+JbPIEZ1vqmkimSqlr7X+Mp
-	 quBXu44O4CXKgOWGvKFmXXWzcuG0n6f/AQga18PN2oX817S97Aqy5Hpoa3F80t73pu
-	 x9bACNiqEEAxA==
-From: Christian Brauner <brauner@kernel.org>
-To: Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Mateusz Guzik <mjguzik@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>, 
- Oleg Nesterov <oleg@redhat.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-In-Reply-To: <anCNoW-x0bcB2ggg@redhat.com>
-References: <anCNoW-x0bcB2ggg@redhat.com>
-Subject: Re: [PATCH v4] pipe: only enable the extra wake_up(rd_wait) for
- EPOLLET consumers
-Message-Id: <20260812-frust-wiegt-gewirbelt-988f24d646be@brauner>
-Date: Wed, 12 Aug 2026 09:46:59 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hlXYeBwk"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=5Hb81DX76S8IAtLPuaQ2fxU+mq3IGFWwbuaXDXn7mzM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786527022; v=1; x=1787131822;
+ b=hlXYeBwk7tGD+QEjBEfxeMzE4URZsux2Y8vFmYJn7Ik6c0sFjOJCsrfA8lQicELudzk+N9uk
+ cjhRj4IglN7aDdk4NlOmRSwQdwYry3T5SAQW82fj3LNniUfdKPZLQKa0vK1VIawJcEi7CZB0ApW
+ zBFn6qap78wJoykB2/zDxcBM=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from localhost (3.112.29.171)
+	by mta11.migadu.com with ESMTPS id 5cf300efea8cce09;
+	Wed, 12 Aug 2026 09:30:20 +0000
+X-Migadu-Scanner: mta11.migadu.com
+Authentication-Results: mta11.migadu.com;
+	none
+Date: Wed, 12 Aug 2026 17:30:08 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Lukas Wunner <lukas@wunner.de>, Ignat Korchagin <ignat@linux.win>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
+ before kdump
+Message-ID: <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=918; i=brauner@kernel.org;
- h=from:subject:message-id; bh=YAO7/Z3FwVPhLTDNo6IBHCdZaFTioqw4FGAPksXEaOQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVqPyZ8fqfRkz3CduJZVk5ik8y4//3nX+TItidNMes4
- rKcmlJSRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETeezP8r0iZuHjybJ6nGzoN
- Q502V4s7HDqkNkkrReI+m0hGbbazPiPDpv/5buuS/qrbKroem5EWn8394KLY3pTvSTPatH5Zql7
- hAwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
 
-On Mon, 03 Aug 2026 14:46:25 +0200, Oleg Nesterov wrote:
-> pipe: only enable the extra wake_up(rd_wait) for EPOLLET consumers
+On 08/11/26 at 07:52pm, Jan Sebastian Götte wrote:
+.....snip...
+> @@ -142,6 +170,7 @@ void __noclone __crash_kexec(struct pt_regs *regs)
+>  			crash_save_vmcoreinfo();
+>  			machine_crash_shutdown(&fixed_regs);
+>  			crash_cma_clear_pending_dma();
+> +			crash_wipe_secrets();
 
-Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.misc branch should appear in linux-next soon.
+I remember when crash_cma added this, we argued a lot about the risk,
+finally it's added in with an added note to tell it's an opt-in feature
+and risky. I don't know if it opens a Pandora box, I think anything
+wanted being here need prove anything else has been tried, and the thing
+is very very important. If we don't guard the door well, one day one guy
+cold come and said I need ask Oracle database to do some transactions
+before juming into kdump kernel because the actions will save billions
+of dollar. 
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+And what does security people say about this wiping? Is it very
+important information and wiping is mandotary? There's no any other way
+to wipe it or pollute it, no way in kdump kernel? I noticed it's
+happening on en embedded target, is it possible you do this on your
+embedded kernel tree, but not mainline tree?
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Anyone who wants to do thing like this, please prepare answers for them,
+and be ready to accept failure.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Thanks
+Baoquan
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.misc
-
-[1/1] pipe: only enable the extra wake_up(rd_wait) for EPOLLET consumers
-      https://git.kernel.org/vfs/vfs/c/07c3efe20e24
-
+>  			machine_kexec(kexec_crash_image);
+>  		}
+>  		kexec_unlock();
+> 
+> -- 
+> 2.53.0
+> 
