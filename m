@@ -1,266 +1,162 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071E4480357
-	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 22:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786574152; cv=pass; b=hXf/jOPK1LAdIOWEUCjIMYfTLVWg0lA/5kmdfDyf4mt3m8u2Y4STpvMQH0uIkjNLrikJ7KYKIW7c5KkfGYOYEp1iO1vlOPlaMatkVDrAQwDolhnkspk56wIn7ifhCpKHqhz8jT8/D/Ng9IYBxZPT9iaugsl1qxZn+deqU3ZruPU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786574152; c=relaxed/simple;
-	bh=XBtfCUZM4Z9MokOc0RnrVmWkdPYRIPype7rhWltePJU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NK9MjJsUlYx4NYHEVCxLIuyK2jkyuuG7RISbbmMcV6ft4gfYofvQQ8SzLgFOPxrE6oMI2mboAQTE4Pgg8gEIZMJdd9ZCLqhQeNnBEXiyTf9sYCfiA7Bkn1+tCINa6QDEU++ZMFUBBBsknKoJlMOOZ8dgKPF1Qn1mB1xNBlbns/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DR/5KBhb; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DR/5KBhb"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6679d88abdcso2446786d50.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 15:35:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786574150; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XsbZD7X0far7SZ/ei6fP1PCnYCALSYOmnG2XBA7qUuV5T1TLvnEttYtjUK1pb/ry3C
-         z/CuyzJbQ57ozfUXgCDPJ/iMTiFjeAeltRS57wfyttdO6WvkmUFjZgg03RNQbmD641XW
-         GN/om6dHW6+zEm7h/4gRhnAWsmD6HI0uVv1iCKjmxYktyLtQhz8weq0/fGqvkb8nn1fm
-         DHR/LLUzcj9Juce002+mwgL77bsyU0RCvQI6fjjxkx2TC1gbkv9hYdZ14gc/tHqm9X0/
-         9kQ7QltqOpZK8oWo2+c8o3R8ed0oM3aocTivGTQC+voc4FZHQS4+sWzecJQlVA88T4Px
-         yg4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xPFhYpYz44bCMeCCXzJP9sZEpYNf9oMMJbpv0EJdICY=;
-        fh=Lt0TUabF7zasTKosO+nLvQkK33s/X3AqaaulgQ4CmR8=;
-        b=ALDq0MwkKeUW0qYotqVPoxaTuz3Bw/W3NsEbH7TcvCvBvP8pIb61fry+zwXM2OMPtI
-         n1qnwSMEvJ3IC5VD8HeSKrli7AX2561EIF4MnHcjmsqvnv2XbbgEztSDJw8E8TrQmqwN
-         nVgSMt9YOoRb7bXfmFoabBp0nc7pETOwPrszmifIV5BLKz1Q3X44sWeOJvVgM/V6iZG0
-         Zoj0Tp+E0Y1hrvB3+3qeq/Ui1bV0TuwHJwy2artiR4s2TUi9tC9GkEas7d3m8oisyJXm
-         6TmnQt2ftuKVdRSEWJoHessWSbZBZruTElBzsJ3NYHxQbXVmQi/i2Qdvam1zl5ane8y1
-         9Jaw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786574150; x=1787178950; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xPFhYpYz44bCMeCCXzJP9sZEpYNf9oMMJbpv0EJdICY=;
-        b=DR/5KBhbUGFSmkzYvUKru1hxAHW2vgVDiMENMrwcfAgY1xBCxjbgKYE0gyfHUsOLrR
-         lo7X99aElbY7l3wcgJAnhCrNFKRPg8K2oTwYV/0Ne1QsP4np+QDyKPHm8E98xWRhiGww
-         NaQHXXBNm8GGd7klpbSZlu4rTXlcaFYK4dFmyMsxuWPD+2OI0jEixKX2UJiT9mtDd1FT
-         kLgsNu2i52hlcHjXP7Ef2hsWd3rkFmr7BuRcwqQvhD+VlUSbOPYER6UaB9iQyg7fQn6B
-         JumUYLM3bCLGBqtY/WGYzGoKzWYTDFvGV89+qgGdVISfC9D/aimj9IGJEeCQ4eEVW83Y
-         L27A==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2293B1F4631
+	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 23:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786578992; cv=none; b=omi287ir2VdupHHXMyOIEMkHOd71jbTFXS4WOtL4N5diDLR1HynXgRFQ7tjhzo6y6HHzxiM0XKZ9NbXHfmMI0eEdF2F6eu1rjcS3qkF0G0QVX2x8cpHNpGAJojWDJOn/PlGMo23BvtMjVM3Knnr9EfEiUghfxuvq3YTGtoHAbAQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786578992; c=relaxed/simple;
+	bh=pmVqbuYfiqTFkBbZGqyuzlVEPLnzEJOct3P0msUPe/o=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JjL1BC4/h9GkD5ISoTpMNkm8TG8UZ9mxqgAf8Zkw7usEBJYf9FQIuSdrjXspWiyYnlwX3GibQ9MPcyciaRZSt7Ou6DuheWorDjPrtIaNkGa3KUpci+FiePI2qfdOVzr/n2KXbLPE4ajNTjvM+4oYi9vgIeEIQH+ki8n7zrEkj4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-6a344ad5c7bso75314eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 16:56:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786574150; x=1787178950;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1786578990; x=1787183790;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xPFhYpYz44bCMeCCXzJP9sZEpYNf9oMMJbpv0EJdICY=;
-        b=AEKE1PRNrZut3A3cuvt0g/uObi14iY3A8qdnNigjVcHhPhyaVp8HVRVjBi/b3yCk4S
-         QEQ5Ys8pj25F1w1adfTzqwXIQCfKbJZppq4qEMjvwhVNMmN+dSd7nrOEXx2r8sH50DSa
-         bW917GNKtzzJDugfamXz9mkmcDEIxlTlF5laOodAJ2+bAEhs097KSgVWv8aPtRDhG7pB
-         xaLZuLGPbynWgS15Vcglhli5ssa/6xuk1zV4drbCVASrV9U+wWGDbO2ijhJh2AeGO0Z6
-         9xahHGKhu+vrylAv2bwuJCKM1UiGpEDVncIThTazHieJ0CEp1pFNUxeRweyiPo3btoZc
-         fbSA==
-X-Forwarded-Encrypted: i=1; AHgh+RrMCJ5d+IELzd1TpL1TcrUqBs+ruEx9jSG3uE9fbbBYRUjNivcRmFOJFzFHz5oYvIM2srTVRVIkzUe7yjkw@vger.kernel.org
-X-Gm-Message-State: AOJu0YyT0Eki/uBYLZgSIxbyqohB+nPpv3pn5j/KhVA69GEQwxGE/7rU
-	y6CEMacgXTLaxR4fMvt2dAAnDCuK6zq1XgcOeFKZVsq+AlHtBgM2sHYrtfCMihfdKpbQSm8Zh3C
-	OzYd19dpifc2wZY+nIdCqDVHrHA8ME88=
-X-Gm-Gg: AR+sD13/3aTbmub0tj5x1qyU49QS0ONkLhL4IB4B9aEi0CcauHMbB3pYawLipkqogdO
-	0zA80A6ZRuomkKFMtPa2BHrVsf3gSPAUBQsiHU2AEvtA7EE/6DrWDQddRzewAAMVQUagmVME1fo
-	ShE2cBCBdrNiiEeU8XnaSqm9SM2GRly8EY4HXETAdwYz7d2e5+OJPei9/lMrV6G0U8W3vewjkfA
-	qGifkaBc1Vrqj4DI+tSR2CJHAm/xCnPkkabfLBKcNoNmRZI+5wqfB8lLNI+uaxXHW431jX7g8kb
-	/rrmSB3REQFJh+5om02x2C+jXbAQIccVy9EJ6Dxpel2W557W7PxrG84hSM/oqUzgYQ==
-X-Received: by 2002:a53:e199:0:b0:667:ae8a:5207 with SMTP id
- 956f58d0204a3-66c515c3b7amr607866d50.26.1786574149231; Wed, 12 Aug 2026
- 15:35:49 -0700 (PDT)
+        bh=+v5oTfyGF2lTff6vcwWwqW2v/d8rOItbnNCVE9cW5JY=;
+        b=bewqlPK3U1i0lQsByx1xJNPixypM6nWQ9XpobUZw9rl2JfZJH+AQ1Bi6c+aqbrrNE1
+         7wTpc/RVyv6jDe6SNTesIP5R9tW2dTW9rSL/4B9Es8lTsnrJm8fT5TxCCiHku+zR2kut
+         nOTfvX5JQfly0qTv8Cq9CM0iH7bsQfZqXzfZqSdjZxAXXuXuqONv9lDSo/TKlAcwp2YT
+         QpIQ3Y+8WF6Grcv90Xve8rQHBBIhIO5jxilRYtqnEKLuzQi0ZQFoN3m60pPkDpgsyWZ4
+         /PHCVAosYX/pN9nDOVRC53MnEbFELlmE3A0z1hplWYPftsi+gT41f+shAx/0NtAqFISx
+         bMew==
+X-Forwarded-Encrypted: i=1; AHgh+RrYazOPID/anJdcXvxJwI1Yp9ZG0F1QGDn266R9p4olqftkiXhr7w2bOP4FfvYd6VIzU2fWsjebbR8ebPfJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmUPwMD9+kebMZiwcWFc6p6+2sjj4RooIZ2kgZGjn2qL50nsU0
+	vmEL/YUUKY7oC/PjCt3TJFwtpUoYEMF4T+3wBxRTNPvRn0T3aDt8l6PEM+7+HeCGK+vKS8fVk/z
+	RAicTJOlxPsISYJAySyDxtmomn4KR1osEfocCh61nqfMbZJwSJQSnnyXWmQ4=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260812221154.1119137-1-slava@dubeyko.com> <20260812221154.1119137-3-slava@dubeyko.com>
-In-Reply-To: <20260812221154.1119137-3-slava@dubeyko.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Thu, 13 Aug 2026 07:35:30 +0900
-X-Gm-Features: AUfX_mww-8m1GsEa6bytF5cXbgG39r3jREMYVtIcsdtM96z0eg3fGRZ0tVpLnow
-Message-ID: <CAKFNMokYNKF3-gQ1SctOqNJ6YfQAG=7khKRZGLYOpCmY63j2Rw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] nilfs2: switch O_DIRECT to iomap based operations
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: hch@lst.de, brauner@kernel.org, linux-nilfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, lilinmao@kylinos.cn
+X-Received: by 2002:a05:6820:c86:b0:6b0:4355:3c8d with SMTP id
+ 006d021491bc7-6b0c465f18dmr2109852eaf.34.1786578990086; Wed, 12 Aug 2026
+ 16:56:30 -0700 (PDT)
+Date: Wed, 12 Aug 2026 16:56:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7d082e.d5f0ebe7.22d851.0012.GAE@google.com>
+Subject: [syzbot] [exfat?] KCSAN: data-race in fat32_ent_put / fat_mirror_bhs (4)
+From: syzbot <syzbot+9435f33de7962a2cb62d@syzkaller.appspotmail.com>
+To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2026 at 7:12=E2=80=AFAM Viacheslav Dubeyko wrote:
->
-> The patch eliminates blockdev_direct_IO() from
-> nilfs2 entirely:
->
->  - nilfs_file_open() now sets FMODE_CAN_ODIRECT explicitly, since
->    permission to open the file O_DIRECT was previously implied by
->    aops->direct_IO being non-NULL.
->  - nilfs_file_read_iter() dispatches O_DIRECT reads to iomap_dio_rw()
->    using nilfs_iomap_ops; everything else still goes through
->    generic_file_read_iter() as before.
->  - nilfs_file_write_iter() strips IOCB_DIRECT and falls through to
->    generic_file_write_iter()'s ordinary buffered path. NILFS2 cannot
->    perform true direct I/O writes: new blocks are delay-allocated and
->    only given a real disk address by the segment constructor, which
->    works on buffer_head lists, not iomap. This reproduces today's
->    actual behavior: the old nilfs_direct_IO() already just returned 0
->    for WRITE.
->  - nilfs_direct_IO() and the .direct_IO callback on nilfs_aops are
->    removed.
->  - drop the unnecessary "select LEGACY_DIRECT_IO" from Kconfig
->    in favor of "select FS_IOMAP".
->
-> Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> cc: Christoph Hellwig <hch@lst.de>
-> cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> cc: linux-nilfs@vger.kernel.org
-> cc: linux-fsdevel@vger.kernel.org
-> ---
+Hello,
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+syzbot found the following issue on:
 
-Thanks,
-Ryusuke Konishi
+HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15263225580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=33c5ac947f6be69e
+dashboard link: https://syzkaller.appspot.com/bug?extid=9435f33de7962a2cb62d
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
->  fs/nilfs2/Kconfig |  2 +-
->  fs/nilfs2/file.c  | 42 +++++++++++++++++++++++++++++++++++++++---
->  fs/nilfs2/inode.c | 13 -------------
->  3 files changed, 40 insertions(+), 17 deletions(-)
->
-> diff --git a/fs/nilfs2/Kconfig b/fs/nilfs2/Kconfig
-> index 7dae168e346e..0a5ace60e6ab 100644
-> --- a/fs/nilfs2/Kconfig
-> +++ b/fs/nilfs2/Kconfig
-> @@ -3,7 +3,7 @@ config NILFS2_FS
->         tristate "NILFS2 file system support"
->         select BUFFER_HEAD
->         select CRC32
-> -       select LEGACY_DIRECT_IO
-> +       select FS_IOMAP
->         help
->           NILFS2 is a log-structured file system (LFS) supporting continu=
-ous
->           snapshotting.  In addition to versioning capability of the enti=
-re
-> diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
-> index f93b68c4877c..30dd8e5ebe5b 100644
-> --- a/fs/nilfs2/file.c
-> +++ b/fs/nilfs2/file.c
-> @@ -10,9 +10,12 @@
->  #include <linux/fs.h>
->  #include <linux/filelock.h>
->  #include <linux/mm.h>
-> +#include <linux/uio.h>
-> +#include <linux/iomap.h>
->  #include <linux/writeback.h>
->  #include "nilfs.h"
->  #include "segment.h"
-> +#include "iomap.h"
->
->  int nilfs_sync_file(struct file *file, loff_t start, loff_t end, int dat=
-async)
->  {
-> @@ -133,20 +136,53 @@ static int nilfs_file_mmap_prepare(struct vm_area_d=
-esc *desc)
->         return 0;
->  }
->
-> +static int nilfs_file_open(struct inode *inode, struct file *file)
-> +{
-> +       file->f_mode |=3D FMODE_CAN_ODIRECT;
-> +       return generic_file_open(inode, file);
-> +}
-> +
-> +static ssize_t nilfs_file_read_iter(struct kiocb *iocb, struct iov_iter =
-*to)
-> +{
-> +       struct inode *inode =3D file_inode(iocb->ki_filp);
-> +       ssize_t ret;
-> +
-> +       if (iocb->ki_flags & IOCB_DIRECT) {
-> +               inode_lock_shared(inode);
-> +               ret =3D iomap_dio_rw(iocb, to, &nilfs_iomap_ops,
-> +                                  NULL, 0, NULL, 0);
-> +               inode_unlock_shared(inode);
-> +       } else
-> +               ret =3D generic_file_read_iter(iocb, to);
-> +
-> +       return ret;
-> +}
-> +
-> +static ssize_t nilfs_file_write_iter(struct kiocb *iocb, struct iov_iter=
- *from)
-> +{
-> +       /*
-> +        * NILFS2 lacks direct I/O write support: fall back to buffered w=
-rites.
-> +        */
-> +       if (iocb->ki_flags & IOCB_DIRECT)
-> +               iocb->ki_flags &=3D ~IOCB_DIRECT;
-> +
-> +       return generic_file_write_iter(iocb, from);
-> +}
-> +
->  /*
->   * We have mostly NULL's here: the current defaults are ok for
->   * the nilfs filesystem.
->   */
->  const struct file_operations nilfs_file_operations =3D {
->         .llseek         =3D generic_file_llseek,
-> -       .read_iter      =3D generic_file_read_iter,
-> -       .write_iter     =3D generic_file_write_iter,
-> +       .read_iter      =3D nilfs_file_read_iter,
-> +       .write_iter     =3D nilfs_file_write_iter,
->         .unlocked_ioctl =3D nilfs_ioctl,
->  #ifdef CONFIG_COMPAT
->         .compat_ioctl   =3D nilfs_compat_ioctl,
->  #endif /* CONFIG_COMPAT */
->         .mmap_prepare   =3D nilfs_file_mmap_prepare,
-> -       .open           =3D generic_file_open,
-> +       .open           =3D nilfs_file_open,
->         /* .release     =3D nilfs_release_file, */
->         .fsync          =3D nilfs_sync_file,
->         .splice_read    =3D filemap_splice_read,
-> diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-> index 34e6096069ad..cbe9658ae065 100644
-> --- a/fs/nilfs2/inode.c
-> +++ b/fs/nilfs2/inode.c
-> @@ -257,18 +257,6 @@ static int nilfs_write_end(const struct kiocb *iocb,
->         return err ? : copied;
->  }
->
-> -static ssize_t
-> -nilfs_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-> -{
-> -       struct inode *inode =3D file_inode(iocb->ki_filp);
-> -
-> -       if (iov_iter_rw(iter) =3D=3D WRITE)
-> -               return 0;
-> -
-> -       /* Needs synchronization with the cleaner */
-> -       return blockdev_direct_IO(iocb, inode, iter, nilfs_get_block);
-> -}
-> -
->  const struct address_space_operations nilfs_aops =3D {
->         .read_folio             =3D nilfs_read_folio,
->         .writepages             =3D nilfs_writepages,
-> @@ -277,7 +265,6 @@ const struct address_space_operations nilfs_aops =3D =
-{
->         .write_begin            =3D nilfs_write_begin,
->         .write_end              =3D nilfs_write_end,
->         .invalidate_folio       =3D block_invalidate_folio,
-> -       .direct_IO              =3D nilfs_direct_IO,
->         .migrate_folio          =3D buffer_migrate_folio_norefs,
->         .is_partially_uptodate  =3D block_is_partially_uptodate,
->  };
-> --
-> 2.43.0
->
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8a0f9e563bc1/disk-3d6d8176.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a3d8fcb60747/vmlinux-3d6d8176.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f5e1d8d94487/bzImage-3d6d8176.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9435f33de7962a2cb62d@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KCSAN: data-race in fat32_ent_put / fat_mirror_bhs
+
+read-write to 0xffff88811db1234c of 4 bytes by task 4861 on cpu 1:
+ fat32_ent_put+0x4e/0x90 fs/fat/fatent.c:194
+ fat_ent_write+0x6c/0xe0 fs/fat/fatent.c:422
+ fat_chain_add+0x174/0x4a0 fs/fat/misc.c:136
+ fat_add_cluster fs/fat/inode.c:113 [inline]
+ __fat_get_block fs/fat/inode.c:155 [inline]
+ fat_get_block+0x468/0x5e0 fs/fat/inode.c:190
+ __block_write_begin_int+0x400/0xf90 fs/buffer.c:2123
+ block_write_begin fs/buffer.c:2234 [inline]
+ cont_write_begin+0x5bf/0x920 fs/buffer.c:2596
+ fat_write_begin+0x52/0xe0 fs/fat/inode.c:230
+ cont_expand_zero fs/buffer.c:2524 [inline]
+ cont_write_begin+0x18d/0x920 fs/buffer.c:2586
+ fat_write_begin+0x52/0xe0 fs/fat/inode.c:230
+ generic_cont_expand_simple+0xb0/0x150 fs/buffer.c:2487
+ fat_cont_expand+0x3e/0x170 fs/fat/file.c:227
+ fat_fallocate+0x177/0x1c0 fs/fat/file.c:305
+ vfs_fallocate+0x3ac/0x400 fs/open.c:338
+ ksys_fallocate fs/open.c:362 [inline]
+ __do_sys_fallocate fs/open.c:367 [inline]
+ __se_sys_fallocate fs/open.c:365 [inline]
+ __x64_sys_fallocate+0x7a/0xd0 fs/open.c:365
+ x64_sys_call+0x298e/0x3020 arch/x86/include/generated/asm/syscalls_64.h:286
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x136/0x3c0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+read to 0xffff88811db12000 of 2048 bytes by task 4866 on cpu 0:
+ fat_mirror_bhs+0x1df/0x330 fs/fat/fatent.c:399
+ fat_ent_write+0xd0/0xe0 fs/fat/fatent.c:428
+ fat_chain_add+0x174/0x4a0 fs/fat/misc.c:136
+ fat_add_cluster fs/fat/inode.c:113 [inline]
+ __fat_get_block fs/fat/inode.c:155 [inline]
+ fat_get_block+0x468/0x5e0 fs/fat/inode.c:190
+ __block_write_begin_int+0x400/0xf90 fs/buffer.c:2123
+ block_write_begin fs/buffer.c:2234 [inline]
+ cont_write_begin+0x5bf/0x920 fs/buffer.c:2596
+ fat_write_begin+0x52/0xe0 fs/fat/inode.c:230
+ generic_perform_write+0x186/0x490 mm/filemap.c:4364
+ __generic_file_write_iter+0x9e/0x120 mm/filemap.c:4481
+ generic_file_write_iter+0x77/0x1f0 mm/filemap.c:4507
+ __kernel_write_iter+0x30f/0x590 fs/read_write.c:621
+ dump_emit_page fs/coredump.c:1298 [inline]
+ dump_user_range+0xa73/0xd00 fs/coredump.c:1372
+ elf_core_dump+0x21c0/0x2340 fs/binfmt_elf.c:2109
+ coredump_write+0xaf9/0xdd0 fs/coredump.c:1052
+ do_coredump fs/coredump.c:1131 [inline]
+ vfs_coredump+0x2770/0x3290 fs/coredump.c:1200
+ get_signal+0xd33/0xf10 kernel/signal.c:3031
+ arch_do_signal_or_restart+0x96/0x480 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:101 [inline]
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ irqentry_exit_to_user_mode_prepare include/linux/irq-entry-common.h:244 [inline]
+ irqentry_exit_to_user_mode include/linux/irq-entry-common.h:315 [inline]
+ irqentry_exit+0x14d/0x610 kernel/entry/common.c:165
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+
+Reported by Kernel Concurrency Sanitizer on:
+CPU: 0 UID: 0 PID: 4866 Comm: syz.3.376 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+==================================================================
+syz.3.376 (4866) used greatest stack depth: 9320 bytes left
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
