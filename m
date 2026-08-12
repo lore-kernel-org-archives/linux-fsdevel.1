@@ -1,39 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4552FFDFC
-	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 07:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27DA2FFDFC
+	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 07:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519035; cv=none; b=Oj8z9fnwSZjB3+26QIDqRx3wWN4hbWwUDS3L08M9Cddmw+cNpjGMIPtquWgl0nKtm8CJy/eAF0Eoba8TgluYMkf+MZzn1agxYva4MkG6RDfesWTydE84sHe/Cxx87GDF47m7izeh/w5pOLOagPaJrGw4qD+5LEIu0/iM4gqazqs=
+	t=1786519152; cv=none; b=YddRvjCbDv7Q80xnwxrK1GGHqjhs+vBHHf0ZJauQAYHrgUuNlegd939XoyctFTuDrAkDoTv5jXTJmzNg80L9f5qUSUQLNXxfvZi8tdhEANeKywZ3tkSwva8nmybdLXBbiJQs8L9KQmgwu545ZGWNIkd9Fl7oSJ0X0VMN6dzZeiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519035; c=relaxed/simple;
-	bh=lKpCCT/wpnppBu0jIvhBI4iAFqlPIvCmsBaUpRehejM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KlRow+lH4ep+USYqdQUGul0sUPa5JvNEB4Jd4/eCeTVAJnOrFGvy+1f8LbPW6KZotVBIK2qKOskVD/CLoqzDu+K8tEsWgShQd71o5pnoEhQ+i6Sv5Kmie0O5vLfmOCuoiNkfz9C7lgYU4JzsDkMoxP2zqzXdlVMf+PkwRKKFh2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/56vJ70; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786519152; c=relaxed/simple;
+	bh=e2pbG5Bzr1WSgKCg8eEYEAL4qBLlTEhVNej7EWmvhtU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=a9BbtWyr2y8zq24GVunzlGMCWah4faHBAx2lsHRsgjpaN501vO6XazmEAavl+rJfMBFWnqmzDLK+xKAzfRFY54fNMfufnNVdFqGuZEESYzZOJqEVyCqTfxiBIWlEwpRN72l7HURl+zwVm4OYVHIvxHqN1myhztZI3mrW/mnHIe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8YXbWjN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/56vJ70"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C99B31F000E9;
-	Wed, 12 Aug 2026 07:17:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8YXbWjN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EA91F000E9;
+	Wed, 12 Aug 2026 07:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786519034;
-	bh=CO0aMpRhWBjhcgT5DD0F905G+Qczdw2QSiDss6WyEFo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=i/56vJ70qmcvSwlmbrHPckr3b5dLNyGRQgUL2dBwAAaql5StaXQXR7rsnTzaP12aP
-	 JM4IZNv1+Ny4W3k8jDj2hPORr2QDZha1Cpo05z3DMJ7XdGyrfH37KiX0DGkgbagAop
-	 9g7RGaKsmOoW2cwLAXuX2Z8nBV01B9LYbNZYYaJpX8wjp1SiCy+nSnyNQJYiFLU/Fs
-	 z7Ysy/8TlvkcoESMbRHgJOCxW5muHNfrGTGY0gPx+Jwf/nuRz7lcGQNV7dmDVnd5ie
-	 T43DN/LbBDbzMV5GeEzwd7TFtvzzrGBxbyt8Y5sOFb7hxFd3gSVzk+RU3meJyDnSUB
-	 AL2cGRkT6HXbA==
-From: Christian Brauner <brauner@kernel.org>
-To: Benjamin Wu <benjamin.wu37@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260810063704.355933-1-benjamin.wu37@gmail.com>
-References: <20260810063704.355933-1-benjamin.wu37@gmail.com>
-Subject: Re: [PATCH] docs: fix grammatical error in iomap docs
-Message-Id: <20260812-epochal-erdtrabanten-filmmaterial-2cc625c5c0f4@brauner>
-Date: Wed, 12 Aug 2026 09:17:10 +0200
+	s=k20260515; t=1786519151;
+	bh=h6Zm1zIX24ULpA+dXIgBmTLKMYud3W/lb0PiR5af0hw=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=f8YXbWjNz85I0rjKOs/T8FcosiWXHP6nGRcDaSztCKlP12HF2ckVIAgTtsmHNKokL
+	 gysRAKddbaAREB2RXPjuvprFQb0cHRenTAlffdvuJUNa1ozNmkRFOwxRVzH9vl2ZG+
+	 eLeYvggxYWDHG8elNrG+oXB1EM+l4161eDP80e+If8uHnVu07j54m2H/UqvfuGQZJU
+	 tX1KCSeQsvCsyneRLpVeo1ngv9D/B/6gS/xxg0SCax+eKRTu+RV8g0IogOAgYEVQ5B
+	 1WhW6Uf6Q+/fSaraUtzeoKnpeDxtITRzyOSfoIWrJwP+Cs+WB1Huftv7N9Lo3jQHvl
+	 eZuflWZ3X2+sg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,34 +34,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] fs: fix comment typos in bpf_fs_kfuncs.c, inode.c,
+ fs-writeback.c
+From: Christian Brauner <brauner@kernel.org>
+To: Manush Prajwal <manushprajwal555@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260809192249.4485-1-manushprajwal555@gmail.com>
+References: <20260809192249.4485-1-manushprajwal555@gmail.com>
+Date: Wed, 12 Aug 2026 09:19:06 +0200
+Message-Id: <20260812-galeria-kahlschlag-zucchini-a100e715d311@brauner>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=869; i=brauner@kernel.org;
- h=from:subject:message-id; bh=lKpCCT/wpnppBu0jIvhBI4iAFqlPIvCmsBaUpRehejM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVyP5csylHeJ3WfKZloZ573yyT03QP8dj86wuX2os67
- wU5jDNDOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyiImR4Th/lGWP9cmLx+/X
- 7AzyT1j2eJ7CGsUNUlmT9lR2yf2YcJCRofXui+LMlEcL7Y8tYCvjSp9x54DM4YZVpbnpWx6JH/j
- RwwkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=533; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=e2pbG5Bzr1WSgKCg8eEYEAL4qBLlTEhVNej7EWmvhtU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVyOVOPrj1xTrGfS+1t89eUyPiofzvzrItGVcsnztdS
+ 16WXrPmWkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBENqcxMsx9cHp7VxIL+6MP
+ b8We/JFjP6Luat9tmN27SLzqWmDejGuMDAv9PxbqTVB4PO1gx96fn54nsNs6OTk2CixJfZddvGL
+ /ZgYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sun, 09 Aug 2026 23:36:31 -0700, Benjamin Wu wrote:
-> docs: fix grammatical error in iomap docs
+Hi Manush,
 
-Applied to the vfs-7.3.iomap branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.iomap branch should appear in linux-next soon.
+> Fix a handful of spelling mistakes in kernel-doc and code comments
+> under fs/: "Rmove" -> "Remove" (x2, in the bpf_[set|remove]_dentry_xattr
+> kernel-doc), "funtion" -> "function" in find_inode_nowait()'s comment,
+> and "paramters" -> "parameters" in the foreign-inode-detection comment
+> above wb_wait_for_completion(). No functional change.
+> 
+> Signed-off-by: Manush Prajwal <manushprajwal555@gmail.com>
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Please split into separate patches. They're very distinct files that all
+received patches.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.iomap
-
-[1/1] docs: fix grammatical error in iomap docs
-      https://git.kernel.org/vfs/vfs/c/7c7fe554f40a
+-- 
 
