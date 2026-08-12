@@ -1,109 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBD343FD0B;
-	Wed, 12 Aug 2026 12:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A33431482
+	for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 13:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786537138; cv=none; b=LMK9Ao+AZQ1pGYf3JVxNXCS48U01xD2o6bBhUr/WDAzG9l00MUIchCyZfsFU0+PX7sXQr1MC25qBZxDNTTCFxj/ByLTXTxcqkoXoip3n+VARHbApukP6WWEkkk11yRGdTz7MA1BH6WjKMfZG2X+g6xlGt0EzCn+sKXPB8CDHNag=
+	t=1786540092; cv=none; b=dQ+1RNt4yzrA1UWZT1segcKrpcWTi/bSYvhXKOQtjScikH5EpjVBKhHlWRh8Qg0Jo4NJnJNIF21ZcNNSYyD6ID5qRh36NawehXSsNMvmIIY0c3el4REy4m5oo8zeMBwiKj2d9JOs0Ggnj7DK0HfECKezDQgMbYMhg1TcaLp/A4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786537138; c=relaxed/simple;
-	bh=QWn50Oylf+681fTCx1IsYlRTZNh/g5E52GPeIeYZuHE=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=Nc0u8AcWNp2cTwsF0Jg5lE97rRjN+GQSeuDlSu0rZKLqQyWunl+gcdBDF7bTGA/Y4exY8va/LIJhqZtr7EPswTE1SyLC025GE7sBYhoHKzbsGdXZjHu5f6qHc8WZm5+ujffbUMG7dmfMrA31H9zLdj3vf7gXyfpbDl0rz+uTzkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkl+pLqJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786540092; c=relaxed/simple;
+	bh=MxtxiHUFGbpG7wyR5W/M29tb30zag0BJASeiKHwLsI0=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=nsA9T/GU6zjUDcyPovGk6pTOo8DZbNSeJPC692B4/SCPwYtajU1tNRP/m134OSb6ej5ObeGinPnnKkHKS+T6CP01oYp6K3wuxX6sFyuRiT/ydKGEoHEwCUVYPtBE2SofuOKl+rx4DmrRZI5LNVUHcshLOkLmCcJqJLqCzCA7RjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HBNVuXPb; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkl+pLqJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E2FC1F00A3F;
-	Wed, 12 Aug 2026 12:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786537135;
-	bh=9yXDvA+BC1z5uaBcOf5IKbQODG+1aW8vyjmoSLm/JXc=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=nkl+pLqJ/gG/BgchBtj15AuCWYHmx0/s4+kjMLBSIS58gmI2lta+jTX+/2SC44IOP
-	 A46OIfxyPaAM6mQRAEQXnvQlrIqZWmmYkD56CoMDWvEDE7wsbDgzhw15r9UsTDy3bw
-	 hbD8CQRFknMHKHRUZC7uvt3B32RNPh7iuTj986xgDyrLlbNyUisvLELo5UQ4rcaFvf
-	 1iFWs7fi+EhjYAG1QZZ70Hx5Yq4oSWa9SpQi2TB6F8K0Qfz2V16oLzGCYAH3DzFZlu
-	 pfu7aL8362F5JqOBNd3hjsz6OvJmP0as4mKV+AIhDj4CNa1BaXXdj2kJDezrlQgPoH
-	 NIWt8pWPrFjpw==
-Content-Type: multipart/mixed; boundary="===============0942110370436710155=="
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HBNVuXPb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786540090;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I3xqDyj2MmpztW1ops8Nu205Xj6JE2nK9d9TnUz1EEA=;
+	b=HBNVuXPbneWBsLBMIvbJZu4HQi2xE+5TSGcp+UEpGBMGCsXOiKl3/UzsBZOBx/hLPhbcMP
+	1orE0Yqz8y1Dm33VcZGg+r/lEfY2M8IzUuisFvIVqw/8Ifko+vEKLcB605BI9oJzJd0FK7
+	+lkIzTPsnvELLIVsinr1S14Cys3XZQ0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-szUloSf1MwK4mgbg-tv4vQ-1; Wed,
+ 12 Aug 2026 09:08:04 -0400
+X-MC-Unique: szUloSf1MwK4mgbg-tv4vQ-1
+X-Mimecast-MFC-AGG-ID: szUloSf1MwK4mgbg-tv4vQ_1786540083
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6A0831800646;
+	Wed, 12 Aug 2026 13:08:02 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.44])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9B6A2426;
+	Wed, 12 Aug 2026 13:07:57 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20260810-jazzfest-unglaubhaft-miene-4d1cf4cf42d3@brauner>
+References: <20260810-jazzfest-unglaubhaft-miene-4d1cf4cf42d3@brauner> <20260728141344.1811120-1-dhowells@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <christian@brauner.io>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    Jeffrey Altman <jaltman@auristor.com>,
+    Steve French <sfrench@samba.org>, linux-afs@lists.infradead.org,
+    openafs-devel@openafs.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] vfs, afs, bash: Fix miscomparison of foreign user IDs in the VFS
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <16d139f5b77313ab4f14b656d2d885ad96641f699019b86d7f0ee59a0b6cd0b4@mail.kernel.org>
-In-Reply-To: <20260812111140.7762-4-tasos.papagiannnis@gmail.com>
-References: <20260812111140.7762-4-tasos.papagiannnis@gmail.com>
-Subject: Re: [PATCH bpf-next 3/3] selftests/bpf: Test linux_binprm user memory kfuncs
-From: bot+bpf-ci@kernel.org
-To: tasos.papagiannnis@gmail.com,bpf@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,linux-mm@kvack.org,linux-fsdevel@vger.kernel.org,viro@zeniv.linux.org.uk,brauner@kernel.org,akpm@linux-foundation.org,david@kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,kpsingh@kernel.org,matt@bobrowski.net,song@kernel.org,tasos.papagiannnis@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Wed, 12 Aug 2026 12:18:54 +0000 (UTC)
-
---===============0942110370436710155==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-ID: <986589.1786540076.1@warthog.procyon.org.uk>
+Date: Wed, 12 Aug 2026 14:07:56 +0100
+Message-ID: <986590.1786540076@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-> diff --git a/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-> new file mode 100644
-> index 000000000000..3d5080a3975e
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+Christian Brauner <brauner@kernel.org> wrote:
 
-[ ... ]
+> > Note that chown may also need modifying in some way - but that can't
+> > necessarily supply the information required (for instance, an AuriStor YFS
+> > ID is 64 bits, but chown can only handle a 32-bit integer; CIFS might use
+> > a GUID).
+> 
+> Seems that some other changes are required for this. I'll take a look
+> once a new version is out.
 
-> +	if (!child) {
-> +		char *const argv[] = { "first", "second-argument", NULL };
-> +
-> +		skel->bss->monitored_pid = getpid();
-> +		execv("/bin/true", argv);
-> +		_exit(errno);
-> +	}
+If you're referring to the chown thing, can we ignore that for now?  It would
+probably need some sort of new system call, but I don't know how that should
+look for now.
 
-[ ... ]
+David
 
-> +	ASSERT_EQ(skel->bss->str_arg0_ret, 6, "str_arg0_ret");
-> +	ASSERT_EQ(skel->bss->str_arg1_ret, 16, "str_arg1_ret");
-
-This isn't a bug, but could these be written as sizeof("first") and
-sizeof("second-argument") so the expected lengths track the argv[] strings
-defined above? The literals 6 and 16 mean anyone changing an argument
-string has to update three places.
-
-> diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-> new file mode 100644
-> index 000000000000..679363811edc
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-
-[ ... ]
-
-> +	invalid_flags_ret = bpf_copy_from_user_bprm(args, sizeof(args),
-> +						    (void *)bprm->p, bprm, 1);
-> +
-> +	copy_ret = bpf_copy_from_user_bprm(args, sizeof(args),
-> +					   (void *)bprm->p, bprm, 0);
-> +	if (copy_ret)
-> +		return 0;
-> +
-> +	args_match = !__builtin_memcmp(args, expected_args, sizeof(expected_args));
-> +
-> +	str_arg0_ret = bpf_copy_from_user_bprm_str(arg0, sizeof(arg0),
-> +						   (void *)bprm->p, bprm,
-> +						BPF_F_PAD_ZEROS);
-
-This isn't a bug, but would an obviously out-of-range value like ~0ULL
-read better than the literal 1 for the invalid-flags probe, given that
-BPF_F_PAD_ZEROS is also 1? A reader has to look up the flag's value to
-see the two uses are unrelated.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/31592551940
---===============0942110370436710155==--
