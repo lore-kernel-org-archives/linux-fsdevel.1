@@ -1,72 +1,72 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67733E7145
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 09:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808B442C4ED
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 09:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786613698; cv=none; b=R6BsXV/j8xvEAznb0j3OlorQrQ9rUfvRinG+ykbKoLZltEA2FpuOjq5hPFrVqaI8WEcTvv/zPlXrqnZNl8PLHozXxui+IkN2R2GP3ro7WB1oqSApCBRWsNB63I/s6qfCH7HyHff+HymGyK/1CLzg1r2dMW0H9ZzhSzrm2T+XwLw=
+	t=1786613790; cv=none; b=pFW/bghiPRwWi8T7pyDMSg4A/5QkisAKlmg6GEIb9T6+ZvvfKBvYHgpcHU8AKhLNJxDzT6g+tdKAZqUWT07a0BOWwevxZexpBCjMySDSlnLDkrx2atqdWUbV2PFCaI1zoHvHf2eBPfqwrsr3wxtAXvj7VyZD9kctVBe6/w+xDwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786613698; c=relaxed/simple;
-	bh=RpFq5bvNZ6Mp5VTPVmjCfwd9kSsxsorK8e4J70YeCq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IZeCXK7JPFJp7p7gGNJ/yXIPhSsGM7Ro9B0zVv3hzGRRyXbTyBSm0stTq0X4fI00LBhs3hluPTUpZb5MuzW2SfGrcrC2OnZ58zZ+1hkXEu649JrB3RMSizREhEtNXQ6+DFE2jJcdwWlX74n4LK81JH31ENC5HZk3mZDYLctdEFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fh7vOKd1; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1786613790; c=relaxed/simple;
+	bh=YZkfDDQ7GSzvo9WaYxhwLi7D152wP2Vsm4HaJoy5DWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KCw1sDMcwfVx72Yql8sNXJpNjVoZTpKBtMhJ0TIioHuv61VMwIIBd4KP6myMVyPG/84V0g3QfySopEWABoZRm1f4nZKpdIkUsarqBtUWFe/oqtPr8qOpmLmb9lwvTXUOFnkuJ5wt7pxEvQWiey2mmfXXRJ0FUJSQFOSaOfxhAxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RhVtQ9Lj; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fh7vOKd1"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38e69bdb0fcso524112a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 02:34:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RhVtQ9Lj"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so1956077a91.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 02:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786613691; x=1787218491; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786613781; x=1787218581; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=j03Rr9Xj0KIFsiK1s3+GX5WIC975IyhGT0N0gGndb3A=;
-        b=Fh7vOKd1x3EFp/pKGeh/eiaJW469bJl3MGRxOD+cUzT4FRYsjoUrgKYk/0UiEKPpGa
-         uQF7703tpcJF+21Pstkg7Atr1X+k2+2OdORFgyNXgH0Dqrxs+SBD5+zmIn72AhCA7Nym
-         apMU1OtmK/C8qZhhbtxHXStrs6iCwYCGLOCDID9xc2+6h7Y9VDEzM4JbXj/l37RJ3U8i
-         kNwS6PDnKJjGuCu7D3QteSFRpLi0QccUO4Jbq0coB5kAJ8mGpswPLBTDg1zhJz+zkWgv
-         MVZWd/tPdlzonq42U0uT3EGnLkvPqVZE6acGqydwHe6EeVAL8ZVX1qkg1VDNkFRo2+tO
-         BTbw==
+        bh=FtJwtn3hLgnODQpBTJQ+GbiEFxaIYYGH/EfeHB2QvWk=;
+        b=RhVtQ9LjFikYn+QOS+92UIVcK7sB/clf0KSdHGRKmeMDuHYUaw8T3SAyXWyDpF6Qhu
+         Y1ppKwO8XMFbzVKzJYo+0iS2NMMmODrtCmJqhAN5wsnOiykv5yoO3liI9VOkj9PCs5Rh
+         fdZy/eQafCv15Ovt66u6Yra5zL+vwztHP52ZOLp+mFkyXSyARwvzp5mwjJEjAK7GPdfi
+         jjSAGXn892/6wKpzDSTa3DqIpArKFXccV2U+vX1xPKrnBKDj2ju9qGRnzYp6Aj2DQ35F
+         +4OnntQOoqoo/qFIeKgQKkYcqONpBl8hhCFyHS97CL4T7bXFBrrCzK73/TcG5aQrgnMb
+         T/3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786613691; x=1787218491;
+        d=1e100.net; s=20251104; t=1786613781; x=1787218581;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=j03Rr9Xj0KIFsiK1s3+GX5WIC975IyhGT0N0gGndb3A=;
-        b=Iab36ipS4qENlYvQ8w0LbqOdswP95nDS6aoDOX+ATqCJUDgqPeDFMCpki1fNeT2c/G
-         g6pVvuKlFOvYv1sOy+Mr2WYkVzjJT/2fZweu3IDPaj7kv+QRBm99opalqpNirrfxXsrI
-         /3tMg7wpG9TF5E59awQKPE/dG/0tM7YGHa8Ua1VFrgf87vJz7/D5+teNsSbIpXJmFtBy
-         +KzxZkG43EDmcLJq3uaOgtPcSk1152XQuv2/pdpgdO4+RG6Ponal6hu2ZW/PyyyS61v6
-         A6Hq/+/+fETEpcMTy820GJ3bNp/XR0LunuXeWJ8a4HmWZdZPlD7eYYhxVkeRjDS4dMa1
-         rwEw==
-X-Forwarded-Encrypted: i=1; AHgh+RrOZT1N5NcWWZciDITueq7n4DVXSIyvrDDyp1zrjCNSTyQgFVISmCZDIU2JmDodvWrknVwoYVYQMi73DgeB@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdgvhR5auHysUCxJKPZxKTa/17rLXk4M1w3fp0ruwkT38h6oog
-	TtaDrqt/P7iJYxy5Mt2lUofPiKNrKquSKa6rRItmLswMyjXC6vekYG/LFRlzqfLLf60=
-X-Gm-Gg: AR+sD13I5tjHGaSFv/egEviXFOxMRFNPn5p6ymRZeXJ4DiXQ2yPeG+rD3ccabYpykfn
-	LCmSDwL4AOlaqsTgJMtVzD3/Jj1VGuvTRZrTQQ71QMC0vGKs3zJyQoe0LWwE1iW1VNBEzOgmdyP
-	pj5fXGzY0ya753/KzbpHvbrioKEMj24cTbjz9I9VJN3hfyrx2wfE6lMjB0xQugsD8nuf7REO6U3
-	nG038FwCmNWM+c+XfGWtSm8aJzl2WCypVFhRBtPOOdEy+xro0dXaEPNFUkcOHE8xCTMriSTrr5Q
-	lwYZ1sM2/N8kbjRwKHpctV62o4W6fLLOA+n52OUNY2ucgsX1Q6OEchyZzSdWxNKOEAXzlNlcTRS
-	MjTq9zMnf9/jY5vjMO3P/no693sWVVTBAgatIxX78Fyda46oVWcSItWzGMvvZ40YG1EtvOYTLxI
-	G4HCXekxBgPRbaHtjNFPXiCgjzF/zfvj0PZnIrpNXYb9iKjOHt0BTUWRELoQ8SlS3f+pEQzTFUx
-	XQaUMY648J8tA1Qzo2XBYs0puvXuFldvlxcmmZdYWA1UgZwloBmg9vS2m7SgchU01SkRjfrqix4
-	Vg==
-X-Received: by 2002:a17:90b:1651:b0:38c:a59b:5189 with SMTP id 98e67ed59e1d1-3931e2a0d67mr4135221a91.15.1786613690882;
-        Thu, 13 Aug 2026 02:34:50 -0700 (PDT)
+        bh=FtJwtn3hLgnODQpBTJQ+GbiEFxaIYYGH/EfeHB2QvWk=;
+        b=nE/GODoFkPZ0NsjPcWQmCKzEPnptJEffufJeQg3ET4r3eKM0I9xQ7CHlcXB3/Nm2xw
+         ohlpAT1aliXPrhS0akQUwwrhODu7HhiC3276/FZbagWhXPZubcO0glZ2Hlw3kNky3z7I
+         XW1i0fD9bXX8vAFzSPRd9MTUg0IBUWw1L3kaOdC3QW3rLHi2eYRkKx7bilaAe93/3ROf
+         NSpq9KrtKANRlTSI2EuiUcxulVsyHmyLf5ybRdQKAO2ZBN9Bu+Z6h/k2A0y+OwAnpAYA
+         O0B2TqB5/diSKnToBfPM9JltBVrm1daP2DNSfC2ckv1SrYmY29hVJ5ZMZuNAwJ9z9tOK
+         Z6CA==
+X-Forwarded-Encrypted: i=1; AHgh+RqBPU0WR0yAvORBjOczAMTe5fKtD85aBldmgBGdGC7Bvx42A5XJtygvn7SxNsTvpkKOgkdQwpDuKy+T3BUb@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkMRg1QjFWuO1VrkNECcdz1J5lTgzaZG6wtkn3aP5yhKlJ8GdD
+	0huPEv657UoifHuajA+tem4jV6Gz4xJT0ph+4W2J1/spdcdyx2/GlUlu
+X-Gm-Gg: AR+sD12MKWljqH2bupvKQ9oilf2fllnCWNuSUANDPHYQD5GIHELFzlnVftc+gH1WvjM
+	3spP7c6Ccu4dTm6htEBrOXeAyn4NWWsp8g3nMvO9DtoFkHEkx9Aw4XqIDTtnS3XMtOBj74rlAhD
+	s23GQr+nKlwjiAUppuCwrzyMSv0epAgRJfYxuzoO6rxeHU3sRl1VTLSRLoDTf+Q/mKCHRq0W5co
+	0Undyd5MkTJssHZsPOhBW/PgW6xkmSIKibKnaPKpVrtxVRQY4M42Gb3jInR9b4JiD+TZAt8zcSL
+	wrc6m9LRGjeUaP/Z5rmt+5jbIMjCdF2LHeTW9TDGS9lHNZFcWHpYNwlhegynSboP9uplfj9mGmd
+	C3+Pxt5GBYQeluo2T2mDt5cd9ZzNGEV/SvsjuHD00kfkuf3i7881PoNgralqjG7LQjmITHPLQdZ
+	KgVEpSSBNxzXC+N1UvoOGsyXtWYQ/bMBh3ruV5piCKecG4RB4s925z5gNAif6oYex7c3n9jHW5z
+	JzuX66rs907KyvO7tNOecchp+bph1/xQK/90jjpMYfVz5L8y+xNQRSrupjvf/REdm4UkrJR0rz1
+	ag==
+X-Received: by 2002:a17:90b:268c:b0:37f:a915:1c29 with SMTP id 98e67ed59e1d1-3931e27b831mr5511629a91.19.1786613781048;
+        Thu, 13 Aug 2026 02:36:21 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:94:ab62:887d:e555:df21:3318])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ec002e857sm6852846eec.23.2026.08.13.02.34.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ebf7321adsm6755991eec.16.2026.08.13.02.36.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 02:34:50 -0700 (PDT)
+        Thu, 13 Aug 2026 02:36:20 -0700 (PDT)
 From: Manush Prajwal <manushprajwal555@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Manush Prajwal <manushprajwal555@gmail.com>
-Subject: [PATCH] fs: fix comment typo in fs-writeback.c
-Date: Thu, 13 Aug 2026 15:04:30 +0530
-Message-ID: <20260813093431.410-1-manushprajwal555@gmail.com>
+Subject: [PATCH] fs: fix comment typo in inode.c
+Date: Thu, 13 Aug 2026 15:06:03 +0530
+Message-ID: <20260813093603.1971-1-manushprajwal555@gmail.com>
 X-Mailer: git-send-email 2.46.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -76,27 +76,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix "paramters" -> "parameters" in the foreign-inode-detection
-comment above wb_wait_for_completion(). No functional change.
+Fix "funtion" -> "function" in find_inode_nowait()'s comment. No
+functional change.
 
 Signed-off-by: Manush Prajwal <manushprajwal555@gmail.com>
 ---
- fs/fs-writeback.c | 2 +-
+ fs/inode.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index fdb8766d27..e19a588c07 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -233,7 +233,7 @@ void wb_wait_for_completion(struct wb_completion *done)
-  * Parameters for foreign inode detection, see wbc_detach_inode() to see
-  * how they're used.
-  *
-- * These paramters are inherently heuristical as the detection target
-+ * These parameters are inherently heuristical as the detection target
-  * itself is fuzzy.  All we want to do is detaching an inode from the
-  * current owner if it's being written to by some other cgroups too much.
-  *
+diff --git a/fs/inode.c b/fs/inode.c
+index 31c5b9ee3a..059094e40a 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1775,7 +1775,7 @@ EXPORT_SYMBOL(ilookup);
+  * function must never block --- find_inode() can block in
+  * __wait_on_freeing_inode() --- or when the caller can not increment
+  * the reference count because the resulting iput() might cause an
+- * inode eviction.  The tradeoff is that the @match funtion must be
++ * inode eviction.  The tradeoff is that the @match function must be
+  * very carefully implemented.
+  */
+ struct inode *find_inode_nowait(struct super_block *sb,
 -- 
 2.46.2.windows.1
 
