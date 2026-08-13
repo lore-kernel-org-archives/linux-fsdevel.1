@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E313955D8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 13:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6C43955D8
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 13:32:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786627800; cv=none; b=grjdNutDg6dMQWYN6AXB1SflTlAHWNq15D6/ri9AyTGBuQ/XpfY8I922Tz3Muy9drLYlhAdtUj63hR+TLJGqCEclZ5xHn8B7fgfYbOwAwlV+lqApSQnbHzCtvAswSxx6DeLqUvzvyz82BBb6OHi2TasxaB6j6qQbRJaIQosu7/A=
+	t=1786627963; cv=none; b=JxB/f8xpeOgK9yR2hXxVXaVcW4tAMPOTpyaJYrJ1zvWhl2JEyuqrE0/O3ijCvY3GEHxeO1yMkb+BMlxx6le16W9ibh726gowQxo6iH+joq6q+QY7X4tm7nuICBE1PRAP3L9NNr03NmwFeQHQe0cDqYgD35CONwF3fn5i2q108AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786627800; c=relaxed/simple;
-	bh=hnj6l11DOGe2FFvkb9OwsGJ2XNY4AlAJ9yRSdpoEkMQ=;
+	s=arc-20240116; t=1786627963; c=relaxed/simple;
+	bh=6TBz6du9jRfWlRN1bzlvYkO01O68+MK3Q9VPll/tzZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dbgf6U8U5FutgnF9KsD8aGf8PHRtLx3NtjnjRRAPokxfe0eonCMeJyd0zavrky+c5pOUSwuy/NfOYvHs4QO2kWyLo6LTtaNw7z2f29Yk0Sj3y904Uzn+lpAy0j8N/6RE/GPYJJMgJPXn2Nct44sq1cqk8Q6ROJtepWle9ZuaMzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjdfiP4p; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVKgqP0R7a6ZqWdH4usmfvD2qiT/2mgnAWHvyNQoW3TvhQ0P3qmszvNratIVw+FqXu/372D77QoK33k2sbl6gwlaAqZwIFGqG1cpKXzP++gedccNtngLwDMWJEJkgq98+K3E1xpU01aZI2VaJiq/JQ7wzsm68CqIIMoTCvJMX/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QVpa2g4O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjdfiP4p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C331F00A3A;
-	Thu, 13 Aug 2026 13:29:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QVpa2g4O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4783C1F000E9;
+	Thu, 13 Aug 2026 13:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786627798;
-	bh=hnj6l11DOGe2FFvkb9OwsGJ2XNY4AlAJ9yRSdpoEkMQ=;
+	s=k20260515; t=1786627961;
+	bh=3t8Xb0YXKt1FxrUR+ySkGbvszp55d2Yp5AkViZUiMxw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jjdfiP4pElG6O8LByz2BX6u3wmZjkW7AsFndE2/slClzbpHkNNutcG/RtJaxbpcPn
-	 tDOsq8gSItTRf3ZhgK+OZqhMOb1PVbeSDC88nqPNWJXCWBVftPfUsGfMmKF8C8lN8J
-	 P1P/Rs7xJLisicCaSyXn6r1rbRG9TpOoS7EdSX80lQbQN+IK784vH31NMUYjciqVPG
-	 wLXdDQ+GUOcBj1ELtDEHUxmeVY++0qzJCU4LmQRv9HBA/fQoaW9PW6I1MV49Pbbl6V
-	 PVJ2NNBdjSWAkaeiGmNCYXkYK9tPGNftAngAeNIarP/FuVLX4TB+Hct4U1VBIvQ4w3
-	 +u6SMLpswsTlQ==
-Date: Thu, 13 Aug 2026 14:29:38 +0100
+	b=QVpa2g4OKNlEH0QzM5QgDjzW71l6ULJ1n6Xb4TfJx94YM8fCdRj/Bc2ADDk2jToCC
+	 7SoEas0nc0i7WpbTMC4Wc4xpi5BBP5AlDog5epFFAFzDeoPgyYwXzGzlDv3XEIN543
+	 AfkLcxL8dbYfEptYvjkLNv4dZRxrTQzIS/zR6LtSqZ++1Zfbn/NHqSqblznZR1jnPL
+	 YWaLSQBi+d8vtO5dWgDRXkMFCB77C3bFVq6zSNQ3zofToMzCItN8wfQAnHTXyOhYDN
+	 pSAkm4FS6Eb/zCVAk8gEqNUodPZ5+4GcpNkPx52ZuxlQ53pL/ar0NXa+NO4b+lmUjx
+	 AujhvRFyXjlcg==
+Date: Thu, 13 Aug 2026 14:32:21 +0100
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Daniel Palmer <daniel@thingy.jp>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org, geert@linux-m68k.org, 
-	Arnd Bergmann <arnd@arndb.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org
+	Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org, geert@linux-m68k.org, daniel@thingy.jp, 
+	Arnd Bergmann <arnd@arndb.de>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	linux-fsdevel@vger.kernel.org
 Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to
  /dev/zero
-Message-ID: <an3COKVbgQKdY52d@lucifer>
+Message-ID: <an3G24JX-ZE9Obbt@lucifer>
 References: <20260813063401.1786548-1-thehajime@gmail.com>
  <20260813063401.1786548-4-thehajime@gmail.com>
  <2026081355-remold-sterility-84f9@gregkh>
- <CAFr9PX=zC8GnxwrR=wTwA4xQq89cHYpxZWooS+-=Q-WuNbjanQ@mail.gmail.com>
+ <an3E-5BuWLgwzrd-@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,77 +50,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFr9PX=zC8GnxwrR=wTwA4xQq89cHYpxZWooS+-=Q-WuNbjanQ@mail.gmail.com>
+In-Reply-To: <an3E-5BuWLgwzrd-@casper.infradead.org>
 
-On Thu, Aug 13, 2026 at 09:43:37PM +0900, Daniel Palmer wrote:
-> Hi Greg,
+On Thu, Aug 13, 2026 at 02:22:03PM +0100, Matthew Wilcox wrote:
+> On Thu, Aug 13, 2026 at 09:19:47PM +0900, Greg Kroah-Hartman wrote:
+> > On Thu, Aug 13, 2026 at 03:33:58PM +0900, Hajime Tazaki wrote:
+> > > Upon a private file mapping request to /dev/zero, it calls
+> > > kernel_read() in do_mmap_private(), getting a failure with the message
+> > > like: "kernel reads not supported for file /dev/zero", which is because
+> > > zero_fops defined in drivers/char/mem.c has both .read and .read_iter
+> > > definitions.
+> >
+> > Do you actually use a no-mmu system?
 >
-> On Thu, 13 Aug 2026 at 21:26, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
+> If you look at Hajime's contributions, you'll see they're far from an AI
+> slopper.
 >
-> > Given the age of this issue, I don't think anyone uses no-mmu systems
-> > anymore :(
+> https://lore.kernel.org/linux-mm/?q=hajime+tazaki
 >
-> There are a few of us using it for hobby stuff[0][1] and there are
-> apparently people using it for actual commercial stuff.
-> There was a session about this at LPC 2025...
+> > > @@ -869,7 +886,11 @@ static vm_flags_t determine_vm_flags(struct file *file,
+> > >
+> > >  	vm_flags = calc_vm_prot_bits(prot, 0) | calc_vm_flag_bits(file, flags);
+> > >
+> > > -	if (!file) {
+> > > +	/* private and file mapping will be marked anonymous later (do_mmap_private()).
+> > > +	 * and /dev/zero is marked by them at .mmap_prepare,
+> > > +	 * which should be _before_ this point.
+> > > +	 */
+> >
+> > Wrong coding style for the comment, which is very typical of
+> > LLM-generated stuff.  Always rewrite the output of these tools to
+> > actually be sane.
 >
-> One of the big problems for nommu seems to be that everyone is
-> convinced it is completely unused and totally broken. :)
+> A lot of humans write comments like this too.  Indeed, it used to be
+> the preferred style for net/
 
-No, the issue is that nobody seems to do any testing or contribute any code
-aside from at least Hajime (thanks Haijme :), and possibly others (forgive me if
-I am missing people's names here!)
+Yeah Hajime is one of the good guys and I don't think he's a schlopper.
 
-There's been situtions where nommu has been broken for a year and _nobody
-noticed_.
+(I do want to review his series, as usual time is against me :)
 
-And yet whenever nommu comes up people always seem to pop up and say how
-important it is, then mention a talk etc.
+I do agree with Greg however that nommu is something we should get rid of. See
+my other reply here.
 
-Well if it's important, test it. Test the tip kernel. Report bugs. Contribute
-code. Any or all of it :)
+Am frankly fed up with people telling us that nommu really matters and giving
+talks at conferences but contributing nothing (apart from Hajime, who deserves
+respect for walking the walk on that!)
 
-Meanwhile we in mm have to _constantly_ fix stuff up in nommu because it's a
-total mess and has real maintenance overhead.
+If nommu can be broken for a year with nobody noticing, then maybe it's time to
+see if anybody notices us removing it too.
 
-Having to account for legacy systems that make no sense in 2026 when you're
-trying to make improvements to systems people use, or not being able to do
-certain things, really grates after a while.
-
-I mean if you don't believe me git log mm/nommu.c. This overhead reason is why I
-now co-maintain it.
-
-So I'm honestly a bit tired of people popping up when the whole 'why nommu'
-thing comes up, then disappearing when there's work to be done.
-
-In general - it's not really for those not doing the work to dictate terms to
-those who do, IMO.
-
-So while I appreciate you confirming there are users (yes we know :) frankly
-that's not the question. The question is - why isn't a downstream kernel enough
-for you?
-
-Last time I brought this up I basically got radio silence, a couple times before
-that I was told 'nommu has no maintenance overhead and is perfectly good code
-and we have products' by somebody who contributes little to nothing in terms of
-code and nothing no testing.
-
-So bah humbug.
-
-AFAIC it needs to go and we should never have allowed risc v to add a new nommu
-arch.
-
->
-> Cheers,
->
-> Daniel
->
-> 0 - Really good example(s) of the 68000 port
-> https://github.com/crmaykish/mackerel-68k
-> 1 - https://github.com/LinuxMD/linuxmd my version of the 68000 code
-> with devicetree like those fancy ARM things running on a sega
-> megadrive.
+Sadly I think Linus won't share this opinion but as co-maintainer of mm/nommu.c
+this is my perspective ;)
 
 --
 Cheers, Lorenzo
