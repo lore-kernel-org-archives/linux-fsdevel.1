@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28532C0296
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 07:25:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3CC367293
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 08:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786605914; cv=none; b=nD9WxbcZNEYqqDtSpsTJ+SnCObM5vHCQrNou0SUAZ6c7I6nan4pHGHQbhbesJ6+dIyFVPSsXHNSQ3qPb2D18DgsMjy/Iuyz2UmXMB4UMikB8HhERB8UWlEVDXQvGksLX6PPrZSngqkxA0E1YnoGAF5vkgKVxlxeKTLoJIM+BdKY=
+	t=1786609768; cv=none; b=T3VltahEDyJxeQDyY5why9rb4rOKT6Bfh9KBJefogk05dh8Oi/9QLRSctufZPiAypjgG7znR6QkZLx4GuVPvDssumOcoxvRJaIIgP0hHDb15pkQkdOk53V8iNfW0GnU30NWaLxHVDp2raqVmPduL0p3zhMxVo3rYyZ0h0VYPcKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786605914; c=relaxed/simple;
-	bh=EeNmIgGsT46KCYWt599LpR6pEb4CIiBq9PfMgglnZjc=;
+	s=arc-20240116; t=1786609768; c=relaxed/simple;
+	bh=/K/bkOzgL7780DZQOn2/eC0ywKf/4sKD3SzPx0oqdEw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OTgBqxvSNw3HUbSIvZO5kLJQ1dt/XhprDQvnak/6eGJW6Cbr8zLxVDcLlG8kfnbkJAjGkoE3aFKGZhP2qq3+BDVrSCu1+u4kF/Mg7zdMibS9TEE2K2xftMY7g8q4XhBhl4ffSZQw4G3nc/lDTVYIzXVD2rW3grsPKFLFSzszjiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=haCcH78Z; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=c/3N22VUamjkbdJnY0qy7FwGPARSO/GxfUTjz3VKy3BdNdChqq1Cghy+tA30gLoPvK4byySNHAPpfh6WQCht0Uhs8Bwo6ShdHzyoZPd7VzH2Vgs9T6ubhm0zKdWh2bVPubJpn8ONuHfsHEc1NiZg04iOKhFtFajQWWOrKbuwu9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iPH7IB6r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="haCcH78Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B411F000E9;
-	Thu, 13 Aug 2026 07:25:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iPH7IB6r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC001F000E9;
+	Thu, 13 Aug 2026 08:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786605913;
-	bh=wlUq6eMZ9dhHSD88qIfXndTiEbaOt83wBNm0+NgJcyE=;
+	s=k20260515; t=1786609765;
+	bh=D0j2EWmhCM0P00w1S22i5WnZMePeZSUmS6q+/vdBi8s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=haCcH78Zp/m539QhWqu+sd7oXAcejudjaL37QL9yWQGnsiobVQeble+LIE9uHZWdh
-	 wkZ3PV/mcdhwo52hfyTMQBO1Ysj6eJjhWkRnZoD5Gj75WtgLRp+3EMSQq7XpzeXB6d
-	 rOLVKpUYwo7QHTAYPQSDjffNYj2iGRmc8M8+EV/+cPHBoBlIZ7Lo8xq73w68lD7vbt
-	 KIGrqaSxgrlPxmUvFn5B6jkeAlUWlYGXajPb48a4hHaYd176H0OBNV6e+4eZQFFI22
-	 NMySX+bOPrd0h2nG01qqgGjtyb5wlJ/moLFtMivrUCLyqJsNyu8f8maiZ8gQJEAEKc
-	 fInbwEp5x7fnA==
-Message-ID: <3e609c64-a393-4667-be74-6cb2bbdcb717@kernel.org>
-Date: Thu, 13 Aug 2026 09:25:07 +0200
+	b=iPH7IB6rdaiorylVVpDDyRgdfQPy21XCoWB5/8jOtXHcfDCl5FdyYnftVKD/W10tM
+	 +uQfpx7HGEYF2Gx6BeedfWKky+JEoz9IgDddbJlxzjK9LBNafJ03II47qRkCx4JaOF
+	 e3m6GRuws8olyQRzpShxe4vcMgLp/VhKGXsEwBISDuN3xBbh+81gtiROQBtZJYMAW8
+	 JL9u1tcXlJ8WbOXYa6X9BLdCTPHEtFprD767Ya+gtX/ZYjuQpGQLwMry5ap5LzcvMz
+	 +3fWJkL2a41X1jElyeh5MrcYA2DdUy7opm0Q8adu66j/NPRYhzvyiino1p/mJprTab
+	 wqi2Bz8vljeqw==
+Message-ID: <a51a6236-8881-4479-8f04-39676e0e1f14@kernel.org>
+Date: Thu, 13 Aug 2026 10:29:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/15] kpageflags: Use is_page_hwpoison() to set
- KPF_HWPOISON
+Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
  linux-mm@kvack.org
@@ -46,7 +45,7 @@ Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
  Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-7-willy@infradead.org>
+ <20260805210557.1118966-9-willy@infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -93,41 +92,121 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260805210557.1118966-7-willy@infradead.org>
+In-Reply-To: <20260805210557.1118966-9-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
-> Instead of knowing how hugetlb handles hwpoison, just ask
-> is_page_hwpoison().  This gives us the flexibility to change how hwpoison
-> is handled without updating this function in the future.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Reviewed-by: Jane Chu <jane.chu@oracle.com>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> ---
->  fs/proc/page.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/proc/page.c b/fs/proc/page.c
-> index 7d9387143435..323e4c049f69 100644
-> --- a/fs/proc/page.c
-> +++ b/fs/proc/page.c
-> @@ -233,12 +233,8 @@ u64 stable_page_flags(const struct page *page)
->  	u |= kpf_copy_bit(k, KPF_UNEVICTABLE,	PG_unevictable);
->  	u |= kpf_copy_bit(k, KPF_MLOCKED,	PG_mlocked);
->  
-> -#ifdef CONFIG_MEMORY_FAILURE
-> -	if (u & (1 << KPF_HUGE))
-> -		u |= kpf_copy_bit(k, KPF_HWPOISON,	PG_hwpoison);
-> -	else
-> -		u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
-> -#endif
-> +	if (is_page_hwpoison(page))
-> +		u |= 1 << KPF_HWPOISON;
+> Other large folios use the has_hwpoisoned flag.  Convert hugetlb to match.
+> This will help us use the per-page hwpoison flag in the future.
 
-snapshot_page() takes a snapshot of the folio and the page. If you look at
-"page", you start going to the live version again.
+Currently, the first thing we do in hugetlb_update_hwpoison() is:
+
+	int ret = folio_test_set_hwpoison(folio);
+
+So a hugetlb folio *always* has folio_test_hwpoison() set.
+
+So we can locklessly check whether a hugetlb folios has the flag set simply by
+... checking whether it's a hugetlb folio and has the flag set.
+
+Then you write:
+
+"This closes a gap where a page in a previously-poisoned hugetlb folio
+could be observed to not have the hwpoison bit set."
+
+When does the race you describe become relevant? When freeing the hugetlb folio
+or when demoting it? in both cases, we should be holding the hugetlb lock that
+nasty hwpoison code could sync with (if it doesn't already do that).
+
+
+I can understand that we want something that covers both scenarios: an
+indication whether any large folio has any hwpoisoned page. Such a unification
+would be good.
+
+But then, special-casing hugetlb *again* through folio_test_huge_poison(),
+that's rather odd, no?
+
+(what on earth is "huge_poison" is this supposed to be "hugetlb_poison" ? Why
+"poison" and not "hwpoison"? Really odd)
+
+I'd expect that we actually get rid of folio_test_hwpoison entirely and
+exclusively work on per-page state and has_hwpoison. But IIUC, now it's some
+mixture of folio checks, page checks, folio_has, mixed with some hugetlb oddity.
+
+I am not quite clear whether the change you propose here is actually required
+for the remainder of this series?
+
+	[PATCH v9 00/15] Use generic_file_read_iter() in hugetlbfs
+
+IOW, do we really need all this hugetlb hwpoison handling just to accomplish
+that, or could some of that (bigger hwpoison rework) be done separately?
+
+
+[...]
+
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1978,6 +1978,22 @@ static inline unsigned int folio_unmap_pte_batch(struct folio *folio,
+>  				     FPB_RESPECT_WRITE | FPB_RESPECT_SOFT_DIRTY);
+>  }
+>  
+> +/*
+> + * Since we cannot split a hugetlb folio, we want to insert a poison
+> + * entry into the page table for the whole folio even if only one page
+> + * is poisoned.  Otherwise, we've split down to the PTE level and we only
+> + * want to poison the precise page
+> + */
+> +static bool ttu_create_hwpoison(const struct folio *folio,
+> +		const struct page *page, enum ttu_flags flags)
+> +{
+> +	if (!(flags & TTU_HWPOISON))
+> +		return false;
+
+Why not keep the flag in the caller? Really looks weird given that we have two
+users and one of them doesn't even need the check and must fake it.
+
+I also don't quite enjoy the function name, and it's likely the reason why we
+need 4 lines of doc for a simple internal helper that checks whether the thing
+(page table entry) we are unmapping/migarting is hwpoisoned. This function is
+not involved at all in any kind of splitting.
+
+Some of that code is getting reworked by Dev to better separate out all the
+hugetlb oddities. At least for the try_to_unmap() path that helper will not be
+required. Staring at the abomination we call try_to_migrate_one(), I assume
+we'll do something similar.
+
+I'd just call this "ttu_page_is_hwpoisoned()", and add a short
+
+/*
+ * hugetlb folios are always entirely mapped, so any
+ * hwpoisoned page is problematic.
+ */
+
+> +	if (folio_test_hugetlb(folio))
+> +		return folio_test_has_hwpoisoned(folio);
+> +	return PageHWPoison(page);
+> +}
+> +
+>  /*
+>   * @arg: enum ttu_flags will be passed to this argument
+>   */
+> @@ -1993,7 +2009,6 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+>  	enum ttu_flags flags = (enum ttu_flags)(long)arg;
+>  	unsigned long nr_pages = 1, end_addr;
+>  	unsigned long pfn;
+
+[...]
+
+>  				dec_mm_counter(mm, mm_counter(folio));
+>  				set_pte_at(mm, address, pvmw.pte, pteval);
+> @@ -2423,7 +2436,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
+>  	struct mmu_notifier_range range;
+>  	enum ttu_flags flags = (enum ttu_flags)(long)arg;
+>  	unsigned long pfn;
+> -	unsigned long hsz = 0;
+
+While these size changes are reasonable, they make this patch harder to review
+and are not even described in the patch desription.
 
 -- 
 Cheers,
