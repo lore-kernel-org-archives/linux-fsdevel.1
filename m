@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52CF3E51F4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA16442FC2;
 	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786623530; cv=none; b=SBXPs+ES7rIRyArqWCV0zse1/BglheQPFi/kQR0yuSJTd9VgEW63i10285q6nsTpbzs1RsitEcnD9RdpkaFgpWbQUvzwWmP/n/z7N/ibv3r51T6l7Wuiyt0iRplN08LMCmk4qmbirZ77HntkWfhlEQRSvRu0CJ09tI9na3kTM74=
+	t=1786623531; cv=none; b=HUX64TR4/n8IDh3dLKKaBls2KbUd6LaSddw85tOzP+dBJUgmdOxo7Xz1IHYmlN91E14JOwACnBT87ORLOjeP57MCQ0+OEO5k0D/XMBuJWobLD7AhppAnETPQAe/TjeoPeIIWCDCdq17/r81KHaj3CLJCUGiCSwx0Bb9oTyLtofI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786623530; c=relaxed/simple;
-	bh=D5sh1ZrCd0hPEkiCqVMezIB3PdvCVR/dhJ2i/eaqwyo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KnRoBQxFmtJ/vG/r8VR5cQRTMCKfD33TI8w4DIZTtKPr9uOA4CwUMQhCJG7l851lGNHbpcjS/YGhwEUh9D9d5Nde1+v72fuM1yQPI3CvP8CYV5opA+DaqDHBoxKDtnFZI5Wg6v9UlnyX5OHsraGmTg6T06/InIoBlkkNsfBIgYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEs2I4+Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786623531; c=relaxed/simple;
+	bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KymYpLe8e84czeeITg8/sgs/NzXcV1eJgYi3de1G755yyeM3ELkwCyT52+8btN3Aq9dkHr3kslb1WUOaCdrkQqSLOzzy6mpfM0IxkuaTIcdz10AKdYq4t9AjgDfC7QoCR/bKXDeYqpxhFOj8FTXqKRloWRMwDtmhEmPfGNqGpDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYpj97qf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEs2I4+Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 71520C19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYpj97qf"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A813C2BCF5;
 	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1786623530;
-	bh=D5sh1ZrCd0hPEkiCqVMezIB3PdvCVR/dhJ2i/eaqwyo=;
-	h=From:Subject:Date:To:Cc:From;
-	b=JEs2I4+ZY+cmQWtgDn89XMY+xVrM856WY5S0OIeEr36hTRWGQAF8A5A97fop4cojt
-	 rfewltmxIRkwVCeB2W7G8IF3mVFGYlVDsXLA7XLjXPbZaOP6qiA1MxKO+Sq8oi0gtM
-	 TQJT9fDyS8nSz+16WGJEeQhYUx8mueuLBNckBz0RozanioqjsKVq1hP+RwX+jFWzmW
-	 AUP8F61mNUfzxh+TVGWLQL26lhvfXYYKrJZyYVOQYXyMeNHwOB+SqRPpNFuMJafDQQ
-	 fSK/wD1stJy83oIKgxpSylM0z3YD81pYSHtkyN5ymBXIY3Rj0/SgWTtKkuXXi4ZFju
-	 /lv2wkvnajSXA==
+	bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=LYpj97qfq8/4uunncx8KuPwgfOXjs0rw8uGLRmuA0F2V3UcGUpxgxD4AKwel7bz1d
+	 DMtFMIyBQBIl+0Pfn+WkV3cwPWGM2uCVrKUlLLSmo4ROy1rXWkLyyh7ZJSLbjfTBm9
+	 tJDRiGXg/UH0cBGqHA+r1tIk2ZYAke6omkHZ3TiwqukEjbXq0r0Ezp+YFnTKsH/kad
+	 Xnilsn2tzu8BwXKEfEEdXE3PN1U3bEf31Hhgb4X8letqE2utERAgGDdLTPUW/fa7sX
+	 ek38L6kKMGFSakv9HEHup+yqs8rJ5hy9OLhXJRHj7NwxCi1vnKpB0+MN8CzQy96WwW
+	 e1sL7uNXBh+8w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD8FC5CFEB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3D6C5DF69;
 	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Subject: [PATCH 0/4] sysctl: Disallow partial updates of miss-formatted
- sysctl vectors
-Date: Thu, 13 Aug 2026 14:18:36 +0200
-Message-Id: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
+Date: Thu, 13 Aug 2026 14:18:40 +0200
+Subject: [PATCH 4/4] sysctl: Add 0013 to test partially updated vectors
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,10 +40,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABy2fWoC/x3MTQqAIBBA4avIrBOsqKSrRIQ/Uw1ZiUYE4d2Tl
- t/ivRciBsIIPXsh4E2RziOjLBiYVR0LcrLZUImqFbKsudvczr0KFyk3mcvdaLi2Urad7oRtDOT
- SB5zp+a/DmNIH/EmjWmUAAAA=
-X-Change-ID: 20260813-lklm-partial_ctlvec-bd8867b70d5c
+Message-Id: <20260813-lklm-partial_ctlvec-v1-4-df9e51c13704@kernel.org>
+References: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
+In-Reply-To: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
 To: Kees Cook <kees@kernel.org>, Shuah Khan <shuah@kernel.org>, 
  linux-mm@kvack.org
 Cc: Jianlin Shi <shijianlin11@foxmail.com>, akpm@linux-foundation.org, 
@@ -53,82 +51,138 @@ Cc: Jianlin Shi <shijianlin11@foxmail.com>, akpm@linux-foundation.org,
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2062;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3132;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=D5sh1ZrCd0hPEkiCqVMezIB3PdvCVR/dhJ2i/eaqwyo=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGp9tiYkyITKihVvtdZSvziyOBWU4rrAKyjLo
- 7jVUN8XrP5xcokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqfbYmAAoJELqXzVK3
- lkFPEKQL/3p1GXmI3YjeYKDHQGH/Ku2m6Y8f5aS/ro+V1BnPyrtE1xVVz7A05MULY+5AzoACOvQ
- YKkqXp2+tbVETWOVv+DcyYbx0SjSasHEYz5lpVdJgG7dh0sPgt3hDTXU7z96LHdyPyzR+XJ9dZv
- rAS6Fe4UruLvBC/tPgZDsMesTcBYFYyJYzz5LrhIJ3F1dNvSGzkWFGq5UEelLvzZqY0sCQ5M5fj
- zv8jbjskCi8TqpkYj9TeVvtI1BiR7e72H5Goo/V51fTYKX7rNIg8Nbo6e4M0Qf0vIV1MMWUG8fy
- XTDp7QeroSVp5Pommp9R8tFCrae+ZwUqqQ75Elf/x2YH0cv6lcqJd9yvVDCKXGjywuOQuBD4xM4
- n1YfoQuT5dhRxpFznN5mwB/uwyZeOt7FvJEg7rCULKBWk46AUL1yw2JG6fkbrKlrCdcrCBqecov
- zMwhEJ5DMzEhF9ANzTyHuU51ahqEenLL1QY84uoHxrQrsqNN5+T+mS9/UCRBHQsCX1WRbjFvkO+
- OM=
+ bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGp9tigf0HZ/SOSipnWglbugNlaMER9isn8Ln
+ HKjGsYXnp8SHIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqfbYoAAoJELqXzVK3
+ lkFPa8gL+wVFctfUarU/BECGG+yem97ZpueVfSLV32B2PJJKmFL7c6BeArL3+nFK66TgrYUfEDI
+ 794BeoxGMD2zXrMWvkrt+ynKROFyKvwTTEiUXIy/2RLYaYWMfIHBlDpFhIlgxYOk+JRBGtZ9lCT
+ jKEGmr8rUvShwgJ79bMF4GiJ2DyCL+FcGIA4ZZVAsYkaYocp3ryyn25z6J1zzanLyqnGBayYCW7
+ 4RmOuwTSD6qkmUE5kh9XezhlQhbYW639iHxhLnDmGS4tQ/nIiLrXIVTUdK5L7mVI8ikNwgz+Kz7
+ /r4G32tJLbnV0q3aDiA4L7tBUUWlWO9/0vAtXw52FtmR5APUyDHPRntB9K9XN/IV5EZFxiSIhNe
+ QhRZ/0aJjRBQf9lgKmyd2kTFs7VHY1gLNnJW0URRuJeCryne0K3vqm+zKpnwFs59ZLD8wPftoYZ
+ MaG77XNioStWHAwaTevL7oRdTTv+C+DNryBbdYAxsSZcc0CC+0oew2BnXWGTWrnjwlzthSD8Vs4
+ +k=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-What?
-=====
-
-Stage table->data when writing INT & ULONG ctl_tables. Commit staged
-data to kernel variable only when all the conversions have succeeded.
-This is applicable only to variables that represent a vector; paths
-pertaining to scalers are left unchanged. Notice that partial updates
-can still happen if less than the size of the vector are passed and
-correctly formatted.
-
-This is the behavior we are protecting against:
-
-  # echo "4 4 1 7" > /proc/sys/kernel/printk
-  # echo "1 x" > /proc/sys/kernel/printk
-  -bash: echo: write error: Invalid argument
-  # cat /proc/sys/kernel/printk
-  1 4 1 7    <- the write failed, the first element changed anyway
-
-Why?
-====
-Allowing a partial change to a vector after returning from an erroneous
-proc_handler is just plain wrong. This should be handled within sysctl
-to avoid users having to do it for themselves [1]. 
-
-Behavioral Changes
-==================
-1. A failed write will not update the vector
-2. Vector writes can now fail with -ENOMEM
-
-Testing
-=======
-This went through regular sysctl kunit and self test. Also is posted to
-0-day.
-
-I always find it difficult to know who wants to receive this. Please let
-me know if you want to be removed from the Cc/To.
-
-Best
-
-[1] https://lore.kernel.org/all/tencent_A860C873956A52E26AD8D309A308A241BA08@qq.com/
+Add coverage for partially updated sysctl vectors with test 0013. It
+makes sure that the sysctl vector is unchanged when one of the elements
+is not valid.
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
-Joel Granados (4):
-      sysctl: Split data conversion and file position handling
-      sysctl: Reject uint arrays before calling the general proc_vec
-      sysctl: Disallow partial updates for erroneous sysctl vectors
-      sysctl: Add 0013 to test partially updated vectors
+ tools/testing/selftests/sysctl/sysctl.sh | 57 ++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
- kernel/sysctl.c                          | 228 ++++++++++++++++++++-----------
- tools/testing/selftests/sysctl/sysctl.sh |  57 ++++++++
- 2 files changed, 205 insertions(+), 80 deletions(-)
----
-base-commit: 4c12287001da60f3c022bb25932aa7a5590fc0b1
-change-id: 20260813-lklm-partial_ctlvec-bd8867b70d5c
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index b2d8bd9026a721e96c26be20069f7f87b06a5cf7..fdf3d2fb0a2ad23a525d3205577a06d7d97576b7 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -4,6 +4,7 @@
+ 
+ # This performs a series tests against the proc sysctl interface.
+ 
++# shellcheck disable=SC2317
+ # Kselftest framework requirement - SKIP code is 4.
+ ksft_skip=4
+ 
+@@ -37,6 +38,7 @@ ALL_TESTS="$ALL_TESTS 0009:1:1:unregister_error:0"
+ ALL_TESTS="$ALL_TESTS 0010:1:1:mnt/mnt_error:0"
+ ALL_TESTS="$ALL_TESTS 0011:1:1:empty_add:0"
+ ALL_TESTS="$ALL_TESTS 0012:1:1:u8_valid:0"
++ALL_TESTS="$ALL_TESTS 0013:1:1:int_0003:1"
+ 
+ function allow_user_defaults()
+ {
+@@ -196,6 +198,18 @@ verify_diff_w()
+ 	return $?
+ }
+ 
++# Verify that an erroneous ($2) update fails and does not change TARGET
++verify_no_partial_update()
++{
++	TEST_STR="$1"
++	echo -n "$TEST_STR" > "$TARGET"
++
++	if echo -n "$2" > "$TARGET" 2> /dev/null; then
++		return 1
++	fi
++	verify_diff_w "${TARGET}"
++}
++
+ test_rc()
+ {
+ 	if [[ $rc != 0 ]]; then
+@@ -501,6 +515,40 @@ run_limit_digit_int_array()
+ 	test_rc
+ }
+ 
++# You used an int array and one of the elements is not acceptable
++run_int_array_no_partial_update()
++{
++	echo -n "Testing invalid array element does not partially update ... "
++        # Expect failure because of 3rd element (abc).
++	if ! verify_no_partial_update "1 2 3 4" "10 20 abc 40"; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "OK"
++	fi
++	test_rc
++
++	echo -n "Testing out of range array element does not partially update ... "
++        # Expect failure because of 3rd element (greater than int)
++	if ! verify_no_partial_update "1 2 3 4" "10 20 $((INT_MAX + 1)) 40"; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "OK"
++	fi
++	test_rc
++
++	echo -n "Testing invalid first array element does not update ... "
++        # Expect failure of 1st element
++	if ! verify_no_partial_update "1 2 3 4" "abc 20 30 40"; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "OK"
++	fi
++	test_rc
++}
++
+ # You are using an unsigned int
+ run_limit_digit_uint()
+ {
+@@ -880,6 +928,14 @@ sysctl_test_0012()
+ 	return 0
+ }
+ 
++sysctl_test_0013()
++{
++	TARGET="${SYSCTL}/$(get_test_target 0013)"
++	reset_vals
++
++	run_int_array_no_partial_update
++}
++
+ list_tests()
+ {
+ 	echo "Test ID list:"
+@@ -900,6 +956,7 @@ list_tests()
+ 	echo "0010 x $(get_test_count 0010) - tests sysct mount point"
+ 	echo "0011 x $(get_test_count 0011) - tests empty directories"
+ 	echo "0012 x $(get_test_count 0012) - tests range check for u8 proc_handler"
++	echo "0013 x $(get_test_count 0013) - tests partially update vectors on error"
+ }
+ 
+ usage()
 
-Best regards,
 -- 
-Joel Granados <joel.granados@kernel.org>
+2.50.1
 
 
