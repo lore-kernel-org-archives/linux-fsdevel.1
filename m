@@ -1,88 +1,88 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F002D37BE6A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 04:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DF5279DB6
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 06:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786594316; cv=none; b=CWyNuL5a5yTvsaGwwvYFVCsxP2ys9bUnioNx6a9Kuw27F1sz8d6uWjl5ONpl0b4QpPWx0VyQBVuEv/mHerKNrvGSU3rb0FLhroOv1VZccC9c/d+wHZ3+DeFUjoVWJw0Owf1dlHoYoAKWpILN83b8zuLyUfjgIBaKTvnc3fUk5HY=
+	t=1786602853; cv=none; b=OcLYx+E51weLKC/1CvmIBW25qka7iu1rH3irA2W0wu+TX45wyZSK0iX7EnacypmNsTWWfl+TjZBz7Fx0hz4dEIT8rDVRqx6RDVnsOzUOFPBMtlvsoAwDoNNr/NOofbmJ6/C2VE4J87l3SptMWoyqCydtkGX8veOtxrazOAM9yMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786594316; c=relaxed/simple;
-	bh=Gnzg7LxLmW/AaeD3Pv1ryB6Tex49wbpWBcRevOIJ/7s=;
+	s=arc-20240116; t=1786602853; c=relaxed/simple;
+	bh=EOAf8HOSRNcNSHDIRUyNn2BGqVePzIWd4FiTn/NJp78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S8sSDrmqDXkJBG7IRG1d5pS+nC+/kUhg8NvJgdFKuzMYtmwrpwiExQ+LlviPZuLNvNbPuzNQLR6Ype6KCZpt3BPvMLrOzGQL3dRc/u/WsvlUz8m+G39CI2qPShLbj5JCd8oSvv9CinDvmUKAfNZbCoyBbllsdDxjOB1KprZPDx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sVMbCfDl; arc=none smtp.client-ip=209.85.216.41
+	 MIME-Version; b=IhLcZSmSJrRUHxTtWgH44nbzmjOBQGoNkIbZ8zdjulPpWLkq6n4bkHFLaGrhp7hpTEpQ4/LvsaYgr+AWY+1DIMzEhX9DF4y57s32xjz2ugOcLfpBA0l2OuktlQuPR9pH1+2h67s/KmXnPwyU10F6XchD9WHk14USbzOYAmyyvp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gRfb/iji; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sVMbCfDl"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-382ef647e20so338038a91.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 21:11:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gRfb/iji"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so485422a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 23:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786594314; x=1787199114; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786602851; x=1787207651; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Gnzg7LxLmW/AaeD3Pv1ryB6Tex49wbpWBcRevOIJ/7s=;
-        b=sVMbCfDlTfIv4/xVpIItYsFiNHw9hjA8pH5oWjb2SVG7QOhoY//S7FxxUdNlsngf7h
-         rB/7Voc650rDZACEqxOozA+FecWj63KbnyIcxgFqYsWICZlpAVDfq5sQdsBpuBrhQb2S
-         4pXvE47jxM+z/hnBhkw37LpTFNEdiydf8D8ud07xzbBL34AEkvJ7i3VTgWUulws9gvwy
-         lRkmfWfo2gZefxcDRoL6yR76/pVjgmTjPw4/3LC/tSPtf3YMTDnZP/wihMDtsrYL9tSc
-         8Lje0WR8kXCSeZjk/+YK9r9Iv+ENPWKz7SKiJ/w2nK8nB//Q1fjvM5JemGrysvF9gsAB
-         4Mvw==
+        bh=7VydE882aeZh4C0XeyZVTmtWlDmuPadzLk+Mgv6C7/A=;
+        b=gRfb/ijiKf4oTTUbuclpvIyXNEkonOE/domQSJATfdUOfiWFZct6niN1GcgLl83I75
+         UqkyPWtPLZX+odjb4cYMzSqlYFbAtTT7DiC5mayg8miZy1NrzdVbyM0wKrjrvaRlKfLa
+         TutLfRsv9oOfkrehnVyBXvM8aa/YeimAo6ked0rD8t9bDIFapfnt1rSUyxEQ7T2NDy79
+         CB171TdZEVJPQ/s4wHuHE6m2UShc2oBGXX3Ge+gr9Pv2oRcd/or1VCgd/mPFCj+cPhQ+
+         1JWIqPDItkNdn7knNOVZqm7eM/VIsVu1ZEYEUblMljoxWG5aRKZIYByd709MfXl7Tmvr
+         cUJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786594314; x=1787199114;
+        d=1e100.net; s=20251104; t=1786602851; x=1787207651;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Gnzg7LxLmW/AaeD3Pv1ryB6Tex49wbpWBcRevOIJ/7s=;
-        b=mFYJfyeA+2CJwsy0W5Jnlnna0MagjL+7XA5xJa/rzWGd3nRYmIzHdWxFuYc1yZZsuX
-         +JyOgVItgUAMH0GR+cn9CXktBQWlePTw7Z2O+0rHUMD/smSVYyPnTpActI/9H4f0iDGW
-         ePLSgHyDMJrAs2bFGOKmhLVhBQtflH3QAcCyZ3RYq8ssbmiBVjE5+CtEme2+3cmCKpiB
-         u7IOMjJ2c/f/RIpdpoA6PRUI8eikIY7H+yn+4vPFEanzZoNfa+Om6zeUzcXyHCimj3M8
-         Y5fFtMvgMjKDEAC8qU/hGZooAM2N7rxdDQH4n/JWjd3Pxn0tr2MnXHb5TgN/ApClVCdA
-         2RCg==
-X-Forwarded-Encrypted: i=1; AHgh+RpSkCQhbr46teM6DmwOv2DOa344JnJRhiYbOmh6okpR9FoF+614eGEloLqbA1Pt1XXL55Ag4Bqa1OktiAF3@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyGA212gzor/oYhmospokxvnewk8reCPliW4KZfLv/2R6QVxRj
-	qQuAsbeRL03Yq8ba8KPTZ+Ky3j/aXkykcE7QcFgoAh5TGJnffwQ+WIKW
-X-Gm-Gg: AR+sD13UIrgAZU25JDeCSGeafm3p0UsG/cV66bnlS3XwIKi3AF2WUavfRwwaWTw2T3N
-	e5K9xBgLPzPZ7AQ/5RZ/4RiJTHmECk74lKO0bZZF3eMktEqwZkvsXt/iYLyNpfhtdzm1GcPQlLQ
-	s/HlmHTOKIASlglv+NJrJsX6JnL3BkjJ01vyKH64/nd0xwcCAkJ07yj4YslWJH3p5urk3Xt1ngX
-	Elt2OIQ6CU/NDEY3BnQEbgwhKajJRsSFYE2jBN+pBtPyKsgZ07neWbFntgGC3yS77F5/qLZlDuz
-	fEn//D07LG7HX4zLlnQXaJXpLIbnA+QB87WhIvkNaIr3HFLOoUvfFKFoa7xKCRJ7lQVxAjxBn6v
-	98bqV7pkYfehb6bAkKp0BlTBynuaXvJl8NfYtfZ+BSPwLBDakAuOQ10BgR23/UphSJ9497P5pqF
-	nd5IvknpCqu8SI8JfhAtERxDoiQqDz5Xvor5o7XyGskrsSr7E/bIUB0cMz6ks6CqtsKCi5jUZ0Y
-	BD7za9+f4ps1HXuItnFc4OGgBIqAajOM+ZIAaph0CnDJnS+agI5ligpDSppRJ5mUt83+XvzTWaO
-	3LAAEG5u8e7xagYtALH73a/sMDRb/zFU4yUEKgycS669OVYMyJxS
-X-Received: by 2002:a17:90b:3846:b0:38f:5801:dc0e with SMTP id 98e67ed59e1d1-3931e2a32bbmr3024404a91.15.1786594313939;
-        Wed, 12 Aug 2026 21:11:53 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931f478658sm1127538a91.17.2026.08.12.21.11.50
+        bh=7VydE882aeZh4C0XeyZVTmtWlDmuPadzLk+Mgv6C7/A=;
+        b=Q/zsue0f4O/6LxVHh8nQxl3UopqA5+pNSOTUwHh06uV/oj6q41u/Z9uQaVcWjFjv51
+         b05w2BWlHK+L1JMfj58SEnkQrlADYSyg+hIFCAZ4k8djZ2iSD+qcxb18HLo7sLd+JAva
+         /dbHWWCh9e+/19oYUWS9eQCBxKGZEwj335eBVGRKGItR427NVXKvtBLvjUa1ALA2HwcL
+         kGZACXbn/E+0OE7o4PokX1U2PczIPNmjhX3GiCyKow1lAvzR4Itrz3vZ6mt+P9JAJ/zR
+         3/RpBGtLJKmQoFUOxTLQcx6+9PhLZcnhxdqarXBTq6agAmQP8UZDSvDSh4Xwfky/CYv1
+         u6Bw==
+X-Forwarded-Encrypted: i=1; AHgh+RpSTOF9awAk/lzONQ7UJ5C11bQu/AQcyW/rPSl5OanwpxgaGAeSrTgXqgfA3IC0biTDRnodepL1zFuStDas@vger.kernel.org
+X-Gm-Message-State: AOJu0YwP0ioEkozV4ctg64PZKh51IpgWSdUizAntA/eh6iBg0y4VRxd6
+	Yl0cPojmUyuugXHQNWMMKCHSPtRR+L+itwPc5CqZQ7/tyKBKGA56q3BS
+X-Gm-Gg: AR+sD12ECRVkW0pYFvupe4ZehEyi6B5lApcIXr4ROFaYmKSiq6vU9dlKRuuV+az2SV8
+	pOvSHRy76vFEdA+oLZ2PUZ2MsNfNGma21Bq8SLI/aLfP/H/TWBHSD8bCnzKMp/F/1m+JfA5VR2Z
+	oypc7UOFodUN7f4SlAMxWqxu4pj3+heo1gAXrw4eK9sBCU4SnLJ8720BNpRMSkyL6bAdBGiTAsl
+	2NT3n8kCMHNDGopGsJbgyLavlecnWV003Tlg6kZ8ddX09CZPaRfanzAB5Aw6kMRYo+xaCGzI1aq
+	h7fMmRiKvxh0IRtpOIGhQIVPJjSSmNGmbzAV7W9mgg3s4qtAS/hj3aV4AZm3BfgXGeJxPKdTJDn
+	r2KLu4FpqAooa253m8eLs+7g0/GFSIBD6WDtEbLlP3W87KXdR331Cr/aIevUU2GbF7VWf+aAD/u
+	ytcttXr2kl+Flfw54EcfbqpRXqjT7HUWrnfrCOIh0MA0mkImmne5n4k/aRLBH0lJySW5NzWTc1g
+	U7GAaig6SQc366UpjcjRc/TQlSMy2ztf8UG8DVQhuCuVzuGgbH3fTCG+17hXwn4izRHi//mLWPI
+X-Received: by 2002:a17:90b:3c8d:b0:38f:de97:b06 with SMTP id 98e67ed59e1d1-3931e05c56dmr4216541a91.5.1786602850753;
+        Wed, 12 Aug 2026 23:34:10 -0700 (PDT)
+Received: from ikb-h07-29-noble.in.iijlab.net ([202.214.97.5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931f41cd2fsm1576275a91.12.2026.08.12.23.34.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 21:11:53 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: syzbot+b3fba2e269970207b61d@syzkaller.appspotmail.com
-Cc: brauner@kernel.org,
-	cem@kernel.org,
-	gregkh@linuxfoundation.org,
-	jack@suse.cz,
-	jfs-discussion@lists.sourceforge.net,
-	kent.overstreet@linux.dev,
-	linux-bcachefs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	shaggy@kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	tj@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [syzbot] [kernfs?] [ext4?] INFO: task hung in sb_start_write (2)
-Date: Thu, 13 Aug 2026 12:11:48 +0800
-Message-ID: <20260813041148.2302176-1-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
-References: <6a75a39e.01d0871a.3a0d52.0042.GAE@google.com>
+        Wed, 12 Aug 2026 23:34:10 -0700 (PDT)
+Received: by ikb-h07-29-noble.in.iijlab.net (Postfix, from userid 1010)
+	id E79AA15B042F; Thu, 13 Aug 2026 15:34:08 +0900 (JST)
+From: Hajime Tazaki <thehajime@gmail.com>
+To: linux-mm@kvack.org
+Cc: geert@linux-m68k.org,
+	daniel@thingy.jp,
+	Hajime Tazaki <thehajime@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to /dev/zero
+Date: Thu, 13 Aug 2026 15:33:58 +0900
+Message-ID: <20260813063401.1786548-4-thehajime@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260813063401.1786548-1-thehajime@gmail.com>
+References: <20260813063401.1786548-1-thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,50 +91,229 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The C reproducer neither demonstrates a kernel bug nor matches the
-crashes already collected in this bucket:
-https://syzkaller.appspot.com/bug?extid=b3fba2e269970207b61d
+Upon a private file mapping request to /dev/zero, it calls
+kernel_read() in do_mmap_private(), getting a failure with the message
+like: "kernel reads not supported for file /dev/zero", which is because
+zero_fops defined in drivers/char/mem.c has both .read and .read_iter
+definitions.
 
-It lowers hung_task_timeout_secs to 15, issues ioctl(FIFREEZE) on the
-root filesystem, then forks a child that opens an O_TMPFILE there.
-The child blocks in sb_start_write, as any write must while the
-filesystem is frozen. The reproducer sleeps for 60 seconds before
-thawing, so the hung-task report fires only because it shortened the
-timeout below its own sleep. The default 120s timeout would not
-trigger. Any CAP_SYS_ADMIN process can produce this report on any
-kernel: this is fsfreeze working as designed. Whether a task waiting
-for thaw should be exempt from hung-task reporting is a separate,
-older question.
+Even fixing this issue, the map request to /dev/zero works fine without
+errors but the allocated vma isn't marked with anonymous because
+mmap_zero_prepare() isn't called under nommu platform, resulting
+vma_desc_set_anonymous() isn't called either.
 
-The pre-existing crashes differ. In the 2025-08-01, 2025-08-23 and
-2026-08-02 instances, the blocked task waits on the sb_writers of a
-filesystem the fuzzer mounted from an image: lockdep classes
-sb_writers#31, sb_writers#13 and sb_writers#20 respectively. In the
-same reports, the root filesystem's writers class appears separately
-with a low number (sb_writers#5 held by udevd and others). The
-reproducer instead reports sb_writers#4, the root filesystem that it
-froze itself.
+This commit fixes those issues by:
+1) use vfs_iter_read() instead to avoid failure at kernel_read()
+2) calls .mmap_prepare on private mapping in do_mmap() so that required
+   preparations are done even in private mapping.
 
-The captured console logs for the three organic crashes contain no
-FIFREEZE call. One contains a single stray FITHAW, so a freeze before
-the captured log window cannot be excluded, but that must be
-established before treating this reproducer as the explanation. If a
-fuzzer-issued FIFREEZE on a mounted image caused the hangs, the fix
-is for syzkaller to sanitise FIFREEZE, and the bug is still not in the
-kernel. Otherwise, something wedged those superblocks' writer gates
-with no fsfreeze in sight, which is a real bug that closing this
-report on the strength of the reproducer would bury. The mix of image
-filesystems mounted by those runs also explains why the subsystem
-guesses span kernfs, ext4, jfs, xfs and bcachefs.
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Jann Horn <jannh@google.com>
+Cc: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org (open list:PAGE CACHE)
+Fixes: 4d03e3cc5982 ("fs: don't allow kernel reads and writes without iter ops")
+Assisted-by: cubic.dev:unspecified
+Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
+---
+ drivers/char/mem.c |  5 ++-
+ mm/filemap.c       |  6 ++--
+ mm/nommu.c         | 84 ++++++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 87 insertions(+), 8 deletions(-)
 
-I therefore suggest treating this reproducer as matching the
-signature, not the cause. A previous generic-signature hung-task
-bucket, "task hung in do_rmdir"
-(https://syzkaller.appspot.com/bug?extid=e68dbebd9617a9250e8d),
-contained a real ext4 livelock. It was fixed by commit 54b6bd40898d
-("ext4: stop retrying saturated xattr cache entries") in the ext4
-tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/commit/?id=54b6bd40898d
+diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+index 63253d1de5d7..dba24d0a7b33 100644
+--- a/drivers/char/mem.c
++++ b/drivers/char/mem.c
+@@ -500,11 +500,10 @@ static ssize_t read_zero(struct file *file, char __user *buf,
+ 
+ static int mmap_zero_prepare(struct vm_area_desc *desc)
+ {
+-#ifndef CONFIG_MMU
+-	return -ENOSYS;
+-#endif
++#ifdef CONFIG_MMU
+ 	if (vma_desc_test(desc, VMA_SHARED_BIT))
+ 		return shmem_zero_setup_desc(desc);
++#endif
+ 
+ 	/*
+ 	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
+diff --git a/mm/filemap.c b/mm/filemap.c
+index d721986d5f46..cf02faad86aa 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -4077,7 +4077,7 @@ int generic_file_mmap(struct file *file, struct vm_area_struct *vma)
+ }
+ int generic_file_mmap_prepare(struct vm_area_desc *desc)
+ {
+-	return -ENOSYS;
++	return 0;
+ }
+ int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+@@ -4085,7 +4085,9 @@ int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+ }
+ int generic_file_readonly_mmap_prepare(struct vm_area_desc *desc)
+ {
+-	return -ENOSYS;
++	if (is_shared_maywrite(&desc->vma_flags))
++		return -EINVAL;
++	return generic_file_mmap_prepare(desc);
+ }
+ #endif /* CONFIG_MMU */
+ 
+diff --git a/mm/nommu.c b/mm/nommu.c
+index e40990e15831..a29a53c1c80a 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -37,6 +37,7 @@
+ 
+ #include <linux/uaccess.h>
+ #include <linux/uio.h>
++#include <linux/major.h>
+ #include <asm/tlb.h>
+ #include <asm/tlbflush.h>
+ #include <asm/mmu_context.h>
+@@ -856,6 +857,22 @@ static int validate_mmap_request(struct file *file,
+ 	return 0;
+ }
+ 
++static int is_file_anonymous(struct file *file)
++{
++	if (!file)
++		return 1;
++
++	if (file->f_path.dentry && file->f_path.dentry->d_inode) {
++		struct inode *inode = file->f_path.dentry->d_inode;
++		/* if the device is /dev/zero */
++		if (S_ISCHR(inode->i_mode) &&
++		    imajor(inode) == MEM_MAJOR && iminor(inode) == 5)
++			return 1;
++	}
++
++	return 0;
++}
++
+ /*
+  * we've determined that we can make the mapping, now translate what we
+  * now know into VMA flags
+@@ -869,7 +886,11 @@ static vm_flags_t determine_vm_flags(struct file *file,
+ 
+ 	vm_flags = calc_vm_prot_bits(prot, 0) | calc_vm_flag_bits(file, flags);
+ 
+-	if (!file) {
++	/* private and file mapping will be marked anonymous later (do_mmap_private()).
++	 * and /dev/zero is marked by them at .mmap_prepare,
++	 * which should be _before_ this point.
++	 */
++	if (is_file_anonymous(file)) {
+ 		/*
+ 		 * MAP_ANONYMOUS. MAP_SHARED is mapped to MAP_PRIVATE, because
+ 		 * there is no fork().
+@@ -923,6 +944,29 @@ static int do_mmap_shared_file(struct vm_area_struct *vma)
+ 	return -ENODEV;
+ }
+ 
++static ssize_t nommu_read_iter(struct file *file, void *buf,
++			       size_t count, loff_t *pos)
++{
++	struct iov_iter iter;
++	ssize_t ret;
++	size_t done = 0;
++
++	while (done < count) {
++		struct kvec iov = {
++			.iov_base = buf + done,
++			.iov_len = min_t(size_t, count - done, MAX_RW_COUNT),
++		};
++
++		iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
++		ret = vfs_iter_read(file, &iter, pos, 0);
++		if (ret <= 0)
++			return done ? done : ret;
++		done += ret;
++	}
++
++	return done;
++}
++
+ /*
+  * set up a private mapping or an anonymous shared mapping
+  */
+@@ -993,7 +1037,7 @@ static int do_mmap_private(struct vm_area_struct *vma,
+ 		fpos = vma->vm_pgoff;
+ 		fpos <<= PAGE_SHIFT;
+ 
+-		ret = kernel_read(vma->vm_file, base, len, &fpos);
++		ret = nommu_read_iter(vma->vm_file, base, len, &fpos);
+ 		if (ret < 0)
+ 			goto error_free;
+ 
+@@ -1080,6 +1124,28 @@ unsigned long do_mmap(struct file *file,
+ 		vma->vm_file = get_file(file);
+ 	}
+ 
++	/* call mmap_prepare function if any */
++	if (!(flags & MAP_SHARED) && !(capabilities & NOMMU_MAP_DIRECT) &&
++	    (vma->vm_file && vma->vm_file->f_op->mmap_prepare)) {
++		struct vm_area_desc desc;
++
++		vma->vm_start = addr;
++		vma->vm_end = addr + len;
++
++		compat_set_desc_from_vma(&desc, vma->vm_file, vma);
++		ret = vma->vm_file->f_op->mmap_prepare(&desc);
++		/* private ramfs/romfs mappings fails with -ENOSYS so,
++		 * fall back to copied mapping.
++		 */
++		if (ret && ret != -ENOSYS)
++			goto error_mmap_prepare;
++
++		ret = __compat_vma_mmap(&desc, vma);
++		if (ret)
++			goto error_mmap_prepare;
++	}
++
++
+ 	down_write(&nommu_region_sem);
+ 
+ 	/* if we want to share, we need to check for regions created by other
+@@ -1196,7 +1262,7 @@ unsigned long do_mmap(struct file *file,
+ 	add_nommu_region(region);
+ 
+ 	/* clear anonymous mappings that don't ask for uninitialized data */
+-	if (vma_is_anonymous(vma) &&
++	if (is_file_anonymous(vma->vm_file) &&
+ 	    (!IS_ENABLED(CONFIG_MMAP_ALLOW_UNINITIALIZED) ||
+ 	     !(flags & MAP_UNINITIALIZED)))
+ 		memset((void *)region->vm_start, 0,
+@@ -1247,6 +1313,18 @@ unsigned long do_mmap(struct file *file,
+ 	ret = -EINVAL;
+ 	goto error;
+ 
++error_mmap_prepare:
++	if (region->vm_file)
++		fput(region->vm_file);
++	kmem_cache_free(vm_region_jar, region);
++	if (vma->vm_file)
++		fput(vma->vm_file);
++	vm_area_free(vma);
++
++	pr_warn("mmap_prepare failed for %lu byte allocation from process %d\n",
++			len, current->pid);
++	return ret;
++
+ error_getting_vma:
+ 	kmem_cache_free(vm_region_jar, region);
+ 	pr_warn("Allocation of vma for %lu byte allocation from process %d failed\n",
+-- 
+2.43.0
 
-Such buckets can hide real bugs behind an uninformative victim stack;
-the per-instance reports contain the distinguishing evidence.
