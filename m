@@ -1,188 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA16442FC2;
-	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA18246C825
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 12:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786623531; cv=none; b=HUX64TR4/n8IDh3dLKKaBls2KbUd6LaSddw85tOzP+dBJUgmdOxo7Xz1IHYmlN91E14JOwACnBT87ORLOjeP57MCQ0+OEO5k0D/XMBuJWobLD7AhppAnETPQAe/TjeoPeIIWCDCdq17/r81KHaj3CLJCUGiCSwx0Bb9oTyLtofI=
+	t=1786623990; cv=none; b=UproLVND8u31C5wDMI6e4VKZYUtMk1YcwbjaLphln8JgDQYiurt9ZB9I0Qu4tzV8KYoReTTrxgkZkdOQJKMM3usj/rpNNvaD09lKy7QH5h2W4MFXLS3p6L2w0JICCKN27usrp4xp4ZpI/boYbzPysaPdEEmQCRZnqUf2bP26xsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786623531; c=relaxed/simple;
-	bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KymYpLe8e84czeeITg8/sgs/NzXcV1eJgYi3de1G755yyeM3ELkwCyT52+8btN3Aq9dkHr3kslb1WUOaCdrkQqSLOzzy6mpfM0IxkuaTIcdz10AKdYq4t9AjgDfC7QoCR/bKXDeYqpxhFOj8FTXqKRloWRMwDtmhEmPfGNqGpDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYpj97qf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786623990; c=relaxed/simple;
+	bh=fbbCVXxT1ANltLofetS/dVm1nYc8boYcdGvU45amxOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lie5/FbCTEyo8zSHeWknnZ7cz55m2valadHNKpjFtPSosWwh0QbtFC6tdSi4h2da5ILVbqSloTB9xKhrCpd1CM1fSaDkHFg5IJXmJSQULF7CrxtT45ykeLeIkCti/wnVV2za2p35A+1lN7shMSywwaHGSglLSc6KUzAyX3UduOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SFZZDr0m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYpj97qf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A813C2BCF5;
-	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786623530;
-	bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LYpj97qfq8/4uunncx8KuPwgfOXjs0rw8uGLRmuA0F2V3UcGUpxgxD4AKwel7bz1d
-	 DMtFMIyBQBIl+0Pfn+WkV3cwPWGM2uCVrKUlLLSmo4ROy1rXWkLyyh7ZJSLbjfTBm9
-	 tJDRiGXg/UH0cBGqHA+r1tIk2ZYAke6omkHZ3TiwqukEjbXq0r0Ezp+YFnTKsH/kad
-	 Xnilsn2tzu8BwXKEfEEdXE3PN1U3bEf31Hhgb4X8letqE2utERAgGDdLTPUW/fa7sX
-	 ek38L6kKMGFSakv9HEHup+yqs8rJ5hy9OLhXJRHj7NwxCi1vnKpB0+MN8CzQy96WwW
-	 e1sL7uNXBh+8w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3D6C5DF69;
-	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
-From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 13 Aug 2026 14:18:40 +0200
-Subject: [PATCH 4/4] sysctl: Add 0013 to test partially updated vectors
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SFZZDr0m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146151F000E9;
+	Thu, 13 Aug 2026 12:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1786623988;
+	bh=haUzX1yJaoSCQjBkM+FTLwJWwxXiI4Xbs+U7tNejh7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SFZZDr0msEMWKEXT06FkXlTkAMy42YabPqmsDRBoVSzmObCHAGUYaUYKe7tD8hoFx
+	 98r5DNP3Ia4i1NXfWBANfT9LkisYinUWZVDjX2cDCTrAOAZh9bAzYCUX0s8qNhSSDe
+	 MV5VqkITGp9Q73rtjNu6XjwjY0a6Vq8uRJfv2GXs=
+Date: Thu, 13 Aug 2026 21:19:47 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: linux-mm@kvack.org, geert@linux-m68k.org, daniel@thingy.jp,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to
+ /dev/zero
+Message-ID: <2026081355-remold-sterility-84f9@gregkh>
+References: <20260813063401.1786548-1-thehajime@gmail.com>
+ <20260813063401.1786548-4-thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-lklm-partial_ctlvec-v1-4-df9e51c13704@kernel.org>
-References: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
-In-Reply-To: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
-To: Kees Cook <kees@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- linux-mm@kvack.org
-Cc: Jianlin Shi <shijianlin11@foxmail.com>, akpm@linux-foundation.org, 
- vbabka@kernel.org, hannes@cmpxchg.org, surenb@google.com, mhocko@suse.com, 
- jackmanb@google.com, ziy@nvidia.com, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3132;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=bx1auWMjtQ6lK77Ub+fPqi3tw5TQNFTmgBgtSoVMeRE=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGp9tigf0HZ/SOSipnWglbugNlaMER9isn8Ln
- HKjGsYXnp8SHIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqfbYoAAoJELqXzVK3
- lkFPa8gL+wVFctfUarU/BECGG+yem97ZpueVfSLV32B2PJJKmFL7c6BeArL3+nFK66TgrYUfEDI
- 794BeoxGMD2zXrMWvkrt+ynKROFyKvwTTEiUXIy/2RLYaYWMfIHBlDpFhIlgxYOk+JRBGtZ9lCT
- jKEGmr8rUvShwgJ79bMF4GiJ2DyCL+FcGIA4ZZVAsYkaYocp3ryyn25z6J1zzanLyqnGBayYCW7
- 4RmOuwTSD6qkmUE5kh9XezhlQhbYW639iHxhLnDmGS4tQ/nIiLrXIVTUdK5L7mVI8ikNwgz+Kz7
- /r4G32tJLbnV0q3aDiA4L7tBUUWlWO9/0vAtXw52FtmR5APUyDHPRntB9K9XN/IV5EZFxiSIhNe
- QhRZ/0aJjRBQf9lgKmyd2kTFs7VHY1gLNnJW0URRuJeCryne0K3vqm+zKpnwFs59ZLD8wPftoYZ
- MaG77XNioStWHAwaTevL7oRdTTv+C+DNryBbdYAxsSZcc0CC+0oew2BnXWGTWrnjwlzthSD8Vs4
- +k=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813063401.1786548-4-thehajime@gmail.com>
 
-Add coverage for partially updated sysctl vectors with test 0013. It
-makes sure that the sysctl vector is unchanged when one of the elements
-is not valid.
+On Thu, Aug 13, 2026 at 03:33:58PM +0900, Hajime Tazaki wrote:
+> Upon a private file mapping request to /dev/zero, it calls
+> kernel_read() in do_mmap_private(), getting a failure with the message
+> like: "kernel reads not supported for file /dev/zero", which is because
+> zero_fops defined in drivers/char/mem.c has both .read and .read_iter
+> definitions.
 
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
- tools/testing/selftests/sysctl/sysctl.sh | 57 ++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+Do you actually use a no-mmu system?
 
-diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index b2d8bd9026a721e96c26be20069f7f87b06a5cf7..fdf3d2fb0a2ad23a525d3205577a06d7d97576b7 100755
---- a/tools/testing/selftests/sysctl/sysctl.sh
-+++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -4,6 +4,7 @@
- 
- # This performs a series tests against the proc sysctl interface.
- 
-+# shellcheck disable=SC2317
- # Kselftest framework requirement - SKIP code is 4.
- ksft_skip=4
- 
-@@ -37,6 +38,7 @@ ALL_TESTS="$ALL_TESTS 0009:1:1:unregister_error:0"
- ALL_TESTS="$ALL_TESTS 0010:1:1:mnt/mnt_error:0"
- ALL_TESTS="$ALL_TESTS 0011:1:1:empty_add:0"
- ALL_TESTS="$ALL_TESTS 0012:1:1:u8_valid:0"
-+ALL_TESTS="$ALL_TESTS 0013:1:1:int_0003:1"
- 
- function allow_user_defaults()
- {
-@@ -196,6 +198,18 @@ verify_diff_w()
- 	return $?
- }
- 
-+# Verify that an erroneous ($2) update fails and does not change TARGET
-+verify_no_partial_update()
-+{
-+	TEST_STR="$1"
-+	echo -n "$TEST_STR" > "$TARGET"
-+
-+	if echo -n "$2" > "$TARGET" 2> /dev/null; then
-+		return 1
-+	fi
-+	verify_diff_w "${TARGET}"
-+}
-+
- test_rc()
- {
- 	if [[ $rc != 0 ]]; then
-@@ -501,6 +515,40 @@ run_limit_digit_int_array()
- 	test_rc
- }
- 
-+# You used an int array and one of the elements is not acceptable
-+run_int_array_no_partial_update()
-+{
-+	echo -n "Testing invalid array element does not partially update ... "
-+        # Expect failure because of 3rd element (abc).
-+	if ! verify_no_partial_update "1 2 3 4" "10 20 abc 40"; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "OK"
-+	fi
-+	test_rc
-+
-+	echo -n "Testing out of range array element does not partially update ... "
-+        # Expect failure because of 3rd element (greater than int)
-+	if ! verify_no_partial_update "1 2 3 4" "10 20 $((INT_MAX + 1)) 40"; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "OK"
-+	fi
-+	test_rc
-+
-+	echo -n "Testing invalid first array element does not update ... "
-+        # Expect failure of 1st element
-+	if ! verify_no_partial_update "1 2 3 4" "abc 20 30 40"; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "OK"
-+	fi
-+	test_rc
-+}
-+
- # You are using an unsigned int
- run_limit_digit_uint()
- {
-@@ -880,6 +928,14 @@ sysctl_test_0012()
- 	return 0
- }
- 
-+sysctl_test_0013()
-+{
-+	TARGET="${SYSCTL}/$(get_test_target 0013)"
-+	reset_vals
-+
-+	run_int_array_no_partial_update
-+}
-+
- list_tests()
- {
- 	echo "Test ID list:"
-@@ -900,6 +956,7 @@ list_tests()
- 	echo "0010 x $(get_test_count 0010) - tests sysct mount point"
- 	echo "0011 x $(get_test_count 0011) - tests empty directories"
- 	echo "0012 x $(get_test_count 0012) - tests range check for u8 proc_handler"
-+	echo "0013 x $(get_test_count 0013) - tests partially update vectors on error"
- }
- 
- usage()
+> Even fixing this issue, the map request to /dev/zero works fine without
+> errors but the allocated vma isn't marked with anonymous because
+> mmap_zero_prepare() isn't called under nommu platform, resulting
+> vma_desc_set_anonymous() isn't called either.
+> 
+> This commit fixes those issues by:
+> 1) use vfs_iter_read() instead to avoid failure at kernel_read()
+> 2) calls .mmap_prepare on private mapping in do_mmap() so that required
+>    preparations are done even in private mapping.
+> 
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: "Liam R. Howlett" <liam@infradead.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Pedro Falcato <pfalcato@suse.de>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org (open list:PAGE CACHE)
+> Fixes: 4d03e3cc5982 ("fs: don't allow kernel reads and writes without iter ops")
 
--- 
-2.50.1
+Given the age of this issue, I don't think anyone uses no-mmu systems
+anymore :(
 
 
+
+> Assisted-by: cubic.dev:unspecified
+> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
+> ---
+>  drivers/char/mem.c |  5 ++-
+>  mm/filemap.c       |  6 ++--
+>  mm/nommu.c         | 84 ++++++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 87 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+> index 63253d1de5d7..dba24d0a7b33 100644
+> --- a/drivers/char/mem.c
+> +++ b/drivers/char/mem.c
+> @@ -500,11 +500,10 @@ static ssize_t read_zero(struct file *file, char __user *buf,
+>  
+>  static int mmap_zero_prepare(struct vm_area_desc *desc)
+>  {
+> -#ifndef CONFIG_MMU
+> -	return -ENOSYS;
+> -#endif
+> +#ifdef CONFIG_MMU
+>  	if (vma_desc_test(desc, VMA_SHARED_BIT))
+>  		return shmem_zero_setup_desc(desc);
+> +#endif
+>  
+>  	/*
+>  	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index d721986d5f46..cf02faad86aa 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4077,7 +4077,7 @@ int generic_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  }
+>  int generic_file_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	return -ENOSYS;
+> +	return 0;
+>  }
+>  int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+>  {
+> @@ -4085,7 +4085,9 @@ int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+>  }
+>  int generic_file_readonly_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	return -ENOSYS;
+> +	if (is_shared_maywrite(&desc->vma_flags))
+> +		return -EINVAL;
+> +	return generic_file_mmap_prepare(desc);
+>  }
+>  #endif /* CONFIG_MMU */
+>  
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index e40990e15831..a29a53c1c80a 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -37,6 +37,7 @@
+>  
+>  #include <linux/uaccess.h>
+>  #include <linux/uio.h>
+> +#include <linux/major.h>
+>  #include <asm/tlb.h>
+>  #include <asm/tlbflush.h>
+>  #include <asm/mmu_context.h>
+> @@ -856,6 +857,22 @@ static int validate_mmap_request(struct file *file,
+>  	return 0;
+>  }
+>  
+> +static int is_file_anonymous(struct file *file)
+> +{
+> +	if (!file)
+> +		return 1;
+> +
+> +	if (file->f_path.dentry && file->f_path.dentry->d_inode) {
+> +		struct inode *inode = file->f_path.dentry->d_inode;
+> +		/* if the device is /dev/zero */
+> +		if (S_ISCHR(inode->i_mode) &&
+> +		    imajor(inode) == MEM_MAJOR && iminor(inode) == 5)
+> +			return 1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * we've determined that we can make the mapping, now translate what we
+>   * now know into VMA flags
+> @@ -869,7 +886,11 @@ static vm_flags_t determine_vm_flags(struct file *file,
+>  
+>  	vm_flags = calc_vm_prot_bits(prot, 0) | calc_vm_flag_bits(file, flags);
+>  
+> -	if (!file) {
+> +	/* private and file mapping will be marked anonymous later (do_mmap_private()).
+> +	 * and /dev/zero is marked by them at .mmap_prepare,
+> +	 * which should be _before_ this point.
+> +	 */
+
+Wrong coding style for the comment, which is very typical of
+LLM-generated stuff.  Always rewrite the output of these tools to
+actually be sane.
+
+thanks,
+
+greg k-h
