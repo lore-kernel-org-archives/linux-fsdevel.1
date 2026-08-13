@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DAC356757
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 07:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28532C0296
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 07:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786605660; cv=none; b=tvtGjOOJ2f1hbbZFwGKgBtoV5mSVf59xUzna/2/IuqIyQ2qZA20rwbM/3ArnAoO++S8fB2uyzUolg7hMP6s0zXlSaVYtRpl5f3hps87R+Lll4YiNaRlSfLQMqpYrpUIAHJkxgOZYgah/XL74VLE4w5YfM9T9/8Pc/xRnFj10iAk=
+	t=1786605914; cv=none; b=nD9WxbcZNEYqqDtSpsTJ+SnCObM5vHCQrNou0SUAZ6c7I6nan4pHGHQbhbesJ6+dIyFVPSsXHNSQ3qPb2D18DgsMjy/Iuyz2UmXMB4UMikB8HhERB8UWlEVDXQvGksLX6PPrZSngqkxA0E1YnoGAF5vkgKVxlxeKTLoJIM+BdKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786605660; c=relaxed/simple;
-	bh=6VRW7SdQWGsO0aZDFJh4qrZFd4oacyC6ppKkShoC0b8=;
+	s=arc-20240116; t=1786605914; c=relaxed/simple;
+	bh=EeNmIgGsT46KCYWt599LpR6pEb4CIiBq9PfMgglnZjc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lBjUfHuL7f7yIkuHO99H1M9DQfmy/cCWjIhb5Z8LNgV6CNzuDNqQd7JQ3W3GlkBxE4/b39MBgebPKAIIirfiW7tPaXs/JBDqqRFCWm2YUmEaFR4R018SrZPVzu5WSvHPEOOWjamEist0Ub9GqEFhd2QIkPrCerdqA5Q4ZNc+u2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l0J1WW1N; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=OTgBqxvSNw3HUbSIvZO5kLJQ1dt/XhprDQvnak/6eGJW6Cbr8zLxVDcLlG8kfnbkJAjGkoE3aFKGZhP2qq3+BDVrSCu1+u4kF/Mg7zdMibS9TEE2K2xftMY7g8q4XhBhl4ffSZQw4G3nc/lDTVYIzXVD2rW3grsPKFLFSzszjiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=haCcH78Z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l0J1WW1N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6DA1F000E9;
-	Thu, 13 Aug 2026 07:20:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="haCcH78Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B411F000E9;
+	Thu, 13 Aug 2026 07:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786605659;
-	bh=1zx2Qgzcucr1lr0qkaSYA1QLDyvjN3OglK+Nni4fAl8=;
+	s=k20260515; t=1786605913;
+	bh=wlUq6eMZ9dhHSD88qIfXndTiEbaOt83wBNm0+NgJcyE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=l0J1WW1NdC8WUCI+4hObk9BmgQxnhkoM5huUcC2I9a8fgeLpyDG+w8x6XSXMb/8G5
-	 sIm5hRmA4p+smRwNrCiLU09vUZyeobDqwyLdbp8AuGN1I/9KSHfoq5n5FnYcdcXcVl
-	 vcziya8SDDOlEJC7tZlrqDsd+YvKSvEq0h+kHaFGpeL9c9GnheAcfBomKLqKJdbjIi
-	 +VBPi2jblFrzPStVsKWuqyhE0hV2ycsBtYK38gH5f4+nuRA+ES7S0XOu5wQyjT8Pzt
-	 lWHtufmEY41W/Da7nfjvrsLcVQOJSiE5GhPUijyo9kUYEXA9TxcULKh7QsON1XrPlY
-	 nrUj/W3+nFzJg==
-Message-ID: <32873b50-c900-4fe5-9dc1-cb086bba77e7@kernel.org>
-Date: Thu, 13 Aug 2026 09:20:54 +0200
+	b=haCcH78Zp/m539QhWqu+sd7oXAcejudjaL37QL9yWQGnsiobVQeble+LIE9uHZWdh
+	 wkZ3PV/mcdhwo52hfyTMQBO1Ysj6eJjhWkRnZoD5Gj75WtgLRp+3EMSQq7XpzeXB6d
+	 rOLVKpUYwo7QHTAYPQSDjffNYj2iGRmc8M8+EV/+cPHBoBlIZ7Lo8xq73w68lD7vbt
+	 KIGrqaSxgrlPxmUvFn5B6jkeAlUWlYGXajPb48a4hHaYd176H0OBNV6e+4eZQFFI22
+	 NMySX+bOPrd0h2nG01qqgGjtyb5wlJ/moLFtMivrUCLyqJsNyu8f8maiZ8gQJEAEKc
+	 fInbwEp5x7fnA==
+Message-ID: <3e609c64-a393-4667-be74-6cb2bbdcb717@kernel.org>
+Date: Thu, 13 Aug 2026 09:25:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 05/15] guest_memfd: Use folio_has_hwpoisoned_page()
+Subject: Re: [PATCH v9 06/15] kpageflags: Use is_page_hwpoison() to set
+ KPF_HWPOISON
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
  linux-mm@kvack.org
@@ -43,10 +44,9 @@ Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
  <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
  linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
- Jiaqi Yan <jiaqiyan@google.com>, Sean Christopherson <seanjc@google.com>,
- Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>
+ Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-6-willy@infradead.org>
+ <20260805210557.1118966-7-willy@infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -93,42 +93,41 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260805210557.1118966-6-willy@infradead.org>
+In-Reply-To: <20260805210557.1118966-7-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
-> folio_test_hwpoison() only works on hugetlb folios today and will give
-> the wrong answer for other large folios.  folio_has_hwpoisoned_page()
-> works on both.
+> Instead of knowing how hugetlb handles hwpoison, just ask
+> is_page_hwpoison().  This gives us the flexibility to change how hwpoison
+> is handled without updating this function in the future.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Acked-by: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Ackerley Tng <ackerleytng@google.com>
-> Reviewed-by: Gregory Price <gourry@gourry.net>
 > Reviewed-by: Jane Chu <jane.chu@oracle.com>
+> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 > ---
->  virt/kvm/guest_memfd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  fs/proc/page.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index db57c5766ab6..94eedcc7f1a9 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -774,7 +774,7 @@ static struct folio *__kvm_gmem_get_pfn(struct file *file,
->  	if (IS_ERR(folio))
->  		return folio;
+> diff --git a/fs/proc/page.c b/fs/proc/page.c
+> index 7d9387143435..323e4c049f69 100644
+> --- a/fs/proc/page.c
+> +++ b/fs/proc/page.c
+> @@ -233,12 +233,8 @@ u64 stable_page_flags(const struct page *page)
+>  	u |= kpf_copy_bit(k, KPF_UNEVICTABLE,	PG_unevictable);
+>  	u |= kpf_copy_bit(k, KPF_MLOCKED,	PG_mlocked);
 >  
-> -	if (folio_test_hwpoison(folio)) {
-> +	if (folio_has_hwpoisoned_page(folio)) {
->  		folio_unlock(folio);
->  		folio_put(folio);
->  		return ERR_PTR(-EHWPOISON);
+> -#ifdef CONFIG_MEMORY_FAILURE
+> -	if (u & (1 << KPF_HUGE))
+> -		u |= kpf_copy_bit(k, KPF_HWPOISON,	PG_hwpoison);
+> -	else
+> -		u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
+> -#endif
+> +	if (is_page_hwpoison(page))
+> +		u |= 1 << KPF_HWPOISON;
 
-
-guest_memfd only uses small folios, so it doesn't really matter.
-
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+snapshot_page() takes a snapshot of the folio and the page. If you look at
+"page", you start going to the live version again.
 
 -- 
 Cheers,
