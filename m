@@ -1,142 +1,88 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mta0.migadu.com (out-33.mta0.migadu.com [91.218.175.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE36C32C937
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8167367B6F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 03:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786584075; cv=none; b=IAQ9xjvXDcD5S7DlzS6BGSxJOUZrg9hvhj5UfCk+98p02Wx+2oD+76B6puPNkbuo21K5H8676e7kqqV+oAqGaw3XTIZaiaKIjLIWtNuUV2CA8Oc7vgBto6jmANBMJ7cfMNh1CLAimr0qGaesud3DK/h7XAS8ps5C2Ej9UzVfTVY=
+	t=1786592520; cv=none; b=ksOBCBRGKuUzJzFNeKsj789r11XZtXpC74aDX9DR6yArrpIWRQlCIQb/QuYcOw0HGJH1qMc+8stGwMQ2an/BY5fGs63F9IL/2lr8MNjG19JsiV8SB5miE6xIsUi8kLSpNwtp+WQkzvV5s2VdgMiVnPO8Hq/ZK47Lp+yKMfwo590=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786584075; c=relaxed/simple;
-	bh=jQAWRVENXd5JGHsxo/hf6vUttuV6ujE/QtYCehIVHRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FkZ/Til3b2tLuqTIuWF55sHJfsBZXOil1JIR6Ym3ev1+54+x7R6o6CbbaTp+awjn5CWXYHPzMWa7FwXweZMWXGdtjHAoCIr8u78GGDowQZY+zZXsN0ElVS7kMU3nCdnMb0qKEdg7j5uT66xbFQdOlmGoy4D/i9YcYux4cVtvVF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gV8Mq8xE; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1786592520; c=relaxed/simple;
+	bh=rkICQp9vai9NhJqSMqAdid4nZbPtr66Y+KDEbBSYtZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RkCs+n+astAeWMRHTURIPxUhPXj6J+x4Gz+xQFZUuQ0yESZegd4kjZ9hmPQbkNYT9OREi4MxHqYqpMifmA88fg/ioSZwOCo1rRCqDtUxI3sAKzbVMN/+UPD45a8+SpVxG1Uk75yjPYgw/2JGbFkuSQEeKULVhbqRzKuMNhunotA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DHjqdKEV; arc=none smtp.client-ip=91.218.175.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gV8Mq8xE"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-9030f8ea3b3so1893366d6.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 12 Aug 2026 18:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1786584071; x=1787188871; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
-        b=gV8Mq8xEA4vtp2rDR+jnsK6TSSY301yKIdCVoD89t2x3h9Hgh1rrBdXjPL+CXFnKeT
-         SgVmxK9YhwfBk26NKuanp3J6BqnN7/USTpDab1KXu05gblpMHZZhHLaHX6OYZjrkSTT+
-         ndMAlJK/eFZotlpBWs/cl17UYJG9pm8sN7oSr2GxLXNHrirOvdufd5pCS61GGlFgjQET
-         UblzbhY28gXamsNJPH9B9mCtMjh0uO2f2nXQy8B2vIpvJJnTFTdLMwOELMREAc5ZnPHV
-         bljYuNumM7lTPeweZ05hCOaUTdzG6R7ZVXB7nWY2NU3i4BPv37QoHQw7aN/CUrDZSC0J
-         p/0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786584071; x=1787188871;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
-        b=AAPE6Qu1sy3D+V9oQMnRFmtjzd9inApjiLyXXop1VdjqQGqFU7NqvLePnywsZ08X4B
-         4jf5SGvo/nWyARi3Pf+z5Qg7P9DdXchBbTH6cMXwkz+npAXbEqaOl9sTHuQWjMqkMKQf
-         bM0SkBGzlR+T5mEr4FDJsoZ9Ap35D2ESkP9E8tuLLLT7RWYllxyJTXiX5MVMuBoyWAr6
-         7T7RN263FhgRv11sipSbF6CLmIpWgwYK9VSf2McsmTYm/1DHLYe/y8pOeLZZ+r6oIPQw
-         7Hh91t3yHcvMh/Hfp4BXcr/kZzOpeVwVIVddMfbC+6bVPaWxka76aUgTRY7gx44hOTt5
-         JDXw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqc6jxVZdFPg0mMAJfqnkTsBG1sjP4PcuI0D5IwN5dEcDMh5EBYUkXcEz7sgxenX3d1XVci9ZvTLduf2NH4@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR3Gtlqfykz1phx/ZEV2HEb5D8hdovwsJUoCkO+cRey9sD7+l8
-	wEnADLAH86GluTbtF/sjPdtHNYb5OqnFSkyvS3afnOckoQqK0J8QNtoN0eKcHhA3FtY=
-X-Gm-Gg: AR+sD12v6IXE6G/qK+7D2dA1FGj+4lYixbzvn6rFh/DRByLiaeNieeZBIuS4z8ozDu5
-	KmGoWV2zkF3W/ADzVJBgcUwB0BH0s2ZQpuX74YV/4V1sBg7hTj86F8peJFsgXnrW8nx9w6mQSzy
-	eHqLOxPHObRSpOtZJVof79to/KiRd5InTyXv69Rg5BQNPk7rl40NHljDlC+mJR0SXAueX4Kctif
-	rHxqpzKNBf0+Ye/QtT095pr8qbOC3u+xdjCusgS9/QU7uvEw2ppxc1W4uR1oHgAI6NbARyF+rbq
-	x8/pOyQcIHy6NEYw0sZ3jHZHpILEUWoaC06uESUBUhcVp5iQcsXHqafAh9yptGqDvK2quTkmCYV
-	kvq0QdL+qCrXEf5Lh7sA4id1M4XT0OeqjEr6rTQMtQ9salbG0f6vsGzZA16iM+BrL0dfpFuC6p/
-	xLocI3TKZTJNIGfGn79RUz4/L8B+j3bADScz83B5JE5WmhiAU=
-X-Received: by 2002:a05:6214:500b:b0:8f0:d710:26ba with SMTP id 6a1803df08f44-90a80bb0b74mr17793966d6.31.1786584071577;
-        Wed, 12 Aug 2026 18:21:11 -0700 (PDT)
-Received: from fedora ([2601:19e:8500:d3c0::28fe])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a8179e350sm4119856d6.6.2026.08.12.18.21.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 18:21:10 -0700 (PDT)
-Date: Wed, 12 Aug 2026 21:21:04 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com,
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com,
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com,
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
-	vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, osandov@osandov.com, jannh@google.com,
-	pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
-	ying.huang@linux.alibaba.com, kasong@tencent.com,
-	qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org,
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
-	yury.norov@gmail.com, linux@rasmusvillemoes.dk, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, mkoutny@suse.com,
-	sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev,
-	usama.arif@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
-	cgroups@vger.kernel.org, damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
-	"Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <an0cAMh_m8ZhGIm2@fedora>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DHjqdKEV"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rkICQp9vai9NhJqSMqAdid4nZbPtr66Y+KDEbBSYtZg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786592516; v=1; x=1787197316;
+ b=DHjqdKEVIWLXNLenYKgaK5V4em6jWRfUh4Kejj5UjBOEwXFLK9chPMKBXBDyUkulHC+Th24o
+ odZSje321jBuqFSq42CteSi3OnkcxDSlcsG5tVT08TmHDhbmX+HKeM1BU4DTUOYHq9NoEpwiL+8
+ 524rZiOQX7n4r0uR01aSpSLE=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from ctao-book.. (111.162.215.50)
+	by smtp.migadu.com with ESMTPS id 013549756ecb3f54;
+	Thu, 13 Aug 2026 03:41:56 +0000
+X-Migadu-Flow: FLOW_OUT
+From: Tao Cui <cui.tao@linux.dev>
+To: clm@fb.com,
+	dsterba@suse.com
+Cc: josef@toxicpanda.com,
+	brauner@kernel.org,
+	sforshee@kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH] btrfs: use mount idmap for defrag permission check
+Date: Thu, 13 Aug 2026 11:41:46 +0800
+Message-ID: <20260813034146.1207640-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 12, 2026 at 02:01:12PM +0200, Pankaj Gupta wrote:
-> >
-> > Bonus Configuration: HBM device memory tiering
-> > ==============================================
-> > echo 1 > dax0.0/private       # make the node private
-> > echo 0 > dax0.0/adistance     # highest tier
-> > echo 1 > dax0.0/reclaim       # reclaim active
-> > echo 1 > dax0.0/demotion      # may demote from the node
-> > echo 1 > dax0.0/user_numa     # mbind()
-> > echo online_movable > dax0.0/state
-> > echo 1 > numa/demotion_enabled
-> 
-> I am bit confused by the HBM device example being discovered as a DAX
-> device. Is it to
-> only to showcase the use-case? Or we see HBM device is actually
-> expected to be discovered as
-> DAX device with N_MEMORY_PRIVATE?
-> 
+From: Tao Cui <cuitao@kylinos.cn>
 
-"actually expected to be" -> no.  there's no requirement HBM be
-discovered and boudn to DAX, DAX is simply a convenient intermediary
-to memory-hotplug.  This is at best a demonstration.
+btrfs_ioctl_defrag() checks MAY_WRITE with nop_mnt_idmap, which skips
+the mount idmap.  On an idmapped mount the owner comparison then uses
+the caller's fsuid against the raw on-disk uid, dropping the mapping.
+Every other permission/owner check in btrfs ioctl uses
+file_mnt_idmap(file) (e.g. :1152, :1310, :1946); this one missed it.
 
-A device driver could very well just call memory-hotplug directly,
-or its memory could be brought up as a private node via a boot
-paremeter (which I have sculpted for v7).  The former is preferred,
-but there's a bit of a chicken/egg scenario for bootstrapping.
+Switch to file_mnt_idmap(file).  It equals nop_mnt_idmap on a normal
+mount, and the check stays behind !capable(CAP_SYS_ADMIN), so only
+unprivileged callers on idmapped btrfs change.  The RO-fd note in the
+comment above is about the file descriptor, not this inode check, and
+is unaffected.
 
-Most of these UAPI extensions are going to be consolidated into a
-debugfs interface for testing purposes only in v7.  I've been working
-on aggressive Linux Test Project test expansion to ensure there is no
-UAPI regressions.
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+---
+ fs/btrfs/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-~Gregory
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index 72bc9d4f7708..607329dedd50 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -2458,7 +2458,7 @@ static int btrfs_ioctl_defrag(struct file *file, void __user *argp)
+ 		 * running and allows defrag on files open in read-only mode.
+ 		 */
+ 		if (!capable(CAP_SYS_ADMIN) &&
+-		    inode_permission(&nop_mnt_idmap, inode, MAY_WRITE)) {
++		    inode_permission(file_mnt_idmap(file), inode, MAY_WRITE)) {
+ 			ret = -EPERM;
+ 			goto out;
+ 		}
+-- 
+2.43.0
+
