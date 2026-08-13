@@ -1,197 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E827C33BBBD;
-	Thu, 13 Aug 2026 09:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A39B3F7A83;
+	Thu, 13 Aug 2026 09:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786613825; cv=none; b=gnALjkBS+3iHJ0KB+2hbWuOVMyeEeAG/hojiiQJ+OkWZy8QsjWMDFqNs4XKCiSVUfn9wwi5Adhv7DTHJ9PZHXciQS++slJlIn79+d7Z3LEJto3tRoB9yf8W+oyScuiGfPX2HHmU9gsFevUnEfFNRExjjFY6dxIJtkKN8N7fWJmw=
+	t=1786614331; cv=none; b=JujXEWIFa4vTNREbpGUTYZWBs86gSbf2dqwbEIuqLVsNAKeCo+0Gl0X21/6jHodF3Nn40BZj3d0DulwNmYDIH09Mz+dX9cVnFEETEmFnz97ISuIz0RbhTqTvnbDOzzXTptDskhn1Y1KVUNINRcxWTjMqZwfnpD8+iwVUWK5dqLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786613825; c=relaxed/simple;
-	bh=kjv3GuxAdJPkK/osqEweSvj2vAw3o+Wm7wSObOcNG/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sfL88CSbyWxgMzFtFNrRpyujVO2djt33CSN+qq6Lme56WGDTNQtHCA4BEOUD61JRmXRKEIzWL8n4c+sbdp+2dDD89bfdvGE3qLzvpfWkFZmI37vVVTxnzCXg6sT2Ogber7h4tLg/uFCFTl6x9qA/OYlUvDn+lTm3xeKYIab+Zxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lz1Duy5E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786614331; c=relaxed/simple;
+	bh=4fpvAS5MKj34QVtZYyhSUiW5oi4qTKGznK4/SwPY8rY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rOyxGANOizEjV0DKktObbwnlb6NnrSJQn5/Gagz2ByMS8/BMJKOUnM03yFmTc/iC7VQw6n7h3RnkOcGxAQwlh5HnezkpPA/f+45BXHuMjluvTrmJJquDNg1o+DX7iGSjweUUdBLtIjBNXTpwu3Lyfme2tuTq6gMl2wDjAAhOdkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=VnERNYja; arc=none smtp.client-ip=178.154.239.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lz1Duy5E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49AAC1F000E9;
-	Thu, 13 Aug 2026 09:36:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786613817;
-	bh=JSSZgUjMMjodUF2jdlWEV6On7VUDzA3+jCqusZy+uHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lz1Duy5EEJcZhdAXU+VSGCAzjzSl7Kl+2x9ncpE/plgruGPWrJSXsgJ2lIhi0rQyx
-	 sliVkI2Aefju0S0hgJvweLoT7d2v+tO16QpN39qrZ7iGGNqly0nKRius6h1q/JnSK7
-	 cP4vdq5tefx9H6GW3cP5Mn1Ld3Jhb5QI/aIP4GAl8HTzo20BPS0/yzFBY79XYrBsGv
-	 Z4czr0gSiplSdNc2NweADG0o5ddfvy2HXXlZ4RX+bbv/PrwXw1EbqM8ipXjCI1yPJI
-	 xohYc83bYTwoK1dRJ0h+9ReF+fALWELNLpnn0/uGJKajxIsac9e4uOKPC0dRxQL8Gx
-	 4yBEag3xPb5mw==
-Date: Thu, 13 Aug 2026 10:36:20 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 17/20] mm/vma: only permit MAP_PRIVATE /dev/zero to be
- mapped anonymous
-Message-ID: <an2PqxrAAJaEC4u2@lucifer>
-References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
- <20260806-b4-scalable-cow-virt-pgoff-v4-17-ab318a350404@kernel.org>
- <c7930f14-5978-4709-bac2-54950c988883@kernel.org>
- <ant1xwiG3djtoXoe@lucifer>
- <14a06774-4157-4629-8327-b1a6bae24ab7@kernel.org>
- <anyst_4LGm6bpWdq@lucifer>
- <ea3c2889-343b-4eba-9758-cf56c75da4fc@kernel.org>
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="VnERNYja"
+Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:43a8:0:640:574d:0])
+	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 32200807E0;
+	Thu, 13 Aug 2026 12:43:38 +0300 (MSK)
+Received: from [127.0.1.1] (unknown [2a02:6bf:8009:1403:13e2:aa39:7988:f1b2])
+	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id YhMvcMH3p0U0-OerpFtHa;
+	Thu, 13 Aug 2026 12:43:37 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+	s=default; t=1786614217;
+	bh=K/ihBIBMZ1Hst5dkwnXxYKv3w9fi9VrDqvSIq6d1us4=;
+	h=Cc:In-Reply-To:Message-Id:To:Date:References:From:Subject;
+	b=VnERNYjadtNl8QXc5GaLwZMmte5MxhqXTZ6/nUfxNkYEJHIgpWtCHzXzqfTZQ5CjO
+	 vW2Y72KdLUgnhaqoK2D0ZsFaAiiF6r5qr+rtxVoePfKZzzHCMAt3vTSwT4fDGhdtas
+	 aIpFce2SRBkobThSw3cU3d3Lp4psOtmvzHkyDtPU=
+Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
+From: Mikhail Rudenko <xyzzy@yandex-team.ru>
+Date: Thu, 13 Aug 2026 12:43:30 +0300
+Subject: [PATCH RFC 2/2] fs: defer dirtytime iput from PF_MEMALLOC context
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea3c2889-343b-4eba-9758-cf56c75da4fc@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260813-deferred-dirtytime-iput-v1-2-ad2fb3ad6bdb@yandex-team.ru>
+References: <20260813-deferred-dirtytime-iput-v1-0-ad2fb3ad6bdb@yandex-team.ru>
+In-Reply-To: <20260813-deferred-dirtytime-iput-v1-0-ad2fb3ad6bdb@yandex-team.ru>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mikhail Rudenko <xyzzy@yandex-team.ru>
+X-Mailer: b4 0.15.2
 
-On Thu, Aug 13, 2026 at 11:18:13AM +0200, David Hildenbrand (Arm) wrote:
-> On 8/12/26 20:05, Lorenzo Stoakes (ARM) wrote:
-> > TL;DR - either we need to find a way to uniquely identify it (keep my approach
-> > or move it to core mm) or we should drop this patch.
-> >
-> > Given we're late in the cycle + you stringly objective to my approach I think
-> > maybe best to drop it and respin?
->
-> Yes, let's handle that separately.
+Both kswapd and direct reclaim run shrinkers with PF_MEMALLOC set.
+Dcache reclaim can remove a dentry and drop the final reference to a
+linked inode with I_DIRTY_TIME. iput() then calls sync_lazytime(), which
+promotes the update to I_DIRTY_SYNC and invokes the filesystem
+dirty_inode callback. ext4 can allocate an inode-table buffer with
+__GFP_NOFAIL from there, triggering the PF_MEMALLOC allocator warning.
 
-Agreed. Will respin with these bits lopped off!
+Use the superblock deferred-iput infrastructure to transfer that final
+inode reference to an unbound worker instead. Remove the inode from the
+inode LRU first so i_lru can serve as the allocation-free queue entry.
 
->
-> >
-> > Can do a follow up to add unique identification later, somehow.
-> >
-> > The key change of 'make anon-assigned file-backed MAP_PRIVATE mappings not
-> > special snowflakes' will still be achieved in the other patches (but have to
-> > rework them a little obviously).
-> >
-> > On Wed, Aug 12, 2026 at 07:15:05PM +0200, David Hildenbrand (Arm) wrote:
-> >>>
-> >>> We don't assign vm_ops for a MAP_PRIVATE-/dev/zero mapping. So that won't work.
-> >>>
-> >>> We could expose zero->f_ops but then it's literally in drivers/char/ and that's
-> >>> just weird to expose in mm.h or whatever.
-> >>
-> >> Thinking out loud: could we use a dummy (empty) vm_ops?
-> >>
-> >> We'd place it in mm.h (zero_vm_ops) and just use it in drivers/char/.
-> >
-> > The entire purpose of this patch is to _uniquely identify_ MAP_PRIVATE-mapped
-> > /dev/zero and only permit this to make a mapping anonymous.
-> >
-> > As per the commit message: 'mm/vma: only permit MAP_PRIVATE /dev/zero to be
-> > mapped anonymous'
-> >
-> > MAP_PRIVATE-/dev/zero to anon is a historical abberation. This is why it is a
-> > unique case where semantics don't make sense.
-> >
-> > Doing things by semantics makes sense if the semantics are a _class_ of
-> > thing. This is not a class of thing it is a one of one.
-> >
-> > Yes the method used is ugly, but the alternatives (I can think of) are:
-> >
-> > 1. (your proposal) allow any in-tree non-module mmap_prepare() driver to map
-> >    anonymous pages, creating an entirely new semantic for memory mapping.
-> >
-> >    (this is currently something that is possible, unfortunately).
-> >
-> >    To be safe we would have to implement then a series of checks to prevent true
-> >    insanities, because doing that would permit broken madness like a PFN map
-> >    being treated as anon.
-> >
-> >    Once this stuff is out there as an API, even in-tree, even non-module, people
-> >    will abuse it because it'll go through some random tree and we'll have to
-> >    support it.
-> >
-> >    I mean we may as well just not make a change in this case other than maybe
-> >    preventing .mmap from being able to do this.
->
-> As discussed off-list, we could have in in mm/ and special-case
-> drivers/char/mem.c to include a mm header like fs/exec.c similarly does.
->
-> drivers/char/mem.c really belongs to core-mm.
+This preserves normal dentry eviction policy and only defers work where
+iput() would otherwise promote lazytime state from PF_MEMALLOC context.
 
-Yeah, there's no approach that won't involve something gross but it's a case of
-least-worst.
+Signed-off-by: Mikhail Rudenko <xyzzy@yandex-team.ru>
+---
+ fs/inode.c | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-As per my MAINTAINERS change putting drivers/char/mem.c in mm sections also
-(first step at least :) I agree very much that it's a core mm thing or at least
-large chunks of it.
+diff --git a/fs/inode.c b/fs/inode.c
+index 31c5b9ee3a81..e71750bf7c82 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -18,6 +18,7 @@
+ #include <linux/mount.h>
+ #include <linux/posix_acl.h>
+ #include <linux/ratelimit.h>
++#include <linux/sched.h>
+ #include <linux/list_lru.h>
+ #include <linux/iversion.h>
+ #include <linux/rw_hint.h>
+@@ -35,7 +36,7 @@
+  * inode->i_lock protects:
+  *   inode->i_state, inode->i_hash, __iget(), inode->i_io_list
+  * Inode LRU list locks protect:
+- *   inode->i_sb->s_inode_lru, inode->i_lru
++ *   inode->i_sb->s_inode_lru, inode->i_lru when on the inode LRU
+  * inode->i_sb->s_inode_list_lock protects:
+  *   inode->i_sb->s_inodes, inode->i_sb_list
+  * bdi->wb.list_lock protects:
+@@ -2019,6 +2020,43 @@ static void iput_final(struct inode *inode)
+ 	evict(inode);
+ }
+ 
++/* Like iput(), but defer sync_lazytime(). Used in reclaim paths. */
++static void iput_memalloc(struct inode *inode)
++{
++	spin_lock(&inode->i_lock);
++	if (unlikely((inode_state_read(inode) & I_DIRTY_TIME) &&
++		     inode->i_nlink)) {
++		int ret;
++
++		if (atomic_add_unless(&inode->i_count, -1, 1)) {
++			spin_unlock(&inode->i_lock);
++			return;
++		}
++
++		inode_lru_list_del(inode);
++		spin_unlock(&inode->i_lock);
++
++		ret = super_defer_iput(inode);
++		if (!ret)
++			return;
++
++		/*
++		 * The superblock is no longer accepting deferred iputs.
++		 * This shouldn't happen.
++		 */
++		WARN_ON_ONCE(ret == -ESHUTDOWN);
++		spin_lock(&inode->i_lock);
++		inode_state_clear(inode, I_DIRTY_TIME);
++	}
++
++	if (!atomic_dec_and_test(&inode->i_count)) {
++		spin_unlock(&inode->i_lock);
++		return;
++	}
++
++	iput_final(inode);
++}
++
+ /**
+  *	iput	- put an inode
+  *	@inode: inode to put
+@@ -2047,6 +2085,11 @@ void iput(struct inode *inode)
+ 	if (atomic_add_unless(&inode->i_count, -1, 1))
+ 		return;
+ 
++	if (unlikely(current->flags & PF_MEMALLOC)) {
++		iput_memalloc(inode);
++		return;
++	}
++
+ 	if (inode->i_nlink && sync_lazytime(inode))
+ 		goto retry;
+ 
 
->
-> >
-> > 2. My solution - ugly but uniquely identifies the single permitted situation
-> >    where this behaviour is desired.
-> >
-> > 3. Export something from drivers/char/mem.c to mm - horrific for multiple
-> >    reasons, violates separation of concerns etc. etc.
->
-> Jup.
->
-> >
-> > 4. Move the driver code just for /dev/zero to mm - I thought a pretty horrible
-> >    idea, but maybe we could have some mm/ bit and some driver/char bit like
-> >    hugetlbfs or uffd? But I'm not sure there is a not-ugly way of doing this.
-> >    MAP_SHARED /dev/zero does shmem stuff so maybe could live there.
->
-> Given that I think drivers/char/mem.c really is core-mm material, something
-> along these lines also make sense.
+-- 
+2.55.0
 
-Yeah, the devil's in the details but the /dev/zero stuff can be dealt with next
-cycle.
-
-Respin incoming!
-
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
