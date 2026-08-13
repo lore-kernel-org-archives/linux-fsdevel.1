@@ -1,153 +1,149 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF73515D2
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 16:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A07E499F3A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 17:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786639510; cv=none; b=OFYNkgTmP+xX+7aMf/pZRBeUSFA+pyicxScftCE9uBI788ZEzq3QOkdaaN7s34EQe+dhnqhxEMmng8KI+X6JybsqJbuWd+QWGbSAcFbiiFDKIjC6uhqGM3QgWQF1sZfgvHhzPjYTYGhfOSNgQwjUNeLfSygJdXk59MhX8fMZZA0=
+	t=1786640922; cv=none; b=IZ10EmE5Mr8OM+hC8bOTuel6f0Db6s3k7TY7ANVSur88wzpNCpP8u6PqkYpucMnMqnh1DkaBHDRFApkV5iD+yEER09EWgTybW6sY0WZ1LzKDnZV66Q4OwK2nAdhZPcii9v91LMcr+1hbaR52zoudBtBy+dqvzk7id/iTeF6XsL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786639510; c=relaxed/simple;
-	bh=76sxzFYDS6SAXCw0enJTdxOq+pkrxuViTweRrWBrwxY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=AAtO/Bt+ZkOHcJrynN0G8Bt5HmUcP+iIrztaftekxX19RuHZGhX+b2B0jycPQUyrx3rDrHbjxesu4iavmC7jTuaXvAgaiax7eO1RLdt5Tid0V6i+rp18HQFQL4+/lyiG1rQj7MuV6YFZ6dXI3pOs05nSCmqxi/4oxpzhncUWs54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tvTdJ/bf; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1786640922; c=relaxed/simple;
+	bh=u/oFrMjQ0HW4ClFV3qEE1V3wir5uA423tg2pTQTXT/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDgFtoAzzSDqzp2JB2Kv5W+VfZ637bgf9/TiYxb+pAFV9+5QlzNwAAzvUQvgelPh3uGdIMgf61DPTCCxXozSn94EymuN7MinIbjXJzQPt4JEhcDvhYjtCOELoQ3p0/0zln8WD/FIlDYu76a3oz8bPWycWeXTVgiPS0SxZvDFoO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com; spf=none smtp.mailfrom=osandov.com; dkim=pass (2048-bit key) header.d=osandov-com.20251104.gappssmtp.com header.i=@osandov-com.20251104.gappssmtp.com header.b=Kuq3lzRj; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osandov.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tvTdJ/bf"
-X-KPN-MessageId: 55774795-9736-11f1-bfbb-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 55774795-9736-11f1-bfbb-00505699b430;
-	Thu, 13 Aug 2026 18:45:04 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 5579182c-9736-11f1-a026-0050569981f5;
-	Thu, 13 Aug 2026 18:45:04 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=osandov-com.20251104.gappssmtp.com header.i=@osandov-com.20251104.gappssmtp.com header.b="Kuq3lzRj"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8486c9a946bso321638b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 10:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=YiIOIKH98wGWufizR0K1S4bczDzNUtlf6nRpr1sSs9A=;
-	b=tvTdJ/bfY9myGrTuuDfQbrH9zysjhLNIFwcuAvIFQ37nfBun6Xo5UfAfssiJe4ATJD1Uitjm+BIw4
-	 PajzrIKYDEj/1SpWxbT6t5+l7mLuRs3yQPW9CBAN9RlXq4fC3L9jA0fUWquXDBBzpLuWqhvasK67La
-	 G01ZANKwIaa7DzfSWm6Wq5YARK81rmhdNjhGtPjayu3TPVVZYGoUFvn8qT+qVt+dUapoTNr9ZAbYIV
-	 m3dN7HSVqTz4Wixn0jiHLyPIBbocUu8XOvZlr2MX1X/GbI1QbqDPFuhM7kvIEmo/PB3LiDwrDbyF1V
-	 vSxu11FVQjMMqwMiB2aPxzhTfLwAbeQ==
-X-KPN-MID: 33|+cxWKyWXUkWLCqJLe3yNYPNEdxK05luFkdh4LjkwdANceeWpyckqXKLNkbcEhk+
- wAMUiU5nIy0eyFKNUUE6UBg==
-X-CMASSUN: 33|/jcxzdd5gD1wNK8mK/zewu7IbMrPMlZG4GqE2+W7rJsR8Z0t7M0FEBVhSbq8H0n
- LyIQv8WFU4BUd5oFWIpo/dg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 556d581b-9736-11f1-916a-005056995d6c;
-	Thu, 13 Aug 2026 18:45:04 +0200 (CEST)
-Date: Thu, 13 Aug 2026 18:45:04 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: brauner@kernel.org, cyphar@cyphar.com, kuniyu@google.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org
-Cc: netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Message-ID: <1036785927.390839.1786639504241@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260813162818.149248-1-jkoolstra@xs4all.nl>
-References: <20260813162818.149248-1-jkoolstra@xs4all.nl>
-Subject: Re: [PATCH net-next v7 0/4] net: af_unix: useful handling of LSM
- denials on SCM_RIGHTS
+        d=osandov-com.20251104.gappssmtp.com; s=20251104; t=1786640920; x=1787245720; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eYHtd96lDOI7CnVEXFbNgDWMaZC6MCbdvBlqoNmSQ9g=;
+        b=Kuq3lzRjCgjMKzPYEBJSgadzBBruWwqdy6aeJ4vlWs/b5luV4JPJM5kIxhimORLYAU
+         4/y4DOe34JBrrkbohiL1EtqVldLd/txET30GReQLDluNcWkqTKp/23aXaIcmqFTHNcIm
+         6R69TqymiteOSYMwsJKPz6ryfBK7lUYxz8DX2O/YvSO76qLDayVj0htQGoKHu4Rb2/rN
+         3udbD2f6ktmDzSsTjASwvgv+oltFXqrWT3S7d4FoDsYCA+1hZiKFXHvpEb9d53/LyDOP
+         kb7yU2N8GUtuxvF3wJn8ZCckzDIAMdpqC0ZBp9ZsrWKqw+wlMoPrVAa3DeQY4Z67Qcku
+         dMBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786640920; x=1787245720;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eYHtd96lDOI7CnVEXFbNgDWMaZC6MCbdvBlqoNmSQ9g=;
+        b=dKWaAZKHqgxUMp2nw79jRDGphLlhWXyA42qeHXQb1Nt+ViKQTcy7r+0ZknLFg7YpkT
+         SxIS9CKGpr3WCID97k3qljmjjl5HvBrd8O3AVCDfKYTJJ+k43T9/nKv+Vaa3CQorzcAu
+         sePELKVvK6dK8bm3sX6XQBHf21Hl/72oPov/V+rAfRb7InOLOjM45psDZSWm4NzjNOrL
+         4OSjLbIIOQ04O7ig7NOzZ5h+l4PmY0jV9tX88bTmeBJDhyceGPAUIkFAFajgdtxjIXGv
+         UmjcJZwm1FOgrV+ykggWeRakAkKTzl43EEqW0G1c3Nn5EvdjwnjrVi67l4V54xZ8I2fh
+         YIPA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqae9DlSIiIvH/Ey5NzbMBGfW4Pu78XZjrB9vYLTh6OzbvfpIyxR62L9O05NnDQzu/Wxvo5330RmIkQHDP+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNaDFYSC44SRZm4I/feZLWHEsVBuHKJXWoDqDtxueAofXSzTj7
+	xBDk3Xh01+MOKyGUWELQ/p0Wbvyg+wctvQELZ7NbS1azqL2IdYJy5Z425SLLlZ60r8U=
+X-Gm-Gg: AR+sD13IJw1VeLCfNdOf2E/ekixVcK1BDBqSRMXj93bl+Tc616R4s52EHq7pKRHYsUj
+	hFXFkplhXWve7YN+m79BRyz4tqRtXRDbptdaLkfxGqHBR8tuwT026xV7RH2WQ6ZWcndXcwNatFS
+	4wqnv/cvwvFiydJ/xZAYcY7wFttB6v8I4gnnc2ScbxAtOdiYmFR+IVlJdSmxt6gEUIzgdruzRvc
+	u+/2jaRd8r9/HME55d11vYUAvniliy/U1ZfD1VV34g98t12p37mDi/sFWC0tQ3zAsgwoneKWO6x
+	V7sjOPfQZ9v+ColLaFwok8TLP/Dg+I/vZNc3le8ILPeSo4Gzx4FHd6HwvQ9tvxwri5jWN6Sq7kv
+	PtHSxdTsEgR35mVZwFSkMgY50wIAj4/4BUKTHJO6Oq8uHrBzymDDpNloRDa/ynVR6Vu9EnWjHTW
+	g16+cZauiR2CkG02LyywsKBUBWTKSKdSob4uMKBWzghVqnEgJQ1Lx518CtBUzPAm5CjNnDZGo5u
+	/dpHbCF7RgjHPvLZGot4WDO0YOKtQOvX9Wnu1PLzEq/bgaVJgVgGGEU
+X-Received: by 2002:a05:6a00:7115:b0:848:4d4f:d481 with SMTP id d2e1a72fcca58-84fc75d543amr4090389b3a.2.1786640919729;
+        Thu, 13 Aug 2026 10:08:39 -0700 (PDT)
+Received: from telecaster (c-67-185-21-237.hsd1.wa.comcast.net. [67.185.21.237])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fc4565c6bsm1232055b3a.3.2026.08.13.10.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 10:08:38 -0700 (PDT)
+Date: Thu, 13 Aug 2026 10:08:36 -0700
+From: Omar Sandoval <osandov@osandov.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jacob Lalonde <jalalonde@fb.com>,
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 00/11] coredump: allow to create sparse coredumps on the
+ coredump socket
+Message-ID: <an36FFL9ALwCPhEe@telecaster>
+References: <20260811-work-coredump-sparse-v1-0-cd3e8b1e356d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811-work-coredump-sparse-v1-0-cd3e8b1e356d@kernel.org>
 
-My "smart" email provider blocker me from sending more email. Since I am in South Korea
-that is apparently suspicious. Now patch 4 is missing. I'll try to rectify that. Is there
-any sane email provider that any of you use?
+On Tue, Aug 11, 2026 at 05:27:21PM +0200, Christian Brauner wrote:
+> A coredump generated via the coredump socket ends up transferring
+> zeroed data when a mapping contains holes. For a large process that
+> maps a bunch of data that's wasting a ton of work.
+> 
+> Jacob ran into this and Josef has bitched^wcomplained about this to me
+> before. I dislike the coredump_filter bit solution in [1] which stops
+> each PT_LOAD at the last populated page.
+> 
+> The problem is real though. I don't think coredump_filter is where we
+> need to solve this. That mask says which kinds of memory to include and
+> it propagates across fork and exec, whereas what is being selected here
+> is an encoding mechanism.
+> 
+> I also think that the usermodehelper - may it swiftly die - isn't really
+> salvagable for this and it's not the future anyway. The coredump socket
+> already has a handshake for stuff like this.
+> 
+> I always had an idea how this would look like but punted on it back
+> then. So here it is.
+> 
+> A server that raises COREDUMP_HEADER in coredump_ack->mask doesn't get
+> the coredump as a plain byte stream but as a sequence of frames. Each
+> one a struct coredump_frame_header followed by what it describes. A data
+> frame carries its bytes. If a server also raises COREDUMP_SPARSE, zero
+> frames are sent for unpopulated mappings. They only indicate how many
+> zero bytes need to be written and to not include data. Reassembling the
+> frames gives back the same coredump. A debugger and everything else
+> still see an ordinary core file and nothing outside the coredump server
+> has to learn anything.
+
+Hey, Christian,
+
+I proposed pretty much this exact solution to Jacob, so thank you for
+writing it :)
+
+There are a couple of reasons we still wanted to explore the
+coredump_filter solution:
+
+1. Our core dumper application is not really prepared to run as a daemon
+   that listens on a socket, having been written to be a transient
+   usermode helper. But thinking about it more, maybe that's something
+   we could paper over with systemd socket activation?
+2. More importantly, we sometimes write core dumps to disk and sometimes
+   upload them to blob storage. For the former, this approach of sending
+   holes over the socket is great. For the latter, we'd now need to wrap
+   the dump in some sort of container supporting sparseness that all
+   consumers then need to reassemble. The coredump_filter approach
+   doesn't require any changes in that pipeline.
+
+To be transparent, I still prefer the sparse socket approach, but Jacob
+has different contraints that I'd love to have addressed: it's a
+trade-off of more work on the core dump server side and all of its
+consumers vs. in the debug tooling side, which is mostly already there.
 
 Thanks,
-Jori.
-
-> Op 13-08-2026 12:28 EDT schreef Jori Koolstra <jkoolstra@xs4all.nl>:
-> 
->  
-> Right now if some LSM denies an AF_UNIX socket peer to receive a
-> SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
-> that point, and MSG_CTRUNC is set on return of recvmsg(2). This is
-> highly problematic behaviour, because it leaves the receiver
-> wondering what happened. As per man page MSG_CTRUNC is supposed to
-> indicate that the control buffer was sized too short, but suddenly
-> a permission error might result in the exact same flag being set.
-> Moreover, the receiver has no chance to determine how many fds got
-> originally sent and how many were suppressed.[1]
-> 
-> Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
-> handling of LSM denials when receiving SCM_RIGHTS messages: instead of
-> truncating the message at the first blocked fd, keep every fd slot
-> and store the LSM errno in the blocked slot. This option is inherited
-> by the accept()-ed socket when set on the listen() socket.
-> 
-> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
-> 
-> Changes:
-> v7:
->   - block first selftests did not check other slots
->   - READ_ONCE() for scm_rights_notrunc field
-> v6:
->   - Let accept()-ed sockets inherit the SO_RIGHTS_NOTRUNC option from
->     the listen() socket, so that you don't need to set it for every
->     child. 
-> v5:
->   - Enable SO_RIGHTS_NOTRUNC on all AF_UNIX socket types.
->   - Added required BPF CONFIG_ options to
->     tools/testing/selftests/net/af_unix/config.
-> v4: https://lore.kernel.org/netdev/20260705123826.3818443-1-jkoolstra@xs4all.nl/
->   - Removed the __receive_fd() helper and moved logic into
->     scm_recv_one_fd() directly (suggested by Brauner).
->   - Moved selftest from Smack to BPF (LLM assisted).
->   - Add arch specific socket option values for SO_RIGHTS_NOTRUNC.
->   - Undo patch that replaced copy_from_sockptr() with
->     copy_safe_from_sockptr().
-> v3:
->   - Separated net and vfs changes.
->   - Use kselftest_harness.h and system() to call the test script.
-> v2: https://lore.kernel.org/netdev/20260616143020.3458085-2-jkoolstra@xs4all.nl/
->   - Reimplemented as a UNIX socket option instead of a per recvmsg(2) flag.
-> v1: https://lore.kernel.org/netdev/20260428175125.2705296-1-jkoolstra@xs4all.nl/
-> 
-> *** BLURB HERE ***
-> 
-> Jori Koolstra (4):
->   net: af_unix: enable custom setsockopt for all socket types
->   net: scm: move scm_detach_fds() from common path to scm_recv_unix()
->   net: af_unix: useful handling of LSM denials on SCM_RIGHTS
->   selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-> 
->  arch/alpha/include/uapi/asm/socket.h          |   2 +
->  arch/mips/include/uapi/asm/socket.h           |   2 +
->  arch/parisc/include/uapi/asm/socket.h         |   2 +
->  arch/sparc/include/uapi/asm/socket.h          |   2 +
->  include/net/af_unix.h                         |   1 +
->  include/net/scm.h                             |  13 +-
->  include/uapi/asm-generic/socket.h             |   2 +
->  net/compat.c                                  |   4 +-
->  net/core/scm.c                                |  40 ++-
->  net/unix/af_unix.c                            |  22 +-
->  .../testing/selftests/net/af_unix/.gitignore  |   2 +
->  tools/testing/selftests/net/af_unix/Makefile  |   8 +
->  tools/testing/selftests/net/af_unix/config    |   7 +
->  .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
->  .../net/af_unix/scm_rights_denial_lsm.c       | 292 ++++++++++++++++++
->  15 files changed, 413 insertions(+), 22 deletions(-)
->  create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
->  create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-> 
-> 
-> base-commit: 3205699d79f262412c1be7fc1c04066610d3cd52
-> -- 
-> 2.55.0
+Omar
