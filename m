@@ -1,89 +1,54 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA61463B6D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 11:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADDB417BD2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 11:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786619567; cv=none; b=pPaEVUllTBxfZgDB4/Uwg4WfaXIObZThQ1v1opmDu8OTTzcFpRfWI6be/if8OMmhITFxdEMtZFqBDb4LS0jolmdq1deoY1TTSzX9mjlLuS3/cdqpAHIIgO2Cg81kyEgN7JdoUZChd13h3hMhZNF0YboodX1NmDA3ChwY9Icc32E=
+	t=1786621848; cv=none; b=BjAPBfov3AyEOr2L+Ah/WV803yWotBJSM8yYEgU6mfjYD3nafS0XkkgjEoWqZYcO5/B2CkmLPsoF9qhqEt5QYiQ6tOBVX2r4HrGsYAH9XH4O25yZIpIG4vrsqgnQ3ou7Hn4kwSljDSTcuienV7movnc5grZL0jAm7cI7XAFzjZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786619567; c=relaxed/simple;
-	bh=3yfdvLv+7kWcla2fp0SKd7mluUGL2r5qhM2cIxQ+SR4=;
+	s=arc-20240116; t=1786621848; c=relaxed/simple;
+	bh=FLpb8Lu8xiPeId1yyOToOq7ZG1ZLcpNiPMrBxpZ0Svg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jywkgLkBQzbfiobP/XtMFLEShEIgHk8vcLe+MaJ0fAyqBuo2DxRR7PoksPHz1ZtyYRByx4WqOuvTGTpSDT4H7T1O3HLsscM0ksemQQ2dfmd553H5/vcqo5NcyIqXhZsf+S6YsLrPnhjV/dobUXf+KGwC6Nm5JeXbXD2kmdKE6+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kY2wbE5r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ira5jC9D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v2v3Y4um; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HbbWXBnS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=hxG2qvTw6pfCLNJjkASif1wfIN5jrWQi4WWMPAKn33LkVhZZHQunA2yFZVFQ1o1b6vCLiQnJqB0pJzPLVaN6GaGIqn+MGsbJ6lPSrnZymcVog0ZFhuCuVp2oTIRXZbKs3/l4cB6EoCejMeEr9ZAKyu9xdmNkc8MRXJ5dd27qy50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vo3HK4Sc; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kY2wbE5r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ira5jC9D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v2v3Y4um";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HbbWXBnS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A39FB82830;
-	Thu, 13 Aug 2026 11:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786619556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aa5PQgPbsqDszH92WC8ete6hlLLGfSpkDZEGTbMUJQU=;
-	b=kY2wbE5r6cXe0EoMl0im0qrCP+AWhn41XgI5gPf+3V1JKAj3sQijqf/WaY3diUJaywT57k
-	XUai3bMxApx/+EN/MJPpx+2IA1glnWMNjHLMP2TWLJketr0R21OEqBbWDHvyOKGJ6THA6r
-	CtAII6A2yZGliaEyS2DpDilkv9KPDhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786619556;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aa5PQgPbsqDszH92WC8ete6hlLLGfSpkDZEGTbMUJQU=;
-	b=Ira5jC9Dvm6/shLPPo+mCN3mXLTgX4KAuoT9AhXa9m8PI6i1Jcy8sL/uVs66eXEw2uPxsw
-	gRNxR1zBR1FxVMAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=v2v3Y4um;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HbbWXBnS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786619552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aa5PQgPbsqDszH92WC8ete6hlLLGfSpkDZEGTbMUJQU=;
-	b=v2v3Y4umHePZxuEqj+Vl7Or2jsmfXsPQEuJXVPQSgiS45ELzFwDNxXUH41ei85yIt0jDMQ
-	gNx4eLnaRH5/F1/DhfPwVsIH2eqy78rwFkQeo3GAJgYFqhi8pCJeG+16uxYims+199Klrh
-	6OdKH24cAOFlUCX9i5NMBjWxfnFrki0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786619552;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aa5PQgPbsqDszH92WC8ete6hlLLGfSpkDZEGTbMUJQU=;
-	b=HbbWXBnS2zCjw2vuOLJyoNv0k/KWIE/HCHGaVgzox/FbbPpyBneHy7LRKzzj/Ghq/g/dm1
-	UObDVcKWVfTFUyDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8FCA77DB2;
-	Thu, 13 Aug 2026 11:12:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QWXbKZ+mfWrWCAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 13 Aug 2026 11:12:31 +0000
-Date: Thu, 13 Aug 2026 12:12:30 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <christian@brauner.io>, Jiaqi Yan <jiaqiyan@google.com>, 
-	"Gregory Price (Meta)" <gourry@gourry.net>
-Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
-Message-ID: <an2mYe_lClK3co6l@pedro-suse.lan>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vo3HK4Sc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YmWE56RD/47YLwpBg7jMd//bb0JWz/XaJINUJAJCtBI=; b=Vo3HK4ScYRZ7QxGq6/fxgLrCM+
+	kKgsx5Jz4Dl+Rqv5hmwpcI8fXw6q2dKJOT4+MYZRHs9YxOExPtLJLKE1RJqJKzOOyYHfYU8ct0MRX
+	dSKHnI02X+AiVsuOsxlro+bEf9zm6UY4mvzxziSn9pqcBllH+k3p5cOAApXj/xcu18wMu+8xOZkfx
+	B0hlJZfZPpYwTyaUPns+kbUz9K7Eg+Xzzj748baAJ9urv+N9gqdvbY1o+zHXB5Syofr4Xn/BpS3Ue
+	xUh/nUy+GB0BxZ1gBEdGE1dYKYinK7jucLyecG5Lnplvo7OZJztwT7KhH2+QNutzxFmDAUwLvGoGi
+	j+IdbW4A==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wuTx8-00000003X9f-2ULy;
+	Thu, 13 Aug 2026 11:50:30 +0000
+Date: Thu, 13 Aug 2026 12:50:30 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>
+Subject: Re: [PATCH v9 05/15] guest_memfd: Use folio_has_hwpoisoned_page()
+Message-ID: <an2vhg4Uvdo52WPX@casper.infradead.org>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-9-willy@infradead.org>
+ <20260805210557.1118966-6-willy@infradead.org>
+ <32873b50-c900-4fe5-9dc1-cb086bba77e7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -92,72 +57,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260805210557.1118966-9-willy@infradead.org>
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: A39FB82830
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux-foundation.org,oracle.com,kvack.org,linux.dev,suse.de,kernel.org,huawei.com,gmail.com,suse.cz,vger.kernel.org,brauner.io,google.com,gourry.net];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,infradead.org:email,oracle.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,gourry.net:email,pedro-suse.lan:mid]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+In-Reply-To: <32873b50-c900-4fe5-9dc1-cb086bba77e7@kernel.org>
 
-On Wed, Aug 05, 2026 at 10:05:48PM +0100, Matthew Wilcox (Oracle) wrote:
-> Other large folios use the has_hwpoisoned flag.  Convert hugetlb to match.
-> This will help us use the per-page hwpoison flag in the future.
+On Thu, Aug 13, 2026 at 09:20:54AM +0200, David Hildenbrand (Arm) wrote:
+> On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
+> > folio_test_hwpoison() only works on hugetlb folios today and will give
+> > the wrong answer for other large folios.  folio_has_hwpoisoned_page()
+> > works on both.
 > 
-> Also introduce a folio_test_huge_poison().  This has exactly the same
-> meaning as folio_test_has_hwpoisoned() but can be used when we don't have
-> a reference to the folio containing the page.  folio_test_has_hwpoisoned()
-> can race with folio splitting / reallocation and trip the assertions
-> in const_folio_flags().
-> 
-> This closes a gap where a page in a previously-poisoned hugetlb folio
-> could be observed to not have the hwpoison bit set.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Reviewed-by: Jane Chu <jane.chu@oracle.com>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> ---  
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 9e0ca4824905..e666dd14ca0c 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -843,11 +843,15 @@ config PERSISTENT_HUGE_ZERO_FOLIO
->  config MM_ID
->  	def_bool n
->  
-> +config LARGE_FOLIO
-> +	def_bool n
+> guest_memfd only uses small folios, so it doesn't really matter.
 
-random nit: def_bool n means the same as just bool
+Well ...
 
-I can't comment on hwpoison stuff, sorry :)
--- 
-Pedro
+virt/kvm/guest_memfd.c: /* TODO: Support huge pages. */
+
+and one of the followup patches I have actually removes
+folio_test/set/clear_hwpoison() (it's a bit churny so I didn't want
+to include it as part of this series)
+
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks!
