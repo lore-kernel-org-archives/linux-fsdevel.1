@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9203955E8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 09:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B3530E83F;
+	Thu, 13 Aug 2026 09:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786611669; cv=none; b=LLT81H0oX0JMn/8ydMBY5kZtyXi1mFSX5esRo74hWZK+KOQR4m2zcD1MDbgKKD0PA9K8IeJ93de2mFLi9QgEAaTmtI47m1zdHUARbkNV6LCgo4jVe14Pu0WCR4LaaattpeehIwzPXXlDtKbyvVb/6wLc5Gg0Cko5+4Dua0R1ocs=
+	t=1786612724; cv=none; b=ELxnOS0jgC6+lLqWE2cfZ0VNHNZK/tB/5GEU2rhx2kDiK9ze3u8d2XcCJFXXA3b/QDgdYdK9Yh1BQPovlx8rHN7wZSCG22RqCWU5Fv44Ol/ur8yKEJneuAuyxWvswa4gKnxoD17XTx7pjn+q6GUfOtHOoVk3XT5SDLbvPIJezyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786611669; c=relaxed/simple;
-	bh=Fl3cibuRBSrLdMRPjC4E/gY98cTK30Tqac7pEspmIOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=WkakALMpURk4+l6H0pdvGOWK2FNnNqRgrVq2/gstg0q12idGnuzgpYNyDCIJv1ID9cXHBGb3aJXZZRhmyb2ZPpYGPRQpDwskDth1jFihLXGahJTjsM2Ma4GZvupTmTPTQ6LkeQkFn/AWq1PzWgwtE3DfSQPy44fYzEMM9gCq/4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAkJaMtM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786612724; c=relaxed/simple;
+	bh=zKBAATRQUP95DSf0gemyDrU5jRKGs8XyjRFkQQ+49uw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OFNEJ644twr178ji4MmUGn6M7NCBVQPX0ZGUjQnxWv51M6Fb3dOSSfrT4xRX5rVJprYF1dG7eZFWo6eR8UaYTUJMcycnUOFn46IFRTZw5pL5fO5Fh/EeQYd/Btjhp+Y/G84AXExs/EFN6CJg9rj1PVR5gny2k1fv178WgnkJhyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bWIcRYVo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAkJaMtM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2D41F00A3A;
-	Thu, 13 Aug 2026 09:01:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bWIcRYVo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F781F000E9;
+	Thu, 13 Aug 2026 09:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786611667;
-	bh=Y9O+191m0uBz3Oh/7L7UAfh/wJKAqqGNUbdnCQ8c2N0=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=iAkJaMtMOdiOmhfeJui4hvi0zurvyPRCg1hxCp/mj5yKnXOowW3KbXg1EIIs6Rfo5
-	 /cyddz345GqfbiEoa+YwJrtUJijtEL+C25/oxoDXovtLm7gddr7lfFShGDqolpxFiZ
-	 lUUrctDej5iVevEUL7f+NrKeRvAPduUTvZA7tp7GGRF9tL/Dpwy6HV0DOwb4PULNuR
-	 P+UbouheLbm6EeXb0bxLy+aJaQ4tcDyz9qUMoJj4HIvLVpdOE8tr7mXImZBeFGIdVN
-	 eZ4IEq/7pulooMyUhs7DcvYt/perkmR3S/fif3r3GfRLcTkYO33H9QXmW8Y+4awuXr
-	 2bOVXfjf4f/Uw==
-Message-ID: <e68018a5-a8d0-4ca6-b3f7-7a151d17be31@kernel.org>
-Date: Thu, 13 Aug 2026 11:01:02 +0200
+	s=k20260515; t=1786612722;
+	bh=GetBiy0Zn1Zt+WVhmIztIBXSgbwgf2K+rHp84uzlz2E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bWIcRYVoSsY+NP8RDYGqeCKfdNSxxjBsO0HFtspwgEIcp4mxv6MIb+2TtjGjCRLw9
+	 hIFNHL3xy64xAuU96ONyJA6lJgCdNyALdgyI+DydU5l+v+zFz/J5b/Y1Kd30ZurMF5
+	 LX4SUYoWQFIjEvpb0hBaybB0GmnOwdsg4e3tYQF94wvU9f1NxWbA9ptSNnR6vuNgF9
+	 /pBx8beROUiTVDlXLjY9uCUrg/A3FYGguRxxKdoiDYMZa0ZmOsA30p8M+qmovrM09i
+	 ++Q2dp3raik6cTHMydkCPT3cK/35vli7LyQG8Ow9StXI6zByuJcR/6Mea1EDO0Ksop
+	 xQtWNqBuv2IBQ==
+Message-ID: <ea3c2889-343b-4eba-9758-cf56c75da4fc@kernel.org>
+Date: Thu, 13 Aug 2026 11:18:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,20 +35,70 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/15] kpageflags: Use is_page_hwpoison() to set
- KPF_HWPOISON
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
- linux-mm@kvack.org
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+Subject: Re: [PATCH v4 17/20] mm/vma: only permit MAP_PRIVATE /dev/zero to be
+ mapped anonymous
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
- Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>
-References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-7-willy@infradead.org>
- <3e609c64-a393-4667-be74-6cb2bbdcb717@kernel.org>
+ <nao.horiguchi@gmail.com>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Kees Cook <kees@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+References: <20260806-b4-scalable-cow-virt-pgoff-v4-0-ab318a350404@kernel.org>
+ <20260806-b4-scalable-cow-virt-pgoff-v4-17-ab318a350404@kernel.org>
+ <c7930f14-5978-4709-bac2-54950c988883@kernel.org> <ant1xwiG3djtoXoe@lucifer>
+ <14a06774-4157-4629-8327-b1a6bae24ab7@kernel.org> <anyst_4LGm6bpWdq@lucifer>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -94,97 +144,89 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <3e609c64-a393-4667-be74-6cb2bbdcb717@kernel.org>
+In-Reply-To: <anyst_4LGm6bpWdq@lucifer>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/13/26 09:25, David Hildenbrand (Arm) wrote:
-> On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
->> Instead of knowing how hugetlb handles hwpoison, just ask
->> is_page_hwpoison().  This gives us the flexibility to change how hwpoison
->> is handled without updating this function in the future.
->>
->> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->> Reviewed-by: Jane Chu <jane.chu@oracle.com>
->> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
->> ---
->>  fs/proc/page.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/fs/proc/page.c b/fs/proc/page.c
->> index 7d9387143435..323e4c049f69 100644
->> --- a/fs/proc/page.c
->> +++ b/fs/proc/page.c
->> @@ -233,12 +233,8 @@ u64 stable_page_flags(const struct page *page)
->>  	u |= kpf_copy_bit(k, KPF_UNEVICTABLE,	PG_unevictable);
->>  	u |= kpf_copy_bit(k, KPF_MLOCKED,	PG_mlocked);
->>  
->> -#ifdef CONFIG_MEMORY_FAILURE
->> -	if (u & (1 << KPF_HUGE))
->> -		u |= kpf_copy_bit(k, KPF_HWPOISON,	PG_hwpoison);
->> -	else
->> -		u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
->> -#endif
->> +	if (is_page_hwpoison(page))
->> +		u |= 1 << KPF_HWPOISON;
+On 8/12/26 20:05, Lorenzo Stoakes (ARM) wrote:
+> TL;DR - either we need to find a way to uniquely identify it (keep my approach
+> or move it to core mm) or we should drop this patch.
+> 
+> Given we're late in the cycle + you stringly objective to my approach I think
+> maybe best to drop it and respin?
 
-I also just realized, that other users in this function now use BIT_ULL.
+Yes, let's handle that separately.
 
 > 
-> snapshot_page() takes a snapshot of the folio and the page. If you look at
-> "page", you start going to the live version again.
+> Can do a follow up to add unique identification later, somehow.
 > 
+> The key change of 'make anon-assigned file-backed MAP_PRIVATE mappings not
+> special snowflakes' will still be achieved in the other patches (but have to
+> rework them a little obviously).
+> 
+> On Wed, Aug 12, 2026 at 07:15:05PM +0200, David Hildenbrand (Arm) wrote:
+>>>
+>>> We don't assign vm_ops for a MAP_PRIVATE-/dev/zero mapping. So that won't work.
+>>>
+>>> We could expose zero->f_ops but then it's literally in drivers/char/ and that's
+>>> just weird to expose in mm.h or whatever.
+>>
+>> Thinking out loud: could we use a dummy (empty) vm_ops?
+>>
+>> We'd place it in mm.h (zero_vm_ops) and just use it in drivers/char/.
+> 
+> The entire purpose of this patch is to _uniquely identify_ MAP_PRIVATE-mapped
+> /dev/zero and only permit this to make a mapping anonymous.
+> 
+> As per the commit message: 'mm/vma: only permit MAP_PRIVATE /dev/zero to be
+> mapped anonymous'
+> 
+> MAP_PRIVATE-/dev/zero to anon is a historical abberation. This is why it is a
+> unique case where semantics don't make sense.
+> 
+> Doing things by semantics makes sense if the semantics are a _class_ of
+> thing. This is not a class of thing it is a one of one.
+> 
+> Yes the method used is ugly, but the alternatives (I can think of) are:
+> 
+> 1. (your proposal) allow any in-tree non-module mmap_prepare() driver to map
+>    anonymous pages, creating an entirely new semantic for memory mapping.
+> 
+>    (this is currently something that is possible, unfortunately).
+> 
+>    To be safe we would have to implement then a series of checks to prevent true
+>    insanities, because doing that would permit broken madness like a PFN map
+>    being treated as anon.
+> 
+>    Once this stuff is out there as an API, even in-tree, even non-module, people
+>    will abuse it because it'll go through some random tree and we'll have to
+>    support it.
+> 
+>    I mean we may as well just not make a change in this case other than maybe
+>    preventing .mmap from being able to do this.
 
-If we really cannot use the snapshot_page, one alternative to avoid using "page"
-after actually snapshotting it would be:
+As discussed off-list, we could have in in mm/ and special-case
+drivers/char/mem.c to include a mm header like fs/exec.c similarly does.
 
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 260772b20bd99..f2fc0917f0b6c 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -223,12 +223,8 @@ u64 stable_page_flags(const struct page *page)
-        u |= kpf_copy_bit(k, KPF_UNEVICTABLE,   PG_unevictable);
-        u |= kpf_copy_bit(k, KPF_MLOCKED,       PG_mlocked);
- 
--#ifdef CONFIG_MEMORY_FAILURE
--       if (u & BIT_ULL(KPF_HUGE))
--               u |= kpf_copy_bit(k, KPF_HWPOISON,      PG_hwpoison);
--       else
--               u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
--#endif
-+       if (ps.flags & PAGE_SNAPSHOT_HWPOISON)
-+               u |= BIT_ULL(KPF_HWPOISON);
- 
-        u |= kpf_copy_bit(k, KPF_RESERVED,      PG_reserved);
-        u |= kpf_copy_bit(k, KPF_OWNER_2,       PG_owner_2);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 29f13cc6b52a2..7e14e58b98c38 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -5496,6 +5496,7 @@ static inline bool page_pool_page_is_pp(const struct page *page)
- #define PAGE_SNAPSHOT_FAITHFUL (1 << 0)
- #define PAGE_SNAPSHOT_PG_BUDDY (1 << 1)
- #define PAGE_SNAPSHOT_PG_IDLE  (1 << 2)
-+#define PAGE_SNAPSHOT_HWPOISON (1 << 3)
- 
- struct page_snapshot {
-        struct folio folio_snapshot;
-diff --git a/mm/util.c b/mm/util.c
-index bf0513d1d3d08..06195d0801130 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -1294,6 +1294,8 @@ static void set_ps_flags(struct page_snapshot *ps, const struct folio *folio,
-                ps->flags |= PAGE_SNAPSHOT_PG_BUDDY;
-        else if (page_count(page) == 0 && is_free_buddy_page(page))
-                ps->flags |= PAGE_SNAPSHOT_PG_BUDDY;
-+       if (is_page_hwpoison(page))
-+               ps->flags |= PAGE_SNAPSHOT_HWPOISON;
- 
-        if (folio_test_idle(folio))
-                ps->flags |= PAGE_SNAPSHOT_PG_IDLE;
+drivers/char/mem.c really belongs to core-mm.
 
+> 
+> 2. My solution - ugly but uniquely identifies the single permitted situation
+>    where this behaviour is desired.
+> 
+> 3. Export something from drivers/char/mem.c to mm - horrific for multiple
+>    reasons, violates separation of concerns etc. etc.
 
-(I'm starting to hate all these different hwpoison helpers)
+Jup.
+
+> 
+> 4. Move the driver code just for /dev/zero to mm - I thought a pretty horrible
+>    idea, but maybe we could have some mm/ bit and some driver/char bit like
+>    hugetlbfs or uffd? But I'm not sure there is a not-ugly way of doing this.
+>    MAP_SHARED /dev/zero does shmem stuff so maybe could live there.
+
+Given that I think drivers/char/mem.c really is core-mm material, something
+along these lines also make sense.
 
 -- 
 Cheers,
