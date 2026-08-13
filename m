@@ -1,140 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB4D31ED83;
-	Thu, 13 Aug 2026 20:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78051432306;
+	Thu, 13 Aug 2026 21:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786651756; cv=none; b=p/liAFUBDvVIdFZOPcHu88YLOc8ABbc6elHxD12tiigdr/jWcFtZU37enGfskgtRHpXT0YHZ7hBQoxJYquFw5SoCq4uEvQ54opIB/UBiAqHAJQNDcIBtXMywZbpimiDQd+Fl1TcKt6e7cQXpItqPgeLOPI5PMa9L229yqpR8rTU=
+	t=1786655134; cv=none; b=OOKVJoIOtN8FgCPkELW+r88V/GkshJ3hktGWf4m7bc0FgI+3WkmLSQ/2oI5llPTHsd4ipjF2mL1mr0N7JAixRVxl6xvbJeGRKzt3saorYxt4BhKlXufiPTYPUonFTz9nM/x2ONW4Lyivm30J6K2sFAbv7kxB6BPEQtfOwSJPcVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786651756; c=relaxed/simple;
-	bh=RfKzSi4yhE3RujD+5R8WEPDFZVI3w2Le+BVb2PgAZTc=;
+	s=arc-20240116; t=1786655134; c=relaxed/simple;
+	bh=SiYlYKj+35471qYe5HbwxjXNyiXXvBqXZXImPNAYxpQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cV/fDuhNtmaDFOJlHUjCq+5KeAN/6oxNtSWI93Yp7fkcv+Snr9YS/wWxU0DAm1Y/imKvKBL6pOORP5Jn7+Q24hw488koCpaKAXQtsR4bifQY7ExPYvUwrB1BbUb0EEyWQC2iGK1bKnDhNbdaVjyvACrO5GziWcPYXSvHWrSAc1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VkhpR6Wu; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mtk2ugmYoW84OwwP2BuToH3OayLh3u7eaekhBMt2o9HIJBTJeq1QHO96m4hux9+gll5oAwe/hnqhqNlRbWO3n03yXhut2zNa9teGN1SFsmz1/wxv8X1eRgbtxSndapmF6VHx8UVu/Hz6Bn5VijuYvDdWNHiar+3B+Mrt0K7facY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPH+g2K3; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VkhpR6Wu"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 38D9E1F000E9;
-	Thu, 13 Aug 2026 20:09:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786651755;
-	bh=HhaLsv22raD8jApFo4b8JM+GDP2JdkEdADTQvqg0tWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VkhpR6WuZSvjjnOQIS06CZEjUWs5mlWuE2DtPNljSTRR4Y1D/TQPMoUDIb+D8oqjI
-	 z1mcClipasj6XLSCUN32Us3hgg8BhhaY3Uto5/zediPtqFhzTy3IT/DJrIFKnlEaxN
-	 0cfTh/jurq3OZMwrZ0Pq9uWOczI5ovBhcw7zMGY+tvc+UPENugBt4zAa2dT2OagpdR
-	 HHnwhPsOLW0A50hG7mwB4PxyuMqspelzcuv2MuK2H4gCOT7Kz32Ag+JGyV/sRIA14D
-	 b48Y3eO4c1JJuh9XCAGokRJleyWclJKcwPcd0zCnzrW63yri/wiycvsvUDtfukmRxG
-	 C+q+M34R97MPQ==
-Date: Thu, 13 Aug 2026 13:09:14 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Matthias Goergens <matthias.goergens@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ansgar =?iso-8859-1?B?TPbfZXI=?= <ansgar.loesser@kom.tu-darmstadt.de>,
-	Dave Chinner <david@fromorbit.com>
-Subject: Re: [PATCH 0/2] vfs: report truthful FIDEDUPERANGE progress safely
-Message-ID: <20260813200914.GA7398@frogsfrogsfrogs>
-References: <20260805071414.3414870-1-matthias.goergens@gmail.com>
- <20260812-gastgewerbe-dementieren-landzunge-db991673a96a@brauner>
- <CAOQ4uxiiE0kks+4F92qJu2QnkL+rkHFvEz2ujZDgVYjGw0AVYA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPH+g2K3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786655131; x=1818191131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SiYlYKj+35471qYe5HbwxjXNyiXXvBqXZXImPNAYxpQ=;
+  b=UPH+g2K3E7+tJLvKaNhUo9yOtd1rFLtmmZe3q7dK0jLmXiWxlaWXjwGr
+   KtuqjPvjlv3A6Aj8XicNa1zNfn6prckI3lAn2xGCmY8uQXY7qklmJiTW5
+   IG6cRzENmo6JtrhAy4ZIbgLslQ9F4ndS7HqUb1Y9J2L05OcDtEVlxUP3V
+   2bOXy1pnbd4iXkHKXUaEKL1DAGoEn/0UWNDVslYY/F5306CPhsqTIc/OK
+   jKIaQQBIejZH+AfzVv5K3t61r3/LHvx+poy0V8Hk2i9f1bx97dn0EQ4WS
+   KCtAE5FYBgF01/EACX+f36PIN7QZSUUowwcACxNLyHSahuuGRwn7+57JD
+   Q==;
+X-CSE-ConnectionGUID: NtI3fkzUR4ePrMyxO404aw==
+X-CSE-MsgGUID: 3p4sk1InR8ej4qwMP0DiyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="91049714"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="91049714"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 14:05:27 -0700
+X-CSE-ConnectionGUID: ROTOgZb/SmikD8D/ghSEUw==
+X-CSE-MsgGUID: 4yuAmO5PStqOptyputgo2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="293973524"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2026 14:05:25 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wucc5-00000000Wec-40yF;
+	Thu, 13 Aug 2026 21:05:21 +0000
+Date: Fri, 14 Aug 2026 05:04:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hongling Zeng <zenghongling@kylinos.cn>, linkinjeon@kernel.org,
+	hyc.lee@gmail.com, charsyam@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: prevent write access to $MFT inode
+Message-ID: <202608140556.ICYSq5Cy-lkp@intel.com>
+References: <20260702063529.45448-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxiiE0kks+4F92qJu2QnkL+rkHFvEz2ujZDgVYjGw0AVYA@mail.gmail.com>
+In-Reply-To: <20260702063529.45448-1-zenghongling@kylinos.cn>
 
-On Thu, Aug 13, 2026 at 05:33:36PM +0200, Amir Goldstein wrote:
-> On Wed, Aug 12, 2026 at 9:46 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On 2026-08-05 15:14 +0800, Matthias Goergens wrote:
-> > > FIDEDUPERANGE currently reports the requested length even when the
-> > > filesystem shortens a destination range and deduplicates fewer bytes. A
-> > > previous one-line correction was reverted after generic/517 exposed the old
-> > > expectation and reviewers raised the risk that existing consumers could loop
-> > > on a successful zero-progress result.
-> > >
-> > > Patch 1 makes a non-zero request shortened to zero fail per destination with
-> > > -EINVAL, while preserving explicit zero-length success. Patch 2 then reports
-> > > the filesystem's actual positive progress. This ordering keeps every
-> > > intermediate kernel safe for callers that advance by bytes_deduped.
-> > >
-> > > The paired fstests update corrects generic/517 and adds raw ioctl coverage for
-> > > zero-length and mixed multi-destination results. Both tests pass on Btrfs and
-> > > XFS. Installed duperemove exits successfully on the measured corpus. Installed
-> > > rmlint does not hang or silently over-report; it exits 1 after the final
-> > > unaligned tail receives -EINVAL, which is recorded explicitly for review.
-> > >
-> > > A current-source consumer audit supports that ABI choice: duperemove completes
-> > > the request on a non-zero status; rmlint, bees and jdupes surface -EINVAL as
-> > > failure without retrying; dduper and xfs_io stop but can still report command
-> > > success. None retries, hangs or risks data corruption. Thus -EINVAL is the
-> > > only truthful result that also avoids exposing successful zero progress to
-> > > deployed duperemove binaries.
-> > >
-> > > Matthias Goergens (2):
-> > >   vfs: fail dedupe requests that cannot make progress
-> > >   vfs: report the amount of bytes actually deduplicated
-> >
-> > Needs input from Amir.
-> >
-> 
-> The logic seems sound to me.
-> Main well tested and accounted for,
-> the suggested fixed already aligned with the man page documentation
-> even:
-> EINVAL The  filesystem does not support deduplicating the ranges of
-> the given files.
-> could be interpreted to apply to this unaligned dedupe case
+Hi Hongling,
 
-The problem is that the weird bytes_deduped = len behavior has been
-around for years, even before any of it got hoisted to the VFS:
-https://elixir.bootlin.com/linux/v4.0.9/source/fs/btrfs/ioctl.c#L3025
+kernel test robot noticed the following build warnings:
 
-IOWs, the manpage is wrong.
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v7.2-rc7 next-20260812]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I suppose you could just merge this fix and the changes for
-xfsprogs/fstests and take your chances that nobody complains, but afaict
-duperemove isn't going to be happy:
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongling-Zeng/ntfs-prevent-write-access-to-MFT-inode/20260814-004837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260702063529.45448-1-zenghongling%40kylinos.cn
+patch subject: [PATCH] ntfs: prevent write access to $MFT inode
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140556.ICYSq5Cy-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140556.ICYSq5Cy-lkp@intel.com/reproduce)
 
-$ git grep bytes_deduped
-btrfs-extent-same.c:40: uint64_t bytes_deduped;         /* out - total # of bytes we
-btrfs-extent-same.c:138:                printf("i: %d, status: %d, bytes_deduped: %llu\n", i,
-btrfs-extent-same.c:139:                       info->status, (unsigned long long)info->bytes_deduped);
-btrfs-extent-same.c:141:                bytes += info->bytes_deduped;
-dedupe.c:110:                   "%llu, bytes_deduped: %llu, status: %d\n",
-dedupe.c:113:                   (unsigned long long)info->bytes_deduped, info->status);
-dedupe.c:233:   info->bytes_deduped = 0;
-dedupe.c:279:           if (info->bytes_deduped > max_deduped)
-dedupe.c:280:                   max_deduped = info->bytes_deduped;
-dedupe.c:282:           req->req_loff += info->bytes_deduped;
-dedupe.c:283:           req->req_total += info->bytes_deduped;
-dedupe.c:348:                     uint64_t *off, uint64_t *bytes_deduped,
-dedupe.c:364:   *bytes_deduped = req->req_total;
-dedupe.h:77:                      uint64_t *off, uint64_t *bytes_deduped,
-ioctl.h:16:     __u64 bytes_deduped;    /* out - total # of bytes we were able
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140556.ICYSq5Cy-lkp@intel.com/
 
-Notice how it increments a file offset based on bytes_deduped?
+All warnings (new ones prefixed by >>):
 
-A safer option would be to define a flags field and add a flag to enable
-the behavior that is documented and obviously makes more sense.
+   In file included from fs/ntfs/inode.h:13,
+                    from fs/ntfs/ntfs.h:26,
+                    from fs/ntfs/attrib.h:13,
+                    from fs/ntfs/lcnalloc.h:13,
+                    from fs/ntfs/file.c:19:
+   fs/ntfs/file.c: In function 'ntfs_file_write_iter':
+>> fs/ntfs/file.c:554:38: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+     554 |                 ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     555 |                                 ni->mft_no);
+         |                                 ~~~~~~~~~~
+         |                                   |
+         |                                   u64 {aka long long unsigned int}
+   fs/ntfs/debug.h:59:68: note: in definition of macro 'ntfs_error'
+      59 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+         |                                                                    ^
+   fs/ntfs/file.c:554:84: note: format string is defined here
+     554 |                 ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+         |                                                                                  ~~^
+         |                                                                                    |
+         |                                                                                    long unsigned int
+         |                                                                                  %llx
+   fs/ntfs/file.c: In function 'ntfs_filemap_page_mkwrite':
+   fs/ntfs/file.c:631:41: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+     631 |                 ntfs_error(inode->i_sb, "Attempt to write to $MFT via mmap denied (mft_no: 0x%lx)",
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     632 |                                 ni->mft_no);
+         |                                 ~~~~~~~~~~
+         |                                   |
+         |                                   u64 {aka long long unsigned int}
+   fs/ntfs/debug.h:59:68: note: in definition of macro 'ntfs_error'
+      59 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+         |                                                                    ^
+   fs/ntfs/file.c:631:96: note: format string is defined here
+     631 |                 ntfs_error(inode->i_sb, "Attempt to write to $MFT via mmap denied (mft_no: 0x%lx)",
+         |                                                                                              ~~^
+         |                                                                                                |
+         |                                                                                                long unsigned int
+         |                                                                                              %llx
 
-I don't know when you'd get bytes_deduped==0 since you'd think that
-would result in info->status being set to FILE_DEDUPE_RANGE_DIFFERS?
 
---D
+vim +554 fs/ntfs/file.c
 
-> Feel free to add
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> 
-> to both patches,
-> 
-> Thanks,
-> Amir.
+   537	
+   538	static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+   539	{
+   540		struct file *file = iocb->ki_filp;
+   541		struct inode *vi = file->f_mapping->host;
+   542		struct ntfs_inode *ni = NTFS_I(vi);
+   543		struct ntfs_volume *vol = ni->vol;
+   544		ssize_t ret;
+   545		ssize_t count;
+   546		loff_t pos;
+   547		int err;
+   548		loff_t old_data_size, old_init_size;
+   549	
+   550		if (NVolShutdown(vol))
+   551			return -EIO;
+   552	
+   553		if (ni->mft_no == FILE_MFT) {
+ > 554			ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+   555					ni->mft_no);
+   556			return -EACCES;
+   557		}
+   558	
+   559		if (NInoEncrypted(ni)) {
+   560			ntfs_error(vi->i_sb, "Writing for %s files is not supported yet",
+   561				   NInoCompressed(ni) ? "Compressed" : "Encrypted");
+   562			return -EOPNOTSUPP;
+   563		}
+   564	
+   565		if (NInoCompressed(ni) && iocb->ki_flags & IOCB_DIRECT)
+   566			return -EOPNOTSUPP;
+   567	
+   568		if (iocb->ki_flags & IOCB_NOWAIT) {
+   569			if (!inode_trylock(vi))
+   570				return -EAGAIN;
+   571		} else
+   572			inode_lock(vi);
+   573	
+   574		ret = generic_write_checks(iocb, from);
+   575		if (ret <= 0)
+   576			goto out_lock;
+   577	
+   578		err = file_modified(iocb->ki_filp);
+   579		if (err) {
+   580			ret = err;
+   581			goto out_lock;
+   582		}
+   583	
+   584		if (!(vol->vol_flags & VOLUME_IS_DIRTY))
+   585			ntfs_set_volume_flags(vol, VOLUME_IS_DIRTY);
+   586	
+   587		pos = iocb->ki_pos;
+   588		count = ret;
+   589	
+   590		old_data_size = ni->data_size;
+   591		old_init_size = ni->initialized_size;
+   592	
+   593		if (NInoNonResident(ni) && NInoCompressed(ni)) {
+   594			ret = ntfs_compress_write(ni, pos, count, from);
+   595			if (ret > 0)
+   596				iocb->ki_pos += ret;
+   597			goto out;
+   598		}
+   599	
+   600		if (NInoNonResident(ni) && iocb->ki_flags & IOCB_DIRECT)
+   601			ret = ntfs_dio_write_iter(iocb, from);
+   602		else
+   603			ret = iomap_file_buffered_write(iocb, from, &ntfs_write_iomap_ops,
+   604					&ntfs_iomap_folio_ops, NULL);
+   605	out:
+   606		if (ret < 0 && ret != -EIOCBQUEUED) {
+   607			if (ni->initialized_size != old_init_size) {
+   608				mutex_lock(&ni->mrec_lock);
+   609				ntfs_attr_set_initialized_size(ni, old_init_size);
+   610				mutex_unlock(&ni->mrec_lock);
+   611			}
+   612			if (ni->data_size != old_data_size) {
+   613				truncate_setsize(vi, old_data_size);
+   614				ntfs_attr_truncate(ni, old_data_size);
+   615			}
+   616		}
+   617	out_lock:
+   618		inode_unlock(vi);
+   619		if (ret > 0)
+   620			ret = generic_write_sync(iocb, ret);
+   621		return ret;
+   622	}
+   623	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
