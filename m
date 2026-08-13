@@ -1,191 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA18246C825
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786623990; cv=none; b=UproLVND8u31C5wDMI6e4VKZYUtMk1YcwbjaLphln8JgDQYiurt9ZB9I0Qu4tzV8KYoReTTrxgkZkdOQJKMM3usj/rpNNvaD09lKy7QH5h2W4MFXLS3p6L2w0JICCKN27usrp4xp4ZpI/boYbzPysaPdEEmQCRZnqUf2bP26xsE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786623990; c=relaxed/simple;
-	bh=fbbCVXxT1ANltLofetS/dVm1nYc8boYcdGvU45amxOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lie5/FbCTEyo8zSHeWknnZ7cz55m2valadHNKpjFtPSosWwh0QbtFC6tdSi4h2da5ILVbqSloTB9xKhrCpd1CM1fSaDkHFg5IJXmJSQULF7CrxtT45ykeLeIkCti/wnVV2za2p35A+1lN7shMSywwaHGSglLSc6KUzAyX3UduOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SFZZDr0m; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235254772B3
+	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 12:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786625046; cv=pass; b=UYYMJQgj3kI/Cf4QlPNRChpO7fH/zz1mtZjVdxoapndyMJPR0FbiW2OgmOocWvJ0Hp3jDE993oc0nu3B5VWmI0m/KD/s6s9wIKuwviiv0Am0J1LXTmS03mUbXpg4mQaqfdqFT8U7Z1inA5bN+T1XJpqk+djtJ2XgYfGPkbzwKL4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786625046; c=relaxed/simple;
+	bh=8MzUWj3rgn1GnbdJfRHSG5hyWrOQ49fk1AOnT9UoUDs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AW24sVhI3A7ZZ2LKmncJQR48u66r8oPOOqYfGmcQK+hUCU/NYowccT7GZ3Jx7sEhRd2ocemK9ImSfgU+MIe723MAcodqEc7tXEUlP514ZiY9V4mihs1DMfFpuKKDo6hEbe7dqFMndX8ka9O60rkilyrWnXCydPct7qGFaFonsUY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=JR8iZQWh; arc=pass smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SFZZDr0m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146151F000E9;
-	Thu, 13 Aug 2026 12:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786623988;
-	bh=haUzX1yJaoSCQjBkM+FTLwJWwxXiI4Xbs+U7tNejh7E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SFZZDr0msEMWKEXT06FkXlTkAMy42YabPqmsDRBoVSzmObCHAGUYaUYKe7tD8hoFx
-	 98r5DNP3Ia4i1NXfWBANfT9LkisYinUWZVDjX2cDCTrAOAZh9bAzYCUX0s8qNhSSDe
-	 MV5VqkITGp9Q73rtjNu6XjwjY0a6Vq8uRJfv2GXs=
-Date: Thu, 13 Aug 2026 21:19:47 +0900
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hajime Tazaki <thehajime@gmail.com>
-Cc: linux-mm@kvack.org, geert@linux-m68k.org, daniel@thingy.jp,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to
- /dev/zero
-Message-ID: <2026081355-remold-sterility-84f9@gregkh>
-References: <20260813063401.1786548-1-thehajime@gmail.com>
- <20260813063401.1786548-4-thehajime@gmail.com>
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="JR8iZQWh"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8111c0c7561so23886307b3.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 05:43:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786625031; cv=none;
+        d=google.com; s=arc-20260327;
+        b=okgvmJbkEA4RtbB1zpv2ZvBCgww6+0g9zGSN0lUDeRyOMW6hdeUVrSkDvb32tir6X9
+         Q2LgICFxMbdcvRkhZ5o9um6TtyqmRbAgSD1GeB8Ec8ze8Ji/c0gLkOTmE0n3i/jJYJIz
+         iHzVJ0Gh3VoZlbtIqR44H7wOn0QMBKFjCcu26hqzbwTwhQ0iUwXu3RM5xVjtjZ/B0xVT
+         DDqLotmmRpD9vRHofzVaPYqscsAxjE0nZNpKPUxPpAMu61357W8occJ4b+WXF6tjKIYU
+         KU4YOYehxKN0JOesVppfHgM4wnVYvxFMoXPu5jN3pLA9RkUTjjdnm15gl4wqz2saWRdZ
+         zeng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=8MzUWj3rgn1GnbdJfRHSG5hyWrOQ49fk1AOnT9UoUDs=;
+        fh=gNiVuuLlrBzL6TFgmbbrGkoskbkBaYy8oIX8SCT3KYw=;
+        b=erpZRc+IjNaqCHEm2UsQDl1TGpZi1mmohpfplvGHcR84hVE2lfU+Jr7VcRLKH0Kvog
+         ou9eafp6QPbc3ZzD9SdfUyh1zgM25jOi1gHjyLwhYeXav8zaQGGEhaDGaBNNHnE7r+8v
+         yqK5sKVk4YSPpO6cWKr/AZ6NfTgftr/MsCDkd08JKInP661Eb5SOQDGxEf1UP4mqwtak
+         XQh7prJ5S7aF0v1XelwBhuimajGZM7OtBSVJrNmle3aWs6Lj8zuGqU5gTJuDukoqNZZF
+         EapSdPRMkQxwPIWCoMdu33c3mk+DEn57EEcXB6/v9sQCkwUgiKmp8OIbcJWKS3jSg/O+
+         0sdA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1786625031; x=1787229831; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8MzUWj3rgn1GnbdJfRHSG5hyWrOQ49fk1AOnT9UoUDs=;
+        b=JR8iZQWh8VCxNhPa1AL2YL/+TWtG1REZ4nNx5PGGQWhUsZefUFx6//+BS9WBHE75O7
+         OJQfBuM+FmXS4Mo9uzfeKDoiSsySFbH7/mYmjKABLSJIOjVjRnwdRlbjCeGsk6904SR4
+         zdJ9LHF62bQvnZ6FOe3ZJOyIOY9gM+yZC/cYg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786625031; x=1787229831;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=8MzUWj3rgn1GnbdJfRHSG5hyWrOQ49fk1AOnT9UoUDs=;
+        b=H+W6NDdohHVX5dob+cPDs07G1KFBKD1/W7OTfvV219oVV6/23puh0yMgXECLigO2fO
+         HJEbcBE/g7RGUA/7F9nRx3Avg2w/YQCSiZ3hLC+2XopTwI2onX8gpQLnpI8EIHzQ96Ym
+         uw2J1wkbtgDdplxpXqyoOHKe54oQAZiobgpFhFLtHcku7QSXZRF2CetR4LlIMvGYnWFb
+         cUdPuu5OIJiJ+sFMnADNXjlp9Yi1JgUiLBEHw2WU/GzwzjOGKv3lxUt8XMmscOmJqu9N
+         +GU+8U9cfy89kLk0YiMvNL4x8SsF5J3qdKTG/EuTV4rFzQnUApAmI8QGZmLPuP2jdewb
+         G8jQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrdnzl7ld9Ef63K3YjkCQAkb+5TRFVvM3CMzPh7YbZVyX2tbK/bNcRYhrTpRs2MVpBWRfB6ao0bIzswq8EP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWMkCt8wHs7Hivn5jD6sTp/q276s6Ihv2K0I2bZU/dFLJ75PaK
+	i+QJW2KiQBUaOsCsQRJiNUzfcXRNtkOfrkz94/VXOWizJUi97ap8rygYrvJwHaKhyJf82tP+xTu
+	POnFvfBIjPr+19Tjmp9oeFMbWOymwdFQ5dW2GZXsWWg==
+X-Gm-Gg: AR+sD13bZ2y/BKIsIWO9dMDS0cAqZePIid695UNgnOlfWn54b7pu1XMdM5ji66Ln6rp
+	R3EffE9InR6sQOVgWZLnvsd29/tgB6palHjZBnVDVJ56Vj6Qlc7W5nwt61AqTwbConhndyh8UY4
+	v+TSXDvVmgULZvs/68PrI7e8Mi8qO2H2F7ASGcTVoyi6ax8mXgjJhOP4TLXW0uHmeHUP+yYORaZ
+	3uRc8HIg7VFUc+iWlw5J54XosuIYwbQD2GZCwaIEseSW2dwexUY7IyZpzVwsFDoALS87GJv9G0R
+	LxaAkXxMVvKMEj1xhTnLh+SnJEWaFrCQ/IvlZaM6zLV8IwPz333GlB6E2MinfY3Buuk/PmcH4V7
+	X+g==
+X-Received: by 2002:a05:690c:6604:b0:80c:3848:bde6 with SMTP id
+ 00721157ae682-8347604ac58mr25851337b3.30.1786625030082; Thu, 13 Aug 2026
+ 05:43:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260813063401.1786548-4-thehajime@gmail.com>
+References: <20260813063401.1786548-1-thehajime@gmail.com> <20260813063401.1786548-4-thehajime@gmail.com>
+ <2026081355-remold-sterility-84f9@gregkh>
+In-Reply-To: <2026081355-remold-sterility-84f9@gregkh>
+From: Daniel Palmer <daniel@thingy.jp>
+Date: Thu, 13 Aug 2026 21:43:37 +0900
+X-Gm-Features: AUfX_mxLK2-tTZ4HbMKH826rkOgcLTFpV3jXv1YZv32aeraWoqNHTweMz1gVfTY
+Message-ID: <CAFr9PX=zC8GnxwrR=wTwA4xQq89cHYpxZWooS+-=Q-WuNbjanQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to /dev/zero
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org, geert@linux-m68k.org, 
+	Arnd Bergmann <arnd@arndb.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 13, 2026 at 03:33:58PM +0900, Hajime Tazaki wrote:
-> Upon a private file mapping request to /dev/zero, it calls
-> kernel_read() in do_mmap_private(), getting a failure with the message
-> like: "kernel reads not supported for file /dev/zero", which is because
-> zero_fops defined in drivers/char/mem.c has both .read and .read_iter
-> definitions.
+Hi Greg,
 
-Do you actually use a no-mmu system?
+On Thu, 13 Aug 2026 at 21:26, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 
-> Even fixing this issue, the map request to /dev/zero works fine without
-> errors but the allocated vma isn't marked with anonymous because
-> mmap_zero_prepare() isn't called under nommu platform, resulting
-> vma_desc_set_anonymous() isn't called either.
-> 
-> This commit fixes those issues by:
-> 1) use vfs_iter_read() instead to avoid failure at kernel_read()
-> 2) calls .mmap_prepare on private mapping in do_mmap() so that required
->    preparations are done even in private mapping.
-> 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: "Liam R. Howlett" <liam@infradead.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Pedro Falcato <pfalcato@suse.de>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org (open list:PAGE CACHE)
-> Fixes: 4d03e3cc5982 ("fs: don't allow kernel reads and writes without iter ops")
+> Given the age of this issue, I don't think anyone uses no-mmu systems
+> anymore :(
 
-Given the age of this issue, I don't think anyone uses no-mmu systems
-anymore :(
+There are a few of us using it for hobby stuff[0][1] and there are
+apparently people using it for actual commercial stuff.
+There was a session about this at LPC 2025...
 
+One of the big problems for nommu seems to be that everyone is
+convinced it is completely unused and totally broken. :)
 
+Cheers,
 
-> Assisted-by: cubic.dev:unspecified
-> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
-> ---
->  drivers/char/mem.c |  5 ++-
->  mm/filemap.c       |  6 ++--
->  mm/nommu.c         | 84 ++++++++++++++++++++++++++++++++++++++++++++--
->  3 files changed, 87 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
-> index 63253d1de5d7..dba24d0a7b33 100644
-> --- a/drivers/char/mem.c
-> +++ b/drivers/char/mem.c
-> @@ -500,11 +500,10 @@ static ssize_t read_zero(struct file *file, char __user *buf,
->  
->  static int mmap_zero_prepare(struct vm_area_desc *desc)
->  {
-> -#ifndef CONFIG_MMU
-> -	return -ENOSYS;
-> -#endif
-> +#ifdef CONFIG_MMU
->  	if (vma_desc_test(desc, VMA_SHARED_BIT))
->  		return shmem_zero_setup_desc(desc);
-> +#endif
->  
->  	/*
->  	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index d721986d5f46..cf02faad86aa 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -4077,7 +4077,7 @@ int generic_file_mmap(struct file *file, struct vm_area_struct *vma)
->  }
->  int generic_file_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	return -ENOSYS;
-> +	return 0;
->  }
->  int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
->  {
-> @@ -4085,7 +4085,9 @@ int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
->  }
->  int generic_file_readonly_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	return -ENOSYS;
-> +	if (is_shared_maywrite(&desc->vma_flags))
-> +		return -EINVAL;
-> +	return generic_file_mmap_prepare(desc);
->  }
->  #endif /* CONFIG_MMU */
->  
-> diff --git a/mm/nommu.c b/mm/nommu.c
-> index e40990e15831..a29a53c1c80a 100644
-> --- a/mm/nommu.c
-> +++ b/mm/nommu.c
-> @@ -37,6 +37,7 @@
->  
->  #include <linux/uaccess.h>
->  #include <linux/uio.h>
-> +#include <linux/major.h>
->  #include <asm/tlb.h>
->  #include <asm/tlbflush.h>
->  #include <asm/mmu_context.h>
-> @@ -856,6 +857,22 @@ static int validate_mmap_request(struct file *file,
->  	return 0;
->  }
->  
-> +static int is_file_anonymous(struct file *file)
-> +{
-> +	if (!file)
-> +		return 1;
-> +
-> +	if (file->f_path.dentry && file->f_path.dentry->d_inode) {
-> +		struct inode *inode = file->f_path.dentry->d_inode;
-> +		/* if the device is /dev/zero */
-> +		if (S_ISCHR(inode->i_mode) &&
-> +		    imajor(inode) == MEM_MAJOR && iminor(inode) == 5)
-> +			return 1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * we've determined that we can make the mapping, now translate what we
->   * now know into VMA flags
-> @@ -869,7 +886,11 @@ static vm_flags_t determine_vm_flags(struct file *file,
->  
->  	vm_flags = calc_vm_prot_bits(prot, 0) | calc_vm_flag_bits(file, flags);
->  
-> -	if (!file) {
-> +	/* private and file mapping will be marked anonymous later (do_mmap_private()).
-> +	 * and /dev/zero is marked by them at .mmap_prepare,
-> +	 * which should be _before_ this point.
-> +	 */
+Daniel
 
-Wrong coding style for the comment, which is very typical of
-LLM-generated stuff.  Always rewrite the output of these tools to
-actually be sane.
-
-thanks,
-
-greg k-h
+0 - Really good example(s) of the 68000 port
+https://github.com/crmaykish/mackerel-68k
+1 - https://github.com/LinuxMD/linuxmd my version of the 68000 code
+with devicetree like those fancy ARM things running on a sega
+megadrive.
