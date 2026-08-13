@@ -1,121 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4738417BD2
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 11:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5366416852;
+	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786621891; cv=none; b=LZyg2qbM+cp+Azb8rkIxcG6pyrwRmjJs5nQqN/vrrbnCyVF9xAVfamL5445is2UTPoYI65wcUA0Jh+N5EBPr8nkqF6CQttextX3sM/WTnDOE5Vrg2JIB/98AZo+oAc2SwZUCS8dHvWG6Jrn01vQkBtoihWeP9i1Z6cYZsb9nss0=
+	t=1786623530; cv=none; b=eKY2zcbicfp94vHubGlOjuqE8xK6aAzVkWy99DL2Zp/EQj3IgBcd1uUCbAKtIJysARcJSR7/ZqdNZMv94PSsWDG2gPziUj3pZv8VKKSnW2TCyzPVhT3MQsgq+klGHuCLX25HNjSeeDYWc9KIEc9AEprbx2kPpJb9hqmyzeWxF9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786621891; c=relaxed/simple;
-	bh=3HkEaQiRlR1XZ3DDZ2fVYnvgbJ9qmUQXOloIeGQa7gU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ODL3qCEQFtzIIzREhSeijJyzWn2qgMEv/jKNlt07nOv1/IkrFL9MQ43Pp8aHKsCj6UrMnGQWgNPf7gT+lKr923UHkq8EEbU9LpbxNPIPUGl+m3+/Ys6gyW45LtYsdkug29KYRtc6eSaeBje8n9YBC+DYiNUYYka9OGWjyAKsQ2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AMVToVk4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786623530; c=relaxed/simple;
+	bh=RQxbygSuwuyad2h3rnwJdX+5/FDgwJkAzThNIKfsnKw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jl8tGU4TtvYn8aQnETdvEkKn5QodTdwxJBD9A2JkrnFFL4KqKqKbvppKCKhwSQv6EtAJI/Ycl3zp2FHRR0dkMvR7LoDv/LWArcrRxmN6EN/yibc2Pry2ClFCHrQPeAzrGj6UMVO258zCTp2uoWGwDPv9E3d+1tXxC2rjoqeblXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wkb8wCBH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AMVToVk4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3DB81F000E9;
-	Thu, 13 Aug 2026 11:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786621889;
-	bh=JvESJkga9jdlK0rgNoYtj3HeOE+zzwc0hSXdxTbTp0o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AMVToVk4MFkR7P4cmxVK1KGPrT2kUbr3NX9zQalw94nz2PqbcTBReXKNgk2gPLsls
-	 yVRUWAgPSrtw9Ny4VIrXWNYwwikUi1PSeuxw6ClzbfPM9EjafJDrXsvyCuYz2kkjFI
-	 fryOK4XINON/elk09G74hV1TT4vCHNJ0sQ7haD4fGAYOj/G1KvzNe+guhG1UdrZiNI
-	 Pz5arx2wk6jwUCNynDjul98OPA3aUofKMzaTUHV0q8+YbZ25o9xQ/T6KEJbkFVRewz
-	 lECyQv/dVyADzouIgs/HyQ1rceLrMkwvof/n4lksAEx4ceeaL3crbYfHN/xp/n2+XB
-	 N0QtPpredee0Q==
-Date: Thu, 13 Aug 2026 19:51:21 +0800
-From: Gao Xiang <xiang@kernel.org>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz
-Subject: Re: [PATCH v6 2/2] erofs: reuse superblock for file-backed mounts
-Message-ID: <an2vuT1Va8JjdLug@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Giuseppe Scrivano <gscrivan@redhat.com>,
-	linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz
-References: <20260812142907.1010046-1-gscrivan@redhat.com>
- <20260812142907.1010046-3-gscrivan@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wkb8wCBH"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 903E7C2BCFA;
+	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786623530;
+	bh=RQxbygSuwuyad2h3rnwJdX+5/FDgwJkAzThNIKfsnKw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Wkb8wCBHVyP7hmrq29NCqd3BCfuAro9J22h1l7HqmDzflqEPhjAiUVuztmjDGGai7
+	 Nt9/Al03eqBCZtffr4YFe2pRjCRm2dIhRO0kjcjwEMTX46makDPB6LPf8E08lnwoc7
+	 VoW72KTwhh4o8dqQj3D+Z16wqlfxrxeK362wZQdumu6/35iN0RPL9zpLgPY8uJAmnx
+	 N1+rXsDAQCR5e5wGXlbN5CtdZ/cyMNpcD10eDsT2bsjaYjdRtPooMuJo8UQOMJOOdR
+	 M2+nAuMNtJOUe/cv0Jc+VtFnOhcXSyDlgJGpyMq0lYQSfiEFk1U4KR0JKuVVI8wvDH
+	 Je/kAy+K166jQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70EC7C5CFCF;
+	Thu, 13 Aug 2026 12:18:50 +0000 (UTC)
+From: Joel Granados <joel.granados@kernel.org>
+Date: Thu, 13 Aug 2026 14:18:39 +0200
+Subject: [PATCH 3/4] sysctl: Disallow partial updates for erroneous sysctl
+ vectors
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260812142907.1010046-3-gscrivan@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260813-lklm-partial_ctlvec-v1-3-df9e51c13704@kernel.org>
+References: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
+In-Reply-To: <20260813-lklm-partial_ctlvec-v1-0-df9e51c13704@kernel.org>
+To: Kees Cook <kees@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ linux-mm@kvack.org
+Cc: Jianlin Shi <shijianlin11@foxmail.com>, akpm@linux-foundation.org, 
+ vbabka@kernel.org, hannes@cmpxchg.org, surenb@google.com, mhocko@suse.com, 
+ jackmanb@google.com, ziy@nvidia.com, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Joel Granados <joel.granados@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4178;
+ i=joel.granados@kernel.org; h=from:subject:message-id;
+ bh=RQxbygSuwuyad2h3rnwJdX+5/FDgwJkAzThNIKfsnKw=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGp9tidSYtNXQW85HJlqyfka+JzTA3W1ID/P+
+ //JCQ9gVdu7kIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqfbYnAAoJELqXzVK3
+ lkFPrKsMAJAzfNd9gpRVn5Z31OoG1SWQsmpB08hMmYsLfLwkc/lQvgoZPRcjQTTTRuqSOhCFKdX
+ K6x65TcNfs6csSK5kjZhwTQ95EQeEKsV7Rz3y6NAq6eajw568s6sdAzmCHTn3LHR+Fgm7IaUF29
+ i5mI9AN93rogslFVW324J3b0wLgV/Lz4GgNRjeoGfuU/iWcAY/aOTHOXpNqsUSM3oeC4iyi2cDw
+ xTt8wnM+2TN+REMFCe//9jJOTSSuh7OXLCxKlFVdxk+RQZfz+fDME/93ccuLETuW915qQzjriKu
+ 5tMlt56XSXUyciuU6ecNHBhlQBU20VvJ0fDpqwbs1Rg7cPXdQ3w+hKTS2ncbVBrhjl2NyeIkP28
+ lt/n2BiyVqANSfOTwhkF1C7WsaMeI9xY00Dl5yHbzpPVqLuA/CGnWOAEdDsu/q43Mndga/89Ov7
+ vfO2pcxsVB5CBYSWgpqS+av6TDfhJklrItyjulhjUkUcUkqrdYjDcA4i8WGjqf+D3S2XvVSxQ/5
+ iQ=
+X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
+ fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
+X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
+ auth_id=239
 
-On Wed, Aug 12, 2026 at 04:28:04PM +0200, Giuseppe Scrivano wrote:
-> When the same file-backed image is mounted multiple times (via path or
-> fd) with the superblock_share mount option, reuse the existing
-> superblock instead of creating a new one.  This allows multiple mounts
-> of the same image to share in-kernel data structures more efficiently.
-> 
-> The backing file is identified by its inode and fsoffset.  If mount
-> options conflict or extra devices are used, a separate superblock
-> is created transparently as a fallback.  Remount is not allowed on
-> shared superblocks.
-> 
-> Tested by mounting a 177M Fedora EROFS image 20 times with full
-> traversal:
-> 
->   #!/bin/sh
->   IMG=${1:-/root/fedora.erofs}
->   OPTS=${2:+-o $2}
->   N=20
->   DIR=$(mktemp -d)
->   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
-> 
->   sync; echo 3 > /proc/sys/vm/drop_caches
->   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
->   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
-> 
->   for i in $(seq 1 $N); do
->       mkdir $DIR/m$i
->       mount -t erofs $OPTS "$IMG" $DIR/m$i
->       find $DIR/m$i > /dev/null
->   done
-> 
->   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
->       awk '{print $3}' | sort -u | wc -l)"
->   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
->       awk '{print $2}') - INODES_BEFORE ))"
->   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
->       awk '{print $2}') - MEM_BEFORE )) kB"
-> 
-> without superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs
->   Superblocks: 20
->   erofs_inode delta: +45864
->   Slab delta: +37448 kB
->   real	0m2.311s
->   user	0m0.222s
->   sys	0m1.998s
-> 
-> with superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs superblock_share
->   Superblocks: 1
->   erofs_inode delta: +2044
->   Slab delta: +284 kB
->   real	0m0.679s
->   user	0m0.157s
->   sys	0m0.469s
-> 
-> The time difference shows that sharing the superblock also benefits
-> the page cache and inode cache, as subsequent mounts of the same image
-> avoid re-reading the backing file.  This is particularly useful for
-> container hosts running multiple containers from the same base image.
-> 
-> Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+When updating the kernel sysctl vectors there is a chance that not all
+vector elements are updated due to erroneous input. Use a staging
+variable that holds a copy of the vector and commits to the actual
+table->data only when all input is successfully updated.
 
-Reviewed-by: Gao Xiang <xiang@kernel.org>
+The staging is only for vectors; cases where table->data points to a
+variable should not be staged as they will not be updated on input
+error. PROC_VEC_UINT is not included because UINT arrays are not
+allowed.
 
-Thanks,
-Gao Xiang
+Replace first with nr_conv, incremented where first was cleared. first
+is exactly nr_conv == 0, and the counter doubles as the number of
+elements to publish.
+
+Example of behavior that is being prevented:
+
+  # echo "4 4 1 7" > /proc/sys/kernel/printk
+  # echo "1 x" > /proc/sys/kernel/printk
+  -bash: echo: write error: Invalid argument
+  # cat /proc/sys/kernel/printk
+  1 4 1 7 <- incorrect
+
+It should be unchanged ("4 4 1 7") on error.
+
+Link: https://lore.kernel.org/all/tencent_A860C873956A52E26AD8D309A308A241BA08@qq.com/
+Signed-off-by: Joel Granados <joel.granados@kernel.org>
+---
+ kernel/sysctl.c | 65 +++++++++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 52 insertions(+), 13 deletions(-)
+
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index c5fa916e626a336c004d596f4c74f829b1cdc5e1..787f53d70507b1583518f86d50d526828462a902 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -637,6 +637,26 @@ static int proc_vec_conv(enum proc_vec_type type, union proc_vec_conv conv,
+ 	return -EINVAL;
+ }
+ 
++static int commit_conv_vec(const enum proc_vec_type data_type, void *dst,
++			    const void *src, size_t nr)
++{
++	size_t i;
++
++	switch (data_type) {
++	case PROC_VEC_INT:
++		for (i = 0; i < nr; i++)
++			WRITE_ONCE(((int *)dst)[i], ((const int *)src)[i]);
++		return 0;
++
++	case PROC_VEC_ULONG:
++		for (i = 0; i < nr; i++)
++			WRITE_ONCE(((ulong *)dst)[i], ((const ulong *)src)[i]);
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
+ /**
+  * apply_conv_on_vec - Apply converter function on data vector
+  *
+@@ -654,22 +674,31 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+ 			     const size_t buf_nbyte, void *buf,
+ 			     size_t *buf_left_final)
+ {
+-	int vec_left, first = 1, err = 0;
+-	size_t buf_left;
+-	char *data, *p;
++	int vec_left, err = 0;
++	size_t buf_left, nr_conv = 0;
++	char *data, *data_stage = NULL, *p;
+ 	bool is_unsigned = data_type == PROC_VEC_UINT || data_type == PROC_VEC_ULONG;
+ 
+-	data = table->data;
+-	vec_left = table->maxlen / data_size;
+ 	buf_left = buf_nbyte;
+ 
++	data = table->data;
+ 	if (SYSCTL_USER_TO_KERN(conv_dir)) {
+ 		if (buf_left > PAGE_SIZE - 1)
+ 			buf_left = PAGE_SIZE - 1;
+ 		p = buf;
++
++		if (table->maxlen > data_size) {
++			data_stage = kmemdup(table->data, table->maxlen, GFP_KERNEL);
++			if (!data_stage) {
++				err = -ENOMEM;
++				goto out;
++			}
++			data = data_stage;
++		}
+ 	}
+ 
+-	for (; buf_left && vec_left--; data += data_size, first = 0) {
++	vec_left = table->maxlen / data_size;
++	for (; buf_left && vec_left--; data += data_size, nr_conv++) {
+ 		unsigned long lval;
+ 		bool neg = false;
+ 
+@@ -694,20 +723,30 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+ 				err = -EINVAL;
+ 				break;
+ 			}
+-			if (!first)
++			if (nr_conv)
+ 				proc_put_char(&buf, &buf_left, '\t');
+ 			proc_put_long(&buf, &buf_left, lval, neg);
+ 		}
+ 	}
+ 
+-	if (SYSCTL_KERN_TO_USER(conv_dir) && !first && buf_left && !err)
+-		proc_put_char(&buf, &buf_left, '\n');
+-	if (SYSCTL_USER_TO_KERN(conv_dir) && !err && buf_left)
+-		proc_skip_spaces(&p, &buf_left);
+-	if (SYSCTL_USER_TO_KERN(conv_dir) && first)
+-		return err ? : -EINVAL;
++	if (SYSCTL_USER_TO_KERN(conv_dir)) {
++		if (!err && buf_left)
++			proc_skip_spaces(&p, &buf_left);
++		if (!nr_conv) {
++			err = err ? : -EINVAL;
++			goto out;
++		}
++		if (!err && data_stage)
++			err = commit_conv_vec(data_type, table->data, data_stage, nr_conv);
++	} else {
++		if (nr_conv && buf_left && !err)
++			proc_put_char(&buf, &buf_left, '\n');
++	}
++
+ 	*buf_left_final = buf_left;
+ 
++out:
++	kfree(data_stage);
+ 	return err;
+ }
+ 
+
+-- 
+2.50.1
+
+
