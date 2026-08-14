@@ -1,154 +1,476 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AC533F5BF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 12:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A804611CA
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 12:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786708913; cv=none; b=fDxtWl4JFVX6aNUZlT7YweCJjHHyzAYa6nmflx1zxtmcE9H9q6UrfH796XCZz7+Lhe0BT/iWyFI4FvmhNKw1aGDYxkV7UdDiyZbdU5uCtdmgoaJ7v59/Y8YHgJL3fipyZ40B20TMkG8WPGjPw0/Ohd0IusdQzBG7wr1K2g2RhQs=
+	t=1786709594; cv=none; b=WfDojIqX3RuhVU9GP/tEG0rn8mM7Ovv8JxzM2YTDFEeB9cIw7I15H13G9xNhwWUA1cUJ6zDD4UWo3ubvNLFAEXI8gJCDTZA3LKVgqQWzXMF+RHE1SOXEJ8s4TSMw44VvoGwzWlF+ZG1JqVUyJfvKvluQangFXf3noSaiIOsXA0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786708913; c=relaxed/simple;
-	bh=W0lWD9norO8ho877RT4s8d5/whlAlXiHVbgDmcsbUlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVnJ7zQ2NKYgCxQ62fY9VWHAP8JWsZjVtETD2q8EnQQ1SSs+dH0JX+ukJa8pIMEvd1WJFaW1w2Lmj5+nCOzvfnba/Ub/sq+u+RkIduHWaF9dB1qySXPcJDyoQxwxbPcEoGHh1cCVNZ/8S0v1XFaZc11/fve08db96UIrDne9R7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaSlOtfc; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786709594; c=relaxed/simple;
+	bh=qRP6Fzrjzx581TLe+ODwZowV0EVL4ovgm7DtoSn/IK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FKzXkpRwyf6BUwSOn/1YbFXJlXT5uob3aREgb8BbFA8w/GwgmfiFlM5whRoJySZQJXVQk6Jx9D1dMzPNPV+BVerkU5g0iRltGANNZjLKsVEk2MnMD14Yy3aObxOSZuRUBB/a+j+Dk753qDeOUlIEnpo5UxYSyYEXDvXqxOPJqFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=qOZjTn35; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaSlOtfc"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84862b0d5aeso634083b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 05:01:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="qOZjTn35"
+X-KPN-MessageId: 59c7a061-97d9-11f1-b2a8-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 59c7a061-97d9-11f1-b2a8-005056abbe64;
+	Fri, 14 Aug 2026 14:11:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786708912; x=1787313712; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o9s8AN57wB7Vi/36kIlm/41aiy/3Kyf8X3cTuSCNC9g=;
-        b=KaSlOtfcJTORSjzWQnYFc3w2dVrVkQiguB4YeCRJLouWGE0KapMM+5wS+T6myekMnw
-         R5Ezn3atktAk0NEUscMjQCSbatXctgPEI2NrLCEsHsC/kiI+89YvAuBaxfvY2JZlBQwz
-         lAuqD4j/EV8rlnBwYlXFt4RdKh8JhHLrHJ7Uni/X7z2NC9/p9tdKV+Vk7CCLRbrgMV0a
-         ILI41IQbOJKGMX9XMaT88kFte0Mab5Hy4yuI0dsXbxMQu/9eaGb+0R02CwWxN65KqwYL
-         SWnv6hr9XWdzZzxciGMNhqk8DEHGAdhBAnx/om+3x009tWKeO4OytH/Ki7S2b8FpiHdP
-         WSAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786708912; x=1787313712;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o9s8AN57wB7Vi/36kIlm/41aiy/3Kyf8X3cTuSCNC9g=;
-        b=UuXFEqyRIhPIPHkmBiDg0Yo7V6oFU2GpwJBQwRVZfgDIOY4pD1CFl0D5TRmZFhCJGU
-         0x8krh5FoeRE+xpvgBjuPfeXdPAjmoYwqT+iN4wVJ8Kyg34GWjNNrrOj/9ekgLsqatZd
-         Ah9R17wVMfIlKLWhStegW0TocNnG77JUGRFhrkbNnyKNATjlQgIK/pJazlZIIXj+Vu3y
-         NQFwLz6GyIyThPXrZmAvqjtJXCRMFM6NNCMDXa4c/KRezTfEI3itKTUhu+F2FJvod95V
-         hC4Sc/k0pEhPJS6+UVNAAyo8vxMsjGltKa42uzsJw6bFd3WUsHJKc+0OY0Rll/bc2ayz
-         nSFw==
-X-Gm-Message-State: AOJu0YwzTY6DknTi7+E77Iw2VLvbKZTkt4IzGfwT2mHxknWrmAPuDbk/
-	Y/FAJ2U8XTzXJ1q8YOsr6R+Jjp32ozas7EVOW7dclcE7p0Fry1dVTRRS
-X-Gm-Gg: AR+sD11my11OkFgmNDgKFc9JfVx6QPFtBmAxJ23akDHvFUSNK/2MOZq85cTqABDBNa2
-	xBJfaCscrWmn5PUxgPU1PqmxQ6duw9RFKHCLQggswna0aOzy8+Nw3uxScRUaP264tmb04aCyAXl
-	GliAfDiI/Sw29DwhQ6Hxs54CFj8P1lCZHGEoMsaqRd8xl/AkDjAoMEeFYzmY/AIqk+l4vS0hxNG
-	R1jwo6tet1EGw0nlZj5RwahlIOXEZ6/0XWV6Mq/ppxfwo9ndZlGXb5fH52Vh7sypiw/pb7sLGTK
-	Vb44ZMyKsCaFuANWXjKJbbQBbUAxqINoIHdIFfEerLYpDID/+Qh6xHI7fpRSz4W/X27cDMvFrTH
-	8H/SzCQunlm+UnXdOlPtDecKupDeMhTMFGY/URorZrp20rq+vTzqVi1TEdBemyd1RbA1sGU2+Pr
-	gF4yoe46+yrmbZ52dK6Q85mZnzcf5lRtE2YmOi9t9UbO5PO5Dp0yThvTcymOcy6iicOWzfgCp60
-	hoftiL6
-X-Received: by 2002:a05:6a00:9a0:b0:84e:e741:174f with SMTP id d2e1a72fcca58-84fddf87594mr5396442b3a.7.1786708911472;
-        Fri, 14 Aug 2026 05:01:51 -0700 (PDT)
-Received: from v4bel ([58.123.110.97])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8517d01c2e7sm384922b3a.13.2026.08.14.05.01.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 05:01:50 -0700 (PDT)
-Date: Fri, 14 Aug 2026 21:01:47 +0900
-From: Hyunwoo Kim <imv4bel@gmail.com>
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, tglx@kernel.org,
-	ebiederm@xmission.com
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, imv4bel@gmail.com
-Subject: Re: [PATCH] posix-cpu-timers: Dequeue per-thread timers before
- exchange_tids()
-Message-ID: <an8Dq_XUMobC395V@v4bel>
-References: <anfgrsPlUdwBhdrp@v4bel>
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=yuhW5fo8gy1KkAMB4l09VmCtFZcOuXgv/fiRdg5ZL1E=;
+	b=qOZjTn35WUPpguvHoJUiq/w/F87r48/DKoCLIVB6VEI1Ojr+PoJdj+7+fc6CzIA4AWIjatAG8cljV
+	 igs2WgsjszQQfa6lvlOwzJDiQu06eKn6267iD/KpnbNUZhtQkp3QyCI/kecrL5bPUqqlhLY+J9FZ3F
+	 7/f3NlFv+jlVPzyH48JQmBo3Cmeq8oRfa1Pr0BRXSRnwrpN4uuG1TKdKAnq0i0LaOYJ8bwBcvnRuSa
+	 UTfL3fcrKE/D/36VCWI52MYZNovWIeQ8Qh8pPq9UbQNk64cp0Bsqtqe5U3Pen97XSU+peY2NIUeDrj
+	 brCUyAaraqHZBCcBAB6R/tyxS8+zW6Q==
+X-KPN-MID: 33|9ChYjJnDPT3l0Ays0qVKIsUU0iOj+G1ghhU6+jGgrKsrFVLeCq8BHvF2W3el+m/
+ gXAtcGZaYxxFo5ktPjS6njplZ+Bsh0iMqPO2yDPaPE/I=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|RlvkgBEKurAXFDxvQ1VjkPWifvkAUeqkGFL1vKyY2Sq+my5Cejil7lel/aEqUlo
+ GiWenWiTmiUPfFK+fbtDHKg==
+Received: from fedora (unknown [223.38.87.107])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 4f9dcac9-97d9-11f1-86b3-005056ab7584;
+	Fri, 14 Aug 2026 14:11:58 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: brauner@kernel.org,
+	cyphar@cyphar.com,
+	kuniyu@google.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org
+Cc: netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jkoolstra@xs4all.nl
+Subject: [PATCH net-next v7 4/4] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
+Date: Fri, 14 Aug 2026 08:11:31 -0400
+Message-ID: <20260814121131.151003-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anfgrsPlUdwBhdrp@v4bel>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 09, 2026 at 11:06:38AM +0900, Hyunwoo Kim wrote:
-> A per-thread CPU timer holds a reference to the PID of the thread it is
-> attached to and, while it is armed, its node is queued in that thread's
-> posix_cputimers. The task is looked up by that PID.
-> 
-> When a non-leader thread exec()s, de_thread() changes which task owns
-> that PID:
-> 
->   de_thread(tsk)
->     exchange_tids(tsk, leader);		// tsk's PID now belongs to leader
->     ...
->     release_task(leader)
->       __exit_signal(leader)
->         posix_cpu_timers_exit(leader);	// cleans leader's queue, not tsk's
->         __unhash_process(leader)	// that PID has no task anymore
-> 
-> pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL, but the node
-> is still queued on tsk, which is alive. timer_lock_sighand() takes a
-> failed lookup to mean that the node is already dequeued, so it has
-> nothing to undo.
-> 
-> begin_new_exec() calls posix_cpu_timers_exit(me) right after
-> exec_task_namespaces() and that removes the leftover node, so the state
-> normally stays invisible. But bprm->point_of_no_return is set before
-> de_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or
-> exec_task_namespaces() fails, the task dies before it gets there.
-> exit_itimers() then frees the k_itimer while its node is still queued,
-> and reaping tsk later erases that freed node from the rbtree.
-> 
-> Dequeue the per-thread CPU timers of tsk before the PID changes hands, so
-> that a failed lookup again implies a dequeued node. Process-wide timers
-> are looked up with PIDTYPE_TGID and transfer_pid() moves that link to
-> tsk, so they are left alone.
-> 
-> Fixes: 55e8c8eb2c7b ("posix-cpu-timers: Store a reference to a pid not a task")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
-> ---
->  fs/exec.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index c7b8f2d6366c44..f80f70e1c26de4 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1000,6 +1000,18 @@ static int de_thread(struct task_struct *tsk)
->  		 * the former thread group leader:
->  		 */
->  
-> +#ifdef CONFIG_POSIX_TIMERS
-> +		/*
-> +		 * exchange_tids() hands this thread's PID to the old leader,
-> +		 * which is reaped right after. The PID lookup in
-> +		 * timer_lock_sighand() then fails while the per thread CPU
-> +		 * timers are still queued here, so dequeue them first.
-> +		 */
-> +		spin_lock(lock);
-> +		posix_cpu_timers_exit(tsk);
-> +		spin_unlock(lock);
-> +#endif
-> +
->  		/* Become a process group leader with the old leader's pid.
->  		 * The old leader becomes a thread of the this thread group.
->  		 */
-> -- 
-> 2.43.0
-> 
+Tests SCM_RIGHTS fd passing on a socket with the new socket option
+SO_RIGHTS_NOTRUNC turned on. To hook into the security_file_receive()
+call, BPF is used. The BPF program shares a hashmap with userspace that
+lists the inos to be blocked (of the receiver tgid).
 
-Gentle ping. Any feedback on this patch would be appreciated.
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ .../testing/selftests/net/af_unix/.gitignore  |   2 +
+ tools/testing/selftests/net/af_unix/Makefile  |   8 +
+ tools/testing/selftests/net/af_unix/config    |   7 +
+ .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
+ .../net/af_unix/scm_rights_denial_lsm.c       | 292 ++++++++++++++++++
+ 5 files changed, 345 insertions(+)
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
 
+diff --git a/tools/testing/selftests/net/af_unix/.gitignore b/tools/testing/selftests/net/af_unix/.gitignore
+index 973176644103..954f0958dd03 100644
+--- a/tools/testing/selftests/net/af_unix/.gitignore
++++ b/tools/testing/selftests/net/af_unix/.gitignore
+@@ -3,6 +3,8 @@ msg_oob
+ scm_inq
+ scm_pidfd
+ scm_rights
++scm_rights_denial_lsm
++scm_rights_denial_lsm.bpf.o
+ so_peek_off
+ unix_connect
+ unix_connreset
+diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
+index 57d159803a3a..a66f10fb0c23 100644
+--- a/tools/testing/selftests/net/af_unix/Makefile
++++ b/tools/testing/selftests/net/af_unix/Makefile
+@@ -11,10 +11,18 @@ TEST_GEN_PROGS := \
+ 	scm_inq \
+ 	scm_pidfd \
+ 	scm_rights \
++	scm_rights_denial_lsm \
+ 	so_peek_off \
+ 	unix_connect \
+ 	unix_connreset \
+ 	unix_listen \
+ # end of TEST_GEN_PROGS
+ 
++TEST_GEN_FILES := scm_rights_denial_lsm.bpf.o
++
+ include ../../lib.mk
++include ../bpf.mk
++
++$(OUTPUT)/scm_rights_denial_lsm: $(BPFOBJ)
++$(OUTPUT)/scm_rights_denial_lsm: CFLAGS += -I$(SCRATCH_DIR)/include
++$(OUTPUT)/scm_rights_denial_lsm: LDLIBS += -lelf -lz
+diff --git a/tools/testing/selftests/net/af_unix/config b/tools/testing/selftests/net/af_unix/config
+index 41dbb03c747e..46450fea8407 100644
+--- a/tools/testing/selftests/net/af_unix/config
++++ b/tools/testing/selftests/net/af_unix/config
+@@ -1,4 +1,11 @@
+ CONFIG_AF_UNIX_OOB=y
++CONFIG_BPF=y
++CONFIG_BPF_EVENTS=y
++CONFIG_BPF_JIT=y
++CONFIG_BPF_LSM=y
++CONFIG_BPF_SYSCALL=y
++CONFIG_DEBUG_INFO_BTF=y
++CONFIG_SECURITY=y
+ CONFIG_UNIX=y
+ CONFIG_UNIX_DIAG=m
+ CONFIG_USER_NS=y
+diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+new file mode 100644
+index 000000000000..4f2414465bfd
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/bpf.h>
++#include <linux/errno.h>
++#include <bpf/bpf_helpers.h>
++#include <bpf/bpf_tracing.h>
++
++char _license[] SEC("license") = "GPL";
++
++struct inode {
++	unsigned long i_ino;
++} __attribute__((preserve_access_index));
++
++struct file {
++	struct inode *f_inode;
++} __attribute__((preserve_access_index));
++
++struct {
++	__uint(type, BPF_MAP_TYPE_HASH);
++	__uint(max_entries, 16);
++	__type(key, __u64);	/* inode number */
++	__type(value, __u32);	/* tgid of the receiver being tested */
++} denied_inodes SEC(".maps");
++
++SEC("lsm/file_receive")
++int BPF_PROG(scm_rights_deny, struct file *file)
++{
++	__u32 tgid = bpf_get_current_pid_tgid() >> 32;
++	__u64 ino = file->f_inode->i_ino;
++	__u32 *owner;
++
++	owner = bpf_map_lookup_elem(&denied_inodes, &ino);
++	if (owner && *owner == tgid)
++		return -EPERM;
++
++	return 0;
++}
+diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+new file mode 100644
+index 000000000000..55c7ecdbb5fe
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+@@ -0,0 +1,292 @@
++// SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <sys/socket.h>
++#include <sys/stat.h>
++#include <sys/types.h>
++
++#include <bpf/bpf.h>
++#include <bpf/libbpf.h>
++
++#include "kselftest_harness.h"
++
++#ifndef SO_RIGHTS_NOTRUNC
++#define SO_RIGHTS_NOTRUNC 85
++#endif
++
++#define NR_FILES 2
++
++/* Per-file content, so a received fd can be matched to the file sent */
++#define SECRET(n) "secret %d", (n)
++
++/* Indices into the socketpair */
++#define SK_SENDER 0
++#define SK_RECEIVER 1
++
++FIXTURE(scm_rights_denial_bpf)
++{
++	struct bpf_object *obj;
++	struct bpf_link *link;
++	int map_fd;
++	int sk[2];
++	int files[NR_FILES];
++	__u64 inos[NR_FILES];
++	char paths[NR_FILES][64];
++};
++
++FIXTURE_VARIANT(scm_rights_denial_bpf)
++{
++	int sock_type;
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, stream)
++{
++	.sock_type = SOCK_STREAM,
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, dgram)
++{
++	.sock_type = SOCK_DGRAM,
++};
++
++FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, seqpacket)
++{
++	.sock_type = SOCK_SEQPACKET,
++};
++
++FIXTURE_SETUP(scm_rights_denial_bpf)
++{
++	struct bpf_program *prog;
++	char lsms[256] = {};
++	int i, fd;
++
++	if (geteuid() != 0)
++		SKIP(return, "requires root");
++
++	fd = open("/sys/kernel/security/lsm", O_RDONLY);
++	ASSERT_GE(fd, 0);
++	ASSERT_LT(0, read(fd, lsms, sizeof(lsms) - 1));
++	close(fd);
++
++	if (!strstr(lsms, "bpf"))
++		SKIP(return, "BPF LSM not active (boot with lsm=...,bpf)");
++
++	self->obj = bpf_object__open_file("scm_rights_denial_lsm.bpf.o", NULL);
++	ASSERT_NE(NULL, self->obj);
++	ASSERT_EQ(0, bpf_object__load(self->obj));
++
++	prog = bpf_object__find_program_by_name(self->obj, "scm_rights_deny");
++	ASSERT_NE(NULL, prog);
++
++	self->link = bpf_program__attach_lsm(prog);
++	ASSERT_NE(NULL, self->link);
++
++	self->map_fd = bpf_object__find_map_fd_by_name(self->obj,
++						       "denied_inodes");
++	ASSERT_GE(self->map_fd, 0);
++
++	ASSERT_EQ(0, socketpair(AF_UNIX, variant->sock_type, 0, self->sk));
++
++	for (i = 0; i < NR_FILES; i++) {
++		struct stat st;
++
++		snprintf(self->paths[i], sizeof(self->paths[i]),
++			 "/tmp/scm_rights_denial_bpf.%d.XXXXXX", i);
++		self->files[i] = mkstemp(self->paths[i]);
++		ASSERT_GE(self->files[i], 0);
++
++		ASSERT_LT(0, dprintf(self->files[i], SECRET(i)));
++
++		ASSERT_EQ(0, fstat(self->files[i], &st));
++		self->inos[i] = st.st_ino;
++	}
++}
++
++FIXTURE_TEARDOWN(scm_rights_denial_bpf)
++{
++	bpf_link__destroy(self->link);
++	bpf_object__close(self->obj);
++
++	for (int i = 0; i < NR_FILES; i++) {
++		if (self->files[i] >= 0) {
++			close(self->files[i]);
++			unlink(self->paths[i]);
++		}
++	}
++
++	close(self->sk[SK_SENDER]);
++	close(self->sk[SK_RECEIVER]);
++}
++
++static int deny_inode(int map_fd, __u64 ino)
++{
++	__u32 tgid = getpid();
++
++	return bpf_map_update_elem(map_fd, &ino, &tgid, BPF_ANY);
++}
++
++static int set_notrunc(int sk)
++{
++	int one = 1;
++
++	return setsockopt(sk, SOL_SOCKET, SO_RIGHTS_NOTRUNC,
++			  &one, sizeof(one));
++}
++
++static int send_fds(int sk, int *fds, int n)
++{
++	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))] = {};
++	char data = 'x';
++	struct iovec iov = {
++		.iov_base = &data,
++		.iov_len = sizeof(data),
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++		.msg_control = ctrl,
++		.msg_controllen = CMSG_SPACE(n * sizeof(int)),
++	};
++	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
++	int ret;
++
++	cmsg->cmsg_level = SOL_SOCKET;
++	cmsg->cmsg_type = SCM_RIGHTS;
++	cmsg->cmsg_len = CMSG_LEN(n * sizeof(int));
++	memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
++
++	ret = sendmsg(sk, &msg, 0);
++	if (ret != 1)
++		return -1;
++
++	return 0;
++}
++
++static int recv_fd_slots(int sk, int *slots, int *msg_flags)
++{
++	int nr_slots;
++	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))];
++	char data;
++	struct iovec iov = {
++		.iov_base = &data,
++		.iov_len = sizeof(data),
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++		.msg_control = ctrl,
++		.msg_controllen = sizeof(ctrl),
++	};
++	struct cmsghdr *cmsg;
++
++	if (recvmsg(sk, &msg, 0) < 0)
++		return -1;
++
++	*msg_flags = msg.msg_flags;
++
++	cmsg = CMSG_FIRSTHDR(&msg);
++	if (!cmsg)
++		return 0;
++
++	nr_slots = (cmsg->cmsg_len - CMSG_LEN(0)) / sizeof(int);
++	memcpy(slots, CMSG_DATA(cmsg), nr_slots * sizeof(int));
++
++	return nr_slots;
++}
++
++/* Prove a received fd works by reading back the file's content. */
++static int check_secret(int fd, int idx)
++{
++	char want[32], got[32] = {};
++
++	snprintf(want, sizeof(want), SECRET(idx));
++	if (pread(fd, got, sizeof(got) - 1, 0) < 0)
++		return -1;
++
++	return strcmp(want, got);
++}
++
++TEST_F(scm_rights_denial_bpf, all_allowed)
++{
++	int slots[NR_FILES], nr_slots, flags;
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++
++	for (int i = 0; i < nr_slots; i++) {
++		ASSERT_GE(slots[i], 0);
++		EXPECT_EQ(0, check_secret(slots[i], i));
++		close(slots[i]);
++	}
++}
++
++TEST_F(scm_rights_denial_bpf, first_denied)
++{
++	int slots[NR_FILES], nr_slots, flags;
++
++	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[0]));
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++	
++	EXPECT_EQ(-EPERM, slots[0]);
++	for (int i = 1; i < nr_slots; i++) {
++		ASSERT_GE(slots[i], 0);
++		EXPECT_EQ(0, check_secret(slots[i], i));
++		close(slots[i]);
++	}
++}
++
++TEST_F(scm_rights_denial_bpf, all_denied)
++{
++	int slots[NR_FILES], nr_slots, flags, i;
++
++	for (i = 0; i < NR_FILES; i++)
++		ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[i]));
++
++	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
++	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(NR_FILES, nr_slots);
++	EXPECT_EQ(0, flags & MSG_CTRUNC);
++
++	for (i = 0; i < nr_slots; i++)
++		EXPECT_EQ(-EPERM, slots[i]);
++}
++
++TEST_F(scm_rights_denial_bpf, denied_without_notrunc)
++{
++	int slots[NR_FILES], nr_slots, flags;
++
++	/*
++	 * Baseline behaviour without SO_RIGHTS_NOTRUNC: the fd array is
++	 * truncated at the first denied fd and MSG_CTRUNC is set.
++	 */
++	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[1]));
++
++	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
++	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
++
++	ASSERT_EQ(1, nr_slots);
++	EXPECT_NE(0, flags & MSG_CTRUNC);
++
++	ASSERT_GE(slots[0], 0);
++	EXPECT_EQ(0, check_secret(slots[0], 0));
++	close(slots[0]);
++}
++
++TEST_HARNESS_MAIN
+-- 
+2.55.0
 
-Best regards,
-Hyunwoo Kim
