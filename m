@@ -1,98 +1,60 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AC8486BB4
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 17:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7435348986B;
+	Fri, 14 Aug 2026 17:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786727493; cv=none; b=QB8nhqghM3UAxOVF2bZ5qusK3Ya5z+Jzgz/HPoWmJTbbuTYngBG1rlC2eiw3pKCf/ldAfiUqZSGpzahqWhWTr5JKf9gM06eXPPfrHNeKWQWZU8sn6NTYYTODCjnUHaK3S1C5JTzgJjuiTnFFlhFfVyOUA5DHlTDOUuNj6ygJ3ic=
+	t=1786727910; cv=none; b=l0x4DPZ+47HsaeGWmB6Y+AO3vaeGMOx5WDLU9pejscHsV2OTeg4wLKtZms3n/JA7uOrvu+a4keriLHF3WS/98F4jFF/qfsjs2W81+Cbu/2mSoUUMbm5YBKB4dDsmFxeOxxW/GTgmsqJR/MbfPIA8ckisZcMJEkAYIlqcwXBrDDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786727493; c=relaxed/simple;
-	bh=FhEtj15wjnMeErkkmMqpImECkf4rarJWJJl67l4mdmM=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=WdNEKnwlhKyoioEwAU2J0W9xYW01Lg5AdBh4+hNsssn9VVM4zAMBjL/NXAdpN/jSrPpSa7Tl8/PtVq5HNLOTU60ChtzmSCU5s5FM8RxZdRjFMZTnNqtoVsC6Y6gMYnpN/XObEZihRsg9KmMWFP0+mH/2t5SDCWLiTsxBs8mgyUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=kdLs6o5C; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1786727910; c=relaxed/simple;
+	bh=IwdqeWZnjxwEtCIEl7VLdPWxeLhZIMc1FdsaidIV/B8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=emS0QnUqxDTaRBQI7Vi+ypyWb/CQKh0CDY6D4VppY2yBxx6AD7ePjgmLxq8w5BOmoQW8KrwqH/bCmK0SWzzLjmujllaNzg9LR45CFpAJiR2NZdUx4gUuOz1Tpi2F94E7m7QbuxUOXqzaWhqnrnLdRwTkHmdxrFj2oWNu9DxgJyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtDh6bqG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="kdLs6o5C"
-X-KPN-MessageId: 06dbf0d1-9803-11f1-a5a2-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 06dbf0d1-9803-11f1-a5a2-005056994fde;
-	Fri, 14 Aug 2026 19:10:19 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 06dad6fb-9803-11f1-ac0a-00505699693e;
-	Fri, 14 Aug 2026 19:10:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=AzP2lR0vTf8TmxPBEWtjcvGIt6IQe1WpxGHRhjuSXkk=;
-	b=kdLs6o5CX9yOjFKHoR/yN8rhBgqhK9w0WQfhRKTcZ17OeBKzaSbwInElVWDrhIXigWIdkNPWzEfvL
-	 voyQg8bRVn9IbRV5WUiynisxgzHZns6Ypskbi81Z2LiQZeTMAdS9pGXJnzlcAm1my5AYITYJ4+gJFt
-	 vljfixpK4Bx6q06mczb2BAYlgQt6t2ZvQok1jZ4cr2UHdZ8bYkDtPcvqnGN6X2XMWkMZq78C0hzfHd
-	 gfYHemR29kDRfFzqLefCRc2R33GSDAWKiDh7JNKRRPP7+7P7DAQxe1/EybzqMYog5Hiv8sN16BGCPG
-	 J10Ul+efteYLFrFTbGUFO5J1bXZfH4w==
-X-KPN-MID: 33|VX9fPnJFxnxchsqyrKvMP7wq8iM3Sc0nmBKB+IjQGnv/ES9inkdiDRFvmNEOBg2
- A5sUlGR1+iPwuske83kQfGDANnNQS/zChZzLunVM9fbs=
-X-CMASSUN: 33|EhVoIpc83iWIixecPhQtDljQWoDQSz/BVE6+GddXAM0yXB6ClUZrMMptLNEr8s9
- wNGXUD/5SX7xyZY6SXg+v8w==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 06cd2fd7-9803-11f1-916a-005056995d6c;
-	Fri, 14 Aug 2026 19:10:19 +0200 (CEST)
-Date: Fri, 14 Aug 2026 19:10:19 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Jakub Kicinski <kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtDh6bqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D5E1F000E9;
+	Fri, 14 Aug 2026 17:18:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786727909;
+	bh=Dr/l12RSEyep1GEBnmjxR7b9X1pp8AOjVzwzfDa3Sh8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=QtDh6bqGaTEVnIdHQbmn06lufxOqzjlDpqCEATarnMLIZWKQGV3aELEoGfgIOogts
+	 eaGNQzZETAxID4JfCH9yX7zsJDq8LlUb1jJYQS1VercesdNQOPl62DNNTLGnBcUSZD
+	 0WTeuCpSXs+/WDUb+ebtm3/69Y2bJz2fbQ2cEmL8Sa9aONBP23zGaRjpRM0svUt7VP
+	 EJKXT/YlAIBxhQ+AOAGBPCEFRR7LK8axlei0TByu3PAKDbyZWbnXZnLdxs9UcsdEpc
+	 7T95ilVa9cQRyS46q2VrL7GeTkknv7XnID2Kli/elYUkpriPnOVwBAtvxT7nHgbrp0
+	 n4B21W3cL9BpQ==
+Date: Fri, 14 Aug 2026 10:18:28 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
 Cc: brauner@kernel.org, cyphar@cyphar.com, kuniyu@google.com,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <68018741.501644.1786727419159@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260814095511.4e302a24@kernel.org>
-References: <20260814121131.151003-1-jkoolstra@xs4all.nl>
- <20260814095511.4e302a24@kernel.org>
-Subject: Re: [PATCH net-next v7 4/4] selftest: Add tests for useful handling
- of LSM denials on SCM_RIGHTS
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v7 0/4] net: af_unix: useful handling of LSM
+ denials on SCM_RIGHTS
+Message-ID: <20260814101828.2ea54f8a@kernel.org>
+In-Reply-To: <1036785927.390839.1786639504241@kpc.webmail.kpnmail.nl>
+References: <20260813162818.149248-1-jkoolstra@xs4all.nl>
+	<1036785927.390839.1786639504241@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
 
+On Thu, 13 Aug 2026 18:45:04 +0200 (CEST) Jori Koolstra wrote:
+> My "smart" email provider blocker me from sending more email. Since I am in South Korea
+> that is apparently suspicious. Now patch 4 is missing. I'll try to rectify that. Is there
+> any sane email provider that any of you use?
 
-> Op 14-08-2026 12:55 EDT schreef Jakub Kicinski <kuba@kernel.org>:
-> 
->  
-> On Fri, 14 Aug 2026 08:11:31 -0400 Jori Koolstra wrote:
-> > Tests SCM_RIGHTS fd passing on a socket with the new socket option
-> > SO_RIGHTS_NOTRUNC turned on. To hook into the security_file_receive()
-> > call, BPF is used. The BPF program shares a hashmap with userspace that
-> > lists the inos to be blocked (of the receiver tgid).
-> 
-> Sigh. You are ccing netdev@ only on the selftest.
-> I think that this is a clear indication that the selftest 
-> does not belong under tools/testing/selftests/net
+Ah.. shit.  I crashed out at you on patch 4 assuming the rest of 
+the code is in LSM.
 
-Oh no it absolutely should and this series has gone through several iterations
-at this point through the netdev list.
-
-Sorry about this, I am abroad and my email provider apparently has some ridiculous
-rate limiting for foreign IPs, so I sent the series and only the first 3 got through.[1]
-I contacted them and they basically said "screw you." I wanted to attach this message to
-the other ones, but apparently that didn't go as intended.
-
-Can this be taken like this, or does it screw with the CI? Basically it was some
-minor fixes and everything has been reviewed by Brauner and Iwashima already.
-
-Thanks,
-Jori.
-
-[1]: https://lore.kernel.org/linux-fsdevel/1036785927.390839.1786639504241@kpc.webmail.kpnmail.nl/T/#m4faa7ec5fea0e075b3db9113fa3d9faf7e2cd1d6
+You gotta repost the whole thing, sorry. Patchwork (and lore) weren't
+able to connect the dots. We have 2 separate incomplete series in PW.
