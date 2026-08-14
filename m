@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF70B480334;
-	Fri, 14 Aug 2026 15:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284B235E94E;
+	Fri, 14 Aug 2026 15:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786721127; cv=none; b=lmR60y3jBeFgSW2PJIvz3k+ywmGW2mF4zPp513lrkLWPt+xUmsksI8xsSSFyxLedr9Q1XtXGBSp8p+woyANEDmH69k6bkPy9oIObr/16MOjiVxSXOo2Q3sSXc4wnTBnEWMpnvLDS5AFAdXhSRKieggnxInDBX4eJYyYSfS/4F8k=
+	t=1786721313; cv=none; b=pG9IdEYmZYtk/n6B4MkeCsfPl23I3BZhYoTbSEO6G7zHRKnhIVC5dClepAZqrrlevzRa7ivhFDKgFoRp0oyhpNnBOaPziH1U4N90d1LawhRvcBSnz1oyvxKMWKLfFbYvOaqAV0FLI7CXQPv9yLyVquWFLYv1MaklAWGYge1lftE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786721127; c=relaxed/simple;
-	bh=6LYC7jlI3AzbuvaoWAGLDhWeJIrZSIflhauoXti/vnI=;
+	s=arc-20240116; t=1786721313; c=relaxed/simple;
+	bh=iwwl7tA9ewbSGRP4ccZNGQKabPl8czDoTI/an99LtVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QHLRFKejdhoDRz9Dl577z10ALRmZ9Ab+DxPTkvqq5mYnW/fN4OtlEed4whJCRGLdM+n2UaWDdl7Qa+iz3k3m1FFGd3MvRlRbO2TbFACIiq7+xbf1Z852mHBc7zXSowG23zXecdo5xGwbDnbBw4FMfSpp3x9tOBAbP55w6A9co9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JQm8oqA6; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcVL6DhDNHcGyp6gyIijAixtgzzbxwNIjyVhEqj/BWpzzkyxpbhA5VRdOQZjHW9feTAcWguRZbRaaVfFem/0V+wA0XsaFGIpuJzgbfZeKkrxT9JLZPNQz2Gi2TumpFxjuzN8xTU/xvl8i82AVo58qV/VuAun9r6OvRO/b1yZvV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOgTfaKe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JQm8oqA6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2DAB1F00A3A;
-	Fri, 14 Aug 2026 15:25:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOgTfaKe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7390C1F000E9;
+	Fri, 14 Aug 2026 15:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786721125;
-	bh=ocXmal97LmWIM6Rl49/KY6LlAMcW3ICYwnksGSRQk6Y=;
+	s=k20260515; t=1786721311;
+	bh=hfnvBXRVOTB7UT8A93hr18ROs6Wwefr9xY+1heqpBJs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JQm8oqA6VgwrfOQL9uey/KiMO3KIuI7DFtUCgegFBbY9nAZq1EPUvo5aAqQJ6brmq
-	 ZxrJYdEzHJfQfN2E+X7FMFhZSE1D5NGZDabelw/oXWAiEhtlwUMgD3mx6bR6yIp2ui
-	 brxcdtZzAE6tMiH9KNbuVfFAtNYXNMMH9g30QYZTfIpBQKIoE8HcXtKRG9NAmUVzTb
-	 XbMalkP8TpX5YDAZSFJurvUqZZrrDRierDEOoVlGvfZknCrWDLHWktB3CyHrtxKrp2
-	 j9QzTZqMWkGwd5aODKtTuuOm9pRElLGfyKOJ78TuKc89g/ML0/fjJKSpgr09ITG9HV
-	 m+mG3Rhgf/K2Q==
-Date: Fri, 14 Aug 2026 10:25:06 -0500
-From: Seth Forshee <sforshee@kernel.org>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: Qu Wenruo <wqu@suse.com>, clm@fb.com, dsterba@suse.com,
-	josef@toxicpanda.com, brauner@kernel.org,
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH] btrfs: use mount idmap for defrag permission check
-Message-ID: <an8zUrSeI9xNTjCL@ubuntu-x1>
-References: <20260813034146.1207640-1-cui.tao@linux.dev>
- <bd66065f-bae5-482a-84d6-a78850c9cebe@suse.com>
- <an36yH30W965eqZk@ubuntu-x1>
- <1168774a-74d3-4e77-98e3-cd688a2d7e0f@linux.dev>
+	b=IOgTfaKexlHmfyEydeEBLUvjl60WHSEyWt/VjxtmEpyqay1FoofA6G96R9QKQ8mf3
+	 8kMNHXq52CPyXTyTdBL15v6jkqdIjLybowkEjHtwArjmH1fYuVIA5ZZJIf4A/DHJTQ
+	 THmH6zUE04N2SSf0uSd+wrINct/KBc3GsJfcYPxJW8Xz2nIkcQDhU3rSiLYX0xc6aN
+	 Yzd4mlrzNf3DOziy1xWuTFsSq2U7IBUBqHnT/DhEPn/8m6Y88Hm1EQwTDi0NfUPfXT
+	 4qWMr36pZYY2UcuRNXsNajrV5nZCtQ3dWD4Dbw21ErQUxNezHa7XrHSPXFoBLqsHxL
+	 pMAmycp/38pcQ==
+Date: Fri, 14 Aug 2026 17:28:10 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Omar Sandoval <osandov@osandov.com>
+Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jacob Lalonde <jalalonde@fb.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 00/11] coredump: allow to create sparse coredumps on the
+ coredump socket
+Message-ID: <20260814-geflecht-sachdienlich-ergibt-c736999f80ff@brauner>
+References: <20260811-work-coredump-sparse-v1-0-cd3e8b1e356d@kernel.org>
+ <an36FFL9ALwCPhEe@telecaster>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,63 +51,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1168774a-74d3-4e77-98e3-cd688a2d7e0f@linux.dev>
+In-Reply-To: <an36FFL9ALwCPhEe@telecaster>
 
-On Fri, Aug 14, 2026 at 01:15:51PM +0800, Tao Cui wrote:
-> 
-> 
-> 在 2026/8/14 01:11, Seth Forshee 写道:
-> > On Thu, Aug 13, 2026 at 04:04:05PM +0930, Qu Wenruo wrote:
-> >>
-> >>
-> >> 在 2026/8/13 13:11, Tao Cui 写道:
-> >>> From: Tao Cui <cuitao@kylinos.cn>
-> >>>
-> >>> btrfs_ioctl_defrag() checks MAY_WRITE with nop_mnt_idmap, which skips
-> >>> the mount idmap.  On an idmapped mount the owner comparison then uses
-> >>> the caller's fsuid against the raw on-disk uid, dropping the mapping.
-> >>> Every other permission/owner check in btrfs ioctl uses
-> >>> file_mnt_idmap(file) (e.g. :1152, :1310, :1946); this one missed it.
-> >>>
-> >>> Switch to file_mnt_idmap(file).  It equals nop_mnt_idmap on a normal
-> >>> mount, and the check stays behind !capable(CAP_SYS_ADMIN), so only
-> >>> unprivileged callers on idmapped btrfs change.  The RO-fd note in the
-> >>> comment above is about the file descriptor, not this inode check, and
-> >>> is unaffected.
-> >>>
-> >>> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
-> >>
-> >> Fixes: 4609e1f18e19 ("fs: port ->permission() to pass mnt_idmap")
+On Thu, Aug 13, 2026 at 10:08:36AM -0700, Omar Sandoval wrote:
+> On Tue, Aug 11, 2026 at 05:27:21PM +0200, Christian Brauner wrote:
+> > A coredump generated via the coredump socket ends up transferring
+> > zeroed data when a mapping contains holes. For a large process that
+> > maps a bunch of data that's wasting a ton of work.
 > > 
-> > This is a misattribution. Using nop_mnt_idmap there keeps the behavior
-> > the same as it was before the commit. Switching to the mount idmap opens
-> > up BTRFS_IOC_DEFRAG* to idmapped users when they weren't before, which
-> > is a separate policy decision that didn't belong in that change.
+> > Jacob ran into this and Josef has bitched^wcomplained about this to me
+> > before. I dislike the coredump_filter bit solution in [1] which stops
+> > each PT_LOAD at the last populated page.
 > > 
-> Agreed, I'll resend it as a behavior change with no Fixes tag.
-> > Saying that these ioctls should be allowed for idmapped users just
-> > because others are isn't a good justification. Why are these ioctls safe
-> > for idmapped users?  Do they actually require this capability?
+> > The problem is real though. I don't think coredump_filter is where we
+> > need to solve this. That mask says which kinds of memory to include and
+> > it propagates across fork and exec, whereas what is being selected here
+> > is an encoding mechanism.
 > > 
-> The check isn't a privilege gate. 616d374efa23 added it to test "whether
-> the file could have been opened rw", and the caller can already do that
-> on the idmapped mount -- open O_RDWR, write(), fallocate(). Only the
-> regular-file branch changes, and defrag only reorganizes the caller's
-> own extents; the S_IFDIR branch (whole-subvolume defrag) keeps its
-> capable(CAP_SYS_ADMIN).
+> > I also think that the usermodehelper - may it swiftly die - isn't really
+> > salvagable for this and it's not the future anyway. The coredump socket
+> > already has a handshake for stuff like this.
+> > 
+> > I always had an idea how this would look like but punted on it back
+> > then. So here it is.
+> > 
+> > A server that raises COREDUMP_HEADER in coredump_ack->mask doesn't get
+> > the coredump as a plain byte stream but as a sequence of frames. Each
+> > one a struct coredump_frame_header followed by what it describes. A data
+> > frame carries its bytes. If a server also raises COREDUMP_SPARSE, zero
+> > frames are sent for unpopulated mappings. They only indicate how many
+> > zero bytes need to be written and to not include data. Reassembling the
+> > frames gives back the same coredump. A debugger and everything else
+> > still see an ordinary core file and nothing outside the coredump server
+> > has to learn anything.
 > 
-> Nothing is weakened: !capable(CAP_SYS_ADMIN) stays exactly as is.
+> Hey, Christian,
 > 
-> may_dedupe_file() in fs/remap_range.c already gates FIDEDUPERANGE the
-> same way -- capable(CAP_SYS_ADMIN), then i_uid_into_vfsuid(
-> file_mnt_idmap(file)) / inode_permission(idmap, MAY_WRITE) -- and dedupe
-> is stronger, since it can rewrite one file's extents from another file's
-> contents. Idmapped users can already dedupe on btrfs.
+> I proposed pretty much this exact solution to Jacob, so thank you for
+> writing it :)
+> 
+> There are a couple of reasons we still wanted to explore the
+> coredump_filter solution:
+> 
+> 1. Our core dumper application is not really prepared to run as a daemon
+>    that listens on a socket, having been written to be a transient
+>    usermode helper. But thinking about it more, maybe that's something
+>    we could paper over with systemd socket activation?
+> 2. More importantly, we sometimes write core dumps to disk and sometimes
+>    upload them to blob storage. For the former, this approach of sending
+>    holes over the socket is great. For the latter, we'd now need to wrap
+>    the dump in some sort of container supporting sparseness that all
+>    consumers then need to reassemble. The coredump_filter approach
+>    doesn't require any changes in that pipeline.
+> 
+> To be transparent, I still prefer the sparse socket approach, but Jacob
+> has different contraints that I'd love to have addressed: it's a
+> trade-off of more work on the core dump server side and all of its
+> consumers vs. in the debug tooling side, which is mostly already there.
 
-It seems perfectly reasonable to relax the check. I just think the
-justification in the commit message should be updated to explain why
-these specific ioctls should be allowed for idmapped users, similar to
-pervious commits allowing idmapped use of the other ioctls.
+Hey Omar,
 
-Thanks,
-Seth
+Good to hear from you.
+
+I think the coredump_filter solution is just the wrong approach. It is
+a hack and in a part of coredumping that is riddled with bolted on hacks
+already.
+
+And I don't think the argument that changing this in userspace is
+somehow not possible holds. It not being wanted is another thing.
+
+This is a new feature and as such it is our responsibility to expose it
+in a way that is correct, maintainable, and clean. I don't think that
+this is possible in the usermodehelper case without doing really hacky
+things.
+
+Plus, I really want usermodehelpers to go away. It really is a CVE
+machine. Most of the ~40 CVEs in the last 10+ years have been in the
+handlers. Mainly because the interface is really not nice and prone to
+security issues. They are spawned from a kthread with kernel level
+privileges that userspace then needs to drop. So really, changing
+userspace is a long-term self-service. :)
+
+And yes, there doesn't have to be anything long-running. They can just
+be socket activated.
+
+The pull request that's up against systemd splits this out into
+systemd-coredump though. So PID 1 itself can also be coredumped. That
+daemon is long-running but it's only job is to spawn workers on incoming
+connections and maintain backpressure. The listen fd is in the fdstore
+and so survives restarts.
+
+>    consumers then need to reassemble. The coredump_filter approach
+>    doesn't require any changes in that pipeline.
+
+We could add COREDUMP_TRAILING_ZERO or whatever so you get that
+truncated behavior over the socket from the earlier patch. While that
+will get rid of smuggling non-memory type bits into the filter and
+won't have the fork/exec inheritance bugs that the other patch has it
+still has other issues.
+
+It will always have to accept an O(hole / PAGE_SIZE) walk under the mmap
+write lock before ever writing a coredump. So a JVM starting with a 64
+gb heap reservation or a go program with a large reservation means
+millions of probes before the dump even starts. The selftest in this
+series dumpds with 256 MB. That amounts to 65536 probes. This seems just
+wrong when we know the holes when we emit the dump.
+
+For default 8 mb pthread stacks that are in a single anon vma 4 × 8 mb =
+32 mb == 8196 pages only 8 of the 8196 pages are resident. Most stacks
+grow down and glibc parks the tcb at the top. That in turn means every
+hole in a stack is a leading hole. The trailing zero hack cannot handle
+that at all wasting a bunch of space.
+
+For the blob storage thing you can just upload the header last. So
+stream the data as the records arrive and compute the corrected phdr
+table at the end. If you're using a temporary file or whatever it
+becomes even easier to rewrite the header.
