@@ -1,28 +1,28 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD6D3CD8A9;
-	Fri, 14 Aug 2026 09:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBE73DF000;
+	Fri, 14 Aug 2026 09:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786700399; cv=none; b=GRxY6BEVNj08cmCfrO4sQVhOw520plodpV2r9jQs9rAptzTfRu2ozDKqv+QEd9vTDPB3qlOQiT8NVqP2tYMwsmHmkSdsocn5dqGA+c3yDz68i+KXm095XjJ7fVdjLrsntE/v4Owvxspir0R3Y6PWrpKXgH5M0t37SjkDAQ3K8Rg=
+	t=1786700400; cv=none; b=uzq8E1+FnmQiMOUIg+gW9XF8RxBzkmu2ajaJ8urXwQmNyO69rWfMcEcZCRn3LByjIfym7x7flKrEcwtxoie4+9K5XeHFO7gle8l40bdEmuogaBe3BguUtueinuiaD9fQq8qT4xbQE4Grr4lU4hFgAdgGUX0HMdQc4L38jNtK4yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786700399; c=relaxed/simple;
-	bh=APr+NYktTjIAEK7m2DM/Vmzfna01JCkrnCltT5AwyGo=;
+	s=arc-20240116; t=1786700400; c=relaxed/simple;
+	bh=5aSAcl7xXxzU+2jbngERElG/1SSuffg/Yb9RSxc6sPE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pTkF3937CoSl8lFZuG89IrklCsrqdRuAqACQExTZiaXilwmoqQZhhBS2gZVmvA6Dp9+if2SPwgPwnbrq7xJtNtvdeR7ESd2ouRkLbzvwKTgqe5cTKyhvCoOU/LCK51kl7U5784xlOv5HY6bk9zA0bYWOQBu5FtFCn9qpBg4tRmA=
+	 MIME-Version; b=PywM+t92ojKW4oxpEC1jnpxPJFfskj5nKiwfkk7mrmcpfwUm/pAj2JA9Pmv0rSlak2JhFH2nlYPCffQiROJdKo5upcj8/N2lexYx3hRI+fDpt4NEdl4M2IZKBKOg3lFnJgGv5OibakIxfPWZyeim+73aqxDpN8vKEzILnfBwSyM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyR1D0szKHNMp;
-	Fri, 14 Aug 2026 17:39:27 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyQ47wbzKHMP7;
+	Fri, 14 Aug 2026 17:39:26 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id DCE5740ADD;
+	by mail.maildlp.com (Postfix) with ESMTP id 50B1E40570;
 	Fri, 14 Aug 2026 17:39:47 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S11;
-	Fri, 14 Aug 2026 17:39:47 +0800 (CST)
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S5;
+	Fri, 14 Aug 2026 17:39:46 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
@@ -41,9 +41,9 @@ Cc: linux-kernel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH -next v5 07/32] ext4: fix orig_mlen initialization in ext4_map_blocks()
-Date: Fri, 14 Aug 2026 17:33:06 +0800
-Message-ID: <20260814093331.1703882-8-yi.zhang@huaweicloud.com>
+Subject: [PATCH -next v5 01/32] ext4: simplify size updating in ext4_setattr()
+Date: Fri, 14 Aug 2026 17:33:00 +0800
+Message-ID: <20260814093331.1703882-2-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
 References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
@@ -54,58 +54,92 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S11
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF4xur1UAF1fAF1rtr13urg_yoWkGFcEqa
-	y2vr48Gw4rArnakr4kZr4fJFyvkFy8Wr18CrW7Xry8XFn5ta95Ww1vyF9rAr4DW3yYvrZ8
-	ZFy8J34xKFW7ZjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb98FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
-	IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
-	F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
-	1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW7JVWDJwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-	daVFxhVjvjDU0xZFpf9x0pRPCzZUUUUU=
+X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4rtry7KFWUtr4UAF4xJFb_yoW8Kr1xpF
+	y3Kw1vkw18WF1q9rn2gF1UZa48ta1093yUXFWUCw4IqFyDC3ZaqF17t3y3WFWrtrWkWw4Y
+	qF4kGrs5Aw1UGrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmmb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
+	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	WxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+	Ij6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
+	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I
+	0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCa
+	FVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+	Wlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj
+	6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r
+	1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
+	YxBIdaVFxhVjvjDU0xZFpf9x0piCD7fUUUUU=
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Save orig_mlen after clamping map->m_len to INT_MAX. Otherwise, the
-unclamped value may be passed below, bypassing its overflow protection.
+The logic for updating the file size in ext4_setattr() is currently
+somewhat messy. By directly entering the error-handling path after
+failing to add an orphan inode, the unnecessary recovery process
+involving old_disksize and the file size can be avoided.
 
-Fixes: 5bb12b1837c0 ("ext4: Add support for EXT4_GET_BLOCKS_QUERY_LEAF_BLOCKS")
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 ---
- fs/ext4/inode.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ext4/inode.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 548a3968c5a7..bb4f1079d989 100644
+index bd4b778df9eb..14eab46f4750 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -703,7 +703,7 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 	struct extent_status es;
- 	int retval;
- 	int ret = 0;
--	unsigned int orig_mlen = map->m_len;
-+	unsigned int orig_mlen;
- #ifdef ES_AGGRESSIVE_TEST
- 	struct ext4_map_blocks orig_map;
+@@ -6080,7 +6080,6 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	if (attr->ia_valid & ATTR_SIZE) {
+ 		handle_t *handle;
+ 		loff_t oldsize = inode->i_size;
+-		loff_t old_disksize;
+ 		int shrink = (attr->ia_size < inode->i_size);
  
-@@ -719,6 +719,7 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 	 */
- 	if (unlikely(map->m_len > INT_MAX))
- 		map->m_len = INT_MAX;
-+	orig_mlen = map->m_len;
+ 		if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))) {
+@@ -6164,6 +6163,8 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 			if (ext4_handle_valid(handle) && shrink) {
+ 				error = ext4_orphan_add(handle, inode);
+ 				orphan = 1;
++				if (error)
++					goto out_handle;
+ 			}
  
- 	/* We can handle the block number less than EXT_MAX_BLOCKS */
- 	if (unlikely(map->m_lblk >= EXT_MAX_BLOCKS))
+ 			if (shrink)
+@@ -6179,23 +6180,18 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 					(attr->ia_size > 0 ? attr->ia_size - 1 : 0) >>
+ 					inode->i_sb->s_blocksize_bits);
+ 
+-			down_write(&EXT4_I(inode)->i_data_sem);
+-			old_disksize = EXT4_I(inode)->i_disksize;
+-			EXT4_I(inode)->i_disksize = attr->ia_size;
+-
+ 			/*
+ 			 * We have to update i_size under i_data_sem together
+ 			 * with i_disksize to avoid races with writeback code
+-			 * running ext4_wb_update_i_disksize().
++			 * updating disksize in mpage_map_and_submit_extent().
+ 			 */
+-			if (!error)
+-				i_size_write(inode, attr->ia_size);
+-			else
+-				EXT4_I(inode)->i_disksize = old_disksize;
++			down_write(&EXT4_I(inode)->i_data_sem);
++			i_size_write(inode, attr->ia_size);
++			EXT4_I(inode)->i_disksize = attr->ia_size;
+ 			up_write(&EXT4_I(inode)->i_data_sem);
+-			rc = ext4_mark_inode_dirty(handle, inode);
+-			if (!error)
+-				error = rc;
++
++			error = ext4_mark_inode_dirty(handle, inode);
++out_handle:
+ 			ext4_journal_stop(handle);
+ 			if (error)
+ 				goto out_mmap_sem;
 -- 
 2.52.0
 
