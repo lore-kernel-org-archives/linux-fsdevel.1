@@ -1,167 +1,170 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C580B46C4CF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 12:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F3046EC61
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 13:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786711383; cv=none; b=r1rbYPPzTERg59UujYr0f4+LQu9q4a6aXUsfgwmuJz3zBoloWZxqS2+BruVkUgZFavhjyPhxJBjrnDxTMggsUBxgbsnGe/lhfXQsHtxDL9fwETX3eNYhDMJBV2KFxTN3MCbLdCJAKrbkpdxz37GEBWr/1wV17ED7rQrGu1xCA60=
+	t=1786712562; cv=none; b=fcm6Fhn9kxQg5lbsZQ1wEktdvVJuYGxKRvA28tI6jQiNPpr4M88gKDXW1fmnINH1e4EVoF64JKh2qu9LLjVf5+xGjrdrJ/A7gDy0azQXosknRLiFHJ8L2lQdh97qlowLrYLpbPU7JOQZO/ggy8MgKfpFJkKV0mrx2BfxGeQJUBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786711383; c=relaxed/simple;
-	bh=YsXKrU2V14EOOwNRMzXWg2RnA6RSWoUHPKpJRV+vxmc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l4P4Sm8n4aQQCXzsTB50AnnVjYD67YA9GqGIqaeUg+BMVN9ZlXTGmtPJH2guIv5tmDRdGVSg9kqe9z4qktE3W7+4BWAcreV+8JgdyFbp/HLnNjPjkJwRetsFSE9Qhs+bdIxJKOipoStZKqHuv6kL6A2KRptsw4y5fkHPWqISPxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0gbeVp9; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786712562; c=relaxed/simple;
+	bh=HDy2Z7/19cG3MeawO1NCZPkI6O860csbEKEOPze4VeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o/Er6AGFtUObXfD9yLQ4QGfC/7H61Zj1yfc6aZPySSD9G9utu9hNoO2KvNwvdj9m8dYyGp5M/h9SpylkQqyjvRqirbIhWkmeLG83k9hXusXqXUa/3J3/bIfw8XDxQWb5nwYele2xydEcB/zdSbRkXupV0entP7qGPLHiJ5ROnf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRwhsrIp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0gbeVp9"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so767633a91.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 05:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786711381; x=1787316181; darn=vger.kernel.org;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=GROTtVEhO+sxIkIUN+C4wkQjV/TpVr5EltjZRDElHMY=;
-        b=A0gbeVp9VYnaPslitwmK2gKA7wIvIi5/lZPCe1d5gPRv+mhK1ndINVuWofw5Kjjqaq
-         3ma2rUiOwV0fLpNXE/ZJrcd/GA7GSh/YP6F5AJhfUDsT+BdvyzRswjKvPyXpaOwxHt1T
-         sTr/mtiXOA9dyqaGPSiHnDgA63znkAOhkHAZQsx8V1FrSleQv0vqfzFjH3qv3rUBkPOb
-         7WhS0nqLl0T2HrtMUzzybfh4Mmhx40Qsqx+CxRN/0jT8vXwi9rTxoYP8zt5AkiNEbi+V
-         kd9GoCaH9oN4x8+KnFsNwLu0QvxMo+5zISQtVxxJc8XzItZ7ft3BpbsmAhmKEVxc+5Aq
-         7/tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786711381; x=1787316181;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GROTtVEhO+sxIkIUN+C4wkQjV/TpVr5EltjZRDElHMY=;
-        b=ktufNDhAixkIXhJBfGQP+vCeU18JtVZuLfthJ1fu4tGL2Juz6XOVpgaf6S62rkcxhV
-         oxR359xZrOpfBYee4oXsOWfVhGkq17AuJ4JjzwI++DCKFeC8N4wyTU+Sx/9pnQ7qz2TR
-         RyDvN0iU33u5zstKeZPqPDH53cHbhRv4j8GG4NQ34+E7qvREDAZZX+GfkGkpxetGKVfV
-         ZQXmdjlJtgE+0aal5W71iBf7uJRNWzD9DILUcMD/nZaw6gENu2+XDB4qZv64f0OtKtdf
-         bXle+ZiXMlgdFqkofx02lCIyCAizE62rm2aHenmCXfAmN2g/JQ+XaKKNhtMs7bg1/gxx
-         Q0GA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5ej4zA6Zsu1bYrx21xp7rkYR6hrRwBY7NfnoMwOgLBof8kQGfBAHy12r71M130GRS04bdh62/HnDKD22V@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD5r3IUE93Dpj3j5OZdlKIzFI4jwdW8CZb7gJRrsJVEGgeQTM1
-	EI8Lsd7ygyPwVgbv3CP+VkJIZANKScf7JK5BZfYFDUuz47lanTCvrBn+
-X-Gm-Gg: AR+sD11ss7MgTmmJGYyKJjBVt5/bChLfy90TDgOE7k9RNnr5p65aL/w5xDchTYp3Equ
-	fU5i9gkf5ptwUU6sjUhAc5Mpkgob6D2fHWMaX/D8C5SWPAAXF7VQOLJU+WgGfIJ5ekMLv7saTBd
-	42Y5v6nmlqUuPmt4Bu+v4xZ2ckacRrjGESs5HbK2gk4i8W/BRdtoRJjoG8FLR2eNQ0hnAfLG059
-	+Q5FHjCpA9xvwVaqxlYxUoAJxs+RGGpxVPsTJ+8bT4sdoiAI7XkYCt/olx3WqoOuRTYs6Ua8t3F
-	FqqwD9yrcfR6U6Mg2W93Gkexdn+6C20caRy/juz6FbvLNGNPqFvAVyWpPrVAwKauyUGgXbqrWNT
-	F6lNrCAhRq2hESZ4t1Ml3TT+T8ysJJWGftQPhiQgxrpORuABGvVMtkgrnoWJU98KCWo5T2GZdLM
-	xQrxK5YP8CJ4qLBhgzbZn91gKjs1PFo49gH07UAdjgAOLKZJBNRz7qut8wV9Z/Zct4CO/ptNW+g
-	4S4G73YuZds4PiCH6H8nkmoX2+M6TfPNokPm5UgLSPDzNORYMm8gxKgfM0iDqDSQwBMs1TeBBZT
-	9QEJ9Q==
-X-Received: by 2002:a17:90b:3842:b0:38e:524:8797 with SMTP id 98e67ed59e1d1-3933b89a285mr4743746a91.13.1786711380964;
-        Fri, 14 Aug 2026 05:43:00 -0700 (PDT)
-Received: from mars.local.gmail.com (221x241x217x81.ap221.ftth.ucom.ne.jp. [221.241.217.81])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394eb7539d3sm2774290a91.15.2026.08.14.05.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 05:43:00 -0700 (PDT)
-Date: Fri, 14 Aug 2026 21:42:57 +0900
-Message-ID: <m25x1crhym.wl-thehajime@gmail.com>
-From: Hajime Tazaki <thehajime@gmail.com>
-To: ljs@kernel.org
-Cc: daniel@thingy.jp,
-	gregkh@linuxfoundation.org,
-	linux-mm@kvack.org,
-	geert@linux-m68k.org,
-	arnd@arndb.de,
-	willy@infradead.org,
-	jack@suse.cz,
-	akpm@linux-foundation.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to /dev/zero
-In-Reply-To: <an3COKVbgQKdY52d@lucifer>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRwhsrIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC841F000E9;
+	Fri, 14 Aug 2026 13:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786712560;
+	bh=9u1rGVG6agDFZWdG40l3zEmJc1IeDbuPGBZf6iWuaOo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WRwhsrIpWrAeXQ6+P5BbK653mIKbVuP3KoJuEhKi7AYB2Cy4IwT2135T3HzhsQn3z
+	 pAz+xiSbm2blljK4UjJ1Uyl/H2qnJ8/qxqgINpoU4b3IhCVSVEOYQ81GjtNIsE3VXh
+	 NO+eBPFpJYwfl57ePvXhg5q04txgqXy5lW6XmgTnUQ8RPzyg1UXbKcuZdfWM8NlC8P
+	 bGEnViqmf1FTXg4JskvS8iA+UMoX0mcTHM5VyDDP7pdUJVqRqRxcjKOFfXSYIbaI+d
+	 t+JJrebOkmosntcpdRtPblcAI3spk1A78mewlJ7fp5lRojtQB0uHk1BLwNQTkXV5kP
+	 ymsFTF5pCkAgA==
+Date: Fri, 14 Aug 2026 14:02:21 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: daniel@thingy.jp, gregkh@linuxfoundation.org, linux-mm@kvack.org, 
+	geert@linux-m68k.org, arnd@arndb.de, willy@infradead.org, jack@suse.cz, 
+	akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, 
+	pfalcato@suse.de, linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to
+ /dev/zero
+Message-ID: <an8PTKUAuZh3BtJm@lucifer>
 References: <20260813063401.1786548-1-thehajime@gmail.com>
-	<20260813063401.1786548-4-thehajime@gmail.com>
-	<2026081355-remold-sterility-84f9@gregkh>
-	<CAFr9PX=zC8GnxwrR=wTwA4xQq89cHYpxZWooS+-=Q-WuNbjanQ@mail.gmail.com>
-	<an3COKVbgQKdY52d@lucifer>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+ <20260813063401.1786548-4-thehajime@gmail.com>
+ <2026081355-remold-sterility-84f9@gregkh>
+ <CAFr9PX=zC8GnxwrR=wTwA4xQq89cHYpxZWooS+-=Q-WuNbjanQ@mail.gmail.com>
+ <an3COKVbgQKdY52d@lucifer>
+ <m25x1crhym.wl-thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m25x1crhym.wl-thehajime@gmail.com>
 
-
-Hello Lorenzo,
-
-On Thu, 13 Aug 2026 22:29:38 +0900,
-Lorenzo Stoakes (ARM) wrote:
-> 
-> On Thu, Aug 13, 2026 at 09:43:37PM +0900, Daniel Palmer wrote:
-> > Hi Greg,
+On Fri, Aug 14, 2026 at 09:42:57PM +0900, Hajime Tazaki wrote:
+>
+> Hello Lorenzo,
+>
+> On Thu, 13 Aug 2026 22:29:38 +0900,
+> Lorenzo Stoakes (ARM) wrote:
 > >
-> > On Thu, 13 Aug 2026 at 21:26, Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Aug 13, 2026 at 09:43:37PM +0900, Daniel Palmer wrote:
+> > > Hi Greg,
+> > >
+> > > On Thu, 13 Aug 2026 at 21:26, Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > > Given the age of this issue, I don't think anyone uses no-mmu systems
+> > > > anymore :(
+> > >
+> > > There are a few of us using it for hobby stuff[0][1] and there are
+> > > apparently people using it for actual commercial stuff.
+> > > There was a session about this at LPC 2025...
+> > >
+> > > One of the big problems for nommu seems to be that everyone is
+> > > convinced it is completely unused and totally broken. :)
 > >
-> > > Given the age of this issue, I don't think anyone uses no-mmu systems
-> > > anymore :(
+> > No, the issue is that nobody seems to do any testing or contribute any code
+> > aside from at least Hajime (thanks Haijme :), and possibly others (forgive me if
+> > I am missing people's names here!)
 > >
-> > There are a few of us using it for hobby stuff[0][1] and there are
-> > apparently people using it for actual commercial stuff.
-> > There was a session about this at LPC 2025...
+> > There's been situtions where nommu has been broken for a year and _nobody
+> > noticed_.
 > >
-> > One of the big problems for nommu seems to be that everyone is
-> > convinced it is completely unused and totally broken. :)
-> 
-> No, the issue is that nobody seems to do any testing or contribute any code
-> aside from at least Hajime (thanks Haijme :), and possibly others (forgive me if
-> I am missing people's names here!)
-> 
-> There's been situtions where nommu has been broken for a year and _nobody
-> noticed_.
-> 
-> And yet whenever nommu comes up people always seem to pop up and say how
-> important it is, then mention a talk etc.
-> 
-> Well if it's important, test it. Test the tip kernel. Report bugs. Contribute
-> code. Any or all of it :)
-> 
-> Meanwhile we in mm have to _constantly_ fix stuff up in nommu because it's a
-> total mess and has real maintenance overhead.
-> 
-> Having to account for legacy systems that make no sense in 2026 when you're
-> trying to make improvements to systems people use, or not being able to do
-> certain things, really grates after a while.
-> 
-> I mean if you don't believe me git log mm/nommu.c. This overhead reason is why I
-> now co-maintain it.
+> > And yet whenever nommu comes up people always seem to pop up and say how
+> > important it is, then mention a talk etc.
+> >
+> > Well if it's important, test it. Test the tip kernel. Report bugs. Contribute
+> > code. Any or all of it :)
+> >
+> > Meanwhile we in mm have to _constantly_ fix stuff up in nommu because it's a
+> > total mess and has real maintenance overhead.
+> >
+> > Having to account for legacy systems that make no sense in 2026 when you're
+> > trying to make improvements to systems people use, or not being able to do
+> > certain things, really grates after a while.
+> >
+> > I mean if you don't believe me git log mm/nommu.c. This overhead reason is why I
+> > now co-maintain it.
+>
+> after spending more times to look at code, fixing issues, finding
+> other flaws, etc, now I become to understand what you meant in past
+> emails, when you're saying a more maintainable way of implementation
+> of nommu.c.
 
-after spending more times to look at code, fixing issues, finding
-other flaws, etc, now I become to understand what you meant in past
-emails, when you're saying a more maintainable way of implementation
-of nommu.c.
+Yes :)
 
-Since I wish to use nommu.c in future with the latest kernel, I'd like
-to contribute it for, let's say, refactoring the nommu component which
-mm subsystem currently has.
+Thanks for having some empathy about this :) It seems a lot of the nommu
+advocates simply assume it's little or no overhead and is 'working
+code'. No and no.
 
-but for the moment, I wish to start with introducing test cases from
-very basic checks (which is in the [6/6] patch of this series).
-Without such a base, we may not have any chances to improve this nasty
-situation of nommu component in mm subsystem.
+I know Liam had to do a _lot_ of work on maple tree to make things work
+there, for instance.
 
-# this motivation also applies to LTP (linux test project) which
-  currently doesn't support running tests on nommu platforms (I've
-  already started).
+And the recent VMA flags changes have had to be heavily updated to account
+for nommu.
 
-And also as I mentioned before, ideally the code should be maintained
-by people who use it.  And if I claimed that I used/use/will use
-nommu.c, I wish to maintain this, or at least wish to help to decrease
-the overhead of maintainers.  This series is a very fist step toward
-this.
+And the list goes on. New features have to touch it all the time to avoid
+build failures even, and etc. etc.
 
-I hope it clarifies a bit for your concerns,
--- Hajime
+It's a really absurd situation to be honest and the RoI isn't there at all.
 
+There's a reason I keep going on about this :)
+
+>
+> Since I wish to use nommu.c in future with the latest kernel, I'd like
+> to contribute it for, let's say, refactoring the nommu component which
+> mm subsystem currently has.
+>
+> but for the moment, I wish to start with introducing test cases from
+> very basic checks (which is in the [6/6] patch of this series).
+> Without such a base, we may not have any chances to improve this nasty
+> situation of nommu component in mm subsystem.
+>
+> # this motivation also applies to LTP (linux test project) which
+>   currently doesn't support running tests on nommu platforms (I've
+>   already started).
+>
+> And also as I mentioned before, ideally the code should be maintained
+> by people who use it.  And if I claimed that I used/use/will use
+> nommu.c, I wish to maintain this, or at least wish to help to decrease
+> the overhead of maintainers.  This series is a very fist step toward
+> this.
+>
+> I hope it clarifies a bit for your concerns,
+
+Thanks, and I appreciate that you're actually doing work here, but I'm not
+sure a single person suffices for this, as well intentioned as you are.
+
+And as reviewed, these changes seem to be adding _more_ maintainership
+overhead rather than less, I fear.
+
+I believe nommu is pretty broken across many domains (it's fun to set
+claude on it for instance).
+
+And we've already spoken about broken things that have sat around for
+a long time.
+
+The way it's implemented now is just horrendous in any case, if we were
+forced to keep it in the upstream kernel then the correct solution would be
+something that somehow 'emulates' an mmu system.
+
+But I'm not sure that's even workable, and likely implies heavy
+maintainership headaches.
+
+> -- Hajime
+>
+
+--
+Cheers, Lorenzo
