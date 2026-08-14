@@ -1,419 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E133D88E3;
-	Fri, 14 Aug 2026 10:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB473C1F54
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 11:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786704085; cv=none; b=rnMR5Nu7bw7cXiEojV82Kz0kK/zVNf18UdWFOLQ1AYpEx4MtISlaz3VwtYzwokch6od5+MKzvL417q2yIxIHq0X1aqp55iCsO41fWLNVNf62+9kMI1HJXEGLZvH7088/0b7Ms+6OHYrxqz2UcEpHhhd2fYEtLYo0k6T1WxfJDLU=
+	t=1786708019; cv=none; b=kvGr1eKSjGeeJPF7QiBXfGbZ77PRWDWwMgdoXy98IcicI0g4kfyU0PumWojboZv0taw/2NIzCvMQ15Nq45rrFeWTDufNt9FL5ScZkdCnDpmfqN2a28I5c2WZAgU4Y8HMxQ6gGxyHsNLJdbQHFwdp7On89dYji3e2tZsToHMSi58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786704085; c=relaxed/simple;
-	bh=wc51Ar1jilhnjUGqKXjw2tY4+e0678L6LjQxN5ZQWOY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bi0QL3Sbsmznc80gIc4Wi/qzqMWIcX2MQy50dVuG/ZFbetd2yRHvEpbMyBuEjPRsWxO99aM+VtGksJ0V8khOUMRnrx8K+/vvvnf+M+EBo4ooMn0Hb+LCSNR5FT3FGt3/zjXKltgV9uFkSL82OrR+yi5LE9abJ/rKkVbQLPFPn3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQHUmCJQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786708019; c=relaxed/simple;
+	bh=Q0XcrHSJ3QTrQ8yuePARUprN0VBhGZwly3clupHqqiA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sdC7cGDqm8qgKezASDEs/BRcEWgX3UN3/YV9E0dCjldJiTP8jE4i9BSxA20ELnrl5mqf+EioA0I0MgSgrQv/dcwWSeIVCzXW9pJ4EYIPei1+IzGDTjRJRDiISBxtphwagPNxi4uLbn4vDiHcqUPvZ/HmGVa8OXdQ+Yb9vf6g2ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMz5m1oI; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQHUmCJQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A9444C2BCB9;
-	Fri, 14 Aug 2026 10:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786704083;
-	bh=wc51Ar1jilhnjUGqKXjw2tY4+e0678L6LjQxN5ZQWOY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=dQHUmCJQbHpjKnszykCVG2CXecJtAI1vFAeTZz+5JJU2z9FGb+3OXBQ/bCdNSHiL5
-	 2BzxxnDlk8zvKNQKQTN/ZuzEFCzHtZbpqT1NJFU3iQLEIq70SotgLWtuIDjRitnMuE
-	 N0dRUrKmmswfRgW1DAlN8g/CkvxXImDojG4hVVrTFOVi2RPvvDWfTe6l988H44BkeE
-	 ExNQVoZ08YfZ1nNrgFW1gdMiwIYytZNqvTu5heMOc1TnLEkaVl4txKhJF2AQvqtyNH
-	 1K4iar9cDdS8YFn9FLl83jw9nbk5m3o8r2xdUoqY6Ldvgri/oaF/QB4J6GpzO9aHlg
-	 PLByPtR7Qzhdg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8792DC5B572;
-	Fri, 14 Aug 2026 10:41:23 +0000 (UTC)
-From: Joel Granados <joel.granados@kernel.org>
-Date: Fri, 14 Aug 2026 12:41:12 +0200
-Subject: [PATCH v2 1/4] sysctl: Split data conversion and file position
- handling
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMz5m1oI"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84e84a6c4bfso817991b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 04:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786708017; x=1787312817; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kfQhQO+zY2Dyxo+r+2sLRmPLM1j/TIfku35TJ5q2hrU=;
+        b=WMz5m1oIdrV+ry1nOMxSE6mfW+eFACEFB+l4IL1QGHpKdZfp2Ix7JAxHlqsz3pvk5w
+         xnLiB0iSp4ipXSq8VlpxdhVoZ1xRSbAFrkNKrFyGUsab5yJsWEWzdAOYqxvLkp2JNq+J
+         oaJTXCVsNg1TCtwADBImAxQwxB8Vj30rED2dQ4jWi/gv2szZYt3vuGOw78q0actxGBFm
+         RZT2eSHVLTA8J4gY4ANFeTXylW2ZASKNPMo7EhCXHXpU2v20ccNhiLcsz0AnFogNz8Eg
+         Kao6UNK+cj6GGIw3usSHDrOm7aOiCfSK3QWuc0H/VuJjpIbM6Uvlk7JL8ASxITxYurtM
+         lsUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786708017; x=1787312817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kfQhQO+zY2Dyxo+r+2sLRmPLM1j/TIfku35TJ5q2hrU=;
+        b=k0hz35NNcog41YD/KXM4NZEPLv52Ft2SONOFmpFWATL7Ppd1XrBgwV38RqhJKAw8Um
+         8v1xtxEk/+x6jv3l105phgKgtPQ1Xjr/eOHZLBI1akXlQpfrwxlxlFKXhqMBmLCsZKVB
+         ir2T8CdNLmf0BX2RtCETp0yuTaTyY9C++K0yoh5k+RWZd85irzOyUg1JR1zVPPBedWXh
+         iZRSIQIZ09UayvM02IeMpC0a0Q9oFlh3R/eM1Y9DympYJ6WmCHWBf89agzYu5tdEvzIv
+         4w1RVli50JAHKkc4WdQxnyzUiijH8hQZusstJ1hRut0Lo6IlR1vOQadL7dGt+0fVSf3D
+         zeiw==
+X-Gm-Message-State: AOJu0YxXi/5O9h7q0ezSPp1wkbWg21ImDS3MENEWmfUt+EFbjgnWyQbm
+	wM6l8OkWf1ZfzJ5KBFUPM7Ej+oHZWM3BZn/qlNP6+D6ZIcIvRy9rdvF5
+X-Gm-Gg: AR+sD11Lg8SDl7nyIELmanGYPqBJ60cs+e1byEBvEjLKGTLTO4Z5bxcwj6nGUFqH78u
+	wicYH6u2x8KUgDtETZNuwQrPrrYFpcwpJEU51HB826bGmTel1sIqINKxj+wnuiHZiN6bvJqK57r
+	igLfkbrGdgtxEx7+36TMl2h9pK87jI4ZRrkhc/1zC53TVv9x5I/GijGNimSieUEUyu1n285T4Be
+	GgHMw6q0IW9Xy23fwBzLTi51ro+ILTCyFMl4tbtLWsghXpuV13FbYSX1p48DIwLb+Fx8vUl4mRk
+	XhdANrV26Jx0vaqOh0WcAd7hi7rzCdGaDJxi5WKQzAcg7kfmrP+SWdWOrQWEYq9HsG/vSH42qkP
+	pkIyLVqZVIGsdZVTBQ6CwY/cXmJ5Z+seef1lG2TlnSg8nQ3NLpqpZ7UGabPq3Qf87wb0NSCa6MX
+	f0RQ50eoxhksZejnUFKfVNGwGokyeOJ2Zoh2KGvOJycL0l/3+PZN1DkN0bmhf5gLd8/ahxa/b/8
+	5opp5Onn17icoOq93QMawFA8Q==
+X-Received: by 2002:a05:6a00:2384:b0:84a:32ba:a262 with SMTP id d2e1a72fcca58-84fc7a2d32fmr12157562b3a.7.1786708016944;
+        Fri, 14 Aug 2026 04:46:56 -0700 (PDT)
+Received: from localhost.localdomain ([219.251.253.167])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8517d223e4bsm339450b3a.30.2026.08.14.04.46.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 14 Aug 2026 04:46:56 -0700 (PDT)
+From: Kitae Yoo <kitaeyoo777@gmail.com>
+To: Jan Kara <jack@suse.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kitae Yoo <kitaeyoo777@gmail.com>
+Subject: [RFC PATCH 0/2] quota: opt-in strict enforcement of project quota hard limits
+Date: Fri, 14 Aug 2026 20:46:47 +0900
+Message-ID: <20260814114649.51253-1-kitaeyoo777@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260814-lklm-partial_ctlvec-v2-1-9df50d26e477@kernel.org>
-References: <20260814-lklm-partial_ctlvec-v2-0-9df50d26e477@kernel.org>
-In-Reply-To: <20260814-lklm-partial_ctlvec-v2-0-9df50d26e477@kernel.org>
-To: Kees Cook <kees@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: Jianlin Shi <shijianlin11@foxmail.com>, akpm@linux-foundation.org, 
- vbabka@kernel.org, hannes@cmpxchg.org, surenb@google.com, mhocko@suse.com, 
- jackmanb@google.com, ziy@nvidia.com, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-mm@kvack.org, Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12066;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=wc51Ar1jilhnjUGqKXjw2tY4+e0678L6LjQxN5ZQWOY=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGp+8M8vr+lEf7V6BRsfLebGaWNXeMT1k+ohr
- RnFxBUiAJih0YkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqfvDPAAoJELqXzVK3
- lkFPMfEL/0TFDnPZxzlhtXUe9sCMJNET1aPiqy5DcZpclEhrldW8L1wXDZr8CQcQcCghr2pqD1R
- 0lnclMJMoJL+CnnpGkKKnpGIfNJlaEIsGxWP9gZtKY0H++d5VKmcZBiVJW+Eh3eOQSBslAwiZOQ
- Pie6ryhgU9ey1vQfJcuZ7fPgjrkU6IrBEMgSlKL3JuToGg2ZKx6m9q50HvR6CNAS/WfyTQi13G1
- APpUpKdLdYZD8A6WgS/MbMJioHFOvyHNHW2aKOvb/Q6C927bPNb/n9kM30BOE6//f1Dj+bPn9Ia
- EAdTLDB6Zcgc3DfEeASQ3U19FmWqGUFI9+SKbyv6PBi8TEzXq0PtFaBTH9F4LYFt86LGlsAqT8o
- tim5ER91NcIV8h9Z6ERaa+AQgKyI/oexSGdGA1JxcVLGpSau4y2l1v+gqPLjSok21K/9VBRKZWZ
- vROgkt1ttZ11Ku4CXJiQ58HYK2Rvz3Bm0nfODk+OJ9mGkrZJaYQ7e/7gsZRTPBWMbqGQWaLsuL4
- OU=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
+Content-Transfer-Encoding: 8bit
 
-Apply the conversions to the data in a new helper function
-(apply_conv_on_vec) while file position handling and argument validation
-stay in the original function. Rename function to prov_vec (from
-do_proc_vec). This is a prep commit to isolate the logic that needs to
-change to prevent partial sysctl vector writes. No functional change
-intended
+ignore_hardlimit() exempts CAP_SYS_RESOURCE holders from enforcement of
+hard limits (and of soft limits past their grace time), regardless of
+quota type, so it also covers project quotas.
 
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
- kernel/sysctl.c | 211 +++++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 126 insertions(+), 85 deletions(-)
+For user/group quotas this matches the long-standing expectation that an
+administrator can act on a full filesystem. For project quotas it is a
+poor fit: a project limit bounds the size of a directory tree rather than
+restricting a user, and is commonly used for capacity isolation of
+container volumes and NFS-exported shares. There the exemption defeats
+the purpose. Two concrete cases:
 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index f7b75985d5420a522a316d1fade40dc7fbe60455..47a92cbbcb69cd361a18dba6606ae6ae8f86b5e2 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -595,7 +595,7 @@ static int do_proc_int_conv_minmax(bool *negp, unsigned long *u_ptr, int *k_ptr,
- static const char proc_wspace_sep[] = { ' ', '\t', '\n' };
- 
- /*
-- * Element type processed by do_proc_vec(). The tag selects the element size
-+ * Element type processed by proc_vec(). The tag selects the element size
-  * and signedness, and it selects which member of union proc_vec_conv is live.
-  */
- enum proc_vec_type {
-@@ -605,7 +605,7 @@ enum proc_vec_type {
- };
- 
- /*
-- * Converter passed to do_proc_vec(). Only the member matching the
-+ * Converter passed to proc_vec(). Only the member matching the
-  * enum proc_vec_type tag is ever read, so every dispatch stays fully typed and
-  * no void * converter pointer is needed.
-  */
-@@ -637,101 +637,142 @@ static int proc_vec_conv(enum proc_vec_type type, union proc_vec_conv conv,
- 	return -EINVAL;
- }
- 
--/*
-- * Read/write a vector of @type elements. The element size and signedness are
-- * derived from @type, so a single runtime function replaces the per-type
-- * variants. table->data is walked as raw bytes (@i) advanced by @size; the
-- * converter performs the actual typed load/store.
-+/**
-+ * apply_conv_on_vec - Apply converter function on data vector
-+ *
-+ * @conv: The converter to be applied
-+ * @table: The sysctl table
-+ * @data_type: Type used in converter appliation (INT, UINT or ULONG)
-+ * @data_size: Number of data elements.
-+ * @conv_dir: %TRUE if this is a write to the sysctl file
-+ * @buf_nbyte: Number of bytes for buf
-+ * @buf: The user buffer
-+ * @buf_left_final: Number of outstanding (non converted) bytes.
-+ *
-+ * Element signedness is derived from @data_type. table->data is walked
-+ * as raw bytes (@data) advanced by @data_size; the converter performs
-+ * the actual typed load/store. Sets buf_left_final to the number of
-+ * bytes that where left outstanding after conversion. Can be > 0.
-+ *
-+ * Returns: %0 on success. Non-zero on error.
-  */
--static int do_proc_vec(const struct ctl_table *table, int dir,
--		       void *buffer, size_t *lenp, loff_t *ppos,
--		       enum proc_vec_type type, union proc_vec_conv conv)
-+static int apply_conv_on_vec(const union proc_vec_conv conv,
-+			     const struct ctl_table *table,
-+			     const enum proc_vec_type data_type,
-+			     const size_t data_size, const int conv_dir,
-+			     const size_t buf_nbyte, void *buf,
-+			     size_t *buf_left_final)
- {
--	int vleft, first = 1, err = 0;
--	size_t left, size;
--	bool is_unsigned;
--	char *i, *p;
-+	int vec_left, first = 1, err = 0;
-+	size_t buf_left;
-+	char *data, *p;
-+	bool is_unsigned = data_type == PROC_VEC_UINT || data_type == PROC_VEC_ULONG;
- 
--	switch (type) {
--	case PROC_VEC_INT:
--		size = sizeof(int);
--		is_unsigned = false;
--		break;
--	case PROC_VEC_UINT:
--		size = sizeof(uint);
--		is_unsigned = true;
--		break;
--	case PROC_VEC_ULONG:
--		size = sizeof(ulong);
--		is_unsigned = true;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	if (!table->data || !table->maxlen || !*lenp ||
--	    (*ppos && SYSCTL_KERN_TO_USER(dir))) {
--		*lenp = 0;
--		return 0;
--	}
--
--	i = table->data;
--	vleft = table->maxlen / size;
--	left = *lenp;
--
--	/* uint arrays are not supported, *Do not* add support for them. */
--	if (type == PROC_VEC_UINT && vleft != 1)
--		return -EINVAL;
--
--	if (SYSCTL_USER_TO_KERN(dir)) {
--		if (proc_first_pos_non_zero_ignore(ppos, table))
--			goto out;
-+	data = table->data;
-+	vec_left = table->maxlen / data_size;
-+	buf_left = buf_nbyte;
- 
--		if (left > PAGE_SIZE - 1)
--			left = PAGE_SIZE - 1;
--		p = buffer;
-+	if (SYSCTL_USER_TO_KERN(conv_dir)) {
-+		if (buf_left > PAGE_SIZE - 1)
-+			buf_left = PAGE_SIZE - 1;
-+		p = buf;
- 	}
- 
--	for (; left && vleft--; i += size, first = 0) {
-+	for (; buf_left && vec_left--; data += data_size, first = 0) {
- 		unsigned long lval;
- 		bool neg = false;
- 
--		if (SYSCTL_USER_TO_KERN(dir)) {
--			proc_skip_spaces(&p, &left);
-+		if (SYSCTL_USER_TO_KERN(conv_dir)) {
-+			proc_skip_spaces(&p, &buf_left);
- 
--			if (!left)
-+			if (!buf_left)
- 				break;
--			err = proc_get_long(&p, &left, &lval, &neg,
-+			err = proc_get_long(&p, &buf_left, &lval, &neg,
- 					    proc_wspace_sep,
- 					    sizeof(proc_wspace_sep), NULL);
- 			if (!err && neg && is_unsigned)
- 				err = -EINVAL;
- 			if (err)
- 				break;
--			if (proc_vec_conv(type, conv, &neg, &lval, i, dir, table)) {
-+			if (proc_vec_conv(data_type, conv, &neg, &lval, data, conv_dir, table)) {
- 				err = -EINVAL;
- 				break;
- 			}
- 		} else {
--			if (proc_vec_conv(type, conv, &neg, &lval, i, dir, table)) {
-+			if (proc_vec_conv(data_type, conv, &neg, &lval, data, conv_dir, table)) {
- 				err = -EINVAL;
- 				break;
- 			}
- 			if (!first)
--				proc_put_char(&buffer, &left, '\t');
--			proc_put_long(&buffer, &left, lval, neg);
-+				proc_put_char(&buf, &buf_left, '\t');
-+			proc_put_long(&buf, &buf_left, lval, neg);
- 		}
- 	}
- 
--	if (SYSCTL_KERN_TO_USER(dir) && !first && left && !err)
--		proc_put_char(&buffer, &left, '\n');
--	if (SYSCTL_USER_TO_KERN(dir) && !err && left)
--		proc_skip_spaces(&p, &left);
--	if (SYSCTL_USER_TO_KERN(dir) && first)
-+	if (SYSCTL_KERN_TO_USER(conv_dir) && !first && buf_left && !err)
-+		proc_put_char(&buf, &buf_left, '\n');
-+	if (SYSCTL_USER_TO_KERN(conv_dir) && !err && buf_left)
-+		proc_skip_spaces(&p, &buf_left);
-+	if (SYSCTL_USER_TO_KERN(conv_dir) && first)
- 		return err ? : -EINVAL;
--	*lenp -= left;
-+	*buf_left_final = buf_left;
-+
-+	return err;
-+}
-+
-+/* Read/write a vector of @type elements. */
-+static int proc_vec(const struct ctl_table *table, int dir, void *buffer,
-+		    size_t *lenp, loff_t *ppos, enum proc_vec_type type,
-+		    union proc_vec_conv conv)
-+{
-+	int err = 0;
-+	size_t data_size, left_nbyte = SIZE_MAX;
-+
-+	switch (type) {
-+	case PROC_VEC_INT:
-+		data_size = sizeof(int);
-+		break;
-+	case PROC_VEC_UINT:
-+		data_size = sizeof(uint);
-+		break;
-+	case PROC_VEC_ULONG:
-+		data_size = sizeof(ulong);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (!table->data || !table->maxlen || !*lenp ||
-+	    (*ppos && SYSCTL_KERN_TO_USER(dir))) {
-+		*lenp = 0;
-+		return 0;
-+	}
-+
-+	/* uint arrays are not supported, *Do not* add support for them. */
-+	if (type == PROC_VEC_UINT && (table->maxlen / data_size) != 1)
-+		return -EINVAL;
-+
-+	if (SYSCTL_USER_TO_KERN(dir)) {
-+		if (proc_first_pos_non_zero_ignore(ppos, table))
-+			goto out;
-+	}
-+
-+	err = apply_conv_on_vec(conv, table, type, data_size, dir, *lenp, buffer,
-+				&left_nbyte);
-+
-+	/*
-+	 * An unchanged left_nbyte signals a write with no parsed element; which
-+	 * is an error. Using SIZE_MAX to detect this error is possible because:
-+	 * 1. lenp is bounded by KMALLOC_MAX_SIZE in proc_sys_call_handler
-+	 * 2. lenp could never be SIZE_MAX as it is a "ridiculous" (exabyte) allocation.
-+	 */
-+	if (left_nbyte == SIZE_MAX)
-+		return err;
-+
-+	*lenp -= left_nbyte;
- out:
- 	*ppos += *lenp;
-+
- 	return err;
- }
- 
-@@ -760,8 +801,8 @@ int proc_douintvec_conv(const struct ctl_table *table, int dir, void *buffer,
- 	if (!conv)
- 		conv = do_proc_uint_conv;
- 
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
--			   (union proc_vec_conv){ .uint_conv = conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
-+			(union proc_vec_conv){ .uint_conv = conv });
- }
- 
- /**
-@@ -820,8 +861,8 @@ int proc_dobool(const struct ctl_table *table, int dir, void *buffer,
- int proc_dointvec(const struct ctl_table *table, int dir, void *buffer,
- 		  size_t *lenp, loff_t *ppos)
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
--			   (union proc_vec_conv){ .int_conv = do_proc_int_conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
-+			(union proc_vec_conv){ .int_conv = do_proc_int_conv });
- }
- 
- /**
-@@ -840,8 +881,8 @@ int proc_dointvec(const struct ctl_table *table, int dir, void *buffer,
- int proc_douintvec(const struct ctl_table *table, int dir, void *buffer,
- 		size_t *lenp, loff_t *ppos)
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
--			   (union proc_vec_conv){ .uint_conv = do_proc_uint_conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
-+			(union proc_vec_conv){ .uint_conv = do_proc_uint_conv });
- }
- 
- /**
-@@ -864,8 +905,8 @@ int proc_douintvec(const struct ctl_table *table, int dir, void *buffer,
- int proc_dointvec_minmax(const struct ctl_table *table, int dir,
- 		  void *buffer, size_t *lenp, loff_t *ppos)
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
--			   (union proc_vec_conv){ .int_conv = do_proc_int_conv_minmax });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
-+			(union proc_vec_conv){ .int_conv = do_proc_int_conv_minmax });
- }
- 
- /**
-@@ -891,8 +932,8 @@ int proc_dointvec_minmax(const struct ctl_table *table, int dir,
- int proc_douintvec_minmax(const struct ctl_table *table, int dir,
- 			  void *buffer, size_t *lenp, loff_t *ppos)
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
--			   (union proc_vec_conv){ .uint_conv = do_proc_uint_conv_minmax });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_UINT,
-+			(union proc_vec_conv){ .uint_conv = do_proc_uint_conv_minmax });
- }
- 
- /**
-@@ -935,8 +976,8 @@ int proc_dou8vec_minmax(const struct ctl_table *table, int dir,
- 		tmp.extra2 = (unsigned int *) &max;
- 
- 	val = READ_ONCE(*data);
--	res = do_proc_vec(&tmp, dir, buffer, lenp, ppos, PROC_VEC_UINT,
--			  (union proc_vec_conv){ .uint_conv = do_proc_uint_conv_minmax });
-+	res = proc_vec(&tmp, dir, buffer, lenp, ppos, PROC_VEC_UINT,
-+		       (union proc_vec_conv){ .uint_conv = do_proc_uint_conv_minmax });
- 	if (res)
- 		return res;
- 	if (SYSCTL_USER_TO_KERN(dir))
-@@ -1066,8 +1107,8 @@ int proc_doulongvec_conv(const struct ctl_table *table, int dir,
- 				int (*conv)(bool *negp, ulong *u_ptr, ulong *k_ptr,
- 					    int dir, const struct ctl_table *table))
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_ULONG,
--			   (union proc_vec_conv){ .ulong_conv = conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_ULONG,
-+			(union proc_vec_conv){ .ulong_conv = conv });
- }
- 
- /**
-@@ -1087,10 +1128,10 @@ int proc_doulongvec_conv(const struct ctl_table *table, int dir,
-  * Returns: %0 on success.
-  */
- int proc_doulongvec_minmax(const struct ctl_table *table, int dir,
--			   void *buffer, size_t *lenp, loff_t *ppos)
-+		void *buffer, size_t *lenp, loff_t *ppos)
- {
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_ULONG,
--			   (union proc_vec_conv){ .ulong_conv = do_proc_ulong_conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_ULONG,
-+			(union proc_vec_conv){ .ulong_conv = do_proc_ulong_conv });
- }
- 
- /**
-@@ -1114,8 +1155,8 @@ int proc_dointvec_conv(const struct ctl_table *table, int dir, void *buffer,
- {
- 	if (!conv)
- 		conv = do_proc_int_conv;
--	return do_proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
--			   (union proc_vec_conv){ .int_conv = conv });
-+	return proc_vec(table, dir, buffer, lenp, ppos, PROC_VEC_INT,
-+			(union proc_vec_conv){ .int_conv = conv });
- }
- 
- /**
+ 1. A process holding CAP_SYS_RESOURCE (e.g. a privileged container)
+    writes past a project hard limit; accounting keeps rising above it.
+
+ 2. knfsd raises CAP_SYS_RESOURCE for requests mapped to root on
+    no_root_squash exports (CAP_NFSD_SET in <linux/capability.h>). So on
+    an ext4-backed, no_root_squash NFS export any remote root write
+    bypasses project hard limits, no matter how confined the client is.
+    We hit this while evaluating ext4 project quotas for multi-tenant NFS
+    volumes: with a 2 GiB hard limit, remote root writes proceeded well
+    past 2 GiB (v6.8, quotaon reporting "enforced"). The same setup on
+    XFS, whose enforcement path performs no capability check, stops the
+    write at the limit.
+
+DQF_ROOT_SQUASH already disables this exemption, but setting it has been
+confined to the old v1 quota format, and commit ca6cb0918e87 ("quota:
+Verify flags passed to Q_SETINFO") later made Q_SETINFO reject it
+explicitly on other formats, on the grounds that those formats did not
+persist the flag and a flag silently lost on remount is confusing. That
+confinement predates generic project quota support (commit 847aac644e92
+"vfs: Add general support to enforce project quota limits").
+
+This series lifts the restriction and addresses the persistence concern
+that motivated it:
+
+  1/2 allows DQF_ROOT_SQUASH to be set through Q_SETINFO on all formats,
+      so it can be enabled per quota type (e.g. project only).
+  2/2 persists the flag in the v2 on-disk dqi_flags field, which already
+      exists, masking on read so only the supported flag is honoured -
+      which also keeps the pre-existing unvalidated on-disk bits (the
+      reason c119c5b9749e "quota: Don't store flags for v2 quota format"
+      stopped storing them) out of the in-memory state.
+
+No behaviour change by default: the flag stays clear unless explicitly
+set, and setting it on a non-v1 format previously returned -EINVAL.
+Accepting it there is the user-visible ABI change 1/2 makes.
+
+Open questions for reviewers:
+
+ * Is extending DQF_ROOT_SQUASH the right vehicle? Despite its name it
+   has always controlled the CAP_SYS_RESOURCE exemption in the generic
+   dquot path, not UID squashing, so the semantic already matches. The
+   alternative is a newly named per-type flag, at the cost of new uAPI.
+   I lean toward reusing the existing flag but defer to your preference;
+   the uAPI comment is updated to describe the real semantic either way.
+
+ * Is persisting the flag in the v2 dqi_flags field (2/2) acceptable? An
+   older kernel rewriting quota info still clears it, so strict
+   enforcement would need to be set up again after booting such a kernel.
+
+ * The NFS case is really a knfsd credential question (should
+   no_root_squash grant CAP_SYS_RESOURCE?). Fixing it in quota covers the
+   privileged-container case too and needs no per-export policy, which is
+   why I bring it here rather than to the nfsd maintainers, but I'm happy
+   to pursue that side there if preferred.
+
+Reproducer (ext4, as root on a scratch device $DEV):
+
+  mkfs.ext4 -qF -O project,quota -E quotatype=prjquota $DEV
+  mount -o prjquota $DEV /mnt
+  mkdir /mnt/vol && chattr +P -p 42 /mnt/vol
+  setquota -P 42 0 $((100*1024)) 0 0 /mnt      # 100 MiB project hard limit
+
+  # root write, flag clear: exceeds the limit (the bug)
+  dd if=/dev/zero of=/mnt/vol/f bs=1M count=200 oflag=direct
+  du -m /mnt/vol/f        # ~200
+
+  ./set_rsquash /mnt      # Q_SETINFO(PRJQUOTA, DQF_ROOT_SQUASH); no CLI for this
+  rm /mnt/vol/f
+  dd if=/dev/zero of=/mnt/vol/f bs=1M count=200 oflag=direct
+  du -m /mnt/vol/f        # ~100, now enforced
+
+  # 2/2: the flag survives a remount
+  umount /mnt && mount -o prjquota $DEV /mnt
+  dd if=/dev/zero of=/mnt/vol/g bs=1M count=200 oflag=direct
+  du -m /mnt/vol/g        # ~100
+
+On XFS the first write already stops at 100 MiB. set_rsquash.c:
+
+  #include <sys/quota.h>
+  #include <linux/quota.h>
+  int main(int argc, char **argv)
+  {
+          struct if_dqinfo info;
+          if (quotactl(QCMD(Q_GETINFO, PRJQUOTA), argv[1], 0, (void *)&info))
+                  return 1;
+          info.dqi_flags |= DQF_ROOT_SQUASH;
+          info.dqi_valid = IIF_FLAGS;
+          return quotactl(QCMD(Q_SETINFO, PRJQUOTA), argv[1], 0, (void *)&info)
+                         ? 1 : 0;
+  }
+
+I can turn the enforcement check into an fstest.
+
+Kitae Yoo (2):
+  quota: allow DQF_ROOT_SQUASH on all quota formats
+  quota_v2: persist DQF_ROOT_SQUASH
+
+ fs/quota/dquot.c           | 8 +-------
+ fs/quota/quota_v2.c        | 6 ++----
+ include/uapi/linux/quota.h | 2 +-
+ 3 files changed, 4 insertions(+), 12 deletions(-)
 
 -- 
-2.50.1
-
+2.50.1 (Apple Git-155)
 
