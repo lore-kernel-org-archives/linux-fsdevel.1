@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44AE45DF67;
-	Fri, 14 Aug 2026 13:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE7E46D2AC;
+	Fri, 14 Aug 2026 13:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786712785; cv=none; b=LE8rI2/q8eP66+R56pS+HNgKEwHRzzJALkjhViFKsLvCWtRrxeXZBs5Oh2sbaGTpz6mBgO8BZakBFZP3BPmKl9FRvLZ67K7oVE7c0+xn2t9NjbQkNespAdcJuL4y20TMlka36xk2aeo9YzE4ELGfLX5eFXJeBTg9TpmewpLRXqc=
+	t=1786712888; cv=none; b=at+UzoRWy01B12b186AkT1prZ+d8uIvgooXlcFnDsdetdPZZt3fvM00y/KDvr4QgLjK0Il7dlZmvqQsOtkz267rKUTO0zHi21ArXAIwck7Tll/O2Rz3t6F7cqAjjFYp4Pkx84QkgNNbBvagOaj5Jvp8uvHkV8IfRBU3TH/eThcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786712785; c=relaxed/simple;
-	bh=l7y7BDMWXgbuF6vRJwtKQl87okL3Ze4cBnuLK/5A/QQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cARJ7/bRtrkbyLM+7ueFA4RFrskN5gHPJypffE5WAIkyKoSE5Havp+gO6PX6FIf9pBSAPL/IFveXoeyvWCoxUKLHCPh3jiQEazdZ4EtgjpkdCnHRSx8LUieA+a0VubjcgRuj35mxRWyXoVLtxWtFUV2MmCbNQ1XOK4BiW8N/rlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8XBjiV9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786712888; c=relaxed/simple;
+	bh=+I2S6/DsSNGhVIx9pPYF5R9Fr1fy1mqAyBL1pDyJ1Mk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wb0tWUq1SLWFPTPBnD+8B/la8ZAkvhyPtfEgCiZcPveSDrdt58H2KmUw3tV+v0crVUaQe+2bDe+mgHW8UQe2BP+m6xic6KMJZH17yXUAOzkqDn1Y1fDc54/fPRQKhynBoSicBb4CK+Jj2jL/FGA6vKdPF6lrhm0ncE03jl2BGKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYkhK/tj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8XBjiV9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD5461F000E9;
-	Fri, 14 Aug 2026 13:06:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYkhK/tj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8357C1F000E9;
+	Fri, 14 Aug 2026 13:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786712780;
-	bh=TXvaCX2jJHb+ZOOi+HZ203hKWjK0FJZ4aKtTf2sosZ8=;
+	s=k20260515; t=1786712886;
+	bh=+I2S6/DsSNGhVIx9pPYF5R9Fr1fy1mqAyBL1pDyJ1Mk=;
 	h=From:To:Cc:Subject:Date;
-	b=d8XBjiV9dwr28akiV6EJLKGYQgEBm7VcN/VGEblLxRoQNnPhMjTw7VhOT+/cGQjd2
-	 LSg1mL4HI0pTwzW/e7RrzuEEaLVi1pkbQ31VaSIFD/WBdI6Ia3/AWApn7QLW8d//5e
-	 wEPXurXUCtO0YifTJjDJx3kg6GA0cfKliSO1TK10b0FTum21rm7wu4PrnxkVgpoK0T
-	 bh5kPkrGyNv6Hc+5SS/MOoNVlxnleefP6bwZycntSxT3hHbQ4+hm0dwHkkqAp4whz/
-	 FbCu3WTUvpPTd3QCUtxFEOWjBMokWxuEvcrjBke1PAxEpmnzlWBgOimiFNXAd1ta3x
-	 7l1DfnGgDdE4g==
+	b=NYkhK/tjxGAnfoeT+nmk4h1XZPk06AbPqdt4eRTwpyEyjEMk/vxg8Syufl0+93fYS
+	 cnJKiExr+tNdRuDyrWiCd9uEbVXz41L+x96vQ8VHveMH3VrQECzzcQCDLdV5ziY4Fz
+	 lcluqZTSTXH8iMIct5uVvz6XGGWRHrUraJtRiBiINS+/xucTQ90wy5twzu8uR3R68Z
+	 M7diACKA6gz8UBGqp2nNL+tmhM8BddwSklOtmgxXsWxhIHu+9wUPBXmqKUx0qRiObC
+	 s8yxfluY8Z/jsJp3D/aldnpUABwSIZvgxVkex8DBBREMxUOPCnYMFcbgHSfwIbkV7l
+	 ucl+ewP9WghuA==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL for v7.2] vfs fixes
-Date: Fri, 14 Aug 2026 15:05:58 +0200
-Message-ID: <20260814-vfs-7.2-rc8.fixes-6d7ba75b0b43@brauner>
+Subject: [GIT PULL 00/18 for v7.3] v7.3
+Date: Fri, 14 Aug 2026 15:07:12 +0200
+Message-ID: <20260814-vfs-v73-6e884cb31ac9@brauner>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -40,87 +40,100 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3128; i=brauner@kernel.org; h=from:subject:message-id; bh=l7y7BDMWXgbuF6vRJwtKQl87okL3Ze4cBnuLK/5A/QQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVC+3nmb9128OpGkeLn8w5uyF7t53O9vY3HMnaAm6zl Jk9VjaEd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk5hKGv8KZM74snN/5Tck1 dn4839s5h8P/WP38d8R2pkdw0qGgzw8YGc642asF8zZ89bwtH7U9gkHvufcDobOqhkqrT01rWTn HlhsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5184; i=brauner@kernel.org; h=from:subject:message-id; bh=+I2S6/DsSNGhVIx9pPYF5R9Fr1fy1mqAyBL1pDyJ1Mk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVC3MrPFzr4eGamx3DUeD036zhfL6+duWWSoXSa20Tr 196k7m7o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCLaXxkZjmufCkmS1AtYd5Zx yafulbejBNPeV8f/V167+Jbt6h+ppxgZPrxvuWn0YqMj2/S0Tz+myNRKddYcs9i19vbPd0tycvL E+QA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hey Linus,
 
-/* Summary */
+This is the batch of pull requests for the v7.3 merge window.
 
-This contains last fixes for the current development cycle:
+We remove three subsystems taking about five thousand lines with them.
+These are very old filesystem drivers. EFS, the read-only SGI IRIX
+format that predates XFS, has been orphaned and goes. freevxfs goes too.
+Cachefiles ondemand mode also goes out now that EROFS over fscache,
+its only in-tree user, has been removed.
 
-- Don't warn when a mount is completed from another user namespace.
+I've sent the pull request that makes kernel threads stop sharing
+filesystem state with userspace which I've kept in -next continously for
+multiple cycles. So kernel threads no longer share filesystem state with
+PID 1. Since the beginning, init_task, PID 1 and every kthread have
+shared one fs_struct, which is why pivot_root() rewrites the fs_struct
+of all kthreads and why userspace can move the ground out from under the
+kernel.
 
-  fsopen() records the caller's user namespace in fc->user_ns and hands
-  back an ordinary file descriptor. The task that calls
-  fsconfig(FSCONFIG_CMD_CREATE) doesn't have to be the one that created
-  the context, and mount_capable() lets it through as long as the caller
-  has CAP_SYS_ADMIN over fc->user_ns, which anyone in an ancestor
-  namespace does. So fc->user_ns != current_user_ns() is something an
-  unprivileged user can arrange.
+PID 1 now gets its own fs_struct and kthreads are anchored in a private
+nullfs instance that cannot be mounted on and cannot be used to follow
+other mounts. So path lookup from a kthread fails by default. Anything
+that legitimately needs to look something up in init's filesystem state
+must opt-in explicitly via scoped_with_init_fs().
 
-  Both overlayfs and binfmt_misc WARN_ON() that. Overlayfs already
-  has the same check as a plain error return in ovl_parse_param(). Drop
-  the WARN_ON() and just refuse. Add selftests for both cases.
+This also sees the addition of a minimal new pseudofs called "failfs"
+which came out of some requests to shed fs state for lookup purposes
+without having to resort to any namespace shenanigans. In failfs every
+operation fails and is the counterpart to nullfs. Its root cannot be
+opened at all. A single instance is mounted during early boot and
+belongs to no mount namespace. This lets a task shed its filesystem
+state completely. With its root or working directory in failfs it must
+anchor every lookup at an explicit file descriptor. failfs is reachable
+through FD_FAILFS_ROOT which is understood by fchdir() and by the new
+fchroot() system call.
 
-- Reject pid allocations through dead ancestor pid namespaces.
+Overlayfs learns to support idmapped mounts itself so a whole merged
+tree can be shown under a different ownership.
 
-  Require PIDNS_ADDING in every namespace that will receive the pid
-  before publishing any of them. That preserves the invariant that
-  free_pid() never decrements pid_allocated in a namespace whose
-  child_reaper is no longer live. The existing ENOMEM behavior is
-  unchanged.
+We now make it possible to share a block device between multiple
+superblocks. erofs can mount read-only blob devices shared between many
+superblocks. Because we only tracked a single superblock a freeze, thaw,
+removal or sync on such a device was never propagated to all the
+superblocks using it. And there was no way to find them. So add an
+efficient table to lookup all superblocks using a given block device. A
+bunch of pre-existing fixes fell out of this work as well.
 
-/* Conflicts */
+Another chunk is iomap's conversion to a single ->iomap_next() callback
+which finishes the move to an iterator model. Every iomap operation
+drove its iteration through a struct iomap_ops holding ->iomap_begin()
+and ->iomap_end(). That means every step of every iteration is an
+indirect call. The work this cycle collapses both into one
+->iomap_next() callback that finishes the previous mapping and produces
+the next one. This lets callers inline the iteration loop and pass its
+->iomap_next() as a compile time constant. That means the compiler can
+turn it into a direct and hence inlineable call.
 
-Merge conflicts with mainline
-=============================
+We've also changed sync_inode_metadata() and
+writeback_single_inode(). They now persist not only the inode but all
+metadata associated with it. A new .sync_inode_metadata superblock
+operation is called from __writeback_single_inode(). Alongside it a new
+I_METADATA_WRITEBACK state flag is added. So filesystems no longer need
+their own mmb_fsync() implementations and can just use simple_fsync().
+All metadata is now written for IS_SYNC and IS_DIRSYNC inodes. Races
+where several fsyncs raced and mmb_sync() could return before all
+buffers were really persisted are fixed since I_SYNC now serializes
+properly. The I_METADATA_WRITEBACK scheme also fixes the case where a
+WB_SYNC_NONE writeback landing between write(2) and fsync(2) left
+fsync(2) failing to persist the inode. That problem is not specific to
+filesystems using the generic metadata bh tracking, and the ones that do
+not are left alone.
 
-No known conflicts.
+lookup_open() is refactored so that mnt_want_write(), the parent
+locking and the delegated_inode retry loop live inside it. nfsd gets a
+vfs_lookup_open() to reuse and thus stops open-coding the helper.
+audit_inode_child() is now also called on failure there. This matches
+what vfs_create() and vfs_mkdir() have always done. And the excl
+argument to ->create() is removed.
 
-Merge conflicts with other trees
-================================
-
-No known conflicts.
-
-The following changes since commit db2ddb87143519e20a95aa36c60b36107b736a58:
-
-  Linux 7.2-rc7 (2026-08-09 14:54:50 -0700)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc8.fixes
-
-for you to fetch changes up to b64a9f67e082e04835ddd69d422a25168d69375b:
-
-  pid: reject allocations through dead ancestor pid namespaces (2026-08-12 12:56:30 +0200)
-
-----------------------------------------------------------------
-vfs-7.2-rc8.fixes
-
-Please consider pulling these changes from the signed vfs-7.2-rc8.fixes tag.
+binfmt_misc sees the largest rework. I've upstreamed a bunch of fixes
+you merged during this cycle already. They fell out of this work (two
+write access imbalances on interpreter files, an out-of-bounds flag scan
+when a register string uses a flag character as its delimiter, and an
+'F' entry that could pin its own instance). The new work adds support
+for having dynamic policies for how to execute binaries. E.g., this
+allows for the interpreter to be computed per binary. That is what
+relocatable, hermetic binaries in Nix-style store layouts have needed,
+where the right dynamic loader can only be determined relative to the
+location of the binary itself and neither PT_INTERP nor a fixed
+interpreter string can express it. But the mechanism allows for generic
+policies to be expressed.
 
 Thanks!
 Christian
-
-----------------------------------------------------------------
-Christian Brauner (4):
-      ovl: don't warn when the mount is completed from another user namespace
-      binfmt_misc: don't warn when the mount is completed from another user namespace
-      selftests/filesystems: test completing a context from another user namespace
-      Merge patch series "fs: don't warn when a mount is completed from another user namespace"
-
-Jérémy Jean (1):
-      pid: reject allocations through dead ancestor pid namespaces
-
- fs/binfmt_misc.c                                   |   3 +-
- fs/overlayfs/super.c                               |   3 +-
- kernel/pid.c                                       |   6 +-
- tools/testing/selftests/Makefile                   |   1 +
- .../selftests/filesystems/fscontext_ns/Makefile    |  10 +
- .../filesystems/fscontext_ns/fscontext_ns_test.c   | 239 +++++++++++++++++++++
- 6 files changed, 258 insertions(+), 4 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/fscontext_ns/Makefile
- create mode 100644 tools/testing/selftests/filesystems/fscontext_ns/fscontext_ns_test.c
