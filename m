@@ -1,98 +1,86 @@
-Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D524035AC09
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 05:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2177233938B;
+	Fri, 14 Aug 2026 06:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786686349; cv=none; b=qcZiVn/MRiVYjf3I34sBnyN+e/Yibh9Jz2ofTSYzleGjZvEI3HGFNvlz8M7mLUxfRtS52h5r9RLtuxvh0ND9Gs1O/FzqlbwgkdrHF6LD3Vwpy3SjAiJJfUslTL1pI2WzywlmnllvK2zIalDpLk0Z1T1XHCWDi1w6mVd2rTtI4a0=
+	t=1786689036; cv=none; b=IpFCPFLp/fzvIXvXyqYLb/twDhBeGTQEPiiw+A+P0VDQlV8xCjCvW2Co35BZm1wsfabsBahwUVNsGZLj+QCQKYZIrv5IYYr+nkotCxHy+3EjB8MYKAcoWyZrTc28/b5dBI2b8h8f/+zQURKGa12miXii68VH1UcIedCAdVJzJLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786686349; c=relaxed/simple;
-	bh=IqJTfn3nxl/wh2BuwF0tiSKaZByXqSGak7Whm3DarVI=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JENWZ38RC7EJLSS35NW5PGqdSm2B64ydfXzHWQXKDdMsd8/CB5IfegX5dOjXpeYOj8yO00YIU3RSCZoSDrIuqbs87lsq6G3jd0z51WYKD/wZT7EABhTWcD+z8IOJ4fFsHpy1mk9UU52AD0HwH6lK2SoQyfcZgPMYQUKB5I95bB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=NKkojb0F; arc=none smtp.client-ip=85.9.206.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1786689036; c=relaxed/simple;
+	bh=00WqtERUtnYBEUzQd0/SsEG+LWqmr6egKXeBQhrAo2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t028Cac6kVHo1GIfHFe3j4mnRMcmtslVwvR9zYQypMCz6184HTKEL/ddOynpnD++Z59cevY8gdVAkf7EU7Qs7ltRy69tEGK7c8Z8zP2KeCp+0ToMhhb8rPO213ek8sReFDlOkUv2F3PmjXgqq34WC5M9Jo88zTwv3OUmRXbkrMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WsNtQ8Tn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="NKkojb0F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1786686328; x=1786945528;
-	bh=LHEr8JORQf0eFUpUSDFqX7M9wlb2jOaEB5UsvbzUnqI=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=NKkojb0FrOAHFbMe9rrNRIIRVGJs40l6Iqrbr0Rbj6LRxE/TRDNXBcmTvH5rYAniG
-	 LvsW2tzto3ijvR3MuNQeKoIm4Br4WljzsmpFpc5T965etUDZh4K1OZzg2zCQb1Q6Dr
-	 SoClf5P0EIwJ5brlFo0LeOcnTt/5CSgGmoh+QAbxJUQls54YG3xXHFmpHTb994ihAE
-	 gHzgGRPuDMLabBhiSCMx6rEGUXYMQfS6X5pMfaH9/vC4A96M5fQMvOgkL9oq5ok+/J
-	 UkTllNC4AuXY60vECK26srKq9ekt2bnzJEd6hc+uB+HcBA27a2nRGls3jBsiootPQ+
-	 kL5jRE60VgjIw==
-Date: Fri, 14 Aug 2026 05:45:24 +0000
-To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-From: Paolo De Donato <dedo.paolo.24@proton.me>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Information about bind mounts and simultaneous access to /dev/ptmx and /dev/pts/ptmx
-Message-ID: <QyCOf8W8P-XlVQEK451kiApqyxPqPQzth8sY0CNnbkUKXoTzkY-jbKI10jr6bjP_8IfsvYqkHnhmGTlL12HQgfzZ4CiVakdps9kiNuH6rTM=@proton.me>
-Feedback-ID: 61544309:user:proton
-X-Pm-Message-ID: 23d80ca16bf849e92065e0e9ca1457bfd9b7396e
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WsNtQ8Tn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=00WqtERUtnYBEUzQd0/SsEG+LWqmr6egKXeBQhrAo2I=; b=WsNtQ8TniakQxZNdnuggvJh74C
+	OE+4sgkHXEZuda9o7TCIN8ZpLZKayt5lMhfPBdi9qDc9BllPvmwc41LE3Qr0O6NB/jVAV2LwQuFig
+	FlIYI5FxGw1AG6pjRP5HOMuYO5WfUr8kHRcZ5XmnhP5l608QVpHTXsW/QRiOF9QYwFUb+EdK34tUE
+	XdU8zGpWXJQx8aCNuUFimFxp5McV/biDcAuI44NAc+pepbC7nfgSfQjLeLxMmXbAsHtq7BhOwpN9J
+	r7MJ/rT1jha6cCGI6WlKmC2yAcqtpZJ5m7y8EPyTIiQMCzeTMqJ9JXrKo+i+hgy46uCKXsdA/qzEI
+	gu1YioiQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wulR0-000000022L3-2Xh4;
+	Fri, 14 Aug 2026 06:30:31 +0000
+Date: Thu, 13 Aug 2026 23:30:30 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Daeho Jeong <daeho43@gmail.com>
+Cc: Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, kernel-team@android.com,
+	Daeho Jeong <daehojeong@google.com>, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2] f2fs: quiesce background threads during system
+ suspend using PM notifier
+Message-ID: <an62BorNrc-IX228@infradead.org>
+References: <20260806170108.2100312-1-daeho43@gmail.com>
+ <ann0OPPglToV_hjs@infradead.org>
+ <ff74edb1-43c7-485f-ab78-ec13b500a0bb@acm.org>
+ <CACOAw_zqOS0vHdQV6WoUJyxnDf=kdDAz27pNGDLdQLUdUYOzBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="b1=_Ol5r6LukbmmQ08F7RNhKWcQVGKx6zlb4vAYAxmh4"
-
---b1=_Ol5r6LukbmmQ08F7RNhKWcQVGKx6zlb4vAYAxmh4
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACOAw_zqOS0vHdQV6WoUJyxnDf=kdDAz27pNGDLdQLUdUYOzBQ@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Dear Alexander Viro,
+On Mon, Aug 10, 2026 at 09:53:14AM -0700, Daeho Jeong wrote:
+> On Mon, Aug 10, 2026 at 9:34 AM Bart Van Assche <bvanassche@acm.org> wrote:
+> > This information was shared earlier with Daeho
+> > (https://b.corp.google.com/issues/515470309#comment45): [ ... ]
 
-I have noticed that trying to open /dev/ptmx device file through a bind mou=
-nt will always fail. More precisely, calling
+This does not seem to be information available to the public.
 
-    open("/dev/ptmx", O_RDWR)
+> f2fs threads are already freezable: f2fs_gc and f2fs_discard are
+> already registered with set_freezable() and call try_to_freeze().
+> However, a race window exists: a thread checks freezing() (false),
+> calls submit_bio(), and gets trapped inside __bio_queue_enter().
+> Because it gets blocked before reaching try_to_freeze(), it triggers a
+> PM freezer timeout.
 
-usually succeeds, however it will always fail if you previously launched th=
-e following command:
+This does sound very much like a block layer freezing issue.
 
-   # mount --bind /dev/ptmx /dev/ptmx
+> Point taken. Aside from this f2fs patch, I agree that addressing this
+> at the block layer or PM subsystem level would be a much cleaner,
+> system-wide solution.
+> I’ll give more thought to how we can properly solve this race
+> condition for the entire system, and I'll loop in the relevant
+> PM/block maintainers if a viable generic approach emerges.
 
-I think the root cause of this is the relationship between /dev/ptmx and th=
-e devpts virtual filesystem, usually mounted at /dev/pts since all operatio=
-ns on /dev/ptmx are forwarded to /dev/pts/ptmx. This issue makes unfeasible=
- to share access to /dev/ptmx through a mount namespace, however bind mount=
-s work as expected with /dev/pts/ptmx (if devpts has been mounted with the =
-option ptmxmode=3D0666).
-
-My question is if it is safe to give full access to both /dev/ptmx and /dev=
-/pts/ptmx (through ptmxmode=3D0666) at the same time, or if there are some =
-racing conditions that would make simultaneous access insecure. Documentati=
-on at https://docs.kernel.org/filesystems/devpts.html and man 4 pts say not=
-hing about this scenario, but I think this information will be very helpful=
- for all people that needs having pseudoterminal access inside a mount name=
-space.
-
-Bests,
-Paolo
---b1=_Ol5r6LukbmmQ08F7RNhKWcQVGKx6zlb4vAYAxmh4
-Content-Type: application/pgp-keys; name="publickey - dedo.paolo.24@proton.me - 0xF470BB6E.asc"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - dedo.paolo.24@proton.me - 0xF470BB6E.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgp4ak1FWTNJWjJCWUpLd1lCQkFI
-YVJ3OEJBUWRBeUhJclNlOTI3TFg3a3FnWFRpVHRtbnpvTVkxRjBzWSsKdzlVL0NjOXVCTi9OTVdS
-bFpHOHVjR0Z2Ykc4dU1qUkFjSEp2ZEc5dUxtMWxJRHhrWldSdkxuQmhiMnh2CkxqSTBRSEJ5YjNS
-dmJpNXRaVDdDakFRUUZnb0FQZ1VDWTNJWjJBUUxDUWNJQ1JEbTRHeGptUURJeHdNVgpDQW9FRmdB
-Q0FRSVpBUUliQXdJZUFSWWhCUFJ3dTI0Z254UzJrbzd3d2ViZ2JHT1pBTWpIQUFCR2pnRUEKODVp
-aUVGUzNQS2tMbHFEaEdTeDM5ZmwzVHluTjFyb3BvMFkxVHhvc2Z3a0EvMzJUTktld0tCSkFXcmpi
-CjdOdmFFYm5xb3RGVzhXTFNIai9rWWNMSHA1c096amdFWTNJWjJCSUtLd1lCQkFHWFZRRUZBUUVI
-UUgwYgphYlNHMTgxTW14N3pSRXRpd2ZaZU9QTjFxeFJqZVRHdmVRd2MwMWNPQXdFSUI4SjRCQmdX
-Q0FBcUJRSmoKY2huWUNSRG00R3hqbVFESXh3SWJEQlloQlBSd3UyNGdueFMya283d3dlYmdiR09a
-QU1qSEFBQm0zQUQvCmI2MFZ5c0dHNWdQSzc0U1ljMXQ1SjVCcy9nU0MyL05CUHB0N3ZMYU5wZEVB
-LzJLdXJxaXluOXkzQ1d1NwpuMXVSMC9WdTM2N3ZoVWNnYkhaU0YyY3VkK3dFCj1LazYzCi0tLS0t
-RU5EIFBHUCBQVUJMSUMgS0VZIEJMT0NLLS0tLS0K
-
---b1=_Ol5r6LukbmmQ08F7RNhKWcQVGKx6zlb4vAYAxmh4--
+Thanks, it would be great to fix this properly.
 
