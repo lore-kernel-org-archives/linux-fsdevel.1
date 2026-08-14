@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A3839CD10;
-	Fri, 14 Aug 2026 13:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EAE438FE4;
+	Fri, 14 Aug 2026 13:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786713156; cv=none; b=Cbow6r84wfTJHNbWNGGAZYvzgpuO/tWl3TLIErHK6Vw1JqxqNC17v5WPR4e763erFPrrcxa3nyJ+d7BnvGSr5bPjSaT7SyJGG4JGQC784FXiNSpbNBLU5J0XcWy+q0bTtx6OK4JwpU1Z1SbQJX/B/fs+MhRJVmPYpgXfCNhzB8k=
+	t=1786713170; cv=none; b=phsfE06lmA2yrqRBNsAxazkwfEWKrl1TmDM+wKqpm4WNotRqo10tVzBQYPgiop55UqGPpmT+w5JZAxsFbkfS8ZusL//4rlNjBnlV1QtYMuCoVTw73j09IlLp8+aWp1yNQbTK75fXYGbfI7vZOImAyGYsmqrBckeCj9bhgo2ozW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786713156; c=relaxed/simple;
-	bh=k12iJhaf7+U5717bUuPC8dXWyfVc5sRmnlybQHPh4G4=;
+	s=arc-20240116; t=1786713170; c=relaxed/simple;
+	bh=2xXxueVPqankomTH8778Xd0Cr39q3uSyrxux4lypQ/0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VL+XtjMfbOCQnZyilmeirADa0HsUoVmV8734spTFdIh7DhN3fYWQS3DyEn1C9pWhj0wlFUkV6s+e6CvlcZM5d1I8dNR9mTJ98d3u0zowsj7XQ0ZJywzPTe8yBiyykAleiPIWoAIwEe1bm/9j4tQYObCQEuieyskvv4n7arofmcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SrAXFKza; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=vF29BDwRj5y8fOdR9Aoi/MFKzd9CztOpjCIYC1dbHPSQ9/foUUZp+VM+CcHHe9ISNTlfGqWyxoKgkOXA/WESeqk77gpUUUfv3SDpZN7qw/jBBXcV/nmm41mg5lcl88mBGgX+fDRHeXpeK/3wNeFHuR3rfZI+Uf1luYXcDs9g5Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aMEZmIAD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SrAXFKza"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5163E1F000E9;
-	Fri, 14 Aug 2026 13:12:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aMEZmIAD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A2F1F000E9;
+	Fri, 14 Aug 2026 13:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786713154;
-	bh=Wxq4i0p0jRp4Qn1tOY7uSNaa9J6R2w3VXaVAJXbAuGw=;
+	s=k20260515; t=1786713168;
+	bh=qo2nOovBR/lrmZ8esOu8zUtW+5at2Kj/ic/yVeNS2Jk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SrAXFKzakLAm/31g8aUE0f3Y+2Ee8/nsA4hIxLrEcpDwBkUUJ3sb3V4VppfsH0Tic
-	 snp0hcrFsy45Yd5gHB+MdNetaVy0161hHXXKbMdq3cDNerkPKXONzYaUy6AGCioBXP
-	 7fpyijjSjzsyqDiLRTxaTwrQ7VdR/nuyraOSkxSbH9PiwxXEDjT0igbvSe6HpKQ0Ug
-	 StgcWra/TNYf0t6/tFarn02SCPKIMXEJZMZ5Ge4254la50PAoAiVaehG0Y89dvOACs
-	 6/zXeLiPGjjdRstP95h9kGbEXvKNBKQPJLOnGNK6XBTdV38iuFzJWv7DECi0Btbtgp
-	 iQtes7+98UI3g==
+	b=aMEZmIAD9OgnR5+pN3J4zsQ2DjoRz8VeYcsMVqX8MJQlrXEsn7e4Ne772mCtKQlfn
+	 gasz41FWGBH4hFkciTHe4ZhC8kd1p6ufbDrNmyMzVaqaf1Z9Wi9loNa7T4Wp+0r/FY
+	 p9nqfvtngKgN890dmQjCzU3QIWphSTeUTtiJVtvGQNAZNa6HXQhDB27DrnTL82ZoDC
+	 p6Rk74DMiP0hr95GEsHBsvzUCXcHlYfdEEfwdFZ1l0g7zLgYeP2sSgp5rd/DSL+RjT
+	 EX1W84znJqqP/QcsgAmaJkCvaF69a/nMi7A02UzaPT2Jm20sS9LWkwepzEKH3YNlJb
+	 ljCI45PNxIIew==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 08/18 for v7.3] vfs iomap
-Date: Fri, 14 Aug 2026 15:12:24 +0200
-Message-ID: <20260814-vfs-7.3-rc1.iomap-78c92ce13812@brauner>
+Subject: [GIT PULL 09/18 for v7.3] vfs kfunc
+Date: Fri, 14 Aug 2026 15:12:38 +0200
+Message-ID: <20260814-vfs-7.3-rc1.kfunc-15aa56837afc@brauner>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260814-vfs-v73-6e884cb31ac9@brauner>
 References: <20260814-vfs-v73-6e884cb31ac9@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8494; i=brauner@kernel.org; h=from:subject:message-id; bh=k12iJhaf7+U5717bUuPC8dXWyfVc5sRmnlybQHPh4G4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVi1iWbNPefktBe6Vn33rJog8Bs/cJXTG36wiS8DRtC 30uVxHXUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJEp2xkZfv+rDZPLXXS61uLC 1x8X7Q9VK0w/mqosyxYhayGnur3hKcP/mimqPmbF5s+4eZXP9u6Zbn9updsDb5cv/2REI75c6z3 FDgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6926; i=brauner@kernel.org; h=from:subject:message-id; bh=2xXxueVPqankomTH8778Xd0Cr39q3uSyrxux4lypQ/0=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVi7jf/dp3bsLeBBOBw1qLV/hd25YSrdccdVk1Toc1c /35fTaOHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNh2cDI0HCp9Nlntc9hjooz n50xbuZ+LGCWnSt3qiluXuy2T/MD/jEy3H54j1cpQOqoIL+pfMb8r/81G48dunV7p7l9oZHv2f/ 5fAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,60 +51,16 @@ Hey Linus,
 
 /* Summary */
 
-The bulk of this is the conversion of iomap to a single ->iomap_next()
-callback and thus finishing the move to an iterator model.
+This adds a bpf_sock_read_xattr() kfunc so a BPF LSM program can read
+a user.* extended attribute from a socket's sockfs inode locklessly.
 
-Every iomap operation drove its iteration through a struct iomap_ops
-holding ->iomap_begin() and ->iomap_end(). iomap_iter() only ever sees
-those as pointers. That means every step of every iteration is an
-indirect call.
-
-This collapses both into one ->iomap_next() callback that
-finishes the previous mapping and produces the next one. This lets
-callers inline the iteration loop and pass its ->iomap_next() as a
-compile time constant. That means the compiler can turn it into a direct
-and hence inlineable call.
-
-This also allows future callers to express custom logic to drive the
-iteration forward better. xfs, btrfs, ext4, ext2, erofs, f2fs, gfs2,
-hpfs, fuse, exfat, zonefs, ntfs, ntfs3 and the block device
-mapping are all converted. No functional changes are intended.
-
-This also adds a simple direct I/O path for small reads. On Gen5 NVMe
-the __iomap_dio_rw() dominates 4K random reads. The same single-core
-io_uring poll mode workload reaches ~3.2M IOPS against the raw block
-device but only ~1.92M through ext4 or XFS.
-
-__iomap_dio_rw(), iomap_iter(), iomap_dio_bio_iter() and kfree() were at
-the top of the profile. The new path is very lightweight if no special
-behavior is requested. The bio comes from a dedicated bioset and laid
-out so the whole request is a single cacheline aligned allocation.
-Completion runs inline.
-
-That takes ext4 from 1.92M to 2.19M IOPS in the original workload. fio
-shows around:
-
-* 4% at libaio queue depths of 64 and up
-* around 5% for io_uring
-* up to 10% for io_uring poll mode at depth 256
-
-on both ext4 and xfs.
-
-A few other patches:
-
-- iomap_folio_mark_uptodate() lets a filesystem that writes
-  into the page cache outside the iomap read and write paths keep
-  iomap's internal uptodate bitmap in sync, which fuse needs for
-  server-pushed notify stores before it can enable large folios;
-
-- two fixes for iomap_bio_read_folio_range_sync(): a potential crash
-  when device integrity behavior is changed and a missing bio_uninit().
-
-- a folio batch release fix on iomap callback failures
-
-- FGP_NOFS is dropped from iomap_get_folio()
-
-- documentation fix
+userspace already uses user.* xattrs on sockets to implement socket rate
+limiting and to tag sockets for other purposes such as a varlink
+registry. There has been no efficient way for a BPF program to read
+those labels back. With this a listening socket marked from userspace
+with fsetxattr() can be read back during bind or connect and acted upon
+on the connecting socket. That lets userspace mark sockets and later
+rediscover them or implement policy on them.
 
 /* Testing */
 
@@ -115,52 +71,125 @@ No build failures or warnings were observed.
 Merge conflicts with mainline
 =============================
 
-No known conflicts.
+This conflicts with commit 3f8c65b06fafc ("bpf: have
+bpf_real_data_inode() take a struct file") in fs/bpf_fs_kfuncs.c. That
+commit renamed bpf_real_inode() to bpf_real_data_inode() and switched it
+to take a struct file, while commit b4e124d168552 ("fs: Add
+bpf_sock_read_xattr() kfunc to read socket xattrs") from this tree adds
+a new kfunc immediately above it. Here's a proposed conflict resolution:
+
+[1]: https://lore.kernel.org/linux-next/ak4zoqJsFCyOQXyh@sirena.org.uk
+
+diff --cc fs/bpf_fs_kfuncs.c
+index 5b7d03e4fc6d,9a4ea5c9b0c9..6cb877267978
+--- a/fs/bpf_fs_kfuncs.c
++++ b/fs/bpf_fs_kfuncs.c
+@@@ -360,24 -360,52 +361,57 @@@ __bpf_kfunc int bpf_cgroup_read_xattr(s
+  }
+  #endif /* CONFIG_CGROUPS */
+  
++ #ifdef CONFIG_NET
++ /**
++  * bpf_sock_read_xattr - read xattr of a socket's inode in sockfs
++  * @sock: socket to get xattr from
++  * @name__str: name of the xattr
++  * @value_p: output buffer of the xattr value
++  *
++  * Get xattr *name__str* of *sock* and store the output in *value_p*.
++  *
++  * For security reasons, only *name__str* with prefix "user." is allowed.
++  *
++  * Return: length of the xattr value on success, a negative value on error.
++  */
++ __bpf_kfunc int bpf_sock_read_xattr(struct socket *sock, const char *name__str,
++ 				    struct bpf_dynptr *value_p)
++ {
++ 	struct bpf_dynptr_kern *value_ptr = (struct bpf_dynptr_kern *)value_p;
++ 	u32 value_len;
++ 	void *value;
++ 
++ 	/* Only allow reading "user.*" xattrs */
++ 	if (strncmp(name__str, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN))
++ 		return -EPERM;
++ 
++ 	value_len = __bpf_dynptr_size(value_ptr);
++ 	value = __bpf_dynptr_data_rw(value_ptr, value_len);
++ 	if (!value)
++ 		return -EINVAL;
++ 
++ 	return sock_read_xattr(sock, name__str, value, value_len);
++ }
++ #endif /* CONFIG_NET */
++ 
+  /**
+ - * bpf_real_inode - get the real inode backing a dentry
+ - * @dentry: dentry to resolve
+ + * bpf_real_data_inode - get the real inode hosting a file's data
+ + * @file: file to resolve
+   *
+ - * If the dentry is on a union/overlay filesystem, return the underlying, real
+ - * inode that hosts the data.  Otherwise return the inode attached to the
+ - * dentry itself.
+ + * Resolve @file to the inode that hosts its data. For a regular file on a
+ + * union/overlay filesystem this is the underlying (upper or lower) inode that
+ + * stores the data, not the overlay inode.
+   *
+ - * Return: The real inode backing the dentry, or NULL for a negative dentry.
+ + * Data resolution only applies to regular files. For a non-regular file (e.g.
+ + * a device node, fifo or socket) on a union/overlay filesystem the overlay
+ + * inode itself is returned; for any file on a non-union filesystem the inode
+ + * attached to @file is returned.
+ + *
+ + * Return: The inode hosting @file's data, or NULL.
+   */
+ -__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
+ +__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
+  {
+ -	return d_real_inode(dentry);
+ +	return d_real_inode(file_dentry(file));
+  }
+  
+  __bpf_kfunc_end_defs();
+@@@ -390,28 -418,16 +424,31 @@@ BTF_ID_FLAGS(func, bpf_get_dentry_xattr
+  BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
+  BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
+  BTF_ID_FLAGS(func, bpf_remove_dentry_xattr, KF_SLEEPABLE)
+ -BTF_ID_FLAGS(func, bpf_real_inode, KF_SLEEPABLE | KF_RET_NULL)
+ +BTF_ID_FLAGS(func, bpf_real_data_inode, KF_SLEEPABLE | KF_RET_NULL)
++ #ifdef CONFIG_NET
++ BTF_ID_FLAGS(func, bpf_sock_read_xattr, KF_RCU)
++ #endif
+  BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
+  
+ +/* Side-effecting kfuncs that stay exclusive to LSM programs. */
+ +BTF_SET_START(bpf_fs_kfunc_lsm_only_ids)
+ +BTF_ID(func, bpf_set_dentry_xattr)
+ +BTF_ID(func, bpf_remove_dentry_xattr)
+ +BTF_SET_END(bpf_fs_kfunc_lsm_only_ids)
+ +
+  static int bpf_fs_kfuncs_filter(const struct bpf_prog *prog, u32 kfunc_id)
+  {
+ -	if (!btf_id_set8_contains(&bpf_fs_kfunc_set_ids, kfunc_id) ||
+ -	    prog->type == BPF_PROG_TYPE_LSM)
+ +	if (!btf_id_set8_contains(&bpf_fs_kfunc_set_ids, kfunc_id))
+ +		return 0;
+ +	if (prog->type == BPF_PROG_TYPE_LSM)
+ +		return 0;
+ +	if (prog->type != BPF_PROG_TYPE_STRUCT_OPS)
+ +		return -EACCES;
+ +	/* ->st_ops is unset during the cfg pass; enforced once it is set. */
+ +	if (!prog->aux->st_ops)
+ +		return 0;
+ +	if (bpf_prog_is_binfmt_misc_ops(prog) &&
+ +	    !btf_id_set_contains(&bpf_fs_kfunc_lsm_only_ids, kfunc_id))
+  		return 0;
+  	return -EACCES;
+  }
 
 Merge conflicts with other trees
 ================================
 
-[1]: https://lore.kernel.org/linux-next/anMt1DKhBq-9Hk7h@sirena.org.uk
-     https://lore.kernel.org/linux-next/CAJnrk1ZqzifYSFNg1tBNz15p2WBe+rMVfRT5yq=B+wCemLt+4g@mail.gmail.com
-
-This conflicts with the ntfs tree in fs/ntfs/iomap.c between commit
-9cf6ac617e8e9 ("ntfs: serialize resident iomap reads with mrec_lock") from
-the ntfs tree and commit 7a7bf7551624f ("ntfs: convert iomap ops to
-->iomap_next()") from this tree:
-
-diff --cc fs/ntfs/iomap.c
-index 73c50171285aa,d0964ac840d9f..0000000000000
---- a/fs/ntfs/iomap.c
-+++ b/fs/ntfs/iomap.c
-@@@ -283,22 -274,13 +283,24 @@@ static int ntfs_read_iomap_begin(struc
-  		unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
-  {
-  	return __ntfs_read_iomap_begin(inode, offset, length, flags, iomap,
- -			srcmap, true);
- +			srcmap, true, true);
-  }
-  
- -static DEFINE_IOMAP_ITER_NEXT(ntfs_read_iomap_next, ntfs_read_iomap_begin);
- +static int ntfs_read_iomap_end(struct inode *inode, loff_t pos, loff_t length,
- +		ssize_t written, unsigned int flags, struct iomap *iomap)
- +{
- +	struct ntfs_inode *base_ni = iomap->private;
- +
- +	if (base_ni)
- +		mutex_unlock(&base_ni->mrec_lock);
- +	return written;
- +}
- +
-++static DEFINE_IOMAP_ITER_NEXT_END(ntfs_read_iomap_next, ntfs_read_iomap_begin,
-++				  ntfs_read_iomap_end);
-+ 
-  const struct iomap_ops ntfs_read_iomap_ops = {
-- 	.iomap_begin = ntfs_read_iomap_begin,
-- 	.iomap_end = ntfs_read_iomap_end,
-+ 	.iomap_next = ntfs_read_iomap_next,
-  };
-  
-  /*
+No known conflicts.
 
 The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
@@ -168,95 +197,32 @@ The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.3-rc1.iomap
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.3-rc1.kfunc
 
-for you to fetch changes up to 9948bc9aa1c2e5e77ab989a8e5d5eec829e967d5:
+for you to fetch changes up to 8abc1c8badc11c859bb4ba43211611347e59c55c:
 
-  Merge patch series "fixes for iomap_bio_read_folio_range_sync" (2026-08-12 09:22:40 +0200)
+  Merge patch series "Add bpf_sock_read_xattr() kfunc to read socket xattrs" (2026-06-29 10:31:17 +0200)
 
 ----------------------------------------------------------------
-vfs-7.3-rc1.iomap
+vfs-7.3-rc1.kfunc
 
-Please consider pulling these changes from the signed vfs-7.3-rc1.iomap tag.
+Please consider pulling these changes from the signed vfs-7.3-rc1.kfunc tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Benjamin Wu (1):
-      docs: fix grammatical error in iomap docs
+Christian Brauner (3):
+      fs: Add bpf_sock_read_xattr() kfunc to read socket xattrs
+      selftests/bpf: Add test for bpf_sock_read_xattr() kfunc
+      Merge patch series "Add bpf_sock_read_xattr() kfunc to read socket xattrs"
 
-Brian Foster (1):
-      iomap: release the folio batch on iomap callback failures
-
-Christian Brauner (4):
-      Merge patch series "iomap: add simple dio path for small direct I/O"
-      Merge patch series "iomap/fuse: add helper to keep uptodate bitmap in sync"
-      Merge patch series "iomap: convert to in-iter iomap_next() model"
-      Merge patch series "fixes for iomap_bio_read_folio_range_sync"
-
-Christoph Hellwig (4):
-      iomap: decouple simple direct I/O reads from iomap_dio_rw
-      iomap: use GFP_NOWAIT when application for iomap_dio_simple allocations
-      iomap: don't free integrity payload that doesn't exist
-      iomap: iomap_bio_read_folio_range_sync is missing a call to bio_uninit
-
-Fengnan Chang (3):
-      iomap: factor out iomap_dio_alignment helper
-      iomap: pass error code to should_report_dio_fserror directly
-      iomap: add simple dio path for small direct I/O
-
-Joanne Koong (19):
-      fuse: don't clear folio uptodate on writethrough errors
-      iomap: add helper to mark folio uptodate
-      fuse: use iomap helper to mark folio uptodate
-      iomap: split iomap_iter() logic into iomap_iter_next()
-      iomap: add ->iomap_next()
-      xfs: convert iomap ops to ->iomap_next()
-      btrfs: convert iomap ops to ->iomap_next()
-      ntfs3: convert iomap ops to ->iomap_next()
-      ntfs: convert iomap ops to ->iomap_next()
-      ext4: convert iomap ops to ->iomap_next()
-      erofs: convert iomap ops to ->iomap_next()
-      zonefs: convert iomap ops to ->iomap_next()
-      ext2: convert iomap ops to ->iomap_next()
-      block: convert iomap ops to ->iomap_next()
-      f2fs: convert iomap ops to ->iomap_next()
-      gfs2: convert iomap ops to ->iomap_next()
-      hpfs: convert iomap ops to ->iomap_next()
-      fuse: convert iomap ops to ->iomap_next()
-      exfat: convert iomap ops to ->iomap_next()
-
-Matthew Wilcox (Oracle) (1):
-      iomap: Remove FGP_NOFS from iomap_get_folio()
-
- Documentation/filesystems/iomap/design.rst |   2 +-
- block/fops.c                               |   4 +-
- fs/btrfs/direct-io.c                       |   6 +-
- fs/erofs/data.c                            |   6 +-
- fs/erofs/zmap.c                            |   5 +-
- fs/exfat/iomap.c                           |  10 +-
- fs/ext2/inode.c                            |   6 +-
- fs/ext4/ext4.h                             |   3 +
- fs/ext4/extents.c                          |   4 +-
- fs/ext4/file.c                             |   4 +-
- fs/ext4/inode.c                            |  10 +-
- fs/f2fs/data.c                             |   4 +-
- fs/fuse/dax.c                              |   6 +-
- fs/fuse/file.c                             |  24 +---
- fs/fuse/notify.c                           |   4 +-
- fs/fuse/virtio_fs.c                        |   3 +-
- fs/gfs2/bmap.c                             |   6 +-
- fs/hpfs/file.c                             |   4 +-
- fs/iomap/bio.c                             |   3 +-
- fs/iomap/buffered-io.c                     |   8 +-
- fs/iomap/direct-io.c                       | 190 +++++++++++++++++++++++++++--
- fs/iomap/iter.c                            | 128 ++++++++++---------
- fs/ntfs/iomap.c                            |  32 +++--
- fs/ntfs3/inode.c                           |   6 +-
- fs/xfs/xfs_file.c                          |  18 +--
- fs/xfs/xfs_iomap.c                         |  41 +++++--
- fs/xfs/xfs_iomap.h                         |   4 +
- fs/zonefs/file.c                           |   9 +-
- include/linux/iomap.h                      | 178 ++++++++++++++++++++++++---
- 29 files changed, 569 insertions(+), 159 deletions(-)
+ fs/bpf_fs_kfuncs.c                                 | 37 ++++++++++++
+ include/linux/net.h                                |  1 +
+ net/socket.c                                       | 25 ++++++++
+ tools/testing/selftests/bpf/bpf_experimental.h     |  3 +
+ .../testing/selftests/bpf/prog_tests/sock_xattr.c  | 67 ++++++++++++++++++++++
+ .../testing/selftests/bpf/progs/sock_read_xattr.c  | 54 +++++++++++++++++
+ 6 files changed, 187 insertions(+)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/sock_xattr.c
+ create mode 100644 tools/testing/selftests/bpf/progs/sock_read_xattr.c
