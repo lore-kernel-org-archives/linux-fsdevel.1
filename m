@@ -1,93 +1,86 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF57492196
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 17:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A531A36B905
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 18:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786728770; cv=none; b=m50p6oTQne51aM7bUFqe3CFpg/qebHq+D4IIuieJWYdzEUWct7Zi8TTsOQVyS0mSkTvZ0k0dKlZIGxIiQ8+bWkTZIIGkjNZYfYA7Uc+T0BnlqNhZnkTCBua77sGK9QISNVsCQXifNIio40HvrtBP4dkgmKurPqkvgv6D1mL3k3U=
+	t=1786730630; cv=none; b=LHB3Yk3QPduV/ZaYF1BZfCjMxFWD7jiJ0fJCUe4jBk6fP22U3rKGWd5bvdHd45cVVg7hYqNcqo0f8A13ydkbCG9a9F9azE4Zd5nhllUk7q2Jb+b9PEyPpwvnRZESlaFZpnIbOvL6FNr7IWqmrt6kofHYWH5HqUzk8XNt2Pv5ppQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786728770; c=relaxed/simple;
-	bh=lBkNxyY5Lg0P9/At5SSNBwvhdaxhIMnJHjhjyoc+SBo=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=bv1/EqczOGRxFjgvDU9eiOKQWPw55nW00dGPVyZbquVT8Rjh4fm9fy/jar6Z+qMa5P4cZ9kbfpGb0WiAlLG9AdK1AC8Z80J9KVEWcx4zdKH5jnqGJpKBNPeHl8AeXjznF/S+86V27dHBqiSEQx3Uk8gC/5Y4ZlafPHH9JdCM+kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=DWYJEAfe; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1786730630; c=relaxed/simple;
+	bh=MHcf0h1jdj+yq7jbMQVJMENFfR7ve4IWOyG1p7JDbEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uUj7oevKs3HNgAChbMbnEWhSjkGHDnrvmApppRGIvhZL2Ri8aQTBDhl7Kg53QBPuPZ1VE9A6YTAY5Lwa9d3HEZLuzzAR7KburbPgtqSQ/KgLALzZIFNyMBLyD8LQGc/EhbtvqV5dOlt+AMguODukR0pkr9uqe4TUHin+JWOs+Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HtXZ8kq8; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="DWYJEAfe"
-X-KPN-MessageId: 28db6f04-9806-11f1-a5a2-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 28db6f04-9806-11f1-a5a2-005056994fde;
-	Fri, 14 Aug 2026 19:32:44 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 28daf301-9806-11f1-91dc-00505699891e;
-	Fri, 14 Aug 2026 19:32:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=PVZA9SOcMA7rE4UELcQpr/u/JowHJR3hHwvCUT0RBUc=;
-	b=DWYJEAfeCKvWQHtvAYlcWoNT7RnjiAMcGyC3q3qX1LAVXoxboHZ6iKAmnea3si3vRYdrsZH23/SdD
-	 8lgOQzqlz/33naw3SjF/O1WeAYc5xSpHKy+iz4c1kZjoq4t4c9usMIMjkltNX3iTRYZ0zEsqm+XNlW
-	 +oBBZfQuMgblubj5bCNVjuD9WuffKVCANEwZs74IlSEhbpLeGw9eF8BPBA9PFTeJoVjczotObnY8su
-	 3duF/rUF3x1tt7OJAsgrRVKLYj17ChWlTPoTdAskzvvZZys9rjm6U8TxFiXIVQFJSSEnPTkfAOlsWB
-	 iU4KOR+Mxw1mhK3uPOXwPaPexNF9rHg==
-X-KPN-MID: 33|rjG0Br6vS5RDwLieExIyY3mBoE6ZDDRAhRmcSibHzKNFRsupXxGRfwweAXM2zLu
- WmoU7WoYGaJau2Z/X46RMIxdyFDf+ht0hqy47WiYhYQU=
-X-CMASSUN: 33|waToJdTtHouo4HlvNG4Kh00LdkHBb5h2orZlxJcKj4f71Kiggv9ARys6Ofkhl1S
- MCNy+ikVsk6GHL3i8wh+3ow==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 28c9e8a2-9806-11f1-916a-005056995d6c;
-	Fri, 14 Aug 2026 19:32:44 +0200 (CEST)
-Date: Fri, 14 Aug 2026 19:32:44 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: brauner@kernel.org, cyphar@cyphar.com, kuniyu@google.com,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <710021802.503191.1786728764671@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260814101828.2ea54f8a@kernel.org>
-References: <20260813162818.149248-1-jkoolstra@xs4all.nl>
- <1036785927.390839.1786639504241@kpc.webmail.kpnmail.nl>
- <20260814101828.2ea54f8a@kernel.org>
-Subject: Re: [PATCH net-next v7 0/4] net: af_unix: useful handling of LSM
- denials on SCM_RIGHTS
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HtXZ8kq8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786730628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=edsu6JjTslrS34Fvloj+0+8/jlXFMGCx8PgXRPDwZjg=;
+	b=HtXZ8kq80GSLVePsto7y9/PuycccqqZ62q8UUbp4tYnZSD5c+kRuGYgc1CDUtDqW7kDy7B
+	iDVGJlqgqUeb8xIojPti0UvO5U4AcQed5M9dq15ghR0d7NBasJzGl+O3J5bs9LIwF2W91q
+	Ak4mEJX5YewNuOaa/pY2/UWE9h1K3h4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-575-MroS2QNnPgSGJQeO6ZoXTg-1; Fri,
+ 14 Aug 2026 14:03:33 -0400
+X-MC-Unique: MroS2QNnPgSGJQeO6ZoXTg-1
+X-Mimecast-MFC-AGG-ID: MroS2QNnPgSGJQeO6ZoXTg_1786730609
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A8B8E18002F8;
+	Fri, 14 Aug 2026 18:03:28 +0000 (UTC)
+Received: from fedora (unknown [10.44.32.2])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id A2453180034C;
+	Fri, 14 Aug 2026 18:03:19 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 14 Aug 2026 20:03:28 +0200 (CEST)
+Date: Fri, 14 Aug 2026 20:03:15 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: "Cen Zhang (Microsoft)" <blbllhy@gmail.com>
+Cc: joel.granados@kernel.org, kees@kernel.org, brauner@kernel.org,
+	mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
+	jack@suse.cz, avagin@gmail.com, ptikhomirov@virtuozzo.com,
+	mjguzik@gmail.com, include@grrlz.net, ebiederm@xmission.com,
+	legion@kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, AutonomousCodeSecurity@microsoft.com,
+	tgopinath@linux.microsoft.com, kys@microsoft.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4] reboot: fix cad_pid use-after-free race
+Message-ID: <an9YY8DzjiDLa2tr@redhat.com>
+References: <20260814040944.16561-1-blbllhy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260814040944.16561-1-blbllhy@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+On 08/14, Cen Zhang (Microsoft) wrote:
+>
+> v4:
+>  - Rebase on sysctl-next after Oleg's cad_pid sysctl placement change.
+>  - Fold the two-patch v3 series into a single lifetime fix.
+>  - Move kill_cad_pid() implementation to kernel/signal.c.
+>  - Export kill_cad_pid() and stop exporting the raw cad_pid pointer.
+>  - Update proc_do_cad_pid() in kernel/reboot.c.
+>  - Add explicit includes for the RCU API and kill_cad_pid().
+>  - Preserve the original unprivileged impact context while noting that
+>    the namespace permission path has been fixed separately.
 
-> Op 14-08-2026 13:18 EDT schreef Jakub Kicinski <kuba@kernel.org>:
-> 
->  
-> On Thu, 13 Aug 2026 18:45:04 +0200 (CEST) Jori Koolstra wrote:
-> > My "smart" email provider blocker me from sending more email. Since I am in South Korea
-> > that is apparently suspicious. Now patch 4 is missing. I'll try to rectify that. Is there
-> > any sane email provider that any of you use?
-> 
-> Ah.. shit.  I crashed out at you on patch 4 assuming the rest of 
-> the code is in LSM.
-> 
-> You gotta repost the whole thing, sorry. Patchwork (and lore) weren't
-> able to connect the dots. We have 2 separate incomplete series in PW.
+I don't see other changes in this version, so
 
-Don't worry about it. I attached the 4/4 path now to this thread (apparently I didn't do that
-well at first.)
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-Does that work now for you? Otherwise, I literally cannot fix it until I get home, because
-it's more messages than the rate limit allows.
-
-Thanks,
-Jori,
