@@ -1,27 +1,27 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E971843B3D5;
-	Fri, 14 Aug 2026 09:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDBB43CED7;
+	Fri, 14 Aug 2026 09:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786700408; cv=none; b=V9Aew4VPQrW7qYI/nBKpCbIsQNWbKNeAnHN7P+s3kDJli7tjz/SK7J5DOZKSkag+ifalLQFBXEbFnFuTejeEjUmRTQ0KzlTY8KYuH72dBhD6L914L5PTe0V7ideLhEl5H8CNnr4c1ViQ7htZPKGfW4T9byNuB9vrgDX7n22OV74=
+	t=1786700411; cv=none; b=WETajSWPqzR3WyESaECUhqDcSf1I6DQ3roXUWtJqFZ5uI9DJ+sbm644qE3k3pzUSaoVmC2Mh0rVn+FRySoChUNPJubEabq6nE5fechRIuXGpbOYRChRqr8p7jlIE6MsoaasmylCrYMjte1vbWvGTYhRYaGttnALsFgyNJ2uAqdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786700408; c=relaxed/simple;
-	bh=FZtNPEg5aF+ddVQ22+g1fVIG2upqmDvAOr2Tqs5h1pM=;
+	s=arc-20240116; t=1786700411; c=relaxed/simple;
+	bh=zDov8zxYYt9fFGhkHUrlOlPvimkURQvwpLQYfpMmxlQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=alqaYoLAwHORRvUG8xWF/Z2+MtpvFtb8LqBRg9FW6ZNf8lsWxtJ3rV8VEoV4nxX1dldktXOj9ya9GekBTyZbT9p4iHxPM44g99P1sr3UYfslIpoX514rcLlWbFl+HgXMV0MTO0ZcbS+3rZiMAE8tXmCn6YPl37FLolBRMZyoQAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+	 MIME-Version; b=QeYQkRezpS9OWMUEAGzvfSyBeei/347irv53ejEpXReOsUh+lwIulzlzqewKUVWVtehiUyLZU7muA/jLIxqOjF0+JO7jzzkerP5ErHXaOpQDbZ5ZjoKwYlC5R1xx/dx0XrJXBS3uc2zS4RCfJtLZKBWJHp7czDRC7kKF93Wid7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
 Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyR4mqbzKHNNF;
-	Fri, 14 Aug 2026 17:39:27 +0800 (CST)
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyS3vljzKHNNk;
+	Fri, 14 Aug 2026 17:39:28 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 6590B40BFF;
-	Fri, 14 Aug 2026 17:39:48 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 3F99B40C40;
+	Fri, 14 Aug 2026 17:39:49 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S16;
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S24;
 	Fri, 14 Aug 2026 17:39:48 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc: linux-kernel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH -next v5 12/32] ext4: implement buffered read path using iomap
-Date: Fri, 14 Aug 2026 17:33:11 +0800
-Message-ID: <20260814093331.1703882-13-yi.zhang@huaweicloud.com>
+Subject: [PATCH -next v5 20/32] ext4: add block mapping tracepoints for iomap buffered I/O path
+Date: Fri, 14 Aug 2026 17:33:19 +0800
+Message-ID: <20260814093331.1703882-21-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
 References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
@@ -54,11 +54,11 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S16
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrW3tr4DXry8JFWkKryUZFb_yoW5Ww1DpF
-	90kFy5Gr4UWrnF9F4SqFZrAr1Yka1xJa1UWrWfGwnxWF90krWagayUGF1YvF45t3y7AF18
-	XF4Ykry8Wa1UArDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S24
+X-Coremail-Antispam: 1UD129KBjvJXoWxurW7ZF1rKr18Xr47GFy8Krg_yoWrGFy7pa
+	4vyFy5KFs3XrsF9w4fWrW3Xr1Fva1xKr4UGry3Wry5ZFWxtr12gF4UGFyjyFy5Jw4jkryf
+	WF4Ykry8G3WUurDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmv14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
 	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
@@ -70,97 +70,117 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxGrW3tr4DXry8JFWkKryUZFb_yoW5Ww1DpF
 	z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
 	AF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Ar0_tr1l
 	IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
-	1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
-	CTnIWIevJa73UjIFyTuYvjTRNF4EDUUUU
+	1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUv
+	cSsGvfC2KfnxnUUI43ZEXa7sRiyxR3UUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Implement the iomap read path for ext4 by introducing a new
-ext4_iomap_buffered_read_ops instance. This provides the read_folio()
-and readahead() callbacks for ext4_iomap_aops. The implementation
-introduces:
-
- - ext4_iomap_map_blocks(): Helper function to query extent mappings for
-   a given read range using ext4_map_blocks() and convert the mapping
-   information to iomap type
- - ext4_iomap_buffered_read_begin(): The iomap_begin callbacks that maps
-   blocks, validates filesystem state, and populates the iomap. It
-   returns -ERANGE for inline data which is not yet supported.
+Add tracepoints for iomap buffered read, write, partial block zeroing,
+and writeback operations to help debug the iomap buffered I/O path.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/ext4/inode.c | 48 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
+ fs/ext4/inode.c             |  6 +++++
+ include/trace/events/ext4.h | 45 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index dda78cf1f68d..376cb9783835 100644
+index d4b4153077bb..a2f060ae6cbc 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -3956,14 +3956,60 @@ const struct iomap_ops ext4_iomap_report_ops = {
- 	.iomap_next = ext4_iomap_next_report,
- };
+@@ -4006,6 +4006,8 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
+ 	if (ret < 0)
+ 		return ret;
  
-+static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
-+		loff_t length, struct ext4_map_blocks *map)
-+{
-+	u8 blkbits = inode->i_blkbits;
-+
-+	if ((offset >> blkbits) > EXT4_MAX_LOGICAL_BLOCK)
-+		return -EINVAL;
-+
-+	/* Calculate the first and last logical blocks respectively. */
-+	map->m_lblk = offset >> blkbits;
-+	map->m_len = min_t(loff_t, (offset + length - 1) >> blkbits,
-+			   EXT4_MAX_LOGICAL_BLOCK) - map->m_lblk + 1;
-+
-+	return ext4_map_blocks(NULL, inode, map, 0);
-+}
-+
-+static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
-+		loff_t length, unsigned int flags, struct iomap *iomap,
-+		struct iomap *srcmap)
-+{
-+	struct ext4_map_blocks map;
-+	int ret;
-+
-+	if (unlikely(ext4_forced_shutdown(inode->i_sb)))
-+		return -EIO;
-+
-+	/* Inline data support is not yet available. */
-+	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
-+		return -ERANGE;
-+
-+	ret = ext4_iomap_map_blocks(inode, offset, length, &map);
-+	if (ret < 0)
-+		return ret;
-+
-+	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
-+	return 0;
-+}
-+
-+static DEFINE_IOMAP_ITER_NEXT(ext4_iomap_buffered_read_next,
-+			      ext4_iomap_buffered_read_begin);
-+
-+const struct iomap_ops ext4_iomap_buffered_read_ops = {
-+	.iomap_next = ext4_iomap_buffered_read_next,
-+};
-+
- static int ext4_iomap_read_folio(struct file *file, struct folio *folio)
- {
-+	iomap_bio_read_folio(folio, &ext4_iomap_buffered_read_ops);
++	trace_ext4_iomap_buffered_read_begin(inode, &map, offset, length,
++					     flags);
+ 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
  	return 0;
  }
+@@ -4039,6 +4041,8 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
+ 	if (ret < 0)
+ 		return ret;
  
- static void ext4_iomap_readahead(struct readahead_control *rac)
- {
--
-+	iomap_bio_readahead(rac, &ext4_iomap_buffered_read_ops);
++	trace_ext4_iomap_buffered_write_begin(inode, &map, offset, length,
++					      flags);
+ 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
+ 	return 0;
  }
+@@ -4155,6 +4159,7 @@ static int ext4_iomap_zero_begin(struct inode *inode,
+ 			goto again;
+ 	}
  
- static int ext4_iomap_writepages(struct address_space *mapping,
++	trace_ext4_iomap_zero_begin(inode, &map, offset, length, flags);
+ 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
+ 	iomap->flags |= iomap_flags;
+ 
+@@ -4266,6 +4271,7 @@ static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
+ 		return ret;
+ 	}
+ 
++	trace_ext4_iomap_map_writeback_range(inode, &map, offset, dirty_len, 0);
+ 	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
+ 	return 0;
+ }
+diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
+index 7028a28316fa..69596a216dcb 100644
+--- a/include/trace/events/ext4.h
++++ b/include/trace/events/ext4.h
+@@ -3157,6 +3157,51 @@ TRACE_EVENT(ext4_move_extent_exit,
+ 		  __entry->ret)
+ );
+ 
++DECLARE_EVENT_CLASS(ext4_set_iomap_class,
++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
++		 loff_t offset, loff_t length, unsigned int flags),
++	TP_ARGS(inode, map, offset, length, flags),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(u64, ino)
++		__field(ext4_lblk_t, m_lblk)
++		__field(unsigned int, m_len)
++		__field(unsigned int, m_flags)
++		__field(u64, m_seq)
++		__field(loff_t, offset)
++		__field(loff_t, length)
++		__field(unsigned int, iomap_flags)
++	),
++	TP_fast_assign(
++		__entry->dev		= inode->i_sb->s_dev;
++		__entry->ino		= inode->i_ino;
++		__entry->m_lblk		= map->m_lblk;
++		__entry->m_len		= map->m_len;
++		__entry->m_flags	= map->m_flags;
++		__entry->m_seq		= map->m_seq;
++		__entry->offset		= offset;
++		__entry->length		= length;
++		__entry->iomap_flags	= flags;
++
++	),
++	TP_printk("dev %d:%d ino %llu m_lblk %u m_len %u m_flags %s m_seq %llu orig_off 0x%llx orig_len 0x%llx iomap_flags 0x%x",
++		  MAJOR(__entry->dev), MINOR(__entry->dev),
++		  __entry->ino, __entry->m_lblk, __entry->m_len,
++		  show_mflags(__entry->m_flags), __entry->m_seq,
++		  __entry->offset, __entry->length, __entry->iomap_flags)
++)
++
++#define DEFINE_SET_IOMAP_EVENT(name) \
++DEFINE_EVENT(ext4_set_iomap_class, name, \
++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, \
++		 loff_t offset, loff_t length, unsigned int flags), \
++	TP_ARGS(inode, map, offset, length, flags))
++
++DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_read_begin);
++DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_write_begin);
++DEFINE_SET_IOMAP_EVENT(ext4_iomap_map_writeback_range);
++DEFINE_SET_IOMAP_EVENT(ext4_iomap_zero_begin);
++
+ #endif /* _TRACE_EXT4_H */
+ 
+ /* This part must be outside protection */
 -- 
 2.52.0
 
