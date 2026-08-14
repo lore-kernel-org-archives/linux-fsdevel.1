@@ -1,62 +1,59 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD2A3D3D11;
-	Fri, 14 Aug 2026 02:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82F1329E55;
+	Fri, 14 Aug 2026 02:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786673808; cv=none; b=VQgaM/FIomAxEIdkJ5Cay0yHbUuoykK/6G0uPwgSr/AyOZvC9bvXfVUj3tWhc6SG7PTAScSDzrw3bJKnMQPnA9FBK66hEze83COTz/hlyzfVAcqGVkswXxkI92l+DaDLP/hKqevd0bmFxphOsYoDjpAXhv0Z03e1php9qwWTCVg=
+	t=1786674715; cv=none; b=NxfdHtVDybIY+zK8B89VTGjngb2VU1KUy/LzB5Hcgqj6xqIsMk4lctRRwYsFrOjWXYQiC807BlFXaDa4y2C0/innpOhUaj7b4I8VSzxrVkWs34nA3PrtqV4lMgqww21purmFQ7WgchoEUgLrN4HFt0VqWPhC7TmQjMM7jXnRpP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786673808; c=relaxed/simple;
-	bh=Zqayx5jWRDBmSgLQJL5o3IkAB+JCJdoSvtLCN4+biEw=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=K7AwDqrLhAQIEPQyWLPWk14+OY+XatOrBvXlISecU7/rHj80Bw+sLc5gjH2sxiSFkeDNBXWAkTgEICFHcvLwLEtLznksnaCG5+qvnDnl5zpLp3vVGI+ZNvjnSC+Nr0JxED1gT1jFf6sWDnroc26XguH+6KegkjQhC+RhoN80azs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=t/Te/nWh; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1786674715; c=relaxed/simple;
+	bh=YKht5Jjj8mHx1Tj3Mnc/vKKCucu/ED/kan/8UnVEjwI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Me/h1IValILZG6g7UuJrEmOUNK5uYQ/HIcZiX63A23JEp0sIy+hc4SveX90g8lLgzt/FfaGEMjeyT0TpwoOMt0l5xmo8rKjZe9y1mNsmwGmseWlDU8R4uqJY3w6AGQujk7MCXm+4ny96jh+qx3o2CJ25TPG+DERd0aSYs6XM+DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdHdASDp; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="t/Te/nWh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1786673800; bh=xgVA9fMTk1lJSNhZ5dgHoKNUTDoGRT8Mpx79uIRVRDU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=t/Te/nWhxjpeV82iWhxArPinH9o+iCF2Xz+jWzos9dXL168lcv3S00mZVKOSFxBp0
-	 Y349aXpJ1gQGk3qBLm/0w1x4GbsNn8JEhZvLRNHnzSW0D9c4RXu8GGZEdV0JqiUArI
-	 aml/Iw56NjHxNJrsPNnaOkhJ5O8FCnQ5EAdXbCdE=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 42599491; Fri, 14 Aug 2026 10:16:37 +0800
-X-QQ-mid: xmsmtpt1786673797tuv62yyyf
-Message-ID: <tencent_9ADD949953CFE50D8A25BD8DD092395DA507@qq.com>
-X-QQ-XMAILINFO: NbgegmlEc3JuedYX19xl12GRt0D3yMUlriQbZyMB+1Os4MHkiDawvlRVkG8EqX
-	 ZblfP2J8Woirfzmt0MeEPagf4Z3Rs4ZSLeSHG6BsoMkR4kgWDSS5uZ4ITCe1H4jtV7+WRIz99jca
-	 IlrQDTtbdlz3rNffg1FTKd45OmrHQx9hQhKVMOhECoHeVVx+A6i3lTpyGIFNi/pa+Oh+DMaCTpE0
-	 hJEa4eZNHDq6UY1bUUdl+FcMVHIJNkW0oBfP+vqtm8PwZ0WEVvj7gZC9GXgUjVU0HIbRDZVrAOLB
-	 73OqbLrpc428KhFCps8Bf0nia9uHUePm8GPd6azCJEP24YyM51pj+wsl+8nH2bFMHapZNLLeedpR
-	 Mmhl9/veEOtoWycEe04vtRUIgMBwf2AFa9ymS3KjoTYI+b37MlFT/Fn4Y/vZuuT/LtMWjNOfLqYB
-	 GtGe9VtbOwiQ6ucSsicnMuCjwfLb+fzydDXjcUSsfV5b+zKbSdkLTQo3XcjT3HGbWCWpmcp2Dwro
-	 A+h6f1uQBQwchPw3S0gt5I4ZOlH2S7s6dRQhwywn9DzlzoYepu6v2RdVzofmQSk/rFCUi93gGRn7
-	 WOF2qUGXkejS4lXdd8TfND3urjpMXsK6gTMxZNMDhtFcSvQsQ2WK+kSwNhHex+3uHElC5PV/jwO2
-	 sQLfs2emSMkjr3ghCqg+8SRX1yl2frAFdlnnLExjbHn45up5G30uber0BjN7eI6uiZOhIHuw3iQF
-	 v/X4ZMAPYiHAx3W78im3Sn2rXdF/NWRNNb9fx3aMiUeYfI4yF0f1UCoEnkJSfhaP+XBUl0rdhKhB
-	 uxFwU/op7gIO31DomXD0Sb4PSHYbyje2ZVsubxFXZ7K/DGnqPg6GdlRsI6P7XlYO6burOylTTIrF
-	 JtzdL9FXjQoAaHyCCsieEC2xPHkdIiqpyuH7EM9ioSAlmSva2umuzngFZGMx3pnJulY4XVVK9pY0
-	 qdLbZc7uz9MPzeB9WABukazbV3LmAEPhgms+OJ3Jf01K9AxVeQyOcg3JaP2FM4msMf+Dsio2/x96
-	 aEHsfuX9+eQ9VrIXVC
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
-Cc: dhowells@redhat.com,
-	pc@manguebit.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdHdASDp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786674714; x=1818210714;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YKht5Jjj8mHx1Tj3Mnc/vKKCucu/ED/kan/8UnVEjwI=;
+  b=LdHdASDpEn8j0nLiS78bowEapUZCIIqAAk4iPpiCtSon/K/G9b97c6ee
+   aK9gbVWB4Hy/saruO6FtnzKPFcp9V72P7f+rgDeWwTf475m/T4QeIq7OL
+   CCusIwuc1fYckA2ZDiAm0D8zdeC7nQ8tvPhtcBDPMiwTCh8DhG1X5F7u+
+   Uef3oELGFBgtU5qGq4kDCDL4SMdIkkP2+HAgzTssX2W9a6Yp/e0838USq
+   XVhDvpPJz++mM6M+SWlrYBrSbkw71zM2bViccqplTdWH34686VMqVoIXz
+   QvLSDn6R6S+eLOfB3VumtCdFPnisZEceg2/VodEwOZAwuIK4xyXOWcCJS
+   w==;
+X-CSE-ConnectionGUID: no5ZEz6JQmmOlznA+HxFsg==
+X-CSE-MsgGUID: ZJfx36GRQpeTlbWVl+ikiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87181980"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="87181980"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 19:31:53 -0700
+X-CSE-ConnectionGUID: EXBaDwQ/SnO1YmGzrMJz5Q==
+X-CSE-MsgGUID: lCQXcDejT2uLR7Lnk7EPew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="302339617"
+Received: from tester.sh.intel.com ([10.112.106.126])
+  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2026 19:31:52 -0700
+From: Tao Yu <tao1.yu@intel.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
 	linux-kernel@vger.kernel.org,
-	netfs@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] netfs: break unbuffered write when netfs_alloc_subrequest() fails
-Date: Fri, 14 Aug 2026 10:16:38 +0800
-X-OQ-MSGID: <20260814021637.202471-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a7dd201.f70deec7.2acc03.0008.GAE@google.com>
-References: <6a7dd201.f70deec7.2acc03.0008.GAE@google.com>
+	syzbot+2bf21610eea63cb2ce93@syzkaller.appspotmail.com,
+	Tao Yu <tao1.yu@intel.com>
+Subject: [PATCH 0/2] hfs/hfsplus: harden btree node 0 bitmap corruption handling
+Date: Fri, 14 Aug 2026 10:31:48 +0800
+Message-Id: <20260814023150.3482810-1-tao1.yu@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -65,75 +62,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-syzbot reported a null-ptr-deref below [1] following a fault injection in
-netfs_alloc_subrequest(). [0]
+Hi,
 
-When netfs_alloc_subrequest() fails, subreq is NULL.
-Later, netfs_prepare_write() tries to initialize members of
-subreq(e.g., source), the issue in [1] is triggered.
+This series addresses btree bitmap corruption around node 0 in HFS and
+HFS+.
 
-Let's handle the error of netfs_prepare_write() properly.
+Node 0 is the reserved btree header node. If the on-disk bitmap ever
+presents node 0 as free, the filesystem is already corrupted and should
+not continue normal allocation from that state.
 
-[0]
-FAULT_INJECTION: forcing a failure.
-name failslab, interval 1, probability 0, space 0, times 0
-Call Trace:
- netfs_alloc_subrequest+0x116/0x3f0
- netfs_prepare_write+0x76/0x7b0
- netfs_unbuffered_write+0x75c/0x2020
- netfs_unbuffered_write_iter_locked+0x7d6/0xa80
- netfs_unbuffered_write_iter+0x442/0x720
- v9fs_file_write_iter+0xbf/0x100
- vfs_write+0x6ac/0x1050
+The series does two things:
 
-[1]
-KASAN: null-ptr-deref in range [0x00000000000000a8-0x00000000000000af]
-RIP: 0010:netfs_prepare_write+0xbc/0x7b0 fs/netfs/write_issue.c:173
-Call Trace:
- netfs_unbuffered_write+0x75c/0x2020 fs/netfs/direct_write.c:111
- netfs_unbuffered_write_iter_locked+0x7d6/0xa80 fs/netfs/direct_write.c:290
- netfs_unbuffered_write_iter+0x442/0x720 fs/netfs/direct_write.c:382
- v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
- new_sync_write fs/read_write.c:595 [inline]
- 
-Fixes: 288ace2f57c9 ("netfs: New writeback implementation")
-Reported-by: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6a13fc77eb6f0802be2d
-Tested-by: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/netfs/direct_write.c | 4 ++++
- fs/netfs/write_issue.c  | 2 ++
- 2 files changed, 6 insertions(+)
+  1. Port the existing HFS+ style mount-time node 0 bitmap validation to
+     HFS, so HFS detects the corrupted btree map earlier and forces the
+     filesystem read-only.
 
-diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index c16fbad286a1..567b946b7a56 100644
---- a/fs/netfs/direct_write.c
-+++ b/fs/netfs/direct_write.c
-@@ -110,6 +110,10 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
- 		if (!subreq) {
- 			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
- 			subreq = stream->construct;
-+			if (!subreq) {
-+				wreq->error = -ENOMEM;
-+				break;
-+			}
- 			stream->construct = NULL;
- 		}
- 
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 2d9cfcd43658..851f6f93ad45 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -170,6 +170,8 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
- 		rolling_buffer_make_space(&wreq->buffer, wreq->gfp);
- 
- 	subreq = netfs_alloc_subrequest(wreq);
-+	if (!subreq)
-+		return;
- 	subreq->source		= stream->source;
- 	subreq->start		= start;
- 	subreq->stream_nr	= stream->stream_nr;
+  2. Harden the HFS and HFS+ btree allocators so that attempts to
+     allocate node 0 are treated as bitmap corruption. Instead of
+     continuing into the reserved header node and later tripping the
+     "new node 0 already hashed?" warning, the allocator now emits a
+     repair hint, forces the filesystem read-only, and aborts the
+     allocation.
+
+This keeps the existing warning as a last-resort invariant check, while
+moving the actual corruption handling to earlier and more appropriate
+control points.
+
+Patch 1 ports the mount-time validation to HFS.
+Patch 2 adds the runtime allocator guard to both HFS and HFS+.
+
+Comments are welcome.
+
+
+Tao Yu (2):
+  hfs: detect node 0 btree map corruption at mount time
+  hfs/hfsplus: stop btree allocators from reusing node 0
+
+ fs/hfs/btree.c     | 71 ++++++++++++++++++++++++++++++++++++++++++++++
+ fs/hfsplus/btree.c | 11 +++++++
+ 2 files changed, 82 insertions(+)
+
+
+Thanks,
+Tao
 -- 
-2.43.0
+2.34.1
 
