@@ -1,255 +1,260 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from devianza.investici.org (devianza.investici.org [198.167.222.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312E641DDE5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 09:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D941DDE5;
+	Fri, 14 Aug 2026 09:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.167.222.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786699188; cv=none; b=rKZUCRVr7bk8pR+6bIMbJRHM84kHTYLVfMl2Q1BlsUKy+qIQGyKsyNXxaWFwdguk0up17uKqOIGcPg7BZRz6PxuO0pIhjH/OtggT0gk0RWwR7KKI4Wk7JUAyhbpNwzyeQrZmL8nn8cgKIQQvcQNu91Tf0/2yIHgPhY7uXpPjTQg=
+	t=1786699389; cv=none; b=ghQJ4rAqIpPpOe7sadXBOjpgCncbPp4vgH9yN2RlHlLK1J0tCINy0al+tDtjKq58mJ2NKWImQMo0+U6+/cutd6EwXzQx/1Lf42ymCHRfcJElV2Y2eupAn6LOuGGRzaPPVHY/we4Ve8ZafbJrZTAm/cN/H7mM78IWVXeW2WxDXx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786699188; c=relaxed/simple;
-	bh=BlhSMIN+mmE8n9nN/akGDcUnE3P6L8FRrfFSuq9fGG0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=WRCZ33U+1w/HKguM6mCuLNia0Dx/tc9Oj0jcNR92EpUCD+IBs7mDBh80xOIQKNOumr3FmgS5h4BPPALTu5KyVJrbk+Uj97ofoK4YL9WXw33YBTqiFSlgVbFA+JTUkOYtOalswQVhbLXOzAq2uwTdOZlWZ4r2tCTYLq0RGCqf72E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4b19ce23e5cso449648b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 02:19:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786699185; x=1787303985;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YBo660HfkNsRnj5eBwAkX1v/L2lPZlVGJtLQYSokVrk=;
-        b=qQn+WwC6raGgq86FDihaj/rc9nS/CDBxkzd7EXcrFo5RbhBAm/2ChoUyDBJgBN+FPD
-         lp6ezB6suJJP3WUlNaBQ/F4i3ISwxc9voY0QSA/YWONfzPRRFYaaGvvVyTVpF4IoOrlj
-         xdn/1UkCY7EdRlMIOyQKeXSDXBSeh6IzpsZ0wLr1Tgcj6Jp6r4cbVkCt5Lxij+RXx1do
-         xrL/I/32Ylied8tva202y06XbBQcjtt5Pn7RwseO/sZuKHTQp2LuVGZna3vznp7peZ9J
-         RYYQQXKZ5kD6Vu+LksuLy19c4C9WZeQQknlcLKiEzKnAcc8QgL9c9bKCjeD/D4N7A+Is
-         dEtQ==
-X-Gm-Message-State: AOJu0Yyk8Up3aPhRjvImZq3/WfnsfMtLSeDG/ME3p61OVwgx5j3YD8pq
-	piOj65OFjeKYy2WUXnFtQpjdhf5fDNIGtWLYG7hROSQFqtSZ1PH6faHuCwG3twDfxO0OCoW5t8u
-	wSZfbQAJWdowvQxLBi5VPAZX5/UIJnfvU7lpW/YVxlZghtCjdPIum50mLl1I=
+	s=arc-20240116; t=1786699389; c=relaxed/simple;
+	bh=QDcRRRnmDqASITyOBcNjC/qWmLNWXfp7D7bUKvv3n8Y=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ejzbsAHeR5MGhMZOe0NoYsDGMbJIJ70s07TyNywVRBTj6QLd2f1m6K5gXQKHbGodon41iiJS0Ujd/iwIffo+0UC6tuSgxyVmrD9ikBRt0gRwNqFNcxAGQgY12nvXmfaitZmOQoXWdC8ke8Zm3E5/6wnEwsly37LTkToFYVyEhIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net; spf=pass smtp.mailfrom=grrlz.net; dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b=erHeTF5L; arc=none smtp.client-ip=198.167.222.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=grrlz.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b="erHeTF5L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grrlz.net;
+	s=stigmate; t=1786699377;
+	bh=QDp5D1LZfeKZbkcHL5uKVsiNgaiuoNVnkMl1uYlLU5k=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=erHeTF5LFQ3YJM30CuziJQCZ0P7IS7u4IKtNu4CpkY5bcTtP5KvOvhyibhYGCDTiM
+	 pI07vVcc5hYGWMta+68gXe0/R6HiWpuIKPwhYycniUnTotRIoZwv3OPM+Z3hvLNFmM
+	 RN0e4y/YOduWhgV7cSw1gOsH5I5VG31S42k4NuYs=
+Received: from mx2.investici.org (unknown [127.0.0.1])
+	by devianza.investici.org (Postfix) with ESMTP id 4hLxbP1vy4z6vJm;
+	Fri, 14 Aug 2026 09:22:57 +0000 (UTC)
+Received: by mx2.investici.org (Postfix) id 4hLxbN53hBz4y6W;
+	Fri, 14 Aug 2026 09:22:56 +0000 (UTC)
+Date: Fri, 14 Aug 2026 10:22:57 +0100
+From: Bradley Morgan <include@grrlz.net>
+To: "Cen Zhang (Microsoft)" <blbllhy@gmail.com>, joel.granados@kernel.org,
+ kees@kernel.org
+CC: brauner@kernel.org, oleg@redhat.com, mingo@redhat.com, peterz@infradead.org,
+ akpm@linux-foundation.org, jack@suse.cz, avagin@gmail.com,
+ ptikhomirov@virtuozzo.com, mjguzik@gmail.com, ebiederm@xmission.com,
+ legion@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, AutonomousCodeSecurity@microsoft.com,
+ tgopinath@linux.microsoft.com, kys@microsoft.com, blbllhy@gmail.com,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4] reboot: fix cad_pid use-after-free race
+In-Reply-To: <20260814040944.16561-1-blbllhy@gmail.com>
+References: <20260814040944.16561-1-blbllhy@gmail.com>
+Message-ID: <CD4DC929-7746-4284-A160-1A9B58110228@grrlz.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1c84:b0:6b0:1b86:fa8 with SMTP id
- 006d021491bc7-6b0d61f1e39mr3369133eaf.15.1786699185038; Fri, 14 Aug 2026
- 02:19:45 -0700 (PDT)
-Date: Fri, 14 Aug 2026 02:19:45 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7eddb1.dbb3a75c.20434b.0003.GAE@google.com>
-Subject: [syzbot] [fs?] BUG: sleeping function called from invalid context in null_process_zoned_cmd
-From: syzbot <syzbot+b6fd00508cc05a5c003c@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On 14 August 2026 05:09:44 BST, "Cen Zhang (Microsoft)" <blbllhy@gmail.com>
+wrote:
+>cad_pid is a single kernel-wide struct pid pointer. proc_do_cad_pid()
+>reads it and passes it to pid_vnr() without protecting the lifetime of
+>the referenced struct pid. A concurrent writer can replace cad_pid and
+>drop the final reference to the old struct pid after the reader has
+>loaded the pointer but before pid_vnr() has finished dereferencing it,
+>causing a use-after-free.
+>
+>kill_cad_pid() has the same lifetime race when it passes cad_pid to
+>kill_pid().
+>
+>At the time this issue was reported, an unprivileged user could reach the
+>sysctl through user and PID namespaces because cad_pid was registered in
+>pid_table[]. Moving cad_pid back to the global reboot sysctl table
+>corrected that namespace and permission mismatch, but did not fix the
+>underlying lifetime race.
+>
+>Fix this by treating cad_pid as an RCU-protected pointer at both read
+>sites and by waiting for a grace period before dropping the old reference
+>on the write side.
+>
+>call_rcu(&old_pid->rcu, ...) cannot be used here because free_pid()
+>also queues pid->rcu; queueing the same rcu_head twice can corrupt the
+>RCU callback list.
+>
+>Original KASAN crash stack:
+>  kernel/pid.c:545 pid_nr_ns()        # reads freed pid->level
+>  kernel/pid.c:556 pid_vnr()          # calls pid_nr_ns()
+>  kernel/pid.c:775 proc_do_cad_pid()  # calls pid_vnr(cad_pid)
+>
+>Fixes: 9ec52099e4b8 ("[PATCH] replace cad_pid by a struct pid")
+>Reported-by: AutonomousCodeSecurity@microsoft.com
+>Closes: https://lore.kernel.org/all/20260717210143.4734-1-blbllhy@gmail.com/
+>Link: https://lore.kernel.org/all/alz5ZYLE4kaq_v2P@redhat.com/
+>Link: https://lore.kernel.org/all/al4ICz9biJKtdZc4@redhat.com/
+>Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
+>Suggested-by: Bradley Morgan <include@grrlz.net>
 
-syzbot found the following issue on:
+Yk what I'm gonna do...
 
-HEAD commit:    2f1baf1fc892 Merge tag 'trace-v7.2-rc7' of git://git.kerne..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10498a25580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
-dashboard link: https://syzkaller.appspot.com/bug?extid=b6fd00508cc05a5c003c
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1715f149580000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b6fd00508cc05a5c003c@syzkaller.appspotmail.com
-
-null_blk: mydev: using native zone append
-BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 6035, name: syz-executor507
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-6 locks held by syz-executor507/6035:
- #0: ffff888023e9e450 (sb_writers#13){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #1: ffff8880385e1080 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x76/0x4e0 fs/configfs/file.c:226
- #2: ffff88802ca06570 (&p->frag_sem){.+.+}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #2: ffff88802ca06570 (&p->frag_sem){.+.+}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
- #3: ffffffff9ba14a40 (&lock){+.+.}-{4:4}, at: nullb_device_power_store+0xde/0x350 drivers/block/null_blk/main.c:496
- #4: ffff888045820350 (&disk->open_mutex){+.+.}-{4:4}, at: bdev_open+0x41a/0xe40 block/bdev.c:948
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: blk_mq_submit_bio+0x21b2/0x3000 block/blk-mq.c:3208
-CPU: 3 UID: 0 PID: 6035 Comm: syz-executor507 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- __might_resched.cold+0x1ec/0x232 kernel/sched/core.c:9197
- __mutex_lock_common kernel/locking/mutex.c:623 [inline]
- __mutex_lock+0x10e/0x1bd0 kernel/locking/mutex.c:821
- null_lock_zone drivers/block/null_blk/zoned.c:39 [inline]
- null_lock_zone drivers/block/null_blk/zoned.c:33 [inline]
- null_process_zoned_cmd+0x943/0x10a0 drivers/block/null_blk/zoned.c:732
- null_handle_cmd drivers/block/null_blk/main.c:1455 [inline]
- null_queue_rq+0x664/0xfb0 drivers/block/null_blk/main.c:1703
- __blk_mq_issue_directly+0xe2/0x200 block/blk-mq.c:2694
- blk_mq_try_issue_directly+0x21b/0x420 block/blk-mq.c:2754
- blk_mq_submit_bio+0x21ec/0x3000 block/blk-mq.c:3208
- __submit_bio+0x90/0x3d0 block/blk-core.c:673
- __submit_bio_noacct_mq block/blk-core.c:756 [inline]
- submit_bio_noacct_nocheck+0x549/0xc00 block/blk-core.c:790
- submit_bio_noacct+0xd18/0x1ff0 block/blk-core.c:921
- blk_crypto_submit_bio include/linux/blk-crypto.h:203 [inline]
- __bh_submit+0x721/0x950 fs/buffer.c:1225
- bh_submit fs/buffer.c:1239 [inline]
- block_read_full_folio+0x496/0x8c0 fs/buffer.c:2463
- filemap_read_folio+0xfc/0x3b0 mm/filemap.c:2516
- do_read_cache_folio+0x2d7/0x6b0 mm/filemap.c:4146
- read_mapping_folio include/linux/pagemap.h:1015 [inline]
- read_part_sector+0xd1/0x370 block/partitions/core.c:724
- adfspart_check_ICS+0x91/0x7d0 block/partitions/acorn.c:357
- check_partition block/partitions/core.c:143 [inline]
- blk_add_partitions block/partitions/core.c:591 [inline]
- bdev_disk_changed+0x7b1/0x1260 block/partitions/core.c:695
- blkdev_get_whole+0x187/0x290 block/bdev.c:751
- bdev_open+0x2c7/0xe40 block/bdev.c:960
- bdev_file_open_by_dev block/bdev.c:1062 [inline]
- bdev_file_open_by_dev+0x179/0x210 block/bdev.c:1037
- disk_scan_partitions+0x1ef/0x320 block/genhd.c:387
- add_disk_final block/genhd.c:412 [inline]
- add_disk_fwnode+0x3f4/0x480 block/genhd.c:606
- add_disk include/linux/blkdev.h:800 [inline]
- null_add_dev+0x129d/0x1df0 drivers/block/null_blk/main.c:2052
- nullb_device_power_store+0x29d/0x350 drivers/block/null_blk/main.c:501
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fdede8c12f7
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffc5fd85ed0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 000055557028a400 RCX: 00007fdede8c12f7
-RDX: 0000000000000002 RSI: 00007fdede8fa060 RDI: 0000000000000003
-RBP: 00007fdede8fa060 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007fdede8fc238
-R13: 0000000000000002 R14: 00007fdede924cc0 R15: 0000000000000002
- </TASK>
-
-=============================
-[ BUG: Invalid wait context ]
-syzkaller #0 Tainted: G        W          
------------------------------
-syz-executor507/6035 is trying to lock:
-ffff8880455c0060 (&zone->mutex){+.+.}-{4:4}, at: null_lock_zone drivers/block/null_blk/zoned.c:39 [inline]
-ffff8880455c0060 (&zone->mutex){+.+.}-{4:4}, at: null_lock_zone drivers/block/null_blk/zoned.c:33 [inline]
-ffff8880455c0060 (&zone->mutex){+.+.}-{4:4}, at: null_process_zoned_cmd+0x943/0x10a0 drivers/block/null_blk/zoned.c:732
-other info that might help us debug this:
-context-{5:5}
-6 locks held by syz-executor507/6035:
- #0: ffff888023e9e450 (sb_writers#13){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #1: ffff8880385e1080 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x76/0x4e0 fs/configfs/file.c:226
- #2: ffff88802ca06570 (&p->frag_sem){.+.+}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #2: ffff88802ca06570 (&p->frag_sem){.+.+}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
- #3: ffffffff9ba14a40 (&lock){+.+.}-{4:4}, at: nullb_device_power_store+0xde/0x350 drivers/block/null_blk/main.c:496
- #4: ffff888045820350 (&disk->open_mutex){+.+.}-{4:4}, at: bdev_open+0x41a/0xe40 block/bdev.c:948
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff8ebe8200 (rcu_read_lock){....}-{1:3}, at: blk_mq_submit_bio+0x21b2/0x3000 block/blk-mq.c:3208
-stack backtrace:
-CPU: 3 UID: 0 PID: 6035 Comm: syz-executor507 Tainted: G        W           syzkaller #0 PREEMPT(full) 
-Tainted: [W]=WARN
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_lock_invalid_wait_context kernel/locking/lockdep.c:4830 [inline]
- check_wait_context kernel/locking/lockdep.c:4902 [inline]
- __lock_acquire+0xf75/0x1a40 kernel/locking/lockdep.c:5187
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
- null_lock_zone drivers/block/null_blk/zoned.c:39 [inline]
- null_lock_zone drivers/block/null_blk/zoned.c:33 [inline]
- null_process_zoned_cmd+0x943/0x10a0 drivers/block/null_blk/zoned.c:732
- null_handle_cmd drivers/block/null_blk/main.c:1455 [inline]
- null_queue_rq+0x664/0xfb0 drivers/block/null_blk/main.c:1703
- __blk_mq_issue_directly+0xe2/0x200 block/blk-mq.c:2694
- blk_mq_try_issue_directly+0x21b/0x420 block/blk-mq.c:2754
- blk_mq_submit_bio+0x21ec/0x3000 block/blk-mq.c:3208
- __submit_bio+0x90/0x3d0 block/blk-core.c:673
- __submit_bio_noacct_mq block/blk-core.c:756 [inline]
- submit_bio_noacct_nocheck+0x549/0xc00 block/blk-core.c:790
- submit_bio_noacct+0xd18/0x1ff0 block/blk-core.c:921
- blk_crypto_submit_bio include/linux/blk-crypto.h:203 [inline]
- __bh_submit+0x721/0x950 fs/buffer.c:1225
- bh_submit fs/buffer.c:1239 [inline]
- block_read_full_folio+0x496/0x8c0 fs/buffer.c:2463
- filemap_read_folio+0xfc/0x3b0 mm/filemap.c:2516
- do_read_cache_folio+0x2d7/0x6b0 mm/filemap.c:4146
- read_mapping_folio include/linux/pagemap.h:1015 [inline]
- read_part_sector+0xd1/0x370 block/partitions/core.c:724
- adfspart_check_ICS+0x91/0x7d0 block/partitions/acorn.c:357
- check_partition block/partitions/core.c:143 [inline]
- blk_add_partitions block/partitions/core.c:591 [inline]
- bdev_disk_changed+0x7b1/0x1260 block/partitions/core.c:695
- blkdev_get_whole+0x187/0x290 block/bdev.c:751
- bdev_open+0x2c7/0xe40 block/bdev.c:960
- bdev_file_open_by_dev block/bdev.c:1062 [inline]
- bdev_file_open_by_dev+0x179/0x210 block/bdev.c:1037
- disk_scan_partitions+0x1ef/0x320 block/genhd.c:387
- add_disk_final block/genhd.c:412 [inline]
- add_disk_fwnode+0x3f4/0x480 block/genhd.c:606
- add_disk include/linux/blkdev.h:800 [inline]
- null_add_dev+0x129d/0x1df0 drivers/block/null_blk/main.c:2052
- nullb_device_power_store+0x29d/0x350 drivers/block/null_blk/main.c:501
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fdede8c12f7
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffc5fd85ed0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 000055557028a400 RCX: 00007fdede8c12f7
-RDX: 0000000000000002 RSI: 00007fdede8fa060 RDI: 0000000000000003
-RBP: 00007fdede8fa060 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007fdede8fc238
-R13: 0000000000000002 R14: 00007fdede924cc0 R15: 0000000000000002
- </TASK>
-null_blk: disk mydev created
+Reviewed-by: Bradley Morgan <include@grrlz.net>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+It kinda of makes sense in reboot code
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>Suggested-by: Oleg Nesterov <oleg@redhat.com>
+>Suggested-by: Eric W. Biederman <ebiederm@xmission.com>
+>Suggested-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+>Cc: stable@vger.kernel.org
+>Signed-off-by: Cen Zhang (Microsoft) <blbllhy@gmail.com>
+>---
+>v4:
+> - Rebase on sysctl-next after Oleg's cad_pid sysctl placement change.
+> - Fold the two-patch v3 series into a single lifetime fix.
+> - Move kill_cad_pid() implementation to kernel/signal.c.
+> - Export kill_cad_pid() and stop exporting the raw cad_pid pointer.
+> - Update proc_do_cad_pid() in kernel/reboot.c.
+> - Add explicit includes for the RCU API and kill_cad_pid().
+> - Preserve the original unprivileged impact context while noting that
+>   the namespace permission path has been fixed separately.
+>
+>v3:
+> - Keep kill_cad_pid() inside the RCU read-side critical section
+>   instead of taking a pid reference, as suggested by Oleg.
+>
+>v2:
+> - Split out kill_cad_pid() deinline into a preparatory patch.
+> - Annotate cad_pid as __rcu and use rcu_dereference().
+> - Protect kill_cad_pid() by taking a pid reference under RCU.
+> - Add a comment explaining why synchronize_rcu() is used instead of
+>   call_rcu().
+>
+> include/linux/sched.h        |  2 +-
+> include/linux/sched/signal.h |  5 +----
+> init/main.c                  |  2 +-
+> kernel/reboot.c              | 19 +++++++++++++++----
+> kernel/signal.c              | 12 ++++++++++++
+> 5 files changed, 30 insertions(+), 10 deletions(-)
+>
+>diff --git a/include/linux/sched.h b/include/linux/sched.h
+>index 373bcc0598d1..31ce72b1233c 100644
+>--- a/include/linux/sched.h
+>+++ b/include/linux/sched.h
+>@@ -1767,7 +1767,7 @@ static inline bool is_lazy_mmu_mode_active(void)
+> }
+> #endif
+> 
+>-extern struct pid *cad_pid;
+>+extern struct pid __rcu *cad_pid;
+> 
+> /*
+>  * Per process flags
+>diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+>index 584ae88b435e..d45a5476b97d 100644
+>--- a/include/linux/sched/signal.h
+>+++ b/include/linux/sched/signal.h
+>@@ -562,10 +562,7 @@ static inline sigset_t *sigmask_to_save(void)
+> 	return res;
+> }
+> 
+>-static inline int kill_cad_pid(int sig, int priv)
+>-{
+>-	return kill_pid(cad_pid, sig, priv);
+>-}
+>+int kill_cad_pid(int sig, int priv);
+> 
+> /* These can be the second arg to send_sig_info/send_group_sig_info.  */
+> #define SEND_SIG_NOINFO ((struct kernel_siginfo *) 0)
+>diff --git a/init/main.c b/init/main.c
+>index e363232b428b..19a10d0c2760 100644
+>--- a/init/main.c
+>+++ b/init/main.c
+>@@ -1636,7 +1636,7 @@ static noinline void __init kernel_init_freeable(void)
+> 	 */
+> 	set_mems_allowed(node_states[N_MEMORY]);
+> 
+>-	cad_pid = get_pid(task_pid(current));
+>+	rcu_assign_pointer(cad_pid, get_pid(task_pid(current)));
+> 
+> 	smp_prepare_cpus(setup_max_cpus);
+> 
+>diff --git a/kernel/reboot.c b/kernel/reboot.c
+>index f070c5c1103a..d177d89fcc33 100644
+>--- a/kernel/reboot.c
+>+++ b/kernel/reboot.c
+>@@ -13,7 +13,9 @@
+> #include <linux/kexec.h>
+> #include <linux/kmod.h>
+> #include <linux/kmsg_dump.h>
+>+#include <linux/rcupdate.h>
+> #include <linux/reboot.h>
+>+#include <linux/sched/signal.h>
+> #include <linux/suspend.h>
+> #include <linux/syscalls.h>
+> #include <linux/syscore_ops.h>
+>@@ -24,8 +26,7 @@
+>  */
+> 
+> static int C_A_D = 1;
+>-struct pid *cad_pid;
+>-EXPORT_SYMBOL(cad_pid);
+>+struct pid __rcu *cad_pid;
+> 
+> #if defined(CONFIG_ARM)
+> #define DEFAULT_REBOOT_MODE		= REBOOT_HARD
+>@@ -1371,10 +1372,14 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+> {
+> 	struct ctl_table tmp_table = *table;
+> 	struct pid *new_pid;
+>+	struct pid *old_pid;
+> 	pid_t tmp_pid;
+> 	int r;
+> 
+>-	tmp_pid = pid_vnr(cad_pid);
+>+	rcu_read_lock();
+>+	tmp_pid = pid_vnr(rcu_dereference(cad_pid));
+>+	rcu_read_unlock();
+>+
+> 	tmp_table.data = &tmp_pid;
+> 
+> 	r = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+>@@ -1385,7 +1390,13 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+> 	if (!new_pid)
+> 		return -ESRCH;
+> 
+>-	put_pid(xchg(&cad_pid, new_pid));
+>+	old_pid = unrcu_pointer(xchg(&cad_pid, RCU_INITIALIZER(new_pid)));
+>+	/*
+>+	 * Wait for cad_pid readers before put_pid().  We cannot use
+>+	 * call_rcu() here because free_pid() already owns pid->rcu.
+>+	 */
+>+	synchronize_rcu();
+>+	put_pid(old_pid);
+> 	return 0;
+> }
+> 
+>diff --git a/kernel/signal.c b/kernel/signal.c
+>index 9c2b32c4d755..464732c44554 100644
+>--- a/kernel/signal.c
+>+++ b/kernel/signal.c
+>@@ -1891,6 +1891,18 @@ int kill_pid(struct pid *pid, int sig, int priv)
+> }
+> EXPORT_SYMBOL(kill_pid);
+> 
+>+int kill_cad_pid(int sig, int priv)
+>+{
+>+	int ret;
+>+
+>+	rcu_read_lock();
+>+	ret = kill_pid(rcu_dereference(cad_pid), sig, priv);
+>+	rcu_read_unlock();
+>+
+>+	return ret;
+>+}
+>+EXPORT_SYMBOL(kill_cad_pid);
+>+
+> #ifdef CONFIG_POSIX_TIMERS
+> /*
+>  * These functions handle POSIX timer signals. POSIX timers use
+>
+>base-commit: 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e
+>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks!
