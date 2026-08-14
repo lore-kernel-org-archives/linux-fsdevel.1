@@ -1,249 +1,109 @@
-Received: from mail-yx2-f4.google.com (mail-yx2-f4.google.com [74.125.224.132])
+Received: from mta0.migadu.com (out-55.mta0.migadu.com [91.218.175.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC70257855
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 04:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD26643AB0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 05:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786681172; cv=none; b=djlhL9SIMvCjWPxwOgrSOD3Hn+RjG+XhYwRrgGiJ5nbPBWyIiYL791fki2UkcCXHLiuX5DzQZ1oFjjI4q3cLzIsNNFzeINyFr4qlzt/gJhmIPwOAvZ6aiSrXPPXxTpMzIXjXQRBOmfioLh+mcNyOZ7ainXPhTy7i2dms0//iVUc=
+	t=1786684576; cv=none; b=OJUDVaiSGWg3SQXmrqRcChZFsC/rT+NDBurPd5skfVKr4/GKov+55v1X/HwDKSMHyroVcZ+EruvDDlZ9XDaA5nhhYj/grX0/rCXV9MujU74tMNK56FFW/uMXxnkIFjclAgasBsUOM+wgFZzU7YcuDR9QN6yej+QeNvtBewUlIEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786681172; c=relaxed/simple;
-	bh=Up2vjw9Nh5649aJnc42H2LZIDmvAyHrMVKgJBfl1X54=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XQEWtg8zqXriU1uUIh8QjxhUsMZv6iD7hZTzlApx/gDrByfi59WwlHdHWikYFa7RYix0oknb9AYzDxXH+WI6LoeUdcUstREYm9Y9yN/Y4CBHNio/F83YMLz9oCqKgVdTYtsdDGIKK19H243deKuSH66CYBsyRPgj9dhDvPIhuOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=q7es8Jez; arc=none smtp.client-ip=74.125.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1786684576; c=relaxed/simple;
+	bh=j4GJRfc1aJDPjMxnoYFQ35bEfPIds5rkg8YABFOZbLg=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XORmev5GbhjX87cABNAKCfia34h/7WSxAsFRikWIZGHRBa/erwO5bOr9Ew2YYUkSG4bVFjzuVhFJ3/1PyZMEvzlFOml6/in77W1YywJ/lUyeByzv64B9ykPxsSYztVNCyDxW13HxCP0Vuh5OUCkbjVJr/A1otH1lXAffsodNv6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f/By37gz; arc=none smtp.client-ip=91.218.175.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="q7es8Jez"
-Received: by mail-yx2-f4.google.com with SMTP id 956f58d0204a3-66c70bfb18eso213463d50.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 21:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1786681169; x=1787285969; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cN86OcoPVqczmmqnG7K/A/oARtiWiyYDemPnT6ZDkOI=;
-        b=q7es8JezkqvDt/nomogyTjXgNWNNChwftbzHMqWUoTV6EWqu3JXg6sAb7rE6boD8YC
-         +BCKj1hW7A/EvaOpR+JroG27xL8VTI2lasLjylTNprzikLqyl45N/pEGMrqtMOYelMtO
-         s9xGE4pGarLVmU3mDTjZDOejVoZbxgJhiiHEZve9Hb4IHVu+HvZErgrBpsceFAoH+VQd
-         m5W/J+YoD/S86+9VYvP9JapYIhkEyFHSM3A6eHL58W/M3hQePN9ulA6VTdtmXKFrevTn
-         zQK+4W0nkJQUs84VXztisWhxKYBo/frIzA3jdh/uCPEhkOdzAxa5NWQ4/5O6ea9vI3FM
-         obxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786681169; x=1787285969;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=cN86OcoPVqczmmqnG7K/A/oARtiWiyYDemPnT6ZDkOI=;
-        b=PY1eqcx8R/v0a/X4GEVZkgthoOL9itk6VatA0+aaKtCYXs2jIe0NpIkogDVQFTDbPo
-         kYTmA1X+fNYX6Qm9mQLRkZe05cWmTRsuHrxVkDS7nZYeVJ175t/ruV0NiCdi4fJJpCsv
-         dhFEprdpF6/z0VPSMpIF47Hvz6DvFF2nNgUnOteQR7Nvod8C1EXpgYoLdoYnUQT8cWMc
-         gGYgYWOEolsR8x4I64uLL7Vf50MsBBwRPPsm2LFEiRNTweDOBzuGdkZdI6Jvt7l33/BS
-         ghnPiyr1HlTlpInH8VQgdSSPukuIZMg1DipvbFQM0Rf/8qtHhIx/XdLiB2NV1Il3+nGb
-         Cs5g==
-X-Forwarded-Encrypted: i=1; AHgh+RofOyIQ8dzJ2X03m3X3vnQ95bm2BO5+y2BS88h8X0VPz/1iOoZeHYFDdflAiYq2ZSZmBf1ajsU9lbMbzWY1@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgVjcCZv8JMSpsFDgurqrX/RMwSzGLVLjRWxwx3oVsi0XFaECQ
-	2aiVPLSs8e5w+L8fCRNCSeo94rOoaXJ1sJoKOlyxXxnD0p0NMbk7gft+oGpO02ILZ7w=
-X-Gm-Gg: AR+sD10Erhsmvo3qzoPwuNQOfCOtVPYk3QWaB0355hDAfML6u4Gfbe2L2tw18q3xXXc
-	g3JBSxDgS0xICmZaOYx5eJ+x7ACNlo1xc8Ha11XSXjgvcHuJEas09rbcxFOKUqMr+1o6xouv60Y
-	Bk1FdxYuYf511SIbCIIRh6ab3NDnaGqJ1uwYSQbBLJBxnNS9BLVz7AbIekl1L/RGdU4ng2aJE+f
-	DOGA1LPpdheJ0sPs0GnoP4T/345tCTaGhFGLG/BSTuYaCaYLmBipJGB09ufDhgvDnhNYm2+aF2F
-	3nzl/Wffw0Taxhmd0P/Ox2iocAiXHJ74XVaFeBx5WCK0gnZ8XfWKXPTEpA9DOFmoKFVC0v+nmv/
-	v3GHUf/jMCprcVKIIbVekYC02IglJ7jhiK9WddkRXV44FINCSgbBU/BdnZGMBFZGcVFa0Xq80QG
-	Hx98ts28TlX3H77OCM9d1k6oxrNDOkeYnphL1sudzr0odxh+YYhBpBXNvWKeTwc1AdF17B874VC
-	4UllRu4IUF/Zz9wnAiib4wyki8vGbERcGNdF7407dIqZRHOpH+g0CHg77WftWOODEJE067qNJij
-	XQeaGBd+JMOxEgoAJZJ9LQ/kjWuw8vk7Ua6g/ikOIpruShdUHeOCZw==
-X-Received: by 2002:a05:690e:488a:b0:668:8793:eb67 with SMTP id 956f58d0204a3-66c72e82cd3mr1031279d50.48.1786681169420;
-        Thu, 13 Aug 2026 21:19:29 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:7c1e:d951:252e:7fc3? ([2600:1700:6476:1430:7c1e:d951:252e:7fc3])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66c7934afe7sm323119d50.15.2026.08.13.21.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 21:19:27 -0700 (PDT)
-Message-ID: <6d076dc1b4f0925f1beaeca7cebcf3752a19aa0f.camel@dubeyko.com>
-Subject: Re: [PATCH 2/2] hfs/hfsplus: stop btree allocators from reusing
- node 0
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Tao Yu <tao1.yu@intel.com>, linux-fsdevel@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+2bf21610eea63cb2ce93@syzkaller.appspotmail.com
-Date: Thu, 13 Aug 2026 21:19:22 -0700
-In-Reply-To: <20260814023150.3482810-3-tao1.yu@intel.com>
-References: <20260814023150.3482810-1-tao1.yu@intel.com>
-	 <20260814023150.3482810-3-tao1.yu@intel.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f/By37gz"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=j4GJRfc1aJDPjMxnoYFQ35bEfPIds5rkg8YABFOZbLg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786684572; v=1; x=1787289372;
+ b=f/By37gzEV30nug3y7azOcEUVaCHkY2DMkB0VHzpaE0PwTeP9PvLFX4vvNLARRrg8gG7zhQu
+ O3x0m2rUIycIXhHhD06I14HYCng+LEhklg57BXG33EdsT+2yTwqK7kaCl7TJch07lkZAiYUZQLw
+ G5/SsBXhKPiaT2UEr83/4mHo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from [192.168.1.116] (111.162.215.50)
+	by smtp.migadu.com with ESMTPS id 83b9bc82b1922ad3;
+	Fri, 14 Aug 2026 05:16:02 +0000
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <1168774a-74d3-4e77-98e3-cd688a2d7e0f@linux.dev>
+Date: Fri, 14 Aug 2026 13:15:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: cui.tao@linux.dev, clm@fb.com, dsterba@suse.com, josef@toxicpanda.com,
+ brauner@kernel.org, linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH] btrfs: use mount idmap for defrag permission check
+To: Seth Forshee <sforshee@kernel.org>, Qu Wenruo <wqu@suse.com>
+References: <20260813034146.1207640-1-cui.tao@linux.dev>
+ <bd66065f-bae5-482a-84d6-a78850c9cebe@suse.com> <an36yH30W965eqZk@ubuntu-x1>
+From: Tao Cui <cui.tao@linux.dev>
+In-Reply-To: <an36yH30W965eqZk@ubuntu-x1>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-08-14 at 10:31 +0800, Tao Yu wrote:
-> The btree header node is permanently reserved as node 0. If the on-
-> disk
-> bitmap ever presents node 0 as free, the filesystem is already
-> corrupted and the allocator must not try to instantiate it again.
->=20
-> Both HFS and HFS+ currently keep scanning the bitmap, set the bit,
-> and
-> hand node 0 to hfs_bnode_create()/hfsplus_bnode_create(). HFS+ then
-> hits the "new node 0 already hashed?" warning reported by syzbot,
-> while
-> HFS risks continuing after the same corruption pattern.
->=20
-> Teach both allocators to treat attempts to allocate node 0 as btree
-> map
-> corruption. Force the filesystem read-only, emit the existing repair
-> hint, and abort the allocation before the code reaches the hashed-
-> node
-> warning.
->=20
-> Reported-by: syzbot+2bf21610eea63cb2ce93@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D2bf21610eea63cb2ce93
-> Signed-off-by: Tao Yu <tao1.yu@intel.com>
-> ---
-> =C2=A0fs/hfs/btree.c=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++++++++
-> =C2=A0fs/hfsplus/btree.c | 11 +++++++++++
-> =C2=A02 files changed, 22 insertions(+)
->=20
-> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-> index 14114318ec724..9b0b7418ddbd5 100644
-> --- a/fs/hfs/btree.c
-> +++ b/fs/hfs/btree.c
-> @@ -376,6 +376,17 @@ struct hfs_bnode *hfs_bmap_alloc(struct
-> hfs_btree *tree)
-> =C2=A0			if (byte !=3D 0xff) {
-> =C2=A0				for (m =3D 0x80, i =3D 0; i < 8; m >>=3D
-> 1, i++) {
-> =C2=A0					if (!(byte & m)) {
-> +						if (unlikely(!(idx +
-> i))) {
-> +							pr_warn("(%s
-> ): %s (cnid 0x%x) map record invalid or bitmap corruption detected,
-> forcing read-only.\n",
-> +								tree
-> ->sb->s_id,
-> +								hfs_
-> btree_name(tree->cnid),
-> +								tree
-> ->cnid);
-> +							pr_warn("Run
-> fsck.hfs to repair.\n");
-> +							tree->sb-
-> >s_flags |=3D SB_RDONLY;
-> +							kunmap_local
-> (data);
-> +							hfs_bnode_pu
-> t(node);
-> +							return
-> ERR_PTR(-EIO);
-> +						}
-> =C2=A0						idx +=3D i;
-> =C2=A0						data[off] |=3D m;
-> =C2=A0						set_page_dirty(*page
-> p);
-> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-> index 394542a47e600..3ee92248b2409 100644
-> --- a/fs/hfsplus/btree.c
-> +++ b/fs/hfsplus/btree.c
-> @@ -561,6 +561,17 @@ struct hfs_bnode *hfs_bmap_alloc(struct
-> hfs_btree *tree)
-> =C2=A0			if (byte !=3D 0xff) {
-> =C2=A0				for (m =3D 0x80, i =3D 0; i < 8; m >>=3D
-> 1, i++) {
-> =C2=A0					if (!(byte & m)) {
-> +						if (unlikely(!(idx +
-> i))) {
-> +							pr_warn("(%s
-> ): %s (cnid 0x%x) map record invalid or bitmap corruption detected,
-> forcing read-only.\n",
-> +								tree
-> ->sb->s_id,
-> +								hfs_
-> btree_name(tree->cnid),
-> +								tree
-> ->cnid);
-> +							pr_warn("Run
-> fsck.hfsplus to repair.\n");
-> +							tree->sb-
-> >s_flags |=3D SB_RDONLY;
-> +							kunmap_local
-> (data);
-> +							hfs_bnode_pu
-> t(node);
-> +							return
-> ERR_PTR(-EIO);
-> +						}
-> =C2=A0						idx +=3D i;
-> =C2=A0						data[ctx.off] |=3D m;
-> =C2=A0						set_page_dirty(page)
-> ;
 
-We already have check [1] in hfs_btree_open():
 
-	if (!hfs_bmap_test_bit(node, 0)) {
-		pr_warn("(%s): %s (cnid 0x%x) map record invalid or
-bitmap corruption detected, forcing read-only.\n",
-				sb->s_id, hfs_btree_name(id), id);
-		pr_warn("Run fsck.hfsplus to repair.\n");
-		sb->s_flags |=3D SB_RDONLY;
-	}
+在 2026/8/14 01:11, Seth Forshee 写道:
+> On Thu, Aug 13, 2026 at 04:04:05PM +0930, Qu Wenruo wrote:
+>>
+>>
+>> 在 2026/8/13 13:11, Tao Cui 写道:
+>>> From: Tao Cui <cuitao@kylinos.cn>
+>>>
+>>> btrfs_ioctl_defrag() checks MAY_WRITE with nop_mnt_idmap, which skips
+>>> the mount idmap.  On an idmapped mount the owner comparison then uses
+>>> the caller's fsuid against the raw on-disk uid, dropping the mapping.
+>>> Every other permission/owner check in btrfs ioctl uses
+>>> file_mnt_idmap(file) (e.g. :1152, :1310, :1946); this one missed it.
+>>>
+>>> Switch to file_mnt_idmap(file).  It equals nop_mnt_idmap on a normal
+>>> mount, and the check stays behind !capable(CAP_SYS_ADMIN), so only
+>>> unprivileged callers on idmapped btrfs change.  The RO-fd note in the
+>>> comment above is about the file descriptor, not this inode check, and
+>>> is unaffected.
+>>>
+>>> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+>>
+>> Fixes: 4609e1f18e19 ("fs: port ->permission() to pass mnt_idmap")
+> 
+> This is a misattribution. Using nop_mnt_idmap there keeps the behavior
+> the same as it was before the commit. Switching to the mount idmap opens
+> up BTRFS_IOC_DEFRAG* to idmapped users when they weren't before, which
+> is a separate policy decision that didn't belong in that change.
+> 
+Agreed, I'll resend it as a behavior change with no Fixes tag.
+> Saying that these ioctls should be allowed for idmapped users just
+> because others are isn't a good justification. Why are these ioctls safe
+> for idmapped users?  Do they actually require this capability?
+> 
+The check isn't a privilege gate. 616d374efa23 added it to test "whether
+the file could have been opened rw", and the caller can already do that
+on the idmapped mount -- open O_RDWR, write(), fallocate(). Only the
+regular-file branch changes, and defrag only reorganizes the caller's
+own extents; the S_IFDIR branch (whole-subvolume defrag) keeps its
+capable(CAP_SYS_ADMIN).
 
-The likewise check has been implemented by patch [2] for HFS.
+Nothing is weakened: !capable(CAP_SYS_ADMIN) stays exactly as is.
+
+may_dedupe_file() in fs/remap_range.c already gates FIDEDUPERANGE the
+same way -- capable(CAP_SYS_ADMIN), then i_uid_into_vfsuid(
+file_mnt_idmap(file)) / inode_permission(idmap, MAY_WRITE) -- and dedupe
+is stronger, since it can rewrite one file's extents from another file's
+contents. Idmapped users can already dedupe on btrfs.
 
 Thanks,
-Slava.
+Tao
 
-[1]
-https://elixir.bootlin.com/linux/v7.2-rc6/source/fs/hfsplus/btree.c#L388
-[2]
-https://lore.kernel.org/r/20260716074150.1660-1-aditya.ansh182@gmail.com
+> Thanks,
+> Seth
+
