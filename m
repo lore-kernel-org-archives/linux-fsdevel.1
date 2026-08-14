@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DD02E739E;
-	Fri, 14 Aug 2026 13:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078EC39CD10;
+	Fri, 14 Aug 2026 13:13:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786713190; cv=none; b=Ik1wWvMcdFFaSOXr2OONnEqBxB2rQUwibGCxWmKDJX6/oY9RbKCq2cartFksfiCuz9iS1adHzskHEdLA2xsxQ2VS2E5JtCSLzX8ZYgEC66jN7USNPIDScj1F2YiNQRMZqhNoq6vH611lSLkwxDZgYWRpbATAieOaNQHsCtwvrm0=
+	t=1786713203; cv=none; b=sAsjBf7ZknnnYwmMIvMH31MCNVcbFdfD1xhblKvdsIVWBpBqtyZ9C49XyLgZXyUbb7LqooPAqOv5wAGZ1YWN+L1NMD545BF/FV8YD5MMRlyi0KNfeFPHDkZYFfoAUbR5HShlB5pYArFbaw9IPO34nQMSkpnt2wrgxeFGoxAHnpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786713190; c=relaxed/simple;
-	bh=Cg23cxJHLqwCFG9+BzqSSrMdiT/akD1HegXX0otbzUQ=;
+	s=arc-20240116; t=1786713203; c=relaxed/simple;
+	bh=P9611caXuFdg3L+KlPD/bBx+O5KKLkxSM5Wrpk14RWI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qxp6Y4MHQsfSm6aaSNK7RdDY2Pni2OoBtvDwyjTrpxKsz41x26gCkeokeDhHqi2JDv/1s6Q7QKvSQ5zI+f6+PnVO1giJNpObM4Lg0dByiB/3suOsMky7bwqn5UdPrwVU+ONJddZv5lksGJykzSkLF70ZfZNDUdh2m3jL8kyXqEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzkrSMRp; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=Pn2M72//kuasnWP9NL/A2yIfrcbmAPDsIRVhzvR1m3HEpanG9YOQOw+vaPDXZaPyKbaJ24PuOkSAW/ZEKk5jSTWogh4U7dJ36heZZEmS2/molARvDJESI+O6EauSheYJ9Y/4fHc3kK72V/aGoMsF9J8io7dDHV6kWfHU+KJudjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZN3kqCfS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzkrSMRp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF5A1F000E9;
-	Fri, 14 Aug 2026 13:13:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZN3kqCfS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD5C1F000E9;
+	Fri, 14 Aug 2026 13:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786713188;
-	bh=qp84ZngsE3lt+KQRSgF0dkrU7EQuuG/J+AH4D5j4LkE=;
+	s=k20260515; t=1786713201;
+	bh=10kRZrgFyLkV7Sxjtth/z4/OkUVt8JaNAIiQuq0acvg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VzkrSMRpIriwBlrgBiKhFmkp31ERYS4H0XvGbNKxfN5xQTqpwyAiGoEJ6cf7Ye1wm
-	 u/As2yr4HUnzwImmEYHVWTmocTufogSFShuUwJ5EqX4ccYYCbNlY9kuYpeg04y4p5D
-	 ttr76Ae1TR7FeD32DhPrWIwik3SE9n+qN0hmFqojBmvOqfMpbHCY/DpeuVlyjUr1Tq
-	 PVeu2IPvk+Plc+BDl3dptJUM90f9lOqRROOfYxD0IvGm8UenXZhBLYvBmJCw67supO
-	 w2jPzZX/G3ksGdPyj5qjbwossOysxuQVqJmMeu1dLL6rYYCOXHaqhFC63VdZB7QIGg
-	 QEK4Jew9YRjIA==
+	b=ZN3kqCfSRO5PAL92IYIr3oqjAlTw100uIaUWZ1TNeGH9ULBt8uV3JAcgiPbLAWaVv
+	 Yqh2iNUe3njNpjwDJh3BatovrV6hQUl9YFyRSUyQwZkoHjXRAH/kzWgZqMsDHuRn9+
+	 ItnbYCq4okxEArD7LbWcgKHt3RxHOgokCnFZUBBAa2BGLidBH+3XvVZXL4l5k83ru0
+	 BBVGMttqA8fwb4RxHib3vREOTTG6pPxJJ8utQSuZSoPVOYAmJH4/AJCwgx3tB2/4CJ
+	 2Azfx+I1lwOIi7bgLCWwj36kd+OHHz3UaDzh7JPPxZlb5SCAtkaEe7x6xbXfP8/alY
+	 tZJrEKG3VEqOA==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 10/18 for v7.3] vfs kthread
-Date: Fri, 14 Aug 2026 15:12:59 +0200
-Message-ID: <20260814-vfs-7.3-rc1.kthread-f4580c1bc853@brauner>
+Subject: [GIT PULL 11/18 for v7.3] vfs lookup
+Date: Fri, 14 Aug 2026 15:13:13 +0200
+Message-ID: <20260814-vfs-7.3-rc1.lookup-945fe3fb6a45@brauner>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260814-vfs-v73-6e884cb31ac9@brauner>
 References: <20260814-vfs-v73-6e884cb31ac9@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5674; i=brauner@kernel.org; h=from:subject:message-id; bh=Cg23cxJHLqwCFG9+BzqSSrMdiT/akD1HegXX0otbzUQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVi8RP/mwz8/y6gGZp1Q2B06w3Vtuwpnvl5q32/B3sJ nZrtfvWjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIl8sGNkmP3lD4+R5MvtrfuS vylI7+Xol4pfX75Fa9reZW++6h3fr8nIsEB5XvvRU9Z63rNc2Q+XZ/bss9FZ4XCzdSIz+/7Vqoz 8/AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5149; i=brauner@kernel.org; h=from:subject:message-id; bh=P9611caXuFdg3L+KlPD/bBx+O5KKLkxSM5Wrpk14RWI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTVi2TPLb5zhId37cZXNdNfX35+yOWZevXh14WMRVwyv 7/eT64K6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIDBlGhq1x7i0Xikq9b7OH 8OydtHmbuNWe25LVPjmbLP+sv8Tr68zw30EmVnyPp9SRKYp7DtTeWFYY3bT70NK9Tvn34ioOBir MYQMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,35 +51,17 @@ Hey Linus,
 
 /* Summary */
 
-This stops kernel threads from sharing filesystem state with userspace.
-This work is about 3 cycles old and has been in -next for about that
-time.
+This refactors lookup_open() and adds vfs_lookup_open() for nfsd.
+mnt_want_write() and parent locking are moved into lookup_open()
+itself.
 
-When the kernel boots init_task creates PID 1 and then kthreadd. From
-that point every kthread and PID 1 share the same fs_struct. That is why
-pivot_root() has to rewrite the fs_struct of all kthreads. The rewriting
-exists so that kthreads can use init's filesystem state when they want
-to. It also means userspace can move the ground out from under the
-kernel.
+audit_inode_child() is also now called in lookup_open() on failure. That
+is the calling convention in vfs_create() and vfs_mkdir(), but
+lookup_open() made no such call when atomic_open() should have created a
+file and did not. And neither did the regular ->create() path fwiw.
 
-PID 1 now gets a completely separate fs_struct. All kthreads are
-anchored in a private SB_KERNMOUNT instance of nullfs that cannot be
-mounted on and cannot be used to follow other mounts. Userspace init
-can no longer affect kthread filesystem state and kthreads can no
-longer affect userspace fs state without explicit opting in to that.
-
-Path lookup from a kthread now fails by default. It makes it
-deliberately hard to offload security sensitive operations into init's
-filesystem state from a kthread.
-
-Places that legitimately need to look something up there opt in through
-the new scoped_with_init_fs() which temporarily overrides the caller's
-fs_struct with init's. usermodehelpers remain the only kernel tasks that
-genuinely share init's filesystem state, since they execute random
-binaries in the root filesystem (excellent...).
-
-The visible result is that /proc/2/root is a nullfs with an empty
-mountinfo while /proc/1/root is the real root.
+This also contains work to remove the unneded excl argument from the
+->create() inode op.
 
 /* Testing */
 
@@ -103,79 +85,92 @@ The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.3-rc1.kthread
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.3-rc1.lookup
 
-for you to fetch changes up to b4343aebd3a4dd255b15b2e5b1363d6399da302f:
+for you to fetch changes up to 895741772f6ca989da565bcbe4673f12d3d0ac31:
 
-  initramfs_test: use test init/exit hooks to override init fs (2026-07-31 12:56:51 +0200)
+  Merge patch series "fs/namei.c: comment and coding style fixups" (2026-07-31 10:37:40 +0200)
 
 ----------------------------------------------------------------
-vfs-7.3-rc1.kthread
+vfs-7.3-rc1.lookup
 
-Please consider pulling these changes from the signed vfs-7.3-rc1.kthread tag.
+Please consider pulling these changes from the signed vfs-7.3-rc1.lookup tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Christian Brauner (27):
-      fs: add switch_fs_struct()
-      fs: notice when init abandons fs sharing
-      fs: add scoped_with_init_fs()
-      fs: add real_fs to track task's actual fs_struct
-      fs: make userspace_init_fs a dynamically-initialized pointer
-      rnbd: use scoped_with_init_fs() for block device open
-      crypto: ccp: use scoped_with_init_fs() for SEV file access
-      scsi: target: use scoped_with_init_fs() for ALUA metadata
-      scsi: target: use scoped_with_init_fs() for APTPL metadata
-      btrfs: use scoped_with_init_fs() for update_dev_time()
-      coredump: use scoped_with_init_fs() for coredump path resolution
-      fs: use scoped_with_init_fs() for kernel_read_file_from_path_initns()
-      ksmbd: use scoped_with_init_fs() for share path resolution
-      ksmbd: use scoped_with_init_fs() for filesystem info path lookup
-      ksmbd: use scoped_with_init_fs() for VFS path operations
-      pnfs/blocklayout: use scoped_with_init_fs() for SCSI device lookup
-      initramfs: use scoped_with_init_fs() for rootfs unpacking
-      af_unix: use scoped_with_init_fs() for coredump socket lookup
-      fs: stop sharing fs_struct between init_task and pid 1
-      fs: add umh argument to struct kernel_clone_args
-      devtmpfs: create private mount namespace
-      nullfs: make nullfs multi-instance
-      fs: start all kthreads in nullfs
-      fs: stop rewriting kthread fs structs
-      fs: stop rewriting paths for PF_EXITING | PF_DUMPCORE
-      Merge patch series "fs,kthread: start all kthreads in nullfs"
-      initramfs_test: use test init/exit hooks to override init fs
+Christian Brauner (6):
+      Merge patch series "VFS: refactor lookup_open and add vfs_lookup()"
+      Merge patch series "vfs: call audit_inode_child() in lookup_open() on failure"
+      fs/namei.c: update stale comments in lookup_open()
+      fs/namei.c: fix kerneldoc of atomic_open() and vfs_lookup_open()
+      fs/namei.c: fix coding style in atomic_open() and lookup_open()
+      Merge patch series "fs/namei.c: comment and coding style fixups"
 
- drivers/base/devtmpfs.c           |   2 +-
- drivers/block/rnbd/rnbd-srv.c     |   4 +-
- drivers/char/misc_minor_kunit.c   |  25 +++++----
- drivers/crypto/ccp/sev-dev.c      |  12 ++---
- drivers/target/target_core_alua.c |  11 +++-
- drivers/target/target_core_pr.c   |   4 +-
- fs/btrfs/volumes.c                |  11 +++-
- fs/coredump.c                     |  11 ++--
- fs/fs_struct.c                    | 103 ++++++++++++++++++++++++++++++++++++--
- fs/kernel_read_file.c             |   9 +---
- fs/namespace.c                    |  16 +++---
- fs/nfs/blocklayout/dev.c          |  15 ++++--
- fs/nullfs.c                       |  12 ++---
- fs/proc/array.c                   |   4 +-
- fs/proc/base.c                    |   8 +--
- fs/proc_namespace.c               |   4 +-
- fs/smb/server/mgmt/share_config.c |   4 +-
- fs/smb/server/smb2pdu.c           |   4 +-
- fs/smb/server/vfs.c               |   9 ++--
- include/linux/fs_struct.h         |  34 +++++++++++++
- include/linux/init_task.h         |   1 +
- include/linux/sched.h             |   1 +
- include/linux/sched/task.h        |   1 +
- init/init_task.c                  |   1 +
- init/initramfs.c                  |  14 ++++--
- init/initramfs_test.c             |  19 ++++++-
- init/main.c                       |  10 +++-
- kernel/fork.c                     |  53 ++++++++++++--------
- kernel/kcmp.c                     |   2 +-
- kernel/umh.c                      |   6 +--
- net/unix/af_unix.c                |  17 +++----
- 31 files changed, 311 insertions(+), 116 deletions(-)
+Jori Koolstra (3):
+      vfs: move create error && negative dentry case in lookup_open() up
+      vfs: call audit_inode_child() in lookup_open() on failure
+      fs/namei.c: update kerneldoc of atomic_open()
+
+NeilBrown (4):
+      VFS: move mnt_want_write() and locking into lookup_open()
+      VFS: move delegated_inode retry loop into lookup_open()
+      VFS: add vfs_lookup_open() for nfsd
+      Remove excl arg to ->create inode_operation
+
+ Documentation/filesystems/locking.rst |   2 +-
+ Documentation/filesystems/porting.rst |   8 +
+ Documentation/filesystems/vfs.rst     |   2 +-
+ fs/9p/vfs_inode.c                     |   3 +-
+ fs/9p/vfs_inode_dotl.c                |   3 +-
+ fs/affs/affs.h                        |   2 +-
+ fs/affs/namei.c                       |   2 +-
+ fs/afs/dir.c                          |   4 +-
+ fs/bad_inode.c                        |   2 +-
+ fs/bfs/dir.c                          |   2 +-
+ fs/btrfs/inode.c                      |   2 +-
+ fs/ceph/dir.c                         |   2 +-
+ fs/coda/dir.c                         |   2 +-
+ fs/ecryptfs/inode.c                   |   2 +-
+ fs/efivarfs/inode.c                   |   2 +-
+ fs/exfat/namei.c                      |   2 +-
+ fs/ext2/namei.c                       |   2 +-
+ fs/ext4/namei.c                       |   2 +-
+ fs/f2fs/namei.c                       |   2 +-
+ fs/fat/namei_msdos.c                  |   2 +-
+ fs/fat/namei_vfat.c                   |   2 +-
+ fs/fuse/dir.c                         |   2 +-
+ fs/gfs2/inode.c                       |   5 +-
+ fs/hfs/dir.c                          |   2 +-
+ fs/hfsplus/dir.c                      |   2 +-
+ fs/hostfs/hostfs_kern.c               |   2 +-
+ fs/hpfs/namei.c                       |   2 +-
+ fs/hugetlbfs/inode.c                  |   2 +-
+ fs/jffs2/dir.c                        |   4 +-
+ fs/jfs/namei.c                        |   2 +-
+ fs/minix/namei.c                      |   2 +-
+ fs/namei.c                            | 351 ++++++++++++++++++++++++----------
+ fs/nfs/dir.c                          |   4 +-
+ fs/nfs/internal.h                     |   2 +-
+ fs/nilfs2/namei.c                     |   2 +-
+ fs/ntfs/namei.c                       |   2 +-
+ fs/ntfs3/namei.c                      |   2 +-
+ fs/ocfs2/dlmfs/dlmfs.c                |   3 +-
+ fs/ocfs2/namei.c                      |   3 +-
+ fs/omfs/dir.c                         |   2 +-
+ fs/orangefs/namei.c                   |   3 +-
+ fs/overlayfs/dir.c                    |   2 +-
+ fs/ramfs/inode.c                      |   2 +-
+ fs/smb/client/cifsfs.h                |   2 +-
+ fs/smb/client/dir.c                   |   2 +-
+ fs/ubifs/dir.c                        |   2 +-
+ fs/udf/namei.c                        |   2 +-
+ fs/ufs/namei.c                        |   3 +-
+ fs/vboxsf/dir.c                       |   4 +-
+ fs/xfs/xfs_iops.c                     |   5 +-
+ include/linux/fs.h                    |   2 +-
+ include/linux/namei.h                 |   3 +
+ ipc/mqueue.c                          |   2 +-
+ mm/shmem.c                            |   2 +-
+ 54 files changed, 313 insertions(+), 171 deletions(-)
