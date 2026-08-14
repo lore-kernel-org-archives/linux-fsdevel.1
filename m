@@ -1,339 +1,269 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013000.outbound.protection.outlook.com [52.101.72.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946C739F18F;
-	Fri, 14 Aug 2026 09:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786701172; cv=none; b=jOsY6Z6ASZZWAHvwcFy1FxRA/QmlluJXF6mWuzQ4/PIPsgI7biWgtPirlAzx03W9qvWkonUojorbU8i/ADLB/d7SHV4MC3RudSyqUVY2lp/Jt9Dx8pR00ymfwAQxuPxSmP+XUPwNS35vZLaek3h0w7IRELBuf3AxJbdaII+bTl8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786701172; c=relaxed/simple;
-	bh=zl0YNsjvNtZsYQQeWC3ej6cBLjiM2wbGHfmW9HT+nL0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sNuwfjY2WdNlZGc8alAgriPI5pJm7H72sdKYO7Jv3CptEbpWjm8EoGAGW20OY0T/c7lOKaZDDRnPrSZ2GIRAoy4eTXrzN2EYsMZGzS/5UlRCj238WUNtByvGNXpHc+UBWoovNZAjjoQm7t9LN0zuJ+R1rUOoDcaHIaayHpa3l9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hLyFR75jNzYQvWH;
-	Fri, 14 Aug 2026 17:52:27 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 37A224058C;
-	Fri, 14 Aug 2026 17:52:36 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBXR0ZK5X5qbKAYCQ--.57632S4;
-	Fri, 14 Aug 2026 17:52:35 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	djwong@kernel.org,
-	hch@infradead.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH -next v5 31/32] ext4: partially enable iomap for the buffered I/O path of regular files
-Date: Fri, 14 Aug 2026 17:46:15 +0800
-Message-ID: <20260814094616.1710143-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
-References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B8942EEAB;
+	Fri, 14 Aug 2026 10:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.0
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786702037; cv=fail; b=NuELOnAfT0BoKwQjBstIh7ZPGARs6Nu2+3HVIbn1C9aAWVJECQVoj7KhQt0UJbOI/6DIbag26t4FcLyn19Lz9ZesnNVbyj2nAgBSwBQtTvT1UQvK1YJmhf89wUsxfNlH/UnmFdF0qiWLNaKieExNBgyI2uWYdcnV8ma3BBxpFNY=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786702037; c=relaxed/simple;
+	bh=nfStK3Pe70ZRRblEKj4btcPP/SQp5rNphn0OaMy4bbg=;
+	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=snS20mYqdWRu1nyvD+CD27QdnCMMn6pE2vW/RcVfkmviEWLb8bqpeRU5ae3cVWtMkB9BQShSBhoA5onRdVqwA2v9dfUf7VxjT8tdTgL1oIA91vCQqilAZ+p0GThlCiskZOQnFSWBMK4TIqpym9+DcHnAc5AzuxtGzWA2KHiXnn0=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Xa73x8VO; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Xa73x8VO; arc=fail smtp.client-ip=52.101.72.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Xa73x8VO";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Xa73x8VO"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=xDBuWPymd45tbtSJsM5zIQ7ovzGXD+AGiS6ED8icHhxGxVT76M6DstGxkVHkqZFrKZ985/4ylndA6OkpO7KApT4x8A9VoWXIUF7ol+hnVj8p9InHzAwMyVHfnKoHZOy0STBUIWB2yo7sa+gulPrTLvj9KR5/g+JJ0LaFg4m2WMV0GZnLHXfdLtAkTv04NadcewuXeVcvS9PxpcizH7DD2JNdWOxdpz8AUK4jC8UjZjjx2jVcWfCBmRMksbO7bq08/ZKY22a5fuJ7oHkIKekVik6zDgN9xwDX6CwML+4n1YKATCfnob9SNIv4bmxK1dOzh93tLos5zLU3l1hYIdSSUw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T3KhvsxEoEP9z6JNj1aBx70Nx6X3XBZOUekklW3rbtQ=;
+ b=PyqtN1JNJudVv4ZYrE1LAlvnCEJ9YizG8w2qpKARDgPno8P2z0qNluL59nw8K5h/EdPXXJbXfFM/fB8OTlRfbZl7GjRfyLD6A6TdNZOQSwunFyleIE1EpEkPcnVlUPybP0ZBxym/muZ7y1YnawaISEyunpHgL/KMMxwVE/c/1d/3m7cvTVqn1k2gjKXmUxoBejgFo/9KsetJjU27CUNrxDZ07lPKBtsGPSO/GGCkeNfCp4CT3XjBatR91gj25FKk9Bi9EADX8XUESx98U1/UZTUbc6MxXnJOSU0IbmcgLWItKlGVQFta2tayKA7kP9UXLCivv/rRKRUIo2Rt01oiPQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3KhvsxEoEP9z6JNj1aBx70Nx6X3XBZOUekklW3rbtQ=;
+ b=Xa73x8VOqP9SORkdx0HmJjWkb3uz57kANXUAB9hdYEYAtYJmLeE2YabwJREVIDuEv1ACZhPpSmNzQNZDThV0g18zfFCpkViSg2f9AxMSAyzqyY06lO8Q2enl3N0PSPGUuhiDSwh7mZg8yBwj6DT6IUdeWHq5TOnreBTaN+Uj0Dg=
+Received: from DU7P250CA0018.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:54f::31)
+ by DU0PR08MB9420.eurprd08.prod.outlook.com (2603:10a6:10:423::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Fri, 14 Aug
+ 2026 10:06:56 +0000
+Received: from DB1PEPF00050A00.eurprd03.prod.outlook.com
+ (2603:10a6:10:54f:cafe::5d) by DU7P250CA0018.outlook.office365.com
+ (2603:10a6:10:54f::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.15 via Frontend Transport; Fri,
+ 14 Aug 2026 10:06:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF00050A00.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.3
+ via Frontend Transport; Fri, 14 Aug 2026 10:06:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PHmEnvHlnGBw4IwdJs7esLlclPRGZD2862Rk8b9wsf+poJ2rYvaUBfHOPunvQWGY5sYkl8wYrAn/QYbHHAtQyGPCTEJkGD2TJ4WhFQsPsx33YtXlw1LwXYRwVz3fOWwJiquTf1z6MxUiF5BgTZHG98PEkygMOeAHsS1rt199eD6O+gDgJTLzIHiZPgDkLFGccCmeryNn/dgQ7ZvlIPEKY9Hak1474QAC75YTnYzI50qA4wALw96kqICvycaCYHRE7Z/nP5nk8K3GeAC9f+/2oCuJaTM0OlcH7BBFyvc9cJ9DlaqACd/QE3coMzFmhKVnDfFiUHlD5oT+MsOS2gJLgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T3KhvsxEoEP9z6JNj1aBx70Nx6X3XBZOUekklW3rbtQ=;
+ b=HTDEjnorGVlYrFORYmJdgvFchCM37g7vDTzt/byP84USaAURmmENe49RTl34SlC1zzHl6D2b+A7QmIrit+m8GN3JvghoHHjvQor0ke8o0TdXvyBSlm9HFG2tZkamq4qtJb1+n5TSDY0Pl0Ufjg7M/usWMZGI68M2+vhuGQD+KDPyWTY4vuDbimg4VR9OHJH8h5o7vpz2F5ilzIcp3fP0qqbBtmqN81mvB9WWkMPMg0McxLex/XZ4Xx9Lw3JTJ9aehR62XBuqz0omqE/zj00Fvtc5jtGUquybb5+N2V/NwDpoZwFWI3zGsjUH34t+FLowH8NNpN8wIoaj+G0ZCKR0fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3KhvsxEoEP9z6JNj1aBx70Nx6X3XBZOUekklW3rbtQ=;
+ b=Xa73x8VOqP9SORkdx0HmJjWkb3uz57kANXUAB9hdYEYAtYJmLeE2YabwJREVIDuEv1ACZhPpSmNzQNZDThV0g18zfFCpkViSg2f9AxMSAyzqyY06lO8Q2enl3N0PSPGUuhiDSwh7mZg8yBwj6DT6IUdeWHq5TOnreBTaN+Uj0Dg=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM6PR08MB3414.eurprd08.prod.outlook.com (2603:10a6:20b:49::10)
+ by AS2PR08MB10111.eurprd08.prod.outlook.com (2603:10a6:20b:62d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Fri, 14 Aug
+ 2026 10:06:22 +0000
+Received: from AM6PR08MB3414.eurprd08.prod.outlook.com
+ ([fe80::dde8:bf0b:1dc:2a2]) by AM6PR08MB3414.eurprd08.prod.outlook.com
+ ([fe80::dde8:bf0b:1dc:2a2%2]) with mapi id 15.21.0315.014; Fri, 14 Aug 2026
+ 10:06:22 +0000
+Message-ID: <99eac5ca-d5c6-4777-b16c-5a20fae95f5d@arm.com>
+Date: Fri, 14 Aug 2026 11:06:20 +0100
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@arm.com, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+Subject: Re: [PATCH 6/9] mm: convert PTE table entry to pte
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Alexander Gordeev <agordeev@linux.ibm.com>
+References: <20260806083926.1807279-1-usama.anjum@arm.com>
+ <20260806083926.1807279-7-usama.anjum@arm.com>
+ <fab9fc78-1e1d-4d5b-a9ca-92f3ebd04108-agordeev@linux.ibm.com>
+ <5c329236-7761-4e42-a549-b822e43b4358@arm.com>
+ <2599c5b3-e8ac-4865-993b-d41e6f060d52-agordeev@linux.ibm.com>
+ <f0b0dacb-fb83-4402-b0ea-30072727dfd7@arm.com>
+ <e9de4158-b829-471b-980c-1999959bbc48@kernel.org>
+From: Muhammad Usama Anjum <usama.anjum@arm.com>
+Content-Language: en-US
+In-Reply-To: <e9de4158-b829-471b-980c-1999959bbc48@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0374.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::19) To AM6PR08MB3414.eurprd08.prod.outlook.com
+ (2603:10a6:20b:49::10)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBXR0ZK5X5qbKAYCQ--.57632S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3tw1DZF1UKF45GF1UAr43Jrb_yoWDXw1Dpr
-	ZxK34rGr1DX34v9ws7tr4DXr1Yv3WxK3yUGrZ3ur4kAa98Jw1IqFyjyF1YvF15JrZ3Ww12
-	qF48tw1Uuw1qkrDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUB014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-	JVW0owA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI4
-	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I
-	0E14v26F4UJVW0obIYCTnIWIevJa73UjIFyTuYvjTRXku4DUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-MS-TrafficTypeDiagnostic:
+	AM6PR08MB3414:EE_|AS2PR08MB10111:EE_|DB1PEPF00050A00:EE_|DU0PR08MB9420:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63e47786-f4fc-4bc2-1a14-08def9ebc5eb
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|18002099003|22082099003|56012099006|3023799007|6133799003|10067099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info-Original:
+ FdM+vYM//Rs5TUwEEHIcmgNLmFMgPcbIWudfucKOtLwbQHuQH4LsRsLWhZbhUHVwlsUZ2MW/QlqZEBRFZOotGFq9ElB1fBk0T2wDM9eJxSONOc0eBnNbJCrYXcdL413Ax+OyfkfEoxy+7p6xfO/Gp0ULezU0rryPMHDxdW+WSS5rUULaD/qtxpsaexe4gAKKlRwpoKiMYC0kk6mOSF6nV//6DKRqnn8jaUxss4Jb7rpTjNrDntvBromiOXkyH+u738mcKX2mQvUwgMLXPwSoUcHl2FYCYlRXOtzbXYvxFs4S2yuivsokOQ+SAGvWRCMRzXK/QnoVKcb0xUY8+gZ88apENk0piPBxngMRBECCAR61rRcrJLUNQtlEB8HBbq/YpCmGNjePl8g7rSF97nWWZn5uqDznbnx9lhon+2zPAyx5mE7R4B8g1+I/ayLySqAwyOQtrDcO7Utgw3QJ5V1LabHy5H4Zq+RZu+yoYeVUyWvQxqZvBXrOzp8rjCTsZcVr6KY7JAdQq4tl5Ps/qB9tRiPALRaFbOG7P370QXOXENe/wCCzLSQ1wcD8BOuVSU5Yk2Obd7lxvCHq2207TdfFyw6gpkOv+e49mmqVZhxXI356CRSby/7mB6IuGiTs4sLL6Lcof90Lpfy9gfrzTaZ12kmtz9OQ0y9Jt1KAXQnZMIU=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3414.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(18002099003)(22082099003)(56012099006)(3023799007)(6133799003)(10067099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ hg0VAWoj1GcWWsk+NJy5Vc8BjrpZSBqh8S30aINiN6NxTNaP4iTTkJ91o6iF1/+Zwjb+/AU1X6UV8XTM3bUxU3Q8BCdzlOCy7kOyF2/QY5swJ6ur7BBbFXmGFS6NpT/ac5AA3biozKgSIVWQ+BMglFcO2/q00U6bDY7FjrezA7vmmaMQsVLMPQbt67FGkKdB2XVwe9vKRY6AHj6SJA5C8LJnCN/kIC4nQUKWP63TP6aMafYf/b5odoc4YiM9oEHhWuIHKuJJWkzrwup6r5XiD7ifQ667mLFzrHqBBcKWLla6YAbKP70dp40wmHUcEMJMSgsfMU8tyCfetML6h6+siw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10111
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB1PEPF00050A00.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	330ecdb8-6c41-4eca-4e97-08def9ebb11e
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700016|35042699022|14060799003|1800799024|23010399003|82310400026|6133799003|4143699003|10067099003|11063799006|22082099003|18002099003|56012099006|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	VjS2yHJRJ6FIIV5VKfG/RwNRqdqbt3Pw64Il+TSsQGYNJXdp7YbLVWSVHkDcN2Te0SodvhigFS0HUT6l/N+WF/VM69XgCun7ZWE5XvidEFCSmujGCh99x+s19goBj1LtThgEcHLltVEzVBAbA8a2qghQ5UbPjLZ44PJ1xqUu23wBz0wqTb8Axr4boImcWSCfUcvUav0HEwqkvKauBpWHGPIiwyxfB0y7TegHzWNbyVim5M7bkh68zoD/iXLJtn4r43vg2f7dSOHK4cfcCiLrA801zYhzAeRz7Rc4tfr5QNHdS43R6dQUZdKtzCyh2E3K09xHkaulD+pYhLi+JNGpNSQW31hV2HdAo7IrrejyTAkZXxrzkkv96tBOjZg1YD5xUj8cZ0UfG5oFSJUSCEMe/8MvRZBQT0tZztt40vP1eHgQJm1iufXi7qdatBrOu9RbHszUSbXrdutpLIdIE5l9zHhM3KQ9WMFXrktOuVW21AXgnz0oD4iEsVeh1SMGUl8U2pEIv01AsGyf2/ZS43Tez5ahziTbYoN5cLgwTyw66AIPPr6cG37TeG6HgK0IaRZlYnzqGHHMmR0fOdJWRCDPKzcuZqOe5zfLLL+OgRNQOl4GbgukmSyfZx/XWVRQclsPXRxxAVRh7CKFo8KKdCziEvaFeR+12MumIMvkJKrLf925bD5emz55ZgRWNJ7FDxyKDyVmMBJDeM4ilL+UWM7iAw==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(35042699022)(14060799003)(1800799024)(23010399003)(82310400026)(6133799003)(4143699003)(10067099003)(11063799006)(22082099003)(18002099003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	pvMM/dJiD/B/1LdIJH1K8JbPFKXwEhVh9l8eVP26ZwENbQXm6ngpU4Rk/Ns4b3guGJ9Ivy86+rD/m4sStrCfxLyVcStcdW1pEMK2s5aLAyp3fn9xco2MbDSJqcAvvsvb1QZ4iiH048VUfUHvrclD1oVmg/CzcrAFnajPe8PToT6sJ61rWJdiYyi/vZNajaHBOfZAQeKx7dCJBHhLdm91fQ5+8DlZgBqyfxw4iAbVxkX0hpAylYE4/LSVaLMwPi0RRDg5i0liPY/VVuqNnL+DkB0KUp0zc+y/qtSu1z/okjH9xHPS2hFuB5+86KHOYYoemfOSDysVkP3fDshHDZ8RhJ/fvIsydMSzU0isAHIY5ZgtVINWQ73F6SrL1tpO8wqizQZ+ns4pFVtccu9gwAFH5rTwScC/HayBRHU0PAjukOwNT3Xhow54yht9ACpYav6T
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 10:06:56.5509
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63e47786-f4fc-4bc2-1a14-08def9ebc5eb
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF00050A00.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9420
 
-From: Zhang Yi <yi.zhang@huawei.com>
+On 11/08/2026 1:11 pm, David Hildenbrand (Arm) wrote:
+> On 8/10/26 13:06, Muhammad Usama Anjum wrote:
+>> On 10/08/2026 7:44 am, Alexander Gordeev wrote:
+>>> On Fri, Aug 07, 2026 at 05:26:04PM +0100, Muhammad Usama Anjum wrote:
+>>>> Yes, this is particular line is for non MMU. In this case, CONIFG_ARCH_HAS_HW_PTE
+>>>> would never be defined. Hence hw_pte_t is just pte_t and direct dereference is
+>>>> allowed. I'd thought a lot about it; is better to leave direct dereference here
+>>>> or use some helper. Then used __pte_from_hw() was already being used in generic
+>>>> ptep_get().
+>>>
+>>> But in case CONIFG_ARCH_HAS_HW_PTE=n __pte_from_hw() is still gets called.
+>>> That looks inconsistent to me. Why not just call ptep_deref() (see below)?
+>>
+>> Agreed. Calling __pte_from_hw() directly exposes the representation
+>> conversion at the call site. I will introduce ptep_deref() and use it
+>> here.
+>>
+>>>
+>>>> There are only two users of __pte_from_hw() at this time. 
+>>>>
+>>>> ptep_get_sw() or ptep_get_deref() is better name here?
+>>>
+>>> ptep_deref() would be it.
+>>>
+>>> Do you agree to the suggested API requirements?
+>>
+>> Yes. hw_pte_t * identifies storage containing hardware-formatted PTEs,
+>> regardless of whether it is attached. ptep_get() is used for attached
+>> entries and may provide additional architecture-specific handling.
+>> ptep_deref() is used for unattached entries and performs only the raw
+>> storage-to-value conversion.
+>>
+>> For review, this patch would become:
+>>
+>> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+>> index bc0b9c65aa1d0..ce900d2652d91 100644
+>> --- a/include/linux/hugetlb.h
+>> +++ b/include/linux/hugetlb.h
+>> @@ -1283,7 +1283,7 @@ static inline pte_t huge_ptep_clear_flush(struct vm_area_struct *vma,
+>>  #ifdef CONFIG_MMU
+>>  	return ptep_get(ptep);
+>>  #else
+>> -	return *ptep;
+>> +	return ptep_deref(ptep);
+>>  #endif
+>>  }
+>>  
+>> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+>> index 1768421755a9c..08613593f3320 100644
+>> --- a/include/linux/pgtable.h
+>> +++ b/include/linux/pgtable.h
+>> @@ -490,6 +490,13 @@ static inline int pudp_set_access_flags(struct vm_area_struct *vma,
+>>  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>>  #endif
+>>  
+>> +#ifndef ptep_deref
+>> +static inline pte_t ptep_deref(hw_pte_t *ptep)
+>> +{
+>> +	return __pte_from_hw(*ptep);
+>> +}
+>> +#endif
+>> +
+>>  #ifndef ptep_get
+>>  static inline pte_t ptep_get(hw_pte_t *ptep)
+>>  {
+>>
+> 
+> I mean, how many such users do we expect? 1? :)
+> 
+> Why have a helper for that then, that seems to encourage it's use, when really
+> people should be using ptep_get() ?
 
-Introduce ext4_enable_buffered_iomap() to determine whether a regular
-file inode should use the iomap buffered I/O path. We now support the
-default filesystem features, mount options, and the bigalloc feature.
-However, inline data, fsverity, fscrypt, indirect inode type, and
-data=journal mode are not fully supported.
+There is only 1 direct dereference case and even that is for non-MMU case.
+That's really good point. I'll keep using __pte_from_hw() and put a comment
+in huge_ptep_clear_flush() that use of this must be avoided at all cost. An
+API can be introduced in case more users arrive.
 
-The decision is made at inode initialization time in __ext4_new_inode()
-and __ext4_iget() by setting the EXT4_STATE_BUFFERED_IOMAP state flag.
-If any of these unsupported features are met, the inode silently falls
-back to the traditional buffer_head path. Switching the buffered I/O
-path on an active inode is not supported, with the exception of changing
-a per-inode journal flag.
-
-For features like encryption, verity, and inline data that can be
-dynamically enabled at the superblock level, checking the global feature
-flag avoids the complexity of toggling the path on individual inodes.
-
-Additionally:
-
- - Extend ext4_inode_journal_mode() to force ordered mode for inodes
-   using the iomap path under a data=journal mount. For the global data
-   journal mode (EXT4_MOUNT_JOURNAL_DATA), dynamic enablement is
-   deferred until the next inode re-initialization. For the per-inode
-   data journal mode (EXT4_INODE_JOURNAL_DATA), dynamic changes take
-   effect immediately, as it is safe to switch address_space operations
-   and drop all page cache under i_rwsem and filemap_invalidate_lock.
-
- - Add WARN_ON_ONCE() guards in _ext4_get_block() and
-   ext4_do_writepages() to catch inodes using the iomap path from
-   accidentally entering the legacy buffer_head writeback path.
-
- - Reject extent-to-indirect migration via ext4_ind_migrate() for inodes
-   on the iomap path.
-
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/ext4.h      |  1 +
- fs/ext4/ext4_jbd2.c |  8 +++-
- fs/ext4/ialloc.c    |  1 +
- fs/ext4/inode.c     | 99 ++++++++++++++++++++++++++++++++++++++++++++-
- fs/ext4/migrate.c   |  2 +
- 5 files changed, 107 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 504dce9fdc6b..405e256a1802 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -3170,6 +3170,7 @@ int ext4_walk_page_buffers(handle_t *handle,
- int do_journal_get_write_access(handle_t *handle, struct inode *inode,
- 				struct buffer_head *bh);
- void ext4_set_inode_mapping_order(struct inode *inode);
-+void ext4_enable_buffered_iomap(struct inode *inode);
- int ext4_nonda_switch(struct super_block *sb);
- #define FALL_BACK_TO_NONDELALLOC 1
- #define EXT4_WRITE_DATA_INLINE	 2
-diff --git a/fs/ext4/ext4_jbd2.c b/fs/ext4/ext4_jbd2.c
-index 53ddedb52a6f..a4664ddecdcd 100644
---- a/fs/ext4/ext4_jbd2.c
-+++ b/fs/ext4/ext4_jbd2.c
-@@ -17,8 +17,12 @@ int ext4_inode_journal_mode(struct inode *inode)
- 	    test_opt(inode->i_sb, DATA_FLAGS) == EXT4_MOUNT_JOURNAL_DATA ||
- 	    (ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA) &&
- 	    !test_opt(inode->i_sb, DELALLOC))) {
--		/* We do not support data journalling for encrypted data */
--		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode))
-+		/*
-+		 * We do not support data journalling for encrypted data
-+		 * and buffered IOMAP path.
-+		 */
-+		if (S_ISREG(inode->i_mode) &&
-+		    (IS_ENCRYPTED(inode) || ext4_inode_buffered_iomap(inode)))
- 			return EXT4_INODE_ORDERED_DATA_MODE;  /* ordered */
- 		return EXT4_INODE_JOURNAL_DATA_MODE;	/* journal data */
- 	}
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index a5831fc536db..f97a2f4904eb 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -1346,6 +1346,7 @@ struct inode *__ext4_new_inode(struct mnt_idmap *idmap,
- 		}
- 	}
- 
-+	ext4_enable_buffered_iomap(inode);
- 	ext4_set_inode_mapping_order(inode);
- 
- 	ext4_update_inode_fsync_trans(handle, inode, 1);
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index ee15366422a1..c9ee78fba4d0 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -1034,6 +1034,9 @@ static int _ext4_get_block(struct inode *inode, sector_t iblock,
- 
- 	if (ext4_has_inline_data(inode))
- 		return -ERANGE;
-+	/* inode using the iomap buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(ext4_inode_buffered_iomap(inode)))
-+		return -EINVAL;
- 
- 	map.m_lblk = iblock;
- 	map.m_len = bh->b_size >> inode->i_blkbits;
-@@ -2904,6 +2907,12 @@ static int ext4_do_writepages(struct mpage_da_data *mpd)
- 	if (!mapping->nrpages || !mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
- 		goto out_writepages;
- 
-+	/* inode using the iomap buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(ext4_inode_buffered_iomap(inode))) {
-+		ret = -EINVAL;
-+		goto out_writepages;
-+	}
-+
- 	/*
- 	 * If the filesystem has aborted, it is read-only, so return
- 	 * right away instead of dumping stack traces later on that
-@@ -4042,6 +4051,9 @@ static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
- {
- 	u8 blkbits = inode->i_blkbits;
- 
-+	/* inode using the buffer_head buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(!ext4_inode_buffered_iomap(inode)))
-+		return -EINVAL;
- 	if ((offset >> blkbits) > EXT4_MAX_LOGICAL_BLOCK)
- 		return -EINVAL;
- 
-@@ -4467,6 +4479,10 @@ static int ext4_iomap_writepages(struct address_space *mapping,
- 		.ops = &ext4_writeback_ops,
- 	};
- 
-+	/* inode using the buffer_head buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(!ext4_inode_buffered_iomap(inode)))
-+		return -EINVAL;
-+
- 	ret = ext4_emergency_state(sb);
- 	if (unlikely(ret)) {
- 		/*
-@@ -6037,6 +6053,81 @@ static int check_igot_inode(struct inode *inode, ext4_iget_flags flags,
- 	return -EFSCORRUPTED;
- }
- 
-+/*
-+ * Determine whether an inode should use the iomap buffered I/O path.
-+ * EXT4_STATE_BUFFERED_IOMAP is generally set at inode initialization
-+ * time. Online switching of the buffered I/O path on an active inode is
-+ * NOT supported, with the exception of changing a per-inode journal
-+ * flag.
-+ *
-+ * For features like inline data, fsverity, and encryption that can be
-+ * dynamically enabled or disabled, we check the superblock-level
-+ * feature flags. If any of these is globally enabled, no inode is
-+ * allowed into the iomap buffered I/O path. This avoids the complexity
-+ * of dynamic toggling.
-+ *
-+ * For the global data journal mode (EXT4_MOUNT_JOURNAL_DATA), dynamic
-+ * change through remount is deferred. It will only become available
-+ * after the inode is re-initialized (i.e., after the last reference
-+ * drops and the inode is re-read from disk with the journal flag
-+ * cleared).
-+ *
-+ * For the per-inode data journal mode (EXT4_INODE_JOURNAL_DATA),
-+ * dynamic changes take effect immediately. This is safe because
-+ * address_space operations can be switched and all page cache can be
-+ * dropped under i_rwsem and filemap_invalidate_lock.
-+ *
-+ * For extent-to-indirect block migration (via EXT4_IOC_SETFLAGS
-+ * clearing EXT4_EXTENTS_FL), this operation is directly rejected for
-+ * inodes using the iomap path.
-+ */
-+void ext4_enable_buffered_iomap(struct inode *inode)
-+{
-+	struct super_block *sb = inode->i_sb;
-+
-+	if (!S_ISREG(inode->i_mode))
-+		return;
-+	if (ext4_test_inode_flag(inode, EXT4_INODE_EA_INODE))
-+		return;
-+
-+	/* Unsupported Features */
-+	if (ext4_has_feature_inline_data(sb))
-+		return;
-+	if (ext4_has_feature_verity(sb))
-+		return;
-+	if (ext4_has_feature_encrypt(sb))
-+		return;
-+	if (test_opt(sb, DATA_FLAGS) == EXT4_MOUNT_JOURNAL_DATA ||
-+	    ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA))
-+		return;
-+	if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
-+		return;
-+
-+	ext4_set_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-+
-+	/*
-+	 * Install the iomap end_io handler on the shared conversion
-+	 * work.  This is safe at inode initialization and during the
-+	 * buffered I/O path changes where we flush all pending
-+	 * writebacks and drop page cache under i_rwsem and
-+	 * filemap_invalidate_lock.
-+	 */
-+	INIT_WORK(&EXT4_I(inode)->i_rsv_conversion_work, ext4_iomap_end_io);
-+}
-+
-+static void ext4_disable_buffered_iomap(struct inode *inode)
-+{
-+	ext4_clear_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-+
-+	/*
-+	 * Reinstall the buffer_head end_io handler on the shared
-+	 * conversion work.  This is safe during the buffered I/O path
-+	 * changes where we flush all pending writebacks and drop page
-+	 * cache under i_rwsem and filemap_invalidate_lock.
-+	 */
-+	INIT_WORK(&EXT4_I(inode)->i_rsv_conversion_work, ext4_end_io_rsv_work);
-+}
-+
- void ext4_set_inode_mapping_order(struct inode *inode)
- {
- 	struct super_block *sb = inode->i_sb;
-@@ -6351,6 +6442,8 @@ struct inode *__ext4_iget(struct super_block *sb, unsigned long ino,
- 	if (ret)
- 		goto bad_inode;
- 
-+	ext4_enable_buffered_iomap(inode);
-+
- 	if (S_ISREG(inode->i_mode)) {
- 		inode->i_op = &ext4_file_inode_operations;
- 		inode->i_fop = &ext4_file_operations;
-@@ -7574,9 +7667,10 @@ int ext4_change_inode_journal_flag(struct inode *inode, int val)
- 	 * the inode's in-core data-journaling state flag now.
- 	 */
- 
--	if (val)
-+	if (val) {
- 		ext4_set_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
--	else {
-+		ext4_disable_buffered_iomap(inode);
-+	} else {
- 		err = jbd2_journal_flush(journal, 0);
- 		if (err < 0) {
- 			jbd2_journal_unlock_updates(journal);
-@@ -7585,6 +7679,7 @@ int ext4_change_inode_journal_flag(struct inode *inode, int val)
- 			return err;
- 		}
- 		ext4_clear_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
-+		ext4_enable_buffered_iomap(inode);
- 	}
- 	ext4_set_aops(inode);
- 	ext4_set_inode_mapping_order(inode);
-diff --git a/fs/ext4/migrate.c b/fs/ext4/migrate.c
-index 5d60ef10fe11..09931d3ba2c6 100644
---- a/fs/ext4/migrate.c
-+++ b/fs/ext4/migrate.c
-@@ -621,6 +621,8 @@ int ext4_ind_migrate(struct inode *inode)
- 
- 	if (ext4_has_feature_bigalloc(inode->i_sb))
- 		return -EOPNOTSUPP;
-+	if (ext4_inode_buffered_iomap(inode))
-+		return -EOPNOTSUPP;
- 
- 	/*
- 	 * In order to get correct extent info, force all delayed allocation
 -- 
-2.52.0
+Thanks,
+Usama
 
