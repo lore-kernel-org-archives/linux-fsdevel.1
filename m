@@ -1,27 +1,27 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1882463B93;
-	Fri, 14 Aug 2026 09:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136444570CA;
+	Fri, 14 Aug 2026 09:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786700417; cv=none; b=J2QSANT004OaUGKcSyOLqk0ciKAN4Aj1Z93qtgs9Xj770idzVwUdCjRq2gUa8RGTCVnHBXuD+awFR1ZAESV5jyBxeRuVhqU61BGAzYoP+CzEQz8XvmnEjHWAgioAa7i8QWKnBmLxaLhxcahFvQrxBlkEU3RFb2NKDW6Q5SE2Sdg=
+	t=1786700414; cv=none; b=M37KOw39uQU6BtDYu0xfGBZeO1KFc+Pa7MaU4Jb8Ws0Ab6xVcUW3VxUsMz95TO9m3BiFo7WwieBvZ+j1GPSR/nq2lDEp6dLiMjZoDS4DjpTT1twEStoJrQ8pKiRW/6YAVTFwv/gYQuyjUEFHDQkgx0metC6j2BQyY07iGO8e5q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786700417; c=relaxed/simple;
-	bh=1N/B8/PkyJjboJ1cO/VS6WU52V+hOGWHQ3Gb2mv8qwg=;
+	s=arc-20240116; t=1786700414; c=relaxed/simple;
+	bh=Kl4yPHS0u6VXq5XBNdH4JzA0QDTF9XxhGxEkTkJHKXk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pUoZ2m9eOH35bijMWiq3xRKctzLFlZY6Qg2bUmV7kSiCKFcyNckWn/oRjrOn67163T3ViuHrQnxISv3NcDUVtwy5S1CR54v+WDi5ekmvQkTy3NihEp2vvhHhenc8f+QNDgRtnOVplMGX65BuOALIOwGerdxCJBYFyvQFzJH8+Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+	 MIME-Version; b=A/3/4ABahmvEoR3FOjS+/E9BZvw+VJ4lfqsGmCroipAveju47qAudvnKQ+6/Kk67VrnvaHVhvA9oU1eTMTDo6zLuPiY3gO8GWF/O9cWnaezF4p2DxGHiFF8uzY3LM09SjRYAoMUFFgqLMQuXj60QkDrEJavmCxZS7pPpbCtHmNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyT3KdpzKHNMD;
-	Fri, 14 Aug 2026 17:39:29 +0800 (CST)
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyS47PzzKHNNw;
+	Fri, 14 Aug 2026 17:39:28 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 285964058F;
-	Fri, 14 Aug 2026 17:39:50 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 4ED2F4056D;
+	Fri, 14 Aug 2026 17:39:49 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S33;
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S25;
 	Fri, 14 Aug 2026 17:39:49 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc: linux-kernel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH -next v5 29/32] ext4: add tracepoints for DISKSIZE_GROW_PENDING set, clear, and wait
-Date: Fri, 14 Aug 2026 17:33:28 +0800
-Message-ID: <20260814093331.1703882-30-yi.zhang@huaweicloud.com>
+Subject: [PATCH -next v5 21/32] ext4: disable online defrag when inode using iomap buffered I/O path
+Date: Fri, 14 Aug 2026 17:33:20 +0800
+Message-ID: <20260814093331.1703882-22-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
 References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
@@ -54,117 +54,62 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S33
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw1UKF1kGr1ftF4fJw15twb_yoW5uw1Dpr
-	1DKrn8Gwn7Jr9I9w4Sqry7Zr1YvF4rGr4UGryfCr12qFWrCryxKF4IqF9IkFy8Aw4kA3y2
-	gFn0k3ykC3WUCrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUma14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S25
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFykWw4UJF4fZrWfAr47Arb_yoW8Gr4xp3
+	Zakw1rGrW8Xa429a9YqF12qw4jga1xGrW2gFWSgr47GFWqyF9Ygr1UKa15Aa45trWUJ34F
+	qF12kryUWw1UA3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmv14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j6r
-	xdM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW7JVWDJwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-	CI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_GcJvcSsG
-	vfC2KfnxnUUI43ZEXa7sRiyxR3UUUUU==
+	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
+	3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+	x0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+	JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
+	ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+	z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+	AF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Ar0_tr1l
+	IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+	1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUv
+	cSsGvfC2KfnxnUUI43ZEXa7sRiyxR3UUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Add trace events ext4_iomap_mark_disksize_pending(),
-ext4_iomap_clear_disksize_pending(), and
-ext4_iomap_wait_disksize_pending() to track disksize-grow-pending
-state changes and waiting.
+Online defragmentation does not currently support inodes using the
+iomap buffered I/O path. The existing implementation relies on
+buffer_head for sub-folio block management and data=ordered mode for
+data consistency, both of which are incompatible with the iomap path.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/ext4/inode.c             |  6 +++++-
- include/trace/events/ext4.h | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletion(-)
+ fs/ext4/move_extent.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 2ec69e8abe54..bca7d5c33919 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -133,6 +133,7 @@ void ext4_inode_csum_set(struct inode *inode, struct ext4_inode *raw,
-  */
- void ext4_iomap_clear_disksize_pending(struct inode *inode)
- {
-+	trace_ext4_iomap_clear_disksize_pending(inode);
- 	ext4_clear_inode_state(inode, EXT4_STATE_DISKSIZE_GROW_PENDING);
- 	/*
- 	 * Make sure clearing of EXT4_STATE_DISKSIZE_GROW_PENDING is
-@@ -151,6 +152,7 @@ void ext4_iomap_clear_disksize_pending(struct inode *inode)
-  */
- void ext4_iomap_wait_disksize_pending(struct inode *inode)
- {
-+	trace_ext4_iomap_wait_disksize_pending(inode);
- 	wait_on_bit(ext4_inode_state_wait_word(inode),
- 		    ext4_inode_state_wait_bit(EXT4_STATE_DISKSIZE_GROW_PENDING),
- 		    TASK_UNINTERRUPTIBLE);
-@@ -4895,8 +4897,10 @@ static int ext4_iomap_mark_disksize_pending(struct inode *inode, loff_t from)
- 	 */
- 	if (likely(folio_test_dirty(folio) &&
- 		   !ext4_test_inode_state(inode,
--					  EXT4_STATE_DISKSIZE_GROW_PENDING)))
-+					  EXT4_STATE_DISKSIZE_GROW_PENDING))) {
-+		trace_ext4_iomap_mark_disksize_pending(inode);
- 		ext4_set_inode_state(inode, EXT4_STATE_DISKSIZE_GROW_PENDING);
+diff --git a/fs/ext4/move_extent.c b/fs/ext4/move_extent.c
+index 3329b7ad5dbd..948ef3f44df5 100644
+--- a/fs/ext4/move_extent.c
++++ b/fs/ext4/move_extent.c
+@@ -476,6 +476,17 @@ static int mext_check_validity(struct inode *orig_inode,
+ 		return -EOPNOTSUPP;
+ 	}
+ 
++	/*
++	 * TODO: support online defrag for inodes that use the buffered
++	 * I/O iomap path.
++	 */
++	if (ext4_inode_buffered_iomap(orig_inode) ||
++	    ext4_inode_buffered_iomap(donor_inode)) {
++		ext4_msg(sb, KERN_ERR,
++			 "Online defrag not supported for inode with iomap buffered IO path");
++		return -EOPNOTSUPP;
 +	}
- 
- 	folio_unlock(folio);
- 	folio_put(folio);
-diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
-index 69596a216dcb..4539ef8e5f86 100644
---- a/include/trace/events/ext4.h
-+++ b/include/trace/events/ext4.h
-@@ -3202,6 +3202,41 @@ DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_write_begin);
- DEFINE_SET_IOMAP_EVENT(ext4_iomap_map_writeback_range);
- DEFINE_SET_IOMAP_EVENT(ext4_iomap_zero_begin);
- 
-+DECLARE_EVENT_CLASS(ext4_iomap_disksize_pending,
-+	TP_PROTO(struct inode *inode),
-+	TP_ARGS(inode),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(loff_t, i_size)
-+		__field(loff_t, i_disksize)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->ino = inode->i_ino;
-+		__entry->i_size = i_size_read(inode);
-+		__entry->i_disksize = READ_ONCE(EXT4_I(inode)->i_disksize);
-+	),
-+	TP_printk("dev %d:%d ino %llu i_size %lld i_disksize %lld",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->i_size, __entry->i_disksize)
-+);
 +
-+DEFINE_EVENT(ext4_iomap_disksize_pending, ext4_iomap_mark_disksize_pending,
-+	TP_PROTO(struct inode *inode),
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ext4_iomap_disksize_pending, ext4_iomap_clear_disksize_pending,
-+	TP_PROTO(struct inode *inode),
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ext4_iomap_disksize_pending, ext4_iomap_wait_disksize_pending,
-+	TP_PROTO(struct inode *inode),
-+	TP_ARGS(inode)
-+);
-+
- #endif /* _TRACE_EXT4_H */
- 
- /* This part must be outside protection */
+ 	if (donor_inode->i_mode & (S_ISUID|S_ISGID)) {
+ 		ext4_debug("ext4 move extent: suid or sgid is set to donor file [ino:orig %llu, donor %llu]\n",
+ 			   orig_inode->i_ino, donor_inode->i_ino);
 -- 
 2.52.0
 
