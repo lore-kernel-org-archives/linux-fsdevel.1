@@ -1,86 +1,167 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2177233938B;
-	Fri, 14 Aug 2026 06:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D94332EBB;
+	Fri, 14 Aug 2026 06:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786689036; cv=none; b=IpFCPFLp/fzvIXvXyqYLb/twDhBeGTQEPiiw+A+P0VDQlV8xCjCvW2Co35BZm1wsfabsBahwUVNsGZLj+QCQKYZIrv5IYYr+nkotCxHy+3EjB8MYKAcoWyZrTc28/b5dBI2b8h8f/+zQURKGa12miXii68VH1UcIedCAdVJzJLE=
+	t=1786689948; cv=none; b=gPYJovRKO4ruVbXhs7vL+49bHfH2pfVcYTl5GDHZw7pYJn85bWdXCRKD0vXqv/KEc+x74LPeAl31gGy/GRXu/3vIker+Kgmz4Hf2nxzDNvJX3RGCuQLi2PVfJe+ncQRd5hhHZHDWe2SiaZKnt2n2AGc8+KJQbCIuuw9Lfoa2uQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786689036; c=relaxed/simple;
-	bh=00WqtERUtnYBEUzQd0/SsEG+LWqmr6egKXeBQhrAo2I=;
+	s=arc-20240116; t=1786689948; c=relaxed/simple;
+	bh=zduZt5Yh8aK/cbqDe9szF+IP3dE7uqQwAz10EKTvkpY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t028Cac6kVHo1GIfHFe3j4mnRMcmtslVwvR9zYQypMCz6184HTKEL/ddOynpnD++Z59cevY8gdVAkf7EU7Qs7ltRy69tEGK7c8Z8zP2KeCp+0ToMhhb8rPO213ek8sReFDlOkUv2F3PmjXgqq34WC5M9Jo88zTwv3OUmRXbkrMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WsNtQ8Tn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WsNtQ8Tn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=00WqtERUtnYBEUzQd0/SsEG+LWqmr6egKXeBQhrAo2I=; b=WsNtQ8TniakQxZNdnuggvJh74C
-	OE+4sgkHXEZuda9o7TCIN8ZpLZKayt5lMhfPBdi9qDc9BllPvmwc41LE3Qr0O6NB/jVAV2LwQuFig
-	FlIYI5FxGw1AG6pjRP5HOMuYO5WfUr8kHRcZ5XmnhP5l608QVpHTXsW/QRiOF9QYwFUb+EdK34tUE
-	XdU8zGpWXJQx8aCNuUFimFxp5McV/biDcAuI44NAc+pepbC7nfgSfQjLeLxMmXbAsHtq7BhOwpN9J
-	r7MJ/rT1jha6cCGI6WlKmC2yAcqtpZJ5m7y8EPyTIiQMCzeTMqJ9JXrKo+i+hgy46uCKXsdA/qzEI
-	gu1YioiQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wulR0-000000022L3-2Xh4;
-	Fri, 14 Aug 2026 06:30:31 +0000
-Date: Thu, 13 Aug 2026 23:30:30 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Daeho Jeong <daeho43@gmail.com>
-Cc: Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, kernel-team@android.com,
-	Daeho Jeong <daehojeong@google.com>, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2] f2fs: quiesce background threads during system
- suspend using PM notifier
-Message-ID: <an62BorNrc-IX228@infradead.org>
-References: <20260806170108.2100312-1-daeho43@gmail.com>
- <ann0OPPglToV_hjs@infradead.org>
- <ff74edb1-43c7-485f-ab78-ec13b500a0bb@acm.org>
- <CACOAw_zqOS0vHdQV6WoUJyxnDf=kdDAz27pNGDLdQLUdUYOzBQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIv5Q+o8d06ougnEFO2a0+SrIibMWfNELGP2XLjta5rLyg9SJjIcwkpXrj23/O5AMlO6mxc9aGDqrrAsjlREZ+f6jvesgpH6YEL5zbXrmj7FnWYL6w50RnJTHYaSBz4Peb0rJdzP3lrw7MvrPiUPt5PD1slppOoBKWrFAqHoKGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 61FB168BFE; Fri, 14 Aug 2026 08:45:37 +0200 (CEST)
+Date: Fri, 14 Aug 2026 08:45:37 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Yu Kuai <yukuai@fygo.io>, Christoph Hellwig <hch@lst.de>,
+	Tao Cui <cui.tao@linux.dev>, Jan Kara <jack@suse.cz>,
+	Ming Lei <ming.lei@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	nvdimm@lists.linux.dev, virtualization@lists.linux.dev,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 0/4] blk-cgroup: store blkcg in bio before
+ blkcg_mutex conversion
+Message-ID: <20260814064537.GA9355@lst.de>
+References: <20260811064744.1139446-1-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACOAw_zqOS0vHdQV6WoUJyxnDf=kdDAz27pNGDLdQLUdUYOzBQ@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260811064744.1139446-1-yukuai@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Aug 10, 2026 at 09:53:14AM -0700, Daeho Jeong wrote:
-> On Mon, Aug 10, 2026 at 9:34 AM Bart Van Assche <bvanassche@acm.org> wrote:
-> > This information was shared earlier with Daeho
-> > (https://b.corp.google.com/issues/515470309#comment45): [ ... ]
+What tree does this apply to?  I get failures both for Jens'
+for-7.3/block and for-next trees in bfq-cgroups.c and bio.c
 
-This does not seem to be information available to the public.
-
-> f2fs threads are already freezable: f2fs_gc and f2fs_discard are
-> already registered with set_freezable() and call try_to_freeze().
-> However, a race window exists: a thread checks freezing() (false),
-> calls submit_bio(), and gets trapped inside __bio_queue_enter().
-> Because it gets blocked before reaching try_to_freeze(), it triggers a
-> PM freezer timeout.
-
-This does sound very much like a block layer freezing issue.
-
-> Point taken. Aside from this f2fs patch, I agree that addressing this
-> at the block layer or PM subsystem level would be a much cleaner,
-> system-wide solution.
-> I’ll give more thought to how we can properly solve this race
-> condition for the entire system, and I'll loop in the relevant
-> PM/block maintainers if a viable generic approach emerges.
-
-Thanks, it would be great to fix this properly.
-
+On Tue, Aug 11, 2026 at 02:47:40PM +0800, Yu Kuai wrote:
+> From: Yu Kuai <yukuai@fygo.io>
+> 
+> This RFC remains a preparatory series for the blkcg_mutex conversion
+> proposed in the related blkcg_mutex RFC v2 series [1].  That conversion
+> moves queue-local blkg topology synchronization from q->queue_lock to
+> q->blkcg_mutex, which is awkward while bios directly store queue-local
+> blkg references.
+> 
+> v1 made the stored bio association queue-independent by replacing bi_blkg
+> with bi_blkcg, but a bio-owned blkg reference still had to be recovered by
+> looking up the bio's blkcg and current request_queue.  Tao Cui reported that
+> cgroup removal deletes a dying blkg from the per-blkcg radix tree before a
+> throttled bio drops its reference.  A later lookup for that pinned blkg then
+> fails, triggers the warning in bio_pinned_blkg(), and leaks the reference.
+> 
+> v2 makes request_queue the authoritative lookup owner before converting the
+> bio association.  A queue-owned rhashtable, keyed by the blkcg CSS ID, keeps
+> dying blkgs discoverable until their references drain while q->blkg_list
+> remains available for ordered walks.  The bio conversion then stores and
+> pins the blkcg CSS, lazily creates a blkg only for users which need one, and
+> uses lookup-only access for completion and accounting paths which already
+> own a blkg reference.  Async bio punt state is finally moved from blkg to
+> blkcg so punting alone does not instantiate a queue-local blkg.
+> 
+> Changes since v1:
+> 
+>   - Add patch 1 to wait for every old blkg to leave q->blkg_list before a
+>     shared request_queue is rebound, instead of treating root_blkg == NULL
+>     as completion of asynchronous blkg teardown.
+>   - Add patch 2 to replace the per-blkcg radix tree and lookup hint with a
+>     request_queue rhashtable keyed by blkcg->css.id, as suggested by
+>     Christoph Hellwig.  Keep dying pinned blkgs in the hash until
+>     blkg_release() so bio-owned references remain discoverable.
+>   - Fold the v1 helper-only patch into patch 3, as suggested by Jan Kara and
+>     Christoph Hellwig, and make bio_blkcg() naturally return NULL for an
+>     unassociated bio.
+>   - Rework patch 3 so blkg_lookup_create() acquires the bio-owned reference,
+>     falls back to a live parent when creation or tryget fails, and updates
+>     bi_blkcg when the returned blkg belongs to an ancestor.
+>   - Make bio_blkg_lookup() lookup-only: it returns NULL unless BIO_BLKG_REF
+>     is already set.  Use bio_blkg() in the BFQ and IOCOST merge paths which
+>     may need to create a blkg, while keeping blk_cgroup_bio_start() and
+>     completion paths lookup-only.
+>   - Move CSS online-reference handling into
+>     bio_associate_blkcg_from_css(), including fallback to the root blkcg, so
+>     bio_associate_blkcg() does not take a redundant reference.
+>   - Keep the v1 async bio punt conversion as patch 4 and document that
+>     async_bio_lock protects async_bios.
+> 
+> Previous versions:
+>   v1: https://lore.kernel.org/r/20260804065313.2092022-1-yukuai@kernel.org
+> 
+> Related series:
+>   [1] RFC v2 blk-cgroup: protect blkgs with blkcg_mutex
+>       https://lore.kernel.org/r/20260724123037.3004560-1-yukuai@kernel.org
+> 
+> Yu Kuai (4):
+>   blk-cgroup: wait for old blkgs to leave queue before disk rebind
+>   blk-cgroup: use a request_queue rhashtable for blkg lookup
+>   blk-cgroup: store blkcg in bio instead of blkg
+>   blk-cgroup: move async bio punt state to blkcg
+> 
+>  Documentation/admin-guide/cgroup-v2.rst |   2 +-
+>  block/bfq-cgroup.c                      |  16 +-
+>  block/bfq-iosched.c                     |  19 +-
+>  block/bio.c                             |  22 +-
+>  block/blk-cgroup-fc-appid.c             |  10 +-
+>  block/blk-cgroup.c                      | 348 ++++++++++++++----------
+>  block/blk-cgroup.h                      |  82 ++++--
+>  block/blk-core.c                        |   9 +-
+>  block/blk-crypto-fallback.c             |   2 +-
+>  block/blk-iocost.c                      |  12 +-
+>  block/blk-iolatency.c                   |  11 +-
+>  block/blk-ioprio.c                      |   2 +-
+>  block/blk-throttle.c                    |   2 +-
+>  block/blk-throttle.h                    |   2 +-
+>  drivers/md/bcache/request.c             |   2 +-
+>  drivers/md/dm.c                         |   2 +-
+>  drivers/md/md.c                         |   2 +-
+>  drivers/nvdimm/nd_virtio.c              |   2 +-
+>  fs/gfs2/lops.c                          |   3 +-
+>  include/linux/bio.h                     |  26 +-
+>  include/linux/blk_types.h               |   9 +-
+>  include/linux/blkdev.h                  |   2 +
+>  include/linux/writeback.h               |   2 +-
+>  mm/page_io.c                            |  13 +-
+>  24 files changed, 357 insertions(+), 245 deletions(-)
+> 
+> 
+> base-commit: f2690679ecf3a3151688ebef766dd2512ff95854
+> -- 
+> 2.51.0
+---end quoted text---
