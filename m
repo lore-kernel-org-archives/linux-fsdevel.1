@@ -1,476 +1,422 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A804611CA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 12:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA21469824
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 12:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786709594; cv=none; b=WfDojIqX3RuhVU9GP/tEG0rn8mM7Ovv8JxzM2YTDFEeB9cIw7I15H13G9xNhwWUA1cUJ6zDD4UWo3ubvNLFAEXI8gJCDTZA3LKVgqQWzXMF+RHE1SOXEJ8s4TSMw44VvoGwzWlF+ZG1JqVUyJfvKvluQangFXf3noSaiIOsXA0c=
+	t=1786711078; cv=none; b=Yk0z3gRNTlCyqHCp4eWTL0UzhS1vuloHX+Uq1zwiBSTtda6IkGG/0yahNjjmkPqChVoBmNFlD+URPFKFG0niaFYsaie/GFmxueAp8jkhRWKCtZOKfngX32ciLdI99yBUvdxwK/19hQkQxAkE5ZcnSwf4vJFHK4r7rfHbMBIaDXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786709594; c=relaxed/simple;
-	bh=qRP6Fzrjzx581TLe+ODwZowV0EVL4ovgm7DtoSn/IK0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FKzXkpRwyf6BUwSOn/1YbFXJlXT5uob3aREgb8BbFA8w/GwgmfiFlM5whRoJySZQJXVQk6Jx9D1dMzPNPV+BVerkU5g0iRltGANNZjLKsVEk2MnMD14Yy3aObxOSZuRUBB/a+j+Dk753qDeOUlIEnpo5UxYSyYEXDvXqxOPJqFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=qOZjTn35; arc=none smtp.client-ip=195.121.94.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1786711078; c=relaxed/simple;
+	bh=pXuknpK6wj5UKOTRrcGQ2Fxtou+22ms4hdnJff9VbtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l3BiaSoDtooKapY0GUy7gccX2dFowCG3S234aTb2k9G2YA8S/a2VxHRIhitDm19XcxxhTgbxSWiSCC3+wcY6QWe1cYRH39Y0EpigJ+vTTcDBd3QGLChiuIDZxspmhtthT1k6AkR1m5F+donVxybnT7hZuGayVqnjoBLVzuBdtqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dr7Yrv+8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="qOZjTn35"
-X-KPN-MessageId: 59c7a061-97d9-11f1-b2a8-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 59c7a061-97d9-11f1-b2a8-005056abbe64;
-	Fri, 14 Aug 2026 14:11:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=yuhW5fo8gy1KkAMB4l09VmCtFZcOuXgv/fiRdg5ZL1E=;
-	b=qOZjTn35WUPpguvHoJUiq/w/F87r48/DKoCLIVB6VEI1Ojr+PoJdj+7+fc6CzIA4AWIjatAG8cljV
-	 igs2WgsjszQQfa6lvlOwzJDiQu06eKn6267iD/KpnbNUZhtQkp3QyCI/kecrL5bPUqqlhLY+J9FZ3F
-	 7/f3NlFv+jlVPzyH48JQmBo3Cmeq8oRfa1Pr0BRXSRnwrpN4uuG1TKdKAnq0i0LaOYJ8bwBcvnRuSa
-	 UTfL3fcrKE/D/36VCWI52MYZNovWIeQ8Qh8pPq9UbQNk64cp0Bsqtqe5U3Pen97XSU+peY2NIUeDrj
-	 brCUyAaraqHZBCcBAB6R/tyxS8+zW6Q==
-X-KPN-MID: 33|9ChYjJnDPT3l0Ays0qVKIsUU0iOj+G1ghhU6+jGgrKsrFVLeCq8BHvF2W3el+m/
- gXAtcGZaYxxFo5ktPjS6njplZ+Bsh0iMqPO2yDPaPE/I=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|RlvkgBEKurAXFDxvQ1VjkPWifvkAUeqkGFL1vKyY2Sq+my5Cejil7lel/aEqUlo
- GiWenWiTmiUPfFK+fbtDHKg==
-Received: from fedora (unknown [223.38.87.107])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 4f9dcac9-97d9-11f1-86b3-005056ab7584;
-	Fri, 14 Aug 2026 14:11:58 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: brauner@kernel.org,
-	cyphar@cyphar.com,
-	kuniyu@google.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org
-Cc: netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jkoolstra@xs4all.nl
-Subject: [PATCH net-next v7 4/4] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-Date: Fri, 14 Aug 2026 08:11:31 -0400
-Message-ID: <20260814121131.151003-1-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dr7Yrv+8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511671F000E9;
+	Fri, 14 Aug 2026 12:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786711076;
+	bh=Ok+ILBQSUeIltN5l1xpDpnDyA3k7f++vYkrD24qAu/I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dr7Yrv+8EXF7hMDL8QCQvfMzmtcOJaPzVR65QidqD8LC7nWWkWS14eMOZqf5cUpz5
+	 nbqRb3RjQ8gAIyz8raAfucAtMihNh7Q6JfLVTM3XKb8kGGHLxVDlGN+vhK/nrovupd
+	 7KsHKtCHWM8yXwZVs5QI2VLijf6GKNid2K0CKcFBxVqqSJIXCF42qAA40NTSsLL0HE
+	 1sqc/Zz7fLCrzmZ5MN8t562VAa6/SHC4qzayspqOplFyNqJ+M3k9QiQ5OBrLzlsx0L
+	 ajrlJ8IC1Pe8xhlQgrJGBIRVDVssxRjTcnmkZiOM0DQm2BwsM8L/1gnX2uyL0bDYHZ
+	 IgMHPhZtXDb5Q==
+Date: Fri, 14 Aug 2026 13:37:38 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: linux-mm@kvack.org, geert@linux-m68k.org, daniel@thingy.jp, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 3/6] mm: nommu: fix an issue on map request to
+ /dev/zero
+Message-ID: <an8BlTgk7sc5vFJ1@lucifer>
+References: <20260813063401.1786548-1-thehajime@gmail.com>
+ <20260813063401.1786548-4-thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813063401.1786548-4-thehajime@gmail.com>
 
-Tests SCM_RIGHTS fd passing on a socket with the new socket option
-SO_RIGHTS_NOTRUNC turned on. To hook into the security_file_receive()
-call, BPF is used. The BPF program shares a hashmap with userspace that
-lists the inos to be blocked (of the receiver tgid).
+The subject isn't great - before you're not allowed to mmap /dev/zero _at
+all_ on nommu, here you try to allow it.
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- .../testing/selftests/net/af_unix/.gitignore  |   2 +
- tools/testing/selftests/net/af_unix/Makefile  |   8 +
- tools/testing/selftests/net/af_unix/config    |   7 +
- .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
- .../net/af_unix/scm_rights_denial_lsm.c       | 292 ++++++++++++++++++
- 5 files changed, 345 insertions(+)
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+I'm kinda against it to be honest, nommu has been functioning... I'll not
+say perfectly fine, given it's broken in many ways that nobody ever
+reports, but I'd say instead 'the same as it was' with no issue.
 
-diff --git a/tools/testing/selftests/net/af_unix/.gitignore b/tools/testing/selftests/net/af_unix/.gitignore
-index 973176644103..954f0958dd03 100644
---- a/tools/testing/selftests/net/af_unix/.gitignore
-+++ b/tools/testing/selftests/net/af_unix/.gitignore
-@@ -3,6 +3,8 @@ msg_oob
- scm_inq
- scm_pidfd
- scm_rights
-+scm_rights_denial_lsm
-+scm_rights_denial_lsm.bpf.o
- so_peek_off
- unix_connect
- unix_connreset
-diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
-index 57d159803a3a..a66f10fb0c23 100644
---- a/tools/testing/selftests/net/af_unix/Makefile
-+++ b/tools/testing/selftests/net/af_unix/Makefile
-@@ -11,10 +11,18 @@ TEST_GEN_PROGS := \
- 	scm_inq \
- 	scm_pidfd \
- 	scm_rights \
-+	scm_rights_denial_lsm \
- 	so_peek_off \
- 	unix_connect \
- 	unix_connreset \
- 	unix_listen \
- # end of TEST_GEN_PROGS
- 
-+TEST_GEN_FILES := scm_rights_denial_lsm.bpf.o
-+
- include ../../lib.mk
-+include ../bpf.mk
-+
-+$(OUTPUT)/scm_rights_denial_lsm: $(BPFOBJ)
-+$(OUTPUT)/scm_rights_denial_lsm: CFLAGS += -I$(SCRATCH_DIR)/include
-+$(OUTPUT)/scm_rights_denial_lsm: LDLIBS += -lelf -lz
-diff --git a/tools/testing/selftests/net/af_unix/config b/tools/testing/selftests/net/af_unix/config
-index 41dbb03c747e..46450fea8407 100644
---- a/tools/testing/selftests/net/af_unix/config
-+++ b/tools/testing/selftests/net/af_unix/config
-@@ -1,4 +1,11 @@
- CONFIG_AF_UNIX_OOB=y
-+CONFIG_BPF=y
-+CONFIG_BPF_EVENTS=y
-+CONFIG_BPF_JIT=y
-+CONFIG_BPF_LSM=y
-+CONFIG_BPF_SYSCALL=y
-+CONFIG_DEBUG_INFO_BTF=y
-+CONFIG_SECURITY=y
- CONFIG_UNIX=y
- CONFIG_UNIX_DIAG=m
- CONFIG_USER_NS=y
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
-new file mode 100644
-index 000000000000..4f2414465bfd
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/bpf.h>
-+#include <linux/errno.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+struct inode {
-+	unsigned long i_ino;
-+} __attribute__((preserve_access_index));
-+
-+struct file {
-+	struct inode *f_inode;
-+} __attribute__((preserve_access_index));
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(max_entries, 16);
-+	__type(key, __u64);	/* inode number */
-+	__type(value, __u32);	/* tgid of the receiver being tested */
-+} denied_inodes SEC(".maps");
-+
-+SEC("lsm/file_receive")
-+int BPF_PROG(scm_rights_deny, struct file *file)
-+{
-+	__u32 tgid = bpf_get_current_pid_tgid() >> 32;
-+	__u64 ino = file->f_inode->i_ino;
-+	__u32 *owner;
-+
-+	owner = bpf_map_lookup_elem(&denied_inodes, &ino);
-+	if (owner && *owner == tgid)
-+		return -EPERM;
-+
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-new file mode 100644
-index 000000000000..55c7ecdbb5fe
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-@@ -0,0 +1,292 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/socket.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+
-+#include <bpf/bpf.h>
-+#include <bpf/libbpf.h>
-+
-+#include "kselftest_harness.h"
-+
-+#ifndef SO_RIGHTS_NOTRUNC
-+#define SO_RIGHTS_NOTRUNC 85
-+#endif
-+
-+#define NR_FILES 2
-+
-+/* Per-file content, so a received fd can be matched to the file sent */
-+#define SECRET(n) "secret %d", (n)
-+
-+/* Indices into the socketpair */
-+#define SK_SENDER 0
-+#define SK_RECEIVER 1
-+
-+FIXTURE(scm_rights_denial_bpf)
-+{
-+	struct bpf_object *obj;
-+	struct bpf_link *link;
-+	int map_fd;
-+	int sk[2];
-+	int files[NR_FILES];
-+	__u64 inos[NR_FILES];
-+	char paths[NR_FILES][64];
-+};
-+
-+FIXTURE_VARIANT(scm_rights_denial_bpf)
-+{
-+	int sock_type;
-+};
-+
-+FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, stream)
-+{
-+	.sock_type = SOCK_STREAM,
-+};
-+
-+FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, dgram)
-+{
-+	.sock_type = SOCK_DGRAM,
-+};
-+
-+FIXTURE_VARIANT_ADD(scm_rights_denial_bpf, seqpacket)
-+{
-+	.sock_type = SOCK_SEQPACKET,
-+};
-+
-+FIXTURE_SETUP(scm_rights_denial_bpf)
-+{
-+	struct bpf_program *prog;
-+	char lsms[256] = {};
-+	int i, fd;
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "requires root");
-+
-+	fd = open("/sys/kernel/security/lsm", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_LT(0, read(fd, lsms, sizeof(lsms) - 1));
-+	close(fd);
-+
-+	if (!strstr(lsms, "bpf"))
-+		SKIP(return, "BPF LSM not active (boot with lsm=...,bpf)");
-+
-+	self->obj = bpf_object__open_file("scm_rights_denial_lsm.bpf.o", NULL);
-+	ASSERT_NE(NULL, self->obj);
-+	ASSERT_EQ(0, bpf_object__load(self->obj));
-+
-+	prog = bpf_object__find_program_by_name(self->obj, "scm_rights_deny");
-+	ASSERT_NE(NULL, prog);
-+
-+	self->link = bpf_program__attach_lsm(prog);
-+	ASSERT_NE(NULL, self->link);
-+
-+	self->map_fd = bpf_object__find_map_fd_by_name(self->obj,
-+						       "denied_inodes");
-+	ASSERT_GE(self->map_fd, 0);
-+
-+	ASSERT_EQ(0, socketpair(AF_UNIX, variant->sock_type, 0, self->sk));
-+
-+	for (i = 0; i < NR_FILES; i++) {
-+		struct stat st;
-+
-+		snprintf(self->paths[i], sizeof(self->paths[i]),
-+			 "/tmp/scm_rights_denial_bpf.%d.XXXXXX", i);
-+		self->files[i] = mkstemp(self->paths[i]);
-+		ASSERT_GE(self->files[i], 0);
-+
-+		ASSERT_LT(0, dprintf(self->files[i], SECRET(i)));
-+
-+		ASSERT_EQ(0, fstat(self->files[i], &st));
-+		self->inos[i] = st.st_ino;
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(scm_rights_denial_bpf)
-+{
-+	bpf_link__destroy(self->link);
-+	bpf_object__close(self->obj);
-+
-+	for (int i = 0; i < NR_FILES; i++) {
-+		if (self->files[i] >= 0) {
-+			close(self->files[i]);
-+			unlink(self->paths[i]);
-+		}
-+	}
-+
-+	close(self->sk[SK_SENDER]);
-+	close(self->sk[SK_RECEIVER]);
-+}
-+
-+static int deny_inode(int map_fd, __u64 ino)
-+{
-+	__u32 tgid = getpid();
-+
-+	return bpf_map_update_elem(map_fd, &ino, &tgid, BPF_ANY);
-+}
-+
-+static int set_notrunc(int sk)
-+{
-+	int one = 1;
-+
-+	return setsockopt(sk, SOL_SOCKET, SO_RIGHTS_NOTRUNC,
-+			  &one, sizeof(one));
-+}
-+
-+static int send_fds(int sk, int *fds, int n)
-+{
-+	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))] = {};
-+	char data = 'x';
-+	struct iovec iov = {
-+		.iov_base = &data,
-+		.iov_len = sizeof(data),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov = &iov,
-+		.msg_iovlen = 1,
-+		.msg_control = ctrl,
-+		.msg_controllen = CMSG_SPACE(n * sizeof(int)),
-+	};
-+	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
-+	int ret;
-+
-+	cmsg->cmsg_level = SOL_SOCKET;
-+	cmsg->cmsg_type = SCM_RIGHTS;
-+	cmsg->cmsg_len = CMSG_LEN(n * sizeof(int));
-+	memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
-+
-+	ret = sendmsg(sk, &msg, 0);
-+	if (ret != 1)
-+		return -1;
-+
-+	return 0;
-+}
-+
-+static int recv_fd_slots(int sk, int *slots, int *msg_flags)
-+{
-+	int nr_slots;
-+	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))];
-+	char data;
-+	struct iovec iov = {
-+		.iov_base = &data,
-+		.iov_len = sizeof(data),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov = &iov,
-+		.msg_iovlen = 1,
-+		.msg_control = ctrl,
-+		.msg_controllen = sizeof(ctrl),
-+	};
-+	struct cmsghdr *cmsg;
-+
-+	if (recvmsg(sk, &msg, 0) < 0)
-+		return -1;
-+
-+	*msg_flags = msg.msg_flags;
-+
-+	cmsg = CMSG_FIRSTHDR(&msg);
-+	if (!cmsg)
-+		return 0;
-+
-+	nr_slots = (cmsg->cmsg_len - CMSG_LEN(0)) / sizeof(int);
-+	memcpy(slots, CMSG_DATA(cmsg), nr_slots * sizeof(int));
-+
-+	return nr_slots;
-+}
-+
-+/* Prove a received fd works by reading back the file's content. */
-+static int check_secret(int fd, int idx)
-+{
-+	char want[32], got[32] = {};
-+
-+	snprintf(want, sizeof(want), SECRET(idx));
-+	if (pread(fd, got, sizeof(got) - 1, 0) < 0)
-+		return -1;
-+
-+	return strcmp(want, got);
-+}
-+
-+TEST_F(scm_rights_denial_bpf, all_allowed)
-+{
-+	int slots[NR_FILES], nr_slots, flags;
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+
-+	for (int i = 0; i < nr_slots; i++) {
-+		ASSERT_GE(slots[i], 0);
-+		EXPECT_EQ(0, check_secret(slots[i], i));
-+		close(slots[i]);
-+	}
-+}
-+
-+TEST_F(scm_rights_denial_bpf, first_denied)
-+{
-+	int slots[NR_FILES], nr_slots, flags;
-+
-+	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[0]));
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+	
-+	EXPECT_EQ(-EPERM, slots[0]);
-+	for (int i = 1; i < nr_slots; i++) {
-+		ASSERT_GE(slots[i], 0);
-+		EXPECT_EQ(0, check_secret(slots[i], i));
-+		close(slots[i]);
-+	}
-+}
-+
-+TEST_F(scm_rights_denial_bpf, all_denied)
-+{
-+	int slots[NR_FILES], nr_slots, flags, i;
-+
-+	for (i = 0; i < NR_FILES; i++)
-+		ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[i]));
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+
-+	for (i = 0; i < nr_slots; i++)
-+		EXPECT_EQ(-EPERM, slots[i]);
-+}
-+
-+TEST_F(scm_rights_denial_bpf, denied_without_notrunc)
-+{
-+	int slots[NR_FILES], nr_slots, flags;
-+
-+	/*
-+	 * Baseline behaviour without SO_RIGHTS_NOTRUNC: the fd array is
-+	 * truncated at the first denied fd and MSG_CTRUNC is set.
-+	 */
-+	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[1]));
-+
-+	ASSERT_EQ(0, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(1, nr_slots);
-+	EXPECT_NE(0, flags & MSG_CTRUNC);
-+
-+	ASSERT_GE(slots[0], 0);
-+	EXPECT_EQ(0, check_secret(slots[0], 0));
-+	close(slots[0]);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.55.0
+And you're not really explaining why you need this.
 
+You're not correctly supporting MAP_SHARED-/dev/zero AFAICT at all, it'll
+just... actually I don't know what it'll do
+
+
+On Thu, Aug 13, 2026 at 03:33:58PM +0900, Hajime Tazaki wrote:
+> Upon a private file mapping request to /dev/zero, it calls
+> kernel_read() in do_mmap_private(), getting a failure with the message
+> like: "kernel reads not supported for file /dev/zero", which is because
+> zero_fops defined in drivers/char/mem.c has both .read and .read_iter
+> definitions.
+
+Can this be broken out into its own separate fix please.
+
+It's not about /dev/zero at all but rather being able to MAP_PRIVATE-map
+literally anything with .read and .read_iter.
+
+>
+> Even fixing this issue, the map request to /dev/zero works fine without
+> errors but the allocated vma isn't marked with anonymous because
+> mmap_zero_prepare() isn't called under nommu platform, resulting
+> vma_desc_set_anonymous() isn't called either.
+
+"Resulting _in_ vma_desc_set_anonymous() _not being_ called either" is clearer.
+
+>
+> This commit fixes those issues by:
+
+Already 'issues' suggests >1 patch would be a better idea :)
+
+> 1) use vfs_iter_read() instead to avoid failure at kernel_read()
+> 2) calls .mmap_prepare on private mapping in do_mmap() so that required
+>    preparations are done even in private mapping.
+>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: "Liam R. Howlett" <liam@infradead.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Pedro Falcato <pfalcato@suse.de>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org (open list:PAGE CACHE)
+> Fixes: 4d03e3cc5982 ("fs: don't allow kernel reads and writes without iter ops")
+
+Yeah as Greg says, it really suggests nobody is using mainline nommu in any
+serious way given this is from 5.10 and would require avoiding /dev/zero in
+a way that seems kinda unlikely.
+
+Should be Cc: stable also but not as a combined patch, the mmap_prepare
+bits only came in recently.
+
+> Assisted-by: cubic.dev:unspecified
+
+Unspecified? :)
+
+Really the best approach nowadays is:
+
+Assisted-by: LLM # it wrote the whole thing
+
+or:
+
+Assisted-by: LLM # it merely complimented my dress sense
+
+Or whatever :)
+
+> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
+
+In general this is opening up whole new areas of code to nommu and given
+nobody seems to be testing anything I'm not sure I'm ok with it.
+
+Since forever /dev/zero's been disabled for mmap in nommu. So I don't
+really see the point in making it work at quite a lot of risk here +
+necessitating doing some more nommu stuff in unrelated areas.
+
+In any case, it's probably worth waiting for me to do my follow up series
+on /dev/zero next cycle, which will inform how it will look for real
+arches.
+
+It's worth breaking the read_iter fixup out of it though probably, and the
+mmap_prepare support.
+
+> ---
+>  drivers/char/mem.c |  5 ++-
+>  mm/filemap.c       |  6 ++--
+>  mm/nommu.c         | 84 ++++++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 87 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+> index 63253d1de5d7..dba24d0a7b33 100644
+> --- a/drivers/char/mem.c
+> +++ b/drivers/char/mem.c
+> @@ -500,11 +500,10 @@ static ssize_t read_zero(struct file *file, char __user *buf,
+>
+>  static int mmap_zero_prepare(struct vm_area_desc *desc)
+>  {
+> -#ifndef CONFIG_MMU
+> -	return -ENOSYS;
+> -#endif
+
+> +#ifdef CONFIG_MMU
+>  	if (vma_desc_test(desc, VMA_SHARED_BIT))
+>  		return shmem_zero_setup_desc(desc);
+> +#endif
+
+This is pretty horrible already :(
+
+You're also letting VMA_SHARED_BIT be a return 0 noop, that
+seems... unwise?
+
+You can use IS_ENABLED(CONFIG_MMU) to make things vastly less terrible,
+e.g.:
+
+	static int mmap_zero_prepare(struct vm_area_desc *desc)
+	{
+		if (!vma_desc_is_cow_mapping(desc)) {
+			if (!IS_ENABLED(CONFIG_MMU))
+				return -ENOSYS;
+			return shmem_zero_setup_desc(desc);
+		}
+		...
+	}
+
+But again, I don't really feel that nommu should be enabling this and I'm
+changing the /dev/zero stuff anyway.
+
+>
+>  	/*
+>  	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index d721986d5f46..cf02faad86aa 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4077,7 +4077,7 @@ int generic_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  }
+>  int generic_file_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	return -ENOSYS;
+> +	return 0;
+
+Err, no, making this a noop breaks it?
+
+I'm not really hugely fine with you making this be the same as CONFIG_MMU
+either as I am not confident in the change being correctly audited given
+the until-recently total lack of testing of nommu, and now very limited, as
+well intentioned as it might be testing.
+
+I would prefer anything that currently doesn't function with nommu to
+remain so.
+
+>  }
+>  int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+>  {
+> @@ -4085,7 +4085,9 @@ int generic_file_readonly_mmap(struct file *file, struct vm_area_struct *vma)
+>  }
+>  int generic_file_readonly_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	return -ENOSYS;
+> +	if (is_shared_maywrite(&desc->vma_flags))
+> +		return -EINVAL;
+> +	return generic_file_mmap_prepare(desc);
+
+Again same objections as above re: doing real-arch stuff in nommu.
+
+>  }
+>  #endif /* CONFIG_MMU */
+>
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index e40990e15831..a29a53c1c80a 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -37,6 +37,7 @@
+>
+>  #include <linux/uaccess.h>
+>  #include <linux/uio.h>
+> +#include <linux/major.h>
+>  #include <asm/tlb.h>
+>  #include <asm/tlbflush.h>
+>  #include <asm/mmu_context.h>
+> @@ -856,6 +857,22 @@ static int validate_mmap_request(struct file *file,
+>  	return 0;
+>  }
+>
+> +static int is_file_anonymous(struct file *file)
+> +{
+
+As stated on the cover, I don't adore this and that's all changing soon
+anyway.
+
+
+> +	if (!file)
+> +		return 1;
+
+It's 2026 use a bool please.
+
+> +
+> +	if (file->f_path.dentry && file->f_path.dentry->d_inode) {
+> +		struct inode *inode = file->f_path.dentry->d_inode;
+> +		/* if the device is /dev/zero */
+> +		if (S_ISCHR(inode->i_mode) &&
+> +		    imajor(inode) == MEM_MAJOR && iminor(inode) == 5)
+> +			return 1;
+
+This is horrible really. The /dev/zero stuff I'm doing kinda had to do
+_something_ this this (in a roundabout way) - well I thought so - anyway :)
+
+But yeah again wait for me to do /dev/zero follow up.
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * we've determined that we can make the mapping, now translate what we
+>   * now know into VMA flags
+> @@ -869,7 +886,11 @@ static vm_flags_t determine_vm_flags(struct file *file,
+>
+>  	vm_flags = calc_vm_prot_bits(prot, 0) | calc_vm_flag_bits(file, flags);
+>
+> -	if (!file) {
+> +	/* private and file mapping will be marked anonymous later (do_mmap_private()).
+> +	 * and /dev/zero is marked by them at .mmap_prepare,
+> +	 * which should be _before_ this point.
+> +	 */
+> +	if (is_file_anonymous(file)) {
+
+You're kinda throwing in a bunch of random stuff in 1 patch you really need
+to break things out more.
+
+>  		/*
+>  		 * MAP_ANONYMOUS. MAP_SHARED is mapped to MAP_PRIVATE, because
+>  		 * there is no fork().
+> @@ -923,6 +944,29 @@ static int do_mmap_shared_file(struct vm_area_struct *vma)
+>  	return -ENODEV;
+>  }
+>
+> +static ssize_t nommu_read_iter(struct file *file, void *buf,
+> +			       size_t count, loff_t *pos)
+> +{
+> +	struct iov_iter iter;
+> +	ssize_t ret;
+> +	size_t done = 0;
+> +
+> +	while (done < count) {
+> +		struct kvec iov = {
+> +			.iov_base = buf + done,
+> +			.iov_len = min_t(size_t, count - done, MAX_RW_COUNT),
+> +		};
+> +
+> +		iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
+> +		ret = vfs_iter_read(file, &iter, pos, 0);
+> +		if (ret <= 0)
+> +			return done ? done : ret;
+> +		done += ret;
+> +	}
+> +
+> +	return done;
+> +}
+> +
+>  /*
+>   * set up a private mapping or an anonymous shared mapping
+>   */
+> @@ -993,7 +1037,7 @@ static int do_mmap_private(struct vm_area_struct *vma,
+>  		fpos = vma->vm_pgoff;
+>  		fpos <<= PAGE_SHIFT;
+>
+> -		ret = kernel_read(vma->vm_file, base, len, &fpos);
+> +		ret = nommu_read_iter(vma->vm_file, base, len, &fpos);
+
+Hmm so now you just assume there's always a .read_iter and error out if
+there isn't one?
+
+Seems questionable.
+
+>  		if (ret < 0)
+>  			goto error_free;
+>
+> @@ -1080,6 +1124,28 @@ unsigned long do_mmap(struct file *file,
+>  		vma->vm_file = get_file(file);
+>  	}
+>
+> +	/* call mmap_prepare function if any */
+> +	if (!(flags & MAP_SHARED) && !(capabilities & NOMMU_MAP_DIRECT) &&
+> +	    (vma->vm_file && vma->vm_file->f_op->mmap_prepare)) {
+
+> +		struct vm_area_desc desc;
+> +
+> +		vma->vm_start = addr;
+> +		vma->vm_end = addr + len;
+> +
+> +		compat_set_desc_from_vma(&desc, vma->vm_file, vma);
+> +		ret = vma->vm_file->f_op->mmap_prepare(&desc);
+> +		/* private ramfs/romfs mappings fails with -ENOSYS so,
+> +		 * fall back to copied mapping.
+> +		 */
+> +		if (ret && ret != -ENOSYS)
+> +			goto error_mmap_prepare;
+> +
+> +		ret = __compat_vma_mmap(&desc, vma);
+> +		if (ret)
+> +			goto error_mmap_prepare;
+> +	}
+
+Again break out code into separate functions please!
+
+I invented this compat mmap_prepare stuff to handle stacked file system
+mounts, and I intend to remove it once the mmap_prepare conversion is
+complete.
+
+But I suppose... maybe stuff could be migrated to nommu.c at that point as
+a local fixup just for it.
+
+Probably worth breaking this out as a separate patch too then so
+mmap_prepare is properly supported in nommu otherwise stuff will break
+there, eventually (with X year lag possibly inf on reporting of course ;)
+
+> +
+> +
+>  	down_write(&nommu_region_sem);
+>
+>  	/* if we want to share, we need to check for regions created by other
+> @@ -1196,7 +1262,7 @@ unsigned long do_mmap(struct file *file,
+>  	add_nommu_region(region);
+>
+>  	/* clear anonymous mappings that don't ask for uninitialized data */
+> -	if (vma_is_anonymous(vma) &&
+> +	if (is_file_anonymous(vma->vm_file) &&
+
+As above re: this function.
+
+>  	    (!IS_ENABLED(CONFIG_MMAP_ALLOW_UNINITIALIZED) ||
+>  	     !(flags & MAP_UNINITIALIZED)))
+>  		memset((void *)region->vm_start, 0,
+> @@ -1247,6 +1313,18 @@ unsigned long do_mmap(struct file *file,
+>  	ret = -EINVAL;
+>  	goto error;
+>
+> +error_mmap_prepare:
+> +	if (region->vm_file)
+> +		fput(region->vm_file);
+> +	kmem_cache_free(vm_region_jar, region);
+> +	if (vma->vm_file)
+> +		fput(vma->vm_file);
+> +	vm_area_free(vma);
+> +
+> +	pr_warn("mmap_prepare failed for %lu byte allocation from process %d\n",
+> +			len, current->pid);
+> +	return ret;
+> +
+>  error_getting_vma:
+>  	kmem_cache_free(vm_region_jar, region);
+>  	pr_warn("Allocation of vma for %lu byte allocation from process %d failed\n",
+> --
+> 2.43.0
+>
+
+--
+Cheers, Lorenzo
