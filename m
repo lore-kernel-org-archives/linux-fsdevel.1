@@ -1,75 +1,62 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A2934B43F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 23:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD2A3D3D11;
+	Fri, 14 Aug 2026 02:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786662926; cv=none; b=qnAtClDpCKZvhgCqEwpL8Ccp2GJ0m8fNkP0p9lWqhWFPdp3/XKVhEtQHKeMRUyUmdLqrevXVgkXHgyv99X/bT8nCxIpji7leROBBZRuIe4b4757Y7tyXWgwZ1tT1ZhlWpUV4gMGKM4cid2iyVLNG6XOq5zOrL6maVKegE4qhT34=
+	t=1786673808; cv=none; b=VQgaM/FIomAxEIdkJ5Cay0yHbUuoykK/6G0uPwgSr/AyOZvC9bvXfVUj3tWhc6SG7PTAScSDzrw3bJKnMQPnA9FBK66hEze83COTz/hlyzfVAcqGVkswXxkI92l+DaDLP/hKqevd0bmFxphOsYoDjpAXhv0Z03e1php9qwWTCVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786662926; c=relaxed/simple;
-	bh=YJ0GctRszvIKIqg19TlIBkvv0FI+SwPONxrk6rpRKLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ozCsBTtRrhRc90BytK3Qhlo690uaWh1EyK0EKU7QHmRwOgqN1lABzO4BxvFVH2gypr2AuA+gjmEQDkkwTbvYXvcQKmOLJrznMh9XD1o8iH8AXn5pu0vUjBMh0Ors3z2eA5qAvTkqDXgsSs9ooOWAukJo3MP08DY26YCWNR/1Shc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2H6pwgY; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786673808; c=relaxed/simple;
+	bh=Zqayx5jWRDBmSgLQJL5o3IkAB+JCJdoSvtLCN4+biEw=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=K7AwDqrLhAQIEPQyWLPWk14+OY+XatOrBvXlISecU7/rHj80Bw+sLc5gjH2sxiSFkeDNBXWAkTgEICFHcvLwLEtLznksnaCG5+qvnDnl5zpLp3vVGI+ZNvjnSC+Nr0JxED1gT1jFf6sWDnroc26XguH+6KegkjQhC+RhoN80azs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=t/Te/nWh; arc=none smtp.client-ip=162.62.57.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2H6pwgY"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a17c04563fso522397a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 16:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786662923; x=1787267723; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LTD6BtTzhZc+5oE3do9kLwU8Olj7i1/xKAJzBTLYsUs=;
-        b=S2H6pwgYGrN1UTYrp2axhqZj7bN2BOZnoa8XWZy18hj0cv9+URtT4YAjFYpxk2kKJ+
-         5cMqOaWRb5TdsINMdAKbiB980JcfxqrmIh/jKnzDAqUFfPzL/Ly8MEWktrR8i6FXV2w3
-         ZWVGc+P+oBSWTzrrfOW++v1FunukvQor2r1GBGUgwCu+jVFowzWefV2PcZppmURZdUQ8
-         byQZmdPZxEXMZ6Gizb0hRZMGy9TjxBoate5C72urA6DW0y0FnL4JLgEpMzyhHAcAjOa8
-         yDERlTDG0R4jXfabOE2Y7LuvkpMVoseiSISzltGehIcLAVpBdT72WNTrCnpUTh90CrX3
-         wfTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786662923; x=1787267723;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LTD6BtTzhZc+5oE3do9kLwU8Olj7i1/xKAJzBTLYsUs=;
-        b=ia3PKdx/Tru4GOjkIShecjIAY989hzqZd3Gelyrgd+knKe/0Kh84ebcY/gTO5sy3IB
-         hxlgR5foTJUapABXF3qS2zUvP/1ZFN6jnRD6+gBjBvBN5hioBqsX7sjMcsa0AdnpBPEh
-         QpcjY9n9sK5wZYvqMoW0lG/Nwj86P7qw7wwWaajKuAkAaLAq3BxGlPLTA7U46WFUoQnT
-         JEj2NhZ7VnCWwBpv4q75eA+ajoLY1I3PHS84DVEn2jDK8vmaW7NmtO65dLzDexcUtolj
-         obR3F6uugF0hp61nAFLGou0XCI/06wNjd/JRtx/lHqrHJYVOWfyGs5mnJk3CkCGGR4fk
-         U2dw==
-X-Forwarded-Encrypted: i=1; AHgh+RrmXIrAXE7VLv8sDqofY1a8PkI15DHsQxSaUr9qrYYRIvcQ0SOEfPCyJnw/iscRRSzwzmndWyGf/IbAm5ol@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsqjKwBmz3Wwr1b5Ht8j4BFMYjkfdA51N1EJcJv35YE104JypW
-	qtcdg7muLaKzTdszeLqoxhXqKvq+7/QTkI6ed9KWSG+tt0i5exjC6EM=
-X-Gm-Gg: AR+sD12u9j7dC8gsaQDNuzW2qgjFGPFb5B/L+sHgkJ7++H7v+o5R3K5U/0z3BYri3ZU
-	iQ8/slL6FYSt+g+ZbeFqOgkZiDA5980IMxNJWbQWt71OONbGw+Mby5gXAY0jev5tlcDE4BUmSb7
-	IkmzvLEm4JOk2JeHNr6pRzIaczsjObwkG/hX/hZsVaU1s5SxFgkky/XuIHZwd6G/B7ecIk1e9aI
-	8C7m0jePfFV1hdcnlollN5j8TJReRgO3i/Loofpqho3CvrHK/93xzGEbbCRVK+w7N9ZqGT9QFFV
-	+Q7cyF/guY0QRAQ+12HRZ3+66ElwEp0YbOMGVcQ/rQEZAbOKYh0/a8bkgv0fiVTi+t5TEaLxlZS
-	hUcVW+CCAp5BK/WBI25tiQPJ6ss4qi9tzwU7K5ujSvQmvmx96mWr+tyT76ySrgWepOXdBbtBgqb
-	7D8WT0RzdkmQwLN1URx04l+/vm6lkc/PUo8kbyW73rcWFT0z8RDtwmIgyKHJsh1IvzZYaDCwrEQ
-	+E6r3aaDDHVaq+U5+vP+4RgIwqJkAGR9IjUnw==
-X-Received: by 2002:a05:6402:e9b:b0:6a1:28d8:2306 with SMTP id 4fb4d7f45d1cf-6a38a91250cmr847748a12.1.1786662923038;
-        Thu, 13 Aug 2026 16:15:23 -0700 (PDT)
-Received: from arch.tail2fcf52.ts.net (223-143-146-85.ftth.glasoperator.nl. [85.146.143.223])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a38c9d5573sm122193a12.1.2026.08.13.16.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 16:15:22 -0700 (PDT)
-From: Mark Sercombe <sercombe.joel.mark@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	bcrl@kvack.org
-Cc: jack@suse.cz,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="t/Te/nWh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786673800; bh=xgVA9fMTk1lJSNhZ5dgHoKNUTDoGRT8Mpx79uIRVRDU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=t/Te/nWhxjpeV82iWhxArPinH9o+iCF2Xz+jWzos9dXL168lcv3S00mZVKOSFxBp0
+	 Y349aXpJ1gQGk3qBLm/0w1x4GbsNn8JEhZvLRNHnzSW0D9c4RXu8GGZEdV0JqiUArI
+	 aml/Iw56NjHxNJrsPNnaOkhJ5O8FCnQ5EAdXbCdE=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 42599491; Fri, 14 Aug 2026 10:16:37 +0800
+X-QQ-mid: xmsmtpt1786673797tuv62yyyf
+Message-ID: <tencent_9ADD949953CFE50D8A25BD8DD092395DA507@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3JuedYX19xl12GRt0D3yMUlriQbZyMB+1Os4MHkiDawvlRVkG8EqX
+	 ZblfP2J8Woirfzmt0MeEPagf4Z3Rs4ZSLeSHG6BsoMkR4kgWDSS5uZ4ITCe1H4jtV7+WRIz99jca
+	 IlrQDTtbdlz3rNffg1FTKd45OmrHQx9hQhKVMOhECoHeVVx+A6i3lTpyGIFNi/pa+Oh+DMaCTpE0
+	 hJEa4eZNHDq6UY1bUUdl+FcMVHIJNkW0oBfP+vqtm8PwZ0WEVvj7gZC9GXgUjVU0HIbRDZVrAOLB
+	 73OqbLrpc428KhFCps8Bf0nia9uHUePm8GPd6azCJEP24YyM51pj+wsl+8nH2bFMHapZNLLeedpR
+	 Mmhl9/veEOtoWycEe04vtRUIgMBwf2AFa9ymS3KjoTYI+b37MlFT/Fn4Y/vZuuT/LtMWjNOfLqYB
+	 GtGe9VtbOwiQ6ucSsicnMuCjwfLb+fzydDXjcUSsfV5b+zKbSdkLTQo3XcjT3HGbWCWpmcp2Dwro
+	 A+h6f1uQBQwchPw3S0gt5I4ZOlH2S7s6dRQhwywn9DzlzoYepu6v2RdVzofmQSk/rFCUi93gGRn7
+	 WOF2qUGXkejS4lXdd8TfND3urjpMXsK6gTMxZNMDhtFcSvQsQ2WK+kSwNhHex+3uHElC5PV/jwO2
+	 sQLfs2emSMkjr3ghCqg+8SRX1yl2frAFdlnnLExjbHn45up5G30uber0BjN7eI6uiZOhIHuw3iQF
+	 v/X4ZMAPYiHAx3W78im3Sn2rXdF/NWRNNb9fx3aMiUeYfI4yF0f1UCoEnkJSfhaP+XBUl0rdhKhB
+	 uxFwU/op7gIO31DomXD0Sb4PSHYbyje2ZVsubxFXZ7K/DGnqPg6GdlRsI6P7XlYO6burOylTTIrF
+	 JtzdL9FXjQoAaHyCCsieEC2xPHkdIiqpyuH7EM9ioSAlmSva2umuzngFZGMx3pnJulY4XVVK9pY0
+	 qdLbZc7uz9MPzeB9WABukazbV3LmAEPhgms+OJ3Jf01K9AxVeQyOcg3JaP2FM4msMf+Dsio2/x96
+	 aEHsfuX9+eQ9VrIXVC
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
+Cc: dhowells@redhat.com,
+	pc@manguebit.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-aio@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Mark Sercombe <sercombe.joel.mark@gmail.com>
-Subject: [PATCH] fs/aio: fix comment typos
-Date: Fri, 14 Aug 2026 01:14:55 +0200
-Message-ID: <20260813231455.558829-1-sercombe.joel.mark@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	netfs@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] netfs: break unbuffered write when netfs_alloc_subrequest() fails
+Date: Fri, 14 Aug 2026 10:16:38 +0800
+X-OQ-MSGID: <20260814021637.202471-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a7dd201.f70deec7.2acc03.0008.GAE@google.com>
+References: <6a7dd201.f70deec7.2acc03.0008.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,36 +65,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix two spelling mistakes in code comments. This is a comment only
-change with no functional impact.
+syzbot reported a null-ptr-deref below [1] following a fault injection in
+netfs_alloc_subrequest(). [0]
 
-Signed-off-by: Mark Sercombe <sercombe.joel.mark@gmail.com>
----
- fs/aio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+When netfs_alloc_subrequest() fails, subreq is NULL.
+Later, netfs_prepare_write() tries to initialize members of
+subreq(e.g., source), the issue in [1] is triggered.
 
-diff --git a/fs/aio.c b/fs/aio.c
-index f57fa21a2503..fb991c66afdb 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -936,7 +936,7 @@ static int kill_ioctx(struct mm_struct *mm, struct kioctx *ctx,
+Let's handle the error of netfs_prepare_write() properly.
+
+[0]
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 0
+Call Trace:
+ netfs_alloc_subrequest+0x116/0x3f0
+ netfs_prepare_write+0x76/0x7b0
+ netfs_unbuffered_write+0x75c/0x2020
+ netfs_unbuffered_write_iter_locked+0x7d6/0xa80
+ netfs_unbuffered_write_iter+0x442/0x720
+ v9fs_file_write_iter+0xbf/0x100
+ vfs_write+0x6ac/0x1050
+
+[1]
+KASAN: null-ptr-deref in range [0x00000000000000a8-0x00000000000000af]
+RIP: 0010:netfs_prepare_write+0xbc/0x7b0 fs/netfs/write_issue.c:173
+Call Trace:
+ netfs_unbuffered_write+0x75c/0x2020 fs/netfs/direct_write.c:111
+ netfs_unbuffered_write_iter_locked+0x7d6/0xa80 fs/netfs/direct_write.c:290
+ netfs_unbuffered_write_iter+0x442/0x720 fs/netfs/direct_write.c:382
+ v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
+ new_sync_write fs/read_write.c:595 [inline]
  
- /*
-  * exit_aio: called when the last user of mm goes away.  At this point, there is
-- * no way for any new requests to be submited or any of the io_* syscalls to be
-+ * no way for any new requests to be submitted or any of the io_* syscalls to be
-  * called on the context.
-  *
-  * There may be outstanding kiocbs, but free_ioctx() will explicitly wait on
-@@ -1280,7 +1280,7 @@ static long aio_read_events_ring(struct kioctx *ctx,
- 	 * The mutex can block and wake us up and that will cause
- 	 * wait_event_interruptible_hrtimeout() to schedule without sleeping
- 	 * and repeat. This should be rare enough that it doesn't cause
--	 * peformance issues. See the comment in read_events() for more detail.
-+	 * performance issues. See the comment in read_events() for more detail.
- 	 */
- 	sched_annotate_sleep();
- 	mutex_lock(&ctx->ring_lock);
+Fixes: 288ace2f57c9 ("netfs: New writeback implementation")
+Reported-by: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6a13fc77eb6f0802be2d
+Tested-by: syzbot+6a13fc77eb6f0802be2d@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ fs/netfs/direct_write.c | 4 ++++
+ fs/netfs/write_issue.c  | 2 ++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
+index c16fbad286a1..567b946b7a56 100644
+--- a/fs/netfs/direct_write.c
++++ b/fs/netfs/direct_write.c
+@@ -110,6 +110,10 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
+ 		if (!subreq) {
+ 			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
+ 			subreq = stream->construct;
++			if (!subreq) {
++				wreq->error = -ENOMEM;
++				break;
++			}
+ 			stream->construct = NULL;
+ 		}
+ 
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index 2d9cfcd43658..851f6f93ad45 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -170,6 +170,8 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
+ 		rolling_buffer_make_space(&wreq->buffer, wreq->gfp);
+ 
+ 	subreq = netfs_alloc_subrequest(wreq);
++	if (!subreq)
++		return;
+ 	subreq->source		= stream->source;
+ 	subreq->start		= start;
+ 	subreq->stream_nr	= stream->stream_nr;
 -- 
-2.55.0
+2.43.0
 
