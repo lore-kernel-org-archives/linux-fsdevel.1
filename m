@@ -1,220 +1,288 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1CB3DB994;
-	Fri, 14 Aug 2026 03:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF7233939B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 04:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786678212; cv=none; b=eAlxeSWI4zyVgoIvzd1qIS7awjHPoR3o5864oYABld7Wz0TqxGyux4VrVskGrPG8bSM7TwGCCX04OKOzHujlIyNPzLIdsAn+rtNxKs3l9/9hW2XWZ3sJmdGJ3UN6uZsYrqREB0lHHNvDav1mAX2uxP8SkkoKmwY6ZrX0A/hGNTs=
+	t=1786680593; cv=none; b=K5jiIYzEOe/hXOwnpChWMj4GML8W0xsVOo++MnkMBDXAURZpyybCMxFQIZfmOYvj3us6QE0R/F0bJI4c2dB8hr31BlF3aJzruCf9vwqq3zMSo9nHQUIPw5VjAHZ+MgTY3fkHbb1DERvfQ34q4oqUhPc9xXcPuwVUrWuLwR7ZLks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786678212; c=relaxed/simple;
-	bh=02E9NQTbLSIZDnaov2S8hEdlHVv3ickbnfnx+cyRYGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b2AwCnS6vYweTsWrrM3UtAqpfCj44NNBkN9KhcLUy29IlHkS7e2gMmldtXB6GYV/ft/JEJgUP1zRFxkK4QyKowBMiOgmDQ9oy9kMsJf1tRz3xBg7zurHQNo194VQ0e/MHInCxmuPkqqCYm8W2vxsqlnWNMBKeVAUMcuklOGYm5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=GNKiafPf; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1786680593; c=relaxed/simple;
+	bh=4CdgSOYs2iEn7dzlAYJ0RuY4AhdkRPII76Y3IrpesBQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=djS/Zp3ByILXfyQi8NDMGrahHkCBaIzUSXUMfOcf7dDUpre7QfPAZTiuXDlTvQnLuH/DdXbV4Ld7P+asfzX8ZjLXiy5LFqIACnhjDB1R47q/pSkV1XVhLSwJ9CzDvjLYrba+bXobNR6HIo0lr4qI5x7koRtLLuVyufCIAoLTA4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chTaX+B1; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="GNKiafPf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1786678189; x=1787282989; i=quwenruo.btrfs@gmx.com;
-	bh=qy9L6rm0nWj/jDttflnZqROl7i8owJaub6mNIyl0m50=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=GNKiafPfUYCbSd02MFWVM7ZuMN+BXG8sI/jjmjAPhA8TYuS1mHutqGQr/wkQRVUT
-	 7aL/t4YrD1FxVoGg5xrOAbdtm/ToCLYT6DMdMPbvqxx2Ehk4+4elFlSg+ieG+bXzt
-	 qVzrW5VeJUVkotybHtBUkSI1k4OaZFkrlDCdH2ukSvGMKapuV/mS+ToHhNTuPTmQg
-	 73MJkxjBGa+KxcR8msEllx6fOKaBFKYbhPUCZLTu7KmpGTck8kBh8ZqEI2WbTuZkQ
-	 hY/axVTqkUNTm64++bFPYUSHF0oNIdxArDfSzfKsclnV6svUOIEGVVYF4FQ/m/ZoN
-	 Wdqj5Ont6dBor7vhvQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MhD2O-1xOqNC43JC-00czR2; Fri, 14
- Aug 2026 05:29:49 +0200
-Message-ID: <faf160bc-b4fd-426e-a3f1-367272e50f9b@gmx.com>
-Date: Fri, 14 Aug 2026 12:59:38 +0930
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chTaX+B1"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-836cde02992so6118987b3.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 13 Aug 2026 21:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786680591; x=1787285391; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=p86XR0IwNusJRzPgLE1JQiJp3QEv5rxXdiBVcpat7NU=;
+        b=chTaX+B15UTW7p90MKoCsi68G/rxPmdjwGRwlqBA6+JmBzW9+ykqmCu8Bv+SqLxwNB
+         /gmT/aRNOoQfkf6AEkPXqfQCFGCJyLW/bzqqetjEH+yZibI3Gx4st7GhD43m8AgMBEzZ
+         KisL/WbfTGe87o9HVirwoPwjR/Nd60k8I8HeNcRkdtOlSzpXSUc1+eTJZ9m72OrZo4VH
+         ++/JJ5J9+fnIr1q6XzhdonWvA2u9IzYiMWuBWd2Od8vO11yVFRkyUqUj5Ir8F8RAx5F7
+         /Lkvc8B1lYGzu3DeiHh7lBcGonf0PiynZPgfmodj/nDV5hsKzrDiAaFLDnBXwBaBrx4I
+         D8kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786680591; x=1787285391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=p86XR0IwNusJRzPgLE1JQiJp3QEv5rxXdiBVcpat7NU=;
+        b=baPhmnxVETgWNTyWzZYH0ntaCRfgwTXPl9FeM2zJqt6wv0edYneD6B1lE8QO75kOBI
+         72/TErhLwLNodUpQwvHaGfCgPEqu/KGSmRioNO0vHvge2ad0gib/1kC+LK+EkiUuaJkg
+         r0VMjfbzBFqz8YLvHrfYD/2K4R9fRfwl6PPbUVbCKUWdQOt+0Lmmjqq5P1MbDfbJI6OJ
+         7sH6C6IvaQRV6bQaUHPz0t7jpKKk3IosL9Vt2/pw/wi787K3sB8vb06Ooa/HiV1ud8ZG
+         oeUsgUWVJBrQkZJsVPJD7JP/Xos3rtq9VLIOvIKnPKqcgfahJXNToYpALMdMK1RXw4j7
+         GKGw==
+X-Forwarded-Encrypted: i=1; AHgh+RpsGVBiJC4e/fe1iQXbUgXPsNfIVoNJbJZwlGc0WuKiTTbqfg6YW1S1zybCEorFJ4PoVxbLlpZEjFv+g1gf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxmgwPmHXp2VvPv/a4FlDRya3eJUSQqugwoKg+Q7A1YzqXezg7
+	w9G+mtRZJSoYkQax5ge521Zh4jEClMNwRx4OCX8dHxAGW6j9MP8raZ9D
+X-Gm-Gg: AR+sD11WfrVp23Jd31gmKIkL7EbeXv6eQ2PZgRilSANBX4D9wcQpRy9w75Hy7MvSlNr
+	fM3iMHtQLppwx6mUVTulHzxvnygcPXRkXTgstQKS3iTRbvQMyDaMDGNqmWL32NNA6FI/gq8LDfg
+	XY/wpkkSrRqmAd0v4iI+R7OO9wsw6LvtnTb02Zgg7MrZwK/6afp4AIjl9Wa1Xnn8GrbaAK35m+6
+	WyhV3ixww6PSbB1EGx5NNIYKAN7Pzcd6eAmqle8WDKEODkQeA11GWtvWLDs9N/Cbkt5SHcJ9A04
+	BJ3mOnHxhkZMJwWNMi9Qf9ydFFsbe1k30vC5XZUTELMNwz0yxFLX3kDW739icO2v96pwA2JsSSt
+	Fl2zninC7vcS2CLa8CbtmzOPvbbUm/1KyfjZpCi60SdhnQuwEv50+GkU0m2jP2ydjj35p24R6rU
+	/XEys/41PsVbE6khvFWHCcyBHaKXiTdsN+ONL/iY1LSG3xi/R0pbwbBSeZWoCl+1omVtXW5SZk8
+	S6zzA==
+X-Received: by 2002:a05:690c:7487:b0:7e9:9f7e:9e0 with SMTP id 00721157ae682-8370c93d30fmr15168547b3.3.1786680591049;
+        Thu, 13 Aug 2026 21:09:51 -0700 (PDT)
+Received: from mac.lan ([136.55.173.105])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-836c290820csm8156627b3.40.2026.08.13.21.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 21:09:50 -0700 (PDT)
+From: "Cen Zhang (Microsoft)" <blbllhy@gmail.com>
+To: joel.granados@kernel.org,
+	kees@kernel.org
+Cc: brauner@kernel.org,
+	oleg@redhat.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	akpm@linux-foundation.org,
+	jack@suse.cz,
+	avagin@gmail.com,
+	ptikhomirov@virtuozzo.com,
+	mjguzik@gmail.com,
+	include@grrlz.net,
+	ebiederm@xmission.com,
+	legion@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	AutonomousCodeSecurity@microsoft.com,
+	tgopinath@linux.microsoft.com,
+	kys@microsoft.com,
+	blbllhy@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v4] reboot: fix cad_pid use-after-free race
+Date: Fri, 14 Aug 2026 00:09:44 -0400
+Message-ID: <20260814040944.16561-1-blbllhy@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] btrfs: use mount idmap for defrag permission check
-To: Seth Forshee <sforshee@kernel.org>, Tao Cui <cui.tao@linux.dev>,
- Qu Wenruo <wqu@suse.com>
-Cc: clm@fb.com, dsterba@suse.com, josef@toxicpanda.com, brauner@kernel.org,
- linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>
-References: <20260813034146.1207640-1-cui.tao@linux.dev>
- <bd66065f-bae5-482a-84d6-a78850c9cebe@suse.com> <an36yH30W965eqZk@ubuntu-x1>
-Content-Language: en-US
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
- sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
- xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
- naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
- tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
- 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
- VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
- CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
- /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
- GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
- q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
- ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
- CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
- B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
- Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
- +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
- HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
-In-Reply-To: <an36yH30W965eqZk@ubuntu-x1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FjGEpjTzlSiA4c/73vPIBc3193p4wEQuw5v4t9VC65B1PswhmAW
- HAO10Duecx6fazBMWQLO1/h4iKxjC7wUG0j2qFr6I9ueeS9BEWvD/5JXOsoaCrBLRMi59GQ
- +aYCzaTjx3HgzN71ywcN1XmvD+KszMWigHAow3NhPME82oMQqLwh1tb2wVJsUF8+pJ9JjrL
- 68ZjlXhQs2lB9Jmpao5nw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:A0XmXBIFKdA=;xWNqI+FYlrVU6V/S7ZfBgY7hfol
- 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
- 22aXJwh7RDPO/q/SEhCocQg0Y7NE=
+Content-Transfer-Encoding: 8bit
 
+cad_pid is a single kernel-wide struct pid pointer. proc_do_cad_pid()
+reads it and passes it to pid_vnr() without protecting the lifetime of
+the referenced struct pid. A concurrent writer can replace cad_pid and
+drop the final reference to the old struct pid after the reader has
+loaded the pointer but before pid_vnr() has finished dereferencing it,
+causing a use-after-free.
 
+kill_cad_pid() has the same lifetime race when it passes cad_pid to
+kill_pid().
 
-=E5=9C=A8 2026/8/14 02:41, Seth Forshee =E5=86=99=E9=81=93:
-> On Thu, Aug 13, 2026 at 04:04:05PM +0930, Qu Wenruo wrote:
->>
->>
->> =E5=9C=A8 2026/8/13 13:11, Tao Cui =E5=86=99=E9=81=93:
->>> From: Tao Cui <cuitao@kylinos.cn>
->>>
->>> btrfs_ioctl_defrag() checks MAY_WRITE with nop_mnt_idmap, which skips
->>> the mount idmap.  On an idmapped mount the owner comparison then uses
->>> the caller's fsuid against the raw on-disk uid, dropping the mapping.
->>> Every other permission/owner check in btrfs ioctl uses
->>> file_mnt_idmap(file) (e.g. :1152, :1310, :1946); this one missed it.
->>>
->>> Switch to file_mnt_idmap(file).  It equals nop_mnt_idmap on a normal
->>> mount, and the check stays behind !capable(CAP_SYS_ADMIN), so only
->>> unprivileged callers on idmapped btrfs change.  The RO-fd note in the
->>> comment above is about the file descriptor, not this inode check, and
->>> is unaffected.
->>>
->>> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
->>
->> Fixes: 4609e1f18e19 ("fs: port ->permission() to pass mnt_idmap")
->=20
-> This is a misattribution. Using nop_mnt_idmap there keeps the behavior
-> the same as it was before the commit. Switching to the mount idmap opens
-> up BTRFS_IOC_DEFRAG* to idmapped users when they weren't before, which
-> is a separate policy decision that didn't belong in that change.
+At the time this issue was reported, an unprivileged user could reach the
+sysctl through user and PID namespaces because cad_pid was registered in
+pid_table[]. Moving cad_pid back to the global reboot sysctl table
+corrected that namespace and permission mismatch, but did not fix the
+underlying lifetime race.
 
-OK, removed from for-next, and will not add the fixes tag.
->=20
-> Saying that these ioctls should be allowed for idmapped users just
-> because others are isn't a good justification. Why are these ioctls safe
-> for idmapped users?  Do they actually require this capability?
+Fix this by treating cad_pid as an RCU-protected pointer at both read
+sites and by waiting for a grace period before dropping the old reference
+on the write side.
 
-I'll let the author to do the explanation.
+call_rcu(&old_pid->rcu, ...) cannot be used here because free_pid()
+also queues pid->rcu; queueing the same rcu_head twice can corrupt the
+RCU callback list.
 
-Thanks,
-Qu
+Original KASAN crash stack:
+  kernel/pid.c:545 pid_nr_ns()        # reads freed pid->level
+  kernel/pid.c:556 pid_vnr()          # calls pid_nr_ns()
+  kernel/pid.c:775 proc_do_cad_pid()  # calls pid_vnr(cad_pid)
 
->=20
-> Thanks,
-> Seth
->=20
+Fixes: 9ec52099e4b8 ("[PATCH] replace cad_pid by a struct pid")
+Reported-by: AutonomousCodeSecurity@microsoft.com
+Closes: https://lore.kernel.org/all/20260717210143.4734-1-blbllhy@gmail.com/
+Link: https://lore.kernel.org/all/alz5ZYLE4kaq_v2P@redhat.com/
+Link: https://lore.kernel.org/all/al4ICz9biJKtdZc4@redhat.com/
+Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
+Suggested-by: Bradley Morgan <include@grrlz.net>
+Suggested-by: Oleg Nesterov <oleg@redhat.com>
+Suggested-by: Eric W. Biederman <ebiederm@xmission.com>
+Suggested-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Cen Zhang (Microsoft) <blbllhy@gmail.com>
+---
+v4:
+ - Rebase on sysctl-next after Oleg's cad_pid sysctl placement change.
+ - Fold the two-patch v3 series into a single lifetime fix.
+ - Move kill_cad_pid() implementation to kernel/signal.c.
+ - Export kill_cad_pid() and stop exporting the raw cad_pid pointer.
+ - Update proc_do_cad_pid() in kernel/reboot.c.
+ - Add explicit includes for the RCU API and kill_cad_pid().
+ - Preserve the original unprivileged impact context while noting that
+   the namespace permission path has been fixed separately.
+
+v3:
+ - Keep kill_cad_pid() inside the RCU read-side critical section
+   instead of taking a pid reference, as suggested by Oleg.
+
+v2:
+ - Split out kill_cad_pid() deinline into a preparatory patch.
+ - Annotate cad_pid as __rcu and use rcu_dereference().
+ - Protect kill_cad_pid() by taking a pid reference under RCU.
+ - Add a comment explaining why synchronize_rcu() is used instead of
+   call_rcu().
+
+ include/linux/sched.h        |  2 +-
+ include/linux/sched/signal.h |  5 +----
+ init/main.c                  |  2 +-
+ kernel/reboot.c              | 19 +++++++++++++++----
+ kernel/signal.c              | 12 ++++++++++++
+ 5 files changed, 30 insertions(+), 10 deletions(-)
+
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 373bcc0598d1..31ce72b1233c 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1767,7 +1767,7 @@ static inline bool is_lazy_mmu_mode_active(void)
+ }
+ #endif
+ 
+-extern struct pid *cad_pid;
++extern struct pid __rcu *cad_pid;
+ 
+ /*
+  * Per process flags
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index 584ae88b435e..d45a5476b97d 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -562,10 +562,7 @@ static inline sigset_t *sigmask_to_save(void)
+ 	return res;
+ }
+ 
+-static inline int kill_cad_pid(int sig, int priv)
+-{
+-	return kill_pid(cad_pid, sig, priv);
+-}
++int kill_cad_pid(int sig, int priv);
+ 
+ /* These can be the second arg to send_sig_info/send_group_sig_info.  */
+ #define SEND_SIG_NOINFO ((struct kernel_siginfo *) 0)
+diff --git a/init/main.c b/init/main.c
+index e363232b428b..19a10d0c2760 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1636,7 +1636,7 @@ static noinline void __init kernel_init_freeable(void)
+ 	 */
+ 	set_mems_allowed(node_states[N_MEMORY]);
+ 
+-	cad_pid = get_pid(task_pid(current));
++	rcu_assign_pointer(cad_pid, get_pid(task_pid(current)));
+ 
+ 	smp_prepare_cpus(setup_max_cpus);
+ 
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index f070c5c1103a..d177d89fcc33 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -13,7 +13,9 @@
+ #include <linux/kexec.h>
+ #include <linux/kmod.h>
+ #include <linux/kmsg_dump.h>
++#include <linux/rcupdate.h>
+ #include <linux/reboot.h>
++#include <linux/sched/signal.h>
+ #include <linux/suspend.h>
+ #include <linux/syscalls.h>
+ #include <linux/syscore_ops.h>
+@@ -24,8 +26,7 @@
+  */
+ 
+ static int C_A_D = 1;
+-struct pid *cad_pid;
+-EXPORT_SYMBOL(cad_pid);
++struct pid __rcu *cad_pid;
+ 
+ #if defined(CONFIG_ARM)
+ #define DEFAULT_REBOOT_MODE		= REBOOT_HARD
+@@ -1371,10 +1372,14 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+ {
+ 	struct ctl_table tmp_table = *table;
+ 	struct pid *new_pid;
++	struct pid *old_pid;
+ 	pid_t tmp_pid;
+ 	int r;
+ 
+-	tmp_pid = pid_vnr(cad_pid);
++	rcu_read_lock();
++	tmp_pid = pid_vnr(rcu_dereference(cad_pid));
++	rcu_read_unlock();
++
+ 	tmp_table.data = &tmp_pid;
+ 
+ 	r = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+@@ -1385,7 +1390,13 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+ 	if (!new_pid)
+ 		return -ESRCH;
+ 
+-	put_pid(xchg(&cad_pid, new_pid));
++	old_pid = unrcu_pointer(xchg(&cad_pid, RCU_INITIALIZER(new_pid)));
++	/*
++	 * Wait for cad_pid readers before put_pid().  We cannot use
++	 * call_rcu() here because free_pid() already owns pid->rcu.
++	 */
++	synchronize_rcu();
++	put_pid(old_pid);
+ 	return 0;
+ }
+ 
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 9c2b32c4d755..464732c44554 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -1891,6 +1891,18 @@ int kill_pid(struct pid *pid, int sig, int priv)
+ }
+ EXPORT_SYMBOL(kill_pid);
+ 
++int kill_cad_pid(int sig, int priv)
++{
++	int ret;
++
++	rcu_read_lock();
++	ret = kill_pid(rcu_dereference(cad_pid), sig, priv);
++	rcu_read_unlock();
++
++	return ret;
++}
++EXPORT_SYMBOL(kill_cad_pid);
++
+ #ifdef CONFIG_POSIX_TIMERS
+ /*
+  * These functions handle POSIX timer signals. POSIX timers use
+
+base-commit: 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e
+-- 
+2.43.0
 
