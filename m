@@ -1,28 +1,28 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA683749EE;
-	Fri, 14 Aug 2026 09:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D237243F4DB;
+	Fri, 14 Aug 2026 09:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786700407; cv=none; b=jkGdb38gOsopi2CGmuUKX+9coNy9JD+f2VdtEtbQC3sAoG/Zx79eK8dS/wW8GBsbJgrEBCgKYEL/SByAIrg0UpBCTNPiRFuvT54cEOtHHkLvdWmkupXvivCfwZ5w6f+3+TdKJs1gX5NAS3OmofXP/aGeRSCM/ISpcY/ucTKRdtg=
+	t=1786700409; cv=none; b=dffOse/Wqiq22n08Zc8nITVPEN2r0Dm0MMWawYJEUEXE1YOLz2qiIbEpSRNi5w3J0/dTWdbPR+jea124aqgxapMWECTkT7MfdbRPvC1OwcX5WwXd8edi1FkhmHzEbDX0HrTptDkykSCiKL1iAl0JYyUT+/hOYniOW0m5f0MPMQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786700407; c=relaxed/simple;
-	bh=6mte78s0bke1ru9B3/dIfd4NVCM2mtnGuNF6c83r3v4=;
+	s=arc-20240116; t=1786700409; c=relaxed/simple;
+	bh=LRvGFX15gSlEMgzikCfEppkdkc3qZZAtD8cFysYgEmw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eIJcQNY+dlgHHuCFZsNddT08Nf/mBiK8de33vDIMwiZZ4z9Znk099d/IXhwsojbW+AG1srmrcp0mQK60nPoZgbjG0hs6XOMQhQeHcLQ/92mVa4/7qKQNbgwdhQIlLi8Jxax2Y1WfuE+0BqSh2ynbp5aDKac5OrFaZh2LUdnuxg4=
+	 MIME-Version; b=iDYyUASJSrJ/o8N8jI+FrPeHq+w0E5QkUcicnCFJLGobsjS8nPiQwWSvn/zkP7tR4mwhN+Pp6+lLwqnkzSKAQWz7+zd8RFqE+KvE4NbWDybccMlLsVekaUlrsRZ9trYJ0+FlMl6uErBekaCRNezFVcG5U29Z6OeFPxjHaNouCSk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
 Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyR25YKzKHNN0;
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hLxyR5Tx5zKHNL5;
 	Fri, 14 Aug 2026 17:39:27 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 0921B40AE8;
+	by mail.maildlp.com (Postfix) with ESMTP id 7F8CA40B08;
 	Fri, 14 Aug 2026 17:39:48 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S12;
-	Fri, 14 Aug 2026 17:39:47 +0800 (CST)
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBHg0JO4n5qk4oXCQ--.21396S17;
+	Fri, 14 Aug 2026 17:39:48 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
@@ -41,9 +41,9 @@ Cc: linux-kernel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH -next v5 08/32] ext4: allow ext4_map_blocks() to start its own transaction handle
-Date: Fri, 14 Aug 2026 17:33:07 +0800
-Message-ID: <20260814093331.1703882-9-yi.zhang@huaweicloud.com>
+Subject: [PATCH -next v5 13/32] ext4: pass out extent seq counter when mapping da blocks
+Date: Fri, 14 Aug 2026 17:33:12 +0800
+Message-ID: <20260814093331.1703882-14-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
 References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
@@ -54,10 +54,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S12
-X-Coremail-Antispam: 1UD129KBjvJXoWxGryUJFWfAryDJF43ur17Jrb_yoW5XrW5pr
-	WakryrCr1UWF9a9F4Ska1UZF1aka48KrWUuFWfGryrC34a9rnagF1UK3WYyFWrtrWfWa1j
-	qF45tryUCa1jk3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:_Ch0CgBHg0JO4n5qk4oXCQ--.21396S17
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4UKFy7uF1xXFyUZr15twb_yoW8uFWDp3
+	9Ykr15Gw1xZw1v9ayxXF1xZFy5Kay5JrW7GFWfXw1Ygas8WFySgF1jkF12yFykKr4xXr1F
+	vF40kry8Ca4SyFDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -76,100 +76,49 @@ X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Make ext4_map_blocks() start its own transaction handle when the caller
-does not provide one. The handle is started after the lookup path
-confirms that allocation is actually needed, and is stopped at the
-unified out_handle exit path. This avoids unnecessarily starting a
-handle for pure mapping queries. This prepares for the buffered iomap
-writeback conversion, which improves performance for fragile overwrite
-cases.
+The iomap buffered write path does not hold the folio lock between
+mapping the inode extent and copying data. Therefore, it can race
+with writeback that modifies the extent type (e.g., from unwritten to
+written). This can lead to data corruption on partial writes, as
+iomap_block_needs_zeroing() may return a false positive based on a
+stale extent. The iomap infrastructure uses the sequence counter
+stored in the inode to detect such stale mappings.
 
-Suggested-by: Jan Kara <jack@suse.cz>
+Commit 07c440e8da8f ("ext4: pass out extent seq counter when mapping
+blocks") added the m_seq field to ext4_map_blocks to pass out extent
+sequence numbers, but it missed two callsites within
+ext4_da_map_blocks(). These callsites are on the delayed allocation
+path, which is needed in the iomap buffered write path. Pass out the
+sequence counter to ensure stale mappings can be detected.
+
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 ---
- fs/ext4/inode.c | 34 ++++++++++++++++++++++++++--------
- 1 file changed, 26 insertions(+), 8 deletions(-)
+ fs/ext4/inode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index bb4f1079d989..c9904c274347 100644
+index 376cb9783835..9098d9a5fc05 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -703,6 +703,7 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 	struct extent_status es;
- 	int retval;
- 	int ret = 0;
-+	bool internal_handle = false;
- 	unsigned int orig_mlen;
- #ifdef ES_AGGRESSIVE_TEST
- 	struct ext4_map_blocks orig_map;
-@@ -790,8 +791,10 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- found:
- 	if (retval > 0 && map->m_flags & EXT4_MAP_MAPPED) {
- 		ret = check_block_validity(inode, map);
--		if (ret != 0)
--			return ret;
-+		if (ret != 0) {
-+			retval = ret;
-+			goto out_handle;
-+		}
- 	}
+@@ -1970,7 +1970,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
+ 	ext4_check_map_extents_env(inode);
  
- 	/* If it is only a block(s) look up */
-@@ -811,8 +814,15 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 		 * ext4_ext_map_blocks()
- 		 */
- 		if (!(flags & EXT4_GET_BLOCKS_CONVERT_UNWRITTEN))
--			return retval;
-+			goto out_handle;
+ 	/* Lookup extent status tree firstly */
+-	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, NULL)) {
++	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
+ 		map->m_len = min_t(unsigned int, map->m_len,
+ 				   es.es_len - (map->m_lblk - es.es_lblk));
  
-+	if (!handle) {
-+		handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
-+				ext4_chunk_trans_blocks(inode, orig_mlen));
-+		if (IS_ERR(handle))
-+			return PTR_ERR(handle);
-+		internal_handle = true;
-+	}
- 
- 	ext4_fc_track_inode(handle, inode);
- 	/*
-@@ -841,12 +851,14 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 	if (retval < 0)
- 		ext_debug(inode, "failed with err %d\n", retval);
- 	if (retval <= 0)
--		return retval;
-+		goto out_handle;
- 
- 	if (map->m_flags & EXT4_MAP_MAPPED) {
- 		ret = check_block_validity(inode, map);
--		if (ret != 0)
--			return ret;
-+		if (ret != 0) {
-+			retval = ret;
-+			goto out_handle;
-+		}
- 
- 		/*
- 		 * Inodes with freshly allocated blocks where contents will be
-@@ -867,12 +879,18 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
- 			else
- 				ret = ext4_jbd2_inode_add_write(handle, inode,
- 						start_byte, length);
--			if (ret)
--				return ret;
-+			if (ret) {
-+				retval = ret;
-+				goto out_handle;
-+			}
- 		}
- 	}
- 	ext4_fc_track_range(handle, inode, map->m_lblk, map->m_lblk +
- 			    map->m_len - 1);
-+
-+out_handle:
-+	if (internal_handle)
-+		ext4_journal_stop(handle);
- 	return retval;
- }
+@@ -2023,7 +2023,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
+ 	 * is held in write mode, before inserting a new da entry in
+ 	 * the extent status tree.
+ 	 */
+-	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, NULL)) {
++	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
+ 		map->m_len = min_t(unsigned int, map->m_len,
+ 				   es.es_len - (map->m_lblk - es.es_lblk));
  
 -- 
 2.52.0
