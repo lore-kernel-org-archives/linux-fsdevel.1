@@ -1,72 +1,80 @@
-Received: from latitanza.investici.org (latitanza.investici.org [185.218.207.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DED33ADA0;
-	Sat, 15 Aug 2026 16:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.218.207.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044213AA1A9;
+	Sat, 15 Aug 2026 18:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786810176; cv=none; b=FCESIoG2b/jnw5RfkZO6IAYNeq3SIZCru7cEwMMeLb4EDEjC91qsXHFA9hj7L1e0pwtOcgauKrjYrJZMTgVKXW5rb9EnWq8MDDRX0mW+Y243dsl0BdGEOKUwasjYABeIGvsbkwj0Cp8quUO9wFKOXZQ+2nwyMUKqjshj2BNFN2c=
+	t=1786819023; cv=none; b=B8f/hjr92th/6kq0LLWr7KYcSZSYHqPuDH6fUNkNno/2fAP7oATjsKaAYJkq6bSMSIeqSC3ULerFT0ukSGk4ZR/zDawwGq4XYfCckzwqqztVp2jRqPa3Z8xWb3PG4rsJt/m0iQabbK64dyVSZRQM+MaJnaDYUHaL2uUuK1DYyjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786810176; c=relaxed/simple;
-	bh=2HZtJ5MrP8KDGrN133O/JlYL+AqZQq/JcEI5bqzXs3s=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=uIiEvEBPiK+yf9A4r1PASVP03u4adxEMo+tPmxZcsZ+HQ7cae8VwkGe4omfC9JgecIt62+lXNcKPcVvB56L+WGo1Ju/AYAhXxs9F0yt4AqW481XfKvCkIprz1g0qRJtZTEW+1bl+uqDM/kvCcQDtPCUyXNjceHINtiBjQt6wm/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net; spf=pass smtp.mailfrom=grrlz.net; dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b=WzLR1axz; arc=none smtp.client-ip=185.218.207.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=grrlz.net
+	s=arc-20240116; t=1786819023; c=relaxed/simple;
+	bh=Q1R/tQygWi46KOz8YmZAxAnZLA3LFMKIAemz0W80GOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rerizCLnlMKaQZS+XR9obcmuctilNgtAciZJPwFDVqgGzVNmBkKbyDEYY68tiSHM2yRmtoV1Z+ZtmL5TwIWEmnJQWObcFmAuD0iYFgs1BK3ywRkg0qoNg0fxNtdFho7ZeTjsqxTWeoQxk5JG5U9WX5agsqQWLeeH/nOh/k9ouZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUouCxsp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b="WzLR1axz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grrlz.net;
-	s=stigmate; t=1786810172;
-	bh=2HZtJ5MrP8KDGrN133O/JlYL+AqZQq/JcEI5bqzXs3s=;
-	h=Date:From:To:CC:Subject:In-Reply-To:From;
-	b=WzLR1axz4j6/twlF8xiR93obSNDUtgr8l7RvUwKkksWtyIFGm9j0fD3+C/SjpWUi2
-	 N6bFjh4d0t6gGIuj+Ysq15rjqzwKtx6VsbBkCl7VDH0PLrEtLDCGS+tEEZkBYUCm7L
-	 mM8oUOI+bDVSVfh/xcHJDrY6XosQG+N1R4BAeApQ=
-Received: from mx3.investici.org (unknown [127.0.0.1])
-	by latitanza.investici.org (Postfix) with ESMTP id 4hMkZ419TdzGp8w;
-	Sat, 15 Aug 2026 16:09:32 +0000 (UTC)
-Received: by mx3.investici.org (Postfix) id 4hMkZ35ZyjzGp3p;
-	Sat, 15 Aug 2026 16:09:31 +0000 (UTC)
-Date: Sat, 15 Aug 2026 17:09:30 +0100
-From: Bradley Morgan <include@grrlz.net>
-To: joel.granados@kernel.org
-CC: akpm@linux-foundation.org, hannes@cmpxchg.org, jackmanb@google.com,
- kees@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
- shijianlin11@foxmail.com, shuah@kernel.org, surenb@google.com,
- vbabka@kernel.org, ziy@nvidia.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_0/4=5D_sysctl=3A_Disallow_partia?=
- =?US-ASCII?Q?l_updates_of_miss-formatted_sysctl_vectors?=
-In-Reply-To: <20260814-lklm-partial_ctlvec-v2-0-9df50d26e477@kernel.org>
-Message-ID: <5F021629-DD85-4941-8263-3C4F51E9D6BD@grrlz.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUouCxsp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 656961F00A3E;
+	Sat, 15 Aug 2026 18:37:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786819021;
+	bh=twJXGTZzkB2PEGt+lRybxX1Kv+mFgAp2yMHNNV2FA0o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mUouCxsppcLw+tVk38/m6HAGFinpHiLtYJM7ZZB6Sn/R4n6C+XEqxlCZQpgxOchxW
+	 s0NVQs1ZfjMOdQO45YMi2UvjeFOJ/gFqhvPFcyQn54qHjx+0uAtJ78ZyA4b07WSFPc
+	 5/NQyJG/Uehoj4sA1Lv0UEe8zxuk45Wap8Plwmsko634T3EfUoFWylkUkFLczpzQl+
+	 Ch7gg8fxQWDh+kIc1eNcLkquVXgjOb+QK1gvAFwOVZNY4GgDM8ogtUfUgxcBdeVwGi
+	 Ek6jNwx15MJItMaqz5u5zTS3wZw0iBoc6r7aH8INkZ31MCpXYwIk7/TrLsaV1YX2K5
+	 lyoHNO2MCD1bw==
+Date: Sat, 15 Aug 2026 13:36:42 -0500
+From: Seth Forshee <sforshee@kernel.org>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: clm@fb.com, dsterba@suse.com, wqu@suse.com, josef@toxicpanda.com,
+	brauner@kernel.org, linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH v2] btrfs: allow idmapped DEFRAG ioctls
+Message-ID: <aoCxuk2DJVPsOXoB@ubuntu-x1>
+References: <20260815132259.3935817-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260815132259.3935817-1-cui.tao@linux.dev>
 
+On Sat, Aug 15, 2026 at 09:22:59PM +0800, Tao Cui wrote:
+> From: Tao Cui <cuitao@kylinos.cn>
+> 
+> btrfs_ioctl_defrag() checks MAY_WRITE against nop_mnt_idmap, so on an
+> idmapped mount the owner comparison uses the caller's fsuid against the
+> raw on-disk uid and the ioctl fails with -EPERM even for the file's
+> owner.  Pass the mount idmap down so defrag works on idmapped mounts.
+> 
+> The check, added in 616d374efa23 ("btrfs: allow defrag on a file opened
+> read-only that has rw permissions"), is not a privilege gate.  It only
+> tests whether the file could have been opened for writing, and a user
+> who owns the file on the idmapped mount can already open it O_RDWR,
+> write() to it or fallocate() it.  Defragmenting a regular file only
+> rearranges the caller's own extents; there is nothing it can rewrite
+> that the caller could not rewrite anyway.  Whole-subvolume defrag on a
+> directory keeps its capable(CAP_SYS_ADMIN) requirement, and the
+> !capable() guard around this check is left as is.
+> 
+> FIDEDUPERANGE already works this way for unprivileged callers:
+> may_dedupe_file() in fs/remap_range.c compares the inode owner through
+> file_mnt_idmap(file) and falls back to inode_permission() with the same
+> idmap, and dedupe can rewrite one file's extents from another file's
+> contents, which is a stronger operation than defrag.
+> 
+> On regular mounts file_mnt_idmap() is nop_mnt_idmap and nothing
+> changes.
+> 
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Copy it, only write back once every value converted. That's the
-right way to do this. Went through the whole series against the
-tree, notes in the patch replies.
+Thanks for the updated commit message!
 
-Some nits on the series:
-- "miss-formatted" in the subject. mis-formatted, or just malformed.
-- akpm's scalars nit still applies.
-- Sashiko saw something on this one (akpm linked it).
-
-Otherwise fine by me, the split is clean.
-
-
-Reviewed-by: Bradley Morgan <include@grrlz.net>
-also
-
-Tested-by: Bradley Morgan <include@grrlz.net> for the test
-
-
-Thanks!
+Reviewed-by: Seth Forshee <sforshee@kernel.org>
