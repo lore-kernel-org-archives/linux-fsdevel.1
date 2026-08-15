@@ -1,168 +1,189 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0DF32A3FF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 22:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786746508; cv=pass; b=kxj7jiBj7wqBnIwP2FZRxppuWPnFJzT18HUj0rW7slGqhsXqP6W/ZdCPQKRQbsq5EfNN8VVbVBeSokpmt0R+uZ9c/10gTLj298tRXH/gnWaQgczffT398XJbnQpr97hfh0VJylFSTNPf2OHBeRZyDpoa45fq7hop6ZH5JHh1FSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786746508; c=relaxed/simple;
-	bh=0MqcfTpV4J3JQ5XxEfh9bBWGuS4YdzM6e+2A1t6TKHM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lTK+sRJT0FBo3Zc2Ibg+MNZ80z3vAQUXoFDYbqjh+WVYgVkP5YwaophROjblCQnhYGo0SAp4cbC106PJWiHKsxeb8Balr8JwQhornFkghtksSbqKXzbIEdepNXROdt+1hpSHk5oD5GJesa1ftsKUts9Qbz9j8SI7I/wkbc2koc0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com; spf=pass smtp.mailfrom=omnibond.com; dkim=pass (2048-bit key) header.d=omnibond-com.20251104.gappssmtp.com header.i=@omnibond-com.20251104.gappssmtp.com header.b=PEE4AZYI; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omnibond.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F6319DF55;
+	Sat, 15 Aug 2026 00:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786753736; cv=none; b=nvPhZnMqx39oJnvzi4VmWgSKtb1c1fq9m/4Otr9bsZlcVg2dRxav44kkwbPeIyaaqz8JP4DGRLDLGYvubs5koIZMelYIqWhsth3BvvfqFWU5d8qSTOWt8OfzF+kvbt4y8pkpyflFrrr82NOWEDQlWR6RxcWE3oKSc+xaWXHfkk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786753736; c=relaxed/simple;
+	bh=g7nh7dsEZ1pjHvCiqIb3hdYLn0K81/1DIip0VhIf2gw=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=ZvmCJqVuOJeCeF/vZA4Bc5baXati+F6HVDoNn6CcHt2CTEIgRNnnWMJ8PWq/VqG9/1LEjRrEe4rFLnk7SDU/06GTExSdHuKLO294PNI9gHUtbMuSPVjjWdwYGMdYNyR6R/x5h7DiF4j6DK2o7YwGxopSnnuleaHKtRjkoKdqNc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=nSdn1EKL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HGIMHqle; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=omnibond-com.20251104.gappssmtp.com header.i=@omnibond-com.20251104.gappssmtp.com header.b="PEE4AZYI"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ceaf8a1265so22982895ad.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 14 Aug 2026 15:28:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786746507; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fZ6RFIQsjN33SX5avsw4d7ZOQ6IhFJ6ZLUx0AtYLHF5K1OnRbEbhXrZAOzMEEs9gaU
-         JFMmwQyq/IBKaScnqaEKIEuMd6JD3PvTk1J7zBi85+uy0RV8QgAoV2ymJh0nVToaWQmW
-         pO46WSqezHct380+sQr7p7XfrojnmCb3wE2D+s08Ken75fh6oFSfZqiwmjrIAYiQszqF
-         3jKvXWqG3+CQXBwXgO94ZoEO6MGePtR29Yhoxgf2n2nUCiaCoHhd188q+MHVKkSO+fgy
-         HFpawiK4jxT1gXbpbFIvYkfiKBeZ4b4qPza67HFL1r0ySYKPlQKnNHVt/HBvb/Tx2LLM
-         ICeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZhuyItywL8dnIjbxpUCKZqnhY3Rj8J1fDBe80RQAjdY=;
-        fh=ROW4xkTDMHfBC4np4yWutJidnc/GJUxBnUHwix05S54=;
-        b=mGzL964d4rylsw7+BPx9O9ooppuq0mtzNOXI1Wyp8jV38nUjMHAq2XSYBDpHILk2On
-         J6IlJKf01/gMpZv+b1zqm3UhUNqB/vJ3mEO5ee6NmmhbX+212urN8paC3N1eyleRxm/J
-         k2rSkgKzDUxac8N+33XzEf3M1fO688TyTClJz1IJY4i2r9GtsFHTXWV5PJ5/+3X01N0N
-         blv6JTadbBeJlbnAfOGqN9jHUO8OO7CedAkEna8nEW5bkRrVurEYgdslhfhz/zpf/au3
-         eWq8uHcJzKzo4V2UeYvUeZNUMF4dLJOo9khPPHSzMeBKDDRmWqXIQH8kedeeyUgcLPt8
-         q8RQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=omnibond-com.20251104.gappssmtp.com; s=20251104; t=1786746507; x=1787351307; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZhuyItywL8dnIjbxpUCKZqnhY3Rj8J1fDBe80RQAjdY=;
-        b=PEE4AZYIchGZ2U9rG0NAEr7Gc0obnz5axpJJVhUrOuCCPSsBLR1r2RLO4vuA5qNFNV
-         HBkMeT9MDxECBvd7j6SB3pG/+LcGtW3+40h0srb3IETkjROWMOMUZyToq8RFAl+HCayS
-         wx+uw6kFpdAvLLzYm1oQqOiNLeZC1lpNiSqhWso/bsX77+KRQXWAATUd7Z3yjMmi1Nme
-         A8KK7Va/uJzubh6KrYmV9Dekp0Q63KMenVtZIM5ZwKbKf8mR6kfCbFTnVdWtiIWPYDML
-         sMFvQxLcgiDEotNtvqyBoHzC1RUxAAFdXKDKVAYGE4lnlj96YPxUfFJ2mvB1Iz4dhb5c
-         dhDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786746507; x=1787351307;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZhuyItywL8dnIjbxpUCKZqnhY3Rj8J1fDBe80RQAjdY=;
-        b=kCRCWdrZZUDfwhISplG5uy93akW6IYRmP7iPauEFIszK3AXB3pkDLnWfB7AmrXUyK0
-         y2Bl2htlI8zIJG26aalwRC3AVICi3oCbx8wyLiYLtIjWdINwWrRKtnGa/Rm1IJYWnc9w
-         EApr6Cz14VFY4LIHyBLNxAn4lI+fu0rZybzXzlJIYYyo2cHDOh88syFVKZCrvU7kx2MK
-         7HEKROfMUugW7ObTGKKUJlmNdqf9Dk68XbBNPRCiez3BmScfYm0q2oPoXr6mZiTNWEK+
-         G4p7Nfnprj+aGFB2ElRGWYr+iDhvYKUxBdZ2tFkqXKe95mzvUE3n0ZHxjyQ+latsijBD
-         eISg==
-X-Forwarded-Encrypted: i=1; AHgh+RobLDk0zY8mTQ8U3bihH7jvpty7BF1UrVmUjIGwCMqaKCy2g5bZXKZ3fdLEKu7pIYCxbbY8GTOS9BTnwcrD@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL+quZqo11zj5Iu7FdisjBkVT23/b2RXtMVOuBefm/sLU18SxZ
-	1EXwCqbIfUt/zWLSzKS/0o5XQjH7CMDEO9n3mXBCR3wyJJpIdDVUiyNsWpVNekkPMgP9tObEJ8g
-	ghYiyuftvEP5MfAQloSMe2WkswePSF5Rg3wN4tnkI
-X-Gm-Gg: AR+sD100JI9+95FknegbZy+CPHoi3dWCsPlvCkgyVGc4+xDEQBaYJGzE8tY6nep6BfO
-	QJq1WX4nnvYyoQyRaegM2WZTJdW6F4CexbJfXvVCPoAcIneIC4XfiArczTvWiOVRNV5OZQ+yACZ
-	UeKoVaY3ir+1ER62qWkICweegWCr63dldusO7p/hIollQAckZHKHByIlusEOSmYF7eQ9u21Q43d
-	9mIiBKvTWM0D3a4t/pn/wayhMdcMN6lV00yc1NlvLo+mqyClSM9ubaMaIodIhV1JoJyAWnLfoyZ
-	aBEig4M36yJYDHFWX1880mc1Y0tt0Mxicm1Xms+njiKfGp9MGLb/9mw9V00Pnq/X3do=
-X-Received: by 2002:a17:903:2384:b0:2cf:c543:2c7e with SMTP id
- d9443c01a7336-2d3b088651dmr124080485ad.10.1786746506689; Fri, 14 Aug 2026
- 15:28:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="nSdn1EKL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HGIMHqle"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 082A613802D3;
+	Fri, 14 Aug 2026 20:28:53 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 14 Aug 2026 20:28:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1786753733; x=1786760933; bh=o1aQLt2LpUGrKjGYOvTLlFvcRJJ/81F/gPY
+	p8FQi+3k=; b=nSdn1EKLriHb/2RhjTK0cVnbZ8IPk5rQcDeD8azatLHjlfr69xT
+	sT8lcvsByuamdXOvg2BGtbXVhXrMuRFNtBIwWVgmd4cfVoTd4zirM1bs7F30ZXio
+	AxRLJK5tMfRWgtUCkIyfUaPv9Twnq25W5/PK5v2TY5GdxZsdETK937XWlSrREFSz
+	ZkDwXiTfVfX2Klwo8+xTOcGYNCtNGm9n6maaFnqa7qMngoEaoSlXWflFFKCSoBe5
+	Eqp6WLfQzODbkolKOCA/9kcztSbIqwbb9yndmvOYTFjC7eyCfUEvUDrAobeT0YUv
+	rp0LRtFbgAqZobYbt2kiWyvrRrGNh5QGauQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786753733; x=
+	1786760933; bh=o1aQLt2LpUGrKjGYOvTLlFvcRJJ/81F/gPYp8FQi+3k=; b=H
+	GIMHqleYRAtYTzuNLHIW0VOhVR6exRSL7nZ5T5Dsz0cz6aOpHWsGICyl+pE3NR82
+	mco5ZnChpP8n+3LJf6/qgsplhBlic6kUvy/Zaj+ez0SDX4A0iIkOypwW+VgHGYvm
+	18iEVvspYmiC+YipF5gfBW+oaYwJ7HG3IiSJ/PfjfnckWpn+fEORTE0lIcTEv4Qs
+	3bdFzfAS4Hf0cvclf+FNTKMbnlgSYP7FkQjn5O/kSpM7CgrAQnUm2cyE5Rg09uyu
+	mjXGMd0kmzYCkJdl48Y0I5n1gkySyOAdSVII+Qq5qOD/dLgS4tSbRkkamGTSUfCO
+	vxOilKqKj0KjdiHcl7gDw==
+X-ME-Sender: <xms:w7J_ajsw_D4dIBSOuzcQo2vIV-l0PSNzPLLcLTsvnO-jNoJLh7hRHw>
+    <xme:w7J_amImdpjuHUPBRSOu2I3DiZ6OniA38JL7-r01735HNYLbk1iNdq7miXpg3pc1d
+    389oLC4p6psQQP09vx7NgqVCvWsvJxcpE3dX-zyICYTLDBQ>
+X-ME-Received: <xmr:w7J_aqMUIWzv8WujNwOgoY2jXshZ3oO24yqckHdHXdgTekXMRHGTPMIUPa3lB9oJdZelDVj9Mf4z-AnfxcZDP70iamDB0kE>
+X-ME-Proxy-Cause: dmFkZTGhRd+yp9NPun85awSEtfR1b0DaxVZ8t32qHaq72VOb+fKnQFTMpUjPKMl4oJ2dKy
+    gOjLZhbW40/d4Ulw989zBT19O3J56mT9sS5rxsWCiVTu8vRmTtWa2gwOxUu1coWL+kTsR7
+    zmF2Zwe8MZREiTR8u9Z6GHWp4ZVFB3oCWHEJwmE4AiUxVslFtexvzkQPYTNMBTOvixMRl7
+    ue9FrMhh+etRV4Q7GPmTxD6DxMmiIx05X6A8pvkrhWhpC72ojp0oZFmvkiTJo0YxlCrro+
+    pBmQzdu/NZkZsXqD0LSR3ezEgtdjawbAV6VACqf0UJlWIwTN1pZCdMHFEk1Ba5Wr/xoil5
+    m1ar3vXpRZiJADwZajrw72r3Yi5ZCzTqB7k41pfnjSsbzNYpwCgjpXbOdd4WWwcCTT6o8W
+    ckRtMXwxQkh/MABiNiJsZX0sPw+VI+Gu5u5eK3SgsQruwdV4O76AH74wjb5LS4M0UbB7uz
+    Yz/qOr55Gs9lBDTSyzfNPrw8WtWbkSaU7GkBesK5cMj+Ann5hn3m+a865CJHQ3aShv+zVQ
+    SoCyPbBmuJ5qcdP9a8T9exmbFYSAIkrrt//AWzz5nGeAOJoXNXZGoUHuUlGKOAGKHb+D8L
+    yvQ+67sZMYi+TmzVSaRGL4XEmltVRmq8SV3JJlLzwwfH65tiHhbT6fN/dtCg
+X-ME-Proxy: <xmx:w7J_aiAxU3yZcbvrk8wJkNME9XsrJoCBIhIovLvZmpIBD5p2p1V0mQ>
+    <xmx:w7J_aqUHe7vV58t_zchUPDraJXzCnvao8pQ0b5pYZcZc5fwOCtPvIg>
+    <xmx:w7J_amf-Pp8IZHxZhr00evSaKWknmXyDWl812zsr2QSqrXFQHkLSLA>
+    <xmx:w7J_arviLpY4ox76MBoGRvR8A0KiaJEUV6R6080rf-p8mlgAQldpwQ>
+    <xmx:xbJ_aoKkBl9MZquIyCaQj_jCvcp2KbVnRX6HidmH9i4ZggtUaLYvnJ_J>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 14 Aug 2026 20:28:45 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260809-orangefs-mkwrite-folio-v1-1-4978a4239475@columbia.edu> <CAOg9mSSHk0eswQ9BdD7K=jutwOXUhAgacnf0tPBRNa8GWCg0zA@mail.gmail.com>
-In-Reply-To: <CAOg9mSSHk0eswQ9BdD7K=jutwOXUhAgacnf0tPBRNa8GWCg0zA@mail.gmail.com>
-From: Mike Marshall <hubcap@omnibond.com>
-Date: Fri, 14 Aug 2026 18:28:15 -0400
-X-Gm-Features: AUfX_mzxpLvTNZmZSwX9zS1epwKkjVpK2EvjhHJdeh8C40zp27Ui0vZy_pjztwY
-Message-ID: <CAOg9mST1YRwbuRv-JKdOsOCdG963eSv77ACQheVeWNQ0PM_qKQ@mail.gmail.com>
-Subject: Re: [PATCH] orangefs: use folio_pos() and folio_size() in orangefs_page_mkwrite()
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, devel@lists.orangefs.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "Ian Kent" <raven@themaw.net>, "Chuck Lever" <cel@kernel.org>,
+ "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
+ fsnotify_recalc_mask() calls.
+In-reply-to: <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
+References: <20260803012648.2195405-1-neilb@ownmail.net>
+  <20260803012648.2195405-4-neilb@ownmail.net>
+  <CAJfpegs-k3skRGiwZvQLzD7OrAK4KL8zwmpmJKyjRHSQ-rqX+Q@mail.gmail.com>
+  <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
+Date: Sat, 15 Aug 2026 10:28:41 +1000
+Message-id: <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-This patch is in my linux-next, thanks!
+On Tue, 11 Aug 2026, NeilBrown wrote:
+> On Tue, 11 Aug 2026, Miklos Szeredi wrote:
+> > On Mon, 3 Aug 2026 at 03:39, NeilBrown <neilb@ownmail.net> wrote:
+> >=20
+> > > @@ -116,11 +117,15 @@ static int dnotify_handle_event(struct fsnotify_m=
+ark *inode_mark, u32 mask,
+> > >                 else {
+> > >                         *prev =3D dn->dn_next;
+> > >                         kmem_cache_free(dnotify_struct_cache, dn);
+> > > -                       dnotify_recalc_inode_mask(inode_mark);
+> > > +                       need_recalc =3D true;
+> > >                 }
+> > >         }
+> > >
+> > > +       if (need_recalc)
+> > > +               need_recalc =3D dnotify_recalc_inode_mask(inode_mark);
+> > >         spin_unlock(&inode_mark->lock);
+> > > +       if (need_recalc)
+> > > +               fsnotify_recalc_mask(inode_mark->connector);
+> >=20
+> > Is the fsnotify_group_lock() held in this case?   I don't see it.
+>=20
+> It isn't held.  Doesn't it need to be...
+> It seems to protect marks, so maybe it does.
+>=20
+> srcu seems to be used to protect this section, so maybe we can rely on
+> that.
 
--Mike
+I dug into this some more, and we do rely on srcu, but don't need the
+extra code below.
+inode_mark->lock doesn't protect inode_mark->connector, so moving the
+dereference out of the lock has no effect.
+srcu_read_lock is taken before we get the ref to the mark, so the mark
+and the connector cannot disappear underneath us.
+A race could result in inode_mark->connector reading as NULL, but
+fsnotify_recalc_mask() checks for NULL, so there is no risk for harm.
 
-On Mon, Aug 10, 2026 at 11:21=E2=80=AFAM Mike Marshall <hubcap@omnibond.com=
-> wrote:
->
-> Thanks! I'm trying to finish up some stuff to get on
-> linux-next in time, I'll let you know when I've run your
-> patch through xfstests...
->
-> -Mike
->
-> On Sun, Aug 9, 2026 at 4:07=E2=80=AFPM Tal Zussman <tz2294@columbia.edu> =
-wrote:
-> >
-> > orangefs_page_mkwrite() records the faulted range with
-> > page_offset(vmf->page) and PAGE_SIZE, although the write range it sets
-> > is attached to the folio and the rest of the function already operates
-> > on folios. Use folio_pos() and folio_size() instead. This gets rid of
-> > two calls to page_offset(), removing two calls to compound_head().
-> >
-> > No functional change. orangefs folios are always order-0, so the values
-> > are identical. However, if orangefs ever enables large folios, this
-> > change is necessary for correctness with the current write range
-> > tracking scheme. Tracking only a single page of a larger folio would
-> > leave the rest of the folio's dirty data outside the range that gets
-> > written back, leading to data loss.
-> >
-> > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-> > ---
-> >  fs/orangefs/inode.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/orangefs/inode.c b/fs/orangefs/inode.c
-> > index 7143b64b5b25..cd3273c88e03 100644
-> > --- a/fs/orangefs/inode.c
-> > +++ b/fs/orangefs/inode.c
-> > @@ -652,8 +652,8 @@ vm_fault_t orangefs_page_mkwrite(struct vm_fault *v=
-mf)
-> >                 wr =3D folio_get_private(folio);
-> >                 if (uid_eq(wr->uid, current_fsuid()) &&
-> >                     gid_eq(wr->gid, current_fsgid())) {
-> > -                       wr->pos =3D page_offset(vmf->page);
-> > -                       wr->len =3D PAGE_SIZE;
-> > +                       wr->pos =3D folio_pos(folio);
-> > +                       wr->len =3D folio_size(folio);
-> >                         goto okay;
-> >                 } else {
-> >                         if (orangefs_launder_folio(folio)) {
-> > @@ -667,8 +667,8 @@ vm_fault_t orangefs_page_mkwrite(struct vm_fault *v=
-mf)
-> >                 ret =3D VM_FAULT_LOCKED|VM_FAULT_RETRY;
-> >                 goto out;
-> >         }
-> > -       wr->pos =3D page_offset(vmf->page);
-> > -       wr->len =3D PAGE_SIZE;
-> > +       wr->pos =3D folio_pos(folio);
-> > +       wr->len =3D folio_size(folio);
-> >         wr->uid =3D current_fsuid();
-> >         wr->gid =3D current_fsgid();
-> >         folio_attach_private(folio, wr);
-> >
-> > ---
-> > base-commit: 075b74841bd0065a3bda3440873c747938e69b68
-> > change-id: 20260809-orangefs-mkwrite-folio-ec562f7625b4
-> >
-> > Best regards,
-> > --
-> > Tal Zussman <tz2294@columbia.edu>
-> >
+Thanks for encouraging me to dig into this.
+
+NeilBrown
+
+> Maybe:
+>=20
+> diff --git a/fs/notify/dnotify/dnotify.c b/fs/notify/dnotify/dnotify.c
+> index 7553fe0d7850..ba746284bded 100644
+> --- a/fs/notify/dnotify/dnotify.c
+> +++ b/fs/notify/dnotify/dnotify.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/spinlock.h>
+>  #include <linux/slab.h>
+>  #include <linux/fsnotify_backend.h>
+> +#include "../fsnotify.h"
+> =20
+>  static int dir_notify_enable __read_mostly =3D 1;
+>  #ifdef CONFIG_SYSCTL
+> @@ -94,6 +95,7 @@ static int dnotify_handle_event(struct fsnotify_mark *ino=
+de_mark, u32 mask,
+>  	struct dnotify_struct *dn;
+>  	struct dnotify_struct **prev;
+>  	struct fown_struct *fown;
+> +	struct fsnotify_mark_connector *conn;
+>  	bool need_recalc =3D false;
+>  	__u32 test_mask =3D mask & ~FS_EVENT_ON_CHILD;
+> =20
+> @@ -123,9 +125,10 @@ static int dnotify_handle_event(struct fsnotify_mark *=
+inode_mark, u32 mask,
+> =20
+>  	if (need_recalc)
+>  		need_recalc =3D dnotify_recalc_inode_mask(inode_mark);
+> +	conn =3D srcu_dereference(inode_mark->connector, &fsnotify_mark_srcu);
+>  	spin_unlock(&inode_mark->lock);
+>  	if (need_recalc)
+> -		fsnotify_recalc_mask(inode_mark->connector);
+> +		fsnotify_recalc_mask(conn);
+> =20
+>  	return 0;
+>  }
+>=20
+> Does that make sense?
+>=20
+> Thanks,
+> NeilBrown
+>=20
+>=20
+
