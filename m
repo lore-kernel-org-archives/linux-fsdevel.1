@@ -1,143 +1,102 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEBC3115A2
-	for <linux-fsdevel@vger.kernel.org>; Sun, 16 Aug 2026 06:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC41F345EBA;
+	Sun, 16 Aug 2026 12:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786862785; cv=none; b=GE7UJbsGCjtuA3wQBnWrtjl6Wzn7GHUnE8HgmGrtz5mtnAEDgJbkwlmFZjGCtegk7C/zPQUwxu4QMo2oYDHEPbWxZbY5Rtq++sixzQjCEpUUfa6oL39g7IwcNUXMHBTDlBtYqG3t7YlM/nYgs6QoJRsUHG9Oj8H2VO5T57dymu0=
+	t=1786882422; cv=none; b=h3iBtymWi5Gi8xRJgqXmkfztozOp909+iSDnhDwmEpXu2Z3YKak+08v2PpB+sEVpbONmYrsGouy7cKmqwKv4Dq4ZwB/6FpSPj/9s9W10tKbQjnXO//shprXHvD0xDmgWQupEp8vuekJhIMEoUF8s2EXLENHbJ3zh/BKltaEJUqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786862785; c=relaxed/simple;
-	bh=cBDHEsWTeBXksJ9c9vlKC2mJbZdiQ2DN9v4xr3gB+Iw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=u2dyaRZAXEDGtiqBSfRrPkurEr5lQ0ofUjndRqC+jA525PW5j4MnS9OAL3gR3UhT2c6ojv8WjYQpGuDYO753rufbbkYBB85pxfuox+sQaYYRh4d93RKksNQxBK3qlKQBQVv5SUUv4hod18YUKED9D8zdDqU8SBrE2t6MbbwaudU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-49aa4525b82so2749171b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 15 Aug 2026 23:46:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786862783; x=1787467583;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xV4687rTqE9lsdbqyMEI9ZU2c9fh9f4443PgN01nqtg=;
-        b=HjUl0O1CbRZLBROn9GWg3bwreM4pDqKQw1325/vc3/j3p9pzI/xw5dQe8td/DvRqRA
-         /DrYxv4BujVQSwNoy3UFUV08FYr/QvVtPk+dtl3z+ZYEGForJQyYJSjFeGMW93zm/yDz
-         ZJmsSeCnQRP5gXjzgkgoVmvMJsbQRiCu7bRAGNEUaZ0umj3vueFlk2ACxw7zRlxSZDp5
-         Lrqh/Ksoq5yCWza+xeWPpsMXehoaEAHQ/VdhPmrV+ImpNpA+mmEed4JJwqOTUgs+8oEU
-         yTUjTTUV1c+hzw9IPvZEpUWmzjEQuIAj8Wrvj0f5PNX5QEn+dgFecvmsiSUvUM7FMJyU
-         U2ZA==
-X-Forwarded-Encrypted: i=1; AHgh+RqHH3vUe/mjGaejsyUo0CihEeTqzyBB2QNOotf7wbfCaBvCOMxMDcgmS1ChKaKl+niyTp1tXLNzp7Ti9Orf@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSeRUnITZBQAEFPsn58wOul8ILTrngrvkwe6bgvy0s1knuKbxF
-	TYgrWE+YQMYaXvI6U4NoDSK0tSHGBbLkfw9fqAdH6mc2Hj3pAY3gR9GA5yHXV0FoKx2lF/S8Ksu
-	tpRpSWWVKmldCphZ0XKYb8rDxULDSao/6PpgTn14v7y7vi8qg8ahOB277mqg=
+	s=arc-20240116; t=1786882422; c=relaxed/simple;
+	bh=Cn0zUN/hrMLQAPmuNzHmIPISGC8g6oolk9qIb89TBIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtSoVFvUMKEZZI0ZBhQHE3Vwz8fvfHH9N0T+t2d9mJtRxxSeppHD8m0x13vIRDfxgPvOSkjwpzdiSFl8BWU4xFSiYho3PCRuOH7UxHegFCXBGgHOE1VKYBd/h4dMJHKXqM4yTlkqlGchj0t7qpIwX8aJ2s1nXt1+dYlNjl9TouU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout1.hostsharing.net (Postfix) with ESMTPS id 91A983BD;
+	Sun, 16 Aug 2026 14:13:37 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 61BAE629CE27; Sun, 16 Aug 2026 14:13:37 +0200 (CEST)
+Date: Sun, 16 Aug 2026 14:13:37 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <contact@jaseg.de>
+Cc: Baoquan He <baoquan.he@linux.dev>,
+	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Ignat Korchagin <ignat@linux.win>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
+ before kdump
+Message-ID: <aoGpcczo5GkBsPwt@wunner.de>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
+ <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
+ <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:f0d:b0:497:da7f:179a with SMTP id
- 5614622812f47-4b241f43193mr15366086b6e.21.1786862783012; Sat, 15 Aug 2026
- 23:46:23 -0700 (PDT)
-Date: Sat, 15 Aug 2026 23:46:22 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a815cbe.f7a79266.2f965f.000e.GAE@google.com>
-Subject: [syzbot] [exfat?] KCSAN: data-race in copy_folio_from_iter_atomic / fat_add_entries
-From: syzbot <syzbot+f72da8b30ddc89cc2371@syzkaller.appspotmail.com>
-To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
 
-Hello,
+On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
+> I can imagine one alternative way to approach this, tell me what you think:
+> Instead of registering wipe handlers that memzero places on panic, I could
+> put an optional registry of (addr, len) descriptors into crashkernel memory
+> that the original kernel populates with the PAs of buffers to clear ahead of
+> time. Then the kdump kernel could do the actual memzero. This would remove
+> all code from the actual kdump path here. The registry could be made
+> per-core to avoid locks.
 
-syzbot found the following issue on:
+Or create a dedicated mempool from which all sensitive data is allocated,
+then call mempool_free_bulk() on kexec to poison everything in that pool?
 
-HEAD commit:    3eb40771c00a Merge tag 'soc-fixes-7.2-3' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=108a9a79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e71a508528491732
-dashboard link: https://syzkaller.appspot.com/bug?extid=f72da8b30ddc89cc2371
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+Thanks,
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b72e40f7d2c6/disk-3eb40771.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/19423dd4d544/vmlinux-3eb40771.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/08b66d3a6723/bzImage-3eb40771.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f72da8b30ddc89cc2371@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KCSAN: data-race in copy_folio_from_iter_atomic / fat_add_entries
-
-write to 0xffff8881090508c0 of 32 bytes by task 4733 on cpu 1:
- fat_add_entries+0x7d8/0x11c0 fs/fat/dir.c:1409
- msdos_add_entry+0x1a2/0x270 fs/fat/namei_msdos.c:250
- msdos_create+0x205/0x350 fs/fat/namei_msdos.c:289
- lookup_open fs/namei.c:4508 [inline]
- open_last_lookups fs/namei.c:4608 [inline]
- path_openat+0xcfb/0x2000 fs/namei.c:4860
- do_file_open+0x16c/0x290 fs/namei.c:4892
- do_sys_openat2+0xa0/0x130 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0xf2/0x120 fs/open.c:1385
- x64_sys_call+0x1e39/0x3020 arch/x86/include/generated/asm/syscalls_64.h:258
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x136/0x3c0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-read to 0xffff888109050800 of 2048 bytes by task 40 on cpu 0:
- memcpy_from_iter lib/iov_iter.c:85 [inline]
- iterate_bvec include/linux/iov_iter.h:123 [inline]
- iterate_and_advance2 include/linux/iov_iter.h:306 [inline]
- iterate_and_advance include/linux/iov_iter.h:330 [inline]
- __copy_from_iter lib/iov_iter.c:261 [inline]
- copy_folio_from_iter_atomic+0x728/0x10a0 lib/iov_iter.c:491
- generic_perform_write+0x2c4/0x490 mm/filemap.c:4382
- shmem_file_write_iter+0xc5/0xf0 mm/shmem.c:3424
- lo_rw_aio+0x6a9/0x760 drivers/block/loop.c:-1
- do_req_filebacked drivers/block/loop.c:-1 [inline]
- loop_handle_cmd drivers/block/loop.c:1917 [inline]
- loop_process_work+0x567/0xac0 drivers/block/loop.c:1952
- loop_workfn+0x31/0x40 drivers/block/loop.c:1976
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0x4d4/0x9a0 kernel/workqueue.c:3405
- worker_thread+0x569/0x750 kernel/workqueue.c:3486
- kthread+0x221/0x270 kernel/kthread.c:436
- ret_from_fork+0x146/0x330 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Reported by Kernel Concurrency Sanitizer on:
-CPU: 0 UID: 0 PID: 40 Comm: kworker/u8:2 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: loop4 loop_workfn
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Lukas
