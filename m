@@ -1,102 +1,83 @@
-Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC41F345EBA;
-	Sun, 16 Aug 2026 12:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9BC3CC7CC
+	for <linux-fsdevel@vger.kernel.org>; Sun, 16 Aug 2026 19:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786882422; cv=none; b=h3iBtymWi5Gi8xRJgqXmkfztozOp909+iSDnhDwmEpXu2Z3YKak+08v2PpB+sEVpbONmYrsGouy7cKmqwKv4Dq4ZwB/6FpSPj/9s9W10tKbQjnXO//shprXHvD0xDmgWQupEp8vuekJhIMEoUF8s2EXLENHbJ3zh/BKltaEJUqg=
+	t=1786909205; cv=none; b=tJmzM2dX3p+rsCnbU5HlBwvri+kp/B0hdF9SqEFqomoNREVWWi1MixcFPsXFwnAui2SNDWZDB6By1O3exBMdtfcuJ1OvZ8grXBa/gIGdKs4fOCV4DVth5jF5eUc6czsrFMDwbKbqRYkugoHdyp76YSgY7wa81SomnEFO+tv1TaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786882422; c=relaxed/simple;
-	bh=Cn0zUN/hrMLQAPmuNzHmIPISGC8g6oolk9qIb89TBIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AtSoVFvUMKEZZI0ZBhQHE3Vwz8fvfHH9N0T+t2d9mJtRxxSeppHD8m0x13vIRDfxgPvOSkjwpzdiSFl8BWU4xFSiYho3PCRuOH7UxHegFCXBGgHOE1VKYBd/h4dMJHKXqM4yTlkqlGchj0t7qpIwX8aJ2s1nXt1+dYlNjl9TouU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout1.hostsharing.net (Postfix) with ESMTPS id 91A983BD;
-	Sun, 16 Aug 2026 14:13:37 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 61BAE629CE27; Sun, 16 Aug 2026 14:13:37 +0200 (CEST)
-Date: Sun, 16 Aug 2026 14:13:37 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <contact@jaseg.de>
-Cc: Baoquan He <baoquan.he@linux.dev>,
-	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	dm-devel@lists.linux.dev
-Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
- before kdump
-Message-ID: <aoGpcczo5GkBsPwt@wunner.de>
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
- <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
- <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
+	s=arc-20240116; t=1786909205; c=relaxed/simple;
+	bh=nnRX6cRKee4h9GIK0oORHJKfN1pNQMugt1gX033rQYc=;
+	h=To:cc:From:Subject:Date:Message-ID; b=UR1Zi04+XcmyAZnvNyzAnAH7ILab8iO4MrFXORoZH5f5w3glIkczIx4eeSwT41ZfAZes3GsTBnPvZj2oR+qNMOs3e4iKZT7gpZd/HUuxooi0M4qPn5nvBs8gYiwDTtxOYcrkl6I1ZZhs/qnuuP+4p1GGW7Pc6o8Y/XAdS94MMKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b=Pb1Spnrq; arc=none smtp.client-ip=128.30.2.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b="Pb1Spnrq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=outgoing.csail.mit.edu; s=test20231205; h=Message-ID:Date:Subject:Reply-To:
+	From:cc:To:Sender:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=7wcfkTKq6uwadqzYMKduj6FU+uY4hjjrru0y8vo0mkU=; t=1786909203; x=1787773203; 
+	b=Pb1Spnrq599JsomoJa8KVXvpWfRK+Vm/7VwKBrYfYs5bxPJd26e3SH3DP8U18CjD6bmtxMkIt5i
+	ZKinUx8kJAcmiDc6Gx4WnhWL6IC7S0kVo6CLNbgJUVPpVERuHadCeCUL02sbrdoKtpjWaVhZ6BU/t
+	qWCXbFusJZNMWvw8B37v5wjeh9rsjkUJ5XS5do8huYL+g3WlDBrh6xDjK2TtnRFn0Qx7xXcPMGrhx
+	rbVXYTH+4mudyVhAPoT0curoEKcNfoX5xY8QMZcM9yf7OpQNeBfGv1kg18rerTs3J5X8HGfLtG0Hn
+	b4ZVsxQ5K0kl4TImxLF9nD19pmgV5T3wC0Ng==;
+Received: from c-24-60-177-128.hsd1.ma.comcast.net ([24.60.177.128] helo=crash.local)
+	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <rtm@csail.mit.edu>)
+	id 1wvgBa-005mJu-S6;
+	Sun, 16 Aug 2026 15:06:22 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by crash.local (Postfix) with ESMTP id 4204C3BC6EF8;
+	Sun, 16 Aug 2026 15:06:22 -0400 (EDT)
+To: Namjae Jeon <linkinjeon@kernel.org>,
+    Hyunchul Lee <hyc.lee@gmail.com>
+cc: linux-fsdevel@vger.kernel.org
+From: rtm@csail.mit.edu
+Reply-To: rtm@csail.mit.edu
+Subject: red zone violation in ntfs_runlists_merge()
+Date: Sun, 16 Aug 2026 15:06:22 -0400
+Message-ID: <9519.1786907182@localhost>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
 
-On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
-> I can imagine one alternative way to approach this, tell me what you think:
-> Instead of registering wipe handlers that memzero places on panic, I could
-> put an optional registry of (addr, len) descriptors into crashkernel memory
-> that the original kernel populates with the PAs of buffers to clear ahead of
-> time. Then the kdump kernel could do the actual memzero. This would remove
-> all code from the actual kdump path here. The registry could be made
-> per-core to avoid locks.
+The following mounts a corrupt NTFS image that produces a red zone
+violation:
 
-Or create a dedicated mempool from which all sensitive data is allocated,
-then call mempool_free_bulk() on kexec to poison everything in that pool?
+# uname -a
+Linux xxx 7.2.0-rc7-00016-g3d6d817622b0 #40 SMP PREEMPT_DYNAMIC Wed Aug 12 13:01:40 EDT 2026 x86_64 x86_64 x86_64 GNU/Linux
+# wget http://www.rtmrtm.org/rtm/ntfs2b.img.gz
+# gunzip ntfs2b.img.gz
+mount -t ntfs -o loop ntfs2b.img /mnt
+[Right Redzone overwritten] 0xffff888100321300-0xffff888100321307 @offset=4864. 
+...
 
-Thanks,
+The overrun occurs in the last three lines of this code in
+ntfs_runlists_merge():
 
-Lukas
+                        drl[ds].length = marker_vcn - drl[ds].vcn;
+                        /* Finally add the ENOENT terminator. */
+                        ds++;
+                        if (!slots) {
+                                drl = ntfs_rl_realloc_nofail(drl, ds, ds + 1);
+                                rtm_check(drl);
+                                *new_rl_count += 1;
+                        }
+                        drl[ds].vcn = marker_vcn;
+                        drl[ds].lcn = LCN_ENOENT;
+                        drl[ds].length = (s64)0;
+
+After the ds++, ds is too large, but slots == 1.
+
+Robert Morris
+rtm@mit.edu
+
