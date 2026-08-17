@@ -1,158 +1,144 @@
-Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968AB3C1D44
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 08:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E308C3C584A;
+	Mon, 17 Aug 2026 09:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786955128; cv=none; b=szZGdmCGlqwQ2OV7cseGy6yoOSl/+Y8/+ME5/NFFvVrLs5wwBRCO0/kALOcVvE5Mcuj0NMvP3OYt3YHCNAy2qAXgPmpA99BT06odcDt+Tz0+fmx5MzXq06aUj5MwDMiR4OJJbGw1IpdtCPMwS5mi7UJUmceR/G8+CMBkUCPY9nw=
+	t=1786957667; cv=none; b=uS97pgpDhHm0Xt1ZwXbozIlIPICVGuxLNdh2+PvX8Oj1rE5knkv/2At8ggGptQWihZk3uvNUM5OYMw3Ix2Hhe8WnktFiYKUKFATcX6RzHvXkTZv+5ht0HaCGekExeoVrD1vAskP2qvIS86CqBKdzwvHoRIIVkF5lIJwyUrQEmCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786955128; c=relaxed/simple;
-	bh=eYNadUi07A8AhvVYvTwlB5KEurgeLlJSPKo7wDdWLLE=;
+	s=arc-20240116; t=1786957667; c=relaxed/simple;
+	bh=yuM7Pc9ufTXn9qOIvN/26Y3rOIQ+uSq7I6+Q+2GsoWA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T/Ztw45pDyKkurxsvDw2nF6MFli39Vuxft0/8xvqcx9WlCMRkQmSc+LzXEPpnXQS2jBNjSPK6MZhWKxPmZZ8DPicYDsT0A9ge9f55u41RfqAMskxpuFeca7j97MnJih5XwFQ7NnVLtyJb2pcksssi4i/+HmlBhVbMY697uvmDBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jnHfLC3P; arc=none smtp.client-ip=91.218.175.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=sS3CN1dsQPVegZmjSJKhm3HsB2XoM8koGxRIqk91hNzWAFJBdhA2DI58oqfw9rIjKhQe5jZZBs7ckVTfo8yQOmDO6OqE/c2rpu8XZtkpMA8UgEcHmykRjzrNUJUtdGxaZ99PTUP73DXYK+YJollrwIQH2KKBr4Nfzw2pwXhWx9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RuePoHOo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jnHfLC3P"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=eYNadUi07A8AhvVYvTwlB5KEurgeLlJSPKo7wDdWLLE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786955121; v=1; x=1787559921;
- b=jnHfLC3PV6QWrSqAD9Vwz88xajDFnlL6wGea8uf9PXHoCqwxzS6yolQuxsJc9I//3HGkpJV5
- +DulCpIsAup79SbskKzncTzaw0YDOMZfIUAD0Vc9AQqvPBlVqxo6tHvaC6dzEZfasQjzqhhuCOp
- oR9fCJzSs/keqheDImYvTTH4=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: from localhost (3.112.29.171)
-	by mta10.migadu.com with ESMTPS id 5d0fb72b720b7f63;
-	Mon, 17 Aug 2026 08:25:17 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 17 Aug 2026 16:25:14 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Lukas Wunner <lukas@wunner.de>,
-	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <contact@jaseg.de>
-Cc: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	dm-devel@lists.linux.dev
-Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
- before kdump
-Message-ID: <aoLFai0gzzH2bGgy@MiWiFi-R3L-srv>
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
- <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
- <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
- <aoGpcczo5GkBsPwt@wunner.de>
- <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuePoHOo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA821F000E9;
+	Mon, 17 Aug 2026 09:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786957665;
+	bh=xwGT5tJCo6zhs0YfuUdogV7G+8vkarwnSczPrBXPfrU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RuePoHOojFgF5YA2p4N4ykmdSI2kKb6EKvHaGYqoxDMQU8fszmikh/RvRAnq7eXgp
+	 x5RJFQrpG4qQVidpeDYeq33iMD6qVdzIo4+6ZyF3ltKZBpmwF6yuU3BmgOxs/YN/NV
+	 pF/z6YRnNFI1xX9NjDRohIIHLaPTlVy3QxaqQnwOVZTP/Yj9I0V5KoXvma9leCGhkP
+	 MfUBXT+7XlYE2cAJYn64OUPAjK33AZACIF0nfH6h8J8PLWaFmnRKg9tQGp83ezaSVs
+	 v1DXQZcXLpfo0QtEtnwoy4z6qBF+R3Qi+JiAvTsXTpbhQZNchBVIy4ElI6/1V4IqnH
+	 kEwcjE0tJjq5g==
+Date: Mon, 17 Aug 2026 11:07:38 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>
+Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
+Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
+Message-ID: <aoLOb0tixHee3AkZ@debian>
+References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ar2etpy3xot6qf2d"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
+In-Reply-To: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
 
-On 08/17/26 at 03:38pm, Baoquan He wrote:
-> On 08/16/26 at 02:13pm, Lukas Wunner wrote:
-> > On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
-> > > I can imagine one alternative way to approach this, tell me what you think:
-> > > Instead of registering wipe handlers that memzero places on panic, I could
-> > > put an optional registry of (addr, len) descriptors into crashkernel memory
-> > > that the original kernel populates with the PAs of buffers to clear ahead of
-> > > time. Then the kdump kernel could do the actual memzero. This would remove
-> > > all code from the actual kdump path here. The registry could be made
-> > > per-core to avoid locks.
 
-If this has to be done in kernel, your (addr, len) registry idea is a
-better direction, and we can make it a bit more general.
+--ar2etpy3xot6qf2d
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>
+Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
+Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
+Message-ID: <aoLOb0tixHee3AkZ@debian>
+References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
 
-Instead of a secrets-only wipe registry, consider a small "crash memory
-region" table with an action per entry:
+Hi Bhavik, Josef,
 
-enum crash_region_action {
-    CRASH_REG_WIPE,   /* memzero, then dump normally (leave zeros) */
-    CRASH_REG_SKIP,   /* do not include in the vmcore at all */
-};
+> Date: 2026-08-15 13:15:26+0530
+> From: Bhavik Sachdev <b.sachdev1904@gmail.com>
+>
+> flags argument is an unsigned int not an unsigned long [1].
+>=20
+> [1]:
+> <https://github.com/torvalds/linux/blob/master/fs/namespace.c#L5961>
 
-struct crash_region {
-    phys_addr_t addr;
-    size_t      len;
-    enum crash_region_action action;
-};
+Thanks!
 
-void crash_reg_add(phys_addr_t addr, size_t len,
-                   enum crash_region_action action);
-void crash_reg_del(phys_addr_t addr, size_t len);
+> Fixes: c011cc992510 (2024-07-09; "statmount.2: Add page")
 
-Two actions because the use cases differ:
+Please CC the people involved in that commit.  (I've done it now.)
 
-- WIPE is what you need: zero the secret, 
-- SKIP covers things people do not want in the dump at all
-   — Registering as SKIP reduce dump size. I have been considering how
-     to shrink vmcore size on some big system with huge memory, the
-     vmcore size usually is several or tens of GB.
+> Signed-off-by: Bhavik Sachdev <b.sachdev1904@gmail.com>
+> ---
+>  man/man2/statmount.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man/man2/statmount.2 b/man/man2/statmount.2
+> index b6d9dc2a1..a365002dd 100644
+> --- a/man/man2/statmount.2
+> +++ b/man/man2/statmount.2
+> @@ -16,7 +16,7 @@ Standard C library
+>  .P
+>  .BI "int syscall(SYS_statmount, struct mnt_id_req *" req ,
+>  .BI "            struct statmount *" smbuf ", size_t " bufsize ,
+> -.BI "            unsigned long " flags );
+> +.BI "            unsigned int " flags );
 
-If this is OK to you, you can start a regiestry table
-infrastructure with wiping secrets, we can add SKIP later and plus some
-driver used memory.
+LGTM.
 
-I am not sure if it's satisfactory, but you can give it a shot to show
-what it looks like.
+$ grepc -tfld statmount . | head -n4
+=2E/fs/namespace.c:SYSCALL_DEFINE4(statmount, const struct mnt_id_req __use=
+r *, req,
+		struct statmount __user *, buf, size_t, bufsize,
+		unsigned int, flags)
+{
 
-Thanks
-Baoquan
 
-> 
-> Since there are a lot of security expert in CC, I am wondering what's
-> the risk if we wipe secrets during dumping. System is located in
-> user's place, and vmcore is dumped and collected in user's place. If we
-> filter out secrets memory when we dumping, what could be leaked out?
-> 
-> > 
-> > Or create a dedicated mempool from which all sensitive data is allocated,
-> > then call mempool_free_bulk() on kexec to poison everything in that pool?
-> > 
-> > Thanks,
-> > 
-> > Lukas
+Josef, was it just a typo, or is there anything that needs checking?
+
+
+Have a lovely day!
+Alex
+
+>  .P
+>  .B #include <linux/mount.h>
+>  .fi
+> --=20
+> 2.53.0
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--ar2etpy3xot6qf2d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqCz1oACgkQ64mZXMKQ
+wqkHEw//e6snaLK/8FrcBF5CzGW2CldFqAHQsDCGSHKUd9OCV34jy5h2PL6YMS34
+VDlgKLvAMRHS0hJnJbgtudGAEEgNRHYwWHDqLZXyeL7q+vAmhp9lUUTBFe1FlGLt
+KUIXC/U2o9tUtCJDGargmYCII9GyUs63+fhgJbCZut01r0x2K5ec1KzyDLnK30am
+onHfBZ6u6uj62tq1PPtg8fdrqxqbRZkUw8uU9Fl4lpb4cZz4ZcHTKNrYM0caebnC
+hIttdlANhUetugsA84htE1/diQiPMcaQ8+1Y6c8qMQxvWt7hNrHpBexvoWg1vAL6
+uIL5vrlPx1vPOaQeblbXnt6OtpO99mooGj+AwvMF95yLPHgGHBsFhYA9HaFrvvsy
+0hXpNnFi0x5au0k72UH+BMvoWp9BRMoKRHpra8o4hw/fwRKs5u3azNPPaHaAa3+q
+lpki2li7wALzIbI6edrWAIdi/VLshne9+26fqsuSUYdKl2QSy2dH6IpaOKsxGY1l
+hdNYQ9aPpYzLz90ly/8+pD0AjIcp9Kndq9unWotv6B7UM82yzlnlfwS204XNC5eL
+At6dD4+YwdLkQcPlf4wyKNrmbEvoVJPKHtPBthNaBUbm7R+HO+Fcjn395aSnRNEL
+mDMlQ229Vcij2DwKttDK2+R2i3fKK7Ef5SeRGr8rQ+bVlAa7AU4=
+=S4v5
+-----END PGP SIGNATURE-----
+
+--ar2etpy3xot6qf2d--
