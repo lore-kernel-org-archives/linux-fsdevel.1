@@ -1,88 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6DE44CF59;
-	Mon, 17 Aug 2026 16:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF4439F89;
+	Mon, 17 Aug 2026 16:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786983780; cv=none; b=i8roA7160fcLLBiifSCCxQ7RUS4QWP7wRqtGKn8vc/rgo8f+3Bnk1vvLuzwew5fu7e2aQQV/ITeCQkrTVXQWIludNubeWqnHdu031m681LIL8hdQYi67F9HIbVdMyIboQCCMywzkPX1Wf1cn+4jHY6ehPcRBjaXYfNsIrO+Bu6k=
+	t=1786985320; cv=none; b=MFBBdesSzGYo5RrhFjzQI9H0PUo/1SB1Lvk2Mtfo+3R2Di8OnbJzDKFKlXPN4QTv5UFDI+dGh/w8uu7lGWTPeybQo0nTGuTdF+Kmf1z05CIQKy8qoqACrojC3jbqldR7g2F4Zy7Mcd50gAOiP2utB6mzo3PY/hCLWdH9dsgiuWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786983780; c=relaxed/simple;
-	bh=yB50sGtNEPaJJyZ+6RWhkJi24/OJD+QHuHwOuLtXl50=;
+	s=arc-20240116; t=1786985320; c=relaxed/simple;
+	bh=GZkohxpiTondKOXydUIjDw/BMv4TECtdXXUHQYxiVMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=epepajp5OgEH5X1H+9XbCSBBcKpYNDj/C6T5O6h4QIQ038hDQAE2Oo/CNBcuRCygYy711C69oPpD92sw7zphSQYB9ecQi3X/JavRWo1yLvKenihfECOS08IY+G/gZg6Sr0pcU6hcuYBsQPPwpBN8hOFZhodulP0sSn/uaSIJ+sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9lEqKNY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nc8Hgt6v; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1KN4OFxU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lvZ+d9ee; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oc5m8EBjR2vUv2s3hgQfSnOEIV+Oeiyh0glhdPLUoorFpUdxxZQPKnRFXYB3LGzFrK7OE/d0MFqJSGHeCnUSF5u/KxisSRfk1B+9oNZbfcDhYWDWPb3J8jOVbCbQ6ijLUkrlCsO+B1ll+qfJink5yHtYvHX0ojEvzYofCDgQmSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eh4wirmh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=x/a5xipD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0OOXJSPA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RT94AgWl; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9lEqKNY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nc8Hgt6v";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1KN4OFxU";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lvZ+d9ee"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eh4wirmh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="x/a5xipD";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0OOXJSPA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RT94AgWl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ECFCD840A1;
-	Mon, 17 Aug 2026 16:22:46 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 03366840BC;
+	Mon, 17 Aug 2026 16:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786983771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786985313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
-	b=M9lEqKNYcNJeMlimzADwxfUN4Iuo8u1M5qZ1lTJs3quXNwBeUKx2NTgUTgS8gU//7f5KQe
-	fOY9tOjPW0xPTdA9Ji7vIhNgInEWFVTziRjFAjTddLfdyVYXf0yOjFJbVILUYFR3SNGUAy
-	ZUuOgKX9Zcec18Pbf66YNXV7DFrLQ/Y=
+	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
+	b=Eh4wirmhcatW88qg37SQqCKT4u6kSfztchn54o9nW/VyKqNgizumXLKO+CRy+7MidtwIWW
+	iMtl+3/EeWgvvGAY974PBfD+rNUfIsWW5rSf89ITMqSgrvtCm3dYGw6MBdNaMqvVlxtVAz
+	xEKaIO823UqlNHyQSwojB7qs+ixG408=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786983771;
+	s=susede2_ed25519; t=1786985313;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
-	b=nc8Hgt6vxy+kjbV35GgFuIzIg1ehEZBvexsuSDvHdnYPCBTMM0v4L26sjFuZ87li6F9oe4
-	qG4/HxkDWdPF8+AQ==
+	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
+	b=x/a5xipDgyFLGvK6XE/nRtUc6MTEfeJ1/+o4af+1OqxzVZmDb8ZQ8DwU9uAjSjq7x4afuC
+	ihcWoR0RulW0bRBw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=1KN4OFxU;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=lvZ+d9ee
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786983767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786985309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
-	b=1KN4OFxU2Rl6wuR6tZ+d5x7TcGnuYjUAcsDSxKkQypGZPQOKTPqnI4H07BGKHtuGkIIt+K
-	pHsL+CnR1CkAv/nsRiRo1Mralp+pjKdAiwKuHU1WcgzP3MFeqTM4/s6OLqwQxS4hEONSLU
-	iUa5063guwOJLY4U+nfpn0WgMc4qs8Q=
+	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
+	b=0OOXJSPABxSA44ExlLIczk02MA3Z2jPvtNH8h14C6N+eyYK9PKpDg4moQg+kI5qp5iuv8K
+	plU9ims/KnCKnsjizeg3dSdGtAuLcgzB9qBVuwgNItwLnaE+wmTu+8eO7ffBf9QqiZ64VG
+	VYXQFK/6uFSDVrj25rF6p03NAbmAZPw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786983767;
+	s=susede2_ed25519; t=1786985309;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
-	b=lvZ+d9eehGsD2WHxLtIdIgKyKG8tyrLQzC17UozcWpwcq4D0KPVpVxo8FzdfzNZj9FSa3N
-	1b6EKMjbip6JbPDA==
+	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
+	b=RT94AgWlmYM9MlGg6BqMycisJT2UJTpR5HSuvHhxMNdPB4qGhLwSRoaR1kHpU2aRjkTf9q
+	UYTsjD68+tbEmEBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5D8E7955E;
-	Mon, 17 Aug 2026 16:22:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E181C79577;
+	Mon, 17 Aug 2026 16:48:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rpcTOFY1g2rndAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 16:22:46 +0000
+	id kqKiNlw7g2ryDgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 16:48:28 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 90FACA13B5; Mon, 17 Aug 2026 18:22:46 +0200 (CEST)
-Date: Mon, 17 Aug 2026 18:22:46 +0200
+	id 78A7CA13AA; Mon, 17 Aug 2026 18:48:28 +0200 (CEST)
+Date: Mon, 17 Aug 2026 18:48:28 +0200
 From: Jan Kara <jack@suse.cz>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Ayhan Aydin <nsd.project.dev@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/3] Neural Storage Driver - learning page cache
- prefetcher
-Message-ID: <ffcij36vnozf3rginqd2opd2dwqyki7xhtdo4veuty734hhgba@utjav2k263o6>
-References: <20260725182628.221603-1-nsd.project.dev@gmail.com>
- <CAFLp9PEQQVuDpJPwrNvLN1-u3w3TMwZPUUrf0+rOBrvDjBBf1A@mail.gmail.com>
- <anlByPDZmvEhWeXI@casper.infradead.org>
+To: Jann Horn <jannh@google.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mm/page-writeback: document folio_mark_dirty()
+ locking more explicitly
+Message-ID: <eref4jpa2fvzssamgks2qmt63enkfeioetj7jk57xhd2tejeio@smd77j22s2wa>
+References: <20260810-set-page-dirty-warnings-v2-1-1bd40fadfacd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,58 +89,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <anlByPDZmvEhWeXI@casper.infradead.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260810-set-page-dirty-warnings-v2-1-1bd40fadfacd@google.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kvack.org,suse.cz];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: ECFCD840A1
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,msgid.link:url,imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon 10-08-26 04:13:12, Matthew Wilcox wrote:
-> On Sat, Aug 08, 2026 at 05:10:42PM -0400, Ayhan Aydin wrote:
-> > For reference, the series adds an optional observation hook
-> > (CONFIG_NSD, default off, see PATCH 1/3) that does not bypass
-> > the existing ra_state / file_ra_struct machinery. All actual
-> > page insertion is still delegated to page_cache_sync_readahead().
-> > Benchmarks (interleaved ON/OFF methodology, i.e. same-machine A/B
-> > with repeated runs, SQLite full-table scans and buffered
-> > sequential I/O) showed an 18-19% wall-time reduction and
-> > +22.6% throughput improvement respectively.
+On Mon 10-08-26 20:10:01, Jann Horn wrote:
+> We have had bugs where set_page_dirty() was used on a page from GUP without
+> appropriate locking, leading to UAF, in:
+> 
+>  - KVM, see
+>    https://lore.kernel.org/r/20260810-x86-kvm-setpagedirty-v1-1-85f180892d4f@google.com
+>  - i915, see commit 0d4bbe3d407f ("drm/i915/userptr: Try to acquire the
+>    page lock around set_page_dirty()").
+>  - VMCI, see commit 5a16c535409f ("VMCI: Use set_page_dirty_lock() when
+>    unregistering guest memory")
+>  - kpc2000 staging driver, see commit b6d13bd9f2c1 ("staging: kpc2000:
+>    kpc_dma: Convert set_page_dirty() --> set_page_dirty_lock()")
+> 
+> I think set_page_dirty() and folio_mark_dirty() need more explicit
+> documentation on how they should be used with pages from GUP; so add a
+> comment on top of set_page_dirty() and make the comment above
+> folio_mark_dirty() more explicit.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-I can see how SQLite table scans could be improved but I'm really surprised
-by the 64k sequential buffered read. That's basically what the current
-readahead logic is built for. So how is the sync readahead you trigger
-better than what generic async readahead does?
+Thanks! Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+> Changes in v2:
+> - reword commit message to drop references to out-of-tree drivers, and
+>   instead add more examples of upstream bugs
+> - Link to v1: https://patch.msgid.link/20260810-set-page-dirty-warnings-v1-1-53cad4890808@google.com
+> ---
+>  mm/folio-compat.c   | 1 +
+>  mm/page-writeback.c | 5 +++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/mm/folio-compat.c b/mm/folio-compat.c
+> index a02179a0bded..6212fdd6761a 100644
+> --- a/mm/folio-compat.c
+> +++ b/mm/folio-compat.c
+> @@ -41,6 +41,7 @@ void set_page_writeback(struct page *page)
+>  }
+>  EXPORT_SYMBOL(set_page_writeback);
+>  
+> +/* Read the comment above folio_mark_dirty() regarding required locks! */
+>  bool set_page_dirty(struct page *page)
+>  {
+>  	return folio_mark_dirty(page_folio(page));
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index e98748112d1e..b0ab687c83be 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -2773,6 +2773,11 @@ EXPORT_SYMBOL(folio_redirty_for_writepage);
+>   * in this folio.  Truncation will block on the page table lock as it
+>   * unmaps pages before removing the folio from its mapping.
+>   *
+> + * .. DANGER::
+> + *    Do not use this on a folio obtained from a function like
+> + *    get_user_pages_fast() without holding appropriate locks; you might want to
+> + *    use set_page_dirty_lock() or folio_mark_dirty_lock() instead.
+> + *
+>   * Return: True if the folio was newly dirtied, false if it was already dirty.
+>   */
+>  bool folio_mark_dirty(struct folio *folio)
+> 
+> ---
+> base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
+> change-id: 20260810-set-page-dirty-warnings-4000f0015394
+> 
+> Best regards,
+> --  
+> Jann Horn <jannh@google.com>
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
