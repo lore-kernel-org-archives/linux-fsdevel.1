@@ -1,221 +1,167 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED403F926B;
-	Mon, 17 Aug 2026 11:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DB92F8E8B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 11:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786964615; cv=none; b=UEODOiTXY14LrqTbRstT+7K0qGBsvqkniisEgkNzD0o6eJNjbvinOBGNzW8DBRmsSk0G7Dpsdm5MX/lQpBHgMnEitWXONKLxyKzW5cXYtmBC+SmfiMmVTLfFojeMyVUmGsraZ/YZRdVqSgGA6w0JgPN+Y+ABciD8Kci2L6eey6U=
+	t=1786964853; cv=none; b=LS7AurC3Xsoqrt8Dw1Wd1v8UPziWOSyj3+LjDvbFfLd7QQ74zTMPrYBSFwm8xSnnUpxraIKnHdy8g7AlYjoY/Uh628ueDt5MEEyiiwk4z8ixZeqBIWOl7BGb3QG4qiIbhULdGToY91I6AsnvJyesLNq5a4PqWK8GRxlaTkS+kew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786964615; c=relaxed/simple;
-	bh=UC01y+N70K2YYwuhiD63941gnut7CPgk2/EOWTUjvrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPg2OkM/B9bKMSGbNqqP7Md58bClgL7M4v+iFJzVefH+LdpafLzGFEQNhS0tc2C371YjgrPnrMV+dBaziV1rHqnwXZ7DOR7ZaH3mHED53piEfXHLZLBcwB+SNk2a/6x5wptWQVsLSW2QP44AsihILy/Dp1C6RU4V5d9x2jhsXV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tLT3QW9b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8X8znelA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zLM3nScL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GgaExUB1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1786964853; c=relaxed/simple;
+	bh=e73NdorI6LGinThzPMM9qlaq4WdI7II1OvIcIKTKM4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U8vbjxU3TS0zN8GWiIUI/DOIVsVo37m0g3v67bMXWJKQ0bJUc7O087+xczD6E8wwdc3SS0prtnK3Ce575xPI2vA0hsEQwvhhvX23BUsJtwVNgGUeaULbFR5xXl1LsrQrQvdbRRqgIILOqaFzs162sEnfwYEK2ilzYeZv2qoYPQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TcRtptqZ; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tLT3QW9b";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8X8znelA";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zLM3nScL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GgaExUB1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AA4AA83F70;
-	Mon, 17 Aug 2026 11:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786964607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7iC/4+DbNi/oVt0tkupTCs6iE9SsTBaX7RuvRMSdNNA=;
-	b=tLT3QW9b6/xDV9Ixy4zoLm+Sym5e8UrpRnGsWoBcLJhjPkST6lMELTRxUJUQGpZF0lx6cZ
-	CrQzaPfddU0JJoItEfD5PdYMA2htwZJU679KcKyN462F3b1zhN1ApxrzzGiqLBP4jGET9N
-	Cns17l2zKnZ4DDxsGjPi8d14DXwFnPY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786964607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7iC/4+DbNi/oVt0tkupTCs6iE9SsTBaX7RuvRMSdNNA=;
-	b=8X8znelAvCLGvHFOr74Pet9Ho88Mm/5toK4DxVXyvYUa9ubhq21sXaTOiQtiIi7tW55O0W
-	q6XlLziszMheBACQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zLM3nScL;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=GgaExUB1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786964603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7iC/4+DbNi/oVt0tkupTCs6iE9SsTBaX7RuvRMSdNNA=;
-	b=zLM3nScLqmXi359QoWe5LBqf2TSEnkVLmycbkb0qVY3mOjBS//cftPffZe7QxbNmKBXHjk
-	PL1/leHGjigoWbJZurYzuZGXlmSL14eEDbPz6Jf3KkUg9nE33E+sV86nBZzSDN2h7wFzWi
-	FItMyjngdoagwlKBs+/cNuTpme73IPg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786964603;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7iC/4+DbNi/oVt0tkupTCs6iE9SsTBaX7RuvRMSdNNA=;
-	b=GgaExUB129+gqMFavDlXWKVcOKduNpBj1fW8CrvokjGE7BdpSzA4FvYOIcQ0/0rb7Xzw1p
-	3eifOk+FRaFWRLCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FD407941C;
-	Mon, 17 Aug 2026 11:03:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VSoAJ3vqgmpoIgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 11:03:23 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3EE52A13B5; Mon, 17 Aug 2026 13:03:19 +0200 (CEST)
-Date: Mon, 17 Aug 2026 13:03:19 +0200
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Ian Kent <raven@themaw.net>, 
-	Chuck Lever <cel@kernel.org>, Jake Edge <jake@lwn.net>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Miklos Szeredi <mszeredi@redhat.com>, autofs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
- fsnotify_recalc_mask() calls.
-Message-ID: <oh2lg2agqxwqopecacq6sfdnky5faxidwsybkvbwbq24r6tw6o@4swfog5ocwwb>
-References: <20260803012648.2195405-1-neilb@ownmail.net>
- <20260803012648.2195405-4-neilb@ownmail.net>
- <CAJfpegs-k3skRGiwZvQLzD7OrAK4KL8zwmpmJKyjRHSQ-rqX+Q@mail.gmail.com>
- <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
- <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TcRtptqZ"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8486672f03cso3160769b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 04:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786964851; x=1787569651; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iPDbOKwzDa8vtpfSUiBNZ/5Xwtz6TiDkuOOU4awK/CA=;
+        b=TcRtptqZcXCWf0QyvE9/JxmnpX9lXkmO43/YsTjuv08JoeeziXs61TaYH5WmqisB5C
+         IZvNLzADmZ4NsIYVJTJ+8zWXkj4DzBoyjKiHpfwX07fL4CTBpvOuh14BrKd+LuzDHalv
+         O4PKHCMGcuGLouMvz3u+AvIaOt/LDGeRcuyVwHDAaTLc2jCv55MKstgR8ba0PuXYd/Rt
+         SgyvUggo9nnuCIrLd0yIJFk80t+ySqf3kd5uieXqqV2rstU0EWeccWFfTb2Cop+mV3nK
+         xiLdyx6tjCtpmm/su41fN1G13iqRTeX96ScBoVRk8apngzP3dgsDQ8UnGFYF3IswQrZ7
+         yTJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786964851; x=1787569651;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iPDbOKwzDa8vtpfSUiBNZ/5Xwtz6TiDkuOOU4awK/CA=;
+        b=BcjLBVIeYijwaCwFsN+hBtWXf68k+Tw7A6tn0bN4ItUVLEbr8Wt00/63JnWH4N9jdC
+         /DIEZ4wZTq8VJpJL8eOH3tVfAiggfRnm+jM+12FOOg3MMcfW8I+527rVReEp3u5Ei5jc
+         +CW5FWZr3/RxlP18+tWijIi3stJshe6LMVLYIpdzJHHRT2FsZ2Rnh7MwnOvUc4yqawcf
+         RksJCfeaSqSGEo+cZ1ju6TXpsqJ/1PLErgTGWLrsmRaYJ6Uj1tc3BqQemjQ4642LLtzv
+         1xN2ZHuMsWIIftAkyKxOTGCnRjj3YJRRvKsVTgDrf+KcGTxa6s1IZMIRgvdKOz0+3FnE
+         MyRA==
+X-Forwarded-Encrypted: i=1; AHgh+RpR77Dhk4D+Nm2Tof2dWHDcwBa+76+az+y9eKIIUFvmblNtdoNRREpz/j0fyLq+j8ZNvZG810gca0/xZIUZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo/amMGcUJOdq6E5e6qgMOU5zJrpsvmD9ZKOzh7yJQVNo/2M7O
+	RaS48r0pg3IOmZc3JAFdhUqFkIlslNIhgYP39J8NQWWwcWZfQqPUEhcd
+X-Gm-Gg: AR+sD11bhcTEbSkOp3pYRuzLhmvtsbjyXDhZzoyL/9CDaIgWbqilCY0EuCCGdyApen8
+	6Qz+FhxiXov+QfrlihTWDDnHAm4nmycCW9JE7aB+FEdzzelrZWDJ6UDbuuac4hxfgm0FyuThOK5
+	WZr/+HcTvhUxbccS3d3JbuXms7JMXzP7jYU2nwieV8gvEhl/ChJOhe+fGWvb6lskjYhGtXm01ib
+	dRcETF9EIN66GZMhdmgP+2bQFfWSX6HJZGSfFnajOO91RO5T04h+bccC7snH26gtCe38m7TEhm1
+	iro2H9QI3m3bA1CAj9E91VYzHdfRir6GAUVrrCEAalMJGZPJh47pKQM3HyYGHf2vv9Z0GUfh6kb
+	DXHPEaMFBH6rgecJ9EFAhaEAXEMLPbH4VEBP40lWVqY4uytJG6r3V9NYCMNf89PzolPLYOp35mS
+	iSeOAZjHc2r3/AZ+vyikIZo/pXl057cKp3QlG1Cw68wvrlgqnatEqa7T2ScFHpQL5Mi3TuOM+lu
+	+Cb9lE8ZDxyvoBxy00=
+X-Received: by 2002:a05:6a20:4305:b0:3bf:6222:2e7e with SMTP id adf61e73a8af0-3cc71c1b20dmr25115013637.4.1786964851226;
+        Mon, 17 Aug 2026 04:07:31 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc13c00d84asm531019a12.19.2026.08.17.04.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 04:07:30 -0700 (PDT)
+Message-ID: <f3678818-676e-4c0a-b321-84abead100c8@gmail.com>
+Date: Mon, 17 Aug 2026 19:06:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: AA4AA83F70
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[szeredi.hu,themaw.net,kernel.org,lwn.net,gmail.com,redhat.com,dubeyko.com,cs.cmu.edu,zeniv.linux.org.uk,suse.cz,linux-foundation.org,vger.kernel.org,coda.cs.cmu.edu];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,ownmail.net:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next v5 10/32] ext4: skip block allocation for holes in
+ the data submission path
+To: Zhang Yi <yi.zhang@huaweicloud.com>, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+ ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org,
+ yi.zhang@huawei.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260814093331.1703882-1-yi.zhang@huaweicloud.com>
+ <20260814093331.1703882-11-yi.zhang@huaweicloud.com>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <20260814093331.1703882-11-yi.zhang@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat 15-08-26 10:28:41, NeilBrown wrote:
-> On Tue, 11 Aug 2026, NeilBrown wrote:
-> > On Tue, 11 Aug 2026, Miklos Szeredi wrote:
-> > > On Mon, 3 Aug 2026 at 03:39, NeilBrown <neilb@ownmail.net> wrote:
-> > > 
-> > > > @@ -116,11 +117,15 @@ static int dnotify_handle_event(struct fsnotify_mark *inode_mark, u32 mask,
-> > > >                 else {
-> > > >                         *prev = dn->dn_next;
-> > > >                         kmem_cache_free(dnotify_struct_cache, dn);
-> > > > -                       dnotify_recalc_inode_mask(inode_mark);
-> > > > +                       need_recalc = true;
-> > > >                 }
-> > > >         }
-> > > >
-> > > > +       if (need_recalc)
-> > > > +               need_recalc = dnotify_recalc_inode_mask(inode_mark);
-> > > >         spin_unlock(&inode_mark->lock);
-> > > > +       if (need_recalc)
-> > > > +               fsnotify_recalc_mask(inode_mark->connector);
-> > > 
-> > > Is the fsnotify_group_lock() held in this case?   I don't see it.
-> > 
-> > It isn't held.  Doesn't it need to be...
-> > It seems to protect marks, so maybe it does.
-> > 
-> > srcu seems to be used to protect this section, so maybe we can rely on
-> > that.
+On 8/14/2026 5:33 PM, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> I dug into this some more, and we do rely on srcu, but don't need the
-> extra code below.
-> inode_mark->lock doesn't protect inode_mark->connector, so moving the
-> dereference out of the lock has no effect.
-> srcu_read_lock is taken before we get the ref to the mark, so the mark
-> and the connector cannot disappear underneath us.
-> A race could result in inode_mark->connector reading as NULL, but
-> fsnotify_recalc_mask() checks for NULL, so there is no risk for harm.
+> When ext4_map_blocks() is called from the data submission path and I/O
+> end extent conversion path (EXT4_GET_BLOCKS_IO_SUBMIT), it should not
+> allocate blocks if the lookup returns a hole.
 > 
-> Thanks for encouraging me to dig into this.
+> The writeback path can legitimately encounter dirty ranges that map to
+> holes. For example, when a folio straddles i_size and the tail beyond
+> i_size is dirtied via a mmap write. Allocating blocks for such ranges is
+> wrong because there is no data to write back, the dirty bits should
+> simply be discarded without submitting I/O. This mirrors the existing
+> buffer_head writeback path, where mpage_add_bh_to_extent() skips
+> unmapped buffers and ext4_bio_write_folio() clears their dirty bits.
+> 
+> In the ioend extent conversion path, holes are also not expected because
+> we should wait for folio writeback before punching hole. If one is
+> encountered, it likely indicates a failure in the concurrency
+> protection. In this case, to avoid losing data beyond the hole, do not
+> stop conversion, continue on the remaining ranges. This prepares for the
+> buffered iomap writeback conversion.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> ---
+>   fs/ext4/extents.c | 8 ++++++--
+>   fs/ext4/inode.c   | 7 +++++++
+>   2 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index 76038b6c3655..0d62d9312284 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -5167,11 +5167,15 @@ int ext4_convert_unwritten_extents(handle_t *handle, struct inode *inode,
+>   				      EXT4_GET_BLOCKS_IO_CONVERT_EXT |
+>   				      EXT4_EX_NOCACHE);
+>   		if (ret <= 0) {
+> +			/*
+> +			 * If the ret is zero, an unexpected hole may cause
+> +			 * conversion to fail.  To avoid data loss during I/O
+> +			 * end conversion, skip the hole and continue
+> +			 * converting subsequent blocks.
+> +			 */
+>   			ext4_warning(inode->i_sb,
+>   				     "inode #%llu: block %u: len %u: ext4_map_blocks returned %d",
+>   				     inode->i_ino, map.m_lblk, map.m_len, ret);
+> -			if (unlikely(ret == 0))
+> -				ret = -EINVAL;
 
-Sorry for not replying earlier but I was on vacation. The lifetime rules
-around marks & connectors are subtle so we have to be really careful and
-dnotify with its single shot marks is peculiar which makes things even
-harder. fsnotify_recalc_mask() has a comment about locking in front of it:
+Hmm, we'd lose the error code here. Sashiko also mentioned in the
+review of patch 19 that hitting a hole during conversion could
+corrupt other files. That's a serious bug, so continuing the
+conversion doesn't make much sense. I think we should drop this
+change and just return the error early.
 
-/*
- * Calculate mask of events for a list of marks. The caller must make sure
- * connector and connector->obj cannot disappear under us.  Callers achieve
- * this by holding a mark->lock or mark->group->mark_mutex for a mark on this
- * list.
- */
+Yi.
 
-and you very obviously start violating these rules with your changes. Now I
-admit I've forgotten all the details why I did it like this so let me
-reconstruct it :).
+>   		} else {
+>   			conv_blocks += map.m_len;
+>   		}
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 5dcc3f7b2ffd..d8c3e5e13b8a 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -823,6 +823,13 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>   			map->m_flags |= EXT4_MAP_MAPPED;
+>   			goto out_handle;
+>   		}
+> +	} else if (retval == 0) {
+> +		/*
+> +		 * Do not allocate blocks for holes in the context of
+> +		 * data submission path.
+> +		 */
+> +		if (!map->m_flags && (flags & EXT4_GET_BLOCKS_IO_SUBMIT))
+> +			goto out_handle;
+>   	}
+>   
+>   	if (!handle) {
 
-Connector stays alive as long as there's any mark in its list. Both marks
-and connectors are protected by the srcu. Mark also has
-FSNOTIFY_MARK_FLAG_ATTACHED flag which is set iff the connector->obj is
-pointing to valid inode/mount/... FSNOTIFY_MARK_FLAG_ATTACHED changes only
-under mark_mutex so that's why mark_mutex is stabilizing the connector (and
-also connector->obj). This is what is used by most places calling
-fsnotify_recalc_mask(). But dnotify needs to mess with notification mark
-mask from event handling and there we cannot take mark_mutex due to lock
-ordering constraints. That's where the mark->lock rule comes into play
-because mark->lock also needs to be acquired to clear
-FSNOTIFY_MARK_FLAG_ATTACHED. That being said this dnotify use of
-fsnotify_recalc_mask() still looks somewhat racy because
-dnotify_handle_event() can get called after FSNOTIFY_MARK_FLAG_ATTACHED is
-cleared.
-
-Anyway if you move fsnotify_recalc_mask() call outside of mark->lock, you
-seem to make the race with dnotify clearing the mark from 
-fcntl_dirnotify() easier to hit. Now in the notification path the inode
-itself is guaranteed to stay alive and the rest is protected by the SRCU so
-there's no direct UAF. But fsnotify_recalc_mask() simply isn't prepared for
-the connector changing under it due to object getting detached and so we
-could end up doing weird things like NULL ptr derefs or similar stuff.
-
-So this call to fsnotify_recalc_mask() from dnotify needs a more careful
-handling. Which is sad because I doubt anybody still uses dnotify...
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
