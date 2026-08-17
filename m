@@ -1,187 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC1143F8AE
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 14:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC1D43F089
+	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 15:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786978478; cv=none; b=BQ7BChTKtNVN1kizrxsIqo1TyPD9xBNX/EwJGjBRotpwF3sw98K9NXwCYUqjcodyoPIdciJL5umQouTA0fckgOxL1hm3oTzrX/NW/r0tydonG39VmJGGAwnja9eqGQ7lgBFDptdi4vIfFrb2PR4NWHVNIOc0YKP7PZ/EhsDpu5A=
+	t=1786979900; cv=none; b=lKTmq4j8gdTaxpLmx7p/w83LQsCyjdYeki1/vubWRy5+jXAcsQp4rPKlr2FU/M000iuNkUm2o7qAd14jXmvUuj2MJnEmo0FKRieeMxPS6N6fg4z+WNk465UZtBqTIPfTjTeEsYMwTO0NorazRPGTueXbT7M5uQJurv5wJjHAL+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786978478; c=relaxed/simple;
-	bh=su0dcYxxJLdxeTeTHT48ITtTvMswx1DVepCnd54KyKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjzKDYKAIPC+eDm+7acaU+tSz4LM/4ZDe8bftMBmwXBZlzur+uTcYrII5FEsMGDM2X7Q8trxkl98siubgNbwt6CE9fYIWFYoPyBPT5jRKz9k4yylxzVwumhb7yy+MwLdTsEweDf/T4AbJuHk75e7xp6fYFhuM0sBGMZwiOZubek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uIUBzB05; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xoehDUr5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mW/PgIhI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Vldl4kH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1786979900; c=relaxed/simple;
+	bh=tCP9D0a5eyidqrerPu4jRVafCsdG/TkOdRzCzcE1AIU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ShBG2QtkhdcvuCXimrFy6RkR+uKhHyohUUwx6Jt0uEjx5I39OniTScUAq82DfOcSzeHyTVm3pOe2yLYLkRynntz2ZiKOvdXM3f63GYDtpBZcTVdTLDCwWP5Fe0N7mq2jwUSHC1SvhqBEdNP68/BkWXVlZ4HI+cavgN+WpwaRgls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUQmUbmB; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uIUBzB05";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xoehDUr5";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mW/PgIhI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Vldl4kH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BA8333CCD;
-	Mon, 17 Aug 2026 14:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786978396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WpOjLp52EifagBnpZ/4guSYkhgxu0erpf0alM3JApi0=;
-	b=uIUBzB05QVPknq00o56pxRbPJsT1vL7Dhc3HsSTc3ywa8bbXn+TMeLDhWbMvX2BQ0dFSSr
-	dbtJM5YKBwlrNMHoSy2nUZ3BOsIh71FHu2XE0HmjMhEE/+/luYbiInZh3r5jg2D228VDsN
-	U0xZCzPtczTF2qVud+Ydbjqji8veTds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786978396;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WpOjLp52EifagBnpZ/4guSYkhgxu0erpf0alM3JApi0=;
-	b=xoehDUr5BMZ3ItHOrdb4BnoT5SHW50FCloyJzvmqmaf/DZAFqS12uteL5EHi6DqHDExhEI
-	4urxXmqXB5l7X8Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786978392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WpOjLp52EifagBnpZ/4guSYkhgxu0erpf0alM3JApi0=;
-	b=mW/PgIhIzeHttQi8xdup3NiKRaUDjgu7aiYQ1QeGHVvrrdkqSnL9kBcv5mn/YnF4+yD4bM
-	NJakosw8VjVwq/MVjHtwBldQXkvgA53e00m+XH/EQGtQzdAN5LYxavwhWkwYi5wbz2ic9J
-	HmU+AYtz7o0aKOvKAy6v1f9sX7lPM7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786978392;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WpOjLp52EifagBnpZ/4guSYkhgxu0erpf0alM3JApi0=;
-	b=1Vldl4kHu/viiCCFohYYvFlgy2raPLcdQ0bwWNf7r475taSFY4kKnmSpkYq04qIMKuHzJh
-	/o+cTEfHqVTLMoDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF3B279505;
-	Mon, 17 Aug 2026 14:53:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rkfAKlggg2pUGwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 14:53:12 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4F645A13B5; Mon, 17 Aug 2026 16:53:08 +0200 (CEST)
-Date: Mon, 17 Aug 2026 16:53:08 +0200
-From: Jan Kara <jack@suse.cz>
-To: vova tokarev <vladimirelitokarev@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Pedro Falcato <pfalcato@suse.de>, akpm@linux-foundation.org, 
-	security@kernel.org, linux-mm@kvack.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: Fwd: BadBunny: UFFDIO_COPY shmem killpriv bypass leading to
- local privilege escalation
-Message-ID: <trv2wwdwprrebu4s6i2ufepk5a5ir4edz3tnttv7ivlkzihx3e@zq6lt67oplc5>
-References: <CAGBKPgOm8q-8_rwyRPEmSj8JXdh_GaK1Q8vpJ=j-+yA0SgcNQw@mail.gmail.com>
- <CAGBKPgPPALX_5CQJAKUNjwi2fD28pBeS5pRuwQgePU93pOy8EA@mail.gmail.com>
- <anXnHMInq_JLYbWc@pedro-suse.lan>
- <CAGBKPgOfbMJruqcegJca6BBpEtpd91s5ASF_VU+gucWsjwp8WA@mail.gmail.com>
- <ancYCBUT8aB0qHwz@pedro-suse.lan>
- <anlOGOmO1HWVCMdF@casper.infradead.org>
- <20260811-knieprobleme-holten-palmen-4d42742b1962@brauner>
- <CAGBKPgPanzn8WuHK1hm44FLCXwJcnk7W=J6b17D9UzScWW7SJQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUQmUbmB"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cace91f112so40517785ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 08:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786979898; x=1787584698; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=KOjFRvjhVU8cFjkZuXZNJ83v2W6JcBfwkSkd8Ja0b2Q=;
+        b=WUQmUbmBeqEq/m6Uev0lt+hTrDrYyGvUdSANEXw41rqZGbMnlrS4vIjTUgyOMbW1jG
+         bCiR3Rfm6MyVCHlihc5DhNaFpG34UYsDWfirr1qvgVIZFkeTaQGtQtygQilAVDsYijPq
+         1cjKA0ZayHUN1xlzWWw9Ri/AvhibeTvb9rgMNrH2sLmOVMjA7MSBiYSStrgB8B9YIwg+
+         AxEhflYq3Soljx4aWnd8jBZZk3vznEZDVi7DrSXThadjpKesGP9JqqtUst7Gu8t/BGQn
+         AfLCJXBuTzTkqq7z0JbSSLFS5BM2g3jIRlynAQdzEeSh++9E3+aBtDlgv3Sxq6mG+syb
+         XJzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786979898; x=1787584698;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KOjFRvjhVU8cFjkZuXZNJ83v2W6JcBfwkSkd8Ja0b2Q=;
+        b=EcgopFgMeo2n9LoQhO/MqYuxRKAKHJzShC9c9YLkLbiAQ06/bgR1c6+8e6dQUY7oNO
+         6+pZOK4516Jc2XVYpmh1Avgl7DQzkAM7R0URdUWyJCC7VFQA6EqSgyBd6L+fMSMFuc7T
+         dXPq3iGKc0AAZdh82qQ6QDIriPvVwDAfc9bxFngyyrQtW+2x5ji2u/pT8Zyr+CGlQ1DX
+         MsUPNDMYflqG8anHBOkbuGcs54dxY7KhvQaX2GH6voF0gGEIKSRb7ndJquXejQis7v72
+         ERQ9h7Ajq+M75yxbEmhiNksZS0OE//nKFgIbdg1TPVYU8b/CmJZnRrJCgzXHs+cHFf/J
+         ip6g==
+X-Gm-Message-State: AOJu0YwunDwFzJMgJCOqwJ0p+Yv9gGO5k44RD/Sv0+NW1soRX3II+I5k
+	9gtBQtF8+ZW2TV0k1w/8ToKNLxpRKnBzC2J5+7h3LF2f0KJGkzlgATqa
+X-Gm-Gg: AR+sD108YR2ZR6+HvmOK2hfCSCDA7Po8K5t+FZt5Q0QpTqG63oswsgfbDsu5neh51GZ
+	7qOs0cpl3pwahK17rPQorhaTI5+4vNjYNw5RB5NOOAh4GqiJZjtU0r0U0Uc4QmYipVkDqhFORCr
+	v5vBwSByL8Rrpb+RUcU1IDtgUAo9HVX2ADb335IZVN+UaMPtZPXJacPKNOSAw86CF7Tq1xPzkZe
+	S2gIrYFw0k8cT1IVpfpof9FlcYe1K4m8Jb/PlU2p2tArNYDDZ0u+zOQKLoC85n1S6sKAMXf5sNa
+	WIriwtn2IafxDjbx/juwzcT/Pv6fzguUd9x02zeGsYhho4xnm+1ve6gvPdXetgGLAIU5KX7JOEl
+	mS0Amq3dJcoWcHWQAsvgvIpNMBJNvVNDBBx4KGaNo9OXVWtt94K3CFSF9uVq2gGD+Fc6WovBM7+
+	symC5F3sI/AOOdg3gMNBkQDy3KxdGdSE9VUskQ8Hl3ywMjzI28BANxTVmR6g/cLPlkjVU2tw9iC
+	u81RnbjiotnDJkDmU6g+/6Weh02npyc+o0QKPtAgSH9/rUy8Qc0OrmBYJF0NFGr
+X-Received: by 2002:a05:6a21:3293:b0:3c3:7a0a:18a6 with SMTP id adf61e73a8af0-3cc71fa8631mr23752235637.18.1786979898025;
+        Mon, 17 Aug 2026 08:18:18 -0700 (PDT)
+Received: from [10.0.1.166] (75-172-9-230.tukw.qwest.net. [75.172.9.230])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc13c03320esm927521a12.25.2026.08.17.08.18.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 08:18:17 -0700 (PDT)
+Message-ID: <6a01e914-db1f-476b-a371-170e3b179bea@gmail.com>
+Date: Mon, 17 Aug 2026 08:18:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGBKPgPanzn8WuHK1hm44FLCXwJcnk7W=J6b17D9UzScWW7SJQ@mail.gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Dennis Tighe <dennis.tighe@gmail.com>
+Subject: [PATCH] ntfs: fix off-by-one page overflow in ntfs_decompress()
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue 11-08-26 14:16:31, vova tokarev wrote:
-> Matthew, Christian, Pedro,
-> 
-> Lol - fair point, I'll keep the reggaeton references out of future
-> commit messages.
-> 
-> Agreed on severity - but this is a
-> killpriv invariant violation, and the kernel has treated those as
-> security fixes worth backporting before.
+The per-token range check in ntfs_decompress() uses
 
-I tend to agree this would be good to fix for consistency as much as I also
-don't think this is a particularly serious issue. Removing SUID bits on
-write is more of a hardening measure than serious security guarantee and is
-there mostly for historical reasons AFAIK from the old Unix days.  POSIX
-for write(2) mentions this as: "Upon successful completion, where nbyte is
-greater than 0, write() shall mark for update the st_ctime and st_mtime
-fields of the file, and if the file is a regular file, the S_ISUID and
-S_ISGID bits of the file mode may be cleared." truncate(), chmod(), chown()
-have similar notes. No mention of this when handling mmap BTW :).
+     if (cb >= cb_sb_end || dp_addr > dp_sb_end)
+         break;
 
-Anyway, the problem with calling __file_remove_privs() when writing through
-mmap is with the implementation - in particular the locking. To be able to
-call __file_remove_privs() we need to hold i_rwsem and that ranks above VMA
-locks / mmap_lock we hold during the page fault. Now that I'm speaking
-about it I even have a vague recollection this has already come up in the
-past and we've just decided to leave it alone due to these technical
-difficulties.
+so dp_addr == dp_sb_end falls through to the symbol copy
+`*dp_addr++ = *cb++`, writing one byte past the destination page. Since
+NTFS_SB_SIZE == PAGE_SIZE the destination is a single page, so the byte
+lands in the adjacent page, and *dest_ofs is left one past the sub-block
+end (the later `*dest_ofs &= ~PAGE_MASK` then yields 1, not 0, so the page
+is never finalized and later sub-blocks keep writing further past it).  A
+corrupted compressed $DATA attribute then produces a bounded run of
+out-of-bounds writes when the file is read.
 
-> 1. The fallocate killpriv fixes (XFS fbe7e5200365, ext4, f2fs) are
->    exact precedent: same reasoning ("can change the file contents [...]
->    should drop file privileges like suid just like we do for a regular
->    write()"), same one-line fix, and they went through the security fix
->    process with CVE assignment and stable backports.
-> 
-> 2. CVE-2023-0386 (overlayfs SUID preservation) -- same bug class,
->    CVSS 7.8, CISA KEV.
-> 
-> 3. If permissions alone protected SUID, write() wouldn't strip it.
->    killpriv exists for POSIX ACLs granting write to non-owners,
->    group-writable SUID, container shared mounts, and chaining with
->    other write-access bugs.
-> 
-> 4. This path is reachable unprivileged even with
->    vm.unprivileged_userfaultfd=0 (UFFD_USER_MODE_ONLY bypasses it).
-> 
-> 5. Pedro's point that MAP_SHARED faults also skip killpriv isn't a
->    counterargument -- it's another instance of the same class. We can
->    fix them independently.
-> 
-> Given that the fallocate killpriv fixes went through the security fix
-> process (CVE + stable backport), should this follow the same path?
-> Happy to send the patch either way.
+The fix is to break as soon as dp_addr reaches dp_sb_end; a full
+sub-block still completes, as its final copy advances dp_addr to exactly
+dp_sb_end.
 
-I didn't see the patch, maybe there the locking could be reconciled in an
-easier way (although I have some doubts ;)). Anyway, without solving the
-locking issues I don't think we should fix this.
+Fixes: 1e9ea7e04472 ("Revert \"fs: Remove NTFS classic\"")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
+---
+Reproducer is available on request if needed for validation. I was able to
+craft an imagine that would exercise this scenario leading to KASAN UAF
+errors on read-only mounts.
 
-								Honza
+  fs/ntfs/compress.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+index 76bd806b41e..dc5ad951dc6 100644
+--- a/fs/ntfs/compress.c
++++ b/fs/ntfs/compress.c
+@@ -352,7 +352,7 @@ static int ntfs_decompress(struct page 
+*dest_pages[], int completed_pages[],
+          u8 *dp_back_addr;
+
+          /* Check if we are done / still in range. */
+-        if (cb >= cb_sb_end || dp_addr > dp_sb_end)
++        if (cb >= cb_sb_end || dp_addr >= dp_sb_end)
+              break;
+
+          /* Determine token type and parse appropriately.*/
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.47.3
+
+
