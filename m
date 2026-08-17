@@ -1,86 +1,40 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF4439F89;
-	Mon, 17 Aug 2026 16:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBCA46C4C5;
+	Mon, 17 Aug 2026 17:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786985320; cv=none; b=MFBBdesSzGYo5RrhFjzQI9H0PUo/1SB1Lvk2Mtfo+3R2Di8OnbJzDKFKlXPN4QTv5UFDI+dGh/w8uu7lGWTPeybQo0nTGuTdF+Kmf1z05CIQKy8qoqACrojC3jbqldR7g2F4Zy7Mcd50gAOiP2utB6mzo3PY/hCLWdH9dsgiuWI=
+	t=1786988000; cv=none; b=hSD0vfYXLzRxJQ7tAPFs5jK84vZmTbH70kUcEferzm8hJS5x8oToD0vFZd3HmXnccT4Re1MTV01eh9pVryZQHohm8h7C6prupstH6AT5qjpY2xPXPLgnai69qQeQ0Tg+n5MQaJu0x1TdT6XsZAaiidK9gWwkAP8YZNv3KgCNgZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786985320; c=relaxed/simple;
-	bh=GZkohxpiTondKOXydUIjDw/BMv4TECtdXXUHQYxiVMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oc5m8EBjR2vUv2s3hgQfSnOEIV+Oeiyh0glhdPLUoorFpUdxxZQPKnRFXYB3LGzFrK7OE/d0MFqJSGHeCnUSF5u/KxisSRfk1B+9oNZbfcDhYWDWPb3J8jOVbCbQ6ijLUkrlCsO+B1ll+qfJink5yHtYvHX0ojEvzYofCDgQmSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eh4wirmh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=x/a5xipD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0OOXJSPA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RT94AgWl; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1786988000; c=relaxed/simple;
+	bh=DNrgx7RPzmX362il76PIMdQkIiYBm4+v9LhzABok7EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xn4szuGBVMTmHeCKuCgPCkNKqVTC8VUecfeo4SQGauxg/lecS9itCgxyY01aYPRqpchhy5rAmXKLTjQIIYseqbUCQ1KMWntcNUAc1kl98TwVAMxxg0MyGdNccxEeoHwsK0fIlBwBXwTE9YNRWZPIUzPUugXTt36pkfUrWneUPc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkCH1N9L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eh4wirmh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="x/a5xipD";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0OOXJSPA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RT94AgWl"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 03366840BC;
-	Mon, 17 Aug 2026 16:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786985313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
-	b=Eh4wirmhcatW88qg37SQqCKT4u6kSfztchn54o9nW/VyKqNgizumXLKO+CRy+7MidtwIWW
-	iMtl+3/EeWgvvGAY974PBfD+rNUfIsWW5rSf89ITMqSgrvtCm3dYGw6MBdNaMqvVlxtVAz
-	xEKaIO823UqlNHyQSwojB7qs+ixG408=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786985313;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
-	b=x/a5xipDgyFLGvK6XE/nRtUc6MTEfeJ1/+o4af+1OqxzVZmDb8ZQ8DwU9uAjSjq7x4afuC
-	ihcWoR0RulW0bRBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1786985309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
-	b=0OOXJSPABxSA44ExlLIczk02MA3Z2jPvtNH8h14C6N+eyYK9PKpDg4moQg+kI5qp5iuv8K
-	plU9ims/KnCKnsjizeg3dSdGtAuLcgzB9qBVuwgNItwLnaE+wmTu+8eO7ffBf9QqiZ64VG
-	VYXQFK/6uFSDVrj25rF6p03NAbmAZPw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1786985309;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w3zLzmZPTjsyeCNJxTMPQyOwGFcxlb4bymJngOb4M0I=;
-	b=RT94AgWlmYM9MlGg6BqMycisJT2UJTpR5HSuvHhxMNdPB4qGhLwSRoaR1kHpU2aRjkTf9q
-	UYTsjD68+tbEmEBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E181C79577;
-	Mon, 17 Aug 2026 16:48:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kqKiNlw7g2ryDgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 16:48:28 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 78A7CA13AA; Mon, 17 Aug 2026 18:48:28 +0200 (CEST)
-Date: Mon, 17 Aug 2026 18:48:28 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jann Horn <jannh@google.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mm/page-writeback: document folio_mark_dirty()
- locking more explicitly
-Message-ID: <eref4jpa2fvzssamgks2qmt63enkfeioetj7jk57xhd2tejeio@smd77j22s2wa>
-References: <20260810-set-page-dirty-warnings-v2-1-1bd40fadfacd@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkCH1N9L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E5EB1F00A3A;
+	Mon, 17 Aug 2026 17:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786987993;
+	bh=EmyV7xbzNpKPMsgyi7dD1KtLhUmJvpKWR0aS98Q0COk=;
+	h=Date:From:To:Cc:Subject;
+	b=DkCH1N9Lskx1xfHS9tQKoXIYa9ECtWkT0PFiAorHAT9gTDyb5YmdOGUImCvXbr9ZP
+	 7UnJf8n6ye5OGeTaQb2nwqy725T7QcTe3N2amXGBn9H8w6a+iM4O1YHntanFRDUgTP
+	 ITM8/ZjVTuPS8gM2EuV9ekbbLRTXSLqf1pGMvQGozgvtdeB/6QpaoIK0sVSNKPsLbD
+	 U2sbbw6+uxxEqOeEe0jxiZnm59+AueHzXLp/vGg9kxoGmk3MXZIRys8GkG1/x+oE8i
+	 hJmrJhEtomWzI/myHBmI9FKStCNCCnUQWYLJkuzm0/vzr5ngZz3kpVJrfhZLJsZ1Am
+	 50UpOyClxFn3w==
+Date: Mon, 17 Aug 2026 10:33:11 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [GIT PULL] fscrypt updates for 7.3
+Message-ID: <20260817173311.GB8327@quark>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,103 +43,134 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260810-set-page-dirty-warnings-v2-1-1bd40fadfacd@google.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,msgid.link:url,imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon 10-08-26 20:10:01, Jann Horn wrote:
-> We have had bugs where set_page_dirty() was used on a page from GUP without
-> appropriate locking, leading to UAF, in:
-> 
->  - KVM, see
->    https://lore.kernel.org/r/20260810-x86-kvm-setpagedirty-v1-1-85f180892d4f@google.com
->  - i915, see commit 0d4bbe3d407f ("drm/i915/userptr: Try to acquire the
->    page lock around set_page_dirty()").
->  - VMCI, see commit 5a16c535409f ("VMCI: Use set_page_dirty_lock() when
->    unregistering guest memory")
->  - kpc2000 staging driver, see commit b6d13bd9f2c1 ("staging: kpc2000:
->    kpc_dma: Convert set_page_dirty() --> set_page_dirty_lock()")
-> 
-> I think set_page_dirty() and folio_mark_dirty() need more explicit
-> documentation on how they should be used with pages from GUP; so add a
-> comment on top of set_page_dirty() and make the comment above
-> folio_mark_dirty() more explicit.
-> 
-> Signed-off-by: Jann Horn <jannh@google.com>
+The following changes since commit 6fe4e4b8259e1330945b5f3c9476e08473b8e0e8:
 
-Thanks! Feel free to add:
+  fscrypt: Avoid dynamic allocation in fscrypt_get_devices() (2026-07-20 10:39:24 -0700)
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+are available in the Git repository at:
 
-								Honza
+  https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
 
-> ---
-> Changes in v2:
-> - reword commit message to drop references to out-of-tree drivers, and
->   instead add more examples of upstream bugs
-> - Link to v1: https://patch.msgid.link/20260810-set-page-dirty-warnings-v1-1-53cad4890808@google.com
-> ---
->  mm/folio-compat.c   | 1 +
->  mm/page-writeback.c | 5 +++++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/mm/folio-compat.c b/mm/folio-compat.c
-> index a02179a0bded..6212fdd6761a 100644
-> --- a/mm/folio-compat.c
-> +++ b/mm/folio-compat.c
-> @@ -41,6 +41,7 @@ void set_page_writeback(struct page *page)
->  }
->  EXPORT_SYMBOL(set_page_writeback);
->  
-> +/* Read the comment above folio_mark_dirty() regarding required locks! */
->  bool set_page_dirty(struct page *page)
->  {
->  	return folio_mark_dirty(page_folio(page));
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index e98748112d1e..b0ab687c83be 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -2773,6 +2773,11 @@ EXPORT_SYMBOL(folio_redirty_for_writepage);
->   * in this folio.  Truncation will block on the page table lock as it
->   * unmaps pages before removing the folio from its mapping.
->   *
-> + * .. DANGER::
-> + *    Do not use this on a folio obtained from a function like
-> + *    get_user_pages_fast() without holding appropriate locks; you might want to
-> + *    use set_page_dirty_lock() or folio_mark_dirty_lock() instead.
-> + *
->   * Return: True if the folio was newly dirtied, false if it was already dirty.
->   */
->  bool folio_mark_dirty(struct folio *folio)
-> 
-> ---
-> base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-> change-id: 20260810-set-page-dirty-warnings-4000f0015394
-> 
-> Best regards,
-> --  
-> Jann Horn <jannh@google.com>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+for you to fetch changes up to 7dd38d9dd7a05329825fe2324d4d8e27ad4b3cec:
+
+  blk-crypto: Update docs for blk-crypto-fallback motivation (2026-07-20 10:39:26 -0700)
+
+----------------------------------------------------------------
+
+The main change this cycle is a significant simplification that's been
+overdue for a while now: standardizing on a single file contents
+encryption implementation in ext4 and f2fs, instead of having two.
+
+Specifically, the original filesystem-layer file contents encryption
+implementation is removed, and the blk-crypto implementation is now
+used unconditionally. blk-crypto delegates either to inline crypto
+hardware or to the CPU via blk-crypto-fallback. The latter is
+functionally equivalent to the original filesystem-layer code.
+
+The blk-crypto implementation already existed, but previously it was
+used only when the filesystem was mounted with "-o inlinecrypt". Now,
+"-o inlinecrypt" just selects whether inline crypto hardware is used.
+
+To allow maintaining that user control over hardware use, the
+blk-crypto API is extended with a new flag BLK_CRYPTO_CFG_ALLOW_HW.
+
+Overall, this removes quite a bit of redundant code from ext4, f2fs,
+and fs/crypto/. It should make things easier for ongoing filesystem
+efforts such as iomap support, large folios, and btrfs encryption.
+(btrfs had already been planning to use blk-crypto exclusively.)
+
+There are two small behavior changes of note:
+
+- Direct I/O now works on encrypted files even without
+  "-o inlinecrypt", rather than falling back to buffered I/O. This is
+  effectively a bugfix, though I'll continue to keep an eye out for
+  any user that may have been depending on the buffered I/O fallback.
+
+- IV_INO_LBLK_32 policies are no longer supported in certain cases
+  that didn't make sense and have no known uses.
+
+This has been in linux-next since July 22 with no reported issues.
+All encryption xfstests pass on ext4 and f2fs. As usual I've also been
+using it on a system with an fscrypt-encrypted home directory. Of
+course, the blk-crypto code paths also aren't new and were already
+being used on many systems via the inlinecrypt mount option.
+
+In addition to the main change described above, there are a few other
+cleanups such as using lock guards for mutexes, improving
+documentation, and removing a workaround for outdated gcc versions.
+
+----------------------------------------------------------------
+Eric Biggers (29):
+      fscrypt: Use lock guards for mutexes
+      fscrypt: Remove FSCRYPT_MODE_MAX
+      fscrypt: Simplify handling of errors during initcall
+      fscrypt: Remove workaround for bug in gcc 7 and earlier
+      blk-crypto: Simplify check for fallback support
+      blk-crypto: Fold __blk_crypto_cfg_supported() into its caller
+      blk-crypto: Allow control over whether hardware is used
+      fscrypt: Fully disallow IV_INO_LBLK_32 with s_blocksize != PAGE_SIZE
+      fscrypt: Always use blk-crypto for contents on block-based filesystems
+      Documentation: fscrypt: Update docs for inlinecrypt
+      ext4: Remove fs-layer file contents en/decryption code
+      ext4: Make ext4_bio_write_folio() return void
+      ext4: Further de-generalize the bio postprocessing code
+      f2fs: Remove fs-layer file contents en/decryption code
+      fs/buffer: Remove fs-layer decryption code
+      fscrypt: Replace calls to fscrypt_inode_uses_inline_crypto()
+      fscrypt: Remove fscrypt_dio_supported()
+      fscrypt: Remove fs-layer zeroout code
+      fscrypt: Remove unused functions and workqueue
+      fscrypt: Merge bio.c and inline_crypt.c into block.c
+      fscrypt: Add safety checks to non-block-based en/decryption
+      fscrypt: Replace some variable-size memsets with fixed-size
+      fscrypt: Update encryption policy version docs
+      fs: Update outdated comment for SB_INLINECRYPT
+      f2fs: Update outdated comment in f2fs_write_begin()
+      fscrypt: Remove unused function fscrypt_finalize_bounce_page()
+      fscrypt: Update docs for data path
+      blk-crypto: Remove unused function blk_crypto_config_supported()
+      blk-crypto: Update docs for blk-crypto-fallback motivation
+
+ Documentation/admin-guide/ext4.rst          |   8 +-
+ Documentation/block/inline-encryption.rst   |  43 ++---
+ Documentation/filesystems/f2fs.rst          |  10 +-
+ Documentation/filesystems/fscrypt.rst       | 154 +++++++--------
+ arch/loongarch/configs/loongson32_defconfig |   1 -
+ arch/loongarch/configs/loongson64_defconfig |   1 -
+ block/blk-crypto-fallback.c                 |   3 +-
+ block/blk-crypto-internal.h                 |   3 -
+ block/blk-crypto-profile.c                  |  22 ---
+ block/blk-crypto.c                          |  46 +++--
+ drivers/md/dm-inlinecrypt.c                 |   3 +-
+ fs/buffer.c                                 |  45 +----
+ fs/crypto/Kconfig                           |   8 +-
+ fs/crypto/Makefile                          |   3 +-
+ fs/crypto/bio.c                             | 216 ---------------------
+ fs/crypto/{inline_crypt.c => block.c}       | 279 ++++++++++++++--------------
+ fs/crypto/crypto.c                          | 180 ++++++------------
+ fs/crypto/fscrypt_private.h                 |  33 +---
+ fs/crypto/keyring.c                         |  21 +--
+ fs/crypto/keysetup.c                        |  63 ++-----
+ fs/crypto/keysetup_v1.c                     |   2 +-
+ fs/crypto/policy.c                          |  34 ++--
+ fs/ext4/crypto.c                            |   2 +-
+ fs/ext4/ext4.h                              |   6 +-
+ fs/ext4/inode.c                             |  71 ++-----
+ fs/ext4/page-io.c                           |  74 +-------
+ fs/ext4/readpage.c                          | 139 ++++----------
+ fs/ext4/super.c                             |   6 +-
+ fs/f2fs/compress.c                          |  31 +---
+ fs/f2fs/data.c                              |  95 +---------
+ fs/f2fs/f2fs.h                              |   2 -
+ fs/f2fs/file.c                              |   6 +-
+ fs/f2fs/segment.c                           |   2 -
+ fs/f2fs/super.c                             |   2 +-
+ include/linux/blk-crypto.h                  |  15 +-
+ include/linux/fs/super_types.h              |   2 +-
+ include/linux/fscrypt.h                     | 107 ++---------
+ include/uapi/linux/fscrypt.h                |   1 -
+ tools/include/uapi/linux/fscrypt.h          |   1 -
+ 39 files changed, 494 insertions(+), 1246 deletions(-)
+ delete mode 100644 fs/crypto/bio.c
+ rename fs/crypto/{inline_crypt.c => block.c} (61%)
