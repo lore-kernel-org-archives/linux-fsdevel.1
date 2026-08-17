@@ -1,115 +1,143 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4157642EEA1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 15:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786982333; cv=pass; b=htfOgJiYcvbTVnDYIcHqzT408mQXZnf1e/oFQh2RsBx4JN7kB7zhlnZ08iVR+p7NkMe5IsAQUizFYLKbBLHJzDdMY2EQUm1p10VLQPUK8BU3bWLGfuMgW97aeR2LhQ5V9HQIbReYdh11ufLkhcU53tcYFTtjQ/UBW+jWhvvD22E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786982333; c=relaxed/simple;
-	bh=no5UqGeu/I9IJaiTWAxVWsktaYLTQKvl28qMYcHHr+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i1SFByKBBimtK97Pjyaq3z178dtZKgXVdqA1gyLDVIHfEdtn0Rmfcfcc4TgSrFu93Tkjjj7WOQaaZi13rBwK4mAa1KremXW34/+CKDnM/GmQccGHDtl99hiLE10G80q5i7FcMs+6HA3MXlMeEH2vqtLTnF5kll9ShralAx3azhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=cYUn7vv+; arc=pass smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9173EDE4D;
+	Mon, 17 Aug 2026 16:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786982781; cv=none; b=MQBH7/jo4a6FuNVCtiblGNymwcIhL0v7Ucw0BcotcrM9NovkZP6EeNVkjq20RcN6bQWuIzGKvv/9eqouKRMl10PeorbO7iawH4cPRoD2XUyqrmBfLgj7ARf1JFjixXNxb6NnbQfR1/7/MCn8VEc/xwEuU65It1QmZ8XZJgOr+OU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786982781; c=relaxed/simple;
+	bh=47AAx90Y9DFp4Kta1KXb6pcXj+fSI1lJo1UIbg3QN00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PNgzFtRdf1xqA43ONJoFJnLNp8QMktxCwq2cJUx9dYbm2aZzOOv0o7fWuag9jzMpws+sgbJfj9MC6smAxRor3NG6UaSuA80qmmcVJAdP+05JdaSxpqFr1Tybf9QqqRLTl278qVtvjDhZJ3ARSFNoLFo4c3Py83RiX0h+hM0Ngdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pfIwpZ/l; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oYqCsY0f; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LS+hq8ai; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2wcUIzNg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="cYUn7vv+"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93703cc9e2dso20068385a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 08:58:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786982331; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XhE/9yva5zjk/xdwWjcbsiuXsi0Q546Bc+Zzh/h7tk5Zxux4XSR2gR2pq2Nrtwk8W0
-         7e+fWNqXRSq/7+5GyMk1y2LwgZ6pyCsA9HlT0Sv1R7mEG58qoRQqV0x8fFsDB2nsmKuI
-         tpq6kD4wD7LhbZXdngl9mseZoGcudWK3McjXhpSGs3NlLG6ZWMQNg7s3nRbs8MLA+QFL
-         H2JSgsDANWeWP1nDUD0t1OwKaJQWBVuK7WXNJJboy9VNmIHntxEmJq9/H9O2PMNur+R/
-         ZIjx67VVKL+vr1FuUZV7rpmy75dZAqQNcBO6x99se88Up/GQJEwt3ro0xkQvJk1rVQWM
-         Mm8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=OJIRLSwLK/lqQ9XUExR41FCofow37PdnqIN9EEDwdwI=;
-        fh=W9Nnlcj8N5Xlvz/ZtHclWy3+tUcbgK/N85/QhdSu/BM=;
-        b=M0CINTv+FfM5UiXIG9V6WeuASE+Gwf4kzEMb9YMuXpFrWcisPyDAaYaKrn9aGNanhV
-         SoFjoAn356g+vakwIfJFghD71JU87YzP8ELn5AKqc0bUZVfkU8LNQmAWfkIpY1M4Ur4Y
-         dtZ6mC/URSvv9fPYOwM8thwwQ1mD8BSTu6H3Rlw3UjI9PohCU3VDnBrSA9m4urUH9xtS
-         Z4Onj/lhHtSA3KIoTpu2EkuSIFGlxmMoQ3FXZYvEb6yrMWhIb3a5uw57eI+y/pXFL6Cs
-         2mI45S2oJDaiCnH914g1eRXZReOtEzZiXx1eAnlPvfIfUtt8lvAeUdbel21SrAT5+iCI
-         UFIA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1786982331; x=1787587131; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OJIRLSwLK/lqQ9XUExR41FCofow37PdnqIN9EEDwdwI=;
-        b=cYUn7vv+/NM0UmxmOzcAOD1iOns4Z+X1PzoQWgqgWwvdSitZfzaXUXMkSbr9wNWKfr
-         iDmh3AeBMWbhRcifC/Sztcg12QQDcRvBRC40BcLJz+csbnHXbxmBGax1AYfj1q6t9EhA
-         5tMql5PUbK4NmEQvwixc6NXSIocViXu+IMz6o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786982331; x=1787587131;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OJIRLSwLK/lqQ9XUExR41FCofow37PdnqIN9EEDwdwI=;
-        b=rdF6m2IyR1XQgfGBm47AkrvkQUlUajeVmpDTYktgNlfOP4pq0l5VQXqhbr0GqVSwgl
-         geMp4ud4Aze1AAHq2xcfx0lcXdbKZiq6Nns18Y+nLtP6PFC3ptPXTVe6ysF2I4sp3JpJ
-         8Gd6IFUNhLABQxrm9vCyOXcvza5wW4cU8QvvCEyNqyG8x3u0VPwLfag/aDvBzX1CDqAo
-         MU2zFviGVvnHSbtSVrtiBSxLwdLwVU9VkRxQm9iz0vGFLx7dBH6m/62CfvcnNx0NKhM4
-         fHlp4+Sf8CoTU+KWR3wDuFEtzQbd9HjlKBF0pe5jaWftsD9q+Z8HzKjON/wqJfY9PU83
-         Bu0A==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6ofoS6geX67nsqnRtu0kcWyegTa5h7jGs+SotYhtn07VP8CNvCSHTTF2UQTV5X4rVgEKa+X17PO4uJ7Hm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx658Ewdw+alI8DFowjQ6v6Oz2l6Eq0NzZt4OD0fNMLlPYVpKxi
-	2AotK3TfkRO/ZqVS3r2TxfTAA5CDhyaxq0ZgfoNDXJTaM7QodMc3fnA+ipw/phbwG2tPM6E2nRM
-	/OFiwUMZMnGioTogYlyI//U3CHYsU6F/G7TM57spyEw==
-X-Gm-Gg: AR+sD13+wSh2hDMab3N38oD+JdAb16OsgpKvCaZ8BFE5vNUxWkLlGUDF9NN+mI8PlxA
-	EItNiXTBpZ0uumSsRfbufDKVU5e711a5sKL5YMmarDl001l9L052OxvxjGuH9kIO7dMwjIgiFNa
-	4yZNNR0pKI4jrMnHskV+zvFm6yozVhDzllRmdiJZws4b6BSryx+rMQkmlIpjXCQouHOp8PSrOnq
-	OnPlbE+isn5M3ESEHo6b0Zpdyr6qAKBEd0y5qRT/vMkGQ+LeJOLLBJIkdD/WROKqjXKjQZlXilP
-	uVVgTzDP0ekCwZEjtLFSlHJU1u2auVGt47Ift2olyKbjGsB5E9ENOL2s+LSmR8nOfs7MziQfwbv
-	K
-X-Received: by 2002:a05:620a:bd4:b0:915:e670:4021 with SMTP id
- af79cd13be357-93704c453bamr158105685a.45.1786982331219; Mon, 17 Aug 2026
- 08:58:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pfIwpZ/l";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oYqCsY0f";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LS+hq8ai";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2wcUIzNg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 501023E07;
+	Mon, 17 Aug 2026 16:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1786982752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdHfgSBKSquB8V6IowtQrG36ItNZXmsNtihCQ+cIFVM=;
+	b=pfIwpZ/lOzNN25aQjyyb+4sNKfyLyXpVR5tuvjjXevDVv46HYdYayaxzeDeApjfGSMQAgt
+	Eq9ol6/EqdRIpIOrMACEqz6TLGBC1ZA+DDMQS++ECCokw8Z8A5P5CLZ0wkuyxuqcRZVimz
+	xGkyfCBM+7u+wLmNpqd68865EPQzmk4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1786982752;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdHfgSBKSquB8V6IowtQrG36ItNZXmsNtihCQ+cIFVM=;
+	b=oYqCsY0fxrAQiZUQq940MOBvgSs5DyCZd1VXyqW4yWiZZ4fJ3D+eLguuCqRbtQH3Ucss44
+	XYpiTe0xDwcEqkDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1786982748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdHfgSBKSquB8V6IowtQrG36ItNZXmsNtihCQ+cIFVM=;
+	b=LS+hq8aiqOz2ssG/ZFeEtA2SZtr4s9xjuSxY9yCR6lVLhJReTeYp2dc8/RNg4HdGYgVnru
+	i44Ld1OikzrAkiryXqUsmwO0asEvzHNnSoz9dL+/FT1CgLCX2L98+jFhMJv0x7sVLBeytj
+	L5n/a0MvQLJ7aNVMFortSL/8H3XwUAo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1786982748;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdHfgSBKSquB8V6IowtQrG36ItNZXmsNtihCQ+cIFVM=;
+	b=2wcUIzNgD9L3dFK0weGMjnSC1XpUHjAmfl/IsDvYTRWcwCZU2LLWsahkCKZG2Fq2VPbEgV
+	lDf+XCqTxMocjZBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 47E357954D;
+	Mon, 17 Aug 2026 16:05:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bCOLEVwxg2r1YwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 16:05:48 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E7DA5A13B5; Mon, 17 Aug 2026 18:05:47 +0200 (CEST)
+Date: Mon, 17 Aug 2026 18:05:47 +0200
+From: Jan Kara <jack@suse.cz>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: jack@suse.cz, aivazian.tigran@gmail.com, brauner@kernel.org, 
+	hirofumi@mail.parknet.co.jp, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	tytso@mit.edu
+Subject: Re: [PATCH v5 0/20] fs: Fix missed inode write during fsync
+Message-ID: <jckkvo72sng2r33ryty4yuduky6vl2plvsqim3fyqflp4vepwy@shqhgmis5pjr>
+References: <20260727101509.21667-1-jack@suse.cz>
+ <20260809153619.1888764-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813035836.74045-1-rochan.avlur@gmail.com>
-In-Reply-To: <20260813035836.74045-1-rochan.avlur@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 17 Aug 2026 17:58:39 +0200
-X-Gm-Features: AcwNN1VSPxOYN7kpQnUrOdAukJXi-HG8yj6uq1YUzdXVgD6MbWB9mTBM8yTMWRQ
-Message-ID: <CAJfpeguLnQ3rps_zz5sQmb4BZSG+C8+d5cCJdW2+VxCdtajhxA@mail.gmail.com>
-Subject: Re: [PATCH] fuse: wait for FR_FINISHED on abort_on_kill to prevent use-after-free
-To: Rochan Avlur <rochan.avlur@gmail.com>
-Cc: bernd@bsbernd.com, joannelkoong@gmail.com, djwong@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, syzbot+d6540a3fa1626e11360d@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260809153619.1888764-1-safinaskar@gmail.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,kernel.org,mail.parknet.co.jp,vger.kernel.org,mit.edu];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Thu, 13 Aug 2026 at 05:59, Rochan Avlur <rochan.avlur@gmail.com> wrote:
->
-> The abort_on_kill path in request_wait_answer() calls fuse_abort_conn()
-> and returns without waiting for FR_FINISHED.  If fuse_dev_do_write() is
-> concurrently processing the same request (FR_LOCKED set), the caller
-> frees req->args while it is still being accessed, causing a
-> use-after-free.
->
-> Fix this by jumping to the existing wait_event(FR_FINISHED) instead of
-> returning early.  The wait will not hang because fuse_abort_conn()
-> ensures all requests are ended.
->
-> Reported-by: syzbot+d6540a3fa1626e11360d@syzkaller.appspotmail.com
-> Fixes: 204aa22a686b ("fuse: abort on fatal signal during sync init")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Rochan Avlur <rochan.avlur@gmail.com>
+On Sun 09-08-26 18:36:19, Askar Safin wrote:
+> Jan Kara <jack@suse.cz>:
+> > The series strives to make sure sync_inode_metadata() ->
+> > writeback_single_inode() will end up to properly persisting not only the inode
+> > but also all metadata associated with the inode.  This is beneficial for
+> > several reasons:
+> 
+> It is well known that if one just created a file and wants to properly
+> persist it, they should not only call fsync on it, but also on its
+> parent directory.
 
-Applied, thanks.
+Yes.
 
-Miklos
+> Is it true that after your patchset this will not be needed anymore?
+
+No. This patch set only makes sure the inode itself and metadata such as
+indirect blocks etc. properly make it to the disk on fsync(2) and similar
+events which wasn't the case before for some filesystems.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
