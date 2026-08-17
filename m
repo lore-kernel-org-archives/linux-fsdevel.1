@@ -1,146 +1,158 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02713BBFC2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 08:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968AB3C1D44
+	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 08:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786954682; cv=none; b=aRr0ti15ZV3O+UZO9bbq5gBI+h0WMzuPOGwD77gRIR0amLRn2crNdL8AySjpa45bY6apJp+Tujro/PpHNALd+bQttcfpVWlbH2TdHW4b4VyVAppG/oc3Vjv+DHi+boYMddLN4En2d+cmyrCMuzltU8zdB0jiZonXLPABM4giBcA=
+	t=1786955128; cv=none; b=szZGdmCGlqwQ2OV7cseGy6yoOSl/+Y8/+ME5/NFFvVrLs5wwBRCO0/kALOcVvE5Mcuj0NMvP3OYt3YHCNAy2qAXgPmpA99BT06odcDt+Tz0+fmx5MzXq06aUj5MwDMiR4OJJbGw1IpdtCPMwS5mi7UJUmceR/G8+CMBkUCPY9nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786954682; c=relaxed/simple;
-	bh=lwXAQeijo31yQP352IYmI6t5ooOevLP8dvey8N0IrDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ry8xZf1PJWikEipV2S/FXbV7qoHrLikHDRRnQMEjYIgj0UhnexY2iv+tV5lIfC8UpDeGZcAa1xm7w8KLeWIklRbvvKme59VSwvkR9jc83Ral/DfV9aaoS8tJr3ZVUInusgIJPDcrCFCGn6PUx0jnZgtsH9Lk/KL4Hqy4ECfNpgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+gfHkEF; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786955128; c=relaxed/simple;
+	bh=eYNadUi07A8AhvVYvTwlB5KEurgeLlJSPKo7wDdWLLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/Ztw45pDyKkurxsvDw2nF6MFli39Vuxft0/8xvqcx9WlCMRkQmSc+LzXEPpnXQS2jBNjSPK6MZhWKxPmZZ8DPicYDsT0A9ge9f55u41RfqAMskxpuFeca7j97MnJih5XwFQ7NnVLtyJb2pcksssi4i/+HmlBhVbMY697uvmDBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jnHfLC3P; arc=none smtp.client-ip=91.218.175.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+gfHkEF"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b01910b499so2837507e87.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 01:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786954679; x=1787559479; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Kr4krNOjyqQplmnPBqykD0MinGwk5XrmWVr9/hkIl1o=;
-        b=n+gfHkEFfQR9c8YibKPLJZrUqey2eELGWD+3yx27x1GAIaz3j68H+XCEnyDaj5np2d
-         WN0RZwlXYi2/zFoogSffHNNgbXqnGVOn5h/JrO1Ze9a/3LmTxDhrJ/Ysw5ZBYeIKztjO
-         14YSCAwdk+CzJZ1M6NS40cRCdc8vonTmHh33P2X872FjdbBrfC55knvT3z10XIByjAMX
-         jDlOWTVxTL4B9gsfTyLmsy4omFsdTgBEpmDgtVZyFToXpfH8QXVnpOQc5bUdkmdhEL07
-         uALfGqEcxS/4tHYWA+EzAnU1YypM3K5bysQLwckm/j5i2y8Q/rMBrCq4Q59Fu+usHP6j
-         1yBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786954679; x=1787559479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Kr4krNOjyqQplmnPBqykD0MinGwk5XrmWVr9/hkIl1o=;
-        b=Z/DX/w/+bo0w2vo6T1Y24vfw2eXaHyqJLEJUV/z4YDiBefDP/rlpOeVwDOy78EGkl+
-         H+QHEMijWSDyNGvZmWB3xa8pA1NNeCTpfnqNwFF+jyjRjB+4VpZ8TIs8mDSDxBXrxrXv
-         Pz4s8YFqHrOnu3p6SYxEm9wzheIrRSV/wVslHvXD20qcrs/STRsn7z6zOjlwY1MaXqy0
-         2lCWl7qMVncN8IHOTJc93vPhumuIMaa8PzwDReu3FamOEYZr6gklToH59qnQ2cFpnX0F
-         A6QqHgZshU29Htj7xMk4ZHj/27tyOlArRVpjftNVoUzttyCTeyhO2vcVQS/AdOf850gO
-         PzBg==
-X-Forwarded-Encrypted: i=1; AHgh+RotptX1kXRKMNqyvy3uYq4Z/tKjEZUQIIdORHI/AiPsLQKMyiAVeM1xM1BAX2FD7XzCSd0b+nYneT/+xjnE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp5ABoybZ01BJvQx/LA4MRK0FfBlo3uYr3D3Ey+/TrVCduzQ+X
-	nJN/bSad9A08/iX7uO0n0+PgivFzVEe/z+EpK4fBys3duiDDNvdoHRfn
-X-Gm-Gg: AR+sD11F+K3iCKB2wzp0XYVTei0OuEVSXGkhAFR5MmhR1/lOqW89HzJP7bmQ9OLkFKy
-	PU8t8XIaFZDBXgcH4J8ejOJMvfVi4tR+WIcD1P86hG6JOctbnN5COet61Etqp1RN/mPLAJRf2f4
-	fe4fvDiizGB1PNkz1nHTgRGBIeB9uqJ6W8VMr+Py/5Tj3/LobIF/8OjbMRJzKYmtMkORRoqeT3I
-	chNXyFvVkq5SaOeEvlEs0hKVG3kVPeTAwk7uEbA59Yc/CqOEu/aDXHvzNQCyxvr3gZUG3pPH/c+
-	KaO//yoLnIl/CNvrEtgkBwtcREaX3k/8fNZGmafJL1Od4gwXWf8no5T85msweXfulOdzJ639lFF
-	/cuRtjyLmifVd3D7hrpZweIq5Y/n6OobU9XGszMAK3WTQEQA+UwH6cLJL4FIHq+KPFPlTULjhhV
-	VeMRiS7CMy+TUI3+fWa52/wjzcDEHuboclGqlm0Xay+JVu
-X-Received: by 2002:a05:6512:8384:b0:5ae:b7c7:5334 with SMTP id 2adb3069b0e04-5b453cd9ca7mr4540296e87.17.1786954678709;
-        Mon, 17 Aug 2026 01:17:58 -0700 (PDT)
-Received: from c.. ([213.165.253.80])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b46cfa12c1sm199089e87.24.2026.08.17.01.17.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 01:17:58 -0700 (PDT)
-From: Narek Jilavyan <njilav@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Narek Jilavyan <njilav@gmail.com>
-Subject: [PATCH] fs: do not cache a symlink length that disagrees with the string
-Date: Mon, 17 Aug 2026 08:17:56 +0000
-Message-ID: <20260817081756.4176757-1-njilav@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jnHfLC3P"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=eYNadUi07A8AhvVYvTwlB5KEurgeLlJSPKo7wDdWLLE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786955121; v=1; x=1787559921;
+ b=jnHfLC3PV6QWrSqAD9Vwz88xajDFnlL6wGea8uf9PXHoCqwxzS6yolQuxsJc9I//3HGkpJV5
+ +DulCpIsAup79SbskKzncTzaw0YDOMZfIUAD0Vc9AQqvPBlVqxo6tHvaC6dzEZfasQjzqhhuCOp
+ oR9fCJzSs/keqheDImYvTTH4=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from localhost (3.112.29.171)
+	by mta10.migadu.com with ESMTPS id 5d0fb72b720b7f63;
+	Mon, 17 Aug 2026 08:25:17 +0000
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 17 Aug 2026 16:25:14 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Lukas Wunner <lukas@wunner.de>,
+	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <contact@jaseg.de>
+Cc: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Ignat Korchagin <ignat@linux.win>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
+ before kdump
+Message-ID: <aoLFai0gzzH2bGgy@MiWiFi-R3L-srv>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
+ <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
+ <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
+ <aoGpcczo5GkBsPwt@wunner.de>
+ <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
 
-inode_set_cached_link() stores a caller-supplied length in i_linklen and
-sets IOP_CACHED_LINK. vfs_readlink() then uses that length directly:
+On 08/17/26 at 03:38pm, Baoquan He wrote:
+> On 08/16/26 at 02:13pm, Lukas Wunner wrote:
+> > On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
+> > > I can imagine one alternative way to approach this, tell me what you think:
+> > > Instead of registering wipe handlers that memzero places on panic, I could
+> > > put an optional registry of (addr, len) descriptors into crashkernel memory
+> > > that the original kernel populates with the PAs of buffers to clear ahead of
+> > > time. Then the kdump kernel could do the actual memzero. This would remove
+> > > all code from the actual kdump path here. The registry could be made
+> > > per-core to avoid locks.
 
-	if (inode->i_opflags & IOP_CACHED_LINK)
-		return readlink_copy(buffer, buflen, inode->i_link,
-				     inode->i_linklen);
+If this has to be done in kernel, your (addr, len) registry idea is a
+better direction, and we can make it a bit more general.
 
-and readlink_copy() clamps only against the user buffer, not against
-the string, so a length larger than the symlink body becomes a
-copy_to_user() of adjacent kernel memory - reachable by any process
-calling readlink() on such a symlink.
+Instead of a secrets-only wipe registry, consider a small "crash memory
+region" table with an action per entry:
 
-The only thing standing behind the invariant is
+enum crash_region_action {
+    CRASH_REG_WIPE,   /* memzero, then dump normally (leave zeros) */
+    CRASH_REG_SKIP,   /* do not include in the vmcore at all */
+};
 
-	VFS_WARN_ON_INODE(strlen(link) != linklen, inode);
+struct crash_region {
+    phys_addr_t addr;
+    size_t      len;
+    enum crash_region_action action;
+};
 
-which expands to BUILD_BUG_ON_INVALID() unless CONFIG_DEBUG_VFS is set.
-On a production kernel it type-checks the expression and evaluates
-nothing, so the value is stored unvalidated.
+void crash_reg_add(phys_addr_t addr, size_t len,
+                   enum crash_region_action action);
+void crash_reg_del(phys_addr_t addr, size_t len);
 
-All four in-tree callers are correct today, and notably the two whose
-length comes from on-disk metadata (fs/ext4/inode.c, fs/erofs/inode.c)
-both re-derive it and reject the inode rather than relying on this
-helper.  The API should not require that of the next caller.
+Two actions because the use cases differ:
 
-Validate unconditionally and fail safe: if the length disagrees, warn
-and leave IOP_CACHED_LINK clear.  i_linklen has exactly one reader in
-the tree and it is gated on that flag, and vfs_readlink() falls back to
-i_link with a strlen() of its own, so the inode degrades to the
-behaviour that predates the cached length instead of disclosing memory.
+- WIPE is what you need: zero the secret, 
+- SKIP covers things people do not want in the dump at all
+   — Registering as SKIP reduce dump size. I have been considering how
+     to shrink vmcore size on some big system with huge memory, the
+     vmcore size usually is several or tens of GB.
 
-The check runs once per symlink inode setup, not once per readlink(),
-which is what the cache was for.
+If this is OK to you, you can start a regiestry table
+infrastructure with wiping secrets, we can add SKIP later and plus some
+driver used memory.
 
-Fixes: ea3821990719 ("vfs: support caching symlink lengths in inodes")
-Signed-off-by: Narek Jilavyan <njilav@gmail.com>
----
- include/linux/fs.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+I am not sure if it's satisfactory, but you can give it a shot to show
+what it looks like.
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 50ce731a2..e1d8f2614 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -946,9 +946,19 @@ static inline void inode_state_replace(struct inode *inode,
- 
- static inline void inode_set_cached_link(struct inode *inode, char *link, int linklen)
- {
--	VFS_WARN_ON_INODE(strlen(link) != linklen, inode);
- 	VFS_WARN_ON_INODE(inode->i_opflags & IOP_CACHED_LINK, inode);
- 	inode->i_link = link;
-+
-+	/*
-+	 * i_linklen is used as a copy_to_user() length by vfs_readlink(), so it
-+	 * must not be taken on trust. If it disagrees with the string, leave
-+	 * IOP_CACHED_LINK clear: vfs_readlink() then falls back to i_link and
-+	 * recomputes the length with strlen(), which is what it did before the
-+	 * cached length was introduced.
-+	 */
-+	if (WARN_ON_ONCE(strlen(link) != linklen))
-+		return;
-+
- 	inode->i_linklen = linklen;
- 	inode->i_opflags |= IOP_CACHED_LINK;
- }
--- 
-2.43.0
+Thanks
+Baoquan
 
+> 
+> Since there are a lot of security expert in CC, I am wondering what's
+> the risk if we wipe secrets during dumping. System is located in
+> user's place, and vmcore is dumped and collected in user's place. If we
+> filter out secrets memory when we dumping, what could be leaked out?
+> 
+> > 
+> > Or create a dedicated mempool from which all sensitive data is allocated,
+> > then call mempool_free_bulk() on kexec to poison everything in that pool?
+> > 
+> > Thanks,
+> > 
+> > Lukas
