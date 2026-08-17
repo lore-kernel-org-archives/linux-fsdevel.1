@@ -1,194 +1,150 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BA040DB22
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 11:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F003932ED40;
+	Mon, 17 Aug 2026 12:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786967778; cv=none; b=f9+Z+kTFRep2REVsYq3vmUnyirr4R+FaUCy7MculYxfoo1g0DLFnvhGaaOnziPOp6xNqEdSHMpoRyBtkouhj3/OUhK6k9DjrmoH2OXgqGTrDdhVJVu8D0H+4c5Q5P5ZRDRC9bXCtFN+tc31cwII7YdV3kxNbaE5d6m3jiyp7erY=
+	t=1786969028; cv=none; b=bhnzNrzfXeJmPlCHIhE69fysQeMGej9NqzxTZelFsFkTLuXUonfx/has2o3kSgaUFIfxT3ylfRuQpzrEgrrr5+k4voJ7dAKtrZsz3gFEICPxj0j6cAjIf1Op5+FFuwsyZkO3zldhXXgC+7+AiZfzh2dRsusCEld4cpuNIl8fkcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786967778; c=relaxed/simple;
-	bh=dTf0Tz0X4VVHgkG9msuKEzTghe8BHrC1N9I4A1dE7dg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SIGT83nDEOA1d4pEq9798+rcPDD/B/+SipyIfy5T36B6nyAM2qNDGst/bJRfshncd7yiXJVSHH0xgYk3AOC+o5Qb0H5bSX1/332/jond3CKCa/xXyddhBC5PotR06wnRcUOqtMHsn409PVlsrx6tzv7L4EhqgImp3jo+ZZd98lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WfFCXAta; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786969028; c=relaxed/simple;
+	bh=K2RYr8Z3PJ+pOgINCGueHRskj65sPs3Ye7uqcmryPmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LXTedYa586zyOnoKTb5V3X5ex2f1WEHDoGRgcHJidDB/jeOHLENrCrF5zZdz4b8kXLMldYwpFAXShx0uG5HehSx9DhnFLUpxH++2Fgb/r0CbcmRhr7gewB22CplR6yv+cajVDWrPZipNVX5wSNzL7gojI84MPdaSUobEz51DAIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kj6bRZD3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WfFCXAta"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84faf0fa17eso3255435b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 04:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786967777; x=1787572577; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yavRK7ZC/YlJzzUQXee9HV5ifkhoLGmP6A7lwIfErD0=;
-        b=WfFCXAtaLRZoLbPTDmhhyMvwIHX31JNzTevjuRuQ9yqHs61X3SVhbXv4IWNIk8WuxX
-         3SFWHibaSPEJ8Aywc2VA8eSzHwyvlbdnpVUf40dEpdixqEgKUisJDlJOXGSnBafibsrD
-         dzSiWG2qnmLvQCeGNkEMoIrzWpdza/CVLsa8cF/xq4xGZmDpOq8Gej3vCpncEjzV/hYs
-         qrxULH/spZM9oQ4TuwgZQ0pX6VS27yBB7gD09YHoSQCRrPHO191+Sqd1hP7Jzd5NlhZA
-         ARNn2NVOhXzBFddgqJTsitkQWh0pAUZhWnbRAnDW3la+ip6H523uxRpM1JaJ2mo2sG7u
-         xljw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786967777; x=1787572577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yavRK7ZC/YlJzzUQXee9HV5ifkhoLGmP6A7lwIfErD0=;
-        b=n4duhhXCQSGvf+cdM4TErv5JjTKfTso/GuLFhx4nxFGyWDpf+JTMs2I1E9s6AyWrRD
-         6pqo8Qw9t1XpeGPwyav1v7yHUgd1YHDT7XDO6hS767dlnNQ9bqjuUSC8y8NGKCoFCsrG
-         tI228fMTePnWm0lc0ps1+61E/cqAN0N2JIw6j/Z05IrwWDSeXKglif/7akKJSUekGX7N
-         hUiopmRl1BAHgGRoCm1vhM0mF6qJsqAwntFReU4QLebbg1W3auGIFiL5VpfTXJHvo4tk
-         gUWBBV8PPbfR/A0mJVrcTNmF2DjY+WWxm3IvKsZ/1anOIn6kSFYkmikHzlxmJazxvAZq
-         VrJg==
-X-Gm-Message-State: AOJu0YyxsX5e7934I7I/rltHis3CrY3zoEUnEbG8M+mP+CRHSMtWi3fN
-	ZX/A9HleNe85OTo+fAvAAAg+kCsFwVHvVf5Zig/ubzA4fRfkrUHJV8xOLmA/+C65Udo=
-X-Gm-Gg: AR+sD12tuXIrBEIEjvhFFrfm+fT+1t3CWTncmTpjv0JgxVHpXelUnEr0c6PxTlRoO79
-	ukraWtYF4i/eyS+9FHlLWL7kt0VJeaJSg4N9SDhZzlR07eMjaDEwyB7Z0/Zo2F61J32D07JDKC+
-	dFhQUnNikwPI1P6AZWlUej6QBK8NzHxuhfKICgP1zJt6dt6zsQyEm+zAX3ulJwYWLvV3I82jQ7M
-	7l1DEiukYFZk3U82JZ2tNQmawlbTK4CFXbl0pPVGsSaUQM1W9uGptfdMtwqYnhBUabNXnQlkPkk
-	IsLG7LUSYd9poXUEWe43MMJYwvhNV2rzthlC8T+E85B+UI9uH764HRFEu5IRp1unQUfocNwL4Hs
-	7eoYWVEU64ykDy9C36tYfhTMJT5ThrRsdSnNOsEcIurHuZxS10YMWPqr/kpbTYWAqbnSo2iZQ9K
-	Jq5jnzjMVDn65/7nN9/PCrDS2fgYg3bGBg5mE/+ESkvd6DyCv4/7GMUKIFTMiQnNoasCdjB7uPu
-	w1Eww3KB7C78apQk7y/FBAkHkKrcvdMvGDmVIPNCXleoCp9BDEi20+QCgPEzmyTqQDPFadG3O1d
-	c70EMx58+ZVD7g2o3AowIKpyUAPe0rSTLOY0f+46ewEPrENZsgLR
-X-Received: by 2002:a05:6a00:f8b:b0:84a:2e5f:d69c with SMTP id d2e1a72fcca58-84fde396e23mr26704239b3a.32.1786967776615;
-        Mon, 17 Aug 2026 04:56:16 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851b6f8cdd1sm161099b3a.36.2026.08.17.04.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 04:56:16 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	ansgar.loesser@kom.tu-darmstadt.de,
-	djwong@kernel.org,
-	david@fromorbit.com,
-	amir73il@gmail.com
-Subject: [PATCH v3] vfs: add FILE_DEDUPE_RANGE_REPORT_PROGRESS flag to FIDEDUPERANGE
-Date: Mon, 17 Aug 2026 19:56:09 +0800
-Message-ID: <20260817115609.3586664-2-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260817115609.3586664-1-matthias.goergens@gmail.com>
-References: <20260814082326.3756669-1-matthias.goergens@gmail.com>
- <20260817115609.3586664-1-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kj6bRZD3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DEDA1F000E9;
+	Mon, 17 Aug 2026 12:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786969026;
+	bh=1eO1OynMgCCSzEgAhCusmYL7KEnT46FPP7YuCwl3dk8=;
+	h=Date:From:To:Cc:Subject;
+	b=kj6bRZD33qGKI7iNlG56BVm8eJqX2fVIeP4c2c+Uv8ozYGGD+UyXL/WoeAWVc39tt
+	 jT4VudbJMxYWt1kjB0D7rIJ57zJrm2sesDYE4Pbdo66kqzoQm33zL1mMOL5jiTGsvA
+	 B0qWnh6gC2nJADq9ecUraFHEqA1CiBwtfnLSbXZ2sa3FrTcp/0p4vyfaYjhFrlxc5J
+	 eL+KxLmaCWx0USrmVHfQfFaX5xfANRCJm0lt6TN64wg+9CnNNclay8y2AmmfLRB7Js
+	 P5xtZxpdrVuK+DXOwpC5ayv8A7rnSQrKfwNF1YZeoM85rNldajeG88pH8/qBnr3FnX
+	 WcKPJAC4hd/Mw==
+Date: Mon, 17 Aug 2026 14:17:00 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Bradley Morgan <include@grrlz.net>, Oleg Nesterov <oleg@redhat.com>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sysctl changes for v7.03-rc1
+Message-ID: <zeiezeji5xxupnhdapw5pcsitpou7ysgzavigp3jnp5i2vhuik@zxklkd53i6gz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gkawtdox6l4a23fx"
+Content-Disposition: inline
 
-On success FIDEDUPERANGE reports the requested length in bytes_deduped
-even when the filesystem shortens a destination range and deduplicates
-fewer bytes.  This predates the VFS hoisting of the ioctl (the btrfs
-ioctl behaved the same way), and changing the default would change an
-ABI that deployed consumers such as duperemove depend on: they advance
-their offsets by bytes_deduped and expect the historical semantics.
 
-Add a flag to opt into the truthful behaviour.  With
-FILE_DEDUPE_RANGE_REPORT_PROGRESS set, bytes_deduped in each
-destination's info is an advance hint for the next call on that
-destination:
+--gkawtdox6l4a23fx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- if status is an error, bytes_deduped is 0;
-- if status is FILE_DEDUPE_RANGE_DIFFERS, bytes_deduped is a safe
-  advance step: one filesystem block, capped to the requested length
-  so a sub-block request ending at EOF cannot be advanced past its
-  end, and falling back to the requested length when the top-level
-  inode reports a degenerate block size (stacked filesystems);
-- if status is FILE_DEDUPE_RANGE_SAME, bytes_deduped is the number of
-  bytes actually deduplicated;
-- in both success cases a zero value means no further work is
-  possible.
+The following changes since commit 8cdeaa50eae8dad34885515f62559ee83e7e8dda:
 
-Unknown flag bits are rejected.  The flags field shares an anonymous
-union with the old reserved2 name, so existing source keeps compiling
-and the binary layout is unchanged; old kernels require the field to
-be zero, so new callers setting the flag on old kernels get -EINVAL
-rather than silently the old semantics.
+  Linux 7.2-rc2 (2026-07-05 14:44:06 -1000)
 
-Suggested-by: Darrick J. Wong <djwong@kernel.org>
-Link: https://lore.kernel.org/linux-fsdevel/20260805071414.3414870-1-matthias.goergens@gmail.com/
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
----
- fs/remap_range.c        | 25 +++++++++++++++++++++----
- include/uapi/linux/fs.h |  5 ++++-
- 2 files changed, 25 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/fs/remap_range.c b/fs/remap_range.c
-index 26afbbbfb10c2..ac88a81c12739 100644
---- a/fs/remap_range.c
-+++ b/fs/remap_range.c
-@@ -503,7 +503,7 @@ int vfs_dedupe_file_range(struct file *file, struct file_dedupe_range *same)
- 	if (!(file->f_mode & FMODE_READ))
- 		return -EINVAL;
- 
--	if (same->reserved1 || same->reserved2)
-+	if (same->reserved1 || (same->flags & ~FILE_DEDUPE_RANGE_REPORT_PROGRESS))
- 		return -EINVAL;
- 
- 	off = same->src_offset;
-@@ -551,12 +551,29 @@ int vfs_dedupe_file_range(struct file *file, struct file_dedupe_range *same)
- 		deduped = vfs_dedupe_file_range_one(file, off, fd_file(dst_fd),
- 						    info->dest_offset, len,
- 						    REMAP_FILE_CAN_SHORTEN);
--		if (deduped == -EBADE)
-+		if (deduped == -EBADE) {
- 			info->status = FILE_DEDUPE_RANGE_DIFFERS;
--		else if (deduped < 0)
-+			if (same->flags & FILE_DEDUPE_RANGE_REPORT_PROGRESS) {
-+				u64 step = i_blocksize(src);
-+
-+				/*
-+				 * Stacked filesystems (e.g. overlayfs) can
-+				 * report a degenerate block size here; a
-+				 * one-byte step would only misalign the
-+				 * next call, so advance past the whole
-+				 * request instead.
-+				 */
-+				if (step <= 1)
-+					step = len;
-+				info->bytes_deduped = min_t(u64, step, len);
-+			}
-+		} else if (deduped < 0) {
- 			info->status = deduped;
--		else
-+		} else if (same->flags & FILE_DEDUPE_RANGE_REPORT_PROGRESS) {
-+			info->bytes_deduped = deduped;
-+		} else {
- 			info->bytes_deduped = len;
-+		}
- 
- next_loop:
- 		if (fatal_signal_pending(current))
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index bd87262f2e349..471f698beaa93 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -178,13 +178,16 @@ struct file_dedupe_range_info {
- 	__u32 reserved;		/* must be zero */
- };
- 
-+/* flags for struct file_dedupe_range */
-+#define FILE_DEDUPE_RANGE_REPORT_PROGRESS (1U << 0)
-+
- /* from struct btrfs_ioctl_file_extent_same_args */
- struct file_dedupe_range {
- 	__u64 src_offset;	/* in - start of extent in source */
- 	__u64 src_length;	/* in - length of extent */
- 	__u16 dest_count;	/* in - total elements in info array */
- 	__u16 reserved1;	/* must be zero */
--	__u32 reserved2;	/* must be zero */
-+	__u32 flags;		/* in - FILE_DEDUPE_RANGE_* flags */
- 	struct file_dedupe_range_info info[];
- };
- 
--- 
-2.55.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/ tags/sysctl-7.03-rc1
 
+for you to fetch changes up to 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e:
+
+  sysctl: remove CONFIG_PROC_SYSCTL, it just mirrors CONFIG_SYSCTL (2026-08-05 15:28:23 +0200)
+
+----------------------------------------------------------------
+Summary
+
+* Documentation
+
+  Fix kernel-doc warnings by adjusting in file documentation.
+
+* Consolidate do_proc_* function into do_proc_vec.
+
+  Consolidate three slightly different implementations of applying a converter
+  on all elements of a vector. Fixes to this function now propagate to the three
+  types.
+
+* Miscellaneous
+
+  Replaced CONFIG_PROC_SYSCTL with CONFIG_SYSCTL (they were the same) and
+  restrict cad_pid modifications to global root (GLOBAL_ROOT_UID)
+
+* Testing
+
+  This series was run through sysctl selftests/kunit test suite in x86_64. And
+  went into linux-next around rc2, giving it a bit more than a month of testing.
+
+----------------------------------------------------------------
+Joel Granados (6):
+      sysctl: Move default converter assignment out of do_proc_dointvec
+      sysctl: Add negp parameter to douintvec converter functions
+      sysctl: Replace do_proc_do{int,ulong,uint}vec with do_proc_vec
+      sysctl: Group proc_handler declarations and document
+      sysctl: Rename proc_doulongvec_minmax_conv to proc_doulongvec_conv
+      sysctl: Update API function documentation
+
+Oleg Nesterov (2):
+      sysctl: move the "cad_pid" entry from pid_table[] to kern_reboot_table[]
+      sysctl: remove CONFIG_PROC_SYSCTL, it just mirrors CONFIG_SYSCTL
+
+Randy Dunlap (2):
+      sysctl: add Returns: kernel-doc for all functions
+      sysctl: repair some kernel-doc comments
+
+ arch/m68k/configs/amcore_defconfig                 |   2 +-
+ arch/m68k/configs/stmark2_defconfig                |   2 +-
+ arch/s390/Kconfig                                  |   4 +-
+ arch/x86/kernel/cpu/bus_lock.c                     |   2 +-
+ fs/pipe.c                                          |   2 +-
+ fs/proc/Kconfig                                    |   3 +-
+ fs/proc/Makefile                                   |   2 +-
+ fs/proc/internal.h                                 |   2 +-
+ include/linux/sysctl.h                             | 131 +++--
+ include/linux/utsname.h                            |   2 +-
+ init/Kconfig                                       |   3 -
+ kernel/delayacct.c                                 |   2 +-
+ kernel/pid.c                                       |  31 --
+ kernel/reboot.c                                    |  29 ++
+ kernel/sched/core.c                                |   8 +-
+ kernel/sched/topology.c                            |   4 +-
+ kernel/sysctl.c                                    | 528 +++++++++++----------
+ kernel/time/jiffies.c                              |  31 +-
+ kernel/utsname_sysctl.c                            |   4 +-
+ lib/Kconfig.debug                                  |   2 +-
+ lib/test_sysctl.c                                  |   2 +-
+ net/mpls/Kconfig                                   |   2 +-
+ tools/testing/selftests/net/config                 |   2 +-
+ tools/testing/selftests/net/packetdrill/config     |   2 +-
+ .../testing/selftests/wireguard/qemu/kernel.config |   2 +-
+ 25 files changed, 451 insertions(+), 353 deletions(-)
+
+--gkawtdox6l4a23fx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqC+6EACgkQupfNUreW
+QU8qDgv/VNzRaxbcsoQR/5OeSAT4yiv8tk6/0snXpcb/UcnlBUBBsjG1iCU4gHDc
+8Qhsmq5E1K9U4hDJjkF9kOBpIlT6wl5NE3eIwK/LGwiovTMjZBAo5Jk+Hlon+ix9
+TB4UofZTmgRoYsI95pf4Q7h3OcaSM2HkkJZ7QLpDZ5FS+i0rBxfs4Pni/b0P13U9
+kZ+SooFMg46uc2Bl/J6OdIPoLn3o+rFR3Wn815iSPc2Jg/7MCl5DCxzXLPsCmG0P
+LeTXUUW+wBaxYSbpiRbGGg3phuoCjvbeOmZxheOr1gGvetx2BMyJ4rY7P6u3jjIT
+4KbWhvFr187cQrcoLqcEmh2QcJFx9EgBKvZ6nPWIL9Tw73k2AnD8ZzJR4GSxo+KJ
+tnBSQqauxs9jyz3kkJzKS0jdYjq6MJl3ZmwIz4gzJmL8l2NRxLiUiANyVVYD+Ba+
+mFblYjHMtyVMX5y+p3gbAHsBH/YsMffbDEW/RoE52BYwbepjaMmYHlogBS/LFY92
+i0Q8Yv7e
+=mF+N
+-----END PGP SIGNATURE-----
+
+--gkawtdox6l4a23fx--
