@@ -1,181 +1,148 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445672F8EA2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 16:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6DE44CF59;
+	Mon, 17 Aug 2026 16:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786983456; cv=none; b=NHPseMr+ECkSRy3t1cnJsZKVvvSEgptn3nuWLVQHuFXn2OoUBN4Uz650QueiySeSr6y6InmpNfiGcDI3Os/OH4+zRIUhQzn6eYkpx6fI0311s6Br/kF19RGDyehD9Y8gUf83AHcFgAmrUioBS5gGDvWIQqjTJ+aNkykxCusQ1QQ=
+	t=1786983780; cv=none; b=i8roA7160fcLLBiifSCCxQ7RUS4QWP7wRqtGKn8vc/rgo8f+3Bnk1vvLuzwew5fu7e2aQQV/ITeCQkrTVXQWIludNubeWqnHdu031m681LIL8hdQYi67F9HIbVdMyIboQCCMywzkPX1Wf1cn+4jHY6ehPcRBjaXYfNsIrO+Bu6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786983456; c=relaxed/simple;
-	bh=I48LyXxTdxXxQ1cyphtRSI0QVP19kxuOc3W7VYOK1lI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FTZf9L/pe5D1vtqabumIGy+ANRVOvtJ/gnwZufs2TtQzk4XfFiT+yDbw4CMTghvafJUmzw18W7WjPua8K1dXdceRpcQCGO3oAxCXKW3kBDPuCAOA8aD1+mTYNqnqjhQLog74tm0bJu+CAi3hf6lUIiBj0u3ct5rxBnaLhct16G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dpoHSi73; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786983780; c=relaxed/simple;
+	bh=yB50sGtNEPaJJyZ+6RWhkJi24/OJD+QHuHwOuLtXl50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=epepajp5OgEH5X1H+9XbCSBBcKpYNDj/C6T5O6h4QIQ038hDQAE2Oo/CNBcuRCygYy711C69oPpD92sw7zphSQYB9ecQi3X/JavRWo1yLvKenihfECOS08IY+G/gZg6Sr0pcU6hcuYBsQPPwpBN8hOFZhodulP0sSn/uaSIJ+sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9lEqKNY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nc8Hgt6v; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1KN4OFxU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lvZ+d9ee; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dpoHSi73"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so25590595e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 09:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786983452; x=1787588252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o6/t8/4N3XQWXCm14IpoEgljHMU303esyG3KYaRnKWg=;
-        b=dpoHSi73iwBZvlJY2UbLVl4ycLfJiYp8/0ecTQMsFMQjKd8r4FfeIoR3CKUf2gPE8f
-         SP9YnOQ3NZUAdL1+rNODsmL9wk5NsHVlSpAzMAqocz1S9jZUFwh/62QNj5hiOvfrWZGl
-         BrKYUExA8MetQ008sy4pg9WL32yrdt3w6+WKScpwv6NWEaBYcb8CaJLi+JcozsKL4MNs
-         gqjUHigF23TOETcAM2dHwEuHPtUBNlUvrmVlA8PIvn9Io5r6UZaKmmPPND0e8hvReygb
-         Spua+dyJHutk3fsHICXGyH6Bdx7xU+LdUk9Aw75Lll8ByZqnH9TdHU0zse9yeDuejMGe
-         yFjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786983452; x=1787588252;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o6/t8/4N3XQWXCm14IpoEgljHMU303esyG3KYaRnKWg=;
-        b=bvQoXWIFmOT1Wy0IfVzP/X4vUNMJSnwXqXE774z6/TDrvtAalXdK3hho8TsuTRIhP+
-         jTWmdDfWgnwFFHHVW+VwlgQsppxaEzhZxXm3sJ3WiMydqS8eVGiwgb8hapwck9nScHtQ
-         66xIJxQjgmWCRtjswK9QzUHfWKG9Mbpo2X6O7+8+bQUkM36mPTM3/y5/AUSe1GaCAQL5
-         o3q2M8V6caFTPHkr+EfWU2ZCCxsaEoNbbceWob7T9moidx41YZAYnDi7I0JxBk2nqISx
-         HNyb8DfqO8SGbgmcNspoJQImkHGnMM9ZHmTrzXZUtDnOuZY8BD3knWxMy+FslZtXyS8I
-         rROg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqo9iqSgZ627X9VZuVo3TVSkfrNHLAea5EIx5TOFjEt/9PhVHkm35Hj+Zo3q+n/EZrQ4ugd6v+VU4MW7CZe@vger.kernel.org
-X-Gm-Message-State: AOJu0YySQe6t+ombsjC4UhnTJF4j0xf7DVgeEW5rNc2LvJ24M/U93j33
-	eGqGDfDAjT895n9BbTvo409aoSZ+nJoarEvJWnpDP0HZGUyZALLhSI72
-X-Gm-Gg: AR+sD11r7Q7EcQy2iJv+2OZ1GpTCBywWRUVUHpbJMG93DWsqdGFfrlzn2vmJ167uPeP
-	axdtdhbmSLOZ9lJtA4+5EbM1npISroFYwS4JQYtBhZcbwztZ5r7Z1R2ZtbCyuVCnKz3LC5T6lYz
-	m16gJIoHXHsJgj60FWRAwLZzw2YYvd9RY59jbDWRkk/SyzD8RgVYTA0w3cTTMAEgfANDG1mWJtT
-	G0RK0UuPg+bz/TG7JaRD0TUOUl80zozi6MFRrZ9b0vPAY4gyzbH0s/XtbZVUJFwzOJcSPO+pjOA
-	VZYY/faRCB6tlPQHCX3WKrRYEgXkL0iKHfGGPsK1yk1zx3WJt+pVhYG0Snj6uiCTLf/umzItCNa
-	pBDodUv62pThyyzh4pZrk6lzKaljUk4Ipi2FgnD6OHlVyHL0DR6iIAjKCeS/4NPECRyAKuawkVx
-	DHMxulFdA9W0mNjdu6vvZ2saLpNDlqvefgseeFYUSHIO2+
-X-Received: by 2002:a05:600c:358a:b0:496:c06b:9fb4 with SMTP id 5b1f17b1804b1-4999fb940c5mr20370285e9.14.1786983452156;
-        Mon, 17 Aug 2026 09:17:32 -0700 (PDT)
-Received: from c.. ([213.165.253.80])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49996188217sm355538945e9.13.2026.08.17.09.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 09:17:31 -0700 (PDT)
-From: Narek Jilavyan <njilav@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Narek Jilavyan <njilav@gmail.com>
-Subject: [PATCH v2] fs: do not cache a symlink length that disagrees with the string
-Date: Mon, 17 Aug 2026 16:17:30 +0000
-Message-ID: <20260817161730.699293-1-njilav@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260817081756.4176757-1-njilav@gmail.com>
-References: <20260817081756.4176757-1-njilav@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9lEqKNY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nc8Hgt6v";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1KN4OFxU";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lvZ+d9ee"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ECFCD840A1;
+	Mon, 17 Aug 2026 16:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1786983771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
+	b=M9lEqKNYcNJeMlimzADwxfUN4Iuo8u1M5qZ1lTJs3quXNwBeUKx2NTgUTgS8gU//7f5KQe
+	fOY9tOjPW0xPTdA9Ji7vIhNgInEWFVTziRjFAjTddLfdyVYXf0yOjFJbVILUYFR3SNGUAy
+	ZUuOgKX9Zcec18Pbf66YNXV7DFrLQ/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1786983771;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
+	b=nc8Hgt6vxy+kjbV35GgFuIzIg1ehEZBvexsuSDvHdnYPCBTMM0v4L26sjFuZ87li6F9oe4
+	qG4/HxkDWdPF8+AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=1KN4OFxU;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=lvZ+d9ee
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1786983767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
+	b=1KN4OFxU2Rl6wuR6tZ+d5x7TcGnuYjUAcsDSxKkQypGZPQOKTPqnI4H07BGKHtuGkIIt+K
+	pHsL+CnR1CkAv/nsRiRo1Mralp+pjKdAiwKuHU1WcgzP3MFeqTM4/s6OLqwQxS4hEONSLU
+	iUa5063guwOJLY4U+nfpn0WgMc4qs8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1786983767;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hij7YwfoE5wWVmiYP4GWFvxTOzb2//kKqvv5I9rQBiA=;
+	b=lvZ+d9eehGsD2WHxLtIdIgKyKG8tyrLQzC17UozcWpwcq4D0KPVpVxo8FzdfzNZj9FSa3N
+	1b6EKMjbip6JbPDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5D8E7955E;
+	Mon, 17 Aug 2026 16:22:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rpcTOFY1g2rndAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 17 Aug 2026 16:22:46 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 90FACA13B5; Mon, 17 Aug 2026 18:22:46 +0200 (CEST)
+Date: Mon, 17 Aug 2026 18:22:46 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Ayhan Aydin <nsd.project.dev@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] Neural Storage Driver - learning page cache
+ prefetcher
+Message-ID: <ffcij36vnozf3rginqd2opd2dwqyki7xhtdo4veuty734hhgba@utjav2k263o6>
+References: <20260725182628.221603-1-nsd.project.dev@gmail.com>
+ <CAFLp9PEQQVuDpJPwrNvLN1-u3w3TMwZPUUrf0+rOBrvDjBBf1A@mail.gmail.com>
+ <anlByPDZmvEhWeXI@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anlByPDZmvEhWeXI@casper.infradead.org>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kvack.org,suse.cz];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: ECFCD840A1
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-inode_set_cached_link() stores a caller-supplied length in i_linklen and
-sets IOP_CACHED_LINK.  vfs_readlink() then uses that length directly:
+On Mon 10-08-26 04:13:12, Matthew Wilcox wrote:
+> On Sat, Aug 08, 2026 at 05:10:42PM -0400, Ayhan Aydin wrote:
+> > For reference, the series adds an optional observation hook
+> > (CONFIG_NSD, default off, see PATCH 1/3) that does not bypass
+> > the existing ra_state / file_ra_struct machinery. All actual
+> > page insertion is still delegated to page_cache_sync_readahead().
+> > Benchmarks (interleaved ON/OFF methodology, i.e. same-machine A/B
+> > with repeated runs, SQLite full-table scans and buffered
+> > sequential I/O) showed an 18-19% wall-time reduction and
+> > +22.6% throughput improvement respectively.
 
-	if (inode->i_opflags & IOP_CACHED_LINK)
-		return readlink_copy(buffer, buflen, inode->i_link,
-				     inode->i_linklen);
+I can see how SQLite table scans could be improved but I'm really surprised
+by the 64k sequential buffered read. That's basically what the current
+readahead logic is built for. So how is the sync readahead you trigger
+better than what generic async readahead does?
 
-and readlink_copy() clamps only against the user buffer, not against
-the string, so a length larger than the symlink body becomes a
-copy_to_user() of adjacent kernel memory - reachable by any process
-calling readlink() on such a symlink.
-
-The only thing standing behind the invariant is
-
-	VFS_WARN_ON_INODE(strlen(link) != linklen, inode);
-
-which expands to BUILD_BUG_ON_INVALID() unless CONFIG_DEBUG_VFS is set.
-On a production kernel it type-checks the expression and evaluates
-nothing, so the value is stored unvalidated.
-
-All four in-tree callers are correct today.  This makes the helper
-enforce its own contract rather than leaving it to the next caller.
-
-Validate unconditionally and fail safe: if the length disagrees, warn
-with the disparity and leave IOP_CACHED_LINK clear.  i_linklen has
-exactly one reader in the tree and it is gated on that flag, and
-vfs_readlink() falls back to i_link with a strlen() of its own, so the
-inode degrades to the behaviour that predates the cached length rather
-than disclosing memory.  That fallback state is not exotic: 19 other
-filesystems set i_link directly and never set IOP_CACHED_LINK, so it is
-exercised routinely.
-
-The check runs once per symlink inode setup, not once per readlink(),
-which is what the cache was for.
-
-Tested on 7.2 with CONFIG_DEBUG_VFS=n by handing a 3-byte allocation
-holding "AB" to inode_set_cached_link() with a declared length of 64:
-
-  before: readlink() returns 64, copying 62 bytes of adjacent kernel
-          heap to userspace
-  after:  bad length passed for symlink [AB] (got 64, expected 2)
-          readlink() returns 2
-
-Fixes: ea3821990719 ("vfs: support caching symlink lengths in inodes")
-Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
-Signed-off-by: Narek Jilavyan <njilav@gmail.com>
----
-v2:
- - warn with the actual length disparity instead of a bare WARN_ON_ONCE,
-   as suggested by Mateusz Guzik.
- - the filesystem name is not included.  struct file_system_type is not
-   complete where inode_set_cached_link() is defined (the helper is at
-   include/linux/fs.h:947, the struct at :2280), and dump_inode() is
-   declared and defined inside #ifdef CONFIG_DEBUG_VFS so it does not
-   exist on the kernels this patch is about.  Both established by
-   compiler error rather than assumption.  If the fs name is wanted I
-   can move the warn out of line into fs/inode.c, though that needs an
-   EXPORT_SYMBOL since ext4 and erofs can be built as modules.
- - still refrains from caching on a mismatch rather than fixing the
-   length up, so a buggy caller is reported rather than silently
-   corrected.
-
- include/linux/fs.h | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 50ce731a2b..c7051cfc6b 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -946,9 +946,25 @@ static inline void inode_state_replace(struct inode *inode,
- 
- static inline void inode_set_cached_link(struct inode *inode, char *link, int linklen)
- {
--	VFS_WARN_ON_INODE(strlen(link) != linklen, inode);
-+	int testlen;
-+
- 	VFS_WARN_ON_INODE(inode->i_opflags & IOP_CACHED_LINK, inode);
- 	inode->i_link = link;
-+
-+	/*
-+	 * i_linklen is used as a copy_to_user() length by vfs_readlink(), so it
-+	 * must not be taken on trust. If it disagrees with the string, leave
-+	 * IOP_CACHED_LINK clear: vfs_readlink() then falls back to i_link and
-+	 * recomputes the length with strlen(), which is what it did before the
-+	 * cached length was introduced.
-+	 */
-+	testlen = strlen(link);
-+	if (testlen != linklen) {
-+		WARN_ONCE(1, "bad length passed for symlink [%s] (got %d, expected %d)",
-+			  link, linklen, testlen);
-+		return;
-+	}
-+
- 	inode->i_linklen = linklen;
- 	inode->i_opflags |= IOP_CACHED_LINK;
- }
+								Honza
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
