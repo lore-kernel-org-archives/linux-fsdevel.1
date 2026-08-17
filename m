@@ -1,115 +1,106 @@
-Received: from devianza.investici.org (devianza.investici.org [198.167.222.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30733D7D8D;
-	Mon, 17 Aug 2026 13:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.167.222.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE600270545;
+	Mon, 17 Aug 2026 13:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786974370; cv=none; b=kNoaK+aSrn7YaFjGV/bCvzt6DP2DsMaAX+arXli05XD+FwTj76WPLlTERNlK4Bb3qp094rbfLb+4lanyxLhAj1tQrqne1Up/UhiXoCydMeresmt3mKtpbaAQ69QM8kWT04uaE7hoos+jiMAxVLwVpz1N1IhZDbtXbh81lZBriEs=
+	t=1786974861; cv=none; b=brJq+AXTHUbD4KeKbaSDft0EeH8iE4sz5sTlzhBxD9PjDeg32/VEjlZTcNAgE88yw0SrqDDEZkCfccAzlmLu8sPVyJ6IxNwihZug9CzgB9mbluqTaxEcGe9T/AMctlBJdMVxQUZtoIeXxuZKJCVY37/DJg1e+nMlyOoZcLegIwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786974370; c=relaxed/simple;
-	bh=az34s4xk1pg1ibnyNYN66Ui0rgPsGjKvJKQRxku/Oto=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=NQn/srZqqwkvGUS4GFK51PXlvDwKVa7sewzHTnY8NA/WNwdVKKSgylyxBOH5I7KOgaG4ftq9CnOJ1YyJL8hN36SVjtB43lgHokKkikR8h4pWHJDVXGr25FjcDvpx5wJD6skRx4i+jqZ4gc8ggAkz+Jed1iedmaRaDzWiP/U1P4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net; spf=pass smtp.mailfrom=grrlz.net; dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b=AGIu3f6g; arc=none smtp.client-ip=198.167.222.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=grrlz.net
+	s=arc-20240116; t=1786974861; c=relaxed/simple;
+	bh=FVL9nbCJQZbVEyCg+fbUYuegcFTEntbf4W0jnv14ZwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyQrC1DRufCIYQhtyjeLT6Dj7RcsFmC910chgI2aVaga8ndt54E6hQrPUS/Vi90z7IDRyEDTgIpIWsbdJabgVQBKw0UkI9RuPUFHJr5L95sR3jrs/DpwkvHsJv3fZLPupoZySOpVCONvWdDhRuiHgHvVvQK3NQsqX+7SWSR3JpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mzkcPzS2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b="AGIu3f6g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grrlz.net;
-	s=stigmate; t=1786974361;
-	bh=ig8b2sENsh4uRBZuRVMIOvnD2w3jOwT8EfqPmaadLzY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=AGIu3f6giLeq5unMffhjmaNuwQG+K2BpF+4ytiFS5wBUFnwDpoT+5nKLTQJTcVHJK
-	 yYdVw8LyfbYpRLhrJnEsl/O0xUCrbegGEAZasN7B+G4R6eRWhVnK7m60ZMrGZeEy1H
-	 ejUPu3tHSjFbEv3BRigCKoZeM2H/gKBXAS9wGIfk=
-Received: from mx2.investici.org (unknown [127.0.0.1])
-	by devianza.investici.org (Postfix) with ESMTP id 4hNvHY3gdZz6vL2;
-	Mon, 17 Aug 2026 13:46:01 +0000 (UTC)
-Received: by mx2.investici.org (Postfix) id 4hNvHY0Chmz4y6W;
-	Mon, 17 Aug 2026 13:46:00 +0000 (UTC)
-Date: Mon, 17 Aug 2026 14:46:02 +0100
-From: Bradley Morgan <include@grrlz.net>
-To: Joel Granados <joel.granados@kernel.org>
-CC: akpm@linux-foundation.org, hannes@cmpxchg.org, kees@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
- shijianlin11@foxmail.com, shuah@kernel.org, surenb@google.com,
- vbabka@kernel.org, ziy@nvidia.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_3/4=5D_sysctl=3A_Disallow_part?=
- =?US-ASCII?Q?ial_updates_for_erroneous_sysctl_vectors?=
-In-Reply-To: <FB1BAD61-3BC2-4CF0-9345-6CC2E9EC548A@grrlz.net>
-References: <20260814-lklm-partial_ctlvec-v2-3-9df50d26e477@kernel.org> <3A4FCA2B-2F42-4E8F-A328-5C1BD658B2A8@grrlz.net> <cwfpl5h47km6f35m5k7wa2pj3elciaax6i3nmetxcgws66qewq@fzygztolxed4> <FB1BAD61-3BC2-4CF0-9345-6CC2E9EC548A@grrlz.net>
-Message-ID: <C95DE45D-776A-4856-808F-936D7642756E@grrlz.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mzkcPzS2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DB8C1F000E9;
+	Mon, 17 Aug 2026 13:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786974858;
+	bh=FVL9nbCJQZbVEyCg+fbUYuegcFTEntbf4W0jnv14ZwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mzkcPzS26UAieTbjjhDND9RbJJJohN9fS6apOERJiglp4bVTAKUcPVLWjoPXCiNki
+	 JLBNklhzbQYeNIP/pTrx+MTd3fURHD8a+kQjwehQn39hVP3YpKYMT4Dgng+9cX2wDj
+	 ewBHI2xVbqlIuasqa4JrW917AG4ARpUUfzfTZGob0TUy3mb781Kc9yPrElJRlqyOZF
+	 xhafTecT0KNjqpPO0WeacuCTq2zvdjy5ZxT9iW/FYzOfW+PJGD2cexjYQ/rMA88xY5
+	 CspoVrsJrMr0y/5uNx2fzwSYEspmauqLPXz/3xwm03Fzb6+gkpAgxtWa3l5twRYZVH
+	 8yQOGv2enqBhA==
+Date: Mon, 17 Aug 2026 15:54:12 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Bradley Morgan <include@grrlz.net>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, jackmanb@google.com, 
+	kees@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com, shijianlin11@foxmail.com, 
+	shuah@kernel.org, surenb@google.com, vbabka@kernel.org, ziy@nvidia.com
+Subject: Re: [PATCH v2 4/4] sysctl: Add 0013 to test partially updated vectors
+Message-ID: <iahrpgl333k2cniihxiv4qbkgtalxmhn47gyzrq2xd7jshxbtd@cniqn2gdnqfw>
+References: <20260814-lklm-partial_ctlvec-v2-4-9df50d26e477@kernel.org>
+ <1EF80864-F479-44F2-8CD7-28383515F483@grrlz.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-On 17 August 2026 14:44:29 BST, Bradley Morgan <include@grrlz.net> wrote:
->On 17 August 2026 14:43:44 BST, Joel Granados <joel.granados@kernel.org>
->wrote:
->>On Sat, Aug 15, 2026 at 05:05:26PM +0100, Bradley Morgan wrote:
->>> commit_conv_vec() writes the elements one by one, so a reader can
->>> still see a mix of old and new values while the loop runs. Same as
->>> before this series, so no regression, but the changelog could say
->>> this doesn't make the write atomic either. Otherwise someone later
->>> will expect the vector to change all at once.
->>
->>Seems reasonable: here is what I added to the commit message:
->>
->>
->>"
->>... This (The staging vector) does **not** make the write atomic as a
->>reader
->>can still see a partially updated vector.
->>
->
->Good enough.
->
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yhe6sdbk6tigebhg"
+Content-Disposition: inline
+In-Reply-To: <1EF80864-F479-44F2-8CD7-28383515F483@grrlz.net>
 
 
-Hmm. Removed a folk off CC:
+--yhe6sdbk6tigebhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Aug 15, 2026 at 05:05:59PM +0100, Bradley Morgan wrote:
+> The test covers the parse error, the out of range value and the
+> first value failing. That's the right coverage.
+>=20
+> The shellcheck disable should say why. The test functions are only
+> called through the dispatch string, so shellcheck thinks they are
+> unreachable.
+I expect to remove this in the new sysctl selftests.
 
-** Address not found **
+>=20
+> run_int_array_no_partial_update() uses spaces for its comment lines
+> while the code uses tabs.
+good catch=20
 
-Your message wasn't delivered to jackmanb@google.com because the address
-couldn't be found, or is unable to receive mail.
+>=20
+> reset_vals() has no case for int_0003, so sysctl_test_0013 calls it
+> for nothing. Drop the call or add a case for int_0003.
+The TARGET is reset to "". right?
 
-Learn more here: https://support.google.com/mail/?p=NoSuchUser
+I'm reluctant to do more work on the sysctl.sh file as everything will
+probably be replaced.
 
-The response was:
+Thx
 
-The email account that you tried to reach does not exist. Please try
-double-checking the recipient's email address for typos or unnecessary
-spaces. For more information, go to
-https://support.google.com/mail/?p=NoSuchUser
+Best
+>=20
+> Nits aside, the test does what it should:
+>=20
+> Reviewed-by: Bradley Morgan <include@grrlz.net>
+> Thanks!
 
-:(
+--yhe6sdbk6tigebhg
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
->>...
->>"
->>
->>Best
->>
->>Joel
->>
->>> 
->>> The copy is limited by table->maxlen and only vectors pay for it.
->>> 
->>> Fine by me.
->>> 
->>> Reviewed-by: Bradley Morgan <include@grrlz.net>
->>> Thanks!
->>
->
->Thanks!
+-----BEGIN PGP SIGNATURE-----
 
-Thanks!
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqDEoQACgkQupfNUreW
+QU9kAwv9G9oMHDJ+90hHFBoMUPnpGpgP+V/sRCaP8YhJBX+tnl+p82nNXfffddrL
+WmT9wH0JuPPRHSN3ZedgAe/+gWUez2DAUDK7ShH6QlTRzvitfW3Bi4g7A+KcgbAL
+nykswCVYLvRPVIRBGdJMniG/25lwhBR+KrsZY2nx3YDw0BNTavSTCPrVId1FVJ8C
+eOJw5QWyR5dIQR1gamOHqx+kF+p6Py3iS64LXB+2RrGLR6eRY1ge4HsG29/0q6I9
+N89xYCLv4YAQroZOWzQyzTbbtdSXcYx4+If2bh8GUy/+qifSVQIQ5TBtrUpWuOaW
+dVNDas3p8WRcAR5/89DxGdBxlMFPahyt+Xs3xxuXOtreEn5nHPf3naLBAq8TD8Wk
+76kNx7YyZfPzi7wIGWhwtxMz/0/9muPVNNlQEHRKRJJknkjOyJxzWrmdL1ygovtC
+f0ssEfZ4ZEn98LWDUaH5bwls8TPbTps+qrqv0+zdvJnwPhzXg6ken77xYQ22+wva
+N2yP77lJ
+=t+L1
+-----END PGP SIGNATURE-----
+
+--yhe6sdbk6tigebhg--
