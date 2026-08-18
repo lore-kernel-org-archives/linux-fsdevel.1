@@ -1,82 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5192C3793B1
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1283D8914
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 06:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787026300; cv=none; b=Jg1f3WcS+IeCd1CpeXJeoaeOw3SZubgIat5BssxHoYGs8aIM8mYa24zUvqsicuSw4zqmZaV1X5jSZmuiQ06HW0PIX4j7UKH9/dZKwxQs7x+QI64iouaVMCQXqq9rf4DDYgMBQUVbhd3hZ1QyIVhNqEbgd2JzSMKqgTfxho1JP+o=
+	t=1787033127; cv=none; b=dW3MpjwZCr9FLaDhu5zzneO0Gw2N7pXN/zIhJsTGZiJ7KkPom2K0ezv9nCUamyKVwvsZd56nVfdm0fjAhm01T1uvjcL3m0vTXTy81otGiD1WJfz4UiD/NwXo73fEbtjFDtNc7lm31KrRLdf2HiPx3/UERsMcXM1U2/Blm0KcM3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787026300; c=relaxed/simple;
-	bh=Z4K/ihWjviWB/tKnNjeIDWxYhpRRCwm3+HAlYkxJejs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FJz3KQqByIwHQG1TGDYKWLSXTf3iKh0W+OtTGuSzVnFtTq2b3bREbQWMUwraAXAHLMCN8mDinXuNWI7qN8kvPkMhNInvXNSTSR6j36msgc1ShmiqdOORN55FJEaDmbtx2gxnQR9wonS5HL/4EC4J9iUp3Ni/st07w7/Yd8zOd6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hg00Xi7E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787033127; c=relaxed/simple;
+	bh=1LkS/G+9OsupplZ6mJRtjAL7b6Sueeo59VtGh/jXl9s=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=N6NaUWidy+5OOnLdBF5cPxGJmRTPxvQ1Uyf9TxLeQWMEdfWqtk3TM2HKnpexJ7N4NfcM7F4L8sB2rgi3h56YtvxauNTADyicwdNTNxNGpymaScAr54dfeqs30TgOvg14ZGEDyumv/Mok+bGbtE1eaoVz3SzTMppw0COpvgD5GXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gwdvM61p; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hg00Xi7E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267991F00AC4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787026299;
-	bh=540QcSr75PQ/ZOyK33VSAsJ+U3W5UxWId0Js/IarnC4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Hg00Xi7EwJIVW+RAkugB+5rWsPDwRb2Vzs7SZQXH6Wk9kao+cscyxBczx4e+dep46
-	 p5CQuMCRhTY7laTrFsOEb0L9JNeLY/dOtoZSXl9PRaqkFFn8wTnDCah5QqB6Q5iIGt
-	 FaDxdiYwkdDV5WhXTOXEZWLlfBCynWthPH/qgJ0J5lGQhe5QCEfiKswzVLgWDhik3g
-	 0IDpAoXjbvQV6Da4jndZacK5UGmAGGk3vIq5qrfrRUbqpYfSxIO0uqiDp0QXQds/FG
-	 a/8NVad0p50bDtzsR4/iSWtSf/YonWoXVytnWfEhs27VoAs5tykxTo2NefCwGdbX3/
-	 QJhmgSVL+iUlQ==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c2074710751so656039166b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 21:11:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rp4C68dtILaYfak/MwAddsovjcjq/JV4yElHBBITcEjqtPbeRu5o43mvkTFBaVk8PAGCpS4kiQov7iLpVDz@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFGuBHPSoPwt5MNMZ9fbMwG+/cPTe6QYSdZeICyUA7SbuFNBSx
-	cfhz5ZFnNzT3yvsXbD/ofkJl2m1YFX8YocbtVvUHKJVMaGENTT11b7sGcm3sSdwXubWGFi0aNwz
-	Eq+DNAzgo1Od1o0YFydEeG5zut0LxJyY=
-X-Received: by 2002:a17:906:9fc8:b0:c20:768:af62 with SMTP id
- a640c23a62f3a-c212a18c634mr1442007866b.22.1787026297767; Mon, 17 Aug 2026
- 21:11:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gwdvM61p"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-382ef647e20so4086338a91.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 23:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787033123; x=1787637923; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CSwCC+5VmVEXhaHZ31J0gWRAZYtpFlE4rqplAmPxIF4=;
+        b=gwdvM61p/07oTaUN/IFcQaiAMY2g4ewjIhhWfSaCV0fHHTDW7mSKIPFCcNrhZI2RFd
+         K6tbdDeon1PVu2uBgMEXm8TyGnNrU0A+J2WOyficLj7HXGgJcbTwMlps5fnOglSddQ2L
+         FIdSnMd1LgXi4Whpe8pI7dKzIzTkVkieZvgWibAEKyze4V3eAz79LfDBc3QVaG0M1JJF
+         eu/yj1dIsBEyCE/OsMterm7q37m7QygJtCioGlx1xsPRdEgAuOB6GuUXfrP+ZE6AihEb
+         1ZixJFPAuGBJs4k3f9sbOKCHW8PR0IdT2YVRFZiothr0jNcGE6jB4WtLhaYsb9PKZuLm
+         p8Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787033123; x=1787637923;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CSwCC+5VmVEXhaHZ31J0gWRAZYtpFlE4rqplAmPxIF4=;
+        b=HYvROuuGewHcvtsF/8gd0l7s5R0ww1Z38iVWo8Id8NpkjWP+LP+8y78kd/gPx/dbNI
+         HWTp/zxm2nGhY7QAu0waezMpaZLLREhQp/sQJJPxeTg1DkfRvFle4HHasq3aPWkJ2qzq
+         BgzQ0ALFQU61p4iCezskCXeyBBMEQL4GeF3zFLzN2cDlPU0kDm9KnDNiUfoupLCcG85m
+         3iAwG8NZsKsotoFGdAL865C7jeMsvmoSDfvZtIEu8GdZ1NXRGoh/WxwPNldQV8H/kHFc
+         K6+tGqThHbZj7kexMmeNT1FlSP1B6ydc1KtBTSyxfquvxsaI3Duh09vAbcvly/LiylwL
+         4NRQ==
+X-Gm-Message-State: AOJu0Ywj4I0p+zZNjAJu/M2VVrEuvhTbyxruIWlQU8rbGL+orxWZeZZF
+	phybdBUeB2Hpgj6jaTmBUS/kUN1E9E/iL2cGPVOftvhnYzyh395vqfVEr88/uGlyyRY=
+X-Gm-Gg: AR+sD10+C9K/PjyK3SYRZwsjE/XpCldZW1JZoInM/SfIz1OVgX1DHuXxnAqyaEiM3Vj
+	/rij1gcnXQmwxXvFu7onHwLNLWzzd4u3I9CWuU3yqP+ACwp51j16Fl0XqCuxx4rjAIp2iQATE/P
+	5uaPVJK3aihQX8GZpZjBwm9OL+CWt7T1tx4X10HGYuekCzPPJI0llgSkjAJrLtMheWlkLqRe6KS
+	+6XW75y7UjO0x/aDRpgZ82zMpKbemGv0MAa9eezzYFtDqscJWT1Sf4+42alhVRcowFblJcE+4IY
+	1GwQ4rnW7kV1YpVEGp+rauky41HKNT1nZBNZqjRHWYCp0FapcT37XSsv0+1iyfsMoC9m3j0afuq
+	2fjYB2ufElh3ik+NHkY2vYCDEyryYCklpj7jAhWgxEVYX3LW73EBnqeBJdmak1jLAlmUcBXn8PY
+	vls3WJ+wbOLsSSv51/Y2n6Jg3OWGoV9Wbf3aFhyO1Abwl3KpeZjG00ihS6Vox66UNz0ex/3RYy5
+	gKz0wUk1+wA7WZ3T33zMsK8PQzPJqafFiyDuHxjKz8cdUnrqEW0nauePwhVK8lUUlvlNnoFwLU=
+X-Received: by 2002:a17:90b:3bce:b0:393:288:29e3 with SMTP id 98e67ed59e1d1-3933e5c8586mr32530273a91.10.1787033122544;
+        Mon, 17 Aug 2026 23:05:22 -0700 (PDT)
+Received: from [10.0.1.166] (75-172-9-230.tukw.qwest.net. [75.172.9.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39531fbb3c5sm7406599a91.9.2026.08.17.23.05.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 23:05:21 -0700 (PDT)
+Message-ID: <49b4a00a-351b-4eae-8466-feadb1851156@gmail.com>
+Date: Mon, 17 Aug 2026 23:05:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260805015447.15488-1-huiwen.he@linux.dev>
-In-Reply-To: <20260805015447.15488-1-huiwen.he@linux.dev>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 18 Aug 2026 13:11:26 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9gZeRhL5Pt_risHwU-GQp=_3Tv3kHVoA0qPMrYOCA4iQ@mail.gmail.com>
-X-Gm-Features: AcwNN1UDLANC_ZdBCSAOewl1JmcKk6FLru6qYM4dyZ4Ak5gujq6TukloXwEuOSA
-Message-ID: <CAKYAXd9gZeRhL5Pt_risHwU-GQp=_3Tv3kHVoA0qPMrYOCA4iQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND 0/2] smb/client: handle compression flags through fileattr
-To: Huiwen He <huiwen.he@linux.dev>
-Cc: smfrench@gmail.com, pc@manguebit.org, ronniesahlberg@gmail.com, 
-	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
-	senozhatsky@chromium.org, dhowells@redhat.com, chenxiaosong@kylinos.cn, 
-	linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Dennis Tighe <dennis.tighe@gmail.com>
+Subject: [PATCH] ntfs: validate usa_ofs before preserving the update sequence
+ number
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 5, 2026 at 10:56=E2=80=AFAM Huiwen He <huiwen.he@linux.dev> wro=
-te:
->
-> From: Huiwen He <hehuiwen@kylinos.cn>
->
-> This series moves CIFS compression flag updates to the generic VFS
-> fileattr path.
->
-> - Patch1 implements ->fileattr_set for CIFS compression flags so
->   FS_IOC_SETFLAGS uses the generic VFS permission and serialization check=
-s.
->
-> - Patch 2 removes the old FS_IOC_GETFLAGS and FS_IOC_SETFLAGS
->   handlers from cifs_ioctl(), which are no longer reachable.
->
-> Thanks,
-> Huiwen
->
-> Huiwen He (2):
->   smb/client: implement fileattr_set for compression flags
->   smb/client: remove unused file flags ioctl handlers
-Will apply these to #for-next.
-Thanks!
+When ntfs_mft_record_alloc() reuses a free mft record it reads the old
+update sequence number straight from the on-disk record:
+
+     usn = *(__le16 *)((u8 *)m + le16_to_cpu(m->usa_ofs));
+
+Here m points into the raw $MFT page-cache folio, which still holds
+unvalidated, MST-protected bytes: the folio is read by a plain
+iomap_read_folio() and neither post_read_mst_fixup() nor
+ntfs_mft_record_check() has run on it (both work on private copies).
+m->usa_ofs is therefore an untrusted u16, and a corrupted record can put
+it past the end of the record so the two-byte read lands outside the
+folio.  Reading such a record while creating a file gives, under KASAN:
+
+   BUG: KASAN: use-after-free in ntfs_mft_record_alloc+...
+   Read of size 2 at addr ...
+    ntfs_mft_record_alloc -> __ntfs_create -> ntfs_create -> path_openat
+
+Only preserve the old update sequence number when usa_ofs is even and in
+range, mirroring the check ntfs_mft_record_check() already applies;
+otherwise leave usn zero, which the existing restore below skips.
+
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
+---
+
+Reached by creating a file on a mounted image whose $MFT holds a
+corrupted free record.  This seems like a fairly low-impact one, but 
+given that
+it fires KASAN, it felt worth submitting a patch for.
+
+The KASAN error that I received on 7.1.7 is listed above. On a RW mount 
+this is a
+one-shot per image and only trips KASAN when the next page happens to be
+poisoned.
+
+A reproducer is available if you'd like (just reach out privately).
+
+Found and fixed with AI assistance.
+
+  fs/ntfs/mft.c | 12 +++++++++++-
+  1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
+index fd20d7a..271a265 100644
+--- a/fs/ntfs/mft.c
++++ b/fs/ntfs/mft.c
+@@ -2333,7 +2333,17 @@ int ntfs_mft_record_alloc(struct ntfs_volume 
+*vol, const int mode,
+           * wrong with the previous mft record.
+           */
+          seq_no = m->sequence_number;
+-        usn = *(__le16 *)((u8 *)m + le16_to_cpu(m->usa_ofs));
++        /*
++         * The mft record still holds unvalidated, MST-protected on-disk
++         * bytes, so m->usa_ofs is untrusted here.  Only preserve the old
++         * update sequence number if that offset is in bounds; otherwise
++         * leave usn zero so it is not restored below.
++         */
++        if (!(le16_to_cpu(m->usa_ofs) & 1) &&
++            le16_to_cpu(m->usa_ofs) + sizeof(usn) <= vol->mft_record_size)
++            usn = *(__le16 *)((u8 *)m + le16_to_cpu(m->usa_ofs));
++        else
++            usn = 0;
+          err = ntfs_mft_record_layout(vol, bit, m);
+          if (unlikely(err)) {
+              ntfs_error(vol->sb, "Failed to layout allocated mft record 
+0x%llx.",
+-- 
+2.47.3
+
