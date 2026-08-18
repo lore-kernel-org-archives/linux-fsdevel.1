@@ -1,180 +1,130 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D53843F0AF;
-	Tue, 18 Aug 2026 10:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787050659; cv=none; b=eoEFOpIfnVfkj95UybVZ9p/lPYY999SUpTSYz36t8nMtIuiiRfAti5SZ4otfW+c+3raU1C0SFKNbTWwqJ/kd2Q+D2dAq5thLarj9UInsSN9EFyuqeZWRt9aBNRmrvc+3U98m7tLQuSnLgut0O67MaDHGVLEsgYfqKszHzCkE50I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787050659; c=relaxed/simple;
-	bh=uA6mjM9hKM0+Bxv8Z/4F8C6esiwUMu9yE1QW9NRbwhE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=KLNYp1q2Ssv1naOXAwuQFK1pHgh21F/UtR6xfyjj+BBceOzSGK8cyq4X2p0R3evu3pd1Ne4bYoHfgDqNPxNxlqFmINeqeG6pnvOarr2BA/B+sUatwQs8Sv1VGmT+rfyhLcG4wWrmCuTE9ZSK7B1GAiFspbZgnGrn7JkqUzN7BYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Zjb40BHd; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7144657F5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 11:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787053136; cv=pass; b=XARP6D0NsWZjZDYgh0dGr2jmACZfz9nkHFGAeHvN0UC+BmZZNi5JkFxq96lbp5hGe8CFGJPmivKa1qYaV5nSDAjAXqcXbrrQb1bkGGS67IOTDAkQIDjA5TVot0z9LOa1u7FlCKa4ACzH641D9No+NL1B93Od0MpalwPhDe6RAxk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787053136; c=relaxed/simple;
+	bh=R5o16+Omcz53a7Kx4ZfW7KXrNOIiI548XNd9wpNEOgo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aDm4kZIjTxjKQypbuWejyirUS6PQgf51AlcmxRFWrBMZX70FrHYQHWU7oOvj5yJXFGUwbUaVpdVMjiKPjOkpeAEjfAWhI01iVHap7PRskPKFeaIaMHKENItZdfQxo+73DefubCOM3yOFefSgVFk7/U4PH/wMUtLmeAVTs3hXfAM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=EI7GyTpO; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Zjb40BHd"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I9gAsB1893430;
-	Tue, 18 Aug 2026 10:57:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=0nK619oH055xfiFRv0DZruv2pXYKb
-	GXNEKIYYCpmElw=; b=Zjb40BHdWbVKV8FIqjqiDAP1uS66tjX/k+RWRVDj77DwZ
-	GkbzG3+8HeFfy6+NdOgS4mIyaHePSHH5Hkfv41hBuzIb+c6XjdxVHs9wPXgvGYQX
-	7jr8Y5n5P4ALlPmVP6o5gGrORafjPnSiyjO8wHZ9Q63vLSo/W06l1/cLiEsWjsTg
-	6x3k4aio5pM/EjaPUAdTXsi2N7oIkW2tFlYQnLNU8qSsPAfDGge5/f9lYeDA7B/3
-	iKcatkH13Hct+c8Ig13MQLHWsrAsfOOi+Lkth6aeeextXoaSKimODILpjdRInMsC
-	wIl9OnMYp7N/6foq3W5FheOhKmX+gRGYbz5Y6FJ8Q==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g2f1bvm3a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 Aug 2026 10:57:15 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67IAtcVo005487;
-	Tue, 18 Aug 2026 10:57:14 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4g2ejqgupm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 Aug 2026 10:57:14 +0000 (GMT)
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67IAvDKL014439;
-	Tue, 18 Aug 2026 10:57:14 GMT
-Received: from pssatapa-ol8-test.osdevelopmeniad.oraclevcn.com (pssatapa-ol8-test.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.253.175])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4g2ejqgupa-1;
-	Tue, 18 Aug 2026 10:57:13 +0000 (GMT)
-From: Partha Satapathy <partha.satapathy@oracle.com>
-To: linux-mm@kvack.org, x86@kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        kees@kernel.org, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, partha.satapathy@oracle.com
-Subject: Question: can normal mmap placement leave a small grow-down stack gap?
-Date: Tue, 18 Aug 2026 10:56:55 +0000
-Message-ID: <20260818105655.798233-1-partha.satapathy@oracle.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="EI7GyTpO"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-52b4e988c77so29159441cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:38:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787053133; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VEw/pIpfx9H4wTfecp++rOiIZYwyIyQ64HmzgPGRx307bCytPqs4oG66UvskD7OXo7
+         rdxpvykjCVepNNiJY79zShjPVxJS+UOTxMMHGAWPk9IemWB42+YYnVPpZQJLNBBW3kv4
+         xdtpd61iusph/QkPb05fjnh4fo+h2SCYN3HBXKdkKtIuyaaGhmFmG2VKvKLtzhGzVY19
+         8toqGdh9QdFmHNrHeKDng9SmILPen4WGe5Arrjrybayrdn2c0FeOe9oKUaZjrX7AkYjQ
+         YbZfVzG1ojAuGcVOmKazvlfvfTUflzZ+wyBBYLn6eL2H9+1GzXovLfuztBPDIEkC+VRy
+         HOxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
+        fh=oQ4tGDHQCYJPld/APJQSuZFLADJy0icx0l3OMZvS7Ag=;
+        b=KxU1vfWSM7qKLTNYzTI6werIyUveW5E5L4iEwsId02VgmS5ehE4fPqLP7U5iweIs8y
+         q3kQcstOEyU/s/+yRKScpJqvuAH9BgutI0YH1Rr+CmzzWPAMsL5eEk6wQy1idd5cXfsc
+         wOIA6VADxUGyZKBXApDJS80/23OBb1dvrbH9H0gO56nk4rWcYpu5XcAZr9dWSaYwuVkI
+         ztADYh4AkXSSBaPtei9S44ALnDJg1NMRi4gFO1OD8lMzq3fkmy7aXMThDtQcuXVIldIW
+         zFAzWhKhHd0cdWIf6Ux3IJeG3Tk96emwESeFmAhpkBDPuHkWGnL5JD8kUjuIkHh+jcRP
+         ezvg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1787053133; x=1787657933; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
+        b=EI7GyTpOVHPUVzLoI5SVwYBc2+Q2SAV/rQi+J04bOsaY503EGBYx9SXdinFkqaYqaD
+         nODI559274VmVo4XkV0x2bWF1NE6Ki0yrepjm8X/yU13ZCExYSgiijJHTUiaxlKeSdf7
+         McqVTVld+bvd8lMWakbpuRHGfw7sd4P7p03K8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787053133; x=1787657933;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
+        b=fYnkWHzLL4hdTncO20gk4wadD5/vBnLHOjpREOogluXGga5Fmxm9Xbi4Hn+PHh+Cm8
+         pZ/6WH4098GgnZPjF01hCA2iFlp2it/9Ct1lXdfkszGeTxiSIGMKDNgnkFYXBwqESD/I
+         NPiekSaUpPyIpr54qtD8ksyPwqyPXRMzNHXpROK7HqIJwXknW3MY0Zz/ZkvLHOeJqYC+
+         ukPwMqLOu+OfaZhhvHnKlWi667s/VVL1IwK88SQ+CrONL/4uyyvZpn08PVuVR+VP7RmP
+         HvDjOhQyuT45HcpDmG+CB18KaOVR7Vbjadia1QD0L0isHj0Ly0DBPJsBna22jtRQ2KnO
+         5fsA==
+X-Gm-Message-State: AOJu0Yz8xhlMBxFq0iUDSXgXGvMrHsgkhJhtmbyrMigmLyzxGiKjn3Ls
+	9oUxn1E/jyQXbyvaZBcFCQO6nDXCQ+MjR9JqV+esmeah/Lfea8izdLbCpvySYR5oazn7rtMoWx/
+	mbH3rKBZNztT2YQQQe7bZWFzmXncUygMHdZy0/qH02A==
+X-Gm-Gg: AR+sD11De++PF9hnfPivaOgnLoz96BimJ7tXhJuFnSMyiRPWtWUO0s1RI479AEUD3D1
+	bIKMPxc7hHNPJMWeRilRIyHxX3AXvXQoOlvOMTXTwlV3itHcX+YPWKo4cKERQFccxj5hSOcGexB
+	jZq3ixcX7/SprCVA9a2058b2Sv5SS12z6AKWd+ZLiQevLqbo1p0tXdvMRDUauY6IVG80JllHutF
+	Ganb7EkdqHSrVRXNIUVV7nzudUh2XGxnIzgunNU4i/3DP8ylxY+kTv+oS0R9xC7Ea9PRdVHddmF
+	lV3Vc3c6gGRgsy8Ao8XglTaX4xz9sNI+pwQej5vJr/+gWHV5hQMjKZfkMcR7lCm+MDf1YMqcd6j
+	PP4THtUFp+vk=
+X-Received: by 2002:ac8:5d56:0:b0:52d:82bf:d4cf with SMTP id
+ d75a77b69052e-52d85423d44mr330702361cf.16.1787053133550; Tue, 18 Aug 2026
+ 04:38:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
- phishscore=0 mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608180080
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA4MCBTYWx0ZWRfX/t5NFDUYajyJ
- zmuWMqwmb2oDcbZaua1CSaR8n5JGyY8un1EX/gVVWPMzKgl179dsE8QIHxp5/TEW2n1BNbKSiXw
- agVTTyXhLPOqT06fV/NJ0q5H3zxdsiaBwzzLVfm/gYOd7n2eB5XJqL3LCXPVPbEcaWtelJ0/LdS
- aLDjZbjvGXbHAi5FQR2/3sFciDa2GPdCBu9fZRjzAnLEl3S006EWuqPR9IZB1AfprOr8uD4NPVx
- Fa29bpGcu/0s0sOsKEAdIVa5vyXXK37m/My807jtgGSsyBeDt91Fg+Esz9gqXju5h4ER051+uIG
- 55lNSnYYwJ75k2pAaCU5iC7LPc+1HvEPsMAWnmMHob4Pv1HUViDuG4Ks/oBi+6bZC6p8SMHefII
- Fqq7tswlZPLKwJ3WF/6Q8nV5ZIN9+tAeZdK1Jkr8GfczohiQzjJXtPgRbxYXgvieRrLHMecjCuu
- LcnKk8C6NJD6CwKkqcjpMv3/3ERZ0kWtMPGn5QVE=
-X-Authority-Analysis: v=2.4 cv=D/937PRj c=1 sm=1 tr=0 ts=6a843a8b b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8 a=KULDcwzBvU2pphWSv1cA:9
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:13509
-X-Proofpoint-ORIG-GUID: DxqThsgD-F7JQ34ah5GU2opNZJB8CA9-
-X-Proofpoint-GUID: DxqThsgD-F7JQ34ah5GU2opNZJB8CA9-
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA4MCBTYWx0ZWRfX/R0a2bWQ/sy5
- DPG7rgC8yrGOtUmWgarR0IQo5VDw/FkR02l80wjlp/WlznIRFv/sRTdvmr+YCWQxhusqCircRyc
- hS6m+gHI36FKsm+yY9pF9twKsKNFY5BZLmeiVj3xeY52haupcEwr
+References: <20260727210718.125872-1-psalian@google.com>
+In-Reply-To: <20260727210718.125872-1-psalian@google.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 18 Aug 2026 13:38:42 +0200
+X-Gm-Features: AcwNN1XewOXnh0aWSTVRImoi3l7UFUMEHcPRuIjYoS02ZE13JAWqCypgXDea8Go
+Message-ID: <CAJfpegvtp3L3FuYd8v1Ox0nZ-fb632jy+_M_+YyBWpMQGJAXug@mail.gmail.com>
+Subject: Re: [PATCH] fuse: mark DAX VMA page protections as decrypted
+To: Punit Salian <psalian@google.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, linux-coco@lists.linux.dev, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+[Cc:  Tom Lendacky + lists]
 
-We are investigating intermittent user-space SIGSEGVs on Oracle Linux 8 UEK:
+On Mon, 27 Jul 2026 at 23:07, Punit Salian <psalian@google.com> wrote:
+>
+> In confidential computing guest environments (such as AMD SEV-SNP or
+> Intel TDX), direct memory access (DAX) mappings between the guest kernel
+> and host-backed FUSE/virtiofs shared memory regions must be accessed
+> using shared (decrypted) page protections.
+>
+> Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
+> when establishing FUSE DAX memory mappings. This ensures guest page
+> table entries for shared DAX buffers are explicitly marked as decrypted,
+> preventing memory encryption faults when accessing host-shared DAX memory.
+>
+> Signed-off-by: Punit Salian <psalian@google.com>
+> ---
+>  fs/fuse/dax.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+> index a15c464c8d19..00e316a7f805 100644
+> --- a/fs/fuse/dax.c
+> +++ b/fs/fuse/dax.c
+> @@ -826,6 +826,7 @@ int fuse_dax_mmap(struct file *file, struct vm_area_struct *vma)
+>         file_accessed(file);
+>         vma->vm_ops = &fuse_dax_vm_ops;
+>         vm_flags_set(vma, VM_MIXEDMAP | VM_HUGEPAGE);
+> +       vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>
+>         return 0;
+>  }
+> --
 
-  5.15.0-322.203.3.2.el8uek.x86_64
-
-We realize this is a downstream kernel. We are asking for guidance on the
-expected mmap/stack-layout behavior and on a small standalone testcase that
-could be run on an equivalent system and on current mainline.
-
-The affected process had:
-
-  kernel.randomize_va_space = 2
-  vm.legacy_va_layout = 0
-  vm.mmap_rnd_bits = 28
-  RLIMIT_STACK soft/hard = 32 MiB / 32 MiB
-
-There were no boot parameters disabling ASLR or selecting a special mmap or
-stack layout. The process personality was not captured during the incident.
-
-In one failing process, the last librt VMA ended only 308 KiB below the
-initial grow-down main-stack VMA:
-
-  7ffc2e5fa000-7ffc2e5fb000 r-xp 00208000 fc:07 1572970
-  /usr/lib64/librt-2.28.so
-  7ffc2e648000-7ffc2e669000 rw-p 00000000 00:00 0 [stack]
-
-That is:
-
-  stack start:            0x7ffc2e648000
-  librt end:              0x7ffc2e5fb000
-  gap:                    0x4d000 (315,392 bytes; 308 KiB)
-  fault address:          0x7ffc2e6472a0
-  %rsp:                   0x7ffc2e6472a0
-  %rbp:                   0x7ffc2e649320
-  fault below stack:      3,424 bytes
-  szingroup frame setup:  sub $0x2058,%rsp
-  faulting store:         mov %rdi,-0x2080(%rbp)
-
-The fault occurs during setup/use of an approximately 8 KiB stack frame, on
-an access below the current stack VMA.
-
-We understand that RLIMIT_STACK is a stack-growth limit; it does not reserve
-an unmapped 32 MiB range below [stack].
-
-We are also aware that the initial [stack] VMA is not expected to be 32 MiB.
-For these processes it is initially about 132 KiB, which is normal: the
-kernel expands the grow-down stack on demand, subject to RLIMIT_STACK and
-the applicable guard/growth constraints. The concern is not the initial
-132 KiB mapping size, but the unusually small gap to the adjacent library
-mapping.
-
-In the affected UEK source, stack_guard_gap is initialized as
-256UL << PAGE_SHIFT. On this x86-64 system this is 1 MiB, and no
-stack_guard_gap= boot override was present. One hypothesis is that the
-faulting access required expansion of the grow-down VMA and that expansion
-was rejected because the preceding VMA was already within the applicable
-stack guard gap.
-
-We do not have a reliable reproducer. We also cannot obtain an exec-time
-strace or otherwise instrument the production launcher: the issue is
-intermittent and occurs in customer environments. Therefore, we cannot yet
-determine how the affected shared object's overall load address was selected:
-ordinary non-fixed address selection by the dynamic loader, an address hint,
-an earlier reservation followed by MAP_FIXED segment mappings, or some
-process-specific personality/launcher action.
-
-We understand that MAP_FIXED calls used by the dynamic loader can be normal
-internal ELF-segment construction after an initial reservation. A testcase
-that deliberately creates a VMA near [stack] using MAP_FIXED would demonstrate
-the expected stack-growth failure, but would not explain how the library
-mapping reached that location.
-
-Could maintainers please advise:
-
-  1. With the settings above, should the ordinary mmap(NULL, ...) /
-     get_unmapped_area() path exclude the effective guard-gap region below a
-     VM_GROWSDOWN main-stack VMA?
-
-  2. Are there known mmap-layout, exec, ELF-loader, or personality paths that
-     could produce a library VMA substantially less than the 1 MiB guard gap
-     below [stack] without an explicit fixed mapping or address hint?
-
-  3. Can you suggest a small self-contained testcase that repeatedly execs a
-     dynamically linked program with RLIMIT_STACK=32 MiB and detects whether
-     normal loader/library mappings can be placed unusually close to [stack]?
-     A test based on MAP_FIXED alone would not answer this question.
+Needs review from someone understanding this technology.
 
 Thanks,
-
-Partha Sarathi Satapathy
-partha.satapathy@oracle.com
+Miklos
