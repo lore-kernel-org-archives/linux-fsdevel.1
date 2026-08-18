@@ -1,60 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEC73D3CEE;
-	Tue, 18 Aug 2026 03:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9733DDAFA;
+	Tue, 18 Aug 2026 03:58:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787025493; cv=none; b=Y17Wr1mfMAEfvoEmvQYagzhg/FZMpLEi+B1ULTsU53ReRGGSNQaIb++fTAfKkEdJ5JsEJ2HjRUMHaXqBrChbXBUEoONm0crBI2yUPPjBJVYG4FNmRNxLHZ8TRBSkbPTxoYkDcQVoTcEwFr22h//IEHYjsBH3JO3/erQ3HRuiLq0=
+	t=1787025498; cv=none; b=notwNEVkP5BjnjmyJyG0pYi4CePCvNaCN/7beC7IT3gASpvjHPGKyu2M4IdcV1kzopEWqYBAw9dCnoJkDp15uxgeopLAHsccJK2F5JW/zmi6tMSJ+wk/an3KGruHI/R69SRX+rzdtku1gMCxkz74NUsYrGFysAvx8zB/BRCeGxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787025493; c=relaxed/simple;
-	bh=l+GNKwuUmNDdJ/68sQbtrLR6YZxVhUOd0AzsYJ3wCgg=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=d3hL1kgrh52f8GVqlmf7VZsDqIBtQ4cVuFTgI6ICsFgAyMFcpINizSY3r99piiKYFUwtSUey1zRJyS7yol9TEs7yzhaRTMYYeypV8wgvQZ3KTfL00dzxsKTRE48XL5vkQbmXbwIZ36XzX8G61mxBipwWQgM7Mo62uf3U3pEz7GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h0bvyL1n; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787025498; c=relaxed/simple;
+	bh=8YnDrjfPVnTMgAKYXO8dGS/BjXJFqAroPRqhR0Gn0P0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Hck4w7C0cKqeANRDq1JJUGUvFr5eDsj4lEqcsgX456aWqI3NPYIeSzsKD7sqU78IGom/8zl3VSQIxOpOSJ2es4avhc4ITva52RVbcXkr7mmEg5fCDaLMAOZGoZyr6HAjIuHZal22yQmSZNJMvPc1gTR13hpJcMZdS9JYgAVizjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmDg4FnW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h0bvyL1n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAAE41F00A3F;
-	Tue, 18 Aug 2026 03:58:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmDg4FnW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA8D1F00A3D;
+	Tue, 18 Aug 2026 03:58:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787025492;
-	bh=jmBhPug+ZvP6KtgqUmraBp57CW9UTZSsQs5ExCChAx8=;
+	s=k20260515; t=1787025496;
+	bh=D48KkSSxkrjHArtNrpeRU6Hq9/GKn9yhZl9oUUn4Y9M=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=h0bvyL1nPYWfuv7Xs4r8Arlcl6+CbV5wccUwSoYCw4bCWrWrcqwRHvHxnV68kObbt
-	 n0PsjoicKekKQXS/jcYKSE3N9l7aozprGJdN9oSRIJ9OFm4H/Gm2QhkL2xW0uW+h1d
-	 H9K2Pdxk8BEzmAkFissOQql+6FG2eRGoNu7HZpp2TUw0KcQveo1XVbi35L5NC8OHX6
-	 tDnWiA/C2bk6dno7agWG261jrnuT3WyRJpMfs4BkzJP2Qrk7Gnu3wJXzWvORDohT5n
-	 Gj6kbqZQTWVL+Q6hkRz2isNSJmWavptr58aG+2aiP8/BEn7b9+/KB0Y7KF3lJKG2D6
-	 sMyIaIrSspt5Q==
+	b=VmDg4FnWbdohvZv3twYnBVrJ2KD1qAT/d7BbEN6+6b/Rd6IbWvU3SKYQ8cJ/9CtQV
+	 IuixO1ft0MFBKR254Lvj8XmAg3V1SStqQFOYXjOZwdvFl8ud0uJyHjilvy+22kLbYX
+	 eOZrd/ePzMZRv7eT3diFca8bhVYg5SaZi+lhgaKUsLQQhEZNbznbAKByQVsJmFhU/d
+	 RCECkG9wsmb7szQAmqmuFDGe5Le6Z5g16f2ciDc3/tfxubopok5msWOaFDwSlt5wJj
+	 sNMfWsd7T3BxRVB/goztNC7FvitFEr5Eaz+0QWQ+gcT5vDklABdcDcbgsDS0g1I4Kh
+	 IbyUFS8gZzdIA==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 1979A3926381;
-	Tue, 18 Aug 2026 03:57:25 +0000 (UTC)
-Subject: Re: [GIT PULL] hfs/hfsplus changes for 7.3-rc1
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D08B73926381;
+	Tue, 18 Aug 2026 03:57:29 +0000 (UTC)
+Subject: Re: [GIT PULL] nilfs2 changes for 7.3-rc1
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <f876403501994cf23efade9cb7dcf974c7a004ab.camel@dubeyko.com>
-References: <f876403501994cf23efade9cb7dcf974c7a004ab.camel@dubeyko.com>
+In-Reply-To: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
+References: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <f876403501994cf23efade9cb7dcf974c7a004ab.camel@dubeyko.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git tags/hfs-v7.3-tag1
-X-PR-Tracked-Commit-Id: 627b7865c062ff642c0000f3a4775f1a44b986a4
+X-PR-Tracked-Message-Id: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git tags/nilfs2-v7.3-tag1
+X-PR-Tracked-Commit-Id: 24a098541a765ed017274f8094004404a83b0daf
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0de672c7e1920acc5675d0dd22718c4f6e6b4447
-Message-Id: <178702544376.1862718.8012143356717907049.pr-tracker-bot@kernel.org>
-Date: Tue, 18 Aug 2026 03:57:23 +0000
+X-PR-Merge-Commit-Id: 63c070cba0c6a586d33730ddbf63065cf28276b7
+Message-Id: <178702544848.1862718.11009053215716225812.pr-tracker-bot@kernel.org>
+Date: Tue, 18 Aug 2026 03:57:28 +0000
 To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, vdubeyko@coreweave.com, aditya.ansh182@gmail.com, r772577952@gmail.com, kylebot@openai.com, davemadmaxxx@gmail.com, mdshahid03@gmail.com
+Cc: torvalds@linux-foundation.org, linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, konishi.ryusuke@gmail.com, vdubeyko@coreweave.com, joshua.crofts1@gmail.com, manojkm24dev@gmail.com, david.lee@trailofbits.com, igorpetindev@gmail.com, wangjianjian3@huawei.com
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Mon, 17 Aug 2026 12:27:03 -0700:
+The pull request you sent on Mon, 17 Aug 2026 14:30:20 -0700:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git tags/hfs-v7.3-tag1
+> git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git tags/nilfs2-v7.3-tag1
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0de672c7e1920acc5675d0dd22718c4f6e6b4447
+https://git.kernel.org/torvalds/c/63c070cba0c6a586d33730ddbf63065cf28276b7
 
 Thank you!
 
