@@ -1,183 +1,162 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A7037AA94
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 20:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787084624; cv=pass; b=BtXQiw3X3BGp0RaXOfuO/Kkxquj/Ulbe/udnFaRhXRuM3qIvMCJSFX7Dx2jY00n8nE7+TYC0w37OWF30eGb5agoRNgbEZEVlFN2sCfODwkNy5MPwLn9D6QZrJR96fKmrV5thpbweQUjRnqKwK+17lPaFvJ4avN8HJnrfGAxVNj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787084624; c=relaxed/simple;
-	bh=b12FOYNV5nyithT6OlCb8Z0YTlojmZTUrPBI5ONi7LA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WSFqbjucw/p7fZ71zkRjylfOYO3blmpqTdqxw51a/wLd5hSAFk17yjS0tnVEaE0hDppkcUzCeQW1ts1EcXaSQQOqvsrzoaAX54gAVrRFUVXGXO+osQkOmmoxTKlnyXE54QnOhmLQUKIlX5BDsaeMsr+bx7SVptkavcWIYtjnm/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WAvjKDkV; arc=pass smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685599460;
+	Tue, 18 Aug 2026 21:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787087732; cv=none; b=o/W8xEhYpB9tRel8i3R5NrRPs49O2W2qC1E6I1B90AfmWnPoxgdoiVPPF+YAQHZkTMgG5zRo+QFQ09zsVP0FHYD9jwgATCosGsVICIFiDNkek2q1B5awy3HLJsKsyhK0rx3+72rFMyFaAYpeZy14p0hLVkM7kSHhizuVou+1tt8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787087732; c=relaxed/simple;
+	bh=nY7owJk0dymeTR3QJP4pXtqcJu/9V+XJ5b4QLNI+uGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W8TuqmXKWeBigptVfm72GawJ62zJebZxzo7Zr8dEtW+Rn7YvvKmFZ41e4bDLxdem4BqqigXeeOHsnydspJHw6v4wNlobkE/LffOlgHQHZ4kbiXxu6cMQRCyTLsXwCOzVpRI42m/rO//IBdvqcno6zz2csu5pUADmZNS7cgU3wi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kc7y9yG/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H8OBJGkG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OZxPZnFf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3Zxh5qRH; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WAvjKDkV"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a18840e2abso462558a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 13:23:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787084621; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dMKai8d2IyoDYaIjXNDO5yoIR8EGsU36RC9sBWBd9rHQpMZNwHv6M9yglOwmysOcwV
-         BltHAtJEj6sfMv9TYgWDzXpxKbc+dGAr0kipUdcjtSYIffuOA2SwF5rz5QbvvpfwjFuc
-         NaN8PyaBJx4mqJ3C6VaKjg31/dOlSzCIsC0cYtVH37nDkaDuuykquSv3rti78qxBf034
-         S4idBKCc9olqiTaDjFKPHvKB7TyV6gEydo7qJeRDLp98x8EOMROCtfKvKCAD/GiXWS+K
-         aVBhMhBDRNfLvrih5fi2KztO8QYPT9T+Jx0M3krPPvHZGdKF06nSrZFQQTZOoxYIoeG7
-         qbYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=b12FOYNV5nyithT6OlCb8Z0YTlojmZTUrPBI5ONi7LA=;
-        fh=5KigTbJ4zzalH2GgMPUQHDs1ICcqhHBOAlr2alJGbso=;
-        b=SQCyGKmUhEets9aQjA+C9/3Fgfs2d2+VWJlG7sLtct4sp64xeiuWJO0h0bcYgYbR5m
-         JswhVCHPHUOcNXMM1yQ7HKXTxT/h4EYhRk7yHhZipK45Dde1hH5qb+PVJT1O5WObZyZz
-         saSAybtg2ss/y+vLwpuXQkoolgSzbpWHqLnIV6sHylMb1v1dvVTuPLphbzvZFFqFthJN
-         /YFhmovbTlBKIRulBV1XijVM07IqVUmdb/oC890pgpGA/ZQSueKcWWRxjWMJv2aEA5ow
-         gabiPLSmIyqzIlXON+LdSbBV/hetkW44vPvxX7iL0m7j+Lx39VIpxW36u0+vgqqwdZp1
-         Ldlw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787084621; x=1787689421; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=b12FOYNV5nyithT6OlCb8Z0YTlojmZTUrPBI5ONi7LA=;
-        b=WAvjKDkVZQa6GcOZK0bI1OtG4M0gbXOKs9NJc5kKlM8luMRGfpoNxtR6udE0qXjhGt
-         B1P714ONsn/wxA2N7mclYyEMracXNKSzpPGUZMk9isC4jyLTwjBkR7gLpijToH9e9Tnf
-         X0MfpXNfX71OtdMZh7fZCZ0owdFozrp+iWbSyZHAgmd71e74pWnLKPM7vGo/ndhRzivW
-         qqZVmW/R3aDOWxw3gjSLfYz5KjfVCsGMW2UR4XHavCeUvCGQAbtoS6tapFE2omDSTx2H
-         0v0pN2+Yb1nks4bildRmRHkg0iZtxgh75w5QsJ//o+dtBa58ccWWLncy5tT+qy4ojrRP
-         Di1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787084621; x=1787689421;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b12FOYNV5nyithT6OlCb8Z0YTlojmZTUrPBI5ONi7LA=;
-        b=fnP8fE+hNYI/Q2Hh6sQz5SMJQmgwIS3aJn7lqYcVycv975SYPm9NwU8oCRdavbGigS
-         rUeVkDleWB1o0BOOE0IYUMJvBZHRwQPPierJ7POmMrjGJYHjcH/cfU+XhdSxAqnPeQD2
-         mOtzWPrQz5QmN6Ml6u033VODl7MCM3zgZUeQldd3benIpUmpvTDQ9LPCJLPZPD/wLyu3
-         xKpPqTLkWxtGixi94bcoBssUq9Hsm0m5LPi7eBiPgZ68nVgqOmucODu3aaOatkCPfMKj
-         K8qzd1WXZANwTHrLdGKVlKI6dr2/C1TnsDq9+rxpeWUJJcJ6xbcxMx+dShK9U1YYVnSe
-         Msew==
-X-Forwarded-Encrypted: i=1; AHgh+RrmvFyZ9zSafuYa6d52Epde02BaF/ONNMIgL3RimeaZYYGVa6tAzfyYXapa6/60rkMnWvcBMIuht/G5WhF9@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWXNuZcPo2vxmKZ6TBlRJ71OAwu9LGHjylfYrc2px/mqgaSyXw
-	enQ4SY9dpVV5jcQ1lCLZPc/3EO4zc/460grsiTJaLiKVSyt4m5XnVM31a14yqAvLxi/2kZk/EcO
-	APVWNBVgnol6yOL91Ug8yTDDtgp3X0VE=
-X-Gm-Gg: AR+sD10BNVJLD0YwW95cA54mh/UtQhJocJPVv+2CcDYrd9LoBm2ZI2TWxoyeUbWgc2D
-	eR6RyhOK5VbLMIpYrKF2HsBCR2QceBL6e3V/eKDtWCN7Qq32+V7cz6JAfYmeh7X0OksTtSOK969
-	fBwoTPHCNsjYY+ezh20gc6VzQRGATI/fuAFV8egZH2x1o9b1lDbD9lqvHR/q++PM5Y8Vmna8wZi
-	ptlDMzMOiBua9PVqwK7WAGraoLlaqtV3xiMaM092t+IWWsBGqBlePcvOgrnzJg0I6zmEC1gZD77
-	/a1FNHDUz87YM5byrur/yoZ4SLh0sQlsTyEXmSV7gCWvfA==
-X-Received: by 2002:a05:6402:21d6:b0:6a3:f74d:6a47 with SMTP id
- 4fb4d7f45d1cf-6a3fb56d9ebmr504788a12.0.1787084620914; Tue, 18 Aug 2026
- 13:23:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kc7y9yG/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H8OBJGkG";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OZxPZnFf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3Zxh5qRH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C54683E0D;
+	Tue, 18 Aug 2026 21:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787087658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jUz89g6bZOzCHMpF6sYf+x1yIa9qX7Sl8l0OZsybqXk=;
+	b=kc7y9yG/MSEOBwB9pKX5jdNfNKlJomqiL9PUPjEBUEV7mm4WU0hELH3fGYcgvTC7BRgd00
+	tL8ii05xgmK2fxvmh5FImJ3ip5BW8w4XHTExaCrfEzFNfRrNkeAmmwPyaNjAz0h5r74ct5
+	+wbWsDY9osJFxbp6gujxBvZd+w9W22M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787087658;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jUz89g6bZOzCHMpF6sYf+x1yIa9qX7Sl8l0OZsybqXk=;
+	b=H8OBJGkGdVjgyGLaNb6YGj7hBFYudDHJjpUhTVBMtakBH/n+fHTT2ZIxiMDkqsfqxD6vUk
+	8e19LX6ZH1uYw0Bg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787087653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jUz89g6bZOzCHMpF6sYf+x1yIa9qX7Sl8l0OZsybqXk=;
+	b=OZxPZnFfiLiNYeDl8lCyP8MIcDyzAXUU2BYyGS1QJW/R0Cea5QUZe1wbAJsGoOQFCaKObi
+	eV3jMwh6vlyHKIBJlOGhu2RBP/AivYghGcsTOGUZ7VPYRmVVKA2Tf0SiHrnw0WI6nx/a2H
+	1vAzdkWMi0TcVIo7sXictQsMdKHBvFE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787087653;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jUz89g6bZOzCHMpF6sYf+x1yIa9qX7Sl8l0OZsybqXk=;
+	b=3Zxh5qRHQyyRXApTIwIn+mhjRZw3wyWQM2p5OJPdJO6tl+907Hx7HwvCpROJHrYB8QRkpI
+	6vSI4G4YSoRYnFBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC11622BA;
+	Tue, 18 Aug 2026 21:14:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VXrfLSXLhGrofgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 18 Aug 2026 21:14:13 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7DD1EA13AD; Tue, 18 Aug 2026 23:14:09 +0200 (CEST)
+Date: Tue, 18 Aug 2026 23:14:09 +0200
+From: Jan Kara <jack@suse.cz>
+To: Mark Sercombe <sercombe.joel.mark@gmail.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, bcrl@kvack.org, 
+	jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/aio: fix comment typos
+Message-ID: <odioi7synjmo7vlotx7e2svjacqayrbokqws76bsxxkscntigo@px2xp3rfd55x>
+References: <20260813231455.558829-1-sercombe.joel.mark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAA5ehdZpfp2w6SWjGm3K7rs-F9Fj-jBY1pRqu_zDbnan2X3U9w@mail.gmail.com>
- <rvcniqbnyaarjm57qxh2qq7mdv27j25cadu5iatynezbdabod3@6aqbsocpuqog>
-In-Reply-To: <rvcniqbnyaarjm57qxh2qq7mdv27j25cadu5iatynezbdabod3@6aqbsocpuqog>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 18 Aug 2026 22:23:29 +0200
-X-Gm-Features: AcwNN1W7Ab8BARhDE3KRC-mR-HEYtuyTgVbQUWu3UIenBRUT1RwTxWAESVzeFwY
-Message-ID: <CAOQ4uxhDFifNsY+cv_+3cc+_NGKj8V_-b-b7usF6J+A+uOtBTQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] fsnotify: raise default fs.inotify.max_user_instances
- now that memcg accounts for it
-To: Jan Kara <jack@suse.cz>
-Cc: Harsh Upadhayay <harshupadhayay906@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, longman@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813231455.558829-1-sercombe.joel.mark@gmail.com>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
 
-On Tue, Aug 18, 2026 at 3:47=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> Hello!
->
-> On Wed 12-08-26 20:51:36, Harsh Upadhayay wrote:
-> > I hit this running a 3-node k3s homelab cluster: every container on a
-> > node shares one 128-slot fs.inotify.max_user_instances pool (no user
-> > namespace remapping), kubelet alone was holding 25-40+ instances just
-> > from ConfigMap/Secret volume watching, and the pool emptied under
-> > normal load -- surfaced as an unhelpful, inotify-silent "too many open
-> > files" in whichever container's turn it was to ask next. Filing as
-> > RFC since I couldn't find prior discussion of raising this default.
->
-> Not sure what Amir thinks about this but I think default is just a defaul=
-t
-> and it is natural it is not good for everybody. I can see how 128 inotify
-> instances may not be enough for Kubernetes setups but then the answer is
-> for Kubernetes installation to configure maximum inotify instances to a
-> higher value. And as you show below, different container runtimes tune th=
-e
-> value differently which just proves my point that whatever value we choos=
-e
-> people will need to tune it - which is the point of this limit being tuna=
-ble
-> after all.
+On Fri 14-08-26 01:14:55, Mark Sercombe wrote:
+> Fix two spelling mistakes in code comments. This is a comment only
+> change with no functional impact.
+> 
+> Signed-off-by: Mark Sercombe <sercombe.joel.mark@gmail.com>
 
-I agree that I don't see a strong enough reason to change an upstream defau=
-lt
-to another arbitrarily bigger value that could be easily changed by the dis=
-tro
-or by the kubernetes host.
+Looks good. Feel free to add:
 
->
-> So I don't see a strong enough reason to bump up the default limit becaus=
-e
-> there can be other users for which increased limit could allow a potentia=
-l
-> DoS in their setups. The concern isn't as much the memory consumed by
-> inotify instances themselves as you write below but more all the events
-> that can get queued to each instance. OTOH those are accounted to the
-> instance's memcg so your overall argument that in memcg enabled setups th=
-e
-> limits aren't that much needed is still somewhat valid.
->
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Not only the memory of marks nor events but also processing time and
-arbitrary long delays to other users in the system.
-I'll explain this with an extreme example below...
+								Honza
 
-> > fs.inotify.max_user_instances has been a flat 128 since inotify's
-> > introduction in 2005. That number is not per-container or per-workload
-> > -- it is a single pool shared by every process running under a given
-> > real UID on the host. On a multi-tenant Linux box, that means every
-> > container's root process shares one 128-slot pool with every other
-> > unremapped container's root, plus the host's own kubelet/containerd
-> > (or equivalent) bookkeeping, since user-namespace UID remapping is
-> > off by default in essentially every mainstream container runtime.
-> >
-
-...let's do a thought experiment, why stop at one multi-tenant level
-why not nest it several times as userns is designed to do to allow for
-containers inside containers.
-
-In this hypothetical environment I am not sure it makes sense for
-users in container A to pay for the cost of subscribers in nested
-containers B.*.*.
-
-It may make more sense in nested environment for container B to have a
-single group in container B getting the events for all the subscribers in B=
-.*
-and forwarding the events to sub-subscribers and so forth in B.*.*.
-
-Maybe the group in container B does not have inode marks but fs marks
-with bpf inode maps as filter.
-
-IOW, if kubernetes needs to increase max_user_instances for modern day
-workloads - it may do that, but I don't think this design extends well into
-a future of many more containers on the same host.
-Even if userns were used by kubernetes, I am not sure that the current
-publish subscribe model of inode marks would be able to handle thousands
-of userns well.
-
-Thanks,
-Amir.
+> ---
+>  fs/aio.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/aio.c b/fs/aio.c
+> index f57fa21a2503..fb991c66afdb 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -936,7 +936,7 @@ static int kill_ioctx(struct mm_struct *mm, struct kioctx *ctx,
+>  
+>  /*
+>   * exit_aio: called when the last user of mm goes away.  At this point, there is
+> - * no way for any new requests to be submited or any of the io_* syscalls to be
+> + * no way for any new requests to be submitted or any of the io_* syscalls to be
+>   * called on the context.
+>   *
+>   * There may be outstanding kiocbs, but free_ioctx() will explicitly wait on
+> @@ -1280,7 +1280,7 @@ static long aio_read_events_ring(struct kioctx *ctx,
+>  	 * The mutex can block and wake us up and that will cause
+>  	 * wait_event_interruptible_hrtimeout() to schedule without sleeping
+>  	 * and repeat. This should be rare enough that it doesn't cause
+> -	 * peformance issues. See the comment in read_events() for more detail.
+> +	 * performance issues. See the comment in read_events() for more detail.
+>  	 */
+>  	sched_annotate_sleep();
+>  	mutex_lock(&ctx->ring_lock);
+> -- 
+> 2.55.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
