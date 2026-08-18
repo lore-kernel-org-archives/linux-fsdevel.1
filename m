@@ -1,105 +1,99 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0F737AA9C;
-	Tue, 18 Aug 2026 16:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D0A3812DE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 18:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787070948; cv=none; b=rZ/aAqHFfcOKR2R31A0eFjZdKjUEpUGPaEk0t7mZg/yeZKC4sMyIE1Lp9wUdhTHqzMWxS1ilOUEpZtjMkn48aflknjh1VUBEPPFGZeoB9RfYdlpn6BCFjxFkpPQHHMngyWXOBkFSrbRAerwXbXWPDMXGdm7iirfc65x+r87elpY=
+	t=1787077760; cv=none; b=oluvozRqLxtZtJl9tGGerORLZlw3XkhOZ7pr/uAvJDpHpjG888+Bu2dp0M0fZpx0bm80HvQZS+3iQYgxPSRFIxWrCxIzJ9uTDCpp7vDHtfA2WAOPSUHq5mw/gN1tjX3SseuUzJ4IQuoUwUpOxnbIgQwPNpdpZqr2GCwIkfHXe4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787070948; c=relaxed/simple;
-	bh=i7RXWzNjUM9mT8vzGnKbmsbVtAZDh7iC0K5565hU8r0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dXwZA47XZGYBFtpY3iLkilkYfb1ybbvuZm2hZjJh92bXOPoaaytaZTjA14TJa8ZrtkS58F94tgopRS+RtiyOyauxWWHZANeMEllARnlAQ869IcCjK11f44EsgGjhV/9om10kK7ba0v4aBiwgSQXj6fYLp2my1n0fkpN1/nnEHN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B2C91F481;
-	Tue, 18 Aug 2026 16:35:41 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosry@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>
-Cc: Kairui Song <ryncsn@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Wei Xu <weixugc@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1787077760; c=relaxed/simple;
+	bh=k/+ApJt3P3zMqFz21NN375NrfmjJgVvN8ar7Y/vPu4o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-type; b=FCUtxAbwgWmyoIBgGjhiPbIaeV3S+1vw4qwcXoUOVQ/8Yt3/chxuutbPtUZMjhnGf7w7UMly9tRxwxtiON91EwUSAk9K/a+reFFces1CECB1a7Y/HmLcEMaKO5U7DrquARiu64Eq/m54xS8clXGjzWGaAdJCBAHTD5Poc5leN/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BaMycFIb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BaMycFIb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787077757;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=E6WoPLdui5hJShuUBNt4cps69fDTpty5hKi5ZAV1Mr8=;
+	b=BaMycFIb+PN6wjL56F2R9yS8LaN2SXd1tMxTU4bLzscpcHQ0UnmjDZvyd2nYIp40vyphVh
+	FjKrWmJR6mHWY4kvZIUuJYl6ceCWKBYegnFKZwrYPyOjeUCRwkaoC82IVRQ3QuNGNNi0PG
+	kZsdfh6t8LbnkiIoyklH98aUaLjIn4I=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-iBRWyX7LN3iXibK8SivaWA-1; Tue,
+ 18 Aug 2026 14:29:14 -0400
+X-MC-Unique: iBRWyX7LN3iXibK8SivaWA-1
+X-Mimecast-MFC-AGG-ID: iBRWyX7LN3iXibK8SivaWA_1787077752
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 439E318001E6;
+	Tue, 18 Aug 2026 18:29:12 +0000 (UTC)
+Received: from madcap2.tricolour.com (unknown [10.22.74.2])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 61E441800346;
+	Tue, 18 Aug 2026 18:29:07 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>,
+	LKML <linux-kernel@vger.kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH v3 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-Date: Tue, 18 Aug 2026 18:32:00 +0200
-Message-ID: <20260818163221.589352-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260818163221.589352-1-alex@ghiti.fr>
-References: <20260818163221.589352-1-alex@ghiti.fr>
+	Linux Kernel Audit Mailing List <audit@vger.kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>,
+	Eric Paris <eparis@parisplace.org>,
+	Steve Grubb <sgrubb@redhat.com>,
+	Richard Guy Briggs <rgb@redhat.com>,
+	Roman Dolgikh <rmd4work@mail.ru>,
+	Ricardo Robaina <rrobaina@redhat.com>
+Subject: [PATCH v3] audit: free proctitle in context so it can be re-set by fork on exec_binprm
+Date: Tue, 18 Aug 2026 14:28:53 -0400
+Message-ID: <ef5bf18a4b3805ec0fe5fb638963ccbdfc01d6fe.1787077711.git.rgb@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Score: -100
-X-GND-Cause: dmFkZTFhwtGOHO/OC4b8xDhaenAw0ulkOus9FaFWHZYSGUVEHOu3uVHUJQDjV+J84J33ebDFlApYLH3YLEUqtWFmuQdSK1irj6MX1MBEbJLXzAQx7OObcE/toye+GUN3UEOmEvSmRNLLmpgVb+qXKjo52/AG6mFAh7FS744BvnTpNurRq3t6Hp8S0BAmC/gKyOBrbLNJozvfhAa3w3qU15mfEoNYHwE0OU5NKqOYfxUl3AOq79I2M2NeYOwJv2DcrCoGGhb/RilbXlq3sGiCkYnmrOYmu1bDDktDq70Sd5yAaOIv7w5aJ2t7nvcUB+FCfg2l/PUe7QukE+KWF1EEzPeHJ2btbH2uklxcsAHc2+w0VMrqR6xDiRElI6DRrpsWOkkaGoSXnbysFZsUX3cde6+iTR9TdURDhO5Dz+71lGBThShNuw7cx7eC8/LVDAaSkuzjJfwbuVNUfX78Td+1KWX2vrk2TXM7jp2l2LJyOBGmURp/nIXUzQfd0MGs5VzNfjfZNu5/v2B5mNddp0C9NJqKZM1RbZviCqUcmawUK5vCucJxdJwMF7gTSOkT+9RdHhtWTMflW/Ed9jUsEmepGn/1bwBoObLFITCtw2JENSdYFVnSdaAj8h1vWnEFcCwC+GJJUsDH3tvUwWWUe5h9eCPNDwBH+mLG8STCj7MWXXSnPbROxw
-X-GND-State: clean
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-zswap writeback decompresses an entry into a fresh swap cache folio and
-writes it back. The folio is cold by construction, yet it is left on the
-LRU for reclaim to find and free later, wasting a reclaim scan and keeping
-cold memory resident longer than necessary.
+Between the actual process startup (fork systemd) and the executable file
+replacement (exec), systemd sets a temporary file name (executable file
+name in parentheses). If an auditable system call occurs at this point,
+the audit context will latch the temporary process name into the cache.
+This name will not change again. The patch clears proctitle into the
+audit cache when the exec call is made, allowing the new process name to
+be latched.
 
-Allocate the folio off the LRU and mark it PG_dropbehind so the swap
-dropbehind path frees it from the swap cache once writeback completes.
-
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
+Link: https://github.com/user-attachments/files/20751461/fix_audit_proctitle.txt
+Link: https://github.com/linux-audit/audit-kernel/issues/170
+Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
 ---
- mm/zswap.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ kernel/auditsc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 8163e6c5f76c..a35671e837f8 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -1013,7 +1013,6 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	 */
- 	if (IS_ERR(folio))
- 		return PTR_ERR(folio);
--	folio_add_lru(folio);
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index 2b9ce0b52511..ee7e53d2cd52 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -2601,6 +2601,8 @@ void __audit_bprm(struct linux_binprm *bprm)
+ {
+ 	struct audit_context *context = audit_context();
  
- 	/*
- 	 * folio is locked, and the swapcache is now secured against
-@@ -1046,8 +1045,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	/* folio is up to date */
- 	folio_mark_uptodate(folio);
- 
--	/* move it to the tail of the inactive list after end_writeback */
--	folio_set_reclaim(folio);
-+	folio_set_dropbehind(folio);
- 
- 	/* start writeback */
- 	__swap_writepage(folio, NULL);
++	/* clear proctitle in audit context to allow replacement */
++	audit_proctitle_free(context);
+ 	context->type = AUDIT_EXECVE;
+ 	context->execve.argc = bprm->argc;
+ }
 -- 
-2.53.0-Meta
+2.43.5
 
