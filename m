@@ -1,217 +1,128 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66F43672BD
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 13:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787061160; cv=pass; b=fxX8c6OJNlYqijG/GVEnPVednV9p9F6j29HpN+iFc/Sz1jD7sPa/LLrWoW+fb76b8K3n1QAZWkf1AdOnRAx1fClvHCN247ulRM08Pi3Ska8PReGN5zGM4PmSQqyGR02EVpgPpKxkaLHLNo+EDG8JV/VXaLbLDZ62S0TLSDIvIIA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787061160; c=relaxed/simple;
-	bh=lOpcQPg0x1nrJx6GftlJ8KKHAkt1Ezywo80pyW278M8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j38M9ZCTHqi9VvK5FXlFPIECWyeYmFPpSztXADMxEqY48bpDIaj8sowz9GrPG+8BB0NNTG/asSJC6V4i9dL7smRJU/acrt6JEQ0ImykPHBkvq3iwyFutq8Wdb4c/qDEFsbBj4ZkSnWoB1DiMvmYEG1TreBZhhjRliB0BvN8PxcI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNyLVsCq; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5355E47986B;
+	Tue, 18 Aug 2026 14:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787062067; cv=none; b=GZOGspYqLU07+1/EHRe6En1nw83jcfJ9ryyYIiSQAKEueNXBU/ZMUJ3HSZfd6vQD/IYoXlICxgerfJaE3tTyPrm609AQT/iSCoGCXwxPCdi+bU3f7lRKdCCSdwSc3qyYV53FGZcYmrnIiLGrDNiryDDx3sVQsQ/OYYGTcsAPRac=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787062067; c=relaxed/simple;
+	bh=czuF+83ib+PA336GsMreYXGG0yJw47o24W5EUaH+qRE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c+TDnLYoOQRcuEOjHkh7rwP9lloovz3dbWeTmqOoh/XGnh24crWkvqZlgFqWvPZrMnwU1o2+0dLfnFlDcLJVG7KUFiQIsEYXh8OzM+5IJh/nMXQXudt6lxMd7vfGiavIsgr15jZyjYLMDvDFeF8ZTrmCkXz3oPHhN46ywHdSY4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=hYgBbKre; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNyLVsCq"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6983d3dae7aso1664104a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 06:52:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787061157; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FY22lVHhsPevrgARa640U3kKn+MauaWSO4KcGmXKP6eB3WhroSDm1Z8NfWEvMBoH/z
-         hjlpJ8NbPcLmBgGcQBTDRrLG1kabvBzHZojpRG8iIs4OEbx7ApcvlA0UUxE5YdaZrcYD
-         3U80N9hOY/E4alIPeEhiJRbVXmf6Xc6I8BQ4JBkuGmnB9bARIhZ2RpMG0nb7JoNmppB+
-         i8qFyvf+Iltv+v3/qDehi6NbgE0+PMRL2s3F4Ber3w2pii9DcNCJl5/NhB92o6j4C/qI
-         tiAHs2tftFQtHgqZDPAlxVAQGTxS3rdwE41tuuWTPLL0TzQqxDMWP8eklGm8z9wk6tNH
-         Fntw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VBbCUUNXA+VpWaRnlxAsWeFMSgHjcHgRxE1XTM91mtU=;
-        fh=lUTjQTK3AvEDi1YUyXjvZRx8q6zmwN984+mdEUTZeiI=;
-        b=Mg9NtmT/PQ5QREmgcbpBw9QMs/vismaUA1q576QiM9+zZAETVuN+ybFtSepUM2c0+2
-         OPukoTJFZign8yfvZCiqYzavdRpJP6YcGdvcYF53ubobeLotnwvZWsik52q2paR1VoTG
-         I01j+ULDU1VguhOtvnw/Ex4X1H4nSbjPddIjoXYKbdlOQ31yuHQs0DKCsDtb3BeJccAn
-         9AUWc6Mj9EKH5U42S0eVm4CyFEwjOtENC3lqIbgk287FOAHPlSNhD659zWVR1QedwpWU
-         iI0XPrDez0YJJxhOUrUEORlZCnsq3iJbTvi7d20RsKrLg/3Lm9J9VjpJZFeUoVqE60E+
-         Oijw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787061157; x=1787665957; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VBbCUUNXA+VpWaRnlxAsWeFMSgHjcHgRxE1XTM91mtU=;
-        b=BNyLVsCqPFaEllKn2bQ2FYNa1E9PXPWvkzTu9GGNEfK6T7+SDc2wvhghUXAp8ahJNQ
-         aEkf9V+hwLvMeAlUprXwuCX+A8Icd5B8IzILxHX2BdHta+QfKc3k7yeNJy7NNxi9P4eE
-         cKGWwVj77CTyhAaGKPU+fnTXB0l4m/LeBXunMUy3rMUgeSuCj0OTYhHI1N7AegO5rYv6
-         b7dRaUR3ZL32fxVnhFh6gD7enlh6PG0EObSZ3QGvLHJqk6FX5bFLXGbt6YW0lmQDxJtO
-         PQ8/2jMvgFCcr38QxKvYDMMCq0ICA14k35ELLZVxFapQaGkf3tvOeJhAbUIZw95Tlsm0
-         +sDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787061157; x=1787665957;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VBbCUUNXA+VpWaRnlxAsWeFMSgHjcHgRxE1XTM91mtU=;
-        b=ss9sBXDpd0LB6k4Tau2wf5y1zr6Adl5qWdEpdlkT69rH03h4bu3lxTcVy/8SseFsXs
-         lrJAp3a4Ha5g+n+GKYo6/nTALzRioCpi0HIw1cA3vcczv2QRsJB0TQIG4B8fbDnckb/j
-         nvKEjrka1lpDtdXJ6SgT+i79ARTUxgJuHQtRQwBX7rgusYJ+voM7ma7MMj32dXLmAq/g
-         +MwDXitz9NpBn/D6PcARZxEC1hHRJyJ9s5BXFyBZ/s2jywcd1hRstsiv76a5PY+DPVLy
-         E6xctW9nq/Dyus1VuIuivVWel9XqTdNfM45Psw+FZVzk1Zf/hdozAnPAx8tNS81a1kAk
-         O5Cg==
-X-Gm-Message-State: AOJu0Ywhek0tCIsCSyE81Ojh1XL+utGQ3fl3scooLQTP94TVZqHacWET
-	PnoMYPpaumVE1uCeajObTzweCvxDx+TGFqbXj2GK8lZlzY28sz1inJH9HWJS+ar2ZpMDQ8TjE/D
-	hWQ5+2P15eMr2mDMA3j1WTX8WRZgAFuo=
-X-Gm-Gg: AR+sD116XOrdjjbQ589zBDIU3NUpkv7RG2C2LLY2i82du+AReGH6kvuToWOB48r6nyH
-	DF6QiIS/BoZ/JfBDVQqDcTAqBMdhNM5LFF7ifJr/wAkxRmA9rv/eK7GEwz/vCB7OuvMSAAzyfml
-	xtvfKajq0cmTnmaDg2aVkYuBerslY44t9ep+jDsocZ0cm4ZBHVnLZakm98uuJ17cLsOcBrlz1WE
-	m/HXb3gGjfsFW8em6SeE2ipc8diRZCft896JjR3t8K7JK8jykn5IgUqVTza8ei3YDQ6yiyOT0Jc
-	AkrIbiahi2OROB1ECMQACoqntNQgOKGW1fTwJc9k9R+BEFTuFBThlTPGS9Vld0AW2U1NcV4wx/t
-	k2Dhl5u8aOyVW6BCATOG7RxwSg2JtBUGpznnVnQkdWn8UH3PcndJMvDa1yU7Gs5bD2ot1sXVKSJ
-	HbE1OILFW8xAkQ
-X-Received: by 2002:a17:907:94d3:b0:c21:7c98:d9ec with SMTP id
- a640c23a62f3a-c218b06cae2mr406712466b.5.1787061156758; Tue, 18 Aug 2026
- 06:52:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="hYgBbKre"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=gxD/8AUz9s+QVRvJE3y342XiKtkXK9hCFV95Oe1Hbb8=; b=hYgBbKreWU+9hbiVQxnQMRDJD0
+	ECDNNszjlU1cdcI+IyGnJ3oMaCiIrE1aD+CbLrnj/U79Dxgxx97eD1orjtJXIQi1AjYnGcPpzm5fl
+	pCLFB0oKNg9tu3fqOoNhLlSapcl3qWGwjqrWoAdoyO0LFQnz7Sw7xzeMmkc2RJiXT/V87UeJFhJQx
+	7qq6jqyiUbF9AxsKZu1EMPII5D2QE4lq1mrN936SIdCECeYxAgBirwfhTgU3/2gT7e8G83g1smfwh
+	rYYc7AyW955+1ZCqYGEoIsrobfrlGh3B9wZRGfyrisn5Nb702VDuR0R+Th4E+k05/CCy9aBqVSnUZ
+	4kP8QscQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.5)
+	id 1wwKTa-00000000DXH-3YaQ;
+	Tue, 18 Aug 2026 11:07:38 -0300
+From: Paulo Alcantara <pc@manguebit.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Steve French <smfrench@gmail.com>,
+	Steve French <sfrench@samba.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	samba-technical@lists.samba.org,
+	linux-cifs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Replace Steve French as CIFS maintainer
+Date: Tue, 18 Aug 2026 11:07:38 -0300
+Message-ID: <20260818140738.314254-1-pc@manguebit.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB1LBmsQ2xFHQeEDFspwpFSNkiFUefBCn559EJsfEz5ZUAXYiA@mail.gmail.com>
- <20260818121131.GD54102@twin.jikos.cz>
-In-Reply-To: <20260818121131.GD54102@twin.jikos.cz>
-From: Laurent Lyaudet <laurent.lyaudet@gmail.com>
-Date: Tue, 18 Aug 2026 15:52:25 +0200
-X-Gm-Features: AcwNN1Un4Cz0lxH-OlAq0gD15ZPA8gpCunTi1UPj6CHFGcJ5AmUp0t0xKFoZ9BM
-Message-ID: <CAB1LBmvFnJz-Gx4xncyGUhztKs6r=JP0i0qFXurxba-+ZaVo7Q@mail.gmail.com>
-Subject: Re: [RFC] "final" flag for a directory
-To: dsterba@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Unfortunately, due to health reasons, Steve French can no longer
+continue as CIFS maintainer; therefore, I am taking over the role with
+Namjae Jeon as secondary maintainer.
 
-Thanks for your reply.
+Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Reviewed-by: David Howells <dhowells@redhat.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Signed-off-by: Paulo Alcantara <pc@manguebit.org>
+Cc: Steve French <smfrench@gmail.com>
+Cc: Steve French <sfrench@samba.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Cc: Shyam Prasad N <sprasad@microsoft.com>
+Cc: Tom Talpey <tom@talpey.com>
+Cc: Bharath SM <bharathsm@microsoft.com>
+Cc: samba-technical@lists.samba.org
+Cc: linux-cifs@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+---
+ CREDITS     | 5 +++++
+ MAINTAINERS | 7 +++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Le mar. 18 ao=C3=BBt 2026 =C3=A0 14:14, David Sterba <dsterba@suse.cz> a =
-=C3=A9crit :
->
-> On Mon, Aug 17, 2026 at 04:26:31PM +0200, Laurent Lyaudet wrote:
-> > I had an idea about adding a boolean flag "final" on directories in an
-> > advanced filesystem.
-> > In the same way, the "final" keyword on a class in OOP can be added to
-> > declare no subclass can exist,
-> > the "final" boolean flag on a directory could be added to say that the
-> > directory has no/must not have any subdirectory.
->
-> Do you have an existing use case for that?
+diff --git a/CREDITS b/CREDITS
+index 91c51c14e993..d3f60da01dad 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -1320,6 +1320,11 @@ D: Initial GPL'd Frame Relay driver
+ D: Dynamic PPP devices
+ D: Sundry modularizations (PPP, IPX, ...) and fixes
+ 
++N: Steve French
++E: sfrench@samba.org
++E: smfrench@gmail.com
++D: Author and maintainer of the cifs filesystem for many years.
++
+ N: Bob Frey
+ E: bobf@advansys.com
+ D: AdvanSys SCSI driver
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8014b9f8253e..55f27757dde5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6458,9 +6458,8 @@ F:	rust/kernel/clk.rs
+ X:	drivers/clk/clkdev.c
+ 
+ COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3)
+-M:	Steve French <sfrench@samba.org>
+-M:	Steve French <smfrench@gmail.com>
+-R:	Paulo Alcantara <pc@manguebit.org> (DFS, global name space)
++M:	Paulo Alcantara <pc@manguebit.org>
++M:	Namjae Jeon <linkinjeon@kernel.org>
+ R:	Ronnie Sahlberg <ronniesahlberg@gmail.com> (directory leases, sparse files)
+ R:	Shyam Prasad N <sprasad@microsoft.com> (multichannel)
+ R:	Tom Talpey <tom@talpey.com> (RDMA, smbdirect)
+@@ -6469,7 +6468,7 @@ L:	linux-cifs@vger.kernel.org
+ L:	samba-technical@lists.samba.org (moderated for non-subscribers)
+ S:	Supported
+ W:	https://wiki.samba.org/index.php/LinuxCIFS
+-T:	git https://git.samba.org/sfrench/cifs-2.6.git for-next
++T:	git https://git.manguebit.org/linux.git cifs-next
+ F:	Documentation/admin-guide/cifs/
+ F:	fs/smb/client/
+ F:	fs/smb/common/
+-- 
+2.55.0
 
-Yes, I have two use cases :
-- For directories that are used for "technical" reasons.
-It is very frequent for cache subdirectories to be final.
-You add a cache subdirectory (for example in /tmp),
-and it's meant to receive a lot of small files.
-If you look also at the directories used in a DBMS like PostgreSQL,
-you will also see a lot of final directories.
-Etc. The examples are numerous.
-- For directories that are created manually by users,
-there are usually many more final directories.
-The depth of folders in the home of most users is kept low most of the time=
-.
-In fact, it could be a feature that all folders that are created under
-/home/@somelogin@/
-and that are not under some hidden directory like .config
-have a (sticky/recursive) flag "auto_must_be final".
-So far it means 4 boolean flags, if I add the one you suggest below:
->
-> > So here we see that 2 flags could be added:
-> > - a configuration flag "must_be_final" forbidding to create a subdirect=
-ory,
->
-> I see two possible semantics of that:
->
-> - final, no subdirectories exist and new ones cannot be created
-> - no new subdirectories can be created, but some may exist
->
-or one enum of 3 values on 2 bits, and 2 other boolean flags:
-1. "must_be_final" and "no_new_subdirectory_can_be_created" (pseudo_final),
-2.  "auto_must_be final" -> flag/enum 1. has been set automatically or manu=
-ally
-3. "is_final"
-And when the user creates a folder in some Window environment like Gnome or=
- KDE
-under its home directory,
-then Nautilus for example would set "must_be_final" with  "auto_must_be fin=
-al".
-If the user then goes in the properties of the folder,
-he could unset both or switch  "auto_must_be final" to  "manual_must_be fin=
-al".
-Then when the user tries to create a subdirectory in this directory,
-if the current directory is "auto_must_be final",
-then "must_be_final" and  "auto_must_be final" are both unset without
-any user action on top of creating a subdirectory.
-But if the user tries to create a directory when "must_be_final" and
-"manual_must_be final" are set,
-then Nautilus pops up a warning with confirmation required.
-
-> Also given how other attributes behave once set they can be unset. This
-> is up to the user, and possibly a restricted operation.
->
-> > - a status flag "is_final" telling that no subdirectory currently exist=
-s.
->
-> When the filesystem tracks the number of subdirectories already, then
-> it's an easy check. Otherwise a full search must be done, atomically wrt
-> creating new subdirectories.
->
-I agree that a count on subdirectories is a better statistic.
-I think there should be both data:
-- a subdirectories count when the filesystem agrees to keep such statistics
-  (along with files count, symlink counts, etc. this could be a whole other=
- RFC)
-- a "is_final" flag for wider adoption and precise cases of optimization.
-
-So, if we look at the configuration status of a folder,
-we have an enum:
-- must_be_final_manual,
-- must_be_final_auto,
-- must_be_pseudo_final_manual,
-- must_be_pseudo_final_auto,
-- no_subdirectories restriction
-with final =3D> pseudo_final
-With flags :
-F must_be_final
-P must_be_pseudo_final
-A/M 0 auto, 1 manual
-I is_final
-is_pseudo_final is always true,
-and brings nothing without a precise subdirectories count
-
-                                                          F   P  A/M    I
-- must_be_final_manual,                   1   1  1        1
-- must_be_final_auto,                        1   1  0        1
-- must_be_pseudo_final_manual,     0   1  1        0 or 1
-- must_be_pseudo_final_auto,          0   1  0        0 or 1
-- no_subdirectories restriction           0   0  0        0 or 1
-Already 8 combinations of flags have precise meaning.
-The following combinations are invalid:
-F P A I
-1 1 1 0
-1 1 0 0
-1 0 1 1
-1 0 1 0
-1 0 0 1
-1 0 0 0
-0 0 1 1
-0 0 1 0
-And there are no other combinations left.
-
-Have a nice day, best regards,
-     Laurent Lyaudet
