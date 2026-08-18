@@ -1,102 +1,86 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301503446B0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 08:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787041614; cv=pass; b=an5WS9dXFsKV37RQYSAXMBAjfTRYXnmZYuCsoj5cC2hYNghsXM+kry40la/PSlStHOeVbi6jC60thY6seWQY9KwQ6mO+2sduvTgkHDrBreApvyOxbNPRdwAV64cT0o6E9MDn/8F/TBDo0psSKcHZo/spxkyi3Pk74xjwRPUiQgM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787041614; c=relaxed/simple;
-	bh=2Myb2+yqDeCxQ9gqAc47zhR9XON5EgteIQveOiiHKnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GoK6YoCRRjGH31B0VXn3ErHGG8O/oFb2II/zOA0fgQzhncSGUqDWuAKtb7RVzJvD1+dtzEtFqJta1JUSxSfE+ffsadRRuh4E/UtuFUtlu1/u4iZSEPOh/lvj2RFgww4zdZuKFQmvvjpwMsFzQPJNUwM57xwI1CEvfcrzcnVvO04=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=V4xz3pMf; arc=pass smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5244248DB;
+	Tue, 18 Aug 2026 08:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787041698; cv=none; b=TpWGjAdRFKG4iCNT/DVHphOeFs4spHL0qGETpeWI6d6+Jixo/TQ/T3+gGFDdsc06Fw/Lan4wN0jGcXXp6JLUIbRNmmZCuqMM21MzjXh6Nc4mL6comnjotISFLCq0/xf5nqX2VA9kRhwk/QyrE/s4hRCOaTlHGZvwLxw1U/Lr40s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787041698; c=relaxed/simple;
+	bh=lYplAMG4LheSIIGiMcIK0yi/FZp3/9t9KECpC1B71S8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+khilUsBgsN9eXdnplc63/XASx6G1VAgqRujCezh11vRBon7HG4gwPEzCgRSZTd2GD13kKBU/byXyPGCaiq54sbaL0nDHkuLHBy0lEdVrDqWhLCXfhZAhS25zWcwLlkk7vBcpcGZNv8djt6ddUudhf8ewzzMCHfSIkQQTtSNTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=beNrtr7X; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="V4xz3pMf"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-52b3934af3fso43410251cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 01:26:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787041612; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MfGW1G/jA+qwyTVAIC+GwSulbQ9otllSHPzInEWWbUfaITewxW/mMWw07k51ng+IlU
-         zLhnRZDK1IJcj7VpLBdd0ibpPiIfoiXKbaYmTherKUogpMBsRDTGJj6ixwrPgQRKaY5b
-         DjbkuhybAphs6S5O9HYLg7cjoqDDDEsdtvLlMRXs8xFX1pb1QxTMCOsIpe3W3ua2Nx/x
-         +tWnf9iAwr392jZMgOBnWx/uFSvyS9R99QlrLZajPF9hlvEHKJ5rsXSDZR36J2zLA0gT
-         j4wvc9LILr6u9JzAAKVzb1lc8MsJQTAzqR+EFlJHWVcUBvGaQnRwsfkPg1cNtXyguVpK
-         qSpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
-        fh=3iG/0z5gnKYPvx8qjIyWAjgTa7HqTIZ0uZQA4Gp4jbE=;
-        b=IMgrHf3A/G71co8Gxm07x1wLDflUfC6eA2ZorUMLwYWD2AeWSPLIiCsMHv1TXinIf4
-         eDn3k4Iu81imN8yHoQe+l84133m+T6IMdXZexP3Z26/lPAsYIKzi22T9sPmiRI2BLADR
-         MDIqMJzmS8l8OrxoTppGPY+j81gXfIDLPRUq9I3YkGDLAI3ntKD/JwDlGFWdHLYwqV9j
-         RLiAjSeUGX26rJoobAnd1IT3ZTXwWd4/PW+U60K0NHY8Sx8TM0AHA4TOUDTd7P5OHVLn
-         Zz4fIwmJQB3CBtIzMGk4392/hR/hTPHKx9TcskIq8+cLv0MLMNvsh7dN0vEPgatv67sL
-         MElA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787041612; x=1787646412; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
-        b=V4xz3pMfAtSQA99q0WlcsB3ubFDOOhlSqrE/MLB3kOjlC58pA/LsGRCBLgh5N+X5Bx
-         ZUbtGSoKrNob5NzjkqoOpkmesnf2fqJbwIlclf4JlEkeVijzq+RGsVusnLrEy4qqcFgt
-         oTGyGpoh5X0YHZV4THbJnlTU8gkEs6ZHNssCU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787041612; x=1787646412;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
-        b=R1QqR0nOrrrE0EGO2ftZ7ZC+4ZAJZP0pvVabyE6slAXaoOeVZzbordWgxswqEndfvu
-         nEYQ879yyvFY/qAuxi6Bx7iQ+Fg7E+ob450KcqIYZStETfL6KAuPRXEXMxThCHRhN9ee
-         rqgtJWr6Q+GcKNl7aGpc1rc+8YWUf+2hIso0rR0VcLhFsdsRjuu7MfOBw1xErJm6teem
-         zB0nCabplXo2yVc9vdwFresgP1v5qRuyWXzVp9lJXzr2SOwP8wKVgoJg3pz24pnMuaWO
-         3usbSW6jiDLaXVfIm2d5pAdU16Q64DStX8m9zVdfhSuG47S83AdhzYLHWj1qtVeU8bR1
-         PYnQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rruak2p2Kcjp4cXpv/1oIl6cZrDbf4ni5pSe6PLUoTRlA3JLR76SVokpt69UBpicyh5hAstAUDZ2vtOTVrP@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCVLX5rL8f+1o0Tyy/I51CZ9vxmR0jQFD7oCspIHyreSbwsErL
-	NA4xG6nvQm/NTMTA8vBXPyvbeH4KM8lvmfBoBZyJUb1robFp2k9o1diWk6LGV9Cy7SYEc4ftme0
-	KCZUCrjqLOsqwIPVIHYVM02l4DMU3ZznM5qn1NP4TVEsC9iba/T1U
-X-Gm-Gg: AR+sD10unuxorNl2xsfS0tzo10R9J2REsTxFIhI4LqqdRJo6c7ZvTo0ikW9kMBEESQr
-	7Hoj8oFfkO9zXyOIFm1UA7MIKZIFmdUcHQ+G2LvPKfUvHp6dz0NWYgm1Sv6Ze+KppLf/JXqIoom
-	FjsX7qY1OeFOkxtu8ApUJzOxJmnG9Q/EsPnppSzQGDwNWTvsrIkIpQ7RI2rXwm+XDBfhVoGHRrY
-	V7C65sgmXESA56z3Rl17Q5gHaEIboWo3l7353zaQU6kla5n63pQSHQ7qXlWLkZnK3G9eu8ONunq
-	LrIoKX3s5VxhjknqPPvfYpGai4A8TXL6jvQGKGIghKHoweumJXtMAscqGrO6phc+l58jdCVztVr
-	j
-X-Received: by 2002:a05:622a:1a88:b0:51c:51e:661c with SMTP id
- d75a77b69052e-52d8543f3c0mr324010091cf.25.1787041612031; Tue, 18 Aug 2026
- 01:26:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="beNrtr7X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=L1
+	+zmo288p2BzZxswgqBpXmRniK4p1KNhwgk9h190q8=; b=beNrtr7XrNf3pWIvbR
+	zkfTjkWgZZFU11pidZPo8HXHOGi4meOLvVzmruZxRyLCoIPC4hWIlFXxDS5HZdvp
+	M45Z4BVkHQNmYCuf37spVTw/v6J3iMqQMAVfaDXvkxiQdnhucljuQCtYz5QbH0iZ
+	8Y8O9q7eDeQWV2CC9dtriYZFI=
+Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDnDxV+F4RqSbD3Ng--.4899S2;
+	Tue, 18 Aug 2026 16:27:44 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: linkinjeon@kernel.org,
+	hyc.lee@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	liubaolin12138@163.com,
+	liubaolin12138@gmail.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v1 v1] ntfs: do not update ctime when setxattr fails
+Date: Tue, 18 Aug 2026 16:27:40 +0800
+Message-ID: <20260818082740.498458-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
-In-Reply-To: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 18 Aug 2026 10:26:40 +0200
-X-Gm-Features: AcwNN1U-JaWd29eb1fwL1cQD3kcJieXaEWabirRkz-qqA_zZczUovgOLY9MN07I
-Message-ID: <CAJfpegvRuBfDPY0-snNh-evEUWpNdUnD-RE5e42a6a3fo5MhdQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: fix invalidate lock leaks on DAX truncate error paths
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, vgoyal@redhat.com, jefflexu@linux.alibaba.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgDnDxV+F4RqSbD3Ng--.4899S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7GFyDJw4UWw4fWF1UJFyUGFg_yoW3Kwc_W3
+	Wjyr4vkF4YqFn3Xan7GwnIkrsav3W09w1Ut34fKF4Syw1DtFs0yr1Dtrs5tFWkZFWUJay5
+	ArykWa45tr9agjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRNYFCUUUUUU==
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gChbGqEF4BuogAA3S
 
-On Mon, 17 Aug 2026 at 17:18, Baokun Li <libaokun@linux.alibaba.com> wrote:
->
-> Baokun Li (2):
->   fuse: fix invalidate lock leak on setattr writeback failure
->   fuse: fix invalidate lock leak on open O_TRUNC DAX failure
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-Applied, thanks.
+ntfs_setxattr() updates ctime and marks the inode dirty even when
+the operation fails. A failed setxattr(2) must not change file
+metadata.
 
-Miklos
+Update ctime only on success.
+
+Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+---
+ fs/ntfs/ea.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs/ea.c b/fs/ntfs/ea.c
+index 0cd192752b7c..47ff40aa8e0f 100644
+--- a/fs/ntfs/ea.c
++++ b/fs/ntfs/ea.c
+@@ -768,8 +768,10 @@ static int ntfs_setxattr(const struct xattr_handler *handler,
+ 	mutex_unlock(&ni->mrec_lock);
+ 
+ out:
+-	inode_set_ctime_current(inode);
+-	mark_inode_dirty(inode);
++	if (!err) {
++		inode_set_ctime_current(inode);
++		mark_inode_dirty(inode);
++	}
+ 	return err;
+ }
+ 
+-- 
+2.51.0
+
