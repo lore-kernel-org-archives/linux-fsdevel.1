@@ -1,171 +1,338 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020125.outbound.protection.outlook.com [52.101.84.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2D13AB47E;
-	Tue, 18 Aug 2026 12:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787055692; cv=none; b=bRiGKhL+ivQdf0hy11O9ZHFByZ3h6oJqwU8tlISND3N/Pu5R0wWrfcP3CzVvOzm9qU/lim6ZKAzS5FbHoXosDvz1+KOwgeTPX3OduAnajMl1XrZ8ztpdaUR+4dtnbgXBzvxb8kJBbpd3j0NXPkkvaSsKKJDXw8P1lfcyzGli5Co=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787055692; c=relaxed/simple;
-	bh=Gf2rSQ6n/22wl6Tsvb6bhAtD3MU0szXJScoUwLmKEoo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jrU5uaz8sV/fMJyqPU6Ml2xeAz7652Nnx7q6qwIqt3yZpnMwPdPI6CENIEcL149b1P37xricMPIHjwN4/C6lwHwMjOq1owMDtWCEz47Z8UtBXqAtzsv2b6WRF5DPyhSSV8zOu5nV/jB5BIfPa6ZmDe8Y1MgmPQQjWXArx5sUW1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149B6469827;
+	Tue, 18 Aug 2026 12:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.125
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787055696; cv=fail; b=ooT7d1avB7ocUu7R9JW64z5Yrs2vfnbUPSfe2TsvCnun+1j7thGT1jdZHbLR2GEa8EuBsus+kZgi1VLBwW+kZyseT2koOmUz/ppIrTuWyDSZUEWy5ID3qxi5cDgNcCzB53GVb7Qr4/jJMqi3o9fBfupaxiuH/3V7TH4gIZJXSgw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787055696; c=relaxed/simple;
+	bh=0LT1RGmtpi7BhO77vgFl7OMThkxraPe6SMGa4SXhpW4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GiW9ZMlHYL32oq5OTc/OSOsbSLLkDiAymkM1ODHOYPM8fqP4FKH4WG+dbWLsA1ivWBvTWDVrKIgRu/Rohmr9TSKHbMeKNuaPpd48P1kjqTDD6C0emeL8tBO+oMyZRG4iI2ihhL5xehK/iHglQmghlitCAutzrf3cZJhVPfMMthQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=OlWWQU2u; arc=fail smtp.client-ip=52.101.84.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="M7kZX+F9"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 029861D2F;
-	Tue, 18 Aug 2026 12:22:13 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CB5D01D99;
-	Tue, 18 Aug 2026 12:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1787055683;
-	bh=Gw/pU8kOBaahxBGBQYamTKScx0sYad3gegHjlLNv49o=;
-	h=From:To:CC:Subject:Date;
-	b=M7kZX+F9gBIwJgppFccb8p29ezeAwhYoKEQmXj1W3Aa1YiCdYKblxiuijXkUwKuL+
-	 hGbCiA8nuiXza1HpchE8xz7rKAY6ud2v79xwsmNNpJxxcfnYoxD59RaBkoFsaOtRih
-	 DSQ5gkTDE2CXkXEAEXI8RTzJeK1Svj+IJcpzmDcI=
-Received: from localhost.localdomain (172.30.20.186) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 18 Aug 2026 15:21:20 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	=?UTF-8?q?HE=20WEI=EF=BC=88=E3=82=AE=E3=82=AB=E3=82=AF=EF=BC=89?=
-	<skyexpoc@gmail.com>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, Kyle Zeng <kylebot@openai.com>,
-	Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, Senjin
-	<senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, Weiming Wu
-	<weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, Zhan Xusheng
-	<zhanxusheng1024@gmail.com>
-Subject: [GIT PULL] ntfs3: changes for 7.3
-Date: Tue, 18 Aug 2026 14:21:03 +0200
-Message-ID: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="OlWWQU2u"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BeDtCDIoOFD3HcrLIuauK/Y9V6AhSMCExAT9409NV+nSLPeZxmtsgp5lXe7LP8UF9Ur+EMRqrsllgDw2X2ZfCNoLPsorWVnER8MRC0GykWtMDYnT9RGBF0lx6taD0ZWG+zBQVeA8A7XBumuRfVSpFHhE1l3zlH43eFyyMCXdU+COEqtvD4oocAAWWIK5EwMtfkNKd74cGL8gdrOb0IBzoEQkIb1V+4NzxIaI61AJWykfq219I6sAKLa6DPrkJcCVft42zsINL3kOejp+2nJ5vlEAlTtdEKp5v70A22e7/+9oyzrQRyODP8xloGo2kHM2gYIY9IT2BYJIzo0oiP1rTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v/AEPBUMqy1axBBiAhAfdhW4HLAidhmDtc996/IsD0M=;
+ b=xjLhOvqgCRwUV7mZ+SY8kdpwThawOUmk/ERCziWSWkS2zVPuOdLOPU1w6/YD9MAFkNoBO9i4d1BaRnm7uI/UfoM01oYNpf/XrirtHZK/r2RxqKWNd3ZJWIUnfAk8hNMsMwihrl8DVajm39HXAjL8A2+8XylBvnVqc7nKBBal/72AtWK1AK5ZDuHsqQhHNrG4+LTxVDbE4NbmIxEBO7dgsrGEm5E7OYmp989Dj5nhLLpaOeB0m9qhi8hinIVFLrSr9vuZR2HnH8JIFY/y7GCsIu17T23Rh2RiTzAGEg29mk14PCtfkLH4X7KMiluGZmUoefba/EshIgHAqbtx/3bCfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v/AEPBUMqy1axBBiAhAfdhW4HLAidhmDtc996/IsD0M=;
+ b=OlWWQU2u3qm4JaAcJygBZgYz3tww7oiMvM33IVZQsT7jMCrAu0hIZrvobpBnxJ1XSDfM4ZO0V9Y1rPieGFJe432qUi/9pf+TlPns806xr+muetab1pJ7MhB5yuVmQkTo5aPhev2XOJWN/UAp7hUO/8OognC1qWSgpCQrE60wWO3Uzb84O7CPEi6pRJvDgcAHAk0OESU6UIqV2ZUSW4v+a1FBX9eMeAKDPg+L9VgsTSBspX3+fXtcPqfxhr1DPkAETc8x0x1rGjmMqKJkljP4h+D4KsEnwXzNDomCLS+M8JCMTLPMh5dHo2EE+4b0h/KUNsJDofhbisFHiqgsBv3jeA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB11804.eurprd08.prod.outlook.com
+ (2603:10a6:20b:747::14) by DBBPR08MB10724.eurprd08.prod.outlook.com
+ (2603:10a6:10:53d::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Tue, 18 Aug
+ 2026 12:21:28 +0000
+Received: from AM0PR08MB11804.eurprd08.prod.outlook.com
+ ([fe80::bf46:f137:f6d2:5b3a]) by AM0PR08MB11804.eurprd08.prod.outlook.com
+ ([fe80::bf46:f137:f6d2:5b3a%7]) with mapi id 15.21.0315.016; Tue, 18 Aug 2026
+ 12:21:27 +0000
+Message-ID: <76dccc36-6949-44ad-9091-1d4c424d8faa@virtuozzo.com>
+Date: Tue, 18 Aug 2026 14:21:25 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] reboot: fix cad_pid use-after-free race
+To: "Cen Zhang (Microsoft)" <blbllhy@gmail.com>, joel.granados@kernel.org,
+ kees@kernel.org
+Cc: brauner@kernel.org, oleg@redhat.com, mingo@redhat.com,
+ peterz@infradead.org, akpm@linux-foundation.org, jack@suse.cz,
+ avagin@gmail.com, mjguzik@gmail.com, include@grrlz.net,
+ ebiederm@xmission.com, legion@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, AutonomousCodeSecurity@microsoft.com,
+ tgopinath@linux.microsoft.com, kys@microsoft.com, stable@vger.kernel.org
+References: <20260814040944.16561-1-blbllhy@gmail.com>
+Content-Language: en-US
+From: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+In-Reply-To: <20260814040944.16561-1-blbllhy@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0255.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8b::20) To AM0PR08MB11804.eurprd08.prod.outlook.com
+ (2603:10a6:20b:747::14)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR08MB11804:EE_|DBBPR08MB10724:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68f06945-2efa-4f33-3443-08defd233a1e
+X-LD-Processed: 0bc7f26d-0264-416e-a6fc-8352af79c58f,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|10070799003|7416014|23010399003|1800799024|6133799003|56012099006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	rhNqfVWJJjZ+o3RzWiR8mg/KQ74UP0FjF0kjwqgWPbSMRCygDwqz39ABenYqqad8y0a9mR1cFkIsQaI7bxSgwUUQKwnvFIufjMY71Huwe7QhIHZT948zaLVOqSteTI9xT4fDasvDt85sfr/Zy8DhQxnK+iqXxLcQUp3OQBAJ0G8y1tW/5t5wWj/mkRz+sZdv6u1CRN6bKE7QIdeB8XISWZvmwVt4O0imFtFa31cwjXy8GkzNgaR9IvgCskRN/YFdENd03Fuq6MwJZx9IqkMdh2krm9xIP9LZOQKj/1E8jRpISJ623hEhut0eDosgRg/rHOYKQjUKWBShb3amKk1IQVgXquwN24u2RWQRrfD8bNcyfPV3W+AMFbxM7aPHpMAlxFP3gCh86J3HiJxdcOfPtTA+ZbjCTM91+ig2k1vQ/v91hDf8owRVEGQvcy3iGdDsuwFkinxANyaBqtI9VHnYpLpKlgriKS9A3mG2OQfojjoNTA+SvU14EPB0zHZzCzSrAukf0M2/+qYEj3ewEQW5UtcnqRJlxGzxbEN6phzZcLLyXo8qlt0GTeuAdhSI0gd8ls+LcaExcibbB/sT/R106gDQBgf0SeiTT67GzuI8gz54ZuCTJ3jbd5n9uL6w9Gj/EKdRTdfj1ThLc+bE9dOQaiNeFYFbtCpngYl9aF1FOqA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR08MB11804.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(7416014)(23010399003)(1800799024)(6133799003)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SG00YVdyNHk3T0NXZ0tTTE5qVGQwVUdkVlhKWTdyaFZrcUo2ano3Z2RjekZ1?=
+ =?utf-8?B?bkczeVMzTmZjSCszSmkrcGtaOTJDeGVqVTFrL2pJZHVQSlk3eWhuVkZHOCtJ?=
+ =?utf-8?B?SmVESXo0UFh4ZnBYSTNONkJpRUhNUTNmdFdLUDdJdFZhVkU2T0JLQkpXRG5O?=
+ =?utf-8?B?UklJeDNldmNqK3BkL3JyVDVhVnNINkxCckFEWVBWVFArUU94eWxEYmVxNnY3?=
+ =?utf-8?B?U25ITUVEYkVLeEdya1BtTFRzMHljMHhOdlF6STEwTFdCaE9TMURnZ1I3a29Q?=
+ =?utf-8?B?VGo5TEo4QTJFd0xmd2MyeG9vWFRNV2FkbmhaUzdpYXFjenFhZ1JiZG40UVEw?=
+ =?utf-8?B?dXg2SEdDb1JpNmcxc3lLbVBRUmVMaDNEOGhpN3c1c2NoVWIvbjVUclVoRVhI?=
+ =?utf-8?B?Sy9oYTdxYVFmc2JVRWZzN3VhakJTSEQxK1BIazNJak9RbHlGTmZFZnI4YkQ5?=
+ =?utf-8?B?Y0k2UXZOZ0tEc0FMZUdFYUpIQm9XdERCNGduWUtEWVdjc2ZQMHZaMjhrZlE0?=
+ =?utf-8?B?aS85UjhONE9LaFNPVkxYNkhOYUorSmlmTzd4TkRBZDd4Z0RuTTZNcVNtVUEv?=
+ =?utf-8?B?eG1hWUI3WlcrSktuUjFBRnhyMEswamdsblNSVUhDTFFtd2dFbVpUdVc1WFMv?=
+ =?utf-8?B?MGg5bHhHaUlveisraitsSUR4ekJqdVFPZTFnZVR3bS82a1k0WXB4d2s5U3hV?=
+ =?utf-8?B?NDR2bkxnRlZYZEtzSE95KzJaTUdtUkxFWjYvN3VuRDloL1ZiUGtENHVxbDVK?=
+ =?utf-8?B?V01QZ1dodVIxMGpWRERjZjdxTE5CL1BnZytsUGxYcEVGb2t5c1dGbG9odGhv?=
+ =?utf-8?B?aS9qV2NScFRCcG9CV2dSeGk5cjdtbGg3cEsvcVgrK1hWSWt6VU9VeDJ4em8r?=
+ =?utf-8?B?aFBZQWlCdkwwUEhJaGtXa3YzSkY2aWRaaXJYK2VpbU51R1JaaFN5N0kxZjVR?=
+ =?utf-8?B?Yk9qakkrZGJBczkvbGRyeU1aZjd5RGRPMFd2VkwrZmkxQ2NJWDZjWDgzYnB4?=
+ =?utf-8?B?SUkrejFLWnRaWjFJUlhKZVBrb2VSMjg4cGFtNnlxbFZTM3ZBamNWOHhYOE1Z?=
+ =?utf-8?B?RFVCRDFHakcrKzFVMXF6K25Wc3lJMEFLb2dTOGxNNllFcGxxUlpZcjlpRjZK?=
+ =?utf-8?B?Q0x5TWtBRWFnVmtPUEUrT1ZKd0haUU5KTTkrbmN5VU1HUXl3eXBVUzZrSmZr?=
+ =?utf-8?B?SldQendOZGYzK3FNV3lnK1FYaG5OaVR1M3FLVDRpZitpQTg3SG84OVlsNUdw?=
+ =?utf-8?B?ZXpVTTUySzdQb1pYQjRRNngzSkMyb3FUSzVGRWtkeStLQ081dlozM04xSnZE?=
+ =?utf-8?B?Q0RSODdvQkpZT3A2bWNaalo0R1lSZHIzV1RBMkRTS20waGhYME5pWWJiOEhK?=
+ =?utf-8?B?cEwraFRQd2s3aTdpM2pWYmszQkx2Q0dCWlM5cVFGTkVXMHcvRXBObW5vbnZT?=
+ =?utf-8?B?L0VRaGdDZnZpZVZmMHpNdHppZDVhWmUvUGtwUjdoYWExdXAzRWFGdzhPbUJq?=
+ =?utf-8?B?Z0M2RUNMQnQyVjcxLzNsVE54enVvY2Q2VXpGWkxUOVNvRVdjTGNoRFNvNTZs?=
+ =?utf-8?B?WGpySlQ4b25iVXJ2RWhQSzE5dzJjZkx1bFpvdjNMTFBZNTJuSFQvNTA0ei9C?=
+ =?utf-8?B?ZHVKd2IrSFhaMmVHTXlDWEhld2h3N29rejNqcXc0REg0eURUYlhMVmRzR3Yx?=
+ =?utf-8?B?d0xZWEVpYVlYRlg0R2Z0MTFEQWlYTHU3UzZwQkp1djFZQ3VaMmhxd05ucTlU?=
+ =?utf-8?B?SjdoOEFXM09NUW9rbGlOK0did3BpWmFUWlAvQ1pvVE9oMnl1R2FCVm04YU4z?=
+ =?utf-8?B?M3V5bDdTN2pFZWcxK3pwT2sxdzVIeEJYZWpQN2VkN2dmY3FvS0FjblFvSzlJ?=
+ =?utf-8?B?T0tQNXpaL1U4V25MUEZ0NG00QXRTZkZHT3RlQzF6anR0Z3dNM1Q3S3JrMGx1?=
+ =?utf-8?B?LzBqRmFGeCt2anFqeUhESEtGMEV4UlpYejhtZldjQ1FBZXg0TUExT21DWTBk?=
+ =?utf-8?B?d3J4Q2NKMk0vT3dBaHUzN3lsU2gxdHE4SlB1ZjdVK0dUSEFIbkR5V0lITVIz?=
+ =?utf-8?B?UWdFTXo2aHE3b0s1VDNtZ1B6am96V2ZYL2FNZXAzK0w4YWRLSWpFZ1NGWTZV?=
+ =?utf-8?B?emRYTDNnRngyNkdlZ09OWmNtOXovY25zRmUxK1VtZTVPYnlXTGt5RFVnelpP?=
+ =?utf-8?B?d0ZBblRKN0xqUFQ0cy96U1ZETkk5OTJIOWlhcE91cldHZWY0clM2YytXa0Fz?=
+ =?utf-8?B?aURSbStWOHR5NHk5NVJ5NmZCVW5HemdlMjRCQmovNVNVay85bmZIbERwME1o?=
+ =?utf-8?B?TGZCdll2MThlMkhmWFdkZldVSFhmQ1ptWHVBUkVhM0hMZDhsZ3FGYUFiMXUw?=
+ =?utf-8?Q?Uw0rbb3125KNUOfnBtGI0LtZDpgrZYyrKRyGPaG8uUKa7?=
+X-MS-Exchange-AntiSpam-MessageData-1: AZbPpVRx4l4bhDlBYd6cO1yITUF47dUszvo=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68f06945-2efa-4f33-3443-08defd233a1e
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB11804.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 12:21:27.6760
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eRDCqaJLdnhzqmVuhOyrmpIipNtuw0aLe5PWsDHbY83q6pLT4bOkYobI1HlVR88LWGGadGpXpTcWQhEvyK7pvK6Hng5MrYutyw1oPzIqP1U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB10724
 
-Hello, please pull this branch containing ntfs3 code for 7.3.
- 
-Regards,
-Konstantin
+Reviewed-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
 
-----------------------------------------------------------------
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
+On 8/14/26 06:09, Cen Zhang (Microsoft) wrote:
+> cad_pid is a single kernel-wide struct pid pointer. proc_do_cad_pid()
+> reads it and passes it to pid_vnr() without protecting the lifetime of
+> the referenced struct pid. A concurrent writer can replace cad_pid and
+> drop the final reference to the old struct pid after the reader has
+> loaded the pointer but before pid_vnr() has finished dereferencing it,
+> causing a use-after-free.
+> 
+> kill_cad_pid() has the same lifetime race when it passes cad_pid to
+> kill_pid().
+> 
+> At the time this issue was reported, an unprivileged user could reach the
+> sysctl through user and PID namespaces because cad_pid was registered in
+> pid_table[]. Moving cad_pid back to the global reboot sysctl table
+> corrected that namespace and permission mismatch, but did not fix the
+> underlying lifetime race.
+> 
+> Fix this by treating cad_pid as an RCU-protected pointer at both read
+> sites and by waiting for a grace period before dropping the old reference
+> on the write side.
+> 
+> call_rcu(&old_pid->rcu, ...) cannot be used here because free_pid()
+> also queues pid->rcu; queueing the same rcu_head twice can corrupt the
+> RCU callback list.
+> 
+> Original KASAN crash stack:
+>   kernel/pid.c:545 pid_nr_ns()        # reads freed pid->level
+>   kernel/pid.c:556 pid_vnr()          # calls pid_nr_ns()
+>   kernel/pid.c:775 proc_do_cad_pid()  # calls pid_vnr(cad_pid)
+> 
+> Fixes: 9ec52099e4b8 ("[PATCH] replace cad_pid by a struct pid")
+> Reported-by: AutonomousCodeSecurity@microsoft.com
+> Closes: https://lore.kernel.org/all/20260717210143.4734-1-blbllhy@gmail.com/
+> Link: https://lore.kernel.org/all/alz5ZYLE4kaq_v2P@redhat.com/
+> Link: https://lore.kernel.org/all/al4ICz9biJKtdZc4@redhat.com/
+> Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
+> Suggested-by: Bradley Morgan <include@grrlz.net>
+> Suggested-by: Oleg Nesterov <oleg@redhat.com>
+> Suggested-by: Eric W. Biederman <ebiederm@xmission.com>
+> Suggested-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cen Zhang (Microsoft) <blbllhy@gmail.com>
+> ---
+> v4:
+>  - Rebase on sysctl-next after Oleg's cad_pid sysctl placement change.
+>  - Fold the two-patch v3 series into a single lifetime fix.
+>  - Move kill_cad_pid() implementation to kernel/signal.c.
+>  - Export kill_cad_pid() and stop exporting the raw cad_pid pointer.
+>  - Update proc_do_cad_pid() in kernel/reboot.c.
+>  - Add explicit includes for the RCU API and kill_cad_pid().
+>  - Preserve the original unprivileged impact context while noting that
+>    the namespace permission path has been fixed separately.
+> 
+> v3:
+>  - Keep kill_cad_pid() inside the RCU read-side critical section
+>    instead of taking a pid reference, as suggested by Oleg.
+> 
+> v2:
+>  - Split out kill_cad_pid() deinline into a preparatory patch.
+>  - Annotate cad_pid as __rcu and use rcu_dereference().
+>  - Protect kill_cad_pid() by taking a pid reference under RCU.
+>  - Add a comment explaining why synchronize_rcu() is used instead of
+>    call_rcu().
+> 
+>  include/linux/sched.h        |  2 +-
+>  include/linux/sched/signal.h |  5 +----
+>  init/main.c                  |  2 +-
+>  kernel/reboot.c              | 19 +++++++++++++++----
+>  kernel/signal.c              | 12 ++++++++++++
+>  5 files changed, 30 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 373bcc0598d1..31ce72b1233c 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1767,7 +1767,7 @@ static inline bool is_lazy_mmu_mode_active(void)
+>  }
+>  #endif
+>  
+> -extern struct pid *cad_pid;
+> +extern struct pid __rcu *cad_pid;
+>  
+>  /*
+>   * Per process flags
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 584ae88b435e..d45a5476b97d 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -562,10 +562,7 @@ static inline sigset_t *sigmask_to_save(void)
+>  	return res;
+>  }
+>  
+> -static inline int kill_cad_pid(int sig, int priv)
+> -{
+> -	return kill_pid(cad_pid, sig, priv);
+> -}
+> +int kill_cad_pid(int sig, int priv);
+>  
+>  /* These can be the second arg to send_sig_info/send_group_sig_info.  */
+>  #define SEND_SIG_NOINFO ((struct kernel_siginfo *) 0)
+> diff --git a/init/main.c b/init/main.c
+> index e363232b428b..19a10d0c2760 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1636,7 +1636,7 @@ static noinline void __init kernel_init_freeable(void)
+>  	 */
+>  	set_mems_allowed(node_states[N_MEMORY]);
+>  
+> -	cad_pid = get_pid(task_pid(current));
+> +	rcu_assign_pointer(cad_pid, get_pid(task_pid(current)));
+>  
+>  	smp_prepare_cpus(setup_max_cpus);
+>  
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index f070c5c1103a..d177d89fcc33 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -13,7 +13,9 @@
+>  #include <linux/kexec.h>
+>  #include <linux/kmod.h>
+>  #include <linux/kmsg_dump.h>
+> +#include <linux/rcupdate.h>
+>  #include <linux/reboot.h>
+> +#include <linux/sched/signal.h>
+>  #include <linux/suspend.h>
+>  #include <linux/syscalls.h>
+>  #include <linux/syscore_ops.h>
+> @@ -24,8 +26,7 @@
+>   */
+>  
+>  static int C_A_D = 1;
+> -struct pid *cad_pid;
+> -EXPORT_SYMBOL(cad_pid);
+> +struct pid __rcu *cad_pid;
+>  
+>  #if defined(CONFIG_ARM)
+>  #define DEFAULT_REBOOT_MODE		= REBOOT_HARD
+> @@ -1371,10 +1372,14 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+>  {
+>  	struct ctl_table tmp_table = *table;
+>  	struct pid *new_pid;
+> +	struct pid *old_pid;
+>  	pid_t tmp_pid;
+>  	int r;
+>  
+> -	tmp_pid = pid_vnr(cad_pid);
+> +	rcu_read_lock();
+> +	tmp_pid = pid_vnr(rcu_dereference(cad_pid));
+> +	rcu_read_unlock();
+> +
+>  	tmp_table.data = &tmp_pid;
+>  
+>  	r = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+> @@ -1385,7 +1390,13 @@ static int proc_do_cad_pid(const struct ctl_table *table, int write, void *buffe
+>  	if (!new_pid)
+>  		return -ESRCH;
+>  
+> -	put_pid(xchg(&cad_pid, new_pid));
+> +	old_pid = unrcu_pointer(xchg(&cad_pid, RCU_INITIALIZER(new_pid)));
+> +	/*
+> +	 * Wait for cad_pid readers before put_pid().  We cannot use
+> +	 * call_rcu() here because free_pid() already owns pid->rcu.
+> +	 */
+> +	synchronize_rcu();
+> +	put_pid(old_pid);
+>  	return 0;
+>  }
+>  
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 9c2b32c4d755..464732c44554 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -1891,6 +1891,18 @@ int kill_pid(struct pid *pid, int sig, int priv)
+>  }
+>  EXPORT_SYMBOL(kill_pid);
+>  
+> +int kill_cad_pid(int sig, int priv)
+> +{
+> +	int ret;
+> +
+> +	rcu_read_lock();
+> +	ret = kill_pid(rcu_dereference(cad_pid), sig, priv);
+> +	rcu_read_unlock();
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(kill_cad_pid);
+> +
+>  #ifdef CONFIG_POSIX_TIMERS
+>  /*
+>   * These functions handle POSIX timer signals. POSIX timers use
+> 
+> base-commit: 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e
 
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
+-- 
+Best regards, Pavel Tikhomirov
+Senior Software Developer, Virtuozzo.
 
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
-
-for you to fetch changes up to c22f91d82cb9a29d22bdffdce6c803467984ad0c:
-
-  fs/ntfs3: validate ef->size covers the record's name and value (2026-08-18 10:35:39 +0200)
-
-----------------------------------------------------------------
-Changes for 7.3-rc1
-
-Added:
-    load ATTR_BITMAP run extents from $MFT extension records
-    initialize err in attr_wof_frame_info
-    reserve NUL byte when converting UTF-16 names
-    reject restart table growth beyond U16_MAX entries
-    validate dirty page table on log replay
-    basic support for alternative data streams
-    validate ef->size covers the record's name and value
-
-Fixed:
-    slab-out-of-bounds write in ni_create_attr_list()
-    out-of-bounds read of INDEX_ROOT in reparse/objid init
-    boundary check in ntfs_dir_count()
-    info-leak in ntfs_rename()
-    lseek EINVAL on sparse/compressed files with 64-bit clusters
-    info-leak on partial LZNT decompress in ni_read_frame()
-    bound page_lcns[] index by the log record
-    memory leak in indx_find_sort()
-    integer overflow in MFT cluster validation
-    reject out-of-range evcn in mi_enum_attr()
-    out-of-bounds read in read_log_rec_buf()
-
-Changed:
-    widen inode/record number storage to u64
-    cosmetic fixes and improvements
-    rename 'err' to 'ret' in read paths
-
-----------------------------------------------------------------
-HE WEI（ギカク） (1):
-      fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
-
-Konstantin Komarov (10):
-      fs/ntfs3: widen inode/record number storage to u64
-      fs/ntfs3: cosmetic fixes and improvements
-      ntfs3: fix boundary check in ntfs_dir_count()
-      ntfs3: fix info-leak in ntfs_rename()
-      fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
-      fs/ntfs3: bound page_lcns[] index by the log record
-      fs/ntfs3: Fix memory leak in indx_find_sort()
-      fs/ntfs3: Rename 'err' to 'ret' in read paths
-      fs/ntfs3: Add basic support for alternative data streams
-      fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
-
-Kyle Zeng (1):
-      fs/ntfs3: reserve NUL byte when converting UTF-16 names
-
-Ruoyu Wang (1):
-      ntfs3: initialize err in attr_wof_frame_info
-
-Samuel Page (1):
-      fs/ntfs3: fix info-leak on partial LZNT decompress in ni_read_frame()
-
-Senjin (1):
-      fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
-
-Weiming Shi (2):
-      fs/ntfs3: reject restart table growth beyond U16_MAX entries
-      fs/ntfs3: validate ef->size covers the record's name and value
-
-Weiming Wu (1):
-      fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in reparse/objid init
-
-Xiang Mei (1):
-      fs/ntfs3: validate dirty page table on log replay
-
-Zhan Xusheng (2):
-      fs/ntfs3: fix integer overflow in MFT cluster validation
-      fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
-
- fs/ntfs3/attrib.c   | 159 +++++++++++++++++-----------
- fs/ntfs3/attrlist.c |  15 ++-
- fs/ntfs3/dir.c      | 132 ++++++++++++++++-------
- fs/ntfs3/file.c     |  66 ++++++++----
- fs/ntfs3/frecord.c  | 199 +++++++++++++++++++++++++++++------
- fs/ntfs3/fslog.c    |  68 +++++++++---
- fs/ntfs3/fsntfs.c   |  34 ++++--
- fs/ntfs3/index.c    |   8 +-
- fs/ntfs3/inode.c    | 298 +++++++++++++++++++++++++++++++++++++++++++++-------
- fs/ntfs3/lznt.c     |   4 +-
- fs/ntfs3/namei.c    |  64 +++++++----
- fs/ntfs3/ntfs.h     |   3 +-
- fs/ntfs3/ntfs_fs.h  |  51 ++++++---
- fs/ntfs3/record.c   |  34 +++++-
- fs/ntfs3/run.c      |   9 +-
- fs/ntfs3/super.c    |  38 +++++--
- fs/ntfs3/xattr.c    |  22 ++--
- 17 files changed, 922 insertions(+), 282 deletions(-)
