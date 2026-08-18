@@ -1,163 +1,103 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33A2476680
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 13:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAFD476CE1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 13:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787058913; cv=pass; b=heng79dlp0GsQ+jB9uCgvjYnSZSj32i1m9/KbLDQWnaMKYe3YjqVPTCPCec9XOWRWNopYJRysoToDwZq0qp8PUGCBmOxJboSWXV0yfgsUMwP+e4eiTsDFyExIcTiOHtXUBdGLZjjWIkJGur+5qUVO5TFNRyFnRwDCZWWy0t8Puw=
+	t=1787059280; cv=pass; b=gFamQhZBxn2d8ZYjuuKIX1/LbSmZRLdxV8yAnkEIRVV+ORVOekrgBZiEFsJxXh+V/pU0R9t7iephkU467Xv9b0r+f31XqVZXATYoVBJV42iSONkX5+K7kLDaRd1HHILCFE6glXz6LqeAIx022jW1jn7UuHR5/v3oLYFpnAd0Rsw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787058913; c=relaxed/simple;
-	bh=KmOPgecutUsmjwBlgKM8KuaPjy+z2DOw9/Sj82TrOBA=;
+	s=arc-20240116; t=1787059280; c=relaxed/simple;
+	bh=/VGZXZCepoNJgIgzmkwudDmncCfY9xJyxQCJ2G13L/U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bVBjwav5lghAIdVu0wm3puM+PaENHAtDyBTefvii53EZhnnxiqSvo1mRItVqW2cVdD27jLLpdInhLFUk9mRjrqAtM3icd0wc341EnNxIXhjfrD2u4KDfW9BmzW8gxHGQhCw9DotBEpN7sVjarSAVlJHC36pwUBubq4ax5oHia5w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=R7WpH7XQ; arc=pass smtp.client-ip=209.85.222.175
+	 To:Cc:Content-Type; b=XDE5KwTkgXtdq3SkLUeV51Wy/C/nrbfzgViAiXl3AvEggrTvkdCZdGddTHsBMUsmn0g/tn242OwWIs6TY+8Sh9Gs1/jDwHACKbVw6SVJ1emIXnnt1+wF8oNTWt6hj1sCOxoKSBBx9PzBaiEfnw3/bcw5kt/iDzsg64xj2OQWFNo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=cqKztS73; arc=pass smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="R7WpH7XQ"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e6a434cabso222894485a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 06:15:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787058910; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="cqKztS73"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-936c02e58dfso296407885a.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 06:21:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787059278; cv=none;
         d=google.com; s=arc-20260327;
-        b=hmpsrzTR+aiY7If7+YO9+3K2vOaQfQq3PR12/wCbt2dmsrBc1vYvkXyPK4Ez/AAJXn
-         DNd64tGlyiVtHE4sZrC7X1p7KGDLV87rklvCEfOQRm2DNEGOc//Pk3phSC9cUMbQNBJE
-         4MYovvPQj3VSLXpql4gBzs5D7OWnZ3qXuc4U3YmDcYB0W3kICL8RVCmgKokQA2hk8y6w
-         e49gOROpkQchw+KNdRwiDVNEewPonT5bQFuc+LmrEv0hn9gL4yiNgU7AaFgGFKQSC6j8
-         wmO/gxA/3Iy1U9vHxPes+DIW3VTT5WAKf9N1m9VDHs5fh4IXPfmY7FfuNDRuwZ7lt9aC
-         RZ5Q==
+        b=jTj+SvXNlhBlk3jDXbEfv27JIStKwmr2u6vcxFSA35ndphBaIy/hOAQG8pgTnDA/6S
+         SnwC852Onn6ZVzK9W4BG15EiXbcilPPebFyehuTyIrjrylCdc5Fulr22NJfa5oeSTzX3
+         OaOuKO+XdUErLuW1ksa5oYcIyGsdG4WOyk9QQ44DfQ4pxs116J/zd5WHPCcXXk8UMWm5
+         vgpjdQNFzz0RBAXH/zBW7LkN17aSeOUgbhCHgrdiMH9cU/aX5y3+W1Kfpga+xl9tqU+K
+         jY+AJQmorzbROm08xbolQZQeHpDaSv/au//xm8x3cPXTcgDeHZw5HNRwn7CxicObRu5j
+         hBiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=jxh5XpAHdieXwLPBDP0ROoYTT/Q1CVkQ5V4OzfSiXHI=;
-        fh=h35f7xRbaiB63mwm79PLf/J8XGg5O8M2XlKPmkgllv4=;
-        b=PSn6hF3Un+1O6QeGgn/1/rSUyL7Zu7nzPo1ClJ5XoGaQQQX5GYuZuBqWAxo657OYdE
-         2a5qre7TIZrsLwMzhhIsiObgQtR5lYPEOJcT55LwZ6iSp88WcMymTzztRgYsZk6bdBrP
-         H0cH0aRUX91CrCku9Ghzg13xoyxkjWYZYfvYhQWbxROhOpLQy/3facLfOAz1xkazwEEi
-         pi+rjiXU61vE6Ve56ri0d19/lzI1wkW5m1P4k8AFrcJDlap4wdXFp9gGIc0o5oBEpu3a
-         r0tYHydHb7kQWPVvmOja/eMWQWX8bbFyMs8mfb24Q/bgu492De77VD5Ob39pitq6FC4E
-         74IA==;
+        bh=/VGZXZCepoNJgIgzmkwudDmncCfY9xJyxQCJ2G13L/U=;
+        fh=ueVkTc5wF9iuVVhf6LzmeRebNQjq2uYmGVPDHJDuxuw=;
+        b=UUPZESHhBoOXYm0wL0yKKlc/mdWQUXRdJ0RyWZB3qMic2m+EaDNXjJO4X3V5aanUJd
+         EoHLpITWszh/PKAdL/3L2F6P7Kp3HwvLfqIecY8lF/kWygNH+1dNFTQKVgxnD/dImSnM
+         06pw3xqqzIMRX6Ig/N8JyZUJuSqI3q9eBxjpGDeL70bkDy4S46vSkPF6u24/YWBEs9E/
+         oarXyr2RaXrPSSUtJWFrlm6xA+SSGV9572wMtdwr+b3KBlJpfK9QTyn9kSdfbqsJ9fZP
+         ZeduAoQ8vxatQXEoQaeemXmC9sHitgpvs13A0w49HD+Sn8yPLezFH0Vfg+2EkVP8BD0K
+         pB2g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787058910; x=1787663710; darn=vger.kernel.org;
+        d=szeredi.hu; s=google; t=1787059278; x=1787664078; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jxh5XpAHdieXwLPBDP0ROoYTT/Q1CVkQ5V4OzfSiXHI=;
-        b=R7WpH7XQU+s1dPr0CcPCikdC0N2EQs40h248ps8kh/hFM5N9xQ/hD2TfPWcl9xaOqz
-         PWrcFWccreowAZlgmWR+EvyZYndrZ96uTCaa8V4GzKuPrf6C7X8+VoTjCI4/WSAJ65KD
-         4AOjAy8XRa03bEX8khTR8J67UGihvM+9P8HEA=
+        bh=/VGZXZCepoNJgIgzmkwudDmncCfY9xJyxQCJ2G13L/U=;
+        b=cqKztS73MNeX7Hq65HM1KAtlufQkRNSmuHbiZM0sACXpBMdntfi7EDFq4K+Xm352cr
+         mvNADnXvA9IdjWX1LuYYP5VwLeybAJ8jgt88G8hf4Rcp2ustw/8T8eAYVblbnFlPu3h5
+         7Uh/faE+7l7b93ex0DrprwsQiGVv/81Oah6lU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787058910; x=1787663710;
+        d=1e100.net; s=20251104; t=1787059278; x=1787664078;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=jxh5XpAHdieXwLPBDP0ROoYTT/Q1CVkQ5V4OzfSiXHI=;
-        b=lU+ko/fL67MUlyYGf4JWiKH603I9fXdcTIn9qKAhpsoPD+0qBpZRB47M1zVJMAH6WS
-         lXkeoTq6kTcU8n8MQQq1Qe6MbTx1P8RnvB7w+ndGoXQUCWvjTKfVHeSSnegjmAN1faOJ
-         fYs5OKIEugbe1So2NTcSr8NBqeCOofTmQhb+CEyiZkYMQF7FEmAg9hCArbSYpzvOtfpi
-         3EP2hJsZyUO7LdJU3CkSWgusM4bpk3Q8uXnvC1tw5FtNNr7crg2CL6NWExaTNQmLxS70
-         Z51qGluYs2POOLSiVZt8VotC4LkeE614dGRvCzdkpYE7ktsR/JSKIryvwKCPymfCJxNj
-         0LHQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpu69J5aTimx5vmo/6+8X/NAbCAHFSeqRvTNh8jpb5usYXMlj3rL1IOmwY5sQtJsShxrK06WgzWxH4Wf4SW@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnRJIQ1HBy3Ppn7R/ghV76UT6cLzPv63UVqgImat10RNbw7Sad
-	vZXOa/C4eRg96Z4qngPtmeodoZKHmBdvBZ1g/1ZdppfjRETaDWXsMNNE6HCLAA/2qon4mYn5ipK
-	1yUPCXv7imbHm/EEyPqXJcvdzHR54KTrGdkY4aKRJ3w==
-X-Gm-Gg: AR+sD13hPTiQAY9TlP5tNSoHVgywc3a3W/dCpE0x1lCHZ1gKbjiw/iK/eVJm8vpQ9Cp
-	TfT8/e3sq0teYFI6kQCOXTt/tt8ih4eQ/Izzm5KUCwXdIpkeKS8yf1cZLhRCax8Vp6sLx2Gqiov
-	dpymyc2byBU1lGVd5AXz2FnL0M2ysyEsShE7oXvH8HxzLBQRG5m2mob6TubU678y98m+Wh9AJmi
-	4uOzr6Lfw9qROT3avH9Tw2KQ9cf+nI+mfsJzLQCfBKjiYFkhhGO9Zu49LC4s7HC2FNWGFssYxMs
-	ad62qhR39cSb2WpEASh5sC/u/5nurjr/DVfwXbioaQkS1vdFdJUwwMwrHEBoqApFtL6UDjhcM2m
-	L
-X-Received: by 2002:a05:620a:404c:b0:936:e3c3:8cb8 with SMTP id
- af79cd13be357-936e3c38cc9mr2458814485a.45.1787058910323; Tue, 18 Aug 2026
- 06:15:10 -0700 (PDT)
+        bh=/VGZXZCepoNJgIgzmkwudDmncCfY9xJyxQCJ2G13L/U=;
+        b=c0J+jqYh8JIOfDmpgR+N2nsmcs+4BF3XlL37r8YgPqrFkRSfwCoheSGDTcz8j5tusq
+         3NxYGItReikKOZdMbceW6NnRDy9L2y+0TZTuIgMzMmQ3HLD/jwyir6ClpjgJSZKdhbmf
+         pNk4hjGXRbJuUmHAtDRv6KwjWgWVtMhI+OXhskQi0b6trKooUOThmmoPe23qxsPRZ0Az
+         LTzOFen6+KQhJ5riz0JC1kgSQ35Y465uueNofJUuAebUgnEbqrD1WZuauyF5an6qWz9i
+         tFlnNw07gAY6kTGQ1I1rJzkrKeBkq3h+7EEyvvKrmCi+eGGa9n6wpyllwbaidOcsM0Is
+         Dj4g==
+X-Forwarded-Encrypted: i=1; AHgh+Rq26urp67vkkPWIxBX7Rg4YL4/r1H/rePhYZrPgBqWmwnEuMmD8dlHvxQoNXmx6ZNGlBkVwwBMP/jsnUoQG@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvjOgPettHEzkKhWczsyOpYW1FiJ6l1Id4JBXi0nwKZnhp+dSQ
+	fszimsjio/qf8XRHepSiZTdmArToTBxOoYrReqg9jld8ccuJV36r+3toakwz+w2wwRgN7BB2mrI
+	ZVBkJB5phVsS10spE2cw29wr4rOmMKh/jAKAPfpThxA==
+X-Gm-Gg: AR+sD13QAdIAwztZlyujfN4HwebMeYF+nRAKWjoGBkKQb7TUJfB7vd/knEEMBvzpTTm
+	bfDBwXaiG8I1Ug65PKjLHafRwMNPzP4bukDQv8CcJnXi4W7m2yb2r5FqN64MqIGHDi7N3tGtLj8
+	cYfMFvmI6gWnN2MfBZ+mrjY4v5OzWS/D70KlJuYbYMkGCpx1K92plWsu/QSPiLAH2kVXLMYDzRq
+	N+I6k7vAvlPgZRi/rAJSzeUjM+LEF2cNsAqB67Xf5zg/JKND+y+WX72acFCWRPTM8dou9UUqxVi
+	ikeJohoW+s7XMQqtfg0qz4PwG6bNtO1yI8HNYTb+BhmwQH/l/YBhAk6nnwlCs5F/F+q/Gogm1X7
+	k
+X-Received: by 2002:a05:620a:8812:b0:936:d2a2:5fe with SMTP id
+ af79cd13be357-936d2a24ffemr3460347985a.6.1787059277777; Tue, 18 Aug 2026
+ 06:21:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260802-work-fill_super-warn-v1-0-4e987911a39a@kernel.org> <20260802-work-fill_super-warn-v1-1-4e987911a39a@kernel.org>
-In-Reply-To: <20260802-work-fill_super-warn-v1-1-4e987911a39a@kernel.org>
+References: <20260801082451.2770813-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260801082451.2770813-1-libaokun@linux.alibaba.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 18 Aug 2026 15:14:59 +0200
-X-Gm-Features: AcwNN1UBQAWcx1tOEiU47Frr3JyAbsHxepEKWSi_zYBw_ITdoj7CtNDGWqz3aiE
-Message-ID: <CAJfpegtXbdpFZmV2dYSbp6eL0DBGmZin98TFr42nxJCfuryfrw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ovl: don't warn when the mount is completed from
- another user namespace
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-unionfs@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, 
-	Laurent Vivier <laurent@vivier.eu>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	stable@vger.kernel.org
+Date: Tue, 18 Aug 2026 15:21:06 +0200
+X-Gm-Features: AcwNN1Uq2AZxWWAiZ2GeI7i2pIbWFCmY8WBUYjcETCkru1nzDswcXixjBLbPfCQ
+Message-ID: <CAJfpegujSRfGBgVLj3k2Z8uhVYi_mSyZVhSO_9vtOTkyNn49Ew@mail.gmail.com>
+Subject: Re: [PATCH] fuse: wake one waiter per freed slot when raising max_background
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, jefflexu@linux.alibaba.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 2 Aug 2026 at 20:00, Christian Brauner <brauner@kernel.org> wrote:
->
-> fsopen() records the caller's user namespace in fc->user_ns and hands
-> back an ordinary file descriptor. Nothing ties the task that calls
-> fsconfig(FSCONFIG_CMD_CREATE) to the task that created the context. The
-> fd is inherited across fork() and exec() and it can be passed over a
-> unix socket.
->
-> Completing a context from another user namespace is allowed on purpose.
-> vfs_cmd_create() authorizes the create with mount_capable(), which for
-> FS_USERNS_MOUNT checks ns_capable(fc->user_ns, CAP_SYS_ADMIN), and that
-> succeeds for a task holding CAP_SYS_ADMIN in an ancestor of fc->user_ns.
-> So an unprivileged task can reach the WARN_ON() in ovl_fill_super():
-> create a user and a mount namespace in a child, call fsopen("overlay")
-> there, send the fscontext fd to the parent and let the parent issue
-> FSCONFIG_CMD_CREATE. Both namespaces come from a plain unshare(1) and no
-> capability is needed anywhere:
->
->   WARNING: fs/overlayfs/super.c:1551 at ovl_fill_super+0x7b9/0x1e20 [overlay]
->   CPU: 3 UID: 1000 PID: 3243376 Comm: fswarn
->   Call Trace:
->    get_tree_nodev+0x71/0xa0
->    ovl_get_tree+0x15/0x20 [overlay]
->    vfs_get_tree+0x2a/0x100
->    vfs_cmd_create+0x60/0xf0
->    __do_sys_fsconfig+0x4b2/0x500
->
-> The child needs the mount namespace because fsopen() itself gates on
-> may_mount(), which asks for CAP_SYS_ADMIN in the user namespace owning
-> the caller's mount namespace. fsconfig() doesn't repeat that check.
->
-> It is a WARN_ON() and not a WARN_ON_ONCE(), so the condition can be
-> raised in a loop to taint the kernel and flood the log, and it panics a
-> kernel booted with panic_on_warn.
->
-> Keep refusing the mount and stop warning about it. ovl_parse_param()
-> already spells a user namespace check this way for Opt_override_creds.
->
-> Fixes: 1784fbc2ed9c ("ovl: port to new mount api")
-> Cc: stable@vger.kernel.org # v6.5+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/overlayfs/super.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index 60f0b7ceef0a..60b808b85fc4 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -1544,7 +1544,8 @@ int ovl_fill_super(struct super_block *sb, struct fs_context *fc)
->         int err;
->
->         err = -EIO;
-> -       if (WARN_ON(fc->user_ns != current_user_ns()))
-> +       /* The fscontext fd may have been passed to another user namespace. */
-> +       if (fc->user_ns != current_user_ns())
->                 goto out_err;
+On Sat, 1 Aug 2026 at 10:25, Baokun Li <libaokun@linux.alibaba.com> wrote:
 
-Just one comment on this (I know it's been merged, will do a fixup
-patch):  EIO should be turned into EINVAL.
+> Use wake_up_nr() with the number of slots that just became available.
+> Since the wakeup is guarded by !fch->blocked, num_background is
+> strictly below max_background, so the count is at least 1 and never
+> degenerates into wake_up_all().
 
-The EIO was used to signal an internal error (commit 9efb069de4ba
-("ovl: add warning on user_ns mismatch")) , which is no longer the
-case.
+Applied, thanks.
 
-Thanks,
 Miklos
