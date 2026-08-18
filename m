@@ -1,104 +1,366 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7884834DCD6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 18:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340673EC2FF
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 18:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787077913; cv=none; b=tpLj37GopqUqPkmcHQSyZZLcX34NXykM8ctWXIiOTqk+OQQzH0ir46MPU3WQIZjwNm9OljSjmTAU2dQ2kVNCTqX9Fbxco1/d31srhWu4w9MXSORt63ozkF66N6AAHHrEohRjL3IdIvO96FIhT+Zf2lT4FPUQrWVj52g+1pT9Cuc=
+	t=1787078440; cv=none; b=Da/5ZiatUOZ3IdU8vxSOv6S77oXibpztE8SsbRSeAp1HColjOgAA8FeBklVpEIYZMOEPAqpzRpew8DyYcJoIKCR4lRoUde7soWoUCcXYFDKOo4OrC25XZ+qgf1fNeVqp3gCPMh7aN5IyHce8y0K2fmAhEs4I5u6tLsaPnqx1LjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787077913; c=relaxed/simple;
-	bh=K9dLAmZy70kAfKCboOR4fvG9iZk+EHL+DmxuAiy3Ls4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-type; b=Tdc6MQzntXmDMSEkIcaMzivBj7xahJbB42v+hi5g81fpev2VKxgxQPFIMaxQC3oOU8kMqCqzMa+nJmpwTGO5ppVrdIItY+BFhhxXP7Nk+Yie+VE2mgBpVPwQRIszUkuuRT7fOk1sy/lQF8lLTh39UDtbKVy9s51VXsn3EU2by1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XuENGlUs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787078440; c=relaxed/simple;
+	bh=ZE5+6QrhQgi0WQlXf807LxaLxRdPddcD5KNpfJRWiCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GXOA2kZNjlShJUWRb6KXynRAsfoywjYS/OCfea5g/cknwZVfctp1MWPamg0jTEHelYVDOkvi9DPN2V+in4y3X8DzFJz+Vq0hZcPwnj0JY61rjnA2Vj7B/vWGXhoOyGDGLeLe5f1nJv4Ai/iZ6ZQj4wnb69XLHERw+SUBtYDLXYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gxo2dy9i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XuENGlUs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787077911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JXSLvWbvRdaP0r5zYNJOeqQQQ1V2xG76u/lycvxngT8=;
-	b=XuENGlUsAI6e1Go2aInSXv8dkEqTACMzTA5JBl93X4or1YCwP3Ce6FKK//9UJ0WFwZ9O3V
-	rXS/uWqbWxaxj4+jDJd9CwTZICusLU+G+BDelq2/gYrthOAn7ywEUPGrbQUAtyvZ/+R7Sg
-	AJ+TXktTBuqJpG2GEx/ehifh2j9+P3g=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-669-Ihja_bpxNUWwqLfiVkxiBA-1; Tue,
- 18 Aug 2026 14:31:48 -0400
-X-MC-Unique: Ihja_bpxNUWwqLfiVkxiBA-1
-X-Mimecast-MFC-AGG-ID: Ihja_bpxNUWwqLfiVkxiBA_1787077907
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1095F19560AA;
-	Tue, 18 Aug 2026 18:31:46 +0000 (UTC)
-Received: from madcap2.tricolour.com (unknown [10.22.74.2])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A5926422;
-	Tue, 18 Aug 2026 18:31:43 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>,
-	LKML <linux-kernel@vger.kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Linux Kernel Audit Mailing List <audit@vger.kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>,
-	Eric Paris <eparis@parisplace.org>,
-	Steve Grubb <sgrubb@redhat.com>,
-	Richard Guy Briggs <rgb@redhat.com>,
-	Roman Dolgikh <rmd4work@mail.ru>,
-	Ricardo Robaina <rrobaina@redhat.com>
-Subject: [PATCH v3] audit: free proctitle in context so it can be re-set by fork on exec_binprm
-Date: Tue, 18 Aug 2026 14:31:39 -0400
-Message-ID: <ef5bf18a4b3805ec0fe5fb638963ccbdfc01d6fe.1787077711.git.rgb@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gxo2dy9i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A077D1F01559
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 18:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787078437;
+	bh=ny3XfJw5AppvIZCDXFSTRJl6zICfUFbpvldeep36UPQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Gxo2dy9i+r9hMkx4kXWc3gktO/h6sygr3MqxCShm2PUAKqgro78w65IZ9rJErhTDd
+	 mTJnTV362z9LZ+RA85FOQ2zL0HMWfeS/e10WuK2U0u3Z7ldKsHiPfTiXArsChaLbp6
+	 sTl8V/iaCsF8lD+dI7XbReDvP/kjO624/3Bo7wGBKgr3uU09fWxJweFTcuFn07Xad6
+	 lsgZoZFBYA5lAkMWNkdsSE3seXNWMpQkooUQlA2M3SmGoxYzCV5oQlQLm78YCEvZcb
+	 kctcvvms/EzCQo3PEnajZYc3dcDMOnr20bCVWu1ZyBof57sh99gqp0tU0HMrL5gGSN
+	 bgw7TuI0U44AQ==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c169ae1cb26so252791466b.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 11:40:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpDK/rQntuYnMJUgDOLUQUfrs8bc8ljZnFJEY1y/emweo4DuEU/uF70SE5MLNFs41INH8AhNpOiYS7gmTa9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKd5Dl7kG+Jw4HKeH8cz+PKIgq+ojtfsku8YwX8OISAFSpUa6i
+	ESehbsZ/ygAd7a1A5u8iQlHOwVJ0ewbx4iAj7oRCrvZVdCR5IaJZ8NcVeeHbpK2AOAM+cOBw9tn
+	tsLOd7TwvxcZPIVHWs5JkgCam67FVGMo=
+X-Received: by 2002:a17:907:a68a:b0:c21:4698:ee9e with SMTP id
+ a640c23a62f3a-c22297f3440mr23803966b.7.1787078436420; Tue, 18 Aug 2026
+ 11:40:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-Message-ID: <20260818183139.f2v-HukfL5PLCOxXeJQYhoWurram5LBUy_vFSp37pU0@z>
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+In-Reply-To: <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 18 Aug 2026 11:40:24 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+X-Gm-Features: AcwNN1X1aov6WUElnPNE-Id7S1ebr1jq7bpiqptm-nHaxscbWcI6WEioZMaqF7I
+Message-ID: <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Between the actual process startup (fork systemd) and the executable file
-replacement (exec), systemd sets a temporary file name (executable file
-name in parentheses). If an auditable system call occurs at this point,
-the audit context will latch the temporary process name into the cache.
-This name will not change again. The patch clears proctitle into the
-audit cache when the exec call is made, allowing the new process name to
-be latched.
+On Wed, Aug 12, 2026 at 1:59=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> On Mon, Aug 10, 2026 at 5:48=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wr=
+ote:
+> >
+> > On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
+> > > On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org>=
+ wrote:
+> > > >
+> > > > On Thu, Aug 6, 2026 at 2:04=E2=80=AFPM Joanne Koong <joannelkoong@g=
+mail.com> wrote:
+> > > > >
+> > > > > I'm not too familiar with memcg or vmstat so apologies if this is=
+ a
+> > > > > naive question, but does it make sense for memcg to just do a sim=
+ilar
+> > > > > approach to what vmstat does? As I understand it, mod_lruvec_stat=
+e()
+> > > > > updates the node counter and the memcg counter (if memcg applies)=
+,
+> > > > > where for updating the node counter, mod_node_state() does some
+> > > > > batching where it updates the global counter for that stat only o=
+nce
+> > > > > it crosses some threshold (pcp->stat_threshold). Could memcg keep=
+ its
+> > > > > per-CPU counter as the accumulator but once it reaches some thres=
+hold,
+> > > > > it then propagates it up the parent/ancestors into a per-memcg at=
+omic
+> > > > > global counter? The atomic would then only have to be touched onc=
+e per
+> > > > > batch than on every update, which might eliminate the overhead of=
+ the
+> > > > > per-memcg atomic you saw previously? It seems like this would get=
+ rid
+> > > > > of needing to do any flushing altogether, as we could just read t=
+hat
+> > > > > global counter directly.
+> > > >
+> > > > The memcg stats perform similar per-CPU counting and thresholding. =
+The
+> > > > main difference from vmstat AFAICT is the cgroup hierarchy. In vmst=
+at
+> > > > we have per-CPU counters and a global atomic counter for each stat.
+> > > > For memcg, we have the same for each cgroup, then we also have a
+> > > > cgroup tree. When we read the stats of a cgroup, we usually want th=
+e
+> > > > hierarchical stats including all of its children, so we can't just
+> > > > read the global counter.
+> > > >
+> > > > We use rstat, a cgroup framework that keeps track of which cgroups
+> > > > have updates on which CPUs, and then memcg has thresholding logic o=
+n
+> > > > top to only flush if the number of pending updates exceeds a
+> > > > threshold. Essentially, if the magnitude updates on a CPU exceeds
+> > > > MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We onl=
+y
+> > > > flush if that global per-memcg counter has > NR_CPUS *
+> > > > MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to =
+2 *
+> > > > NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
+> > > > stats).
+> > > >
+> > > > See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this =
+logic.
+> > > >
+> > > > Looking at this code again, it made me realize that we already iter=
+ate
+> > > > the per-CPU stats_updates on every update to increment the number o=
+f
+> > > > pending stats on this CPU. I wonder if we can replace this with
+> > > > actually updating the stat on each parent, then the flush path only
+> > > > needs to accumulate CPU counters. Or maybe as you mention, we updat=
+e
+> > > > the global per-memcg counter when updates on a CPU exceed a thresho=
+ld,
+> > > > and forgo the rstat flushing logic completely.
+> > > >
+> > >
+> > > I can run some experiments and see if updating the global per-memcg
+> > > counter per batch and forgoing flushing could be a viable solution.
+> > > I can use my setup to test it for writeback, but for the zswap use
+> > > case, what's the best way to test if the changes are too expensive? I=
+s
+> > > there a benchmark program you're running?
+> >
+> > I was running stress-ng and measuring the latency of zswap_load() and
+> > zswap_store() with bpftrace. But I suspect whatever works for writeback
+> > should work for zswap :)
+> >
+> > >
+> > > For updating the stat on each parent and having the flush path only
+> > > accumulate CPU counters, I think this means we would have to
+> > > unconditionally walk the ancestors + update its counters on every
+> > > update, as we wouldn't be able to early break if the flushable
+> > > threshold was already exceeded. I don't think we could replace the
+> > > stats_update update, as it seems like readers still need some way of
+> > > knowing when to flush. It seems like this could be a nontrivial
+> > > performance hit, but maybe it's a non-factor in reality. If you think
+> > > this would be useful to get benchmark numbers on, I can run some
+> > > experiments on this too.
+> >
+> > I think we need to experiment with how much work we can shift around
+> > between the update and reader sides.
+> >
+> > Right now, on the update side, we call __css_rstat_updated(), which
+> > iterates the parents and puts them on the per-CPU rstat tree, then we
+> > iterate the parents again in memcg_rstat_updated() and:
+> > - Check if flushing threshold is already met.
+> > - Update per-CPU counter for stats_updates.
+> > - If per-CPU update exceeds (another) threshold, we update an atomic fo=
+r
+> >   stats_updates.
+> >
+> > The flush side checks the flushing threshold and does an rstat flush,
+> > which will walk the update trees on all CPUs and iterates all child
+> > cgroups on it. Pretty expensive when the threshold is met.
+> >
+> > I think we discussed two different options:
+> >
+> > (a) On stats updates, iterate the parents and update the per-CPU
+> > counters of the stat directly.
+> >
+> > In this case, we can't keep using rstat, as we would still need to add
+> > the cgroup and all its ancestors to the update tree anyway and the flus=
+h
+> > cost will remain similar. So on the flush path we'll need to iterate al=
+l
+> > CPUs and add the counters. We can explore if use a cpumask can help
+> > here, but perhaps not since we'll need to update it atomically on all
+> > stat updates.
+> >
+> > I imagine that if we do this we'll drop the stats_updates optimization
+> > to avoid adding more cost to the update side. We'll be replacing parent
+> > stats_updates modification with parent stat counter modification. But
+> > maybe it's feasible to keep both to limit the cost of flusing.
+> >
+> > This only works if the cost of iterate the CPUs on the flush side ends
+> > up being cheaper than the current flush. I imagine the average cost wil=
+l
+> > be higher but the cost should be much more consistent vs the current
+> > flush, so the tail should be better.
+> >
+> > (b) On stats updates, iterate the parents and update the per-CPU
+> > counters of the stat directly AND update a global atomic if the per-CPU
+> > counter exceeds a threshold. I think updates may get too expensive as w=
+e
+> > may need to update multiple atomics, especially when updating the root
+> > counter as it will be contended by all cgroups.
+> >
+> > The flush side becomes an atomic read, so should be very cheap, and we
+> > can drop other heuristics and optimizations.
+> >
+> > ---
+> >
+> > I think ultimately we need to experiment with these approachs (and
+> > perhaps others) to check what actually works in practice. You'll
+> > probably want some benchmarks or synthetic tests with many cgroups to
+> > exercise the worst case scenarios.
+> >
+> > For the zswap stats, I used to run stress-ng with a bunch of workers
+> > (20, 50, 100, ..) in cgroups of different levels. Since all workers are
+> > in the same cgroups, all the parents are common and all threads end up
+> > competing on the same atomics, so worst case scenario. I was also
+> > testing in a VM that has more CPUs than stress-ng workers, to exercise
+> > the full extent of the concurrency and contention.
+> >
+> > This could be a lot of work, so I am not really asking you to do it, bu=
+t
+> > just brainstorming and sharing ideas :)
+>
+> Thanks for your guidance and insights on this, Yosry! Your responses
+> have been very helpful.
+>
+> I'll do some experimentation with this and try to get a sense of what
+> the update costs are.
 
-Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
-Link: https://github.com/user-attachments/files/20751461/fix_audit_proctitle.txt
-Link: https://github.com/linux-audit/audit-kernel/issues/170
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
----
-Changelog:
-v3: use previously assigned context
-v2: simplified to call single use directly before need in audit_bimprm
----
- kernel/auditsc.c | 2 ++
- 1 file changed, 2 insertions(+)
+Looking forward to that!
 
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 2b9ce0b52511..ee7e53d2cd52 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -2601,6 +2601,8 @@ void __audit_bprm(struct linux_binprm *bprm)
- {
- 	struct audit_context *context = audit_context();
- 
-+	/* clear proctitle in audit context to allow replacement */
-+	audit_proctitle_free(context);
- 	context->type = AUDIT_EXECVE;
- 	context->execve.argc = bprm->argc;
- }
--- 
-2.43.5
+>
+> One thing I was unclear about and have been looking at is how
+> pervasive/important this issue is outside of the writeback case. It
+> looks like there are roughly 4 other categories of users that rely on
+> stats that can be 2s stale: zswap, cachestat(), working set, and
+> vmscan.
+>
+> Of these, vmscan is the only one that looks troublesome. Some armchair
+> analysis below:
+>
+> a) zswap (zswap_shrinker_count()): 2s of staleness looks fine. the
+> stats are only used to calculate the compression ratio and the ratio
+> scales a count that comes from a list_lru and *isn't* stale. The ratio
+> is an average over the whole pool, so it seems like that should be
+> fairly steady across 2s. A stale result doesn't seem too bad - afaict,
+> it is a heuristic of how zswap should get weighed against the other
+> shrinkers.
 
+There is also the zswap limits calculation, which Song sent a patch to
+change to using ratelimited flushing. I think that case is more
+problematic as it can cause OOM kills if we use stale stats (e.g.
+after a burst of writeback frees up space in zswap). Adding Song here.
+
+The shrinker case is more benign.
+
+>
+> b) cachestat() syscall (filemap_cachestat()): seems preferable to just
+> rely on the 2s flusher worker. The results are returned back to
+> userspace and not used for any internal kernel decision-making, seems
+> ok to have one field in it (nr_recently_evicted) potentially be stale.
+> Seems better to err on the side of less frequent flushing anyways, as
+> the call path is invoked from unprivileged userspace and flushes the
+> root memcg.
+
+I am not sure how the cachestat() syscall is used, but my preference
+would be to treat it like memory.stat and do a full flush on userspace
+read, unless it's a syscall that is invoked frequently for some
+reason.
+
+>
+> c) workingset: looking at the original commits, the calculations are
+> estimates that don't require exact stats -
+>
+> refaulting (workingset_test_recent()): commit 9b3016154c91 ("memcg:
+> sync flush only if periodic flush is delayed")
+>     Now the question: what are the side-effects of this change? The worst
+>     that can happen is the refault codepath will see 4sec old lruvec stat=
+s
+>     and may cause false (or missed) activations of the refaulted page whi=
+ch
+>     may under-or-overestimate the workingset size.  Though that is not ve=
+ry
+>     concerning as the kernel can already miss or do false activations.
+
+Incorrect activations can lead to thrashing in some cases, but I am
+not sure how practical the concern is.
+
+>
+> shadow-node shrinker (count_shadow_nodes()): commit d4a5b369ad6d ("mm:
+> ratelimit stat flush from workingset shrinker")
+>     On further inspection it seems like we don't really need
+>     accurate stats in this function as it was already approximating the a=
+mount
+>     of appropriate shadow entries to keep for maintaining the refault
+>     information.
+>
+> d) vmscan (prepare_scan_control()): for determining whether reclaim
+> can deactivate, there's this logic
+>
+>                 /*
+>                  * When refaults are being observed, it means a new
+>                  * workingset is being established. Deactivate to get
+>                  * rid of any stale active pages quickly.
+>                  */
+>                 refaults =3D lruvec_page_state(target_lruvec,
+>                                 WORKINGSET_ACTIVATE_ANON);
+>                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_ANON=
+] ||
+>                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANON)=
+)
+>                         sc->may_deactivate |=3D DEACTIVATE_ANON;
+>                 else
+>                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
+>
+> (and same for DEACTIVATE_FILE for file-backed folios)
+>
+> target_lruvec->refaults[] gets set at the end of the reclaim pass. It
+> stores the same lruvec_page_state() value that prepare_scan_control()
+> will read at the start of the next reclaim pass, which means if
+> reclaim passes happen more frequently than the 2s flushes (eg under
+> sustained/heavy memory pressure), this logic will incorrectly assume
+> no refaults occurred and deactivation is disabled, which afaict means
+> folios won't be moved from the active -> inactive list, and reclaim
+> will start evicting pages from the inactive list that are hot (eg more
+> refaults).
+>
+> This is from reading the code rather than a reproducer though, so I
+> don't know how much this matters in practice. Unlike for the writeback
+> case, I don't think flushign more frequently solves the problem. It
+> would shrink the staleness window but not eliminate it. Maybe one
+> solution is to keep the deactivation state for a period of time if
+> refaults were observed.
+
+We do have an internal test that runs a VM under memory pressure and
+we started observing OOM kills after the ratelimited flush was added
+in vmscan, so I think it's more problematic than just reclaiming hot
+memory, but I didn't look too closely.
+
+>
+> If it turns out iterating the parents and updating the per-CPU
+> counters of the stat on updates is too expensive, perhaps it makes
+> sense to keep the existing rstat logic as is and have caller-side
+> workarounds, as only writeback and vmscan would require them.
+
+Also zswap limits calculation. I am not sure how benign the workingset
+case is, but it has been ratelimited for a while now AFAICT, so maybe
+it's fine.
+
+>
+> Thanks,
+> Joanne
