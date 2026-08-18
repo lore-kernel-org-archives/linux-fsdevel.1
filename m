@@ -1,175 +1,185 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE9544606D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 09:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787046523; cv=pass; b=tKkYf7MjhkrYQHH05Plyjy+s9m40LNe6tE3cLhPHmPmJ+vwYDFfXQLyIjFQ/XM+JUkS0M/o2EnDgvwWW0PX+EXHKc1mZ2H9xDCv0PONroHTAHfsALedD1Q/plaqc5vMIFnXLFOvxqzs3+X23BLWBOqr+zGGmO3znr1n9vlfXm7I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787046523; c=relaxed/simple;
-	bh=zLg+hs+WcrfMsqdfYqBHLfvgI1GGZ+5enjuBobdEDHQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EbXGt6178WR0wCv1/fWDEX6FyUEue9vDr0N/nIqHOse3NghJYHTuSxIrgGBn1lR/BZ4E+EWmZxWE6n6ydSrlUlgLam7WHfsmGpohInxv852z9An3SdnX9BlHMHrOxnryUYEmJe4RpP5lwU+Kl5kyBwLIzkkQwd3Qe21vJv7EH08=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahX3QFNZ; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95101339B3D;
+	Tue, 18 Aug 2026 10:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787048988; cv=none; b=Yu/5h26mQSl2zZYSpJR6aEHDPy9AzbO0OdL05OtWnp58g8eaUCMgPIXbuusm8sicHMqSRN9p2vmTpx3sDhplhk13fewowUIUie5URLU35rsXIvfDNNPlJ9Jf1snC/kl57camplmtuJ6PKuxodJM9P3xk05M5S0Nfp8zAvbfXLQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787048988; c=relaxed/simple;
+	bh=IkGa6xqKFM5x7wT1EwhGFPFaIGs9Gn9uxpjtq8no2A0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Qw9rnQa81cGwRWZQ7mFA8YXRn6XNgxpOmqezE3Z12+KN22g4DH3DSlPg011gPrRTUabe2JGMXGrxJ1b5pgB5VB1OWXaFM59zrEXTH3pMcLzdeXiX00RFlmhljiTmc3nf7xfrlAz2IqCoo8Vcht92M5E9l9tLOvrXYaZoUkFEk4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuFqqhx/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahX3QFNZ"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b2a4359d16so3593625e87.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 02:48:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787046520; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Xx8bjQf0flJkPkG862az8dU7Lg56EAn5FMK9jCjvcs7020GuCGYidAYPorgUWKmQ24
-         NHyK3u6YzXYWSjc1L60nFWD/dHjquvG+hMzHDmx5W/EjHSWlfkbOGuSX3jW3GS8LrsIR
-         Dy4mQU2DZP3pxxxvx6ajKW4PrWOk6FgnyBsQlUfXdo945LY/gqN6mQo8uPBigFpzYdqm
-         XoLeM0/nMX3D9z6F2lcuein5WPJAY6xGp6yDSai49bcrH6k43w7gkIwbDoBKDefu8V6T
-         6Zi2eg2436ExrebTPXvVkcJa21ANOchmTm7rCEUoZ/WsamLv5u8b2u9Sxb1N6Z7xymFP
-         WMSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rbepamhSr2jyJf19UhAs2iVPXUpahhWIzrWNBZN/cE8=;
-        fh=1cTXgp84VtMd2k2eZdcYGyUYqFG7x+S9o8w9r0GojQE=;
-        b=biVxQAf+oFyztV1bQw+6kCXBm38Ic+Cd2v5B8ho1qWQ1fF62uAbM0AOWH+LgHcRdKc
-         3wf1KVZBorUwQViYUXZg62kYbBWaQxygVetfvrFbzbrZKRmW57WcmVG3kdHC5Bo/elM2
-         Jowlc1KElrurm3mS5EjThA7B15+u73Au9n1RkCKUElIJDJyAN80eCMA8Zt7ZwSP6/Ok9
-         d8QUM1VZyllHKTKCA6Ch2odD8fB+K5bjJacWqLlgnyKMhkqTlSYrc+8pELqfuoqW1AvX
-         sR5tOL7wfaeDnh7iSNNujCRwwMfdBjMp2ItdfqJ3bb32Kta3viRrCjkrfyxtdBeMCl1S
-         3nmA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787046520; x=1787651320; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rbepamhSr2jyJf19UhAs2iVPXUpahhWIzrWNBZN/cE8=;
-        b=ahX3QFNZGrsTFUFjWX2cBk8k9SquNsacFL5MJ3eVdoGDKeKkEqJTBZLcfxttDcmY9a
-         cbp4pBU7vmdJHmZnKlmptW0bWvNT90nDbTZw2uC7rxI4GNxcUmxFYji/tamiXzZLmrEn
-         BBXx9EgAfbPGcjiqXcvkWinLQzfqm6iweh2wheviBlopR7dKRNBWu7eTD6VIFBTMl9KN
-         +vxoZhAx025KK+Qx75dEeNbc8O0ssRCXd9CEcjq5v9mixauqzNxnrmUJcYKu4U7d1H2y
-         nIVQZ/l/JWY7xjhN7VONOOhPMhTUzFALXhkU1abrgkPjvmAvmfspRB2TROJXNKPDnJsn
-         nIMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787046520; x=1787651320;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rbepamhSr2jyJf19UhAs2iVPXUpahhWIzrWNBZN/cE8=;
-        b=Gw2GVg+VL3PTgPmITEsZQxxdu4p2/WS2hg7cSpOrVI6GMfNfPredi5VTscfX9FGN+8
-         DNw1r9UeCbtPm4k+zql+zXfDVZ2XPECl9pGNzzgo5nwDYMeymc8gdDuJ+wm1uPq0BATe
-         ogwfMhdHisKbdQyhIWUk7SFZ8kcXKpJ3hbz97V8o8spCNmv++GpJswZ5ZHmwcRw0y/LY
-         VFLnFGVqUcf+bYC9dzfa3MNQjvT7hft0ts9FfYvXi0LkoOfrVFWnUovxWjEyFcI9b3nj
-         04aXi+vQpVPob/z5T2/nTYxV8tqH7Rphp/D1gxFyRH5quKLmDXJqbKUsrqZbWscgmQNz
-         mDvw==
-X-Forwarded-Encrypted: i=1; AHgh+RpWrKrvGnoX64u+Dt/qlpi5gMc5O80jl4evVsrk9fhFHRGSDs2/9w/nXYZp49SgJAbnKWgm8igKeNWch4y+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg/wtlPJPwE2ItAlfujU932WZdjOTTy6Y9iImHTVHjnvlWWJ3t
-	gqIohCLyeWqprGiKYXqCXOKjQ6o0wmNI+8CjcTdHSx1lDn7bOysEZ6U/k/9qoO+Aeb+a6v42Wds
-	6dAqVZu5rDDy2/pqAvfMbNy/G9EYAsxw=
-X-Gm-Gg: AR+sD11JZjnbWGJy4/5QlELaFLUWuVJ76WxO+ncrSxPFPRm8NtsBIcrK7HWduRamJYv
-	ST8VF33McYiMqE+C+d7uwGNmO4IfEQK5WcVm8PC6BlEjMO5qTlFuXcilPnIv4MkFpD/PeIYo1U0
-	XtAuZlQQevlO/QHMGAPK6cp+FXtil20rFDUdvS6VY04XPO2Seg9Q+Z628XRkksVcyxlrpnI8ezb
-	PFeAOMPpOKf1vFNi/zQUxgAt+xvcXt08TbOBC/VKt++COJ/CEW/wBdpEQDvVkk5gk4ukZ2XF/zR
-	/PwDFVoarsCB2Oyt4HnOlOIZ8sR4rCWYqGshIepXZ1G0CcLj0sOvdwg=
-X-Received: by 2002:a05:6512:68e:b0:5b2:a21a:10e7 with SMTP id
- 2adb3069b0e04-5b45917eb10mr5417552e87.25.1787046519894; Tue, 18 Aug 2026
- 02:48:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuFqqhx/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D781A1F000E9;
+	Tue, 18 Aug 2026 10:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787048987;
+	bh=YGBu95KxEYL60/6Z19Vi2hF5fBbivoB9n1qwKiIoQCA=;
+	h=From:Subject:Date:To:Cc;
+	b=NuFqqhx/OBpG4enp+eYRdbfn7ghsLQThetOxvPIFUTslDtl7sQEqYSRncFJjSNLME
+	 tHvpuXUaGEtJTshEQmEvEVrUELhr+x1sNnlmdx1UCiFIaPIE+IrKfWyl3o7MTFzBMb
+	 Jar4dMZ3WjHgaLLQO6WO7Ja9zmMVR1kt1OEmVkuHHF5RR0Q86DvDqiAmw6LwjmBi5B
+	 h4E2Lg6wzH9kFsEDnzkC1wRwo6KnPdQ5vLIlZJlxGBOkPwXICi7jrmFueLVOhV4ej2
+	 QQwJd8okOEDS3uRsMKSgpN1UCfDt4PEl3FJpD/+bKiHjbddgIHnq89OPvGv1ccmzxr
+	 Gtq34sog6jPVg==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/4] Stop TIF_NOTIFY_SIGNAL from interrupting work that
+ can't be restarted
+Date: Tue, 18 Aug 2026 12:29:35 +0200
+Message-Id: <20260818-work-tif_notify_signal-v1-0-1ee1fcc5b3ff@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <57514.1787000602@localhost>
-In-Reply-To: <57514.1787000602@localhost>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Tue, 18 Aug 2026 18:48:27 +0900
-X-Gm-Features: AcwNN1Wq4WsjekeUWoiDTiADmgGx55T21q4xIow67L6ZiGH1QVdB_JZBRBr13ac
-Message-ID: <CANFS6bZdGn1unRQY535ntWFK8Uds8UygZfRZKGwRGdz9OTjUwA@mail.gmail.com>
-Subject: Re: a negative ntfs superblock mft_lcn can cause a wild memory reference
-To: rtm@csail.mit.edu
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Hyunchul Lee <hyc.lee@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM2w6CMBBEf4XssyWlJAX9FWNICwusl5bsImoI/
+ 27Rl0nOZOasIMiEAqdsBcaFhGJIUBwyaEcXBlTUJQajjdV1UalX5JuaqW9CTPlphIbg7so6r2v
+ dlaU9lpDOE2NP75/4fPmzPP0V23m37QvvBJVnF9pxrx5OZuR8qXID2/YF7EDK4pgAAAA=
+X-Change-ID: 20260817-work-tif_notify_signal-6ab080d33693
+To: Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Steve French <sfrench@samba.org>, linux-fsdevel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-cifs@vger.kernel.org, linux-mm@kvack.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5657; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=IkGa6xqKFM5x7wT1EwhGFPFaIGs9Gn9uxpjtq8no2A0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1mEi8d51zdc+hz9ordprwXjomqr104t+pot8OP7qwa
+ HWzg5HqqY5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJ7LnL8E9PxWHzicts8foZ
+ F3/cvrzC4o1tSNqiCqX8JUa+ibeY15gyMryZ/v76KZGtC5tuGcUzKUoETNkWlnfx4bqnp2UcDnN
+ OZuEDAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi Robert,
+Ok, so I was looking into things and as usual got
+side-tracked so here we are. Oleg, save me please.
 
-I have submitted a patch to fix this issue:
+IF_NOTIFY_SIGNAL is used to kick a task in uninterruptible sleep to
+return to userspace and run task work and then go back to sleep. This
+mechanism works well but breaks coredumps. dump_interrupted() only
+allows fatal signals to interrupt a coredump and the whole regular write
+path going to actual filesystems is impervious to TIF_NOTIFY_SIGNAL as
+well.
 
-https://lore.kernel.org/all/20260818-fix-negative-mft-lcn-v1-1-b7b0b206f2da=
-@gmail.com/
+The core is that you can have quite deep callchains that end up calling
+signal_pending() in both the pipe and the socket codepaths so it's like
+we can just pass a flag through somehow.
 
-2026=EB=85=84 8=EC=9B=94 18=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 6:03, <=
-rtm@csail.mit.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> If the ntfs superblock's mft_lcn is negative, that will pass tests
-> such as
->
->         ll =3D le64_to_cpu(b->mft_lcn);
->         if (ll >=3D vol->nr_clusters) {
->
-> and
->
->         vol->mft_zone_end =3D vol->mft_lcn + mft_zone_size;
->         while (vol->mft_zone_end >=3D vol->nr_clusters) {
->
-> because the variables are signed.
->
-> The attached corrupt NTFS image exploits this to cause index to be
-> out of bounds in ntfs_cluster_alloc(), e.g. for
->
->                 if (vol->lcn_empty_bits_per_page[index] =3D=3D 0)
->                         goto next_bmp_pos;
->
-> index is derived from mft_lcn via mft_zone_end, data1_zone_pos,
-> zone_start, and bmp_pos.
->
-> # wget http://www.rtmrtm.org/rtm/ntfs8b.img.gz
-> # gunzip ntfs8b.img.gz
-> # cp ntfs8b.img junk
-> # mount -t ntfs -o loop junk /mnt
-> # echo x > /mnt/x
-> ntfs: (device loop0): check_mft_mirror(): $MFT and $MFTMirr record 0 do n=
-ot match.  Run chkdsk.
-> BUG: unable to handle page fault for address: ffff80010e38ef58
-> #PF: supervisor read access in kernel mode
-> #PF: error_code(0x0000) - not-present page
-> PGD 0 P4D 0
-> Oops: Oops: 0000 [#1] SMP DEBUG_PAGEALLOC PTI
-> CPU: 10 UID: 0 PID: 1264 Comm: tcsh Not tainted 7.2.0-rc7-00016-g3d6d8176=
-22b0 #40 PREEMPT(full)
-> Hardware name: FreeBSD BHYVE/BHYVE, BIOS 14.0 10/17/2021
-> RIP: 0010:ntfs_cluster_alloc+0x376/0x12a0
-> Call Trace:
->  <TASK>
->  ? inode_io_list_move_locked+0xa1/0xe0
->  ? folio_mark_dirty+0x33/0x60
->  ntfs_mft_data_extend_allocation_nolock+0x15b/0xa30
->  ntfs_mft_record_alloc+0x921/0x1790
->  __ntfs_create+0x1c4/0xd40
->  ? ntfs_attr_put_search_ctx+0x3b/0x50
->  ? kmem_cache_free+0x207/0x2f0
->  ? __mark_inode_dirty+0x16a/0x3b0
->  ntfs_create+0xc1/0x170
->  path_openat+0xfe0/0x12f0
->  ? do_syscall_64+0xf9/0x540
->  ? do_getname+0x2e/0x180
->  do_file_open+0xdf/0x1a0
->  do_sys_openat2+0x79/0xe0
->  __x64_sys_creat+0x49/0x70
->  x64_sys_call+0x1bfa/0x2130
->  do_syscall_64+0xf9/0x540
->  ? exc_page_fault+0x76/0x130
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
-> Robert Morris
-> rtm@mit.edu
->
+For coredumps its very annoying because it means io_uring is - depending
+on how much outstanding work you have - incompatible with generating
+non-truncated coredumps. A process with too many file backed mappings
+and io_uring requests in flight ends up losing most of the coredump.
 
+While zap_threads() has cleared TIF_SIGPENDING for a long time, just
+clearing TIF_NOTIFY_SIGNAL isn't going to work because the next
+completion will just set it again.
 
---=20
-Thanks,
-Hyunchul
+The fun part also is that io_uring isn't actually the only case:
+
+(1) io_uring
+
+(2) klp_send_signals()
+
+(3) bpf_task_work_schedule_signal()
+
+(4) landlock's tsync
+
+And technically, kthread_stop() and the printk kunit test set the bit
+raw. So no simple way of just fixing this in one subsystem.
+
+So, a fix for this issue has the following constraints:
+
+(i) The places where a write is aborted are deep callchains that we
+    can't reasonably parameterize. For example, anon_pipe_write(),
+    unix_stream_sendmsg(), unix_stream_read_generic(),
+    sk_stream_wait_memory(), or a bare wait_event_interruptible() in
+    wait_for_dump_helpers(). All of them are shared with regular
+    syscalls that must stay interruptible.
+
+    IOW, the state has to be per-task and ambient.
+
+    An LLM would call this "load bearing"...
+
+(ii) There are multiple ways TIF_NOTIFY_SIGNAL can get raised and they
+     can get set from irq context against any task. As said above we
+     have at least io_uring paths (poll task_work, msg_ring, tctx exit,
+     io-wq via __set_notify_signal()), bpf_task_work_schedule_signal(),
+     klp_send_signals(), landlock tsync, plus kthread_stop() and the
+     printk kunit stuff that set the bit raw.
+
+     So fixing this up in the individual subsystems is doomed to fail or
+     require constant audits in case some new variant shows up.
+
+(iii) The coredump task is exiting and can't restart the work.
+
+So here's some stuff that was considered but I think it not really
+feasible:
+
+(a) Check for task_is_coredumping(). That will end up forcing
+    task_work_add() users to know about coredumps. This seems like a
+    layering violation.
+
+    I have a patch for this as well but it's ugly. It races with the
+    dump staarting unless the bit setter takes a lock in the io_uring
+    completion. I know someone that will disagree with this approach. ;)
+
+(b) Oleg's old suggestion iirc. Just clear the bit at coredump entry.
+    That doesn't work because io_uring poll completions just raise it
+    again from irq context. So you also need synchronization with the
+    setter of which there are quite a few.
+
+(c) Let the setting task defer setting the bit if the task is flagged
+    and then raise it again at exit.
+
+(d) Take TIF_NOTIFY_SIGNAL out of singal_pending() and make it opt-in at
+    specific points. That breaks io_uring quite badly and forces a
+    tree-wide audit.
+
+So the amount of patches for this issue over the years is impressive. So
+let me add one to the pile for the lolz.
+
+Add PF_NO_NOTIFY_SIGNAL and helpers to raise/restore it. This is the
+same approach as memalloc_nofs_save(). signal_pending() will not report
+a fake pending signal via TIF_NOTIFY_SIGNAL if inside a
+PF_NO_NOTIFY_SIGNAL critical section. Obviously you can't
+fork()/clone3() in such a section.
+
+Fix coredumps and smb. Fwiw, I think there's a few other potential users
+of the helpers that are left out of this series.
+
+|         |    notify_signal_pipe     |   notify_signal_socket    |
+|---------|---------------------------|---------------------------|
+| fix     | ok                        | ok                        |
+|---------|---------------------------|---------------------------|
+| unfixed | 357324 of ≥ 5111808 bytes | 467336 of ≥ 5111808 bytes |
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (4):
+      signal: allow taks to temporarily block TIF_NOTIFY_SIGNAL
+      coredump: prevent TIF_NOTIFY_SIGNAL from interrupting coredumps
+      selftests/coredump: test that TIF_NOTIFY_SIGNAL doesn't truncate a coredump
+      smb: prevent TIF_NOTIFY_SIGNAL from interrupting
+
+ fs/coredump.c                                      |   4 +
+ fs/smb/client/transport.c                          |  13 +-
+ include/linux/sched.h                              |   2 +-
+ include/linux/sched/signal.h                       |  21 +-
+ tools/testing/selftests/coredump/Makefile          |   7 +-
+ .../selftests/coredump/coredump_notify_signal.h    |  29 ++
+ .../coredump/coredump_notify_signal_helper.c       |  46 +++
+ .../coredump/coredump_notify_signal_test.c         | 245 ++++++++++++++++
+ tools/testing/selftests/coredump/coredump_test.h   |   1 +
+ .../selftests/coredump/coredump_test_helpers.c     | 318 +++++++++++++++++++++
+ 10 files changed, 674 insertions(+), 12 deletions(-)
+---
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+change-id: 20260817-work-tif_notify_signal-6ab080d33693
+
