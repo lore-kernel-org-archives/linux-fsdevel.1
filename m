@@ -1,85 +1,84 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A66344036
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 14:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F75835028C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 14:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787063356; cv=none; b=HUHF3Vb8yEUjT07d8l01iYEUff37HtZn8g1Gnx+83+cxVEeyDwHzAUZixwa/v2BJIbk7VDY6NgSSKhVGVXbAZqDMVFdy1LT/cJI7gv7dI2zKRIeqbtXySU70rh/h9srCe0NZFkwdNGwSyZnawhvF61aEnd3VxKwlyOXNkzeNZB0=
+	t=1787063364; cv=none; b=kO66VQbMnjMdlrd0BaNEi/0Xv2TXMOr22H+cFUo/4DNb3i8RpyohwucE149sg3nTffdFWhNB2IWKULbtyWVEF5+HS684bVWimNbKYChZDuNMCV01rVR2x9POamf0SxxGIShOpmBiRWjlYf7BuPOe0LAwmUoTA27W5LE3p7V8Z1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787063356; c=relaxed/simple;
-	bh=Mpx7IBlTZU67NkG9grm9QKFrD2wBTVeIuBebdfU7ILA=;
+	s=arc-20240116; t=1787063364; c=relaxed/simple;
+	bh=EB2cRpFzXsPl7F2w2V4LCRRlXaXB11FE/NxaITXlF+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncot56a3KE4gCZS2/NF2ERw3+0YOqobHgxq8gD0gOsBS0+LFN8/9be7jQ3Bv0gCc9+ya0Rn6hcAQRQ36UJaWhYXSd/Uciq6qhF6bn9UuOIwPBpmOTLH/vofvriJtUbKSu5kmnw28n228UpIk5WVCwZ/IujZ7O8YNLpsH97YNFc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XJVaLKAQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ALOkSmwr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iUlRoKBv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yCcamouk; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qkj+brt6bdyklLcuqXdH0AkWzd3CmClBM0wL+J9IkcrVGoJK79ucM7bZjPuwR4wthIUqTc6/yKLw3IlogGN2XnLDLry4y9De6p13qsq5oSkcI24ocN2yV2mCbXXog+yKG0yuWARiV1PXl/o8rjfEij8nkhUqF4KIwkKHmo6oQXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jsd3/xep; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JL9zGDrM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BOG8zFs2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tmAM+ccs; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XJVaLKAQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ALOkSmwr";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iUlRoKBv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yCcamouk"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jsd3/xep";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JL9zGDrM";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BOG8zFs2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tmAM+ccs"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 16ADE3E47;
-	Tue, 18 Aug 2026 14:27:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C404C3E82;
+	Tue, 18 Aug 2026 14:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787063281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787063298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7+NFEV1DQUDKHpDs5u54ZaT691JPOY3th4aVgA6HFsM=;
-	b=XJVaLKAQPfmDbnr12ss+htMJq3HsQUnNJTuJfIib25v6xfFbYaeytYKVoDUwqKlbFyxAPY
-	jZTDojnMlf2EVHfKToNyz0w4Zq1LSxT2dW/3UyU8CR1+QkrZaZOGXIYqVr+Oy6w9i6UuCB
-	yTyixwU79K5kGxkuFuhEfCxdVhDsc9k=
+	bh=WQGelGCsB9DzG7kIUl03C0yP8ONbjI/sNiCgGw7LPck=;
+	b=Jsd3/xepafNzNkU+7wjy7jjfjOMuakDjcR3Zxzk8GEHTQ2TeZbQ1FcIJjxnr+lSCVyr2oh
+	QmaK8yZLOV+/RKX6Wg+wzLcklWc+GXQM0XSx1wukoMqtb1Ff8szyKSzYGT2Dcwlj7EeQby
+	4esw2JXxRyn8g9a5CPFBuyXn89RyhuU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787063281;
+	s=susede2_ed25519; t=1787063298;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7+NFEV1DQUDKHpDs5u54ZaT691JPOY3th4aVgA6HFsM=;
-	b=ALOkSmwr9PMq8Eyckbb1vpcokgB26jtwzpep+/WynYAIm09p5y8zpp/fIK/v1uPQwb+JX2
-	TEAVVr+F1vs8N8Cw==
+	bh=WQGelGCsB9DzG7kIUl03C0yP8ONbjI/sNiCgGw7LPck=;
+	b=JL9zGDrMICEW3NoRxJUxKXw2ZN2AmXHGdYf54a8svA8tLUY/bA/bPf4bnTQsMZQZVyZFgm
+	xzBVd+H2RjCz0mCQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iUlRoKBv;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=yCcamouk
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787063277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787063294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7+NFEV1DQUDKHpDs5u54ZaT691JPOY3th4aVgA6HFsM=;
-	b=iUlRoKBv8IpoPnu20CdQa4zqMyC2bu1RgM6qBX4R50f9/yYdaJN6wlT6pAncvVULbW1mGm
-	PK8uUrvJ4JzdqZdCrK/Gd2eXNkAhb/5Gyv7zfhfbGHendWv89Eo2sa4KLVPNDY+9vEQDf9
-	Xrh8uGK3zZNbieg1e7tsiLuJkC6t1TM=
+	bh=WQGelGCsB9DzG7kIUl03C0yP8ONbjI/sNiCgGw7LPck=;
+	b=BOG8zFs2TTbwygDoog4iftldMTVAUgbZ8FSglpZ6QEr2ZGmjoBXesLdF/ZegRtSmcFbRZ1
+	VRRe0CKOJlR+JweIv8MzIC417hP1KZr8y9LmMfPRRcbKovKnml+86VZDw3TriVBQkgUXlM
+	4UUWWeSTS9iSNO95WPAQ98Fah7cI2yw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787063277;
+	s=susede2_ed25519; t=1787063294;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7+NFEV1DQUDKHpDs5u54ZaT691JPOY3th4aVgA6HFsM=;
-	b=yCcamoukVs3JGXbhs+Aw7bBKu8WXVMdLg+OMr4o4NMKMWzzCVbnpBpmPTyU2X+/91S6cJ7
-	z07ksIt965bKddBw==
+	bh=WQGelGCsB9DzG7kIUl03C0yP8ONbjI/sNiCgGw7LPck=;
+	b=tmAM+ccsKSABaVUdd10F/589/6OXbR0azaFBaX7MxqM5wuDmSlN5l9Jpb6/SLUEVAVNSd8
+	X2D4EHDLAYxN7YBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 095F7362E;
-	Tue, 18 Aug 2026 14:27:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC35022BA;
+	Tue, 18 Aug 2026 14:28:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QCdIAu1rhGpyfwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 18 Aug 2026 14:27:57 +0000
+	id 1WPvLf5rhGqIfwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 18 Aug 2026 14:28:14 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C1217A13AB; Tue, 18 Aug 2026 16:27:56 +0200 (CEST)
-Date: Tue, 18 Aug 2026 16:27:56 +0200
+	id 78C82A13AB; Tue, 18 Aug 2026 16:28:14 +0200 (CEST)
+Date: Tue, 18 Aug 2026 16:28:14 +0200
 From: Jan Kara <jack@suse.cz>
 To: Manush Prajwal <manushprajwal555@gmail.com>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: fix comment typo in fs-writeback.c
-Message-ID: <xfpcxeuaul3cq75fzzz7yvyt6hcjptxcwdblsnd3y7llg4noum@vpq3wbqpm3vm>
-References: <20260813093431.410-1-manushprajwal555@gmail.com>
+Subject: Re: [PATCH] fs: fix comment typo in bpf_fs_kfuncs.c
+Message-ID: <wd4zznlz2utk7n5ga52jinitgvuotfgymyqqzixdoex2wimmpu@2giwhslspzo3>
+References: <20260813093404.1278-1-manushprajwal555@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,42 +87,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260813093431.410-1-manushprajwal555@gmail.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+In-Reply-To: <20260813093404.1278-1-manushprajwal555@gmail.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 16ADE3E47
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
 
-On Thu 13-08-26 15:04:30, Manush Prajwal wrote:
-> Fix "paramters" -> "parameters" in the foreign-inode-detection
-> comment above wb_wait_for_completion(). No functional change.
+On Thu 13-08-26 15:04:04, Manush Prajwal wrote:
+> Fix "Rmove" -> "Remove" in the kernel-doc comments for
+> bpf_set_dentry_xattr_locked() and bpf_set_dentry_xattr(). No
+> functional change.
 > 
 > Signed-off-by: Manush Prajwal <manushprajwal555@gmail.com>
 
@@ -134,22 +127,31 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/fs-writeback.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  fs/bpf_fs_kfuncs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index fdb8766d27..e19a588c07 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -233,7 +233,7 @@ void wb_wait_for_completion(struct wb_completion *done)
->   * Parameters for foreign inode detection, see wbc_detach_inode() to see
->   * how they're used.
+> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+> index f1863a891d..e8a5a4cffe 100644
+> --- a/fs/bpf_fs_kfuncs.c
+> +++ b/fs/bpf_fs_kfuncs.c
+> @@ -235,7 +235,7 @@ int bpf_set_dentry_xattr_locked(struct dentry *dentry, const char *name__str,
+>   * @dentry: dentry to get xattr from
+>   * @name__str: name of the xattr
 >   *
-> - * These paramters are inherently heuristical as the detection target
-> + * These parameters are inherently heuristical as the detection target
->   * itself is fuzzy.  All we want to do is detaching an inode from the
->   * current owner if it's being written to by some other cgroups too much.
+> - * Rmove xattr *name__str* of *dentry*.
+> + * Remove xattr *name__str* of *dentry*.
 >   *
+>   * For security reasons, only *name__str* with prefix "security.bpf."
+>   * is allowed.
+> @@ -303,7 +303,7 @@ __bpf_kfunc int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__st
+>   * @dentry: dentry to get xattr from
+>   * @name__str: name of the xattr
+>   *
+> - * Rmove xattr *name__str* of *dentry*.
+> + * Remove xattr *name__str* of *dentry*.
+>   *
+>   * For security reasons, only *name__str* with prefix "security.bpf."
+>   * is allowed.
 > -- 
 > 2.46.2.windows.1
 > 
