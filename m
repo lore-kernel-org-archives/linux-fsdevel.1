@@ -1,63 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9733DDAFA;
-	Tue, 18 Aug 2026 03:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5192C3793B1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787025498; cv=none; b=notwNEVkP5BjnjmyJyG0pYi4CePCvNaCN/7beC7IT3gASpvjHPGKyu2M4IdcV1kzopEWqYBAw9dCnoJkDp15uxgeopLAHsccJK2F5JW/zmi6tMSJ+wk/an3KGruHI/R69SRX+rzdtku1gMCxkz74NUsYrGFysAvx8zB/BRCeGxA=
+	t=1787026300; cv=none; b=Jg1f3WcS+IeCd1CpeXJeoaeOw3SZubgIat5BssxHoYGs8aIM8mYa24zUvqsicuSw4zqmZaV1X5jSZmuiQ06HW0PIX4j7UKH9/dZKwxQs7x+QI64iouaVMCQXqq9rf4DDYgMBQUVbhd3hZ1QyIVhNqEbgd2JzSMKqgTfxho1JP+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787025498; c=relaxed/simple;
-	bh=8YnDrjfPVnTMgAKYXO8dGS/BjXJFqAroPRqhR0Gn0P0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Hck4w7C0cKqeANRDq1JJUGUvFr5eDsj4lEqcsgX456aWqI3NPYIeSzsKD7sqU78IGom/8zl3VSQIxOpOSJ2es4avhc4ITva52RVbcXkr7mmEg5fCDaLMAOZGoZyr6HAjIuHZal22yQmSZNJMvPc1gTR13hpJcMZdS9JYgAVizjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmDg4FnW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787026300; c=relaxed/simple;
+	bh=Z4K/ihWjviWB/tKnNjeIDWxYhpRRCwm3+HAlYkxJejs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FJz3KQqByIwHQG1TGDYKWLSXTf3iKh0W+OtTGuSzVnFtTq2b3bREbQWMUwraAXAHLMCN8mDinXuNWI7qN8kvPkMhNInvXNSTSR6j36msgc1ShmiqdOORN55FJEaDmbtx2gxnQR9wonS5HL/4EC4J9iUp3Ni/st07w7/Yd8zOd6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hg00Xi7E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmDg4FnW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA8D1F00A3D;
-	Tue, 18 Aug 2026 03:58:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hg00Xi7E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267991F00AC4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787025496;
-	bh=D48KkSSxkrjHArtNrpeRU6Hq9/GKn9yhZl9oUUn4Y9M=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=VmDg4FnWbdohvZv3twYnBVrJ2KD1qAT/d7BbEN6+6b/Rd6IbWvU3SKYQ8cJ/9CtQV
-	 IuixO1ft0MFBKR254Lvj8XmAg3V1SStqQFOYXjOZwdvFl8ud0uJyHjilvy+22kLbYX
-	 eOZrd/ePzMZRv7eT3diFca8bhVYg5SaZi+lhgaKUsLQQhEZNbznbAKByQVsJmFhU/d
-	 RCECkG9wsmb7szQAmqmuFDGe5Le6Z5g16f2ciDc3/tfxubopok5msWOaFDwSlt5wJj
-	 sNMfWsd7T3BxRVB/goztNC7FvitFEr5Eaz+0QWQ+gcT5vDklABdcDcbgsDS0g1I4Kh
-	 IbyUFS8gZzdIA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D08B73926381;
-	Tue, 18 Aug 2026 03:57:29 +0000 (UTC)
-Subject: Re: [GIT PULL] nilfs2 changes for 7.3-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
-References: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <08b17180a30dfba73925ad1232efc92eeab6e2de.camel@dubeyko.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git tags/nilfs2-v7.3-tag1
-X-PR-Tracked-Commit-Id: 24a098541a765ed017274f8094004404a83b0daf
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 63c070cba0c6a586d33730ddbf63065cf28276b7
-Message-Id: <178702544848.1862718.11009053215716225812.pr-tracker-bot@kernel.org>
-Date: Tue, 18 Aug 2026 03:57:28 +0000
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: torvalds@linux-foundation.org, linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, konishi.ryusuke@gmail.com, vdubeyko@coreweave.com, joshua.crofts1@gmail.com, manojkm24dev@gmail.com, david.lee@trailofbits.com, igorpetindev@gmail.com, wangjianjian3@huawei.com
+	s=k20260515; t=1787026299;
+	bh=540QcSr75PQ/ZOyK33VSAsJ+U3W5UxWId0Js/IarnC4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Hg00Xi7EwJIVW+RAkugB+5rWsPDwRb2Vzs7SZQXH6Wk9kao+cscyxBczx4e+dep46
+	 p5CQuMCRhTY7laTrFsOEb0L9JNeLY/dOtoZSXl9PRaqkFFn8wTnDCah5QqB6Q5iIGt
+	 FaDxdiYwkdDV5WhXTOXEZWLlfBCynWthPH/qgJ0J5lGQhe5QCEfiKswzVLgWDhik3g
+	 0IDpAoXjbvQV6Da4jndZacK5UGmAGGk3vIq5qrfrRUbqpYfSxIO0uqiDp0QXQds/FG
+	 a/8NVad0p50bDtzsR4/iSWtSf/YonWoXVytnWfEhs27VoAs5tykxTo2NefCwGdbX3/
+	 QJhmgSVL+iUlQ==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c2074710751so656039166b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 17 Aug 2026 21:11:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp4C68dtILaYfak/MwAddsovjcjq/JV4yElHBBITcEjqtPbeRu5o43mvkTFBaVk8PAGCpS4kiQov7iLpVDz@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFGuBHPSoPwt5MNMZ9fbMwG+/cPTe6QYSdZeICyUA7SbuFNBSx
+	cfhz5ZFnNzT3yvsXbD/ofkJl2m1YFX8YocbtVvUHKJVMaGENTT11b7sGcm3sSdwXubWGFi0aNwz
+	Eq+DNAzgo1Od1o0YFydEeG5zut0LxJyY=
+X-Received: by 2002:a17:906:9fc8:b0:c20:768:af62 with SMTP id
+ a640c23a62f3a-c212a18c634mr1442007866b.22.1787026297767; Mon, 17 Aug 2026
+ 21:11:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260805015447.15488-1-huiwen.he@linux.dev>
+In-Reply-To: <20260805015447.15488-1-huiwen.he@linux.dev>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 18 Aug 2026 13:11:26 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9gZeRhL5Pt_risHwU-GQp=_3Tv3kHVoA0qPMrYOCA4iQ@mail.gmail.com>
+X-Gm-Features: AcwNN1UDLANC_ZdBCSAOewl1JmcKk6FLru6qYM4dyZ4Ak5gujq6TukloXwEuOSA
+Message-ID: <CAKYAXd9gZeRhL5Pt_risHwU-GQp=_3Tv3kHVoA0qPMrYOCA4iQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND 0/2] smb/client: handle compression flags through fileattr
+To: Huiwen He <huiwen.he@linux.dev>
+Cc: smfrench@gmail.com, pc@manguebit.org, ronniesahlberg@gmail.com, 
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	senozhatsky@chromium.org, dhowells@redhat.com, chenxiaosong@kylinos.cn, 
+	linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Mon, 17 Aug 2026 14:30:20 -0700:
-
-> git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git tags/nilfs2-v7.3-tag1
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/63c070cba0c6a586d33730ddbf63065cf28276b7
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+On Wed, Aug 5, 2026 at 10:56=E2=80=AFAM Huiwen He <huiwen.he@linux.dev> wro=
+te:
+>
+> From: Huiwen He <hehuiwen@kylinos.cn>
+>
+> This series moves CIFS compression flag updates to the generic VFS
+> fileattr path.
+>
+> - Patch1 implements ->fileattr_set for CIFS compression flags so
+>   FS_IOC_SETFLAGS uses the generic VFS permission and serialization check=
+s.
+>
+> - Patch 2 removes the old FS_IOC_GETFLAGS and FS_IOC_SETFLAGS
+>   handlers from cifs_ioctl(), which are no longer reachable.
+>
+> Thanks,
+> Huiwen
+>
+> Huiwen He (2):
+>   smb/client: implement fileattr_set for compression flags
+>   smb/client: remove unused file flags ioctl handlers
+Will apply these to #for-next.
+Thanks!
