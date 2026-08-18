@@ -1,88 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5150F1C862F;
-	Tue, 18 Aug 2026 01:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7553D567E;
+	Tue, 18 Aug 2026 03:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787016670; cv=none; b=qpyJmPocDLh9nLpJYYHZO+vYoLkeSo+cFHT2amjO7C5fLRq0BkYk3hcqElLodIOw+eItAilXa/b5wZi17zEbN5/aQQF5ZJ6MqcVsZNfj8g1NpHE6CeGOIEWIdOEUR9RzTzLunngeq1KbePX5MDjwu5aXfItQUTTgYQ4pIb7bDac=
+	t=1787025488; cv=none; b=RLZrt8OWCRdLsX5oyWxth1WKtRDhgsx3C2DWY2SUuGAmqd0DadvWQvNozQuKU/ZqpBm9Tu1EgEyFO2Eadp73Gf9kHJ7ItKRylDq19K4EO5JDFCv+COEmUQYxTRUMtOoHds8WuXM39CQivMPdSDb3edYRDTS337jVDuAkw5s72c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787016670; c=relaxed/simple;
-	bh=vRwrK0/TYwyd1kvP3Fa9DDEdeY+P+TrgJgg5JATeOQw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=GUoiqqvbNIGq2ieFiimo19WZqp5rO3TdaZ2EjRQJT3ORxGxOvwNqpYr+TdGJiR7vMwW0OJ3v1RE/cFpdw+CB9qWcMSxEs1iBzeuur+t8+cp33KhN0Kqsp0AMdVVJFVqMWyTYcdn3KNGLeCr4mornQo0wFM767XLmqAvkxQlAtAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=McobZKxY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787025488; c=relaxed/simple;
+	bh=HlJJjeOiX8CH+43ws5Hu0UtmJvn55gBePPiu7D7Q/i4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=bLvU06EB/Sr+6/XKwo0oZz8hKLHB685C85sr65vDE9RqY+1iU/kE9vC0M+SMB7Grs0b35PA4A4XjikCMOxL5Pyqv3QJNgOvnHelw+0jIXTPUU3tTvlxSeXBMaai0hHxulcKjNmr1t6pjj5VYhm3ItzyiVww0IJvGfWtcTDBd/cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hs0z7ei/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="McobZKxY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8351F000E9;
-	Tue, 18 Aug 2026 01:31:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hs0z7ei/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D111F000E9;
+	Tue, 18 Aug 2026 03:58:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787016668;
-	bh=ph17w4cWkIWGWD3g8OwG4uTR49r5JT8RTbG2SlTj63c=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=McobZKxY7gcvwBM/0t7SsFMo4uTEtGv48bfnnVJqTGSBpaj9xgZQr4f5kbYEss9NR
-	 g7iCmvrpPGVmQnn0NcdJX92TxcYwUmgYRBlVGOEZcN58fXm48d7eFzjgUNbwFpIBU3
-	 i+jWtY7mj1j6/eEFWFZTxPJZVQ/qdUecLr3Xg+IxpLNLORPf6hrl7k9+2Lnmtb6aFH
-	 0k6M+pkgCNrfF8MB/TS7tmtPIHd/Axgl7Jzu6QYsqS/SRBxRj0hQ6zdk2owC4enUx0
-	 XmyiFy9r9PPYas+oaJ/3BopMxeu9eqAgqFGWHp1M4H8f31ibmWJLaDjPoHXO1evDwv
-	 Zsfb/G+0a+zPA==
+	s=k20260515; t=1787025487;
+	bh=gklsedvwg/1RBEAFZOJaRdv25Q5XetfTjtahYKt3FGY=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=Hs0z7ei/yI5eRfjNBvWmtqktBzf6/Yt+m7WF/z66EHe/dV4TVgEIh99vkwyOSVEkm
+	 wL8CPLEUL+8pXlU7v8G9F+DLFt5wvRk7dS3u+mY9S6IWuyu755v+f1+xbZD7Phpuwf
+	 LoNMnQvpssVBrLMLx0hOYgBSwYtrOQYjsHgV5hA3ymy+ndwzEgkH6u9b8lPCNYwdIH
+	 U+fXGSBvKgl872L4FXmUBAPAfdcwTK/wLiVxuPBZ2AAmRSW3sbz+eCjfbpyGRUxCyI
+	 0LidkTntVEnUu1XcCyI9K7QaF0uemtr5rJawcgm5tLpYX6pIP+4YnwFPOYzcCD5MTS
+	 LmAnTSCx0lbVg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198043926279;
-	Tue, 18 Aug 2026 01:30:22 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B193926381;
+	Tue, 18 Aug 2026 03:57:20 +0000 (UTC)
+Subject: Re: [GIT PULL] fscrypt updates for 7.3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260817173311.GB8327@quark>
+References: <20260817173311.GB8327@quark>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260817173311.GB8327@quark>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
+X-PR-Tracked-Commit-Id: 7dd38d9dd7a05329825fe2324d4d8e27ad4b3cec
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1d7443e4dca1e8637930f3baf64e2fe82033e669
+Message-Id: <178702543910.1862718.5095788167656687707.pr-tracker-bot@kernel.org>
+Date: Tue, 18 Aug 2026 03:57:19 +0000
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v7 0/4] net: af_unix: useful handling of LSM
- denials
- on SCM_RIGHTS
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178701662063.1820167.14677074297106840300.git-patchwork-notify@kernel.org>
-Date: Tue, 18 Aug 2026 01:30:20 +0000
-References: <20260813162818.149248-1-jkoolstra@xs4all.nl>
-In-Reply-To: <20260813162818.149248-1-jkoolstra@xs4all.nl>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: brauner@kernel.org, cyphar@cyphar.com, kuniyu@google.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
 
-Hello:
+The pull request you sent on Mon, 17 Aug 2026 10:33:11 -0700:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+> https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
 
-On Thu, 13 Aug 2026 12:28:14 -0400 you wrote:
-> Right now if some LSM denies an AF_UNIX socket peer to receive a
-> SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
-> that point, and MSG_CTRUNC is set on return of recvmsg(2). This is
-> highly problematic behaviour, because it leaves the receiver
-> wondering what happened. As per man page MSG_CTRUNC is supposed to
-> indicate that the control buffer was sized too short, but suddenly
-> a permission error might result in the exact same flag being set.
-> Moreover, the receiver has no chance to determine how many fds got
-> originally sent and how many were suppressed.[1]
-> 
-> [...]
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1d7443e4dca1e8637930f3baf64e2fe82033e669
 
-Here is the summary with links:
-  - [net-next,v7,1/4] net: af_unix: enable custom setsockopt for all socket types
-    https://git.kernel.org/netdev/net-next/c/de1c489b57c1
-  - [net-next,v7,2/4] net: scm: move scm_detach_fds() from common path to scm_recv_unix()
-    https://git.kernel.org/netdev/net-next/c/48b84acc5e18
-  - [net-next,v7,3/4] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
-    https://git.kernel.org/netdev/net-next/c/fd8756fa1487
-  - [net-next,v7,4/4] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-    https://git.kernel.org/netdev/net-next/c/5d513ce19de9
+Thank you!
 
-You are awesome, thank you!
 -- 
 Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+https://korg.docs.kernel.org/prtracker.html
