@@ -1,122 +1,102 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E9129E11A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 08:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787041516; cv=none; b=YTW4DniD5E/IZGjmpZqgq22xUAW+GOaeZ1S/hgJszzKD/eHX0qZXDzl0BWTc7+Q9Xdm6FmdFfgYWP3+a3IpFDip2hkbJ+NXjo6XY4E9aiFZrECTJDOulDel3jeYXs2Jg89VWYj45BI9qPKziwQwbZudBrycan8OgnMdOpc143P4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787041516; c=relaxed/simple;
-	bh=MoKxMu3trW179Mtx8T4bCvrDvhYRCia9C6wY8DzRR0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JYvL2nSE3rtlKQeDfGgODBNbNR986X81tTitutfvhQxj3av4lGot5Zj561xU8xxMb5mmKGmHfaQY1lwjkDuzb3lgtmGK4BLPBi8rxUm/0Ht1hpYREfZ8RXLJRQ6Dfgm+RnGNDHOVz5jEEIub3zoSmrA88FtTpuyD1acgvLzwtUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvKG9+94; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301503446B0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 08:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787041614; cv=pass; b=an5WS9dXFsKV37RQYSAXMBAjfTRYXnmZYuCsoj5cC2hYNghsXM+kry40la/PSlStHOeVbi6jC60thY6seWQY9KwQ6mO+2sduvTgkHDrBreApvyOxbNPRdwAV64cT0o6E9MDn/8F/TBDo0psSKcHZo/spxkyi3Pk74xjwRPUiQgM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787041614; c=relaxed/simple;
+	bh=2Myb2+yqDeCxQ9gqAc47zhR9XON5EgteIQveOiiHKnQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GoK6YoCRRjGH31B0VXn3ErHGG8O/oFb2II/zOA0fgQzhncSGUqDWuAKtb7RVzJvD1+dtzEtFqJta1JUSxSfE+ffsadRRuh4E/UtuFUtlu1/u4iZSEPOh/lvj2RFgww4zdZuKFQmvvjpwMsFzQPJNUwM57xwI1CEvfcrzcnVvO04=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=V4xz3pMf; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvKG9+94"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4980dc26022so43817175e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 01:25:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="V4xz3pMf"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-52b3934af3fso43410251cf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 01:26:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787041612; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MfGW1G/jA+qwyTVAIC+GwSulbQ9otllSHPzInEWWbUfaITewxW/mMWw07k51ng+IlU
+         zLhnRZDK1IJcj7VpLBdd0ibpPiIfoiXKbaYmTherKUogpMBsRDTGJj6ixwrPgQRKaY5b
+         DjbkuhybAphs6S5O9HYLg7cjoqDDDEsdtvLlMRXs8xFX1pb1QxTMCOsIpe3W3ua2Nx/x
+         +tWnf9iAwr392jZMgOBnWx/uFSvyS9R99QlrLZajPF9hlvEHKJ5rsXSDZR36J2zLA0gT
+         j4wvc9LILr6u9JzAAKVzb1lc8MsJQTAzqR+EFlJHWVcUBvGaQnRwsfkPg1cNtXyguVpK
+         qSpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
+        fh=3iG/0z5gnKYPvx8qjIyWAjgTa7HqTIZ0uZQA4Gp4jbE=;
+        b=IMgrHf3A/G71co8Gxm07x1wLDflUfC6eA2ZorUMLwYWD2AeWSPLIiCsMHv1TXinIf4
+         eDn3k4Iu81imN8yHoQe+l84133m+T6IMdXZexP3Z26/lPAsYIKzi22T9sPmiRI2BLADR
+         MDIqMJzmS8l8OrxoTppGPY+j81gXfIDLPRUq9I3YkGDLAI3ntKD/JwDlGFWdHLYwqV9j
+         RLiAjSeUGX26rJoobAnd1IT3ZTXwWd4/PW+U60K0NHY8Sx8TM0AHA4TOUDTd7P5OHVLn
+         Zz4fIwmJQB3CBtIzMGk4392/hR/hTPHKx9TcskIq8+cLv0MLMNvsh7dN0vEPgatv67sL
+         MElA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787041512; x=1787646312; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MoKxMu3trW179Mtx8T4bCvrDvhYRCia9C6wY8DzRR0g=;
-        b=qvKG9+947OEymD95nqWCTSTa6+9aWjlcxfnGFM/3eCE5QYh4j41vIvS1Bao6h1ZPEq
-         Z3zN8vuTaTq1BZAorKCnsj+LRSMd2KC4PafUtK9lQp3iaABI1Cp3Wu+Bh6ghK+Oge0uA
-         SWjSQbez0MabHBqfoulRqacou8Wl/88+MBVaUVhKUVmEBdKikyv4L1pxzAJnPDLhHNuY
-         E1msif29CTbVZd0xlh58vyhJcJRsbSyTAixDtUAV9RubUzBj/bRBX8Ytxi3PNhyFD+6o
-         TfuJtPVCtwFebPklZOTtEg0YpALYowMc1tt058vn7Z4Wt4kgcTOL0p31XRzc6k3GrhTd
-         VrkA==
+        d=szeredi.hu; s=google; t=1787041612; x=1787646412; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
+        b=V4xz3pMfAtSQA99q0WlcsB3ubFDOOhlSqrE/MLB3kOjlC58pA/LsGRCBLgh5N+X5Bx
+         ZUbtGSoKrNob5NzjkqoOpkmesnf2fqJbwIlclf4JlEkeVijzq+RGsVusnLrEy4qqcFgt
+         oTGyGpoh5X0YHZV4THbJnlTU8gkEs6ZHNssCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787041512; x=1787646312;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MoKxMu3trW179Mtx8T4bCvrDvhYRCia9C6wY8DzRR0g=;
-        b=SAYo318bFG7kQ/FQOjK9kYmbYTjmUdr2tz9t0guZMjCeEqQX9V5alCbtSWrQi5PfrA
-         TZu3kYDkUD/3jQ1N+wjbdb2juCANnUal0e2cqM5ezbYCC/zIYZkGdclLJ1ZH1Bq5Dm3C
-         H2TZ3Yf4gIsg+JdiHrClHoljuqITr0GHQadZC6oX6mol3isxh0Uu2MnJNmAIKC673q8b
-         q+isNPwNwG9JEoFASucZ4fK8kxC1xMfShwuaLfUHPEmiANOq8KtCA9KV0n1BqXB8F/Hl
-         KPbPlccIcW7w+tkF3gqKTwchhLNX46vlDW7t5SXl+rrFMDiH/yI806zmvjg+Op82inUC
-         7z5Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrdIxQF2frCOTrtFI8+3khbjwWbawDemi27yqsbVCtroatNNolh2OHEWluWihhGLVDYrKlonF9A3Jap5Epo@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD44NkL94aIHjSSUecLY1s/549QmBelJ/HQdw23G6DBUplzrFy
-	mVi6v/j7/wxaDCOy8NKmvp7pAK00iBXGs0S8Bji7jNR2mEirJ4nD1ywi
-X-Gm-Gg: AR+sD12OnoSygh2gF6usy8NXmSEErcZ6jBky7BQA6ixc/Y/RYe3PwqAPw3yXdXTfoPo
-	OHPn70MZWPFa70lRHNU1InLlMO2hcqGA69P2ziI9t4HqYNqOy4yvGXyzH6pxocrMO7Jr7/8wsXu
-	XnML+hncB+pwaZ+AxXxWlH9KhVDVLW6QLC57nLFQZPJ9QJWU8s5J2x8Mxa8yMCpPhHzUZFWkKWO
-	l2RKUKy4YprE5rsYoXedz+9xg8ZPs0V84tvJr1CsbElaC87z9UK0W+YkRFQam4oetqCT04GghCz
-	obmkEJXzrbdF7iWzVxKyN4TTxEgzcLJ0grOAi4/cS5qLpEgEUlokK9MPEIKhRCtFoDsp8vX36qG
-	uWiJmBQIkJUXH0qzC6yoWs0x73RwpEPpp/Rq2j9tyNe30M6TUudvXHWBP+4P4NtfqnMcr9ajNMh
-	/BgNyzXdPWYR9ZPMakJnDYnB3fZMOS9i/jQ3UvhTfOkVfn3w1TqEv2nVMUNfy1GuaseQTTTW14R
-	/oV
-X-Received: by 2002:a05:600c:3f06:b0:499:484a:81d0 with SMTP id 5b1f17b1804b1-49987961c32mr517262115e9.9.1787041511977;
-        Tue, 18 Aug 2026 01:25:11 -0700 (PDT)
-Received: from dell-desktop ([2a02:587:4b5e:1100:7303:647d:7cc4:8552])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482aa084a64sm4907363f8f.17.2026.08.18.01.25.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 01:25:10 -0700 (PDT)
-From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-To: utilityemal77@gmail.com
-Cc: akpm@linux-foundation.org,
-	andrii@kernel.org,
-	ast@kernel.org,
-	bpf@vger.kernel.org,
-	brauner@kernel.org,
-	daniel@iogearbox.net,
-	david@kernel.org,
-	eddyz87@gmail.com,
-	kpsingh@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	matt@bobrowski.net,
-	memxor@gmail.com,
-	song@kernel.org,
-	tasos.papagiannnis@gmail.com,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH bpf-next 2/3] bpf: Add user memory access kfuncs for linux_binprm
-Date: Tue, 18 Aug 2026 11:24:41 +0300
-Message-ID: <20260818082441.4091-1-tasos.papagiannnis@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <any3wCj66dWbwgwT@zenbox>
-References: <any3wCj66dWbwgwT@zenbox>
+        d=1e100.net; s=20251104; t=1787041612; x=1787646412;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Li+5o8nckwjrY5g/MDrxhJ+cF+3KxPxI+CbcJDK1QtU=;
+        b=R1QqR0nOrrrE0EGO2ftZ7ZC+4ZAJZP0pvVabyE6slAXaoOeVZzbordWgxswqEndfvu
+         nEYQ879yyvFY/qAuxi6Bx7iQ+Fg7E+ob450KcqIYZStETfL6KAuPRXEXMxThCHRhN9ee
+         rqgtJWr6Q+GcKNl7aGpc1rc+8YWUf+2hIso0rR0VcLhFsdsRjuu7MfOBw1xErJm6teem
+         zB0nCabplXo2yVc9vdwFresgP1v5qRuyWXzVp9lJXzr2SOwP8wKVgoJg3pz24pnMuaWO
+         3usbSW6jiDLaXVfIm2d5pAdU16Q64DStX8m9zVdfhSuG47S83AdhzYLHWj1qtVeU8bR1
+         PYnQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rruak2p2Kcjp4cXpv/1oIl6cZrDbf4ni5pSe6PLUoTRlA3JLR76SVokpt69UBpicyh5hAstAUDZ2vtOTVrP@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCVLX5rL8f+1o0Tyy/I51CZ9vxmR0jQFD7oCspIHyreSbwsErL
+	NA4xG6nvQm/NTMTA8vBXPyvbeH4KM8lvmfBoBZyJUb1robFp2k9o1diWk6LGV9Cy7SYEc4ftme0
+	KCZUCrjqLOsqwIPVIHYVM02l4DMU3ZznM5qn1NP4TVEsC9iba/T1U
+X-Gm-Gg: AR+sD10unuxorNl2xsfS0tzo10R9J2REsTxFIhI4LqqdRJo6c7ZvTo0ikW9kMBEESQr
+	7Hoj8oFfkO9zXyOIFm1UA7MIKZIFmdUcHQ+G2LvPKfUvHp6dz0NWYgm1Sv6Ze+KppLf/JXqIoom
+	FjsX7qY1OeFOkxtu8ApUJzOxJmnG9Q/EsPnppSzQGDwNWTvsrIkIpQ7RI2rXwm+XDBfhVoGHRrY
+	V7C65sgmXESA56z3Rl17Q5gHaEIboWo3l7353zaQU6kla5n63pQSHQ7qXlWLkZnK3G9eu8ONunq
+	LrIoKX3s5VxhjknqPPvfYpGai4A8TXL6jvQGKGIghKHoweumJXtMAscqGrO6phc+l58jdCVztVr
+	j
+X-Received: by 2002:a05:622a:1a88:b0:51c:51e:661c with SMTP id
+ d75a77b69052e-52d8543f3c0mr324010091cf.25.1787041612031; Tue, 18 Aug 2026
+ 01:26:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 18 Aug 2026 10:26:40 +0200
+X-Gm-Features: AcwNN1U-JaWd29eb1fwL1cQD3kcJieXaEWabirRkz-qqA_zZczUovgOLY9MN07I
+Message-ID: <CAJfpegvRuBfDPY0-snNh-evEUWpNdUnD-RE5e42a6a3fo5MhdQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] fuse: fix invalidate lock leaks on DAX truncate error paths
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, vgoyal@redhat.com, jefflexu@linux.alibaba.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the review!
+On Mon, 17 Aug 2026 at 17:18, Baokun Li <libaokun@linux.alibaba.com> wrote:
+>
+> Baokun Li (2):
+>   fuse: fix invalidate lock leak on setattr writeback failure
+>   fuse: fix invalidate lock leak on open O_TRUNC DAX failure
 
-> Would it be better to handle that case transparently rather than
-> requiring introducing a new kfunc / leaving that gap open for NOMMU?
+Applied, thanks.
 
-> Either return an error or perform the copy from bprm->page[].
-
-> Unless there's some reason I'm not seeing.
-
-My understanding is that there is currently no way to use these kfuncs
-on a NOMMU system. Although CONFIG_BPF_LSM does not directly depend on
-CONFIG_MMU, as far as I can tell, no current NOMMU architecture provides
-the required support to use them. For this reason even if I write that
-code, this cannot be tested.
-
-> It would also be better for portability across NOMMU / CONFIG_MMU
-> systems (the exisiting kfunc is never registered, so a program using it
-> would be rejected rather than able to handle the error).
-
-As you suggested, I would propose to register those kfuncs
-unconditionally, move the ifdefs inside those kfuncs, in the case
-of NOMMU return an error (e.g. -EOPNOTSUPP) and allow the programs to
-handle those.
-
-Does this sound reasonable?
-
-Thanks,
-Anastasios
+Miklos
