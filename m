@@ -1,130 +1,166 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7144657F5
-	for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 11:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787053136; cv=pass; b=XARP6D0NsWZjZDYgh0dGr2jmACZfz9nkHFGAeHvN0UC+BmZZNi5JkFxq96lbp5hGe8CFGJPmivKa1qYaV5nSDAjAXqcXbrrQb1bkGGS67IOTDAkQIDjA5TVot0z9LOa1u7FlCKa4ACzH641D9No+NL1B93Od0MpalwPhDe6RAxk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787053136; c=relaxed/simple;
-	bh=R5o16+Omcz53a7Kx4ZfW7KXrNOIiI548XNd9wpNEOgo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDm4kZIjTxjKQypbuWejyirUS6PQgf51AlcmxRFWrBMZX70FrHYQHWU7oOvj5yJXFGUwbUaVpdVMjiKPjOkpeAEjfAWhI01iVHap7PRskPKFeaIaMHKENItZdfQxo+73DefubCOM3yOFefSgVFk7/U4PH/wMUtLmeAVTs3hXfAM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=EI7GyTpO; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8829B3845A6;
+	Tue, 18 Aug 2026 12:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787055280; cv=none; b=TJqSAyblvZK+y1HOFuGJNdEpKBPrSlIGz8XtsMOHssfO73b/iQ1faoG5mMGRzPDtse3J1uoDIJA0coZK6bsQy2ShP4d5RH6C2/fn+LMBEWzTPS97vi/pwxVhKTSK4XhntAF657l929gjyJDq2uQxI26/ve8oJE9E+UAJ1kuZKMM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787055280; c=relaxed/simple;
+	bh=yvP7rqx/Ugc6VqcOhVBArY0h8lXXKsMaP2fGT4S2r78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyW9Th9Vx4KctPEBJBkK5aCUK69j+k6zaaXl/6wdF8mySiz0hsD5MOZxvtycATY3bEXNuJ4XfPm8je4gEMRDxGHTfRQaGm8I51RR8fjrYIuMPPLw1L0G+VMhJEo+kgVTk8tjbl0f56VFkuRblvyvr1TdX07OdyPsFCn2WX6run0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y+7lRhTM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sepKea5M; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dHBT15vv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uKEfd36f; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="EI7GyTpO"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-52b4e988c77so29159441cf.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 18 Aug 2026 04:38:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787053133; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VEw/pIpfx9H4wTfecp++rOiIZYwyIyQ64HmzgPGRx307bCytPqs4oG66UvskD7OXo7
-         rdxpvykjCVepNNiJY79zShjPVxJS+UOTxMMHGAWPk9IemWB42+YYnVPpZQJLNBBW3kv4
-         xdtpd61iusph/QkPb05fjnh4fo+h2SCYN3HBXKdkKtIuyaaGhmFmG2VKvKLtzhGzVY19
-         8toqGdh9QdFmHNrHeKDng9SmILPen4WGe5Arrjrybayrdn2c0FeOe9oKUaZjrX7AkYjQ
-         YbZfVzG1ojAuGcVOmKazvlfvfTUflzZ+wyBBYLn6eL2H9+1GzXovLfuztBPDIEkC+VRy
-         HOxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
-        fh=oQ4tGDHQCYJPld/APJQSuZFLADJy0icx0l3OMZvS7Ag=;
-        b=KxU1vfWSM7qKLTNYzTI6werIyUveW5E5L4iEwsId02VgmS5ehE4fPqLP7U5iweIs8y
-         q3kQcstOEyU/s/+yRKScpJqvuAH9BgutI0YH1Rr+CmzzWPAMsL5eEk6wQy1idd5cXfsc
-         wOIA6VADxUGyZKBXApDJS80/23OBb1dvrbH9H0gO56nk4rWcYpu5XcAZr9dWSaYwuVkI
-         ztADYh4AkXSSBaPtei9S44ALnDJg1NMRi4gFO1OD8lMzq3fkmy7aXMThDtQcuXVIldIW
-         zFAzWhKhHd0cdWIf6Ux3IJeG3Tk96emwESeFmAhpkBDPuHkWGnL5JD8kUjuIkHh+jcRP
-         ezvg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787053133; x=1787657933; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
-        b=EI7GyTpOVHPUVzLoI5SVwYBc2+Q2SAV/rQi+J04bOsaY503EGBYx9SXdinFkqaYqaD
-         nODI559274VmVo4XkV0x2bWF1NE6Ki0yrepjm8X/yU13ZCExYSgiijJHTUiaxlKeSdf7
-         McqVTVld+bvd8lMWakbpuRHGfw7sd4P7p03K8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787053133; x=1787657933;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IKEkIrKVQR0ZN9IVyQ5hY25xXRDuaWv/xBwod1rhWEQ=;
-        b=fYnkWHzLL4hdTncO20gk4wadD5/vBnLHOjpREOogluXGga5Fmxm9Xbi4Hn+PHh+Cm8
-         pZ/6WH4098GgnZPjF01hCA2iFlp2it/9Ct1lXdfkszGeTxiSIGMKDNgnkFYXBwqESD/I
-         NPiekSaUpPyIpr54qtD8ksyPwqyPXRMzNHXpROK7HqIJwXknW3MY0Zz/ZkvLHOeJqYC+
-         ukPwMqLOu+OfaZhhvHnKlWi667s/VVL1IwK88SQ+CrONL/4uyyvZpn08PVuVR+VP7RmP
-         HvDjOhQyuT45HcpDmG+CB18KaOVR7Vbjadia1QD0L0isHj0Ly0DBPJsBna22jtRQ2KnO
-         5fsA==
-X-Gm-Message-State: AOJu0Yz8xhlMBxFq0iUDSXgXGvMrHsgkhJhtmbyrMigmLyzxGiKjn3Ls
-	9oUxn1E/jyQXbyvaZBcFCQO6nDXCQ+MjR9JqV+esmeah/Lfea8izdLbCpvySYR5oazn7rtMoWx/
-	mbH3rKBZNztT2YQQQe7bZWFzmXncUygMHdZy0/qH02A==
-X-Gm-Gg: AR+sD11De++PF9hnfPivaOgnLoz96BimJ7tXhJuFnSMyiRPWtWUO0s1RI479AEUD3D1
-	bIKMPxc7hHNPJMWeRilRIyHxX3AXvXQoOlvOMTXTwlV3itHcX+YPWKo4cKERQFccxj5hSOcGexB
-	jZq3ixcX7/SprCVA9a2058b2Sv5SS12z6AKWd+ZLiQevLqbo1p0tXdvMRDUauY6IVG80JllHutF
-	Ganb7EkdqHSrVRXNIUVV7nzudUh2XGxnIzgunNU4i/3DP8ylxY+kTv+oS0R9xC7Ea9PRdVHddmF
-	lV3Vc3c6gGRgsy8Ao8XglTaX4xz9sNI+pwQej5vJr/+gWHV5hQMjKZfkMcR7lCm+MDf1YMqcd6j
-	PP4THtUFp+vk=
-X-Received: by 2002:ac8:5d56:0:b0:52d:82bf:d4cf with SMTP id
- d75a77b69052e-52d85423d44mr330702361cf.16.1787053133550; Tue, 18 Aug 2026
- 04:38:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="y+7lRhTM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sepKea5M";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dHBT15vv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uKEfd36f"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 782D53E56;
+	Tue, 18 Aug 2026 12:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787055207;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
+	b=y+7lRhTMny0nu8l6kUfoPvFHTaCNPuu6TH1We1Hq5a5/IOKkyXlKREvh+gECq83nIntbET
+	m/7d0k18H7grm6AR8XgJxWpfAHlpwWYQNwl35mcsUPOv9u+PsMImumMtjC0rdJzIXzaPqc
+	INsBwBKMeYkDIDJ57mtDiB92dtei4/w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787055207;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
+	b=sepKea5M8SYHZ2Kn7KIoXCdiIVEzT9UMUuS4KLArlvOxgJ/PFaJxXTyYsRG5YfnaRshMGv
+	DMIS3806OOz46tDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787055203;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
+	b=dHBT15vvBq9W3x0geBHgG+s8osm0iwf8+OF0mbvDY/xaoL6iqvj7atZg7u9yyUrPBAuyXx
+	Iv8K2I9AcG048Mozx55XwWs8EJHGh/RIvSSLw7kdsUEfk1j+I9zu+cjIWqERGB69Wuw3an
+	ml1jFiSqYddb8WGyx+ASkZ76j3/IXpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787055203;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
+	b=uKEfd36fegqkpjR2/gKiTddljw/79c6ruAdZf+xRK60iKUV4vULqMt4ksxvHw1d3ncTGyz
+	UAkOPrwuisVwWABg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C2C522BA;
+	Tue, 18 Aug 2026 12:13:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wWs0GmNMhGopewAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Tue, 18 Aug 2026 12:13:23 +0000
+Date: Tue, 18 Aug 2026 14:13:22 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Laurent Lyaudet <laurent.lyaudet@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
+Subject: Re: [RFC] "final" flag for a directory
+Message-ID: <20260818121131.GD54102@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <CAB1LBmsQ2xFHQeEDFspwpFSNkiFUefBCn559EJsfEz5ZUAXYiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727210718.125872-1-psalian@google.com>
-In-Reply-To: <20260727210718.125872-1-psalian@google.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 18 Aug 2026 13:38:42 +0200
-X-Gm-Features: AcwNN1XewOXnh0aWSTVRImoi3l7UFUMEHcPRuIjYoS02ZE13JAWqCypgXDea8Go
-Message-ID: <CAJfpegvtp3L3FuYd8v1Ox0nZ-fb632jy+_M_+YyBWpMQGJAXug@mail.gmail.com>
-Subject: Re: [PATCH] fuse: mark DAX VMA page protections as decrypted
-To: Punit Salian <psalian@google.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, linux-coco@lists.linux.dev, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB1LBmsQ2xFHQeEDFspwpFSNkiFUefBCn559EJsfEz5ZUAXYiA@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spam-Level: 
 
-[Cc:  Tom Lendacky + lists]
+On Mon, Aug 17, 2026 at 04:26:31PM +0200, Laurent Lyaudet wrote:
+> I had an idea about adding a boolean flag "final" on directories in an
+> advanced filesystem.
+> In the same way, the "final" keyword on a class in OOP can be added to
+> declare no subclass can exist,
+> the "final" boolean flag on a directory could be added to say that the
+> directory has no/must not have any subdirectory.
 
-On Mon, 27 Jul 2026 at 23:07, Punit Salian <psalian@google.com> wrote:
->
-> In confidential computing guest environments (such as AMD SEV-SNP or
-> Intel TDX), direct memory access (DAX) mappings between the guest kernel
-> and host-backed FUSE/virtiofs shared memory regions must be accessed
-> using shared (decrypted) page protections.
->
-> Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
-> when establishing FUSE DAX memory mappings. This ensures guest page
-> table entries for shared DAX buffers are explicitly marked as decrypted,
-> preventing memory encryption faults when accessing host-shared DAX memory.
->
-> Signed-off-by: Punit Salian <psalian@google.com>
-> ---
->  fs/fuse/dax.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-> index a15c464c8d19..00e316a7f805 100644
-> --- a/fs/fuse/dax.c
-> +++ b/fs/fuse/dax.c
-> @@ -826,6 +826,7 @@ int fuse_dax_mmap(struct file *file, struct vm_area_struct *vma)
->         file_accessed(file);
->         vma->vm_ops = &fuse_dax_vm_ops;
->         vm_flags_set(vma, VM_MIXEDMAP | VM_HUGEPAGE);
-> +       vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->
->         return 0;
->  }
-> --
+Do you have an existing use case for that?
 
-Needs review from someone understanding this technology.
+> So here we see that 2 flags could be added:
+> - a configuration flag "must_be_final" forbidding to create a subdirectory,
 
-Thanks,
-Miklos
+I see two possible semantics of that:
+
+- final, no subdirectories exist and new ones cannot be created
+- no new subdirectories can be created, but some may exist
+
+Also given how other attributes behave once set they can be unset. This
+is up to the user, and possibly a restricted operation.
+
+> - a status flag "is_final" telling that no subdirectory currently exists.
+
+When the filesystem tracks the number of subdirectories already, then
+it's an easy check. Otherwise a full search must be done, atomically wrt
+creating new subdirectories.
+
+> I think it may allow some small optimizations.
+> With a very limited search on the Internet, I found no similar thing before,
+> but I do assume that I'm not the first one to have this idea of
+> marking the pseudo-leaves of the filesystem tree.
+
+> Please, let me know if this should be discussed elsewhere.
+
+If fsdevel is not interested we can still discuss it on btrfs
+mailinglist. I've been collecting ideas for new file attributes (listed
+below), but not all are generic enough for other filesystems (e.g.
+nodatasum).
+
+The fileattr interface (wrapping the old flags and XFLAGs) has some
+spare bits and is on the VFS layer, this would be ideal but I don't know
+if it's viable if there would be just one filesystem.
+
+- noinline (reusing NOTAIL), nosymlink, nodatasum, nodefrag, noautodefrag,
+  "new directory is subvolume" (reusing TOPDIR)
+
+Some of them may need an incompat bit so it would be better to add them
+all at once rather than one by one.
