@@ -1,166 +1,171 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8829B3845A6;
-	Tue, 18 Aug 2026 12:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2D13AB47E;
+	Tue, 18 Aug 2026 12:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787055280; cv=none; b=TJqSAyblvZK+y1HOFuGJNdEpKBPrSlIGz8XtsMOHssfO73b/iQ1faoG5mMGRzPDtse3J1uoDIJA0coZK6bsQy2ShP4d5RH6C2/fn+LMBEWzTPS97vi/pwxVhKTSK4XhntAF657l929gjyJDq2uQxI26/ve8oJE9E+UAJ1kuZKMM=
+	t=1787055692; cv=none; b=bRiGKhL+ivQdf0hy11O9ZHFByZ3h6oJqwU8tlISND3N/Pu5R0wWrfcP3CzVvOzm9qU/lim6ZKAzS5FbHoXosDvz1+KOwgeTPX3OduAnajMl1XrZ8ztpdaUR+4dtnbgXBzvxb8kJBbpd3j0NXPkkvaSsKKJDXw8P1lfcyzGli5Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787055280; c=relaxed/simple;
-	bh=yvP7rqx/Ugc6VqcOhVBArY0h8lXXKsMaP2fGT4S2r78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyW9Th9Vx4KctPEBJBkK5aCUK69j+k6zaaXl/6wdF8mySiz0hsD5MOZxvtycATY3bEXNuJ4XfPm8je4gEMRDxGHTfRQaGm8I51RR8fjrYIuMPPLw1L0G+VMhJEo+kgVTk8tjbl0f56VFkuRblvyvr1TdX07OdyPsFCn2WX6run0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y+7lRhTM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sepKea5M; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dHBT15vv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uKEfd36f; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1787055692; c=relaxed/simple;
+	bh=Gf2rSQ6n/22wl6Tsvb6bhAtD3MU0szXJScoUwLmKEoo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jrU5uaz8sV/fMJyqPU6Ml2xeAz7652Nnx7q6qwIqt3yZpnMwPdPI6CENIEcL149b1P37xricMPIHjwN4/C6lwHwMjOq1owMDtWCEz47Z8UtBXqAtzsv2b6WRF5DPyhSSV8zOu5nV/jB5BIfPa6ZmDe8Y1MgmPQQjWXArx5sUW1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="y+7lRhTM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sepKea5M";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dHBT15vv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uKEfd36f"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 782D53E56;
-	Tue, 18 Aug 2026 12:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787055207;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
-	b=y+7lRhTMny0nu8l6kUfoPvFHTaCNPuu6TH1We1Hq5a5/IOKkyXlKREvh+gECq83nIntbET
-	m/7d0k18H7grm6AR8XgJxWpfAHlpwWYQNwl35mcsUPOv9u+PsMImumMtjC0rdJzIXzaPqc
-	INsBwBKMeYkDIDJ57mtDiB92dtei4/w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787055207;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
-	b=sepKea5M8SYHZ2Kn7KIoXCdiIVEzT9UMUuS4KLArlvOxgJ/PFaJxXTyYsRG5YfnaRshMGv
-	DMIS3806OOz46tDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787055203;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
-	b=dHBT15vvBq9W3x0geBHgG+s8osm0iwf8+OF0mbvDY/xaoL6iqvj7atZg7u9yyUrPBAuyXx
-	Iv8K2I9AcG048Mozx55XwWs8EJHGh/RIvSSLw7kdsUEfk1j+I9zu+cjIWqERGB69Wuw3an
-	ml1jFiSqYddb8WGyx+ASkZ76j3/IXpc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787055203;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z4CvobojYtru1KplgVKX5ZCwO82HEpFDVCxJdVFzbwY=;
-	b=uKEfd36fegqkpjR2/gKiTddljw/79c6ruAdZf+xRK60iKUV4vULqMt4ksxvHw1d3ncTGyz
-	UAkOPrwuisVwWABg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C2C522BA;
-	Tue, 18 Aug 2026 12:13:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wWs0GmNMhGopewAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Tue, 18 Aug 2026 12:13:23 +0000
-Date: Tue, 18 Aug 2026 14:13:22 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Laurent Lyaudet <laurent.lyaudet@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
-Subject: Re: [RFC] "final" flag for a directory
-Message-ID: <20260818121131.GD54102@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <CAB1LBmsQ2xFHQeEDFspwpFSNkiFUefBCn559EJsfEz5ZUAXYiA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="M7kZX+F9"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 029861D2F;
+	Tue, 18 Aug 2026 12:22:13 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CB5D01D99;
+	Tue, 18 Aug 2026 12:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1787055683;
+	bh=Gw/pU8kOBaahxBGBQYamTKScx0sYad3gegHjlLNv49o=;
+	h=From:To:CC:Subject:Date;
+	b=M7kZX+F9gBIwJgppFccb8p29ezeAwhYoKEQmXj1W3Aa1YiCdYKblxiuijXkUwKuL+
+	 hGbCiA8nuiXza1HpchE8xz7rKAY6ud2v79xwsmNNpJxxcfnYoxD59RaBkoFsaOtRih
+	 DSQ5gkTDE2CXkXEAEXI8RTzJeK1Svj+IJcpzmDcI=
+Received: from localhost.localdomain (172.30.20.186) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 18 Aug 2026 15:21:20 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	=?UTF-8?q?HE=20WEI=EF=BC=88=E3=82=AE=E3=82=AB=E3=82=AF=EF=BC=89?=
+	<skyexpoc@gmail.com>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>, Kyle Zeng <kylebot@openai.com>,
+	Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, Senjin
+	<senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, Weiming Wu
+	<weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, Zhan Xusheng
+	<zhanxusheng1024@gmail.com>
+Subject: [GIT PULL] ntfs3: changes for 7.3
+Date: Tue, 18 Aug 2026 14:21:03 +0200
+Message-ID: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB1LBmsQ2xFHQeEDFspwpFSNkiFUefBCn559EJsfEz5ZUAXYiA@mail.gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto];
-	RCVD_COUNT_TWO(0.00)[2];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Mon, Aug 17, 2026 at 04:26:31PM +0200, Laurent Lyaudet wrote:
-> I had an idea about adding a boolean flag "final" on directories in an
-> advanced filesystem.
-> In the same way, the "final" keyword on a class in OOP can be added to
-> declare no subclass can exist,
-> the "final" boolean flag on a directory could be added to say that the
-> directory has no/must not have any subdirectory.
+Hello, please pull this branch containing ntfs3 code for 7.3.
+ 
+Regards,
+Konstantin
 
-Do you have an existing use case for that?
+----------------------------------------------------------------
+The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-> So here we see that 2 flags could be added:
-> - a configuration flag "must_be_final" forbidding to create a subdirectory,
+  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
 
-I see two possible semantics of that:
+are available in the Git repository at:
 
-- final, no subdirectories exist and new ones cannot be created
-- no new subdirectories can be created, but some may exist
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
 
-Also given how other attributes behave once set they can be unset. This
-is up to the user, and possibly a restricted operation.
+for you to fetch changes up to c22f91d82cb9a29d22bdffdce6c803467984ad0c:
 
-> - a status flag "is_final" telling that no subdirectory currently exists.
+  fs/ntfs3: validate ef->size covers the record's name and value (2026-08-18 10:35:39 +0200)
 
-When the filesystem tracks the number of subdirectories already, then
-it's an easy check. Otherwise a full search must be done, atomically wrt
-creating new subdirectories.
+----------------------------------------------------------------
+Changes for 7.3-rc1
 
-> I think it may allow some small optimizations.
-> With a very limited search on the Internet, I found no similar thing before,
-> but I do assume that I'm not the first one to have this idea of
-> marking the pseudo-leaves of the filesystem tree.
+Added:
+    load ATTR_BITMAP run extents from $MFT extension records
+    initialize err in attr_wof_frame_info
+    reserve NUL byte when converting UTF-16 names
+    reject restart table growth beyond U16_MAX entries
+    validate dirty page table on log replay
+    basic support for alternative data streams
+    validate ef->size covers the record's name and value
 
-> Please, let me know if this should be discussed elsewhere.
+Fixed:
+    slab-out-of-bounds write in ni_create_attr_list()
+    out-of-bounds read of INDEX_ROOT in reparse/objid init
+    boundary check in ntfs_dir_count()
+    info-leak in ntfs_rename()
+    lseek EINVAL on sparse/compressed files with 64-bit clusters
+    info-leak on partial LZNT decompress in ni_read_frame()
+    bound page_lcns[] index by the log record
+    memory leak in indx_find_sort()
+    integer overflow in MFT cluster validation
+    reject out-of-range evcn in mi_enum_attr()
+    out-of-bounds read in read_log_rec_buf()
 
-If fsdevel is not interested we can still discuss it on btrfs
-mailinglist. I've been collecting ideas for new file attributes (listed
-below), but not all are generic enough for other filesystems (e.g.
-nodatasum).
+Changed:
+    widen inode/record number storage to u64
+    cosmetic fixes and improvements
+    rename 'err' to 'ret' in read paths
 
-The fileattr interface (wrapping the old flags and XFLAGs) has some
-spare bits and is on the VFS layer, this would be ideal but I don't know
-if it's viable if there would be just one filesystem.
+----------------------------------------------------------------
+HE WEI（ギカク） (1):
+      fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
 
-- noinline (reusing NOTAIL), nosymlink, nodatasum, nodefrag, noautodefrag,
-  "new directory is subvolume" (reusing TOPDIR)
+Konstantin Komarov (10):
+      fs/ntfs3: widen inode/record number storage to u64
+      fs/ntfs3: cosmetic fixes and improvements
+      ntfs3: fix boundary check in ntfs_dir_count()
+      ntfs3: fix info-leak in ntfs_rename()
+      fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
+      fs/ntfs3: bound page_lcns[] index by the log record
+      fs/ntfs3: Fix memory leak in indx_find_sort()
+      fs/ntfs3: Rename 'err' to 'ret' in read paths
+      fs/ntfs3: Add basic support for alternative data streams
+      fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
 
-Some of them may need an incompat bit so it would be better to add them
-all at once rather than one by one.
+Kyle Zeng (1):
+      fs/ntfs3: reserve NUL byte when converting UTF-16 names
+
+Ruoyu Wang (1):
+      ntfs3: initialize err in attr_wof_frame_info
+
+Samuel Page (1):
+      fs/ntfs3: fix info-leak on partial LZNT decompress in ni_read_frame()
+
+Senjin (1):
+      fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
+
+Weiming Shi (2):
+      fs/ntfs3: reject restart table growth beyond U16_MAX entries
+      fs/ntfs3: validate ef->size covers the record's name and value
+
+Weiming Wu (1):
+      fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in reparse/objid init
+
+Xiang Mei (1):
+      fs/ntfs3: validate dirty page table on log replay
+
+Zhan Xusheng (2):
+      fs/ntfs3: fix integer overflow in MFT cluster validation
+      fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
+
+ fs/ntfs3/attrib.c   | 159 +++++++++++++++++-----------
+ fs/ntfs3/attrlist.c |  15 ++-
+ fs/ntfs3/dir.c      | 132 ++++++++++++++++-------
+ fs/ntfs3/file.c     |  66 ++++++++----
+ fs/ntfs3/frecord.c  | 199 +++++++++++++++++++++++++++++------
+ fs/ntfs3/fslog.c    |  68 +++++++++---
+ fs/ntfs3/fsntfs.c   |  34 ++++--
+ fs/ntfs3/index.c    |   8 +-
+ fs/ntfs3/inode.c    | 298 +++++++++++++++++++++++++++++++++++++++++++++-------
+ fs/ntfs3/lznt.c     |   4 +-
+ fs/ntfs3/namei.c    |  64 +++++++----
+ fs/ntfs3/ntfs.h     |   3 +-
+ fs/ntfs3/ntfs_fs.h  |  51 ++++++---
+ fs/ntfs3/record.c   |  34 +++++-
+ fs/ntfs3/run.c      |   9 +-
+ fs/ntfs3/super.c    |  38 +++++--
+ fs/ntfs3/xattr.c    |  22 ++--
+ 17 files changed, 922 insertions(+), 282 deletions(-)
