@@ -1,123 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4223E1CED;
-	Tue, 18 Aug 2026 10:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D53843F0AF;
+	Tue, 18 Aug 2026 10:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787049000; cv=none; b=W7mDE01+2Hh3ylrWABHXHFPg1QifCBJB2SKWVp9ZOXU+kyjvMxOOV/xrzZWV+xxwugjqnOHyOnnpgS5M1/0bRHqnXiA5Bv9TlvyqXJuxNNF/gogS/bvUWa2EH9SEQMiPFB7rdNIQIlb23Rv7xWAXRQdF+LK4p/W4bhPiuteyXWc=
+	t=1787050659; cv=none; b=eoEFOpIfnVfkj95UybVZ9p/lPYY999SUpTSYz36t8nMtIuiiRfAti5SZ4otfW+c+3raU1C0SFKNbTWwqJ/kd2Q+D2dAq5thLarj9UInsSN9EFyuqeZWRt9aBNRmrvc+3U98m7tLQuSnLgut0O67MaDHGVLEsgYfqKszHzCkE50I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787049000; c=relaxed/simple;
-	bh=PHoG4Al+J6bmlX5hfjF9xp+ZYim9zrGXQmfo1DpuFPY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=clZWctyJfCSRplysFrM+EfTAhjo32nFtaOSccFlnLSEi1GRMw/Vvl+JcdhB1ecQTfnCbqGsJ4lC0HxQ+aP5+Ywo0Ee3XV6K2V5N1inIDgW/FIOD6BMZ9U4+axUl6kzLRKDjcNj3kc7KZ06F6IqYzCDUM6DuW7DW4PbVyE4WVN9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HOFcuzXp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787050659; c=relaxed/simple;
+	bh=uA6mjM9hKM0+Bxv8Z/4F8C6esiwUMu9yE1QW9NRbwhE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=KLNYp1q2Ssv1naOXAwuQFK1pHgh21F/UtR6xfyjj+BBceOzSGK8cyq4X2p0R3evu3pd1Ne4bYoHfgDqNPxNxlqFmINeqeG6pnvOarr2BA/B+sUatwQs8Sv1VGmT+rfyhLcG4wWrmCuTE9ZSK7B1GAiFspbZgnGrn7JkqUzN7BYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Zjb40BHd; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HOFcuzXp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E941F00A3A;
-	Tue, 18 Aug 2026 10:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787048998;
-	bh=oA5YhOItUInh8TEcUIpTf7oUnEBcO06MQC7rRQBXdXo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HOFcuzXpnKI05Fmts6b8sTaR8G+Nie1XPP0qhdWGno/awjz/3qX2CxKOnnKijS7v4
-	 BUU30bv01pzSO3PifvCMDfFsmaZpIsGxvWO3CVRkukQlnR1wUCZTnV9HO8s7uo5jrl
-	 7aV5vXAViE0JxPFJ691ULt3CDQV3zcrcoY0aIUK+LPaXNh5l7God+ejWTBy+ghkgj2
-	 db9PVSLhO8qVjsVpXIsmZQYyDqQWJ5OGIcN7lBHtRQoB2Ez0cF5ozxqOE0UTuSwUAO
-	 BdLlSFzn6i0vhUzxnnrmYm2GDEooILujNH/XyIWKnkbazCXB/vKazBiSihh3TbGtx0
-	 5yWaQ3KIJkxRw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 18 Aug 2026 12:29:39 +0200
-Subject: [PATCH 4/4] smb: prevent TIF_NOTIFY_SIGNAL from interrupting
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Zjb40BHd"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I9gAsB1893430;
+	Tue, 18 Aug 2026 10:57:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=0nK619oH055xfiFRv0DZruv2pXYKb
+	GXNEKIYYCpmElw=; b=Zjb40BHdWbVKV8FIqjqiDAP1uS66tjX/k+RWRVDj77DwZ
+	GkbzG3+8HeFfy6+NdOgS4mIyaHePSHH5Hkfv41hBuzIb+c6XjdxVHs9wPXgvGYQX
+	7jr8Y5n5P4ALlPmVP6o5gGrORafjPnSiyjO8wHZ9Q63vLSo/W06l1/cLiEsWjsTg
+	6x3k4aio5pM/EjaPUAdTXsi2N7oIkW2tFlYQnLNU8qSsPAfDGge5/f9lYeDA7B/3
+	iKcatkH13Hct+c8Ig13MQLHWsrAsfOOi+Lkth6aeeextXoaSKimODILpjdRInMsC
+	wIl9OnMYp7N/6foq3W5FheOhKmX+gRGYbz5Y6FJ8Q==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g2f1bvm3a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Aug 2026 10:57:15 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67IAtcVo005487;
+	Tue, 18 Aug 2026 10:57:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4g2ejqgupm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Aug 2026 10:57:14 +0000 (GMT)
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67IAvDKL014439;
+	Tue, 18 Aug 2026 10:57:14 GMT
+Received: from pssatapa-ol8-test.osdevelopmeniad.oraclevcn.com (pssatapa-ol8-test.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.253.175])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4g2ejqgupa-1;
+	Tue, 18 Aug 2026 10:57:13 +0000 (GMT)
+From: Partha Satapathy <partha.satapathy@oracle.com>
+To: linux-mm@kvack.org, x86@kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        kees@kernel.org, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, partha.satapathy@oracle.com
+Subject: Question: can normal mmap placement leave a small grow-down stack gap?
+Date: Tue, 18 Aug 2026 10:56:55 +0000
+Message-ID: <20260818105655.798233-1-partha.satapathy@oracle.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260818-work-tif_notify_signal-v1-4-1ee1fcc5b3ff@kernel.org>
-References: <20260818-work-tif_notify_signal-v1-0-1ee1fcc5b3ff@kernel.org>
-In-Reply-To: <20260818-work-tif_notify_signal-v1-0-1ee1fcc5b3ff@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Steve French <sfrench@samba.org>, linux-fsdevel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-cifs@vger.kernel.org, linux-mm@kvack.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2385; i=brauner@kernel.org;
- h=from:subject:message-id; bh=PHoG4Al+J6bmlX5hfjF9xp+ZYim9zrGXQmfo1DpuFPY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1mEhwbL+3bJXZT9MfWj4VASUfWCuyT1m+K1j/au6Gq
- TNa+D4ZdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzE6wzD/8A5vto3tRx2b9/U
- tee1i+2r2eIrD35on9fYvdakOPB0xQeGf4qToh5Pz8gqCj50ceK5H7GiSxuC+8wemO9VM2U91bz
- anwUA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
+ phishscore=0 mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2608180080
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA4MCBTYWx0ZWRfX/t5NFDUYajyJ
+ zmuWMqwmb2oDcbZaua1CSaR8n5JGyY8un1EX/gVVWPMzKgl179dsE8QIHxp5/TEW2n1BNbKSiXw
+ agVTTyXhLPOqT06fV/NJ0q5H3zxdsiaBwzzLVfm/gYOd7n2eB5XJqL3LCXPVPbEcaWtelJ0/LdS
+ aLDjZbjvGXbHAi5FQR2/3sFciDa2GPdCBu9fZRjzAnLEl3S006EWuqPR9IZB1AfprOr8uD4NPVx
+ Fa29bpGcu/0s0sOsKEAdIVa5vyXXK37m/My807jtgGSsyBeDt91Fg+Esz9gqXju5h4ER051+uIG
+ 55lNSnYYwJ75k2pAaCU5iC7LPc+1HvEPsMAWnmMHob4Pv1HUViDuG4Ks/oBi+6bZC6p8SMHefII
+ Fqq7tswlZPLKwJ3WF/6Q8nV5ZIN9+tAeZdK1Jkr8GfczohiQzjJXtPgRbxYXgvieRrLHMecjCuu
+ LcnKk8C6NJD6CwKkqcjpMv3/3ERZ0kWtMPGn5QVE=
+X-Authority-Analysis: v=2.4 cv=D/937PRj c=1 sm=1 tr=0 ts=6a843a8b b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8 a=KULDcwzBvU2pphWSv1cA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:13509
+X-Proofpoint-ORIG-GUID: DxqThsgD-F7JQ34ah5GU2opNZJB8CA9-
+X-Proofpoint-GUID: DxqThsgD-F7JQ34ah5GU2opNZJB8CA9-
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA4MCBTYWx0ZWRfX/R0a2bWQ/sy5
+ DPG7rgC8yrGOtUmWgarR0IQo5VDw/FkR02l80wjlp/WlznIRFv/sRTdvmr+YCWQxhusqCircRyc
+ hS6m+gHI36FKsm+yY9pF9twKsKNFY5BZLmeiVj3xeY52haupcEwr
 
-smb_send_kvec() blocks every signal during a send:
+Hello,
 
-	sigfillset(&mask);
-	sigprocmask(SIG_BLOCK, &mask, &oldmask);
+We are investigating intermittent user-space SIGSEGVs on Oracle Linux 8 UEK:
 
-An incomplete or partial sent would cause the connection to become out
-of sync. That in turn would cause the session to be torn down and
-reconnected.
+  5.15.0-322.203.3.2.el8uek.x86_64
 
-In 00be6f26a2a7 ("smb: client: transport: avoid reconnects triggered
-by pending task work") smb hand-rolled its own solution. Have it use the
-new no_notify_signal_save() critical section instead.
+We realize this is a downstream kernel. We are asking for guidance on the
+expected mmap/stack-layout behavior and on a small standalone testcase that
+could be run on an equivalent system and on current mainline.
 
-This stops io_uring from cancelling a send in flight but that's just
-like it is today and it is bounded by sk_sndtimeo at around 15s.
+The affected process had:
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/smb/client/transport.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+  kernel.randomize_va_space = 2
+  vm.legacy_va_layout = 0
+  vm.mmap_rnd_bits = 28
+  RLIMIT_STACK soft/hard = 32 MiB / 32 MiB
 
-diff --git a/fs/smb/client/transport.c b/fs/smb/client/transport.c
-index fdf4e50c27ce..05dc20916c27 100644
---- a/fs/smb/client/transport.c
-+++ b/fs/smb/client/transport.c
-@@ -22,7 +22,6 @@
- #include <linux/mempool.h>
- #include <linux/sched/signal.h>
- #include <linux/task_io_accounting_ops.h>
--#include <linux/task_work.h>
- #include "cifsglob.h"
- #include "cifsproto.h"
- #include "cifs_debug.h"
-@@ -142,6 +141,7 @@ int
- smb_send_kvec(struct TCP_Server_Info *server, struct msghdr *smb_msg,
- 	      size_t *sent)
- {
-+	unsigned int notify_flags;
- 	int rc = 0;
- 	int retries = 0;
- 	struct socket *ssocket = server->ssocket;
-@@ -172,15 +172,12 @@ smb_send_kvec(struct TCP_Server_Info *server, struct msghdr *smb_msg,
- 		 * after the retries we will kill the socket and
- 		 * reconnect which may clear the network problem.
- 		 *
--		 * Even if regular signals are masked, EINTR might be
--		 * propagated from sk_stream_wait_memory() to here when
--		 * TIF_NOTIFY_SIGNAL is used for task work. For example,
--		 * certain io_uring completions will use that. Treat
--		 * having EINTR with pending task work the same as EAGAIN
--		 * to avoid unnecessary reconnects.
-+		 * Task work must not abort the send, see signal_pending().
- 		 */
-+		notify_flags = no_notify_signal_save();
- 		rc = sock_sendmsg(ssocket, smb_msg);
--		if (rc == -EAGAIN || unlikely(rc == -EINTR && task_work_pending(current))) {
-+		no_notify_signal_restore(notify_flags);
-+		if (rc == -EAGAIN) {
- 			retries++;
- 			if (retries >= 14 ||
- 			    (!server->noblocksnd && (retries > 2))) {
+There were no boot parameters disabling ASLR or selecting a special mmap or
+stack layout. The process personality was not captured during the incident.
 
--- 
-2.53.0
+In one failing process, the last librt VMA ended only 308 KiB below the
+initial grow-down main-stack VMA:
 
+  7ffc2e5fa000-7ffc2e5fb000 r-xp 00208000 fc:07 1572970
+  /usr/lib64/librt-2.28.so
+  7ffc2e648000-7ffc2e669000 rw-p 00000000 00:00 0 [stack]
+
+That is:
+
+  stack start:            0x7ffc2e648000
+  librt end:              0x7ffc2e5fb000
+  gap:                    0x4d000 (315,392 bytes; 308 KiB)
+  fault address:          0x7ffc2e6472a0
+  %rsp:                   0x7ffc2e6472a0
+  %rbp:                   0x7ffc2e649320
+  fault below stack:      3,424 bytes
+  szingroup frame setup:  sub $0x2058,%rsp
+  faulting store:         mov %rdi,-0x2080(%rbp)
+
+The fault occurs during setup/use of an approximately 8 KiB stack frame, on
+an access below the current stack VMA.
+
+We understand that RLIMIT_STACK is a stack-growth limit; it does not reserve
+an unmapped 32 MiB range below [stack].
+
+We are also aware that the initial [stack] VMA is not expected to be 32 MiB.
+For these processes it is initially about 132 KiB, which is normal: the
+kernel expands the grow-down stack on demand, subject to RLIMIT_STACK and
+the applicable guard/growth constraints. The concern is not the initial
+132 KiB mapping size, but the unusually small gap to the adjacent library
+mapping.
+
+In the affected UEK source, stack_guard_gap is initialized as
+256UL << PAGE_SHIFT. On this x86-64 system this is 1 MiB, and no
+stack_guard_gap= boot override was present. One hypothesis is that the
+faulting access required expansion of the grow-down VMA and that expansion
+was rejected because the preceding VMA was already within the applicable
+stack guard gap.
+
+We do not have a reliable reproducer. We also cannot obtain an exec-time
+strace or otherwise instrument the production launcher: the issue is
+intermittent and occurs in customer environments. Therefore, we cannot yet
+determine how the affected shared object's overall load address was selected:
+ordinary non-fixed address selection by the dynamic loader, an address hint,
+an earlier reservation followed by MAP_FIXED segment mappings, or some
+process-specific personality/launcher action.
+
+We understand that MAP_FIXED calls used by the dynamic loader can be normal
+internal ELF-segment construction after an initial reservation. A testcase
+that deliberately creates a VMA near [stack] using MAP_FIXED would demonstrate
+the expected stack-growth failure, but would not explain how the library
+mapping reached that location.
+
+Could maintainers please advise:
+
+  1. With the settings above, should the ordinary mmap(NULL, ...) /
+     get_unmapped_area() path exclude the effective guard-gap region below a
+     VM_GROWSDOWN main-stack VMA?
+
+  2. Are there known mmap-layout, exec, ELF-loader, or personality paths that
+     could produce a library VMA substantially less than the 1 MiB guard gap
+     below [stack] without an explicit fixed mapping or address hint?
+
+  3. Can you suggest a small self-contained testcase that repeatedly execs a
+     dynamically linked program with RLIMIT_STACK=32 MiB and detects whether
+     normal loader/library mappings can be placed unusually close to [stack]?
+     A test based on MAP_FIXED alone would not answer this question.
+
+Thanks,
+
+Partha Sarathi Satapathy
+partha.satapathy@oracle.com
