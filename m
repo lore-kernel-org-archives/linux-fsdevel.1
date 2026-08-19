@@ -1,93 +1,121 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2B22E92BA;
-	Wed, 19 Aug 2026 07:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787124680; cv=none; b=Vcm29OuXiHoGtLh6UcwqNH7+FfDPVXDwkE6xy7LSaujFjGSPhrLeu+ybwBrL09jf7c5ShI1fEwuE/Ac84j1POP7iMllet0SnKaaTUjhAi4sWooHkcAteaayRVDdv6hdNuZ1w6gvWpvMDvBfW9Xt5TUGmPkRKUppNR4J8DcqXj4I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787124680; c=relaxed/simple;
-	bh=mXaqhz2GyeqxSV9fVPj0P3Bf8xTV4xez0mD+UFy4y5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbT+5Uakhx2cvi2SeHFAco9fZLT9Z3RI+X7liJFhZdeN4imJR2jLNQF3cNIhEO+0caLQA3xF8Be8I3RwUhwKXSEVliam91QYIVS318q8hsx9xJZwTvfADIxvbmD+ZDo/RIg6rHgfreJ6Z9+z1888ltQlwabWAketyox6DmC53+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 27D8368C7B; Wed, 19 Aug 2026 09:31:14 +0200 (CEST)
-Date: Wed, 19 Aug 2026 09:31:13 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
-	jack@suse.cz, cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org,
-	ritesh.list@gmail.com, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v4 6/6] xfs: introduce software write streams
-Message-ID: <20260819073113.GB2332@lst.de>
-References: <20260717125538.508925-1-joshi.k@samsung.com> <CGME20260717125641epcas5p4db010135831340515003215b57e12823@epcas5p4.samsung.com> <20260717125538.508925-7-joshi.k@samsung.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC3F3DDAEB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 07:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787124759; cv=pass; b=F92TQVN7MF4Zvkv94AYaZh7vgg/TiLnpCI5XKM3E0wIDSyz6i/7+m0DGp1IOIXHBJIPWo7lSIfYbTu4YUyHsrmuosWRH5insNLvqCBtNvjHU/Qf8R94FXhk6jsChFc0uuqc8mGD27wqv0YzXB0BbE36WTo2//G87hzZVS4mAFbg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787124759; c=relaxed/simple;
+	bh=kbPZdMmjRiUw9kQlr5YRraRVLhAIcOMWOiFdZR67d5c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R3NV0ZJJhxWXupkSWLXIJhPC2nWxaZ/Zxc2c6DeHfY6bSYLa1xs47PFG4nHJvIGWEX1ATqiLr2aewTHG+tZM5ppDO6B9ucxRR7eOylWf+8OQdA3bwH5xJFnHfMAdNdyzAujGCN+PJxWRFa1wSwHPiQVzg1ocbkH4qRxj6eU93Sk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csypwvah; arc=pass smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csypwvah"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b021916bd3so1028444e87.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 00:32:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787124756; cv=none;
+        d=google.com; s=arc-20260327;
+        b=M/cESvhmBB6nPGdyHPd9m/Y7foilSeXFmnJ5b8wYali+kL76nV996gggpHHIqsw7Rh
+         infU/1wvWlk90t/FiqAcmvZTFQpZE1P43Jtv5pxL5uoboMu8ZAd1MaVTtyXuHvYFn/hQ
+         gUu9DJWBs7JWu8S1tyE+XG99hPjOkhv65iLU7v/L6jFlkAuVamV60QVHpeTIEbguK9E8
+         o7DlCx2MAv+jkTsnzgPVoSHakc5sTJ7jMJLBqFhPjiIU2ub3jzhTL3Uw8KGrimpt0WPt
+         kJyV6SPOZe80VrLEXiuhs3ONj/Wom9i51xzymUL4Q9DbTEFBh0ywsMdV9sxe5mHfTwKY
+         UbKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kbPZdMmjRiUw9kQlr5YRraRVLhAIcOMWOiFdZR67d5c=;
+        fh=lxBnm4ElkJp56hpZpGoPobvMGIKEuPsCDFYvA49nsOg=;
+        b=pDSC1hOjxf1GmCnbBRIO83wH6+8LdCYtgBgVIrZp02Yufd2dOSJ9/SnTWwfBmJPo+m
+         iAXoxr8yUAXpkf1iAmG8Y9pr2K9keiyJcAj2Xcgvl+Aro0CKIF2ER/VTE61Hqfe6HuFg
+         AWajbrB/XX16dvabi76/a25NF4tQvl9hkuLch+H0EZ/F7wQ5dfpHl88RYzpkxDEYzA/R
+         9AFahK/0GMHvmSvs0DHLEJiGwXp9n4mbbpmKAw483AQM1842h+4Ekhe2FJ99VHi3FQJ+
+         bb0xkGcwFTQWwWdQoKLPGHsVrSBDmtF6c1CD95kZlxhpTrykw74Dkf3UR+piN0Nr3fuR
+         Fl2Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787124756; x=1787729556; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kbPZdMmjRiUw9kQlr5YRraRVLhAIcOMWOiFdZR67d5c=;
+        b=csypwvahxSyoUK0DIfFJaLCV0zBT0ZxLCxtakXVPLSTi5QNMzQZy7S+BB0kgjaISm7
+         FBR0ajTnd/uX1LXl4MXOx0XDrB3ozyOzMaumS/F657hJAgfIAX2Yp5Tlu68+nOwnf4CA
+         GkfBnQzr4vPBbaGU4PfeNx31yRULL7N9IjYPIQRHsjRtpjQixvvo/voYfoxR3x/f++J4
+         x8EMdIluZtY8d1L917w83FlNWhjc52wnVwwkIOuWHQzWKy9phFHxkfV2a53dOoBpaXDA
+         sknO+/ySVkMLIP/dugdlsVYJQ8E8kBUURjLdWYl90vDvIlLf3ZvqWaR+at9kz0Iw3dbT
+         V3+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787124756; x=1787729556;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kbPZdMmjRiUw9kQlr5YRraRVLhAIcOMWOiFdZR67d5c=;
+        b=MA/curJ9UhO1RxmHQWmiu6ciKB8yF/PnPP+bwpxc386jLVy6DZHygG5cnD2PzbfAt/
+         EIVULRCX9GXBbHd30g3zHq76gzd6fxJGzqwAH8E2Uyv3xelOSf/B3zLEJjBPejgKvFFe
+         UJFXWQcT9/cXNpWGXhUNWrzCSppOAW+9MbytvAc4xY44RSrnJrUg0McYV6/2WrMqMrW5
+         7fN+gYXb8pG21Ft4GP9vfjQHRNax3GFYn3hh8TWgHn1PiCYMwZqoJFhLa5MV21duuM5E
+         0q0n44fOBQcLut/jon63FOREYhrjCJ4em9+cLkqPHsMius6DhbvpFg89nAgpyHQJ36EF
+         uB5w==
+X-Forwarded-Encrypted: i=1; AHgh+RqzXI4yBPEwaEzlCgwsaTr0s6S3lV8lsCGl97G4iKDZVaognq3fRQ3vX4V0rvbL8qzipzx/FDIuqNO+sB6k@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1on1zzGGF9uHtULwN8xrGvUAMG3Pg/dy75QscAzC4Z0diKNg6
+	Eirz1gAS2PB9kvXII9EVr0cZjkIvsWDiCbYEHoEu4yV1ZDJGAB5Nun704R/M7f/sdOCb4tpC8mv
+	ZQreE6OeJsLPBCJd/8ePtz1B8i8aRjBo=
+X-Gm-Gg: AR+sD10L6lUbh8Fpva+qa4AgWHS5QUt4ObvS3TkoiOUlzxgpVxhx2DQxiX4h9OOx4D0
+	Ipbt7x/lsoTfmx42owyEM2KvePxB8JZcyL0SFM3JK2qljXeqbFVqO/jb6X56LCvwgY6acG8dV5m
+	Ijy6v/wAXpX9XLH0ESs7+tEmArW5u9K27hDdsfK9yDXUcfund2H332l66D4N5U4Kib1BZtKu4G+
+	LmWfd4VJrv8sJ/uJ4X8QzIA+gkiG8ByX6WqDjjCq7JHK5br2XW4uXtO42flgW6TLdN1dRINREKi
+	FoIiJagEngO9na89hugVoLNvUkNrobIQGwGcA/O4EzdB
+X-Received: by 2002:a05:6512:1389:b0:5b2:a967:c0bf with SMTP id
+ 2adb3069b0e04-5b478b71daemr796477e87.10.1787124755518; Wed, 19 Aug 2026
+ 00:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260717125538.508925-7-joshi.k@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20260818082740.498458-1-liubaolin12138@163.com>
+In-Reply-To: <20260818082740.498458-1-liubaolin12138@163.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Wed, 19 Aug 2026 16:32:24 +0900
+X-Gm-Features: AcwNN1WEkfsb1GN023q2QQh1bdvDxG_Mam_Tp3fggaD-rOX3nw_j8HdMpxInark
+Message-ID: <CANFS6bbzESHvokdHamis_xtO=O7icTEsu_vpSsK7M+9uG9LTHA@mail.gmail.com>
+Subject: Re: [PATCH v1 v1] ntfs: do not update ctime when setxattr fails
+To: Baolin Liu <liubaolin12138@163.com>
+Cc: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, liubaolin12138@gmail.com, 
+	Baolin Liu <liubaolin@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 17, 2026 at 06:25:38PM +0530, Kanchan Joshi wrote:
-> Even when the underlying block device does not advertise write streams,
-> XFS can choose do so, as that enables logical spatial isolation and
-> dynamic AG-set based concurrency for the standard storage, excluding
-> rtvolume.
+Hi Baolin,
 
-Ok, this gets back to my previous point.  Pleadse just ignore the
-hardware write streams in the initial patch, and then add the aligning
-to hardware write streams later.
+2026=EB=85=84 8=EC=9B=94 18=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 5:28, B=
+aolin Liu <liubaolin12138@163.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> From: Baolin Liu <liubaolin@kylinos.cn>
+>
+> ntfs_setxattr() updates ctime and marks the inode dirty even when
+> the operation fails. A failed setxattr(2) must not change file
+> metadata.
+>
+> Update ctime only on success.
+>
+> Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
+> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 
-> +	nr_streams = bdev_max_write_streams(bdev);
-> +	if (nr_streams > 0)
-> +		return nr_streams;
-> +	/*
-> +	 * Enable software-only streams if hardware streams are not available.
-> +	 * This helps to
-> +	 * - improve isolation; reduce allocation interleaving.
-> +	 * - improve concurrency using AG-set based steering within and across streams.
+Looks good to me.
 
-Overly long line.
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
-> +	 */
-> +	nr_ags = mp->m_sb.sb_agcount;
-> +	if (nr_ags >= 16)
-> +		ag_set_size = 4;
-> +	else if (nr_ags >= 8)
-> +		ag_set_size = 2;
-> +	else
-> +		ag_set_size = 1;
-> +	nr_streams = nr_ags / ag_set_size;
-> +	return min_t(uint16_t, nr_streams, XFS_SW_WRITE_STREAMS_MAX);
-
-.. and this value should be cached somewhere.
-
->  	nr_streams = bdev_max_write_streams(mp->m_ddev_targp->bt_bdev);
-> -	if (nr_streams) {
-> -		mp->m_streams_in_use = bitmap_zalloc(nr_streams, GFP_KERNEL);
-> -		if (!mp->m_streams_in_use) {
-> -			error = -ENOMEM;
-> -			goto out_shutdown_devices;
-> -		}
-> +	if (!nr_streams)
-> +		nr_streams = XFS_SW_WRITE_STREAMS_MAX;
-> +	mp->m_streams_in_use = bitmap_zalloc(nr_streams, GFP_KERNEL);
-> +	if (!mp->m_streams_in_use) {
-> +		error = -ENOMEM;
-> +		goto out_shutdown_devices;
->  	}
-
-and also be used here?
-
-While we're at it, the stream allocator should probably go into
-the buftarg to prepare for also adding it for the RT volume.
+--=20
+Thanks,
+Hyunchul
