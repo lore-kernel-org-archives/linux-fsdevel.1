@@ -1,174 +1,112 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011070.outbound.protection.outlook.com [52.101.57.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1A63033DE;
-	Wed, 19 Aug 2026 15:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787151800; cv=fail; b=bMNvp87A1rHJo5ewgreG9NXbUqlMf0YD980r3cH716+PnzEbfUzVwDg/h1q3ItR0hYoGcZEKPVmyqT4gloMyfvS/5rvBcqqCI5H59/o27s5yq9wc7HyStwA1H+joSGgCt++4Srlfu441K8nJ5dObsti/KUXl5aXDlzv1IBMmPgo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787151800; c=relaxed/simple;
-	bh=mMv1mgKIBiX0EdZMI2DHkwoXDhLwXMUMfVEr7HynD1A=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HwANK11+iBsL1spbzihf91L3MxSZtFoygUIwnhwvExU40z9GZ2cpJuVZQXZ2HXTsdmFfWZWm+rC5tPPzdTGcsEjyzlprDdQM7SmgEXVIdAJQ+E99vDQks+8y79DlfKVHk5sb9L66U6hswyavmSPwme4Q7JGz4va0Q7cMN4CjONE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Pvv9RXcV; arc=fail smtp.client-ip=52.101.57.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9750E484251
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 16:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787156275; cv=none; b=cmx0j7+X58JHHKyLes1hn9wQDTckvr/TaJ2Y8qJ1PBCuRMJmE6fF3WqnWbWsT2mxDyaMvt43DaPDw3GlFH8rNSIeUtexp26Dsz2Xypg9mMYKNqUpbeOQPI9KU9ju5QT2CFkz7b81LvDUJizMWxaZ70C6CzcldQer89OHS2PWX4Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787156275; c=relaxed/simple;
+	bh=OZf549FkxxPX+i+QG2ASg8HqZabXQmWI4HZ/faJlp4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ec41tf0Zyw5JGiODJ2MJfw2me7JmchVndYRDESh3OiV9zu1PQuIuDMkRAWaajfSMuPkoq2oSybhOky+YzYf3hhweinnl82wgh9qN4ewTIEM0h2akvJ4LU4zseq3lMkwvCwCFV++8lqxc5xqugtM5ira5Oq2TnMc1PQilhx2wA0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qgOnAlvp; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Pvv9RXcV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q1eD8QIEvW0HMiDiKTDH3H4Q/rN49XhpCudxBSuyH4toYXGkjhpHF0zICFuZt1A7qT20pG0pXMfFB5jHU5yEdu894awtFOeDzOYrXBl8Q7IYu5FgFNPNwgmXlmyFq+WdWvnL3xEZJmMHjxUiUqmjq5SBAN5Knx8CU0ZAcM+b5zETHgxI/N7T5rsMGuYKiMogVw5nch8nqNGMAXBZNaIrh2aV6tXw3HnlXwv9bzNCjSIHrA60YTrnHk7vOlEje2dEPdYUxI/Y2lrGmwESPqkBxxcDLRXwY4fKFkqCg+kKJ7kFFQdo9xnoNkgPOMUnukug0G3xvUyU4YenJwt8dfaAUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ypv8ChOXl3FK9YjDQ+oHQwuk2XNXpVnJ+ekEUW9YkpU=;
- b=qNFrEKLawVhts+rnWebRUziEFVTAjwkDoqJr8+i1l+CZCx0OjzhHix4oJ8LzE6PxXZgRoAjnzmXxBkdq8AYoUOfSYEAAquTy9D7aXB7mFoMV6F3cMHJmLr3FlYzhItpUDArS1L6MQNb+zqwi8/WTRGyQPeLUZh527PzvjvAV2FIpRytT5/0qG0fc+ItOXJAtzCTDlYHZ5fY+bg6Aq50iAHvvvxSLZOkUJF1VmShv4vdBmG+LRweYzjAbwYNerssIhtJH6lxq5Sao6N8L1Ky5ZnSp721FDW3w0VCZbt/H+WzMdha05bDe2H0UF6EmKUT4TbH4LcgLdFIxWdkxxMMZEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ypv8ChOXl3FK9YjDQ+oHQwuk2XNXpVnJ+ekEUW9YkpU=;
- b=Pvv9RXcVygt5OXaceyVotGCO+31P7AuaRM4qZKWpXowGKrycHFvo4aieioXLJFChvNCtXcQf7VRTa29Sjdr1fhBZ6ztwu6fOwdeV0g0ykoPLsJmiItNe4xgGYAhtv4HwyBOKOf7IWvuxrXiWiTnrIou1vijjTSyNftvDE9Ve3yo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS0PR12MB7771.namprd12.prod.outlook.com (2603:10b6:8:138::6) by
- MN0PR12MB6173.namprd12.prod.outlook.com (2603:10b6:208:3c6::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 15:03:14 +0000
-Received: from DS0PR12MB7771.namprd12.prod.outlook.com
- ([fe80::9a3e:791f:33b6:3d8c]) by DS0PR12MB7771.namprd12.prod.outlook.com
- ([fe80::9a3e:791f:33b6:3d8c%5]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
- 15:03:14 +0000
-Message-ID: <b965c127-08d2-4e57-9396-a2c3f5cf253a@amd.com>
-Date: Wed, 19 Aug 2026 17:03:10 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: mark DAX VMA page protections as decrypted
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>, Miklos Szeredi
- <miklos@szeredi.hu>, Punit Salian <psalian@google.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
- linux-coco@lists.linux.dev, x86@kernel.org
-References: <20260727210718.125872-1-psalian@google.com>
- <CAJfpegvtp3L3FuYd8v1Ox0nZ-fb632jy+_M_+YyBWpMQGJAXug@mail.gmail.com>
- <909ab2ef-b931-4a64-acfc-13096f232a07@amd.com>
- <004afd12-762d-45d6-ab75-037d58e7a359@amd.com>
-Content-Language: en-US
-In-Reply-To: <004afd12-762d-45d6-ab75-037d58e7a359@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0165.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::13) To DS0PR12MB7771.namprd12.prod.outlook.com
- (2603:10b6:8:138::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qgOnAlvp"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf27856f9cso11735505ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 09:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787156273; x=1787761073; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Mj4zN9ORZ2PeadgzkcCELtPYWY9u+BqffVguOSrtUbc=;
+        b=qgOnAlvpv3cRJULLhFqVVb9ij8o5yVp2wk/hcdUG7fdfkDJAhKhisI7tjMMLC1BgrX
+         KINow4OEv3eboblaEg2h8cAidnippWeb/t2eKns+XQqezyFOdntxzChmaNyKv377YOjs
+         qgCuLpcSL4bQSYqwxCtW2oPkMXsZo9flDcpf0Wfj9Z6CWbt2R8tY+vovkKMZnddamoFq
+         KNtKB+s9EhBa92h1djVh48HGSAyoQXpdG18FctWA+yBptAMt8FU1b/LLBNDoB9DadwlW
+         6rET2Js8i/BkkqDBYHC8vWi9Fkh1vQE9msqv4wsxCSn5xCBln/7TpGI23KCvPBLDSKe3
+         tfbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787156273; x=1787761073;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mj4zN9ORZ2PeadgzkcCELtPYWY9u+BqffVguOSrtUbc=;
+        b=WodgUJXwR2tP0QQevKBwY5Q7QTZ6Yr2iX0vr20OWZFvqUHlFS/Qx+Z+SempD8W66Eo
+         8zWYlJ6VObQkd3R/Q2J8q/EBbvy5ivIrnOvehGLfwucWGhDSTk99+QQrO6RlVigJqRhg
+         HpHmLE53F+UTgMXjubVqr4fHTzOqogkBqFaI9xIZvUdmn9nOtnxnVy97uJ/vh9afrHqn
+         I+hPZIieSDahmnmYGJzA1BVdb8s0g7rCgrM4Y8ejiWtjOm8ZeJT7pPG257xubAjkwoY2
+         vd167uniQUMtqQmLOB9Kb57iMOQ+YdlXiyK0RUVXrS4P2kN1GSriXAmFVo8InYbOiZyT
+         5c/w==
+X-Gm-Message-State: AFuF++k4qUPCRHHSvWGfbtaCka8mgWZZn0pxa8TqhRgk0YmMgn8EUR6B
+	MSMU8gR7SvETaFOzkSMKbqniaNdnbPEy1UUbuRR2WeBwG8LXU+y6UNzO
+X-Gm-Gg: AR+sD11kQdIS5ZjIjSmK+N6F2tF9KSiLyj29BWl/oQaqkfFPbyv3ahr1Bbtx3Dk9sf/
+	sVePGJQtPf3W0LE0q5qgOIbYbpS/n38aSWXRnHj3XGPy8B5OjIKsa1kKLRGhZkiTPO39YeK4/xo
+	8Y/pAL6gdNTLFgH69wSDxFemSAZdGXZCv0R+oLW7QXq/2C62FZp8XjOFIVOojJ1WpCPUTJJ7vsF
+	ijsN+eWDxFD6ZP/EQLDyzlH9cZujieQ7vb0GihFeepAtLHEZfIBjkGTayrNijFw4fX1uTzaNDhy
+	BkyPW6NoCt9kYwj9J7qFhuQpduAKULnCdcnBPObdMKyiqUgBasHnQp0p9Ap+W5H/3jztvrRotf6
+	Yj/Ps9sP9mFFSifW4uTMkxsboiX1Z04qsO51pq/Y6Jg6I0Dp8IRA51yLXNGUB+aw00QpFQcUq/p
+	esHKtp06AYEz3qxbS2e8mAAXZnRk3XelcipX6a8cMdlbJ9jbO/jw6cYOeNWxQK67KUzemrGBXD2
+	zIDpzHhiMY=
+X-Received: by 2002:a17:902:c948:b0:2cc:9179:335 with SMTP id d9443c01a7336-2d60198022dmr94325525ad.8.1787156272868;
+        Wed, 19 Aug 2026 09:17:52 -0700 (PDT)
+Received: from localhost.localdomain ([72.255.58.127])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bef77fc0sm15794202eec.8.2026.08.19.09.17.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2026 09:17:52 -0700 (PDT)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+To: brauner@kernel.org,
+	shuah@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH] selftests/filesystems: Add .gitignore for fscontext_ns_test
+Date: Wed, 19 Aug 2026 16:17:38 +0000
+Message-ID: <20260819161738.3517-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7771:EE_|MN0PR12MB6173:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ad46ca0-aa91-43b9-8c3c-08defe02fe67
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|22082099003|18002099003|56012099006|6133799003|10067099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	nunkb45NPPIHr9yXxMSMDRRiW95Yeht2qe6JRo6PdNwSqD9kg/y56R36fRqmdkWH/nA+O/bidAqbPzGb2QnCnV1Nr/+rblAr3wcXXnk5OpAqDpF9pWErZJOlCQHFpd/fVhPdlhN7rmLKDWzq2Lkxng7S0TXrwo22iCBou2ZdaXtPd5yD3zUif1AfDWu3XdFMtLWTU0l38nceHDhy1bx88/0Bfgg8W+tI2MGTpbLZJ6IFn2FoKR2vaQJEULsFdoPfo54/VFBmuPoBl9VVX1cORLLcJ9U4H1kIIP2sHdtSNnWqttCzwhMrrvv78YC49vtTqRMhkdWNXQbpqhgnokt6pStcOw97uYS1lCCOkcblZLvjiVDvDgtVpOpbcHGJHDLaElgW2C5/8j9lAj4ZXwpU7sK1DicRPVVYQEvtDvB9kPszTxsIokJx8NVePMe+sPcV05vFN40A+39nmWbywdwlkNiaWcYSx+4r1KLwhqajqvMr2yjeujVSR+JtmKRbsx7PdHnnjPEaW98saN3J3T6WgoMR+vtXG2U3I/mL+/EyHkXEmKMTwiaAWZqZRblmMnOkfBnvwL8U7V6Sr3YsALNfPOPKEkgsFAdXAmRh+CmZpo6QoJInk7QzAlEFISCDQzWTDyOc49aHfaaSb4kBWFF/fNleXe+MS8mIKFM4SekVoKs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7771.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099006)(6133799003)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MGJtVFRkd2xZeTRtRjNvVWFkTWplQWxPK0hZS1FOdkluVlVCT0VKU0JET05R?=
- =?utf-8?B?WGlrc05HY3BiZkhFa2RkWVprTlJ5UTUzdEtWenhkUDlRTWlJMTVLT1E2MFBy?=
- =?utf-8?B?TFcxYTNOZEdjd3NiRUhyVnRTWHBDbGN1b1hTMTJKVzRSbVN0VWtHUnNSYUdQ?=
- =?utf-8?B?eDlZVktISTZNRTdFdGJmUms4dVVkU3c2SFp1QW4wek92ZmlZTWJ6YnZpa05t?=
- =?utf-8?B?YzBtS2RRTFBraDQ5U2V0NjhLWVRQSXlSOTdLMGJtWGNBQnpmNWNoUGVnQm5N?=
- =?utf-8?B?NWdMeUFsSDhmN0tvNkFjc2l0bFFPL005YnZQdW5GQXdaMTYxN204Zjc4VG13?=
- =?utf-8?B?TmJ3VmM2V0hTSnNHYTBGZjdmUG5GSVhDMzBrRWxnQjAzaEtHZmJMWTdjc2VZ?=
- =?utf-8?B?d1pQWnZSdnpIenRndWV0ZEhzcFpOc3dRdFQyeTJYUVdCOVNEZGlrMFVxZGtN?=
- =?utf-8?B?V2NOeVBPNG0zZEQwaUsyVUtYQmZ3SlZVVFJHZTlGYnhBSStJZW1VS3V0WXlG?=
- =?utf-8?B?MkgvUkR2S09oMHJVNUh6MGoxSkFyYjBwSjVnWi9QQk9EeHlZWHVZU0xJTlBm?=
- =?utf-8?B?WURoZkxRcUc1SVFndWRZcENISEozUk5VaHNVMlF5QmtJckhCZ3lhL3BLMWxu?=
- =?utf-8?B?alp0VkpBVHlXSnZqVzBPdXdyQ0E3aU9nWWdjWnFLZm5XMXZLZHdkS0Fwa0NT?=
- =?utf-8?B?VElxWWxGYUw1OWpKa3VIZWR0OUZ1dUhXWkg5WkJKeEZEQ09adlFaK3B5Z3hz?=
- =?utf-8?B?TndmZW5zVGRSeW1MNmxsUG9UTFMvMnZnQnZJSlhzbmZHSHlydEVpNUVEeWdq?=
- =?utf-8?B?a3UzSlhtVTdaRXNUUHM5WlFjSGF6SStTL2pTbVNWQjFoNlZ2NXZDZStKM01N?=
- =?utf-8?B?V3RIYmRiK0RQd3F6dmY5NzBybmZUSUlPYmlxQ0Nmd1ZBQkFSNjNpdkFYUk1L?=
- =?utf-8?B?OW1pOUVReTNYMjA4TFBPclVmQXJ0aFJnQWJBMEo1NzBvaFl0WnYwS3psU3Z6?=
- =?utf-8?B?alcrRTFoNHB5S2ZoY3pESmRjVXFOeGsxNUJUSFdxZXBhclN6SEJRV1hpQit0?=
- =?utf-8?B?NXpiNzhkbi91ZTBEOHllSlB4TzJRbU12RnhxN1p1WHh6RTlQajJHU1c4eU9p?=
- =?utf-8?B?VHB6T3I2ZDRSYkNPNU9Zc0V3Y1p5R2hmZ0ZBL1lwQVBpNFppV1BJNzduQjVq?=
- =?utf-8?B?K1RScHkrUXR0eTFJaERNTEZRWFZwWWNRbFNZQzJPbTN5d2Uvak93L0NRUzZR?=
- =?utf-8?B?WWR1MVBFM25DTyt6eDB0SkVlY2picHpIYUZPSGg4M0EwNENtY0JjeVNkRWoy?=
- =?utf-8?B?eVY4THNXWEZPWHNnYUN4WlJUS1V2K2RIcmdFSW5NTDJOcWpRSjBpaEZ0VVUv?=
- =?utf-8?B?S21SOUVOR0lMTDhOcFliQkg5ckc0OHRtRzUzS1ZqV2NWb2gvY2hNb3RJcXd3?=
- =?utf-8?B?WExOaEM3L1labE5mMlRlZFRnZ1dCb1pBVXg3NVFIRDRCdSt3bmo1VEw4YjEr?=
- =?utf-8?B?TWNYMExDcDRmNnhpV0FEeFVZeWV2eHYySUI5L29oNTlveFJkRWtSRVI5VDhE?=
- =?utf-8?B?Nm0wV2xIQmp6aXB3cVc4YSt1WUVUOTBIaExzN085NGJXZzBKWHlTYm5XYUJ5?=
- =?utf-8?B?TEZXL0tsL2xBRk52LzNxejJJaWljc1d5RFhtcURiOW1TWEpyQ0ZZVDBWSElF?=
- =?utf-8?B?ZFltQzUxdE5QTkY1c0dFbkVwekNIbkprUldOem5hRCtObFpLeWdtNkRQRCts?=
- =?utf-8?B?Sk1BdnlQSnZQSlp4MG1ldGNWZHFEelNERzhKMUpvNXVTZzhkdkZHV3VJMjBK?=
- =?utf-8?B?Uk1YZXVmOFp1blpEVzdDcnU1NDhXNUlEZ3hmNm0rbUx5a0ovQUFzUkdQajZZ?=
- =?utf-8?B?b1ExM2c0MmhJcHl6a3dybEV4Q1hQNld0TElKWE45dlBnMFVqMkdwT3g1SGk1?=
- =?utf-8?B?V2NiYVY5RTZyQndmOU5hbUxFSmdRcWgwWjZreXk3Z3QzckQ0QWdHQlJYeWV3?=
- =?utf-8?B?dWNLVkhMbG9FQmFBZS9vMG5idEdUaUYyLzAwTjZZeHpHNlp6MndlajNqWjFL?=
- =?utf-8?B?TFdYRm5iUGZadUczQTQ4bUNzbFZXTThQdm9kZnFzTW1lMkhmbWZHQ3RRMUsx?=
- =?utf-8?B?MWk5THpkN3FQTGF5bzM0RDNEZytJdGJFZWI2KzRxTjJFRWlzMXBIZVRKekZ5?=
- =?utf-8?B?R2pPZTJPZjR2djNEWDNvNDc2aFNxZ1VRWXhBREx1MkxCaGUrbG9YcDRMSW83?=
- =?utf-8?B?WTF1WWZ3SU8vb2RqUkU0bjA3V3Nsam1Hc1p5cHdOTm5mcXJmMmFmdGhTbGt0?=
- =?utf-8?Q?E0rTpGkPURLzYnSyw0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ad46ca0-aa91-43b9-8c3c-08defe02fe67
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7771.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 15:03:14.6410
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a36jqExWBNJwiXD+fi8VEvaPSnzEVu2vY/0gQC1eMj+20TDdL6IJh+na7BudCkHQKpQbH6JiVTEYYtQ4U5TJiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6173
+Content-Transfer-Encoding: 8bit
 
-Hi Punit,
->>>> In confidential computing guest environments (such as AMD SEV-SNP or
->>>> Intel TDX), direct memory access (DAX) mappings between the guest 
->>>> kernel
->>>> and host-backed FUSE/virtiofs shared memory regions must be accessed
->>>> using shared (decrypted) page protections.
->>>>
->>>> Modify fuse_dax_mmap() to apply pgprot_decrypted() to 
->>>> vma->vm_page_prot
->>>> when establishing FUSE DAX memory mappings. This ensures guest page
->>>> table entries for shared DAX buffers are explicitly marked as 
->>>> decrypted,
->>>> preventing memory encryption faults when accessing host-shared DAX 
->>>> memory.
+fscontext_ns_test is listed in TEST_GEN_PROGS and is built in the
+fscontext_ns directory, but the directory has no .gitignore. The binary
+is thus left untracked by git after being compiled.
 
+git status lists:
 
-I started testing this on my AMD system with QEMU and am still working 
-through the configuration details.
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
+	  tools/testing/selftests/filesystems/fscontext_ns/fscontext_ns_test
 
-Did you happen to test this with QEMU under SEV or SEV-SNP as well? If 
-so, would you mind sharing your setup steps or
+Every test directory must include a .gitignore which contains all the
+generated objects, as per the documentation and convention.
 
-the QEMU/virtio-fs configuration you used?
+Add .gitignore to ignore fscontext_ns_test.
 
+Fixes: d64ba78b749a ("selftests/filesystems: test completing a context from another user namespace")
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+---
+ tools/testing/selftests/filesystems/fscontext_ns/.gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fscontext_ns/.gitignore
 
-The error I am facing is: device 'vhost-user-fs-pci' does not support 
-ACCESS_PLATFORM when it is enabled.
+diff --git a/tools/testing/selftests/filesystems/fscontext_ns/.gitignore b/tools/testing/selftests/filesystems/fscontext_ns/.gitignore
+new file mode 100644
+index 000000000000..a632905257a3
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/fscontext_ns/.gitignore
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0-only
++fscontext_ns_test
 
-But under SEV-SNP ACCESS_PLATFORM(iommu_platform) is globally enabled 
-and when I manually disable it, guest says:
-
-[    8.788217] virtiofs virtio0: device must provide 
-VIRTIO_F_ACCESS_PLATFORM
-
-Did you observe something similar or there are additional virtiofsd 
-settings i need to use?
-
-Thanks,
-Pankaj
+base-commit: 0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
+-- 
+2.54.0
 
