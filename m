@@ -1,387 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DDA3ED132;
-	Wed, 19 Aug 2026 23:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D47F37AA98
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 23:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787181123; cv=none; b=NqDXk68jkdOOhpShzfgEV93+qG797zW17Y8OO2OhUqms95liPoVn+ctAvANfbly+OImFJXT9QdmrGi9xR4botob8XIh1OHCBMPahMyUQC09Aosh2/D1JEBaulB4eBIfIZl5/9UnqndaOVXuqXyG9c0H8oGg5cdd2rfR1BgoGfPI=
+	t=1787182078; cv=none; b=ePqn8sObkwt+O/n6oaWUEbLWbMtHPXBLzYR7rSTTaQ+vc1c4DfJ0NCyeCVXAs+aLOV7xTyyOwfB+9HQO1fYGtTsuRz533X2P0y+1TwAxUXJptkNocgl1UOjhE/nVY5CscPNEwx7BVdR57rUSUC4d9dXETj3cHOl06uE+wn8xE40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787181123; c=relaxed/simple;
-	bh=cXNV3PX4efu0YjQqQgjmqr8KTIFSZPBeMO3+YmoGrgY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E84+7dueI00dl+c39brxkC2fYExGkQ5uc6C62+8tDfFPGiVX8omFKYNa3vu2X7Kmuw78WlFtnkvM55JQFG02dfT6iwLJ0v+YtqG4AIY0BDM8zUR43hRLNsLEHwOMnDj6WAJAqLTweNzZA8eY5wtm9Q8zvPIinlnIqpzj/IMgax0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M0iKfg6K; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787182078; c=relaxed/simple;
+	bh=TsY4sVigLtnV5sI49AuqByXcsSJSZRngbCrAxSk1Byk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OO9XCT2mZYKkhg+viow6+8kb9HkKbPh4kmhQrhJ2hFD6xIVMHGjLQ9M7pcNAR4eSdUypwudYDf7inU5JmzNdhwBuaH+9QiXGPkTQZSbTmIYNttSCa9t2wf1ZOXZFIuzBXMpytau3q2sNQ/HAQhelYlxI5XzN/Q/tjna9/q04a0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=rytlT79f; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M0iKfg6K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6DB71F00A3A;
-	Wed, 19 Aug 2026 23:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787181121;
-	bh=w4AvipAumrUj6tt8+b68TknDL7kakICVCGPDUl5T7kI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=M0iKfg6K7/fZrJ2RzgV1D5gxg51lTem8oVA4Z4JFFPP9IEAXff8sYu/KFIVxpI6zZ
-	 TCV4EZputenm31sJqi7KB5oBGqaxirqg+6KJse21ypDt3a/Z7Oay+ASQJwo6GgViI9
-	 LFzd4IzQ4p3s/GGYraJABL4CgB8rX3Sp2dhF16f9FbTULCED5dbYgFQUGh5QajkRj+
-	 LOudzXiBBa2f8O0aCk3XGDuBEZrrqJiY6TV08wBttnbNiqhIsIyaYdtiEPFw0HeSxO
-	 hzbUOoGtLAiA2s9CYpVCjCpSnng68PFOqBEeAXjkOKivfuyBLAFEpos2goe6M7GNVf
-	 JfZnpMVB2PwNw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 20 Aug 2026 01:09:39 +0200
-Subject: [PATCH v2 22/22] selftests/coredump: show how to inspect the task
- to decide how the coredump should be sent
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="rytlT79f"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-81f64e8dfbcso26680007b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 16:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1787182075; x=1787786875; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=afHyaRyvuiDM6Qle5wlZQ910BK4luSBwOwEJlgMl4no=;
+        b=rytlT79fksAniLr55VB+phxgPdKPib0JlzD0OHn7JHECvu4GxDElZtgnz9BVV/rd4R
+         4uevCTb+fKsqumqNHLa+KNGrCcPZNktf+BZcsFiTOv/shH1w5Fz5A6Z9mAz2jTEH1JqI
+         vdzu6iQeE/QZ+nM4R+938NKLFsc/v7e9sSx3465oQnxX/NGqxDto97C7CWEHecjw/e44
+         tpMC2thI1lGtaMvQBOLteFAjIDECae/LiC4Xa6UTlpIxqW95n1scrN/1rO2CeQC+i4iR
+         F6hcrFjCSsCtlcwJ1OcRtXvUfcWWGDrgmwx6WUCCJIUqQct+lJ3ErILGw/5Qoi3EjH6z
+         ZoeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787182075; x=1787786875;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=afHyaRyvuiDM6Qle5wlZQ910BK4luSBwOwEJlgMl4no=;
+        b=jW6bSMTKtWERNZrZsFidmJ1zmuZS3XZ0e79q4Pbdgvn1SLzUwmj5sOQvIeCT607904
+         I5ODRH4Kfv6vI1M3EEEbNDNNVSaqtzKEYOv44LOU7OefvOvByjyaTC1StEP7adIV7HH8
+         C1XHD4Eyu5zei2P8ZZka35WehSVhFurG9VvsBufdXdduxAQK/T++BNLajmAZ+ALnlGc3
+         NNqULYneGv16gdYTs8y+mwmH9pw/VW9kXTCxvO9xw5bTa3wtOGXawqfoE4ZdhDDZHEuR
+         jEi7FvlclDjs7KsPUCbKswuR7j4RP2eL1LLhpe8DUfg+xm4DoVO4LBeYRTWAQrZD14gv
+         CSOA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8ZHDFeWPKUizAJHLVv3FbTM0wY0hMQBAWOnssfSSuXXvNSMkjj1rDpQ9w+nAsTArGsy+yz5JCMVDN7Nxy@vger.kernel.org
+X-Gm-Message-State: AFuF++nFOWp916r2U9ABn6vgg1iH1yZxPCCN/8ndxRcr5Ixpy0pn8Ty5
+	rR7ku2fLG4Gkw3XmE/E1MxBjakzUMcRG5c07y+4RXZaWeO2Ox40Ajd/dYwFgnJJUOlw=
+X-Gm-Gg: AR+sD10V12kXCqP7wLdYpoc8EWhzkr124kWaxwifzgeIRBdDEBfI8BbX0O0A86QvUy5
+	ENr60lZgksCd9JJcu+ERksauX6iMWINbGbvAhFuwkE9vEg8YVRSiClQPYKbQTj67VQ+hTATv1DJ
+	8MeLHDGc5tfjMFUu2o+N3H5opx8ZtYpo8A6sygVNC0CHTA/m9YDMigAJc5x8aOAAh7NgD4WTSME
+	R38mZ5kxoE4qgnO/fvOYLFhY5eyLGIEU0FX7QzUNPlU73lZjsXWJUUk8cVgH+tkxA3tBqKfu1EM
+	6eZT7SlxQkkbRrSlf2LLIQSq6Q8ADci1UO8m3lUXGf2pDaVWb6vJXH8MkOww658E+kexAV3MPg/
+	+ZIR+Mp3CVAlAwNRHHr4RUxePGFdLmTK+oX9UxhLCPNwRB3n3RgxNVk4EpXqln2UBnYtCHFO6hv
+	AKr3Ch60qDHPFbtn2RKyr8GN26aew01s2NlI35hkkqytTR0Z1oKaOCvg8Gp+xLos7BV3jyTTP86
+	noR23oQl0OZdzjTWmGErzB7H+E8bm7Hp9gpUh8qjYeJZH9zJkOJywOEysm7c2wtmHgGe3eQvKtt
+	1Tw53KV7nIaBKR5Phg==
+X-Received: by 2002:a05:690c:e64c:20b0:81e:45a6:bd4c with SMTP id 00721157ae682-844de3bcc6dmr32543787b3.14.1787182075455;
+        Wed, 19 Aug 2026 16:27:55 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:3334:da9c:9b82:ee1b])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84511abc12fsm16551867b3.1.2026.08.19.16.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2026 16:27:54 -0700 (PDT)
+Message-ID: <5fb1c7c0eb68fd882df837b7e031e3957c5f070d.camel@dubeyko.com>
+Subject: Re: [PATCH 4/6] hfsplus: add iomap operations for regular file data
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 19 Aug 2026 16:27:50 -0700
+In-Reply-To: <20260724053229.GE4181@lst.de>
+References: <20260722213759.1360225-1-slava@dubeyko.com>
+	 <20260722213759.1360225-5-slava@dubeyko.com> <20260724053229.GE4181@lst.de>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260820-work-coredump-sparse-v2-22-ba32dd718c51@kernel.org>
-References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
-In-Reply-To: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>, 
- Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Omar Sandoval <osandov@osandov.com>, 
- Jacob Lalonde <jalalonde@fb.com>, Shuah Khan <shuah@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10058; i=brauner@kernel.org;
- h=from:subject:message-id; bh=cXNV3PX4efu0YjQqQgjmqr8KTIFSZPBeMO3+YmoGrgY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1me8XZN58bv3up5t2NjtPtBVL8Try5xZvv+/3VOnti
- jzsZg6XOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiJcnI8MLvUugpTYZHxas+
- iFRKHVPw/Ni8k1FcchK/7HkVlhCjvwz/lJdN6F9+MT5spYsTl3WCxeoHXCZeXxtSaryc7ndXvGX
- iAAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The kernel blocks in the coredump req until the coredump ack is sent by
-the coredump server. This allows the coredump server to decide how the
-kernel is supposed to send the coredump.
+Hi Christoph,
 
-Let's show how that can work:
+On Fri, 2026-07-24 at 07:32 +0200, Christoph Hellwig wrote:
 
-- a task that has a large memory mapping gets sent as a sparse record
-  stream
 
-- a task with a trivial memory mapping gets sent as a plain byte stream
+>=20
+> > +static int hfsplus_file_write_dio_end_io(struct kiocb *iocb,
+> > ssize_t size,
+> > +					 int error, unsigned int
+> > flags)
+> > +{
+> > +	struct inode *inode =3D file_inode(iocb->ki_filp);
+> > +
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	if (size && i_size_read(inode) < iocb->ki_pos + size) {
+> > +		i_size_write(inode, iocb->ki_pos + size);
+> > +		mark_inode_dirty(inode);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+>=20
+> We've have a copy of this in various places, maye add it to a header?
+> Or even into the core code based on a flag so that these file systems
+> don't need an end_io method?
 
-Since the threads are parked in coredump_task_exit() with their mm
-around we can look at /proc/<pid>/statm to figure out what the task has
-mapped.
+I think I need more clarification here. :) By "various places" do you
+mean HFS+ code or Linux kernel as whole?
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- .../coredump/coredump_socket_protocol_test.c       | 184 +++++++++++++++++++++
- .../selftests/coredump/coredump_test_helpers.c     |  58 +++++++
- .../selftests/coredump/coredump_test_helpers.h     |   7 +-
- 3 files changed, 248 insertions(+), 1 deletion(-)
+I assume that you mean this code block:
 
-diff --git a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
-index f33eaf2fa93d..daff908232a2 100644
---- a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
-+++ b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
-@@ -2136,4 +2136,188 @@ TEST_F(coredump, socket_request_sparse_without_records)
- 	check_conflicting_ack(_metadata, self, COREDUMP_KERNEL | COREDUMP_SPARSE);
- }
- 
-+/* What the server reports back about the coredump it decided to take. */
-+struct stream_choice {
-+	bool sparse;
-+	ssize_t received;
-+	off_t size;
-+	ssize_t vm_size;
-+};
-+
-+/*
-+ * The kernel blocks in the coredump request until the ack arrives, so a
-+ * coredump server gets to look at the task before it commits to a
-+ * stream. Take the record stream only for a task whose mappings are
-+ * worth it and the plain byte stream for everything else.
-+ */
-+static void check_stream_choice(struct __test_metadata *const _metadata,
-+				FIXTURE_DATA(coredump) *self, bool big,
-+				struct stream_choice *choice)
-+{
-+	int pidfd, status;
-+	pid_t pid, pid_coredump_server;
-+	struct pidfd_info info = {};
-+	int ipc_sockets[2];
-+	int pipefds[2];
-+	char c;
-+
-+	ASSERT_EQ(socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, ipc_sockets), 0);
-+	ASSERT_EQ(pipe(pipefds), 0);
-+	ASSERT_TRUE(set_core_pattern("@@/tmp/coredump.socket"));
-+
-+	pid_coredump_server = fork();
-+	ASSERT_GE(pid_coredump_server, 0);
-+	if (pid_coredump_server == 0) {
-+		int fd_server = -1, fd_coredump = -1, fd_peer_pidfd = -1;
-+		int fd_file = -1;
-+		int exit_code = EXIT_FAILURE;
-+		struct coredump_req req = {};
-+		struct stream_choice got = {};
-+		__u64 mask;
-+
-+		close(ipc_sockets[0]);
-+		close(pipefds[0]);
-+
-+		fd_server = create_and_listen_unix_socket("/tmp/coredump.socket");
-+		if (fd_server < 0)
-+			goto out;
-+
-+		if (write_nointr(ipc_sockets[1], "1", 1) < 0)
-+			goto out;
-+
-+		close(ipc_sockets[1]);
-+
-+		fd_coredump = accept4(fd_server, NULL, NULL, SOCK_CLOEXEC);
-+		if (fd_coredump < 0)
-+			goto out;
-+
-+		fd_peer_pidfd = get_peer_pidfd(fd_coredump);
-+		if (fd_peer_pidfd < 0)
-+			goto out;
-+
-+		/*
-+		 * The reassembled coredump is bigger than the mapping the
-+		 * child made, so keep it on the detached tmpfs and sparse.
-+		 */
-+		fd_file = open_coredump_tmpfile(self->fd_tmpfs_detached);
-+		if (fd_file < 0)
-+			goto out;
-+
-+		if (!read_coredump_req(fd_coredump, &req))
-+			goto out;
-+
-+		if (!check_coredump_req(&req))
-+			goto out;
-+
-+		/*
-+		 * Nothing is on the wire yet and the kernel is waiting for
-+		 * the ack, so there is all the time in the world to look at
-+		 * the task and decide what to ask it for.
-+		 */
-+		got.vm_size = peer_vm_size(fd_peer_pidfd);
-+		if (got.vm_size < 0)
-+			goto out;
-+		got.sparse = got.vm_size >= SPARSE_STREAM_THRESHOLD;
-+
-+		fprintf(stderr, "Peer maps %zd bytes, asking for %s\n",
-+			got.vm_size,
-+			got.sparse ? "a sparse record stream" : "a byte stream");
-+
-+		mask = COREDUMP_KERNEL | COREDUMP_WAIT;
-+		if (got.sparse)
-+			mask |= COREDUMP_RECORDS | COREDUMP_SPARSE;
-+
-+		if (!send_coredump_ack(fd_coredump, &req, mask, 0))
-+			goto out;
-+
-+		if (!read_marker(fd_coredump, COREDUMP_MARK_REQACK))
-+			goto out;
-+
-+		if (got.sparse) {
-+			got.received = recv_coredump_records(fd_coredump, fd_file,
-+							     &got.size, NULL, -1);
-+		} else {
-+			got.received = recv_coredump_bytes(fd_coredump, fd_file);
-+			got.size = got.received;
-+		}
-+		if (got.received < 0)
-+			goto out;
-+
-+		/* Either way a debugger has to see an ordinary core file. */
-+		if (!is_elf_core(fd_file))
-+			goto out;
-+
-+		if (write_nointr(pipefds[1], &got, sizeof(got)) != sizeof(got))
-+			goto out;
-+
-+		exit_code = EXIT_SUCCESS;
-+out:
-+		close(pipefds[1]);
-+		if (fd_file >= 0)
-+			close(fd_file);
-+		if (fd_peer_pidfd >= 0)
-+			close(fd_peer_pidfd);
-+		if (fd_coredump >= 0)
-+			close(fd_coredump);
-+		if (fd_server >= 0)
-+			close(fd_server);
-+		_exit(exit_code);
++	if (size && i_size_read(inode) < iocb->ki_pos + size) {
++		i_size_write(inode, iocb->ki_pos + size);
++		mark_inode_dirty(inode);
 +	}
-+	self->pid_coredump_server = pid_coredump_server;
-+
-+	EXPECT_EQ(close(ipc_sockets[1]), 0);
-+	EXPECT_EQ(close(pipefds[1]), 0);
-+	ASSERT_EQ(read_nointr(ipc_sockets[0], &c, 1), 1);
-+	EXPECT_EQ(close(ipc_sockets[0]), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0)
-+		crashing_child_sparse(big ? SPARSE_MAPPING_SIZE : PAGE_SIZE);
-+
-+	pidfd = sys_pidfd_open(pid, 0);
-+	ASSERT_GE(pidfd, 0);
-+
-+	waitpid(pid, &status, 0);
-+	ASSERT_TRUE(WIFSIGNALED(status));
-+	ASSERT_TRUE(WCOREDUMP(status));
-+
-+	ASSERT_EQ(read_nointr(pipefds[0], choice, sizeof(*choice)),
-+		  sizeof(*choice));
-+	EXPECT_EQ(close(pipefds[0]), 0);
-+
-+	ASSERT_TRUE(get_pidfd_info(pidfd, &info));
-+	ASSERT_GT((info.mask & PIDFD_INFO_COREDUMP), 0);
-+	ASSERT_GT((info.coredump_mask & PIDFD_COREDUMPED), 0);
-+
-+	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
-+}
-+
-+/* A task with little mapped isn't worth a record stream. */
-+TEST_F(coredump, socket_request_stream_choice_small)
-+{
-+	struct stream_choice choice = {};
-+
-+	check_stream_choice(_metadata, self, false, &choice);
-+
-+	ASSERT_LT(choice.vm_size, (ssize_t)SPARSE_STREAM_THRESHOLD);
-+	ASSERT_FALSE(choice.sparse);
-+	ASSERT_GT(choice.received, 0);
-+}
-+
-+/* A task sitting on a big mapping is. */
-+TEST_F(coredump, socket_request_stream_choice_large)
-+{
-+	struct stream_choice choice = {};
-+
-+	check_stream_choice(_metadata, self, true, &choice);
-+
-+	ASSERT_GE(choice.vm_size, (ssize_t)SPARSE_STREAM_THRESHOLD);
-+	ASSERT_TRUE(choice.sparse);
-+	ASSERT_GT(choice.size, (off_t)SPARSE_MAPPING_SIZE);
-+
-+	/* The holes didn't have to go over the socket. */
-+	ASSERT_LT(choice.received, choice.size / 8);
-+}
-+
- TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/coredump/coredump_test_helpers.c b/tools/testing/selftests/coredump/coredump_test_helpers.c
-index 9346b8f688e2..d7cc448eeaf4 100644
---- a/tools/testing/selftests/coredump/coredump_test_helpers.c
-+++ b/tools/testing/selftests/coredump/coredump_test_helpers.c
-@@ -1095,6 +1095,33 @@ int check_compact_coredump(int fd_object, int fd_reference)
- 	return ret;
- }
- 
-+/* Read a plain coredump byte stream to end-of-file. */
-+ssize_t recv_coredump_bytes(int fd_coredump, int fd_core_file)
-+{
-+	ssize_t received = 0;
-+
-+	for (;;) {
-+		char buffer[PAGE_SIZE];
-+		ssize_t ret = read_nointr(fd_coredump, buffer, sizeof(buffer));
-+
-+		if (ret < 0) {
-+			fprintf(stderr, "%s: read failed: %m\n", __func__);
-+			return -1;
-+		}
-+		if (ret == 0)
-+			break;
-+
-+		if (write_nointr(fd_core_file, buffer, ret) != ret) {
-+			fprintf(stderr, "%s: write failed: %m\n", __func__);
-+			return -1;
-+		}
-+		received += ret;
-+	}
-+
-+	fprintf(stderr, "Received %zd bytes of coredump\n", received);
-+	return received;
-+}
-+
- int create_detached_tmpfs(void)
- {
- 	int fd_context, fd_tmpfs;
-@@ -1190,6 +1217,37 @@ bool get_pidfd_info(int fd_peer_pidfd, struct pidfd_info *info)
- 	return true;
- }
- 
-+/*
-+ * How much the peer has mapped. The task is parked in the coredump
-+ * handshake, so its mm is still there to be looked at.
-+ */
-+ssize_t peer_vm_size(int fd_peer_pidfd)
-+{
-+	struct pidfd_info info = {};
-+	unsigned long pages;
-+	char path[64];
-+	FILE *f;
-+
-+	if (!get_pidfd_info(fd_peer_pidfd, &info))
-+		return -1;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/statm", info.pid);
-+	f = fopen(path, "r");
-+	if (!f) {
-+		fprintf(stderr, "%s: %s: %m\n", __func__, path);
-+		return -1;
-+	}
-+
-+	if (fscanf(f, "%lu", &pages) != 1) {
-+		fprintf(stderr, "%s: %s: no size\n", __func__, path);
-+		fclose(f);
-+		return -1;
-+	}
-+	fclose(f);
-+
-+	return (ssize_t)pages * sysconf(_SC_PAGESIZE);
-+}
-+
- /* Protocol helper functions */
- 
- ssize_t recv_marker(int fd)
-diff --git a/tools/testing/selftests/coredump/coredump_test_helpers.h b/tools/testing/selftests/coredump/coredump_test_helpers.h
-index 00d695b67b3f..97ad5cfeae92 100644
---- a/tools/testing/selftests/coredump/coredump_test_helpers.h
-+++ b/tools/testing/selftests/coredump/coredump_test_helpers.h
-@@ -18,6 +18,9 @@
- /* Size of the mostly unpopulated mapping the sparse coredump test maps. */
- #define SPARSE_MAPPING_SIZE (256 * 1024 * 1024)
- 
-+/* A task mapping at least this much is worth a record stream. */
-+#define SPARSE_STREAM_THRESHOLD (SPARSE_MAPPING_SIZE / 2)
-+
- /* Shared helper function declarations */
- void *do_nothing(void *arg);
- void crashing_child(void);
-@@ -25,9 +28,11 @@ void crashing_child_sparse(size_t size);
- ssize_t recv_coredump_records(int fd_coredump, int fd_core_file,
- 			      off_t *coredump_size, bool *truncated,
- 			      int fd_peer_pidfd);
--bool is_elf_core(int fd);
- ssize_t recv_coredump_compact(int fd_coredump, int fd_object, int fd_reference,
- 			      off_t *coredump_size);
-+ssize_t recv_coredump_bytes(int fd_coredump, int fd_core_file);
-+ssize_t peer_vm_size(int fd_peer_pidfd);
-+bool is_elf_core(int fd);
- int check_compact_coredump(int fd_object, int fd_reference);
- int create_detached_tmpfs(void);
- int create_and_listen_unix_socket(const char *path);
 
--- 
-2.53.0
+Do you suggest to introduce this logic as a special method that can be
+used in other file systems too? Am I right?
 
+Thanks,
+Slava.
