@@ -1,301 +1,201 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11021082.outbound.protection.outlook.com [40.107.208.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3838348F841
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 17:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76833ACA5C;
+	Wed, 19 Aug 2026 18:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.82
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787160298; cv=pass; b=WqTYRyj6C2HAsSThVXfnCh/RzuAfXFAYIy+iOiRg3CURIoXyeK9i713JYJTi5DiGZzl2swgddThCAwBDgwHUpJU8Hze7eEISz8qwPZDq881pSVts0qL2Eazez5KOe3mMXlLfJhvG1+Q7USNjYnUjP/2D/pRhTpLKG7hLC9JNiNY=
+	t=1787162762; cv=fail; b=fs2dslPtVqPlugEUZwNiBFBsWkwRCr7vvuhbWngV7ru2/as/3I/ciqJLwcWtnlXDadICxqrAB1p5vqsW0gfDjQ6KTyFLx7KIf1KtX2B3Q8+TYfRAN1HlKRpyUg7PKei+3vMfY+1aA4bMt5MfbqZpwIF/MBTFgjB/g0KkWe9Xf20=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787160298; c=relaxed/simple;
-	bh=x2315l0HX26F0q2RsoAivd6Rb//tCuIU+qZjABFUpwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fRV7kdQyZ4VN5Q/zKrmkfeOjWTKc0pdzzs+zuhd4Mu3l8KpFSaOYTEYpr1TefSWx86XdQ7CFbr32ZeG8Km4qnpjf5fWCpdeiQQHh5yVo0Au1oyc3zks2xNrN07vt979eUbK6lzjZb5/5swPIJKeUBpkQYyNTtHTgKm0FfrsXMlo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f1/ndzPu; arc=pass smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f1/ndzPu"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cbe6295f05bso70274a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 10:24:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787160280; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dW75wTvTzSRw20/0TweUTv+mXzHwctV0nT+e07lxO8NZYMv3CRKHfVg0wZwZL9dYZB
-         ipeFEvSWwEQ4Wbqr/DZQcuqU7qq35IdbU6UWXnM2PNpDEope2+fQQQ9USOqn5b+1pXAi
-         pZm9vztSPXCSWCbuWJxs15xS1vmjFD9Ou0ksH4MKzBUqefHtKcSjiwHf1i4Sci1oOzrA
-         fMJZwvGhwbbSMokjONKjJ1NQLVDPShBaojo/DFDuQYpTrRR1HRri11S4wlX9GUVZH65j
-         LtJgRZ0mgAG/5K+5xwfKwxV3j6ZXvgIDk5BhQX6QvrH2c7ZNUEBoLNK244yE7wQ7BcqB
-         E/SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/s3DFDu7mQUXNF0KqwtrJ+MXPopmdruNjqo6IWXh1qo=;
-        fh=rOFJWrA0JOlwvVDDGhT9uXb/1uj0MwjYwN7p/MrPPQM=;
-        b=GCzOzpYwCxJxwDvTVj2vaaxK250vjm84jpbZZXkdjDZudbhhQQdGNRlZBdahC05Ygl
-         eeFNNrGNCKJM00ofUSsV0a0ntnR9Q6HLk2Gq45JOA8EnSV+kOdD1ZmEdfp6eaULWd+XB
-         +EfuZELBYPC++o4/zyt6U+Pfu4c78MERJ+m0oOkQmoS5j7kJPrr9VC6nRzjo1G9OzSQj
-         csQ6vaRzhV62ki6lQmhrJX+x7OktjtvqUFDgxzT2YoFAoBz04Poy+fbziTeDI9ZkwjpU
-         0RzBOW1sbc0GGysMSLNpaWyPBBZfOFb6gsjiXnmTMK61utUx5e/lFocDHWAQKexCs7Ny
-         /tkw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787160280; x=1787765080; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/s3DFDu7mQUXNF0KqwtrJ+MXPopmdruNjqo6IWXh1qo=;
-        b=f1/ndzPuVcMypBBW+/p6xd87pNq2pWwwoeTfEsaNG2cl41gQ4ts6NC21oxdI5SkMS5
-         M9kQ3cq7EkiEvg8Xyt06txzqb1aDLLvs0vCygOmXa4NyuxuC3NcIvA2R3T8Ar+Ep/6L/
-         cjML7Pqc44ABW64XY3ukPgGwbWdVZRdN8I3Gejd/VwbNWZmTbRMvUNW01uZBDWSsJ/VQ
-         dDdAgi3paTg9vPFdVGrtsCSqPdrzjVYv/AvPWUTM8bWRS7bUOKbOdILQEtPD6loPjIwh
-         PGtyN0m+fr/azOrytQUC5frd3Ovsr/kgI4x7sVxXTwguv5eKbDwDHHgBv1vWfPUMpV6W
-         CF8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787160280; x=1787765080;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/s3DFDu7mQUXNF0KqwtrJ+MXPopmdruNjqo6IWXh1qo=;
-        b=FUHfpygoATGYH3EP+0NO7aNfbKiC5913WrsaKEnHzAHMGiMwbUjFHktnPr6jI+oqz8
-         SH5REL/uPGqPFjASwBDOl8J6xE7gctksqiUr0dF3OL9bvaF6AdVa3nEvQB1byUERNeSa
-         dk7i4NbRD+5LRE8IVJJgXFe5QweMZuDy65oTJhA1iq0fZtCTqqVqAfYR1q95+pQvQSR3
-         QadyNo5tYbIFQ1tZUIfzfntfHfUsd5ZeJN7iRk9/MPwOzhNKV/JM/L/aQsU5RmgmFwgP
-         3n5hpLrLVvXi8dpF1TryQvwdy5Dl8SbELuYv1sqcRGMfDePn+M8V+/TQJXmyMkr6/tgN
-         4+Cg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5AV9tC2h2Ww/TPwUY94LtrY+l+QkZE4vKvO6trPdRoH9yFAXIN/F93HgrNLa+dC7tfdNezky0iPlrjNXC@vger.kernel.org
-X-Gm-Message-State: AFuF++nDMiVNDLzZEN87q+K2PCvdkhvDbItzGUwpYi1f6xeBFS5ZtpoO
-	tCBWsmm7Jqo5sowjluobKvZ9g4qCKdAlxl+Dk6JUNcxhl6D/M2USTUodBSuR8aFhI0Wb5zPHCfw
-	fbgWY9rt862vkOzg05MPxSt3jeytsobY=
-X-Gm-Gg: AR+sD11ANgGK/t7Rz7lP0e/epvigrMXDD6TT4qGHhCwwihX6xEm8lYrQTu/wCFTq9LN
-	Lolt3gGbTHj33ykOhx7PslArX3bu+7hsY56AOk70zRnUd8JTGMK3JvrzSbkQxIeiTtLLrDvXIhn
-	LMdv/HXhbcZIbhYa7wrpPeLHoTwJMP1ltvy/mM5fBQyIC0eeW5ue62907Cmmy/PFn9r6Sms2UAP
-	QBIx4Ny5+b6o6Pq9fT4+ccKGu+jO3/Eysji0k+ILqNLA95qzTWSJ/OMx0XFelpBrg7OUUG3KJgk
-	RZOZI/pxoG+wfYGvklqURWmoDjjAriR1sxCHThyiHSf8ZZoIx6JFSWFR2q53YndvuFTirtIw+fl
-	cJGD/+hFKeRwjTcutj8SE+TnivA==
-X-Received: by 2002:a17:90b:5104:b0:38e:c232:9d2c with SMTP id
- 98e67ed59e1d1-395a04e3ff5mr731754a91.2.1787160280176; Wed, 19 Aug 2026
- 10:24:40 -0700 (PDT)
+	s=arc-20240116; t=1787162762; c=relaxed/simple;
+	bh=8IHG+TUeo5huSOmWBmshH5bqSOnU54j4FTg++c5qCKA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=g/Zw8w+1haMPYl0zXO4HTakdJOsMOkYByClZkeE9btjMjhz5zARY7ZWwApRpG95DZdnkyaaBezwGD7B2KUtymDgQM2o8a5SmKBymaOxErEDIxqXorEMGfalcJAmS60LIpBV85MMCj0jKZpMxkL3K5wfsmvb9xemMCjd8l+m47qU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=talpey.com; spf=pass smtp.mailfrom=talpey.com; arc=fail smtp.client-ip=40.107.208.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=talpey.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=talpey.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rWIlDiQz3oOkHKblp35kdnGPBzP1PJbfmf6tMuqaf/GGzNjS/ZOz2BIlPeMazvqfTaTiyeyIxuiPuaE0x7NiEklbZdQxLgDjpTIQrKpPZpciZsgWYezjuao3uuIO6kNM0ESmT3HfbTuvjJ/UZ+uJWzikrGKhCkkwUYCaVycFRQowxgNABCPAGrwtQKkJzJbstTXp4/MrdtzFvxgLtEnnDExUJfaRwz/6sOHedRxdRiLL+bfxbuIwbTji2taeNm1vgR/KNc8WnjLOYF2Cv80tfQjPEjU9zMmRmsX4Q5f15BJlDPZm7MLtpbf9rI7Fphcs0fN8E8piWhdK2jZKZKbArg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IawOAD7bWKRTB/ZcSwboc0jkp17fNeULQo0zYXDr4AQ=;
+ b=l2LnfMzxAebVgFjCO0ADE1E/4Mhhzv4MN6YmNESKJZRvrJ+kvVX50/HfT6EDAzRwOyHcpz4m+/dnWaAPJmVI6b+DozY+aRcCUk62zhXmJwYX49ls2MSBybG20X5j6oWsJ0pVnkEtwQG0KQE6NORSvLx8thkxECrwQrzhrv/TF9axYr58p0OOPvyzW6nflu44Cocd893hSCNkLaWVXAB35xfHBSvwscHmfM3GaFxaViHeqqCNoCnlq+DR4aEPuoEwmXAzIDUNobjfnslQVnbeJ4+BKhpKptcU+5QgZ4yDng08sWhH9lNH/ov0qvTriub5CDRH7dIIo0mT8fyTD1ypoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=talpey.com; dmarc=pass action=none header.from=talpey.com;
+ dkim=pass header.d=talpey.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=talpey.com;
+Received: from MW4PR01MB6338.prod.exchangelabs.com (2603:10b6:303:7b::15) by
+ BL4PR01MB999656.prod.exchangelabs.com (2603:10b6:208:618::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.8; Wed, 19 Aug 2026 18:05:57 +0000
+Received: from MW4PR01MB6338.prod.exchangelabs.com
+ ([fe80::e7ad:d8fa:59db:4761]) by MW4PR01MB6338.prod.exchangelabs.com
+ ([fe80::e7ad:d8fa:59db:4761%2]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
+ 18:05:57 +0000
+Message-ID: <8e3e256d-0e9a-4d8d-92b8-6cc753f434d5@talpey.com>
+Date: Wed, 19 Aug 2026 14:05:56 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: Replace Steve French as CIFS maintainer
+To: Paulo Alcantara <pc@manguebit.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>, David Howells <dhowells@redhat.com>,
+ Steve French <smfrench@gmail.com>, Steve French <sfrench@samba.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Bharath SM
+ <bharathsm@microsoft.com>, samba-technical@lists.samba.org,
+ linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260818140738.314254-1-pc@manguebit.org>
+From: Tom Talpey <tom@talpey.com>
+Content-Language: en-US
+In-Reply-To: <20260818140738.314254-1-pc@manguebit.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0926.namprd03.prod.outlook.com
+ (2603:10b6:408:107::31) To MW4PR01MB6338.prod.exchangelabs.com
+ (2603:10b6:303:7b::15)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260815091819.3651099-1-gaoxiang17@xiaomi.com>
- <04f3ce2f-67f5-4829-9551-a69b9df29854@kernel.org> <CAEf4BzbwZkoacX-iP1j4+p8YNbWsq0pc3eTermh2uT5ir66zbw@mail.gmail.com>
- <8d2e20842c24460296e4c83e6dc0dde3@xiaomi.com>
-In-Reply-To: <8d2e20842c24460296e4c83e6dc0dde3@xiaomi.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Wed, 19 Aug 2026 10:24:28 -0700
-X-Gm-Features: AcwNN1V5XFvKw71PEM0biAs1oBlMlI9-0UtGl8hho5Gay8JpXC3-FqvpvbkLZuc
-Message-ID: <CAEf4BzYQvhSVN=Hggg5FHzFdkRr4UNBD6yXaBsOaAwbsRpXpsw@mail.gmail.com>
-Subject: Re: [External Mail]Re: [RFC] bpf: account ring buffer backing pages
- separately from Lost RAM
-To: =?UTF-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Xiang Gao <gxxa03070307@gmail.com>, 
-	Andrii Nakryiko <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	=?UTF-8?B?5Y2w6Zev?= <yinchuang1@xiaomi.com>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Lorenzo Stoakes (Arm)" <ljs@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR01MB6338:EE_|BL4PR01MB999656:EE_
+X-MS-Office365-Filtering-Correlation-Id: f44b3311-5d02-469b-5c72-08defe1c84d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|6133799003|56012099006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	10DP/veLiD/Ztik7XuBry3f//iN6gqEKyz3oBM1YLMJD2a+rl2F0yzo9Pzg70lep9mslzaNsr7kaS3f7sTNzF4jdHdMURDWWxDPF9Koly0+FqcLPbmJ3z/fE648keFZnWj0HKTa1uPT5IF4+mRL5bEOGlGEhnTM3qKek+FDAhBsgOurSKQKRKNEWkJwYsi7H/sf+Lm9TDqDvlBEzg4+iaEskeDrko5GYRLHd/tYudRr6Sx7IVuW6XYPXT5Cdl2tZ7/+i+GlaJzBZer5mOFSJ4mgRV6/Tg5ffs3HmRwK1r5Jd1JuRh/szuECJYEzewrcQOsSNa9uomuRpH0SMk5O1vYERRtKpDlXMIdSE34KsBsdOULvDotpQPt+ZF2sByZg9MhE+gBewD2TiBF7LAeUYuZFPMhTS8MIc1ykDn/yFXApsLLcMj0CtmPED99YlvWKlK1yik1fTiheNU74FZS2lwvH9vvizDmBna0dpX0bLLYs3J4QCmSZD9I/oOKHp15RJ2m0kxUvykGXRydW25FgdVqszbyihWreGKsv3ONFtq/kXh62jSZMeKOfRRTPE9UW089XLrRZO5B8sj2Au9z9W7uoFr2erxQ+sy9kbjzuYkfI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR01MB6338.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(6133799003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?R2svS2N0VmlUdThsWnQ5Ui85TzNOWUl1dGRGS1Q4U05Oa3BwTys2U2dBZlpu?=
+ =?utf-8?B?WldsUmhMK0pISGJld3FxRnYxNnJzQzNCUVJad2h6OGYxeGdxaUJJT0RJRFNT?=
+ =?utf-8?B?OGRzdkU5TEFkLzNnc0hYbk5DamF5M3MyMGV6N3dNeDVNVUdpNUIyeloraGZM?=
+ =?utf-8?B?OEQwendWcEp6UmkwS083eTA5ZnNKWFFUK1ZTNzViR2M4R1FLTkFQdTZSTDI5?=
+ =?utf-8?B?YWYxYW9pSTVDTVQ2RFg3WmpWMDdtUWFaSlhDR2tXL240a0QrZGdlNzFGazMv?=
+ =?utf-8?B?akxIZkJaVHVLSjJoczZMTDR2STNqSFZ1dEE5UEk0UE9RN2hYaUo1ZzR3bzlm?=
+ =?utf-8?B?dkxBSFJTd1Y3cno5TjJsaFErUzZYWFlJOUdCOFVPOUxPRWNSMWp1WDBhWUVK?=
+ =?utf-8?B?NCtuR0pLb0hYTDg2MVFaOGVudmdzOWFTMDNzQTNxQ24vQ1gyMGVqdzF3SlFn?=
+ =?utf-8?B?VlFLUndPR01rbmwzZUVTbnA5RTgyRmYxWjd5V0VvWTArT3FsY2xEanNsTlht?=
+ =?utf-8?B?dnpIV2I2ajB6b0ZMb0o4Zkh2dVloQ0xuVGVRZExlSHhZT0ZiRkIvM2ZMaE1J?=
+ =?utf-8?B?aC9va3NKUjl5Y1VwK1c0c1h6RFNTeFhSdElEOHM5QzFPUUErSnI2cU5SUldr?=
+ =?utf-8?B?cjE5bDIxU1AyT1FZSzV2WUpzbGc3QUNzd2ZjSTBjd0JPaUJEMWN6QXJmVmNQ?=
+ =?utf-8?B?RFdTNUpuTmNZSDh1d1JHQXJtdlp1ODhwd29PWGpvRjc1OWg5dzVIeTV3YzJT?=
+ =?utf-8?B?Vmd3UWNZUVJ0UWg4Nlk3WkMrSGE2dTgrb2xxSXdCbjNwanNHQ2lRNlFvbnF2?=
+ =?utf-8?B?d0hrSXJMYnNJVnV4dWtwTHhmd1M3MStVSnBQYjZvZlZZSlZxd1ZYT3pYRldy?=
+ =?utf-8?B?a2pzNERnVHMxVFZGbU5CazhoVU5OcjgzYm1ZcFkvOXJCSTRNMnlGR2RDQjIw?=
+ =?utf-8?B?MHNydXFGdjFJalBlNytJM3FNYWRQM09UYTh0cWplUk8xelU3Qll5VE5oNy9Q?=
+ =?utf-8?B?eFBWcmxaeXUxTFpma3I3dzFvVEFhbFdsY3Qyem95WUlHT2RYbEppQ3FUaUI4?=
+ =?utf-8?B?dy9OL1A1NnlyMS9WZFhGUEo0dStpSkdLSzYwYnM4SlNGeG5uV014SmhtelFD?=
+ =?utf-8?B?WnlYS1dMOE1hTUVTcWc3MUJkeDlHellkWll3WUJueEJpY2xMRE1sYkVsais5?=
+ =?utf-8?B?Q1NQMk5QNUZiVUpkZFphT3J5WTZJOENqVHVyck56RE9xRjZ4UDdzTVlsUmN3?=
+ =?utf-8?B?WDRJOUhpUWRFdGgxM3lvTkhlTGtvWnROWkw0RElRVklGZTArd1dPR1dNUVdF?=
+ =?utf-8?B?aldyVjlaUytvNUpPZE9INnczT1dqdkduMFRudytBb0dhb2xBQW05TTR1RU1Q?=
+ =?utf-8?B?TmFhRVFSRVNwRGtyWkUxdjhOdUJuWlU0NER6bDVzd3dRVDA4K084Mm1GbGJW?=
+ =?utf-8?B?YTFKak9EWjRuSEpqVHBkTXpuanRXQ003OHZJSnROczRCYVNTajFKVVZGaExt?=
+ =?utf-8?B?ZWVkZFpSSFJWakdndDY5NSt5YTNmVXovK2xRNlFhNzNUQTVWbzc2KzN2UWsx?=
+ =?utf-8?B?bHFXTW9aMGJzVW84RFBlZE9Ta0NhL2Jpb1gwOXlPRlZMV1pMazM3TmJncjdE?=
+ =?utf-8?B?MjRKdmdhUGRjMWJOMkxCZThQRFRISWk5YUcwVkp4R1E4emg0R1BHcjRENHAx?=
+ =?utf-8?B?bDNPNE9GWU8zZlYwNHpCTzJuY0NITG5rbU1xT041YXBWQVM3ZnlzazJRRkZz?=
+ =?utf-8?B?WjRTUVYwcmpxNmV3bEkzMVV2bEhLMzV0bHl5WndDeDVNQU9oWFFzMzl0RnRV?=
+ =?utf-8?B?QXJneERSMldmYSt1SXdpaXE1T2YyY0x2VHJLeVUxamZnYXJKdzdPU3VZb0p2?=
+ =?utf-8?B?Y3lRY0JveExESlA1ditJaDg2c2VPRXpRNUpwdW95cjlVbUM0ZFRFaHg1aGt1?=
+ =?utf-8?B?dnMyZjlFbXhabTVuZ1pwNlFGZzVlVDNLNUdwWHRYYlRNNkVZYUNqMWx3YzEr?=
+ =?utf-8?B?WVdFRlhLUWtjalVvYzNEdUc2REc5bjgyTjFKUWZRZDZnMHNaS3JYSHdjK2p4?=
+ =?utf-8?B?Z0RJa0NKbGJiRnJBWlU0em45WHE5NmNpcUVSUzl4K0UyQ2laaTNZOGtuaGdw?=
+ =?utf-8?B?UDdub0FZUTFoeUgycGxSUjBJeUluWXlRZGM2ZXBSTWkxU1BPTnhEUnA0eFhQ?=
+ =?utf-8?B?MTZPQ3A0UGpaYnlVSWx5QWtITWY5MGhXajJYRXdQNDRqQVUySXUrdmVDbHB2?=
+ =?utf-8?B?T2N5RzkycDh2aVlKUXYzNVVNV1hqejBaSGw2WmtnVkpZMXhPdGsrd2RVN3R6?=
+ =?utf-8?Q?6gLltY8kpREZW4f8+5?=
+X-OriginatorOrg: talpey.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f44b3311-5d02-469b-5c72-08defe1c84d4
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR01MB6338.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 18:05:57.5668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 2b2dcae7-2555-4add-bc80-48756da031d5
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5MEkH9obR6tXfHgX5C9qTH2UL33+3cdkD/Wsu+Ou359w2nx6KUax/rPipYM1gWwc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR01MB999656
 
-On Tue, Aug 18, 2026 at 6:46=E2=80=AFAM =E9=AB=98=E7=BF=94 <gaoxiang17@xiao=
-mi.com> wrote:
->
-> Thanks for the pointer. Understood =E2=80=94 no new NR_* counter or
-> /proc/meminfo entry.
->
->
-> The remaining question is on the consumer side: Android's Lost RAM
-> accounting would need to enumerate all live BPF ringbuf maps
-> (BPF_MAP_GET_NEXT_ID) and read each map's fdinfo memlock to sum them.
->
+Thank you Paulo and Namjae for stepping up.
 
-For BPF ringbufs specifically, you should be fine just iterating all
-map with BPF_MAP_GET_NEXT_ID, getting its FD with
-BPF_BTF_GET_FD_BY_ID, and then passing that fd to
-BPF_OBJ_GET_INFO_BY_FD to get map's size.
+Acked-by: Tom Talpey <tom@talpey.com>
 
->
-> Is per-map fdinfo enumeration the intended way for userspace to get the
-> aggregate, or is there a more efficient BPF-specific aggregate interface
-> that I'm missing?
->
+On 8/18/2026 10:07 AM, Paulo Alcantara wrote:
+> Unfortunately, due to health reasons, Steve French can no longer
+> continue as CIFS maintainer; therefore, I am taking over the role with
+> Namjae Jeon as secondary maintainer.
+> 
+> Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+> Reviewed-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+> Signed-off-by: Paulo Alcantara <pc@manguebit.org>
+> Cc: Steve French <smfrench@gmail.com>
+> Cc: Steve French <sfrench@samba.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+> Cc: Shyam Prasad N <sprasad@microsoft.com>
+> Cc: Tom Talpey <tom@talpey.com>
+> Cc: Bharath SM <bharathsm@microsoft.com>
+> Cc: samba-technical@lists.samba.org
+> Cc: linux-cifs@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> ---
+>   CREDITS     | 5 +++++
+>   MAINTAINERS | 7 +++----
+>   2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/CREDITS b/CREDITS
+> index 91c51c14e993..d3f60da01dad 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -1320,6 +1320,11 @@ D: Initial GPL'd Frame Relay driver
+>   D: Dynamic PPP devices
+>   D: Sundry modularizations (PPP, IPX, ...) and fixes
+>   
+> +N: Steve French
+> +E: sfrench@samba.org
+> +E: smfrench@gmail.com
+> +D: Author and maintainer of the cifs filesystem for many years.
+> +
+>   N: Bob Frey
+>   E: bobf@advansys.com
+>   D: AdvanSys SCSI driver
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8014b9f8253e..55f27757dde5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6458,9 +6458,8 @@ F:	rust/kernel/clk.rs
+>   X:	drivers/clk/clkdev.c
+>   
+>   COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3)
+> -M:	Steve French <sfrench@samba.org>
+> -M:	Steve French <smfrench@gmail.com>
+> -R:	Paulo Alcantara <pc@manguebit.org> (DFS, global name space)
+> +M:	Paulo Alcantara <pc@manguebit.org>
+> +M:	Namjae Jeon <linkinjeon@kernel.org>
+>   R:	Ronnie Sahlberg <ronniesahlberg@gmail.com> (directory leases, sparse files)
+>   R:	Shyam Prasad N <sprasad@microsoft.com> (multichannel)
+>   R:	Tom Talpey <tom@talpey.com> (RDMA, smbdirect)
+> @@ -6469,7 +6468,7 @@ L:	linux-cifs@vger.kernel.org
+>   L:	samba-technical@lists.samba.org (moderated for non-subscribers)
+>   S:	Supported
+>   W:	https://wiki.samba.org/index.php/LinuxCIFS
+> -T:	git https://git.samba.org/sfrench/cifs-2.6.git for-next
+> +T:	git https://git.manguebit.org/linux.git cifs-next
+>   F:	Documentation/admin-guide/cifs/
+>   F:	fs/smb/client/
+>   F:	fs/smb/common/
 
-
-
->
-> ________________________________
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2026=E5=B9=B48=E6=9C=8818=E6=97=A5 =
-2:22:07
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: David Hildenbrand (Arm)
-> =E6=8A=84=E9=80=81: Xiang Gao; Andrii Nakryiko; Alexei Starovoitov; Danie=
-l Borkmann; Andrew Morton; =E5=8D=B0=E9=97=AF; bpf@vger.kernel.org; linux-m=
-m@kvack.org; linux-fsdevel@vger.kernel.org; linux-kernel@vger.kernel.org; =
-=E9=AB=98=E7=BF=94; Lorenzo Stoakes (Arm); Steven Rostedt
-> =E4=B8=BB=E9=A2=98: [External Mail]Re: [RFC] bpf: account ring buffer bac=
-king pages separately from Lost RAM
->
-> [=E5=A4=96=E9=83=A8=E9=82=AE=E4=BB=B6] =E6=AD=A4=E9=82=AE=E4=BB=B6=E6=9D=
-=A5=E6=BA=90=E4=BA=8E=E5=B0=8F=E7=B1=B3=E5=85=AC=E5=8F=B8=E5=A4=96=E9=83=A8=
-=EF=BC=8C=E8=AF=B7=E8=B0=A8=E6=85=8E=E5=A4=84=E7=90=86=E3=80=82=E8=8B=A5=E5=
-=AF=B9=E9=82=AE=E4=BB=B6=E5=AE=89=E5=85=A8=E6=80=A7=E5=AD=98=E7=96=91=EF=BC=
-=8C=E8=AF=B7=E5=B0=86=E9=82=AE=E4=BB=B6=E8=BD=AC=E5=8F=91=E7=BB=99misec@xia=
-omi.com=E8=BF=9B=E8=A1=8C=E5=8F=8D=E9=A6=88
->
-> On Mon, Aug 17, 2026 at 11:10=E2=80=AFAM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
-> >
-> > On 8/15/26 11:18, Xiang Gao wrote:
-> > > Hi,
-> >
-> > Hi,
-> >
-> > >
-> > > I would like to discuss accounting BPF ring buffer backing pages in
-> > > system-wide memory reports.
-> > >
-> > > BPF ring buffers allocate their data and metadata as order-0 pages di=
-rectly
-> > > from the buddy allocator, and then map those pages with vmap().
-> >
-> > I assume there is a reason the slab isn't used, right? Are these pages =
-mapped
-> > into user space such that page->mapcount would get used?
-> >
-> > Can you point me at relevant code?
->
-> See code in [0]. And yes, these pages are meant to be mapped into user sp=
-ace.
->
->   [0] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tr=
-ee/kernel/bpf/ringbuf.c#n93
->
-> >
-> > >
-> > > Because vmap() maps caller-owned pages, these backing pages are not c=
-ounted
-> > > by VmallocUsed. They are also not slab pages. As a result, most BPF r=
-ing
-> > > buffer memory is not represented by an existing named /proc/meminfo c=
-ategory
-> > > and appears as Lost RAM in Android memory reports.
-> > >
-> > > We measured this on an Android 6.18 kernel.
-> > >
-> > > Test case:
-> > >
-> > >   32 BPF ring buffer maps
-> > >   16 MiB data area per map
-> > >   512 MiB total data area
-> > >
-> > > Observed changes:
-> > >
-> > >   Lost RAM:       approximately +529 MiB
-> > >   VmallocUsed:      approximately +2 MiB
-> > >   Slab:        approximately unchanged
-> > >
-> > > After destroying all maps, the values returned close to baseline.
-> > >
-> > > The question is whether the kernel should expose the unique physical =
-backing
-> > > pages of live BPF ring buffers through a dedicated global counter and=
- a
-> > > /proc/meminfo entry, for example:
-> > >
-> > >   BpfRingbuf: <value in kB>
-> >
-> > This looks a bit too specific for my taste. And I think we should try t=
-o no
-> > inflate these statistics here too much.
-> >
->
-> +1, way too specific
->
-> > >
-> > > The proposed counter would include:
-> > >
-> > >   * ring buffer data pages;
-> > >   * metadata pages;
-> > >   * consumer and producer position pages.
-> > >
-> > > It would exclude:
-> > >
-> > >   * the second virtual mapping of data pages;
-> > >   * the pages[] pointer array;
-> > >   * map metadata allocations;
-> > >   * vmap page tables.
-> > >
-> > > The goal is to account for the currently unclassified direct backing =
-pages.
-> > > Slab- and vmalloc-backed auxiliary allocations are already represente=
-d by
-> > > existing memory categories and should not be counted again.
-> > >
-> > > A possible implementation is an NR_BPF_RINGBUF vmstat counter maintai=
-ned by
-> > > the ring buffer allocation and free paths, with the aggregate exposed=
- through
-> > > /proc/meminfo.
-> > >
-> > > Questions:
-> > >
-> > > 1. Is a dedicated BPF ring buffer counter appropriate?
-> >
-> > I don't think so.
-> >
-> > See [1] where we just had the same discussion for tracing buffers. For =
-them,
-> > Steve [2] had an idea on how to expose them more fine-grained and traci=
-ng specific.
-> >
-> > [1] https://lore.kernel.org/r/20260810094025.136705-1-gaoxiang17@xiaomi=
-.com
-> > [2] https://lore.kernel.org/r/20260810105710.6ee5e493@gandalf.local.hom=
-e
-> >
->
-> We already report per-BPF ringbuf memory usage either through bpf()
-> syscall or map's fdinfo. E.g., with `sudo bpftool map show` you'll
-> see"
->
-> 1455733: ringbuf  name event_ringbuf  flags 0x0
->         key 0B  value 0B  max_entries 262144  memlock 275776B
->         btf_id 2193434
->         pids tcpeventd(2549812)
->
-> where memlock is how much memory is allocated for the ringbuf data area.
->
-> > > 2. Should this be represented as an NR_* vmstat counter?
-> >
-> > I don't think so.
-> >
-> > > 3. Is /proc/meminfo an acceptable interface for this information?
-> >
-> > Again, I don't think so. "Lost RAM" really is just "excessive memory al=
-located
-> > by some other subsystem".
-> >
-> > I agree that some users might want to figure out what is consuming that=
- much
-> > memory, but I don't think growing /proc/meminfo in that way is really w=
-hat we want.
-> >
-> > > 4. Is counting only unique physical backing pages the correct account=
-ing unit?
-> >
-> > I'd assume the "It would exclude" part above should not be accounted th=
-ere, if
-> > that's what you mean.
-> >
-> > --
-> > Cheers,
-> >
-> > David
