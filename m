@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EEF3EC83D;
-	Wed, 19 Aug 2026 23:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587463EC832;
+	Wed, 19 Aug 2026 23:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787181071; cv=none; b=NcknMoU7FrWF6fDfOQUfVZ56cBrwb8rFxlhp2kK/+0mUr7iJOnlYdXpbfJ9JRzwhgScR8tD3kBBl4wgFykJgGqoLdL+CnYTrF9JzwlKNzi+qn5YJi7+ceexyKDIBOZ9l+tFp2jWCw5f0SNhF2rytg+PUdo7/hMQrtJSbGlVFxlY=
+	t=1787181077; cv=none; b=TTn/0jFwjVRVprzMXkpT9j158/qnpjtxxUls0fpMJKwMKdsX/Y2hixd/0BBXcvwyIztUZrrcZlM+wEYQSaAT9dOsxmkGwAGfcafMsU6TJyBhHX7nbXvE1KVKBu3HckJKeAh2tQrBVhN6ASA8x504i7Qng/3nGiUg7ARd/9a6nZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787181071; c=relaxed/simple;
-	bh=r1vIA9hpNEqv9L3LrgExsab6+Vxj9iHA3Av+wMJZgnw=;
+	s=arc-20240116; t=1787181077; c=relaxed/simple;
+	bh=LOn4l248r2Ldl72jQF/dgDVrzs5g3Esgmh1gwmYjZiw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ngc2uWhKpgOhf2FHFfOrv9DHIsHk6ZQFMpDf4JRuufgrWilDeeEABlV76b1r8gE127Nfkkbln2CzZfE69B7/N1xyOKDIYgw+xKGf/TkXSofts4JwCCJh6La3PP2aotDeBxTFt1sKdtNGF202E/nzgdI4ELyxAie1H2KkmrmiNc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XQBRGmLy; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=hxLNjRpu/UJLWha7BMQEbC8j5I9jUBJXZN5gdgrnax19O64R+IJn0DT+jkgnDDC1MxOGGDgId3jovO8bAkPnpK8fH85gk+eE4+qR91/VYAyLQSwNttzEO9KEz1vVkE4y0CmQEOsUyXS87pC0EmPkyYA1/GIw4uHKLUv9ToNJ3kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KF9/ILc2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XQBRGmLy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECFE1F00A3D;
-	Wed, 19 Aug 2026 23:11:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KF9/ILc2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB0F1F00A3F;
+	Wed, 19 Aug 2026 23:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787181069;
-	bh=jCUvWFr7gPW9ynmwtqLqLk7sLgqWKyJVLH5+/uw4b/c=;
+	s=k20260515; t=1787181076;
+	bh=JF2Cv/1cFUsibF4vKLKqolVzkMLtjHIoXV+phkJR8ho=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XQBRGmLyQq+gFdTAfXJTbo4gh1jXQzfreWedQazCzjs87t7/N+VKU6T9W+qUn38ZR
-	 j57ezN5YX/+dNb2pl+ZLvK0Hdx+iF15DU/zpG8wiAXOQBlC5VUuqWfpFZaqn3Uavig
-	 dFJnnTLx5cHdFsMpBHg/EKrLaUEvdXMD+LnlttUDvAHHSwaOPpXoX4p9rL+k5CqryN
-	 K1hxF94nl58Lx3koPf/d5lzpiQ0UavvwTnwGQwI/mWHjlTQoDQiIY90bXwAIm/oMRB
-	 PZ8YYwSWT5U6u+c8KAIOOXLW7rxcDRD04zZ3ZosFQdDTa2c/JZkOxNN0sdcFeWyAX4
-	 fTcZUi2YIX2HQ==
+	b=KF9/ILc2D0PoNxY2cOsk2dUUA3Zo69sxGjc7MEd/cmiBteotJleRH3pGeUfU9AGsC
+	 nVBubLd/AGEayMkQw20+bZqzRFjvmLh4nqthH9pwrx7sLlNchZ1sDxUhMsrfWv/bKq
+	 8PQN++OfysKGQR3oz8KrJF8KyV9DwGJLftxbwSNbAdx9AWPjsrvnyCNwRCdubJp+i3
+	 uEU586QZ8EjEJGhxoaCWrO4eSOqvuWC/zlWUVDyEI1Gx4td0k7p2/gljBWMCyffecP
+	 nMZeMLB2aW0Gge2gDn1liwrI2kJ4vVPW7kJU1XGhH46WScL0CRiEcZ0aUT1GWnRPKN
+	 nFygd/fD2EIJw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 20 Aug 2026 01:09:30 +0200
-Subject: [PATCH v2 13/22] coredump: add COREDUMP_RECORDS to the coredump
+Date: Thu, 20 Aug 2026 01:09:31 +0200
+Subject: [PATCH v2 14/22] coredump: add COREDUMP_SPARSE to the coredump
  socket protocol
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260820-work-coredump-sparse-v2-13-ba32dd718c51@kernel.org>
+Message-Id: <20260820-work-coredump-sparse-v2-14-ba32dd718c51@kernel.org>
 References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
 In-Reply-To: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -54,128 +54,95 @@ Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
  linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4628; i=brauner@kernel.org;
- h=from:subject:message-id; bh=r1vIA9hpNEqv9L3LrgExsab6+Vxj9iHA3Av+wMJZgnw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1me+P1N8vecCyR3bxmp9b1X6zrvxbmSh4bm2mgIReo
- naBw8+6jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInMfsvwTyvFasLKOTm/GH+9
- r9Sv+/7jzp/yNe7FL798/XCbrSXtFj/D/zyvH2/uzv7MNlW68YuvmZ9eikOUSdCrxb8XTmJ5V7T
- EnBMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3626; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LOn4l248r2Ldl72jQF/dgDVrzs5g3Esgmh1gwmYjZiw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1me/fpjv7/p+XG8zq9bpvCk9jm3NGa5+1yeqwI0wVL
+ 2z8871+d5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk/SYjw7N2lSvlBhVeRV4J
+ Gvv+tDf7nv3xYK27PH9/V2hM5U6Nfoa/MlXLD9ycEnDse/+16NMiJh3PvgdMEtNgTdDvW6Wa//o
+ uPwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Currently a coredump sent over a socket is raw data. The kernel knows
-things about the data it's sending that are useful for a coredump
-server. For example, it knows where the unpopulated parts of a mapping
-are. We can't communicate this to userspace currently though.
+A coredump with a lot of unpopulated mappings sends useless amounts of
+zero data to userspace. This is nonsensical. While __dump_skip() can
+seek over them when the target is a regular file a socket cannot do
+this. COREDUMP_RECORDS put the zeroes in records but it didn't get rid
+of them.
 
-Add a COREDUMP_RECORDS feature bit and a struct coredump_record_header
-so userspace can negotiate that feature. Instead of a byte stream it
-gets a header plus data. Reassembling the records yields the same
-coredump that would have been sent without them.
+Add a COREDUMP_SPARSE feature bit and a COREDUMP_RECORD_ZERO record
+type. A zero record is a bare header that tells userspace how many zero
+bytes were skipped.
 
-The record itself is also versioned and thus extensible with the same
-protocol as the ack-req sync.
-
-A record stream ends explicitly. A COREDUMP_RECORD_END record closes it,
-carries no data and reports the size of the coredump. It is only sent
-once the whole coredump has been written. If it's missing the coredump
-should be treated as truncated.
-
-This just adds the infrastructure.
+So a hole crosses the socket as one header no matter how long it is. The
+coredump server can recreate this sparsely. Zero records only exist
+inside a record stream. COREDUMP_SPARSE requires COREDUMP_RECORDS.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- include/uapi/linux/coredump.h | 66 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ include/uapi/linux/coredump.h | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/include/uapi/linux/coredump.h b/include/uapi/linux/coredump.h
-index 662e0468da6e..0bd5c8662ebe 100644
+index 0bd5c8662ebe..f3771861ca48 100644
 --- a/include/uapi/linux/coredump.h
 +++ b/include/uapi/linux/coredump.h
-@@ -11,12 +11,16 @@
-  * @COREDUMP_USERSPACE: userspace writes coredump
-  * @COREDUMP_REJECT: don't generate coredump
-  * @COREDUMP_WAIT: wait for coredump server
-+ * @COREDUMP_RECORDS: send the coredump as a sequence of records instead of
-+ *                    as a plain byte stream, see struct coredump_record_header;
-+ *                    requires COREDUMP_KERNEL
+@@ -14,6 +14,8 @@
+  * @COREDUMP_RECORDS: send the coredump as a sequence of records instead of
+  *                    as a plain byte stream, see struct coredump_record_header;
+  *                    requires COREDUMP_KERNEL
++ * @COREDUMP_SPARSE: describe the holes in the coredump as zero records
++ *                   instead of transferring them; requires COREDUMP_RECORDS
   */
  enum {
  	COREDUMP_KERNEL		= (1ULL << 0),
- 	COREDUMP_USERSPACE	= (1ULL << 1),
+@@ -21,6 +23,7 @@ enum {
  	COREDUMP_REJECT		= (1ULL << 2),
  	COREDUMP_WAIT		= (1ULL << 3),
-+	COREDUMP_RECORDS	= (1ULL << 4),
+ 	COREDUMP_RECORDS	= (1ULL << 4),
++	COREDUMP_SPARSE		= (1ULL << 5),
  };
  
  /**
-@@ -101,4 +105,66 @@ enum coredump_mark {
- 	__COREDUMP_MARK_MAX		= (1U << 31),
+@@ -111,11 +114,14 @@ enum coredump_mark {
+  * @COREDUMP_RECORD_DATA: the header is followed by ->len bytes of data
+  * @COREDUMP_RECORD_END: the coredump ends here, the header is not followed
+  *                       by any data and no further record is sent
++ * @COREDUMP_RECORD_ZERO: the header stands for ->len zero bytes and is not
++ *                        followed by any data
+  * @__COREDUMP_RECORD_TYPE_MAX: the maximum coredump record type value
+  */
+ enum coredump_record_type {
+ 	COREDUMP_RECORD_DATA		= 0U,
+ 	COREDUMP_RECORD_END		= 1U,
++	COREDUMP_RECORD_ZERO		= 2U,
+ 	__COREDUMP_RECORD_TYPE_MAX	= (1U << 31),
  };
  
-+/**
-+ * enum coredump_record_type - Type of a coredump record
-+ *
-+ * @COREDUMP_RECORD_DATA: the header is followed by ->len bytes of data
-+ * @COREDUMP_RECORD_END: the coredump ends here, the header is not followed
-+ *                       by any data and no further record is sent
-+ * @__COREDUMP_RECORD_TYPE_MAX: the maximum coredump record type value
-+ */
-+enum coredump_record_type {
-+	COREDUMP_RECORD_DATA		= 0U,
-+	COREDUMP_RECORD_END		= 1U,
-+	__COREDUMP_RECORD_TYPE_MAX	= (1U << 31),
-+};
-+
-+/**
-+ * struct coredump_record_header - header of a coredump record
-+ * @size: size of struct coredump_record_header
-+ * @type: one of enum coredump_record_type
-+ * @flags: modifiers for this record
-+ * @offset: offset in the coredump this record starts at
-+ * @len: number of coredump bytes this record accounts for
-+ *
-+ * If the coredump server raises COREDUMP_RECORDS in coredump_ack->mask
-+ * the kernel doesn't send the coredump as a plain byte stream. It sends
-+ * a sequence of records instead. A COREDUMP_RECORD_DATA record is
-+ * followed by @len bytes of actual coredump data. Records arrive in
-+ * order and leave no gaps. So @offset is the sum of the @len of all
-+ * records before it.
-+ *
-+ * The last record is a COREDUMP_RECORD_END record. It is followed by
-+ * nothing. Its @len is zero. Its @offset is the size of the coredump.
-+ * The kernel only sends it once it has written the whole coredump. A
-+ * server that hits end-of-file without having seen an end record must
-+ * treat the coredump as incomplete.
-+ *
-+ * The @size member is set to the size of struct coredump_record_header
-+ * the kernel knows and lets the header grow later. It comes first so it
-+ * can be peeked. Userspace must consume @size bytes and discard
-+ * anything beyond what it knows. It must refuse a @size smaller than
-+ * COREDUMP_RECORD_HEADER_SIZE_VER0. @size covers the header alone.
-+ * @offset and @len count coredump bytes.
-+ *
-+ * The @flags member carries modifiers that change how the record is to
-+ * be interpreted. No flag is defined yet. Userspace must refuse a
-+ * record carrying a flag or a type it doesn't know. Every new record
-+ * type is raised in coredump_req->mask as a feature of its own. A
-+ * server only ever sees the types it asked for.
-+ *
-+ * COREDUMP_RECORDS must be combined with COREDUMP_KERNEL.
-+ */
-+struct coredump_record_header {
-+	__u32 size;
-+	__u32 type;
-+	__u64 flags;
-+	__u64 offset;
-+	__u64 len;
-+};
-+
-+enum {
-+	COREDUMP_RECORD_HEADER_SIZE_VER0 = 32U, /* size of first published struct */
-+};
-+
- #endif /* _UAPI_LINUX_COREDUMP_H */
+@@ -130,9 +136,11 @@ enum coredump_record_type {
+  * If the coredump server raises COREDUMP_RECORDS in coredump_ack->mask
+  * the kernel doesn't send the coredump as a plain byte stream. It sends
+  * a sequence of records instead. A COREDUMP_RECORD_DATA record is
+- * followed by @len bytes of actual coredump data. Records arrive in
+- * order and leave no gaps. So @offset is the sum of the @len of all
+- * records before it.
++ * followed by @len bytes of actual coredump data. A
++ * COREDUMP_RECORD_ZERO record is followed by nothing and stands for
++ * @len zero bytes. A server that didn't raise COREDUMP_SPARSE never
++ * sees a zero record. Records arrive in order and leave no gaps. So
++ * @offset is the sum of the @len of all records before it.
+  *
+  * The last record is a COREDUMP_RECORD_END record. It is followed by
+  * nothing. Its @len is zero. Its @offset is the size of the coredump.
+@@ -153,7 +161,8 @@ enum coredump_record_type {
+  * type is raised in coredump_req->mask as a feature of its own. A
+  * server only ever sees the types it asked for.
+  *
+- * COREDUMP_RECORDS must be combined with COREDUMP_KERNEL.
++ * COREDUMP_RECORDS must be combined with COREDUMP_KERNEL, and
++ * COREDUMP_SPARSE with COREDUMP_RECORDS.
+  */
+ struct coredump_record_header {
+ 	__u32 size;
 
 -- 
 2.53.0
