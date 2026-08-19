@@ -1,161 +1,145 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9513D091A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 07:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787124356; cv=none; b=Cb88Bv9YTu9U6WrEdi9HlACStEHIA5dY80FXcq3lKuutNZ8wvk2UfiJzJTE3IAedSMCJOJxR0N1yv++aeS14lYbtzp2epx8NVXpNrfTn7Id4iqnYO3NNDL2fi/are83Ku5jdj/9nJYMrDi0WEV/K/nbbs/XCglcEe6NprZ2XHjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787124356; c=relaxed/simple;
-	bh=1SKvNuodvM4OwhBJC4Z48L6XzJ6g65MSRP432dByJY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L00ji6VK0wjIVL3a5aZrriq8tVnnyt4LwL80RQnhomENbLSea5JuuJUaj3ib6rxD8LUgSTqXNd6XrKYE0woHz0dgZ6keGJniLORZZ0eUmqerWIIYFj+evltcZHcErztmAKrSbyCAamUBagxMLomTkAouxGpNG/2r2MpSFp31caY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sFZdster; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95E67E0E4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 07:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787124500; cv=pass; b=f+WeB8hPusacspdwdg1I2ijhTHnrDhSCcAOoO6dZPpOZiS8DyEUDeX08AD+WQJ9opmDtlFW1VpW7KDLEh4hO1Kt+tSUKTUeLN2RzI1tnxFGiR3cEAHPEDqeSehybweix9zq6jqrnCj2gk9rGn+K6wG/ge1cFcxcgSHcgctCWRfc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787124500; c=relaxed/simple;
+	bh=ypNKwl5VjsTh/F1gd+zVSROumx3Q07t0TywojSNOLJI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lonpqna5CV740vedDrfgjG7BNd5UPHpL0aFWDh7oo5ZHl29ZkHkJuvwwGcVrC2l9qFI80dsoJMrMdrRPL8+mybEkbP7I97N4tZzfzwnjurrU4Sr3b8qE2Ha2aSGUCeJQeZ4baqAJwLI7fhhyN7rVz3/CkHidGprPhf6LheIGuGA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jg5yODLg; arc=pass smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sFZdster"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cc61541f8cso21516915ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 00:25:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jg5yODLg"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b159850b16so761434e87.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 00:28:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787124497; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qI8bVOQnlyeNsTekg8cQYgLnF1ddPvDigjmjgvHH8XzOe6/P+xqpqeRPkZmIfBTO7p
+         HC9D6yfH4rLyE/IheKcrp/NZflRAJpO3BuG5g3AuZ2MaR129+47pEZIWMJ12WrvtZEQa
+         tRgJvOFTlfgn3ekTaIOCooGJaYwAKACx9ItIAy/Ghx1icOjkrq3sdNnCIoaFJnbQpbCp
+         9hMOw3L17GpvOZhNZft6HZrg5c9IwLdWufTfgfHPFDFuiL25KvPYYl+CYrURsodGRLW9
+         Tay1Fqx8bjADMq+VvMJrA1pYcUOPF5PxqQJeUen8PoVRxOyDLOReL1YWBTuKO8Ns5LlL
+         /00Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZZnJlI89pzUJLZ7OtklM8rfJssH9i4zHNvuRglTPFNQ=;
+        fh=Qd4VS7wpFUwwMVjeahgAuhuJHFcBHXWVp7sfQZy7yIw=;
+        b=mjVJJkdjVV0T3BjTB+1Ie49tRjXaIALnPD9kGnxL0UNfhbrltluJ/Lytm51bh0qJol
+         hcYSDHEMADpciGDedMrKl/0l6549ei6G93AxqNjT+jtucVWn3OSm+bjzR06GqBJSFWxs
+         xVJy4nGUjjMc2gsBLkIK/o+pHz0MoleWjzuRs+tJlejZ07m5c2Lz8Tj5zoHZ4NXcxB+6
+         9z1IIWBakjQAdLEzh4f0jqxVRtyRpbQMjG7VzGSCYU4VfmFnWLhNbiNF6rKu6QbZPIvo
+         OfTKxq5GvjzOTwLdomNJopqXCWaZfnf2+Cj93684t2mWz+QI7IdN/weAP/RvSq2Q344Q
+         89Ow==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787124354; x=1787729154; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2Mm+hNQIKG/+cPvkkWvrNkKfzoHrRz74IsCNnWp5RgY=;
-        b=sFZdster7FaZmFb2DIz5DsvQ3SH3DVyumK7sSk4dn8iyUK+P+RJ57ob9pv8KpN0Zp4
-         cagKqgEGrjwOLrzn41webp/cejpdI7Le2SV/KoXtXZ0NiGcX2g0qetEqqpG1r+YaAlhC
-         5RJ0Vicnksx1Riw29fSK/oLBHFoYWUaYcNkb70ELpYOQHJ7hZU6/TpXhuuuJZuthrrKG
-         v0e7TN17JFs33m2ROjJ0r6Sa96I6hvEHr8+ZCHYvdFLxDMG+ezoK9tVTYxrssd9K6UtT
-         Nmk/0d8iNyX8a5Ubg5yTMzkKm/6hVsGgjxIncoXcRF8PdYhAeT3Y/kBb7e7810O9UmNV
-         m69A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787124354; x=1787729154;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787124497; x=1787729297; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=2Mm+hNQIKG/+cPvkkWvrNkKfzoHrRz74IsCNnWp5RgY=;
-        b=ediaj1k/HnxGZYKXCSRxIWMNJJK9L37a09vDWb9Mz1gq5Hky72aZUJTUqf7haZ9PDn
-         nSwKxXs+6CV5F76eYh/a7lQf7+adnTHfNVcTGt00LOGSRbZTtaxFEsLbihyI2swgoDKo
-         wNlGm+eodzQCZDbhe79ejUOlD3NeZAM8PgPtUWuxERWxHXeYs1WIHZkzzb0p5J3SchqI
-         Zwti7YVEA77hVo6DiAmncD3nnedW9XuOlkYWoxBd4aDwXzBlKE62JYZi+oafuvcpLvF8
-         6L2jcqPCKtLF2kFJPmd47m8RoI0I6OYi3vl+Wefk+KSQVj5TENG5rE3zgDyfGQYsG71K
-         KiSw==
-X-Forwarded-Encrypted: i=1; AHgh+RppjeDRGX8jJQCSo4hT+TD6LsI/BcfZSlcXFs2fjhcWF4LnMPCIki+vXXTp+YpkLQXHfb+2dO7dVDMtsWsY@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuKw/dcABZZteb0lS5zr3oIlmnRiSBfsPGUVU+IHkFZQ81ABHw
-	XYeq/H4sWybf0aRFbaJCtM8rZOwBZFskiwTOPL+FRKFLKUcSnsn+Yuo0
-X-Gm-Gg: AR+sD10wO23pVzTAeMxFCbiUHakuM4eabnMMX1GPC05dEDdoc9U6GESkveYFc7JaL9l
-	+J3XbBikJsgHtBppAQ9j5un0LXQ7pzhHI4lA50dBAPIrScqKQFTWj3T5DyQeHtqh1DTGLRxBHow
-	MNkqh6IaYS/iKZ9lnGFqRegR4rw6ydnZpdMjsZxkDsfuQ4674svrcjcI1656qrelWSWB3J7p4zY
-	kLjy/9W7Ufa1GVj15qp46dwl82aW9sCHl/sqqir1CL4acdhUX/FjIbbX7WbHANvE0nBgwiIVgRg
-	4Npszk/OuQ6agXILkqGxxfMwC8fbhK2pjma5Q9B2EuhXr4bDT8Du1gCrWFzJ4/K1o3N7UzGFMTv
-	OYmXxTnXGA9T/3aONjv07UgGH7ox+PklyeZf2ZUGwz1SZmIIIruLX4WatvrJFG/wSHXoyq5p8BE
-	zi/v0wFP88MckRHqpnECoxjTxNFhIQ39V5TY1Fsi7fcjt5DxleSZc62RRQeiUkD8ngL7QvthaLR
-	44q1A==
-X-Received: by 2002:a17:902:da92:b0:2cf:b9f9:18bb with SMTP id d9443c01a7336-2d5fc8fa30cmr34329735ad.4.1787124353840;
-        Wed, 19 Aug 2026 00:25:53 -0700 (PDT)
-Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5bb519531sm24347575ad.30.2026.08.19.00.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 00:25:53 -0700 (PDT)
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	ntfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Robert Morris <rtm@csail.mit.edu>,
-	stable@vger.kernel.org
-Subject: [PATCH] ntfs: reject invalid empty mapping pairs
-Date: Wed, 19 Aug 2026 16:25:34 +0900
-Message-ID: <20260819-fix-empty-mp-v1-1-fb60b2eeca51@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=ZZnJlI89pzUJLZ7OtklM8rfJssH9i4zHNvuRglTPFNQ=;
+        b=jg5yODLgL4yfCijKILuLjGweGSQJWZWk/wpjOKHQdmVo2si2BZXYDRAEd9I4pWCGb6
+         6Jo1C7o7B1JQPqQH9ow4okawksfpWhL2n3OyG9gthyx8/5Fj+iY35AzbxeOoSm9lJANf
+         8CE2jQBgt60dLyeA7HlH/uC/63updiFMDAolG4XMf1aaRDeB0sscHycp8CR7orRtv8D+
+         uVGHJTa47uQ1MKcR2XbjpQ7FsRma5v0yNL5PZgxEMoBHyJj9yyONrU7lU1j7eJWHMJ2f
+         C7wQejR+Bv+XDjN1TynjkTGhGHW/PNHCUITodx76mPcvTuoDnr8upThLUwdG+8VYoohi
+         XBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787124497; x=1787729297;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZZnJlI89pzUJLZ7OtklM8rfJssH9i4zHNvuRglTPFNQ=;
+        b=DSd+42QAbJGS6wBx7jb1oq2eiJarKpHxH3QPsP7HRGIPIRkG4oPSwuSCEsGAZ0Gg5V
+         GjwSb1k6fIoxCmsBGLds7yeUNUBnwl49rwBcfYIm33562Ll0rFUbZ8cPK+0DjR8zNO39
+         j8hY/Hl2Kz+Ci0moqlNrpShEl0VWOhfc2HtsNpEE2f2iGV/6XoKImgeKVvIsPPTvIr1a
+         MSuZ5TIwNTvGSFADkShpQpGPDVM9r7F2ZEBlH/EwiMsSrpGWvXUMkwIqNtwHKBQGoNeg
+         Ijd4HSeEjromhl+BZ4IUILva0Y7l7mcRAUKLbX1PEBZNouJBHgHep7amT/ooha7ZdQLk
+         dyFQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqt1DaienBSa9BD3XEYjcn6qVGPg8IYAIPjTwGEbpLmOfbYFQsydWrqrrCygdqz1cWJxU32OyZskFaqq0QY@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5wMV2ZaMpGwsG/XjAmcUMybCs9GIxT3trUdvs9F09MoE7sfn/
+	0Q9ppMpqjxutsPEs1YiC3kasCrDSHphbNld7eEJ4PNDyS+uSZAeBoZ2SRGYt0blSMADzT5qhQMI
+	jaef26IIoYvK5Axk6ZcyPGWtgwUTnEbs=
+X-Gm-Gg: AR+sD108UfEEwE624U80Q3zo1LYr7pzuvuXEodxq8UNymPQfeYj+HF8Wbn6nNdYV9bJ
+	riYaO+V10F5gcc+FvLiS7nBsn/l4QcZJ1OgknFnEC7mkVcy00vlDQ23GqbtgLtx6bFf9PjbQqlz
+	+lJcx5HJJk73/IUYCQ/iZRTPBNXrexDJukNKQveFyZ05WijOIMwv0ET63xicaECJiq8cZ1eLwyR
+	iHmq2o7SEB8azyH+aAxvt0hDILwbOOOwFXqV2o58Vqs4GirwlxhzjlKsh5/aHIJwrU26gGRhpvR
+	JPCMuKXCNwdcsYtTctcV2dLQfQaym8qMKB9Yua7zAsma
+X-Received: by 2002:a05:6512:1324:b0:5b0:1eed:f707 with SMTP id
+ 2adb3069b0e04-5b478be4749mr736128e87.23.1787124496412; Wed, 19 Aug 2026
+ 00:28:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2417; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=1SKvNuodvM4OwhBJC4Z48L6XzJ6g65MSRP432dByJY4=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqhVpE8b8Ph78bUuUwJSYZ4K3GsmASzykzzSYnp
- U5eJ3+UOneJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCaoVaRAAKCRA08jD6945I
- 03F0D/9goMM/ibv2hPXpkM/r1IjoJXqESVButGhXi2x01EGzuvo0LqCE9x8TSZWbH8jq0Mr7qxR
- knZuwMoZl6xPAS3A0SPqB7b1Av1i7dJqEbT8ZexV+IgWy1LGFCnKu+LhC6j1shFP3ZE2MJplC+j
- ajDvXYZWMe2r01MLXGyxPmM9yAbaAKQ+omTQdSTk7FXgT01kAm7bjho9U5PGSl2QbaT7EJ7jENp
- kmcNC9sqgvAfwLyx+QnRkb9waw9ZWNKtTo2jF7xwFeAgH0mzBeRQniUiGttYG197Mgb+lK7JVM7
- b4JBOaEWPNSqvnAJdokTTty7S3XSGvluQzC1jho+XObcehITp8ejZ2TML3F5e28cGThOIZo6JWU
- pLZRzwMyF7vJuGoX8lWTr7Z5vOXqEkKv6Shhv50bxDPU/KTQI8vqRshxv2j0oh56Ez3myEu4JG/
- rF0889RCSc+5WiPbdhPPu5OajZsjw6hja7E9g2bxRaA62XDTNAJwPKIK93DEIJjVmnqFb4a+nHO
- skbgopUe9tt1OFLhwZMEAeVzGGmqazdyQg+yGP5syDT6aY8qvMXwJn8soTyM8ouMQvmrTxivxEx
- 9k3hijZduhHFym0hV237a9bDDAqN5mcUIaDjIsZ7HdyBilqO5LKVbm4+63YOW8hdzYWJaq9O0CL JAUbuMZBFa9RS0g==
-X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
-Content-Transfer-Encoding: 8bit
+References: <9519.1786907182@localhost>
+In-Reply-To: <9519.1786907182@localhost>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Wed, 19 Aug 2026 16:28:04 +0900
+X-Gm-Features: AcwNN1Xd_GxvBT1dsVLQcKmu561drRbjoo2mmvqeg22JTWDVID5YxH_Thzl31kQ
+Message-ID: <CANFS6baUAfXTN+80-088YXHvuGfc+EPVTLudq6478z3vAdpK1Q@mail.gmail.com>
+Subject: Re: red zone violation in ntfs_runlists_merge()
+To: rtm@csail.mit.edu
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reject an attribute with empty mapping pairs if it has inconsistent
-highest VCN and size.
+Hi Robert,
 
-Fixes: 11ccc9107dc4 ("ntfs: update runlist handling and cluster allocator")
-Reported-by: Robert Morris <rtm@csail.mit.edu>
-Closes: https://lore.kernel.org/all/9519.1786907182@localhost/
-Cc: stable@vger.kernel.org
-Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
----
- fs/ntfs/runlist.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+I have submitted a patch for this issue:
 
-diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
-index 9eaadbc0ef47..c775b7df074f 100644
---- a/fs/ntfs/runlist.c
-+++ b/fs/ntfs/runlist.c
-@@ -763,6 +763,7 @@ struct runlist_element *ntfs_mapping_pairs_decompress(const struct ntfs_volume *
- 	/* Start at vcn = lowest_vcn and lcn 0. */
- 	vcn = lowest_vcn;
- 	lcn = 0;
-+	deltaxcn = le64_to_cpu(attr->data.non_resident.highest_vcn);
- 	/* Get start of the mapping pairs array. */
- 	buf = (u8 *)attr +
- 		le16_to_cpu(attr->data.non_resident.mapping_pairs_offset);
-@@ -772,6 +773,23 @@ struct runlist_element *ntfs_mapping_pairs_decompress(const struct ntfs_volume *
- 		return ERR_PTR(-EIO);
- 	}
- 
-+	/*
-+	 * An empty mapping-pairs array is valid only for a zero-length
-+	 * attribute.
-+	 */
-+	if (!vcn && !*buf &&
-+	    (deltaxcn != -1 ||
-+	     le64_to_cpu(attr->data.non_resident.allocated_size) ||
-+	     le64_to_cpu(attr->data.non_resident.data_size) ||
-+	     le64_to_cpu(attr->data.non_resident.initialized_size))) {
-+		ntfs_error(vol->sb, "Invalid empty mapping pairs array.");
-+		return ERR_PTR(-EIO);
-+	}
-+	if (!vcn && !*buf && old_runlist && old_runlist->rl) {
-+		*new_rl_count = old_runlist->count;
-+		return old_runlist->rl;
-+	}
-+
- 	/* Current position in runlist array. */
- 	rlpos = 0;
- 	/* Allocate first page and set current runlist size to one page. */
-@@ -942,7 +960,6 @@ struct runlist_element *ntfs_mapping_pairs_decompress(const struct ntfs_volume *
- 	 * If there is a highest_vcn specified, it must be equal to the final
- 	 * vcn in the runlist - 1, or something has gone badly wrong.
- 	 */
--	deltaxcn = le64_to_cpu(attr->data.non_resident.highest_vcn);
- 	if (unlikely(deltaxcn && vcn - 1 != deltaxcn)) {
- mpa_err:
- 		ntfs_error(vol->sb, "Corrupt mapping pairs array in non-resident attribute.");
+https://lore.kernel.org/all/20260819-fix-empty-mp-v1-1-fb60b2eeca51@gmail.c=
+om/
 
----
-base-commit: df7dce2090342170b7643d36f694204cae7792a9
-change-id: 20260819-fix-empty-mp-3f32eb769112
+2026=EB=85=84 8=EC=9B=94 17=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 4:06, <=
+rtm@csail.mit.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> The following mounts a corrupt NTFS image that produces a red zone
+> violation:
+>
+> # uname -a
+> Linux xxx 7.2.0-rc7-00016-g3d6d817622b0 #40 SMP PREEMPT_DYNAMIC Wed Aug 1=
+2 13:01:40 EDT 2026 x86_64 x86_64 x86_64 GNU/Linux
+> # wget http://www.rtmrtm.org/rtm/ntfs2b.img.gz
+> # gunzip ntfs2b.img.gz
+> mount -t ntfs -o loop ntfs2b.img /mnt
+> [Right Redzone overwritten] 0xffff888100321300-0xffff888100321307 @offset=
+=3D4864.
+> ...
+>
+> The overrun occurs in the last three lines of this code in
+> ntfs_runlists_merge():
+>
+>                         drl[ds].length =3D marker_vcn - drl[ds].vcn;
+>                         /* Finally add the ENOENT terminator. */
+>                         ds++;
+>                         if (!slots) {
+>                                 drl =3D ntfs_rl_realloc_nofail(drl, ds, d=
+s + 1);
+>                                 rtm_check(drl);
+>                                 *new_rl_count +=3D 1;
+>                         }
+>                         drl[ds].vcn =3D marker_vcn;
+>                         drl[ds].lcn =3D LCN_ENOENT;
+>                         drl[ds].length =3D (s64)0;
+>
+> After the ds++, ds is too large, but slots =3D=3D 1.
+>
+> Robert Morris
+> rtm@mit.edu
+>
 
-Best regards,
--- 
+
+--=20
 Thanks,
 Hyunchul
-
