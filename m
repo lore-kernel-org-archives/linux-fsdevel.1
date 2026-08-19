@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75E33E7160;
-	Wed, 19 Aug 2026 23:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BD73E49F0;
+	Wed, 19 Aug 2026 23:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787181041; cv=none; b=PSbgNbXZ3ieFthFzGBmhGbPEht2h1rfqJIPI3FWmG7idz493+U6whmF4Vora5XiXVu44PWDCvjdj9fTWTN3bFDgjVUv6NfShEg8pzd37glRKCoIKqm8v1SNmdqYwcscN5CLN+UYVxGXXsnRuftBt3nypf60qqMLJ8IUL9bgLBIg=
+	t=1787181046; cv=none; b=EmX9SmzAMTuqTFFB8Qk2TL9u56ht335fAyFRPwt4YqDSjok5ucvD8Vm81yFGCmcbQsOQvWM+z086gXmlbCKjwsj7Z2PjkMQ8zxCTJa+Y+GDCaTgQZezLsXkviEGw8zcWG8OL56c0cgK59WsSIYwnoqBV4rUa3cwJEWZDeiYnlqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787181041; c=relaxed/simple;
-	bh=xonH5OEmjGZ0T+LJRAZWyQJ2cLCDz3LlxuOJfpmUo8A=;
+	s=arc-20240116; t=1787181046; c=relaxed/simple;
+	bh=QcTKefttEJ4tcHQFZJxvLhTEIvEaSI31GPP914rVvoI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Oc6Z4caRup8GIL+iGuydSTfUn+LuHjlpmLjiJ3KmsTBl6BngqCUIOzv0s1feqq2mHK7LR1UUULWzd8OfXI8H1bin2dHQj/FbRl7RQ6mxOYAAJ6pEvS1cBktG9Zyf7B9R4mq14GIJViK84ETFYXynWJ380SokwMQIpMR2xLwuVuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Heen4TOm; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=Fb9tu7y6vtZhmspOMPCcAehg19L6d5x2Llc/TTmhZCVpADnWMXu+Wtc4mY7joX+0S1x3LzRisPNEx8YCsLBB06ZOrNAwXMEzfY2voj+u4jFvAYNf63djvkFqj8ymJg9qBfa9xz5YQWxNLJKQkmJwjku/QGbhHgkdPf48MUId4pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=npJLhXeQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Heen4TOm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49BC1F000E9;
-	Wed, 19 Aug 2026 23:10:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="npJLhXeQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76061F00A3A;
+	Wed, 19 Aug 2026 23:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787181039;
-	bh=aaMUb6PaGUkY1uYWWgN3cAeUq6l9h+PWt5o9AmFAt0E=;
+	s=k20260515; t=1787181045;
+	bh=aXCeFRO1r0hB0+8jo/097AeX5zU9p1RIeHyMY6Gqagw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Heen4TOmnIFtyQjYyv7+PIzwbbZz42Npc0GW51hx4ud6x7Rqf5vC43y2nUEyf6ECq
-	 pcOtUTCa4JHCyEcCor01N2FsrVzY4Xjm7i7SOASr/nhmsgg1panWWpwognCtck7bki
-	 amyCR7G/xgubDR7CnBmNhnmShiSOXhCZV/EmhjyDGMOd6gpBaEBfm+7WrYTH4VOLe6
-	 tXsyvPISipyoCmNDuotbnVIf6lTR6kOjJNL3xCZyYHZMVbKMd4DQD80VHObnZVHCMI
-	 1Y1SlAo5BoouEupVho6PfMbHhNiwNVamHrCRweaUELDn/awZxVfgZVA4v7U39hHat8
-	 ey9XD16ZR5ocA==
+	b=npJLhXeQ/IhG/+xAo/mjKtSc3G9BXlgXjQH4PjRqutdnX5peq2Nb0g350sJgmLW31
+	 s7nW1fZTCAWEOV02aDamCCA7OnVHMt3/8PYOv+2ooyKorkp92y3M1IbvY+2VOhnn3c
+	 Rql9x/J8AT1PJmW7lYRZFVbrrxMjFU6ss2GHkylFXuw9vHwOhtyccBcOiHWKseSBir
+	 bDadGtBVR5S+Y0CToo2UjrcVSJgqPxHoB1NfH4+TIfRbf1uuSnt9x0aJmbxBdMndTY
+	 Bdf2XQEqKWgZ/t9qiKUtbN/s0s3uiyg5QyQMLAkfn34/IOWtw3b+svvtxJyFoPE6QJ
+	 5WVqP1YzDqhwg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 20 Aug 2026 01:09:25 +0200
-Subject: [PATCH v2 08/22] coredump: move the negotiated mask into struct
- coredump_params
+Date: Thu, 20 Aug 2026 01:09:26 +0200
+Subject: [PATCH v2 09/22] coredump: deduplicate the to_skip flush
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260820-work-coredump-sparse-v2-8-ba32dd718c51@kernel.org>
+Message-Id: <20260820-work-coredump-sparse-v2-9-ba32dd718c51@kernel.org>
 References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
 In-Reply-To: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -54,108 +53,66 @@ Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
  linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3018; i=brauner@kernel.org;
- h=from:subject:message-id; bh=xonH5OEmjGZ0T+LJRAZWyQJ2cLCDz3LlxuOJfpmUo8A=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1me978e91/5SSmW3Hd9p4NXx6qdCyYpr/+dqUjoUst
- 1Q28tkKd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwkdCIjw42MXtMq5yP82dzF
- ZmKXY/pZpcJSc2XNFfnOrl+sa7iJkeF/EmfJzMjNwrER+n7NRrdtNXuSDntrCy5pULGROCMwcx0
- HAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1473; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=QcTKefttEJ4tcHQFZJxvLhTEIvEaSI31GPP914rVvoI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS1me/b2di18GR/1eFdZf0CM6pf/jhn7NE3o91oG/ulh
+ feNfzwQ6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI/1WGfyrqXP6z/RRY9dJf
+ npzw5vKU39nneQTWthU/DeTov3ansoXhn+LSGdNrfecfqOB3WFNjfEAna8Jk5fzD2TenGXde8Th
+ 8lR0A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The coredump server negotiates a set of COREDUMP_* options with the
-kernel. The core dump path cannot see them though.
-
-Move the mask into struct coredump_params to make them available.
+dump_emit() and dump_emit_page() open-code the same flush of the
+accumulated cprm->to_skip. Move it into a helper.
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/coredump.c            | 15 +++++++--------
- include/linux/coredump.h |  2 ++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ fs/coredump.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/fs/coredump.c b/fs/coredump.c
-index c696b46c97ff..156688be3df0 100644
+index 156688be3df0..cd36a72be445 100644
 --- a/fs/coredump.c
 +++ b/fs/coredump.c
-@@ -100,7 +100,6 @@ struct core_name {
- 	unsigned int core_pipe_limit;
- 	bool core_dumped;
- 	enum coredump_type_t core_type;
--	u64 mask;
- };
- 
- static int expand_corename(struct core_name *cn, int size)
-@@ -245,9 +244,9 @@ static bool coredump_parse(struct core_name *cn, struct coredump_params *cprm,
- 	int pid_in_pattern = 0;
- 	int err = 0;
- 
--	cn->mask = COREDUMP_KERNEL;
-+	cprm->mask = COREDUMP_KERNEL;
- 	if (core_pipe_limit)
--		cn->mask |= COREDUMP_WAIT;
-+		cprm->mask |= COREDUMP_WAIT;
- 	cn->used = 0;
- 	cn->corename = NULL;
- 	cn->core_pipe_limit = 0;
-@@ -860,7 +859,7 @@ static bool coredump_sock_request(struct core_name *cn, struct coredump_params *
- 		return false;
- 	}
- 
--	cn->mask = ack.mask;
-+	cprm->mask = ack.mask;
- 	return coredump_sock_mark(cprm->file, COREDUMP_MARK_REQACK);
+@@ -1256,13 +1256,21 @@ static int __dump_skip(struct coredump_params *cprm, size_t nr)
+ 	return __dump_emit(cprm, zeroes, nr);
  }
  
-@@ -1129,7 +1128,7 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+-int dump_emit(struct coredump_params *cprm, const void *addr, int nr)
++/* Flush the accumulated hole before writing data. */
++static int dump_flush_skip(struct coredump_params *cprm)
+ {
+ 	if (cprm->to_skip) {
+ 		if (!__dump_skip(cprm, cprm->to_skip))
+ 			return 0;
+ 		cprm->to_skip = 0;
  	}
++	return 1;
++}
++
++int dump_emit(struct coredump_params *cprm, const void *addr, int nr)
++{
++	if (!dump_flush_skip(cprm))
++		return 0;
+ 	return __dump_emit(cprm, addr, nr);
+ }
+ EXPORT_SYMBOL(dump_emit);
+@@ -1293,11 +1301,8 @@ static int dump_emit_page(struct coredump_params *cprm, struct page *page)
+ 	if (!page)
+ 		return 0;
  
- 	/* Don't even generate the coredump. */
--	if (cn->mask & COREDUMP_REJECT)
-+	if (cprm->mask & COREDUMP_REJECT)
- 		return;
- 
- 	/* get us an unshared descriptor table; almost always a no-op */
-@@ -1137,13 +1136,13 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
- 	if (unshare_files())
- 		return;
- 
--	if ((cn->mask & COREDUMP_KERNEL) && !coredump_write(cn, cprm, binfmt))
-+	if ((cprm->mask & COREDUMP_KERNEL) && !coredump_write(cn, cprm, binfmt))
- 		return;
- 
- 	coredump_sock_shutdown(cprm->file);
- 
- 	/* Let the parent know that a coredump was generated. */
--	if (cn->mask & COREDUMP_USERSPACE)
-+	if (cprm->mask & COREDUMP_USERSPACE)
- 		cn->core_dumped = true;
- 
- 	/*
-@@ -1151,7 +1150,7 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
- 	 * or usermodehelper to finish before exiting so it can e.g.,
- 	 * inspect /proc/<pid>.
- 	 */
--	if (cn->mask & COREDUMP_WAIT) {
-+	if (cprm->mask & COREDUMP_WAIT) {
- 		switch (cn->core_type) {
- 		case COREDUMP_PIPE:
- 			wait_for_dump_helpers(cprm->file);
-diff --git a/include/linux/coredump.h b/include/linux/coredump.h
-index 7b38ee2e7913..dc7a05b1bb0a 100644
---- a/include/linux/coredump.h
-+++ b/include/linux/coredump.h
-@@ -26,6 +26,8 @@ struct coredump_params {
- 	/* Snapshot of dumpable at dump start. */
- 	enum task_dumpable dumpable;
- 	int cpu;
-+	/* COREDUMP_* options negotiated with the coredump server. */
-+	u64 mask;
- 	loff_t written;
- 	loff_t pos;
- 	loff_t to_skip;
+-	if (cprm->to_skip) {
+-		if (!__dump_skip(cprm, cprm->to_skip))
+-			return 0;
+-		cprm->to_skip = 0;
+-	}
++	if (!dump_flush_skip(cprm))
++		return 0;
+ 	if (cprm->written + PAGE_SIZE > cprm->limit)
+ 		return 0;
+ 	if (dump_interrupted())
 
 -- 
 2.53.0
