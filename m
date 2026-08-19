@@ -1,112 +1,236 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9750E484251
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 16:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4913AEF55;
+	Wed, 19 Aug 2026 16:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787156275; cv=none; b=cmx0j7+X58JHHKyLes1hn9wQDTckvr/TaJ2Y8qJ1PBCuRMJmE6fF3WqnWbWsT2mxDyaMvt43DaPDw3GlFH8rNSIeUtexp26Dsz2Xypg9mMYKNqUpbeOQPI9KU9ju5QT2CFkz7b81LvDUJizMWxaZ70C6CzcldQer89OHS2PWX4Q=
+	t=1787156533; cv=none; b=kWZuSeOxn7cqONXd7crHR/TB3TtfiBzvEDWLheY5ZlHk01KiJieBWn+PegQJgQcrXQWSrNxzwEmKMjZD8ya338Zcx+iNaTqBNB/ANG3zmEKL2oAoukOXpVC1r3qG/Aux2uuDSRw7OU7BxtuXu5LDr3dWQC5dFCvHZYboUhiEBUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787156275; c=relaxed/simple;
-	bh=OZf549FkxxPX+i+QG2ASg8HqZabXQmWI4HZ/faJlp4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ec41tf0Zyw5JGiODJ2MJfw2me7JmchVndYRDESh3OiV9zu1PQuIuDMkRAWaajfSMuPkoq2oSybhOky+YzYf3hhweinnl82wgh9qN4ewTIEM0h2akvJ4LU4zseq3lMkwvCwCFV++8lqxc5xqugtM5ira5Oq2TnMc1PQilhx2wA0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qgOnAlvp; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787156533; c=relaxed/simple;
+	bh=e4te6h1xyKimsYHS9NrVH8StXNN6311Dja1qqzHnV9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vn4hATE2mLE+QTXIALfto3HZnn8zzKIyI2BHXAbxWWq4tFghZcV84CVWZ/pjmq4OBdVIXFMJwIISYjd2KeRKizv4K8HHZQvZgr2DFX6xkTqUcKPgZ7V3jEtiw8fomo2b/8fl+o5NijrSlyHirCHlFPUAILF/RFsTzra9HaBrjp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j8q6mCXI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hyYcSR4a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bxIAAPKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=reXrUwm5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qgOnAlvp"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf27856f9cso11735505ad.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 09:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787156273; x=1787761073; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Mj4zN9ORZ2PeadgzkcCELtPYWY9u+BqffVguOSrtUbc=;
-        b=qgOnAlvpv3cRJULLhFqVVb9ij8o5yVp2wk/hcdUG7fdfkDJAhKhisI7tjMMLC1BgrX
-         KINow4OEv3eboblaEg2h8cAidnippWeb/t2eKns+XQqezyFOdntxzChmaNyKv377YOjs
-         qgCuLpcSL4bQSYqwxCtW2oPkMXsZo9flDcpf0Wfj9Z6CWbt2R8tY+vovkKMZnddamoFq
-         KNtKB+s9EhBa92h1djVh48HGSAyoQXpdG18FctWA+yBptAMt8FU1b/LLBNDoB9DadwlW
-         6rET2Js8i/BkkqDBYHC8vWi9Fkh1vQE9msqv4wsxCSn5xCBln/7TpGI23KCvPBLDSKe3
-         tfbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787156273; x=1787761073;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Mj4zN9ORZ2PeadgzkcCELtPYWY9u+BqffVguOSrtUbc=;
-        b=WodgUJXwR2tP0QQevKBwY5Q7QTZ6Yr2iX0vr20OWZFvqUHlFS/Qx+Z+SempD8W66Eo
-         8zWYlJ6VObQkd3R/Q2J8q/EBbvy5ivIrnOvehGLfwucWGhDSTk99+QQrO6RlVigJqRhg
-         HpHmLE53F+UTgMXjubVqr4fHTzOqogkBqFaI9xIZvUdmn9nOtnxnVy97uJ/vh9afrHqn
-         I+hPZIieSDahmnmYGJzA1BVdb8s0g7rCgrM4Y8ejiWtjOm8ZeJT7pPG257xubAjkwoY2
-         vd167uniQUMtqQmLOB9Kb57iMOQ+YdlXiyK0RUVXrS4P2kN1GSriXAmFVo8InYbOiZyT
-         5c/w==
-X-Gm-Message-State: AFuF++k4qUPCRHHSvWGfbtaCka8mgWZZn0pxa8TqhRgk0YmMgn8EUR6B
-	MSMU8gR7SvETaFOzkSMKbqniaNdnbPEy1UUbuRR2WeBwG8LXU+y6UNzO
-X-Gm-Gg: AR+sD11kQdIS5ZjIjSmK+N6F2tF9KSiLyj29BWl/oQaqkfFPbyv3ahr1Bbtx3Dk9sf/
-	sVePGJQtPf3W0LE0q5qgOIbYbpS/n38aSWXRnHj3XGPy8B5OjIKsa1kKLRGhZkiTPO39YeK4/xo
-	8Y/pAL6gdNTLFgH69wSDxFemSAZdGXZCv0R+oLW7QXq/2C62FZp8XjOFIVOojJ1WpCPUTJJ7vsF
-	ijsN+eWDxFD6ZP/EQLDyzlH9cZujieQ7vb0GihFeepAtLHEZfIBjkGTayrNijFw4fX1uTzaNDhy
-	BkyPW6NoCt9kYwj9J7qFhuQpduAKULnCdcnBPObdMKyiqUgBasHnQp0p9Ap+W5H/3jztvrRotf6
-	Yj/Ps9sP9mFFSifW4uTMkxsboiX1Z04qsO51pq/Y6Jg6I0Dp8IRA51yLXNGUB+aw00QpFQcUq/p
-	esHKtp06AYEz3qxbS2e8mAAXZnRk3XelcipX6a8cMdlbJ9jbO/jw6cYOeNWxQK67KUzemrGBXD2
-	zIDpzHhiMY=
-X-Received: by 2002:a17:902:c948:b0:2cc:9179:335 with SMTP id d9443c01a7336-2d60198022dmr94325525ad.8.1787156272868;
-        Wed, 19 Aug 2026 09:17:52 -0700 (PDT)
-Received: from localhost.localdomain ([72.255.58.127])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bef77fc0sm15794202eec.8.2026.08.19.09.17.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 09:17:52 -0700 (PDT)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: brauner@kernel.org,
-	shuah@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH] selftests/filesystems: Add .gitignore for fscontext_ns_test
-Date: Wed, 19 Aug 2026 16:17:38 +0000
-Message-ID: <20260819161738.3517-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j8q6mCXI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hyYcSR4a";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bxIAAPKL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="reXrUwm5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 350AE84BC1;
+	Wed, 19 Aug 2026 16:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787156517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
+	b=j8q6mCXI1nw7iDKfKA/IBKRJ/gj4fXnnuVCIkMeMWnzEH5k54fLSIF0tQcycugnnlHMZM0
+	eYdk56mFKiywdkhGnJ0p5f8SOoNGj8VDyGC9A3elNJ5GGKtkEmeJeRj1lGDPIOPjaZUZOm
+	4nmHAgqteSrofLb0glhacsEY0y473z4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787156517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
+	b=hyYcSR4afNGPf3HKVBOIcs+J+QO6ompXlbapH3BrnKpqlviPl5lv+vrd/lrlpJdxXQoAFs
+	JXT8j4yTmJxRM+Bg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787156513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
+	b=bxIAAPKLjAO3HiF65kO7N3cSjcXBTrTYtyCERUZgif8ix0UttXbflT+HBDYwSqU8OCUlpB
+	Abwx7To8ooeox9p/C7mwIlBI73TUESbPLiLl3Dr6cAr3XgEykzsIZARgFU3N7LIy5M4YHX
+	BFtTcypgwaeKp3cftxvLXwyjQblBe4k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787156513;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
+	b=reXrUwm5pR4toueCWGOOymu2pbgpYfUJzOtU4fy4Z1lxmXJxiTm5AmVl+Nwms4oW4NkKph
+	n3RMD4dgNdXqJ0DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0ECCB2F81;
+	Wed, 19 Aug 2026 16:21:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fnkwAyHYhWq3eAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 19 Aug 2026 16:21:53 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9805AA13B2; Wed, 19 Aug 2026 18:21:48 +0200 (CEST)
+Date: Wed, 19 Aug 2026 18:21:48 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: NeilBrown <neil@brown.name>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Ian Kent <raven@themaw.net>, Chuck Lever <cel@kernel.org>, 
+	Jake Edge <jake@lwn.net>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, autofs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
+ fsnotify_recalc_mask() calls.
+Message-ID: <zos6dvjft7djeb7rox7zbeowaawfy3vl2ddp6o2iwnkfjnrjah@eu2lil7wihue>
+References: <20260803012648.2195405-1-neilb@ownmail.net>
+ <20260803012648.2195405-4-neilb@ownmail.net>
+ <CAJfpegs-k3skRGiwZvQLzD7OrAK4KL8zwmpmJKyjRHSQ-rqX+Q@mail.gmail.com>
+ <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
+ <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
+ <oh2lg2agqxwqopecacq6sfdnky5faxidwsybkvbwbq24r6tw6o@4swfog5ocwwb>
+ <CAOQ4uxgtKvKmPaK8rPAZDSwu0Hr9JAmqJi0a1VX_Rg7jDo8HrQ@mail.gmail.com>
+ <178709583480.2852630.4575326968116183366@noble.neil.brown.name>
+ <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[brown.name,suse.cz,szeredi.hu,themaw.net,kernel.org,lwn.net,gmail.com,redhat.com,dubeyko.com,cs.cmu.edu,zeniv.linux.org.uk,linux-foundation.org,vger.kernel.org,coda.cs.cmu.edu];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-fscontext_ns_test is listed in TEST_GEN_PROGS and is built in the
-fscontext_ns directory, but the directory has no .gitignore. The binary
-is thus left untracked by git after being compiled.
+On Wed 19-08-26 11:09:08, Amir Goldstein wrote:
+> On Wed, Aug 19, 2026 at 1:30 AM NeilBrown <neilb@ownmail.net> wrote:
+> > On Mon, 17 Aug 2026, Amir Goldstein wrote:
+> > > Maybe this is the way out.
+> > >
+> > > dnotify_recalc_inode_mask() can only remove bits from i_fsnotify_mask,
+> > > so it is an optimization.
+> > >
+> > > If we just remove fsnotify_recalc_mask() call from
+> > > dnotify_recalc_inode_mask(), then i_fsnotify_mask will be updated when
+> > > dnotify_mask gets removed eventually.
+> >
+> > I had thought something along these lines too.  I don't think we need to
+> > drop all of fsnotify_recalc_mask(), only the
+> > fsnotify_conn_set_children_dentry_flags() part that walks the d_children
+> > list.  And that only happens when we add to the mask, not when bits are
+> > cleared.  So maybe the fsnotify_conn_set_children_dentry_flags() simply
+> > never happens in this context so it doesn't need fixing.
 
-git status lists:
+I agree with the "fsnotify_conn_set_children_dentry_flags() never happens
+from this path" part. I'm not sure I follow the "it doesn't need fixing"
+part - do you mean you will just not touch where dnotify calls
+fsnotify_recalc_mask()? In that case I agree.
 
-  Untracked files:
-    (use "git add <file>..." to include in what will be committed)
-	  tools/testing/selftests/filesystems/fscontext_ns/fscontext_ns_test
+> > I would prefer to make that clear from the code with a patch like the
+> > following.
 
-Every test directory must include a .gitignore which contains all the
-generated objects, as per the documentation and convention.
+Definitely.
 
-Add .gitignore to ignore fscontext_ns_test.
+> > Note that I'm not (yet) convinced by the locking argument, but maybe we
+> > don't need to pursue it.
 
-Fixes: d64ba78b749a ("selftests/filesystems: test completing a context from another user namespace")
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
----
- tools/testing/selftests/filesystems/fscontext_ns/.gitignore | 2 ++
- 1 file changed, 2 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/fscontext_ns/.gitignore
+Not sure what you mean here...
 
-diff --git a/tools/testing/selftests/filesystems/fscontext_ns/.gitignore b/tools/testing/selftests/filesystems/fscontext_ns/.gitignore
-new file mode 100644
-index 000000000000..a632905257a3
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fscontext_ns/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+fscontext_ns_test
+> > diff --git a/fs/notify/dnotify/dnotify.c b/fs/notify/dnotify/dnotify.c
+> > index 9fb73bafd41d..be66d4142563 100644
+> > --- a/fs/notify/dnotify/dnotify.c
+> > +++ b/fs/notify/dnotify/dnotify.c
+> > @@ -75,7 +75,7 @@ static void dnotify_recalc_inode_mask(struct fsnotify_mark *fsn_mark)
+> >                 return;
+> >         fsn_mark->mask = new_mask;
+> >
+> > -       fsnotify_recalc_mask(fsn_mark->connector);
+> > +       fsnotify_recalc_mask_inatomic(fsn_mark->connector);
+> 
+> I don't think skipping update_children is correct when called
+> from fcntl_dirnotify().
 
-base-commit: 0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
+Yes, it is not. Dnotify places mark on directory and sets FS_EVENT_ON_CHILD
+so it depends on dentry flags to be updated from fcntl_dirnotify().
+
+> From 73bbfcd1b21a0fc723999aee36af662f36ba4dd2 Mon Sep 17 00:00:00 2001
+> From: Amir Goldstein <amir73il@gmail.com>
+> Date: Wed, 19 Aug 2026 10:56:40 +0200
+> Subject: [PATCH] fsnotify: update children flags only when adding mask bits
+> 
+> Since we only ever set the PARENT_WATCHED flag from
+> fsnotify_recalc_mask(), there is never a need to update children flags
+> when removing mark mask bits only when adding them.
+> 
+> Fixes: 172e422ffea20 ("fsnotify: clear PARENT_WATCHED flags lazily")
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+
+Looks good to me, Neil will you pick this into your series or should I pick
+the patch into my tree rightaway?
+
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index b2640d836a712..731e430f2f3c6 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -317,20 +317,21 @@ static void fsnotify_conn_set_children_dentry_flags(
+>  }
+>  
+>  /*
+> - * Calculate mask of events for a list of marks. The caller must make sure
+> - * connector and connector->obj cannot disappear under us.  Callers achieve
+> - * this by holding a mark->lock or mark->group->mark_mutex for a mark on this
+> - * list.
+> + * Calculate mask of events for a list of marks.
+> + * If @update_children is true, update children dentry flags if needed.
+> + * The caller must make sure connector and connector->obj cannot disappear under
+> + * us.  Callers achieve this by holding a mark->lock or mark->group->mark_mutex
+> + * for a mark on this list.
+>   */
+> -void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn)
+> +void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn,
+> +			  bool update_children)
+>  {
+> -	bool update_children;
+
+As a side note once Neil allows the dentry iteration to sleep, we should
+document in the comment above that mark->lock can be used only for
+!update_children case and perhaps assert it in the function as well.
+
+								Honza
 -- 
-2.54.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
