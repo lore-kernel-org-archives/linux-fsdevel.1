@@ -1,74 +1,65 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C6B3CEBA9;
-	Wed, 19 Aug 2026 06:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC5C302753;
+	Wed, 19 Aug 2026 07:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787122642; cv=none; b=dNqkgvP9bIj92LHIxQ7AyYfPboV2ZQwlOxzIdzzTdMUzTvCla0Ae/Y+rCa/7y0/ACKa42VtAlT3xbfKP9sU6OrUi1wdSrLfNrvMBVLVVHCTjWtK4w7umP1sjQBcCM6wrlszv/rk1tNfKmKzxoUt3N41e+J6MQSWOX+++SYCvdE4=
+	t=1787123105; cv=none; b=kaYZHaoDhD2NRH4ybvge8mOFTeXGY21ziJd3DZaX2MATHs613OxNYb1pSYWxL40C4b+2e9Ur1N1vYVhWFoRIEqclfUufMQv7ammhGGrtUYW8kaVlswLXNU2KL449zr0mDtN//4DCvkz6rXoHMmis6O5iEm7Ht2Uw5juI43bhhU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787122642; c=relaxed/simple;
-	bh=BnaDMAZ8Jop9I4TDtKW7q6HkVz6RaPPE9fxgxbNDaAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1Nr06fXLL4Cv2KfL/h3mqH5Df+axeuz8vZuOtwgR4BbtraIWIpe8VZTDHaFGWO76sA9qHFMYhm2nThS3GALYXqzXWPaP+sWxAv+3OsKhkQdcSfC4QzPhEqEeFO1kzI6P1cOXcFYOKzEZ2/O0+QcM9lZ6Zru5PIG2f/VNZ7tuVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f3H1WtXX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f3H1WtXX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Q0IdqFnVkqkF5q9pk5IoXLZATdgqmwUq+XC4q3t22bs=; b=f3H1WtXXpW3AKBooPYiQgk+IWC
-	SO8y8uXhKiPyf/6BN28IuNcQJ9yBfHrNh0nx09zpU7JuOCuhTfBp9iQUPSIKNDxQuQHfBXiHrt/u+
-	0YB584pQNd0b3FAWIctBx+iVjmx+jAz7m7iqhkPz5CZxEB5I3OhC/fdl0hjRg5c5A5ZYH5H95kw6b
-	JXPUG7YoN4qdrQZFmJydSjB9ZyrqsE70Eh/JQY1ttyAPCcdYsY0C8w79qPtLjVyMK0T4h6YNUKFzE
-	mCp8Dpvrsn3WzypJSqFxBr3TkRuKPTYILZUTiXRdjtNTUcGEtjwOQvEUDJvsoDXrUVzbTtaeInYJD
-	4R8WdgUw==;
-Received: from 2a02-8389-2301-9f00-b711-947d-6c5b-1af5.cable.dynamic.v6.surfer.at ([2a02:8389:2301:9f00:b711:947d:6c5b:1af5] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwaEg-000000098qY-2lF7;
-	Wed, 19 Aug 2026 06:57:19 +0000
+	s=arc-20240116; t=1787123105; c=relaxed/simple;
+	bh=9umQ3CmQ+ZT8dXt0L1dUfegVyXh/ATX7zvsbsvo+4ew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I0y/tNqlHlA4MMGuoshZ5lRfPnc73qdIEntn03dSQypqtwTuqf0J9Sl+Iik7LtgvBidfatj3p+TxV1Cgmq2XPyCC7zNPAk1HH8yAMIAdFOBiB4+In8oyezhNgGb72SC6WgMzSfjaA7DJS8PrktOjKDTOf9WdSMXmPiEDAIxoid4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7734C68C7B; Wed, 19 Aug 2026 09:04:59 +0200 (CEST)
+Date: Wed, 19 Aug 2026 09:04:59 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: willy@infradead.org,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] XArray: document that tags persist after storing new elements
-Date: Wed, 19 Aug 2026 08:57:14 +0200
-Message-ID: <20260819065714.1358822-1-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, brauner@kernel.org, hch@lst.de,
+	dgc@kernel.org, jack@suse.cz, cem@kernel.org, axboe@kernel.dk,
+	kbusch@kernel.org, ritesh.list@gmail.com, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH v4 1/6] fs: add write-stream management ioctls
+Message-ID: <20260819070459.GA1541@lst.de>
+References: <20260717125538.508925-1-joshi.k@samsung.com> <CGME20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319@epcas5p3.samsung.com> <20260717125538.508925-2-joshi.k@samsung.com> <20260721030338.GU7380@frogsfrogsfrogs> <71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com> <20260730172211.GF3556460@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730172211.GF3556460@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-This is a very useful feature, document it.
+On Thu, Jul 30, 2026 at 10:22:11AM -0700, Darrick J. Wong wrote:
+> "The third argument is an untyped pointer to memory.  It's traditionally
+> char  *argp (from the days before void * was valid C), and will be so
+> named for this discussion."
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/core-api/xarray.rst | 2 ++
- 1 file changed, 2 insertions(+)
+That documentation is wrong or at least very incomplete.  A pointer
+is the typical use, but there are plenty of ioctls passing scalar
+values <= sizeof(long), going all the way back to early UNIX days.
 
-diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-index c6c91cbd0c3c..9a0d930a8c79 100644
---- a/Documentation/core-api/xarray.rst
-+++ b/Documentation/core-api/xarray.rst
-@@ -127,6 +127,8 @@ by using xa_set_mark() and remove the mark from an entry by calling
- xa_clear_mark().  You can ask whether any entry in the XArray has a
- particular mark set by calling xa_marked().  Erasing an entry from the
- XArray causes all marks associated with that entry to be cleared.
-+Storing a new entry that replaces an existing entry keeps the marks
-+associated with the index intact.
- 
- Setting or clearing a mark on any index of a multi-index entry will
- affect all indices covered by that entry.  Querying the mark on any
--- 
-2.53.0
+> You can also see this reflected in the discussion of the R/W/WR variants
+> of _IO:
+> https://docs.kernel.org/driver-api/ioctl.html
+
+_IO* are optional helpers, and plenty especially older ioctls are
+defined without using them.
+
+> Granted your kernel code can treat that argp as an integer and not a
+> __user pointer if it wants to, but that goes against most ioctl
+> implementations.  Further, subsystems that marshal ioctl information for
+> passing through to another layer (e.g. fuse) assume that the third
+> argument is a pointer and that it can copy sizeof(data_type) bytes at
+> that address in and out of the kernel as part of marshalling.
+
+That is not a good assumption and things will break.
 
