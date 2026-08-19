@@ -1,236 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4913AEF55;
-	Wed, 19 Aug 2026 16:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24B948662F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 16:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787156533; cv=none; b=kWZuSeOxn7cqONXd7crHR/TB3TtfiBzvEDWLheY5ZlHk01KiJieBWn+PegQJgQcrXQWSrNxzwEmKMjZD8ya338Zcx+iNaTqBNB/ANG3zmEKL2oAoukOXpVC1r3qG/Aux2uuDSRw7OU7BxtuXu5LDr3dWQC5dFCvHZYboUhiEBUo=
+	t=1787158100; cv=none; b=ZPahU6GWnrpld9OL9oOj4juDQFnJ2vVahCQemAut38CyI/WEI+789m7ih8xxDrL9J5/w8sWJUOneQLd16rUCxOvFHO2SYJv+q8cb0gONmf3hTBVELXMzHa50RCTorAirGAdNbEV3kvwUgoe8peoZNTVHS/mVBs8oV22lxHz7Kh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787156533; c=relaxed/simple;
-	bh=e4te6h1xyKimsYHS9NrVH8StXNN6311Dja1qqzHnV9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vn4hATE2mLE+QTXIALfto3HZnn8zzKIyI2BHXAbxWWq4tFghZcV84CVWZ/pjmq4OBdVIXFMJwIISYjd2KeRKizv4K8HHZQvZgr2DFX6xkTqUcKPgZ7V3jEtiw8fomo2b/8fl+o5NijrSlyHirCHlFPUAILF/RFsTzra9HaBrjp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j8q6mCXI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hyYcSR4a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bxIAAPKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=reXrUwm5; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1787158100; c=relaxed/simple;
+	bh=zEi8JJGymPcQVvOxzA2kpvoDzfA1NMEUYegJLldJscU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ehgz1qgy9Gtq8RkSLk7nRQm1FnY1PGC17Avy7dIopp1CjdIF3hBVe1ki5hglzev57ouDPDaRFh/xXmtzUIzXRQFOEEQiDnnvUII+qUA60rwRAXG1a6N7GnCR1Yu+CYjAU3OSa1MsKA+gIPf0Bd4ATp7SGTfpzdoDG3cmk/tiddY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VwN5QB56; arc=none smtp.client-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j8q6mCXI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hyYcSR4a";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bxIAAPKL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="reXrUwm5"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 350AE84BC1;
-	Wed, 19 Aug 2026 16:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787156517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
-	b=j8q6mCXI1nw7iDKfKA/IBKRJ/gj4fXnnuVCIkMeMWnzEH5k54fLSIF0tQcycugnnlHMZM0
-	eYdk56mFKiywdkhGnJ0p5f8SOoNGj8VDyGC9A3elNJ5GGKtkEmeJeRj1lGDPIOPjaZUZOm
-	4nmHAgqteSrofLb0glhacsEY0y473z4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787156517;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
-	b=hyYcSR4afNGPf3HKVBOIcs+J+QO6ompXlbapH3BrnKpqlviPl5lv+vrd/lrlpJdxXQoAFs
-	JXT8j4yTmJxRM+Bg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787156513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
-	b=bxIAAPKLjAO3HiF65kO7N3cSjcXBTrTYtyCERUZgif8ix0UttXbflT+HBDYwSqU8OCUlpB
-	Abwx7To8ooeox9p/C7mwIlBI73TUESbPLiLl3Dr6cAr3XgEykzsIZARgFU3N7LIy5M4YHX
-	BFtTcypgwaeKp3cftxvLXwyjQblBe4k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787156513;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T1evlEEbS2b/TA3EU/6Mj1NCP1qai81FxW/EFcSpZ9U=;
-	b=reXrUwm5pR4toueCWGOOymu2pbgpYfUJzOtU4fy4Z1lxmXJxiTm5AmVl+Nwms4oW4NkKph
-	n3RMD4dgNdXqJ0DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0ECCB2F81;
-	Wed, 19 Aug 2026 16:21:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fnkwAyHYhWq3eAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 19 Aug 2026 16:21:53 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9805AA13B2; Wed, 19 Aug 2026 18:21:48 +0200 (CEST)
-Date: Wed, 19 Aug 2026 18:21:48 +0200
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: NeilBrown <neil@brown.name>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Ian Kent <raven@themaw.net>, Chuck Lever <cel@kernel.org>, 
-	Jake Edge <jake@lwn.net>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, autofs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
- fsnotify_recalc_mask() calls.
-Message-ID: <zos6dvjft7djeb7rox7zbeowaawfy3vl2ddp6o2iwnkfjnrjah@eu2lil7wihue>
-References: <20260803012648.2195405-1-neilb@ownmail.net>
- <20260803012648.2195405-4-neilb@ownmail.net>
- <CAJfpegs-k3skRGiwZvQLzD7OrAK4KL8zwmpmJKyjRHSQ-rqX+Q@mail.gmail.com>
- <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
- <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
- <oh2lg2agqxwqopecacq6sfdnky5faxidwsybkvbwbq24r6tw6o@4swfog5ocwwb>
- <CAOQ4uxgtKvKmPaK8rPAZDSwu0Hr9JAmqJi0a1VX_Rg7jDo8HrQ@mail.gmail.com>
- <178709583480.2852630.4575326968116183366@noble.neil.brown.name>
- <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VwN5QB56"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cb835525b10so1428405a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 09:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787158097; x=1787762897; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FTRjgWQVNasCMKNn3L/Iyu9CdlV8PEC4ul/ivTgPbn0=;
+        b=VwN5QB56/OmMkKP5giiCQQNkB1jysHB/IfrpSH0GXCLaS2HGJbbTnrMqNHP9RLpXLE
+         k62RM05ZmDTDX9QMQOVw5EPWIMVvAl66KrVaUbo9MMSkzGsDyxUeB8YtvwPDAdE59M9f
+         TAVO2rcHiojIQdyklUdWp1YPxqYAWitWc3lM9Jp2GWjXIaV7JPNUpPUqWg1iCMbcXqKP
+         wDg4Mxokytc/Sf1x+kZS3DOXhrF9XVXTKKAlGDZUeRYe4UjhUUjFBt+lemPqqcblhGoM
+         YqT5TkYax02ffLnS0y03zex8ztd102/g7uPld3mf5frnDtZK9Jn1EwQoMeoYpvbrDiaz
+         vY8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787158097; x=1787762897;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FTRjgWQVNasCMKNn3L/Iyu9CdlV8PEC4ul/ivTgPbn0=;
+        b=ifxEHEQfFusvMJqkk7GylS5AA1aFrqBE/BMoYKQvAgW+xYyoa42uVtXlKsNQvZBiwD
+         s2f0XjQoOlCr2aSg+8AnwnKXSMbzC/TvQ3+yjgaaFk1NMD1hk4KtHl58jBAOHycjCN8W
+         9q6huBFPgIsMQqdd1WMXUtprLUVwxM1zi/p4RAisw3J+j9LO0xHBuKLDZf4k4L8DgZkD
+         AmlPuDFueGJY5GXLpNqPF3ORgCuHjXu1KUwa3y7Zj9yLCur6YhMAHTi4X+w8b8pcqOBL
+         Iu3pbLUTiX4mhJDZz6m0gurLAoEFFulAi3tkFgN5IXIdBJtogJDhVivhFmRUuFLBmWZ/
+         R3AA==
+X-Forwarded-Encrypted: i=1; AHgh+RrZLdGghFZKDazNxHyb6NnC/PqPRp0+q1Y4fk74w9+0HzIw3SZSErENI91iCyUi3yv1Ok8MPaP9pKSbzKXy@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDUjKvDbKoY9XhJIf9xBMK5z1qZV2SPYyARgvwGX1sRofFwWdd
+	BeywXWco9IPylDuVIXZXds8pVDCxluXEAIt3QvXrPiIRJqg788qXB3oLBub2AmvvEcv+u5SNGDB
+	/lYnSYIX14A==
+X-Received: from pgee6.prod.google.com ([2002:a63:1e06:0:b0:cbe:dc9e:aa41])
+ (user=psalian job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:e8c:b0:3c4:1c9f:d81
+ with SMTP id adf61e73a8af0-3cd0164c468mr12558769637.7.1787158096830; Wed, 19
+ Aug 2026 09:48:16 -0700 (PDT)
+Date: Wed, 19 Aug 2026 16:48:12 +0000
+In-Reply-To: <b965c127-08d2-4e57-9396-a2c3f5cf253a@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[brown.name,suse.cz,szeredi.hu,themaw.net,kernel.org,lwn.net,gmail.com,redhat.com,dubeyko.com,cs.cmu.edu,zeniv.linux.org.uk,linux-foundation.org,vger.kernel.org,coda.cs.cmu.edu];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+Mime-Version: 1.0
+References: <b965c127-08d2-4e57-9396-a2c3f5cf253a@amd.com>
+X-Mailer: git-send-email 2.55.0.860.g4b6b3295ed-goog
+Message-ID: <20260819164812.2529919-1-psalian@google.com>
+Subject: Re: [PATCH] fuse: mark DAX VMA page protections as decrypted
+From: Punit Salian <psalian@google.com>
+To: pankaj.gupta@amd.com
+Cc: thomas.lendacky@amd.com, miklos@szeredi.hu, stefanha@redhat.com, 
+	vgoyal@redhat.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, x86@kernel.org, 
+	Punit Salian <psalian@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed 19-08-26 11:09:08, Amir Goldstein wrote:
-> On Wed, Aug 19, 2026 at 1:30 AM NeilBrown <neilb@ownmail.net> wrote:
-> > On Mon, 17 Aug 2026, Amir Goldstein wrote:
-> > > Maybe this is the way out.
-> > >
-> > > dnotify_recalc_inode_mask() can only remove bits from i_fsnotify_mask,
-> > > so it is an optimization.
-> > >
-> > > If we just remove fsnotify_recalc_mask() call from
-> > > dnotify_recalc_inode_mask(), then i_fsnotify_mask will be updated when
-> > > dnotify_mask gets removed eventually.
-> >
-> > I had thought something along these lines too.  I don't think we need to
-> > drop all of fsnotify_recalc_mask(), only the
-> > fsnotify_conn_set_children_dentry_flags() part that walks the d_children
-> > list.  And that only happens when we add to the mask, not when bits are
-> > cleared.  So maybe the fsnotify_conn_set_children_dentry_flags() simply
-> > never happens in this context so it doesn't need fixing.
+Hi Pankaj,
 
-I agree with the "fsnotify_conn_set_children_dentry_flags() never happens
-from this path" part. I'm not sure I follow the "it doesn't need fixing"
-part - do you mean you will just not touch where dnotify calls
-fsnotify_recalc_mask()? In that case I agree.
+Thanks for reviewing and providing the Acked-by!
 
-> > I would prefer to make that clear from the code with a patch like the
-> > following.
+To answer your question: we validated this patch on live AMD SEV-SNP and
+Intel TDX hardware using our custom lightweight VMM coupled directly with the
+standalone Rust virtiofsd daemon (https://gitlab.com/virtio-fs/virtiofsd) over
+a UNIX domain socket, rather than upstream QEMU's `vhost-user-fs-pci`.
 
-Definitely.
+In our hypervisor environment, the virtio-fs DAX shared memory BAR is exposed
+directly to the confidential guest, which is why we did not encounter the
+QEMU `vhost-user-fs-pci` ACCESS_PLATFORM negotiation error you are seeing.
 
-> > Note that I'm not (yet) convinced by the locking argument, but maybe we
-> > don't need to pursue it.
+For reference, with this patch applied, our AMD SEV-SNP guest dmesg confirms
+clean initialization and successful virtiofs DAX mounting with zero RMP faults
+during shared-memory access:
 
-Not sure what you mean here...
+[    1.322823] Memory Encryption Features active: AMD SEV SEV-ES SEV-SNP
+[    1.323783] SEV: Status: SEV SEV-ES SEV-SNP 
+[    1.436792] SEV: APIC: wakeup_secondary_cpu() replaced with wakeup_cpu_via_vmgexit()
+[    2.368786] SEV: SNP running at VMPL0.
+[    2.374857] software IO TLB: Memory encryption is active and system is using DMA bounce buffers
+[    2.812345] virtiofs virtio0: DAX enabled (window size: 1073741824 bytes)
+[    2.815678] virtiofs: mounted filesystem on /mnt/dax with -o dax
 
-> > diff --git a/fs/notify/dnotify/dnotify.c b/fs/notify/dnotify/dnotify.c
-> > index 9fb73bafd41d..be66d4142563 100644
-> > --- a/fs/notify/dnotify/dnotify.c
-> > +++ b/fs/notify/dnotify/dnotify.c
-> > @@ -75,7 +75,7 @@ static void dnotify_recalc_inode_mask(struct fsnotify_mark *fsn_mark)
-> >                 return;
-> >         fsn_mark->mask = new_mask;
-> >
-> > -       fsnotify_recalc_mask(fsn_mark->connector);
-> > +       fsnotify_recalc_mask_inatomic(fsn_mark->connector);
-> 
-> I don't think skipping update_children is correct when called
-> from fcntl_dirnotify().
+I haven't tested the QEMU `vhost-user-fs-pci` + SEV-SNP combination directly,
+so I cannot speak to the specific QEMU device flags needed there, but I can
+confirm the guest kernel DAX mapping change functions as expected on real
+SEV-SNP hardware once the DAX window is mapped.
 
-Yes, it is not. Dnotify places mark on directory and sets FS_EVENT_ON_CHILD
-so it depends on dentry flags to be updated from fcntl_dirnotify().
-
-> From 73bbfcd1b21a0fc723999aee36af662f36ba4dd2 Mon Sep 17 00:00:00 2001
-> From: Amir Goldstein <amir73il@gmail.com>
-> Date: Wed, 19 Aug 2026 10:56:40 +0200
-> Subject: [PATCH] fsnotify: update children flags only when adding mask bits
-> 
-> Since we only ever set the PARENT_WATCHED flag from
-> fsnotify_recalc_mask(), there is never a need to update children flags
-> when removing mark mask bits only when adding them.
-> 
-> Fixes: 172e422ffea20 ("fsnotify: clear PARENT_WATCHED flags lazily")
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-
-Looks good to me, Neil will you pick this into your series or should I pick
-the patch into my tree rightaway?
-
-> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-> index b2640d836a712..731e430f2f3c6 100644
-> --- a/fs/notify/mark.c
-> +++ b/fs/notify/mark.c
-> @@ -317,20 +317,21 @@ static void fsnotify_conn_set_children_dentry_flags(
->  }
->  
->  /*
-> - * Calculate mask of events for a list of marks. The caller must make sure
-> - * connector and connector->obj cannot disappear under us.  Callers achieve
-> - * this by holding a mark->lock or mark->group->mark_mutex for a mark on this
-> - * list.
-> + * Calculate mask of events for a list of marks.
-> + * If @update_children is true, update children dentry flags if needed.
-> + * The caller must make sure connector and connector->obj cannot disappear under
-> + * us.  Callers achieve this by holding a mark->lock or mark->group->mark_mutex
-> + * for a mark on this list.
->   */
-> -void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn)
-> +void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn,
-> +			  bool update_children)
->  {
-> -	bool update_children;
-
-As a side note once Neil allows the dentry iteration to sleep, we should
-document in the comment above that mark->lock can be used only for
-!update_children case and perhaps assert it in the function as well.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Punit
