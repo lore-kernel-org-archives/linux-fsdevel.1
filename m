@@ -1,260 +1,227 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA54346E70
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 13:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.153.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787145432; cv=fail; b=n+GFUHXD8MFywzpkDpP3afODruw/r6wNo03bkoY3wJ22o72el0gpVXOuaTUdXh/0iD+jPn873JpNaoiBvthI9pbBf5YXF1DdHKXRk3rgnUBGr5VtOUslspqlyZvCDNJxthmI3hl35iKVM6gPDRLs2CZK2G9uBe+hMTod9Y/gUnw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787145432; c=relaxed/simple;
-	bh=Buvm2CZAY8fc6WQYOwkA57auLDgdAU6ZWwqvZfcVeps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=czLNkR8YQvbsnNhJ6b47T/XQXeAagb+/DeBbTTvAwXeIRoR0GUHiiGl+Vcz2BiJYFTvaM42eX53G8tyCoMOmcgUQApBWbeKTvEgMB8feoSu9r4KZiZCymKSefmHudPaDpSlJB0iOgfPJBL6g02A5WACVLijZVRD14PBBa4y9jJM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=R1kV/7hU; arc=fail smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="R1kV/7hU"
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67JCovtP2258793
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 06:17:09 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=RAhMls7II/EYIhhbxkSqLjlLaMUSTDEHyYBTx
-	I3i+Uk=; b=R1kV/7hUUw1VvGvR3wZu4mbfQNZMBG8jYt73wBDW/b7fvoZA/sKtS
-	33OlUc8gk6mEeTU/NyeUYB/KFNLCqReA4KRy2IUaAKG+X8e0fZZyqxhnQOL7bShc
-	Yj1mHOysbRaOn3GzHfyb1vE7E6kgM6lgHk8ZB1j4N1AfkjyX3KIrk4zCnGxRtdE0
-	e00q6pHzd/W1jckaBWc42xar9eLKois/5umijdZNmiEQB4rcKQ83kti7zHWSBzwE
-	XDk5q6Ir2G12El1VP+YaQ6Qr91KUbMsU8+ia43BfcqWq9DvqWtHzTiBNYsBFcnCb
-	RT/DPHn+sGfDF9rBWInWuna89L2HJD58w==
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4g4yffmtd9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 06:17:09 -0700 (PDT)
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6a3ef31687dso958897a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 06:17:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787145428; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HF7eHNbcBwjoGoM8tAFxiFKjz2Y9yzU0HY41GLJb8eHnQrKv1pxj03wkxTInI1ly6/
-         dWXiEY6kyqdjb4k87zzl1+XkWcJi7h117v5f18y4Yrl1lTNCyqHdaFEBHqIPHnsSMEmk
-         yZYn0teXuOO73cWo9rgF3ZqX5n6k/cytG+ERWtiGedta5p5VpybZ1wEwnTKivZc0ouev
-         WW5J/h9PttWeh8LPfX9ElGzCUje9dzNtBDVugSJeflV6YPyLUtx4geut89Ww788rTnmR
-         IxI5Wttcom9MVnlWegn4yMqasx6oI0hLQBLf1Vr3nrYHiiV1CDNECRL5suDvlYvLJ1kg
-         afow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=amPDCjdDA7j5ak9IrHAc1f20HnHLVUkSfYRDZ1nWjas=;
-        fh=+GY4AQwxflgcMgQOTQmF4+Ex90XFuRaYaXsVyvQgkUE=;
-        b=LYi9wHdFnze4+nhARCrRJiUovTpNM3tqpI92Z8wdDWndza5AREkLx1N195pXywmtJP
-         G2wYbV0g44ekX45L69c5h3rDHDH8DNfADU64zQsEn75hLYcDFxS9qcZ/N/eserTQ4QGv
-         euFPfH5c5Q1Ja7wP0KDPfUPpDjZl/KA5vvBPHzz0hko5GLFKmthBBJsA2orwmfkWY21q
-         h+5Ta+YaLdF4k/Cze4BmjXGTRiBt2XNIBR1viNWskAg0OeYPGimCgA5ExKJiK/B9GoTo
-         l7kF5zjLIT1vzvB0oTZVJorjHK41q5+Uqxt9f7yWT+SX/THhNgKIn4RRE28nJDl96MX7
-         xWfA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA77D2E282B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 13:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787147967; cv=none; b=N3N2F2o/iw9mqNvxvEfWYTw4xATTS5kH+Di0XAuv2sNGSrnHtmMSD98mSa10Mc8MgteIyulK8xL5B9B1zOlRPX51jnxFMnbpeh+BZFCAULK9RElFQBQzMmh1DUDRiqtRwBeaz5ScQ7ix7wdGKKYfJYqj9EZxrGcSDoyBUeFWa5s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787147967; c=relaxed/simple;
+	bh=lkwd4xaWDH9v1h5LPrq9bIkv9SP3Cdwxy90Cw4GuRNg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=jgAG0SuzsGFQfIVWiR4/79pXxRQUDcMWGtS3C2sE46+rL5FlUgK6J8ty1lh7fYbDCOKnpFucEfE97cl0ajuhZFwyUB6UoyR4ELC6hA1Q8Bgt1/A66sEThPY/njha06OPjpRJb813j5uqgtYWMM76Fw1jZA4VLiQqbuXNo3Hzi4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7f1ddcd241aso1547106a34.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 06:59:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787145428; x=1787750228;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1787147964; x=1787752764;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=amPDCjdDA7j5ak9IrHAc1f20HnHLVUkSfYRDZ1nWjas=;
-        b=iPco4zgftkF2bZkp+zuznywoz4boFnm1k8/9CROXgT3qj8iZYN6LPaGzy2+eO1bE6k
-         Flm56np9mP94b8OVZC2M39lehoxjhlej6JUGnbzHWxzosGtdWcqt3VNkViINLww48Wzk
-         Vz174uwzXPtPGhdOmCzuNXEhOuprI02EwYXGN83xfBulEyoVcRP0vlNWyMk3GtXAQuAe
-         U4+aBUUZ0VBRnaivqtXlKLRqS0VBZL55OtFTCsp5MMMWNdO+iwbH4s3TzdREaoTpM8ek
-         FkHXKb04CG0YDeKTJ3PFS8tRRv2KCnrh8SveWgJeEO3VK2iEuQB5L4lBg7QH+zG2xL6z
-         T9TQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoWtT0+Pga+5nNA7FPqmGm4m4VhFnFnOZF/dXMZTboWMw7IXwhglOQBPiijVhMFZR8o2x95Ks5Kf0bBWd5m@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpJuxcT83Zll02d+7sL2AFBtMiKSYo26d+Uf4I/fqEJ71ASDF9
-	vxSdPR1YzMbhcsMwPuJArRunhMwyHG4uIu3oFrn0/xVqn5kgk+lEvjITfF8oaml3BgIiTIprYjs
-	VlrlWq2xF6pRMqpBp1HurK4LOi24YHGUjZ6jbpn/61LmM4WiKe7vL78IHE6Ej2usA4/b441+bAr
-	Ng4DiGbGPJzGpbjsD54EI5jnp1hwuCPXf+yXPRBeRP
-X-Gm-Gg: AR+sD12g3maswPGVgp6JGrgmpl95KYfkxhTvQhJlSi9iARfnBiUnTT8HE6IsUfth87g
-	pYadqb9kb7ccah0bI+dRN3zgd0KR8v+CIUfxWdEZ4wje++DIwK8IMI7ofDDk4BIuOnE233AXmKs
-	lh3pt+wwlAjfZbvbMMDyPHhN3cQKlf63ewm2xKJLeY4Kc3x9kiPwX7mAQG0pmD/T611KsAYDvL8
-	Q0WCSbxKw8T/kksjQ==
-X-Received: by 2002:a05:6402:518c:b0:6a1:f092:3c1e with SMTP id 4fb4d7f45d1cf-6a4032fd452mr2041136a12.13.1787145427650;
-        Wed, 19 Aug 2026 06:17:07 -0700 (PDT)
-X-Received: by 2002:a05:6402:518c:b0:6a1:f092:3c1e with SMTP id
- 4fb4d7f45d1cf-6a4032fd452mr2041066a12.13.1787145427040; Wed, 19 Aug 2026
- 06:17:07 -0700 (PDT)
+        bh=unTYUURzWODVnb8yGUpkuzSl+ZwsipDCuvxKtdFso8o=;
+        b=Rlyv8+gyHhipS4ndJ2u+NrcNH0uybCBGgHkR0D7PgIZBn5MswujkaTql2OomvoggWi
+         tNCUfmmKppVGhX0QrtBZfDLHjIL8VQlFvy/SGdgcK3RKdWtKSv95g2eHEnY57yNUZuE/
+         TJQwySWvQSfeEZp+TRMwZYcSQbSwCvJkmK8sEaUK5DE2cMazFhv/QGsGwmuj4Nyd7IIU
+         EzC2r8Y2UKQVSVM4YdMgtw0DVrMrNd6dFnURJ3wIN2d+nzXmDscixw97UoAAmGm3pl6f
+         X9k/jf9oMKcK3z2C53ssLW/Y6rKlivdCPBMbjARsmBGxmdqfeUJIvjowiMTvGwavCvh0
+         NAlA==
+X-Forwarded-Encrypted: i=1; AHgh+RrPDgmxito28onJqtb2RWEQCszx+c4I9O/MoSpTpy9SQiKLCg7+UqEZ/LkkGSV0fdAgHSjsh4rZSe+nCWi2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIBEDofj6LBgLSK8SUsvETi969QohF8oteXQWI+JPrHXmbe55w
+	uAVc9ZheuqLJK9Skq3uMlp1pSmKyEj4QMVdMFt/Ra9g1a6+VgB+XaoiRr2lhpqEgzdQRZ74SCSb
+	wnLgQGw6JIKsFcuWW+qpWinc+gi6xQNwqu8ujChRA0H6O+EhnIcn0KJCaeoo=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818163221.589352-1-alex@ghiti.fr> <20260818163221.589352-4-alex@ghiti.fr>
-In-Reply-To: <20260818163221.589352-4-alex@ghiti.fr>
-From: Alexandre Ghiti <alexghiti@meta.com>
-Date: Wed, 19 Aug 2026 15:16:55 +0200
-X-Gm-Features: AcwNN1Xk5iqn17t42iniquZ7VKy0qOfjGpedBjI9eFDNjdHV7zpBK7rsdMnTXqk
-Message-ID: <CAEmasaVJ_LHaa=yh+38OjeaaNn_OppsRdUXf+UzVDzu0=_bn7w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>,
-        Nhat Pham <nphamcs@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kairui Song <ryncsn@gmail.com>,
-        Chengming Zhou <chengming.zhou@linux.dev>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>,
-        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
-        Wei Xu <weixugc@google.com>, Yuanchu Xie <yuanchu@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
+X-Received: by 2002:a05:6820:811b:b0:6b0:dfa2:8315 with SMTP id
+ 006d021491bc7-6b13c348134mr4519816eaf.13.1787147964561; Wed, 19 Aug 2026
+ 06:59:24 -0700 (PDT)
+Date: Wed, 19 Aug 2026 06:59:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a85b6bc.c8649fcc.3bb87.0011.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in uvcg_frame_dw_max_video_frame_buffer_size_store
+From: syzbot <syzbot+52720fcb44cb7f79c0cd@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE5MDEwMyBTYWx0ZWRfXwmDPdxK0TrfM
- XvDSwmWy9Ky7ToVwVHNyAVLKJLIdG9xBg7/pX07+CsK6pY2+xW6gkQ9QBjL9UgRh0NUkl+nwEqF
- wWuuWiiwcBQH9mNYxTIoPeBkrCHeDa4=
-X-Proofpoint-GUID: 1uyZAA2z2klplTYdzP1SaBBrwaCHBhSs
-X-Authority-Analysis: v=2.4 cv=LtOiDHdc c=1 sm=1 tr=0 ts=6a85acd5 cx=c_pps
- a=DTy5UCxgudPLKrSn28m7Kw==:117 a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=JnKecZnUtZousrUlYMGU:22
- a=ufHFDILaAAAA:8 a=pGLkceISAAAA:8 a=LLsFW6RCn8ZTAUol39cA:9 a=QEXdDO2ut3YA:10
- a=VzYV69SsQLkmnS9OQLw-:22 a=ZmIg1sZ3JBWsdXgziEIF:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE5MDEwMyBTYWx0ZWRfX6CJA7d4kwFpt
- F4KRIHoMlpDRTNG1TCQT5d/eW4SabysbUo7lkDHf2laqTHMO9sqxy799YcAxBcr7U8qABiKEHkr
- mxVmSn/3aYVcDz8+z0BOjXN+LGNCtSrfJ8wux21vcs8RGAGAemFobRrsLbWNX/u1AR/e+l7dKoR
- u8F2NyZgzoaea+bw7MEvF2b15WNHJIPcfqnUDNzIhZp3m6Wdh4BMW29fBAYy6S0p/YTYYHHPj2J
- ozlUHR87Aw7j4S1BTWyuP0atO2SqDmVFXvtlx8S+6vU3BJK+49BtczZNjTX+ZNUeuTZlDxjH98h
- ZlcWB+aw+/Z50yYDtwZw1Z1z1F0TGRMKuAc4QrnZWeqIGvrtBq68ruVYOi/x6kA/iScTSmHXmeK
- t1wsHbJz55n5hQZsO8qEKrY+1quvJAzCKDNXiGNV6bd5slD66hTLSOoWTPTGGg+ZYRAhCldkaI+
- r3z6s6mononPry/49iA==
-X-Proofpoint-ORIG-GUID: 1uyZAA2z2klplTYdzP1SaBBrwaCHBhSs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-19_03,2026-08-19_01,2025-10-01_01
 
-I am pasting and answering Sashiko's review inline below.
+Hello,
 
-On Tue, Aug 18, 2026 at 6:35=E2=80=AFPM Alexandre Ghiti <alex@ghiti.fr> wro=
-te:
->
-> >
-> zswap writeback decompresses an entry into a fresh swap cache folio and
-> writes it back. The folio is cold by construction, yet it is left on the
-> LRU for reclaim to find and free later, wasting a reclaim scan and keeping
-> cold memory resident longer than necessary.
->
-> Allocate the folio off the LRU and mark it PG_dropbehind so the swap
-> dropbehind path frees it from the swap cache once writeback completes.
->
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-> ---
->  mm/zswap.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 8163e6c5f76c..a35671e837f8 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -1013,7 +1013,6 @@ static int zswap_writeback_entry(struct zswap_entry=
- *entry,
->          */
->         if (IS_ERR(folio))
->                 return PTR_ERR(folio);
-> -       folio_add_lru(folio);
->
->         /*
->          * folio is locked, and the swapcache is now secured against
-> @@ -1046,8 +1045,7 @@ static int zswap_writeback_entry(struct zswap_entry=
- *entry,
->         /* folio is up to date */
->         folio_mark_uptodate(folio);
->
-> -       /* move it to the tail of the inactive list after end_writeback */
-> -       folio_set_reclaim(folio);
-> +       folio_set_dropbehind(folio);
+syzbot found the following issue on:
 
-Sashiko: "When setting dropbehind here, what happens if a concurrent swapoff
-(try_to_unuse) removes the folio from the swap cache before the dropbehind
-worker runs?
-Looking at swap_dropbehind_drop_folio() in mm/swap_state.c:
-if (folio_test_swapcache(folio) && !folio_test_writeback(folio) &&
-remove_mapping(swap_address_space(folio->swap), folio, true, memcg)) {
-dropped =3D true;
-} else {
-/* Raced: the folio is now owned by the swapin; put it back. */
-folio_clear_dropbehind(folio);
-folio_add_lru(folio);
-}
-If try_to_unuse() removes the folio from the swap cache, folio_test_swapcac=
-he()
-will be false. The dropbehind worker will then blindly add the unmapped
-anonymous folio to the LRU.
-When reclaimed later, shrink_folio_list() will see it has PG_swapbacked but
-no swap cache, causing it to allocate a new swap entry, mark it dirty, and
-needlessly write the data back out to disk.
-Could this race cause ghost anonymous folios to be added to the LRU?"
+HEAD commit:    15ef2f78c49d Merge tag 'input-for-v7.2-rc7' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1167ca25580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2ca5f2f2c4197664
+dashboard link: https://syzkaller.appspot.com/bug?extid=52720fcb44cb7f79c0cd
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-If swapoff frees the swap slot while the folio is queued for the dropbehind
-drop, then yes, the worker takes the fallback and puts the folio back on the
-LRU and that is exactly what has to happen: swapoff has just invalidated the
-on-disk copy, so the folio now holds the only copy of the data. Leaving it =
-off
-the LRU would make it unreclaimable. Note the folio is marked dirty by
-folio_free_swap() itself, for the same reason.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-This is also not new: in the current code zswap's writeback folio is alread=
-y on
-the LRU when try_to_unuse() calls folio_free_swap() on it, so the resulting
-state (unmapped, dirty, anon, on the LRU, no swap entry) is the same with a=
-nd
-without this series. Only the caller of folio_add_lru() differs.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d913f78d9891/disk-15ef2f78.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d5273ff4be42/vmlinux-15ef2f78.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/71fd7f7b71b6/bzImage-15ef2f78.xz
 
->
->         /* start writeback */
->         __swap_writepage(folio, NULL);
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+52720fcb44cb7f79c0cd@syzkaller.appspotmail.com
 
-Sashiko: "Does holding a reference to the folio until after
-__swap_writepage() returns
-prevent the dropbehind optimization from working on fast or synchronous swap
-devices?
-Because zswap_writeback_entry() holds a reference to the folio that isn't
-released until it calls folio_put() at the end of the function, a race
-can occur with synchronous I/O.
-For synchronous devices (like zram), folio_end_writeback() is called and the
-dropbehind worker is queued before __swap_writepage() even returns.
-If the dropbehind worker calls remove_mapping() before zswap_writeback_entr=
-y()
-calls folio_put(), remove_mapping() will see an unexpectedly high refcount
-and fail.
-The worker will then falsely assume a racing swapin and add the cold folio =
-to
-the LRU, defeating the purpose of the patch."
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     
+------------------------------------------------------
+syz.5.6856/28306 is trying to acquire lock:
+ffffffff8f9eb728 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvcg_frame_dw_max_video_frame_buffer_size_store+0x114/0x370 drivers/usb/gadget/function/uvc_configfs.c:2033
 
-Yes, that race is real but I estimated it would be rare enough since
-the folio_put() call is right after __swap_writepage(), and the time
-the worker wakes up, the window is very small to me. I haven't
-measured the actual rate, but I can measure it if needed. And if the
-race is rare with sync devices, it is even more unlikely with async
-devices.
+but task is already holding lock:
+ffff88803523b070 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ffff88803523b070 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
 
-In the end, I don't think any modifications are needed based on
-Sashiko's review, let me know what you think.
+which lock already depends on the new lock.
 
-Thanks,
 
-Alex
+the existing dependency chain (in reverse order) is:
 
-> --
-> 2.53.0-Meta
->
->
+-> #3 (&p->frag_sem){++++}-{4:4}:
+       down_write_killable+0xa6/0x240 kernel/locking/rwsem.c:1643
+       configfs_rmdir+0x3b0/0x950 fs/configfs/dir.c:1534
+       vfs_rmdir+0x3e6/0x6a0 fs/namei.c:5381
+       filename_rmdir+0x292/0x520 fs/namei.c:5438
+       __do_sys_unlinkat fs/namei.c:5613 [inline]
+       __se_sys_unlinkat+0x71/0x1a0 fs/namei.c:5606
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&sb->s_type->i_mutex_key#24){++++}-{4:4}:
+       down_write+0x96/0x200 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1024 [inline]
+       configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1259
+       usbg_make_tpg+0x1f6/0x590 drivers/usb/gadget/function/f_tcm.c:1686
+       target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:939
+       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
+       vfs_mkdir+0x406/0x620 fs/namei.c:5276
+       filename_mkdirat+0x285/0x510 fs/namei.c:5309
+       __do_sys_mkdirat fs/namei.c:5330 [inline]
+       __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&opts->dep_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       tcm_set_name+0x2b/0xd0 drivers/usb/gadget/function/f_tcm.c:2669
+       function_make+0x1a8/0x360 drivers/usb/gadget/configfs.c:636
+       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
+       vfs_mkdir+0x406/0x620 fs/namei.c:5276
+       filename_mkdirat+0x285/0x510 fs/namei.c:5309
+       __do_sys_mkdirat fs/namei.c:5330 [inline]
+       __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       uvcg_frame_dw_max_video_frame_buffer_size_store+0x114/0x370 drivers/usb/gadget/function/uvc_configfs.c:2033
+       flush_write_buffer fs/configfs/file.c:207 [inline]
+       configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x612/0xba0 fs/read_write.c:687
+       ksys_write+0x150/0x270 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  gadget_subsys.su_mutex --> &sb->s_type->i_mutex_key#24 --> &p->frag_sem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&p->frag_sem);
+                               lock(&sb->s_type->i_mutex_key#24);
+                               lock(&p->frag_sem);
+  lock(gadget_subsys.su_mutex);
+
+ *** DEADLOCK ***
+
+4 locks held by syz.5.6856/28306:
+ #0: ffff888078c67cf0 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x246/0x320 fs/file.c:1259
+ #1: ffff88801d71a450 (sb_writers#12){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2733 [inline]
+ #1: ffff88801d71a450 (sb_writers#12){.+.+}-{0:0}, at: vfs_write+0x22b/0xba0 fs/read_write.c:683
+ #2: ffff88807f11de80 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x7e/0x430 fs/configfs/file.c:226
+ #3: ffff88803523b070 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ #3: ffff88803523b070 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 28306 Comm: syz.5.6856 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+ uvcg_frame_dw_max_video_frame_buffer_size_store+0x114/0x370 drivers/usb/gadget/function/uvc_configfs.c:2033
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f451779e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f451858a028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f4517a25fa0 RCX: 00007f451779e0d9
+RDX: 0000000000000004 RSI: 00002000000006c0 RDI: 0000000000000004
+RBP: 00007f4517835024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f4517a26038 R14: 00007f4517a25fa0 R15: 00007ffd3ad99718
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
