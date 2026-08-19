@@ -1,176 +1,106 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A1F4052CD;
-	Wed, 19 Aug 2026 10:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787135932; cv=none; b=gxu9WS8C1/6M8s2AkIupYvYS8nKoUdasF3vm8YnKbw/bps/eec6wgL/53sh1aamxVzvEf/b/GDzdEuHnrIKcc8iRVmcvdNXl3nMLptaRrKb3eCR0LmlxYDZDkr4uGgNxwpoE4L/yl3J/CELvnrICA1je2fpQBLde2It6ySDKa5c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787135932; c=relaxed/simple;
-	bh=ZdBXKv0tmCnHcqrNg6Cyo0zxThNDZuTVNf/R9goL0Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V2Oh6uhXEw6+/OmTNFvqfl5XDn60Jsx71+cFGXe1XwTUsq6zXjGSMIyKfkR5DwF12vwWLEiLjvVsD/8NxEYksu7vGQ7RBpqzIlTyTbeJbCY1g7gGT/oeNPvj3gfrkDL5ML08dBlUc4S4II048qgtGGS42pSQ9hsIpku1sUQVTdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iVD/4Cp5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aTzsLFv3; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mgovgj49; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NFjcIplH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC592DE702
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 12:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787143256; cv=pass; b=i1ZblFEHo1dOa6+3T+/AESj5vgWQhfPzrrbUyYeHyQ88z4EJUqKmsd2Ma55yCFmPHtuS6WuAAGNH8Wn6dkOLCRJkO8mkwf1hDUw3LMlVYqRXdxZkelduQpI0wnTS/unnpMkTq78skHMePC996W9HRWBvLgLe1VX2JMtNrKgFxMs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787143256; c=relaxed/simple;
+	bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rYgoVlzXbg92J+FP2qz8XvU7BPf/kSDe6H71Y1xzUjEac7PYVAZzya2IL/Q4Vtuo/knpZ4UP2TGSrNO+3pRE/RmpCi0Ce+RvUuEvLYQY1rZYjQg4IGQub+K7yHflxorlwQty7cZPh7jY1bXBd3skeRDfJ9YXZK5DpwPww59gla4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=lGy8PypP; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iVD/4Cp5";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aTzsLFv3";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mgovgj49";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NFjcIplH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 44FB084A92;
-	Wed, 19 Aug 2026 10:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787135924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v++ePnllGB7jQcdK/4IlYL0dLfyVmV3SrOMPLDqxA/Q=;
-	b=iVD/4Cp5MgtI2q2JRuXglb5i4OnjDtOiZVe6SZ1x+dzgwnTF+WWSW9hVinnLTt/PMIOLTN
-	gdSm89HoGec20DHHV8H5eRlguDFN9mSbRIhM/2t1N7Tsotdb5hrCdTJcbr25zfBcj5Kj2U
-	x0AlBzMwc6zN5AH7vSJxRa4t4rWtBQs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787135924;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v++ePnllGB7jQcdK/4IlYL0dLfyVmV3SrOMPLDqxA/Q=;
-	b=aTzsLFv3IOizPYI3W2zd7k2xaqckTMkDZRGW95KjcDYXdeSYjwTvS4YC8r6IJuup8l8Xmv
-	eDSqdYjh8EF9KMCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787135920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v++ePnllGB7jQcdK/4IlYL0dLfyVmV3SrOMPLDqxA/Q=;
-	b=Mgovgj49FAimkPaIFmHfqixuZgisNSBeepX6UN6oao0XCucPh7ffnbdT7JVvOHE/QrDNY7
-	GWewaWJBl+oHa3iO2v/j9njRRMykIVYTULd+qsHlcrhhTrc8h1M13DdoBkMNiu68c507OU
-	alY8PKhtlpTtLhgfTKvNEtplzVOs33Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787135920;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v++ePnllGB7jQcdK/4IlYL0dLfyVmV3SrOMPLDqxA/Q=;
-	b=NFjcIplHV8Lp3d9H4cKbPfbeV4oejIsUoDs49NZduCozj+A0rzjS5N/nT6bwWBxJoHvfvd
-	vX56Hcbe1Vrw2wDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C0B62F81;
-	Wed, 19 Aug 2026 10:38:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GoWjDrCHhWrqIAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 19 Aug 2026 10:38:40 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id CF662A13B2; Wed, 19 Aug 2026 12:38:35 +0200 (CEST)
-Date: Wed, 19 Aug 2026 12:38:35 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ayhan Aydin <nsd.project.dev@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/3] Neural Storage Driver - learning page cache
- prefetcher
-Message-ID: <w7vte4itudtkw2yf4vbmuofiumfffmp2y52dpu2bqvqtdgjvpd@5femyiozss3e>
-References: <20260725182628.221603-1-nsd.project.dev@gmail.com>
- <CAFLp9PEQQVuDpJPwrNvLN1-u3w3TMwZPUUrf0+rOBrvDjBBf1A@mail.gmail.com>
- <anlByPDZmvEhWeXI@casper.infradead.org>
- <ffcij36vnozf3rginqd2opd2dwqyki7xhtdo4veuty734hhgba@utjav2k263o6>
- <nsd.1787001235.35928@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="lGy8PypP"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c1372f84dso6195821cf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 05:40:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787143254; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gXrYh80zA/0f45p2+KTU505556xy/6G9vvZbaVfQvKA1OXcUEoeO+J5QbwVWZl8itV
+         LMvfai66BmamnhwtyZLA3+UmiN8JXnHSbzzAaGB2jBfUtinBgd9uY8moivjv9LJQbqmb
+         VBbHD/088cxjER9IWSe6zAYCcRgvmJynTNs2lY6EV6ntZ0bANph3t+acSSXxVNtU+kMX
+         959bh6s0tu/tbpHxA/gD+79UbYSO7mYP4BOKJP49uffoqdUpm9pzXnJ4gJ9gGecsh/rT
+         erjb8IJ/Xfv13evvLldTRS+UdBXX+/NB+CC0sziIXXcw+fjXd3j4Fu6v5f0Eibdp+0Qs
+         xs6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
+        fh=NpnEkye6iBJYEKapSlkJu6pmdVWzopKP1uSb4BfVqps=;
+        b=h0VWCPWKVXB157y5f29oPnYyQXOPFFNzvGzGsPn33zw0TySf4SPRFhsTb1LIhmZxnX
+         ugZWyHo0pjrEwPzDZ2x2RlPi1OIAW2fsE+nfC/eIcsjBR7ei+MUbWPWW4XF4IYkwwMQL
+         WSJZp7VqNYN7n693Rwzx6RVWw1inShIXTankBsZgpPJinjfqmtt6PnhoIR3G90uAFyvc
+         OBa8wx5bf7igHmLBYtA92VNTZW/b+VeR3qmtBf2e5qrWJUcGQU+d5y+7alR3ISze4dRo
+         WPrbYxHdIt6v+6glSyeqdl+1d9E7RgWl32GR5ssioTzjZc+bRpopcjoj9ItaPC5LA+Dd
+         axOQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1787143254; x=1787748054; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
+        b=lGy8PypPc+pGZBoNU70w9RKP5taCKfx0cMspfl56geOb+wNf1Rto3P3CETOTxKq9I1
+         tqEVnpUEJDBaTZSTQ18iv1/gvfp5DDf5co6FK12ZwFzUZ4WylnlN0nVXtcCKv5YjhRHK
+         +/fs0MfmbLq3qIaFgIV956bH67ZvEX9lDbzgc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787143254; x=1787748054;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
+        b=QB89eHa7Xmlh2bYqN/wDWBYMwCD/8/wCKQQE0xsNsKb0KVTEh7aH2NxDwvIGL7woLS
+         kBpIqkYO/eVz+pv6Oal91zekVu/wdIIeFQbNQcii6hJohPUAm9/axMlOdmDX62k9MEAM
+         aUn0mFzqJyAXr6Zqii4bTlGopfzd2Mu+CFNkKURFOTI+aWUXmKj/4CycM8tyN5MaL3ID
+         DI1MjoLRVJTwhR5yhqXajw0XGSC5OnqRjatX3sjw5MTSYorSKkYk96XBGslal1zJDb94
+         lwKFyEcVmeSLP8eICdteKDdHRVS4rOUZIK+ym8g5xbkDOxQBYRTOeagW1mkl1OepAt2M
+         w8Ow==
+X-Forwarded-Encrypted: i=1; AHgh+RoupwvExxKuUPqsm5r2q2/P9cEG1kl0wts7N0BbXTnf32dYddx45zIwQS3RLARMfPYSgxfvNQ1O3eIYmPv8@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW9MY7fPn0nzyzG8qIWw7iHyba302mx0gfjxsIlzXk6oAz8Qfx
+	tl5s35f5FMiSnXeL0zU8T/RWF/kCTOzArxGmk2UhT2nVkoye8ljGpFFSbct20DDarSFLDnT/GNz
+	hyPdJwvymB55srub9imlag8UUV8z14PMPAUbYF5muDA==
+X-Gm-Gg: AR+sD11GXZWRn5iiA+pH+/PHtSsPGBjfxfKMnIguVqkSCeh2/77qtj4s1IdFESiPEyC
+	cer+A5QSBNJRclCe20N5U6fW8CNu3hC0NvLp9p7w0+QS1Xub9GlimAVrIEyFbq6sw+7t9Ub+YfN
+	VoGA84zrj/Hrqd0Eje9/h2tTOWFn+vtlg6abbVKpRfLrWI0kFhDWrVnsbAZzgsNfXpB4j0mKSE1
+	8oEd5+EnOitPxRyht936ZXqmBYekljXrGw0+CKeMYejjytoK2rnh12QyGbcNE0ljtqCrYsHM2+A
+	VvvxvncMgLx5JsXbvpLP31phySCyU80DXJZWBZMQLvU4PiHYjCHbIEeMFR5EFvEjAcD69ue6VKG
+	UVy/qqY8NFIE=
+X-Received: by 2002:a05:622a:1b23:b0:52b:4f1a:5ff0 with SMTP id
+ d75a77b69052e-52dd5a30b5bmr38809341cf.19.1787143253813; Wed, 19 Aug 2026
+ 05:40:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nsd.1787001235.35928@mail.gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+References: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 19 Aug 2026 14:40:41 +0200
+X-Gm-Features: AcwNN1XgdaxcmflefGTSqkwgePG2e0069kE1y5nYemadtLfFV87ZKHogKFdV5KU
+Message-ID: <CAJfpegvDNTf27Fcgxc5wydQ5SQ1EKZeaUadx11MZMYP6m+TbQg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: invalidate the correct range after O_APPEND direct write
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, cding@ddn.com, jefflexu@linux.alibaba.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon 17-08-26 21:13:55, Ayhan Aydin wrote:
-> On Mon, Aug 17, 2026 at 06:22:46PM +0200, Jan Kara wrote:
-> > I can see how SQLite table scans could be improved but I'm really surprised
-> > by the 64k sequential buffered read. That's basically what the current
-> > readahead logic is built for. So how is the sync readahead you trigger
-> > better than what generic async readahead does?
-> 
-> Hi Honza,
-> 
-> Thanks for the careful question. This is exactly the workload the
-> generic readahead was built for, so I was equally surprised at first.
-> Let me share what we measured and how we explain it.
-> 
-> We reran the benchmarks with a strict A/B methodology: interleaved
-> ON/OFF passes on the same machine, drop_caches before every pass, and
-> the OFF state verified through the module's own counters (no prefetch
-> activity during OFF passes).
-> 
-> Seq 64K buffered read (2 GB file, 3 interleaved passes):
-> 
->   OFF: 396, 400, 396 MB/s   (avg 397 MB/s)
->   ON:  483, 507, 508 MB/s   (avg 499 MB/s)  -> +25.7%
-> 
-> To answer how the sync readahead we trigger can beat generic async
-> readahead, we traced the IO requests actually submitted to the device
-> (block_rq_issue, filtered to the reader task) in both modes:
-> 
->   OFF: 16,385 requests, median size 128 KiB  (100% in the 64 to 128 KiB band)
->   ON:   8,195 requests, median size 256 KiB  (100% above 128 KiB)
-> 
-> In the OFF case, the generic readahead keeps issuing fixed 128 KiB
-> windows (the default read_ahead_kb) for the entire 2 GB run. It never
-> grows beyond that. When NSD is enabled, it detects the sequential
-> pattern and expands the readahead window to 256 KiB, then delegates
-> the actual page insertion to page_cache_sync_readahead(). The kernel
-> then issues half the requests, each twice as large, which is what this
-> SSD prefers (about +27% throughput here).
+On Wed, 19 Aug 2026 at 11:07, Baokun Li <libaokun@linux.alibaba.com> wrote:
 
-Ah, OK, thanks for the details. So the default 128k read_ahead_kb is the
-culprit. We know it for a long time this default is too low for modern HW
-so most distro's actually tune this to 1m or similar in their default
-configurations. If you tune read_ahead_kb to 1m, does the difference for
-sequential read go away? And what about SQLite?
+> Fix by reading pos back from iocb->ki_pos after generic_write_checks(),
+> as generic_file_direct_write() does.
+>
+> Also fix a typo in the comment ("may have" -> "may have competed").
+>
+> Fixes: 2b0408d0284f ("fuse: invalidate page cache after DIO and async DIO writes")
+> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 
-> In other words, NSD does not bypass or reimplement the kernel
-> machinery. It tunes the ra_state window that the existing readahead
-> code then acts upon.
+Applied, thanks.
 
-Yes, understood.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Miklos
