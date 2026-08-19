@@ -1,180 +1,178 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9662B443E39
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 10:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787133828; cv=pass; b=VpGp2ct2agZLDdTC32fu0kgewMlGzK9gSPXm6u3WYKIKixUEOUuA6sVHKEQe7BDuuZlBQX/HPjRYyQ4GgTpxy5VrFcJLIxFxPSgI12AqH76jrm4hgxr9+l0vUvjZYvtHZZLPQ5Q3I8kXeinOxMU6jfCo+ON48X9h+z3ptu5N7ms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787133828; c=relaxed/simple;
-	bh=cmJLDyS/SK90TDLRktAH1/ZrTfQnZNGxg9EDC6cUuMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UlUYwvE6fzx3FxcUoD5khNZYk9bB5/2miRUNredenhnN2HQ6mXtWMleB6w2DvzoJDMwblSKBxzFb1NmY5vqZdXEZJYgequWXPKXS+0YgoG7PqYQhyOyR0V87jQDzlfUB5bbcjdo/WQ7cQXow6H2tDSDhssmYrmJCo3usW31HJmo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=DVyQeDgD; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1A9442FB4;
+	Wed, 19 Aug 2026 10:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787134448; cv=none; b=l/yFlqXiHxFViWP/Odoeo10vtwDctmkm7jzjAPvsfPs4EbiwwXpigKnyWkdE7WqcwyDP/wrb6iYzOlxsvcNg2vsjMVBveXKp01Vxj8y1nBIXjj++OYK15tgOCgS0g7+OQbUqCwm5vghkNYiKRsnxLhNYljMEeKbOG0PWDqbnzN4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787134448; c=relaxed/simple;
+	bh=lxBZKA5JGd4oFAL7tKjnQwoewutgtnhWoLDlpwJmTL8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vb2qh6IG20H0S50yjofAB7JdHyUjMF7AX+VLkMTXdR5XrrmsHhsCoSgrxp4kFO1gwH07hWwAyiYBgHRPTsKKH4IFXWszb5ghJe4VzgN8FejP4JYxPYs3ERALBtMbwByZ+V4snfJObLGW2izrPtmaNe99dCyJD+09L+vsk7PAS/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ZFlego71; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k8dwY3pM; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="DVyQeDgD"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-517dc520840so5568741cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 03:03:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787133824; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Dskn68b2s2PHd64C4ssuNcNDtWf+X4X/69ljNTWy8UxeM6PG/i0HJfIwzNDcknq7xv
-         MSKKIIMBkDjkkRBC9oi6+QJuzHRUag8BZ5RbxzLwRqD19tbRNf5xPanQIa9ytCtM0Ipd
-         XsZ7vpxdIlq2gGwez4jsSDLaN6qMDYx1GVsExAC0YcnFFrPoHo1AM1GgyBkS7tuLobwx
-         i9o0sKbbQNeryICbCr5LSjVhe0PuBPMlfie3hjZizhU0MgnQDBT/kNHf6aKoTR6FfECN
-         E0AzexX6kcFayMbo467xdnZ9Vyepb0WVTjGsoxp7FR86fNrmAil2UTKmdux/YyD8FRAI
-         0UOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VpL0J+1FV2Yhgw5JBJ00bespL89ifkpTpt7Ktp55GTY=;
-        fh=cafADzHGkpzZBugaVdmvit0uIITCuBF8nBvdj9BSmRs=;
-        b=RF3ZWb5mw6AEn+apdKsKO2LdkM7dn+uroG1UG0RlAIoKidVX0/lpMqltGIUKl8kpNQ
-         8Nuvq3N4A+mCE6mH/bCyZFLSJ7iZRd9l368ez/gAyGMQAItUuTZxZezIcH6q96pWec6y
-         UpIQ/MXQoz/hzmj+H8I/JlW5h8xdBCnSw4J1Dtcu/LTOtChNIb1bwU5Jh5nOuoPkKLyT
-         n3AYlJzE/BHrW4RRgRecotFFOnD12tNPVJElLIG1C9hA0gOhngWSWvxgCsuE3v+IU+e+
-         GsWQ5TvmWvwH0dJ9P5N6SSZNpFG/b4btyy8u4rZTBruSR6XWUPYFftOyPsL9xa8fXsL4
-         r34Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787133824; x=1787738624; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VpL0J+1FV2Yhgw5JBJ00bespL89ifkpTpt7Ktp55GTY=;
-        b=DVyQeDgDvtf0jt0JhhLWfYRsZyTRXo3uXqIvdKMqm5OLaPX3sNjXcjWH/aPhqDVVzj
-         iDkufScnVSRejfH+59Oh4ttQBD0IYG7tiYXMlNOi/ogOLmStz4rNF0hTY5+7JcpI93I+
-         1Ini8Ivwnhb1pcWrWlm0/U8wR6FHikzZpvbXA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787133824; x=1787738624;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VpL0J+1FV2Yhgw5JBJ00bespL89ifkpTpt7Ktp55GTY=;
-        b=O9vzBPoS8jIQXRN/Bt5OtCWyF3YStHbiog/Eif7kZBFcMkxwOLyzl9c+in5n5Eyjn6
-         0sC2p3Vj3sqfftWsGH1F686ncDUh7eqYEaIbHiqH7n55jMnR2eersTxfgDhsPL0pdwxB
-         Nddg1O+Sda1L+sY1xg+NRBrwyJs8dAMKiN1m3P1PERTR8dxMuVrdIRItTLneNBPa9VYM
-         Ua6U2U7KXvKly9drZqRBhCQods1TQTEz+FNS3oyGpmCCOejk8Mea7d/sqj4c7t7fHOeW
-         LxNMvYid/qLBvRwtOgnF6Lm5hFzGWP+OfrIL60jLANgzBUi1MImdSEkxjZANT7mDmLAD
-         vq3g==
-X-Forwarded-Encrypted: i=1; AHgh+RrhsaGvJKzj/D1OMpRy32aW2UkBcyrO0K3xVzZlf+Rg9RZS9bj3g+IkUQ9ZA8ki4XAvcqN0rrtYUvxCHue0@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNG6uw7hL/gVsoE0u9rn7uyCxEdN6iYIrZhi1I08WyYoruI6Xt
-	NwAQo5Pu2AsPi0ATr6fPIt4eLI1pcEjNfspdNzODm0cy51WQmL7lcbCdOP483DvcfrfHi8U53Oc
-	V0B41+7SjVJg2Y9SM0zdkQUXwe64Vx5nseUSR0UbTZA==
-X-Gm-Gg: AR+sD10ApUa1lW4G/khlueF1JRk9OLXjKv9K36crrlDh/aqw5nZ1zH+rx/mKSCV5v2o
-	1VbcIMy9fpznGmooUM/Km6OsbEUe1CENMi5H6TvbApeT48z4yxDr6FdPkT8dHChuncZOgGa4zaH
-	Ckb1ZBSi+uzYFIF7CbvD/gKTNZiH9fLQkoT2P7Nm8UrgU7aDp3RWUk9bVkObYUqvh5OyZ6GZ/uX
-	H10K6DLOKl5ME0SDIzqzyRcRv4LXWg92gyrnFLExOlavopaTdGTMOTYU6Ls0eVmahf14H7i8jDH
-	7BEFR0UDTg9V8Xtq+AZe5ggfeThkB9bmNwUcBRXLSmp9B6yX+Mmq2hrZYnwX5yr0hk1EwFTLMKY
-	o
-X-Received: by 2002:a05:622a:cc:b0:52d:78c9:9377 with SMTP id
- d75a77b69052e-52dd5cd88a0mr20375901cf.36.1787133824268; Wed, 19 Aug 2026
- 03:03:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ZFlego71";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k8dwY3pM"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0420CEC018B;
+	Wed, 19 Aug 2026 06:14:05 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 19 Aug 2026 06:14:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1787134444;
+	 x=1787220844; bh=jZ0gUQPj/MnLJ8Zgf8OHj9y36T59sKFKv65jvaNDfSg=; b=
+	ZFlego71+gfxYHi8pdafQsXdWPprMUpeyfxGgyj4yDXH5urzrHRpnWXrAhYB9BI/
+	f6fd/Mc30tH8atZqomJnpqnPZPdWWb/vXi3fx9ZstdSIn620ley4oo3e4iwav6mR
+	l5zCG4qdGulpwfMqnpOG96k9thBzioPY68zcbU34QUHdg9pcku1vPsi9wJqMCJ8a
+	B6edvMZjk8aFQ2f2BZ8JmSzQH56I6qtfKjaRy9qaBMmVPZ9V73MRYboq1C5NRMmV
+	uCH7XBTBOiHsGoumMA3kML7cMRpva+Re3N4XxY115ZGRWQeSw3thCPUgR/xuna9R
+	S/3Y5ffSUxgyShbzccIAww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787134444; x=
+	1787220844; bh=jZ0gUQPj/MnLJ8Zgf8OHj9y36T59sKFKv65jvaNDfSg=; b=k
+	8dwY3pMH6lQnEqpNlFvJ7KDcPAYINgQBaMQjH7faf3Fu3B3x5qShIwYKqD6jUkKi
+	5x844tEiEfBqjbOR1YFGZ6/Ws5QfKV04lEGjcRSgd/WhkKMUIpsNyXW8NQwO9+IG
+	0de7ExAUgQdt5Z+fF0wmHA5dKSi3V26FddMfihmhdTN0aVi/Qqq+zIbpdywsWjLJ
+	FRQGFuCkQdDsktmIzifl+wJ5pYNgOCDPj7/xB7+TzCMN8nbgdIVzVeqCwVHIxeCf
+	XMG9Qvh/3yS4t32gJEgWYijRBUWspVh7cVHSlFI02L+IyBCrxEgTwgSCkyegVEqi
+	qAM6U7Uwh4iR+C7uua0RA==
+X-ME-Sender: <xms:7IGFapXyX9QjrPPnTXDkENdYQnYnU5kMxN8qtW3kkI4KFSppBQHFXQ>
+    <xme:7IGFajlFEe2yuN83ClN_Ej3lH6qXdPDnJKjGkZ1g-FiGQp02yCEI67ArBVxQtBHwq
+    l8j7DGwAljw3IBh_7TJBAhE1nKRz5y_InIKCQ4WSmdNMd2VbFs>
+X-ME-Received: <xmr:7IGFasA9VtuifXYbQY9t0d7nLme7yNcODGbMf62mxZwgXPhlmm4uCVF2K4cQGDtB1pTUuSiLws5DuG0NWux3SPSaMR-PQ3vJPUe-p1GbOUWVg-Kh2uAgZiF6>
+X-ME-Proxy-Cause: dmFkZTEg1y+6XtKdHKf68SbkCRY671WXcPE2SPQH6yiNHk8lEoZ/TtjEW6tMcyn2ldSSTW
+    gb+WQG0Rujijp3dkyXTkQPfP33RtJ0OwCa3z4greBE5O5rSb575dNG2JlPDYF9VUyg3He5
+    yLfq11RSn4nNdWFItxR5Pb9ir30XFbAYBtTNIBJriK5fI8Kfovf0CrtoLF2ryu4qxovIvA
+    wrFJ6YOukwY+6gk3uIwqqtLRWKerVMwGs59qiErjsiRbJiRcTDW8OzZxdaEVW+DmILKvLA
+    aQ66aRtdMVVny4ITCnUzAvjJY8LLL8pxLb3e1gDqvi8f/FLXeERdzmIWe6pt8iKae+ujBT
+    YBeG7L6r1cIwSv3hMr755VyrW+wgPEpX2+kjk4GsH5bzegLGvR+/QkHhiw23kWYfj/facG
+    K3Z1zWgoF8gRhUPTSfOllCiRwDPBV8iF3sAvbV1EsOk3G+XR3tzc21/sXYQ+7SZThMGwQe
+    FT6dci5gUTQqPaRz9D4+R0ZqUa0CvDlkM2MrHoQfl6xv9N76EqWZ0PklFYOgGELYqrDX9T
+    IqTS01nwO1DACYjhfORMKv04iBUeeE2N5OLFC9qO3VGIJaToyMdnE9uXVIUe2t5zYltJ7R
+    YNlCSSf5q+6UBW/OA6e//QjlORgrNOwUzYxUsIxSXVfuCGN+EZrPsP57uAYg
+X-ME-Proxy: <xmx:7IGFaqjI6iwAlMI5rGzoxfX7ROPTj_rUEUJUdEJMJkMEkrw8WKmEbQ>
+    <xmx:7IGFahyw4T1Yv_MEVdQ7-7rpK1Kqdhe93YV0FxrLkCicMfzGjiuz0g>
+    <xmx:7IGFaj0E1fFpL6t5frubC85R6DPWM37eIcCofUzFuYRteAKoFbB0nA>
+    <xmx:7IGFau9w267gXNY339LSGs-e81sQ-HU13xvE-UkQ8jxhlJ849KxESw>
+    <xmx:7IGFakWWbnnx8n8csMgfwTHu--8DlYkroSCdSVJEiKg-pl1_N2U1Pej1>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Aug 2026 06:14:03 -0400 (EDT)
+Message-ID: <a553af27-fb6d-4136-9caf-c438eb8c9cfe@bsbernd.com>
+Date: Wed, 19 Aug 2026 12:14:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260819023542.561653-1-senozhatsky@chromium.org>
-In-Reply-To: <20260819023542.561653-1-senozhatsky@chromium.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 19 Aug 2026 12:03:32 +0200
-X-Gm-Features: AcwNN1VSkBZXpXiJZbM7YAi7AdJBmXmHJpLQ_iikKMzrlDoXgsNzziLuV_-j2Rw
-Message-ID: <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: invalidate the correct range after O_APPEND direct
+ write
+To: Baokun Li <libaokun@linux.alibaba.com>, fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cding@ddn.com, jefflexu@linux.alibaba.com
+References: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-[Cc: fsdevel, Peter Z., Rafael]
 
-On Wed, 19 Aug 2026 at 04:35, Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> Suspend freezes tasks in random order and doesn't take into
-> consideration producer-consumer dependency that may exist
-> between tasks.  One example where this can cause issues is:
-> fuse server getting frozen ahead of clients, which then get
-> stuck waiting for req answers that never come (the server
-> is already frozen).
->
-> Make all wait-event calls in request_wait_answer() freezer-friendly.
->
-> This, however, doesn't address all cases.  E.g. in-place
-> PM-freeze of a request_wait_answer() task holding a contended
-> VFS lock still will block suspend.
->
-> Note: this uses TASK_FREEZABLE, not TASK_FREEZABLE_UNSAFE,
-> which may trigger debug_locks warning during suspend (if
-> request_wait_answer() task holds some locks at the time
-> of freeze.)
 
-This is not okay.  I see the "no new users" warning on
-TASK_FREEZABLE_UNSAFE, but this needs further discussion.
-
-Existing users of the _UNSAFE variant are NFS and samba.   I haven't
-checked the context where these are called.
-
-Apparently __sb_start_write() uses the safe variant, yet I'm quite
-sure it will be called in various locking contexts.
-
-Why is this unsafe exactly?  Does that unsafeness apply to
-filesystems?  If so why do we allow freezing while blocked on
-sb_start_write()?
-
-Thanks,
-Miklos
-
->
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+On 8/19/26 11:07, Baokun Li wrote:
+> fuse_direct_write_iter() captures pos before generic_write_checks(),
+> which moves ki_pos to EOF for O_APPEND writes:
+> 
+>   fuse_direct_write_iter()
+>   {
+>       pos = iocb->ki_pos;           /* 0 (user-supplied)       */
+>       generic_write_checks();       /* ki_pos -> EOF           */
+>       fuse_direct_io();             /* writes at EOF, correct  */
+>       invalidate(pos, pos + res);   /* [0, res) -- wrong       */
+>   }
+> 
+> The post-write invalidation targets a stale range instead of the
+> actual written range at EOF.
+> 
+> This can cause data inconsistency when the file size is not
+> page-aligned.  The tail page straddling EOF has a valid portion
+> before EOF that concurrent readers can fault back in during the
+> DIO write window:
+> 
+>   Tail page (file size X not page-aligned):
+> 
+>     page_start         X (EOF)   page_end
+>     |--- valid data ----|-- stale --|
+> 
+>   CPU0 (O_APPEND DIO writer)    CPU1 (buffered reader)
+>   --------------------------    ----------------------
+>   invalidate [X, X+len)
+>     tail page evicted
+>   FUSE_WRITE in flight ...
+>                                 read [page_start, X)
+>                                   tail page re-faulted
+>                                   [X, page_end) = stale
+>   FUSE_WRITE completes
+>   i_size = X + len
+>   invalidate [0, len)  <- WRONG
+>     tail page still cached
+>                                 read [X, X+len)
+>                                   hits stale tail page
+>                                   returns old data
+> 
+> Fix by reading pos back from iocb->ki_pos after generic_write_checks(),
+> as generic_file_direct_write() does.
+> 
+> Also fix a typo in the comment ("may have" -> "may have competed").
+> 
+> Fixes: 2b0408d0284f ("fuse: invalidate page cache after DIO and async DIO writes")
+> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 > ---
->
->  fs/fuse/dev.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 34106f6e66a0..42098ddc2587 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -701,8 +701,9 @@ static void request_wait_answer(struct fuse_req *req)
->
->         if (!fch->no_interrupt) {
->                 /* Any signal may interrupt this */
-> -               err = wait_event_interruptible(req->waitq,
-> -                                       test_bit(FR_FINISHED, &req->flags));
-> +               err = wait_event_state(req->waitq,
-> +                                      test_bit(FR_FINISHED, &req->flags),
-> +                                      (TASK_INTERRUPTIBLE | TASK_FREEZABLE));
->                 if (!err)
->                         return;
->
-> @@ -717,8 +718,9 @@ static void request_wait_answer(struct fuse_req *req)
->                 bool removed;
->
->                 /* Only fatal signals may interrupt this */
-> -               err = wait_event_killable(req->waitq,
-> -                                       test_bit(FR_FINISHED, &req->flags));
-> +               err = wait_event_state(req->waitq,
-> +                                      test_bit(FR_FINISHED, &req->flags),
-> +                                      (TASK_KILLABLE | TASK_FREEZABLE));
->                 if (!err)
->                         return;
->
-> @@ -740,7 +742,8 @@ static void request_wait_answer(struct fuse_req *req)
->          * Either request is already in userspace, or it was forced.
->          * Wait it out.
->          */
-> -       wait_event(req->waitq, test_bit(FR_FINISHED, &req->flags));
-> +       wait_event_state(req->waitq, test_bit(FR_FINISHED, &req->flags),
-> +                        (TASK_UNINTERRUPTIBLE | TASK_FREEZABLE));
->  }
->
->  static void __fuse_request_send(struct fuse_req *req)
-> --
-> 2.55.0.737.g08866a6d13-goog
->
+>  fs/fuse/file.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 45ebd1b15874..d12a9fdf770e 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -1789,13 +1789,14 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  {
+>  	struct inode *inode = file_inode(iocb->ki_filp);
+>  	struct address_space *mapping = inode->i_mapping;
+> -	loff_t pos = iocb->ki_pos;
+>  	ssize_t res;
+>  	bool exclusive;
+>  
+>  	fuse_dio_lock(iocb, from, &exclusive);
+>  	res = generic_write_checks(iocb, from);
+>  	if (res > 0) {
+> +		loff_t pos = iocb->ki_pos;
+> +
+>  		task_io_account_write(res);
+>  		if (!is_sync_kiocb(iocb)) {
+>  			res = fuse_direct_IO(iocb, from);
+> @@ -1810,7 +1811,7 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  			/*
+>  			 * As in generic_file_direct_write(), invalidate after
+>  			 * write, to invalidate read-ahead cache that may have
+> -			 * with the write.
+> +			 * competed with the write.
+>  			 */
+>  			invalidate_inode_pages2_range(mapping,
+>  				pos >> PAGE_SHIFT,
+
+Good catch! Looks like there is a missing xfstest scenario.
+
+Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
