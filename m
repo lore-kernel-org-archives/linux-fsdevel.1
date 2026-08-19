@@ -1,106 +1,206 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC592DE702
-	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 12:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787143256; cv=pass; b=i1ZblFEHo1dOa6+3T+/AESj5vgWQhfPzrrbUyYeHyQ88z4EJUqKmsd2Ma55yCFmPHtuS6WuAAGNH8Wn6dkOLCRJkO8mkwf1hDUw3LMlVYqRXdxZkelduQpI0wnTS/unnpMkTq78skHMePC996W9HRWBvLgLe1VX2JMtNrKgFxMs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787143256; c=relaxed/simple;
-	bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rYgoVlzXbg92J+FP2qz8XvU7BPf/kSDe6H71Y1xzUjEac7PYVAZzya2IL/Q4Vtuo/knpZ4UP2TGSrNO+3pRE/RmpCi0Ce+RvUuEvLYQY1rZYjQg4IGQub+K7yHflxorlwQty7cZPh7jY1bXBd3skeRDfJ9YXZK5DpwPww59gla4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=lGy8PypP; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E6F2E7396
+	for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 12:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787143832; cv=none; b=L00YoLrV7KKRZTCU2u25akjBQ+xg/2Zyia3J92VY/PF7x3zi4/HArV1DAPDp5gYXb+Lsz233JIhTMPdIiyP8upFYNmO3DlQq6FS6aJaFqD3VwXJDowxW7a9IrUVslWKHvGTjuYBCtNWKcNsWgQfpI6uOp7XJKMG2Wy62az5nyjM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787143832; c=relaxed/simple;
+	bh=vfppvCG/qvbrNitjequc3qq46dLMqTHjUV4R5KJVO7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qgw8aKNtzT2h4O2v7L9829qwO+AquTTY0U6PLJX/B2XI3Vs2P9Kh9PKwohsbarMH5zNawf6ETLO/MhszIBgEiwSifjcwkJcGTbBmX7JURkyloYgwESbR0YkymOycYXOXj9rB+b6N0AZC/04XhrEeFeOtZCqckkBIkkco2z5PBRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ExdQ86Bg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="lGy8PypP"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c1372f84dso6195821cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 05:40:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787143254; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gXrYh80zA/0f45p2+KTU505556xy/6G9vvZbaVfQvKA1OXcUEoeO+J5QbwVWZl8itV
-         LMvfai66BmamnhwtyZLA3+UmiN8JXnHSbzzAaGB2jBfUtinBgd9uY8moivjv9LJQbqmb
-         VBbHD/088cxjER9IWSe6zAYCcRgvmJynTNs2lY6EV6ntZ0bANph3t+acSSXxVNtU+kMX
-         959bh6s0tu/tbpHxA/gD+79UbYSO7mYP4BOKJP49uffoqdUpm9pzXnJ4gJ9gGecsh/rT
-         erjb8IJ/Xfv13evvLldTRS+UdBXX+/NB+CC0sziIXXcw+fjXd3j4Fu6v5f0Eibdp+0Qs
-         xs6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
-        fh=NpnEkye6iBJYEKapSlkJu6pmdVWzopKP1uSb4BfVqps=;
-        b=h0VWCPWKVXB157y5f29oPnYyQXOPFFNzvGzGsPn33zw0TySf4SPRFhsTb1LIhmZxnX
-         ugZWyHo0pjrEwPzDZ2x2RlPi1OIAW2fsE+nfC/eIcsjBR7ei+MUbWPWW4XF4IYkwwMQL
-         WSJZp7VqNYN7n693Rwzx6RVWw1inShIXTankBsZgpPJinjfqmtt6PnhoIR3G90uAFyvc
-         OBa8wx5bf7igHmLBYtA92VNTZW/b+VeR3qmtBf2e5qrWJUcGQU+d5y+7alR3ISze4dRo
-         WPrbYxHdIt6v+6glSyeqdl+1d9E7RgWl32GR5ssioTzjZc+bRpopcjoj9ItaPC5LA+Dd
-         axOQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787143254; x=1787748054; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
-        b=lGy8PypPc+pGZBoNU70w9RKP5taCKfx0cMspfl56geOb+wNf1Rto3P3CETOTxKq9I1
-         tqEVnpUEJDBaTZSTQ18iv1/gvfp5DDf5co6FK12ZwFzUZ4WylnlN0nVXtcCKv5YjhRHK
-         +/fs0MfmbLq3qIaFgIV956bH67ZvEX9lDbzgc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787143254; x=1787748054;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=FMMCeXsWewqCqSlwRq7fpQsvaPxdERiuzxMm3uJ8O5Q=;
-        b=QB89eHa7Xmlh2bYqN/wDWBYMwCD/8/wCKQQE0xsNsKb0KVTEh7aH2NxDwvIGL7woLS
-         kBpIqkYO/eVz+pv6Oal91zekVu/wdIIeFQbNQcii6hJohPUAm9/axMlOdmDX62k9MEAM
-         aUn0mFzqJyAXr6Zqii4bTlGopfzd2Mu+CFNkKURFOTI+aWUXmKj/4CycM8tyN5MaL3ID
-         DI1MjoLRVJTwhR5yhqXajw0XGSC5OnqRjatX3sjw5MTSYorSKkYk96XBGslal1zJDb94
-         lwKFyEcVmeSLP8eICdteKDdHRVS4rOUZIK+ym8g5xbkDOxQBYRTOeagW1mkl1OepAt2M
-         w8Ow==
-X-Forwarded-Encrypted: i=1; AHgh+RoupwvExxKuUPqsm5r2q2/P9cEG1kl0wts7N0BbXTnf32dYddx45zIwQS3RLARMfPYSgxfvNQ1O3eIYmPv8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyW9MY7fPn0nzyzG8qIWw7iHyba302mx0gfjxsIlzXk6oAz8Qfx
-	tl5s35f5FMiSnXeL0zU8T/RWF/kCTOzArxGmk2UhT2nVkoye8ljGpFFSbct20DDarSFLDnT/GNz
-	hyPdJwvymB55srub9imlag8UUV8z14PMPAUbYF5muDA==
-X-Gm-Gg: AR+sD11GXZWRn5iiA+pH+/PHtSsPGBjfxfKMnIguVqkSCeh2/77qtj4s1IdFESiPEyC
-	cer+A5QSBNJRclCe20N5U6fW8CNu3hC0NvLp9p7w0+QS1Xub9GlimAVrIEyFbq6sw+7t9Ub+YfN
-	VoGA84zrj/Hrqd0Eje9/h2tTOWFn+vtlg6abbVKpRfLrWI0kFhDWrVnsbAZzgsNfXpB4j0mKSE1
-	8oEd5+EnOitPxRyht936ZXqmBYekljXrGw0+CKeMYejjytoK2rnh12QyGbcNE0ljtqCrYsHM2+A
-	VvvxvncMgLx5JsXbvpLP31phySCyU80DXJZWBZMQLvU4PiHYjCHbIEeMFR5EFvEjAcD69ue6VKG
-	UVy/qqY8NFIE=
-X-Received: by 2002:a05:622a:1b23:b0:52b:4f1a:5ff0 with SMTP id
- d75a77b69052e-52dd5a30b5bmr38809341cf.19.1787143253813; Wed, 19 Aug 2026
- 05:40:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ExdQ86Bg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787143829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+KudDx4GWA6m0kymTqV9B5+pPC4d5wMXWeaLZi91N90=;
+	b=ExdQ86BgVFNBfMuw5J4ph0mu5HLRZPd3OIgLsXfoGF4fALI4Dkbm4XtST5c8e3sskXYY0v
+	xioF9/iNsD9cFrwjCJL5bn59QwLVi03nunDeWi3skZI9UWesOfJqTHWfji2PsHwnBrfVrf
+	+zuJTsY4bTQ9TWddO6myiNXs3663m+k=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-331-INSEtobNO6C9huKBqR73aQ-1; Wed,
+ 19 Aug 2026 08:50:25 -0400
+X-MC-Unique: INSEtobNO6C9huKBqR73aQ-1
+X-Mimecast-MFC-AGG-ID: INSEtobNO6C9huKBqR73aQ_1787143824
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D55061955DBE;
+	Wed, 19 Aug 2026 12:50:22 +0000 (UTC)
+Received: from fedora (unknown [10.44.33.127])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id A33BE180034F;
+	Wed, 19 Aug 2026 12:50:17 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 19 Aug 2026 14:50:22 +0200 (CEST)
+Date: Wed, 19 Aug 2026 14:50:16 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Peter Zijlstra <peterz@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Steve French <sfrench@samba.org>, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-cifs@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/4] Stop TIF_NOTIFY_SIGNAL from interrupting work that
+ can't be restarted
+Message-ID: <aoWmiL2Ea6YalTiy@redhat.com>
+References: <20260818-work-tif_notify_signal-v1-0-1ee1fcc5b3ff@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
-In-Reply-To: <20260819090728.3331501-1-libaokun@linux.alibaba.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 19 Aug 2026 14:40:41 +0200
-X-Gm-Features: AcwNN1XgdaxcmflefGTSqkwgePG2e0069kE1y5nYemadtLfFV87ZKHogKFdV5KU
-Message-ID: <CAJfpegvDNTf27Fcgxc5wydQ5SQ1EKZeaUadx11MZMYP6m+TbQg@mail.gmail.com>
-Subject: Re: [PATCH] fuse: invalidate the correct range after O_APPEND direct write
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, cding@ddn.com, jefflexu@linux.alibaba.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260818-work-tif_notify_signal-v1-0-1ee1fcc5b3ff@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Wed, 19 Aug 2026 at 11:07, Baokun Li <libaokun@linux.alibaba.com> wrote:
+Hi Christian,
 
-> Fix by reading pos back from iocb->ki_pos after generic_write_checks(),
-> as generic_file_direct_write() does.
+I am still travelling without my work laptop, can't read the code.
+I'll try to take a look on Friday.
+
+IIRC, zap_pid_ns() can use the new helper too...
+
+Oleg.
+
+On 08/18, Christian Brauner wrote:
 >
-> Also fix a typo in the comment ("may have" -> "may have competed").
->
-> Fixes: 2b0408d0284f ("fuse: invalidate page cache after DIO and async DIO writes")
-> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
+> Ok, so I was looking into things and as usual got
+> side-tracked so here we are. Oleg, save me please.
+> 
+> IF_NOTIFY_SIGNAL is used to kick a task in uninterruptible sleep to
+> return to userspace and run task work and then go back to sleep. This
+> mechanism works well but breaks coredumps. dump_interrupted() only
+> allows fatal signals to interrupt a coredump and the whole regular write
+> path going to actual filesystems is impervious to TIF_NOTIFY_SIGNAL as
+> well.
+> 
+> The core is that you can have quite deep callchains that end up calling
+> signal_pending() in both the pipe and the socket codepaths so it's like
+> we can just pass a flag through somehow.
+> 
+> For coredumps its very annoying because it means io_uring is - depending
+> on how much outstanding work you have - incompatible with generating
+> non-truncated coredumps. A process with too many file backed mappings
+> and io_uring requests in flight ends up losing most of the coredump.
+> 
+> While zap_threads() has cleared TIF_SIGPENDING for a long time, just
+> clearing TIF_NOTIFY_SIGNAL isn't going to work because the next
+> completion will just set it again.
+> 
+> The fun part also is that io_uring isn't actually the only case:
+> 
+> (1) io_uring
+> 
+> (2) klp_send_signals()
+> 
+> (3) bpf_task_work_schedule_signal()
+> 
+> (4) landlock's tsync
+> 
+> And technically, kthread_stop() and the printk kunit test set the bit
+> raw. So no simple way of just fixing this in one subsystem.
+> 
+> So, a fix for this issue has the following constraints:
+> 
+> (i) The places where a write is aborted are deep callchains that we
+>     can't reasonably parameterize. For example, anon_pipe_write(),
+>     unix_stream_sendmsg(), unix_stream_read_generic(),
+>     sk_stream_wait_memory(), or a bare wait_event_interruptible() in
+>     wait_for_dump_helpers(). All of them are shared with regular
+>     syscalls that must stay interruptible.
+> 
+>     IOW, the state has to be per-task and ambient.
+> 
+>     An LLM would call this "load bearing"...
+> 
+> (ii) There are multiple ways TIF_NOTIFY_SIGNAL can get raised and they
+>      can get set from irq context against any task. As said above we
+>      have at least io_uring paths (poll task_work, msg_ring, tctx exit,
+>      io-wq via __set_notify_signal()), bpf_task_work_schedule_signal(),
+>      klp_send_signals(), landlock tsync, plus kthread_stop() and the
+>      printk kunit stuff that set the bit raw.
+> 
+>      So fixing this up in the individual subsystems is doomed to fail or
+>      require constant audits in case some new variant shows up.
+> 
+> (iii) The coredump task is exiting and can't restart the work.
+> 
+> So here's some stuff that was considered but I think it not really
+> feasible:
+> 
+> (a) Check for task_is_coredumping(). That will end up forcing
+>     task_work_add() users to know about coredumps. This seems like a
+>     layering violation.
+> 
+>     I have a patch for this as well but it's ugly. It races with the
+>     dump staarting unless the bit setter takes a lock in the io_uring
+>     completion. I know someone that will disagree with this approach. ;)
+> 
+> (b) Oleg's old suggestion iirc. Just clear the bit at coredump entry.
+>     That doesn't work because io_uring poll completions just raise it
+>     again from irq context. So you also need synchronization with the
+>     setter of which there are quite a few.
+> 
+> (c) Let the setting task defer setting the bit if the task is flagged
+>     and then raise it again at exit.
+> 
+> (d) Take TIF_NOTIFY_SIGNAL out of singal_pending() and make it opt-in at
+>     specific points. That breaks io_uring quite badly and forces a
+>     tree-wide audit.
+> 
+> So the amount of patches for this issue over the years is impressive. So
+> let me add one to the pile for the lolz.
+> 
+> Add PF_NO_NOTIFY_SIGNAL and helpers to raise/restore it. This is the
+> same approach as memalloc_nofs_save(). signal_pending() will not report
+> a fake pending signal via TIF_NOTIFY_SIGNAL if inside a
+> PF_NO_NOTIFY_SIGNAL critical section. Obviously you can't
+> fork()/clone3() in such a section.
+> 
+> Fix coredumps and smb. Fwiw, I think there's a few other potential users
+> of the helpers that are left out of this series.
+> 
+> |         |    notify_signal_pipe     |   notify_signal_socket    |
+> |---------|---------------------------|---------------------------|
+> | fix     | ok                        | ok                        |
+> |---------|---------------------------|---------------------------|
+> | unfixed | 357324 of ≥ 5111808 bytes | 467336 of ≥ 5111808 bytes |
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> Christian Brauner (4):
+>       signal: allow taks to temporarily block TIF_NOTIFY_SIGNAL
+>       coredump: prevent TIF_NOTIFY_SIGNAL from interrupting coredumps
+>       selftests/coredump: test that TIF_NOTIFY_SIGNAL doesn't truncate a coredump
+>       smb: prevent TIF_NOTIFY_SIGNAL from interrupting
+> 
+>  fs/coredump.c                                      |   4 +
+>  fs/smb/client/transport.c                          |  13 +-
+>  include/linux/sched.h                              |   2 +-
+>  include/linux/sched/signal.h                       |  21 +-
+>  tools/testing/selftests/coredump/Makefile          |   7 +-
+>  .../selftests/coredump/coredump_notify_signal.h    |  29 ++
+>  .../coredump/coredump_notify_signal_helper.c       |  46 +++
+>  .../coredump/coredump_notify_signal_test.c         | 245 ++++++++++++++++
+>  tools/testing/selftests/coredump/coredump_test.h   |   1 +
+>  .../selftests/coredump/coredump_test_helpers.c     | 318 +++++++++++++++++++++
+>  10 files changed, 674 insertions(+), 12 deletions(-)
+> ---
+> base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+> change-id: 20260817-work-tif_notify_signal-6ab080d33693
+> 
 
-Applied, thanks.
-
-Miklos
