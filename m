@@ -1,173 +1,165 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1031C481245
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 17:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787248724; cv=none; b=gvDxs0QZGH1CtjcXjT8Uzkua7FmRfi3SvhXhCxj+Bwq0OLVUEbeQ4d0Ws091F+D7MA+nCU4nsmdYfuqvNJR0IQOBaB0OtJnD9N4Y88hITqMY04RcEFBwVkEhFALp4S1i269Qu/dEpQWVa8nh0gYgRyIidAX+eVu9GU+PJDg+L1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787248724; c=relaxed/simple;
-	bh=rRQ+k45Rzu1T02qBpX5CzRl8hfRPtWG1qRV4GQ3dh8A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=srnoHRUFGz/0Q4tYWJbtlvXEB7MOoZSQtw/YXD+Uszdnt6nFHXnJorkJC+6vjLFHsib7ZokLOTvUvES8D15oPY9cRvSowwao0HF739XGl33ZoCW27gmk5us5/B8rTUg6zafUQfx54Q8jhp37qXoPVcwcTUGNMCwQN9p89jaeKiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EXIMHYXK; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19195397338
+	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 18:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787251491; cv=pass; b=Q0rCn7pveCul4qfNhilWXKKujUarB2tJ4HtGxg4vD6dYHB8ipnD9d6aLTFuGkcUv/A5g50DIWQ80+DArDV1rxpqWf+YjxsAQoxZlE6M6Fxx4pnXmcxAdyawmhbgQu/3tGhvlQQ5Uule7E+kl+Iy8EszVxR4rGVcBBP0khzNoj2Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787251491; c=relaxed/simple;
+	bh=1BUl/L18VjoyHto2cVeOh6hrwiaVF2vC8ns+kaLeyMQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s+pmOm11bEfioDG19a2fWJo2ZzUyG7JRoHk1oDViq3Ry5q/m2RXKjowCMTpwuaab1Ymmf91V+2KdkYuQEPFehZ0Tr77m6yRcX09TBoBH85WirFGsGSt7gufglZrNcX4bgwP/nM5FdnF9RmANWMem6OV2laXZw4EhDOZkSXFFGKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dcEQf1Jf; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EXIMHYXK"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499b6c02b02so688485e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 10:58:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dcEQf1Jf"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d3b440b97aso13385ad.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 11:44:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787251489; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SvRa0LJMsqjvyYgTiP4GUGH9/O5vJN4zRZkv2bvDJlqHl9Ju2BxApVjhTEIh9EeUFK
+         nYlkToyy3+5EXVeUCIcVxv90G1dtFDrzlCQYar/HUPwSjBBz1+Uyy10NkZ3FBQHIkAlz
+         iA3k6m8hFGUf15BvjjqgUsuC5WY2OcoEJtMAlpB6cRM1xB6HVwFFqEm3EdKw9dxqLrGD
+         TF2Kx/j7m0wpgLxy+wPFbVwOc9vJxMN2NDHXtwE49Xw1leeLv+xYGSJwrudCC/T79Jgu
+         PolgCNKZTD+UnfrVa07VvGIu+iqaNNX7fKExoG0HhDDMIhR+USg9RJRldzGtw91H88lG
+         D20Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Ra+u2k+WGBbYHMuPstN144hB8VFxEn7aIl8UwdTV5yc=;
+        fh=r6uDVpC93OuEfEyN1HjpbJBYui1WZyuvZ5FoTh9a5eM=;
+        b=jUKC7GK7LG8OE+VaIAYJLV/Z816gwkvA62gS6XQufWqHk0PzO41GxPj2FFfyAxdM5+
+         8CHXWr2GqcUv6AHa2JEg+tmx5+N2A7AQrY7Jb6wcj2Sidgy1o1LhWFmqvc7HsDDauTdZ
+         HDcgHONMkU1m3QyiXRiC2y/OK00nIZLA9gikyD99PFVSMiav+N1E6BHRuweuAeqCHWNe
+         KY2AuI7bdAov1qmJWNb5QnfCSNey993AVZhDtl59pnB3VjUzo2QH0xtpgw/EhULFUedL
+         0iUEsctY2tXfIPDUf1jkef849OsdcYf2ty+EFYF39v4UYyC4Y5mH64k7YPJwJqowIqBQ
+         TmUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787248721; x=1787853521; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YYEsMKlE1hunKYKu1jEmmpknYRhAQx1ch1/5OXya0mo=;
-        b=EXIMHYXKtcMYV7Ri4p2slns48PJSlkPt9sYp06GVbIEv7XQEADPtUj/3XddT1RbmVP
-         Bw3kLCkgze5ufVH0tLZm80uCPnNO7zIQw0BjT6QdI8qiGG8oPIBhyeynfgqepXYk0rpi
-         AJvu1g+pWxEI1fEE3kuXrWeOBAmSV/S1cs/phtJ1QBAwq12wGg//H3ndYR8pUq8kjo8k
-         4dpAV8VvCuiaJYfAw/Ge/XENRiax6OTv5iw/zda7TQ8owXkRmwQbdlSFJzPWmp5jCAUu
-         E3P87CFlAZvhB6HOTgOQipXvkXIlJ9vW9UosPLufYlPePe87NoQu9EjkruR3RzuFc/AM
-         nVdQ==
+        d=google.com; s=20251104; t=1787251489; x=1787856289; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Ra+u2k+WGBbYHMuPstN144hB8VFxEn7aIl8UwdTV5yc=;
+        b=dcEQf1JfkWtQKZBW2y7hJGbPS0z3rtQhMHHnMumkdEDuG5xKqTTfSFlfpDKJWAvsNo
+         GeGUDOCIcKgYORGaZxwEVxUFxnQbEOo1Uk3H3R/2SecKGnktgMIFpXipPoWfiaMOTsZZ
+         JOxtqIbtd+PulOvFb+6S13QPQXLZ3miLwBf62Hy6yV5Z/PC9n3C42kdhMrGEZvgLzkxn
+         dqi15ns7h9w6ogFAyccb4BSKtizbWBFxP8GbkT7GgFEVFg+CgVSi9rVX8B1PfSmaK71S
+         YBeAKX8dHnbmZAC5yO6RjDUH2pXT1eUwiNdkYV3XscblaanNUG2SQp6+uZOV6cgiOEtP
+         /E1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787248721; x=1787853521;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YYEsMKlE1hunKYKu1jEmmpknYRhAQx1ch1/5OXya0mo=;
-        b=Lf3xddVWP0jJ+/cYLtfTgCupf2cYwYAIiA2oGml/WbCgiCZ+tT5GB/s+rZEBGGj7jI
-         zjqERrX1RAwmO5uOWs2zV5z7zDYYF84+HfomQNAguBa8EbF+rX7hj3leBb0ZipesEe7E
-         jG1l9H41WDVV1dNyctWt3dzy7alh82C+Etd3logEamo3EJuXOUFPjj7dA2Lof2R3f5Tq
-         kJDKJMYQktnIllRRsjEQPzAiHK9amFw8/MHv9uqzGq1vxzysjNbWtdeB7hqvSx/GfE1B
-         tCY0kj1XO5UA1hwHKjc+Va6PGNJ4R+YDPClq1mMg/oosVj4EObHCC7uiwkTpeIjZ2tpM
-         RThQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqJgsESiAYOq9MVXkblEPxzsjZ8RZIP5HkIipXoI/whXM4mL2bqOvi5b/3vDCvmK23RffMm4h8KscauOFRq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBD/tfgUiJWueEiGDOsuAICY/nIDaoN60UnBswFpDfGpU/TmUI
-	KoZ794sBgdG5bffCuu+7xi/sF1Et120G5KzIE6XhW22SI+QVPY+CaT3I
-X-Gm-Gg: AR+sD119N9y0TpcnbtqKLoMNscZjI3xlsDUN+7hJjua1RIiyUTHsN7m4IqFQy4B2b4Q
-	BUfOjoDkpnvFuvet2/wUIbb1t0Cl85q7Yg0G7ZVUhrGVM5NsTur6qzNEdvMMtO1zIFET3bxD+D6
-	+I998q1yG/PjxTNPvICfogvAaH8J0Il226eoipeKL3O7258ZpMb6/SsRag5cgG28wU/TbATkw63
-	YFpYY/JxsHnZPQeeuAfPv3nUIVnsWlY/afu56nCjso7Afp8iIBKhKQw/F6cKdtlEm+ACbqXZBGl
-	1FcybyZkuZT6cYN7jzjs+7bWJUMsBduONKPCksvjPqKVrcBmt88SzZ8CXn3kn3I6xFRk4Q/Dkh2
-	rNZPhmZStV5s5jCoOh3wQzm0kWpah8LffnMntSgfMqGGfzEbiG/gwyspFkat0ZGJGiPKRYcBMp3
-	4Nw1f9LjHyfBrLArneRs7RaJ7YpAa5Xz7NPl2roh7KJ9SoWHG3L+Tvd6ALQyCjuwHND5BuBmChz
-	Tp5DnzAsWJsrKgujs2/Fpx0PFILE1ieXYtIqXLcOa/qixvnTG1CECW8giWZfLJXSm309PuJvmvq
-	fVyYu7b14VWiDuZ8y6E2foSRC7io5P5hyUYTdWToGfy+QGVOGcF2XkIDbFs5bgG/QWr9YypT7Q=
-	=
-X-Received: by 2002:a05:600c:c494:b0:499:a5c8:c6f3 with SMTP id 5b1f17b1804b1-499b82f4d3bmr10160435e9.3.1787248720981;
-        Thu, 20 Aug 2026 10:58:40 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a476-1a01-141e-2b69-987c-d72d.310.pool.telefonica.de. [2a02:3100:a476:1a01:141e:2b69:987c:d72d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa11f832sm152118355e9.7.2026.08.20.10.58.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 20 Aug 2026 10:58:40 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: selinux@vger.kernel.org
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] selinux: preserve user SID across nested backing files
-Date: Thu, 20 Aug 2026 19:58:32 +0200
-Message-Id: <20260820175832.44512-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        d=1e100.net; s=20251104; t=1787251489; x=1787856289;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ra+u2k+WGBbYHMuPstN144hB8VFxEn7aIl8UwdTV5yc=;
+        b=q50A6vqzaAwRVJ2obdb0fsmDu5Fqx7xGFqByZZhXWFACMMIgto2vl8Ij7jkpMldfoT
+         piuR5vy1rHDYueobB+jACwDIPwwpHEOGohF4ACuq814y6mb0fTReF/zSfJMulLqezHXn
+         4WNVEB7FKzcp50me1i8LhSEbw47M/0lyWvOCJ4MUcajBncbSX6C3JmGfaV5P+qZd2eY1
+         UCK6YnoeFNxAmUPy/buNKZuRzMfMhM3xAvV/HtQZats71RGNAtgZu533g58wY+BhavmJ
+         F/GIFrUxEn4zoTIF+vtnzV1wmr4ikK0ns+EEej6U1rv+vcT3iAJT1kqvEQmwhmIaTccz
+         xrRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoK1iIYWq3h3xSmA3uFK9lNwk8si3QbWxyh8optyu4askJZNQo4xHHtAq2LyqQ+f+J4C4HjofuOYc1YfTcM@vger.kernel.org
+X-Gm-Message-State: AFuF++nwu9AC5Hug5UDjatedUpJTVVkiHs16f39S55+98g6UxfkdeMpg
+	vTeigcCskeSYjqgHKp4s4rFPy7ySNw4ys+7FCTFLH7E8O6MwgYVbckXp7/IKZcywYib30EKdsRS
+	lB3wRi9AFqBigCe+ceGtP/OOj37eS8azeRFNVT8Mq
+X-Gm-Gg: AR+sD13rcoMZiXP094KxetfdKxGXNaqfOIabYBxAW3Jn+3Dt/fc9cMlbTimUKswlJGZ
+	ZtmfHJLE1yDtMd/JdyAw4mqMP0ngV5Q0Io+NteCa3DQ7urHIhL8X5ryGJBjpVNsHMrrFpBA/TIo
+	4n8tWD4LiMu97A69CB4KeVLD1/qotdtylUbYtV83kmkQRgCO8Q9XmNtKwW3FBfmjD1c24PcshUH
+	wKUvpFjNgjFJRNNpyARhZa7k4FXg9Zof0CAPrjZJIiryJGob/AInsJgsE4rV5hIffDRimcHXdzs
+	ieF1kDW7Zzu82YN9WvwsgbjTYdnid7fdUD1lGu+7+ElVbjQ1CKQxaS9TKL15lA0iN9l56HGZ0sD
+	u+vewGFAUbwVi3ELjqcXKeF8YHqUnnA==
+X-Received: by 2002:a17:903:22c7:b0:2ca:cbe5:c3af with SMTP id
+ d9443c01a7336-2d64b50af9cmr824745ad.7.1787251488719; Thu, 20 Aug 2026
+ 11:44:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
+ <20260818-selinux-pokemem-v1-2-90cd2357ee05@google.com> <741a833d-6889-4ee6-9322-d6a3a8b95893@kernel.org>
+In-Reply-To: <741a833d-6889-4ee6-9322-d6a3a8b95893@kernel.org>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 20 Aug 2026 20:44:12 +0200
+X-Gm-Features: AcwNN1WPc46lB25I9dlQYQePR9UcO75mKPz3cBjmzriG3esMrA3mvmTFFADdtWE
+Message-ID: <CAG48ez2Ngo3=VtyykXY6ynVzGwA8px-p4zV3V6U=YfgV-Hy4BA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SELinux saves the user file SID in a backing-file security blob so it
-remains available after mmap() replaces vma->vm_file with a backing file.
+On Thu, Aug 20, 2026 at 7:22=E2=80=AFPM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+> On 8/18/26 21:51, Jann Horn wrote:
+> > If the system is running with PROC_MEM_FORCE_ALWAYS, LSMs currently hav=
+e no
+> > good opportunity to block a process from overwriting read-only code in =
+its
+> > own address space through FOLL_FORCE writes via /proc/self/mem.
+> > The security_ptrace_access_check() LSM hook is bypassed when a process
+> > opens /proc/self/mem because this is considered "introspection".
+> >
+> > This causes a hole in SELinux EXECMEM enforcement, which tries to ensur=
+e
+> > that a process cannot create executable anonymous pages.
+> >
+> > PROC_MEM_FORCE_PTRACE prevents that and ensures that such FOLL_FORCE
+> > accesses are only possible when the LSM allows ptrace() attachment; but=
+ it
+> > is unclear how quickly PROC_MEM_FORCE_PTRACE can be deployed in
+> > environments running lots of third-party code, such as Android.
+> >
+> > So, introduce a new LSM hook that can forbid FOLL_FORCE specifically fo=
+r
+> > such "introspective" accesses.
+> >
+> > Signed-off-by: Jann Horn <jannh@google.com>
+> > ---
+> >  fs/proc/base.c                |  6 ++++++
+> >  include/linux/lsm_hook_defs.h |  1 +
+> >  include/linux/security.h      |  6 ++++++
+> >  security/security.c           | 15 +++++++++++++++
+> >  4 files changed, 28 insertions(+)
+> >
+> > diff --git a/fs/proc/base.c b/fs/proc/base.c
+> > index bec6197329dc..3dfaef49bb70 100644
+> > --- a/fs/proc/base.c
+> > +++ b/fs/proc/base.c
+> > @@ -851,6 +851,8 @@ static int __mem_open(struct inode *inode, struct f=
+ile *file, unsigned int mode)
+> >  /* private_data for proc_mem_operations */
+> >  struct mem_private {
+> >       struct mm_struct *mm;
+> > +     /* Was the ptrace access check bypassed due to introspection? */
+> > +     bool introspection;
+> >  };
+> >
+> >  static int mem_open(struct inode *inode, struct file *file)
+> > @@ -864,12 +866,14 @@ static int mem_open(struct inode *inode, struct f=
+ile *file)
+> >       priv->mm =3D proc_mem_open(inode, PTRACE_MODE_ATTACH);
+> >       if (IS_ERR_OR_NULL(priv->mm))
+> >               return priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
+> > +     priv->introspection =3D priv->mm =3D=3D current->mm;
+>
+> Is the feat that the fd could be passed to someone else that would then n=
+ot be
+> detected as introspection?
 
-For nested backing files (overlayfs over overlayfs, or FUSE passthrough
-backed by overlayfs), user_file may itself be a backing file.  Its
-fsec->sid is the SID of the mounter that opened it, rather than the user
-that opened the top-level file.  mprotect() then checks fd { use } against
-the mounter SID.  This can incorrectly deny access without a domain
-transition, or check the wrong target SID after one.
-
-Copy the saved user SID when user_file is a backing file.  Keep using the
-regular file SID for the first backing layer.
-
-With two nested overlayfs mounts and SELinux enforcing,
-mprotect(PROT_READ) returns EACCES with an fd { use } denial against the
-mounter SID.  With this change, mprotect() succeeds.
-
-Fixes: 82544d36b172 ("selinux: fix overlayfs mmap() and mprotect() access checks")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6-sol
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-Changes in v2:
-- Add selinux_file_user_sid() helper instead of open-coding the lookup
-  (Amir).
-
-Tested on arm64 QEMU at fd6e2388a3ea with SELinux enforcing and two
-nested overlayfs mounts. The policy omitted only
-base_t -> mounter_t:fd { use } among the relevant cross-domain allows:
-
-  baseline: mprotect(PROT_READ) returned EACCES with that denial
-  patched:  mprotect(PROT_READ) succeeded; test exited 0
-
-This patch fixes SID propagation only. backing_file_user_path() still
-resolves to the middle layer for a nested mapping, so the audit path and
-inode do not correspond to uf_sid, and that layer's mounter is not
-re-checked. Preserving the full user path likely needs a VFS-side change,
-such as having backing_file_open() store file_user_path(user_file).
-
- security/selinux/hooks.c          | 9 ++++++++-
- security/selinux/include/objsec.h | 2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 1ead2eee1944..171b90412ff1 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(struct file *file)
- 	return 0;
- }
- 
-+static inline u32 selinux_file_user_sid(const struct file *file)
-+{
-+	if (unlikely(file->f_mode & FMODE_BACKING))
-+		return selinux_backing_file(file)->uf_sid;
-+	return selinux_file(file)->sid;
-+}
-+
- static int selinux_backing_file_alloc(struct file *backing_file,
- 				      const struct file *user_file)
- {
- 	struct backing_file_security_struct *bfsec;
- 
- 	bfsec = selinux_backing_file(backing_file);
--	bfsec->uf_sid = selinux_file(user_file)->sid;
-+	bfsec->uf_sid = selinux_file_user_sid(user_file);
- 
- 	return 0;
- }
-diff --git a/security/selinux/include/objsec.h b/security/selinux/include/objsec.h
-index 3c0a16ec978b..853f7266ed18 100644
---- a/security/selinux/include/objsec.h
-+++ b/security/selinux/include/objsec.h
-@@ -87,7 +87,7 @@ struct file_security_struct {
- };
- 
- struct backing_file_security_struct {
--	u32 uf_sid; /* associated user file fsec->sid */
-+	u32 uf_sid; /* top-level user file fsec->sid */
- };
- 
- struct superblock_security_struct {
-
-base-commit: fd6e2388a3ea55e58cbbbef840c1d8aa2067dbb3
--- 
-2.39.5 (Apple Git-154)
-
+Yes, exactly, that's the primary reason why I did it this way.
