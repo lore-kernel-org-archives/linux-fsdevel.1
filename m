@@ -1,60 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826E53C1984;
-	Thu, 20 Aug 2026 19:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF17337F01D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 19:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787255875; cv=none; b=kJ7HaQjXW46FlZjbFuJUXIe7QwICqB54oCc0xc9jJ4ej2PTwFjvxLdqg7m+k1DpGlHSvWrPgf40OW/4z1gMn+ORmEJWDHgD8y62FNWy+SukleszY/BhBdVod4JJ2VThCSDOABTV9ZTkPrELB19u63sVpzleeS/ZShGwQO0sfmVg=
+	t=1787255876; cv=none; b=OW/GM5HSZRZTglLF3X4Mh0DFO9Pl+ZrfY87aV71Xkywj8V3MB3XQwhadU/rY+X8xMUayzHKnz5mGHw3SeEqlxTUAHJPG+LtKKn0HGnb4kilbmNI5HD14YEH/BTteqMLFsXduBqyLh0U7kCWyeHk+0fES3dMRg29pF0rQ2pO0PgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787255875; c=relaxed/simple;
-	bh=9o1HuSqcG8vJHII8JmuRRkrXAOHK/y7qWhmA6K2Ezt0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=cuGDp2YzzHuBbEA1t/V8RtMlif2BABhz4TgE0cGTMiDz+xKKb++BE5kTZ4NcsPL2Pqu7nB2N0z0AWSplLUhuq+dgi+U+vz2yuZtau5a/lvttEwrhJwwJjue8i75dewqz4ybNppU3l8/y2ebBtdMFcc7efhDf7VJN1RJto5qWm+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQyiAyhd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787255876; c=relaxed/simple;
+	bh=lOLpqzsLkb0NVYGCX0VHfJTz1HbtGS5qk6ajP2GELzc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NX8IIksMnk/UGo5eIpmV81ZZr32sAboiyJQOMKiwzPqIXZK3TjUrIvykjS4ZgnJE7rOvC+4XKM1E+YM9+MELN9DMPohX//N0f3HdZk74uR9Eg7CUlvZZG6UIUn4iJF1oAJWek1zDLTevflcjWN3ig+tnLjQj8SIGUUtTk2fu6hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rk8plXIe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQyiAyhd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 678AA1F00A3A;
-	Thu, 20 Aug 2026 19:57:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rk8plXIe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 649851F00ACA;
+	Thu, 20 Aug 2026 19:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787255868;
-	bh=nk9mKWcC1GQ/YLbq7h/db/TuO+5g+L54WLYISYzp9oc=;
+	s=k20260515; t=1787255875;
+	bh=xheBom/HFtY2UXqqG67DQ814YElMFHZZ+quFOUPmHIk=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=FQyiAyhdzsjGou8kg6jUbi28MnzM8Dye9w6VdKrNBYtEudczQMdou2wdc4voKIBEr
-	 b9RHZ4R30uWX/fbOL6pFyUAWcPN4uj9wO1eF/3n+uz0DkzF3YkvVFLzo6emjSx5PPF
-	 Be7oifM07bZabwhqeoE4sa7pAWTu/qKvxqnKqIw8XzYcNmqfAe8FagoUCLNb1CoKUx
-	 DP8Uarch+X4sU9ObGkOUvDTKoK8biXQSCbG/YOQrMXY9wYWUVfNoLq8EbXzb8cJekr
-	 02MFs7dEYkQBtHxUBiw5oidHdmqs6O3EMhB7FitTPvWcHoYGDaOKEzA2ZNhlPHzaTY
-	 MmYjQAtS/56fA==
+	b=Rk8plXIeRaqPTsy1vPLl9LFi5TYvfpX6fSNq4E05U1l1nxEhArfM0VjfdD18fWFW2
+	 mx5EwCQyHUuHCNOTqOEDyU+DAZY8uEv5geTlB/HaQhlvd6nb+j/Xlngg2Hov0F8XtC
+	 CB3H5YTsv1/a3eftb+HaClKA2D2wAbMhvW1xwbN+06YA2fju604WEkgqHTE9qIkrC2
+	 7rQci//1LTZQcJZzoMrSmM6E7Ppdz/CMWI/de5uEqNa5UcgmmGHz66NFJAo596UGvW
+	 WyuDHdrTzBH2Iren7bKUIdUumRwVo568XDKNo2SDXuySGi7k13jUBnkILpTtD6GnBq
+	 z6i5J+XSyVeYQ==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0B46392445B;
-	Thu, 20 Aug 2026 19:56:59 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: changes for 7.3
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0A30392445B;
+	Thu, 20 Aug 2026 19:57:06 +0000 (UTC)
+Subject: Re: [GIT PULL] Fsnotify fixes for 7.3-rc1
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
-References: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
-X-PR-Tracked-Commit-Id: c22f91d82cb9a29d22bdffdce6c803467984ad0c
+In-Reply-To: <dwdmf4x7slx3pnpxddsnv3u6r72uduvvksk565ptmspjrigp75@h4ljktlfnt4f>
+References: <dwdmf4x7slx3pnpxddsnv3u6r72uduvvksk565ptmspjrigp75@h4ljktlfnt4f>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <dwdmf4x7slx3pnpxddsnv3u6r72uduvvksk565ptmspjrigp75@h4ljktlfnt4f>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify_for_v7.3-rc1
+X-PR-Tracked-Commit-Id: e422777fdd4746de1109575c51e65038d4c5c1be
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: dc83d18cdd90482c70fa4320160bba70ec5c9ef8
-Message-Id: <178725581850.459220.4053908989865636384.pr-tracker-bot@kernel.org>
-Date: Thu, 20 Aug 2026 19:56:58 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, =?UTF-8?q?HE=20WEI=EF=BC=88=E3=82=AE=E3=82=AB=E3=82=AF=EF=BC=89?= <skyexpoc@gmail.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Kyle Zeng <kylebot@openai.com>, Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, Senjin <senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, Weiming Wu <weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-PR-Merge-Commit-Id: 81e51378b78a11b168ffec08d80ff4b47e5b0227
+Message-Id: <178725582532.459220.14115711705464214104.pr-tracker-bot@kernel.org>
+Date: Thu, 20 Aug 2026 19:57:05 +0000
+To: Jan Kara <jack@suse.cz>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Tue, 18 Aug 2026 14:21:03 +0200:
+The pull request you sent on Wed, 19 Aug 2026 16:46:28 +0200:
 
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
+> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify_for_v7.3-rc1
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/dc83d18cdd90482c70fa4320160bba70ec5c9ef8
+https://git.kernel.org/torvalds/c/81e51378b78a11b168ffec08d80ff4b47e5b0227
 
 Thank you!
 
