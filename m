@@ -1,196 +1,217 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D284F3A6F04
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 19:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787253182; cv=pass; b=kAQKwDLe/iobu/c6TZVe33bJaMxFoo+ZvOe1evZeYCUJkCMg1Cl7EwcJHAaHQsYNHcT7suswq8atC4FKmajSEaY3V4dN7eg/th4tnLsLoN8Jd6gCXII9Ai5EmQXWQg9aldz0nUm1zogW34oWXXL+r3jfve+Djya1W3JOuv7gQGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787253182; c=relaxed/simple;
-	bh=EBJqidiCcHqzIqgjqJGYqBp8ou/sDr6lv1shRSRmZ0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xcxi3W0DL2A3XH6fZWz3seR8NW3ErI5uwEBkmbfYtcgyTgCK5q01ImvoH0OMbr/jvmwCz/GiAUchiug76dhAaUZyIm9Fx1ikspdIf1DJhw9gHFP2LBqjxywW5WbzvIi53nrRMVczcnGjZW3jzx92krc5dMKtW3wH45ja+Dy2cGg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HjtxiRk/; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE7F23C516;
+	Thu, 20 Aug 2026 19:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787254436; cv=none; b=EUVvKiB1SoDJYQAhxj/M+mOTH7sxUeF+B+uMZ2te4ipwfg7ZNYH1t3wFbywWBi+fd6FmAhIAsy2EnYZNZgQt4At34ucO78mKc3rrfvKifLPwfO9IfQ6Dy7b+FP1vzZht/qbUp+zdW2s114ddtUG+4RQH9cmAN8kkY+1u+pmUSIA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787254436; c=relaxed/simple;
+	bh=ZWzRCDHxAkKAgS5ohhVXUP7gK0blzU1+ph1SNVLxHyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BTnhSq7fX0tFCpBMKr8wZQkW9I+uHs1VnWJQoA3BXJ7dJORgN9gc40C++IXP8xt3hfPnNr9KQeC+03hYbMrE8uelaUYW6ZnKQ+YTPradR9yAzFSKdNX+ObYv2CrVBpuCTDOowBf5+LaHzrYU9qOauMaPz3ros02P5FjuIvt0BuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ci/czsF4; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HjtxiRk/"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a3e145e1bfso373548a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 12:12:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787253178; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RunoATTzZtQOi2C7PKPzzwsff1wJiuiLTCGSL2KyZ53GYRe0UsGm64XTifaH9e0LYr
-         hAvX+XASPwR5axUAcrOMVrthcWcnSbdShx3Ju8Mjn6a/hfbXsp7GJvKSPFzSrI/NaAa9
-         VHMcpTjYGnEREw8I1hZGsRQhH3M9wkQZ5MZ8W2MyXHb5M4vlhBS672WzxEoeyUE0jRRt
-         6d5Ey5lVbKL9gV5FdaybuFPxr0lt4tWBnzQVe8fCcOrRL9H6BfJ8gb7gQjr1dfwdBUcV
-         NNWTsLhqirCEF7oB0i9JH+L1a3lH8njvq8Nu61Fs+fOjF03au7qNPsX4cAMpLQPMvPnP
-         U1iQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=u+vZFL9QCUrHQWNeywdrmX/CGS7XIPcGZmcJEdaeksA=;
-        fh=11Qjg5PL5mC3HhZvQb+R7Y1HIDO1pSZ8TfrejxAe2nM=;
-        b=PqEo4QRfjJwTMCVwXkk+3tmGCPitnE555O4ATLAcj7xM8Qk195lRdGDIqRe1q5b+iU
-         Sg7csJ/+j2jQbilT0ldIS6uP/RRK4HLw15dE2wQG7xUyaYPYUOFuzpP3Gjd40W00LAnO
-         q5gBFSiEhQNjwDprH5DDUvx7ts5IFK8NCzubh0xg8YNTuSy2GWFYx8yFKLYXvkd5xHLL
-         0q3QQR9FOO1JGYlCg70MJ94qvExd6Sl+9JXBNE6QYBxJnkEavGPe+p9PhLtS3hJ6Z4Gq
-         yV5gfCuK95Y/k/cKJQXYkPwCAazOEpMZ0fvLDQL2zjAoQ37JKLzegK5/k00VwtpEIWqp
-         +nJQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787253178; x=1787857978; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u+vZFL9QCUrHQWNeywdrmX/CGS7XIPcGZmcJEdaeksA=;
-        b=HjtxiRk/0YfnOV09MlXe0Pfo0XYkO8wCmAN59X9bYO1GQi35prQemChY4NLZhVlLw2
-         HVS/N+fvbYBhFREreghfMAHH1z0MxyrHc3oeDxHPPXpPf/S9kp7qIXnxxqDeNK9hSu3u
-         65FwLR7TslEzv/zupeh3ceQTAZTxoNnJGWq5LNx0sJB02AlKQzX0cTPs/c3fg1Z3QpRg
-         dXhB9r46Pwvse5Qn2o3mQJfFsqtEA4i7BK+sw1zQqntH5xe9IDvwgHTW3ftE+3wIMVoz
-         EMTEH82F4xWv0qD2sq8SsqlugnnMo7DhPN8twOZ1PemNCDBYnHrU5xwzEhF4jrdisLS3
-         uP/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787253178; x=1787857978;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u+vZFL9QCUrHQWNeywdrmX/CGS7XIPcGZmcJEdaeksA=;
-        b=X2kif0WRLn2t4wzep5na7hGpbnn9B29Z1k5P4bjbZbMP3XyYgg3iqNSsCekHy2k0yf
-         ayMXrX1BlELWVGO+3vMCHfDEzWMcvXX/Rpo79P9CCq5jg+QqxJE6kTwZCaL/8n9U5jgU
-         vLix5gJFsZWsFxHmZ89oA17n+YZTA4hK2X2J7gv3wupVLDfJgcBl5I6QhfMKSF5WjBpl
-         eVbmz0j8QdqPQ620l3IR/iHeTtaVwDhKk1/9N/jaQALrX8h6lDy/+jU4y+20/ILkYRID
-         D1qJ8n541xSqnuQCyjs738Qp9gO/F5xgk3aJXwLr653Z6bZZavzKVOQZnyqJl/sFLFlI
-         XQAQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpz4mREZgSASHKLyjvxbv8+F7dBTBvr770PudBDVLtEW7YfRjbr6aM3ldO41Jy7v5oHJp2+EBnS2ADzwyE8@vger.kernel.org
-X-Gm-Message-State: AFuF++nJ/M15hgOxAmPt+NswADUGz8Muc84tU30BBQ3iJUrCLusvsO8g
-	/nPwp6ObDyYgLcp2YnFRNJIpeRUFyg2CxLujR/KFXgd3H6VyI1kpNLbNZRe/L/yWMl9/juPuNjn
-	51kUHVOYWap/vQeJ9xC+V0VBddnj8wpY=
-X-Gm-Gg: AR+sD10zHiruXUrdclnqaGtGwGtSLaQr/1ahw4UlfstsUkArpEUPAfMjkO4kp/V08eX
-	KIBE2F+IHTTTiMD1EOc2oOhBbWHuDbdTHA6y7EaBPpuU4jcsx22r4n0tB/JinmrbpP7XWYeQzYb
-	CA5Lg2Pcp0n3HsLOL1KzTrk966wMyzU/jXMuKZAj8ONeYQtbrGY13WDW+WvB81mI1zgiDOET1nU
-	VCkv7VKgy6XtHFDdvcCzZMfAZTttll5JAofPIe74kDz8HX/nq+2CF6XDS18QsZHe1DkAvH32fG3
-	8KifaypYVd8bXna//j8OYIcjkZVebzcAUjHLMorXXEOnCg==
-X-Received: by 2002:a05:6402:e09:b0:6a1:f95b:8cff with SMTP id
- 4fb4d7f45d1cf-6a42f14d945mr881033a12.1.1787253177867; Thu, 20 Aug 2026
- 12:12:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ci/czsF4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=fs0htD/cjU9OCu4C2Kg80p/TbNt8/mTbG6p2Ku/lBdI=; b=ci/czsF4/zM1GNnaf9XI2rrb85
+	zzjZAV2v4GTFkP1N4XCj1DpxbCJjSEvQ/M2ZQy1eO1/lU1o+tZngjUMJz0YSlUA2Xou0jPXfa5TLK
+	wBex/0pkUn3IFVsl4Vc0aFxnOElaJemGvFvUf56KowyPrEnj9OfROaE150VqiEWoe4KUuu7sZ187D
+	Thd8UR61BfasYAqAQ7I26DSCPfQ8fCFTT/ip0VAyM64bNb4jvh0+6BpVJZVa0pryEYMZeHYkycasx
+	UcVgoQAjcUDBhn4cIOHxrH/u1M6owTxLlCEoRxQfvRC0vg2wg7qWNfo+sAUsdLyL+2zpjdivzJCWg
+	N5YvhS2A==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wx8WG-0000000GALd-459O;
+	Thu, 20 Aug 2026 19:33:44 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org,
+	Pavel Begunkov <asml.silence@gmail.com>
+Subject: [PATCH 3/7] btrfs: Use filemap_invalidate_pages()
+Date: Thu, 20 Aug 2026 20:33:36 +0100
+Message-ID: <20260820193343.3852967-4-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260820193343.3852967-1-willy@infradead.org>
+References: <20260820193343.3852967-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820175832.44512-1-kmehltretter@gmail.com>
-In-Reply-To: <20260820175832.44512-1-kmehltretter@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 20 Aug 2026 21:12:44 +0200
-X-Gm-Features: AcwNN1VoTb8-Y4yAhAEdExFUOY6_E29SmGdgjuOoDLFC6HRxDrS8gXBvh8R9q5E
-Message-ID: <CAOQ4uxj+uFAR3YjE+XX98iJAdxNNqnaM6pptsqPaXnqJk4OXWg@mail.gmail.com>
-Subject: Re: [PATCH v2] selinux: preserve user SID across nested backing files
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: selinux@vger.kernel.org, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 20, 2026 at 7:58=E2=80=AFPM Karl Mehltretter <kmehltretter@gmai=
-l.com> wrote:
->
-> SELinux saves the user file SID in a backing-file security blob so it
-> remains available after mmap() replaces vma->vm_file with a backing file.
->
-> For nested backing files (overlayfs over overlayfs, or FUSE passthrough
-> backed by overlayfs), user_file may itself be a backing file.  Its
-> fsec->sid is the SID of the mounter that opened it, rather than the user
-> that opened the top-level file.  mprotect() then checks fd { use } agains=
-t
-> the mounter SID.  This can incorrectly deny access without a domain
-> transition, or check the wrong target SID after one.
->
-> Copy the saved user SID when user_file is a backing file.  Keep using the
-> regular file SID for the first backing layer.
->
-> With two nested overlayfs mounts and SELinux enforcing,
-> mprotect(PROT_READ) returns EACCES with an fd { use } denial against the
-> mounter SID.  With this change, mprotect() succeeds.
->
-> Fixes: 82544d36b172 ("selinux: fix overlayfs mmap() and mprotect() access=
- checks")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+btrfs relies on invalidate_inode_pages2() /
+invalidate_inode_pages2_range() doing writeback by calling
+btrfs_launder_folio().  While this works, it is inefficient as each
+folio is written back and waited for individually.  Far better to call
+filemap_invalidate_pages() which will do a bulk write first, then remove
+the page cache.
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+With this done, btrfs_launder_folio() no longer needs to exist so
+delete it.
 
-> ---
-> Changes in v2:
-> - Add selinux_file_user_sid() helper instead of open-coding the lookup
->   (Amir).
->
-> Tested on arm64 QEMU at fd6e2388a3ea with SELinux enforcing and two
-> nested overlayfs mounts. The policy omitted only
-> base_t -> mounter_t:fd { use } among the relevant cross-domain allows:
->
->   baseline: mprotect(PROT_READ) returned EACCES with that denial
->   patched:  mprotect(PROT_READ) succeeded; test exited 0
->
-> This patch fixes SID propagation only. backing_file_user_path() still
-> resolves to the middle layer for a nested mapping, so the audit path and
-> inode do not correspond to uf_sid, and that layer's mounter is not
-> re-checked. Preserving the full user path likely needs a VFS-side change,
-> such as having backing_file_open() store file_user_path(user_file).
->
->  security/selinux/hooks.c          | 9 ++++++++-
->  security/selinux/include/objsec.h | 2 +-
->  2 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 1ead2eee1944..171b90412ff1 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(struct fil=
-e *file)
->         return 0;
->  }
->
-> +static inline u32 selinux_file_user_sid(const struct file *file)
-> +{
-> +       if (unlikely(file->f_mode & FMODE_BACKING))
-> +               return selinux_backing_file(file)->uf_sid;
-> +       return selinux_file(file)->sid;
-> +}
-> +
->  static int selinux_backing_file_alloc(struct file *backing_file,
->                                       const struct file *user_file)
->  {
->         struct backing_file_security_struct *bfsec;
->
->         bfsec =3D selinux_backing_file(backing_file);
-> -       bfsec->uf_sid =3D selinux_file(user_file)->sid;
-> +       bfsec->uf_sid =3D selinux_file_user_sid(user_file);
->
->         return 0;
->  }
-> diff --git a/security/selinux/include/objsec.h b/security/selinux/include=
-/objsec.h
-> index 3c0a16ec978b..853f7266ed18 100644
-> --- a/security/selinux/include/objsec.h
-> +++ b/security/selinux/include/objsec.h
-> @@ -87,7 +87,7 @@ struct file_security_struct {
->  };
->
->  struct backing_file_security_struct {
-> -       u32 uf_sid; /* associated user file fsec->sid */
-> +       u32 uf_sid; /* top-level user file fsec->sid */
->  };
->
->  struct superblock_security_struct {
->
-> base-commit: fd6e2388a3ea55e58cbbbef840c1d8aa2067dbb3
-> --
-> 2.39.5 (Apple Git-154)
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ fs/btrfs/direct-io.c        |  2 +-
+ fs/btrfs/disk-io.c          | 11 +++++++----
+ fs/btrfs/free-space-cache.c |  4 ++--
+ fs/btrfs/inode.c            | 12 ++----------
+ fs/btrfs/volumes.c          |  4 ++--
+ 5 files changed, 14 insertions(+), 19 deletions(-)
+
+diff --git a/fs/btrfs/direct-io.c b/fs/btrfs/direct-io.c
+index 460326d34143..4bb5890d0898 100644
+--- a/fs/btrfs/direct-io.c
++++ b/fs/btrfs/direct-io.c
+@@ -115,7 +115,7 @@ static int lock_extent_direct(struct inode *inode, u64 lockstart, u64 lockend,
+ 			/*
+ 			 * We could trigger writeback for this range (and wait
+ 			 * for it to complete) and then invalidate the pages for
+-			 * this range (through invalidate_inode_pages2_range()),
++			 * this range (through filemap_invalidate_pages()),
+ 			 * but that can lead us to a deadlock with a concurrent
+ 			 * call to readahead (a buffered read or a defrag call
+ 			 * triggered a readahead) on a page lock due to an
+diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
+index 2f1666d9544e..2cf9189225c9 100644
+--- a/fs/btrfs/disk-io.c
++++ b/fs/btrfs/disk-io.c
+@@ -3304,7 +3304,8 @@ static void invalidate_and_check_btree_folios(struct btrfs_fs_info *fs_info)
+ 	struct extent_buffer *eb;
+ 	int ret;
+ 
+-	ret = invalidate_inode_pages2(fs_info->btree_inode->i_mapping);
++	ret = filemap_invalidate_pages(fs_info->btree_inode->i_mapping, 0,
++			OFFSET_MAX);
+ 	if (likely(ret == 0))
+ 		return;
+ 
+@@ -3339,7 +3340,8 @@ static void invalidate_and_check_btree_folios(struct btrfs_fs_info *fs_info)
+ 		rcu_read_lock();
+ 	}
+ 	rcu_read_unlock();
+-	invalidate_inode_pages2(fs_info->btree_inode->i_mapping);
++	filemap_invalidate_pages(fs_info->btree_inode->i_mapping, 0,
++			OFFSET_MAX);
+ }
+ 
+ static u32 calc_block_max_order(u32 sectorsize_bits)
+@@ -4739,7 +4741,8 @@ static void btrfs_destroy_delalloc_inodes(struct btrfs_root *root)
+ 			unsigned int nofs_flag;
+ 
+ 			nofs_flag = memalloc_nofs_save();
+-			invalidate_inode_pages2(inode->i_mapping);
++			filemap_invalidate_pages(inode->i_mapping, 0,
++					OFFSET_MAX);
+ 			memalloc_nofs_restore(nofs_flag);
+ 			iput(inode);
+ 		}
+@@ -4837,7 +4840,7 @@ static void btrfs_cleanup_bg_io(struct btrfs_block_group *cache)
+ 		unsigned int nofs_flag;
+ 
+ 		nofs_flag = memalloc_nofs_save();
+-		invalidate_inode_pages2(inode->i_mapping);
++		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
+ 		memalloc_nofs_restore(nofs_flag);
+ 
+ 		BTRFS_I(inode)->generation = 0;
+diff --git a/fs/btrfs/free-space-cache.c b/fs/btrfs/free-space-cache.c
+index e2af75a205ea..a5d5eba2c85d 100644
+--- a/fs/btrfs/free-space-cache.c
++++ b/fs/btrfs/free-space-cache.c
+@@ -1307,7 +1307,7 @@ static int __btrfs_wait_cache_io(struct btrfs_root *root,
+ 				io_ctl->entries, io_ctl->bitmaps);
+ out:
+ 	if (ret) {
+-		invalidate_inode_pages2(inode->i_mapping);
++		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
+ 		BTRFS_I(inode)->generation = 0;
+ 		if (block_group)
+ 			btrfs_debug(root->fs_info,
+@@ -1500,7 +1500,7 @@ static int __btrfs_write_out_cache(struct inode *inode,
+ 	io_ctl->inode = NULL;
+ 	io_ctl_free(io_ctl);
+ 	if (ret) {
+-		invalidate_inode_pages2(inode->i_mapping);
++		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
+ 		BTRFS_I(inode)->generation = 0;
+ 	}
+ 	btrfs_update_inode(trans, BTRFS_I(inode));
+diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+index 2534cd9284d5..a1bb73f083aa 100644
+--- a/fs/btrfs/inode.c
++++ b/fs/btrfs/inode.c
+@@ -7616,12 +7616,6 @@ static void wait_subpage_spinlock(struct folio *folio)
+ 	spin_unlock_irq(&bfs->lock);
+ }
+ 
+-static int btrfs_launder_folio(struct folio *folio)
+-{
+-	return btrfs_qgroup_free_data(folio_to_inode(folio), NULL, folio_pos(folio),
+-				      folio_size(folio), NULL);
+-}
+-
+ static bool __btrfs_release_folio(struct folio *folio, gfp_t gfp_flags)
+ {
+ 	if (try_release_extent_mapping(folio, gfp_flags)) {
+@@ -10027,9 +10021,8 @@ ssize_t btrfs_do_encoded_write(struct kiocb *iocb, struct iov_iter *from,
+ 		ret = btrfs_wait_ordered_range(inode, start, num_bytes);
+ 		if (ret)
+ 			goto out_cb;
+-		ret = invalidate_inode_pages2_range(inode->vfs_inode.i_mapping,
+-						    start >> PAGE_SHIFT,
+-						    end >> PAGE_SHIFT);
++		ret = filemap_invalidate_pages(inode->vfs_inode.i_mapping,
++				start, end);
+ 		if (ret)
+ 			goto out_cb;
+ 		btrfs_lock_extent(io_tree, start, end, &cached_state);
+@@ -10782,7 +10775,6 @@ static const struct address_space_operations btrfs_aops = {
+ 	.writepages	= btrfs_writepages,
+ 	.readahead	= btrfs_readahead,
+ 	.invalidate_folio = btrfs_invalidate_folio,
+-	.launder_folio	= btrfs_launder_folio,
+ 	.release_folio	= btrfs_release_folio,
+ 	.migrate_folio	= btrfs_migrate_folio,
+ 	.dirty_folio	= btrfs_data_dirty_folio,
+diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+index 6eab4cc73ce4..0301465ab87f 100644
+--- a/fs/btrfs/volumes.c
++++ b/fs/btrfs/volumes.c
+@@ -1370,8 +1370,8 @@ struct btrfs_super_block *btrfs_read_disk_super(struct block_device *bdev,
+ 		 * Drop the page of the primary superblock, so later read will
+ 		 * always read from the device.
+ 		 */
+-		invalidate_inode_pages2_range(mapping, bytenr >> PAGE_SHIFT,
+-				      (bytenr + BTRFS_SUPER_INFO_SIZE) >> PAGE_SHIFT);
++		filemap_invalidate_pages(mapping, bytenr,
++				bytenr + BTRFS_SUPER_INFO_SIZE - 1);
+ 	}
+ 
+ 	filemap_invalidate_lock_shared(mapping);
+-- 
+2.47.3
+
