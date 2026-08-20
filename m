@@ -1,303 +1,204 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3A6449B17
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 13:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF143470E95;
+	Thu, 20 Aug 2026 13:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787231930; cv=none; b=vD/NsPYei3UaWM6zS+YZrlp+gH+El7rid3fOlfAxdINMAFF6ELJahWu/t4BGSt/VUl22AVq8wPRpHXok3L35kqGxQugtxupTeTNrhZLRPq+0mt7eqeSn6EByxXeXy02j7NbKnq6fwT+sD8j5eJGJFw/3+uxDh1gf2alGxI9aLyY=
+	t=1787233163; cv=none; b=Mzvx3i7dwYTSCoa1cnUP2g1npxR59U6q6PUvS+icFypwFQTn0U+iihFzmnNaWGDCRMX6geoTDXeJa2HFpjLOMidoZtfPnxna8Ko0cOx8BA7PqzheK6IrFMySbqajhP13HQiTrOJHlB9GTHnJYBsPketuBCnnF5q8SLTInFAQJps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787231930; c=relaxed/simple;
-	bh=f/eVcXeoiqfV4jlIqAc69WXM4ZBCO3csmi5dXDXXPOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TtbqB90dDvDxiQDXJUzH02n43+lIY4PjmbRRrqQXQWtfS4zYu5j02yYmXUA1E0gKLoIVC2k8QZAlTLJFq+07ioovxpipDjpDfBZd1ErmWfBODPQw5K/AKUPlgUHK4QQ2KVKfFUgcqjMyRkI4wPOTYxkrcTMeWkyBS9B+R1SVB7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QkQDIuaR; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787233163; c=relaxed/simple;
+	bh=c2aZTXsKotnTEQLxiQQU3f7OVBAi/23fQ8T+VGgh1Ls=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=kjozd13YQtolE5Fnkv5oRk0U+ab12yu638+rgqrr0RhDg4I/vhVLPHWR9mCd/RSSJUUu6T8yAAtHUW6eZo8rTPEq89c5Jzhvy4ZXYXtZacBVC3z/HxIw8Av8vpjIu0UH7AUR9GhIHm37LTcZ4Zlh5ImJmzPdjJdNOaJX6DYPVPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sici3JbO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QkQDIuaR"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4956242332dso23115115e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 06:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787231925; x=1787836725; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vR40jF9Ss8LmiP9zSaPNfnunPJsok/mkpHKsfsj1AOo=;
-        b=QkQDIuaR2WKegu2Qgjv7FQom99t505tsPoaT4Q+kXMp5E6f+JIP9/Xk0lUFiAoxUbZ
-         9VtFXzGW8pc+wDMb3lCcjUOxCRdWwA+O4v2s/rkYC9EgR8M+zOqZC5P4eaBwls2tnX35
-         IRSIQSD6IuRpH0SQL4FMrpd/6l6vszZoGC0zXzt041D7BQDi9+0iZdvPb9GOIOiwqBqo
-         Ne1+mERowikGOfEydBzkFSOsd7WQjakLitEqlc3OAJR3WOIanYIdTuwC7qZL7Qlm2pqW
-         qdvSMjm7/XwfcR2qRZF0y7j0cIXlVruWTEAiZK015pJvnIHjNRvUuHAkob+DLlsk5/4I
-         geMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787231925; x=1787836725;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vR40jF9Ss8LmiP9zSaPNfnunPJsok/mkpHKsfsj1AOo=;
-        b=b2dqYNyU7HlSlJSOqAbFPI4l5EXL1VUoPZPyGyC3L5THz+xB6qVC/BrT7CFxQdS2+s
-         1lYx3WHJOsaPRctbDMPPmcM58GZQdgJKIBSAAbe6MErwulH3gY5KArzD10FvX6r6d7t/
-         N+zgcYO2hb7EMiuMx0GgPw5ZyF65tKbU5qlmJtZYfFyXAN8M4otk3RHS0CWscH4zXJi7
-         1giKFFh5gxXisTmgooMVjKAcXa0OTBQMaT0iQcAhACKI2v8iC47jNADmGGbb4SqTOA+K
-         kx6iJFSuUTOz5lTYV51OdsYU+xoegtUnPw4r1gR5d2QCC/Tml/sJNUXe26udL9T2FN0Q
-         KBQw==
-X-Forwarded-Encrypted: i=1; AHgh+RrTJUCgxd3+EoWpTqPvWBfQ3bWgu/3bEBhhpJQoHBxm1IaJgeDEBmr1JqYY2x5q2z4J2j/Ba091YFJFPCh6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7NuRM4XPBko62sNw45huN11MV814IPm6nHL9oauuCZGCVvhXd
-	eUbUx/XZadiWuRb+6I/qhQ4o9N9PhL0K1UyjY2IJK/WqYcPMt/c47w5tclBt7rGlGWI=
-X-Gm-Gg: AR+sD11yacJ9NsRvoXUxMh+hP4urglJi7su5t7E+y5YIaZuou8/Dw/g86IzC3oQLYaB
-	6kJ1AC5O1S5BHP19RUDSEPycJMfp0xFiAezhc3a0SKQXcO53+xG/kqDfUWJDjxp2N7TDWnm3E00
-	E6dOW6jP8jBy9TQ+AOHk+RLJWB4tSE6LItYF1KX5Ve3OCLar8bi2EQjGMSwPPwFRD3AaGAjSaJc
-	z6WbvssCVgUNCWjWZlnbxJupuSYSgiXkxXOEtbhex7au4K8qyXwAYJq2C9V1SA3DXb/zk1ipQW0
-	vNAlhqTeyK055ye5c1P3bUXWCaLL8/df7G/3i9jojp2ur/KIZzQzSqHHnQbI+/7oIUMg6Yy/IAc
-	xBalNJgsTI3kHfIX54E95l8LGPcKDQnmZK970Vj6sPEIXIw1M95LD1lk/A/g3vs1vRqqXFazMEl
-	E2tIdKa1rFxyT5g2gpvk+vENUAVVMUy1S8t2QMtT2OWy8ZG01xpJxQIie1p/s6jILvbFtK0Zq7i
-	ECk
-X-Received: by 2002:a05:600c:470a:b0:499:a5fc:207e with SMTP id 5b1f17b1804b1-499aa17e2bamr164727435e9.8.1787231924991;
-        Thu, 20 Aug 2026 06:18:44 -0700 (PDT)
-Received: from dell-desktop ([2a02:587:4b5e:1100:7303:647d:7cc4:8552])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa0e473dsm136027275e9.15.2026.08.20.06.18.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 06:18:44 -0700 (PDT)
-From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-To: bpf@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	eddyz87@gmail.com,
-	memxor@gmail.com,
-	kpsingh@kernel.org,
-	matt@bobrowski.net,
-	song@kernel.org,
-	utilityemal77@gmail.com,
-	tasos.papagiannnis@gmail.com
-Subject: [PATCH bpf-next v2 3/3] selftests/bpf: Test linux_binprm user memory kfuncs
-Date: Thu, 20 Aug 2026 16:18:01 +0300
-Message-ID: <20260820131801.68759-4-tasos.papagiannnis@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260820131801.68759-1-tasos.papagiannnis@gmail.com>
-References: <20260820131801.68759-1-tasos.papagiannnis@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sici3JbO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15111F00A3D;
+	Thu, 20 Aug 2026 13:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787233162;
+	bh=L2i2SfrrQ2kr3E4fUn58Y4XhMywnculujc8OIEZrVB8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Sici3JbOQizYFlIXggBwe7MgZeCN6TNjNk0ERw31GVUQmuZPEzQ01gpGnSWD1sMpn
+	 zQFwDnofgLU864atP6/tqDBtmujiZ5idyZKRyln3sZOW43Toj6YclyZbgS+cQf4FsQ
+	 0wnXzpg1K2jxJkxe3iBTUDJt5ptkFJWJ0rRUnb/KHE4tyRdxXYN7mo3PaUX7SrnqPK
+	 cse1ATo/8tWIduiy2izhC/2selzKFxLdKh6OItup/8+2yZ0y8E6QOQtMzxHraaA7E8
+	 I0D0kVKxwKYgSW2N3ZkA+64P85VTpqTaYA6GNTYmlZnJnLYTAWoJaPdUs07bk+zjRQ
+	 sUofwGU1LGYKQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0FE5BF40066;
+	Thu, 20 Aug 2026 09:39:21 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 20 Aug 2026 09:39:21 -0400
+X-ME-Sender: <xms:iAOHalyG6G0dQLLCNtTw403Opb8WXevL_Isrb5Vfi7eSAFYybKdvgw>
+    <xme:iAOHagGxFjWfeEJPiCYOKBZtdmy1B8Y3f9glIYMBacwEAgcahh6tJtlyYARWLvAoh
+    baIweg3_NUd_JsMZHLisLaLfH--ibLgl2FP6Uc7fYlLCvWihluCtghg>
+X-ME-Proxy-Cause: dmFkZTFP4FeOKf5BWVYB8+8unwx4eT974UKuXMkwt0vKrk9dVZD4SogVp7fKs1rghfP3wk
+    dTtR/326e0hSsOaIRqwENRgZwqbVUQzksrt4doe6qD/sGy9sBJgTrBfl1DlOkB2ZUb6ugE
+    wUFcNBWtSqdk5qvptpFMIpNInTOxSbG8voiRmZMkw6zRyvfUaEV2LTwFfLtuO7BY6h2o3T
+    lERQMRhQZZ9ycKzOx0oIDSmaQWoLP71hMaeAmTYgmpifXOs7MkkeoSoFKkUnfytCjxuCl7
+    AeZB28U5c9ucyN+PjpCM69GE/OP/6kaY4S3vfbxVua2kaVQBjo+NnrPPc9KkPdzQn2xNTL
+    K8xD+UW9lzKTQUfyzgOsFf8lTQsQvzHN2wf7HMGLweqJs2iryTO1rOurRZpgdqO4oDBEBg
+    P7YrTu0JVQRyL53bo7nBH2EWH0VQbS3587m+DvMFVPLVIxRopXennsYfT62Czo5tx9641r
+    OPdfppR/DLW5BiEd1CgG8X6cqpFVxJmZxCgk7aBt24/CQQaiJPdmbL7WhF4v98JmQuBPco
+    RBgyGtd6G9b/NtEebf9jCfo5svJSy5bGxuau2FPm8SdElLKSfPwsErd4i3fajfbaM0Q6zZ
+    +mX8WIp7QpoteuD0ni6Pu8P99mwc0flZiPYqwqejPUhcAiKEVIRNL5pyNxSA
+X-ME-Proxy: <xmx:iAOHau7aBlFVUUUFvHPjiKktd9jQGkOYF86yb59gHtHMQzgB5LMGCQ>
+    <xmx:iQOHajUdTt8T2eeBjpk4vco6uHHGGpftn3-Fx3LtkIZwNrdxL4SA2Q>
+    <xmx:iQOHasIzTXXVSxfH9cV0onv3Ide0BxbFi8t9HkrKylfidCuBA8eK0w>
+    <xmx:iQOHaoSE2ZkeAsN-2NtBnwLdhZpYlPNgXP69jorYO39HBeQDd59bVA>
+    <xmx:iQOHaohQprhurksJT9XbgRMD6m5Bqf6ebxq-dZ2KJ_XX8eDXzaVIA5nP>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CFF8C7811F0; Thu, 20 Aug 2026 09:39:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AvwrKSmIynuB
+Date: Thu, 20 Aug 2026 09:39:00 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: NeilBrown <neil@brown.name>, "Ian Kent" <raven@themaw.net>,
+ "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>
+Cc: autofs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
+In-Reply-To: <20260815042707.2535717-14-neilb@ownmail.net>
+References: <20260815042707.2535717-1-neilb@ownmail.net>
+ <20260815042707.2535717-14-neilb@ownmail.net>
+Subject: Re: [PATCH v2 13/18] VFS: don't move dentries in d_sib list when they have the
+ same parent
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-This patch adds a sleepable BPF LSM program attached to
-bprm_check_security to test bpf_copy_from_user_bprm() and
-bpf_copy_from_user_bprm_str().
 
-Starting at bprm->p, verify that bpf_copy_from_user_bprm() can copy the
-contiguous NUL-separated argument and environment data. Then
-use bpf_copy_from_user_bprm_str() to read each argument and environment
-string separately, by advancing the offset based on the returned length.
 
-Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
----
- .../bpf/prog_tests/copy_from_user_bprm.c      |  62 ++++++++++
- .../selftests/bpf/progs/copy_from_user_bprm.c | 115 ++++++++++++++++++
- 2 files changed, 177 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
- create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
+On Sat, Aug 15, 2026, at 12:21 AM, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
+>
+> When __d_move() moves or exchanges dentries it currently always moves
+> both dentries to the head of the ->d_children list of the respective
+> parents.
+>
+> When they have the same parent, this simply moves them from where they
+> are to the start in the same list.  So it achieves nothing useful.
+>
+> A future patch will allow d_for_each_positive_child() to drop and retake
+> the parent's d_lock during the iteration.  With the current __d_move
+> behaviour this would allow a dentry to be moved to the front and so
+> missed, even though it is still in the same directory.  This might be
+> unexpected.
+>
+> With this change the only dentries that d_for_each_positive_child()
+> might miss are those moved out of the directory, or those moved in after
+> the iteration started.  These are unavoidable and should not be
+> unexpected.
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/dcache.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index ae726f3ff0cb..50fbbcceca01 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -3052,6 +3052,9 @@ static void copy_name(struct dentry *dentry, 
+> struct dentry *target)
+>   * entries should not be moved in this way. Caller must hold 
+> rename_lock, the
+>   * i_rwsem of the source and target directories (exclusively), and the 
+> sb->
+>   * s_vfs_rename_mutex if they differ. See lock_rename().
+> + *
+> + * If @dentry and @target have the same parent, then neither is
+> + * moved in the d_sib list.
+>   */
+>  static void __d_move(struct dentry *dentry, struct dentry *target,
+>  		     bool exchange)
+> @@ -3119,15 +3122,20 @@ static void __d_move(struct dentry *dentry, 
+> struct dentry *target,
+>  	} else {
+>  		target->d_parent = old_parent;
+>  		swap_names(dentry, target);
+> -		if (!hlist_unhashed(&target->d_sib))
+> -			__hlist_del(&target->d_sib);
+> -		hlist_add_head(&target->d_sib, &target->d_parent->d_children);
+> +		if (target->d_parent != dentry->d_parent) {
+> +			if (!hlist_unhashed(&target->d_sib))
+> +				__hlist_del(&target->d_sib);
+> +			hlist_add_head(&target->d_sib,
+> +				       &target->d_parent->d_children);
+> +		}
+>  		__d_rehash(target);
+>  		fsnotify_update_flags(target);
+>  	}
+> -	if (!hlist_unhashed(&dentry->d_sib))
+> -		__hlist_del(&dentry->d_sib);
+> -	hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
+> +	if (dentry->d_parent != old_parent) {
+> +		if (!hlist_unhashed(&dentry->d_sib))
+> +			__hlist_del(&dentry->d_sib);
+> +		hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
+> +	}
+> 
+>  	/*
+>  	 * Adjust parent refcounts if either d_children ended up empty.
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-new file mode 100644
-index 000000000000..1007e3aec054
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <errno.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include <test_progs.h>
-+
-+#include "copy_from_user_bprm.skel.h"
-+
-+void test_copy_from_user_bprm(void)
-+{
-+	char arg0[] = "first";
-+	char arg1[] = "second-argument";
-+	char env0[] = "SOME_ENV=a";
-+	char env1[] = "OTHER_ENV=something";
-+	struct copy_from_user_bprm *skel;
-+	pid_t child;
-+	int status;
-+
-+	skel = copy_from_user_bprm__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "open_and_load"))
-+		return;
-+
-+	if (!ASSERT_OK(copy_from_user_bprm__attach(skel), "attach"))
-+		goto out;
-+
-+	child = fork();
-+	if (!ASSERT_GE(child, 0, "fork"))
-+		goto out;
-+
-+	if (!child) {
-+		char *const argv[] = { arg0, arg1, NULL };
-+		char *const envp[] = { env0, env1, NULL };
-+
-+		skel->bss->monitored_pid = getpid();
-+		execve("/bin/true", argv, envp);
-+		_exit(errno);
-+	}
-+
-+	if (!ASSERT_EQ(waitpid(child, &status, 0), child, "waitpid"))
-+		goto out;
-+
-+	if (ASSERT_TRUE(WIFEXITED(status), "child_exited"))
-+		ASSERT_EQ(WEXITSTATUS(status), EPERM, "exec_errno");
-+
-+	ASSERT_EQ(skel->bss->bprm_argc, 2, "bprm_argc");
-+	ASSERT_EQ(skel->bss->bprm_envc, 2, "bprm_envc");
-+	ASSERT_EQ(skel->bss->data_len_match, 1, "data_len_match");
-+	ASSERT_EQ(skel->bss->invalid_flags_ret, -EINVAL, "invalid_flags_ret");
-+	ASSERT_EQ(skel->bss->copy_ret, 0, "copy_ret");
-+	ASSERT_EQ(skel->bss->str_arg0_ret, sizeof(arg0), "str_arg0_ret");
-+	ASSERT_EQ(skel->bss->str_arg1_ret, sizeof(arg1), "str_arg1_ret");
-+	ASSERT_EQ(skel->bss->str_env0_ret, sizeof(env0), "str_env0_ret");
-+	ASSERT_EQ(skel->bss->str_env1_ret, sizeof(env1), "str_env1_ret");
-+	ASSERT_EQ(skel->bss->data_match, 1, "data_match");
-+	ASSERT_EQ(skel->bss->str_args_match, 1, "str_args_match");
-+	ASSERT_EQ(skel->bss->str_envs_match, 1, "str_envs_match");
-+
-+out:
-+	copy_from_user_bprm__destroy(skel);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-new file mode 100644
-index 000000000000..4d7e9002b45b
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-@@ -0,0 +1,115 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include "vmlinux.h"
-+
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+#include <errno.h>
-+#include "bpf_misc.h"
-+
-+char _license[] SEC("license") = "GPL";
-+
-+static const char expected_data[] = "first\0second-argument\0"
-+				    "SOME_ENV=a\0OTHER_ENV=something";
-+static const char expected_arg0[] = "first";
-+static const char expected_arg1[] = "second-argument";
-+static const char expected_env0[] = "SOME_ENV=a";
-+static const char expected_env1[] = "OTHER_ENV=something";
-+
-+int monitored_pid;
-+int bprm_argc;
-+int bprm_envc;
-+int data_len_match;
-+int invalid_flags_ret;
-+int copy_ret;
-+int str_arg0_ret;
-+int str_arg1_ret;
-+int str_env0_ret;
-+int str_env1_ret;
-+int data_match;
-+int str_args_match;
-+int str_envs_match;
-+
-+extern int bpf_copy_from_user_bprm(void *dst, u32 dst__sz,
-+				   const void *unsafe_ptr__ign,
-+				   const struct linux_binprm *bprm,
-+				   u64 flags) __ksym;
-+
-+extern int bpf_copy_from_user_bprm_str(void *dst, u32 dst__sz,
-+				       const void *unsafe_ptr__ign,
-+				       const struct linux_binprm *bprm,
-+				       u64 flags) __ksym;
-+
-+SEC("lsm.s/bprm_check_security")
-+int BPF_PROG(check_exec_args, struct linux_binprm *bprm)
-+{
-+	u32 pid = bpf_get_current_pid_tgid() >> 32;
-+	char data[sizeof(expected_data)];
-+	char arg0[32];
-+	char arg1[32];
-+	char env0[32];
-+	char env1[32];
-+	u64 offset = 0;
-+	u64 data_len;
-+
-+	if (pid != monitored_pid)
-+		return 0;
-+
-+	bprm_argc = bprm->argc;
-+	bprm_envc = bprm->envc;
-+
-+	/* this is the total size of args and envs starting from bprm->p */
-+	data_len = bprm->exec - bprm->p;
-+	data_len_match = data_len == sizeof(expected_data);
-+
-+	invalid_flags_ret = bpf_copy_from_user_bprm(data,
-+						    sizeof(data), (void *)bprm->p, bprm, ~0ULL);
-+
-+	copy_ret = bpf_copy_from_user_bprm(data, sizeof(data), (void *)bprm->p,
-+					   bprm, 0);
-+	if (copy_ret)
-+		return 0;
-+
-+	data_match =
-+		!__builtin_memcmp(data, expected_data, sizeof(expected_data));
-+
-+	/* arg0 is at bprm->p */
-+	str_arg0_ret = bpf_copy_from_user_bprm_str(arg0, sizeof(arg0),
-+						   (void *)(bprm->p + offset),
-+						   bprm, BPF_F_PAD_ZEROS);
-+	if (str_arg0_ret != sizeof(expected_arg0))
-+		return 0;
-+	offset += str_arg0_ret;
-+
-+	/* arg1 is at bprm->p + sizeof(arg0) */
-+	str_arg1_ret = bpf_copy_from_user_bprm_str(arg1, sizeof(arg1),
-+						   (void *)(bprm->p + offset),
-+						   bprm, BPF_F_PAD_ZEROS);
-+	if (str_arg1_ret != sizeof(expected_arg1))
-+		return 0;
-+	offset += str_arg1_ret;
-+
-+	/* env0 is at bprm->p + sizeof(arg0) + sizeof(arg1) */
-+	str_env0_ret = bpf_copy_from_user_bprm_str(env0, sizeof(env0),
-+						   (void *)(bprm->p + offset),
-+						   bprm, BPF_F_PAD_ZEROS);
-+	if (str_env0_ret != sizeof(expected_env0))
-+		return 0;
-+	offset += str_env0_ret;
-+
-+	/* env1 is at bprm->p + sizeof(arg0) + sizeof(arg1) + sizeof(env0) */
-+	str_env1_ret = bpf_copy_from_user_bprm_str(env1, sizeof(env1),
-+						   (void *)(bprm->p + offset),
-+						   bprm, BPF_F_PAD_ZEROS);
-+	if (str_env1_ret != sizeof(expected_env1))
-+		return 0;
-+
-+	str_args_match =
-+		!__builtin_memcmp(arg0, expected_arg0, sizeof(expected_arg0)) &&
-+		!__builtin_memcmp(arg1, expected_arg1, sizeof(expected_arg1));
-+	str_envs_match =
-+		!__builtin_memcmp(env0, expected_env0, sizeof(expected_env0)) &&
-+		!__builtin_memcmp(env1, expected_env1, sizeof(expected_env1));
-+
-+	return data_match && str_args_match && str_envs_match ? -EPERM : 0;
-+}
+Both new guards are correct. In the exchange branch target->d_parent has
+already been set to old_parent, so testing it against dentry->d_parent
+asks whether the two dentries started in the same directory. In the
+common branch dentry->d_parent has been set to target's parent, so
+testing it against old_parent asks the same question. IS_ROOT()
+still takes the move, which it needs to because a root dentry has an
+unhashed d_sib, and the BUG_ON(p) above guarantees target->d_parent
+is not dentry.
+
+The opening sentence needs a qualifier. For an ordinary move only
+dentry->d_sib is relocated. target->d_sib is touched only on the
+exchange path, so "both dentries" describes just that case.
+
+This patch also does more for libfs than the patch description claims.
+I would like the description to say so, because it makes the patch
+worth applying on its own.
+
+offset_readdir() resolves a stale cookie with mas_find_rev() and then
+walks d_children from the dentry it lands on. That is correct only
+while offset order is the reverse of d_children order. d_alloc()
+inserts at the head and mtree_alloc_cyclic() hands out increasing
+offsets, so the two agree in a directory that is only created into.
+
+A rename within one directory breaks the agreement today.
+simple_offset_rename() gives the surviving dentry the offset of the
+entry it replaced, and d_move() then sends that dentry to the head of
+d_children. Create a, b and c in that order and the offsets are 3, 4
+and 5, with d_children holding c, b, a. After rename("a", "b") the
+dentry for a carries offset 4 and sits at the head, so d_children
+holds a, c while offset order still says c, a. Stop a readdir with a
+reported and c pending, remove c, and the next call resolves the
+cookie to a and reports a a second time.
+
+With this patch a stays where it is, d_children holds c, a, and the
+two orders agree again. Thus this is a fix for tmpfs readdir, not
+just preparation for 14/18.
+
+Reviewed-by: Chuck Lever <cel@kernel.org>
+
+
 -- 
-2.55.0
-
+Chuck Lever
