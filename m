@@ -1,96 +1,143 @@
-Received: from mta1.migadu.com (out-42.mta1.migadu.com [95.215.58.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018613DA7F3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 09:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F653C197E;
+	Thu, 20 Aug 2026 10:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787219955; cv=none; b=HjlSTh5Ri6hP3QuLT2VV9MY5wF+/UD1CcVDhd+2ODFfbgeHZmEdSyFSmrfK4SO24AheR8T/vENUjmGGRWkwMUUxyShiN6nPsQ4/hm3IEx8zpb6qRF09JP3P7iA1sFuSJgFgl+qR8oXiEwYiZGoOm1HdB9929k+jK+NxkO2HZ6WE=
+	t=1787220155; cv=none; b=RbyS8WS8zlFyZ6ekh70YZtZ31a+sEq8jt04/QYWCtYDtIwrRK4SHiks0dDi8Umg0eerOPgOjFvfIAP3zx+UNN5NCy7PfWKyKpN8/y3HegOhlR+l9HMaJJe3YkxW5Bz3jfB/bZI1H/62sSlqI443sA9J8KuNhyntCqhy1ZoNsmBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787219955; c=relaxed/simple;
-	bh=ibyIE9gKf2iOY1+mVf6oD4UPNPJ9RqEZuDFV5F2gXBk=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tzCIMjr36u06AM97fs1ufEi+VCC/k0W7EJuIzKg04+mJ/LvD9eAwR4ABONEBqZ5SkHD4dwVvhcp+t+YT3A+9hXPjSSVyghnUG3EqXwC/+nV0ycrblSbIP1Sk2GLYFcaBO7iHmCvj8e4MBR/MzBEQTjOaZHB6w/oYfYhn47Rnrc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fyDzUDzX; arc=none smtp.client-ip=95.215.58.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787220155; c=relaxed/simple;
+	bh=bg6TiMAUaqWRs8yxlYnStaYCY/nh3tdw1e1+u4F9yh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WBSGcfTGZbAu76j+AoKEsz+LHzGXapf2Bn1A1lsiDqppFGbfyXb1N8LIzM8STIFQ6p44+8Wsm/KPgSspbBHAvhy3gddFW0xlrHzXur3qT7lAxm7C3Uwesa7VEEQsiJHA+b815H2Tjz6m2MphoilfXgjjc6MKoP7Gzr6fLzAT4FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=kHRXLlc7; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fyDzUDzX"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ibyIE9gKf2iOY1+mVf6oD4UPNPJ9RqEZuDFV5F2gXBk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787219951; v=1; x=1787824751;
- b=fyDzUDzXcPvYUy11JLRjChoyubrTwAQsy7f3+ZeatlvDNULgvzirf4SV3nTRHNXkR6TVJ1Pb
- LkiCeR1vXoJVte4OHMgi3Hn6nV7Nsf4j6ThbqVxuqcoDxEjFNtO9th4AcmxaE/V/Qm2MQOPGT2v
- Lb/ckhDTGbPSUZV7hGr1rXFI=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: from [192.168.110.173] (223.70.159.239)
-	by smtp.migadu.com with ESMTPS id e22ed27fc468e85d;
-	Thu, 20 Aug 2026 09:59:10 +0000
-X-Mizu-Trace-ID: e22ed27fc468e85d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <7b2733a4-71d2-43bb-b319-1ca8defba17e@linux.dev>
-Date: Thu, 20 Aug 2026 17:58:58 +0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="kHRXLlc7"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67K99kcX471575;
+	Thu, 20 Aug 2026 10:01:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=5ZUL5Z9SYt8WjEdHcCbeeDg/xImehB
+	3cb41xy7ozOFU=; b=kHRXLlc7BMKzX7CLDN6tzH2CiQdDdlljDHSt54dJKBPhkQ
+	j3p8fFJP2wUd0RR1V0f6Gtb+zHHSp5ocxZbPCq8Zyh/qmHnk9tZyD+fXAyWWXfO1
+	s4lIbIJe/+YQK/fw7O9pjineSdi4stHUS5bHFZZhsz4xrg3j8199C36IwXgb+kW1
+	abpg8X6oFuJJ9z4Tq2HvocL3y9t42piujn/YsdXlgcyFOwxoipQTSuqb/tZx4w75
+	vVJp+uNQVlpQXCUdNMckirpt04JLrilHaaNsPPLHETTKwExQJCluzDK98ECLsHVX
+	ApFcCH2sqI5+f/8L9HtcQczHZzGDTg9ydVcjSlAw==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g4yu0hh5s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Aug 2026 10:01:57 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67K9uJ9Z003091;
+	Thu, 20 Aug 2026 10:01:56 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4g33xhdtec-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Aug 2026 10:01:56 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67KA1sbU51380596
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 Aug 2026 10:01:54 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 051F42005A;
+	Thu, 20 Aug 2026 10:01:54 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1366020067;
+	Thu, 20 Aug 2026 10:01:50 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.123.13.2])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 20 Aug 2026 10:01:49 +0000 (GMT)
+Date: Thu, 20 Aug 2026 15:31:47 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>,
+        Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
+        Daniel Gomez <da.gomez@kernel.org>, Theodore Tso <tytso@mit.edu>,
+        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [RFC PATCH v3 09/11] xfs: Implement RWF_NOSERIAL to parallelize
+ RWF_WRITETHROUGH writes
+Message-ID: <aobQiwQeqtzcUy-h@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1785908600.git.ojaswin@linux.ibm.com>
+ <945bb8c88a121580cb07d0311c6742a2584ea6b2.1785908600.git.ojaswin@linux.ibm.com>
+ <aoMMIfyEuuaDFpMh@quentin>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: cui.tao@linux.dev, Yu Kuai <yukuai@fygo.io>,
- Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
- Ming Lei <ming.lei@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Coly Li <colyli@fygo.io>,
- Kent Overstreet <kent.overstreet@linux.dev>, Alasdair Kergon
- <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>,
- Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Dan Williams <djbw@kernel.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Andreas Gruenbacher <agruenba@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
- virtualization@lists.linux.dev, gfs2@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v3 3/3] blk-cgroup: move async bio punt state to blkcg
-To: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Tejun Heo <tj@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>
-References: <20260818070641.756747-1-yukuai@kernel.org>
- <20260818070641.756747-4-yukuai@kernel.org>
-From: Tao Cui <cui.tao@linux.dev>
-In-Reply-To: <20260818070641.756747-4-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoMMIfyEuuaDFpMh@quentin>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=MthiLWae c=1 sm=1 tr=0 ts=6a86d096 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=bQ7MZcWsUW_w0_kgk-kA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: g1VDju94doV9WRVTbrrDtB0eSdsWXssj
+X-Proofpoint-GUID: Ct-dVH7gAufKA4s268R5rd9r-obPPj75
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDA3MyBTYWx0ZWRfX9HFFzydDJ5hH
+ oefgEnsN1owK02tJRzaHztoTDVNgn4AgLCO36ygvGAzvCSZ/jqXYZS6aRc5IyTNcMec/SRUhxUg
+ OfeWMeu1313Ojo8AQJh0ljI/w1Ylic0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDA3MyBTYWx0ZWRfX4GolvT/WcCpg
+ duMbiLR+zFPUFNbA57TRsEnIye9d4i2neF4Q2TjTATl3Y5ZeFgSfXddp/Q40wMQOZ0r53afk0sL
+ VDpQ/xe9hyiRC8kweFlqYjzj0vlb08vgAJpvCXjCNJcX0Kc5afyA6nHSz7UhEkCY7RM77hJik41
+ EdDggafm0ee0ZDDvWlff79EdIcqSu+JmNGD/QodX7rlkc7Li+Nmik5Xji35YSYK5BZ9+1Dz1Hwf
+ Dz4D4OCAdXlO4C1pPmdqyDZaPU0ZdaDdFrok+qCuqeTbKYhtRb2xEAtt+cHjx9Qt9zuPFhus+LU
+ 0Pi6XRlzpq920AR6dW7dt+FLVxL/I4xQam7eOkQkXZ2bavEQFuRU0ZjehQTZJRKT2HGegph94gQ
+ I5kQjZQlg9uV23ybXZC6qDjZPlC6yX7lcUy0E7/Y805GTg9jc6N5j/K92tN42nSMl28x0cGFPGF
+ bl5w3haSpRjwtG20G1Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_06,2026-08-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 bulkscore=0 phishscore=0 clxscore=1015
+ spamscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200073
 
-
-
-在 2026/8/18 15:06, Yu Kuai 写道:
-> blkcg_punt_bio_submit() currently queues punted bios on blkg->async_bios,
-> so it has to call bio_blkg() to find or create a queue-local blkg.  Bios
-> now carry and pin the blkcg css, so punted bio lifetime no longer needs to
-> be anchored by a blkg.
+On Mon, Aug 17, 2026 at 03:33:06PM +0200, Pankaj Raghav (Samsung) wrote:
+> >  	}
+> >  
+> > +	/*
+> > +	 * Writethrough implies non-serial writes ie writes can go
+> > +	 * parallelly.
+> > +	 */
+> > +	if (flags & RWF_WRITETHROUGH)
+> > +		kiocb_flags |= IOCB_NOSERIAL;
+> > +
 > 
-> Keeping the punt state in blkg can instantiate a blkg even when no blkcg
-> policy is enabled, just to bounce submission from a shared kthread.  Move
-> async_bio_lock, async_bios and async_bio_work to struct blkcg, and queue
-> punted bios on bio_blkcg() for non-root cgroups.  Root or unassociated bios
-> are submitted directly.
+> From a user perspective, shouldn't this be an explicit user flag instead
+> of implicitly enabling for all RWF_WRITETHROUGH?
 > 
-> This preserves the priority-inversion avoidance while preventing
-> blkcg_punt_bio_submit() from creating blkgs that are not needed by any
-> policy.
+> Power users who would want performance over POSIX compliance can enable
+> this but it should not be the other way around IMO.
+> 
+> --
+> Pankaj
 
-Reviewed-by: Tao Cui <cuitao@kylinos.cn>
+Hi Pankaj,
+
+Yes I think we just wanted to float the idea of such a flag but I was
+unsure right now whether to have users pass it or enable it implicitly.
+
+Thinking about it again I think I agree that we can allow users to pass
+it even if we just reject it for all cases except writethrough (for
+now).
+
+Regards,
+ojaswin
