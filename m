@@ -1,96 +1,63 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859B33B8406
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 19:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB75A3BD22E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 19:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787254752; cv=none; b=IyCIsYVbDppqnh505WIakHRAZLkkS8wSush3at691/K0kiymKFPEonmc1SFiz7diAwAuIV9NGnrKsqOOitzsv18EYddCAJVndmE8rTo5ecej1/Jb5oW92nhJdNRWkTLVuVED7FSws8epTZgWN//xNTFltYA9bart/CqZziWbe94=
+	t=1787255874; cv=none; b=rXq4gls8+eZRtOVfgVP4fZZKuJN0FqEism+HJeREG5u+q74NVRX3de/FYzrBCAzaQVwqdsZofGLErdB5ol1QEuoNg0pY4j7KAIhBYJNTmqMi1v+COdPU7L/AzQxpCTnfomWtqy3//10bjJ3yYY0GKdpSlXNIovShvGGAWNBdbFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787254752; c=relaxed/simple;
-	bh=zchc0BWXlYCiUXRc0IqOWYx4Liiye49pGOJJr9AcmFo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XHdh50IpYVlBb2D4QOlxQS3w96z25Lb1Nb3LNplVsYd9Jq2cenYVjCooeujHF/9t0jPa65NnR8jdCGcyirwhWMCnkpwG8CZKbsfQZPugjCsFVrrco7ejZnWxdpn2FwHGTj1Y0hn4fn1EBSbn3p0ooveHdKsWTsPArxIzLVJcaJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=dqGJIgcH; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1787255874; c=relaxed/simple;
+	bh=EmGkoIyRL7msNssjJ+1qCJZUzR1edPKWfJahwhGMkjw=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SsdLPaPV6rwkh/07gGw2bS+KENi15eUaeCbWIKrsk2ceIrBKEECxQpWibSL3VLUEb+0RNuVnGV21XBi4YQL0EnTKF9lPOdtmSNv0CNlByS9llLPEAiuQXVReRMQya2RZQzArNRJhuQOyqPhLPuF/ZjE/yEG5VNLfjaDkEjweygU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2iswqXW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="dqGJIgcH"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso504490a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 12:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1787254749; x=1787859549; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BnJl/mrA8UVpCuL2G6auzEn+EpzbHrrWVwMbORUl06o=;
-        b=dqGJIgcHK2RLT2U/TPXtCrZfeebWA5X65IXNzq8I+BVKkecDvkOMa1mbikFWGbvatH
-         jipRq00SV4B7SSFJ3hu8n6OYBB7RtZXMQYrXL26pYpmjTF3DGLaxmvTDT2vgQVw3CUvE
-         GJDmKVx1d4TywXi8vnLe8ndWvJuocp1dVZwdg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787254749; x=1787859549;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BnJl/mrA8UVpCuL2G6auzEn+EpzbHrrWVwMbORUl06o=;
-        b=EsztUhVOOxTQZqo2d4AV2DBUfen+K32EL6zIEdN8aZLAo05am3pMB/Uf7EuHKSzUzv
-         ml2C1Er61nakoAoCx4JVdK6reI33268SF+v3nCAkv2xJnUhg1ZmMIyxdpXVhpbEZhfMS
-         taieM4wEMKVlJaFZ06O+pHvnVER2t40coJAxKbSwMD+PgUaByTfFAHnapbXOwFawvT8J
-         bNQfLqzlMdq1t9cuXBF5dsI1GZueK7rIb9uEAN85MR+loEFGOIlrESt7rVgOAzM0PEgB
-         m08xm2OY1ezDNoC1f+iiCvX7bd06uf0RitaqfGd8tFPzNot//LyP4jrRkW0th4qZGUVi
-         eHFg==
-X-Gm-Message-State: AOJu0Yzjl2B/cvg5az990DEuk9vVlZ2pvstwlZm3aV0MqT7sCYifip2M
-	we4+Jk9dRZUi1n1RVyheJBXCbHJUGBkw/brRI1Gl6YxMCYtDD8Hh1QKKEcDKpt7BXWTwzGzd6bv
-	7Jb0yaCY=
-X-Gm-Gg: AR+sD12Z7sD54AxEC/SfydG3arckUdK1nus6nVCsYAqjF9pUXymsM6VMh+vfnpyzJMB
-	/A/Cvsb2ZDE5bDxG9aoCPuBEZK6LctswjV3wCwavNqiojEyhB/KSFjxVI05iYIEaLQnpoT7492C
-	Cjd5OmGCpwQ897UEt2TSey5+F0SmwYKb6aaKQXojZUbt7NtwCO6Y/7qkMC7Cwds1QZkn9OSzRiv
-	dBBAO4pVQX+dvrYbR0pVTxx+je8dng6wuYJ10K7zi0SK98Om0p1BvSc8ZtYmEKO1/MSE2cWuwA+
-	CUmutGOUcN3x7qI0oJ79xH3TH5cr7Kh16s6H82Kwx2FIZWvig75p81qAAwdo4DHF/S4syGf3b2m
-	pqiv5MWDNucLBbHskI4U0RJbV+qw9YpMTcoYWFruP8k+H3M8Mq4UxZDwppjlY83vvociFagm5lQ
-	W16LR2wT8071cdSMyercPH42jNgp4VqveHl6PRzLO/MwVtOA0bI58BZtFOqbjRPJ3TvdPMZsDn0
-	3Y5KZ1MrT0jOuoXu/0t6nJIJLm9DOQstr/dFQ==
-X-Received: by 2002:a17:907:9812:b0:c20:fed2:898b with SMTP id a640c23a62f3a-c246b4b6c79mr67635266b.23.1787254748791;
-        Thu, 20 Aug 2026 12:39:08 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24591df448sm113384566b.43.2026.08.20.12.39.07
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2026 12:39:07 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso564121a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 12:39:07 -0700 (PDT)
-X-Received: by 2002:a17:907:b04f:10b0:c21:450d:cd7e with SMTP id
- a640c23a62f3a-c246a61742fmr52303966b.9.1787254747516; Thu, 20 Aug 2026
- 12:39:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2iswqXW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F4B1F000E9;
+	Thu, 20 Aug 2026 19:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787255873;
+	bh=mGvy3eBOlnyoIwuCL+1rClSmpWiw+CXS3kORZt4INNc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=R2iswqXWn+4ZH92EwmfKGgtdGa6O4Ryo/EoQsxnGBuDOWFuMwgtFiwMEmS9Mx9u0M
+	 1PuU7tU5lkvwBkobDXMiuhQr7J652vZkNtzqnGf7587SvwPbFwLKtRvIqVycjNAEjB
+	 aJz6lMFpJVLJOLpqyNFe6kjw8hECU//jrvjxJoEFD0yC2S2Kx42Z5P4WGdHDlw4Inj
+	 gSDdn3Y2XCNYy4wcelXCkyUcBRzOgYudxYvpwVz9mwlSa3BXbj44Yrd6AeRUUd6ke1
+	 EmhDRVcV9VcVunZujxJrQOcYZDTosqLFXwdWG9C2neyJ83HDfpCBVYt1sHHA/TQOaY
+	 rLjORL0MeOeLw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0A58392445B;
+	Thu, 20 Aug 2026 19:57:04 +0000 (UTC)
+Subject: Re: [GIT PULL] orangefs changes for 7.3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAOg9mST+o6j9A2txJFLtGB+a8eq8W1sZqFiJDM7b48_9jV5_LA@mail.gmail.com>
+References: <CAOg9mST+o6j9A2txJFLtGB+a8eq8W1sZqFiJDM7b48_9jV5_LA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAOg9mST+o6j9A2txJFLtGB+a8eq8W1sZqFiJDM7b48_9jV5_LA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git tags/for-linus-7.3-ofs1
+X-PR-Tracked-Commit-Id: d410cd5303ec59c7cf23dd61423752ce8e9ecb59
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ada9ccfb81eca6943c3cd42d23b9ddd446e75342
+Message-Id: <178725582336.459220.17705745825947818552.pr-tracker-bot@kernel.org>
+Date: Thu, 20 Aug 2026 19:57:03 +0000
+To: Mike Marshall <hubcap@omnibond.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, Mike Marshall <hubcap@omnibond.com>, devel@lists.orangefs.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <CAOg9mST+o6j9A2txJFLtGB+a8eq8W1sZqFiJDM7b48_9jV5_LA@mail.gmail.com>
-In-Reply-To: <CAOg9mST+o6j9A2txJFLtGB+a8eq8W1sZqFiJDM7b48_9jV5_LA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 20 Aug 2026 12:38:51 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh6RgT0UFe8PwP+P0Y=nnOCqWhyLRbt8KfiyxQ8RsFg7g@mail.gmail.com>
-X-Gm-Features: AcwNN1U1wks5OixLQpxBU3N6ov8wEQLPLQEPzFA_dzLTkgIu7q7o95AUcMQo0_U
-Message-ID: <CAHk-=wh6RgT0UFe8PwP+P0Y=nnOCqWhyLRbt8KfiyxQ8RsFg7g@mail.gmail.com>
-Subject: Re: [GIT PULL] orangefs changes for 7.3
-To: Mike Marshall <hubcap@omnibond.com>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, devel@lists.orangefs.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 18 Aug 2026 at 09:09, Mike Marshall <hubcap@omnibond.com> wrote:
->
-> Fixes:
-> orangefs: fix double-free of trailer_buf
-[..]
+The pull request you sent on Tue, 18 Aug 2026 12:09:06 -0400:
 
-Same request as I had for the ntfs3 pull: please try to write a
-summary that is useful as a commit message for people who don't know
-the code and want some high-level "what changed" rather than just the
-oneliner commit messages.
+> git://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git tags/for-linus-7.3-ofs1
 
-I've taken it, but that pull does not have a great merge message.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ada9ccfb81eca6943c3cd42d23b9ddd446e75342
 
-              Linus
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
