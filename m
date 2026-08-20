@@ -1,180 +1,173 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193574772A7;
-	Thu, 20 Aug 2026 17:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1031C481245
+	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 17:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787248299; cv=none; b=KOJ5vifLwDLliH3ebZdtjdF5krTj4MPz/rCFyrWWm4+ka5c9SLM2bwW2u/EMro9feBy6QFdDq3gGgTpimcVmPBKbP5Q8WgKgv2b53AkdKR+9fWsvj52wzub3EmnAkquEkW9xs3v0bEQSapTuKmBBvUE8xL8s8UoHHYmy4a1MG18=
+	t=1787248724; cv=none; b=gvDxs0QZGH1CtjcXjT8Uzkua7FmRfi3SvhXhCxj+Bwq0OLVUEbeQ4d0Ws091F+D7MA+nCU4nsmdYfuqvNJR0IQOBaB0OtJnD9N4Y88hITqMY04RcEFBwVkEhFALp4S1i269Qu/dEpQWVa8nh0gYgRyIidAX+eVu9GU+PJDg+L1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787248299; c=relaxed/simple;
-	bh=chts6MzIHj/bJVBkghPzRmsWqaknd18UrkOwhvE4I/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEYd10Tfnm/vspxErgLmgi6kgoceHQsDKq8LDsIfm7y6/kZcforDTAlriHHK1PoCTWzqW34Gfx5CL4ti2aDLlChSOWJmUQMAhnhA6AUe05L2IyuEebLH1UAbj87fybBo2un2lM/8IzcbcI/bUI54pK7k0pYvfnZwR0tCwn1DLv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rTRFHt4F; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787248724; c=relaxed/simple;
+	bh=rRQ+k45Rzu1T02qBpX5CzRl8hfRPtWG1qRV4GQ3dh8A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=srnoHRUFGz/0Q4tYWJbtlvXEB7MOoZSQtw/YXD+Uszdnt6nFHXnJorkJC+6vjLFHsib7ZokLOTvUvES8D15oPY9cRvSowwao0HF739XGl33ZoCW27gmk5us5/B8rTUg6zafUQfx54Q8jhp37qXoPVcwcTUGNMCwQN9p89jaeKiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EXIMHYXK; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rTRFHt4F"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/nTZ7s1goF+GPCz6EL3sBTg9gNDkE+Bk0F4MEDCId3U=; b=rTRFHt4F8LNezy/fzAgoJCTaEn
-	Hu0D4RqGfIK9MUZUy7y5Vba3MurgAp9pBMd9z6PEiUlWaCso04QtHq/uQ4n17N1VQ2wPu6RajSIxt
-	5VjB0H2feVYd3mqUp5gCxaMbrQOO+i6lj9uOvypef8Qk/ac19GC7w3Hfcyxj83iTd9QOFZIzV0iBp
-	/SGM/O64CQwL9ZlzHX0Ox5TCul40K5Mnq+2KwcSaH/1h0KS1/qNKeUME6lYFYtYCfh4F7sNx59RpD
-	pLEI6i3LHvbHNk4ESUjf0GkAf6n+DO9ur6QkErSHO05zM44QUpEFH+mMqGSk1hMk5dNHlM0YQq3eB
-	Pzxk6gcA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx6uy-0000000G2y1-3Dxp;
-	Thu, 20 Aug 2026 17:51:08 +0000
-Date: Thu, 20 Aug 2026 18:51:08 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
-	max.byungchul.park@gmail.com, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
-	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
-	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-Message-ID: <aoc-jJ10op62jXFK@casper.infradead.org>
-References: <20260706061928.66713-1-byungchul@sk.com>
- <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EXIMHYXK"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499b6c02b02so688485e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 10:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787248721; x=1787853521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YYEsMKlE1hunKYKu1jEmmpknYRhAQx1ch1/5OXya0mo=;
+        b=EXIMHYXKtcMYV7Ri4p2slns48PJSlkPt9sYp06GVbIEv7XQEADPtUj/3XddT1RbmVP
+         Bw3kLCkgze5ufVH0tLZm80uCPnNO7zIQw0BjT6QdI8qiGG8oPIBhyeynfgqepXYk0rpi
+         AJvu1g+pWxEI1fEE3kuXrWeOBAmSV/S1cs/phtJ1QBAwq12wGg//H3ndYR8pUq8kjo8k
+         4dpAV8VvCuiaJYfAw/Ge/XENRiax6OTv5iw/zda7TQ8owXkRmwQbdlSFJzPWmp5jCAUu
+         E3P87CFlAZvhB6HOTgOQipXvkXIlJ9vW9UosPLufYlPePe87NoQu9EjkruR3RzuFc/AM
+         nVdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787248721; x=1787853521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YYEsMKlE1hunKYKu1jEmmpknYRhAQx1ch1/5OXya0mo=;
+        b=Lf3xddVWP0jJ+/cYLtfTgCupf2cYwYAIiA2oGml/WbCgiCZ+tT5GB/s+rZEBGGj7jI
+         zjqERrX1RAwmO5uOWs2zV5z7zDYYF84+HfomQNAguBa8EbF+rX7hj3leBb0ZipesEe7E
+         jG1l9H41WDVV1dNyctWt3dzy7alh82C+Etd3logEamo3EJuXOUFPjj7dA2Lof2R3f5Tq
+         kJDKJMYQktnIllRRsjEQPzAiHK9amFw8/MHv9uqzGq1vxzysjNbWtdeB7hqvSx/GfE1B
+         tCY0kj1XO5UA1hwHKjc+Va6PGNJ4R+YDPClq1mMg/oosVj4EObHCC7uiwkTpeIjZ2tpM
+         RThQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqJgsESiAYOq9MVXkblEPxzsjZ8RZIP5HkIipXoI/whXM4mL2bqOvi5b/3vDCvmK23RffMm4h8KscauOFRq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBD/tfgUiJWueEiGDOsuAICY/nIDaoN60UnBswFpDfGpU/TmUI
+	KoZ794sBgdG5bffCuu+7xi/sF1Et120G5KzIE6XhW22SI+QVPY+CaT3I
+X-Gm-Gg: AR+sD119N9y0TpcnbtqKLoMNscZjI3xlsDUN+7hJjua1RIiyUTHsN7m4IqFQy4B2b4Q
+	BUfOjoDkpnvFuvet2/wUIbb1t0Cl85q7Yg0G7ZVUhrGVM5NsTur6qzNEdvMMtO1zIFET3bxD+D6
+	+I998q1yG/PjxTNPvICfogvAaH8J0Il226eoipeKL3O7258ZpMb6/SsRag5cgG28wU/TbATkw63
+	YFpYY/JxsHnZPQeeuAfPv3nUIVnsWlY/afu56nCjso7Afp8iIBKhKQw/F6cKdtlEm+ACbqXZBGl
+	1FcybyZkuZT6cYN7jzjs+7bWJUMsBduONKPCksvjPqKVrcBmt88SzZ8CXn3kn3I6xFRk4Q/Dkh2
+	rNZPhmZStV5s5jCoOh3wQzm0kWpah8LffnMntSgfMqGGfzEbiG/gwyspFkat0ZGJGiPKRYcBMp3
+	4Nw1f9LjHyfBrLArneRs7RaJ7YpAa5Xz7NPl2roh7KJ9SoWHG3L+Tvd6ALQyCjuwHND5BuBmChz
+	Tp5DnzAsWJsrKgujs2/Fpx0PFILE1ieXYtIqXLcOa/qixvnTG1CECW8giWZfLJXSm309PuJvmvq
+	fVyYu7b14VWiDuZ8y6E2foSRC7io5P5hyUYTdWToGfy+QGVOGcF2XkIDbFs5bgG/QWr9YypT7Q=
+	=
+X-Received: by 2002:a05:600c:c494:b0:499:a5c8:c6f3 with SMTP id 5b1f17b1804b1-499b82f4d3bmr10160435e9.3.1787248720981;
+        Thu, 20 Aug 2026 10:58:40 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a476-1a01-141e-2b69-987c-d72d.310.pool.telefonica.de. [2a02:3100:a476:1a01:141e:2b69:987c:d72d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa11f832sm152118355e9.7.2026.08.20.10.58.40
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 20 Aug 2026 10:58:40 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: selinux@vger.kernel.org
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] selinux: preserve user SID across nested backing files
+Date: Thu, 20 Aug 2026 19:58:32 +0200
+Message-Id: <20260820175832.44512-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 20, 2026 at 07:16:05PM +0200, David Hildenbrand (Arm) wrote:
-> > Consider this real deadlock pattern that lockdep cannot detect:
-> > 
-> >    context X              context Y              context Z
-> > 
-> >                           mutex_lock A
-> >    folio_lock B
-> >                           folio_lock B <- DEADLOCK
-> >                                                  mutex_lock A <- DEADLOCK
-> >                                                  folio_unlock B
-> >                           folio_unlock B
-> >                           mutex_unlock A
-> >                                                  mutex_unlock A
-> 
-> But that really just boils down to folio lock being implemented as a PG_lock +
-> some advanced wait mechanism. And we must do that because of lack of bits in
-> struct page.
-> 
-> Willy mentioned in a previous version [1]: "I don't think it makes sense to
-> track lock state in the page (nor folio).  Partly because there's just so many
-> of them, but also because the locking rules don't really apply to individual
-> folios so much as they do to the mappings (or anon_vmas) that contain folios."
-> 
-> Given that lockdep is a debug feature, and we will at some point allocate struct
-> folio separately, I assume we could just squeeze a "struct lockdep_map" in there
-> in such debug configs and the world would not collapse.
-> 
-> Doing that today (one "struct lockdep_map" in each "struct page") wouldn't work
-> as mm_zero_struct_page() would not expect such large "struct page". But
-> conceptually, for a debug kernel with a special CONFIG_LOCKDEP_PAGE_LOCK, maybe
-> that would already be ok and we could just do that (and optimize it as we
-> allocate folios separately).
-> 
-> Not that it's ideal, but for a debug feature to at least check PG_lock, probably
-> an easier way to achieve it than some completely new infrastructure.
-> 
-> Now, Willy said "locking rules don't really apply to individual folios", I
-> wonder if that could just help to also let lockdep check PG_lock with less
-> metadata? (didn't fully wrap my head around the implications)
-> 
-> [1]
-> https://lore.kernel.org/all/aR3WHf9QZ_dizNun@casper.infradead.org/?utm_source=chatgpt.com
+SELinux saves the user file SID in a backing-file security blob so it
+remains available after mmap() replaces vma->vm_file with a backing file.
 
-There are a few things going on that make PG_lock special.  Let me try
-to explain again, only better this time.
+For nested backing files (overlayfs over overlayfs, or FUSE passthrough
+backed by overlayfs), user_file may itself be a backing file.  Its
+fsec->sid is the SID of the mounter that opened it, rather than the user
+that opened the top-level file.  mprotect() then checks fd { use } against
+the mounter SID.  This can incorrectly deny access without a domain
+transition, or check the wrong target SID after one.
 
-1. The current lifetime of a struct page is the lifetime of the system.
-But the semantics of its PG_lock bit change each time it is freed and
-allocated.
+Copy the saved user SID when user_file is a backing file.  Keep using the
+regular file SID for the first backing layer.
 
-2. The position of PG_lock in the locking hierarchy only depend on
-what the folio is currently being used for.  That is, all folios in
-a given xfs inode behave exactly the same from a locking perspective.
-There's no need to build up state about how each PG_lock is used;
-they can all share.  Arguably all xfs file inodes are the same as
-each other (directory inodes might be different from file inodes),
-so we might want to go further than telling DEPT that "this folio
-belongs to this inode" and go to "this folio belongs to this xfs file
-inode".
+With two nested overlayfs mounts and SELinux enforcing,
+mprotect(PROT_READ) returns EACCES with an fd { use } denial against the
+mounter SID.  With this change, mprotect() succeeds.
 
-3. PG_lock can be taken in task context then released in interrupt
-context.  For full points, we need to mark the exact point at which
-we submit the folio for read.  Otherwise we can get into the situation
-alluded to by f2c817bed58d and better discussed at
-https://lore.kernel.org/linux-mm/20200127150024.GN1183@dhcp22.suse.cz/
-where we have the folio locked but haven't yet submitted it for I/O
-so it doesn't matter how long we wait, it will never come unlocked.
+Fixes: 82544d36b172 ("selinux: fix overlayfs mmap() and mprotect() access checks")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Changes in v2:
+- Add selinux_file_user_sid() helper instead of open-coding the lookup
+  (Amir).
+
+Tested on arm64 QEMU at fd6e2388a3ea with SELinux enforcing and two
+nested overlayfs mounts. The policy omitted only
+base_t -> mounter_t:fd { use } among the relevant cross-domain allows:
+
+  baseline: mprotect(PROT_READ) returned EACCES with that denial
+  patched:  mprotect(PROT_READ) succeeded; test exited 0
+
+This patch fixes SID propagation only. backing_file_user_path() still
+resolves to the middle layer for a nested mapping, so the audit path and
+inode do not correspond to uf_sid, and that layer's mounter is not
+re-checked. Preserving the full user path likely needs a VFS-side change,
+such as having backing_file_open() store file_user_path(user_file).
+
+ security/selinux/hooks.c          | 9 ++++++++-
+ security/selinux/include/objsec.h | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 1ead2eee1944..171b90412ff1 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(struct file *file)
+ 	return 0;
+ }
+ 
++static inline u32 selinux_file_user_sid(const struct file *file)
++{
++	if (unlikely(file->f_mode & FMODE_BACKING))
++		return selinux_backing_file(file)->uf_sid;
++	return selinux_file(file)->sid;
++}
++
+ static int selinux_backing_file_alloc(struct file *backing_file,
+ 				      const struct file *user_file)
+ {
+ 	struct backing_file_security_struct *bfsec;
+ 
+ 	bfsec = selinux_backing_file(backing_file);
+-	bfsec->uf_sid = selinux_file(user_file)->sid;
++	bfsec->uf_sid = selinux_file_user_sid(user_file);
+ 
+ 	return 0;
+ }
+diff --git a/security/selinux/include/objsec.h b/security/selinux/include/objsec.h
+index 3c0a16ec978b..853f7266ed18 100644
+--- a/security/selinux/include/objsec.h
++++ b/security/selinux/include/objsec.h
+@@ -87,7 +87,7 @@ struct file_security_struct {
+ };
+ 
+ struct backing_file_security_struct {
+-	u32 uf_sid; /* associated user file fsec->sid */
++	u32 uf_sid; /* top-level user file fsec->sid */
+ };
+ 
+ struct superblock_security_struct {
+
+base-commit: fd6e2388a3ea55e58cbbbef840c1d8aa2067dbb3
+-- 
+2.39.5 (Apple Git-154)
+
