@@ -1,310 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.77.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DF53B71B0;
-	Thu, 20 Aug 2026 12:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2DB33F8A2;
+	Thu, 20 Aug 2026 13:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.77.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787230280; cv=none; b=jjadXVcvAAbjWeMIGIRu2vj6csW84+itzZPeWNLe428dXXppBYmX42ID9IJsNhiZ42TCNgLFOD5ZcveKwtIinzq3lsWO+aNeU9nUsAMd8WaxLfJpUHy4juaaACbUJZO5LCh+XVY3O//jvMLR+MiRjnaC+HKo3V/2ebOPMKITWjE=
+	t=1787230934; cv=none; b=X/7JWHgfqWOZocxIZO4OgofHnZeWGifWntGnUn+0wZnZB02SJzNWd7xg6nZkJYPPeA34wPl0Fu/52eiTa1KrRQW8uqG3J3L5z1JYeSKAIIO6VBFxKGlzDjtPTuf6iPmjhmEf9Y9hWMT1pYgM6aoTMcgQziPHSAosFfFvBjGJesk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787230280; c=relaxed/simple;
-	bh=+NwI7DnwDdTsowchvimqS/YkH1pK80UzasLtbzB4IKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uam5zmFTh4VWnLfbwX5RNpH495OBTEYuK+61WaYOpomcs5R/CKBu7retcygUYsq5XaMYdNZbd+XhKna7CFp4N3hGo3vH0eii7ORK6tYGIUvxxH1Gc978qWmScfUahk9ji6+snPMTHyN8UwEF+1uTG6xEunWMDw7N6Iw9wbTlLuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgPgh60B; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787230934; c=relaxed/simple;
+	bh=6eDPCzvwfq4ALbMyX+g2YrbSWnbYl2di8/Fa0Ai7KfY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hFCFUOrpfJ3vRDQi6GLJUSl/dJnT8d3g4+NZGnfjuxIlQ4vnzDX+ENyBRjRcSWmH2X+3u3GIMI2RtakktKUsiFqrd5T1xtvurUAaJVXnC1K8gotm++1m1pIZFYzM0vCNb+QmJfdLkp8msB5p1LkWDVP07gBo6BWrP1AGqubpmAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=G7lFy+U8; arc=none smtp.client-ip=44.246.77.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgPgh60B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A92C1F00A3A;
-	Thu, 20 Aug 2026 12:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787230278;
-	bh=dAVoYnB5WFPNY5isnPlH4ce36KYRKmD4kl/YEQC1mAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mgPgh60BEcNbFO4U1gRCt9kcXAEhf35i+NR7lVlBIJfL1JrKFx8tZSR2qz91zSrlz
-	 z9lWyjXulNRc788+A/flCzJSMEvOTbqaErTUClDB/Pwf2BHH9kGuE/jQt4VJXeD9W0
-	 aPZYoxKP547bHPpxHi6RvVMcfQFLgiymPSuPUWifcNjpsHodGXHMfRcn71+lqY1iZs
-	 W3NkS6xQCc7i2QT3WxbtlnkVYMhF0msyNhGdfVmSkuKJAImGyyzO/PdZpoHd80Sx6a
-	 kOEvHUrTKfcuaq12LUBuDii7XCYfFDDAel9Royb7P0CD21Kj/xsRXikwNpZ7EhK9tK
-	 UY4XPo9KHgERw==
-Date: Thu, 20 Aug 2026 14:51:13 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Mauricio Faria de Oliveira <mfo@igalia.com>
-Cc: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, kernel-dev@igalia.com, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, fsverity@lists.linux.dev, 
-	keyrings@vger.kernel.org, bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
-	lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
-	linux-sctp@vger.kernel.org, linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org, 
-	bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com, 
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH RFC v3 00/13] sysctl: add module aliases
-Message-ID: <bpnqwggtidgiec5akns3fa5edbsvl7xf55dxabtwng2xspy4pn@ue554aii2ngk>
-References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="G7lFy+U8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1787230933; x=1818766933;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZXxmGYeQ92oV94rXDtDInbSeiKZ5jTA05jjj7SsP3xc=;
+  b=G7lFy+U8+/vjkUqNcBaA5UGmJJEyN2CWjUlr+AlmYFHC41OU5Pnl74Z3
+   XHqxw5t6lb4GslZoRWbob2MV3vtLqjU7/FxEO5TK3zKqv3rSsBPmGtizn
+   7HsaYEJQXnmw9a6bmBEuv01lPFaift2jRD0gSvjPcIOmdvuyIBfyBH5aA
+   rDtzumMHw1ci0Azj/y1gRxhjci3a0mIkqKPB7mrBwAx+HoAQQWue/jf+V
+   0RR5B6sQeKQKn9dBhsk53VseUutmh6uhsEQ07EGtXLFgN5oRDin2P7Xql
+   uSizhYLbGTsLnosFJt5qQ5y3pzUxhD9G/HVTDC/rp007vxImVcygdnhZa
+   g==;
+X-CSE-ConnectionGUID: Va6p8yoHQGG7crGoTawj9A==
+X-CSE-MsgGUID: 5xFm0+6wTb2ygTUSUFBxDQ==
+X-IronPort-AV: E=Sophos;i="6.25,233,1779148800"; 
+   d="scan'208";a="26466404"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 13:02:13 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:5332]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.76:2525] with esmtp (Farcaster)
+ id 0dac1b51-2824-480a-92b8-4b8b88da920c; Thu, 20 Aug 2026 13:02:12 +0000 (UTC)
+X-Farcaster-Flow-ID: 0dac1b51-2824-480a-92b8-4b8b88da920c
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 20 Aug 2026 13:02:12 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 20 Aug 2026 13:02:11 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
+	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: [PATCH v3 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
+Date: Thu, 20 Aug 2026 13:01:56 +0000
+Message-ID: <20260820130158.254808-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llmpbpsieq7v5rwe"
-Content-Disposition: inline
-In-Reply-To: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D036UWC004.ant.amazon.com (10.13.139.205) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+
+FUSE_SYNCFS (propagating syncfs()/sync() to the server) is currently
+enabled only for virtiofs and fuseblk, since an untrusted server can stall
+sync(). Any FUSE filesystem may buffer data in the server that ought to
+reach storage on sync(); the only thing that should gate it is whether the
+/dev/fuse opener is sufficiently privileged to be trusted to block sync.
+
+This series lets a plain /dev/fuse server opt in via a new FUSE_HAS_SYNCFS
+INIT flag, honored only when the server opened /dev/fuse with CAP_SYS_ADMIN
+privilege in the initial user namespace -- checked with file_ns_capable() at
+mount time.
+
+Extending syncfs propagation to another privileged mount class is not a new
+direction: commit d3906d8f3cee ("fuse: enable FUSE_SYNCFS for all fuseblk
+servers") already did the same for fuseblk. This series applies the same
+reasoning to a plain /dev/fuse server, checking the opener's privilege
+directly rather than inferring it from the mount type.
+
+  Patch 1: the kernel change (UAPI flag + privilege gating).
+  Patch 2: a selftest that speaks the raw FUSE protocol over /dev/fuse, so
+           it can withhold the flag and directly observe whether the
+           FUSE_SYNCFS opcode is forwarded.
+
+A matching libfuse change (FUSE_CAP_SYNCFS negotiation) will be sent to the
+libfuse project once the UAPI flag here is settled.
+
+Changes since v2 [2]:
+ - Rebased on current fuse.git for-next.  Since v2, bit 43 and minor
+   version 46 were taken upstream (FUSE_HAS_IO_URING_BUFPOOL); FUSE_HAS_SYNCFS
+   is now bit 44 and bumps the interface to minor version 47.
+ - Selftest: dropped the v2 T4 case (an unprivileged user-namespace mount).
+   With the v2 gating on the /dev/fuse opener's capability, T4 exercised the
+   same "not capable -> withheld" branch as T3 while carrying the userns
+   setup machinery; T3 (opener without CAP_SYS_ADMIN in the initial user
+   namespace) is the surgical test of the gate and is retained.  No kernel
+   behavior change.
+
+Changes since v1 [1]:
+ - Gate on the privilege of the opener (CAP_SYS_ADMIN in init_user_ns at
+   /dev/fuse open time, via file_ns_capable()) rather than on the mount's
+   user namespace.  Miklos pointed out that the v1 check
+   (fc->user_ns == &init_user_ns) tested a property of the mount, not of
+   the server that actually services -- and can stall -- the connection.
+   Being in the initial user namespace is not itself a privilege
+   (e.g. an ordinary sshfs mount qualifies).  Checking the device opener's
+   capability closes that gap.
+ - Selftest: add a case covering exactly that distinction -- a server
+   in the initial user namespace that opened /dev/fuse without
+   CAP_SYS_ADMIN -- which v1 would have wrongly allowed.
+
+Testing: fs/fuse builds clean on the rebased tree.  Built and booted the
+patched kernel; the selftest passes all three cases (T1 forwards
+FUSE_SYNCFS; T2 and T3 withhold it), and a separate check on a
+FUSE_WRITEBACK_CACHE mount confirmed the point of the change: after write()
+the server had received 0 bytes (data dirty in the page cache), and after
+syncfs() it received the full buffered payload followed by FUSE_SYNCFS.
+
+[1] https://lore.kernel.org/20260616151909.916667-1-jamz@amazon.com
+[2] https://lore.kernel.org/20260619170251.1154562-1-jamz@amazon.com
+
+Jimmy Zuber (2):
+  fuse: allow FUSE_SYNCFS for privileged userspace servers
+  selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
+
+ fs/fuse/fuse_i.h                              |   9 +
+ fs/fuse/inode.c                               |  28 ++
+ include/uapi/linux/fuse.h                     |  12 +-
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   2 +-
+ .../selftests/filesystems/fuse/test_syncfs.c  | 309 ++++++++++++++++++
+ 6 files changed, 359 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
 
 
---llmpbpsieq7v5rwe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: d1dbc59200b54944f00251ca4dfbb2b318beca13
+-- 
+2.50.1
 
-On Wed, Aug 19, 2026 at 03:16:13PM -0300, Mauricio Faria de Oliveira wrote:
-> This series adds 'sysctl:' aliases to modules that register sysctl tables=
-; e.g.:
->=20
->         $ modinfo ./mpls_router.ko  | grep sysctl:
->         alias:          sysctl:*/net/mpls/conf/*/input
->         alias:          sysctl:*/net/mpls/default_ttl
->         alias:          sysctl:*/net/mpls/ip_ttl_propagate
->         alias:          sysctl:*/net/mpls/platform_labels
->=20
-> It provides a trivial way to map /proc/sys files to modules (not trivial =
-today),
-> and for userspace to handle nonexistent /proc/sys files (e.g., procps's s=
-ysctl
-> and systemd-sysctl applying tunables) with "modprobe sysctl:<...>" and a =
-retry.
->=20
-> This is done almost automatically with register_sysctl(), register_net_sy=
-sctl()
-> and friends as wrappers of MODULE_SYSCTL_TABLE (similar to MODULE_DEVICE_=
-TABLE),
-> which emits symbols for file2alias/modpost to find and parse the sysctl t=
-ables.
->=20
-> The big exception to 'almost' are sysctl tables and paths allocated or de=
-fined
-> at runtime (e.g., per-namespace or per-device), as all information is req=
-uired
-> at build-time. Fortunately, such tables and paths are often based on 'tem=
-plates'
-> which are static and can be used.
->=20
-> This is done by plumbing the template table/path as optional arguments (m=
-acros
-> with default values as default_gfp()), so not to create functions for all=
- cases:
->=20
->         register_sysctl(path, table [, table_tmpl [, path_tmpl]]);
->         register_net_sysctl(net, path, table [, table_tmpl[, path_tmpl]]);
->         register_net_sysctl_sz(net, path, table, size [, table_tmpl[, pat=
-h_tmpl]]);
-
-The "what" is described but I'm missing more clarity on the "why". Why
-does this need to be trivial? Where is it that you will know the sysctl
-file path of a module and not the module name or alias?
-
-Additionally, sysctls are not module specific; they are a way to
-read/write kernel variables. Putting a module specific aspect in the
-function arguments (that needs to be ignored in non-module cases) seems
-wrong. Why not use the module subsys to add sysctl alias instead of the
-sysctl subsys?
-
->=20
-> In this series:
-> - Patch 1 prevents a build error later.
-> - Patch 2 adds CONFIG_SYSCTL_MODULE_ALIASES.
-> - Patch 3 adds MODULE_SYSCTL_TABLE().
-> - Patches 4-5 add register_sysctl() wrapper and update some callers.
-> - Patches 6-10 add register_net_sysctl[_sz]() wrappers and update some ca=
-llers.
-> - Patches 11-13 add file2alias support.
->=20
-> Not all maintainers/reviewers (specially for the many changes in net/) are
-> in To/Cc in respect of their time, as this RFC probably needs more general
-> and earlier feedback before settling on specific changes for their review.
-> All lists are included for visibility, though.
->=20
-> Example
-> =3D=3D=3D=3D=3D=3D=3D
->=20
-> To put it all together, 'mpls_router.ko' (used above) from 'net/mpls/af_m=
-pls.c':
->        =20
-> - Tables:
->=20
->         static const struct ctl_table mpls_table[] =3D {
->                 {
->                         .procname       =3D "platform_labels",
->                 ...
->                         .procname       =3D "ip_ttl_propagate",
->                 ...
->                         .procname       =3D "default_ttl",
->                 },
->         };
-<... snip ...>
->=20
-> - Per-file:
->=20
->   Use '#define SYSCTL_MODULE_ALIASES_DISABLE'.
->=20
-> - System-wide:
->=20
->   Maybe something along these lines:
->=20
->         # cat /etc/modprobe.d/no-sysctl.conf
->         alias sysctl:* no-sysctl
->         install no-sysctl /bin/false
->=20
->         # modinfo -F name sysctl:/proc/net/mpls/default_ttl
->         mpls_router
->=20
->         # modprobe sysctl:/proc/net/mpls/default_ttl
->         modprobe: ERROR: Error running install command '/bin/false' for m=
-odule no_sysctl: retcode 1
->         modprobe: ERROR: could not insert 'no_sysctl': Invalid argument
->=20
-> P.S.
-> =3D=3D=3D=3D
->=20
-> I wrote proof-of-concept patches for procps sysctl and systemd-sysctl som=
-e time
-> ago, which worked as expected, i.e., successfully set sysctl tunables whi=
-ch did
-> not exist in /proc/sys, by running 'modprobe sysctl:/proc/sys/...' and re=
-trying.
-
-Do you have links to this? To the old one, not necessarily a new
-version.
-
-Best
->=20
-> Should this series eventually be merged, the patches will be submitted up=
-stream
-> as well, for userspace to start consuming it.
->=20
-> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
->=20
-> Changes in v3:
-> - All issues were reported by sashiko-bot@kernel.org.
-> - Tested allmodconfig with option enabled on x86_64.
-> - Patch 2:
->   - Fix typo ('s/options/option/').
-> - Patch 3:
->   - Fix usage of __UNIQUE_ID().
->   - Add __must_be_array() in MODULE_SYSCTL_TABLE().
-> - Patch 4:
->   - Remove trailing backslash in register_sysctl().
-> - Patch 6:
->   - Fix missing __register_net_sysctl_sz() in !CONFIG_SYSCTL.
-> - Patch 13:
->   - Fix potential out-of-bounds read in do_sysctl_entry().
->   - Add check for entry size of zero.
-> - Link to v2: https://lore.kernel.org/r/20260818-sysctl-module-aliases-v2=
--0-d5a69dae5798@igalia.com
->=20
-> Changes in v2:
-> - This is based on the series submitted 4 years ago,
->   with Originally-by: tags added in related patches.
-> - Link to v1: https://lore.kernel.org/linux-fsdevel/20220722022416.137548=
--1-mfo@canonical.com/
->=20
-> ---
-> Mauricio Faria de Oliveira (13):
->       keys, pidns, fs/verity, riscv/vector: reorder '#include <linux/sysc=
-tl.h>'
->       proc: add config option SYSCTL_MODULE_ALIASES
->       sysctl, mod_devicetable: add macro MODULE_SYSCTL_TABLE
->       sysctl: add register_sysctl() wrapper for MODULE_SYSCTL_TABLE
->       sysctl, parport: update register_sysctl() callers with template arg=
-uments
->       sysctl, net: add register_net_sysctl{_sz}() wrappers for MODULE_SYS=
-CTL_TABLE
->       sysctl, net: update register_net_sysctl{_sz}() callers with templat=
-e arguments
->       sysctl, net: update register_net_sysctl_sz(ARRAY_SIZE(table_tmpl)) =
-with template arguments
->       sysctl, ipv6: update register_net_sysctl{_sz}() callers with templa=
-te arguments
->       sysctl, net: update register_net_sysctl_sz() edge case
->       sysctl: unrandomize struct ctl_table.procname
->       modpost: move addend_*_rel() calls into addend_rel()
->       modpost: handle MODULE_SYSCTL_TABLE symbols
->=20
->  arch/riscv/kernel/vector.c              |   1 +
->  drivers/net/vrf.c                       |   3 +-
->  drivers/parport/procfs.c                |  26 +++-
->  fs/proc/Kconfig                         |  13 ++
->  fs/verity/init.c                        |   1 +
->  include/linux/key.h                     |   1 -
->  include/linux/mod_devicetable.h         |   7 +
->  include/linux/pid_namespace.h           |   1 +
->  include/linux/sysctl.h                  | 110 ++++++++++++++-
->  include/net/ipv6.h                      |   6 +-
->  include/net/net_namespace.h             |  47 ++++++-
->  net/bridge/br_netfilter_hooks.c         |   3 +-
->  net/core/neighbour.c                    |  11 +-
->  net/core/sysctl_net_core.c              |   3 +-
->  net/ieee802154/6lowpan/reassembly.c     |   2 +-
->  net/ipv4/devinet.c                      |  12 +-
->  net/ipv4/ip_fragment.c                  |   3 +-
->  net/ipv4/route.c                        |   3 +-
->  net/ipv4/sysctl_net_ipv4.c              |   2 +-
->  net/ipv4/xfrm4_policy.c                 |   3 +-
->  net/ipv6/addrconf.c                     |   7 +-
->  net/ipv6/icmp.c                         |   6 +-
->  net/ipv6/netfilter/nf_conntrack_reasm.c |   4 +-
->  net/ipv6/reassembly.c                   |   3 +-
->  net/ipv6/route.c                        |  10 +-
->  net/ipv6/sysctl_net_ipv6.c              |  13 +-
->  net/ipv6/xfrm6_policy.c                 |   3 +-
->  net/mpls/af_mpls.c                      |   9 +-
->  net/mptcp/ctrl.c                        |   3 +-
->  net/netfilter/ipvs/ip_vs_ctl.c          |   4 +-
->  net/netfilter/ipvs/ip_vs_lblc.c         |   3 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c        |   3 +-
->  net/netfilter/nf_conntrack_standalone.c |   5 +-
->  net/netfilter/nf_log.c                  |   9 +-
->  net/rds/tcp.c                           |   4 +-
->  net/sctp/sysctl.c                       |   3 +-
->  net/smc/smc_sysctl.c                    |   2 +-
->  net/sysctl_net.c                        |  10 +-
->  net/unix/sysctl_net_unix.c              |   3 +-
->  net/vmw_vsock/af_vsock.c                |   4 +-
->  net/xfrm/xfrm_sysctl.c                  |   2 +-
->  scripts/mod/devicetable-offsets.c       |   6 +
->  scripts/mod/file2alias.c                | 237 ++++++++++++++++++++++++++=
-++++++
->  scripts/mod/modpost.c                   |  46 ++++---
->  scripts/mod/modpost.h                   |  25 ++++
->  45 files changed, 575 insertions(+), 107 deletions(-)
-> ---
-> base-commit: 2697ef8943c9985c14708a6429e21812693857b2
-> change-id: 20260818-sysctl-module-aliases-2f5801b1eb71
->=20
-> Best regards,
-> --=20
-> Mauricio Faria de Oliveira <mfo@igalia.com>
->=20
-
---llmpbpsieq7v5rwe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqG+DkACgkQupfNUreW
-QU9KzQwAhnJv61O/aMHJoyHWwD3V+aqe2io3c+exriyswf+YGkguC5yyn032XIx6
-Ibx+W62lH2/mPJSnsg/YyCksI/isYesqXra6cysOt8n8IVaZbkJp5izyWqjxpPKI
-AMrrhalbZPm1CuhneeQl9RPWYZi3byxOz9XrAaJW3ub+9aT7qMsqdRr2nKeBDKNb
-arfqwZhcigESQ05YkHEDbccIUTNOjk639/fLlILoYDVhpXhUl2p2Th8kZwXf3nAJ
-paRh9FhTA52dNDIA8rakiMk5GFctCcKw4dxujLjdRCjaCcyU1bkhZOhvPGhySCHL
-C6v5ixdwhitvddzp6plBXGEVHohgh9n0WjRJ+eRzZiqK7GA63wM7145k1FSk2Ejr
-ofvPKQQcY1f5O44JM7EhJjzrNUU3rMdxQUXz0iZP6YnYmCym4mZxIXzRxd4uneQT
-jvy6cExOstetUU0qCj9qwQSvTJR8ibnMFDG/d845/FSBYC/vZyotBtkzOh/Eenj9
-K+vFLC58
-=87kF
------END PGP SIGNATURE-----
-
---llmpbpsieq7v5rwe--
