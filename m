@@ -1,115 +1,268 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DB0298CAF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 05:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787202940; cv=pass; b=mmAgW+uxO54Nrgu4CwSoLx0jmqMEO6skZCajYL6IjQRqs1kBzHOm1/C2ScC2TnjY1GCmhtgyZTB/Rr6/ufuCfsVn7D6IGzjjeUduvK1UhOPJls3ZIGaJD2tkHf1thPQTtJOQZf1/kCGEg/ULnEf/E77QMJrMdPV1N/ueL6/dNyA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787202940; c=relaxed/simple;
-	bh=zTnTEoXTuFEFA/C1D4ThX4Y+an6VucxyKo4Nr/GlcI4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e4okeI7P35rDZJt7+bnyxIqOjhuVzDEJqKo4aXqtghYpLMYRY4NKaMtiPwQej/qEOb9HIDD+Mc6vCzCHsToafMDeQl9dezu7SqkK11TBxshPU0RoAKIgZ4wTFimX3s/1cEg5JIKhO+RyBBo8LTO7BStbzmLxHl3SU+tg+6fshIY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=pR7HueMf; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C0E34F259;
+	Thu, 20 Aug 2026 05:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787204748; cv=none; b=V+Lkmx4Wv2P3l5uzSKzlGdvqoSEoQF7jTE1JQ+bW4X/B1uE+OaS0d0RnW2xG/RON/rrukiUlcOm5YJTW8QPJ2qrPr84hA76d5g/LzlNX2va/38I4AHCv0vKJUsHMailfsShiAlOCcUsx9dYJElaowe8fp9Tp0Of34C4vpU3XM8k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787204748; c=relaxed/simple;
+	bh=86B0Pk4jVJ6ZQ+Jb+6BAOAHcs2OvwgJHav3rxWmibtI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gKpIXUPYN1QLUWrWCVSARqkaGvslJY6maY71mKAebeVYxvlFD5BwQ/VHDCC9lMTVj9B8krGq5dvjhbT0voLkvJNW5+yX1SHKnQDkzbBokUYVKPpYV82xWr23/WDc8ELCMjmpJ0440Fbdl6qtUWh9CUGh0F8Qg9R/pobbmXPd7wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOJTnqsZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="pR7HueMf"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-52b6543169fso12423311cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 19 Aug 2026 22:15:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787202936; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dB/FXWcCnOBgYqG0nZF1Niq2xVQZDE+b4pWKPuiL2+d147srVehDczlx2A404KA4Iq
-         RhwhIJ2+Ce1Gl/da7knLprh1D0CYzGt4/DLkAeA5DmS9vcIeRSiB1f2BfmlAH/SX4Uqd
-         uqLGhq9/E0jdM0+M0SmkWFY/cZGURKpvKc6mM4OUcrs4kxDUUZUzMawKYS1PWJLDM7hr
-         7C3+DMymC9ZSuM5JigpCbzWC/yjuXwE5Y5iOASCeMlHK8p0NUupZrHQhz7rNbNfYKkfQ
-         bENuEJSRS2iRIi7gOsgRohuGKBj7EarWFMMOPzZ1iA0NLGT8c/oIeaD07U8Ezt/e42/x
-         Qb8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=i1qzFHY4MADO+pKP/rYIVSKWuTq1hiwkVURcjqrdi5U=;
-        fh=CAmv+v5dDF37XXoS4b1Jl21tonYjwaGJnAvMM9VRSj0=;
-        b=LbWsx/gvrDADMW/a14BVBA+BFYtVQ4dlDRJZ65I7+QerSBf2iHhOLNHhGbRBJ+NaTA
-         Kk9djbo9K2G74Z3z2u/b9REnlBi1rz6z8g1sTkOeaibndcVHSetin8n47ZsdoVoicqHz
-         9/kKeOrhWPs6qj5cqOFVImG6JDST0mtJR+oE+m3VEy5Fj9K4qZIUjV19HY9ZGqMJqMun
-         4CYlqgI/ENiMOude4oc/vNqF4q2+ISOxvAf3L4wkoDUZUHYjNaR+O7hnHmMi53ajpexR
-         IrtUXHa18cw82eC+q+TSHEtKAOEgySc5C7GPBiCUGFsqlCGWKF+7DifYHcpAYmhAJ1Lw
-         0q8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787202936; x=1787807736; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i1qzFHY4MADO+pKP/rYIVSKWuTq1hiwkVURcjqrdi5U=;
-        b=pR7HueMfPp5SsP/6XDPqV3w6AakvsUCG6mW9WHE221/ExmC0JJyUt0eAXIvrBlIQce
-         OaKeZJhSE6nLUxf6+5vvg44lt0DdRb4U0zCmhK/+AkGn5ccbepOfonR+P6DPnXkjCnYO
-         sQ5S7Nerxn7s8+7Dlj91Qv9cdLg7CjgI//4G8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787202936; x=1787807736;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=i1qzFHY4MADO+pKP/rYIVSKWuTq1hiwkVURcjqrdi5U=;
-        b=bvuWflY5OddOLvq0oQ0mMx7dOpL2qQ0rgExME1RmXCQkn8TJ1jq1Kh0tCl2Py5RrRl
-         tthLYHDCc3gl8+3bf8lvVi0HDJewiSvk+e+uJAmKLv1GiVEtCByh/pPqDOUboTOkfEfQ
-         3DkCV+jvJMqoQLdFvi5nhdo6uPvFt97uE6SfMODVNUp5E+vDdZCd4iLNSdzkhcUmL1lt
-         0BET8zdgMcmMAUHrIlLL2HRhsC5t6HOJ/KpDfrpX1OLfqNaA+Oza2cGO/ZekKnjuNCuY
-         unPlQ+jFPJZiUc2ewdx61XXySCFHVq0C2a7Iqdt8bvNpMxy2Nye6p4dlSOTth8ImfcC6
-         J8Tw==
-X-Forwarded-Encrypted: i=1; AHgh+RpYRZechbtboTT23uGNOMjZC5M8lQjWjgVCghdyyxfmN9PeelWGW2oxr4nhEcTvyOF8F/hhipHstFktRG4C@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq91BnInsjhKTOsS0bfxsFIxMwOHZkGm10ncvJAzViEwcs4s7L
-	jT054WYKxqDfutDF77YDMqo8Qi0CORaRQ+Y2MC5b2yOU5jJQy9nJWERb3mriuuzKhoaH+xr42hF
-	drS9Rcncr4pqjr2yWAMlPDpCqVIhHSNV2VWzbW2BAiA==
-X-Gm-Gg: AR+sD10Hq8BRmfSziQMvrVBfbbzlE3eWP9Kc19/q6rEWxY8YaZjkUQAThr8q/IeLuCz
-	abUDiIyzz2NY/wH/kWQ47ADOyPo2FfmJCtN3hKvDMGXMmEKtckwv81aAe2YNVAg2YuyEs4xSnDW
-	90wXm/P4ju3rXVGhm8Qy7gilPfhyWMTeamhqltKRGgAhW2iDzGgUyTvErHfUzMfc3xONZuMaaFN
-	eUgUbh9QOOBuHVjzXu1Mem07QlIbjVM2tRqtIrTcKz84RhO6phKms3g8aIG8wd7GFYWNjBpLPwq
-	hAz9AiLjHUwAA454WQ/gyf4Hb0F4XSgJwxPXA1rpuJmyzKYOppUX5jpjFAY5UKuqtqBijPeUVXp
-	5JgHb/KEfaQI=
-X-Received: by 2002:a05:622a:608f:b0:51c:1e2f:1281 with SMTP id
- d75a77b69052e-52dd5e1114cmr96727921cf.42.1787202936231; Wed, 19 Aug 2026
- 22:15:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOJTnqsZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 03979C2BCFC;
+	Thu, 20 Aug 2026 05:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787204748;
+	bh=86B0Pk4jVJ6ZQ+Jb+6BAOAHcs2OvwgJHav3rxWmibtI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=EOJTnqsZ1kTwBmA6gqd7fuNFjTMRAUr88rZy2dnsYg8Y1VbHCwbm4WqmD2JMgiZYC
+	 c6ejc8oatNCihy3kBWSoA5TaDKhFsgv2yTkc0F32AE6hIvqgGzPE030vZU3k3dl4Ix
+	 vPMIGcBN4etjKfncuC5IlbIntd86ZLk8E+U5YLd2GGk8O9cNIRlu0PMdWb/ouwO+/l
+	 u80UzVUS3SEWVhud64sbtIh/v4jbHKS4AV6CweDohZTQZPkHnjP1mzn4eFqRjWSsn/
+	 xhBS7sxKjKPWDEw77dntLh4pOYCrr4Ac2ouP87QD+E3k6tEWe2dj1SKFuhi2N3pJLJ
+	 Jl0tq7Je/Dzow==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D27B4C5DF87;
+	Thu, 20 Aug 2026 05:45:47 +0000 (UTC)
+From: Chen Linxuan via B4 Relay <devnull+me.black-desk.cn@kernel.org>
+Date: Thu, 20 Aug 2026 13:45:40 +0800
+Subject: [PATCH RFC 2/3] pidfd: Use scoped cleanup for task access
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260717125538.508925-1-joshi.k@samsung.com> <CGME20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319@epcas5p3.samsung.com>
- <20260717125538.508925-2-joshi.k@samsung.com> <20260721030338.GU7380@frogsfrogsfrogs>
- <71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com> <20260730172211.GF3556460@frogsfrogsfrogs>
- <20260819070459.GA1541@lst.de>
-In-Reply-To: <20260819070459.GA1541@lst.de>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 20 Aug 2026 07:15:25 +0200
-X-Gm-Features: AcwNN1XXT5xefF0BXUU_TM3qwY6KZTggS9AZTFDK2j8DH58mqjaIjJ16-hbRpyc
-Message-ID: <CAJfpeguAkB01swoTKmqcEOQrej3g8yjr2RZSPQQPeo-4UE908g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] fs: add write-stream management ioctls
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>, brauner@kernel.org, 
-	dgc@kernel.org, jack@suse.cz, cem@kernel.org, axboe@kernel.dk, 
-	kbusch@kernel.org, ritesh.list@gmail.com, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, 
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260820-pidfd-get-paths-v1-2-ac3eee4003d5@black-desk.cn>
+References: <20260820-pidfd-get-paths-v1-0-ac3eee4003d5@black-desk.cn>
+In-Reply-To: <20260820-pidfd-get-paths-v1-0-ac3eee4003d5@black-desk.cn>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Georgia Garcia <georgia.garcia@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, Chen Linxuan <me@black-desk.cn>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5184; i=me@black-desk.cn;
+ h=from:subject:message-id;
+ bh=KBo9FLg9vQy1MB4oOYDcDc0kQebzYNbPiSNI8fLNAR0=;
+ b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBqhpSIhKwGZauH3fC6nxip9ANmNISsp+MKbUnCe
+ /TrubcJkUmJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaoaUiAAKCRB2HuYUOZmu
+ ixmID/41QbF14zMynFNvfg9xr0TvYsQnr5aSI0j2biffLrXEfTAP6BRpHjSCrg/K/mp9z703xWm
+ EdtYRqlXwDUSPzZ8NSsaryeHXNlsADwpA2/9lzhbUfHlunyJ1OiboJCDp6AMophJj2WjqYKxwSl
+ 7WSKaF1HJS0fttFvQK9Bn6tVW80AvAHRbwOQZyLXGpW1dO59yI1Zcsuo9gXYqZlMI/6JGaV/b1b
+ 1hIm9lRiuEBgbJKLZf04LdGEzbS343+JOOqyfTK5BPxqDxNzTUhVPbT+hz2jOcG4KkHFAC9ij0G
+ WBJC5NVICg5EAvvuO60Tl0V7AHNoopxdlgO5z/7IK6eHG1e152EmwKHVsouyJWSOepeD0A7Uz2o
+ q48TzL3h3HmOJ9GBTignvke9t6TBPDriI6GxUlctkca3hh1hRPQglvXItNlt+DZRlffizuumBlr
+ 5vkMGB+9ZCnPh/9LTa4l3jrXlLHw5+ZGLQzsUJ8tRb8THJx3Fnvha4+Eq3GkvuA/w4eGQqRJw+c
+ AFG0KKBtIZvGZCkokmw8vnMxiPah60Qg7VKrwqQ1kNiDsgrFr3YLZZFKxc/bgqkj3Kw9LirC7Si
+ mYvrooo55v/G9MB5TyyLeW3g9JaO6LBMR4pzS5PMLnhe8LyEEkx9cIlMX9HEojUK3DInni74x8k
+ Ze3Wt7ddjFy833A==
+X-Developer-Key: i=me@black-desk.cn; a=openpgp;
+ fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
+X-Endpoint-Received: by B4 Relay for me@black-desk.cn/default with
+ auth_id=573
+X-Original-From: Chen Linxuan <me@black-desk.cn>
+Reply-To: me@black-desk.cn
 
-On Wed, 19 Aug 2026 at 09:06, Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Jul 30, 2026 at 10:22:11AM -0700, Darrick J. Wong wrote:
+From: Chen Linxuan <me@black-desk.cn>
 
-> > passing through to another layer (e.g. fuse) assume that the third
-> > argument is a pointer and that it can copy sizeof(data_type) bytes at
-> > that address in and out of the kernel as part of marshalling.
->
-> That is not a good assumption and things will break.
+Split namespace acquisition from namespace fd creation and represent a
+privileged target task as a scoped class that owns both the task
+reference and exec_update_lock. Use the class for namespace lookups so
+ptrace access checks and task state reads remain tied to the same exec
+critical section, while open_namespace() stays outside the lock.
 
-Right.  Fuse server should send a whitelist of ioctl numbers it can handle.
+Assisted-by: codex:glm-5.3
+Signed-off-by: Chen Linxuan <me@black-desk.cn>
+---
+ fs/pidfs.c | 123 ++++++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 77 insertions(+), 46 deletions(-)
 
-But ioctl's are a bad interface anyway.  Why not add proper syscalls instead?
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index a6a643f15d08..39e1e7ad9b2b 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -527,62 +527,71 @@ static bool pidfs_ioctl_valid(unsigned int cmd)
+ 	return false;
+ }
+ 
+-static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++static inline void pidfd_put_task_locked(struct task_struct *task)
+ {
+-	struct task_struct *task __free(put_task) = NULL;
+-	struct nsproxy *nsp __free(put_nsproxy) = NULL;
+-	struct ns_common *ns_common = NULL;
+-	int error;
+-
+-	if (!pidfs_ioctl_valid(cmd))
+-		return -ENOIOCTLCMD;
+-
+-	if (cmd == FS_IOC_GETVERSION) {
+-		if (!arg)
+-			return -EINVAL;
+-
+-		__u32 __user *argp = (__u32 __user *)arg;
+-		return put_user(file_inode(file)->i_generation, argp);
++	if (!IS_ERR_OR_NULL(task)) {
++		up_read(&task->signal->exec_update_lock);
++		put_task_struct(task);
+ 	}
++}
+ 
+-	/* Extensible IOCTL that does not open namespace FDs, take a shortcut */
+-	if (_IOC_NR(cmd) == _IOC_NR(PIDFD_GET_INFO))
+-		return pidfd_info(file, cmd, arg);
++/*
++ * Return @pid's task with @task's exec_update_lock held. The ptrace check
++ * and the callers' task state lookup must be performed while the lock is held
++ * so that they cannot race with a concurrent execve().
++ */
++static struct task_struct *pidfd_get_task_locked(struct pid *pid,
++						 unsigned long arg)
++{
++	struct task_struct *task = get_pid_task(pid, PIDTYPE_PID);
++	int error;
+ 
+-	task = get_pid_task(pidfd_pid(file), PIDTYPE_PID);
+ 	if (!task)
+-		return -ESRCH;
++		return ERR_PTR(-ESRCH);
+ 
+-	if (arg)
+-		return -EINVAL;
++	if (arg) {
++		put_task_struct(task);
++		return ERR_PTR(-EINVAL);
++	}
+ 
+-	/*
+-	 * We're trying to open a file descriptor to the namespace so perform a
+-	 * filesystem cred ptrace check. Hold @task's exec_update_lock for the
+-	 * duration of the ptrace check and the namespace lookup so that the
+-	 * credentials used for the access decision match those of @task at the
+-	 * time its namespace is read, preventing a concurrent execve() from
+-	 * swapping the task's credentials in between the check and the use. We
+-	 * mirror nsfs behavior.
+-	 */
+ 	error = down_read_killable(&task->signal->exec_update_lock);
+-	if (error)
+-		return error;
++	if (error) {
++		put_task_struct(task);
++		return ERR_PTR(error);
++	}
+ 
+ 	if (!ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)) {
+-		error = -EACCES;
+-		goto out_unlock;
++		up_read(&task->signal->exec_update_lock);
++		put_task_struct(task);
++		return ERR_PTR(-EACCES);
+ 	}
+ 
++	return task;
++}
++
++DEFINE_CLASS(pidfd_task_locked, struct task_struct *,
++	     pidfd_put_task_locked(_T),
++	     pidfd_get_task_locked(pid, arg),
++	     struct pid *pid, unsigned long arg)
++
++static struct ns_common *pidfd_get_namespace(struct pid *pid,
++					     unsigned int cmd,
++					     unsigned long arg)
++{
++	struct nsproxy *nsp __free(put_nsproxy) = NULL;
++	struct ns_common *ns_common = NULL;
++
++	CLASS(pidfd_task_locked, task)(pid, arg);
++	if (IS_ERR(task))
++		return ERR_CAST(task);
++
+ 	scoped_guard(task_lock, task) {
+ 		nsp = task->nsproxy;
+ 		if (nsp)
+ 			get_nsproxy(nsp);
+ 	}
+-	if (!nsp) {
+-		error = -ESRCH; /* just pretend it didn't exist */
+-		goto out_unlock;
+-	}
++	if (!nsp)
++		return ERR_PTR(-ESRCH); /* just pretend it didn't exist */
+ 
+ 	switch (cmd) {
+ 	/* Namespaces that hang of nsproxy. */
+@@ -664,16 +673,38 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ #endif
+ 		break;
+ 	default:
+-		error = -ENOIOCTLCMD;
++		return ERR_PTR(-ENOIOCTLCMD);
++	}
++
++	if (!ns_common)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	return ns_common;
++}
++
++static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++	struct ns_common *ns_common = NULL;
++
++	if (!pidfs_ioctl_valid(cmd))
++		return -ENOIOCTLCMD;
++
++	if (cmd == FS_IOC_GETVERSION) {
++		if (!arg)
++			return -EINVAL;
++
++		__u32 __user *argp = (__u32 __user *)arg;
++
++		return put_user(file_inode(file)->i_generation, argp);
+ 	}
+ 
+-	if (!error && !ns_common)
+-		error = -EOPNOTSUPP;
++	/* Extensible IOCTL that does not open namespace FDs, take a shortcut */
++	if (_IOC_NR(cmd) == _IOC_NR(PIDFD_GET_INFO))
++		return pidfd_info(file, cmd, arg);
+ 
+-out_unlock:
+-	up_read(&task->signal->exec_update_lock);
+-	if (error)
+-		return error;
++	ns_common = pidfd_get_namespace(pidfd_pid(file), cmd, arg);
++	if (IS_ERR(ns_common))
++		return PTR_ERR(ns_common);
+ 
+ 	/* open_namespace() unconditionally consumes the reference */
+ 	return open_namespace(ns_common);
 
-Thanks,
-Miklos
+-- 
+2.53.0
+
+
