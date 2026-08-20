@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF063D75DE;
-	Thu, 20 Aug 2026 17:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F2347F761;
+	Thu, 20 Aug 2026 17:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787246211; cv=none; b=CEPovBdOjbG8koAWF4ZY2uyJXMuM7FAbwyGV1LIGHPxawlQKD8CJIvrH55fX0bDGMCsq+GNWYSDW7JQ9jxUw5QDxVouH43CuYyoNogW/6fQaafrolJqInmwAGF+6G6HQ53WcUCTBVjLdRR1hAZDCuyFso4ovZwXzybTr7lgFDOA=
+	t=1787246346; cv=none; b=DXAyVtkRk0cknJjfLW7xOuXIm8l2cCH5s3J1IH0IbryV8e5s92feqhSWMQ29dccoR6sHa7tQmVUAafcycWsoJD6We/giHxmABu9juqddGezIjEMH4Nu3U8KIlR+wCTSEteOhtlcnkadFL50TsDJCxgvQA/i0mQNDnI00EBt1WyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787246211; c=relaxed/simple;
-	bh=+1bmV0emnRfGbzkVZrr6Xn06idLHg9fjaOWVq9QhNXQ=;
+	s=arc-20240116; t=1787246346; c=relaxed/simple;
+	bh=Z1+c07hcXuY1a7x88BXTxyxBi9MbZkeUEEsEjl6ex34=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ogd/B2gR4vdW6ah6SfTkhNRuawNGul2+8LnaqYsboRa10WZE9SU82iBd+L2G2rxMhVNijTswAe0KdGuTtdwqkcAC9zTm9vJftPrWjpgkLEAPdeiBukhmviUK+2fnaBjpA0vVNHljH2Vkui6fiazSzskMRoP+K8jYz6IUVmTTgbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GwQUAEOK; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Rb456CUFprzIrI1ty4zbrgocVmNc+aCH66ESfC6WnNCidP3IzQ7z3pQD2rah28sQQxW2PvKLtoV6i8f5eiF/JMHTZOm//dvZ0Md+HrSZFwPnutUHxBeJZBbER6qUaiDUsToftOo0fL4vdUKnLC0CfFDHeVdT8NP4WJZV9MU8rLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ec3fONJw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GwQUAEOK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49B621F000E9;
-	Thu, 20 Aug 2026 17:16:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ec3fONJw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98B3B1F000E9;
+	Thu, 20 Aug 2026 17:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787246209;
-	bh=MV24uR/6Cop6a5mbcnfeD+N904Fg68fULCFuxI3hmvk=;
+	s=k20260515; t=1787246344;
+	bh=RGtQru3vrltqhttbaN2XzlN72mBtebjrTVHBY8xSB1Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GwQUAEOK7DSZyJoaIvNGzb7eXUjL+lBRclXa6f9EKhUzThVZICr0l1lhMLlnlyDML
-	 DGJo2yCn2P0h4yuZXBCTbvh3s0XySxJ7tUIToVru4vMLT+U8yiXNaUVLSKH6kh1twx
-	 i4Ui/0D5qTKyEHIV/zWJdMsg1VkSI2JCgOlVxdwdROIV7kipuNr7yESf6rDQb3y5aF
-	 xeay2R7Vs0pTkaW9UlzQ+CTuNLuu1o5oxCJTXppmAizyRzgD8vTUbOVdhdmPtG9NLo
-	 c7JOdZnGN5lNnVYIVr/lgJbmqVc2OkwC5qEddnCpB365CZgp1Ys95WqI5uYaoY/UCZ
-	 vqJymbhwXeWAg==
-Message-ID: <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
-Date: Thu, 20 Aug 2026 19:16:05 +0200
+	b=ec3fONJwnd8YpsAgh1gHFVJu6Nhn/fFnlAa/6o4wI1iQ306dy//oh9AEz2ngp91jS
+	 d2N8uFrwZEXCEstUiiMaRNh7msdFRLiATBh9av/+Wv8RznWkXJDXsiYQnBU6E0fX5P
+	 yuP3NJ4zLtLp37a7ut/rEgby/xFgOf0ZGOJqrtcKAUTHu/lL5u2PMu9pio8Qx0Mp2D
+	 UYwmUQN0TxZf0GSFc9Oxz/hFvm3GW9Kbl4DQQYNODFghYQNZsJz3M1eGnytYD0GL7r
+	 RdOUywotKRrhQb0QHGFnyzAQIPVggd/DpMlJOWjfmHCtoAaBa8VyAK/k9h20fnJWvm
+	 R4rkznxo5l80A==
+Message-ID: <451a49f6-1897-40fc-9b30-c3d053b52474@kernel.org>
+Date: Thu, 20 Aug 2026 19:18:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,66 +35,22 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
-Cc: max.byungchul.park@gmail.com, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
- willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
- gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
- akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
- jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org,
- rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com, boqun.feng@gmail.com,
- longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
- yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com,
- her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
- gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
- arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
- kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
- ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
- baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org
-References: <20260706061928.66713-1-byungchul@sk.com>
+Subject: Re: [PATCH 1/3] proc: refactor /proc/$pid/mem to use struct as
+ private_data
+To: Jann Horn <jannh@google.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu
+ <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ linux-mm@kvack.org
+References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
+ <20260818-selinux-pokemem-v1-1-90cd2357ee05@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -141,129 +97,22 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260706061928.66713-1-byungchul@sk.com>
+In-Reply-To: <20260818-selinux-pokemem-v1-1-90cd2357ee05@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 7/6/26 08:18, Byungchul Park wrote:
-> Hi Linus and folks,
-
-Hi,
-
-I think there was plenty of feedback from locking maintainers in the past. One
-question and a comment below.
-
+On 8/18/26 21:51, Jann Horn wrote:
+> Refactor the handlers for proc_mem_operations to use the new struct
+> mem_private as ->private_data, rather than directly storing an mm_struct*
+> in ->private_data.
 > 
-> DEPT(DEPendency Tracker) is a runtime deadlock detection framework that
-> sees what lockdep cannot.
+> This is in preparation for adding more state in mem_private in the next
+> commit.
 > 
-> I'm thrilled to share that DEPT has moved beyond theory and is now
-> catching real deadlocks in the wild:
-> 
->    https://lore.kernel.org/lkml/6383cde5-cf4b-facf-6e07-1378a485657d@I-love.SAKURA.ne.jp/
->    https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
->    https://lore.kernel.org/all/b6e00e77-4a8c-4e05-ab79-266bf05fcc2d@igalia.com/
-> 
-> I've added comprehensive documentation explaining DEPT's design and usage.
-> Getting started is as simple as enabling CONFIG_DEPT and watching dmesg.
-> 
-> THE PROBLEM LOCKDEP CANNOT SOLVE
-> --------------------------------
-> 
-> Lockdep has been our trusted deadlock detector for two decades, but it
-> has a fundamental blind spot: it tracks lock acquisition order, not the
-> actual waits and events that cause deadlocks. This means lockdep misses:
-> 
->   * Deadlocks involving folio locks (not released within the context)
->   * Cross-context synchronization like wait_for_completion()/complete()
->   * DMA fence waits, RCU waits, and general waitqueue patterns
->   * Any synchronization primitive outside the classic lock/unlock model
-> 
-> Consider this real deadlock pattern that lockdep cannot detect:
-> 
->    context X              context Y              context Z
-> 
->                           mutex_lock A
->    folio_lock B
->                           folio_lock B <- DEADLOCK
->                                                  mutex_lock A <- DEADLOCK
->                                                  folio_unlock B
->                           folio_unlock B
->                           mutex_unlock A
->                                                  mutex_unlock A
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
 
-But that really just boils down to folio lock being implemented as a PG_lock +
-some advanced wait mechanism. And we must do that because of lack of bits in
-struct page.
-
-Willy mentioned in a previous version [1]: "I don't think it makes sense to
-track lock state in the page (nor folio).  Partly because there's just so many
-of them, but also because the locking rules don't really apply to individual
-folios so much as they do to the mappings (or anon_vmas) that contain folios."
-
-Given that lockdep is a debug feature, and we will at some point allocate struct
-folio separately, I assume we could just squeeze a "struct lockdep_map" in there
-in such debug configs and the world would not collapse.
-
-Doing that today (one "struct lockdep_map" in each "struct page") wouldn't work
-as mm_zero_struct_page() would not expect such large "struct page". But
-conceptually, for a debug kernel with a special CONFIG_LOCKDEP_PAGE_LOCK, maybe
-that would already be ok and we could just do that (and optimize it as we
-allocate folios separately).
-
-Not that it's ideal, but for a debug feature to at least check PG_lock, probably
-an easier way to achieve it than some completely new infrastructure.
-
-Now, Willy said "locking rules don't really apply to individual folios", I
-wonder if that could just help to also let lockdep check PG_lock with less
-metadata? (didn't fully wrap my head around the implications)
-
-[1]
-https://lore.kernel.org/all/aR3WHf9QZ_dizNun@casper.infradead.org/?utm_source=chatgpt.com
-
-
-It's your guiding example, that's why I mention it. You do mention other wait
-cases here, I don't know anything about them, but for folios it's really just
-"we used a single bit so far" AFAIKs.
-
-[...]
-
-> 
-> Q. Why not build DEPT into lockdep?
-> 
-> A. Lockdep is stable, battle-tested code. I chose separation because
->    while DEPT borrows BFS and hashing ideas, the wait/event model
->    requires rebuilding from scratch. Lockdep was designed for lock
->    acquisition order — retrofitting it would risk its stability.
-
-Why can't this just be some configurable extension to lockdep
-(CONFIG_LOCKDEP_XYZ) until the feature is stable and can unconditionally be
-enabled along with it?
-
-I don't quite buy the "would risk its stability" argument. A lot of stuff we do
-"risks stability", every day :)
-
-Is there another good reason (incompatible with X, dangerous with Y, cinfusing
-Z) why this really must be a separate thing?
-
-> 
-> Q. Will DEPT replace lockdep?
-> 
-> A. No. Lockdep validates correct lock usage — that's not going away.
->    DEPT supersedes only the dependency-checking logic when mature.
-
-It's quite unfortunate that we'd end up with another similar-but-different
-mechanism, that will just end up confusing people.
-
-
-But I am not a locking maintainer. I think there was plenty of discussion in the
-past, so I might just be raising points that were already discussed in the past,
-but I really just read some random pieces of earlier discussions. (ideally
-previous discussions would be summarized here)
-
-Long story short: we are now in v19 and I think there was pushback in the past.
-Did the opinion of locking maintainers change, or is there a way forward to
-integrate this in a way that would make locking maintainers accept this?
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
