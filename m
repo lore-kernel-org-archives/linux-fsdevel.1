@@ -1,87 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA2F2F8EA3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 00:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D131A262D;
+	Fri, 21 Aug 2026 01:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787271692; cv=none; b=iluFl1dQgSOF2HruSA3Snu98HvPXPQDfXB2Er/AyxTQZdFE3Oi7jfU/olvL7s9v+2KMS0Oz+afjFhGR8gR7kCTx7hDHqtqJ8DGPzmBEzuegXphkrZ7Ly38n4K9nht5jMF2aULYkSbeV4Iip7EssCsaCfYfWZnNAhn4yHLmaJlWA=
+	t=1787274233; cv=none; b=LM6weUVDQ8/tBrSusCXfOYnQNo5vcfSH9ZertjXIYo77vzo6wxNFXSnVWazvdSQtvG8idYZUEgsdGul1HvVV30v3VY4npwNvLqg9cE3mOVlQC+mL02lhSTpTevd7Bs/9t8aHHOs2JxzRuCL+8x0rJL3QHmhEvrmAstgg4c+E2hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787271692; c=relaxed/simple;
-	bh=/wtgwmpyQyFZo+IeuIeMGBUymQzeBOcugwcF90wo3sY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ku44jhywOi7SMcUiII3Omf2+c8uDhWXYIoN9wVuWyEQQSGrzPzvIYJoCJiqogh5ks64w6LyGStIk71a0XWZcF9Mz2h6zRGdRtx9Mm1lyRI5oyWPnjRT27LBuT6y9lFcv3K1hGd3qN1mxFbcpAsAOCCxFCJOr5JMY2nE9Atu/Sb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJGazWmg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787274233; c=relaxed/simple;
+	bh=vHlmQXt+2dpTWS+ko3KiwTPNlY/HHn5EObw0ePEsdwI=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=pExBqRELw6LpErgbGqevTZRTvIPKDJKQUjaInY/dx9m8gNYk2HJZs5pvQ3TX+amV4nQ24tfSxjrXJhvRzxv6/n5ZDKHyzXI5674Ku9wFdIDr++KMgAQQKmWdniMQrXGPUIVkd+jZ6mwWdmH9l2G/Gt/r0P5Kik9dxTewRbRmZ58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=bPH4E9Ii; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJGazWmg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 095DC1F00A3E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 00:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787271691;
-	bh=PEF45fYtrTiwHdPGuMmVYVdpsQnepreJgGvjjcdR5As=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=YJGazWmg69CmHzyapxOtswNHd+7Q7r7dRlvyxmq+uBqL0mACX/tYCYVp5F+npeE0A
-	 jy28AOSG3b2tdCiKFIctg7NTb+QtxrfAG/Xc9qJFcB86DInF3imkrDX/ZAGg+7Uq4n
-	 eOBWa1JqIzaWDtDdG4ZwFZlhohCLuGdKjJmOBX4ZnlhwxUFZ6TX68Jdqya4GH2vDXr
-	 BqODgxA6E+iSgDCTfsazI+pLG99x6QA893hS5yTLseJy0McF+tVtltRZ550Z88aHhL
-	 kQ0ILFUeIhsSiPoI5i1TqSBOrdi47rJoWBQ7I1yugUFY8jeU92TFI1YWckxW6fNlBY
-	 QZ8f6JU1tYBBw==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a156627e22so3033606a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 20 Aug 2026 17:21:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq7xF22U4Uy4mW7VeuvBc4BVc9IWlqwo1E5WgMUP4oE3xuXg9i+5Jgk+EzX/gGIbssrKRPs7zD8RpxVFYPd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4aCW76cQGrbYGVg/XdUJ3yN5oWU8DDunuGlUH35sILnPHqkc7
-	kZVGMJMO1B1OM+noF+NU8wWY2+SRqDBE01rUS0evR2zCyMctwl6bHApYjFjhEZVNkf6AxeM4q0H
-	Jd2hNxmR52gwS8BvsWRKX6I9sAw/yUtc=
-X-Received: by 2002:a17:907:724d:b0:c21:393e:6d10 with SMTP id
- a640c23a62f3a-c246d5eac42mr146920666b.4.1787271689633; Thu, 20 Aug 2026
- 17:21:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="bPH4E9Ii"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Date:Subject:Cc:To:From:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=U6tX4rHjnCbEkmPOoaEfILDywWT/zgnW3sX0ar/qAjc=; b=bPH4E9Ii73rwoJWqnYYesFEIhU
+	hZNKY88pzFaWPNkzMcDf91jw8rYbfDGFyyYsVgrcNcs0HSHjZoq0tdQIsiYI2bBXWpUBzy72TQRY0
+	EJ9jqLtgHmd/ADYVTuHzms29Y1m9xWRaK0jJXm2y/4BSV08wQzsfCcwQjqIGVZCFAxJYBhWQyW7x7
+	qWLiSQ7xZe2GUsQoeOSg4oDJzUMaQjFNq1udSiuG36n6hTVKxXFcz7AAAZpvMGUEbts7GQdNCldfP
+	XFPJsDf8wwF12yJgYucsI7gllKOJR8v90kOX3/oJh7WxJ0fIIg8M69xjgpOFCKNSl3YAOUBD6SCUj
+	oEox6hHQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.5)
+	id 1wxDfX-00000000N6b-39Gu;
+	Thu, 20 Aug 2026 22:03:39 -0300
+Message-ID: <87d3741519271261fe69701617b20dd9@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, David Howells
+ <dhowells@redhat.com>, Steve French <smfrench@gmail.com>, Steve French
+ <sfrench@samba.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Al
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N
+ <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, Bharath SM
+ <bharathsm@microsoft.com>, samba-technical@lists.samba.org,
+ linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [GIT PULL] smb: client: replace Steve French as CIFS maintainer
+Date: Thu, 20 Aug 2026 22:03:39 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a86a1e1.ee10049a.267d65.9802@mx.google.com>
-In-Reply-To: <6a86a1e1.ee10049a.267d65.9802@mx.google.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 21 Aug 2026 09:21:16 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_OwvKZJJ8FLrgiJk842ApEH1FM+A+=uFFTtyKmm5-zZA@mail.gmail.com>
-X-Gm-Features: AcwNN1XmdVMpGNEOyxkK1fP0Sj7IY2yzOYFRqxHNcoptgokXC1Q3O0QJdVrlO1Q
-Message-ID: <CAKYAXd_OwvKZJJ8FLrgiJk842ApEH1FM+A+=uFFTtyKmm5-zZA@mail.gmail.com>
-Subject: Re: [PATCH v2] ntfs: validate usa_ofs before preserving the update
- sequence number
-To: Dennis Tighe <dennis.tighe@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 20, 2026 at 3:42=E2=80=AFPM Dennis Tighe <dennis.tighe@gmail.co=
-m> wrote:
->
-> When ntfs_mft_record_alloc() reuses a free mft record it reads the old
-> update sequence number straight from the on-disk record:
->
->     usn =3D *(__le16 *)((u8 *)m + le16_to_cpu(m->usa_ofs));
->
-> Here m points into the raw $MFT page-cache folio, which still holds
-> unvalidated, MST-protected bytes: the folio is read by a plain
-> iomap_read_folio() and neither post_read_mst_fixup() nor
-> ntfs_mft_record_check() has run on it (both work on private copies).
-> m->usa_ofs is therefore an untrusted u16, and a corrupted record can put
-> it past the end of the record so the two-byte read lands outside the
-> folio.  Reading such a record while creating a file gives, under KASAN:
->
->   BUG: KASAN: use-after-free in ntfs_mft_record_alloc+...
->   Read of size 2 at addr ...
->    ntfs_mft_record_alloc -> __ntfs_create -> ntfs_create -> path_openat
->
-> Only preserve the old update sequence number when usa_ofs is even and in
-> range, mirroring the check ntfs_mft_record_check() already applies;
-> otherwise leave usn zero, which the existing restore below skips.
->
-> Fixes: 495e90fa3348 ("ntfs: update attrib operations")
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
-Applied it to #ntfs-next.
-Thanks!
+Hi Linus,
+
+Could you please pull this?=C2=A0 It updates the CIFS Maintainer record to
+replace Steve French with myself and Namjae.
+
+Thanks,
+Paulo
+----------------------------------------------------------------
+The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
+
+  Linux 7.2 (2026-08-16 14:32:26 -0700)
+
+are available in the Git repository at:
+
+  https://git.manguebit.org/linux.git tags/cifs-maintainer-switch-7.3-rc1
+
+for you to fetch changes up to 934753d26f1ed7fadeedf1b9e7df6fe75de303e8:
+
+  MAINTAINERS: Replace Steve French as CIFS maintainer (2026-08-20 21:32:00=
+ -0300)
+
+----------------------------------------------------------------
+CIFS Maintainer switch
+
+----------------------------------------------------------------
+Paulo Alcantara (1):
+      MAINTAINERS: Replace Steve French as CIFS maintainer
+
+ CREDITS     | 5 +++++
+ MAINTAINERS | 7 +++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
