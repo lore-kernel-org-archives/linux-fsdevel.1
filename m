@@ -1,159 +1,101 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4AF3546FC
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 15:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787324910; cv=pass; b=HAcwI2Iw4E6Uc6ZISZiB7KGUQ0GV/4iPEHT/ENujqCLiJ32hZxYt+JlI4BNbP3qvqP3LU3hfqpdjF1Lyw+gIXjUyl7Eq1ALSH+qCF3aA+Vs+SfueYlISy9Yc+HWqx2GAGse0kkVhWkESfIRKLkpUgQmxM/CWTTXFseTzvUnAhlk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787324910; c=relaxed/simple;
-	bh=xsvH04/zWmLu6VaMQp0d91tlrFx34Z/3JARQ444mLbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r6+j4MxlnN+l7ACpHCGx6HYIMzphYtLrRPX83nfXzBDO3hmiuzZUVVm9mwRPsbkkZUCmnjdZVoQJDgGm7dLmVrHFDcyNwnaLEy0wzx5rWTPaAqxa5bx+VSlr/dkztC/Ql1rnO9hRng/VUxWkHlhT44ER24in+qfNU1u11hrLAvg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jn3llhVh; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7C43B3F5;
+	Fri, 21 Aug 2026 15:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787325551; cv=none; b=OvYb/2UHQf2elYTvqUf6L/wVD6MAP/dZGoaCCqNLjyFz5XubJHTexCpgv7+6mE7SY/Lfwhhxc5GWPceunngzE47NP1MboGmZauBg+qKTL5n7p6E6E8khZn1A9nGYATU0YSmgKqa3pV0ebAINmYO6+jCVLJPNQnC5RZDf0fam0Wo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787325551; c=relaxed/simple;
+	bh=DgvivRGfuO7pmPJ+C4WzaSQrVKUkmZqrVNcqR7Bx/t0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bG+C4G6bTOGLJ8lPbyvKlCJoJWYe8c9nUYL9Q0AwkTwofsoyWr4j/6liXK0HNaWx8u4UWVcyWmH5I4W1zbn6VvnW67uSAQLn3ArBRMWvGVvvbvS9UAEcIROGIRuEBOefVkcvSxrRMASrChSTpYfMp9faK2hfLI7ByJBr9WNhYV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qer0+X9/; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jn3llhVh"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d3b445a84fso82755ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 08:08:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787324908; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZI0iWjhhpUIuhn2n8Luy6N7bFkrf1OkIeWcIgXP0uU3NVSb1g8AFAMbNPIv/A/rIgB
-         srxVeDbcQrbE3c6o4/bFICcMQB2bleS4O2CMK2siOZrGwJcCYoBN9Pw4IUz5v+Fre3lQ
-         Bq65ZztQ9VD7PTWnOJlDEEM4pQuj24S3TkzUbrAln/HQiLms5HACgb0X7EJc0J6nN9D6
-         FFM71T4kgVoLR+QGYrOvnX0fTjPstEGKyqPSkhhCCkFgT4+JuyXHrJX3SaSqfQ1vLQlh
-         4dk428unHlWa8kEkL5re3/GLvWC83Zvs+5Zy/yP8QoP9RBSt1mou6GHz4Rv1meGImlqN
-         2bHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8B6gWPpC8JGpYPIfuo07l/hitWijKoYP3mF4ztxgwcE=;
-        fh=6X5wHD6kixbhiYS70ZVASu6Zf8nNOMkyGKlFli1MY5U=;
-        b=cMO7zPAzlKBtnzypDxuG7W9T36etS/euOLFMGZPgI0e/sTNWUowLcm63EVnTshZlmG
-         6pw77vtfP4i9swT89Ci+Wnyu3zPAtaRft7MUJpeEsHhxPvtG5c7J/itsb8c8YXtdnl1d
-         Ho/ofjTbr2+K5XYADbh734Xv0s3ZJgrqAJMM461Cd6YobNSwzTSH5c165HCndYaTA9Na
-         AdUAl63NSX2zezc79Zg0bez9F+KLulRBAfluze7iDPQqeI1gondFETRoP3F+BEyyLJwl
-         SkBFtjzeJU49RHraXQy8LYt3B2I5fe6NxuYaZY1DnW43hPSpJaghNRQIgz1nwH6wgXP2
-         Sh3g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787324908; x=1787929708; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8B6gWPpC8JGpYPIfuo07l/hitWijKoYP3mF4ztxgwcE=;
-        b=jn3llhVh7gBIXYmlyYrL8WSFwdMj2FeaOqUzMm20N/uwus8nxn2nTiYrr6Spo3Ic/r
-         yzdUP0CyskkQJFgBlJqkaeF1d01HU4FExNId432GoipNMKJNfFOEUYefVGSR/Arz7L2F
-         /xUoyd7soP5MoKCvjKTAR/giwPjkduRJ/9eFnMdyAd/kqf12n7J3VybR8YidXE2HSCsL
-         vGMS4sZfe/9FAI2ndBJGlu/2U9EJxDFF7tuqyHEB0M1EWRgDIg9OYneCHklHZeX2zyCT
-         91PVWLA3W5cMBuaIKZc3siKwJJySuVjtrdDJ9VfQkJJQIqwEFDyU10WXNwEdFfg0TS0G
-         PSJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787324908; x=1787929708;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8B6gWPpC8JGpYPIfuo07l/hitWijKoYP3mF4ztxgwcE=;
-        b=srl+s4Mb0CqaOdIJip/Iq/HpgezjEWqOWLRLxBgI4fFG8gY4iu8w5eNIDuQ/LK+tZi
-         NMeBwbSwSatzesC0gJQHLfasGFfrRBalloKRrot6pZfxfSrzOth0aUyxxDiMHrrOSHaS
-         Mnkh4r4EmaFLKDFJSx47rofTn+TxPYOt5pD/NZvEKR5aM5dP1bot6MGPBgttqEnTUAGm
-         Z48iuMldv49WtGvt1yJtSIAlCIpYhb7VGrYFsEozZF0vnqphZiHaOVPq0tXJonIVG9FT
-         4xQLBdoahS9SmaMlKiHSMGL51vkuFE4XiPfyBLk0sb7tQ72gVHdvAA/0CiL9hx/iEYZd
-         2IRg==
-X-Forwarded-Encrypted: i=1; AHgh+RrXgXRJCkPzyPvVMrXEExzQo2opHipnmCA3p5ZEC0XE9RNCmRsLaCYNP84fdY0PnuY4oN5MSaeT1kSJkRlL@vger.kernel.org
-X-Gm-Message-State: AFuF++nRocfokugdpKNcSsIsa+WsmYxbzhvA4+I8j58mIF+fGtF+yF3N
-	h1QsYvtj+Ggo5flA7t4KiJB9QjTF02K9AhgjMpLVrZk8cQIzzf8AVlKAXhCaXTXq1CoE95E2Aod
-	yiO6brx9dVT5Lgl4Kt72sg2B1wGczCDD1eOLaHWxN
-X-Gm-Gg: AR+sD11Ike1CCxlEp4uM+2xtutXpeT2QwJ8H7fYtIBIY7WLPfxa9AztuhkocbIdq9fT
-	/4nxky9sDVAFDYeYrmxsxF/gbCMn7tIrHfnPCmB37MEd/NeLQ9rUlPnuc5LQxV5dR2zg5v9OTLl
-	hfFwsKqxk+j3jNCWCkoCKtzDmf5vtfMQVKQE2lknCwNYvknmiLG2ZzCVfZw8xeKwRu/p8WGpAO6
-	cP8UIxcvL1l9e71Wv0b7hza9RXyYrvX8IY0Ct/PRBxFIiWfbRXnt5KbvgFfv9fFLShbeCU/6Nrv
-	YsE4YVIfhoj6xQLUlZg+bBOP8gOdO8oPZ7ss8qZ5lFNdiFBSnJmRPAT04nr2nZGJ7ZD5W4pOVTe
-	D1wnCj8YVyaOUsPhLFqjzgMMYsPbF
-X-Received: by 2002:a17:903:94d:b0:2d6:3c22:994e with SMTP id
- d9443c01a7336-2d650da6ed0mr6702055ad.11.1787324907361; Fri, 21 Aug 2026
- 08:08:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qer0+X9/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Su9KgWL2onkGSwDtlDmPuaX1T/I/VKpTVIzc0TrDrBw=; b=qer0+X9/Z7BpQqiVV3fPeRwHoQ
+	HD3GiQFVB9g37fijIo+LwAlvbQSJh+7Yo24Bvmn1T+sySxFAhJPw7ucRL72Y+Z/Nc2KQ+3hzk7JDl
+	DpFEvJcNBtDVnmBsNxWC8EW1lOB9FhMqUWvGHKeYc/nROoRcYyB0gthUTuoCJVazc0mm5H/fkp0Ue
+	tirT1bU+quNUVo2GoGNtNZpurTSk5iFG5glYR1T0ToXW0R8Vb4dNc+uft/9Plo03NnH7l+CqYzyNG
+	LVPXVDkgGBklXHKq4hE6npoSdstZe6dVY6rAwwPC2d6IQpKrGQWOq0vL+gaHprOF4FrqZjcmJOmav
+	0I2S+8sg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wxQgr-000000002G8-2ZWU;
+	Fri, 21 Aug 2026 14:57:53 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B5F853006FA; Fri, 21 Aug 2026 16:57:52 +0200 (CEST)
+Date: Fri, 21 Aug 2026 16:57:52 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+Message-ID: <20260821145752.GG687043@noisy.programming.kicks-ass.net>
+References: <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
+ <aobDGgivy43cz7xQ@google.com>
+ <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
+ <aobGRjc7SE1rwIHu@google.com>
+ <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
+ <aobKfyGHkdMcleoc@google.com>
+ <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
+ <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
+ <20260821083000.GF687043@noisy.programming.kicks-ass.net>
+ <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
- <20260818-selinux-pokemem-v1-3-90cd2357ee05@google.com> <CAEjxPJ714iCMiQRVAN6MQoOyNx998MS5Xfhbhmugcwz+gWYAuQ@mail.gmail.com>
- <CAG48ez3h2Gft4onQ8AgBmf8gHrF26YqTinajuBysNPkUKaTBoA@mail.gmail.com> <CAEjxPJ5cUDBekWe7fC1JYnw6CfT8GVa9fqrFwLPPAOqSP6jn3g@mail.gmail.com>
-In-Reply-To: <CAEjxPJ5cUDBekWe7fC1JYnw6CfT8GVa9fqrFwLPPAOqSP6jn3g@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 21 Aug 2026 17:07:49 +0200
-X-Gm-Features: AcwNN1UOD9xZwijeRgcDq5q20lqu4OjcbnnkogdrF0uco3EOG75h8KaWFgvrdww
-Message-ID: <CAG48ez2q6rCbVVWxE55RpuTotmMrNGYfj6+56EXWhXFSrgJXQQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] selinux: require EXECMEM or PTRACE for FOLL_FORCE introspection
-To: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Jeff Xu <jeffxu@google.com>, 
-	=?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com>
 
-On Fri, Aug 21, 2026 at 3:52=E2=80=AFPM Stephen Smalley
-<stephen.smalley.work@gmail.com> wrote:
-> On Thu, Aug 20, 2026 at 11:23=E2=80=AFAM Jann Horn <jannh@google.com> wro=
-te:
-> > On Wed, Aug 19, 2026 at 4:54=E2=80=AFPM Stephen Smalley
-> > <stephen.smalley.work@gmail.com> wrote:
-> > > On Tue, Aug 18, 2026 at 3:51=E2=80=AFPM Jann Horn <jannh@google.com> =
-wrote:
-> > > >
-> > > > On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a pro=
-cess can
-> > > > only create anonymous executable memory via /proc/self/mem if it ha=
-s one
-> > > > of:
-> > > >
-> > > >  - EXECMEM (like for other methods of creating anonymous executable=
- pages)
-> > > >  - PTRACE (like when using /proc/$pid/mem of another process)
-> > >
-> > > Allowing it if _either_ permission is allowed is unusual in SELinux
-> > > and seems prone to errors.
-> > > Is there a reason to not just require PTRACE always?
-> >
-> > Hmm, that might work.
-> >
-> > My two concerns about that approach are:
-> >
-> > 1. This is an operation where a process acts on itself, while PTRACE
-> > is normally for acting on another process. It feels to me like those
-> > are different types of privilege.
-> > 2. I feel like blocking this operation even for a process with EXECMEM
-> > privilege increases the risk of breaking existing configurations.
-> >
-> > I think if we want to gate it on PTRACE, we might need to put this
-> > behind a policy capability and let policy authors figure this out?
-> > But I'm no expert on how new security hooks are normally added, or
-> > what SELinux policies outside Android look like, so if you think it
-> > would be fine to just check for PTRACE, I'd be happy to go with that.
->
-> I don't think a new policy capability is necessary here. Is there any leg=
-itimate
-> user of this capability that wouldn't already have ptrace permission?
+On Fri, Aug 21, 2026 at 04:33:57PM +0200, Miklos Szeredi wrote:
+> On Fri, 21 Aug 2026 at 10:30, Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > That would be adding conditionals to the mutex, something we all pay
+> > for, always.
+> 
+> It's just one bit (could be stashed  into LSB of ->first_waiter),
+> Condition is checked before going to sleep, i.e. adds one branch in
+> the slow path.  Don't think this could be measurable.
 
-I do not know of one.
-I was thinking that it is theoretically possible that some program out
-there uses /proc/self/mem to patch its own code (similarly to how the
-Linux kernel has Static Keys) or to inspect its own execute-only,
-non-readable code (which I think would also require FOLL_FORCE); but
-I'm not aware of any concrete cases that do that.
+I suppose I'm not at all sure how it would differ from having
+mutex_lock_freezable(), or how it would help in this situation.
 
-So I guess if nobody else has an opinion on this, I'll change this to
-only check for PTRACE as you suggested.
+> > One way would be for each file op to be wrapped like 'link-$op-unlink'
+> > such that the client (the task doing the file op) gets linked to the
+> > server (the task responsible for satisfying the request) before it can
+> > block, and unlinked once its done.
+> 
+> Okay, how do you know which task or tasks are responsible for
+> satisfying the request?  That's not a generally calculable
+> information.
+> 
+> sshfs is a simple example: the transport layer process is ssh, but it
+> is in no way involved in fuse transactions, there's just a pipe
+> between the two.   How would the kernel know it has to link the ssh
+> process when the pipe is written to?
+> 
+> There are probably many such examples where this fails.
+
+Well, it was 'your' (as in not me) suggestion to have a freeze priority,
+which sorta implied you knew what tasks to apply it to :/
+
+Anyway, I suppose that in this case the fuse server is responsible to
+communicate this dependency to the kernel -- or the sshfs fuse server
+should use libssh and embed the ssh client inside itself, instead of
+using pipes, dunno.
+
+
