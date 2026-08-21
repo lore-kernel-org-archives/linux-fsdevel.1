@@ -1,413 +1,237 @@
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6947470E85;
-	Fri, 21 Aug 2026 09:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787305788; cv=none; b=PK7cLHmjCESPqEvQ/iOWRDXYJ0v8XVATY/kkoEZm7daP524lvXeSGdxOGCSJdfOFObVGkp7vxkz2TJ2Hsm6NefBgTd0ey+trxVfj8JjLLH1MaSL18nQ4PTrovGzMJqmRbTnCNr53WpRMZwMAVWufhWYL2S7NYCakI13oKainrOY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787305788; c=relaxed/simple;
-	bh=IrOnRU7YvMCe0BoU6uVgRl5JaiZ2kfQjdkmbuhOrw1A=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=X0NHjyoLJzacjnxmvvSUs2pYR0ry7yNPGePfUokrw9b3yrO/sR7UcO293igrf0+SC9jrDTh6SxCSQKvrpWS5/zwT4BCN/5ih18tJObV7xgH05A8Vll0nVPmoCrAwIPrWzvKk+E73Ss+CJXA+yg0/PIm6Rhpa9j9MMI/MsReWw8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=TQgYGvEA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AVx2q5aB; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6A64746AB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 09:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.153.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787306036; cv=fail; b=k2HpcOjkdvNUOkLoaxoX+tlWj9jZpVhvHZ7f9rjqwuY+ZllL1rOJinj04s+yDZd1WGn8FSbu1/7D8JIa0vob2Uy2QQL+NPmcQ0I2v5nplthMrSHnfpGJ+qR5KwQGM10r7cRs0HWef5uHdoikz1IqldBNWDjs8/wBf1P9FWE5Rek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787306036; c=relaxed/simple;
+	bh=6Vx1p37HyOgM9/Km0onzoptT8hUj9y++bwsQHXraWkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uqXMnlGxy1mxwXXzaa0k9JGlG9/AwkIpGN14QEQfUA7Ym4pFfYBzrrUsd2DvrvvuQeDfLDycJjhvr3R4766VWEOfydLTsoAqd3E1hSH44XyeGUOc1OBk/UhPayWN0ghwPAgLykvdrehYzKYXxXvdbR60a0HjJbfqNcdUVRnkDsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=LY0XSeJr; arc=fail smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="TQgYGvEA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AVx2q5aB"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailflow.stl.internal (Postfix) with ESMTP id 365B51300097;
-	Fri, 21 Aug 2026 05:49:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Fri, 21 Aug 2026 05:49:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787305774; x=1787312974; bh=LZN3dRb6O4n1DGanxgPGM96/L4jGpv+x2YP
-	/J0/Rxx0=; b=TQgYGvEASDkb8prssEbYw4aE6jWw8kbTTMWT/DSLzpwVoWwd07g
-	z2Te+ay6O/F7+lIQlunHmXBKO9HR+BB0dZGWW1G3B4Urb1l2YtJO/EgYiBQz7DZq
-	ra0NleT7KIZv8A4wbefogWHmIJNIy/M878CJdxzDk+l+WI6geq2zU9Ylq7A37aJP
-	5LpPfQtFaqEAdz+5FRBR2wDj1D1+tAJyIeZsRrMzApNzBeY5ErzZFH2TSrgtDI9i
-	Wtq43rMkhGmzQfJFDWIsBbYWYF6T/9d9GsCizy0w9k7g5PbCf88Pr+z1yz5HBwFP
-	Gns8kJqFIst/cekqcA+BR9R/FIbPMR3Z2vA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787305774; x=
-	1787312974; bh=LZN3dRb6O4n1DGanxgPGM96/L4jGpv+x2YP/J0/Rxx0=; b=A
-	Vx2q5aB2HoAph1TG77q9ZVmuJ76sAoWHob9Xqt/M23MGoTs834OczlotaLGn4g3H
-	wD01vyUtk10r5bfS4z2Xrm/PpudoGo+5Y0iA63Upqd6rQtO6j2lSzpd9gvDEP9Yb
-	l9RJOd2luneFA0gzGTWYKAIlzAvxX8oHQLE/celBhS8L9JIdAyJIBCwhYRU1iebO
-	QfuxeFTWtzypAhw+i3Gzg9Rc5UrKrwt1pNnxGpmwIU6tnY/gdfU548td9AzbKL0K
-	HjxPc4y4jbKUPpXJhoKGwK0m7JTLivG2LKRajbwoH5tcgnCyoEe3u0I0zsnfbfVm
-	er3EQKefxJ7M+zdvrjF+w==
-X-ME-Sender: <xms:KB-Ias7GcYORlk0h-K1Fnhi7hf1dHmDgHLxfgMlvfiF56u7eeTVolQ>
-    <xme:KB-IanHF6Qx-UrqE6eO2Al3eAyQUPeFY-FnHy_gI86t0cjuGtrCkldHtmZFh-rTR4
-    v4aaW7DqvlqUm512mSaPs2PxXLKZtSqECZ-U4tl49Lobbbrdg>
-X-ME-Received: <xmr:KB-IagDxcGvbEa3W34gbgoowtf-BRKaRIsTwj51q7A_53YqPsPsN3WcWwHIWT62zr5F6icne32yyvk3dTYPzL-5Xz2tVLD8>
-X-ME-Proxy-Cause: dmFkZTFeSKFYHiJq4UWC4aDuB8q+QTKUGTKsTWyXZx75ppwbCfO+Em+gmuTLp/uT/vsLX8
-    R40CrvBGJHn6Z0PhtpUuW7xwr/8UnMo+lGV9fArWvYo8dDAS/BlySRUm7I6sX4713vD9bQ
-    3z40r8nzxvuhOv3b4w2G11oaM0hHZuIwVuixEoVqAQgcxRgOMHXICYSpR2CpttRr+BdW+X
-    tk9ighUyrbCqxcsrWrRqPfa8lTX4lyOF077NMVazBrdLInyMtTlmW/mBru8VIf8lDsvlba
-    lGzBMkNbQe6eTlRiAbnikqUb5YjT/ikxbITh9yb6dmuxK/ACAYGMf2kUmjY8u58KGWV5TI
-    +AuRAUrHq8VTLtipX4nu9hy6X3I2ElJlUoZpxAoSw5/Qd1F+tl6Y1rXYDBEaiImqr/sb83
-    HVmroG1dMHhheiYZm/nIix4f49UD8clhm2DhI/ntDpEnVutlgCB/brjeurlqg1oIV4lFQu
-    E+E8B34FX/62ft8/kiJhXk07B0FTyn/WRXxO8dJSd4xHs1161GY27ViXsF6mesd50wjFz1
-    1ulzLV5An51Apg9CNqS3bpRWhkZFfzLT3fr7ovYXyk6LW0BtxRvAcM5txgBbwLs1YFUAGe
-    bF66cROShtu9+RgJG5+1la+Q2fizk2x6IqVq1nBe05/tomjxVaxKizFdRJfg
-X-ME-Proxy: <xmx:KB-IaiT4VSmlgKHPem5z79dLXELMfVvt9BTPPO0I08vWb5qF-Vq6RA>
-    <xmx:KR-Ian5vxKM-dAx9mqgRKs5RJ8sVwPmleMD1IvPRoHPL9_yjH2JQDQ>
-    <xmx:KR-Iaqln5zR4zsXKLtxToQ1wS7QeKa6hnAKWr5SW5kpdBiiuLsTuYw>
-    <xmx:KR-Iaq4AUMCaanV3L-pPEd2je7wDv-EX-KHWhtGOw-MKJo_obx9OuQ>
-    <xmx:Lh-IanlWRF41RYo5QKQb68muEG3GPSp1FO6Vvhb751LWSw8vAUZ9VRWu>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Aug 2026 05:48:45 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="LY0XSeJr"
+Received: from pps.filterd (m0528005.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67L9Lc9S3524177
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 02:53:43 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=Q/b5fVo2WxJIZnLRI3/yvoL8jlPSjpb9T+ok0
+	n3ErCQ=; b=LY0XSeJrzaoLLXHaa1OQZqLoVbsuZvyCQJzBJI6Bpc3zYPsHyyQb6
+	1CP2XY8YkUqy5NDqVQ3sW3fxmFq8KcAOlGof/gV6uD5oQsmqaz79YSlFeiEjm2oG
+	GyaTI6R9M0qOadiiEf3vd3xeNijttySRR7Nbcru0uxWEsAOqGoKfXrtDzEc6Q59s
+	8KYgDS57nWWyN9yNJw2mQPOAxch6ASz8ZjT29MSq692FcoF3Dk3cU6W0Zw+wLI7e
+	x3jBpNQ9H3t1bIjZqnkG/drNJCYVXeQqew0h5ONCDwxZEJ4ExwV+6CBQAdjUlhi+
+	fzFk3uW4BG9nuVSWbRMbblA545jPeFltg==
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4g6a8gu9jd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 02:53:42 -0700 (PDT)
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-69843ac68d0so824374a12.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 02:53:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787306021; cv=none;
+        d=google.com; s=arc-20260327;
+        b=puNGfsJMM8VRo5jnV5rvdy23jjoJXaatTz51IIf0kkOMiRl1pb0fnsKoifjhS1I+r4
+         a9HwxmL29vn9E9YVQKaF6PDgrNDlcirfN4D4a/gPsNMvg3GNj1l6k8W9Ojhn+MMpTqCy
+         ja5fHDf3rEJir1Kj0kCxutbQ/RPcB6KQIXlmrvwb4sBHKAwuHULSC8/qxl7Z8lCfUvk1
+         dNmGvKI+yauyHbaiL8b26G5so2sSxoPCQi2b0kiVTq5c+O4DiAaC12xRhMgfPx0YbFSL
+         p2yEJjwSEUXDZ5LZE92mwQSzTz+M3KoRXfZKiA60d37Y65vGnmAzeww4n8j5z8yS3hiS
+         hvNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=ej/zOQeAlckNdnxilgVX/wASDqQzfo0LnhQaPbJcOkI=;
+        fh=lxyIkDbJPtn+orYhxYqGjtnmPsIDi1yeVqtPlUnD21M=;
+        b=BCefTMwqA9i07LFlL7vFgto1Pr3eJuA/jqpHmiCmONxm8dn7jW3M3nnev3MkXBHpCD
+         JIym86DDnm12+uS2djhEE2//Y1i/cWaOJxxhwxJCBMZfpKiXW8fu4ydM2/ZQVZc8r2C6
+         pnRqouHc9U4/eHUUIK9aoyETJ/PFldjZuzrazsm+Phs+ZUO20yHmSipVWpyFLxz0/Too
+         r1zGfdpSZullFfws/hE+DQDKPGkmkA6KEvbAKSB1GHcSoriFVxo4zyqU2Ch62LX/sEDG
+         M6sYBmSZfptPjv5J2NQQbSCKtQy0zRG29ZauIYvAcX+MXMgNzQiInjpY/7FzQtBRXuoM
+         L7Bg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787306021; x=1787910821;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ej/zOQeAlckNdnxilgVX/wASDqQzfo0LnhQaPbJcOkI=;
+        b=dxY/K45xg8zNQ2YEgxGTrUFMD9nWn5N9GS1aplXMlzwVCETttO00YH0DF9eTscfpd8
+         APvS3lA2RhNMJGXbBWtRna1t7WVFUaahBKJqFTp/8oDgdMKqpJrQFcjoAbouysk78YtG
+         40R4TFOJ/B1xnBPjYJ2i+9qz86+besOtzZL4EbHck1ihczeU1qZpgyOuUK5l96u8n1dF
+         L9A4eXnyr7R+yem1RSDe7dvxp82OM5HYqlmW8mtDgDCu71PsH6u5FUlx8oPbraM+pMmH
+         0WOJQrOCTgpL36VxZNgZ2L6zYm5Ri0b2tAVHp9txCLlAuGtGg8yr7Gqa4Yt+12OiDchH
+         lEQw==
+X-Forwarded-Encrypted: i=1; AHgh+RpHzFLmiaq7ANMPU7R3I5y/M8bU+JzHLTwRoftQ8He2qDCJv0q4t6YP1ZGQBPmoGtjL80ynCyv4iMmMyrvD@vger.kernel.org
+X-Gm-Message-State: AFuF++mVXKBFyTQoXCpmQYu897o+d1StHMhrG0EHon2nJ9dNWu0lS8E0
+	FuQUd2XqvcecBYDsuwpReJtsMHc/EEf4inVoNA3IONbweU7hEROdfPai4hfrRRopwmKCUx34guA
+	Y9lxzktVXVJtt8XQr8mWuRBzJAqIFiUxc7IOZI3og+XP5AeefA0PlxjBtw6UVbsaGRr6c7iTQLb
+	s2VGfR6GKf/V6fjWAUMAei8xp1t4zizF/aNvy7xiKi
+X-Gm-Gg: AR+sD11mlxEtyJmc0pTIM+RwM87zlMEzfiJWfq4/ZA9QhVj69IjpCS+hdU8gg57Zyhp
+	WfsnsIWRcSKUv9rMrK8DV3lmZm37IqdHPqp76250bsEmlYVQkmWGsuNCSoiFCHuAciIjFzCOhGn
+	mRq4hnUDx7Uid3xPpfOW9UopxDXUqzdtjEvJn7i50hdw/3Ue1daJh79Xu2rsrUyNF4Zqf6ysp5v
+	67yuMiIwTSuihIdyw==
+X-Received: by 2002:a05:6402:2353:b0:6a1:f95b:8cef with SMTP id 4fb4d7f45d1cf-6a42f179014mr4703999a12.4.1787306021567;
+        Fri, 21 Aug 2026 02:53:41 -0700 (PDT)
+X-Received: by 2002:a05:6402:2353:b0:6a1:f95b:8cef with SMTP id
+ 4fb4d7f45d1cf-6a42f179014mr4703944a12.4.1787306021163; Fri, 21 Aug 2026
+ 02:53:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Byungchul Park" <byungchul@sk.com>, linux-kernel@vger.kernel.org,
- max.byungchul.park@gmail.com, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
- tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
- ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
- matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
- catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
- luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org,
- surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
- ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
- wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
- dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org,
- ziy@nvidia.com, yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-In-reply-to: <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
-References: <20260706061928.66713-1-byungchul@sk.com>
-  <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
-  <20260821042143.GA40890@system.software.com>
-  <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
-Date: Fri, 21 Aug 2026 19:48:40 +1000
-Message-id: <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260818163221.589352-3-alex@ghiti.fr> <20260821083500.856970-1-kunwu.chan@linux.dev>
+In-Reply-To: <20260821083500.856970-1-kunwu.chan@linux.dev>
+From: Alexandre Ghiti <alexghiti@meta.com>
+Date: Fri, 21 Aug 2026 11:53:29 +0200
+X-Gm-Features: AcwNN1VwPpnVY928RhWmXd4qrgisMWDu8nlBflGB812tXUe-FhICPDNcvqK498w
+Message-ID: <CAEmasaUzCU7r7DzJfMFbQGZCJvA_wOJifPywQmy8mOz0efWn8g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] mm: swap: drop dropbehind swap cache folios on
+ writeback completion
+To: Kunwu Chan <kunwu.chan@gmail.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Kunwu Chan <kunwu.chan@linux.dev>,
+        Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>,
+        Nhat Pham <nphamcs@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+        Kairui Song <ryncsn@gmail.com>,
+        Chengming Zhou <chengming.zhou@linux.dev>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>,
+        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+        Youngjun Park <youngjun.park@lge.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+        Wei Xu <weixugc@google.com>, Yuanchu Xie <yuanchu@google.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIxMDA3MyBTYWx0ZWRfX6jvjfO1CL09+
+ 7lvnx0FI0l0DYlIsgVfgvpx98NyTw05xRUKTFpD79Xpo8zcOgLzJP19u6dQQRXStsQifS1968Wl
+ /oXrFfG4HlvolSY7ULD3pf4O8I7DIUk=
+X-Proofpoint-ORIG-GUID: MhweWNStfkVc1BP2w9bz6MCyUxQmIID4
+X-Authority-Analysis: v=2.4 cv=PbHPQChd c=1 sm=1 tr=0 ts=6a882026 cx=c_pps
+ a=9KvDgq78n9V61H3VJbnhTw==:117 a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=jCddH8ec0KUNCymVuxII:22
+ a=pGLkceISAAAA:8 a=aLlJzFw6OyoQ_NU6FLYA:9 a=QEXdDO2ut3YA:10
+ a=j5kO0B45gQVIxiUYEfTy:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIxMDA3MyBTYWx0ZWRfX0UArbquZA+eE
+ AGiGcpffJfEFcvOuefM58/YiVuBlYrk232/UXk0INap/SmqP42CbpVdrkBselQadNpIhRqsYGMU
+ TQT4dx0+4PELfMaFFkh01dfmgSh8hor9e7/ix31aeVjerOHYyCENNKv0vTk7iPV1vJYH3028iN/
+ muuLQ/P1Njpc5cM6YcJMgNJkKxDJCM230mL45juup/88r5ktQi8zRsbZH2Q0rJjfippSCny3De9
+ ZNwqlk8weK5Hg1POCoEXPaU8tpAwQGZIyZk/NMEi3hEz4bEcxRYVp6wJ9JrFRa5Vg+aygB3Y8Xc
+ VI7w56jNgx0rSWga+jgDAFK+eQtuiywxCrQ41zgr+Bt8mzdOcAPNb0C5fY6gaEtqjkizGQjNESF
+ 7SagBnKkIeHWYG7/QFcyMEwHJ9QwDszSCKHdQIcSdRlMR7QkDJ84byY2fmhSbEpX2AfCUBy4stR
+ rnDl6fEnXr1Uu8PK8Hg==
+X-Proofpoint-GUID: MhweWNStfkVc1BP2w9bz6MCyUxQmIID4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-21_03,2026-08-21_01,2025-10-01_01
 
-On Fri, 21 Aug 2026, David Hildenbrand (Arm) wrote:
-> [...]
->=20
-> > Exactly.  That's why we use classification e.g. lock class - DEPT also
-> > makes use of the concept.
-> >=20
-> > DEPT doesn't use a full map in each page but uses a minimum space for a
-> > timestamp in each to track when each starts to wait so as to use the
-> > recorded timestamp when the event occurs e.g. folio_unlock().
->=20
-> Thanks for that information!
->=20
-> >=20
-> >> Given that lockdep is a debug feature, and we will at some point allocat=
-e struct
-> >> folio separately, I assume we could just squeeze a "struct lockdep_map" =
-in there
-> >> in such debug configs and the world would not collapse.
-> >=20
-> > That's a good news for lockdep.  (And even for DEPT :)
->=20
-> He :) Where do you currently store the additional per-page information?
+Hi Kunwu,
 
-lockdep doesn't need to store per-page information.  Possibly DEPT
-doesn't either.
+On Fri, Aug 21, 2026 at 10:35=E2=80=AFAM Kunwu Chan <kunwu.chan@gmail.com> =
+wrote:
+>
+> >
+>
+> Hi Alexandre,
+>
+> I have a question about the reference ownership/lifetime model in the
+> synchronous-IO case.
+>
+> Consider the synchronous writeback path in Patch 3:
+>
+>   zswap_writeback_entry()
+>     folio =3D __swap_cache_alloc_folio(...);
+>     ...
+>     __swap_writepage(folio, NULL);
+>     folio_put(folio);
+>
+> During writeback completion, Patch 2 does:
+>
+>   folio_end_writeback(folio)
+>     folio_get(folio);
+>     ...
+>     swap_writeback_dropbehind_folio(folio);
+>       llist_add()
+>       queue_work()
+>
+> With synchronous I/O, is it possible for the dropbehind worker to run
+> before zswap_writeback_entry() drops its reference after
+> __swap_writepage() returns?
 
-lockdep needs one lockdep_map for each lock class.  It would make sense
-for all folio locks to use the same global lockdep_map.
+Yes, totally! The window is short though and in that rare case, we
+would fall back to the initial behaviour (almost, since we put the
+folio back onto lru but not rotate it). And for async devices, I don't
+think it can happen at all.
 
-Each specific lock is known to lockdep as a task which holds the lock, a
-lockdep_map which represents the class of locks, and subclass number
-which allows a given task to hold multiple locks of the same class
-providing it declare (e.g. with spin_lock_nested() etc).
+>
+> If so, the worker will attempt:
+>
+>   swap_dropbehind_drop_folio(folio)
+>     ...
+>     remove_mapping(swap_address_space(folio->swap), folio, true, memcg)
+>
+> while the caller's reference is still held.  Looking at
+> __remove_mapping() in mm/vmscan.c, it expects a refcount of
+> 1 + folio_nr_pages(folio), but the extra reference still held by
+> zswap_writeback_entry() would make the actual refcount one higher.
+> It therefore looks like folio_ref_freeze() will fail in this case.
+> Is that the intended behavior here?
+>
+> If the removal can fail, the fallback is:
+>
+>     folio_clear_dropbehind(folio);
+>     folio_add_lru(folio);
+>
+> This appears semantically safe, but it means that the dropbehind
+> optimization is lost for that writeback: the cold folio goes back onto
+> the LRU and has to be found by reclaim later.
+>
+> This seems particularly worth checking because v3 intentionally removes
+> the synchronous-I/O special case from v2.  The cover letter describes
+> that special case as an optimization that was not worth the extra code,
+> which I agree is a reasonable direction if the generic path is
+> sufficiently effective.
+>
+> Could you measure the corresponding fallback rate on a synchronous
+> backend (e.g. zram)?  The 99.996% success rate in the cover letter is for
+> asynchronous NVMe, so it does not tell us how often this particular race
+> occurs with synchronous completion.
+>
+> More generally, I'd like the reference ownership across
+> __swap_writepage(), folio_end_writeback(), and the deferred worker to be
+> made explicit.  If the caller's reference can overlap with the worker's
+> reference, I'd also like to understand whether that is an intentional
+> and acceptable trade-off, or whether the overlap can be avoided without
+> reintroducing the synchronous-I/O special case that v3 is trying to
+> remove.
 
->=20
-> >=20
-> >> Doing that today (one "struct lockdep_map" in each "struct page") wouldn=
-'t work
-> >> as mm_zero_struct_page() would not expect such large "struct page". But
-> >> conceptually, for a debug kernel with a special CONFIG_LOCKDEP_PAGE_LOCK=
-, maybe
-> >> that would already be ok and we could just do that (and optimize it as we
-> >> allocate folios separately).
-> >=20
-> > Sounds great.
-> >=20
-> >> Not that it's ideal, but for a debug feature to at least check PG_lock, =
-probably
-> >> an easier way to achieve it than some completely new infrastructure.
-> >=20
-> > I understand what you are going to tell.
-> >=20
-> > However, it's worth noting that lockdep tracks dependencies basically
-> > based on **lock acqusition orders** in the system.  To make it track
-> > even rwlock and general synchronization mechanism as well, lockdep has
-> > no choice but to get more complicated.
->=20
-> Well, yes, sure :)
->=20
-> >=20
-> > Focusing on only the dependency checking, the most parts of lockdep are
-> > for the tricky things, so the reusable parts are not that big.
-> >=20
-> >> Now, Willy said "locking rules don't really apply to individual folios",=
- I
-> >> wonder if that could just help to also let lockdep check PG_lock with le=
-ss
-> >> metadata? (didn't fully wrap my head around the implications)
-> >=20
-> > That's what DEPT did and what brought external wgen introduced in DEPT.
-> > I was considering the exactly same thing :)
-> >=20
-> > Again, lockdep that tracks lock acquisition orders can't do that.
-> >=20
-> >> [1]
-> >> https://lore.kernel.org/all/aR3WHf9QZ_dizNun@casper.infradead.org/?utm_s=
-ource=3Dchatgpt.com
-> >>
-> >>
-> >> It's your guiding example, that's why I mention it. You do mention other=
- wait
-> >> cases here, I don't know anything about them, but for folios it's really=
- just
-> >> "we used a single bit so far" AFAIKs.
-> >=20
-> > It doesn't matter whether it's implemented using bit or not.  folio lock
-> > is quite special since it's allowed to be released other than the
-> > acquisition context that makes lockdep impossible to track them.
->=20
-> Does that really make lockdep *impossible* to track them? IOW, there is no =
-way
-> to extend lockdep to support lock release in different context?
+I need to look into the patchset that Matthew and Barry pointed to and
+check if it's still relevant with this patchset on top of it. If so,
+I'll add a debug counter to confirm we don't fall back too much for
+sync devices :)
 
-Yes and no....
+Thanks for your comment!
 
-lockdep has no knowledge of control flows moving across threads in the
-way that I assume DEPT does.  But it should be possible to tell it.
+Alex
 
-If you have some code that takes a lock and then hands it off to
-another thread, at the hand-off point you call
-   lock_map_release(&the_lock_map)
-
-This says "no task owns this lock any more".
-
-maybe you put the folio which is locked on a queue or an lru or
-whatever.
-
-There is no way to say "that queue owns this lock".  Maybe that could
-usefully be added - assuming coherent semantics can be designed.
-
-Somewhere else some other task takes responsibility for that folio and
-the lock.  maybe it dequeues a page, or maybe an lru callback gives the
-locked page to some code.
-That code then calls
-   lock_map_acquire_try(&the_lock_map)
-
-This says "this task is now holding this lock" (or more accurately "now
-holding a lock of this class").
-Note the "_try" - that says that the task didn't have to wait for the
-lock, it just got it for free, which in fact it did.
-
-Now if that task takes some other lock, lockdep will see a dependency
-between the page lock and the new lock, and will accept or reject it as
-you would expect.
-
-So you definitely *can* send lock dependency information between tasks
-with lockdep.  I have only tried it in extremely simple cases where a
-single object is being locked by one task and unlocked by another - no
-queues or lists.
-There may be - and probably are - more complexities involved with
-locking folios and passing them around.  Maybe it is so complex that you
-need all the support that DEPT provides.  But I'd like to see a coherent
-explanation of how the functionality offered by DEPT is clearly better.
-
-NeilBrown
-
->=20
-> I guess there is a way, but the question is at which price (I seriously hav=
-e no
-> idea, maybe this was already discussed and people have a pointer for me).
->=20
-> >=20
-> >> [...]
-> >>
-> >>>
-> >>> Q. Why not build DEPT into lockdep?
-> >>>
-> >>> A. Lockdep is stable, battle-tested code. I chose separation because
-> >>>    while DEPT borrows BFS and hashing ideas, the wait/event model
-> >>>    requires rebuilding from scratch. Lockdep was designed for lock
-> >>>    acquisition order =E2=80=94 retrofitting it would risk its stability.
-> >>
-> >> Why can't this just be some configurable extension to lockdep
-> >> (CONFIG_LOCKDEP_XYZ) until the feature is stable and can unconditionally=
- be
-> >> enabled along with it?
-> >=20
-> > Answered?
->=20
-> Not quite. I don't understand why this must be a completely separate machin=
-ery,
-> even if, conceptually, it would do more than traditional lockdep.
->=20
-> Is it either DEPT or LOCKDEP in current configurations? Can both run at the=
- same
-> time?
->=20
-> >=20
-> >> I don't quite buy the "would risk its stability" argument. A lot of stuf=
-f we do
-> >> "risks stability", every day :)
-> >=20
-> > That's awsome anyway :)
-> >=20
-> >> Is there another good reason (incompatible with X, dangerous with Y, cin=
-fusing
-> >> Z) why this really must be a separate thing?
-> >=20
-> > Roughly:
-> >=20
-> >    1. Similar or less effort is needed for the new one - retrofitting
-> >       lockdep is not easy and big changes are required since the
-> >       reusable parts are not that big.
-> >=20
-> >    2. Even though you didn't agree, retrofitting it would risk its
-> >       stability.
->=20
-> Well, I don't buy the stability argument, really :)
->=20
-> Retrofitting effort for lockdep is an interesting point, though. Lockdep
-> maintainers would have to make the call here regarding direction and feasib=
-ility.
->=20
-> [...]
->=20
-> >> But I am not a locking maintainer. I think there was plenty of discussio=
-n in the
-> >> past, so I might just be raising points that were already discussed in t=
-he past,
-> >> but I really just read some random pieces of earlier discussions. (ideal=
-ly
-> >> previous discussions would be summarized here)
-> >>
-> >> Long story short: we are now in v19 and I think there was pushback in th=
-e past.
-> >> Did the opinion of locking maintainers change, or is there a way forward=
- to
-> >> integrate this in a way that would make locking maintainers accept this?
-> >=20
-> > One of locking maintainers who I met in an LPC told me that he agrees
-> > with the direction of DEPT and supports DEPT, not officially tho.
->=20
-> Hm.
->=20
-> >=20
-> > What he and other people are concerning w.r.t DEPT the most is, false
-> > positives, which is the most important issue for now.
->=20
-> Thanks for highlighting that. What's the main reason for false positives? I=
-s it
-> something conceptual that is mostly impossible to solve, or rather just
-> implementation work to cover all edge cases?
->=20
-> >=20
-> > At the same time, I think the most important thing is to make DEPT
-> > useful in practice especially with folio locks involved.  Actually, I'm
-> > planning to share DEPT's true reports periodically to LKML and work with
-> > people who believe DEPT can make things better.
-> >=20
-> > Any advices will be welcome.  Thanks for your opinions.
->=20
-> I think we must come to some conclusion on how to proceed with DEPT. I see =
-the
-> following options:
->=20
-> (1) Don't merge it and carry it OOT. Shame if it delivers real value.
->=20
-> (2) Merge it (after proper review and acks from relevant maintainers ;) ),
->     keeping it entirely separate from lockdep.
->=20
-> (3) Integrate it with lockdep on a high level, giving us a single locking
->     dependency checker, but mostly letting dept have a separate implementat=
-ion.
->     Look into possible merging afterwards.
->=20
-> (4) Retrofit and extend lockdep to really have one mechanism.
->=20
-> As the saying goes, it's hard to teach old dogs new tricks, but in the end
-> taking care of two dogs is likely harder than only a single dog? :)
->=20
-> I tend to favor (4) (or 3 with possible future work to achieve 4), but I am=
- not
-> a locking maintainer, so really they have to voice what to do.
->=20
-> I do see value in DEPT (even if the folio lock might be handled differently=
-).
->=20
-> --=20
-> Cheers,
->=20
-> David
->=20
-
+>
+> Thanks,
+> KunWu
+>
