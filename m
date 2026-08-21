@@ -1,242 +1,222 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011043.outbound.protection.outlook.com [40.107.208.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE4F2C21C5;
-	Fri, 21 Aug 2026 12:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787315684; cv=fail; b=SSGfo7LM8sqGclR+qTw+llzOCpLgnhLgZ7HX/KiTueRhFt5HKCsFnZQkhEDXnqjkUq7X+giaUkTYLag8JV5FyZ7SYu7KXsPvN9lJ8Fl32DlL4B++ZFNQQxnXJP3QDD92d9pNYKJ64GvVcpa8zBnYE47W7fV5jwYZhvgG8+Fq6Xk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787315684; c=relaxed/simple;
-	bh=yKgSjbXeNGA6rw0vEhHD4FSWYZ+7XBA6f1A4MuvcERg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=tc4zzpOddWdywiaJdHn1Cbh6HLQjVWWNbBLv9lZu8xcp2nKc+GWTlitkR5SuSinqw/ZKCo4LgijkNMNhJVAOEUS75sNIbf0jonX7Qlg8BCsCoa++ecqhHKT83hQL44e86GuKk7WfCrO66YxRkqCI5oHDXv6ZVuw3DiTQca7g8vc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ppDS4erd; arc=fail smtp.client-ip=40.107.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26333D6F7;
+	Fri, 21 Aug 2026 13:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787319562; cv=none; b=RxD6cFHyBR7z587VWDmOrV4pSmo85FX6ab/hnBAAmZeS5WQPzcwIUbJItZ/kzPh2QN4C24FUq1plO2Z47f1neR2n+4RuKmqCKrNTD0WLaEXZwDjkPbrZxKZSEnaHlyHqzj2Jx02bjhfPMYPuVmSF3sLvBsOrsPLqmqi7CkJHbWw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787319562; c=relaxed/simple;
+	bh=mW+78RuS6rn/DHuM8R4YtvA4AQ6N5H0ZocsxdihbEs0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RfJ5BjfP7r9xDb9E4t0aoEqUmgbNsbcIx57/SzugwVKday6R6aePGu7+AKUlefmcDQaOvIEr45XzTON+TjXv5dGdTnYKVSKIr6W0qHp30aSJFxv+LWj2z+4ygDcI2BK5PO3Oztjza3PNl6FIxQfAZSg9qxyF7nMCHlWDCeXnJbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWL/xvv0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ppDS4erd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YrTDMikzj/L1VUVfMR+Cmx5AXIwUC7KaQGeVJ2l+NNp82+2LZGHecJXLM1XTOgwVXc+Sdms+V4TAdl85sidtRj3B1drn7OPzU7HzwADBmoNoNX46i9xDZsjUF7ngoW+T6xFzTo9g4HR3sDXrljLHTX7kGa1/U25h7rXTLHhOZmqKpX2Vuqw+pm8hRZtlXmHI4z2F2dNCeXDBFFMpXrbtvBKDq1rDZzaDv4plTCWX7jCc8Xf8cyCq891JtyqVSULRQ8e9Ux2JswaSAz8hcbnYf+p5dyx48EzrkmJuLQAxDD7cd/ccTc2ssVtbmRKDzHWbkec7+rnmZDc+AYUkU6ej8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yKgSjbXeNGA6rw0vEhHD4FSWYZ+7XBA6f1A4MuvcERg=;
- b=kfStPNkFRkCpnZFonzcxH3EFJdEXFlzZvuCB4mDPMRSnas2GfFol5BpRyr5E06cagft6EEuH8bVBgdN+iUrYLQ6eF/ewibePh8G4BOPxi1GAvNgq8jKLynzNJyoFGC7atJJ3mDyvhaFXI9MMJasNWlBlTXltKY6rHEjqwFJlV8MGIgZLgTlP2PWKgWayWI/D/pu8K3LcOs5rOETB6j1j05W7s+skauqdo7X85AD0mG4fcAlk/L5neM/XAHW0rmyQFXvC/uTJmQQ5picu/aLiKLxRVaRaYg7gjINffQ8eAJSVrLBFoYmiLDC7A3buidQkYEKWbsO6dpIeSnULsK5orw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yKgSjbXeNGA6rw0vEhHD4FSWYZ+7XBA6f1A4MuvcERg=;
- b=ppDS4erdqOGkCuyCwPXoIUjzIGRJbWAsG1iBTonFh0ZBHwU5sNnaTRVVEK4nmeoSZ2sh6BrsV6fDl9sk6eQJLtLmxMAo0yte3/wQ+Q1lnYYNNQmHt+r9bXRBAk/y3GRaYlId4McShj3oQlSat2sqSDlhfyitOFedvXVBu7ouHW4=
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com (2603:10b6:408:100::17)
- by DS0PR12MB8576.namprd12.prod.outlook.com (2603:10b6:8:165::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Fri, 21 Aug
- 2026 12:34:36 +0000
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed]) by BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed%2]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
- 12:34:36 +0000
-From: "Garg, Shivank" <shivankg@amd.com>
-To: "Gupta, Pankaj" <Pankaj.Gupta@amd.com>, "Sampat, Pratik Rajesh"
-	<PratikRajesh.Sampat@amd.com>, "nikita.kalyazin@linux.dev"
-	<nikita.kalyazin@linux.dev>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "patrick.roy@linux.dev"
-	<patrick.roy@linux.dev>, "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
-	"david@kernel.org" <david@kernel.org>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>,
-	"tglx@kernel.org" <tglx@kernel.org>, "Dadhania, Nikunj"
-	<nikunj.dadhania@amd.com>, "Roth, Michael" <Michael.Roth@amd.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "mhocko@suse.com" <mhocko@suse.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "iweiny@kernel.org"
-	<iweiny@kernel.org>, "chao.p.peng@linux.intel.com"
-	<chao.p.peng@linux.intel.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"ricarkol@google.com" <ricarkol@google.com>, "vannapurve@google.com"
-	<vannapurve@google.com>, "shuah@kernel.org" <shuah@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "Kalra, Ashish" <Ashish.Kalra@amd.com>,
-	"willy@infradead.org" <willy@infradead.org>, "surenb@google.com"
-	<surenb@google.com>, "pshier@google.com" <pshier@google.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, "fuad.tabba@linux.dev"
-	<fuad.tabba@linux.dev>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"mingo@redhat.com" <mingo@redhat.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>, "apopple@nvidia.com"
-	<apopple@nvidia.com>, "ziy@nvidia.com" <ziy@nvidia.com>, "vbabka@kernel.org"
-	<vbabka@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-CC: "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"sashiko-bot@kernel.org" <sashiko-bot@kernel.org>, "linux-mm@kvack.org"
-	<linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/9] KVM: guest_memfd: folio migration for
- non-confidential VMs
-Thread-Topic: [PATCH v3 0/9] KVM: guest_memfd: folio migration for
- non-confidential VMs
-Thread-Index: AQHdJKVsctSiOu4P3kmuA1se5lvKxraoiYwA
-Date: Fri, 21 Aug 2026 12:34:36 +0000
-Message-ID: <0a02a6c4f0ee50ca596c4a2673b2ae6c80d4569b.camel@amd.com>
-References: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
-In-Reply-To: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR12MB5259:EE_|DS0PR12MB8576:EE_
-x-ms-office365-filtering-correlation-id: 728408c4-f02c-4c15-4464-08deff808f8c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|38070700021|921020|56012099006|10067099003|11063799006|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- aYRroITIYz+wHRnltUavyYpt6sY1Hb+5WZ9kX7UT9rufq+9FVwj3dHeMRdA90tdJEHsbFtwo/HRlxQxtmJLmplW9assUN4lwuUvqDxLhYmZlzuse3QE/uncZjqrwdQoQ+/FaGgvTe5QAxRo3b1cr/nWEZi9GGT0xpEEDVvoAwhHRsRcGBkcvOzZRbKifcPBItjDkHoD6tfo+J/35/Wa6IHoxz9QpUhEk+x1ohdxPcE4cRrBjaWo8ZRWKb6pNBQhhT1wt6ZXswTIFLlyjKde/rYm4/cO0T1+xsaC24EHcQ3tjsXVPlwmjFaeohWD1Z4kbVG+e0wjScbsFDQQrVTOo7l77tva6PrcoaGD4XKMoPc6otBSIrAQi4RA1FFvJCA0qkOqk68r3gv5CvJH8yahL9k3x50abReQvdfvAaSYAPzfmB2/SApljrVDOFVIt4Bw4zlSsQCvUXTXBqUhNlDhVtxstWDWgqu3saGbOBt4/amAFljrMBLGZkgRRCRpRGp2e+/kvwFvovcGYHg7kfOWbVzrHJbWE2XEL0CpCYojYb3rEn61E2rDbDW8569mWZReH1afQSTcuMHGcxeqJuWbLVafgNuDTyn8qIWTN7fbcKksS4VSikggoCa6J2aacJkqaYf2TnDoGc0Aj7vx/6lvjPvTHYdsmhhfV52JLUbrl9VlYzw/Q8PkivJlIQBUZuJq9
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5259.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(38070700021)(921020)(56012099006)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?QjFjYXBXVHgrdVRMMzg0SStpYnV3VlpLbUdOSUNyMHlTQmNHMGRXTE5GSkZi?=
- =?utf-8?B?VU5aM1FaN1cydGs4cU5HcVMvVTNYcU9tS2pUN3pRdDdkVzZvNVVTTDhjd1R4?=
- =?utf-8?B?dVlSWGtZRmQxemhmbWpqQ1pIVWtHOXNKQnBzT0JIL1RZWXpxSmUrUWoralZn?=
- =?utf-8?B?RUJ3a0RkcStYYkprRkVoaWtKd0YrZVVYWGJHdzBNREpnTzVJTStSQVdsTUYy?=
- =?utf-8?B?eU9uV3pHdWdVSVZRck5EWVpuNXlXaUp3VTlzVjhhMk84azRsMkpVakxPdTV2?=
- =?utf-8?B?UWF6Y2IxcC9hWk5WZUp1YkVHcGxOREJ0UUhCTFEyK25IbXZrRnpxVFNuYTlE?=
- =?utf-8?B?UzFUZFA0b0FPVStMTTNrMXZGbi9sYUtMbzBxMUdHRXRlUWlIVmtsaFFjcTlB?=
- =?utf-8?B?MXY4bHpqMlZDZXB0aVJNOEVyVDI4MVZNanh2anNDbXNiSTQ3ckFiNWlKYlRj?=
- =?utf-8?B?REoyb0dVVVprbEZWdGpGUWdDTFg2RHp5M2FFTEk1bnFZQzZNUGhVNXd4VE1t?=
- =?utf-8?B?T2MwTjBrN2FTSi9YTG9JSGgzcnI3YXlSQnYwbWt1L3RGZkNFN1RUWmhFbWRj?=
- =?utf-8?B?TWwvVy9DSGFRRlE5Z1JXdmpOeFdZOG93K0ZBcE8xL2xReVViMDBXa2RkR2pF?=
- =?utf-8?B?REZjSVJxY0xaSmFqME5HNFU0THBHZW01Q1c1SjFUL3l3MmpMcXAyODB3M3Zo?=
- =?utf-8?B?TElTajZBNGJzdWRPTi9jRXJET21JaTQ0aTczWmh3S1YvOWZZcG8yQWt0aWxT?=
- =?utf-8?B?eU0yL0dUTVhJTzZCSTBQbEt2azN2aUxJQVpmVm0wR2QxTU9ySExGZ01za2RU?=
- =?utf-8?B?bWR1dWl1cW5TeGkrL0hXdjFrMjFpdnVQUFIzQm5YNFpwdjVmRzdKR3VkV3BY?=
- =?utf-8?B?U3lodDR6K05jbGJ6eGg2cU9YMjJOTEcyL1ZGVDNkV21yVkJkWWxvWHBQUkw1?=
- =?utf-8?B?T2krTGZsUXUzdFVBUVJlMHFzYmtqQk1GemFCVWRxb2x5QXJtM2JmV0pVR3o5?=
- =?utf-8?B?cFVBM1JPUlk4R2daeG9uY0FoYnBPVGUxeHBMdUlEc0J3N25uWUlKaGZnMHRq?=
- =?utf-8?B?WnNEK1o3dEFzUUo0dk90eXJrdk9ZRCtlVFM2R1BqM01LSERkTjZWU3licXI5?=
- =?utf-8?B?YUptU2V4Mm4rVVRRR1I1cmJXY2p3SUsvcUNJR24rVEJzZW5SLzFjWUZ6aEh6?=
- =?utf-8?B?aW1kWDBneEVHS0JhSXRSNmNreGRjVTIvSTJ4QlBnTjRhZFFuMWxPSEN5dldn?=
- =?utf-8?B?N1NlbEV6TkVydTZDMWVuOHExQ1d4NVJYb3RiUjJxMHBueDF6QjBNazRwenc3?=
- =?utf-8?B?VjMvMWdHU3MxWURYQ1RwUHZobFhIM3orbDd2UDJNK3UxVHFkeUZxMm11MFJV?=
- =?utf-8?B?Um9kVVI1aERhUUlVbHF2bkQ1QkZtYzh1TForMG9YVnBIRlAvSkFLSHVUSGZN?=
- =?utf-8?B?ZEdaL3BRamNUQU8vaVQ5cFhGZ0U5STQ1NXNoODVjaXorQVo3TitrQjBqTjUz?=
- =?utf-8?B?QWhydmNZME8xV1o3cWMvS0xyM0U3WFhIZGh3eGd0WWdZYzUvR3A3cDdRT2Er?=
- =?utf-8?B?Z3pFY3A0K05aRmtIN1VMQ2FKeDd6TVE4TzNlWmYrWVcwVlVXLy94cThTTlZY?=
- =?utf-8?B?Qlh1dzA0YmpQVzJmM3o0Ulc2d2hYdXU0ZS9MR2grZXJROTNWTWs1VHBnWWJl?=
- =?utf-8?B?T05NYWRaaDdQVXZWNzlmQ0UvbVNkc3BDbTB0RlNrN09LVUg4V2lwNXYvYzRt?=
- =?utf-8?B?UTNUaEhiaDBHcXhkMzhMVmRWbHN5NGxSMVNMK3pPVExVVGd5TWRZNHRxYzgw?=
- =?utf-8?B?MTVwdEZkbGVsU3c5VUFGWlFFYU5WeXRMZkdYSUFIWTlZOHVZa2pvc0trbEhU?=
- =?utf-8?B?TTB4aDl0ZDdHOVU2YzNkaEdWSGFpMEtCaU9nZm9RbFA3YytIL0R2VE9IRlBV?=
- =?utf-8?B?MlhEaEUzZWZ6dU1vNXRnNWJCMnVVNFhLUWhwakROenFEWDBpaHl4KzNLOVZY?=
- =?utf-8?B?S2hOUENjbzlpdWRkQzhRRm9ycjMwNXZEN2R5bUFqczk4RjFQcU5RaitHK1lt?=
- =?utf-8?B?NzRFdFE0dEpGV1NHTy9qUGJTRXdpRUZFVjlEanVYZUpBTWxlSDUyR1JwRVZn?=
- =?utf-8?B?K0FGSGU4bUh0RjdIcXJlL014WEtIOTU2RkNndGY5YWxpbUtsL1lRY2dFOERK?=
- =?utf-8?B?QUJnUHp1bWxKY3BERHdtVHhVVFZtdDU5Z1A4UVNIRTRoeUE0VE43WGdNZ1lP?=
- =?utf-8?B?NlJHSTZHYkNZQk9nK3pqdTBtYTJlRUxwVVh6Wk10Q0xibkk0WTAwbGU1aEdG?=
- =?utf-8?B?VGJ3Zkt1OThiZ09DcDA5ZzFBcjdyRHVoVlNBeGJxMU9yWDhhZHRFUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <56B1080A0234354CBB0627112FFCC072@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWL/xvv0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D851F000E9;
+	Fri, 21 Aug 2026 13:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787319560;
+	bh=z5qvxSsmX93GMZIq4o2S4vCyfn1hgCx4th+U3zJS7iQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oWL/xvv0Ecw0+byyi+FYm+YqgpJUQd7rkxhyEU+OqTnezJNJmQTYOXllz0ZfQXurP
+	 HSOb6vFsiHAP6Z2O2N6gcii1eZrWM9e3R7/NPlp2GA752q542z8kFJoOvG/YPzqlqD
+	 iKYKdMfNv8Qk+Z1H+OZTtbTtg4gm5CTl6xxybmYolLtW5+KHj1snAKwa846Rt4HPlT
+	 fWhuMQ78kHGtTKaYABYWhRNt8+R7IUYV92RMOdn/oqFED4BHhaNkczEQGw1fMw7X2E
+	 SYsJoIFjsEZuOmdPYwA/r5KYajK4hPeksolQMdgY83/MMf9mHkcMmqnLgvwtoA6Vy4
+	 icWl+pRjNvuXA==
+Message-ID: <3cdf9ac0-b77c-4624-ad8e-68c10af648ac@kernel.org>
+Date: Fri, 21 Aug 2026 15:39:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5259.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 728408c4-f02c-4c15-4464-08deff808f8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2026 12:34:36.2266
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bCriQPxQvQh+Wuf2O5bP5fukGUWU92/C0B3rGHnQt8rm7abhWEZvJYYVBTZqkgo+EFWUu/ZY+Ye2vI+cMxsGYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8576
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] KVM: guest_memfd: folio migration for
+ non-confidential VMs
+To: "Garg, Shivank" <shivankg@amd.com>, "Gupta, Pankaj"
+ <Pankaj.Gupta@amd.com>, "Sampat, Pratik Rajesh"
+ <PratikRajesh.Sampat@amd.com>,
+ "nikita.kalyazin@linux.dev" <nikita.kalyazin@linux.dev>,
+ "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
+ "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
+ "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>,
+ "tglx@kernel.org" <tglx@kernel.org>,
+ "Dadhania, Nikunj" <nikunj.dadhania@amd.com>,
+ "Roth, Michael" <Michael.Roth@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "mhocko@suse.com" <mhocko@suse.com>, "gourry@gourry.net"
+ <gourry@gourry.net>, "iweiny@kernel.org" <iweiny@kernel.org>,
+ "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
+ "byungchul@sk.com" <byungchul@sk.com>, "x86@kernel.org" <x86@kernel.org>,
+ "bp@alien8.de" <bp@alien8.de>, "ricarkol@google.com" <ricarkol@google.com>,
+ "vannapurve@google.com" <vannapurve@google.com>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "jackmanb@google.com" <jackmanb@google.com>,
+ "Kalra, Ashish" <Ashish.Kalra@amd.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "surenb@google.com" <surenb@google.com>,
+ "pshier@google.com" <pshier@google.com>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ "fuad.tabba@linux.dev" <fuad.tabba@linux.dev>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "hpa@zytor.com" <hpa@zytor.com>, "mingo@redhat.com" <mingo@redhat.com>,
+ "rakie.kim@sk.com" <rakie.kim@sk.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>,
+ "apopple@nvidia.com" <apopple@nvidia.com>, "ziy@nvidia.com"
+ <ziy@nvidia.com>, "vbabka@kernel.org" <vbabka@kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+Cc: "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "sashiko-bot@kernel.org" <sashiko-bot@kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
+ <0a02a6c4f0ee50ca596c4a2673b2ae6c80d4569b.camel@amd.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <0a02a6c4f0ee50ca596c4a2673b2ae6c80d4569b.camel@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-T24gV2VkLCAyMDI2LTA4LTA1IGF0IDA2OjQwICswMDAwLCBTaGl2YW5rIEdhcmcgd3JvdGU6DQo+
-IGd1ZXN0X21lbWZkIGZvbGlvcyBhcmUgY3VycmVudGx5IGFsd2F5cyBtYXJrZWQgdW5tb3ZhYmxl
-LCBzbyB0aGUga2VybmVsIGNhbm5vdA0KPiBwZXJmb3JtIG1lbW9yeSBjb21wYWN0aW9uLCBvZmZs
-aW5pbmcsIGV0Yy4gVGhpcyBpcyB1bmF2b2lkYWJsZSBmb3INCj4gY29uZmlkZW50aWFsIFZNcyAo
-U0VWLVNOUCwgVERYKSwgc2luY2UgbWVtb3J5IGlzIGVuY3J5cHRlZCBhbmQgY29weWluZyBpdA0K
-PiBuZWVkcyBmaXJtd2FyZSBhc3Npc3RhbmNlLiBIb3dldmVyLCBmb3Igbm9uLWNvbmZpZGVudGlh
-bCBWTXMgKGxpa2UNCj4gRmlyZWNyYWNrZXIpLCB3ZSBjYW4gbWlncmF0ZSB0aGUgZm9saW9zLg0K
-PiANCj4gVGhpcyBzZXJpZXMgZW5hYmxlcyBmb2xpbyBtaWdyYXRpb24gZm9yIG5vbi1jb25maWRl
-bnRpYWwgZ3Vlc3RfbWVtZmQgYW5kDQo+IGFsc28gbGF5cyB0aGUgZ3JvdW5kd29yayBmb3IgbWln
-cmF0aW5nIGNvbmZpZGVudGlhbCBndWVzdF9tZW1mZCBsYXRlci4NCj4gT25jZSBmaXJtd2FyZS1h
-c3Npc3RlZCBjb3B5aW5nIHN1cHBvcnQgaXMgYXZhaWxhYmxlLCB0aG9zZSBWTXMgY2FuIGJlDQo+
-IG1hZGUgbW92YWJsZSwgdGhlIGNvbmZpZGVudGlhbCBmb2xpbyBjb250ZW50IGNhbiBiZSBjb3Bp
-ZWQgc2VwYXJhdGVseSwNCj4gYW5kIHRoZSBkZXN0aW5hdGlvbiBmb2xpbyBtYXJrZWQgd2l0aCBG
-T0xJT19DT05URU5UX0NPUElFRFs0XSBzbw0KPiBfX21pZ3JhdGVfZm9saW8oKSBza2lwcyB0aGUg
-aG9zdC1zaWRlIGZvbGlvX21jX2NvcHkoKS4NCj4gDQo+IFRlc3RpbmcNCj4gLS0tLS0tLQ0KPiBI
-b3N0OiA3LjItcmM2KyhjMjFiYjQxOTM4NikgKyB0aGlzLCBBTUQgRVBZQyBaRU4gMywgMiBOVU1B
-IG5vZGVzDQo+IA0KPiAtIEtWTSBzZWxmdGVzdDogYWxsb2NhdGUgZm9saW9zIG9uIG5vZGUgMCwg
-bWlncmF0ZSB0aGVtIHRvIG5vZGUgMSBhbmQNCj4gICBiYWNrIGFuZCB2ZXJpZnkgcmVzdWx0aW5n
-IE5VTUEgbm9kZSBhbmQgdGhlIGZvbGlvIGNvbnRlbnRzIGF0IGVhY2gNCj4gICBzdGVwLg0KPiAN
-Cj4gLSBGaXJlY3JhY2tlciBbMV06IGJvb3RlZCBhIG1pY3JvVk0gYmFja2VkIGJ5IGd1ZXN0X21l
-bWZkLiBXaGlsZSB0aGUNCj4gICBndWVzdCB3YXMgcnVubmluZywgZm9yY2VkIGhvc3Qtc2lkZSBt
-aWdyYXRpb24gb2YgaXRzIGZvbGlvcyB2aWENCj4gICBtaWdyYXRlcGFnZXMoOCkgYW5kIGV4cGxp
-Y2l0IG1vdmVfcGFnZXMoMikgb2YgZ3Vlc3RfbWVtZmQNCj4gICBwYWdlcy4gVmVyaWZ5IHdpdGgg
-L3Byb2MvZmlyZWNyYWNrZXJfcGlkL251bWFfbWFwcy4NCj4gDQo+IE5vdGVzDQo+IC0tLS0tDQo+
-IC0gU2FzaGlrbyBwb2ludGVkIG91dCBhIHByZS1leGlzdGluZyBBQkJBIGRlYWRsb2NrIGJldHdl
-ZW4NCj4gICBrdm1fZ21lbV9lcnJvcl9mb2xpbygpIGFuZCB0cnVuY2F0aW9uLiBJdCdzIGJlaW5n
-IGFkZHJlc3NlZCBzZXBhcmF0ZWx5DQo+ICAgYnkgSGFvIFpoYW5nLiBbMl1bM10NCj4gDQo+IFsx
-XSBodHRwczovL2dpdGh1Yi5jb20vZmlyZWNyYWNrZXItbWljcm92bS9maXJlY3JhY2tlci90cmVl
-L2ZlYXR1cmUvc2VjcmV0LWhpZGluZw0KPiAgICAgSW4gYnVpbGRlci5ycywgYWRkIEdVRVNUX01F
-TUZEX0ZMQUdfTUlHUkFUQUJMRSB0byBiaXQtMiBhbmQgcGFzcyBpdCBpbnN0ZWFkDQo+ICAgICBv
-ZiBHVUVTVF9NRU1GRF9GTEFHX05PX0RJUkVDVF9NQVAgdG8gdm0uY3JlYXRlX2d1ZXN0X21lbWZk
-KCkuDQo+IFsyXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvYW1iRWRTUGplclpJVk4wYkAx
-OTIuMTY4LjEuMjE1Lw0KPiBbM10gaHR0cHM6Ly9zYXNoaWtvLmRldi8jL3BhdGNoc2V0LzIwMjYw
-NjExLXNoaXZhbmstZ21lbS1taWdyYXRlLXYxLTAtMmQyNjZiZmM2Zjk1JTQwYW1kLmNvbQ0KPiBb
-NF0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjYwNjMwLXNoaXZhbmstYmF0Y2gtbWln
-cmF0ZS1vZmZsb2FkLXY2LTEtZGE5NWQ3ZThiOGEyQGFtZC5jb20NCj4gDQo+IFNpZ25lZC1vZmYt
-Ynk6IFNoaXZhbmsgR2FyZyA8c2hpdmFua2dAYW1kLmNvbT4NCj4gLS0tDQo+IENoYW5nZXMgaW4g
-djM6DQo+IC0gRml4IHVuYmFsYW5jZWQgbW11X2ludmFsaWRhdGVfaW5fcHJvZ3Jlc3MgY291bnQg
-dW5iaW5kaW5nIGR5aW5nIGd1ZXN0X21lbWZkLiAoU2FzaGlrbykNCj4gLSBGaXggbWF4bm9kZSBo
-YW5kbGluZyBpbiB4YXBpY19pcGlfdGVzdCBzZWxmdGVzdC4NCj4gLSBBZGQgR1VFU1RfTUVNRkRf
-RkxBR19NSUdSQVRBQkxFIGRvY3VtZW50YXRpb24NCj4gLSBSZXBsYWNlIG9wZW4tY29kZWQgc2l6
-ZW9mKCkgKiA4IGNhbGN1bGF0aW9uIHdpdGggQklUU19QRVJfVFlQRSgpDQo+IC0gQWRkIGdldF9u
-dW1hX21lbV9ub2RlcygpIGFuZCB1c2UgIE1QT0xfRl9NRU1TX0FMTE9XRUQgZm9yIGFsbG93ZWQg
-TlVNQSBuZG9lcw0KPiAgIGluc3RlYWQgb2YgaGFyZGNvZGVkIE5VTUEgbm9kZSBJRHMuIChTYXNo
-aWtvKQ0KPiAtIEV4dGVuZCBtaWdyYXRpb24gc2VsZnRlc3QgdG8gdmVyaWZ5IHJlamVjdGlvbiB3
-aXRob3V0IE1JR1JBVEFCTEUgZmxhZyBhbmQNCj4gICBtb3ZlIHJlcGVhdGVkIGNoZWNrcyBpbnRv
-IGNvbW1vbiBoZWxwZXJzLg0KPiAtIERyb3AgUkZDIHRhZy4NCj4gLSBMaW5rIHRvIHYyOiBodHRw
-czovL2xvcmUua2VybmVsLm9yZy9yLzIwMjYwNzI4LXNoaXZhbmstZ21lbS1taWdyYXRlLXYyLTAt
-MjY5YWMxZjg0ZTJiQGFtZC5jb20NCj4gDQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gTWFrZSBmb2xp
-byBtaWdyYXRpb24gb3B0LWluIHRocm91Z2ggR1VFU1RfTUVNRkRfRkxBR19NSUdSQVRBQkxFLA0K
-PiAgIHByZXNlcnZpbmcgdW5tb3ZhYmxlIGJlaGF2aW9yIGlmIHVzZXJzcGFjZSBkb24ndCBleHBs
-aWN0bHkgYXNrLiAoQWxleGFuZHJ1LCBEYXZpZCwgU2VhbikNCj4gLSBBZGQga3ZtX2FyY2hfc3Vw
-cG9ydHNfZ21lbV9taWdyYXRpb24oKSBzbyBhcmNoIGNhbiBjb250cm9sIHdoZXRoZXINCj4gICBH
-VUVTVF9NRU1GRF9GTEFHX01JR1JBVEFCTEUgaXMgYWR2ZXJ0aXNlZC4NCj4gLSBBbGxvY2F0ZSBt
-b3ZhYmxlIGZvbGlvcyB3aXRoIEdGUF9ISUdIVVNFUl9NT1ZBQkxFLiAoRGF2aWQpDQo+IC0gS2Vl
-cCBndWVzdF9tZW1mZCB1bmV2aWN0YWJsZS4gKERhdmlkLCBTYXNoaWtvLCBTZWFuKQ0KPiAtIFNw
-bGl0IG1pZ3JhdGVfZm9saW8oKSBpbXBsZW1lbnRhdGlvbiBhbmQgZW5hYmxlbWVudCBhcyBzZXBh
-cmF0ZSBwYXRjaGVzLg0KPiAtIFVwZGF0ZSBzZWxmdGVzdCB3aXRoIG5ldyBmbGFnLg0KPiAtIExp
-bmsgdG8gdjE6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNjA2MTEtc2hpdmFuay1nbWVt
-LW1pZ3JhdGUtdjEtMC0yZDI2NmJmYzZmOTVAYW1kLmNvbQ0KPiANCj4gLS0tDQo+IFNoaXZhbmsg
-R2FyZyAoOSk6DQo+ICAgICAgIEtWTTogZ3Vlc3RfbWVtZmQ6IHRha2UgdGhlIGludmFsaWRhdGUg
-bG9jayB3aGVuIHVuYmluZGluZyBhIGR5aW5nIGZpbGUNCj4gICAgICAgbW06IHNwbGl0IEFTX1VO
-TU9WQUJMRSBiYWNrIG91dCBvZiBBU19JTkFDQ0VTU0lCTEUNCj4gICAgICAgS1ZNOiBndWVzdF9t
-ZW1mZDogaW1wbGVtZW50IGZvbGlvIG1pZ3JhdGlvbiBmb3Igbm9uLWNvbmZpZGVudGlhbCBWTXMN
-Cj4gICAgICAgS1ZNOiBndWVzdF9tZW1mZDogYWRkIEdVRVNUX01FTUZEX0ZMQUdfTUlHUkFUQUJM
-RQ0KPiAgICAgICBLVk06IHNlbGZ0ZXN0czogZml4IG1heG5vZGUgYXJndW1lbnRzIGluIHhhcGlj
-X2lwaV90ZXN0DQo+ICAgICAgIEtWTTogc2VsZnRlc3RzOiB1c2UgQklUU19QRVJfVFlQRSgpIGZv
-ciBOVU1BIG1hc2tzDQo+ICAgICAgIEtWTTogc2VsZnRlc3RzOiBhZGQgZ2V0X251bWFfbWVtX25v
-ZGVzKCkNCj4gICAgICAgS1ZNOiBzZWxmdGVzdHM6IHVzZSBhbGxvd2VkIE5VTUEgbm9kZXMgaW4g
-Z3Vlc3RfbWVtZmRfdGVzdA0KPiAgICAgICBLVk06IHNlbGZ0ZXN0czogZXhlcmNpc2UgZ3Vlc3Rf
-bWVtZmQgZm9saW8gbWlncmF0aW9uDQo+IA0KPiANCg0KU2hvdWxkIEkgc3BpbiB0aGUgaW5kZXBl
-bmRlbnQgcGF0Y2hlcyBvdXQgb2YgdGhpcyBzZXJpZXMgZm9yIG5leHQgY3ljbGU/DQpQYXRjaCAx
-IGlzIFNhc2hpa28gcmVwb3J0ZWQgZml4IGFuZCBwYXRjaGVzIDUtOCBhcmUgc2VsZnRlc3QgZml4
-ZXMgYW5kDQpjbGVhbnVwcy4gTWlncmF0aW9uIHBhdGNoZXMgY2FuIHdhaXQgdW50aWwgaXRzIHNl
-dHRpbmcgZGVzaWduIGRpc2N1c3Npb24NCmlzIHNldHRsZWQuDQoNClRoYW5rcywNClNoaXZhbmsN
-Cg==
+On 8/21/26 14:34, Garg, Shivank wrote:
+> On Wed, 2026-08-05 at 06:40 +0000, Shivank Garg wrote:
+>> guest_memfd folios are currently always marked unmovable, so the kernel cannot
+>> perform memory compaction, offlining, etc. This is unavoidable for
+>> confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
+>> needs firmware assistance. However, for non-confidential VMs (like
+>> Firecracker), we can migrate the folios.
+>>
+>> This series enables folio migration for non-confidential guest_memfd and
+>> also lays the groundwork for migrating confidential guest_memfd later.
+>> Once firmware-assisted copying support is available, those VMs can be
+>> made movable, the confidential folio content can be copied separately,
+>> and the destination folio marked with FOLIO_CONTENT_COPIED[4] so
+>> __migrate_folio() skips the host-side folio_mc_copy().
+>>
+>> Testing
+>> -------
+>> Host: 7.2-rc6+(c21bb419386) + this, AMD EPYC ZEN 3, 2 NUMA nodes
+>>
+>> - KVM selftest: allocate folios on node 0, migrate them to node 1 and
+>>   back and verify resulting NUMA node and the folio contents at each
+>>   step.
+>>
+>> - Firecracker [1]: booted a microVM backed by guest_memfd. While the
+>>   guest was running, forced host-side migration of its folios via
+>>   migratepages(8) and explicit move_pages(2) of guest_memfd
+>>   pages. Verify with /proc/firecracker_pid/numa_maps.
+>>
+>> Notes
+>> -----
+>> - Sashiko pointed out a pre-existing ABBA deadlock between
+>>   kvm_gmem_error_folio() and truncation. It's being addressed separately
+>>   by Hao Zhang. [2][3]
+>>
+>> [1] https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+>>     In builder.rs, add GUEST_MEMFD_FLAG_MIGRATABLE to bit-2 and pass it instead
+>>     of GUEST_MEMFD_FLAG_NO_DIRECT_MAP to vm.create_guest_memfd().
+>> [2] https://lore.kernel.org/all/ambEdSPjerZIVN0b@192.168.1.215/
+>> [3] https://sashiko.dev/#/patchset/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95%40amd.com
+>> [4] https://lore.kernel.org/all/20260630-shivank-batch-migrate-offload-v6-1-da95d7e8b8a2@amd.com
+>>
+>> Signed-off-by: Shivank Garg <shivankg@amd.com>
+>> ---
+>> Changes in v3:
+>> - Fix unbalanced mmu_invalidate_in_progress count unbinding dying guest_memfd. (Sashiko)
+>> - Fix maxnode handling in xapic_ipi_test selftest.
+>> - Add GUEST_MEMFD_FLAG_MIGRATABLE documentation
+>> - Replace open-coded sizeof() * 8 calculation with BITS_PER_TYPE()
+>> - Add get_numa_mem_nodes() and use  MPOL_F_MEMS_ALLOWED for allowed NUMA ndoes
+>>   instead of hardcoded NUMA node IDs. (Sashiko)
+>> - Extend migration selftest to verify rejection without MIGRATABLE flag and
+>>   move repeated checks into common helpers.
+>> - Drop RFC tag.
+>> - Link to v2: https://lore.kernel.org/r/20260728-shivank-gmem-migrate-v2-0-269ac1f84e2b@amd.com
+>>
+>> Changes in v2:
+>> - Make folio migration opt-in through GUEST_MEMFD_FLAG_MIGRATABLE,
+>>   preserving unmovable behavior if userspace don't explictly ask. (Alexandru, David, Sean)
+>> - Add kvm_arch_supports_gmem_migration() so arch can control whether
+>>   GUEST_MEMFD_FLAG_MIGRATABLE is advertised.
+>> - Allocate movable folios with GFP_HIGHUSER_MOVABLE. (David)
+>> - Keep guest_memfd unevictable. (David, Sashiko, Sean)
+>> - Split migrate_folio() implementation and enablement as separate patches.
+>> - Update selftest with new flag.
+>> - Link to v1: https://lore.kernel.org/r/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com
+>>
+>> ---
+>> Shivank Garg (9):
+>>       KVM: guest_memfd: take the invalidate lock when unbinding a dying file
+>>       mm: split AS_UNMOVABLE back out of AS_INACCESSIBLE
+>>       KVM: guest_memfd: implement folio migration for non-confidential VMs
+>>       KVM: guest_memfd: add GUEST_MEMFD_FLAG_MIGRATABLE
+>>       KVM: selftests: fix maxnode arguments in xapic_ipi_test
+>>       KVM: selftests: use BITS_PER_TYPE() for NUMA masks
+>>       KVM: selftests: add get_numa_mem_nodes()
+>>       KVM: selftests: use allowed NUMA nodes in guest_memfd_test
+>>       KVM: selftests: exercise guest_memfd folio migration
+>>
+>>
+> 
+> Should I spin the independent patches out of this series for next cycle?
+
+I'd say, yes :)
+
+-- 
+Cheers,
+
+David
