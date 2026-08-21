@@ -1,143 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from oss.cyber.gouv.fr (oss.cyber.gouv.fr [51.159.188.251])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E5D40926C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 19:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1C419D89E;
+	Fri, 21 Aug 2026 19:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.188.251
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787341266; cv=none; b=Y8rOFsaCEP5/dP5pVpB1EkWHVFl+h8u5sCLSgiS+Hv4xx0VBYAwFW7TOkxHPNLlBgwaXTyRZOXo4gZaeEWDGaSu4QlH00pLhbr3a6b2njweJCqSv33K+Jys+sugPWvHTJJTbacySYTkIQgwKjRGMSKYsLYw2JyFMJ3wWSAUXHk4=
+	t=1787341425; cv=none; b=knhhXnlrMxrBvfx0F5IIWX9XiWDeNrGGgnXL8TaYM+vvzsJBqxgRROdaHb4D4sY8oKEMB2mHb1L+nSd0PWLvxqO5Ppj+EO42kQEUYFPdS0BX3P9z8wdjMm/PbRi96dKlsIb0iXMbD5TnPr7e/xi9yYBFAnO40jhJHOP1Oz1Gd6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787341266; c=relaxed/simple;
-	bh=jGCF9xeY0vRfVoQHyo46BCngCpvZ3rfwl1YTTqJhOOc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BgRzCdZt2GtuTUm5ZODIh4XDuVWFJfvbNtIUi/WGOYy3rCHzsM/0bOxSSxIIcEFQacmhgRz7E9a5slWbMgHkp/Tg8PtEdChVZoi/Scn8V9NRjOvzCImBlvOKr3OjMi4BuMpbjNuOLCNs/Qmly4+bigsxHh2RkoQVKg74Pi0MVYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6jq5mdc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787341425; c=relaxed/simple;
+	bh=WTfIypLeHYGeA5nm6xuw+xhMDvUGe64DxBnETBgKxFI=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=mGHg+ddkXzMbe7zPu5hYA6fd9imGFGu5ncINCCiTKh4qMJLVnkGg+DX0Og9MeEY0DOzVFp3hB2+mHpa7QobMHP2fSSFOLAM5Xh3+uqSSWYFLWB+5/f6cXhHvyy1HS1uxD0vz2Zoyg364T37U1J1x3zfGDs1hxeqai+lah7C0h+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr; spf=pass smtp.mailfrom=oss.cyber.gouv.fr; dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b=UOnKEwpA; arc=none smtp.client-ip=51.159.188.251
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.cyber.gouv.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6jq5mdc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE041F00ACF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 19:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787341265;
-	bh=GjORBWzC9ssea7fPJaPwA5sQ9HLxrAb0fTNBxcm4LAg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=B6jq5mdcIt8Ug4wUJcPyB1pWAg7RU4A7HfUvXcNGtaXMK2lopS9wxalB0JhKURI7P
-	 7xWOmfd0H3uncLzbaf4nqOhiK6trEMHKQvKTrHoczsbDpL0zS56WGlCOR70Lepief0
-	 dWu/dViVaseHiFI0Xe4k7Eoj8gsfyQ2aU7Ci4FtadrA8pxYqI4WQdFUNfN7YM8wpDI
-	 FXN7+tk5ZR07jbl1FjhGQ1/6pJfTNEmaS02EQ11gGho8dgMdU337YaHEF2rmKiKENC
-	 nm1r4yOdIgUHjr1/W83aYEKnvgXtXfFW1KGEYs1qxaPo0jldvWa3hFG6erqJjK/iAd
-	 plzDAFsFcn82w==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-69fc9f25118so1649438a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 12:41:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqzFtSc5ksTim5s+VaogBzse/bJO0TZRtuor27JiiuT6l2sWp9B/sOSzu2kOEsGn3RRAwVtD5myf3R0rlQA@vger.kernel.org
-X-Gm-Message-State: AFuF++kpfmKZ4fJNJc2/6HD47vlerlJfiOyD7Yo5ngJ99WBmPZyUBn6r
-	gtQ2KizosWxQZAeuqL8oPg8bnuYF1BPA6RbT4VIMM/4OAZUGMjmGKVo4aNVr4t/foi5KbbQ2KN5
-	A1kgPIMgJNq1QlU2PAchaWegFZPENGK4=
-X-Received: by 2002:a17:907:a646:b0:c21:9b4b:2690 with SMTP id
- a640c23a62f3a-c246a61e354mr898338266b.17.1787341264223; Fri, 21 Aug 2026
- 12:41:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b="UOnKEwpA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3cuOCLoydud/Ghe+/9rUSZTIFvtw+XcphcGGyMAn1DU=; b=UOnKEwpA8W47dATxIYHpCwlglm
+	j4OWzlHUpBHdblDB3DgM+AINW95cU3xyMHpn7Fklf6Jw0KIwvusAjWUVz5slYDNAWJEP898gssApf
+	lPX78bB3RKwn9jXCnQE220o4PPErwSQpjtxhshKpHyQLzYg5YrQa5QDCgTQE1MLLVbxb2+j5kwd/B
+	GF+Xrj8jZyAjbz3bGywWiR5VYKhZoQpN2ZPHAK3KsRLdowFg5hrcfQ6KnGJQwbtjmWISM9Rp5hjM9
+	5sEvcrw+gbEWnVbRhTcxqwufFylrTO+Unnd0apooj8W7MgqkwCzwaoYI5NpwHMdlm6DPKPXs+Bmti
+	rDowhHGg==;
+Received: from [::1] (port=52878 helo=pf-012.whm.fr-par.scw.cloud)
+	by pf-012.whm.fr-par.scw.cloud with esmtpa (Exim 4.99.5)
+	(envelope-from <jeremy.jean@oss.cyber.gouv.fr>)
+	id 1wxV9S-0000000DuUZ-4BGv;
+	Fri, 21 Aug 2026 21:43:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com> <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
-In-Reply-To: <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Fri, 21 Aug 2026 12:40:52 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
-X-Gm-Features: AcwNN1VOJPzj9vCoFWMkzt8LUQYtVPo1dkJ_NmbLb1w7IqyknFh6FDk9dgL6_34
-Message-ID: <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>, 
-	James Houghton <jthoughton@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Aug 2026 21:43:41 +0200
+From: =?UTF-8?Q?J=C3=A9r=C3=A9my_Jean?= <jeremy.jean@oss.cyber.gouv.fr>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: kees@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] binfmt_elf_fdpic: reject PT_LOAD with filesz larger than
+ memsz
+In-Reply-To: <aog5Kx6HB3jxb8cJ@lt-jori.localdomain>
+References: <20260820222824.3165092-3-Jeremy.Jean@oss.cyber.gouv.fr>
+ <aog5Kx6HB3jxb8cJ@lt-jori.localdomain>
+User-Agent: Roundcube Webmail/1.6.18
+Message-ID: <f7380c43c8cb88cafa170faec902c1b7@oss.cyber.gouv.fr>
+X-Sender: jeremy.jean@oss.cyber.gouv.fr
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
+X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
+X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Thu, Aug 20, 2026 at 4:39=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Tue, Aug 18, 2026 at 11:40=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> w=
-rote:
-> >
-> > On Wed, Aug 12, 2026 at 1:59=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > >
-> > > d) vmscan (prepare_scan_control()): for determining whether reclaim
-> > > can deactivate, there's this logic
-> > >
-> > >                 /*
-> > >                  * When refaults are being observed, it means a new
-> > >                  * workingset is being established. Deactivate to get
-> > >                  * rid of any stale active pages quickly.
-> > >                  */
-> > >                 refaults =3D lruvec_page_state(target_lruvec,
-> > >                                 WORKINGSET_ACTIVATE_ANON);
-> > >                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_=
-ANON] ||
-> > >                         inactive_is_low(target_lruvec, LRU_INACTIVE_A=
-NON))
-> > >                         sc->may_deactivate |=3D DEACTIVATE_ANON;
-> > >                 else
-> > >                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
-> > >
-> > > (and same for DEACTIVATE_FILE for file-backed folios)
-> > >
-> > > target_lruvec->refaults[] gets set at the end of the reclaim pass. It
-> > > stores the same lruvec_page_state() value that prepare_scan_control()
-> > > will read at the start of the next reclaim pass, which means if
-> > > reclaim passes happen more frequently than the 2s flushes (eg under
-> > > sustained/heavy memory pressure), this logic will incorrectly assume
-> > > no refaults occurred and deactivation is disabled, which afaict means
-> > > folios won't be moved from the active -> inactive list, and reclaim
-> > > will start evicting pages from the inactive list that are hot (eg mor=
-e
-> > > refaults).
-> > >
-> > > This is from reading the code rather than a reproducer though, so I
-> > > don't know how much this matters in practice. Unlike for the writebac=
-k
-> > > case, I don't think flushign more frequently solves the problem. It
-> > > would shrink the staleness window but not eliminate it. Maybe one
-> > > solution is to keep the deactivation state for a period of time if
-> > > refaults were observed.
-> >
-> > We do have an internal test that runs a VM under memory pressure and
-> > we started observing OOM kills after the ratelimited flush was added
-> > in vmscan, so I think it's more problematic than just reclaiming hot
-> > memory, but I didn't look too closely.
-> >
->
-> Would you be able to share the test you're using? I've been trying to
-> repro it locally without much luck.
+Hello Jori,
 
-The exact test uses some internal testing libraries, we're looking
-into whether we can translate it to a standalone C repro.
+On 2026-08-21 13:45, Jori Koolstra wrote:
+> On Thu, Aug 20, 2026 at 10:28:26PM +0000, Jérémy Jean wrote:
+>> The ELF specification requires p_filesz to be no larger than p_memsz 
+>> for
+>> PT_LOAD segments.
+>> 
+>> elf_fdpic_map_file_constdisp_on_uclinux() sizes its contiguous 
+>> allocation
+>> from p_memsz, then read_code() copies p_filesz bytes into it. A 
+>> malformed
+>> segment can therefore copy file contents past the allocation on NOMMU
+>> systems. The direct-mmap path also subtracts p_filesz from p_memsz 
+>> without
+>> first validating the relationship.
+>> 
+>> Validate every PT_LOAD immediately after fetching the program headers.
+>> This covers both executable and interpreter headers before
+>> begin_new_exec() makes execution irreversible.
+>> 
+>> On RV32 NOMMU, an ET_DYN with an 8192-byte p_filesz and 4096-byte 
+>> p_memsz
+>> copied a marker from the second file page past its one-page mapping.
+>> After this change execve() rejects it with -EINVAL, while an 8192/8192
+>> control still executes.
+>> 
+>> The flaw dates back to the driver's introduction in the pre-git 
+>> history
+>> tree introduced in v2.6.11 by 91808d6ebe39 ("[PATCH] FRV: Add FDPIC 
+>> ELF
+>> binary format driver").
+> 
+> I came across this about a month ago. But I wonder if this is even 
+> worth
+> fixing. You are on a non-MMU system, so running a malicious ELF kinda
+> means gameover anyhow, doesn't it?
 
-From a high-level, the test:
-- Creates a VM with 260 MB (256 MB for testing + 4 MB margin) in a
-cgroup, backed by shmem THPs. The VM is not a fully fledged VM, just a
-KVM VM running bare metal code (so 4 MB is enough margin).
-- Enables zswap in the cgroup.
-- Tells the VM to write to 256 MB of its memory.
-- Checks the cgroup shmem usage and that no swap occurred (no limit).
-- Sets the cgroup limit to half the VM memory.
-- Checks the cgroup shmem usage and swap again, usage should be ~half
-and so is swap.
-- Tells the VM to read the 256 MB of memory again. This should cause a
-lot of thrashing and reclaim, but no OOM kills as all guest memory is
-reclaimable.
+Well, this would act as defense in depth, no? I agree that cases where 
+this
+matters are probably rare, if any, but I don't see why this should not 
+be fixed
+anyway. Isn't it best not to assume anything about the use cases? The 
+patch is
+only a suggestion to start discussions: I'm merely raising this to your
+attention but you guys (maintainers) are obviously in the best place to 
+check
+whether there are better options.
 
-With the ratelimited flushing, the test started flaking 5-10% of the
-time due to OOM kills.
+Regards,
+Jérémy
