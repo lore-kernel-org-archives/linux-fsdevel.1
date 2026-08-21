@@ -1,122 +1,127 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5717825EF87
-	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 14:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787322161; cv=none; b=AiDDfoSPrNP9jxJctkg+IBvL0QdLR/eJS9qyfH7CkXfdvwUyP1Fw0VNPB8UADm7XvAYchmRyawcxtZqQU9hYWyI+ns0fuBYfhA04GXxZTur1MsKTj3PmAX+c3vzgkwBkmwDMv0Ms2tGeeZVXFko4DL6CKEAs+H5d8K6aewk0GgQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787322161; c=relaxed/simple;
-	bh=5sF0RXwyr0iMr8MjaOHL35Z1gq2gMeitEA/FYdpqM4E=;
-	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type:
-	 Content-Disposition; b=eLCUyqZhV4+cojePf7HOfk1wq4zDBHRiyH9g/xa5UvNNdHdv5umIQTXHIP7crSC3EgFQYtVL3DT/OTfjjBIk32v27sxhv8QOQ0sVeWesw/tLVQ2oCrBXN8Fda8BiL6HH4Gwt/KLfJ/Wry+CIrIFLAGT1NfrEsB9xqXIuteKUwss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eqd2RxcE; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71139B94F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 14:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787322852; cv=pass; b=fl5+d/whRiDPtsSFK0GQW+xSum73Y5GcT8uzylJOlKnrF1FdOaRCnQ2u6IcpqHrnetxVcazMSQWqiQdvJSlQVQGqDiXNcwi95yyzgorPXypL8Bs/ahao/jPTgqThn0OwOUIeeUmljDc+OuqLcf7DiOXk5P+LvxmPMJFPzUSbgys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787322852; c=relaxed/simple;
+	bh=CNCPQxq3ZdhaR1ouJWW018pWCfG50OtSYRmamEvhNac=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=deZn8853OHe1fNwrMBL1ultem3911CKyD6jpkEy7VYWlu0w/hGwXo0b6cHh/mbga5P1eCnQIrF2yDi47287x1WPikemyf9aIc4fCOrRLpi4r1jfLJ3indAmEtFfzfY8d7N+Wo1MzuwyMaAKBGmOpG+nG1SbtU9cesb4jEg6a+28=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=GMxuq99t; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eqd2RxcE"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c9b373d5af0so809351a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 07:22:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="GMxuq99t"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-51c2a818fc4so6848961cf.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 07:34:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787322849; cv=none;
+        d=google.com; s=arc-20260327;
+        b=b5//1AcHkIXuhvKJUkwiIuP0JRdTt20B5h9C/CADfuAJc5coTfmlaBgTMvTGThxNcG
+         bktyDDfcXA6YwM1BsYgriX6db0++IKqX96KHhWsI8sLFeE4fQgPK+5SDHl26SOqDvl2l
+         0SKIOAlYt6zg2UANA2t0uWTHLhlzrpR3UCSBhw3SK7tPRy9oHY8us7jxHuRZSvV6e0j0
+         UUxL8jjLP0ywqPLoga5pEWus721t0q/XZiebBylmh0zMQ16ZkbXX1IBAMkx1f4Ivr43+
+         jrhvx5jcC2JDaDjD3oKGidFQjLScLvgrVpR888xewIsWJr+x57vYe3/lhE+l1TVQSrVi
+         o4fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=eKQmZSiA4pDne5QBCDZj/WFEVTr73qPsvLTzUWIW8i0=;
+        fh=zw5Vhx8/3gdPyWGA325gkOLLZ7EgNA45pNQeW5ZObfA=;
+        b=cLOsyCXTu7gsF9UtA4ULf8fflZF2JnIN2/SUejxDhwUt35p7YykDAXCdrGwgxHsKxV
+         UfNvj4Fc8QTILK3oPitNAQoqouYZjA9MgI6kDrwXLwdlXlR9AsKXqzMElkE8hl2cZm+g
+         Fhr9YQHmdsf/3VuxK1zx2gRSxRjMsdxpzskq1Ei0/M1IRPXVhgcv8XB7svTI4ULOyKvA
+         XPdjShYsyyJFsdl2CI3MCeT2j9DpcCQSAqsASjrkASk5siTzq/g84FyiFBZ0w95JJz2i
+         rADpe2zQ1d+WdjWs3IpLnhIWOQDAXkDDd7zJQ5Az+/5DyA5a2kDOgERoEmAPEOgS37tA
+         WtEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787322159; x=1787926959; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:subject:cc:to:from
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1787322849; x=1787927649; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cYgPMvXM9do2k+pBY2KeyKNzXmSFLJSbdwBoL623krU=;
-        b=eqd2RxcE6Q04O0xKq8dqpY4x9lPeZjTQ733sjIEp2d0zYJifla1G+Msh4qtRi7YwKs
-         Dya/ChYAo/nWRPlahWo3Al+EfrOJIvkWlEUU93L4AL0XHdvGh/RLgobg61IXn3+yaqaG
-         w2A3QBYPpM5iADkmsu3bQVN3719WSFxdS8JaMUJ8A6x4IJN7HasbDS1LtYoyuXdBSTf8
-         ub5UmuvG2in/PzwB4zEz6OKfSOQR8zIqGXQd6wvIrf7lnDvUe3nbZwsT9hG62vXS5NJv
-         0ROExDDkiruqQr+rG1BuDaTfnGnXlYzUTC3opSyaT+DS4wtYmtJBoF9JrwgUPCnOHYR5
-         3uBg==
+        bh=eKQmZSiA4pDne5QBCDZj/WFEVTr73qPsvLTzUWIW8i0=;
+        b=GMxuq99tqMeCV0WTBLFhNMCiOHi2f+k0r5ceZPpCnEpxteKF4bzfEhLsrX/Us1TzgZ
+         B4HDXrVB51dsLguEKa47+7R+EXpTQ120C7Ktrs61W+cscKhT2kVpggQQtQfHvkDNuSFD
+         1kWRQi3C6DNNoU/XnVCr/QW5QNiIa05lfQXdM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787322159; x=1787926959;
-        h=content-disposition:content-type:mime-version:subject:cc:to:from
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cYgPMvXM9do2k+pBY2KeyKNzXmSFLJSbdwBoL623krU=;
-        b=fijcjcsjbIUJlnw6pctHp9K2CNdPl9lFMTrAVO3k8uChk/iA+QfbfD08S68Nno/tNH
-         r0/LsrNNY4Z4Z625uV/zSxz6GEQgg2+5O1GqO/Wi61lksf21G9kyeGB0t3nKwxTEB41h
-         YRuHtig4mgmTq+NwYN3m8SgPUjV/Bxsr8Jqv0e7T9WcTsGebW/FyocGTx7rq06+w/FAp
-         8vQJKzwg+pO168pXVNh5DfeJuZKUBBKi+o4YrQCRHONE6ZHGIxsYiD4VIgt6vVMr4Bdn
-         vHZ6/kgZnRnmffwzTvWcWA96hsCROSzmXfFk29TI492rxB7MBieVtsb0hJkDh7ulmG2m
-         7pZQ==
-X-Gm-Message-State: AFuF++n8XTOr9v0bM5XOpU0BLzsnClcYFr0NN2+Mm9vyUnKBkeWZJtGF
-	6uk/29WQEyiHQrXSsiwG6kL1SHE9ufaO2AXPRjUe15I51A8FNcLTC8Ng
-X-Gm-Gg: AR+sD126aPbprx/mg9TM6CFG0byVkPpoghPUgXg5uSe4t1PLMq+3ywGZI9MZDGHz3aO
-	0tVkV+Ug9yNhPqNKWC/21XTOE2aA6S0rDDvbyOnM9/puQMyAVDxFty4X+2c6nN28Y3BGFfA2B21
-	O6OJBdDKZv4v5/aDCY2xXEyFklvyvMg31ej1uecXv4lFWLjvsDNghZEl0JqHijBtcYkmVgiJwGx
-	F9WFPq6y0YWNo07F1gZXdzbY2QMkbeLAD5v2B4D8HhwY19VDwjDiyX4/eTxuIX6VsDyI/bLS7e/
-	xIKIOEDoBi3Ab2AFFNVnBPtEzdu3L313+X+qZOX9EoIWH4WBkk5Z1Nr5COAMNMAOwardOBj5lJq
-	X4ExKHAjiYLCukA7gKRJTfqiI+7G5IPtDR7wI86f5/0BpMO5JTPMSz0WvLHJNUwKwGZrJq5ysmL
-	LUtg5ylVGuvR2J4oxj1r2u5mud7EZ2X1ckjIuF+Dvyqt4soev4Iu8IYeIbKPCAOU6PtyAHiv0TT
-	CiHAgLZC/2BL/GLBrsJyUMTbgmg9+qseKv9gTTonyRqhA==
-X-Received: by 2002:a17:90b:3bc7:b0:395:4de4:92c8 with SMTP id 98e67ed59e1d1-395c386e405mr12977823a91.15.1787322158529;
-        Fri, 21 Aug 2026 07:22:38 -0700 (PDT)
-Received: from localhost (75-172-9-230.tukw.qwest.net. [75.172.9.230])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf10b584sm44718958eec.16.2026.08.21.07.22.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 07:22:37 -0700 (PDT)
-Message-ID: <6a885f2d.d76d81af.1755f0.2cd9@mx.google.com>
-X-Google-Original-Message-ID: <aohfJYCaq_cb7C6r@DESKTOP-HH660AU.>
-Date: Fri, 21 Aug 2026 07:22:29 -0700
-From: Dennis Tighe <dennis.tighe@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs: reject zero sectors_per_cluster in the boot sector
+        d=1e100.net; s=20251104; t=1787322849; x=1787927649;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=eKQmZSiA4pDne5QBCDZj/WFEVTr73qPsvLTzUWIW8i0=;
+        b=CvmR/rBjSZrQ1/hVVPCfNNvngIS/SrP1jyQBzvugpqVsFVbHPDHO4UfDOqaBFTqg7k
+         500us9iTOOArJRr+PaznDPLDfC9dM7wiwMKnMRNxHqUvRiXFfBXw199PgJUawE/MXHhN
+         AkJE2BAtu8g7c6e0bspmX8om57pdagrQzJmhnTSeMSFzDVxSi5vuUiHsJxznkjpyj2em
+         iWB9jhtjNoANmcVRP6Fk3Shr2DgwcGsd7dfYa6M/ng1GCg2G8MELoSz2/T7oU7yUdYFX
+         jOyFzHLYGUtC/b8JVaydAjHrUHEZhlw7yblfOXL22v9bVlqUZa3rCkfWJfv/GcSYvZUG
+         HrfA==
+X-Forwarded-Encrypted: i=1; AHgh+RoQqkbXKPZ80gGYJXbQlxpIu9P0yDjFBEby/Uk8QSbrr8730z570EfpW1xVwOvphhT3hv1ZrrHc+11Eec5Y@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYPBHfDNpWxcYq4GgErfnJveFd+cmPFkb94m2aOtn0JiiGSePH
+	uM6tk8JQM/IDf2hJdqMy2luBJJ/l8u4gUKqZu22YLQ87EG/caM2oVo8B0V4jFYrbjuAoKqpV64Q
+	JxvOeet3f76iMQPqgGE87OmafzIVT9TlyvzpykZvByA==
+X-Gm-Gg: AR+sD10hoqkOIu8tv9XNDZWvCOm4LVUpEpI15dhD6JxCAsn+vgEb04h8SRVx8eJDpGd
+	HgLqMKJ+153tAUQ6q7n/YHBuug/LIe3HweTF2jvAVNERi5MnXcELicZqtMCq2zjc5OCvysz4x2s
+	Q+FcuWhJFNGuzEBRGBJkg4E/hJKDkvnZ23CbdPqESe5E8sAVGiVBBM6IHVMC32c3JgInRaJzOos
+	WLIycQHocBeuvWLSw1lNnXfCaLxHxJqKAuKYBCCyhx28sx+pZYJ80vRbG6EWfXpb9eYbFQ46NXP
+	YgstoifnEaFXKIq2h9j4m1ZGaFW4aKLLPjWCPDdU9PSCF53bKonoNlXpZf6dh7R7hNn7UORRh3w
+	j
+X-Received: by 2002:ac8:6f13:0:b0:52d:824c:4856 with SMTP id
+ d75a77b69052e-52df5a065f7mr63552401cf.31.1787322849295; Fri, 21 Aug 2026
+ 07:34:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260819023542.561653-1-senozhatsky@chromium.org>
+ <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
+ <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
+ <aobDGgivy43cz7xQ@google.com> <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
+ <aobGRjc7SE1rwIHu@google.com> <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
+ <aobKfyGHkdMcleoc@google.com> <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
+ <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com> <20260821083000.GF687043@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260821083000.GF687043@noisy.programming.kicks-ass.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 21 Aug 2026 16:33:57 +0200
+X-Gm-Features: AcwNN1Vpn8g0_rQ_fQGFeXngl74o3K0y7X2OQP-ZffOH44_34qVsJH7mtV5OL48
+Message-ID: <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-is_boot_sector_ntfs() checks the boot sector's sectors_per_cluster field
-with a range test that rejects 0x81..0xf3 but accepts 0. A zero value
-then reaches parse_ntfs_boot_sector():
+On Fri, 21 Aug 2026 at 10:30, Peter Zijlstra <peterz@infradead.org> wrote:
 
-	sectors_per_cluster_bits = ffs(sectors_per_cluster) - 1;
-	...
-	vol->cluster_size = vol->sector_size << sectors_per_cluster_bits;
+> That would be adding conditionals to the mutex, something we all pay
+> for, always.
 
-ffs(0) is 0, so sectors_per_cluster_bits becomes (unsigned)-1 and the
-shift is undefined:
+It's just one bit (could be stashed  into LSB of ->first_waiter),
+Condition is checked before going to sleep, i.e. adds one branch in
+the slow path.  Don't think this could be measurable.
 
-  UBSAN: shift-out-of-bounds in fs/ntfs/super.c:673:39
-  shift exponent 4294967295 is too large for 32-bit type 'int'
+> One way would be for each file op to be wrapped like 'link-$op-unlink'
+> such that the client (the task doing the file op) gets linked to the
+> server (the task responsible for satisfying the request) before it can
+> block, and unlinked once its done.
 
-Reject sectors_per_cluster == 0 alongside the existing range check.
+Okay, how do you know which task or tasks are responsible for
+satisfying the request?  That's not a generally calculable
+information.
 
-Fixes: 6251f0b0de7d ("ntfs: update super block operations")
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
----
-is_boot_sector_ntfs() is where the driver decides an image is NTFS, so
-rejecting sectors_per_cluster == 0 there stops the bad geometry before
-parse_ntfs_boot_sector() computes ffs(0) - 1. Reached by mounting a test
-image on my dev machine.
+sshfs is a simple example: the transport layer process is ssh, but it
+is in no way involved in fuse transactions, there's just a pipe
+between the two.   How would the kernel know it has to link the ssh
+process when the pipe is written to?
 
-A reproducer is available on request.
+There are probably many such examples where this fails.
 
- fs/ntfs/super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index d400fea32..48bea5ce1 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -557,8 +557,9 @@ static bool is_boot_sector_ntfs(const struct super_block *sb,
- 	 * Check sectors per cluster value is valid and the cluster size
- 	 * is not above the maximum (2MB).
- 	 */
--	if (b->bpb.sectors_per_cluster > 0x80 &&
--	    b->bpb.sectors_per_cluster < 0xf4)
-+	if (!b->bpb.sectors_per_cluster ||
-+	    (b->bpb.sectors_per_cluster > 0x80 &&
-+	     b->bpb.sectors_per_cluster < 0xf4))
- 		goto not_ntfs;
- 
- 	/* Check reserved/unused fields are really zero. */
+Thanks,
+Miklos
