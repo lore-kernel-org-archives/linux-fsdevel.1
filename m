@@ -1,222 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26333D6F7;
-	Fri, 21 Aug 2026 13:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787319562; cv=none; b=RxD6cFHyBR7z587VWDmOrV4pSmo85FX6ab/hnBAAmZeS5WQPzcwIUbJItZ/kzPh2QN4C24FUq1plO2Z47f1neR2n+4RuKmqCKrNTD0WLaEXZwDjkPbrZxKZSEnaHlyHqzj2Jx02bjhfPMYPuVmSF3sLvBsOrsPLqmqi7CkJHbWw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787319562; c=relaxed/simple;
-	bh=mW+78RuS6rn/DHuM8R4YtvA4AQ6N5H0ZocsxdihbEs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RfJ5BjfP7r9xDb9E4t0aoEqUmgbNsbcIx57/SzugwVKday6R6aePGu7+AKUlefmcDQaOvIEr45XzTON+TjXv5dGdTnYKVSKIr6W0qHp30aSJFxv+LWj2z+4ygDcI2BK5PO3Oztjza3PNl6FIxQfAZSg9qxyF7nMCHlWDCeXnJbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWL/xvv0; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877E6BA34
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 13:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787320343; cv=pass; b=Qli88/JhEfKNuPZ+5cv/2+pGxcBj6qXW33HbUIONcwFdkqLZ8sTIQ+lOsRd0fdqOcLnsE0fZOR/CXKGPCdbmPVJA8IAU3SS3GfPf+Hb8thErtiz4RW7FOH0nHHnQSfSZ0e+jhZw/lo2Ch/k3ZI4xZ2p/UMybKKzUU/n7PFq0saM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787320343; c=relaxed/simple;
+	bh=sMCXD58Ck7XMjqxi99CPuHjkI5MeTfpATIu7xweU010=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pFRi4LS/1z9pBquhv6JHsqjrTva9NBmjXjBFBu04LSAh2Uf0C6zcYdBGUHgdie+c53SgHAg7BAOjGyqYqrgtPoSXeZ6P724u9qw0UEkaqiTp4Wef3MrEWs+gk6mC1MEEOBiuNnGqgjVSSrTAWS2jB1rC7xwO3dE3dH14MMQ1n3c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AOkW+V22; arc=pass smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWL/xvv0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D851F000E9;
-	Fri, 21 Aug 2026 13:39:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787319560;
-	bh=z5qvxSsmX93GMZIq4o2S4vCyfn1hgCx4th+U3zJS7iQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oWL/xvv0Ecw0+byyi+FYm+YqgpJUQd7rkxhyEU+OqTnezJNJmQTYOXllz0ZfQXurP
-	 HSOb6vFsiHAP6Z2O2N6gcii1eZrWM9e3R7/NPlp2GA752q542z8kFJoOvG/YPzqlqD
-	 iKYKdMfNv8Qk+Z1H+OZTtbTtg4gm5CTl6xxybmYolLtW5+KHj1snAKwa846Rt4HPlT
-	 fWhuMQ78kHGtTKaYABYWhRNt8+R7IUYV92RMOdn/oqFED4BHhaNkczEQGw1fMw7X2E
-	 SYsJoIFjsEZuOmdPYwA/r5KYajK4hPeksolQMdgY83/MMf9mHkcMmqnLgvwtoA6Vy4
-	 icWl+pRjNvuXA==
-Message-ID: <3cdf9ac0-b77c-4624-ad8e-68c10af648ac@kernel.org>
-Date: Fri, 21 Aug 2026 15:39:04 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AOkW+V22"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e9ecd7216cso820599a34.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 06:52:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787320340; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A8t2zHLNMnnlI4NkK5bp93HLUXMnCkIZyFuMBp6DwJ+KKDkNexD5SwhB1N5ro031JF
+         PjtN4LTjVqODASEOhNKCN+XT/+rbHhNttMYHlDYwLXVkA5pZl4OT7I5FleM7USVfrKKW
+         204HlRSOD2jtmxG4Vsgj2Z28udRLLmiXaNWIPUwlddB8VwwZgrzpavb/wfOXT/ZkMNrF
+         8BWEoRVP6FHqFuhHkfHoJUpmzOHPxvYV/VIj992Zvx1htzN1wR5BA2+luPAWjrDmcsYJ
+         6BdL/TcahDGowa8SEx35k63TTCho/XSFBLzFi3f94O2aQkNLGeljnBqMUjnIyzFFhf1u
+         pWew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0MQng+9xXyTKknMt+t9Rj4wyf14y6xu9aKeDOtOOdJk=;
+        fh=FOqC+Lkc+TS80ETjpLv+nw35J8YpEMTbtrVNV+epfZU=;
+        b=VorINtgcjlcAhlPst1zwMzof7/b1kuTkVxoeYsfb4fVXSXDe+A4QFbMr2hKxNFnFZW
+         eRISc6OgeQMJLHmHtfw6EtJUqEiTWCHAIcnjeqUdBAIeBUCXcCtfpZwpg6XDnBquSBIC
+         XMyAYkCJVYi1WuibA9j2GeiOZmxHjSZIKksczoA5MOL6rPY81/paQpx65ztQAxn3+KOg
+         ZvzWe2dVA4m7IPFZP2J1AEsvD4UF8n8sd/18WlNYFPB+H1ssE9OMziD3I5KAJWjYfQrv
+         3ijKtYTqBYFsgimFX6BU7F1BC34xvNQjIFN78a7mJF+dysiDYRjlmRWwnG30CVu905i/
+         wuXg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787320340; x=1787925140; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0MQng+9xXyTKknMt+t9Rj4wyf14y6xu9aKeDOtOOdJk=;
+        b=AOkW+V22rhrAxcDrepdr3WEBsSoDX46UNW13oEtBAtR86Zl+J5D9pmddAY7Bk0995M
+         QuotVn4oehPG+vCPdruMMX5U4gu8EZ+yy2gw7vaEU7vUfqAs7W4uvZAshk9+a24YGt1V
+         hE0y9L7jgoUSzx6YXi9cqEVIleBrHRIctPZ70NwPdGmB36PovDhg/W1EwlBaMinmXMVv
+         E7Bvs3AtK2x6BJeUad3NremEA8nwU3nHssME2Xb5WOKNMZyRHRlhluK3JZwXDkD2/oSL
+         BxNctSj79dDb32MfOHET0LHHkDLRVhjufn6uuN60QOwQNIrvxdZPfzC/N7NGwXuZjD5i
+         ukyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787320340; x=1787925140;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0MQng+9xXyTKknMt+t9Rj4wyf14y6xu9aKeDOtOOdJk=;
+        b=IAYPFZyFOShxalihptmLERlE1wCYe8083sDOuR53zeTTlwOGVBf9DSuIkxBXAOg9iG
+         32zzWBNqXaoOfns1SRp+a6YXwUqigTNWl6QeSj6XBjrtcQ+8vgN6/qkNeN+0ahzXlCtv
+         zop1FfoNOitO3cZsNP+TlmWAJ5UhE1w62eAa0Y6x35EjS0d49n8VvStAc8S/0Auzy1TL
+         4OQD41zyBC+cECz5CdmHiUcwpXv8araXXfTRhJtuFuYDCx2FM03n7jjf8bgUZp41N3W3
+         2kx6MdK2in1ZJL1E9qe7m8hlu2Ft34yZEPzY4vNVA2hWrarVKxZOWE2XO8XLVEZk0E5f
+         pXJQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1A7Hl1ISwF4LYU19KSGNjyR00suz0iKIT6Tor07Urpgx+cJ2Ux83P3uFN12Xoep1/4iU+0/l8aYcjFb2F@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWVd/Ns/02AFfK37hI0Yu8KspHg0ti/S3iI3JgXxeTk5Gr37Yg
+	ywwodr6Jjz8YtrIJkd2WnYSyViVCdQ9hjopNSco/DyJH/B29bfOPcIxFNkOhHFB0n/iM20qa/SB
+	t5OyJYcvlAd9sJzsZcFGWx/E4oRYEeBE=
+X-Gm-Gg: AR+sD12Ie91PBtmbB5B0EjV7eH9izFHhXLqqx/ybPUvKjUzAra6xXBphfOIpg3+6zg2
+	FM8N24mIsM2ZVavPvJI7aHHamQf2SdJ4JzFfamzTvgCLkrf2qfIMZ64610DqsZPnEwQUgP9mwfb
+	BaWkS8JYXFMd5la/lM447pMgaJZQsQkLrGJyhzkVvOyoiIulyUa626GTPDpiMJgXMm7JMLpWuMy
+	sl/VEziAl8ODxaPGVeRInwMA4xI41ipD9S5c2DxcHaA2uqpGCTpxLD+vQNazz2ntKe24moR7aJs
+	3IXzvJckxI6HzSANBYTWDtGmmv3rO3vJrxI5gMRrRecQ
+X-Received: by 2002:a05:6820:341a:20b0:6aa:e176:bcb5 with SMTP id
+ 006d021491bc7-6b15925da2fmr5108790eaf.14.1787320340365; Fri, 21 Aug 2026
+ 06:52:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/9] KVM: guest_memfd: folio migration for
- non-confidential VMs
-To: "Garg, Shivank" <shivankg@amd.com>, "Gupta, Pankaj"
- <Pankaj.Gupta@amd.com>, "Sampat, Pratik Rajesh"
- <PratikRajesh.Sampat@amd.com>,
- "nikita.kalyazin@linux.dev" <nikita.kalyazin@linux.dev>,
- "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
- "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
- "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "jmattson@google.com" <jmattson@google.com>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>,
- "tglx@kernel.org" <tglx@kernel.org>,
- "Dadhania, Nikunj" <nikunj.dadhania@amd.com>,
- "Roth, Michael" <Michael.Roth@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "mhocko@suse.com" <mhocko@suse.com>, "gourry@gourry.net"
- <gourry@gourry.net>, "iweiny@kernel.org" <iweiny@kernel.org>,
- "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
- "byungchul@sk.com" <byungchul@sk.com>, "x86@kernel.org" <x86@kernel.org>,
- "bp@alien8.de" <bp@alien8.de>, "ricarkol@google.com" <ricarkol@google.com>,
- "vannapurve@google.com" <vannapurve@google.com>,
- "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
- <seanjc@google.com>, "jackmanb@google.com" <jackmanb@google.com>,
- "Kalra, Ashish" <Ashish.Kalra@amd.com>,
- "willy@infradead.org" <willy@infradead.org>,
- "surenb@google.com" <surenb@google.com>,
- "pshier@google.com" <pshier@google.com>,
- "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "fuad.tabba@linux.dev" <fuad.tabba@linux.dev>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "hpa@zytor.com" <hpa@zytor.com>, "mingo@redhat.com" <mingo@redhat.com>,
- "rakie.kim@sk.com" <rakie.kim@sk.com>,
- "ackerleytng@google.com" <ackerleytng@google.com>,
- "apopple@nvidia.com" <apopple@nvidia.com>, "ziy@nvidia.com"
- <ziy@nvidia.com>, "vbabka@kernel.org" <vbabka@kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "sashiko-bot@kernel.org" <sashiko-bot@kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
- <0a02a6c4f0ee50ca596c4a2673b2ae6c80d4569b.camel@amd.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <0a02a6c4f0ee50ca596c4a2673b2ae6c80d4569b.camel@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
+ <20260818-selinux-pokemem-v1-3-90cd2357ee05@google.com> <CAEjxPJ714iCMiQRVAN6MQoOyNx998MS5Xfhbhmugcwz+gWYAuQ@mail.gmail.com>
+ <CAG48ez3h2Gft4onQ8AgBmf8gHrF26YqTinajuBysNPkUKaTBoA@mail.gmail.com>
+In-Reply-To: <CAG48ez3h2Gft4onQ8AgBmf8gHrF26YqTinajuBysNPkUKaTBoA@mail.gmail.com>
+From: Stephen Smalley <stephen.smalley.work@gmail.com>
+Date: Fri, 21 Aug 2026 09:52:09 -0400
+X-Gm-Features: AcwNN1XIMQRcAUBNk7fjxozSpQ8JckvqGIQ5KHe6kYNDH33rw4pKhCm-h8pgeiw
+Message-ID: <CAEjxPJ5cUDBekWe7fC1JYnw6CfT8GVa9fqrFwLPPAOqSP6jn3g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] selinux: require EXECMEM or PTRACE for FOLL_FORCE introspection
+To: Jann Horn <jannh@google.com>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jeff Xu <jeffxu@google.com>, 
+	=?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/21/26 14:34, Garg, Shivank wrote:
-> On Wed, 2026-08-05 at 06:40 +0000, Shivank Garg wrote:
->> guest_memfd folios are currently always marked unmovable, so the kernel cannot
->> perform memory compaction, offlining, etc. This is unavoidable for
->> confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
->> needs firmware assistance. However, for non-confidential VMs (like
->> Firecracker), we can migrate the folios.
->>
->> This series enables folio migration for non-confidential guest_memfd and
->> also lays the groundwork for migrating confidential guest_memfd later.
->> Once firmware-assisted copying support is available, those VMs can be
->> made movable, the confidential folio content can be copied separately,
->> and the destination folio marked with FOLIO_CONTENT_COPIED[4] so
->> __migrate_folio() skips the host-side folio_mc_copy().
->>
->> Testing
->> -------
->> Host: 7.2-rc6+(c21bb419386) + this, AMD EPYC ZEN 3, 2 NUMA nodes
->>
->> - KVM selftest: allocate folios on node 0, migrate them to node 1 and
->>   back and verify resulting NUMA node and the folio contents at each
->>   step.
->>
->> - Firecracker [1]: booted a microVM backed by guest_memfd. While the
->>   guest was running, forced host-side migration of its folios via
->>   migratepages(8) and explicit move_pages(2) of guest_memfd
->>   pages. Verify with /proc/firecracker_pid/numa_maps.
->>
->> Notes
->> -----
->> - Sashiko pointed out a pre-existing ABBA deadlock between
->>   kvm_gmem_error_folio() and truncation. It's being addressed separately
->>   by Hao Zhang. [2][3]
->>
->> [1] https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
->>     In builder.rs, add GUEST_MEMFD_FLAG_MIGRATABLE to bit-2 and pass it instead
->>     of GUEST_MEMFD_FLAG_NO_DIRECT_MAP to vm.create_guest_memfd().
->> [2] https://lore.kernel.org/all/ambEdSPjerZIVN0b@192.168.1.215/
->> [3] https://sashiko.dev/#/patchset/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95%40amd.com
->> [4] https://lore.kernel.org/all/20260630-shivank-batch-migrate-offload-v6-1-da95d7e8b8a2@amd.com
->>
->> Signed-off-by: Shivank Garg <shivankg@amd.com>
->> ---
->> Changes in v3:
->> - Fix unbalanced mmu_invalidate_in_progress count unbinding dying guest_memfd. (Sashiko)
->> - Fix maxnode handling in xapic_ipi_test selftest.
->> - Add GUEST_MEMFD_FLAG_MIGRATABLE documentation
->> - Replace open-coded sizeof() * 8 calculation with BITS_PER_TYPE()
->> - Add get_numa_mem_nodes() and use  MPOL_F_MEMS_ALLOWED for allowed NUMA ndoes
->>   instead of hardcoded NUMA node IDs. (Sashiko)
->> - Extend migration selftest to verify rejection without MIGRATABLE flag and
->>   move repeated checks into common helpers.
->> - Drop RFC tag.
->> - Link to v2: https://lore.kernel.org/r/20260728-shivank-gmem-migrate-v2-0-269ac1f84e2b@amd.com
->>
->> Changes in v2:
->> - Make folio migration opt-in through GUEST_MEMFD_FLAG_MIGRATABLE,
->>   preserving unmovable behavior if userspace don't explictly ask. (Alexandru, David, Sean)
->> - Add kvm_arch_supports_gmem_migration() so arch can control whether
->>   GUEST_MEMFD_FLAG_MIGRATABLE is advertised.
->> - Allocate movable folios with GFP_HIGHUSER_MOVABLE. (David)
->> - Keep guest_memfd unevictable. (David, Sashiko, Sean)
->> - Split migrate_folio() implementation and enablement as separate patches.
->> - Update selftest with new flag.
->> - Link to v1: https://lore.kernel.org/r/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com
->>
->> ---
->> Shivank Garg (9):
->>       KVM: guest_memfd: take the invalidate lock when unbinding a dying file
->>       mm: split AS_UNMOVABLE back out of AS_INACCESSIBLE
->>       KVM: guest_memfd: implement folio migration for non-confidential VMs
->>       KVM: guest_memfd: add GUEST_MEMFD_FLAG_MIGRATABLE
->>       KVM: selftests: fix maxnode arguments in xapic_ipi_test
->>       KVM: selftests: use BITS_PER_TYPE() for NUMA masks
->>       KVM: selftests: add get_numa_mem_nodes()
->>       KVM: selftests: use allowed NUMA nodes in guest_memfd_test
->>       KVM: selftests: exercise guest_memfd folio migration
->>
->>
-> 
-> Should I spin the independent patches out of this series for next cycle?
+On Thu, Aug 20, 2026 at 11:23=E2=80=AFAM Jann Horn <jannh@google.com> wrote=
+:
+>
+> On Wed, Aug 19, 2026 at 4:54=E2=80=AFPM Stephen Smalley
+> <stephen.smalley.work@gmail.com> wrote:
+> > On Tue, Aug 18, 2026 at 3:51=E2=80=AFPM Jann Horn <jannh@google.com> wr=
+ote:
+> > >
+> > > On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a proce=
+ss can
+> > > only create anonymous executable memory via /proc/self/mem if it has =
+one
+> > > of:
+> > >
+> > >  - EXECMEM (like for other methods of creating anonymous executable p=
+ages)
+> > >  - PTRACE (like when using /proc/$pid/mem of another process)
+> >
+> > Allowing it if _either_ permission is allowed is unusual in SELinux
+> > and seems prone to errors.
+> > Is there a reason to not just require PTRACE always?
+>
+> Hmm, that might work.
+>
+> My two concerns about that approach are:
+>
+> 1. This is an operation where a process acts on itself, while PTRACE
+> is normally for acting on another process. It feels to me like those
+> are different types of privilege.
+> 2. I feel like blocking this operation even for a process with EXECMEM
+> privilege increases the risk of breaking existing configurations.
+>
+> I think if we want to gate it on PTRACE, we might need to put this
+> behind a policy capability and let policy authors figure this out?
+> But I'm no expert on how new security hooks are normally added, or
+> what SELinux policies outside Android look like, so if you think it
+> would be fine to just check for PTRACE, I'd be happy to go with that.
 
-I'd say, yes :)
+I don't think a new policy capability is necessary here. Is there any legit=
+imate
+user of this capability that wouldn't already have ptrace permission?
+The other alternative is to introduce a new permission for this, but that w=
+ill
+deny-by-default on existing Android and allow-by-default on Fedora based
+on handle-unknown until it is defined in the policy. In the case of Android=
+, my
+understanding was that kernel updates can always be coordinated with policy
+updates so there is no need to worry about a new kernel breaking userspace
+with old policies i.e. if and when Android ships a kernel that
+includes these patches
+they can also ship an updated policy that allows the new permission
+where necessary
+but I could be wrong.
 
--- 
-Cheers,
-
-David
+> (I've caused stable regressions several times at this point and am
+> trying to avoid causing more...)
