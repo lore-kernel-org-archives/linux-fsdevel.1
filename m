@@ -1,150 +1,176 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6174302FC;
-	Fri, 21 Aug 2026 08:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A053AB26D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 08:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787301011; cv=none; b=LHtgkOR3MvawEBI9avRY2rWr2r1/g2IHBjNgzrt0Qv9yo0QOPUrSr5IVkVWD+PY8k5a0DDhWd0zVXICb5v271vMqMIOkNlHkiPuIXJAOLRghkNJD4OMVZ1DdQ+JGBE7IWNw5mTttDjvVqAG0oCHZ6wj3C+JH42yE/OJVwQv5KX4=
+	t=1787301334; cv=none; b=oT5xuUCCPytyR5PJD4J5TTfmz1914+7SXjM2ZmJAQz09RseuSkXPDEWT4SqxPmAafmZoUQrXzyIvHLt9zqL+JEblxLiQSBBKmDv6ritNUpm4vYe+vBnZF7mxU9wbyn16HvApe0Bx1eizVQNuihclzQQY80olRmMNMCmhgfAofps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787301011; c=relaxed/simple;
-	bh=yQM9EwOQSt4eWKGD5WkSLlcBSpxVBDNRKDVQYCrEtNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZNEYzWqz1tm6w0jxA9OwFB1dKIKH/WBdF8zpIvO8qS241Cm80lngM80Hc2Uiuq4D4x1sjqOgmhg58cNcAiofRDI47dmCgDNHBKqmESQ9Yzatzq4xQdzhAPIXT3+05VOAooh1Mon6mw7U+RkhXbC6bRxEAqxYIwPQF3vZvLVQAd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CF9L2Va9; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787301334; c=relaxed/simple;
+	bh=youOxFVddrhWr74tg/MLalhJaYF6HucpgLWmoRiHfYc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Z7PW4iZo307481YpFEnNMhZqxnvU7T78RW+BAK4p2GFlkoCtuVACt9iGK0UABZR/SzmGo+L4KKvj4X0XWbAYJ4jQSrhP0dNFiOwh1rIRKLDsqxMDAWBQRox5D1ThJyNikh7cJXpnFCh76fR0rWYCzUV7BvWy48MEwWKsJVNRnvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RxamdwQ/; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CF9L2Va9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gl8fb8JjOt7jyq6F4GMJVng/PK8CkvTTmG/1jkQcCUI=; b=CF9L2Va9gTD+NorHUbJTKqnVLP
-	kYOg4FP0jVIAsFtNlh6p4dlRvKJuzF5QMOmD9R+10HG0MOwvM+Q+HujowTaMR7mzGDC/G93mM+dCL
-	kk0Wwe9rY4jk05zN2Zjz3v+UIDBJ/XCN+0nNkBDJzx2LMi0C5gwxlW4qbTs7H42tX+1scSKZ6XzRE
-	D9TCe0coTTo2+63FASsyoK+znEUZFZOYmiscvDsWGgs+cnlY9Ro4vMf46E2fqL6sm2ii0kVo73cl6
-	w/Vw3yc8XwdN6OqCstsGdj8fggYaeOTPx92KJRSzBGrO2yRt2AodfkDrboApkrZ5T1c4ZRMNYFrC+
-	fC5+xvaQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxKdW-0000000H18n-05r2;
-	Fri, 21 Aug 2026 08:30:02 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id CE85E300324; Fri, 21 Aug 2026 10:30:00 +0200 (CEST)
-Date: Fri, 21 Aug 2026 10:30:00 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RxamdwQ/"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d560775ca2so6216095ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 01:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787301332; x=1787906132; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LJo+VFODNoZcuVrRZgNruXYVosZL9AlBhzltP1KWSy4=;
+        b=RxamdwQ/o+iHZjf2cbDgYvTLBo6TSCw2/7spKkeYqNvOceWan8F8W0Kl41ww2Bd6jw
+         u9ujmZn+fgZrPL/zjnZKyHAHU8EPIj2E6fld7HiJn4jWQq4LjwZSe6tQfmvzPlUfs/74
+         C388uu3AlWESftK3e2FpN2lXQnaHjtlZPKEwen1UuJIygHRZQBENXYD/5Lj+sqvZSI18
+         8+ahjloOvV/BwlwrjVodQO5/7Irpis39NcFdBJP9B8XhxytlGNmicX6ACRL8lorfnJRg
+         l2QSvLnZh72uyjf+ps5OmJd3IDkGcmLRHUyS6/ypftT1wOoEHcsNXlC1as9vyce+UX8M
+         9xoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787301332; x=1787906132;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LJo+VFODNoZcuVrRZgNruXYVosZL9AlBhzltP1KWSy4=;
+        b=MHj87JUSN7IJpoOdMMuMFFdXUUXAxmncVfUYl9Kh3CE0EEfUw9cIlQmgTIx4FIyvGz
+         Fg88PLw+JXHTA2ct3D58WD9Zt322tjBKsTtHzjhLrkjOYJv1koIj/UK8tB7QWDjoDwKx
+         +ZslxrZpmHLTtERa0bGUlrXb3Rp1sBkbI59DYJQY+fc5r9WGIJDSflOqjki83KV1YkdB
+         Th/xkYvsuct4OtDZvtghxdhW555at/8xKPLnslSnJni1NVK0EptQt4ZlM6mcE3WpFpjF
+         LKI0aVE7g7FV9QaNfySnmkmOcdvA7kJg4hO7JURCXlden+ekbaFSsmWGFW/gIJAWDvK8
+         M4vw==
+X-Forwarded-Encrypted: i=1; AHgh+RrslN1MzKKW76WGm9V40TGVWGmZ7ojF/HtIZCHCYRsDHfAXS2MbEg7W6zCJWDhjCEt29G1cwPghwID7uY2Y@vger.kernel.org
+X-Gm-Message-State: AFuF++l/G6K5CpcPrv5CwxTHpl/+EuzRvrJKG4DfX1kTivQAVA3nBMIH
+	pCpqsntQ8tJG3fBjV0Orf7D4W1PKHjuHlV/OW5YBAtcDNMwf5HnhCMoouW3gcw==
+X-Gm-Gg: AR+sD10Oz2Z69QYr99Dvxapd9CQonw7JXB6MTFO/1T/f3wzJ+fiAyvCy0X/MTsCn0TR
+	h56q/rmqnYiRe7/bJDPYntnEnMik+3t+lUmEboRUZJtuL1vMNswbmnjqO/tfM5/BPu+5zlVA+Zy
+	WdtzQg1FNo7Ptg6w3icxuu9734nA1YLQujKiphg+ILM1hcNFO48cxlYtK8DwjPcpbwGkrwaif/M
+	diOao+uwwQxyD1Kbhjr1znAgjAdm1DNJBYiC44z6hBeLmoc5zLPbgmB0BYnJNc1n1N55+uZ1FH/
+	ViC4p5775SZmaXaElWTU8TNVavwxfMwI4nw4ylIEar3FH9EOXcHBTMvWRYQr7zv2z7pZ8qsfz55
+	hkJ4+1tsgifpa9ASpGqRUGOmYTdhXzefLk81r46LgVuv6IBkcpe6Bkh0os0StEn0d5Up1oL7zqE
+	2Y4wx7/4hS7/KS7oAl3X4cjzm/05uHXafn0TvDw8TebTCnZwwLyT8yRek7oftueacqXP4CZuji0
+	OrteVM=
+X-Received: by 2002:a17:90b:2f0d:b0:381:cef1:11ac with SMTP id 98e67ed59e1d1-395c3561a6dmr9048161a91.10.1787301331934;
+        Fri, 21 Aug 2026 01:35:31 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([116.128.244.169])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395c8fd34d9sm599575a91.1.2026.08.21.01.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 01:35:31 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+X-Google-Original-From: Kunwu Chan <kunwu.chan@linux.dev>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Kunwu Chan <kunwu.chan@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kairui Song <ryncsn@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Wei Xu <weixugc@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-Message-ID: <20260821083000.GF687043@noisy.programming.kicks-ass.net>
-References: <20260819023542.561653-1-senozhatsky@chromium.org>
- <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
- <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
- <aobDGgivy43cz7xQ@google.com>
- <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
- <aobGRjc7SE1rwIHu@google.com>
- <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
- <aobKfyGHkdMcleoc@google.com>
- <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
- <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] mm: swap: drop dropbehind swap cache folios on writeback completion
+Date: Fri, 21 Aug 2026 16:34:50 +0800
+Message-ID: <20260821083500.856970-1-kunwu.chan@linux.dev>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260818163221.589352-3-alex@ghiti.fr>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 20, 2026 at 06:11:40PM +0200, Miklos Szeredi wrote:
-> On Thu, 20 Aug 2026 at 12:41, Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > Also, you'd be putting suspend success in the hands of userspace, that
-> > sounds like a mighty fail right there.
-> 
-> Freeze ordering is also a hard/impossible problem without the help of
-> userspace.
 
-In case of fuse, perhaps.
+Hi Alexandre,
 
-> One obvious heuristic is if task has a /dev/fuse fd open,
-> it is a server.  This simple ordering between server and non-server
-> tasks fails if
-> 
->  - task X is a server of A, while also doing ops on B
-> 
->  - task X is server, blocked on task Y which is not a server
-> 
-> What about adding a flag to mutex/rwsem that allows making them
-> freezable at setup time?  Then fuse fs could set that flag for its
-> locks (including VFS locks).
+I have a question about the reference ownership/lifetime model in the
+synchronous-IO case.
 
-That would be adding conditionals to the mutex, something we all pay
-for, always.
+Consider the synchronous writeback path in Patch 3:
 
-I was thinking it shouldn't be too hard to add a graph to the tasklist,
-where each task has a list of other tasks that should be frozen before
-it.
+  zswap_writeback_entry()
+    folio = __swap_cache_alloc_folio(...);
+    ...
+    __swap_writepage(folio, NULL);
+    folio_put(folio);
 
-That way the task iteration in try_to_freeze_tasks() can be modified to
-iterate this list (recursively; depth-first etc.) before it goes and
-freezes the initial task.
+During writeback completion, Patch 2 does:
 
-Obviously adding a link to the graph needs to ensure the whole thing
-stays free of cycles, but that is 'details' :-)
+  folio_end_writeback(folio)
+    folio_get(folio);
+    ...
+    swap_writeback_dropbehind_folio(folio);
+      llist_add()
+      queue_work()
 
-And while this is fairly straight forward to make work, I fear it is the
-wrong shape for the problem, since the server is more of an 'after'
-rather than a 'before' relation. You would have to add all clients to
-the before of the server.
+With synchronous I/O, is it possible for the dropbehind worker to run
+before zswap_writeback_entry() drops its reference after
+__swap_writepage() returns?
 
-Another approach might be to have each task have a list of tasks that
-needs to be done later, and have this relation be counted in the
-destination task.
+If so, the worker will attempt:
 
-Then, on freeze, create a list of all tasks and start iteration, for
-each task that has a non-zero count of prior tasks, move it to the tail.
-This relies on freeze points being a location where a task has no
-relations. Such that when a task is frozen, it has no dependencies.
+  swap_dropbehind_drop_folio(folio)
+    ...
+    remove_mapping(swap_address_space(folio->swap), folio, true, memcg)
 
-Then, again assuming it was a non-cyclic graph, it will always finish
-the freeze in an order that resolves the dependencies.
+while the caller's reference is still held.  Looking at
+__remove_mapping() in mm/vmscan.c, it expects a refcount of
+1 + folio_nr_pages(folio), but the extra reference still held by
+zswap_writeback_entry() would make the actual refcount one higher.
+It therefore looks like folio_ref_freeze() will fail in this case.
+Is that the intended behavior here?
 
-This might be a little more tricky to implement, but should be doable.
+If the removal can fail, the fallback is:
 
-In both scenarios the tracking of the actual dependencies is of course
-going to be key.
+    folio_clear_dropbehind(folio);
+    folio_add_lru(folio);
 
-One way would be for each file op to be wrapped like 'link-$op-unlink'
-such that the client (the task doing the file op) gets linked to the
-server (the task responsible for satisfying the request) before it can
-block, and unlinked once its done.
+This appears semantically safe, but it means that the dropbehind
+optimization is lost for that writeback: the cold folio goes back onto
+the LRU and has to be found by reclaim later.
 
-Link/unlink could be a simple as:
+This seems particularly worth checking because v3 intentionally removes
+the synchronous-I/O special case from v2.  The cover letter describes
+that special case as an optimization that was not worth the extra code,
+which I agree is a reasonable direction if the generic path is
+sufficiently effective.
 
-	struct task_struct *client, *server;
+Could you measure the corresponding fallback rate on a synchronous
+backend (e.g. zram)?  The 99.996% success rate in the cover letter is for
+asynchronous NVMe, so it does not tell us how often this particular race
+occurs with synchronous completion.
 
-link;
-	atomic_inc(&server->freezer_count);
-	client->freezer_link = server;
+More generally, I'd like the reference ownership across
+__swap_writepage(), folio_end_writeback(), and the deferred worker to be
+made explicit.  If the caller's reference can overlap with the worker's
+reference, I'd also like to understand whether that is an intentional
+and acceptable trade-off, or whether the overlap can be avoided without
+reintroducing the synchronous-I/O special case that v3 is trying to
+remove.
 
-unlink:
-
-	atomic_dec(&client->freezer_link->freezer_count);
-	client->freezer_link = NULL;
-
-And the freezer should assert: !task->freezer_link, to ensure you
-cannot be frozen while still having a link out, since this would keep
-the link target's count elevated and inhibit freezer forever more.
-
-This also deals with the server being a client of yet another fuse
-filesystem. Creating cycles in fuse mounts would already be a recipe
-for disaster today, without all this, so I'm assuming this all just
-'works'.
-
-Does any of that make sense?
+Thanks,
+KunWu
