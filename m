@@ -1,149 +1,125 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C31339388;
-	Sat, 22 Aug 2026 17:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0362749E6;
+	Sat, 22 Aug 2026 17:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787420278; cv=none; b=pV4DkUTAXGllKQqesMEPM8n4qe3ep5Mcd+kB9cNNBwedkgyL9KRNpsG1P8BkJ5k4VMNWnbPaGInnNunaNDWc+/AfcTd9WByH3TuJDmmBwM1TCLnjN925XqRXGNape07nxPCrdvdtYvl7f9uiSPxkYdLYLQkPi0QoHD28T8es+AU=
+	t=1787420431; cv=none; b=iBKhANkymQ3H/8MwsGEiLu5JFITxlOgLQGFFB/BGkWTuDkaOSbMUOLdBkf8TZpjRIiwsfPC6V/ksjhIgIJNu4FU7if7coEyw4ax4C94CvFx+oY97eddz538HA6XXrPyLEhR+So6nhwICqBLqi0isaTEv3eTgn52B430wZvx4waY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787420278; c=relaxed/simple;
-	bh=NiT7kFgnRRlDj4dSJamfGUm8INn1A4/9maoROe34qqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PEHj6jxFUG44xQH8mGoHful0kYIxLYglRyloIVvxEH0P3PgcPxL0ZnlWJ0kT2zGCWmp9mzxl5mHrDspMWD0Hr1qMdfVHw4CA8a0alWZN5z1mJT2dnrVz7t5fe+KTogQI631rqUVTxERXh4btmQEVhP9esTNA4UTCd6VGsdLe6BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=JJWjnmij; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+	s=arc-20240116; t=1787420431; c=relaxed/simple;
+	bh=ZeaG3d8C/dRlsdbnek4+Mt7ZXOo+f+HVPe+1S2rLlyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CclazupiLt1m813+JKYjvz7z5+/4RbcyKp4BmbAhFWKOKImOJLI9R31IBu9SK4btzUTgnWiruDHPqlfvf3M1+SNDTjGwzfLShYeuRRDJp/PjMRbhy+lR0d5SNEYT0Dr6EIkeGx8Du73KvnRNIaVrU1adwba4wz8zBIGx2+iMwxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pm7zCPmZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="JJWjnmij"
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id EECCF1D455;
-	Sat, 22 Aug 2026 17:37:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me EECCF1D455
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1787420268; bh=NiT7kFgnRRlDj4dSJamfGUm8INn1A4/9maoROe34qqw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=JJWjnmijaFaxfj9+dFaxZxlac1x+jr3CNSfuw28HpPhXFA+oGH0sBr5GLO6EStItS
-	 A/wa62+7E8DczL08USBGJgL1ug4g9oLlHuBOol6CPWQwX50CkIHRKWsYmFudU77IJW
-	 4D2zpCNWotk41SEEs6BHbNiyOir9K59d0maBbYO0=
-Received: from maya.d.snart.me ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id 7+3kJmveiWohyQAA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sat, 22 Aug 2026 17:37:47 +0000
-From: David Timber <dxdt@dev.snart.me>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	David Timber <dxdt@dev.snart.me>
-Subject: [RFC PATCH] fat: add noflush mount option
-Date: Sun, 23 Aug 2026 02:37:32 +0900
-Message-ID: <20260822173732.10230-1-dxdt@dev.snart.me>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pm7zCPmZ"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 32DFE1F000E9;
+	Sat, 22 Aug 2026 17:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787420430;
+	bh=2fVmAFwgP/RzGE9tCrs/WJ4ZQQ7r5DhZEh60n3vG5sU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pm7zCPmZ3EpXPLgeuc0Ze5FazXehjopXqHFcFtsPWNfNS3tTzLCY38WNVsmanbyW1
+	 t/L/9u/79loC0LqRDkPJTA/X/cAJIEqgcaK1o3dXT9ESU19sU5/sUShPurFSAFrUnT
+	 gQMxBYCbwWTyuYlsjnJ8Dmgs9jLMeIUJR7WV/KXmqVCT/QwzqZZ8c8a8AE8Yfsx6FG
+	 rkOVez6sd0GDw3bvFaD4yEqTF+edRuJgPBEC9KKfjTd8Lt4zdGloVEocTHQGPaPLUn
+	 1NxjzycuIpBgOepicbLQnhGkeORygTGzLs8neXZTKo1UXXs4Zbq23M4UDG+Q6ILsnT
+	 SNPl3IPwd2vQg==
+Date: Sat, 22 Aug 2026 10:40:29 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>,
+	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Haren Myneni <haren@linux.ibm.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Gabriel Whigham <gabewhigham@gmail.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
+ framework
+Message-ID: <20260822174029.GC6110@frogsfrogsfrogs>
+References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202539.96378-1-john@jagalactic.com>
+ <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
+ <20260822000728.GB6047@frogsfrogsfrogs>
+ <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
 
-On most distros, udisks manages users' removable volume mount requests.
-Udisks is configured to always mount FAT volumes with the 'flush' mount
-option. This is largely okay for populating directory in small sizes,
-but when a large number of files are involved, the flush behaviour acts
-as a bottleneck point in fat_file_release(). The user may want to
-disable the flush option temporarily before commencing such an intensive
-operation.
+On Sat, Aug 22, 2026 at 12:18:58AM -0400, Gregory Price wrote:
+> On Fri, Aug 21, 2026 at 05:07:28PM -0700, Darrick J. Wong wrote:
+> > 
+> > But what prevents a malicious program that is /not/ the famfs client
+> > software but has CAP_SYS_ADMIN from doing that?
+> > 
+> 
+> Such a program can already unmount famfs, rebind the device to
+> device_dax, and mmap the whole range directly. MAP_CREATE isn't
+> handing it reach it didn't have.
 
-To cover this use case, introduce the new 'noflush' mount option. When
-used in the mount options to mount a volume, it overrides the 'flush'
-option previously specified. When used in remount, update it updates the
-flag.
+Thinking about this a little more -- some random root process that
+accidentally tries to create/modify a directory tree on a famfs mount
+will just end up with fmap-less files that won't work for IO or
+mmapping.  That's dorky, but I think you're right that it's no big deal.
 
-This is a breaking change as traditionally, the mount options other than
-rw and ro are ignored. The patch breaks this tradition by allowing
-reconfiguration of 'flush' and 'noflush' mount options.
+A bigger question I just thought of is sharing cxlmem between files (aka
+reflink).  Is that allowed?  I could see a theoretical usecase for
+programs A and B wanting to share some cxlmem for communication or
+heartbeats whilst having their own /a and /b files for their private
+memory.  Probably you'd just create a /common file to do that and not
+map the same cxlmem page into /a and /b, right?
 
-Signed-off-by: David Timber <dxdt@dev.snart.me>
----
- fs/fat/inode.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+But having said that, the fsdax code /can/ support sharing between
+files, so I wonder if famfs is prepared either (a) to enable that
+sharing or (b) reject a mapping that would overlap with an existing
+mapping?  Things will go very badly in the kernel if famfs doesn't set
+up the dax_folio state correctly.
 
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index 28f78df086ef..850df43ba354 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -813,10 +813,14 @@ int fat_reconfigure(struct fs_context *fc)
- 	bool new_rdonly;
- 	struct super_block *sb = fc->root->d_sb;
- 	struct msdos_sb_info *sbi = MSDOS_SB(sb);
-+	struct fat_mount_options *new_opts = fc->fs_private;
- 	fc->sb_flags |= SB_NODIRATIME | (sbi->options.isvfat ? 0 : SB_NOATIME);
- 
- 	sync_filesystem(sb);
- 
-+	/* allow reconfiguring "flush" or "noflush" */
-+	sbi->options.flush = new_opts->flush;
-+
- 	/* make sure we update state on remount. */
- 	new_rdonly = fc->sb_flags & SB_RDONLY;
- 	if (new_rdonly != sb_rdonly(sb)) {
-@@ -1047,7 +1051,7 @@ enum {
- 	Opt_charset, Opt_shortname, Opt_utf8, Opt_utf8_bool,
- 	Opt_uni_xl, Opt_uni_xl_bool, Opt_nonumtail, Opt_nonumtail_bool,
- 	Opt_obsolete, Opt_flush, Opt_tz, Opt_rodir, Opt_errors, Opt_discard,
--	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy,
-+	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy, Opt_noflush
- };
- 
- static const struct constant_table fat_param_check[] = {
-@@ -1110,6 +1114,7 @@ const struct fs_parameter_spec fat_param_spec[] = {
- 	fsparam_flag	("debug",	Opt_debug),
- 	fsparam_flag	("sys_immutable", Opt_immutable),
- 	fsparam_flag	("flush",	Opt_flush),
-+	fsparam_flag	("noflush",	Opt_noflush),
- 	fsparam_enum	("tz",		Opt_tz, fat_param_tz),
- 	fsparam_s32	("time_offset",	Opt_time_offset),
- 	fsparam_enum	("errors",	Opt_errors, fat_param_errors),
-@@ -1167,10 +1172,6 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
- 	struct fs_parse_result result;
- 	int opt;
- 
--	/* remount options have traditionally been ignored */
--	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE)
--		return 0;
--
- 	opt = fs_parse(fc, fat_param_spec, param, &result);
- 	/* If option not found in fat_param_spec, try vfat/msdos options */
- 	if (opt == -ENOPARAM) {
-@@ -1183,6 +1184,18 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
- 	if (opt < 0)
- 		return opt;
- 
-+	/* remount options have traditionally been ignored */
-+	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
-+		switch (opt) {
-+		/* but there are exceptions */
-+		case Opt_flush:
-+		case Opt_noflush:
-+			break;
-+		default:
-+			return 0;
-+		}
-+	}
-+
- 	switch (opt) {
- 	case Opt_check:
- 		opts->name_check = result.uint_32;
-@@ -1235,6 +1248,9 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
- 	case Opt_flush:
- 		opts->flush = 1;
- 		break;
-+	case Opt_noflush:
-+		opts->flush = 0;
-+		break;
- 	case Opt_time_offset:
- 		/*
- 		 * GMT+-12 zones may have DST corrections so at least
--- 
-2.55.0
-
+--D
