@@ -1,118 +1,128 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1A625F7B9
-	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 04:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFDF3B28D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 04:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787372344; cv=none; b=Se3iraAcqGwCy8e9kdDyNe5rHOfM8TAPXNSW2g1GI8RrxCyIZQbg1FskXRMDOh+7NdF6CTwro+gUeD560Y/ClvlZYFBv0f528AEw94ZuHGQ27a5rGJLVIlXIGB6AEkMf+X8xargDwAHTX128AWMRoQazymxRL32w/8OYONi0GlE=
+	t=1787373607; cv=none; b=ulKQ7v5Iqp1OIlF5lZQu7QDqVOUPedB3XZbw0THo/bY1MljpzTFX4IXbQnP62mXZ/ig6IztK+rwr0Ot5gQb6Q7aekoFvOaaZ17y1//ciyAnSCQLARwbcM3tmaUIwnwpEojOreaVDVkDj7DuAWlh7cSMrGtzluv7KMNj6fSkHgXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787372344; c=relaxed/simple;
-	bh=/Q12GR875iD93KhzcjUTpLysJ1kI3/4TfP0uOO6zmB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imK3h4t3K7uydUSJ3F2jOLiaexWAK3npjk9u+Co/X8ZTHlVYNdcll2Y8fTxMXRz1PgEoyJunhHcktAK6lSeIVZ7H2SnJfx2Af7t2UD6M8RlJRfhc0zlbNt5SposOvNH3eUR/WlTqndKChjiGFa3mtzMUZHNiL8qZ3g9ILL2/g54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=THhyu0up; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1787373607; c=relaxed/simple;
+	bh=wexsQEqVH7+8DVlgsO5Cb3iEyyse0TcYw/ObWBh2eMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s5034HZmP5PkLURto86rc/LnTW+ULWaq/61y9GPo76nqG2DtsnlaJDmqEACpeOFsTNnOacLxA7ZLCjXwcfUlgHanhTleey9U6ZF+eEL5WRV5O5HNUoPq/ztPR6d7+kJwAlFl7glt00bS4Q1WsBTe5RclEpeNcsjkERnndnT8Kik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vp4FYBJn; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="THhyu0up"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c08df8513so10741711cf.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 21:19:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vp4FYBJn"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-43bf9548df4so1673493fac.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 21:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1787372342; x=1787977142; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bV2EmVqYabp31e4KZo4BjvE2tm+i0eWvAIeJunRO/yE=;
-        b=THhyu0up9pDDkhcf62wTIZYViQLq/cJwTfNR2ZMcY7vgtfRIu0XTTrTnctZ2Rkyl5z
-         OTCGrPlYMvBVlgd27wCbOfsiQF2xOwHJkiz16KTcjLKpNqOLH0jPsXu9zbsy3X2syX9B
-         oz5WCbMoLt5+smI92QbGiUGV1+hyE3IkFB+K+F+52HooS2VFJ0HAuQj/ah5rvSgnBkMQ
-         ZhT+0CYXJ1pOXUYziIujTNFjqboyrtBIdB4LV+r8k/obUy6PcrBYBj3UH2sPm8ucfkoM
-         2zRV8CVUPYQvHB086yPizUecls8pHdti4Zss+CM7XoF42UJXDT6AXrhCRQIDQPfNVYQG
-         V9Ig==
+        d=gmail.com; s=20251104; t=1787373605; x=1787978405; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ic6dzn00MSHabGZEeRi3xb/4yNpvOMTeHQtEmbSApa0=;
+        b=Vp4FYBJnP/zU50fU6w4WV5lbaA+a8Fe9RJ2EbIePnEp8lo6owneWJ9stmL/Tf6vK8U
+         J+c3/uG0JoJh2tgE9fiHD41GJwLjoQ7u8nLKqkCMPk7kNK8XFKTopc96KnyXs+EF9FOS
+         Du8rIQOKEwHxU3B/Xozal4lthTN5wXelmlUAnMQZCRbDTz0NDx83Y3hh5fOZz8twBLId
+         lJBZxPW8BTDvxRd+KNqfGoQTJJAentL8AQN4QNUdpxffsOybqbTVKCYRjf4i2SY9jH4I
+         cvLayfNVpeEoEB13ffHZ35/VUoSj2jk8VxHH/7ABrRdiCs3jyIJ0HRq3ZMReLZl8K23I
+         V+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787372342; x=1787977142;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bV2EmVqYabp31e4KZo4BjvE2tm+i0eWvAIeJunRO/yE=;
-        b=Uu/LRTEKj8z+TXOp5mLNqQuEOiU4S6A2jcEj2px2jIWbA5FLtvQ3Ql2KsP1gXuFyQD
-         oI5NW9J/6SkGGV3Yzj7drmjHWhwqM5FC9Qg172nBXo9W9irVAdt9iQvmVUfXNfS7bZGn
-         vVKPbvQDYgsmP76CyRH3nOFNK9hc5PY+HLTVj+3sWTefVPhrAIxemgAp7BEaTu0/tPEl
-         D19Q9kLj6U2yh1w7F6us6dxoQQKKepST9VucDL02bTDEF9aEUcBY/9L+bAXmDRl/lHfq
-         xOefKBy83wXJpiIcgqo5mvQ2NmncrJch1fu4r8EePgke+LTaZ8ekgBeoHZ4tkGzQTL/G
-         HyhA==
-X-Forwarded-Encrypted: i=1; AHgh+RrIwyrcb9QzvRhar3VIr1ujol2cKQX+RSiVOYKRTYlVk01LDHDgfcZF+1a6bpLB6huSRz3Ix2QPZ6qrO+tS@vger.kernel.org
-X-Gm-Message-State: AFuF++myuaikGeYeJDjnIFd3X6/ai2aeqKyuLPbti9M2xBIoPMTRTYTT
-	wcfR0qTUZrLDkFGdmHVoy3CHq0vJN/W11ZRWlOmo+91nTAWS8hogMpI+y4xFGRu/Nm0=
-X-Gm-Gg: AR+sD11SDbz0MJERUnUcKAMeri4lKdmwUvYBwmyQnfOI3rwaMB12036mJd6e6THn1q3
-	4xvZZh3Pa5m+jaj9uvSC3mzf5M+0D8+eCPGnQj8ZvAmE3ZWk8ZUTxvId6ufCE3oiQpuQdxiCPx0
-	rOLfIbsRQoz+vjBsrmaKJiXQ4hmN2jSBaJIYxJLgO3WEB8O8IdJNt9dx67kdex4NqkUUxXgUrHv
-	TJ3sEu3RJbWYCID9oODF8ExLYZJ/XsBRv26rMqe6FTY4ReeToYYMsjtyNY4zevvWco7+28ftrhn
-	6HrbZ6ilcTv2ckrlMGmFJrffUOo8D9qjYi5WS14nek4Oh6u67kgl7nrEqdDOSYW+9g428HWYbyb
-	dtNwPFsdzs5UbmLaCUCEwxxN3sIT3dH8GSBVfZ3o/G8elA+QgssKbkWEUPVcr7r+0lV/QWJz61Z
-	zxqAwaMgwt4CrHV6T83EF+egLDUz1sYsk992PjK++5blY38pzyvCnzN1ELuBMi7YHAq+csvcQmG
-	c9ikorxGjZs2bOvSpfr9QZP7xujLXIGdRDWpx1Ma3Lb
-X-Received: by 2002:a05:622a:17c5:b0:52d:a247:bf5f with SMTP id d75a77b69052e-52df5a54f6dmr101297051cf.33.1787372341767;
-        Fri, 21 Aug 2026 21:19:01 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c939314d2sm4857616d6.25.2026.08.21.21.19.00
+        d=1e100.net; s=20251104; t=1787373605; x=1787978405;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ic6dzn00MSHabGZEeRi3xb/4yNpvOMTeHQtEmbSApa0=;
+        b=Y+9sMDe3OXbe+cSj+BG+oAr1h/1pqXMNeNFi/hhq9SRa4ezabtoVJhi/+hRnTTnMOi
+         fXhMPkdcV9ja85HbvkkKCAG5DbfI1sq/H7wKes45tialVXE5mnkPxu1GnY8/aoxA0rZ9
+         h+PCQrCXAtWzerwEhzFUrI/2V42kW9WpgI7Yq19L9GW5sk/a/1a6anbvBto2WIcj6CIe
+         VPUBAc0FXmbrVO9l5rzn/wYgkQqruOty0NhSBlqotqjYsW5AQ4S1WimZkxm6CLkWVYG/
+         eTErK9AYYFPRV4WHZOHE5gR3ZP+yWkP7qQY2r7thZyHwpCA+jqkF2TVjkdvRtM8KFpjw
+         vq1w==
+X-Forwarded-Encrypted: i=1; AHgh+RrAAynEQfYB952HJ6hxmK+7vGkwATWd7IxUBykjo2X2kSf/SrF/oXpXOqaZKMzqXlKYzQ3UO9MiBN+e69BS@vger.kernel.org
+X-Gm-Message-State: AFuF++lch+PcPcEkJ+GXYi267FqvufCbSlPuIauC4RNr/0W9R+s6ibwP
+	ulr0+ofo+SfXB4gifDL1/R89UA5OqNx4VTJxZOuLYweyzS01BwfcP9S+AUUVMJ4pnTI=
+X-Gm-Gg: AR+sD10/yPVLzzB5vLKb64DQixGxkrI7FLhTm2RGd1YRsUiXMBRd7nCHKPWJjXuX33y
+	VYEy9bYaYDixF+DMdYB0TEaiN5hu8VCZz+TNMR3oVul7zkdRo2ppxEUv1/k7JqSWu1FsD/PBXpl
+	Xr4APibHpeH+jg3uC9PiCgrmCcRBYdJ1anD2PQzaTd/96K1xkjk2fwz5v3ZdcIR2UTJtE6RyMkk
+	leyOnTcEiXROXoUkaxiM+KG7uDJ4iipvYHHty0ezoyAYF18Bqvw5pLjpn8B2E4orMLgsbboKrYN
+	GdQzdjiI7QKj3HwYwSnANfI9aXpThRgtGXMendkWshIBCvuE9Y4UGlXhxyc28iRS9LrtzMfXSJa
+	DuHwJlfZZVDSTl2gmaO0KXyj8AXeaLNfGJaWpFM5FcZROX2zLEY9EKwC8ow5mjrAyb8LsHKMhm1
+	pD677l8oJR/sQUzJ8q7lVKjzsJI0hqrm9qr1GZQjL2jFLNt4/aPEE2QTveGlj/ME1UsyAi5Ca2q
+	pSErmLnmubiExAJeywj7egDqQoVsvgOcW4xyQ5/FewMTCONnr/I
+X-Received: by 2002:a17:903:354b:b0:2d3:2e86:647a with SMTP id d9443c01a7336-2d64af6f896mr209334315ad.5.1787366371914;
+        Fri, 21 Aug 2026 19:39:31 -0700 (PDT)
+Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d676761d04sm965825ad.2.2026.08.21.19.39.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 21:19:01 -0700 (PDT)
-Date: Sat, 22 Aug 2026 00:18:58 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny <iweiny@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni <haren@linux.ibm.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
- framework
-Message-ID: <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
-References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
- <20260810202539.96378-1-john@jagalactic.com>
- <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
- <20260822000728.GB6047@frogsfrogsfrogs>
+        Fri, 21 Aug 2026 19:39:31 -0700 (PDT)
+From: hanzhijian <hanzhijian1991@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hanzhijian <hanzhijian1991@gmail.com>,
+	syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
+Subject: [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
+Date: Sat, 22 Aug 2026 10:39:18 +0800
+Message-ID: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260822000728.GB6047@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 21, 2026 at 05:07:28PM -0700, Darrick J. Wong wrote:
-> 
-> But what prevents a malicious program that is /not/ the famfs client
-> software but has CAP_SYS_ADMIN from doing that?
-> 
+get_tree_bdev_flags() hands fc->s_fs_info to the newly allocated
+super block in sget_fc() and clears fc->s_fs_info.  If
+setup_bdev_super() then fails (the block device cannot be opened, is
+read-only, or is frozen), fill_super() is never called and sb->s_root
+stays NULL.  The cleanup path calls deactivate_locked_super(), whose
+generic_shutdown_super() skips the whole sb->s_root block -- including
+the put_super() callback that would otherwise release s_fs_info --
+leaking the allocation made by the filesystem's init_fs_context().
 
-Such a program can already unmount famfs, rebind the device to
-device_dax, and mmap the whole range directly. MAP_CREATE isn't
-handing it reach it didn't have.
+Hand s_fs_info back to the fs_context when setup_bdev_super() fails so
+that put_fs_context() releases it through the filesystem's free()
+callback.
 
-~Gregory
+Reported-by: syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=1c70732df5fd4f0e4fbb
+Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
+---
+ fs/super.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/fs/super.c b/fs/super.c
+index 05e443173..8b978b67b 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1883,8 +1883,19 @@ int get_tree_bdev_flags(struct fs_context *fc,
+ 		}
+ 	} else {
+ 		error = setup_bdev_super(s, fc->sb_flags, fc);
+-		if (!error)
+-			error = fill_super(s, fc);
++		if (error) {
++			/*
++			 * fill_super() was not called, so nothing has taken
++			 * ownership of fc->s_fs_info.  Hand it back so that
++			 * put_fs_context() can release it, otherwise it
++			 * leaks.
++			 */
++			fc->s_fs_info = s->s_fs_info;
++			s->s_fs_info = NULL;
++			deactivate_locked_super(s);
++			return error;
++		}
++		error = fill_super(s, fc);
+ 		if (error) {
+ 			deactivate_locked_super(s);
+ 			return error;
+-- 
+2.43.0
+
