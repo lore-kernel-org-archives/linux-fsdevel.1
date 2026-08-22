@@ -1,86 +1,83 @@
 Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8869A306746
-	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 12:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1825493650
+	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 12:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787401024; cv=none; b=Dbs3utz8qF3l+zRySzOtHO8ABUV0v3aEZhPhMVXoCHoC2WTinRQeFLse2BXjI67K/++Yj4ZP+AFcW4iWsa3ogUnU+/J9mddoriELyZis3+apXW8eF6IQWpa5UlB3napA/YULC1VfrA9rii0u/p4Pebc508eJAgBqdsSb+WsMTvM=
+	t=1787401032; cv=none; b=Xjabx0JE+P4VERLOIsa1rHpt1pJ7HQ1JnXWE2x2PiYEGFMUco9amKC0aeyGuyWCooaaB8mCHVzSbhPkpPb4IJSGjC+VkOqEMAnP+4dWvxDQ9jujw2Yxt2uAycQmwKGay/5+xDWHdD4gk4VboQ2+ScjE9tGh6UmeVk+DGmxblIHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787401024; c=relaxed/simple;
-	bh=UyjqKJihcX+fex0/pp/SeTJ1UlazmQycm9DjA0TUdpQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Wm4dFdy0tdAuL9Eq0sIWH2bV8uMjRaY7Vs92Jo64WmLQ8mqbivXZgcTdi3FXDAQlGcb5oazw74DpxptVlESbRvYjrsjN8B4AMITnHly+t5WQVdsXGN2PUWoyufFyBcyQ1V+LcAo06ZxZRzJ34BOjncoZpkGp8RUlptf/87tfqOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8AZkByJ; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1787401032; c=relaxed/simple;
+	bh=S0snZ8uKMMHY2KvFdwdzpAL19mHXE6f76vdtkx3uAYo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AKMrQMzQV2+0Lfv7Xv05vONSVxOd8cKOIfvumXJj0y23zxj0lNsaoWraUpEfmwVTdhQ5vyDK2wQfioYMheT6c5/s4Fb06QObXqdDFmGdVMW1OTWsQBiIfDkIrM3+iIoZX3nQAlhHEw62VHHt0ppHWssPg4RcYGI23FXTR/alr4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNnzjQkH; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8AZkByJ"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a0794669a6so3798386a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 05:17:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNnzjQkH"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so2543903a12.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 05:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787401021; x=1788005821; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jsN6LvX9NPfCQNk61W1iZUjewLQksV8dhJul9MwmJzE=;
-        b=q8AZkByJ4QSNljimJH4X/bBnZYkftpiXQxowHqp7FHU4I/9TQngMrDrWHWV4Ds96+p
-         W5Gkb1cT90rIJKUhpgzm+IWXm1zTBHD6/hwADeldOFAUj5ZnKpD7dmzL6YdrQ+rIRtbu
-         s+BQXRhBEvxipDdDGQ4xuQHjYa9WBCeGMO6qUskk1aurJlDvL3wjWgMKJplSQFp1zZ6I
-         YOTNVB6IzSG8m5SzcTW0IGqPk1c3Z5PWCgtOUceqZ91wb7JuOqL3AvrpB/GBYpaxAlfk
-         vbuAhsDXGyDSUFhE2ahwnIhWu4Pyf9KfFlrgDJ6zm8VK+Z7Az201oEA0xO9IxReFXU8U
-         uMbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787401021; x=1788005821;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1787401029; x=1788005829; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jsN6LvX9NPfCQNk61W1iZUjewLQksV8dhJul9MwmJzE=;
-        b=Dp1VFOp7NJYlQSYGCIs/hc/OGbCN38yIXtPklue/sFlw4Yqiw4YNInkgca+Zxp4xlh
-         jD+g2SbyVp8iogYVBkvSH7Zcs868GBtheBjv+Cg0UQym7gLIhhYSUulOIHLMpPq/CFLU
-         pnGzBGXooabrdkMHTwutDJi9l5HQ8vRzMSV3sF2SKd4A1+eMXzx/fwqPaEduBg8KEtN8
-         pjyJKoDdaqsQPgFZt9l6mitbsbaMIMkd54giW5LxKVuSyXhzy/e5wRIeFokxOkd+p5iP
-         3VsAe2tRmPtIFmrdI4SyJZcjznxUbxGA2sg67QCgs00YSZyKZyq1hWQq36lQn+pAHqJs
-         2orA==
-X-Forwarded-Encrypted: i=1; AHgh+RqtMo1zLUIOzvacQTjoezwckrBMWS3FByklGvIs8EmzWdIXWvZ2p8pzUwNGSX64EDUGyE9LqSMSzzpqZ/sV@vger.kernel.org
-X-Gm-Message-State: AFuF++krEIg8wUhv39MpMX/K/OTYegdJihn1P+b4PgIxVRlcAK3kKdEz
-	HHq+mEuWe5W4zfvvqhXcDI4AuS34IeJjItN7FFbFW/JUwC47XCtnOmDg
-X-Gm-Gg: AR+sD10IeRwrRDc/BAhhSvsrUmdA6qGIMo58855g7rWFH82PScgWgt48JGAM/31NFW3
-	vVCN4rWXWuuUzHN2wrGTFuqiGWhHus/2hP90YElTs1gfJU4LEq8glJEhes0L9P53oJtt+TaGJ6+
-	CkXtEsV7g13fNuniAd5yIstzEyBI6403GxCMtc6ARTI7g4Fx0VGx7swHZfdD4cgeVsVbv6333JY
-	wtNsvZDR3nBf5MBLRP5VtGJPtKhlIz2afhtxPSSvxl+yL7FrDaUF2fJ1MUH5zLrt4uf7xrdfRh5
-	MPD6kXvqKAdlpcLtx/BFsrQT55FbVaZN8FLOKLEV5sgfU8sLM9AfGNoMv+/dCVKIB6N5frk0EKE
-	tZZALAe+VPM0Z1GhPdXfW7hQIyfNCwbmFWw1zGmhQfA+ui/Icc/LRk8XFVP44LMTff6sQE1Toaf
-	H83xELQT+7Fgk1fBbYVIYKxYWbdK50lCstUTM10jRBw3Yqnvx1oTWbkvY0PXP3NqrEOjkPkFXn1
-	gsj0gKqPcnpDUsAy4vLFateXRq3qb4LOg7JFg8Jp1U6/a758C/4wKUs6TU+zSln9nsitvr40Gtl
-	/kSAHGULOJaZxMwFo906AriK8CC073DMJPRTqoVVjlxVjDgWtrr9m/ZziG31Mhld7rIv
-X-Received: by 2002:a05:6402:5513:b0:6a4:2ee:5c6d with SMTP id 4fb4d7f45d1cf-6a582b16d2bmr6451179a12.6.1787401020491;
-        Sat, 22 Aug 2026 05:17:00 -0700 (PDT)
+        bh=8zamBZylGLfyBrf2U8aA1K+M4CwgpdMHKvZaU2DV3CY=;
+        b=GNnzjQkHEMpUlBlX0HS+ZiOrXzdf5/b3IH75IiEYYfMHBmEFBDTaPzzfzgiuJCIHOL
+         uEr0eEVpq6xaz0LPvG9gy43lFLFt3P6G9iK57RdL8t/JZwlobuPmPcmBzrMWg274HuSD
+         ie+ozhiPEDFG5cmj047lwHmZl6ss8tpGdaxLsFUkKnW5hDoMbTiLx/W/wf4vM5Y5LaAw
+         x431/+GdvRv5EPPczvW5f0oCI3m1sGjuTShp8Wuu6O0dTBGP7SPiXRiEcQYnSU+bJpKh
+         zLFp6XxaP/3jHnQ1pB4toHWMGEnJP5jVR2Oj0/Vu+wSfNuPp+NHEPH4HYJhr/Ye/Fzkw
+         WiYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787401029; x=1788005829;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8zamBZylGLfyBrf2U8aA1K+M4CwgpdMHKvZaU2DV3CY=;
+        b=a0K/7k++6lr4TJSQDNhmDE0cw1VmWN/6zxLcyMkmWcKc3ohWGnFcA6aRK6jmJn2tRT
+         uWH5H4Hb8Q8z3brox7NObijnSsYOHXCemw5PdbJNfTseLGx+fqiKUF7qjqpHR2QqsrWV
+         nLDGl3Z2OxgvJOu7hRrHHmJ/vOS9IvHF0Exji/UYDtrdMId9fOD/+8uDQ8QAdv4gYtkh
+         e4CF+MUKX64D0cJhOzNRXQWzcEh6kVPYIuX7BbShD2QlTAQgQQjCJdtmbEW1Y9MglVlg
+         qgGi5RIXS+9o1tTGdK3L1lpDaVxrcf9xWm++TTzvMJZ6Lzc3QkdQDm7+g4semZRoFW+d
+         clQw==
+X-Forwarded-Encrypted: i=1; AHgh+RpgzMEqcUIaNdouFnLzDDBBS1VnGXFCU7IWSJ61ELFf+euGSHKw06x0wxq1KZp1ChJUJ4KD6DBF6Jkih2Gi@vger.kernel.org
+X-Gm-Message-State: AFuF++mm9o+Z+vS/NxXOzYBHQZs74k2WrUSxd2q/Sy2tnm1yz7IJqHyt
+	UHkxDVSE6KI4OYjLiaH1IVHozjc2O1pqklyXuRIeShit24rIEE2POvfq
+X-Gm-Gg: AR+sD12bQiKM2l8TdOJuq6f4+bZjZnHGdXB55LaRPm5gTqb/dTu/TdWwSZTEAoo+czP
+	RccFdtnBSVfXPdVvl++vYbpV7EdKZ48JQWeh5taaqfuPYlyrBBTKldfDs26uhVWIs3xEFUe4QWa
+	IC+8l+beBV7B0sFfBo5pPbp5kXYF7ymQxsyIL1Yp7S0FAIeqgTY4SWgqAv2QTwuWVOG/3FfqGVm
+	yC/PscV+oeFbuFZ7005wZ3MsSnd6xQD+7GbVNTp44pZrgWt3ptsvAv5RO0C14XycGAzMhBdrCod
+	VNtmkuzNk5RVcfwUC0qMjnx6va+I1mskWynf9JxtTKAxXfe583+BkgqYm8i6ExYsQXuHTwyuB9+
+	Q09vx6WH+4YdltVdvxgoqozqJlvYl9Qdqn0h+eZl9dKPJG1VnKrSbpLP6yHvylsUAcuDUqLAPFg
+	6bdz/v7nYgDoKAS9FHSnj52CE/QRq1QnE2Lnffv1rZS67eBjU5jH/HaeE841hOkH3DcWIyGqzUu
+	TXHZcvMOl4rA9k+8lZHDT6SkmpPvOZXtNX7b+yrj+fathirc7xFBPCE6MwWZnsJc7gB578kD2Sb
+	jBEbk86uoNBtIf53onH6qU2EkQ6Vp203GX88md0IwYq0hdC5qDqYP+YAbftzvF0pTYVE
+X-Received: by 2002:a05:6402:5042:b0:6a3:eb58:dcfb with SMTP id 4fb4d7f45d1cf-6a42f1ddad2mr14242382a12.10.1787401028842;
+        Sat, 22 Aug 2026 05:17:08 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.16.58
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.07
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 22 Aug 2026 05:16:59 -0700 (PDT)
+        Sat, 22 Aug 2026 05:17:07 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Petr Tesarik <petr@tesarici.cz>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
 	Zi Yan <ziy@nvidia.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 0/7] docs: core-api: Fix stale function names and a broken example
-Date: Sat, 22 Aug 2026 14:16:44 +0200
-Message-Id: <20260822121651.1559-1-kmehltretter@gmail.com>
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 6/7] docs: xarray: Fix xas_try_split() name
+Date: Sat, 22 Aug 2026 14:16:50 +0200
+Message-Id: <20260822121651.1559-7-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
+References: <20260822121651.1559-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,35 +86,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A review of Documentation/core-api turned up a handful of places where
-the text names a function that does not exist, or an example command
-that cannot work as written.  Each one is a plain typo from the day the
-text was written rather than an API rename: for every patch the wrong
-name was checked against the tree at the time of the Fixes: commit, and
-the correct name exists in current mainline.
+The iterative split helper is xas_try_split(), not
+xas_try_alloc().
 
-The changes are independent of each other and only touch prose and
-examples, so each can be applied on its own.
-
-Karl Mehltretter (7):
-  docs: cpu_hotplug: Fix multi-instance removal calls
-  docs: irq-affinity: Restore grep in example
-  docs: dma-attributes: Fix dma_alloc_attrs() name
-  docs: swiotlb: Fix maximum mapping size helper
-  docs: this_cpu_ops: Fix SRCU helper names
-  docs: xarray: Fix xas_try_split() name
-  docs: debugobjects: Fix debug_object_init() name
-
- Documentation/core-api/cpu_hotplug.rst | 4 ++--
- Documentation/core-api/irq/irq-affinity.rst | 2 +-
- Documentation/core-api/dma-attributes.rst | 2 +-
- Documentation/core-api/swiotlb.rst | 2 +-
- Documentation/core-api/this_cpu_ops.rst | 6 +++---
+Fixes: 3fec86f8aa8c ("xarray: add xas_try_split() to split a multi-index entry")
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
  Documentation/core-api/xarray.rst | 2 +-
- Documentation/core-api/debug-objects.rst | 2 +-
- 7 files changed, 10 insertions(+), 10 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-base-commit: 26260251022fbc2f248a3d747a9b2b961b18d2d8
+diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
+index c6c91cbd0c3ce..3d2b20c05a937 100644
+--- a/Documentation/core-api/xarray.rst
++++ b/Documentation/core-api/xarray.rst
+@@ -490,7 +490,7 @@ entry at every index to ``NULL`` and dissolve the tie.  A multi-index
+ entry can be split into entries occupying smaller ranges by calling
+ xas_split_alloc() without the xa_lock held, followed by taking the lock
+ and calling xas_split() or calling xas_try_split() with xa_lock. The
+-difference between xas_split_alloc()+xas_split() and xas_try_alloc() is
++difference between xas_split_alloc()+xas_split() and xas_try_split() is
+ that xas_split_alloc() + xas_split() split the entry from the original
+ order to the new order in one shot uniformly, whereas xas_try_split()
+ iteratively splits the entry containing the index non-uniformly.
 -- 
 2.53.0
 
