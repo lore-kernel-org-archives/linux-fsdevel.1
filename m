@@ -1,41 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8375A23D2A1;
-	Sat, 22 Aug 2026 12:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF70A3B9DB3
+	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 13:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787403152; cv=none; b=fvT+bidbkYbILUU6Ourec3H6OcIlcIBykuBRVwTfTnMlg5lV0BoLMgr+ZcolktfTvSSkZroT5tKH/pcNIBITdUxKp6MSXqhGdabc1gNzucszGnD3DDHXK4nNco2Tq2DtaH9le5shG77cjtp9Ggti0onS2fSWp9JTXIqcWO2sspM=
+	t=1787406119; cv=none; b=cUIT37E6OqjzCk/WxEotZB7OK5d+8pkY9jctEwbCGpzgQybcw6Y0eauo0pf/Aq3tuhpX4gLdeiabdsuMXtfUE6wjTx1oBglxN51kxjG0DlpoLA9+gHwp3+3glLh37UO0i4aOSph6wclmF6iVt9tYz651I1H5wE/nsyXR0kNPbpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787403152; c=relaxed/simple;
-	bh=MGjzS0erfet7SQLrmRWxsUuzQw35oAieJD+U5Ns+pMQ=;
+	s=arc-20240116; t=1787406119; c=relaxed/simple;
+	bh=ShtTkIU3ezbFJIydaBLYCMvhC/wGsulze2uz5bQe5G4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s0YrBJBMuXWJWH7aM4pyBPb7dLCQRZYl2kR7SKuA40s4wfep8jFyrGNsvz6CHj01yA92EGyQbq9IpMtgNp8wbP4x42ULusepafuGNEIqcNHdUWkVA+XGBfeQX3XVIfi1LoLFkCf5HqvdMCCQSY5RnlPVnvybxFyxEIzn8eFCWsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZC6i5Ve0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fqDGkBcvOV4xbBLMGAdU9fQ/H4OYs+AUyAr5vrXzmzHlJh6M3cM3CnGETa4CKEGlmqOPRQHCA5iklS+YDBwu5uV259R72NbUwG40arytROg8JR2kTc5KBXKjXq7kPfyKIRsTYEV/uFHZsUx6GidjKkOBNPIK3P2tIF+1ucutFFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=NWr95Y6+; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC6i5Ve0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BCC1F000E9;
-	Sat, 22 Aug 2026 12:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787403151;
-	bh=K7iyXyNsM2ASzN8KF+DRnHdRovf+1Dd9AnIzkSVPzgc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZC6i5Ve0MD6ItOLg4MZgv8tzt077hosCvO1IkVlgt2s5DjuIOSKQZ38GHgfNLmZal
-	 381LtcQEhJcsNo8bqhJS8QstBhVhyAzKbnOQklO8bURGJDSQgW5rwrulqWAGt876u3
-	 3ffbLMJ8oHCQ8buUT4HHHr5XUR3ulvZuO+XPIKi4p7Yt5A4JJkZM8oevF4QxMX4XAr
-	 OLSasU4SVGxwLoX65Vi9HqqN7/9h38Hxk9ihDDKhjhex8RmLSVaSuDV1jpIHfl9GN7
-	 /M4AUcziGHOj9uH7jpouBDR4cBcfly0ddHSxAlf5tgxEhZH7OMa7uCjbP4u/LZ2spM
-	 QLBiIZuhloLIA==
-Date: Sat, 22 Aug 2026 14:52:25 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
-Message-ID: <aomZfSXwrctrBbqX@devuan>
-References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
- <aoLOb0tixHee3AkZ@debian>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="NWr95Y6+"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c197e7e4e94so355075966b.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 06:41:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1787406114; x=1788010914; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Aj3ZYubTvLgnR11pZYHVat4EVUJdKX6AnHgTVge4+Wc=;
+        b=NWr95Y6+8gr1dd6kImBWVKkc9Ow7+W1hOqUbome1tczYJ0l7VolXq0eP+XhSlE2lop
+         cfrU27AzjWjNSHtmZZ6RuHDw63H/Aw3j1SR3ZUJxRQSBgNqaamZlv7pWt8qP16vXkNr8
+         RFuxFu+K2wzi5JQkrBzAM56wOg7B0Pw6h7m1cwa5fQL+1N4vZ9VmnU0fSvXmiMFSSbLp
+         PwxvZznnm7VHgzn3KPh0fvhzv105HloBofPB+0hansRG9f8EL4WMC1/pwoxYuig5g5ac
+         rHPjkA9B4VHQUiuu3DSUboCniUrCCNStbMPToZGTj1YRemJ0JduZoppZNUOsUtWyRRr6
+         6eqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787406114; x=1788010914;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Aj3ZYubTvLgnR11pZYHVat4EVUJdKX6AnHgTVge4+Wc=;
+        b=S2iFkPAYapwvvLeUf9FhqX2hkrLULzcZQ+FgZhlWoyKmL4pueB9s2ZX6AEzLcKpTDz
+         OqpJ3WyzFptLvq0w0xVo8+NkI0apKUIVzrB43iSgBlgt9s9MG+cm+L560tNdsBJs3z83
+         CB1zMNgx2G3b/p7aBC+mZsJJyJmySXOJ9x9GJTLUpVmyiDCvRIqsx1LV+mewvSSWzC7Q
+         Wx4eoPv0LcvxE4Cqn3KuZB83W7t4LFgKSXNbA5fRzlsy2u5vDRkgXbIpnlCqv/CNqvIn
+         r0IkUP25rxRsoEFbFnCBzvczb+lNwG++ZNQ085mIu/Lxu3gu07PQlHuBB0aw5I8R4nAN
+         R8xQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqFYMxXITuPHR/GJ/I5M2YP48ceV0zXJN1AnoOvPVF5x9n4keRMEsQ3EMf6dyCKG37hNJIuPiJxfr6UsmRl@vger.kernel.org
+X-Gm-Message-State: AFuF++lcOYcg17jxg2s9WTQucJnvt/CH8OhQJX2mymVAmTdF/s8itiy2
+	Rf/jQL/UUkqsyw89I7qvIFEtZ7hpqS9apLg2pfueu63bJQ/WwJtZBk9THgDjya/T/9A=
+X-Gm-Gg: AR+sD13IQ+fgc16jwmEMTtKcSNmj0jlcX3/A2P0Cu5H3aILDGJOpX7Bq8WGhXby9f5X
+	CyUEXgtBu2QaDejgCH2dV94Tmdxaokzhrs4s01FKIK5mT1YU0dbj7kMn3A6w0UVwTQujg3WHf0u
+	FFqcVS4nVbbP1ddW88m+grVEKDmcZ6GCv5FMCS44G3ATpPxG/5ITAvHij5TbeAoswhqbX/9vSU8
+	759dx7LNR8Lcm3ZxUvjN/Q+OQxH6ed7R4cXD9hXfnVCEDScWHOtnLBEeDJ03SK/FETZ50n9Eeqo
+	mHjfp5ySxwLXT7b5DrBJsCQtaflDQzLKGH4xcTB4HL6jKQaWlJXh+3+shU8m3WixI5h377INB4G
+	obpGUfFq3rNJUPVmDZZOD99SLkekQe0FqhP9DOu3YJ93WSUYAolooIvGU1hdjlSptQnoArE3Nge
+	lKW6T56OwVo2lVqBfPKpqw5kdBw7JCixYYZKXM9/bJ5jIvJ8Dy+YiOUe9mdogFI0B6tA==
+X-Received: by 2002:a17:907:8908:b0:c21:35d0:f435 with SMTP id a640c23a62f3a-c24924db408mr547750766b.10.1787406113365;
+        Sat, 22 Aug 2026 06:41:53 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c249606a8fasm387614266b.8.2026.08.22.06.41.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 06:41:52 -0700 (PDT)
+Date: Sat, 22 Aug 2026 15:41:50 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Mauricio Faria de Oliveira <mfo@igalia.com>
+Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	kernel-dev@igalia.com, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	fsverity@lists.linux.dev, keyrings@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wpan@vger.kernel.org, lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	coreteam@netfilter.org, linux-sctp@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-s390@vger.kernel.org, bridge@lists.linux.dev, mptcp@lists.linux.dev, 
+	rds-devel@oss.oracle.com, virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
+Message-ID: <aomlfGJM61qZKxx2@monoceros>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,121 +85,62 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tja6hontmgrqbpwb"
+	protocol="application/pgp-signature"; boundary="akn7oxv4v2qk2wdq"
 Content-Disposition: inline
-In-Reply-To: <aoLOb0tixHee3AkZ@debian>
+In-Reply-To: <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
 
 
---tja6hontmgrqbpwb
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--akn7oxv4v2qk2wdq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
-Message-ID: <aomZfSXwrctrBbqX@devuan>
-References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
- <aoLOb0tixHee3AkZ@debian>
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
 MIME-Version: 1.0
-In-Reply-To: <aoLOb0tixHee3AkZ@debian>
 
-Hi Bhavik,
+Hello,
 
-> Date: 2026-08-17 11:07:45+0200
-> From: Alejandro Colomar <alx@kernel.org>
->
-> Hi Bhavik, Josef,
->=20
-> > Date: 2026-08-15 13:15:26+0530
-> > From: Bhavik Sachdev <b.sachdev1904@gmail.com>
-> >
-> > flags argument is an unsigned int not an unsigned long [1].
-> >=20
-> > [1]:
-> > <https://github.com/torvalds/linux/blob/master/fs/namespace.c#L5961>
->=20
-> Thanks!
->=20
-> > Fixes: c011cc992510 (2024-07-09; "statmount.2: Add page")
->=20
-> Please CC the people involved in that commit.  (I've done it now.)
->=20
-> > Signed-off-by: Bhavik Sachdev <b.sachdev1904@gmail.com>
+On Wed, Aug 19, 2026 at 03:16:16PM -0300, Mauricio Faria de Oliveira wrote:
+> The MODULE_SYSCTL_TABLE macro emits a struct module_sysctl_table variable
+> with pointers to a sysctl table's path and entries, and table/entry sizes.
 
-Thanks!  I've applied the patch.
+That new struct doesn't seem to contain any pointer?
 
+> That symbol will be handled by file2alias.c (modpost) with the changes in
+> mod_devicetable.h and devicetable-offsets.c.
+>=20
+> The option macros MODULE_SYSCTL_TABLE_{DISABLE,UNIQUE_ID} can be used on
+> a per-file basis to disable the macro and change the symbol name pattern.
+>=20
+> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
+> ---
+>  include/linux/mod_devicetable.h   |  7 +++++++
+>  include/linux/sysctl.h            | 42 +++++++++++++++++++++++++++++++++=
+++++++
+>  scripts/mod/devicetable-offsets.c |  6 ++++++
+>  3 files changed, 55 insertions(+)
 
-Have a lovely day!
-Alex
+Please put the new struct in a separate header. Apart from not being
+about a device table, I'm currently work on removing
+<linux/mod_devicetable.h>. See commit
+ad428f5811bd7fb3d91fa002174de533f9da94d7 for more details.
 
-> > ---
-> >  man/man2/statmount.2 | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/man/man2/statmount.2 b/man/man2/statmount.2
-> > index b6d9dc2a1..a365002dd 100644
-> > --- a/man/man2/statmount.2
-> > +++ b/man/man2/statmount.2
-> > @@ -16,7 +16,7 @@ Standard C library
-> >  .P
-> >  .BI "int syscall(SYS_statmount, struct mnt_id_req *" req ,
-> >  .BI "            struct statmount *" smbuf ", size_t " bufsize ,
-> > -.BI "            unsigned long " flags );
-> > +.BI "            unsigned int " flags );
->=20
-> LGTM.
->=20
-> $ grepc -tfld statmount . | head -n4
-> ./fs/namespace.c:SYSCALL_DEFINE4(statmount, const struct mnt_id_req __use=
-r *, req,
-> 		struct statmount __user *, buf, size_t, bufsize,
-> 		unsigned int, flags)
-> {
->=20
->=20
-> Josef, was it just a typo, or is there anything that needs checking?
->=20
->=20
-> Have a lovely day!
-> Alex
->=20
-> >  .P
-> >  .B #include <linux/mount.h>
-> >  .fi
-> > --=20
-> > 2.53.0
-> >=20
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
+Best regards
+Uwe
 
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---tja6hontmgrqbpwb
+--akn7oxv4v2qk2wdq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJm4kACgkQ64mZXMKQ
-wqnTShAAmSr/Mh/QNl+pG4/EHFNYWErWbv8zXGTDOxmXLVfguzI8T8806GoirDl3
-/d3zvR6LS/G8fftOOGzEkLDGGQRmmm+2GE7LaElfHUs4jUClzCHpUAkJX2UUyMzo
-hk3kywZiC0BNnRYQAUxrWXsarR5r4xK+fMqJroK0otmb50BDdDTZ9Zhi3FAGjNnD
-7m99qNhGOIxuomgPb3CDGZwPnpY2Xv7YjiBMPdBh6SPiwmgA4nbAWuZeP1vI9vhL
-g7GrOQtApgtZJ6/rH29ZZVx+vRXoQsHEnSYYzM8VV34bAZ4iERrzbnWGCiJPOGPa
-OjfNc50ZOKJZc9/ubcTwUZwE5wn2unmVSYkEf3yflcpjzxZ3DkCh9hWIU3rAfIPx
-mTwgwJ/kwvQv4rimBIxp7bmn3VZMFOfC4hySIbEIyhafqX4UeYY4zwXM8kwkBXNB
-jvTdtGGQLTesC61BAJeBCZQbvij2EjCADvv4ONaiaOlSeHne90vfX25zhKh7c0Mh
-uZErOTjHGiS4v17tKWvhNcx/gXCy6g05TSZ4asvte9M5+v+tDptSQhQafu592jmL
-8YilRgCnIHRdAA8KosYYbpbhzck4n+M+xAnhf7/JBPCd/08KcUn8xt3IZ0Smij7X
-hZbUNGX5eIK3j6kWxbl1x04FiXi1rE3FGysmI2BqWPKhbh8Ui9A=
-=in4K
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqJpxsACgkQj4D7WH0S
+/k5bfgf9HJoNnVEr9RCdAghOTP5QqFmH5ae7Kbmnodv6c6Pi9JGIjjGbeT5eKw3e
+JkSKqdEnlVMrLoKrhneRsxwTDGPrZvrLZrPLdZwJmPWZn5Fg+kkOO9yFAGPeMsPX
+S6UP1NY9kaCiBtlcsGT9EvMWz0jWVAWX1xb7Y2WcVZJsCWdcPhvWc3/lIbw3E4o7
+PqLtSFblkQmtGl2OL4WkP6xhEPH6qQO9BAmhLVKKZwFW5/l4sHmXRrpgSJlroR3b
+iH3liIeS6wxFp/fMYuFRryGHNMXn6gC447OnOCTmGNEj7+7Y3COwSGivgubcRIzI
+RkmxkMf2Iuntnwp4oQzCbipE5EiKGA==
+=SPY4
 -----END PGP SIGNATURE-----
 
---tja6hontmgrqbpwb--
+--akn7oxv4v2qk2wdq--
