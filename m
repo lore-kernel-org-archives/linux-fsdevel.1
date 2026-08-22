@@ -1,128 +1,166 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFDF3B28D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 04:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787373607; cv=none; b=ulKQ7v5Iqp1OIlF5lZQu7QDqVOUPedB3XZbw0THo/bY1MljpzTFX4IXbQnP62mXZ/ig6IztK+rwr0Ot5gQb6Q7aekoFvOaaZ17y1//ciyAnSCQLARwbcM3tmaUIwnwpEojOreaVDVkDj7DuAWlh7cSMrGtzluv7KMNj6fSkHgXo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787373607; c=relaxed/simple;
-	bh=wexsQEqVH7+8DVlgsO5Cb3iEyyse0TcYw/ObWBh2eMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s5034HZmP5PkLURto86rc/LnTW+ULWaq/61y9GPo76nqG2DtsnlaJDmqEACpeOFsTNnOacLxA7ZLCjXwcfUlgHanhTleey9U6ZF+eEL5WRV5O5HNUoPq/ztPR6d7+kJwAlFl7glt00bS4Q1WsBTe5RclEpeNcsjkERnndnT8Kik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vp4FYBJn; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6D83750D7
+	for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 10:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787394086; cv=pass; b=PoMwgdjUnF9LK0vbEfdIqa8YkuvGczQEkLTwcI06kQ1mpRDj/CTr1Xc4FTur/45/t8Sj0jrmS30zg8OdMbNyYuKzZwuQwXguug6AOOfDAQvGmKi86k7NLnVALWlHnwgR5QvsEU0zQ39ZyWu2oipktVd58dWeZUPzm/jfc+nEeNg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787394086; c=relaxed/simple;
+	bh=/REmArqAGflR08+GqMzRbxdUsrqkUc0EZm4Nwfpsi24=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qUAYrPdp/+S43/U0qWmJlzJcitInFMb8dbGvwqUC38n0zkLcGCPsbO9DZyFpwc9d5HcjzL3/GC+2OB/rpK6oi3v7qKrl6oS1zqneQfmykbOuLtHvmLcWr2MPXUaER50pbLwOQSEOEWJcIDMEToSNVJofO9s7R//8YNcs+YQ0Pqc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cKH+lcNK; arc=pass smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vp4FYBJn"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-43bf9548df4so1673493fac.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 21 Aug 2026 21:40:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cKH+lcNK"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a20319d030so2982974a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 22 Aug 2026 03:21:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787394083; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YD2msbC97VES4DDoj+exREcZGauHTmimGGYxWxHQgdc387YKK7mP6d5UdOZvgMGRLz
+         MCRHw3sMAbJKhJfQ4Gihfb6qjiM5Ops4CWCdU2XnuN+dHdctK1wA7Ev/4j69xUEDZv9i
+         yETocb5vCdxr1idsiqSyBjHGnaNC8A51qJLiCeQ1+xj11CYDmh0DJKmXDt/jyjdtHWNY
+         ZQA6yZy3HHwfZi8h6dvEYxfNkJrkQzz4MoDFBHcZnv2/DQhpQyU4hODkC6PDyNvQ2oQO
+         I39hivFlXT0GmIP2NaTV7tRjAcI5XDCkvBjNKjQ671lDVXvIwzv46N9lL7rHDazJiOQX
+         Bmsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6pk0qhrxFdQA3tThenrKug4RmzTweFzB5qVSaDfnu8M=;
+        fh=lAQMXzSChd1U8SvM0zkUWbXe2sVRYIQlejEM9q+obWE=;
+        b=jbujaWC54PAnicEbFNbgkzVYp6U0VIRjmZCgvM6229YszR9MfFoeRlf5gFTuuiKXW5
+         I3g4Pnx13s0FSZXSutJ21XNmQKu/zuQB0/XPQLJFoeiE/XIMTFIWpMVXwGn5pzskuyQi
+         u6H6p6wqcKH9MvzHtpGrIwf46NW3oPUXA6+gbw0KM8m5DBrevuPMx7Rpc8ISOoA6OSaR
+         RKHDhxzmSb04kvj3AItb8OIj689g8UOfz3a8VT+JFebztAUwnMpjO2I3+ESHVoUpACBu
+         D0OknTSNKIYI2Ep4cbAz4t6TXO+os9F3SS2R58vdfsTw/eoGtWLLzkaPq0U444IlUyhM
+         LIhQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787373605; x=1787978405; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ic6dzn00MSHabGZEeRi3xb/4yNpvOMTeHQtEmbSApa0=;
-        b=Vp4FYBJnP/zU50fU6w4WV5lbaA+a8Fe9RJ2EbIePnEp8lo6owneWJ9stmL/Tf6vK8U
-         J+c3/uG0JoJh2tgE9fiHD41GJwLjoQ7u8nLKqkCMPk7kNK8XFKTopc96KnyXs+EF9FOS
-         Du8rIQOKEwHxU3B/Xozal4lthTN5wXelmlUAnMQZCRbDTz0NDx83Y3hh5fOZz8twBLId
-         lJBZxPW8BTDvxRd+KNqfGoQTJJAentL8AQN4QNUdpxffsOybqbTVKCYRjf4i2SY9jH4I
-         cvLayfNVpeEoEB13ffHZ35/VUoSj2jk8VxHH/7ABrRdiCs3jyIJ0HRq3ZMReLZl8K23I
-         V+rw==
+        d=gmail.com; s=20251104; t=1787394083; x=1787998883; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6pk0qhrxFdQA3tThenrKug4RmzTweFzB5qVSaDfnu8M=;
+        b=cKH+lcNKxabKRz00tGTWNuSTz+xDpDB8vIQtu6gvsxe3d3MMPn5O58sBNw6PTkf7eC
+         tmPMUlq9zyPuYajAEfwgce5gsNdL5vC61ynUku7ulAIxCZxTriBmiwYAT9CX1W/0XqtY
+         WDiEIchH+pdK8CNHB0jN+SziRupdUoXlo5E+sgKtApatIKK7DgdlO8BRpCYW567mq/IP
+         GcDTM0mbg/PPL9WOVjip0iyGrFjo32H5VYITYL0COYMyVP2cmJ2YEmXYchjnDB4blvrP
+         iKRu1wXpkxCSYsFkca1FJOytR+piNKDtKphX26QBPFob1u2ZuUV74xmbtgpWwaAMJgI4
+         sSYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787373605; x=1787978405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ic6dzn00MSHabGZEeRi3xb/4yNpvOMTeHQtEmbSApa0=;
-        b=Y+9sMDe3OXbe+cSj+BG+oAr1h/1pqXMNeNFi/hhq9SRa4ezabtoVJhi/+hRnTTnMOi
-         fXhMPkdcV9ja85HbvkkKCAG5DbfI1sq/H7wKes45tialVXE5mnkPxu1GnY8/aoxA0rZ9
-         h+PCQrCXAtWzerwEhzFUrI/2V42kW9WpgI7Yq19L9GW5sk/a/1a6anbvBto2WIcj6CIe
-         VPUBAc0FXmbrVO9l5rzn/wYgkQqruOty0NhSBlqotqjYsW5AQ4S1WimZkxm6CLkWVYG/
-         eTErK9AYYFPRV4WHZOHE5gR3ZP+yWkP7qQY2r7thZyHwpCA+jqkF2TVjkdvRtM8KFpjw
-         vq1w==
-X-Forwarded-Encrypted: i=1; AHgh+RrAAynEQfYB952HJ6hxmK+7vGkwATWd7IxUBykjo2X2kSf/SrF/oXpXOqaZKMzqXlKYzQ3UO9MiBN+e69BS@vger.kernel.org
-X-Gm-Message-State: AFuF++lch+PcPcEkJ+GXYi267FqvufCbSlPuIauC4RNr/0W9R+s6ibwP
-	ulr0+ofo+SfXB4gifDL1/R89UA5OqNx4VTJxZOuLYweyzS01BwfcP9S+AUUVMJ4pnTI=
-X-Gm-Gg: AR+sD10/yPVLzzB5vLKb64DQixGxkrI7FLhTm2RGd1YRsUiXMBRd7nCHKPWJjXuX33y
-	VYEy9bYaYDixF+DMdYB0TEaiN5hu8VCZz+TNMR3oVul7zkdRo2ppxEUv1/k7JqSWu1FsD/PBXpl
-	Xr4APibHpeH+jg3uC9PiCgrmCcRBYdJ1anD2PQzaTd/96K1xkjk2fwz5v3ZdcIR2UTJtE6RyMkk
-	leyOnTcEiXROXoUkaxiM+KG7uDJ4iipvYHHty0ezoyAYF18Bqvw5pLjpn8B2E4orMLgsbboKrYN
-	GdQzdjiI7QKj3HwYwSnANfI9aXpThRgtGXMendkWshIBCvuE9Y4UGlXhxyc28iRS9LrtzMfXSJa
-	DuHwJlfZZVDSTl2gmaO0KXyj8AXeaLNfGJaWpFM5FcZROX2zLEY9EKwC8ow5mjrAyb8LsHKMhm1
-	pD677l8oJR/sQUzJ8q7lVKjzsJI0hqrm9qr1GZQjL2jFLNt4/aPEE2QTveGlj/ME1UsyAi5Ca2q
-	pSErmLnmubiExAJeywj7egDqQoVsvgOcW4xyQ5/FewMTCONnr/I
-X-Received: by 2002:a17:903:354b:b0:2d3:2e86:647a with SMTP id d9443c01a7336-2d64af6f896mr209334315ad.5.1787366371914;
-        Fri, 21 Aug 2026 19:39:31 -0700 (PDT)
-Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d676761d04sm965825ad.2.2026.08.21.19.39.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 19:39:31 -0700 (PDT)
-From: hanzhijian <hanzhijian1991@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hanzhijian <hanzhijian1991@gmail.com>,
-	syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
-Subject: [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
-Date: Sat, 22 Aug 2026 10:39:18 +0800
-Message-ID: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1787394083; x=1787998883;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6pk0qhrxFdQA3tThenrKug4RmzTweFzB5qVSaDfnu8M=;
+        b=ZMDu+pjqKgOUJEMTAmAHpCx39Lp+NSUPzwQzctHoKqcdZTwRmTUpuKEDYzCYOeRQlH
+         ljAkVyfEBBh1eXc+RJPTUllZQbszW2I22ygVaeALVnGQaKrPAaQXqoKnSrO/qjHroH9t
+         VMFZS8EpjLrYdCEvWJpIBZqdey7Yx2XQqirQHS/HyvzLpHcCalPAfWDB9ePgwHbjHmDp
+         5xJQercggB+x+8SsptJjeH25g8PCzqI75T6XhJ7hyu63TRU7T2wE8OaWR2cngRcO8Obm
+         hI7Ny4CLORVOxzXxBZeOEBQayYePp5glxx5uNIqA80Bz8FYzWaBYo2XvGC4UMunt3PRg
+         foxA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+T+fLON8Bj7Lqv9HuDoToyv+LkoXhvB9Jrkf2np/0A+HzJrOqzkdZjyovtz3OBLPSqq5+Dp3P2nTI2Bka@vger.kernel.org
+X-Gm-Message-State: AFuF++l4hFYb7P555h634YEHDpRgH1HZhF2F6zdEdtsuv8js01xvCzQ6
+	OoFCELdME7WVy/sbqNExTcLuuyXHAjLjYY8lFc4VXidyKcp208duJcjYyBLZx12eg1SVh2OkDpg
+	9x4nRAAqoHixBGIOzCH1d9dDml9a+RA0=
+X-Gm-Gg: AR+sD12JnEcQ1bYj6H5sEdySNJI1ivzhP5ZSpTvkcfbyNLmMzZNaeCCqxUmBeYdRwOQ
+	RbpcrSs41/0MZ4ccOgOmggLMXfMbvVB8PnGANcmPqE+miYtX2u89FUpIQ8j2MUfpSfqTZ5KCX6m
+	7YuczkJhXOk6hgHVhGLFWd8Vg9OZPDLQ2+voTfEe/D07vi0Du15qmMQTFe3suhqDF03P99smArH
+	paaKsLSS5gEK85TsmCCYv7/1CcnUTMhfh4IMlxBVxX2BVmr7Y3Kbii73e5+kX1qK19tEt3mpGC0
+	9hCzorkfWAoaAfBiSg7rB1YlAvHpoM7cJz/J6/uRmI6h2A==
+X-Received: by 2002:a05:6402:5042:b0:6a3:eb58:dcfb with SMTP id
+ 4fb4d7f45d1cf-6a42f1ddad2mr13653297a12.10.1787394083030; Sat, 22 Aug 2026
+ 03:21:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260818225715.572140-1-ameer.hamza@truenas.com>
+ <aoVHBkmPNSRakbYW@infradead.org> <9ad95194-983d-427d-9a07-c9eb0891d1a0@app.fastmail.com>
+In-Reply-To: <9ad95194-983d-427d-9a07-c9eb0891d1a0@app.fastmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 22 Aug 2026 12:21:12 +0200
+X-Gm-Features: AcwNN1XzemKu-d2TUHxowW_SDTAK17OPxEP916mNVScXWxTH88lttphBtBvhGEs
+Message-ID: <CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] NFSD: Fix duplicate fsnotify access events for
+ iterator READs
+To: Chuck Lever <cel@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Ameer Hamza <ameer.hamza@truenas.com>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-get_tree_bdev_flags() hands fc->s_fs_info to the newly allocated
-super block in sget_fc() and clears fc->s_fs_info.  If
-setup_bdev_super() then fails (the block device cannot be opened, is
-read-only, or is frozen), fill_super() is never called and sb->s_root
-stays NULL.  The cleanup path calls deactivate_locked_super(), whose
-generic_shutdown_super() skips the whole sb->s_root block -- including
-the put_super() callback that would otherwise release s_fs_info --
-leaking the allocation made by the filesystem's init_fs_context().
+On Wed, Aug 19, 2026 at 4:04=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
+>
+>
+>
+> On Wed, Aug 19, 2026, at 2:02 AM, Christoph Hellwig wrote:
+> > Well, that is the underlying bug here.  ->splice_read should not
+> > skip fsnotify events and nfsd should not work around this as
+> > fsnotify is not the business of the users of VFS APIs.
+>
+> I asked for the duplicate event to be split out of Ameer's larger
+> series as a backportable fix because there is clearly a bug here.
+> But NFSD might not be the correct place to address it.
+>
+> Today the fsnotify event comes from the system call implementations,
+> not from the splice helpers. do_sendfile() calls fsnotify_access()
+> once do_splice_direct() returns, and do_splice() does the same for
+> splice(2), while vfs_splice_read() and splice_direct_to_actor()
+> emit nothing. vfs_iocb_iter_read() is the outlier, emitting from
+> inside the helper.
+>
+> NFSD calls splice_direct_to_actor() directly, so on that path it
+> acts like do_sendfile() and emits the event itself. That is why
+> the fsnotify event counts differ between NFSD's two read paths.
+> Moving the fsnotify call site down into ->splice_read would double
+> up sendfile events unless the system call implementations stop
+> emitting it at the same time.
+>
+> Jan, Amir, what are your thoughts?
+>
 
-Hand s_fs_info back to the fs_context when setup_bdev_super() fails so
-that put_fs_context() releases it through the filesystem's free()
-callback.
+Here are some thoughts and points for consideration.
 
-Reported-by: syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=1c70732df5fd4f0e4fbb
-Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
----
- fs/super.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+(1) In this series
+https://lore.kernel.org/linux-fsdevel/20231122122715.2561213-1-amir73il@gma=
+il.com/
+we intentionally moved the permission hook outside
+of the splice iterators because we wanted to avoid calling them
+with freeze protection held and also there were some duplicate calls
+for this work.
 
-diff --git a/fs/super.c b/fs/super.c
-index 05e443173..8b978b67b 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -1883,8 +1883,19 @@ int get_tree_bdev_flags(struct fs_context *fc,
- 		}
- 	} else {
- 		error = setup_bdev_super(s, fc->sb_flags, fc);
--		if (!error)
--			error = fill_super(s, fc);
-+		if (error) {
-+			/*
-+			 * fill_super() was not called, so nothing has taken
-+			 * ownership of fc->s_fs_info.  Hand it back so that
-+			 * put_fs_context() can release it, otherwise it
-+			 * leaks.
-+			 */
-+			fc->s_fs_info = s->s_fs_info;
-+			s->s_fs_info = NULL;
-+			deactivate_locked_super(s);
-+			return error;
-+		}
-+		error = fill_super(s, fc);
- 		if (error) {
- 			deactivate_locked_super(s);
- 			return error;
--- 
-2.43.0
+At this point in time, the fsnotify_{access,modify} post hooks are
+usually called
+from the same context as the matching permission/security hooks.
+It doesn't have to be this way, but it's a good mental model IMO.
 
+(2) emitting many READ events from an iterator instead of one event for
+the user's READ request is more noisy and serves no purpose to users.
+In most cases (but not always) those events could be merged, but at the
+cost of futile CPU cycles.
+
+From a quick inspection of the code, it looks like:
+- fsnotify_access() is missing in vfs_splice_read()
+- the naming convention for splice_ do_splice_ vfs_splice_ is a horror
+- we could make the low level splice_direct_to_actor() static and possibly
+  rename it to splice_direct_to_actor_sd() or something
+- we could export vfs_splice_direct_to_actor() for nfsd which wraps
+  splice_direct_to_actor() with permission hook and fsnotify_access
+
+Whether or not this is prettier than nfsd adding the fsnotify hooks
+is a matter of taste, but I can live with either.
+
+Thanks,
+Amir.
