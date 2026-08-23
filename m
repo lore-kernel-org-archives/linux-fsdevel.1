@@ -1,133 +1,151 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F325315D58
-	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 16:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F082B388E4B
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 19:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787504243; cv=none; b=PxBRsj88PYu+XmxcpevC+K1/frxPc3MRRUxVihycMGIgTj6zVkaGP5hKdbdrdAUuPBDDBxJ3Ppik4IQ3xQtRaQoISRgKtUf9S+51GoIWmni1Tsxj6Q/9exX/IVO5AcH/boeK2kiWze5JehkRRmlmy7ZXiwxh/Vuv36EvhPR2sbs=
+	t=1787512383; cv=none; b=OV82Kw9moeZdt2r0gEJjOMszx+GcQLe4XIyr/53LIyj/21HWcdAe6aGn2VrsCJqO6iMzqH+uF8A4FVvgGdAbMdYWhkoJy/U45Kmw27r0h6yi4FoNA+3UjtwsNSScWm+5tBni4xwJc/PMaaFeP6EiCaqRXKeK4pe2N5a/j7nBBcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787504243; c=relaxed/simple;
-	bh=FifPijUxYmOn0khIUeWNQnDh6M3c7SYp2DOwVf6Fxy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOq4xU7vh4rkyJV2r3ELxYjStzbIwcupWG+lxgKTtmlKSJ/2vVlMGdGBIUeimbjaIg20FCHJb+ulOWIg5T3BxAn76ny7ZOnUWjZ+o+SCaOuoK118ASky+IdmxFijfRZofRy5oB5vZOLAOLELNLZAejtcHFi8S3wBO+KyPRUif40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=cA9cfIUT; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1787512383; c=relaxed/simple;
+	bh=Owu2yQZ3ssiTZF54WlJcep8/1pFQFocuIQQmghBWd3U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V0QonFF3Q3z10qPnCsp7TAPIeA0pYVQsvPfb3mLUqOXPPYF9Q3YYCt9K/kaPN0K8+R+aUROp1w582OnNqIKyZK2CoakJmhlys7oXhWe8cnbfFooLVDgQBlDeZune6YQknP/anMCbLBGiB/6vR/TnTTLKeQIhF7pPpaD2e1JMiJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GxfSvVwK; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZYFEpEGm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="cA9cfIUT"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92edb12cdf2so173313485a.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 09:57:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GxfSvVwK";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZYFEpEGm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787512380;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
+	b=GxfSvVwKE1oIuStO2RbrEdtJmbJXeAIwhYphZC/o0v7mer3b41NjBFIyWiI9i4k+Xw/0WT
+	47BvdiQ61q9znndZtM01nwDtn40gFxJay46AzSpKWSztoYrOIIF6vxoL4r4aWcbd5xM5nI
+	3UQmETCbsawy6F2O/3wea0BmuBcTx7w=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-dKOWvUcbO1eSLk9MV2USmQ-1; Sun, 23 Aug 2026 15:12:59 -0400
+X-MC-Unique: dKOWvUcbO1eSLk9MV2USmQ-1
+X-Mimecast-MFC-AGG-ID: dKOWvUcbO1eSLk9MV2USmQ_1787512378
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8486c3411c8so3475833b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 12:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1787504241; x=1788109041; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=syT7GQtDMHPLcTTAdV7OL+T3aNWROaJmphq5EZ8nhH0=;
-        b=cA9cfIUTpxGrYFtPA13FvIn6W61JHx7mZ018cw5Q2kDv7mDQZyB3ALNaoHWv4H17C7
-         lKQEyxsDQuqR0Ap/X7HxniLHaRpT3HsxkdZBF0iJWaejf+/R/ORb88CcyxV7uyq6cAvb
-         As0wrN7FkdWOTEitujrB8go3e/VC+lpoOJG9qLlCDXkCGzTwEZRgD9NFE0BaweQijY7w
-         R0JlcIzXaQ3iK2M0ZpG2A/sN/dLX9gqJsbE2dzLasNgCmRLd9blSedtSi5QLqFQHT1EV
-         fkDN5CAwNpFAMg5xBIGp75GpcpgLhIPknx87KXKClBVzZM7R2AtJ/NbrJgchuLn5Hoaj
-         eqnQ==
+        d=redhat.com; s=google; t=1787512378; x=1788117178; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
+        b=ZYFEpEGm0kfvoRel5A82MQqm4emsZPox/il/rqXogArEPU214HugAriGOeE75QRJPg
+         c0FiZbw0J9T7/1CndA6zxWZlhqO+8AevmqUWEB3m/SU8XUZjnGw2I9HZRSOwDMtC17nK
+         9Yq8a/q3uzmVMhCWC5qt/4XWm4gCaIDQUy0btchB+SKL7qP2TXb/uS2OjSo2vcS+3mDM
+         ibLgjvjsCDVa2BJwSwVZzDCqCKuR9JXCZncAwB7xskT9VUzpTNjVJG/iARHagvrcLlWb
+         A7MC66akhknG1lsVWhe5iqqQtJNEg/w/l0y5OvObTX+bFomJFg7EsPvcZQsSFa8Nw4V4
+         w07A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787504241; x=1788109041;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=syT7GQtDMHPLcTTAdV7OL+T3aNWROaJmphq5EZ8nhH0=;
-        b=BEfE/mCir3DBbwrruhWJ1MPUEGvCKNoSvOm3jEo9CcKJpe7TMTbi/mGXx8U1efDrQR
-         xQIPBXa/Lt8613JGfTFdy9817viN+EmnJ9A7dRINxNNs40cVSoWWYCIIVRCZ8RfxG27X
-         Alii17Z/hrbVTJdkwDZYdzQPsl2y3pdZGX3fGpSuZcX42OR6kfXnHriWGazSeS1QEefd
-         j4RyJRbF0omL1PFaqleLS82NMckoG4rCS9v/q3zE2lGQAjBFt/pm5Ulgws3HzT4EQwR3
-         YI6BKNwAjWQNVnQH/yEcWyg4ylUQXO5C/cnI0QMnwB+JCaJafkexE526LyBTdFCcGxF3
-         /4CA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqiwn0OUeULTaKoEICNLJUOQ+J6RIH4z/PT81D5fmPNSY48TvqYZSoTzLX4snTwwMFT7xqgrL4TpE0ZPXbU@vger.kernel.org
-X-Gm-Message-State: AFuF++lbqxkoqPwUJ8VOfBZGOXpGTtWQ2FRXpaRwrmnDUOltuFh00Ekp
-	ZholVFA2T4ahG74a0oNLZroRYYmBs/gbUdNLUjdkqsAilHMs9LRShCI2jo4oE3Y+26w=
-X-Gm-Gg: AR+sD12C4rVD5voWSmqHE7wYjmrrQWXFQJ1aVl3HUF0p9XaX8FGrtyqr1B30pvcoNvi
-	6Y3N6sCZMT7nTNjwaanAjSiQpsdlW4NYYSFwRTwCAP29xaInHJiVl9xoycB2NDKc4mkuJx/xAZc
-	uRaoyBrnhWdi5JN9mr7ttEkSDdilQ4pIIuL6ZLJLetnjrj3bhBZuyqOBRYzsERAfXg+YzZSVGsA
-	FqKSYlIV+iopaG3cYsIiL3lRqrt5q3g7bdTxda8vuK9RI2JbiLqu9r6pu5ibHkEwOvQpgRxA95a
-	INQG4ntdXk+b8DZw65VKzewaBDKHddRY/TEpcJhsV/Wc5H+4d8KAYs4R6A7xYQ8LE0Dh+ZSHdek
-	Dlq8fJ5Khc7yZHYi9pv7SRpBbXj/kWb0DCcDzO4Qk+wO8RBh+u19uWJ01k+2G4DJBqXgWQEv63E
-	uNSCQ8/VAgudiixxY9Ca0ZnGcTI/3T+QQXsTLCP5yzZYe9OMsNcxlckXFsbarRNKj6EWFO0gjE8
-	YrSPgN9oksHzfOMtFalgEESDEu7JTNJFZxnQtfMJMxS
-X-Received: by 2002:a05:620a:4142:b0:932:dbf6:6f9 with SMTP id af79cd13be357-9373942e4f9mr1755655485a.9.1787504241119;
-        Sun, 23 Aug 2026 09:57:21 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93749ea4cb8sm328642485a.41.2026.08.23.09.57.19
+        d=1e100.net; s=20251104; t=1787512378; x=1788117178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
+        b=lyMClckkCgsL3ehZFpcVFVI3NZPbz16INsTuerTZzfrNTFoW8mPbKzDDPTCUO+XIV/
+         oq2/PHb9HENKkjgCSBm1j3plT22pR0IjLricPFMl+EG6h6ea0SyIPb/XfSapKT+4Xl0e
+         LN0YKcj82IsScAhF9EBBLVnWpaaclK/vgHBnxTloYUqezprKtVDUhxlwka4BCCgyRqbz
+         Fjf77rrTp+E0zEK9rZsjiRsidGeM0GdFTDS6KzLcz77/gBXIjwDiHMH11VK9nOmXD7In
+         MbTtbKQrtyZfpcVdYK4xvgKJADPachSJm6z/h0Facz8oXQh7E80kikvu1IxAhTbra78R
+         Kw6A==
+X-Gm-Message-State: AFuF++mTSIfad8UdHufBZ/9P68AgLa0lGZGnlRP/gGHzY8q5/0tmM4oJ
+	Fs2eSEn+4IIB3xzrcJm6mqUj5pxD31UEc3Jlf98PSCFLlFTqKlN9nkcQd+YSRD4nfW5zos5VzKh
+	qmQTDWgocS57qcV3qtFJXEx7j2XKR2HUPbOf+hFmSQxr6M2dG2emTaOpqFrvsQsAbrn8=
+X-Gm-Gg: AR+sD10AA8WhBoY3fOUkENJDCyBOyTfB88ZZ2cEsQwUH2kRaT+BFxNYqrdNkTAUv1m/
+	efnRDJpvIy3zvKZ7W+nNMKsOfIYxk/3vRsuGwAFfdyWlsXdzQi6m8xX9EEhkXxV3R8k29cutbNH
+	iO3Zsfaw29/C9UBbE8gmoTY0hxZrv1B4v6ZyOLXVjwJVZ4BDnjosdo0NPWhzSc82U8ieRKAi8wf
+	+TyyQiXlZGv4AlU0AATwowHDh0PxcXkjnfk/R6p695kqX8QAg0CSUKKUtX3e7jEmyBe8oFmKn7f
+	1oqThNi8qk9Uciilv7qnYVe51PrupsbyVnrQdr6MywKcF69uFOlO25FYcOtKMZjG9GHk25nRaOc
+	xcjzSV+5pyib6tY78x7ZkAwow
+X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210451b3a.14.1787512378311;
+        Sun, 23 Aug 2026 12:12:58 -0700 (PDT)
+X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210390b3a.14.1787512377847;
+        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
+Received: from kernel-devel.tail62cea.ts.net ([240d:1a:c0d:9f00:be24:11ff:fe35:71b3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f161701sm1224422b3a.53.2026.08.23.12.12.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 09:57:20 -0700 (PDT)
-Date: Sun, 23 Aug 2026 12:57:17 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny <iweiny@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni <haren@linux.ibm.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
- framework
-Message-ID: <aoslrrY7CrpmUc3E@gourry-fedora-PF4VCD3F>
-References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
- <20260810202539.96378-1-john@jagalactic.com>
- <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
- <20260822000728.GB6047@frogsfrogsfrogs>
- <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
- <20260822174029.GC6110@frogsfrogsfrogs>
- <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
+        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
+From: Shigeru Yoshida <syoshida@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Sandeen <sandeen@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	Shigeru Yoshida <syoshida@redhat.com>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] devtmpfs: apply mount options to the existing superblock
+Date: Mon, 24 Aug 2026 04:12:53 +0900
+Message-ID: <20260823191254.3696641-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 23, 2026 at 12:43:14PM -0400, Gregory Price wrote:
-> On Sat, Aug 22, 2026 at 10:40:29AM -0700, Darrick J. Wong wrote:
-> > 
-> > A bigger question I just thought of is sharing cxlmem between files (aka
-> > reflink).  Is that allowed?  I could see a theoretical usecase for
-> > programs A and B wanting to share some cxlmem for communication or
-> > heartbeats whilst having their own /a and /b files for their private
-> > memory.  Probably you'd just create a /common file to do that and not
-> > map the same cxlmem page into /a and /b, right?
-> > 
-> 
-> Anyway, there's "allowed" and "useful".  You could technically do it
-> (maybe not with FAMFS' current guard rails) - but it would be useless
-> unless Process A and Process B were in the same coherence domain.
-> 
+Commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
+public instance") dropped the reconfigure_single() call that
+public_dev_mount() used to apply the options of every new mount to the
+single, internally created superblock. devtmpfs_get_tree() only takes
+a reference on it: the options are still parsed into fc->fs_private,
+but ->reconfigure is now only reached via reconfigure_super(), i.e. on
+remount, so they are discarded by put_fs_context().
 
-One point of clarification - useless for both processes to write to the
-same file concurrently, hence the need for a producer-consumer design as
-John suggests.  And even then the software needs to handle coherence
-and cacheline write ordering (which is also not guaranteed across
-coherence domains by any current specification I know of).
+For example, systemd mounts /dev with "-o mode=755,size=4m,nr_inodes=1m",
+so size= is silently ignored and /dev falls back to the tmpfs default of
+50% of physical RAM.
 
-~Gregory
+Call the underlying ->reconfigure from devtmpfs_get_tree(), the same
+way tracefs and debugfs do; ramfs has no ->reconfigure, hence the NULL
+check.
+
+This restores the behaviour of commit a6097180d884 ("devtmpfs
+regression fix: reconfigure on each mount"), which fixed the same
+regression when devtmpfs was first converted away from mount_single().
+
+Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+---
+ drivers/base/devtmpfs.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+index aef0fcc6aba1..f0798fc1bc34 100644
+--- a/drivers/base/devtmpfs.c
++++ b/drivers/base/devtmpfs.c
+@@ -80,6 +80,18 @@ static int devtmpfs_get_tree(struct fs_context *fc)
+ 	atomic_inc(&sb->s_active);
+ 	down_write(&sb->s_umount);
+ 	fc->root = dget(sb->s_root);
++
++	if (fc->ops->reconfigure) {
++		int err = fc->ops->reconfigure(fc);
++
++		if (err) {
++			dput(fc->root);
++			fc->root = NULL;
++			deactivate_locked_super(sb);
++			return err;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.55.0
+
