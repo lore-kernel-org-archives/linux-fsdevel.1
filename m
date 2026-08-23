@@ -1,171 +1,413 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22FD382F15;
-	Sun, 23 Aug 2026 15:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72349285CBA
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 16:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787500678; cv=none; b=QmdZwfsJl7vAYlGgbx8X7lNAG+gYvHy+OepbWIU6SctbeNsV6J0xHCcKubBaCD7hGVMfUzM62MO7+jW18Y/ShXJxskLpjum3z2bFe3cCLoLOEgES8VgK6vPRf7+ahIWlmtiwtpA/CJUE7GdlY1eFAebhG9AoYrHxnkFJJTFSACk=
+	t=1787501177; cv=none; b=VCoWWrJCzyuD4mxRgheJhGSLef+8O6nJFhSjn09x6sZn3IQPvVPC//NpbnI5tfi5hTxdw8EZi0pbrfe+rHFGo/RJPR6TMYDXUUBskENFm0m90AxCb0dOkAa2iZZOREQ8JrUw6ci82K5O+LKWgS1W8pNeAO+tZZIuWLQLegpvdO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787500678; c=relaxed/simple;
-	bh=jiFwZFp0evlJn4u9xurLfqyhGtWOp+pe2r3tMsa2MGg=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Ln/T9YU8d6YrGWs1ILKGRcVkTTXJuV2Q3SA+fps2lPCFWvkNkJZzdeP2ao7psbLgqYKPvP6n1hJuFYV8zyzCH2FspTRc+CRo4TtvRtPK8nqIJQUEAb9yp20NnKun0zAF2eZ4T1efDDqs3qudwheHobPCwEkxvjJqlzbJo7qxonM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=rQNjsoBY; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1787501177; c=relaxed/simple;
+	bh=wJic2UAIxBPyZgLC96Z+WSUYmUOLk7qIkYfZE16zJyU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dv41whVaVZi4VQ8bs5OAp038sbPQsC20HpD53gxADWA/1ZOIle+b9NrJvZ3FDaqgGwpvwWVf2hUJ6mC6NCNF3kCQnO/5qdm7EvKHQVGW4TZ3t1hOXw4bQxfj/COHLylemLvBWH4Qhd3/iW2oOGhUMPJ31294Uvh2m701HYb5EBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=N2J6OIxS; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="rQNjsoBY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1787500638; x=1788105438; i=markus.elfring@web.de;
-	bh=jiFwZFp0evlJn4u9xurLfqyhGtWOp+pe2r3tMsa2MGg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=rQNjsoBYOJ3MuLibf+MSM7+xBUfroun04ceHTS11nMODZsyw7R++APMFNTUK0XNQ
-	 q4Tg3Yv5xWlPVS6YEITFlCW6C5plegmsBCJtSPKiNbKMVdtAIhPFHKa80v4Ej1mNl
-	 9/TWXjhMrR2O3DAY53rCGz5Iqr8A+hvxMpXTPvLZTj1iklvo6Xg9gFyNHA7zYbEnf
-	 c2DpZs3D+TIiTaIBYH+QWYHuLothCKxAnOc2iDJrmS8Dn6Y3hkN1p5VAOWSbnH6zB
-	 NCqkmjEAbNCJkLVSYTwNlmvhaUwTpUAlUmq6xv6gx9gAjoVGQjbIYYlQLkt9Keg9y
-	 eNkYvkGjOT2Z5LUA8Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3oyy-1wpbwr3Cqm-00tQtB; Sun, 23
- Aug 2026 17:57:17 +0200
-Message-ID: <550ff0b4-df39-46d2-9781-c8688df10c93@web.de>
-Date: Sun, 23 Aug 2026 17:57:11 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="N2J6OIxS"
+X-KPN-MessageId: 8d228739-9f0c-11f1-a5a2-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 8d228739-9f0c-11f1-a5a2-005056994fde;
+	Sun, 23 Aug 2026 18:06:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=PBexnP9AD6x5gbEnZv5Lm5xsfraWCFmP//CI9dMmy2Y=;
+	b=N2J6OIxSX4jTkOB3o7/kflyO26xam2DC/T0+KC7sRpbacu+G6j4qEy6upG3p1ppD2Vswr3GNzptU2
+	 bsQbne7bgdnpPTPdTrUr7JQ9RSGi2bLPdikIQw5kosyOb3/hJGSWdRg6dD+PYymILS4nHIXhNzOG2F
+	 TcgXAhUqReYzgAEXDIbJqyDBlRVIV+fcVuBAOEKpIcRq0Symwe0DtFNyw8ApKCNQizwbeJ5AZgpGu6
+	 vYnyhlP4VqhK1NvizM3250BM/87cFve1MOofnYblrt/GEK51Vj9EtxUAv/VEbw9QHpw9TesD7UZPvX
+	 am9gtBNPNvHOGrhOMOWI3/UhZOh2s8w==
+X-KPN-MID: 33|fH13FB7Kaef42rY0JazBDs5iV1vYXVqrNTzLpJItR7GfMsHPtLkJA9HOsbrcu+J
+ rbUx5gA/G5EtQlnPnHbTMJg==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|fiDKeULooFB3vxQX0+LDNWw24GRuHOJkAg/JGSEkdXDSsD6vfAXBlV9N+tdTT7R
+ nKLD6A66A8ZVONE99x2d89w==
+Received: from daedalus.home (unknown [178.231.250.211])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 8ce72b63-9f0c-11f1-8ddb-00505699d6e5;
+	Sun, 23 Aug 2026 18:06:08 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Jeff Layton <jlayton@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Aleksa Sarai <aleksa@amutable.com>,
+	NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH v5 06/10] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Sun, 23 Aug 2026 18:07:02 +0200
+Message-ID: <20260823160706.358293-7-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260823160706.358293-1-jkoolstra@xs4all.nl>
+References: <20260823160706.358293-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-btrfs@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Bart Van Assche <bvanassche@acm.org>, Damien Le Moal <dlemoal@kernel.org>,
- Jens Axboe <axboe@kernel.dk>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, lkp@intel.com,
- oe-lkp@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>,
- Hillf Danton <hdanton@sina.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mark Brown <broonie@kernel.org>, Oliver Sang <oliver.sang@intel.com>
-References: <8dedfc40-9cae-44ff-9960-e0eb1825e963@I-love.SAKURA.ne.jp>
-Subject: Re: [PATCH v6] loop: Fix NULL pointer dereference in lo_rw_aio()
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <8dedfc40-9cae-44ff-9960-e0eb1825e963@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QnMg56S+5Tqqo8eAfWX216+eTqfSXkK364Kqj6Wla68OHJ9vWef
- hMDfSrwlSvuHhfznQOUUB18LnI+yR7uGCHeTwBbWWOOeBinz42ro0JGgMJIZL5Js6DmOozz
- yq94Y/NwWLFY13eVvZiGh79Z8FezWYeQTEDjFJya3MGzybnnMhcQrJrZr84vA181oNEV7Lt
- CmMcwSTbGK/qeQZVfBWpA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KQEXKRtTgg0=;0CdyXlsceYWAmCK+ZH8RqnxfaAR
- l8eJL6Uq04XV80ijozfTgWFIfJ3jK7ZbBUsS8dAFlwWJgvc5lQ7NlpTKU8nMsDxbYX5JJo8K0
- 2PlV4IB686ufWBClOK2PoIArBo2mSRyHzkPEoV2vGsRJq8pYwFjPt3XCICQtWwuy+IODor7Ej
- F+w8Dq2EUQWVGjhWareGjhrYNriPy1rXEVVeVVRwKF98lPupP/rH+ptLl6k23FdLlRpEnTuVK
- lFC4L91r2YXtjd6n+LP/I5fxWAObeOtrQwIam515VzB44AewJZYKav9/DZLGpxoTzyMaVIIMP
- D4I43VYEO6DaIFX+tLlj4bHN+a5fzWRpv3TGh3IDlIfCtDogxTZcgYlcciHtlrLlrSTheONZb
- WDL3o4mbW/n7uWibIK8I3mOiKeECTfi32qJKd0sggtQXu+Pv2cNxCmimjQc52d4JJhfVAhNnm
- 3r/heQ0XKEbuRX3YTsDXaLgqVHu5zS0OYcSvL8AY+npb2TLCEvKNrg+TkpINDS+9aqhPDLQXI
- dI+5by4cdEnRjU7hALRgMqyU1RhqZGiGch8E26lRpmF1VZUbg4H/1VHYPzdfKd4UKYlhwFRS4
- XphInHnmBzhzUrzaF290VAoKq2SxE3fhlfP6t06dTTDLwovEbNZcDHkw62rZntf42Zea5YsiK
- 46fIvyJI0vZcrUhaxo0Hi9izx2R0arFTISlM2ECbTYUPUoHpgovJZeZ9Fc4VBLnc67rE6m7OJ
- +BNFAZJ+wRIjjUbxPCsAzH7pe7K6nsp1kZKoMfBrmExIhO2QAxGfcXh52/L6SRzXwRJD/otBn
- A2drS3dd502HdmP+ZHsayEO2Gl//3v9u/lrwHxHzAW7rJlHnpurdVsLgZTiiMs7uAuv+FuZsG
- grHRxZB0kXXLJAojK7bny/NzSS2DXYZG31ybPeinZKVTTw1P+QMKSmXRNBjWGVlIlytgZQ25/
- eaKnvq9P6uOlFzugjmT9CKKdlbMqomvRRByugcmFmZ7LMwTbSwP4hVwvsU4/zwhVftDIgQxf/
- fNuQVmnAGKu3KfmkzDP9+pS43ZXFkfO+gp13G+qKMwmqnLulN1qIReCOeaxe6YxhUYX5J3nwP
- vRyMpN4PUrO64W3e6EZapeV6hHnQZPKsrqXXKFXYxlaYMt9np4DtD4SU27HNTf2scc5yyf2XR
- AhDdbO6DFBN8zzJcUOCabr5CKxF/aAtRxQ8FwJg8WqHOpnLzIrP8rVoWrYlquk8IxIFuH9ckY
- HrM4U12leZD4wq4nL+q47etS/ITSXX1cdolD6r74GBilLf31dsWQGTcMjIA2eTKajdYIb9Ogw
- YvtV6z5rOw6jxpRYvZYEZ8S+XwpXeG21PI+nPtMDld9ZYbsMh0KnTVm49hQSaDDi30mX2hgaq
- rfTVhmnXobyLd7Q+ntGIcYjsZ6F1EN0ZsJ3AdFZsQqV1QkwEBtOOqmGfYXsQQyJdjU1QWVFoW
- Yvycm2lTX1GBlsb7wVGGcryj50vl7VB20MoggUHCkxPVHj+nb6d4GbR3kmtsWy84B0qj4DR0C
- ybxABD15tH4RogaUeVKpZ+jQFqy5q8N/H0pn8EbcCWfoU54sYWPKvB81ns0XMUQUUKX5na+Wz
- /iUBI0SpFanxeHk5WNgwz6SrsAhcIO+XFkvPa6Gk+5BRx8OE7VHk0OECaxYRtAF3XNyH3XPle
- EZwwMk7q1/oQPmzKCsqFZTrr4id8B7huXL30gPvKYB+G8hKrmn7PDyYp7d0u+SeIwbSq/zHzv
- R0U1Iqd9fD/dq0B+W1/6TKaOJXnz52rVtNueRZps4eDd/K4U/zkVIwix6bDyhCMq+lXRAl9xW
- 65QhXBtyZRwgiT55jCIxGXxja8Zvoa7u8nOGqTtP1JdcnI2yxb2ruZPZTP8uMnmqN62xmxhZf
- N+yJeHmB6GWJlCti+Zb7JYS5ykvmrjdkLQ/A/HXqZj2UxySPbRfpNW/jFEzA77MqxwHDx2Dy2
- bMrUbwnDTjtvyqRJne0GuBzvoNg13jWSjOTwWtusR3pCGZgi2vBqICC9lpTQesxemlA6o+5ay
- YG0NVK89kgxA3Bs2MxTkZMp7B3V+QZ8RmaPbThqRKjDdHmyLnWHuYCNLKFk7nlyHhlFXqnYJv
- EfIblTK7bgCnera4QaphLRnou7QaBM/O4rPK5M7WA2LVwjRQw87fX+p/akbtOCqZJuWmDpIEZ
- z1jHi1nI2JzH+QKcKVT9zqBkDGPofUqVi8znWaLitzk5lnF5eQ8+Vt4L7PQqtZs74Utrp2N0P
- SU1b10As+sCeuS8XFFHfP28PswTKZwDJOATb5DeUzWFp2QhHlRWE85w22smdgDtcSaK0ABDHV
- NgywHNbyIiwG7/9wdRfsJ4ZjG7FiF/edHQ57kUV7mEQZe0ZIuqTZFutQVRTpqr0okjMIP6OMl
- OSNVgl4tpN/SvZ2eSRVv4Yj/qMjDS5ITWL84MEf7lBHD2prWums5hThGAdjZY2gPl5bI1YpPm
- wU5dDESyFEXIVqrfP65UyyFzzUcVMLEyrSokn43+40DZ874A+jQXLixSTNUxi0K8EGWtWvW79
- Tuvt97eQ5nW3X1jwXP8+d20XoBEevHbsQUcx8xVTnL7ugUgS/t0Yw9Nif2XTUGJyf55l9rkjw
- 13Yc1+cG4biPUP7WR4bdM6GVJuszV1ADL1e8cqFSkFkWH1LRjh6fZw9Ba+biBYUBO4NWHw/cj
- 61dZL/ELaiH1UxbCj8gAthp1IGKokQJOrMvmOuTOJRPhxr97J0UZKDXF2TEGXCuj7mUtjy7GI
- RQbgq1BsHS0grwPnDqsvPjexc0GXCRMkXSRKEU5jB+qeMD+Ykqw/PGhJC5PLx3jvouIXtn2XK
- iRPJqMCry3cxkeJPVUPtDHDQpQisGaRIwu7ieDva6cFJfsfK1UVsgb71r6ysA8cbnHe7OCd4W
- CsANWQBBUNrjmLWMjGBlirjnso1YdLzV8GBIxDmT6/iyztBWl6st/GG3es4FYn6MZK4CEBmzd
- K1xLEmgRTVqZk1sWy1Ii/mAJvmdyXMDscmCadJFaVH2KcpC5tG4mWVVmsfWs8au839n2uyuPJ
- +cGdCQBsQJZGi9ZYeg9m3Je7GBLSXs+SdcWMcWP0DeWT6JpxjtPlozqucqAXcLjTcmoTFMstf
- rrDBOi9wcy8CmIubA6n/q/LvZHOWk/RIHfELFB6Sb15Rpnd4e7m8pIAQAo2GoNElfH4ud2+Cm
- W3s6uvTrIxlXr8AYYJAg8Y2vtE/Qgh0DFPTmX75XSHy7mNS5ywIcJc1tzeBgdMbXM/WHeRT9V
- zD3+MvD6deZWMh2/ugR3JPV/6usauhK/Xq52FDRx/VcwMICUDRshPsnd5j74iraNaG94Ybt1l
- DpPyVkbdpoC0bQjiPistaPiMLiaxgLWgulqyRqJ8z1J3wrL7FirV+FYpZXeiR+0a5H5fTBxs7
- sKaou3joaJI+55E40Hnx+wppSk8uDjp0JKIsx6WXXz12eP8faNVyphfSd/a0sIMYKJM5Yvz48
- POb1sYdtUY+Ik7gUPSDAeVZwHYr6ISB8cVxOwrXsgnvzS+PpsXyhbDEEakufygKGgTtsn1XkD
- IqCva6KFlm+DTyqv5tqVTGuV6bY7eF/rLfpZEDZwSbwiS6baPxJgCWtvTd6E659nj5TpI0ZIK
- HdvJNgHOuL3LCfj+Tqo/20rInKa1jDGMbzfj+44baLBfjuFGvnPxRvK9I7ZhExsd7nIyxHZv7
- cqEB/sph096wEjxwgVX7htQR4pgX8BSCrxWbQJy7MKVrytjDxTLCH+i/UxhbznzpSoiR2H/zi
- EjdHefpmDpuGkg5N68cJQS583znCkYfF6Lwsi8F7Cvf1SqAf+57VvWwLsgc6BBNZvr3o/s1Bq
- NwAoGk26CV+6cesWbLtiK2PHFk9sva9Oz6iYtoROCsCLX8oMlBJPV4/M3ntAqD2GeeXpWg6MI
- apqi1m2+4bTqu8zr6FZT8cY6UTE0HE6cmQLtu93LWvSqjFDH9YVNlg4UnZRyYA5o6Zde4S3QT
- cLWMnOeG1m88GMzWOBiW35eYucgdJRlp3Shgd8FhXU593EAmx/za45gy84YbWxs5Csd8CMb0g
- V8ygiMZ81U8MOtbHO3qesj5Q/osKlgLHcTa50h0H4KqoC4QKDfI7WLMpkBX5A9EXxsOUeVmdO
- enRmeVPT7T6gCzZOkQpaqfMgdtrPCfjGRK74s/ViRbb3fr0s8/zNHDzVfBYfIl81HEeqqX6Zx
- ZxiN+PNUOTDxM22zDwpFI7xPMuUkD53PMWEDS1pDYjtyif1k/2Y+0NECMz50iuRi/aMFTzsiF
- 35qIL5l+sht+p3rjtVgEJGggnl2a2WL9h5EnhNP+GGOQhjSPaieZLdeVkwwquueGHe6CQJ5GJ
- RCiuE0GBvyk6L/gjqq69vBPc5XM+TQidVOwHgZsD1mOOMHuBPjAh1wcLUkzWVrlV8Hg1Q9dYJ
- hphJTeBBzMT7/J3XbLEJHY+GbqHd/6gLomKRzSUgJhKAxI2hcDQT+H0Bezk9Xsqe860j/cItY
- qUipoXYgjDGG0bWu7lfS1YxnCHtCxR05xB6eI8/apWACGCwfMW5Y/K6eN19DZ8puZ7eLuBbrP
- kOse8n4U5HUmr/0AUlsTNABrHMiGpCFImnv99MiqevuPmlGoWo5aDr2FdrDnRzwK2QO1v7IPS
- GfCijC/0HDg1lnDZh3GFTT4eGXFiFoXGTnJCs33CSbhJ+xnV+uMz8i4gV0wBl20EF0RN3mbn0
- 2PaFgnmPTy4qIy1jlmgUZ0lIlWt0HBtp9gO0m2y/9DmV4Ub3jnHXsa/I6vn7rtHpuzseCkN5/
- 2nvdpFtKSWKl9pdKjRiSey7Yr83NCAdboP3UFQ5xNYl9BkTakB3n/9X0935JVDztAjGD3eC5B
- 6r2RiKYSnKXyu6B+HcZhJjegXg42s3I1aAbtdePhPc7R9AGik0TdlOdg663ccoXvcvhhZdFFB
- XijkNCXchbcJHlM7GPNcJOL+GML0yrQao1oew7p0JoXXVREOkkXASyVw9ROZ/3m12k9aR0DrE
- MFfF8UyxsKRRuOiUMuXOGvTF06vrHKzIx3ecv291m2fSJ5dOOiLy33tss50IVVuU/fMBmeOHy
- Nekix1J/5V/c7+ZdNZvOZiLpJCmSOJLLhrCoQ0qp+O33Htx6eqQkWJVIeRg4QvRe4S9dr2wJH
- moowzpLwLLmwvwRvYYNEuaMvGfa3n5jG8oNCvWp75d+ntnh8vZRj/ZfYyg1TJZu8QCEO1QvI4
- 7HOOnIMFT5cGznlLhEeSCn5BJISujV6Sujy9fqz8O5YGheGROD42OtBdPFaXuSuH4QoyUM3Pz
- A+LMTqvXMdfKMQ11cVTRcUSyOrRbxeBJp5Z9MJj3BN19PZrieHH/F7UFXf7SEjxlkdc/Zbg5L
- wM22xYERgScirkGjq71fN6xEu7fqo8Bg5DZEpcMJYJgEQqfUL29AJGKfeKdJQXEcAYzkzNw3b
- 7EFKIsTz8kgIZk0xnXf+uXhr01hZTWmxM+EMiK9b6sVQT/QI1vPNt/FsjLmC+d6anKaZfqt5M
- QKXt0bwGZ/BwOooP3kKN/ms4M6MyRxT0hMBOnHCm5tp7K7H85w3aDyOo4zGPzNqN5AHB3kmqm
- UdpNOwQ9WdqK/2LK4m8G0KFJ4FBxMWM3fw1JGzbPIjC1Zrs8nl0bQNxqbMn/04dPJIE0P5Hmu
- kWREsElU+CvPQe7Z+9Knt+hUlpKRtuKu2Bira67r+MfNFRjrgMpPBcvsp+Y9JIgXJX1tgmQwt
- sSH2XHxPaA5mpiLIFJsC42WVzNmq83ZJtnYPR5sNuXGHAlJThX8Lj6mlOjHPVKO4+9n3IMaJs
- q30GoKd3vQaIj8Wns8ZiV4/y19vC6D1WvlrqnUhyN1sMfTvVmU9IFCPAUjN25KVqutNVKXn/0
- NkD8dE8/cAj9qW4F7+DtN///wpkZWrynVSHqdf6XLAkOUSUFXtqxxC+camW8xjYKTdLp9DQtx
- 5IUFG6N+EmfPwL4LGhCqo69FFzfCsDBoLbbY0Vfwc9jkcYD+hMK0DQuuPSMcifBR+yJtFbIov
- hrdRJYkZEiraKwmXGR6MA6yvZ+HmpA6lYqEtOpDH2H9bnGLMnTQMedlJ91PidvarClzEzlS3+
- VTi0N+2aRJyba34JcjDnayiWw7VTmyH8eK8vjTGpdII126JTJHt9Pj0NS80W+dP/JP02fkTtX
- /rehzcEGUXVk6SnsTKs/Lvxjbb9ASCfEpFhLrnKcf92JXgxi97eumAyQOkwZVG7l53NxK50RN
- 4MmEU24P4z5MW0euZ4PqG7WQPE/hGgCQ6kfQ/esN6DZdoZZe3maCxvgfrc9/ELxpSD1pQs8L4
- 8762XvAJrfJZD4OvuepKY4SehHhgTA96c6ndFuOHnrm8iBFqIHTxrYyFYmDEnnn6RsBE59w36
- MrVVvgEY6DhwLL4vDZxs0zTjQ+Tem56QES97mT8RUjuqeV7BwCR0LijV7GJ0MDM/o9Mst948T
- S2iipXqSMWs3OxE9WXgITizSPJ7wKmUi7ZJQoJGdXmMFU7xbCMKGaKwTb0NfrSW/U1Ih/K78c
- dke/jKy9t2bAriDrAH2vjqJTOlwO5EuK3Rt2OiIwIAszqDQeKGAJMdiqWi0r6TMMhOu2qoZEp
- AbtzQBKKz9hd1hWBpJEBUX5vQhVY/7l1LaIA5iPJDvNJhsq2vBK5DQEK2DnOqQNVq5lC1eV4q
- 9QT8eWLHaw0O+6GTMMJE=
+Content-Transfer-Encoding: 8bit
 
-=E2=80=A6
-> Therefore, this patch introduces a grace period for =E2=80=A6
+Currently there is no way to race-freely create and open a directory.
+For regular files we have open(O_CREAT) for creating a new file inode,
+and returning a pinning fd to it. The lack of such functionality for
+directories means that when populating a directory tree there's always
+a race involved: the inodes first need to be created, and then opened
+to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+but in the time window between the creation and the opening they might
+be replaced by something else.
 
-See also once more:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv7.2#n94
+Addressing this race without a proper API is only partially possible:
+the caller can immediately fstat() what was opened to verify that it
+has the expected inode type, owner and mode. But besides being easy to
+get wrong, this cannot establish who created the directory: a directory
+created by another process with identical credentials is
+indistinguishable from one the caller created itself, so the caller
+cannot tell whether the directory is its own to manage.
 
-Regards,
-Markus
+Historically, the O_CREAT|O_DIRECTORY behaviour was to return ENOTDIR if
+a regular file exists at the open path; EISDIR if a directory exists at
+the path; and to create a regular file if no file exists at the path.
+This behaviour changed accidentally with 973d4b73fbaf ("do_last(): rejoin
+the common path even earlier in FMODE_{OPENED,CREATED} case") causing
+ENOTDIR to return in the last case while still creating the file. As
+this change was not detected for a long time, Brauner proposed to adopt
+the more consistent NetBSD behaviour, i.e. to return EINVAL on the
+O_CREAT|O_DIRECTORY combination. This change was applied in 43b450632676
+("open: return EINVAL for O_DIRECTORY | O_CREAT") in March, 2023. As
+the EINVAL behaviour has been in the kernel for about 3 years now, no
+rollback is expected as a result of userspace reliance on old
+behaviour, leaving us free to reassign the O_CREAT|O_DIRECTORY semantics.
+
+O_CREAT|O_DIRECTORY is made to reduce to a lookup on ->atomic_open()
+filesystems. These filesystems currenly cannot handle
+O_CREAT|O_DIRECTORY without protocol extensions and therefore are forced
+into a fallback mode by stripping the O_CREAT bit. This causes existing
+directories to be succesfully opened, while for targets that should have
+been created, -ENOENT is returned. The other option of simply returning
+-EINVAL leads to inconsistent behaviour: before ->atomic_open() is
+called in lookup_open(), the dcache is queried. So returning -EINVAL
+there would make O_CREAT|O_DIRECTORY dependent on the cache state of the
+dentry.
+
+There is no separate sysctl for directory creation implemented currently.
+Therefore, for the S_ISDIR case, disabling sysctl_protected_regular is
+not enough to allow creating a directory in a sticky folder, because that
+may surprise users not expecting that O_CREAT|O_DIRECTORY is possible on
+newer kernels.
+
+This feature idea (and some of its description) is taken from the
+UAPI group:
+https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c            | 89 ++++++++++++++++++++++++++++++++++---------
+ fs/open.c             | 25 ++++++------
+ include/linux/fcntl.h |  6 +++
+ 3 files changed, 92 insertions(+), 28 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 3afae6e87825..6f18a480665b 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1382,13 +1382,13 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link)
+ 
+ /**
+  * may_create_in_sticky - Check whether an O_CREAT open in a sticky directory
+- *			  should be allowed, or not, on files that already
+- *			  exist.
++ *			  should be allowed, or not, on files/directories that
++ *			  already exist.
+  * @idmap: idmap of the mount the inode was found from
+  * @nd: nameidata pathwalk data
+  * @inode: the inode of the file to open
+  *
+- * Block an O_CREAT open of a FIFO (or a regular file) when:
++ * Block an O_CREAT open of a FIFO (or a regular file/directory) when:
+  *   - sysctl_protected_fifos (or sysctl_protected_regular) is enabled
+  *   - the file already exists
+  *   - we are in a sticky directory
+@@ -1416,6 +1416,14 @@ static int may_create_in_sticky(struct mnt_idmap *idmap, struct nameidata *nd,
+ 	if (likely(!(dir_mode & S_ISVTX)))
+ 		return 0;
+ 
++	/*
++	 * There is no separate sysctl for directory creation in sticky
++	 * folders. Therefore, for the S_ISDIR case, disabling
++	 * sysctl_protected_regular is not enough to allow creating a
++	 * directory in a sticky folder, because that may surprise users
++	 * not expecting that O_CREAT|O_DIRECTORY is possible on newer
++	 * kernels.
++	 */
+ 	if (S_ISREG(inode->i_mode) && !sysctl_protected_regular)
+ 		return 0;
+ 
+@@ -1447,6 +1455,12 @@ static int may_create_in_sticky(struct mnt_idmap *idmap, struct nameidata *nd,
+ 					      "sticky_create_regular");
+ 			return -EACCES;
+ 		}
++
++		if (S_ISDIR(inode->i_mode)) {
++			audit_log_path_denied(AUDIT_ANOM_CREAT,
++					      "sticky_create_dir");
++			return -EACCES;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -4334,21 +4348,41 @@ static inline int open_to_namei_flags(int flag)
+ 
+ static int may_o_create(struct mnt_idmap *idmap,
+ 			const struct path *dir, struct dentry *dentry,
+-			umode_t mode)
++			int open_flag, umode_t mode)
+ {
+-	int error = security_path_mknod(dir, dentry, mode, 0);
++	struct inode *dir_inode = dir->dentry->d_inode;
++	bool create_dir = O_IS_MKDIR(open_flag);
++	int error;
++
++	if (create_dir)
++		error = security_path_mkdir(dir, dentry, mode);
++	else
++		error = security_path_mknod(dir, dentry, mode, 0);
+ 	if (error)
+ 		return error;
+ 
+ 	if (!fsuidgid_has_mapping(dir->dentry->d_sb, idmap))
+ 		return -EOVERFLOW;
+ 
+-	error = inode_permission(idmap, dir->dentry->d_inode,
+-				 MAY_WRITE | MAY_EXEC);
++	error = inode_permission(idmap, dir_inode, MAY_WRITE | MAY_EXEC);
+ 	if (error)
+ 		return error;
+ 
+-	return security_inode_create(dir->dentry->d_inode, dentry, mode);
++	if (create_dir)
++		error = security_inode_mkdir(dir_inode, dentry, mode);
++	else
++		error = security_inode_create(dir_inode, dentry, mode);
++
++	return error;
++}
++
++static inline umode_t o_create_mode(struct mnt_idmap *idmap,
++		const struct inode *dir, int open_flag, umode_t mode)
++{
++	if (O_IS_MKDIR(open_flag))
++		return vfs_prepare_mode(idmap, dir, mode, S_IRWXUGO | S_ISVTX, S_IFDIR);
++	else
++		return vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+ }
+ 
+ /**
+@@ -4384,8 +4418,9 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+ 
+ 	file->__f_path.dentry = DENTRY_NOT_SET;
+ 	file->__f_path.mnt = path->mnt;
++
+ 	error = dir_inode->i_op->atomic_open(dir_inode, dentry, file,
+-				       open_to_namei_flags(open_flag), mode);
++					     open_to_namei_flags(open_flag), mode);
+ 	d_lookup_done(dentry);
+ 
+ 	if (!error) {
+@@ -4441,6 +4476,10 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+ 	return dentry;
+ }
+ 
++static inline
++struct dentry *vfs_mkdir_no_perm(struct mnt_idmap *, struct inode *,
++				 struct dentry *, umode_t,
++				 struct delegated_inode *);
+ /*
+  * Look up and maybe create and open the last component.
+  *
+@@ -4462,6 +4501,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 	struct mnt_idmap *idmap;
+ 	struct dentry *dir = nd->path.dentry;
+ 	struct inode *dir_inode = dir->d_inode;
++	bool create_dir = O_IS_MKDIR(op->mode);
+ 	int open_flag;
+ 	struct dentry *dentry;
+ 	int error, create_error;
+@@ -4482,7 +4522,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		 */
+ 	}
+ 	if (open_flag & O_CREAT)
+-		inode_lock(dir_inode);
++		inode_lock_nested(dir_inode, I_MUTEX_PARENT);
+ 	else
+ 		inode_lock_shared(dir_inode);
+ 
+@@ -4491,6 +4531,9 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		goto out;
+ 	}
+ 
++	if (create_dir && dir_inode->i_op->atomic_open)
++		open_flag &= ~O_CREAT;
++
+ 	file->f_mode &= ~FMODE_CREATED;
+ 	dentry = d_lookup(dir, &nd->last);
+ 	for (;;) {
+@@ -4534,10 +4577,10 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 	if (open_flag & O_CREAT) {
+ 		if (open_flag & O_EXCL)
+ 			open_flag &= ~O_TRUNC;
+-		mode = vfs_prepare_mode(idmap, dir_inode, mode, mode, mode);
++		mode = o_create_mode(idmap, dir_inode, open_flag, mode);
+ 		if (likely(got_write))
+ 			create_error = may_o_create(idmap, &nd->path,
+-						    dentry, mode);
++						    dentry, open_flag, mode);
+ 		else
+ 			create_error = -EROFS;
+ 	}
+@@ -4582,12 +4625,23 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		goto out_dput;
+ 	}
+ 
+-	if (!dir_inode->i_op->create) {
++	if ((create_dir && !dir_inode->i_op->mkdir)
++		|| (!create_dir && !dir_inode->i_op->create)) {
+ 		error = -EACCES;
+ 		goto out_dput;
+ 	}
+ 
+-	error = vfs_create_no_perm(idmap, dentry, mode, &delegated_inode);
++	if (create_dir) {
++		struct dentry *res = vfs_mkdir_no_perm(idmap, dir_inode, dentry,
++						       mode, &delegated_inode);
++			error = PTR_ERR_OR_ZERO(res);
++			if (!error)
++				dentry = res;
++	} else {
++		error = vfs_create_no_perm(idmap, dentry, mode, &delegated_inode);
++	}
++	if (error)
++		goto out_dput;
+ 
+ 	file->f_mode |= FMODE_CREATED;
+ out:
+@@ -4717,7 +4771,7 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
+ 	struct dentry *dentry;
+ 
+ 	if (open_flag & O_CREAT) {
+-		if (trailing_slashes(&nd->last))
++		if (trailing_slashes(&nd->last) && !(open_flag & O_DIRECTORY))
+ 			return ERR_PTR(-EISDIR);
+ 
+ 		/* Don't bother on an O_EXCL create */
+@@ -4818,8 +4872,9 @@ static int do_open(struct nameidata *nd,
+ 	if (open_flag & O_CREAT) {
+ 		if ((open_flag & O_EXCL) && !(file->f_mode & FMODE_CREATED))
+ 			return -EEXIST;
+-		if (d_is_dir(nd->path.dentry))
++		if (!(open_flag & O_DIRECTORY) && d_is_dir(nd->path.dentry))
+ 			return -EISDIR;
++
+ 		error = may_create_in_sticky(idmap, nd,
+ 					     d_backing_inode(nd->path.dentry));
+ 		if (unlikely(error))
+@@ -5194,7 +5249,7 @@ struct file *dentry_create(struct path *path, int flags, umode_t mode,
+ 		path->dentry = dir;
+ 		mode = vfs_prepare_mode(idmap, dir_inode, mode, S_IALLUGO, S_IFREG);
+ 
+-		create_error = may_o_create(idmap, path, dentry, mode);
++		create_error = may_o_create(idmap, path, dentry, flags, mode);
+ 		if (create_error)
+ 			flags &= ~O_CREAT;
+ 
+diff --git a/fs/open.c b/fs/open.c
+index 6b1c14e684a9..189af02a2425 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1239,29 +1239,30 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 	if (WILL_CREATE(flags)) {
+ 		if (how->mode & ~S_IALLUGO)
+ 			return -EINVAL;
+-		op->mode = how->mode | S_IFREG;
++		if (O_IS_MKDIR(flags))
++			op->mode = how->mode | S_IFDIR;
++		else
++			op->mode = how->mode | S_IFREG;
+ 	} else {
+ 		if (how->mode != 0)
+ 			return -EINVAL;
+ 		op->mode = 0;
+ 	}
+ 
+-	/*
+-	 * Block bugs where O_DIRECTORY | O_CREAT created regular files.
+-	 * Note, that blocking O_DIRECTORY | O_CREAT here also protects
+-	 * O_TMPFILE below which requires O_DIRECTORY being raised.
+-	 */
+-	if ((flags & (O_DIRECTORY | O_CREAT)) == (O_DIRECTORY | O_CREAT))
+-		return -EINVAL;
+-
+ 	/* Now handle the creative implementation of O_TMPFILE. */
+ 	if (flags & __O_TMPFILE) {
+ 		/*
+ 		 * In order to ensure programs get explicit errors when trying
+ 		 * to use O_TMPFILE on old kernels we enforce that O_DIRECTORY
+-		 * is raised alongside __O_TMPFILE.
++		 * is raised alongside __O_TMPFILE, but without O_CREAT. The
++		 * reason for disallowing O_CREAT|O_TMPFILE is that
++		 * O_DIRECTORY|O_CREAT used to work and created a regular file
++		 * if nothing existed at the open path. Hence, allowing the
++		 * combination would have caused O_CREAT|O_TMPFILE to create a
++		 * regular (non-temporary) file on old kernels, while the caller
++		 * would believe they created an actual O_TMPFILE.
+ 		 */
+-		if (!(flags & O_DIRECTORY))
++		if (!(flags & O_DIRECTORY) || (flags & O_CREAT))
+ 			return -EINVAL;
+ 		if (!(acc_mode & MAY_WRITE))
+ 			return -EINVAL;
+@@ -1319,6 +1320,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
+ 
+ 	if (flags & O_CREAT) {
++		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
++			return -EISDIR;
+ 		op->intent |= LOOKUP_CREATE;
+ 		if (flags & O_EXCL) {
+ 			op->intent |= LOOKUP_EXCL;
+diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+index 6ad6b9e7a226..204e16bbe263 100644
+--- a/include/linux/fcntl.h
++++ b/include/linux/fcntl.h
+@@ -30,6 +30,12 @@
+  */
+ #define __O_REGULAR		(1 << 30)
+ 
++#define O_MKDIR_MASK	(O_CREAT | O_DIRECTORY)
++static inline bool O_IS_MKDIR(unsigned int flags)
++{
++	return (flags & O_MKDIR_MASK) == O_MKDIR_MASK;
++}
++
+ /* List of all valid flags for the how->resolve argument: */
+ #define VALID_RESOLVE_FLAGS \
+ 	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+-- 
+2.55.0
+
