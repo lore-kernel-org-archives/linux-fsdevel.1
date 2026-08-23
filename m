@@ -1,117 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5813226D4C3;
-	Sun, 23 Aug 2026 16:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE2D320A14
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 16:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787502101; cv=none; b=Ms2FBfbJCsMOaqOi9TSL+zWiVkaenfAyvzaHTPOwyGfj+2gpmhdxF0TT3/XyaSgkoMuvNhCll6Vn/8po0jEo4SUzBrvITXP14kpSouPyTNVYl8ugRoYujuVnXQzf48gn94/dRmY55+HNqYh4PZ789/7YEYpDLweGXs3mF3uwVTw=
+	t=1787503401; cv=none; b=ROuzWWn5x6bfqI/GXD/KO5k7OmsMve6Wvh0OGPG2t+KcpMM8uzmL8LL4BzBoQmJpmYxdckJAl51xhb0WJl6S1QAcmKbsQ5VJfwdqfTm4JbpVRjl8VXMOvp7ZOsAcuIbMJD46ony+qoOoU0vC4rcicnA5MUbSh8zgRCG/yCf8oc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787502101; c=relaxed/simple;
-	bh=APHAnxuSU0LlEop2reWLsLdxUmu7dNgATlbOTdSNQs8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Ux9vj4IpQxeFreEVdumnJ2cns0OORMLgno+FpcrY/tj8K6hqtAkwfS9bF2jn5xeogdOgtrVoxCdB5GBVIX3iOQXOqaRVQF/hqUJRxafmhXtcPQlt06t27sIx4y1AXZnWhwVb6Bo4662s1Qwq6nqAbrH+wKvD6RgspLdEoem1zoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yam/4+VL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787503401; c=relaxed/simple;
+	bh=pWDzkQYpINPFTZeR8thS8nOa7PK6nZSbqUQipGA4xXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXjpRPBZf5UTb4MIb0bGkP7lLIOXQvx0H6977tfO7kuMEEZsatKgZS8yIxYxRYoxPXhP5WFsh8AOt0REwflp4UsdnGlleC0aGIgGszZ7Iaq7qKb/pxFJowhl6DuU1qc0ViSaqJNnRaNYBX7A3a6C0Lf9UWl4IrTlTXNCbJ1bNfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=D3oYCTlz; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yam/4+VL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861BB1F000E9;
-	Sun, 23 Aug 2026 16:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787502100;
-	bh=RnSj+Bgd+3jBstqEGbuyMgqUBmxvmwddc2r8vS78EN8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=Yam/4+VLgoOlGnUCj1nWaBn0mjIRcMfj5wRb2FXU24M2ae3ML0mvxfz5cX6/8iYjg
-	 M1D1FXGvJojKyZwcM5Wbmn3wT4/nIqzsmaKDOllq0lkrJErQUIFh624Ld1P6dBM9Sd
-	 /mKCbcOX4HNk3SvDhYPghc2FLD/+Lq50TXbPX2ezHerw7jIy097+bTOzpDeplPaSHd
-	 H2DbLGFf8LTyGikFC2IJwKW8Yk0YQqFu0DWWlc51sKwsW4a8yBojt4lvnAZf5DIYxi
-	 ogvf8HmFLZCNJ/9OT7FIKddD0ucd3/tORjOVns7YJNi9VKUVLmXKM2zzDDnRaOUTqX
-	 83Qqm212Bj0iQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BE1BBF40068;
-	Sun, 23 Aug 2026 12:21:38 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Sun, 23 Aug 2026 12:21:38 -0400
-X-ME-Sender: <xms:Eh6LausRmUFz0UJWY0txt6xh7T5UY7w7mzS2RMjrmta-ryoUXXbjDg>
-    <xme:Eh6LauSWeJ5GMl24mCNYqSD9GNBNeU0glC8dmg8iME3TlaZB_FIs6-UgoR48F9qN8
-    ZJvcnDXnctbOfv8mxNaP8O9cB5ziJBW6TPgrA7i7ZjQxAwwj6nCRCE>
-X-ME-Proxy-Cause: dmFkZTFZPZzGjOnFRSeRyf3JaiZ4OyG+J7i4q5L/Lw8A0EtbuN4zmwIYyozc3VW6RdibUZ
-    56uROk7F6Ybh9FuwnoSFSFYzKhZlnHi0hBKQWMpmHXcxTknbZ0NRkPmZeM+lYGBTiOWi38
-    hlKdtWbt6V+0iqtR41eQ8h4aaI8ylpXf1FKqBvW8w+oejmbtnOcL3eqha4+Rwevai8YZj7
-    NKKgMKWxa4ObtmEsq65/G4zDxLoc7+WANalviazufnZGj2ZHBeG+r4gB9ePyDFDjy9zfEy
-    zEbMV4GNGaO/iz9Y939b3mWZ+ri0FX6xcpO7yvqXfI0CHR53RJBgCamzart2zkmX6G9gM5
-    vgj8Jym14N2J15o8Y+7t76JyVic75SrmJ4Mbnn742K0LrmyMk1uyq5GfqUHNpMQWebznlS
-    qlXuMp4b7gM2x3mqOruGxG+0i995L3r/yCmyjcLgSKw3I9cmlxp9UPtqsrf/LdGw8/4cli
-    SxBFcvcyRPZkMExYW4s1jkN//LFXrPsYzqElQvKO7AfMUusTrOqVJNHYqjvct3HA+E8rgc
-    wLgaCUkKFl1ut8fHtu4kJyw3JH5b9IbP0gEkDVof94tu2xhq3XA1OZwLNmwmbEDd4kQ4ia
-    GJKxflv3uf4J0VTJw7+cAKFhb2XTD8L60yQ9xYB5LtVKdOxYSgUEOkTmJ8DA
-X-ME-Proxy: <xmx:Eh6Lah8t5tO5VtDsuUW802dmdR3LMzGr2coK37tQuJeSW5RQEjDM5w>
-    <xmx:Eh6LapYD5R2_h9wZsn9VwPt_2iQ8M4QUelFBAVZL7XYJB0FmVUUxHg>
-    <xmx:Eh6LanqYeqWWLtPexkQmIEwpaVFpF32KWs9yKnKbKXRjGOvUSHe4mQ>
-    <xmx:Eh6Lam3PKCfyspW2OFhbDlRkvLXrd0vUSh2RyC9msEKzY7M7Af-6RA>
-    <xmx:Eh6LannHojT__aRyaByOgJD__IBaNE04o3iifCwtIDwQGp6dkn2aMo2X>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9DC4A7811F0; Sun, 23 Aug 2026 12:21:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="D3oYCTlz"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c2cce930cso27635801cf.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 09:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1787503398; x=1788108198; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
+        b=D3oYCTlz7ZV/CP8G0eG7QNXAoBrIdfkDLHRo+V+aL5ugG28nejEPsP1eNMKS/brxA1
+         WeW8zr3GnTTPNXbO+bYNvs09T0J/cnUU+zlsIF7Fqd8aa02uhuwWO1ZM8EvgyE4k0Z/p
+         6gfNs4RnxepRMu4lJr093Kr2yX/067r54D4+Eg7QVN4z+tD2qGKKihOEEmcmecOoQ6ed
+         3HwpG7ytChYL/0RILqtER+MvdyCH8C0rJWP3pePI6O1VwSkZHuaqhJWjSM05KHRInsED
+         vkbylTcdZmmN2ysybcTKO5NM8OxpeUjplAheXrTpkM/8fUg8/znHDMt/UXkvdyAKTHyM
+         fgaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787503398; x=1788108198;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
+        b=DgnG1XBW45zQnRQ7Bbn+OucYkQvwSA8/cqilUG9MFlDPxaGqGg1jMZJdy6ce7DKFGI
+         DPSHOFW3B/ItD8nZIS1aRRmpyhn3CSn9jnm9ByyQifLIiyiez0gx1azn1NfcvdH21o+k
+         SyL2nwrpBcmX3D8IpcjqlLJUG/il8irrsiaui43A4xKFz3v1QlKjv8KfVt3qCXBYDlWy
+         mnnasuHbpFl0NNI6hjcQeOYSvhp+vQhZxt0qzsEgABvlKH21K/s2n+MScu2xuk7J3cmy
+         1VOu/6d1t2J7XkILENJe/1PP1rd/XrE4YT9JbXGiOR+PNzK+ccT3joenhkLVMUodUN5f
+         rTwg==
+X-Forwarded-Encrypted: i=1; AHgh+RoQzpRzBf5epgQ0FRf/9bLcDSrpP/PwUmlJUtI5cfFdNPxtbtSlUobcukknteOWcIArxQLvByygdY8MHwy8@vger.kernel.org
+X-Gm-Message-State: AFuF++kHY4mUU/aWTBafEayP8NPXi0REZoB1zIvJVnPtSEa5knWpfCQJ
+	rCHuuIZqB8XdVEqLySonEIFk9XSlEqnuW6ovsWFSj5c0ccqZGqJUFtVtQC91dZCNfic=
+X-Gm-Gg: AR+sD11oJwUs71q811dtKcNaiMQrKgmgwsx84kXiJ+Sjtbb5YOtvNO/q3tGOR4NRUkZ
+	lIh3CT/cpxbgtlIrrXRtin3Ar0za5AeY4rAMi/kLWsQRvBrzNTCelttF/unmsk9i0DnXcUomr9f
+	y4s5VKOUmQaylVj8uPGir23R2ZNV8iuc41fcTTNiopU++nk9/WmNSPwUagvGbBseXOIiCNQuMoj
+	ic6+ETTkqZ7hnxdom2G4yeHlob77wNvA2oJIfFo/KnJXZhUX80vS8WG+JWh7BBhnfSxOWjosK7T
+	Vps3AfZuO+0Kx1piddXPYMwZOy7h3oqqZU6AOYiEXAi1oYp3DedkAzO0kUZ5EnpXOSl1PDGRa+6
+	qCvg7afJch5JH8pEn+R/vwFTFO3mZkSoaKuUruguCLZlsEmFDxOXRUBi94VhtpZJ82E3cvyUM4P
+	cFIO4ANAOO2X+GC5O19r5XukzQAqtub+vCpwuKkkv2zEOA9i0jRl4zXYBDZgtvSOxbewQRjsfr6
+	6HYFgsIDHwoocHGHswOaRqOMfET/VEJJw1z53YqRod1c0cn1ObxWmk=
+X-Received: by 2002:a05:622a:90e:b0:51c:1fd1:e755 with SMTP id d75a77b69052e-52df59e7e7amr219365661cf.36.1787503398278;
+        Sun, 23 Aug 2026 09:43:18 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c9361720bsm41074616d6.21.2026.08.23.09.43.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 09:43:17 -0700 (PDT)
+Date: Sun, 23 Aug 2026 12:43:14 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny <iweiny@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni <haren@linux.ibm.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
+	Jiri Slaby <jirislaby@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
+ framework
+Message-ID: <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
+References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202539.96378-1-john@jagalactic.com>
+ <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
+ <20260822000728.GB6047@frogsfrogsfrogs>
+ <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
+ <20260822174029.GC6110@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AJDur_V_LH-R
-Date: Sun, 23 Aug 2026 12:21:19 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Christoph Hellwig" <hch@infradead.org>,
- "Ameer Hamza" <ameer.hamza@truenas.com>, "Jeff Layton" <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Jan Kara" <jack@suse.cz>, linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- "Christian Brauner" <brauner@kernel.org>
-Message-Id: <5fb0315d-636c-44ff-8dcc-b4403e3be7c3@app.fastmail.com>
-In-Reply-To: 
- <CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com>
-References: <20260818225715.572140-1-ameer.hamza@truenas.com>
- <aoVHBkmPNSRakbYW@infradead.org>
- <9ad95194-983d-427d-9a07-c9eb0891d1a0@app.fastmail.com>
- <CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] NFSD: Fix duplicate fsnotify access events for iterator READs
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260822174029.GC6110@frogsfrogsfrogs>
 
+On Sat, Aug 22, 2026 at 10:40:29AM -0700, Darrick J. Wong wrote:
+> 
+> A bigger question I just thought of is sharing cxlmem between files (aka
+> reflink).  Is that allowed?  I could see a theoretical usecase for
+> programs A and B wanting to share some cxlmem for communication or
+> heartbeats whilst having their own /a and /b files for their private
+> memory.  Probably you'd just create a /common file to do that and not
+> map the same cxlmem page into /a and /b, right?
+> 
 
+If the underlying memory hardware is hardware-coherent, then this would
+be supportable because the coherence domains of all the hosts connected
+to the large pool would extend to one another.
 
-On Sat, Aug 22, 2026, at 6:21 AM, Amir Goldstein wrote:
-> (1) In this series
-> https://lore.kernel.org/linux-fsdevel/20231122122715.2561213-1-amir73il@gmail.com/
-> we intentionally moved the permission hook outside
-> of the splice iterators because we wanted to avoid calling them
-> with freeze protection held and also there were some duplicate calls
-> for this work.
->
-> At this point in time, the fsnotify_{access,modify} post hooks are
-> usually called
-> from the same context as the matching permission/security hooks.
-> It doesn't have to be this way, but it's a good mental model IMO.
->
-> (2) emitting many READ events from an iterator instead of one event for
-> the user's READ request is more noisy and serves no purpose to users.
-> In most cases (but not always) those events could be merged, but at the
-> cost of futile CPU cycles.
->
-> From a quick inspection of the code, it looks like:
-> - fsnotify_access() is missing in vfs_splice_read()
-> - the naming convention for splice_ do_splice_ vfs_splice_ is a horror
-> - we could make the low level splice_direct_to_actor() static and possibly
->   rename it to splice_direct_to_actor_sd() or something
-> - we could export vfs_splice_direct_to_actor() for nfsd which wraps
->   splice_direct_to_actor() with permission hook and fsnotify_access
+In our current world, these huge-memory distributed memory systems are
+non-coherent and each host's coherence domain stops more or less at the
+head it uses to connect to the shared media (it's probably more accurate
+to say it's "device dependant" but that's besides the point).
 
-IIUC this last bullet seems like clean layering to me. Do
-you want to propose a patch or shall I?
+Anyway, there's "allowed" and "useful".  You could technically do it
+(maybe not with FAMFS' current guard rails) - but it would be useless
+unless Process A and Process B were in the same coherence domain.
 
-
--- 
-Chuck Lever
+~Gregory
