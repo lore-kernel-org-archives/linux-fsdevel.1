@@ -1,147 +1,218 @@
-Received: from flow-b7-smtp.messagingengine.com (flow-b7-smtp.messagingengine.com [202.12.124.142])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918792F9D85;
-	Sun, 23 Aug 2026 01:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D381221F2F;
+	Sun, 23 Aug 2026 02:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787448098; cv=none; b=LEhgxjZmRY2hOu+z2/9aih1TT5czDv2tNwFv6HXU4EnHOntvoET9XczA8ir/+vgTmG1ar0xhTS0Y6W7tnWtBKjtpmDrDMIW7YY8sOLAGh1uJKpbjf5NqObMnQq/2JaRZ92NpQL7c5IJWXDoPU/A/eIR9rUQKA8hiD/JzT89iluI=
+	t=1787452971; cv=none; b=XFA8Qv/LPRQcGtPsbOfTCMkULoLRR1EEGrR9eLU2rjEfFh5Bj3tZTRSF1psbu28DP5bmEGNnjHcydHiwD78i9slx5uMEaXPxEYkQs+ssRVflbdXymGTLsB6PTAYs0Hm2QXr8FNgZQyqWUKx8uFWbKyFDE/omm7iimG2SUVUPMRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787448098; c=relaxed/simple;
-	bh=vNDsmTJS3b+TDa+FCuTOZT6UlErVgF6OPwGcWRSVXtU=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=CFT0gE75eT/4eOCPcCn+6uLZ7cteF/t1GzQYrm69xuNBI/SfvQtfwWsdtIz1X6G5b/rzMb7XmRy1Z7Kx3E+PfV0zdpeZ2oJmXPeseRP7dYD8mIJ+T85BynXx8rUpF/Ckts3B3NCXVhkLsqOiL9Muhc+dx/v2plrt4nqunAGlfe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=UkkHuzsR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NBQFZQpS; arc=none smtp.client-ip=202.12.124.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="UkkHuzsR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NBQFZQpS"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.stl.internal (Postfix) with ESMTP id EF557130008D;
-	Sat, 22 Aug 2026 21:21:34 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sat, 22 Aug 2026 21:21:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787448094; x=1787455294; bh=Cb3hPU9JgV1SMJwig5J+Lg9o0SACLjG3CRI
-	meMjyW7k=; b=UkkHuzsRr1fQWBIath5b/mbCN5jIAowX9SHNVR6MpqT2gx4feoX
-	jICMixIhbr01wGq9J7P1y4383Epbnxt92kZVx2qRmYTXRMv6tQKh3oNicpdHTkwy
-	ZZnJKcY/n8hXRyo2F9lGbsoVn06NqriDj3mv2+n+2duxHM7/S04qEeNeqOcEwLul
-	n664tnwT5Fe8rmT6kTjEMzisq+O0L8cG1ZVd0IkQl9DB/c02k6iHQU3921u5dB05
-	RLaUTr0p09cBP89xjTmogyubD/8Ha8B13gAGVeTlWnQnZ3EGuyQg6U7fSleJwgFK
-	wSB1jQSjCgYh49OcAGQeX7m6Useal9I6fKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787448094; x=
-	1787455294; bh=Cb3hPU9JgV1SMJwig5J+Lg9o0SACLjG3CRImeMjyW7k=; b=N
-	BQFZQpSHXjPMy7Zut8IxuT9yKy2E3WmQCkSpSycmW06uho7oi0JEnGqGRG9dWxRm
-	dn/jp5xoX5kV+fSBuxhi1/8mAgAGmChzMVCJWbB0iYmMYOKB17w/afXckOCkTH3p
-	nIivAPabbVtcucVmmFKrRoDpzUkqicJQnVhrfiiLWPJMHrzz8Bg9OEP4+R6B/a2W
-	catoQO238l44RZK4lrKv/rjkYwBEOvR7aCx75elOP2kb0Nnkq9L/Xo4MFcEzduIK
-	h7zfnCgjxXzXuU53XzsJYLT1Qa/oQ+GymmGLp6eT6K5MLYELKh/wobdnq78cVzgg
-	qwxGh2SjwZU15CGdbPN4Q==
-X-ME-Sender: <xms:HUuKahL1slkUMJQSuwEaTj2RLoPSZ8poxXl4N4ORbIq-wV-rWuFT_A>
-    <xme:HUuKau0fVRX_F3V2cPIuR4KNvdQRy34L-8g4C7w92d8RrCsQh3nKnxZVH9HyrX91y
-    n44uzolZ-q1EYyvtORjClgmMvurdTewjwqoJjyr-971KELBOQ>
-X-ME-Received: <xmr:HUuKatI2aIF3Kg4-diVjg6KrZVsBNjMMeprO9uMjtX7EZyEYWZa_AEjbTb868XRX5mXapUPuPoe9nNJK6AgxoIuSzxgcvDA>
-X-ME-Proxy-Cause: dmFkZTF28I7HEt3WBN6c6IzEpKsBN9AQLSnyMJtLuM3+uMUc3zO+tGnPoXT8ipzNMcGmpD
-    Nh/EQugbA8LMCcQc4rst0xaoqvW3m5KoxKY+S7+S2t2lFXv76tUZJtAWkvG13eRXWL66ge
-    L/YB4HSGqfsIbZdin/KVl2tu+7iQ5Z5mZ44UZXkZRfZ0b/Ux6b8HYB3uDDKLlUItXBM7wz
-    ybHDq9Ox6fpSUGhtUtIAqB7zBfKWbuvF++J39sA44KKBKyeJexGhCWVA2hf2FyxThWQHk5
-    PLdEQ+i8dSxgxUgESgr+9Eproy/1gvB1AJtRDtOn1BKOXhxDvSwn4yYIy4dHuI6P4IWYp5
-    FcpwvaOTN8qPk+8H0jf9ytdO/plO0vQsbXdotgsfOpq5qKOLRE9cqCgN3+bXIAf/xvwLl3
-    iqEbKZNXaLyi76lNdfCr641+Ef73L9NKF4wCJ0fHw2b3tcaiABea1z2+TZ/8Hp0HIEVNX9
-    92nqRejiVnmveSeHna0lAh7mN7HBln/z0r3QghIJOjDgzGHiL8a/b9CJufrlVZ2JScw7Qw
-    c61Bawx4Rk60YkE94sHAQASOL1f0WBrP1f/ro8Voj8dgqDNlZqHANoyxru4U40YQ2sa/CF
-    mwikD+ZQZFs7UFzgFkQEzc4zl3wHvkQ8xFqasOGSknOO+hlGD5uXLDUjvLdg
-X-ME-Proxy: <xmx:HUuKaiP5prlKmoaUvMz4ni0kEiVYLxAoWOfXwFr0AQm53XaHvh1HHA>
-    <xmx:HUuKauzinRrfvQ2pm_k8oQo3UKFUe3ElnMHojs5aDLNohNd1PKWpEg>
-    <xmx:HUuKaqIljCmqlsa_-R8Nsxx_955hQ3DOiTZgBfmznh6yoV8bzvoDvQ>
-    <xmx:HUuKatqYqx6nK9vm0JfErJblqkK1zlWHPyp1zbqvZrTwkRzQVFiuug>
-    <xmx:HkuKarHipHWOlhdO-MgJnmZ3QDCOCwFVrpUxLzirXt69eWpmJHgY3-9e>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 22 Aug 2026 21:21:27 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1787452971; c=relaxed/simple;
+	bh=BRGgKT/KGJLXr2r/FA4J7e0XJ+oisImpwbAy3ym6sYo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=LKNxznIAw6HDwsXhVRZTtgt+p30KkckFuowaxJjYH57efO0T22gOGHxu5Mg5CSdX8vf5MzK6l5EGYKt8t4BWd7OtmqIETJ/gftTO2KZHS5EXwmvgLfZ2kw+5wy6xCVrlkesvtHAdBDjLHFiFY+tRcxGgf5KzcqhrVueKg/YB6uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 51212A026F;
+	Sun, 23 Aug 2026 02:36:39 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id 96AC720028;
+	Sun, 23 Aug 2026 02:36:37 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1266CF40068;
+	Sat, 22 Aug 2026 22:36:37 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Sat, 22 Aug 2026 22:36:37 -0400
+X-ME-Sender: <xms:tFyKao8-BX4D_ISxt4WXdttaaa6s52HZHLLNqPfsM0sl8I1-gk-3YQ>
+    <xme:tFyKarjw0uc3HNVR_RGl2fSZRlUtvnYisbDG5tCLGBe0kiK6EM5Oy_XGqqld9m-NT
+    FEAg_k6ArhHQ7smTveso8kEjT72rlXo4gudFOGyMF2dPqLhRQ67QYyE>
+X-ME-Proxy-Cause: dmFkZTGJs7EL97/apjtGkJkG4XMj+ZRno47e7cllY8icGSPHmFj/sfjx8DmLMnFZ9F9/3x
+    yumcEN46F02wwWLOyMyDz0GWf/usyZWvyonygZztbUyyqeZydHsRsY0DP4p+OVKIpbUhmE
+    0lkaj/prWVBY1GQD/Tk2VQsFJ0R9P7MqZ9wxsHyJivuC0titEJ3AcYbqzm+qBifll7TDKn
+    LnWEF1u/Wj3dMt8KWcoN/+/ciTLSov/Qgxq/GBAPHMluubq34XYq91un0UH/f3kWnoZvEf
+    bCTujTmxeVoeidz+2ephZVlr6xBIlj9fWPDT6LiEN6ZvK3+bmypy/nLs4Cgp11g3GXzUkG
+    CkDeHKEWpoEE3hBUf+EfqJUlmSxIBblPwMfgWx56PlVws/ytaAsY3CV418nGaECDlRC21a
+    1skMVRSGuFgmV2Cx5tNou/gC1NCa6rQlcB7gjcWcwl5hTpOzJI9QzzVDHwnvRztyfCfzpe
+    8YUhDilNgQ+5e7Zb5vX3/TYfbCWgyb2ppwR/SSfFbRrReQoX4rn13XE3mFXXWkGuYXxWiR
+    iKzcHi7nWzkfcrnGKxPA4mY1DXmbX22ahgnC1ZXMubgAGcNtedpryrYyJKPrw04IYcHqhO
+    KA/hHCgBPWdz42eeYI91lHEwOy7BXN2L1qn6+KGJhJs4pqjaSCg60u+IoRNg
+X-ME-Proxy: <xmx:tVyKaskUyi7g34rKRjRan_OHUTShccqqMOdWxwLxm-__QD54PdHR6g>
+    <xmx:tVyKapp9I8uWPf9rqYb05OFJBKmnzfl6Nqq9QtVxBorCTmy4y3zv6w>
+    <xmx:tVyKalEMLmT9rA2195aOjV-ukj65B6HEkJtWnLXx6vpW2KaIeOmzhA>
+    <xmx:tVyKalxS7u1v51wsW_9UYCJOzAa706LVsTOCUPjJ5rkfS_aIaFPLMg>
+    <xmx:tVyKaqrMMqkkLKSSOxEaDLb1EKxAs7TMOtXERRKHi_ZFfiPssAMCFrOv>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D2AFB700065; Sat, 22 Aug 2026 22:36:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Jan Kara" <jack@suse.cz>, "Miklos Szeredi" <miklos@szeredi.hu>,
- "Ian Kent" <raven@themaw.net>, "Chuck Lever" <cel@kernel.org>,
- "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
- "Alex Markuze" <amarkuze@redhat.com>,
- "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+Date: Sat, 22 Aug 2026 21:36:16 -0500
+From: "John Groves" <john@groves.net>
+To: "Darrick J . Wong" <djwong@kernel.org>,
+ "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "David Hildenbrand" <david@kernel.org>,
  "Christian Brauner" <brauner@kernel.org>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "John Groves" <john@jagalactic.com>, "Dan Williams" <djbw@kernel.org>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Chen Linxuan" <chenlinxuan@uniontech.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
  "Andrew Morton" <akpm@linux-foundation.org>,
- "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
- linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v1 03/12] fsnotify: don't hold a spin_lock across
- fsnotify_recalc_mask() calls.
-In-reply-to:
- <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
-References: <20260803012648.2195405-1-neilb@ownmail.net>
-  <20260803012648.2195405-4-neilb@ownmail.net>
-  <CAJfpegs-k3skRGiwZvQLzD7OrAK4KL8zwmpmJKyjRHSQ-rqX+Q@mail.gmail.com>
-  <178642552869.2852630.11443303758249822243@noble.neil.brown.name>
-  <178675372176.2852630.1305553887009521382@noble.neil.brown.name>
-  <oh2lg2agqxwqopecacq6sfdnky5faxidwsybkvbwbq24r6tw6o@4swfog5ocwwb>
-  <CAOQ4uxgtKvKmPaK8rPAZDSwu0Hr9JAmqJi0a1VX_Rg7jDo8HrQ@mail.gmail.com>
-  <178709583480.2852630.4575326968116183366@noble.neil.brown.name>
-  <CAOQ4uxj6O8Ukbn-vWU-o+zOAYyofokCTAGnSifSDh9-PACCTdg@mail.gmail.com>
-Date: Sun, 23 Aug 2026 11:21:23 +1000
-Message-id: <178744808383.3510150.4744569341920131567@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ira Weiny" <iweiny@kernel.org>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Haren Myneni" <haren@linux.ibm.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>,
+ "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Gabriel Whigham" <gabewhigham@gmail.com>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Message-Id: <e05d0dac-06d8-48e8-a2da-3b48fc9917ef@app.fastmail.com>
+In-Reply-To: <20260822002111.GA6110@frogsfrogsfrogs>
+References: 
+ <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <20260822002111.GA6110@frogsfrogsfrogs>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: o7q1szih7ett16848my5wsoukhn68mqh
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 96AC720028
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18iMFNhA7TmeoqxkjvWL8O9N1TPd6uzy3Q=
+X-HE-Tag: 1787452597-973066
+X-HE-Meta: U2FsdGVkX198SyGgW3yN36a6CUd5zQD08V6UsHLy732PO9PJjxPKe/2MzoCHXZ8VcUWbykewone9tuhS055TJgJ7wOhC+y1Futa3+BQs63Fy2F4AySrjJe0pXIRRV/WSsBm7I2Q0Ueg3vBvNIQKiFohOv38IA+YHmtXYvCLQtDTsqhcC8uJPJgLKzbocG+bg6ytdCMLQuJu+8w8y9kaOHV+r/Ym+rfaY/5kaPTC6raKdlWEEGMYD2PsYrSd4zxbq07m9epgEBoqReqw7TV27IbR+/MwVCLfihmIwS4TQ0f18kQ4oFkkE/Xh153jJiUiBHjA6UzQn/2+MRr84c10kxSyfjpktwIoD
 
-On Wed, 19 Aug 2026, Amir Goldstein wrote:
-> On Wed, Aug 19, 2026 at 1:30=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote:
-> > --- a/fs/notify/dnotify/dnotify.c
-> > +++ b/fs/notify/dnotify/dnotify.c
-> > @@ -75,7 +75,7 @@ static void dnotify_recalc_inode_mask(struct fsnotify_m=
-ark *fsn_mark)
-> >                 return;
-> >         fsn_mark->mask =3D new_mask;
-> >
-> > -       fsnotify_recalc_mask(fsn_mark->connector);
-> > +       fsnotify_recalc_mask_inatomic(fsn_mark->connector);
->=20
-> I don't think skipping update_children is correct when called
-> from fcntl_dirnotify().
 
-Thanks for catching that.
-I agree we shouldn't skip here, but also we mustn't call
-fsnotify_conn_set_children_dentry_flags() at this point because
-a spinlock is held.
-In fcntl_dirnotify() is it safe to delay that call until after the
-lock is dropped because fsnotify_group_lock() is still held.
 
-So I would like to keep that part of my patch - the part where
-fsnotify_recalc_mask() (and dnotify_recalc_inode_mask()) returns the
-"update_children" flag and the caller is responsible for calling
-fsnotify_conn_set_children_dentry_flags().
+On Fri, Aug 21, 2026, at 7:21 PM, Darrick J. Wong wrote:
+> On Fri, Aug 21, 2026 at 09:39:26PM +0200, Miklos Szeredi wrote:
+> > On Fri, 21 Aug 2026 at 13:40, David Hildenbrand (Arm) <david@kernel.org> wrote:
+> > 
+> > > (a) Whether a fuse-based approach is feasible.
+> > >
+> > >     Are there any major blockers remaining?
+> > 
+> > No.
+> > 
+> > > (b) Whether a fuse-based approach is inefficient.
+> > >
+> > >     Are there scenarios remaining where performance or metadata overhead would
+> > >     be bad without an easy way to improve the situation?
+> > 
+> > Lookups can be cached, extent mappings can also be cached.   After the
+> > inode is in cache and the mapping is set up zero requests are needed
+> > for open/mmap/read/write/close.
+> > 
+> > > (c) Whether a fuse-based approach is a bad conceptual fit.
+> > >
+> > >     Will fuse have to carry a lot of famfs special sauce that cannot
+> > >     really be used elsewhere / generalized?
+> > 
+> > None.
+> > 
+> > But "can" and "will" are not the same.  The striping code might not be
+> > very useful outside of famfs.
+> > 
+> > > (d) Whether a fuse-based approach is too invasive.
+> > >
+> > >     Will fuse extensions to support famfs actually make it harder to maintain or
+> > >     slower on some paths?
+> > 
+> > No.
+> > 
+> > > (e) Whether a fuse-based approach will make famfs harder to extend.
+> > >
+> > >     Is there known follow-up work that will be hard/impossible to model in fuse?
+> > 
+> > It would actually make famfs much easier to extend, since the
+> > directory structure, metadata, etc. is now controllable within the
+> > userspace server.
+> > 
+> > > (f) Whether a fuse-based approach will reduce maintenance effor
+> > >
+> > >     Will maintaining fuse extensions possibly be harder than maintaining
+> > >     standalone famfs?
+> > 
+> > Testing is a key point.  Famfs needs special hardware or emulation, so
+> > it's not straightforward to test.  This could be solved by adding a
+> > "dummy" mode to famfs server that exercises the same fuse API, but
+> > instead of special hardware would just use plain memory.
+> > 
+> > > (g) Whether a fuse-based approach would make famfs more complex.
+> > >
+> > >     Will the shift to user space result in a significantly more complicated
+> > >     overall solution that must be maintained?
+> > 
+> > The server would be somewhat more complex, since it's now implementing
+> > things like pathname lookup, etc.  But the other stuff (managing file
+> > maps) should be very similar.
+> > 
+> > > (h) Who would help drive the fuse approach?
+> > >
+> > >     Fuse people seem to be willing to help, but I expect that there must be a
+> > >     close cooperation with John to make this fly. I don't expect that John
+> > >     himself can easily (or understandably wants to :) ) do the heavy fuse
+> > >     lifting.
+> > 
+> > Yes, this is where previous efforts seem to have gone off the rails.
+> > So I agree to take responsibility for implementing the kernel side and
+> > help with the server side on the condition that John has trust in
+> > this.   I'm not promising -7.4, but can at least try.
+> > 
+> > Without John's trust I'm not taking this on.
+> 
+> Whatever path you and John decide on, I would very much like to see the
+> question of Which famfs driver do we merge? to be resolved for 7.4.
+> 
+> --D
 
-Some callers call fsnotify_conn_set_children_dentry_flags() immediately,
-some wait until a spinlock is dropped, dnotify_handle_event() wouldn't
-call it at all.
-
-Your patch might be a good addition but it doesn't block the d_children
-walk in all cases where a spinlock is held, so it doesn't help my
-immediate need.
+I certainly support this plan!
 
 Thanks,
-NeilBrown
+John
+
+<snip>
