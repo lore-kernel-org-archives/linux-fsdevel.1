@@ -1,55 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45FF284662
-	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 21:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC64749364F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 21:04:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787519022; cv=none; b=FoP4P2+mqwO1J8gy47Nr7cuu+5K2RYcxYBtt9aYIHZEJK7EnIKkq2GKUunWIrpvo5GcOwi3DTC8zjrd+aowmegN4m2j2p2E5NiAWwHqeskVyBLKCtWV3HCF1HRCDEsfZ1dUAnMVf/g7vBpj8PRErtd414syYvBodfrh2JFzk+rQ=
+	t=1787519052; cv=none; b=tu1toUyTlQW595s25zXiUyNX6nqWZ57lhg92CO2WQ5wFn9BRo8D8ch89OHlu7Ix0fdwxuG2o84CHZEnmhMi0pnFj92cV2E5Ea+r3VLwxooijauAee59szRcpO2eQxY9hRWS7bANXAhOFicYujFq+skCyFrFdMMnBN5QIVGYxn+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787519022; c=relaxed/simple;
-	bh=l+VburK+odB1fDWkH6iEpBg9w1/FoznuDupdWAo3Jbw=;
+	s=arc-20240116; t=1787519052; c=relaxed/simple;
+	bh=Y5VxSwmuQ6ztS1MLxHRfHBUyhAy2w+d0ivs0tkUqY08=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QGU13LW6k4qBU93yDJet+xM0+W3QsYrv687AU0dFyKw9+wOukmPY5orthSFVxS8Ypy24csLkAgHTP70O3GteZoRUwQ4d1aLH6m3YcYKSESDOwpsnUhK4iIm8zpTVHrneY7KALSFAqDoqi5/cLFuxq/R4qljqA5iIG8C/M5J/tO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9QtHd0p; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=Qz4RqyqwK07kc6lUf6sCmNvq4kQP52TbmNZtt44sN+OlbgHQJtUbLDSR2Uk7l8904Ea1/53DkNtAt8v3PKmlQO7A5OIe0seCtoCHIb+6hEHAFSLUUvZ90RXMSOQv6dqer/RvvNDp9lHhISKUX/4E/DOeHPzJp7MpwwzfmrUccqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGWtU1r1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9QtHd0p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7057F1F00A3A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 21:03:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGWtU1r1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB6E71F00ACA
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 21:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787519020;
-	bh=l+VburK+odB1fDWkH6iEpBg9w1/FoznuDupdWAo3Jbw=;
+	s=k20260515; t=1787519050;
+	bh=Y5VxSwmuQ6ztS1MLxHRfHBUyhAy2w+d0ivs0tkUqY08=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=E9QtHd0p+fltr5arHLX5fTNkVwWPawEqcTKAs1KLMWUCRUwtChKXfZMA0iiAHUVpi
-	 gn/qucP21Lkp6VpBerhy6YEL6n2HgRGceySEp4viZqaaqv6Rr7rAuJse2kipHanMd6
-	 3wZaZG/sYdOds5tyxxx6lPEdXtFTLVYnpGe+yzKQOZCGJd/en06tmYGfiJgyHacn5d
-	 MMV6DUxFyWLa7Pk8pwLldiWx8xz9DVxwMrX4rksVFU5l+6wNeDypBcdE06XOryjin+
-	 YrpB87nr80p/g4/WkK3gJrhAqFy2X9AMHPFtFqdtLXTAzmQkLa/IYL1FcsmOjbWDhS
-	 evqUJ6Jni6c6A==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92f0b5ed131so232657085a.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 14:03:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq3993XaMsxzi8KOuLhEbthgV5B/wc1DJL1lxp4wjocb4z649cThOnnK3kqlDB8SC9MCJ18PPKeGk/QpI8f@vger.kernel.org
-X-Gm-Message-State: AFuF++l0oBrdHlqAxoUotFtZqYlKHuysh+C0prX+EzSrJgHu1I7gYwWr
-	tuwotXYNS57Z/CcODoAN18mIMTlpwK8nOOGgE9pT4YwiOr2oDxnCXkmT32N5pW8QfmnBPq6N1e+
-	H0qZ2jCGeTJawlA9MrGp2iUIvGDVF0Jk=
-X-Received: by 2002:a05:620a:2b9b:b0:926:e8e6:3c34 with SMTP id
- af79cd13be357-937468e5f9bmr1413488785a.21.1787519019891; Sun, 23 Aug 2026
- 14:03:39 -0700 (PDT)
+	b=SGWtU1r1O+/G6w/iQF/Am3SuKXqCK3ZinFSW5xmAN8aUfMvGFZ+x5FWOvAa0Io8h/
+	 9f5VppfNfuPpISvprGPw3q1pUYiYb4HaFqNMtv7ACBaANPtEAmoDEZXiahH29QAkcb
+	 9LEk4EyKKh03b/MNF3mhJpS3jNC1eEmgv0US2yWmE6r80gOCYwPou1qD+rwMEsJr1H
+	 4LB0MO6MUFpbSq2Kg4AF1I5WxUqM7kUqNF+GJtIBJCxOg3MjJNT8eObfMLYq03QfOX
+	 E7o2ATBWvHB6w3rXnbfBk5FiwNEIynpqY+HPY8/PzGuhCfji2qC0P/DeaLJoJPHbQv
+	 3XCke1p0vh8NQ==
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8f032b47e3cso17924806d6.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 14:04:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rpotg506yGGxD3YFNbvIq3n144YcEYImEzhVHjJrsPy+HabADo6c6Q7pbybHwwrZOPWX0UnORYk3x+NSkgD@vger.kernel.org
+X-Gm-Message-State: AFuF++nftaJVoT4U3EMOU8TILiereP3uSwgBHBJV8/lK1ShrgcPTA5B4
+	iotOjJ18G7ig9PwhL2vxstPZ2lUeE7QArhxBQpNoW/GzE7N4dS6VR5Jqmn0nG4+vGoq63iGddgE
+	+hIYf8waLsueuV/lfxxjokgUeIL/tTdM=
+X-Received: by 2002:ad4:5cc1:0:b0:90c:5947:7e60 with SMTP id
+ 6a1803df08f44-90c80c15daamr170758646d6.4.1787519050081; Sun, 23 Aug 2026
+ 14:04:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org> <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org> <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
 From: Barry Song <baohua@kernel.org>
-Date: Mon, 24 Aug 2026 05:03:28 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4wTYD+SQfrhd83MdH9CmFwtMCVK_13Kbx2VP+P2+v2i6Q@mail.gmail.com>
-X-Gm-Features: AcwNN1VeEGSCIXP72wWznE6JoVbvI0HglB0VO6c9ZJfUFoVn2XxY-KxYYtB6Q3Y
-Message-ID: <CAGsJ_4wTYD+SQfrhd83MdH9CmFwtMCVK_13Kbx2VP+P2+v2i6Q@mail.gmail.com>
-Subject: Re: [PATCH 2/6] userfaultfd: constify VMA parameter of
- userfaultfd_*() helpers
+Date: Mon, 24 Aug 2026 05:03:59 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4z1FHFOggOfq4V_ikdrNNmiAyDTdUaq6=Svw=MSNJODpg@mail.gmail.com>
+X-Gm-Features: AcwNN1XAA5UHMELIWABqTde52FJDm4K7QaHzff4fQOng4mfJiplIHcLVl25NsMI
+Message-ID: <CAGsJ_4z1FHFOggOfq4V_ikdrNNmiAyDTdUaq6=Svw=MSNJODpg@mail.gmail.com>
+Subject: Re: [PATCH 1/6] mm/gup: move gup_can_follow_protnone() to gup.c
 To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Baolin Wang <baolin.wang@linux.alibaba.com>, Dev Jain <dev.jain@arm.com>, 
@@ -69,13 +68,19 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.o
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 23, 2026 at 8:18=E2=80=AFPM Mike Rapoport (Microsoft)
+On Sun, Aug 23, 2026 at 8:17=E2=80=AFPM Mike Rapoport (Microsoft)
 <rppt@kernel.org> wrote:
 >
-> userfaultfd_{missing,wp,minor,rwp}() and userfaultfd_protected() only
-> read the VMA.
+> gup_can_follow_protnone() is defined in include/linux/mm.h but only used
+> by mm/gup.c.
 >
-> Make their vma parameter const.
+> First, there is no reason to have it in already gigantic header.
+>
+> Next, the upcoming refactoring of userfaultfd flags will make
+> gup_can_follow_protnone() depend on userfaultfd_k.h which would cause a
+> cyclic header dependency.
+>
+> Move gup_can_follow_protnone() to mm/gup.c.
 >
 > No functional change.
 >
