@@ -1,66 +1,66 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE2D320A14
-	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 16:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F325315D58
+	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 16:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787503401; cv=none; b=ROuzWWn5x6bfqI/GXD/KO5k7OmsMve6Wvh0OGPG2t+KcpMM8uzmL8LL4BzBoQmJpmYxdckJAl51xhb0WJl6S1QAcmKbsQ5VJfwdqfTm4JbpVRjl8VXMOvp7ZOsAcuIbMJD46ony+qoOoU0vC4rcicnA5MUbSh8zgRCG/yCf8oc0=
+	t=1787504243; cv=none; b=PxBRsj88PYu+XmxcpevC+K1/frxPc3MRRUxVihycMGIgTj6zVkaGP5hKdbdrdAUuPBDDBxJ3Ppik4IQ3xQtRaQoISRgKtUf9S+51GoIWmni1Tsxj6Q/9exX/IVO5AcH/boeK2kiWze5JehkRRmlmy7ZXiwxh/Vuv36EvhPR2sbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787503401; c=relaxed/simple;
-	bh=pWDzkQYpINPFTZeR8thS8nOa7PK6nZSbqUQipGA4xXM=;
+	s=arc-20240116; t=1787504243; c=relaxed/simple;
+	bh=FifPijUxYmOn0khIUeWNQnDh6M3c7SYp2DOwVf6Fxy0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qXjpRPBZf5UTb4MIb0bGkP7lLIOXQvx0H6977tfO7kuMEEZsatKgZS8yIxYxRYoxPXhP5WFsh8AOt0REwflp4UsdnGlleC0aGIgGszZ7Iaq7qKb/pxFJowhl6DuU1qc0ViSaqJNnRaNYBX7A3a6C0Lf9UWl4IrTlTXNCbJ1bNfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=D3oYCTlz; arc=none smtp.client-ip=209.85.160.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOq4xU7vh4rkyJV2r3ELxYjStzbIwcupWG+lxgKTtmlKSJ/2vVlMGdGBIUeimbjaIg20FCHJb+ulOWIg5T3BxAn76ny7ZOnUWjZ+o+SCaOuoK118ASky+IdmxFijfRZofRy5oB5vZOLAOLELNLZAejtcHFi8S3wBO+KyPRUif40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=cA9cfIUT; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="D3oYCTlz"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c2cce930cso27635801cf.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 09:43:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="cA9cfIUT"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92edb12cdf2so173313485a.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 09:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1787503398; x=1788108198; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1787504241; x=1788109041; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
-        b=D3oYCTlz7ZV/CP8G0eG7QNXAoBrIdfkDLHRo+V+aL5ugG28nejEPsP1eNMKS/brxA1
-         WeW8zr3GnTTPNXbO+bYNvs09T0J/cnUU+zlsIF7Fqd8aa02uhuwWO1ZM8EvgyE4k0Z/p
-         6gfNs4RnxepRMu4lJr093Kr2yX/067r54D4+Eg7QVN4z+tD2qGKKihOEEmcmecOoQ6ed
-         3HwpG7ytChYL/0RILqtER+MvdyCH8C0rJWP3pePI6O1VwSkZHuaqhJWjSM05KHRInsED
-         vkbylTcdZmmN2ysybcTKO5NM8OxpeUjplAheXrTpkM/8fUg8/znHDMt/UXkvdyAKTHyM
-         fgaQ==
+        bh=syT7GQtDMHPLcTTAdV7OL+T3aNWROaJmphq5EZ8nhH0=;
+        b=cA9cfIUTpxGrYFtPA13FvIn6W61JHx7mZ018cw5Q2kDv7mDQZyB3ALNaoHWv4H17C7
+         lKQEyxsDQuqR0Ap/X7HxniLHaRpT3HsxkdZBF0iJWaejf+/R/ORb88CcyxV7uyq6cAvb
+         As0wrN7FkdWOTEitujrB8go3e/VC+lpoOJG9qLlCDXkCGzTwEZRgD9NFE0BaweQijY7w
+         R0JlcIzXaQ3iK2M0ZpG2A/sN/dLX9gqJsbE2dzLasNgCmRLd9blSedtSi5QLqFQHT1EV
+         fkDN5CAwNpFAMg5xBIGp75GpcpgLhIPknx87KXKClBVzZM7R2AtJ/NbrJgchuLn5Hoaj
+         eqnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787503398; x=1788108198;
+        d=1e100.net; s=20251104; t=1787504241; x=1788109041;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
-        b=DgnG1XBW45zQnRQ7Bbn+OucYkQvwSA8/cqilUG9MFlDPxaGqGg1jMZJdy6ce7DKFGI
-         DPSHOFW3B/ItD8nZIS1aRRmpyhn3CSn9jnm9ByyQifLIiyiez0gx1azn1NfcvdH21o+k
-         SyL2nwrpBcmX3D8IpcjqlLJUG/il8irrsiaui43A4xKFz3v1QlKjv8KfVt3qCXBYDlWy
-         mnnasuHbpFl0NNI6hjcQeOYSvhp+vQhZxt0qzsEgABvlKH21K/s2n+MScu2xuk7J3cmy
-         1VOu/6d1t2J7XkILENJe/1PP1rd/XrE4YT9JbXGiOR+PNzK+ccT3joenhkLVMUodUN5f
-         rTwg==
-X-Forwarded-Encrypted: i=1; AHgh+RoQzpRzBf5epgQ0FRf/9bLcDSrpP/PwUmlJUtI5cfFdNPxtbtSlUobcukknteOWcIArxQLvByygdY8MHwy8@vger.kernel.org
-X-Gm-Message-State: AFuF++kHY4mUU/aWTBafEayP8NPXi0REZoB1zIvJVnPtSEa5knWpfCQJ
-	rCHuuIZqB8XdVEqLySonEIFk9XSlEqnuW6ovsWFSj5c0ccqZGqJUFtVtQC91dZCNfic=
-X-Gm-Gg: AR+sD11oJwUs71q811dtKcNaiMQrKgmgwsx84kXiJ+Sjtbb5YOtvNO/q3tGOR4NRUkZ
-	lIh3CT/cpxbgtlIrrXRtin3Ar0za5AeY4rAMi/kLWsQRvBrzNTCelttF/unmsk9i0DnXcUomr9f
-	y4s5VKOUmQaylVj8uPGir23R2ZNV8iuc41fcTTNiopU++nk9/WmNSPwUagvGbBseXOIiCNQuMoj
-	ic6+ETTkqZ7hnxdom2G4yeHlob77wNvA2oJIfFo/KnJXZhUX80vS8WG+JWh7BBhnfSxOWjosK7T
-	Vps3AfZuO+0Kx1piddXPYMwZOy7h3oqqZU6AOYiEXAi1oYp3DedkAzO0kUZ5EnpXOSl1PDGRa+6
-	qCvg7afJch5JH8pEn+R/vwFTFO3mZkSoaKuUruguCLZlsEmFDxOXRUBi94VhtpZJ82E3cvyUM4P
-	cFIO4ANAOO2X+GC5O19r5XukzQAqtub+vCpwuKkkv2zEOA9i0jRl4zXYBDZgtvSOxbewQRjsfr6
-	6HYFgsIDHwoocHGHswOaRqOMfET/VEJJw1z53YqRod1c0cn1ObxWmk=
-X-Received: by 2002:a05:622a:90e:b0:51c:1fd1:e755 with SMTP id d75a77b69052e-52df59e7e7amr219365661cf.36.1787503398278;
-        Sun, 23 Aug 2026 09:43:18 -0700 (PDT)
+        bh=syT7GQtDMHPLcTTAdV7OL+T3aNWROaJmphq5EZ8nhH0=;
+        b=BEfE/mCir3DBbwrruhWJ1MPUEGvCKNoSvOm3jEo9CcKJpe7TMTbi/mGXx8U1efDrQR
+         xQIPBXa/Lt8613JGfTFdy9817viN+EmnJ9A7dRINxNNs40cVSoWWYCIIVRCZ8RfxG27X
+         Alii17Z/hrbVTJdkwDZYdzQPsl2y3pdZGX3fGpSuZcX42OR6kfXnHriWGazSeS1QEefd
+         j4RyJRbF0omL1PFaqleLS82NMckoG4rCS9v/q3zE2lGQAjBFt/pm5Ulgws3HzT4EQwR3
+         YI6BKNwAjWQNVnQH/yEcWyg4ylUQXO5C/cnI0QMnwB+JCaJafkexE526LyBTdFCcGxF3
+         /4CA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqiwn0OUeULTaKoEICNLJUOQ+J6RIH4z/PT81D5fmPNSY48TvqYZSoTzLX4snTwwMFT7xqgrL4TpE0ZPXbU@vger.kernel.org
+X-Gm-Message-State: AFuF++lbqxkoqPwUJ8VOfBZGOXpGTtWQ2FRXpaRwrmnDUOltuFh00Ekp
+	ZholVFA2T4ahG74a0oNLZroRYYmBs/gbUdNLUjdkqsAilHMs9LRShCI2jo4oE3Y+26w=
+X-Gm-Gg: AR+sD12C4rVD5voWSmqHE7wYjmrrQWXFQJ1aVl3HUF0p9XaX8FGrtyqr1B30pvcoNvi
+	6Y3N6sCZMT7nTNjwaanAjSiQpsdlW4NYYSFwRTwCAP29xaInHJiVl9xoycB2NDKc4mkuJx/xAZc
+	uRaoyBrnhWdi5JN9mr7ttEkSDdilQ4pIIuL6ZLJLetnjrj3bhBZuyqOBRYzsERAfXg+YzZSVGsA
+	FqKSYlIV+iopaG3cYsIiL3lRqrt5q3g7bdTxda8vuK9RI2JbiLqu9r6pu5ibHkEwOvQpgRxA95a
+	INQG4ntdXk+b8DZw65VKzewaBDKHddRY/TEpcJhsV/Wc5H+4d8KAYs4R6A7xYQ8LE0Dh+ZSHdek
+	Dlq8fJ5Khc7yZHYi9pv7SRpBbXj/kWb0DCcDzO4Qk+wO8RBh+u19uWJ01k+2G4DJBqXgWQEv63E
+	uNSCQ8/VAgudiixxY9Ca0ZnGcTI/3T+QQXsTLCP5yzZYe9OMsNcxlckXFsbarRNKj6EWFO0gjE8
+	YrSPgN9oksHzfOMtFalgEESDEu7JTNJFZxnQtfMJMxS
+X-Received: by 2002:a05:620a:4142:b0:932:dbf6:6f9 with SMTP id af79cd13be357-9373942e4f9mr1755655485a.9.1787504241119;
+        Sun, 23 Aug 2026 09:57:21 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c9361720bsm41074616d6.21.2026.08.23.09.43.16
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93749ea4cb8sm328642485a.41.2026.08.23.09.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 09:43:17 -0700 (PDT)
-Date: Sun, 23 Aug 2026 12:43:14 -0400
+        Sun, 23 Aug 2026 09:57:20 -0700 (PDT)
+Date: Sun, 23 Aug 2026 12:57:17 -0400
 From: Gregory Price <gourry@gourry.net>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
@@ -90,13 +90,14 @@ Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>,
 	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
 Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
  framework
-Message-ID: <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
+Message-ID: <aoslrrY7CrpmUc3E@gourry-fedora-PF4VCD3F>
 References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
  <20260810202539.96378-1-john@jagalactic.com>
  <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
  <20260822000728.GB6047@frogsfrogsfrogs>
  <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
  <20260822174029.GC6110@frogsfrogsfrogs>
+ <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -105,29 +106,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260822174029.GC6110@frogsfrogsfrogs>
+In-Reply-To: <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
 
-On Sat, Aug 22, 2026 at 10:40:29AM -0700, Darrick J. Wong wrote:
+On Sun, Aug 23, 2026 at 12:43:14PM -0400, Gregory Price wrote:
+> On Sat, Aug 22, 2026 at 10:40:29AM -0700, Darrick J. Wong wrote:
+> > 
+> > A bigger question I just thought of is sharing cxlmem between files (aka
+> > reflink).  Is that allowed?  I could see a theoretical usecase for
+> > programs A and B wanting to share some cxlmem for communication or
+> > heartbeats whilst having their own /a and /b files for their private
+> > memory.  Probably you'd just create a /common file to do that and not
+> > map the same cxlmem page into /a and /b, right?
+> > 
 > 
-> A bigger question I just thought of is sharing cxlmem between files (aka
-> reflink).  Is that allowed?  I could see a theoretical usecase for
-> programs A and B wanting to share some cxlmem for communication or
-> heartbeats whilst having their own /a and /b files for their private
-> memory.  Probably you'd just create a /common file to do that and not
-> map the same cxlmem page into /a and /b, right?
+> Anyway, there's "allowed" and "useful".  You could technically do it
+> (maybe not with FAMFS' current guard rails) - but it would be useless
+> unless Process A and Process B were in the same coherence domain.
 > 
 
-If the underlying memory hardware is hardware-coherent, then this would
-be supportable because the coherence domains of all the hosts connected
-to the large pool would extend to one another.
-
-In our current world, these huge-memory distributed memory systems are
-non-coherent and each host's coherence domain stops more or less at the
-head it uses to connect to the shared media (it's probably more accurate
-to say it's "device dependant" but that's besides the point).
-
-Anyway, there's "allowed" and "useful".  You could technically do it
-(maybe not with FAMFS' current guard rails) - but it would be useless
-unless Process A and Process B were in the same coherence domain.
+One point of clarification - useless for both processes to write to the
+same file concurrently, hence the need for a producer-consumer design as
+John suggests.  And even then the software needs to handle coherence
+and cacheline write ordering (which is also not guaranteed across
+coherence domains by any current specification I know of).
 
 ~Gregory
