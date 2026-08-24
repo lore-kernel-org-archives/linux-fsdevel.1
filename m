@@ -1,198 +1,260 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A958429028
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 17:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602CD3F58CA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 17:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787591909; cv=pass; b=cJi7JqHWYJYnwrm1gSzYVpqeqQ5cDMiqN1sA6lBJm8GzRGK1pQpr/i98AOwz3ySxMpmCx/dVNE1GnuWni0RjzZdPYhNf4CHiG9vVwcrou6dI5TPaNSa2M4I1euLD/v41Ms4qKEmkBO6f5S6HkqIY1oiTlANHRneypriXJumVYko=
+	t=1787591975; cv=pass; b=Ewdhu1r3iuGasvrFtO2/Cy2lYVoNCo8fcY4fzdHoy22rWvd6eXf93RWqAKqUOzW8WxHS4SifXG9PbB+NJjFfTn9skOARoFMY40B4uRR5Vg/lhFFlk0cT4fNBiXwyWOqf6cFG/M4QDPHKuQe4qlSTBd/CiHvq1LDWfaPKPS/+XI0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787591909; c=relaxed/simple;
-	bh=serqGqnhQOJKmR83TgtyVnBK/4uQ1gpqYK6HutXP+Ok=;
+	s=arc-20240116; t=1787591975; c=relaxed/simple;
+	bh=9szRXNz+1rbQ1qPmMhoZClR1R6MTvny3zRZAdVoNZ9A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WP2xHAzu9U0MOHEYobhVSg+p3yjsdow5uW/Jy2nNxQWJaLcKF0ZOjR5B51e6R5CtHdALhfk3DMlL6+RGkr7qRuRSuigkE9D8N1MunHU2NXcro6qJ9Fn/l4nTE8g3soORiefqbrG8qHQd1ULQzxMmqzLh94UuskwqFnzGtmgPt2M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=elqDOT1W; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=MlirxVxLqe8MkPr0p/Pr1w5AnJolD6WnWac4Af6HUT4izCBqhnX+zcbrlz7cJw2iReoQUsseAsUl74/xp9RePYvWp0K3hKcrR1QEXEtHnKSK0gtEPzShJyG945REBdIRSyYDrA6nFgvbuNPTQ+QjmUvX3tp52d5Cb6WlcN1WqaE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjWU3A/h; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="elqDOT1W"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d3b440b97aso5605ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 10:18:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787591892; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjWU3A/h"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a157f90752so6368776a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 10:19:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787591971; cv=none;
         d=google.com; s=arc-20260327;
-        b=g5K05seicOno94uOMjoXGwsRkewnXRv1VYTsi9ryZDV+3sY4tcLt1FdJvLrvehnMuh
-         TAxMUX24PHhKpOThURKiey4/2j8eMhmW5adZxfM2x25tMzdYL7WneZMiHnS6JTXsMoiv
-         PlZ5sCju9eew/6Mh+OvkqQ2haPKr11yRCn32O5ibFoQ5HTxiYx59L0P05q0VWeiY7p3C
-         wVnNSTqBMXxZfE1Ly0b0c//2wwuqe14LCgICgq3Z2HxoT58F/9KMW0RGa6cf0zCzmjJo
-         1cbOhesMs04Dc0zpuO1yCSfm81JT08AEWK7wOaKKazoUMdI/h+Istl9qH0+HDZuJWDmK
-         RdQg==
+        b=bjfrPTEWReZfgyq+wQCmP3K7xoZwcc85jeauC6BpA690OO6L6KhiYkidI7blNP8Gaz
+         x8Iav8wyYXEyB0lwrAUYaQTJKpsmcD6dyDGTKcwvEtI4gjro/tGvb7Y0RXqjd+wHXqsp
+         aSp65Ifi2QHJMGOfj5/h2ADXgUqLr+KDmomdDorLJsxczzQXehtJJTuPsq6oNsIgqTzV
+         QCcQTAFKKoDWGTiZnwdlFnkbzrCkXCwQFtMx+h5QRshhlxesaOr4dchsPuNs3y26Ee50
+         PKNLmXc1sIxa8UWERZB+87tCVkz44ee27mqU8OjbhiBAJFufmJ6uAaJPjReFr6u2c3bl
+         w7Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ohGszV6/vVpjIqIrVyQqtCXHHbkO7EBoByFIi57pbG4=;
-        fh=SEpmYRqcKwaU6ZZD3oONChraDwp9KV9iMenLCUQ1LxY=;
-        b=Qin/vB4vOYd9JmPETtS+A4jfPCNGbxokXfQ7odt5FPM0fHIGNNtbmV3kohqJIXP/Or
-         T1e8tWa1yphJnjMZlGHEzpCf19Rbk2GYdzd0pvt9bofR6Er2WFGEbi2pa+WKPnc1R1Ju
-         UrV0fr3WOQ1RRBpeKR1C+LC9cblIm4nXptCWHKqP5fzq3FBX+w28FHF09EX2vranLHaT
-         hWi6Yrd3db696HWLjmrMHYuKBAjWpdSBiy+XtyG5XJkEzJ6Hw7+0RVmNTKoY+8Xe7Yfn
-         ToRkpIktM7jhg/ON0RuxAm1BNHd2fATmto91Z4RQqIOx/oX30cn//ofJq1YNbQUroDtP
-         OW5g==;
+        bh=hAvzxihNiFtM0K3Wr9CDqWroU4/ZmBDLBIfShjTV4Pc=;
+        fh=oNnrPBpXzO1VROYiYSvyVLECjPn0ZFIf5/hUxQvsmrY=;
+        b=sOS23WW65kPltOPkg2dsp+0VQ2YQDk0Czz5dSfW4Z4MdJNMcf3o9K1LosrQBgZ1GAZ
+         eaKDgh8Qo3SoBdTSvLq+xgoXt6I84QAbWUKpeLi5QhY51xzHyWN2Y+VHp2AkLTE6lc7a
+         sEIekOClwXaSKwlLfyxUac4fn2VDAt/pT1BeWshQb1wo/3jPaYBev9QZhb8Bq+Tqm2bP
+         M7lw0tDm9SKMVGVQG3X61+tuHIpiKQ04MFuk3YmPUKsKZjOTFKgWdvtajJDFm1mNgUyU
+         tWyC0YTZvRlj0CL/0lhJ5N0O+sGpJm8dj0ntXld/xPqB3pwLiElFQ6jZQX0aLjm/Uc3t
+         E27A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787591892; x=1788196692; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787591971; x=1788196771; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ohGszV6/vVpjIqIrVyQqtCXHHbkO7EBoByFIi57pbG4=;
-        b=elqDOT1WJHok1OrUeSMqRj7eiFO4ujaXdBbaYs4kLvy55WJ0bTHg/Ysj289mj78kfE
-         VtdP1KEj32nqcz5pq2CZPREePzBb4W4Smrhc4QOBmKSO7Fy8zkxyaUmCBvdaZ4Pt0UYu
-         AdjKvYBEkmB2k/AOIr9WGVt6wi5abfY4M97Jee0TFFWUmORwltSYXJrNe6s0cuiz9w9g
-         KQr7XzCep1eRpCQ+U1nXTHdSX1/9EgGeQrNpH25kF+TY58rXDt27KfGOi47xcKY4ah99
-         dlkkZaULmDOwkjYczlDGn33y6VbpwhN8tc1WNz1L3rI7AGhsZLvTxrmOblfnhaxsQK4I
-         1UMg==
+        bh=hAvzxihNiFtM0K3Wr9CDqWroU4/ZmBDLBIfShjTV4Pc=;
+        b=XjWU3A/h1HLrhHE0fJyK2MiRDzpMsGWp3NL710HfYjL73Kmdpax/vm9J6Cvd6JAsPE
+         sNYrbGvcGbR5nJ7eZOzdnwZ6AF7XqjSB/BJ1S/wBSJSxvzUVMVj2j6u0NKhZrX6mY9SD
+         5ITO3kHgfu2U3B/6LAz3wkaJRscUHlr4q328dIaCyIDWx7BG6jN61znD8eFwrUMHmG9I
+         Rezk53FSU2/gMkv8hD1OTGJru+D33imEOeT9wenjEriIc4v3La7SPvYvQE+b6M2T5JBz
+         XRN3NeNBd0j3gufKoivC9AI99XtdYxg1jmP/9cfWPCXmpurp9gBDC5CJFrPoUsJl5H5r
+         0Iyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787591892; x=1788196692;
+        d=1e100.net; s=20251104; t=1787591971; x=1788196771;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ohGszV6/vVpjIqIrVyQqtCXHHbkO7EBoByFIi57pbG4=;
-        b=FAIETOVGT6eQL8Sc82xTzP+TmoXwRuGLeSytm400wycBgNWZhRWkgumWhQmTt0DGRG
-         DzUghLHLneL+buSNP+bIVYt1JGlk8wjKYgDuXOifM8VWshtuW2hssvp5p0HSs1DoXgGS
-         vSIYrJ405+75c3R/Uz28XPjVw3Cs/2NaruSyIepb2u2uX4o3OoJookMit5s9H4yzMqZ8
-         5rxKZr3pNmRfrjtr5BPW+6rB11aLbe4zmMlcatka5CQ6fZYIqqzzt6tfg6C/v6M6IZ+G
-         X5za4Tqab0nH4mVA+NAO02zc2WghKJCKgYaP25I9ELLvSFpWavK2Yxl7jPOG+pCnO0rt
-         sVCw==
-X-Forwarded-Encrypted: i=1; AHgh+RqWVQKaOjHY6hHtu5bRcUzMx0WuCg6TJ+HI64poZYQROU2u+7Ptm/SfDahRyvxswZ5OFl3fW4kXcPFYBvet@vger.kernel.org
-X-Gm-Message-State: AFuF++lXs8a7Jepu+THJOosTtNJZVspEdFSvWpJerUN4nYA2KIaQKAOp
-	3jVbi++2niZYeZsoH2lm6XhzjzF1mBbyitzvqzKpvHtjGDwCGQ7xR4OJm7o4595mTHTioi8HD+b
-	qAQdjAfAvNWlAi65Xe13+UjKa3V1PV3cqlWRI9st/wSACRqI8ba8jGxH5aiQ=
-X-Gm-Gg: AR+sD126ZlBkTW+3UEHzGMf1sGz3NrN70jrfC0D4Dkg6aLtDVRXPXAFzjavBQo0VLX7
-	77c6pHWyAF+6h03WAr5/UYRVPCgmUNT9o19cqbwreiva6g75aOOtiIRP9ktioL9WfFKpNra+7nX
-	u4BV8ff+cGsHlxiJtJptg5zDcnJb23rzFYyXL/ALZwfg/7CJKWAnopBWlbMjZPL8y+s9+BeP6fb
-	GhFAF1mllsFz93cL14O5iaYwNtSql9BFmhASEMmRmUfmCBjqzLqb2KvBk+dxYVtJNRN6paCUlFO
-	rVIQJUQs9Fy7ipowGYC2VfsmcrS6NvyUweAt9pWC+KE39vbcdnsQNTEauqnAgL1eJr3VugBvK4I
-	ZlYIcMnNYg8V6EUVBES+jPrLcYtkxKc4=
-X-Received: by 2002:a17:902:ced1:b0:2bf:1000:d3ac with SMTP id
- d9443c01a7336-2d673bdc43fmr10817465ad.11.1787591891683; Mon, 24 Aug 2026
- 10:18:11 -0700 (PDT)
+        bh=hAvzxihNiFtM0K3Wr9CDqWroU4/ZmBDLBIfShjTV4Pc=;
+        b=k02DzQ5w5xZqJmXo8iYknXbXOD3Xv0qGrcS/Vj65ANAFRreUDx8Vh9OQuOxv4xsbCW
+         U53P73/W/eb1YUezU9gNbgxbDX2+43ioSDW7sfm50ACF5Rrct1vKH3Wv8eN2n7aoHueu
+         43/kafKMCWn5FZHpZKFT+pH32XN5pb85E9vEETTjKHQwx8IKW975uwB5RbBAIbsdF/dH
+         N1D5VBhudKp0NMVkT7eY3Npgv16X7Fn9vqdFdXTQB9NMNC6OW3DlIZ8DN63P/rOIp40S
+         BfqYn64ITshAHG9zUCIFVLUnZfUMcXuhxOb4+pHjy3jcoNSsUB5uUL1kgdhcpIzGgfPk
+         g/dw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9JVn717wgTHTPwpKEik8C/7QTKOKUnG4PX4MMRIJe4aS6NsDZX7P6qdvuC7Mrwx233uiwe/gkDYV5XL2O@vger.kernel.org
+X-Gm-Message-State: AFuF++l9PRRdQJVZ3qKcaEm62DE3tAgEah9YYEEftvR41w1Dxq9esDZk
+	tFuhkwUoMnjwGkP1nWLwd1xWzMxioQ5ze+/fkTVO9aouEiaYE/vX/GktDXGLmWeActQPh1SAG0z
+	zDiMjQnclpOLIrr0d9JjZAxqKv65OrtY=
+X-Gm-Gg: AR+sD10TXCXTna9ecIQbw6p9HjMWrCeGBFuTQJRwjdTklmMiAyEdUcxWpIfAIkMk2+i
+	Dk6EMEdHCUUbXB/0vktvDCfnCbEU8QQg/qN5a7Q4RIE4kd8puLZ6Q+RtsG8zlJNdRwbbQV//UO9
+	CbANccPslmJjVWk3GhBOiWMyibRWY1UoKumhWgmTZVeGhgQRTgiKqxty1gAV/O4QkE23gJoxiep
+	9gLfvAVrnJsu4QpUqA1xjcnxZql9EMoyhiwqV2TJEP3ZurNzJwEcGZJzDxs6RGg1CUbw/x/vc8x
+	LFtJ84vfq38weCKocK//sxAL+1JL3Dtfz3MaBluSW4TTxealwPUCysAB
+X-Received: by 2002:a05:6402:254f:b0:6a0:9c84:ce0e with SMTP id
+ 4fb4d7f45d1cf-6a5c414f08bmr300600a12.14.1787591971270; Mon, 24 Aug 2026
+ 10:19:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
- <20260818-selinux-pokemem-v1-3-90cd2357ee05@google.com> <aoie0oyojqdHciKM@gremlin>
-In-Reply-To: <aoie0oyojqdHciKM@gremlin>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 24 Aug 2026 19:17:34 +0200
-X-Gm-Features: AcwNN1WIA9RcA5rfP1casTlSYpI1XYrEXxEhaejdTW-7MsqouUyvqUL1sH-5Z8w
-Message-ID: <CAG48ez05-BOK_SZCKimPuiP_WRB1dFrzvcL2bHmOR-bChEu+Cw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] selinux: require EXECMEM or PTRACE for FOLL_FORCE introspection
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+References: <20260824161021.245575-1-cel@kernel.org>
+In-Reply-To: <20260824161021.245575-1-cel@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 24 Aug 2026 19:19:19 +0200
+X-Gm-Features: AcwNN1W_Jkk999mAIT6mTotVsZn7LO3MMN0Ci3O6rzFYDCFOV23BjVOjeaFyHYI
+Message-ID: <CAOQ4uxgCrwDCX88uC=cDr16hQVHOkaPJBppLk740vmGpA4Ya8w@mail.gmail.com>
+Subject: Re: [PATCH v1] splice: emit a single fsnotify access event per NFSD READ
+To: Chuck Lever <cel@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	Ameer Hamza <ameer.hamza@truenas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 21, 2026 at 8:56=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
-> On Tue, Aug 18, 2026 at 09:51:07PM +0200, Jann Horn wrote:
-> > On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a process=
- can
-> > only create anonymous executable memory via /proc/self/mem if it has on=
-e
-> > of:
-> >
-> >  - EXECMEM (like for other methods of creating anonymous executable pag=
-es)
-> >  - PTRACE (like when using /proc/$pid/mem of another process)
-> >
-> > This closes a hole in EXECMEM enforcement that Project Zero has used in=
- a
-> > remote Android exploit chain:
-> > It was possible to use a memory corruption bug in a service without EXE=
-CMEM
-> > permission to overwrite executable code via /proc/self/mem, which made =
-it
-> > possible to load and run shellcode with a kernel exploit.
-> >
-> > Signed-off-by: Jann Horn <jannh@google.com>
-> > ---
-> >  security/selinux/hooks.c | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> > index 18dd28b2bb13..905137c47321 100644
-> > --- a/security/selinux/hooks.c
-> > +++ b/security/selinux/hooks.c
-> > @@ -2157,6 +2157,32 @@ static int selinux_ptrace_traceme(struct task_st=
-ruct *parent)
-> >                           SECCLASS_PROCESS, PROCESS__PTRACE, NULL);
-> >  }
-> >
-> > +/*
-> > + * Decide whether it should be possible to read non-readable VMAs and =
-write
-> > + * non-writable VMAs via /proc/self/mem.
-> > + * This only applies to systems configured with PROC_MEM_FORCE_ALWAYS,=
- and only
-> > + * triggers on accesses that are not visible to selinux_ptrace_access_=
-check().
+On Mon, Aug 24, 2026 at 6:10=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
 >
-> It might be worth mentioning may_access_mm() here, and obviously propagat=
-e the
-> suggested name change introspection -> opened_by_owner or fd_from_order m=
-aybe
-> even?
-
-Ack, makes sense to mention may_access_mm() here.
-
-Ack, I'll rename this to selinux_mem_foll_force_opened_by_owner().
-
-> > + *
-> > + * This allows a process to overwrite read-only code in its own addres=
-s space.
-> > + *
-> > + * Creating an audit record on denial doesn't make sense here, since w=
-e can't
-> > + * tell whether FOLL_FORCE matters for the accessed VMAs.
-> > + */
-> > +static int selinux_introspect_mem_foll_force(const struct cred *subjec=
-t)
-> > +{
-> > +     struct av_decision avd;
-> > +     int rc;
-> > +     u32 sid =3D cred_sid(subject);
-> > +
-> > +     /* Allow if the process is generally allowed to have executable a=
-nonymous memory. */
-> > +     rc =3D avc_has_perm_noaudit(sid, sid, SECCLASS_PROCESS, PROCESS__=
-EXECMEM, 0, &avd);
+> nfsd_finish_read() calls fsnotify_access() on both NFSD read paths,
+> because splice_direct_to_actor() does not emit the event itself. The
+> iterator path reaches nfsd_finish_read() from vfs_iocb_iter_read(),
+> which has already emitted one. A READ served without splice therefore
+> emits two access events.
 >
-> But does it make sense for the shared-by-fd case? In that case you're now
-> updating execmem for another process's memory right?
+> NFSD does not use splice for the GSS integrity and privacy services, so
+> a READ on a sec=3Dkrb5i or sec=3Dkrb5p mount takes the iterator. An inoti=
+fy
+> watch on that file sees the READ twice.
+>
+> Reported-by: Ameer Hamza <ameer.hamza@truenas.com>
+> Closes: https://lore.kernel.org/linux-nfs/20260818225715.572140-1-ameer.h=
+amza@truenas.com/
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Link: https://lore.kernel.org/linux-nfs/CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCz=
+N2Xz=3Dxm1FyumewHZXg@mail.gmail.com/
+> Signed-off-by: Chuck Lever <cel@kernel.org>
 
-Since the existing check for PROCESS__PTRACE happens on open(), I
-figured it would make sense to also check against the open()-time
-credentials here.
-
-(I will be changing this to check just for PROCESS__PTRACE based on
-Stephen's feedback.)
-
-> > +
-> > +     /* Also allow if selinux_ptrace_access_check() would allow it. */
-> > +     if (rc)
-> > +             rc =3D avc_has_perm_noaudit(sid, sid, SECCLASS_PROCESS, P=
-ROCESS__PTRACE, 0, &avd);
-> > +     return rc;
-> > +}
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> ---
+>  fs/nfsd/vfs.c          |  7 ++----
+>  fs/splice.c            | 56 +++++++++++++++++++++++++++++++-----------
+>  include/linux/splice.h |  4 +--
+>  3 files changed, 45 insertions(+), 22 deletions(-)
+>
+> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+> index f9131827d391..c134064a1c79 100644
+> --- a/fs/nfsd/vfs.c
+> +++ b/fs/nfsd/vfs.c
+> @@ -1046,7 +1046,6 @@ static __be32 nfsd_finish_read(struct svc_rqst *rqs=
+tp, struct svc_fh *fhp,
+>                 nfsd_stats_io_read_add(nn, fhp->fh_export, host_err);
+>                 *eof =3D nfsd_eof_on_read(file, offset, host_err, *count)=
+;
+>                 *count =3D host_err;
+> -               fsnotify_access(file);
+>                 trace_nfsd_read_io_done(rqstp, fhp, offset, *count);
+>                 return 0;
+>         } else {
+> @@ -1080,10 +1079,8 @@ __be32 nfsd_splice_read(struct svc_rqst *rqstp, st=
+ruct svc_fh *fhp,
+>         ssize_t host_err;
+>
+>         trace_nfsd_read_splice(rqstp, fhp, offset, *count);
+> -       host_err =3D rw_verify_area(READ, file, &offset, *count);
+> -       if (!host_err)
+> -               host_err =3D splice_direct_to_actor(file, &sd,
+> -                                                 nfsd_direct_splice_acto=
+r);
+> +       host_err =3D vfs_splice_direct_to_actor(file, &sd,
+> +                                             nfsd_direct_splice_actor);
+>         return nfsd_finish_read(rqstp, fhp, file, offset, count, eof, hos=
+t_err);
+>  }
+>
+> diff --git a/fs/splice.c b/fs/splice.c
+> index 9d8f63e2fd1a..42ad712a0f4d 100644
+> --- a/fs/splice.c
+> +++ b/fs/splice.c
+> @@ -1009,21 +1009,14 @@ ssize_t vfs_splice_read(struct file *in, loff_t *=
+ppos,
+>  }
+>  EXPORT_SYMBOL_GPL(vfs_splice_read);
+>
+> -/**
+> - * splice_direct_to_actor - splices data directly between two non-pipes
+> - * @in:                file to splice from
+> - * @sd:                actor information on where to splice to
+> - * @actor:     handles the data splicing
+> - *
+> - * Description:
+> - *    This is a special case helper to splice directly between two
+> - *    points, without requiring an explicit pipe. Internally an allocate=
+d
+> - *    pipe is cached in the process, and reused during the lifetime of
+> - *    that process.
+> - *
+> +/*
+> + * This is a special case helper to splice directly between two
+> + * points, without requiring an explicit pipe. Internally an allocated
+> + * pipe is cached in the process, and reused during the lifetime of
+> + * that process.
+>   */
+> -ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
+> -                              splice_direct_actor *actor)
+> +static ssize_t splice_direct_to_actor(struct file *in, struct splice_des=
+c *sd,
+> +                                     splice_direct_actor *actor)
+>  {
+>         struct pipe_inode_info *pipe;
+>         ssize_t ret, bytes;
+> @@ -1147,7 +1140,40 @@ ssize_t splice_direct_to_actor(struct file *in, st=
+ruct splice_desc *sd,
+>
+>         goto done;
+>  }
+> -EXPORT_SYMBOL(splice_direct_to_actor);
+> +
+> +/**
+> + * vfs_splice_direct_to_actor - splice from a file through a caller's ac=
+tor
+> + * @in:                file to splice from; must be seekable (FMODE_LSEE=
+K)
+> + * @sd:                splice parameters. The caller sets @sd->pos and
+> + *             @sd->total_len. @sd->pos advances as data is consumed,
+> + *             and @sd->total_len is overwritten with the length of
+> + *             each read.
+> + * @actor:     consumes each pipe-full and returns the number of
+> + *             bytes taken
+> + *
+> + * Description:
+> + *    Splice from @in through @actor, for a caller that consumes
+> + *    the data itself rather than sending it to a second file.
+> + *    This helper verifies the read and emits the fsnotify access
+> + *    event. do_splice_direct() leaves both to its callers.
+> + *
+> + * Return: The number of bytes spliced, or a negative errno.
+> + */
+> +ssize_t vfs_splice_direct_to_actor(struct file *in, struct splice_desc *=
+sd,
+> +                                  splice_direct_actor *actor)
+> +{
+> +       ssize_t ret;
+> +
+> +       ret =3D rw_verify_area(READ, in, &sd->pos, sd->total_len);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret =3D splice_direct_to_actor(in, sd, actor);
+> +       if (ret >=3D 0)
+> +               fsnotify_access(in);
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL(vfs_splice_direct_to_actor);
+>
+>  static int direct_splice_actor(struct pipe_inode_info *pipe,
+>                                struct splice_desc *sd)
+> diff --git a/include/linux/splice.h b/include/linux/splice.h
+> index 9dec4861d09f..4e91d03ed645 100644
+> --- a/include/linux/splice.h
+> +++ b/include/linux/splice.h
+> @@ -79,8 +79,8 @@ ssize_t add_to_pipe(struct pipe_inode_info *pipe, struc=
+t pipe_buffer *buf);
+>  ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
+>                         struct pipe_inode_info *pipe, size_t len,
+>                         unsigned int flags);
+> -ssize_t splice_direct_to_actor(struct file *file, struct splice_desc *sd=
+,
+> -                              splice_direct_actor *actor);
+> +ssize_t vfs_splice_direct_to_actor(struct file *file, struct splice_desc=
+ *sd,
+> +                                  splice_direct_actor *actor);
+>  ssize_t do_splice(struct file *in, loff_t *off_in, struct file *out,
+>                   loff_t *off_out, size_t len, unsigned int flags);
+>  ssize_t do_splice_direct(struct file *in, loff_t *ppos, struct file *out=
+,
+> --
+> 2.54.0
+>
