@@ -1,344 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197BB438021
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002A43F8B2;
+	Mon, 24 Aug 2026 14:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582775; cv=none; b=vDJsUvv3tUa3RKECl+mXbo9tOXXWC0ZOmhIBd9O9dcunJPVCXN+1klbuFmKMe/4jd82klYzpEm1sUPytB3LBEM1s4C1cO0s2DF645ts7vpHDf0HV+zWnveaIye1POTvkfe5TcL7CGDjDUWaJRZc/jLXJI3H3+bSH/xQsaQrzc8c=
+	t=1787582786; cv=none; b=VnnyCo1spV00yUb1RwtY7zNBAb4mgjf3o/xm/yVeBh0BeBh1GOqQbhdNwoJINAe93HysoAezVXRlaBt5HAz8Ti39LVcoMzFOo/BexeNIDohbs3GlEH960rFUF7/58+WH7f2EbObaWrWQNSyAc13sRADV3eli4N2473PLiqRjXgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582775; c=relaxed/simple;
-	bh=NK/vt55ATgBFX0JsjLVJlNfG+2hQn7dcB6piAdLfrFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NDhsFKlhuND7xduUf+1I1yK9dWLidfBV9eFbi/RZJdvleh429yafuc1AHnc4buOA/zVYGi8g/t7kNsawUZogvEhVABUpLyGaOR1dhDfNSIhFdyAgS4hEFh1YJkw+2c8sKhn0Zjo147NH7mT6ZKCigXG63HFcOnQ7UHaz+ew8nXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Om7EMtVx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787582786; c=relaxed/simple;
+	bh=8nLoyii0J8BYKAAct5Xda7iv5em4yS6sroncW2zsEWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KACKXH7vmvun8sAwT0GKV8iygulUyQNSarauWRYjZQnXyaX3cj5J1P1mGP2HJ3E7TgBYXJBsIQ6dEm26Xn89SQhbRAGsuTxAAkmR0xkm3tftlHPpc+4jn1pkdu5wg1PVvaJ4vZS3idsZZMXAMb7UbwDvaPcxJm5PekUKMbFvYMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b41+8o8I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Om7EMtVx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787582773;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GoClngj4Ddh9NN9Yes/xcG/KivXCKdaPGjH/7gZPero=;
-	b=Om7EMtVxcaLS3J1UjYhUIK1abOGqJCJ1pmkS7udgWkE46R8dSTsmtncvO2prOHjFK+n7HW
-	vhlgVOiZnvvZfqjAWC66J/jVNeCJDvaX8Q9DIHOQoAhXXp2lwA6aU9RH4wYAVQJmgvaieo
-	4PAESm+T+5B+xFmtYc5/V1r8gz5erqI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-385-v3g5PefYO7CcJHuGWl16Gg-1; Mon,
- 24 Aug 2026 10:46:11 -0400
-X-MC-Unique: v3g5PefYO7CcJHuGWl16Gg-1
-X-Mimecast-MFC-AGG-ID: v3g5PefYO7CcJHuGWl16Gg_1787582769
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3339A183458E;
-	Mon, 24 Aug 2026 14:46:09 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.15])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1699818001D0;
-	Mon, 24 Aug 2026 14:46:02 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Paulo Alcantara <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Christian Brauner <christian@brauner.io>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Leon Romanovsky <leon@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v10 32/35] netfs: Add a method to get an estimate of the amount that can be written
-Date: Mon, 24 Aug 2026 15:41:25 +0100
-Message-ID: <20260824144130.759997-33-dhowells@redhat.com>
-In-Reply-To: <20260824144130.759997-1-dhowells@redhat.com>
-References: <20260824144130.759997-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b41+8o8I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06261F00A3A;
+	Mon, 24 Aug 2026 14:46:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787582785;
+	bh=uOdefC3ft+rIrM+lRzrzTelVuZoqvjKq0Pla1Vm3VSg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=b41+8o8IJgBxDHtRI6Tjnf9CM9J5j7Wpr08L9h4SkEN4zb9xlhboO6fa2EYO4zIZl
+	 sdWw3YJjUhNAWD7KdcvLEZNGcsRQNWqOlGqMHDg+TxRG7kNVkA+vdr2xJkdvknL/qB
+	 mPvP33WQVDJrkciOrZybBGyyh/1NNq6U9ywOoci9m/Q3TcZzdua8N1wZAAdGBDITuS
+	 jyCSP2oFp9YGQG4Qp6ZlxchyScmDZfKO3PAMS5HdMhTNdpNBVxuw/MfqzoNwwFWoi5
+	 KIHkUfgwAZ2DybB6RBTPsGah/+63Ev53H6zpuWubJqmj3Waob9OZxqaLdwmRjAM5AU
+	 1A47zHPy7WF3g==
+Message-ID: <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
+Date: Mon, 24 Aug 2026 16:46:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+ Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>,
+ Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add a method, both to the netfs cache API and the netfs filesystem API,
-that allows netfslib to query how much can be written to a stream in one
-go.
+On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
+> Introduce enum uffd_reason to define reasons for user faults rather than
+> overload VM_UFFD_* VMA flags for that.
+> 
+> Using a dedicated enum makes the code clearer and decoupling the fault
+> reason from VMA flags clears the way for moving the uffd mode bits out
+> of VMA namespace.
+> 
+> No functional change.
+> 
+> Assisted-by: copilot:claude-opus-4.6
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
+>  include/uapi/linux/userfaultfd.h |  6 +++---
+>  mm/huge_memory.c                 |  6 +++---
+>  mm/hugetlb.c                     | 10 +++++-----
+>  mm/memory.c                      | 10 +++++-----
+>  mm/shmem.c                       |  4 ++--
+>  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
+>  7 files changed, 47 insertions(+), 35 deletions(-)
+> 
+> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> index 45355bdb4ec7..f401623f315d 100644
+> --- a/include/linux/userfaultfd_k.h
+> +++ b/include/linux/userfaultfd_k.h
+> @@ -9,6 +9,18 @@
+>  #ifndef _LINUX_USERFAULTFD_K_H
+>  #define _LINUX_USERFAULTFD_K_H
+>  
+> +#include <linux/bits.h>
+> +
+> +/* Fault reason #PF handler passes to handle_userfault() */
+> +enum uf_reason {
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/9p/vfs_addr.c       | 17 +++++++++++++++++
- fs/afs/file.c          |  2 +-
- fs/afs/internal.h      |  3 +++
- fs/afs/write.c         | 17 +++++++++++++++++
- fs/cachefiles/io.c     | 15 ++++++++++++++-
- fs/netfs/write_issue.c |  2 ++
- fs/smb/client/file.c   | 14 ++++++++++++++
- include/linux/netfs.h  | 22 ++++++++++++++++++++++
- 8 files changed, 90 insertions(+), 2 deletions(-)
+Can we just call this "userfault_reason" or "uffd_reason" ? Maybe the latter is
+actually what we want?
 
-diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
-index 2129fcb0f65c..9b163a13ec3f 100644
---- a/fs/9p/vfs_addr.c
-+++ b/fs/9p/vfs_addr.c
-@@ -48,6 +48,22 @@ static void v9fs_begin_writeback(struct netfs_io_request *wreq)
- 	wreq->io_streams[0].avail = true;
- }
- 
-+/*
-+ * Estimate how much data should be accumulated before we start issuing
-+ * write subrequests.
-+ */
-+static int v9fs_estimate_write(struct netfs_io_request *wreq,
-+			       struct netfs_io_stream *stream,
-+			       struct netfs_write_estimate *estimate)
-+{
-+	struct p9_fid *fid = wreq->netfs_priv;
-+	unsigned long long limit = ULLONG_MAX - stream->issue_from;
-+	unsigned long long max_len = fid->clnt->msize - P9_IOHDRSZ;
-+
-+	estimate->issue_at = stream->issue_from + umin(max_len, limit);
-+	return 0;
-+}
-+
- /*
-  * Issue a subrequest to write to the server.
-  */
-@@ -185,6 +201,7 @@ const struct netfs_request_ops v9fs_req_ops = {
- 	.free_request		= v9fs_free_request,
- 	.issue_read		= v9fs_issue_read,
- 	.begin_writeback	= v9fs_begin_writeback,
-+	.estimate_write		= v9fs_estimate_write,
- 	.issue_write		= v9fs_issue_write,
- };
- 
-diff --git a/fs/afs/file.c b/fs/afs/file.c
-index 11695be8c4a5..4a412e0472ec 100644
---- a/fs/afs/file.c
-+++ b/fs/afs/file.c
-@@ -469,7 +469,7 @@ const struct netfs_request_ops afs_req_ops = {
- 	.update_i_size		= afs_update_i_size,
- 	.invalidate_cache	= afs_netfs_invalidate_cache,
- 	.begin_writeback	= afs_begin_writeback,
--	.prepare_write		= afs_prepare_write,
-+	.estimate_write		= afs_estimate_write,
- 	.issue_write		= afs_issue_write,
- 	.retry_request		= afs_retry_request,
- };
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 556e7e7777f2..ae2bc699bfde 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -1698,6 +1698,9 @@ extern int afs_check_volume_status(struct afs_volume *, struct afs_operation *);
- /*
-  * write.c
-  */
-+int afs_estimate_write(struct netfs_io_request *wreq,
-+		       struct netfs_io_stream *stream,
-+		       struct netfs_write_estimate *estimate);
- void afs_prepare_write(struct netfs_io_subrequest *subreq);
- void afs_issue_write(struct netfs_io_subrequest *subreq);
- void afs_begin_writeback(struct netfs_io_request *wreq);
-diff --git a/fs/afs/write.c b/fs/afs/write.c
-index 7f34b939706a..a0c9916f594b 100644
---- a/fs/afs/write.c
-+++ b/fs/afs/write.c
-@@ -82,6 +82,23 @@ static const struct afs_operation_ops afs_store_data_operation = {
- 	.success	= afs_store_data_success,
- };
- 
-+/*
-+ * Estimate the maximum size of a write we can send to the server.
-+ */
-+int afs_estimate_write(struct netfs_io_request *wreq,
-+		       struct netfs_io_stream *stream,
-+		       struct netfs_write_estimate *estimate)
-+{
-+	unsigned long long limit = ULLONG_MAX - stream->issue_from;
-+	unsigned long long max_len = 256 * 1024 * 1024;
-+
-+	//if (test_bit(NETFS_SREQ_RETRYING, &subreq->flags))
-+	//	max_len = 512 * 1024;
-+
-+	estimate->issue_at = stream->issue_from + umin(max_len, limit);
-+	return 0;
-+}
-+
- /*
-  * Prepare a subrequest to write to the server.  This sets the max_len
-  * parameter.
-diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
-index 23007f450ef4..91b69be78c6b 100644
---- a/fs/cachefiles/io.c
-+++ b/fs/cachefiles/io.c
-@@ -26,7 +26,10 @@ struct cachefiles_kiocb {
- 	};
- 	struct cachefiles_object *object;
- 	netfs_io_terminated_t	term_func;
--	void			*term_func_priv;
-+	union {
-+		struct netfs_io_subrequest *subreq;
-+		void			*term_func_priv;
-+	};
- 	bool			was_async;
- 	unsigned int		inval_counter;	/* Copy of cookie->inval_counter */
- 	u64			b_writing;
-@@ -611,6 +614,15 @@ static int cachefiles_prepare_write(struct netfs_cache_resources *cres,
- 	return ret;
- }
- 
-+static int cachefiles_estimate_write(struct netfs_io_request *wreq,
-+				     struct netfs_io_stream *stream,
-+				     struct netfs_write_estimate *estimate)
-+{
-+	estimate->issue_at = stream->issue_from + MAX_RW_COUNT;
-+	estimate->max_segs = BIO_MAX_VECS;
-+	return 0;
-+}
-+
- static void cachefiles_prepare_write_subreq(struct netfs_io_subrequest *subreq)
- {
- 	struct netfs_io_request *wreq = subreq->rreq;
-@@ -898,6 +910,7 @@ static const struct netfs_cache_ops cachefiles_netfs_cache_ops = {
- 	.issue_write		= cachefiles_issue_write,
- 	.prepare_write		= cachefiles_prepare_write,
- 	.prepare_write_subreq	= cachefiles_prepare_write_subreq,
-+	.estimate_write		= cachefiles_estimate_write,
- 	.query_occupancy	= cachefiles_query_occupancy,
- 	.collect_write		= cachefiles_collect_write,
- };
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index a5c5ba5deb43..025ea5763fda 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -114,6 +114,7 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 
- 	wreq->io_streams[0].stream_nr		= 0;
- 	wreq->io_streams[0].source		= NETFS_UPLOAD_TO_SERVER;
-+	wreq->io_streams[0].estimate_write	= ictx->ops->estimate_write;
- 	wreq->io_streams[0].prepare_write	= ictx->ops->prepare_write;
- 	wreq->io_streams[0].issue_write		= ictx->ops->issue_write;
- 	wreq->io_streams[0].collected_to	= start;
-@@ -126,6 +127,7 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 	if (fscache_resources_valid(&wreq->cache_resources)) {
- 		wreq->io_streams[1].avail	= true;
- 		wreq->io_streams[1].active	= true;
-+		wreq->io_streams[1].estimate_write = wreq->cache_resources.ops->estimate_write;
- 		wreq->io_streams[1].prepare_write = wreq->cache_resources.ops->prepare_write_subreq;
- 		wreq->io_streams[1].issue_write = wreq->cache_resources.ops->issue_write;
- 	}
-diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
-index ac89c1ba56b1..7ad464782439 100644
---- a/fs/smb/client/file.c
-+++ b/fs/smb/client/file.c
-@@ -39,6 +39,19 @@
- 
- static int cifs_reopen_file(struct cifsFileInfo *cfile, bool can_flush);
- 
-+/*
-+ * Estimate the amount of data that can be written in one RPC op.
-+ */
-+static int cifs_estimate_write(struct netfs_io_request *wreq,
-+			       struct netfs_io_stream *stream,
-+			       struct netfs_write_estimate *estimate)
-+{
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(wreq->inode->i_sb);
-+
-+	estimate->issue_at = stream->issue_from + cifs_sb->ctx->wsize;
-+	return 0;
-+}
-+
- /*
-  * Prepare a subrequest to upload to the server.  We need to allocate credits
-  * so that we know the maximum amount of data that we can include in it.
-@@ -362,6 +375,7 @@ const struct netfs_request_ops cifs_req_ops = {
- 	.issue_read		= cifs_issue_read,
- 	.done			= cifs_rreq_done,
- 	.begin_writeback	= cifs_begin_writeback,
-+	.estimate_write		= cifs_estimate_write,
- 	.prepare_write		= cifs_prepare_write,
- 	.issue_write		= cifs_issue_write,
- 	.invalidate_cache	= cifs_netfs_invalidate_cache,
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 6ee3891845e9..656f4f3f80b6 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -134,6 +134,16 @@ enum netfs_cache_collect {
- 	NETFS_CACHE_COLLECT_WRITE_CANCEL,	/* Currently collecting cancelled writes */
- };
- 
-+/*
-+ * Estimate of maximum write subrequest for writeback.  The filesystem is
-+ * responsible for filling this in when called from ->estimate_write(), though
-+ * netfslib will preset infinite defaults.
-+ */
-+struct netfs_write_estimate {
-+	uoff_t			issue_at;	/* Point at which we must submit */
-+	int			max_segs;	/* Max number of segments in a single RPC */
-+};
-+
- /*
-  * Stream of I/O subrequests going to a particular destination, such as the
-  * server or the local cache.  This is mainly intended for writing where we may
-@@ -142,10 +152,14 @@ enum netfs_cache_collect {
- struct netfs_io_stream {
- 	/* Submission tracking */
- 	struct netfs_io_subrequest *construct;	/* Op being constructed */
-+	uoff_t			issue_from;	/* Current issue point */
- 	size_t			sreq_max_len;	/* Maximum size of a subrequest */
- 	unsigned int		sreq_max_segs;	/* 0 or max number of segments in an iterator */
- 	unsigned int		submit_off;	/* Folio offset we're submitting from */
- 	unsigned int		submit_len;	/* Amount of data left to submit */
-+	int (*estimate_write)(struct netfs_io_request *wreq,
-+			      struct netfs_io_stream *stream,
-+			      struct netfs_write_estimate *estimate);
- 	void (*prepare_write)(struct netfs_io_subrequest *subreq);
- 	void (*issue_write)(struct netfs_io_subrequest *subreq);
- 	/* Collection tracking */
-@@ -328,6 +342,9 @@ struct netfs_request_ops {
- 
- 	/* Write request handling */
- 	void (*begin_writeback)(struct netfs_io_request *wreq);
-+	int (*estimate_write)(struct netfs_io_request *wreq,
-+			      struct netfs_io_stream *stream,
-+			      struct netfs_write_estimate *estimate);
- 	void (*prepare_write)(struct netfs_io_subrequest *subreq);
- 	void (*issue_write)(struct netfs_io_subrequest *subreq);
- 	void (*retry_request)(struct netfs_io_request *wreq, struct netfs_io_stream *stream);
-@@ -364,6 +381,11 @@ struct netfs_cache_ops {
- 		     netfs_io_terminated_t term_func,
- 		     void *term_func_priv);
- 
-+	/* Estimate the amount of data that can be written in an op. */
-+	int (*estimate_write)(struct netfs_io_request *wreq,
-+			      struct netfs_io_stream *stream,
-+			      struct netfs_write_estimate *estimate);
-+
- 	/* Write data to the cache from a netfs subrequest. */
- 	void (*issue_write)(struct netfs_io_subrequest *subreq);
- 
+-- 
+Cheers,
 
+David
