@@ -1,519 +1,144 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8CA3ACA60
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EED13EDAB3
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787560190; cv=pass; b=q6LUWc5HA1gykCeK1w8KEwk6zTwOUu+h6fjw45VxiwSnoJd593IsKuvf9LmMwsoA/fgT3hEaVmfNYDYXumnIgUNt1GjbB69aX9ai4/PFqapiNbjArw/OJtYl5ykq1IG1clhq/DRt1t0QquqpNOII8/YD33q/ZLk6VQDVYGhCIzU=
+	t=1787560584; cv=pass; b=jfBotpHHl9p45fOlVKBk4V7p2op2I7hdahJeCuxFOGYr4GjIAfik0gQ6z36Ddx1lnhjNYb8ZKF1s1j0p+LHrdQ0rT2Vmw7MGoAd9sWLhaFVngnBhcRu3grvzsSFIOORSg57bzuT+id6VemHj3rzIDZd2tStUWCEteMl/p0SrZdc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787560190; c=relaxed/simple;
-	bh=Tz455rwy8fwlJU5e/OyYKeyXhTs/2lpPvxcUrf88NeM=;
+	s=arc-20240116; t=1787560584; c=relaxed/simple;
+	bh=tabZVc34j8IumhCwsfaTRLF3MfP3CF3MKY2fkomDg10=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MFhkyChebKm6aijCdz8aCxbF5IMPxv/WyVSX9LAQjx3aAj0SZ3GYBInAz+NBFeE4IHJXh21UIohIUdmbiQFpiNXXXRirYEMju2rNdSuVVG8acOpQV9KpqKS4296P2YUhyUVF/LVPB4CcXJpQQNqceSMDWSSCDBbcBR2Cs9aMzOI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FqbAbV1N; arc=pass smtp.client-ip=209.85.208.47
+	 To:Cc:Content-Type; b=lC9KmSMOd8PjP6chDo0JZD37Rij3NxnW/L8Hh7i33zV/wXz1AGh7zTYHFkz52eMorLW0Pb2EOwPVmtiHCj1Xpv/VqsiHcuqt8q+n3+tCfQ2r6u70x8UBmjhliKCZizqNERzYaz9a2nAGhhWjprsMrM1+QaVreeCFMniw8vBWqDs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UxjOxEzh; arc=pass smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FqbAbV1N"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a422090b14so4276706a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 01:29:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787560182; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxjOxEzh"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a17cb94b26so6054900a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 01:36:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787560580; cv=none;
         d=google.com; s=arc-20260327;
-        b=fpGDL6gUxuJj1Bf1CyTM5zab3G+sAc5ClZ4SQHBorRwIFO7E/ipA36WF8yPKTnzb1m
-         lEa6obNfn7sgXK8qel9V3VJFWcOwb3H++JxH7SH1L0/mhTUr7l4QdhhgTaNT+zLSeruV
-         mGlO2CJ67jKlK1Mz5xPqhDEomqjfsTWP6Teo5iVbhvIKtHqaa5jZHwAvAFmvaFzxPXen
-         +qmXD7m1N6mgxQNHSh67h77w1g7Q5IwFSo+z1k3CEHoU5ZWNorOyRfKxVvFh7g9GhZKs
-         +YEZvGmGY089+WiGf5nzUUx2IOswRVPYbFg3Qyu29hKZQoanF8ZkYDvC4LLmf+g4fX6C
-         2f8Q==
+        b=OTjSQDfBWo7jOTutavUjWsTszWYuWEGBqCRThmInLLSEVX5ZiX98NxvSPNELEeK51+
+         ifmSEtzgVeG0LfQ9l3+hVzpShaLbWBuIUdPj45pzOe0KjwfrXe3lgUokegOi0GAFZII5
+         pceCYqIetJ/BKBTeiqsP0gTxobVkvvnbY45E0erJ63zxkBhcxoyl65ektG5bxnmRCngu
+         ugUeaYLKIH+R35e7isr1sAPhPzPn3HlnPQNaVnLhIIXD/hK7a2tVE1QIRLYDrOd/fL7k
+         lCwkxJI/7z2iRC95zXjlbvJdH+qTkBZ/Ac9fbgo1GFRL412XenjpYQtvC/SanOPnxVzQ
+         MEOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=aALTdzmz9gKwaB19EuKx9/YeS53HDdRQXdxNvRw3dlY=;
-        fh=+9BXD873vAoUZSWSfhGxMRzQPnOTwoBFZ2iXlJ3lVTc=;
-        b=XC1qiQWkSgWaypc8y02NG5LT+UvjtWtRFgxN0YxvHHTARy6dVCwIB8JAKd4VYJ+n+W
-         jUZcQ5b/qqzRrdoBporfXyMKtwTYddzZYTmgUOEtyfsc9hiRuuZm/OzZdSLtXdMDkrzq
-         y6EHA+Kw+5+bs621wW6tZGqHcJ5UQ+Nh1Yn13eMWsg2CgjJoiLobPf7Vy7mgy3HEA/Vd
-         gVAtf/8flj+BwDKZDfSp8+Nu6Owac3aShE+V5iTZ7Qhgm2dI5fXKInwKN6HVSRdSHZUX
-         HTODJlELEr7bHvNSuOs7lkNlY55wiEH7Q5S0n12vRYMwucB8C6nI/b0ZHUeDDzTS5bkw
-         q2oQ==;
+        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
+        fh=4Uz9DRvwy3RZbRwktX7eIUfmCkAZKx5rcZpXr7iIg0w=;
+        b=pJuyqA0ZJQm9QuvxoRmKX8OTgFuG+4Del9ubcxtoJ0YRwoD69SEDv8XznqRQ5FFgib
+         mSHSND/mY+nx0AjqxPErCa8WrGGc4M1BE7GYvo7EyIcrSLLlR3xIhBnkmVvU7BTTeQYy
+         U+PUaa5+sNMsm4tgjOk2N+TtzgBgQHL+qVKtzgbtYsCjJsnRCzW7lc09IuqT5SoREv5a
+         BgnHvUwnA/US9LRNs6w6+9itsOVdqbDZLpN3I6tXa2JoOi+/XMgbjjRfTPjblGBeTmkf
+         6GxVeWhLvCQc4yHQ11+PgDN/ItyZ6RpipTZmpBLXVpFrWzfsFIFASBCu9wbHZRLCe23U
+         Ex5A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787560182; x=1788164982; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787560580; x=1788165380; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=aALTdzmz9gKwaB19EuKx9/YeS53HDdRQXdxNvRw3dlY=;
-        b=FqbAbV1NoN5cgw07v4n8PXvKm9OPzrvbu6UNUS4d6b0BuJCWlsTOpWC2t0pohEekuR
-         Gi5goO31/rTS9aNsxvRueEdlgJSsPg+4DvhX1f4JUcvw0KwNJfsra26W5F00W+ajnsHW
-         KUKNmaDmwVKHpOYSpQZvj1ZLXXWgH4W7VsXtgqDWbJCxHdmxDwEIIAqsc9UFuLEY2BXg
-         lBNU5HgLCvaa9Ml/ORkXg2xzr7W2hKTFl51t1PdSU6yRyesyU6xc1fgnuINKA9O7pZUy
-         JYiId1UMDONjG9ouC1gNmJj629PHBXMFTAEP5NGWn+35jrE+gVAXWHVl9U5/ev2nt7nN
-         vY5g==
+        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
+        b=UxjOxEzh7qZXH9FXfOFAMJILYY6gZdcHFjOll96505kRuCYah27cYh6X80YPDkXjPL
+         u9wFFrzNW4VG2gGghYnRGxpbpfv3Xr/1kZGKXnHcL2AmjHmTYm0yjzsoNz/UkB1f+zEF
+         yRsIV+tX06P4z4zkm3lETGDcm1YdunEYTssCR2DeGZrEtJnFIGphdNbz6yG3SSGn+FS+
+         PhfUMncy6caHgum5IdtL3u9rszswhRpvd4kKKw7OHqUFlFhOsSFYILQgXYDWxN6aLtt5
+         OHGluBvVJW+8XmNJPQrdCwL+87bn38xKTkaNkHfws5brj713+/Ve7ktwNWMuHKmPMNIo
+         Pmuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787560182; x=1788164982;
+        d=1e100.net; s=20251104; t=1787560580; x=1788165380;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aALTdzmz9gKwaB19EuKx9/YeS53HDdRQXdxNvRw3dlY=;
-        b=qPrh6tub4QNFxKz3THus6o81V+GbANwwSEZGvfsNYsISQsKbxlk3YsoRMttJ8ZD3Ix
-         Yq9iCF6k9NONg9RAnwroqpTLMbJ1y4d1tx8PwtmI5V7yNkBBSIJz0glGjSxQ2+f7wXMM
-         NTbIPixPy9/LKefmU8tO5UOookmA/KqR4zl14XuRVKAc4f1RIq2oMX/2ImPo9FtBLVff
-         8fe9jaEJrwDPD1zmS7P6Vs/yU9tqSwHULQuTL5wf4rsp9VudCoihewqqasQhazAYoKw6
-         ydGC7q+vu17iFZ7XCIoM5/82a+RYNHkTfsck/Tphz4AD4h+L6lNMhTOemZqIwBC3IAfb
-         bs+g==
-X-Forwarded-Encrypted: i=1; AHgh+Rqo+rC7s8mnSHOK/qXMFLbzIl0edBJXrajpSagYgFM7LUXYm51pAX7WTN3ejCzpxLxCqIbAz8wo9M3XL9XY@vger.kernel.org
-X-Gm-Message-State: AFuF++mYjaJrzR7ujxo2kn6SvgAmlRV/tnuHLTiRGS0A4V0/rUB0cJmk
-	1pO9yVz8kfzapi3Swn7FRtrsQVAKnpcr4kzwZQNIi5MWqupHQ5xd4qiqwtFntIXx/HzR0SWXkyN
-	iq1DwdJ4MXtDsn86xFDE3nQUvUp8C2VE=
-X-Gm-Gg: AR+sD105SYhlkMo2Q16z7z94ureRxKJsuaE678ETVypluTpqrR7i1539d5oNix2F4At
-	YcAj2GOa2Vl3/XinJjG+VkB+XUbp+QLBFCum8iLdXCI62uaq0FFDBoohJ5OGR8Z+MRpLk7wXT6P
-	BII6xurMapbg97UL06rfx/dwdcXxjkwwSzv3hhLF16CXqDUX1oO9AScLxmfpam2xb9+GX0+XYRW
-	pgFoX0xk4P/Psl0AA41miTFO6nyphyXb/M/TGUr4fDi/9BvugVDc2MzhH6kJqpcGIP+XuG0EIAh
-	+0YMzBM/+LuNvpx7fRND+0LkmBGUt88v80xDi5DdMJeZSxVskV6849ef
-X-Received: by 2002:a05:6402:3705:b0:698:8847:e2f8 with SMTP id
- 4fb4d7f45d1cf-6a582ba7883mr21209458a12.15.1787560181240; Mon, 24 Aug 2026
- 01:29:41 -0700 (PDT)
+        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
+        b=IibzG7VVGp1bUHfyoDMQ/0bZGrNa7uw16KP4jbx+SpRpcBCgVtydQuHvrI5XhQIZEd
+         ZptIb4jtYvQuFWwbRzWbU0rFyEein+6gAgjYcl2tz8qbV1BDOqeP/hW6LCy/fi/HMZ0K
+         ElLV5ssHWNYPDH7U5Ygm0Koopl7pID95PN8P3AYzlUeOLaxFNiXWVEa9H4FYn+04IakB
+         x5bgjG7Sh2X/RKvA732L4RxSF11wYPQ3xV0gjZigsrGo5l6+pUJyTgEGT3ThAEB7V6N4
+         rK4Yw119i+7eJRp4ZNkEk4b+gm7oZIg00SmrOPny2wsReGbCEK4Xn7Uye89Q4WnOs1J3
+         Ln5Q==
+X-Forwarded-Encrypted: i=1; AHgh+RroWGcHMCuf63+dt4+tYMG0E5cqjffMBwXonQk4ne1wZ4qM/aQf1yV89Yo0R8YaitviEs73oBd4wZSWha9+@vger.kernel.org
+X-Gm-Message-State: AFuF++lUfjAGjCToxqBTWhg8wDMRm2iVQ+lWNLcKxKf7IKVtxyOhEsBD
+	JZl4HX8UrBKiSqU7xX/VukOBE98MI/ATZbjbq9mnDCflYeZ5GmzvQ+4Jca3+diCNfCZE12rS5T2
+	x61/sBF9UWmCbrRPMiZaPPV+MwCZNwOk=
+X-Gm-Gg: AR+sD11D9gxcHc8txSmPqasEJCZX/qiRkgTXaE44df4GXdYGrGl5+ScxsLPjZBsf6Gm
+	tl+1sWNRZZBgasGgZ3pwiUDIniU8L6KwM4QtnSQtnXYwutsRQi1jL81u0nrnRvP8FJT4W8PuqhB
+	MjTMY/nkTNK2wyRAX7MsXPtpJgTkRUussvhfuuOfQtAUQISnpFIlQGnKkmNxfzFuEUXfmV+UF8Q
+	s3wjd1p/A/4hWtCH/ujuZ2JBliQ7sW4vh7/rYdDvOZ3nCezuv4wYt6MEobzE0VluTS7rviWTi1v
+	e49Zvt8TUH7YohndWn+PjWLMREnpFAnId6fdk8xW3Uhrcw==
+X-Received: by 2002:a05:6402:21d7:b0:698:5610:76e5 with SMTP id
+ 4fb4d7f45d1cf-6a42f1a7996mr25338353a12.6.1787560580503; Mon, 24 Aug 2026
+ 01:36:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2026082150-autograph-perky-e3cb@gregkh> <20260823224256.2724025-1-fahad@codepure.com>
-In-Reply-To: <20260823224256.2724025-1-fahad@codepure.com>
+References: <20260818225715.572140-1-ameer.hamza@truenas.com>
+ <aoVHBkmPNSRakbYW@infradead.org> <9ad95194-983d-427d-9a07-c9eb0891d1a0@app.fastmail.com>
+ <CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com> <5fb0315d-636c-44ff-8dcc-b4403e3be7c3@app.fastmail.com>
+In-Reply-To: <5fb0315d-636c-44ff-8dcc-b4403e3be7c3@app.fastmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 24 Aug 2026 10:29:29 +0200
-X-Gm-Features: AcwNN1VD_X4ximi1X3FI38PlUOe0IPBjOfOJ1uzEdCVUoK9JrYNcnDYMBpPZyx0
-Message-ID: <CAOQ4uxjhfpNVvoVrTayj46H2CViTOc3oxzM6xdb8+E7ikE2CSA@mail.gmail.com>
-Subject: Re: ovl_copy_xattr() can write uninitialised heap into the upper
- file's xattr
-To: Fahad Alharbi <fahad@codepure.com>
-Cc: security@kernel.org, Miklos Szeredi <miklos@szeredi.hu>, 
-	overlayfs <linux-unionfs@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Date: Mon, 24 Aug 2026 10:36:09 +0200
+X-Gm-Features: AcwNN1WbUUrdIhE63ctkhUNUI50-KXFxOZ9whJCv-sw8tICCqnP6sVVvcLZEnP0
+Message-ID: <CAOQ4uxiVHcu2BUZejjS+YPuyyFWcsMwkpd+GxoZfxE_WKumY_g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] NFSD: Fix duplicate fsnotify access events for
+ iterator READs
+To: Chuck Lever <cel@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Ameer Hamza <ameer.hamza@truenas.com>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	Christian Brauner <brauner@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 24, 2026 at 12:44=E2=80=AFAM Fahad Alharbi <fahad@codepure.com>=
- wrote:
+On Sun, Aug 23, 2026 at 6:21=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
 >
-> Everything below is now measured on mainline.  My earlier mails in this t=
-hread
-> carried v6.12.101 numbers and I had not run a mainline kernel; that is fi=
-xed,
-> and the 6.12 figures are withdrawn in favour of the ones here.
 >
-> Summary: on v7.2-rc6 an unprivileged user leaks kernel pointers out of
-> ovl_copy_xattr(), 5 of 5 boots, and the patch below stops it, 0 of 5.
 >
-> The bug
-> -------
+> On Sat, Aug 22, 2026, at 6:21 AM, Amir Goldstein wrote:
+> > (1) In this series
+> > https://lore.kernel.org/linux-fsdevel/20231122122715.2561213-1-amir73il=
+@gmail.com/
+> > we intentionally moved the permission hook outside
+> > of the splice iterators because we wanted to avoid calling them
+> > with freeze protection held and also there were some duplicate calls
+> > for this work.
+> >
+> > At this point in time, the fsnotify_{access,modify} post hooks are
+> > usually called
+> > from the same context as the matching permission/security hooks.
+> > It doesn't have to be this way, but it's a good mental model IMO.
+> >
+> > (2) emitting many READ events from an iterator instead of one event for
+> > the user's READ request is more noisy and serves no purpose to users.
+> > In most cases (but not always) those events could be merged, but at the
+> > cost of futile CPU cycles.
+> >
+> > From a quick inspection of the code, it looks like:
+> > - fsnotify_access() is missing in vfs_splice_read()
+> > - the naming convention for splice_ do_splice_ vfs_splice_ is a horror
+> > - we could make the low level splice_direct_to_actor() static and possi=
+bly
+> >   rename it to splice_direct_to_actor_sd() or something
+> > - we could export vfs_splice_direct_to_actor() for nfsd which wraps
+> >   splice_direct_to_actor() with permission hook and fsnotify_access
 >
-> fs/overlayfs/copy_up.c, ovl_copy_xattr(), per xattr name:
->
->         retry:
->                 size =3D ovl_do_getxattr(oldpath, name, value, value_size=
-);
->                 if (size =3D=3D -ERANGE)
->                         size =3D ovl_do_getxattr(oldpath, name, NULL, 0);
->
->                 if (size < 0) { error =3D size; break; }
->
->                 if (size > value_size) {
->                         ... kvmalloc(size) ...; value_size =3D size; goto=
- retry;
->                 }
->
->                 error =3D ovl_do_setxattr(OVL_FS(sb), new, name, value, s=
-ize, 0);
->
-> The second call passes NULL/0, so it reports the size without writing any=
-thing
-> into `value`.  If the value shrank between the two calls so that the new =
-size
-> fits the existing buffer, "size > value_size" is false, the reallocation =
-is
-> skipped, and ovl_do_setxattr() is handed `size` bytes of a buffer that wa=
-s
-> never filled for this name.  The allocation is kvmalloc(), not kvzalloc()=
-.
->
-> Those bytes are persisted as an xattr on the upper file and read back by =
-the
-> caller.
->
-> Measured on v7.2-rc6 (075b74841bd0)
-> -----------------------------------
->
-> Unprivileged: uid 1000, CapInh/CapPrm/CapEff all zero (CapBnd is the full=
- set
-> inherited from init, which grants nothing without Prm/Eff), exactly one
-> unshare(CLONE_NEWUSER|CLONE_NEWNS) since ovl_fs_type has FS_USERNS_MOUNT.=
-  The
-> lower filesystem is tmpfs.  No FUSE: /dev/fuse is 0600 on this image, so =
-it
-> could not be used even accidentally.  One fresh disposable VM per boot.
->
->                                   boots leaked   pooled            with a=
- kptr
->         unpatched                 5 of 5         122 of 5,000,000  121
->         patched                   0 of 5         0 of 5,000,000    0
->         unpatched, racer disabled 0 of 4         0 of 4,000,000    0
->
-> The third row is the control: the leak needs the race, and the detector h=
-as no
-> false positives.  Cost to an attacker is about 51 s of racing per leaked =
-value
-> at ~9,100 copy-ups/s.
->
-> A representative line, verbatim:
->
->         [poc] uid=3D1000 euid=3D1000 N=3D32 delta=3D8 trials=3D1000000 mo=
-de=3Dr
->         [poc] RESULT mode=3Dr N=3D32 delta=3D8 : 23 of 1000000 copy-ups l=
-eaked
->               (kptr-bearing 23)  [109.5s, 9129/s]
->         [poc] VERDICT: LEAK OBSERVED
->
-> What comes out
-> --------------
->
-> With a slab groom, 32 of 32 trials disclosed at least one kernel pointer,=
- and
-> 31 of 32 disclosed the caller's own struct cred address; 129 pointers acr=
-oss
-> 3,072 disclosed bytes.  One trial landed on a different object and return=
-ed a
-> .text pointer, ffffffff8142713e, which defeats KASLR.  SLAB_FREELIST_RAND=
-OM
-> and SLAB_FREELIST_HARDENED were both on.  Example:
->
->         [t00] len=3D96 nz=3D40 kptrs=3D4 create@68 cred@40=3Dffff888102a8=
-d240
->               kptrs: +24=3Dffff88810535e140 +32=3Dffff8881019cfdc0
->                      +40=3Dffff888102a8d240 +48=3Dffff88810247be70
->
-> Without a groom the same leak returns recycled heap rather than pointers =
--- in
-> one 4096-byte sample the overlay's own mount-option string, a path, users=
-pace
-> stack addresses and a canary-shaped qword, but no kernel pointer.  I ment=
-ion
-> that so the pointer figures are not read as unconditional: the groom is w=
-hat
-> makes it a pointer leak.
->
-> One caveat on those two paragraphs: they were produced by the determinist=
-ic
-> FUSE probe, which needs /dev/fuse and therefore ran as root.  They establ=
-ish
-> what the kernel discloses.  The unprivileged reachability is the tmpfs ta=
-ble
-> above, where 121 of 122 leaks were also kptr-bearing.
->
-> Still present in mainline
-> -------------------------
->
-> ovl_copy_xattr() is byte-identical at origin/master (66fb95a52111,
-> 2026-08-22), v7.2-rc6, v6.12.101 and v6.12.104 -- same sha256 of the
-> extracted function.
-> git log -L :ovl_copy_xattr:fs/overlayfs/copy_up.c returns 16 commits ever=
-, the
-> newest a 2024 LSM return-value refactor; no commit has ever added zeroing=
-, a
-> bound, or a re-read.  Introduced by e4ad29fa0d22 ("ovl: use a minimal buf=
-fer
-> in ovl_copy_xattr", v4.5), confirmed by content since v4.4 has no value_s=
-ize.
-> Nothing overlayfs-related is in the stable queues.
->
-> The patch
-> ---------
->
-> Built and booted on v7.2-rc6.  Both kernels use byte-identical configs, s=
-o the
-> only variable is this hunk; I confirmed the change is in the binary
-> (objdump shows cmp $0x4 and mov $0xfffffff5 in the patched copy_up.o, abs=
-ent
-> from the unpatched one) rather than trusting the build.
->
->   - Leak: 0 of 5,000,000 copy-ups, 0 of 5 boots, against 122 of 5,000,000
->     unpatched.
->   - Functional: 51 of 51 xattr byte-compares identical to the unpatched
->     kernel, 17 sizes from 0 to 65536 in three orderings, with the
->     legitimate -ERANGE growth path exercised and no -EAGAIN.
->   - Termination: the probe that failed to terminate on three earlier atte=
-mpts
->     of mine now returns in 0.100 s after 5 sized GETXATTRs, exactly
->     1 + OVL_COPY_XATTR_MAX_RETRY.
->   - -EAGAIN was never reached in normal operation: EAGAIN=3D0 on all 10
->     unprivileged boots.
->   - No BUG, WARNING, oops, lockup or stall in any boot.
->
-> Four things about the patch you should have rather than find
-> ------------------------------------------------------------
->
-> 1. It does not fix the growth path.  The "size > value_size" branch still=
- does
->    goto retry with no counter.  It is bounded -- value_size increases
->    strictly, and fuse_getxattr() clamps a size query with
->    min_t(size_t, outarg.size, XATTR_SIZE_MAX) (fs/fuse/xattr.c) -- so it
->    cannot loop forever, but a hostile lower fs can still force up to ~65,=
-535
->    kvmalloc/kvfree plus getxattr round-trips for a single name.  Measured=
- with
->    an ever-increasing size: unpatched 65,536 calls / 7.815 s, patched 65,=
-540 /
->    7.810 s.  Pre-existing and unchanged by this patch; my patch costs fou=
-r
->    extra iterations there.  I raise it because it is reachable today.
->
-> 2. I suggested kvzalloc() in my first mail and did not take that route.
->    kvzalloc() would stop the disclosure in one word, and if you want the
->    minimal fix that is the one to take.  I went further because the shrin=
-k
->    case is also a correctness bug independent of the leak: the upper file
->    still ends up with bytes that are not the lower file's xattr value --
->    zeros instead of heap.  Re-reading writes the right value.  If you wou=
-ld
->    rather have the one-word change, or want both (kvzalloc as a belt-and-
->    braces plus the re-read), say which and I will send it.
->
-> 3. -EAGAIN is a new errno for overlayfs; git grep EAGAIN fs/overlayfs was
->    empty before this.  No kernel caller of copy-up retries on it, but
->    userspace conventionally does, and overlayfs already uses -EIO a few l=
-ines above for
->    "the underlying fs is broken".  If you would prefer -EIO, say so and I=
- will
->    resend.
->
-> 4. This is my fourth attempt.  Three earlier versions failed to terminate=
-; one
->    had no progress measure and two grew value_size on every -ERANGE on th=
-e
->    assumption that XATTR_SIZE_MAX bounded it, which is wrong for this pat=
-h
->    because ovl_do_getxattr() -> vfs_getxattr() passes the caller's buffer=
- size
->    to __vfs_getxattr() unbounded.  I did not send any of those, and this
->    version counts rather than relying on an implicit bound.
->
-> Reproducers and logs
-> --------------------
->
-> I have three reproducers -- the unprivileged tmpfs racer, a deterministic=
- FUSE
-> probe with eight attack modes, and a functional-regression harness -- plu=
-s the
-> unedited console logs for every run quoted above.  Per security-bugs.rst =
-I am
-> not pasting the reproducer here, since this thread will be posted publicl=
-y;
-> say the word and I will send any or all of it, in whatever form you prefe=
-r.
->
-> I have not Cced linux-unionfs or LKML, since this is still on
-> security@kernel.org.  If you would rather handle it in the open, say so a=
-nd I
-> will repost there.
+> IIUC this last bullet seems like clean layering to me. Do
+> you want to propose a patch or shall I?
 
-Fahad,
-
-I usually don't CC public lists for private emails, but since you offered i=
-t,
-I will reply on the list.
-
-First some ethics w.r.t LLM driver patches:
-(1) The Linux kernel generally does not consider LLM detected security issu=
-es
-for security embargoes.
-I won't fault you if your conscience tells you that you need to post privat=
-ely
-first for a very severe security bug, but other maintainers may be less tol=
-erant
-so keep that in mind.
-(2) You are writing to HUMANS not to machines. This report is way too long
-and a human would spend way too long before realizing this is worth their
-effort or not. Please use some of your token to produce a clear human reada=
-ble
-TDLR the next time you post LLM driven patches and honestly, I am sure that
-the report itself could have been much shorter if you read it and tried to
-make it fit a human reader who is a volunteer with limited time.
-(3) Please make sure that LLM reads overlayfs.rst before proposing patches
-
-Regarding the patch itself, if you follow rule #3 above you will find
-this paragraph:
-
-Changes to underlying filesystems
----------------------------------
-
-Changes to the underlying filesystems while part of a mounted overlay
-filesystem are not allowed.  If the underlying filesystem is changed,
-the behavior of the overlay is undefined, though it will not result in
-a crash or deadlock.
-
-What this tells you is that your EAGAIN retry loop is the wrong approach -
-We do not try to cope with changes to underlying layers - we detect them
-and abort with EIO, something like that should be enough:
-
-    size =3D ovl_do_getxattr(oldpath, name, value, value_size);
-    if (size =3D=3D -ERANGE) {
-        size =3D ovl_do_getxattr(oldpath, name, NULL, 0);
-        if (size >=3D 0 && size <=3D value_size) {
-            error =3D -EIO;
-            break;
-        }
-    }
-
-The next time you post please do it on the list and please make it concise.
+Be my guest.
+Maybe Ameer will want to post it for v2.
 
 Thanks,
 Amir.
-
->
-> -- 8< --------------------------------------------------------------- 8< =
---
->
-> From: Fahad Alharbi <fahad@codepure.com>
-> Subject: [PATCH] ovl: don't copy an xattr the buffer was never filled wit=
-h
->
-> ovl_copy_xattr() sizes and fills one reusable buffer per xattr name:
->
->         size =3D ovl_do_getxattr(oldpath, name, value, value_size);
->         if (size =3D=3D -ERANGE)
->                 size =3D ovl_do_getxattr(oldpath, name, NULL, 0);
->
-> The second call passes NULL/0, so it reports the current size without
-> writing anything into `value`.  When the value grew (giving -ERANGE) and
-> then shrank again before the sizing call, the reported size can be less
-> than or equal to value_size.  The "size > value_size" reallocation path
-> is then skipped and the code falls through to
->
->         error =3D ovl_do_setxattr(OVL_FS(sb), new, name, value, size, 0);
->
-> writing `size` bytes out of a buffer that was never filled for this name.
->
-> For the first name that is uninitialised kvmalloc() memory (the buffer is
-> kvmalloc(), not kvzalloc()); for later names it is the value of a
-> previously copied xattr of the same file, which the caller may not have
-> permission to read.  Either way the bytes are persisted as an xattr on
-> the upper file and can be read back by an unprivileged user.  Measured on
-> an unmodified 6.12.101 as uid 1000 with no capabilities and one user
-> namespace, with a tmpfs lower and a second thread changing the value
-> size: 624 of 2,000,000 copy-ups leaked over 20 cold boots, and 397 of
-> those carried a kernel pointer.  A hostile FUSE lower makes it
-> deterministic and much larger: one chmod() over 4096 xattr names returned
-> 819,200 bytes of kernel memory on that same kernel.
->
-> Re-read the value when the buffer was not filled for this name.  A lower
-> filesystem that keeps changing the size could make that repeat, so bound
-> the number of re-reads: only a racing or hostile lower fs reaches the
-> retry at all, and a well-behaved one needs none.  The counter is per
-> name, so a well-behaved name never spends another name's budget, and the
-> abort happens before ovl_do_setxattr(), so the failure mode is a failed
-> copy-up and never a partial or leaking one.
->
-> Note this does not fix the pre-existing "size > value_size" growth path,
-> which still does an uncounted goto retry; against a lower that reports an
-> ever-increasing size that path runs to XATTR_SIZE_MAX iterations today,
-> bounded only by the lower filesystem (fuse_getxattr() clamps a size query
-> to XATTR_SIZE_MAX), not by ovl_copy_xattr().  This patch adds four
-> iterations to that worst case and does not otherwise change it.
->
-> Testing was done on v6.12.101, both a KASAN + SLUB_DEBUG_ON build and an
-> uninstrumented one, in disposable VMs; I have not run a mainline kernel.
-> ovl_copy_xattr() is byte-identical between v6.12.101 and v7.2-rc6, and
-> the patched function is byte-identical to the one that was built and
-> tested.
->
-> Fixes: e4ad29fa0d22 ("ovl: use a minimal buffer in ovl_copy_xattr")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude-Code:claude-opus-5
-> Signed-off-by: Fahad Alharbi <fahad@codepure.com>
-> ---
->  fs/overlayfs/copy_up.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-> index e963701b4c87..6a78dfbf6eb7 100644
-> --- a/fs/overlayfs/copy_up.c
-> +++ b/fs/overlayfs/copy_up.c
-> @@ -72,12 +72,20 @@ static int ovl_copy_acl(struct ovl_fs *ofs, const str=
-uct path *path,
->         return err;
->  }
->
-> +/*
-> + * Bound on re-reads of a single xattr whose size changed under us.  Onl=
-y a
-> + * racing or hostile lower filesystem can reach it; a well-behaved one n=
-eeds
-> + * none.
-> + */
-> +#define OVL_COPY_XATTR_MAX_RETRY 4
-> +
->  int ovl_copy_xattr(struct super_block *sb, const struct path *oldpath, s=
-truct dentry *new)
->  {
->         struct dentry *old =3D oldpath->dentry;
->         ssize_t list_size, size, value_size =3D 0;
->         char *buf, *name, *value =3D NULL;
->         int error =3D 0;
-> +       int retries;
->         size_t slen;
->
->         if (!old->d_inode->i_op->listxattr || !new->d_inode->i_op->listxa=
-ttr)
-> @@ -129,10 +137,32 @@ int ovl_copy_xattr(struct super_block *sb, const st=
-ruct path *oldpath, struct de
->                         break;
->                 }
->
-> +               retries =3D 0;
->  retry:
->                 size =3D ovl_do_getxattr(oldpath, name, value, value_size=
-);
-> -               if (size =3D=3D -ERANGE)
-> +               if (size =3D=3D -ERANGE) {
->                         size =3D ovl_do_getxattr(oldpath, name, NULL, 0);
-> +                       if (size >=3D 0 && size <=3D value_size) {
-> +                               /*
-> +                                * The sizing call above reports the leng=
-th but
-> +                                * does not fill the buffer.  Reaching he=
-re means
-> +                                * the value shrank after the -ERANGE, so=
- it now
-> +                                * fits and the reallocation below is ski=
-pped --
-> +                                * which would hand ovl_do_setxattr() byt=
-es that
-> +                                * were never written for this name.  Re-=
-read it.
-> +                                *
-> +                                * A lower filesystem that keeps changing=
- the
-> +                                * size could make that repeat forever, s=
-o bound
-> +                                * it: this only triggers on a racing or =
-hostile
-> +                                * lower fs, never in the steady state.
-> +                                */
-> +                               if (++retries > OVL_COPY_XATTR_MAX_RETRY)=
- {
-> +                                       error =3D -EAGAIN;
-> +                                       break;
-> +                               }
-> +                               goto retry;
-> +                       }
-> +               }
->
->                 if (size < 0) {
->                         error =3D size;
-> --
-> 2.43.0
->
