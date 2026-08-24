@@ -1,60 +1,57 @@
 Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A05369D74;
-	Mon, 24 Aug 2026 09:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58763F58F5;
+	Mon, 24 Aug 2026 09:45:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787563902; cv=none; b=KQDeaspHlpn4ADc4ln+AJ5SOxYV91dEi7HWN9bHuv1ChBfIMF3rz4bzElhjZbRp3MWN+wqT/p2WxCPwKZ9fHNPW7o65s5gd9nYPtx561PA++GHZTchDAqU22bAVTMKBarpWkF9KHnaS6eoMRCsjj9MrACA8fOrCZDpZ+c/VwsL4=
+	t=1787564721; cv=none; b=TKkWeRkFIgARTnpFBT7TVBZI3C730VNh2nZSK05L3sT/mCczZQf9iScd22oeIICkYSnxfyHhClCmuPcLFhnJzq/LaVvY0h4+QC7Udky1WT969Fyklcv1G4GwlLvejspRyAvLQ8yTL6SIJBLIWubgo1cebcFq1cLXXOvPJr1vVfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787563902; c=relaxed/simple;
-	bh=xNNoyyzorQwzXZswV/S9IsKwLv1PWe1gfb87d67l/aU=;
+	s=arc-20240116; t=1787564721; c=relaxed/simple;
+	bh=r8WN6z6fTgXIqOs0URTLBnOzvtzodQOoUFnXpTGjdSg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ym3fgqqgLOMq/2sgjmbZUbMT8Ty1fsIpo8+NEOu5UAjxj5XhGVxcPcnulecQL7avDVqxDA6mXIlXbWd0/Eqr22DASb2SKiXKVr8wlKJUau76oPhJPdwvs/a2LHU0/x0qO0hoFbrcrnEvAHkNLO+KbbW7NVbiPGiqnDCC7yyecJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=dg/vEm5+; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=e3LRWN1g; arc=none smtp.client-ip=210.171.160.6
+	 MIME-Version:Content-Type; b=rDHg4cFb5/IMdnmtgGKasnGNAWiN7pXdEn7bqBvZuxDRmnvNmZUq+QK8VbBA3SgZ/7vx8kq3kXRjkosY37j9bzn5fv+1qp3zEPTtwCTBIcMmUG7LjrClTY5POqNeooKVa593ba5Zouduw6dwkSCJezDPvVJ+jIa4cXL7LrJUw7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=Qy90wV4/; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=2a84AeL3; arc=none smtp.client-ip=210.171.160.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="dg/vEm5+";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="e3LRWN1g"
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="Qy90wV4/";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="2a84AeL3"
 Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 7866526F765F;
-	Mon, 24 Aug 2026 18:31:30 +0900 (JST)
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 5893926F768E;
+	Mon, 24 Aug 2026 18:45:13 +0900 (JST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1787563890;
+	s=20250114; t=1787564713;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VjOFKDBaeWfHcp8XWnUq9Necguz8vdzoJtC88sHQZFQ=;
-	b=dg/vEm5+wKcLObk7RCAauvWr8ovCMh6sG4jeXjHg4cNSqdViN8wrLFUGzeY9O+3HSO49bd
-	f0r0e9A/6GX0Hq2Ozrtjjgfk3ekgw0Lro1dO6E7k7WZMQeEjDgWnd8zTNjcCh3A5uaJBz0
-	/FPA9vk/oDOnfYgbvUCbqNDucIWAJBHAcG4wi6sH0/LiIpkDPS8wz3vpQDHcw2b3fcCZSe
-	kfLou8ZWMzkWBwp3etYkGgGmEnEdpfo7SXCYshNvHRZYgE9QLqXeKj5zNssLRdym0FYPs3
-	WBeMqQ+x6/7hyCX0w/vWv1K9dLjM+DXAj3tEL83IS2PAOwLUvaH8GS2JeKbQ4w==
+	bh=QzbQb6I3hfrObyyAh8FLlb1/bPAXNYXLFSU1BgZUND8=;
+	b=Qy90wV4/1CdqvQYIZ26WHPt/k1B2pHoi32W0Hy33vwDzx9HdIcBRkyA8/8PrKZSIgqhFSl
+	97GiS/SZh+wKy10AouuqcC3GoBN/Cq5U72P8A1foMv9+B2Am0vxCf97SPQzwnZZj1stx/B
+	sqy/7uXf1EnmjtnH0Cx8fUb3giUlwCvsi4FIoNeQO4UVwIqtyyTlqGoqseRF7N0j+766l/
+	oSetLKKv/WnOgKlr0izO5ro19AgYHIjETevKCgVMcTBjfer4GH4eEhVY16PisEAIQCrwgI
+	zyEVytQtu51j/YGzmUsz4x85b0rZhrKt8ozaK2TLcWs9cbAA8xz/CBgoFXgzWg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1787563890;
+	s=20250114-ed25519; t=1787564713;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VjOFKDBaeWfHcp8XWnUq9Necguz8vdzoJtC88sHQZFQ=;
-	b=e3LRWN1gINigFK24Q515uRVlHHZdZ1osrpT8htEM6T6GyV58mYN6gVcvRRUGCXDJHgZ+FV
-	Bgw8eGce1qco1cBQ==
+	bh=QzbQb6I3hfrObyyAh8FLlb1/bPAXNYXLFSU1BgZUND8=;
+	b=2a84AeL3oMSozXBDEp9ms4fbwhYZMwhbcFGWApXkGy/zL7DTcQiPM99DGyvUP9sO04PgGw
+	8+3v72dfjUiLh5Bw==
 Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id F3412E001BC;
-	Mon, 24 Aug 2026 18:31:29 +0900 (JST)
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id D7B48E00090;
+	Mon, 24 Aug 2026 18:45:12 +0900 (JST)
 Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id E961A22000D2; Mon, 24 Aug 2026 18:31:29 +0900 (JST)
+	id C500422000D2; Mon, 24 Aug 2026 18:45:12 +0900 (JST)
 From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linkinjeon@kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  sj1557.seo@samsung.com,
-  syzkaller-bugs@googlegroups.com
-Subject: Re: Please drop 64d9183203eeb in mm-nonmm-unstable ([syzbot]
- [exfat?] WARNING in fat_ent_write)
-In-Reply-To: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
-References: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
-Date: Mon, 24 Aug 2026 18:31:29 +0900
-Message-ID: <875x0z6f0u.fsf@mail.parknet.co.jp>
+To: David Timber <dxdt@dev.snart.me>
+Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH] fat: add noflush mount option
+In-Reply-To: <20260822173732.10230-1-dxdt@dev.snart.me>
+References: <20260822173732.10230-1-dxdt@dev.snart.me>
+Date: Mon, 24 Aug 2026 18:45:12 +0900
+Message-ID: <871pbn6edz.fsf@mail.parknet.co.jp>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -64,123 +61,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/fs/fat/misc.c?h=mm-nonmm-unstable&id=64d9183203eebe33de6188b70a8c1e91f52885db (fat: restore original value when fat_ent_write failed)
+David Timber <dxdt@dev.snart.me> writes:
 
-This commit was missing to consider about the path of error by sync
-write.  Since current bh write clears uptodate flag if got I/O error, so
-this patch doesn't work for now with wait==true.
-
-Please drop this patch at least until stop clearing the uptodate by bh
-sync write and buffer is reusable after the error.
-
-Thanks.
-
-syzbot <syzbot+26461e903494e689c24f@syzkaller.appspotmail.com> writes:
-
-> Hello,
+> On most distros, udisks manages users' removable volume mount requests.
+> Udisks is configured to always mount FAT volumes with the 'flush' mount
+> option. This is largely okay for populating directory in small sizes,
+> but when a large number of files are involved, the flush behaviour acts
+> as a bottleneck point in fat_file_release(). The user may want to
+> disable the flush option temporarily before commencing such an intensive
+> operation.
 >
-> syzbot found the following issue on:
+> To cover this use case, introduce the new 'noflush' mount option. When
+> used in the mount options to mount a volume, it overrides the 'flush'
+> option previously specified. When used in remount, update it updates the
+> flag.
 >
-> HEAD commit:    6a746cd265ae Add linux-next specific files for 20260819
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=13cdee79580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=4a1369648c551bbe
-> dashboard link: https://syzkaller.appspot.com/bug?extid=26461e903494e689c24f
-> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17760e79580000
+> This is a breaking change as traditionally, the mount options other than
+> rw and ro are ignored. The patch breaks this tradition by allowing
+> reconfiguration of 'flush' and 'noflush' mount options.
 >
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/32d71a199871/disk-6a746cd2.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/7bfb88f0043e/vmlinux-6a746cd2.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/4bc2ab35db01/bzImage-6a746cd2.xz
-> mounted in repro: https://storage.googleapis.com/syzbot-assets/500a74ccb5d4/mount_0.gz
->   fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=17e3d679580000)
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+26461e903494e689c24f@syzkaller.appspotmail.com
->
->          and is ignored by this kernel. Remove the mand
->          option from the mount to silence this warning.
-> =======================================================
-> Buffer I/O error on dev loop0, logical block 1, lost sync page write
-> ------------[ cut here ]------------
-> !buffer_uptodate(bh)
-> WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#1: syz.0.17/5854
-> Modules linked in:
-> CPU: 1 UID: 0 PID: 5854 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-> RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
-> Code: 4c 89 f7 e8 09 0a d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 4f 40 68 ff eb 8c e8 48 40 68 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 3a 40 68 ff 90 0f 0b 90 e9 cf fd ff ff
-> RSP: 0018:ffffc9000345f2d0 EFLAGS: 00010293
-> RAX: ffffffff825f7f28 RBX: ffff8880714019a0 RCX: ffff8880317c5dc0
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-> RBP: dffffc0000000001 R08: ffff8880714019a7 R09: 1ffff1100e280334
-> R10: dffffc0000000000 R11: ffffed100e280335 R12: ffffffff8c288c60
-> R13: ffff888032a9c248 R14: dffffc0000000000 R15: ffff8880717c46a8
-> FS:  00007fc05a3146c0(0000) GS:ffff888124dda000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f9293991000 CR3: 000000007992c000 CR4: 00000000003526f0
-> Call Trace:
->  <TASK>
->  mmb_mark_buffer_dirty+0x2c/0x1f0 fs/buffer.c:624
->  fat_ent_write+0xb8/0x190 fs/fat/fatent.c:422
->  fat_chain_add+0x409/0x8e0 fs/fat/misc.c:140
->  fat_add_cluster fs/fat/inode.c:113 [inline]
->  __fat_get_block fs/fat/inode.c:155 [inline]
->  fat_get_block+0x768/0xae0 fs/fat/inode.c:190
->  __block_write_begin_int+0x6c2/0x1900 fs/buffer.c:2030
->  block_write_begin fs/buffer.c:2144 [inline]
->  cont_write_begin+0x71b/0xac0 fs/buffer.c:2506
->  fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
->  cont_expand_zero fs/buffer.c:2434 [inline]
->  cont_write_begin+0x2d6/0xac0 fs/buffer.c:2496
->  fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
->  generic_perform_write+0x2d5/0x8f0 mm/filemap.c:4374
->  generic_file_write_iter+0xae/0x330 mm/filemap.c:4517
->  new_sync_write fs/read_write.c:595 [inline]
->  vfs_write+0x612/0xba0 fs/read_write.c:687
->  ksys_pwrite64 fs/read_write.c:794 [inline]
->  __do_sys_pwrite64 fs/read_write.c:802 [inline]
->  __se_sys_pwrite64 fs/read_write.c:799 [inline]
->  __x64_sys_pwrite64+0x196/0x220 fs/read_write.c:799
->  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fc05939e0d9
-> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007fc05a314028 EFLAGS: 00000246 ORIG_RAX: 0000000000000012
-> RAX: ffffffffffffffda RBX: 00007fc059625fa0 RCX: 00007fc05939e0d9
-> RDX: 000000000000fdef RSI: 0000200000000140 RDI: 0000000000000004
-> RBP: 00007fc059435024 R08: 0000000000000000 R09: 0000000000000000
-> R10: 000000000000fecc R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007fc059626038 R14: 00007fc059625fa0 R15: 00007fff03653f68
->  </TASK>
->
->
+> Signed-off-by: David Timber <dxdt@dev.snart.me>
 > ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>  fs/fat/inode.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
 >
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> If the report is already addressed, let syzbot know by replying with:
-> #syz fix: exact-commit-title
->
-> If you want syzbot to run the reproducer, reply with:
-> #syz test: git://repo/address.git branch-or-commit-hash
-> If you attach or paste a git patch, syzbot will apply it before testing.
->
-> If you want to overwrite report's subsystems, reply with:
-> #syz set subsystems: new-subsystem
-> (See the list of subsystem names on the web dashboard)
->
-> If the report is a duplicate of another one, reply with:
-> #syz dup: exact-subject-of-another-report
->
-> If you want to undo deduplication, reply with:
-> #syz undup
+> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+> index 28f78df086ef..850df43ba354 100644
+> --- a/fs/fat/inode.c
+> +++ b/fs/fat/inode.c
+> @@ -813,10 +813,14 @@ int fat_reconfigure(struct fs_context *fc)
+>  	bool new_rdonly;
+>  	struct super_block *sb = fc->root->d_sb;
+>  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
+> +	struct fat_mount_options *new_opts = fc->fs_private;
+>  	fc->sb_flags |= SB_NODIRATIME | (sbi->options.isvfat ? 0 : SB_NOATIME);
+>  
+>  	sync_filesystem(sb);
+>  
+> +	/* allow reconfiguring "flush" or "noflush" */
+> +	sbi->options.flush = new_opts->flush;
+> +
+>  	/* make sure we update state on remount. */
+>  	new_rdonly = fc->sb_flags & SB_RDONLY;
+>  	if (new_rdonly != sb_rdonly(sb)) {
+
+Maybe, better to set after changed the read-only?
+
+> @@ -1047,7 +1051,7 @@ enum {
+>  	Opt_charset, Opt_shortname, Opt_utf8, Opt_utf8_bool,
+>  	Opt_uni_xl, Opt_uni_xl_bool, Opt_nonumtail, Opt_nonumtail_bool,
+>  	Opt_obsolete, Opt_flush, Opt_tz, Opt_rodir, Opt_errors, Opt_discard,
+> -	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy,
+> +	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy, Opt_noflush
+>  };
+>  
+>  static const struct constant_table fat_param_check[] = {
+> @@ -1110,6 +1114,7 @@ const struct fs_parameter_spec fat_param_spec[] = {
+>  	fsparam_flag	("debug",	Opt_debug),
+>  	fsparam_flag	("sys_immutable", Opt_immutable),
+>  	fsparam_flag	("flush",	Opt_flush),
+> +	fsparam_flag	("noflush",	Opt_noflush),
+
+fsparam_flag() is not including the "noflush" too?
+
+>  	fsparam_enum	("tz",		Opt_tz, fat_param_tz),
+>  	fsparam_s32	("time_offset",	Opt_time_offset),
+>  	fsparam_enum	("errors",	Opt_errors, fat_param_errors),
+> @@ -1167,10 +1172,6 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
+>  	struct fs_parse_result result;
+>  	int opt;
+>  
+> -	/* remount options have traditionally been ignored */
+> -	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE)
+> -		return 0;
+> -
+>  	opt = fs_parse(fc, fat_param_spec, param, &result);
+>  	/* If option not found in fat_param_spec, try vfat/msdos options */
+>  	if (opt == -ENOPARAM) {
+> @@ -1183,6 +1184,18 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
+>  	if (opt < 0)
+>  		return opt;
+>  
+> +	/* remount options have traditionally been ignored */
+> +	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
+> +		switch (opt) {
+> +		/* but there are exceptions */
+> +		case Opt_flush:
+> +		case Opt_noflush:
+> +			break;
+> +		default:
+> +			return 0;
+> +		}
+> +	}
+> +
+>  	switch (opt) {
+>  	case Opt_check:
+>  		opts->name_check = result.uint_32;
+> @@ -1235,6 +1248,9 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
+>  	case Opt_flush:
+>  		opts->flush = 1;
+>  		break;
+> +	case Opt_noflush:
+> +		opts->flush = 0;
+> +		break;
+>  	case Opt_time_offset:
+>  		/*
+>  		 * GMT+-12 zones may have DST corrections so at least
 
 -- 
 OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
