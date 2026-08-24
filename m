@@ -1,78 +1,113 @@
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34D53806C6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 17:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26B42DB7BF;
+	Mon, 24 Aug 2026 18:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787594302; cv=none; b=UZAXxfxGTyX1k1tP8V7gdEO1p227/P/cxSXlwLz6OcQKHkz2LOYL2X/jvVc8Ms8DUl9+KynN+RaE/6z3zKZu0U+tasBZ/Mv4dUE5oDB/T0u43NVBV67cHjHr0Qi3+Uirbjq7Jx2Ay4pyw27ZCrMIsEdDDS9PnvGNdPHk+s8r5F8=
+	t=1787595474; cv=none; b=K3pLwtHarosZMf1hodBQyGKIuqZp9Eo/zyLwTEOuBR7d+ssIR6Ju7sM4S0e1hRnXjCajHkpO/I0p+ohsj/xOBwKUqarTrAMLT4SsNLpbLCN2sTfNLgcfpZxvYz1Wg3UYDnNL5wp82w8M3N44BNZyjTq9Qa6ORQQ905JVmTx9T/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787594302; c=relaxed/simple;
-	bh=jcX1BOXw1evMbb68xwYAb+KhNzXpTeM+avGPItf84U0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=NsHAzoKiCMLjxiyaa6gA8/fIqrepKMv+rUxrE/Rk1rtfD8ylyZUnlDFmqgxWmzXM6hrw8oEHcthdnlurxarL3PVXbYu+8FZj/if+aA3SIFayUiSzlBDr2cz4y2GJefTqlWe7zQjYcUynmorvNVUcLxKc1IyZIZ7fkLq5i7h2044=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VeC8rjY0; arc=none smtp.client-ip=209.85.214.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com
+	s=arc-20240116; t=1787595474; c=relaxed/simple;
+	bh=J9/ahY7R5EohyAVPNxeiuF4/j5YfK9eMKYGHxfeTyq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z84JSQZbnaG0q7ucqvYK7qAE7v+UtelNbPFTGkMnKffclY0MyL16HhZEiNdBX1Lhi2KuyMbGg7QsJK69NZcaeKSWj/Q169Fh2MQ3jBQpcDSYHJEFKTvy45NgKbF+8yPD3DZ67lk8qYH5zROxYJm3H96qI9OJou/kC8qUlWOfWUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dMs5oldf; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VeC8rjY0"
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cacd6d37edso50072815ad.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 10:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787594298; x=1788199098; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jcX1BOXw1evMbb68xwYAb+KhNzXpTeM+avGPItf84U0=;
-        b=VeC8rjY05fEyqLffND8yzHrU6r5LKuRXLTmxy5ifNKNqXo0o8Z0ditwmwX5ZwTiQGx
-         q0F+5CiE5Ht9cfhD/GxIjAk6jtXtbklzuqH0StYs98CQtsJSS4wIAHq3FaCLaX2p7zyu
-         bElGaEbj48DrCJNfyYyt2/d2vwxf6zfvN24oY3Req6be1Pbd9yAHZYshM8AxxvKrJyg1
-         IzYduSZcDeTuhmGKSQ6SgGGj2mQn5vPpLTUtS4KpljxlTA2iWZDGRgwKH8Ex9kXOlHvb
-         mxdhwTDH8gUSE6mbzl5n/k43FvpcJ9coMXid8XmjZZhSvgNU4M+st3J9Vfex5IRdDSML
-         AlJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787594298; x=1788199098;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jcX1BOXw1evMbb68xwYAb+KhNzXpTeM+avGPItf84U0=;
-        b=EdLB8C3jHmv+0L+XKtMGpUmElWX7vNHj7dFrIPBcGx6dJdzyBzFMmHr15J5eAYj4dT
-         MCEhZKGBJb3b6ka7BVzz+8+NVnVRw8ftcwZ5pn7AADgOggVhQ+H8vhN8WVtv5OqiY/eq
-         r4XEJPWIk2EKzqB4w2kmzBOv1MBIEnfXdhVw4aCSkdsbMnkojAj9kiiElDYdXf+bLfc5
-         8/6Rdpt05ZrTt6m0nuKIx5ZdUEZc8rK0AMnS290dQC+hqd/Zh9ChvDcluf4DeMDSXJZU
-         345X4Pzneb1IfNmRoNtz1KGz+VMGCAngdZhmSNRRJX0JG/ledgL6y615h8ZswVuPVXG1
-         xazg==
-X-Forwarded-Encrypted: i=1; AHgh+RqZiKjZqAyzRgS0+xgiO2dYhcb9CUKKONv098Xa7fuSRRFZRhkAN3Wwt4JefOi46FOouSI07L9S3XNYVMbi@vger.kernel.org
-X-Gm-Message-State: AFuF++kHD4SYy1GNT536Mf2McddW3m61CYMmI0Uqga/FebgExCEWfH+k
-	GLKKG93eAMZwJ6vGoLQwAYJDnfdENJ+/HEmfOHk/BrA2eflrHDPVMltW7NJoe2/p9knpEVbRx6Z
-	JY+z5Oumf5w==
-X-Received: from plbiw24.prod.google.com ([2002:a17:903:458:b0:2ca:97d5:9cac])
- (user=psalian job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2c07:b0:2d5:c099:16e2
- with SMTP id d9443c01a7336-2d670d5d4bfmr364320495ad.13.1787594298184; Mon, 24
- Aug 2026 10:58:18 -0700 (PDT)
-Date: Mon, 24 Aug 2026 17:58:17 +0000
-In-Reply-To: <51a316c1-4654-4f6f-92ff-84c310cd604d@amd.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dMs5oldf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YD1GqD83PyV7F9VPUwj4kbqvO6zzJjBsM9hK49aM5to=; b=dMs5oldf5sHbEk2paBx+Aa2NKq
+	82ylPnE2ou4HUkWlhpD10V9ADVyG/bIO7FB5Sq1/Fhc2DQGF75Pb6ZrXK6b3mPl7IRsPuUYmHySNI
+	uJMfQYkdjUgPh+34yr5oVvFSoGff/wGmCHgyEj2sIX41qWyhBM4EiS3OprdAmjGN9Laickcfd7eHx
+	TXCkA49n4cRIQUJ4iC6U+QSZ+AakS//MT84dLtYeRPAm2oD+vNfuG605EQW02X3s6+HSyCSrDhWjo
+	M818Izcz1Tsg2Lvfvo0AxZD8zJaRob2LLnnuAuGEuAOX0kTsRTZTUZjzqwcv5rHLMk1hXHQ+I8inD
+	VYqGCIGg==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyZEs-00000007d09-1LER;
+	Mon, 24 Aug 2026 18:17:42 +0000
+Date: Mon, 24 Aug 2026 19:17:42 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH 2/7] fuse: Use filemap_invalidate_pages()
+Message-ID: <aoyKxvdQdeJQfPHj@casper.infradead.org>
+References: <20260820193343.3852967-1-willy@infradead.org>
+ <20260820193343.3852967-3-willy@infradead.org>
+ <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
+ <aoxHOSC9kTPbKeNq@casper.infradead.org>
+ <CAJfpegv3Ak+qNLb=fTSCSz7-taQ3Ui-Hkmqgn4PaGPe=CR4cbQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <51a316c1-4654-4f6f-92ff-84c310cd604d@amd.com>
-X-Mailer: git-send-email 2.55.0.887.g758fc8c411-goog
-Message-ID: <20260824175817.483800-1-psalian@google.com>
-Subject: Re: [PATCH] fuse: mark DAX VMA page protections as decrypted
-From: Punit Salian <psalian@google.com>
-To: pankaj.gupta@amd.com
-Cc: michael.roth@amd.com, thomas.lendacky@amd.com, miklos@szeredi.hu, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stefanha@redhat.com, vgoyal@redhat.com, linux-coco@lists.linux.dev, 
-	x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegv3Ak+qNLb=fTSCSz7-taQ3Ui-Hkmqgn4PaGPe=CR4cbQ@mail.gmail.com>
 
-Hi Pankaj,
+On Mon, Aug 24, 2026 at 03:49:37PM +0200, Miklos Szeredi wrote:
+> On Mon, 24 Aug 2026 at 15:29, Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > On Mon, Aug 24, 2026 at 11:05:46AM +0200, Miklos Szeredi wrote:
+> 
+> > > Maybe add a variant that takes that lock?
+> >
+> > I don't understand what use that would be.  As soon as that function
+> > drops the lock, the pages could be reinstated.  If the caller needs the
+> > pages to not come back, it must need to hold the invalidate_lock across
+> > the whole operation.
+> 
+> invalidate_inode_pages2_range() together with launder_page guaranteed
+> that no dirty data remained in the cache after that call.   Yes, the
+> pages can be reinstated after that but those need faults and the
+> server can then serialize those against the invalidation.
+> 
+> I don't see that guarantee with the filemap_write_and_wait_range()
+> (with or without invalidate_lock actually) since the mapping can be
+> dirtied again without the filesystem's knowledge.
+> 
+> Am I missing something?
 
-Just following up to see if you had a chance to test this patch on your working SEV-SNP setup. If everything looks good on your end, could you please share your Tested-by tag so we can get this queued up with Miklos?
+Well, one of us is!
 
-Thanks,
-Punit
+Before:
+
+fuse_open()
+	invalidate_inode_pages2()
+		folio_lock()
+		folio_unmap_invalidate()
+			folio_launder()
+		folio_unlock()
+
+After:
+
+fuse_open()
+	filemap_invalidate_pages()
+		filemap_write_and_wait_range()
+		invalidate_inode_pages2_range()
+			folio_lock()
+			folio_unmap_invalidate()
+				folio_test_dirty()
+			folio_unlock()
+
+so what's the serialisation that the filesystem can perform in the first
+case that it can't perform in the second case?
+
+or alternatively, what's the serialisation that would be useful by
+adding a lock/unlock of the invalidate_lock inside
+filemap_invalidate_pages()?
