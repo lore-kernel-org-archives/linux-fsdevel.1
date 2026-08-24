@@ -1,65 +1,65 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05B3437456
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CA943801B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580090; cv=none; b=e+htdoJZHZBCR6AY4O4xBPbz6BLwQJctqNeYQUPn8jNVBu42TLzEs8rmxHHvjrjGzG28wS7iepbVbWDTr3LGZBvevOFXs752wNR2XwHQJq1FcOc62be2KeQywKKDkHXPPsM9uLCXnvi4IKq4aM0Ci5ZMxC6w5LsAHWcuHHxi9dQ=
+	t=1787580242; cv=none; b=TYL/8yzX2ai2Jl3LSQrAnTGgAG+7EYO0ojrUA9BeyEcQSQnWoyunOdQlRUvj+81PY1hOX4oqv3g+DnezXhW3SLIhFgvOKbve2tQPlXeNOQvzgCu4qqxVG51QNqnT4eYStFqUihTabK721BDK/oqQPa6hdtuSg87JzlaaPc8oqtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580090; c=relaxed/simple;
-	bh=/pbJ1sO8Ra8ej9Se9y+dT8qIv3r62mtB11/3S/mbr/M=;
+	s=arc-20240116; t=1787580242; c=relaxed/simple;
+	bh=LN4S+uhNeXEkUev4MtTwRUrSM4Q5tR/xe+5lbgofppg=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gnev88DLSzu/MCHp/TrPrz9ebNQaXacItoyFVvEB9IpEb+qBB02rKtoJyDMENt7HIVy4cqs7kIr0yV/CZTFXuJFF1yl08/B6eOOXrF/sAeLe+43D+22YCpROu3fjHcoE1iHhRPnPMzF8H9MWtCtMPFy6xwO8seYjXebQJYKqAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JmogVx29; arc=none smtp.client-ip=209.85.128.170
+	 MIME-Version:Content-Type; b=fLAg7Ulhz0oL4OLr0MM2PwTjAEKIJubFBiO1omBQEqGDj3qzayO3n9eSdNquqOAQjxaHgoPZaJ4uWSAYED/cjdPlKttkqTLv5H55Msyw8p5CD+R8F49fsS3s8Xt62Vne8hkYipw06TT1gOtFGLYJ/2LLa/ARXJmpo+eMZPjS+xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rtl52Ag6; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JmogVx29"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-836c4474028so40473777b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:01:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rtl52Ag6"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-836cb2fa1bcso52633247b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:04:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787580088; x=1788184888; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787580240; x=1788185040; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=F3uJrLcgO0TGgb78nKF0vmj4EM5IUhGHLplUqQEbOiM=;
-        b=JmogVx29GRJQ9hs2oCzeWZemOnXSVdf0TUwx+5aCQ2slV/Q+eIgtiX3cbcC6f4Ndx4
-         +hEe87zjz6zEAbqarEoi/nvTtxZG5v8xhSEnSLJ6VCvX2pbd2qzHWETpsLHBDF5hiqeY
-         gJYxpbbnaU6NP0nCwYNgZ03DedP1Ach/5Nq4FFYPOI0TWm9sSktED4Zi9ymdVyCfXSkp
-         Kyrs0kuH/ANkhTf3OloBFYNNVUQUrTGoYVGSKNqOa9JQlHu9A9VStVvAGrIcp4ZpSGy3
-         dZOApLAvDaUjgkNgY69w5Vy0N9IYD9AjnIXW/sgZRR40kr/hwNljomwGoYBnl/W+WCkY
-         kwCA==
+        bh=gLqnUltfGMwKBemLbA/06+FuqdHtLjtQ/H9OD8DkJLA=;
+        b=rtl52Ag6X87b4zggXTJD7rgDtSYz03nSHK2+Pnjivk9XsTrG/xr0dPmc00ofbZztON
+         G6/piNskoQTvXOwyCzz2tTj1fcti2eCb3O/cKFy5ejNiy/nZspB4YvWAf7ad7c1GbCx3
+         8Vxd3w/SWRN9LlPKXU70AdbcYilK3QfI9rtujvxBb96jDNmSNgrbbecDXiIdROQTVOW1
+         GzDdjcg48xiPXr/AKK1YS2VMOJ01t5Z8qMiMb496nMlIpIJYFFB+Pt8l/iiMXhommpWQ
+         fa6ZCXVE1OwyXsL5fcId8kProLFoFo9xNuM9Qtd5EE2JLDfMHQn9cEeAXo1bN6wAY1nR
+         b/+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787580088; x=1788184888;
+        d=1e100.net; s=20251104; t=1787580240; x=1788185040;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=F3uJrLcgO0TGgb78nKF0vmj4EM5IUhGHLplUqQEbOiM=;
-        b=eBYiAp7wK4CEjqjWmNxVkmIbvlwcvk8++pKRsbM6KIlYGn6LUTzCeWvt5UykPHot2V
-         2R+WTgDxnHcSROQLYn7iwkTq4vqHWt8EcPuQtVSpDxfDwOl4izIkVf/FEkxNGHVLtLOK
-         VuYJqoRs/eotQM4AfzxBtufsFSd2XP/fWrBrHJwuEbgMff23414ej2bO0lbMiXJ2STrs
-         rCg2DARbzCC8IrMzOndDDHq2GmaMm7Nl47x2osP3MYy1zX62H6y2rxpIOyaUCxUK5dTx
-         KlEEA7xO6hoVs30mf5qLvzEgEqDfNV+ZuTTUz9BijNEQFV285orydJn1RPnCJxBbtnM3
-         YkCw==
-X-Forwarded-Encrypted: i=1; AHgh+RoBMKZf5YLob7o1H+Nnxw4E/eol/LUtUcyF6skVzlGszTpE4lbNuUic5Ut1gXuxBa75SKMXtw+6CaftZquF@vger.kernel.org
-X-Gm-Message-State: AFuF++nf/Nsnda7YhDUy3QXCYH/8vnTeGiPdw7Vvazz8dVTbHAUFdYCj
-	3AIqd9VLcUYzotjxF5x3dczl4BCpcYzmtevujSlZpI7LDRzyGdjUucTYDyVIIQ1GHg==
-X-Gm-Gg: AR+sD128YCrG2eMMUeoDBxf82EDCiJUeJRCK1z99BWUb7XZ85lt0+GGs8T8bIJSHFRg
-	LSgudmtpcdENNRFl3BeOZqN2N+vPwvp+YmxfnyeTigyCkOYY+cgnlKaEBQxDuAQzoP/yIhGLnT0
-	j6i24jO1Bwc8F5euFeneb5QOA+1NpDKZDdziJc2hIiR40ICc2+ZA5mFzzU9P0yv15OehtqahJk2
-	34p17egbx5sG6C1GMOHUMFyvBzIBFo2j0FhIjILFIvO6i2iQSzZaRx2/JLmlXOcedKkkf9CvYzD
-	5BBYr7TeuNTIFvbvssOF/AqXMZchRrnbS2QoZxQr81/SzK5in0wX/7OFMg1mDgUvjwD9agR7zzJ
-	JnegLa4QgRq6cNJhTO2n9vIAStMnUeSAZNrA3ZC/+ojZxjWOSII+ZQjSguhQ9kihkfAP0S4aFEc
-	TY2wKKDxnFbCjL3uX1s9EXfaHDTM0Rk/xX4W53U7fI4VTPuNbRY7HfSy1ryTKKMEiKosYhDawqN
-	emBSpgJnAyHUIBnl8pSr2LpZdkmYQCRWPUrKMqoBua7HDD6
-X-Received: by 2002:a05:690c:568a:20b0:844:9f61:92d9 with SMTP id 00721157ae682-849f67acaa8mr75062557b3.17.1787580086310;
-        Mon, 24 Aug 2026 07:01:26 -0700 (PDT)
+        bh=gLqnUltfGMwKBemLbA/06+FuqdHtLjtQ/H9OD8DkJLA=;
+        b=NpUTT15PTRhhCJeGapzwS2KFpd/I5YXjv/KC4O+7zNRnsXJ/x8EswYgDYWuQZynemY
+         e+bxXdUvTywWJYzMZqgGjzl09CFUfClzo9eoxoasSbaGtJ+Zv1wTqXvxwq+Nn/2a74+v
+         54DO4lpqj580LFxVi5Ww0FAn07s+lkltABbI3JZsqpQV4qQ0BRZIyYvPaLMkMZdrmF8+
+         2HC5r77X1aHRRttoTR7C8FBxvjVBjnuvR3PEHA+KZhDawdY4DZGSAoKtev4bjrxWIHPO
+         y9m822O6m8QqSOPGNB7hJah+qYwf8mi8LaCNfdQYCF/XqCW4yQas2AlZMxTjpNvtWXCR
+         5nLQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpsr1cnljddRrWbXXuPNLb9FKmKrsLh4cEiLyBcAseS19wXW6txFs7QBBo1zIp8izmJpqT2XORSfYYJs8tH@vger.kernel.org
+X-Gm-Message-State: AFuF++kwXpS/Pa02yCp/PBziVCEtWQINzpe6id4qe4jfZ/uTUHBZyoq4
+	PuuszqrmMvYHxS0jq/hGaDjn5yYJv6rR9LH7pOR17uSOXK/Iohle/C4ONJjHwhNEhQ==
+X-Gm-Gg: AR+sD12NeWLpvlmRPpXTErB3GbIEFHtt2rSn5W24dp7JheZrvBYQYV1Ps/xkaLWt7d1
+	n+m4yF1Zmt6ngqV7Hv84CftMmjmbBcmy1gzyj1zmJtauRAPeIiw2eD1dMscbgneQy1bMcrwL8lP
+	yO1r6Q99KTSTEAQ0wBV49P+3Gnvb619MF9GhPmlbZb+7VcqQuv9MiczkB+DCQHMFzGfNxhGL5EV
+	/DKbPa6jhrg8hCzfYYQEB057sQlwvzymtw+sFyCK2ICpByYKRFp2XjpU66Hi3G8oSxzqI3RzUVS
+	7PNna0EHQ70F7KMbobtxWhJqvDUUtTr/lCm+q8LmTMbnay+hjh7LEcMaOL6OuFF560AqOwwpbuw
+	IIp7cBMepGPcaNxSAmCA50EhB+/DnTAL0uFWXuwrz8FDCg1uE5XvCN6rNx3Uoryla9IfjkpZEDZ
+	GWKJsBcVj1rNaZBt8j7XUoLIV3ro/XisUiLr5a6xl+b1v+vPczEbB6oScJqtw0ES80Er7EJNhFV
+	+/5X00dLv7lEKL722CBdMyk2OIWw6kwt70A/3+la1XjoxOZ
+X-Received: by 2002:a05:690c:6004:b0:822:854d:4563 with SMTP id 00721157ae682-84c9682009cmr74201097b3.8.1787580237568;
+        Mon, 24 Aug 2026 07:03:57 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-85426caa5e9sm1557737b3.34.2026.08.24.07.01.22
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cab851290sm33478997b3.35.2026.08.24.07.03.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:01:25 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:01:20 -0700 (PDT)
+        Mon, 24 Aug 2026 07:03:56 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:03:52 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 04/25] mm/fbatch: lru bit set, no extra ref, while folio on
- per-cpu fbatch
+Subject: [PATCH 05/25] mm/fbatch: lru_add_del_folio()+folio_add_lru() after
+ clear_lru()
 In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <e0887417-85a7-453e-e733-561dc11db08f@google.com>
+Message-ID: <9c538ff2-7150-1021-df1e-fbc10f0bb92a@google.com>
 References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,298 +102,89 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Treat folios on a per-cpu fbatch as if they were already on the lruvec:
-with PG_lru set, without holding an extra reference. This will enable
-the removal of most lru_add_drain() and lru_add_drain_all() calls soon.
+Most callers of folio_test_clear_lru() then proceed to remove the folio
+from its lru, and add it back at the end when they're done (if still in
+use). But isolate_migratepages_block() and check_move_unevictable_pages()
+sometimes decide against, and release immediately with a folio_set_lru().
 
-Recognize such a folio by 0x02 set in the folio->lru.next pointer by
-folio_add_lru(). Then lruvec_del_folio() (aided by "lru_add_del_folio")
-can pretend to unlink it, and folio_batch_move_lru()'s lru_add case can
-check whether one of the others has already moved it to lruvec.
+Which usually works fine: but there's now a small chance that while they
+held the folio with lru bit cleared, an lru_add fbatch drain came along,
+and had to skip that folio because its lru bit was transiently cleared
+(previously, the lru_add fbatch drain relied on finding lru bit never yet
+set). This risks leaving that folio off lru, unreclaimable until freed.
 
-Let folio->lru.next point to the lru_add fbatch entry, but this is now
-just for debugging: it seemed to be important for folio_batch_move_lru()
-to distinguish fresh from stale entries, but then it turned out that it
-has to processs them identically.
-
-Activate, deactivates and move_tail, holding no reference on the folio,
-might come to act on a stale folio when the fbatch is drained: but it's
-acquired by try_get and test_clear_lru, so safe even when suboptimal.
-
-Reclaim is not an exact science, and there have been no complaints of
-missed actions since 5.11 commit fc574c23558c ("mm/swap.c: serialize
-memcg changes in pagevec_lru_move_fn") introduced the TestClearPageLRU
-protocol: so don't expect complaints of a few surprisingly taken actions.
+Fix such cases by trying lru_add_del_folio() (which only takes action and
+returns true if the folio was on an lru_add fbatch), then folio_add_lru()
+if it succeeded: invalidating the old fbatch slot, appending in a new one.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- include/linux/mm_inline.h |  19 ++++++
- include/linux/mm_types.h  |   4 +-
- mm/folio.c                | 119 +++++++++++++-------------------------
- mm/huge_memory.c          |   6 +-
- 4 files changed, 66 insertions(+), 82 deletions(-)
+ mm/compaction.c | 13 +++++++++++--
+ mm/vmscan.c     | 16 +++++++++-------
+ 2 files changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index 621c8653d8f7..1ecaf2ef9f2b 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -343,6 +343,23 @@ static inline void folio_migrate_refs(struct folio *new, const struct folio *old
- }
- #endif /* CONFIG_LRU_GEN */
- 
-+enum {
-+	LRU_NEXT_NEVER_TAIL = 0,	/* Used by a tail's compound_head */
-+	LRU_NEXT_BATCHED = 1,		/* Not used by any aligned pointer */
-+	NR_LRU_NEXT_FLAGS
-+};
-+
-+static __always_inline
-+bool lru_add_del_folio(struct folio *folio)
-+{
-+	/* BUG_ON(folio_test_lru(folio)); */
-+	if (!(folio->lru_next & BIT(LRU_NEXT_BATCHED)))
-+		return false;
-+	folio->lru.next = LIST_POISON1;
-+	/* BUG_ON(folio->lru_next & BIT(LRU_NEXT_BATCHED)); */
-+	return true;
-+}
-+
- static __always_inline
- void lruvec_add_folio(struct lruvec *lruvec, struct folio *folio)
- {
-@@ -384,6 +401,8 @@ void lruvec_del_folio(struct lruvec *lruvec, struct folio *folio)
- 
- 	if (lru_gen_del_folio(lruvec, folio, false))
- 		return;
-+	if (lru_add_del_folio(folio))
-+		return;
- 
- 	if (lru != LRU_UNEVICTABLE)
- 		list_del(&folio->lru);
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 939b5ea8c9e0..2b1a1f983a91 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -410,10 +410,8 @@ struct folio {
- 			union {
- 				struct list_head lru;
- 	/* private: avoid cluttering the output */
--				/* For the Unevictable "LRU list" slot */
- 				struct {
--					/* Avoid compound_info */
--					void *__filler;
-+					unsigned long lru_next;
- 	/* public: */
- 					unsigned int mlock_count;
- 	/* private: */
-diff --git a/mm/folio.c b/mm/folio.c
-index a7010ae3edff..88e3ebd7e652 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -151,57 +151,34 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
- 	int i;
- 	struct lruvec *lruvec = NULL;
- 	unsigned long flags = 0;
--	struct folio_batch free_fbatch;
--	bool is_lru_add = (move_fn == lru_add);
--
--	/*
--	 * If we're adding to the LRU, preemptively filter dead folios. Use
--	 * this dedicated folio batch for temp storage and deferred cleanup.
--	 */
--	if (is_lru_add)
--		folio_batch_init(&free_fbatch);
- 
- 	for (i = 0; i < folio_batch_count(fbatch); i++) {
- 		struct folio *folio = fbatch->folios[i];
- 
--		/* block memcg migration while the folio moves between lru */
--		if (!is_lru_add && !folio_test_clear_lru(folio))
--			continue;
--
--		/*
--		 * Filter dead folios by moving them from the add batch to the temp
--		 * batch for freeing after this loop.
--		 *
--		 * We're bypassing normal cleanup. Clear flags that are not
--		 * applicable to dead folios.
--		 *
--		 * Since the folio may be part of a huge page, unqueue from
--		 * deferred split list to avoid a dangling list entry.
--		 */
--		if (is_lru_add && folio_ref_freeze(folio, 1)) {
--			__folio_clear_active(folio);
--			__folio_clear_unevictable(folio);
--			folio_unqueue_deferred_split(folio);
-+		if (!folio_try_get(folio)) {
- 			fbatch->folios[i] = NULL;
--			folio_batch_add(&free_fbatch, folio);
- 			continue;
+diff --git a/mm/compaction.c b/mm/compaction.c
+index a049415512c6..9e045a90ba21 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -1204,7 +1204,13 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+ 				     !cc->alloc_contig)) {
+ 				low_pfn += folio_nr_pages(folio) - 1;
+ 				nr_scanned += folio_nr_pages(folio) - 1;
+-				folio_set_lru(folio);
++				if (lru_add_del_folio(folio)) {
++					lruvec_unlock_irqrestore(locked, flags);
++					folio_add_lru(folio);
++					locked = NULL;
++				} else {
++					folio_set_lru(folio);
++				}
+ 				goto isolate_fail_put;
+ 			}
  		}
- 
-+		if (!folio_test_clear_lru(folio))
-+			continue;
-+
-+		/* Do not add to LRU if it has already been added */
-+		if (move_fn == lru_add && !lru_add_del_folio(folio))
-+			goto restore_lru;
-+
- 		folio_lruvec_relock_irqsave(folio, &lruvec, &flags);
- 		move_fn(lruvec, folio);
- 
-+		/* Do add to LRU if not already there (move_fn skipped) */
+@@ -1293,7 +1299,10 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+ 	if (locked)
+ 		lruvec_unlock_irqrestore(locked, flags);
+ 	if (folio) {
+-		folio_set_lru(folio);
 +		if (lru_add_del_folio(folio))
-+			lruvec_add_folio(lruvec, folio);
-+restore_lru:
- 		folio_set_lru(folio);
++			folio_add_lru(folio);
++		else
++			folio_set_lru(folio);
+ 		folio_put(folio);
  	}
  
- 	if (lruvec)
- 		lruvec_unlock_irqrestore(lruvec, flags);
--
--	/* Cleanup filtered dead folios. */
--	if (is_lru_add) {
--		mem_cgroup_uncharge_folios(&free_fbatch);
--		free_unref_folios(&free_fbatch);
--	}
--
- 	folios_put(fbatch);
- }
- 
-@@ -210,8 +187,6 @@ static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
- {
- 	unsigned long flags;
- 
--	folio_get(folio);
--
- 	if (disable_irq)
- 		local_lock_irqsave(&cpu_fbatches.lock_irq, flags);
- 	else
-@@ -339,7 +314,6 @@ static void lru_activate(struct lruvec *lruvec, struct folio *folio)
- 	if (folio_test_active(folio) || folio_test_unevictable(folio))
- 		return;
- 
--
- 	lruvec_del_folio(lruvec, folio);
- 	folio_set_active(folio);
- 	lruvec_add_folio(lruvec, folio);
-@@ -355,37 +329,12 @@ void folio_activate(struct folio *folio)
- 	    !folio_test_lru(folio))
- 		return;
- 
--	folio_batch_add_and_move(folio, lru_activate);
--}
--
--static void __lru_cache_activate_folio(struct folio *folio)
--{
--	struct folio_batch *fbatch;
--	int i;
--
--	local_lock(&cpu_fbatches.lock);
--	fbatch = this_cpu_ptr(&cpu_fbatches.lru_add);
--
- 	/*
--	 * Search backwards on the optimistic assumption that the folio being
--	 * activated has just been added to this batch. Note that only
--	 * the local batch is examined as a !LRU folio could be in the
--	 * process of being released, reclaimed, migrated or on a remote
--	 * batch that is currently being drained. Furthermore, marking
--	 * a remote batch's folio active potentially hits a race where
--	 * a folio is marked active just after it is added to the inactive
--	 * list causing accounting errors and BUG_ON checks to trigger.
-+	 * XXX: It is curiously difficult to recreate safely the old
-+	 * __lru_cache_activate_folio() optimization (folio_set_active()
-+	 * directly if it's on the local lru_add fbatch): revisit later.
- 	 */
--	for (i = folio_batch_count(fbatch) - 1; i >= 0; i--) {
--		struct folio *batch_folio = fbatch->folios[i];
--
--		if (batch_folio == folio) {
--			folio_set_active(folio);
--			break;
--		}
--	}
--
--	local_unlock(&cpu_fbatches.lock);
-+	folio_batch_add_and_move(folio, lru_activate);
- }
- 
- #ifdef CONFIG_LRU_GEN
-@@ -476,16 +425,7 @@ void folio_mark_accessed(struct folio *folio)
- 		 * unevictable page accessed has no effect.
- 		 */
- 	} else if (!folio_test_active(folio)) {
--		/*
--		 * If the folio is on the LRU, queue it for activation via
--		 * cpu_fbatches.lru_activate. Otherwise, assume the folio is in a
--		 * folio_batch, mark it active and it'll be moved to the active
--		 * LRU on the next drain.
--		 */
--		if (folio_test_lru(folio))
--			folio_activate(folio);
--		else
--			__lru_cache_activate_folio(folio);
-+		folio_activate(folio);
- 		folio_clear_referenced(folio);
- 		workingset_activation(folio);
- 	}
-@@ -505,6 +445,10 @@ EXPORT_SYMBOL(folio_mark_accessed);
-  */
- void folio_add_lru(struct folio *folio)
- {
-+	struct folio_batch *fbatch;
-+	unsigned long lru_next;
-+	bool full;
-+
- 	VM_BUG_ON_FOLIO(folio_test_active(folio) &&
- 			folio_test_unevictable(folio), folio);
- 	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
-@@ -524,7 +468,26 @@ void folio_add_lru(struct folio *folio)
- 			folio_mark_accessed(folio);
- 	}
- 
--	folio_batch_add_and_move(folio, lru_add);
-+	local_lock(&cpu_fbatches.lock);
-+	fbatch = this_cpu_ptr(&cpu_fbatches.lru_add);
-+
-+	/* Storing this address is only for debugging */
-+	lru_next = (unsigned long)&fbatch->folios[fbatch->nr];
-+	/* This mask will do nothing on 64-bit */
-+	lru_next &= ~(BIT(NR_LRU_NEXT_FLAGS) - 1);
-+	lru_next |= BIT(LRU_NEXT_BATCHED);
-+	folio->lru_next = lru_next;
-+
-+	full = !folio_batch_add(fbatch, folio);
-+
-+	/* Ensure folio->lru_next visible to folio_test_clear_lru() callers */
-+	smp_mb__before_atomic();
-+	folio_set_lru(folio);
-+
-+	if (full || !folio_may_be_lru_cached(folio) || lru_cache_disabled())
-+		folio_batch_move_lru(fbatch, lru_add);
-+
-+	local_unlock(&cpu_fbatches.lock);
- }
- EXPORT_SYMBOL(folio_add_lru);
- 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 644d6905b49c..98b1d0ea50f0 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3993,8 +3993,12 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 4ca9775ceee8..7da12ffbd3bd 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -8021,17 +8021,19 @@ void check_move_unevictable_folios(struct folio_batch *fbatch)
+ 			folio_clear_unevictable(folio);
+ 			lruvec_add_folio(lruvec, folio);
+ 			pgrescued += nr_pages;
++		} else if (lru_add_del_folio(folio)) {
++			lruvec_unlock_irq(lruvec);
++			folio_add_lru(folio);
++			lruvec = NULL;
  		}
+-		folio_set_lru(folio);
++		if (lruvec)
++			folio_set_lru(folio);
+ 	}
  
- 		/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
--		if (do_lru)
-+		if (do_lru) {
- 			lruvec = folio_lruvec_lock(folio);
-+			/* Move from fbatch to lruvec before lru_add_split_folio()s */
-+			if (lru_add_del_folio(folio))
-+				lruvec_add_folio(lruvec, folio);
-+		}
+-	if (lruvec) {
+-		__count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
+-		__count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
++	if (lruvec)
+ 		lruvec_unlock_irq(lruvec);
+-	} else if (pgscanned) {
+-		count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+-	}
++	count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
++	count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+ }
+ EXPORT_SYMBOL_GPL(check_move_unevictable_folios);
  
- 		ret = __split_unmapped_folio(folio, new_order, split_at, xas,
- 					     mapping, split_type);
 -- 
 2.51.0
 
