@@ -1,227 +1,192 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFE727A91D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617DF239E60;
+	Mon, 24 Aug 2026 14:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583348; cv=none; b=UOp128ALDXbVHeWgfNt/mqiZrivcZzP1s3lMNzvm7saUlHiGDwTX2w/Bdo3eF2LUJYF3iTwkSWIyfCJ1ST2be1XYqZlNuLFFN6/44s62o9pwKszfz5+TTnndjNRvJg34vtwSkzXAGXg3ji9mSTdjBg7+V51Yen+qjt/GH/KyRcc=
+	t=1787583575; cv=none; b=QN8Xad0zwSuQebgy9AuoIUJxc7aGJY5tljVchDxoPiMY5VRpaNswST6zMcGRTN1KLdtk86hioF+vxle77gwSSOZSK4cXT1pV6WH6Vr93SbwU/HNJqWaTyQfdi607lqxTUY+Zevp6HMFNLu8+99c+TROUhA8J45dQwXbpC6hAsQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583348; c=relaxed/simple;
-	bh=knm7pNivTIqFlTYKZzBy1Fjr0y42IVz+KXlnpElvreo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=dQP/ldwciU7lzQfCZG3LwFliFNHytJZe7641gdQieqfDHKZaiP9ipbkG1kVjfiYWBO/1upB7pMLuntLCND8JpP4DbuXzvhnDv9i9o9hr86s44GKQTbb1HEoTrPeifLrPfvwLWU5LQLavTrdOr1hY4W12BFt2aFjNmdt8bEkuFVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I8hsbrbg; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787583575; c=relaxed/simple;
+	bh=2xbYWWA2A5lp9vXQmXIPtL6kb0IJD+kCExBxK7q+77Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M/Wm0OvBXvXDvhPxD3C33TIThq64ows/UlPiW5jPk4PBrHj8ryZkmkUN724es6kZf7P0RzEYdnzHkSPt0yMvcXAL5Vz7aFZBzpaFCy/RNrqGCfzW5rfgf0D6/GkAWwFKY4zvjjU4OFtWMLosWPhcPAdWsD3AhRwjAy3HPp2KK/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGFVkLHL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I8hsbrbg"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-836c4474028so41618137b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787583345; x=1788188145; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=z3p4N+WdGfy0YyEKXl3GFU0ih7nRgZs+zJqtEvKEyhU=;
-        b=I8hsbrbgAAmY8zEWm6yN3s2tydzvsexhIsqS5axTXsiPjqZmWrBrbpgjRxjYJpheHi
-         b3jZUbaSx0pQ3NmciCmGaU96IjLJ57GGaXomC/QKP5lRWFyjLDW1qG+tVUNOUL3EuWHy
-         CN5Lm+JdOkUPVIh1f2HjYc2+qFYEHBid6+g+U26B0lkzdpXtANpROwewBL/0e84hP4fY
-         M6xWKtW/XPxD+5b5ZBiLqutnvdEpeMupUPgolBhU6i6ZDn5+Xhs1SlKB7enTEzX6EQVm
-         qmmhXH5Wg9zhzCBiBnd9oVbZFZ7vedAoP0D+xs2YsZIcWnYZudWtldo0Xe7Btrfe6Arb
-         UoJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787583345; x=1788188145;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=z3p4N+WdGfy0YyEKXl3GFU0ih7nRgZs+zJqtEvKEyhU=;
-        b=KBG5UxX1vG+Va6HrYemR4dGFpHy+cip4SCyHjfkdnszQNVcHseTxPlp7A4utPOaNmr
-         7L1mg/YInN/Uzx1TGUv21l857oEm3WSKxt6gO3Zaf8UbbsOgGlKMnYi+gcKZJkEYgumy
-         qMgdNdUvS/Sa/s/nHNzOMz/0G7CSapSNXy73xomVv4VCKvlFu/SCnuoldI3YIiv+4fc9
-         HaEco4Twn4ZK6d0UN1ElR0N+oo8WDLMqMGrUwelDmyutKPd0Vhta4wq0C9ZJpX/fXDvH
-         iUxUiXh0kaqYPYJ+I3FvsV+NUmxEylDnSshkR7qm46DZbK/NYOLUS/1cqSGJg5LY6WqL
-         nKmg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5/lpYfS8wgoTb8OuM0AYktLWGf3OAe4XkJVi8SL1MUHovuPbRYwtFhJkcZEf4O5y+YbmtkAeWbpJdPGkz@vger.kernel.org
-X-Gm-Message-State: AFuF++lyubDAYAnXK54ed9OBzWw5ueUZ5yxSiC2ehCAX+aPk11Bh+Jnr
-	cNmfbtBQmI5M/d2sxVEPmWYLot0cH9DY2iQn9LZcf9GT2vSW20Okh7OA4y4BBYqkWw==
-X-Gm-Gg: AR+sD12sJzOGE9P5zyQwpxKf0DZoq4kj4WJjhBR125Ecxwd85+n2m2+Oj1JcUFaFLXM
-	FeQjyoAR62FBcVSEGI8Xkqo372q0HTkGVUHraabz49bUmLr2RL2oLbwtTWnaSReoHUrefygIwAB
-	5mMn/BAOVOLkMllJ0vMXvEIFpKObNdqXkJW14PLXdYDoxoMFskrM7hWL3mWQCB8pmiu5bxXr9PD
-	JsNFUWD9pjGb8EDbnSoSE5tWN75m3CU+VMSMvd1ourzOuU+vq2stvpkdZhe3vO+4NhuEEm7mzsu
-	i9gPOxEvBhVoWpAGnBrXn9wvSmbO2WsYS/yMrwuQqZrvdtXtL0heXXEkPs4opYSorNGwLIgr+0b
-	g5Y1a3NSqYcpGS1pN85w7ss+Lf5BOAmVEZ4GgO0UGD5kza0vW19rfLtwslGNlSGv+OPO/DLMUT7
-	5OarUmAJyQgJoiyBvmTXe0gjp7JHCqum6CGt8favQL/jvKVQxht49MKh/dwERZtcF6iiPp066W9
-	sH32B/6icXBRn5UEdU3K8c18gV/x8d/X0/kTpTfwurPDJ+o
-X-Received: by 2002:a05:690c:b96:b0:845:ddf4:a399 with SMTP id 00721157ae682-849f3007b00mr110178637b3.11.1787583344519;
-        Mon, 24 Aug 2026 07:55:44 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84ca5c2c52csm35086077b3.11.2026.08.24.07.55.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:55:43 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:55:39 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH alt 13/25] mm/fbatch: no lru_add_drain() to
- collect_longterm_unpinnable_folios()
-In-Reply-To: <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
-Message-ID: <333bb765-a36d-e07e-d3c4-5ea2f1cadfcb@google.com>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGFVkLHL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2CC1F000E9;
+	Mon, 24 Aug 2026 14:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787583574;
+	bh=AccNNgKH6mpdiOZn+TQ6yi+YTRFl1ckABXXlP5qNp0s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WGFVkLHLt8glwJyNyzpbegLiEczgB3KRRpoxrsKbnYBufxLJsdfqDhjhdP7T16Tx5
+	 bqxKzSNDAJCPhN/X/3zf+HiOu+g0MnTXFumI1OQd9LYWSCC54AQS8bvMlvM7Q7DEdB
+	 F6+Y9XiTmfKwR+wo5sGnM0dgZnSkFBQxie7k+L7q0HtnN0kovChN6zZm2ic4jGevda
+	 Hkd+WMr6ZxnA/yTIZcDJL8LfULRtlUE+8UlWLZyr4gIuAu5E7JTeg9qNc7tLpPrH+L
+	 z5FuXi7SjxSz37zwDb/a62Uf6rEkWJgcBNM1Kin4Iwuk7WW72JJ2lAu6X7xGJJIEi9
+	 2kVhcK32BgG3Q==
+Date: Mon, 24 Aug 2026 15:59:26 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
+	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] mm/gup: move gup_can_follow_protnone() to gup.c
+Message-ID: <aoxcRstdSy99lNEA@gremlin>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
 
-collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
-lru_add_drain_all(), now that the per-cpu fbatch references are gone.
-So remove the recently added lru_cache_drain_for_folio().
+On Sun, Aug 23, 2026 at 03:17:38PM +0300, Mike Rapoport (Microsoft) wrote:
+> gup_can_follow_protnone() is defined in include/linux/mm.h but only used
+> by mm/gup.c.
+>
+> First, there is no reason to have it in already gigantic header.
+>
+> Next, the upcoming refactoring of userfaultfd flags will make
+> gup_can_follow_protnone() depend on userfaultfd_k.h which would cause a
+> cyclic header dependency.
+>
+> Move gup_can_follow_protnone() to mm/gup.c.
+>
+> No functional change.
+>
+> Assisted-by: copilot:claude-opus-5
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Signed-off-by: Hugh Dickins <hughd@google.com>
----
-Alternate version for use once David Hildenbrand's two commits
-here have been pulled from mm.git into linux.git for 7.3-rc1.
+LGTM so:
 
- include/linux/swap.h |  8 --------
- mm/folio.c           | 46 --------------------------------------------
- mm/gup.c             |  9 ---------
- 3 files changed, 63 deletions(-)
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 17c60956c553..ecb877fe61ed 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -302,14 +302,6 @@ static inline void folio_add_lru(struct folio *folio)
- void folio_mark_accessed(struct folio *folio);
- void lru_add_drain_all(void);
- 
--enum lru_cache_drained {
--	LRU_CACHE_NOT_DRAINED,
--	LRU_CACHE_DRAINED,
--	LRU_CACHE_DRAINED_ALL,
--};
--void lru_cache_drain_for_folio(const struct folio *folio,
--		unsigned int extra_refs, enum lru_cache_drained *drained);
--
- /* linux/mm/folio-compat.c */
- void mark_page_accessed(struct page *page);
- 
-diff --git a/mm/folio.c b/mm/folio.c
-index 1c03b44362c1..7b309059b302 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -842,52 +842,6 @@ void lru_add_drain_all(void)
- }
- #endif /* CONFIG_SMP */
- 
--/**
-- * lru_cache_drain_for_folio() - drain LRU caches if the caches might hold
-- *				 folio references
-- * @folio: The folio.
-- * @extra_refs: Extra folio references held by the caller.
-- * @drained: Drain status for batch folio processing.
-- *
-- * Drain LRU caches if the caches might hold folio references. Start
-- * with a local LRU cache drain, to then drain LRU caches on all CPUs if
-- * local draining was insufficient.
-- *
-- * This function detects LRU cache references by comparing the folio refcount
-- * with the sum of the expected folio refcount + extra references held by the
-- * caller. Note that we cannot rely on PG_lru to reliably detect all LRU
-- * cache references, and there are rare scenarios (concurrent folio (un)mapping)
-- * where this function might miss detecting LRU cache references.
-- *
-- * If @drained is not NULL, the function will avoid re-draining LRU caches
-- * when processing multiple folios in a row. In that case, the variable
-- * @drained points at must be initialized to LRU_CACHE_NOT_DRAINED before
-- * the first invocation by the caller.
-- */
--void lru_cache_drain_for_folio(const struct folio *folio,
--		unsigned int extra_refs, enum lru_cache_drained *drained)
--{
--	if (!folio_may_be_lru_cached(folio))
--		return;
--
--	if (!drained || *drained == LRU_CACHE_NOT_DRAINED) {
--		if (folio_ref_count(folio) ==
--		    folio_expected_ref_count(folio) + extra_refs)
--			return;
--		lru_add_drain();
--		if (drained)
--			*drained = LRU_CACHE_DRAINED;
--	}
--	if (!drained || *drained == LRU_CACHE_DRAINED) {
--		if (folio_ref_count(folio) ==
--		    folio_expected_ref_count(folio) + extra_refs)
--			return;
--		lru_add_drain_all();
--		if (drained)
--			*drained = LRU_CACHE_DRAINED_ALL;
--	}
--}
--
- atomic_t lru_disable_count = ATOMIC_INIT(0);
- 
- /*
-diff --git a/mm/gup.c b/mm/gup.c
-index 98fdf7b7baca..e87a77dacdb6 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2273,14 +2273,12 @@ static unsigned long collect_longterm_unpinnable_folios(
- 		struct list_head *movable_folio_list,
- 		struct pages_or_folios *pofs)
- {
--	enum lru_cache_drained drained = LRU_CACHE_NOT_DRAINED;
- 	unsigned long collected = 0;
- 	struct folio *folio;
- 	long i = 0;
- 
- 	for (folio = pofs_get_folio(pofs, i); folio;
- 	     folio = pofs_next_folio(folio, pofs, &i)) {
--		const int pin_refs = folio_has_pincount(folio) ? 1 : GUP_PIN_COUNTING_BIAS;
- 
- 		if (folio_is_longterm_pinnable(folio))
- 			continue;
-@@ -2295,13 +2293,6 @@ static unsigned long collect_longterm_unpinnable_folios(
- 			continue;
- 		}
- 
--		/*
--		 * We drain not only to make the folio_isolate_lru() succeed,
--		 * but also to remove any other folio references from LRU
--		 * caches.
--		 */
--		lru_cache_drain_for_folio(folio, pin_refs, &drained);
--
- 		if (!folio_isolate_lru(folio))
- 			continue;
- 
+> ---
+>  include/linux/mm.h | 38 --------------------------------------
+>  mm/gup.c           | 38 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+), 38 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 0829e0d3b2d1..4daf9cd6ae8e 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -4860,44 +4860,6 @@ static inline int vm_fault_to_errno(vm_fault_t vm_fault, int foll_flags)
+>  	return 0;
+>  }
+>
+> -/*
+> - * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+> - * a (NUMA hinting or userfaultfd RWP) fault is required.
+> - */
+> -static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+> -					   unsigned int flags)
+> -{
+> -	/*
+> -	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
+> -	 * NUMA hinting. GUP must always take a fault so the access is
+> -	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
+> -	 *
+> -	 * Only do so while the VMA is accessible. If it has been made
+> -	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
+> -	 * below: forcing a fault there would loop, as handle_mm_fault() makes
+> -	 * no progress on protnone in an inaccessible VMA, and the access is
+> -	 * denied regardless of RWP anyway.
+> -	 */
+> -	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
+> -		return false;
+> -
+> -	/*
+> -	 * If callers don't want to honor NUMA hinting faults, no need to
+> -	 * determine if we would actually have to trigger a NUMA hinting fault.
+> -	 */
+> -	if (!(flags & FOLL_HONOR_NUMA_FAULT))
+> -		return true;
+> -
+> -	/*
+> -	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
+> -	 *
+> -	 * Requiring a fault here even for inaccessible VMAs would mean that
+> -	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
+> -	 * refuses to process NUMA hinting faults in inaccessible VMAs.
+> -	 */
+> -	return !vma_is_accessible(vma);
+> -}
+> -
+>  typedef int (*pte_fn_t)(pte_t *pte, unsigned long addr, void *data);
+>  extern int apply_to_page_range(struct mm_struct *mm, unsigned long address,
+>  			       unsigned long size, pte_fn_t fn, void *data);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index eb898ea1ee22..500e2aa99e48 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -633,6 +633,44 @@ static struct page *no_page_table(struct vm_area_struct *vma,
+>  	return NULL;
+>  }
+>
+> +/*
+> + * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+> + * a (NUMA hinting or userfaultfd RWP) fault is required.
+> + */
+> +static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+> +					   unsigned int flags)
+> +{
+> +	/*
+> +	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
+> +	 * NUMA hinting. GUP must always take a fault so the access is
+> +	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
+> +	 *
+> +	 * Only do so while the VMA is accessible. If it has been made
+> +	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
+> +	 * below: forcing a fault there would loop, as handle_mm_fault() makes
+> +	 * no progress on protnone in an inaccessible VMA, and the access is
+> +	 * denied regardless of RWP anyway.
+> +	 */
+> +	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
+> +		return false;
+> +
+> +	/*
+> +	 * If callers don't want to honor NUMA hinting faults, no need to
+> +	 * determine if we would actually have to trigger a NUMA hinting fault.
+> +	 */
+> +	if (!(flags & FOLL_HONOR_NUMA_FAULT))
+> +		return true;
+> +
+> +	/*
+> +	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
+> +	 *
+> +	 * Requiring a fault here even for inaccessible VMAs would mean that
+> +	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
+> +	 * refuses to process NUMA hinting faults in inaccessible VMAs.
+> +	 */
+> +	return !vma_is_accessible(vma);
+> +}
+> +
+>  #ifdef CONFIG_PGTABLE_HAS_HUGE_LEAVES
+>  /* FOLL_FORCE can write to even unwritable PUDs in COW mappings. */
+>  static inline bool can_follow_write_pud(pud_t pud, struct page *page,
+>
+> --
+> 2.53.0
+>
+
+--
+Cheers, Lorenzo
