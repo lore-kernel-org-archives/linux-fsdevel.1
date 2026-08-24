@@ -1,65 +1,65 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BE44399CC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A079D306756
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581966; cv=none; b=W2rfQPz080FEF4TgSzeMJmMdG3pNmKuxEuxCWjsPQS6Lt2kbmwRRPCty5xbWIbkOkZbvGnteI8QYDonqhHl30NDScCpVBv1etRA5/R7nDAtReFWmETqC0m7OAT1qCdsT+QxxMn+6Rk0rvPFS+k1wQdekVElUjPYVUPpONJrHM4s=
+	t=1787582087; cv=none; b=mv7bFvGVBoEqfCWp75pTCSsg3Ipit2tD7X57gEfo1HBC65nr9r+neLox2o5IWM+rTA80u+ukCF6VRgkogLuELLBHPrT05XpG8VIe/wsB5E4ILyO3wpctE9EfJDkkCYZ0nsdfRhwCvYgkJA8GlsQ/oRRDNAshVo/IHj60R8gLHpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581966; c=relaxed/simple;
-	bh=IyiHBlYBydb0+wjSK5zpFY78pBcCj2Msqig9Vh8hGqc=;
+	s=arc-20240116; t=1787582087; c=relaxed/simple;
+	bh=H0gw26kMTBjDSKLBQ5g+X+dYx41gnb8peREE6F6XyqQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=mbbrh97nvv3VrzOtMJZYUJJ2gNIOkmSrX29PbFMJGBs75UhQD9oLR3TJHAV+Z68bSFvSQnE6RDEVEL1k/Ql2dwmYcI9T2oLjKXmxkjV2U9ZvAHetqKL/yp+gusU7kiQyLnuLwOd2km7Qg/51xgz11bYEN1YwSlTZ9YjNJoIVzug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ec5CR+rg; arc=none smtp.client-ip=209.85.128.170
+	 MIME-Version:Content-Type; b=fZkztZob+XjoYQRcfQvWZYmSWCPIqaPffAbmtJzsKC359EiecpHLUpXfHxtnqbLh0ZBnShVnEBOy7yeHuyY8Y+PbBSXr6oTr/YthBriTmVgmR64ywaf/ganZdp6e6Lx4uTUyjPwRHWM6o43cIaSdLQUrOOauLsveQut5il3cozI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Rr8iH3ZU; arc=none smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ec5CR+rg"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-836ce5d6e85so47810637b3.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:32:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Rr8iH3ZU"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66c9995ca60so7378840d50.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787581964; x=1788186764; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787582084; x=1788186884; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DObH//Sc3+e2cOll9IRNEEzq8JrLC+/wx5igp55m6yw=;
-        b=Ec5CR+rgyvv3vc2elUSuTy+DPNhomuft4y+vVpja58FKeJsAp1SD1tCZ+JylsdVUsT
-         2QvrtXoAzIK0B0px26LRaYKPScsSxVw6b9FQ3OuCt9pecz0EKz4/Z2PWaODYVAeB+Tux
-         Z+Q77ns1SUVNKVJsoVMiF81Bl4j0Mklcv4LsQIY2CZtnaoJrMtcEDxqoaJiuYFQH50cN
-         RIRptggEtQ4COT9vmQOtLNHF7I69MxYxAEKMZCS5jTgzCMdFoDOsZppN0yNG/TUkNikU
-         7KEtSkL27G3ph3RE6pmzS55nNPm2WXCIXF6BXkGSS/SRreo3r2DEuvx3bIkKG6kjhZP6
-         scAQ==
+        bh=03W8AdXTU8nvNZrlTGS6pFe21yyktV4JnRO2xEfU4uM=;
+        b=Rr8iH3ZUq28RosshzS3vyZrlK7Pzq1o/nuoVy0jor82SLJUwkIdMl4YgoriS52hyxi
+         vtgKLbYhwQv26xmHwTnHadaSK+gkieS8ME8xipcT96ukKDc5fL1a3QCXgQsVoJiL0FVg
+         g/xzYTiMvly/xn3PHRwqnClD2xKQyn7dNFTW9sZRYUlj/8cKFx4Q8ewyld4x6M0PDSRM
+         NRy9f6FHFC4kHDFHimmW5lyVhNGziKUN8qNCwnDdrksaMHdfNfdcB6TEk/cAnahdbFsP
+         9mi2qGNoM9FU6xwDv3Psw0zZfINlytuNIgYQTf5ll/GbcJMwALkjG6KPfbWfDp+n+QCN
+         omqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787581964; x=1788186764;
+        d=1e100.net; s=20251104; t=1787582084; x=1788186884;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DObH//Sc3+e2cOll9IRNEEzq8JrLC+/wx5igp55m6yw=;
-        b=BjuLTaCAgWa/X56GQxR3iKgnvHcNmzPrAyC9y2T7W5WXO5Jzkze8Z9GUi+MiacSq6Y
-         v8bC5ZYsJtQ5zYis4N8sv5TNUomx/8xNWF6E7rye69cTr+jTF23f3M56tKP3ligd1uXi
-         Y7na0KmxJ5G/PmY9RkHNZMpjMN2jTD7ei8bs0MGzHDSnhyTBXK64A41SVtf+YWS2sOhH
-         neD/+BvO+hXMpWEQ7+DJ9af6tPLhWBoyc3rGDv2oHfw4h4bYSZJMUOR5oXdmKmXlasg9
-         hio3puwnXw2vSZ1M+vizz2p3+UZATe6zaIJ7Ta5BxhfnnbNmLaqvByncCno5aDTr7XfH
-         lMFg==
-X-Forwarded-Encrypted: i=1; AHgh+Row8XEZZV91RdtnQUHFSvZBDv+UtKvER4o9tjeWFdEQasti2u3zKJHLN2UQrXALfwoW+xXJuVD1JnM64ROZ@vger.kernel.org
-X-Gm-Message-State: AFuF++ks5iBytzAnq21jNON7nBsVgKOop7YjPbOX7lRv3LsbRfWtIHsA
-	2kG6AMgiz8lCAKTUzyq4smxXNTJpdoZ/YXn7yxAZvvExrVwRBhKh7KaiU8NsOyp7VA==
-X-Gm-Gg: AR+sD11JgrWFHvg3pC9rJo4fnJfipYM2Qo5ePyr9hGDqBRfBlIEk71TPTTSdIt/pqZF
-	LKkhOQS7Q4VgRAwIPMpJM024oiXWV05KKkZn6vBKdHAU9UIkfEiRAQY4HVcshDK5Vc4ZhZCgak8
-	+cNeyoiko7ZDtdX38m8VX5XJSiYV8jgi+05MZGt/KbfDnTqYzEj/Tv7iBX8GFvfo/umaWa6JGmi
-	n/TUXEpndoYq+Lob1ThL64IghXqpbUP6t1c9LV3P96L5SgpymVduNkPAdKbMPT3XH+jBN05LLDK
-	utMrU2C8nLM/AkKjYL1hERUkeifYQ6xV8V3ZXWEBFu6Vy6nYO5QaPQfoDSiurDHttR2NdToHVoy
-	RBmJ40XCg7Qy2uZ0gWuBDUYsKIvpRr18Pcbs3iGD7ChjkblBL0CTFJgQroITN3IzyvNNjQlVUeO
-	BfEA4pHeIrV0qVYUtYpj/L+aelzNK2FB0eq0EzvexqwZV2E70sHGUPIbgd2V5GbqsVCDY+K81Zk
-	kcJ85dN4fII8lPZkVuhbZvs1w1UIupWRTZKvC+Q2oIPnY2P
-X-Received: by 2002:a05:690c:ec7:b0:81d:5155:213b with SMTP id 00721157ae682-84c9587c096mr75848627b3.14.1787581963521;
-        Mon, 24 Aug 2026 07:32:43 -0700 (PDT)
+        bh=03W8AdXTU8nvNZrlTGS6pFe21yyktV4JnRO2xEfU4uM=;
+        b=cjjuW1N78k7PaHct420tiySd02S7s9sR2hBrNw7AwkyF3EMD9ROhOukQPZHVTfQ4Ng
+         8FQP0BEN4w+HzWEFCfkg4gOzNygFrEACF4BuEFUex8pbwwLskMsblA6LsjybBzTssP8V
+         RnPqoxcv7NJVoGHtDn7lBIUm03voGTgdBolBWDXvfGOyol1areP7h0ZdaptHRRYLUGVI
+         AdDaWNY0o1DKrRWNOG+SFch4h9TGZniEa2nEvEVc6QMv2M8nmPqCmXnyfowCrP9vcpI+
+         +jAyGm/OAhKyaIwH9hzbI9mqCpJlRUH59rmHDZ4xg4Iy4G6xIObbH3kTfbciW0VCL7o4
+         YHGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpkppDXRmRcmj8apvaYz6XC5yvtHmx2J23nD5fCvg86YTcMzIdaP2yP9WQdSUAW5VrneWmMjfFMQ8hATbbD@vger.kernel.org
+X-Gm-Message-State: AFuF++kMYxfdAnDRzCdX2aXEPRFkrjbAjfrAAMmvzfm/0r0rKAaHSZyD
+	EJxVtGPZAQdurPatq6vq68IN6iyzASjntREYXi5yfIOC0TPl5+MujHLpKBowdmBGhA==
+X-Gm-Gg: AR+sD12YMIB3l6QxawYydsaeneLBE8weuVR/FnKLM3wbOvAMFzPRUGO19Ou7nzCuznv
+	Juzj8F6A1c1OnahHNUoVoWwzIAzJzRMfnmdgDm+pAjBJMIS5H1E3SLTOVxjjNSJPbkacBPWPjhf
+	5xhkIjfbgXWgKgxhAJzfvTFWp4mjDATnwf4IYO+x5HawXPrDfk4bAB+Pg69m4IG3b0KsL2WWBfz
+	IJSYy0vqkG1Qnj324t1MFZr+4v5fgMqv1PcQdstxUaQt/59a2Enx4INd8Z2xmQ4kOD9+LaV05qR
+	DJTNx8KYnU7+wzeM23LXARWDQitg+6isEmqZiHijbn7ULyhqgq2ZLOrD7YW5JHWnSImmnMqET9Z
+	pr5s4XANbqejd2J3PAZjcVc9aMYwsstJmV/Rfq26htM98den4x/6+gcs7G60xlOoqeGcOVdgWBr
+	07iq6l9obY9sW/pw31rVw8qSNgueOsFq+21VKZeeKyrdN8R+5HGDhDUfdQgUSlIKcXQS255vKpD
+	TTYM6kVbTwRYeliM6cTVzmTijxCe9ApxuS2pSTQw+eXmCAiiVXN6BQkDHQ=
+X-Received: by 2002:a53:bd04:0:b0:668:1e79:116e with SMTP id 956f58d0204a3-66ce5bb3350mr6460594d50.27.1787582083708;
+        Mon, 24 Aug 2026 07:34:43 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac201719sm34583487b3.43.2026.08.24.07.32.39
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66cf4662219sm3783915d50.7.2026.08.24.07.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:32:42 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:32:38 -0700 (PDT)
+        Mon, 24 Aug 2026 07:34:42 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:34:38 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 17/25] mm/fbatch: no lru_cache_disable() in
- __alloc_contig_migrate_range()
+Subject: [PATCH 18/25] mm/fbatch: remove lru_add_drain() and _all() calls
+ from various
 In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <614c4116-8326-641e-d7bc-534fde0422b9@google.com>
+Message-ID: <0b9e175f-edf5-630f-afd5-e71fb4e9d376@google.com>
 References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,56 +102,290 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Remove lru_cache_disable() from __alloc_contig_migrate_range(). It does
-not now benefit from lru_add_drain_all() first; and gains little benefit
-from invalidating buffer head LRUs first, since 5.0 commit 80409c65e2c6
-("mm: migrate: make buffer_migrate_page_norefs() actually succeed").
+Splitting into little patches gets tedious: now that folios on per-cpu
+fbatches no longer hold an extra reference (and have the lru flag set),
+most calls to lru_add_drain(), and more importantly lru_add_drain_all(),
+should be removed.
 
-This will be more controversial. lru_cache_disable()+lru_cache_enable()
-were brought in for CMA page migration, see 5.13 commit d479960e44f2
-("mm: disable LRU pagevec during the migration temporarily") through
-8cc621d2f45d ("mm: fs: invalidate BH LRU during page migration") - I
-guess the testing there must have been on a 4.19-based Android kernel,
-without 5.0's buffer_migrate_page_norefs().
+Remove lru_add_drain() from compact_zone().
+Remove lru_add_drain_all() from compact_nodes() and compact_store().
+Keep lru_add_drain_cpu_zone() in compact_zone(): it was always a bit of
+a hack, a cheap way to get a local_lock() around pcp drain_pages_zone().
 
-It's possible that invalidating BH LRUs perhaps 0 times, perhaps N
-times, will average out worse than invalidating 1 time and stopping
-everyone else; or that folio_test_clear_lru() failures manifest more
-than before (note how folio migration has retries on raised refcount,
-but isolate_migratepages_block() no retry on failed test_clear_lru).
-But let's give this a try and look out for regressions.
+Remove lru_add_drain() and lru_add_drain_all() from generic_fadvise(
+POSIX_FADV_DONTNEED), but still retry once on failure; remove outdated
+comment line from mapping_try_invalidate().
 
-Don't delete lru_cache_disable() yet: leaving stale folio pointers in
-the per-cpu fbatches, with folio_try_get() yet to come on them, would be
-bad for memory hotremoval: the lru_cache_disable() in offline_pages()
-protects from that.
+Remove every lru_add_drain() and lru_add_drain_all() from khugepaged.c.
+
+Remove lru_add_drain_all() from KSM's scan_get_next_rmap_item() restart.
+
+Remove lru_add_drain() from wp_can_reuse_anon_folio() and do_swap_page().
+
+Remove lru_add_drain(), lru_add_drain_all() from migrate_device_unmap().
+
+Keep lru_add_drain()s in mm/gup.c populate_vma_page_range() and
+faultin_page_range(): good housekeeping after a bulk operation.
+
+Keep lru_add_drain()s in mm/madvise.c: the ones after a bulk op probably
+do want to "Push any new pages onto the LRU now", and update the stats;
+the ones before a bulk op may be trying to stabilize initial conditions,
+or to minimize draining under ptlock.
+
+Keep lru_add_drain_all() in memcg-v1's mem_cgroup_force_empty():
+it probably does want to push onto the LRU and update the stats.
+
+Keep lru_add_drain() after bulk op in mlock_vma_pages_range(), partly
+for "Unevictable kB" accuracy; but remove the lru_add_drain() before it.
+
+Keep lru_add_drain()s in swap_cluster_readahead(), swap_vma_readahead():
+they do want to "Push any new pages onto the LRU now" (akpm 2.5.46).
+
+Keep lru_add_drain()s and lru_add_drain_all() throughout mm/vmscan.c:
+it works on LRUs, so it does need folios to be on an actual LRU.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- mm/page_alloc.c | 3 ---
- 1 file changed, 3 deletions(-)
+ mm/compaction.c     | 12 +-----------
+ mm/fadvise.c        | 17 +----------------
+ mm/khugepaged.c     | 11 -----------
+ mm/ksm.c            | 12 ------------
+ mm/memory.c         | 14 ++------------
+ mm/migrate_device.c |  9 ---------
+ mm/mlock.c          |  1 -
+ mm/truncate.c       |  1 -
+ 8 files changed, 4 insertions(+), 73 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 083cbcb5bdde..96ab51b78a5f 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -7135,8 +7135,6 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
- 		.reason = MR_CONTIG_RANGE,
- 	};
+diff --git a/mm/compaction.c b/mm/compaction.c
+index 9e045a90ba21..8ed375b08f3e 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -2652,9 +2652,6 @@ compact_zone(struct compact_control *cc, struct capture_control *capc)
  
--	lru_cache_disable();
+ 	trace_mm_compaction_begin(cc, start_pfn, end_pfn, sync);
+ 
+-	/* lru_add_drain_all could be expensive with involving other CPUs */
+-	lru_add_drain();
 -
- 	while (pfn < end || !list_empty(&cc->migratepages)) {
- 		if (fatal_signal_pending(current)) {
- 			ret = -EINTR;
-@@ -7170,7 +7168,6 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
- 			break;
- 	}
+ 	while ((ret = compact_finished(cc)) == COMPACT_CONTINUE) {
+ 		int err;
+ 		unsigned long iteration_start_pfn = cc->migrate_pfn;
+@@ -2969,9 +2966,6 @@ static int compact_nodes(void)
+ {
+ 	int ret, nid;
  
--	lru_cache_enable();
- 	if (ret < 0) {
- 		if (!(cc->gfp_mask & __GFP_NOWARN) && ret == -EBUSY)
- 			alloc_contig_dump_pages(&cc->migratepages);
+-	/* Flush pending updates to the LRU lists */
+-	lru_add_drain_all();
+-
+ 	for_each_online_node(nid) {
+ 		ret = compact_node(NODE_DATA(nid), false);
+ 		if (ret)
+@@ -3036,12 +3030,8 @@ static ssize_t compact_store(struct device *dev,
+ {
+ 	int nid = dev->id;
+ 
+-	if (nid >= 0 && nid < nr_node_ids && node_online(nid)) {
+-		/* Flush pending updates to the LRU lists */
+-		lru_add_drain_all();
+-
++	if (nid >= 0 && nid < nr_node_ids && node_online(nid))
+ 		compact_node(NODE_DATA(nid), false);
+-	}
+ 
+ 	return count;
+ }
+diff --git a/mm/fadvise.c b/mm/fadvise.c
+index b63fe21416ff..f788a5020384 100644
+--- a/mm/fadvise.c
++++ b/mm/fadvise.c
+@@ -143,27 +143,12 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+ 		if (end_index >= start_index) {
+ 			unsigned long nr_failed = 0;
+ 
+-			/*
+-			 * It's common to FADV_DONTNEED right after
+-			 * the read or write that instantiates the
+-			 * pages, in which case there will be some
+-			 * sitting on the local LRU cache. Try to
+-			 * avoid the expensive remote drain and the
+-			 * second cache tree walk below by flushing
+-			 * them out right away.
+-			 */
+-			lru_add_drain();
+-
+ 			mapping_try_invalidate(mapping, start_index, end_index,
+ 					&nr_failed);
+-
+ 			/*
+-			 * The failures may be due to the folio being
+-			 * in the LRU cache of a remote CPU. Drain all
+-			 * caches and try again.
++			 * Retry if any failures, in case they were transient.
+ 			 */
+ 			if (nr_failed) {
+-				lru_add_drain_all();
+ 				invalidate_mapping_pages(mapping, start_index,
+ 						end_index);
+ 			}
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index b237f6e7662a..904a45c11fca 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -1225,10 +1225,6 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+ 	if (pte)
+ 		pte_unmap(pte);
+ 
+-	/* Drain LRU cache to remove extra pin on the swapped in pages */
+-	if (swapped_in)
+-		lru_add_drain();
+-
+ 	result = SCAN_SUCCEED;
+ out:
+ 	trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, result,
+@@ -2325,8 +2321,6 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 					result = SCAN_FAIL;
+ 					goto xa_unlocked;
+ 				}
+-				/* drain lru cache to help folio_isolate_lru() */
+-				lru_add_drain();
+ 			} else if (folio_trylock(folio)) {
+ 				folio_get(folio);
+ 				xas_unlock_irq(&xas);
+@@ -2340,8 +2334,6 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 				page_cache_sync_readahead(mapping, &file->f_ra,
+ 							  file, index,
+ 							  end - index);
+-				/* drain lru cache to help folio_isolate_lru() */
+-				lru_add_drain();
+ 				folio = filemap_lock_folio(mapping, index);
+ 				if (IS_ERR(folio)) {
+ 					result = SCAN_FAIL;
+@@ -2981,8 +2973,6 @@ static void khugepaged_do_scan(struct collapse_control *cc)
+ 	bool wait = true;
+ 	enum scan_result result = SCAN_SUCCEED;
+ 
+-	lru_add_drain_all();
+-
+ 	cc->progress = 0;
+ 	while (true) {
+ 		cond_resched();
+@@ -3214,7 +3204,6 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+ 	cc->progress = 0;
+ 
+ 	mmgrab(mm);
+-	lru_add_drain_all();
+ 
+ 	for (addr = hstart; addr < hend; addr += HPAGE_PMD_SIZE) {
+ 		enum scan_result result = SCAN_FAIL;
+diff --git a/mm/ksm.c b/mm/ksm.c
+index b4142746777e..5bae928620ad 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -2626,18 +2626,6 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+ 		advisor_start_scan();
+ 		trace_ksm_start_scan(ksm_scan.seqnr, ksm_rmap_items);
+ 
+-		/*
+-		 * A number of pages can hang around indefinitely in per-cpu
+-		 * LRU cache, raised page count preventing write_protect_page
+-		 * from merging them.  Though it doesn't really matter much,
+-		 * it is puzzling to see some stuck in pages_volatile until
+-		 * other activity jostles them out, and they also prevented
+-		 * LTP's KSM test from succeeding deterministically; so drain
+-		 * them here (here rather than on entry to ksm_do_scan(),
+-		 * so we don't IPI too often when pages_to_scan is set low).
+-		 */
+-		lru_add_drain_all();
+-
+ 		/*
+ 		 * Whereas stale stable_nodes on the stable_tree itself
+ 		 * get pruned in the regular course of stable_tree_search(),
+diff --git a/mm/memory.c b/mm/memory.c
+index 8da0f945141b..1478bee69e30 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4251,9 +4251,6 @@ static bool __wp_can_reuse_large_anon_folio(struct folio *folio,
+ static bool wp_can_reuse_anon_folio(struct folio *folio,
+ 				    struct vm_area_struct *vma)
+ {
+-	const bool maybe_in_lru_cache = !folio_test_lru(folio);
+-	const bool in_swapcache = folio_test_swapcache(folio);
+-
+ 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && folio_test_large(folio))
+ 		return __wp_can_reuse_large_anon_folio(folio, vma);
+ 
+@@ -4264,16 +4261,9 @@ static bool wp_can_reuse_anon_folio(struct folio *folio,
+ 	 *
+ 	 * KSM doesn't necessarily raise the folio refcount.
+ 	 */
+-	if (folio_test_ksm(folio) ||
+-	    folio_ref_count(folio) > 1 + maybe_in_lru_cache + in_swapcache)
++	if (folio_test_ksm(folio))
+ 		return false;
+-	if (maybe_in_lru_cache)
+-		/*
+-		 * We cannot easily detect+handle references from
+-		 * remote LRU caches or references to LRU folios.
+-		 */
+-		lru_add_drain();
+-	if (folio_ref_count(folio) > 1 + in_swapcache)
++	if (folio_ref_count(folio) > 1 + folio_test_swapcache(folio))
+ 		return false;
+ 	if (!folio_trylock(folio))
+ 		return false;
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index 18d097c38853..d3f865904c48 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -575,11 +575,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+ 	struct folio *fault_folio = fault_page ?
+ 		page_folio(fault_page) : NULL;
+ 	unsigned long i, restore = 0;
+-	bool allow_drain = true;
+ 	unsigned long unmapped = 0;
+ 
+-	lru_add_drain();
+-
+ 	for (i = 0; i < npages; ) {
+ 		struct page *page = migrate_pfn_to_page(src_pfns[i]);
+ 		struct folio *folio;
+@@ -600,12 +597,6 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+ 
+ 		/* ZONE_DEVICE folios are not on LRU */
+ 		if (!folio_is_zone_device(folio)) {
+-			if (!folio_test_lru(folio) && allow_drain) {
+-				/* Drain CPU's lru cache */
+-				lru_add_drain_all();
+-				allow_drain = false;
+-			}
+-
+ 			if (!folio_isolate_lru(folio)) {
+ 				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
+ 				restore++;
+diff --git a/mm/mlock.c b/mm/mlock.c
+index 97134eff6b56..971430e6251e 100644
+--- a/mm/mlock.c
++++ b/mm/mlock.c
+@@ -424,7 +424,6 @@ static void mlock_vma_pages_range(struct vm_area_struct *vma,
+ 	vma_start_write(vma);
+ 	vma_flags_reset_once(vma, new_vma_flags);
+ 
+-	lru_add_drain();
+ 	walk_page_range_vma(vma, start, end, &mlock_walk_ops, NULL);
+ 	lru_add_drain();
+ 
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 4151f7a167e3..7ea5d513f76a 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -571,7 +571,6 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
+ 			 */
+ 			if (!ret) {
+ 				deactivate_file_folio(folio);
+-				/* Likely in the lru cache of a remote CPU */
+ 				if (nr_failed)
+ 					(*nr_failed)++;
+ 			}
 -- 
 2.51.0
 
