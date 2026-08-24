@@ -1,157 +1,439 @@
-Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5B139EF25
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53793A168B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787557655; cv=none; b=osH11YxOuY24x2Go/Or4V5HNLbbwsvyCm6PPYqiRkMlrVr8nmrbbQyUNaT30t+3jxwUuo6NrhiT1G5KTQ8Ay0P2SiOEzQTjE8kvpytr7OkRE+p0qo62wLSvWy7zPIGdiY2t3Lx/lUh0c9MMAFAo9anybkooyfj0+pZJEpYrwk50=
+	t=1787558089; cv=none; b=euy3z7SMPvuwpRmAKlWGP+b2qxdu5Xl0PgTMjtmPmvqlXLWOmEcs414M+UQ4BDT5a/J1/nAYoprYp9CWVYk1Bc8P+W/EsGm3cXXkGhjQlrls9nTdg2+uH96ZuiaEvN/mBEY9jIO1VdKy20Ghs2v5E5UiPm/FroLfgQiLiUXbAVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787557655; c=relaxed/simple;
-	bh=uSxWJY8a5CLjZuEErwvpCzXXvGzdqJAZZGIqu/KXbKw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ATs9gXnRcYFNKnHf2zu8ylc7xFZrAb30/nzf0iNZHkvFz9hFkeLPcIgDZZeJjKNv7EvECTtOldSf73LjWsjElO+AHNxfjHsbMstDdLFLkDMaDizxuE/64F1sejgzhAfqwviV+xwv88LFq68VVnvnbwyKoJvoBeg2Cl4GG55WKGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
+	s=arc-20240116; t=1787558089; c=relaxed/simple;
+	bh=ZSd73m+EQF5nrlp/cg45LGphbHQY0AXi1CVHNqkSjYc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=bmfjLuCf/XITZM8bXoFsPJ7di2jZ6PQHjFSynDMUbzdTOg3GNCLsbEYsqmgHElCv7ISAifJPCqx0AEDUim5iVKWHpYkjw5dU/F17JoTRBlZn8C6gxZZq1cMTCvCM3sCkZFjqPQKFzloILMYBV9ilA4yfV/Zan9eCJvFe0UK7XCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4961058e787so427709b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:47:34 -0700 (PDT)
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4959c49e054so3596074b6e.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:54:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787557653; x=1788162453;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rdFTXNKdZnj8wRa0kB+fQ1jCWh5iT/QDPNx/L7O9Mtg=;
-        b=iRoaE03kqxdPib0wAT3EKLkuXjsPGjPkmsZ7+MibBHWDR5NT++NNYCJAsGxczYK2FN
-         X4asqEO9g/WDYWSTsFA8or44aZ8H7xsM5LY9BhZxj0yyOG1Ft45Az7edRh0fxaFv84i9
-         w/Cqhh60xvyxiXghcxe9ZU3285brJMdjXb2/Ek27fVX0QNfQE3j0rFv9P8m+pZTqlObc
-         x9doFVp0dg9Kee6iXKfuMdOyXpGxk+pBEhHV8Gm/0MlrwQ/z/HQ2wNSTjKzKVhDeF0sy
-         ZlsqQntAIr0rQ2lr9rdjXyxMIoFwNEgwPmQ01hJv7UcanwxwxQ+57kgYpm541gZj19Z9
-         HbQw==
-X-Forwarded-Encrypted: i=1; AHgh+Rog0weLTzA47gtvFHVqykPSZlci/NldWL3+RjZr1bjdltOSQdNknqguF19SrVtXgetZdExyY5V0PX4s9tS4@vger.kernel.org
-X-Gm-Message-State: AFuF++mDroSbJRUgs5k4Jkmbhl6CdY3OP7fcTXo9oweTgDSO3I6Ppn47
-	BYzvkVjtqg6/VixwfrypWfp7zuoUxsfz8oaSWczbGgWBp/zagbB939h5DGQ6vJwkHIK2OAMBpv8
-	M6fGMRn6RhBKXLcArv3xZodNtN2O11UVGL1WyCsFZLZfYLHY6O/yOYBtZQ8E=
+        d=1e100.net; s=20251104; t=1787558086; x=1788162886;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UV5uddHbJVhKxXuaUP79OfyMHygUsuBFadJkYsxDixM=;
+        b=iqGysIOHSLaHVO8RiXzPAPkt1405LKXBjx2KpWHzwUtXLQAEQBdzC14ASDClYogVPN
+         ke0/mxXYCSdXn8wtmz0Vkbjr9fxZqpBp6Y3Zltvw/LaT9x7ycrhS3PulvGUnrZUGOu3t
+         QsJWK50jFDH8w1a7ldNUHQ1D46a/RwI96GDuRCquBeYG9W89AqKXaqHgYqdA7oo5Jv5S
+         j+ADLOfHg0Ee4MFeZYMIKliKmXMUE/bLfcfkz3Xbvwd2ct5T/QrNAm7pA4DLY5oc6xXs
+         OuwD5Fo18I7PkPaV+VUamc7ahppz2ZEfzkYwSlZwhH1WFwKH9DlPMycqIp0IREIsb21S
+         E7vw==
+X-Forwarded-Encrypted: i=1; AHgh+RpWgsQeHBhKW6Qxno7szRhTDvfjNydDAPh7up7P6U/D/TkN9yG9e3crEGlKAxczyxS6GMAcYSV8V3vDFES+@vger.kernel.org
+X-Gm-Message-State: AFuF++lJlZFjAUH7jCS4uFIl1iPCIHe0ckU7RXBJKJvC0Zb5zNV4rBx6
+	oT9nj4JyhWnb6YBk/q7BoYDHlo8m1YEsCzxzzjs/yvcpgqUvGbh6qqpCcBgK9GBcBLK4K+rkKM2
+	f7FZwbZKWHahHh1KKPBAZSXGn7IhtsswqjfBfKTboNw31bdQf5Mu9Vk+SUGo=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c1ba:b0:495:ce61:4e0c with SMTP id
- 5614622812f47-4b309a0034bmr14802496b6e.3.1787557653158; Mon, 24 Aug 2026
- 00:47:33 -0700 (PDT)
-Date: Mon, 24 Aug 2026 00:47:33 -0700
+X-Received: by 2002:a05:6808:1b0c:b0:4a4:744:a4ff with SMTP id
+ 5614622812f47-4b30998976bmr15045069b6e.4.1787558085797; Mon, 24 Aug 2026
+ 00:54:45 -0700 (PDT)
+Date: Mon, 24 Aug 2026 00:54:45 -0700
+In-Reply-To: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
-Subject: [syzbot] [exfat?] WARNING in fat_ent_write
-From: syzbot <syzbot+26461e903494e689c24f@syzkaller.appspotmail.com>
-To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+Message-ID: <6a8bf8c5.91706f20.16b6e3.02d4.GAE@google.com>
+Subject: [syzbot ci] Re: fs: fix s_fs_info leak when setup_bdev_super() fails
+From: syzbot ci <syzbot+cide8e486f4ae0dc83@syzkaller.appspotmail.com>
+To: brauner@kernel.org, hanzhijian1991@gmail.com, jack@suse.cz, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
+	syzbot@syzkaller.appspotmail.com, viro@zeniv.linux.org.uk
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot ci has tested the following series
 
-syzbot found the following issue on:
+[v1] fs: fix s_fs_info leak when setup_bdev_super() fails
+https://lore.kernel.org/all/20260822023918.2498361-1-hanzhijian1991@gmail.com
+* [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
 
-HEAD commit:    6a746cd265ae Add linux-next specific files for 20260819
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=13cdee79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4a1369648c551bbe
-dashboard link: https://syzkaller.appspot.com/bug?extid=26461e903494e689c24f
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17760e79580000
+and found the following issues:
+* general protection fault in call_rcu
+* general protection fault in erofs_kill_sb
+* general protection fault in fuse_kill_sb_blk
+* general protection fault in xfs_kill_sb
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/32d71a199871/disk-6a746cd2.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7bfb88f0043e/vmlinux-6a746cd2.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4bc2ab35db01/bzImage-6a746cd2.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/500a74ccb5d4/mount_0.gz
-  fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=17e3d679580000)
+Full report is available here:
+https://ci.syzbot.org/series/1ef55243-f163-4d98-bbd1-41b579082704
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+26461e903494e689c24f@syzkaller.appspotmail.com
+***
 
-         and is ignored by this kernel. Remove the mand
-         option from the mount to silence this warning.
-=======================================================
-Buffer I/O error on dev loop0, logical block 1, lost sync page write
-------------[ cut here ]------------
-!buffer_uptodate(bh)
-WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#1: syz.0.17/5854
-Modules linked in:
-CPU: 1 UID: 0 PID: 5854 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
-Code: 4c 89 f7 e8 09 0a d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 4f 40 68 ff eb 8c e8 48 40 68 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 3a 40 68 ff 90 0f 0b 90 e9 cf fd ff ff
-RSP: 0018:ffffc9000345f2d0 EFLAGS: 00010293
-RAX: ffffffff825f7f28 RBX: ffff8880714019a0 RCX: ffff8880317c5dc0
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-RBP: dffffc0000000001 R08: ffff8880714019a7 R09: 1ffff1100e280334
-R10: dffffc0000000000 R11: ffffed100e280335 R12: ffffffff8c288c60
-R13: ffff888032a9c248 R14: dffffc0000000000 R15: ffff8880717c46a8
-FS:  00007fc05a3146c0(0000) GS:ffff888124dda000(0000) knlGS:0000000000000000
+general protection fault in call_rcu
+
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
+syz repro: https://ci.syzbot.org/findings/f6ebcbaf-d8f4-4c25-9e68-98f46740729d/syz_repro
+
+/dev/sr0: Can't open blockdev
+Oops: general protection fault, probably for non-canonical address 0xdffffc000000005a: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x00000000000002d0-0x00000000000002d7]
+CPU: 0 UID: 0 PID: 5792 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:__call_rcu_common kernel/rcu/tree.c:3157 [inline]
+RIP: 0010:call_rcu+0xb9/0x8b0 kernel/rcu/tree.c:3279
+Code: 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 0e eb 8a 00 48 c7 03 c0 9a ac 81 e9 b3 05 00 00 48 8d 7b 08 48 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 05 e8 eb ea 8a 00 4c 89 73 08 48 89 d8 48 c1 e8
+RSP: 0018:ffffc900041dfb08 EFLAGS: 00010206
+RAX: 000000000000005a RBX: 00000000000002c8 RCX: ffffffff9a9ab501
+RDX: 0000000000000001 RSI: ffffffff8e46456f RDI: 00000000000002d0
+RBP: 0000000000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: fffffbfff20f27a7 R12: dffffc0000000000
+R13: dffffc0000000000 R14: ffffffff82b4b6c0 R15: ffff88811e37e7a0
+FS:  00007f1ef40546c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f9293991000 CR3: 000000007992c000 CR4: 00000000003526f0
+CR2: 00007f1ef4053ff8 CR3: 0000000173ace000 CR4: 00000000000006f0
 Call Trace:
  <TASK>
- mmb_mark_buffer_dirty+0x2c/0x1f0 fs/buffer.c:624
- fat_ent_write+0xb8/0x190 fs/fat/fatent.c:422
- fat_chain_add+0x409/0x8e0 fs/fat/misc.c:140
- fat_add_cluster fs/fat/inode.c:113 [inline]
- __fat_get_block fs/fat/inode.c:155 [inline]
- fat_get_block+0x768/0xae0 fs/fat/inode.c:190
- __block_write_begin_int+0x6c2/0x1900 fs/buffer.c:2030
- block_write_begin fs/buffer.c:2144 [inline]
- cont_write_begin+0x71b/0xac0 fs/buffer.c:2506
- fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
- cont_expand_zero fs/buffer.c:2434 [inline]
- cont_write_begin+0x2d6/0xac0 fs/buffer.c:2496
- fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
- generic_perform_write+0x2d5/0x8f0 mm/filemap.c:4374
- generic_file_write_iter+0xae/0x330 mm/filemap.c:4517
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_pwrite64 fs/read_write.c:794 [inline]
- __do_sys_pwrite64 fs/read_write.c:802 [inline]
- __se_sys_pwrite64 fs/read_write.c:799 [inline]
- __x64_sys_pwrite64+0x196/0x220 fs/read_write.c:799
+ deactivate_locked_super+0xbc/0x110 fs/super.c:603
+ get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1958
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3772 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3848
+ do_mount fs/namespace.c:4181 [inline]
+ __do_sys_mount fs/namespace.c:4397 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc05939e0d9
+RIP: 0033:0x7f1ef319e0d9
 Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fc05a314028 EFLAGS: 00000246 ORIG_RAX: 0000000000000012
-RAX: ffffffffffffffda RBX: 00007fc059625fa0 RCX: 00007fc05939e0d9
-RDX: 000000000000fdef RSI: 0000200000000140 RDI: 0000000000000004
-RBP: 00007fc059435024 R08: 0000000000000000 R09: 0000000000000000
-R10: 000000000000fecc R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fc059626038 R14: 00007fc059625fa0 R15: 00007fff03653f68
+RSP: 002b:00007f1ef4054028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f1ef3425fa0 RCX: 00007f1ef319e0d9
+RDX: 0000200000000080 RSI: 00002000000000c0 RDI: 0000200000000000
+RBP: 00007f1ef3235024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000214003 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f1ef3426038 R14: 00007f1ef3425fa0 R15: 00007ffc4bde52a8
  </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__call_rcu_common kernel/rcu/tree.c:3157 [inline]
+RIP: 0010:call_rcu+0xb9/0x8b0 kernel/rcu/tree.c:3279
+Code: 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 0e eb 8a 00 48 c7 03 c0 9a ac 81 e9 b3 05 00 00 48 8d 7b 08 48 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 05 e8 eb ea 8a 00 4c 89 73 08 48 89 d8 48 c1 e8
+RSP: 0018:ffffc900041dfb08 EFLAGS: 00010206
+RAX: 000000000000005a RBX: 00000000000002c8 RCX: ffffffff9a9ab501
+RDX: 0000000000000001 RSI: ffffffff8e46456f RDI: 00000000000002d0
+RBP: 0000000000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: fffffbfff20f27a7 R12: dffffc0000000000
+R13: dffffc0000000000 R14: ffffffff82b4b6c0 R15: ffff88811e37e7a0
+FS:  00007f1ef40546c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1ef4053ff8 CR3: 0000000173ace000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	48 c1 e8 03          	shr    $0x3,%rax
+   4:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+   9:	74 08                	je     0x13
+   b:	48 89 df             	mov    %rbx,%rdi
+   e:	e8 0e eb 8a 00       	call   0x8aeb21
+  13:	48 c7 03 c0 9a ac 81 	movq   $0xffffffff81ac9ac0,(%rbx)
+  1a:	e9 b3 05 00 00       	jmp    0x5d2
+  1f:	48 8d 7b 08          	lea    0x8(%rbx),%rdi
+  23:	48 89 f8             	mov    %rdi,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 05                	je     0x36
+  31:	e8 eb ea 8a 00       	call   0x8aeb21
+  36:	4c 89 73 08          	mov    %r14,0x8(%rbx)
+  3a:	48 89 d8             	mov    %rbx,%rax
+  3d:	48                   	rex.W
+  3e:	c1                   	.byte 0xc1
+  3f:	e8                   	.byte 0xe8
 
+
+***
+
+general protection fault in erofs_kill_sb
+
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
+syz repro: https://ci.syzbot.org/findings/a828baa5-9634-4255-a0b1-41e60df7067d/syz_repro
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+CPU: 0 UID: 0 PID: 5846 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:erofs_kill_sb+0x53/0x270 fs/erofs/super.c:950
+Code: 00 00 48 89 d8 48 c1 e8 03 48 89 44 24 08 80 3c 28 00 74 08 48 89 df e8 bb 60 b8 fd 4c 8b 33 4d 8d 66 08 4d 89 e7 49 c1 ef 03 <41> 80 3c 2f 00 74 08 4c 89 e7 e8 9e 60 b8 fd 49 83 3c 24 00 4c 89
+RSP: 0018:ffffc90003dbfc08 EFLAGS: 00010202
+RAX: 1ffff1102edb18cf RBX: ffff888176d8c678 RCX: ffff88816bcabc00
+RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888176d8c000
+RBP: dffffc0000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: ffffffff847e7250 R12: 0000000000000008
+R13: ffff888176d8c000 R14: 0000000000000000 R15: 0000000000000001
+FS:  00007efdff1c96c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff27edb9095 CR3: 0000000174554000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ deactivate_locked_super+0xbc/0x110 fs/super.c:603
+ get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1958
+ vfs_cmd_create+0xa2/0x200 fs/fsopen.c:231
+ __do_sys_fsconfig fs/fsopen.c:463 [inline]
+ __se_sys_fsconfig+0x6b9/0x810 fs/fsopen.c:350
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7efdfe39e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007efdff1c9028 EFLAGS: 00000246 ORIG_RAX: 00000000000001af
+RAX: ffffffffffffffda RBX: 00007efdfe625fa0 RCX: 00007efdfe39e0d9
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: 0000000000000004
+RBP: 00007efdfe435024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007efdfe626038 R14: 00007efdfe625fa0 R15: 00007ffde183e908
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:erofs_kill_sb+0x53/0x270 fs/erofs/super.c:950
+Code: 00 00 48 89 d8 48 c1 e8 03 48 89 44 24 08 80 3c 28 00 74 08 48 89 df e8 bb 60 b8 fd 4c 8b 33 4d 8d 66 08 4d 89 e7 49 c1 ef 03 <41> 80 3c 2f 00 74 08 4c 89 e7 e8 9e 60 b8 fd 49 83 3c 24 00 4c 89
+RSP: 0018:ffffc90003dbfc08 EFLAGS: 00010202
+RAX: 1ffff1102edb18cf RBX: ffff888176d8c678 RCX: ffff88816bcabc00
+RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888176d8c000
+RBP: dffffc0000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: ffffffff847e7250 R12: 0000000000000008
+R13: ffff888176d8c000 R14: 0000000000000000 R15: 0000000000000001
+FS:  00007efdff1c96c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff27edb9095 CR3: 0000000174554000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	48 89 d8             	mov    %rbx,%rax
+   5:	48 c1 e8 03          	shr    $0x3,%rax
+   9:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+   e:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
+  12:	74 08                	je     0x1c
+  14:	48 89 df             	mov    %rbx,%rdi
+  17:	e8 bb 60 b8 fd       	call   0xfdb860d7
+  1c:	4c 8b 33             	mov    (%rbx),%r14
+  1f:	4d 8d 66 08          	lea    0x8(%r14),%r12
+  23:	4d 89 e7             	mov    %r12,%r15
+  26:	49 c1 ef 03          	shr    $0x3,%r15
+* 2a:	41 80 3c 2f 00       	cmpb   $0x0,(%r15,%rbp,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 e7             	mov    %r12,%rdi
+  34:	e8 9e 60 b8 fd       	call   0xfdb860d7
+  39:	49 83 3c 24 00       	cmpq   $0x0,(%r12)
+  3e:	4c                   	rex.WR
+  3f:	89                   	.byte 0x89
+
+
+***
+
+general protection fault in fuse_kill_sb_blk
+
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
+syz repro: https://ci.syzbot.org/findings/842bf23d-2982-4d44-81b0-f1e6e37301b2/syz_repro
+
+erofs (device loop0): mounted with root inode @ nid 36.
+/dev/loop0: Can't open blockdev
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 5856 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:fuse_mount_destroy fs/fuse/inode.c:1989 [inline]
+RIP: 0010:fuse_kill_sb_blk+0x23c/0x290 fs/fuse/inode.c:2016
+Code: 00 00 00 00 00 fc ff df 4c 89 f7 e8 9e e2 f2 fe 42 80 3c 2b 00 74 08 48 89 ef e8 8f 92 de fe 48 8b 5d 00 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 75 92 de fe 48 8b 3b e8 3d 72 ff
+RSP: 0018:ffffc9000234fb08 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88816c3cbc00
+RDX: 0000000000000000 RSI: 0000000000000008 RDI: 00000000ffffffff
+RBP: ffff888174cb6678 R08: ffff888174cb6087 R09: 1ffff1102e996c10
+R10: dffffc0000000000 R11: ffffed102e996c11 R12: ffff888174cb6078
+R13: dffffc0000000000 R14: ffff888174cb6000 R15: 0000000000000000
+FS:  00007fb71cf006c0(0000) GS:ffff8882a8d08000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000001000 CR3: 00000001be98a000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ deactivate_locked_super+0xbc/0x110 fs/super.c:603
+ get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
+ fuse_get_tree+0x194/0x3b0 fs/fuse/inode.c:1877
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1958
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3772 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3848
+ do_mount fs/namespace.c:4181 [inline]
+ __do_sys_mount fs/namespace.c:4397 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb71bf9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb71cf00028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007fb71c225fa0 RCX: 00007fb71bf9e0d9
+RDX: 0000200000000140 RSI: 00002000000002c0 RDI: 0000200000000240
+RBP: 00007fb71c035024 R08: 0000200000000400 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fb71c226038 R14: 00007fb71c225fa0 R15: 00007ffe55b01cb8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:fuse_mount_destroy fs/fuse/inode.c:1989 [inline]
+RIP: 0010:fuse_kill_sb_blk+0x23c/0x290 fs/fuse/inode.c:2016
+Code: 00 00 00 00 00 fc ff df 4c 89 f7 e8 9e e2 f2 fe 42 80 3c 2b 00 74 08 48 89 ef e8 8f 92 de fe 48 8b 5d 00 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 75 92 de fe 48 8b 3b e8 3d 72 ff
+RSP: 0018:ffffc9000234fb08 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88816c3cbc00
+RDX: 0000000000000000 RSI: 0000000000000008 RDI: 00000000ffffffff
+RBP: ffff888174cb6678 R08: ffff888174cb6087 R09: 1ffff1102e996c10
+R10: dffffc0000000000 R11: ffffed102e996c11 R12: ffff888174cb6078
+R13: dffffc0000000000 R14: ffff888174cb6000 R15: 0000000000000000
+FS:  00007fb71cf006c0(0000) GS:ffff8882a8d08000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9fb604de68 CR3: 00000001be98a000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess), 7 bytes skipped:
+   0:	df 4c 89 f7          	fisttps -0x9(%rcx,%rcx,4)
+   4:	e8 9e e2 f2 fe       	call   0xfef2e2a7
+   9:	42 80 3c 2b 00       	cmpb   $0x0,(%rbx,%r13,1)
+   e:	74 08                	je     0x18
+  10:	48 89 ef             	mov    %rbp,%rdi
+  13:	e8 8f 92 de fe       	call   0xfede92a7
+  18:	48 8b 5d 00          	mov    0x0(%rbp),%rbx
+  1c:	48 89 d8             	mov    %rbx,%rax
+  1f:	48 c1 e8 03          	shr    $0x3,%rax
+* 23:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  28:	74 08                	je     0x32
+  2a:	48 89 df             	mov    %rbx,%rdi
+  2d:	e8 75 92 de fe       	call   0xfede92a7
+  32:	48 8b 3b             	mov    (%rbx),%rdi
+  35:	e8                   	.byte 0xe8
+  36:	3d                   	.byte 0x3d
+  37:	72 ff                	jb     0x38
+
+
+***
+
+general protection fault in xfs_kill_sb
+
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
+syz repro: https://ci.syzbot.org/findings/6086312c-12df-4d69-b442-5c8a99793535/syz_repro
+
+/dev/loop1: Can't open blockdev
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000035: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x00000000000001a8-0x00000000000001af]
+CPU: 0 UID: 0 PID: 5903 Comm: syz.1.24 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:xfs_kill_sb+0x4e/0x260 fs/xfs/xfs_super.c:2335
+Code: 78 06 00 00 4c 89 f0 48 c1 e8 03 80 3c 18 00 74 08 4c 89 f7 e8 83 08 96 fe 4d 8b 36 4d 8d be a8 01 00 00 4c 89 f8 48 c1 e8 03 <80> 3c 18 00 74 08 4c 89 ff e8 64 08 96 fe 4d 8b 27 4d 85 e4 0f 84
+RSP: 0018:ffffc900027afb50 EFLAGS: 00010206
+RAX: 0000000000000035 RBX: dffffc0000000000 RCX: ffff888110aa0000
+RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888114d4e000
+RBP: ffffc900027afc00 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: ffffffff83a0ca90 R12: dffffc0000000000
+R13: ffff888114d4e000 R14: 0000000000000000 R15: 00000000000001a8
+FS:  00007f104ac686c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555f35035578 CR3: 00000001bf1d2000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ deactivate_locked_super+0xbc/0x110 fs/super.c:603
+ get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1958
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3772 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3848
+ do_mount fs/namespace.c:4181 [inline]
+ __do_sys_mount fs/namespace.c:4397 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f1049d9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f104ac68028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f104a026090 RCX: 00007f1049d9e0d9
+RDX: 0000200000000000 RSI: 00002000000001c0 RDI: 0000200000000080
+RBP: 00007f1049e35024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000001a0c099 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f104a026128 R14: 00007f104a026090 R15: 00007ffd22a73788
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:xfs_kill_sb+0x4e/0x260 fs/xfs/xfs_super.c:2335
+Code: 78 06 00 00 4c 89 f0 48 c1 e8 03 80 3c 18 00 74 08 4c 89 f7 e8 83 08 96 fe 4d 8b 36 4d 8d be a8 01 00 00 4c 89 f8 48 c1 e8 03 <80> 3c 18 00 74 08 4c 89 ff e8 64 08 96 fe 4d 8b 27 4d 85 e4 0f 84
+RSP: 0018:ffffc900027afb50 EFLAGS: 00010206
+
+RAX: 0000000000000035 RBX: dffffc0000000000 RCX: ffff888110aa0000
+RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888114d4e000
+RBP: ffffc900027afc00 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
+R10: dffffc0000000000 R11: ffffffff83a0ca90 R12: dffffc0000000000
+R13: ffff888114d4e000 R14: 0000000000000000 R15: 00000000000001a8
+FS:  00007f104ac686c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5295e4de68 CR3: 00000001bf1d2000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	78 06                	js     0x8
+   2:	00 00                	add    %al,(%rax)
+   4:	4c 89 f0             	mov    %r14,%rax
+   7:	48 c1 e8 03          	shr    $0x3,%rax
+   b:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
+   f:	74 08                	je     0x19
+  11:	4c 89 f7             	mov    %r14,%rdi
+  14:	e8 83 08 96 fe       	call   0xfe96089c
+  19:	4d 8b 36             	mov    (%r14),%r14
+  1c:	4d 8d be a8 01 00 00 	lea    0x1a8(%r14),%r15
+  23:	4c 89 f8             	mov    %r15,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	4c 89 ff             	mov    %r15,%rdi
+  33:	e8 64 08 96 fe       	call   0xfe96089c
+  38:	4d 8b 27             	mov    (%r15),%r12
+  3b:	4d 85 e4             	test   %r12,%r12
+  3e:	0f                   	.byte 0xf
+  3f:	84                   	.byte 0x84
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
 
 ---
 This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
