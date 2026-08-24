@@ -1,340 +1,172 @@
-Received: from mail-m19731115.qiye.163.com (mail-m19731115.qiye.163.com [220.197.31.115])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5883E3E3167;
-	Mon, 24 Aug 2026 06:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9F03E49D7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 06:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787552159; cv=none; b=hdqkbtmdzQL241RQv0gAvyYwnh5XoFbY6z1UPnBEZE1SO9l2FuvLF2QI7Aq4zxNZPDB4n9OKUnY2ZpMjFed38PGTHOOnMfr5/JInitGsvltm8lypTYGEJoIE03CivOuUoLEE91qCXzcEnzn1GH/MQX+IBxKN3TySaLoCd2otC00=
+	t=1787553064; cv=none; b=Sq73Zch2y/AjXTSnlcd1EdGyP3zrmszebtA33BQnDkWxbQxAHYQCzfvkuxdEj9MZW7EHhhjz+KJLmGujKNpNJR9g9vrK4RgErMqnhQzPMtsCHUEG05M8N+tejV1PuVp1w4DQWM2kXQqm+ToLcUu2rv8VjJ7dZzNt07HPDc+oKpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787552159; c=relaxed/simple;
-	bh=kniun7pHSu1s+JU6fbVVcsMADpE+nfI6g5YFVe0VE/k=;
-	h=Content-Type:Message-ID:To:Cc:Subject:MIME-Version:From:Date; b=KnujZKYlhQ7TZPY58cmNswbO9MjB8TySTaBebzfspDaCdkn9Mf9MrPKOLE/2+bVm0+cXpZct9egnf0Am5sx1tgicKWo8LNWYbCZjPBstslX1crBGChAgwM35D+xLyzwJ2z2bZex4WqQQFCSKlzeFnJ7EZw/fVyo+eCFpxfvNWjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tju.edu.cn; spf=pass smtp.mailfrom=tju.edu.cn; dkim=pass (1024-bit key) header.d=tju.edu.cn header.i=@tju.edu.cn header.b=wjmGI5SL; arc=none smtp.client-ip=220.197.31.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tju.edu.cn
+	s=arc-20240116; t=1787553064; c=relaxed/simple;
+	bh=K+IYTtofw2pmaKZFzqJXikVzycHfs/qx5Aut57MsMzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=tsvSJ31f4zXPgTHC6mVnNy+CoOLO4T6FvIJE2aCay5KETBCYNhMPe0EHKSepAZrCgS0hZxCs6+JttnJVyP+nVzLZM/vfMOhcei5KdRxsPUkMNzwI+V2xYqUkrkopaAwcEuRu2VujJgPaRFxj/+EEGeUdQy+iTr8Ts9kU+iWuKj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Yt/qX8Du; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tju.edu.cn header.i=@tju.edu.cn header.b="wjmGI5SL"
-Content-Type: multipart/mixed; BOUNDARY="=_Part_190198_1187129992.1787550017372"
-Message-ID: <ALgAtAAcKw2wSeR-kVKffKqH.1.1787550017372.Hmail.2025244165@tju.edu.cn>
-To: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: =?UTF-8?B?Y29ycnVwdGVkIG11dGV4IGFuZCBLQVNBTiBnbG9iYWwtb3V0LW9mLWJvdW5kcyBpbiAgIGhmc3BsdXNfZXh0X3dyaXRlX2V4dGVudCgpICg3LjItcmM3LCB3cml0ZWJhY2sgdnMgdW1vdW50L0JMS1BHIHJhY2Up?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Yt/qX8Du"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260824063054epoutp03cc70692e1e6d972af717ae76a57a5aa6~OqggqFstR0224602246epoutp03l
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 06:30:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260824063054epoutp03cc70692e1e6d972af717ae76a57a5aa6~OqggqFstR0224602246epoutp03l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1787553054;
+	bh=l9ewL7Vj/+p0l9PBJ+KUTT26wzlxtPIKe9UQzgg8mPM=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Yt/qX8Dur57r4cpC53xiQSYhSqbKlPdBEZTQ0vQU9wS8J9sm505jtf5KJO/000peo
+	 L1reEYE8xKZ6lpd5JFJpDpEQAr0g85/TS8jph1ASW1c68QBZHKiDTyaMDG0cx2/3D9
+	 SKFC4CTEd97PVzfBM8K3dnNxpsbJsOwn/SvqPOWg=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260824063051epcas5p4dae4dc9bf4b75eff3a7c11b7344c085c~Oqgd0tAvO3238232382epcas5p4G;
+	Mon, 24 Aug 2026 06:30:51 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4hT1JB0MrNz6B9m4; Mon, 24 Aug
+	2026 06:30:50 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260824063049epcas5p1058d0ae3078a8468e455052136c16d91~OqgcZoIVy0699106991epcas5p1o;
+	Mon, 24 Aug 2026 06:30:49 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260824063047epsmtip2bf0e54344178bbad0c86a273542d5388~OqganKjN_2928529285epsmtip28;
+	Mon, 24 Aug 2026 06:30:47 +0000 (GMT)
+Message-ID: <076db8e7-6c6e-4d91-b442-1471ad7a5c27@samsung.com>
+Date: Mon, 24 Aug 2026 12:00:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Received: from 2025244165@tju.edu.cn( [203.190.1.59] ) by ajax-webmail ( [127.0.0.1] ) ; Mon, 24 Aug 2026 13:40:17 +0800 (GMT+08:00)
-From: =?UTF-8?B?5p2o6LS155Co?= <yangguikun@tju.edu.cn>
-Date: Mon, 24 Aug 2026 13:40:17 +0800 (GMT+08:00)
-X-HM-Tid: 0aa03248a75b030ckunmb5856ad3c8e1
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMTKYGKexnGOXNAKjzhke9QcPPXchfTIuXc8ssC
-	r5SNi2NMaYkLhyTc5ra1UyRqZJpsNio8yyGcVIZk8HwCJNebo1nnUk8isCD1eUwBbLQP+Iu5d5sZ
-	0HxfOI1/GSDejZMrXvq4imWdRx+vbV/dBCvCI=
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTENCVkxIS0tMTkNDHUtNGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJS0hVSkJLVUpVTkJZV1kWGg8SFR0UWUFZS1VLVUtVS1
-	kG
-DKIM-Signature: a=rsa-sha256;
-	b=wjmGI5SLwGWbdpHaIbF5Q4sCDHysKZjgptYtce5l//qsXZYjh2kVKB9cHO5nchX4l5RCJVAzzFKYNCy0htDkWl7OEX2zAnZOleTZcG0uKqlY772k9X5quPa2oukhpQI44v15u9S1bDUdsnA26kzHGeeC/UGaBhASJSEBtrLCqzA=; c=relaxed/relaxed; s=default; d=tju.edu.cn; v=1;
-	bh=kniun7pHSu1s+JU6fbVVcsMADpE+nfI6g5YFVe0VE/k=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/6] fs: add write-stream management ioctls
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, brauner@kernel.org,
+	dgc@kernel.org, jack@suse.cz, cem@kernel.org, axboe@kernel.dk,
+	kbusch@kernel.org, ritesh.list@gmail.com, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260819070814.GB1541@lst.de>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260824063049epcas5p1058d0ae3078a8468e455052136c16d91
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319
+References: <20260717125538.508925-1-joshi.k@samsung.com>
+	<CGME20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319@epcas5p3.samsung.com>
+	<20260717125538.508925-2-joshi.k@samsung.com>
+	<20260721030338.GU7380@frogsfrogsfrogs>
+	<71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com>
+	<20260819070814.GB1541@lst.de>
 
---=_Part_190198_1187129992.1787550017372
-Content-Type: multipart/alternative; BOUNDARY="=_Part_190199_1201052088.1787550017372"
+On 8/19/2026 12:38 PM, Christoph Hellwig wrote:
+> On Thu, Jul 30, 2026 at 08:22:51PM +0530, Kanchan Joshi wrote:
+>> Christoph's idea was to use FD for a write-stream so that it remains
+>> exclusive to the application and unrelated applications don't collide.
+>>
+>> So, in this version, write-stream ids are implemented as independent
+>> resource:
+>> - To set a file's write-stream ID to X, the app must first obtain the fd
+>> for stream X.
+>> - That stream/fd will be unavailable if some other application has
+>> already opened it.
+>> - If applications gets the stream fd, it can use that to set stream id
+>> for multiple files.
+>> - It can close the stream-fd and that does not change anything for the
+>> file resource (i.e, its inode continue to carry the stream-id value that
+>> was set).
+>>
+>> Christoph - does this match?
+> 
+> Almost.  I didn't really think of your last point there.  If the
+> inodes keeps using it when it is dropped that breaks the model a
+> bit, but revoking it might make things a bit ugly and slow.  Urgg.
 
---=_Part_190199_1201052088.1787550017372
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+I think it is consistent to the model that says stream fd is a distinct 
+resource and it is a necessary lease/license to set the particular 
+stream(-id) across files.
+If the stream-fd is held, that stream-id remains exclusive to the 
+application.
+Closing means, applications is fine to release the license and 
+underlying stream-id becomes available to other users.
+Application may use stream-fd license and set corresponding write-stream 
+id into N files. We don't need to track those N files and negate the 
+effect (clear stream-id in those N inodes) when the license was released.
 
-SGVsbG8sCldoaWxlIGZ1enppbmcgbWFpbmxpbmUgKDcuMi4wLXJjNy0wMDIzMi1nZGNiNjg4MzFl
-YWM3KSB3aXRoIHN5emthbGxlciBJCmhpdCB3aGF0IGxvb2tzIGxpa2UgaW4tcGxhY2UgbWVtb3J5
-IGNvcnJ1cHRpb24gaW5zaWRlIHN0cnVjdApoZnNwbHVzX2lub2RlX2luZm8gZHVyaW5nIGZpbGVz
-eXN0ZW0gd3JpdGViYWNrLiAgSSBkaWQgbm90IGZpbmQgYQptYXRjaGluZyByZXBvcnQgb24gc3l6
-Ym90IGZvciB0aGlzIHNpZ25hdHVyZS4KCgpUaGUgY3Jhc2gKLS0tLS0tLS0tCgoKQSB3cml0ZWJh
-Y2sgd29ya2VyIGZvciB0aGUgbG9vcCBkZXZpY2UgYmFja2luZyB0aGUgaGZzcGx1cyBtb3VudAoo
-ImZsdXNoLTc6NCIpIGZpcnN0IHRyaXBzIHRoZSBtdXRleCBkZWJ1ZyBjaGVjaywgYW5kIGltbWVk
-aWF0ZWx5IGFmdGVyCktBU0FOIGZsYWdzIGEgd2lsZCByZWFkIHRocm91Z2ggdGhlIGNvcnJ1cHRl
-ZCBvd25lciBmaWVsZDoKCgpERUJVR19MT0NLU19XQVJOX09OKGxvY2stPm1hZ2ljICE9IGxvY2sp
-OgpXQVJOSU5HOiBrZXJuZWwvbG9ja2luZy9tdXRleC5jOjYyNSBhdCBfX211dGV4X2xvY2sKQ1BV
-OiAxIFBJRDogNzExOTMgQ29tbToga3dvcmtlci91ODoyCldvcmtxdWV1ZTogd3JpdGViYWNrIHdi
-X3dvcmtmbiAoZmx1c2gtNzo0KQpDYWxsIFRyYWNlOgpfX211dGV4X2xvY2srMHhkMzAvMHgxZDgw
-Cmhmc3BsdXNfZXh0X3dyaXRlX2V4dGVudCsweDgzLzB4MjAwIGZzL2hmc3BsdXMvZXh0ZW50cy5j
-OjE1MQpoZnNwbHVzX3dyaXRlX2lub2RlKzB4MmMvMHg2NzAgZnMvaGZzcGx1cy9zdXBlci5jOjE3
-NQp3cml0ZV9pbm9kZSBmcy9mcy13cml0ZWJhY2suYzoxNjA3IFtpbmxpbmVdCl9fd3JpdGViYWNr
-X3NpbmdsZV9pbm9kZSsweGM4NS8weDEzMjAgZnMvZnMtd3JpdGViYWNrLmM6MTg1MAp3cml0ZWJh
-Y2tfc2JfaW5vZGVzKzB4NzFjLzB4MWI2MCBmcy9mcy13cml0ZWJhY2suYzoyMDc5CndiX3dyaXRl
-YmFjaysweDQwNC8weGI4MCBmcy9mcy13cml0ZWJhY2suYzoyMjY0CndiX3dvcmtmbisweDE0My8w
-eGM2MAoKCkJVRzogS0FTQU46IGdsb2JhbC1vdXQtb2YtYm91bmRzIGluIG93bmVyX29uX2NwdQpp
-bmNsdWRlL2xpbnV4L3NjaGVkLmg6MjMyMyBbaW5saW5lXQpSZWFkIG9mIHNpemUgMSBhdCBhZGRy
-IGZmZmZmZmZmOGJhZmNiYjQgYnkgdGFzayBrd29ya2VyL3U4OjIKVGhlIGJ1Z2d5IGFkZHJlc3Mg
-YmVsb25ncyB0byB0aGUgdmFyaWFibGU6Cihzb21lIHVucmVsYXRlZCBnbG9iYWwpIHN1Z292X2dy
-b3VwKzB4NGI0LzB4ZTAwCkNhbGwgVHJhY2U6Cm11dGV4X2Nhbl9zcGluX29uX293bmVyKzB4MWE1
-LzB4MWMwIGtlcm5lbC9sb2NraW5nL211dGV4LmM6NDQyCm11dGV4X29wdGltaXN0aWNfc3BpbiBr
-ZXJuZWwvbG9ja2luZy9tdXRleC5jOjQ4NSBbaW5saW5lXQpfX211dGV4X2xvY2srMHgzNzkvMHgx
-ZDgwCmhmc3BsdXNfZXh0X3dyaXRlX2V4dGVudCsweDgzLzB4MjAwIGZzL2hmc3BsdXMvZXh0ZW50
-cy5jOjE1MQoKCmkuZS4gbXV0ZXhfbG9jaygmSEZTUExVU19JKGlub2RlKS0+ZXh0ZW50c19sb2Nr
-KSBmb3VuZCB0aGUgbXV0ZXggbWFnaWMKZGVzdHJveWVkIGFuZCBpdHMgb3duZXIgZmllbGQgY29u
-dGFpbmluZyBhIHBvaW50ZXIgaW50byBrZXJuZWwgZ2xvYmFsCmRhdGEuCgoKV2hhdCBJIHZlcmlm
-aWVkCi0tLS0tLS0tLS0tLS0tLQoKCiogVGhlIGxvY2sgaXMgaGlwLT5leHRlbnRzX2xvY2sgaW4g
-ZnMvaGZzcGx1cy9leHRlbnRzLmM6MTUxLgoKCiogVGhlIGhmc3BsdXNfaW5vZGVfaW5mbyBtZW1v
-cnkgaXMgTk9UIGZyZWVkOiBrZXJuZWwvbG9ja2luZy9tdXRleC5jIGlzCiAgS0FTQU4taW5zdHJ1
-bWVudGVkICh0aGUgb3duZXIgcmVhZCBhYm92ZSB3YXMgZmxhZ2dlZCBieSBpdCksIHlldCB0aGUK
-ICBsb2NrLT5tYWdpYyByZWFkIHByb2R1Y2VkIG5vIHNsYWItdXNlLWFmdGVyLWZyZWUgcmVwb3J0
-LiAgU28gdGhpcyBpcwogIGluLXBsYWNlIGNvcnJ1cHRpb24gb2YgbGl2ZSBtZW1vcnksIG5vdCBh
-IFVBRiBvbiB0aGUgaW5vZGUuCgoKKiBBbiBvdmVyZmxvdyBvZiB0aGUgZXh0ZW50IGFycmF5cyBk
-b2VzIG5vdCBleHBsYWluIGl0OiBmaXJzdF9leHRlbnRzCiAgYW5kIGNhY2hlZF9leHRlbnRzIHNp
-dCByaWdodCBiZWZvcmUgZXh0ZW50X3N0YXRlL2V4dGVudHNfbG9jayBpbgogIHN0cnVjdCBoZnNw
-bHVzX2lub2RlX2luZm8sIGJ1dCBldmVyeSB3cml0ZXIgdXNlcyBmaXhlZCBzaXplcywgYW5kCiAg
-X19oZnNwbHVzX2V4dF9yZWFkX2V4dGVudCgpIHJlamVjdHMgcmVjb3JkcyB3aXRoCiAgZmQtPmVu
-dHJ5bGVuZ3RoICE9IHNpemVvZihoZnNwbHVzX2V4dGVudF9yZWMpICgtRUlPKSBiZWZvcmUgZG9p
-bmcgYQogIGZpeGVkLXNpemUgaGZzX2Jub2RlX3JlYWQoKS4KCgoqIEFsbCBoZnNwbHVzX2lnZXQo
-KSBwYXRocyBjYWxsIG11dGV4X2luaXQoKSBiZWZvcmUgdGhlIGlub2RlIGJlY29tZXMKICB2aXNp
-YmxlLCBzbyB0aGUgbG9jayB3YXMgaW5pdGlhbGl6ZWQgYXQgc29tZSBwb2ludC4KCgogIFRoZSBn
-YXJiYWdlIGluIHRoZSBvd25lciBmaWVsZCBsb29rcyBsaWtlIHN0YWxlIHNsYWIgY29udGVudHMg
-KGUuZy4KICBwb2ludGVycyB0byBnbG9iYWwgb3BzIHRhYmxlcyksIHdoaWNoIHdvdWxkIHN1Z2dl
-c3QgdGhlIG1lbW9yeSB3YXMKICByZXVzZWQgd2l0aG91dCByZS1pbml0aWFsaXphdGlvbiBzb21l
-d2hlcmUgLSBidXQgSSBjb3VsZCBub3QgaWRlbnRpZnkKICB0aGUgcGF0aCBmcm9tIGNvZGUgcmVh
-ZGluZyBhbG9uZS4KCgpUcmlnZ2VyIGNvbnRleHQKLS0tLS0tLS0tLS0tLS0tCgoKVGhlIHN5emth
-bGxlciBwcm9ncmFtIHRoYXQgcHJvZHVjZWQgdGhpcyAoc2luZ2xlIGV4ZWN1dGlvbiwgc2FuZGJv
-eApub25lKSBtb3VudHMgYSBjcmFmdGVkIDUxMiBLaUIgSEZTWCBpbWFnZSBvbiBhIGxvb3AgZGV2
-aWNlIGFuZCB0aGVuCmRpcnRpZXMgaXQ6CgoKc3l6X21vdW50X2ltYWdlJGhmc3BsdXMoLi4uLCAn
-Li9maWxlMCcsIC4uLiwgY3JhZnRlZCBpbWFnZSkKdW5saW5rYXQoQVRfRkRDV0QsICcuL2ZpbGUx
-JywgMCkKc2V0eGF0dHIkdHJ1c3RlZF9vdmVybGF5KCcuL2ZpbGUwJywgLi4uLCAwLCAwLCAxKQoK
-CndpdGggYW4gaW9jdGwkQkxLUEcgKG9ubGluZSBwYXJ0aXRpb24gZWRpdCkgb24gYSBsb29wIGRl
-dmljZSBpbiB0aGUKc2FtZSBwcm9ncmFtLCBvbiBhIGxvb3AgZGV2aWNlIHdob3NlIGJkaSBoYWQg
-anVzdCBzZXJ2ZWQgYSBkaWZmZXJlbnQKZmlsZXN5c3RlbSAoYnRyZnMpLiAgVGhlIGNyYXNoIGZp
-cmVkIH4wLjcgcyBhZnRlciB0aGUgaW1hZ2UgYXR0YWNoLAppbiB0aGUgbWlkZGxlIG9mIHRoZSBt
-b3VudC91bW91bnQgY2h1cm4sIG9uIHRoZSB3cml0ZWJhY2sgd29ya2VyLgoKCkkgY291bGQgbm90
-IHJlLXRyaWdnZXIgaXQgd2l0aCBhIHBsYWluIG1vdW50L2RpcnR5L3Vtb3VudCBzdHJlc3MgbG9v
-cAoofjM2ayBjeWNsZXMpLCBzbyB0aGUgQkxLUEcgcGFydGl0aW9uIGVkaXQgYW5kL29yIHRoZSBi
-ZGkgcmV1c2Ugc2VlbQp0byBiZSByZXF1aXJlZCBpbmdyZWRpZW50cy4KCgpUaGUgZnVsbCBzeXpr
-YWxsZXIgcHJvZ3JhbSwgdGhlIGNyYWZ0ZWQgaW1hZ2UsIHRoZSBjb25zb2xlIGxvZyBhbmQKdGhl
-IGNvbXBsZXRlIEtBU0FOIHJlcG9ydCBhcmUgYXZhaWxhYmxlIG9uIHJlcXVlc3QuCgoKS2VybmVs
-OiBzdG9jayBtYWlubGluZSA3LjIuMC1yYzctMDAyMzItZ2RjYjY4ODMxZWFjNywgc3l6a2FsbGVy
-J3MKdXBzdHJlYW0gS0FTQU4gY29uZmlnIChLQVNBTiBpbmxpbmUsIGxvY2tkZXAgZW5hYmxlZCku
-CgoKRm91bmQtYnk6IHN5emthbGxlciBvbiBsaW51eC03LjIuMC1yYzctMDAyMzItZ2RjYjY4ODMx
-ZWFjNwoK
---=_Part_190199_1201052088.1787550017372
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+>> Here are the revised names (suggestions?):
+>>
+>> 1. FS_IOC_QUERY_MAX_WRITE_STREAM_IDS		_IOR('f', 135, __u32)
+>>
+>> Returns (in __u32) number of supported stream-ids.
+>>
+>> 2. FS_IOC_OPEN_WRITE_STREAM_ID			_IOWR('f', 136, struct
+>> fs_write_stream_open)
+>>
+>> Open the specific write-stream id (or any available one via a flag) and
+>> return its FD. This gives right to use that stream-id.
+> 
+> maybe s/OPEN/ALLOC(ATA)/ ?
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxwPkhlbGxvLDwvcD48cD5XaGlsZSBmdXp6aW5nIG1haW5saW5l
-ICg3LjIuMC1yYzctMDAyMzItZ2RjYjY4ODMxZWFjNykgd2l0aCBzeXprYWxsZXIgSTwvcD48cD5o
-aXQgd2hhdCBsb29rcyBsaWtlIGluLXBsYWNlIG1lbW9yeSBjb3JydXB0aW9uIGluc2lkZSBzdHJ1
-Y3Q8L3A+PHA+aGZzcGx1c19pbm9kZV9pbmZvIGR1cmluZyBmaWxlc3lzdGVtIHdyaXRlYmFjay4m
-bmJzcDsgSSBkaWQgbm90IGZpbmQgYTwvcD48cD5tYXRjaGluZyByZXBvcnQgb24gc3l6Ym90IGZv
-ciB0aGlzIHNpZ25hdHVyZS48L3A+PHA+PGJyPjwvcD48cD5UaGUgY3Jhc2g8L3A+PHA+LS0tLS0t
-LS0tPC9wPjxwPjxicj48L3A+PHA+QSB3cml0ZWJhY2sgd29ya2VyIGZvciB0aGUgbG9vcCBkZXZp
-Y2UgYmFja2luZyB0aGUgaGZzcGx1cyBtb3VudDwvcD48cD4oImZsdXNoLTc6NCIpIGZpcnN0IHRy
-aXBzIHRoZSBtdXRleCBkZWJ1ZyBjaGVjaywgYW5kIGltbWVkaWF0ZWx5IGFmdGVyPC9wPjxwPktB
-U0FOIGZsYWdzIGEgd2lsZCByZWFkIHRocm91Z2ggdGhlIGNvcnJ1cHRlZCBvd25lciBmaWVsZDo8
-L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPjxzcGFu
-IHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+REVCVUdfTE9DS1NfV0FSTl9PTihsb2Nr
-LSZndDttYWdpYyAhPSBsb2NrKTo8L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFj
-ZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5XQVJOSU5H
-OiBrZXJuZWwvbG9ja2luZy9tdXRleC5jOjYyNSBhdCBfX211dGV4X2xvY2s8L3NwYW4+PC9wPjxw
-PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNw
-YWNlOnByZSI+CTwvc3Bhbj5DUFU6IDEgUElEOiA3MTE5MyBDb21tOiBrd29ya2VyL3U4OjI8L3Nw
-YW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9
-IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5Xb3JrcXVldWU6IHdyaXRlYmFjayB3Yl93b3JrZm4g
-KGZsdXNoLTc6NCk8L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFs
-OyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5DYWxsIFRyYWNlOjwvc3Bh
-bj48L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0i
-d2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPiBfX211dGV4X2xvY2srMHhkMzAvMHgxZDgwPC9zcGFu
-PjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPjxzcGFuIHN0eWxlPSJ3
-aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+IGhmc3BsdXNfZXh0X3dyaXRlX2V4dGVudCsweDgzLzB4
-MjAwIGZzL2hmc3BsdXMvZXh0ZW50cy5jOjE1MTwvc3Bhbj48L3A+PHA+PHNwYW4gc3R5bGU9Indo
-aXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFu
-PiBoZnNwbHVzX3dyaXRlX2lub2RlKzB4MmMvMHg2NzAgZnMvaGZzcGx1cy9zdXBlci5jOjE3NTwv
-c3Bhbj48L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHls
-ZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPiB3cml0ZV9pbm9kZSBmcy9mcy13cml0ZWJhY2su
-YzoxNjA3IFtpbmxpbmVdPC9zcGFuPjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5v
-cm1hbDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+IF9fd3JpdGViYWNr
-X3NpbmdsZV9pbm9kZSsweGM4NS8weDEzMjAgZnMvZnMtd3JpdGViYWNrLmM6MTg1MDwvc3Bhbj48
-L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0id2hp
-dGUtc3BhY2U6cHJlIj4JPC9zcGFuPiB3cml0ZWJhY2tfc2JfaW5vZGVzKzB4NzFjLzB4MWI2MCBm
-cy9mcy13cml0ZWJhY2suYzoyMDc5PC9zcGFuPjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3Bh
-Y2U6IG5vcm1hbDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+IHdiX3dy
-aXRlYmFjaysweDQwNC8weGI4MCBmcy9mcy13cml0ZWJhY2suYzoyMjY0PC9zcGFuPjwvcD48cD48
-c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFj
-ZTpwcmUiPgk8L3NwYW4+IHdiX3dvcmtmbisweDE0My8weGM2MDwvc3Bhbj48L3A+PHA+PGJyPjwv
-cD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPjxzcGFuIHN0eWxlPSJ3aGl0
-ZS1zcGFjZTpwcmUiPgk8L3NwYW4+QlVHOiBLQVNBTjogZ2xvYmFsLW91dC1vZi1ib3VuZHMgaW4g
-b3duZXJfb25fY3B1PC9zcGFuPjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1h
-bDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+aW5jbHVkZS9saW51eC9z
-Y2hlZC5oOjIzMjMgW2lubGluZV08L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFj
-ZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5SZWFkIG9m
-IHNpemUgMSBhdCBhZGRyIGZmZmZmZmZmOGJhZmNiYjQgYnkgdGFzayBrd29ya2VyL3U4OjI8L3Nw
-YW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9
-IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5UaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdzIHRvIHRo
-ZSB2YXJpYWJsZTo8L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFs
-OyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj4gKHNvbWUgdW5yZWxhdGVk
-IGdsb2JhbCkgc3Vnb3ZfZ3JvdXArMHg0YjQvMHhlMDA8L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxl
-PSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwv
-c3Bhbj5DYWxsIFRyYWNlOjwvc3Bhbj48L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBu
-b3JtYWw7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPiBtdXRleF9jYW5f
-c3Bpbl9vbl9vd25lcisweDFhNS8weDFjMCBrZXJuZWwvbG9ja2luZy9tdXRleC5jOjQ0Mjwvc3Bh
-bj48L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0i
-d2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPiBtdXRleF9vcHRpbWlzdGljX3NwaW4ga2VybmVsL2xv
-Y2tpbmcvbXV0ZXguYzo0ODUgW2lubGluZV08L3NwYW4+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0
-ZS1zcGFjZTogbm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj4g
-X19tdXRleF9sb2NrKzB4Mzc5LzB4MWQ4MDwvc3Bhbj48L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRl
-LXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPiBo
-ZnNwbHVzX2V4dF93cml0ZV9leHRlbnQrMHg4My8weDIwMCBmcy9oZnNwbHVzL2V4dGVudHMuYzox
-NTE8L3NwYW4+PC9wPjxwPjxicj48L3A+PHA+aS5lLiBtdXRleF9sb2NrKCZhbXA7SEZTUExVU19J
-KGlub2RlKS0mZ3Q7ZXh0ZW50c19sb2NrKSBmb3VuZCB0aGUgbXV0ZXggbWFnaWM8L3A+PHA+ZGVz
-dHJveWVkIGFuZCBpdHMgb3duZXIgZmllbGQgY29udGFpbmluZyBhIHBvaW50ZXIgaW50byBrZXJu
-ZWwgZ2xvYmFsPC9wPjxwPmRhdGEuPC9wPjxwPjxicj48L3A+PHA+V2hhdCBJIHZlcmlmaWVkPC9w
-PjxwPi0tLS0tLS0tLS0tLS0tLTwvcD48cD48YnI+PC9wPjxwPiogVGhlIGxvY2sgaXMgaGlwLSZn
-dDtleHRlbnRzX2xvY2sgaW4gZnMvaGZzcGx1cy9leHRlbnRzLmM6MTUxLjwvcD48cD48YnI+PC9w
-PjxwPiogVGhlIGhmc3BsdXNfaW5vZGVfaW5mbyBtZW1vcnkgaXMgTk9UIGZyZWVkOiBrZXJuZWwv
-bG9ja2luZy9tdXRleC5jIGlzPC9wPjxwPiZuYnNwOyBLQVNBTi1pbnN0cnVtZW50ZWQgKHRoZSBv
-d25lciByZWFkIGFib3ZlIHdhcyBmbGFnZ2VkIGJ5IGl0KSwgeWV0IHRoZTwvcD48cD4mbmJzcDsg
-bG9jay0mZ3Q7bWFnaWMgcmVhZCBwcm9kdWNlZCBubyBzbGFiLXVzZS1hZnRlci1mcmVlIHJlcG9y
-dC4mbmJzcDsgU28gdGhpcyBpczwvcD48cD4mbmJzcDsgaW4tcGxhY2UgY29ycnVwdGlvbiBvZiBs
-aXZlIG1lbW9yeSwgbm90IGEgVUFGIG9uIHRoZSBpbm9kZS48L3A+PHA+PGJyPjwvcD48cD4qIEFu
-IG92ZXJmbG93IG9mIHRoZSBleHRlbnQgYXJyYXlzIGRvZXMgbm90IGV4cGxhaW4gaXQ6IGZpcnN0
-X2V4dGVudHM8L3A+PHA+Jm5ic3A7IGFuZCBjYWNoZWRfZXh0ZW50cyBzaXQgcmlnaHQgYmVmb3Jl
-IGV4dGVudF9zdGF0ZS9leHRlbnRzX2xvY2sgaW48L3A+PHA+Jm5ic3A7IHN0cnVjdCBoZnNwbHVz
-X2lub2RlX2luZm8sIGJ1dCBldmVyeSB3cml0ZXIgdXNlcyBmaXhlZCBzaXplcywgYW5kPC9wPjxw
-PiZuYnNwOyBfX2hmc3BsdXNfZXh0X3JlYWRfZXh0ZW50KCkgcmVqZWN0cyByZWNvcmRzIHdpdGg8
-L3A+PHA+Jm5ic3A7IGZkLSZndDtlbnRyeWxlbmd0aCAhPSBzaXplb2YoaGZzcGx1c19leHRlbnRf
-cmVjKSAoLUVJTykgYmVmb3JlIGRvaW5nIGE8L3A+PHA+Jm5ic3A7IGZpeGVkLXNpemUgaGZzX2Ju
-b2RlX3JlYWQoKS48L3A+PHA+PGJyPjwvcD48cD4qIEFsbCBoZnNwbHVzX2lnZXQoKSBwYXRocyBj
-YWxsIG11dGV4X2luaXQoKSBiZWZvcmUgdGhlIGlub2RlIGJlY29tZXM8L3A+PHA+Jm5ic3A7IHZp
-c2libGUsIHNvIHRoZSBsb2NrIHdhcyBpbml0aWFsaXplZCBhdCBzb21lIHBvaW50LjwvcD48cD48
-YnI+PC9wPjxwPiZuYnNwOyBUaGUgZ2FyYmFnZSBpbiB0aGUgb3duZXIgZmllbGQgbG9va3MgbGlr
-ZSBzdGFsZSBzbGFiIGNvbnRlbnRzIChlLmcuPC9wPjxwPiZuYnNwOyBwb2ludGVycyB0byBnbG9i
-YWwgb3BzIHRhYmxlcyksIHdoaWNoIHdvdWxkIHN1Z2dlc3QgdGhlIG1lbW9yeSB3YXM8L3A+PHA+
-Jm5ic3A7IHJldXNlZCB3aXRob3V0IHJlLWluaXRpYWxpemF0aW9uIHNvbWV3aGVyZSAtIGJ1dCBJ
-IGNvdWxkIG5vdCBpZGVudGlmeTwvcD48cD4mbmJzcDsgdGhlIHBhdGggZnJvbSBjb2RlIHJlYWRp
-bmcgYWxvbmUuPC9wPjxwPjxicj48L3A+PHA+VHJpZ2dlciBjb250ZXh0PC9wPjxwPi0tLS0tLS0t
-LS0tLS0tLTwvcD48cD48YnI+PC9wPjxwPlRoZSBzeXprYWxsZXIgcHJvZ3JhbSB0aGF0IHByb2R1
-Y2VkIHRoaXMgKHNpbmdsZSBleGVjdXRpb24sIHNhbmRib3g8L3A+PHA+bm9uZSkgbW91bnRzIGEg
-Y3JhZnRlZCA1MTIgS2lCIEhGU1ggaW1hZ2Ugb24gYSBsb29wIGRldmljZSBhbmQgdGhlbjwvcD48
-cD5kaXJ0aWVzIGl0OjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTog
-bm9ybWFsOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5zeXpfbW91bnRf
-aW1hZ2UkaGZzcGx1cyguLi4sICcuL2ZpbGUwJywgLi4uLCBjcmFmdGVkIGltYWdlKTwvc3Bhbj48
-L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij48c3BhbiBzdHlsZT0id2hp
-dGUtc3BhY2U6cHJlIj4JPC9zcGFuPnVubGlua2F0KEFUX0ZEQ1dELCAnLi9maWxlMScsIDApPC9z
-cGFuPjwvcD48cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPjxzcGFuIHN0eWxl
-PSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+c2V0eGF0dHIkdHJ1c3RlZF9vdmVybGF5KCcuL2Zp
-bGUwJywgLi4uLCAwLCAwLCAxKTwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD53aXRoIGFuIGlvY3Rs
-JEJMS1BHIChvbmxpbmUgcGFydGl0aW9uIGVkaXQpIG9uIGEgbG9vcCBkZXZpY2UgaW4gdGhlPC9w
-PjxwPnNhbWUgcHJvZ3JhbSwgb24gYSBsb29wIGRldmljZSB3aG9zZSBiZGkgaGFkIGp1c3Qgc2Vy
-dmVkIGEgZGlmZmVyZW50PC9wPjxwPmZpbGVzeXN0ZW0gKGJ0cmZzKS4mbmJzcDsgVGhlIGNyYXNo
-IGZpcmVkIH4wLjcgcyBhZnRlciB0aGUgaW1hZ2UgYXR0YWNoLDwvcD48cD5pbiB0aGUgbWlkZGxl
-IG9mIHRoZSBtb3VudC91bW91bnQgY2h1cm4sIG9uIHRoZSB3cml0ZWJhY2sgd29ya2VyLjwvcD48
-cD48YnI+PC9wPjxwPkkgY291bGQgbm90IHJlLXRyaWdnZXIgaXQgd2l0aCBhIHBsYWluIG1vdW50
-L2RpcnR5L3Vtb3VudCBzdHJlc3MgbG9vcDwvcD48cD4ofjM2ayBjeWNsZXMpLCBzbyB0aGUgQkxL
-UEcgcGFydGl0aW9uIGVkaXQgYW5kL29yIHRoZSBiZGkgcmV1c2Ugc2VlbTwvcD48cD50byBiZSBy
-ZXF1aXJlZCBpbmdyZWRpZW50cy48L3A+PHA+PGJyPjwvcD48cD5UaGUgZnVsbCBzeXprYWxsZXIg
-cHJvZ3JhbSwgdGhlIGNyYWZ0ZWQgaW1hZ2UsIHRoZSBjb25zb2xlIGxvZyBhbmQ8L3A+PHA+dGhl
-IGNvbXBsZXRlIEtBU0FOIHJlcG9ydCBhcmUgYXZhaWxhYmxlIG9uIHJlcXVlc3QuPC9wPjxwPjxi
-cj48L3A+PHA+S2VybmVsOiBzdG9jayBtYWlubGluZSA3LjIuMC1yYzctMDAyMzItZ2RjYjY4ODMx
-ZWFjNywgc3l6a2FsbGVyJ3M8L3A+PHA+dXBzdHJlYW0gS0FTQU4gY29uZmlnIChLQVNBTiBpbmxp
-bmUsIGxvY2tkZXAgZW5hYmxlZCkuPC9wPjxwPjxicj48L3A+PHA+Rm91bmQtYnk6IHN5emthbGxl
-ciBvbiBsaW51eC03LjIuMC1yYzctMDAyMzItZ2RjYjY4ODMxZWFjNzwvcD48L2Rpdj4=
---=_Part_190199_1201052088.1787550017372--
---=_Part_190198_1187129992.1787550017372
-Content-Disposition: attachment; filename="=?UTF-8?B?Ml9oZnNwbHVzLnppcA==?="
-Content-Transfer-Encoding: base64
-Content-Type: application/x-zip-compressed; name="=?UTF-8?B?Ml9oZnNwbHVzLnppcA==?="; charset="utf-8"
+Yes.
+If we are doing away with stream-id, ALLOC is better.
+If we retain (as this version does), OPEN may still be better.
 
-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
-ZnMuY1BLBQYAAAAAAwADAK4AAAC1EgAAAAA=
---=_Part_190198_1187129992.1787550017372--
+>> And the following manage setting/clearing/querying write-stream on the file:
+>>
+>> 3. FS_IOC_SET_FILE_WRITE_STREAM_BY_FD		_IOW('f', 137, __s32)
+>>
+>> Sets a file's write-stream value (in inode) to whatever the stream fd
+>> (passed as __s32) carries. So one never sets scalar values into a file
+>> directly.
+> 
+> I'd drop the _BY_FD.
+
+Sure, I will drop.
+
+That said, we may need a way to clear the stream-id of a file.
+We don't need stream-fd for that. An explicit flag here can convey that 
+intent.
+
+>>
+>> 4. FS_IOC_QUERY_FILE_WRITE_STREAM_ID		_IOR('f', 138, __u32)
+>>
+>> Queries the write-stream value (__u32) currently assigned to the file
+>> (its inode).
+> 
+> I'm not sure exposing the actual ID to the user space application is a
+> that good idea, 
+
+But don't we need a way to know if stream id/value is set on a file or 
+not? This ioctl is more about observability; GET equivalent of SET.
+Also write stream value is not going to be there if/when in-core inode 
+gets evicted.
+
+> same for passing in the wanted ID when allocating.
+
+Can drop OPEN_EXACT flag if you prefer that.
+But this was for the case if application restarted and wanted its new 
+data to go into the bucket where it was previously writing.
+> That leaks a lot of internal details.
+
+I viewed stream-id similar to how we view file-name. Application can 
+list file names, but need the fd to do operations on that file.
+So, I could not understand internal details part. Could you explain? We 
+have FIEMAP and unprivileged XFS_IOC_FSGEOMETRY already expose the 
+placement of the file.
