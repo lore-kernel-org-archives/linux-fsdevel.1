@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66C2370D70
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 15:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5441B43F0AA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 15:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787585320; cv=none; b=ILNwvqsNTFt/wA68J7f3b6vzJvtPQqhbM07ghWMTbRvcW2X8QI1qWYgA7fu1JLuQZwGv5tgLXIz+yftaUXsFHgj/ROi0zBjOSKOWzxZu1yYbz8lnZBBoyiPYbV+eE7RmZzNovhk97m14jn7VICPblk7f557u2qfZDu2GJTCltwA=
+	t=1787585324; cv=none; b=jv3PUJf6ppBWyFhJmQZQqMO4bH5sRJVmK5JQWzgh5QASbTGgU9toTo+G/R+upFEQcx7qzzPbCNiyPXjOaa2OqKoIAi+SZQ86PQ3ZuTM3bqYzJEHXRr4QC7TA0d3rAo/mIPjC/1JW5U6tIQWqSD5JKLG5qOsFcFfHezFJs3wd2zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787585320; c=relaxed/simple;
-	bh=s9NijOcxqU4RauLQnGB8xIzQifKAQKgSTJ2eh0+dWvY=;
+	s=arc-20240116; t=1787585324; c=relaxed/simple;
+	bh=zzpA5Shnl8ac/2vEQfIhHiyDJN865bmDeNXqGRKx08c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YRXiKGCLC7U9SB6p9J9kgShT4y4hZJg2wwtp5a1FHPb2s23kFSvZ94evp/MhwMpb4Qhpg+MV2zxT39Auge3rnMxTVnXqt+fvvh8wtq2CweGT11eo0O0e7j1D1iDgzkJe3NCpWCOuCq7BY+XSYlPt5t+xw+coIQ/Alz2wKWRe2PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=la43msgY; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=dVaYe9Z8UgYx4AQMDogbuoPWPyeAsZt2pdsv7+TmBXnRFBol4qYuywaiWf4uvu681MVqFeo7G52s9bMUz9fEqb1tt+3KA+Bj8DxXFF5ozOh5sb3rUakD4u96a2ZYpzoTz5YIlRmpBbnOgncXhdMnGsh6PO9EFZzZnmWag0QJV7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVYytX4G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="la43msgY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57B5F1F000E9;
-	Mon, 24 Aug 2026 15:28:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVYytX4G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD05F1F00A3F;
+	Mon, 24 Aug 2026 15:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787585316;
-	bh=d2tYSPvKQqncZnbBRGAtCMXNzOI8Xo+jpXz4CR5d5js=;
+	s=k20260515; t=1787585319;
+	bh=3p6fWdZx9MBYQc+GEi7m16S7QNn4j3pl6pyCjHZBrxg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=la43msgYqckCH3OJjllXuh5U1BQdP9fx81jO5gVq9JsLk4p6GdidBIFTLG/VpEqFt
-	 j1ETfZsibXdKFP1fnT5vV/1B3ygFb0kq4OI++lXGnj123GI9Hv3/dLxcBA0K7GTauP
-	 SRciDjzoqkhg2ESfQdoFrvQ8jMv2ao+v6cv+eNIp1vyqasdE3HswsETvpXhlm7IEMW
-	 CQPnFcHATHAQQK5JJe49tshNpBWoWttk3dhyXB3RAha8P+Eoo9rQAy4+efXVFs56J6
-	 X6ofpJceoi144KhsIqIGj4zO3TpUkP5dfDkz5pN0IU16FS4f7Gygju4EDTtuWT5La8
-	 MbxmlWZ3LwnbA==
+	b=VVYytX4G4pWj4fWT2p+L0hluVuLiGSICSlVjy6i2yJwnVGOmbBYsme5DDwYqR5ebI
+	 pucOtzfc1kA9Yplju0Au3I8LlbwNQRwV+SS9igmVdHuIxZ5CXJEDbCU6K91qO8jqNP
+	 tQxbWV7+VQkJuA6SGtXRdaha5Sa/nQRXLucspmatXmRIIiIu3mnnOJIT2dSWx5rUUh
+	 gMo0CYLPtVMyzOYao31aXIdg892ll34PQ1XbUopXPi40escA+4DCSjvUJYnmtqqg+G
+	 ptq++65/ox9dhyNpK+k8apPZqNqXSl71TrBhfnhlowMGctNucmmntjtc62FaO49pRl
+	 3eP5vmdYUCvUw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 24 Aug 2026 17:28:17 +0200
-Subject: [PATCH RFC 3/7] fs: add switch_files_struct()
+Date: Mon, 24 Aug 2026 17:28:18 +0200
+Subject: [PATCH RFC 4/7] coredump: s/startup/done/g
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-work-coredump-unlock-self-v1-3-48fd1cca7eda@kernel.org>
+Message-Id: <20260824-work-coredump-unlock-self-v1-4-48fd1cca7eda@kernel.org>
 References: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
 In-Reply-To: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -47,121 +47,76 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3212; i=brauner@kernel.org;
- h=from:subject:message-id; bh=s9NijOcxqU4RauLQnGB8xIzQifKAQKgSTJ2eh0+dWvY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT1JEtdudH2j83x7fkNC2NC5F/UOD2oXi5hU+TSsuW3a
- 8i3xY4aHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPpb2RkeFP65DrLxfgdDVdv
- 9fJ1XDQ7OaEncHH+jIo2DueLm9UtfjIydHIVZWZY5l6X+qsvqHsppudcJvv2qHnHBaND416+Dst
- hAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2022; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=zzpA5Shnl8ac/2vEQfIhHiyDJN865bmDeNXqGRKx08c=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT1JEu9VP/8J7r+xHb5YyxR7up3Nr9+MzXsfGrcvZ60d
+ jYBdcbKjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInIqDMy3Dp6UvOVvm2nw1K1
+ 3hNPj837sVBFVinop3hQwaVUvaOalowM12bE/3so8C+rWy0oJ3eTzOGPdQKfH5n9PCpo/uola6k
+ FDwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add switch_files_struct() so a task can switch to a new file descriptor
-table and close the old one. That's very restricted to the exit path and
-coredumps.
+We're going to use that in a bit. Rename it to something easier to
+understand.
 
 No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c | 63 +++++++++++++++++++++++++++++++++++++++++++++------------------
- 1 file changed, 45 insertions(+), 18 deletions(-)
+ fs/coredump.c                | 4 ++--
+ include/linux/sched/signal.h | 3 ++-
+ kernel/exit.c                | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/file.c b/fs/file.c
-index e2d4b72c2e26..391b6d4292c4 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -375,21 +375,15 @@ static unsigned int sane_fdtable_size(struct fdtable *fdt, struct fd_range *punc
- 	return ALIGN(last + 1, BITS_PER_LONG);
- }
+diff --git a/fs/coredump.c b/fs/coredump.c
+index ec9359e382ea..27d9cdc77cec 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -523,7 +523,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	struct task_struct *tsk = current;
+ 	int core_waiters = -EBUSY;
  
--/*
-- * Allocate a new descriptor table and copy contents from the passed in
-- * instance.  Returns a pointer to cloned table on success, ERR_PTR()
-- * on failure.  For 'punch_hole' see sane_fdtable_size().
-- */
--struct files_struct *dup_fd(struct files_struct *oldf, struct fd_range *punch_hole)
-+/* A table with one reference and the embedded fdtable, nothing copied yet. */
-+static struct files_struct *alloc_files(gfp_t gfp)
- {
- 	struct files_struct *newf;
--	struct file **old_fds, **new_fds;
--	unsigned int open_files, i;
--	struct fdtable *old_fdt, *new_fdt;
-+	struct fdtable *new_fdt;
+-	init_completion(&core_state->startup);
++	init_completion(&core_state->done);
+ 	core_state->dumper.task = tsk;
+ 	core_state->dumper.next = NULL;
  
--	newf = kmem_cache_alloc(files_cachep, GFP_KERNEL);
-+	newf = kmem_cache_alloc(files_cachep, gfp);
- 	if (!newf)
--		return ERR_PTR(-ENOMEM);
-+		return NULL;
+@@ -531,7 +531,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	if (core_waiters > 0) {
+ 		struct core_thread *ptr;
  
- 	atomic_set(&newf->count, 1);
+-		wait_for_completion_state(&core_state->startup,
++		wait_for_completion_state(&core_state->done,
+ 					  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
+ 		/*
+ 		 * Wait for all the threads to become inactive, so that
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index 584ae88b435e..ed9e2d49d166 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -81,7 +81,8 @@ struct core_thread {
+ struct core_state {
+ 	atomic_t nr_threads;
+ 	struct core_thread dumper;
+-	struct completion startup;
++	/* Completed by the last thread to park. */
++	struct completion done;
+ };
  
-@@ -404,6 +398,26 @@ struct files_struct *dup_fd(struct files_struct *oldf, struct fd_range *punch_ho
- 	new_fdt->full_fds_bits = newf->full_fds_bits_init;
- 	new_fdt->fd = &newf->fd_array[0];
+ /*
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 2c0b1c02920f..b535bc1ed68d 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -441,7 +441,7 @@ static void coredump_task_exit(struct task_struct *tsk,
+ 	 * to core_state->dumper.
+ 	 */
+ 	if (atomic_dec_and_test(&core_state->nr_threads))
+-		complete(&core_state->startup);
++		complete(&core_state->done);
  
-+	return newf;
-+}
-+
-+/*
-+ * Allocate a new descriptor table and copy contents from the passed in
-+ * instance.  Returns a pointer to cloned table on success, ERR_PTR()
-+ * on failure.  For 'punch_hole' see sane_fdtable_size().
-+ */
-+struct files_struct *dup_fd(struct files_struct *oldf, struct fd_range *punch_hole)
-+{
-+	struct files_struct *newf;
-+	struct file **old_fds, **new_fds;
-+	unsigned int open_files, i;
-+	struct fdtable *old_fdt, *new_fdt;
-+
-+	newf = alloc_files(GFP_KERNEL);
-+	if (!newf)
-+		return ERR_PTR(-ENOMEM);
-+	new_fdt = &newf->fdtab;
-+
- 	spin_lock(&oldf->file_lock);
- 	old_fdt = files_fdtable(oldf);
- 	open_files = sane_fdtable_size(old_fdt, punch_hole);
-@@ -523,16 +537,29 @@ void put_files_struct(struct files_struct *files)
- 	}
- }
- 
--void exit_files(struct task_struct *tsk)
-+/* Hand @tsk the table @files, or none, and drop the one it had. */
-+static void switch_files_struct(struct task_struct *tsk,
-+				struct files_struct *files)
- {
--	struct files_struct * files = tsk->files;
-+	struct files_struct *old;
- 
--	if (files) {
--		task_lock(tsk);
--		tsk->files = NULL;
--		task_unlock(tsk);
--		put_files_struct(files);
-+	task_lock(tsk);
-+	old = tsk->files;
-+	if (old) {
-+		if (files)
-+			atomic_inc(&files->count);
-+		tsk->files = files;
- 	}
-+	task_unlock(tsk);
-+	if (old)
-+		put_files_struct(old);
-+}
-+
-+void exit_files(struct task_struct *tsk)
-+{
-+	if (!tsk->files)
-+		return;
-+	switch_files_struct(tsk, NULL);
- }
- 
- struct files_struct init_files = {
+ 	for (;;) {
+ 		set_current_state(TASK_IDLE|TASK_FREEZABLE);
 
 -- 
 2.53.0
