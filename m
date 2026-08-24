@@ -1,92 +1,140 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1654618DB01
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 20:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D37138BF70
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 20:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787603498; cv=none; b=k+co6ZzmkeqOsshueRfgBa8oBlUPgkv6Zobb1yKmVTctSioKKnV/Yndi8KKy/FCHDK67iuJUDMmuu/2IAtLn44qg552O10P1cbLTy9A9rkORboI1AtnbQVIdB3qNx7XR67a0A8wFYXMhUkNYnnl7lhz2rtFmrW/UeopRpzPGVl8=
+	t=1787604433; cv=none; b=kLBKSPOXhIwHheY6Lyonjs09fJpF5xD0ghgf16TH9z91ygVeZRqR/SYgZkGCBvXV93yFGbz3a6aEsMHN1uy+0rSf0viveDYf6XdnC5TgfGpzFgXCKtjedci15m4fZhQfdkf98s/fKT6XTw4HKbkx6Ksasd4uZiVeSPUT9APQQSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787603498; c=relaxed/simple;
-	bh=MRBUFILJKumdsZaEAyAB3kQWWs1X6A2YWH1oV7Eba8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u4sRc3ZS2RmiHR12B9h9Sulv58o9rvtGEpvOxRZ+EV26WmWsLQZ0Q135Y7rVSNuwqs4NX1+76NIddoS6vmRcYKf3WK4GqGqoj6hbotMgANaESXPcMWXPd/m88R8CgSuVTaWRw86ETUflI//0LkvtFeLA+XcJd27ssPPLf7ty2co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pT6pGEy9; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787604433; c=relaxed/simple;
+	bh=FQrmekMWbuiLK5C1J4UYDdC9tNa6lUAtieEGAoZQP2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GnM1dnTxy4rr4bY05YdVAUf64MQICDkj5XyIksssiE4Z1eY74gl5tPeoYKl+z1+ZvxS/r+0hHUqQZpzIwA/qKFbDCZQHyPwSD8a3bkh7yTA1qF1FbSZkeWdkCicxKXfBlWb0Tp42x690WA+6youR4ow1BgZQh7ggQn2AThFYU1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codepure.com; spf=pass smtp.mailfrom=codepure.com; dkim=pass (2048-bit key) header.d=codepure-com.20251104.gappssmtp.com header.i=@codepure-com.20251104.gappssmtp.com header.b=NcrzjApE; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codepure.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codepure.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pT6pGEy9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=SIiLtMs4lFBzyUl7bXYr+rHge8z24z1y02ZKkAxdE34=; b=pT6pGEy9B/KmFPdkcPv/7byZ60
-	q+06SOtrN+FUK0b2YWrWtXJydW6w5AD/8Z++8wR453TI1HAmIkqGhzfqsa1bTK1iR5vVxHH6PyqtC
-	NMWpOHzvHUf7GGvye/Y6vnSAzKDpKbmTcI++7pwp3uCHtVQcJPEsYUForfPe6ZohH4cZ5h2pky95J
-	qJqCiIXNtoC4iydFcAoL2Pkm4AiEMAFvhSaHt790qyviyageiSk+Yn0/5nqQGIREclasCHsTiwGPf
-	UqYJw1ogoHlO+ReEVB7C78pSxkh+Mt1jOFPIKVTqZXNqrZJ0Bx3qqURXtSgGqXMaCbmhFF+EtKoXv
-	h+ZDsMtQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wybKK-00000007lzg-0wG9;
-	Mon, 24 Aug 2026 20:31:28 +0000
-Date: Mon, 24 Aug 2026 21:31:28 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Artem Lytkin <iprintercanon@gmail.com>
-Cc: Ackerley Tng <ackerleytng@google.com>,
-	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Kiryl Shutsemau <kas@kernel.org>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Extend xas_split* to support splitting
- arbitrarily large entries
-Message-ID: <aoyqIBz1EoY0R8qw@casper.infradead.org>
-References: <20251117224701.1279139-1-ackerleytng@google.com>
- <20260824194755.216000-1-iprintercanon@gmail.com>
+	dkim=pass (2048-bit key) header.d=codepure-com.20251104.gappssmtp.com header.i=@codepure-com.20251104.gappssmtp.com header.b="NcrzjApE"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47fecbbafdaso1199224f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 13:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=codepure-com.20251104.gappssmtp.com; s=20251104; t=1787604430; x=1788209230; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=T8B1ZGEXjdJb+smWWefT8+0xp0stSpUkKCGsd/1Ej9I=;
+        b=NcrzjApEEt873RVXllEK62wC4wplxGRo7xAuKVpf7FbMSs9TZ8aBVaHr6oa7/zcxhG
+         4/yYkDNwa47uDM8voLa8PuQVokK1XhKlXZ/bOPg304FJswSlWfHB1JBI99JT3pijxO4l
+         15s2H49moR6pfofK1txixU4qZzCthkLUBwGL0YcoI1oYOiEewiV0Mp21QIOHONuMxtpe
+         atKI8aRTGZoykPDFO53ClzTyHthF54KbWQl7umbO0iZ6lcSnOXbOukubMIeAMLUUhbD+
+         Q/WQDAq/MGw9F2viVkr5ZEfmTR5D70Yyg3wFVoXirBXMdyzFGUIUYKok9L1xt+tA/c+V
+         RkSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787604430; x=1788209230;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=T8B1ZGEXjdJb+smWWefT8+0xp0stSpUkKCGsd/1Ej9I=;
+        b=JKFevJQgHI39LM/KYROqzI4pZdZbOQNPkbunoFkLW8TAdShrWNcEQRmXGN4W/HYcbe
+         bgYr8hxWi3DtbiX5HjU5FxURTfN5izCl0F5aHNl7b7W6+SZEmzgT13rapkoe9S0acfRE
+         lQqPrhuXWQIoeLlTHj+e0eaT+NNhFXUPmyzs8m+O/XrI1WRP2rFJQTL6lePRo0sX+IhX
+         Ey1Q/ZbVL6O8CLHUsZvovJt6xbC0LZheRPQiAQXBk3Km87Ci+9F/OsAqX4yn5QrYKVBF
+         DX0/XxWMPbZCnxbKyKSYMyfDxsz1wz1J6PrLk1thcPHTSc9OQIWiK7beC3DJ7wZLDmGG
+         GZuQ==
+X-Forwarded-Encrypted: i=1; AHgh+RopwDPgRY0CuuhDdjbLQpGcabCQO9O/CzsRkdNFS9dbOigtJ+kmBIX6I8pTysc9+hBoY44xzXL8fUckcBfN@vger.kernel.org
+X-Gm-Message-State: AFuF++koYoS1DF/cwMSOU0apxAlPurOlGQ4wymANKVu3ruARq4t9iRA1
+	yfvz+6eB5Dxwxvxgtx/NVDJf7Zbeoy83uSW/NSRk9sScrm+pN6T5mQMi+2ipNAAwXk4=
+X-Gm-Gg: AR+sD13gJZVmgTyRRvbE/lc/0gCNN5UajLnQWDEIyRcMLGTQo6z70QH2Er62nr0p39O
+	jdxfm6fyUMihgSAFuRZoF9Hju4ROXS37ECgwS9GJZCFf2NW04OKloe9SL1WN1JG7+fvLJvv1YFL
+	Bl+fyC6A7i8Q1WLIF4gAA0WU9IXt8jUIsfyUEPplFPT5/UpzUTsXqMAswG2mP3dCyJTmjWUm+n3
+	ZFHcPeef69pq+itGL9lcPt/FPsbNibs4TXppH1c6uN/67Vyda4IdWErsZEwKwWylnUH9rMaAUCF
+	vG3tFAjofzs8xgdrfpTE5SpXrnwhqIBr6v9Ua9mNhczzEuugj6iynSmp4TDK2i0HHBnIDdSwv4h
+	f9d0GzB3P8CRAQ/4ppl847MZ2FIQ7N2JU7o9ruTonUlnew746+hwlWKjCvIujiAHoAg1c25m5hJ
+	UJiTmR7GJJ8LV8iFKxMh8s+dsu5ntpuk8aGEpS6wncPz7otDQgY0cPf9suAeq36sZr0RMkDQqBS
+	g==
+X-Received: by 2002:a05:6000:718:b0:47f:95e8:2ebf with SMTP id ffacd0b85a97d-482c814589bmr28199685f8f.12.1787604430306;
+        Mon, 24 Aug 2026 13:47:10 -0700 (PDT)
+Received: from pc.tailb940a4.ts.net ([2001:16a2:cf84:7100:a82d:c226:a397:9def])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9b78d6bsm9141873f8f.11.2026.08.24.13.47.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 13:47:09 -0700 (PDT)
+From: Fahad Alharbi <fahad@codepure.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	linux-unionfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	security@kernel.org,
+	Fahad Alharbi <fahad@codepure.com>
+Subject: Re: [PATCH] ovl: fortify ovl_copy_xattr() against underlying layer modifications
+Date: Mon, 24 Aug 2026 23:45:31 +0300
+Message-ID: <20260824204534.1951414-1-fahad@codepure.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAOQ4uxhX_neohTAjZDOT0oSWC-JNiqNWqnfE5YSa7Ln05QPQ-A@mail.gmail.com>
+References: <CAOQ4uxhX_neohTAjZDOT0oSWC-JNiqNWqnfE5YSa7Ln05QPQ-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260824194755.216000-1-iprintercanon@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 24, 2026 at 10:47:55PM +0300, Artem Lytkin wrote:
-> I'm asking because there is a second user for it that has nothing to do
-> with guest_memfd. On arm64 with 64K pages HPAGE_PMD_ORDER is 13 and
-> MAX_XAS_ORDER is 11, so MAX_PAGECACHE_ORDER clamps to 11 and shmem never
-> offers a PMD order. MADV_COLLAPSE on tmpfs returns -EINVAL there, and
-> huge=always hands out order-11 folios at best, so ShmemPmdMapped never
-> leaves zero. Every other page cache file system tops out at order 11 as
-> well, which is 128M and not PMD-mappable. pagemap.h admits it outright:
-> "xas_split_alloc() does not support arbitrary orders. This implies no
-> 512MB THP on ARM64 with 64KB base page size." Kiryl's khugepaged
-> selftest series skips the shmem and file cases altogether for exactly
-> this reason, and on 6 August he confirmed in that thread that uniform
-> splits still go through xas_split_alloc(), so xas_try_split() on its
-> own does not lift the cap.
+TL;DR: your patch fixes it.  On v7.2-rc6, FUSE probe LEAK -> NO LEAK, and the
+unprivileged tmpfs racer goes from 78 of 5,000,000 copy-ups leaking (5 of 5
+boots) to 0 of 5,000,000 (0 of 5 boots).  51 of 51 functional xattr checks
+unchanged.  One behaviour change worth a look: under a racing lower fs about
+6% of copy-ups now fail with EIO.  Tested-by below.
 
-But why would you want it?  With 64KiB pages on arm64, you need 512MiB
-for a PMD-sized page, and that's just too big for current hardware.
-What's your bandwidth?  40GB per DIMM?  With 8 DIMMs, that's an
-aggregate of 320GB bandwidth, so that restricts you to 640 page faults
-per second.  That's too few for almost all workloads.
+Your three earlier points are taken; hence the shape of this mail.
 
-The page allocator also isn't great at doing order-13 allocations.
+Setup: v7.2-rc6 (075b74841bd0), your patch applied clean, both kernels built
+from a byte-identical config so the patch is the only variable.  I checked it
+reached the binary rather than trusting the build: ovl_copy_xattr shrinks from
+0x504 to 0x443 bytes as the grow loop moves into the helper.
 
-Since arm64 does support 2MiB TLBs, even with a 512MiB PMD size, I'm
-not sure there's a huge performance win waiting for you on the other
-side of all this work.
+Results
+-------
 
-IOW is this driven by a real need, or just some completionist thing?
+  test                              base            patched
+  FUSE probe (hostile lower)        LEAK            NO LEAK
+  unprivileged tmpfs racer          5/5 boots       0/5 boots
+                                    78 of 5e6       0 of 5e6
+  functional, 51 xattr checks       51 of 51        51 of 51
+  termination probe                 0.100 s         0.101 s, EIO
 
-> That case needs two new levels of nodes rather than one: 130 nodes,
-> 73 KiB, a long way from the 1G to 4K split Matthew was worried about.
-> Raising MAX_XAS_ORDER to 3 * XA_CHUNK_SHIFT - 1 covers it, and
-> MAX_PAGECACHE_ORDER stays min()'d with HPAGE_PMD_ORDER, so no page cache
-> caller can ask for the order-17 worst case that cap admits.
+Before, the upper file receives 6b6b..6ba5; after, the real value.
 
-130 nodes is still a lot to ask the slab allocator for!  With 64KiB
-pages it's not too bad -- you get 112 per page.  But still ...
+The EIO path works as designed: against a lower fs that shrinks the xattr
+between the two getxattr calls, the copy-up now returns -EIO in 0.101 s
+instead of copying out the unfilled buffer.
 
+The behaviour change
+--------------------
+
+Under the racer, on 1,000,000 copy-ups per boot:
+
+  base      ok=1000000  other=0
+  patched   ok=939548   other=60452  (errno 5)
+
+So ~6% of copy-ups now fail rather than silently copying wrong bytes.  I read
+overlayfs.rst as saying that is exactly right -- modifying a lower layer of a
+mounted overlay is undefined behaviour, and EIO is the defined detection --
+but it is a real, unprivileged-triggerable failure rate for anything doing
+copy-up over a changing lower fs, so I would rather you saw the number.
+
+EAGAIN=0 on every patched boot.  Copy-up latency max 44-48 ms, nothing over
+100 ms.  No BUG, WARNING, stall or oops attributable to the patch; the one
+"Attempted to kill init!" trace in some logs is my harness shutting down and
+appears on both kernels.
+
+Two limits: these builds are CONFIG_SLUB_DEBUG_ON=y, so the leaked bytes are
+poison -- proof the memory was never written, but no kernel pointers in this
+run; those came from a separate non-debug build.  And the racer is a
+size-flapping tmpfs lower, not a general workload.
+
+Tested-by: Fahad Alharbi <fahad@codepure.com>
+
+Reproducers and full logs on request.
+
+Fahad
