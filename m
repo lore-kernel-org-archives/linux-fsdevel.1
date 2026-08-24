@@ -1,55 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DAC367B65;
-	Mon, 24 Aug 2026 15:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D314A36EAB8
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 15:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583818; cv=none; b=rJegAFUQTDke+xiex4pIGpZN4cUVqPQs0yiQTzYrSQSc/6kYLSqgFweaxCoK9Tqp1mNdVolIrWYuPk/z8af7hAlTXM+UTIu3JQ+EjiKeOeUisDANnELuF0rtP2yrroeuwK5GLy0EsmfA4lLWHYdi9SIYn5gHref2+GhuECOEYvM=
+	t=1787583826; cv=none; b=buv8IY69AoznS8r+WnfkDtv7u0C8TlIAuMevA5qhlJ0o2hzKwQso5FyAtfPwnahjPnQnu3FdLkz0u5jo+iYGoZFcmKRCqdUUkzeXtVa7c7jyLY1UbUzuiW+mwXCL8Tu9M14ODtzIcnF+vVXhbOu3GM/DtgJAX/TqdeYfFJAtcC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583818; c=relaxed/simple;
-	bh=nCOLP+pUnNDn8FZg6i8N2Ia0JL+HQa7bBLFp4M6nYSQ=;
+	s=arc-20240116; t=1787583826; c=relaxed/simple;
+	bh=+btdl5rvtiJzh8XPj4RG86SBosoRWA9bFHjoye2hLcY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lHshu/j5wC/p4ymisGiV28VZV9Pu7wxd5MrMtCAMGL3znInC8GYRuq94Dv7kj9uNBL+azLmfI4ZKw3Zys0MIxlUUssti3lZomSo8rThTbkd66+7KNiKSuW4lYd/1Lh9e2eulZx9dsui6+zCNpdMblLnLH2kAQ+aVUe66X5/TxZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KI0vHaFK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZFzzJ6dCBTM645L+X3cNU8L2qB4kW7Wy0DcahTENXmdSwURwH6n/YEhY2iG91dkjVWBKPkrKhZHr1UIP4tWUNgVFqTOJ4E52ZfYDysRihen8qxfoHLBIXWPWkDimvOpDeHyuAPds3G1YhWrfzdISjZV2vEjJHdnQ3VnBdnjP//g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HQt/e6wT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KI0vHaFK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F33F81F000E9;
-	Mon, 24 Aug 2026 15:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787583816;
-	bh=1N4Dgg6M9ZUavS0An6jb6rtj/L03r3LLP7KAMFYdsrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KI0vHaFKs2iuJuLBxJTIK9hzpbfb70XWVZdAMV9ZNmSB1s5dX3EODo6iK2rwMvff3
-	 o1zo4uNkOUy09uxeY227ljEze1a3rJTOdghr5kYtStFuCASrN68C5wXq15sm38+bAT
-	 Ws7tjHRZmtjHfxUXLJR7Yuwo/17LwBS6i/9QuCr3b4J8f6QnJnCtXixlT8ArO6Iz1s
-	 Om22oh+E7kYUjI76NqdsR4QjPcwMNRS1j/ASCgkr8ipXbaMycJ7ls7Hc1vaozvBhem
-	 V9GLPj4tNytQrv1bFOrJFpWnbWNOhms6MCk2QEG6JzFO7PgXOtlsfOddDdj7QhxkAg
-	 YQKYaFLUEoNJg==
-Date: Mon, 24 Aug 2026 16:03:28 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] userfaultfd: constify VMA parameter of
- userfaultfd_*() helpers
-Message-ID: <aoxcY5n99-Pzlw_b@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HQt/e6wT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787583823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aZ3erjJduSWntjWxjPCCJpediljarFwjV+7IHAqxu6o=;
+	b=HQt/e6wTTzRtLzTW9u1R56GrxJkJz6eWdACIar9VVQnzC2YWG6MEfoqKHxjKMlezGS0Rd+
+	7aFo2mHPAoHiwxsGiZKRg8Li5qzKT/Pf77OTTNZTt0bhpocG3KDVjkrnUVY6jq+binJBel
+	go/4noKeSBRbCv0/pzTTOKiQn5rg/QE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-673-2cWygwANNtm8DIgIiEXztA-1; Mon,
+ 24 Aug 2026 11:03:38 -0400
+X-MC-Unique: 2cWygwANNtm8DIgIiEXztA-1
+X-Mimecast-MFC-AGG-ID: 2cWygwANNtm8DIgIiEXztA_1787583816
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B3BD1944F01;
+	Mon, 24 Aug 2026 15:03:36 +0000 (UTC)
+Received: from fedora (unknown [10.44.32.9])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 4B0C630002ED;
+	Mon, 24 Aug 2026 15:03:31 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon, 24 Aug 2026 17:03:36 +0200 (CEST)
+Date: Mon, 24 Aug 2026 17:03:30 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Peter Zijlstra <peterz@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Steve French <sfrench@samba.org>, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-cifs@vger.kernel.org, linux-mm@kvack.org,
+	stable@vger.kernel.org, Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [PATCH v2 0/5] Stop TIF_NOTIFY_SIGNAL from interrupting work
+ that can't be restarted
+Message-ID: <aoxdQmFMK7pjH9qk@redhat.com>
+References: <20260824-work-tif_notify_signal-v2-0-6609e42b3157@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,104 +63,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
+In-Reply-To: <20260824-work-tif_notify_signal-v2-0-6609e42b3157@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Sun, Aug 23, 2026 at 03:17:39PM +0300, Mike Rapoport (Microsoft) wrote:
-> userfaultfd_{missing,wp,minor,rwp}() and userfaultfd_protected() only
-> read the VMA.
+On 08/24, Christian Brauner wrote:
 >
-> Make their vma parameter const.
->
-> No functional change.
->
-> Assisted-by: copilot:claude-opus-5
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Christian Brauner (5):
+>       signal: allow taks to temporarily block TIF_NOTIFY_SIGNAL
+>       coredump: prevent TIF_NOTIFY_SIGNAL from interrupting coredumps
+>       selftests/coredump: test that TIF_NOTIFY_SIGNAL doesn't truncate a coredump
+>       smb: prevent TIF_NOTIFY_SIGNAL from interrupting
+>       pid_namespace: prevent TIF_NOTIFY_SIGNAL from interrupting the reaper
 
-LGTM and compiles GTM so:
+For 1-2 and 4-5 feel free to add
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-> ---
->  include/linux/userfaultfd_k.h | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index a4351cffc60c..3396d270b159 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -204,22 +204,22 @@ static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
->  					VMA_UFFD_MINOR));
->  }
->
-> -static inline bool userfaultfd_missing(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
->  }
->
-> -static inline bool userfaultfd_wp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_WP);
->  }
->
-> -static inline bool userfaultfd_minor(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
->  }
->
-> -static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
->  {
->  	/*
->  	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
-> @@ -230,7 +230,7 @@ static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
->  	return vma_test_single_mask(vma, VMA_UFFD_RWP);
->  }
->
-> -static inline bool userfaultfd_protected(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
->  {
->  	return userfaultfd_wp(vma) || userfaultfd_rwp(vma);
->  }
-> @@ -353,27 +353,27 @@ static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
->  	return true;
->  }
->
-> -static inline bool userfaultfd_missing(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_wp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_minor(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_protected(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> --
-> 2.53.0
->
+-------------------------------------------------------------------------------
+sigprocmask(SIG_BLOCK) in fs/smb/client/transport.c:__smb_send_rqst() looks
+a bit suspicious. Even if we forget about TIF_NOTIFY_SIGNAL, sigprocmask()
+doesn't necessarily clear TIF_SIGPENDING, nor it can protect from (say)
+do_signal_stop()->signal_wake_up() from a sub-thread. But this is offtopic.
 
---
-Cheers, Lorenzo
+Oleg.
+
