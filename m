@@ -1,116 +1,159 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6087729B77E;
-	Mon, 24 Aug 2026 20:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787604464; cv=none; b=nvHliXv+jZxVYJuzK1gE9YUU4ORgbEBBX0m68gQpei4Oa+RRuJJeuidYVfqt/YVMlC5Sd5On6EQznGfEcOXNS5je+tCSgBlGs/95IJSqpqyYTejMHB5kTQcYBO0bKm8hA7ahP2/2jg/XuS4vuB3aOgpb5j4bqRUa83RSgV+KjRg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787604464; c=relaxed/simple;
-	bh=yOXThapvNvCgLifu01NItCV+B87skvWglNWX1ExEEZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cjnOVhVy3B0IawA7DeZs+AJQitzQWM5cqTSro6A1kxCGe0xyN+mpDpLmGMgyRd7h89sOGVm7gUxIq+ltqP2Pk8y0eUcYXaMmheawgf+WMq7GMr3/JKjMTXmi3lZgSYWpmMWg3dDKDv72hInFc2cmy2gi62xFLgZ41xze5s1IIMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r9LfvOkj; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA14384CD1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 20:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787604591; cv=pass; b=mqllKXWDmu8QtHe7AerqETnDYR9wl26wQ1ws8NEnjdp+66+ZkZK98KueEm6SrODuvN1airNAEHoNyED1wOnO3UEYPKOOAlcZGoW3Wpuw4ymc8h5HFwyEIG7mLOFegtf5XPBHsNli+EqMuosgxZTIu2eMfWOiCWjS0KkXL8pD88o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787604591; c=relaxed/simple;
+	bh=8MTomgvndci6QL0zOaAHPeSzdW934vYd1zdRdj8UROQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b5hIrkDnqyH0qtf30f9kwo0eyormJ849T8GBNNwqG2dIEKoMA4Kf3rTPUX8QjQBhB+E57bzCLhDyxioEUgJrDHed0TvlwTe7wD6kewwOJ4PROA6I940xSJVgN8qCxDoAoSCM0EddbC4ZOxDZ9trj81dyW+NzOrsQVne9FDzRvKU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U91E2Egn; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r9LfvOkj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=niEZYxfNIOD72gAedVquSAPl0GL96aOUAIsjWVWnyrs=; b=r9LfvOkjge2amjsBvyE5gj6qMI
-	uYvVlQ3b0KYGngAv8XESPmmtwmX5YL31/ZZL/aCv3YA8HiM47NGP857BeCRMrrjzps/Ne9d2cn52v
-	zqL2zGvjLLk1nv9syOdx3pvPSZ8lB4ZZOVBgqTtBiLjoK7MD80xjfIWR87mDrmvJgbQIzO6B2iuYH
-	wqfSCFzLZJjECzSnGHLMWVk/RyHGkAgVmz+igPSrxnkQPu9UxG3bW9HhbNxyefBXIscvW+/Ut9PSd
-	iZrPpiftS7pWBxDvgsL/MprJcvS05WbioAv/k/Wf8gVfSs67WWjwBEeQoBx+YaSMwlZC9Q0pIrjfj
-	dHmqFNDQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wybZv-00000007nCw-0Kvv;
-	Mon, 24 Aug 2026 20:47:35 +0000
-Date: Mon, 24 Aug 2026 21:47:34 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
-	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
-Subject: Re: [PATCH 2/7] fuse: Use filemap_invalidate_pages()
-Message-ID: <aoyt5pL7mXYwSqsG@casper.infradead.org>
-References: <20260820193343.3852967-1-willy@infradead.org>
- <20260820193343.3852967-3-willy@infradead.org>
- <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
- <aoxHOSC9kTPbKeNq@casper.infradead.org>
- <CAJfpegv3Ak+qNLb=fTSCSz7-taQ3Ui-Hkmqgn4PaGPe=CR4cbQ@mail.gmail.com>
- <aoyKxvdQdeJQfPHj@casper.infradead.org>
- <CAJfpegtgenUaudDcvecJuV2_WkkVw=gdcB0Eqg=UFKPMZP1uKQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U91E2Egn"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c01c79467so87691cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 13:49:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787604589; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gWSiPWgTjRtXnZG3wmLQZ+W9j8zEl31/Av1BB4lYcbzP/skQmpXHa9lkZ/OS96JgNr
+         1jZ2NFFcCm5379WuLv/ZBq4vQEiuMlyB44VJvM2Jcl2w1FLHxdtJlhgUx4ldZjmC20+J
+         O49PuQNJZT9zYyGybz0id1Xc4GJuZQfCLDaXbidshvVO4LLagTPol+Ae+lEcUVMRHBIq
+         CW8DwifXrLnBkcWY7NeqqlvRdJ0PztGKEg6w98PH4v93fZcnYsUcyEhs+FXArBuB4AFQ
+         qIZ95JW/2YLI7qJ32otjy7G+yXoV3C373ey3aocZ4GliOkjzKNJG6Ca4AlcakEt3xuXw
+         JtMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
+        fh=WPnZp3kEn5CqbZgbvdtVUP0zx6LWE6P382XFKl9BK3o=;
+        b=Hcn/MB7purr2NO7hZg2IStx3k+/EAoyS76FyPEPJPYxc+KEYbEOVeMzNi+7C1MsWk/
+         TGz0FhoSG3ZaDXwOhfL955Czp1nPxElY5JRgUDOLndVJmGCpSXURFQYTH97kDRsTsxBW
+         OExWYngsgzNfq8ksJiFZijqoJMUVfqkH5fQKOAvvdo7ThCDqo2okNKqpb3HiM6fKsY/L
+         QagK88kKnQy+6xXK5K+b7XnIIRA6Kz1apXMLhOMrKLyZxp/Oj0shbkNWtHbZurvGwSfj
+         HAHtjmP3O6GJxvuwsVy7SNdQQyWw3IYLa9yZqvpUhDtFhYLzxvf7sirczxSiTnr3MiOR
+         gAuQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787604589; x=1788209389; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
+        b=U91E2EgnTOWq+oBcEShuBHdAA+asYkQFCr1Dz3NPt0y20dyqfvEUluMVnyfEVlStwV
+         4J1jwWWOxoTLEBWJv6x0gYU5E5DMw3AJjPZA5Z5EJhUpJ7/Jguwwswo6xT9FOUFg/kjn
+         T2B8Ic7oM1HhuJOgYWdgf3s2XOYYT71MCixIJyCleZdF87evh8ltez284txOS4acSJ+b
+         Iq+ygtGdYNtA3OgBqE2R9YGXh6YDMy3aF+RPX+wSLZHAWJTBezMBPSSycOXwZCX29woN
+         HU9Ct4Jarvyd28DPBLsHSJ8e6STzlU7VzhKEAO3Wz5GKvCmU4aE/aZGPOja8Bf5381vF
+         Mh5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787604589; x=1788209389;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
+        b=VPc9BQKmtwrQkf1/h5/bVfFJcFQwWGGHEW/Y2qMYeMFxYhqKJU5EUDH5DhGcpYbzxe
+         9FGex1P+ykR7UnJgG2iVROJ0sZI51DNvONp963SXtwj+PVH3wkbUCHO7v3YFnAYIO/We
+         c7GxWZkAfuPO3M7f2Vr2OgDMu3vMx6Lq3lIdxA7GYj3yaFKmlyLMyLMCXYJQ5bvuhyev
+         3MhEMNR0OKHPvN40JhhT26wLWs0IP+85CJrhJVsfygxI2UY0bgwkH9igUJOjN1HYQQK1
+         Vw1lVSyf0TAYuKVqON5QniAmReTNfbO3XfD38/VQ+OIE/8cu7YTkRBHqeZLfEKDP6bZS
+         moBw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2PmddmfSCgVrhjoN1S9rbRF50xH9CjA+/pvBMPpcnZ65PPrXRjwLtMtZrcuZRdUGjEquuu2K6Oy3AO4na@vger.kernel.org
+X-Gm-Message-State: AFuF++k8PQcJ6ewMkPIl+gzj30HxDPotUoAuFqOiKzHsfVgILhDWd5dG
+	5us2Ya7SxNCJCQCxwqO02PUNPUHJqC2E/ehGYRtpV885Xe23Td6X4Jb4Fb40RAQIRQEYEFwmORF
+	j40jbKW/M7NaETkVBF9tYoVms5mPOSMWnhZukIy75
+X-Gm-Gg: AR+sD11V4mIbWsAugxOkpYWP2+m69ICXaKy3BBk1c2j4i78NJPKdIPB3Axop9oPdjId
+	M+nVNPNPtIlkdYDuwj55wJ4NlcmE4uakL7nBnBVkY3oIVta92kpisMcdB0aH4ZqRRzPgM8yHYVO
+	KOe6Qb/JpQtdbsNbM3vlolBo7UjeKzmgH/A5kz/s/Gr5Kpfqrv2ueuLYXsECVCJbf1NUSb3FZCx
+	j80tO/jwszXrRLF1Im7Xw6Smsl3viG0R2pOdxaNxOvgiUOZiBjSvNYK+XEQ6rI+cNDqgA6lt/D/
+	HyqY6zTGjzkHxLV1UAXhA0ZfGZhFEdcw4n2MWRsi3L4=
+X-Received: by 2002:a05:622a:22a8:b0:517:5e32:2d14 with SMTP id
+ d75a77b69052e-52e308039c6mr3439151cf.10.1787604588512; Mon, 24 Aug 2026
+ 13:49:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegtgenUaudDcvecJuV2_WkkVw=gdcB0Eqg=UFKPMZP1uKQ@mail.gmail.com>
+References: <20260808200312.6326-1-kmehltretter@gmail.com>
+In-Reply-To: <20260808200312.6326-1-kmehltretter@gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 24 Aug 2026 13:49:37 -0700
+X-Gm-Features: AcwNN1U3QleQBnvzJTMW5EoRgp4utl8IsEYk7xBRzJCJAaM1F0xAu0phz7nBY1A
+Message-ID: <CAJuCfpGTneUdh6xvZoeds0xt0Y=dc_xgOCninwqSv=HzVnPvoQ@mail.gmail.com>
+Subject: Re: [PATCH v2] selftests/proc: make proc-maps-race work with READ_IMPLIES_EXEC
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, Alexey Dobriyan <adobriyan@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 24, 2026 at 09:33:03PM +0200, Miklos Szeredi wrote:
-> On Mon, 24 Aug 2026 at 20:17, Matthew Wilcox <willy@infradead.org> wrote:
-> 
-> > Before:
-> >
-> > fuse_open()
-> >         invalidate_inode_pages2()
-> >                 folio_lock()
-> >                 folio_unmap_invalidate()
-> >                         folio_launder()
-> >                 folio_unlock()
-> >
-> > After:
-> >
-> > fuse_open()
-> >         filemap_invalidate_pages()
-> >                 filemap_write_and_wait_range()
-> >                 invalidate_inode_pages2_range()
-> >                         folio_lock()
-> >                         folio_unmap_invalidate()
-> >                                 folio_test_dirty()
-> >                         folio_unlock()
-> >
-> > so what's the serialisation that the filesystem can perform in the first
-> > case that it can't perform in the second case?
-> 
-> In the second case filemap_write_and_wait_range() won't write protect
-> or unmap the page, so it may become dirty after the writeback.
+On Sat, Aug 8, 2026 at 1:04=E2=80=AFPM Karl Mehltretter <kmehltretter@gmail=
+.com> wrote:
+>
+> test_maps_tearing_from_split times out when READ_IMPLIES_EXEC is set.
+> This happens by default on pre-ARMv6 CPUs, which lack no-execute support.
+>
+> split_vma() re-maps the first page with mod_info->prot | PROT_EXEC to
+> make it differ from its neighbours.  With READ_IMPLIES_EXEC the original
+> mapping is already executable, so no split occurs and the test hangs
+> waiting for the modifier child.
+>
+> Use PROT_NONE for the split mapping, which always differs from its
+> readable neighbours.
+>
+> Fixes: beb69e817246 ("selftests/proc: add /proc/pid/maps tearing from vma=
+ split test")
+> Assisted-by: Codex:gpt-5.6-terra
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-But that can also happen in the first case.  page_mkwrite() can be called
-immediately after the folio is unlocked, for example.  Or the folio can
-be evicted and replaced with a different folio which is then dirtied.
+Sorry for missing both versions.
 
-I've widened the race window, no doubt.  But it was always there.
-If you want to prevent something like that from happening, you need
-to be holding the invalidate_lock across the call to
-filemap_invalidate_folio() and whatever other thing you're doing that
-needs those pages clean.
+Acked-by: Suren Baghdasaryan <surenb@google.com>
 
-> That can't happen in the first case, since the page is written and
-> unmapped while under page lock.
-> 
-> > or alternatively, what's the serialisation that would be useful by
-> > adding a lock/unlock of the invalidate_lock inside
-> > filemap_invalidate_pages()?
-> 
-> Nothing.
-> 
-> What would prevent this if we'd have writeback + unmap + writeback.
-
-We could do that -- but it won't solve the problem because the pages
-could still be redirtied after the second writeback.
+> ---
+> Tested on:
+> - QEMU versatilepb/ARM926EJ-S: maps and smaps fail before, pass after
+> - QEMU realview-eb-mpcore/ARM11MPCore: maps and smaps pass before and aft=
+er
+>
+> Changes since v1:
+> - v1 went out without any recipients in To: and received no reply in 19 d=
+ays.
+> - No functional change. reworked the commit message.
+>
+> v1: https://lore.kernel.org/all/20260720061835.6290-1-kmehltretter@gmail.=
+com/
+>
+>  tools/testing/selftests/proc/proc-maps-race.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testin=
+g/selftests/proc/proc-maps-race.c
+> index 1026d8c400e1..415eccb70468 100644
+> --- a/tools/testing/selftests/proc/proc-maps-race.c
+> +++ b/tools/testing/selftests/proc/proc-maps-race.c
+> @@ -490,7 +490,8 @@ static bool query_addr_at(int maps_fd, void *addr,
+>
+>  static inline bool split_vma(FIXTURE_DATA(proc_maps_race) *self)
+>  {
+> -       return mmap(self->mod_info->addr, self->page_size, self->mod_info=
+->prot | PROT_EXEC,
+> +       /* PROT_NONE differs from both readable neighbors. */
+> +       return mmap(self->mod_info->addr, self->page_size, PROT_NONE,
+>                     MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0) !=3D =
+MAP_FAILED;
+>  }
+>
+> --
+> 2.53.0
