@@ -1,192 +1,433 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617DF239E60;
-	Mon, 24 Aug 2026 14:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292E335FF5B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 15:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583575; cv=none; b=QN8Xad0zwSuQebgy9AuoIUJxc7aGJY5tljVchDxoPiMY5VRpaNswST6zMcGRTN1KLdtk86hioF+vxle77gwSSOZSK4cXT1pV6WH6Vr93SbwU/HNJqWaTyQfdi607lqxTUY+Zevp6HMFNLu8+99c+TROUhA8J45dQwXbpC6hAsQI=
+	t=1787583727; cv=none; b=CRE4qPKIxnEV+WDKNVkWWDdMPby+INXLL6mmLUgYaaPM48pCcC65nSUP8Q9WixKyQGMAApK4o5fGu6als0TaRbpDL4+FmY79xRTDbUUHxAfbJSoBvTYOCuWtKJqKLXGkApHN57DWq1ya3f00+vhBbgpylJaYMECfYxIWyhe48go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583575; c=relaxed/simple;
-	bh=2xbYWWA2A5lp9vXQmXIPtL6kb0IJD+kCExBxK7q+77Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/Wm0OvBXvXDvhPxD3C33TIThq64ows/UlPiW5jPk4PBrHj8ryZkmkUN724es6kZf7P0RzEYdnzHkSPt0yMvcXAL5Vz7aFZBzpaFCy/RNrqGCfzW5rfgf0D6/GkAWwFKY4zvjjU4OFtWMLosWPhcPAdWsD3AhRwjAy3HPp2KK/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGFVkLHL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787583727; c=relaxed/simple;
+	bh=N0G8QjNCNGIBQnyNuPE6mZGl7LBf74gy5UdDDCMl9hw=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=HkJsgB6VXfZYCCliD0SYTXxJ2K3Td/Vh/3CM2KsUTdU7UoaaowHbKZb1hfIVj8+Vl6wtzM5a0Jgcqnj2az2g8ggQoOBYIMJniGogFO8rPKGxyFy+S3f8YTB2c2QUZhy2A07tPq2vMQZKpJDPzYETIuyLe165C+twHfy4KT76Jpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=In0Hpv7T; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGFVkLHL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2CC1F000E9;
-	Mon, 24 Aug 2026 14:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787583574;
-	bh=AccNNgKH6mpdiOZn+TQ6yi+YTRFl1ckABXXlP5qNp0s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WGFVkLHLt8glwJyNyzpbegLiEczgB3KRRpoxrsKbnYBufxLJsdfqDhjhdP7T16Tx5
-	 bqxKzSNDAJCPhN/X/3zf+HiOu+g0MnTXFumI1OQd9LYWSCC54AQS8bvMlvM7Q7DEdB
-	 F6+Y9XiTmfKwR+wo5sGnM0dgZnSkFBQxie7k+L7q0HtnN0kovChN6zZm2ic4jGevda
-	 Hkd+WMr6ZxnA/yTIZcDJL8LfULRtlUE+8UlWLZyr4gIuAu5E7JTeg9qNc7tLpPrH+L
-	 z5FuXi7SjxSz37zwDb/a62Uf6rEkWJgcBNM1Kin4Iwuk7WW72JJ2lAu6X7xGJJIEi9
-	 2kVhcK32BgG3Q==
-Date: Mon, 24 Aug 2026 15:59:26 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] mm/gup: move gup_can_follow_protnone() to gup.c
-Message-ID: <aoxcRstdSy99lNEA@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="In0Hpv7T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787583722;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nO//czvvztOuNSNWZRG8kBY0zaU5xWtjhN7ZKW5YMbI=;
+	b=In0Hpv7THhHRHwZCIWpX09DzILyF+UfsphOpE3lI8ggk3tnN5uTgJSAJWKMdKtOzxBavyg
+	4qDIwdR2CfoEJ7r9oQ0LCOp9DPvugO5b8s3q/jYdmeHPB2yK/VZSrMI5GyqlqgjyKOOr3U
+	/FIHAxGtW8HSGIyiqfwlkerFJjQqP+A=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-690-qRaPtRW7NxmtGTjHvtDIvQ-1; Mon,
+ 24 Aug 2026 11:01:58 -0400
+X-MC-Unique: qRaPtRW7NxmtGTjHvtDIvQ-1
+X-Mimecast-MFC-AGG-ID: qRaPtRW7NxmtGTjHvtDIvQ_1787583713
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 84A4A197753E;
+	Mon, 24 Aug 2026 15:01:52 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.15])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 68B031955F0F;
+	Mon, 24 Aug 2026 15:01:46 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20260824144130.759997-1-dhowells@redhat.com>
+References: <20260824144130.759997-1-dhowells@redhat.com>
+To: Paulo Alcantara <pc@manguebit.org>
+Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
+    Matthew Wilcox <willy@infradead.org>,
+    Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+    Leon Romanovsky <leon@kernel.org>,
+    Namjae Jeon <linkinjeon@kernel.org>,
+    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    Stefan Metzmacher <metze@samba.org>,
+    Eric Van Hensbergen <ericvh@kernel.org>,
+    Dominique Martinet <asmadeus@codewreck.org>,
+    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v10 36/35] cachefiles: Preset the state xattr when creating a new file
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <761011.1787583705.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Aug 2026 16:01:45 +0100
+Message-ID: <761012.1787583705@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Sun, Aug 23, 2026 at 03:17:38PM +0300, Mike Rapoport (Microsoft) wrote:
-> gup_can_follow_protnone() is defined in include/linux/mm.h but only used
-> by mm/gup.c.
->
-> First, there is no reason to have it in already gigantic header.
->
-> Next, the upcoming refactoring of userfaultfd flags will make
-> gup_can_follow_protnone() depend on userfaultfd_k.h which would cause a
-> cyclic header dependency.
->
-> Move gup_can_follow_protnone() to mm/gup.c.
->
-> No functional change.
->
-> Assisted-by: copilot:claude-opus-5
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+    =
 
-LGTM so:
+With a really small cache, cachefiles is likely to see a lot of writes
+hitting ENOSPC - and this can include setxattr that sets the state xattr o=
+n
+a cachefile - but we don't really want to successfully fill a cache file
+only to have to scrap it because we can't set the xattr.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Instead, preset the xattr when we create the tmpfile we're going to use,
+and scrap the file at that point if we get ENOSPC.  Only if setxattr
+succeeds do we allow data to be written to the file.
 
-> ---
->  include/linux/mm.h | 38 --------------------------------------
->  mm/gup.c           | 38 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+), 38 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 0829e0d3b2d1..4daf9cd6ae8e 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -4860,44 +4860,6 @@ static inline int vm_fault_to_errno(vm_fault_t vm_fault, int foll_flags)
->  	return 0;
->  }
->
-> -/*
-> - * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
-> - * a (NUMA hinting or userfaultfd RWP) fault is required.
-> - */
-> -static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
-> -					   unsigned int flags)
-> -{
-> -	/*
-> -	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
-> -	 * NUMA hinting. GUP must always take a fault so the access is
-> -	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
-> -	 *
-> -	 * Only do so while the VMA is accessible. If it has been made
-> -	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
-> -	 * below: forcing a fault there would loop, as handle_mm_fault() makes
-> -	 * no progress on protnone in an inaccessible VMA, and the access is
-> -	 * denied regardless of RWP anyway.
-> -	 */
-> -	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
-> -		return false;
-> -
-> -	/*
-> -	 * If callers don't want to honor NUMA hinting faults, no need to
-> -	 * determine if we would actually have to trigger a NUMA hinting fault.
-> -	 */
-> -	if (!(flags & FOLL_HONOR_NUMA_FAULT))
-> -		return true;
-> -
-> -	/*
-> -	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
-> -	 *
-> -	 * Requiring a fault here even for inaccessible VMAs would mean that
-> -	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
-> -	 * refuses to process NUMA hinting faults in inaccessible VMAs.
-> -	 */
-> -	return !vma_is_accessible(vma);
-> -}
-> -
->  typedef int (*pte_fn_t)(pte_t *pte, unsigned long addr, void *data);
->  extern int apply_to_page_range(struct mm_struct *mm, unsigned long address,
->  			       unsigned long size, pte_fn_t fn, void *data);
-> diff --git a/mm/gup.c b/mm/gup.c
-> index eb898ea1ee22..500e2aa99e48 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -633,6 +633,44 @@ static struct page *no_page_table(struct vm_area_struct *vma,
->  	return NULL;
->  }
->
-> +/*
-> + * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
-> + * a (NUMA hinting or userfaultfd RWP) fault is required.
-> + */
-> +static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
-> +					   unsigned int flags)
-> +{
-> +	/*
-> +	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
-> +	 * NUMA hinting. GUP must always take a fault so the access is
-> +	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
-> +	 *
-> +	 * Only do so while the VMA is accessible. If it has been made
-> +	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
-> +	 * below: forcing a fault there would loop, as handle_mm_fault() makes
-> +	 * no progress on protnone in an inaccessible VMA, and the access is
-> +	 * denied regardless of RWP anyway.
-> +	 */
-> +	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
-> +		return false;
-> +
-> +	/*
-> +	 * If callers don't want to honor NUMA hinting faults, no need to
-> +	 * determine if we would actually have to trigger a NUMA hinting fault.
-> +	 */
-> +	if (!(flags & FOLL_HONOR_NUMA_FAULT))
-> +		return true;
-> +
-> +	/*
-> +	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
-> +	 *
-> +	 * Requiring a fault here even for inaccessible VMAs would mean that
-> +	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
-> +	 * refuses to process NUMA hinting faults in inaccessible VMAs.
-> +	 */
-> +	return !vma_is_accessible(vma);
-> +}
-> +
->  #ifdef CONFIG_PGTABLE_HAS_HUGE_LEAVES
->  /* FOLL_FORCE can write to even unwritable PUDs in COW mappings. */
->  static inline bool can_follow_write_pud(pud_t pud, struct page *page,
->
-> --
-> 2.53.0
->
+Note that there is a potential performance loss in that writes to the cach=
+e
+have to be delayed until this is completed - but we do the tmpfile/setxatt=
+r
+in parallel, starting when the file is opened and only have to wait once
+writeback occurs.
 
---
-Cheers, Lorenzo
+Further, a new tracepoint, cachefiles_no_space, has been added to log ENOS=
+PC
+events, along with a couple of subreq traces to log failure detection in
+netfslib.
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Marc Dionne <marc.dionne@auristor.com>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/cachefiles/internal.h          |    1 =
+
+ fs/cachefiles/io.c                |   23 ++++++++++----
+ fs/cachefiles/namei.c             |   15 ++++++++-
+ fs/cachefiles/xattr.c             |   59 ++++++++++++++++++++++++++++++++=
++++++-
+ include/trace/events/cachefiles.h |   30 ++++++++++++++++++-
+ include/trace/events/netfs.h      |    2 +
+ 6 files changed, 120 insertions(+), 10 deletions(-)
+
+diff --git a/fs/cachefiles/internal.h b/fs/cachefiles/internal.h
+index b2605111fd56..664be64ab538 100644
+--- a/fs/cachefiles/internal.h
++++ b/fs/cachefiles/internal.h
+@@ -283,6 +283,7 @@ void cachefiles_withdraw_volume(struct cachefiles_volu=
+me *volume);
+ /*
+  * xattr.c
+  */
++int cachefiles_preset_object_xattr(struct cachefiles_object *object, stru=
+ct file *file);
+ extern int cachefiles_set_object_xattr(struct cachefiles_object *object);
+ extern int cachefiles_check_auxdata(struct cachefiles_object *object,
+ 				    struct file *file);
+diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
+index a1580385d5fb..73c8ba01a9e2 100644
+--- a/fs/cachefiles/io.c
++++ b/fs/cachefiles/io.c
+@@ -672,10 +672,14 @@ int __cachefiles_prepare_write(struct cachefiles_obj=
+ect *object,
+ 	 * space, we need to see if it's fully allocated.  If it's not, we may
+ 	 * want to cull it.
+ 	 */
+-	if (cachefiles_has_space(cache, 0, *_len / cache->bsize,
+-				 cachefiles_has_space_check) =3D=3D 0)
++	ret =3D cachefiles_has_space(cache, 0, *_len / cache->bsize,
++				   cachefiles_has_space_check);
++	if (ret =3D=3D 0)
+ 		return 0; /* Enough space to simply overwrite the whole block */
+ =
+
++	if (ret =3D=3D -ENOBUFS)
++		trace_cachefiles_no_space(object, cachefiles_trace_write_nospace_2);
++
+ 	pos =3D cachefiles_inject_read_error();
+ 	if (pos =3D=3D 0)
+ 		pos =3D vfs_llseek(file, start, SEEK_HOLE);
+@@ -704,8 +708,11 @@ int __cachefiles_prepare_write(struct cachefiles_obje=
+ct *object,
+ 	return ret;
+ =
+
+ check_space:
+-	return cachefiles_has_space(cache, 0, *_len / cache->bsize,
+-				    cachefiles_has_space_for_write);
++	ret =3D cachefiles_has_space(cache, 0, *_len / cache->bsize,
++				   cachefiles_has_space_for_write);
++	if (ret =3D=3D -ENOBUFS)
++		trace_cachefiles_no_space(object, cachefiles_trace_write_nospace);
++	return ret;
+ }
+ =
+
+ static int cachefiles_prepare_write_old(struct netfs_cache_resources *cre=
+s,
+@@ -757,10 +764,14 @@ static int cachefiles_issue_write(struct netfs_io_su=
+brequest *subreq)
+ 	       wreq->debug_id, subreq->debug_index, start, start + len - 1);
+ =
+
+ 	if (!cachefiles_cres_file(cres)) {
+-		if (!fscache_wait_for_operation(cres, FSCACHE_WANT_WRITE))
++		if (!fscache_wait_for_operation(cres, FSCACHE_WANT_WRITE)) {
++			trace_netfs_sreq(subreq, netfs_sreq_trace_cache_waitfail);
+ 			return -ENOBUFS;
+-		if (!cachefiles_cres_file(cres))
++		}
++		if (!cachefiles_cres_file(cres)) {
++			trace_netfs_sreq(subreq, netfs_sreq_trace_cache_nofile);
+ 			return -ENOBUFS;
++		}
+ 	}
+ =
+
+ 	ret =3D netfs_prepare_write_buffer(subreq, BIO_MAX_VECS);
+diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
+index a30df0f91e5e..ef656a319ede 100644
+--- a/fs/cachefiles/namei.c
++++ b/fs/cachefiles/namei.c
+@@ -117,8 +117,11 @@ struct dentry *cachefiles_get_directory(struct cachef=
+iles_cache *cache,
+ 	if (d_is_negative(subdir)) {
+ 		ret =3D cachefiles_has_space(cache, 1, 0,
+ 					   cachefiles_has_space_for_create);
+-		if (ret < 0)
++		if (ret < 0) {
++			if (ret =3D=3D -ENOBUFS)
++				trace_cachefiles_no_space(NULL, cachefiles_trace_mkdir_nospace);
+ 			goto mkdir_error;
++		}
+ =
+
+ 		_debug("attempt mkdir");
+ =
+
+@@ -447,6 +450,11 @@ struct file *cachefiles_create_tmpfile(struct cachefi=
+les_object *object)
+ 		pr_notice("Cache does not support read_iter and write_iter\n");
+ 		goto err_unuse;
+ 	}
++
++	/* Preallocate space for the xattr. */
++	ret =3D cachefiles_preset_object_xattr(object, file);
++	if (ret < 0)
++		goto err_unuse;
+ out:
+ 	cachefiles_end_secure(cache, saved_cred);
+ 	object->content_info =3D CACHEFILES_CONTENT_ALL;
+@@ -470,8 +478,11 @@ static bool cachefiles_create_file(struct cachefiles_=
+object *object)
+ =
+
+ 	ret =3D cachefiles_has_space(object->volume->cache, 1, 0,
+ 				   cachefiles_has_space_for_create);
+-	if (ret < 0)
++	if (ret < 0) {
++		if (ret =3D=3D -ENOBUFS)
++			trace_cachefiles_no_space(object, cachefiles_trace_create_nospace);
+ 		return false;
++	}
+ =
+
+ 	file =3D cachefiles_create_tmpfile(object);
+ 	if (IS_ERR(file))
+diff --git a/fs/cachefiles/xattr.c b/fs/cachefiles/xattr.c
+index 5c1794beca93..9f78710bfe4d 100644
+--- a/fs/cachefiles/xattr.c
++++ b/fs/cachefiles/xattr.c
+@@ -34,6 +34,57 @@ struct cachefiles_vol_xattr {
+ 	__u8	data[];		/* netfs volume coherency data */
+ } __packed;
+ =
+
++/*
++ * Preset the state xattr on a cache file to allocate space for it.
++ */
++int cachefiles_preset_object_xattr(struct cachefiles_object *object, stru=
+ct file *file)
++{
++	struct cachefiles_xattr *buf;
++	struct dentry *dentry =3D file->f_path.dentry;
++	unsigned int len =3D object->cookie->aux_len;
++	int ret;
++
++	buf =3D kzalloc(sizeof(struct cachefiles_xattr) + min(len, sizeof(__be64=
+)), GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	buf->type		=3D CACHEFILES_COOKIE_TYPE_DATA;
++	buf->content		=3D CACHEFILES_CONTENT_DIRTY;
++
++	ret =3D cachefiles_inject_write_error();
++	if (ret =3D=3D 0) {
++		ret =3D mnt_want_write_file(file);
++		if (ret =3D=3D 0) {
++			ret =3D vfs_setxattr(&nop_mnt_idmap, dentry,
++					   cachefiles_xattr_cache, buf,
++					   sizeof(struct cachefiles_xattr) + len, 0);
++			mnt_drop_write_file(file);
++		}
++	}
++	if (ret < 0) {
++		trace_cachefiles_vfs_error(object, file_inode(file), ret,
++					   cachefiles_trace_setxattr_error);
++		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
++					   object->object_size,
++					   buf->data, buf->content,
++					   cachefiles_coherency_set_fail);
++		switch (ret) {
++		case -ENOMEM:
++		case -ENOSPC:
++			break;
++		default:
++			cachefiles_io_error_obj(
++				object,
++				"Failed to set xattr with error %d", ret);
++			break;
++		}
++	}
++
++	kfree(buf);
++	_leave(" =3D %d", ret);
++	return ret;
++}
++
+ /*
+  * set the state xattr on a cache file
+  */
+@@ -82,10 +133,16 @@ int cachefiles_set_object_xattr(struct cachefiles_obj=
+ect *object)
+ 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
+ 					   object_size, buf->data, buf->content,
+ 					   cachefiles_coherency_set_fail);
+-		if (ret !=3D -ENOMEM)
++		switch (ret) {
++		case -ENOMEM:
++			break;
++		case -ENOSPC:
++		default:
+ 			cachefiles_io_error_obj(
+ 				object,
+ 				"Failed to set xattr with error %d", ret);
++			break;
++		}
+ 	} else {
+ 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
+ 					   object_size, buf->data, buf->content,
+diff --git a/include/trace/events/cachefiles.h b/include/trace/events/cach=
+efiles.h
+index 6146483300c2..3dca69126586 100644
+--- a/include/trace/events/cachefiles.h
++++ b/include/trace/events/cachefiles.h
+@@ -85,11 +85,13 @@ enum cachefiles_prepare_read_trace {
+ =
+
+ enum cachefiles_error_trace {
+ 	cachefiles_trace_alignment_error,
++	cachefiles_trace_create_nospace,
+ 	cachefiles_trace_fallocate_error,
+ 	cachefiles_trace_getxattr_error,
+ 	cachefiles_trace_link_error,
+ 	cachefiles_trace_lookup_error,
+ 	cachefiles_trace_mkdir_error,
++	cachefiles_trace_mkdir_nospace,
+ 	cachefiles_trace_notify_change_error,
+ 	cachefiles_trace_open_error,
+ 	cachefiles_trace_read_error,
+@@ -102,6 +104,8 @@ enum cachefiles_error_trace {
+ 	cachefiles_trace_trunc_error,
+ 	cachefiles_trace_unlink_error,
+ 	cachefiles_trace_write_error,
++	cachefiles_trace_write_nospace,
++	cachefiles_trace_write_nospace_2,
+ };
+ =
+
+ #endif
+@@ -171,11 +175,13 @@ enum cachefiles_error_trace {
+ =
+
+ #define cachefiles_error_traces						\
+ 	EM(cachefiles_trace_alignment_error,	"align")		\
++	EM(cachefiles_trace_create_nospace,	"create-nospace")	\
+ 	EM(cachefiles_trace_fallocate_error,	"fallocate")		\
+ 	EM(cachefiles_trace_getxattr_error,	"getxattr")		\
+ 	EM(cachefiles_trace_link_error,		"link")			\
+ 	EM(cachefiles_trace_lookup_error,	"lookup")		\
+ 	EM(cachefiles_trace_mkdir_error,	"mkdir")		\
++	EM(cachefiles_trace_mkdir_nospace,	"mkdir-nospace")	\
+ 	EM(cachefiles_trace_notify_change_error, "notify_change")	\
+ 	EM(cachefiles_trace_open_error,		"open")			\
+ 	EM(cachefiles_trace_read_error,		"read")			\
+@@ -187,7 +193,9 @@ enum cachefiles_error_trace {
+ 	EM(cachefiles_trace_tmpfile_error,	"tmpfile")		\
+ 	EM(cachefiles_trace_trunc_error,	"trunc")		\
+ 	EM(cachefiles_trace_unlink_error,	"unlink")		\
+-	E_(cachefiles_trace_write_error,	"write")
++	EM(cachefiles_trace_write_error,	"write")		\
++	EM(cachefiles_trace_write_nospace,	"write-nospace")	\
++	E_(cachefiles_trace_write_nospace_2,	"write-nospace-2")
+ =
+
+ =
+
+ /*
+@@ -707,6 +715,26 @@ TRACE_EVENT(cachefiles_io_error,
+ 		      __entry->error)
+ 	    );
+ =
+
++TRACE_EVENT(cachefiles_no_space,
++	    TP_PROTO(struct cachefiles_object *obj, enum cachefiles_error_trace =
+trace),
++
++	    TP_ARGS(obj, trace),
++
++	    TP_STRUCT__entry(
++		    __field(unsigned int,			obj)
++		    __field(enum cachefiles_error_trace,	trace)
++			     ),
++
++	    TP_fast_assign(
++		    __entry->obj	=3D obj ? obj->debug_id : 0;
++		    __entry->trace	=3D trace;
++			   ),
++
++	    TP_printk("o=3D%08x %s",
++		      __entry->obj,
++		      __print_symbolic(__entry->trace, cachefiles_error_traces))
++	    );
++
+ #endif /* _TRACE_CACHEFILES_H */
+ =
+
+ /* This part must be outside protection */
+diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
+index dfe08492d1ad..54e90694eda7 100644
+--- a/include/trace/events/netfs.h
++++ b/include/trace/events/netfs.h
+@@ -102,8 +102,10 @@
+ 	EM(netfs_sreq_trace_abandoned,		"ABNDN")	\
+ 	EM(netfs_sreq_trace_add_donations,	"+DON ")	\
+ 	EM(netfs_sreq_trace_added,		"ADD  ")	\
++	EM(netfs_sreq_trace_cache_nofile,	"CA-!F")	\
+ 	EM(netfs_sreq_trace_cache_nowrite,	"CA-NW")	\
+ 	EM(netfs_sreq_trace_cache_prepare,	"CA-PR")	\
++	EM(netfs_sreq_trace_cache_waitfail,	"CA-!W")	\
+ 	EM(netfs_sreq_trace_cache_write,	"CA-WR")	\
+ 	EM(netfs_sreq_trace_cancel,		"CANCL")	\
+ 	EM(netfs_sreq_trace_clear,		"CLEAR")	\
+
