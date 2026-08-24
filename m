@@ -1,331 +1,250 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD6A446060
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6125543BDDF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582806; cv=none; b=QIStxgu540pl8e7N7e+OzGI8NMTYbGY8mbnAjEvl4fwvL3hIts28JX3FegDRHOmkgIp+KrdVgwjpra5U4j2umC83S2GzeYutEyqRJwuj0sv4iGl7i2aiuuBjrNfVxpE7vM00fseEt63hMx8bL2O4v0C5lsumcCWVFNgbnxbWbU0=
+	t=1787582848; cv=none; b=I4LJZc12DJqv4nyqA02aOpA/9Brx6PaYOxlqcwWcfy8wMZMDy8gg8D9HjsDlatDcmKBmWLJDdi+m6A+H1eU10HmgrzFZFEOzHydQHV8t0D63pW7lL6T5KfrAGp5roEYSdVtKQMtIbSVqM1iBAzqsdACS71BUt//fR7DNcQBrSB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582806; c=relaxed/simple;
-	bh=btTXYx6Hp6Bwj+KUkWowA9NM3l4ByBTx2uap/qUaSxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UpGl6VloBpzuSzomLfUnusL5/R9iZBRRl27At+Lv5hsvD5X1szust1xIr5joNvSITVgXAIWF3LpDsGnC+SgtRSiEZ+66FR8GTPrWJCObIKuuLT2UWXhy6K3sWhcyFjHBVveXqBx4NxT3kS2l/Gg0/ALoYC9VzF90OGzanAsJJKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xl4l7WUn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787582848; c=relaxed/simple;
+	bh=ViLLHeiqDr9S1/zgmlJqAYe2z/6nKsf8TuVaGMbVWp8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=A7/M4uHUvxGswhewbdVMtw+2uJlAJcY9B8GbDcZGZspNWbaZje/C6cvgNNEssUEEuArm8VMOzZZT96CPUjXuzg6BdjJCwYlAIfhmrUHfWxvbT9G2p1IOcheW4vEW6MR08S04gOSAjcIiDA9EIG3KAIJR8uKSUn3XRpsNc0T8wzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IXRqW4k4; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xl4l7WUn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787582801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wZ8TKj4kMlT2oxl+NTWw+AKG13lHeNsePdMSIyuFA3c=;
-	b=Xl4l7WUnUvJTpt1TmYufw0aTdV879e3f0raFH4hMxDoj3dryV2h9mhNtrKs/qnI0jPSerf
-	estZhuV/X3ewrn0C6Ii0O9430DHViyL7KoiGq7be/ccmmSmInVZgDlb3RGc2RsZq5btPRY
-	RHEXEkmlON5kyC8EStB2wkEB8wp+AGM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-MNfmIiBKMheIBG1E3aCMSA-1; Mon,
- 24 Aug 2026 10:46:36 -0400
-X-MC-Unique: MNfmIiBKMheIBG1E3aCMSA-1
-X-Mimecast-MFC-AGG-ID: MNfmIiBKMheIBG1E3aCMSA_1787582794
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1D9781834594;
-	Mon, 24 Aug 2026 14:46:34 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.15])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DB00A1955DAA;
-	Mon, 24 Aug 2026 14:46:27 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Paulo Alcantara <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Christian Brauner <christian@brauner.io>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Leon Romanovsky <leon@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v10 35/35] netfs: Clean up now-unused code
-Date: Mon, 24 Aug 2026 15:41:28 +0100
-Message-ID: <20260824144130.759997-36-dhowells@redhat.com>
-In-Reply-To: <20260824144130.759997-1-dhowells@redhat.com>
-References: <20260824144130.759997-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IXRqW4k4"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-836cda225c1so49973987b3.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787582846; x=1788187646; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0ep6UPzJTnZmCqVomVSsdJlCYmmRG8TZidgjUjwtvIo=;
+        b=IXRqW4k4gjNZ80ocq9Ju35DAUIWrZXQcfcHFpB2FjAtLj9Aw33LlOE1SzdGhtppfre
+         y039m+I9tBJa5u2pTQgciHMRW/2zjd5Sn4joMZ0xWm0KL1IaDk53g72L9g35lTUYel93
+         dTq+32OrNc8d9DEsuszMkcjWy1bcprqvG7bjFgKeK8Lzog27omYCDaXjpcqwOdhamCDo
+         F7r/uGFpIn27kt2PfJ/mCYRsTzIf7oCOw3DKjybmIzWcQ/TfP7Iw/0sQOhULvV2nYSsn
+         dWodlHmIMZ5IIFUBxCX8VQm1OSCOrqn6CSxhEU/kF6QL2uhypqmjYK7OL1T5BjPtRsA1
+         HM5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787582846; x=1788187646;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0ep6UPzJTnZmCqVomVSsdJlCYmmRG8TZidgjUjwtvIo=;
+        b=X7oTlEvXogQn0NI4C4wbXArs0cYXKu4C4Wn+Cc+XfO0R9iJARbdqHWFE8PfKjy79Zp
+         LIJ06aSq735gxsqISe5PRNdglTWCv1lzQ/OZ9weXV5GeDYkwnLei4Q9qlclWqTYn0K1J
+         OSjSUUqwB23t5eiQ0aVg1w+ULOOVKbg18zsf10nsGJhWnOexD9CbqzDb9gEZubH3qmvJ
+         +IJW/q4xMtXP1ju2RwLMFgtm5K/9XiElhc45RC+KFgRfEwrv9/YbOqOSplQ8GHRttlv3
+         vUzH63O6/E5y6m7f9vLaDzQkZEGvt3OzJiv/BgQULx3hw6DoA3ykaNRH6WcwoSUO23Iz
+         kEMw==
+X-Forwarded-Encrypted: i=1; AHgh+Roko9XcPSX9gV8fAEC6WnQ9TlUzp+wCWhA7uQ8Ga+SAtqjgaWkntKb+GNqSOJAdVAK6tAaR1L69Qc9dOiHu@vger.kernel.org
+X-Gm-Message-State: AFuF++lVL14H1IiJyAOVaqU9da37eVta8yHmqQ3Xjfo5Bhd7V0Tq+zv9
+	g+c5mdOmL883pjmHQZ0HEHD0XYtSlLPE3VnrXPwpz77VZ+XCgYim5c7AUbrKQJfjlg==
+X-Gm-Gg: AR+sD128lgqSzcoej9HqVS7/dQWvpjDjKhCeDKTy2IsV/HGnIxac1ciHZaCV523YgIi
+	rdV7HqEfYPPG846Jm9QW4Qqp6v6V6qpr7cjIanz2MI7KrwJg9EXyXyT7yAZaQkeAxHNCiD3Dxq1
+	pm44pe7uNWe1g9nNZOZ6e/xM3OJJK3IhL+F0VMz0Vnocfi4T+WedBpu4ynrcj8e0q/xSrByTUF/
+	b9fY/3APfppfo3WcmTUPj+ae+l6WpC2X710kHI/LnwaIhiFvXIu0I4uqbHxTsKM0JlLVq7pJd5I
+	hbNOPuX2rnts92YvN0OdWLIDKjuGjceB3iMWI6Etxb4z4GFlSXzC0O+cXHAaQyux5zWHzAtUWY7
+	u/OAOziAHTaGG/s489aSKgmhnrnqQoJCOVz9nUkNgj3jAHTouaoCkAxvHcKe0zIj4kj7mVkWE7e
+	/22v/qFqcDMP7odRjzqQDDmPGK13nFlf2h+ssRcKpMplcJHZIkFbiifWLalL6/7bFQ9bgIQS4EC
+	2gpHf93wHZClMZbE/8/Dy9QykaEE6wtRTU3Dr6zTichJb/z
+X-Received: by 2002:a05:690c:e013:10b0:7fd:a7b6:8d87 with SMTP id 00721157ae682-849f5a102b1mr80844207b3.25.1787582845685;
+        Mon, 24 Aug 2026 07:47:25 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84caabb9e88sm34369867b3.29.2026.08.24.07.47.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 07:47:24 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:47:20 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+cc: Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH 23/25] fs,mm/fbatch: use invalidate_bh_lrus() not
+ invalidate_bh_lrus_cpu()
+In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
+Message-ID: <bcf84f86-66ff-39ef-10ce-eaa133404b50@google.com>
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=US-ASCII
 
-Delete now-unused code from netfslib, given the changes to the writeback
-dispatch code and the combination of ->prepare_xxx() and ->issue_xxx()
-methods.
+Whilst there can be a case for including an invalidate_bh_lrus_cpu() in
+lru_add_drain_all()'s workqueued visits to remote CPUs, wouldn't it now
+be a preferable cleanup to remove that alternative, and stick with the
+smp_call_function_many_cond()-based invalidate_bh_lrus() throughout?
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
+And fix the UP lru_add_drain_all() to include an invalidate_bh_lrus(),
+which went missing when 5.15 commit 243418e3925d ("mm: fs: invalidate
+bh_lrus for only cold path") took that out of lru_add_drain().
+
+Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- fs/netfs/write_issue.c | 216 -----------------------------------------
- 1 file changed, 216 deletions(-)
+ fs/buffer.c                 | 16 +---------------
+ include/linux/buffer_head.h |  4 ----
+ mm/folio.c                  | 25 ++++++-------------------
+ 3 files changed, 7 insertions(+), 38 deletions(-)
 
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index e0d14d77b751..961949689303 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -223,69 +223,6 @@ struct netfs_io_subrequest *netfs_alloc_write_subreq(struct netfs_io_request *wr
- 	return subreq;
+diff --git a/fs/buffer.c b/fs/buffer.c
+index ed966fa73b1b..7d114e5b9c62 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -1427,7 +1427,7 @@ static void invalidate_bh_lru(void *arg)
+ 	put_cpu_var(bh_lrus);
  }
  
--#if 0 // TODO: Remove old stuff
--/*
-- * Prepare a write subrequest.  We need to allocate a new subrequest
-- * if we don't have one.
-- */
--void netfs_prepare_write(struct netfs_io_request *wreq,
--			 struct netfs_io_stream *stream,
--			 uoff_t start)
--{
--	struct netfs_io_subrequest *subreq;
--
--	subreq = netfs_alloc_subrequest(wreq);
--	subreq->source		= stream->source;
--	subreq->start		= start;
--	subreq->stream_nr	= stream->stream_nr;
--
--	bvecq_pos_set(&subreq->dispatch_pos, &wreq->dispatch_cursor);
--
--	_enter("R=%x[%x]", wreq->debug_id, subreq->debug_index);
--
--	trace_netfs_sreq(subreq, netfs_sreq_trace_prepare);
--
--	stream->sreq_max_len	= UINT_MAX;
--	stream->sreq_max_segs	= INT_MAX;
--	switch (stream->source) {
--	case NETFS_UPLOAD_TO_SERVER:
--		netfs_stat(&netfs_n_wh_upload);
--		stream->sreq_max_len = wreq->wsize;
--		break;
--	case NETFS_WRITE_TO_CACHE:
--		netfs_stat(&netfs_n_wh_write);
--		break;
--	default:
--		WARN_ON_ONCE(1);
--		break;
--	}
--
--	if (stream->prepare_write)
--		stream->prepare_write(subreq);
--
--	__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
--
--	/* We add to the end of the list whilst the collector may be walking
--	 * the list.  The collector only goes nextwards and uses the lock to
--	 * remove entries off of the front.
--	 */
--	spin_lock(&wreq->lock);
--	/* Write IN_PROGRESS before pointer to new subreq */
--	list_add_tail_release(&subreq->rreq_link, &stream->subrequests);
--	if (list_is_first(&subreq->rreq_link, &stream->subrequests)) {
--		if (!stream->active) {
--			stream->collected_to = subreq->start;
--			/* Write list pointers before active flag */
--			smp_store_release(&stream->active, true);
--		}
--	}
--
--	spin_unlock(&wreq->lock);
--
--	stream->construct = subreq;
--}
--#endif
--
- /*
-  * Advance the state of the amount of data buffered on a stream.
-  */
-@@ -368,159 +305,6 @@ int netfs_prepare_write_buffer(struct netfs_io_subrequest *subreq,
+-bool has_bh_in_lru(int cpu, void *dummy)
++static bool has_bh_in_lru(int cpu, void *dummy)
+ {
+ 	struct bh_lru *b = per_cpu_ptr(&bh_lrus, cpu);
+ 	int i;
+@@ -1446,20 +1446,6 @@ void invalidate_bh_lrus(void)
  }
- EXPORT_SYMBOL(netfs_prepare_write_buffer);
+ EXPORT_SYMBOL_GPL(invalidate_bh_lrus);
  
--#if 0 // TODO: Remove old stuff
 -/*
-- * Set the I/O iterator for the filesystem/cache to use and dispatch the I/O
-- * operation.  The operation may be asynchronous and should call
-- * netfs_write_subrequest_terminated() when complete.
+- * It's called from workqueue context so we need a bh_lru_lock to close
+- * the race with preemption/irq.
 - */
--static void netfs_do_issue_write(struct netfs_io_stream *stream,
--				 struct netfs_io_subrequest *subreq)
+-void invalidate_bh_lrus_cpu(void)
 -{
--	struct netfs_io_request *wreq = subreq->rreq;
+-	struct bh_lru *b;
 -
--	_enter("R=%x[%x],%zx", wreq->debug_id, subreq->debug_index, subreq->len);
--
--	if (stream->source == NETFS_WRITE_TO_CACHE &&
--	    unlikely(test_bit(NETFS_RREQ_CACHE_STOP, &wreq->flags))) {
--		size_t dio_size = wreq->cache_resources.dio_size;
--		size_t len, disp;
--
--		disp = subreq->start & (dio_size - 1);
--		len = round_up(subreq->len + disp, dio_size);
--
--		subreq->start -= disp;
--		subreq->len = len;
--
--		__set_bit(NETFS_SREQ_CANCELLED, &subreq->flags);
--		return netfs_write_subrequest_terminated(subreq, subreq->len);
--	}
--
--	if (test_bit(NETFS_SREQ_FAILED, &subreq->flags))
--		return netfs_write_subrequest_terminated(subreq, subreq->error);
--
--	trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
--	stream->issue_write(subreq);
+-	bh_lru_lock();
+-	b = this_cpu_ptr(&bh_lrus);
+-	__invalidate_bh_lrus(b);
+-	bh_lru_unlock();
 -}
 -
--void netfs_reissue_write(struct netfs_io_stream *stream,
--			 struct netfs_io_subrequest *subreq)
--{
--	// TODO: Use encrypted buffer
--	bvecq_pos_unset(&subreq->content);
--	bvecq_pos_set(&subreq->content, &subreq->dispatch_pos);
--	iov_iter_bvec_queue(&subreq->io_iter, ITER_SOURCE,
--			    subreq->content.bvecq, subreq->content.slot,
--			    subreq->content.offset,
--			    subreq->len);
--	iov_iter_advance(&subreq->io_iter, subreq->transferred);
--
--	subreq->retry_count++;
--	subreq->error = 0;
--	__clear_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
--	__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
--	netfs_stat(&netfs_n_wh_retry_write_subreq);
--	netfs_do_issue_write(stream, subreq);
--}
--
--static void netfs_issue_write(struct netfs_io_request *wreq,
--			      struct netfs_io_stream *stream)
--{
--	struct netfs_io_subrequest *subreq = stream->construct;
--
--	if (!subreq)
--		return;
--
--	bvecq_pos_set(&subreq->content, &subreq->dispatch_pos);
--	iov_iter_bvec_queue(&subreq->io_iter, ITER_SOURCE,
--			    subreq->content.bvecq, subreq->content.slot,
--			    subreq->content.offset,
--			    subreq->len);
--
--	stream->construct = NULL;
--	netfs_do_issue_write(stream, subreq);
--}
--
+ void folio_set_bh(struct buffer_head *bh, struct folio *folio,
+ 		  unsigned long offset)
+ {
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index fd2c7115c054..f19f9e80be8f 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -518,8 +518,6 @@ bool mmb_has_buffers(struct mapping_metadata_bhs *mmb);
+ void mmb_invalidate(struct mapping_metadata_bhs *mmb);
+ int mmb_sync(struct mapping_metadata_bhs *mmb);
+ void invalidate_bh_lrus(void);
+-void invalidate_bh_lrus_cpu(void);
+-bool has_bh_in_lru(int cpu, void *dummy);
+ extern int buffer_heads_over_limit;
+ 
+ #else /* CONFIG_BUFFER_HEAD */
+@@ -528,8 +526,6 @@ static inline void buffer_init(void) {}
+ static inline bool try_to_free_buffers(struct folio *folio) { return true; }
+ static inline int mmb_sync(struct mapping_metadata_bhs *mmb) { return 0; }
+ static inline void invalidate_bh_lrus(void) {}
+-static inline void invalidate_bh_lrus_cpu(void) {}
+-static inline bool has_bh_in_lru(int cpu, void *dummy) { return false; }
+ #define buffer_heads_over_limit 0
+ 
+ #endif /* CONFIG_BUFFER_HEAD */
+diff --git a/mm/folio.c b/mm/folio.c
+index 782b8245d213..3212c7a58623 100644
+--- a/mm/folio.c
++++ b/mm/folio.c
+@@ -748,21 +748,6 @@ void lru_add_drain(void)
+ 	mlock_drain_local();
+ }
+ 
 -/*
-- * Add data to the write subrequest, dispatching each as we fill it up or if it
-- * is discontiguous with the previous.  We only fill one part at a time so that
-- * we can avoid overrunning the credits obtained (cifs) and try to parallelise
-- * content-crypto preparation with network writes.
+- * It's called from per-cpu workqueue context in SMP case so
+- * lru_add_drain_cpu and invalidate_bh_lrus_cpu should run on
+- * the same cpu. It shouldn't be a problem in !SMP case since
+- * the core is only one and the locks will disable preemption.
 - */
--size_t netfs_advance_write(struct netfs_io_request *wreq,
--			   struct netfs_io_stream *stream,
--			   uoff_t start, size_t len, bool to_eof)
+-static void lru_add_and_bh_lrus_drain(void)
 -{
--	struct netfs_io_subrequest *subreq = stream->construct;
--	size_t part;
--
--	if (!stream->avail) {
--		_leave("no write");
--		return len;
--	}
--
--	_enter("R=%x[%x]", wreq->debug_id, subreq ? subreq->debug_index : 0);
--
--	if (subreq && start != subreq->start + subreq->len) {
--		netfs_issue_write(wreq, stream);
--		subreq = NULL;
--	}
--
--	if (!stream->construct)
--		netfs_prepare_write(wreq, stream, start);
--	subreq = stream->construct;
--
--	part = umin(stream->sreq_max_len - subreq->len, len);
--	_debug("part %zx/%zx %zx/%zx", subreq->len, stream->sreq_max_len, part, len);
--	subreq->len += part;
--	subreq->nr_segs++;
--
--	if (subreq->len >= stream->sreq_max_len ||
--	    subreq->nr_segs >= stream->sreq_max_segs ||
--	    to_eof) {
--		netfs_issue_write(wreq, stream);
--		subreq = NULL;
--	}
--
--	return part;
+-	local_lock(&cpu_fbatches.lock);
+-	lru_add_drain_cpu(smp_processor_id());
+-	local_unlock(&cpu_fbatches.lock);
+-	invalidate_bh_lrus_cpu();
+-	mlock_drain_local();
 -}
 -
--/*
-- * Prepare and issue a subrequest.
-- * TODO: Replace with combined ->prepare/->issue call().
-- */
--static int netfs_prep_and_issue_subreq(struct netfs_io_request *wreq,
--				       struct netfs_io_stream *stream,
--				       struct netfs_io_subrequest *subreq)
--{
--	stream->sreq_max_len	= UINT_MAX;
--	stream->sreq_max_segs	= INT_MAX;
--	switch (stream->source) {
--	case NETFS_UPLOAD_TO_SERVER:
--		netfs_stat(&netfs_n_wh_upload);
--		stream->sreq_max_len = wreq->wsize;
--		break;
--	case NETFS_WRITE_TO_CACHE:
--		netfs_stat(&netfs_n_wh_write);
--		break;
--	default:
--		WARN_ON_ONCE(1);
--		break;
--	}
--
--	if (stream->prepare_write)
--		stream->prepare_write(subreq);
--	netfs_prepare_buffered_write_buffer(subreq, stream->sreq_max_segs);
--	iov_iter_bvec_queue(&subreq->io_iter, ITER_SOURCE,
--			    subreq->content.bvecq, subreq->content.slot,
--			    subreq->content.offset,
--			    subreq->len);
--	trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
--	stream->issue_write(subreq);
--	return 0;
--}
--#endif
--
+ void lru_add_drain_cpu_zone(struct zone *zone)
+ {
+ 	local_lock(&cpu_fbatches.lock);
+@@ -778,7 +763,7 @@ static DEFINE_PER_CPU(struct work_struct, lru_add_drain_work);
+ 
+ static void lru_add_drain_per_cpu(struct work_struct *dummy)
+ {
+-	lru_add_and_bh_lrus_drain();
++	lru_add_drain();
+ }
+ 
+ static bool cpu_needs_drain(unsigned int cpu)
+@@ -791,8 +776,7 @@ static bool cpu_needs_drain(unsigned int cpu)
+ 			 folio_batch_count(&fbatches->lru_move_tail) ||
+ 			 folio_batch_count(&fbatches->lru_deactivate_file) ||
+ 			 folio_batch_count(&fbatches->lru_deactivate) ||
+-			 need_mlock_drain(cpu)) ||
+-		has_bh_in_lru(cpu, NULL);
++			 need_mlock_drain(cpu));
+ }
+ 
  /*
-  * Issue writes for a stream.
-  */
+@@ -891,6 +875,8 @@ static inline void __lru_add_drain_all(bool force_all_cpus)
+ 		}
+ 	}
+ 
++	invalidate_bh_lrus();
++
+ 	for_each_cpu(cpu, &has_work)
+ 		flush_work(&per_cpu(lru_add_drain_work, cpu));
+ 
+@@ -906,6 +892,7 @@ void lru_add_drain_all(void)
+ void lru_add_drain_all(void)
+ {
+ 	lru_add_drain();
++	invalidate_bh_lrus();
+ }
+ #endif /* CONFIG_SMP */
+ 
+@@ -939,7 +926,7 @@ void lru_cache_disable(void)
+ #ifdef CONFIG_SMP
+ 	__lru_add_drain_all(true);
+ #else
+-	lru_add_and_bh_lrus_drain();
++	lru_add_drain_all();
+ #endif
+ }
+ 
+-- 
+2.51.0
 
