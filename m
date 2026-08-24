@@ -1,157 +1,127 @@
-Received: from mta0.migadu.com (out-21.mta0.migadu.com [91.218.175.21])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488123AAF4E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E9A3A6418
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787560086; cv=none; b=vFUBBbG22ZStmCeqgHhuu1U2VZkidSB+F8muc9bqYxR+0SxRrELRT/wCs7TYW407UCzFYoVcp4HUx9tiwsr4FyQYIalHmX9gklZmfa/ZDw79J3/12LnxrpOS1gaq1LSFdTQu87pNvEUNjfHBTDJTw5h7mSRdDq2YCLC5wAdPEqk=
+	t=1787560123; cv=none; b=f+7gjfL3rHzdNCij4sNwKxDJeB2owXadwfGRAyxXzMSbPnTtusvzYIg8DtKQqtL1iMzE2NO9tEyFB8gOm2v4B3GUhC6SnvarUmGnhv+9edOkNYeke/EULJ16hh0p9wuRn9YNOKqiMkxzJJQn/OlD8w1zwwT5eOXZ/N8S8HHcxhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787560086; c=relaxed/simple;
-	bh=8Pl7rmcIvwX+tzegpkwJKg5akKbpn9WU8gbrZ1f0X8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=trmSpn9kPkr9LNL+iSOhoTz8O7Pd4OZBeF/9TbCb1CqpXRzRtBcFIi3PCQCJKRMNxvW6dqpv9jX1vWgPSnwGeC3rfL67qJSKR6l3/1/5isW3xdFfpcwa1j5Ef2YD5ug0ae/ObrC4iQG00Bm8EoQSleQsSNyqhJHOqT6Uikkfu1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LjJ6LwxO; arc=none smtp.client-ip=91.218.175.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787560123; c=relaxed/simple;
+	bh=fPabSMHlPHPkUA8KI76og40fs4F9bLkBTVzafT6UzHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Tz8SdUrvAL+8NZL4J6jvbARkKXITn5B8b9YqkrkVZqYvbQDKl37S9Fn+60hICBQjDmFAwmt9xnzxUOS60W6hMEFs0lfGQaB3HWQilcR5w+OJCzljSp7bJdaEZdnqe5OwIMQr7PGav9zVaYrWH6vit6opkMSywMywbc/ZT0rPkpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VS2Gru0P; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LjJ6LwxO"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8Pl7rmcIvwX+tzegpkwJKg5akKbpn9WU8gbrZ1f0X8M=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787560081; v=1; x=1788164881;
- b=LjJ6LwxO2XPMd9oUysjq8G0CYOWF4VzDt09U8RGs0WH8lFAhfhCHNMnUTeQ9JE83869mX1TK
- EWbZLkG1UPpibY/1ZklwKooBXY18Nt44P586BiTfw2lnPLEfxfMBS2E71xXXxoPUwK4t3VHGXSd
- huWKoKD2Z72W8xJ1K0wdXGvU=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: from [10.244.244.3] (2602:fce1:44f:115e::)
-	by smtp.migadu.com with ESMTPS id 8e0a79e38506ea9a;
-	Mon, 24 Aug 2026 08:28:00 +0000
-X-Mizu-Trace-ID: 8e0a79e38506ea9a
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <cff17006-b534-440a-8be7-651fb0a940cd@linux.dev>
-Date: Mon, 24 Aug 2026 16:27:39 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VS2Gru0P"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso2243378a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 01:28:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787560122; x=1788164922; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=F55vLBYMb73Kabi8Hv974kZQK1o3EdqeFc5sYbiSR/Y=;
+        b=VS2Gru0P81sClbb0k6LRl+HCg8FirMF8uss1BGvWHGbUWqY1VshXJkuSK+iXtZ3uff
+         TN+FZvbHuWbv9um6zERobx5hO6Q672zx0x7xSr+h02H3mgRyYI5aSSw+eex3l+4bQRLk
+         yuLoRWLHj2rT136vkXJlxIcC7ZZ9Bhe/BMtqdPVamZdTvfyq55lDDvlWGnKJt26HEbgD
+         6WzlKqjiGCRTeyzO0vjiIduX683LAsEZ0xKy9PB42+OBo9qL1Y8fQzC9widrwZnYRnpN
+         YSxXhKRzvIE+GjqiulLSjefCWhpb3aCOuRv4J5RC5VfQk7THHAb/g75XDyussNqiSL9F
+         Exxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787560122; x=1788164922;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F55vLBYMb73Kabi8Hv974kZQK1o3EdqeFc5sYbiSR/Y=;
+        b=pFNpOZDSBr1K+v4AiQEhQjss9RnXLOVkGAQ3bNdMYyIk0nLsbsgPyU6Eqg8WSXNd1K
+         bRfL1BzX/PlTNtXjBL4EHo+0zZ15eHJ4YWGmcwBMg4Z8xfhjBbwjZc3P0YgeYyE0Fm3V
+         tHccSPtUkEISfuC7GjW4PVx9De0gpfKOr36MzYx9y8MzF3ukdzgHm60z7G39LW6wHKaH
+         dfLAkSZgouIhSbzju4hQgfjEmfalspywfZznGC4sMBbGK0xudNiWmNdDdLvIX6cLi6cT
+         GCzRjELJFmBl9YlXlhCTVopq7kouHDFW8tJGmrqgEPKE+NJLk+COPwQo6E2rwGaoKshO
+         9sRA==
+X-Forwarded-Encrypted: i=1; AHgh+RqnYVINWdo55sd0ANKOpLroU2fNY0Ceb6Lq8vSlA8SKNPbUDUb3seyP/yyGvoJ4zTDF2HLW76EsKms4FQ8c@vger.kernel.org
+X-Gm-Message-State: AFuF++nIw/Mi7sHDmItXhejBoOO57fbWsWa0LUTm90ypVwvE7OWe2Ngb
+	YMyFrRdG03kR44+ear9NZOW53Wzptu4vdaarFYfHkSbkfoNTgiuK+XVF
+X-Gm-Gg: AR+sD12Q7SOD6Gskyqq3m2XR69wz5ABbM2hf/nhxRdC4iL4AoCM8C0f5HXfHYEc1Ub9
+	Rk/SLjQspFWDhU2IXgGIb2o9NBXFLMU40vNSg6VPw2uFM7yXZVD4VYz8ilgys9kLnfRL1bCyZ29
+	FVPjwrHR4t2dBBp3ImNIIZ6xNe0BWEYyI9gNqcpYeWO01t0ITfx8UUprvw6MVtAX43Wsn4WapNG
+	zOjhwO7Jr20gWYIVq88ozZHPH5tqF/5rvyl46qUUW7kp25oKY00z6hi12NM/Kl13epEbrClVGjQ
+	s2DfeYTrm45Ynp//A+ug1v+4OyKPEKB3mpztx838EOVfeyfAg0j77BM2f962EC6U+2+uErkSZ/a
+	ibebG2OEefzBJ3rLBUlyJY+ldohct9v8FMLsPSav6zAgDLOH/eJt6H71nulMIHFJNuiRgzS9ksX
+	1ewDyg5VT9yBkDt91Ibay3oJ/E6dsm8MFh64W/AH64+ILHjeB6xTsNR2z2R/cTLAw5SS5O4OZvp
+	4D2gphxutLs6q5WfQ3p70trzUtzY+Y1x9PWPnGwCLfDGGKROFmvZw==
+X-Received: by 2002:a05:6a00:8014:b0:84c:4b58:2cec with SMTP id d2e1a72fcca58-8520ba2fd59mr30678445b3a.15.1787560121817;
+        Mon, 24 Aug 2026 01:28:41 -0700 (PDT)
+Received: from [127.0.1.1] (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f149af7sm1662253b3a.40.2026.08.24.01.28.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 01:28:41 -0700 (PDT)
+From: hanzhijian <hanzhijian1991@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Russell King <linux@armlinux.org.uk>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
+Date: Mon, 24 Aug 2026 16:28:30 +0800
+Message-ID: <178756011059.3396993.4126096199529010824@hanzhijian1991>
+In-Reply-To: <20260824080746.3390459-1-hanzhijian1991@gmail.com>
+References: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
+ <20260824080746.3390459-1-hanzhijian1991@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
- into single VM_UFFD
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, david@kernel.org,
- baolin.wang@linux.alibaba.com, baohua@kernel.org, dev.jain@arm.com,
- hughd@google.com, jannh@google.com, jgg@ziepe.ca, jhubbard@nvidia.com,
- corbet@lwn.net, liam@infradead.org, ljs@kernel.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, mhocko@suse.com, muchun.song@linux.dev,
- nico.pache@linux.dev, osalvador@suse.de, pfalcato@suse.de,
- peterx@redhat.com, ryan.roberts@arm.com, shakeel.butt@linux.dev,
- skhan@linuxfoundation.org, rostedt@goodmis.org, surenb@google.com,
- usama.arif@linux.dev, vbabka@kernel.org, ziy@nvidia.com,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-References: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <20260824071126.41979-1-lance.yang@linux.dev> <aov9_DIHLHynm7tN@kernel.org>
-Content-Language: en-US
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <aov9_DIHLHynm7tN@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Hi Al and Christian,
 
+syzbot reported a memory leak in adfs [1], which I traced to the
+interaction between sget_fc() and setup_bdev_super().  My first attempt
+at a fix (this patch) turned out to be wrong and I've retracted it, so
+I'd like to understand the intended way to fix this.
 
-On 2026/8/24 16:17, Mike Rapoport wrote:
-> Hi Lance,
-> 
-> On Mon, Aug 24, 2026 at 03:11:26PM +0800, Lance Yang wrote:
->>
->> On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
->> [...]
->>> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
->>> index 83587d34b189..193f6e65d875 100644
->>> --- a/mm/userfaultfd.c
->>> +++ b/mm/userfaultfd.c
->>> @@ -50,10 +50,10 @@ struct mfill_state {
->>> 	pmd_t *pmd;
->>> };
->>>
->>> -static bool anon_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
->>> +static bool anon_can_userfault(struct vm_area_struct *vma, unsigned int mode)
->>> {
->>> 	/* anonymous memory does not support MINOR mode */
->>> -	if (vm_flags & VM_UFFD_MINOR)
->>> +	if (mode & UFFD_MODE_MINOR)
->>> 		return false;
->>> 	return true;
->>> }
->>> @@ -462,7 +462,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
->>> }
->>>
->>> #define MFILL_RETRY_STATE_VMA_FLAGS \
->>> -	append_vma_flags(__VMA_UFFD_FLAGS, VMA_SHARED_BIT)
->>> +	append_vma_flags(VMA_UFFD, VMA_SHARED_BIT)
->>
->> Looks like this drops registration mode from the retry snapshot. Assume a
->> shared shmem VMA is registered for MISSING and COPY reaches
->> mfill_copy_folio_retry(). While locks are dropped, the same userfaultfd|
->> can re-register the range for MINOR. VMA_UFFD, VM_SHARED, ops, file and
->> pgoff all stay unchanged, so the old COPY can continue instead of
->> returning -EAGAIN ... no?
-> 
-> Good catch, thanks!
+The leak path is:
 
-Cheers!
+  adfs_init_fs_context() allocates a struct adfs_sb_info and stores it
+  in fc->s_fs_info (fs/adfs/super.c:443,463).
 
->   
->> Maybe something like this?
-> 
-> I prefer to add mode to the retry_state:
-> 
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 193f6e65d875..a0377f7ecc69 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -471,6 +471,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
->    */
->   struct mfill_retry_state {
->   	const struct vm_uffd_ops *ops;
-> +	unsigned long mode;
->   	struct file *file;
->   	vma_flags_t flags;
->   	pgoff_t pgoff;
-> @@ -482,6 +483,7 @@ static void mfill_retry_state_save(struct mfill_retry_state *s,
->   	s->flags = vma_flags_and_mask(&vma->flags, MFILL_RETRY_STATE_VMA_FLAGS);
->   	s->ops = vma_uffd_ops(vma);
->   	s->pgoff = vma_start_pgoff(vma);
-> +	s->mode = uffd_mode(vma);
->   
->   	if (vma->vm_file)
->   		s->file = get_file(vma->vm_file);
-> @@ -493,8 +495,9 @@ static bool mfill_retry_state_changed(struct mfill_retry_state *state,
->   	vma_flags_t flags = vma_flags_and_mask(&vma->flags,
->   					       MFILL_RETRY_STATE_VMA_FLAGS);
->   
-> -	/* Have any UFFD flags (missing, WP, minor) changed? */
-> -	if (!vma_flags_same_pair(&state->flags, &flags))
-> +	/* UFFD registration mode or VMA sharing changed */
-> +	if (!vma_flags_same_pair(&state->flags, &flags) ||
-> +	    s->mode != uffd_mode(vma))
+  sget_fc() transfers fc->s_fs_info to s->s_fs_info and clears
+  fc->s_fs_info once set() succeeds (fs/super.c:895,905).
 
-I assume you meant
+  get_tree_bdev_flags() then calls setup_bdev_super().  If that fails
+  (the block device cannot be opened, is read-only, or is frozen),
+  fill_super() never runs, s->s_root stays NULL, and the error path
+  calls deactivate_locked_super() -> kill_block_super() ->
+  generic_shutdown_super().  Since generic_shutdown_super() only calls
+  put_super() inside its "if (s->s_root)" block, the adfs_sb_info
+  allocated by init_fs_context() is never released.
 
-s/s->mode/state->mode/
+My patch tried to hand s_fs_info back to the fs_context:
 
-With that, LGTM :)
+        fc->s_fs_info = s->s_fs_info;
+        s->s_fs_info = NULL;
+        deactivate_locked_super(s);
 
->   		return true;
->   
->   	/* VMA type or effective uffd_ops changed while the lock was dropped */
->   
->> Cheers, Lance
->
+but syzbot's CI then reported general protection faults in
+erofs_kill_sb(), fuse_kill_sb_blk() and xfs_kill_sb() [2], because those
+filesystems dereference s->s_fs_info in their custom kill_sb() handlers.
 
-Cheers, Lance
+I notice sget_fc()'s own set()-failure path does the same "hand back to
+fc" (s->s_fs_info = NULL at fs/super.c:899) but pairs it with
+destroy_unused_super(), which does not call kill_sb(), whereas after
+sget_fc() returns the superblock is already published and must be torn
+down with deactivate_locked_super().  What is the intended way to
+release s->s_fs_info in this situation?
+
+Thanks,
+Han Zhijian
+
+[1] https://syzkaller.appspot.com/bug?extid=1c70732df5fd4f0e4fbb
+[2] https://ci.syzbot.org/series/1ef55243-f163-4d98-bbd1-41b579082704
