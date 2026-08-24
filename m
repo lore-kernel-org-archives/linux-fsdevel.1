@@ -1,439 +1,106 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+Received: from mta1.migadu.com (out-5.mta1.migadu.com [95.215.58.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53793A168B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9543A1690
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787558089; cv=none; b=euy3z7SMPvuwpRmAKlWGP+b2qxdu5Xl0PgTMjtmPmvqlXLWOmEcs414M+UQ4BDT5a/J1/nAYoprYp9CWVYk1Bc8P+W/EsGm3cXXkGhjQlrls9nTdg2+uH96ZuiaEvN/mBEY9jIO1VdKy20Ghs2v5E5UiPm/FroLfgQiLiUXbAVY=
+	t=1787559188; cv=none; b=IoBjWAuenVDRm+hM3dYEqDv8HvBqbx/91rSo1z1cjDifAWxIO90pUXepFWzOAjSdL6dVDPF8fC4Re92mMgxPo961q91PEadxGqrvf71pxSA/ViRCLtPiIDJ2m7p84JuhJ1wARIfNx6Qp5pxVr5zE+JTfPdG/l5biZQGVdmTeGKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787558089; c=relaxed/simple;
-	bh=ZSd73m+EQF5nrlp/cg45LGphbHQY0AXi1CVHNqkSjYc=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=bmfjLuCf/XITZM8bXoFsPJ7di2jZ6PQHjFSynDMUbzdTOg3GNCLsbEYsqmgHElCv7ISAifJPCqx0AEDUim5iVKWHpYkjw5dU/F17JoTRBlZn8C6gxZZq1cMTCvCM3sCkZFjqPQKFzloILMYBV9ilA4yfV/Zan9eCJvFe0UK7XCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4959c49e054so3596074b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:54:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787558086; x=1788162886;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=UV5uddHbJVhKxXuaUP79OfyMHygUsuBFadJkYsxDixM=;
-        b=iqGysIOHSLaHVO8RiXzPAPkt1405LKXBjx2KpWHzwUtXLQAEQBdzC14ASDClYogVPN
-         ke0/mxXYCSdXn8wtmz0Vkbjr9fxZqpBp6Y3Zltvw/LaT9x7ycrhS3PulvGUnrZUGOu3t
-         QsJWK50jFDH8w1a7ldNUHQ1D46a/RwI96GDuRCquBeYG9W89AqKXaqHgYqdA7oo5Jv5S
-         j+ADLOfHg0Ee4MFeZYMIKliKmXMUE/bLfcfkz3Xbvwd2ct5T/QrNAm7pA4DLY5oc6xXs
-         OuwD5Fo18I7PkPaV+VUamc7ahppz2ZEfzkYwSlZwhH1WFwKH9DlPMycqIp0IREIsb21S
-         E7vw==
-X-Forwarded-Encrypted: i=1; AHgh+RpWgsQeHBhKW6Qxno7szRhTDvfjNydDAPh7up7P6U/D/TkN9yG9e3crEGlKAxczyxS6GMAcYSV8V3vDFES+@vger.kernel.org
-X-Gm-Message-State: AFuF++lJlZFjAUH7jCS4uFIl1iPCIHe0ckU7RXBJKJvC0Zb5zNV4rBx6
-	oT9nj4JyhWnb6YBk/q7BoYDHlo8m1YEsCzxzzjs/yvcpgqUvGbh6qqpCcBgK9GBcBLK4K+rkKM2
-	f7FZwbZKWHahHh1KKPBAZSXGn7IhtsswqjfBfKTboNw31bdQf5Mu9Vk+SUGo=
+	s=arc-20240116; t=1787559188; c=relaxed/simple;
+	bh=IVeVPbKL49TCH2itDpGWCx8+AacsU4ms6FDLHw/oas4=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=F+cxzxKxwraWEKs/rX0swBEe4Fo6qA4wqX5nAq+AZfhL3ZGnAhikYrHOsFqii3/fnZOkz+r5w3SR8qfGKqHAyB4iUub7yxI63Bgh2BvNZFpdwVtr7tXPD5BpYQOXjW9SlSbaHTIWXLo+jqWtWMuAyWa2d9o5g1YDoVQLhW3kUNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D64uBYFF; arc=none smtp.client-ip=95.215.58.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D64uBYFF"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IVeVPbKL49TCH2itDpGWCx8+AacsU4ms6FDLHw/oas4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787559183; v=1; x=1788163983;
+ b=D64uBYFFU4XpP33tb6/GlRXBwpFZIcWCQ7zIRVvZktmyso8yaditLPs0T7sN4ptGVpE/Nggo
+ 94WDo1o9YUOk45Ug7pJmUy/icIkUEiRMYAXQD5WVCEiFoElhQoyefrc6hOy8rGCTf18+6+ZNRah
+ 4AveuR10o5CcXfabOHBqNqcs=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from smtpclient.apple (114.251.196.97)
+	by mta12.migadu.com with ESMTPS id 03a5a03ad4541403;
+	Mon, 24 Aug 2026 08:13:02 +0000
+X-Mizu-Trace-ID: 03a5a03ad4541403
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1b0c:b0:4a4:744:a4ff with SMTP id
- 5614622812f47-4b30998976bmr15045069b6e.4.1787558085797; Mon, 24 Aug 2026
- 00:54:45 -0700 (PDT)
-Date: Mon, 24 Aug 2026 00:54:45 -0700
-In-Reply-To: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8bf8c5.91706f20.16b6e3.02d4.GAE@google.com>
-Subject: [syzbot ci] Re: fs: fix s_fs_info leak when setup_bdev_super() fails
-From: syzbot ci <syzbot+cide8e486f4ae0dc83@syzkaller.appspotmail.com>
-To: brauner@kernel.org, hanzhijian1991@gmail.com, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot@syzkaller.appspotmail.com, viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-syzbot ci has tested the following series
-
-[v1] fs: fix s_fs_info leak when setup_bdev_super() fails
-https://lore.kernel.org/all/20260822023918.2498361-1-hanzhijian1991@gmail.com
-* [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
-
-and found the following issues:
-* general protection fault in call_rcu
-* general protection fault in erofs_kill_sb
-* general protection fault in fuse_kill_sb_blk
-* general protection fault in xfs_kill_sb
-
-Full report is available here:
-https://ci.syzbot.org/series/1ef55243-f163-4d98-bbd1-41b579082704
-
-***
-
-general protection fault in call_rcu
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
-syz repro: https://ci.syzbot.org/findings/f6ebcbaf-d8f4-4c25-9e68-98f46740729d/syz_repro
-
-/dev/sr0: Can't open blockdev
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000005a: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x00000000000002d0-0x00000000000002d7]
-CPU: 0 UID: 0 PID: 5792 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__call_rcu_common kernel/rcu/tree.c:3157 [inline]
-RIP: 0010:call_rcu+0xb9/0x8b0 kernel/rcu/tree.c:3279
-Code: 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 0e eb 8a 00 48 c7 03 c0 9a ac 81 e9 b3 05 00 00 48 8d 7b 08 48 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 05 e8 eb ea 8a 00 4c 89 73 08 48 89 d8 48 c1 e8
-RSP: 0018:ffffc900041dfb08 EFLAGS: 00010206
-RAX: 000000000000005a RBX: 00000000000002c8 RCX: ffffffff9a9ab501
-RDX: 0000000000000001 RSI: ffffffff8e46456f RDI: 00000000000002d0
-RBP: 0000000000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: fffffbfff20f27a7 R12: dffffc0000000000
-R13: dffffc0000000000 R14: ffffffff82b4b6c0 R15: ffff88811e37e7a0
-FS:  00007f1ef40546c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1ef4053ff8 CR3: 0000000173ace000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- deactivate_locked_super+0xbc/0x110 fs/super.c:603
- get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
- vfs_get_tree+0x92/0x2a0 fs/super.c:1958
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3772 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3848
- do_mount fs/namespace.c:4181 [inline]
- __do_sys_mount fs/namespace.c:4397 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f1ef319e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f1ef4054028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f1ef3425fa0 RCX: 00007f1ef319e0d9
-RDX: 0000200000000080 RSI: 00002000000000c0 RDI: 0000200000000000
-RBP: 00007f1ef3235024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000214003 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f1ef3426038 R14: 00007f1ef3425fa0 R15: 00007ffc4bde52a8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__call_rcu_common kernel/rcu/tree.c:3157 [inline]
-RIP: 0010:call_rcu+0xb9/0x8b0 kernel/rcu/tree.c:3279
-Code: 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 0e eb 8a 00 48 c7 03 c0 9a ac 81 e9 b3 05 00 00 48 8d 7b 08 48 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 05 e8 eb ea 8a 00 4c 89 73 08 48 89 d8 48 c1 e8
-RSP: 0018:ffffc900041dfb08 EFLAGS: 00010206
-RAX: 000000000000005a RBX: 00000000000002c8 RCX: ffffffff9a9ab501
-RDX: 0000000000000001 RSI: ffffffff8e46456f RDI: 00000000000002d0
-RBP: 0000000000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: fffffbfff20f27a7 R12: dffffc0000000000
-R13: dffffc0000000000 R14: ffffffff82b4b6c0 R15: ffff88811e37e7a0
-FS:  00007f1ef40546c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1ef4053ff8 CR3: 0000000173ace000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess):
-   0:	48 c1 e8 03          	shr    $0x3,%rax
-   4:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
-   9:	74 08                	je     0x13
-   b:	48 89 df             	mov    %rbx,%rdi
-   e:	e8 0e eb 8a 00       	call   0x8aeb21
-  13:	48 c7 03 c0 9a ac 81 	movq   $0xffffffff81ac9ac0,(%rbx)
-  1a:	e9 b3 05 00 00       	jmp    0x5d2
-  1f:	48 8d 7b 08          	lea    0x8(%rbx),%rdi
-  23:	48 89 f8             	mov    %rdi,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
-  2f:	74 05                	je     0x36
-  31:	e8 eb ea 8a 00       	call   0x8aeb21
-  36:	4c 89 73 08          	mov    %r14,0x8(%rbx)
-  3a:	48 89 d8             	mov    %rbx,%rax
-  3d:	48                   	rex.W
-  3e:	c1                   	.byte 0xc1
-  3f:	e8                   	.byte 0xe8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+Date: Mon, 24 Aug 2026 16:12:41 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Barry Song <baohua@kernel.org>,
+ Dev Jain <dev.jain@arm.com>,
+ Hugh Dickins <hughd@google.com>,
+ Jann Horn <jannh@google.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Lance Yang <lance.yang@linux.dev>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Nico Pache <nico.pache@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>,
+ Peter Xu <peterx@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Usama Arif <usama.arif@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Zi Yan <ziy@nvidia.com>,
+ linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CB35D894-1B3B-4D48-BCEF-38BB091F65FF@linux.dev>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 
 
-***
 
-general protection fault in erofs_kill_sb
+> On Aug 23, 2026, at 20:17, Mike Rapoport (Microsoft) <rppt@kernel.org> =
+wrote:
+>=20
+> Introduce enum uffd_reason to define reasons for user faults rather =
+than
+> overload VM_UFFD_* VMA flags for that.
+>=20
+> Using a dedicated enum makes the code clearer and decoupling the fault
+> reason from VMA flags clears the way for moving the uffd mode bits out
+> of VMA namespace.
+>=20
+> No functional change.
+>=20
+> Assisted-by: copilot:claude-opus-4.6
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
-syz repro: https://ci.syzbot.org/findings/a828baa5-9634-4255-a0b1-41e60df7067d/syz_repro
+Acked-by: Muchun Song <muchun.song@linux.dev> # for HugeTLB.
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-CPU: 0 UID: 0 PID: 5846 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:erofs_kill_sb+0x53/0x270 fs/erofs/super.c:950
-Code: 00 00 48 89 d8 48 c1 e8 03 48 89 44 24 08 80 3c 28 00 74 08 48 89 df e8 bb 60 b8 fd 4c 8b 33 4d 8d 66 08 4d 89 e7 49 c1 ef 03 <41> 80 3c 2f 00 74 08 4c 89 e7 e8 9e 60 b8 fd 49 83 3c 24 00 4c 89
-RSP: 0018:ffffc90003dbfc08 EFLAGS: 00010202
-RAX: 1ffff1102edb18cf RBX: ffff888176d8c678 RCX: ffff88816bcabc00
-RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888176d8c000
-RBP: dffffc0000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: ffffffff847e7250 R12: 0000000000000008
-R13: ffff888176d8c000 R14: 0000000000000000 R15: 0000000000000001
-FS:  00007efdff1c96c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff27edb9095 CR3: 0000000174554000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- deactivate_locked_super+0xbc/0x110 fs/super.c:603
- get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
- vfs_get_tree+0x92/0x2a0 fs/super.c:1958
- vfs_cmd_create+0xa2/0x200 fs/fsopen.c:231
- __do_sys_fsconfig fs/fsopen.c:463 [inline]
- __se_sys_fsconfig+0x6b9/0x810 fs/fsopen.c:350
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7efdfe39e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007efdff1c9028 EFLAGS: 00000246 ORIG_RAX: 00000000000001af
-RAX: ffffffffffffffda RBX: 00007efdfe625fa0 RCX: 00007efdfe39e0d9
-RDX: 0000000000000000 RSI: 0000000000000006 RDI: 0000000000000004
-RBP: 00007efdfe435024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007efdfe626038 R14: 00007efdfe625fa0 R15: 00007ffde183e908
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:erofs_kill_sb+0x53/0x270 fs/erofs/super.c:950
-Code: 00 00 48 89 d8 48 c1 e8 03 48 89 44 24 08 80 3c 28 00 74 08 48 89 df e8 bb 60 b8 fd 4c 8b 33 4d 8d 66 08 4d 89 e7 49 c1 ef 03 <41> 80 3c 2f 00 74 08 4c 89 e7 e8 9e 60 b8 fd 49 83 3c 24 00 4c 89
-RSP: 0018:ffffc90003dbfc08 EFLAGS: 00010202
-RAX: 1ffff1102edb18cf RBX: ffff888176d8c678 RCX: ffff88816bcabc00
-RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888176d8c000
-RBP: dffffc0000000000 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: ffffffff847e7250 R12: 0000000000000008
-R13: ffff888176d8c000 R14: 0000000000000000 R15: 0000000000000001
-FS:  00007efdff1c96c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff27edb9095 CR3: 0000000174554000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess):
-   0:	00 00                	add    %al,(%rax)
-   2:	48 89 d8             	mov    %rbx,%rax
-   5:	48 c1 e8 03          	shr    $0x3,%rax
-   9:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
-   e:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-  12:	74 08                	je     0x1c
-  14:	48 89 df             	mov    %rbx,%rdi
-  17:	e8 bb 60 b8 fd       	call   0xfdb860d7
-  1c:	4c 8b 33             	mov    (%rbx),%r14
-  1f:	4d 8d 66 08          	lea    0x8(%r14),%r12
-  23:	4d 89 e7             	mov    %r12,%r15
-  26:	49 c1 ef 03          	shr    $0x3,%r15
-* 2a:	41 80 3c 2f 00       	cmpb   $0x0,(%r15,%rbp,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	4c 89 e7             	mov    %r12,%rdi
-  34:	e8 9e 60 b8 fd       	call   0xfdb860d7
-  39:	49 83 3c 24 00       	cmpq   $0x0,(%r12)
-  3e:	4c                   	rex.WR
-  3f:	89                   	.byte 0x89
+Thanks.
 
-
-***
-
-general protection fault in fuse_kill_sb_blk
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
-syz repro: https://ci.syzbot.org/findings/842bf23d-2982-4d44-81b0-f1e6e37301b2/syz_repro
-
-erofs (device loop0): mounted with root inode @ nid 36.
-/dev/loop0: Can't open blockdev
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 UID: 0 PID: 5856 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:fuse_mount_destroy fs/fuse/inode.c:1989 [inline]
-RIP: 0010:fuse_kill_sb_blk+0x23c/0x290 fs/fuse/inode.c:2016
-Code: 00 00 00 00 00 fc ff df 4c 89 f7 e8 9e e2 f2 fe 42 80 3c 2b 00 74 08 48 89 ef e8 8f 92 de fe 48 8b 5d 00 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 75 92 de fe 48 8b 3b e8 3d 72 ff
-RSP: 0018:ffffc9000234fb08 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88816c3cbc00
-RDX: 0000000000000000 RSI: 0000000000000008 RDI: 00000000ffffffff
-RBP: ffff888174cb6678 R08: ffff888174cb6087 R09: 1ffff1102e996c10
-R10: dffffc0000000000 R11: ffffed102e996c11 R12: ffff888174cb6078
-R13: dffffc0000000000 R14: ffff888174cb6000 R15: 0000000000000000
-FS:  00007fb71cf006c0(0000) GS:ffff8882a8d08000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000001000 CR3: 00000001be98a000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- deactivate_locked_super+0xbc/0x110 fs/super.c:603
- get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
- fuse_get_tree+0x194/0x3b0 fs/fuse/inode.c:1877
- vfs_get_tree+0x92/0x2a0 fs/super.c:1958
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3772 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3848
- do_mount fs/namespace.c:4181 [inline]
- __do_sys_mount fs/namespace.c:4397 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb71bf9e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fb71cf00028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007fb71c225fa0 RCX: 00007fb71bf9e0d9
-RDX: 0000200000000140 RSI: 00002000000002c0 RDI: 0000200000000240
-RBP: 00007fb71c035024 R08: 0000200000000400 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fb71c226038 R14: 00007fb71c225fa0 R15: 00007ffe55b01cb8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:fuse_mount_destroy fs/fuse/inode.c:1989 [inline]
-RIP: 0010:fuse_kill_sb_blk+0x23c/0x290 fs/fuse/inode.c:2016
-Code: 00 00 00 00 00 fc ff df 4c 89 f7 e8 9e e2 f2 fe 42 80 3c 2b 00 74 08 48 89 ef e8 8f 92 de fe 48 8b 5d 00 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 75 92 de fe 48 8b 3b e8 3d 72 ff
-RSP: 0018:ffffc9000234fb08 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88816c3cbc00
-RDX: 0000000000000000 RSI: 0000000000000008 RDI: 00000000ffffffff
-RBP: ffff888174cb6678 R08: ffff888174cb6087 R09: 1ffff1102e996c10
-R10: dffffc0000000000 R11: ffffed102e996c11 R12: ffff888174cb6078
-R13: dffffc0000000000 R14: ffff888174cb6000 R15: 0000000000000000
-FS:  00007fb71cf006c0(0000) GS:ffff8882a8d08000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f9fb604de68 CR3: 00000001be98a000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess), 7 bytes skipped:
-   0:	df 4c 89 f7          	fisttps -0x9(%rcx,%rcx,4)
-   4:	e8 9e e2 f2 fe       	call   0xfef2e2a7
-   9:	42 80 3c 2b 00       	cmpb   $0x0,(%rbx,%r13,1)
-   e:	74 08                	je     0x18
-  10:	48 89 ef             	mov    %rbp,%rdi
-  13:	e8 8f 92 de fe       	call   0xfede92a7
-  18:	48 8b 5d 00          	mov    0x0(%rbp),%rbx
-  1c:	48 89 d8             	mov    %rbx,%rax
-  1f:	48 c1 e8 03          	shr    $0x3,%rax
-* 23:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
-  28:	74 08                	je     0x32
-  2a:	48 89 df             	mov    %rbx,%rdi
-  2d:	e8 75 92 de fe       	call   0xfede92a7
-  32:	48 8b 3b             	mov    (%rbx),%rdi
-  35:	e8                   	.byte 0xe8
-  36:	3d                   	.byte 0x3d
-  37:	72 ff                	jb     0x38
-
-
-***
-
-general protection fault in xfs_kill_sb
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      26260251022fbc2f248a3d747a9b2b961b18d2d8
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/41c2a7e2-d41f-466f-8380-e05ef414bf62/config
-syz repro: https://ci.syzbot.org/findings/6086312c-12df-4d69-b442-5c8a99793535/syz_repro
-
-/dev/loop1: Can't open blockdev
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000035: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x00000000000001a8-0x00000000000001af]
-CPU: 0 UID: 0 PID: 5903 Comm: syz.1.24 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:xfs_kill_sb+0x4e/0x260 fs/xfs/xfs_super.c:2335
-Code: 78 06 00 00 4c 89 f0 48 c1 e8 03 80 3c 18 00 74 08 4c 89 f7 e8 83 08 96 fe 4d 8b 36 4d 8d be a8 01 00 00 4c 89 f8 48 c1 e8 03 <80> 3c 18 00 74 08 4c 89 ff e8 64 08 96 fe 4d 8b 27 4d 85 e4 0f 84
-RSP: 0018:ffffc900027afb50 EFLAGS: 00010206
-RAX: 0000000000000035 RBX: dffffc0000000000 RCX: ffff888110aa0000
-RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888114d4e000
-RBP: ffffc900027afc00 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: ffffffff83a0ca90 R12: dffffc0000000000
-R13: ffff888114d4e000 R14: 0000000000000000 R15: 00000000000001a8
-FS:  00007f104ac686c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555f35035578 CR3: 00000001bf1d2000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- deactivate_locked_super+0xbc/0x110 fs/super.c:603
- get_tree_bdev_flags+0x40e/0x560 fs/super.c:1895
- vfs_get_tree+0x92/0x2a0 fs/super.c:1958
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3772 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3848
- do_mount fs/namespace.c:4181 [inline]
- __do_sys_mount fs/namespace.c:4397 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f1049d9e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f104ac68028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f104a026090 RCX: 00007f1049d9e0d9
-RDX: 0000200000000000 RSI: 00002000000001c0 RDI: 0000200000000080
-RBP: 00007f1049e35024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000001a0c099 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f104a026128 R14: 00007f104a026090 R15: 00007ffd22a73788
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:xfs_kill_sb+0x4e/0x260 fs/xfs/xfs_super.c:2335
-Code: 78 06 00 00 4c 89 f0 48 c1 e8 03 80 3c 18 00 74 08 4c 89 f7 e8 83 08 96 fe 4d 8b 36 4d 8d be a8 01 00 00 4c 89 f8 48 c1 e8 03 <80> 3c 18 00 74 08 4c 89 ff e8 64 08 96 fe 4d 8b 27 4d 85 e4 0f 84
-RSP: 0018:ffffc900027afb50 EFLAGS: 00010206
-
-RAX: 0000000000000035 RBX: dffffc0000000000 RCX: ffff888110aa0000
-RDX: 0000000000000000 RSI: ffffffff8e46456f RDI: ffff888114d4e000
-RBP: ffffc900027afc00 R08: ffffffff90793d37 R09: 1ffffffff20f27a6
-R10: dffffc0000000000 R11: ffffffff83a0ca90 R12: dffffc0000000000
-R13: ffff888114d4e000 R14: 0000000000000000 R15: 00000000000001a8
-FS:  00007f104ac686c0(0000) GS:ffff88818d708000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f5295e4de68 CR3: 00000001bf1d2000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess):
-   0:	78 06                	js     0x8
-   2:	00 00                	add    %al,(%rax)
-   4:	4c 89 f0             	mov    %r14,%rax
-   7:	48 c1 e8 03          	shr    $0x3,%rax
-   b:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-   f:	74 08                	je     0x19
-  11:	4c 89 f7             	mov    %r14,%rdi
-  14:	e8 83 08 96 fe       	call   0xfe96089c
-  19:	4d 8b 36             	mov    (%r14),%r14
-  1c:	4d 8d be a8 01 00 00 	lea    0x1a8(%r14),%r15
-  23:	4c 89 f8             	mov    %r15,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1) <-- trapping instruction
-  2e:	74 08                	je     0x38
-  30:	4c 89 ff             	mov    %r15,%rdi
-  33:	e8 64 08 96 fe       	call   0xfe96089c
-  38:	4d 8b 27             	mov    (%r15),%r12
-  3b:	4d 85 e4             	test   %r12,%r12
-  3e:	0f                   	.byte 0xf
-  3f:	84                   	.byte 0x84
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
