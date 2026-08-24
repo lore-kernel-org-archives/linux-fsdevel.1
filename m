@@ -1,142 +1,126 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985D146F4A6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 17:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787593436; cv=pass; b=IelppuYkdcTlvZ/3ApNjF3VmbMcKpOLHxzn+IXZANdnM+Ls/DJFYFaYhq2py6n49swU3Yv1bRr8ey/vN8AKbpdq/MNGl1w+QMCSu78E+hrEV7fvkfdF87TQNNC2tkCxn4awJatb9l7mOz5Eq2ikfFgR+W279Tg7fJn8NovU5Kp8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787593436; c=relaxed/simple;
-	bh=NSsbOf3Y0yWkw9e5dn0dpe66TCS/Em1a5SohkF1dHrY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=losrd93c9r6RShsb4RaJKrla2DBS5ZlrCRnAaQWGXhY2hXuOQO027ojswZ9r4OOkG/wnCFOYYW0bc2sZL43KvbIL9EQgadeVvIxTlrptxuvmY8snQo9CK/VNm2UcPHAZIRLCu+ZeYc82lCCfsjv11ezZZzAxqbq6Kplx36idMYI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=joZGmF9X; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B9E37AA78;
+	Mon, 24 Aug 2026 17:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787593766; cv=none; b=JW/+fJshRAxE3VrOG4qJmFw0uMStoiz5d3Rc78friyjeyxxJsXzEWXnHhRi+sK7u118kFtrE6kgBfJcoqHbFsmxvZwtjrhdP3dQklYNmYEM+pQKc2GsE9RhBq0b23W6K2yMesOOLk8BaTTeH7F7MIX8ykmLxmH7W4zU2XVWAcQQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787593766; c=relaxed/simple;
+	bh=90suKUiXI7PlSRgK1Ox8F7w+EyQdnbS1Le8ieXJSXio=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=hyMne8zjTd1JXuguZkHeeeXxLXZ1+VLZSFDlWYtRoAOJxetWoqBhdCA+Z4PjBprPBfwCvvY0IOPPJ5y/ZktxOy7EjQ7+liXf4Q3ZtIKTNd0lbD/u27UJa0RkNta0GPznT/s7bMywuooeMpc8PcvFFgByH62I8iat8yHkuW65/f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0v/SvDj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="joZGmF9X"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d3b440b97aso11965ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 10:43:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787593421; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SPueiUL2E2NpCm6kGhihs/giAahv/5eQ3SOAABYYw3ayPS9rI1cdaZTST5JXzW2Z5Q
-         a7C1ZykBsPXOr2H0HGWmZwFsF0fLPKwV9NE3x/KGW2g4M9BK9LDkQ5ULvXGPcBd1gxl6
-         OsEKA0NEiZl735TUFQs+QigcbQon4U1jAtg5Sb/Y4wUyFEA99YSBRsyBaCIslW+EkiUE
-         gKAICAgyDdVO3pSHsfrFey4H4D+H5QjKBycQvKEEAnpCKpI/D3TfunjcmR4NUfv+Gxq9
-         imyZq/aMFezfDro197AolO0vEAHI782gi0eynv1mxTWAdByuiqYDeB23qIhN5gWZf3Qr
-         GDew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NSsbOf3Y0yWkw9e5dn0dpe66TCS/Em1a5SohkF1dHrY=;
-        fh=IhTDeYsKcf7FDhMCoNYrfEBPcO5pANN3l3FebpgbuB4=;
-        b=ZtCQpUvBnIelC72ebNq2sBLNcLGp80dy1gDOsUEBtkjY9ZXuWrLXETBneH+uducxCH
-         lcdv3k4O+KL/lj1d5hKVfVu6jUhU8XjCVkCgLO67AKV0Fsr2xtCMQI5CdvGlHzyGnVZM
-         +TJ+3WeBFvlM5vqS15h/f+rfXWnfer/xvBCTvC3aZoFtoxe7hPAPGg+IH0HzgGM9cUGw
-         tAoRsEjzk0LyHOGdr6R3BV7i2FrD8lYAc7hL33Hbu2yx5uji4b+GFi5s6MvsNpoag7aP
-         bZuI9AwIO2qBDMuziS5K8qHYtS5k1ZnPmJ1fQtxUOKfIb4ezxVptqaGt/M5FwB6Exav+
-         LfGA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787593421; x=1788198221; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NSsbOf3Y0yWkw9e5dn0dpe66TCS/Em1a5SohkF1dHrY=;
-        b=joZGmF9X6QfJaxTMYXhYEZbMLmkmqBAN5EA9bvW1v2ezu+L7IG0imX76Og0W8AlQDG
-         wxlHIHdWM/jAMnQR/mz1grjzyptG06p3gTwRGj0+TB7NT2N/3LbXMVI/WQ243ARLaKJ0
-         0K+okMPpuESFoJEeI32SlJatbsXciGmOz4Ga37nTBlyT6sXwR14HiXbMsxP9HShtylEZ
-         rdbU69YJONyM2PBRJHaKDbQRH5wgpyo3eAuN5tore3hNychk0/UvXALRWpaYVXubgS3J
-         hz+zHXtTcuU646DtzWJXfpEymJji2evbjAy9J3jLfrxf8NCZV/ZwDu5mu3wmJ+BPWCac
-         d/YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787593421; x=1788198221;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NSsbOf3Y0yWkw9e5dn0dpe66TCS/Em1a5SohkF1dHrY=;
-        b=PtUoz2OWYglA35j5NExXpM/IZDHAjmzV5xVIZWhRUQuDamFHSMZR6HQh8DR/wAxQfw
-         ksh4OzEmfoNm8MZEVC5puBGfq802rOXvkS0Rwo2Um/xh8D+Mr44BWY71DgX699o8ob2l
-         1GbtmG3mS0nKIWj54YbnCe9w7cg/K0tMmQ0OhdsTveuQpNxAWRWImSEfYpQfH5DR3AC+
-         kC/+us91OR0RyetrEEmWxMzwi4nZZoY+iZqecGRpyEOpcWyp1Zt8aP283VLDfBZS8SP0
-         yrsThTGs2KnU7U9ANPRNm1RmG10+hn4Cs2l4YZbR3H1IGdgw9yrirbG3M4N0isttpJKZ
-         hvSg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqt9nK1Ya/gKECQE+bWBrB+Ppti/gSOZtQ914KAjxyi5+o6qxs++lt5hhOgcHTH/rBU4vExcKV9MPUHEISn@vger.kernel.org
-X-Gm-Message-State: AFuF++lBYEZ2Ov7VpFXgAg2CdNEfm/5CuFPbmJwVjx/0E7kTsHuOxmWw
-	FF958tRujv79TnbFTKVmj1x2KX/O5KMfmRVnt298R8e6ujo3LoZY//yigiUX0mppKGTCf767LpJ
-	CAf5lTH5cFnT/K1DMTxW8kHSoKp/kCuQFT4kunZja
-X-Gm-Gg: AR+sD10ILOJCQnPmu64gYaA+I7uOqEinNJcLPKINttYBMpEKwyETU6n4xid0J5UU3Dz
-	D9WCZRR990+SMwh7kMVDUj1KUll5noSjjfHS5E9kctf/HDpfepMLmWOvihQiwCdwLC5MVYj8vQd
-	GaUQ9u1zOvWkyYaJfuVx7YMt07+z+1IKL/hNIV4xHN8o3IvfK0C0Hf89DJ3rEnofo/eEeOFCTFF
-	t/7A3Uz8wLAXOkgR84/Vqh5ZGgSx3LekeD+nuxTa0NEWoWMszGQQ5mgrd0f4q2Qaiol4yUm9btD
-	dCChozajofIRhFdhRvPeFT0uyqIu8QgmEu0IXCXT6qbszV/vjRsENSswBTgZqmt/Qqj/S/TVTUO
-	67SpgczJUsq8v4+3OoAaqEfQ5pr2LDwY=
-X-Received: by 2002:a17:902:d592:b0:2ca:bf8e:360b with SMTP id
- d9443c01a7336-2d673b9e9f2mr11726905ad.9.1787593420034; Mon, 24 Aug 2026
- 10:43:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0v/SvDj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38B41F000E9;
+	Mon, 24 Aug 2026 17:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787593765;
+	bh=PXcM5X3uBKvKFdABV+dXq4fIKyqlgx4ANk3fPDAXJGY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=U0v/SvDjWTxpVVRAXEaFwXgetWu8mbgLqIy9RlYwGxFSFBnMciUU3Pa3W9drfPF25
+	 2P5Y+TNzAJrFk3Lcjj+1e+4+1C7V0su9p3ITVPi6VaoexaDJeFgFpb0hqgptJVx928
+	 wyjUsLid2AhCmc0A5qZa9Oomn+CZjcIIJb4B+uFskJxtCJibzDaHTu/S7HU/8fzfaB
+	 82uVG3XkMoWoKPQIzBBHyf7cQtjt1nU8Q56k/cwTXDmK1qxkuoODPUKbKFxsW0TyLv
+	 bcFExql9IaoqLlH5bU9FlvivvQyWSx2WYvm0mXsVPA10FErjBWOt6DQTC4DnMLLx46
+	 fHHPfXOl4niDg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 7B2DCF4006A;
+	Mon, 24 Aug 2026 13:49:23 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 24 Aug 2026 13:49:23 -0400
+X-ME-Sender: <xms:I4SMaqOMmOG-UPHTwUCzOMoOwBKxCCj4rKSCCbowWTrCq6jOFXb4pw>
+    <xme:I4SMajwnIfgYk_1eqDTR_Ennsikt3CIt3u6Z-VZ53Aia9mf6T6S_rYnegrgqeNcNB
+    8XPSCerfNVF8zPR1soC-HHlONyPqPtHTyDQnl88KXqPPadx2pio2cwS>
+X-ME-Proxy-Cause: dmFkZTEhxdDtUpllTHrqstN18oDAkCQb3QAt856ufTOaFLeUg8o+LMg/a4UZ3D4hP9DtZY
+    F3Ryksg3VzUj9CzcUm3C9lk5xqxp3VHAxJbuzKYrfJEOXQF7166wHgRGQ1ssx7cte54Rum
+    3GktrAmFv6hlvG0EXZITf7bjBrr4JSjILoDLyWjxoscMWd3UzlJ3qmofuiQtCYrbtqNw3T
+    a1vuRV5j2VaIj70DuMAK/H8m715VK8tEx1GB6+yQuWqz0BuXCLTmQYehSiDUmYJ0xeqiUz
+    9W3CmMCNA1G+smMDtcw3ONbTEkeE5j6MY8pylI82lOUvM1b+9W+MtHfzk/ApujlQeFzZm8
+    zn7eWrmzTmHm+r5U9JxBxUTFQQXuR7mtMTZCjQ88R648L1fL5K2uRVRWX2D2DrDYhH/6KM
+    2YR+TFvy0iYYhD4MxdIZytboaGV4+1JRaYOfeNdVR9wJVUItZZviUlme9jeCIdd8dO9fXR
+    Q9cn/p0oEgcnU5fAED7LmcS3QUPGoRQWYmV0fQq0ndWlsd2L6yqMa7kuyA2ayNMNUyDzLK
+    3xS3VpjeHubqFxEmJDQiItVsEsWrPr1zJ8tgHWWUnN/4RE81JpOMGeJRWKLfR3pxJWB1mm
+    fnSuyX38J6J8NdyUYbaX3tA6HdioZmYAQQcs6YlCA5gy1Ep3Dkdy2zi8t7Vg
+X-ME-Proxy: <xmx:I4SMakUwlrPuNVe1NFA6MCqWtQYUbFTTqtaRsjMDmbJc7Wu7EIXZ8g>
+    <xmx:I4SMakCdNbugk5JqJrrWKZKRM62FDGVRxZjbP_YkJUrb_e-q7450FQ>
+    <xmx:I4SManGaDKgvXRDRsf7EVJVHND1c4yumwZ8_bt6wjkpfyS5II7jevQ>
+    <xmx:I4SMagd37ZaRg4ExO--M1E7TCXJOJnBr3laUrSY3w35T-0g6ReXubw>
+    <xmx:I4SMak9EypA4RZJSgzAPfSfkOCjT_5JJDVqQcL0rwqUfgsoSpscQYFNn>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 54BA57811F0; Mon, 24 Aug 2026 13:49:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
- <20260818-selinux-pokemem-v1-2-90cd2357ee05@google.com> <741a833d-6889-4ee6-9322-d6a3a8b95893@kernel.org>
- <CAG48ez2Ngo3=VtyykXY6ynVzGwA8px-p4zV3V6U=YfgV-Hy4BA@mail.gmail.com>
- <dd8c34a9-0e09-453b-88e1-0a5511816627@kernel.org> <CAG48ez2bZEV+3ww2x9XV_5vRPZ_3jU_zg6+h=BDKQ94Xrd3Tqg@mail.gmail.com>
- <aoibvf6CY99IXynk@gremlin> <CAG48ez0CX-PT5Yk5gYJuB6wPe26j0gHHXQqYoNtTA=iHe_5Wdw@mail.gmail.com>
- <aox7tVIQBMuz-xFO@gremlin>
-In-Reply-To: <aox7tVIQBMuz-xFO@gremlin>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 24 Aug 2026 19:43:02 +0200
-X-Gm-Features: AcwNN1XNlUaHE0KSmD27zjyuJQAPDoj5SG3PPI6IvJrIGr992XerqXx0rzodOY0
-Message-ID: <CAG48ez2-8UjzOp=St5eTPyG_yd2iBmPF6y7qVBTNaPNJgoX=BA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu <jeffxu@google.com>, 
-	=?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: A-zzBGauvJA-
+Date: Mon, 24 Aug 2026 13:49:05 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: NeilBrown <neil@brown.name>, "Ian Kent" <raven@themaw.net>,
+ "Jake Edge" <jake@lwn.net>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>
+Cc: autofs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <f9d16f36-10e6-4bec-aa8e-b9b3cb3ad872@app.fastmail.com>
+In-Reply-To: <20260815042707.2535717-5-neilb@ownmail.net>
+References: <20260815042707.2535717-1-neilb@ownmail.net>
+ <20260815042707.2535717-5-neilb@ownmail.net>
+Subject: Re: [PATCH v2 04/18] nfs: separate locked regions in
+ nfs_clear_verifier_directory()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 24, 2026 at 7:33=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
-> On Mon, Aug 24, 2026 at 07:06:04PM +0200, Jann Horn wrote:
-> > On Fri, Aug 21, 2026 at 8:52=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kern=
-el.org> wrote:
-> > > The sharing a /proc/mem fd seems like that's a pretty dumb thing to d=
-o in
-> > > general :) but I guess you have to protect against that.
-> >
-> > Yeah, it's a kinda weird thing to do...
+
+On Sat, Aug 15, 2026, at 2:21 PM, NeilBrown wrote:
+> nfs_clear_verifier_directory() locks the dir to call
+>   nfs_unset_verifier_delegated()
+> and also to walk the d_children list.
+> These are two separate needs and they don't need to both
+> be in the same locked region.
 >
-> Yup :)) but I guess we have to account for people doing weird stuff...
->
-> In this case (I do mention it in a reply elsewhere I think) it does seem
-> like perhaps you should separately check for current->mm !=3D mm of (what=
- was
-> originally /proc/self/mm)?
+> Subsequent patches will use a helper for walking the d_children list and
+> that helper may drop the lock temporarily.  To simplify this transition,
+> split the locked range by dropping and retaking the lock between to make
+> two separate locked regions.
 
-I wouldn't want to do it for this access check, since that could lead
-to "confused deputy" problems.
+I hit this running xfstests against tmpfs with the series applied.  The
+trigger was incidental (an unrelated process chmod'ed a file on an
+NFSv4 mount while xfstests was running) so it is not deterministic, but
+the path looks reachable by any SETATTR that returns a delegation on a
+directory:
 
-> Or at least it seems like a crazy thing to be able to get full access to
-> another process's memory (that it... gave you though).
->
-> Anyway perhaps overthinking it :)
+  BUG: sleeping function called from invalid context at fs/nfs/dir.c:1497
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2385380
+  preempt_count: 1, expected: 0
+  Call Trace:
+   __might_resched+0x165/0x180
+   nfs_clear_verifier_delegated+0x112/0x250 [nfs]
+   nfs_start_delegation_return+0xa1/0x130 [nfsv4]
+   nfs4_inode_return_delegation+0x1b/0xf0 [nfsv4]
+   nfs4_inode_make_writeable+0xa9/0x130 [nfsv4]
+   nfs4_proc_setattr+0xa2/0xf0 [nfsv4]
+   nfs_setattr+0x1f2/0x480 [nfs]
+   notify_change+0x321/0x380
+   chmod_common+0x10d/0x1c0
+   do_fchmodat+0x8a/0x110
+   __x64_sys_chmod+0x1d/0x30
 
-Hm, yes, though I guess that is kind of orthogonal.
+Line 1497 is the d_for_each_positive_child() call.
 
-For what it's worth, SELinux can prevent such things happening across
-domain boundaries - it enforces that, in the SELinux ruleset, the
-process calling read()/write() on an FD is granted FILE__READ /
-FILE__WRITE permission to the file's inode.
+
+-- 
+Chuck Lever
