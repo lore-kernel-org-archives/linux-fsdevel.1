@@ -1,264 +1,186 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442DC3F1AB9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 09:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.153.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787563863; cv=fail; b=IsjMsZIv1/w6YzvEThtu9Qa13CEK2jeYb1iqB+ZKXkFKbgbdy3lOP2v/HuUAXRpD6MmK03F023++XNZRKtr2YbhYcTKZPEzKgOVha6RwKM9YM6KkSyduG3bB5orqBQmPyevToI6bin9PEdZP9cymhhFtY+/f/8qFxD763aCKHWM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787563863; c=relaxed/simple;
-	bh=zypUTHPlA/q7uIPBIoYXCptEGPZN6whAepusbDKEtLE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g1AbO8Kh0NpWpMZDmqg8RB0XTpn/AC7UqD7N0oOAia4gRzuPKr/1T2ZxxC2YD4sVv4G0ubxZGxuWhE2JCNS+uPxgPsBjG04G0thgogF+125izJCuX/A0YOEhuus1XD+63VMJ7s60KnqhIKi0SNj3Z+pw9pmD1kddZXyUFDsUyjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=dI+6kXI/; arc=fail smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A05369D74;
+	Mon, 24 Aug 2026 09:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787563902; cv=none; b=KQDeaspHlpn4ADc4ln+AJ5SOxYV91dEi7HWN9bHuv1ChBfIMF3rz4bzElhjZbRp3MWN+wqT/p2WxCPwKZ9fHNPW7o65s5gd9nYPtx561PA++GHZTchDAqU22bAVTMKBarpWkF9KHnaS6eoMRCsjj9MrACA8fOrCZDpZ+c/VwsL4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787563902; c=relaxed/simple;
+	bh=xNNoyyzorQwzXZswV/S9IsKwLv1PWe1gfb87d67l/aU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ym3fgqqgLOMq/2sgjmbZUbMT8Ty1fsIpo8+NEOu5UAjxj5XhGVxcPcnulecQL7avDVqxDA6mXIlXbWd0/Eqr22DASb2SKiXKVr8wlKJUau76oPhJPdwvs/a2LHU0/x0qO0hoFbrcrnEvAHkNLO+KbbW7NVbiPGiqnDCC7yyecJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=dg/vEm5+; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=e3LRWN1g; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="dI+6kXI/"
-Received: from pps.filterd (m0528005.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67O9DfMP3562330
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 02:30:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=M8DZUU8ws4G48jL7qrLg2Wb7OYzN6HftqEYSY
-	KuUsMs=; b=dI+6kXI/kI9/KL41RJv5l1fMuKcdyyJvzNjCrXD4BzVev9ZDDi7z6
-	OG/vIlJtGFkA18TaU1Ll9XR4WBd5mZNAo5Msygm1xzO3MKCzpMzv3WKxwTEwIFJS
-	mKfrvsoqxI5+/foBGfneWDdiRAO97u3oCZqgG9PqRXtS4RqP6i//DMVeFUWaF0ZQ
-	Vbk9q3mlDD7611LdGvfmJ5V7wFxiueKed11ZeMgFkrzJb3ioaRCsmbMSgZni+Obq
-	bkmoX5DetSJKGkUuwHeLGjVcJ86JHE1Mg7OwW5pQhcO8YQy0Mpc+kdLKk0BcCj/R
-	jrewLn2Z6drNxGGVJc8wPJVgMQvM8aITw==
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4g7wbhvwpx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 02:30:56 -0700 (PDT)
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6a3ec8718e2so343916a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 02:30:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787563855; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hRF7nY/PA7WkIdUEqubvmTMWRF+iti5AITO1hhWt6p60l1AgAQ9KwOIzqgJJFIrBX3
-         rPRtbxfB/vqp+bE9XEp80SzD/rPLZVtBwSDLdssZXRvDKjVmMRjkbkdffkXT56RZDpsk
-         oRIhUBXmxImeAzQsP5woRYhA6A3Q+Llb9331qSp44eYRa2F3FLnpzwcRqT1/cIQSp1h4
-         QU9vhjN9ANOZUy7EYMTTSU0W2lF8AERZ8oUnlPOAfv120VPc3mBnmwOebemjUsYpQqBl
-         Oo3K9IxzUCgapC/62qf7J5ztFoOznRKpzUfvroLctAerWpE3uUVfA+VNEQ8V8LDsr1ny
-         vjAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=XyGahnowQGCugdhIYAolZHV0Y8fYfsB6zeG38EzMKGM=;
-        fh=F5QWbomZUfwt/Bt+yGS9TRH3j0cOoC8ng7pR8+f3fUo=;
-        b=o+w9xgCkAaj3ZEyiPCnARoLs9AU1N1ChbFeNx3lyunZIYCfdPvS1qaZMPYCcCnqGjn
-         Ifv7CXlawbawsMwFfQmR76W7kuUDegmRDQrTuK2N0z9wn2K6f5v0FhG4ocvFTzWNBGGo
-         CIXMJwU04qtmP+SYMpgM8Oc/ui1p/C0TqZqZhMC3mqB76yPEZ7DJDKBDb/P0upIq0Zhq
-         X32ZE8/9wxgwGJTt251SN7x84RYtTejViu+kU19w9BMrFBEQiMi+RLT5rcvNN590rl4+
-         mhAGA2Dc4MrfKNfJoGXTG3loKbXE57IXsjX+yACtH/gxhJENslz0vJpbLHUB/IB+TvCY
-         AiEw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787563855; x=1788168655;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XyGahnowQGCugdhIYAolZHV0Y8fYfsB6zeG38EzMKGM=;
-        b=VMe1AoD+K/ygJwVFFo2kANX24SbnPlIygEmBP401KMTPiCvypaDtVOY2t6zHnjyAOk
-         2D8atCEO8oyVjpgk2ET2c9nfvQdIkWoEAJuggzrP3Ipi3hhrBUMc6E97ZZfyFWUtMPWr
-         Qoo/QGySO070JZ1b9OdwGUtshECGeeX/cd9fc/HF3AQaU0U/z6xzSVplWdf2UmLMMx92
-         lR0zjj1oOy7swqiqwUJ6nFt939+tUt3OQz1n2HjQru1GVqQeIhGmIxF532DyFwpR79Ow
-         t71V20tGLJfAzum56/W9Heec/nGGW20srYuba0d06QXFxTuRPUZPkGBNC8Y5xeJHyOIG
-         5zew==
-X-Forwarded-Encrypted: i=1; AHgh+RoROSXW0dCM1xEy8/wAmgLQ/Qb2oNzeX8EV6PyOqO8ShBI2WFULPiw+EJEu4g4ROSoIGP8V2wYduvVsMnX1@vger.kernel.org
-X-Gm-Message-State: AFuF++mYT0pWMP5ZEVTkbi0ZEQlOqvO9NZM1UhzlMnx/R3QvOSvbE7LK
-	dprvoY9mJh2Edp6izRUAeFP0SIsyOz6nq1MnGpZZYNvGHoVlFI1AvRKS3sTa8DkymfA0RMgX5tA
-	B0MoUHKCMti7pkgr4kJuTnoM+VMfT2t4ds3lzROMzZQO3oVM0o6iG7T74R4MzT2qRpocYPMrrYA
-	3U3MhBSrJAmZSgixPc6WlU5u6sSD/5HpwjaD2bvbXA
-X-Gm-Gg: AR+sD13As+ogJFmajR7F1A+gV767bVArKiwpmeX+l+8SHlaR1iv5hu+jtvUr0+fGgGR
-	FfiA19VJAY0bVch2O6pjdNY9D4UxsaLxep4pTqRscRnY0tfq4KZkoyd1eLdtW4jHSA4B+hgxa8v
-	dHRnyFcsl2Zwo9aRuuOny0Wc1/1GwyyoL0mb8eZokpirr7cgqW8NZgUqS275VJY5WFccRqS2Su
-X-Received: by 2002:a05:6402:3224:b0:6a0:a492:1f46 with SMTP id 4fb4d7f45d1cf-6a582b2851dmr22005697a12.8.1787563855561;
-        Mon, 24 Aug 2026 02:30:55 -0700 (PDT)
-X-Received: by 2002:a05:6402:3224:b0:6a0:a492:1f46 with SMTP id
- 4fb4d7f45d1cf-6a582b2851dmr22005657a12.8.1787563855140; Mon, 24 Aug 2026
- 02:30:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="dg/vEm5+";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="e3LRWN1g"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 7866526F765F;
+	Mon, 24 Aug 2026 18:31:30 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1787563890;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VjOFKDBaeWfHcp8XWnUq9Necguz8vdzoJtC88sHQZFQ=;
+	b=dg/vEm5+wKcLObk7RCAauvWr8ovCMh6sG4jeXjHg4cNSqdViN8wrLFUGzeY9O+3HSO49bd
+	f0r0e9A/6GX0Hq2Ozrtjjgfk3ekgw0Lro1dO6E7k7WZMQeEjDgWnd8zTNjcCh3A5uaJBz0
+	/FPA9vk/oDOnfYgbvUCbqNDucIWAJBHAcG4wi6sH0/LiIpkDPS8wz3vpQDHcw2b3fcCZSe
+	kfLou8ZWMzkWBwp3etYkGgGmEnEdpfo7SXCYshNvHRZYgE9QLqXeKj5zNssLRdym0FYPs3
+	WBeMqQ+x6/7hyCX0w/vWv1K9dLjM+DXAj3tEL83IS2PAOwLUvaH8GS2JeKbQ4w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1787563890;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VjOFKDBaeWfHcp8XWnUq9Necguz8vdzoJtC88sHQZFQ=;
+	b=e3LRWN1gINigFK24Q515uRVlHHZdZ1osrpT8htEM6T6GyV58mYN6gVcvRRUGCXDJHgZ+FV
+	Bgw8eGce1qco1cBQ==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id F3412E001BC;
+	Mon, 24 Aug 2026 18:31:29 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id E961A22000D2; Mon, 24 Aug 2026 18:31:29 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linkinjeon@kernel.org,  linux-fsdevel@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  sj1557.seo@samsung.com,
+  syzkaller-bugs@googlegroups.com
+Subject: Re: Please drop 64d9183203eeb in mm-nonmm-unstable ([syzbot]
+ [exfat?] WARNING in fat_ent_write)
+In-Reply-To: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
+References: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
+Date: Mon, 24 Aug 2026 18:31:29 +0900
+Message-ID: <875x0z6f0u.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818163221.589352-3-alex@ghiti.fr> <20260821083500.856970-1-kunwu.chan@linux.dev>
- <CAEmasaUzCU7r7DzJfMFbQGZCJvA_wOJifPywQmy8mOz0efWn8g@mail.gmail.com>
-In-Reply-To: <CAEmasaUzCU7r7DzJfMFbQGZCJvA_wOJifPywQmy8mOz0efWn8g@mail.gmail.com>
-From: Alexandre Ghiti <alexghiti@meta.com>
-Date: Mon, 24 Aug 2026 11:30:43 +0200
-X-Gm-Features: AcwNN1WLw_SK3mjZC7TcCkXWM6DR-za3ljlbeP98cJL-kpMZlruczFTOc4z7ZSk
-Message-ID: <CAEmasaX8QPPNFjrTWn4jn+hoC_q9BrRhia9Zz5FYHyzbMjN2SA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] mm: swap: drop dropbehind swap cache folios on
- writeback completion
-To: Kunwu Chan <kunwu.chan@gmail.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Kunwu Chan <kunwu.chan@linux.dev>,
-        Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>,
-        Nhat Pham <nphamcs@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kairui Song <ryncsn@gmail.com>,
-        Chengming Zhou <chengming.zhou@linux.dev>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Kemeng Shi <shikemeng@huaweicloud.com>,
-        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
-        Wei Xu <weixugc@google.com>, Yuanchu Xie <yuanchu@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDA4MiBTYWx0ZWRfX6MNhoPqAr6Kt
- /6yt0qfHMKlk8sawj7ek1PTqko2FGdqzD6XcfuQF/0KluxjV8zkYB15jzzIk0y5rDKOIHZY+2ga
- IJ9lTMoV4wzsWq65g0cEN+PZiHyMNR/QeuISYYw+irVdqpqwQWnutYg5BgsFTgOFAQdqLKDJq6P
- 0zhKiW8+4qELdPwrLHG8hVRc0kOQh2bMVUWBW1xx390Ca1p0jP98BhbbCSn2GaGwjU6GaiUp5D+
- avWyLCu7E10QAir9alRrn+VukURymeSOSdBppprhP7VZOOvWnmqz5D42j/1QtiQubnMnewgLRBU
- dzeOvsJS4Y+XBwjVbZHmwRhYUDNGvSnQ2/qtCR8N+bB6tgYKieF6j9ylOov6tBMd0VMYZd4/XgW
- HmqO89OXtFgJ3jU5iUFGpIv7yXg7BpfEabmiCA96424IHbyyfElE3GTrKiPuDl9HC5o5Biqbhhw
- 5MHyzqtjdK4gfT49/ag==
-X-Proofpoint-GUID: cF8VgJRq_IlNtbTle_E0l_YpAFlRS6IS
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDA4MiBTYWx0ZWRfX9uXhgU31qmC9
- q6EXGjoOijIy4N9Walu7cXZKUfJOTPXT8gXSgi4zb/A3hmCCSWuAGmH6xot4NvMGX+O7CNlXcbX
- FZzPF9sVnUwTvsWf2zDzlMOvkmMoc5g=
-X-Authority-Analysis: v=2.4 cv=cKjQdFeN c=1 sm=1 tr=0 ts=6a8c0f50 cx=c_pps
- a=CYpx6mtW7qE8U/l5VCnCPQ==:117 a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=jCddH8ec0KUNCymVuxII:22
- a=VabnemYjAAAA:8 a=pGLkceISAAAA:8 a=N_ursDZ4C-M7ivIJBeMA:9 a=QEXdDO2ut3YA:10
- a=22KAYETGZJnyhCxlFjxL:22 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-ORIG-GUID: cF8VgJRq_IlNtbTle_E0l_YpAFlRS6IS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_03,2026-08-21_02,2025-10-01_01
+Content-Type: text/plain
 
-On Fri, Aug 21, 2026 at 11:53=E2=80=AFAM Alexandre Ghiti <alexghiti@meta.co=
-m> wrote:
+https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/fs/fat/misc.c?h=mm-nonmm-unstable&id=64d9183203eebe33de6188b70a8c1e91f52885db (fat: restore original value when fat_ent_write failed)
+
+This commit was missing to consider about the path of error by sync
+write.  Since current bh write clears uptodate flag if got I/O error, so
+this patch doesn't work for now with wait==true.
+
+Please drop this patch at least until stop clearing the uptodate by bh
+sync write and buffer is reusable after the error.
+
+Thanks.
+
+syzbot <syzbot+26461e903494e689c24f@syzkaller.appspotmail.com> writes:
+
+> Hello,
 >
-> Hi Kunwu,
+> syzbot found the following issue on:
 >
-> On Fri, Aug 21, 2026 at 10:35=E2=80=AFAM Kunwu Chan <kunwu.chan@gmail.com=
-> wrote:
-> >
-> > > >
-> >
-> > Hi Alexandre,
-> >
-> > I have a question about the reference ownership/lifetime model in the
-> > synchronous-IO case.
-> >
-> > Consider the synchronous writeback path in Patch 3:
-> >
-> >   zswap_writeback_entry()
-> >     folio =3D __swap_cache_alloc_folio(...);
-> >     ...
-> >     __swap_writepage(folio, NULL);
-> >     folio_put(folio);
-> >
-> > During writeback completion, Patch 2 does:
-> >
-> >   folio_end_writeback(folio)
-> >     folio_get(folio);
-> >     ...
-> >     swap_writeback_dropbehind_folio(folio);
-> >       llist_add()
-> >       queue_work()
-> >
-> > With synchronous I/O, is it possible for the dropbehind worker to run
-> > before zswap_writeback_entry() drops its reference after
-> > __swap_writepage() returns?
+> HEAD commit:    6a746cd265ae Add linux-next specific files for 20260819
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13cdee79580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=4a1369648c551bbe
+> dashboard link: https://syzkaller.appspot.com/bug?extid=26461e903494e689c24f
+> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17760e79580000
 >
-> Yes, totally! The window is short though and in that rare case, we
-> would fall back to the initial behaviour (almost, since we put the
-> folio back onto lru but not rotate it). And for async devices, I don't
-> think it can happen at all.
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/32d71a199871/disk-6a746cd2.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/7bfb88f0043e/vmlinux-6a746cd2.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/4bc2ab35db01/bzImage-6a746cd2.xz
+> mounted in repro: https://storage.googleapis.com/syzbot-assets/500a74ccb5d4/mount_0.gz
+>   fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=17e3d679580000)
 >
-> >
-> > If so, the worker will attempt:
-> >
-> >   swap_dropbehind_drop_folio(folio)
-> >     ...
-> >     remove_mapping(swap_address_space(folio->swap), folio, true, memcg)
-> >
-> > while the caller's reference is still held.  Looking at
-> > __remove_mapping() in mm/vmscan.c, it expects a refcount of
-> > 1 + folio_nr_pages(folio), but the extra reference still held by
-> > zswap_writeback_entry() would make the actual refcount one higher.
-> > It therefore looks like folio_ref_freeze() will fail in this case.
-> > Is that the intended behavior here?
-> >
-> > If the removal can fail, the fallback is:
-> >
-> >     folio_clear_dropbehind(folio);
-> >     folio_add_lru(folio);
-> >
-> > This appears semantically safe, but it means that the dropbehind
-> > optimization is lost for that writeback: the cold folio goes back onto
-> > the LRU and has to be found by reclaim later.
-> >
-> > This seems particularly worth checking because v3 intentionally removes
-> > the synchronous-I/O special case from v2.  The cover letter describes
-> > that special case as an optimization that was not worth the extra code,
-> > which I agree is a reasonable direction if the generic path is
-> > sufficiently effective.
-> >
-> > Could you measure the corresponding fallback rate on a synchronous
-> > backend (e.g. zram)?  The 99.996% success rate in the cover letter is f=
-or
-> > asynchronous NVMe, so it does not tell us how often this particular race
-> > occurs with synchronous completion.
-> >
-> > More generally, I'd like the reference ownership across
-> > __swap_writepage(), folio_end_writeback(), and the deferred worker to be
-> > made explicit.  If the caller's reference can overlap with the worker's
-> > reference, I'd also like to understand whether that is an intentional
-> > and acceptable trade-off, or whether the overlap can be avoided without
-> > reintroducing the synchronous-I/O special case that v3 is trying to
-> > remove.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+26461e903494e689c24f@syzkaller.appspotmail.com
 >
-> I need to look into the patchset that Matthew and Barry pointed to and
-> check if it's still relevant with this patchset on top of it. If so,
-> I'll add a debug counter to confirm we don't fall back too much for
-> sync devices :)
+>          and is ignored by this kernel. Remove the mand
+>          option from the mount to silence this warning.
+> =======================================================
+> Buffer I/O error on dev loop0, logical block 1, lost sync page write
+> ------------[ cut here ]------------
+> !buffer_uptodate(bh)
+> WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#1: syz.0.17/5854
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 5854 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+> RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
+> Code: 4c 89 f7 e8 09 0a d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 4f 40 68 ff eb 8c e8 48 40 68 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 3a 40 68 ff 90 0f 0b 90 e9 cf fd ff ff
+> RSP: 0018:ffffc9000345f2d0 EFLAGS: 00010293
+> RAX: ffffffff825f7f28 RBX: ffff8880714019a0 RCX: ffff8880317c5dc0
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+> RBP: dffffc0000000001 R08: ffff8880714019a7 R09: 1ffff1100e280334
+> R10: dffffc0000000000 R11: ffffed100e280335 R12: ffffffff8c288c60
+> R13: ffff888032a9c248 R14: dffffc0000000000 R15: ffff8880717c46a8
+> FS:  00007fc05a3146c0(0000) GS:ffff888124dda000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f9293991000 CR3: 000000007992c000 CR4: 00000000003526f0
+> Call Trace:
+>  <TASK>
+>  mmb_mark_buffer_dirty+0x2c/0x1f0 fs/buffer.c:624
+>  fat_ent_write+0xb8/0x190 fs/fat/fatent.c:422
+>  fat_chain_add+0x409/0x8e0 fs/fat/misc.c:140
+>  fat_add_cluster fs/fat/inode.c:113 [inline]
+>  __fat_get_block fs/fat/inode.c:155 [inline]
+>  fat_get_block+0x768/0xae0 fs/fat/inode.c:190
+>  __block_write_begin_int+0x6c2/0x1900 fs/buffer.c:2030
+>  block_write_begin fs/buffer.c:2144 [inline]
+>  cont_write_begin+0x71b/0xac0 fs/buffer.c:2506
+>  fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
+>  cont_expand_zero fs/buffer.c:2434 [inline]
+>  cont_write_begin+0x2d6/0xac0 fs/buffer.c:2496
+>  fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
+>  generic_perform_write+0x2d5/0x8f0 mm/filemap.c:4374
+>  generic_file_write_iter+0xae/0x330 mm/filemap.c:4517
+>  new_sync_write fs/read_write.c:595 [inline]
+>  vfs_write+0x612/0xba0 fs/read_write.c:687
+>  ksys_pwrite64 fs/read_write.c:794 [inline]
+>  __do_sys_pwrite64 fs/read_write.c:802 [inline]
+>  __se_sys_pwrite64 fs/read_write.c:799 [inline]
+>  __x64_sys_pwrite64+0x196/0x220 fs/read_write.c:799
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+>  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7fc05939e0d9
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fc05a314028 EFLAGS: 00000246 ORIG_RAX: 0000000000000012
+> RAX: ffffffffffffffda RBX: 00007fc059625fa0 RCX: 00007fc05939e0d9
+> RDX: 000000000000fdef RSI: 0000200000000140 RDI: 0000000000000004
+> RBP: 00007fc059435024 R08: 0000000000000000 R09: 0000000000000000
+> R10: 000000000000fecc R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007fc059626038 R14: 00007fc059625fa0 R15: 00007fff03653f68
+>  </TASK>
 >
-
-As you noted, in my implementation, a race was possible between the
-worker and the folio_put() in zswap_writeback_entry(). Now with Tal's
-patchset which *only* defers atomic context to a workqueue, the
-dropbehind folios on synchronous devices get freed inline which is not
-possible because of the reference held by the zswap writeback path.
-
-But it's cleanly fixable by dropping the zswap reference before
-__swap_writepage(): the folio is locked (when it is allocated) until
-writeback starts, then PG_writeback prevents the folio removal from
-the swapcache and right before clearing PG_writeback in
-folio_end_writeback_no_dropbehind(), folio_end_writeback() takes a
-reference! So remove_mapping() is happy with the refcount :)
-
-So there are no more races as you pointed out, since we drop the
-reference before the writeback. I'll post the v4 today.
-
-Thanks again for your comment.
-
-Alex
-
-
-
-> Thanks for your comment!
 >
-> Alex
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
 >
-> >
-> > Thanks,
-> > KunWu
-> >
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>
+> If the report is already addressed, let syzbot know by replying with:
+> #syz fix: exact-commit-title
+>
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
+>
+> If you want to overwrite report's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
+>
+> If the report is a duplicate of another one, reply with:
+> #syz dup: exact-subject-of-another-report
+>
+> If you want to undo deduplication, reply with:
+> #syz undup
+
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
