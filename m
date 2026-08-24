@@ -1,187 +1,140 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D65A3AFAEC
-	for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 22:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7556B126BE1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787523166; cv=none; b=UNFWKYGVYblzh7Wzlpmk08o41o+UM5abm5jIQn9xVOpF8OXz68V+cMfvsAs3GRwpUdSbogkhKXCt7Bp335FyUycC6uS5XhFbXjeeBGanIB/QnJjskosSy15mfqWvvf1NU3hf75lBPbsOEOtv08uSetwyd2q2YD692Hxm6cb9s9s=
+	t=1787530413; cv=none; b=Du958HE2U3iXLbGoZ+mRw16PCTJ+mUXblIdtpJ/fWg0UOPEMXMgWviFgHykSdlE3sOhWF66SWRSJJAz6s46qoSjLvIr2awMNbffuJzVsQ9d330sRHYuMwUamvsRs/UDhrJExkmYURgAcqsTJWsrlp9CfVU679iiCpvD99G67ubE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787523166; c=relaxed/simple;
-	bh=GqPg7liRNMqrm8j4qggfPJWb6w6iifsnP6+v+SgJcSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tktkz8hN48s+x/SYH6gt1WgyQW13pnCJIXiCAYHqqh6EpBLjxbBIBSUeBXaHmVEaunLoZl3+1bC5N4ewd6lRKNRm+esywWl7Mpvou7Pw+MT/IpJKEHqUOcdCX56Fnjny2lolgmcmuUb4jncF0/EB4dR8RTH1zsNk7n4o0e3lfgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=HtAiPHmN; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="HtAiPHmN"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a38098734bso4955059a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 15:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1787523160; x=1788127960; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=//7iEXuM0dwaErrYwlxiIsbco7Xb10BSWAJJRQqIeEQ=;
-        b=HtAiPHmN2cDwcdR57+nVPm79Bqmt5EFmrechceL9eOdPqvtm7XlhCdN90EfvrYvC30
-         xyiSqLbWFXgRVJ2uF7cDWOuOSFM/OtpL9Jq06wbBN9U7hl0Z1+3VDXlwRWJA1JGakqoF
-         GF5k0u5gF97lYRquh2NIOw3Jj6kZTKKJbn9W1dujbFmfFlYKMGyWLz7i98bVU34bfhD9
-         FKug+jvyVP1TCFBby0MAFYlfcWF7S2nPMhtwgA1iLzf7NwHw5j3a3vdbQVKQGzaaeqVE
-         UAmGHSVqkpdxdl8cqRT18mdu9gBcHZrbPXo/N9A9zPnVIflAQ5qUJyxZlOEMu5wwzbod
-         89ng==
+	s=arc-20240116; t=1787530413; c=relaxed/simple;
+	bh=06AUqY0NWATXGns1wdsxvPErqV1uSYg2ZCeBcWJbPdA=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=kbEY/kPKJPCNnlVXrTdg37zLlbiAjOaE291jC8VwLcR8US+Z3eSwJuzEJg0rQq0BapcI/gVC1/WCTgASbynT6RII1Ulap8bESI4lCNixkW2KgpYFOtQWnI3sOXAGPmybwUymfb3TpkcLXwaw9XgaMdZpP9Fw+5nDmAoQyRh+4NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4a45b3f0bdfso5861190b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 23 Aug 2026 17:13:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787523160; x=1788127960;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787530410; x=1788135210;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=//7iEXuM0dwaErrYwlxiIsbco7Xb10BSWAJJRQqIeEQ=;
-        b=R3GAdJse29Ox5Ep6uDRPn1PPt/Hcvr+aqdX7yWyGE+IY3jp1AISCBWvGOL7cm3S7D5
-         pOK+RWibEZ+wvcNDvuAOZQK7brc5F+57yQ5yte96iTjlh4qxICwW2FJsJMX1ya3XuptX
-         spfONNA0E2A3F64ZYcuFaOBPIZqyGdhdLfvfYxVKDG7pHNk4mtbRQQw91/lOGweOh39F
-         ZhcmZIR3oYU1va8J3VQcvfkN1D3x6Ulwrhy7r/mCLqsdRfpfCzBUneM1IQ1gUQ3MPFXg
-         wmOM97iuEsgXQzk2I63rQmlzGc6F9hP0PqShyYkqQdkjpdirxQbTFcvVzjBvob2+BhQy
-         ArjA==
-X-Forwarded-Encrypted: i=1; AHgh+RoxGKgG+P5YGokSWRdKo/ZivzZK10s67JCd+y7ObP8gCMQxTsQ3JJtarwruhS+YjUtdEGMt2rCYDWQOceB6@vger.kernel.org
-X-Gm-Message-State: AFuF++nOEOtLVXKUoFu8OTgrgZIMMRBJnR8ZD+bVE1okrcnhkQNwg98V
-	GMJ0OaVaWYg35m/YDVCqxVshhy/mWQFYGtsG98rcZLxFHBOq7B6c0dI3qq533TzqK2I=
-X-Gm-Gg: AR+sD10E4oD//DTt9GU+FUaKnhuHY5zxLuGg4Eji+wXRE/x2YpdrtD54lTWyQIVbYe/
-	f9CDiTTO7BQAHsPy8GL/PE0LfZ06VvoDxW5Ujpyr4bff2ChLNwpzj+7wPMh44EuRcUmb02QqVbY
-	/FCFGgXWkjY82AiBYse4yMKGU6MwCzEog3IBRb8cAtPVEaoggRCA0iDUXVknnhD1iTbUAfiPepm
-	ijZ0jqoXv+2hUQLernegeNJWCoQrYSD27ujIyKnUHi7wY2+7HVFGM3sQOhLk7cK9jc/LZ0fycOV
-	hrxGGJ0V3mdExq1DILBR8kAw9CfNRIpfl5d3JZB4TjQxghJFePORfVcPkVgYuiZPF6AOPbqWrW0
-	Sd1Rag0wyLd3TnuG7Bv6ZVib/EfYuQTT4MTmEYPzasuVCYQaeI3I3Um1jN8s1zdr3NomjLgsthB
-	FMxqvw+zrt4Vpf1pswk+0QeceR1ujbkvSjoYjZ5YLULGqTwdTu39MC9rXuQlUw377k1kfQnImju
-	jEP
-X-Received: by 2002:a05:6402:505b:b0:69c:811f:8f5 with SMTP id 4fb4d7f45d1cf-6a42f1b9325mr25356134a12.6.1787523160405;
-        Sun, 23 Aug 2026 15:12:40 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-6a59e00108asm7547158a12.2.2026.08.23.15.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 15:12:39 -0700 (PDT)
-Date: Mon, 24 Aug 2026 00:12:38 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Mauricio Faria de Oliveira <mfo@igalia.com>
-Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	kernel-dev@igalia.com, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	fsverity@lists.linux.dev, keyrings@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wpan@vger.kernel.org, lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	coreteam@netfilter.org, linux-sctp@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-s390@vger.kernel.org, bridge@lists.linux.dev, mptcp@lists.linux.dev, 
-	rds-devel@oss.oracle.com, virtualization@lists.linux.dev
-Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
- MODULE_SYSCTL_TABLE
-Message-ID: <aotteDcc588iwC6g@monoceros>
-References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
- <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
- <aomlfGJM61qZKxx2@monoceros>
- <4e3eaf1d3419e808be046035f114bf6c@igalia.com>
+        bh=Z/+449VjIMMZq2CJMT31++BUW5kE71Qr3CUfJ8j1g/Q=;
+        b=omv4BcbM+2na+SCWLQul+0kgysS2xntUaBYLLF6WAOZcJUYt4XJw8AK2+ANS23srBd
+         5HYEFwaZWvza8wXQaQRec7QEO7NmCnHBgBiru0JJh1D7UX79PhNjAj0CfHQkoWcTWgOM
+         cyKxZ/LtBYRL/yZAU4S5kU95jcMG1DYM0Jo0oXIm3W8He2zl49gOQYZy/KkqXN12mj1R
+         GHWXrmTSf9Ff2/YM5jQr4uLmX8NSrqjMEa6YcUOko7Tw0hEdpbUY/3f5NRsnCYIZYu3r
+         O8omF2WhIoo9Yn4Q+37ZnhodRqLNhG/MiCTEoCH+1GqfOMAT2ypkJMKYvY2RdeOpTntK
+         pOAw==
+X-Gm-Message-State: AFuF++kwcttBnSxnhe1YrT4xda35RKVLO0xNuLe+fyGrfs98/+G5KOvY
+	nLzq00VkTLy7pA3VAzkPdV0TZ4iNJHjB/htz3DUxdcYUtcXZbGxqZ+GvVtTcmfhtyWZHaxtoqf4
+	gd6e33eSGwNmmA4mGMrufKFeCztoawCDa+kG47Z+5J/7VRidx68tszPmLLy64tg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6dsww6grbwx7uy7i"
-Content-Disposition: inline
-In-Reply-To: <4e3eaf1d3419e808be046035f114bf6c@igalia.com>
+X-Received: by 2002:a05:6808:1b0d:b0:4a4:12c4:9c16 with SMTP id
+ 5614622812f47-4b2ef1fa073mr22692353b6e.7.1787530410429; Sun, 23 Aug 2026
+ 17:13:30 -0700 (PDT)
+Date: Sun, 23 Aug 2026 17:13:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8b8caa.ae6ddae5.3da009.0071.GAE@google.com>
+Subject: [syzbot] [trace?] [fs?] WARNING in free_ei
+From: syzbot <syzbot+88bc830c26215a9f38dc@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com, 
+	mhiramat@kernel.org, rostedt@goodmis.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    98f21c54f995 Merge tag 'for-linus-fwctl' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=100af815580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=87880a67258a10c5
+dashboard link: https://syzkaller.appspot.com/bug?extid=88bc830c26215a9f38dc
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/14ce45f3c743/disk-98f21c54.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b189ccebbda8/vmlinux-98f21c54.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2d83175df409/bzImage-98f21c54.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+88bc830c26215a9f38dc@syzkaller.appspotmail.com
+
+Could not create tracefs 'set_event_notrace_pid' entry
+------------[ cut here ]------------
+!list_empty(&ei->children)
+WARNING: fs/tracefs/event_inode.c:128 at free_ei+0x284/0x340 fs/tracefs/event_inode.c:128, CPU#1: syz.4.591/8581
+Modules linked in:
+CPU: 1 UID: 0 PID: 8581 Comm: syz.4.591 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+RIP: 0010:free_ei+0x284/0x340 fs/tracefs/event_inode.c:128
+Code: 48 c7 c7 00 c1 11 8f 48 89 de 48 c7 c2 e0 94 d9 83 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d e9 32 a5 d1 fd e8 cd 6c ed fd 90 <0f> 0b 90 e9 c7 fd ff ff e8 bf 6c ed fd 90 0f 0b 90 48 b8 00 00 00
+RSP: 0018:ffffc9000432fa88 EFLAGS: 00010202
+RAX: ffffffff83d99873 RBX: ffff8880752fe210 RCX: ffff888036070000
+RDX: 0000000000000003 RSI: ffffffff8c4bdd60 RDI: ffff8880752fe200
+RBP: ffff8880752fe200 R08: 00000000ffffffff R09: 1ffffffff20afb46
+R10: dffffc0000000000 R11: fffffbfff20afb47 R12: 0000000000000000
+R13: ffff888066e81800 R14: ffff8880752fe200 R15: 0000000000000003
+FS:  00007f59a15ec6c0(0000) GS:ffff888125036000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f8cd675da08 CR3: 000000006f27f000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ cleanup_ei fs/tracefs/event_inode.c:150 [inline]
+ eventfs_create_events_dir+0x7c4/0x9f0 fs/tracefs/event_inode.c:834
+ create_event_toplevel_files+0x11e/0x1a0 kernel/trace/trace_events.c:4593
+ event_trace_add_tracer+0x8a/0x3b0 kernel/trace/trace_events.c:4624
+ trace_array_create_dir+0x77/0x160 kernel/trace/trace.c:8548
+ trace_array_create_systems+0xb3c/0xe60 kernel/trace/trace.c:8639
+ trace_array_create kernel/trace/trace.c:8666 [inline]
+ instance_mkdir+0xd5/0x140 kernel/trace/trace.c:8681
+ tracefs_syscall_mkdir+0x11a/0x190 fs/tracefs/inode.c:121
+ vfs_mkdir+0x40c/0x620 fs/namei.c:5410
+ filename_mkdirat+0x285/0x510 fs/namei.c:5443
+ __do_sys_mkdirat fs/namei.c:5464 [inline]
+ __se_sys_mkdirat+0x35/0x150 fs/namei.c:5461
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f59a079e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f59a15ec028 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
+RAX: ffffffffffffffda RBX: 00007f59a0a25fa0 RCX: 00007f59a079e0d9
+RDX: 00000000000001ff RSI: 0000200000000140 RDI: ffffffffffffff9c
+RBP: 00007f59a0835024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f59a0a26038 R14: 00007f59a0a25fa0 R15: 00007ffde26bcc48
+ </TASK>
 
 
---6dsww6grbwx7uy7i
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
- MODULE_SYSCTL_TABLE
-MIME-Version: 1.0
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Hello Mauricio,
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-On Sat, Aug 22, 2026 at 01:57:24PM -0300, Mauricio Faria de Oliveira wrote:
-> On 2026-08-22 10:41, Uwe Kleine-K=F6nig wrote:
-> > On Wed, Aug 19, 2026 at 03:16:16PM -0300, Mauricio Faria de Oliveira wr=
-ote:
-> >> The MODULE_SYSCTL_TABLE macro emits a struct module_sysctl_table varia=
-ble
-> >> with pointers to a sysctl table's path and entries, and table/entry si=
-zes.
-> >=20
-> > That new struct doesn't seem to contain any pointer?
->=20
-> The struct module_sysctl_table fields .path and .table are pointers,
-> although with kernel_ulong_t type so that the same 32/64-bit size is
-> used in file2alias.c based on KERNEL_ELFCLASS (and not on the host,
-> which might differ with CROSS_COMPILE).
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Cross compilation isn't an issue for the already existing device id
-structures; many of them also contain pointers.
-(While modpost doesn't use the pointers, the size of the structures must
-be known to correctly interpret the arrays.)
-Also sizeof(long) differs between architectures and I can compile for
-arm(32) just fine on amd64.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Additionally there is hardware out there that has sizeof(void *) =3D 16
-but sizeof(long) =3D 8. Up until recently I worked on mainlining that (and
-it has business reasons only I stopped, so I guess and hope I will
-continue at some point in the future). See
-https://lwn.net/Articles/1037974/ for some details if you're interested.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-I would be great if your series didn't introduce a new obstacle for
-that.
-
-> >> That symbol will be handled by file2alias.c (modpost) with the changes=
- in
-> >> mod_devicetable.h and devicetable-offsets.c.
-> >>=20
-> >> The option macros MODULE_SYSCTL_TABLE_{DISABLE,UNIQUE_ID} can be used =
-on
-> >> a per-file basis to disable the macro and change the symbol name patte=
-rn.
-> >>=20
-> >> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
-> >> ---
-> >>  include/linux/mod_devicetable.h   |  7 +++++++
-> >>  include/linux/sysctl.h            | 42 ++++++++++++++++++++++++++++++=
-+++++++++
-> >>  scripts/mod/devicetable-offsets.c |  6 ++++++
-> >>  3 files changed, 55 insertions(+)
-> >=20
-> > Please put the new struct in a separate header. Apart from not being
-> > about a device table, I'm currently work on removing
-> > <linux/mod_devicetable.h>. See commit
-> > ad428f5811bd7fb3d91fa002174de533f9da94d7 for more details.
->=20
-> Sure; I looked at that earlier (thanks for the instructive commit
-> message, by the way) and found the new struct to be similar to "struct
-> cpu_feature isn't really a device_id struct" (not moved), but apparently
-> missed the trailing "fow now", which is clearer now. Fixed for v4.
-
-Yeah, I didn't move that because it was an outlier in the header as it's
-not a device id. IMHO it should go to something like
-include/linux/cpu_feature.h.
-
-Best regards
-Uwe
-
---6dsww6grbwx7uy7i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqLcFMACgkQj4D7WH0S
-/k74fgf+L2E+C5s7/Uv60MggM8SluqqYOIYVRQMrJ0YZ292Po2lSpcrxuhUuQU2B
-oXhO4fsc1HgZsK331x/O/bMuTOPLltQaKOsxLiMi24UglNQqmujyzSUFLnsr9NlL
-1xjI1icd6tMaie8k1PK7ynotnvtfYE9Fbl/52MAUgNFbTbWqnaXhNv+fzm/C72Cc
-xjp+GuDi0DimbriiFBYP3aUccUEUCgsrwh3Zwss3iQSaV2gZ3Y+jYlUBB3YlBSZQ
-+m5a8ZWC4FeqCD+8NXyqc01adbOF9gkilqmoa2KsUhRY9+jPqn0pQhpfPxEl6Lf9
-/YNG96sk855Er0BHcQ1R8Pg+AcsRrg==
-=t37g
------END PGP SIGNATURE-----
-
---6dsww6grbwx7uy7i--
+If you want to undo deduplication, reply with:
+#syz undup
