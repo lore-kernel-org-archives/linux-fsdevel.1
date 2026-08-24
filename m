@@ -1,191 +1,379 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193703F4DC2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 10:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDF93EF0A6;
+	Mon, 24 Aug 2026 11:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787568599; cv=none; b=c51VHrh4xN2slYl+AibOC+ES6v9Tx2b6Gzcaz1eABmrXITVMlOatTr71dcIo9AiYCpTA8jgbSpB0BVdFRzHt9fUZzAaJMH4CTJm234CoijtmgcNPGMGIYvE18+vLjTE9eCe1NZqWgSerKvNMVqng0PsAKH5kq9aphFEXr9MWUCQ=
+	t=1787570335; cv=none; b=WjiVRYblt3LGFnElolwjVooYxeVkWOGCoIf2M16bAMeqLKTkAvuCX+st4Jq+vygU5DadEJdJRhHQEzcfiW7kA+AJLce5otHHqIyaVbt2wnHXzpqJWk7wbyav/FogC0s3EDXYaP6SDaJajAKZxcwczrQuYJR0kv9iqAZZjF4dEMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787568599; c=relaxed/simple;
-	bh=9/5FmTiNUNjJFDcgH5TqdZlD6TMa0N0OQTmCfTGJzbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hbxsf7R+9ose0+UlVERnK0G0oTk6giykHytEOZQfQaZurF1ValGRwZYMpE5YrtF+lc3pzOBzArVsKOrB63CdyftAZn9GhH1jqJqfx9uwmfmxEsYByQzIsGfUm/AkTjmhwI2K7oHHTGKYDcDQPip1Fx3i6nNV8rcy5ZGI8kgdEjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNqtlhIl; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787570335; c=relaxed/simple;
+	bh=FqNgKrXDIDlNBJAVOF/eN4RowgtxLQyzOYJqyvOoOPA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Iw0p4QIrWc7seJ6lG0Zg/a5jjix3Pr4YaXY1WA7vAd9HwLiHTEUTL+MzNVLS3eUc8N5ndTJ9ATYdZtvhchhChTohMWbSVxoVFrNVtteA3+fdWLiM8TI65n9atn0MasldpOvSLGImJwi7PQfmkrvqII3WUB/fwIYB+BWQEgA0dI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw0PQSv+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNqtlhIl"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c197e7e4e94so586340166b.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 03:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787568596; x=1788173396; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nOd8+4g2mnunbTTjfkzCI8WvVdyCHxk83j5KrKNRFdg=;
-        b=iNqtlhIlX7p9KvhuZlW+Yqi46IQu3N8hGulfoHBax2dGORT9oLq8ElIoezjSD/2RGC
-         WBOT1zXWPb4pp1Qn8XiFxjkGnAF5zV8KgDdzlDKORVvTXWGUkMrM/f0MkgZRYN1Uj+tk
-         THIdma38C4c0BUO9Bm36IHaEUKEune9Q+bGb12z747QwlWKUa5r29lq5e/8AwI38/GO9
-         feCo6IU7xXC2kdRwsAYaePzbkDsz8DU5qCf/kV3h5I/Lg9fGlNL2L9hzg0+HFajKJWwh
-         E5bjoN/a0OuGqTbXklPTFTpFf9+oa/qEmT9R76PdEHdxmuYrUardP/K+Iw48cCMCc9+j
-         Soww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787568596; x=1788173396;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nOd8+4g2mnunbTTjfkzCI8WvVdyCHxk83j5KrKNRFdg=;
-        b=jGjFLabTwOOudmr2cxpw6Ep/lwG+JgaK2mSpw7t4qJV9YyDQlTvxbCbXCC4VlQpxfM
-         s06TWs2VFeG7tL+DhlIoakcQ4LEKsZGKiqEXcTuKjI08RxqumKfqoasx43FA0uffi2EL
-         vBomA6OgJOkYIUtqT4EHeYeMx8PmYh5M3qHS7TIbIvqq3n377lBAqEDLw4kj/KRhdqYc
-         HCPAQ5xiZPzGIQ5gE+GcXPU2hQsRzHaQ/62eZO6efd0mbatqrXU95t/SNYaS+9IytBpY
-         GnS4KqVm40VYSbswkoQ58brDNrKssp9f4xGuMA/YSm12yPjhJpztF1mHv0CIc7rgdNZB
-         xQvA==
-X-Forwarded-Encrypted: i=1; AHgh+RpmTrDMcD9a+QkHWgsUgbEsbo003pHyMZRXGTKhn7CpzFmxShianfdjqfbwk2fD3TBb9eKqb04b+OHUjyi0@vger.kernel.org
-X-Gm-Message-State: AFuF++kzusOSYwge/SaSl5ArvF2BwhtKuigP7/CdHbxNigWL48ObbXIj
-	OPTkT7oYe433gGI1Ras8EHw+jIiqrx84je5Of4g+a8c/wNB6QwDhfAZU
-X-Gm-Gg: AR+sD12IOqU66/kwXj0F/2ZzwG/OnqEIDOlQ0Oy+WIO3DS5pNbjqUVl2u8W5Vh0cEJH
-	if6hb+Npc73c5V4jPn2BVWJkq3VIkL9Qa7A42g34Z14BTFK5DcRGNLNa3vFfnEPBk12vjKGrjv2
-	4IMHHMuYEw1hnlUKKeLvQVaEh2bZ5ZgQFny5YFsuQwjK2bwLhvSKN60wSpgDFNusKx6ckNeF0Tr
-	JSLTCx9awy4c3x2HgKap2MDYEfAnsfzzvIzig2J90sPW+Dg+EQ5cA0TVypqbzQBUPdyngJNDlI1
-	N44Rvv8NfUjRiUlbwdTG7ZKpbVICZk8qZMRQHuutqfntliFfGlQrOb+AxOTrmL+yO0ki3Xd2lYG
-	YpbCyX7wrUpQWHroA5AfJOdRnxaR6ULYEBh5dqNRXN0Hvn2pCfor0XtwKuAIAx9OG2XYyFiCiVn
-	tl2373ll4DbCuoRvsUFxjFf0OEACpbPGjcNJAzXr7qW17Cxzr9DH4KG3q6HgV9VOST0ED5CiupI
-	3Il
-X-Received: by 2002:a17:907:97c4:b0:c20:af9d:454a with SMTP id a640c23a62f3a-c2492621bf8mr1999188266b.16.1787568595897;
-        Mon, 24 Aug 2026 03:49:55 -0700 (PDT)
-Received: from dell-desktop ([2a02:587:4b5e:1100:7303:647d:7cc4:8552])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249672becesm1236373966b.42.2026.08.24.03.49.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 03:49:55 -0700 (PDT)
-From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-To: andrii.nakryiko@gmail.com
-Cc: akpm@linux-foundation.org,
-	andrii@kernel.org,
-	ast@kernel.org,
-	bpf@vger.kernel.org,
-	brauner@kernel.org,
-	daniel@iogearbox.net,
-	david@kernel.org,
-	eddyz87@gmail.com,
-	kpsingh@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	matt@bobrowski.net,
-	memxor@gmail.com,
-	song@kernel.org,
-	tasos.papagiannnis@gmail.com,
-	utilityemal77@gmail.com,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH bpf-next 2/3] bpf: Add user memory access kfuncs for linux_binprm
-Date: Mon, 24 Aug 2026 13:49:30 +0300
-Message-ID: <20260824104930.83453-1-tasos.papagiannnis@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <CAEf4BzZTM5SehNnM83U3Kj0cz=NN=JwUtG-pcvSHdvZBsHdM3g@mail.gmail.com>
-References: <CAEf4BzZTM5SehNnM83U3Kj0cz=NN=JwUtG-pcvSHdvZBsHdM3g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw0PQSv+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED21E1F000E9;
+	Mon, 24 Aug 2026 11:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787570332;
+	bh=ZPgpXhjxhEp6fWTX8R/4rZ+5C7Ou3ihy4+RxC5piU2s=;
+	h=From:Subject:Date:To:Cc;
+	b=Vw0PQSv+m2sSzvQdhc4TDb0WDpr+01fCnuvdB15EljTpcaVG/CEZNCfXWJ18k5cbf
+	 rOM4RvQstU8ej522JYaq1Etl32edd5rr+086wK9VM4+aqaF6vTU8E0DOnalaNhx3jp
+	 CcAavN0ecOpT3H/9Kwb2ewJ4YT6rlPnWPja4eN2SjTMIWcZqBRxjkUXBb1FPlQvowP
+	 YqaOw6mAMGYokPf2fOJvcjbWayBJBot2697U53Tdxhj5oDq2rtGx9+FTuZw4c74g9o
+	 SpopHBJEYYTLBcS2C3NJvK9ARiG/g2czjvAYSwrTb5vuirgjpPYogCE+s7598wpTb0
+	 n+cNxWlsPznsg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Subject: [PATCH v20 0/8] rust: add `Ownable` trait and `Owned` type
+Date: Mon, 24 Aug 2026 13:17:52 +0200
+Message-Id: <20260824-unique-ref-v20-0-490735672187@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGAojGoC/2XOPW7DMAwF4KsEmquC+pc69R5BBkuiEqGFncqN0
+ SLw3UtnqR2PfMT3yDsbsVUc2dvhzhpOdaxDT4OElwNLl64/I6+ZAiZBGlBg+K2vXzfkDQuXoaR
+ snSkBAyNwpbD+PNqOJ5ovdfwe2u+jfBJ6iZceCxL0uod2HLhwKcqAsUsxvn9g6/HzdWhntjRNw
+ qy0hK02pH1QmL2NYFPaa7vWT7ct6SRFV1IUwme11+5f2+fPHWkXdVJZBgUx7LVfaWm22pPWCDY
+ aH2zWbq/DWtutDqQpd6nzPpdcNnqe5z8COcD13gEAAA==
+X-Change-ID: 20250305-unique-ref-29fcd675f9e9
+To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Lyude Paul <lyude@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
+ Ira Weiny <iweiny@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>, 
+ Oliver Mangold <oliver.mangold@pm.me>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ Asahi Lina <lina+kernel@asahilina.net>, 
+ Igor Korotin <igor.korotin@linux.dev>, 
+ Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12294;
+ i=a.hindborg@kernel.org; h=from:subject:message-id;
+ bh=FqNgKrXDIDlNBJAVOF/eN4RowgtxLQyzOYJqyvOoOPA=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqjChsf8CMKbtoVQ11KhWy3uKfRya4/CJC7zafO
+ zeTkhrgEwiJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCaowobAAKCRD6UCkIqsW9
+ 0BIXD/4/h22+gOTb1sZHiEYU947FTv3rFPNwyrNF4963NKrXxxhP6qYXQjZs1ypmmhbM/oTCtFD
+ BAP71XODOpghHN2mb17Z/0OX4r1AN0uOKpDbmZSK3HfZYEYGWURO7Sc5Rj2KUSJ8uAzDFWAynVK
+ eKcMb/AfqyvnatdFGv3vxWvx7108a5vSISch1AxfACDfx8Kd0tT7Rc0wPZtN/jvOSHUVEXORNAP
+ IvMutAiF5X6KUuQw0XkxNh1y7uP3ezQ7zc2pvPxmJSrXBLL0h46O9WUiK72DnfHhlX6mk+T5rQs
+ P235JkLHBM/zu7iSnyAFSyXOOytkjWlJIB4bn6M5t3dSfqN9nndZCV4md1AytCMy9BnUwpnJ6h8
+ 5OHmWRYxqtv0AJCBKG8+nlPoIAQfCgqSkDXN8C8omy0AChQVOReNsgF1+4uoknuA3/yzqfGN9Ki
+ reEcMZuZq8q6dVCFaw3gsrBPdlWKKR2uMHTCFhB4yD0c4q680X4D2uGszzk1AUltO/yy6CrthMX
+ sqy+/Mw4U/5vx07ZLK4fxN2W0RMNoOhUjCosJI4xE3qFCJelKVHmEm5ktciDlZ2gXgP8yuTjeEh
+ nikWM5q1evHTccgrTLzlouSMTQHNwnVVvHWHqvUWTpkkU2Rd8HUd2BrUP7qhbqziwkOrcjgeM8q
+ XogP2ZfLfiTfAqA==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Thanks for the review!
+Add a new trait `Ownable` and type `Owned` for types that specify their
+own way of performing allocation and destruction. This is useful for
+types from the C side.
 
-> making this linux_binprm-specific seems short-sighted and overly
-> specialized, why not pass `const struct mm *` and call new kfuncs
-> bpf_copy_from_user_mm[_str] ?
+Implement `ForeignOwnable` for `Owned`.
 
-> and this seems to belong right next to bpf_copy_from_user_task_str()
-> and others in kernel/bpf/helpers.c (and bpf_copy_from_user_task
-> variants should just delegate to this mm-based APIs and minimize code
-> duplication)
+Convert `Page` to be `Ownable` and add a `from_raw` method.
 
-This is exactly what I did in my previous set of patches:
-https://lore.kernel.org/bpf/20260811112154.94053-1-tasos.papagiannnis@gmail.com/T/
-https://patchwork.kernel.org/project/netdevbpf/list/?series=1144046&state=*
-https://sashiko.dev/#/patchset/20260811112154.94053-1-tasos.papagiannnis%40gmail.com
-https://github.com/kernel-patches/bpf/pull/13211
+Add the trait `OwnableRefCounted` that allows conversion between
+`ARef` and `Owned`. This is analogous to conversion between `Arc` and
+`UniqueArc`.
 
-where I got AI reviews with 2 main issues:
+Patches 1-4 implement `Ownable` and applies it to `Page`. These patches
+can be merged on their own.
 
-1.  Does marking bprm->mm as trusted-or-null here create a use-after-free
-    vulnerability on the execve error path?
-    Looking at free_bprm() in fs/exec.c, when an error occurs:
-    fs/exec.c:free_bprm() {
-        ...
-        if (bprm->mm) {
-            acct_arg_size(bprm, 0);
-            mmput(bprm->mm);
-        }
-        ...
-    }
-    The object is freed via mmput(), but the bprm->mm pointer is not set to NULL.
-    Could subsequent traceable cleanup functions (such as free_arg_pages) expose
-    this dangling reference to BPF programs, bypassing the verifier's safety
-    guarantees?
+Patches 5-7 add `Ownable` -> `ARef` interop and can be merged later if
+consensus on their shape cannot be reached.
 
-This is something that I believe is easy to fix.
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+Changes in v20:
+- Fix a few copy/paste errors in safety comments (Sashiko).
+- Use `self.page.get()` rather than `Opaque::cast_into` (Alice).
+- Add a space between generics in a comment (Sashiko).
+- Change a safety comment to reference Box rather than KBox (Sashiko).
+- Link to v19: https://msgid.link/20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org
 
-2.  Does this break the BPF load-compatibility guarantee documented in
-    Documentation/bpf/bpf_design_QA.rst?
+Changes in v19:
+- Update `workqueue.rs` and the `aref` module docs to use `RefCounted` instead of `AlwaysRefCounted` (Sashiko).
+- Remove the default `OwnableRefCounted::into_shared` implementation to keep the trait safe (Sashiko).
+- Fix the `ARef<Self>` rustdoc link (Sashiko).
+- Reuse `Owned::into_raw`/`from_raw` in the `ForeignOwnable` implementation (Gary).
+- Link to v18: https://msgid.link/20260625-unique-ref-v18-0-4e06b5896d47@kernel.org
 
-    Before this patch, walking bprm->mm produced a dereferenceable register
-    in every program type. In sleepable programs, in_rcu_cs() is false, so
-    check_ptr_to_btf_access() sets flag = PTR_UNTRUSTED. In non-sleepable
-    programs, in_rcu_cs() is true but mm is not in any __safe_rcu* list, so
-    clear_trusted_flags() produces a plain PTR_TO_BTF_ID.
+Changes in v18:
+- Rebase on `rust-next` (2026-06-24).
+- Drop the `'static` bound on `ForeignOwnable for Owned` (Gary).
+- Make `Ownable::release` take a raw pointer instead of `&mut self` (Alice, Sashiko).
+- Drop `types::ARef` re-export (Alice).
+- Drop unneeded `#[repr(transparent)]` on `Owned` (Gary).
+- Fix `FOREIGN_ALIGN` for `Owned` to report the pointee alignment (Sashiko).
+- Remove `BorrowedPage`; use `&Page` directly (Alice).
+- Update Rust Binder for the `Owned<Page>` conversion (Alice).
+- Update `pwm.rs` for the `RefCounted`/`AlwaysRefCounted` split (Sashiko).
+- Fix documentation nits: missing `// INVARIANT:` comments, stale `Page` docs, and a stray `mut` (Sashiko).
+- Expand the `use` statements touched by the rename patch to the multi-line style (Onur).
+- Link to v17: https://msgid.link/20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org
 
-    Both PTR_TO_BTF_ID and PTR_TO_BTF_ID|PTR_UNTRUSTED satisfy the guard in
-    check_mem_access():
+Changes in v17:
+- Rebase on v7.1-rc2.
+- Reorder patches so that `Ownable` can merge without `OwnableRefCounted` (Alice).
+- Add `#[inline]` directives to short functions added by the series (Gary).
+- Link to v16: https://msgid.link/20260224-unique-ref-v16-0-c21afcb118d3@kernel.org
 
-    } else if (base_type(reg->type) == PTR_TO_BTF_ID &&
-                !type_may_be_null(reg->type)) {
-            err = check_ptr_to_btf_access(env, regs, reg, argno, off, size, t,
-                                            value_regno);
+Changes in v16:
+- Simplify pointer to reference cast in `Page::from_raw`.
+- Use `NonNull<Page>` rather than `Owned<Page>` for `BorrowedPage` internals.
+- Use "convertible to reference" wording when converting pointers to references.
+- Fix formatting for `Page::from_raw` docs.
+- Leave imports alone when adding safety comment to aref example.
+- Use `KBox::into_nonnull` for examples.
+- Add patch for `KBox::into_nonnull`.
+- Change invariants and safety comments of `Ownable` and make the trait safe.
+- Make `Ownable::release` take a mutable reference.
+- Fix error handling in example for `Ownable`
+- Link to v15: https://msgid.link/20260220-unique-ref-v15-0-893ed86b06cc@kernel.org
 
-    so bprm->mm->arg_start loads with no NULL check.
+Changes in v15:
+- Update series with original SoB's.
+- Rename `AlwaysRefCounted` in `kernel::usb`.
+- Rename `Owned::get_pin_mut` to `Owned::as_pin_mut`.
+- Link to v14: https://msgid.link/20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org
 
-    After this patch, btf_nested_type_is_trusted() matches
-    linux_binprm__safe_trusted_or_null.mm, so check_ptr_to_btf_access() sets
-    flag |= PTR_TRUSTED | PTR_MAYBE_NULL. Now type_may_be_null() is true, the
-    arm above is skipped, and control falls to the final else:
+Changes in v14:
+- Rebase on v6.19-rc7.
+- Rewrite cover letter.
+- Update documentation and safety comments based on v13 feedback.
+- Update commit messages.
+- Reorder implementation blocks in owned.rs.
+- Update example in owned.rs to use try operator rather than `expect`.
+- Reformat use statements.
+- Add patch: rust: page: convert to `Ownable`.
+- Add patch: rust: implement `ForeignOwnable` for `Owned`.
+- Add patch: rust: page: add `from_raw()`.
+- Link to v13: https://lore.kernel.org/r/20251117-unique-ref-v13-0-b5b243df1250@pm.me
 
-    } else {
-            verbose(env, "%s invalid mem access '%s'\n", reg_arg_name(env, argno),
-                    reg_type_str(env, reg->type));
-            return -EACCES;
-    }
+Changes in v13:
+- Rebase onto v6.18-rc1 (Andreas's work).
+- Documentation and style fixes contributed by Andreas
+- Link to v12: https://lore.kernel.org/r/20251001-unique-ref-v12-0-fa5c31f0c0c4@pm.me
 
-    Any existing program that reads through bprm->mm without an explicit NULL
-    check now fails bpf_prog_load() with -EACCES.
+Changes in v12:
+-
+- Rebase onto v6.17-rc1 (Andreas's work).
+- moved kernel/types/ownable.rs to kernel/owned.rs
+- Drop OwnableMut, make DerefMut depend on Unpin instead. I understood
+  ML discussion as that being okay, but probably needs further scrunity.
+- Lots of more documentation changes suggested by reviewers.
+- Usage example for Ownable/Owned.
+- Link to v11: https://lore.kernel.org/r/20250618-unique-ref-v11-0-49eadcdc0aa6@pm.me
 
-This sounds to me a bit more complicated. In a prog attached to lsm/security_bprm_check,
-bprm is trusted but bprm->mm is not trusted. So we need a way to have bprm->mm trusted
-to pass it as an argument to the helpers. In that series, I marked linux_binprm->mm as
-trusted-or-null, which breaks all existing programs that use
-linux_binprm->mm->something.
+Changes in v11:
+- Rework of documentation. I tried to honor all requests for changes "in
+  spirit" plus some clearifications and corrections of my own.
+- Dropping `SimpleOwnedRefCounted` by request from Alice, as it creates a
+  potentially problematic blanket implementation (which a derive macro that
+  could be created later would not have).
+- Dropping Miguel's "kbuild: provide `RUSTC_HAS_DO_NOT_RECOMMEND` symbol"
+  patch, as it is not needed anymore after dropping `SimpleOwnedRefCounted`.
+  (I can add it again, if it is considered useful anyway).
+- Link to v10: https://lore.kernel.org/r/20250502-unique-ref-v10-0-25de64c0307f@pm.me
 
-Another approach would be to add one more kfunc (i.e. bpf_get_bprm_mm) to get
-the mm from bprm and have it trusted.
+Changes in v10:
+- Moved kernel/ownable.rs to kernel/types/ownable.rs
+- Fixes in documentation / comments as suggested by Andreas Hindborg
+- Added Reviewed-by comment for Andreas Hindborg
+- Fix rustfmt of pid_namespace.rs
+- Link to v9: https://lore.kernel.org/r/20250325-unique-ref-v9-0-e91618c1de26@pm.me
 
-The reason that I didn't push that further was that mm in general is
-bound to either linux_binprm or task_struct during its lifetime. We already
-have helpers for task_struct, and I thought that adding helpers for linux_binprm
-would be enough. Other than that, there is only one security_*() function that
-takes mm_struct as an argument (i.e. security_vm_enough_memory_mm), and possibly
-in that case we do not need to read the memory contents, but only metadata
-(possibly I am oversimplifying here, but this is to show my thinking).
+Changes in v9:
+- Rebase onto v6.14-rc7
+- Move Ownable/OwnedRefCounted/Ownable, etc., into separate module
+- Documentation fixes to Ownable/OwnableMut/OwnableRefCounted
+- Add missing SAFETY documentation to ARef example
+- Link to v8: https://lore.kernel.org/r/20250313-unique-ref-v8-0-3082ffc67a31@pm.me
 
-Unless I am missing something obvious, I can see two possible approaches here:
-  1. Keep the bprm-specific kfuncs as they are now.
-  2. Rework this around the mm variants that you proposed and add one
-     more kfunc (i.e. bpf_get_bprm_mm) to make that work.
+Changes in v8:
+- Fix Co-developed-by and Suggested-by tags as suggested by Miguel and Boqun
+- Some small documentation fixes in Owned/Ownable patch
+- removing redundant trait constraint on DerefMut for Owned as suggested by Boqun Feng
+- make SimpleOwnedRefCounted no longer implement RefCounted as suggested by Boqun Feng
+- documentation for RefCounted as suggested by Boqun Feng
+- Link to v7: https://lore.kernel.org/r/20250310-unique-ref-v7-0-4caddb78aa05@pm.me
 
-Does the second approach sound reasonable to you?
+Changes in v7:
+- Squash patch to make Owned::from_raw/into_raw public into parent
+- Added Signed-off-by to other people's commits
+- Link to v6: https://lore.kernel.org/r/20250310-unique-ref-v6-0-1ff53558617e@pm.me
 
-Thanks,
-Anastasios
+Changes in v6:
+- Changed comments/formatting as suggested by Miguel Ojeda
+- Included and used new config flag RUSTC_HAS_DO_NOT_RECOMMEND,
+  thus no changes to types.rs will be needed when the attribute
+  becomes available.
+- Fixed commit message for Owned patch.
+- Link to v5: https://lore.kernel.org/r/20250307-unique-ref-v5-0-bffeb633277e@pm.me
+
+Changes in v5:
+- Rebase the whole thing on top of the Ownable/Owned traits by Asahi Lina.
+- Rename AlwaysRefCounted to RefCounted and make AlwaysRefCounted a
+  marker trait instead to allow to obtain an ARef<T> from an &T,
+  which (as Alice pointed out) is unsound when combined with UniqueRef/Owned.
+- Change the Trait design and naming to implement this feature,
+  UniqueRef/UniqueRefCounted is dropped in favor of Ownable/Owned and
+  OwnableRefCounted is used to provide the functions to convert
+  between Owned and ARef.
+- Link to v4: https://lore.kernel.org/r/20250305-unique-ref-v4-1-a8fdef7b1c2c@pm.me
+
+Changes in v4:
+- Just a minor change in naming by request from Andreas Hindborg,
+  try_shared_to_unique() -> try_from_shared(),
+  unique_to_shared() -> into_shared(),
+  which is more in line with standard Rust naming conventions.
+- Link to v3: https://lore.kernel.org/r/Z8Wuud2UQX6Yukyr@mango
+
+To: Danilo Krummrich <dakr@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Uladzislau Rezki <urezki@gmail.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+To: Boqun Feng <boqun@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+To: Björn Roy Baron <bjorn3_gh@protonmail.com>
+To: Benno Lossin <lossin@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+To: Trevor Gross <tmgross@umich.edu>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+To: Tamir Duberstein <tamird@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+To: Onur Özkan <work@onurozkan.dev>
+To: Lyude Paul <lyude@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arve Hjønnevåg <arve@android.com>
+To: Todd Kjos <tkjos@android.com>
+To: Christian Brauner <brauner@kernel.org>
+To: Carlos Llamas <cmllamas@google.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Dave Ertman <david.m.ertman@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+To: Serge Hallyn <sergeh@kernel.org>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Jan Kara <jack@suse.cz>
+To: Igor Korotin <igor.korotin@linux.dev>
+To: Viresh Kumar <vireshk@kernel.org>
+To: Nishanth Menon <nm@ti.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+To: Krzysztof Wilczyński <kwilczynski@kernel.org>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+To: Ira Weiny <iweiny@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: rust-for-linux@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-block@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+
+---
+Andreas Hindborg (3):
+      rust: alloc: add `KBox::into_non_null`
+      rust: implement `ForeignOwnable` for `Owned`
+      rust: page: add `from_raw()`
+
+Asahi Lina (2):
+      rust: types: Add Ownable/Owned types
+      rust: page: convert to `Ownable`
+
+Oliver Mangold (3):
+      rust: rename `AlwaysRefCounted` to `RefCounted`.
+      rust: Add missing SAFETY documentation for `ARef` example
+      rust: Add `OwnableRefCounted`
+
+ drivers/android/binder/page_range.rs |  10 +-
+ rust/kernel/alloc/allocator.rs       |  19 +-
+ rust/kernel/alloc/allocator/iter.rs  |   6 +-
+ rust/kernel/alloc/kbox.rs            |   9 +
+ rust/kernel/auxiliary.rs             |  10 +-
+ rust/kernel/block/mq/request.rs      |  19 +-
+ rust/kernel/cred.rs                  |  16 +-
+ rust/kernel/device.rs                |  12 +-
+ rust/kernel/device/property.rs       |  11 +-
+ rust/kernel/drm/device.rs            |   9 +-
+ rust/kernel/drm/gem/mod.rs           |  16 +-
+ rust/kernel/fs/file.rs               |  23 ++-
+ rust/kernel/i2c.rs                   |  13 +-
+ rust/kernel/lib.rs                   |   1 +
+ rust/kernel/mm.rs                    |  22 ++-
+ rust/kernel/mm/mmput_async.rs        |  12 +-
+ rust/kernel/opp.rs                   |  16 +-
+ rust/kernel/owned.rs                 | 373 +++++++++++++++++++++++++++++++++++
+ rust/kernel/page.rs                  | 136 +++++--------
+ rust/kernel/pci.rs                   |  10 +-
+ rust/kernel/pid_namespace.rs         |  15 +-
+ rust/kernel/platform.rs              |  10 +-
+ rust/kernel/pwm.rs                   |  12 +-
+ rust/kernel/sync/aref.rs             |  84 +++++---
+ rust/kernel/task.rs                  |  13 +-
+ rust/kernel/types.rs                 |  12 ++
+ rust/kernel/usb.rs                   |  17 +-
+ rust/kernel/workqueue.rs             |   8 +-
+ 28 files changed, 728 insertions(+), 186 deletions(-)
+---
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+change-id: 20250305-unique-ref-29fcd675f9e9
+
+Best regards,
+--  
+Andreas Hindborg <a.hindborg@kernel.org>
+
+
