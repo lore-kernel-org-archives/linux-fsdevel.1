@@ -1,172 +1,180 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-218.mta1.migadu.com [95.215.58.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9F03E49D7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 06:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA50D3EC80B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787553064; cv=none; b=Sq73Zch2y/AjXTSnlcd1EdGyP3zrmszebtA33BQnDkWxbQxAHYQCzfvkuxdEj9MZW7EHhhjz+KJLmGujKNpNJR9g9vrK4RgErMqnhQzPMtsCHUEG05M8N+tejV1PuVp1w4DQWM2kXQqm+ToLcUu2rv8VjJ7dZzNt07HPDc+oKpQ=
+	t=1787555503; cv=none; b=SOO9owD40bPONpH+clFxWAX/wRYjvYclAHFWrxVJm/l1TwOA2PmcgrZgU4+Mg9b31Sw/tQT/g+dmDKAJFkrG1F/Z2r89kM0eK2+U0E81P0Oe9jCI5ET4UKA9YgQVSKBTRWP+xKSP2fsfFDxuGdAnv9YQ7iQsA079uGMLE4aFtqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787553064; c=relaxed/simple;
-	bh=K+IYTtofw2pmaKZFzqJXikVzycHfs/qx5Aut57MsMzs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=tsvSJ31f4zXPgTHC6mVnNy+CoOLO4T6FvIJE2aCay5KETBCYNhMPe0EHKSepAZrCgS0hZxCs6+JttnJVyP+nVzLZM/vfMOhcei5KdRxsPUkMNzwI+V2xYqUkrkopaAwcEuRu2VujJgPaRFxj/+EEGeUdQy+iTr8Ts9kU+iWuKj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Yt/qX8Du; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1787555503; c=relaxed/simple;
+	bh=upHHen4ux8L9irT5wAQCPUOo8cd6TtLi7blsQg4Qp0c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tm0A0+34fFRDm8c9QOpWndJyy66ukbF1jdc/h3Ds2leXPeRlQOvsh4sEZ47iSirDVl6gX8E3zRbUnwl+rdiwcIL2p6l8uUkCFfUVQvtm8hWCC6YRb25MJu6cD/GBGwHxF5dyIhOXnRSR3LuyST2F1bPh6qxhi4ZoXHh5gjoIZMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BBiXNL4l; arc=none smtp.client-ip=95.215.58.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Yt/qX8Du"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260824063054epoutp03cc70692e1e6d972af717ae76a57a5aa6~OqggqFstR0224602246epoutp03l
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 06:30:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260824063054epoutp03cc70692e1e6d972af717ae76a57a5aa6~OqggqFstR0224602246epoutp03l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1787553054;
-	bh=l9ewL7Vj/+p0l9PBJ+KUTT26wzlxtPIKe9UQzgg8mPM=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Yt/qX8Dur57r4cpC53xiQSYhSqbKlPdBEZTQ0vQU9wS8J9sm505jtf5KJO/000peo
-	 L1reEYE8xKZ6lpd5JFJpDpEQAr0g85/TS8jph1ASW1c68QBZHKiDTyaMDG0cx2/3D9
-	 SKFC4CTEd97PVzfBM8K3dnNxpsbJsOwn/SvqPOWg=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20260824063051epcas5p4dae4dc9bf4b75eff3a7c11b7344c085c~Oqgd0tAvO3238232382epcas5p4G;
-	Mon, 24 Aug 2026 06:30:51 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hT1JB0MrNz6B9m4; Mon, 24 Aug
-	2026 06:30:50 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260824063049epcas5p1058d0ae3078a8468e455052136c16d91~OqgcZoIVy0699106991epcas5p1o;
-	Mon, 24 Aug 2026 06:30:49 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260824063047epsmtip2bf0e54344178bbad0c86a273542d5388~OqganKjN_2928529285epsmtip28;
-	Mon, 24 Aug 2026 06:30:47 +0000 (GMT)
-Message-ID: <076db8e7-6c6e-4d91-b442-1471ad7a5c27@samsung.com>
-Date: Mon, 24 Aug 2026 12:00:46 +0530
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BBiXNL4l"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=upHHen4ux8L9irT5wAQCPUOo8cd6TtLi7blsQg4Qp0c=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787555497; v=1; x=1788160297;
+ b=BBiXNL4lNREsQ2300oMM+gr2YknnB9p1+MuIdmYBJamkt9iNgJYESP2ang0LIez/h3JLyx5F
+ axQqA/FmBM/eA1KsGNvZQkK9FEz9pcH1QOUTMEPpNq5KsU3KKIwRfT/D+oO+iwFLMi+SF/r+w9h
+ tt+Q+gJvYFqEsmwROXDciLSo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: from localhost (2602:fce1:44f:115e::)
+	by smtp.migadu.com with ESMTPS id bf7ef9951ffd2d20;
+	Mon, 24 Aug 2026 07:11:37 +0000
+X-Mizu-Trace-ID: bf7ef9951ffd2d20
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: rppt@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	baohua@kernel.org,
+	dev.jain@arm.com,
+	hughd@google.com,
+	jannh@google.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	corbet@lwn.net,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	nico.pache@linux.dev,
+	osalvador@suse.de,
+	pfalcato@suse.de,
+	peterx@redhat.com,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	skhan@linuxfoundation.org,
+	rostedt@goodmis.org,
+	surenb@google.com,
+	usama.arif@linux.dev,
+	vbabka@kernel.org,
+	ziy@nvidia.com,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP} into single VM_UFFD
+Date: Mon, 24 Aug 2026 15:11:26 +0800
+Message-Id: <20260824071126.41979-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/6] fs: add write-stream management ioctls
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, brauner@kernel.org,
-	dgc@kernel.org, jack@suse.cz, cem@kernel.org, axboe@kernel.dk,
-	kbusch@kernel.org, ritesh.list@gmail.com, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260819070814.GB1541@lst.de>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260824063049epcas5p1058d0ae3078a8468e455052136c16d91
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319
-References: <20260717125538.508925-1-joshi.k@samsung.com>
-	<CGME20260717125627epcas5p3f5ad1cf917d563cc061e571b2f932319@epcas5p3.samsung.com>
-	<20260717125538.508925-2-joshi.k@samsung.com>
-	<20260721030338.GU7380@frogsfrogsfrogs>
-	<71ae458a-a6e3-4c6f-8fb9-7e8bc088bb87@samsung.com>
-	<20260819070814.GB1541@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8/19/2026 12:38 PM, Christoph Hellwig wrote:
-> On Thu, Jul 30, 2026 at 08:22:51PM +0530, Kanchan Joshi wrote:
->> Christoph's idea was to use FD for a write-stream so that it remains
->> exclusive to the application and unrelated applications don't collide.
->>
->> So, in this version, write-stream ids are implemented as independent
->> resource:
->> - To set a file's write-stream ID to X, the app must first obtain the fd
->> for stream X.
->> - That stream/fd will be unavailable if some other application has
->> already opened it.
->> - If applications gets the stream fd, it can use that to set stream id
->> for multiple files.
->> - It can close the stream-fd and that does not change anything for the
->> file resource (i.e, its inode continue to carry the stream-id value that
->> was set).
->>
->> Christoph - does this match?
+
+On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
+[...]
+>diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+>index 83587d34b189..193f6e65d875 100644
+>--- a/mm/userfaultfd.c
+>+++ b/mm/userfaultfd.c
+>@@ -50,10 +50,10 @@ struct mfill_state {
+> 	pmd_t *pmd;
+> };
 > 
-> Almost.  I didn't really think of your last point there.  If the
-> inodes keeps using it when it is dropped that breaks the model a
-> bit, but revoking it might make things a bit ugly and slow.  Urgg.
-
-I think it is consistent to the model that says stream fd is a distinct 
-resource and it is a necessary lease/license to set the particular 
-stream(-id) across files.
-If the stream-fd is held, that stream-id remains exclusive to the 
-application.
-Closing means, applications is fine to release the license and 
-underlying stream-id becomes available to other users.
-Application may use stream-fd license and set corresponding write-stream 
-id into N files. We don't need to track those N files and negate the 
-effect (clear stream-id in those N inodes) when the license was released.
-
->> Here are the revised names (suggestions?):
->>
->> 1. FS_IOC_QUERY_MAX_WRITE_STREAM_IDS		_IOR('f', 135, __u32)
->>
->> Returns (in __u32) number of supported stream-ids.
->>
->> 2. FS_IOC_OPEN_WRITE_STREAM_ID			_IOWR('f', 136, struct
->> fs_write_stream_open)
->>
->> Open the specific write-stream id (or any available one via a flag) and
->> return its FD. This gives right to use that stream-id.
+>-static bool anon_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
+>+static bool anon_can_userfault(struct vm_area_struct *vma, unsigned int mode)
+> {
+> 	/* anonymous memory does not support MINOR mode */
+>-	if (vm_flags & VM_UFFD_MINOR)
+>+	if (mode & UFFD_MODE_MINOR)
+> 		return false;
+> 	return true;
+> }
+>@@ -462,7 +462,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
+> }
 > 
-> maybe s/OPEN/ALLOC(ATA)/ ?
+> #define MFILL_RETRY_STATE_VMA_FLAGS \
+>-	append_vma_flags(__VMA_UFFD_FLAGS, VMA_SHARED_BIT)
+>+	append_vma_flags(VMA_UFFD, VMA_SHARED_BIT)
 
-Yes.
-If we are doing away with stream-id, ALLOC is better.
-If we retain (as this version does), OPEN may still be better.
+Looks like this drops registration mode from the retry snapshot. Assume a
+shared shmem VMA is registered for MISSING and COPY reaches
+mfill_copy_folio_retry(). While locks are dropped, the same userfaultfd|
+can re-register the range for MINOR. VMA_UFFD, VM_SHARED, ops, file and
+pgoff all stay unchanged, so the old COPY can continue instead of
+returning -EAGAIN ... no?
 
->> And the following manage setting/clearing/querying write-stream on the file:
->>
->> 3. FS_IOC_SET_FILE_WRITE_STREAM_BY_FD		_IOW('f', 137, __s32)
->>
->> Sets a file's write-stream value (in inode) to whatever the stream fd
->> (passed as __s32) carries. So one never sets scalar values into a file
->> directly.
-> 
-> I'd drop the _BY_FD.
+The snapshot and comparison bracket the unlocked copy:
 
-Sure, I will drop.
+static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+				  struct folio *folio)
+{
+	...
+	mfill_retry_state_save(&retry_state, mfill_state->vma);
 
-That said, we may need a way to clear the stream-id of a file.
-We don't need stream-fd for that. An explicit flag here can convey that 
-intent.
+	/* retry copying with mm_lock dropped */
+	mfill_put_vma(mfill_state);
+	...
+	/* reget VMA and PMD, they could change underneath us */
+	err = mfill_get_vma(mfill_state);
+	if (err)
+		return err;
 
->>
->> 4. FS_IOC_QUERY_FILE_WRITE_STREAM_ID		_IOR('f', 138, __u32)
->>
->> Queries the write-stream value (__u32) currently assigned to the file
->> (its inode).
-> 
-> I'm not sure exposing the actual ID to the user space application is a
-> that good idea, 
+	if (mfill_retry_state_changed(&retry_state, mfill_state->vma))
+		return -EAGAIN;
+	...
+}
 
-But don't we need a way to know if stream id/value is set on a file or 
-not? This ioctl is more about observability; GET equivalent of SET.
-Also write stream value is not going to be there if/when in-core inode 
-gets evicted.
+Since mode now lives in vm_uffd_state.mode, could we save it before
+mfill_put_vma() and compare it after mfill_get_vma()? The UFFD flags
+comment also needs an update, since the mask no longer contains per mode
+flags.
 
-> same for passing in the wanted ID when allocating.
+Maybe something like this?
 
-Can drop OPEN_EXACT flag if you prefer that.
-But this was for the case if application restarted and wanted its new 
-data to go into the bucket where it was previously writing.
-> That leaks a lot of internal details.
+---8<---
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index 193f6e65d875..5e3c86fe8aee 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -493,7 +493,7 @@ static bool mfill_retry_state_changed(struct mfill_retry_state *state,
+ 	vma_flags_t flags = vma_flags_and_mask(&vma->flags,
+ 					       MFILL_RETRY_STATE_VMA_FLAGS);
 
-I viewed stream-id similar to how we view file-name. Application can 
-list file names, but need the fd to do operations on that file.
-So, I could not understand internal details part. Could you explain? We 
-have FIEMAP and unprivileged XFS_IOC_FSGEOMETRY already expose the 
-placement of the file.
+-	/* Have any UFFD flags (missing, WP, minor) changed? */
++	/* Has UFFD registration or VMA sharing changed? */
+ 	if (!vma_flags_same_pair(&state->flags, &flags))
+ 		return true;
+
+@@ -528,6 +528,7 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+ 	struct mfill_retry_state retry_state = { 0 };
+ 	struct mfill_retry_state *for_free __free(retry_put) = &retry_state;
+ 	unsigned long src_addr = mfill_state->src_addr;
++	unsigned int saved_mode = uffd_mode(mfill_state->vma);
+ 	void *kaddr;
+ 	int err;
+
+@@ -549,7 +550,8 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+ 	if (err)
+ 		return err;
+
+-	if (mfill_retry_state_changed(&retry_state, mfill_state->vma))
++	if (saved_mode != uffd_mode(mfill_state->vma) ||
++	    mfill_retry_state_changed(&retry_state, mfill_state->vma))
+ 		return -EAGAIN;
+
+ 	err = mfill_establish_pmd(mfill_state);
+---
+
+Cheers, Lance
