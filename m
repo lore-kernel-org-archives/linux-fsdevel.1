@@ -1,144 +1,113 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EED13EDAB3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3939D3E3176
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 08:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787560584; cv=pass; b=jfBotpHHl9p45fOlVKBk4V7p2op2I7hdahJeCuxFOGYr4GjIAfik0gQ6z36Ddx1lnhjNYb8ZKF1s1j0p+LHrdQ0rT2Vmw7MGoAd9sWLhaFVngnBhcRu3grvzsSFIOORSg57bzuT+id6VemHj3rzIDZd2tStUWCEteMl/p0SrZdc=
+	t=1787561366; cv=pass; b=rUhvQHYH21BC3Ml4rcajUk0VowOedo5Pq5h6XQd44Olt18bZygbXNFD/k8H8pkl5WTS2fuPFjmOJ3F3lHrSMStyG7PPDL064FuVzNFbqwFSsOmbl1ttF9CLis2RhTQZL5m5AWZy6OcxJWKC/cJRbNvmgSTI0e0zkRlYA4WvSOz8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787560584; c=relaxed/simple;
-	bh=tabZVc34j8IumhCwsfaTRLF3MfP3CF3MKY2fkomDg10=;
+	s=arc-20240116; t=1787561366; c=relaxed/simple;
+	bh=Z9RYA2bvbfgj/2MAhtGLxMm0w+xK2OQ4murwZgw+gXE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lC9KmSMOd8PjP6chDo0JZD37Rij3NxnW/L8Hh7i33zV/wXz1AGh7zTYHFkz52eMorLW0Pb2EOwPVmtiHCj1Xpv/VqsiHcuqt8q+n3+tCfQ2r6u70x8UBmjhliKCZizqNERzYaz9a2nAGhhWjprsMrM1+QaVreeCFMniw8vBWqDs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UxjOxEzh; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Lb37c2/1OboNGX8A03noQZWIUvE3D52J0sHrx7xLHD7Rt0Pt6FgUHzP0Pvp8T4T65TaMYVaA6KNCYtASBPAtNTk6rFtW18TXdJgvsK65YRpBWt7tp7w17A841EQqNC7reBCUQNpaL/Qd1tDAS74cLI75Mre0A3IHxVfS6C1jRFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=hKWlW/vW; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxjOxEzh"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a17cb94b26so6054900a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 01:36:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787560580; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="hKWlW/vW"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c04bf4711so27908861cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 01:49:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787561364; cv=none;
         d=google.com; s=arc-20260327;
-        b=OTjSQDfBWo7jOTutavUjWsTszWYuWEGBqCRThmInLLSEVX5ZiX98NxvSPNELEeK51+
-         ifmSEtzgVeG0LfQ9l3+hVzpShaLbWBuIUdPj45pzOe0KjwfrXe3lgUokegOi0GAFZII5
-         pceCYqIetJ/BKBTeiqsP0gTxobVkvvnbY45E0erJ63zxkBhcxoyl65ektG5bxnmRCngu
-         ugUeaYLKIH+R35e7isr1sAPhPzPn3HlnPQNaVnLhIIXD/hK7a2tVE1QIRLYDrOd/fL7k
-         lCwkxJI/7z2iRC95zXjlbvJdH+qTkBZ/Ac9fbgo1GFRL412XenjpYQtvC/SanOPnxVzQ
-         MEOg==
+        b=PDqysWRx0rA0kQf7YefVq22KpdyRnqMZ/Jv3POOgQqDWYbB2bTtHe6Fb948s8BtArg
+         yliYv5QpPP72Pomr4f2Bxqlm0zoWPl4n5iL1jFfOi1t/jdXoCrhTdP9Jo0gd15pz8Av0
+         VZ9WVPLscQCyoFmpSH2xHez7lKapUHDLcjuFNHhDZlbL/OgNejYcjUs6VXEtHyQ1Bqey
+         3jMdvpaCIuKmodfAUIBD2yK3MGrhjsp4PTKNy4jrY2mT6L0sMxgoc0l23ZrCbCbgHI+D
+         h0ylLfBaWQNBBrHu256UJSNkJyc1gfuHOybgpnTirUz9bcXxL8I47kg5KQ3m355K/5TS
+         /lwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
-        fh=4Uz9DRvwy3RZbRwktX7eIUfmCkAZKx5rcZpXr7iIg0w=;
-        b=pJuyqA0ZJQm9QuvxoRmKX8OTgFuG+4Del9ubcxtoJ0YRwoD69SEDv8XznqRQ5FFgib
-         mSHSND/mY+nx0AjqxPErCa8WrGGc4M1BE7GYvo7EyIcrSLLlR3xIhBnkmVvU7BTTeQYy
-         U+PUaa5+sNMsm4tgjOk2N+TtzgBgQHL+qVKtzgbtYsCjJsnRCzW7lc09IuqT5SoREv5a
-         BgnHvUwnA/US9LRNs6w6+9itsOVdqbDZLpN3I6tXa2JoOi+/XMgbjjRfTPjblGBeTmkf
-         6GxVeWhLvCQc4yHQ11+PgDN/ItyZ6RpipTZmpBLXVpFrWzfsFIFASBCu9wbHZRLCe23U
-         Ex5A==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mF+rKgsUqZmZbL4LsNTYF3CpXuL40SjdECiZ2OOEAQM=;
+        fh=GCO+7chdXK3tnuIia2menWBOs5p5ZFKw3CcH/6+VjmU=;
+        b=pOIwTkGZJpwu0hTAu+5r1Y18UCGbWYVPe9KLfBMHFLXsXTC/21TfmO1RxpYkUlb+sO
+         B4+SmlDfOmt7/OMuSph8DU2I5hzpn+skYd6JVNJWWqWuHBqALNfp3s3S1Pvi0bMbtTSi
+         sRiRJTGnwtbggQaZRvCVtU6RAbJpDNLRkXMhJatgojizqHF4fpTkMZ/E/S5pcDJzsK1/
+         hjfDKSbPcAvIqFxyec30Ug6uNESskwdOxMvGPtCf1Yw7Mh91kOnzg13odzXI6ROD/rnN
+         WfZOIWYjFstQQ1nwgqeRIuTeSzJ+V6Vnvi02ntp7sWMgRpFQjvc5x1cCOd8Q8EG0bf8T
+         SL8g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787560580; x=1788165380; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
-        b=UxjOxEzh7qZXH9FXfOFAMJILYY6gZdcHFjOll96505kRuCYah27cYh6X80YPDkXjPL
-         u9wFFrzNW4VG2gGghYnRGxpbpfv3Xr/1kZGKXnHcL2AmjHmTYm0yjzsoNz/UkB1f+zEF
-         yRsIV+tX06P4z4zkm3lETGDcm1YdunEYTssCR2DeGZrEtJnFIGphdNbz6yG3SSGn+FS+
-         PhfUMncy6caHgum5IdtL3u9rszswhRpvd4kKKw7OHqUFlFhOsSFYILQgXYDWxN6aLtt5
-         OHGluBvVJW+8XmNJPQrdCwL+87bn38xKTkaNkHfws5brj713+/Ve7ktwNWMuHKmPMNIo
-         Pmuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787560580; x=1788165380;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1787561364; x=1788166164; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YsrEM68gz5Ntl2SZWVPwBml/ICqiBorzNsDyRtB7G9g=;
-        b=IibzG7VVGp1bUHfyoDMQ/0bZGrNa7uw16KP4jbx+SpRpcBCgVtydQuHvrI5XhQIZEd
-         ZptIb4jtYvQuFWwbRzWbU0rFyEein+6gAgjYcl2tz8qbV1BDOqeP/hW6LCy/fi/HMZ0K
-         ElLV5ssHWNYPDH7U5Ygm0Koopl7pID95PN8P3AYzlUeOLaxFNiXWVEa9H4FYn+04IakB
-         x5bgjG7Sh2X/RKvA732L4RxSF11wYPQ3xV0gjZigsrGo5l6+pUJyTgEGT3ThAEB7V6N4
-         rK4Yw119i+7eJRp4ZNkEk4b+gm7oZIg00SmrOPny2wsReGbCEK4Xn7Uye89Q4WnOs1J3
-         Ln5Q==
-X-Forwarded-Encrypted: i=1; AHgh+RroWGcHMCuf63+dt4+tYMG0E5cqjffMBwXonQk4ne1wZ4qM/aQf1yV89Yo0R8YaitviEs73oBd4wZSWha9+@vger.kernel.org
-X-Gm-Message-State: AFuF++lUfjAGjCToxqBTWhg8wDMRm2iVQ+lWNLcKxKf7IKVtxyOhEsBD
-	JZl4HX8UrBKiSqU7xX/VukOBE98MI/ATZbjbq9mnDCflYeZ5GmzvQ+4Jca3+diCNfCZE12rS5T2
-	x61/sBF9UWmCbrRPMiZaPPV+MwCZNwOk=
-X-Gm-Gg: AR+sD11D9gxcHc8txSmPqasEJCZX/qiRkgTXaE44df4GXdYGrGl5+ScxsLPjZBsf6Gm
-	tl+1sWNRZZBgasGgZ3pwiUDIniU8L6KwM4QtnSQtnXYwutsRQi1jL81u0nrnRvP8FJT4W8PuqhB
-	MjTMY/nkTNK2wyRAX7MsXPtpJgTkRUussvhfuuOfQtAUQISnpFIlQGnKkmNxfzFuEUXfmV+UF8Q
-	s3wjd1p/A/4hWtCH/ujuZ2JBliQ7sW4vh7/rYdDvOZ3nCezuv4wYt6MEobzE0VluTS7rviWTi1v
-	e49Zvt8TUH7YohndWn+PjWLMREnpFAnId6fdk8xW3Uhrcw==
-X-Received: by 2002:a05:6402:21d7:b0:698:5610:76e5 with SMTP id
- 4fb4d7f45d1cf-6a42f1a7996mr25338353a12.6.1787560580503; Mon, 24 Aug 2026
- 01:36:20 -0700 (PDT)
+        bh=mF+rKgsUqZmZbL4LsNTYF3CpXuL40SjdECiZ2OOEAQM=;
+        b=hKWlW/vWOh3+7sx6KgU9rcpy/7qfFid7jO8W8eSQHQQ8BROnwlyWcDWYxiWKqfXPid
+         B45fmvhmxzk2bQHg06JhST4PLXW1KhqoLSeUZutmZI+PnUYGD4LkC7sdMfFEQq21AQTk
+         UKJzAexc8j2v9MFxk2csUqRGTM7TGTOoafuC8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787561364; x=1788166164;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mF+rKgsUqZmZbL4LsNTYF3CpXuL40SjdECiZ2OOEAQM=;
+        b=iLEySRwEhqftFdi7lMRjEez2a5L+m/DHkAsZnho2AFKNvUOR4NHYP2T5tyn2EotHuS
+         CtNmwtNYLztLLsxdCCYy/dmjusZ78LyYs7STqKR+jSxyQzQzpvXa3+G+XMuJIN5rwo1A
+         5knTV6fBePX1smyoHnlS8USt0Cvd0yzsLrYUTAInURjkYP8UugcvLrJ0YFtJVmDc32uS
+         0MOrCosnkWoPqkFMNqeMV82U2P86QZLU71IDcSdBV+BiYXxpPq0i9RXsENd4zf9WCu5r
+         4LBwv4rp+n8h2BDZbgA5DHUsa0vj4IksO83F2M4WWTyeYdeSnAS4cWK3aOmd/jjaQ1TG
+         56hA==
+X-Forwarded-Encrypted: i=1; AHgh+RrMrT2GZ/rkZUHt7l9YyfI9ftXwRxhbuE/rX7xNjdeLE5DQs4C/p9UmUSyzCubxC6QdvmRc5i9K7nkS/9Uj@vger.kernel.org
+X-Gm-Message-State: AFuF++kuHXnkvzIsa1SuL/+6J+iBLFxE8047TKFp8PkZjQiLzQsrQCsW
+	ivunJCxeYFTTTnqNNh5uPgiTUCYH4uKfTQovd71Z8MwnROtu5QvXoZp021DKJCMmXJc2usNU9sT
+	DMwDzkmxjXZhiL+2v2eKihmn8Y91SxwzoVvZIhSBlUQ==
+X-Gm-Gg: AR+sD12D8YwLXyPTIwjtZKGW8F/tO/+Ng69xcBKkgzH5gL/vJfJO0plAiXyJ0YFYTFb
+	s2bVRZDvfSqYSCNZYygyS6MVbcaWAyVhkjQHhqCJi71MqDPMSnoTsHBYWIfInESUd2jPKLHhe7L
+	Ssu+zl+z3KWqP9RqXr63h/2WHI8EpWV+xnu05SnKeJZAatN3s5BIYDpsBQmjuVV7EI90W6TGinh
+	emruPjPR3WzLlbRwmE+OUDapnWEAg6QcWPcdvNN7XpLk64JxzH0jNdoHvPNzgXXNh1dgOvEzRId
+	Hz3oqw2+4nVSvH+5DNYbPc7E5pKB30Txa0rWyWuo2H9LFQ6OB5SKquEo7DWOHoMvaaWEEMp30HZ
+	x3td3
+X-Received: by 2002:a05:622a:11c3:b0:52d:bec2:c34d with SMTP id
+ d75a77b69052e-52e09cabf8fmr164046571cf.25.1787561364032; Mon, 24 Aug 2026
+ 01:49:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818225715.572140-1-ameer.hamza@truenas.com>
- <aoVHBkmPNSRakbYW@infradead.org> <9ad95194-983d-427d-9a07-c9eb0891d1a0@app.fastmail.com>
- <CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com> <5fb0315d-636c-44ff-8dcc-b4403e3be7c3@app.fastmail.com>
-In-Reply-To: <5fb0315d-636c-44ff-8dcc-b4403e3be7c3@app.fastmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 24 Aug 2026 10:36:09 +0200
-X-Gm-Features: AcwNN1WbUUrdIhE63ctkhUNUI50-KXFxOZ9whJCv-sw8tICCqnP6sVVvcLZEnP0
-Message-ID: <CAOQ4uxiVHcu2BUZejjS+YPuyyFWcsMwkpd+GxoZfxE_WKumY_g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] NFSD: Fix duplicate fsnotify access events for
- iterator READs
-To: Chuck Lever <cel@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Ameer Hamza <ameer.hamza@truenas.com>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Christian Brauner <brauner@kernel.org>
+References: <2026082150-autograph-perky-e3cb@gregkh> <20260823224256.2724025-1-fahad@codepure.com>
+ <CAOQ4uxjhfpNVvoVrTayj46H2CViTOc3oxzM6xdb8+E7ikE2CSA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjhfpNVvoVrTayj46H2CViTOc3oxzM6xdb8+E7ikE2CSA@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 24 Aug 2026 10:49:12 +0200
+X-Gm-Features: AcwNN1XiHQpN2m96GZUh3u1EugIhpxhXIVCPyqEKe5enm49poz0eCb4nkcZT6lU
+Message-ID: <CAJfpegt1WinKmP5nOGv8Yx9VLf4Mk1ojg7e3xR5iUz=7yDAh0Q@mail.gmail.com>
+Subject: Re: ovl_copy_xattr() can write uninitialised heap into the upper
+ file's xattr
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Fahad Alharbi <fahad@codepure.com>, security@kernel.org, 
+	overlayfs <linux-unionfs@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 23, 2026 at 6:21=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
->
->
->
-> On Sat, Aug 22, 2026, at 6:21 AM, Amir Goldstein wrote:
-> > (1) In this series
-> > https://lore.kernel.org/linux-fsdevel/20231122122715.2561213-1-amir73il=
-@gmail.com/
-> > we intentionally moved the permission hook outside
-> > of the splice iterators because we wanted to avoid calling them
-> > with freeze protection held and also there were some duplicate calls
-> > for this work.
-> >
-> > At this point in time, the fsnotify_{access,modify} post hooks are
-> > usually called
-> > from the same context as the matching permission/security hooks.
-> > It doesn't have to be this way, but it's a good mental model IMO.
-> >
-> > (2) emitting many READ events from an iterator instead of one event for
-> > the user's READ request is more noisy and serves no purpose to users.
-> > In most cases (but not always) those events could be merged, but at the
-> > cost of futile CPU cycles.
-> >
-> > From a quick inspection of the code, it looks like:
-> > - fsnotify_access() is missing in vfs_splice_read()
-> > - the naming convention for splice_ do_splice_ vfs_splice_ is a horror
-> > - we could make the low level splice_direct_to_actor() static and possi=
-bly
-> >   rename it to splice_direct_to_actor_sd() or something
-> > - we could export vfs_splice_direct_to_actor() for nfsd which wraps
-> >   splice_direct_to_actor() with permission hook and fsnotify_access
->
-> IIUC this last bullet seems like clean layering to me. Do
-> you want to propose a patch or shall I?
+On Mon, 24 Aug 2026 at 10:29, Amir Goldstein <amir73il@gmail.com> wrote:
 
-Be my guest.
-Maybe Ameer will want to post it for v2.
+>     size = ovl_do_getxattr(oldpath, name, value, value_size);
+>     if (size == -ERANGE) {
+>         size = ovl_do_getxattr(oldpath, name, NULL, 0);
+>         if (size >= 0 && size <= value_size) {
+>             error = -EIO;
+>             break;
+>         }
+>     }
+
+Well, the whole retry loop is bogus.   Just use ovl_getxattr_value().
+That one could be fixed up to return -EIO in the "size doesn't match"
+case.
 
 Thanks,
-Amir.
+Miklos
