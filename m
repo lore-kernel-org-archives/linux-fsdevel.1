@@ -1,105 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4E0412BE7;
-	Mon, 24 Aug 2026 12:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6981E40DB29;
+	Mon, 24 Aug 2026 12:26:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787573324; cv=none; b=LJrkBmemkqyqlxaJvon7bVM8AfSvDzDbH5tp5MY1LlpBQqQnbSKOyKfqohAZwVukebVn9x5qs4yAI6foZxAf7qO/Ag6B2awQPVdciIB4JoY2fN8mzLGvWf93Gegd9g+xYZvbXVXhwji3z9o6Zloof9zm1DvfuEms5sTkraCNUpg=
+	t=1787574375; cv=none; b=t6sLYmHu4nzQC2xLXANzZMM1ZBsKrBiKdtOzSPxfE83sna1WwI6SUfo7cs/+BQiP5HzuGKhRBYIK9ChBkY36H9jv00nmOICQwqvMBxfTjy16L8HLxaf4UasGLCIkZREjRMTGJeNZgATBZbCT+3cousKUIw74hP2DpyNt3+dwQTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787573324; c=relaxed/simple;
-	bh=DNuXd0pKQn7U4+pLkpu+uX5FDrR9RBOyfwfmgrAQmaM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eqG46AuLr2Us2AeQCL2+FFeH5negZ4WMprd0//qjWm2GLu28PaDUI0QrbYPjyGb1JGZdMoS8x3E2N27OLn/7kHAsum4lIdZwlTHi5a5G8sXZINfVxhNdf+LavSr8bwfeZBCCpoT6V92zgMPeyxfzZi7MPBPy1sQobXZqgtn3D+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auaeZgQ+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787574375; c=relaxed/simple;
+	bh=XprHHe3lQdZ/bHHkrfW5U843BNmtX6D0fOYV/cPGdkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDxfDluJo72vt3/Ah1pOS94Sy6vol7MntYGOfrfLq9WGSPKpE0Zf58aTXliSd+oByGc/9NdUxIPmOxIKmhPfOvJJQHf4h7l+xuWHvRe9i4XkzHv0S0D2BRblIIxLTIEQHUjuLhRwnHM0ejVbwoc2N6QDqLkzfI/cpq9eclev2JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwNPX2NR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auaeZgQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64BA1F00A3A;
-	Mon, 24 Aug 2026 12:08:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwNPX2NR"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 874ED1F000E9;
+	Mon, 24 Aug 2026 12:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787573323;
-	bh=uQui/Mo5x/mE+ZdE3He0UvEKRAK0DKtU9+wg6AGH260=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=auaeZgQ++dDT6ZiZ6j0vOGeWJbMYu77qkLcsAZ2LPTVROkev5iy5DviBSsIzb2Y6/
-	 ZtcONh6wqJlHy5SxWbXTiC8pzO2Yi0YIaBNME3eOzW1iJtF1EBJez+ifmeeXFsLPWP
-	 p03vPpvNElYn6yV9r0s7L/StVf289CXsvw40aWG2jiRORRnogxOjWe6qInEB+SPJeh
-	 E3c+MsE1MOi87IWGqonmZ5BEFSESrz94UsQsQjqWEZ0pM4Ugy9YsvSyD0bZ02I0qtR
-	 yHGM4KizZC0xb9QHNPxhlMSQtUh6aD5/izOnJy93eOjZCxzEHBByLIfEt4wVC7Zao2
-	 1nrdZMFEI7O6A==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 24 Aug 2026 14:08:20 +0200
-Subject: [PATCH v2 5/5] pid_namespace: prevent TIF_NOTIFY_SIGNAL from
- interrupting the reaper
+	s=k20260515; t=1787574374;
+	bh=upukaXZkr84gwak4ggRO0ndAK9t7zaBT3owzkfM3Fdk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PwNPX2NRFVN0Bz+S6KhhJDxiLSSZueaI23ct1PXVX8KFblpux4F/bG76u6TxrwCtv
+	 UBlSiGxKVvBTRYKxoEml8G+yJNr5LUcxCVHAJkkApNdp1pLMOe/M1VjBTgCXwU7U6V
+	 5IgTBRfAEyOLQqvyJJiMl62FQy0LIfHZ1uydX9Y4AhNiRmTr2057vOspY1cC7nY6+Q
+	 qZ3KAqtRYMVxL80qEDUwO6SUdJGBXEpXuEZNK6b9Z8cRlU4tajvzt2DKIM8cr4Vboc
+	 q/Ct4jN9XMSxR0SxukEoUtbJdV8txAyM9aXphiu3NaGi6TMPM5g8mGMXa0XMTMt2gj
+	 F9NjqiDJeK5BA==
+Date: Mon, 24 Aug 2026 14:26:11 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, 
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>, 
+	Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH v20 5/8] rust: rename `AlwaysRefCounted` to `RefCounted`.
+Message-ID: <aow36NjRc5Ig0hG8@monoceros>
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-5-490735672187@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-work-tif_notify_signal-v2-5-6609e42b3157@kernel.org>
-References: <20260824-work-tif_notify_signal-v2-0-6609e42b3157@kernel.org>
-In-Reply-To: <20260824-work-tif_notify_signal-v2-0-6609e42b3157@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Peter Zijlstra <peterz@infradead.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Steve French <sfrench@samba.org>, linux-fsdevel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-cifs@vger.kernel.org, linux-mm@kvack.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1853; i=brauner@kernel.org;
- h=from:subject:message-id; bh=DNuXd0pKQn7U4+pLkpu+uX5FDrR9RBOyfwfmgrAQmaM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT1mFi+/SQbxvzpzDOeWTM1LbY8mlm86STj0xu7n77kv
- T3fTGcmW0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEql4y/OF/4DczK1bwzyTX
- ABtWL3eWI5Gab1ZtKU3/dIz9/iTjcGaGfybL9IRqYoU3fGcv36qcMOWBmmPQ8flmz/ft4/nMdol
- djh0A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nwuv4cl3v42iarkt"
+Content-Disposition: inline
+In-Reply-To: <20260824-unique-ref-v20-5-490735672187@kernel.org>
 
-Since commit 7fea700e04bd ("zap_pid_ns_processes: clear
-TIF_NOTIFY_SIGNAL along with TIF_SIGPENDING") zap_pid_ns_processes()
-clears TIF_NOTIFY_SIGNAL before every kernel_wait4() call. Otherwise
-kernel_wait4() doesn't sleep and returns -ERESTARTSYS if
-signal_pending() is true and the reaper busy-waits.
 
-But clearing TIF_NOTIFY_SIGNAL doesn't fix it. It can get raised again.
-For example, klp_send_signals() sets it raw against any task that hasn't
-transitioned yet. And it keeps sending it until the livepatch finishes.
+--nwuv4cl3v42iarkt
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v20 5/8] rust: rename `AlwaysRefCounted` to `RefCounted`.
+MIME-Version: 1.0
 
-The sleep loop waiting for pid_allocated to drop has the same problem
-and it doesn't even clear anything. So a schedule() in
-TASK_INTERRUPTIBLE returns immediately.
+Hello,
 
-Use a no_notify_signal guard. signal_pending() will ignore
-TIF_NOTIFY_SIGNAL and the pid namespace reaper sleeps until a child
-exits or free_pid() wakes it.
+On Mon, Aug 24, 2026 at 01:17:57PM +0200, Andreas Hindborg wrote:
+> diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
+> index 6c9d667009ef7..2d1cd74dd98e1 100644
+> --- a/rust/kernel/pwm.rs
+> +++ b/rust/kernel/pwm.rs
+> @@ -13,7 +13,11 @@
+>      devres,
+>      error::{self, to_result},
+>      prelude::*,
+> -    sync::aref::{ARef, AlwaysRefCounted},
+> +    sync::aref::{
+> +        ARef,
+> +        AlwaysRefCounted,
+> +        RefCounted, //
+> +    },
+>      types::Opaque, //
+>  };
+>  use core::{
+> @@ -629,7 +633,7 @@ pub fn new<'a>(
+>  }
+> =20
+>  // SAFETY: Implements refcounting for `Chip` using the embedded `struct =
+device`.
+> -unsafe impl<T: PwmOps> AlwaysRefCounted for Chip<T> {
+> +unsafe impl<T: PwmOps> RefCounted for Chip<T> {
+>      #[inline]
+>      fn inc_ref(&self) {
+>          // SAFETY: `self.0.get()` points to a valid `pwm_chip` because `=
+self` exists.
+> @@ -647,6 +651,10 @@ unsafe fn dec_ref(obj: NonNull<Chip<T>>) {
+>      }
+>  }
+> =20
+> +// SAFETY: We do not implement `Ownable`, thus it is okay to obtain an `=
+ARef<Chip<T>>` from a
+> +// `&Chip<T>`.
+> +unsafe impl<T: PwmOps> AlwaysRefCounted for Chip<T> {}
+> +
+>  // SAFETY: `Chip` is a wrapper around `*mut bindings::pwm_chip`. The und=
+erlying C
+>  // structure's state is managed and synchronized by the kernel's device =
+model
+>  // and PWM core locking mechanisms. Therefore, it is safe to move the `C=
+hip`
 
-Fixes: 7fea700e04bd ("zap_pid_ns_processes: clear TIF_NOTIFY_SIGNAL along with TIF_SIGPENDING")
-Cc: stable@vger.kernel.org
-Suggested-by: Oleg Nesterov <oleg@redhat.com>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- kernel/pid_namespace.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I don't understand that, but if this is considered ok by the Rust folks,
+I'm fine with merging it via their tree.
 
-diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
-index d36afc58ee1d..8bc9edb40b78 100644
---- a/kernel/pid_namespace.c
-+++ b/kernel/pid_namespace.c
-@@ -238,9 +238,10 @@ void zap_pid_ns_processes(struct pid_namespace *pid_ns)
- 	 * kernel_wait4() will also block until our children traced from the
- 	 * parent namespace are detached and become EXIT_DEAD.
- 	 */
-+	/* Task work must not busy-loop the reaper, see signal_pending(). */
-+	guard(no_notify_signal)();
- 	do {
- 		clear_thread_flag(TIF_SIGPENDING);
--		clear_thread_flag(TIF_NOTIFY_SIGNAL);
- 		rc = kernel_wait4(-1, NULL, __WALL, NULL);
- 	} while (rc != -ECHILD);
- 
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for pwm.rs
 
--- 
-2.53.0
+Best regards
+Uwe
 
+--nwuv4cl3v42iarkt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqMOGEACgkQj4D7WH0S
+/k7Eqwf+MmntLyABjsJ6u3n0tfvFXtT43FkhKWBYTvfrSkkGSwvZSD/ZY5rm4TJa
+bXNvGj/meY+tjoiL+lqEl91gKDUE91djmvVcfXDoceliQzIKh2cKRqYubSng7etR
+4cjqGN+2sGoPMqw/DE4AHSt6FjN7PW9atWXCHSqgj1X59q+Il9zzPvJoUf5LoJGl
+M03B0IF/eZP8vEHvwBR+bKlVqdJnU8LD7vn7fYKS9w8EcXVmRNet0ARjs8XnIUhd
+mRyFbmkqewycYxQaQdFwYsqkvc+ZdQfjXofOkRIorYXk2OXiZy3oqy94wwwiGntm
+xaLKESdeyy1mp9Q0CzYXHqcQr8nU5Q==
+=h9TM
+-----END PGP SIGNATURE-----
+
+--nwuv4cl3v42iarkt--
