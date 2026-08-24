@@ -1,486 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60121468C38;
-	Mon, 24 Aug 2026 16:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787588924; cv=none; b=dzf31XE+L0pTAKcOMMiGRzM1uts+11WyzC79S3hP1jxtul27a8xi/ueMzqN4UuBooaR5PcWqPemPlczoE0zForg9lE8OQfGb/ADENINtrBM1vIui3VeB8MVohYrTRJ99i47uwlb3Y9UlWxq3PJhAp0FYDG0oyXafpzDGhbcKNl8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787588924; c=relaxed/simple;
-	bh=kdDhArJ2ZwmvkymSh8j/JWr9+TzICh9N42BzfJn7WCk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oK1sqjDga9fxbwTyKnqEyHmHa808t1Af/vGwKVpKY6Kijd01pAtkSVl4JpCGwaFQ6AJzPLmPVrPbxLIyFKaxQhaSuq4cIyBbQQflQfgijEAbyyNLQ26KfRynNmhbxT31R7zq6cPOD5qFRqjju4T9hqc0UIMnE7N0Mafn3+m+GpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VN6kOFOW; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8D246D2BF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 16:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787589558; cv=pass; b=WRDQvbl0d6LitQZPSsi+2J8G/dSqZTCtRCiZSfLCU/NIfTWPSBw1+OZV2Mccw7q37OflIw2ScyZLQFdrnk0V11IyGCk5bYNCl1KA7hxY0IcNQsQiEVHxjGAUHGpxcZYc8H99+svlQD+Y82qQ9fFMI+Cj6VBa0zjDFGnofaE0gnY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787589558; c=relaxed/simple;
+	bh=s9ENCUqu4cuAG/MA+I55viOKUq7kKs/v6Uip5cil7A4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dRlY4sn2t46ENbx40JObzUeVlWXRzkQY7tbd0AK5HtmSHJoXYOKR7u4Hor+AeVR+Cr5TX/HuJc3ax/9e5Ev6UST/ts4Rbzd+YYP1AQGyFZj9nao+nAwBF9+rZoG6Rj32px8WDE0qHierYYDhcVW1eOoU6DOiwi2nYcKqGcdiY40=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDrIZbE6; arc=pass smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VN6kOFOW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5172D1F000E9;
-	Mon, 24 Aug 2026 16:28:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787588918;
-	bh=1NFP/Doxvz0uneI4uAtaTJ5pHHBSrUSDmA71fSNKFKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VN6kOFOWDWXh74bAR41giJ73uh7u1PhiKRT3X7rhEnXEcOOrjBMSR29erjx3RABgH
-	 O68jKorVrcixv2cmjnJFLee4cQdlZuYXiFCHnS3tF7wr5dLfq/vCtsER9ImBa5MlmY
-	 tlfPiVGQTS3rDJypq1ISb3WBQloh1AQehd6wAFPWTNhFicKca5S0SpSs70ILl41pAa
-	 ueftTnhdVv2CPAksVkXwkKN5a1kMRoDfz/lo9diDGftAwgM3w0I4JvW7/r42PNRBzy
-	 ItllSYIekZRRjGWZscL6tHKDpcGB9MkVbKKpYeXubk5uonq6m65pAzDB+4GZGtaSAT
-	 lkwtnXV/IPt5A==
-Date: Mon, 24 Aug 2026 17:28:29 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-Message-ID: <aoxm4jUrmL1eQlCJ@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDrIZbE6"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-499b6c02b02so17108065e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 09:39:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787589553; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nW0R8s0hHQ4dsgcRkbqyb7slRzXM36KzZEZKDbqiBb5im8ublxkQ8IqLRgfsiZ/vzW
+         wAx5a+SFhRtgtmXEMXAjX0qaPX9at9GHwJx89PFkw6T3l6mg2nnBiUkn86XHGRQGRRp1
+         rw+ugHykyi8qiIeCj+2tTMpqb5lXkTXHFTgypr7LG0J5cueYUWDh6y1FVZycR0h7nMSL
+         QtieZOrj4YHh535ZfNkCDfHNG9EOuj+t4vKFsy88kAZKsuku7aDsqwPqMdI54dWE6MGv
+         a3LYKT2a6DaJPsFu3LXoKoDSp7xaIRvEdIarH0X0Ne1pe/j6nyGMyKGFpBEHrY3l4S5N
+         P01w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Lxchaipo0XOkASCChG5mzH54uBQ7bEpO8g3CtzEDtkk=;
+        fh=CAkFO65VSwZICE28NCc/pPrMf3SeFbglUFaki6F8c0s=;
+        b=Z2AYMxBGWinXYxxt5dIyHkxvPtehjWns2SK5CskGvtF9XE02DS0O+oKWq3cbOVXfXX
+         jgifxAGYl42JLBSVQsbcS9qmDtHY0do4ARAXQquDd+ijfcurhCbz/Ewf2UYNpSOWA2/K
+         vbxRMnpTq1iDIklwL/rJDv9UZRDr1382DSrQ1HskuH3VHoia7yz4xeFqZSVzmQGdz1eX
+         RMdYNDXd869aMhGWyJ9RymP2QP8XEZxIBY1EfUAUbAtMe4AQXvWkElcKzGSnD6oueVio
+         Q264XHxLJuKTkyDbVFds7PF142wWLZoFsifSAYR264m4yW2seYCTBpjunNpUb5JA51Bj
+         e28Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787589553; x=1788194353; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Lxchaipo0XOkASCChG5mzH54uBQ7bEpO8g3CtzEDtkk=;
+        b=LDrIZbE6NpS3sPYmqIUHsxi7WHj4NK66IspPlURRCOsM/SxyNtFm42UraZRL3Oiv8I
+         5gadKqB3vV8AGzeMeuVYCrC7zZ3hgffldWmTsOv+vAhvFXmljnJzG6tRTlNkKIQeCbJY
+         lL6mCNhczB2kpn54JwKjAsxF52Zl1Evf+S+j7TIN7oaDqnGZlHGN4YON6hxv1x2hb07u
+         e8PnPxoB/NZOXNswNMfLDH1bIf3dbe6vITUdwGkIuCT51CwsZG75IcepES+PGYyLxq5c
+         Jb3bKeezxqTwhtlYSuQx17tICCHUTIPWEGDbVEcxceuCbwyKEOlxCUmwHHQ+XZ6F2Dnz
+         1Crw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787589553; x=1788194353;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Lxchaipo0XOkASCChG5mzH54uBQ7bEpO8g3CtzEDtkk=;
+        b=quXAoBAcFWRwEogHMvDt0zOvqGFApYi/f+0omM+BVw4ahk6AEyZ1Wqsz3ARgC04AKe
+         pOQPvAxA35nI+dkNVrflnEdMyxoQRA/5L0Z8Y/q6HOR8m/f4/EQ6NDKIfWh8qHNJ/+NQ
+         C0HhVoE6cuf+DGurvP4TG4TmB+F+PKuy6pYOU6KBo91zt8qV/WCCV/QPinjeCUImeIPb
+         f+Vp60HXJbz9jVFyGS0E0dgcrfYquxvFWXyxfyWi1Sgzf0ZiHYaqMUtlTTGsxmeyS87f
+         5zpZO2hMQaBnDC8OQCS3pfAkx+Z89PvtbP3DieWgLkDOrhdqKUdJT8nq4Apw81fU0KtZ
+         IX7Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqzNyLu7NhWUxL5U26h/FJ+/u9ocidzJcaclITFgk+AQJpkMUiAdIY10bNKi7QZHzC5EK/4d+IEzevOm0cQ@vger.kernel.org
+X-Gm-Message-State: AFuF++kN8p98gME2A8LHafBX5YlnUmkxlp8UsFH6A3loTg1NQJx+sfxM
+	GkvizS+jm3lOvyiRzvII1V3pKk8W/TPLz4txtcfRwKFUu4DBslmFp/06rB0vhcE2D4BknZXWKDQ
+	ZTBzwVfs+c+reH/6Dgi4+bYfpjXPtaQM=
+X-Gm-Gg: AR+sD132KOcXNhp1TtXE1j1KzOuZrQyYYYDW5Cn8cjRcJGCnKvhUDovdJi4Caf+Hlob
+	YfI5q0JRhsAwGuGYJYCowk9jjrOevszGz7OrBlDwTuD1augnvnrVA5iYinvaHOC4VttwhnW2QtJ
+	nJ7HrgPeKUnrlOD6TAAbl1dvxn2OAIHA5i18Wl4tYYGD/rj4ED8zHQcUpjl+KS0qC6wRziOGuT6
+	yO4J6Nzok3ACaWNyg6HFfHd8UNx+aY7jUc8gfUsaKZqW//WUz5geXQgrCC/CdhiMPpiwyGyjD/E
+	BFqKWnOhn3FBW31FfMC6a3Tegyqo+/oulLh/AzWgW3NjONgbvWCA9zE6
+X-Received: by 2002:a05:600c:4e89:b0:499:53c4:1daa with SMTP id
+ 5b1f17b1804b1-499b8474febmr346530335e9.15.1787589552280; Mon, 24 Aug 2026
+ 09:39:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+References: <20260818163221.589352-3-alex@ghiti.fr> <20260821083500.856970-1-kunwu.chan@linux.dev>
+ <CAEmasaUzCU7r7DzJfMFbQGZCJvA_wOJifPywQmy8mOz0efWn8g@mail.gmail.com> <CAEmasaX8QPPNFjrTWn4jn+hoC_q9BrRhia9Zz5FYHyzbMjN2SA@mail.gmail.com>
+In-Reply-To: <CAEmasaX8QPPNFjrTWn4jn+hoC_q9BrRhia9Zz5FYHyzbMjN2SA@mail.gmail.com>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Tue, 25 Aug 2026 00:39:00 +0800
+X-Gm-Features: AcwNN1UaQAkZTylCiVANyXjbN8zO4d5pJy1P5Gk4Q_Uw1URMWPexKU-CeqwqgRw
+Message-ID: <CAN_Opa8Bp3udH2hVGMGwomncFRrZ11FpqkN7gogPgYJYNtAe0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] mm: swap: drop dropbehind swap cache folios on
+ writeback completion
+To: Alexandre Ghiti <alexghiti@meta.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 23, 2026 at 03:17:42PM +0300, Mike Rapoport (Microsoft) wrote:
-> Introduce enum uffd_reason to define reasons for user faults rather than
-> overload VM_UFFD_* VMA flags for that.
+On Mon, Aug 24, 2026 at 5:30=E2=80=AFPM Alexandre Ghiti <alexghiti@meta.com=
+> wrote:
 >
-> Using a dedicated enum makes the code clearer and decoupling the fault
-> reason from VMA flags clears the way for moving the uffd mode bits out
-> of VMA namespace.
->
-> No functional change.
->
-> Assisted-by: copilot:claude-opus-4.6
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
->  include/uapi/linux/userfaultfd.h |  6 +++---
->  mm/huge_memory.c                 |  6 +++---
->  mm/hugetlb.c                     | 10 +++++-----
->  mm/memory.c                      | 10 +++++-----
->  mm/shmem.c                       |  4 ++--
->  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
->  7 files changed, 47 insertions(+), 35 deletions(-)
->
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index 45355bdb4ec7..f401623f315d 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -9,6 +9,18 @@
->  #ifndef _LINUX_USERFAULTFD_K_H
->  #define _LINUX_USERFAULTFD_K_H
->
-> +#include <linux/bits.h>
-> +
-> +/* Fault reason #PF handler passes to handle_userfault() */
-> +enum uf_reason {
-> +	USERFAULT_MISSING	= BIT(0),
-> +	USERFAULT_MINOR		= BIT(1),
-> +	USERFAULT_RWP		= BIT(2),
-> +	USERFAULT_WP		= BIT(3),
-> +};
-
-Hmm your commit message says uffd_reason, uf_reason makes me think of the
-character Ulf from House of the Dragon. But not uffd. So as per David let's
-rename it :)
-
-I'm also not sure if an enum is the right thing for flag values?
-
-Anything that is parameterised by enum uffd_reason that combines flags will
-break any switch statement in there and yada yada.
-
-I wonder if better just as #define's + unsigned long or something?
-
-Or you could do (and this leads to nicer stuff later):
-
-	enum uffd_reason {
-	     USERFAULT_MISSING_BIT = 0,
-	     USERFAULT_MINOR_BIT = 1,
-	     USERFAULT_RWP_BIT = 2,
-	     USERFAULT_WP_BIT = 3,
-	};
-
-	#define USERFAULT_MISSING BIT(USERFAULT_MISSING_BIT)
-
-etc.
-
-
-> +#define USERFAULT_ANY	(USERFAULT_MISSING | USERFAULT_MINOR | \
-> +			 USERFAULT_RWP | USERFAULT_WP)
-> +
->  #ifdef CONFIG_USERFAULTFD
->
->  #include <linux/userfaultfd.h> /* linux/include/uapi/linux/userfaultfd.h */
-> @@ -82,7 +94,7 @@ struct userfaultfd_ctx {
->  	struct mm_struct *mm;
->  };
->
-> -extern vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason);
-> +vm_fault_t handle_userfault(struct vm_fault *vmf, enum uf_reason reason);
->
->  /* VMA userfaultfd operations */
->  struct vm_uffd_ops {
-> @@ -333,7 +345,7 @@ static inline bool pte_swp_uffd_any(pte_t pte)
->
->  /* mm helpers */
->  static inline vm_fault_t handle_userfault(struct vm_fault *vmf,
-> -				unsigned long reason)
-> +				enum uf_reason reason)
-
-See above re: enum parameterisation.
-
->  {
->  	return VM_FAULT_SIGBUS;
->  }
-> diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-> index cea11aad6b54..ed2c42d427b9 100644
-> --- a/include/uapi/linux/userfaultfd.h
-> +++ b/include/uapi/linux/userfaultfd.h
-> @@ -168,9 +168,9 @@ struct uffd_msg {
->
->  /* flags for UFFD_EVENT_PAGEFAULT */
->  #define UFFD_PAGEFAULT_FLAG_WRITE	(1<<0)	/* If this was a write fault */
-> -#define UFFD_PAGEFAULT_FLAG_WP		(1<<1)	/* If reason is VM_UFFD_WP */
-> -#define UFFD_PAGEFAULT_FLAG_MINOR	(1<<2)	/* If reason is VM_UFFD_MINOR */
-> -#define UFFD_PAGEFAULT_FLAG_RWP		(1<<3)	/* If reason is VM_UFFD_RWP */
-> +#define UFFD_PAGEFAULT_FLAG_WP		(1<<1)	/* If reason is uffd-wp */
-> +#define UFFD_PAGEFAULT_FLAG_MINOR	(1<<2)	/* If reason is uffd-minor */
-> +#define UFFD_PAGEFAULT_FLAG_RWP		(1<<3)	/* If reason is uffd-rwp */
-
-Is it worth retaining the same bit indexes as the reasons?
-
-Reasons:
-
-	Bit number
-MINOR	0
-RWP	1
-WP	2
-
-Page fault flags:
-
-	Bit number
-MINOR	2
-RWP	3
-WP	1
-
-See below for some actual practical justification...
-
->
->  struct uffdio_api {
->  	/* userland asks for an API number and the features to enable */
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index ced400f72d43..46d8497ce90e 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -1410,7 +1410,7 @@ static vm_fault_t __do_huge_pmd_anonymous_page(struct vm_fault *vmf)
->  			spin_unlock(vmf->ptl);
->  			folio_put(folio);
->  			pte_free(vma->vm_mm, pgtable);
-> -			ret = handle_userfault(vmf, VM_UFFD_MISSING);
-> +			ret = handle_userfault(vmf, USERFAULT_MISSING);
->  			VM_BUG_ON(ret & VM_FAULT_FALLBACK);
->  			return ret;
->  		}
-> @@ -1556,7 +1556,7 @@ vm_fault_t do_huge_pmd_anonymous_page(struct vm_fault *vmf)
->  			} else if (userfaultfd_missing(vma)) {
->  				spin_unlock(vmf->ptl);
->  				pte_free(vma->vm_mm, pgtable);
-> -				ret = handle_userfault(vmf, VM_UFFD_MISSING);
-> +				ret = handle_userfault(vmf, USERFAULT_MISSING);
->  				VM_BUG_ON(ret & VM_FAULT_FALLBACK);
->  			} else {
->  				set_huge_zero_folio(pgtable, vma->vm_mm, vma,
-> @@ -2252,7 +2252,7 @@ vm_fault_t do_huge_pmd_uffd_rwp(struct vm_fault *vmf)
->  	pmd_t pmd;
->
->  	if (!userfaultfd_rwp_async(vma))
-> -		return handle_userfault(vmf, VM_UFFD_RWP);
-> +		return handle_userfault(vmf, USERFAULT_RWP);
->
->  	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
->  	if (unlikely(!pmd_same(pmdp_get(vmf->pmd), vmf->orig_pmd))) {
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 73d65644be13..5e2ed80c1938 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -5728,7 +5728,7 @@ int hugetlb_add_to_page_cache(struct folio *folio, struct address_space *mapping
->
->  static inline vm_fault_t hugetlb_handle_userfault(struct vm_fault *vmf,
->  						  struct address_space *mapping,
-> -						  unsigned long reason)
-> +						  enum uf_reason reason)
->  {
->  	u32 hash;
->
-> @@ -5821,7 +5821,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
->  			}
->
->  			return hugetlb_handle_userfault(vmf, mapping,
-> -							VM_UFFD_MISSING);
-> +							USERFAULT_MISSING);
->  		}
->
->  		if (!(vma->vm_flags & VM_MAYSHARE)) {
-> @@ -5897,7 +5897,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
->  				goto out;
->  			}
->  			return hugetlb_handle_userfault(vmf, mapping,
-> -							VM_UFFD_MINOR);
-> +							USERFAULT_MINOR);
->  		}
->  	}
->
-> @@ -6120,7 +6120,7 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
->
->  		/* Sync: drop hugetlb locks before blocking in handle_userfault() */
->  		if (!userfaultfd_rwp_async(vma))
-> -			return hugetlb_handle_userfault(&vmf, mapping, VM_UFFD_RWP);
-> +			return hugetlb_handle_userfault(&vmf, mapping, USERFAULT_RWP);
->
->  		ptl = huge_pte_lock(h, mm, vmf.pte);
->  		pte = huge_ptep_get(mm, vmf.address, vmf.pte);
-> @@ -6177,7 +6177,7 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
->  			spin_unlock(vmf.ptl);
->  			hugetlb_vma_unlock_read(vma);
->  			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
-> -			return handle_userfault(&vmf, VM_UFFD_WP);
-> +			return handle_userfault(&vmf, USERFAULT_WP);
->  		}
->
->  		vmf.orig_pte = huge_pte_clear_uffd(vmf.orig_pte);
-> diff --git a/mm/memory.c b/mm/memory.c
-> index c54943302553..1a9b41704b0c 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4389,7 +4389,7 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
->  		if (userfaultfd_pte_wp(vma, ptep_get(vmf->pte))) {
->  			if (!userfaultfd_wp_async(vma)) {
->  				pte_unmap_unlock(vmf->pte, vmf->ptl);
-> -				return handle_userfault(vmf, VM_UFFD_WP);
-> +				return handle_userfault(vmf, USERFAULT_WP);
->  			}
->
->  			/*
-> @@ -5463,7 +5463,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
->  		/* Deliver the page fault to userland, check inside PT lock */
->  		if (userfaultfd_missing(vma)) {
->  			pte_unmap_unlock(vmf->pte, vmf->ptl);
-> -			return handle_userfault(vmf, VM_UFFD_MISSING);
-> +			return handle_userfault(vmf, USERFAULT_MISSING);
->  		}
->  		if (vmf_orig_pte_uffd_wp(vmf))
->  			entry = pte_mkuffd(entry);
-> @@ -5514,7 +5514,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
->  	if (userfaultfd_missing(vma)) {
->  		pte_unmap_unlock(vmf->pte, vmf->ptl);
->  		folio_put(folio);
-> -		return handle_userfault(vmf, VM_UFFD_MISSING);
-> +		return handle_userfault(vmf, USERFAULT_MISSING);
->  	}
->  	map_anon_folio_pte_pf(folio, vmf->pte, vma, addr,
->  			      vmf_orig_pte_uffd_wp(vmf));
-> @@ -6263,7 +6263,7 @@ static vm_fault_t do_uffd_rwp(struct vm_fault *vmf)
->  	if (!userfaultfd_rwp_async(vmf->vma)) {
->  		/* Sync mode: unmap PTE and deliver to userfaultfd handler */
->  		pte_unmap(vmf->pte);
-> -		return handle_userfault(vmf, VM_UFFD_RWP);
-> +		return handle_userfault(vmf, USERFAULT_RWP);
->  	}
->
->  	spin_lock(vmf->ptl);
-> @@ -6398,7 +6398,7 @@ static inline vm_fault_t wp_huge_pmd(struct vm_fault *vmf)
->  		    userfaultfd_huge_pmd_wp(vma, vmf->orig_pmd)) {
->  			if (userfaultfd_wp_async(vmf->vma))
->  				goto split;
-> -			return handle_userfault(vmf, VM_UFFD_WP);
-> +			return handle_userfault(vmf, USERFAULT_WP);
->  		}
->  		return do_huge_pmd_wp_page(vmf);
->  	}
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 599665a3d6e7..2138a4e6b549 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -2453,7 +2453,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
->  	if (folio && vma && userfaultfd_minor(vma)) {
->  		if (!xa_is_value(folio))
->  			folio_put(folio);
-> -		*fault_type = handle_userfault(vmf, VM_UFFD_MINOR);
-> +		*fault_type = handle_userfault(vmf, USERFAULT_MINOR);
->  		return 0;
->  	}
->
-> @@ -2502,7 +2502,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
->  	 */
->
->  	if (vma && userfaultfd_missing(vma)) {
-> -		*fault_type = handle_userfault(vmf, VM_UFFD_MISSING);
-> +		*fault_type = handle_userfault(vmf, USERFAULT_MISSING);
->  		return 0;
->  	}
->
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 119304547230..83587d34b189 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -2607,7 +2607,7 @@ static inline void msg_init(struct uffd_msg *msg)
->  static inline struct uffd_msg userfault_msg(unsigned long address,
->  					    unsigned long real_address,
->  					    unsigned int flags,
-> -					    unsigned long reason,
-> +					    enum uf_reason reason,
->  					    unsigned int features)
->  {
->  	struct uffd_msg msg;
-> @@ -2629,11 +2629,11 @@ static inline struct uffd_msg userfault_msg(unsigned long address,
->  	 */
->  	if (flags & FAULT_FLAG_WRITE)
->  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_WRITE;
-> -	if (reason & VM_UFFD_WP)
-> +	if (reason & USERFAULT_WP)
->  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_WP;
-> -	if (reason & VM_UFFD_RWP)
-> +	if (reason & USERFAULT_RWP)
->  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_RWP;
-> -	if (reason & VM_UFFD_MINOR)
-> +	if (reason & USERFAULT_MINOR)
->  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_MINOR;
-
-With matching flags and unsigned long you could do
-
-	msg.arg.pagefault.flags |= reason;
-
-I think?
-
->  	if (features & UFFD_FEATURE_THREAD_ID)
->  		msg.arg.pagefault.feat.ptid = task_pid_vnr(current);
-> @@ -2647,7 +2647,7 @@ static inline struct uffd_msg userfault_msg(unsigned long address,
->   */
->  static inline bool userfaultfd_huge_must_wait(struct userfaultfd_ctx *ctx,
->  					      struct vm_fault *vmf,
-> -					      unsigned long reason)
-> +					      enum uf_reason reason)
->  {
->  	struct vm_area_struct *vma = vmf->vma;
->  	pte_t *ptep, pte;
-> @@ -2684,13 +2684,13 @@ static inline bool userfaultfd_huge_must_wait(struct userfaultfd_ctx *ctx,
->  	 * If VMA has UFFD WP faults enabled and WP fault, wait for userspace to
->  	 * resolve the fault.
->  	 */
-> -	if (!huge_pte_write(pte) && (reason & VM_UFFD_WP))
-> +	if (!huge_pte_write(pte) && (reason & USERFAULT_WP))
->  		return true;
->  	/*
->  	 * PTE is still RW-protected (protnone with uffd bit), wait for
->  	 * resolution. Plain PROT_NONE without the marker is not an RWP fault.
->  	 */
-> -	if (pte_protnone(pte) && huge_pte_uffd(pte) && (reason & VM_UFFD_RWP))
-> +	if (pte_protnone(pte) && huge_pte_uffd(pte) && (reason & USERFAULT_RWP))
->  		return true;
->
->  	return false;
-> @@ -2698,7 +2698,7 @@ static inline bool userfaultfd_huge_must_wait(struct userfaultfd_ctx *ctx,
->  #else
->  static inline bool userfaultfd_huge_must_wait(struct userfaultfd_ctx *ctx,
->  					      struct vm_fault *vmf,
-> -					      unsigned long reason)
-> +					      enum uf_reason reason)
->  {
->  	/* Should never get here. */
->  	VM_WARN_ON_ONCE(1);
-> @@ -2715,7 +2715,7 @@ static inline bool userfaultfd_huge_must_wait(struct userfaultfd_ctx *ctx,
->   */
->  static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
->  					 struct vm_fault *vmf,
-> -					 unsigned long reason)
-> +					 enum uf_reason reason)
->  {
->  	struct mm_struct *mm = ctx->mm;
->  	unsigned long address = vmf->address;
-> @@ -2753,10 +2753,10 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
->  		return false;
->
->  	if (pmd_trans_huge(_pmd)) {
-> -		if (!pmd_write(_pmd) && (reason & VM_UFFD_WP))
-> +		if (!pmd_write(_pmd) && (reason & USERFAULT_WP))
->  			return true;
->  		if (pmd_protnone(_pmd) && pmd_uffd(_pmd) &&
-> -		    (reason & VM_UFFD_RWP))
-> +		    (reason & USERFAULT_RWP))
->  			return true;
->  		return false;
->  	}
-> @@ -2793,14 +2793,14 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
->  	 * If VMA has UFFD WP faults enabled and WP fault, wait for userspace to
->  	 * resolve the fault.
->  	 */
-> -	if (!pte_write(ptent) && (reason & VM_UFFD_WP))
-> +	if (!pte_write(ptent) && (reason & USERFAULT_WP))
-
-I wonder if you could actually
-
-You do this quite a lot and they read a bit horribly with the && and & on the
-same sight-line. With the changes to the enum proposed above you could do:
-
-	if (!pte_write(ptent) && test_bit(reason, USERFAULT_WP_BIT))
-
-
->  		goto out;
->  	/*
->  	 * PTE is still RW-protected (protnone with uffd bit), wait for
->  	 * userspace to resolve. Plain PROT_NONE without the marker is not
->  	 * an RWP fault.
->  	 */
-> -	if (pte_protnone(ptent) && pte_uffd(ptent) && (reason & VM_UFFD_RWP))
-> +	if (pte_protnone(ptent) && pte_uffd(ptent) && (reason & USERFAULT_RWP))
->  		goto out;
->
->  	ret = false;
-> @@ -2835,7 +2835,7 @@ static inline unsigned int userfaultfd_get_blocking_state(unsigned int flags)
->   * fatal_signal_pending()s, and the mmap_lock must be released before
->   * returning it.
->   */
-> -vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
-> +vm_fault_t handle_userfault(struct vm_fault *vmf, enum uf_reason reason)
-
-Hmm what was the 'reason' here before? The flags? Maybe more reason (no pun
-intended) to keep the values the same?
-
->  {
->  	struct vm_area_struct *vma = vmf->vma;
->  	struct mm_struct *mm = vma->vm_mm;
-> @@ -2861,7 +2861,7 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
->  	VM_WARN_ON_ONCE(ctx->mm != mm);
->
->  	/* Any unrecognized flag is a bug. */
-> -	VM_WARN_ON_ONCE(reason & ~__VM_UFFD_FLAGS);
-> +	VM_WARN_ON_ONCE(reason & ~USERFAULT_ANY);
->  	/* 0 or > 1 flags set is a bug; we expect exactly 1. */
->  	VM_WARN_ON_ONCE(!reason || (reason & (reason - 1)));
->
->
-> --
-> 2.53.0
+> On Fri, Aug 21, 2026 at 11:53=E2=80=AFAM Alexandre Ghiti <alexghiti@meta.=
+com> wrote:
+> >
+> > Hi Kunwu,
+> >
+> > On Fri, Aug 21, 2026 at 10:35=E2=80=AFAM Kunwu Chan <kunwu.chan@gmail.c=
+om> wrote:
+> > >
+> > > > >
+> > >
+> > > Hi Alexandre,
+> > >
+> > > I have a question about the reference ownership/lifetime model in the
+> > > synchronous-IO case.
+> > >
+> > > Consider the synchronous writeback path in Patch 3:
+> > >
+> > >   zswap_writeback_entry()
+> > >     folio =3D __swap_cache_alloc_folio(...);
+> > >     ...
+> > >     __swap_writepage(folio, NULL);
+> > >     folio_put(folio);
+> > >
+> > > During writeback completion, Patch 2 does:
+> > >
+> > >   folio_end_writeback(folio)
+> > >     folio_get(folio);
+> > >     ...
+> > >     swap_writeback_dropbehind_folio(folio);
+> > >       llist_add()
+> > >       queue_work()
+> > >
+> > > With synchronous I/O, is it possible for the dropbehind worker to run
+> > > before zswap_writeback_entry() drops its reference after
+> > > __swap_writepage() returns?
+> >
+> > Yes, totally! The window is short though and in that rare case, we
+> > would fall back to the initial behaviour (almost, since we put the
+> > folio back onto lru but not rotate it). And for async devices, I don't
+> > think it can happen at all.
+> >
+> > >
+> > > If so, the worker will attempt:
+> > >
+> > >   swap_dropbehind_drop_folio(folio)
+> > >     ...
+> > >     remove_mapping(swap_address_space(folio->swap), folio, true, memc=
+g)
+> > >
+> > > while the caller's reference is still held.  Looking at
+> > > __remove_mapping() in mm/vmscan.c, it expects a refcount of
+> > > 1 + folio_nr_pages(folio), but the extra reference still held by
+> > > zswap_writeback_entry() would make the actual refcount one higher.
+> > > It therefore looks like folio_ref_freeze() will fail in this case.
+> > > Is that the intended behavior here?
+> > >
+> > > If the removal can fail, the fallback is:
+> > >
+> > >     folio_clear_dropbehind(folio);
+> > >     folio_add_lru(folio);
+> > >
+> > > This appears semantically safe, but it means that the dropbehind
+> > > optimization is lost for that writeback: the cold folio goes back ont=
+o
+> > > the LRU and has to be found by reclaim later.
+> > >
+> > > This seems particularly worth checking because v3 intentionally remov=
+es
+> > > the synchronous-I/O special case from v2.  The cover letter describes
+> > > that special case as an optimization that was not worth the extra cod=
+e,
+> > > which I agree is a reasonable direction if the generic path is
+> > > sufficiently effective.
+> > >
+> > > Could you measure the corresponding fallback rate on a synchronous
+> > > backend (e.g. zram)?  The 99.996% success rate in the cover letter is=
+ for
+> > > asynchronous NVMe, so it does not tell us how often this particular r=
+ace
+> > > occurs with synchronous completion.
+> > >
+> > > More generally, I'd like the reference ownership across
+> > > __swap_writepage(), folio_end_writeback(), and the deferred worker to=
+ be
+> > > made explicit.  If the caller's reference can overlap with the worker=
+'s
+> > > reference, I'd also like to understand whether that is an intentional
+> > > and acceptable trade-off, or whether the overlap can be avoided witho=
+ut
+> > > reintroducing the synchronous-I/O special case that v3 is trying to
+> > > remove.
+> >
+> > I need to look into the patchset that Matthew and Barry pointed to and
+> > check if it's still relevant with this patchset on top of it. If so,
+> > I'll add a debug counter to confirm we don't fall back too much for
+> > sync devices :)
+> >
 >
 
---
-Cheers, Lorenzo
+Hi Alex,
+
+Thanks for checking this and for the detailed explanation.
+
+> As you noted, in my implementation, a race was possible between the
+> worker and the folio_put() in zswap_writeback_entry(). Now with Tal's
+> patchset which *only* defers atomic context to a workqueue, the
+> dropbehind folios on synchronous devices get freed inline which is not
+> possible because of the reference held by the zswap writeback path.
+>
+> But it's cleanly fixable by dropping the zswap reference before
+> __swap_writepage(): the folio is locked (when it is allocated) until
+> writeback starts, then PG_writeback prevents the folio removal from
+> the swapcache and right before clearing PG_writeback in
+> folio_end_writeback_no_dropbehind(), folio_end_writeback() takes a
+> reference! So remove_mapping() is happy with the refcount :)
+>
+
+That makes sense.
+Dropping the zswap reference before __swap_writepage()  avoids the
+overlap, while PG_writeback prevents the folio from being removed  from
+the swap cache until writeback completion.
+The reference taken before clearing PG_writeback then ensures that
+remove_mapping() sees the expected refcount.
+
+I agree this is cleaner than bringing back the synchronous-I/O special case=
+.
+
+> So there are no more races as you pointed out, since we drop the
+> reference before the writeback. I'll post the v4 today.
+
+I'll take a look at v4 after it is posted.
+
+Thanks,
+KunWu
+
+>
+> Thanks again for your comment.
+>
+> Alex
+>
+>
+>
+> > Thanks for your comment!
+> >
+> > Alex
+> >
+> > >
+> > > Thanks,
+> > > KunWu
+> > >
