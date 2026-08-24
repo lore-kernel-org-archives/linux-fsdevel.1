@@ -1,65 +1,65 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973FC415F3B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA404399D5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581257; cv=none; b=aAKvUC9y2oS+g2KJ41eI4TKzR6kr193q6dVuxg4PjKG5Lg5xzm1Nxpk53k1BzehMtZOD5wuP9YVDjo/gaL1rKEYKJEOE1/SXVFuiSwHb0GxlEpTMaxx4OBC6XWnTydcE+k+M9srUS0e/Lrtxqj+yz1sdFD50O1yV4mac8fg9v+k=
+	t=1787581412; cv=none; b=ah9A62unQLYRLbwx/iCtp5iGyHrfL0gMubcXqDhJBwyNHiaO7zCcLhJX2Z3lI9q1a2CxhPCfuB4hB7H5vIr02uEPT7jwvsulrn+n2Ud3aJ59qj7s3nxqYF3NOvkAe14fGMTLAwYd2luypXdkzFYNBnsyjGmJettmSisVZK+KITw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581257; c=relaxed/simple;
-	bh=8h+Tl/oSzEl273fsifSd2ROQHSdSF1jGQXnUSkA/qlo=;
+	s=arc-20240116; t=1787581412; c=relaxed/simple;
+	bh=6kB5h1HEECPTicOG3LYyogzNQExsOtWLu7kTMzR5cg0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=cuVh0wT6sPzvm8uKn7aQ/8Yi8siSd7boXIYz7p2pKZKNDccAI4lUAHPM1Brdc9AjDUwT3JvV6txyMMhMsL7hvIvi9qBTHUhq2cY5p2Kfzw5nu2xORQqpMu+GGgeI+iwTurMDmEY/sXKPi0eEuTTwTKN5w2r2bZ/O+qLUa4hFVnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MQKTzxBX; arc=none smtp.client-ip=209.85.128.173
+	 MIME-Version:Content-Type; b=JoKT1PdiQ7FRO0z90jCXgGrsLGfTXwXbw3KzthwaV+ce/UEBxVsUpBe7+lAWwpkmJ7AqLn85K+KC1J+CqwbNglOESGvS336P44d0xlLgTuc0FihTMiIy4AgYzQk/Dp4IFsl9CEA1rKiz0OSUH3aa4v93fN1r8/NNFBi1l8QW8T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qTL5iIIU; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MQKTzxBX"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-836c590b61eso53158787b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:20:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qTL5iIIU"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-836cb2fa1bcso53083657b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787581254; x=1788186054; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787581409; x=1788186209; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YRoTlYAeNn0iQ+Akcq71dtDJ5mRi19RmdUI1yCGlg3o=;
-        b=MQKTzxBXRLyXVALWAMfieUw5HptWmyT/+uz5VhS6deH8nU8b1zOs+lAID3sfB/Skr6
-         n7Ehyqp/XUEB8x17/4+qABrwy+TaxUsKEryBhMSWXfK9wC/7lUifEcxzyPVh2Hf1S4PW
-         BXaasjoFX3mulB7nmbyzAF7O4JdQc0KEggUEsW6CD0QGHg2+jAOOja+a1FhEVuDhAK29
-         5kM0EZNz99xCkBi0SC12k81e6vr6UrHjBMXlmCe+FqglI3I5zzIcJUKavJqb/DJpIEtn
-         Fvh973ENETGWBjdfEVadgmYcJVw85XXs9QxysAdhG6d/BRg2vwmAwJmWgUUNq6lHm13c
-         Ovcw==
+        bh=DAA3AJBckMfL7iDkU5H4UAChzqupIeoXexgfVyLiXUk=;
+        b=qTL5iIIUHVBB9JoHNIpqnDPZ8Tgfan4sEu+QR0jdnehPcdRuSmmSwrTk5iczR8q5DD
+         600sh1DTir0FNM08emH2W9KFR+c5JnQvIJhyb3T26Cw4B38BIWghn22vvykMM45M388U
+         bJnjrkF6MAh4c/yHo3+o/t/uMp88ct+95h8a6fHmgzcnDUYnTD7ZsU5oDvccIbAxwtl2
+         WXjIvy7nmjcYv7IeJhvfOCQdnexTlqMx+eN9GT5NvTXc1Pu3tbLAzS6FYPxnkxx6+ZSN
+         Op/Oam74dLn3ZBLZnFPzkvHBG35ayFwnOvUGHFjjlvN6wqCLJ/YOlwnFTazDqJ9O/4LZ
+         BUig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787581254; x=1788186054;
+        d=1e100.net; s=20251104; t=1787581409; x=1788186209;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YRoTlYAeNn0iQ+Akcq71dtDJ5mRi19RmdUI1yCGlg3o=;
-        b=ou0+NLxPwgiKAgVwjdD8iTFTji7hVptDjotrPSZRtAq4k+ae8ElFOntnyMb0nW9qde
-         Pv+xYR2F5R5jhVigxXeOoUuHPWrTObKE91TYTwKH/9gL6aQSd0npWFYi0fk+lCJI/Hdp
-         4DwL8hfVz0OEARnFfM2PtDt3dilgDg6Xs97tokB2zwiayzic5CucHDAy11/2qEVfy/02
-         W6ha8IBpx6o+pTvTIf0dqZQO8yUAEDRJcCGcq5lXYXXaotwNaiYcQem71tEI+fkFOIqm
-         C2Lz4seeh1MiTSiyq/r7sjgtHTikWDpPqY+JDYqAfmh1vI7ttwlQjgrlQ+TO1xqpM3Hh
-         Zptw==
-X-Forwarded-Encrypted: i=1; AHgh+RpfHnDM2p4/SnEzA41EBAAMD53hPE3eAeBLsRFCDry9+L7OLo65WkQCcs9EE28DPrY6ezt+oeUYvMdUnPpK@vger.kernel.org
-X-Gm-Message-State: AFuF++layoGx7VsoliUN1zusDTdD63w+W9OgCJZPnW5DtZ2INezvgeUB
-	L4stdMeNXG3zdOQYkJ4XIWboAreHR3PY+oKe7vZaItfWxbZtOIwnP+KzuZYL/SRZ8w==
-X-Gm-Gg: AR+sD13kAgLqKo+22LTvBvNO6THCrxdOPE/jIWLB747EcVdHLzxegby9prGrDNd/3GP
-	Kkmno1t0c9CGH4D5hW7Cq2cU43McR9FEgCuNFiAWyqbiDYpMfWujpwAPgkOzM4a/CEje7706kVa
-	anYhNtq5p7nyF26BLak60cnqIyaDr21xufPvW/ZHQAs6UUmebnp2Pk3qmjeEjHOSpyXQLTUAHTm
-	Sj9YAeSh0oWsYeH03VfcvTMX1Mo/9jlGmFcej77Sm3NQPLr1eKBOUyPNT9SKkqu8YQU6s4A9noe
-	eWIklAria34KMUKk5yv3186eN+UIS+5u2XYN+CtqH7UTjUX1OF0521I+ty4KwnGDlc+bCgRXE9p
-	b7Zi6yd3Npz8m+UN9TM2jOmXoECxXfyU7ISSC1EMDemzFNaZNHeA0v5TNV+f5tvbgEPlNrefC2S
-	d5VbTJ4vy3i7k7LTStGHK4zMJK9Vk1m2QT2h1fLoARFOdwPOp/rfq0CaU6MeeJsN5d5WEC62Q1C
-	kaW/qRnzV+mRX0zEPzdnXcavQMLm5yt3g7q6XxXqFvp6VB8
-X-Received: by 2002:a05:690c:e217:10b0:81e:a471:e8b2 with SMTP id 00721157ae682-84c95f4df1amr53178007b3.2.1787581253476;
-        Mon, 24 Aug 2026 07:20:53 -0700 (PDT)
+        bh=DAA3AJBckMfL7iDkU5H4UAChzqupIeoXexgfVyLiXUk=;
+        b=pN4wqMNZJVVFuSbu0hCjmgmakO6Qdhd3/RwzwVBWvMXbwPW8p2cPgnD0dYpIo4RgXw
+         EY3pyv2q9MbSkVZ1FHd7YlstXdP653079diPLnF9g4FbHZT6rsFklymKIW1LrRpXzYJa
+         1A2snGFiaq4g8r60fYEQLlo1CFeusiIquaB6r5TkUIPb5vHUxDYnBB6Yrcm7U1NRyov8
+         wlike56oKI1jdBocVeAIUK1oIUORdJSzUzB2eYkdn/6TV7Dom3y1y4mQIpubW16rHRsq
+         2xb/pDiP1Fr7MFHFSgBQ5rJZLUiVWf/Co60mMxXyTU08aUudzr6ZmQx7O75jGRKA77Ch
+         MaYg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4Yr0zMv8lHmgdOhV84Ae2zhbwKp7Kw1xpFJgrje4t7t/6Qlcd4e3L5rmVzXl6298B1gR+XaPO0fzHt26M@vger.kernel.org
+X-Gm-Message-State: AFuF++mXN8mpVDDPXVx1lVugl6JAo449Z11b/2Qa1yq+y9tx+EYduL0q
+	NRmnVH6jB9XYAYqFH+9JaQAZB0NhVU5LfDQJQAcToZJHkv8PaQyZ42C79TsCvdhqvw==
+X-Gm-Gg: AR+sD11715uZrsWbWeiW0ypwpggMFsa0NY17lYeCdTDOO1uCltoZoQGVS6HDeR6bJI+
+	8pL/NvytnNEpD3tGWTGRW/2q5NssDjug8HLyQreu/ljFYS9s1Fn8RcxN/htqlFHSPcIbeXkC6cY
+	XWsPuam7x8OiVGvKpI4ZDTA5oP6tq1TS8phLbCt1CT5rjLczjuxwrtvelb4GiDEbDIs0scz0zzM
+	vYt1quF8tLvmUzcXfivycDVuyaHUkaXad5ZdAvac+PtYrwgTbpdbgY7NUlpvVHv6Ahmc/bcHXxW
+	mEj7xXPcTPWzPkZS65rkJMfh3swcf9zFY1j6+n//2qXSZqu/K57aNnt1Azb13JwvdBiC/CL8f26
+	T7L9/zFc2lChOsg8Sgv0lJGae1lrMWU9hJKSRWJPCPPnOGVrY7lGB1qnonPzKReS3SG8XLQ66f/
+	nWaW3vqifzNhdbeKw4CM2KpKg5bimMROPHiXXOYrjN9HS5KvBughtFcWWp4h/iWSgBMP0cpXSpO
+	A6cPTZeP5G8rwL0EdfHoH4Ps9lPqfy8C0xABYY3I7fYe5XD
+X-Received: by 2002:a05:690c:a4db:b0:80d:a249:4854 with SMTP id 00721157ae682-84c99f902c3mr43542587b3.17.1787581408945;
+        Mon, 24 Aug 2026 07:23:28 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac3f525fsm33909927b3.44.2026.08.24.07.20.46
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cab854483sm33838647b3.33.2026.08.24.07.23.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:20:49 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:20:44 -0700 (PDT)
+        Mon, 24 Aug 2026 07:23:27 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:23:23 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 12/25] mm/fbatch: remove percpu_pvec_drained and
- folios_put()
+Subject: [PATCH 13/25] mm/fbatch: no lru_add_drain() to
+ collect_longterm_unpinnable_folios()
 In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <3599e5ac-b74f-87ad-ab65-78d24c148fd1@google.com>
+Message-ID: <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
 References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,124 +102,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Remove the percpu_pvec_drained field from folio_batch, and its only use
-in __folio_batch_release(): remove that now pointless lru_add_drain().
-
-Which leaves __folio_batch_release() as an exported name for folios_put()
-which is itself just a wrapper for folios_put_refs(): mm/mlock.c and
-mm/folio.c don't need such a wrapper, just say folios_put_refs(,NULL).
-
-Or should folios_put() be the export? But __folio_batch_release() is what
-drivers/gpu and net/sunrpc are using: don't change them in this series.
+collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
+lru_add_drain_all(), now that the per-cpu fbatch references are gone.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- include/linux/folio_batch.h |  2 --
- include/linux/mm.h          | 18 ------------------
- mm/folio.c                  | 17 +++--------------
- mm/mlock.c                  |  2 +-
- 4 files changed, 4 insertions(+), 35 deletions(-)
+ mm/gup.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/include/linux/folio_batch.h b/include/linux/folio_batch.h
-index e1cc8ae023f1..a3337f70e109 100644
---- a/include/linux/folio_batch.h
-+++ b/include/linux/folio_batch.h
-@@ -27,7 +27,6 @@ struct folio;
- struct folio_batch {
- 	unsigned char nr;
- 	unsigned char i;
--	bool percpu_pvec_drained;
- 	struct folio *folios[FOLIO_BATCH_SIZE];
- };
- 
-@@ -41,7 +40,6 @@ static inline void folio_batch_init(struct folio_batch *fbatch)
+diff --git a/mm/gup.c b/mm/gup.c
+index 99902c15703b..9616379ab069 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -2268,7 +2268,6 @@ static unsigned long collect_longterm_unpinnable_folios(
  {
- 	fbatch->nr = 0;
- 	fbatch->i = 0;
--	fbatch->percpu_pvec_drained = false;
- }
+ 	unsigned long collected = 0;
+ 	struct folio *folio;
+-	int drained = 0;
+ 	long i = 0;
  
- static inline void folio_batch_reinit(struct folio_batch *fbatch)
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 87feaa5a2b78..a426f7351787 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2201,24 +2201,6 @@ typedef union {
+ 	for (folio = pofs_get_folio(pofs, i); folio;
+@@ -2287,19 +2286,6 @@ static unsigned long collect_longterm_unpinnable_folios(
+ 			continue;
+ 		}
  
- void release_pages(release_pages_arg, int nr);
- 
--/**
-- * folios_put - Decrement the reference count on an array of folios.
-- * @folios: The folios.
-- *
-- * Like folio_put(), but for a batch of folios.  This is more efficient
-- * than writing the loop yourself as it will optimise the locks which need
-- * to be taken if the folios are freed.  The folios batch is returned
-- * empty and ready to be reused for another batch; there is no need to
-- * reinitialise it.
-- *
-- * Context: May be called in process or interrupt context, but not in NMI
-- * context.  May be called while holding a spinlock.
-- */
--static inline void folios_put(struct folio_batch *folios)
--{
--	folios_put_refs(folios, NULL);
--}
+-		if (drained == 0 && folio_may_be_lru_cached(folio) &&
+-				folio_ref_count(folio) !=
+-				folio_expected_ref_count(folio) + 1) {
+-			lru_add_drain();
+-			drained = 1;
+-		}
+-		if (drained == 1 && folio_may_be_lru_cached(folio) &&
+-				folio_ref_count(folio) !=
+-				folio_expected_ref_count(folio) + 1) {
+-			lru_add_drain_all();
+-			drained = 2;
+-		}
 -
- static inline void put_page(struct page *page)
- {
- 	struct folio *folio = page_folio(page);
-diff --git a/mm/folio.c b/mm/folio.c
-index fa4cf9d7d51b..782b8245d213 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -159,7 +159,7 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
+ 		if (!folio_isolate_lru(folio))
+ 			continue;
  
- 	if (lruvec)
- 		lruvec_unlock_irqrestore(lruvec, flags);
--	folios_put(fbatch);
-+	folios_put_refs(fbatch, NULL);
- }
- 
- static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
-@@ -1062,22 +1062,11 @@ void release_pages(release_pages_arg arg, int nr)
- EXPORT_SYMBOL(release_pages);
- 
- /*
-- * The folios which we're about to release may be in the deferred lru-addition
-- * queues.  That would prevent them from really being freed right now.  That's
-- * OK from a correctness point of view but is inefficient - those folios may be
-- * cache-warm and we want to give them back to the page allocator ASAP.
-- *
-- * So __folio_batch_release() will drain those queues here.
-- * folio_batch_move_lru() calls folios_put() directly to avoid
-- * mutual recursion.
-+ * This used to optimize with a drain before putting: no longer helpful.
-  */
- void __folio_batch_release(struct folio_batch *fbatch)
- {
--	if (!fbatch->percpu_pvec_drained) {
--		lru_add_drain();
--		fbatch->percpu_pvec_drained = true;
--	}
--	folios_put(fbatch);
-+	folios_put_refs(fbatch, NULL);
- }
- EXPORT_SYMBOL(__folio_batch_release);
- 
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 1050010bbe0b..97134eff6b56 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -191,7 +191,7 @@ static void mlock_folio_batch(struct folio_batch *fbatch)
- 
- 	if (lruvec)
- 		lruvec_unlock_irq(lruvec);
--	folios_put(fbatch);
-+	folios_put_refs(fbatch, NULL);
- }
- 
- void mlock_drain_local(void)
 -- 
 2.51.0
 
