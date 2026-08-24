@@ -1,161 +1,157 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F17399D0D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787557276; cv=pass; b=SWoOwx4SERvjiHkWdMEW90sCr6hxgwfa7AO2Kjf1eD3+OdDR4Pl//5zEvObxk17gq2r5jLZRLTPrYHP5wJAMpODWdp5SYnOR7bcrK46zNFIg/9qKe1dUpB6pffIU9T/DSoV39WEVqwxihvO7h9noo2+TRtS/u4hFRh0ojNpoufA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787557276; c=relaxed/simple;
-	bh=mdsvrY0ISPRS0P8l6Q2ATVhO2qJcd3GXtM94ZK/661M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KV9ksOM0lugrjFGsTlM+od8QGKiUEc+ZbfrMQs1GPeDVxJX4SUhEx3mnfq7gnTjV3xfQ0pZsBKThFxxUQylA2qqKli8vviVVftU6ph3k7gRRqm54vEUEQXSIe9OxujPSj3PAF/6AHpE4+D7d3ig/inDcwZAXkxNdwDg+2EejeQk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Q/GjEk//; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Q/GjEk//"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c4436d02cso16339811cf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:41:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787557272; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kT1v6ulu38Ut08aOMW8M8tT/4zkVWme5ey32+v21zKuBGs651hluLq1bL3mzDYd45o
-         AsTx2wWle0snVamL4WkCa32Uo3PTmwHQ8Wvrthr/bOC1pwQqqMHujjMg7dog4THSl3PG
-         53uGCj1Wn203cPquJVA+sm7zR9RTMYlzU1dL77dgQuG00pAU0jZ6Pwzm+rWHO4lF5slr
-         k9NXV7DXwU+DLVWKjzzeL8ctu1+y8CsvuciHb8Dvt4zZlCUuKP0aBKGqgJSwWBsJVzcY
-         S4b88fetrrZ7jOMAe9Bz2TEBL6doDKqh+hPRwko67X/u7px0mJRzIjqOG4efNtiROFPc
-         tmxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        fh=oFXJazTw3V+s08aFgj9K+fzVZW58CkD3LFIJ/H+NuiU=;
-        b=SxxnQM1EkWm+hHDowAxrtid8Zvb8sgCja+UlJ9he6o7GyZ//CrGTkLlWKQtZKYL8TZ
-         s3tr5dIoMvK4GTbHLX6VXCfTX1Jk+v81zW2w2pNDBpMKlpY9Uv5JlWDbLM9QvTlDH9u9
-         WNDYqe60/h6eHVNpb2VitAnQ/VEXHlnhvLWsfaUGjqeSO+Rs/Mp3NG/VTuElUY8rokRe
-         9hJ+X020SrJLr1O30Vs7+57hlLERN7FoyEwVmG+/TeISC/MpgJ+9/34eojBn/HACCpqm
-         3iFqv9mc4HJOGe8z/C+I2ALtmRjLXpiGv+AZn9z3MgcSBQ+g/OU4WPfyYF7uSlassneS
-         DE9A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787557272; x=1788162072; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        b=Q/GjEk//wp5xYL0vEr/+Agzjq//Un/YfKCErgxJp8r92qnipH2D8XXriluj8rI9O+p
-         OROlfSSqPMyu6evEHcBJrDoN6E/NWadT+iOazfy8ukAc/+N+wat4eM5mPINHc44W0etI
-         ummcPk0e15zddKt/9Gkx/GbWoKVDhyvdILB9s=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5B139EF25
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787557655; cv=none; b=osH11YxOuY24x2Go/Or4V5HNLbbwsvyCm6PPYqiRkMlrVr8nmrbbQyUNaT30t+3jxwUuo6NrhiT1G5KTQ8Ay0P2SiOEzQTjE8kvpytr7OkRE+p0qo62wLSvWy7zPIGdiY2t3Lx/lUh0c9MMAFAo9anybkooyfj0+pZJEpYrwk50=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787557655; c=relaxed/simple;
+	bh=uSxWJY8a5CLjZuEErwvpCzXXvGzdqJAZZGIqu/KXbKw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ATs9gXnRcYFNKnHf2zu8ylc7xFZrAb30/nzf0iNZHkvFz9hFkeLPcIgDZZeJjKNv7EvECTtOldSf73LjWsjElO+AHNxfjHsbMstDdLFLkDMaDizxuE/64F1sejgzhAfqwviV+xwv88LFq68VVnvnbwyKoJvoBeg2Cl4GG55WKGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4961058e787so427709b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 00:47:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787557272; x=1788162072;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        b=WcwsdVATCGZG76AzgAIsIixYfwWHhYpHuAJaEAJRS2nBBmbFM8qQRfM+YdjOUY7uAx
-         fHq/NgUNevVpa+/sIPLq1qNHZ2e4FD7Ao1xHSYe/Vtl0TiE5vcpCOa/48HLCD7M+34aL
-         mATIqwIuwmZAW4D+0rjEAA601ztyERUNXmO/f01oU+TyBxC5hJYrBIWEy9hVojVNBbkB
-         V1qXMIDUHiH9nDwu+ansVcq//m+KVcNxHwo0AJeWcUS7B+InWWQwx42bvDyyspFmzFbW
-         nQyNS1Sf03BOOe6UxgOcNe1Va6M8rUeUll/df57zO3XqbDf0cxubOs/M28kg75nSENMe
-         uLMA==
-X-Forwarded-Encrypted: i=1; AHgh+RpVDUovq0cAhEEKGzK0/vo1teyslF/crGLQE3Tml+tKpX6AX0P1jMq7wP5EOa3pLILZ+ijx9qL8svqokdir@vger.kernel.org
-X-Gm-Message-State: AFuF++k0uwtmU0am+fYqdtE+hI7S+PjBnIX70siNP+x78pZuIBD/Nfrr
-	9SZQtuila4qYjQi+fcBWuPJB7dEfTiWzNZmJH6gClPmQ1SBGT7qY6qmnpd7rK3Q3ECn5JDTCr5v
-	k3PbzWXDEzp7rcFCcEIJ/g0aw68h9jdMoOizETWigQg==
-X-Gm-Gg: AR+sD13Iy+3psHKc7MJgUKgYtQ9NeY3UpHfSzrxU0ce4yWIKEZKo3+8MncNNJ9vJyuB
-	qFEB/xVgFXbYBb+tohicGn22XAEZwM8bMSiqEZNXNo405HSmcECNKppqqYNdQksdSzDGbetqW+/
-	ZIeXzKFrPNH8Pqybxxh7ZZCRlIzgIT5BKgqb5xLWO1Mq38Ot4QH4eOvR1Yn6b5vjsg/g7dz+51Q
-	COdhJJiKKtNdqeSfVGKdysbXk3vykVxkGQCd6nU4YgSibv9SKdL1MYvh/sGxn7PH8m51fbeNcM+
-	+WjGrbJRAclj085KdV02vJwnPDGUKTH0SZF8IHMO3xHXAcstuV9KDdwy/yYB9tvRdbSnHVYqWnD
-	U41I=
-X-Received: by 2002:ac8:5815:0:b0:51c:1117:c6a with SMTP id
- d75a77b69052e-52df56f0b73mr226396731cf.4.1787557272431; Mon, 24 Aug 2026
- 00:41:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787557653; x=1788162453;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rdFTXNKdZnj8wRa0kB+fQ1jCWh5iT/QDPNx/L7O9Mtg=;
+        b=iRoaE03kqxdPib0wAT3EKLkuXjsPGjPkmsZ7+MibBHWDR5NT++NNYCJAsGxczYK2FN
+         X4asqEO9g/WDYWSTsFA8or44aZ8H7xsM5LY9BhZxj0yyOG1Ft45Az7edRh0fxaFv84i9
+         w/Cqhh60xvyxiXghcxe9ZU3285brJMdjXb2/Ek27fVX0QNfQE3j0rFv9P8m+pZTqlObc
+         x9doFVp0dg9Kee6iXKfuMdOyXpGxk+pBEhHV8Gm/0MlrwQ/z/HQ2wNSTjKzKVhDeF0sy
+         ZlsqQntAIr0rQ2lr9rdjXyxMIoFwNEgwPmQ01hJv7UcanwxwxQ+57kgYpm541gZj19Z9
+         HbQw==
+X-Forwarded-Encrypted: i=1; AHgh+Rog0weLTzA47gtvFHVqykPSZlci/NldWL3+RjZr1bjdltOSQdNknqguF19SrVtXgetZdExyY5V0PX4s9tS4@vger.kernel.org
+X-Gm-Message-State: AFuF++mDroSbJRUgs5k4Jkmbhl6CdY3OP7fcTXo9oweTgDSO3I6Ppn47
+	BYzvkVjtqg6/VixwfrypWfp7zuoUxsfz8oaSWczbGgWBp/zagbB939h5DGQ6vJwkHIK2OAMBpv8
+	M6fGMRn6RhBKXLcArv3xZodNtN2O11UVGL1WyCsFZLZfYLHY6O/yOYBtZQ8E=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com> <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-In-Reply-To: <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 24 Aug 2026 09:41:00 +0200
-X-Gm-Features: AcwNN1XWfONgBRIlU-yXy6CPly98fZpO_MCf0GW5eGggOdo-Gs861y_E4L66dCQ
-Message-ID: <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-To: John Groves <john@groves.net>
-Cc: David Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	"John Groves (jgroves)" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+X-Received: by 2002:a05:6808:c1ba:b0:495:ce61:4e0c with SMTP id
+ 5614622812f47-4b309a0034bmr14802496b6e.3.1787557653158; Mon, 24 Aug 2026
+ 00:47:33 -0700 (PDT)
+Date: Mon, 24 Aug 2026 00:47:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8bf715.dbb3a75c.13dd47.0065.GAE@google.com>
+Subject: [syzbot] [exfat?] WARNING in fat_ent_write
+From: syzbot <syzbot+26461e903494e689c24f@syzkaller.appspotmail.com>
+To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
+Hello,
 
-> Famfs does work in fuse, but some of the asks are things that I don't see
-> how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> out if there is a way forward.
->
-> I think the virtual backing-dev thing is a non-starter,
+syzbot found the following issue on:
 
-The virtual backing-dev is an abstraction.
+HEAD commit:    6a746cd265ae Add linux-next specific files for 20260819
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=13cdee79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4a1369648c551bbe
+dashboard link: https://syzkaller.appspot.com/bug?extid=26461e903494e689c24f
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17760e79580000
 
-Is it sufficient for you if I promise that this is going to do the
-same thing as the standalone famfs at the same performance level?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/32d71a199871/disk-6a746cd2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7bfb88f0043e/vmlinux-6a746cd2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4bc2ab35db01/bzImage-6a746cd2.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/500a74ccb5d4/mount_0.gz
+  fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=17e3d679580000)
 
->  and I think that the famfs
-> portion of the fuse ABI basically can't live without extents that are
-> (daxdev, offset, length).
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+26461e903494e689c24f@syzkaller.appspotmail.com
 
-Sigh.  My proposal was (backing-id, offset, length).  Again this is an
-abstraction.  A backing ID can be a daxdev, a striped logical device
-or it can be a block dev or even a plain file.
+         and is ignored by this kernel. Remove the mand
+         option from the mount to silence this warning.
+=======================================================
+Buffer I/O error on dev loop0, logical block 1, lost sync page write
+------------[ cut here ]------------
+!buffer_uptodate(bh)
+WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#1: syz.0.17/5854
+Modules linked in:
+CPU: 1 UID: 0 PID: 5854 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
+Code: 4c 89 f7 e8 09 0a d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 4f 40 68 ff eb 8c e8 48 40 68 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 3a 40 68 ff 90 0f 0b 90 e9 cf fd ff ff
+RSP: 0018:ffffc9000345f2d0 EFLAGS: 00010293
+RAX: ffffffff825f7f28 RBX: ffff8880714019a0 RCX: ffff8880317c5dc0
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+RBP: dffffc0000000001 R08: ffff8880714019a7 R09: 1ffff1100e280334
+R10: dffffc0000000000 R11: ffffed100e280335 R12: ffffffff8c288c60
+R13: ffff888032a9c248 R14: dffffc0000000000 R15: ffff8880717c46a8
+FS:  00007fc05a3146c0(0000) GS:ffff888124dda000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9293991000 CR3: 000000007992c000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ mmb_mark_buffer_dirty+0x2c/0x1f0 fs/buffer.c:624
+ fat_ent_write+0xb8/0x190 fs/fat/fatent.c:422
+ fat_chain_add+0x409/0x8e0 fs/fat/misc.c:140
+ fat_add_cluster fs/fat/inode.c:113 [inline]
+ __fat_get_block fs/fat/inode.c:155 [inline]
+ fat_get_block+0x768/0xae0 fs/fat/inode.c:190
+ __block_write_begin_int+0x6c2/0x1900 fs/buffer.c:2030
+ block_write_begin fs/buffer.c:2144 [inline]
+ cont_write_begin+0x71b/0xac0 fs/buffer.c:2506
+ fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
+ cont_expand_zero fs/buffer.c:2434 [inline]
+ cont_write_begin+0x2d6/0xac0 fs/buffer.c:2496
+ fat_write_begin+0x7a/0x150 fs/fat/inode.c:230
+ generic_perform_write+0x2d5/0x8f0 mm/filemap.c:4374
+ generic_file_write_iter+0xae/0x330 mm/filemap.c:4517
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_pwrite64 fs/read_write.c:794 [inline]
+ __do_sys_pwrite64 fs/read_write.c:802 [inline]
+ __se_sys_pwrite64 fs/read_write.c:799 [inline]
+ __x64_sys_pwrite64+0x196/0x220 fs/read_write.c:799
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc05939e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fc05a314028 EFLAGS: 00000246 ORIG_RAX: 0000000000000012
+RAX: ffffffffffffffda RBX: 00007fc059625fa0 RCX: 00007fc05939e0d9
+RDX: 000000000000fdef RSI: 0000200000000140 RDI: 0000000000000004
+RBP: 00007fc059435024 R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000000fecc R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fc059626038 R14: 00007fc059625fa0 R15: 00007fff03653f68
+ </TASK>
 
-> Also, I'm curious: if you don't know of a use case for the striping code outside
-> of famfs, why ask famfs to completely rewrite that?  (and I agree, other
-> than the eventual remote possibility of competing 'famfs-ng' fuse servers,
-> I don't see much likelihood that this piece will be shared.)
 
-Because the striping feature fits much better into a virtual device
-API than the extent mapping API.  This is how striping has worked in
-linux for the last 30 years.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-> Miklos, I trust that you are a good faith actor, although you seem to be
-> spread pretty thin. Can you commit to a series of 1:1 conversations with
-> me to try to work through the disconnects?
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Fine, let's find a time.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Thanks,
-Miklos
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
