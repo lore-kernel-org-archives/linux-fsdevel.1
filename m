@@ -1,127 +1,161 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531BB43F4C6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BE643F8C8;
+	Mon, 24 Aug 2026 14:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582589; cv=none; b=hEB89kN1vh8ZX4XK1+z0d+qRCMtkZ0O0MVl2zGHr2nLZzrE7iSGE6VTOHMCzRpk7rf+483me+jkD5S6YeKvP4ePveJ6u3vBn6SR5fWNxid+YWAT8Rqo2MpKTzL2B/B531Niimn2ARED/F8lqtU710VCY540WXpeUm+xyAY7ADm8=
+	t=1787582594; cv=none; b=MRPP2o+ZV9mX7iNyzvnkxtIG+/Sk618Hrhn5O8Ucx8HyxQJHukWunpRL3S+Dcar1KWK+h7+EQFIeXqMzBZ2tJcAIWhV9VJKwL+CnXi8wBQMK/rGWBDOC5meepBsdUqNV9etcVazfUMWPbFJYuqDRiIPmMOLwVVmkCpcH7PqwCN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582589; c=relaxed/simple;
-	bh=W2r34cI+XaaQUdqCi3aOgKHvzlTyAT8XuHNk4YjX+HU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D1CSvg04DwD+c11X5Skc2fFc4PXB0WLeBHCFmF/OI25G5AG6BbOSIDbFHhp4JmVe6uikIm/NcmGrJuHAPa9ry0F7wzDHIxK4yLedyLlVNWqFNjSaah2e+vk4NTZoKP1AWnMtJ3/x51UM/MlecG8tKrY5ZxJ+ht4CwEMDBWtdAho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dBNx1yRU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787582594; c=relaxed/simple;
+	bh=S1o/8Pz7GfQhFFMyrm0b3nr2drVXqdJ7CRIn3MygY1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dFkSJ7uQoSDnZuKff/KXwgYB5CCTVKZXD2fgQAp/vGAt6OExAYQeZwbRT95JXChqTAIh8eOwpXxtjZKuZIBH8ysNrv30mwxQdQpK4fPnDpquRLeCVRKvk4blbDSxrkZl3mwQbybprpiH/hdgvXqb9D6MLejT0Ya+p8AzZbEDOg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AlKZbYd/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dBNx1yRU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787582583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=forfFVNHXdcKUrAO6tYWFvQxC3xkWQUr9XOJVlaCNVg=;
-	b=dBNx1yRUcb3ERCIHxojSqxcL4mV47tckYmbxUSGD3Cesdj7eqCIozkFxJrVyVwrEHsd1/0
-	PXo9uDPJ+bfRGb9fktyedS3jDxW5CTqxEB7VfpS2Kk3J5TgW6l5k7kBRWgAqkbtgWp62pc
-	SMSTNDS61iKuFR1BD6I0zdxG2VHvCLY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-427-bXO84dgtNhKoDkREXaCNxg-1; Mon,
- 24 Aug 2026 10:42:59 -0400
-X-MC-Unique: bXO84dgtNhKoDkREXaCNxg-1
-X-Mimecast-MFC-AGG-ID: bXO84dgtNhKoDkREXaCNxg_1787582574
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7E653180AE92;
-	Mon, 24 Aug 2026 14:42:54 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.15])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C62F3195422E;
-	Mon, 24 Aug 2026 14:42:47 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Paulo Alcantara <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Christian Brauner <christian@brauner.io>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Leon Romanovsky <leon@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org
-Subject: [PATCH v10 08/35] Add a function to kmap one page of a multipage bio_vec
-Date: Mon, 24 Aug 2026 15:41:01 +0100
-Message-ID: <20260824144130.759997-9-dhowells@redhat.com>
-In-Reply-To: <20260824144130.759997-1-dhowells@redhat.com>
-References: <20260824144130.759997-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AlKZbYd/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67481F00A3A;
+	Mon, 24 Aug 2026 14:42:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787582588;
+	bh=5GFYVfLZYq0r9iG/4b45yVopptA1WJO2ICLEgAVWy20=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=AlKZbYd/gqBhPNOz0AiQSA5mSiZNAp152sXk75N5tzoj3r9OArCGiokUa5lJlbECv
+	 kGcLfrEbcc/udWmZyaV+xn1HkZOqfnZclpvBRYNSva5ti9gRALHmFgNyu4N+0fbvBb
+	 qYNSK5GbXErmmfTbmwW0icgbaJUrXaWKSn0Y2aOjl1+GCSWFC7oWQRce8X4w/hvLz7
+	 /MHrC8412hiwVSlIvpgO7P17LK6BQsE7abz1FLlMbgR6bVUWr3xen3L4JyWPcteWoY
+	 y6Fb0DpI4A3Ec3MtKksPc+/+fV6SncEL0acQxdu9SXApgnX1dBs36j7v4N01XLJ4Hl
+	 ioL/51laT+d/A==
+Message-ID: <a4650e75-ae01-418a-b695-f8bb15c5d7db@kernel.org>
+Date: Mon, 24 Aug 2026 16:42:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] mm/gup: move gup_can_follow_protnone() to gup.c
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+ Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>,
+ Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add a function to kmap one page of a multipage bio_vec by offset (which is
-added to the offset in the bio_vec internally).  The caller is responsible
-for calculating how much of the page is then available.
+On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
+> gup_can_follow_protnone() is defined in include/linux/mm.h but only used
+> by mm/gup.c.
+> 
+> First, there is no reason to have it in already gigantic header.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Acked-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: linux-block@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- include/linux/bvec.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Once upon a time there was a user in mm/huge_memory.c, in a beautifully named
+function called follow_trans_huge_pmd().
 
-diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-index 92837e2743f1..53cf36e73967 100644
---- a/include/linux/bvec.h
-+++ b/include/linux/bvec.h
-@@ -343,4 +343,22 @@ static inline phys_addr_t bvec_phys(const struct bio_vec *bvec)
- 	return page_to_phys(bvec->bv_page) + bvec->bv_offset;
- }
- 
-+/**
-+ * bvec_kmap_partial - Map part of a bvec into the kernel virtual address space
-+ * @bvec: bvec to map
-+ * @offset: Offset into bvec
-+ *
-+ * Map the page containing the byte at @offset into the kernel virtual address
-+ * space.  The caller is responsible for making sure this doesn't overrun.
-+ *
-+ * Call kunmap_local on the returned address to unmap.
-+ */
-+static inline void *bvec_kmap_partial(struct bio_vec *bvec, size_t offset)
-+{
-+	offset += bvec->bv_offset;
-+
-+	return kmap_local_page(bvec->bv_page + (offset >> PAGE_SHIFT)) +
-+		(offset & ~PAGE_MASK);
-+}
-+
- #endif /* __LINUX_BVEC_H */
+> 
+> Next, the upcoming refactoring of userfaultfd flags will make
+> gup_can_follow_protnone() depend on userfaultfd_k.h which would cause a
+> cyclic header dependency.
+> 
+> Move gup_can_follow_protnone() to mm/gup.c.
+> 
+> No functional change.
+> 
+> Assisted-by: copilot:claude-opus-5
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
 
+
+[...]
+
+>  typedef int (*pte_fn_t)(pte_t *pte, unsigned long addr, void *data);
+>  extern int apply_to_page_range(struct mm_struct *mm, unsigned long address,
+>  			       unsigned long size, pte_fn_t fn, void *data);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index eb898ea1ee22..500e2aa99e48 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -633,6 +633,44 @@ static struct page *no_page_table(struct vm_area_struct *vma,
+>  	return NULL;
+>  }
+>  
+> +/*
+> + * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+> + * a (NUMA hinting or userfaultfd RWP) fault is required.
+> + */
+> +static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+> +					   unsigned int flags)
+
+While at it, could switch to double-tab here.
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+-- 
+Cheers,
+
+David
