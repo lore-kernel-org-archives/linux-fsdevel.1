@@ -1,159 +1,166 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA14384CD1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 20:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787604591; cv=pass; b=mqllKXWDmu8QtHe7AerqETnDYR9wl26wQ1ws8NEnjdp+66+ZkZK98KueEm6SrODuvN1airNAEHoNyED1wOnO3UEYPKOOAlcZGoW3Wpuw4ymc8h5HFwyEIG7mLOFegtf5XPBHsNli+EqMuosgxZTIu2eMfWOiCWjS0KkXL8pD88o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787604591; c=relaxed/simple;
-	bh=8MTomgvndci6QL0zOaAHPeSzdW934vYd1zdRdj8UROQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b5hIrkDnqyH0qtf30f9kwo0eyormJ849T8GBNNwqG2dIEKoMA4Kf3rTPUX8QjQBhB+E57bzCLhDyxioEUgJrDHed0TvlwTe7wD6kewwOJ4PROA6I940xSJVgN8qCxDoAoSCM0EddbC4ZOxDZ9trj81dyW+NzOrsQVne9FDzRvKU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U91E2Egn; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CDB38E8A7;
+	Mon, 24 Aug 2026 21:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787605474; cv=none; b=KMisXyDPE8iQzJgKO4IoXM/RU4TcrkRtJe/1ibppRWAUh3lGF+GVJGFJAQbOIIkJs85X1ZgZ1pL1nkyWzy8QcpPmpiuG9QX2Xn5eb5JOPHbUdNiN3ivkhuEM3ycqQXF3FS4CHvY3O007CYHZ0Q+FN5tWaehWbVY/HmZNF0VHl/4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787605474; c=relaxed/simple;
+	bh=lxWgaRS9cMBj7nzIKwYlcYTMb1BOWwOR02+GTkayrjs=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=tOJcsLmxSt32AlM8oGbzxW3CAcfdRTAb+tn11139PffJiCr5hehlx8+2AVFXu30urmDTAvjcAotF+sKrJBLl0x4CiDhdqiuJOBB85wCO54imV5b9COHMGuTK43tM6l2tksifIbWRaBa2PB9gzdd1VLOBn9S1qql6YVhPMuhEsO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=iN4IZpg9; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U91E2Egn"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c01c79467so87691cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 13:49:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787604589; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gWSiPWgTjRtXnZG3wmLQZ+W9j8zEl31/Av1BB4lYcbzP/skQmpXHa9lkZ/OS96JgNr
-         1jZ2NFFcCm5379WuLv/ZBq4vQEiuMlyB44VJvM2Jcl2w1FLHxdtJlhgUx4ldZjmC20+J
-         O49PuQNJZT9zYyGybz0id1Xc4GJuZQfCLDaXbidshvVO4LLagTPol+Ae+lEcUVMRHBIq
-         CW8DwifXrLnBkcWY7NeqqlvRdJ0PztGKEg6w98PH4v93fZcnYsUcyEhs+FXArBuB4AFQ
-         qIZ95JW/2YLI7qJ32otjy7G+yXoV3C373ey3aocZ4GliOkjzKNJG6Ca4AlcakEt3xuXw
-         JtMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
-        fh=WPnZp3kEn5CqbZgbvdtVUP0zx6LWE6P382XFKl9BK3o=;
-        b=Hcn/MB7purr2NO7hZg2IStx3k+/EAoyS76FyPEPJPYxc+KEYbEOVeMzNi+7C1MsWk/
-         TGz0FhoSG3ZaDXwOhfL955Czp1nPxElY5JRgUDOLndVJmGCpSXURFQYTH97kDRsTsxBW
-         OExWYngsgzNfq8ksJiFZijqoJMUVfqkH5fQKOAvvdo7ThCDqo2okNKqpb3HiM6fKsY/L
-         QagK88kKnQy+6xXK5K+b7XnIIRA6Kz1apXMLhOMrKLyZxp/Oj0shbkNWtHbZurvGwSfj
-         HAHtjmP3O6GJxvuwsVy7SNdQQyWw3IYLa9yZqvpUhDtFhYLzxvf7sirczxSiTnr3MiOR
-         gAuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787604589; x=1788209389; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
-        b=U91E2EgnTOWq+oBcEShuBHdAA+asYkQFCr1Dz3NPt0y20dyqfvEUluMVnyfEVlStwV
-         4J1jwWWOxoTLEBWJv6x0gYU5E5DMw3AJjPZA5Z5EJhUpJ7/Jguwwswo6xT9FOUFg/kjn
-         T2B8Ic7oM1HhuJOgYWdgf3s2XOYYT71MCixIJyCleZdF87evh8ltez284txOS4acSJ+b
-         Iq+ygtGdYNtA3OgBqE2R9YGXh6YDMy3aF+RPX+wSLZHAWJTBezMBPSSycOXwZCX29woN
-         HU9Ct4Jarvyd28DPBLsHSJ8e6STzlU7VzhKEAO3Wz5GKvCmU4aE/aZGPOja8Bf5381vF
-         Mh5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787604589; x=1788209389;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rnrc6rgXkO/4siYHOqsGt2EqzbzE5rWSn7kKau8RpvM=;
-        b=VPc9BQKmtwrQkf1/h5/bVfFJcFQwWGGHEW/Y2qMYeMFxYhqKJU5EUDH5DhGcpYbzxe
-         9FGex1P+ykR7UnJgG2iVROJ0sZI51DNvONp963SXtwj+PVH3wkbUCHO7v3YFnAYIO/We
-         c7GxWZkAfuPO3M7f2Vr2OgDMu3vMx6Lq3lIdxA7GYj3yaFKmlyLMyLMCXYJQ5bvuhyev
-         3MhEMNR0OKHPvN40JhhT26wLWs0IP+85CJrhJVsfygxI2UY0bgwkH9igUJOjN1HYQQK1
-         Vw1lVSyf0TAYuKVqON5QniAmReTNfbO3XfD38/VQ+OIE/8cu7YTkRBHqeZLfEKDP6bZS
-         moBw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2PmddmfSCgVrhjoN1S9rbRF50xH9CjA+/pvBMPpcnZ65PPrXRjwLtMtZrcuZRdUGjEquuu2K6Oy3AO4na@vger.kernel.org
-X-Gm-Message-State: AFuF++k8PQcJ6ewMkPIl+gzj30HxDPotUoAuFqOiKzHsfVgILhDWd5dG
-	5us2Ya7SxNCJCQCxwqO02PUNPUHJqC2E/ehGYRtpV885Xe23Td6X4Jb4Fb40RAQIRQEYEFwmORF
-	j40jbKW/M7NaETkVBF9tYoVms5mPOSMWnhZukIy75
-X-Gm-Gg: AR+sD11V4mIbWsAugxOkpYWP2+m69ICXaKy3BBk1c2j4i78NJPKdIPB3Axop9oPdjId
-	M+nVNPNPtIlkdYDuwj55wJ4NlcmE4uakL7nBnBVkY3oIVta92kpisMcdB0aH4ZqRRzPgM8yHYVO
-	KOe6Qb/JpQtdbsNbM3vlolBo7UjeKzmgH/A5kz/s/Gr5Kpfqrv2ueuLYXsECVCJbf1NUSb3FZCx
-	j80tO/jwszXrRLF1Im7Xw6Smsl3viG0R2pOdxaNxOvgiUOZiBjSvNYK+XEQ6rI+cNDqgA6lt/D/
-	HyqY6zTGjzkHxLV1UAXhA0ZfGZhFEdcw4n2MWRsi3L4=
-X-Received: by 2002:a05:622a:22a8:b0:517:5e32:2d14 with SMTP id
- d75a77b69052e-52e308039c6mr3439151cf.10.1787604588512; Mon, 24 Aug 2026
- 13:49:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="iN4IZpg9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=8Sz3WqkTSXrjfECQs9syX3OabIkTQfaoXng/2r3y3YI=; b=iN4IZpg94uQW7Qq71fa8RM3vEW
+	kYkZAE7Go3UMAHPCbMam59vi5F2G4bm4hWXaQvDe+IlXyYEvE3ysOyCUtZqscnptJn7q2InbNaFyu
+	soOubYTTGaNo34QYmi9ty2VVZJpRy9sTLLWPw/LK3yUGKpUbS/U50cLhVIERjuM4Ft+aoWfPy9dJE
+	gK9eUfYGXhRTBPX+kELcjgSnMYflg6ghgE0MkoYvLv42MzvqNcu61ANFS228b1Ien6EVqp3z8FXTb
+	NuEjADHZt8gwoX1gXWGgh+2+Dm/yjJ9PlQHQ27wXDkIEUhwmsrSPlTWDbQQk59YiDr1KX9MY2E47t
+	G2P9q0Eg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wybpt-008hfh-DY; Mon, 24 Aug 2026 23:04:05 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1wybps-003b3A-2i; Mon, 24 Aug 2026 23:04:05 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1wybps-00000003RKa-04eN;
+	Mon, 24 Aug 2026 23:04:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260808200312.6326-1-kmehltretter@gmail.com>
-In-Reply-To: <20260808200312.6326-1-kmehltretter@gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 24 Aug 2026 13:49:37 -0700
-X-Gm-Features: AcwNN1U3QleQBnvzJTMW5EoRgp4utl8IsEYk7xBRzJCJAaM1F0xAu0phz7nBY1A
-Message-ID: <CAJuCfpGTneUdh6xvZoeds0xt0Y=dc_xgOCninwqSv=HzVnPvoQ@mail.gmail.com>
-Subject: Re: [PATCH v2] selftests/proc: make proc-maps-race work with READ_IMPLIES_EXEC
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, Alexey Dobriyan <adobriyan@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Aug 2026 18:04:03 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, kernel-dev@igalia.com,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ fsverity@lists.linux.dev, keyrings@vger.kernel.org, bpf@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+ lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+ bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
+In-Reply-To: <aotteDcc588iwC6g@monoceros>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
+ <aomlfGJM61qZKxx2@monoceros> <4e3eaf1d3419e808be046035f114bf6c@igalia.com>
+ <aotteDcc588iwC6g@monoceros>
+Message-ID: <4aa22e41e8ff4bab6638cf0baaa9d07b@igalia.com>
+X-Sender: mfo@igalia.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005,KAM_SHORT=0.001
+X-Spam-Score: -20
+X-Spam-Bar: --
 
-On Sat, Aug 8, 2026 at 1:04=E2=80=AFPM Karl Mehltretter <kmehltretter@gmail=
-.com> wrote:
->
-> test_maps_tearing_from_split times out when READ_IMPLIES_EXEC is set.
-> This happens by default on pre-ARMv6 CPUs, which lack no-execute support.
->
-> split_vma() re-maps the first page with mod_info->prot | PROT_EXEC to
-> make it differ from its neighbours.  With READ_IMPLIES_EXEC the original
-> mapping is already executable, so no split occurs and the test hangs
-> waiting for the modifier child.
->
-> Use PROT_NONE for the split mapping, which always differs from its
-> readable neighbours.
->
-> Fixes: beb69e817246 ("selftests/proc: add /proc/pid/maps tearing from vma=
- split test")
-> Assisted-by: Codex:gpt-5.6-terra
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+On 2026-08-23 19:12, Uwe Kleine-König wrote:
+> Hello Mauricio,
+> 
+> On Sat, Aug 22, 2026 at 01:57:24PM -0300, Mauricio Faria de Oliveira wrote:
+>> On 2026-08-22 10:41, Uwe Kleine-König wrote:
+>> > On Wed, Aug 19, 2026 at 03:16:16PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> The MODULE_SYSCTL_TABLE macro emits a struct module_sysctl_table variable
+>> >> with pointers to a sysctl table's path and entries, and table/entry sizes.
+>> > 
+>> > That new struct doesn't seem to contain any pointer?
+>> 
+>> The struct module_sysctl_table fields .path and .table are pointers,
+>> although with kernel_ulong_t type so that the same 32/64-bit size is
+>> used in file2alias.c based on KERNEL_ELFCLASS (and not on the host,
+>> which might differ with CROSS_COMPILE).
+> 
+> Cross compilation isn't an issue for the already existing device id
+> structures; many of them also contain pointers.
+> (While modpost doesn't use the pointers, the size of the structures must
+> be known to correctly interpret the arrays.)
 
-Sorry for missing both versions.
+Indeed. I missed some device_id structures with pointers, and that
+devicetable-offsets.c is cross-compiled to generate
+devicetable-offsets.h for file2alias.c to use offsets and sizes of the
+target architecture.
 
-Acked-by: Suren Baghdasaryan <surenb@google.com>
+I'll change .path and .table to pointers in the next version.
 
-> ---
-> Tested on:
-> - QEMU versatilepb/ARM926EJ-S: maps and smaps fail before, pass after
-> - QEMU realview-eb-mpcore/ARM11MPCore: maps and smaps pass before and aft=
-er
->
-> Changes since v1:
-> - v1 went out without any recipients in To: and received no reply in 19 d=
-ays.
-> - No functional change. reworked the commit message.
->
-> v1: https://lore.kernel.org/all/20260720061835.6290-1-kmehltretter@gmail.=
-com/
->
->  tools/testing/selftests/proc/proc-maps-race.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testin=
-g/selftests/proc/proc-maps-race.c
-> index 1026d8c400e1..415eccb70468 100644
-> --- a/tools/testing/selftests/proc/proc-maps-race.c
-> +++ b/tools/testing/selftests/proc/proc-maps-race.c
-> @@ -490,7 +490,8 @@ static bool query_addr_at(int maps_fd, void *addr,
->
->  static inline bool split_vma(FIXTURE_DATA(proc_maps_race) *self)
->  {
-> -       return mmap(self->mod_info->addr, self->page_size, self->mod_info=
-->prot | PROT_EXEC,
-> +       /* PROT_NONE differs from both readable neighbors. */
-> +       return mmap(self->mod_info->addr, self->page_size, PROT_NONE,
->                     MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0) !=3D =
-MAP_FAILED;
->  }
->
-> --
-> 2.53.0
+> Also sizeof(long) differs between architectures and I can compile for
+> arm(32) just fine on amd64.
+> 
+> Additionally there is hardware out there that has sizeof(void *) = 16
+> but sizeof(long) = 8. Up until recently I worked on mainlining that (and
+> it has business reasons only I stopped, so I guess and hope I will
+> continue at some point in the future). See
+> https://lwn.net/Articles/1037974/ for some details if you're interested.
+
+Cool.
+
+> 
+> I would be great if your series didn't introduce a new obstacle for
+> that.
+
+Absolutely. I'll be happy to adjust the series and testing for that.
+
+Could you please confirm one should just follow [1], which uses [2] to
+build the LLVM toolchain, and use it to build the kernel [3]?
+
+[1] https://github.com/cheri-linux#building-and-running
+[2] https://github.com/cheri-linux/buildroot
+[3] https://github.com/CHERI-Alliance/linux/tree/codasip-cheri-riscv-7.1
+
+>> >> That symbol will be handled by file2alias.c (modpost) with the changes in
+>> >> mod_devicetable.h and devicetable-offsets.c.
+>> >> 
+>> >> The option macros MODULE_SYSCTL_TABLE_{DISABLE,UNIQUE_ID} can be used on
+>> >> a per-file basis to disable the macro and change the symbol name pattern.
+>> >> 
+>> >> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
+>> >> ---
+>> >>  include/linux/mod_devicetable.h   |  7 +++++++
+>> >>  include/linux/sysctl.h            | 42 +++++++++++++++++++++++++++++++++++++++
+>> >>  scripts/mod/devicetable-offsets.c |  6 ++++++
+>> >>  3 files changed, 55 insertions(+)
+>> > 
+>> > Please put the new struct in a separate header. Apart from not being
+>> > about a device table, I'm currently work on removing
+>> > <linux/mod_devicetable.h>. See commit
+>> > ad428f5811bd7fb3d91fa002174de533f9da94d7 for more details.
+>> 
+>> Sure; I looked at that earlier (thanks for the instructive commit
+>> message, by the way) and found the new struct to be similar to "struct
+>> cpu_feature isn't really a device_id struct" (not moved), but apparently
+>> missed the trailing "fow now", which is clearer now. Fixed for v4.
+> 
+> Yeah, I didn't move that because it was an outlier in the header as it's
+> not a device id. IMHO it should go to something like
+> include/linux/cpu_feature.h.
+
+Ack.
+
+cheers,
+
+> 
+> Best regards
+> Uwe
+
+-- 
+Mauricio
