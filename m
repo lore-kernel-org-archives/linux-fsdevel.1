@@ -1,120 +1,202 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012043.outbound.protection.outlook.com [40.93.195.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF51932E12E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 19:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787600892; cv=none; b=J3p675Lc8K0jYi2h69ESawkSTfhjAvumUssgDIwD+Fzfs9zsGXddQv8d6G3kbQ2qszTpIxkHqgIlFJYHxEHnuOGpAt1fBXZEjc7cm1tuqUZmb82rtPP6yldCX1eVB3iMWDJySbquHGCYz5ZtguxajBRnPfRA/j1VtitKOgBGiyY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787600892; c=relaxed/simple;
-	bh=RXozA/gR0fE2TcrbGJcWa2WvzWIJ6gIbKhyeaCdATy8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T77zoobiOuEL3NjjPy2VcC0y3k3iSVMjbdEScxxCOc9dIoCiukXVrdz8H+lQeqS3XliMTXjjtTkfk0djZBXidM8yqcuhvZvGsZ6nbeq5WPUXnqgxgON11VIc44q3WmOuvHbs8FosbbTYsG4SJnUwofx48xCMznfv1mNgJmEUbvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oeIsgPmH; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31643806C6;
+	Mon, 24 Aug 2026 19:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787601113; cv=fail; b=sdupwYGnfw8Q1nYdOTtF1uVMQBDz8OUU7KGOsG9bqvtdkKoim0qzLMKyX0D1isdZ/GR6ZjQVn/uTQvCvDtyrhCVQjSD0W2FoYsswl2ozxKWHv6pUAKjATylropxk3gYDHgUs8jGVm31Hv8OsR/EU1Ak9PKfEJN2raTYoyNPCr1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787601113; c=relaxed/simple;
+	bh=ucRQTVSVyx0V3i8uKB24kqbGwRgTIPXMNzW8obQbNhs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=bCHIFh8lAeq0faUlKhidqp4KNFXZXohbUbW88RAa+s06A9+tgS8Yp2Rb9VfO35r221hQNyvfZxrufmbADbxzbNiP5SjYHTiyisL/epyp9itWTOCPh1uipAi47DP6DrHnGTDx/nP3IOXzJ5GqXa0KLeZIVaSuiPoHq8uI+hWmkzE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ap0Oft8o; arc=fail smtp.client-ip=40.93.195.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oeIsgPmH"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c207cb16cf5so622726166b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 12:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787600889; x=1788205689; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RXozA/gR0fE2TcrbGJcWa2WvzWIJ6gIbKhyeaCdATy8=;
-        b=oeIsgPmHxEdil63TcjR6u6TYNIXvbu2/jPJC82TJCyon8PhrqLuEMgfIXrmmhzYYP7
-         F3BBgRRa4EhgzjyClquF2vVrihr/MvTVDKmC4LMmhnQ+Tmyg/l/wLOtsd7tDpGSDj1nE
-         wVEKywpJFn/uHF6k1GFX2dusktywUyC6d8w01r1MxH4r2ezBfl3XQR6v4s116WbJAUf3
-         tOHExNAmcAKNNNOrztD8doji0iT5YuoXfHTayRSeZkbT/notafnmI8eDrRuA4h0zdQO/
-         5+6JFTHQEb8RH7Ghr0xdEaNz9DPLiAOP7VwA/J6qNGb7dtu3qUZYLfEDR6a8ZG8ye+Lu
-         Rztw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787600889; x=1788205689;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RXozA/gR0fE2TcrbGJcWa2WvzWIJ6gIbKhyeaCdATy8=;
-        b=kqw54tEgSJgq2ir1H7mIS/K3GABf926e77i0in61cLLnHVOhX4Zs69dn9CZpZaU+xW
-         YlFvuuiDXOJPqKoaBBhoKMuDnn8shDiTrlddUCemX+zIRmF8b0JIvEE/0G3WeOB0f5m+
-         UQrymBH1eRvqCeiuFJnRQCm1abkrbk9U8LSDw8eF0XRbYQymTMpWEso+c99D8nfC2L3W
-         6aScqVQVvwMn/LxDIb0Ru+4BwcLIWT2jK4+rUlNoo3Zq/j/eApFkN7lFti/Tm72CgOBy
-         5rBnz4CMxEjCo1TQnX7YUKhQ+RL17f9TIsdtiQl9eLTpMe+NmE7XQ0xPgghfQt4IMh44
-         8NlQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrdgvcvayQGoj7vJbTHuy0Yw72Gj7fUq0Fg3BMRaEjfkSlx88bE9if4yvg9enkJq+5Ywirk7x+0NkVz35a1@vger.kernel.org
-X-Gm-Message-State: AFuF++nTkuf8fw42Coc/f9lle70PaW33YZ7VSt6i+vZSDL5iWVN/ERuR
-	6BluxZ0m9wDeZ/aM35RCb9iB60t8VswPy0sn+Q5Wmpba/u2BSoePqKff
-X-Gm-Gg: AR+sD12OyqBV/kG9n4ehD/HmOLsk5J5GZvx2YJ+3sNMV/0sdvNNmOvgDeywP+jb2UeP
-	sdtDSpPvj9jm2zyKtrNPecjFktjWM4kk+k639Vb/mHrXu6RS2aWCf+1U2RZ8eURt0TfCql8STAP
-	tqJLfp2KjsQ8C6MzaaPneoPxsItvUBCAO44sjNishrMA03Ar/dsqjIh6AZAaqRNwHbbNEWvK5oa
-	+DCoV5t5vSLjRrl2NAihF9lreQ8JcTsGURMF46Xpj/mszPfOx4S4OBxDSgLib3DzJ26HZIdvU16
-	BiUMBAgUtb0HUNmm2MOQ5g2Awk1doCC1VQ+FQsmRYR6BPDkiIRhJ8eXuwZ6mKpyOhAoiPXmOSaE
-	w+BA001I0Pab6oB8UxLptG7L8nQz6mpLvklWbzObcYFvXbJBuYfg5EcBzGo1PHlHGn+g9SOv+fy
-	TlbXqWLJUCJh9uL6Sl0LfH46cdLjEUEWk6ZBzEG+GPccOwKGfXsrB68Hg8F8uS53wTAGkdeKRiA
-	gXu0n4hnvvK+N0QP/xhUqRZ1+BKQm83k0zSxJUJt0R8/I0XV13BbzKXGtzIx5I=
-X-Received: by 2002:a17:906:a353:10b0:c1c:5c90:1bb0 with SMTP id a640c23a62f3a-c246a353d2emr2248385766b.8.1787600888761;
-        Mon, 24 Aug 2026 12:48:08 -0700 (PDT)
-Received: from localhost.localdomain (46-138-191-2.dynamic.spd-mgts.ru. [46.138.191.2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249629929dsm1432835866b.23.2026.08.24.12.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 12:48:08 -0700 (PDT)
-From: Artem Lytkin <iprintercanon@gmail.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Extend xas_split* to support splitting arbitrarily large entries
-Date: Mon, 24 Aug 2026 22:47:55 +0300
-Message-ID: <20260824194755.216000-1-iprintercanon@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251117224701.1279139-1-ackerleytng@google.com>
-References: <20251117224701.1279139-1-ackerleytng@google.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ap0Oft8o"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tCHZesVBBYWEGRHHeizKIGXmjA1KncH03wGxW4GjkVMKQ/IeGkhOV/CjpPFWDVZp72lal8I/c/07NqhLSzXueOwF4Xo1IeVjCDjdTWblQS8cj2ATrcDjoqMHPQfqqkKObkcg8b1NWyCzg/0VJpu67O6hMVgd+CsRJ9dd7I4yI+hWujlR1QLrhhWiRxH1VyT1QhE7kQBRYS/4NKXQgUqGgYZeaUnwBeD/YQ+Ydu5u9L1IUJE9FJpfDqqCWZRQcdNb6D2m1cVM2QQ6IyrqtoC0J5VC/J76bml/M8rBLtuK4BxIc7B8EdQtnqCXe7cgwKMfvWDeknsTi9lijU4How+dsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rvg2RTtQCtdBbskKEVsVJfD3U1Br9Yr6hyHXBVPYfF0=;
+ b=y2iQemj3Xg62duyrUQ+w6XxY0b0srtcesj8Mbd5DSSaczawQY+7bnjWphin1DfAZByh5x+E7rV1sC2zpnNBndKMs4OLGkfnHnu6AoHOGwMOPbY/SlHGSHhcBXPD+r0Lgf8XZMZMikhS8t4dmWVGAP7g7yTByYyFkORAOojCSQ+7vWlfSmIhLDXrQ57Ve8dUUw1qsDVlAgXSWsWWFy2WmTOjCNg+GJg/VPeM32G1f04Zu/+KzBWFrcy8UFe0X6+RmYqUpLT6qitWz5OF6pwsECKmadNe/NzUvqB8H5PIWYfOkRw94oTQqN/PSMS9ylAZ5i3LIPgX5445XuiGdpE1RVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rvg2RTtQCtdBbskKEVsVJfD3U1Br9Yr6hyHXBVPYfF0=;
+ b=ap0Oft8oueXl/nD4DRfyrDF8zoWudreHGowyYOyE0ZpSAw/PKSmgWxjHPUi8wMFe2Ax/s1mXPhRN5ysEjnSAHepOHpdUPrQnfbD2xQcn4/EozR5ClJG19IAax9RGDBzJOImh5z7uO64Tzx/ZVUS9xkHEejdGpMsCH9NCgJgpRLJJgjxncYlV5DYyz0iN0cg4bVbibIgr5dcIxyM+J2dPxxGBT7Od957LH2ZY6c9VsyPNWHNfMchVnG6VlmwMWpmkjwZMII1Q+I9S+EZmk9MgBvdiGSosAf7q1nQU21/HIG4+wUUjG70KwiSGRhaQV07qAhPUq9wI/bGKH5lhL0bD6Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ CYXPR12MB9426.namprd12.prod.outlook.com (2603:10b6:930:e3::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.12; Mon, 24 Aug 2026 19:51:44 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 19:51:44 +0000
+Message-ID: <764f2f23-09ba-4203-a304-94c0fba32db7@nvidia.com>
+Date: Mon, 24 Aug 2026 12:51:43 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: Removing ->dirty_folio
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Jann Horn <jannh@google.com>, David Howells <dhowells@redhat.com>,
+ Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>,
+ Qu Wenruo <wqu@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-xfs@vger.kernel.org
+References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
+ <5f4ed03c-e91f-4641-8964-cca0391971ba@nvidia.com>
+ <aoye694JQLwUuqxC@casper.infradead.org>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <aoye694JQLwUuqxC@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ2P220CA0013.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5da::16) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CYXPR12MB9426:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72342217-00f0-4608-e333-08df0219202d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|18002099003|22082099003|11063799006|56012099006|4143699003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	YMmCNJTHsBSB+aBNGZtZKSuAD4/MMMceD+W9oMutsI4nCnG5rUIbh1/mNfEv9bukLzXxpWPmYK8Wqyz/17ET69srWN+/Gfb7u5KKawXu4HUYmd39kbWMuMS3YWFFxMmw+kJaOQ6goRGv4YAqR3LDSiNU7IqPT0KdR+ORRo1tYXs2YMa2Y0cmoXJp0rMhEji4SFIlEtiuxKaOOoBnId9fUiBnx4kxX0ZBk/tJbHxyNucCH9OOJB7xdEma0CvyHH+6gBK5Qt8CQtF6fsi+mosEntiiIjc6LUfqLxvbOChScMUK6gTwLQyuaQZAoLz8F93NqP5w7txjvGd+sGM4j1ytMwI1V4idx4KzT1ZojANMVmKMk1MHlOzLhVxv+kZz5TLKkEQ39J29OnT8ffbDofwVUQNOFJH+yfoTwks3zsBSSea5n4nddXV2UnOZQeQ3QdhhTzR6P+m3Dua6/NR5wXEFU45zdZro/qsX3zTDRlMfueYGc9V8MCKiH8f0DW5H+iz0YX8PLslbpsoFwDKMzRHiGPtwKqOXN3LMZ4ATmysjsCtsXjBT7GuxyrZwapDx+lf7MTvRQV3Wf6YMftGa6lZMQJIgQ36Uolc5w+2VVmwXMT1TBPnU11D7zwT1pERkk1nirWpjE5pALBDcYj3EtZA/UsQMXCZ05T1mFCAWtrWv/mw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ck9SSlN6TGFoaCtrZlJRUXBPTG00eGhGSFVzeUt4RU4yS1BFTkV2VnM4enFL?=
+ =?utf-8?B?aWMvNDFYeURNcE9yNWdjSGt1WmRDRWlYRW44NzMrYXFvMFMxUGRhM1JnUW5v?=
+ =?utf-8?B?TmNRMmdKUGpBUmNaQUlyeUkya3lvdXNUT2w4cEhIRm9ZVGtYQzIzdU5oUXdl?=
+ =?utf-8?B?bmd0b215elprZTk2eElQK1dGQjNKS0ZjUHlQc1ZFelRDd0k0N1UyY3k4MkNt?=
+ =?utf-8?B?SmFrSXYyQWtiL25aaE9rM3VVQWhPLzhHYjd5ak9pVTVFdWFnRVIvTG1rTERt?=
+ =?utf-8?B?U3paWlpkajVhVXdsNndQWnRIK3Y1MG41cFdzQ1lqaVRvODJJTDBWM1A5WUQ3?=
+ =?utf-8?B?d0VnaWJlT3JFTnZxbU1DRjl6eXY5WXZGcm1WMzZibkV1NkQrcXFVMGE5STU2?=
+ =?utf-8?B?Rk1iWko0Sk93RjQ2NVlPZGNCc2w5N0NOOGZKOGVXTlVnbDFKR0Fqd0tlTDM0?=
+ =?utf-8?B?ZmFETEZnQzFtNUxoU05vd1ZzalZ6LzVJc3Y1eG1yc2tacGc2Tkx5WTBUeUZN?=
+ =?utf-8?B?aFhLVXpzYi9oOTVpdVFUWGlkekxaVHBUL1JRUkxrODdjVTZncTRsdUFlMXJF?=
+ =?utf-8?B?Y0xJMFh4SFk4WW9VZ2lHQWs0T09uQ1BNSWxLR1BFS0x1ajNiZUxVeWk0R3hy?=
+ =?utf-8?B?TUNTREtIRlEzbkZMTEFlTXhIcEhUVGN6OXl5NUtCUzFlVWxmSmM5NDQzcGRk?=
+ =?utf-8?B?SldBT284M0tGVjlmcE5vZXlQd081V3ZSTUZ3OURKK0NiMkZ3ZDhyMlVXSWNs?=
+ =?utf-8?B?Wk9rTGZuZ3I2dWxjUlh1QWk0NjdFQlRraSt4Y3U2Z0c1Z1JEUmVFeVZwMTlR?=
+ =?utf-8?B?ZHFnY1MxTEdIMFExMWpXNjVoUkF6Rm8xOWxrQ3MwUDBmc1pQL2dnaHByUmtM?=
+ =?utf-8?B?YzFsWUZRRjQ0OWFxaktlelI4REdwbm55ajRrRzZNMXRHMEZEZFRmZ1Z6V1pk?=
+ =?utf-8?B?TlVJaHhaTHpXQnlTNnNHRy9kQTFxRzhuM0ljaUZTdUVEVlNuZGdpOGd0K3lu?=
+ =?utf-8?B?aFdTWjdqZ3c2a2xMeG5lWjFqbzVaRitndFQ2SXRmS09PYUJYMnYwL0JkZHdy?=
+ =?utf-8?B?YWx5Z1hIWHhIQmRsWTZjSnZTTzRZWDlYY2gvVWxFMDhOdjZmOEQvWEJOMTB2?=
+ =?utf-8?B?Q2xoWDkrQzFYR0R1SUNjdXRRNFZ0SHNyYlhJSDRsL1Z0NUF3RXlDbE9uMk9S?=
+ =?utf-8?B?dzFFTW9qbVVGd3c3RjJ5RCtOWEY5RG51NVprSXpiSGxQR3NxU0lyZnpVbTN6?=
+ =?utf-8?B?bU9ESTluSi8xOUlUMWRxQURtT0dDUVlETVdYSFNjUEF2OTlxcjY4Wk04blE3?=
+ =?utf-8?B?MVJ3RWJOdmttNWJnTHVBSlM3ZlBUSWxIdjJKZlNVL1NIUkRRK29waUs2QlMy?=
+ =?utf-8?B?NWhDVTRsTVZVL3Eva3ZpZnhBTnBUNmpRclQzdHhWcklQeTJOemJDZHdjVzFz?=
+ =?utf-8?B?amIwOTlpV0ptMmpHUzVWUGxLNG5VcDJVcVNrSTlSWEFMSm5ITS9kUUdDdjV6?=
+ =?utf-8?B?U29GSWVRazVSbExudlkwWU5zT0NUVUY4NjlsdU54bk5YbWo1K2txNEhJbVlL?=
+ =?utf-8?B?VGliRU1kR2lMOFdUY3NDbWphL2w3WUJPMFJXVDJ4RXlHYzRPQURraHdWK0xZ?=
+ =?utf-8?B?QnY1bWpzZG1sblhzVjZndERJcDBGbWZZQ1Y5dW1GVlFxUHNMeVFvL3h0RjVh?=
+ =?utf-8?B?VGVQR3BkS3dGazRhVU1waG5ma05SM2lyaWJlem9FZm1LL2tjMHpRZ1BpQ2w1?=
+ =?utf-8?B?MGR5SVpEMlZkcFBGR1ljSnlsM3ZnNU9xdklDZk9vTm9OUm9wUkVTOHNSZXp6?=
+ =?utf-8?B?YjVZVDJKOURuUzBDcTgvNVZlRGFRQkZiTFNjRGxmNnp3QXd0Sk9WNTNJcnA1?=
+ =?utf-8?B?cTU0aWFvOGpES25yRmN0eUJ0dDVEOFhxd3RFY1ZTY1ZVL0hzdjFKejZJQjYw?=
+ =?utf-8?B?ZzIwTEJVM0Y2cXBZYlZIYVpPT2JUempIc1I0UnBjQXU2TmRMQjV1WUs0cWVp?=
+ =?utf-8?B?SzBuclZINk5JSjNvaklhTERDWEFDZGZsQ1llSFZHMUx5aGpBTlBUTlN6cllp?=
+ =?utf-8?B?Z0RnL1dQRHJOSnRWalNOa2UzNkthQ3Y1V0E0a2Y0UkdaSE9aMTNmM2w3THdM?=
+ =?utf-8?B?V3Z5V2VnU3NpVTNlQkE1NVF4Z09uQTdmWU9oRWs1RE1QMzdFQ3hFaC9iOHFO?=
+ =?utf-8?B?Mk9jMzJrdEkxRHBzMWhuNXRPVm5mY1grY0JUcXFwc1dxVGRwdVVmWmJWK3d3?=
+ =?utf-8?B?RHM5czhaMExqdTdiQ2tUZWtPZno1WWJEeFlEUzBGNjNvZ1pCMlltdkM5blJu?=
+ =?utf-8?B?QXlHZXMzb2ZuaktHcElBNXRPMDFzQ1lLM1V4VTYva3JuM0VSSkhxUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72342217-00f0-4608-e333-08df0219202d
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 19:51:44.8597
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HabcLUL0dW4GoZvsceuLK4QdgBU36vBMxzsFdwD4j29vT/bWu6NBYa1fjGktG2Q8V8ykbbPLe6HTstdRA3wxVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9426
 
-On Mon, Nov 17, 2025 at 02:46:57PM -0800, Ackerley Tng wrote:
-> This patch series extends xas_split_alloc() to allocate enough nodes
-> for splitting an XArray node beyond 2 levels, and extends xas_split()
-> to use the allocated nodes in a split beyond 2 levels.
+On 8/24/26 12:43 PM, Matthew Wilcox wrote:
+> On Mon, Aug 24, 2026 at 12:25:42PM -0700, John Hubbard wrote:
+>>> My proposal is this:
+>>>
+>>>  - Fileystems take note of folio_maybe_dma_pinned() during writeback.
+>>>    If it's true, do the writeback, but retain/recreate whatever data
+>>>    structures you need in order to write the folio again; behave as if
+>>>    ->page_mkdirty() had been called again for each page in the folio is
+>>>    marked as dirty.
+>>
+>> Yes, that would work nicely.
+>>
+>>>  - The MM behaves similarly; we do not clear the writeback flag for
+>>>    folio_maybe_dma_pinned().
+>>>
+>>> This will have the effect of writing pinned folios back every time the
+>>> inode is scheduled for writeback.  But since we have no idea whether
+>>> the folio is actually dirty (because the GUP user won't tell us),
+>>> this is the correct behaviour.
+>>>
+>>> I'm probably missing some stuff here.  Let me know.
+>>
+>> OK, so working through the end of the pinning, I think it still is
+>> correct: device finishes writing to pinned memory, device driver
+>> unpins the memory but the page has been left marked dirty the whole
 
-Ackerley, are you still planning a v2 of this?
+oh, I just thought of a minor hole that we need to fill: how to mark the
+page dirty in the first place, in the absence of mark_[page|folio]_dirty()?
 
-I'm asking because there is a second user for it that has nothing to do
-with guest_memfd. On arm64 with 64K pages HPAGE_PMD_ORDER is 13 and
-MAX_XAS_ORDER is 11, so MAX_PAGECACHE_ORDER clamps to 11 and shmem never
-offers a PMD order. MADV_COLLAPSE on tmpfs returns -EINVAL there, and
-huge=always hands out order-11 folios at best, so ShmemPmdMapped never
-leaves zero. Every other page cache file system tops out at order 11 as
-well, which is 128M and not PMD-mappable. pagemap.h admits it outright:
-"xas_split_alloc() does not support arbitrary orders. This implies no
-512MB THP on ARM64 with 64KB base page size." Kiryl's khugepaged
-selftest series skips the shmem and file cases altogether for exactly
-this reason, and on 6 August he confirmed in that thread that uniform
-splits still go through xas_split_alloc(), so xas_try_split() on its
-own does not lift the cap.
+Under this new scheme, we will need to pin first, then mark dirty, to
+set up. The filesystem can't do everything, because even if it were to
+call page_mkdirty(), a writeback could clear that before the page gets
+pinned.
 
-That case needs two new levels of nodes rather than one: 130 nodes,
-73 KiB, a long way from the 1G to 4K split Matthew was worried about.
-Raising MAX_XAS_ORDER to 3 * XA_CHUNK_SHIFT - 1 covers it, and
-MAX_PAGECACHE_ORDER stays min()'d with HPAGE_PMD_ORDER, so no page cache
-caller can ask for the order-17 worst case that cap admits.
+Then teardown is simply to unpin, as discussed already.
 
-If you would rather not carry the series further, I'd like to pick it
-up: rebase on current xarray (2/4 collides with the XA_FLAGS_ACCOUNT
-fix, 88f0adba8aa1c, and 3/4 falls over behind it), keep your authorship
-on what survives, extend check_split() past order 11, and post it with
-the arm64 motivation. Happy either way, I just don't want two of us
-rebasing the same patches.
+>> time and still is, so the next writeback still does the writeback,
+>> but this time sees no pins and so it marks the page clean.
+> 
+> Excellent!  By the way, what would you think to this?
+> 
+> @@ -2717,7 +2719,8 @@ static inline bool folio_maybe_dma_pinned(struct folio *folio)
+>          * Here, for that overflow case, use the sign bit to count a little
+>          * bit higher via unsigned math, and thus still get an accurate result.
+>          */
+> -       return ((unsigned int)folio_ref_count(folio)) >=
+> +       mapcount = folio_mapcount(folio);
+> +       return (folio_ref_count(folio) - mapcount) >=
 
-Artem
+As long as the math works: need to not underflow. I guess mapcount is
+always less than refcount, so OK.
+
+So it *seems* correct to me, fwiw. :)
+
+>                 GUP_PIN_COUNTING_BIAS;
+>  }
+> 
+> 
+> It should improve the accuracy of folio_maybe_dma_pinned() for folios
+> which are mapped many, many times (eg a page of libc).  I'm a little
+> concerned about races turning that number negative since we don't
+> necessarily have the folio locked at that point.
+
+thanks,
+-- 
+John Hubbard
+
