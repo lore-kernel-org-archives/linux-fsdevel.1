@@ -1,65 +1,65 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175E0322527
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFE727A91D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583082; cv=none; b=cWFxrG6Ha2DNmLvad9XuoaTCzsv7qK5lYLkjMrkL50rutbAizViNBbJWDce6rkFzaRyrMetYWYm7dEpJrC747kZFDwC3g5U//cyxOa2FPxXjoQPgyZgvDASbw6L80fWG2FwzjcIc+2yVKi+hKPkV+vxw5fu7NtNWGYpow2OmdZI=
+	t=1787583348; cv=none; b=UOp128ALDXbVHeWgfNt/mqiZrivcZzP1s3lMNzvm7saUlHiGDwTX2w/Bdo3eF2LUJYF3iTwkSWIyfCJ1ST2be1XYqZlNuLFFN6/44s62o9pwKszfz5+TTnndjNRvJg34vtwSkzXAGXg3ji9mSTdjBg7+V51Yen+qjt/GH/KyRcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583082; c=relaxed/simple;
-	bh=7NJT4klpwyNAMnizim7gBiFUSAGUskks23qiOn/LHJk=;
+	s=arc-20240116; t=1787583348; c=relaxed/simple;
+	bh=knm7pNivTIqFlTYKZzBy1Fjr0y42IVz+KXlnpElvreo=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=BNH6ZhDGL0GJ9hsCATqyj5+FEIWPf99MWqhTJKff7CLxUPCaUxeTgldsdGU9uFuNOoWGtrX5GuqGINOef+DrNPcBr2WBYgG1ABHWKAEHJHIqOaRowIkvC2t04CVDs1bbhww//kXCN9zk3I/YSFgYnnW4ok9Ys7ir0BTPfOsN6ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S6ki/Kff; arc=none smtp.client-ip=74.125.224.43
+	 MIME-Version:Content-Type; b=dQP/ldwciU7lzQfCZG3LwFliFNHytJZe7641gdQieqfDHKZaiP9ipbkG1kVjfiYWBO/1upB7pMLuntLCND8JpP4DbuXzvhnDv9i9o9hr86s44GKQTbb1HEoTrPeifLrPfvwLWU5LQLavTrdOr1hY4W12BFt2aFjNmdt8bEkuFVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I8hsbrbg; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S6ki/Kff"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66c9995ca60so7414755d50.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:51:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I8hsbrbg"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-836c4474028so41618137b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787583080; x=1788187880; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787583345; x=1788188145; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oBC/SAP50I4KxaPevcH0bVL/Jm4cuaV8N0/RCICjbNo=;
-        b=S6ki/KffP0CvW4GdH1OievddahR9ZfFf8YPANe+JjHk1n5WhyjAXSp2eLSrrF81MS0
-         vewun7rPdck7G1hU9NpG7nNY167RPfM1oK02Yvkx/obU985dXLQ4KuMUrZylgGAtAsRE
-         BdgUc1mSGWpwfTcTETXOExnNb2IQXWIA9t16VebWo3C1cjx1tpxC9KJ/QaGsyXVQyU86
-         63RPry+8FEZ+a7ZkTh4+JnbYefZf4LH92gCAcbfMDzflxBOzD9DD+EE6XWDDUN6TwYbo
-         plugGwqaZYZJ+gm9flXqaCswhY89IaRl09bCJ1PGT4/tskvt4wx1XxeJwFWCT/DQw9Ed
-         QUEQ==
+        bh=z3p4N+WdGfy0YyEKXl3GFU0ih7nRgZs+zJqtEvKEyhU=;
+        b=I8hsbrbgAAmY8zEWm6yN3s2tydzvsexhIsqS5axTXsiPjqZmWrBrbpgjRxjYJpheHi
+         b3jZUbaSx0pQ3NmciCmGaU96IjLJ57GGaXomC/QKP5lRWFyjLDW1qG+tVUNOUL3EuWHy
+         CN5Lm+JdOkUPVIh1f2HjYc2+qFYEHBid6+g+U26B0lkzdpXtANpROwewBL/0e84hP4fY
+         M6xWKtW/XPxD+5b5ZBiLqutnvdEpeMupUPgolBhU6i6ZDn5+Xhs1SlKB7enTEzX6EQVm
+         qmmhXH5Wg9zhzCBiBnd9oVbZFZ7vedAoP0D+xs2YsZIcWnYZudWtldo0Xe7Btrfe6Arb
+         UoJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787583080; x=1788187880;
+        d=1e100.net; s=20251104; t=1787583345; x=1788188145;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oBC/SAP50I4KxaPevcH0bVL/Jm4cuaV8N0/RCICjbNo=;
-        b=R5y0M+AdpP/XwI+V8uj46hmhEZo85nw+MT3tLtmGfyadJJ5g/peFUbVK46h7eFC10T
-         HyV42vZwNhDtYRxvBkUjWcQPOaIdIwbA9S+AvI2uhwgPRvgle54Cd6nWCI8MxBL00MZJ
-         Uzccu+fJ1N91sk14A3VffIoJeUsvsWQ/erAK43AdC+7Lz8GwvUYEiBorCgG+/AOGTf9C
-         EN+DFTJvWd2LCdzzsiYbtgL4F9D36pDvBjlpQ3rIgUKHt26FihBFqACT8KnS6sBSZaP7
-         1fjyJBsqOJSegnnvgSSSsI+9jDmQSJIkC5MzjCrKtZVLWrVYYwuUFWVw9Nm/GLh8w07z
-         BIxQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrAhgs1VZ7rqJPX3y3niIXNK0aYJkToKXHYkz+FSQMXa5uVqQFBd6u3KKaLNMv6OdJ7tQe1adepqvYCm3C9@vger.kernel.org
-X-Gm-Message-State: AFuF++kO1JdZG0QrrZKEl6VM4FlcofZLH+RkqDSic5/uJzVPDEgtZopJ
-	4saC+UH6BKTSNQxSUipzROcZ5JaN2yNBr66IiwclFJ99+b6mp5HEKGFfBFx+5Sj3Mg==
-X-Gm-Gg: AR+sD13RoBZusXGoqS4+p2+rgOP0f9SdGdcKtu16dlfevULk6U2cCKL/RX6e19LNuf7
-	EaSbRSCwRSi/TluoX/lFSned4BSUUqLqrcR2tpmIMEQjSoldZra/9U8TbFL2VVMObiifRSCPEit
-	wuB/cAxdjMxkkwgyQQyC496KZ8/Ojxa2Ym5ClFRxVP9jdJSkZXakMBzLqKtriUFCuJRp/2i//gp
-	u9TbhUTrwtwmljj2P/s0QHV7jv6/Com2Uo3BYV5DiB9ij2Owx28QzBH2HhY59S07Q67JdQqAgRU
-	Tj/nUtCPf2tWIif9UOPnoT+WXCS7O7S3FsA5PjjKECMBgtMTCfxi1tg3hlvci9bg3kqTZ21L0d9
-	I0XiODoxnTxvJLxnjS797CNok6bsjnG5bHP7chwhQ6/cghhRxs/I1iznwagRub+fFU+n4QEASyQ
-	P5PINpdxjDPWlpQHYZoftZkz+/odhCQIgFO5+W8ycW1hSONS3VDtDX1vJ1lAdtqv7QpjX1PqaUs
-	8fJXFfvjLTrJpnxDC/ntpKbJDslRYVLCWeRNCgo2nbplsPwhMVtB0r1qKA=
-X-Received: by 2002:a05:690e:4843:b0:66c:e378:bd2 with SMTP id 956f58d0204a3-66ce3780eecmr7793232d50.22.1787583079315;
-        Mon, 24 Aug 2026 07:51:19 -0700 (PDT)
+        bh=z3p4N+WdGfy0YyEKXl3GFU0ih7nRgZs+zJqtEvKEyhU=;
+        b=KBG5UxX1vG+Va6HrYemR4dGFpHy+cip4SCyHjfkdnszQNVcHseTxPlp7A4utPOaNmr
+         7L1mg/YInN/Uzx1TGUv21l857oEm3WSKxt6gO3Zaf8UbbsOgGlKMnYi+gcKZJkEYgumy
+         qMgdNdUvS/Sa/s/nHNzOMz/0G7CSapSNXy73xomVv4VCKvlFu/SCnuoldI3YIiv+4fc9
+         HaEco4Twn4ZK6d0UN1ElR0N+oo8WDLMqMGrUwelDmyutKPd0Vhta4wq0C9ZJpX/fXDvH
+         iUxUiXh0kaqYPYJ+I3FvsV+NUmxEylDnSshkR7qm46DZbK/NYOLUS/1cqSGJg5LY6WqL
+         nKmg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5/lpYfS8wgoTb8OuM0AYktLWGf3OAe4XkJVi8SL1MUHovuPbRYwtFhJkcZEf4O5y+YbmtkAeWbpJdPGkz@vger.kernel.org
+X-Gm-Message-State: AFuF++lyubDAYAnXK54ed9OBzWw5ueUZ5yxSiC2ehCAX+aPk11Bh+Jnr
+	cNmfbtBQmI5M/d2sxVEPmWYLot0cH9DY2iQn9LZcf9GT2vSW20Okh7OA4y4BBYqkWw==
+X-Gm-Gg: AR+sD12sJzOGE9P5zyQwpxKf0DZoq4kj4WJjhBR125Ecxwd85+n2m2+Oj1JcUFaFLXM
+	FeQjyoAR62FBcVSEGI8Xkqo372q0HTkGVUHraabz49bUmLr2RL2oLbwtTWnaSReoHUrefygIwAB
+	5mMn/BAOVOLkMllJ0vMXvEIFpKObNdqXkJW14PLXdYDoxoMFskrM7hWL3mWQCB8pmiu5bxXr9PD
+	JsNFUWD9pjGb8EDbnSoSE5tWN75m3CU+VMSMvd1ourzOuU+vq2stvpkdZhe3vO+4NhuEEm7mzsu
+	i9gPOxEvBhVoWpAGnBrXn9wvSmbO2WsYS/yMrwuQqZrvdtXtL0heXXEkPs4opYSorNGwLIgr+0b
+	g5Y1a3NSqYcpGS1pN85w7ss+Lf5BOAmVEZ4GgO0UGD5kza0vW19rfLtwslGNlSGv+OPO/DLMUT7
+	5OarUmAJyQgJoiyBvmTXe0gjp7JHCqum6CGt8favQL/jvKVQxht49MKh/dwERZtcF6iiPp066W9
+	sH32B/6icXBRn5UEdU3K8c18gV/x8d/X0/kTpTfwurPDJ+o
+X-Received: by 2002:a05:690c:b96:b0:845:ddf4:a399 with SMTP id 00721157ae682-849f3007b00mr110178637b3.11.1787583344519;
+        Mon, 24 Aug 2026 07:55:44 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac01868dsm34817937b3.42.2026.08.24.07.51.14
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84ca5c2c52csm35086077b3.11.2026.08.24.07.55.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:51:18 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:51:12 -0700 (PDT)
+        Mon, 24 Aug 2026 07:55:43 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:55:39 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,11 +89,11 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 25/25] mm/fbatch: move lru_add_drain_all() declaration to
- mm/internal.h
-In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <552d4644-995b-e605-175d-3268b67adb66@google.com>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
+Subject: [PATCH alt 13/25] mm/fbatch: no lru_add_drain() to
+ collect_longterm_unpinnable_folios()
+In-Reply-To: <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
+Message-ID: <333bb765-a36d-e07e-d3c4-5ea2f1cadfcb@google.com>
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -102,40 +102,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Only mm now uses lru_add_drain_all(), in forced reclaim and in memory
-hotremoval: help to keep it that way by moving its declaration alongside
-that of lru_add_drain() in mm/internal.h.
+collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
+lru_add_drain_all(), now that the per-cpu fbatch references are gone.
+So remove the recently added lru_cache_drain_for_folio().
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- include/linux/swap.h | 1 -
- mm/internal.h        | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Alternate version for use once David Hildenbrand's two commits
+here have been pulled from mm.git into linux.git for 7.3-rc1.
+
+ include/linux/swap.h |  8 --------
+ mm/folio.c           | 46 --------------------------------------------
+ mm/gup.c             |  9 ---------
+ 3 files changed, 63 deletions(-)
 
 diff --git a/include/linux/swap.h b/include/linux/swap.h
-index ddfd9b7bb861..94b694328ee7 100644
+index 17c60956c553..ecb877fe61ed 100644
 --- a/include/linux/swap.h
 +++ b/include/linux/swap.h
-@@ -300,7 +300,6 @@ static inline void folio_add_lru(struct folio *folio)
- 	__folio_add_lru(folio, false);
- }
+@@ -302,14 +302,6 @@ static inline void folio_add_lru(struct folio *folio)
  void folio_mark_accessed(struct folio *folio);
--void lru_add_drain_all(void);
+ void lru_add_drain_all(void);
  
+-enum lru_cache_drained {
+-	LRU_CACHE_NOT_DRAINED,
+-	LRU_CACHE_DRAINED,
+-	LRU_CACHE_DRAINED_ALL,
+-};
+-void lru_cache_drain_for_folio(const struct folio *folio,
+-		unsigned int extra_refs, enum lru_cache_drained *drained);
+-
  /* linux/mm/folio-compat.c */
  void mark_page_accessed(struct page *page);
-diff --git a/mm/internal.h b/mm/internal.h
-index 7a301c401d39..73d618254a3b 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -57,6 +57,7 @@ static inline bool folio_may_be_lru_cached(struct folio *folio)
- }
  
- void lru_add_drain(void);
-+void lru_add_drain_all(void);
- void lru_add_drain_cpu(int cpu);
- void lru_add_drain_cpu_zone(struct zone *zone);
- void folio_deactivate(struct folio *folio);
--- 
-2.51.0
-
+diff --git a/mm/folio.c b/mm/folio.c
+index 1c03b44362c1..7b309059b302 100644
+--- a/mm/folio.c
++++ b/mm/folio.c
+@@ -842,52 +842,6 @@ void lru_add_drain_all(void)
+ }
+ #endif /* CONFIG_SMP */
+ 
+-/**
+- * lru_cache_drain_for_folio() - drain LRU caches if the caches might hold
+- *				 folio references
+- * @folio: The folio.
+- * @extra_refs: Extra folio references held by the caller.
+- * @drained: Drain status for batch folio processing.
+- *
+- * Drain LRU caches if the caches might hold folio references. Start
+- * with a local LRU cache drain, to then drain LRU caches on all CPUs if
+- * local draining was insufficient.
+- *
+- * This function detects LRU cache references by comparing the folio refcount
+- * with the sum of the expected folio refcount + extra references held by the
+- * caller. Note that we cannot rely on PG_lru to reliably detect all LRU
+- * cache references, and there are rare scenarios (concurrent folio (un)mapping)
+- * where this function might miss detecting LRU cache references.
+- *
+- * If @drained is not NULL, the function will avoid re-draining LRU caches
+- * when processing multiple folios in a row. In that case, the variable
+- * @drained points at must be initialized to LRU_CACHE_NOT_DRAINED before
+- * the first invocation by the caller.
+- */
+-void lru_cache_drain_for_folio(const struct folio *folio,
+-		unsigned int extra_refs, enum lru_cache_drained *drained)
+-{
+-	if (!folio_may_be_lru_cached(folio))
+-		return;
+-
+-	if (!drained || *drained == LRU_CACHE_NOT_DRAINED) {
+-		if (folio_ref_count(folio) ==
+-		    folio_expected_ref_count(folio) + extra_refs)
+-			return;
+-		lru_add_drain();
+-		if (drained)
+-			*drained = LRU_CACHE_DRAINED;
+-	}
+-	if (!drained || *drained == LRU_CACHE_DRAINED) {
+-		if (folio_ref_count(folio) ==
+-		    folio_expected_ref_count(folio) + extra_refs)
+-			return;
+-		lru_add_drain_all();
+-		if (drained)
+-			*drained = LRU_CACHE_DRAINED_ALL;
+-	}
+-}
+-
+ atomic_t lru_disable_count = ATOMIC_INIT(0);
+ 
+ /*
+diff --git a/mm/gup.c b/mm/gup.c
+index 98fdf7b7baca..e87a77dacdb6 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -2273,14 +2273,12 @@ static unsigned long collect_longterm_unpinnable_folios(
+ 		struct list_head *movable_folio_list,
+ 		struct pages_or_folios *pofs)
+ {
+-	enum lru_cache_drained drained = LRU_CACHE_NOT_DRAINED;
+ 	unsigned long collected = 0;
+ 	struct folio *folio;
+ 	long i = 0;
+ 
+ 	for (folio = pofs_get_folio(pofs, i); folio;
+ 	     folio = pofs_next_folio(folio, pofs, &i)) {
+-		const int pin_refs = folio_has_pincount(folio) ? 1 : GUP_PIN_COUNTING_BIAS;
+ 
+ 		if (folio_is_longterm_pinnable(folio))
+ 			continue;
+@@ -2295,13 +2293,6 @@ static unsigned long collect_longterm_unpinnable_folios(
+ 			continue;
+ 		}
+ 
+-		/*
+-		 * We drain not only to make the folio_isolate_lru() succeed,
+-		 * but also to remove any other folio references from LRU
+-		 * caches.
+-		 */
+-		lru_cache_drain_for_folio(folio, pin_refs, &drained);
+-
+ 		if (!folio_isolate_lru(folio))
+ 			continue;
+ 
