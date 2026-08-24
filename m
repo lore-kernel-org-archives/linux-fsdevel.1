@@ -1,65 +1,65 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A868A42DA5A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A1343E9C3
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582225; cv=none; b=Bqk7mt4h0Vx/xwLcMkYnnPQ7dv+bXKiJvNNFTAtG9HeOXgCyfXqyqfyJ/SmrW6pIiHLEJCnSLy1pshhTzJZU0RvtM50/ui1ZFn2MOwHp3Ara5quQv/7QBsXJBCeo5VQEU1ajSAELaeRHmww15NziPoKJsIGsUsmsC/kZ2mIBOog=
+	t=1787582360; cv=none; b=H8LUs5txA0OeGaM5W/Y+sHnl/Mbp4voQwN/sqSXcqsssK8eE1/wt7eGdClLTwU6yePjvbxuAHSgL4HDsVkuhcuC+73Che7p6fNMBXsZeuMtrVze5PGJKUybregbYtO9Dew5CxbflbXJGbxS3x16vSDCqPq+LNliGGH9yQG8QD/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582225; c=relaxed/simple;
-	bh=1YRYVGkuKNtQk+ObMqK/890RkRJk46OHbYzz71c/FoY=;
+	s=arc-20240116; t=1787582360; c=relaxed/simple;
+	bh=RrFIEm8SrJEjhBjzApoefNfd8aQaR4Oxfr/yDuZhFPU=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=skTAz/xT5vNaajjXPeYvS7sT/2g4ZD00+yGCXuxaEPa2oBwtlMfg3UrGnCOWXHIX9XcCVh0oFvI8VFY+5nA4xEVRXXx/N6ZbLuXq2r42b/UMxKGJ0pz7xQsnDjoDr6TiuxMQ77EYyGul/2KGxZimJJAMSgnJGNRgsXRDaZcj2JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CpoTD5X2; arc=none smtp.client-ip=74.125.224.48
+	 MIME-Version:Content-Type; b=r1wPV3AaoPizBQxN9i7HrTnQw2RwKVSrprmM+CVhvmt0IujjPM4W5Ovu+WvYZVFSHerywr3k2GWc6s7s/1sfwDCykNDvdN9nVjBPz+HvtlLD76ZKKqVSzBCj4NeMoMhlYoOrbcyUm2D1D449zbCkUrHlgxPtFafDi9/oY6gjwLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vHmlLxfi; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CpoTD5X2"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-66d116f0de8so382878d50.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:37:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vHmlLxfi"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-81ff017d420so62202407b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787582222; x=1788187022; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787582358; x=1788187158; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dFFCpD+eyjMYiOlaAWIMnRn59i/x4sm2LgO1kNi90A0=;
-        b=CpoTD5X2Yap6uyOE19vYISXLZLUPaFug+oYxYnFCxjdDvc/IoO+SW/2rh9+xSgQaCo
-         MxsDfnJdHR4y4UsTLKJ9tB5Eu3l/k9lwrum05vtjfTL6VFXGra1GIDZWaDJSjrAM6nwj
-         aOIzSjO/H69XukuT82R+NGw3hyFDx3YegL7S5PRdlzPOdtEoyB/qTVRrtdGa1MwzAcxh
-         H1PNXBt9gLhpHKRMVy8RP/HaVXlhrOHTI2ZXz6NUWxzGW5RulmZ2LrtgJTuYaj4fWNl6
-         4RUJpUUkoPUMOzaHzrUOYgmftSCaIQ6reFW+xKhc8L7+qgiEv8+BI4UcNtYj9curBKdR
-         T/gg==
+        bh=2UY30k1UeQzYu1OvDSaJuzIQ8I7z52NjmS+xQ0qJeoY=;
+        b=vHmlLxfitfZqNVju4Fys+i9kMW93CHbXhaQ4TweDYrYsnvNOrqfA4WWNkrT0GV/92H
+         PYd56DwBcbzMkwVcAQkmr6KBnZVJJFOZsXEUcuPVnKXZwJKmJbGLyjkZerz1wOXyeEbD
+         an7AWJQPNPrc/LaH7IVqH7T9ScABFmmDf224G9ZCReXmuCjOBYVw5TBayV+7kijVrrhf
+         Jf2qsaDgt8SLMxtG6ZtvLErEWIVT61s7PJbodg/Md5vdN5JMfweDOaTuOU82gVunF2Ff
+         9tMKMIW/oJYKvQXAbp7KTKpCVjXuhACi7jzA9Ay0MgByz8RsaI30eSuu6zLynm4l1OHD
+         tZZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787582222; x=1788187022;
+        d=1e100.net; s=20251104; t=1787582358; x=1788187158;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dFFCpD+eyjMYiOlaAWIMnRn59i/x4sm2LgO1kNi90A0=;
-        b=lWPWD/D83KYFVHo384mSASvrG7K5sUgomWnDxCp3x8m5hYM5FLk1pnnFOF3ZHnQuLt
-         bbWo42NBRmdENCIAmtaeRL6NUZAeQeS2fcRYof+VEtATFA1GCboNhULOj/D3a6XFB+x6
-         GzIV26Q+mfJigsjYLoUIyFOm366M6at1KNMaSF9o7k3NDSBcWBx2l+6aN7BPSjchU7Wr
-         tBR9k89qd1TruGUxGZ9iB7nei4Xi4oDvp8/pju8OR8o0HvDTk5FJ2xGbH25AS6U9wh0s
-         BDpwpo2GofcnLZ5mrRRNxD+LN7NfHPC/BK72ssotWJgo3GelfC6Rk33BXsXTCcDZ4oE0
-         vs9w==
-X-Forwarded-Encrypted: i=1; AHgh+Rrd/MkO40dJJHKhNnkQa118dTlNPQLD8tgyJKgVSlUt12wvufjzKxeHzQUo41C5xxealfsRwYwene1SP+XP@vger.kernel.org
-X-Gm-Message-State: AFuF++lzVmc8hTRQKxiX6fnX54VbLdE5sjwNL+jGuTeS3z8f4YsKyk9w
-	wHfa7MFKYSd9eDXPwq2YBHbTo/pxYR65rC/++RC8rjDiwe2E1fLaJ+N5UOnfxUspMw==
-X-Gm-Gg: AR+sD12XmFzUvkyYLt/OHJEviBZ8213/t+b1ui5zRFVvV57lY2K4WlyL+rgyLwZvnYA
-	DEXoTIh6R78u4HSAI+ne/P5CaHs4rFT/iXCvgJLxe+RusBhR4yWl+YeRk8qXXubnN0qAnsTASMr
-	USOwzrCAZ+6jLcl2pa4Oq6AhuOE+561OtVa9KK4afTSVTb4dfEqeH4LDq1VCnKJZqsmef66R9E2
-	WfPsbg5AUPmk3p68TgK3HcNQ/3rDL78jRqXbtVeK3FCvpL1ouZAr31p007m1AxRNHZuaZuj5h3T
-	cBhw2owFvBLeAwc8odWTXj3iQiCvqgOgqu/USI30Q03CLgQthSs/qtwYYL4BrdNUxMn6K5hxSu+
-	SpseCnJC1bmV5TPhelwBrLeKCDtrScg5Ibsj1W3gEF9MgBQ9QsMAQ8/c6+G4lWhyGb43ppwEM5d
-	Bb7yyqEnw2x7VLS8rxglIlffcalhmNrJCQcnUJpkbkcb4RpNswrppn99KuZkmjzBB2ZkINKAzz4
-	dV0uutsO0/nnKalOFY3MBVcfyZGXrUsLb2n+//IUuQZsB/x
-X-Received: by 2002:a05:690e:1309:b0:66d:7b7:e36c with SMTP id 956f58d0204a3-66d07b7ea83mr2357073d50.48.1787582221803;
-        Mon, 24 Aug 2026 07:37:01 -0700 (PDT)
+        bh=2UY30k1UeQzYu1OvDSaJuzIQ8I7z52NjmS+xQ0qJeoY=;
+        b=VZ4qKsIxN1OV3rodWk5NbybL7H747wM/7TwwJMcf861GyETBQ0R6OJNCe1BFDxNegR
+         8/Zwb/VqGh9X2e2Aq5TmuH1LlTj/PhyigSaRucAFGQcky1H3YdHki00kGjYrhvSo/MZT
+         YKV/8UoM+wKpdoXJ788bN6Bruan9z/ZXzvaJey7nJ27E2Fj6+m+iJvyi7a/Rb3x3pSJX
+         eVHGP/QvsK1pmeQEZZIsuEPopL+nDJscNegYIALkYlKfaNJibbpZ/tLEgmAVbaBIcvVv
+         dnfJkDUUKiZstRnNpQx3vR8AmxLGID2+UPZCC8X4rHZpP48bUam7KqgEGOS34bK/4ZdP
+         LT3Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoGXJhD//+IvJJYcj+SySdmcSvYA8CTYNbCGBdwEm4MIHMIIzVYHI8asiwRpb9kw7pXvREaK8CNkRWV6g/x@vger.kernel.org
+X-Gm-Message-State: AFuF++mrLsv/gRwkujHbg6Ny8I/gKvPUY5MrhfQJ+EVJUGIkegbfU6FK
+	eTbBVcFX8WTD/CePHapfcd9p8mTpO6RwKD25PixueXyiIjOg2Kdv2F8x7nL3ef/HZQ==
+X-Gm-Gg: AR+sD13evdqc9TPRXf6Mu7OU6WAP4meCVso0PDSynbE6Wz3DYv0P9cBYFFLS5KLRzem
+	nJEu8AO0dbYA5PWXvW9yoh8+2c/5Anxm7gajQNOpcdiESVzDPI8xfRXy1AYg2y2SmuBJXugHIq6
+	vWaXzfvcOLt6hWv59X6Olz5Q9yTEV+AEHXaR98c7oUejOgeiXUQ7DGjC2RrFyZUVdTJGZ1nbM1j
+	xzMs/dj1CCEMDbS2dWk5pkgVLwb/eRzwWThKfVs7rHREkb63ykl8+GxNJ/UTm3vujmBRTkBwCYy
+	HAi1OLWFRkv/dFvg71nJEeRVIG+fq2UUy8/GZ2vUWMdmvD7XYGx31EF7sPb4BAd/IktvwqzTYBa
+	g3E7SEyaE4Qy4IDKfbTb4S9mRynfh85EIxAjjEdXd0QiSljjqpeV4ffiRhk2uAVxYdef3C2pp7V
+	ZUBXJegJINFPB4GQb9AdJYPp8U8/3Vk6AnvIEn4oX350C3PyJeeEoC/+p3kIM2KfnFROih/WDFh
+	zU6Gy5wtlpEZ9aFIMizLTkU+J8l6gLBCUrY1FuhdPQ2nMn2
+X-Received: by 2002:a05:690c:c221:b0:81e:a373:47ad with SMTP id 00721157ae682-847073b93fbmr133529677b3.2.1787582357182;
+        Mon, 24 Aug 2026 07:39:17 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66cf46460aesm3729534d50.6.2026.08.24.07.36.58
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84ca5188982sm35471097b3.10.2026.08.24.07.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:37:01 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:36:57 -0700 (PDT)
+        Mon, 24 Aug 2026 07:39:16 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:39:12 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 19/25] mm/fbatch: vm/stat_refresh include lru_add_drain() on
- each cpu
+Subject: [PATCH 20/25] s390/fbatch: no lru_add_drain_all() in
+ s390_wiggle_split_folio()
 In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <509da837-bd5c-2090-d26d-0002fef0b1ac@google.com>
+Message-ID: <7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com>
 References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,35 +102,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Reading or writing /proc/sys/vm/stat_refresh has long been a way for
-testing to force an immediate refresh of /proc/vmstat numbers: it seems
-appropriate that it should also call lru_add_drain() on each cpu that it
-visits, before collecting that processor's diffs.
-
-Add that in refresh_vm_stats(). I wanted it in refresh_cpu_vm_stats(),
-which would include it in the regular (default HZ) vmstat_update() too:
-which might be a wise precaution when proposing to eliminate almost all
-the old calls to lru_add_drain_all(). However, that would go against its
-"strives to only access node local memory" cacheline care, and bring it
-into lruvec lock contention: which would probably displease its authors.
+s390_wiggle_split_folio() has no good reason to lru_add_drain_all(),
+now that the per-cpu fbatch references are gone.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- mm/vmstat.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/s390/kernel/uv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 3b5cb1031f72..0f75488687b5 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1973,6 +1973,7 @@ static int vmstat_late_init_done;
- #ifdef CONFIG_PROC_FS
- static void refresh_vm_stats(struct work_struct *work)
- {
-+	lru_add_drain();
- 	refresh_cpu_vm_stats(true);
- }
+diff --git a/arch/s390/kernel/uv.c b/arch/s390/kernel/uv.c
+index dc14ebc0105b..120a467026a5 100644
+--- a/arch/s390/kernel/uv.c
++++ b/arch/s390/kernel/uv.c
+@@ -364,7 +364,6 @@ int s390_wiggle_split_folio(struct mm_struct *mm, struct folio *folio)
  
+ 	lockdep_assert_not_held(&mm->mmap_lock);
+ 	folio_wait_writeback(folio);
+-	lru_add_drain_all();
+ 
+ 	if (!folio_test_large(folio))
+ 		return 0;
 -- 
 2.51.0
 
