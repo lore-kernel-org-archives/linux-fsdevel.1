@@ -1,172 +1,113 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58763F58F5;
-	Mon, 24 Aug 2026 09:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787564721; cv=none; b=TKkWeRkFIgARTnpFBT7TVBZI3C730VNh2nZSK05L3sT/mCczZQf9iScd22oeIICkYSnxfyHhClCmuPcLFhnJzq/LaVvY0h4+QC7Udky1WT969Fyklcv1G4GwlLvejspRyAvLQ8yTL6SIJBLIWubgo1cebcFq1cLXXOvPJr1vVfU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787564721; c=relaxed/simple;
-	bh=r8WN6z6fTgXIqOs0URTLBnOzvtzodQOoUFnXpTGjdSg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rDHg4cFb5/IMdnmtgGKasnGNAWiN7pXdEn7bqBvZuxDRmnvNmZUq+QK8VbBA3SgZ/7vx8kq3kXRjkosY37j9bzn5fv+1qp3zEPTtwCTBIcMmUG7LjrClTY5POqNeooKVa593ba5Zouduw6dwkSCJezDPvVJ+jIa4cXL7LrJUw7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=Qy90wV4/; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=2a84AeL3; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C042B3A7848
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 09:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787564981; cv=pass; b=k2U+ycDJjz1kSdgKB4Zh588vZfPmAB2qdlUWIBR9GG2hWPg2mxG8rdZl/5egIVkFVtqWI12+bHAe8+h17eu2mHFu9/JuHhj8ReUOG97+bfA/KqrmwnFw2a9SDWkKV4VIn8wl3sQbZ1hYuAFyitJo7yxb38TP2XffezBPl+HY21s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787564981; c=relaxed/simple;
+	bh=f7zLB78qgfsXeXkJUI5zyv241QNeBkiTpmVwCFsdDjs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z3GfoVXhqY2nFi4ZUNW9wwU7Ab4gfriimrMGFNAYB2euIOp97p8YAkJBWnskg9QvnbwF2lgtMZMLBxXIWV0W+nkIVNUlCt1L08CvCCeh8nwYuX38AdWyvavS8PSS0bWF6gFx+2XODk1MVhlgHq5ZYDsqfQbqoz9DV1PM54ZtjQA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=hpfuzpH7; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="Qy90wV4/";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="2a84AeL3"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 5893926F768E;
-	Mon, 24 Aug 2026 18:45:13 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1787564713;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QzbQb6I3hfrObyyAh8FLlb1/bPAXNYXLFSU1BgZUND8=;
-	b=Qy90wV4/1CdqvQYIZ26WHPt/k1B2pHoi32W0Hy33vwDzx9HdIcBRkyA8/8PrKZSIgqhFSl
-	97GiS/SZh+wKy10AouuqcC3GoBN/Cq5U72P8A1foMv9+B2Am0vxCf97SPQzwnZZj1stx/B
-	sqy/7uXf1EnmjtnH0Cx8fUb3giUlwCvsi4FIoNeQO4UVwIqtyyTlqGoqseRF7N0j+766l/
-	oSetLKKv/WnOgKlr0izO5ro19AgYHIjETevKCgVMcTBjfer4GH4eEhVY16PisEAIQCrwgI
-	zyEVytQtu51j/YGzmUsz4x85b0rZhrKt8ozaK2TLcWs9cbAA8xz/CBgoFXgzWg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1787564713;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QzbQb6I3hfrObyyAh8FLlb1/bPAXNYXLFSU1BgZUND8=;
-	b=2a84AeL3oMSozXBDEp9ms4fbwhYZMwhbcFGWApXkGy/zL7DTcQiPM99DGyvUP9sO04PgGw
-	8+3v72dfjUiLh5Bw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id D7B48E00090;
-	Mon, 24 Aug 2026 18:45:12 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id C500422000D2; Mon, 24 Aug 2026 18:45:12 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: David Timber <dxdt@dev.snart.me>
-Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH] fat: add noflush mount option
-In-Reply-To: <20260822173732.10230-1-dxdt@dev.snart.me>
-References: <20260822173732.10230-1-dxdt@dev.snart.me>
-Date: Mon, 24 Aug 2026 18:45:12 +0900
-Message-ID: <871pbn6edz.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="hpfuzpH7"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51c05dcdf49so31220591cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 02:49:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787564978; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qb59JxVggDGwRLMxVxmDB3bKWtkijljSHtNYYbFQKzqdnRBcdVZWXT4fEFJ8cf5Qcz
+         H1Umaq3qkiUGwK00z2Jhdb42IAr9jo45b4A9nmOjXc5k9QW4+ikkWlwvD0L+6zsEUjFn
+         zeqOLswveUrdFF2cvXJ1hrhULzVD1MzdnKa+EwDXwpKKtXIBOnp6c9uFoH/g7gulwLTT
+         R7kYLDeEnXIoPCYmTbmyZqsVmsrQofS1D8xCxu554GnSNeMCmViQYtD3SybaYN3GxJPH
+         2VeTLOes6JKXhmY5pjCyxyCRJquo504aHMMoA5z0N2XMvK1TBo8dETOBbMzfX2Zk81fC
+         fESA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=iqA+Vodt4zn8f6pvRuFDvrg7Iu6eZrCLtVsfmIZOyfA=;
+        fh=ugDacDIbHmR8JUVREhVVt1YfV0MWftLhcxMdmTaK3rg=;
+        b=Nydz9ldJez1W2RkrPuf7U1VbohlJNpSCXb8cAoNQAdmTPdCgohHRnwPVrdJ4HmUGDk
+         ezklwJnqfy9QMeZeGU6RPwpeqN5c1XkPQ0RahsBV7XOGD9l7iHZkxWxWcjW3ZezUQnBg
+         ha6Ju/cj/LfD5FIq4iaTo3gQU9Lx8Ml2bNL0S+rOKAOKCq6St9oTW1Ts6TI4iIMNDYq4
+         8hanDjn82niAoUtCliKCJqi9NGWPkdXN3gS/cmqyjwQRb39Ssu+UlHbHHvTAugF2Oci5
+         il6NbORwRoLDRfL0hDjE7OLCKRvPrUhoL73b1biT8k4sOMpzqKhe3Ph5ZKwSvCrT8Rdh
+         uPeQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1787564978; x=1788169778; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iqA+Vodt4zn8f6pvRuFDvrg7Iu6eZrCLtVsfmIZOyfA=;
+        b=hpfuzpH7dAW0uvOb7Sy40AR3iosxCENVFN7yT033bC+A8maLH8sW2y0Xi3sqedpHOo
+         ymxDdbU+xjNr18fPiI9pETto8k2B7MlZXD3SKMz/aw5cZFTjc/xSGJMKIa0n5d17+IEi
+         i5ViHUqI0lsXVaGvSyqDa84G8QMmAAQj3aGS0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787564978; x=1788169778;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=iqA+Vodt4zn8f6pvRuFDvrg7Iu6eZrCLtVsfmIZOyfA=;
+        b=YRTpejhxhoPtTDIaGvva21soq/MZFD5pwwgY7OcYZEfJMchfFUDCy1lMbkB20cFTUn
+         AiePIkJteT8ASmYHJAAdt013igkTe743XsIRjg6cfZeZZkak4CzXSozz3Dq9XeKXDKOV
+         gJuih+IxvC81OMmCyD1GNKPXa6Al6vJ90Ycu7ElNl35dHjlRE3lCaSbmdDZx9RPSL/7s
+         QQOgszDu8jnZOG6V5N90yixhs3tkrMu9IVuDWzWPOdbbQAu4AccWzwQ71579PL0eZQ/V
+         Hdtc6rCXknvL81NMeeSkvwyPIjgt8MIOwxzJ+41muXycJE3Phinq43ntA4jTxuDEcFql
+         v+Cw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8iFnG/Y4p5N2etWJPZLbc7HB+W/+qVgvN1Lc6hLA/89pBgTr+9O5+yD8oTTACS3zDALiA9+/ukJOjQOmB@vger.kernel.org
+X-Gm-Message-State: AFuF++nn981genIgyruflwhGz+xyed1O3INx0MOFnfk3iRRR2zub27O5
+	9Kthnh8W1x+Xc4oNG2fnVoE/zBoPI4YPvkZywuPwME5mUGj6hvoLpGel4TDgrpUxITvGdwYnLH3
+	GInVen0RFMGeF/3izdyL6cs79tafPJlvG6h/ueKhdqKa8g4IViD5arcTeUw==
+X-Gm-Gg: AR+sD120QCzw5Sa5EeebqId01cUYzH8WdYgFVmBytnzt2jR8dNe5LilcU6/WhYet41h
+	4D0ec9FAK59QOY0MsltngKInmzqSMRsJdA1uyfEAbSheQvZ01bD6NKCEUwqK6W1Ko0b0CH18OVn
+	IXlykEGir9U5pigzlHO0HEH5n/1r59A6NsAJn8oc6nTo3q8QgPaBPUPa1N1p6XZ5xMDZwRLhz4h
+	6bTMvzhQ7K5N7qVDSuGuTqgkTG3T40/6s5qwihAqPzOoFeVV7WxOPeGB2TpTJbx/82BLFXbCRn2
+	FI0+V1Z4IjN2GZ38m448CCyYc+kxzeiHVsmDQP9+PjXdID3RfGmqU9yI6tHwzC4AhdVuamR5F/9
+	1JQ0=
+X-Received: by 2002:a05:622a:314:b0:51c:981:94a6 with SMTP id
+ d75a77b69052e-52e09cabcedmr166055741cf.23.1787564978195; Mon, 24 Aug 2026
+ 02:49:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <2026082150-autograph-perky-e3cb@gregkh> <20260823224256.2724025-1-fahad@codepure.com>
+ <CAOQ4uxjhfpNVvoVrTayj46H2CViTOc3oxzM6xdb8+E7ikE2CSA@mail.gmail.com>
+ <CAJfpegt1WinKmP5nOGv8Yx9VLf4Mk1ojg7e3xR5iUz=7yDAh0Q@mail.gmail.com> <CAOQ4uxj+GRa8CaCONwPQzLCjx=R8MRr6PTYYC+QW7VrK0PEhMQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxj+GRa8CaCONwPQzLCjx=R8MRr6PTYYC+QW7VrK0PEhMQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 24 Aug 2026 11:49:27 +0200
+X-Gm-Features: AcwNN1XHPbV5W42Fv0eyXcWCG_2PycHva_vfR9-O3H1AMlqLqtB39n_N9b-Q5EU
+Message-ID: <CAJfpegsVoUyqy0dYkTvBGRZvgdv_nmzmCw_uF+LP-Vq3EhEkSg@mail.gmail.com>
+Subject: Re: ovl_copy_xattr() can write uninitialised heap into the upper
+ file's xattr
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Fahad Alharbi <fahad@codepure.com>, security@kernel.org, 
+	overlayfs <linux-unionfs@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-David Timber <dxdt@dev.snart.me> writes:
+On Mon, 24 Aug 2026 at 11:30, Amir Goldstein <amir73il@gmail.com> wrote:
 
-> On most distros, udisks manages users' removable volume mount requests.
-> Udisks is configured to always mount FAT volumes with the 'flush' mount
-> option. This is largely okay for populating directory in small sizes,
-> but when a large number of files are involved, the flush behaviour acts
-> as a bottleneck point in fat_file_release(). The user may want to
-> disable the flush option temporarily before commencing such an intensive
-> operation.
->
-> To cover this use case, introduce the new 'noflush' mount option. When
-> used in the mount options to mount a volume, it overrides the 'flush'
-> option previously specified. When used in remount, update it updates the
-> flag.
->
-> This is a breaking change as traditionally, the mount options other than
-> rw and ro are ignored. The patch breaks this tradition by allowing
-> reconfiguration of 'flush' and 'noflush' mount options.
->
-> Signed-off-by: David Timber <dxdt@dev.snart.me>
-> ---
->  fs/fat/inode.c | 26 +++++++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-> index 28f78df086ef..850df43ba354 100644
-> --- a/fs/fat/inode.c
-> +++ b/fs/fat/inode.c
-> @@ -813,10 +813,14 @@ int fat_reconfigure(struct fs_context *fc)
->  	bool new_rdonly;
->  	struct super_block *sb = fc->root->d_sb;
->  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
-> +	struct fat_mount_options *new_opts = fc->fs_private;
->  	fc->sb_flags |= SB_NODIRATIME | (sbi->options.isvfat ? 0 : SB_NOATIME);
->  
->  	sync_filesystem(sb);
->  
-> +	/* allow reconfiguring "flush" or "noflush" */
-> +	sbi->options.flush = new_opts->flush;
-> +
->  	/* make sure we update state on remount. */
->  	new_rdonly = fc->sb_flags & SB_RDONLY;
->  	if (new_rdonly != sb_rdonly(sb)) {
+> It's not really a retry loop, it is an opportunistic buffer auto grow
+> loop, see
+> e4ad29fa0d22 ("ovl: use a minimal buffer in ovl_copy_xattr")
 
-Maybe, better to set after changed the read-only?
+Ah, okay.
 
-> @@ -1047,7 +1051,7 @@ enum {
->  	Opt_charset, Opt_shortname, Opt_utf8, Opt_utf8_bool,
->  	Opt_uni_xl, Opt_uni_xl_bool, Opt_nonumtail, Opt_nonumtail_bool,
->  	Opt_obsolete, Opt_flush, Opt_tz, Opt_rodir, Opt_errors, Opt_discard,
-> -	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy,
-> +	Opt_nfs, Opt_nfs_enum, Opt_time_offset, Opt_dos1xfloppy, Opt_noflush
->  };
->  
->  static const struct constant_table fat_param_check[] = {
-> @@ -1110,6 +1114,7 @@ const struct fs_parameter_spec fat_param_spec[] = {
->  	fsparam_flag	("debug",	Opt_debug),
->  	fsparam_flag	("sys_immutable", Opt_immutable),
->  	fsparam_flag	("flush",	Opt_flush),
-> +	fsparam_flag	("noflush",	Opt_noflush),
+The logic is too complicated, though.
 
-fsparam_flag() is not including the "noflush" too?
+I'd still go with a separate helper  that gets passed (..., void
+**bufp, size_t *bufsizep). Single caller of ovl_getxattr_value() can
+also be converted to that.
 
->  	fsparam_enum	("tz",		Opt_tz, fat_param_tz),
->  	fsparam_s32	("time_offset",	Opt_time_offset),
->  	fsparam_enum	("errors",	Opt_errors, fat_param_errors),
-> @@ -1167,10 +1172,6 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
->  	struct fs_parse_result result;
->  	int opt;
->  
-> -	/* remount options have traditionally been ignored */
-> -	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE)
-> -		return 0;
-> -
->  	opt = fs_parse(fc, fat_param_spec, param, &result);
->  	/* If option not found in fat_param_spec, try vfat/msdos options */
->  	if (opt == -ENOPARAM) {
-> @@ -1183,6 +1184,18 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
->  	if (opt < 0)
->  		return opt;
->  
-> +	/* remount options have traditionally been ignored */
-> +	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
-> +		switch (opt) {
-> +		/* but there are exceptions */
-> +		case Opt_flush:
-> +		case Opt_noflush:
-> +			break;
-> +		default:
-> +			return 0;
-> +		}
-> +	}
-> +
->  	switch (opt) {
->  	case Opt_check:
->  		opts->name_check = result.uint_32;
-> @@ -1235,6 +1248,9 @@ int fat_parse_param(struct fs_context *fc, struct fs_parameter *param,
->  	case Opt_flush:
->  		opts->flush = 1;
->  		break;
-> +	case Opt_noflush:
-> +		opts->flush = 0;
-> +		break;
->  	case Opt_time_offset:
->  		/*
->  		 * GMT+-12 zones may have DST corrections so at least
-
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Thanks,
+Miklos
