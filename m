@@ -1,445 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F58423E81;
-	Mon, 24 Aug 2026 13:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8E4426429;
+	Mon, 24 Aug 2026 13:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787578103; cv=none; b=tOjYILjbn2dv7PwEHM5urorDCFkcmKEvhusrDFD78TpN108eSfBGvYCVg0MCKpbanFWgEKVHCu2gIlZLJe567CKj0ePEEqa4Uak1fEkFES6PCTIQ0IE0PloVMiwYu40HkcqC4S7f/WxeDLmMQnwA9ksG6Z51jK8E3e+WLycTw2c=
+	t=1787578180; cv=none; b=jS54w/L8T1A2Yeyss8uYyL4B85tZnDoeXKtDObZesObNsiLLzcstAa0pgbrZsj/V/pHLT4vv9/aBoPCZy3cjujADMn90vS41BW6dDTWxaZH9QKK4H1+lwqMmBayOdSidOUwcA0Se8KNg+0Ki58rPrj+2N/PXFAlvU2V5m+sVKsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787578103; c=relaxed/simple;
-	bh=EM15GCzYgzb4ha96I006QoiAMEahJ24tSpvIxou4vNs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B2Snplsy6xSMIzGjmLSpiybBWfUm11e1+5fjwoJtnj5WI1eIhIfBGR47axTI+zI37m5lI315tNzA88WNRk4KeUvWY/hymiuShUNOlG2383NuXjupXeYFr+mKV/izspuSh4mrbyvm5f7r0HZ+zEtaiG11sWRYQ52mdp1R9fBWpdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sfdhbp+Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787578180; c=relaxed/simple;
+	bh=39FjQlUMP5udyZxk+WGpe9HcVJf/vBCTJVYsMuZuSuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jO4IWvN/6FJoUw73i0quGuFjAM/ZQW+oNyz3DcLyxSlWRnVxZtwhKWNI5g+rEcJPo3cg7VjSrPdleZBZYQVqtVT9YkMmLhh23hOewSprPW7asq+nOD+d5r4u+sCk9JyHe5nQR0UFBgJblWyoq2LoGtdg3+iBext2YnHi7R7ZTeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DVpXuCgB; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sfdhbp+Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1F2B2C2BCFB;
-	Mon, 24 Aug 2026 13:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787578103;
-	bh=EM15GCzYgzb4ha96I006QoiAMEahJ24tSpvIxou4vNs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Sfdhbp+Z7CJ5ukGHVU4TwoMz043g2dpqIpX4K/keilJah9PoT/6XWiNwF3MFvVgiG
-	 FGXJOR8Ci9ftk60q4QjV75379Pn2agPi3C1sGRCs2ADSxsdpbxMVwaUwn3pluXXejX
-	 opwD8T26FXEPEePrby/31brUv17+Hxv/A7cTgZjd9BPgW/YIBfxoDfFUZleBR6Paod
-	 hSsZ0RgaGWuGbmxwfrk7DdoPbrW9IPr3b+ZgMjkt6p1c2LZoU0kqqCiVY2G7nWqYIf
-	 /+To6NT7cBnXs/DDsKWtdslYZVkeMWHzwhIoz/wcAwIdi8e5pzfor254f62lxa8fZj
-	 qGL8ucIQ3wcPA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFBCC5DF9C;
-	Mon, 24 Aug 2026 13:28:22 +0000 (UTC)
-From: Daan De Meyer via B4 Relay <devnull+daan.amutable.com@kernel.org>
-Date: Mon, 24 Aug 2026 15:28:13 +0200
-Subject: [PATCH 2/2] selftests/bpf: verify mount idmaps reach inode hooks
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DVpXuCgB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UP1TeJcQT74aqE7HfHCPzdq0084a2GndPFA/TBwUbHY=; b=DVpXuCgBWzg4bh1HoyTUjrvA7a
+	g10c2SRZCIct6G9ZFfmQ2xDtSRhzhvqg2iqKHeN34oUDs2mF8AkL4J1MbE3654XNJFqg/ZdbF4oxj
+	pf2I0N7VJIOWBRcdbFZgSYn9avDzAW+Xx+qe+fjTKty5JOw0KvHc2fk4qUalN5QpwUDn9VN4e6wDh
+	W29tgfU11wmdEgc6SYoRRgsdTfw38IlXNfwZYxT15ovSXkeoFOtT4JVo27hfDLiGm72vzie5Vf2fH
+	ENPz5NXe8NNZi5OSbLqQgl6OKMlEWF3mvgt5/cF6qcPLFK6DFenQCIt/gE91p/L6xfUTQUq4PmRu9
+	pCTg9upQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyUjx-00000007HHf-3ewO;
+	Mon, 24 Aug 2026 13:29:29 +0000
+Date: Mon, 24 Aug 2026 14:29:29 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH 2/7] fuse: Use filemap_invalidate_pages()
+Message-ID: <aoxHOSC9kTPbKeNq@casper.infradead.org>
+References: <20260820193343.3852967-1-willy@infradead.org>
+ <20260820193343.3852967-3-willy@infradead.org>
+ <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-lsm-mount-idmaps-v1-2-0414a9641c85@amutable.com>
-References: <20260824-lsm-mount-idmaps-v1-0-0414a9641c85@amutable.com>
-In-Reply-To: <20260824-lsm-mount-idmaps-v1-0-0414a9641c85@amutable.com>
-To: brauner@kernel.org, jack@suse.cz, paul@paul-moore.com, 
- viro@zeniv.linux.org.uk
-Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787578101; l=10093;
- i=daan@amutable.com; s=20260712; h=from:subject:message-id;
- bh=kGa0BgBlZCUlw531WOpXx/cTkYyjS5BEBkDAzvKkES4=;
- b=5HFsM0Kq97J2/IO/IrHtZboUDnFD3GjePqR3NPtitOXXj7BVpgvK4x3O2IwwL0BwfFmQdX8t8
- Kg7/9TS1VKbDa3oW5dCjRiZMONUzCiyfkNMcJ2wrzao8iaYtGNJXOYa
-X-Developer-Key: i=daan@amutable.com; a=ed25519;
- pk=I1l+WwrtmzRgofA5SQ1wTuJi18fjh91w+f5uRkFeZEA=
-X-Endpoint-Received: by B4 Relay for daan@amutable.com/20260712 with
- auth_id=868
-X-Original-From: Daan De Meyer <daan@amutable.com>
-Reply-To: daan@amutable.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
 
-From: Daan De Meyer <daan@amutable.com>
+On Mon, Aug 24, 2026 at 11:05:46AM +0200, Miklos Szeredi wrote:
+> On Thu, 20 Aug 2026 at 21:34, Matthew Wilcox (Oracle)
+> <willy@infradead.org> wrote:
+> >
+> > FUSE relies on invalidate_inode_pages2() / invalidate_inode_pages2_range()
+> > doing writeback by calling fuse_launder_folio().  While this works, it
+> > is inefficient as each page is written back and waited for individually.
+> > Far better to call filemap_invalidate_pages() which will do a bulk write
+> > first, then remove the page cache.
+> 
+> filemap_invalidate_page() suggests to use invalidate_lock to prevent
+> races with pages coming back.  I'm not sure that without it the
+> behavior is identical.
+> 
+> Maybe add a variant that takes that lock?
 
-Extend the BPF LSM selftest to exercise create, link, symlink, mkdir,
-mknod, and permission through both the VFS identity idmap and a real
-idmapped tmpfs mount.
+I don't understand what use that would be.  As soon as that function
+drops the lock, the pages could be reinstated.  If the caller needs the
+pages to not come back, it must need to hold the invalidate_lock across
+the whole operation.
 
-Record the idmap observed by each hook and verify that every updated hook
-receives the mapping used by the VFS operation. This provides regression
-coverage for passing mount idmaps through inode security hooks.
----
- tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++++++++
- tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
- 2 files changed, 310 insertions(+)
-
-diff --git a/tools/testing/selftests/bpf/prog_tests/test_lsm.c b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-index d7495efd4a56..c0ae813698ae 100644
---- a/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-+++ b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-@@ -1,18 +1,30 @@
- // SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
- 
- /*
-  * Copyright (C) 2020 Google LLC.
-  */
- 
- #include <test_progs.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
- #include <sys/wait.h>
- #include <unistd.h>
- 
-+#include <linux/mount.h>
-+
- #include "lsm.skel.h"
- #include "lsm_tailcall.skel.h"
- 
- char *CMD_ARGS[] = {"true", NULL};
- 
-+enum {
-+	INODE_IDMAP_ALL = (1U << 6) - 1,
-+};
-+
- int exec_cmd(int *monitored_pid)
- {
- 	int child_pid, child_status;
-@@ -30,6 +42,219 @@ int exec_cmd(int *monitored_pid)
- 	return -EINVAL;
- }
- 
-+static ssize_t write_nointr(int fd, const void *buf, size_t count)
-+{
-+	ssize_t ret;
-+
-+	do {
-+		ret = write(fd, buf, count);
-+	} while (ret < 0 && errno == EINTR);
-+
-+	return ret;
-+}
-+
-+static int write_file(const char *path, const char *value)
-+{
-+	size_t len = strlen(value);
-+	int fd, saved_errno = 0;
-+	ssize_t ret;
-+
-+	fd = open(path, O_WRONLY | O_CLOEXEC | O_NOCTTY | O_NOFOLLOW);
-+	if (fd < 0)
-+		return -1;
-+
-+	ret = write_nointr(fd, value, len);
-+	if (ret < 0)
-+		saved_errno = errno;
-+	else if ((size_t)ret != len)
-+		saved_errno = EIO;
-+	close(fd);
-+	if (saved_errno) {
-+		errno = saved_errno;
-+		return -1;
-+	}
-+	return 0;
-+}
-+
-+static int write_userns_file(pid_t pid, const char *name, const char *value)
-+{
-+	char path[64];
-+	int len;
-+
-+	len = snprintf(path, sizeof(path), "/proc/%d/%s", pid, name);
-+	if (len < 0 || (size_t)len >= sizeof(path)) {
-+		errno = EOVERFLOW;
-+		return -1;
-+	}
-+
-+	return write_file(path, value);
-+}
-+
-+static int create_userns_fd(void)
-+{
-+	char path[64];
-+	pid_t pid, waited;
-+	int fd = -1, len, saved_errno, status;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		return -1;
-+	if (pid == 0) {
-+		if (unshare(CLONE_NEWUSER))
-+			_exit(1);
-+		raise(SIGSTOP);
-+		_exit(0);
-+	}
-+
-+	do {
-+		waited = waitpid(pid, &status, WUNTRACED);
-+	} while (waited < 0 && errno == EINTR);
-+	if (waited != pid)
-+		goto out;
-+	if (!WIFSTOPPED(status)) {
-+		pid = -1;
-+		goto out;
-+	}
-+
-+	/* A one-entry map is identity for root but remains distinct from nop_mnt_idmap. */
-+	if (write_userns_file(pid, "setgroups", "deny") && errno != ENOENT)
-+		goto out;
-+	if (write_userns_file(pid, "uid_map", "0 0 1") ||
-+	    write_userns_file(pid, "gid_map", "0 0 1"))
-+		goto out;
-+
-+	len = snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
-+	if (len < 0 || (size_t)len >= sizeof(path)) {
-+		errno = EOVERFLOW;
-+		goto out;
-+	}
-+	fd = open(path, O_RDONLY | O_CLOEXEC);
-+
-+out:
-+	saved_errno = errno;
-+	if (pid > 0) {
-+		kill(pid, SIGKILL);
-+		do {
-+			waited = waitpid(pid, NULL, 0);
-+		} while (waited < 0 && errno == EINTR);
-+	}
-+	errno = saved_errno;
-+	return fd;
-+}
-+
-+static int create_idmapped_tmpfs(void)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+	int fsfd = -1, mntfd = -1, saved_errno, userns_fd = -1;
-+
-+	userns_fd = create_userns_fd();
-+	if (userns_fd < 0)
-+		goto out;
-+
-+	/* A detached tmpfs avoids relying on the host test directory supporting idmaps. */
-+	fsfd = syscall(__NR_fsopen, "tmpfs", FSOPEN_CLOEXEC);
-+	if (fsfd < 0)
-+		goto out;
-+	if (syscall(__NR_fsconfig, fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0))
-+		goto out;
-+
-+	mntfd = syscall(__NR_fsmount, fsfd, FSMOUNT_CLOEXEC, 0);
-+	if (mntfd < 0)
-+		goto out;
-+
-+	attr.userns_fd = userns_fd;
-+	if (syscall(__NR_mount_setattr, mntfd, "", AT_EMPTY_PATH, &attr,
-+		    sizeof(attr))) {
-+		close(mntfd);
-+		mntfd = -1;
-+	}
-+
-+out:
-+	saved_errno = errno;
-+	if (fsfd >= 0)
-+		close(fsfd);
-+	if (userns_fd >= 0)
-+		close(userns_fd);
-+	errno = saved_errno;
-+	return mntfd;
-+}
-+
-+static int exercise_inode_idmap_hooks(int dirfd)
-+{
-+	int fd = -1, ret = -1;
-+
-+	fd = openat(dirfd, "file", O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC,
-+		    0600);
-+	if (!ASSERT_GE(fd, 0, "create"))
-+		goto out;
-+	close(fd);
-+	fd = -1;
-+
-+	if (!ASSERT_OK(mkdirat(dirfd, "dir", 0700), "mkdir"))
-+		goto out;
-+	if (!ASSERT_OK(symlinkat("target", dirfd, "symlink"), "symlink"))
-+		goto out;
-+	if (!ASSERT_OK(linkat(dirfd, "file", dirfd, "link", 0), "link"))
-+		goto out;
-+	if (!ASSERT_OK(mkfifoat(dirfd, "fifo", 0600), "mknod"))
-+		goto out;
-+
-+	ret = 0;
-+out:
-+	if (fd >= 0)
-+		close(fd);
-+	unlinkat(dirfd, "link", 0);
-+	unlinkat(dirfd, "fifo", 0);
-+	unlinkat(dirfd, "symlink", 0);
-+	unlinkat(dirfd, "file", 0);
-+	unlinkat(dirfd, "dir", AT_REMOVEDIR);
-+	return ret;
-+}
-+
-+static int test_lsm_inode_idmap(struct lsm *skel)
-+{
-+	char tmpdir[] = "/var/tmp/test_lsm_idmap.XXXXXX";
-+	__u32 expected = INODE_IDMAP_ALL;
-+	int dirfd = -1, idmapped_dirfd = -1;
-+	int ret = -1;
-+
-+	if (!ASSERT_OK_PTR(mkdtemp(tmpdir), "mkdtemp"))
-+		return -1;
-+
-+	dirfd = open(tmpdir, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-+	if (!ASSERT_GE(dirfd, 0, "open_tmpdir"))
-+		goto out;
-+
-+	idmapped_dirfd = create_idmapped_tmpfs();
-+	if (!ASSERT_GE(idmapped_dirfd, 0, "create_idmapped_tmpfs"))
-+		goto out;
-+
-+	skel->bss->inode_identity_idmap_seen = 0;
-+	skel->bss->inode_idmapped_mount_seen = 0;
-+
-+	if (!ASSERT_OK(exercise_inode_idmap_hooks(dirfd), "identity_idmap"))
-+		goto out;
-+	if (!ASSERT_OK(exercise_inode_idmap_hooks(idmapped_dirfd),
-+		       "idmapped_mount"))
-+		goto out;
-+
-+	if (!ASSERT_EQ(skel->bss->inode_identity_idmap_seen, expected,
-+		       "inode_identity_idmap_seen"))
-+		goto out;
-+	ret = ASSERT_EQ(skel->bss->inode_idmapped_mount_seen, expected,
-+			"inode_idmapped_mount_seen") ? 0 : -1;
-+
-+out:
-+	if (idmapped_dirfd >= 0)
-+		close(idmapped_dirfd);
-+	if (dirfd >= 0)
-+		close(dirfd);
-+	rmdir(tmpdir);
-+	return ret;
-+}
-+
- static int test_lsm(struct lsm *skel)
- {
- 	struct bpf_link *link;
-@@ -53,6 +278,10 @@ static int test_lsm(struct lsm *skel)
- 
- 	skel->bss->monitored_pid = getpid();
- 
-+	err = test_lsm_inode_idmap(skel);
-+	if (!ASSERT_OK(err, "test_lsm_inode_idmap"))
-+		return err;
-+
- 	err = stack_mprotect();
- 	if (!ASSERT_EQ(err, -1, "stack_mprotect") ||
- 	    !ASSERT_EQ(errno, EPERM, "stack_mprotect"))
-@@ -71,6 +300,8 @@ static int test_lsm(struct lsm *skel)
- 	skel->bss->copy_test = 0;
- 	skel->bss->bprm_count = 0;
- 	skel->bss->mprotect_count = 0;
-+	skel->bss->inode_identity_idmap_seen = 0;
-+	skel->bss->inode_idmapped_mount_seen = 0;
- 	return 0;
- }
- 
-diff --git a/tools/testing/selftests/bpf/progs/lsm.c b/tools/testing/selftests/bpf/progs/lsm.c
-index 7de173daf27b..7e32fbddbfad 100644
---- a/tools/testing/selftests/bpf/progs/lsm.c
-+++ b/tools/testing/selftests/bpf/progs/lsm.c
-@@ -84,6 +84,85 @@ char _license[] SEC("license") = "GPL";
- int monitored_pid = 0;
- int mprotect_count = 0;
- int bprm_count = 0;
-+__u32 inode_identity_idmap_seen = 0;
-+__u32 inode_idmapped_mount_seen = 0;
-+
-+enum {
-+	INODE_IDMAP_CREATE	= 1U << 0,
-+	INODE_IDMAP_LINK	= 1U << 1,
-+	INODE_IDMAP_SYMLINK	= 1U << 2,
-+	INODE_IDMAP_MKDIR	= 1U << 3,
-+	INODE_IDMAP_MKNOD	= 1U << 4,
-+	INODE_IDMAP_PERMISSION	= 1U << 5,
-+};
-+
-+static __always_inline bool is_monitored_idmap(struct mnt_idmap *idmap)
-+{
-+	__u32 pid = bpf_get_current_pid_tgid() >> 32;
-+
-+	return monitored_pid == pid && idmap;
-+}
-+
-+static __always_inline bool is_identity_idmap(struct mnt_idmap *idmap)
-+{
-+	return idmap->uid_map.nr_extents == 0 &&
-+	       idmap->gid_map.nr_extents == 0;
-+}
-+
-+static __always_inline int record_inode_idmap(struct mnt_idmap *idmap,
-+					      __u32 hook, int ret)
-+{
-+	if (ret || !is_monitored_idmap(idmap))
-+		return ret;
-+	if (is_identity_idmap(idmap))
-+		inode_identity_idmap_seen |= hook;
-+	else
-+		inode_idmapped_mount_seen |= hook;
-+	return 0;
-+}
-+
-+SEC("lsm/inode_create")
-+int BPF_PROG(test_inode_create, struct mnt_idmap *idmap, struct inode *dir,
-+	     struct dentry *dentry, umode_t mode, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_CREATE, ret);
-+}
-+
-+SEC("lsm/inode_link")
-+int BPF_PROG(test_inode_link, struct mnt_idmap *idmap,
-+	     struct dentry *old_dentry, struct inode *dir,
-+	     struct dentry *new_dentry, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_LINK, ret);
-+}
-+
-+SEC("lsm/inode_symlink")
-+int BPF_PROG(test_inode_symlink, struct mnt_idmap *idmap, struct inode *dir,
-+	     struct dentry *dentry, const char *old_name, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_SYMLINK, ret);
-+}
-+
-+SEC("lsm/inode_mkdir")
-+int BPF_PROG(test_inode_mkdir, struct mnt_idmap *idmap, struct inode *dir,
-+	     struct dentry *dentry, umode_t mode, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_MKDIR, ret);
-+}
-+
-+SEC("lsm/inode_mknod")
-+int BPF_PROG(test_inode_mknod, struct mnt_idmap *idmap, struct inode *dir,
-+	     struct dentry *dentry, umode_t mode, dev_t dev, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_MKNOD, ret);
-+}
-+
-+SEC("lsm/inode_permission")
-+int BPF_PROG(test_inode_permission, struct mnt_idmap *idmap,
-+	     struct inode *inode, int mask, int ret)
-+{
-+	return record_inode_idmap(idmap, INODE_IDMAP_PERMISSION, ret);
-+}
- 
- SEC("lsm/file_mprotect")
- int BPF_PROG(test_int_hook, struct vm_area_struct *vma,
-
--- 
-2.54.0
-
-
+Before any filesystem people get funny ideas about closing the O_DIRECT
+race, you can't do that because you'll deadlock on doing I/O to the same
+file that you've mmaped.
