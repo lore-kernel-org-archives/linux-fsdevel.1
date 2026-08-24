@@ -1,65 +1,65 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE981E5B9F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D79342DA4D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 14:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580999; cv=none; b=mYCPYAUj+wQXRcPY017dibsHQ4XkStApRhBhGvJzxvLps8dfCBtpF/nT/F8N2xddSbxUkohe4R5rKJhy6GoVbvofZtcFFGCpUfNx4AicpXKG/Ry/FqghMNGQQYx68vYROKf0xrQ63iE9F0wKGi0mw/AralXeWg01PLHuKcg+gJM=
+	t=1787581112; cv=none; b=W4fb/5yjdqO5KGP0joDon1o9K5ZFTZUl1QFGTs7atswC64IsLWAKmDJPLe9DuBiU1vBxQPTW3e5mYQgLWBS+EXup1faxt4M0Wq++gJmn3/8HoTGeE39otqCvRfARbvy/N4V8iFuU8SH0ftnZqc4oPk4XqpXP5xR+BeUfgdWsfhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580999; c=relaxed/simple;
-	bh=QniatQlrXg10kLiLZvm0JWLrvxMekaoyIeWxGsqqyx4=;
+	s=arc-20240116; t=1787581112; c=relaxed/simple;
+	bh=NXqB4cq2up2lZFmd8LXQWlaLoQrbIuSlvHGTMlBcpMo=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VZKS21yTYHgCQ8f8iJ1mrIj0UJlsTurSujS4oTpLUOlHDET/vPS9eKl26uePnzSVJ2phTnZGSIINN0HgTm4SsgCtOvhsADB2ZovI7HTCcgW1xHzUOojA3tzVOJ+wx49TLdL260Q4eXH+qQC4Bnt/YJVa6ai23QgH75HD56GSuG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HZdUIPxT; arc=none smtp.client-ip=209.85.128.176
+	 MIME-Version:Content-Type; b=r6Eb8dsjdL9hnfdFZjpglPmThwf73/I6Np58BZSKh+doWAM79cyr8nZihAHpGJ39ZtwERmy3RUCUlCleJekf+Y7t2G71nfsZXlj3clTWtQH4nNOWIRP5+Smx8FqoCoMX1+n+LbuTT1d64MAP4KFDvnWpNJzouh3zVgp/r1alALA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iEWFyp2f; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HZdUIPxT"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7dbcb505578so40674657b3.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:16:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iEWFyp2f"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8111c0c7561so52248637b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 07:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787580997; x=1788185797; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787581109; x=1788185909; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vRQTGUT/r/6sjQRYrNEkhtszeIpWm9eC3zYKRwiMzSE=;
-        b=HZdUIPxTkwxFQa4RpZvCl6gyLZYQw97I5pgVbLbpwnIz9HUpD78bFxBcdtU2Ou7v/a
-         inh9csPo7IuQeVlDn9VnkQe1hsxTf19J0cz3fYhQinK4rkS6aXHMi4GZo9co5DeM7lDU
-         19HSW/qV/duNgmO3lz5+xtDnTR1t8WLBcAEklnG3q/ujAsJnhHuWRbIkgNF8njMbQ+kv
-         /3N8u1a1otYGBD8t7LnYA2sYGWhDUJKE9poajleKk0YUgT8isZH5R8wZUR8KzxWglbGO
-         dvDtg1S/Z75k/M/PZY922QTXl1FomDedf/vp57R8ltaKEz+Hadzi5SEuZmyP9MZePq//
-         AEbw==
+        bh=p1RKlgv7gfcdgd0R95YOF5t38k1glOotR90LR4kTqgc=;
+        b=iEWFyp2fObpGuMxuC3AxmU+tN6T5R0BSy85FKMQOYOj0zD6eb+5TZ4Gy9kkRrUDX7l
+         sBfXgKGoB5BlSlq9Vy+xXpe8N12y8g65QcgEfOhdRO+FxdanYmLBwx4XdJJmTcPmDS/Q
+         k8oHz8e4apoTLoFfrpoYRsKudobrDwWUEBbYKJW2o2P4WxYhb0UE1yWHQnxb4DbdB4Z1
+         MQf0SEv65ZzjkonEMzDdolDCxFGDabCQZg1WG6z5hXp5qimSXeSTii8THmYsmArGmCxI
+         oqSgx3CpTY7Ls0wUnBdq1CQ9s8ZZbJlvOZ9KQbaQJDUQmshkCWvEPZoNw8thg2V5cBJg
+         /TVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787580997; x=1788185797;
+        d=1e100.net; s=20251104; t=1787581109; x=1788185909;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vRQTGUT/r/6sjQRYrNEkhtszeIpWm9eC3zYKRwiMzSE=;
-        b=YY9AY/TVMqct35NN541oXNLwsTJFU10ZNI3ckcNYpYe+LvE0w0rAM3A3zGSeRnV1Uo
-         ODw/uKBUUdN8sqd7f/bxAPnQWLawxjxAeohqP47RjceZu41u/hnDCT9a+jZLQYcESuGy
-         2sQenFQQO/eypvhCDhLdNdhZ+4fS8vyKRpA8CER+quV+QjHwWLh+nXDb4lPCAoL9BaVT
-         KYNsL1Up4DLO43h8ResysQ4BvGfpk7JzWxxhwr9cXLM8+YMxcHEZAJLDOA2YyavaPmBX
-         8tXuPZ80n4+F+cKY79UGdQ5uv9s7cO5fkAGnPAAcmYCWPcQchuA9Mv/THQQ9okqxrGvC
-         us0A==
-X-Forwarded-Encrypted: i=1; AHgh+RorGjPS9qsgkp4ps4hUv3LwAidR9ZvS6GMb4B0FIMyF4Ao1lhOYmhsKdEwOASdU7BrggY4s2UFefzrhnQa7@vger.kernel.org
-X-Gm-Message-State: AFuF++nlJNwpCAfqHI9hIH4weezmdB0Qu/DK9rxFIP5MDAuBZ3uSX+SZ
-	UEBRQXGS+lSSDjV2cR8Cf/G/aa8MSsBBUpNnphXjcL1flw7HpoiOqpPr5QJh2o2BxA==
-X-Gm-Gg: AR+sD10vKja0yVenS1Eeg2MFzPMfoXnQbuFQtLukNQNQ1ncAN4A7bAGUMrO0K8JdVgO
-	YF/RF/R1X576JGX9/qRJMMiyhIpTU7ltIVQSqm+E3fGrk5WkRpatKTudyyiu+LgTypdLKxoUJAl
-	jjW1J+kUSNzHcWtpi8qaset83NNSQpkSY89WaaZz+wWZ+S4oE10/umK8Lx8dyX8CZLHy2iq9Qfd
-	dYWEH53mYYRTKJyj/vR97w2Cq2Zqb45euT4ZmDoo4B7NGI0NY+/sSFAUhcKk+/v9fZ3srmjGtZ8
-	2pUY7Ai29kIasVpr2e4Na7K0hZPUVugOCHDPnybL/hMu053SEg1PHoX4Vx63Pn+sYk7Moa8NmIh
-	y7v9OHNSs5dhppz2/O1UP41HiysfUwixIfXM2rTgx/9gryGbddnCFPbHilJ3x5D8UD5WkghJLFW
-	xRtN5yJtpS0MPYPZniSighTtZ68+0Ykl1n/nOv0B8O4ucBPFqoROGHaBBgNSPm7dyEu7RX/gRoV
-	2Jg8WVcJAFhAaUW6D239Wiu+PIA8dI/xISATNyebUpAc2GN
-X-Received: by 2002:a05:690c:568a:20b0:844:9f61:92d9 with SMTP id 00721157ae682-849f67acaa8mr75561237b3.17.1787580996861;
-        Mon, 24 Aug 2026 07:16:36 -0700 (PDT)
+        bh=p1RKlgv7gfcdgd0R95YOF5t38k1glOotR90LR4kTqgc=;
+        b=gyliwhVBg3pQJ1tVZk1UZfGZgi/HbcqMD4e9WJ2pny5v/B6a6CPYDQg/TAop1m6xDD
+         lQRaKPGRrIhAomuJfI/AMOzMilWphT/eQ70UnsFzM+IraejjqnWwo6rISr8tev1QKIBJ
+         qtwAYtE0DgmYycPHaWSBi1cqc1CeuZQ2WofFHK2/LAmgvwIpdmzipe3MuN2EIyS/i6a8
+         5KWy6orb8AulGMB05XbWNnr+W5eqNNFu45D8YXuD/MhCtej2tnYxsmSGn6Fn7fsN8AnE
+         Xj2UBBs2uT6AZ8F9qEc51RwNcP+6VOOS2HULhlajk8N+HTWehYwzAi18UmWPzffcmsij
+         Sqsg==
+X-Forwarded-Encrypted: i=1; AHgh+RrEqzi+w2gMHXkOxE/S73OYLTDHMPvUnsmnomT/6PUwNP7Eq3Jac+CT72LTwBy5965LRYOyKjjBuyPNm8/I@vger.kernel.org
+X-Gm-Message-State: AFuF++ngsrLYs//j8E5JCKEGdX6svsDBU35iHyMSPsvAxsRCoX3zL1FW
+	Ur5cVRvdcmPaC2XnELrz8PCmQwCYu+83F3Snb1DSIECPdbUuq8aMHwbf8MEN6gb8Kg==
+X-Gm-Gg: AR+sD11MPYYScFX45fdqc9N36j6Q8yq5Tilf8wIyMNMpoPL2AOXZjF0WlZZZJvm0o/y
+	uvW/+epkIn8fM3Y8FY2hnzR+QjGEeiIqTOwSCKAlUimXJxZXfw68aadxHw1IGSmhH8rqnb1HyUH
+	SzYOty935VmOVv/8yVLPW1iXVsMPF+fZdL9wJTD/RajyQ4QOiQYr7ohDN8HIIxoFubTuLyfeY3U
+	SgOTLTM9s7dduJwGhgyJI7ObkTTMzKxQHm5K54wrSO3M3qb1GUWXwvVmeqdXUHaCwi9i8nebL09
+	tBsA1khyyxTYPRYyJpVwMiaT4ZAVWNvC8Xt+3OZcBjn6Ee57s345f4gt3v2oEF+BwawFheiIfOc
+	yTTQGHFFBS/UdpA5KuPpNg+Bu6M9/dIHbyQuHAqMypYwq/iMB9elx1HAl1l+pqNuQ96XA0Vy+Px
+	F/+ww5tBG3XgTvXCqbCrtzUoi36xGreuKKNQ1mE2w+GKHs87bxJ4ZKbuHdVwTuTHiQeD1AlFSWP
+	/hYLKm1bASUBPmCRI2zj9CGWuBPO8BolmtHm2F5R2YesSuA
+X-Received: by 2002:a05:690c:e0d5:10b0:821:1013:b420 with SMTP id 00721157ae682-849f090e309mr91327927b3.2.1787581108999;
+        Mon, 24 Aug 2026 07:18:28 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-851e1419e0bsm11879757b3.26.2026.08.24.07.16.32
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8542a633964sm1660667b3.37.2026.08.24.07.18.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:16:35 -0700 (PDT)
-Date: Mon, 24 Aug 2026 07:16:30 -0700 (PDT)
+        Mon, 24 Aug 2026 07:18:28 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:18:24 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 10/25] mm/fbatch: remove several uses of
- mlock_drain_local()
+Subject: [PATCH 11/25] mm/fbatch: remove migration's PAGE_WAS_MLOCKED
+ lru_add_drain()
 In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-Message-ID: <b0a8293a-3a4d-49ea-f902-e6a2a20e5da6@google.com>
+Message-ID: <6b1ccb51-be6d-5f1b-147c-771e6adaf55c@google.com>
 References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,64 +102,52 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-Remove several uses of mlock_drain_local(): they were workarounds for
-when that sequence of operations tended to leave folios in mlock_fbatch
-with debilitating raised refcount (and no good if the task changed CPU).
+A welcome side-effect of mm/mlock.c's mod_mlock_count() succeeding on
+folios on the per-cpu lru_add fbatch, is that migrate_folio_move() no
+longer has to lru_add_drain() before remove_migration_ptes() restores
+a PAGE_WAS_MLOCKED mlock_count: so remove PAGE_WAS_MLOCKED altogether.
+
+Re the "We would like to do something similar for the old page, when
+unsuccessful" comment above it: that may be easier now, but involve
+some rearrangement: not researched, so just leave the comment as is.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- mm/huge_memory.c | 2 --
- mm/migrate.c     | 2 --
- mm/rmap.c        | 4 ----
- 3 files changed, 8 deletions(-)
+ mm/migrate.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index c7bd99592195..df6bf69a066b 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3568,8 +3568,6 @@ static bool __discard_anon_folio_pmd_locked(struct vm_area_struct *vma,
- 	folio_remove_rmap_pmd(folio, pmd_page(orig_pmd), vma);
- 	zap_deposited_table(mm, pmdp);
- 	add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
--	if (vma->vm_flags & VM_LOCKED)
--		mlock_drain_local();
- 	folio_put(folio);
- 
- 	return true;
 diff --git a/mm/migrate.c b/mm/migrate.c
-index 8aaafcea7bc1..6b71b2415d00 100644
+index 6b71b2415d00..534908a0839a 100644
 --- a/mm/migrate.c
 +++ b/mm/migrate.c
-@@ -448,8 +448,6 @@ static bool remove_migration_pte(struct folio *folio,
- 				folio_add_file_rmap_pte(folio, new, vma);
- 			set_pte_at(vma->vm_mm, pvmw.address, pvmw.pte, pte);
- 		}
--		if (READ_ONCE(vma->vm_flags) & VM_LOCKED)
--			mlock_drain_local();
+@@ -1148,8 +1148,7 @@ static int move_to_new_folio(struct folio *dst, struct folio *src,
+  */
+ enum {
+ 	FOLIO_WAS_MAPPED = BIT(0),
+-	FOLIO_WAS_MLOCKED = BIT(1),
+-	FOLIO_OLD_STATES = FOLIO_WAS_MAPPED | FOLIO_WAS_MLOCKED,
++	FOLIO_OLD_STATES = FOLIO_WAS_MAPPED,
+ };
  
- 		trace_remove_migration_pte(pvmw.address, pte_val(pte),
- 					   compound_order(new));
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 1f72d279ba68..e76823ec4d5e 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2390,8 +2390,6 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 		}
- finish_unmap:
- 		folio_remove_rmap_ptes(folio, page, nr_pages, vma);
--		if (vma->vm_flags & VM_LOCKED)
--			mlock_drain_local();
- 		folio_put_refs(folio, nr_pages);
- 
- 		/*
-@@ -2765,8 +2763,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
- 			hugetlb_remove_rmap(folio);
- 		else
- 			folio_remove_rmap_pte(folio, subpage, vma);
--		if (vma->vm_flags & VM_LOCKED)
--			mlock_drain_local();
- 		folio_put(folio);
+ static void __migrate_folio_record(struct folio *dst,
+@@ -1259,8 +1258,6 @@ static int migrate_folio_unmap(new_folio_t get_new_folio,
+ 		folio_lock(src);
  	}
+ 	locked = true;
+-	if (folio_test_mlocked(src))
+-		old_folio_state |= FOLIO_WAS_MLOCKED;
+ 
+ 	if (folio_test_writeback(src)) {
+ 		/*
+@@ -1411,9 +1408,6 @@ static int migrate_folio_move(free_folio_t put_new_folio, unsigned long private,
+ 	 * isolated from the unevictable LRU: but this case is the easiest.
+ 	 */
+ 	folio_add_lru(dst);
+-	if (old_folio_state & FOLIO_WAS_MLOCKED)
+-		lru_add_drain();
+-
+ 	if (old_folio_state & FOLIO_WAS_MAPPED)
+ 		remove_migration_ptes(src, dst, 0);
  
 -- 
 2.51.0
