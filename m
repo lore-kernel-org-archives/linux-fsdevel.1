@@ -1,103 +1,190 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80096254AFF;
-	Tue, 25 Aug 2026 05:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F381A23A6;
+	Tue, 25 Aug 2026 05:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787636869; cv=none; b=j/yQJUPqiyihm338PR+12RsTOW/5ioqtEwKsMS/uBDyxnpNYHUhnCF7yUMlzzbREpahA6AnufYaXnbKQUpvv87/s5oI7FLNMQGpd6jMhdoNokHE2sHRMplAH5FM/pm4vf4OFtotBN0aEPAC252YC399XOkOZA+sP055aAP6vtyA=
+	t=1787636922; cv=none; b=o2YXXWNEFSvMoDE7q0YAhGviucMcC7oGHw2QssyC3npY+mz9ciSK7NXVcaenpMXsir135Aw3Thmbt0EqRuL0ARB51GNHUNRfvdAKFIHzO8+Ege05Z8HaCjfUAWDPJukTq/zB4/ZUqAHNyRXhwsh4hE6k4MnlvJHwcCMnRCqCoGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787636869; c=relaxed/simple;
-	bh=7TyKq0Pz34plG+S9NBtxDyIPK3EjqiAo12Jnj5rgtDs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P0XuJD77abzalz+nbZUyoa5s3OdCyVifemxQ7d/Z37qV18vnyZeFtNWKY0EIiArcrmblDAg5JBS+zUOjPsZtVtdCeS3r28LnJGfOBeF9RD39FpX+0Xv9QT9sUv/ySIhQ5K+j56JPIGq/dj9SCN3jKO2qrK7lkIGkcF/G0yKNDow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=TetTreyV; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1787636922; c=relaxed/simple;
+	bh=VZSugPprpc+DoEFXtTGM/iet3OY75GM034V69uCgtus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QDSyQFz94/csPNqd3Pf9XPp1MONRT4HEr3HuLQ5j0qt/Vy3a9/qH5IEBbmytRv7f7PSXuqlzK5KCJ147iOdYyV1asez0H7x4dackjyB/9LVvzyEwnzmz5FaOn3glm9UQekYnDp1XLsOgZU3rJ9Wukccs9GAZoipeMPiuyTQxDoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S2rGP7x2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="TetTreyV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1787636841;
-	bh=/+4S3sOALGFjRBbezfbkmsBdIDkyWibUdwQ2coYo/oI=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=TetTreyVGPzdtwDpOhMn+woPBHGXi1HSXV8Ns3ldwPdPHRNAaphFwI7090/zOlONM
-	 fK9Z4xtXCoa7mXg0v4wF8O0S5lqHW69Bh49GftxybQoSRc68EKHKustov/pkQEG1Wj
-	 uwah8+9NPt9wykyOBg36IOwxaJWGem8ha4Y//g6c=
-X-QQ-mid: zesmtpsz3t1787636824teded12e0
-X-QQ-Originating-IP: 7wmUgRTrE7D1R/UwgJnlnBMT9+GHE2U2lSCnqd4ZNhk=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 25 Aug 2026 13:47:02 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11704938617123575298
-EX-QQ-RecipientCnt: 5
-From: Wentao Guan <guanwentao@uniontech.com>
-To: linkinjeon@kernel.org
-Cc: hyc.lee@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Guan <guanwentao@uniontech.com>
-Subject: [PATCH] ntfs: treat any nonzero dio zero-range return as an error
-Date: Tue, 25 Aug 2026 13:46:59 +0800
-Message-Id: <20260825054659.3967694-1-guanwentao@uniontech.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S2rGP7x2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HFDnRsAw55zolKK+KEfWLFf2Cew1IzCwKp3SV1h9ny0=; b=S2rGP7x2afrlPeM7TeFX/GgDAb
+	J/pPXDGI4vv42X7cRxn9b9UqXR+bf/fFu4/5++cnanKpailmvj5ESbtZA1tP2zEJGE/mTMQDo4Xim
+	EyFsIZ1wbBmDEliMGytpCYBqsHfH8KnqbbuyAr19ILsL+Uy9capB9//lHN36nD3sQ7Zp9zu//EuP+
+	Q/MFnC0zZ9ahzeM0HvFvNUYnt0fhEPKdoL0JQmMnjZkYCAa84HAU91hh1IWSTa07+H3riOgio5ULW
+	ssGReOnlnyEypSMOEBn8GkDtukvmKss6QrAc9vgC+uosveJaDhkMyWFQFJ3K27qa4yjs5f5Z+H7Qz
+	z2c+nhXw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyk1W-00000000CeW-0gyC;
+	Tue, 25 Aug 2026 05:48:38 +0000
+Date: Mon, 24 Aug 2026 22:48:38 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Wenjie Qi <qwjhust@gmail.com>
+Cc: jaegeuk@kernel.org, chao@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, qiwenjie@xiaomi.com,
+	Jens Axboe <axboe@kernel.dk>, Tal Zussman <tz2294@columbia.edu>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] f2fs: complete dropbehind write bios in safe task
+ context
+Message-ID: <ao0stlR57iUgrY2Y@infradead.org>
+References: <20260820071438.695893-1-qiwenjie@xiaomi.com>
+ <cover.1787564706.git.qiwenjie@xiaomi.com>
+ <ef06bf67db77a009d5fc2932069c2b3366d972c4.1787564706.git.qiwenjie@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MX+1SEN3H+wAYS2t+IWsgNe2LAyuURZC5E2YZJVKuMiF0y2OG2ojTqrc
-	prd+zxc3msbQ9Vm68eu1478R7K80SreHt7XrQFSLKSWjRrY8uJjv68fqntcVsA6ZM3fgAQW
-	KzrkBKvk9QsgaUWBecS7xce5B14in+1/LiIWfFh9n7mk+bt+qK18mpMcTlrASemsCmL9RH3
-	EfVxwvGWJmmgj2wh8W1G8T8MQIoiMI552mYuY7vVJIOpZ9qgiPH8xOiaWvk7VqzzShBDg7W
-	8gyeNr7cGqdZYWjBbnyts6fK/s2s2SZQp5oSdrm9Ws6utddb34muW3FfDE7JA3vk/Wun/lG
-	bx0ogJ9wkEWaarSNukRooTGO+TxdoJTH2oa98TyYTjmfjoEuys3wU6bL5R7UR6nLKTqAu7q
-	UsqgFw9fLcBYW9gB5hs39yjml4xZJTlN9z9MEOip6CSGooEX6E4U/Z+B0SPwGJNxeplYJ1V
-	uE7sHPQZDX8jXF7m9NCvOQspNEfmV6CtlUV08BSDk3hoI8ETDpPrMSpG7psPOeN3y1ADZ8w
-	FtmA5fgHioghxIuJcmdb5yeYn00PyBxy8lY6tcnZ7I2D8X0Mk+4QD/Y1wWEDa2RHj6qu0bI
-	xL531N/dpXLH+kiOfhV00ETQrCUexuIHXubkmPnUlzfkZdcBq4QcjWQLqAESZFPIIhs/tFB
-	/PLngYJ2USzTqNwsUAcJixgjGvF1fMHFu/z1cYc/Kj4m9gH2M3PSjYfSrsS7OpsGjDKl4Vb
-	o41X01ofZrTg1iJ1xAAfIa7MxLCCcFcnKo5JBylWCAAv0oaxg0CHb5b8oba25aLwpA5kyq2
-	TI+GdR0tXorTB17sZg8kckIXmrkZOSmbVuS+f7tQEgWmbJIz+WWGDQxnRTIHKSikE4A7aNg
-	OI6sWeZJD29E+e+K6y1Hr8icAvyMmjudRfva1t3wZd6C+SK5j/vWtXqFIrV22Jk3ET55ZAF
-	ZSqfa8WDIRmD0YCNxUv5bLcIMtna55yxu3Ek7f0f5RrTaJH/mF+2aiz9olGQMjz5ql+1lJu
-	qvO7ISTYVkdpRBdm6mRlj1/GKvbn6OmQLTYn/UxPvweFQRB0S/QBXCI4UN/84=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef06bf67db77a009d5fc2932069c2b3366d972c4.1787564706.git.qiwenjie@xiaomi.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-ntfs_dio_zero_range() returns either 0 or a negative errno from
-blkdev_issue_zeroout(); it never returns a positive value.  The
-zeroing failure check in ntfs_attr_fallocate() therefore never fired,
-so a failed zeroing operation was silently ignored: the loop kept
-going, the newly allocated clusters were folded into initialized_size
-and the write could succeed leaving stale on-disk data.
+On Mon, Aug 24, 2026 at 06:33:46PM +0800, Wenjie Qi wrote:
+> Buffered RWF_DONTCACHE writes invalidate dropbehind folios from writeback
+> completion. Keep normal and dropbehind folios in separate write bios, and
+> defer dropbehind bios to sbi->wq unless completion runs in preemptible task
+> context.
+> 
+> Use an F2FS-local context check for this decision. Task context alone is
+> not sufficient: preemption may still be disabled, or completion may run in
+> a preemptible RCU read-side critical section.
+> 
+> Keep the existing large-ATC deferral unchanged.
 
-Treat any nonzero return as an error and abort the allocation.
+Please reuse all the helpers added in common code in 7.3 for deferring
+bios and tsting if that that is neeeded instead of badly reinventing
+the logic.  It also is really helpful to Cc people involved with the
+code and the relevant mailing lists.
 
-Fixes: 495e90fa33482 ("ntfs: update attrib operations")
-Assisted-by: atomcode:deepseek-v4-flash
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
----
- fs/ntfs/attrib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index 58f32aac5f614..b50413a5d982f 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -5666,7 +5666,7 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff_t start, loff_t byte_len, bo
- 								  lcn << vol->cluster_size_bits,
- 								  alloc_cnt <<
- 								  vol->cluster_size_bits);
--					if (err > 0)
-+					if (err)
- 						goto out;
- 				}
- 
--- 
-2.30.2
-
+> 
+> Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
+> ---
+>  fs/f2fs/data.c | 50 ++++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 42 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+> index 6ae0eb37d20..774a3e2d8e3 100644
+> --- a/fs/f2fs/data.c
+> +++ b/fs/f2fs/data.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/fiemap.h>
+>  #include <linux/iomap.h>
+>  #include <linux/fserror.h>
+> +#include <linux/rcupdate.h>
+>  
+>  #include "f2fs.h"
+>  #include "node.h"
+> @@ -43,9 +44,29 @@ struct f2fs_folio_state {
+>  
+>  struct f2fs_bio {
+>  	struct work_struct work;
+> +	bool dropbehind;
+>  	struct bio bio;
+>  };
+>  
+> +static struct f2fs_bio *to_f2fs_bio(struct bio *bio)
+> +{
+> +	return container_of(bio, struct f2fs_bio, bio);
+> +}
+> +
+> +/* Keep in sync with the proposed block-layer bio_in_atomic(). */
+> +static bool f2fs_bio_in_atomic(void)
+> +{
+> +#ifdef CONFIG_PREEMPTION
+> +	if (rcu_preempt_depth())
+> +		return true;
+> +#endif
+> +#ifndef CONFIG_PREEMPT_COUNT
+> +	return true;
+> +#else
+> +	return !preemptible();
+> +#endif
+> +}
+> +
+>  #define	F2FS_BIO_POOL_SIZE	NR_CURSEG_TYPE
+>  
+>  int __init f2fs_init_bioset(void)
+> @@ -426,12 +447,13 @@ static void f2fs_write_end_io(struct bio *bio)
+>  
+>  	sbi = bio->bi_private;
+>  
+> -	if (in_atomic() && bio->bi_iter.bi_size > sbi->max_atc_write_bio_size) {
+> -		struct work_struct *w;
+> +	if ((to_f2fs_bio(bio)->dropbehind && f2fs_bio_in_atomic()) ||
+> +	    (in_atomic() &&
+> +	     bio->bi_iter.bi_size > sbi->max_atc_write_bio_size)) {
+> +		struct work_struct *work = &to_f2fs_bio(bio)->work;
+>  
+> -		w = &container_of(bio, struct f2fs_bio, bio)->work;
+> -		INIT_WORK(w, f2fs_write_end_io_work);
+> -		queue_work(sbi->wq, w);
+> +		INIT_WORK(work, f2fs_write_end_io_work);
+> +		queue_work(sbi->wq, work);
+>  	} else {
+>  		f2fs_write_end_bio(bio);
+>  	}
+> @@ -530,6 +552,8 @@ static struct bio *__bio_alloc(struct f2fs_io_info *fio, int npages)
+>  	bio = bio_alloc_bioset(bdev, npages,
+>  				fio->op | fio->op_flags | f2fs_io_flags(fio),
+>  				GFP_NOIO, &f2fs_bioset);
+> +	to_f2fs_bio(bio)->dropbehind =
+> +			!is_read_io(fio->op) && folio_test_dropbehind(fio->folio);
+>  	bio->bi_iter.bi_sector = sector;
+>  	if (is_read_io(fio->op)) {
+>  		bio->bi_end_io = f2fs_read_end_io;
+> @@ -825,6 +849,13 @@ static bool page_is_mergeable(struct f2fs_sb_info *sbi, struct bio *bio,
+>  	return bio->bi_bdev == f2fs_target_device(sbi, cur_blkaddr, NULL);
+>  }
+>  
+> +static bool f2fs_bio_dropbehind_mergeable(struct bio *bio,
+> +					  struct f2fs_io_info *fio)
+> +{
+> +	return to_f2fs_bio(bio)->dropbehind ==
+> +		folio_test_dropbehind(fio->folio);
+> +}
+> +
+>  static bool io_type_is_mergeable(struct f2fs_bio_info *io,
+>  						struct f2fs_io_info *fio)
+>  {
+> @@ -1017,8 +1048,10 @@ int f2fs_merge_page_bio(struct f2fs_io_info *fio)
+>  
+>  	trace_f2fs_submit_folio_bio(data_folio, fio);
+>  
+> -	if (bio && !page_is_mergeable(fio->sbi, bio, *fio->last_block,
+> -						fio->new_blkaddr))
+> +	if (bio &&
+> +	    (!page_is_mergeable(fio->sbi, bio, *fio->last_block,
+> +				fio->new_blkaddr) ||
+> +	     !f2fs_bio_dropbehind_mergeable(bio, fio)))
+>  		f2fs_submit_merged_ipu_write(fio->sbi, &bio, NULL);
+>  alloc_new:
+>  	if (!bio) {
+> @@ -1118,7 +1151,8 @@ void f2fs_submit_page_write(struct f2fs_io_info *fio)
+>  	    (!io_is_mergeable(sbi, io->bio, io, fio, io->last_block_in_bio,
+>  			      fio->new_blkaddr) ||
+>  	     !f2fs_crypt_mergeable_bio(io->bio, fio_inode(fio),
+> -				bio_folio->index, fio)))
+> +				bio_folio->index, fio) ||
+> +	     !f2fs_bio_dropbehind_mergeable(io->bio, fio)))
+>  		__submit_merged_bio(io);
+>  alloc_new:
+>  	if (io->bio == NULL) {
+> -- 
+> 2.43.0
+> 
+---end quoted text---
