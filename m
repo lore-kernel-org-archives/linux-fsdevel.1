@@ -1,188 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F9C3DDAF4;
-	Tue, 25 Aug 2026 08:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762A93DAAA7;
+	Tue, 25 Aug 2026 08:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787646368; cv=none; b=KfDHwH8apNe9yzKRxAO1AjNEQOgsPGCGHCKOPABGgc2ITw/MTfi54QUIa4OwgnaRSi/O0QSiu87lsW0kXteedE8Zdi6r+ApxpnrY022IwpbxGj6CX4CTx8a4DrP3eM/dHV9wa4JT6nKsWyXxo+x0djc7IRCcAG6bglhqYIACcFQ=
+	t=1787646563; cv=none; b=b7dsZmOoZtfo/bwqaQ6hFYHjLNArolM3IEKqKuoi306Qg2am3uccWugNhohfmYsoJ2z9+ay8s2mT9zviJdbQ9MQUCEFQmxWlEiGKfN5I1HPPR91EYc5aqMx7a4alPr0YdZrvJ4jeRINkJ5GS3tiNkTwidGYEu0KdIEZdzuA1j0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787646368; c=relaxed/simple;
-	bh=jq0/BN5fBNh7s2ImmzclgEWLpFxzqbJ30gpyp4NPnSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mq7DMPYOoAF7JoFIcCUosMwW8u73RghbNbix107MWtHs8kqHW/fqfKfRy9vKcB2QsI/ik6qbaPpoQMTyb/4D+7BbkAHfcthWTsPFLBaTs/1efAVPSHp/gRH7MlrLc+9hmvXOulXmB8Qd3iTu0InXHvY7DLbM+0wqEGbTo+0ndCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=us4Z6weh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6YnH89Py; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xWsSSuj5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nG04rm6S; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1787646563; c=relaxed/simple;
+	bh=PUwz0rcB/GEzqbhWjChtMMjdkhpEOjvbDUv94lR9jDM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=es1xo5cwKxnl7qJj5yJ4sDRHVEfO7YBGEEXHineePrI2SjSP8Iw0PiQr3tUWnjjzVT33PAnOFevpBnSfBEg7z4JlL8yQ99IlTgB+YMMeHkL2Cy7ipPyY6Z1WVj8s8lvW9B5HHIn7gaQOgAhZmJ4rXGehaS6ZpIpAmFtG+U1TIDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=hny1BBSZ; arc=none smtp.client-ip=54.206.34.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="us4Z6weh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6YnH89Py";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xWsSSuj5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nG04rm6S"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BE3D1F769;
-	Tue, 25 Aug 2026 08:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O1kJ796bUabjdL5phaBza1F1D/Go+uEZ00Mj5JL+fNM=;
-	b=us4Z6wehV1zJOnbgd+wLk9dBc+b+Lhebd9tctl1a2i+5C6CyWPxBUWszlO2YAgz2nDFbZE
-	G8CeCsqerh5u5vDwtMKc1LS3COE0W1yPONHrVmq6CY5MFSbG4Z/j/Bv+i7Si0LU3pPh0PI
-	4jQqwV8n11YnnzMC6lmOWXBnA3yW4Cc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646360;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O1kJ796bUabjdL5phaBza1F1D/Go+uEZ00Mj5JL+fNM=;
-	b=6YnH89PyKzHmLHbEeuuzJ7xzmi/U+DZXYKVdLuHwXpY6O+Z2kXZfZkhKeB1+QH4lKD6pVv
-	FlYvKSNgMy1h5yDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xWsSSuj5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nG04rm6S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O1kJ796bUabjdL5phaBza1F1D/Go+uEZ00Mj5JL+fNM=;
-	b=xWsSSuj52XuRC9BXOjAbr92F5naYxlTePRPxt5kOvq4/soZrDGT2WWdmMVenPCjY3rdLJx
-	DZXPYQCqbsCU8K5h/57YnVVNLKCbBo5LbuP2Lr3XBwMC7el0J/PtUEsCx+rVCvEKsMF5MP
-	T/W95s2v1+eJGjsH6RRSoSsVD+gBcIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646356;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O1kJ796bUabjdL5phaBza1F1D/Go+uEZ00Mj5JL+fNM=;
-	b=nG04rm6SXjrdYR3jrQs8AQX1hxMpXe0h2YmFm8+pQxihuqd+rNZIXM4h0kS3OXUssyBBTZ
-	RKh24vuJnrhUWUBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA8CC13331;
-	Tue, 25 Aug 2026 08:25:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hBxAJpNRjWoYDAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 25 Aug 2026 08:25:55 +0000
-Date: Tue, 25 Aug 2026 09:25:53 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jann Horn <jannh@google.com>, 
-	David Howells <dhowells@redhat.com>, John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>, 
-	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-xfs@vger.kernel.org
-Subject: Re: Removing ->dirty_folio
-Message-ID: <ao1Lo6TKhPcqV42B@pedro-suse>
-References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="hny1BBSZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1787646533;
+	bh=fyyCd2QK4767vB8nvv96/0lxDJB4hf/PZ9OLH+y8J6A=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=hny1BBSZVPyzWpJr9NNpkpMQXRsMDv69yceZ1pUpepKW/Ti/IzbJwTKxrIKL8u8NY
+	 0ZzSDO6zh+pVLcsMesNlcxYYJZ/r8Jb797ENFZz9jC+GPwcw2l1tXVj4tW+XjGqgIZ
+	 gKg+j3FmrT9FRR7iMso1U4LuU9XZgu1G57DnbPRs=
+X-QQ-mid: esmtpgz13t1787646514tcb5ca6ca
+X-QQ-Originating-IP: LQwiSZo/vU7WHZqK6P1hPMrkbZwJQsKcsoduAZv3dSw=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 25 Aug 2026 16:28:32 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1693483800294911836
+EX-QQ-RecipientCnt: 5
+From: Wentao Guan <guanwentao@uniontech.com>
+To: guanwentao@uniontech.com
+Cc: hyc.lee@gmail.com,
+	linkinjeon@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ntfs: treat any nonzero dio zero-range return as an error
+Date: Tue, 25 Aug 2026 16:28:32 +0800
+Message-Id: <20260825082832.4009891-1-guanwentao@uniontech.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20260825054659.3967694-1-guanwentao@uniontech.com>
+References: <20260825054659.3967694-1-guanwentao@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aoyWln-Gt-yvZQkE@casper.infradead.org>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 8BE3D1F769
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: McJfg7Aee/FZrsE4JnIV5JTw/+72crc3TkhJbr/CcZ8ThM1SPBdm2nQg
+	a/95P7+Sxcyj5bgWRGCX792XemHgm1b6ycpq/XmTAGU0A8I9kqQqRec5O0aUyCzYIPFc8x0
+	XHh/izCRDSxGx0j0EMxNDEUwKxrtKllsn2WgF14VULYWf1Calg35ik1YqrFJnzE8gu2cCwa
+	nsV2fvD9yEcALmx9Cd5nnJoU7zoYZzvpkXztJAHKqg9qM8P+DYiwq+erlDTEeb1Vxn4kQ8n
+	AVCfUyHo+Q+1bdVVwdfM72/yxOjAjeTJoGkAuYCjSoUwdm5cTdvFSat8ZRmFVRm0aCWyPwm
+	/+hHRsZQSwtVk0CuQIa3e9ylHeeXuYDzl/SzSJUBtFfoJ4dE7hioLhFfIo2D0mvhCvhJ21l
+	ieM0zR5R8cra3eGHPxafEnKiq27egmTE1zQKrhO9Z6piBhDKB88UKtQ52SGH2tC+JWaF/u1
+	vubQDNenPdBFXe7KG6PsXNmyRhJTHvNEX57JRzSqp7POhfPHGRL9DBpbVcGuY5+SIz5eNb8
+	wqESEpYyizSJZwHfI+JhTL96ZXvCRZchKPLBBY6+H4P1L16qKq1o/guWmxW9IIR6xHxmCHW
+	Kuq6vq6dfYltM0yQrE3JNDh2Z2Z9p2ifBaetrmfG6Ouq9hw3oOJI2ROHBXEiVx/pOqmyGmU
+	tif6MOVU//gg9+NNvUNT0TmRXao0JkguJoPaT2cmM5zzEy4k8r7Hjpy8EhDlLqUN5TlhWw7
+	SSRFwzlWBW2JDHkynyrzLrPRRdyaDHK8DzxUQNHqXp2MtloDphW7LmC8Yps4g8slKod+xti
+	jASZo7cMpWO5lyRHMknaxf5FkoAhtjbGJJIPHCYRGkyxo6KaYM1/Kzlc0yWfFTHDFwpGino
+	iEK2cVJWoee/pogOUx9RoblfwAnujMNXgrZfO44DPicgsqqm8NcE+stLcddidIOMlX8oFSr
+	Sr1jLVW2QMCmXnYYfiWZzAaSTQiaRQRn/BYEBwd0syDaGX4Kq6RZux9CzFLeRn7S1Qg1htf
+	WTZKaLVaff1KJyreXPqQiWa11YRQjY5rmcRLu3ITeYJvkumkVIH28rT+lj18Qkby/VEbzOj
+	w==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-RECHKSPAM: 0
 
-On Mon, Aug 24, 2026 at 08:08:06PM +0100, Matthew Wilcox wrote:
-> I think it's time to remove folio_mark_dirty(), ->dirty_folio() and so on.
-> 
-> This is not how filesystems want to be informed of folio dirtying.
-> It was fine for ext2, but anything that's journalled or COW has work
-> to do before the folio is made dirty, and it's hard to do that work
-> under the page table spinlock (not all callers hold that lock, but the
-> filesystem has to be able to handle the cases where it is.
-> 
-> Filesystems want the page_mkwrite() entry point to be how they find out
-> about a folio being dirtied -- and that works great!  Except that we
-> can writeback the folio for a number of reasons.  If it's been dirtied
-> due to a shared writable mmap, that's fine; we map the folio read-only
-> and any subsequent writes will re-enter the page_mkwrite path.
-> 
-> The problem is GUP.  We have no way to force the GUP caller to go
-> through page_mkwrite again.  So instead we make the GUP caller call
-> folio_mark_dirty_lock() which many just don't, and generally we get away
-> with it.  But it's a bug, and a bad interface.
-> 
-> There's also the problem that GUP users bypass the folio_wait_stable()
-> mechanism.  If a page is written to while somebody is creating a
-> checksum over that page, the checksum will be corrupted.  If we want
-> to fix this, we have to bounce-buffer the page.  There's no way to
-> prevent or delay a GUP user from writing to the page.  Enjoy your RAID.
-> 
-> My proposal is this:
-> 
->  - Fileystems take note of folio_maybe_dma_pinned() during writeback.
->    If it's true, do the writeback, but retain/recreate whatever data
->    structures you need in order to write the folio again; behave as if
->    ->page_mkdirty() had been called again for each page in the folio is
+NOTE this here need also rollback the clusters that were installed in, 
+and taken from the volume bitmap for the failed hole: leaving them mapped
+would let a later read reach unzeroed clusters and expose stale
+on-disk data even though fallocate() failed.  Punch the allocation
+back out of the runlist and free the clusters before returning.
 
-I don't think you can do this for stable writes. It's probably ok for
-!stable writes filesystem stacks, as long as the filesystem & writeback
-can handle making no progress at all. But since stable writes' writeback
-can't race with "writes", I don't think you can Just Do It as long as the
-folio is DMA pinned.
+But I don`t know how to easily imply them, anyone has idea please let me
+know.
 
-Perhaps we should give up trying to writeback these folios, and start
-writeback right after they're unpinned? at least on the stable case.
+BRs
+Wentao Guan
 
->    marked as dirty.
->  - The MM behaves similarly; we do not clear the writeback flag for
->    folio_maybe_dma_pinned().
-
-This sounds like a problem. You don't want users expecting writeback to make
-progress to suddenly stall on e.g folio_wait_writeback() indefinitely.
-
-> 
-> This will have the effect of writing pinned folios back every time the
-> inode is scheduled for writeback.  But since we have no idea whether
-> the folio is actually dirty (because the GUP user won't tell us),
-> this is the correct behaviour.
-> 
-> I'm probably missing some stuff here.  Let me know.
-
-I don't quite understand what your plan for getting rid of dirty_folio,
-et al is. page_mkwrite has the fatal flaw of being directly tied to VM
-page faults; I don't think it's the ideal interface for notifying filesystems.
-It's also the case that page_mkwrite can trivially sleep, and GUP calls it under
-the PTE lock. So how can we replace that? Would callers need to manually dirty
-folios after GUP, in process context?
-
--- 
-Pedro
