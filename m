@@ -1,127 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE8A42589C;
-	Tue, 25 Aug 2026 14:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62A045D1A4;
+	Tue, 25 Aug 2026 14:28:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787667877; cv=none; b=mo7fjPJM2AjOFKxx1YXnlVM2YdkCC53qlPYR3glb6/NxS9Jqf67l5mCi58mb/d0g4LiMiMEwL+jFH/6A2xuaqsJiYXXGeY5m4327nrtObPQVt91lJOG8Cm972CnkjUfO4wzEnrhFAhge6YhLJPoF1lOwac8Lhzuq/HGtYuShqp4=
+	t=1787668130; cv=none; b=SYEhiMa3JUVSO4Ohei8hMO/o9iRId34ihJJjDIp7VCVGSQ3CJdOWFCLGjxzKDS0zQDh8ccQoFZ9kDqLnjcGZvzWlR9cJUFVVoTWVs8Hn9vdcOyafGjKYGwjUinQIIHBUxNHhgXuZnKVcbxTNGXcEsYEuS7PpZWQUu1fttx/6hjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787667877; c=relaxed/simple;
-	bh=qjHXTa0s8zvN8eWbsgZQbbsnAvUJrCviQOkjU8WoR6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vz6FTkHOYhRzomhxW/JH+DYlB72QPRhyPRo5mm26aoBcHVnZdXybK8FTAOU43pQJ+3n16miY53+68QHDFMKbdHQV1523BsrSLW9fxzRx00NsKi1BA5tXXiJtycgWtiHDlC6H2NLO9IWL+WnbubFrxDI4rlIXxbExATlrlTFITFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSJuJPMk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787668130; c=relaxed/simple;
+	bh=XFuYZnxVO5460vD3ePEI9emdXXL44pUnHZe0CjT5EZQ=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=ssGHMnxo3e65v9niqRvjgzkR2rEli57iULXhWmZpqXPdOI5HPHTt6JNM86lpCIsxONYES20yECr8G+OC+UM6Bifh5KMl131QQpOM9vAMvN2EAbdQyK/Wh+M2Kv4RhQU0oxtJYqV8TZKLdHDs1F5BaWiP7u4az/POiQzFesmrHmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R52U+wJS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSJuJPMk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C5F1F000E9;
-	Tue, 25 Aug 2026 14:24:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R52U+wJS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172781F000E9;
+	Tue, 25 Aug 2026 14:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787667875;
-	bh=qjHXTa0s8zvN8eWbsgZQbbsnAvUJrCviQOkjU8WoR6o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cSJuJPMkWhZS4E2xMS/50Ko0vEa6gX59SNuYWUKf/rZlhN6uiK7pfq4bT2DZWA5gO
-	 RDAgnPa4GZV0irpj8/69hCLcQUcqKtnbqd497v4e7hcPVE7SXltC4RIBI9AumZbfrQ
-	 EYlEDD//W1f2zayHjmjmDYXqqmlpdJi8ND3upHF+CJNXYJ47dZATgpllmSFLIeugxc
-	 oOg+IaNv+SPZc+7MJmp0l58vCg79Ncp0EFwjUAF2kGmA8VqcHXLKouMrhv6/IpEinf
-	 fKdWXnPqsVh6HCggLLWZfYIk+dUmUX5fQ/ppQfjCW80/9CsduRnztcPGU/3mKUQXTE
-	 Jrfk2DhjJ3qHA==
-Date: Tue, 25 Aug 2026 15:24:28 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?utf-8?B?VGhpw6liYXVk?= Weksteen <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org
-Subject: Re: [PATCH 2/3] proc: query LSMs for introspective mem access (if
- PROC_MEM_FORCE_ALWAYS)
-Message-ID: <ao2jfUGzbtlW0LBI@gremlin>
-References: <741a833d-6889-4ee6-9322-d6a3a8b95893@kernel.org>
- <CAG48ez2Ngo3=VtyykXY6ynVzGwA8px-p4zV3V6U=YfgV-Hy4BA@mail.gmail.com>
- <dd8c34a9-0e09-453b-88e1-0a5511816627@kernel.org>
- <CAG48ez2bZEV+3ww2x9XV_5vRPZ_3jU_zg6+h=BDKQ94Xrd3Tqg@mail.gmail.com>
- <aoibvf6CY99IXynk@gremlin>
- <CAG48ez0CX-PT5Yk5gYJuB6wPe26j0gHHXQqYoNtTA=iHe_5Wdw@mail.gmail.com>
- <aox7tVIQBMuz-xFO@gremlin>
- <CAG48ez2-8UjzOp=St5eTPyG_yd2iBmPF6y7qVBTNaPNJgoX=BA@mail.gmail.com>
- <ao2a33Xf3U0kQmM_@gremlin>
- <CAG48ez00PjoaXt4xJn1DCNdZfmFn4faya++=U2EeW0_vcYXcqg@mail.gmail.com>
+	s=k20260515; t=1787668128;
+	bh=dlz7XUkj8qDNfzcilR7Ut2+kq050uSM6VT4JRk29JOQ=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=R52U+wJSbiTZho8aJN8vv4JWp1jVCyp2ZCGr3lCpvAkkIQ9ERvoNfjwFQ7sK/grfR
+	 FcL1yOqTRNTAv29w3bPiss2jMys/m5DgpD3cZfCzVbTxxiXi4/w9dN3XpjF9MuqJ29
+	 pRYD7BXi7i3rmsRx7EaQ/b8nQHfpNdkq2BEZu3XBLs+MqAq5mNWdC0BydR2OTQYPRf
+	 Hhcq94IUxMb6/TFL4tSMIiJYJcreFzGvv4XP8jfkbzipye9JhgGgHRnvwrAYaxdi5Y
+	 tFkWGi/Bx8JB79eooGVCJ8lokGZk01LU3HMAPAP754W5+Piqm2osgNPM0oMJwxKqlP
+	 6vV7GvxGFHZWg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez00PjoaXt4xJn1DCNdZfmFn4faya++=U2EeW0_vcYXcqg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] fs: don't return -EINVAL for successful nested thaw
+From: Christian Brauner <brauner@kernel.org>
+To: Moritz Tanner <moritz.tanner@linbit.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20260821085451.65206-1-moritz.tanner@linbit.com>
+References: <20260821085451.65206-1-moritz.tanner@linbit.com>
+Date: Tue, 25 Aug 2026 16:28:44 +0200
+Message-Id: <20260825-indiz-umfassen-gastspiel-863421e05099@brauner>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2730; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=XFuYZnxVO5460vD3ePEI9emdXXL44pUnHZe0CjT5EZQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT1Lpun57helXHmNBa7pmnRT7dPmetUYdekmJsxbaFzf
+ 8euyM9zO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZy9SIjw/Nb88U5eK/cqDE6
+ 1/IwPcpb8fB0jw0Mcke/GCXMPvc+8wAjw3ul7wqHPkj9s5eceXODd+m5kCfnDu7UltXT3S+Zl27
+ /nB8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Aug 25, 2026 at 04:08:42PM +0200, Jann Horn wrote:
-> On Tue, Aug 25, 2026 at 3:42 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > On Mon, Aug 24, 2026 at 07:43:02PM +0200, Jann Horn wrote:
-> > > On Mon, Aug 24, 2026 at 7:33 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > > > On Mon, Aug 24, 2026 at 07:06:04PM +0200, Jann Horn wrote:
-> > > > > On Fri, Aug 21, 2026 at 8:52 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > > > > > The sharing a /proc/mem fd seems like that's a pretty dumb thing to do in
-> > > > > > general :) but I guess you have to protect against that.
-> > > > >
-> > > > > Yeah, it's a kinda weird thing to do...
-> > > >
-> > > > Yup :)) but I guess we have to account for people doing weird stuff...
-> > > >
-> > > > In this case (I do mention it in a reply elsewhere I think) it does seem
-> > > > like perhaps you should separately check for current->mm != mm of (what was
-> > > > originally /proc/self/mm)?
-> > >
-> > > I wouldn't want to do it for this access check, since that could lead
-> > > to "confused deputy" problems.
-> >
-> > I guess if it got the decision wrong somehow that'd be a problem? Or wrongly
-> > OK'd it on one level but then that led to the fd being passed on assumption it
-> > was OK to do it or something?
->
-> The problematic scenario would be something like:
->
-> 1. process A opens fd1=open("/proc/self/mem",O_RDWR)
-> 2. process A does lseek(fd1, <address of libc>, SEEK_SET)
-> 3. A sends fd1 to privileged daemon B as a "log output" FD
-> 4. privileged daemon B write()s into fd1
->
-> In this scenario, daemon B is just trying to write log output into a
-> file descriptor. If we checked the current credentials on write(), we
-> might enable FOLL_FORCE just because daemon B is generally permitted
-> to use ptrace.
->
-> This illustrates why, in general, the "ambient privilege" that a
-> process has must not influence write() access decisions.
+On 2026-08-21 10:54 +0200, Moritz Tanner wrote:
+> Commit 7366f8b6fc6a ("fs: handle freezing from multiple devices")
+> replaced the freeze_holders bitmask with per-holder counters to allow
+> nested freezes. In the bitmask version, a thaw that released a shared
+> hold while another holder remained returned 0. Since the rework,
+> thaw_super_locked() drops the freeze reference via freeze_dec() but
+> then returns -EINVAL when other freezers remain, misinforming the
+> caller: the thaw did succeed, the superblock just stays frozen for the
+> remaining holders.
+> 
+> This breaks bdev-initiated freezing. When a filesystem is frozen with
+> FIFREEZE and additionally frozen via bdev_freeze() -- which nests by
+> design, see fs_bdev_freeze() -- the subsequent bdev_thaw() receives
+> -EINVAL from the holder op although its freeze reference was dropped,
+> and therefore keeps bd_fsfreeze_count elevated. Then device-mapper's
+> unlock_fs() ignores bdev_thaw()'s return value, so nothing rebalances
+> the count. After the user's FITHAW and umount, the block device can
+> never be mounted again:
+> 
+>     dm-1: Can't mount, blockdev is frozen
+> 
+> There is no way for userspace to drop the leaked count; only
+> destroying the block device (or a reboot) recovers the device.
+> 
+> Reproducer (any kernel since v6.8):
+> 
+>     dmsetup create dut --table "0 $(blockdev --getsz "$DEV") linear $DEV 0"
+>     mkfs.ext4 /dev/mapper/dut
+>     mount /dev/mapper/dut /mnt
+>     fsfreeze --freeze /mnt      # freeze_ucount == 1
+>     dmsetup suspend dut         # bd_fsfreeze_count == 1, ucount == 2
+>     dmsetup resume dut          # ucount 2 -> 1, but thaw_super()
+>                                 # returns -EINVAL, so bdev_thaw()
+>                                 # keeps bd_fsfreeze_count at 1
+>     fsfreeze --unfreeze /mnt    # filesystem thaws fine
+>     umount /mnt
+>     mount /dev/mapper/dut /mnt  # EBUSY, forever
+> 
+> The same happens with fsfreeze held across an LVM snapshot of the
+> origin volume.
+> 
+> fs_bdev_thaw()'s documentation already describes the intended
+> semantics: "If this function returns zero it doesn't mean that the
+> filesystem is unfrozen as it may have been frozen multiple times".
+> Restore them by returning 0 when a nested thaw drops its hold while
+> other freezers remain. Thawing without holding a freeze still fails
+> with -EINVAL as may_unfreeze() rejects that case before the reference
+> count is touched.
 
-Ahh. That makes sense.
+This was contentions when we discussed this back then because you can
+also run into situations where userspace thinks it's safe to access the
+filesystem because they think the thaw succeeded. But anyway, I think we
+can try this change at least.
 
-But I mean in this case the check would be that the mm is the one belonging to
-the process in question so wouldn't you need in the first place to have obtained
-a privileged mm anyway?
-
-If the check is literally mm of /proc/$pid/mem == current->mm?
-
-And wouldn't prilileged process -> fd to /proc/$pid/mem -> less privileged
-process be a fail in itself?
-
->
-> For a similar historical example, see
-> https://project-zero.issues.chromium.org/issues/42450869 where we used
-> to do capability checks in the old expand_downwards() logic, which
-> could be reached by writing into /proc/$pid/mem. That made it possible
-> for an unprivileged process to map virtual address 0 by providing
-> /proc/$pid/mem as stderr to a setuid root binary.
-
-This does raise questions about /proc/$pid/mm as a whole but I guess that ship
-sailed long ago...
-
---
-Cheers, Lorenzo
