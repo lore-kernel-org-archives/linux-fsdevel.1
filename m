@@ -1,120 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6C9349CD6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 18:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8533A3B6BFE;
+	Tue, 25 Aug 2026 19:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787683306; cv=none; b=ZKTeZ2f6o7jeHKTWJyzy5QP4KGPDR0mJuY+r34T6EJaNtiE0xHMlSFyKTpRA5EoV01U6ZXlou31zJ+bwigm5IXW8ovmDZPBOMGOfFdaL2QTLn/wjq9sh1tFz5XQf6WXniuzpySGGeIZG/LbjRiJbI/SyyHUmlh7s5UbhxjPRBRs=
+	t=1787685054; cv=none; b=MBPFQ3JgaDmKBiwp2KDEEb4ecL+mLtph2ZDH5dUDq281tYFeEFrYTLqmj0fBsymWglvCHWxzIyTDZH9MReokSD6fJm8HvhUVSdj64YaC6gFEul3gP+c1AhtP9aAPtjK4OhXlImrdGrh8yAEgF7mDS3GGgLhWgOKsl1c6AF3TeI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787683306; c=relaxed/simple;
-	bh=yp9fDNuc/TYw1U9yV7rwSzQiV19dyM8RMWrZRAssEc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=orxDppQ8qxZsNItqEc9nB9AX62DWS9FbOWrLPgHuVvYqwZwHnwW+/bFSiHKk84J7SRqckHg5ylSnTbQjLCrbvr6UFvg5ZcqOXjdIkwNMFrVDWy28Rt9K+LZW8Ua4ejl1OF2URjJeQpFFk7YqhfDj7rOGve6mrCIdqNuL/RXaq9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SACRvU2i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787685054; c=relaxed/simple;
+	bh=OtchHb6GBRRv68k/gioU/7xbxZ19B8WsvvWJaYWNtpk=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=ipvLNwRYVe5qMCdwNi3DiLYUr8wa3BDCTTRR0oDbzguPyZv8t4cUzxHe9TeftT02dHk+LbW69SxsAwO7zSBhor2O9024k3t1P3Jqc+SNVIrIC9YItyp7L0nInMqvVzRwIKyPuzRPy4Mm4VQ7gBGxSu1mtANzzbw4nfK7j1dIW1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RHvx1Ado; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SACRvU2i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52D91F000E9;
-	Tue, 25 Aug 2026 18:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787683304;
-	bh=Um2k/rJZLaKctBC+KuTYnxljcdBue3L/awQhVOIlKBw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SACRvU2iZwAeBWEhmET+qgKae5pZ6XvIaq422QioR6Y5Y7/qLM1i/sl+lqpd46Za0
-	 7LokzhUdWJ+wmSHCibNb00he8OLKOavBOvhKkS1Dcr87ZLIsTmPV9FXn/M3t9voQmz
-	 y6TygHZLaAb6eYRTj3f8EuULRCEKtH8qH3rDLekGQbwubzpxFngIwE03Xe+6s1ehDe
-	 uO2QGfMkSayjyzi3/zLYg4dilOtu6inuuvPvW1jsj0hV1TPWRTDUTkOdxxnCJ4LIpW
-	 W1X1NTr8lCcmDyn2CAKkGR5Qmip3fhDBVJGwBXCMu55WvSA95QbMrXIsw8VHikxMZO
-	 1l4jnPdmbLFlA==
-Message-ID: <2e22677c-82a3-4894-9b05-2748cd617047@kernel.org>
-Date: Tue, 25 Aug 2026 20:41:38 +0200
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RHvx1Ado"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=elAJm2a/yvCuwNZQN8cT8iWBlOljI1OpyGvFLYC11uo=; b=RHvx1Ado+WH9EzbHIOX+ZddNR4
+	p497xG/usjgdtyDE/kA/xbjOpyLIBJuOI92EZRwc1yOZOItUmNe5+oSRd4oxCZHOSJIg77xqmE+Tc
+	K5PFV0rWFpwnhQ6m9KAj6Aq1yxVDoopN2BKsaUVqLC48h9H3wG5IGBXSnMlrjvxadR17ZpA62zFv6
+	qnk+hsPSnk1nJmmcLcs7OjTT5cXXOefE42zyl0b94RK82DSvgwElUXWEAW9MTO2l5NBp9Zejkwn6T
+	YNgx8l8tDqfY2WGCtiFY0jVvYc0jEiv34rN7tch6qSf2TkOPn3XRxDKM1uTJZIDi4f2h9zACbsB7B
+	9kW+H63w==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wywXL-009BHb-A7; Tue, 25 Aug 2026 21:10:19 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1wywXJ-00530G-Og; Tue, 25 Aug 2026 21:10:19 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1wywXJ-00000003he5-2ugE;
+	Tue, 25 Aug 2026 21:10:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 05/15] guest_memfd: Use folio_has_hwpoisoned_page()
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jane Chu
- <jane.chu@oracle.com>, linux-mm@kvack.org,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
- Jiaqi Yan <jiaqiyan@google.com>, Sean Christopherson <seanjc@google.com>,
- Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>
-References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-6-willy@infradead.org>
- <32873b50-c900-4fe5-9dc1-cb086bba77e7@kernel.org>
- <an2vhg4Uvdo52WPX@casper.infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <an2vhg4Uvdo52WPX@casper.infradead.org>
+Date: Tue, 25 Aug 2026 16:10:17 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, kernel-dev@igalia.com,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ fsverity@lists.linux.dev, keyrings@vger.kernel.org, bpf@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+ lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+ bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
+In-Reply-To: <ao1P_mEJdyRExG3v@monoceros>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
+ <aomlfGJM61qZKxx2@monoceros> <4e3eaf1d3419e808be046035f114bf6c@igalia.com>
+ <aotteDcc588iwC6g@monoceros> <4aa22e41e8ff4bab6638cf0baaa9d07b@igalia.com>
+ <ao1P_mEJdyRExG3v@monoceros>
+Message-ID: <4a7925a800f0c9b36078a70bf35e960d@igalia.com>
+X-Sender: mfo@igalia.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
+X-Spam-Score: -20
+X-Spam-Bar: --
 
-On 8/13/26 13:50, Matthew Wilcox wrote:
-> On Thu, Aug 13, 2026 at 09:20:54AM +0200, David Hildenbrand (Arm) wrote:
->> On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
->>> folio_test_hwpoison() only works on hugetlb folios today and will give
->>> the wrong answer for other large folios.  folio_has_hwpoisoned_page()
->>> works on both.
->>
->> guest_memfd only uses small folios, so it doesn't really matter.
+On 2026-08-25 05:24, Uwe Kleine-König wrote:
+> Hello,
 > 
-> Well ...
+> On Mon, Aug 24, 2026 at 06:04:03PM -0300, Mauricio Faria de Oliveira wrote:
+>> On 2026-08-23 19:12, Uwe Kleine-König wrote:
+>> > On Sat, Aug 22, 2026 at 01:57:24PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> On 2026-08-22 10:41, Uwe Kleine-König wrote:
+>> >> > On Wed, Aug 19, 2026 at 03:16:16PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> >> The MODULE_SYSCTL_TABLE macro emits a struct module_sysctl_table variable
+>> >> >> with pointers to a sysctl table's path and entries, and table/entry sizes.
+>> >> >
+>> >> > That new struct doesn't seem to contain any pointer?
+>> >>
+>> >> The struct module_sysctl_table fields .path and .table are pointers,
+>> >> although with kernel_ulong_t type so that the same 32/64-bit size is
+>> >> used in file2alias.c based on KERNEL_ELFCLASS (and not on the host,
+>> >> which might differ with CROSS_COMPILE).
+>> >
+>> > Cross compilation isn't an issue for the already existing device id
+>> > structures; many of them also contain pointers.
+>> > (While modpost doesn't use the pointers, the size of the structures must
+>> > be known to correctly interpret the arrays.)
+>> 
+>> Indeed. I missed some device_id structures with pointers, and that
+>> devicetable-offsets.c is cross-compiled to generate
+>> devicetable-offsets.h for file2alias.c to use offsets and sizes of the
+>> target architecture.
+>> 
+>> I'll change .path and .table to pointers in the next version.
 > 
-> virt/kvm/guest_memfd.c: /* TODO: Support huge pages. */
+> I *think* the existing device-id structs use char[] for strings that are
+> relevant for modpost. I look forward to you finding out if there is
+> still a justification for that :-D
 
-Yeah, that was wishful thinking :)
+AFAICT, an array is simpler to read in file2alias as it is stored
+directly in the symbol:
+
+For example:
+
+@ include/linux/device-id/of.h 
+
+	struct of_device_id {
+	...
+		char compatible[128];
+	...
+
+@ drivers/net/ethernet/korina.c
+
+	static const struct of_device_id korina_match[] = {
+		{
+		        .compatible = "idt,3243x-emac",
+	...
+	MODULE_DEVICE_TABLE(of, korina_match);
+
+which builds
+
+	$ objdump -t drivers/net/ethernet/korina.o | grep __mod_device_table
+	0000000000001020 l     O .rodata	0000000000000190
+__mod_device_table__kmod_korina__of__korina_match
+
+	$ objdump -s -j .rodata --start-address=0x1020
+--stop-address=$((0x1020+0x190)) drivers/net/ethernet/korina.o
+	...
+	 1020 00000000 00000000 00000000 00000000  ................
+	 1030 00000000 00000000 00000000 00000000  ................
+	 1040 00000000 00000000 00000000 00000000  ................
+	 1050 00000000 00000000 00000000 00000000  ................
+	 1060 6964742c 33323433 782d656d 61630000  idt,3243x-emac..
+	 1070 00000000 00000000 00000000 00000000  ................
+	...
+
+@ scripts/mod/file2lias.c
+
+	#define DEF_FIELD_ADDR(m, devid, f) \
+		typeof(((struct devid *)0)->f) *f = ((m) + OFF_##devid##_##f)
+
+	static void do_of_entry(struct module *mod, void *symval)
+	{
+	...
+		DEF_FIELD_ADDR(symval, of_device_id, compatible);
+	...
+	
+void handle_moddevtable(struct module *mod, struct elf_info *info,
+                        Elf_Sym *sym, const char *symname)
+{
+        void *symval;
+...
+                symval = sym_get_data(info, sym);
+
+On the other hand, a pointer is stored indirectly through a relocation
+in the symbol, which is not as simple to read (i.e., 1. find the
+relocation section for the symbol's section; 2. find the relocation in
+that section by matching relocation offsets with an offset in the symbol
++ symbol address; 3. finally read the relocation's target).
+
+>> > I would be great if your series didn't introduce a new obstacle for
+>> > [CHERI].
+>> 
+>> Absolutely. I'll be happy to adjust the series and testing for that.
+>> 
+>> Could you please confirm one should just follow [1], which uses [2] to
+>> build the LLVM toolchain, and use it to build the kernel [3]?
+>> 
+>> [1] https://github.com/cheri-linux#building-and-running
+>> [2] https://github.com/cheri-linux/buildroot
+>> [3] https://github.com/CHERI-Alliance/linux/tree/codasip-cheri-riscv-7.1
+> 
+> I used
+> https://github.com/CHERI-Alliance/meta-cheri/tree/codasip-scarthgap and
+> didn't care about toolchain and rootfs. It also has qemu integrated, so
+> you can actually test it.
+
+I'll take a look; thanks!
+
+cheers,
+
+> 
+> Best regards
+> Uwe
 
 -- 
-Cheers,
-
-David
+Mauricio
