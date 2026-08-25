@@ -1,93 +1,73 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9653F356772;
-	Tue, 25 Aug 2026 04:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E2C3A7591
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 05:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787632321; cv=none; b=uBNtlvqzLvO3+qkDA/bnB49ZNDeDFGJ/dSDcVwvYPsuoyljSmCZHFRyRyBpKQswJVQz26cKc3l6Ni9KXHACMKxcO+rQ70Ya3jfBsUsiXnpa7QuQ47q2KNcBbZUzppBL+zBhz5JQIOSKEtYpMDR2jBcuigcGHFy6oyAR4/pRSB7c=
+	t=1787635698; cv=none; b=KdDjg9e/sAlRtnJyl8SrlHgdFgZ+JVEY7Itc3cn7R4Yj4XG+oHfKQ2zSo2BdNqj1GQr70esyZJaIISdrwr16aLB4n3nWu4ng69FnYL/lru3ANBRGpw+NtoDKJ6OTzTyLP1dd8If4xQdMphuf2ezPKR3wlWCZcATSnw/Zuh9+FQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787632321; c=relaxed/simple;
-	bh=aJnK90FSt755JAJsbV3kIKalVnrfBmcWPLuz1sBsOQU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=F5zgpnaXOxa5e+RPKwxI0B/ZdcJ4ZyjtB2zLGb0reb4TOn3HtY30x6IHVqTgf/IZ3R/Ej+3sh0I26h6aypWuSxhPJbuxRsMvLD5MU4lj5G0YogOEMct4LvHHsiTc63Gwh2znkv5SxVd3rTKpK0MNGGFh/788+IZwcBQzJYlOFfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=mzcoBNvH; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=87Zv93jw; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1787635698; c=relaxed/simple;
+	bh=c9y71GpbFpZGAWIhix4KUMxMoJU8+7VIqSYPW7lJs5E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iA87X9cQPhWWP1eHk9m3ovoeYNoXL90NejtMaz3dr7BduP34y73Tyvc1k2Huzu1R9epBu+UZq4GGsKbiYg9adm5en62tedJy9wi9DNTTL0DROmErOJ8hpnmvgzoen8for6qQH/jgP/L/ALdzNzKliDJIjg5lndfs0E9tWwtClJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOh5xudL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="mzcoBNvH";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="87Zv93jw"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 5B38E2096798;
-	Tue, 25 Aug 2026 13:31:55 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1787632315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zjTbPJM27rJA89OB9jMO2Eplt053t8dZL9wr02py4xA=;
-	b=mzcoBNvHVMof34R0QQuPgJo9iaKAr1cNx//+8UUQ6xU8X8duZK6kbmF5Au57hkfj6qXCVc
-	VRo5fLcx1rWg3MuGyaPExJKiBuENr2tGcNTw+Q7HrxUENZNtuov/n+q94rerVvoVwoEW//
-	8EPhKu4INTlEPzRrQP+HJ2EVlyEG/v1Bfbt+B3Ce/0fAgMNg4FNgLbmxoo4xuPUccAKeHu
-	abR4eHsjmdTPeCQ+Q3W7Dj17bdog/vBUoNKOTdgsnXBKR5wygebHG3xLm3x1Ex2IXKxdTK
-	fSnXj/5Q9H4qV4b1Lc9vNVuV0BXcUgBxbKVcRu+pUKBrowpdo2W1trswOpNVSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1787632315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zjTbPJM27rJA89OB9jMO2Eplt053t8dZL9wr02py4xA=;
-	b=87Zv93jwVlZc8aPWsKjDHzbCGJLw7T3PEVyQ+bcTpy//ewZa1MsKV2LPTeAZbSd5oA3VhC
-	t2La/HQdLdlDv/Cg==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id D808EE00090;
-	Tue, 25 Aug 2026 13:31:54 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id C043122000D1; Tue, 25 Aug 2026 13:31:54 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: David Timber <dxdt@dev.snart.me>
-Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH] fat: add noflush mount option
-In-Reply-To: <787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
-References: <20260822173732.10230-1-dxdt@dev.snart.me>
-	<871pbn6edz.fsf@mail.parknet.co.jp>
-	<787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
-Date: Tue, 25 Aug 2026 13:31:54 +0900
-Message-ID: <87ecfmrfb9.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOh5xudL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1EE1F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 05:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787635697;
+	bh=2ibnJYW1W3WJ7maE4BMT5Ff0iHfq44GNHVOrNrkZzOo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=AOh5xudLSGj21+FvCDzIh8YV7zO4GBOmjLO1ls4Y6irzTMl/VXuG4Kpv4M0XmUY3o
+	 3aPk4rb/n9UHDdHKCaxbbPHMkUKRUOz9H4UD6OXhc2rinYksXGS5LcjtwaK1B8QeFk
+	 0Kjw+e6hvjvrokLUPhqNeLCJUR/YSGcAOzk+4YWnszbOTYSnYBg7JaWcR+NIwNs0OV
+	 Df/829Gc0rI3CKz5F/nbFayS6k/sVT/knL0iqs/qQL88o7B4rj0j7CggXnQyX8jM/D
+	 c8+b9pVERFm5F7JJxb/yV4Q0eCq9P0xB3d1tUhmxYe/5wihcwvfofWtpU5qlae7mvK
+	 OJdYVhwvXAIkg==
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c15d47266baso497269066b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 22:28:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rrfxs9xB1IhSMe4QUEWrpSRG3x1x9kL5c0lg/zgKOS9mTT/ykGfbKvWgGSJFD/jLv5sUgSEkAuFsADqx318@vger.kernel.org
+X-Gm-Message-State: AFuF++nCGfDZVmS3HMfZMLHu8ER2/+8L86RFUAvZrUUnXX+KGZTmiv12
+	6NGbUtlUhIwAqYcWbntVPA3KVXuyxM6EK77KHAhGMcmlQJF80827pLs/33HC1WpR06DRMVIoc6U
+	gKVpZQFKTJ17w9UAOeBuf47Cv75Efx/8=
+X-Received: by 2002:a17:907:6d26:b0:c1f:9cdb:9965 with SMTP id
+ a640c23a62f3a-c24e584ddfemr365363066b.2.1787635696208; Mon, 24 Aug 2026
+ 22:28:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <6a88e220.1e1ac41d.2d530b.7cac@mx.google.com>
+In-Reply-To: <6a88e220.1e1ac41d.2d530b.7cac@mx.google.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 25 Aug 2026 14:28:04 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd90WmfFBtf6DPtF75vcGjfKcwUa4yWdgXDZt0zCmVh-6A@mail.gmail.com>
+X-Gm-Features: AcwNN1XBPj-oX1a_5MxYayJw2NVLPOvbjYV-dsCZ7bIfgW1IwUtRHMdAx3cXa9M
+Message-ID: <CAKYAXd90WmfFBtf6DPtF75vcGjfKcwUa4yWdgXDZt0zCmVh-6A@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: bound $AttrDef table walk to the loaded table size
+To: Dennis Tighe <dennis.tighe@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-David Timber <dxdt@dev.snart.me> writes:
-
-
-[...]
-
->>> @@ -1110,6 +1114,7 @@ const struct fs_parameter_spec fat_param_spec[] = {
->>>  	fsparam_flag	("debug",	Opt_debug),
->>>  	fsparam_flag	("sys_immutable", Opt_immutable),
->>>  	fsparam_flag	("flush",	Opt_flush),
->>> +	fsparam_flag	("noflush",	Opt_noflush),
->> fsparam_flag() is not including the "noflush" too?
-> I think I should use fsparam_flag_no() here. My bad.
+> @@ -1737,7 +1737,7 @@ static struct attr_def *ntfs_attr_find_in_attrdef(const struct ntfs_volume *vol,
+>         struct attr_def *ad;
 >
-> It seems that you don't object to the idea. That's a good start!
->
-> If we want to do this, the
-> documentation(Documentation/filesystems/vfat.rst and mount(8)) should be
-> updated, too. fyi, `udisksctl mount -o` won't accept "noflush" so
-> that'll have to be fixed, too. Also have to make sure if "noflush" is
-> used in fstab, udisks2 overrides the system default settings.
+>         WARN_ON(!type);
+> -       for (ad = vol->attrdef; (u8 *)ad - (u8 *)vol->attrdef <
+> +       for (ad = vol->attrdef; (u8 *)(ad + 1) - (u8 *)vol->attrdef <=
+I would prefer not to have ad + 1 check form a pointer beyond the end
+of the buffer after the last entry.
+How about this instead ?
 
-Well, with a your patch, just remounting without "flush" option doesn't
-remove flush?  And this is a user visible change more or less, so if
-there is an objection from users, then it will be dropped.
+ (u8 *)ad - (u8 *)vol->attrdef <=
+          vol->attrdef_size - (s32)sizeof(*ad)
 
 Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+>                         vol->attrdef_size && ad->type; ++ad) {
+>                 /* We have not found it yet, carry on searching. */
+>                 if (likely(le32_to_cpu(ad->type) < le32_to_cpu(type)))
