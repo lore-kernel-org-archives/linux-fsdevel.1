@@ -1,57 +1,47 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CD4481256;
-	Tue, 25 Aug 2026 13:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305252ED843
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 13:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787666147; cv=none; b=bWg5ILejZNpg4IQEHvEfoygqjHrdg3XtEtAe22ztJkklrLYOFQEookNOhzm9lluPA9pFudsnTaTxV4vyKQyVYVBxTGFC2lv3g596LtkHoD5WbWaDZ1U3CTLuj2gs2lY/fqgevejN3EVMGjGpTDP5trMapp6n8xeF1o4Qmkh0dRM=
+	t=1787666386; cv=none; b=X/GfyfpK4Tk1TaBtvPYvUyl8u0Y8koAJ7xcGjE3pTM6H5WRrrjtDFrml1Q2BMGM8hNl1xN+X++1iIsWdhL01KqpRU7DkOoiDktm+cbpB/QnG6zi32bvUzByueNmQmfZVsJC7Mog/UKO6uxeDTvG+J6nfAhQwVW7VRVwOnEDtxfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787666147; c=relaxed/simple;
-	bh=0/WeIqBfPKwCqAW+ElrQnm7JI/vBCWEn6IMLIr1sMYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KcwqLhswbuAJElkP/OViKvjMxYyUcj07N0h+0gd35LHG9OhCaCcYfVv6bK0exHX1gmk1ZgV4a6VL6u8UQXGLjlOkMmK7IN6pnvq+aOK+7/RAkn0aWVqBXqv/N7ubaWDBI2eDXRgC3EHFd1TeJ/3+JI+np+ACB6TPK15tjZEoNRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4CF8C3EC48;
-	Tue, 25 Aug 2026 13:55:33 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosry@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>
-Cc: Kairui Song <ryncsn@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Wei Xu <weixugc@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Kunwu Chan <kunwu.chan@gmail.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1787666386; c=relaxed/simple;
+	bh=ysqSK1QIN259yF/rvMTpSu5Iy2hZUL/VxDsPUitylhc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iysCfLErnocQLl1UFvqBdIq0S/9Fd9ZA9gbnucPJsq/EOwbDUO1TRt7hNdoNaGw8hfBTrSJGvO0sPoqXmLeU4ZB91f0YLDc+lglYAEAAs5giDJHNn8EAwBWjUiyPYKlAvRSAp8HMk9JM+I+WN61YI23HOEMrDMC6SyydkkhGGLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Hwi1uPpi; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Hwi1uPpi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Jh
+	YyrzUX62FbDAltEDQWvpfiaZUa/DcGQ9ZO/nEs2sE=; b=Hwi1uPpiit5G7KJJJ6
+	y3ZvBV5h/S1GjaxOG65mF2S28UjaYnynAgA4LDyDjBM6CIKVsA7emlzYiAdtM/bf
+	3wjcqWRnrMscbPJ3JWNrusMiAkhcNDLbvofqAteN328EH+QRi3cCsf7GScinhC6D
+	YmMWr71vkuD3RgKhzeRX11b/E=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3_xdgn41qRT0JDg--.32073S2;
+	Tue, 25 Aug 2026 21:57:53 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: brauner@kernel.org
+Cc: axboe@kernel.dk,
+	jack@suse.cz,
+	jackzxcui1989@163.com,
+	jlayton@kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH v4 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-Date: Tue, 25 Aug 2026 15:52:07 +0200
-Message-ID: <20260825135209.3135169-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260825135209.3135169-1-alex@ghiti.fr>
-References: <20260825135209.3135169-1-alex@ghiti.fr>
+	mjguzik@gmail.com,
+	neil@brown.name,
+	oleg@redhat.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH RFC 5/7] coredump: add COREDUMP_CLOSE_FILES
+Date: Tue, 25 Aug 2026 21:57:52 +0800
+Message-Id: <20260825135752.985512-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260824-work-coredump-unlock-self-v1-5-48fd1cca7eda@kernel.org>
+References: <20260824-work-coredump-unlock-self-v1-5-48fd1cca7eda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,67 +49,34 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Score: -100
-X-GND-Cause: dmFkZTGiHDiWlfQ5ccxBZewsSasowgl6gtfYlDY1PWykUS63s55gMKk5eyoNcDBuK/u7C54COj+K24nRLBNKdyIK2RQTz0Gd7w2H9vLC2370zE+Ddl7i6a/AXnrEXG/Z0BlNEt/8xyMeSW6zBiRZZwvjEQff7MVGCDEPhCRkLbIwEbRTVuxjo/fEYI5R/+1hgmHojmsu8cW0sWOxX9UVZyxkZFjKfn8+jU4byiXlitSGcdBMjxKaqXvJ5iTQAfdm2MFjYyiM9uE53CRdiBRxdil8ElrlmgLmGYOBnqlq0fAMw7kI3FGQeaxVI5JUrPkWhh338+VpDFe89mQ4tcVzXfaSQ8hzO/SV91Cb7MrhV04BuJgiTggGt7Zdy76v+v7di5V0F2GWJCgToIeVaHv/Py1bQ3X7vOAU0B8xrylrXT48j2SQPSTKdpB92XGLcGraHgdEQU91N+ZEkWE0EcFcwWBVjG4UlvtEJ4g3dezAkjFWFHIeOOTWEYYxW6p9quP8zM5YnvsxNCuS9As6YAZcXNMc7qGf3JBHypUwMfNT4exbp8J3xkukcZHG/XNc5XQ7kT1Japjehyh81GsvvoqgbA+JKIPd8DFZWoCTLWUfe7Xjox8gz9Pj2o95Ze/TDPs3/QoqVyZjPFEADf8hZRx/ISlGVw/W3F88XplLHYxgWA1CMdOnDQ
-X-GND-State: clean
+X-CM-TRANSID:_____wD3_xdgn41qRT0JDg--.32073S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKF45urW5Jw43uFWDGF4xCrg_yoWfKrc_Zr
+	yj9a1xG34DCFs2vF48KF4ayrsFgrWfCF13AF15XrW2vFn3JFZ8tF90gFyS9r1xJrsayrnx
+	JwnFvF4kWr43ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUUmLvJUUUUU==
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5wH9CGqNn2HmNAAA3Y
 
-zswap writeback decompresses an entry into a fresh swap cache folio and
-writes it back. The folio is cold by construction, yet it is left on the
-LRU for reclaim to find and free later, wasting a reclaim scan and keeping
-cold memory resident longer than necessary.
+On Mon, 24 Aug 2026 17:28:19 +0200 Christian Brauner <brauner@kernel.org> wrote:
 
-Allocate the folio off the LRU and mark it PG_dropbehind so the swap
-dropbehind path frees it from the swap cache once writeback completes.
+> Tools like systemd-coredump walk /proc/<pid>/fd and /proc/<pid>/fdinfo
+> and some use pidfd_getfd() to preserve files of the crashing process.
+> Only the coredump server knows whether it still needs the descriptors.
+> 
+> So let the coredump server ask for it. Add a new COREDUMP_CLOSE_FILES
+> feature bit. If the coredump server raises it the kernel drops the
+> descriptor tables of the thread group right after the handshake and
+> before it generates the coredump.
+> 
+> COREDUMP_CLOSE_FILES doesn't work with COREDUMP_REJECT. A rejected task
+> exits and closes everything right away anyway.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
 
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
----
- mm/zswap.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+I don't know if I was the one who initially raised this requirement or
+issue in the community. If so, could the tag
+'Reported-by: Xin Zhao <jackzxcui1989@163.com>' be added?
 
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 8163e6c5f76c..d16822a516e8 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -1013,7 +1013,6 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	 */
- 	if (IS_ERR(folio))
- 		return PTR_ERR(folio);
--	folio_add_lru(folio);
- 
- 	/*
- 	 * folio is locked, and the swapcache is now secured against
-@@ -1046,12 +1045,26 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	/* folio is up to date */
- 	folio_mark_uptodate(folio);
- 
--	/* move it to the tail of the inactive list after end_writeback */
--	folio_set_reclaim(folio);
-+	folio_set_dropbehind(folio);
-+
-+	/*
-+	 * Drop our reference before starting writeback so the swap cache holds
-+	 * the only one: the drop in folio_end_writeback() needs that for
-+	 * remove_mapping_reclaim() to succeed, otherwise the folio is handed
-+	 * back to reclaim instead.
-+	 *
-+	 * Nothing can free the folio in the meantime: we hold the folio lock
-+	 * until writeback starts, PG_writeback then blocks swap cache removal,
-+	 * and folio_end_writeback() takes its own reference before clearing
-+	 * PG_writeback and donates it to the drop.
-+	 */
-+	folio_put(folio);
- 
- 	/* start writeback */
- 	__swap_writepage(folio, NULL);
- 
-+	return 0;
-+
- out:
- 	if (ret) {
- 		swap_cache_del_folio(folio);
--- 
-2.53.0-Meta
+Thanks
+Xin Zhao
 
