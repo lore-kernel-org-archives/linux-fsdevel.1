@@ -1,119 +1,93 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6694C3A63EF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 04:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787631932; cv=pass; b=coFTy9B9FEOB1/CBU0meRE5VOwHlG5wbadvZAcpzPIdRNWTUlpSAoKb/J5muksoBn3Fx3Ty05AA6VYfaudiT2PLya+RrmbHG5li4Raleo9kpw6t5ZS5ro39QJDOVx1wvWiiiaBS1hNirzYZiifJB6RZ97rCJoI1zKX9ThcHsygk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787631932; c=relaxed/simple;
-	bh=9M5owZU/Iz+HnaITb4DurTzse1Fzjh2hCNKz2xvi3ZA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pym11fD7QPZXu0IlLRhHgMLq8Zse18BqRdRddi0bHR9KFDSY+51j6+CtKrCr0zo0CZrCtdCuQS2nyI/auuBOs+NmGHpJlWkbUp1DmSsjIcjpmWADwQRKBBXGSqDFHTNS+UNYF+NPEY9Q+0TydbImOZ2asQKFdPX2xyWYvOxwfoA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pvFbC1Ea; arc=pass smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9653F356772;
+	Tue, 25 Aug 2026 04:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787632321; cv=none; b=uBNtlvqzLvO3+qkDA/bnB49ZNDeDFGJ/dSDcVwvYPsuoyljSmCZHFRyRyBpKQswJVQz26cKc3l6Ni9KXHACMKxcO+rQ70Ya3jfBsUsiXnpa7QuQ47q2KNcBbZUzppBL+zBhz5JQIOSKEtYpMDR2jBcuigcGHFy6oyAR4/pRSB7c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787632321; c=relaxed/simple;
+	bh=aJnK90FSt755JAJsbV3kIKalVnrfBmcWPLuz1sBsOQU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=F5zgpnaXOxa5e+RPKwxI0B/ZdcJ4ZyjtB2zLGb0reb4TOn3HtY30x6IHVqTgf/IZ3R/Ej+3sh0I26h6aypWuSxhPJbuxRsMvLD5MU4lj5G0YogOEMct4LvHHsiTc63Gwh2znkv5SxVd3rTKpK0MNGGFh/788+IZwcBQzJYlOFfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=mzcoBNvH; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=87Zv93jw; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pvFbC1Ea"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b0115b9e17so4093587e87.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 21:25:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787631928; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iUOy72u/Pr2rqUU0c05GGoEDVc6NKA4GdHxIvYDDu9DMjRUKyhslVg8kunuF1tdHff
-         cyq0C05lVKcGS7nyOopPJt7RCCp3jdnkarbQY3sYioRFxyN9ERUlasIRft6ez296NnlO
-         jei2MZPkHcNlOj5G6XA38VKUWlCQsWAwfo7wurOpKiyRve8PEFz/6isqVFYrrhRUSgJP
-         FHOvMRNW2y7LQFzK+aVMR25RFIFlblaF2IMPVin7ikedIkvh0oRKRyiVWwXqRRE4lOqy
-         qxvatLOm1upC9+9Ubdy+9LsItk42lbk6hHgXVrWkEv6hk5S71FkfFeDwz5GDlwqiKUEt
-         xnkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
-        fh=n9KUdgdgJ7PFkAQUpwxThs3MkfnyiDgaAturuWMhxrw=;
-        b=Tyw5BpOvgrc7KhwmmF4KNMNeaeO4u+HPxZWSC07G7iMWOcMiUQB2vB8EUl6SEOjnYY
-         /zDBJA/cU/IJzg0fq1VUELqjXOV8sIUDSh5RvzbrIl6FuErJaHFJrO6GSC+hlwY8/nbn
-         7pHMJeLJKr0qAqOJDll1SRGQauQON+qTpFQ/nyodbwZi9XBhisObH1Prfsj31qT9GgTi
-         SD1xdPSGwAcrYnkHrmWbIkjCVeHrifZlDOXNn8Wib1A+N51zfqKy+Fs6/Ce5cBtyyeW2
-         oTtFVd8jYRZfOiPgj1YTUgqOZWH6pLlhar4Z94QdT/Ag8k9RbJduFXHpalB9V9GuRZ5j
-         /HCA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787631928; x=1788236728; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
-        b=pvFbC1EaTd+BBLrlhOFs7N5uWSJoHEEtsWfuYFRf8dUwDvPFlgd5srpj9LNTAu0yVW
-         2RO39cEP3Uyi6VSAQB9JcjIywkjbHvwKiQxLk4oh9klubMDATDwMmripregEylyCBA14
-         KPMmbMwrZ/Qrf+CeQXUF8cB2KY18cj9FjXFgsw2Op1MQ39A432enkfNsjEk2n9FOCqwJ
-         P4hAqBtgZB/SDJmYSw+9AcwfrzzMEj/dmrPP47WHkwxNDhrlhIeTGs8rR43V8NHxr9ve
-         KdBH/TeT4DWPm7l9tCKeuvG9Veoi+j9SbaD3uE+mnDI+PgclG5CbsQkR74abldW+51CI
-         YilA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787631928; x=1788236728;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
-        b=T6pRvGCthaCkQez6V1ylcky/pJiAR0RGqCTgaNkStkCZYX/ZcgsusWorsh6zIoKwTB
-         sHoVichOVsocMTE7em5o+nXS8mz+oZKVpaE46/xD9IbAfzoLRr16/ywiZn5RaCQWDPJB
-         xitoRAuyXKTLwfYBSTx3vwQ81J2UNd7X96a6fmQY/ZBUMBZwOCf8Q0MNg0e0zako222P
-         JL1QLtDkRIpVdjytU+H8DoW9jaNKNtLn1kSsJcEgZ1wrSaXLdp45o4PvjxjEbyMnMvGO
-         8zsD/LI/GaRFVa1NNaIgp8ni94V+YlT3vleNZ/oQxVMnxtDMLryp5kksiZqFHZOoNkP6
-         +0Fw==
-X-Forwarded-Encrypted: i=1; AHgh+RpyUvTBExvah40gpn3tKRbfpjD4sZl1Hz48MSG0lIkisVcqmvJspYhOhkn+2ePmB6YQnrA4nemYC8Nacfvk@vger.kernel.org
-X-Gm-Message-State: AFuF++kYtbC7K9TbQFHmMIoD3RydfA2x/CfeGsRACkOzWjJAUW9Qe3ej
-	dUWu0Ni0YDTeUxlSbWGWhRXcE4oLFpoZQ1KKcl+UqXONVo4/e90bFQnKIvkWCkktat7eQkeSaRX
-	HY5RnA0QwIHbY94vWFwbqRM8t2p4DJ5B3+g==
-X-Gm-Gg: AR+sD10Vn+Ozv2DajKC/QQVD4oBYpPVT8VNS7xggEEV1II2gIjeWyVRPVwoUoIIJm1b
-	M8ZoaIeEC32F5mKyj5hfAAp4cKeh3HukUMn9r8Clgh0Rv0N3jFGyVmFj2wL9eWSJzb3sHAqRqPZ
-	kqmg5jrx7nyXY0c83zINpciE+LgOObQu2y1EJOhT1Mfn3jWYegjDW6gtQvP6vYWnGrK9pDPZXWv
-	B1AxhjHm6vq/0GmSKKP0yJL6/U3hHH+orobpYaRevh4O8jbYr/q6uHdcStM2oplFs/VQ0MqDgL6
-	u6x/eOY69Inz8Hw0UrLU5mwQPXt6ECbvBwgirTsInK5NozULPGVSr8k=
-X-Received: by 2002:a05:6512:110b:b0:5b1:5f28:2198 with SMTP id
- 2adb3069b0e04-5b49cd679e4mr881271e87.3.1787631928024; Mon, 24 Aug 2026
- 21:25:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="mzcoBNvH";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="87Zv93jw"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 5B38E2096798;
+	Tue, 25 Aug 2026 13:31:55 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1787632315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zjTbPJM27rJA89OB9jMO2Eplt053t8dZL9wr02py4xA=;
+	b=mzcoBNvHVMof34R0QQuPgJo9iaKAr1cNx//+8UUQ6xU8X8duZK6kbmF5Au57hkfj6qXCVc
+	VRo5fLcx1rWg3MuGyaPExJKiBuENr2tGcNTw+Q7HrxUENZNtuov/n+q94rerVvoVwoEW//
+	8EPhKu4INTlEPzRrQP+HJ2EVlyEG/v1Bfbt+B3Ce/0fAgMNg4FNgLbmxoo4xuPUccAKeHu
+	abR4eHsjmdTPeCQ+Q3W7Dj17bdog/vBUoNKOTdgsnXBKR5wygebHG3xLm3x1Ex2IXKxdTK
+	fSnXj/5Q9H4qV4b1Lc9vNVuV0BXcUgBxbKVcRu+pUKBrowpdo2W1trswOpNVSw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1787632315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zjTbPJM27rJA89OB9jMO2Eplt053t8dZL9wr02py4xA=;
+	b=87Zv93jwVlZc8aPWsKjDHzbCGJLw7T3PEVyQ+bcTpy//ewZa1MsKV2LPTeAZbSd5oA3VhC
+	t2La/HQdLdlDv/Cg==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id D808EE00090;
+	Tue, 25 Aug 2026 13:31:54 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id C043122000D1; Tue, 25 Aug 2026 13:31:54 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: David Timber <dxdt@dev.snart.me>
+Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH] fat: add noflush mount option
+In-Reply-To: <787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
+References: <20260822173732.10230-1-dxdt@dev.snart.me>
+	<871pbn6edz.fsf@mail.parknet.co.jp>
+	<787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
+Date: Tue, 25 Aug 2026 13:31:54 +0900
+Message-ID: <87ecfmrfb9.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a885f2d.d76d81af.1755f0.2cd9@mx.google.com>
-In-Reply-To: <6a885f2d.d76d81af.1755f0.2cd9@mx.google.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Tue, 25 Aug 2026 13:25:15 +0900
-X-Gm-Features: AcwNN1VdykwJe9JzMftHHsTmKQeCwTEgdB5qedJLBayHX7DTlXr8P8FwO8MvXNI
-Message-ID: <CANFS6bbFx6vYuFV1e1wqNeSTua=aXkadxeQmbY9K+rXHf5=rUg@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: reject zero sectors_per_cluster in the boot sector
-To: Dennis Tighe <dennis.tighe@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Dennis,
+David Timber <dxdt@dev.snart.me> writes:
 
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index d400fea32..48bea5ce1 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -557,8 +557,9 @@ static bool is_boot_sector_ntfs(const struct super_block *sb,
->          * Check sectors per cluster value is valid and the cluster size
->          * is not above the maximum (2MB).
->          */
-> -       if (b->bpb.sectors_per_cluster > 0x80 &&
-> -           b->bpb.sectors_per_cluster < 0xf4)
-> +       if (!b->bpb.sectors_per_cluster ||
-> +           (b->bpb.sectors_per_cluster > 0x80 &&
-> +            b->bpb.sectors_per_cluster < 0xf4))
->                 goto not_ntfs;
+
+[...]
+
+>>> @@ -1110,6 +1114,7 @@ const struct fs_parameter_spec fat_param_spec[] = {
+>>>  	fsparam_flag	("debug",	Opt_debug),
+>>>  	fsparam_flag	("sys_immutable", Opt_immutable),
+>>>  	fsparam_flag	("flush",	Opt_flush),
+>>> +	fsparam_flag	("noflush",	Opt_noflush),
+>> fsparam_flag() is not including the "noflush" too?
+> I think I should use fsparam_flag_no() here. My bad.
 >
->         /* Check reserved/unused fields are really zero. */
+> It seems that you don't object to the idea. That's a good start!
+>
+> If we want to do this, the
+> documentation(Documentation/filesystems/vfat.rst and mount(8)) should be
+> updated, too. fyi, `udisksctl mount -o` won't accept "noflush" so
+> that'll have to be fixed, too. Also have to make sure if "noflush" is
+> used in fstab, udisks2 overrides the system default settings.
 
-We need to check whether it is a power of two.
+Well, with a your patch, just remounting without "flush" option doesn't
+remove flush?  And this is a user visible change more or less, so if
+there is an objection from users, then it will be dropped.
 
+Thanks.
 -- 
-Thanks,
-Hyunchul
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
