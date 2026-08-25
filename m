@@ -1,247 +1,147 @@
-Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726F3231C91;
-	Tue, 25 Aug 2026 21:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C901E3D7D80
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 22:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787694987; cv=none; b=PyfPwjmUlPnF2qkJnCXbt7dVD/QBXe3v7oEcK1KqtvKrIxy/zivlYNlOoRiKQn79FK4ZrImrPDwCervAg8NSKy9kFe6QlGOe+N1RECU7vvA4RqZ6smQlRq3EThhjBz54LX49B7/5unN9RE9g8rDA+7eLUBb2jahWRazABuzHZrY=
+	t=1787695735; cv=none; b=PHOGH2mqFJcw1Q7f2pVAmPjMgBPZ9e7gjrBY6HoBtVoOwjNWLka0Tho1n3xQcJDMGZuUQ8DQ0WGYHiW8lHqMuDtQOwmqWnypujnyUbaMyWQjE3OmTxMSrem+RrZBZ0Y57uVzihLSd+LG8Tzfm/og0Y+ATLCXUc5K7yoLj9FVFVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787694987; c=relaxed/simple;
-	bh=dm0QyT7++VWdHaVpCIpFW9MRS1FV5qyVd8f9Z3zLu0I=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=iTIn24QOCqA326IhFFsSxQTHg0e01NdBTM3V8mkq4JULwM2Tpur6LU/lf2DJ89jy+zcjY2RC1VCenlI7BtduZ9snwTwWxAFEm5tORmqyKojit5aHUwKftaoz2TbwFlbgaGcoBz+T9Hy/Jq6KsWFuxMp4FQ0xoWOQVlYSNqJxpeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=W1zOJXtT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F6ZZ5DJl; arc=none smtp.client-ip=202.12.124.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="W1zOJXtT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F6ZZ5DJl"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id C451913002CE;
-	Tue, 25 Aug 2026 17:56:23 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 25 Aug 2026 17:56:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787694983; x=1787702183; bh=K05G7A12ZirkV0S62vCINyB8k2uIdpaSt2c
-	/l5Svrv0=; b=W1zOJXtTY7krqUbI/e2926xA2AI0aonKJm93t8Efmm3sTv4C/55
-	Xlh0fnezDWIjnFiWDsI5KehWguDiDPvz24PomDV6c0NxVOuFjEi7DeJwPqkm1sdU
-	wESvCwK90Is87jd8TJknWHlz9D67gS7ovqI22ibngAABV5+ZXqhsOobu/Od4l2C9
-	OKHgTaFh/ouDlqrlUDzzgtEosWgI9MF3+t10kC83kerjkwEVmMxZWA5f8sVxyiHa
-	BcqPO/XxblPiXDiV5O4V7V5LeiRVYQudbW+85Pt4Sf+NO32s28RIC/XH9+7KAVDc
-	DzfVbZOp1u4yloVE7vfG9SUZ/lzztqTocWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787694983; x=
-	1787702183; bh=K05G7A12ZirkV0S62vCINyB8k2uIdpaSt2c/l5Svrv0=; b=F
-	6ZZ5DJl4wrVIGsuat3al6SyTvH3msQ3BCM9jddMk0KsQI7NB2roPOzeyYPEIe8Hf
-	jDIBVTrPqTsVuKwZ7mGq8zeLH0Mj06EtFNS2DFkqtpQfc0gcHkHh3lrvK0NPNSlx
-	TOhuUzE0UT4roBtnrngh+RFxjyIiqY2M13+28jErxmrIqhDUZ51D/h+3Pg7JW7Le
-	yX0wrSbsyI7wDuu9MaMkpGX+HJWPY07KCgsgYVB0Cm1B4623SLA5TwQHou2rBZtS
-	T8vJzKN4gwmq00/PC6XdPghRI/zVegG9MknPqbU1TOimsDFPA/vWHOI6UTsOe6/s
-	X1rmchbkL0elUvZyDLUog==
-X-ME-Sender: <xms:hg-Oam7wzMJUAHNHVmS3kaNBFaCfuHPtUMsyZw21EnOHipVe_AZm_w>
-    <xme:hg-OaoGFdekNRuJqe6y_VfQI7BzoD4yhwwqkeMslmaZTq7JQZ8J9rSPgNzlBnDN5z
-    319Un-MfJPjIT9I3vuNi3CEVD4R142ZMqRKYI9N-RWqei0hiw>
-X-ME-Received: <xmr:hg-OaszPMO38XBb9bOiFudtkeX90c-XU8Hutb5_SqVQG6jRqXJVKADYlzEku_0s73wq752YmdN8gpwO5S-sbToIA03BvXFw>
-X-ME-Proxy-Cause: dmFkZTEinfM2rX6LCiisMyfFt6nycDgH63ScsQwlmXkpkDSM52GqJt93CfJAFgJHAs8+0d
-    YVonLtc/8GUWKH+1AqRTJMeyvQC01F9hFs5SPWJnCnyj38ZpPlB87JP8Y/NZJIPumB7Th5
-    XBNUzkKkK91KeAd2GzBFSUi7z3seDx1P3Vii8PN8s8Z6BMei2iIXjmfJdTVcYdLS79IEIT
-    Cw3VX6P02LXMKO4gRAZUuH6UmBx9aIuViCOWHYgk0fd/RafbHOJLPEzuukpNUD61HJGNhr
-    setVMgw9EzoDFIcT0227/8DIP+AvONFUKeIuMRfMgjYsaqxmdUqsol8Qj1yAguLwwrvNM9
-    9yV/8A6sPKRFqWMEF6fFHNSKYNW+tIOl+6Guhmts0E3A0jF+27ZNJ0NIW7KehybzykK4bb
-    hdeLdKpwVTbvEcLzZn3/KXLa9e0jFLfNli8I+AcoQf7bbkz8Sdkwgs/RVovVHfg0N7P9LJ
-    2V3YIir6Z88Tvm1EkjmQYJ7DOg/vOwaHSFD6XGsEdZWUl14viQUPWcpDylDH4DuaYT9C6i
-    BmfBmlAI2/HTWjSq3i+ch8uDc9JdNk/1YHEzPsku1rJKcfO4iHT7hhkFDY+pOT2L6SfOhw
-    MciJOHiSvlmllnGy3G5MhYpkdwQgaag4obfbyPF5+tbkNzwIoASU7QgxNaVg
-X-ME-Proxy: <xmx:hg-Oag3oeqAdMvo4kL_VpxUf31WN5V3OGquTQ1q1q__0QGJ7g5IdYQ>
-    <xmx:hg-OanOqbkvAVCBKAb0NleNuqMDQ4N2Ck6MEQwjdGrWdreXhxING5Q>
-    <xmx:hg-OaksxkI-BOW8yZuRcrpqE8yFm3DpOVJiKyNdOZddSqOTY4Vby0w>
-    <xmx:hg-OajL6Lrtjz4k8Rq-wTkznr36PQiG7SdA-ovLNqZiiq_fyUxmkog>
-    <xmx:hw-OahS4kme2FlPtj7lTXPgXETDY-0mEaw-zcfQPIdM9nJxHdUJzDJI3>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Aug 2026 17:56:16 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1787695735; c=relaxed/simple;
+	bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iwvOoD3RGEqJMCL02crDfO3oKaQUzToBZi6WdCLaVoraJnBMlizcjgG+9s7mujK8QdlCNWVv0UVTbfftj47ilptGMOnlHcSt7xLlLMWA9vHMJBg20hUm+jY3ds1f/0MVs/nUmfn16HrAYEtTzvzSG98ooHHSJFsXgzixvwT5Up0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-45171f2f608so394060fac.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:08:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787695733; x=1788300533;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
+        b=hjRkJFhxp1VEYn4oma163ptX5BP+p12kBVwwoXdbJXQBiQt/zn66XWDHuwXKhldt6G
+         QwB1UwpK1C5BFs6j/mT8BpvTxpmv3KU7oup6wkiiRRlAbaROl3Y1HjATa7boHK7pqBWi
+         Cg9sHwzY6W6zEmydrBucJD79emFZQXbb3jjhVal4G6h4OSNECDdYVbieblzh5hq4xXeF
+         A4tfu9VgsClATD5lEb9daFk0cLUbcGPA6NxcYPdhxyRfO0csbzB1ViAgMLzF1C0YZs4B
+         R018b5VOkxU7oTwozeyt9ESGVEFdQnNE9uEnnsKqIYYqVEWFJl7P+B6s/e0C5ZU5ii+C
+         Oaxw==
+X-Forwarded-Encrypted: i=1; AHgh+RoP5Rjzvtv5dZe7gn6IaLhNY8lMBKfUVMuDVQNKMwfO9MxJtFMV8i7NV7cdeQxA4slPB1iV4Bqcm/WRj1/L@vger.kernel.org
+X-Gm-Message-State: AFuF++lmSiWqKyHlAXW7+YSdcEtbWNPk4bbnWZiEUsKvLPdHJzRB3KdX
+	021I17gigUaHhiozNWy0/KXDgRIUR+ONLHV2/03ep+jfXswPVVeo00i8FOgQengA
+X-Gm-Gg: AR+sD13zH7ER5NX9KDgRJPlJlpF01Yrp+VIFO6IRMfxK9GsNc+aaBNvbHVwYAKjbpQD
+	QkMXJpXkdvVjeXsIFyKc7mv0qsiCLQ1i5xnHR23WSQTIXYM4IpH60Z99zPe0X4z2j9hJHxxcyZi
+	XO/CCmopVcpxTsc4AHvCVYDYGHNlxKoETDz2kGnCmludxcalpS6CS8LLCVr+4xu3S1VzHYYwh+l
+	nr3ZfKHxR4YJbujGzdzX4CPSRNGMAHVVkb3ldchs8LbtDD+MGD/PjQaglx8avjV4Ax9GX8sfPs7
+	gtMz0mcPOcc16dOGcJYy/295ieYxX0XPR5ScYJSPNwYkvUSgY7rIr9gCux+GuNPa5oS9DWCDD5k
+	7AV63oQS4OyGoZlcGCqEXwd98rqBkSou02SeuhgDyX1Ku8REgCuFM5HhU73C/MLiXba5p7TfpUt
+	WsJGPEziLr6zG6tVpl6Qg1UXidJimKk55UoWZPp1RF2a/cyFnoTSI9MIVGsZJJ7ImHwvCM0BCbp
+	m2+/7vfoPvKKblKYiMo2xXkXjT6Z9xZ/iCLtV9soQHPYczk4pwLqrIyZ87+YPzONNJxux83efBO
+	sgpSyBakBOMFhv1HZdsHfXY9zcdEmRliMBlGIpmSq0GgVw==
+X-Received: by 2002:a05:6870:fba4:b0:447:a816:9328 with SMTP id 586e51a60fabf-465997fe2b7mr3193550fac.6.1787695732641;
+        Tue, 25 Aug 2026 15:08:52 -0700 (PDT)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com. [209.85.210.46])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-465adf69375sm585966fac.7.2026.08.25.15.08.51
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 15:08:52 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e9ecd7216cso209795a34.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:08:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp3Np8egwT3zSVbZffAnkOWTsBZcWa1V9g90rtiNgoQP/eacStH2aMjvHuS7D7dB3/FpfuGd2AxpYJj4vgH@vger.kernel.org
+X-Received: by 2002:a05:6830:7104:b0:7f1:ddf1:c731 with SMTP id
+ 46e09a7af769-7f4c5097628mr2648400a34.13.1787695731676; Tue, 25 Aug 2026
+ 15:08:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Chuck Lever" <cel@kernel.org>
-Cc: "Ian Kent" <raven@themaw.net>, "Jake Edge" <jake@lwn.net>,
- "Ilya Dryomov" <idryomov@gmail.com>, "Alex Markuze" <amarkuze@redhat.com>,
- "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
- linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v2 13/18] VFS: don't move dentries in d_sib list when they
- have the same parent
-In-reply-to: <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
-References: <20260815042707.2535717-1-neilb@ownmail.net>
-  <20260815042707.2535717-14-neilb@ownmail.net>
-  <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
-Date: Wed, 26 Aug 2026 07:56:12 +1000
-Message-id: <178769497289.3510150.1755559233711012616@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <20260822002111.GA6110@frogsfrogsfrogs> <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
+In-Reply-To: <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 25 Aug 2026 18:08:14 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
+X-Gm-Features: AcwNN1Ug6ZjMUQh0-6_7H39nZVAq6SWCLa31cOPu7pwraCiDoCVhUYh7Q1UxHT4
+Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 Aug 2026, Chuck Lever wrote:
-> 
-> On Sat, Aug 15, 2026, at 12:21 AM, NeilBrown wrote:
-> > From: NeilBrown <neil@brown.name>
+On Tue, Aug 25, 2026 at 9:44=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> > > Without John's trust I'm not taking this on.
 > >
-> > When __d_move() moves or exchanges dentries it currently always moves
-> > both dentries to the head of the ->d_children list of the respective
-> > parents.
-> >
-> > When they have the same parent, this simply moves them from where they
-> > are to the start in the same list.  So it achieves nothing useful.
-> >
-> > A future patch will allow d_for_each_positive_child() to drop and retake
-> > the parent's d_lock during the iteration.  With the current __d_move
-> > behaviour this would allow a dentry to be moved to the front and so
-> > missed, even though it is still in the same directory.  This might be
-> > unexpected.
-> >
-> > With this change the only dentries that d_for_each_positive_child()
-> > might miss are those moved out of the directory, or those moved in after
-> > the iteration started.  These are unavoidable and should not be
-> > unexpected.
-> >
-> > Signed-off-by: NeilBrown <neil@brown.name>
-> > ---
-> >  fs/dcache.c | 20 ++++++++++++++------
-> >  1 file changed, 14 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/fs/dcache.c b/fs/dcache.c
-> > index ae726f3ff0cb..50fbbcceca01 100644
-> > --- a/fs/dcache.c
-> > +++ b/fs/dcache.c
-> > @@ -3052,6 +3052,9 @@ static void copy_name(struct dentry *dentry, 
-> > struct dentry *target)
-> >   * entries should not be moved in this way. Caller must hold 
-> > rename_lock, the
-> >   * i_rwsem of the source and target directories (exclusively), and the 
-> > sb->
-> >   * s_vfs_rename_mutex if they differ. See lock_rename().
-> > + *
-> > + * If @dentry and @target have the same parent, then neither is
-> > + * moved in the d_sib list.
-> >   */
-> >  static void __d_move(struct dentry *dentry, struct dentry *target,
-> >  		     bool exchange)
-> > @@ -3119,15 +3122,20 @@ static void __d_move(struct dentry *dentry, 
-> > struct dentry *target,
-> >  	} else {
-> >  		target->d_parent = old_parent;
-> >  		swap_names(dentry, target);
-> > -		if (!hlist_unhashed(&target->d_sib))
-> > -			__hlist_del(&target->d_sib);
-> > -		hlist_add_head(&target->d_sib, &target->d_parent->d_children);
-> > +		if (target->d_parent != dentry->d_parent) {
-> > +			if (!hlist_unhashed(&target->d_sib))
-> > +				__hlist_del(&target->d_sib);
-> > +			hlist_add_head(&target->d_sib,
-> > +				       &target->d_parent->d_children);
-> > +		}
-> >  		__d_rehash(target);
-> >  		fsnotify_update_flags(target);
-> >  	}
-> > -	if (!hlist_unhashed(&dentry->d_sib))
-> > -		__hlist_del(&dentry->d_sib);
-> > -	hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
-> > +	if (dentry->d_parent != old_parent) {
-> > +		if (!hlist_unhashed(&dentry->d_sib))
-> > +			__hlist_del(&dentry->d_sib);
-> > +		hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
-> > +	}
-> > 
-> >  	/*
-> >  	 * Adjust parent refcounts if either d_children ended up empty.
-> > -- 
-> > 2.50.0.107.gf914562f5916.dirty
-> 
-> Both new guards are correct. In the exchange branch target->d_parent has
-> already been set to old_parent, so testing it against dentry->d_parent
-> asks whether the two dentries started in the same directory. In the
-> common branch dentry->d_parent has been set to target's parent, so
-> testing it against old_parent asks the same question. IS_ROOT()
-> still takes the move, which it needs to because a root dentry has an
-> unhashed d_sib, and the BUG_ON(p) above guarantees target->d_parent
-> is not dentry.
-> 
-> The opening sentence needs a qualifier. For an ordinary move only
-> dentry->d_sib is relocated. target->d_sib is touched only on the
-> exchange path, so "both dentries" describes just that case.
+> > Whatever path you and John decide on, I would very much like to see the
+> > question of Which famfs driver do we merge? to be resolved for 7.4.
+>
+> While it is reasonable to place limits on how long a series is pushed
+> out (I like to move with some speed myself.) we have two competing
+> implementations and that will have to play out. We should not merge an
+> fs just to finally merge _something_. The fact that this was more
+> contentious than usual doesn't imply we need to merge a version, doesn't
+> matter which one it is. That's a bad reason.
+>
 
-Thanks, I'll adjust that.
+Well, after 12 iterations in this version alone (working on this for
+three years) and forcing multiple side quests on John, I think it's
+not very fair to him to keep stringing him along like this.
 
-> 
-> This patch also does more for libfs than the patch description claims.
-> I would like the description to say so, because it makes the patch
-> worth applying on its own.
-> 
-> offset_readdir() resolves a stale cookie with mas_find_rev() and then
-> walks d_children from the dentry it lands on. That is correct only
-> while offset order is the reverse of d_children order. d_alloc()
-> inserts at the head and mtree_alloc_cyclic() hands out increasing
-> offsets, so the two agree in a directory that is only created into.
-> 
-> A rename within one directory breaks the agreement today.
-> simple_offset_rename() gives the surviving dentry the offset of the
-> entry it replaced, and d_move() then sends that dentry to the head of
-> d_children. Create a, b and c in that order and the offsets are 3, 4
-> and 5, with d_children holding c, b, a. After rename("a", "b") the
-> dentry for a carries offset 4 and sits at the head, so d_children
-> holds a, c while offset order still says c, a. Stop a readdir with a
-> reported and c pending, remove c, and the next call resolves the
-> cookie to a and reports a a second time.
-> 
-> With this patch a stays where it is, d_children holds c, a, and the
-> two orders agree again. Thus this is a fix for tmpfs readdir, not
-> just preparation for 14/18.
+At this point, I find it hard to believe there's much more to discuss
+about a not-a-filesystem that is relatively isolated from the rest of
+us. I've been following this discussion and while I don't necessarily
+grok everything, I understand it well enough to know that someone
+should just shepherd it through with John and just work things out in
+post. Honestly, the amount of metaphorical heartburn that must have
+been generated by this is insane. If I had any say worth a damn, I'd
+say let's just have Darrick work with John to close it out and get it
+landed for 7.4.
 
-Thanks for the review, but I think the above is a false hope.
-In that particular case my patch helps, but in a different case it
-doesn't.
-Suppose instead of rename("a", "b"), I did rename("a", "c").
-Before the renames d_children holds (name,offset) pairs of
-
- ("c", 5), ("b",4"), ("a",3)
-
-after the rename which with my patch doesn't move dentries but does
-still copy the name and offset from "c" to "a", and unhashes the
-original "c" - which we can show with [] - we have
-
- ["c", -], ("b",4), ("c", 5)
-
-which has the wrong ordering.
-
-Thanks,
-NeilBrown
+Ultimately, the question of which famfs should be merged should be
+decided by John and Darrick (presuming we just all let Darrick
+shepherd this through). This has gone on way too long, I'm getting
+echoes of the sched_ext mess... :/
 
 
-> 
-> Reviewed-by: Chuck Lever <cel@kernel.org>
-> 
-> 
-> -- 
-> Chuck Lever
-> 
-> 
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
