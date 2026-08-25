@@ -1,73 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E2C3A7591
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 05:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80096254AFF;
+	Tue, 25 Aug 2026 05:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787635698; cv=none; b=KdDjg9e/sAlRtnJyl8SrlHgdFgZ+JVEY7Itc3cn7R4Yj4XG+oHfKQ2zSo2BdNqj1GQr70esyZJaIISdrwr16aLB4n3nWu4ng69FnYL/lru3ANBRGpw+NtoDKJ6OTzTyLP1dd8If4xQdMphuf2ezPKR3wlWCZcATSnw/Zuh9+FQs=
+	t=1787636869; cv=none; b=j/yQJUPqiyihm338PR+12RsTOW/5ioqtEwKsMS/uBDyxnpNYHUhnCF7yUMlzzbREpahA6AnufYaXnbKQUpvv87/s5oI7FLNMQGpd6jMhdoNokHE2sHRMplAH5FM/pm4vf4OFtotBN0aEPAC252YC399XOkOZA+sP055aAP6vtyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787635698; c=relaxed/simple;
-	bh=c9y71GpbFpZGAWIhix4KUMxMoJU8+7VIqSYPW7lJs5E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iA87X9cQPhWWP1eHk9m3ovoeYNoXL90NejtMaz3dr7BduP34y73Tyvc1k2Huzu1R9epBu+UZq4GGsKbiYg9adm5en62tedJy9wi9DNTTL0DROmErOJ8hpnmvgzoen8for6qQH/jgP/L/ALdzNzKliDJIjg5lndfs0E9tWwtClJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOh5xudL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787636869; c=relaxed/simple;
+	bh=7TyKq0Pz34plG+S9NBtxDyIPK3EjqiAo12Jnj5rgtDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P0XuJD77abzalz+nbZUyoa5s3OdCyVifemxQ7d/Z37qV18vnyZeFtNWKY0EIiArcrmblDAg5JBS+zUOjPsZtVtdCeS3r28LnJGfOBeF9RD39FpX+0Xv9QT9sUv/ySIhQ5K+j56JPIGq/dj9SCN3jKO2qrK7lkIGkcF/G0yKNDow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=TetTreyV; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOh5xudL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1EE1F00A3D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 05:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787635697;
-	bh=2ibnJYW1W3WJ7maE4BMT5Ff0iHfq44GNHVOrNrkZzOo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=AOh5xudLSGj21+FvCDzIh8YV7zO4GBOmjLO1ls4Y6irzTMl/VXuG4Kpv4M0XmUY3o
-	 3aPk4rb/n9UHDdHKCaxbbPHMkUKRUOz9H4UD6OXhc2rinYksXGS5LcjtwaK1B8QeFk
-	 0Kjw+e6hvjvrokLUPhqNeLCJUR/YSGcAOzk+4YWnszbOTYSnYBg7JaWcR+NIwNs0OV
-	 Df/829Gc0rI3CKz5F/nbFayS6k/sVT/knL0iqs/qQL88o7B4rj0j7CggXnQyX8jM/D
-	 c8+b9pVERFm5F7JJxb/yV4Q0eCq9P0xB3d1tUhmxYe/5wihcwvfofWtpU5qlae7mvK
-	 OJdYVhwvXAIkg==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c15d47266baso497269066b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 22:28:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrfxs9xB1IhSMe4QUEWrpSRG3x1x9kL5c0lg/zgKOS9mTT/ykGfbKvWgGSJFD/jLv5sUgSEkAuFsADqx318@vger.kernel.org
-X-Gm-Message-State: AFuF++nCGfDZVmS3HMfZMLHu8ER2/+8L86RFUAvZrUUnXX+KGZTmiv12
-	6NGbUtlUhIwAqYcWbntVPA3KVXuyxM6EK77KHAhGMcmlQJF80827pLs/33HC1WpR06DRMVIoc6U
-	gKVpZQFKTJ17w9UAOeBuf47Cv75Efx/8=
-X-Received: by 2002:a17:907:6d26:b0:c1f:9cdb:9965 with SMTP id
- a640c23a62f3a-c24e584ddfemr365363066b.2.1787635696208; Mon, 24 Aug 2026
- 22:28:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="TetTreyV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1787636841;
+	bh=/+4S3sOALGFjRBbezfbkmsBdIDkyWibUdwQ2coYo/oI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=TetTreyVGPzdtwDpOhMn+woPBHGXi1HSXV8Ns3ldwPdPHRNAaphFwI7090/zOlONM
+	 fK9Z4xtXCoa7mXg0v4wF8O0S5lqHW69Bh49GftxybQoSRc68EKHKustov/pkQEG1Wj
+	 uwah8+9NPt9wykyOBg36IOwxaJWGem8ha4Y//g6c=
+X-QQ-mid: zesmtpsz3t1787636824teded12e0
+X-QQ-Originating-IP: 7wmUgRTrE7D1R/UwgJnlnBMT9+GHE2U2lSCnqd4ZNhk=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 25 Aug 2026 13:47:02 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11704938617123575298
+EX-QQ-RecipientCnt: 5
+From: Wentao Guan <guanwentao@uniontech.com>
+To: linkinjeon@kernel.org
+Cc: hyc.lee@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Guan <guanwentao@uniontech.com>
+Subject: [PATCH] ntfs: treat any nonzero dio zero-range return as an error
+Date: Tue, 25 Aug 2026 13:46:59 +0800
+Message-Id: <20260825054659.3967694-1-guanwentao@uniontech.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a88e220.1e1ac41d.2d530b.7cac@mx.google.com>
-In-Reply-To: <6a88e220.1e1ac41d.2d530b.7cac@mx.google.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 25 Aug 2026 14:28:04 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd90WmfFBtf6DPtF75vcGjfKcwUa4yWdgXDZt0zCmVh-6A@mail.gmail.com>
-X-Gm-Features: AcwNN1XBPj-oX1a_5MxYayJw2NVLPOvbjYV-dsCZ7bIfgW1IwUtRHMdAx3cXa9M
-Message-ID: <CAKYAXd90WmfFBtf6DPtF75vcGjfKcwUa4yWdgXDZt0zCmVh-6A@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: bound $AttrDef table walk to the loaded table size
-To: Dennis Tighe <dennis.tighe@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MX+1SEN3H+wAYS2t+IWsgNe2LAyuURZC5E2YZJVKuMiF0y2OG2ojTqrc
+	prd+zxc3msbQ9Vm68eu1478R7K80SreHt7XrQFSLKSWjRrY8uJjv68fqntcVsA6ZM3fgAQW
+	KzrkBKvk9QsgaUWBecS7xce5B14in+1/LiIWfFh9n7mk+bt+qK18mpMcTlrASemsCmL9RH3
+	EfVxwvGWJmmgj2wh8W1G8T8MQIoiMI552mYuY7vVJIOpZ9qgiPH8xOiaWvk7VqzzShBDg7W
+	8gyeNr7cGqdZYWjBbnyts6fK/s2s2SZQp5oSdrm9Ws6utddb34muW3FfDE7JA3vk/Wun/lG
+	bx0ogJ9wkEWaarSNukRooTGO+TxdoJTH2oa98TyYTjmfjoEuys3wU6bL5R7UR6nLKTqAu7q
+	UsqgFw9fLcBYW9gB5hs39yjml4xZJTlN9z9MEOip6CSGooEX6E4U/Z+B0SPwGJNxeplYJ1V
+	uE7sHPQZDX8jXF7m9NCvOQspNEfmV6CtlUV08BSDk3hoI8ETDpPrMSpG7psPOeN3y1ADZ8w
+	FtmA5fgHioghxIuJcmdb5yeYn00PyBxy8lY6tcnZ7I2D8X0Mk+4QD/Y1wWEDa2RHj6qu0bI
+	xL531N/dpXLH+kiOfhV00ETQrCUexuIHXubkmPnUlzfkZdcBq4QcjWQLqAESZFPIIhs/tFB
+	/PLngYJ2USzTqNwsUAcJixgjGvF1fMHFu/z1cYc/Kj4m9gH2M3PSjYfSrsS7OpsGjDKl4Vb
+	o41X01ofZrTg1iJ1xAAfIa7MxLCCcFcnKo5JBylWCAAv0oaxg0CHb5b8oba25aLwpA5kyq2
+	TI+GdR0tXorTB17sZg8kckIXmrkZOSmbVuS+f7tQEgWmbJIz+WWGDQxnRTIHKSikE4A7aNg
+	OI6sWeZJD29E+e+K6y1Hr8icAvyMmjudRfva1t3wZd6C+SK5j/vWtXqFIrV22Jk3ET55ZAF
+	ZSqfa8WDIRmD0YCNxUv5bLcIMtna55yxu3Ek7f0f5RrTaJH/mF+2aiz9olGQMjz5ql+1lJu
+	qvO7ISTYVkdpRBdm6mRlj1/GKvbn6OmQLTYn/UxPvweFQRB0S/QBXCI4UN/84=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-RECHKSPAM: 0
 
-> @@ -1737,7 +1737,7 @@ static struct attr_def *ntfs_attr_find_in_attrdef(const struct ntfs_volume *vol,
->         struct attr_def *ad;
->
->         WARN_ON(!type);
-> -       for (ad = vol->attrdef; (u8 *)ad - (u8 *)vol->attrdef <
-> +       for (ad = vol->attrdef; (u8 *)(ad + 1) - (u8 *)vol->attrdef <=
-I would prefer not to have ad + 1 check form a pointer beyond the end
-of the buffer after the last entry.
-How about this instead ?
+ntfs_dio_zero_range() returns either 0 or a negative errno from
+blkdev_issue_zeroout(); it never returns a positive value.  The
+zeroing failure check in ntfs_attr_fallocate() therefore never fired,
+so a failed zeroing operation was silently ignored: the loop kept
+going, the newly allocated clusters were folded into initialized_size
+and the write could succeed leaving stale on-disk data.
 
- (u8 *)ad - (u8 *)vol->attrdef <=
-          vol->attrdef_size - (s32)sizeof(*ad)
+Treat any nonzero return as an error and abort the allocation.
 
-Thanks.
->                         vol->attrdef_size && ad->type; ++ad) {
->                 /* We have not found it yet, carry on searching. */
->                 if (likely(le32_to_cpu(ad->type) < le32_to_cpu(type)))
+Fixes: 495e90fa33482 ("ntfs: update attrib operations")
+Assisted-by: atomcode:deepseek-v4-flash
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+---
+ fs/ntfs/attrib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index 58f32aac5f614..b50413a5d982f 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -5666,7 +5666,7 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff_t start, loff_t byte_len, bo
+ 								  lcn << vol->cluster_size_bits,
+ 								  alloc_cnt <<
+ 								  vol->cluster_size_bits);
+-					if (err > 0)
++					if (err)
+ 						goto out;
+ 				}
+ 
+-- 
+2.30.2
+
