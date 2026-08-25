@@ -1,127 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BE63DD873;
-	Tue, 25 Aug 2026 08:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707B63DE426
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 08:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787646109; cv=none; b=EnIGWcC8VWZAgSLO9cI9mwXNmdZhwnoUYQJYFNDN5bbqU3VYJzp7471k4dst9+Grg1puCFoCMRrq6xppDKoB1rX+BiRIntVGlgDKxfoXJO9EQjmdikDZt0d32/8yM+SgQDrkcJCJWpiQKuoig5in8V5dgILDLUqpem87kv9U6Eg=
+	t=1787646260; cv=none; b=OowiYiCxLiALjIGC/bMIxv1QSuWe0ON0ypiCOS3PJGLMulcObiWkzo/euUVO4TpqukqxhUmH0i7j9D3Tw0649jteuk7OTs/jdxwqNcNErtL9mODEFyjc6Ao+q+kviS3AgWQ4DrXh82XGFg1xmUQDUSd5JyoO8D8s05XdAYt4jLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787646109; c=relaxed/simple;
-	bh=oTwpLEO+4xiyjd9b18bsGPtlS8buYWALnFEn+5MhIzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=fbZVzfaorMpWBzIJsWalzfFWGak5hv8E7nBGjg2VgFMDFwXkeL+p090tTHGmmFm9Z32ay97cv6cOjEIyFyt7P9coFjdTtqXD/6ZVI901Ps7O3rW42dpNxC2HWSBj3Fjw9BAM1ZgWgfkFb4G4b6t51QdmmbXIc9BjSbjwN+BELLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aaq/eH8V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787646260; c=relaxed/simple;
+	bh=DZQvgMF9MtoSMKn9/xxgPT3t+kYxUHeBLkPFZwmxGy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYWa2HC3r+LZAhZmp5WNOjmTu6+EBVFXIcrPD62XfSdZWFKM06uFX9VJbzlfzvfdZSwlYTd/onNGQIeYL1WqpDrblJK2yFZFBMZR5ALu8Hq3gn5ie4azgh58CrO1wb0IKvF2ryBYdwk/IW+ksqDvpFpqeQ7AXt/8QG/CTw9z8DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=BFeqlQ0q; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aaq/eH8V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4186D1F000E9;
-	Tue, 25 Aug 2026 08:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787646108;
-	bh=NXKQgtP819ziNFmsf8nwaLs0r3JO+eL1G9NY1e5O7J0=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=Aaq/eH8VM6twuj209DvbzZqJNNjGz8f0XSwa9/UYpv+UjZTVc0nU7Ul6zaIyoZFmc
-	 enEj/Ed6V6M2B9bZ9h6ZOlpAw7eC4369iiKLmS4oYgFphyADmwwgKRjdNrLnobUlxE
-	 ur6LvKtVPdlfOIgMciyjz4NikQavx+ISAD40p5tR3Yt2uwFv55KWwFb6msBVuhK4ET
-	 aSp7ZsdQKByRn78/rV5QdmaSy/rjuGtC0qalQCpYnSQC/IiY1ODDxnqVcieO1EzYeG
-	 em/chJWk8qa0mykuxRg4jFboHX8PEIrDOKUgO63cUqpsV74wt5Dbu1t136iOyFq75w
-	 /qMpyHD4vKfVw==
-Message-ID: <306a6e9f-8090-463e-8b4e-0e039a4e36da@kernel.org>
-Date: Tue, 25 Aug 2026 10:21:43 +0200
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="BFeqlQ0q"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso719084166b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 01:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1787646255; x=1788251055; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DZQvgMF9MtoSMKn9/xxgPT3t+kYxUHeBLkPFZwmxGy0=;
+        b=BFeqlQ0q/iI/Y9xCCyZW9DcLrNuxdKfN+Y+//0GtDmUjYy2yEe/So/1C91iOhFggaa
+         w+PoJMpJllcqUOV1XX00bD7B84xNhMcsllE/0Nmh9dN8tZqJJBTNzbShKDQnxPsEmaEB
+         ADAFZ+g3kLKRuXMS8OJko/112mNWDH4sfjFIo4ughfQq/cnFDH/p9Dc0K0AtS70+B4FM
+         F9fsHPDaiztrmyZ3lyUZT3jElm9oP2eZVU4cOzQu3ucYmiskPZDEWm9d/KJQ6ZtJ4Xeu
+         uIa0swNl0ttsWWPbGXJPM6SHTBQ7jF+5mcgT6fWzV+zAaPzszidX3t44XfJa0Wfi3HSP
+         gdqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787646255; x=1788251055;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DZQvgMF9MtoSMKn9/xxgPT3t+kYxUHeBLkPFZwmxGy0=;
+        b=Jq10wNZdhQcL8E0bOWhh8yD3xlUF95MTv5Bs5JpZrmnp2FTNyobSs0AUuBwVEQMRfM
+         EGKadaoVURFQ+5nDXiMI4K6nwa7D5j3hQUqKcB80QvPdjcBgqZG/o82eiRPLqcaTT88j
+         QRBpf1vXL2Z0lP8wuAmX7p2yjxZFE+1hPeqPU8EoL2D/KfgEefbsdJvncDPt4DYgw995
+         Hk+Lpnh7A4whUEcF57s1O40JXXR7IKzPVsU5NMYnN9dSqvNp3d4N7n8oLUGB95UPehtl
+         SQaZSZ7zKRDj50rozFE9hbsyVHepf3OCED7UyVIVXjHzMya4jajrwRzSfhQTc+aPCP1K
+         EVPw==
+X-Forwarded-Encrypted: i=1; AHgh+RoiUKmIWTHXR8rDxTZkkvZHEgJCS1we2wGV0Qd1NQ3+xS5vG75JoAQKkOmGUcyrXfsR0pn5r1J5mnEEcZ+x@vger.kernel.org
+X-Gm-Message-State: AFuF++n5Q0lCs8jR4gGScRk5MFNxz5YWv/xvm+hYUH0MFQIEOz9pchoD
+	oXLKwwH7Xci9pIinoy7jHGotnQZhaGU7WYY/IkfJ9jbwvkj9S170tBs+i2qKZP6Ifjw=
+X-Gm-Gg: AR+sD11RvV7UNPVThRwADQekfWMr2actAKb7hXk04/BCtuqq/dpqw32JJ0G4NlOquls
+	S9qhV3rMMxmIAk1Mf3ShSSC8rmuMhdp+AqE+9zy2/VBhP2YCGOgiEnVKQonThMmiBt1AwlVVvm6
+	TORx/3tA8lujD7RYwHHzjI9ZBrSTSv69hNfFhTeEgbPhpsR3I8bPOz2Uk8zvzCAyrr8VbpU1mDH
+	Ci5W7bFjJV1ngI9xn49yojRvw8M4XXokBPSukIACx4rr9rGSm6x7SFHWXsWSc87GbtbpkcBxc5h
+	qXArLgWmSrogCVjkppVrPoIEHsTIn92pvkAn6EKswub0Jb8TNLxZ3zKmMyvePKbfnGf8o+FSa6s
+	6+Lc00VHK4XEcuRuuXN/iAEW9lMCP9h8Sukor+hTOiL7RGyyT33qbfBXhM+F4EcBdy+05qozREi
+	Wwy13hxPGpeKu4af+pMZftLhWz+KGF+cmSeFus0ne/j0mrIhTYJnB0H2/OxHPHW10xVFAeFF+n5
+	wEeBmRT1Rmxw/wXf58O47te/2rzrvwONvN1Qak/TqYqmmgv/Q==
+X-Received: by 2002:a17:907:1c07:b0:c15:f26a:3438 with SMTP id a640c23a62f3a-c24e5c1ffd3mr497229766b.24.1787646255345;
+        Tue, 25 Aug 2026 01:24:15 -0700 (PDT)
+Received: from localhost (p200300f65f19a904037016a565660d5e.dip0.t-ipconnect.de. [2003:f6:5f19:a904:370:16a5:6566:d5e])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c24966f9cbcsm1874351966b.29.2026.08.25.01.24.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 01:24:14 -0700 (PDT)
+Date: Tue, 25 Aug 2026 10:24:12 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Mauricio Faria de Oliveira <mfo@igalia.com>
+Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	kernel-dev@igalia.com, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	fsverity@lists.linux.dev, keyrings@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wpan@vger.kernel.org, lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	coreteam@netfilter.org, linux-sctp@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-s390@vger.kernel.org, bridge@lists.linux.dev, mptcp@lists.linux.dev, 
+	rds-devel@oss.oracle.com, virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
+Message-ID: <ao1P_mEJdyRExG3v@monoceros>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <20260819-sysctl-module-aliases-v3-3-aab90569365d@igalia.com>
+ <aomlfGJM61qZKxx2@monoceros>
+ <4e3eaf1d3419e808be046035f114bf6c@igalia.com>
+ <aotteDcc588iwC6g@monoceros>
+ <4aa22e41e8ff4bab6638cf0baaa9d07b@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Removing ->dirty_folio
-To: Rik van Riel <riel@surriel.com>, Matthew Wilcox <willy@infradead.org>,
- Pedro Falcato <pfalcato@suse.de>, Christoph Hellwig <hch@lst.de>,
- Jann Horn <jannh@google.com>, David Howells <dhowells@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
- Qu Wenruo <wqu@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-xfs@vger.kernel.org
-References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
- <b067b26d9d0bc224b5916c7e064277863e7bbc55.camel@surriel.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <b067b26d9d0bc224b5916c7e064277863e7bbc55.camel@surriel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ajsyed3ibfmsggn6"
+Content-Disposition: inline
+In-Reply-To: <4aa22e41e8ff4bab6638cf0baaa9d07b@igalia.com>
 
-On 8/24/26 21:33, Rik van Riel wrote:
-> On Mon, 2026-08-24 at 20:08 +0100, Matthew Wilcox wrote:
->> I think it's time to remove folio_mark_dirty(), ->dirty_folio() and
->> so on.
->>
->> This is not how filesystems want to be informed of folio dirtying.
->>
-> This sounds like I should leave the folio_mark_dirty()
-> stuff in the get_user_pages() code alone for now, and
-> leave the shaving of that yak to another day?
 
-Absolutely. Making it consistent in GUP is a reasonable cleanup, but don't mix
-in too many unrelated things into the same patch set.
+--ajsyed3ibfmsggn6
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC v3 03/13] sysctl, mod_devicetable: add macro
+ MODULE_SYSCTL_TABLE
+MIME-Version: 1.0
 
-> In that case, I'll prepare my next version of the
-> get_user_pages() series.
+Hello,
 
-I still want to go over it and provide more feedback.
+On Mon, Aug 24, 2026 at 06:04:03PM -0300, Mauricio Faria de Oliveira wrote:
+> On 2026-08-23 19:12, Uwe Kleine-K=F6nig wrote:
+> > On Sat, Aug 22, 2026 at 01:57:24PM -0300, Mauricio Faria de Oliveira wr=
+ote:
+> >> On 2026-08-22 10:41, Uwe Kleine-K=F6nig wrote:
+> >> > On Wed, Aug 19, 2026 at 03:16:16PM -0300, Mauricio Faria de Oliveira=
+ wrote:
+> >> >> The MODULE_SYSCTL_TABLE macro emits a struct module_sysctl_table va=
+riable
+> >> >> with pointers to a sysctl table's path and entries, and table/entry=
+ sizes.
+> >> >=20
+> >> > That new struct doesn't seem to contain any pointer?
+> >>=20
+> >> The struct module_sysctl_table fields .path and .table are pointers,
+> >> although with kernel_ulong_t type so that the same 32/64-bit size is
+> >> used in file2alias.c based on KERNEL_ELFCLASS (and not on the host,
+> >> which might differ with CROSS_COMPILE).
+> >=20
+> > Cross compilation isn't an issue for the already existing device id
+> > structures; many of them also contain pointers.
+> > (While modpost doesn't use the pointers, the size of the structures must
+> > be known to correctly interpret the arrays.)
+>=20
+> Indeed. I missed some device_id structures with pointers, and that
+> devicetable-offsets.c is cross-compiled to generate
+> devicetable-offsets.h for file2alias.c to use offsets and sizes of the
+> target architecture.
+>=20
+> I'll change .path and .table to pointers in the next version.
 
-But that won't happen right now (it's surprising how many people miss that we
-are in the merge window) and also not next week (traveling).
+I *think* the existing device-id structs use char[] for strings that are
+relevant for modpost. I look forward to you finding out if there is
+still a justification for that :-D
 
-But there is also no need to rush this, I'm sure we'll get something done for
-the next merge window :)
+> > I would be great if your series didn't introduce a new obstacle for
+> > [CHERI].
+>=20
+> Absolutely. I'll be happy to adjust the series and testing for that.
+>=20
+> Could you please confirm one should just follow [1], which uses [2] to
+> build the LLVM toolchain, and use it to build the kernel [3]?
+>=20
+> [1] https://github.com/cheri-linux#building-and-running
+> [2] https://github.com/cheri-linux/buildroot
+> [3] https://github.com/CHERI-Alliance/linux/tree/codasip-cheri-riscv-7.1
 
--- 
-Cheers,
+I used
+https://github.com/CHERI-Alliance/meta-cheri/tree/codasip-scarthgap and
+didn't care about toolchain and rootfs. It also has qemu integrated, so
+you can actually test it.
 
-David
+Best regards
+Uwe
 
+--ajsyed3ibfmsggn6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqNUSoACgkQj4D7WH0S
+/k5rHwf/eQKyjSm4dfYOnpO+kyESzhGSDXacrU0BK/nrQ7Z3BN+QipNdHe9BZ4f7
+k+3uxaB8pZmyHeh98alfg/5Bq9HBt62YSsVo0f1LrxdEuw+otojZstZ5BajlC1fB
+uCZWsGYJ1lROqcGUkm3WTuwmO+VkI4no1e0+OMnKjMkIdarwm+SRxroNmGXPxjFS
+0c5XzO8ufI4T330xBhTtUCfIGtmOib0XeyZT/dCtT8wNoKlznA36ojMl4ZOArWgW
+VYBN9/JdmoDGTZxdbWqXoETzY//dT0yaCQF2J8+eM7vMW+ay0vkBIpxXkR9QmIGF
+KIDH4l3txv82X35T5GJP5y9myooT6g==
+=Ph6i
+-----END PGP SIGNATURE-----
+
+--ajsyed3ibfmsggn6--
