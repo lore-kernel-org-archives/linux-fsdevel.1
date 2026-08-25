@@ -1,70 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101FF1FF7C5;
-	Tue, 25 Aug 2026 12:45:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B05442B3F;
+	Tue, 25 Aug 2026 12:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787661953; cv=none; b=PGqx3DfnRSVDnxEZ9bC20AJA5yhC/A69JuFvxeU8xscp+9jNAFjzdovsxijWr64tBwP5K+TcSYdfX12Wx+HvkzMtuRLzUHogjd3itoJrB41MD+BQEjy9tU0ZUAcyDkOzbDe5np6rkt3TzjKKxnVnZCgGKGU98iBQQDFbt7jSZXg=
+	t=1787662085; cv=none; b=dOCIHn2i4FcKVOPpPzECEK3LsR9RpH7le1BOQFQDC479ZxcCVVL4DcH9pdvddoqXZExQlo/AIAsWt6j+0eShwtdNs5CsCPSDCAB3eU7cC+ZrUpOwcfuM2qdoYVftdqsvPDzYD1pNgca+17SC3+MzeguUetXRKsTfclIYgDwEDag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787661953; c=relaxed/simple;
-	bh=HmU7Nx1JQE3YxPhX+v6TAS2KEkW3fAfvmpp1LlgfD+k=;
+	s=arc-20240116; t=1787662085; c=relaxed/simple;
+	bh=OqrqU/2Ed5rwzqui8afuZaDGPHtphtPRvnBIsOY8Ylc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmjyYijK4dB4BWbfxSN0uqnKrXBNXatIC+SFaIVQKYWEC1YWoMrT6ORzbXZCDeA3UJ2d8hp14rr4k6nLsGg72T/KyNOYVVndMGqUav+ph//02E0ri6gLU384uyYAuKeFeSNtFY4oTh4ZkzaImXVYoJh08vYAEWkZeFlmamo1wJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FrQeZFxF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TvMl8JWMMJjesPEWcvKsDXmzUTFUR1++ftTjMSRrt8xj2ldIAHbWyEpLd0k9ZDQwZo3/KdIqODPTQTy6IGewp4FvYASV28ZAETFoCvDN5foSLs2v4V7QjchWzzC4iXURud/Kbsx0Gstt7jHB64iq6Pl51/j62//9IHkBQZIZofk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OyO7arxs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FrQeZFxF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D541F00A3A;
-	Tue, 25 Aug 2026 12:45:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OyO7arxs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE771F00A3A;
+	Tue, 25 Aug 2026 12:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787661951;
-	bh=HmU7Nx1JQE3YxPhX+v6TAS2KEkW3fAfvmpp1LlgfD+k=;
+	s=k20260515; t=1787662078;
+	bh=uvLSFBna8Q9cJU69LRFVCxwCgb+cCDLOAutOk7Jzz4I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FrQeZFxFXeX4LKudQJw20QTFvQnO22SmMG56FnrB8ggAxqyHNYAmRrDt/U5lQp2o9
-	 xD+k7xpnj2S8whkR1WdLH0svZP3kuSymzo+wTdxkJc/2n5edsDZ5cJRohfzF9iw6G4
-	 IkjJvlB4YOLDHmNGUWqU3rgH+dNXpRpHT6EUpBjyobO/kfK7IeYn7Uf2JWjaJjcjN5
-	 Qc73mVM2KUtXpsULAKT8QcnDJ34cwDJ1dV+0phk/lTP3asmXoYQy99p/E4oyP0gCJ0
-	 M4RarS4afzXUSN02FSIwBh6pLVN/oJZjZX8rm0QttrMbjnMn/gRxqKT9d+neMslcNs
-	 ujeukwwwcgftA==
-Date: Tue, 25 Aug 2026 13:45:40 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
- into single VM_UFFD
-Message-ID: <ao2OYvbEIOfwBuoD@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <ao16VxNvaYzlt2WG@gremlin>
+	b=OyO7arxswsgVpSVcquHYay6KVDV8aNakQlfAjZ02eBRdhWPAJ99DhWb37ggz9m/az
+	 T6lAs3O4ISqzr87P7VvSTeQUL21fNpwp3lQeW1qCcp27yswnsh/P8Yziyo3g/1iRV+
+	 PT4AiQFGEx933y1+73j7+oCgmBSDZ9KQvqRCADsJ5pDWnmavO87KYRixP7is0Y1rcK
+	 ynpcn69csMe5ds7L25FiK0AkhloAWbuDHebpz8liA3ROYZV1SVifDnRJqA11KvzbPL
+	 NIEYN3FN1KN9s5j6mlRlsYqOy3gSpw2oKNxUROGZ95ItEYd+F3dYcNJuRg3M4JhgY/
+	 LLHjfJeFVVVcg==
+Date: Tue, 25 Aug 2026 14:47:54 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: clm@fb.com, dsterba@suse.com, sforshee@kernel.org, wqu@suse.com, 
+	josef@toxicpanda.com, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH v2] btrfs: allow idmapped DEFRAG ioctls
+Message-ID: <20260825-vorbringen-bussard-angeln-5b353215ba73@brauner>
+References: <20260815132259.3935817-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ao16VxNvaYzlt2WG@gremlin>
+In-Reply-To: <20260815132259.3935817-1-cui.tao@linux.dev>
 
-On Tue, Aug 25, 2026 at 01:44:23PM +0100, Lorenzo Stoakes (ARM) wrote:
-> Isn't this patch then a bisection hazard where the previous one makes the flags
+On Sat, Aug 15, 2026 at 09:22:59PM +0800, Tao Cui wrote:
+> From: Tao Cui <cuitao@kylinos.cn>
+> 
+> btrfs_ioctl_defrag() checks MAY_WRITE against nop_mnt_idmap, so on an
+> idmapped mount the owner comparison uses the caller's fsuid against the
+> raw on-disk uid and the ioctl fails with -EPERM even for the file's
+> owner.  Pass the mount idmap down so defrag works on idmapped mounts.
+> 
+> The check, added in 616d374efa23 ("btrfs: allow defrag on a file opened
+> read-only that has rw permissions"), is not a privilege gate.  It only
+> tests whether the file could have been opened for writing, and a user
+> who owns the file on the idmapped mount can already open it O_RDWR,
+> write() to it or fallocate() it.  Defragmenting a regular file only
+> rearranges the caller's own extents; there is nothing it can rewrite
+> that the caller could not rewrite anyway.  Whole-subvolume defrag on a
+> directory keeps its capable(CAP_SYS_ADMIN) requirement, and the
+> !capable() guard around this check is left as is.
+> 
+> FIDEDUPERANGE already works this way for unprivileged callers:
+> may_dedupe_file() in fs/remap_range.c compares the inode owner through
+> file_mnt_idmap(file) and falls back to inode_permission() with the same
+> idmap, and dedupe can rewrite one file's extents from another file's
+> contents, which is a stronger operation than defrag.
+> 
+> On regular mounts file_mnt_idmap() is nop_mnt_idmap and nothing
+> changes.
+> 
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> ---
 
-Ignore this one, I realised I was wrong and forgot to delete :)
-
---
-Cheers, Lorenzo
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
