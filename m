@@ -1,149 +1,119 @@
-Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE50E2D9792;
-	Tue, 25 Aug 2026 04:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787631002; cv=none; b=luAgRr60uFsylVAHUbdQVNr+IemAa20Fn70ioSbFSwryI7uirD8bj621KJt8h9+iUpPqCUDhFV5ggJ1uVFrqudBTxpNjaG4LTn+bECAlvTG3O6FH7xaUFdtb3nicC6YDUY3VdvJIvxgYtHDtv/mVAMozSK1eh+LyjDUs7SOrPz8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787631002; c=relaxed/simple;
-	bh=GCKOeqvQQ4h3sLsNo4562hEc6cyczIzgczQh3GCPpv8=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=fhix13fpzYgnPmYKeAxe0DvC+JRVZPgu05v2VSniVMKdQCLbWd0sla8JNCT5wc+yCfviO7r0srkrBillDOzu7vnEUTj0Npg+nk4UYP5ILA0cVxjvbouyHKKdZrvml//kUgtzYNp4rTxpjOR7AXbH6jyOnF+DF6ib2xzUlo2oRuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=VmOJZsvu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EEYEIXQU; arc=none smtp.client-ip=103.168.172.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6694C3A63EF
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 04:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787631932; cv=pass; b=coFTy9B9FEOB1/CBU0meRE5VOwHlG5wbadvZAcpzPIdRNWTUlpSAoKb/J5muksoBn3Fx3Ty05AA6VYfaudiT2PLya+RrmbHG5li4Raleo9kpw6t5ZS5ro39QJDOVx1wvWiiiaBS1hNirzYZiifJB6RZ97rCJoI1zKX9ThcHsygk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787631932; c=relaxed/simple;
+	bh=9M5owZU/Iz+HnaITb4DurTzse1Fzjh2hCNKz2xvi3ZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pym11fD7QPZXu0IlLRhHgMLq8Zse18BqRdRddi0bHR9KFDSY+51j6+CtKrCr0zo0CZrCtdCuQS2nyI/auuBOs+NmGHpJlWkbUp1DmSsjIcjpmWADwQRKBBXGSqDFHTNS+UNYF+NPEY9Q+0TydbImOZ2asQKFdPX2xyWYvOxwfoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pvFbC1Ea; arc=pass smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="VmOJZsvu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EEYEIXQU"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.phl.internal (Postfix) with ESMTP id CB70A1380104;
-	Tue, 25 Aug 2026 00:09:58 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 25 Aug 2026 00:09:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787630998; x=1787638198; bh=gfzmhiIcB0bekT0CYQojOTQWt5VjQ1DlVCR
-	0Y2kGVR8=; b=VmOJZsvuLMPuT4/XbFzo+7qH8JmIsulFBHvMYvEEAdqZamZAJe0
-	pkSs2rOgyyZsJx/ggcxsQ+m+M8aZ1sloSs8QoLmn1UFg786DgXbv13TpqamsBkDo
-	B29/XjMlqPloGpnIW31haAbfzfcl1/IpAH+joT0c/votgdQPMEfyl0bTOnD1rOLB
-	slUvWgjpCcOQ1dqVlO0cbpoZ2cN8UUfR9iMKNY1M/RU0OkjpAa9fdieoJpBWsugJ
-	cDbs1HJaX6P9PbxL+XG0P6mQ9cqpYC+m9MhkELIl86/9KnkbH2y/JXxKJygmrYs8
-	GSIdVhjxGdiUMnZSZqYiPg2htZAkN2OKMvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787630998; x=
-	1787638198; bh=gfzmhiIcB0bekT0CYQojOTQWt5VjQ1DlVCR0Y2kGVR8=; b=E
-	EYEIXQUW2w+IvyjYge8X3DaNB6r0vHv607haJuOez0M4icKrjYT/amTGoqj99PtF
-	n+uK0UCXU50HbHy5oHtqzlJ3TEZCheLxT/aeeVpMW3roYIEku7K6Kznd0vamrz1a
-	ctfjWJC9446Wste/Drgr47i289kvHEMiVa/sFUT9F3MeZwBpXiH0Iq7qIptmbKOa
-	UhVWEV5PLJSbSrpaMUPcZe1/j3+RcsWBKaXlkRnpBtyFQjiRSvtHAqHd9fLTUGxB
-	yxqc8miu+dSasSTCjiqyQ1DT4cgJcs4c0VFeyY8F9b7oyFqRWBIkM4dWl8ZhgnfN
-	gcfoeQUrIQ8bfVrK0VlpQ==
-X-ME-Sender: <xms:lhWNamVF71uR9GJ31G4ZO444p7EgsO1dj34ek-tF-WJF6J79P7kHSw>
-    <xme:lhWNaqycHXt0IAot3O1HBfnlTNd1khShIudtVSEU_c0DeUnS19_VWd6HVRJaGjvo-
-    A2YjabCXuE0B6uFeWi7EFfxP70fG_zSrE2cmydkHtPzl-HyjA>
-X-ME-Received: <xmr:lhWNahtPN5xHk7o7l7R9sLNp-myD4YRQdS_zVXIe4AiabzHsxUVaYVa86HXnfzmiDrBvQvwQVIoKSUBReCAhwgc4Mjm9Ix4>
-X-ME-Proxy-Cause: dmFkZTFb1V9n/Rau2wZjVEeTtHtAjpRLi3Fx7aQyWsyGbHDDpCn5SpctxOLQF1z4Pp6DFa
-    9u5RfEtGY5ExorOrZ2p6AhLPnE7vhM6Wukm+9E/99g9uWhllVzhra78LAV00rcmHXm9CtX
-    sxRThI/CZ7x+k68gPOCgj85/kxGrOXdHKYxGvExhQ+HqpYpim4/DKKQ1VSLuVUGjv+gfFo
-    rcS5ckepksDSIEfOeE2ooDJs4ZksKbVdt0C1d+A5VNZ9Sf0Y9+lAjSsMgyvT1Zhn8vfSTG
-    CrJ7vggwcZjX/4RRVpVYry9/jh3xS9sWT4haWu3+KA2caFajuAOdVITGx0rQWEGbJyIvt6
-    lUmpuZ7Mjjacvy/4gBvxOgsGlI/U5TA778viJUJljUFLcsPJbkTyaBN306CJ1Nut17fdek
-    yoJuvCcWls1Cq9rHbCBQwXKDMxX2R9fUM1jFqWhMjSnTDtTFp6aeqY+lPdLddoh/g5VlpO
-    Tdi72QDIJXlHlpMnc4gzw/MyvbSCFfiC06wLu/qOl8VVA63AGetsUjfPIJRXR5xkwCXaB5
-    8P9ZKEe9ZC5jOcTrlBa4UIXfzS6Dm/W7EGh/UglMBU/3B/KbcHgwl7DILluhJYmiXxXvUW
-    UQ41DKOiUMmF10GuO5ZVQNFgjbHlxjVdIctb3PJx4+ukParWxM+J+OOBLDTg
-X-ME-Proxy: <xmx:lhWNarAWdNtupeRSPBtBuRi1dyk1lF-oTizL-iOjgaQJFtQOnJvT5g>
-    <xmx:lhWNatr3sZ9SNydp2YV53_-YiA3GsLC8mS62XQgHT1Poyaxzz_cNzA>
-    <xmx:lhWNaiawtpRyFqo2DkEmYFoc0IO2MuEFMrV0gJEjTxqbjPhGqL6lVw>
-    <xmx:lhWNanG_b16RRRA4l-9dbuhINdCwX8ze2MCPJ_0ayf1X6Kku5bX0gA>
-    <xmx:lhWNasNK21d0YsdN7RsTP5tPEqFHidkbfkKWJ9DUzicAw2-Cy_4CAMcx>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Aug 2026 00:09:52 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pvFbC1Ea"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b0115b9e17so4093587e87.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 21:25:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787631928; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iUOy72u/Pr2rqUU0c05GGoEDVc6NKA4GdHxIvYDDu9DMjRUKyhslVg8kunuF1tdHff
+         cyq0C05lVKcGS7nyOopPJt7RCCp3jdnkarbQY3sYioRFxyN9ERUlasIRft6ez296NnlO
+         jei2MZPkHcNlOj5G6XA38VKUWlCQsWAwfo7wurOpKiyRve8PEFz/6isqVFYrrhRUSgJP
+         FHOvMRNW2y7LQFzK+aVMR25RFIFlblaF2IMPVin7ikedIkvh0oRKRyiVWwXqRRE4lOqy
+         qxvatLOm1upC9+9Ubdy+9LsItk42lbk6hHgXVrWkEv6hk5S71FkfFeDwz5GDlwqiKUEt
+         xnkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
+        fh=n9KUdgdgJ7PFkAQUpwxThs3MkfnyiDgaAturuWMhxrw=;
+        b=Tyw5BpOvgrc7KhwmmF4KNMNeaeO4u+HPxZWSC07G7iMWOcMiUQB2vB8EUl6SEOjnYY
+         /zDBJA/cU/IJzg0fq1VUELqjXOV8sIUDSh5RvzbrIl6FuErJaHFJrO6GSC+hlwY8/nbn
+         7pHMJeLJKr0qAqOJDll1SRGQauQON+qTpFQ/nyodbwZi9XBhisObH1Prfsj31qT9GgTi
+         SD1xdPSGwAcrYnkHrmWbIkjCVeHrifZlDOXNn8Wib1A+N51zfqKy+Fs6/Ce5cBtyyeW2
+         oTtFVd8jYRZfOiPgj1YTUgqOZWH6pLlhar4Z94QdT/Ag8k9RbJduFXHpalB9V9GuRZ5j
+         /HCA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787631928; x=1788236728; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
+        b=pvFbC1EaTd+BBLrlhOFs7N5uWSJoHEEtsWfuYFRf8dUwDvPFlgd5srpj9LNTAu0yVW
+         2RO39cEP3Uyi6VSAQB9JcjIywkjbHvwKiQxLk4oh9klubMDATDwMmripregEylyCBA14
+         KPMmbMwrZ/Qrf+CeQXUF8cB2KY18cj9FjXFgsw2Op1MQ39A432enkfNsjEk2n9FOCqwJ
+         P4hAqBtgZB/SDJmYSw+9AcwfrzzMEj/dmrPP47WHkwxNDhrlhIeTGs8rR43V8NHxr9ve
+         KdBH/TeT4DWPm7l9tCKeuvG9Veoi+j9SbaD3uE+mnDI+PgclG5CbsQkR74abldW+51CI
+         YilA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787631928; x=1788236728;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=oeYG3qmrl7RlnEX75t/ab9QrDrzO3ftShEy2xBqwL2I=;
+        b=T6pRvGCthaCkQez6V1ylcky/pJiAR0RGqCTgaNkStkCZYX/ZcgsusWorsh6zIoKwTB
+         sHoVichOVsocMTE7em5o+nXS8mz+oZKVpaE46/xD9IbAfzoLRr16/ywiZn5RaCQWDPJB
+         xitoRAuyXKTLwfYBSTx3vwQ81J2UNd7X96a6fmQY/ZBUMBZwOCf8Q0MNg0e0zako222P
+         JL1QLtDkRIpVdjytU+H8DoW9jaNKNtLn1kSsJcEgZ1wrSaXLdp45o4PvjxjEbyMnMvGO
+         8zsD/LI/GaRFVa1NNaIgp8ni94V+YlT3vleNZ/oQxVMnxtDMLryp5kksiZqFHZOoNkP6
+         +0Fw==
+X-Forwarded-Encrypted: i=1; AHgh+RpyUvTBExvah40gpn3tKRbfpjD4sZl1Hz48MSG0lIkisVcqmvJspYhOhkn+2ePmB6YQnrA4nemYC8Nacfvk@vger.kernel.org
+X-Gm-Message-State: AFuF++kYtbC7K9TbQFHmMIoD3RydfA2x/CfeGsRACkOzWjJAUW9Qe3ej
+	dUWu0Ni0YDTeUxlSbWGWhRXcE4oLFpoZQ1KKcl+UqXONVo4/e90bFQnKIvkWCkktat7eQkeSaRX
+	HY5RnA0QwIHbY94vWFwbqRM8t2p4DJ5B3+g==
+X-Gm-Gg: AR+sD10Vn+Ozv2DajKC/QQVD4oBYpPVT8VNS7xggEEV1II2gIjeWyVRPVwoUoIIJm1b
+	M8ZoaIeEC32F5mKyj5hfAAp4cKeh3HukUMn9r8Clgh0Rv0N3jFGyVmFj2wL9eWSJzb3sHAqRqPZ
+	kqmg5jrx7nyXY0c83zINpciE+LgOObQu2y1EJOhT1Mfn3jWYegjDW6gtQvP6vYWnGrK9pDPZXWv
+	B1AxhjHm6vq/0GmSKKP0yJL6/U3hHH+orobpYaRevh4O8jbYr/q6uHdcStM2oplFs/VQ0MqDgL6
+	u6x/eOY69Inz8Hw0UrLU5mwQPXt6ECbvBwgirTsInK5NozULPGVSr8k=
+X-Received: by 2002:a05:6512:110b:b0:5b1:5f28:2198 with SMTP id
+ 2adb3069b0e04-5b49cd679e4mr881271e87.3.1787631928024; Mon, 24 Aug 2026
+ 21:25:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Chuck Lever" <cel@kernel.org>
-Cc: "Ian Kent" <raven@themaw.net>, "Jake Edge" <jake@lwn.net>,
- "Ilya Dryomov" <idryomov@gmail.com>, "Alex Markuze" <amarkuze@redhat.com>,
- "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
- linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v2 04/18] nfs: separate locked regions in
- nfs_clear_verifier_directory()
-In-reply-to: <f9d16f36-10e6-4bec-aa8e-b9b3cb3ad872@app.fastmail.com>
-References: <20260815042707.2535717-1-neilb@ownmail.net>
-  <20260815042707.2535717-5-neilb@ownmail.net>
-  <f9d16f36-10e6-4bec-aa8e-b9b3cb3ad872@app.fastmail.com>
-Date: Tue, 25 Aug 2026 14:09:48 +1000
-Message-id: <178763098869.3510150.7453977572617670907@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <6a885f2d.d76d81af.1755f0.2cd9@mx.google.com>
+In-Reply-To: <6a885f2d.d76d81af.1755f0.2cd9@mx.google.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Tue, 25 Aug 2026 13:25:15 +0900
+X-Gm-Features: AcwNN1VdykwJe9JzMftHHsTmKQeCwTEgdB5qedJLBayHX7DTlXr8P8FwO8MvXNI
+Message-ID: <CANFS6bbFx6vYuFV1e1wqNeSTua=aXkadxeQmbY9K+rXHf5=rUg@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: reject zero sectors_per_cluster in the boot sector
+To: Dennis Tighe <dennis.tighe@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 25 Aug 2026, Chuck Lever wrote:
-> On Sat, Aug 15, 2026, at 2:21 PM, NeilBrown wrote:
-> > nfs_clear_verifier_directory() locks the dir to call
-> >   nfs_unset_verifier_delegated()
-> > and also to walk the d_children list.
-> > These are two separate needs and they don't need to both
-> > be in the same locked region.
-> >
-> > Subsequent patches will use a helper for walking the d_children list and
-> > that helper may drop the lock temporarily.  To simplify this transition,
-> > split the locked range by dropping and retaking the lock between to make
-> > two separate locked regions.
-> 
-> I hit this running xfstests against tmpfs with the series applied.  The
-> trigger was incidental (an unrelated process chmod'ed a file on an
-> NFSv4 mount while xfstests was running) so it is not deterministic, but
-> the path looks reachable by any SETATTR that returns a delegation on a
-> directory:
-> 
->   BUG: sleeping function called from invalid context at fs/nfs/dir.c:1497
->   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2385380
->   preempt_count: 1, expected: 0
->   Call Trace:
->    __might_resched+0x165/0x180
->    nfs_clear_verifier_delegated+0x112/0x250 [nfs]
->    nfs_start_delegation_return+0xa1/0x130 [nfsv4]
->    nfs4_inode_return_delegation+0x1b/0xf0 [nfsv4]
->    nfs4_inode_make_writeable+0xa9/0x130 [nfsv4]
->    nfs4_proc_setattr+0xa2/0xf0 [nfsv4]
->    nfs_setattr+0x1f2/0x480 [nfs]
->    notify_change+0x321/0x380
->    chmod_common+0x10d/0x1c0
->    do_fchmodat+0x8a/0x110
->    __x64_sys_chmod+0x1d/0x30
-> 
-> Line 1497 is the d_for_each_positive_child() call.
+Hi Dennis,
 
-Thanks for testing!
+> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+> index d400fea32..48bea5ce1 100644
+> --- a/fs/ntfs/super.c
+> +++ b/fs/ntfs/super.c
+> @@ -557,8 +557,9 @@ static bool is_boot_sector_ntfs(const struct super_block *sb,
+>          * Check sectors per cluster value is valid and the cluster size
+>          * is not above the maximum (2MB).
+>          */
+> -       if (b->bpb.sectors_per_cluster > 0x80 &&
+> -           b->bpb.sectors_per_cluster < 0xf4)
+> +       if (!b->bpb.sectors_per_cluster ||
+> +           (b->bpb.sectors_per_cluster > 0x80 &&
+> +            b->bpb.sectors_per_cluster < 0xf4))
+>                 goto not_ntfs;
+>
+>         /* Check reserved/unused fields are really zero. */
 
-nfs_clear_verifier_deleted() holds the inode i_lock across
-nfs_clear_verifier_directory() which walks the the d_children list.
-I'll need to use d_find_alias() to get the dentry like I did in the
-notify code.
-Hopefully I'll send another RFC tomorrow.
+We need to check whether it is a power of two.
 
+-- 
 Thanks,
-NeilBrown
+Hyunchul
