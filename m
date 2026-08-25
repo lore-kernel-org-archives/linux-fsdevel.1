@@ -1,206 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A784779A4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 13:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE3E4457CD;
+	Tue, 25 Aug 2026 13:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787664115; cv=none; b=TlXULvwJcDZs9QPEEejsVbMTiSauhT6Gipa9xUjGy8NvI/JFoFalBN6wNH27Y+AkuxINe3umTPCxgev3TIkrLZ/5FRGT11GpSHSgaxR1MAhnUG3x54CqeEhHyV45MmstTH7qoGVrPjxRpgQAQOSuvsL1KlvWqYIdeUp0vfbyFL0=
+	t=1787664858; cv=none; b=o7Wt6+YfTbbFufAJmbSVFNTzfmM/KuonLHS/NYy8COVQT64bVRVOkyoev+4oBJmxsyPTIq7jajhx4M78eKvCLkpcL1Fb3isxuXDFpQlUzq/fsp3cY6P4RpWZSEXRsNc4aWBWDRFsysGIHDcYjZOuh8i5R/aPaAP2d6Eo82/tIW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787664115; c=relaxed/simple;
-	bh=KZ6KryDoeo8J6srSXmaESOaWmDJlcHglaMBB60PNPQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bkfa0QSSmAtRrqEt9+1h3CxJmc5gsS8Fi5+vlpkz6S3GNe2DcYz5t+hdzx6Xai++6aHjSDYj2yTYn4rbt5DuAUaruLZC9khOQQEyO3dtQaa1m0jW9t7qSiO4kQ1jRgOIRnc8/wYyl7HXprJBOF67hdjtKM5W662gPnemNXgzesk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UnqYwdMA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787664858; c=relaxed/simple;
+	bh=bQTnxbZNXlZHRrc0dy2kQkH5StQvedCJTJ9ufOgx3qQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Lzxn6V86Pg57ZLGhQl2vd6F/In2zGr+A55chF86xShfiqcmIImelPS/SE2+d5LIVp9mKgf12YM5oEf4QX88XvxbBft89pHXYFpAXMI11HnZpbts+n5pNxyRYsUu2zuPXePr6+zL9uutR1O5ygdyeEgVH7aH/IZ3PeRowLDTL8Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4RbNxx9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UnqYwdMA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787664103;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XdmER/0ot6k2e8DhxaTBmIQEr/pm9tQfzddtSKAfHwo=;
-	b=UnqYwdMAzgS9z3vuEAzz7b+wu+vRq2ADjgs7+VpcYCBTJk5+JxWLXOfnNAyjoQHjyaD1zY
-	Zw8OTohK4B7Utuq1aTrek3ByuIhBxoeBAqk00VVdx0IrQcTHF9g2mj3iJ1bKy+FuD+m52k
-	xqm3wNA7IYpKqlHWNSmaO0b12KABxGI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-423-EEeaREptNamvUDN0wtyd7Q-1; Tue,
- 25 Aug 2026 09:21:38 -0400
-X-MC-Unique: EEeaREptNamvUDN0wtyd7Q-1
-X-Mimecast-MFC-AGG-ID: EEeaREptNamvUDN0wtyd7Q_1787664097
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 260A51935303;
-	Tue, 25 Aug 2026 13:21:37 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.15])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6B9741803A44;
-	Tue, 25 Aug 2026 13:21:34 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 9/9] cachefiles: Fix potential UAF/KASAN warning
-Date: Tue, 25 Aug 2026 14:20:43 +0100
-Message-ID: <20260825132045.1000787-10-dhowells@redhat.com>
-In-Reply-To: <20260825132045.1000787-1-dhowells@redhat.com>
-References: <20260825132045.1000787-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4RbNxx9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8EF1F00A3A;
+	Tue, 25 Aug 2026 13:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787664856;
+	bh=izCY9jl5ux+/xwp3G6xz7Y4XyXtp+0iGLhW/GtYSXuI=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=c4RbNxx99qdAIlVUMDjcrwSrwiTcf+KRMHIyspQT8BsnpDvm2SZoSKkm+P2EHu2Ro
+	 gI13x+I9KOAEC8fKB/NPiJ9JQfUbZrz1Q8dpZtAjsHOHUJjrnpFKnlZsA6R14/1+0N
+	 82zFG7K8e70solKEqr73wvJixiwXqaACm5Se9k4RlhnfvVAh+vYk1n0SoTM/0tcPfk
+	 aB+O2kumYbpwHuGdwNbv97z29ZGkJLRye5zustBansQZHpJNIXodNyArBYXjhu5rqd
+	 5TaWL+Kh4tR1pQylB8IoBYRj1utmbnfcXvy4BBuVAzQUtRNTk3OxHbvukx20ZBNsTl
+	 mpoZu06r840Ag==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 25 Aug 2026 15:34:05 +0200
+Message-Id: <DKY2ASIS7VLQ.3LP3N33T5V6N7@kernel.org>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`
+Cc: "Lorenzo Stoakes" <ljs@kernel.org>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Uladzislau
+ Rezki" <urezki@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Tamir Duberstein" <tamird@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Lyude Paul" <lyude@redhat.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?=
+ <arve@android.com>, "Todd Kjos" <tkjos@android.com>, "Christian Brauner"
+ <brauner@kernel.org>, "Carlos Llamas" <cmllamas@google.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>,
+ "Leon Romanovsky" <leon@kernel.org>, "Paul Moore" <paul@paul-moore.com>,
+ "Serge Hallyn" <sergeh@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "Igor Korotin"
+ <igor.korotin@linux.dev>, "Viresh Kumar" <vireshk@kernel.org>, "Nishanth
+ Menon" <nm@ti.com>, "Stephen Boyd" <sboyd@kernel.org>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Pavel Tikhomirov" <ptikhomirov@virtuozzo.com>,
+ "Michal Wilczynski" <m.wilczynski@samsung.com>, "Ira Weiny"
+ <iweiny@kernel.org>, "Philipp Stanner" <phasta@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <driver-core@lists.linux.dev>,
+ <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <linux-usb@vger.kernel.org>, "Asahi Lina"
+ <lina+kernel@asahilina.net>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org>
+In-Reply-To: <20260824-unique-ref-v20-4-490735672187@kernel.org>
 
-Currently, trace_cachefiles_coherency() is being passed a pointer to a
-__be64 lain over the coherency data in struct cachefiles_xattr so that it
-can display the first 8 bytes.  However, the data is of variable length and
-could even be 0 bytes.  This could lead to a UAF or KASAN warning.
+On Mon Aug 24, 2026 at 1:17 PM CEST, Andreas Hindborg wrote:
+>  rust/kernel/alloc/allocator.rs       |  19 +++---
+>  rust/kernel/alloc/allocator/iter.rs  |   6 +-
 
-Fix this by making sure the buffer has room for at least 8 bytes and that
-those 8 bytes are pre-cleared.
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-Further, those bytes are not 8-byte aligned, so fix the tracepoint to
-extract the data as four 2-byte words (they are 2-byte aligned) and
-reassemble the __be64.  The compiler will convert this into a single 8-byte
-load where the CPU supports it.
+> -    pub unsafe fn to_page<'a>(ptr: NonNull<u8>) -> page::BorrowedPage<'a=
+> {
+> +    pub unsafe fn to_page<'a>(ptr: NonNull<u8>) -> &'a page::Page {
 
-Fixes: 229105e5cfd9 ("cachefiles: Add auxiliary data trace")
-Link: https://sashiko.dev/#/patchset/20260810144746.574036-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/cachefiles/xattr.c             | 16 ++++++++--------
- include/trace/events/cachefiles.h | 19 +++++++++++++++++--
- 2 files changed, 25 insertions(+), 10 deletions(-)
+Of course the mechanical conversion is fine as is, but while at it, mind to=
+ just
+import Page, such that the odd page::Page thing goes away?
 
-diff --git a/fs/cachefiles/xattr.c b/fs/cachefiles/xattr.c
-index f8ae78b3f7b6..c70bf67e52b0 100644
---- a/fs/cachefiles/xattr.c
-+++ b/fs/cachefiles/xattr.c
-@@ -13,6 +13,7 @@
- #include <linux/quotaops.h>
- #include <linux/xattr.h>
- #include <linux/slab.h>
-+#include <linux/unaligned.h>
- #include "internal.h"
- 
- #define CACHEFILES_COOKIE_TYPE_DATA 1
-@@ -50,7 +51,7 @@ int cachefiles_set_object_xattr(struct cachefiles_object *object)
- 
- 	_enter("%x,#%d", object->debug_id, len);
- 
--	buf = kmalloc(sizeof(struct cachefiles_xattr) + len, GFP_KERNEL);
-+	buf = kmalloc(sizeof(struct cachefiles_xattr) + max(len, sizeof(__be64)), GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
-@@ -60,6 +61,7 @@ int cachefiles_set_object_xattr(struct cachefiles_object *object)
- 	buf->content		= object->content_info;
- 	if (test_bit(FSCACHE_COOKIE_LOCAL_WRITE, &object->cookie->flags))
- 		buf->content	= CACHEFILES_CONTENT_DIRTY;
-+	put_unaligned_be64(0, (__be64 *)buf->data);
- 	if (len > 0)
- 		memcpy(buf->data, fscache_get_aux(object->cookie), len);
- 
-@@ -77,8 +79,7 @@ int cachefiles_set_object_xattr(struct cachefiles_object *object)
- 		trace_cachefiles_vfs_error(object, file_inode(file), ret,
- 					   cachefiles_trace_setxattr_error);
- 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
--					   be64_to_cpup((__be64 *)buf->data),
--					   buf->content,
-+					   buf->data, buf->content,
- 					   cachefiles_coherency_set_fail);
- 		if (ret != -ENOMEM)
- 			cachefiles_io_error_obj(
-@@ -86,8 +87,7 @@ int cachefiles_set_object_xattr(struct cachefiles_object *object)
- 				"Failed to set xattr with error %d", ret);
- 	} else {
- 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
--					   be64_to_cpup((__be64 *)buf->data),
--					   buf->content,
-+					   buf->data, buf->content,
- 					   cachefiles_coherency_set_ok);
- 	}
- 
-@@ -110,9 +110,10 @@ int cachefiles_check_auxdata(struct cachefiles_object *object, struct file *file
- 	int ret = -ESTALE;
- 
- 	tlen = sizeof(struct cachefiles_xattr) + len;
--	buf = kmalloc(tlen, GFP_KERNEL);
-+	buf = kmalloc(sizeof(struct cachefiles_xattr) + max(len, sizeof(__be64)), GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
-+	put_unaligned_be64(0, (__be64 *)buf->data);
- 
- 	xlen = cachefiles_inject_read_error();
- 	if (xlen == 0)
-@@ -148,8 +149,7 @@ int cachefiles_check_auxdata(struct cachefiles_object *object, struct file *file
- 
- out:
- 	trace_cachefiles_coherency(object, file_inode(file)->i_ino,
--				   be64_to_cpup((__be64 *)buf->data),
--				   buf->content, why);
-+				   buf->data, buf->content, why);
- 	kfree(buf);
- 	return ret;
- }
-diff --git a/include/trace/events/cachefiles.h b/include/trace/events/cachefiles.h
-index 9259bc71049e..e3101410e8b2 100644
---- a/include/trace/events/cachefiles.h
-+++ b/include/trace/events/cachefiles.h
-@@ -372,7 +372,7 @@ TRACE_EVENT(cachefiles_rename,
- TRACE_EVENT(cachefiles_coherency,
- 	    TP_PROTO(struct cachefiles_object *obj,
- 		     ino_t ino,
--		     u64 disk_aux,
-+		     const void *disk_aux,
- 		     enum cachefiles_content content,
- 		     enum cachefiles_coherency_trace why),
- 
-@@ -389,12 +389,27 @@ TRACE_EVENT(cachefiles_coherency,
- 			     ),
- 
- 	    TP_fast_assign(
-+		    union {
-+			    __be16 s[4];
-+			    __be64 ll;
-+		    } x;
-+
- 		    __entry->obj	= obj->debug_id;
- 		    __entry->why	= why;
- 		    __entry->content	= content;
- 		    __entry->ino	= ino;
- 		    __entry->aux	= be64_to_cpup((__be64 *)obj->cookie->inline_aux);
--		    __entry->disk_aux	= disk_aux;
-+
-+		    /* cachefiles_xattr::data is 2-byte aligned but not 8-byte aligned. */
-+		    if (disk_aux) {
-+			    x.s[0] = ((__be16 *)disk_aux)[0];
-+			    x.s[1] = ((__be16 *)disk_aux)[1];
-+			    x.s[2] = ((__be16 *)disk_aux)[2];
-+			    x.s[3] = ((__be16 *)disk_aux)[3];
-+			    __entry->disk_aux = be64_to_cpu(x.ll);
-+		    } else {
-+			    __entry->disk_aux = 0;
-+		    }
- 			   ),
- 
- 	    TP_printk("o=%08x %s B=%llx c=%u aux=%llx dsk=%llx",
-
+Thanks,
+Danilo
