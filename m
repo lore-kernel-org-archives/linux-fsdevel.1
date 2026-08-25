@@ -1,177 +1,247 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f3.google.com (mail-oi2-f3.google.com [74.125.231.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915E835975;
-	Mon, 24 Aug 2026 23:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A04E2868B4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 00:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787615631; cv=none; b=F5e7PZgofxwb+1311GDvUnSzcrXoY5cWXnL5TTGTWoCIWlxxwJYqP6t0P44MLzbo/I0mgXr3x2/O5o273r8SSSXb8TS8sPUlmZwUjv11k29TgTGcMy7wPpA5bB4FicdpeXSlB5lrIhWW0uFi6eap0F2dgdXtREUGHvNU3UF6NhE=
+	t=1787618376; cv=none; b=Gfc5iHQ2WJLuy22Tsnxwck2L0cCylU04aX5OYl3VBN11jZHgIc2eLh83zGmERk5J+RDWjwR6nwe37T4OpGcl7Pb2WNujwMFW4jB4dXYimd3FW2zcVvMhaP22tohc51fuVHSxz4iBokftJjnv6wVhXOsYKwAXHvTte5aFXLVTwjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787615631; c=relaxed/simple;
-	bh=YMtsvaPMhaJLi9vMElcaik8XpWsWPo0DE60Oo8CIAC8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Z+a/mqTMtI2BwBIJFNjKqpscxsK4medahY5aXbxJAQeaYI2EECpctPbiVKICpE4lwdAOt8+qPDgqglyAGQedVPIpJZoFWW6LxxQEkso0hTlYdtqfcUYcCJuyns1HVS6miTNWGQkyPjl96bdJn3GQSKDycjQ5+Rbq+GWynmncjD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 4F276C0280;
-	Mon, 24 Aug 2026 23:53:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id 87EBA6000F;
-	Mon, 24 Aug 2026 23:53:46 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 0367BF40066;
-	Mon, 24 Aug 2026 19:53:45 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-09.internal (MEProxy); Mon, 24 Aug 2026 19:53:46 -0400
-X-ME-Sender: <xms:idmMam0U9c6oPi-W2coEV8Cs9XAQGcQ-AfxK4K_4MroRIDcORW7ZkA>
-    <xme:idmMaj50voR8iuh1wOoBIQ91LYrnfiN1VPP3BVkNCmGBnTI2VqT2rN475ATKvUY_X
-    Z9LuE3y86yMFicubox5iFDjQkcB5EjcItE8ePye0D4QZdCUDZbpk7fy>
-X-ME-Proxy-Cause: dmFkZTEPlWrA8HENT0TzF5ooj6Iaj5m9mxLjpIoBE4BdYNDSJvJp1GH7ifwg5Mq+6iBApX
-    7kMbMTX8093DHpbX22Mvwf4n6M4/sSHxGMjLRer2dFtv6jj4DCQCkJd0HDYRD/FBZsRz28
-    Um4maZ6ZKVl7f7jm3NpC/62tUXkOUM56QKKCRLRhOSOXGRkb1N/bTlQS4MjBiRbMvohLWK
-    3BCKUIcjY1oDoyssiZYOmiub4aovfyUDuuhErPm3Mfatu1/YCuexa0cX9VYdkKgcYmfUw+
-    V7GR1Oz+DjPcwpvZRvF/JHxiWW/u9lc/cnGzTE1G1Plo351x7lWKpfMU85HYCM6MaZrWGK
-    kxF/dtkoa+khpHwXW2e//FJh9is47I96pwauX8pVcJSlkoiNkeoQqaJHrSuG5D7/JESmZD
-    KIzZS1ofhuWRmmBYEU8ZlF/CARW5+tTKZ2e/K2vMLQiSkB9PpjQPa5h0UY73w5qeQ5WMAV
-    xyM5MdJB+lUEgpD+zC9zgdMihfD3M23R8WWR6NxoCxSJS3jP8aMDNeJWTaoPQ4HeLOxNSQ
-    dor91CTcIyX857qHsJ+hs3WFo+qsVzOdgIimDxjxDoyWJOKRbMGjOwPzBh9OZdvo4TdQ+Y
-    U2RDn9u0bAhs2oy48mKXs419nncd3I1iSGmk0z6+wGIvK3kQCOCaJE69lqdg
-X-ME-Proxy: <xmx:idmMasc_0a8WSE4rIEbjrGLAl8M4NrL9bIiXAqrI6hKV67sN76AdVg>
-    <xmx:idmMasD_-BEJ2kE_g5juyM-SiO484CARdWVcQPoFVR0iCr4D2Q-qDQ>
-    <xmx:idmMan-aDE9eHgtibZanUAmqmgokCAIWC7KX-K_BSZCyzait_kicwQ>
-    <xmx:idmMavIv1tjhkQSbFF4JNHs2krdUWGx45yBpwVuSOuiJrh2rK86_Gg>
-    <xmx:idmMaojpSFn9bik3AcdCmHJBR-MrgsoVy-fUa7VECFLvH4S_zU90F0dn>
-Feedback-ID: i3a164872:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D36F8700069; Mon, 24 Aug 2026 19:53:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1787618376; c=relaxed/simple;
+	bh=f6BShjRzUODr2OSYJ6bjkxrER6HZQDu6Z9nSxvcwFnM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pQk6C4ZXcKyTGyiUSN2yBGDboADA1dIdb3jSAIGSPFjrlB/oBS7+rfu8qOZVLh43SpaM0822K/YbNOI5v6qXlf+t7v9gs0x/nkHTDNf+mv1rE6DjfLHQVTijDamVRlFCsG/kFU7KS+/UR2usIp3NT+eiodkIZ0F6upf4ZYRKULE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f3.google.com with SMTP id 46e09a7af769-7e9f7e652a5so967458a34.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 17:39:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787618374; x=1788223174;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u7cSS0MNLQbYVyzUM0whexANhXuqlkBlix9eUHfZ4bQ=;
+        b=YvsA4jfQrOmPOKk3Md2mM+6XGP1rDfVi+Mfu+liWI08AVfziIoLDriPYaRbdLT+CJs
+         NEAjEu1Fkrq7tqostvBjtct7Er58ai+WcnlzITmqidOdyRBITpqHAZI68ORONIxGrxmW
+         YRu8LqKQC0duSzQgjWP9syXyhR2wGCVdCTWTnouKnxJPPSJw0VYMMB1iuSJDstZ5uEGg
+         n/PEs1IGLcV4/3bS37TjBr0MnBWWEAgDf2V5jRrOn5ZPO9R//WzXn4AOkLnFSep920Gp
+         vTwZweKRfAGZapSDa5jYTLugQ0Xt1VphNN+dd1vW9j5sb6N+LLrVIHsFf0xyRnzfgDG0
+         YIrw==
+X-Forwarded-Encrypted: i=1; AHgh+RpWHYAarHxN37TczyvC2LxlWYNFG3VUa7iR56HAWH3bXpREgV6XVcFrOJ+wyt++7WIr12nZCgcLRb1Z6a0Q@vger.kernel.org
+X-Gm-Message-State: AFuF++kWLfLeqQ2C54go1cU8GUsAHUrtClfonk+FlJ9nmUgcHy1qM3ws
+	KaUK7tWYH9wNRMY/YoXlhCOHB2XSzA5QS9+eGvnvfiSBg4/4+14T58kLSpPJmDzfXm6JD5n9zEP
+	sNt4vplrUkO8gpEbd9L7LqTaVCdm+XkJ1euOkzyuF9qzDt5tL8WrrwGyycYU=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2026 18:53:25 -0500
-From: "John Groves" <john@groves.net>
-To: "Miklos Szeredi" <miklos@szeredi.hu>
-Cc: "David Hildenbrand" <david@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Darrick J . Wong" <djwong@kernel.org>,
- "John Groves" <john@jagalactic.com>, "Dan Williams" <djbw@kernel.org>,
- "Bernd Schubert" <bschubert@ddn.com>,
- "Alison Schofield" <alison.schofield@intel.com>,
- "John Groves (jgroves)" <jgroves@micron.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Vishal Verma" <vishal.l.verma@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Jonathan Cameron" <jic23@kernel.org>,
- "Stefan Hajnoczi" <shajnocz@redhat.com>,
- "Joanne Koong" <joannelkoong@gmail.com>,
- "Josef Bacik" <josef@toxicpanda.com>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>,
- "Chen Linxuan" <chenlinxuan@uniontech.com>,
- "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
- "Sean Christopherson" <seanjc@google.com>,
- "Shivank Garg" <shivankg@amd.com>,
- "Ackerley Tng" <ackerleytng@google.com>,
- "Gregory Price" <gourry@gourry.net>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Lorenzo Stoakes" <ljs@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Ira Weiny" <iweiny@kernel.org>,
- "Pasha Tatashin" <pasha.tatashin@soleen.com>,
- "Haren Myneni" <haren@linux.ibm.com>,
- "Pratyush Yadav" <pratyush@kernel.org>,
- "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
- "Jiri Slaby" <jirislaby@kernel.org>,
- "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
- "Gabriel Whigham" <gabewhigham@gmail.com>,
- "Aravind Ramesh" <arramesh@micron.com>,
- "Ajay Joshi" <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Message-Id: <ed2ce261-50af-4515-99f0-51f69dc206af@app.fastmail.com>
-In-Reply-To: 
- <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-References: 
- <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
- <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
- <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 87EBA6000F
-X-Stat-Signature: q7byakz5pg5nc7rqry5nhs79cmtepzsf
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+ptHQgWl9UUGuLM1QltQbKMTYYvKDEumQ=
-X-HE-Tag: 1787615626-139192
-X-HE-Meta: U2FsdGVkX1/eUFrzN8Xlrl5T3YxP8orMj0rjIT8WzMxRQK7jyIKR5aS24cRjZna3DAu5PajS3kpvghYR6q5My2ZJw1YBoHTqoQAs9ButWZgWRA9L6mc5glscvqiCgwTAEB1S0Qua7pdxmAr+XTWog+4WtiYEZYwgxJ6AW3q0VWTIm7jnEYecswjSBcaOq5iRueQlk+qPsgzUlKHEKoOFyjC3TfaBGakS0M6ytQKdZ4QCo+U6b7L6kDzgkKaoiaGd607WzQKNMn+YnYgZSuRH7urMf75Vy5Mu1wH7F7WAzBUlpNTQYRsAWIucDSI+SjC7wRs+38q4qUWcdG6EA/zShgMp7cBqjWiP4RRQkCzbTgkUiDw28WMNHA+Zsbg5ggY3
+X-Received: by 2002:a05:6808:1826:b0:4b2:e95f:37cf with SMTP id
+ 5614622812f47-4b309a6198emr23302597b6e.8.1787618373984; Mon, 24 Aug 2026
+ 17:39:33 -0700 (PDT)
+Date: Mon, 24 Aug 2026 17:39:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8ce445.dbb3a75c.7844.0016.GAE@google.com>
+Subject: [syzbot] [fs?] KASAN: slab-use-after-free Write in do_bad_area
+From: syzbot <syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    a4ff2be345d0 Merge tag 'v7.3-p1' of git://git.kernel.org/p..
+git tree:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux master
+console output: https://syzkaller.appspot.com/x/log.txt?x=17a7119e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6f93b08316c84592
+dashboard link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
+compiler:       aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: arm64
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/fa3fbcfdac58/non_bootable_disk-a4ff2be3.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/46529dd0eb0a/vmlinux-a4ff2be3.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d5f867ea2263/Image-a4ff2be3.gz.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in __lse__cmpxchg_case_acq_64 arch/arm64/include/asm/atomic_lse.h:272 [inline]
+BUG: KASAN: slab-use-after-free in __cmpxchg_case_acq_64 arch/arm64/include/asm/cmpxchg.h:122 [inline]
+BUG: KASAN: slab-use-after-free in __cmpxchg_acq arch/arm64/include/asm/cmpxchg.h:170 [inline]
+BUG: KASAN: slab-use-after-free in raw_atomic64_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4181 [inline]
+BUG: KASAN: slab-use-after-free in raw_atomic64_try_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4299 [inline]
+BUG: KASAN: slab-use-after-free in raw_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:1482 [inline]
+BUG: KASAN: slab-use-after-free in atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:4458 [inline]
+BUG: KASAN: slab-use-after-free in __mutex_trylock_fast kernel/locking/mutex.c:161 [inline]
+BUG: KASAN: slab-use-after-free in mutex_lock_interruptible+0x10/0x70 kernel/locking/mutex.c:1109
+Write at addr faf00000079e3f00 by task syz-executor/3375
+Pointer tag: [fa], memory tag: [fe]
+
+CPU: 0 UID: 0 PID: 3375 Comm: syz-executor Tainted: G             L      syzkaller #0 PREEMPT 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: linux,dummy-virt (DT)
+Call trace:
+ dump_backtrace arch/arm64/kernel/stacktrace.c:498 [inline] (C)
+ show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:499 (C)
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x60/0x80 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x1c4/0x4b0 mm/kasan/report.c:482
+ kasan_report+0x84/0xac mm/kasan/report.c:595
+ report_tag_fault arch/arm64/mm/fault.c:368 [inline]
+ do_tag_recovery arch/arm64/mm/fault.c:380 [inline]
+ __do_kernel_fault+0x1b4/0x220 arch/arm64/mm/fault.c:424
+ do_bad_area+0x68/0x80 arch/arm64/mm/fault.c:529
+ do_tag_check_fault+0x34/0x44 arch/arm64/mm/fault.c:909
+ do_mem_abort+0x40/0x90 arch/arm64/mm/fault.c:985
+ el1_abort+0x44/0x64 arch/arm64/kernel/entry-common.c:342
+ el1h_64_sync_handler+0x50/0xac arch/arm64/kernel/entry-common.c:469
+ el1h_64_sync+0x6c/0x70 arch/arm64/kernel/entry.S:585
+ __lse__cmpxchg_case_acq_64 arch/arm64/include/asm/atomic_lse.h:272 [inline] (P)
+ __cmpxchg_case_acq_64 arch/arm64/include/asm/cmpxchg.h:122 [inline] (P)
+ __cmpxchg_acq arch/arm64/include/asm/cmpxchg.h:170 [inline] (P)
+ raw_atomic64_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4181 [inline] (P)
+ raw_atomic64_try_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4299 [inline] (P)
+ raw_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:1482 [inline] (P)
+ atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:4458 [inline] (P)
+ __mutex_trylock_fast kernel/locking/mutex.c:161 [inline] (P)
+ mutex_lock_interruptible+0x10/0x70 kernel/locking/mutex.c:1109 (P)
+ do_dentry_open+0x128/0x4fc fs/open.c:996
+ vfs_open+0x2c/0xe8 fs/open.c:1101
+ do_open fs/namei.c:4837 [inline]
+ path_openat+0x5b4/0x960 fs/namei.c:5000
+ do_file_open+0xb0/0x168 fs/namei.c:5029
+ do_sys_openat2+0x84/0x104 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __arm64_sys_openat+0x64/0xc0 fs/open.c:1434
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x54/0x10c arch/arm64/kernel/syscall.c:49
+ el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x1c/0x34 arch/arm64/kernel/syscall.c:140
+ el0_svc+0x38/0x1fc arch/arm64/kernel/entry-common.c:758
+ el0t_64_sync_handler+0xa0/0xe4 arch/arm64/kernel/entry-common.c:777
+ el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:590
+
+Allocated by task 4267:
+ kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
+ save_stack_info+0x40/0x160 mm/kasan/tags.c:106
+ kasan_save_alloc_info+0x14/0x20 mm/kasan/tags.c:142
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ poison_kmalloc_redzone mm/kasan/common.c:371 [inline]
+ __kasan_kmalloc+0xf8/0x120 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x1c0/0x460 mm/slub.c:5489
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ activate_ep_files drivers/usb/gadget/legacy/inode.c:1601 [inline]
+ gadgetfs_bind+0xd0/0x3c0 drivers/usb/gadget/legacy/inode.c:1692
+ gadget_bind_driver+0x90/0x284 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0xbc/0x2bc drivers/base/dd.c:706
+ __driver_probe_device+0x11c/0x184 drivers/base/dd.c:868
+ driver_probe_device+0x3c/0x114 drivers/base/dd.c:898
+ __driver_attach+0x90/0x180 drivers/base/dd.c:1292
+ bus_for_each_dev+0x7c/0xdc drivers/base/bus.c:383
+ driver_attach+0x24/0x30 drivers/base/dd.c:1310
+ bus_add_driver+0xe4/0x208 drivers/base/bus.c:763
+ driver_register+0x68/0x130 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0x54/0xfc drivers/usb/gadget/udc/core.c:1752
+ dev_config+0x214/0x484 drivers/usb/gadget/legacy/inode.c:1883
+ vfs_write+0xd4/0x36c fs/read_write.c:685
+ ksys_write+0x70/0x108 fs/read_write.c:739
+ __do_sys_write fs/read_write.c:750 [inline]
+ __se_sys_write fs/read_write.c:747 [inline]
+ __arm64_sys_write+0x18/0x24 fs/read_write.c:747
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x54/0x10c arch/arm64/kernel/syscall.c:49
+ el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x1c/0x34 arch/arm64/kernel/syscall.c:140
+ el0_svc+0x38/0x1fc arch/arm64/kernel/entry-common.c:758
+ el0t_64_sync_handler+0xa0/0xe4 arch/arm64/kernel/entry-common.c:777
+ el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:590
+
+Freed by task 3478:
+ kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
+ save_stack_info+0x40/0x160 mm/kasan/tags.c:106
+ kasan_save_free_info+0x18/0x40 mm/kasan/tags.c:147
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0xe8/0x160 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2677 [inline]
+ slab_free mm/slub.c:6377 [inline]
+ kfree+0x150/0x41c mm/slub.c:6692
+ put_ep.part.0+0x44/0x60 drivers/usb/gadget/legacy/inode.c:225
+ put_ep include/linux/refcount.h:396 [inline]
+ destroy_ep_files+0x104/0x170 drivers/usb/gadget/legacy/inode.c:1582
+ gadgetfs_unbind+0x7c/0xc0 drivers/usb/gadget/legacy/inode.c:1655
+ gadget_unbind_driver+0x7c/0x118 drivers/usb/gadget/udc/core.c:1724
+ device_remove+0x4c/0x80 drivers/base/dd.c:616
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x1cc/0x224 drivers/base/dd.c:1372
+ driver_detach+0x4c/0xb0 drivers/base/dd.c:1435
+ bus_remove_driver+0x6c/0xbc drivers/base/bus.c:832
+ driver_unregister+0x30/0x60 drivers/base/driver.c:202
+ usb_gadget_unregister_driver+0x20/0x40 drivers/usb/gadget/udc/core.c:1784
+ dev_release+0x68/0x80 drivers/usb/gadget/legacy/inode.c:1198
+ __fput+0xcc/0x2f8 fs/file_table.c:512
+ delayed_fput+0x50/0x6c fs/file_table.c:535
+ process_one_work+0x180/0x2d0 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x18c/0x300 kernel/workqueue.c:3486
+ kthread+0x118/0x130 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:854
+
+The buggy address belongs to the object at fff00000079e3f00
+ which belongs to the cache kmalloc-192 of size 192
+The buggy address is located 0 bytes inside of
+ 192-byte region [fff00000079e3f00, fff00000079e3fc0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x479e3
+flags: 0x1ffc00000000000(node=0|zone=0|lastcpupid=0x7ff|kasantag=0x0)
+page_type: f5(slab)
+raw: 01ffc00000000000 f9f0000003401300 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000800150015 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ fff00000079e3d00: f9 f9 f9 f9 f9 f9 f9 f9 fb fb fb fb fb fb fb fb
+ fff00000079e3e00: fb fb fb fb fe fe fe fe fe fe fe fe fe fe fe fe
+>fff00000079e3f00: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+                   ^
+ fff00000079e4000: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+ fff00000079e4100: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+==================================================================
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-On Mon, Aug 24, 2026, at 2:41 AM, Miklos Szeredi wrote:
-> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
-> 
-> > Famfs does work in fuse, but some of the asks are things that I don't see
-> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> > out if there is a way forward.
-> >
-> > I think the virtual backing-dev thing is a non-starter,
-> 
-> The virtual backing-dev is an abstraction.
-> 
-> Is it sufficient for you if I promise that this is going to do the
-> same thing as the standalone famfs at the same performance level?
-> 
-> >  and I think that the famfs
-> > portion of the fuse ABI basically can't live without extents that are
-> > (daxdev, offset, length).
-> 
-> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
-> abstraction.  A backing ID can be a daxdev, a striped logical device
-> or it can be a block dev or even a plain file.
-> 
-> > Also, I'm curious: if you don't know of a use case for the striping code outside
-> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
-> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
-> > I don't see much likelihood that this piece will be shared.)
-> 
-> Because the striping feature fits much better into a virtual device
-> API than the extent mapping API.  This is how striping has worked in
-> linux for the last 30 years.
-> 
-> > Miklos, I trust that you are a good faith actor, although you seem to be
-> > spread pretty thin. Can you commit to a series of 1:1 conversations with
-> > me to try to work through the disconnects?
-> 
-> Fine, let's find a time.
-> 
-> Thanks,
-> Miklos
-> 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-I'll ping you directly about times to talk. Thank you for being willing to do that.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Regards,
-John
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
