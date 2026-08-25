@@ -1,147 +1,172 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C901E3D7D80
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 22:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013333E36A;
+	Tue, 25 Aug 2026 22:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787695735; cv=none; b=PHOGH2mqFJcw1Q7f2pVAmPjMgBPZ9e7gjrBY6HoBtVoOwjNWLka0Tho1n3xQcJDMGZuUQ8DQ0WGYHiW8lHqMuDtQOwmqWnypujnyUbaMyWQjE3OmTxMSrem+RrZBZ0Y57uVzihLSd+LG8Tzfm/og0Y+ATLCXUc5K7yoLj9FVFVw=
+	t=1787696144; cv=none; b=YXmEMXB3de5HBpzx3F0+T1o0buHsrmslg/HkdjGf6dw+igBYOJWjfyDWLQmPv2wvN0lOY6Nf7W0bTXmHeBPtr/yEpB+ke58CKmAEQXtMOLLC3jPGReALe3FoT7Txu8bcpKerGhlrRBIl/dUfd5s0SgZAFCW0NEpqZsZ+hOppCYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787695735; c=relaxed/simple;
-	bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iwvOoD3RGEqJMCL02crDfO3oKaQUzToBZi6WdCLaVoraJnBMlizcjgG+9s7mujK8QdlCNWVv0UVTbfftj47ilptGMOnlHcSt7xLlLMWA9vHMJBg20hUm+jY3ds1f/0MVs/nUmfn16HrAYEtTzvzSG98ooHHSJFsXgzixvwT5Up0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-45171f2f608so394060fac.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:08:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787695733; x=1788300533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
-        b=hjRkJFhxp1VEYn4oma163ptX5BP+p12kBVwwoXdbJXQBiQt/zn66XWDHuwXKhldt6G
-         QwB1UwpK1C5BFs6j/mT8BpvTxpmv3KU7oup6wkiiRRlAbaROl3Y1HjATa7boHK7pqBWi
-         Cg9sHwzY6W6zEmydrBucJD79emFZQXbb3jjhVal4G6h4OSNECDdYVbieblzh5hq4xXeF
-         A4tfu9VgsClATD5lEb9daFk0cLUbcGPA6NxcYPdhxyRfO0csbzB1ViAgMLzF1C0YZs4B
-         R018b5VOkxU7oTwozeyt9ESGVEFdQnNE9uEnnsKqIYYqVEWFJl7P+B6s/e0C5ZU5ii+C
-         Oaxw==
-X-Forwarded-Encrypted: i=1; AHgh+RoP5Rjzvtv5dZe7gn6IaLhNY8lMBKfUVMuDVQNKMwfO9MxJtFMV8i7NV7cdeQxA4slPB1iV4Bqcm/WRj1/L@vger.kernel.org
-X-Gm-Message-State: AFuF++lmSiWqKyHlAXW7+YSdcEtbWNPk4bbnWZiEUsKvLPdHJzRB3KdX
-	021I17gigUaHhiozNWy0/KXDgRIUR+ONLHV2/03ep+jfXswPVVeo00i8FOgQengA
-X-Gm-Gg: AR+sD13zH7ER5NX9KDgRJPlJlpF01Yrp+VIFO6IRMfxK9GsNc+aaBNvbHVwYAKjbpQD
-	QkMXJpXkdvVjeXsIFyKc7mv0qsiCLQ1i5xnHR23WSQTIXYM4IpH60Z99zPe0X4z2j9hJHxxcyZi
-	XO/CCmopVcpxTsc4AHvCVYDYGHNlxKoETDz2kGnCmludxcalpS6CS8LLCVr+4xu3S1VzHYYwh+l
-	nr3ZfKHxR4YJbujGzdzX4CPSRNGMAHVVkb3ldchs8LbtDD+MGD/PjQaglx8avjV4Ax9GX8sfPs7
-	gtMz0mcPOcc16dOGcJYy/295ieYxX0XPR5ScYJSPNwYkvUSgY7rIr9gCux+GuNPa5oS9DWCDD5k
-	7AV63oQS4OyGoZlcGCqEXwd98rqBkSou02SeuhgDyX1Ku8REgCuFM5HhU73C/MLiXba5p7TfpUt
-	WsJGPEziLr6zG6tVpl6Qg1UXidJimKk55UoWZPp1RF2a/cyFnoTSI9MIVGsZJJ7ImHwvCM0BCbp
-	m2+/7vfoPvKKblKYiMo2xXkXjT6Z9xZ/iCLtV9soQHPYczk4pwLqrIyZ87+YPzONNJxux83efBO
-	sgpSyBakBOMFhv1HZdsHfXY9zcdEmRliMBlGIpmSq0GgVw==
-X-Received: by 2002:a05:6870:fba4:b0:447:a816:9328 with SMTP id 586e51a60fabf-465997fe2b7mr3193550fac.6.1787695732641;
-        Tue, 25 Aug 2026 15:08:52 -0700 (PDT)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com. [209.85.210.46])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-465adf69375sm585966fac.7.2026.08.25.15.08.51
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 15:08:52 -0700 (PDT)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e9ecd7216cso209795a34.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:08:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rp3Np8egwT3zSVbZffAnkOWTsBZcWa1V9g90rtiNgoQP/eacStH2aMjvHuS7D7dB3/FpfuGd2AxpYJj4vgH@vger.kernel.org
-X-Received: by 2002:a05:6830:7104:b0:7f1:ddf1:c731 with SMTP id
- 46e09a7af769-7f4c5097628mr2648400a34.13.1787695731676; Tue, 25 Aug 2026
- 15:08:51 -0700 (PDT)
+	s=arc-20240116; t=1787696144; c=relaxed/simple;
+	bh=guQkIoS1l8htr3RCMoG3z4liCpuh1HCDjdXnUnFnkTI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A2BYq/m5axL9IZBtNddj/IOMFVy7wC1yqM+2caqx0WXfzZB65hRXvpf302P+qzz4GViSeL7l9hXn/aAKUeYHRiRr5eLRe+l+++WBIBDv/QtIJ2SZiWx52bbqXOhJkKS4vo+J4e7nhL9IdgY7Jk89JAUUIWNOKtJ1rp3iOejaDjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=mZggEozW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UV6uf/Zl; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="mZggEozW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UV6uf/Zl"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id 631B41300170;
+	Tue, 25 Aug 2026 18:15:41 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 25 Aug 2026 18:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm3; t=1787696141; x=1787703341; bh=AGSaqyf8Gr
+	rxzu47IGlioN28N+mexknHz5f3kqFnz5A=; b=mZggEozWsifKGP6AlktFRQEj5x
+	867hO/itD1bb35JaaD6kLHra9pkTrMnyP5g/nZCsKnBPsZiHCiZQS1MpfwDcL1dG
+	FIHXFJawQvm6gu/0gSot4zd+KYVUvA8X/GBox1nuPDQqkSMufBqsu70R1LDeVwur
+	N69fpCFPdew9AQ7ZcnnePBgnhKRYZ3DYHyna2BfuWG50LqPntbBMi1+yf5oTh23k
+	2ZznJHw5bjiPJzEom4yZPqDaVWu07ALrujtEtxX1qltaDX/OOT5dif5EQAZHPNmP
+	d2dCWCwxdLrImNDzk5wK3BcHxbLL0OIuCZBgY4/NKxLETroV7tv/LpydKeUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1787696141; x=1787703341; bh=AGSaqyf8Grrxzu47IGlioN28N+me
+	xknHz5f3kqFnz5A=; b=UV6uf/ZlXG4q+wwvQg8JQxOt8c6Km6/iFmJ8Xc23kRzq
+	SZCWCEja+qQT66XnEFI6Y64KppUrr4eUSRDlkvZWFShJ8f0Ppt/2HID3r/yP6MJn
+	72s8ycZD5d5pLhTWKGykx/zVUd8wyKBj34hZtJFlpQhBj+M2qpokcet//GN/T4b7
+	1DiQHp5CQVX+LNkZIhGwTJ/aoImCmFCDPe3OYkslrkKp1/LwkxTyJrfSwNZeDxHO
+	q0m6ir0NZ9XoF/5DWMNW+U/ExLwDJijgS87/3HKb6dfXPEoblK7R6YVBBfTp0vHI
+	6xWQJa9UyAmdmw3Cjp02MyUWRQ/kyIBF5azYzp3DQQ==
+X-ME-Sender: <xms:DBSOanyIBg-QocKv8rGWGetLG_NuWIvcDLPDNOMEdigrmkGvtZ-1bw>
+    <xme:DBSOanfXf21pHXRJdy2hmu_Cn9aFcOpGxlLeBV7SIptKXeCz8CFGTW0Jc2k7DEaCW
+    Q1dvC2Fut2dI59CarmLOwrn50lIJS9bR2oydkbjO8eDtoOf>
+X-ME-Received: <xmr:DBSOaoq5AE6cUSfzmMjlmDlMvlWCsSblNS7sELz9JHkFcMOkM4ouKa_GWXnecOqg5l1ccvOIwFlGohaIIZQp6VE-DQWV9M4>
+X-ME-Proxy-Cause: dmFkZTErUDoFH+M4+lpIrhtcyslDVxY+x0suG//2hYze5i44iRPP6phuAZVqJlhfR8SZPs
+    xbfCoNkAPIpwOuTn0rAQsq2v1cVQPsRNSSYy7rU8+zALJHx6h6TKSMldu0qN8eIE76wb4L
+    rlMyp9glYXUVggz4tDbupPkd+EETeacDw3lidg54zEyQu6YmfWf4NFqtmaIrp93DBoYgpp
+    Zf9U2MbKFy/PfvneNuFazr+QkumiASiHTribPOFKZ+dYTZ5Siyt+spLt4l4093TzFjt48D
+    rXjRxZOd1PUpayaRKrVxpQlUW7mby6bEOBDztz1HBgHAjnQjWvMMusqCYMImvLvG/FScnL
+    mRLVuYRBEP1x0beOxFDe2DCO7WpP8L7by3E4Ru1ISKTGnSOti+GiciGtppHy01Dn0tj8gZ
+    Wh5UvK7UBP0CjwqqX1BbMBvpQYG7ij5ylpYgQONIKghS+Qf8/btbV5ghQdtPnQ9w3lkMJu
+    GHXnI+qvgoTWatEux/ad9IHWlRhdkKvB2z0k8N4Rdyyi57diQO7ezbFaYgWoWJnTNuVMev
+    edXrV9Y3euwnqgAHskbWqghTp3BjehjJNr3hVvWymnO61RYxM1gEmf7t2rO2c8SxjFIp+K
+    qHcgBDpfmkJMC3c5ZLXKjpOiH8+MsePgSKLUEHkTf3Gi+tBVu6VgqlrxinUw
+X-ME-Proxy: <xmx:DBSOavMhKuRVKJwUCuI-lDzS97pJdJcyx1xWzt9oxN09Neai0-GMOQ>
+    <xmx:DBSOamH1Fl-eROWeAn2Sc-Qcf-3Wbns8x5Sfz5fBWpsJ06jocCE-nQ>
+    <xmx:DBSOaqHs8ZinwwrXTHM47AIRVBoOhAiFQ8OIYn2wLSwDAF_U_h3qXQ>
+    <xmx:DBSOatABY891HCFd3pN0UUD1xVMgibYQAi7vGUlgluzUi2AHIOc6UA>
+    <xmx:DRSOali8gTOkiidAaZjfyDkGEUqrKsfBIV2CnAP1bJLU1AuwlcLeHx3c>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Aug 2026 18:15:34 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Ian Kent <raven@themaw.net>,
+	Chuck Lever <cel@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>,
+	coda@cs.cmu.edu,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Miklos Szeredi <mszeredi@redhat.com>
+Cc: autofs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Subject: [PATCH RFC/RFT v3 00/11] Fix easy bits of the negative dentry problem
+Date: Wed, 26 Aug 2026 08:06:17 +1000
+Message-ID: <20260825221459.966875-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <20260822002111.GA6110@frogsfrogsfrogs> <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
-In-Reply-To: <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
-From: Neal Gompa <neal@gompa.dev>
-Date: Tue, 25 Aug 2026 18:08:14 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
-X-Gm-Features: AcwNN1Ug6ZjMUQh0-6_7H39nZVAq6SWCLa31cOPu7pwraCiDoCVhUYh7Q1UxHT4
-Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 25, 2026 at 9:44=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> > > Without John's trust I'm not taking this on.
-> >
-> > Whatever path you and John decide on, I would very much like to see the
-> > question of Which famfs driver do we merge? to be resolved for 7.4.
->
-> While it is reasonable to place limits on how long a series is pushed
-> out (I like to move with some speed myself.) we have two competing
-> implementations and that will have to play out. We should not merge an
-> fs just to finally merge _something_. The fact that this was more
-> contentious than usual doesn't imply we need to merge a version, doesn't
-> matter which one it is. That's a bad reason.
->
+Here is v3 which I hope will be the last RFC.  I'd like to submit this
+for inclusion in a couple of weeks.
+This version:
+ - drops the changes to libfs.c.  They aren't strictly needed here
+   and serve to bloat the series. I still want to pursue those but
+   will do it separately.
+ - revises the first fsnotify patch to be more cautious about what I take
+   outside of existing locks
+ - fixes the nfs i_lock problem Chuck reported
+ - fixes a few things sashiko.dev found
 
-Well, after 12 iterations in this version alone (working on this for
-three years) and forcing multiple side quests on John, I think it's
-not very fair to him to keep stringing him along like this.
+Thanks for any review and/or testing.
 
-At this point, I find it hard to believe there's much more to discuss
-about a not-a-filesystem that is relatively isolated from the rest of
-us. I've been following this discussion and while I don't necessarily
-grok everything, I understand it well enough to know that someone
-should just shepherd it through with John and just work things out in
-post. Honestly, the amount of metaphorical heartburn that must have
-been generated by this is insane. If I had any say worth a damn, I'd
-say let's just have Darrick work with John to close it out and get it
-landed for 7.4.
+NeilBrown
 
-Ultimately, the question of which famfs should be merged should be
-decided by John and Darrick (presuming we just all let Darrick
-shepherd this through). This has gone on way too long, I'm getting
-echoes of the sched_ext mess... :/
+Original intro - slightly revised:
+
+ I was reading about the negative dentry problem in
+ https://lwn.net/Articles/1079407/ and thought I would have ago at the
+ easy bits.  Given how involved some of that was I'm glad I didn't try
+ the tricky bits!
+
+ So I didn't try to reduce the number of negative dentries or handle
+ them differently to positive dentries.  I just tried to address
+ specific symptoms.
+
+ This series addresses two reported symptoms.
+  1/ refcounts on parents can potentially overflow if there are billions
+     of (negative) children.  This was the easiest easy bit.  The first
+     patch is all that is needed.
+
+  2/ Walking the ->d_children list can take arbitrarily long and can
+     trigger soft lockups.  I haven't addresses the "arbitrarily long"
+     part, but the "soft lockups" only takes another 11 patches.
+     With these in place I would feel more confident addressing
+     the "arbitrarily long" part.
+
+ The core idea is to use a common helper for all walking of
+ ->d_children, and teach it to drop the lock and schedule when needed,
+ inserting a cursor to keep its place.
+ This simple idea requires:
+   - nothing should be holding any other lock while walking ->d_children
+   - dentries shouldn't be moved around needlessly, else things might
+     get missed.
+
+ so I have probably missed some bits and would be very happy to be told
+ what I have missed.
+ I would also be very happy if someone who can trigger the soft lockups
+ can try this code and confirm that the locks are gone, and nothing bad
+ happens.
+ I have done some basic testing including the "notify" parts of
+ ltp, but that is all.
+
+ I haven't addressed d_walk() or scan_positives() in this series - I
+ thought it was big enough for now.  There are already some
+ cond_reshed() calls in this code so it isn't clear it *needs* fixing.
 
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+[PATCH v3 01/11] VFS: don't count references through ->d_parent
+[PATCH v3 02/11] autofs: change positive_after() so it takes d_lock
+[PATCH v3 03/11] coda: don't take rcu_read_lock() in
+[PATCH v3 04/11] nfs: separate locked regions in
+[PATCH v3 05/11] Add and use d_for_each_positive_child family of
+[PATCH v3 06/11] fsnotify: don't hold a spin_lock across
+[PATCH v3 07/11] fsnotify: don't hold i_lock while walking d_children
+[PATCH v3 08/11] nfs: Don't hold i_lock while walking ->d_children
+[PATCH v3 09/11] autofs: don't hold ->lookup_lock in
+[PATCH v3 10/11] VFS: don't move dentries in d_sib list when they
+[PATCH v3 11/11] Call cond_reshed() as needed in
