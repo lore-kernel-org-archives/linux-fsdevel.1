@@ -1,134 +1,158 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F193B37B010;
-	Tue, 25 Aug 2026 18:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0608A322527
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 18:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787682932; cv=none; b=DNHFKGiIC9yoVpkzWfPxDHr8ozehUToEReA6GzpV2rKk9Pdwi7653mMavu+VDp2nV+a5o2ZXEqtzeTs7EDHQH/1FMdhGID7vjIXEv3o+AXd0emGwZFc3/NZyhgwzvA5TjczTFK5DU7va7icMXkKZC5Lq+TsAIyMoHSrIFL5NLa0=
+	t=1787683172; cv=none; b=UMfCJbchkxet6iO0DZM/Nyet6jJGDs47x5Fzns4k9steQWRpTuTtVduGbadxL0StcQx7AUvqd5yqRVj6rcxqOQvzxMHhiHCLrUDv6GSU9aSwnMZeyisiAqtfqAnOfANTfH/MWFM5a8pzowI9uQdtmZac0VmnqzQY2wwtu0HGW0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787682932; c=relaxed/simple;
-	bh=pZ4mfsgKRGFTaaqzSNMXArPfYaaJEFy2hCV2prTkb3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sZ1seROyURGXuIWeySt4JbRo8ZkBWR+iWjyW5/zZTcoEBELW57p+Pvpx66PmbyrZaznmIZeSMrsDM5PpIqO1jraQx0Ra2jd1c1QpepUSCzWFBw2cObd8J2fQJt8OCUQ1Cwxm82snlW8lcxLZLKrQYr+D8bRt+nRW/Rs85fLaMtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LXRyEqv3; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787683172; c=relaxed/simple;
+	bh=3my+l3PYWeZMFRCIaaE0JNhFutiymOpmnRDdudUrsB4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SFQfrCEGPGfhoKr4VO1+Rjr4OO2jNC1t+qBLKCPawc5RZTdl4Dslw9Xt7u67kob+RYRqz4hM9P4X+0DOfi8lQTVPf4NGBDvcaB8B+DpE9td68iGqEIBunECpfDUrMn+oChzIaWrRkkHh4C08HkxIOjhrXkz8lU27DeuMj0jc+XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fAxRGkRH; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LXRyEqv3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NzdQdDzy9an+ad2ujHM4K87j7IVbsCNSw+/FSI8vDqQ=; b=LXRyEqv3luyRGaNhx9QcZkACii
-	0DKvqLDdWONegOg3YmykHdEwYxNA9R2kquCB42nIt6EHrA52otHoe1WjbQaoNFK2aqqtusT/gQeXJ
-	JFYkgLHg/zad0zJTzOD3lPUyJ/0d610qpC4N7p+Cca9zrtE0GoEpBhjIy8mxRyWc7WCMe3atU/7aL
-	J+ijmZJBfx98iQhq+I1AnO1TilXv/52BDJqbhElR8iF9vCIUpYc4rH2jhdxbgIeCHeuP7o17REHnW
-	soR2dy9Jws0Ymq/BznZz1WeI/jfpgBbeA8Qhyx/qceFGgSJybEJf75RNf9waPdG7MwxL/Zokf2XRc
-	QvpQTY/A==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyvzR-00000009XHS-2xcn;
-	Tue, 25 Aug 2026 18:35:17 +0000
-Date: Tue, 25 Aug 2026 19:35:17 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Jann Horn <jannh@google.com>,
-	David Howells <dhowells@redhat.com>,
-	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
-	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: Removing ->dirty_folio
-Message-ID: <ao3gZRa7HOEg209P@casper.infradead.org>
-References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
- <ao1Lo6TKhPcqV42B@pedro-suse>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fAxRGkRH"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a17c7c3c6eso1700a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 11:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787683169; x=1788287969; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=tT3C8RmqnSUSZm6wZr0ulCb4Q+ThIVoSjKYEyKvDdpQ=;
+        b=fAxRGkRHM6GMAYnjYpgOrmCqg5HlcID8o2/vi3G//H+uV9EoN9Nt2TEfzziVEIo/G0
+         uPooubVqweKOeWBq1QHIx0tOSY3DYUR1aBAfiN/WTMxLm8QMmO67JTAS1891afZ4pkGp
+         koJWNE8ElfrjWcXB559t8QKCoqkyulqukQbk0u/7QXf+Gy/E828S6HfLkjw2MV+gdZkc
+         CF8sg1I7VJA2msGHCyOVls+X4ycaDxYElL38L/MYRE04b+5AO9935lLtGaIGohg1gMP1
+         1i5N43mL/HjdqsINJLDhqcxwmudWaxgp1nSVn7mKTIiK5S7ZP/IeHYkpiJ1+9q9YlWGR
+         ZlgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787683169; x=1788287969;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=tT3C8RmqnSUSZm6wZr0ulCb4Q+ThIVoSjKYEyKvDdpQ=;
+        b=Yle06WkmgHLpx5MMcjtZ/KOXQM/fG2a05MieE6fs56WL/tb2NW/7+ycA9nJ6k2gbr9
+         NGUd3SaSlxrjlnGoNTh1Anko+r9tZIPBM7xfth1tQZAxVbkaQIhya0NNU/5kC45J5btO
+         i+Wt91J4l/hpi6NZfBLHvZkpZ+b8yJvQqes3eQWaCXtk6QQPu6vHQvRQH08VGN8VjdOx
+         1bZIB7t2HdT8OafZrzF8uiHPHXQPfz4lLLZY46pcNdKLcbLLBnfAeeKTHVWOAdV8yEh6
+         pGuiE1/sgxZrCtJzHXLwR19YKipe5j/mBqgaD8pncx+jnaSrwBmX99DVqNYkY8yVJiQO
+         MRyA==
+X-Forwarded-Encrypted: i=1; AHgh+RrlfCVWtx94W7yxXl+ChbSrxtPPU46KWu9we4s7SfE5zPq7oG2Nc1UB4eYngk9Iae/CdhZBxqsABvmP+dby@vger.kernel.org
+X-Gm-Message-State: AFuF++kRiF1+jZ0LcEPtCjo9VCam6xFtDPjTg1GxtjEwqAKM440L0rPo
+	vr/7NzxfdAmVNfBK9c20kYCFXF8sRe1/v10aDjyJaHL2ke37LoNBGJvO9o41HvJB4g==
+X-Gm-Gg: AR+sD13Bty9+FaBjjHOyIDG1muXilzC/GfdsPr0zP4qB9T91474vLCndY3mjaszDuUM
+	IlW39pnO8zQS5i3Iw8zNK9gcMO+9Nk7w6TZDhGTeUsSeDj10e18q6wdF9Nae0oR4zV92nXTAte2
+	aKvv5SLwnTCR6Vcfz2gpXMrS/aA4kk9xll3sElWFG/X77lTAjFVIO+S+YA4Me118jECABWhM58J
+	2Y7I3Lj24FlaOAegqf/31vFPR5uJxS8oYwk0d3QhKVVLATwhALOCFVVRlJUSSw6oFxFgvcBmjNK
+	3wJ/tJNt9c0OyM78jrl1gelxz7/iEL8LRbu2JNEzlQvNoa7zXbjKoGVWnzF4nzExKOhJZ8+tsSI
+	GGHz4yCsnCJUbh5WMb7BzSoBaQnCpFBHKEZRo9nq1SMmEb3FQhtYcUs3a/hBrpQm2fPYii/gef8
+	BD1Fru8IqcvK74e/SGrECtK3058DPGQGiInYxoj+XnOcPR/17rPRuaCQvT16f72Kwey9lx7tmg4
+	S7HwQ89Nkv8seZx4qkqas3guFL5XRVUt6RMn+KUn6eZgJ0=
+X-Received: by 2002:a05:6402:b18:b0:6a3:f7d8:3ad4 with SMTP id 4fb4d7f45d1cf-6a5dfca7b3amr1462a12.9.1787683168580;
+        Tue, 25 Aug 2026 11:39:28 -0700 (PDT)
+Received: from localhost ([2a00:79e0:288a:8:980a:b43:2df6:51f2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a5d68f9sm80514866b.1.2026.08.25.11.39.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 11:39:27 -0700 (PDT)
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH v2 0/3] proc,security,selinux: let SELinux block FOLL_FORCE
+ for /proc/self/mem
+Date: Tue, 25 Aug 2026 20:39:16 +0200
+Message-Id: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao1Lo6TKhPcqV42B@pedro-suse>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFThjWoC/2WNwQ6CMBAFf4Xs2ZpSW0BO/ofhoGWFVUpJCwRD+
+ u9SjCePk8ybt4JHR+ihTFZwOJMn228gDgno9tY3yKjeGAQXGS9SyTx21E8LG+wLDRomZSaUUrm
+ WtYRtNTh80LIXr9WX/XR/oh5jJhot+dG69345p9H71Yu/+pwyzs5c1+KkckSuLo21TYdHbQ1UI
+ YQPKEUY48EAAAA=
+X-Change-ID: 20260814-selinux-pokemem-44625557c4d4
+To: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Jeff Xu <jeffxu@google.com>, 
+ =?utf-8?q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
+ Jann Horn <jannh@google.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787683163; l=2342;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=3my+l3PYWeZMFRCIaaE0JNhFutiymOpmnRDdudUrsB4=;
+ b=CzHbK0+zJQEADKtDDA6uH3pn6OIbkz9AIyUC7L2oco+isP3+dILkPd73rgxSL8Zp2Mfh41/xz
+ R/eca/Dd4dYAuMNNed8z8xlHOsoo0c0+4YBDeYEufBVe+D9K7QOAEz+
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On Tue, Aug 25, 2026 at 09:25:53AM +0100, Pedro Falcato wrote:
-> On Mon, Aug 24, 2026 at 08:08:06PM +0100, Matthew Wilcox wrote:
-> > I think it's time to remove folio_mark_dirty(), ->dirty_folio() and so on.
-> > 
-> > This is not how filesystems want to be informed of folio dirtying.
-> > It was fine for ext2, but anything that's journalled or COW has work
-> > to do before the folio is made dirty, and it's hard to do that work
-> > under the page table spinlock (not all callers hold that lock, but the
-> > filesystem has to be able to handle the cases where it is.
-> > 
-> > Filesystems want the page_mkwrite() entry point to be how they find out
-> > about a folio being dirtied -- and that works great!  Except that we
-> > can writeback the folio for a number of reasons.  If it's been dirtied
-> > due to a shared writable mmap, that's fine; we map the folio read-only
-> > and any subsequent writes will re-enter the page_mkwrite path.
-> > 
-> > The problem is GUP.  We have no way to force the GUP caller to go
-> > through page_mkwrite again.  So instead we make the GUP caller call
-> > folio_mark_dirty_lock() which many just don't, and generally we get away
-> > with it.  But it's a bug, and a bad interface.
-> > 
-> > There's also the problem that GUP users bypass the folio_wait_stable()
-> > mechanism.  If a page is written to while somebody is creating a
-> > checksum over that page, the checksum will be corrupted.  If we want
-> > to fix this, we have to bounce-buffer the page.  There's no way to
-> > prevent or delay a GUP user from writing to the page.  Enjoy your RAID.
-> > 
-> > My proposal is this:
-> > 
-> >  - Fileystems take note of folio_maybe_dma_pinned() during writeback.
-> >    If it's true, do the writeback, but retain/recreate whatever data
-> >    structures you need in order to write the folio again; behave as if
-> >    ->page_mkdirty() had been called again for each page in the folio is
-> 
-> I don't think you can do this for stable writes. It's probably ok for
-> !stable writes filesystem stacks, as long as the filesystem & writeback
-> can handle making no progress at all. But since stable writes' writeback
-> can't race with "writes", I don't think you can Just Do It as long as the
-> folio is DMA pinned.
+The goal of this series is to let SELinux prevent the use of FOLL_FORCE
+when a process writes into /proc/self/mem and the system is configured
+with PROC_MEM_FORCE_ALWAYS (which used to be the default behavior, and
+is still used by current Android devices).
 
-Ah, yes, I forgot to specify that.  For mappings which need stable pages,
-we have to bounce buffer them.  I wonder if that's something we should
-do inside the VFS or if each filesystem should try to do it itself?
+Android has SELinux policy that attempts to ensure that only trusted
+code can be mapped as executable in several system processes, but this
+protection can currently be bypassed by writing into /proc/self/mem.
 
-> Perhaps we should give up trying to writeback these folios, and start
-> writeback right after they're unpinned? at least on the stable case.
+I wrote this series after discussion with Android security folks about
+the state of proc_mem_foll_force() restrictions on Android.
 
-The thing is, what do we do for somebody calling fsync()?  I don't
-think that "Oh, sorry, someone gave its address to an RDMA device
-so we just didn't bother" is acceptable as an answer.
+I'm sending this to:
 
-> >    marked as dirty.
-> >  - The MM behaves similarly; we do not clear the writeback flag for
-> >    folio_maybe_dma_pinned().
-> 
-> This sounds like a problem. You don't want users expecting writeback to make
-> progress to suddenly stall on e.g folio_wait_writeback() indefinitely.
+ - maintainers for LSM hooks
+ - maintainers for SELinux
+ - maintainers for VFS (because I think they generally own procfs?)
+ - some MM folks just as FYI since this touches GUP usage
+ - the Android folks I talked to about this
 
-I should have written "the dirty flag" there.  I do not propose to keep
-the writeback flag set indefinitely; it should be cleared after I/O has
-completed, as it is now.
+I think this should probably go through either the VFS tree or the
+LSM tree.
 
-> I don't quite understand what your plan for getting rid of dirty_folio,
-> et al is. page_mkwrite has the fatal flaw of being directly tied to VM
-> page faults; I don't think it's the ideal interface for notifying filesystems.
-> It's also the case that page_mkwrite can trivially sleep, and GUP calls it under
-> the PTE lock. So how can we replace that? Would callers need to manually dirty
-> folios after GUP, in process context?
+The motivation for this series is that Project Zero managed to write a
+remote exploit for Google Pixel partly because of /proc/self/mem, see
+<https://projectzero.google/2026/01/pixel-0-click-part-1.html#whats-the-plan-seth-and-jann>.
 
-GUP doesn't call page_mkwrite() under the PTL.  See my reply to John,
-or just look at do_page_mkwrite():
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+Changes in v2:
+- change SELinux hook to only check PROCESS__PTRACE (Stephen Smalley)
+- rename ->introspection to ->opened_by_owner (David Hildenbrand)
+- rename introspect_mem_foll_force hook to mem_foll_force_opened_by_owner
+- improve comments
+- add ack/review trailers
+- Link to v1: https://patch.msgid.link/20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com
 
- * We do this without the lock held, so that it can sleep if it needs to.
- */
-static vm_fault_t do_page_mkwrite(struct vm_fault *vmf, struct folio *folio)
+---
+Jann Horn (3):
+      proc: refactor /proc/$pid/mem to use struct as private_data
+      proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
+      selinux: require PROCESS__PTRACE for FOLL_FORCE introspection
 
-folio_mark_dirty() is called under the PTE lock.  My point is that (with
-the proposed changes) we won't need to call it in zap_present_folio_ptes()
-because the filesystem will already know that this page is dirty.
+ fs/proc/base.c                | 38 +++++++++++++++++++++++++++++++++++---
+ include/linux/lsm_hook_defs.h |  1 +
+ include/linux/security.h      |  6 ++++++
+ security/security.c           | 20 ++++++++++++++++++++
+ security/selinux/hooks.c      | 22 ++++++++++++++++++++++
+ 5 files changed, 84 insertions(+), 3 deletions(-)
+---
+base-commit: 2f1baf1fc8929e6c48370be543ad028ac7ad4131
+change-id: 20260814-selinux-pokemem-44625557c4d4
+
+Best regards,
+--  
+Jann Horn <jannh@google.com>
+
